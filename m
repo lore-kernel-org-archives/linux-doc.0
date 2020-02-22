@@ -2,112 +2,110 @@ Return-Path: <SRS0=5qo6=4K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC387C35671
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 15:48:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F676C35671
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 15:56:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C3DB2206ED
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 15:48:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M4Em60uB"
+	by mail.kernel.org (Postfix) with ESMTP id 5CB6E20702
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 15:56:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582386987;
+	bh=YDQaHQ4HoiCOvY4NXJWuU84Ut3b5JPOGNOmSnmDw1qk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=Aj1PB+GU3tVLAy180rq1zAm5B0Q1lWn+Xb4AmoU/vTGBfx27BgwxGUjCRoH/MTQYk
+	 o2Bd8+l5/JxihNSS4ctbWxEux/n3j3fImBJq2Yi6RuhTdO1H37vQn4IAKa1URJyh7K
+	 AcIzWMBMITGOBJezMQ5oyk07wZYGHas5IJB468m8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727405AbgBVPsc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Feb 2020 10:48:32 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34236 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727230AbgBVPsc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 10:48:32 -0500
-Received: by mail-pl1-f194.google.com with SMTP id j7so2170725plt.1;
-        Sat, 22 Feb 2020 07:48:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SWUUWT4ZB0TcXYYHFJ6Ou9hJ8yBoPD/x5MgrkUc6YHo=;
-        b=M4Em60uBlU0Kn1ASOLYVagcX/WbF9WpkMQc8Y+3WYxAxKzRRi19YVfcYjt4yx7cGh5
-         vc0PH3unxuBx1+RB1n09rLHzNHvicsdvgcXJ+lPjXM74RFxomdnrsz4Ska0Fyl3OH6DI
-         Fswl3FBUCT+p/AgMlshwTj+K4jwap6FQkCKXUlZrnv7/vsDsCZziCit+k2zrwKIIbNHo
-         K6VCDlxDG0i5g/OA/lkCZpxiHo1lr1jsZhUEMe8KKkmrXvKw/gWpBslceC75EBY1/SMl
-         wuB7yYGW1Wo35Z8SDkpEGwFJ12uKjogy6QC+i+kCdgesAncLybGFGdN93j7WgdegFFir
-         uwvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=SWUUWT4ZB0TcXYYHFJ6Ou9hJ8yBoPD/x5MgrkUc6YHo=;
-        b=SI1eVd8YuNy8kr7MPyMzpupQ7eWC1eAW1DjIh9KZJXZ8fX3sfHeVz5gC8oo7l1+pMo
-         HFQHwLkX61SPxiNwQY1cEw6cLByOJWESN+AFeeMYlnrmrb937xf6YALM3ziW7WuNxp4C
-         SlS8NPL2+aryM5Mg28+Msj/kkCCeVAQhjknJPiB9Mh3E42BQkpl8juBN7/i8bynKaY3j
-         SxGvidEehv8Vi48D71xzb741ZCj7vkdqhL9Gsrn69fxHiPPMMQ1SXQ5IoBk5suMxHFYA
-         uVE98eQ5WDgiREzSxxaHCiA88JXg16rZFvEGMm+XtOwoAaWKid5Usi/MJ36D/mM6C4I2
-         aCHg==
-X-Gm-Message-State: APjAAAXn4D46Sccy4u/htLYAagc93xH7hzT54FIu/aQ5rIa+Xv9cx3bi
-        QYh7Ngyoqk/fUADHcRU/GxBl9499
-X-Google-Smtp-Source: APXvYqxU4oL1zrqJFA7RYhmlpHImtB+PRJ6fby0XYlNwyDTXJLipc6p6cDELDHFnTReX8BkMsuItbg==
-X-Received: by 2002:a17:902:bd43:: with SMTP id b3mr39373443plx.230.1582386511081;
-        Sat, 22 Feb 2020 07:48:31 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x190sm6793019pfb.96.2020.02.22.07.48.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Feb 2020 07:48:30 -0800 (PST)
-Subject: Re: [PATCH 4/7] docs: adm1177: fix a broken reference
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jean Delvare <jdelvare@suse.com>,
-        linux-hwmon@vger.kernel.org
-References: <cover.1582361737.git.mchehab+huawei@kernel.org>
- <8d37f465888656224855a21f5bb01edb1ca66cf3.1582361738.git.mchehab+huawei@kernel.org>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <b7f05f9f-a3d4-2b8d-f917-e430ffe453aa@roeck-us.net>
-Date:   Sat, 22 Feb 2020 07:48:29 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <8d37f465888656224855a21f5bb01edb1ca66cf3.1582361738.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1727619AbgBVP4X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Feb 2020 10:56:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38106 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727230AbgBVP4W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 Feb 2020 10:56:22 -0500
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CC23C206EF;
+        Sat, 22 Feb 2020 15:56:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582386982;
+        bh=YDQaHQ4HoiCOvY4NXJWuU84Ut3b5JPOGNOmSnmDw1qk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=MuA2irKY2IdcB2C8kkAZ41BTJYIeAHYgD2CQTHcG4xiO70M0ikEE13LvwG4+CPC3w
+         2SY6ynXy4oi5kZfFJYRDK3po397myrUeL/B2Urn/l3yuFF8agkWSpAZTeDu/wDuliA
+         StTnY59MZl1QRQ2V0vouCYW2Imj6v8G/Js3RCzXM=
+Date:   Sun, 23 Feb 2020 00:56:15 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Markus Elfring <Markus.Elfring@web.de>
+Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tim Bird <Tim.Bird@sony.com>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: Re: [for-next][12/26] Documentation: bootconfig: Add a doc for
+ extended boot config
+Message-Id: <20200223005615.79f308e2ca0717132bb2887b@kernel.org>
+In-Reply-To: <370e675a-598e-71db-8213-f5494b852a71@web.de>
+References: <23e371ca-5df8-3ae3-c685-b01c07b55540@web.de>
+        <20200220221340.2b66fd2051a5da74775c474b@kernel.org>
+        <5ed96b7b-7485-1ea0-16e2-d39c14ae266d@web.de>
+        <20200221191637.e9eed4268ff607a98200628c@kernel.org>
+        <5ade73b0-a3e8-e71a-3685-6485f37ac8b7@web.de>
+        <20200222131833.56a5be2d36033dc5a77a9f0b@kernel.org>
+        <370e675a-598e-71db-8213-f5494b852a71@web.de>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/22/20 1:00 AM, Mauro Carvalho Chehab wrote:
-> This reference was missing the .rst extension. This would be OK
-> if it were using the :doc: directive. So, switch to it.
-> 
-> As a side effect, this will create cross-reference links at
-> html output.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Sat, 22 Feb 2020 10:48:28 +0100
+Markus Elfring <Markus.Elfring@web.de> wrote:
 
-Applied.
-
-Thanks,
-Guenter
-
-> ---
->   Documentation/hwmon/adm1177.rst | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+> >> * Will a file format description become helpful in the way of
+> >>   an extended Backus–Naur form?
+> >
+> > Good suggestion! Let me try to write an EBNF section.
 > 
-> diff --git a/Documentation/hwmon/adm1177.rst b/Documentation/hwmon/adm1177.rst
-> index c81e0b4abd28..471be1e98d6f 100644
-> --- a/Documentation/hwmon/adm1177.rst
-> +++ b/Documentation/hwmon/adm1177.rst
-> @@ -20,8 +20,7 @@ Usage Notes
->   -----------
->   
->   This driver does not auto-detect devices. You will have to instantiate the
-> -devices explicitly. Please see Documentation/i2c/instantiating-devices for
-> -details.
-> +devices explicitly. Please see :doc:`/i2c/instantiating-devices` for details.
->   
->   
->   Sysfs entries
+> Is there a need to provide two format descriptions as separate files
+> (so that they can help more for different software users)?
 > 
+> * RST
+> * EBNF
 
+Hmm, since RST is enough flexible, we can write it as a section.
+Then user can copy & paste if they need it.
+
+> 
+> 
+> Will it matter to adjust another wording?
+> 
+> -/proc/bootconfig is a user-space interface of the boot config.
+> +The file “/proc/bootconfig” is an user-space interface to the configuration
+> +of system boot parameters.
+
+OK.
+
+Thank you,
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
