@@ -2,197 +2,179 @@ Return-Path: <SRS0=a2q4=4L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41156C35671
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 09:00:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C02F1C35671
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 12:22:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0223B20656
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 09:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582448404;
-	bh=aAzVoMpDVq9WDUFxqdTTt7WSy3tdNYzWVm8UGetuG08=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=aiHeH/k9uJxirg2ggYBu1Qcpvo3LalmOwitKoWyagxssVZYnx2mIoNBK8eUd3YvK5
-	 G+NfyLrLqFtFkoZdHki4DOJxOlyBe6jnYDIsFq9LcZdFzxD5vrQ20kf4/W8vYWPfQh
-	 kyHVlhGqP6POphEdGH69GVASTNwFlWxSyUC+3J/4=
+	by mail.kernel.org (Postfix) with ESMTP id 94F0120675
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 12:22:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="O+aizZUK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726308AbgBWJAD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Feb 2020 04:00:03 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:40264 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725980AbgBWJAD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Feb 2020 04:00:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=RNB2J+mEHhCNl0xuNBvvHTB/2tWC60YI0L4tSd1QRB0=; b=GPUn5ur3nKI8vkZxD9zlfePIvg
-        nYQ2HGRdonyN9ziEioizfW8K80tgKNBfd+diHIFZUweMFwqc1qBhNnrvWnDQYRQRweDIGMArB4v2R
-        v6ePauHBnkFdZOFIc5sohI/3kse56yFR8eovN5pOAhfbC54SgEifNm83aPwU30wOWH4s0LI3By36A
-        n/n8EW/0d9bB7jm+3kwbbRMXlGYQCtzmwyDKZ39c29i6Bt//Z2koUTUB0xvv3Jgx9bQp+y/cMWTIY
-        vkp5MjPItSg6CGw8DTU5zxNqBviQ0LONpxkFW9gmzxIHd5u6CP8jMAOjEmpa4vjcYQ8K0BbK3fo2Y
-        7r/GfDXA==;
-Received: from [80.156.29.194] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j5n7F-0007ZW-MS; Sun, 23 Feb 2020 08:59:57 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j5n7D-001RYm-3q; Sun, 23 Feb 2020 09:59:55 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Piotr Sroka <piotrs@cadence.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Olivier Moysan <olivier.moysan@st.com>,
-        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= 
-        <jerome.pouiller@silabs.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-        netdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: [PATCH] docs: dt: fix several broken doc references
-Date:   Sun, 23 Feb 2020 09:59:53 +0100
-Message-Id: <0e530494349b37eb2eab4a8eccf56626e0b18e6d.1582448388.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.24.1
+        id S1726592AbgBWMWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Feb 2020 07:22:07 -0500
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:1449 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbgBWMWH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Feb 2020 07:22:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1582460527; x=1613996527;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=lcnFscn91LfowQE1gEh7+eQLC7A7aDyLt4mHbYDGrHA=;
+  b=O+aizZUKCk2eEzQvzG5zk5oscFFqeifYNncIfWVpfGipu8gvDABCxbM3
+   rwwUj/xdYplE0EyAEmdkIpQua/aSfx4sqdJ1SnVVo5Q/MAWaffQzSccFx
+   L4Y+KwZ5EH5iCS+gGLwJ+0W5h+xCrnSYIFsoHVcyLQsCg2Nd9t4Pql/qI
+   4=;
+IronPort-SDR: TFIxAe00BbZavzHlPTEmqgSi2DF904VMgNoZ2FtfNhN1GWI//hLEJJBGYdSFBnFskiLYt8LpHW
+ svwjO7/zbhAQ==
+X-IronPort-AV: E=Sophos;i="5.70,476,1574121600"; 
+   d="scan'208";a="18479465"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 23 Feb 2020 12:21:54 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com (Postfix) with ESMTPS id CBA09A1BEC;
+        Sun, 23 Feb 2020 12:21:52 +0000 (UTC)
+Received: from EX13D12EUC002.ant.amazon.com (10.43.164.134) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1236.3; Sun, 23 Feb 2020 12:21:52 +0000
+Received: from EX13MTAUEA001.ant.amazon.com (10.43.61.82) by
+ EX13D12EUC002.ant.amazon.com (10.43.164.134) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Sun, 23 Feb 2020 12:21:51 +0000
+Received: from u961addbe640f56.ant.amazon.com (10.28.84.111) by
+ mail-relay.amazon.com (10.43.61.243) with Microsoft SMTP Server id
+ 15.0.1367.3 via Frontend Transport; Sun, 23 Feb 2020 12:21:49 +0000
+From:   Stanislav Spassov <stanspas@amazon.com>
+To:     <linux-pci@vger.kernel.org>
+CC:     Stanislav Spassov <stanspas@amazon.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        =?UTF-8?q?Jan=20H=20=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>,
+        Wei Wang <wawei@amazon.de>, Jonathan Corbet <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
+Date:   Sun, 23 Feb 2020 13:20:55 +0100
+Message-ID: <20200223122057.6504-2-stanspas@amazon.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200223122057.6504-1-stanspas@amazon.com>
+References: <20200223122057.6504-1-stanspas@amazon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are several DT doc references that require manual fixes.
-I found 3 cases fixed on this patch:
+From: Wei Wang <wawei@amazon.de>
 
-	- directory named "binding/" instead of "bindings/";
-	- .txt to .yaml renames;
-	- file renames (still on txt format);
+The resonable value for the maximum time to wait for a PCI device to be
+ready after reset varies depending on the platform and the reliability
+of its set of devices.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Wei Wang <wawei@amazon.de>
+Signed-off-by: Stanislav Spassov <stanspas@amazon.de>
 ---
- .../devicetree/bindings/mtd/cadence-nand-controller.txt       | 2 +-
- .../devicetree/bindings/net/brcm,bcm7445-switch-v4.0.txt      | 2 +-
- Documentation/devicetree/bindings/sound/st,stm32-sai.txt      | 2 +-
- Documentation/devicetree/bindings/sound/st,stm32-spdifrx.txt  | 2 +-
- Documentation/devicetree/bindings/spi/st,stm32-spi.yaml       | 2 +-
- MAINTAINERS                                                   | 4 ++--
- .../devicetree/bindings/net/wireless/siliabs,wfx.txt          | 2 +-
- 7 files changed, 8 insertions(+), 8 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  5 +++++
+ drivers/pci/pci.c                             | 22 ++++++++++++++-----
+ 2 files changed, 22 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/mtd/cadence-nand-controller.txt b/Documentation/devicetree/bindings/mtd/cadence-nand-controller.txt
-index f3893c4d3c6a..d2eada5044b2 100644
---- a/Documentation/devicetree/bindings/mtd/cadence-nand-controller.txt
-+++ b/Documentation/devicetree/bindings/mtd/cadence-nand-controller.txt
-@@ -27,7 +27,7 @@ Required properties of NAND chips:
-   - reg: shall contain the native Chip Select ids from 0 to max supported by
-     the cadence nand flash controller
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index dbc22d684627..5e4dade9acc8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3653,6 +3653,11 @@
+ 		nomsi	Do not use MSI for native PCIe PME signaling (this makes
+ 			all PCIe root ports use INTx for all services).
  
--See Documentation/devicetree/bindings/mtd/nand.txt for more details on
-+See Documentation/devicetree/bindings/mtd/nand-controller.yaml for more details on
- generic bindings.
++	pcie_reset_ready_poll_ms= [PCI,PCIE]
++			Specifies timeout for PCI(e) device readiness polling
++			after device reset (in milliseconds).
++			Default: 60000 = 60 seconds
++
+ 	pcmv=		[HW,PCMCIA] BadgePAD 4
  
- Example:
-diff --git a/Documentation/devicetree/bindings/net/brcm,bcm7445-switch-v4.0.txt b/Documentation/devicetree/bindings/net/brcm,bcm7445-switch-v4.0.txt
-index 48a7f916c5e4..88b57b0ca1f4 100644
---- a/Documentation/devicetree/bindings/net/brcm,bcm7445-switch-v4.0.txt
-+++ b/Documentation/devicetree/bindings/net/brcm,bcm7445-switch-v4.0.txt
-@@ -45,7 +45,7 @@ Optional properties:
-   switch queue
+ 	pd_ignore_unused
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index d828ca835a98..db9b58ab6c68 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -149,7 +149,19 @@ static int __init pcie_port_pm_setup(char *str)
+ __setup("pcie_port_pm=", pcie_port_pm_setup);
  
- - resets: a single phandle and reset identifier pair. See
--  Documentation/devicetree/binding/reset/reset.txt for details.
-+  Documentation/devicetree/bindings/reset/reset.txt for details.
+ /* Time to wait after a reset for device to become responsive */
+-#define PCIE_RESET_READY_POLL_MS 60000
++#define PCIE_RESET_READY_POLL_MS_DEFAULT 60000
++
++int __read_mostly pcie_reset_ready_poll_ms = PCIE_RESET_READY_POLL_MS_DEFAULT;
++
++static int __init pcie_reset_ready_poll_ms_setup(char *str)
++{
++	int timeout;
++
++	if (!kstrtoint(str, 0, &timeout))
++		pcie_reset_ready_poll_ms = timeout;
++	return 1;
++}
++__setup("pcie_reset_ready_poll_ms=", pcie_reset_ready_poll_ms_setup);
  
- - reset-names: If the "reset" property is specified, this property should have
-   the value "switch" to denote the switch reset line.
-diff --git a/Documentation/devicetree/bindings/sound/st,stm32-sai.txt b/Documentation/devicetree/bindings/sound/st,stm32-sai.txt
-index 944743dd9212..c42b91e525fa 100644
---- a/Documentation/devicetree/bindings/sound/st,stm32-sai.txt
-+++ b/Documentation/devicetree/bindings/sound/st,stm32-sai.txt
-@@ -36,7 +36,7 @@ SAI subnodes required properties:
-   - clock-names: Must contain "sai_ck".
- 	Must also contain "MCLK", if SAI shares a master clock,
- 	with a SAI set as MCLK clock provider.
--  - dmas: see Documentation/devicetree/bindings/dma/stm32-dma.txt
-+  - dmas: see Documentation/devicetree/bindings/dma/st,stm32-dma.yaml
-   - dma-names: identifier string for each DMA request line
- 	"tx": if sai sub-block is configured as playback DAI
- 	"rx": if sai sub-block is configured as capture DAI
-diff --git a/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.txt b/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.txt
-index 33826f2459fa..ca9101777c44 100644
---- a/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.txt
-+++ b/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.txt
-@@ -10,7 +10,7 @@ Required properties:
-   - clock-names: must contain "kclk"
-   - interrupts: cpu DAI interrupt line
-   - dmas: DMA specifiers for audio data DMA and iec control flow DMA
--    See STM32 DMA bindings, Documentation/devicetree/bindings/dma/stm32-dma.txt
-+    See STM32 DMA bindings, Documentation/devicetree/bindings/dma/st,stm32-dma.yaml
-   - dma-names: two dmas have to be defined, "rx" and "rx-ctrl"
+ /**
+  * pci_bus_max_busnr - returns maximum PCI bus number of given bus' children
+@@ -4506,7 +4518,7 @@ int pcie_flr(struct pci_dev *dev)
+ 	 */
+ 	msleep(100);
  
- Optional properties:
-diff --git a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-index f0d979664f07..e49ecbf715ba 100644
---- a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-@@ -49,7 +49,7 @@ properties:
-   dmas:
-     description: |
-       DMA specifiers for tx and rx dma. DMA fifo mode must be used. See
--      the STM32 DMA bindings Documentation/devicetree/bindings/dma/stm32-dma.txt.
-+      the STM32 DMA bindings Documentation/devicetree/bindings/dma/st,stm32-dma.yaml.
-     items:
-       - description: rx DMA channel
-       - description: tx DMA channel
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d81701ea3336..6b30a58bd77b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4480,7 +4480,7 @@ L:	linux-media@vger.kernel.org
- T:	git git://linuxtv.org/media_tree.git
- S:	Maintained
- F:	drivers/media/platform/sunxi/sun6i-csi/
--F:	Documentation/devicetree/bindings/media/sun6i-csi.txt
-+F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+-	return pci_dev_wait(dev, "FLR", PCIE_RESET_READY_POLL_MS);
++	return pci_dev_wait(dev, "FLR", pcie_reset_ready_poll_ms);
+ }
+ EXPORT_SYMBOL_GPL(pcie_flr);
  
- CW1200 WLAN driver
- M:	Solomon Peachy <pizza@shaftnet.org>
-@@ -15955,7 +15955,7 @@ F:	drivers/*/stm32-*timer*
- F:	drivers/pwm/pwm-stm32*
- F:	include/linux/*/stm32-*tim*
- F:	Documentation/ABI/testing/*timer-stm32
--F:	Documentation/devicetree/bindings/*/stm32-*timer*
-+F:	Documentation/devicetree/bindings/*/*stm32-*timer*
- F:	Documentation/devicetree/bindings/pwm/pwm-stm32*
+@@ -4551,7 +4563,7 @@ static int pci_af_flr(struct pci_dev *dev, int probe)
+ 	 */
+ 	msleep(100);
  
- STMMAC ETHERNET DRIVER
-diff --git a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/siliabs,wfx.txt b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/siliabs,wfx.txt
-index ffec79c14786..17db67559f5e 100644
---- a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/siliabs,wfx.txt
-+++ b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/siliabs,wfx.txt
-@@ -94,5 +94,5 @@ Some properties are recognized either by SPI and SDIO versions:
-    Must contains 64 hexadecimal digits. Not supported in current version.
+-	return pci_dev_wait(dev, "AF_FLR", PCIE_RESET_READY_POLL_MS);
++	return pci_dev_wait(dev, "AF_FLR", pcie_reset_ready_poll_ms);
+ }
  
- WFx driver also supports `mac-address` and `local-mac-address` as described in
--Documentation/devicetree/binding/net/ethernet.txt
-+Documentation/devicetree/bindings/net/ethernet.txt
+ /**
+@@ -4596,7 +4608,7 @@ static int pci_pm_reset(struct pci_dev *dev, int probe)
+ 	pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, csr);
+ 	pci_dev_d3_sleep(dev);
+ 
+-	return pci_dev_wait(dev, "PM D3hot->D0", PCIE_RESET_READY_POLL_MS);
++	return pci_dev_wait(dev, "PM D3hot->D0", pcie_reset_ready_poll_ms);
+ }
+ 
+ /**
+@@ -4826,7 +4838,7 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev)
+ {
+ 	pcibios_reset_secondary_bus(dev);
+ 
+-	return pci_dev_wait(dev, "bus reset", PCIE_RESET_READY_POLL_MS);
++	return pci_dev_wait(dev, "bus reset", pcie_reset_ready_poll_ms);
+ }
+ EXPORT_SYMBOL_GPL(pci_bridge_secondary_bus_reset);
  
 -- 
-2.24.1
+2.25.1
+
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
 
