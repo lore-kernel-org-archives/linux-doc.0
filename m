@@ -2,123 +2,107 @@ Return-Path: <SRS0=a2q4=4L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D493C35673
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 03:45:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D508C35670
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 08:12:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0321524653
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 03:45:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6790214DB
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 08:12:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b="N15Z7jSU";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ViTn650G"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D8C1rbA1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727163AbgBWDph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Feb 2020 22:45:37 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:35585 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726884AbgBWDpg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 22:45:36 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id C7E016A20;
-        Sat, 22 Feb 2020 22:45:35 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sat, 22 Feb 2020 22:45:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm2; bh=JMfR+VrrDoBk0uiOZlbWJKwHPD
-        wLyBQJby+91WZGxwo=; b=N15Z7jSUHNbz+mOHEHh9vOf++wuuoKnB3PsgyLkvBC
-        Jgd/3kRocYSbOQo6xAfqnqIV6K+B6EFoN4p95GFDrHgwTkCRVxQbYrB1p/xKhAuP
-        A2jZDHH3jNATzObmEqMAPXVIf9OptXQM2P3xIBPsnEclURSOD9cR0XezUlYxOMpb
-        AWQJJsa+dTYzLFD2tMybJg7yuHssBeM7mEKDUJSLZCT4v/+bH2px4G8sWQqppksS
-        QRfZ06pCUHh1lUrfEr4fsYjTWCALrwWNP167atO547OnzalTGBEFoE62g2LMfDfs
-        ZfJcrkxRX6Hu0RQjCIsfxnBv8tBJaKw/AzC0G2pCyc4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=JMfR+VrrDoBk0uiOZ
-        lbWJKwHPDwLyBQJby+91WZGxwo=; b=ViTn650G/ITqnEZaxdRRq1Px708Tpx7IL
-        6rIFKsUtxC/91d7eYk8XJyJ7h3oYHtnwQcM6QqbA18vNEC8Or1Pcdzja1MWoEjpZ
-        0eV7iTjE4nNc4Iocb+nA7nb2AHc/xOcIDv050uf0kNCg4183CQzlreRCGmh2GAqW
-        vFViFctcOAzgtJ+O32qHcikV56OMKCYXcTOvZ8DSKtFCXWx+hdx29PQk6b0FfV9N
-        4LeUWQt4wagG1FVMh2PkDiRwaSMIg/GAp+BIJC3D/qIsIHw4GXQSEBVi6Z3b8lsl
-        5WySNwkpwWoKvf9fMBL0M4uSWguBeXDdq7dp/db3SdANrCmnKOGBw==
-X-ME-Sender: <xms:XvVRXsEGLApsGVhP9X0Uvwv0ihw2IEdDB3YOYxcXos1Vx-8BIZZR5w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkeejgdeitdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
-    ohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecukfhppeejtd
-    drudefhedrudegkedrudehudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
-    mhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:XvVRXpIaccIq6yUpwks2VERhBIKwEPRyJAzXCLcaWaA9AVUS3CF99g>
-    <xmx:XvVRXvPb7NRIuARAiPqP49vSipDB_z-4we1CTrA-MYDdKyXD98o6IQ>
-    <xmx:XvVRXhlUVGjXJO3xaPjeBqm07zAIWCt7altd8e8jjp1JYLHbJUTw-w>
-    <xmx:X_VRXvD5uUkrC7iwE2GgfU6duBgXHVk6qB_NtBHs1bbcSUKofbkOdQ>
-Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-        by mail.messagingengine.com (Postfix) with ESMTPA id F27D83060BD1;
-        Sat, 22 Feb 2020 22:45:33 -0500 (EST)
-From:   Samuel Holland <samuel@sholland.org>
-To:     Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jerome Brunet <jbrunet@baylibre.com>
-Cc:     Ondrej Jirman <megous@megous.com>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v3 0/3] simple-audio-card codec2codec support
-Date:   Sat, 22 Feb 2020 21:45:30 -0600
-Message-Id: <20200223034533.1035-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.24.1
+        id S1726277AbgBWIMZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Feb 2020 03:12:25 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47329 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726208AbgBWIMZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Feb 2020 03:12:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582445543;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=BwYUjK8HxtbAMJrKBooyAEULF1GvPByjvn4wuyM0RUU=;
+        b=D8C1rbA1eYIaxuTmhRiR1Hbgy3BQvZkK/Yq1QxsPG4MyDIPrckWRBbQomt/nprbFUez6wL
+        A1VdxEvbUkb19JZV/784FT1xLhNVVuDWYMePyW/3ac4mZmTjq1y8np+fGYjJP1VA4JpARl
+        afLqoZ4hWSQZ1fGvIUNUs+SRBqHnizs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-cLwDaW0lOzCVdlbREMPegA-1; Sun, 23 Feb 2020 03:12:21 -0500
+X-MC-Unique: cLwDaW0lOzCVdlbREMPegA-1
+Received: by mail-wr1-f71.google.com with SMTP id j4so3652186wrs.13
+        for <linux-doc@vger.kernel.org>; Sun, 23 Feb 2020 00:12:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BwYUjK8HxtbAMJrKBooyAEULF1GvPByjvn4wuyM0RUU=;
+        b=k6xbwfZq8M1Fl3GBSAqin2iILzY/REig+LWwXlSVCKKjdigwb2PjNkr0iV5kAUX1E3
+         p/q3Wnx/pG3/hMrZLWekp4kRDPjjcJx+LG9Z2SBAWGpkMi/ln/fvYzPS0C/VdLZD4cb2
+         6gEjA8fQObkIR6R4LfaRupFbHm7Rvh994lgXht0uaP/MmlDLoAvGos1jRkbFK7QnkFdd
+         l6ZPNbrMCEO35gYgPRoqJOR+YBC7U3EX2nWJ6P2qKxXFbgaUveQXbMFvNVeBGhSBPTg9
+         ts83TkGjhAtMKMkVFZg6K2NDc6R0ppH7I+afjR6T3/jySf/u22GTyB7T5AHzO+D8aAli
+         lphA==
+X-Gm-Message-State: APjAAAUQuTmdqEoz8daFYxEAf7KCTSZcyOIE1HIv3bMqLiWmcF4zddXH
+        hm1ByIlzGwzBs1forl6A1M50AlmClgykZMPNqdaoZCJaFquMDNSDWItleA55yyjDYPxYK0hjzol
+        J6akP7gdqPyHTzGLV1Yfr
+X-Received: by 2002:adf:eec3:: with SMTP id a3mr56070680wrp.337.1582445540718;
+        Sun, 23 Feb 2020 00:12:20 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwOZ/DYXl+XcdxcNcioYWjyDgY1O/v59EztMIj07VWdCsNv6wIcLG+8kygyVI/R+698U9QzxQ==
+X-Received: by 2002:adf:eec3:: with SMTP id a3mr56070638wrp.337.1582445540426;
+        Sun, 23 Feb 2020 00:12:20 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:ec41:5e57:ff4d:8e51? ([2001:b07:6468:f312:ec41:5e57:ff4d:8e51])
+        by smtp.gmail.com with ESMTPSA id g10sm369900wrr.13.2020.02.23.00.12.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Feb 2020 00:12:18 -0800 (PST)
+Subject: Re: [PATCH 5/7] docs: fix broken references for ReST files that moved
+ around
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Corentin Labbe <clabbe.montjoie@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, kvm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+ <df38697632818443686a52340d6b38ef83cb0654.1582361738.git.mchehab+huawei@kernel.org>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a180d8c2-c51f-900f-0328-cba4dd29f521@redhat.com>
+Date:   Sun, 23 Feb 2020 09:12:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <df38697632818443686a52340d6b38ef83cb0654.1582361738.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We are currently using simple-audio-card on the Allwinner A64 SoC.
-The digital audio codec there (sun8i-codec) has 3 AIFs, one each for the
-CPU, the modem, and Bluetooth. Adding support for the secondary AIFs
-requires adding codec2codec DAI links.
+On 22/02/20 10:00, Mauro Carvalho Chehab wrote:
+>  Documentation/virt/kvm/mmu.rst                      | 2 +-
+>  Documentation/virt/kvm/review-checklist.rst         | 2 +-
+>  arch/x86/kvm/mmu/mmu.c                              | 2 +-
+>  include/uapi/linux/kvm.h                            | 4 ++--
+>  tools/include/uapi/linux/kvm.h                      | 4 ++--
 
-Since the modem and bt-sco codec DAI drivers only have one set of
-possible PCM parameters (namely, 8kHz mono S16LE), there's no real
-need for a machine driver to specify the DAI link configuration. The
-parameters for these "simple" DAI links can be chosen automatically.
-
-This series adds codec2codec DAI link support to simple-audio-card.
-Codec to codec links are automatically detected when all DAIs in the
-link belong to codec components.
-
-I tried to reuse as much code as possible, so the first two patches
-refactor a couple of helper functions to be more generic.
-
-The last patch adds the new feature and its documentation.
-
-Changes in v3:
-  - Update use of for_each_rtd_components for v5.6
-Changes in v2:
-  - Drop patch 1 as it was merged
-  - Automatically detect codec2codec links instead of using a DT property
-
-Samuel Holland (3):
-  ALSA: pcm: Add a standalone version of snd_pcm_limit_hw_rates
-  ASoC: pcm: Export parameter intersection logic
-  ASoC: simple-card: Add support for codec2codec DAI links
-
- Documentation/sound/soc/codec-to-codec.rst |  9 +++-
- include/sound/pcm.h                        |  9 +++-
- include/sound/soc.h                        |  3 ++
- sound/core/pcm_misc.c                      | 18 +++----
- sound/soc/generic/simple-card-utils.c      | 49 +++++++++++++++++++
- sound/soc/soc-pcm.c                        | 55 +++++++++++++++-------
- 6 files changed, 115 insertions(+), 28 deletions(-)
-
--- 
-2.24.1
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
