@@ -1,168 +1,169 @@
-Return-Path: <SRS0=5qo6=4K=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=a2q4=4L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_RHS_DOB,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D47C2C35666
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 18:18:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADF6EC35671
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 03:45:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B94ED20707
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Feb 2020 18:18:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C436206D7
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 03:45:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b="Nnk7ZUOb";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nDYUDI5q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbgBVSSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Feb 2020 13:18:06 -0500
-Received: from ivanoab7.miniserver.com ([37.128.132.42]:44742 "EHLO
-        www.kot-begemot.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726550AbgBVSSG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 13:18:06 -0500
-Received: from tun252.jain.kot-begemot.co.uk ([192.168.18.6] helo=jain.kot-begemot.co.uk)
-        by www.kot-begemot.co.uk with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <anton.ivanov@cambridgegreys.com>)
-        id 1j5ZLl-0006OE-Ua; Sat, 22 Feb 2020 18:18:02 +0000
-Received: from [151.251.251.9] (helo=[192.168.14.3])
-        by jain.kot-begemot.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <anton.ivanov@cambridgegreys.com>)
-        id 1j5ZLj-0005tN-3P; Sat, 22 Feb 2020 18:18:01 +0000
-Subject: Re: [PATCH] Documentation: update UserModeLinux-HOWTO.txt
-To:     Manbing <manbing3@gmail.com>, Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-um@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1582391968-3960-1-git-send-email-manbing3@gmail.com>
-From:   Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Organization: Cambridge Greys Limited
-Message-ID: <9e8a47ca-bc82-496c-dc32-a5cde0d26fe9@cambridgegreys.com>
-Date:   Sat, 22 Feb 2020 18:17:56 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727091AbgBWDph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Feb 2020 22:45:37 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:33323 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726965AbgBWDpg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Feb 2020 22:45:36 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id C4F966A1E;
+        Sat, 22 Feb 2020 22:45:35 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sat, 22 Feb 2020 22:45:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm2; bh=xEUgRs6Eo7JPj
+        +m5PuuwJ2k+XGQGKRuM1/o6sSyplzM=; b=Nnk7ZUObs/FREDBnMBIGIQlbk9/hB
+        OHnQtloJwUPBSezuEntlSgCdrcuj49sBrzn+52lag/e10aT0skZWeUSN6C27672D
+        s+yhPhKqHrV/p22xuXd4/fo0hD4cnmW3L5ECeeevPICnHmI7x0R8j7T7Yy/2xhQN
+        XGoKxbZ+jL6aufYTesxziewgZ548tXriI2XjIvfEKXsuFlwk2PnQO5qPNd62wv1g
+        c2dz16JrReSTHVrZSou953WnzKst8pDfS+1LTLJefpRznjPrl4XOdwGnKM3E0Agi
+        sixVwXvy9Z/fb62b2zFZEfCzJebb2fd/53lm+kg5YslT3G1CBN0L5GkTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; bh=xEUgRs6Eo7JPj+m5PuuwJ2k+XGQGKRuM1/o6sSyplzM=; b=nDYUDI5q
+        8FR8xwUv4oxtygL7IpTmLDh/3bqPDsly1+AlprNxpKvRMKIxvU0XG7OJOUxllv+6
+        5fjXtsYbM00wkW3dEKY2gGomFaY2Pcbtr/a8CDd9yotmgmJhrfhtvoV3ggU0Yxdz
+        L8JIKZe9e0dwNEYy+zaN1lE6bUpNRyeIm8x63kyrNUAQt3W4V1ABwHQDpPaqKQXk
+        w/O6VKlYGkHWEkit1/IRWGHLcb4s0ZsQTc9uPj5Z9NUsKz+ieV3qg4lRxRZPtgVM
+        AxNWbhNcBZh5Hp9L6NtSiw16Jh43z0H9bURtPOz9zqNjqZNfpnIDr7YHPROl/isB
+        YaerEMfAw4iAYg==
+X-ME-Sender: <xms:XvVRXsGPhieLJ9ydI2nOrn5F2bTAYDPC2uNGwuU9Pjby6-2gR3AxiQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkeejgdeitdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecukfhppe
+    ejtddrudefhedrudegkedrudehudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
+    mhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:XvVRXg5FlqsUU1rgAW3-fYS5k3_LfJ4BW7rihWdkjvCZCM3he3aumw>
+    <xmx:XvVRXtZEvRLeZ2-FlV6LSk-2uOz01uxpN3iIRJoRXzSVoPfH8Xq1dg>
+    <xmx:XvVRXmfWil9w341ftIJdPZIthQJPbbvyXQoCgVKuispyKio3Gvg6iQ>
+    <xmx:X_VRXkYXIkMNm3jW85dIxNcE7kl3MiOt4yI7aMamSjIfOhofnNdWzw>
+Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7105C3060F9B;
+        Sat, 22 Feb 2020 22:45:34 -0500 (EST)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jerome Brunet <jbrunet@baylibre.com>
+Cc:     Ondrej Jirman <megous@megous.com>, alsa-devel@alsa-project.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v3 1/3] ALSA: pcm: Add a standalone version of snd_pcm_limit_hw_rates
+Date:   Sat, 22 Feb 2020 21:45:31 -0600
+Message-Id: <20200223034533.1035-2-samuel@sholland.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200223034533.1035-1-samuel@sholland.org>
+References: <20200223034533.1035-1-samuel@sholland.org>
 MIME-Version: 1.0
-In-Reply-To: <1582391968-3960-1-git-send-email-manbing3@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+It can be useful to derive min/max rates of a snd_pcm_hardware without
+having a snd_pcm_runtime, such as before constructing an ASoC DAI link.
 
+Create a new helper that takes a pointer to a snd_pcm_hardware directly,
+and refactor the original function as a wrapper around it, to avoid
+needing to update any call sites.
 
-On 22/02/2020 17:19, Manbing wrote:
-> Original content is obsolete. Which is based on kernel 2.4.0-prerelease.
-> Updating content according to kernel 5.5.1.
-> 
-> Signed-off-by: Manbing <manbing3@gmail.com>
-> ---
->   Documentation/virt/uml/UserModeLinux-HOWTO.txt | 42 +++++---------------------
->   1 file changed, 8 insertions(+), 34 deletions(-)
-> 
-> diff --git a/Documentation/virt/uml/UserModeLinux-HOWTO.txt b/Documentation/virt/uml/UserModeLinux-HOWTO.txt
-> index 87b80f5..08ee28d 100644
-> --- a/Documentation/virt/uml/UserModeLinux-HOWTO.txt
-> +++ b/Documentation/virt/uml/UserModeLinux-HOWTO.txt
-> @@ -1,6 +1,6 @@
->     User Mode Linux HOWTO
->     User Mode Linux Core Team
-> -  Mon Nov 18 14:16:16 EST 2002
-> +  Mon Feb 10 08:27:24 EST 2020
->   
->     This document describes the use and abuse of Jeff Dike's User Mode
->     Linux: a port of the Linux kernel as a normal Intel Linux process.
-> @@ -215,26 +215,17 @@
->   
->   
->     Compiling the user mode kernel is just like compiling any other
-> -  kernel.  Let's go through the steps, using 2.4.0-prerelease (current
-> +  kernel.  Let's go through the steps, using 5.5.1 (current
->     as of this writing) as an example:
->   
->   
-> -  1. Download the latest UML patch from
-> -
-> -     the download page <http://user-mode-linux.sourceforge.net/
-> -
-> -     In this example, the file is uml-patch-2.4.0-prerelease.bz2.
-> -
-> -
-> -  2. Download the matching kernel from your favourite kernel mirror,
-> +  1. Download the matching kernel from your favourite kernel mirror,
->        such as:
->   
-> -     ftp://ftp.ca.kernel.org/pub/kernel/v2.4/linux-2.4.0-prerelease.tar.bz2
-> -     <ftp://ftp.ca.kernel.org/pub/kernel/v2.4/linux-2.4.0-prerelease.tar.bz2>
-> -     .
-> +     wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.5.1.tar.xz
->   
->   
-> -  3. Make a directory and unpack the kernel into it.
-> +  2. Make a directory and unpack the kernel into it.
->   
->   
->   
-> @@ -255,31 +246,14 @@
->   
->   
->          host%
-> -       tar -xzvf linux-2.4.0-prerelease.tar.bz2
-> -
-> -
-> -
-> -
-> -
-> -
-> -  4. Apply the patch using
-> -
-> -
-> -
-> -       host%
-> -       cd ~/uml/linux
-> -
-> -
-> -
-> -       host%
-> -       bzcat uml-patch-2.4.0-prerelease.bz2 | patch -p1
-> +       tar xvf linux-5.5.1.tar.xz
->   
->   
->   
->   
->   
->   
-> -  5. Run your favorite config; `make xconfig ARCH=um' is the most
-> +  3. Run your favorite config; `make xconfig ARCH=um' is the most
->        convenient.  `make config ARCH=um' and 'make menuconfig ARCH=um'
->        will work as well.  The defaults will give you a useful kernel.  If
->        you want to change something, go ahead, it probably won't hurt
-> @@ -293,7 +267,7 @@
->   
->   
->   
-> -  6. Finish with `make linux ARCH=um': the result is a file called
-> +  4. Finish with `make linux ARCH=um': the result is a file called
->        `linux' in the top directory of your source tree.
->   
->     Make sure that you don't build this kernel in /usr/src/linux.  On some
-> 
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+ include/sound/pcm.h   |  9 ++++++++-
+ sound/core/pcm_misc.c | 18 +++++++++---------
+ 2 files changed, 17 insertions(+), 10 deletions(-)
 
-I am rewriting the whole thing at the moment.
-
-I will publish the finished sections for review at some point during the 
-coming week.
-
-It needs to be rewritten from scratch, fixing a few things like this is 
-not enough.
-
-Brgds,
-
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index f657ff08f317..89529dfffaac 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -1122,7 +1122,14 @@ snd_pcm_kernel_readv(struct snd_pcm_substream *substream,
+ 	return __snd_pcm_lib_xfer(substream, bufs, false, frames, true);
+ }
+ 
+-int snd_pcm_limit_hw_rates(struct snd_pcm_runtime *runtime);
++int snd_pcm_hw_limit_rates(struct snd_pcm_hardware *hw);
++
++static inline int
++snd_pcm_limit_hw_rates(struct snd_pcm_runtime *runtime)
++{
++	return snd_pcm_hw_limit_rates(&runtime->hw);
++}
++
+ unsigned int snd_pcm_rate_to_rate_bit(unsigned int rate);
+ unsigned int snd_pcm_rate_bit_to_rate(unsigned int rate_bit);
+ unsigned int snd_pcm_rate_mask_intersect(unsigned int rates_a,
+diff --git a/sound/core/pcm_misc.c b/sound/core/pcm_misc.c
+index a6a541511534..5dd2e5335900 100644
+--- a/sound/core/pcm_misc.c
++++ b/sound/core/pcm_misc.c
+@@ -474,32 +474,32 @@ int snd_pcm_format_set_silence(snd_pcm_format_t format, void *data, unsigned int
+ EXPORT_SYMBOL(snd_pcm_format_set_silence);
+ 
+ /**
+- * snd_pcm_limit_hw_rates - determine rate_min/rate_max fields
+- * @runtime: the runtime instance
++ * snd_pcm_hw_limit_rates - determine rate_min/rate_max fields
++ * @hw: the pcm hw instance
+  *
+  * Determines the rate_min and rate_max fields from the rates bits of
+- * the given runtime->hw.
++ * the given hw.
+  *
+  * Return: Zero if successful.
+  */
+-int snd_pcm_limit_hw_rates(struct snd_pcm_runtime *runtime)
++int snd_pcm_hw_limit_rates(struct snd_pcm_hardware *hw)
+ {
+ 	int i;
+ 	for (i = 0; i < (int)snd_pcm_known_rates.count; i++) {
+-		if (runtime->hw.rates & (1 << i)) {
+-			runtime->hw.rate_min = snd_pcm_known_rates.list[i];
++		if (hw->rates & (1 << i)) {
++			hw->rate_min = snd_pcm_known_rates.list[i];
+ 			break;
+ 		}
+ 	}
+ 	for (i = (int)snd_pcm_known_rates.count - 1; i >= 0; i--) {
+-		if (runtime->hw.rates & (1 << i)) {
+-			runtime->hw.rate_max = snd_pcm_known_rates.list[i];
++		if (hw->rates & (1 << i)) {
++			hw->rate_max = snd_pcm_known_rates.list[i];
+ 			break;
+ 		}
+ 	}
+ 	return 0;
+ }
+-EXPORT_SYMBOL(snd_pcm_limit_hw_rates);
++EXPORT_SYMBOL(snd_pcm_hw_limit_rates);
+ 
+ /**
+  * snd_pcm_rate_to_rate_bit - converts sample rate to SNDRV_PCM_RATE_xxx bit
 -- 
-Anton R. Ivanov
+2.24.1
 
-Cambridge Greys Limited, England and Wales company No 10273661
-http://www.cambridgegreys.com/
