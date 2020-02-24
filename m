@@ -2,182 +2,132 @@ Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7376CC11D2F
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:41:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7690EC11D32
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:52:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 498C420838
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:41:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F4F720836
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:52:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RVEFVPgU"
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="T1dBBPjq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728059AbgBXRlm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Feb 2020 12:41:42 -0500
-Received: from mail-pg1-f201.google.com ([209.85.215.201]:48409 "EHLO
-        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727108AbgBXRll (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 12:41:41 -0500
-Received: by mail-pg1-f201.google.com with SMTP id h14so7093133pgd.15
-        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2020 09:41:41 -0800 (PST)
+        id S1727438AbgBXRwU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Feb 2020 12:52:20 -0500
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:27175 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727426AbgBXRwS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 12:52:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=5nz7K/9gLs7EaewmF2wRn410ngVKaW83QWECedJma1o=;
-        b=RVEFVPgU+ScpyMwz7WfaB+ItQ1JnmyRVQdauoq5Hla6qBbUseznXc4uAFG7Bn9wDIQ
-         xN27LFJFYWTi2nwnRc4n2jIIiBUA8AKjhSKIsI2w6L+MLGraE8CBzpoNAY+jQj142T2c
-         GbsQkJys39l//NmYke/Dl3qt8pWth1ivhTFGoSuRmWOi7ZTEiuEwu6uqmf2+EAbN4Xwj
-         yGcx48yYsSLTF7Fs/bk88t2dE9K/MNFltYl2jSGsjdtuAIUIy3NePMj0qin8WcxIsvMK
-         KuM4AmzgvD5/9sbPJ652/5IesJ6rdo9giLLcRyRm2CxhsY9OnV2nuczIFHaSA+kRg/W7
-         /IdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=5nz7K/9gLs7EaewmF2wRn410ngVKaW83QWECedJma1o=;
-        b=EhiHLIpKXnkj63QUui6tvhgOpwK8sVIcf6Vwwa4xsy7FWZihQSo/TH2ooUK/JeljLz
-         iRlNTZ9e9ZProB9NRAa5IinPC44ZPj6uK3NbRq7D0Y7bKHSPssWRWAgI1WIXidVyafU+
-         0ai8edDmxnjbxK67HsUYLzYNWwE3/ALMTrw7AiAX3Kzu39aAtdA7kib0S5x/thYo3sNX
-         YxRDfOkF1FCWbFvLlqQbe7lcLc+KrO/d8eZ531tWxtCYj452ckqEGS6a3MuLuW5iwc99
-         PSFWB5FUelR1QQoX1dYK0tEodn+2VpTNpoB1rcrAgHTkAvlsXCZzSEJ2DMTkykspz2/B
-         zOKA==
-X-Gm-Message-State: APjAAAXtKxd0lHv3Z5wHndnRi09wDNOjIFyVMflndz8rKLMJOka+MnIg
-        Kbxw17rn7S6cGjzvDTdbGYgMDbROZ9XBAuqlv0c=
-X-Google-Smtp-Source: APXvYqyH8QxNwAutG1ZN9iCwc4/0fjrPF2jacaW4sjYkH4gbhT4P+UST1Yofs3uM/wUc87c1owiFJwJcD3WtXXPUqY0=
-X-Received: by 2002:a63:ae0a:: with SMTP id q10mr53967461pgf.178.1582566100948;
- Mon, 24 Feb 2020 09:41:40 -0800 (PST)
-Date:   Mon, 24 Feb 2020 09:41:28 -0800
-Message-Id: <20200224174129.2664-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH] Documentation/llvm: add documentation on building w/ Clang/LLVM
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     corbet@lwn.net, masahiroy@kernel.org
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1582566739; x=1614102739;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:mime-version:
+   content-transfer-encoding;
+  bh=0EUqHRglcA/NGux2MT4MfH4tFPygRIXiyd07iGX9q6w=;
+  b=T1dBBPjqwpmvOQPcANVCP95lMSPBGL/Ja0N+CnJFQXF5is9Ha3KFTyGQ
+   DudTTcplAsOmVppNawP5xkaHAcxodaGpcH3zlxiDX+ox5pOAfv6GYO/vo
+   EXu/otXBZfBQBQbUWEKGCDkO/NaIrY7ZMXk36tPL/iQh5OgBDA+3yjAoi
+   o=;
+IronPort-SDR: /znGeJc7Msus4UaRmrR6W6635aAfMiSlCf91ECR/C4yuE6339xrf3pU5myDVsZo0hpMiPdy2ew
+ 2Igt47q+mwuA==
+X-IronPort-AV: E=Sophos;i="5.70,480,1574121600"; 
+   d="scan'208";a="18785513"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 24 Feb 2020 17:52:17 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com (Postfix) with ESMTPS id 0D376A2342;
+        Mon, 24 Feb 2020 17:52:15 +0000 (UTC)
+Received: from EX13D09EUA002.ant.amazon.com (10.43.165.251) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1236.3; Mon, 24 Feb 2020 17:52:15 +0000
+Received: from EX13D04EUB003.ant.amazon.com (10.43.166.235) by
+ EX13D09EUA002.ant.amazon.com (10.43.165.251) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Mon, 24 Feb 2020 17:52:14 +0000
+Received: from EX13D04EUB003.ant.amazon.com ([10.43.166.235]) by
+ EX13D04EUB003.ant.amazon.com ([10.43.166.235]) with mapi id 15.00.1497.000;
+ Mon, 24 Feb 2020 17:52:14 +0000
+From:   "Spassov, Stanislav" <stanspas@amazon.de>
+To:     "helgaas@kernel.org" <helgaas@kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+        "ashok.raj@intel.com" <ashok.raj@intel.com>,
+        "okaya@kernel.org" <okaya@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Wang, Wei" <wawei@amazon.de>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Schoenherr, Jan H." <jschoenh@amazon.de>,
+        "rajatja@google.com" <rajatja@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
+Thread-Topic: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
+Thread-Index: AQHV6kPUZq8jyZIzgU2XP5BjGFqpZqgqZU6AgAA8dQA=
+Date:   Mon, 24 Feb 2020 17:52:14 +0000
+Message-ID: <21926ab1c8216382801dca9130343f954247b408.camel@amazon.de>
+References: <20200224141551.GA217704@google.com>
+In-Reply-To: <20200224141551.GA217704@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.164.246]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E75232C9375D314E8C8E80D27A1E8F49@amazon.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added to kbuild documentation. Provides more official info on building
-kernels with Clang and LLVM than our wiki.
-
-Suggested-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
- Documentation/kbuild/index.rst |  1 +
- Documentation/kbuild/llvm.rst  | 80 ++++++++++++++++++++++++++++++++++
- 2 files changed, 81 insertions(+)
- create mode 100644 Documentation/kbuild/llvm.rst
-
-diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
-index 0f144fad99a6..3882bd5f7728 100644
---- a/Documentation/kbuild/index.rst
-+++ b/Documentation/kbuild/index.rst
-@@ -19,6 +19,7 @@ Kernel Build System
- 
-     issues
-     reproducible-builds
-+    llvm
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-new file mode 100644
-index 000000000000..68ae022aebc0
---- /dev/null
-+++ b/Documentation/kbuild/llvm.rst
-@@ -0,0 +1,80 @@
-+==============================
-+Building Linux with Clang/LLVM
-+==============================
-+
-+This document covers how to build the Linux kernel with Clang and LLVM
-+utilities.
-+
-+About
-+-----
-+
-+The Linux kernel has always traditionally been compiled with GNU toolchains
-+such as GCC and binutils. On going work has allowed for `Clang
-+<https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
-+used as viable substitutes. Distributions such as `Android
-+<https://www.android.com/>`_, `ChromeOS
-+<https://www.chromium.org/chromium-os>`_, and `OpenMandriva
-+<https://www.openmandriva.org/>`_ use Clang built kernels.  `LLVM is a
-+collection of toolchain components implemented in terms of C++ objects
-+<https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM that
-+supports C and the GNU C extensions required by the kernel, and is pronounced
-+"klang," not "see-lang."
-+
-+Clang
-+-----
-+
-+The compiler used can be swapped out via `CC=` command line argument to `make`.
-+`CC=` should be set when selecting a config and during a build.
-+
-+	make CC=clang defconfig
-+
-+	make CC=clang
-+
-+Cross Compiling
-+---------------
-+
-+A single Clang compiler binary will typically contain all supported backends,
-+which can help simplify cross compiling.
-+
-+	ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
-+
-+`CROSS_COMPILE` is not used to suffix the Clang compiler binary, instead
-+`CROSS_COMPILE` is used to set a command line flag: `--target <triple>`. For
-+example:
-+
-+	clang --target aarch64-linux-gnu foo.c
-+
-+LLVM Utilities
-+--------------
-+
-+LLVM has substitutes for GNU binutils utilities. These can be invoked as
-+additional parameters to `make`.
-+
-+	make CC=clang AS=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
-+	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-objsize \\
-+	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
-+	  HOSTLD=ld.lld
-+
-+Getting Help
-+------------
-+
-+- `Website <https://clangbuiltlinux.github.io/>`_
-+- `Mailing List <https://groups.google.com/forum/#!forum/clang-built-linux>`_: <clang-built-linux@googlegroups.com>
-+- `Issue Tracker <https://github.com/ClangBuiltLinux/linux/issues>`_
-+- IRC: #clangbuiltlinux on chat.freenode.net
-+- `Telegram <https://t.me/ClangBuiltLinux>`_: @ClangBuiltLinux
-+- `Wiki <https://github.com/ClangBuiltLinux/linux/wiki>`_
-+- `Beginner Bugs <https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22>`_
-+
-+Getting LLVM
-+-------------
-+
-+- http://releases.llvm.org/download.html
-+- https://github.com/llvm/llvm-project
-+- https://llvm.org/docs/GettingStarted.html
-+- https://llvm.org/docs/CMake.html
-+- https://apt.llvm.org/
-+- https://www.archlinux.org/packages/extra/x86_64/llvm/
-+- https://github.com/ClangBuiltLinux/tc-build
-+- https://github.com/ClangBuiltLinux/linux/wiki/Building-Clang-from-source
-+- https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/
--- 
-2.25.0.265.gbab2e86ba0-goog
+T24gTW9uLCAyMDIwLTAyLTI0IGF0IDA4OjE1IC0wNjAwLCBCam9ybiBIZWxnYWFzIHdyb3RlOg0K
+PiBbK2NjIEFzaG9rLCBBbGV4LCBTaW5hbiwgUmFqYXRdDQo+IA0KPiBPbiBTdW4sIEZlYiAyMywg
+MjAyMCBhdCAwMToyMDo1NVBNICswMTAwLCBTdGFuaXNsYXYgU3Bhc3NvdiB3cm90ZToNCj4gPiBG
+cm9tOiBXZWkgV2FuZyA8d2F3ZWlAYW1hem9uLmRlPg0KPiA+IA0KPiA+IFRoZSByZXNvbmFibGUg
+dmFsdWUgZm9yIHRoZSBtYXhpbXVtIHRpbWUgdG8gd2FpdCBmb3IgYSBQQ0kgZGV2aWNlIHRvIGJl
+DQo+ID4gcmVhZHkgYWZ0ZXIgcmVzZXQgdmFyaWVzIGRlcGVuZGluZyBvbiB0aGUgcGxhdGZvcm0g
+YW5kIHRoZSByZWxpYWJpbGl0eQ0KPiA+IG9mIGl0cyBzZXQgb2YgZGV2aWNlcy4NCj4gDQo+IFRo
+ZXJlIGFyZSBzZXZlcmFsIG1lY2hhbmlzbXMgaW4gdGhlIHNwZWMgZm9yIHJlZHVjaW5nIHRoZXNl
+IHRpbWVzLA0KPiBlLmcuLCBSZWFkaW5lc3MgTm90aWZpY2F0aW9ucyAoUENJZSByNS4wLCBzZWMg
+Ni4yMyksIHRoZSBSZWFkaW5lc3MNCj4gVGltZSBSZXBvcnRpbmcgY2FwYWJpbGl0eSAoc2VjIDcu
+OS4xNyksIGFuZCBBQ1BJIF9EU00gbWV0aG9kcyAoUENJDQo+IEZpcm13YXJlIFNwZWMgcjMuMiwg
+c2VjIDQuNi44LCA0LjYuOSkuDQo+IA0KPiBJIHdvdWxkIG11Y2ggcmF0aGVyIHVzZSBzdGFuZGFy
+ZCBtZWNoYW5pc21zIGxpa2UgdGhvc2UgaW5zdGVhZCBvZg0KPiBhZGRpbmcga2VybmVsIHBhcmFt
+ZXRlcnMuICBBIHVzZXIgd291bGQgaGF2ZSB0byB1c2UgdHJpYWwgYW5kIGVycm9yDQo+IHRvIGZp
+Z3VyZSBvdXQgdGhlIHZhbHVlIHRvIHVzZSB3aXRoIGEgcGFyYW1ldGVyIGxpa2UgdGhpcywgYW5k
+IHRoYXQNCj4gZG9lc24ndCBmZWVsIGxpa2UgYSByb2J1c3QgYXBwcm9hY2guDQo+IA0KDQpJIGFn
+cmVlIHRoYXQgc3VwcG9ydGluZyB0aGUgc3RhbmRhcmQgbWVjaGFuaXNtcyBpcyBoaWdobHkgZGVz
+aXJhYmxlLA0KYnV0IHNvbWUgc29ydCBvZiBmYWxsYmFjayBwb2xsIHRpbWVvdXQgdmFsdWUgaXMg
+bmVjZXNzYXJ5IG9uIHBsYXRmb3Jtcw0Kd2hlcmUgbm9uZSBvZiB0aG9zZSBtZWNoYW5pc21zIGFy
+ZSBzdXBwb3J0ZWQuIEFyZ3VhYmx5LCBzb21lIGtlcm5lbA0KY29uZmlndXJhYmlsaXR5ICh3aGV0
+aGVyIHZpYSBhIGtlcm5lbCBwYXJhbWV0ZXIsIGFzIHByb3Bvc2VkIGhlcmUsDQpvciBzb21lIG90
+aGVyIG1lYW5zKSBpcyBzdGlsbCBkZXNpcmFibGUuDQoNCkkgYWxzbyBhZ3JlZSB0aGVyZSBpcyBu
+byByb2J1c3QgbWV0aG9kIHRvIGRldGVybWluZSBhICJnb29kIHZhbHVlIiwgYnV0DQp0aGVuIGFn
+YWluIC0gaG93IHdhcyB0aGUgY3VycmVudCB2YWx1ZSBmb3IgdGhlIGNvbnN0YW50IGRldGVybWlu
+ZWQ/IEFzDQpzdWdnZXN0ZWQgaW4gUEFUQ0ggMiwgdGhlIGlkZWEgaXMgdG8gbG93ZXIgdGhlIGds
+b2JhbCB0aW1lb3V0IHRvIGF2b2lkDQpodW5nIHRhc2tzIHdoZW4gZGV2aWNlcyBicmVhayBhbmQg
+bmV2ZXIgY29tZSBiYWNrIGFmdGVyIHJlc2V0Lg0KDQpMaW51eCBhbHJlYWR5IChwYXJ0aWFsbHkp
+IHN1cHBvcnRzIHRoZSBfRFNNIG1ldGhvZHMgeW91IG1lbnRpb246DQotIGFjcGlfcGNpX2FkZF9i
+dXMoKSBxdWVyaWVzIEZ1bmN0aW9uIDggKGRlc2NyaWJlZCBpbiA0LjYuOCkgdG8gc2V0DQogIGln
+bm9yZV9yZXNldF9kZWxheSBvbiB0aGUgaG9zdCBicmlkZ2UNCi0gcGNpX2FjcGlfb3B0aW1pemVf
+ZGVsYXkoKSB1c2VzIEZ1bmN0aW9uIDkgdG8gc2V0IGQzY29sZF9kZWxheSBhbmQgZDNfZGVsYXkN
+CiAgaW4gc3RydWN0IHBjaV9kZXYsIGJ1dCBkb2VzIG5vdCBjdXJyZW50bHkgc3RvcmUgdGhlIERM
+X1VwIFRpbWUsDQogIEZMUiBSZXNldCBUaW1lIGFuZCBWRiBFbmFibGUgVGltZQ0KSSBndWVzcyB3
+ZSBjYW4gZXh0ZW5kIHBjaV9zdHJ1Y3QgYWtpbiB0byB3aGF0IFBBVENIIDIgZG9lcyB0byBzdG9y
+ZSBhbGwNCnJlbGV2YW50IGRlbGF5IHZhbHVlcyBvbiBhIHBlci1kZXZpY2UgYmFzaXMsIHdpdGgg
+c29tZSBkZWZhdWx0IHZhbHVlIGFuZA0Kb3ZlcnJpZGluZyB0aGVtIGFzIGFwcHJvcHJpYXRlIGZy
+b20gUmVhZGluZXNzIFRpbWUgUmVwb3J0aW5nLCBfRFNNLCBvciBhIHF1aXJrLg0KDQpVbmZvcnR1
+bmF0ZWx5LCB0aGUgaGFyZHdhcmUgYW5kIGZpcm13YXJlIGF0IG15IGRpc3Bvc2FsIGRvZXMgbm90
+IHN1cHBvcnQNCmFueSBvZiB0aGUgZGlzY3Vzc2VkIG1lY2hhbmlzbXMsIHNvIEkgZG8gbm90IGZl
+ZWwgY29tZm9ydGFibGUgbWFraW5nIHRoZSBjaGFuZ2VzDQp3aXRob3V0IGJlaW5nIGFibGUgdG8g
+dGVzdCB0aGVtLg0KCgoKQW1hem9uIERldmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3Jh
+dXNlbnN0ci4gMzgKMTAxMTcgQmVybGluCkdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNj
+aGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MKRWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxv
+dHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3MyBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4OSAy
+MzcgODc5CgoK
 
