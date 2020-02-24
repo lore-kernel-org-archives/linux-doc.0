@@ -2,109 +2,67 @@ Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15009C38BE0
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 18:27:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9136BC38BE0
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 18:40:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DF0442084E
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 18:27:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582568877;
-	bh=umAnb5ekYeQXE5qdZwgUn2od2g+XRXhwSwaqS5+ud0w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=rU3k48ZOMZMv2IC8M6D3HdFApFFf05b9ab5ROpvG/i/VdHmBIGOrMWMyEIfWcsWnm
-	 2ESFesdmY60t+9tcNlZWs33D8yYMYLEjadDY/Isyb/OvgooTS94gOtJoR26ai994Bf
-	 xlpHhGKWk+mokhj2/E/juhnfP56EFfOtnrmc4cL8=
+	by mail.kernel.org (Postfix) with ESMTP id 6ADE020836
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 18:40:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727785AbgBXS15 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Feb 2020 13:27:57 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:34240 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727483AbgBXS15 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 13:27:57 -0500
-Received: by mail-oi1-f195.google.com with SMTP id l136so9885896oig.1;
-        Mon, 24 Feb 2020 10:27:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8b3MliEDFbDrUpBm8jGhwYqreoGs6m8FNnF/yNIueEU=;
-        b=BkRg2/6gEsYakveiAVaz5/SLu28xZ5uKrq6Zg22HgyTQAjavyWMUPy8gNAfUV4xorW
-         E++f5oMa/9O5R6BH3cxB/tP1qodo6qjrXebTii0dtv0aI9Q4qcn7fuXtC8DF8A1HGlOI
-         0PcZFnSVYDSJxwgi4xl53s550fCKeqh4rmkcykM17IsyJn1MZU6Po3uujNL1SWDFxkOW
-         kYRia9cw9SWa0lSLVJ49ng5z4RTTDYDuISpOExK1XcLnn8CDW6Mf41jIX/p+3KkGJsAS
-         Bvw4iR593L59oPXqYg2TPTOHhHwZ+YqmzHe9ip0zWM6ZdYyD3HIRnBed5GKcYXh/TRBL
-         +kmw==
-X-Gm-Message-State: APjAAAWzU2PAOj6NnKUk0FWL4zDcNmVEmfkyRHNsA2p6PVA9OADeof/1
-        CyzdZRNMreOwTzLvaZqPjQ==
-X-Google-Smtp-Source: APXvYqyzy4iiGXu+ZZ3t2yBP3j4K/yU2pKb0H/blTr6+iujeHVCL8mJihe7tO3CjLAVcADKqUCNWGQ==
-X-Received: by 2002:aca:bfc2:: with SMTP id p185mr318449oif.57.1582568876626;
-        Mon, 24 Feb 2020 10:27:56 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id v10sm4255017oic.32.2020.02.24.10.27.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 10:27:56 -0800 (PST)
-Received: (nullmailer pid 13156 invoked by uid 1000);
-        Mon, 24 Feb 2020 18:27:55 -0000
-Date:   Mon, 24 Feb 2020 12:27:55 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Piotr Sroka <piotrs@cadence.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Olivier Moysan <olivier.moysan@st.com>,
-        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-        netdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: Re: [PATCH] docs: dt: fix several broken doc references
-Message-ID: <20200224182755.GB27161@bogus>
-References: <0e530494349b37eb2eab4a8eccf56626e0b18e6d.1582448388.git.mchehab+huawei@kernel.org>
+        id S1728056AbgBXSkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Feb 2020 13:40:16 -0500
+Received: from foss.arm.com ([217.140.110.172]:41732 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727426AbgBXSkQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Feb 2020 13:40:16 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D4EA1FB;
+        Mon, 24 Feb 2020 10:40:16 -0800 (PST)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CFB0F3F703;
+        Mon, 24 Feb 2020 10:40:13 -0800 (PST)
+References: <20200224141142.25445-1-ionela.voinescu@arm.com> <20200224141142.25445-2-ionela.voinescu@arm.com>
+User-agent: mu4e 0.9.17; emacs 26.3
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Ionela Voinescu <ionela.voinescu@arm.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
+        lukasz.luba@arm.com, dietmar.eggemann@arm.com, rjw@rjwysocki.net,
+        peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
+        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v4 1/7] arm64: add support for the AMU extension v1
+Message-ID: <jhjpne3ygmm.fsf@arm.com>
+In-reply-to: <20200224141142.25445-2-ionela.voinescu@arm.com>
+Date:   Mon, 24 Feb 2020 18:39:37 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0e530494349b37eb2eab4a8eccf56626e0b18e6d.1582448388.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 23, 2020 at 09:59:53AM +0100, Mauro Carvalho Chehab wrote:
-> There are several DT doc references that require manual fixes.
-> I found 3 cases fixed on this patch:
-> 
-> 	- directory named "binding/" instead of "bindings/";
-> 	- .txt to .yaml renames;
-> 	- file renames (still on txt format);
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../devicetree/bindings/mtd/cadence-nand-controller.txt       | 2 +-
->  .../devicetree/bindings/net/brcm,bcm7445-switch-v4.0.txt      | 2 +-
->  Documentation/devicetree/bindings/sound/st,stm32-sai.txt      | 2 +-
->  Documentation/devicetree/bindings/sound/st,stm32-spdifrx.txt  | 2 +-
->  Documentation/devicetree/bindings/spi/st,stm32-spi.yaml       | 2 +-
->  MAINTAINERS                                                   | 4 ++--
->  .../devicetree/bindings/net/wireless/siliabs,wfx.txt          | 2 +-
->  7 files changed, 8 insertions(+), 8 deletions(-)
+Ionela Voinescu writes:
 
-Applied.
+> The activity monitors extension is an optional extension introduced
+> by the ARMv8.4 CPU architecture. This implements basic support for
+> version 1 of the activity monitors architecture, AMUv1.
+>
+> This support includes:
+> - Extension detection on each CPU (boot, secondary, hotplugged)
+> - Register interface for AMU aarch64 registers
+> - amu=[0/1/on/off/y/n] kernel parameter to disable detection and
+>   counter access at runtime
+>
+> Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
 
-Rob
+Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
