@@ -2,112 +2,127 @@ Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77328C35671
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 12:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD41C11D3B
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 13:08:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4B77120838
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 12:36:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECA4321775
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 13:08:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="kYnMWbko"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="J8OaXTwY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727429AbgBXMgf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Feb 2020 07:36:35 -0500
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:63149 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727351AbgBXMge (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 07:36:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1582547795; x=1614083795;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=O8LGBsnXgijOOUtrnFOXnfiw5ca+3nT7gjvYhrB43+o=;
-  b=kYnMWbkoDQfotnqQIHuFuKICeA30lEXDUA4+E1RnrZR8o6thWlRw0xLg
-   JgL19DgzYJXoxkAq0wnKn7alXNN9uv5N+jib+q5Pv3mS37JzM02Sl5KZk
-   AKOzD4WG0ygUPKi+vjKx7oBrFPjuI4g9WCt046XpkLkDvP8EFUvfczP0K
-   U=;
-IronPort-SDR: 7MmmB4teexlrOucahk/xGCtElV29EAjQsDV2YuRCtqVuWZD20xfSluwlg7rRaeIbWsax3HYxMr
- ltIafHMfn3Fg==
-X-IronPort-AV: E=Sophos;i="5.70,480,1574121600"; 
-   d="scan'208";a="18295746"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-c300ac87.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 24 Feb 2020 12:36:32 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2b-c300ac87.us-west-2.amazon.com (Postfix) with ESMTPS id D4385A2479;
-        Mon, 24 Feb 2020 12:36:29 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Mon, 24 Feb 2020 12:36:29 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.53) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Mon, 24 Feb 2020 12:36:17 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <aarcange@redhat.com>,
-        <yang.shi@linux.alibaba.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 14/14] MAINTAINERS: Update for DAMON
-Date:   Mon, 24 Feb 2020 13:30:47 +0100
-Message-ID: <20200224123047.32506-15-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200224123047.32506-1-sjpark@amazon.com>
-References: <20200224123047.32506-1-sjpark@amazon.com>
+        id S1727681AbgBXNIM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Feb 2020 08:08:12 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:37492 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727329AbgBXNIK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 08:08:10 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01OD7CsK028839;
+        Mon, 24 Feb 2020 07:07:12 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1582549632;
+        bh=Tx9NLTynxh7HMA5VHJWXsAof1AdXnE/KAs53Nqq7E70=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=J8OaXTwY6rJidCznLf2G/vSUju+4HU3kRW0QV+CMkL2fpPxI5mFwt5l1u7GY1i0cK
+         fhdwF15G4WtYxb0NBQQmKRDL/VCrdAXaZORkAKh4uNPMzhrjf4desB5yiRBKSQYI5e
+         lr23otClWqEaN2djtLEvvM3O3oRjPmZTJi+w6edQ=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01OD7CFB102821
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 24 Feb 2020 07:07:12 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 24
+ Feb 2020 07:07:11 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 24 Feb 2020 07:07:12 -0600
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01OD7B3m002482;
+        Mon, 24 Feb 2020 07:07:11 -0600
+Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to
+ renames
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Jyri Sarha <jsarha@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Stuart Yoder <stuyoder@gmail.com>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-leds@vger.kernel.org>, <linux-aspeed@lists.ozlabs.org>,
+        <openbmc@lists.ozlabs.org>, <linux-gpio@vger.kernel.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-pm@vger.kernel.org>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+ <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <e9ae8125-3f8f-5f8c-c19c-34ac1bb5c982@ti.com>
+Date:   Mon, 24 Feb 2020 07:02:01 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.53]
-X-ClientProxiedBy: EX13D19UWC003.ant.amazon.com (10.43.162.184) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+Mauro
 
-This commit updates MAINTAINERS file for DAMON related files.
+On 2/22/20 3:00 AM, Mauro Carvalho Chehab wrote:
+> Several DT references got broken due to txt->yaml conversion.
+>
+> Those are auto-fixed by running:
+>
+> 	scripts/documentation-file-ref-check --fix
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>   Documentation/devicetree/bindings/arm/arm,scmi.txt        | 2 +-
+>   Documentation/devicetree/bindings/arm/arm,scpi.txt        | 2 +-
+>   .../devicetree/bindings/arm/bcm/brcm,bcm63138.txt         | 2 +-
+>   .../devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt  | 2 +-
+>   .../devicetree/bindings/arm/msm/qcom,idle-state.txt       | 2 +-
+>   Documentation/devicetree/bindings/arm/omap/mpu.txt        | 2 +-
+>   Documentation/devicetree/bindings/arm/psci.yaml           | 2 +-
+>   .../devicetree/bindings/clock/qcom,gcc-apq8064.yaml       | 2 +-
+>   .../devicetree/bindings/display/tilcdc/tilcdc.txt         | 2 +-
+>   Documentation/devicetree/bindings/leds/common.yaml        | 2 +-
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+For LEDs
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 56765f542244..422c86f64cdd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4611,6 +4611,18 @@ F:	net/ax25/ax25_out.c
- F:	net/ax25/ax25_timer.c
- F:	net/ax25/sysctl_net_ax25.c
- 
-+DATA ACCESS MONITOR
-+M:	SeongJae Park <sjpark@amazon.de>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	Documentation/admin-guide/mm/data_access_monitor.rst
-+F:	include/linux/damon.h
-+F:	include/trace/events/damon.h
-+F:	mm/damon-test.h
-+F:	mm/damon.c
-+F:	tools/damon/*
-+F:	tools/testing/selftests/damon/*
-+
- DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
- L:	netdev@vger.kernel.org
- S:	Orphan
--- 
-2.17.1
+Reviewed-by: Dan Murphy <dmurphy@ti.com>
+
 
