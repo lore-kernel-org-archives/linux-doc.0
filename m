@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53CC4C11D2F
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:12:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63C79C11D2F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:13:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2BC9D20836
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:12:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 419342072D
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:13:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727677AbgBXOMo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Feb 2020 09:12:44 -0500
-Received: from foss.arm.com ([217.140.110.172]:37640 "EHLO foss.arm.com"
+        id S1727796AbgBXONB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Feb 2020 09:13:01 -0500
+Received: from foss.arm.com ([217.140.110.172]:37732 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727616AbgBXOMo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Feb 2020 09:12:44 -0500
+        id S1727426AbgBXONA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Feb 2020 09:13:00 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A85F31B;
-        Mon, 24 Feb 2020 06:12:43 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD37530E;
+        Mon, 24 Feb 2020 06:12:59 -0800 (PST)
 Received: from e108754-lin.cambridge.arm.com (unknown [10.1.198.53])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EABCB3F534;
-        Mon, 24 Feb 2020 06:12:40 -0800 (PST)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6090F3F534;
+        Mon, 24 Feb 2020 06:12:57 -0800 (PST)
 From:   Ionela Voinescu <ionela.voinescu@arm.com>
 To:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
         maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
@@ -33,11 +33,10 @@ To:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
 Cc:     peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
         viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>
-Subject: [PATCH v4 3/7] arm64/kvm: disable access to AMU registers from kvm guests
-Date:   Mon, 24 Feb 2020 14:11:38 +0000
-Message-Id: <20200224141142.25445-4-ionela.voinescu@arm.com>
+        linux-pm@vger.kernel.org
+Subject: [PATCH v4 7/7] clocksource/drivers/arm_arch_timer: validate arch_timer_rate
+Date:   Mon, 24 Feb 2020 14:11:42 +0000
+Message-Id: <20200224141142.25445-8-ionela.voinescu@arm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200224141142.25445-1-ionela.voinescu@arm.com>
 References: <20200224141142.25445-1-ionela.voinescu@arm.com>
@@ -46,195 +45,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Access to the AMU counters should be disabled by default in kvm guests,
-as information from the counters might reveal activity in other guests
-or activity on the host.
+Using an arch timer with a frequency of less than 1MHz can potentially
+result in incorrect functionality in systems that assume a reasonable
+rate of the arch timer of 1 to 50MHz, described as typical in the
+architecture specification.
 
-Therefore, disable access to AMU registers from EL0 and EL1 in kvm
-guests by:
- - Hiding the presence of the extension in the feature register
-   (SYS_ID_AA64PFR0_EL1) on the VCPU.
- - Disabling access to the AMU registers before switching to the guest.
- - Trapping accesses and injecting an undefined instruction into the
-   guest.
+Therefore, warn if the arch timer rate is below 1MHz, which is
+considered atypical and worth emphasizing.
 
 Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
-Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Suggested-by: Valentin Schneider <valentin.schneider@arm.com>
+Acked-by: Marc Zyngier <maz@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: Marc Zyngier <maz@kernel.org>
-Cc: James Morse <james.morse@arm.com>
-Cc: Julien Thierry <julien.thierry.kdev@gmail.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
 ---
- arch/arm64/include/asm/kvm_arm.h |  1 +
- arch/arm64/kvm/hyp/switch.c      | 14 ++++-
- arch/arm64/kvm/sys_regs.c        | 93 +++++++++++++++++++++++++++++++-
- 3 files changed, 105 insertions(+), 3 deletions(-)
+ drivers/clocksource/arm_arch_timer.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/include/asm/kvm_arm.h b/arch/arm64/include/asm/kvm_arm.h
-index 6e5d839f42b5..51c1d9918999 100644
---- a/arch/arm64/include/asm/kvm_arm.h
-+++ b/arch/arm64/include/asm/kvm_arm.h
-@@ -267,6 +267,7 @@
+diff --git a/drivers/clocksource/arm_arch_timer.c b/drivers/clocksource/arm_arch_timer.c
+index 9a5464c625b4..4faa930eabf8 100644
+--- a/drivers/clocksource/arm_arch_timer.c
++++ b/drivers/clocksource/arm_arch_timer.c
+@@ -885,6 +885,17 @@ static int arch_timer_starting_cpu(unsigned int cpu)
+ 	return 0;
+ }
  
- /* Hyp Coprocessor Trap Register */
- #define CPTR_EL2_TCPAC	(1 << 31)
-+#define CPTR_EL2_TAM	(1 << 30)
- #define CPTR_EL2_TTA	(1 << 20)
- #define CPTR_EL2_TFP	(1 << CPTR_EL2_TFP_SHIFT)
- #define CPTR_EL2_TZ	(1 << 8)
-diff --git a/arch/arm64/kvm/hyp/switch.c b/arch/arm64/kvm/hyp/switch.c
-index 72fbbd86eb5e..11b43a365743 100644
---- a/arch/arm64/kvm/hyp/switch.c
-+++ b/arch/arm64/kvm/hyp/switch.c
-@@ -90,6 +90,18 @@ static void activate_traps_vhe(struct kvm_vcpu *vcpu)
- 	val = read_sysreg(cpacr_el1);
- 	val |= CPACR_EL1_TTA;
- 	val &= ~CPACR_EL1_ZEN;
-+
-+	/*
-+	 * With VHE (HCR.E2H == 1), accesses to CPACR_EL1 are routed to
-+	 * CPTR_EL2. In general, CPACR_EL1 has the same layout as CPTR_EL2,
-+	 * except for some missing controls, such as TAM.
-+	 * In this case, CPTR_EL2.TAM has the same position with or without
-+	 * VHE (HCR.E2H == 1) which allows us to use here the CPTR_EL2.TAM
-+	 * shift value for trapping the AMU accesses.
-+	 */
-+
-+	val |= CPTR_EL2_TAM;
-+
- 	if (update_fp_enabled(vcpu)) {
- 		if (vcpu_has_sve(vcpu))
- 			val |= CPACR_EL1_ZEN;
-@@ -111,7 +123,7 @@ static void __hyp_text __activate_traps_nvhe(struct kvm_vcpu *vcpu)
- 	__activate_traps_common(vcpu);
- 
- 	val = CPTR_EL2_DEFAULT;
--	val |= CPTR_EL2_TTA | CPTR_EL2_TZ;
-+	val |= CPTR_EL2_TTA | CPTR_EL2_TZ | CPTR_EL2_TAM;
- 	if (!update_fp_enabled(vcpu)) {
- 		val |= CPTR_EL2_TFP;
- 		__activate_traps_fpsimd32(vcpu);
-diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index 9f2165937f7d..adeaa65a4cf0 100644
---- a/arch/arm64/kvm/sys_regs.c
-+++ b/arch/arm64/kvm/sys_regs.c
-@@ -1003,6 +1003,20 @@ static bool access_pmuserenr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
- 	{ SYS_DESC(SYS_PMEVTYPERn_EL0(n)),					\
- 	  access_pmu_evtyper, reset_unknown, (PMEVTYPER0_EL0 + n), }
- 
-+static bool access_amu(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
-+			     const struct sys_reg_desc *r)
++static int validate_timer_rate(void)
 +{
-+	kvm_inject_undefined(vcpu);
++	if (!arch_timer_rate)
++		return -EINVAL;
 +
-+	return false;
++	/* Arch timer frequency < 1MHz can cause trouble */
++	WARN_ON(arch_timer_rate < 1000000);
++
++	return 0;
 +}
 +
-+/* Macro to expand the AMU counter and type registers*/
-+#define AMU_AMEVCNTR0_EL0(n) { SYS_DESC(SYS_AMEVCNTR0_EL0(n)), access_amu }
-+#define AMU_AMEVTYPE0_EL0(n) { SYS_DESC(SYS_AMEVTYPE0_EL0(n)), access_amu }
-+#define AMU_AMEVCNTR1_EL0(n) { SYS_DESC(SYS_AMEVCNTR1_EL0(n)), access_amu }
-+#define AMU_AMEVTYPE1_EL0(n) { SYS_DESC(SYS_AMEVTYPE1_EL0(n)), access_amu }
-+
- static bool trap_ptrauth(struct kvm_vcpu *vcpu,
- 			 struct sys_reg_params *p,
- 			 const struct sys_reg_desc *rd)
-@@ -1078,8 +1092,10 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
- 			 (u32)r->CRn, (u32)r->CRm, (u32)r->Op2);
- 	u64 val = raz ? 0 : read_sanitised_ftr_reg(id);
+ /*
+  * For historical reasons, when probing with DT we use whichever (non-zero)
+  * rate was probed first, and don't verify that others match. If the first node
+@@ -900,7 +911,7 @@ static void arch_timer_of_configure_rate(u32 rate, struct device_node *np)
+ 		arch_timer_rate = rate;
  
--	if (id == SYS_ID_AA64PFR0_EL1 && !vcpu_has_sve(vcpu)) {
--		val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
-+	if (id == SYS_ID_AA64PFR0_EL1) {
-+		if (!vcpu_has_sve(vcpu))
-+			val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
-+		val &= ~(0xfUL << ID_AA64PFR0_AMU_SHIFT);
- 	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
- 		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
- 			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
-@@ -1565,6 +1581,79 @@ static const struct sys_reg_desc sys_reg_descs[] = {
- 	{ SYS_DESC(SYS_TPIDR_EL0), NULL, reset_unknown, TPIDR_EL0 },
- 	{ SYS_DESC(SYS_TPIDRRO_EL0), NULL, reset_unknown, TPIDRRO_EL0 },
+ 	/* Check the timer frequency. */
+-	if (arch_timer_rate == 0)
++	if (validate_timer_rate())
+ 		pr_warn("frequency not available\n");
+ }
  
-+	{ SYS_DESC(SYS_AMCR_EL0), access_amu },
-+	{ SYS_DESC(SYS_AMCFGR_EL0), access_amu },
-+	{ SYS_DESC(SYS_AMCGCR_EL0), access_amu },
-+	{ SYS_DESC(SYS_AMUSERENR_EL0), access_amu },
-+	{ SYS_DESC(SYS_AMCNTENCLR0_EL0), access_amu },
-+	{ SYS_DESC(SYS_AMCNTENSET0_EL0), access_amu },
-+	{ SYS_DESC(SYS_AMCNTENCLR1_EL0), access_amu },
-+	{ SYS_DESC(SYS_AMCNTENSET1_EL0), access_amu },
-+	AMU_AMEVCNTR0_EL0(0),
-+	AMU_AMEVCNTR0_EL0(1),
-+	AMU_AMEVCNTR0_EL0(2),
-+	AMU_AMEVCNTR0_EL0(3),
-+	AMU_AMEVCNTR0_EL0(4),
-+	AMU_AMEVCNTR0_EL0(5),
-+	AMU_AMEVCNTR0_EL0(6),
-+	AMU_AMEVCNTR0_EL0(7),
-+	AMU_AMEVCNTR0_EL0(8),
-+	AMU_AMEVCNTR0_EL0(9),
-+	AMU_AMEVCNTR0_EL0(10),
-+	AMU_AMEVCNTR0_EL0(11),
-+	AMU_AMEVCNTR0_EL0(12),
-+	AMU_AMEVCNTR0_EL0(13),
-+	AMU_AMEVCNTR0_EL0(14),
-+	AMU_AMEVCNTR0_EL0(15),
-+	AMU_AMEVTYPE0_EL0(0),
-+	AMU_AMEVTYPE0_EL0(1),
-+	AMU_AMEVTYPE0_EL0(2),
-+	AMU_AMEVTYPE0_EL0(3),
-+	AMU_AMEVTYPE0_EL0(4),
-+	AMU_AMEVTYPE0_EL0(5),
-+	AMU_AMEVTYPE0_EL0(6),
-+	AMU_AMEVTYPE0_EL0(7),
-+	AMU_AMEVTYPE0_EL0(8),
-+	AMU_AMEVTYPE0_EL0(9),
-+	AMU_AMEVTYPE0_EL0(10),
-+	AMU_AMEVTYPE0_EL0(11),
-+	AMU_AMEVTYPE0_EL0(12),
-+	AMU_AMEVTYPE0_EL0(13),
-+	AMU_AMEVTYPE0_EL0(14),
-+	AMU_AMEVTYPE0_EL0(15),
-+	AMU_AMEVCNTR1_EL0(0),
-+	AMU_AMEVCNTR1_EL0(1),
-+	AMU_AMEVCNTR1_EL0(2),
-+	AMU_AMEVCNTR1_EL0(3),
-+	AMU_AMEVCNTR1_EL0(4),
-+	AMU_AMEVCNTR1_EL0(5),
-+	AMU_AMEVCNTR1_EL0(6),
-+	AMU_AMEVCNTR1_EL0(7),
-+	AMU_AMEVCNTR1_EL0(8),
-+	AMU_AMEVCNTR1_EL0(9),
-+	AMU_AMEVCNTR1_EL0(10),
-+	AMU_AMEVCNTR1_EL0(11),
-+	AMU_AMEVCNTR1_EL0(12),
-+	AMU_AMEVCNTR1_EL0(13),
-+	AMU_AMEVCNTR1_EL0(14),
-+	AMU_AMEVCNTR1_EL0(15),
-+	AMU_AMEVTYPE1_EL0(0),
-+	AMU_AMEVTYPE1_EL0(1),
-+	AMU_AMEVTYPE1_EL0(2),
-+	AMU_AMEVTYPE1_EL0(3),
-+	AMU_AMEVTYPE1_EL0(4),
-+	AMU_AMEVTYPE1_EL0(5),
-+	AMU_AMEVTYPE1_EL0(6),
-+	AMU_AMEVTYPE1_EL0(7),
-+	AMU_AMEVTYPE1_EL0(8),
-+	AMU_AMEVTYPE1_EL0(9),
-+	AMU_AMEVTYPE1_EL0(10),
-+	AMU_AMEVTYPE1_EL0(11),
-+	AMU_AMEVTYPE1_EL0(12),
-+	AMU_AMEVTYPE1_EL0(13),
-+	AMU_AMEVTYPE1_EL0(14),
-+	AMU_AMEVTYPE1_EL0(15),
-+
- 	{ SYS_DESC(SYS_CNTP_TVAL_EL0), access_arch_timer },
- 	{ SYS_DESC(SYS_CNTP_CTL_EL0), access_arch_timer },
- 	{ SYS_DESC(SYS_CNTP_CVAL_EL0), access_arch_timer },
+@@ -1594,9 +1605,10 @@ static int __init arch_timer_acpi_init(struct acpi_table_header *table)
+ 	 * CNTFRQ value. This *must* be correct.
+ 	 */
+ 	arch_timer_rate = arch_timer_get_cntfrq();
+-	if (!arch_timer_rate) {
++	ret = validate_timer_rate();
++	if (ret) {
+ 		pr_err(FW_BUG "frequency not available.\n");
+-		return -EINVAL;
++		return ret;
+ 	}
+ 
+ 	arch_timer_uses_ppi = arch_timer_select_ppi();
 -- 
 2.17.1
 
