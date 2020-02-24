@@ -2,164 +2,241 @@ Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E33A4C11D34
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:15:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F02C11D37
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:55:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BA9E62082F
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582553756;
-	bh=XCz98vLZW6w/xNhdXjYLn54ZixK2JilGaitOtPGmMvs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
-	b=pxpA1yEEK/qoptx1HhcUVo2jzJKpc1x5ty87oDw8inZ/ieOAbjiaVq9haXqJujDi2
-	 PCoOQo9xXh1x/XYA0HTcQUxMqTvbRG1uKWNGZk5y4K0ZS53URGYvBEpZ26gXoyQaOa
-	 NU4I/RwMxCsXy7O8ZCsbjTmTJWMEWBWmuQRF/H5A=
+	by mail.kernel.org (Postfix) with ESMTP id D54F220838
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:55:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=verdurent-com.20150623.gappssmtp.com header.i=@verdurent-com.20150623.gappssmtp.com header.b="tTyvRsQ3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727489AbgBXOP4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Feb 2020 09:15:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33716 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727581AbgBXOPz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Feb 2020 09:15:55 -0500
-Received: from localhost (52.sub-174-234-140.myvzw.com [174.234.140.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B01D520880;
-        Mon, 24 Feb 2020 14:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582553754;
-        bh=XCz98vLZW6w/xNhdXjYLn54ZixK2JilGaitOtPGmMvs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=CiqJ30OyI8S16FM0s04k11u8hdvW/ESmAR0LgjcOX3sDn0jmkQnhIKAK+66JUKaJl
-         TcnQ17I7B1cjisYZGQP23ile5qHfOKb+aY2TPcwFmbrG7ppVrUmQOJ4ZHd3a3NdLGg
-         Z+FB1pzImqT5cmXjYfSJSAMfBWz1JpYVsppB54z8=
-Date:   Mon, 24 Feb 2020 08:15:51 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Stanislav Spassov <stanspas@amazon.com>
-Cc:     linux-pci@vger.kernel.org, Stanislav Spassov <stanspas@amazon.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jan H =?iso-8859-1?Q?=2E_Sch=F6nherr?= <jschoenh@amazon.de>,
-        Wei Wang <wawei@amazon.de>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Ashok Raj <ashok.raj@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Sinan Kaya <okaya@kernel.org>, Rajat Jain <rajatja@google.com>
-Subject: Re: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
-Message-ID: <20200224141551.GA217704@google.com>
+        id S1727498AbgBXOzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Feb 2020 09:55:19 -0500
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:34725 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727619AbgBXOzT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 09:55:19 -0500
+Received: by mail-vs1-f67.google.com with SMTP id g15so5846301vsf.1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2020 06:55:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=verdurent-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nf8Hhdqzm/gWtkB0ZWHb2rHYmerMHbHruZ0Ukrv/hp8=;
+        b=tTyvRsQ3w0ChPxDQdkv7glQk3wtPZb10J3tAyqqzoRHQ8KPQTGzEw7zNYCRWKnZ4q/
+         Sp8M/ZgkeF0DtmsdSoX/jaS9Cj+6QBjmmTRJVhrc7HoP/5FhbIeVVDjpdF5PLkBe58vj
+         ts7HWtfrr72NlXIevmGqHAfZoSQtS3kdP0RkKaH9LgNtDi+gsiTvRDUVyaaRZ9aMGbcK
+         nWLTioIrgs3f4ikzwkQv7LsyiNYZ06XlkRhH7duzXqdMOUtinyzy3B9nZHXoHNW2BDly
+         Q6PiovLQ+WSUH/5StMinuKTlSvTQU7SMVrsaqT4aYLh+Nu8jmjojFJaax3RoAahqLwvZ
+         0NHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nf8Hhdqzm/gWtkB0ZWHb2rHYmerMHbHruZ0Ukrv/hp8=;
+        b=KAUx1A6Vh4fBPmGcAVPawuSz9vJxTJp69uKwXOZYd+8M6ozUXD8Np1Hg/e+Jg4rDjg
+         7vZH+0zp9rdIlo9TtXVzGwTKhEo9TflWr14abHpAT5L/ALkLLC1drJanHsYWLLrdFGjp
+         87zPzM+LOTZAjcML4iN8K25QEUOhJHM4xuWoeQbag9Y+xlDK5zicWp0q0V6uYYd5Yurk
+         yU3mx2OJLiR4yUTeWV0ArWW2Vs3QBCnHq5zBRExYnekd27yl6pAdl+DC0/IOslNUWHYV
+         j4sSDw41rB4RFBBXuaga22lPeX60BAzZVQeBdKd+Vg98oQ2LRAbfVxlTtIhbzs/DSl93
+         xFow==
+X-Gm-Message-State: APjAAAWaQ292J3H0FSjjgD5Dwm1Rsh08r4H6UHoWAkKNe9n4krE7bibQ
+        ou5T69PZD0WERSn39fvv9x7pgck/2AuSjNLt0gonIQ==
+X-Google-Smtp-Source: APXvYqwle+5L5EqgMdMX2NFSAUa3m6tBXE9trHhUlWTILDVFPKISTVy7qlGqCRTcc9lNxiPA7RF35oJihsqFh//dkI4=
+X-Received: by 2002:a05:6102:535:: with SMTP id m21mr25212006vsa.95.1582556116187;
+ Mon, 24 Feb 2020 06:55:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200223122057.6504-2-stanspas@amazon.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1582361737.git.mchehab+huawei@kernel.org> <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+From:   Amit Kucheria <amit.kucheria@verdurent.com>
+Date:   Mon, 24 Feb 2020 20:25:05 +0530
+Message-ID: <CAHLCerP_UW-6CdaOziHTY01cD_6Ou4h0Jj6mOJKj60P4GL9H=w@mail.gmail.com>
+Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to renames
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Jyri Sarha <jsarha@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Stuart Yoder <stuyoder@gmail.com>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        lakml <linux-arm-kernel@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        linux-leds@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org, linux-gpio@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Linux PM list <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+cc Ashok, Alex, Sinan, Rajat]
-
-On Sun, Feb 23, 2020 at 01:20:55PM +0100, Stanislav Spassov wrote:
-> From: Wei Wang <wawei@amazon.de>
-> 
-> The resonable value for the maximum time to wait for a PCI device to be
-> ready after reset varies depending on the platform and the reliability
-> of its set of devices.
-
-There are several mechanisms in the spec for reducing these times,
-e.g., Readiness Notifications (PCIe r5.0, sec 6.23), the Readiness
-Time Reporting capability (sec 7.9.17), and ACPI _DSM methods (PCI
-Firmware Spec r3.2, sec 4.6.8, 4.6.9).
-
-I would much rather use standard mechanisms like those instead of
-adding kernel parameters.  A user would have to use trial and error
-to figure out the value to use with a parameter like this, and that
-doesn't feel like a robust approach.
-
-> Signed-off-by: Wei Wang <wawei@amazon.de>
-> Signed-off-by: Stanislav Spassov <stanspas@amazon.de>
+On Sat, Feb 22, 2020 at 2:30 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Several DT references got broken due to txt->yaml conversion.
+>
+> Those are auto-fixed by running:
+>
+>         scripts/documentation-file-ref-check --fix
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  .../admin-guide/kernel-parameters.txt         |  5 +++++
->  drivers/pci/pci.c                             | 22 ++++++++++++++-----
->  2 files changed, 22 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index dbc22d684627..5e4dade9acc8 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3653,6 +3653,11 @@
->  		nomsi	Do not use MSI for native PCIe PME signaling (this makes
->  			all PCIe root ports use INTx for all services).
->  
-> +	pcie_reset_ready_poll_ms= [PCI,PCIE]
-> +			Specifies timeout for PCI(e) device readiness polling
-> +			after device reset (in milliseconds).
-> +			Default: 60000 = 60 seconds
-> +
->  	pcmv=		[HW,PCMCIA] BadgePAD 4
->  
->  	pd_ignore_unused
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index d828ca835a98..db9b58ab6c68 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -149,7 +149,19 @@ static int __init pcie_port_pm_setup(char *str)
->  __setup("pcie_port_pm=", pcie_port_pm_setup);
->  
->  /* Time to wait after a reset for device to become responsive */
-> -#define PCIE_RESET_READY_POLL_MS 60000
-> +#define PCIE_RESET_READY_POLL_MS_DEFAULT 60000
-> +
-> +int __read_mostly pcie_reset_ready_poll_ms = PCIE_RESET_READY_POLL_MS_DEFAULT;
-> +
-> +static int __init pcie_reset_ready_poll_ms_setup(char *str)
-> +{
-> +	int timeout;
-> +
-> +	if (!kstrtoint(str, 0, &timeout))
-> +		pcie_reset_ready_poll_ms = timeout;
-> +	return 1;
-> +}
-> +__setup("pcie_reset_ready_poll_ms=", pcie_reset_ready_poll_ms_setup);
->  
->  /**
->   * pci_bus_max_busnr - returns maximum PCI bus number of given bus' children
-> @@ -4506,7 +4518,7 @@ int pcie_flr(struct pci_dev *dev)
->  	 */
->  	msleep(100);
->  
-> -	return pci_dev_wait(dev, "FLR", PCIE_RESET_READY_POLL_MS);
-> +	return pci_dev_wait(dev, "FLR", pcie_reset_ready_poll_ms);
->  }
->  EXPORT_SYMBOL_GPL(pcie_flr);
->  
-> @@ -4551,7 +4563,7 @@ static int pci_af_flr(struct pci_dev *dev, int probe)
->  	 */
->  	msleep(100);
->  
-> -	return pci_dev_wait(dev, "AF_FLR", PCIE_RESET_READY_POLL_MS);
-> +	return pci_dev_wait(dev, "AF_FLR", pcie_reset_ready_poll_ms);
->  }
->  
->  /**
-> @@ -4596,7 +4608,7 @@ static int pci_pm_reset(struct pci_dev *dev, int probe)
->  	pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, csr);
->  	pci_dev_d3_sleep(dev);
->  
-> -	return pci_dev_wait(dev, "PM D3hot->D0", PCIE_RESET_READY_POLL_MS);
-> +	return pci_dev_wait(dev, "PM D3hot->D0", pcie_reset_ready_poll_ms);
->  }
->  
->  /**
-> @@ -4826,7 +4838,7 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev)
->  {
->  	pcibios_reset_secondary_bus(dev);
->  
-> -	return pci_dev_wait(dev, "bus reset", PCIE_RESET_READY_POLL_MS);
-> +	return pci_dev_wait(dev, "bus reset", pcie_reset_ready_poll_ms);
->  }
->  EXPORT_SYMBOL_GPL(pci_bridge_secondary_bus_reset);
+>  Documentation/devicetree/bindings/arm/arm,scmi.txt        | 2 +-
+>  Documentation/devicetree/bindings/arm/arm,scpi.txt        | 2 +-
+>  .../devicetree/bindings/arm/bcm/brcm,bcm63138.txt         | 2 +-
+>  .../devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt  | 2 +-
+>  .../devicetree/bindings/arm/msm/qcom,idle-state.txt       | 2 +-
+
+For qcom idle state and ..
+
+>  Documentation/devicetree/bindings/arm/omap/mpu.txt        | 2 +-
+>  Documentation/devicetree/bindings/arm/psci.yaml           | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-apq8064.yaml       | 2 +-
+
+For qcom tsens,
+
+Reviewed-by: Amit Kucheria <amit.kucheria@linaro.org>
+
+>  .../devicetree/bindings/display/tilcdc/tilcdc.txt         | 2 +-
+>  Documentation/devicetree/bindings/leds/common.yaml        | 2 +-
+>  .../devicetree/bindings/leds/register-bit-led.txt         | 2 +-
+>  .../devicetree/bindings/memory-controllers/ti/emif.txt    | 2 +-
+>  Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt   | 2 +-
+>  .../bindings/pinctrl/aspeed,ast2400-pinctrl.yaml          | 2 +-
+>  .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml          | 2 +-
+>  .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml          | 2 +-
+>  .../devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml  | 2 +-
+>  .../devicetree/bindings/reset/st,stm32mp1-rcc.txt         | 2 +-
+>  .../devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml  | 2 +-
+>  MAINTAINERS                                               | 8 ++++----
+>  20 files changed, 23 insertions(+), 23 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/arm/arm,scmi.txt b/Documentation/devicetree/bindings/arm/arm,scmi.txt
+> index f493d69e6194..dc102c4e4a78 100644
+> --- a/Documentation/devicetree/bindings/arm/arm,scmi.txt
+> +++ b/Documentation/devicetree/bindings/arm/arm,scmi.txt
+> @@ -102,7 +102,7 @@ Required sub-node properties:
+>  [1] Documentation/devicetree/bindings/clock/clock-bindings.txt
+>  [2] Documentation/devicetree/bindings/power/power-domain.yaml
+>  [3] Documentation/devicetree/bindings/thermal/thermal.txt
+> -[4] Documentation/devicetree/bindings/sram/sram.txt
+> +[4] Documentation/devicetree/bindings/sram/sram.yaml
+>  [5] Documentation/devicetree/bindings/reset/reset.txt
+>
+>  Example:
+> diff --git a/Documentation/devicetree/bindings/arm/arm,scpi.txt b/Documentation/devicetree/bindings/arm/arm,scpi.txt
+> index 7b83ef43b418..dd04d9d9a1b8 100644
+> --- a/Documentation/devicetree/bindings/arm/arm,scpi.txt
+> +++ b/Documentation/devicetree/bindings/arm/arm,scpi.txt
+> @@ -109,7 +109,7 @@ Required properties:
+>  [0] http://infocenter.arm.com/help/topic/com.arm.doc.dui0922b/index.html
+>  [1] Documentation/devicetree/bindings/clock/clock-bindings.txt
+>  [2] Documentation/devicetree/bindings/thermal/thermal.txt
+> -[3] Documentation/devicetree/bindings/sram/sram.txt
+> +[3] Documentation/devicetree/bindings/sram/sram.yaml
+>  [4] Documentation/devicetree/bindings/power/power-domain.yaml
+>
+>  Example:
+> diff --git a/Documentation/devicetree/bindings/arm/bcm/brcm,bcm63138.txt b/Documentation/devicetree/bindings/arm/bcm/brcm,bcm63138.txt
+> index b82b6a0ae6f7..8c7a4908a849 100644
+> --- a/Documentation/devicetree/bindings/arm/bcm/brcm,bcm63138.txt
+> +++ b/Documentation/devicetree/bindings/arm/bcm/brcm,bcm63138.txt
+> @@ -62,7 +62,7 @@ Timer node:
+>
+>  Syscon reboot node:
+>
+> -See Documentation/devicetree/bindings/power/reset/syscon-reboot.txt for the
+> +See Documentation/devicetree/bindings/power/reset/syscon-reboot.yaml for the
+>  detailed list of properties, the two values defined below are specific to the
+>  BCM6328-style timer:
+>
+> diff --git a/Documentation/devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt b/Documentation/devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt
+> index 115c5be0bd0b..8defacc44dd5 100644
+> --- a/Documentation/devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt
+> +++ b/Documentation/devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt
+> @@ -1,7 +1,7 @@
+>  * Hisilicon Hi3519 System Controller Block
+>
+>  This bindings use the following binding:
+> -Documentation/devicetree/bindings/mfd/syscon.txt
+> +Documentation/devicetree/bindings/mfd/syscon.yaml
+>
+>  Required properties:
+>  - compatible: "hisilicon,hi3519-sysctrl".
+> diff --git a/Documentation/devicetree/bindings/arm/msm/qcom,idle-state.txt b/Documentation/devicetree/bindings/arm/msm/qcom,idle-state.txt
+> index 06df04cc827a..6ce0b212ec6d 100644
+> --- a/Documentation/devicetree/bindings/arm/msm/qcom,idle-state.txt
+> +++ b/Documentation/devicetree/bindings/arm/msm/qcom,idle-state.txt
+> @@ -81,4 +81,4 @@ Example:
+>                 };
+>         };
+>
+> -[1]. Documentation/devicetree/bindings/arm/idle-states.txt
+> +[1]. Documentation/devicetree/bindings/arm/idle-states.yaml
+> diff --git a/Documentation/devicetree/bindings/arm/omap/mpu.txt b/Documentation/devicetree/bindings/arm/omap/mpu.txt
+> index f301e636fd52..e41490e6979c 100644
+> --- a/Documentation/devicetree/bindings/arm/omap/mpu.txt
+> +++ b/Documentation/devicetree/bindings/arm/omap/mpu.txt
+> @@ -17,7 +17,7 @@ am335x and am437x only:
+>  - pm-sram: Phandles to ocmcram nodes to be used for power management.
+>            First should be type 'protect-exec' for the driver to use to copy
+>            and run PM functions, second should be regular pool to be used for
+> -          data region for code. See Documentation/devicetree/bindings/sram/sram.txt
+> +          data region for code. See Documentation/devicetree/bindings/sram/sram.yaml
+>            for more details.
+>
+>  Examples:
+> diff --git a/Documentation/devicetree/bindings/arm/psci.yaml b/Documentation/devicetree/bindings/arm/psci.yaml
+> index 8ef85420b2ab..f8218e60e3e2 100644
+> --- a/Documentation/devicetree/bindings/arm/psci.yaml
+> +++ b/Documentation/devicetree/bindings/arm/psci.yaml
+> @@ -100,7 +100,7 @@ properties:
+>        bindings in [1]) must specify this property.
+>
+>        [1] Kernel documentation - ARM idle states bindings
+> -        Documentation/devicetree/bindings/arm/idle-states.txt
+> +        Documentation/devicetree/bindings/arm/idle-states.yaml
+>
+>    "#power-domain-cells":
+>      description:
+> diff --git a/Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml b/Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml
+> index 17f87178f6b8..3647007f82ca 100644
+> --- a/Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml
+> +++ b/Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml
+> @@ -42,7 +42,7 @@ properties:
+>        be part of GCC and hence the TSENS properties can also be part
+>        of the GCC/clock-controller node.
+>        For more details on the TSENS properties please refer
+> -      Documentation/devicetree/bindings/thermal/qcom-tsens.txt
+> +      Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
+>
+>    nvmem-cell-names:
+>      minItems: 1
