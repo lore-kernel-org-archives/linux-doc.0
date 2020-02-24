@@ -2,84 +2,93 @@ Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB549C11D2F
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:24:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F07C11D2F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:30:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9068120836
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:24:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y0QODhPR"
+	by mail.kernel.org (Postfix) with ESMTP id B35B520732
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:30:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728114AbgBXRYB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Feb 2020 12:24:01 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:46489 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727664AbgBXRYA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 12:24:00 -0500
-Received: by mail-lj1-f194.google.com with SMTP id x14so10968530ljd.13;
-        Mon, 24 Feb 2020 09:23:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=e/n9e6xXZVWqsR/ccfjvEorJJCrqDEodlBdEgXxH7KQ=;
-        b=Y0QODhPRguaX8OJD9rDgvP2EtyrGIbxGVpbPVVD6RG53i3a6j2i7oKQLkt0JuJXnDv
-         RQphcPj3VGgTIu0XbRze9x68U0VXddGMhS+wHAhMtGX5ZDdCvN0sScwe6drXpG5LgTiD
-         C5qUYn+fV674aCGBvxQ1BlcHtaDrhgNgzbV0cxAVQWZHBx1C9HznBXvtHce8nZ90trM6
-         6uy9JDhNeTmS7YDsQ2u8yOtIL4KMxXd1ZFrSqfmayUuanlbgzckNHAvqP+CuFF5y2IRn
-         ziBWiMiesLVmoY/6Qs99RLCpDtgHuS1668oV3AGlN3PCriWzm1tA97zh6YywQhC7PrNC
-         69Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=e/n9e6xXZVWqsR/ccfjvEorJJCrqDEodlBdEgXxH7KQ=;
-        b=VKA9eM+bSn0xaYJuTgcwhd5WdZv+jZvaer+ORK0Nvx+kFjdPtU9dbo1YCKUKndZRSy
-         CsvabNKYGnFCh2l6PljwtJWVCToBS+VYEjBuYlamPE9P0qdyBQkN4IJsUOnVn1g5+MOW
-         SnSxq15DXsyDQp5zj4lN1WFjFPKc4KwmFIm7uLNlgan8Ue9h6xJ8WrXawuKM3PfnDfwz
-         lYrpDzoO3Vg4Tnc3IBfifmcm8yn452PB6Z7T3+afR0b5YbKnBcOkPjGNWDDP5a5VOza3
-         lkEqgo/uSwIVl7E3stjtE6xeIlhTOtjfEsyFuZAEZ/X7DyLRkDEOS3MJMLYhZmsH+RgT
-         HZkA==
-X-Gm-Message-State: APjAAAW99zHpZz+swwG9qAh64/QIGa8gl6/9/hlWNod5YxtihT0rWqQ0
-        UwUXZBzQ+bXyvtupOTv6MBvru9Jx
-X-Google-Smtp-Source: APXvYqyl5/IGnI57GI66hWo0l2eoPegfDm71Rfp/cUYOlKJ4hNyYkMiFkSdZREQ9mKSBWyBSRUIFsg==
-X-Received: by 2002:a05:651c:cf:: with SMTP id 15mr32516379ljr.288.1582565036740;
-        Mon, 24 Feb 2020 09:23:56 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id m16sm1006611lfb.59.2020.02.24.09.23.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2020 09:23:56 -0800 (PST)
-Subject: Re: [PATCH v1] partitions/efi: Add 'gpt_sector' kernel cmdline
- parameter
-To:     Karel Zak <kzak@redhat.com>, Stephen Warren <swarren@wwwdotorg.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Colin Cross <ccross@android.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>, linux-efi@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200219162339.16192-1-digetx@gmail.com>
- <20200219162738.GA10644@infradead.org>
- <f9e41108-7811-0deb-6977-be0f60e23b52@wwwdotorg.org>
- <20200224163342.d4acf224b56celup@ws.net.home>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9c7343eb-1b09-ffcf-cba0-11d6a26dfd77@gmail.com>
-Date:   Mon, 24 Feb 2020 20:23:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1727797AbgBXRaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Feb 2020 12:30:11 -0500
+Received: from mga14.intel.com ([192.55.52.115]:29395 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728025AbgBXRaK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Feb 2020 12:30:10 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Feb 2020 09:30:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,480,1574150400"; 
+   d="scan'208";a="241066642"
+Received: from ray.jf.intel.com (HELO [10.7.201.139]) ([10.7.201.139])
+  by orsmga006.jf.intel.com with ESMTP; 24 Feb 2020 09:30:09 -0800
+Subject: Re: [PATCH 6/7] docs: remove nompx kernel parameter and intel_mpx
+ from index.rst
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+ <934144ad8199db837c3b21479e6966c597706dab.1582361738.git.mchehab+huawei@kernel.org>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <a4d6c6c7-7901-7584-fc90-a8f933b2e238@intel.com>
+Date:   Mon, 24 Feb 2020 09:30:09 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200224163342.d4acf224b56celup@ws.net.home>
+In-Reply-To: <934144ad8199db837c3b21479e6966c597706dab.1582361738.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -88,38 +97,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-24.02.2020 19:33, Karel Zak пишет:
-> On Wed, Feb 19, 2020 at 09:59:54AM -0700, Stephen Warren wrote:
->> On 2/19/20 9:27 AM, Christoph Hellwig wrote:
->>> On Wed, Feb 19, 2020 at 07:23:39PM +0300, Dmitry Osipenko wrote:
->>>> The gpt_sector=<sector> causes the GPT partition search to look at the
->>>> specified sector for a valid GPT header if the GPT is not found at the
->>>> beginning or the end of block device.
->>>>
->>>> In particular this is needed for NVIDIA Tegra consumer-grade Android
->>>> devices in order to make them usable with the upstream kernel because
->>>> these devices use a proprietary / closed-source partition table format
->>>> for the EMMC and it's impossible to change the partition's format. Luckily
->>>> there is a GPT table in addition to the proprietary table, which is placed
->>>> in uncommon location of the EMMC storage and bootloader passes the
->>>> location to kernel using "gpt gpt_sector=<sector>" cmdline parameters.
->>>>
->>>> This patch is based on the original work done by Colin Cross for the
->>>> downstream Android kernel.
->>>
->>> I don't think a magic command line is the way to go.  The best would be
->>> to reverse-engineer the proprietary partition table format.  If that is
->>> too hard we can at least key off the odd GPT location based of it's
->>> magic number.
-> 
->  +1
-> 
->> I thought that the backup GPT was always present in the standard location;
-> 
-> If they have proprietary stuff on begin of the device and valid backup
-> GPT at the end of the device then designer of this junk is crazy, because
-> many GPT fdisk-like tools will try to recover from the backup header and 
-> overwrite the unknown (invalid) stuff at the begin of the device...
+On 2/22/20 1:00 AM, Mauro Carvalho Chehab wrote:
+> -	nompx		[X86] Disables Intel Memory Protection Extensions.
+> -			See Documentation/x86/intel_mpx.rst for more
+> -			information about the feature.
 
-It's a problem created by vendor, but these devices are assumed to run
-Android-only. So it's not really that bad :)
+Thanks for finding this.
+
+But, it does make me wonder if we should remove it outright or leave a
+stub reminding folks that "nompx" probably shouldn't be reused for a
+while.  Maybe something like:
+
+	nompx	[X86] Previously, disabled Intel Memory Protection
+		Extensions.  Code removed in v5.6.
+
