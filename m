@@ -1,127 +1,127 @@
-Return-Path: <SRS0=a2q4=4L=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27050C35675
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 22:44:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5C6C35673
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 00:08:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F358D20836
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Feb 2020 22:44:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFC7020727
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 00:08:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SGsWoRzl"
+	dkim=pass (2048-bit key) header.d=aj.id.au header.i=@aj.id.au header.b="VnESUfjI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZNNDRlge"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbgBWWop (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Feb 2020 17:44:45 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:33606 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726302AbgBWWop (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Feb 2020 17:44:45 -0500
-Received: by mail-lf1-f68.google.com with SMTP id n25so5472006lfl.0;
-        Sun, 23 Feb 2020 14:44:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=u+ysc2B2E6ZUA9YFW/pXoZQG71MCNSdNR0YgJk6O1SM=;
-        b=SGsWoRzlKz5TbHCwdxeRMuT/ZmzVjhVrwVYl5Ej+30lhB8VEBWsMAIqZ/2n7Wgbyze
-         eFyaaZkursoA3NGOrm/2+FCBP+M4ThidcQbgKfrHcHTl+H2SYzY/yAOOQ3WzPZs4mEjc
-         xEeqWrVLxjcZIQ6JoVdMxGjuwSLyp5RohslsFrQJbReRm/ALYvoAubNZ17lo/vI3YteI
-         LEv8+f7i42zXbH6Z84a3AFXSgzSCrHIINk5L950Hwb5C574krJ+ffbwVeDyFv0zzdVSE
-         iUIBfOVcgdWK52pVto5KRvc07Lg0talXcJOnqJ/NRf5s27G3lC2jNMfQrc3qvdhjcunq
-         7HLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=u+ysc2B2E6ZUA9YFW/pXoZQG71MCNSdNR0YgJk6O1SM=;
-        b=O8mR9l89odHjGpCj0h79/wcr4wxgqq8gXzR5MBRuVH7XkcIdOOtucgN6XPitE26MbZ
-         PfUq3L/ay+Ss7+5n6EXGeq2WVE3oXKkKijWbWDexy09zJbvngiEMQZAzbfxr0EFFPpGb
-         wMOhrIa4+W3uhsQrQQJOiC9Vl2IHerqIJPY6WWGzjiLSjmEcqXyEzAEkvMP14vL0KgMz
-         eAvC5/Y3t3dOTNUMSWFe/67JdvlmQvhNpCP/RnC+8s9i/l07uSUG4WYOpYh9Qx+8WhZ+
-         6VUTt4E3+USuGbaUV75udmTYs4mmy7nJi49uCuAElh6SehkSwQJUNG42R7g43j19ramC
-         1SSA==
-X-Gm-Message-State: APjAAAUuMzlP+9ZgQ0R2IcQO8WYtkxaIw6X08OUjc/R09gzx+QSb3QYZ
-        Pk9XDcBjl6z3ejU1B+rSDKIyGI0K+zhDFu4Zr0g=
-X-Google-Smtp-Source: APXvYqwrQFQnSqr4ZzfVQy/WTfS4zQozgBwDIgCp+LwGCKZIBgjKogOZz8m3QK+TRv+xbUwl/wHutKmsMIdmiqIYI9Q=
-X-Received: by 2002:a19:8585:: with SMTP id h127mr5024465lfd.196.1582497882620;
- Sun, 23 Feb 2020 14:44:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20200221165801.32687-1-steve@sk2.org>
-In-Reply-To: <20200221165801.32687-1-steve@sk2.org>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Sun, 23 Feb 2020 14:44:31 -0800
-Message-ID: <CAADnVQ+QNxFk97fnsY1NL1PQWykdok_ha_KajCc68bRT1BLp2A@mail.gmail.com>
-Subject: Re: [PATCH] docs: sysctl/kernel: document BPF entries
-To:     Stephen Kitt <steve@sk2.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>, bpf <bpf@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727159AbgBXAID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Feb 2020 19:08:03 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:53705 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726534AbgBXAID (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Feb 2020 19:08:03 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 63CCF4970;
+        Sun, 23 Feb 2020 19:08:01 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+  by compute4.internal (MEProxy); Sun, 23 Feb 2020 19:08:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm2; bh=T6vwYsNt81W4QVG/9yltC3IUmOKJa1U
+        I+5Ub1sDqeVo=; b=VnESUfjI+wUMSIT8zSJGjTjnvN1Q6rr2atMpcMbCiiUf2+2
+        Htwj6KXEQ+XoQRcjudVhDCcOwskF5C1aPYvls8CtF8hE8ijxhlKEcUWpiHHfBaAZ
+        RpBN1jLdSnyFw84+0hMNBkJ0+OEsYJGQuZNZjX5qRvLg1blNdOimuZZwWcwoWWCx
+        732ASIGjAnnvLOOg7YHQR1vlBbNzr171taEkuNgFM20PTEYUDefcvNl7ZX15Gs35
+        GsdHQ03GOvWx4WvDhTTMdtdU/bjgc4UOt1YDe2sWngY4InuumosjKbGVluxYI2Gk
+        DXJAwIJBsbVFjHC2syobhh/mok5s6BA6yGVUKYw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=T6vwYs
+        Nt81W4QVG/9yltC3IUmOKJa1UI+5Ub1sDqeVo=; b=ZNNDRlgevio2rb1a2YaTdE
+        Qh34z29wQha3NxZnLqb4sYgCoqWwSVGOaN85Z1tMwRlBFQ3HmBELRcWX1sbS+ZOn
+        uca2u05lvw56h0AhBDmYL7GywahUSivkTeGdScJRJ+Df5lqlXNbJ98X7dFa2rHdg
+        aPrJdsyIKFJaWcMbMDKBZ4yHnWV0K8q9N4XGuqMx8KOrBRvXlh/jzeAYPZM5vCLg
+        H6n/Jxzkrik6LKX4S7HO9BzQddCi3OYYE3U2CyVDQbVN0yRULkmdPGLEBCUzqEPg
+        bHZtoDzF5du9tdhPH1ZhcWUnv2VOILcVgZtsBYNKKMsO5m47EgsSWZrvllqtTRLA
+        ==
+X-ME-Sender: <xms:3xNTXuMK-zhhnncLV5GITMkthKNZCwFHS9K-h156U1hfu4YOnYXcfw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkeelgddulecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
+    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghj
+    rdhiugdrrghu
+X-ME-Proxy: <xmx:3xNTXpKC6qAm2Ahf3jxHo-c3o35FJiwIPLiVui0zfDrFEiy9M2fphQ>
+    <xmx:3xNTXoJ6X6pRGcZd4emhfEMOflc3Kmf1s7dH19zKHqpXHgcQl_HQ-A>
+    <xmx:3xNTXtX3k9pxeGni1WpGnPZwqOfxVh2mLDy8Dda6Ugrn6Keb7aq2nA>
+    <xmx:4RNTXotkO9aFVT3yBWk2fO4CBlxxh66eNbaJcXLMJnGGDcoDtR9m6A>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 16150E00A2; Sun, 23 Feb 2020 19:07:59 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-802-g7a41c81-fmstable-20200203v1
+Mime-Version: 1.0
+Message-Id: <41551c09-5443-4980-9c6f-6bc7f48aa356@www.fastmail.com>
+In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+ <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+Date:   Mon, 24 Feb 2020 10:37:53 +1030
+From:   "Andrew Jeffery" <andrew@aj.id.au>
+To:     "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>
+Cc:     "Jonathan Corbet" <corbet@lwn.net>,
+        "Sudeep Holla" <sudeep.holla@arm.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Andy Gross" <agross@kernel.org>,
+        "Bjorn Andersson" <bjorn.andersson@linaro.org>,
+        "Michael Turquette" <mturquette@baylibre.com>,
+        "Stephen Boyd" <sboyd@kernel.org>, "Jyri Sarha" <jsarha@ti.com>,
+        "Tomi Valkeinen" <tomi.valkeinen@ti.com>,
+        "David Airlie" <airlied@linux.ie>,
+        "Daniel Vetter" <daniel@ffwll.ch>,
+        "Jacek Anaszewski" <jacek.anaszewski@gmail.com>,
+        "Pavel Machek" <pavel@ucw.cz>, "Dan Murphy" <dmurphy@ti.com>,
+        "Stuart Yoder" <stuyoder@gmail.com>,
+        "Laurentiu Tudor" <laurentiu.tudor@nxp.com>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        "Joel Stanley" <joel@jms.id.au>,
+        "Kevin Hilman" <khilman@baylibre.com>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
+        "Alexandre Torgue" <alexandre.torgue@st.com>,
+        "Zhang Rui" <rui.zhang@intel.com>,
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        "Amit Kucheria" <amit.kucheria@verdurent.com>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-gpio@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org
+Subject: =?UTF-8?Q?Re:_[PATCH_2/7]_docs:_dt:_fix_several_broken_references_due_to?=
+ =?UTF-8?Q?_renames?=
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 21, 2020 at 10:18 AM Stephen Kitt <steve@sk2.org> wrote:
->
-> Based on the implementation in kernel/bpf/syscall.c,
-> kernel/bpf/trampoline.c, include/linux/filter.h, and the documentation
-> in bpftool-prog.rst.
->
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
+
+
+On Sat, 22 Feb 2020, at 19:30, Mauro Carvalho Chehab wrote:
+> Several DT references got broken due to txt->yaml conversion.
+> 
+> Those are auto-fixed by running:
+> 
+> 	scripts/documentation-file-ref-check --fix
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/admin-guide/sysctl/kernel.rst | 24 +++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 1c48ab4bfe30..89c70ea7de7c 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -102,6 +102,20 @@ See the ``type_of_loader`` and ``ext_loader_ver`` fields in
->  :doc:`/x86/boot` for additional information.
->
->
-> +bpf_stats_enabled
-> +=================
-> +
-> +Controls whether the kernel should collect statistics on BPF programs
-> +(total time spent running, number of times run...). Enabling
-> +statistics causes a slight reduction in performance on each program
-> +run. The statistics can be seen using ``bpftool``.
-> +
-> += ===================================
-> +0 Don't collect statistics (default).
-> +1 Collect statistics.
-> += ===================================
-> +
-> +
->  cap_last_cap
->  ============
->
-> @@ -1152,6 +1166,16 @@ NMI switch that most IA32 servers have fires unknown NMI up, for
->  example.  If a system hangs up, try pressing the NMI switch.
->
->
-> +unprivileged_bpf_disabled
-> +=========================
-> +
-> +Writing 1 to this entry will disabled unprivileged calls to ``bpf()``;
+...
+>  .../bindings/pinctrl/aspeed,ast2400-pinctrl.yaml          | 2 +-
+>  .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml          | 2 +-
+>  .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml          | 2 +-
 
-'will disable' ?
-
-It doesn't apply to bpf-next with:
-error: sha1 information is lacking or useless
-(Documentation/admin-guide/sysctl/kernel.rst).
-error: could not build fake ancestor
-Patch failed at 0001 docs: sysctl/kernel: Document BPF entries
+Acked-by: Andrew Jeffery <andrew@aj.id.au>
