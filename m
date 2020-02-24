@@ -2,225 +2,164 @@ Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E504FC11D36
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:13:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E33A4C11D34
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:15:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE434222D9
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:13:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA9E62082F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 14:15:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582553756;
+	bh=XCz98vLZW6w/xNhdXjYLn54ZixK2JilGaitOtPGmMvs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
+	b=pxpA1yEEK/qoptx1HhcUVo2jzJKpc1x5ty87oDw8inZ/ieOAbjiaVq9haXqJujDi2
+	 PCoOQo9xXh1x/XYA0HTcQUxMqTvbRG1uKWNGZk5y4K0ZS53URGYvBEpZ26gXoyQaOa
+	 NU4I/RwMxCsXy7O8ZCsbjTmTJWMEWBWmuQRF/H5A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727709AbgBXOMu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Feb 2020 09:12:50 -0500
-Received: from foss.arm.com ([217.140.110.172]:37668 "EHLO foss.arm.com"
+        id S1727489AbgBXOP4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Feb 2020 09:15:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33716 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727426AbgBXOMt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Feb 2020 09:12:49 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4534130E;
-        Mon, 24 Feb 2020 06:12:49 -0800 (PST)
-Received: from e108754-lin.cambridge.arm.com (unknown [10.1.198.53])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D45153F534;
-        Mon, 24 Feb 2020 06:12:46 -0800 (PST)
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        lukasz.luba@arm.com, valentin.schneider@arm.com,
-        dietmar.eggemann@arm.com, rjw@rjwysocki.net,
-        ionela.voinescu@arm.com
-Cc:     peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v4 4/7] Documentation: arm64: document support for the AMU extension
-Date:   Mon, 24 Feb 2020 14:11:39 +0000
-Message-Id: <20200224141142.25445-5-ionela.voinescu@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200224141142.25445-1-ionela.voinescu@arm.com>
-References: <20200224141142.25445-1-ionela.voinescu@arm.com>
+        id S1727581AbgBXOPz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Feb 2020 09:15:55 -0500
+Received: from localhost (52.sub-174-234-140.myvzw.com [174.234.140.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B01D520880;
+        Mon, 24 Feb 2020 14:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582553754;
+        bh=XCz98vLZW6w/xNhdXjYLn54ZixK2JilGaitOtPGmMvs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=CiqJ30OyI8S16FM0s04k11u8hdvW/ESmAR0LgjcOX3sDn0jmkQnhIKAK+66JUKaJl
+         TcnQ17I7B1cjisYZGQP23ile5qHfOKb+aY2TPcwFmbrG7ppVrUmQOJ4ZHd3a3NdLGg
+         Z+FB1pzImqT5cmXjYfSJSAMfBWz1JpYVsppB54z8=
+Date:   Mon, 24 Feb 2020 08:15:51 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Stanislav Spassov <stanspas@amazon.com>
+Cc:     linux-pci@vger.kernel.org, Stanislav Spassov <stanspas@amazon.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jan H =?iso-8859-1?Q?=2E_Sch=F6nherr?= <jschoenh@amazon.de>,
+        Wei Wang <wawei@amazon.de>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Ashok Raj <ashok.raj@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Sinan Kaya <okaya@kernel.org>, Rajat Jain <rajatja@google.com>
+Subject: Re: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
+Message-ID: <20200224141551.GA217704@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200223122057.6504-2-stanspas@amazon.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The activity monitors extension is an optional extension introduced
-by the ARMv8.4 CPU architecture.
+[+cc Ashok, Alex, Sinan, Rajat]
 
-Add initial documentation for the AMUv1 extension:
- - arm64/amu.txt: AMUv1 documentation
- - arm64/booting.txt: system registers initialisation
+On Sun, Feb 23, 2020 at 01:20:55PM +0100, Stanislav Spassov wrote:
+> From: Wei Wang <wawei@amazon.de>
+> 
+> The resonable value for the maximum time to wait for a PCI device to be
+> ready after reset varies depending on the platform and the reliability
+> of its set of devices.
 
-Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
-Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/arm64/amu.rst     | 114 ++++++++++++++++++++++++++++++++
- Documentation/arm64/booting.rst |  14 ++++
- Documentation/arm64/index.rst   |   1 +
- 3 files changed, 129 insertions(+)
- create mode 100644 Documentation/arm64/amu.rst
+There are several mechanisms in the spec for reducing these times,
+e.g., Readiness Notifications (PCIe r5.0, sec 6.23), the Readiness
+Time Reporting capability (sec 7.9.17), and ACPI _DSM methods (PCI
+Firmware Spec r3.2, sec 4.6.8, 4.6.9).
 
-diff --git a/Documentation/arm64/amu.rst b/Documentation/arm64/amu.rst
-new file mode 100644
-index 000000000000..ad609ada2d8e
---- /dev/null
-+++ b/Documentation/arm64/amu.rst
-@@ -0,0 +1,114 @@
-+=======================================================
-+Activity Monitors Unit (AMU) extension in AArch64 Linux
-+=======================================================
-+
-+Author: Ionela Voinescu <ionela.voinescu@arm.com>
-+
-+Date: 2019-09-10
-+
-+This document briefly describes the provision of Activity Monitors Unit
-+support in AArch64 Linux.
-+
-+
-+Architecture overview
-+---------------------
-+
-+The activity monitors extension is an optional extension introduced by the
-+ARMv8.4 CPU architecture.
-+
-+The activity monitors unit, implemented in each CPU, provides performance
-+counters intended for system management use. The AMU extension provides a
-+system register interface to the counter registers and also supports an
-+optional external memory-mapped interface.
-+
-+Version 1 of the Activity Monitors architecture implements a counter group
-+of four fixed and architecturally defined 64-bit event counters.
-+  - CPU cycle counter: increments at the frequency of the CPU.
-+  - Constant counter: increments at the fixed frequency of the system
-+    clock.
-+  - Instructions retired: increments with every architecturally executed
-+    instruction.
-+  - Memory stall cycles: counts instruction dispatch stall cycles caused by
-+    misses in the last level cache within the clock domain.
-+
-+When in WFI or WFE these counters do not increment.
-+
-+The Activity Monitors architecture provides space for up to 16 architected
-+event counters. Future versions of the architecture may use this space to
-+implement additional architected event counters.
-+
-+Additionally, version 1 implements a counter group of up to 16 auxiliary
-+64-bit event counters.
-+
-+On cold reset all counters reset to 0.
-+
-+
-+Basic support
-+-------------
-+
-+The kernel can safely run a mix of CPUs with and without support for the
-+activity monitors extension. Therefore, if the capability is not disabled
-+at system level (either through CONFIG_ARM64_AMU_EXTN or kernel parameter)
-+we unconditionally enable the capability to allow any late CPU (secondary
-+or hotplugged) to detect and use the feature.
-+
-+When the feature is detected on a CPU, we flag the availability of the
-+feature but this does not guarantee the correct functionality of the
-+counters, only the presence of the extension.
-+
-+Firmware (code running at higher exception levels, e.g. arm-tf) support is
-+needed to:
-+ - Enable access for lower exception levels (EL2 and EL1) to the AMU
-+   registers.
-+ - Enable the counters. If not enabled these will read as 0.
-+ - Save/restore the counters before/after the CPU is being put/brought up
-+   from the 'off' power state.
-+
-+When using kernels that have this feature enabled but boot with broken
-+firmware the user may experience panics or lockups when accessing the
-+counter registers. Even if these symptoms are not observed, the values
-+returned by the register reads might not correctly reflect reality. Most
-+commonly, the counters will read as 0, indicating that they are not
-+enabled.
-+
-+If proper support is not provided in firmware it's best to disable
-+CONFIG_ARM64_AMU_EXTN or disable the capability at runtime through the
-+corresponding kernel parameter. To be noted that for security reasons,
-+this does not bypass the setting of AMUSERENR_EL0 to trap accesses from
-+EL0 (userspace) to EL1 (kernel). Therefore, firmware should still ensure
-+accesses to AMU registers are not trapped in EL2/EL3.
-+
-+The fixed counters of AMUv1 are accessible though the following system
-+register definitions:
-+ - SYS_AMEVCNTR0_CORE_EL0
-+ - SYS_AMEVCNTR0_CONST_EL0
-+ - SYS_AMEVCNTR0_INST_RET_EL0
-+ - SYS_AMEVCNTR0_MEM_STALL_EL0
-+
-+Auxiliary platform specific counters can be accessed using
-+SYS_AMEVCNTR1_EL0(n), where n is a value between 0 and 15.
-+
-+Details can be found in: arch/arm64/include/asm/sysreg.h.
-+
-+
-+Userspace access
-+----------------
-+
-+Currently, access from userspace to the AMU registers is disabled due to:
-+ - Security reasons: they might expose information about code executed in
-+   secure mode.
-+ - Purpose: AMU counters are intended for system management use.
-+
-+Also, the presence of the feature is not visible to userspace.
-+
-+
-+Virtualization
-+--------------
-+
-+Currently, access from userspace (EL0) and kernelspace (EL1) on the KVM
-+guest side is disabled due to:
-+ - Security reasons: they might expose information about code executed
-+   by other guests or the host.
-+
-+Any attempt to access the AMU registers will result in an UNDEFINED
-+exception being injected into the guest.
-diff --git a/Documentation/arm64/booting.rst b/Documentation/arm64/booting.rst
-index 5d78a6f5b0ae..a3f1a47b6f1c 100644
---- a/Documentation/arm64/booting.rst
-+++ b/Documentation/arm64/booting.rst
-@@ -248,6 +248,20 @@ Before jumping into the kernel, the following conditions must be met:
-     - HCR_EL2.APK (bit 40) must be initialised to 0b1
-     - HCR_EL2.API (bit 41) must be initialised to 0b1
- 
-+  For CPUs with Activity Monitors Unit v1 (AMUv1) extension present:
-+  - If EL3 is present:
-+    CPTR_EL3.TAM (bit 30) must be initialised to 0b0
-+    CPTR_EL2.TAM (bit 30) must be initialised to 0b0
-+    AMCNTENSET0_EL0 must be initialised to 0b1111
-+    AMCNTENSET1_EL0 must be initialised to a platform specific value
-+    having 0b1 set for the corresponding bit for each of the auxiliary
-+    counters present.
-+  - If the kernel is entered at EL1:
-+    AMCNTENSET0_EL0 must be initialised to 0b1111
-+    AMCNTENSET1_EL0 must be initialised to a platform specific value
-+    having 0b1 set for the corresponding bit for each of the auxiliary
-+    counters present.
-+
- The requirements described above for CPU mode, caches, MMUs, architected
- timers, coherency and system registers apply to all CPUs.  All CPUs must
- enter the kernel in the same exception level.
-diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
-index 5c0c69dc58aa..09cbb4ed2237 100644
---- a/Documentation/arm64/index.rst
-+++ b/Documentation/arm64/index.rst
-@@ -6,6 +6,7 @@ ARM64 Architecture
-     :maxdepth: 1
- 
-     acpi_object_usage
-+    amu
-     arm-acpi
-     booting
-     cpu-feature-registers
--- 
-2.17.1
+I would much rather use standard mechanisms like those instead of
+adding kernel parameters.  A user would have to use trial and error
+to figure out the value to use with a parameter like this, and that
+doesn't feel like a robust approach.
 
+> Signed-off-by: Wei Wang <wawei@amazon.de>
+> Signed-off-by: Stanislav Spassov <stanspas@amazon.de>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  5 +++++
+>  drivers/pci/pci.c                             | 22 ++++++++++++++-----
+>  2 files changed, 22 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index dbc22d684627..5e4dade9acc8 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3653,6 +3653,11 @@
+>  		nomsi	Do not use MSI for native PCIe PME signaling (this makes
+>  			all PCIe root ports use INTx for all services).
+>  
+> +	pcie_reset_ready_poll_ms= [PCI,PCIE]
+> +			Specifies timeout for PCI(e) device readiness polling
+> +			after device reset (in milliseconds).
+> +			Default: 60000 = 60 seconds
+> +
+>  	pcmv=		[HW,PCMCIA] BadgePAD 4
+>  
+>  	pd_ignore_unused
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index d828ca835a98..db9b58ab6c68 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -149,7 +149,19 @@ static int __init pcie_port_pm_setup(char *str)
+>  __setup("pcie_port_pm=", pcie_port_pm_setup);
+>  
+>  /* Time to wait after a reset for device to become responsive */
+> -#define PCIE_RESET_READY_POLL_MS 60000
+> +#define PCIE_RESET_READY_POLL_MS_DEFAULT 60000
+> +
+> +int __read_mostly pcie_reset_ready_poll_ms = PCIE_RESET_READY_POLL_MS_DEFAULT;
+> +
+> +static int __init pcie_reset_ready_poll_ms_setup(char *str)
+> +{
+> +	int timeout;
+> +
+> +	if (!kstrtoint(str, 0, &timeout))
+> +		pcie_reset_ready_poll_ms = timeout;
+> +	return 1;
+> +}
+> +__setup("pcie_reset_ready_poll_ms=", pcie_reset_ready_poll_ms_setup);
+>  
+>  /**
+>   * pci_bus_max_busnr - returns maximum PCI bus number of given bus' children
+> @@ -4506,7 +4518,7 @@ int pcie_flr(struct pci_dev *dev)
+>  	 */
+>  	msleep(100);
+>  
+> -	return pci_dev_wait(dev, "FLR", PCIE_RESET_READY_POLL_MS);
+> +	return pci_dev_wait(dev, "FLR", pcie_reset_ready_poll_ms);
+>  }
+>  EXPORT_SYMBOL_GPL(pcie_flr);
+>  
+> @@ -4551,7 +4563,7 @@ static int pci_af_flr(struct pci_dev *dev, int probe)
+>  	 */
+>  	msleep(100);
+>  
+> -	return pci_dev_wait(dev, "AF_FLR", PCIE_RESET_READY_POLL_MS);
+> +	return pci_dev_wait(dev, "AF_FLR", pcie_reset_ready_poll_ms);
+>  }
+>  
+>  /**
+> @@ -4596,7 +4608,7 @@ static int pci_pm_reset(struct pci_dev *dev, int probe)
+>  	pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, csr);
+>  	pci_dev_d3_sleep(dev);
+>  
+> -	return pci_dev_wait(dev, "PM D3hot->D0", PCIE_RESET_READY_POLL_MS);
+> +	return pci_dev_wait(dev, "PM D3hot->D0", pcie_reset_ready_poll_ms);
+>  }
+>  
+>  /**
+> @@ -4826,7 +4838,7 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev)
+>  {
+>  	pcibios_reset_secondary_bus(dev);
+>  
+> -	return pci_dev_wait(dev, "bus reset", PCIE_RESET_READY_POLL_MS);
+> +	return pci_dev_wait(dev, "bus reset", pcie_reset_ready_poll_ms);
+>  }
+>  EXPORT_SYMBOL_GPL(pci_bridge_secondary_bus_reset);
