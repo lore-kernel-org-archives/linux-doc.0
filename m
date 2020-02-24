@@ -2,112 +2,182 @@ Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-22.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F07C11D2F
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:30:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7376CC11D2F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:41:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B35B520732
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:30:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 498C420838
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 17:41:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RVEFVPgU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727797AbgBXRaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Feb 2020 12:30:11 -0500
-Received: from mga14.intel.com ([192.55.52.115]:29395 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728025AbgBXRaK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Feb 2020 12:30:10 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Feb 2020 09:30:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,480,1574150400"; 
-   d="scan'208";a="241066642"
-Received: from ray.jf.intel.com (HELO [10.7.201.139]) ([10.7.201.139])
-  by orsmga006.jf.intel.com with ESMTP; 24 Feb 2020 09:30:09 -0800
-Subject: Re: [PATCH 6/7] docs: remove nompx kernel parameter and intel_mpx
- from index.rst
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>
-References: <cover.1582361737.git.mchehab+huawei@kernel.org>
- <934144ad8199db837c3b21479e6966c597706dab.1582361738.git.mchehab+huawei@kernel.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <a4d6c6c7-7901-7584-fc90-a8f933b2e238@intel.com>
-Date:   Mon, 24 Feb 2020 09:30:09 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <934144ad8199db837c3b21479e6966c597706dab.1582361738.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1728059AbgBXRlm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Feb 2020 12:41:42 -0500
+Received: from mail-pg1-f201.google.com ([209.85.215.201]:48409 "EHLO
+        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727108AbgBXRll (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 12:41:41 -0500
+Received: by mail-pg1-f201.google.com with SMTP id h14so7093133pgd.15
+        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2020 09:41:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=5nz7K/9gLs7EaewmF2wRn410ngVKaW83QWECedJma1o=;
+        b=RVEFVPgU+ScpyMwz7WfaB+ItQ1JnmyRVQdauoq5Hla6qBbUseznXc4uAFG7Bn9wDIQ
+         xN27LFJFYWTi2nwnRc4n2jIIiBUA8AKjhSKIsI2w6L+MLGraE8CBzpoNAY+jQj142T2c
+         GbsQkJys39l//NmYke/Dl3qt8pWth1ivhTFGoSuRmWOi7ZTEiuEwu6uqmf2+EAbN4Xwj
+         yGcx48yYsSLTF7Fs/bk88t2dE9K/MNFltYl2jSGsjdtuAIUIy3NePMj0qin8WcxIsvMK
+         KuM4AmzgvD5/9sbPJ652/5IesJ6rdo9giLLcRyRm2CxhsY9OnV2nuczIFHaSA+kRg/W7
+         /IdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=5nz7K/9gLs7EaewmF2wRn410ngVKaW83QWECedJma1o=;
+        b=EhiHLIpKXnkj63QUui6tvhgOpwK8sVIcf6Vwwa4xsy7FWZihQSo/TH2ooUK/JeljLz
+         iRlNTZ9e9ZProB9NRAa5IinPC44ZPj6uK3NbRq7D0Y7bKHSPssWRWAgI1WIXidVyafU+
+         0ai8edDmxnjbxK67HsUYLzYNWwE3/ALMTrw7AiAX3Kzu39aAtdA7kib0S5x/thYo3sNX
+         YxRDfOkF1FCWbFvLlqQbe7lcLc+KrO/d8eZ531tWxtCYj452ckqEGS6a3MuLuW5iwc99
+         PSFWB5FUelR1QQoX1dYK0tEodn+2VpTNpoB1rcrAgHTkAvlsXCZzSEJ2DMTkykspz2/B
+         zOKA==
+X-Gm-Message-State: APjAAAXtKxd0lHv3Z5wHndnRi09wDNOjIFyVMflndz8rKLMJOka+MnIg
+        Kbxw17rn7S6cGjzvDTdbGYgMDbROZ9XBAuqlv0c=
+X-Google-Smtp-Source: APXvYqyH8QxNwAutG1ZN9iCwc4/0fjrPF2jacaW4sjYkH4gbhT4P+UST1Yofs3uM/wUc87c1owiFJwJcD3WtXXPUqY0=
+X-Received: by 2002:a63:ae0a:: with SMTP id q10mr53967461pgf.178.1582566100948;
+ Mon, 24 Feb 2020 09:41:40 -0800 (PST)
+Date:   Mon, 24 Feb 2020 09:41:28 -0800
+Message-Id: <20200224174129.2664-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+Subject: [PATCH] Documentation/llvm: add documentation on building w/ Clang/LLVM
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     corbet@lwn.net, masahiroy@kernel.org
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/22/20 1:00 AM, Mauro Carvalho Chehab wrote:
-> -	nompx		[X86] Disables Intel Memory Protection Extensions.
-> -			See Documentation/x86/intel_mpx.rst for more
-> -			information about the feature.
+Added to kbuild documentation. Provides more official info on building
+kernels with Clang and LLVM than our wiki.
 
-Thanks for finding this.
+Suggested-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ Documentation/kbuild/index.rst |  1 +
+ Documentation/kbuild/llvm.rst  | 80 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
+ create mode 100644 Documentation/kbuild/llvm.rst
 
-But, it does make me wonder if we should remove it outright or leave a
-stub reminding folks that "nompx" probably shouldn't be reused for a
-while.  Maybe something like:
-
-	nompx	[X86] Previously, disabled Intel Memory Protection
-		Extensions.  Code removed in v5.6.
+diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
+index 0f144fad99a6..3882bd5f7728 100644
+--- a/Documentation/kbuild/index.rst
++++ b/Documentation/kbuild/index.rst
+@@ -19,6 +19,7 @@ Kernel Build System
+ 
+     issues
+     reproducible-builds
++    llvm
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+new file mode 100644
+index 000000000000..68ae022aebc0
+--- /dev/null
++++ b/Documentation/kbuild/llvm.rst
+@@ -0,0 +1,80 @@
++==============================
++Building Linux with Clang/LLVM
++==============================
++
++This document covers how to build the Linux kernel with Clang and LLVM
++utilities.
++
++About
++-----
++
++The Linux kernel has always traditionally been compiled with GNU toolchains
++such as GCC and binutils. On going work has allowed for `Clang
++<https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
++used as viable substitutes. Distributions such as `Android
++<https://www.android.com/>`_, `ChromeOS
++<https://www.chromium.org/chromium-os>`_, and `OpenMandriva
++<https://www.openmandriva.org/>`_ use Clang built kernels.  `LLVM is a
++collection of toolchain components implemented in terms of C++ objects
++<https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM that
++supports C and the GNU C extensions required by the kernel, and is pronounced
++"klang," not "see-lang."
++
++Clang
++-----
++
++The compiler used can be swapped out via `CC=` command line argument to `make`.
++`CC=` should be set when selecting a config and during a build.
++
++	make CC=clang defconfig
++
++	make CC=clang
++
++Cross Compiling
++---------------
++
++A single Clang compiler binary will typically contain all supported backends,
++which can help simplify cross compiling.
++
++	ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
++
++`CROSS_COMPILE` is not used to suffix the Clang compiler binary, instead
++`CROSS_COMPILE` is used to set a command line flag: `--target <triple>`. For
++example:
++
++	clang --target aarch64-linux-gnu foo.c
++
++LLVM Utilities
++--------------
++
++LLVM has substitutes for GNU binutils utilities. These can be invoked as
++additional parameters to `make`.
++
++	make CC=clang AS=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
++	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-objsize \\
++	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
++	  HOSTLD=ld.lld
++
++Getting Help
++------------
++
++- `Website <https://clangbuiltlinux.github.io/>`_
++- `Mailing List <https://groups.google.com/forum/#!forum/clang-built-linux>`_: <clang-built-linux@googlegroups.com>
++- `Issue Tracker <https://github.com/ClangBuiltLinux/linux/issues>`_
++- IRC: #clangbuiltlinux on chat.freenode.net
++- `Telegram <https://t.me/ClangBuiltLinux>`_: @ClangBuiltLinux
++- `Wiki <https://github.com/ClangBuiltLinux/linux/wiki>`_
++- `Beginner Bugs <https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22>`_
++
++Getting LLVM
++-------------
++
++- http://releases.llvm.org/download.html
++- https://github.com/llvm/llvm-project
++- https://llvm.org/docs/GettingStarted.html
++- https://llvm.org/docs/CMake.html
++- https://apt.llvm.org/
++- https://www.archlinux.org/packages/extra/x86_64/llvm/
++- https://github.com/ClangBuiltLinux/tc-build
++- https://github.com/ClangBuiltLinux/linux/wiki/Building-Clang-from-source
++- https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/
+-- 
+2.25.0.265.gbab2e86ba0-goog
 
