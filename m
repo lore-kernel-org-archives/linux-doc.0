@@ -2,101 +2,55 @@ Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9590C35677
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 03:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE787C35641
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 04:43:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 97C1320675
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 03:13:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF03320661
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 04:43:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727180AbgBXDN6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Feb 2020 22:13:58 -0500
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:51963 "EHLO
-        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727156AbgBXDN6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Feb 2020 22:13:58 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R831e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=yun.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0TqhetfV_1582514031;
-Received: from testdeMacBook-Pro.local(mailfrom:yun.wang@linux.alibaba.com fp:SMTPD_---0TqhetfV_1582514031)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 24 Feb 2020 11:13:53 +0800
-Subject: Re: [PATCH RESEND v8 1/2] sched/numa: introduce per-cgroup NUMA
- locality info
-To:     Peter Zijlstra <peterz@infradead.org>, Mel Gorman <mgorman@suse.de>
-Cc:     Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Michal Koutn? <mkoutny@suse.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <fe56d99d-82e0-498c-ae44-f7cde83b5206@linux.alibaba.com>
- <cde13472-46c0-7e17-175f-4b2ba4d8148a@linux.alibaba.com>
- <20200214151048.GL14914@hirez.programming.kicks-ass.net>
- <20200217115810.GA3420@suse.de>
- <881deb50-163e-442a-41ec-b375cc445e4d@linux.alibaba.com>
- <20200217141616.GB3420@suse.de>
- <114519ab-4e9e-996a-67b8-4f5fcecba72a@linux.alibaba.com>
- <20200221142010.GT3420@suse.de>
- <20200221154706.GI18400@hirez.programming.kicks-ass.net>
-From:   =?UTF-8?B?546L6LSH?= <yun.wang@linux.alibaba.com>
-Message-ID: <9b3fc96e-d705-1b30-da3d-e85ad5549da3@linux.alibaba.com>
-Date:   Mon, 24 Feb 2020 11:13:51 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200221154706.GI18400@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1727244AbgBXEm7 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Feb 2020 23:42:59 -0500
+Received: from shards.monkeyblade.net ([23.128.96.9]:58980 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727239AbgBXEm7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Feb 2020 23:42:59 -0500
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::f0c])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 67AF114E88DB2;
+        Sun, 23 Feb 2020 20:42:58 -0800 (PST)
+Date:   Sun, 23 Feb 2020 20:42:58 -0800 (PST)
+Message-Id: <20200223.204258.1848303157853778664.davem@davemloft.net>
+To:     j.neuschaefer@gmx.net
+Cc:     linux-doc@vger.kernel.org, andrew@lunn.ch, f.fainelli@gmail.com,
+        hkallweit1@gmail.com, linux@armlinux.org.uk, kuba@kernel.org,
+        corbet@lwn.net, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: networking: phy: Rephrase paragraph for clarity
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200223174631.4734-1-j.neuschaefer@gmx.net>
+References: <20200223174631.4734-1-j.neuschaefer@gmx.net>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sun, 23 Feb 2020 20:42:58 -0800 (PST)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Date: Sun, 23 Feb 2020 18:46:31 +0100
 
+> Let's make it a little easier to read.
+> 
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 
-On 2020/2/21 ä¸‹åˆ11:47, Peter Zijlstra wrote:
-> On Fri, Feb 21, 2020 at 02:20:10PM +0000, Mel Gorman wrote:
->> I fully acknowledge that this may have value for sysadmins and may be a
->> good enough reason to merge it for environments that typically build and
->> configure their own kernels. I doubt that general distributions would
->> enable it but that's a guess.
-> 
-> OTOH, many sysadmins seem to 'rely' on BPF scripts and other such fancy
-> things these days.
-> 
->  ( of course, we have the open question on what happens when we break
->    one of those BPF 'important' scripts ... )
-> 
-> My main reservation with this patch is that it exposes, to userspace, an
-> ABI that is very hard to interpret and subject to implementation
-> details.
-> 
-> So while it can be disabled; people who have it enabled might suddenly
-> complain when we change the meaning/interpretation/whatever of these
-> magic numbers.
-> 
-> Michael; you seem to have ignored the tracepoint / BPF angle earlier in
-> this discussion; that is not something that could/would work for you?
-
-At very beginning I think these fancy stuff may consume too much resources
-them selves, so just as you said, ignored the possibility :-P
-
-But now I understand there is a big gap here, which require a much more general
-way to evaluate the NUMA platform, I'll try to follow this way see if there
-are any practical approach instead~
-
-Regards,
-Michael Wang
-
-> 
+Applied, thank you.
