@@ -2,134 +2,132 @@ Return-Path: <SRS0=jiAz=4M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D13FC11D38
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 18:14:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA46C11D2F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 18:22:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02E5220CC7
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 18:14:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582568087;
-	bh=pQEcnphSWAKNko84gSNKnOMi1Kplq6trr5YxbE4qBYg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Qo1pNu3CVtmIdRSenynjxZ3g+N/vNshnqezbspvAVcvuxtbSuGewS9NHuB8zYViJ8
-	 FKrVwtmDsdZHyOV75wiBVqGFjb8xcNS/xUmKw964miCBHsWs6djxFhIbYfjrMOe5N0
-	 8EwQ+p8SljT5gtkC/i/eoN9FtPSG5fuktKQLyRMI=
+	by mail.kernel.org (Postfix) with ESMTP id F3D6620838
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Feb 2020 18:22:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g41PErF6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727689AbgBXSOp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Feb 2020 13:14:45 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:34835 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726208AbgBXSOp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 13:14:45 -0500
-Received: by mail-ot1-f67.google.com with SMTP id r16so9602668otd.2;
-        Mon, 24 Feb 2020 10:14:44 -0800 (PST)
+        id S1727730AbgBXSWl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Feb 2020 13:22:41 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:43785 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727438AbgBXSWl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Feb 2020 13:22:41 -0500
+Received: by mail-lf1-f67.google.com with SMTP id s23so7474756lfs.10;
+        Mon, 24 Feb 2020 10:22:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lO1820yXM1kR2FVVGTZ+ujBZ4C9qGvFZNasnsnO3YqI=;
+        b=g41PErF6G9DUh+x9iXgEt0exu0g4nKSFES0SiW/+ruBNlipaoJagG84+h1+ASnZVCs
+         LN4OWgy4A7rbxtoePdMfCMfGMsm92tfJ5LRcuIELnndLIRw7czgWnPEoltZUmWWsZyHb
+         AX6uq/Z8MOu8GzNIznwlX1tChE3ERvU2gScJr7geIV/7fKANCp6omuhwuJuG80rGVBJJ
+         kv3SN5dkscPUutWqgs8NPrvFUK7EoVnsG/qHlcblo194p5aU0KQjo7k0mJvwqQNJECxO
+         zHjvJAIa+aNKUG84kEjEnEf91dda1u1M1x04V6Rh93lyC79TXNQrwq4dIA519eKktNpM
+         aL0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4nmmGful+MegUr8aRgRCB1gCieEuCvrSiIBlqsABDmE=;
-        b=T58RVwbr4NQjeRTG7UBG+4HnEZ3Sm+n3CTBfK2ekFInD+UDcONAKcxlZZqX3cJCAKG
-         yQDx22hOOKsFO3bpC2vg12DTP2Cc70iIz8ge/GmMAzIFycnL48aqpdhSIu6SjIY6Jb/w
-         3CQLtymmGzu31yeSC1BxXM41upNqLNO7KQ3B6NY5hXwu0bLHZlKgJ9t13wfdGUymQSC7
-         gDxCrtZy1C6tPwuOQUncs7QGl1e7GG5jVQyCEeecIrl44DwDngTNWsEq3fA5YoZcRLqD
-         YoyAI+NerGPADjMn6sW/1o8Dat3u5XpUHkWmBhRu9PCviV1PbFSB4U/9m+xZeckDL6v3
-         AM9g==
-X-Gm-Message-State: APjAAAUgLTqsnYnob21W3Gc+mbH6Q9aO/Gm+TVoPxiuhq6T0fFVjlKQy
-        y1zplhlC2qKQJs+7Vcb+V1aYFIA=
-X-Google-Smtp-Source: APXvYqzSAV62BhNi363gv0daEbhuDKzBdde3JmEZAlbjVYZ9GcAmP/tY+ZpDRe7P2Ti1DpLoIK6ciQ==
-X-Received: by 2002:a9d:68d9:: with SMTP id i25mr29162204oto.135.1582568083899;
-        Mon, 24 Feb 2020 10:14:43 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 60sm4761700otu.45.2020.02.24.10.14.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 10:14:43 -0800 (PST)
-Received: (nullmailer pid 24218 invoked by uid 1000);
-        Mon, 24 Feb 2020 18:14:41 -0000
-Date:   Mon, 24 Feb 2020 12:14:41 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Jyri Sarha <jsarha@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Stuart Yoder <stuyoder@gmail.com>,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-gpio@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to
- renames
-Message-ID: <20200224181441.GA23262@bogus>
-References: <cover.1582361737.git.mchehab+huawei@kernel.org>
- <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lO1820yXM1kR2FVVGTZ+ujBZ4C9qGvFZNasnsnO3YqI=;
+        b=ps75zpI7pNkY4dHa1gO8Celc5fdtvlIGaACCGr3RRPTdg4GyyrZMtlMZqh5/LrAqJp
+         R1byctcP/HXSdbnt0alz/bKgF3BOid6SDTYcYQy1UfCKMzzz8M4t0r1Z+08eHwy7Z6MU
+         pUCxV6C1uRmEuANX4uBbmEA0NjrYRJqmAgcelnzRAxvWxZW/Ng3n/1zl7EPUML1ocjFU
+         SGzQieZyB8yRnMvST3ugVhcJdfDZUPCOv3FRVRuq2RLHOidA8nH8Yj1l1FHUmRU01FcG
+         ctEGQ0+5nMIehTQ7jFF+KC+b4C994z/ZZJfvWq6v4IKVAzFmhwI59v6WXSvOXR6wQu1U
+         ofNg==
+X-Gm-Message-State: APjAAAUt2x2/0istOtA+aqKMgN/gJa7nMbiW2TFSqNfWQEPl1vWyiyJt
+        LCYY/C+L1kliX6YG3qr4h3mV5/oN
+X-Google-Smtp-Source: APXvYqxnxim8gbAsgYo6E4n7YKceLi0CMN4LN5Qy8wdqUm37IovUbcalEUWRIr/o65enOGgrw7hAkQ==
+X-Received: by 2002:a19:2d53:: with SMTP id t19mr2250423lft.206.1582568556912;
+        Mon, 24 Feb 2020 10:22:36 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id i67sm3895013lfi.11.2020.02.24.10.22.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2020 10:22:36 -0800 (PST)
+Subject: Re: [PATCH v1] partitions/efi: Add 'gpt_sector' kernel cmdline
+ parameter
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Karel Zak <kzak@redhat.com>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Jens Axboe <axboe@kernel.dk>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Colin Cross <ccross@android.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>, linux-efi@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200219162339.16192-1-digetx@gmail.com>
+ <20200219162738.GA10644@infradead.org>
+ <f9e41108-7811-0deb-6977-be0f60e23b52@wwwdotorg.org>
+ <20200224163342.d4acf224b56celup@ws.net.home>
+ <9c7343eb-1b09-ffcf-cba0-11d6a26dfd77@gmail.com>
+Message-ID: <eb1e3a64-b1ac-94d0-07f7-c84a83d9b21e@gmail.com>
+Date:   Mon, 24 Feb 2020 21:22:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <9c7343eb-1b09-ffcf-cba0-11d6a26dfd77@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 22, 2020 at 10:00:02AM +0100, Mauro Carvalho Chehab wrote:
-> Several DT references got broken due to txt->yaml conversion.
+24.02.2020 20:23, Dmitry Osipenko пишет:
+> 24.02.2020 19:33, Karel Zak пишет:
+>> On Wed, Feb 19, 2020 at 09:59:54AM -0700, Stephen Warren wrote:
+>>> On 2/19/20 9:27 AM, Christoph Hellwig wrote:
+>>>> On Wed, Feb 19, 2020 at 07:23:39PM +0300, Dmitry Osipenko wrote:
+>>>>> The gpt_sector=<sector> causes the GPT partition search to look at the
+>>>>> specified sector for a valid GPT header if the GPT is not found at the
+>>>>> beginning or the end of block device.
+>>>>>
+>>>>> In particular this is needed for NVIDIA Tegra consumer-grade Android
+>>>>> devices in order to make them usable with the upstream kernel because
+>>>>> these devices use a proprietary / closed-source partition table format
+>>>>> for the EMMC and it's impossible to change the partition's format. Luckily
+>>>>> there is a GPT table in addition to the proprietary table, which is placed
+>>>>> in uncommon location of the EMMC storage and bootloader passes the
+>>>>> location to kernel using "gpt gpt_sector=<sector>" cmdline parameters.
+>>>>>
+>>>>> This patch is based on the original work done by Colin Cross for the
+>>>>> downstream Android kernel.
+>>>>
+>>>> I don't think a magic command line is the way to go.  The best would be
+>>>> to reverse-engineer the proprietary partition table format.  If that is
+>>>> too hard we can at least key off the odd GPT location based of it's
+>>>> magic number.
+>>
+>>  +1
+>>
+>>> I thought that the backup GPT was always present in the standard location;
+>>
+>> If they have proprietary stuff on begin of the device and valid backup
+>> GPT at the end of the device then designer of this junk is crazy, because
+>> many GPT fdisk-like tools will try to recover from the backup header and 
+>> overwrite the unknown (invalid) stuff at the begin of the device...
 > 
-> Those are auto-fixed by running:
+> It's a problem created by vendor, but these devices are assumed to run
+> Android-only. So it's not really that bad :)
 > 
-> 	scripts/documentation-file-ref-check --fix
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Reviewed-by: Dan Murphy <dmurphy@ti.com>
-> ---
->  Documentation/devicetree/bindings/arm/arm,scmi.txt        | 2 +-
->  Documentation/devicetree/bindings/arm/arm,scpi.txt        | 2 +-
->  .../devicetree/bindings/arm/bcm/brcm,bcm63138.txt         | 2 +-
->  .../devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt  | 2 +-
->  .../devicetree/bindings/arm/msm/qcom,idle-state.txt       | 2 +-
->  Documentation/devicetree/bindings/arm/omap/mpu.txt        | 2 +-
->  Documentation/devicetree/bindings/arm/psci.yaml           | 2 +-
->  .../devicetree/bindings/clock/qcom,gcc-apq8064.yaml       | 2 +-
->  .../devicetree/bindings/display/tilcdc/tilcdc.txt         | 2 +-
->  Documentation/devicetree/bindings/leds/common.yaml        | 2 +-
->  .../devicetree/bindings/leds/register-bit-led.txt         | 2 +-
->  .../devicetree/bindings/memory-controllers/ti/emif.txt    | 2 +-
->  Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt   | 2 +-
->  .../bindings/pinctrl/aspeed,ast2400-pinctrl.yaml          | 2 +-
->  .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml          | 2 +-
->  .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml          | 2 +-
->  .../devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml  | 2 +-
->  .../devicetree/bindings/reset/st,stm32mp1-rcc.txt         | 2 +-
->  .../devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml  | 2 +-
->  MAINTAINERS                                               | 8 ++++----
->  20 files changed, 23 insertions(+), 23 deletions(-)
 
-Applied.
-
-Rob
+Is there any way to mark parts of block device as read-only? Such that
+userspace couldn't write to the RO-marked sectors, I guess that could
+help to save someone's bacon.
