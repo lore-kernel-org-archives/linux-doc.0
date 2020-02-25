@@ -2,76 +2,130 @@ Return-Path: <SRS0=e/bK=4N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F0DFC4BA01
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 22:27:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F9CC4BA06
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:23:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D75E421D7E
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 22:27:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82F0020732
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:23:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="QamDRN5G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728688AbgBYW1u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 17:27:50 -0500
-Received: from smtprelay0025.hostedemail.com ([216.40.44.25]:44193 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727227AbgBYW1u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 17:27:50 -0500
-X-Greylist: delayed 354 seconds by postgrey-1.27 at vger.kernel.org; Tue, 25 Feb 2020 17:27:49 EST
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave01.hostedemail.com (Postfix) with ESMTP id E84B61801FC56;
-        Tue, 25 Feb 2020 22:21:55 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 9970A181D3417;
-        Tue, 25 Feb 2020 22:21:54 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: mass36_2d532f68ee916
-X-Filterd-Recvd-Size: 1751
-Received: from XPS-9350 (unknown [172.58.27.58])
-        (Authenticated sender: joe@perches.com)
-        by omf08.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 25 Feb 2020 22:21:50 +0000 (UTC)
-Message-ID: <3b7b2b366220c9ba39ebc241ba22c0304f0d61b0.camel@perches.com>
-Subject: Re: [PATCH] Documentation/llvm: add documentation on building w/
- Clang/LLVM
-From:   Joe Perches <joe@perches.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        id S1729042AbgBYXXx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 18:23:53 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:37556 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728806AbgBYXXx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 18:23:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=1NdWXTtNvNHAGbogy1ZnStwT/++LxICWN164u7rzZr0=; b=QamDRN5GaQqQYbFgMUSdUvUca
+        r3BzD0vUxPtIciEzVXv78nEdi9xBi0AsyCqmDkIcvJ3VLdQeP+OYByQEOa5O2ATfacbKFCcxH7WHP
+        ovBCb0GPhZmW0vzRGgT3XNKehBDXuxYq80Y59w4aGhrLgHjR3Uxi/M8coJZX1E25yPxPIyV3ml1Pp
+        tAZo8Coyep9kRHGO39lxQL8WuOYVz6Ovqtwf8OGZev5JspePoiWie/XOovtBX4wDAj68eyTRRhQty
+        eAjUHMEYKPHQKeWL36pLZe0p75WLRZVRV1iyv9dIBICj49Jp8dNSKhS5I0966IDmyv4hhe61oNASt
+        FP58W0TVQ==;
+Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:52756)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1j6jXq-0003pP-Oq; Tue, 25 Feb 2020 23:23:18 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1j6jXf-0007oA-TF; Tue, 25 Feb 2020 23:23:07 +0000
+Date:   Tue, 25 Feb 2020 23:23:07 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Felix Fietkau <nbd@nbd.name>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Crispin <john@phrozen.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Jose Abreu <joabreu@synopsys.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Date:   Tue, 25 Feb 2020 14:20:19 -0800
-In-Reply-To: <202002251353.25A016CD@keescook>
-References: <20200224174129.2664-1-ndesaulniers@google.com>
-         <202002242003.870E5F80@keescook>
-         <20200225041643.GA17425@ubuntu-m2-xlarge-x86>
-         <CAKwvOdn0_EETGtBVhbRKMPqv2K04Z1N4PuOZDZ6++Ejbi9-B-w@mail.gmail.com>
-         <202002251353.25A016CD@keescook>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        netdev <netdev@vger.kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>
+Subject: Re: [PATCH net-next 2/8] net: dsa: propagate resolved link config
+ via mac_link_up()
+Message-ID: <20200225232307.GU25745@shell.armlinux.org.uk>
+References: <20200225093703.GS25745@shell.armlinux.org.uk>
+ <E1j6Wg0-0000Ss-W7@rmk-PC.armlinux.org.uk>
+ <CA+h21hp8KCqhCasOAGz17k0eRteHVVYK-eANQmn4h443qv=2JQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+h21hp8KCqhCasOAGz17k0eRteHVVYK-eANQmn4h443qv=2JQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2020-02-25 at 13:56 -0800, Kees Cook wrote:
-> I think we should take a specific version stand as the
-> "minimum" version. Being able to build x86 defconfig is a good minimum
-> IMO.
+On Tue, Feb 25, 2020 at 11:09:35PM +0200, Vladimir Oltean wrote:
+> Hi Russell,
+> 
+> On Tue, 25 Feb 2020 at 11:39, Russell King <rmk+kernel@armlinux.org.uk> wrote:
+> >
+> > Propagate the resolved link configuration down via DSA's
+> > phylink_mac_link_up() operation to allow split PCS/MAC to work.
+> >
+> > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> > ---
+> >  drivers/net/dsa/b53/b53_common.c       | 4 +++-
+> >  drivers/net/dsa/b53/b53_priv.h         | 4 +++-
+> >  drivers/net/dsa/bcm_sf2.c              | 4 +++-
+> >  drivers/net/dsa/lantiq_gswip.c         | 4 +++-
+> >  drivers/net/dsa/mt7530.c               | 4 +++-
+> >  drivers/net/dsa/mv88e6xxx/chip.c       | 4 +++-
+> >  drivers/net/dsa/sja1105/sja1105_main.c | 4 +++-
+> >  include/net/dsa.h                      | 4 +++-
+> >  net/dsa/port.c                         | 3 ++-
+> >  9 files changed, 26 insertions(+), 9 deletions(-)
+> >
+> 
+> It looks like you missed the felix_phylink_mac_link_up() conversion in
+> this patch? (which also makes it fail to build, by the way, I'm
+> supposed the Kbuild robot didn't already jump)
+> Nonetheless, I've manually added the missing speed, duplex, tx_pause
+> and rx_pause parameters, and it appears to work as before.
+> Same for sja1105.
 
-Agree.
+Quite possibly; the patch was developed against 5.5 plus the phylink
+changes, but applied to net-next. Hmm, it seems my coccinelle script
+that detects .mac_link_up initialiser prototypes, but not the DSA
+equivalent using the old prototype.
 
-It's odd to say that clang 4 is fine for arm when it's
-not fine for x86.  It's also reasonable to expect arm
-users to upgrade their compiler to a more recent version
-when the only cost is a very small bit of time.
+Thanks for pointing it out.
 
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
