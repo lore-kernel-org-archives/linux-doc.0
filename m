@@ -2,175 +2,77 @@ Return-Path: <SRS0=e/bK=4N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B38C35E01
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 15:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D6DC35E01
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 15:45:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CEF8A2082F
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 15:03:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j3YeRKuj"
+	by mail.kernel.org (Postfix) with ESMTP id 695A520CC7
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 15:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730929AbgBYPDb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 10:03:31 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:46162 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730795AbgBYPDb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 10:03:31 -0500
-Received: by mail-qk1-f194.google.com with SMTP id u124so12121140qkh.13
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 07:03:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wAHb7rK639CcDCtnM7iJQZElyiD2uywLhpHa6tq57/0=;
-        b=j3YeRKujuPj9zGjGOLEkt6wdH3hlRbWvAzwSpsAFnd+E0Vl11Qkczyj0JZGkg6Rd/d
-         OyORz2UcsIwsakv9MMRaOoz/C/BbwKMHNX+pXr3AtBb/VtQ53CsVk5jd5v340Qua6VDw
-         Bedv2EeiN5pdEZFaYMTd0GQB1lnUxvpYO8pOg5bT7QO/OU9WQ8naLOVo/67Z56BjwymC
-         kDH5k9Hxz+ZkY7KLoxOgPswpMct6k9BAX2ni0w86KyYaNEohu20Ed8BOJuZ8U2M5MFKj
-         nacWEMMAjE6jXiWafw8SOxqrluPoCzTYzDOgvLqI2nsE5BlNorCr2l81nYX9/nayT6iB
-         PMyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wAHb7rK639CcDCtnM7iJQZElyiD2uywLhpHa6tq57/0=;
-        b=GQTiWNEzX52vMVzvL6sVJtAp/VW1wSlmxsz9EG2HudwMudstBzraegr66fajsrokO1
-         mYbta0OMmVy4S7eOxfI3UpUgIR08PUUy9qmWlrM/TbQWShMezyGhQnwtFjDMbrTR3EoM
-         PPWlvRf9Sxp9M53GJBEkgZzhszcS96sy18DHpx4TWNgTrmY+OKb3eASXaTS1rX/gzckp
-         ljGXuVyIIgl4ivr/9T/K32nqv1s0z0azXOKCo1YsFv6SDl7QdyImJYMYLqd4jryC+JMm
-         /M0IUuj5owrsHDzcFZPRnmlWpVSBk1HVdFSlfDdH5LSNwY8mpqi+L5MWAJ59PqkuZ6MT
-         ehdQ==
-X-Gm-Message-State: APjAAAXGIpWu4qNx0yCzFx98WK/ITpiYiCPRTJx7r1FUdLwKAcvr+YFl
-        8skHWEscI5RM2G43xZz9YPAktKXjEiED82N8dKyPwQ==
-X-Google-Smtp-Source: APXvYqzigvoxgWcb3ZmCCwvHRtpN3dxkcq9+kpu7VpR9hQ20upkiH0Yza2Z8PIe6Eb+Flk9FSwpWt8uJ4z71H80aDnk=
-X-Received: by 2002:a37:a9c3:: with SMTP id s186mr4972168qke.118.1582643009968;
- Tue, 25 Feb 2020 07:03:29 -0800 (PST)
+        id S1730583AbgBYPpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 10:45:07 -0500
+Received: from ms.lwn.net ([45.79.88.28]:54992 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726019AbgBYPpH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 Feb 2020 10:45:07 -0500
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 80F396D9;
+        Tue, 25 Feb 2020 15:45:04 +0000 (UTC)
+Date:   Tue, 25 Feb 2020 08:44:59 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Roger Law <shornado@gmail.com>
+Cc:     tekkamanninja@gmail.com, harryxiyou@gmail.com,
+        mamurph@cs.clemson.edu, linux-kernel@zh-kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH]Documentation/filesystems/tranlastions : translate
+ debugfs.txt to Chinese
+Message-ID: <20200225084459.5bca7d38@lwn.net>
+In-Reply-To: <CANf4p2UJSFyGsv7nxYXmm0Wdkbj38BihAkcZ_+fpC-VDmEykcg@mail.gmail.com>
+References: <CANf4p2UJSFyGsv7nxYXmm0Wdkbj38BihAkcZ_+fpC-VDmEykcg@mail.gmail.com>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200210213924.20037-1-mike.leach@linaro.org> <20200210213924.20037-9-mike.leach@linaro.org>
- <04b739fd-7bb3-bd28-8013-918e7d4dfcb7@arm.com> <20200221165134.GA25043@xps15>
-In-Reply-To: <20200221165134.GA25043@xps15>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Tue, 25 Feb 2020 15:03:18 +0000
-Message-ID: <CAJ9a7VjJMtftam3t_e25ckOW_dufncbqdLkHeV3G8e7W9K5bCw@mail.gmail.com>
-Subject: Re: [PATCH v9 08/15] coresight: cti: Enable CTI associated with devices.
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        devicetree@vger.kernel.org,
-        Coresight ML <coresight@lists.linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andy Gross <agross@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As using devm_... for allocation, there is no need to explicitly free
-up tc->con_dev_name, also the lifetime of the connection is linked to
-the lifetime of csdev, so we can drop the devm_kstrdup in the csdev
-case so this becomes
+On Tue, 25 Feb 2020 22:28:16 +0800
+Roger Law <shornado@gmail.com> wrote:
 
-/* match: so swap in csdev name & dev */
-               tc->con_dev_name = dev_name(&csdev->dev);
-                tc->con_dev = csdev;
-                return true;
+> From:shornado<shornado@gmail.com>
+> 
+> Translate Documentaion/filesystems/debugfs.txt to Chinese
+> 
+> signed-off-by:shornado<shornado@gmail.com>
 
-Same true for similar link in patch 1, removing 2 un-needed
-allocations, leaving 1 to be fixed up with error checking
+Thank you for working to make the documentation better!
 
-Mike
+There are a few things that need to be fixed here, though, starting with
+the above signoff line.  Please look at how those lines are formatted in
+other patches (or in the documentation), with a capital "S" and a space
+after the colon.  Please also provide your real name rather than
+"shornado".
 
+The patch has also clearly been whitespace damaged; look at the formatting
+of the code samples, or even this line:
 
-On Fri, 21 Feb 2020 at 16:51, Mathieu Poirier
-<mathieu.poirier@linaro.org> wrote:
->
-> On Fri, Feb 21, 2020 at 12:20:17AM +0000, Suzuki K Poulose wrote:
-> > Hi Mike
-> >
-> > Sorry for the delay. one minor comment below.
-> >
-> > On 02/10/2020 09:39 PM, Mike Leach wrote:
-> > > The CoreSight subsystem enables a path of devices from source to sink.
-> > > Any CTI devices associated with the path devices must be enabled at the
-> > > same time.
-> > >
-> > > This patch adds an associated coresight_device element to the main
-> > > coresight device structure, and uses this to create associations between
-> > > the CTI and other devices based on the device tree data. The associated
-> > > device element is used to enable CTI in conjunction with the path elements.
-> > >
-> > > CTI devices are reference counted so where a single CTI is associated with
-> > > multiple elements on the path, it will be enabled on the first associated
-> > > device enable, and disabled with the last associated device disable.
-> > >
-> > > Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> > > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > > ---
-> > >   drivers/hwtracing/coresight/coresight-cti.c  | 129 +++++++++++++++++++
-> > >   drivers/hwtracing/coresight/coresight-cti.h  |   1 +
-> > >   drivers/hwtracing/coresight/coresight-priv.h |  12 ++
-> > >   drivers/hwtracing/coresight/coresight.c      |  71 +++++++++-
-> > >   include/linux/coresight.h                    |   4 +
-> > >   5 files changed, 212 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
-> > > index 77c2af247917..c4494923d030 100644
-> > > --- a/drivers/hwtracing/coresight/coresight-cti.c
-> > > +++ b/drivers/hwtracing/coresight/coresight-cti.c
-> > > @@ -4,6 +4,7 @@
-> > >    * Author: Mike Leach <mike.leach@linaro.org>
-> > >    */
-> > > +#include <linux/property.h>
-> > >   #include "coresight-cti.h"
-> > >   /**
-> > > @@ -440,6 +441,131 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
-> > >     return err;
-> > >   }
-> > > +/*
-> > > + * Look for a matching connection device name in the list of connections.
-> > > + * If found then swap in the csdev name, set trig con association pointer
-> > > + * and return found.
-> > > + */
-> > > +static bool
-> > > +cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
-> > > +                 struct coresight_device *csdev)
-> > > +{
-> > > +   struct cti_trig_con *tc;
-> > > +   const char *csdev_name;
-> > > +
-> > > +   list_for_each_entry(tc, &ctidev->trig_cons, node) {
-> > > +           if (tc->con_dev_name) {
-> > > +                   if (!strcmp(node_name, tc->con_dev_name)) {
-> > > +                           /* match: so swap in csdev name & dev */
-> > > +                           csdev_name = dev_name(&csdev->dev);
-> > > +                           tc->con_dev_name =
-> > > +                                   devm_kstrdup(&csdev->dev, csdev_name,
-> > > +                                                GFP_KERNEL);
-> >
-> > In the extreme rare case of an allocation failure, we may want to
-> > check if the allocation was successful or not, rather than silently
-> > ignoring it. With that fixed,
->
-> Line 419 and 423 in patch 1 need the same attention.
->
-> >
-> > Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> diff --git a/Documentation/translations/zh_CN/filesystems/debugfs.txt
+> b/Documentation/translations/zh_CN/filesystems/debugfs.txt
 
+...which should be a single line.
 
+Could I ask you please to fix these things up?  Then email the patch to
+yourself and be sure you can apply it; after that, I would be happy to see
+it again.
 
---
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+Thanks,
+
+jon
