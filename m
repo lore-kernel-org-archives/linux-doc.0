@@ -2,195 +2,139 @@ Return-Path: <SRS0=e/bK=4N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46A10C35DF5
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 13:01:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF2CEC35E03
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 14:49:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 23D3C2072D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 13:01:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A55EE21927
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 14:49:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PQpnX3Fj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729566AbgBYNBG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 08:01:06 -0500
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:11270
-        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729179AbgBYNBG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 08:01:06 -0500
-From:   Luc Maranget <luc.maranget@inria.fr>
-X-IronPort-AV: E=Sophos;i="5.70,484,1574118000"; 
-   d="scan'208";a="340371138"
-Received: from yquem.paris.inria.fr (HELO yquem.inria.fr) ([128.93.101.33])
-  by mail3-relais-sop.national.inria.fr with ESMTP; 25 Feb 2020 14:01:02 +0100
-Received: by yquem.inria.fr (Postfix, from userid 18041)
-        id 65A98E1AAB; Tue, 25 Feb 2020 14:01:02 +0100 (CET)
-Date:   Tue, 25 Feb 2020 14:01:02 +0100
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     Andrea Parri <parri.andrea@gmail.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
+        id S1729181AbgBYOti (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 09:49:38 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:45594 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727983AbgBYOti (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 09:49:38 -0500
+Received: by mail-pf1-f194.google.com with SMTP id 2so7276238pfg.12;
+        Tue, 25 Feb 2020 06:49:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zqNQMQTgL7w8ueyDiwX5gME5EnoZmFsKC426nVt4A5Q=;
+        b=PQpnX3FjM3RCssErYIw2A5JEKajXy69L7DyFIgMIP1X/3Z6PhovdzzI+J0UP2PwOrO
+         5tc44InXaEpP8g3vT6qRtS8KL1b+NeNLAITxwanDM5g4Ufm5MCuuiw2jbDw0tk5SxmPq
+         7RHtTCOYRlAodLwGdw0zxLTU/YpmUJuIkgz+aC2PLQVz8b2cKcPCqj2b5YqHJpli5zcj
+         sHS98TE6tATc5lf0YnEleCmZPyIGS1mEcVNEYsETGwy5QnpJbj/On0QSsSspjuYy/jGt
+         2JMT3UsNfKmVkT04DBPnuEM/JIZWTGLk3Sh1tIH8lJ99Vev+TzTu47byPZzKshP27QhL
+         ZuDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zqNQMQTgL7w8ueyDiwX5gME5EnoZmFsKC426nVt4A5Q=;
+        b=FdXNf9ZvJ0YCh0/eqIHC8+cP6jROH4NnQdbTh6ZfXWf/ytHalWixT3x14dxCSmdTxi
+         yUcWMZ1Z8UFQ5CUi4xqtF2jw7OITWEVGJhiSlteoF3QoWQR/sx2vu/wKhJy56+Xbra3t
+         bhOci9OigbqhyKAar77b8oWs0P6X0n+RaPhHs6NushTOzhPsTBd8k2n3f3jlwFiEacl2
+         IP7Q7LyI4HcUA8P/85NtlI6wxAHoRNHBTsSBBdYrRkZJjmoaMlEg9EGSU1tzrKQARaSV
+         3pmZY3WcbXmyh60nTtZNBpyBvT9EUhuoWwQzMTK4YpHI811O7yLE0EvJpIZGulJwRC82
+         YAsA==
+X-Gm-Message-State: APjAAAUlTvXP8sEm/EzUXez5R5bzdivVpvtJIbP2bVQ9aeFLP2j3Efg7
+        xI7Q6Hxx7DlKqIfvXfuWvXNQwHXw
+X-Google-Smtp-Source: APXvYqxL32OfGVZHNZfwe0F18cET3H1W2w0CWGwGd6xnfcgd2nbInsCMqR8BZdH+If+CPcPllFkyGA==
+X-Received: by 2002:a62:7b93:: with SMTP id w141mr59104079pfc.226.1582642177035;
+        Tue, 25 Feb 2020 06:49:37 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x7sm17778950pfp.93.2020.02.25.06.49.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2020 06:49:36 -0800 (PST)
+Subject: Re: [PATCH 2/3] docs: hwmon: Add support for ina2xx
+To:     Franz Forstmayr <forstmayr.franz@gmail.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [RFC 2/3] tools/memory-model: Add a litmus test for atomic_set()
-Message-ID: <20200225130102.wsz3bpyhjmcru7os@yquem.inria.fr>
-References: <20200214040132.91934-1-boqun.feng@gmail.com>
- <20200214040132.91934-3-boqun.feng@gmail.com>
- <20200214081213.GA17708@andrea>
- <20200214104003.GC20408@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
- <20200225073451.GP69864@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200224232647.29213-1-forstmayr.franz@gmail.com>
+ <20200224232647.29213-2-forstmayr.franz@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <f4142460-ec38-a427-8429-8a4aa660aa8a@roeck-us.net>
+Date:   Tue, 25 Feb 2020 06:49:34 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200225073451.GP69864@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20200224232647.29213-2-forstmayr.franz@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-As far as I can remember I have implemented atomic_add_unless in herd7.
-
-As to your test, I have first run a slightly modified version of your test
-as a kernel module (using klitmus7).
-
-C atomic_add_unless-dependency
-{
-        atomic_t y = ATOMIC_INIT(1);
-}
-  P0(int *x, atomic_t *y, int *z)
-{
-        int r0;
-        r0 = READ_ONCE(*x);
-        if (atomic_add_unless((atomic_t *)y, 2, r0))
-                WRITE_ONCE(*z, 42);
-        else
-                WRITE_ONCE(*z, 1);
-}
-  P1(int *x, int *z)
-{
-        int r0;
-        r0 = smp_load_acquire(z);
-        WRITE_ONCE(*x, 1);
-}
-locations [y]
-exists
-(1:r0 = 1 /\ 0:r0 = 1)
-
-
-The test is also accepted by herd7, here producing teh same final values
-as actual run on a raspberry PI4B.
-
---Luc
-
-> Luc,
+On 2/24/20 3:26 PM, Franz Forstmayr wrote:
+> Add documentation for INA260, power/current monitor with I2C interface.
 > 
-> Could you have a look at the problem Andrea and I discuss here? It seems
-> that you have done a few things in herd for atomic_add_unless() in
-> particular, and based on the experiments of Andrea and me, seems
-> atomic_add_unless() works correctly. So can you confirm that herd now
-> can handle atomic_add_unless() or there is still something missing?
+
+Subject should match description here (this patch does not add support
+for ina2xx).
+
+> Signed-off-by: Franz Forstmayr <forstmayr.franz@gmail.com>
+> ---
+>   Documentation/hwmon/ina2xx.rst | 19 ++++++++++++++++---
+>   1 file changed, 16 insertions(+), 3 deletions(-)
 > 
-> Thanks!
+> diff --git a/Documentation/hwmon/ina2xx.rst b/Documentation/hwmon/ina2xx.rst
+> index 94b9a260c518..74267dd433dd 100644
+> --- a/Documentation/hwmon/ina2xx.rst
+> +++ b/Documentation/hwmon/ina2xx.rst
+> @@ -53,6 +53,16 @@ Supported chips:
+>   
+>   	       http://www.ti.com/
+>   
+> +  * Texas Instruments INA260
+> +
+> +    Prefix: 'ina260'
+> +
+> +    Addresses: I2C 0x40 - 0x4f
+> +
+> +    Datasheet: Publicly available at the Texas Instruments website
+> +
+> +         http://www.ti.com/
+> +
+>   Author: Lothar Felten <lothar.felten@gmail.com>
+>   
+>   Description
+> @@ -72,14 +82,17 @@ INA230 and INA231 are high or low side current shunt and power monitors
+>   with an I2C interface. The chips monitor both a shunt voltage drop and
+>   bus supply voltage.
+>   
+> +INA260 is a high or low side current and power monitor with an integrated
+> +shunt and I2C interface.
+> +
+>   The shunt value in micro-ohms can be set via platform data or device tree at
+>   compile-time or via the shunt_resistor attribute in sysfs at run-time. Please
+>   refer to the Documentation/devicetree/bindings/hwmon/ina2xx.txt for bindings
+>   if the device tree is used.
+>   
+> -Additionally ina226 supports update_interval attribute as described in
+> -Documentation/hwmon/sysfs-interface.rst. Internally the interval is the sum of
+> -bus and shunt voltage conversion times multiplied by the averaging rate. We
+> +Additionally ina226 and ina260 supports update_interval attribute as described
+
+s/supports/support/
+
+> +in Documentation/hwmon/sysfs-interface.rst. Internally the interval is the sum
+> +of bus and shunt voltage conversion times multiplied by the averaging rate. We
+>   don't touch the conversion times and only modify the number of averages. The
+>   lower limit of the update_interval is 2 ms, the upper limit is 2253 ms.
+>   The actual programmed interval may vary from the desired value.
 > 
-> Regards,
-> Boqun
-> 
-> On Fri, Feb 14, 2020 at 06:40:03PM +0800, Boqun Feng wrote:
-> > On Fri, Feb 14, 2020 at 09:12:13AM +0100, Andrea Parri wrote:
-> > > > @@ -0,0 +1,24 @@
-> > > > +C Atomic-set-observable-to-RMW
-> > > > +
-> > > > +(*
-> > > > + * Result: Never
-> > > > + *
-> > > > + * Test of the result of atomic_set() must be observable to atomic RMWs.
-> > > > + *)
-> > > > +
-> > > > +{
-> > > > +	atomic_t v = ATOMIC_INIT(1);
-> > > > +}
-> > > > +
-> > > > +P0(atomic_t *v)
-> > > > +{
-> > > > +	(void)atomic_add_unless(v,1,0);
-> > > 
-> > > We blacklisted this primitive some time ago, cf. section "LIMITATIONS",
-> > > entry (6b) in tools/memory-model/README; the discussion was here:
-> > > 
-> > >   https://lkml.kernel.org/r/20180829211053.20531-3-paulmck@linux.vnet.ibm.com
-> > > 
-> > 
-> > And in an email replying to that email, you just tried and seemed
-> > atomic_add_unless() works ;-)
-> > 
-> > > but unfortunately I can't remember other details at the moment: maybe
-> > > it is just a matter of or the proper time to update that section.
-> > > 
-> > 
-> > I spend a few time looking into the changes in herd, the dependency
-> > problem seems to be as follow:
-> > 
-> > For atomic_add_unless(ptr, a, u), the return value (true or false)
-> > depends on both *ptr and u, this is different than other atomic RMW,
-> > whose return value only depends on *ptr. Considering the following
-> > litmus test:
-> > 
-> > 	C atomic_add_unless-dependency
-> > 
-> > 	{
-> > 		int y = 1;
-> > 	}
-> > 
-> > 	P0(int *x, int *y, int *z)
-> > 	{
-> > 		int r0;
-> > 		int r1;
-> > 		int r2;
-> > 
-> > 		r0 = READ_ONCE(*x);
-> > 		if (atomic_add_unless(y, 2, r0))
-> > 			WRITE_ONCE(*z, 42);
-> > 		else
-> > 			WRITE_ONCE(*z, 1);
-> > 	}
-> > 
-> > 	P1(int *x, int *y, int *z)
-> > 	{
-> > 		int r0;
-> > 
-> > 		r0 = smp_load_acquire(z);
-> > 
-> > 		WRITE_ONCE(*x, 1);
-> > 	}
-> > 
-> > 	exists
-> > 	(1:r0 = 1 /\ 0:r0 = 1)
-> > 
-> > , the exist-clause will never trigger, however if we replace
-> > "atomic_add_unless(y, 2, r0)" with "atomic_add_unless(y, 2, 1)", the
-> > write on *z and the read from *x on CPU 0 are not ordered, so we could
-> > observe the exist-clause triggered.
-> > 
-> > I just tried with the latest herd, and herd can work out this
-> > dependency. So I think we are good now and can change the limitation
-> > section in the document. But I will wait for Luc's input for this. Luc,
-> > did I get this correct? Is there any other limitation on
-> > atomic_add_unless() now?
-> > 
-> > Regards,
-> > Boqun
-> > 
-> > > Thanks,
-> > >   Andrea
+
