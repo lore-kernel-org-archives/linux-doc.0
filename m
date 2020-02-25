@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59AC9C4BA16
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:46:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 674E9C4BA1C
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:46:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2AAAA24670
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:46:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C78621D7E
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:46:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ebQwmFzh"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rr37bJfF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729517AbgBYXql (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 18:46:41 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44739 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726827AbgBYXql (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 18:46:41 -0500
-Received: by mail-wr1-f65.google.com with SMTP id m16so729252wrx.11
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 15:46:38 -0800 (PST)
+        id S1729609AbgBYXqu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 18:46:50 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33456 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729606AbgBYXqu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 18:46:50 -0500
+Received: by mail-wr1-f66.google.com with SMTP id u6so806594wrt.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 15:46:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=/8jY15B3jg+dOEXGPWEr/eswdwAs6rpSaZh6D8u8fRo=;
-        b=ebQwmFzhJOHokQ22fDgCiUUqthCserSNItrGSz5aNK2Vnzo2L+HD2DTLzUai5p46bb
-         3Dr0yscPoT+eNhKM/lBEaHYzQdDectyuFyNV1Ts6v0j+IsrL+xmWlijt9nFbVFK6VeYW
-         xIW6pSmR1arP59fpnVtOfSrxNKDZpPV+w7fqA0LpFQFBfuBEz3Of++iCve8nNGXtXwB0
-         aBeVt06eyPt2Xp7wLB3BbYNm6fa9k+7oXAiYVS9HuHMloTu606OS/Y3YsKTDzWHjxlUh
-         W9KtW0LAZJEVSP3TP2u9DOWeKefV9sHvJpq29fMNETRWutePDc/3qL/1VQalf9e0zWQa
-         0Hhg==
+        bh=kgPv1xhL+mbW9NmJe5kryNqVes+1z2lPlIFwnRL1YA0=;
+        b=rr37bJfFxwrVxLDyx8TaWQPLWweeMQfZXnD3O+ALg1p2KOJjniVnprvZgH4bxEJ0gQ
+         Gu//I4t8dovCSsIrwOeKw5GMxibgbVFOBuKJKteuNt7XauUfxG8zrOF6gHnU79KwBneZ
+         0FRbTRZ0eWlEYFliKpSgyylCTZQGOemi2cc/AyI8UbqpxJ2rxvarQx19h7tlyUZqWlY8
+         1e93L20BhIfIonfjo+Fkr+OinHmIi7at9HqnmaLqFLbsVzJC8hJXtkvvLLqZ1Juma6ta
+         SVS7fAJLjFAUlFg19tdqu61B/u8/Uv8bnHJjwDrniPKKg3HPSdig5u82QMxS/OM4bG3H
+         bMCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=/8jY15B3jg+dOEXGPWEr/eswdwAs6rpSaZh6D8u8fRo=;
-        b=TNuFMVoNZC8xVbh1U2TAsSzekccGiU+OYBTLfDxwf9M95g4Ggx6zi5w5DwwxQ2J7fi
-         ER2iXzdNIzZsd4Uh72miy6Yw28hfDbbYRGl4yKX+HiSBqsiHCzePajmXuPbLVX/NXZMJ
-         p2rauVSv5uInoU7RrRkN+TZEaUa8kWR7YltAsPsRS1wkPZV5buJDmSB+JC/Q/0CjxmjS
-         +hp0vcQ3YDDt9nJivVwHxfi/8IHUFjXWhfZU8xRI5fpH5hWC4BPAM/EX+GwaWo6lZ8gc
-         MPbOxuziULmM0ANO0vWOLDzOfbUybEjw1Nge9Mrd1DQL4N3XBOcCapq9fynfYPkV+RDK
-         Fwqg==
-X-Gm-Message-State: APjAAAXWb9h6VlIhu2dGqPUBxocEvCKvYljDSqGQ1yX2P+DteWPZ9eM5
-        aMOMOg0VriC4qRALMlhxUofbYA==
-X-Google-Smtp-Source: APXvYqzqZM9jSQAsR8CX0dw+00Uz9WaAMXKUmSjEz9jGYOHO2CXICeTMdbxWGoBIDzAPosLh+Qn+Hg==
-X-Received: by 2002:adf:f20b:: with SMTP id p11mr1421462wro.195.1582674397584;
-        Tue, 25 Feb 2020 15:46:37 -0800 (PST)
+        bh=kgPv1xhL+mbW9NmJe5kryNqVes+1z2lPlIFwnRL1YA0=;
+        b=Fk4+Nvvs+8JfCXTnYHAPW+wtTW1wGRmbV4/U1uPU8jG1Asy+DR0xZKgvH4Bk6SAZty
+         6REfPQWRskv+qMoGLn4uyBMxWOFYws/uAZpiYlik06GZ3imSuSetm7+poTkbu1arEAkU
+         UJ6ubH4CUTQ3HCWqSYUFkgPsaRfXVkOZloVsfT3vc7oeDyjZ7XYuGhzWr4Pyit3gtEjk
+         Jw0Xb1yYeC0YvuvGr2x1oq61M1W7noC9V+3fgkIpJe2oGhYC26iUC+XksWT+e8uIuE73
+         U8vcCu6sivUq/xcwQz08pq01vgIpek4StDrev1UKPqYdNrfmt+o7/7RpGD4CFqLKkRcM
+         ZXlg==
+X-Gm-Message-State: APjAAAWfxPYC+MgJb9vtLwshMEEVIeQQ/jezIJFSChzXAuaXNT5NYLRH
+        q5NtZdPhqrknxoRqDKIeoFHv5w==
+X-Google-Smtp-Source: APXvYqy4Vg339yoh3ddjTaZsAKJDyRXFTHJW3g7Gok3UDmAvUU7DsuzbRiCaXJonBJAriIuEhVCuKA==
+X-Received: by 2002:a5d:4385:: with SMTP id i5mr1625576wrq.73.1582674407140;
+        Tue, 25 Feb 2020 15:46:47 -0800 (PST)
 Received: from linaro.org ([2a00:23c5:6815:3901:186c:5f6c:221d:5ce])
-        by smtp.gmail.com with ESMTPSA id t133sm356278wmf.31.2020.02.25.15.46.36
+        by smtp.gmail.com with ESMTPSA id t133sm356278wmf.31.2020.02.25.15.46.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 15:46:36 -0800 (PST)
+        Tue, 25 Feb 2020 15:46:46 -0800 (PST)
 From:   Mike Leach <mike.leach@linaro.org>
 To:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         coresight@lists.linaro.org, linux-doc@vger.kernel.org
@@ -61,9 +61,9 @@ Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
         liviu.dudau@arm.com, sudeep.holla@arm.com,
         lorenzo.pieralisi@arm.com, agross@kernel.org, corbet@lwn.net,
         Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v10 06/15] coresight: cti: Add device tree support for v8 arch CTI
-Date:   Tue, 25 Feb 2020 23:46:02 +0000
-Message-Id: <20200225234611.11067-7-mike.leach@linaro.org>
+Subject: [PATCH v10 11/15] dt-bindings: arm: Juno platform - add CTI entries to device tree
+Date:   Tue, 25 Feb 2020 23:46:07 +0000
+Message-Id: <20200225234611.11067-12-mike.leach@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200225234611.11067-1-mike.leach@linaro.org>
 References: <20200225234611.11067-1-mike.leach@linaro.org>
@@ -72,320 +72,427 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The v8 architecture defines the relationship between a PE, its optional ETM
-and a CTI. Unlike non-architectural CTIs which are implementation defined,
-this has a fixed set of connections which can therefore be represented as a
-simple tag in the device tree.
-
-This patch defines the tags needed to create an entry for this PE/ETM/CTI
-relationship, and provides functionality to implement the connection model
-in the CTI driver.
+Add in CTI entries for Juno r0, r1 and r2 to device tree entries.
 
 Signed-off-by: Mike Leach <mike.leach@linaro.org>
 Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 ---
- .../coresight/coresight-cti-platform.c        | 205 ++++++++++++++++++
- .../hwtracing/coresight/coresight-platform.c  |  20 ++
- drivers/hwtracing/coresight/coresight-priv.h  |   2 +
- drivers/hwtracing/coresight/coresight.c       |  12 +-
- 4 files changed, 230 insertions(+), 9 deletions(-)
+ arch/arm64/boot/dts/arm/juno-base.dtsi    | 162 +++++++++++++++++++++-
+ arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi |  37 ++++-
+ arch/arm64/boot/dts/arm/juno-r1.dts       |  25 ++++
+ arch/arm64/boot/dts/arm/juno-r2.dts       |  25 ++++
+ arch/arm64/boot/dts/arm/juno.dts          |  25 ++++
+ 5 files changed, 269 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/hwtracing/coresight/coresight-cti-platform.c b/drivers/hwtracing/coresight/coresight-cti-platform.c
-index 665be86c585d..36a276eda50a 100644
---- a/drivers/hwtracing/coresight/coresight-cti-platform.c
-+++ b/drivers/hwtracing/coresight/coresight-cti-platform.c
-@@ -3,10 +3,208 @@
-  * Copyright (c) 2019, The Linaro Limited. All rights reserved.
-  */
+diff --git a/arch/arm64/boot/dts/arm/juno-base.dtsi b/arch/arm64/boot/dts/arm/juno-base.dtsi
+index 1f3c80aafbd7..fffd75cd2fd9 100644
+--- a/arch/arm64/boot/dts/arm/juno-base.dtsi
++++ b/arch/arm64/boot/dts/arm/juno-base.dtsi
+@@ -119,7 +119,7 @@
+ 	 * The actual size is just 4K though 64K is reserved. Access to the
+ 	 * unmapped reserved region results in a DECERR response.
+ 	 */
+-	etf@20010000 { /* etf0 */
++	etf_sys0: etf@20010000 { /* etf0 */
+ 		compatible = "arm,coresight-tmc", "arm,primecell";
+ 		reg = <0 0x20010000 0 0x1000>;
  
+@@ -143,7 +143,7 @@
+ 		};
+ 	};
+ 
+-	tpiu@20030000 {
++	tpiu_sys: tpiu@20030000 {
+ 		compatible = "arm,coresight-tpiu", "arm,primecell";
+ 		reg = <0 0x20030000 0 0x1000>;
+ 
+@@ -196,7 +196,7 @@
+ 		};
+ 	};
+ 
+-	etr@20070000 {
++	etr_sys: etr@20070000 {
+ 		compatible = "arm,coresight-tmc", "arm,primecell";
+ 		reg = <0 0x20070000 0 0x1000>;
+ 		iommus = <&smmu_etr 0>;
+@@ -214,7 +214,7 @@
+ 		};
+ 	};
+ 
+-	stm@20100000 {
++	stm_sys: stm@20100000 {
+ 		compatible = "arm,coresight-stm", "arm,primecell";
+ 		reg = <0 0x20100000 0 0x1000>,
+ 		      <0 0x28000000 0 0x1000000>;
+@@ -291,6 +291,18 @@
+ 		};
+ 	};
+ 
++	cti0: cti@22020000 {
++		compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++			     "arm,primecell";
++		reg = <0 0x22020000 0 0x1000>;
++
++		clocks = <&soc_smc50mhz>;
++		clock-names = "apb_pclk";
++		power-domains = <&scpi_devpd 0>;
++
++		arm,cs-dev-assoc = <&etm0>;
++	};
++
+ 	funnel@220c0000 { /* cluster0 funnel */
+ 		compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+ 		reg = <0 0x220c0000 0 0x1000>;
+@@ -351,6 +363,18 @@
+ 		};
+ 	};
+ 
++	cti1: cti@22120000 {
++		compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++			     "arm,primecell";
++		reg = <0 0x22120000 0 0x1000>;
++
++		clocks = <&soc_smc50mhz>;
++		clock-names = "apb_pclk";
++		power-domains = <&scpi_devpd 0>;
++
++		arm,cs-dev-assoc = <&etm1>;
++	};
++
+ 	cpu_debug2: cpu-debug@23010000 {
+ 		compatible = "arm,coresight-cpu-debug", "arm,primecell";
+ 		reg = <0x0 0x23010000 0x0 0x1000>;
+@@ -376,6 +400,18 @@
+ 		};
+ 	};
+ 
++	cti2: cti@23020000 {
++		compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++			     "arm,primecell";
++		reg = <0 0x23020000 0 0x1000>;
++
++		clocks = <&soc_smc50mhz>;
++		clock-names = "apb_pclk";
++		power-domains = <&scpi_devpd 0>;
++
++		arm,cs-dev-assoc = <&etm2>;
++	};
++
+ 	funnel@230c0000 { /* cluster1 funnel */
+ 		compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+ 		reg = <0 0x230c0000 0 0x1000>;
+@@ -448,6 +484,18 @@
+ 		};
+ 	};
+ 
++	cti3: cti@23120000 {
++		compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++			     "arm,primecell";
++		reg = <0 0x23120000 0 0x1000>;
++
++		clocks = <&soc_smc50mhz>;
++		clock-names = "apb_pclk";
++		power-domains = <&scpi_devpd 0>;
++
++		arm,cs-dev-assoc = <&etm3>;
++	};
++
+ 	cpu_debug4: cpu-debug@23210000 {
+ 		compatible = "arm,coresight-cpu-debug", "arm,primecell";
+ 		reg = <0x0 0x23210000 0x0 0x1000>;
+@@ -473,6 +521,18 @@
+ 		};
+ 	};
+ 
++	cti4: cti@23220000 {
++		compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++			     "arm,primecell";
++		reg = <0 0x23220000 0 0x1000>;
++
++		clocks = <&soc_smc50mhz>;
++		clock-names = "apb_pclk";
++		power-domains = <&scpi_devpd 0>;
++
++		arm,cs-dev-assoc = <&etm4>;
++	};
++
+ 	cpu_debug5: cpu-debug@23310000 {
+ 		compatible = "arm,coresight-cpu-debug", "arm,primecell";
+ 		reg = <0x0 0x23310000 0x0 0x1000>;
+@@ -498,6 +558,100 @@
+ 		};
+ 	};
+ 
++	cti5: cti@23320000 {
++		compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++			     "arm,primecell";
++		reg = <0 0x23320000 0 0x1000>;
++
++		clocks = <&soc_smc50mhz>;
++		clock-names = "apb_pclk";
++		power-domains = <&scpi_devpd 0>;
++
++		arm,cs-dev-assoc = <&etm5>;
++	};
++
++	cti@20020000 { /* sys_cti_0 */
++		compatible = "arm,coresight-cti", "arm,primecell";
++		reg = <0 0x20020000 0 0x1000>;
++
++		clocks = <&soc_smc50mhz>;
++		clock-names = "apb_pclk";
++		power-domains = <&scpi_devpd 0>;
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		trig-conns@0 {
++			reg = <0>;
++			arm,trig-in-sigs=<2 3>;
++			arm,trig-in-types=<SNK_FULL SNK_ACQCOMP>;
++			arm,trig-out-sigs=<0 1>;
++			arm,trig-out-types=<SNK_FLUSHIN SNK_TRIGIN>;
++			arm,cs-dev-assoc = <&etr_sys>;
++		};
++
++		trig-conns@1 {
++			reg = <1>;
++			arm,trig-in-sigs=<0 1>;
++			arm,trig-in-types=<SNK_FULL SNK_ACQCOMP>;
++			arm,trig-out-sigs=<7 6>;
++			arm,trig-out-types=<SNK_FLUSHIN SNK_TRIGIN>;
++			arm,cs-dev-assoc = <&etf_sys0>;
++		};
++
++		trig-conns@2 {
++			reg = <2>;
++			arm,trig-in-sigs=<4 5 6 7>;
++			arm,trig-in-types=<STM_TOUT_SPTE STM_TOUT_SW
++					   STM_TOUT_HETE STM_ASYNCOUT>;
++			arm,trig-out-sigs=<4 5>;
++			arm,trig-out-types=<STM_HWEVENT STM_HWEVENT>;
++			arm,cs-dev-assoc = <&stm_sys>;
++		};
++
++		trig-conns@3 {
++			reg = <3>;
++			arm,trig-out-sigs=<2 3>;
++			arm,trig-out-types=<SNK_FLUSHIN SNK_TRIGIN>;
++			arm,cs-dev-assoc = <&tpiu_sys>;
++		};
++	};
++
++	cti@20110000 { /* sys_cti_1 */
++		compatible = "arm,coresight-cti", "arm,primecell";
++		reg = <0 0x20110000 0 0x1000>;
++
++		clocks = <&soc_smc50mhz>;
++		clock-names = "apb_pclk";
++		power-domains = <&scpi_devpd 0>;
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		trig-conns@0 {
++			reg = <0>;
++			arm,trig-in-sigs=<0>;
++			arm,trig-in-types=<GEN_INTREQ>;
++			arm,trig-out-sigs=<0>;
++			arm,trig-out-types=<GEN_HALTREQ>;
++			arm,trig-conn-name = "sys_profiler";
++		};
++
++		trig-conns@1 {
++			reg = <1>;
++			arm,trig-out-sigs=<2 3>;
++			arm,trig-out-types=<GEN_HALTREQ GEN_RESTARTREQ>;
++			arm,trig-conn-name = "watchdog";
++		};
++
++		trig-conns@2 {
++			reg = <2>;
++			arm,trig-out-sigs=<1 6>;
++			arm,trig-out-types=<GEN_HALTREQ GEN_RESTARTREQ>;
++			arm,trig-conn-name = "g_counter";
++		};
++	};
++
+ 	gpu: gpu@2d000000 {
+ 		compatible = "arm,juno-mali", "arm,mali-t624";
+ 		reg = <0 0x2d000000 0 0x10000>;
+diff --git a/arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi b/arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi
+index eda3d9e18af6..752b05f8bf31 100644
+--- a/arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi
++++ b/arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi
+@@ -23,7 +23,7 @@
+ 		};
+ 	};
+ 
+-	etf@20140000 { /* etf1 */
++	etf_sys1: etf@20140000 { /* etf1 */
+ 		compatible = "arm,coresight-tmc", "arm,primecell";
+ 		reg = <0 0x20140000 0 0x1000>;
+ 
+@@ -82,4 +82,39 @@
+ 
+ 		};
+ 	};
++
++	cti@20160000 { /* sys_cti_2 */
++		compatible = "arm,coresight-cti", "arm,primecell";
++		reg = <0 0x20160000 0 0x1000>;
++
++		clocks = <&soc_smc50mhz>;
++		clock-names = "apb_pclk";
++		power-domains = <&scpi_devpd 0>;
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		trig-conns@0 {
++			reg = <0>;
++			arm,trig-in-sigs=<0 1>;
++			arm,trig-in-types=<SNK_FULL SNK_ACQCOMP>;
++			arm,trig-out-sigs=<0 1>;
++			arm,trig-out-types=<SNK_FLUSHIN SNK_TRIGIN>;
++			arm,cs-dev-assoc = <&etf_sys1>;
++		};
++
++		trig-conns@1 {
++			reg = <1>;
++			arm,trig-in-sigs=<2 3 4>;
++			arm,trig-in-types=<ELA_DBGREQ ELA_TSTART ELA_TSTOP>;
++			arm,trig-conn-name = "ela_clus_0";
++		};
++
++		trig-conns@2 {
++			reg = <2>;
++			arm,trig-in-sigs=<5 6 7>;
++			arm,trig-in-types=<ELA_DBGREQ ELA_TSTART ELA_TSTOP>;
++			arm,trig-conn-name = "ela_clus_1";
++		};
++	};
+ };
+diff --git a/arch/arm64/boot/dts/arm/juno-r1.dts b/arch/arm64/boot/dts/arm/juno-r1.dts
+index 5f290090b0cf..02aa51eb311d 100644
+--- a/arch/arm64/boot/dts/arm/juno-r1.dts
++++ b/arch/arm64/boot/dts/arm/juno-r1.dts
+@@ -9,6 +9,7 @@
+ /dts-v1/;
+ 
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
 +#include <dt-bindings/arm/coresight-cti-dt.h>
- #include <linux/of.h>
+ #include "juno-base.dtsi"
+ #include "juno-cs-r1r2.dtsi"
  
- #include "coresight-cti.h"
+@@ -309,3 +310,27 @@
+ &cpu_debug5 {
+ 	cpu = <&A53_3>;
+ };
++
++&cti0 {
++	cpu = <&A57_0>;
++};
++
++&cti1 {
++	cpu = <&A57_1>;
++};
++
++&cti2 {
++	cpu = <&A53_0>;
++};
++
++&cti3 {
++	cpu = <&A53_1>;
++};
++
++&cti4 {
++	cpu = <&A53_2>;
++};
++
++&cti5 {
++	cpu = <&A53_3>;
++};
+diff --git a/arch/arm64/boot/dts/arm/juno-r2.dts b/arch/arm64/boot/dts/arm/juno-r2.dts
+index 305300dd521c..75bb27c2d4dc 100644
+--- a/arch/arm64/boot/dts/arm/juno-r2.dts
++++ b/arch/arm64/boot/dts/arm/juno-r2.dts
+@@ -9,6 +9,7 @@
+ /dts-v1/;
  
-+/* Number of CTI signals in the v8 architecturally defined connection */
-+#define NR_V8PE_IN_SIGS		2
-+#define NR_V8PE_OUT_SIGS	3
-+#define NR_V8ETM_INOUT_SIGS	4
-+
-+/* CTI device tree connection property keywords */
-+#define CTI_DT_V8ARCH_COMPAT	"arm,coresight-cti-v8-arch"
-+#define CTI_DT_CSDEV_ASSOC	"arm,cs-dev-assoc"
-+
-+#ifdef CONFIG_OF
-+/*
-+ * CTI can be bound to a CPU, or a system device.
-+ * CPU can be declared at the device top level or in a connections node
-+ * so need to check relative to node not device.
-+ */
-+static int of_cti_get_cpu_at_node(const struct device_node *node)
-+{
-+	int cpu;
-+	struct device_node *dn;
-+
-+	if (node == NULL)
-+		return -1;
-+
-+	dn = of_parse_phandle(node, "cpu", 0);
-+	/* CTI affinity defaults to no cpu */
-+	if (!dn)
-+		return -1;
-+	cpu = of_cpu_node_to_id(dn);
-+	of_node_put(dn);
-+
-+	/* No Affinity  if no cpu nodes are found */
-+	return (cpu < 0) ? -1 : cpu;
-+}
-+
-+#else
-+static int of_cti_get_cpu_at_node(const struct device_node *node)
-+{
-+	return -1;
-+}
-+
-+#endif
-+
-+/*
-+ * CTI can be bound to a CPU, or a system device.
-+ * CPU can be declared at the device top level or in a connections node
-+ * so need to check relative to node not device.
-+ */
-+static int cti_plat_get_cpu_at_node(struct fwnode_handle *fwnode)
-+{
-+	if (is_of_node(fwnode))
-+		return of_cti_get_cpu_at_node(to_of_node(fwnode));
-+	return -1;
-+}
-+
-+const char *cti_plat_get_node_name(struct fwnode_handle *fwnode)
-+{
-+	if (is_of_node(fwnode))
-+		return of_node_full_name(to_of_node(fwnode));
-+	return "unknown";
-+}
-+
-+/*
-+ * Extract a name from the fwnode.
-+ * If the device associated with the node is a coresight_device, then return
-+ * that name and the coresight_device pointer, otherwise return the node name.
-+ */
-+static const char *
-+cti_plat_get_csdev_or_node_name(struct fwnode_handle *fwnode,
-+				struct coresight_device **csdev)
-+{
-+	const char *name = NULL;
-+	*csdev = coresight_find_csdev_by_fwnode(fwnode);
-+	if (*csdev)
-+		name = dev_name(&(*csdev)->dev);
-+	else
-+		name = cti_plat_get_node_name(fwnode);
-+	return name;
-+}
-+
-+static int cti_plat_create_v8_etm_connection(struct device *dev,
-+					     struct cti_drvdata *drvdata)
-+{
-+	int ret = -ENOMEM, i;
-+	struct fwnode_handle *root_fwnode, *cs_fwnode;
-+	const char *assoc_name = NULL;
-+	struct coresight_device *csdev;
-+	struct cti_trig_con *tc = NULL;
-+
-+	root_fwnode = dev_fwnode(dev);
-+	if (IS_ERR_OR_NULL(root_fwnode))
-+		return -EINVAL;
-+
-+	/* Can optionally have an etm node - return if not  */
-+	cs_fwnode = fwnode_find_reference(root_fwnode, CTI_DT_CSDEV_ASSOC, 0);
-+	if (IS_ERR_OR_NULL(cs_fwnode))
-+		return 0;
-+
-+	/* allocate memory */
-+	tc = cti_allocate_trig_con(dev, NR_V8ETM_INOUT_SIGS,
-+				   NR_V8ETM_INOUT_SIGS);
-+	if (!tc)
-+		goto create_v8_etm_out;
-+
-+	/* build connection data */
-+	tc->con_in->used_mask = 0xF0; /* sigs <4,5,6,7> */
-+	tc->con_out->used_mask = 0xF0; /* sigs <4,5,6,7> */
-+
-+	/*
-+	 * The EXTOUT type signals from the ETM are connected to a set of input
-+	 * triggers on the CTI, the EXTIN being connected to output triggers.
-+	 */
-+	for (i = 0; i < NR_V8ETM_INOUT_SIGS; i++) {
-+		tc->con_in->sig_types[i] = ETM_EXTOUT;
-+		tc->con_out->sig_types[i] = ETM_EXTIN;
-+	}
-+
-+	/*
-+	 * We look to see if the ETM coresight device associated with this
-+	 * handle has been registered with the system - i.e. probed before
-+	 * this CTI. If so csdev will be non NULL and we can use the device
-+	 * name and pass the csdev to the connection entry function where
-+	 * the association will be recorded.
-+	 * If not, then simply record the name in the connection data, the
-+	 * probing of the ETM will call into the CTI driver API to update the
-+	 * association then.
-+	 */
-+	assoc_name = cti_plat_get_csdev_or_node_name(cs_fwnode, &csdev);
-+	ret = cti_add_connection_entry(dev, drvdata, tc, csdev, assoc_name);
-+
-+create_v8_etm_out:
-+	fwnode_handle_put(cs_fwnode);
-+	return ret;
-+}
-+
-+/*
-+ * Create an architecturally defined v8 connection
-+ * must have a cpu, can have an ETM.
-+ */
-+static int cti_plat_create_v8_connections(struct device *dev,
-+					  struct cti_drvdata *drvdata)
-+{
-+	struct cti_device *cti_dev = &drvdata->ctidev;
-+	struct cti_trig_con *tc = NULL;
-+	int cpuid = 0;
-+	char cpu_name_str[16];
-+	int ret = -ENOMEM;
-+
-+	/* Must have a cpu node */
-+	cpuid = cti_plat_get_cpu_at_node(dev_fwnode(dev));
-+	if (cpuid < 0) {
-+		dev_warn(dev,
-+			 "ARM v8 architectural CTI connection: missing cpu\n");
-+		return -EINVAL;
-+	}
-+	cti_dev->cpu = cpuid;
-+
-+	/* Allocate the v8 cpu connection memory */
-+	tc = cti_allocate_trig_con(dev, NR_V8PE_IN_SIGS, NR_V8PE_OUT_SIGS);
-+	if (!tc)
-+		goto of_create_v8_out;
-+
-+	/* Set the v8 PE CTI connection data */
-+	tc->con_in->used_mask = 0x3; /* sigs <0 1> */
-+	tc->con_in->sig_types[0] = PE_DBGTRIGGER;
-+	tc->con_in->sig_types[1] = PE_PMUIRQ;
-+	tc->con_out->used_mask = 0x7; /* sigs <0 1 2 > */
-+	tc->con_out->sig_types[0] = PE_EDBGREQ;
-+	tc->con_out->sig_types[1] = PE_DBGRESTART;
-+	tc->con_out->sig_types[2] = PE_CTIIRQ;
-+	scnprintf(cpu_name_str, sizeof(cpu_name_str), "cpu%d", cpuid);
-+
-+	ret = cti_add_connection_entry(dev, drvdata, tc, NULL, cpu_name_str);
-+	if (ret)
-+		goto of_create_v8_out;
-+
-+	/* Create the v8 ETM associated connection */
-+	ret = cti_plat_create_v8_etm_connection(dev, drvdata);
-+	if (ret)
-+		goto of_create_v8_out;
-+
-+	/* filter pe_edbgreq - PE trigout sig <0> */
-+	drvdata->config.trig_out_filter |= 0x1;
-+
-+of_create_v8_out:
-+	return ret;
-+}
-+
-+static int cti_plat_check_v8_arch_compatible(struct device *dev)
-+{
-+	struct fwnode_handle *fwnode = dev_fwnode(dev);
-+
-+	if (is_of_node(fwnode))
-+		return of_device_is_compatible(to_of_node(fwnode),
-+					       CTI_DT_V8ARCH_COMPAT);
-+	return 0;
-+}
-+
- /* get the hardware configuration & connection data. */
- int cti_plat_get_hw_data(struct device *dev,
- 			 struct cti_drvdata *drvdata)
-@@ -14,6 +212,13 @@ int cti_plat_get_hw_data(struct device *dev,
- 	int rc = 0;
- 	struct cti_device *cti_dev = &drvdata->ctidev;
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/arm/coresight-cti-dt.h>
+ #include "juno-base.dtsi"
+ #include "juno-cs-r1r2.dtsi"
  
-+	/* check for a v8 architectural CTI device */
-+	if (cti_plat_check_v8_arch_compatible(dev)) {
-+		rc = cti_plat_create_v8_connections(dev, drvdata);
-+		if (rc)
-+			return rc;
-+	}
+@@ -315,3 +316,27 @@
+ &cpu_debug5 {
+ 	cpu = <&A53_3>;
+ };
 +
- 	/* if no connections, just add a single default based on max IN-OUT */
- 	if (cti_dev->nr_trig_con == 0)
- 		rc = cti_add_default_connection(dev, drvdata);
-diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
-index 3c5bee429105..43418a2126ff 100644
---- a/drivers/hwtracing/coresight/coresight-platform.c
-+++ b/drivers/hwtracing/coresight/coresight-platform.c
-@@ -57,6 +57,26 @@ coresight_find_device_by_fwnode(struct fwnode_handle *fwnode)
- 	return bus_find_device_by_fwnode(&amba_bustype, fwnode);
- }
- 
-+/*
-+ * Find a registered coresight device from a device fwnode.
-+ * The node info is associated with the AMBA parent, but the
-+ * csdev keeps a copy so iterate round the coresight bus to
-+ * find the device.
-+ */
-+struct coresight_device *
-+coresight_find_csdev_by_fwnode(struct fwnode_handle *r_fwnode)
-+{
-+	struct device *dev;
-+	struct coresight_device *csdev = NULL;
++&cti0 {
++	cpu = <&A72_0>;
++};
 +
-+	dev = bus_find_device_by_fwnode(&coresight_bustype, r_fwnode);
-+	if (dev) {
-+		csdev = to_coresight_device(dev);
-+		put_device(dev);
-+	}
-+	return csdev;
-+}
++&cti1 {
++	cpu = <&A72_1>;
++};
 +
- #ifdef CONFIG_OF
- static inline bool of_coresight_legacy_ep_is_input(struct device_node *ep)
- {
-diff --git a/drivers/hwtracing/coresight/coresight-priv.h b/drivers/hwtracing/coresight/coresight-priv.h
-index aba6b789c969..357ffef7b825 100644
---- a/drivers/hwtracing/coresight/coresight-priv.h
-+++ b/drivers/hwtracing/coresight/coresight-priv.h
-@@ -202,5 +202,7 @@ static inline void *coresight_get_uci_data(const struct amba_id *id)
- }
++&cti2 {
++	cpu = <&A53_0>;
++};
++
++&cti3 {
++	cpu = <&A53_1>;
++};
++
++&cti4 {
++	cpu = <&A53_2>;
++};
++
++&cti5 {
++	cpu = <&A53_3>;
++};
+diff --git a/arch/arm64/boot/dts/arm/juno.dts b/arch/arm64/boot/dts/arm/juno.dts
+index f00cffbd032c..dbc22e70b62c 100644
+--- a/arch/arm64/boot/dts/arm/juno.dts
++++ b/arch/arm64/boot/dts/arm/juno.dts
+@@ -9,6 +9,7 @@
+ /dts-v1/;
  
- void coresight_release_platform_data(struct coresight_platform_data *pdata);
-+struct coresight_device *
-+coresight_find_csdev_by_fwnode(struct fwnode_handle *r_fwnode);
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/arm/coresight-cti-dt.h>
+ #include "juno-base.dtsi"
  
- #endif
-diff --git a/drivers/hwtracing/coresight/coresight.c b/drivers/hwtracing/coresight/coresight.c
-index 1a5fdf2710ff..39a5d9f7a395 100644
---- a/drivers/hwtracing/coresight/coresight.c
-+++ b/drivers/hwtracing/coresight/coresight.c
-@@ -1030,17 +1030,11 @@ static void coresight_fixup_device_conns(struct coresight_device *csdev)
- 
- 	for (i = 0; i < csdev->pdata->nr_outport; i++) {
- 		struct coresight_connection *conn = &csdev->pdata->conns[i];
--		struct device *dev = NULL;
- 
--		dev = bus_find_device_by_fwnode(&coresight_bustype, conn->child_fwnode);
--		if (dev) {
--			conn->child_dev = to_coresight_device(dev);
--			/* and put reference from 'bus_find_device()' */
--			put_device(dev);
--		} else {
-+		conn->child_dev =
-+			coresight_find_csdev_by_fwnode(conn->child_fwnode);
-+		if (!conn->child_dev)
- 			csdev->orphan = true;
--			conn->child_dev = NULL;
--		}
- 	}
- }
- 
+ / {
+@@ -295,3 +296,27 @@
+ &cpu_debug5 {
+ 	cpu = <&A53_3>;
+ };
++
++&cti0 {
++	cpu = <&A57_0>;
++};
++
++&cti1 {
++	cpu = <&A57_1>;
++};
++
++&cti2 {
++	cpu = <&A53_0>;
++};
++
++&cti3 {
++	cpu = <&A53_1>;
++};
++
++&cti4 {
++	cpu = <&A53_2>;
++};
++
++&cti5 {
++	cpu = <&A53_3>;
++};
 -- 
 2.17.1
 
