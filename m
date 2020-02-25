@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79289C4BA20
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:46:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00F5EC4BA0D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:46:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4E25B24650
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:46:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA52724653
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 23:46:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Krc9sIse"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wzceJTsb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729613AbgBYXqy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 18:46:54 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:54109 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729654AbgBYXqy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 18:46:54 -0500
-Received: by mail-wm1-f66.google.com with SMTP id f15so265294wml.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 15:46:52 -0800 (PST)
+        id S1729640AbgBYXqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 18:46:52 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40604 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729613AbgBYXqv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 18:46:51 -0500
+Received: by mail-wm1-f68.google.com with SMTP id t14so1075029wmi.5
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 15:46:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=TYlyvESdtJkkzEIVJoYhQjClltnzu2fIaM1HVjBTbAU=;
-        b=Krc9sIsewtpswOvKmk7/S+COuYzreBWD7Ca8jY17fZ3k6AjVVACajXiS4CMmO1Nwtj
-         v8D7QrhulrHl9PWsix3qtVdoUc2Z8N6LW9X0B7qS0YEKS5IP19BbEUnU++EaiUjj6wci
-         KiRACC46tsHkWepzwmCV9H+GZZHdDtj4UyIxnM/IRi47C99hdartYCGwy3BZ0xASNVP+
-         MDXYP48thmVn9W5WTj36Vv0peDrX/4uGae7VRvlPqThnWBRRgrTXWvdiSL88lAULo4Dx
-         h6br15BkZNibYmn5UzAy/nL1OWM3dcCqrOunkGIbZP4T1dlmHaldJ/e+1HE3qalfG4tK
-         03wQ==
+        bh=BucIs76BJlau9NCsGrtA8TwA9hcR+pRMGii5xstBwn8=;
+        b=wzceJTsbO+TdAD1Cyu8CIArkKYxAT4kIWMrsPNw4gSGcXpDEenp71agJitRrCXHFyn
+         9o3rXuvGiE045zMRDbJSicui7t2CJ/ksZyAmPgdxl1+knGxo0hwedGO6NfTEaGV8H5t4
+         dgCn0i8vR55Jg1XjP0ybrZoPAcWgmucAmNFNXfZQ04bPB/w/gKN5vtzJVL6BAsVCzPsK
+         BElY1uNGTzTEy/TFcGPivSk7BlhvowmL8MGsbFcNd5/HUGB75i0ti5IGu8xVhVczTPTb
+         bHr+ZAGvSmvHUxGasLKSzgjIHInn6W9jyG6c8DEfO+nQoJgTS1y/ZcXwbvV2lgYf87I7
+         z1pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=TYlyvESdtJkkzEIVJoYhQjClltnzu2fIaM1HVjBTbAU=;
-        b=r7VXKoy85QP0hs6DMx6G5toPEm77ZZDYYLfmQLwC7sT0mGOByfN7BH4ELVTg/7HytO
-         8xl2dvf78n6kdfi5ncW/MnuxwwfKhkpnsV4j2kzLzXlmNjSO6zMJ/MnpiKMRdyR9ykOf
-         ag0VhgM92FmpTAjTJHUyTUfQwQCI6hGcECqO5sh3UvBGpxB3hEN89TQBwRMGUThTdvEm
-         q712ozDiKEZol7vvxz68wI3PwasCiq4g2+Qj4tZUNDgxg2H2+zbsjFsExyoDs4Y2G8OF
-         7ul3hLryeOb0eYeSZz6wg6qIHqmQVGcd7/8onjx2D/RgUjPn1lBA3DHH9LElIP3SKwqz
-         Bu/g==
-X-Gm-Message-State: APjAAAURC8tQUzFDQtn44xklQkee9lx8T2Vv3jfu854CEQMlynt6ZTMW
-        mwrtALZRhg3S+EJk64sKXiFMEQ==
-X-Google-Smtp-Source: APXvYqwY6Dl9BUk+IfJpxezAcmeZBSNghy55b16qrsor7bN8A4eNGfhfbLFlczmxqOt85MjNWpJtWg==
-X-Received: by 2002:a1c:7ec5:: with SMTP id z188mr1582353wmc.52.1582674412106;
-        Tue, 25 Feb 2020 15:46:52 -0800 (PST)
+        bh=BucIs76BJlau9NCsGrtA8TwA9hcR+pRMGii5xstBwn8=;
+        b=DExbL/H7n70kOgLDlDyM7n+tW428vJxBAB7+qMpjk3+9S4XqGvVsTMxLWKrORUTOa3
+         v7drAdEpVPMeTUfCygyEE8pOHY9rjhrEooRq80rLTql9B9U+d/WLulzQn7AuzeGnwOOR
+         G2I6ugqXc2/7z5EPBc3rK2m214IVLJCkf93qeyzTP4MMAZkYVMN45ZSwtELqO/nNbAyK
+         kuw2w/t0RX9u9QL+yUfxZLOQLtXzfUhWNnJ1QUUm96mSI1+TYn3Jut8gTwh8EI62rmPS
+         /v30BO1YHWVsFcyYXRKz4uSeQXXHe4/AztAuDSUYnOOJThlOudW9Lm7lyMJI4d/3V63o
+         BLBw==
+X-Gm-Message-State: APjAAAWw0GQcU8ikMmmJ5jomVQiSM1TQny5n4pIJZzAggqDlsA9nP5kx
+        vWm9naAN0+TtsO+U964eWjmoZw==
+X-Google-Smtp-Source: APXvYqxXwufDMPen0Os3XKpr8yPA7jzlpKAFED+1rNntaV5cx/AhnzCfSXa2mq1QbkR9fG45ilgHOg==
+X-Received: by 2002:a1c:208a:: with SMTP id g132mr1462656wmg.143.1582674408254;
+        Tue, 25 Feb 2020 15:46:48 -0800 (PST)
 Received: from linaro.org ([2a00:23c5:6815:3901:186c:5f6c:221d:5ce])
-        by smtp.gmail.com with ESMTPSA id t133sm356278wmf.31.2020.02.25.15.46.50
+        by smtp.gmail.com with ESMTPSA id t133sm356278wmf.31.2020.02.25.15.46.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 15:46:51 -0800 (PST)
+        Tue, 25 Feb 2020 15:46:47 -0800 (PST)
 From:   Mike Leach <mike.leach@linaro.org>
 To:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         coresight@lists.linaro.org, linux-doc@vger.kernel.org
@@ -61,9 +61,9 @@ Cc:     linux-arm-msm@vger.kernel.org, mathieu.poirier@linaro.org,
         liviu.dudau@arm.com, sudeep.holla@arm.com,
         lorenzo.pieralisi@arm.com, agross@kernel.org, corbet@lwn.net,
         Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v10 15/15] Update MAINTAINERS to add reviewer for CoreSight
-Date:   Tue, 25 Feb 2020 23:46:11 +0000
-Message-Id: <20200225234611.11067-16-mike.leach@linaro.org>
+Subject: [PATCH v10 12/15] dt-bindings: hisilicon: Add CTI bindings for hi-6220
+Date:   Tue, 25 Feb 2020 23:46:08 +0000
+Message-Id: <20200225234611.11067-13-mike.leach@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200225234611.11067-1-mike.leach@linaro.org>
 References: <20200225234611.11067-1-mike.leach@linaro.org>
@@ -72,26 +72,211 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added myself as a designated reviewer for the CoreSight infrastructure
-at the request of Mathieu Poirier.
+Adds in CTI device tree information for the Hikey620 board.
 
 Signed-off-by: Mike Leach <mike.leach@linaro.org>
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Tested-by: Leo Yan <leo.yan@linaro.org>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ .../boot/dts/hisilicon/hi6220-coresight.dtsi  | 130 ++++++++++++++++--
+ 1 file changed, 122 insertions(+), 8 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 80e908129509..a2ef2633ddea 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1676,6 +1676,7 @@ F:	arch/arm/mach-ep93xx/micro9.c
- ARM/CORESIGHT FRAMEWORK AND DRIVERS
- M:	Mathieu Poirier <mathieu.poirier@linaro.org>
- R:	Suzuki K Poulose <suzuki.poulose@arm.com>
-+R:	Mike Leach <mike.leach@linaro.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- F:	drivers/hwtracing/coresight/*
+diff --git a/arch/arm64/boot/dts/hisilicon/hi6220-coresight.dtsi b/arch/arm64/boot/dts/hisilicon/hi6220-coresight.dtsi
+index 651771a73ed6..27f067e87601 100644
+--- a/arch/arm64/boot/dts/hisilicon/hi6220-coresight.dtsi
++++ b/arch/arm64/boot/dts/hisilicon/hi6220-coresight.dtsi
+@@ -213,7 +213,7 @@
+ 			};
+ 		};
+ 
+-		etm@f659c000 {
++		etm0: etm@f659c000 {
+ 			compatible = "arm,coresight-etm4x", "arm,primecell";
+ 			reg = <0 0xf659c000 0 0x1000>;
+ 
+@@ -232,7 +232,7 @@
+ 			};
+ 		};
+ 
+-		etm@f659d000 {
++		etm1: etm@f659d000 {
+ 			compatible = "arm,coresight-etm4x", "arm,primecell";
+ 			reg = <0 0xf659d000 0 0x1000>;
+ 
+@@ -251,7 +251,7 @@
+ 			};
+ 		};
+ 
+-		etm@f659e000 {
++		etm2: etm@f659e000 {
+ 			compatible = "arm,coresight-etm4x", "arm,primecell";
+ 			reg = <0 0xf659e000 0 0x1000>;
+ 
+@@ -270,7 +270,7 @@
+ 			};
+ 		};
+ 
+-		etm@f659f000 {
++		etm3: etm@f659f000 {
+ 			compatible = "arm,coresight-etm4x", "arm,primecell";
+ 			reg = <0 0xf659f000 0 0x1000>;
+ 
+@@ -289,7 +289,7 @@
+ 			};
+ 		};
+ 
+-		etm@f65dc000 {
++		etm4: etm@f65dc000 {
+ 			compatible = "arm,coresight-etm4x", "arm,primecell";
+ 			reg = <0 0xf65dc000 0 0x1000>;
+ 
+@@ -308,7 +308,7 @@
+ 			};
+ 		};
+ 
+-		etm@f65dd000 {
++		etm5: etm@f65dd000 {
+ 			compatible = "arm,coresight-etm4x", "arm,primecell";
+ 			reg = <0 0xf65dd000 0 0x1000>;
+ 
+@@ -327,7 +327,7 @@
+ 			};
+ 		};
+ 
+-		etm@f65de000 {
++		etm6: etm@f65de000 {
+ 			compatible = "arm,coresight-etm4x", "arm,primecell";
+ 			reg = <0 0xf65de000 0 0x1000>;
+ 
+@@ -346,7 +346,7 @@
+ 			};
+ 		};
+ 
+-		etm@f65df000 {
++		etm7: etm@f65df000 {
+ 			compatible = "arm,coresight-etm4x", "arm,primecell";
+ 			reg = <0 0xf65df000 0 0x1000>;
+ 
+@@ -364,5 +364,119 @@
+ 				};
+ 			};
+ 		};
++
++		/* System CTIs */
++		/* CTI 0 - TMC and TPIU connections */
++		cti@f6403000 {
++			compatible = "arm,coresight-cti", "arm,primecell";
++			reg = <0 0xf6403000 0 0x1000>;
++
++			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
++			clock-names = "apb_pclk";
++		};
++
++		/* CTI - CPU-0 */
++		cti@f6598000 {
++			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++				     "arm,primecell";
++			reg = <0 0xf6598000 0 0x1000>;
++
++			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
++			clock-names = "apb_pclk";
++
++			cpu = <&cpu0>;
++			arm,cs-dev-assoc = <&etm0>;
++		};
++
++		/* CTI - CPU-1 */
++		cti@f6599000 {
++			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++				     "arm,primecell";
++			reg = <0 0xf6599000 0 0x1000>;
++
++			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
++			clock-names = "apb_pclk";
++
++			cpu = <&cpu1>;
++			arm,cs-dev-assoc = <&etm1>;
++		};
++
++		/* CTI - CPU-2 */
++		cti@f659a000 {
++			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++				     "arm,primecell";
++			reg = <0 0xf659a000 0 0x1000>;
++
++			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
++			clock-names = "apb_pclk";
++
++			cpu = <&cpu2>;
++			arm,cs-dev-assoc = <&etm2>;
++		};
++
++		/* CTI - CPU-3 */
++		cti@f659b000 {
++			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++				     "arm,primecell";
++			reg = <0 0xf659b000 0 0x1000>;
++
++			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
++			clock-names = "apb_pclk";
++
++			cpu = <&cpu3>;
++			arm,cs-dev-assoc = <&etm3>;
++		};
++
++		/* CTI - CPU-4 */
++		cti@f65d8000 {
++			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++				     "arm,primecell";
++			reg = <0 0xf65d8000 0 0x1000>;
++
++			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
++			clock-names = "apb_pclk";
++
++			cpu = <&cpu4>;
++			arm,cs-dev-assoc = <&etm4>;
++		};
++
++		/* CTI - CPU-5 */
++		cti@f65d9000 {
++			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++				     "arm,primecell";
++			reg = <0 0xf65d9000 0 0x1000>;
++
++			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
++			clock-names = "apb_pclk";
++
++			cpu = <&cpu5>;
++			arm,cs-dev-assoc = <&etm5>;
++		};
++
++		/* CTI - CPU-6 */
++		cti@f65da000 {
++			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++				     "arm,primecell";
++			reg = <0 0xf65da000 0 0x1000>;
++
++			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
++			clock-names = "apb_pclk";
++
++			cpu = <&cpu6>;
++			arm,cs-dev-assoc = <&etm6>;
++		};
++
++		/* CTI - CPU-7 */
++		cti@f65db000 {
++			compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
++				     "arm,primecell";
++			reg = <0 0xf65db000 0 0x1000>;
++
++			clocks = <&acpu_sctrl HI6220_ACPU_SFT_AT_S>;
++			clock-names = "apb_pclk";
++
++			cpu = <&cpu7>;
++			arm,cs-dev-assoc = <&etm7>;
++		};
+ 	};
+ };
 -- 
 2.17.1
 
