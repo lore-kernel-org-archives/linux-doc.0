@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55DA7C35DFB
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 09:41:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52EB7C35DFE
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 09:41:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 22686218AC
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 09:41:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 25E7E20656
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 09:41:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="bxSu7RGm"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="pFGy7DwY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730027AbgBYJlW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 04:41:22 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:55586 "EHLO
+        id S1729739AbgBYJlT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 04:41:19 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:55568 "EHLO
         pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729718AbgBYJlV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 04:41:21 -0500
+        with ESMTP id S1729033AbgBYJlS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 04:41:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
         Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
         In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=MvXRdKBQwWqpifCLpYCrvOQkEY6QAL9CbEYBlFLaB2Y=; b=bxSu7RGmZfziuaBWQFffE2am0f
-        hjhK4ffkM9rECDl7v7XaWiLj8PadfxmXgkpQYzT9NG5sVYGqL4a/tZf+FV3OdaaL+1UxYayQjDz2Z
-        kEZenNaLMxBzalIV4C/Rzzq4/cJcRp1dp2H4cDOkj/XOCXrDX7dWyeKL1V3vSuvEctXp3dw05LQkr
-        g+tJsJJ6IsAMJLy4/VUedugDQE86TuidIjDCmiGoxUxSRSdcHtgkNus+A5xNDLrS2tPP2qXB5+Yat
-        +1q/ELyRfzRBzIPPVTFewxF9wcfZx2VDQZTxCnOmMEozqXkqio0zaXTxiSb6ZdJxoNrYrcdEChXiu
-        E5WBSsFQ==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([2002:4e20:1eda:1:222:68ff:fe15:37dd]:58922 helo=rmk-PC.armlinux.org.uk)
+        bh=jiP34lO1U2EOjRP+R8rbkehhBwrfBY+V5xaU3X9MBpI=; b=pFGy7DwYmkP+2TZ9k50w3+B69t
+        hepkfRWTXum/qfGMv8o6UDch9kkyXDdtYGaQjWxGUy6G+hiaQ4ZxgePy/nOKTFJ5Upmd/QR20Cv4J
+        vzBp4B+H9QUpgU5hzpcDtbYS3u+AWPz94XDDXcAVgX6D0WIK0wGbaL65hof9h/Wk0g8dViWJecQwx
+        SLB45vAjEZOvBVVBHvaYRuZJMLxoaymwxmnhIQHvpeITqmHyLI3hYA63dN6oRa16r+ZT5kVS6/hgY
+        vylfJ5lIf0DBAMTHoLK7QnRZAUz8HwPyWgXrvUC7tPRm+dzmvJ7cJhvw+v5kPZza5eF3iw0yybE6j
+        pWPFV60Q==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([2001:4d48:ad52:3201:222:68ff:fe15:37dd]:51286 helo=rmk-PC.armlinux.org.uk)
         by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
         (Exim 4.90_1)
         (envelope-from <rmk@armlinux.org.uk>)
-        id 1j6WgY-0008Pi-R0; Tue, 25 Feb 2020 09:39:27 +0000
+        id 1j6WgM-0008PS-Ld; Tue, 25 Feb 2020 09:39:15 +0000
 Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.92)
         (envelope-from <rmk@armlinux.org.uk>)
-        id 1j6WgQ-0000Tc-JZ; Tue, 25 Feb 2020 09:39:18 +0000
+        id 1j6WgG-0000TJ-CC; Tue, 25 Feb 2020 09:39:08 +0000
 In-Reply-To: <20200225093703.GS25745@shell.armlinux.org.uk>
 References: <20200225093703.GS25745@shell.armlinux.org.uk>
 From:   Russell King <rmk+kernel@armlinux.org.uk>
@@ -70,125 +70,132 @@ Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Vivien Didelot <vivien.didelot@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>
-Subject: [PATCH net-next 7/8] net: mvneta: use resolved link config in
+Subject: [PATCH net-next 5/8] net: dpaa2-mac: use resolved link config in
  mac_link_up()
 MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1j6WgQ-0000Tc-JZ@rmk-PC.armlinux.org.uk>
-Date:   Tue, 25 Feb 2020 09:39:18 +0000
+Message-Id: <E1j6WgG-0000TJ-CC@rmk-PC.armlinux.org.uk>
+Date:   Tue, 25 Feb 2020 09:39:08 +0000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the Marvell mvneta ethernet driver to use the finalised link
-parameters in mac_link_up() rather than the parameters in mac_config().
+Convert the DPAA2 ethernet driver to use the finalised link parameters
+in mac_link_up() rather than the parameters in mac_config(), which are
+more suited to the needs of the DPAA2 MC firmware than those available
+via mac_config().
 
 Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
 ---
- drivers/net/ethernet/marvell/mvneta.c | 55 ++++++++++++++++++---------
- 1 file changed, 38 insertions(+), 17 deletions(-)
+ .../net/ethernet/freescale/dpaa2/dpaa2-mac.c  | 54 +++++++++++--------
+ .../net/ethernet/freescale/dpaa2/dpaa2-mac.h  |  1 +
+ 2 files changed, 33 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/net/ethernet/marvell/mvneta.c b/drivers/net/ethernet/marvell/mvneta.c
-index 9af3f8d5b289..b22eeb5f8700 100644
---- a/drivers/net/ethernet/marvell/mvneta.c
-+++ b/drivers/net/ethernet/marvell/mvneta.c
-@@ -3830,13 +3830,9 @@ static void mvneta_mac_config(struct phylink_config *config, unsigned int mode,
- 	new_clk = gmac_clk & ~MVNETA_GMAC_1MS_CLOCK_ENABLE;
- 	new_an = gmac_an & ~(MVNETA_GMAC_INBAND_AN_ENABLE |
- 			     MVNETA_GMAC_INBAND_RESTART_AN |
--			     MVNETA_GMAC_CONFIG_MII_SPEED |
--			     MVNETA_GMAC_CONFIG_GMII_SPEED |
- 			     MVNETA_GMAC_AN_SPEED_EN |
- 			     MVNETA_GMAC_ADVERT_SYM_FLOW_CTRL |
--			     MVNETA_GMAC_CONFIG_FLOW_CTRL |
- 			     MVNETA_GMAC_AN_FLOW_CTRL_EN |
--			     MVNETA_GMAC_CONFIG_FULL_DUPLEX |
- 			     MVNETA_GMAC_AN_DUPLEX_EN);
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c
+index 3a75c5b58f95..3ee236c5fc37 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c
++++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c
+@@ -123,35 +123,16 @@ static void dpaa2_mac_config(struct phylink_config *config, unsigned int mode,
+ 	struct dpmac_link_state *dpmac_state = &mac->state;
+ 	int err;
  
- 	/* Even though it might look weird, when we're configured in
-@@ -3851,24 +3847,20 @@ static void mvneta_mac_config(struct phylink_config *config, unsigned int mode,
- 
- 	if (phylink_test(state->advertising, Pause))
- 		new_an |= MVNETA_GMAC_ADVERT_SYM_FLOW_CTRL;
--	if (state->pause & MLO_PAUSE_TXRX_MASK)
--		new_an |= MVNETA_GMAC_CONFIG_FLOW_CTRL;
- 
- 	if (!phylink_autoneg_inband(mode)) {
--		/* Phy or fixed speed */
--		if (state->duplex)
--			new_an |= MVNETA_GMAC_CONFIG_FULL_DUPLEX;
+-	if (state->speed != SPEED_UNKNOWN)
+-		dpmac_state->rate = state->speed;
 -
--		if (state->speed == SPEED_1000 || state->speed == SPEED_2500)
--			new_an |= MVNETA_GMAC_CONFIG_GMII_SPEED;
--		else if (state->speed == SPEED_100)
--			new_an |= MVNETA_GMAC_CONFIG_MII_SPEED;
-+		/* Phy or fixed speed - nothing to do, leave the
-+		 * configured speed, duplex and flow control as-is.
-+		 */
- 	} else if (state->interface == PHY_INTERFACE_MODE_SGMII) {
- 		/* SGMII mode receives the state from the PHY */
- 		new_ctrl2 |= MVNETA_GMAC2_INBAND_AN_ENABLE;
- 		new_clk |= MVNETA_GMAC_1MS_CLOCK_ENABLE;
- 		new_an = (new_an & ~(MVNETA_GMAC_FORCE_LINK_DOWN |
--				     MVNETA_GMAC_FORCE_LINK_PASS)) |
-+				     MVNETA_GMAC_FORCE_LINK_PASS |
-+				     MVNETA_GMAC_CONFIG_MII_SPEED |
-+				     MVNETA_GMAC_CONFIG_GMII_SPEED |
-+				     MVNETA_GMAC_CONFIG_FULL_DUPLEX)) |
- 			 MVNETA_GMAC_INBAND_AN_ENABLE |
- 			 MVNETA_GMAC_AN_SPEED_EN |
- 			 MVNETA_GMAC_AN_DUPLEX_EN;
-@@ -3877,7 +3869,8 @@ static void mvneta_mac_config(struct phylink_config *config, unsigned int mode,
- 		new_ctrl0 |= MVNETA_GMAC0_PORT_1000BASE_X;
- 		new_clk |= MVNETA_GMAC_1MS_CLOCK_ENABLE;
- 		new_an = (new_an & ~(MVNETA_GMAC_FORCE_LINK_DOWN |
--				     MVNETA_GMAC_FORCE_LINK_PASS)) |
-+				     MVNETA_GMAC_FORCE_LINK_PASS |
-+				     MVNETA_GMAC_CONFIG_MII_SPEED)) |
- 			 MVNETA_GMAC_INBAND_AN_ENABLE |
- 			 MVNETA_GMAC_CONFIG_GMII_SPEED |
- 			 /* The MAC only supports FD mode */
-@@ -3977,8 +3970,36 @@ static void mvneta_mac_link_up(struct phylink_config *config,
+-	if (state->duplex != DUPLEX_UNKNOWN) {
+-		if (!state->duplex)
+-			dpmac_state->options |= DPMAC_LINK_OPT_HALF_DUPLEX;
+-		else
+-			dpmac_state->options &= ~DPMAC_LINK_OPT_HALF_DUPLEX;
+-	}
+-
+ 	if (state->an_enabled)
+ 		dpmac_state->options |= DPMAC_LINK_OPT_AUTONEG;
+ 	else
+ 		dpmac_state->options &= ~DPMAC_LINK_OPT_AUTONEG;
  
- 	if (!phylink_autoneg_inband(mode)) {
- 		val = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
--		val &= ~MVNETA_GMAC_FORCE_LINK_DOWN;
-+		val &= ~(MVNETA_GMAC_FORCE_LINK_DOWN |
-+			 MVNETA_GMAC_CONFIG_MII_SPEED |
-+			 MVNETA_GMAC_CONFIG_GMII_SPEED |
-+			 MVNETA_GMAC_CONFIG_FLOW_CTRL |
-+			 MVNETA_GMAC_CONFIG_FULL_DUPLEX);
- 		val |= MVNETA_GMAC_FORCE_LINK_PASS;
+-	if (state->pause & MLO_PAUSE_RX)
+-		dpmac_state->options |= DPMAC_LINK_OPT_PAUSE;
+-	else
+-		dpmac_state->options &= ~DPMAC_LINK_OPT_PAUSE;
+-
+-	if (!!(state->pause & MLO_PAUSE_RX) ^ !!(state->pause & MLO_PAUSE_TX))
+-		dpmac_state->options |= DPMAC_LINK_OPT_ASYM_PAUSE;
+-	else
+-		dpmac_state->options &= ~DPMAC_LINK_OPT_ASYM_PAUSE;
+-
+ 	err = dpmac_set_link_state(mac->mc_io, 0,
+ 				   mac->mc_dev->mc_handle, dpmac_state);
+ 	if (err)
+-		netdev_err(mac->net_dev, "dpmac_set_link_state() = %d\n", err);
++		netdev_err(mac->net_dev, "%s: dpmac_set_link_state() = %d\n",
++			   __func__, err);
+ }
+ 
+ static void dpaa2_mac_link_up(struct phylink_config *config,
+@@ -165,10 +146,37 @@ static void dpaa2_mac_link_up(struct phylink_config *config,
+ 	int err;
+ 
+ 	dpmac_state->up = 1;
 +
-+		if (speed == SPEED_1000 || speed == SPEED_2500)
-+			val |= MVNETA_GMAC_CONFIG_GMII_SPEED;
-+		else if (speed == SPEED_100)
-+			val |= MVNETA_GMAC_CONFIG_MII_SPEED;
-+
-+		if (duplex == DUPLEX_FULL)
-+			val |= MVNETA_GMAC_CONFIG_FULL_DUPLEX;
-+
-+		if (tx_pause || rx_pause)
-+			val |= MVNETA_GMAC_CONFIG_FLOW_CTRL;
-+
-+		mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG, val);
-+	} else {
-+		/* When inband doesn't cover flow control or flow control is
-+		 * disabled, we need to manually configure it. This bit will
-+		 * only have effect if MVNETA_GMAC_AN_FLOW_CTRL_EN is unset.
++	if (mac->if_link_type == DPMAC_LINK_TYPE_PHY) {
++		/* If the DPMAC is configured for PHY mode, we need
++		 * to pass the link parameters to the MC firmware.
 +		 */
-+		val = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
-+		val &= ~MVNETA_GMAC_CONFIG_FLOW_CTRL;
++		dpmac_state->rate = speed;
 +
-+		if (tx_pause || rx_pause)
-+			val |= MVNETA_GMAC_CONFIG_FLOW_CTRL;
++		if (duplex == DUPLEX_HALF)
++			dpmac_state->options |= DPMAC_LINK_OPT_HALF_DUPLEX;
++		else if (duplex == DUPLEX_FULL)
++			dpmac_state->options &= ~DPMAC_LINK_OPT_HALF_DUPLEX;
 +
- 		mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG, val);
++		/* This is lossy; the firmware really should take the pause
++		 * enablement status rather than pause/asym pause status.
++		 */
++		if (rx_pause)
++			dpmac_state->options |= DPMAC_LINK_OPT_PAUSE;
++		else
++			dpmac_state->options &= ~DPMAC_LINK_OPT_PAUSE;
++
++		if (rx_pause ^ tx_pause)
++			dpmac_state->options |= DPMAC_LINK_OPT_ASYM_PAUSE;
++		else
++			dpmac_state->options &= ~DPMAC_LINK_OPT_ASYM_PAUSE;
++	}
++
+ 	err = dpmac_set_link_state(mac->mc_io, 0,
+ 				   mac->mc_dev->mc_handle, dpmac_state);
+ 	if (err)
+-		netdev_err(mac->net_dev, "dpmac_set_link_state() = %d\n", err);
++		netdev_err(mac->net_dev, "%s: dpmac_set_link_state() = %d\n",
++			   __func__, err);
+ }
+ 
+ static void dpaa2_mac_link_down(struct phylink_config *config,
+@@ -241,6 +249,8 @@ int dpaa2_mac_connect(struct dpaa2_mac *mac)
+ 		goto err_close_dpmac;
  	}
  
++	mac->if_link_type = attr.link_type;
++
+ 	dpmac_node = dpaa2_mac_get_node(attr.id);
+ 	if (!dpmac_node) {
+ 		netdev_err(net_dev, "No dpmac@%d node found.\n", attr.id);
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h b/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h
+index 4da8079b9155..2130d9c7d40e 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h
++++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h
+@@ -20,6 +20,7 @@ struct dpaa2_mac {
+ 	struct phylink_config phylink_config;
+ 	struct phylink *phylink;
+ 	phy_interface_t if_mode;
++	enum dpmac_link_type if_link_type;
+ };
+ 
+ bool dpaa2_mac_is_type_fixed(struct fsl_mc_device *dpmac_dev,
 -- 
 2.20.1
 
