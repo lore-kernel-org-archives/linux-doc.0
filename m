@@ -6,32 +6,31 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A209C35DF5
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 10:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 204EEC35DF5
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 10:20:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DC37321556
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 10:12:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF03621556
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 10:20:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729855AbgBYKMB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 05:12:01 -0500
-Received: from ms.lwn.net ([45.79.88.28]:53084 "EHLO ms.lwn.net"
+        id S1729994AbgBYKUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 05:20:35 -0500
+Received: from ms.lwn.net ([45.79.88.28]:53116 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729417AbgBYKMB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 Feb 2020 05:12:01 -0500
+        id S1728958AbgBYKUf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 Feb 2020 05:20:35 -0500
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1119A6D9;
-        Tue, 25 Feb 2020 10:11:59 +0000 (UTC)
-Date:   Tue, 25 Feb 2020 03:11:55 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 4E1416D9;
+        Tue, 25 Feb 2020 10:20:34 +0000 (UTC)
+Date:   Tue, 25 Feb 2020 03:20:28 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: Fix empty parallelism argument
-Message-ID: <20200225031155.312f11a8@lwn.net>
-In-Reply-To: <202002211601.322B596B@keescook>
-References: <202002211601.322B596B@keescook>
+To:     Tycho Andersen <tycho@tycho.ws>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc: fix filesystems/porting.rst whitespace
+Message-ID: <20200225032028.2bda9de8@lwn.net>
+In-Reply-To: <20200220214009.11645-1-tycho@tycho.ws>
+References: <20200220214009.11645-1-tycho@tycho.ws>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -42,18 +41,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 21 Feb 2020 16:02:39 -0800
-Kees Cook <keescook@chromium.org> wrote:
+On Thu, 20 Feb 2020 14:40:09 -0700
+Tycho Andersen <tycho@tycho.ws> wrote:
 
-> When there was no parallelism (no top-level -j arg and a pre-1.7
-> sphinx-build), the argument passed would be empty ("") instead of just
-> being missing, which would (understandably) badly confuse sphinx-build.
-> Fix this by removing the quotes.
+> If we start with spaces instead of tabs, rst seems to get confused and
+> italicize some things (presumably because of the `*'s).
 > 
-> Reported-by: Rafael J. Wysocki <rafael@kernel.org>
-> Fixes: 51e46c7a4007 ("docs, parallelism: Rearrange how jobserver reservations are made")
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Instead, let's switch to using leading tabs as we do elsewhere in the file.
+> 
+> Signed-off-by: Tycho Andersen <tycho@tycho.ws>
+> ---
+>  Documentation/filesystems/porting.rst | 21 +++++++++++----------
+>  1 file changed, 11 insertions(+), 10 deletions(-)
 
-Applied, thanks for fixing this.
+So I don't see that problem in my builds, and it doesn't show in the
+version on kernel.org either.  What version of sphinx are you running?
+
+Thanks,
 
 jon
