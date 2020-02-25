@@ -6,97 +6,119 @@ X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B34C5C35E0E
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:31:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C77EC4BA00
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:56:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8A30320838
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:31:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F09D24650
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:56:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bsIBaiOx"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fcql3YFv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728585AbgBYVbc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 16:31:32 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:38805 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726421AbgBYVbc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 16:31:32 -0500
-Received: by mail-pf1-f195.google.com with SMTP id x185so252502pfc.5
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 13:31:29 -0800 (PST)
+        id S1729062AbgBYV4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 16:56:12 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:38185 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729056AbgBYV4M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 16:56:12 -0500
+Received: by mail-pg1-f195.google.com with SMTP id d6so216175pgn.5
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 13:56:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=rrlr+907qtKDudjoqI94u3BDniTLuSDFOK3CBpzOF4E=;
-        b=bsIBaiOx2q6Nz0szIaHfQPNo4hYm/9YM3ER93MPP+idoUIhz//erff21F8ACX8lvyy
-         /Vtb7KtuLiUG7PmyVOr8JCBZ8gC2CPzmF/IOKIOP6YqVmnN9EltjeteoiuFViaN6gzGA
-         ftBujYT7QwO14ICuSzTpjMUOlrqwxXrSa2li4=
+        bh=P0m56hgWfY+fSgLqZHYe9e+4kClDl7jR0dEcmYtm2LE=;
+        b=fcql3YFvPmHGZI6Q8rQ5z40BgpbCCg+a/WSVyCNRZw82gO+QncFPhs+IByADEdVe9O
+         la8dw8lRoMszKoFcvQDeqEpOQQjNt7Som1vTVOmlymqqVGqsb9pyrojpyu9pO/fRbhOn
+         S9D7diL06Rjt+SATWhlkZEqem3mLI8ww6A2XM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=rrlr+907qtKDudjoqI94u3BDniTLuSDFOK3CBpzOF4E=;
-        b=sB8squdtxsAOkULqoUN4+hi+Tcp/gXIRMLQo9SijFQhREuAoAywNGjsJdE/S2atJC8
-         TvAJGJ9+RF24o+xRkm1aeQx6bJlLSCwAGrW38yDXyWrdmuEthFDwNBaPRP8bBIdzWlQK
-         LAq3yWYS0Ktp+lm8AEJRxuzgiZ9/ixqD4gPM/2JiX14JGLpPtOtwEL8MBXDdg9KxN1Mk
-         gGw0pp/yUnCudNVQso8LKjgGRxWtb1qD+6+rlTemITH1SZUkTrC3WgtU+kV7K0CThiRF
-         fgyGxRDMIbiuh1w9ewcleXzknADjE+ercOKOOEk7W0sjSZ+sNwwr+JCVX6gcNP+kOpKj
-         89Dg==
-X-Gm-Message-State: APjAAAWg4elkgNjcvw4YNnkbvpOQ+6Paix3LM2riJwJqvQtce77trHDt
-        CV6roJZgnaR6JGPd+FRUid/VPg==
-X-Google-Smtp-Source: APXvYqzVvUZuW1LsUViX6xfqJvhxOzF3Vucg+hrYDZWfmpFNwnE34eriSoo3DlbkNO1ERPnR/8OPug==
-X-Received: by 2002:aa7:84c6:: with SMTP id x6mr669697pfn.181.1582666289361;
-        Tue, 25 Feb 2020 13:31:29 -0800 (PST)
+        bh=P0m56hgWfY+fSgLqZHYe9e+4kClDl7jR0dEcmYtm2LE=;
+        b=nVZLa29ksRjRuoSKTYQqkec8D50KJDvQuQXihKEloC4MuFuAyyHqIAxJD0f8Uqm/HL
+         TTfSR6wQQ4vVzUrd4kWMjdgyXahbup8sJEwW+eDE494oq5zFsQ+/dilCPB0vBrIch5wO
+         BB/vuqjx7tzn9kT1phS2FzEbC/Xo15BQU22fh76AkghkgHw0FflydQG4r9dv9UuUCfl3
+         3d4LaZ7zxioXcPPk1sgcwZ+/6igUG2Ex00IwPePBuqucmwPbyS6B3eo44Pd5cue9M10h
+         cBaY/dI1VSj7WjDXsaev8E5/2STHwqBMXZVwAe+JZhZupCAE2z/vGZl3pdsHS6Ul3nTd
+         P8oA==
+X-Gm-Message-State: APjAAAVCfAFSae7jK83PcwvYgtsh0kjD1wesTYcMzGU9s9UhHAqXHRZE
+        4ikn69f1ZhAyiUTaFBzPg9hiUQ==
+X-Google-Smtp-Source: APXvYqxj+J+PuaBuGfM3BsQalMWNQHuh15kFlAIJuvZpyf3cuDJJkvtochBwcj5obIr1O3qqDWizZA==
+X-Received: by 2002:a62:f251:: with SMTP id y17mr853017pfl.204.1582667771408;
+        Tue, 25 Feb 2020 13:56:11 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h26sm33487pfr.9.2020.02.25.13.31.28
+        by smtp.gmail.com with ESMTPSA id b12sm60452pfr.26.2020.02.25.13.56.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 13:31:28 -0800 (PST)
-Date:   Tue, 25 Feb 2020 13:31:27 -0800
+        Tue, 25 Feb 2020 13:56:10 -0800 (PST)
+Date:   Tue, 25 Feb 2020 13:56:09 -0800
 From:   Kees Cook <keescook@chromium.org>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Subject: Re: [RFC PATCH v9 00/27] Control-flow Enforcement: Shadow Stack
-Message-ID: <202002251330.7CD5EEFA2@keescook>
-References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Subject: Re: [PATCH] Documentation/llvm: add documentation on building w/
+ Clang/LLVM
+Message-ID: <202002251353.25A016CD@keescook>
+References: <20200224174129.2664-1-ndesaulniers@google.com>
+ <202002242003.870E5F80@keescook>
+ <20200225041643.GA17425@ubuntu-m2-xlarge-x86>
+ <CAKwvOdn0_EETGtBVhbRKMPqv2K04Z1N4PuOZDZ6++Ejbi9-B-w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+In-Reply-To: <CAKwvOdn0_EETGtBVhbRKMPqv2K04Z1N4PuOZDZ6++Ejbi9-B-w@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 05, 2020 at 10:19:08AM -0800, Yu-cheng Yu wrote:
-> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
-> return/jump-oriented programming attacks.  Details can be found in "Intel
-> 64 and IA-32 Architectures Software Developer's Manual" [1].
+On Tue, Feb 25, 2020 at 12:59:25PM -0800, Nick Desaulniers wrote:
+> On Mon, Feb 24, 2020 at 8:16 PM Nathan Chancellor
+> <natechancellor@gmail.com> wrote:
+> > > Should this also include an update to Documentation/process/changes.rst
+> > > with the minimum version required? (I would expect this to be "9" for Clang,
+> > > and "11" for ld.lld.)
+> >
+> > I think the clang one should be added in a separate patch that
+> > solidifies that in include/linux/compiler-clang.h with a CLANG_VERSION
+> > macro and version check, like in include/linux/compiler-gcc.h.
+> >
+> > ld.lld's minimum version should also be 9, what is the blocking issue
+> > that makes it 11?
+> 
+> I'm super hesitant to put a minimally required version of Clang, since
+> it really depends on the configs you're using.  Sure, clang-9 will
+> probably work better than clang-4 for some configs, but I would say
 
-At v9, this probably isn't RFC any more. :)
+I think it's not unreasonable to say clang-9 due to x86 not building
+prior to clang-9. (Yes, other archs can build with earlier clang, but
+that's true for earlier gccs too.)
 
-As mentioned in another patch, I'd really like to see some self tests
-for this feature. It's relatively complex...
+> ToT clang built from source would be even better, as unrealistic as
+> that is for most people.  The question of "what's our support model"
+> hasn't realistically come up yet, so I don't really want to make a
+> decision on that right now and potentially pigeonhole us into some
+> support scheme that's theoretical or hypothetical.  We need to expand
+> out the CI more, and get more people to even care about Clang, before
+> we start to concern ourselves with providing an answer to the question
+> "what versions of clang are supported?"  But it's just a strong
+> opinion of mine, held loosely.
+
+"Supported" is hand-wavey anyway. I would say, "this version is
+_expected_ to build the kernel", etc.
+
+> Either way, it can be done (or not) in a follow up patch.  I would
+> like to land some Documentation/ even if it's not perfect, we can go
+> from there.
+
+Sounds fine, but I think we should take a specific version stand as the
+"minimum" version. Being able to build x86 defconfig is a good minimum
+IMO.
 
 -- 
 Kees Cook
