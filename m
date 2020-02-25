@@ -2,105 +2,198 @@ Return-Path: <SRS0=e/bK=4N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25246C35E0E
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 20:52:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB1DC35E0E
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 20:59:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EF4892176D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 20:52:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94D862176D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 20:59:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kJBKheyS"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Jwk9kPFJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728483AbgBYUw2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 15:52:28 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:33718 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728119AbgBYUw2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 15:52:28 -0500
-Received: by mail-pj1-f67.google.com with SMTP id m7so1381786pjs.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 12:52:28 -0800 (PST)
+        id S1729117AbgBYU7E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 15:59:04 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:32985 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728162AbgBYU7E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 15:59:04 -0500
+Received: by mail-pj1-f68.google.com with SMTP id m7so1387501pjs.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 12:59:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GAoYW3jtAWCjdGaJXCm1P0l2hukH5ekAbYDVhrn3FCI=;
-        b=kJBKheySLFt0Q1njT7UpJ8+EDt27CVBBJHrvJ0UtSvuHFxIIjGi22GqBUgpH2nAHdI
-         JY5jrCDf3PIG9COk+pwYByEiwkOKxIApV/ovtrc9wrCaKya9UoDMEVp3Rz9kOWYFJgZ6
-         LFrubn4k0J3ci67mSNf1jdg3j0c2vRI3NMo0hVWrLh5JRtR2Ea45SlATQTxbUKChv5wX
-         4xOYXRcY5SQJ59KF+n2sYezpKSTZ/7kWy6dPhVgzAu1h6Pl5XBxt8qUPbxgM379BZ/Oa
-         /iM37C2zdp+gP8bAXtXgNbQc3SdKilus0OLnBjt0xT5I3zkOQcbj5sMbfKPzqlA7Sd0v
-         mZhg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8dX5wGDp7/7RsShn+G7Hibf511wFtQ+pPngKimjNxu4=;
+        b=Jwk9kPFJM5a5cMiSmyglbYvymQaWI+0Gd2bok0pF2yDJjBVyB4ypgMVYnkhvHZBskU
+         awRC2Wrz2BPMSVl/HcdJAxTGcUgu8+Afk5Wd46vG4ulAXoicWcgKpp72XA+FY46HMWdT
+         kiPA3E07NGXbdh2+9CYQ4kSt958zqN9ltfGR0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GAoYW3jtAWCjdGaJXCm1P0l2hukH5ekAbYDVhrn3FCI=;
-        b=YGNaSpe4JiS9rqEk1/5CE5Bo9qBzEcQH/YBYO6NS1WlSblm3XlqohKYwawyhIiFQ4w
-         Wt11ufQDtcrk3aA2iva/vwZQpmE7ZIWVu5KrHSTzgoupQWoG6z74z0NxG0qAeHsUeQFY
-         ONWKuuPbc7HpCU4MptcwOci63zFJBHVm8Vv+ZCV3bKOZ9WNxKpg0ULb/Bu67usmGnTj2
-         /Jy1kz6WPpZCUPGEIU+Z/ikMJWUUjElLNahdCM07qwczM5X7a/wCcsy9V5v0itjcVY12
-         TdawB1W6Dl5eH8w6W5vHEVG+kOnz8YTPl1VhVG85d71GX7e3OBkniozjcpMha4be9ou3
-         bVzA==
-X-Gm-Message-State: APjAAAVrzj0hBDFHADS/1dN43CqmyAiH6CGKnnBwNjYnO4sbAStTOgiH
-        1egsyeqKsxuBlDbTm8gesn7v1Dtm1Gd+viqiJqm5Zg==
-X-Google-Smtp-Source: APXvYqwmB04vyduuyJu/HEN0PY3Yi4sOxYmfQoRVMJPmSpkr6VIiN9TCWrQH4VKDHGWrnSeq/vTIXr42Ie5xms8bARw=
-X-Received: by 2002:a17:902:8a88:: with SMTP id p8mr353457plo.179.1582663947479;
- Tue, 25 Feb 2020 12:52:27 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8dX5wGDp7/7RsShn+G7Hibf511wFtQ+pPngKimjNxu4=;
+        b=TguNMlP6DLVD7w5I1Jg6Nj6AtcrDJmm86r/Anyayyu+6RtNBqLRs2m6gOcs51KIql4
+         qTg8u7Sw4OkBR9RKGsJus0Vo30VrlI25ReR/yqXh6eMaJw9muOpVqsC9y0Lia+pqGa1u
+         sNygduUk7lpm0vd4D5Cylm1i84LVm6abimRaGdY1z1vdbYcH14hscNdcm94T2nVW19pz
+         IlGwtPVyd+8xG08x5gmlQH/SGai9DxrK6RwFfcYBhEXO4cYT4xHNAb1GzJEhE/RcsNPw
+         ngXdHydodm0l2IDieqUzZL5Sx7GyvfIzzBPQXryClZ3A4joKsDOcWIVesubFMJRD4kYR
+         2k7Q==
+X-Gm-Message-State: APjAAAXgc5UhDu6Z3QQTRufMrwXo4DqbB01JMDQPheJDQDdNZFygRx3O
+        7YKEGz0vB83R/BdEUJdqHOHXcA==
+X-Google-Smtp-Source: APXvYqy7twXol1ZzVJucdwTIs4N2cjv5l0rTxkBOo20OqiQFr1W86iRpQPhEogyZW0rHsPhwBYPDdQ==
+X-Received: by 2002:a17:90a:d985:: with SMTP id d5mr1051052pjv.73.1582664342668;
+        Tue, 25 Feb 2020 12:59:02 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id e6sm17859883pfh.32.2020.02.25.12.59.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2020 12:59:01 -0800 (PST)
+Date:   Tue, 25 Feb 2020 12:59:00 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Subject: Re: [RFC PATCH v9 15/27] mm: Handle THP/HugeTLB Shadow Stack page
+ fault
+Message-ID: <202002251258.7D6DA92@keescook>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+ <20200205181935.3712-16-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-References: <20200224174129.2664-1-ndesaulniers@google.com> <CAK7LNASNsOmyqFWYtJHB4UcHAed5C_isWvMJ4MKHu0O=yUy=8w@mail.gmail.com>
-In-Reply-To: <CAK7LNASNsOmyqFWYtJHB4UcHAed5C_isWvMJ4MKHu0O=yUy=8w@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 25 Feb 2020 12:52:16 -0800
-Message-ID: <CAKwvOd=mPg79CrYnDm8=z0iJpKL0FHm9J5qZF0_A6BFXBv8Dow@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: add documentation on building w/ Clang/LLVM
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200205181935.3712-16-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 24, 2020 at 4:34 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Tue, Feb 25, 2020 at 2:41 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > Added to kbuild documentation. Provides more official info on building
-> > kernels with Clang and LLVM than our wiki.
-> >
-> > Suggested-by: Kees Cook <keescook@chromium.org>
-> > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > ---
->
->
-> Perhaps, is it better to explicitly add it to MAINTAINERS?
->
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4118,6 +4118,7 @@ W:        https://clangbuiltlinux.github.io/
->  B:     https://github.com/ClangBuiltLinux/linux/issues
->  C:     irc://chat.freenode.net/clangbuiltlinux
->  S:     Supported
-> +F:     Documentation/kbuild/llvm.rst
->  K:     \b(?i:clang|llvm)\b
+On Wed, Feb 05, 2020 at 10:19:23AM -0800, Yu-cheng Yu wrote:
+> This patch implements THP Shadow Stack (SHSTK) copying in the same way as
+> in the previous patch for regular PTE.
+> 
+> In copy_huge_pmd(), clear the dirty bit from the PMD to cause a page fault
+> upon the next SHSTK access to the PMD.  At that time, fix the PMD and
+> copy/re-use the page.
 
-I'm happy to leave it to the maintainers of Documentation/.  Otherwise
-we have a file for which there is no MAINTAINER, which seems
-ambiguous.
+Now is as good a time as any to ask: do you have selftests for all this?
+It seems like it would be really nice to have a way to verify SHSTK is
+working correctly.
+
+-Kees
+
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/mm/pgtable.c         |  8 ++++++++
+>  include/asm-generic/pgtable.h | 11 +++++++++++
+>  mm/huge_memory.c              |  4 ++++
+>  3 files changed, 23 insertions(+)
+> 
+> diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+> index 2eb33794c08d..3340b1d4e9da 100644
+> --- a/arch/x86/mm/pgtable.c
+> +++ b/arch/x86/mm/pgtable.c
+> @@ -886,4 +886,12 @@ inline pte_t pte_set_vma_features(pte_t pte, struct vm_area_struct *vma)
+>  	else
+>  		return pte;
+>  }
+> +
+> +inline pmd_t pmd_set_vma_features(pmd_t pmd, struct vm_area_struct *vma)
+> +{
+> +	if (vma->vm_flags & VM_SHSTK)
+> +		return pmd_mkdirty_shstk(pmd);
+> +	else
+> +		return pmd;
+> +}
+>  #endif /* CONFIG_X86_INTEL_SHADOW_STACK_USER */
+> diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+> index 9cb2f9ba5895..a9df093fdf45 100644
+> --- a/include/asm-generic/pgtable.h
+> +++ b/include/asm-generic/pgtable.h
+> @@ -1201,9 +1201,20 @@ static inline pte_t pte_set_vma_features(pte_t pte, struct vm_area_struct *vma)
+>  {
+>  	return pte;
+>  }
+> +
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +static inline pmd_t pmd_set_vma_features(pmd_t pmd, struct vm_area_struct *vma)
+> +{
+> +	return pmd;
+> +}
+> +#endif
+>  #else
+>  bool arch_copy_pte_mapping(vm_flags_t vm_flags);
+>  pte_t pte_set_vma_features(pte_t pte, struct vm_area_struct *vma);
+> +
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +pmd_t pmd_set_vma_features(pmd_t pmd, struct vm_area_struct *vma);
+> +#endif
+>  #endif
+>  #endif /* CONFIG_MMU */
+>  
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index a88093213674..93ef368df2dd 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -636,6 +636,7 @@ static vm_fault_t __do_huge_pmd_anonymous_page(struct vm_fault *vmf,
+>  
+>  		entry = mk_huge_pmd(page, vma->vm_page_prot);
+>  		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
+> +		entry = pmd_set_vma_features(entry, vma);
+>  		page_add_new_anon_rmap(page, vma, haddr, true);
+>  		mem_cgroup_commit_charge(page, memcg, false, true);
+>  		lru_cache_add_active_or_unevictable(page, vma);
+> @@ -1278,6 +1279,7 @@ static vm_fault_t do_huge_pmd_wp_page_fallback(struct vm_fault *vmf,
+>  		pte_t entry;
+>  		entry = mk_pte(pages[i], vma->vm_page_prot);
+>  		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> +		entry = pte_set_vma_features(entry, vma);
+>  		memcg = (void *)page_private(pages[i]);
+>  		set_page_private(pages[i], 0);
+>  		page_add_new_anon_rmap(pages[i], vmf->vma, haddr, false);
+> @@ -1360,6 +1362,7 @@ vm_fault_t do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
+>  		pmd_t entry;
+>  		entry = pmd_mkyoung(orig_pmd);
+>  		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
+> +		entry = pmd_set_vma_features(entry, vma);
+>  		if (pmdp_set_access_flags(vma, haddr, vmf->pmd, entry,  1))
+>  			update_mmu_cache_pmd(vma, vmf->address, vmf->pmd);
+>  		ret |= VM_FAULT_WRITE;
+> @@ -1432,6 +1435,7 @@ vm_fault_t do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
+>  		pmd_t entry;
+>  		entry = mk_huge_pmd(new_page, vma->vm_page_prot);
+>  		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
+> +		entry = pmd_set_vma_features(entry, vma);
+>  		pmdp_huge_clear_flush_notify(vma, haddr, vmf->pmd);
+>  		page_add_new_anon_rmap(new_page, vma, haddr, true);
+>  		mem_cgroup_commit_charge(new_page, memcg, false, true);
+> -- 
+> 2.21.0
+> 
 
 -- 
-Thanks,
-~Nick Desaulniers
+Kees Cook
