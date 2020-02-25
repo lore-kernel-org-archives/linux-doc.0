@@ -2,124 +2,96 @@ Return-Path: <SRS0=e/bK=4N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5397C35E01
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 18:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5B9C35E04
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 19:02:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BED55218AC
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 18:58:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F46D2084E
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 19:02:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OTDHNKDT"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KxKVlRjn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728051AbgBYS6b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 13:58:31 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:44525 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730080AbgBYS6b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 13:58:31 -0500
-Received: by mail-pf1-f194.google.com with SMTP id y5so9252pfb.11
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 10:58:30 -0800 (PST)
+        id S1731178AbgBYTCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 14:02:23 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:43420 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728787AbgBYTCW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 14:02:22 -0500
+Received: by mail-pg1-f194.google.com with SMTP id u12so7308440pgb.10
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 11:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Iv8nu0Tmrew9fnUnqPnKjAEYAPCBJwm2aHqQgQlHcXI=;
-        b=OTDHNKDTmnSxFLlKliRJJ9/P+0Gj67aV93Z9DkDKQSb5UBIv6Lf9hta72mOKzV7lCA
-         hgdCJGHTBdyOTlwFrBh3IP1/RsLtfWq4kGje6VP73W5eFbI6N6Io/NJxgJdkF05efPs5
-         m+mbix3wNRslURQ37RuZEZxFXo2t0g1SvssQ8=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WnuAAHpvexBjIgdo0I3jrPe9EJ/pU5+xJDjbC5sUyiI=;
+        b=KxKVlRjnC+d7tQegfRjfdNgx2ipP6nvGyd5QB8ZZzy7mmMUGCdScE2uEKcRHF+xH5I
+         ZCvV0zy+a0nqzdjcr99NTvLBz+2Kb75n/PEHOX884PqVqBAe88B7QftJ2Hkp/ZphDMAk
+         /7aI3moveWsQsnA4S+KrUiDOMkYspBNZumNzn5bEj7qdgjnal0nnMVAQsP02fljrdlXu
+         TcMUh9ae9rdlKlrR6gR9UVLEUAs97wBzRSJ6Z6XrrwSuVmd4y8vSALYJuCatu1mAmM4w
+         JOk2GuUTZonZaTimtjxPXazdOkBVYOtZCsm5JticS6tDGLMqdfX6uywoDec/Yag6N39F
+         xmuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Iv8nu0Tmrew9fnUnqPnKjAEYAPCBJwm2aHqQgQlHcXI=;
-        b=DDKmgH/BZ0exNSN10YPo2qHjg4w9kEd1On40BXviXpkP5ba+6fVHNKRrr39CVZYHvh
-         Gh9V1d6crpb/wSVOUYrIFjjvNBPH9++jHubY5pmtGb0A7nO83bYQnfuKTkSYc/NKDnxT
-         vlN9kwlqWsY136hxaOAswyGtYi+VAVCp5PVwbQ2LXZxeWKIg1eg3eKtZOf6UsDPkTc0R
-         d3jGrfccOooqdf8QDzDVlTkU0urTlM98t/3PgRSeSypz8BXE5DnvoKiE8jmZBYpK+7RE
-         fvxGCpL2cCVZoZqGqfvxTq095LNwUPYVx/vUWtiszwmkNc1SMGo7MLP05p+s+S7/aNIj
-         LHfA==
-X-Gm-Message-State: APjAAAWGdMWrbIC6F1MGRAWW9dGMYhw/oy9pkQnjbUC8c2ao/Qwe+czm
-        6UnqMS956xmaW6NfYb5zcBmRZA==
-X-Google-Smtp-Source: APXvYqwlFhU6hPGfLFawa58hpajX7pM4HYhMZNF5+kHXg+q9Uo6O71/hbEkW5Dj1+zEZt+TbulmPgw==
-X-Received: by 2002:a63:ce03:: with SMTP id y3mr62064239pgf.427.1582657109996;
-        Tue, 25 Feb 2020 10:58:29 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b18sm18196190pfd.63.2020.02.25.10.58.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 10:58:29 -0800 (PST)
-Date:   Tue, 25 Feb 2020 10:58:28 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Emese Revfy <re.emese@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        kernel-hardening@lists.openwall.com, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] gcc-plugins: fix gcc-plugins directory path in
- documentation
-Message-ID: <202002251057.C4E397A@keescook>
-References: <20200213122410.1605-1-masahiroy@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WnuAAHpvexBjIgdo0I3jrPe9EJ/pU5+xJDjbC5sUyiI=;
+        b=IobqZWYmd0Ql1wMBtftA3TyNcCA+BYGoGRwSurzoR+JUUz4Uzdv92mbo43ARK5MQlU
+         x2SZBmmhd6KKm5IqCf6aHAZ8T+cvJ72gyU/TpRJ3CFO7CnkaISEHlSViN+HsEmUaqOFl
+         NnA1HQIAlZ5DBDpKAS7fZkDCkMPx7NeKngZfXi4Tlcd+/zSJVBrmd3bXMuMLLsZ13fpS
+         mMB8Og9U88nKnC/cV/ZaqilyIfcIIz9MFgIYYkCK/nxWXMege7ebT1+j8IpPhHhcH+0+
+         4LyGB1rxheA1WTzjP39/gNpUXB3ysyp9ZsK6KvLyc4lLz9AZzbi0dro7qWUv/07fT7Nl
+         J8Rw==
+X-Gm-Message-State: APjAAAWlQPMG+v4reHzSyn4wHuDiC0HfNSYUt5iS30moCaDdRaQN0KJM
+        DL50v+mL4PFXiAnGIyufl/dArsrKKNe0JCqZlVE3Rg==
+X-Google-Smtp-Source: APXvYqxiqiqC/hdkXfuggm+uvyphsX1XfkSIzlfeJv1IXJ45qMugmyF98WdyHS+UQyAyVLn8W5R2X0INNO88GBDaO5I=
+X-Received: by 2002:a63:fd17:: with SMTP id d23mr1344578pgh.159.1582657341835;
+ Tue, 25 Feb 2020 11:02:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200213122410.1605-1-masahiroy@kernel.org>
+References: <20200225102300.23895-1-sjpark@amazon.com> <20200225102300.23895-6-sjpark@amazon.com>
+In-Reply-To: <20200225102300.23895-6-sjpark@amazon.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 25 Feb 2020 11:02:10 -0800
+Message-ID: <CAFd5g45-=8Qykkziy4mhMW+ZM4xqA1xnHJLGVveg=eGSC92=Nw@mail.gmail.com>
+Subject: Re: [RFC v3 5/7] mm/damon-test: Add kunit test case for regions age accounting
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        SeongJae Park <sjpark@amazon.de>, aarcange@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, brendan.d.gregg@gmail.com, cai@lca.pw,
+        Colin King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>, dwmw@amazon.com,
+        jolsa@redhat.com, kirill@shutemov.name,
+        Mark Rutland <mark.rutland@arm.com>, mgorman@suse.de,
+        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, shuah <shuah@kernel.org>,
+        SeongJae Park <sj38.park@gmail.com>, vbabka@suse.cz,
+        vdavydov.dev@gmail.com, yang.shi@linux.alibaba.com,
+        ying.huang@intel.com, linux-mm@kvack.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 09:24:10PM +0900, Masahiro Yamada wrote:
-> Fix typos "plgins" -> "plugins".
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Tue, Feb 25, 2020 at 2:25 AM SeongJae Park <sjpark@amazon.com> wrote:
+>
+> From: SeongJae Park <sjpark@amazon.de>
+>
+> After merges of regions, each region should know their last shape in
+> proper way to measure the changes from the last modification and reset
+> the age if the changes are significant.  This commit adds kunit test
+> cases checking whether the regions are knowing their last shape properly
+> after merges of regions.
+>
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
 
-Thanks!
-
-Acked-by: Kees Cook <keescook@chromium.org>
-
-Jon, can you take this?
-
--Kees
-
-> ---
-> 
->  Documentation/kbuild/reproducible-builds.rst | 2 +-
->  scripts/gcc-plugins/Kconfig                  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-> index 503393854e2e..3b25655e441b 100644
-> --- a/Documentation/kbuild/reproducible-builds.rst
-> +++ b/Documentation/kbuild/reproducible-builds.rst
-> @@ -101,7 +101,7 @@ Structure randomisation
->  
->  If you enable ``CONFIG_GCC_PLUGIN_RANDSTRUCT``, you will need to
->  pre-generate the random seed in
-> -``scripts/gcc-plgins/randomize_layout_seed.h`` so the same value
-> +``scripts/gcc-plugins/randomize_layout_seed.h`` so the same value
->  is used in rebuilds.
->  
->  Debug info conflicts
-> diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-> index e3569543bdac..7b63c819610c 100644
-> --- a/scripts/gcc-plugins/Kconfig
-> +++ b/scripts/gcc-plugins/Kconfig
-> @@ -86,7 +86,7 @@ config GCC_PLUGIN_RANDSTRUCT
->  	  source tree isn't cleaned after kernel installation).
->  
->  	  The seed used for compilation is located at
-> -	  scripts/gcc-plgins/randomize_layout_seed.h.  It remains after
-> +	  scripts/gcc-plugins/randomize_layout_seed.h.  It remains after
->  	  a make clean to allow for external modules to be compiled with
->  	  the existing seed and will be removed by a make mrproper or
->  	  make distclean.
-> -- 
-> 2.17.1
-> 
-
--- 
-Kees Cook
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
