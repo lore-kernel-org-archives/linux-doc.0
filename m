@@ -2,130 +2,107 @@ Return-Path: <SRS0=e/bK=4N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD0AC35E04
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 18:39:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E420C35E0D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 18:50:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2AEFD2084E
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 18:39:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59DF621744
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 18:50:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BE3s7hwK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G7bWyZbH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731582AbgBYSjY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 13:39:24 -0500
-Received: from mail-pl1-f171.google.com ([209.85.214.171]:34804 "EHLO
-        mail-pl1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731439AbgBYSjX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 13:39:23 -0500
-Received: by mail-pl1-f171.google.com with SMTP id j7so158172plt.1;
-        Tue, 25 Feb 2020 10:39:23 -0800 (PST)
+        id S1731005AbgBYSt6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 13:49:58 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:44042 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730634AbgBYSt5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 13:49:57 -0500
+Received: by mail-pl1-f194.google.com with SMTP id d9so144735plo.11;
+        Tue, 25 Feb 2020 10:49:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=P8swh48wfTLZuYv02RwLOZrF/pIWOZiF/oICtKiXMJc=;
-        b=BE3s7hwKT6oHvUI0W48DjcFi/+3Hm2fY5rHl1CjxQYcS3UXiBjlQrNiwrts0qBdgSB
-         j1gHofmQS/zw6Ow8MGCGQbrJ6pYOzQn90TkBw5kVQMF29L74lTeFJz4BjauMjqwRLf2X
-         Dxil8Dcz1j3AbCnF0KEKSQ6gXAx5uODlCKBGh6XHZhgGlhBajcLIXZ+01G4onRqFQC5S
-         9EC6Tnp7y1l+A7yekcWnRJDUZ4RQGGYs7CWGdtFB4p2fMkE4fatO4YIEowrnXuUhArzp
-         Lq98HT7Ge/L87abL8+It18Av1Iudc9SKBC8ibN4Fwt7X9Y88Ipe1fEahDJYWuuAU9uOu
-         WKxw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=nvwGkkcwwig4eCR4m0+EXyPalZCNu0nCU8n4Iqik970=;
+        b=G7bWyZbHZX8L5mx1qmuUrJ6R/u1VcW6191mW+YfJDBC8HLgDFKfKHWQEOoEJoVhkXn
+         W/y6CCVqFL92NYn57nNRjyHA6lwYbRoweC1yYGHTkJzL53mymmUpJksjTWZ7ySbaPrRB
+         n0dyGnxfMmOFoTSoRJbqDT3MGEuqUxVvZXV12P4m3+0oJWHi3DH5TMF+x/W1qg0hNMxA
+         CLweY4F1EeybVJFQ04jKbevHMx8Vcg43jgMKOzPQ4W+7RIFDB5lRmOdZqHKK6pq4BKkF
+         NJ9ve8xEqDSWGj1UXvCZkB5iZd0pmON/92SSjvdIELk2bdaMvOd6OKLXHoTzYJLCvTa+
+         zcpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=P8swh48wfTLZuYv02RwLOZrF/pIWOZiF/oICtKiXMJc=;
-        b=fCHgPHfkU/1t40RjXXovjIymU9tPktYWSiayfP3hC5+OvQVPiJQdbs6Y1HViyKdNs9
-         uh1vmk5A6RR+tz7f1OIB7qAnh+TuM0dToexpC+JGAWtJdwmfeBVxiE8NJkuJ3kyJWJs8
-         47LXscySUMwn2CDCUzyk04KHPEOBeH27EJZG9fsAB0ntAEBqY3cC5dC1cHYEF0yyIN3x
-         75bOIFwcDRL3buQHnZMlnanMQqNK+V0+VG9/CCdK+e9pxHeUGTQNm0UA97euzOGjdEIl
-         w9afgcJSJly5yHQJ7NTAQNuTEobuecj9p7zatnAKM9FTQQNhHCGmksCOwksijRpwNS3Q
-         He3g==
-X-Gm-Message-State: APjAAAWk38VSdppr/EX64hwV4rBhxLIaMMDtXFCSHs1c/zmCmUarIcLX
-        hTEk3Joq6hep30FpAL87Y1s=
-X-Google-Smtp-Source: APXvYqyApWD8VybffrlZ5mdReiC24DM6E2uK/QjrEZU40b4xruIxjMwwS+Yey6Aplb1bHaeECPA3bw==
-X-Received: by 2002:a17:90a:cc04:: with SMTP id b4mr369278pju.136.1582655962841;
-        Tue, 25 Feb 2020 10:39:22 -0800 (PST)
-Received: from localhost.localdomain ([103.46.201.207])
-        by smtp.gmail.com with ESMTPSA id 13sm17803325pfi.78.2020.02.25.10.39.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 10:39:22 -0800 (PST)
-From:   amanharitsh123 <amanharitsh123@gmail.com>
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] doc: Convert to checklist.txt to checklist.rst
-Date:   Wed, 26 Feb 2020 00:09:16 +0530
-Message-Id: <20200225183916.4555-1-amanharitsh123@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=nvwGkkcwwig4eCR4m0+EXyPalZCNu0nCU8n4Iqik970=;
+        b=uHHAIJZKoQDrf7xJVbKS38TFWc1YeoYHpYTP4TKy221TnVQXTOu7e4hwSHjBuSi6r8
+         8fb64eNsBkAbxjN3ZyIvJ+7gkM7ioTMt0wntDZTnzO20DcispTXjQGxblKDNlaRgpLyL
+         wiMANgQ9n6DUCunoH3ulmZoQd4/k0ecflh9IlGCXApc25/eeQ8VAiWMlwZQlhsVskjqB
+         I4xaJEzm9XBSK1s9bDSjNb4HurgOimoQ5rZjEyjLF/Vf0lmOSkW5CeckHBlcFs1jrqeC
+         zlj4VlG13XprAXC853D/uRRl1s0jJiBGhjgt0rAhjTdyWYtayNhJVMSZMwlU2tpVuLQ3
+         3LzQ==
+X-Gm-Message-State: APjAAAXs+N4FNq/SkE71+8CPflZ4wpbrbCFNvOR+Wxad/dEXqxDn/rhI
+        yLmVSTicxG3nv8ivKCnfuOA=
+X-Google-Smtp-Source: APXvYqwqCzAhzlldh7y2QteC8HJxHmiV+T+MgbEcZee4Qfdqy017TQ2Ol+QM4KbM9t0bb8tGyUsHwA==
+X-Received: by 2002:a17:902:bc45:: with SMTP id t5mr56453991plz.239.1582656596777;
+        Tue, 25 Feb 2020 10:49:56 -0800 (PST)
+Received: from JF-EN-C02V905BHTDF.tld ([12.111.169.54])
+        by smtp.gmail.com with ESMTPSA id q9sm14936484pgs.89.2020.02.25.10.49.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2020 10:49:56 -0800 (PST)
+Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        linux-kernel@vger.kernel.org
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+References: <20200224160215.4136-1-mic@digikod.net>
+From:   J Freyensee <why2jjj.linux@gmail.com>
+Message-ID: <6df3e6b1-ffd1-dacf-2f2d-7df8e5aca668@gmail.com>
+Date:   Tue, 25 Feb 2020 10:49:52 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
+ Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200224160215.4136-1-mic@digikod.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch converts checklist.txt to checklist.rst and
-adds it to index.rst
 
-Signed-off-by: amanharitsh123 <amanharitsh123@gmail.com>
----
- Documentation/RCU/{checklist.txt => checklist.rst} | 8 +++++---
- Documentation/RCU/index.rst                        | 1 +
- 2 files changed, 6 insertions(+), 3 deletions(-)
- rename Documentation/RCU/{checklist.txt => checklist.rst} (99%)
 
-diff --git a/Documentation/RCU/checklist.txt b/Documentation/RCU/checklist.rst
-similarity index 99%
-rename from Documentation/RCU/checklist.txt
-rename to Documentation/RCU/checklist.rst
-index e98ff261a438..49bf7862c950 100644
---- a/Documentation/RCU/checklist.txt
-+++ b/Documentation/RCU/checklist.rst
-@@ -1,5 +1,7 @@
--Review Checklist for RCU Patches
-+.. checklist doc:
- 
-+Review Checklist for RCU Patches
-+================================
- 
- This document contains a checklist for producing and reviewing patches
- that make use of RCU.  Violating any of the rules listed below will
-@@ -442,8 +444,8 @@ over a rather long period of time, but improvements are always welcome!
- 
- 	You instead need to use one of the barrier functions:
- 
--	o	call_rcu() -> rcu_barrier()
--	o	call_srcu() -> srcu_barrier()
-+	-	call_rcu() -> rcu_barrier()
-+	-	call_srcu() -> srcu_barrier()
- 
- 	However, these barrier functions are absolutely -not- guaranteed
- 	to wait for a grace period.  In fact, if there are no call_rcu()
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 81a0a1e5f767..d60eb4ba2cd0 100644
---- a/Documentation/RCU/index.rst
-+++ b/Documentation/RCU/index.rst
-@@ -10,6 +10,7 @@ RCU concepts
-    arrayRCU
-    rcubarrier
-    rcu_dereference
-+   checklist
-    whatisRCU
-    rcu
-    listRCU
--- 
-2.20.1
+On 2/24/20 8:02 AM, Mickaël Salaün wrote:
+
+> ## Syscall
+>
+> Because it is only tested on x86_64, the syscall is only wired up for
+> this architecture.  The whole x86 family (and probably all the others)
+> will be supported in the next patch series.
+General question for u.  What is it meant "whole x86 family will be 
+supported".  32-bit x86 will be supported?
+
+Thanks,
+Jay
 
