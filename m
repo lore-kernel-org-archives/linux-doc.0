@@ -2,146 +2,71 @@ Return-Path: <SRS0=e/bK=4N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A25C35DF5
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 09:59:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62750C35DF9
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 10:05:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 13BE721744
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 09:59:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DBB721744
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 10:05:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729672AbgBYJ71 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 04:59:27 -0500
-Received: from foss.arm.com ([217.140.110.172]:48508 "EHLO foss.arm.com"
+        id S1729623AbgBYKFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 05:05:08 -0500
+Received: from ms.lwn.net ([45.79.88.28]:53034 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729238AbgBYJ71 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 Feb 2020 04:59:27 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A46E230E;
-        Tue, 25 Feb 2020 01:59:26 -0800 (PST)
-Received: from [10.37.12.155] (unknown [10.37.12.155])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B6BFF3F6CF;
-        Tue, 25 Feb 2020 01:59:22 -0800 (PST)
-Subject: Re: [PATCH v4 6/7] arm64: use activity monitors for frequency
- invariance
-To:     Valentin Schneider <valentin.schneider@arm.com>,
-        Ionela Voinescu <ionela.voinescu@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        dietmar.eggemann@arm.com, rjw@rjwysocki.net, peterz@infradead.org,
-        mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-References: <20200224141142.25445-1-ionela.voinescu@arm.com>
- <20200224141142.25445-7-ionela.voinescu@arm.com> <jhjmu97ygk9.fsf@arm.com>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <18604cef-1e26-96a6-38b3-ab03b1b53b48@arm.com>
-Date:   Tue, 25 Feb 2020 09:59:20 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727016AbgBYKFH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 Feb 2020 05:05:07 -0500
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A611B738;
+        Tue, 25 Feb 2020 10:05:06 +0000 (UTC)
+Date:   Tue, 25 Feb 2020 03:05:01 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] Some cross-reference fixes due to fixes renames
+Message-ID: <20200225030501.48770bc2@lwn.net>
+In-Reply-To: <cover.1582361737.git.mchehab+huawei@kernel.org>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <jhjmu97ygk9.fsf@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, 22 Feb 2020 10:00:00 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
+> There are some references that got broken due to renames
+> (mostly .txt to .yaml and .rst, but also some files got moved
+> to other directories).
+> 
+> The first patch actually contains a fix for
+> documentation-file-ref-check, with currently reports several
+> false positives.
+> 
+> Mauro Carvalho Chehab (7):
+>   scripts: documentation-file-ref-check: improve :doc: handling
+>   docs: dt: fix several broken references due to renames
+>   docs: fix broken references to text files
+>   docs: adm1177: fix a broken reference
+>   docs: fix broken references for ReST files that moved around
+>   docs: remove nompx kernel parameter and intel_mpx from index.rst
+>   docs: gpu: i915.rst: fix warnings due to file renames
 
-On 2/24/20 6:40 PM, Valentin Schneider wrote:
-> 
-> Ionela Voinescu writes:
-> 
->> Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
->> Cc: Catalin Marinas <catalin.marinas@arm.com>
->> Cc: Will Deacon <will@kernel.org>
->> Cc: Sudeep Holla <sudeep.holla@arm.com>
-> 
-> With the small nits below:
-> 
-> Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
-> 
->> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
->> index fa9528dfd0ce..7606cbd63517 100644
->> --- a/arch/arm64/kernel/topology.c
->> +++ b/arch/arm64/kernel/topology.c
->> +
->> +static inline int
-> 
-> That should be bool, seeing what it returns.
-> 
->> +enable_policy_freq_counters(int cpu, cpumask_var_t valid_cpus)
->> +{
->> +	struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
->> +
->> +	if (!policy) {
->> +		pr_debug("CPU%d: No cpufreq policy found.\n", cpu);
->> +		return false;
->> +	}
->> +
->> +	if (cpumask_subset(policy->related_cpus, valid_cpus))
->> +		cpumask_or(amu_fie_cpus, policy->related_cpus,
->> +			   amu_fie_cpus);
->> +
->> +	cpufreq_cpu_put(policy);
->> +
->> +	return true;
->> +}
->> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
->> index 1eb81f113786..1ab2b7503d63 100644
->> --- a/drivers/base/arch_topology.c
->> +++ b/drivers/base/arch_topology.c
->> @@ -29,6 +29,14 @@ void arch_set_freq_scale(struct cpumask *cpus, unsigned long cur_freq,
->>        unsigned long scale;
->>        int i;
->>
->> +	/*
->> +	 * If the use of counters for FIE is enabled, just return as we don't
->> +	 * want to update the scale factor with information from CPUFREQ.
->> +	 * Instead the scale factor will be updated from arch_scale_freq_tick.
->> +	 */
->> +	if (arch_cpu_freq_counters(cpus))
->> +		return;
->> +
->>        scale = (cur_freq << SCHED_CAPACITY_SHIFT) / max_freq;
->>
->>        for_each_cpu(i, cpus)
->> diff --git a/include/linux/topology.h b/include/linux/topology.h
->> index eb2fe6edd73c..397aad6ae163 100644
->> --- a/include/linux/topology.h
->> +++ b/include/linux/topology.h
->> @@ -227,5 +227,12 @@ static inline const struct cpumask *cpu_cpu_mask(int cpu)
->>        return cpumask_of_node(cpu_to_node(cpu));
->>   }
->>
->> +#ifndef arch_cpu_freq_counters
->> +static __always_inline
->> +bool arch_cpu_freq_counters(struct cpumask *cpus)
->> +{
->> +	return false;
->> +}
->> +#endif
->>
-> 
-> Apologies for commenting on this only now, I had missed it in my earlier
-> round of review.
-> 
-> I would've liked to keep this contained within arm64 stuff until we agreed
-> on a more generic counter-driven FIE interface, but seems like we can't evade
-> it due to the arch_topology situation.
-> 
-> Would it make sense to relocate this stub to arch_topology.h instead, at
-> least for the time being? That way the only non-arm64 changes are condensed
-> in arch_topology (even if it doesn't change much in terms of header files,
-> since topology.h imports arch_topology.h)
+OK, I've applied the first and the last of those.  Patches 2 and 4 have
+already been applied elsewhere.  Parts 3 and 5 have horrific conflicts
+against docs-next, so I've passed them by.  That leaves nompx, which had
+a comment from Dave Hansen.
 
-Or make it as a 'weak' and place it just above the arch_set_freq_scale()
-in arch_topology.c, not touching headers?
+Thanks,
 
-
+jon
