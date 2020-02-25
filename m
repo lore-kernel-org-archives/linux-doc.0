@@ -2,198 +2,451 @@ Return-Path: <SRS0=e/bK=4N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 140A6C35E15
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:03:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 893CAC35E15
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:07:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DA69420714
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:02:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 496832176D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:07:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="az9/lEQ6"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BZO6oZ6A"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729018AbgBYVC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 16:02:59 -0500
-Received: from mail-qv1-f74.google.com ([209.85.219.74]:36075 "EHLO
-        mail-qv1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728383AbgBYVC7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 16:02:59 -0500
-Received: by mail-qv1-f74.google.com with SMTP id b8so805257qvw.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 13:02:58 -0800 (PST)
+        id S1728714AbgBYVHt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 16:07:49 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:37208 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728315AbgBYVHs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 16:07:48 -0500
+Received: by mail-pg1-f194.google.com with SMTP id z12so160154pgl.4
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 13:07:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=vWB3la6MZAcuUeVOqIcp281F5LSfjcobFajXxwkFi6A=;
-        b=az9/lEQ6wwXYJyI3Gy29nxJIfWaxkNA++/xMMPhGH9Bp55F58tIoAVd2evBeCT3IlI
-         KKgT00uOWJLWB6jM4tMv/BPZk2IBrtNGq1UX9hERFKv4CE6BDLW/6YKDNoqRugx0oOT1
-         JFEPhPT7z9F67zo+gQk9nVxt8J2a//vG9eP1UplMOqDnWzcoXl0qqUpUbhow29LFFsDn
-         reHM0SO7vQWbTfc/yOUJLSXO7dgd9DEpCrAc4RVQU0ltXVvkKgrYgYLltwqnerD/XmQS
-         /3lvr+TKKjaUhwe/wV9rXCo1vDnYLQPRPVlKZHfsvP2A00O5Bpk2Anzs0X1WZLoKap6w
-         wzAQ==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TKd4I5/WwOk7TgiwtjETXh7Zo7Mjc0q4nGb96fr6GK0=;
+        b=BZO6oZ6A8cZmZqloX0DKy1GOEbceLI9chiAHebEX2VgYIjjy2O+rybKtsk8PsauMss
+         wKVQhwbcAHqdbU/nCqot9JTYXaSI30aTzB8stl7tMJxbsnYzRLifKayBEYI+9/gsHzRQ
+         gvG3xJqT55s5r9hvHnvwCO/GWxtsVG+L620Gk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=vWB3la6MZAcuUeVOqIcp281F5LSfjcobFajXxwkFi6A=;
-        b=kZNnqODbj6Q0ee/wJxuEE/X7wp5WITuUlYWlBNXGHancoDMf6GWWz7AECpTPcMSPIz
-         kN7PsDSvgDDWRJ+UyeGqk3a4oBYgudjXi1Eu90Wj/zxuO6I6+y6zrZu4TnSAdFIfA7uZ
-         IbexA6u1JLavlMiw4bQmcWzUbdYg3vzqQ3onhZotKQvCKqhULyeM6xVGbSQLfjmBDn0a
-         eofxRdgp6F9i9Jc826JSAEvuIiUhkVCEar6JYtjCMRWt/ir2c5ggTXk6JPTVZ0+C1967
-         GKz3qpqbzOUAcIqViHfjHkIf0xGPBW9IUgNnnPkFBKQjS8Ri70yj3ldgGwBigGoZLk5S
-         DZxQ==
-X-Gm-Message-State: APjAAAUdsIPZwu/cCeUZWUNt9UXv37XCWpmGiyhHyqLqtMkvOVV8qLb4
-        M0ZDAbTLE95yTAy30kBiea4/0ntOl+AcRWiGC4E=
-X-Google-Smtp-Source: APXvYqw9j4SjKcqy0U3A0k0fMjgQj/y1SE9wLfZHXsZM0aTr3GyALCU9cgEB1u7akUo3JkjTfFIOLdEo4I2R8DIwtHE=
-X-Received: by 2002:ad4:48c6:: with SMTP id v6mr930719qvx.207.1582664577840;
- Tue, 25 Feb 2020 13:02:57 -0800 (PST)
-Date:   Tue, 25 Feb 2020 13:02:49 -0800
-In-Reply-To: <20200224174129.2664-1-ndesaulniers@google.com>
-Message-Id: <20200225210250.64366-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <20200224174129.2664-1-ndesaulniers@google.com>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH v2] Documentation/llvm: add documentation on building w/ Clang/LLVM
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     corbet@lwn.net, masahiroy@kernel.org
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TKd4I5/WwOk7TgiwtjETXh7Zo7Mjc0q4nGb96fr6GK0=;
+        b=GEukm3QzEuylhrEb5CA4wEnvT1ZRMQlUhBrzYFpeKc6zR15eVArYGuewQTHXMPBqDI
+         1ONogrBwPp5piPlNV7GQuEAI53No7jvt8kQJviANYRPUF+culmjjcFi2hIwq2GjKY6q9
+         unUOU8xSuzGoYWs+mAEgwYzC9UpOibIwHJPycgIWHQ7MaRVFbm6uf+HTwj9OfjZ79sng
+         f0uLHXL2BgUCedc998VLIfZBifuzavH0/7elV+TtiosQw32/zgT97JAvIQsu0npKlDN3
+         NSR50wBe+H5sLkifGwvx2Wf8k9nl0LBtYGqN0RO9SBYn6vCpgFys/Dp9ybvEJFZGm+pP
+         87Sw==
+X-Gm-Message-State: APjAAAX49/gMPdkMgQ86eEDOt3DO96/SAyvx2z+SOtbUyFl0O27FLKW1
+        xEvkqyL20sFHNDrVCfEPznnbSw==
+X-Google-Smtp-Source: APXvYqyXkndaV7rJA0zMXDICnSqxAjerRHL3b37R/Kb6u2Hc1kQ2oyP1AQMzZ2Y3ORigrLDdZyOhiw==
+X-Received: by 2002:aa7:83c7:: with SMTP id j7mr638913pfn.228.1582664867330;
+        Tue, 25 Feb 2020 13:07:47 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id i3sm18067049pfg.94.2020.02.25.13.07.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2020 13:07:46 -0800 (PST)
+Date:   Tue, 25 Feb 2020 13:07:44 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Subject: Re: [RFC PATCH v9 17/27] x86/cet/shstk: User-mode Shadow Stack
+ support
+Message-ID: <202002251306.2011C9374@keescook>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+ <20200205181935.3712-18-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200205181935.3712-18-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added to kbuild documentation. Provides more official info on building
-kernels with Clang and LLVM than our wiki.
+On Wed, Feb 05, 2020 at 10:19:25AM -0800, Yu-cheng Yu wrote:
+> This patch adds basic Shadow Stack (SHSTK) enabling/disabling routines.
+> A task's SHSTK is allocated from memory with VM_SHSTK flag and read-only
+> protection.  It has a fixed size of RLIMIT_STACK.
+> 
+> v9:
+> - Change cpu_feature_enabled() to static_cpu_has().
+> - Merge cet_disable_shstk to cet_disable_free_shstk.
+> - Remove the empty slot at the top of the SHSTK, as it is not needed.
+> - Move do_mmap_locked() to alloc_shstk(), which is a static function.
+> 
+> v6:
+> - Create a function do_mmap_locked() for SHSTK allocation.
+> 
+> v2:
+> - Change noshstk to no_cet_shstk.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/cet.h                    |  31 +++++
+>  arch/x86/include/asm/disabled-features.h      |   8 +-
+>  arch/x86/include/asm/processor.h              |   5 +
+>  arch/x86/kernel/Makefile                      |   2 +
+>  arch/x86/kernel/cet.c                         | 121 ++++++++++++++++++
+>  arch/x86/kernel/cpu/common.c                  |  25 ++++
+>  arch/x86/kernel/process.c                     |   1 +
+>  .../arch/x86/include/asm/disabled-features.h  |   8 +-
+>  8 files changed, 199 insertions(+), 2 deletions(-)
+>  create mode 100644 arch/x86/include/asm/cet.h
+>  create mode 100644 arch/x86/kernel/cet.c
+> 
+> diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
+> new file mode 100644
+> index 000000000000..c44c991ca91f
+> --- /dev/null
+> +++ b/arch/x86/include/asm/cet.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _ASM_X86_CET_H
+> +#define _ASM_X86_CET_H
+> +
+> +#ifndef __ASSEMBLY__
+> +#include <linux/types.h>
+> +
+> +struct task_struct;
+> +/*
+> + * Per-thread CET status
+> + */
+> +struct cet_status {
+> +	unsigned long	shstk_base;
+> +	unsigned long	shstk_size;
+> +	unsigned int	shstk_enabled:1;
+> +};
+> +
+> +#ifdef CONFIG_X86_INTEL_CET
+> +int cet_setup_shstk(void);
+> +void cet_disable_free_shstk(struct task_struct *p);
+> +#else
+> +static inline void cet_disable_free_shstk(struct task_struct *p) {}
+> +#endif
+> +
+> +#define cpu_x86_cet_enabled() \
+> +	(static_cpu_has(X86_FEATURE_SHSTK) || \
+> +	 static_cpu_has(X86_FEATURE_IBT))
+> +
+> +#endif /* __ASSEMBLY__ */
+> +
+> +#endif /* _ASM_X86_CET_H */
+> diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+> index 8e1d0bb46361..e1454509ad83 100644
+> --- a/arch/x86/include/asm/disabled-features.h
+> +++ b/arch/x86/include/asm/disabled-features.h
+> @@ -62,6 +62,12 @@
+>  # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
+>  #endif
+>  
+> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
+> +#define DISABLE_SHSTK	0
+> +#else
+> +#define DISABLE_SHSTK	(1<<(X86_FEATURE_SHSTK & 31))
+> +#endif
+> +
+>  /*
+>   * Make sure to add features to the correct mask
+>   */
+> @@ -81,7 +87,7 @@
+>  #define DISABLED_MASK13	0
+>  #define DISABLED_MASK14	0
+>  #define DISABLED_MASK15	0
+> -#define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP)
+> +#define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP|DISABLE_SHSTK)
+>  #define DISABLED_MASK17	0
+>  #define DISABLED_MASK18	0
+>  #define DISABLED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 19)
+> diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
+> index 0340aad3f2fc..793d210e64da 100644
+> --- a/arch/x86/include/asm/processor.h
+> +++ b/arch/x86/include/asm/processor.h
+> @@ -25,6 +25,7 @@ struct vm86;
+>  #include <asm/special_insns.h>
+>  #include <asm/fpu/types.h>
+>  #include <asm/unwind_hints.h>
+> +#include <asm/cet.h>
+>  
+>  #include <linux/personality.h>
+>  #include <linux/cache.h>
+> @@ -539,6 +540,10 @@ struct thread_struct {
+>  	unsigned int		sig_on_uaccess_err:1;
+>  	unsigned int		uaccess_err:1;	/* uaccess failed */
+>  
+> +#ifdef CONFIG_X86_INTEL_CET
+> +	struct cet_status	cet;
+> +#endif
+> +
+>  	/* Floating point and extended processor state */
+>  	struct fpu		fpu;
+>  	/*
+> diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+> index 6175e370ee4a..b8c1ea4ab7eb 100644
+> --- a/arch/x86/kernel/Makefile
+> +++ b/arch/x86/kernel/Makefile
+> @@ -142,6 +142,8 @@ obj-$(CONFIG_UNWINDER_ORC)		+= unwind_orc.o
+>  obj-$(CONFIG_UNWINDER_FRAME_POINTER)	+= unwind_frame.o
+>  obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
+>  
+> +obj-$(CONFIG_X86_INTEL_CET)		+= cet.o
+> +
+>  ###
+>  # 64 bit specific files
+>  ifeq ($(CONFIG_X86_64),y)
+> diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> new file mode 100644
+> index 000000000000..b4c7d88e9a8f
+> --- /dev/null
+> +++ b/arch/x86/kernel/cet.c
+> @@ -0,0 +1,121 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * cet.c - Control-flow Enforcement (CET)
+> + *
+> + * Copyright (c) 2019, Intel Corporation.
+> + * Yu-cheng Yu <yu-cheng.yu@intel.com>
+> + */
+> +
+> +#include <linux/types.h>
+> +#include <linux/mm.h>
+> +#include <linux/mman.h>
+> +#include <linux/slab.h>
+> +#include <linux/uaccess.h>
+> +#include <linux/sched/signal.h>
+> +#include <linux/compat.h>
+> +#include <asm/msr.h>
+> +#include <asm/user.h>
+> +#include <asm/fpu/internal.h>
+> +#include <asm/fpu/xstate.h>
+> +#include <asm/fpu/types.h>
+> +#include <asm/cet.h>
+> +
+> +static void start_update_msrs(void)
+> +{
+> +	fpregs_lock();
+> +	if (test_thread_flag(TIF_NEED_FPU_LOAD))
+> +		__fpregs_load_activate();
+> +}
+> +
+> +static void end_update_msrs(void)
+> +{
+> +	fpregs_unlock();
+> +}
+> +
+> +static unsigned long cet_get_shstk_addr(void)
+> +{
+> +	struct fpu *fpu = &current->thread.fpu;
+> +	unsigned long ssp = 0;
+> +
+> +	fpregs_lock();
+> +
+> +	if (fpregs_state_valid(fpu, smp_processor_id())) {
+> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
+> +	} else {
+> +		struct cet_user_state *p;
+> +
+> +		p = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+> +		if (p)
+> +			ssp = p->user_ssp;
+> +	}
+> +
+> +	fpregs_unlock();
+> +	return ssp;
+> +}
+> +
+> +static unsigned long alloc_shstk(unsigned long size)
+> +{
+> +	struct mm_struct *mm = current->mm;
+> +	unsigned long addr, populate;
+> +
+> +	down_write(&mm->mmap_sem);
+> +	addr = do_mmap(NULL, 0, size, PROT_READ, MAP_ANONYMOUS | MAP_PRIVATE,
+> +		       VM_SHSTK, 0, &populate, NULL);
+> +	up_write(&mm->mmap_sem);
+> +
+> +	if (populate)
+> +		mm_populate(addr, populate);
+> +
+> +	return addr;
+> +}
+> +
+> +int cet_setup_shstk(void)
+> +{
+> +	unsigned long addr, size;
+> +	struct cet_status *cet = &current->thread.cet;
+> +
+> +	if (!static_cpu_has(X86_FEATURE_SHSTK))
+> +		return -EOPNOTSUPP;
+> +
+> +	size = rlimit(RLIMIT_STACK);
+> +	addr = alloc_shstk(size);
+> +
+> +	if (IS_ERR((void *)addr))
+> +		return PTR_ERR((void *)addr);
+> +
+> +	cet->shstk_base = addr;
+> +	cet->shstk_size = size;
+> +	cet->shstk_enabled = 1;
+> +
+> +	start_update_msrs();
+> +	wrmsrl(MSR_IA32_PL3_SSP, addr + size);
+> +	wrmsrl(MSR_IA32_U_CET, MSR_IA32_CET_SHSTK_EN);
+> +	end_update_msrs();
+> +	return 0;
+> +}
+> +
+> +void cet_disable_free_shstk(struct task_struct *tsk)
+> +{
+> +	struct cet_status *cet = &tsk->thread.cet;
+> +
+> +	if (!static_cpu_has(X86_FEATURE_SHSTK) ||
+> +	    !cet->shstk_enabled || !cet->shstk_base)
+> +		return;
+> +
+> +	if (!tsk->mm || (tsk->mm != current->mm))
+> +		return;
+> +
+> +	if (tsk == current) {
+> +		u64 msr_val;
+> +
+> +		start_update_msrs();
+> +		rdmsrl(MSR_IA32_U_CET, msr_val);
+> +		wrmsrl(MSR_IA32_U_CET, msr_val & ~MSR_IA32_CET_SHSTK_EN);
+> +		end_update_msrs();
+> +	}
+> +
+> +	vm_munmap(cet->shstk_base, cet->shstk_size);
+> +	cet->shstk_base = 0;
+> +	cet->shstk_size = 0;
+> +	cet->shstk_enabled = 0;
+> +}
+> diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+> index 2e4d90294fe6..40498ec72fda 100644
+> --- a/arch/x86/kernel/cpu/common.c
+> +++ b/arch/x86/kernel/cpu/common.c
+> @@ -54,6 +54,7 @@
+>  #include <asm/microcode_intel.h>
+>  #include <asm/intel-family.h>
+>  #include <asm/cpu_device_id.h>
+> +#include <asm/cet.h>
+>  #include <asm/uv/uv.h>
+>  
+>  #include "cpu.h"
+> @@ -486,6 +487,29 @@ static __init int setup_disable_pku(char *arg)
+>  __setup("nopku", setup_disable_pku);
+>  #endif /* CONFIG_X86_64 */
+>  
+> +static __always_inline void setup_cet(struct cpuinfo_x86 *c)
+> +{
+> +	if (cpu_x86_cet_enabled())
+> +		cr4_set_bits(X86_CR4_CET);
+> +}
+> +
+> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
+> +static __init int setup_disable_shstk(char *s)
+> +{
+> +	/* require an exact match without trailing characters */
+> +	if (s[0] != '\0')
+> +		return 0;
+> +
+> +	if (!boot_cpu_has(X86_FEATURE_SHSTK))
+> +		return 1;
+> +
+> +	setup_clear_cpu_cap(X86_FEATURE_SHSTK);
+> +	pr_info("x86: 'no_cet_shstk' specified, disabling Shadow Stack\n");
+> +	return 1;
+> +}
+> +__setup("no_cet_shstk", setup_disable_shstk);
+> +#endif
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes V1 -> V2:
-* s/On going/ongoing/
-* add Randy's Suggested-by
-* add Nathan and Sedat's Reviewed-by
-* Upgrade Kees' Sugguested-by to Reviewed-by
-* s/suffix/prefix/
+I wonder if this should be "cet_shstk=..." instead? Will it always be a
+giant knob like this? Will we want to disable it for userspace but keep
+it for kernel space, etc?
 
+> +
+>  /*
+>   * Some CPU features depend on higher CPUID levels, which may not always
+>   * be available due to CPUID level capping or broken virtualization
+> @@ -1510,6 +1534,7 @@ static void identify_cpu(struct cpuinfo_x86 *c)
+>  	x86_init_rdrand(c);
+>  	x86_init_cache_qos(c);
+>  	setup_pku(c);
+> +	setup_cet(c);
+>  
+>  	/*
+>  	 * Clear/Set all flags overridden by options, need do it
+> diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+> index 8d0b9442202e..e102e63de641 100644
+> --- a/arch/x86/kernel/process.c
+> +++ b/arch/x86/kernel/process.c
+> @@ -43,6 +43,7 @@
+>  #include <asm/spec-ctrl.h>
+>  #include <asm/io_bitmap.h>
+>  #include <asm/proto.h>
+> +#include <asm/cet.h>
+>  
+>  #include "process.h"
+>  
+> diff --git a/tools/arch/x86/include/asm/disabled-features.h b/tools/arch/x86/include/asm/disabled-features.h
+> index 8e1d0bb46361..e1454509ad83 100644
+> --- a/tools/arch/x86/include/asm/disabled-features.h
+> +++ b/tools/arch/x86/include/asm/disabled-features.h
+> @@ -62,6 +62,12 @@
+>  # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
+>  #endif
+>  
+> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
+> +#define DISABLE_SHSTK	0
+> +#else
+> +#define DISABLE_SHSTK	(1<<(X86_FEATURE_SHSTK & 31))
+> +#endif
+> +
+>  /*
+>   * Make sure to add features to the correct mask
+>   */
+> @@ -81,7 +87,7 @@
+>  #define DISABLED_MASK13	0
+>  #define DISABLED_MASK14	0
+>  #define DISABLED_MASK15	0
+> -#define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP)
+> +#define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP|DISABLE_SHSTK)
+>  #define DISABLED_MASK17	0
+>  #define DISABLED_MASK18	0
+>  #define DISABLED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 19)
+> -- 
+> 2.21.0
+> 
+> 
 
- Documentation/kbuild/index.rst |  1 +
- Documentation/kbuild/llvm.rst  | 80 ++++++++++++++++++++++++++++++++++
- 2 files changed, 81 insertions(+)
- create mode 100644 Documentation/kbuild/llvm.rst
+Otherwise, looks good to me. :)
 
-diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
-index 0f144fad99a6..3882bd5f7728 100644
---- a/Documentation/kbuild/index.rst
-+++ b/Documentation/kbuild/index.rst
-@@ -19,6 +19,7 @@ Kernel Build System
- 
-     issues
-     reproducible-builds
-+    llvm
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-new file mode 100644
-index 000000000000..d6c79eb4e23e
---- /dev/null
-+++ b/Documentation/kbuild/llvm.rst
-@@ -0,0 +1,80 @@
-+==============================
-+Building Linux with Clang/LLVM
-+==============================
-+
-+This document covers how to build the Linux kernel with Clang and LLVM
-+utilities.
-+
-+About
-+-----
-+
-+The Linux kernel has always traditionally been compiled with GNU toolchains
-+such as GCC and binutils. Ongoing work has allowed for `Clang
-+<https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
-+used as viable substitutes. Distributions such as `Android
-+<https://www.android.com/>`_, `ChromeOS
-+<https://www.chromium.org/chromium-os>`_, and `OpenMandriva
-+<https://www.openmandriva.org/>`_ use Clang built kernels.  `LLVM is a
-+collection of toolchain components implemented in terms of C++ objects
-+<https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM that
-+supports C and the GNU C extensions required by the kernel, and is pronounced
-+"klang," not "see-lang."
-+
-+Clang
-+-----
-+
-+The compiler used can be swapped out via `CC=` command line argument to `make`.
-+`CC=` should be set when selecting a config and during a build.
-+
-+	make CC=clang defconfig
-+
-+	make CC=clang
-+
-+Cross Compiling
-+---------------
-+
-+A single Clang compiler binary will typically contain all supported backends,
-+which can help simplify cross compiling.
-+
-+	ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
-+
-+`CROSS_COMPILE` is not used to prefix the Clang compiler binary, instead
-+`CROSS_COMPILE` is used to set a command line flag: `--target <triple>`. For
-+example:
-+
-+	clang --target aarch64-linux-gnu foo.c
-+
-+LLVM Utilities
-+--------------
-+
-+LLVM has substitutes for GNU binutils utilities. These can be invoked as
-+additional parameters to `make`.
-+
-+	make CC=clang AS=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
-+	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-objsize \\
-+	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
-+	  HOSTLD=ld.lld
-+
-+Getting Help
-+------------
-+
-+- `Website <https://clangbuiltlinux.github.io/>`_
-+- `Mailing List <https://groups.google.com/forum/#!forum/clang-built-linux>`_: <clang-built-linux@googlegroups.com>
-+- `Issue Tracker <https://github.com/ClangBuiltLinux/linux/issues>`_
-+- IRC: #clangbuiltlinux on chat.freenode.net
-+- `Telegram <https://t.me/ClangBuiltLinux>`_: @ClangBuiltLinux
-+- `Wiki <https://github.com/ClangBuiltLinux/linux/wiki>`_
-+- `Beginner Bugs <https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22>`_
-+
-+Getting LLVM
-+-------------
-+
-+- http://releases.llvm.org/download.html
-+- https://github.com/llvm/llvm-project
-+- https://llvm.org/docs/GettingStarted.html
-+- https://llvm.org/docs/CMake.html
-+- https://apt.llvm.org/
-+- https://www.archlinux.org/packages/extra/x86_64/llvm/
-+- https://github.com/ClangBuiltLinux/tc-build
-+- https://github.com/ClangBuiltLinux/linux/wiki/Building-Clang-from-source
-+- https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/
 -- 
-2.25.0.265.gbab2e86ba0-goog
-
+Kees Cook
