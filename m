@@ -2,126 +2,162 @@ Return-Path: <SRS0=e/bK=4N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91644C35E0E
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C947FC35E17
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:10:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 674652176D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:09:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A069D2176D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Feb 2020 21:10:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g6gfdjSU"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="h+pDnoGO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728456AbgBYVJs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Feb 2020 16:09:48 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:40410 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726125AbgBYVJs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 16:09:48 -0500
-Received: by mail-ed1-f67.google.com with SMTP id p3so1046715edx.7;
-        Tue, 25 Feb 2020 13:09:47 -0800 (PST)
+        id S1728787AbgBYVKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Feb 2020 16:10:18 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:34962 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726936AbgBYVKS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Feb 2020 16:10:18 -0500
+Received: by mail-pl1-f193.google.com with SMTP id g6so332623plt.2
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2020 13:10:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4ReknaT/FHBXByMXGGadMEzL/WYd/+sCy+KAJpp5ZwQ=;
-        b=g6gfdjSUOo1daNt5JbO1OW+lwH1wDg11Aag/ldGmhkKkxyuiYo8+Th2fgxoAQQ4hXq
-         TRfwhYem3PhxViqcWuVx+VibsoPJtyTVagbuspEnHeQYaT2u/LwJMeu3LbXXCD0Gb+P0
-         kRLDLX6J05YQ2Y8hv4+QoX7W+8th93s38oDKyijo7aUk+0WA/Q35uUeEjwKyuKG1sJKb
-         pHrmZYL+Ul2ujJ6ECXARZynFXSJa6Fk0D+GxbQh8iZeV9tRAEnb/IR6xJlRYeIfUjO0K
-         m+I0aO92UvVW8NrmhRC7I6GzDK8oveynokyluJrJ/ckLFboCtOu9kXc5lv28q9nFAWd2
-         pQcw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RJKpOOFGEfUAGGLqO1NUhiGzKjVzNOK2IgBZIyJHxc0=;
+        b=h+pDnoGOYsk+E8Wt6TpmxUxdwV6kjF4atGpRldLId/Yw8w9WfMNnrM8XJReblD9SwC
+         8LeJhqiafUtArcvC4wLH1Ri6+yqFHMw0jvz4WTjgvML3xSZUD/c8wIZT5mi6IVRxMhSV
+         aNZy8mj/AVPfjzspIlHT7j9dhhuOVWKWW+0mY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4ReknaT/FHBXByMXGGadMEzL/WYd/+sCy+KAJpp5ZwQ=;
-        b=o7YXXDxcoddy8+rCo+AszsSPtP3y2nym6aTxInR01gLGUkDcCiQduLPEwhQJO+AhD4
-         74qaUbW+bw+lB2zglHEdxASxtX10pgiERyGAZXYt4sb1cGT9+2Fl4hyRcHkKvCL28+ur
-         wLgdP+LtV9Y2g2WOuyRp46lYUNuhwpIx+QElTbzhlKXRd/m7UZ7oCvccyZR5bpiVjnLZ
-         /Gz/JySOYKklOpsVmoO/ya9+gCXynCnZ6AFHeNS/s5zkVfg4vAlqBbImTmHVgAFbsqdO
-         uiH9z3UdXiT1GIdp5B/dYXrTLGYw7dyLxQY/iC6cnc+8l8UBkruI9P/DOTyT7LNTDXwZ
-         vhlQ==
-X-Gm-Message-State: APjAAAXSrE3dYsXcwMRXL4M00Z9wZHKxHIYtgKx2UfmGnmKUA/CPuEWj
-        kFNoEMw5Ojnp7GvER17pb/NwY//1u6cg8n+6y/c=
-X-Google-Smtp-Source: APXvYqyAzVm/wNR8w7wh+lAC7aHiC7zE7iGdWgqO+BLhvYvGS2dy2yiQw4bZhX/VBimWuHByQuf8RvIEP4SD4vbjH9A=
-X-Received: by 2002:a05:6402:128c:: with SMTP id w12mr909815edv.368.1582664986639;
- Tue, 25 Feb 2020 13:09:46 -0800 (PST)
-MIME-Version: 1.0
-References: <20200225093703.GS25745@shell.armlinux.org.uk> <E1j6Wg0-0000Ss-W7@rmk-PC.armlinux.org.uk>
-In-Reply-To: <E1j6Wg0-0000Ss-W7@rmk-PC.armlinux.org.uk>
-From:   Vladimir Oltean <olteanv@gmail.com>
-Date:   Tue, 25 Feb 2020 23:09:35 +0200
-Message-ID: <CA+h21hp8KCqhCasOAGz17k0eRteHVVYK-eANQmn4h443qv=2JQ@mail.gmail.com>
-Subject: Re: [PATCH net-next 2/8] net: dsa: propagate resolved link config via mac_link_up()
-To:     Russell King <rmk+kernel@armlinux.org.uk>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Felix Fietkau <nbd@nbd.name>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Crispin <john@phrozen.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RJKpOOFGEfUAGGLqO1NUhiGzKjVzNOK2IgBZIyJHxc0=;
+        b=DnciG5TT2Muy6sksGI63F/YaOKDWqVe0VuTGk0X5EGpS1+nrj1SWTWZcuxFK6pR+E7
+         Mvu3efMv/8Kiqh7HcxAcmy4ls41x3bIeF20eYCkOAnqpBefXacnUM0z+WEYw3duLcjhN
+         TuMRAT33jt008V1rfcxFM6E17r20sAY5Ik+XZW9vFcM1Uvhk2i893BfzZq/yoTdtg9jb
+         1fONENRPXkm8S20kzp7x6S/GrQ3OKV/ZisJxnDlfvel9le15/49NXlY5osN9OTYXfavv
+         AI9mnceIklu9V4XhJU5DeribE2LVwN9VHyerVOIs6ZPh57W8Ae9JyW4gqMoelOjJNV9D
+         ZeEQ==
+X-Gm-Message-State: APjAAAUGpDMYw+QrahD7ZI+zkPxpKZyj1U+q0JPZGs6+5Taq26gsNxoK
+        2POffb4fXDCYvpRm/G5ZUwTLVw==
+X-Google-Smtp-Source: APXvYqzQAbfYXF5TtmiNKwyw9CCTemc+ykrjzmXEtfYjXSRlSbhEiGrlXLqSnZ/Ps0gefcUFE6oD5g==
+X-Received: by 2002:a17:902:bb93:: with SMTP id m19mr467640pls.310.1582665016973;
+        Tue, 25 Feb 2020 13:10:16 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w81sm18583961pff.95.2020.02.25.13.10.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2020 13:10:16 -0800 (PST)
+Date:   Tue, 25 Feb 2020 13:10:14 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jose Abreu <joabreu@synopsys.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        netdev <netdev@vger.kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Subject: Re: [RFC PATCH v9 18/27] x86/cet/shstk: Introduce WRUSS instruction
+Message-ID: <202002251309.E238DFEEB4@keescook>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+ <20200205181935.3712-19-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200205181935.3712-19-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Russell,
+On Wed, Feb 05, 2020 at 10:19:26AM -0800, Yu-cheng Yu wrote:
+> WRUSS is a new kernel-mode instruction but writes directly to user Shadow
+> Stack (SHSTK) memory.  This is used to construct a return address on SHSTK
+> for the signal handler.
+> 
+> This instruction can fault if the user SHSTK is not valid SHSTK memory.
+> In that case, the kernel does a fixup.
 
-On Tue, 25 Feb 2020 at 11:39, Russell King <rmk+kernel@armlinux.org.uk> wrote:
->
-> Propagate the resolved link configuration down via DSA's
-> phylink_mac_link_up() operation to allow split PCS/MAC to work.
->
-> Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+Since these functions aren't used in this patch, should this get merged
+with patch 19?
+
+-Kees
+
+> 
+> v4:
+> - Change to asm goto.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > ---
->  drivers/net/dsa/b53/b53_common.c       | 4 +++-
->  drivers/net/dsa/b53/b53_priv.h         | 4 +++-
->  drivers/net/dsa/bcm_sf2.c              | 4 +++-
->  drivers/net/dsa/lantiq_gswip.c         | 4 +++-
->  drivers/net/dsa/mt7530.c               | 4 +++-
->  drivers/net/dsa/mv88e6xxx/chip.c       | 4 +++-
->  drivers/net/dsa/sja1105/sja1105_main.c | 4 +++-
->  include/net/dsa.h                      | 4 +++-
->  net/dsa/port.c                         | 3 ++-
->  9 files changed, 26 insertions(+), 9 deletions(-)
->
+>  arch/x86/include/asm/special_insns.h | 32 ++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+> index 6d37b8fcfc77..1b9b2e79c353 100644
+> --- a/arch/x86/include/asm/special_insns.h
+> +++ b/arch/x86/include/asm/special_insns.h
+> @@ -222,6 +222,38 @@ static inline void clwb(volatile void *__p)
+>  		: [pax] "a" (p));
+>  }
+>  
+> +#ifdef CONFIG_X86_INTEL_CET
+> +#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
+> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
+> +{
+> +	asm_volatile_goto("1: wrussd %1, (%0)\n"
+> +			  _ASM_EXTABLE(1b, %l[fail])
+> +			  :: "r" (addr), "r" (val)
+> +			  :: fail);
+> +	return 0;
+> +fail:
+> +	return -EPERM;
+> +}
+> +#else
+> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
+> +{
+> +	WARN_ONCE(1, "%s used but not supported.\n", __func__);
+> +	return -EFAULT;
+> +}
+> +#endif
+> +
+> +static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
+> +{
+> +	asm_volatile_goto("1: wrussq %1, (%0)\n"
+> +			  _ASM_EXTABLE(1b, %l[fail])
+> +			  :: "r" (addr), "r" (val)
+> +			  :: fail);
+> +	return 0;
+> +fail:
+> +	return -EPERM;
+> +}
+> +#endif /* CONFIG_X86_INTEL_CET */
+> +
+>  #define nop() asm volatile ("nop")
+>  
+>  
+> -- 
+> 2.21.0
+> 
 
-It looks like you missed the felix_phylink_mac_link_up() conversion in
-this patch? (which also makes it fail to build, by the way, I'm
-supposed the Kbuild robot didn't already jump)
-Nonetheless, I've manually added the missing speed, duplex, tx_pause
-and rx_pause parameters, and it appears to work as before.
-Same for sja1105.
-
-Tested-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-
-Regards,
--Vladimir
+-- 
+Kees Cook
