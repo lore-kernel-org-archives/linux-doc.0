@@ -2,79 +2,102 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 937CBC4BA12
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 15:35:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28FAC4BA13
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 15:45:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 68B7924680
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 15:35:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C9D724691
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 15:45:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eNHjTAaA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728323AbgBZPfo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 10:35:44 -0500
-Received: from smtp-sh2.infomaniak.ch ([128.65.195.6]:40631 "EHLO
-        smtp-sh2.infomaniak.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728145AbgBZPfn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 10:35:43 -0500
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-        by smtp-sh2.infomaniak.ch (8.14.4/8.14.4/Debian-8+deb8u2) with ESMTP id 01QFZ3Zc056663
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Wed, 26 Feb 2020 16:35:03 +0100
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 48SKcN1RPGzlhMhj;
-        Wed, 26 Feb 2020 16:35:00 +0100 (CET)
-Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
-To:     J Freyensee <why2jjj.linux@gmail.com>, linux-kernel@vger.kernel.org
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1728484AbgBZPpn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 10:45:43 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:44976 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726148AbgBZPpm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 10:45:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=44++bZYwMLEcKWsWEdjH2TMBF93T+j8iNKdpvJ43O1c=; b=eNHjTAaAiO0uN1Hq0VhbkU3MfM
+        OJ/BukAcIMd/vz2VAp5dFX26CbeBlt/altF651kHn5siaSDa4lxIMXWtyWBGoqL6JoxlWowW3e3Vg
+        Ubl9VdHjYOtSfdNHVWl2jWT42wAVHBRH1e2Ztv5jDd0SwT+LRHvBCs+4K13YdiWYi6ClhHN+4h+dk
+        AkyKPgLkLnsnZ0+Vm5Ayn7LM4nKjPeYsJr7Ojkmtt5v+pI668Hp4HKzfLtA70MzRcv2TSz0sGuJlF
+        vkiChdLf3dHErobRul2XeqU3Hm+ezUQCqFQo8ooGSdsxnU1E684lQ5NE9sT3ask7Xh5iE+Qpqcb/D
+        HMRnGUGA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j6ysW-0003sn-FG; Wed, 26 Feb 2020 15:45:40 +0000
+Subject: Re: [PATCH v2] Documentation/llvm: add documentation on building w/
+ Clang/LLVM
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-References: <20200224160215.4136-1-mic@digikod.net>
- <6df3e6b1-ffd1-dacf-2f2d-7df8e5aca668@gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <5ec24e38-1a6f-590a-3b30-50caae177e9b@digikod.net>
-Date:   Wed, 26 Feb 2020 16:34:59 +0100
-User-Agent: 
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+References: <20200224174129.2664-1-ndesaulniers@google.com>
+ <20200225210250.64366-1-ndesaulniers@google.com>
+ <CAK7LNAQJuF__26R+fEsdfYH1SAJuo3-8grGQAE4htjxzEG-nqw@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <d70e7d82-4f08-0a30-e54b-8b0f225145df@infradead.org>
+Date:   Wed, 26 Feb 2020 07:45:39 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <6df3e6b1-ffd1-dacf-2f2d-7df8e5aca668@gmail.com>
+In-Reply-To: <CAK7LNAQJuF__26R+fEsdfYH1SAJuo3-8grGQAE4htjxzEG-nqw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 25/02/2020 19:49, J Freyensee wrote:
+On 2/26/20 3:30 AM, Masahiro Yamada wrote:
+> Hi.
 > 
 > 
-> On 2/24/20 8:02 AM, Mickaël Salaün wrote:
-> 
->> ## Syscall
+> On Wed, Feb 26, 2020 at 6:02 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
 >>
->> Because it is only tested on x86_64, the syscall is only wired up for
->> this architecture.  The whole x86 family (and probably all the others)
->> will be supported in the next patch series.
-> General question for u.  What is it meant "whole x86 family will be
-> supported".  32-bit x86 will be supported?
+>> Added to kbuild documentation. Provides more official info on building
+>> kernels with Clang and LLVM than our wiki.
+>>
+>> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+>> Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+>> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>> ---
+>> Changes V1 -> V2:
+>> * s/On going/ongoing/
+>> * add Randy's Suggested-by
+> 
+> 
+> I do not understand this tag update.
+> 
+> As far as I saw the review process,
+> I do not think Randy deserves to have Suggested-by
+> because he just pointed out a typo (on going -> ongoing) :
 
-Yes, I was referring to x86_32, x86_64 and x32, but all architectures
-should be supported.
+I agree.
+
+> https://patchwork.kernel.org/patch/11401189/#23179575
+> 
+> (or, was there off-line activity I had missed?)
+
+
+-- 
+~Randy
+
