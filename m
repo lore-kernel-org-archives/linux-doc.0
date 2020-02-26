@@ -2,207 +2,336 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C338C4BA2B
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:29:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD7EDC4BA2B
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:35:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 511DE24672
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:29:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=dilger-ca.20150623.gappssmtp.com header.i=@dilger-ca.20150623.gappssmtp.com header.b="FSzDBPth"
+	by mail.kernel.org (Postfix) with ESMTP id BBFFF2072D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:35:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727647AbgBZV24 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 16:28:56 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:45889 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727630AbgBZV24 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 16:28:56 -0500
-Received: by mail-pg1-f194.google.com with SMTP id r77so270509pgr.12
-        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2020 13:28:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20150623.gappssmtp.com; s=20150623;
-        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
-         :references;
-        bh=/yYMvkaAzxa9G7MWrjOVgH0U3xnCVD4fwTP+LyveXVA=;
-        b=FSzDBPth4SJbQ2bOqvl6ck75eoMVddAw7fQ1umBj6qX25gZx6m/EcccuiQv4clT2n1
-         oWBcZ36EpgJ+mGYC4ZtTF1ieXDFNwJj5UcfMfclvxXxkTpR+HvzlXdmRKTM81mtQHl+s
-         iKdVUtUB4TqyMvMDC6xUc/VSilrStm6AGK5oU5uwzo3k9OD2vBW64VLMyL6gmon42ErC
-         yNqIFepPCPtCcShv0vvK48oL99l/h91BNiPFMv1xP4FrkHUhvznXEzgSwOUISzcmL6Je
-         t/MDa89G/aPdXTd+GtUxMhrgesayO9zqYqcZNjVa89lHkQgQH0jZD73+ccYDH3sR0vv0
-         WrOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:message-id:mime-version:subject:date
-         :in-reply-to:cc:to:references;
-        bh=/yYMvkaAzxa9G7MWrjOVgH0U3xnCVD4fwTP+LyveXVA=;
-        b=tRSRTZGNKgdBhYmNtUw/zkrgmNnvcPAet2Ohv9ZKUC0I5r9HBYwputM4KFIkwnrmHu
-         7ZINxs7dDuuNB7+J+d3Vltl0BQXl3dyOWjpSxgLU+kImAeN3cPS5ULmGct9VThkcn6ae
-         rb6b60kW6DR36h4g9wh5Dc6ezA++La4lypQl05f7vVaGCMMqInJTtxJ3rzWlYhmNBrj8
-         r31xzOLfAeS8PGdtglxzi7m/BtHAeRSW6qF+INap38+hW++dZ4Al/zqFJgtJU/KzOC2o
-         w6J4E/mi7uGjybUTGvd843yGaAQ/CrhojTkkFd6ZpZxImqIq3Q8cyNHwd7bJ1BqPqQSo
-         rDZA==
-X-Gm-Message-State: APjAAAV2ntw1t3/2CU/TQNYO2WcVYsudn1qREs+4m3xSjJorqntPY5Vi
-        2+Xsdl3hC5hpoQXVo4mERCCPXw==
-X-Google-Smtp-Source: APXvYqxW9NJUEV1Z8lpXj2KQkNw2276JgHswHysV+hs77XXAj2Do2zuWheKO6fET24LY7qqnJc59kg==
-X-Received: by 2002:a62:7bcb:: with SMTP id w194mr690591pfc.216.1582752534462;
-        Wed, 26 Feb 2020 13:28:54 -0800 (PST)
-Received: from cabot-wlan.adilger.int (S0106a84e3fe4b223.cg.shawcable.net. [70.77.216.213])
-        by smtp.gmail.com with ESMTPSA id g18sm4188506pfi.80.2020.02.26.13.28.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Feb 2020 13:28:53 -0800 (PST)
-From:   Andreas Dilger <adilger@dilger.ca>
-Message-Id: <2EDB6FFC-C649-4C80-999B-945678F5CE87@dilger.ca>
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_8A7FCF47-5CFB-47C5-9097-077EC0CC0A2F";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
-Date:   Wed, 26 Feb 2020 14:28:50 -0700
-In-Reply-To: <20200226162954.GC24185@bombadil.infradead.org>
-Cc:     Waiman Long <longman@redhat.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1727578AbgBZVfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 16:35:19 -0500
+Received: from mga17.intel.com ([192.55.52.151]:30083 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727550AbgBZVfT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Feb 2020 16:35:19 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Feb 2020 13:35:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,489,1574150400"; 
+   d="scan'208";a="241816607"
+Received: from pkabrax-mobl.amr.corp.intel.com (HELO [10.251.2.6]) ([10.251.2.6])
+  by orsmga006.jf.intel.com with ESMTP; 26 Feb 2020 13:35:16 -0800
+Subject: Re: [RFC PATCH v9 09/27] x86/mm: Introduce _PAGE_DIRTY_SW
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eric Biggers <ebiggers@google.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Eric Sandeen <sandeen@redhat.com>
-To:     Matthew Wilcox <willy@infradead.org>
-References: <20200226161404.14136-1-longman@redhat.com>
- <20200226162954.GC24185@bombadil.infradead.org>
-X-Mailer: Apple Mail (2.3273)
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+ <20200205181935.3712-10-yu-cheng.yu@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ mQINBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
+ oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
+ 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
+ ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
+ VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
+ iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
+ c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
+ pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
+ ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
+ QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABtEVEYXZpZCBDaHJp
+ c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
+ LmNvbT6JAjgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
+ lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
+ MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
+ IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
+ aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
+ I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
+ E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
+ F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
+ CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
+ P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
+ 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lcuQINBFRjzmoBEACyAxbvUEhd
+ GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
+ MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
+ Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
+ lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
+ 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
+ qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
+ BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
+ 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
+ vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
+ FCRl0Bvyj1YZUql+ZkptgGjikQARAQABiQIfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
+ l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
+ yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
+ +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
+ asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
+ WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
+ sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
+ KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
+ MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
+ hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
+ vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
+Message-ID: <325d3a25-0016-ea19-c0c9-7958066fc94e@intel.com>
+Date:   Wed, 26 Feb 2020 13:35:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200205181935.3712-10-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
+> When Shadow Stack (SHSTK) is introduced, a R/O and Dirty PTE exists in the
+> following cases:
+> 
+> (a) A modified, copy-on-write (COW) page;
+> (b) A R/O page that has been COW'ed;
+> (c) A SHSTK page.
 
---Apple-Mail=_8A7FCF47-5CFB-47C5-9097-077EC0CC0A2F
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain;
-	charset=us-ascii
+I really like to begin these patches with a problem statement:
 
-On Feb 26, 2020, at 9:29 AM, Matthew Wilcox <willy@infradead.org> wrote:
-> 
-> On Wed, Feb 26, 2020 at 11:13:53AM -0500, Waiman Long wrote:
->> A new sysctl parameter "dentry-dir-max" is introduced which accepts a
->> value of 0 (default) for no limit or a positive integer 256 and up. Small
->> dentry-dir-max numbers are forbidden to avoid excessive dentry count
->> checking which can impact system performance.
-> 
-> This is always the wrong approach.  A sysctl is just a way of blaming
-> the sysadmin for us not being very good at programming.
-> 
-> I agree that we need a way to limit the number of negative dentries.
-> But that limit needs to be dynamic and depend on how the system is being
-> used, not on how some overworked sysadmin has configured it.
-> 
-> So we need an initial estimate for the number of negative dentries that
-> we need for good performance.  Maybe it's 1000.  It doesn't really matter;
-> it's going to change dynamically.
-> 
-> Then we need a metric to let us know whether it needs to be increased.
-> Perhaps that's "number of new negative dentries created in the last
-> second".  And we need to decide how much to increase it; maybe it's by
-> 50% or maybe by 10%.  Perhaps somewhere between 10-100% depending on
-> how high the recent rate of negative dentry creation has been.
-> 
-> We also need a metric to let us know whether it needs to be decreased.
-> I'm reluctant to say that memory pressure should be that metric because
-> very large systems can let the number of dentries grow in an unbounded
-> way.  Perhaps that metric is "number of hits in the negative dentry
-> cache in the last ten seconds".  Again, we'll need to decide how much
-> to shrink the target number by.
+	There is essentially no room left in the x86 hardware PTEs on
+	some OSes (not Linux).  That left the hardware architects
+	looking for a way to represent a new memory type (shadow stack)
+	within the existing bits.  They chose to repurpose a lightly-
+	used state: Write=0,Dirty=1.
 
-OK, so now instead of a single tunable parameter we need three, because
-these numbers are totally made up and nobody knows the right values. :-)
-Defaulting the limit to "disabled/no limit" also has the problem that
-99.99% of users won't even know this tunable exists, let alone how to
-set it correctly, so they will continue to see these problems, and the
-code may as well not exist (i.e. pure overhead), while Waiman has a
-better idea today of what would be reasonable defaults.
+	The reason it's lightly used is that Dirty=1 is normally set by
+	hardware and can not normally be set by hardware on a Write=0
+	PTE.  Software must normally be involved to create one of these
+	PTEs, so software can simply opt to not create them.
 
-I definitely agree that a single fixed value will be wrong for every
-system except the original developer's.  Making the maximum default to
-some reasonable fraction of the system size, rather than a fixed value,
-is probably best to start.  Something like this as a starting point:
+But that leaves us with a Linux problem: we need to ensure we never
+create Write=0,Dirty=1 PTEs.  In places where we do create them, we need
+to find an alternative way to represent them _without_ using the same
+hardware bit combination.  Thus, enter _PAGE_DIRTY_SW.
 
-	/* Allow a reasonable minimum number of negative entries,
-	 * but proportionately more if the directory/dcache is large.
+... back to the list:
+> (a) A modified, copy-on-write (COW) page;
+> (b) A R/O page that has been COW'ed;
+
+(a) is pretty clear to me.  We had a Write=1,Dirty=1 PTE and fork()'d.
+The fork() code set Write=0, but left Dirty=1.  In this case, we have a
+read-only PTE underneath a VM_WRITE VMA.
+
+(b) is not clear to me.  Could you please differentiate between the
+permissions of the PTE and the permissions of the VMA, and also include
+the steps needed to create it?
+
+I think you also forgot a state:
+
+(d) a page where the processor observed a Write=1 PTE, started a write,
+    set Dirty=1, but then observed a Write=0 PTE.
+
+That's possible today.
+
+> To separate non-SHSTK memory from SHSTK, introduce a spare bit of the
+> 64-bit PTE as _PAGE_BIT_DIRTY_SW and use that for case (a) and (b).
+> This results in the following possible settings:
+> 
+> Modified PTE:         (R/W + DIRTY_HW)
+> Modified and COW PTE: (R/O + DIRTY_SW)
+> R/O PTE COW'ed:       (R/O + DIRTY_SW)
+> SHSTK PTE:            (R/O + DIRTY_HW)
+> SHSTK shared PTE[1]:  (R/O + DIRTY_SW)
+> SHSTK PTE COW'ed:     (R/O + DIRTY_HW)
+> 
+> [1] When a SHSTK page is being shared among threads,
+
+I think you mean processes.  You can probably even mention here that
+this happens at fork().
+
+>     its PTE is cleared of
+>     _PAGE_DIRTY_HW, so the next SHSTK access causes a fault, and the page
+>     is duplicated and _PAGE_DIRTY_HW is set again.
+
+It's worth noting here that this is the COW equivalent for shadow stack
+pages, even though it's copy-on-any-access rather than copy-on-write.
+
+
+>  static inline pte_t pte_mkold(pte_t pte)
+> @@ -322,6 +322,17 @@ static inline pte_t pte_mkold(pte_t pte)
+>  
+>  static inline pte_t pte_wrprotect(pte_t pte)
+>  {
+> +	/*
+> +	 * Use _PAGE_DIRTY_SW on a R/O PTE to set it apart from
+> +	 * a Shadow Stack PTE, which is R/O + _PAGE_DIRTY_HW.
+> +	 */
+
+I think we can do better here than this comment.  Maybe:
+
+	/*
+	 * Blindly clearing _PAGE_RW might accidentally create
+	 * A shadow stack PTE (RW=0,Dirty=1).  Move the hardware
+	 * dirty value to the software bit.
 	 */
-	dir_negative_max = max(num_dir_entries / 16, 1024);
-        total_negative_max = max(totalram_pages / 32, total_dentries / 8);
+	
 
-(Waiman should decide actual values based on where the problem was hit
-previously), and include tunables to change the limits for testing.
+> +	if (static_cpu_has(X86_FEATURE_SHSTK)) {
 
-Ideally there would also be a dir ioctl that allows fetching the current
-positive/negative entry count on a directory (e.g. /usr/bin, /usr/lib64,
-/usr/share/man/man*) to see what these values are.  Otherwise there is
-no way to determine whether the limits used are any good or not.
+Do we need to check cpuid, or do we need to check whether shadow stacks
+are enabled?  What if X86_FEATURE_SHSTK is set, but cr4.X86_CR4_CET=0?
 
-Dynamic limits are hard to get right, and incorrect state machines can lead
-to wild swings in behaviour due to unexpected feedback.  It isn't clear to
-me that adjusting the limit based on the current rate of negative dentry
-creation even makes sense.  If there are a lot of negative entries being
-created, that is when you'd want to _stop_ allowing more to be added.
+I think you've gone and tried to clear X86_FEATURE_SHSTK whenever the
+feature is not enabled.  That's a _bit_ funky, but I guess it works.  I
+think I'd rather have some common helper like: shadow_stacks_enabled()
+that gets called so that you at least have a single place in the code to
+point out this convention.
 
-We don't have any limit today, so imposing some large-but-still-reasonable
-upper limit on negative entries will catch the runaway negative dcache case
-that was the original need of this functionality without adding a lot of
-complexity that we may not need at all.
+> +		if (pte_flags(pte) & _PAGE_DIRTY_HW) {
+> +			pte = pte_clear_flags(pte, _PAGE_DIRTY_HW);
+> +			pte = pte_set_flags(pte, _PAGE_DIRTY_SW);
+> +		}
+> +	}
+> +
+>  	return pte_clear_flags(pte, _PAGE_RW);
+>  }
 
-> If the number of negative dentries is at or above the target, then
-> creating a new negative dentry means evicting an existing negative dentry.
-> If the number of negative dentries is lower than the target, then we
-> can just create a new one.
+Just curious, but how clean does the assembly look after this change?
+Does this really blow up the code?
+
+This code is used in fork() which we care deeply about.  Did you go
+looking for any performance impact from this?
+
+> @@ -332,9 +343,25 @@ static inline pte_t pte_mkexec(pte_t pte)
+>  
+>  static inline pte_t pte_mkdirty(pte_t pte)
+>  {
+> +	pteval_t dirty = _PAGE_DIRTY_HW;
+> +
+> +	if (static_cpu_has(X86_FEATURE_SHSTK) && !pte_write(pte))
+> +		dirty = _PAGE_DIRTY_SW;
+> +
+> +	return pte_set_flags(pte, dirty | _PAGE_SOFT_DIRTY);
+> +}
+
+Comment, please.
+
+	/* Avoid creating (HW)Dirty=1,Write=0 PTEs */
+
+> +static inline pte_t pte_mkdirty_shstk(pte_t pte)
+> +{
+> +	pte = pte_clear_flags(pte, _PAGE_DIRTY_SW);
+>  	return pte_set_flags(pte, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
+>  }
+
+I've already forgotten what the right thing here is and why you _need_
+_PAGE_DIRTY_SW clear.  That's a bad sign. :)
+
+Could you please enlighten us by adding a comment?
+
+> +static inline bool pte_dirty_hw(pte_t pte)
+> +{
+> +	return pte_flags(pte) & _PAGE_DIRTY_HW;
+> +}
+
+There's at least one open-coded instance of this above.  Why not just
+move this up so you can use it?
+...
+
+All of those comments pretty much go for the pmd and pud variants too,
+of course.
+
+> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+> index e647e3c75578..826823df917f 100644
+> --- a/arch/x86/include/asm/pgtable_types.h
+> +++ b/arch/x86/include/asm/pgtable_types.h
+> @@ -23,7 +23,8 @@
+>  #define _PAGE_BIT_SOFTW2	10	/* " */
+>  #define _PAGE_BIT_SOFTW3	11	/* " */
+>  #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
+> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
+> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
+> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
+>  #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
+>  #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
+>  #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
+> @@ -35,6 +36,12 @@
+>  #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
+>  #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
+>  
+> +/*
+> + * This bit indicates a copy-on-write page, and is different from
+> + * _PAGE_BIT_SOFT_DIRTY, which tracks which pages a task writes to.
+> + */
+> +#define _PAGE_BIT_DIRTY_SW	_PAGE_BIT_SOFTW5 /* was written to */
+
+Does it *only* indicate a copy-on-write (or copy-on-access) page?  If
+so, haven't we misnamed it?
+
+>  /* If _PAGE_BIT_PRESENT is clear, we use these: */
+>  /* - if the user mapped it with PROT_NONE; pte_present gives true */
+>  #define _PAGE_BIT_PROTNONE	_PAGE_BIT_GLOBAL
+> @@ -108,6 +115,28 @@
+>  #define _PAGE_DEVMAP	(_AT(pteval_t, 0))
+>  #endif
+>  
+> +/* A R/O and dirty PTE exists in the following cases:
+
+Which dirty is this talking about?  DIRTY_HW?  DIRTY_SW?
+
+> + *	(a) A modified, copy-on-write (COW) page;
+> + *	(b) A R/O page that has been COW'ed;
+> + *	(c) A SHSTK page.
+
+Don't forget (d).
+
+> + * _PAGE_DIRTY_SW is used to separate case (c) from others.
+> + * This results in the following settings:
+> + *
+> + *	Modified PTE:         (R/W + DIRTY_HW)
+> + *	Modified and COW PTE: (R/O + DIRTY_SW)
+> + *	R/O PTE COW'ed:       (R/O + DIRTY_SW)
+> + *	SHSTK PTE:            (R/O + DIRTY_HW)
+> + *	SHSTK PTE COW'ed:     (R/O + DIRTY_HW)
+> + *	SHSTK PTE being shared among threads: (R/O + DIRTY_SW)
+> + */
+> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
+> +#define _PAGE_DIRTY_SW	(_AT(pteval_t, 1) << _PAGE_BIT_DIRTY_SW)
+> +#else
+> +#define _PAGE_DIRTY_SW	(_AT(pteval_t, 0))
+> +#endif
+> +
+> +#define _PAGE_DIRTY_BITS (_PAGE_DIRTY_HW | _PAGE_DIRTY_SW)
+> +
+>  #define _PAGE_PROTNONE	(_AT(pteval_t, 1) << _PAGE_BIT_PROTNONE)
+>  
+>  #define _PAGE_TABLE_NOENC	(_PAGE_PRESENT | _PAGE_RW | _PAGE_USER |\
 > 
-> Of course, memory pressure (and shrinking the target number) should
-> cause negative dentries to be evicted from the old end of the LRU list.
-> But memory pressure shouldn't cause us to change the target number;
-> the target number is what we think we need to keep the system running
-> smoothly.
 
 
-Cheers, Andreas
-
-
-
-
-
-
---Apple-Mail=_8A7FCF47-5CFB-47C5-9097-077EC0CC0A2F
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - http://gpgtools.org
-
-iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAl5W4xIACgkQcqXauRfM
-H+CMthAAk0ZIFuajst1+eMMRuT+zEdXLH5sdL0JaLdoqxTEpwjodFUNdYvQwLKTj
-DEhuUP3tYh6WlkWF8NtJTE41exOsoguJoNuYCKdzY/pnpNqFz6flxksafBOsBPOj
-n0haUxFe8s/bLHnYM388J8N8Rrkk6KWZAw8+nWuEOVo2Phw6z+lAggQoxgrzLkGK
-CPipk8hcuSQTosZ+ulIc9kHj6ivyzAtYK2nida8gpFjZ9LFo91zQWmcIjtFZHXMi
-tYQctiCySf2e4ienIeFyfTpCf52vyowT7YYqz10mgTsL3r6iKamFefBFbPmHRkNz
-EC1e28Xt/VJ7fVzjtHIuid9ZDOS8nLpHOD3n9sE8oOyRC7VXLwrtvWB30tyLT2wf
-SQN/LrS/TwTrsrVFNV2YrbUEmlgtKLlM2CLrtzxbrfCxpK2ldqpBn7zLA9nhJoPu
-hHFynkbudJUMXRNP1G3XWbhKCGjbYid/8GUVbcKk0b22rlIpEVoxzWxaVZ3aR50V
-UKdCmKd9meDe+bL+/HCbPnuiHsc6XRHswMRNmZwkRDdMQ3341h5M9pFeg3YIrZA1
-nRTuc6spOWN/4dwB6n/4K0TGUiElYqkr49tLD5/qO+RT2f/a/ljv805UwYXIkq0u
-IzKywoiNW94fHVgBdDVDiFGmObYQY/kueeNYI8tP0J8FRpLIrvc=
-=hqk8
------END PGP SIGNATURE-----
-
---Apple-Mail=_8A7FCF47-5CFB-47C5-9097-077EC0CC0A2F--
