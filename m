@@ -2,95 +2,127 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF51AC4BA10
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 09:51:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 326A0C4BA0B
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:12:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5569A2084E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 09:51:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0574724656
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:12:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="foOYNiQI"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="v6DlCO/O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727815AbgBZJv5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 04:51:57 -0500
-Received: from mail27.static.mailgun.info ([104.130.122.27]:25215 "EHLO
-        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727574AbgBZJv4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 04:51:56 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1582710716; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=POFy3KliRKq8cq0QRv2JZ6k1sTr7/Med4NwvQ/3jSlA=; b=foOYNiQIbNzDed6ap7DX/LgTWv/WFkMskQmrnQgiyTbrGEirgLRx9LMV5Tc1NM64khK8YELN
- KZkzpN8jvvSdIbk/w0Di4HjGnFsOB9OIF0xQniaekvR7mRRLcpAavJ//QVVg7q4j1acQqeyu
- 2r4qe/XNzk/g197BrU0h3X3gJTs=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e563fb0.7fcf28283688-smtp-out-n02;
- Wed, 26 Feb 2020 09:51:44 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id ED25CC447A4; Wed, 26 Feb 2020 09:51:43 +0000 (UTC)
-Received: from codeaurora.org (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: pkondeti)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id A2010C43383;
-        Wed, 26 Feb 2020 09:51:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A2010C43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=pkondeti@codeaurora.org
-Date:   Wed, 26 Feb 2020 15:21:34 +0530
-From:   Pavan Kondeti <pkondeti@codeaurora.org>
-To:     Ionela Voinescu <ionela.voinescu@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        lukasz.luba@arm.com, valentin.schneider@arm.com,
-        dietmar.eggemann@arm.com, rjw@rjwysocki.net, peterz@infradead.org,
-        mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 6/7] arm64: use activity monitors for frequency
- invariance
-Message-ID: <20200226095134.GM28029@codeaurora.org>
-References: <20200224141142.25445-1-ionela.voinescu@arm.com>
- <20200224141142.25445-7-ionela.voinescu@arm.com>
+        id S1726425AbgBZKMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 05:12:55 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:45312 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbgBZKMz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 05:12:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=CAamW1A7wSi+dl1kSJ3MLj0iB7qeqpYQKI22daCCGM8=; b=v6DlCO/OJmb9kQvoiXW+Zr432
+        8BvCAsk7BQEZrQZMpP9iJSc7ZzWQ1beEXWg6f1rkJar2gHLh0bO6C6g55IjbliVm8GG4wOPoJ5Ua6
+        vdY5znpf7BdEkxFYx1esKe7H+3s72RVuWJei0owKFkgQfwQhq1p1LxnrcjjwuMtgy8iRnkfHSDWCU
+        ppAdE2TIyan/4aiw8Za37GFy7p9KLPAfuhtItrM+Jis7E9Z6EPwm8rGSfhBsW5F9DrRXs0k6PUwkh
+        r9XT5Ir1bufpF5nVPFO5gkuAhgxd3lpmT5fPbnsxbBNoWcWXG+AklBbInbQTfslvbHfTUtRdAfMqJ
+        fNfXuKgBA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:57116)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1j6tfp-0006nj-Vd; Wed, 26 Feb 2020 10:12:14 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1j6tfh-0008KB-0V; Wed, 26 Feb 2020 10:12:05 +0000
+Date:   Wed, 26 Feb 2020 10:12:04 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Ioana Ciornei <ioana.ciornei@nxp.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Felix Fietkau <nbd@nbd.name>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Crispin <john@phrozen.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jose Abreu <joabreu@synopsys.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>
+Subject: Re: [PATCH net-next 5/8] net: dpaa2-mac: use resolved link config in
+ mac_link_up()
+Message-ID: <20200226101204.GW25745@shell.armlinux.org.uk>
+References: <20200225093703.GS25745@shell.armlinux.org.uk>
+ <E1j6WgG-0000TJ-CC@rmk-PC.armlinux.org.uk>
+ <DB8PR04MB68282F710FB598B977C36F99E0ED0@DB8PR04MB6828.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200224141142.25445-7-ionela.voinescu@arm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <DB8PR04MB68282F710FB598B977C36F99E0ED0@DB8PR04MB6828.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 24, 2020 at 02:11:41PM +0000, Ionela Voinescu wrote:
+On Tue, Feb 25, 2020 at 04:36:32PM +0000, Ioana Ciornei wrote:
+> > Subject: [PATCH net-next 5/8] net: dpaa2-mac: use resolved link config in
+> > mac_link_up()
+> > 
+> > Convert the DPAA2 ethernet driver to use the finalised link parameters in
+> > mac_link_up() rather than the parameters in mac_config(), which are more
+> > suited to the needs of the DPAA2 MC firmware than those available via
+> > mac_config().
+> > 
+> > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> 
+> Tested-by: Ioana Ciornei <ioana.ciornei@nxp.com>
 
-[...]
+Thanks.
 
-> +static int __init init_amu_fie(void)
-> +{
-> +	cpumask_var_t valid_cpus;
-> +	bool have_policy = false;
-> +	int cpu;
-> +
-> +	if (!zalloc_cpumask_var(&valid_cpus, GFP_KERNEL) ||
-> +	    !zalloc_cpumask_var(&amu_fie_cpus, GFP_KERNEL))
-> +		return -ENOMEM;
+> > +
+> > +		/* This is lossy; the firmware really should take the pause
+> > +		 * enablement status rather than pause/asym pause status.
+> > +		 */
+> 
+> In what sense it's lossy? I cannot see how information can be lost by translating the rx/tx pause state to pause/asym.
+> If it's just about the unnecessary double translation, then I agree.. this could have been done in an easier manner.
 
-The patch looks good to me. one minor comment here. In an unlikely
-scenario, valid_cpus which is a temporary mask can get allocated
-but amu_fie_cpus may not. In that case, we have to free valid_cpus
-here. I have seen some static code inspection tools catching these
-type of errors. If you happen to rebase this series, fix this.
+If you're just translating rx/tx to pause/asym and then doing the
+reverse, then it isn't lossy, but if the firmware is resolving
+pause/asym according to the table in IEEE 802.3, then it will be
+lossy.
 
-Thanks,
-Pavan
+If the firmware doesn't interpret the bits, then why not do the
+sensible thing and just pass the enablement status rather than
+trying to confusingly encode it back to pause/asym?
 
 -- 
-Qualcomm India Private Limited, on behalf of Qualcomm Innovation Center, Inc.
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
