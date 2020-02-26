@@ -2,49 +2,48 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D20EC4BA13
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:43:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 971AFC4BA13
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:54:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5CA6D24670
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:43:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A8E821556
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:54:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Yvce9kYP"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ksFQBlVY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbgBZQnc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 11:43:32 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32439 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727635AbgBZQna (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 11:43:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582735410;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=sE1NdjxwrRYWFMPfmNxlgM+W5OTCkbL8wxbNxVCasR8=;
-        b=Yvce9kYPis1akJw7wLPtxO52DvdJ4oV3RtJzyMb7xNf5X6/Q5gCGo7kCDV9C1qRIWfWdOA
-        qCS3UPhFUBcOboHauKaw/4uPuarCIhbZO+Hpz+jxs3uY73WdFjENsL5ZOzyKajI+fXpG9Z
-        VBEFOAu8ydQR/9VJagE8oyRwGj7ejZg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-rWs9osVYPC2teGR0nCK1RQ-1; Wed, 26 Feb 2020 11:43:22 -0500
-X-MC-Unique: rWs9osVYPC2teGR0nCK1RQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DEC710937BA;
-        Wed, 26 Feb 2020 16:43:19 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A93C15C102;
-        Wed, 26 Feb 2020 16:43:16 +0000 (UTC)
-From:   Prarit Bhargava <prarit@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Prarit Bhargava <prarit@redhat.com>,
+        id S1726440AbgBZQyg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 11:54:36 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:60070 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726214AbgBZQyf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 11:54:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=guM4OpdFkzMxFs+PgFy8AJyhxiplRkgPA//Rl2LhLTY=; b=ksFQBlVYLER9KPti8/cCDfbJY0
+        HpPbiGwPavhqc1Lszn93ZzT5WznkCmFdxT/abi5oz9nf+5XAtNjy/UJRppcPJsGodZdutQq+SUeB5
+        AB8gW8gvJl9nKxXtGzCQgaDBriCIROrQDVMd8jFeVZ6+6Xxk7BX7dsRlyQnRnz4RumXcgkUBipbXF
+        PmG+YbU/zT9DkPxPUNNNMs8wvCcNEcQv3XcSm5tvG4SuWgV7jZsjL3FvwwEBJA16ZMzDQsWZYRg6u
+        Ky2mzPqYf//wE0fbAKAc0DoU5TWqg0DJwejK1hqy/yKFAozI5LWmAhuUyepj9Ag3YXSqdF2d3zBcL
+        AQQqCQHg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j6zwn-0001sE-Ui; Wed, 26 Feb 2020 16:54:10 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 23647300130;
+        Wed, 26 Feb 2020 17:52:11 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 5DC962B756CD9; Wed, 26 Feb 2020 17:54:07 +0100 (CET)
+Date:   Wed, 26 Feb 2020 17:54:07 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Prarit Bhargava <prarit@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
         Patrick Geary <patrickg@supermicro.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -59,160 +58,51 @@ Cc:     Prarit Bhargava <prarit@redhat.com>,
         Viresh Kumar <viresh.kumar@linaro.org>,
         Daniel Drake <drake@endlessm.com>,
         Michael Zhivich <mzhivich@akamai.com>,
-        Peter Zijlstra <peterz@infradead.org>,
         linux-doc@vger.kernel.org
-Subject: [PATCH] x86/tsc: Add kernel options to disable CPUID and MSR calibrations
-Date:   Wed, 26 Feb 2020 11:43:08 -0500
-Message-Id: <20200226164308.14468-1-prarit@redhat.com>
+Subject: Re: [PATCH] x86/tsc: Add kernel options to disable CPUID and MSR
+ calibrations
+Message-ID: <20200226165407.GB18400@hirez.programming.kicks-ass.net>
+References: <20200226164308.14468-1-prarit@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200226164308.14468-1-prarit@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I have had to debug a few unstable x86 systems that required me to block
-the CPUID and MSR calibrations and only use the PIT calibration.  After
-blocking the calibrations I was able to debug and find bugs in firmware
-that were eventually fixed and resulted in stable systems.
+On Wed, Feb 26, 2020 at 11:43:08AM -0500, Prarit Bhargava wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index dbc22d684627..0316aadfff08 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4942,7 +4942,7 @@
+>  			See Documentation/admin-guide/mm/transhuge.rst
+>  			for more details.
+>  
+> -	tsc=		Disable clocksource stability checks for TSC.
+> +	tsc=option[,option...]	Various TSC options.
+>  			Format: <string>
+>  			[x86] reliable: mark tsc clocksource as reliable, this
+>  			disables clocksource verification at runtime, as well
+> @@ -4960,6 +4960,12 @@
+>  			in situations with strict latency requirements (where
+>  			interruptions from clocksource watchdog are not
+>  			acceptable).
+> +			[x86] no_cpuid_calibration: Disable the CPUID TSC
+> +			calibration.  Used in situations where the CPUID
+> +			TSC khz does not match the actual CPU TSC khz
+> +			[x86] no_msr_calibration: Disable the MSR TSC
+> +			calibration.  Used in situations where the MSR
+> +			TSC khz does not match the actual CPU TSC khz.
 
-Patrick Geary also posted a similar patch (see link below) that would hav=
-e
-allowed him to boot overclocked CPUs by skipping the CPUID calibration
-which resulted in unstable boots due to timing issues.
+Do we want to mention that these situations are mostly broken firmware?
+Also do mention that if you disable these you might not boot due to not
+having a PIT/HPET at all?
 
-Add kernel options to disable the CPUID and MSR calibrations.
+As it stands, I find this text a little too encouraging.
 
-Also allow for comma-separated TSC options, for example,
-
-	tsc=3Dno_cpuid_calibration,no_msr_calibration,reliable
-
-Link: https://lore.kernel.org/lkml/fdf96605-a4a0-049b-51c9-1e68cc2a9b93@s=
-upermicro.com/#r
-Co-developed-by: Patrick Geary <patrickg@supermicro.com>
-Signed-off-by: Patrick Geary <patrickg@supermicro.com>
-Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: x86@kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Juergen Gross <jgross@suse.com>
-Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Daniel Drake <drake@endlessm.com>
-Cc: Michael Zhivich <mzhivich@akamai.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-doc@vger.kernel.org
----
- .../admin-guide/kernel-parameters.txt         |  8 +++-
- arch/x86/kernel/tsc.c                         | 44 ++++++++++++++-----
- 2 files changed, 41 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-index dbc22d684627..0316aadfff08 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4942,7 +4942,7 @@
- 			See Documentation/admin-guide/mm/transhuge.rst
- 			for more details.
-=20
--	tsc=3D		Disable clocksource stability checks for TSC.
-+	tsc=3Doption[,option...]	Various TSC options.
- 			Format: <string>
- 			[x86] reliable: mark tsc clocksource as reliable, this
- 			disables clocksource verification at runtime, as well
-@@ -4960,6 +4960,12 @@
- 			in situations with strict latency requirements (where
- 			interruptions from clocksource watchdog are not
- 			acceptable).
-+			[x86] no_cpuid_calibration: Disable the CPUID TSC
-+			calibration.  Used in situations where the CPUID
-+			TSC khz does not match the actual CPU TSC khz
-+			[x86] no_msr_calibration: Disable the MSR TSC
-+			calibration.  Used in situations where the MSR
-+			TSC khz does not match the actual CPU TSC khz.
-=20
- 	tsx=3D		[X86] Control Transactional Synchronization
- 			Extensions (TSX) feature in Intel processors that
-diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
-index 7e322e2daaf5..c949cb833d05 100644
---- a/arch/x86/kernel/tsc.c
-+++ b/arch/x86/kernel/tsc.c
-@@ -45,6 +45,11 @@ static int __read_mostly tsc_unstable;
- static DEFINE_STATIC_KEY_FALSE(__use_tsc);
-=20
- int tsc_clocksource_reliable;
-+/*
-+ * TSC calibration sequence disablement
-+ */
-+int calibrate_cpuid_khz_enabled =3D 1;
-+int calibrate_msr_enabled =3D 1;
-=20
- static u32 art_to_tsc_numerator;
- static u32 art_to_tsc_denominator;
-@@ -287,14 +292,30 @@ static int no_tsc_watchdog;
-=20
- static int __init tsc_setup(char *str)
- {
--	if (!strcmp(str, "reliable"))
--		tsc_clocksource_reliable =3D 1;
--	if (!strncmp(str, "noirqtime", 9))
--		no_sched_irq_time =3D 1;
--	if (!strcmp(str, "unstable"))
--		mark_tsc_unstable("boot parameter");
--	if (!strcmp(str, "nowatchdog"))
--		no_tsc_watchdog =3D 1;
-+	while (str) {
-+		char *k =3D strchr(str, ',');
-+
-+		if (k)
-+			*k++ =3D 0;
-+
-+		if (!strcmp(str, "reliable"))
-+			tsc_clocksource_reliable =3D 1;
-+		if (!strcmp(str, "noirqtime"))
-+			no_sched_irq_time =3D 1;
-+		if (!strcmp(str, "unstable"))
-+			mark_tsc_unstable("boot parameter");
-+		if (!strcmp(str, "nowatchdog"))
-+			no_tsc_watchdog =3D 1;
-+		if (!strcmp(str, "no_cpuid_calibration")) {
-+			calibrate_cpuid_khz_enabled =3D 0;
-+			pr_info("CPUID khz calibration disabled\n");
-+		}
-+		if (!strcmp(str, "no_msr_calibration")) {
-+			calibrate_cpuid_khz_enabled =3D 0;
-+			pr_info("msr calibration disabled\n");
-+		}
-+		str =3D k;
-+	}
- 	return 1;
- }
-=20
-@@ -860,9 +881,12 @@ static unsigned long pit_hpet_ptimer_calibrate_cpu(v=
-oid)
-  */
- unsigned long native_calibrate_cpu_early(void)
- {
--	unsigned long flags, fast_calibrate =3D cpu_khz_from_cpuid();
-+	unsigned long flags, fast_calibrate =3D 0;
-+
-+	if (calibrate_cpuid_khz_enabled)
-+		fast_calibrate =3D cpu_khz_from_cpuid();
-=20
--	if (!fast_calibrate)
-+	if (!fast_calibrate && calibrate_msr_enabled)
- 		fast_calibrate =3D cpu_khz_from_msr();
- 	if (!fast_calibrate) {
- 		local_irq_save(flags);
---=20
-2.21.1
-
+>  	tsx=		[X86] Control Transactional Synchronization
+>  			Extensions (TSX) feature in Intel processors that
