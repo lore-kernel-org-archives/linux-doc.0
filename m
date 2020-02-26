@@ -2,147 +2,99 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12835C4BA15
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:16:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F10C4BA15
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:29:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DAF342467B
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:16:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B91ED206E6
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:29:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BuqaloSo"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="drlUX7Ct"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbgBZQP7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 11:15:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36627 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728732AbgBZQP5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 11:15:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582733756;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=ywx1qIVqpeFVyk5FdbSzu1McnsKdZIvwvf+WZMVi7Zs=;
-        b=BuqaloSov3HuKrUUTLwuz5jdJwGMVxZTCOSee7MjY6m7196phtfa7WO4SNVb7ijQv6S5IY
-        yQuC0uR1ug8O36LGeIoTWaezF1V9eFkWjWxlI4TpJmijNkVp1TTMnE5gdD29dYYWXnXSa0
-        UJjDG2uiDa4JksP+Aloux0+OCdEbgfQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-K7C2TJKJPyaLBrctJLBKxQ-1; Wed, 26 Feb 2020 11:15:53 -0500
-X-MC-Unique: K7C2TJKJPyaLBrctJLBKxQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3873F800D6C;
-        Wed, 26 Feb 2020 16:15:51 +0000 (UTC)
-Received: from llong.com (dhcp-17-59.bos.redhat.com [10.18.17.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CFD6F60BE1;
-        Wed, 26 Feb 2020 16:15:47 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1727108AbgBZQ36 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 11:29:58 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:59040 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726148AbgBZQ36 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 11:29:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=f1bv7k+aR95JLaRnibgjh33tWs/5T1jZciQ/wlmBMxs=; b=drlUX7Cthr4H9sggJz4h6/3Y5G
+        mo/5uBnR1hfM10WWin7v8ZrcDr7KIs1mpcF6JYjbDP8axE8K12+2yE1dRgEoe0JkNdBVR6konO36L
+        v3FvtY2daDQI3Gxc6w0U1zAJaYE5qtmKV9inPLcETf2TyHgRdeS9kfssNNk9mpuPmtIEmOX0yrQIQ
+        yG1PVIGbktpGvcMbun68CEcwUVIut75rKPT3wx1/X5WQiCz0SF/+G0iN43AS5VQqvGKzrN33qoWRY
+        uCiTaJkuWH3Ve0ffsRDJDWjzD68U4huwGUTkXyUiK713MvpoLADsSp5G/y3jyvL0y2l36IORoC94R
+        FUg4DiEA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j6zZK-0008I8-Rs; Wed, 26 Feb 2020 16:29:54 +0000
+Date:   Wed, 26 Feb 2020 08:29:54 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
         Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Eric Biggers <ebiggers@google.com>,
         Dave Chinner <david@fromorbit.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH 11/11] fs/dcache: Track # of negative dentries reclaimed & killed
-Date:   Wed, 26 Feb 2020 11:14:04 -0500
-Message-Id: <20200226161404.14136-12-longman@redhat.com>
-In-Reply-To: <20200226161404.14136-1-longman@redhat.com>
+        Eric Sandeen <sandeen@redhat.com>
+Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
+Message-ID: <20200226162954.GC24185@bombadil.infradead.org>
 References: <20200226161404.14136-1-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200226161404.14136-1-longman@redhat.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The negative dentry reclaim process gave no visible indication that
-it was being activated. In order to allow system administrator to
-see if it is being activated as expected, two new debugfs variables
-"negative_dentry_reclaimed" and "negative_dentry_killed" are now added
-to report the total number of negative dentries that have been reclaimed
-and killed. These debugfs variables are only added after the negative
-dentry reclaim mechanism is activated for the first time.
+On Wed, Feb 26, 2020 at 11:13:53AM -0500, Waiman Long wrote:
+> A new sysctl parameter "dentry-dir-max" is introduced which accepts a
+> value of 0 (default) for no limit or a positive integer 256 and up. Small
+> dentry-dir-max numbers are forbidden to avoid excessive dentry count
+> checking which can impact system performance.
 
-In reality, the actual number may be slightly less than the reported
-number as not all the negative dentries passed to shrink_dentry_list()
-and __dentry_kill() can be successfully reclaimed.
+This is always the wrong approach.  A sysctl is just a way of blaming
+the sysadmin for us not being very good at programming.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- fs/dcache.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+I agree that we need a way to limit the number of negative dentries.
+But that limit needs to be dynamic and depend on how the system is being
+used, not on how some overworked sysadmin has configured it.
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index fe48e00349c9..471b51316506 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -33,6 +33,7 @@
- #include <linux/rculist_bl.h>
- #include <linux/list_lru.h>
- #include <linux/jump_label.h>
-+#include <linux/debugfs.h>
- #include "internal.h"
- #include "mount.h"
- 
-@@ -136,6 +137,8 @@ static DEFINE_PER_CPU(long, nr_dentry_negative);
- int dcache_dentry_dir_max_sysctl;
- EXPORT_SYMBOL_GPL(dcache_dentry_dir_max_sysctl);
- static int negative_dentry_dir_max __read_mostly;
-+static unsigned long negative_dentry_reclaim_count;
-+static atomic_t negative_dentry_kill_count;
- #define	DENTRY_DIR_MAX_MIN	0x100
- 
- static LLIST_HEAD(negative_reclaim_list);
-@@ -204,6 +207,7 @@ int proc_dcache_dentry_dir_max(struct ctl_table *ctl, int write,
- {
- 	int old = dcache_dentry_dir_max_sysctl;
- 	int ret;
-+	static bool debugfs_file_created;
- 
- 	ret = proc_dointvec_minmax(ctl, write, buffer, lenp, ppos);
- 
-@@ -219,6 +223,14 @@ int proc_dcache_dentry_dir_max(struct ctl_table *ctl, int write,
- 		return -EINVAL;
- 	}
- 
-+	if (!debugfs_file_created) {
-+		debugfs_create_ulong("negative_dentry_reclaimed", 0400, NULL,
-+				     &negative_dentry_reclaim_count);
-+		debugfs_create_u32("negative_dentry_killed", 0400, NULL,
-+				   (u32 *)&negative_dentry_kill_count.counter);
-+		debugfs_file_created = true;
-+	}
-+
- 	negative_dentry_dir_max = dcache_dentry_dir_max_sysctl;
- 	if (!old && dcache_dentry_dir_max_sysctl)
- 		static_branch_enable(&negative_reclaim_enable);
-@@ -1542,6 +1554,8 @@ static void negative_reclaim_workfn(struct work_struct *work)
- 		kfree(dentry_node);
- 		cond_resched();
- 	}
-+	if (quota < MAX_DENTRY_RECLAIM)
-+		negative_dentry_reclaim_count += MAX_DENTRY_RECLAIM - quota;
- }
- 
- /*
-@@ -1609,6 +1623,7 @@ static void negative_reclaim_check(struct dentry *parent, struct dentry *child)
- 			rcu_read_unlock();
- 			__dentry_kill(child);
- 			dput(parent);
-+			atomic_inc(&negative_dentry_kill_count);
- 			return;
- 		}
- 		spin_unlock(&child->d_lock);
--- 
-2.18.1
+So we need an initial estimate for the number of negative dentries that
+we need for good performance.  Maybe it's 1000.  It doesn't really matter;
+it's going to change dynamically.
 
+Then we need a metric to let us know whether it needs to be increased.
+Perhaps that's "number of new negative dentries created in the last
+second".  And we need to decide how much to increase it; maybe it's by
+50% or maybe by 10%.  Perhaps somewhere between 10-100% depending on
+how high the recent rate of negative dentry creation has been.
+
+We also need a metric to let us know whether it needs to be decreased.
+I'm reluctant to say that memory pressure should be that metric because
+very large systems can let the number of dentries grow in an unbounded
+way.  Perhaps that metric is "number of hits in the negative dentry
+cache in the last ten seconds".  Again, we'll need to decide how much
+to shrink the target number by.
+
+If the number of negative dentries is at or above the target, then
+creating a new negative dentry means evicting an existing negative dentry.
+If the number of negative dentries is lower than the target, then we
+can just create a new one.
+
+Of course, memory pressure (and shrinking the target number) should
+cause negative dentries to be evicted from the old end of the LRU list.
+But memory pressure shouldn't cause us to change the target number;
+the target number is what we think we need to keep the system running
+smoothly.
