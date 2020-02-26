@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC0A3C4BA12
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:15:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 419F0C4BA13
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:15:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A5E452084E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:15:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 174A624680
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:15:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E5B24mbs"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ieHfa08j"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727095AbgBZQPt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 11:15:49 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44525 "EHLO
+        id S1727060AbgBZQPv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 11:15:51 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27853 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728310AbgBZQPi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 11:15:38 -0500
+        by vger.kernel.org with ESMTP id S1727709AbgBZQPv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 11:15:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582733737;
+        s=mimecast20190719; t=1582733750;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=plSY3/ieBBIb+uqAgd5rkUQMsog86fQPx4J35UFU/bc=;
-        b=E5B24mbs4NAB4uNAp+xMnYWDt2c/RQyY3O1OtCOwDUvym0yILB+SVahps7umRKAptHFGTE
-        M95aDP1cMFMdn4yLqeIZ/OQrctHVDCcqnthYJjolz9+egTWDUlQKuZvF2Db91jQKOIPY4H
-        Gu/BfcLmqQrSUYDVA6JLIm1vzsk/5Po=
+        bh=WAJNmARdDy6U3AnNzgF1Y6hbeCE51bqcuKxWLiiANy0=;
+        b=ieHfa08jsQvjNPSW/slmP7AE9Sjg9A0qxqbHZh61ub2c6WehybEWhSL7rYJ4JjftkQ8eal
+        VPVsHTY/LxJEKjILtv+tgwUHdAMZ9GEfnZGdkKTyodZZlLYRHvv9x8yYhozXiIygBSFw+q
+        lbBmwvIkbFOq9S7FETS5dvmNzRJub8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-Hj-vPNxaMieEVX_Boex0rg-1; Wed, 26 Feb 2020 11:15:33 -0500
-X-MC-Unique: Hj-vPNxaMieEVX_Boex0rg-1
+ us-mta-187-1xEJLjCZMlqeDisfGRA45A-1; Wed, 26 Feb 2020 11:15:46 -0500
+X-MC-Unique: 1xEJLjCZMlqeDisfGRA45A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 289DADBF2;
-        Wed, 26 Feb 2020 16:15:31 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6BFF13E5;
+        Wed, 26 Feb 2020 16:15:44 +0000 (UTC)
 Received: from llong.com (dhcp-17-59.bos.redhat.com [10.18.17.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 536B860BE1;
-        Wed, 26 Feb 2020 16:15:25 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3814260BE1;
+        Wed, 26 Feb 2020 16:15:34 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -54,9 +54,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Dave Chinner <david@fromorbit.com>,
         Eric Sandeen <sandeen@redhat.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH 07/11] fs/dcache: Add static key negative_reclaim_enable
-Date:   Wed, 26 Feb 2020 11:14:00 -0500
-Message-Id: <20200226161404.14136-8-longman@redhat.com>
+Subject: [PATCH 09/11] fs/dcache: Don't allow small values for dentry-dir-max
+Date:   Wed, 26 Feb 2020 11:14:02 -0500
+Message-Id: <20200226161404.14136-10-longman@redhat.com>
 In-Reply-To: <20200226161404.14136-1-longman@redhat.com>
 References: <20200226161404.14136-1-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -65,110 +65,103 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a static_key negative_reclaim_enable to optimize the default case
-where negative dentry directory limit "dentry-dir-max" is not set.
+A small value for "dentry-dir-max", e.g. < 10, will cause excessive
+dentry count checking leading to noticeable performance degradation. In
+order to make this sysctl parameter more foolproof, we are not going
+to allow any positive integer value less than 256.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- fs/dcache.c     | 30 ++++++++++++++++++++++++++++--
- kernel/sysctl.c |  3 ++-
- 2 files changed, 30 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/sysctl/fs.rst | 10 +++++-----
+ fs/dcache.c                             | 24 +++++++++++++++++++-----
+ 2 files changed, 24 insertions(+), 10 deletions(-)
 
+diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
+index 7274a7b34ee4..e09d851f9d42 100644
+--- a/Documentation/admin-guide/sysctl/fs.rst
++++ b/Documentation/admin-guide/sysctl/fs.rst
+@@ -71,11 +71,11 @@ in the directory.  No restriction is placed on the number of positive
+ dentries as it is naturally limited by the number of files in the
+ directory.
+ 
+-The default value is 0 which means there is no limit.  Any non-negative
+-value is allowed.  However, internal tracking is done on all dentry
+-types. So the value given, if non-zero, should be larger than the
+-number of files in a typical large directory in order to reduce the
+-tracking overhead.
++The default value is 0 which means there is no limit.  Any positive
++integer value not less than 256 is also allowed.  However, internal
++tracking is done on all dentry types. So the value given, if non-zero,
++should be larger than the number of files in a typical large directory
++in order to reduce the tracking overhead.
+ 
+ 
+ dentry-state
 diff --git a/fs/dcache.c b/fs/dcache.c
-index c5364c2ed5d8..149c0a6c1a6e 100644
+index 0bd5d6974f75..f470763e7fb8 100644
 --- a/fs/dcache.c
 +++ b/fs/dcache.c
-@@ -32,6 +32,7 @@
- #include <linux/bit_spinlock.h>
- #include <linux/rculist_bl.h>
- #include <linux/list_lru.h>
-+#include <linux/jump_label.h>
- #include "internal.h"
- #include "mount.h"
- 
-@@ -134,11 +135,13 @@ int dcache_dentry_dir_max_sysctl __read_mostly;
+@@ -129,10 +129,14 @@ static DEFINE_PER_CPU(long, nr_dentry_negative);
+  *
+  * This is sysctl parameter "dentry-dir-max" which specifies a limit on
+  * the maximum number of negative dentries that are allowed under any
+- * given directory.
++ * given directory. The allowable value of "dentry-dir-max" is either
++ * 0, which means no limit, or 256 and up. A low value of "dentry-dir-max"
++ * will cause excessive dentry count checking affecting system performance.
+  */
+-int dcache_dentry_dir_max_sysctl __read_mostly;
++int dcache_dentry_dir_max_sysctl;
  EXPORT_SYMBOL_GPL(dcache_dentry_dir_max_sysctl);
++static int negative_dentry_dir_max __read_mostly;
++#define	DENTRY_DIR_MAX_MIN	0x100
  
  static LLIST_HEAD(negative_reclaim_list);
-+static DEFINE_STATIC_KEY_FALSE(negative_reclaim_enable);
- static void negative_reclaim_check(struct dentry *parent);
- static void negative_reclaim_workfn(struct work_struct *work);
- static DECLARE_WORK(negative_reclaim_work, negative_reclaim_workfn);
+ static DEFINE_STATIC_KEY_FALSE(negative_reclaim_enable);
+@@ -206,6 +210,16 @@ int proc_dcache_dentry_dir_max(struct ctl_table *ctl, int write,
+ 	if (!write || ret || (dcache_dentry_dir_max_sysctl == old))
+ 		return ret;
  
- #if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
-+proc_handler proc_dcache_dentry_dir_max;
- 
- /*
-  * Here we resort to our own counters instead of using generic per-cpu counters
-@@ -188,6 +191,27 @@ int proc_nr_dentry(struct ctl_table *table, int write, void __user *buffer,
- 	dentry_stat.nr_negative = get_nr_dentry_negative();
- 	return proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
- }
++	/*
++	 * A non-zero value must be >= DENTRY_DIR_MAX_MIN.
++	 */
++	if (dcache_dentry_dir_max_sysctl &&
++	   (dcache_dentry_dir_max_sysctl < DENTRY_DIR_MAX_MIN)) {
++		dcache_dentry_dir_max_sysctl = old;
++		return -EINVAL;
++	}
 +
-+/*
-+ * Sysctl proc handler for dcache_dentry_dir_max_sysctl
-+ */
-+int proc_dcache_dentry_dir_max(struct ctl_table *ctl, int write,
-+			       void __user *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	int old = dcache_dentry_dir_max_sysctl;
-+	int ret;
-+
-+	ret = proc_dointvec_minmax(ctl, write, buffer, lenp, ppos);
-+
-+	if (!write || ret || (dcache_dentry_dir_max_sysctl == old))
-+		return ret;
-+
-+	if (!old && dcache_dentry_dir_max_sysctl)
-+		static_branch_enable(&negative_reclaim_enable);
-+	else if (old && !dcache_dentry_dir_max_sysctl)
-+		static_branch_disable(&negative_reclaim_enable);
-+	return 0;
-+}
- #endif
++	negative_dentry_dir_max = dcache_dentry_dir_max_sysctl;
+ 	if (!old && dcache_dentry_dir_max_sysctl)
+ 		static_branch_enable(&negative_reclaim_enable);
+ 	else if (old && !dcache_dentry_dir_max_sysctl)
+@@ -1396,7 +1410,7 @@ static void reclaim_negative_dentry(struct dentry *parent, int *quota,
+ 				    struct list_head *dispose)
+ {
+ 	struct dentry *child;
+-	int limit = READ_ONCE(dcache_dentry_dir_max_sysctl);
++	int limit = READ_ONCE(negative_dentry_dir_max);
+ 	int cnt, npositive;
  
- /*
-@@ -876,7 +900,8 @@ void dput(struct dentry *dentry)
- 		if (likely(retain_dentry(dentry))) {
- 			struct dentry *neg_parent = NULL;
+ 	lockdep_assert_held(&parent->d_lock);
+@@ -1405,7 +1419,7 @@ static void reclaim_negative_dentry(struct dentry *parent, int *quota,
  
--			if (d_is_negative(dentry)) {
-+			if (static_branch_unlikely(&negative_reclaim_enable) &&
-+			    d_is_negative(dentry)) {
- 				neg_parent = dentry->d_parent;
- 				rcu_read_lock();
- 			}
-@@ -886,7 +911,8 @@ void dput(struct dentry *dentry)
- 			 * Negative dentry reclaim check is only done when
- 			 * a negative dentry is being put into a LRU list.
- 			 */
--			if (neg_parent)
-+			if (static_branch_unlikely(&negative_reclaim_enable) &&
-+			    neg_parent)
- 				negative_reclaim_check(neg_parent);
- 			return;
- 		}
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index cd0a83ff1029..9a4b0a1376e8 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -119,6 +119,7 @@ extern unsigned int sysctl_nr_open_min, sysctl_nr_open_max;
- extern int sysctl_nr_trim_pages;
- #endif
- extern int dcache_dentry_dir_max_sysctl;
-+extern proc_handler proc_dcache_dentry_dir_max;
+ 	/*
+ 	 * Compute # of negative dentries to be reclaimed
+-	 * An extra 1/8 of dcache_dentry_dir_max_sysctl is added.
++	 * An extra 1/8 of negative_dentry_dir_max is added.
+ 	 */
+ 	if (cnt <= limit)
+ 		return;
+@@ -1537,7 +1551,7 @@ static void negative_reclaim_workfn(struct work_struct *work)
+ static void negative_reclaim_check(struct dentry *parent)
+ 	__releases(rcu)
+ {
+-	int limit = dcache_dentry_dir_max_sysctl;
++	int limit = negative_dentry_dir_max;
+ 	struct reclaim_dentry *dentry_node;
  
- /* Constants used for minimum and  maximum */
- #ifdef CONFIG_LOCKUP_DETECTOR
-@@ -1956,7 +1957,7 @@ static struct ctl_table fs_table[] = {
- 		.data		= &dcache_dentry_dir_max_sysctl,
- 		.maxlen		= sizeof(dcache_dentry_dir_max_sysctl),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax,
-+		.proc_handler	= proc_dcache_dentry_dir_max,
- 		.extra1		= &zero,
- 	},
- 	{ }
+ 	if (!limit)
 -- 
 2.18.1
 
