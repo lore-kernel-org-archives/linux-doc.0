@@ -2,88 +2,146 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B8A1C4BA21
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:41:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 908EDC4BA2C
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:45:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E727024672
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582753268;
-	bh=aBdWiqYMk/KtXfhKH6m7bosNGwc4zB7gg/BclyX2mdg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=G+WxQx1Jch+Y+GpjODu35MnstoQYw0bApqUBa9RZhOa19cuhLcEMptHAMPINIYuor
-	 NIBvm1BneIo0eHd1xGFgAqXkBJzyc+To4Y8WYuZPSW0XbTjOAra+wvUKpTMo5FDSBF
-	 pAs53ZBQOhTH0NhJQT6yGu4Dct2m+ZwfkSp0jerk=
+	by mail.kernel.org (Postfix) with ESMTP id 6470321D7E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:45:14 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CjYhAjxr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727550AbgBZVlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 16:41:07 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:39988 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727581AbgBZVlH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 16:41:07 -0500
-Received: by mail-oi1-f193.google.com with SMTP id a142so1102406oii.7;
-        Wed, 26 Feb 2020 13:41:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5y+3yyZEWJZJusOCBHvZyULVHwwLi3nzMEYeDWLDUk0=;
-        b=QVwSy5G7heMV1vkOmeNENTnB/h4EErr3EiS2Fn2eE5S63d++ppeEM5FXT/2LhrE5y0
-         DrnxTWpNm/qmh6i3YiSr4sAMgtbZwrCwP7mu5e37OQV6NzbBOZGVqBbGBAsFdqwHo7Vx
-         2usPB9ce024NV6LRtWqTvlfRKljOc+/sq6Pli3t2KRV9tNm/v0x3yXyPc52DOmcY36gQ
-         lFvCIvfYxcu3fvKNGUmeCF0dznPQza2LIYq4yZFljzoCPdIzoGPllLJw568JvcITiVza
-         yZHSIrbFItQ1f2QLRhs9+EtMeLPldJ/FJP1FUiJV6sfVx9RHLUPpIVoTYHr+jvOWp7E4
-         Nveg==
-X-Gm-Message-State: APjAAAUmR84ZCcRUw5XyTio6ewC4utPi+av1bJPyXnjeHB+e41kjISmP
-        wkUzEv3aB8sGPjKb/257eg==
-X-Google-Smtp-Source: APXvYqz40paWj0yChkMjb+Ax6JzRcdMeIRdfuPwxO6dYs8zg8mwm2gYxPDtbGGusYkkBTw4I/BlvEg==
-X-Received: by 2002:aca:4f4c:: with SMTP id d73mr874490oib.107.1582753266742;
-        Wed, 26 Feb 2020 13:41:06 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 96sm1221380otn.29.2020.02.26.13.41.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2020 13:41:06 -0800 (PST)
-Received: (nullmailer pid 8489 invoked by uid 1000);
-        Wed, 26 Feb 2020 21:41:05 -0000
-Date:   Wed, 26 Feb 2020 15:41:05 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v1 5/5] of: property: Delete of_devlink kernel
- commandline option
-Message-ID: <20200226214105.GA8431@bogus>
-References: <20200222014038.180923-1-saravanak@google.com>
- <20200222014038.180923-6-saravanak@google.com>
+        id S1727734AbgBZVpL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 16:45:11 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:42584 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727689AbgBZVpK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 16:45:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=k6oH184LauRBVJdRIuJcmV3mqSTA26eIXnPYJkT2OvQ=; b=CjYhAjxrA/A37pJzouv5n85kWT
+        1yaLOAd0gG+1S+uXClxIWNgGhsBnfuTWKdcx52dwsO3loQQiadMvQ5FlT+iuBYW1qPBUWWeF8Bylg
+        9+cGS+GxvS8wjVdkDbguTcUTmP/QYr/UX0Kg+Wck4rcIKlYuJDn2qtrInDKXWtphpWsfNCVMTmFMu
+        /P9PUMSfZqMYQEPeQaWWqwclke1h62ZReejsvITeTLrwyyztnX4c5rbPuq1TzzUrkThQptAn6abXb
+        etrM9YdjIW6yft90f7I9M4GGQGb1zt5WDXhwZWVfK8kt/0+9RN+QW5OkXvJK8O7PbIi96BsbCnNce
+        m2K7Xixg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j74UN-0005gs-Iv; Wed, 26 Feb 2020 21:45:07 +0000
+Date:   Wed, 26 Feb 2020 13:45:07 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Andreas Dilger <adilger@dilger.ca>
+Cc:     Waiman Long <longman@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Eric Sandeen <sandeen@redhat.com>
+Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
+Message-ID: <20200226214507.GE24185@bombadil.infradead.org>
+References: <20200226161404.14136-1-longman@redhat.com>
+ <20200226162954.GC24185@bombadil.infradead.org>
+ <2EDB6FFC-C649-4C80-999B-945678F5CE87@dilger.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200222014038.180923-6-saravanak@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <2EDB6FFC-C649-4C80-999B-945678F5CE87@dilger.ca>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 21 Feb 2020 17:40:38 -0800, Saravana Kannan wrote:
-> With the addition of fw_devlink kernel commandline option, of_devlink is
-> redundant and not useful anymore. So, delete it.
+On Wed, Feb 26, 2020 at 02:28:50PM -0700, Andreas Dilger wrote:
+> On Feb 26, 2020, at 9:29 AM, Matthew Wilcox <willy@infradead.org> wrote:
+> > This is always the wrong approach.  A sysctl is just a way of blaming
+> > the sysadmin for us not being very good at programming.
+> > 
+> > I agree that we need a way to limit the number of negative dentries.
+> > But that limit needs to be dynamic and depend on how the system is being
+> > used, not on how some overworked sysadmin has configured it.
+> > 
+> > So we need an initial estimate for the number of negative dentries that
+> > we need for good performance.  Maybe it's 1000.  It doesn't really matter;
+> > it's going to change dynamically.
+> > 
+> > Then we need a metric to let us know whether it needs to be increased.
+> > Perhaps that's "number of new negative dentries created in the last
+> > second".  And we need to decide how much to increase it; maybe it's by
+> > 50% or maybe by 10%.  Perhaps somewhere between 10-100% depending on
+> > how high the recent rate of negative dentry creation has been.
+> > 
+> > We also need a metric to let us know whether it needs to be decreased.
+> > I'm reluctant to say that memory pressure should be that metric because
+> > very large systems can let the number of dentries grow in an unbounded
+> > way.  Perhaps that metric is "number of hits in the negative dentry
+> > cache in the last ten seconds".  Again, we'll need to decide how much
+> > to shrink the target number by.
 > 
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 6 ------
->  drivers/of/property.c                           | 6 ------
->  2 files changed, 12 deletions(-)
-> 
+> OK, so now instead of a single tunable parameter we need three, because
+> these numbers are totally made up and nobody knows the right values. :-)
+> Defaulting the limit to "disabled/no limit" also has the problem that
+> 99.99% of users won't even know this tunable exists, let alone how to
+> set it correctly, so they will continue to see these problems, and the
+> code may as well not exist (i.e. pure overhead), while Waiman has a
+> better idea today of what would be reasonable defaults.
 
-Acked-by: Rob Herring <robh@kernel.org>
+I never said "no limit".  I just said to start at some fairly random
+value and not worry about where you start because it'll correct to where
+this system needs it to be.  As long as it converges like loadavg does,
+it'll be fine.  It needs a fairly large "don't change the target" area,
+and it needs to react quickly to real changes in a system's workload.
+
+> I definitely agree that a single fixed value will be wrong for every
+> system except the original developer's.  Making the maximum default to
+> some reasonable fraction of the system size, rather than a fixed value,
+> is probably best to start.  Something like this as a starting point:
+> 
+> 	/* Allow a reasonable minimum number of negative entries,
+> 	 * but proportionately more if the directory/dcache is large.
+> 	 */
+> 	dir_negative_max = max(num_dir_entries / 16, 1024);
+>         total_negative_max = max(totalram_pages / 32, total_dentries / 8);
+
+Those kinds of things are garbage on large machines.  With a terabyte
+of RAM, you can end up with tens of millions of dentries clogging up
+the system.  There _is_ an upper limit on the useful number of dentries
+to keep around.
+
+> (Waiman should decide actual values based on where the problem was hit
+> previously), and include tunables to change the limits for testing.
+> 
+> Ideally there would also be a dir ioctl that allows fetching the current
+> positive/negative entry count on a directory (e.g. /usr/bin, /usr/lib64,
+> /usr/share/man/man*) to see what these values are.  Otherwise there is
+> no way to determine whether the limits used are any good or not.
+
+It definitely needs to be instrumented for testing, but no, not ioctls.
+tracepoints, perhaps.
+
+> Dynamic limits are hard to get right, and incorrect state machines can lead
+> to wild swings in behaviour due to unexpected feedback.  It isn't clear to
+> me that adjusting the limit based on the current rate of negative dentry
+> creation even makes sense.  If there are a lot of negative entries being
+> created, that is when you'd want to _stop_ allowing more to be added.
+
+That doesn't make sense.  What you really want to know is "If my dcache
+had twice as many entries in it, would that significantly reduce the
+thrash of new entries being created".  In the page cache, we end up
+with a double LRU where once-used entries fall off the list quickly
+but twice-or-more used entries get to stay around for a bit longer.
+Maybe we could do something like that; keep a victim cache for recently
+evicted dentries, and if we get a large hit rate in the victim cache,
+expand the size of the primary cache.
+
+
