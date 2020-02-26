@@ -2,252 +2,233 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42219C4BA24
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 20:58:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38C78C4BA21
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:20:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D490F24656
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 20:58:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F06CF24670
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 21:20:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xV1PffHp"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KMgLrDGO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727466AbgBZU6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 15:58:55 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:42221 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727461AbgBZU6z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 15:58:55 -0500
-Received: by mail-pg1-f196.google.com with SMTP id h8so244380pgs.9
-        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2020 12:58:54 -0800 (PST)
+        id S1727580AbgBZVUh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 16:20:37 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:39777 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727486AbgBZVUg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 16:20:36 -0500
+Received: by mail-pj1-f68.google.com with SMTP id e9so187537pjr.4
+        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2020 13:20:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=5i4kIErvQGw44vXaerAikXm4yrNAjy2U007Z9HcTHsk=;
-        b=xV1PffHpd8aoWxT9tCiJoOHV/o1IukGw0zUuVqpv7XALZeER9YCv0vzCn1YZ47eY2R
-         fOfYoK3gHDaA9ioH6flf7RtJXJbYfVGWKWEjVgC9Qm/iUxRGJx/5hL+TofnEUBP4y5Yi
-         tJfPS8CEGTxAnZFcrPMyBEWiwdEH6zXXJQX1BpuD6DrtqKCxqvufNYXfJIftAU0Tvv+R
-         8h1iNWL/j6dZyL8bAGrqJ5Ec3mr1SUVO8mG9A8W+AxFpf6eqo+jzkdYBoxFze7FKtBaz
-         unFsgzB2FyhStLd1JOz+6ZK9SALqmiJvL61w/9GHW5QUo+UZoujd/et+Ob6UJvQ5ES5s
-         1G7A==
+        bh=9CiQT/kMWRksr1hp63TAHSJ3ufcI1s7CqCu0d0GyycE=;
+        b=KMgLrDGOqPhlWy8vN1SiYK34JngSlLxfmRkvpdP4YzZIN1/C2V8KvjjmYG8rfLZUH2
+         7/qMu72zpkd8084wIfLIAHfBTFgzJARt1WlkqBsSINx0LgKq2cPHamx6C50gtHb4VTU3
+         kr0v2Fk7mTNQLqmhHAcdMhOuJ35NmAv6mLlBqR8VoaH375kXqWsMtrCOOp03EC0Lizkh
+         28Jb9tZEwp5kwQO+SHBd0u0XVNczTAZj/6wY4deoV1KaKJ9uES7F/6YqxVSGCndYmTTk
+         cBT6eL3yDtQtuwJ/feNVXnEOukvVapc3LjWedtoz8jzmqhqv/TymkH2ieN6BU7WUhYp9
+         CYoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5i4kIErvQGw44vXaerAikXm4yrNAjy2U007Z9HcTHsk=;
-        b=dJ4CEEOxk3dhrQ2I5MBCpKt4mU7kuM2hRYtWw9kkmDcIXDyWDl+u5re098ZD2UtTFZ
-         gROHY5SSDmPdC2s+Xsp0QUgteaDrlAwSKu3oeoba5DGyNSWLc7Z5dHA+O/+TZSlO5x3h
-         8fxWUOikv/I9JCif/ZgNTjudV3QavreBtpBfhwQ/55aeYfQJjPwIs8ogJNGJkRlGRLmk
-         FVaWURlYMhCilS23SFdRxDk9q6tMTIu0m7WbCBGE/elq/vBOjA2QAWBAnPa2ydwjrawn
-         p8sp2xkrXAHBkQamGZk4j/MYcmjZRGPR+0ac45qWgQGf1iiv9R9fUfhiQfx0+PFDaK3D
-         tE3A==
-X-Gm-Message-State: APjAAAUsVBavHvHH185MMUMmu4tPcbRtIzWFY6hDqNFIcTi7fWo1eGrY
-        hQ1NKMfsBV3sjQJqDfLGZkR4PQ==
-X-Google-Smtp-Source: APXvYqxxfLDrLKEpazTetrahW8GWUVcCfC+U2Ect9o5IlSTMhO3ug8VVxzoXdqY9qvj1D3MGbvV61A==
-X-Received: by 2002:a65:478a:: with SMTP id e10mr639577pgs.197.1582750733873;
-        Wed, 26 Feb 2020 12:58:53 -0800 (PST)
+        bh=9CiQT/kMWRksr1hp63TAHSJ3ufcI1s7CqCu0d0GyycE=;
+        b=tkcnHtvaJIDUE2bKMChMfuWonvnSEF18GuqHJCTUl5PFIpgK68Og7N3mYSUvMFdSgf
+         gL/sz03WuQePY00o4jb6T9/CBiOsCHauzNb9lMDq3nqp7dgp5AjZWG0OxTNZ7wcZfwSb
+         KP3mUnsC4+t79Ra/mO+yMb+z/Sp6Vytr0UqhlI9FhVkMl6rjYVylJQvmyEKgq8q/KXdD
+         MYUUFN/LJUYv4qbXyEDUbFgr8vB+C2NKWVJRTIqUPS5Q7lgfmlPDIceeWrGYGykNiUW0
+         gSXCIQ95rq/r0cu3uWDx8qK9bNUgw8tfrZPmoFmshFytdatweup3c1xzYcz9108gTxlx
+         ysZw==
+X-Gm-Message-State: APjAAAVXVjc+gl+3hcMzmatN/BMOfMezYp3gVrCB3pa0CykbNqhK2PSb
+        0Qo+5aQamV9BYtOoHEfP0iCZYcU72U4=
+X-Google-Smtp-Source: APXvYqyeYsTqqUfBfSLT0KIkP0VpNMu2Qxg2PbwfXNSAx7Q2x0VcvWwMpOzy39BLAC8BKsBSbxHG2A==
+X-Received: by 2002:a17:902:8ec6:: with SMTP id x6mr1160415plo.247.1582752035365;
+        Wed, 26 Feb 2020 13:20:35 -0800 (PST)
 Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id 10sm3992727pfu.132.2020.02.26.12.58.52
+        by smtp.gmail.com with ESMTPSA id q66sm4375210pfq.27.2020.02.26.13.20.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2020 12:58:53 -0800 (PST)
-Date:   Wed, 26 Feb 2020 13:58:51 -0700
+        Wed, 26 Feb 2020 13:20:34 -0800 (PST)
+Date:   Wed, 26 Feb 2020 14:20:32 -0700
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     Mike Leach <mike.leach@linaro.org>
-Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, suzuki.poulose@arm.com,
-        robh+dt@kernel.org, maxime@cerno.tech, liviu.dudau@arm.com,
-        sudeep.holla@arm.com, lorenzo.pieralisi@arm.com, agross@kernel.org,
-        corbet@lwn.net
-Subject: Re: [PATCH v10 00/15] CoreSight CTI Driver
-Message-ID: <20200226205851.GA30754@xps15>
-References: <20200225234611.11067-1-mike.leach@linaro.org>
+Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "Suzuki K. Poulose" <suzuki.poulose@arm.com>
+Subject: Re: [PATCH v4 5/6] coresight: cti: Add in sysfs links to other
+ coresight devices.
+Message-ID: <20200226212032.GB30754@xps15>
+References: <20200211105808.27884-1-mike.leach@linaro.org>
+ <20200211105808.27884-6-mike.leach@linaro.org>
+ <20200214225839.GB20024@xps15>
+ <CAJ9a7VjLxTjH7OhRCoPSfiv28kSJ8=LEKSMRfwu41Du+HCh9pA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200225234611.11067-1-mike.leach@linaro.org>
+In-Reply-To: <CAJ9a7VjLxTjH7OhRCoPSfiv28kSJ8=LEKSMRfwu41Du+HCh9pA@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
+On Wed, Feb 26, 2020 at 01:37:17PM +0000, Mike Leach wrote:
+> Hi Mathieu,
+> 
+> On Fri, 14 Feb 2020 at 22:58, Mathieu Poirier
+> <mathieu.poirier@linaro.org> wrote:
+> >
+> > On Tue, Feb 11, 2020 at 10:58:07AM +0000, Mike Leach wrote:
+> > > Adds in sysfs links for connections where the connected device is another
+> > > coresight device. This allows examination of the coresight topology.
+> > >
+> > > Non-coresight connections remain just as a reference name.
+> > >
+> > > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> > > ---
+> > >  drivers/hwtracing/coresight/coresight-cti.c | 41 ++++++++++++++++++++-
+> > >  1 file changed, 40 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/hwtracing/coresight/coresight-cti.c b/drivers/hwtracing/coresight/coresight-cti.c
+> > > index 9e18e176831c..f620e9460e7d 100644
+> > > --- a/drivers/hwtracing/coresight/coresight-cti.c
+> > > +++ b/drivers/hwtracing/coresight/coresight-cti.c
+> > > @@ -441,6 +441,37 @@ int cti_channel_setop(struct device *dev, enum cti_chan_set_op op,
+> > >       return err;
+> > >  }
+> > >
+> > > +static void cti_add_sysfs_link(struct cti_drvdata *drvdata,
+> > > +                            struct cti_trig_con *tc)
+> > > +{
+> > > +     struct coresight_sysfs_link link_info;
+> > > +
+> > > +     link_info.orig = drvdata->csdev;
+> > > +     link_info.orig_name = tc->con_dev_name;
+> > > +     link_info.target = tc->con_dev;
+> > > +     link_info.target_name = dev_name(&drvdata->csdev->dev);
+> > > +     coresight_add_sysfs_link(&link_info);
+> >
+> > I understand there isn't much to do if a problem occurs so just catch the error
+> > and add a comment to assert you're doing this on purpose.
+> >
+> 
+> When I revisited this code I saw an imbalance between the case where
+> the CTI is created first and the associated CSdev is created first.
+> The result could be shutdown path where the CTI removes sysfs links
+> after the csdev has been removed - which really shouldn't happen.
+> Also we could try to remove a sysfs link that we failed to set in the
+> first place - again not ideal
+> 
+> I've reworked this code to fix this, and now if the sysfs link fails
+> to be set, then we do not set the association between CTI and csdev
+> components.
 
-On Tue, Feb 25, 2020 at 11:45:56PM +0000, Mike Leach wrote:
-> CTIs are defined in the device tree and associated with other CoreSight
-> devices. The core CoreSight code has been modified to enable the registration
-> of the CTI devices on the same bus as the other CoreSight components,
-> but as these are not actually trace generation / capture devices, they
-> are not part of the Coresight path when generating trace.
-> 
-> However, the definition of the standard CoreSight device has been extended
-> to include a reference to an associated CTI device, and the enable / disable
-> trace path operations will auto enable/disable any associated CTI devices at
-> the same time.
-> 
-> Programming is at present via sysfs - a full API is provided to utilise the
-> hardware capabilities. As CTI devices are unprogrammed by default, the auto
-> enable describe above will have no effect until explicit programming takes
-> place.
-> 
-> A set of device tree bindings specific to the CTI topology has been defined.
-> The driver accesses these in a platform agnostic manner, so ACPI bindings
-> can be added later, once they have been agreed and defined for the CTI device.
-> 
-> Documentation has been updated to describe both the CTI hardware, its use and
-> programming in sysfs, and the new dts bindings required.
+Ok
 
-I have applied this set to my next branch.
+> This is not sufficient to fail either component from registering, as
+> we may have successfully registered previous associations with the
+> same CTI.
+>
 
-Thanks,
-Mathieu
+That is also my opinion.
+ 
+> It seems unlikely that the sysfs link could fail, but if it does, is
+> it worth using a dev_warn() to at least log the failure?
+>
 
+Yes, that would surely be helpful. 
+ 
+> Regards
 > 
-> Tested on DB410 board and Juno board, against the Linux 5.6-rc3 tree.
+> Mike
 > 
-> Changes since v9:
-> 1) Removed 2 unneeded devm_kstrdup calls, fixed error check on another.
-> 2) Fixed variable array declaration from [0] to [].
 > 
-> Changes since v8:
-> 1) Use devm_ allocation in cti_match_fixup_csdev() to match other allocations.
-> 2) Minor comment update per request.
+> > > +}
+> > > +
+> > > +static void cti_remove_all_sysfs_links(struct cti_drvdata *drvdata)
+> > > +{
+> > > +     struct cti_trig_con *tc;
+> > > +     struct cti_device *ctidev = &drvdata->ctidev;
+> > > +     struct coresight_sysfs_link link_info;
+> > > +
+> > > +     /* origin device and target link name constant for this cti */
+> > > +     link_info.orig = drvdata->csdev;
+> > > +     link_info.target_name = dev_name(&drvdata->csdev->dev);
+> > > +
+> > > +     list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> > > +             if (tc->con_dev) {
+> > > +                     link_info.target = tc->con_dev;
+> > > +                     link_info.orig_name = tc->con_dev_name;
+> > > +                     coresight_remove_sysfs_link(&link_info);
+> > > +             }
+> > > +     }
+> > > +}
+> > > +
+> > >  /*
+> > >   * Look for a matching connection device name in the list of connections.
+> > >   * If found then swap in the csdev name, set trig con association pointer
+> > > @@ -452,6 +483,8 @@ cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
+> > >  {
+> > >       struct cti_trig_con *tc;
+> > >       const char *csdev_name;
+> > > +     struct cti_drvdata *drvdata = container_of(ctidev, struct cti_drvdata,
+> > > +                                                ctidev);
+> > >
+> > >       list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> > >               if (tc->con_dev_name) {
+> > > @@ -462,6 +495,7 @@ cti_match_fixup_csdev(struct cti_device *ctidev, const char *node_name,
+> > >                                       devm_kstrdup(&csdev->dev, csdev_name,
+> > >                                                    GFP_KERNEL);
+> > >                               tc->con_dev = csdev;
+> > > +                             cti_add_sysfs_link(drvdata, tc);
+> > >                               return true;
+> > >                       }
+> > >               }
+> > > @@ -546,10 +580,12 @@ static void cti_update_conn_xrefs(struct cti_drvdata *drvdata)
+> > >       struct cti_device *ctidev = &drvdata->ctidev;
+> > >
+> > >       list_for_each_entry(tc, &ctidev->trig_cons, node) {
+> > > -             if (tc->con_dev)
+> > > +             if (tc->con_dev) {
+> > >                       /* set tc->con_dev->ect_dev */
+> > >                       coresight_set_assoc_ectdev_mutex(tc->con_dev,
+> > >                                                        drvdata->csdev);
+> > > +                     cti_add_sysfs_link(drvdata, tc);
+> > > +             }
+> > >       }
+> > >  }
+> > >
+> > > @@ -602,6 +638,9 @@ static void cti_device_release(struct device *dev)
+> > >       mutex_lock(&ect_mutex);
+> > >       cti_remove_conn_xrefs(drvdata);
+> > >
+> > > +     /* clear the dynamic sysfs associate with connections */
+> >
+> > s/associate/associated
+> >
+> > > +     cti_remove_all_sysfs_links(drvdata);
+> > > +
+> > >       /* remove from the list */
+> > >       list_for_each_entry_safe(ect_item, ect_tmp, &ect_net, node) {
+> > >               if (ect_item == drvdata) {
+> >
+> > With the above:
+> >
+> > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> >
+> > > --
+> > > 2.17.1
+> > >
 > 
-> Changes since v7:
-> NB: No functional driver changes in this set. Full set released for
-> consistency, completeness and ease of use.
-> 1) Updates to device tree bindings .yaml following comments from Rob Herring.
->    Adds #size-cells and #address-cells to properties and constrained as
->    required. Validated using dt_binding_check.
-> 2) Minor typo fixes to cti documentation file.
 > 
-> Changes since v6:
-> NB: No functional driver changes in this set. Full set released for
-> consistency, completeness and ease of use.
-> 1) Updates to .yaml following comments from Maxime Ripard. Correct child node
->    descriptions, fix validation, and ensure reg entries required in child
->    nodes as per DeviceTree specification.
-> 2) Update to Juno bindings to implement reg entry specification requirements.
-> 
-> Changes since v5:
-> 1) Fixed up device tree .yaml file. Using extra compatible string for
-> v8 architecture CTI connections.
-> 2) Ensure association code respects coresight mutex when setting cross
-> referenced pointers. Add in shutdown code.
-> 3) Multiple minor code fixes & rationalisation. 
-> 
-> Changes since v4:
-> Multiple changes following feedback from Mathieu, Leo and Suzuki.
-> 1) Dropped RFC tag - wider distribution
-> 2) CTI bindings definition now presented as a .yaml file - tested with
-> with 'dt-doc-validate' from devicetree.org/dt-schema project and in kernel
-> build tree with 'make dtbs_check' per kernel docs.
-> 3) Sysfs links to other CoreSight devices moved out of this set into
-> a following set that deals with all CoreSight devices & sysfs links.
-> 4) Documentation in .rst format and new directory following patchset in [1].
-> Extended example provided in docs.
-> 5) Rationalised devicetree of_ specifics to use generic fwnode functions
-> where possible to enable easier addition of ACPI support later.
-> 6) Other minor changes as requested in feedback from last patchset.
-> 
-> Changes since v3:
-> 1) After discussion on CS mailing list, each CTI connection has a triggers<N>
->    sysfs directory with name and trigger signals listed for the connection.
-> 2) Initial code for creating sysfs links between CoreSight components is
->   introduced and implementation for CTI provided. This allows exploration
->   of the CoreSight topology within the sysfs infrastructure. Patches for
->   links between other CoreSight components to follow.
-> 3) Power management - CPU hotplug and idle omitted from this set as ongoing
->    developments may define required direction. Additional patch set to follow.
-> 4) Multiple fixes applied as requested by reviewers esp. Matthieu, Suzuki
->    and Leo. 
-> 
-> Changes since v2:
-> Updates to allow for new features on coresight/next and feedback from
-> Mathieu and Leo.
-> 
-> 1) Rebase and restructuring to apply on top of ACPI support patch set,
-> currently on coresight/next. of_coresight_cti has been renamed to
-> coresight-cti-platform and device tree bindings added to this but accessed
-> in a platform agnostic manner using fwnode for later ACPI support
-> to be added.
-> 2) Split the sysfs patch info a series of functional patches.
-> 3) Revised the refcount and enabling support.
-> 4) Adopted the generic naming protocol - CTIs are either cti_cpuN or
-> cti_sysM
-> 5) Various minor presentation /checkpatch issues highlighted in feedback.
-> 6) revised CPU hotplug to cover missing cases needed by ETM.
-> 
-> Changes since v1:
-> 1) Significant restructuring of the source code. Adds cti-sysfs file and
-> cti device tree file. Patches add per feature rather than per source
-> file.
-> 2) CPU type power event handling for hotplug moved to CoreSight core,
-> with generic registration interface provided for all CPU bound CS devices
-> to use.
-> 3) CTI signal interconnection details in sysfs now generated dynamically
-> from connection lists in driver. This to fix issue with multi-line sysfs
-> output in previous version.
-> 4) Full device tree bindings for DB410 and Juno provided (to the extent
-> that CTI information is available).
-> 5) AMBA driver update for UCI IDs are now upstream so no longer included
-> in this set
-> 
-> Mike Leach (15):
->   coresight: cti: Initial CoreSight CTI Driver
->   coresight: cti: Add sysfs coresight mgmt reg access
->   coresight: cti: Add sysfs access to program function regs
->   coresight: cti: Add sysfs trigger / channel programming API
->   dt-bindings: arm: Adds CoreSight CTI hardware definitions
->   coresight: cti: Add device tree support for v8 arch CTI
->   coresight: cti: Add device tree support for custom CTI
->   coresight: cti: Enable CTI associated with devices
->   coresight: cti: Add connection information to sysfs
->   dt-bindings: qcom: Add CTI options for qcom msm8916
->   dt-bindings: arm: Juno platform - add CTI entries to device tree
->   dt-bindings: hisilicon: Add CTI bindings for hi-6220
->   docs: coresight: Update documentation for CoreSight to cover CTI
->   docs: sysfs: coresight: Add sysfs ABI documentation for CTI
->   Update MAINTAINERS to add reviewer for CoreSight
-> 
->  .../testing/sysfs-bus-coresight-devices-cti   |  221 ++++
->  .../bindings/arm/coresight-cti.yaml           |  336 +++++
->  .../devicetree/bindings/arm/coresight.txt     |    7 +
->  .../trace/coresight/coresight-ect.rst         |  211 +++
->  Documentation/trace/coresight/coresight.rst   |   13 +
->  MAINTAINERS                                   |    3 +
->  arch/arm64/boot/dts/arm/juno-base.dtsi        |  162 ++-
->  arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi     |   37 +-
->  arch/arm64/boot/dts/arm/juno-r1.dts           |   25 +
->  arch/arm64/boot/dts/arm/juno-r2.dts           |   25 +
->  arch/arm64/boot/dts/arm/juno.dts              |   25 +
->  .../boot/dts/hisilicon/hi6220-coresight.dtsi  |  130 +-
->  arch/arm64/boot/dts/qcom/msm8916.dtsi         |   85 +-
->  drivers/hwtracing/coresight/Kconfig           |   21 +
->  drivers/hwtracing/coresight/Makefile          |    3 +
->  .../coresight/coresight-cti-platform.c        |  485 +++++++
->  .../hwtracing/coresight/coresight-cti-sysfs.c | 1175 +++++++++++++++++
->  drivers/hwtracing/coresight/coresight-cti.c   |  745 +++++++++++
->  drivers/hwtracing/coresight/coresight-cti.h   |  235 ++++
->  .../hwtracing/coresight/coresight-platform.c  |   20 +
->  drivers/hwtracing/coresight/coresight-priv.h  |   15 +
->  drivers/hwtracing/coresight/coresight.c       |   86 +-
->  include/dt-bindings/arm/coresight-cti-dt.h    |   37 +
->  include/linux/coresight.h                     |   27 +
->  24 files changed, 4098 insertions(+), 31 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
->  create mode 100644 Documentation/devicetree/bindings/arm/coresight-cti.yaml
->  create mode 100644 Documentation/trace/coresight/coresight-ect.rst
->  create mode 100644 drivers/hwtracing/coresight/coresight-cti-platform.c
->  create mode 100644 drivers/hwtracing/coresight/coresight-cti-sysfs.c
->  create mode 100644 drivers/hwtracing/coresight/coresight-cti.c
->  create mode 100644 drivers/hwtracing/coresight/coresight-cti.h
->  create mode 100644 include/dt-bindings/arm/coresight-cti-dt.h
 > 
 > -- 
-> 2.17.1
-> 
+> Mike Leach
+> Principal Engineer, ARM Ltd.
+> Manchester Design Centre. UK
