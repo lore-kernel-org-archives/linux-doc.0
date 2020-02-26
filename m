@@ -2,43 +2,45 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AF3FC4BA13
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4301FC4BA12
 	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:15:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E5B3224688
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:15:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C9C62467B
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 16:15:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hKKpA64p"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DQhrVJ7Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727274AbgBZQPK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 11:15:10 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37875 "EHLO
+        id S1727860AbgBZQPN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 11:15:13 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43560 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727699AbgBZQPJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 11:15:09 -0500
+        by vger.kernel.org with ESMTP id S1727746AbgBZQPM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 11:15:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582733708;
+        s=mimecast20190719; t=1582733711;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc; bh=GFnA8Sa/wZo/6noDEkcT6+Ar1rUimsYkRyF79+pzSnM=;
-        b=hKKpA64puSbthkYg26S2DHL5/xf5LH8T/6yNVtOh65UTzmp2Qlc0X3hjk80XCIyfnsTFXP
-        cAy/TCeF6DUqd+V0kIQXuNWjm12+hXnF0ATe7q3tJMPvKQuEWwKipwxNMs6XX+H9CCYcnh
-        MwPDAIaeFLicA/c0KPP0dU2HTy/PN8c=
+         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
+        bh=zbql1kVgqCWhrElPMYBBCs9TKzQ7a0c/Z0nt5++LsTQ=;
+        b=DQhrVJ7Z0Wh5cgUcYGsYCER11dGz9DMOkl6Cy9APnIixKSIGQ84KMzITfXQFVQyR2R4Sie
+        FVmJ/64kjQRq4OJyzHwZAsVImN/dKylyOCE35x1nHsXzW/wVXBDWZpjqAXaEUCt2FCaJE2
+        iYqaga1aKdg2BGbvp27KGLmRnjypwgM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-6kLbTQcGNnSdZWckjUi0gA-1; Wed, 26 Feb 2020 11:15:04 -0500
-X-MC-Unique: 6kLbTQcGNnSdZWckjUi0gA-1
+ us-mta-167-yAhhoutbM-yxRwr1YGnfRQ-1; Wed, 26 Feb 2020 11:15:07 -0500
+X-MC-Unique: yAhhoutbM-yxRwr1YGnfRQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5C251005512;
-        Wed, 26 Feb 2020 16:15:02 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70751107B272;
+        Wed, 26 Feb 2020 16:15:05 +0000 (UTC)
 Received: from llong.com (dhcp-17-59.bos.redhat.com [10.18.17.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DC22160BE1;
-        Wed, 26 Feb 2020 16:14:55 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E290160BE1;
+        Wed, 26 Feb 2020 16:15:02 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -52,85 +54,94 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Dave Chinner <david@fromorbit.com>,
         Eric Sandeen <sandeen@redhat.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH 00/11] fs/dcache: Limit # of negative dentries
-Date:   Wed, 26 Feb 2020 11:13:53 -0500
-Message-Id: <20200226161404.14136-1-longman@redhat.com>
+Subject: [PATCH 01/11] fs/dcache: Fix incorrect accounting of negative dentries
+Date:   Wed, 26 Feb 2020 11:13:54 -0500
+Message-Id: <20200226161404.14136-2-longman@redhat.com>
+In-Reply-To: <20200226161404.14136-1-longman@redhat.com>
+References: <20200226161404.14136-1-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As there is no limit for negative dentries, it is possible that a sizeable
-portion of system memory can be tied up in dentry cache slabs. Dentry slabs
-are generally recalimable if the dentries are in the LRUs. Still having
-too much memory used up by dentries can be problematic:
+The nr_dentry_negative counter only tracks the number of negative
+dentries in lru lists, not when they are in shrink lists. In
+both __d_clear_type_and_inode() and __d_instantiate(), only the
+DCACHE_LRU_LIST flag is checked. Though it is highly unlikely that
+the DCACHE_SHRINK_LIST flag may be set, it is still possible. Fix that
+by checking the DCACHE_SHRINK_LIST flag as well to make sure that the
+accounting is correct.
 
- 1) When a filesystem with too many negative dentries is being unmounted,
-    the process of draining the dentries associated with the filesystem
-    can take some time. To users, the system may seem to hang for
-    a while.  The long wait may also cause unexpected timeout error or
-    other warnings.  This can happen when a long running container with
-    many negative dentries is being destroyed, for instance.
+The negative dentry test is also moved from __d_instantiate() to
+__d_set_inode_and_type() to cover more cases.
 
- 2) Tying up too much memory in unused negative dentries means there
-    are less memory available for other use. Even though the kernel is
-    able to reclaim unused dentries when running out of free memory,
-    it will still introduce additional latency to the application
-    reducing its performance.
+Fixes: af0c9af1b3f6 ("fs/dcache: Track & report number of negative dentries")
 
-There are two different approaches to limit negative dentries.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ fs/dcache.c            | 13 +++++++------
+ include/linux/dcache.h |  9 +++++++++
+ 2 files changed, 16 insertions(+), 6 deletions(-)
 
-  1) Global reclaim
-     Based on the total number of negative dentries as tracked by the
-     nr_dentry_negative percpu count, a function can be activated to
-     scan the various LRU lists to trim out excess negative dentries.
-
-  2) Local reclaim
-     By tracking the number of negative dentries under each directory,
-     we can start the reclaim process if the number exceeds a certain
-     limit.
-
-The problem with global reclaim is that there are just too many LRU lists
-present that may need to be scanned for each filesystem. Especially
-problematic is the fact that each memory cgroup can have its own LRU
-lists. As memory cgroup can come and go at any time, scanning its LRUs
-can be tricky.
-
-Local reclaim does not have this problem. So it is used as the basis
-for negative dentry reclaim for this patchset. Accurately tracking the
-number of negative dentries in each directory can be costly in term of
-performance hit. As a result, this patchset estimates the number of
-negative dentries present in a directory by looking at a newly added
-children count and an opportunistically stored positive dentry count.
-
-A new sysctl parameter "dentry-dir-max" is introduced which accepts a
-value of 0 (default) for no limit or a positive integer 256 and up. Small
-dentry-dir-max numbers are forbidden to avoid excessive dentry count
-checking which can impact system performance.
-
-The actual negative dentry reclaim is delegated to the system workqueue
-to avoid adding excessive latency to normal filesystem operation.
-
-Waiman Long (11):
-  fs/dcache: Fix incorrect accounting of negative dentries
-  fs/dcache: Simplify __dentry_kill()
-  fs/dcache: Add a counter to track number of children
-  fs/dcache: Add sysctl parameter dentry-dir-max
-  fs/dcache: Reclaim excessive negative dentries in directories
-  fs/dcache: directory opportunistically stores # of positive dentries
-  fs/dcache: Add static key negative_reclaim_enable
-  fs/dcache: Limit dentry reclaim count in negative_reclaim_workfn()
-  fs/dcache: Don't allow small values for dentry-dir-max
-  fs/dcache: Kill off dentry as last resort
-  fs/dcache: Track # of negative dentries reclaimed & killed
-
- Documentation/admin-guide/sysctl/fs.rst |  18 +
- fs/dcache.c                             | 428 +++++++++++++++++++++++-
- include/linux/dcache.h                  |  18 +-
- kernel/sysctl.c                         |  11 +
- 4 files changed, 457 insertions(+), 18 deletions(-)
-
+diff --git a/fs/dcache.c b/fs/dcache.c
+index b280e07e162b..c17b538bf41c 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -315,6 +315,12 @@ static inline void __d_set_inode_and_type(struct dentry *dentry,
+ {
+ 	unsigned flags;
+ 
++	/*
++	 * Decrement negative dentry count if it was in the LRU list.
++	 */
++	if (unlikely(d_in_lru(dentry) && d_is_negative(dentry)))
++		this_cpu_dec(nr_dentry_negative);
++
+ 	dentry->d_inode = inode;
+ 	flags = READ_ONCE(dentry->d_flags);
+ 	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
+@@ -329,7 +335,7 @@ static inline void __d_clear_type_and_inode(struct dentry *dentry)
+ 	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
+ 	WRITE_ONCE(dentry->d_flags, flags);
+ 	dentry->d_inode = NULL;
+-	if (dentry->d_flags & DCACHE_LRU_LIST)
++	if (d_in_lru(dentry))
+ 		this_cpu_inc(nr_dentry_negative);
+ }
+ 
+@@ -1919,11 +1925,6 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
+ 	WARN_ON(d_in_lookup(dentry));
+ 
+ 	spin_lock(&dentry->d_lock);
+-	/*
+-	 * Decrement negative dentry count if it was in the LRU list.
+-	 */
+-	if (dentry->d_flags & DCACHE_LRU_LIST)
+-		this_cpu_dec(nr_dentry_negative);
+ 	hlist_add_head(&dentry->d_u.d_alias, &inode->i_dentry);
+ 	raw_write_seqcount_begin(&dentry->d_seq);
+ 	__d_set_inode_and_type(dentry, inode, add_flags);
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index c1488cc84fd9..2762ca2508f9 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -369,6 +369,15 @@ static inline void d_lookup_done(struct dentry *dentry)
+ 	}
+ }
+ 
++/*
++ * Dentry is in a LRU list, not a shrink list.
++ */
++static inline bool d_in_lru(struct dentry *dentry)
++{
++	return (dentry->d_flags & (DCACHE_SHRINK_LIST | DCACHE_LRU_LIST))
++		== DCACHE_LRU_LIST;
++}
++
+ extern void dput(struct dentry *);
+ 
+ static inline bool d_managed(const struct dentry *dentry)
 -- 
 2.18.1
 
