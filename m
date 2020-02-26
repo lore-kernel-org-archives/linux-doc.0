@@ -2,138 +2,87 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C680BC4BA25
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 19:20:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 993FDC4BA24
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 19:57:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 97B4120656
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 19:20:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gJVqa1Z1"
+	by mail.kernel.org (Postfix) with ESMTP id 6336624672
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 19:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727258AbgBZTUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 14:20:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34901 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727134AbgBZTUL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 14:20:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582744810;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JC/2w/EASsF47NJsQnG/EnRFDXzT40bcN876RMkvyQU=;
-        b=gJVqa1Z1HvMN15MEChz4l/aVyiQ4rV/wyIN8TECeQ2+ixbXHO48Awg6G2DjEsJE3SDH16F
-        VkbUlZBqAyh0qWLW528SGfpqv6yMzEWT1hpByR8JMYWoNC7H0H0XgVHsX3TW8e/7lO/jgS
-        hE+uzNMVA17WfDgn0g7CUyacISukegc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-NTKz4_vuPum3utiIDaAQtg-1; Wed, 26 Feb 2020 14:20:06 -0500
-X-MC-Unique: NTKz4_vuPum3utiIDaAQtg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 106481005512;
-        Wed, 26 Feb 2020 19:20:04 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-59.bos.redhat.com [10.18.17.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9E53890CD1;
-        Wed, 26 Feb 2020 19:19:59 +0000 (UTC)
-Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1727260AbgBZT5O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 14:57:14 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54622 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727244AbgBZT5N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 14:57:13 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id C1A811C036E; Wed, 26 Feb 2020 20:57:10 +0100 (CET)
+Date:   Wed, 26 Feb 2020 20:57:10 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eric Biggers <ebiggers@google.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Eric Sandeen <sandeen@redhat.com>
-References: <20200226161404.14136-1-longman@redhat.com>
- <20200226162954.GC24185@bombadil.infradead.org>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <12e8d951-fc35-bce0-e96d-f93bccf2bd3a@redhat.com>
-Date:   Wed, 26 Feb 2020 14:19:59 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Subject: Re: [RFC PATCH v9 05/27] x86/cet/shstk: Add Kconfig option for
+ user-mode Shadow Stack protection
+Message-ID: <20200226195710.6sma4whvs3o76oux@ucw.cz>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+ <20200205181935.3712-6-yu-cheng.yu@intel.com>
+ <597fb45a-cb94-e8e7-8e80-45a26766d32a@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200226162954.GC24185@bombadil.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <597fb45a-cb94-e8e7-8e80-45a26766d32a@intel.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/26/20 11:29 AM, Matthew Wilcox wrote:
-> On Wed, Feb 26, 2020 at 11:13:53AM -0500, Waiman Long wrote:
->> A new sysctl parameter "dentry-dir-max" is introduced which accepts a
->> value of 0 (default) for no limit or a positive integer 256 and up. Small
->> dentry-dir-max numbers are forbidden to avoid excessive dentry count
->> checking which can impact system performance.
-> This is always the wrong approach.  A sysctl is just a way of blaming
-> the sysadmin for us not being very good at programming.
->
-> I agree that we need a way to limit the number of negative dentries.
-> But that limit needs to be dynamic and depend on how the system is being
-> used, not on how some overworked sysadmin has configured it.
->
-> So we need an initial estimate for the number of negative dentries that
-> we need for good performance.  Maybe it's 1000.  It doesn't really matter;
-> it's going to change dynamically.
->
-> Then we need a metric to let us know whether it needs to be increased.
-> Perhaps that's "number of new negative dentries created in the last
-> second".  And we need to decide how much to increase it; maybe it's by
-> 50% or maybe by 10%.  Perhaps somewhere between 10-100% depending on
-> how high the recent rate of negative dentry creation has been.
->
-> We also need a metric to let us know whether it needs to be decreased.
-> I'm reluctant to say that memory pressure should be that metric because
-> very large systems can let the number of dentries grow in an unbounded
-> way.  Perhaps that metric is "number of hits in the negative dentry
-> cache in the last ten seconds".  Again, we'll need to decide how much
-> to shrink the target number by.
->
-> If the number of negative dentries is at or above the target, then
-> creating a new negative dentry means evicting an existing negative dentry.
-> If the number of negative dentries is lower than the target, then we
-> can just create a new one.
->
-> Of course, memory pressure (and shrinking the target number) should
-> cause negative dentries to be evicted from the old end of the LRU list.
-> But memory pressure shouldn't cause us to change the target number;
-> the target number is what we think we need to keep the system running
-> smoothly.
->
-Thanks for the quick response.
+> On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
+> > Introduce Kconfig option: X86_INTEL_SHADOW_STACK_USER.
+> > 
+> > Shadow Stack (SHSTK) provides protection against function return address
+> > corruption.  It is active when the kernel has this feature enabled, and
+> > both the processor and the application support it.  When this feature is
+> > enabled, legacy non-SHSTK applications continue to work, but without SHSTK
+> > protection.
+> > 
+> > The user-mode SHSTK protection is only implemented for the 64-bit kernel.
+> > IA32 applications are supported under the compatibility mode.
+> 
+> I think what you're trying to say here is that the hardware supports
+> shadow stacks with 32-bit kernels.  However, this series does not
+> include that support and we have no plans to add it.
+> 
+> Right?
+> 
+> I'll let others weigh in, but I rather dislike the use of acronyms here.
+>  I'd much rather see the english "shadow stack" everywhere than SHSTK.
 
-I agree that auto-tuning so that the system administrator don't have to
-worry about it will be the best approach if it is implemented in the
-right way. However, it is hard to do it right.
-
-How about letting users specify a cap on the amount of total system
-memory allowed for negative dentries like one of my previous patchs.
-Internally, there is a predefined minimum and maximum for
-dentry-dir-max. We sample the total negative dentry counts periodically
-and adjust the dentry-dir-max accordingly.
-
-Specifying a percentage of total system memory is more intuitive than
-just specifying a hard number for dentry-dir-max. Still some user input
-is required.
-
-What do you think?
-
-Cheers,
-Longman
-
+For the record, I like "shadow stack" better, too.
