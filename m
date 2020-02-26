@@ -2,127 +2,103 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 326A0C4BA0B
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:12:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B71C4BA0E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:18:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0574724656
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:12:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="v6DlCO/O"
+	by mail.kernel.org (Postfix) with ESMTP id DD32D20838
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:18:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726425AbgBZKMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 05:12:55 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:45312 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbgBZKMz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 05:12:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=CAamW1A7wSi+dl1kSJ3MLj0iB7qeqpYQKI22daCCGM8=; b=v6DlCO/OJmb9kQvoiXW+Zr432
-        8BvCAsk7BQEZrQZMpP9iJSc7ZzWQ1beEXWg6f1rkJar2gHLh0bO6C6g55IjbliVm8GG4wOPoJ5Ua6
-        vdY5znpf7BdEkxFYx1esKe7H+3s72RVuWJei0owKFkgQfwQhq1p1LxnrcjjwuMtgy8iRnkfHSDWCU
-        ppAdE2TIyan/4aiw8Za37GFy7p9KLPAfuhtItrM+Jis7E9Z6EPwm8rGSfhBsW5F9DrRXs0k6PUwkh
-        r9XT5Ir1bufpF5nVPFO5gkuAhgxd3lpmT5fPbnsxbBNoWcWXG+AklBbInbQTfslvbHfTUtRdAfMqJ
-        fNfXuKgBA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:57116)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1j6tfp-0006nj-Vd; Wed, 26 Feb 2020 10:12:14 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1j6tfh-0008KB-0V; Wed, 26 Feb 2020 10:12:05 +0000
-Date:   Wed, 26 Feb 2020 10:12:04 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Ioana Ciornei <ioana.ciornei@nxp.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Felix Fietkau <nbd@nbd.name>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Crispin <john@phrozen.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jose Abreu <joabreu@synopsys.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>
-Subject: Re: [PATCH net-next 5/8] net: dpaa2-mac: use resolved link config in
- mac_link_up()
-Message-ID: <20200226101204.GW25745@shell.armlinux.org.uk>
-References: <20200225093703.GS25745@shell.armlinux.org.uk>
- <E1j6WgG-0000TJ-CC@rmk-PC.armlinux.org.uk>
- <DB8PR04MB68282F710FB598B977C36F99E0ED0@DB8PR04MB6828.eurprd04.prod.outlook.com>
+        id S1727677AbgBZKSu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 05:18:50 -0500
+Received: from foss.arm.com ([217.140.110.172]:33286 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726927AbgBZKSu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Feb 2020 05:18:50 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AEA21FB;
+        Wed, 26 Feb 2020 02:18:49 -0800 (PST)
+Received: from localhost (unknown [10.1.198.53])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B1DC3F9E6;
+        Wed, 26 Feb 2020 02:18:49 -0800 (PST)
+Date:   Wed, 26 Feb 2020 10:18:47 +0000
+From:   Ionela Voinescu <ionela.voinescu@arm.com>
+To:     Lukasz Luba <lukasz.luba@arm.com>
+Cc:     Valentin Schneider <valentin.schneider@arm.com>,
+        catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
+        dietmar.eggemann@arm.com, rjw@rjwysocki.net, peterz@infradead.org,
+        mingo@redhat.com, vincent.guittot@linaro.org,
+        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v4 6/7] arm64: use activity monitors for frequency
+ invariance
+Message-ID: <20200226101847.GA19513@arm.com>
+References: <20200224141142.25445-1-ionela.voinescu@arm.com>
+ <20200224141142.25445-7-ionela.voinescu@arm.com>
+ <jhjmu97ygk9.fsf@arm.com>
+ <18604cef-1e26-96a6-38b3-ab03b1b53b48@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DB8PR04MB68282F710FB598B977C36F99E0ED0@DB8PR04MB6828.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <18604cef-1e26-96a6-38b3-ab03b1b53b48@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 25, 2020 at 04:36:32PM +0000, Ioana Ciornei wrote:
-> > Subject: [PATCH net-next 5/8] net: dpaa2-mac: use resolved link config in
-> > mac_link_up()
+Hi Valentin, Lukasz,
+
+On Tuesday 25 Feb 2020 at 09:59:20 (+0000), Lukasz Luba wrote:
+[..]
+> On 2/24/20 6:40 PM, Valentin Schneider wrote:
 > > 
-> > Convert the DPAA2 ethernet driver to use the finalised link parameters in
-> > mac_link_up() rather than the parameters in mac_config(), which are more
-> > suited to the needs of the DPAA2 MC firmware than those available via
-> > mac_config().
+> > Ionela Voinescu writes:
+> > > +static inline int
 > > 
-> > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> > That should be bool, seeing what it returns.
+> > 
+
+Will do!
+
+[..]
+> > > 
+> > > +#ifndef arch_cpu_freq_counters
+> > > +static __always_inline
+> > > +bool arch_cpu_freq_counters(struct cpumask *cpus)
+> > > +{
+> > > +	return false;
+> > > +}
+> > > +#endif
+> > > 
+> > 
+> > Apologies for commenting on this only now, I had missed it in my earlier
+> > round of review.
+> > 
+> > I would've liked to keep this contained within arm64 stuff until we agreed
+> > on a more generic counter-driven FIE interface, but seems like we can't evade
+> > it due to the arch_topology situation.
+> > 
+> > Would it make sense to relocate this stub to arch_topology.h instead, at
+> > least for the time being? That way the only non-arm64 changes are condensed
+> > in arch_topology (even if it doesn't change much in terms of header files,
+> > since topology.h imports arch_topology.h)
 > 
-> Tested-by: Ioana Ciornei <ioana.ciornei@nxp.com>
+> Or make it as a 'weak' and place it just above the arch_set_freq_scale()
+> in arch_topology.c, not touching headers?
 
-Thanks.
+Yes, you guys are right, this works better nicely confined to
+arch_topology.c/h. As Lukasz suggested, I'll make
+arch_cpu_freq_counters (while here, it probably works better renamed to
+arch_freq_counters_available) a weak function in arch_topology.c with
+its strong definition in arm64/kernel/topology.c.
 
-> > +
-> > +		/* This is lossy; the firmware really should take the pause
-> > +		 * enablement status rather than pause/asym pause status.
-> > +		 */
-> 
-> In what sense it's lossy? I cannot see how information can be lost by translating the rx/tx pause state to pause/asym.
-> If it's just about the unnecessary double translation, then I agree.. this could have been done in an easier manner.
+The diff is large(ish) so I'll push v5 directly with this change.
 
-If you're just translating rx/tx to pause/asym and then doing the
-reverse, then it isn't lossy, but if the firmware is resolving
-pause/asym according to the table in IEEE 802.3, then it will be
-lossy.
-
-If the firmware doesn't interpret the bits, then why not do the
-sensible thing and just pass the enablement status rather than
-trying to confusingly encode it back to pause/asym?
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+Thank you both for the review,
+Ionela.
