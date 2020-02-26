@@ -2,207 +2,139 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_RHS_DOB autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9252FC4BA0E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44332C4BA0E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:40:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6A57E24673
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:26:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1536820714
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:40:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="WGKMf57M"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="r/p4PjDp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726927AbgBZK0l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 05:26:41 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:45620 "EHLO
+        id S1727785AbgBZKkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 05:40:10 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:46082 "EHLO
         pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbgBZK0k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 05:26:40 -0500
+        with ESMTP id S1726936AbgBZKkK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 05:40:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-        Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-        In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=U2C389YDD9wIDLDhBEkkx1b5Jtw0Ypfhi+Dyxt33wDk=; b=WGKMf57M3uxeuGnW4MA5OtZ20w
-        uVwwaa6C70SGiNKDzeRkKRcNtZ2mdzb2K/xNCN1DTQrUV1WnnEC37KZDPXdnUkpRkM4Zt6VTzWN7O
-        xfEDKGbYGt9aozHA+lCnzlLrLu8u9SY99N2s778TcN/S+JSwRc5bLpK8zWV4zA8zGVNPEf0TQWqDi
-        auP4RuavaH54f6zHu9AJAJG+jRFCk682Dn/8xQPQVRNF+Ptwu8Lf483CkX3NbIn5ZZU7qteqpcIAG
-        p3lBrUgCKT7RAIwvefbYvaq8XVqcpCDtGxVgFSqLEm2RHe6iOlYILuGThsyFeWtpyhs0Ow0b7uZP6
-        qjWhxV7w==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:41410 helo=rmk-PC.armlinux.org.uk)
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=PHjOim15jd4o09NnZjH5LH9s+ZcSG6bZ/1c5E3qyvo4=; b=r/p4PjDpcixJ8lUnSiXLAl4AV
+        M3/nlPwheegQWB6gz85+4JN8JbeNT+1nUpxDGwwTIaDpnbxhk/5Fo4H893Ls6FoWMiBxz1xGLG9zU
+        Y4R3FIqxjy6zmwaDYotrgUjsLzwq0ZIG0/klV1V2Toz4/xVllt3hk+UDInPxvqY1x8Pp7iWePdElj
+        G33ifII3WAfBYsu7CSq/IaGilQ8xfQ16ikE6nIARLjvi9laOHpUwg1SsCwTSLsyCiz1Oj4UTXJm42
+        n78Ijep4FE90dHV5Ow9NHKtdBZF2uAFagJmklL2ZqtgGNqDZMKCq+00wOYdK2Uu61a3/96O/gA99Q
+        j23bm05mQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:57120)
         by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
         (Exim 4.90_1)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1j6trR-0006sI-A0; Wed, 26 Feb 2020 10:24:13 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1j6trK-0003Gn-Ta; Wed, 26 Feb 2020 10:24:06 +0000
-In-Reply-To: <20200226102312.GX25745@shell.armlinux.org.uk>
-References: <20200226102312.GX25745@shell.armlinux.org.uk>
-From:   Russell King <rmk+kernel@armlinux.org.uk>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Felix Fietkau <nbd@nbd.name>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Crispin <john@phrozen.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jose Abreu <joabreu@synopsys.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>, netdev@vger.kernel.org,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        Sean Wang <sean.wang@mediatek.com>,
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1j6u6i-00070o-Gh; Wed, 26 Feb 2020 10:40:00 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1j6u6d-0008LS-Mn; Wed, 26 Feb 2020 10:39:55 +0000
+Date:   Wed, 26 Feb 2020 10:39:55 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        John Crispin <john@phrozen.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        netdev <netdev@vger.kernel.org>,
         Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>
-Subject: [PATCH net-next v2 6/8] net: macb: use resolved link config in
- mac_link_up()
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Felix Fietkau <nbd@nbd.name>,
+        "David S. Miller" <davem@davemloft.net>,
+        Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [PATCH net-next 2/8] net: dsa: propagate resolved link config
+ via mac_link_up()
+Message-ID: <20200226103955.GY25745@shell.armlinux.org.uk>
+References: <20200225093703.GS25745@shell.armlinux.org.uk>
+ <E1j6Wg0-0000Ss-W7@rmk-PC.armlinux.org.uk>
+ <CA+h21hp8KCqhCasOAGz17k0eRteHVVYK-eANQmn4h443qv=2JQ@mail.gmail.com>
+ <20200225232307.GU25745@shell.armlinux.org.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1j6trK-0003Gn-Ta@rmk-PC.armlinux.org.uk>
-Date:   Wed, 26 Feb 2020 10:24:06 +0000
+In-Reply-To: <20200225232307.GU25745@shell.armlinux.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the macb ethernet driver to use the finalised link
-parameters in mac_link_up() rather than the parameters in mac_config().
+On Tue, Feb 25, 2020 at 11:23:07PM +0000, Russell King - ARM Linux admin wrote:
+> On Tue, Feb 25, 2020 at 11:09:35PM +0200, Vladimir Oltean wrote:
+> > Hi Russell,
+> > 
+> > On Tue, 25 Feb 2020 at 11:39, Russell King <rmk+kernel@armlinux.org.uk> wrote:
+> > >
+> > > Propagate the resolved link configuration down via DSA's
+> > > phylink_mac_link_up() operation to allow split PCS/MAC to work.
+> > >
+> > > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> > > ---
+> > >  drivers/net/dsa/b53/b53_common.c       | 4 +++-
+> > >  drivers/net/dsa/b53/b53_priv.h         | 4 +++-
+> > >  drivers/net/dsa/bcm_sf2.c              | 4 +++-
+> > >  drivers/net/dsa/lantiq_gswip.c         | 4 +++-
+> > >  drivers/net/dsa/mt7530.c               | 4 +++-
+> > >  drivers/net/dsa/mv88e6xxx/chip.c       | 4 +++-
+> > >  drivers/net/dsa/sja1105/sja1105_main.c | 4 +++-
+> > >  include/net/dsa.h                      | 4 +++-
+> > >  net/dsa/port.c                         | 3 ++-
+> > >  9 files changed, 26 insertions(+), 9 deletions(-)
+> > >
+> > 
+> > It looks like you missed the felix_phylink_mac_link_up() conversion in
+> > this patch? (which also makes it fail to build, by the way, I'm
+> > supposed the Kbuild robot didn't already jump)
+> > Nonetheless, I've manually added the missing speed, duplex, tx_pause
+> > and rx_pause parameters, and it appears to work as before.
+> > Same for sja1105.
+> 
+> Quite possibly; the patch was developed against 5.5 plus the phylink
+> changes, but applied to net-next. Hmm, it seems my coccinelle script
+> that detects .mac_link_up initialiser prototypes, but not the DSA
+> equivalent using the old prototype.
+> 
+> Thanks for pointing it out.
 
-Tested-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
----
- drivers/net/ethernet/cadence/macb.h      |  1 -
- drivers/net/ethernet/cadence/macb_main.c | 50 ++++++++++++++----------
- 2 files changed, 29 insertions(+), 22 deletions(-)
+I've just sent v2 with ocelot and qca included... and some recipients
+for patch 2 bounced - the Cc line is now too long!
 
-diff --git a/drivers/net/ethernet/cadence/macb.h b/drivers/net/ethernet/cadence/macb.h
-index a3f0f27fc79a..ab827fb4b6b9 100644
---- a/drivers/net/ethernet/cadence/macb.h
-+++ b/drivers/net/ethernet/cadence/macb.h
-@@ -1200,7 +1200,6 @@ struct macb {
- 	unsigned int		dma_burst_length;
- 
- 	phy_interface_t		phy_interface;
--	int			speed;
- 
- 	/* AT91RM9200 transmit */
- 	struct sk_buff *skb;			/* holds skb until xmit interrupt completes */
-diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ethernet/cadence/macb_main.c
-index 7ab0bef5e1bd..3a7c26b08607 100644
---- a/drivers/net/ethernet/cadence/macb_main.c
-+++ b/drivers/net/ethernet/cadence/macb_main.c
-@@ -571,37 +571,20 @@ static void macb_mac_config(struct phylink_config *config, unsigned int mode,
- 
- 	old_ctrl = ctrl = macb_or_gem_readl(bp, NCFGR);
- 
--	/* Clear all the bits we might set later */
--	ctrl &= ~(MACB_BIT(SPD) | MACB_BIT(FD) | MACB_BIT(PAE));
--
- 	if (bp->caps & MACB_CAPS_MACB_IS_EMAC) {
- 		if (state->interface == PHY_INTERFACE_MODE_RMII)
- 			ctrl |= MACB_BIT(RM9200_RMII);
- 	} else {
--		ctrl &= ~(GEM_BIT(GBE) | GEM_BIT(SGMIIEN) | GEM_BIT(PCSSEL));
--
--		/* We do not support MLO_PAUSE_RX yet */
--		if (state->pause & MLO_PAUSE_TX)
--			ctrl |= MACB_BIT(PAE);
-+		ctrl &= ~(GEM_BIT(SGMIIEN) | GEM_BIT(PCSSEL));
- 
- 		if (state->interface == PHY_INTERFACE_MODE_SGMII)
- 			ctrl |= GEM_BIT(SGMIIEN) | GEM_BIT(PCSSEL);
- 	}
- 
--	if (state->speed == SPEED_1000)
--		ctrl |= GEM_BIT(GBE);
--	else if (state->speed == SPEED_100)
--		ctrl |= MACB_BIT(SPD);
--
--	if (state->duplex)
--		ctrl |= MACB_BIT(FD);
--
- 	/* Apply the new configuration, if any */
- 	if (old_ctrl ^ ctrl)
- 		macb_or_gem_writel(bp, NCFGR, ctrl);
- 
--	bp->speed = state->speed;
--
- 	spin_unlock_irqrestore(&bp->lock, flags);
- }
- 
-@@ -635,10 +618,33 @@ static void macb_mac_link_up(struct phylink_config *config,
- 	struct net_device *ndev = to_net_dev(config->dev);
- 	struct macb *bp = netdev_priv(ndev);
- 	struct macb_queue *queue;
-+	unsigned long flags;
- 	unsigned int q;
-+	u32 ctrl;
-+
-+	spin_lock_irqsave(&bp->lock, flags);
-+
-+	ctrl = macb_or_gem_readl(bp, NCFGR);
-+
-+	ctrl &= ~(MACB_BIT(SPD) | MACB_BIT(FD));
-+
-+	if (speed == SPEED_100)
-+		ctrl |= MACB_BIT(SPD);
-+
-+	if (duplex)
-+		ctrl |= MACB_BIT(FD);
- 
- 	if (!(bp->caps & MACB_CAPS_MACB_IS_EMAC)) {
--		macb_set_tx_clk(bp->tx_clk, bp->speed, ndev);
-+		ctrl &= ~(GEM_BIT(GBE) | MACB_BIT(PAE));
-+
-+		if (speed == SPEED_1000)
-+			ctrl |= GEM_BIT(GBE);
-+
-+		/* We do not support MLO_PAUSE_RX yet */
-+		if (tx_pause)
-+			ctrl |= MACB_BIT(PAE);
-+
-+		macb_set_tx_clk(bp->tx_clk, speed, ndev);
- 
- 		/* Initialize rings & buffers as clearing MACB_BIT(TE) in link down
- 		 * cleared the pipeline and control registers.
-@@ -651,6 +657,10 @@ static void macb_mac_link_up(struct phylink_config *config,
- 				     bp->rx_intr_mask | MACB_TX_INT_FLAGS | MACB_BIT(HRESP));
- 	}
- 
-+	macb_or_gem_writel(bp, NCFGR, ctrl);
-+
-+	spin_unlock_irqrestore(&bp->lock, flags);
-+
- 	/* Enable Rx and Tx */
- 	macb_writel(bp, NCR, macb_readl(bp, NCR) | MACB_BIT(RE) | MACB_BIT(TE));
- 
-@@ -4432,8 +4442,6 @@ static int macb_probe(struct platform_device *pdev)
- 	else
- 		bp->phy_interface = interface;
- 
--	bp->speed = SPEED_UNKNOWN;
--
- 	/* IP specific init */
- 	err = init(pdev);
- 	if (err)
+As far as the kbuild robot goes, you are not the first to notice that
+kbuild seems to be flakey... I've noticed it for some time, as has
+Greg KH.  It isn't just patches on mailing lists, it's git trees as
+well.
+
 -- 
-2.20.1
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
