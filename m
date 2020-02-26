@@ -2,58 +2,75 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F26C4BA0E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 11:21:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C9CC4BA0B
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 11:27:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 80FB82467F
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 11:21:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4ECA20637
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 11:27:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727974AbgBZLVo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 06:21:44 -0500
-Received: from ms.lwn.net ([45.79.88.28]:34376 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727377AbgBZLVo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Feb 2020 06:21:44 -0500
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 803B26D9;
-        Wed, 26 Feb 2020 11:21:42 +0000 (UTC)
-Date:   Wed, 26 Feb 2020 04:21:37 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tycho Andersen <tycho@tycho.ws>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: fix filesystems/porting.rst whitespace
-Message-ID: <20200226042137.05e9ead3@lwn.net>
-In-Reply-To: <20200225165954.GA11763@cisco>
+        id S1728157AbgBZL1s convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 06:27:48 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([146.101.78.151]:50918 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728149AbgBZL1s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 06:27:48 -0500
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-221-jmmFPVgaPpuJ4wTdSCkJng-1; Wed, 26 Feb 2020 11:27:44 +0000
+X-MC-Unique: jmmFPVgaPpuJ4wTdSCkJng-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Wed, 26 Feb 2020 11:27:44 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Wed, 26 Feb 2020 11:27:44 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Tycho Andersen' <tycho@tycho.ws>, Jonathan Corbet <corbet@lwn.net>
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] doc: fix filesystems/porting.rst whitespace
+Thread-Topic: [PATCH] doc: fix filesystems/porting.rst whitespace
+Thread-Index: AQHV6/0CVU3EL3UBYk6CPBpDNZlfS6gtVxNA
+Date:   Wed, 26 Feb 2020 11:27:43 +0000
+Message-ID: <4635ca9f17344643816994dc267cc25d@AcuMS.aculab.com>
 References: <20200220214009.11645-1-tycho@tycho.ws>
-        <20200225032028.2bda9de8@lwn.net>
-        <20200225165954.GA11763@cisco>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <20200225032028.2bda9de8@lwn.net> <20200225165954.GA11763@cisco>
+In-Reply-To: <20200225165954.GA11763@cisco>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 25 Feb 2020 09:59:54 -0700
-Tycho Andersen <tycho@tycho.ws> wrote:
-
-> > So I don't see that problem in my builds, and it doesn't show in the
-> > version on kernel.org either.  What version of sphinx are you running?  
-> 
 > It's actually the default vim syntax highlighter that gets confused in
 > my case,
+> 
+> VIM - Vi IMproved 8.1 (2018 May 18, compiled Sep 05 2019 11:15:15)
+> Included patches: 1-875, 878, 884, 948, 1046, 1365-1368, 1382, 1401
 
-So this is actually a vim bug, then, right?
+Yep, syntax highlighting doesn't stand a chance of getting it right.
+Just makes it look as though someone has vomited on the screen.
 
-Thanks,
+Best to turn it off.
 
-jon
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
