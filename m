@@ -2,139 +2,175 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_RHS_DOB autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44332C4BA0E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:40:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A389FC4BA0B
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 11:06:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1536820714
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:40:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C94924684
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 11:06:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="r/p4PjDp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nAB7CUTn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727785AbgBZKkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 05:40:10 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:46082 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726936AbgBZKkK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 05:40:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=PHjOim15jd4o09NnZjH5LH9s+ZcSG6bZ/1c5E3qyvo4=; b=r/p4PjDpcixJ8lUnSiXLAl4AV
-        M3/nlPwheegQWB6gz85+4JN8JbeNT+1nUpxDGwwTIaDpnbxhk/5Fo4H893Ls6FoWMiBxz1xGLG9zU
-        Y4R3FIqxjy6zmwaDYotrgUjsLzwq0ZIG0/klV1V2Toz4/xVllt3hk+UDInPxvqY1x8Pp7iWePdElj
-        G33ifII3WAfBYsu7CSq/IaGilQ8xfQ16ikE6nIARLjvi9laOHpUwg1SsCwTSLsyCiz1Oj4UTXJm42
-        n78Ijep4FE90dHV5Ow9NHKtdBZF2uAFagJmklL2ZqtgGNqDZMKCq+00wOYdK2Uu61a3/96O/gA99Q
-        j23bm05mQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:57120)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1j6u6i-00070o-Gh; Wed, 26 Feb 2020 10:40:00 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1j6u6d-0008LS-Mn; Wed, 26 Feb 2020 10:39:55 +0000
-Date:   Wed, 26 Feb 2020 10:39:55 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Vladimir Oltean <olteanv@gmail.com>
+        id S1728020AbgBZLGU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 06:06:20 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:40047 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727954AbgBZLGT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 06:06:19 -0500
+Received: by mail-ed1-f65.google.com with SMTP id p3so3246477edx.7;
+        Wed, 26 Feb 2020 03:06:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qD490qP8YoHuMggNJ+4rCSwLuR21SazsOZ1+Y/A5tXY=;
+        b=nAB7CUTnvsBjhe/PIwUREoSD8Dtea7xSb4TC/ZjuCq1rN7YookFkVvp8f5NZr8ViuK
+         JDwLBw/0dPnEXcIRSMONvffCxwYafU6qASRFtw2FNJWsgVFLjapX7Y4NaqL3meEK0zbK
+         uNBpTss6XQOEf+r08uX1VGCQ0l4g5Jtd4g7oug1CoUkmD6Lkte+9/zOKo7RA7ZGzOP5h
+         34i5PNdEEhbSXfsPuH7I/CNg7jeUY9/lkboGTTuf0f5N0YJ2dZrhkAngbkNKktHnf1FZ
+         /TIxN12YKiz/RCiSaMauemnXMy4FcKVLARcxQHPhLrOT7xcsiujLwxQ2HYaqpa7W2KQZ
+         s4SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qD490qP8YoHuMggNJ+4rCSwLuR21SazsOZ1+Y/A5tXY=;
+        b=BTyuIT+UmI0/Ma/+ZZKYMXW7Sg9mwzfVlRYpifOsOrdwUkpeEye7GCqd6OfLtYA0/X
+         TLRrEgjTAzfHM5R8LFhLGpLVziSPQO8ZCXMPoD0eCz/bgCjoRR1m8tgpeHilYkAM/WJH
+         1ora014PKQ3UfgWk9Rht+6ke5RBj3bCgJrBajJfwvaoh6Yut06XJVkmV6RxlH1fCCscg
+         8QP/MoM0W1G033ONcbD89DikhBwANgnhApH9IbguFERBk74Y2yTnlMCNW1ndTctWfDn8
+         ivbcveGsYTiYOymqDRLYfwzlpdrxFuMFWb0GIQAfYuzjzGHz03gVqjgmPyZPUNLz8d91
+         1hlA==
+X-Gm-Message-State: APjAAAVd9Jb4e290gpTgz/mAobT0p5qjZkyeLJz0XHC9kcuDFLlCE3Zg
+        0M6bG29DVHxoFnzVP515urK7XXSParffJzUxW50=
+X-Google-Smtp-Source: APXvYqxKn9EHYJorI3u34MIoTYZ1p/XSstU3KzZU6YSsE3nbzrut7Z7pjBq/4/6dZdIrJEtcRK8EZjxaPv8Js3jOl/c=
+X-Received: by 2002:a05:6402:3046:: with SMTP id bu6mr4201533edb.139.1582715177721;
+ Wed, 26 Feb 2020 03:06:17 -0800 (PST)
+MIME-Version: 1.0
+References: <20200226102312.GX25745@shell.armlinux.org.uk> <E1j6tqv-0003G6-BO@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1j6tqv-0003G6-BO@rmk-PC.armlinux.org.uk>
+From:   Vladimir Oltean <olteanv@gmail.com>
+Date:   Wed, 26 Feb 2020 13:06:06 +0200
+Message-ID: <CA+h21hrR1Xkx9gwAT2FHqcH38L=xjWiPxmF2Er7-4fHFTrA8pQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 1/8] net: phylink: propagate resolved link
+ config via mac_link_up()
+To:     Russell King <rmk+kernel@armlinux.org.uk>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
         Florian Fainelli <f.fainelli@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Sean Wang <sean.wang@mediatek.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
         Alexandre Torgue <alexandre.torgue@st.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        John Crispin <john@phrozen.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Felix Fietkau <nbd@nbd.name>,
         Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Crispin <john@phrozen.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jose Abreu <joabreu@synopsys.com>,
         "moderated list:ARM/Mediatek SoC support" 
         <linux-arm-kernel@lists.infradead.org>,
-        netdev <netdev@vger.kernel.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Felix Fietkau <nbd@nbd.name>,
-        "David S. Miller" <davem@davemloft.net>,
-        Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH net-next 2/8] net: dsa: propagate resolved link config
- via mac_link_up()
-Message-ID: <20200226103955.GY25745@shell.armlinux.org.uk>
-References: <20200225093703.GS25745@shell.armlinux.org.uk>
- <E1j6Wg0-0000Ss-W7@rmk-PC.armlinux.org.uk>
- <CA+h21hp8KCqhCasOAGz17k0eRteHVVYK-eANQmn4h443qv=2JQ@mail.gmail.com>
- <20200225232307.GU25745@shell.armlinux.org.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200225232307.GU25745@shell.armlinux.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Michal Simek <michal.simek@xilinx.com>,
+        netdev <netdev@vger.kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Ioana Radulescu <ruxandra.radulescu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 25, 2020 at 11:23:07PM +0000, Russell King - ARM Linux admin wrote:
-> On Tue, Feb 25, 2020 at 11:09:35PM +0200, Vladimir Oltean wrote:
-> > Hi Russell,
-> > 
-> > On Tue, 25 Feb 2020 at 11:39, Russell King <rmk+kernel@armlinux.org.uk> wrote:
-> > >
-> > > Propagate the resolved link configuration down via DSA's
-> > > phylink_mac_link_up() operation to allow split PCS/MAC to work.
-> > >
-> > > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
-> > > ---
-> > >  drivers/net/dsa/b53/b53_common.c       | 4 +++-
-> > >  drivers/net/dsa/b53/b53_priv.h         | 4 +++-
-> > >  drivers/net/dsa/bcm_sf2.c              | 4 +++-
-> > >  drivers/net/dsa/lantiq_gswip.c         | 4 +++-
-> > >  drivers/net/dsa/mt7530.c               | 4 +++-
-> > >  drivers/net/dsa/mv88e6xxx/chip.c       | 4 +++-
-> > >  drivers/net/dsa/sja1105/sja1105_main.c | 4 +++-
-> > >  include/net/dsa.h                      | 4 +++-
-> > >  net/dsa/port.c                         | 3 ++-
-> > >  9 files changed, 26 insertions(+), 9 deletions(-)
-> > >
-> > 
-> > It looks like you missed the felix_phylink_mac_link_up() conversion in
-> > this patch? (which also makes it fail to build, by the way, I'm
-> > supposed the Kbuild robot didn't already jump)
-> > Nonetheless, I've manually added the missing speed, duplex, tx_pause
-> > and rx_pause parameters, and it appears to work as before.
-> > Same for sja1105.
-> 
-> Quite possibly; the patch was developed against 5.5 plus the phylink
-> changes, but applied to net-next. Hmm, it seems my coccinelle script
-> that detects .mac_link_up initialiser prototypes, but not the DSA
-> equivalent using the old prototype.
-> 
-> Thanks for pointing it out.
+Hi Russell,
 
-I've just sent v2 with ocelot and qca included... and some recipients
-for patch 2 bounced - the Cc line is now too long!
+On Wed, 26 Feb 2020 at 12:23, Russell King <rmk+kernel@armlinux.org.uk> wrote:
+>
+> Propagate the resolved link parameters via the mac_link_up() call for
+> MACs that do not automatically track their PCS state. We propagate the
+> link parameters via function arguments so that inappropriate members
+> of struct phylink_link_state can't be accessed, and creating a new
+> structure just for this adds needless complexity to the API.
+>
+> Tested-by: Andre Przywara <andre.przywara@arm.com>
+> Tested-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Tested-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> ---
+>  Documentation/networking/sfp-phylink.rst      | 17 +++++-
+>  drivers/net/ethernet/cadence/macb_main.c      |  7 ++-
+>  .../net/ethernet/freescale/dpaa2/dpaa2-mac.c  |  7 ++-
+>  drivers/net/ethernet/marvell/mvneta.c         |  8 ++-
+>  .../net/ethernet/marvell/mvpp2/mvpp2_main.c   | 19 +++++--
+>  drivers/net/ethernet/mediatek/mtk_eth_soc.c   |  7 ++-
+>  .../net/ethernet/stmicro/stmmac/stmmac_main.c |  4 +-
+>  .../net/ethernet/xilinx/xilinx_axienet_main.c |  7 ++-
+>  drivers/net/phy/phylink.c                     |  9 ++-
+>  include/linux/phylink.h                       | 57 ++++++++++++++-----
+>  net/dsa/port.c                                |  4 +-
+>  11 files changed, 105 insertions(+), 41 deletions(-)
+>
+> diff --git a/Documentation/networking/sfp-phylink.rst b/Documentation/networking/sfp-phylink.rst
+> index d753a309f9d1..8d7af28cd835 100644
+> --- a/Documentation/networking/sfp-phylink.rst
+> +++ b/Documentation/networking/sfp-phylink.rst
+> @@ -74,10 +74,13 @@ phylib to the sfp/phylink support.  Please send patches to improve
+>  this documentation.
+>
+>  1. Optionally split the network driver's phylib update function into
+> -   three parts dealing with link-down, link-up and reconfiguring the
+> -   MAC settings. This can be done as a separate preparation commit.
+> +   two parts dealing with link-down and link-up. This can be done as
+> +   a separate preparation commit.
+>
+> -   An example of this preparation can be found in git commit fc548b991fb0.
+> +   An older example of this preparation can be found in git commit
+> +   fc548b991fb0, although this was splitting into three parts; the
+> +   link-up part now includes configuring the MAC for the link settings.
+> +   Please see :c:func:`mac_link_up` for more information on this.
+>
+>  2. Replace::
+>
+> @@ -207,6 +210,14 @@ this documentation.
+>     using. This is particularly important for in-band negotiation
+>     methods such as 1000base-X and SGMII.
+>
+> +   The :c:func:`mac_link_up` method is used to inform the MAC that the
+> +   link has come up. The call includes the negotiation mode and interface
+> +   for reference only. The finalised link parameters are also supplied
+> +   (speed, duplex and flow control/pause enablement settings) which
+> +   should be used to configure the MAC when the MAC and PCS are not
+> +   tightly integrated, or when the settings are not coming from in-band
+> +   negotiation.
+> +
+>     The :c:func:`mac_config` method is used to update the MAC with the
+>     requested state, and must avoid unnecessarily taking the link down
+>     when making changes to the MAC configuration.  This means the
 
-As far as the kbuild robot goes, you are not the first to notice that
-kbuild seems to be flakey... I've noticed it for some time, as has
-Greg KH.  It isn't just patches on mailing lists, it's git trees as
-well.
+Just to make sure I understand the changes:
+- A MAC with no PCS can be configured in either .mac_config or .mac_link_up
+- A MAC that needs to be manually reconfigured to the link mode
+negotiated by its PCS needs to have the PCS configured in .mac_config
+and the MAC in .mac_link_up
+- A MAC with PCS where the MAC follows the PCS negotiation
+automatically in hardware is basically equivalent with a MAC with no
+PCS, and therefore can be configured in either .mac_config or
+.mac_link_up
+Is this correct?
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+Regards,
+-Vladimir
