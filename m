@@ -2,89 +2,141 @@ Return-Path: <SRS0=oITL=4O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E15D0C4BA0B
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:22:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30FB8C4BA0E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:23:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B4DA220801
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:22:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0406020801
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Feb 2020 10:23:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="pBc940/x"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727075AbgBZKWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 05:22:13 -0500
-Received: from foss.arm.com ([217.140.110.172]:33336 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726057AbgBZKWN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Feb 2020 05:22:13 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 891421FB;
-        Wed, 26 Feb 2020 02:22:12 -0800 (PST)
-Received: from localhost (unknown [10.1.198.53])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A7F23F9E6;
-        Wed, 26 Feb 2020 02:22:12 -0800 (PST)
-Date:   Wed, 26 Feb 2020 10:22:10 +0000
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     Pavan Kondeti <pkondeti@codeaurora.org>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        lukasz.luba@arm.com, valentin.schneider@arm.com,
-        dietmar.eggemann@arm.com, rjw@rjwysocki.net, peterz@infradead.org,
-        mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 6/7] arm64: use activity monitors for frequency
- invariance
-Message-ID: <20200226102210.GB19513@arm.com>
-References: <20200224141142.25445-1-ionela.voinescu@arm.com>
- <20200224141142.25445-7-ionela.voinescu@arm.com>
- <20200226095134.GM28029@codeaurora.org>
+        id S1726057AbgBZKX1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 05:23:27 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:45462 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726425AbgBZKX1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 05:23:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+        Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=cFVpx4YRUVFzc+9DHqfdkORwO59OSsrN3NUBEs25DtI=; b=pBc940/xSMyVKmzc+jKnvBnrl
+        U0PrcS7rlhplkv3ua7fp+bCV0vStLayt37T/PKMxJPPoZ9CC2FtbD1nf25Ahb6ijldlL1CD0vDT8+
+        TaHPlirnfkOxk2echaMoL9laxtU9PiSQrlMYJa6LiZ3HT7AkLFTviTFBU3ICkLO3jvBnvkoWv+x7a
+        ZM6SAiQs/qso4XpcxhUwbduE4BPXzf2w37J4xqZ5nqE5ip0mEEQvEsfH/gJamCAse4G6wuKz5S8Bu
+        4uVHTZiKhnnSUjWRWV2MizhLooSt7wq/Fy46vqpBNI1EnfjEEGb3EoPs4T/QHtT8T4Y9v9Y5Hq8Sh
+        Savpz9BDw==;
+Received: from shell.armlinux.org.uk ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:45464)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1j6tqY-0006rK-CP; Wed, 26 Feb 2020 10:23:18 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1j6tqS-0008KS-I1; Wed, 26 Feb 2020 10:23:12 +0000
+Date:   Wed, 26 Feb 2020 10:23:12 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>
+Cc:     linux-doc@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        linux-mediatek@lists.infradead.org,
+        John Crispin <john@phrozen.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Felix Fietkau <nbd@nbd.name>
+Subject: [PATCH net-next v2 0/8] rework phylink interface for split MAC/PCS
+ support
+Message-ID: <20200226102312.GX25745@shell.armlinux.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200226095134.GM28029@codeaurora.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pavan,
+Hi,
 
-On Wednesday 26 Feb 2020 at 15:21:34 (+0530), Pavan Kondeti wrote:
-> On Mon, Feb 24, 2020 at 02:11:41PM +0000, Ionela Voinescu wrote:
-> 
-> [...]
-> 
-> > +static int __init init_amu_fie(void)
-> > +{
-> > +	cpumask_var_t valid_cpus;
-> > +	bool have_policy = false;
-> > +	int cpu;
-> > +
-> > +	if (!zalloc_cpumask_var(&valid_cpus, GFP_KERNEL) ||
-> > +	    !zalloc_cpumask_var(&amu_fie_cpus, GFP_KERNEL))
-> > +		return -ENOMEM;
-> 
-> The patch looks good to me. one minor comment here. In an unlikely
-> scenario, valid_cpus which is a temporary mask can get allocated
-> but amu_fie_cpus may not. In that case, we have to free valid_cpus
-> here. I have seen some static code inspection tools catching these
-> type of errors. If you happen to rebase this series, fix this.
-> 
+The following series changes the phylink interface to allow us to
+better support split MAC / MAC PCS setups.  The fundamental change
+required for this turns out to be quite simple.
 
-Thank you for the review!
+Today, mac_config() is used for everything to do with setting the
+parameters for the MAC, and mac_link_up() is used to inform the
+MAC driver that the link is now up (and so to allow packet flow.)
+mac_config() also has had a few implementation issues, with folk
+who believe that members such as "speed" and "duplex" are always
+valid, where "link" gets used inappropriately, etc.
 
-I am just about to push v5 and I'll add this fix as well.
+With the proposed patches, all this changes subtly - but in a
+backwards compatible way at this stage.
 
-Thank you,
-Ionela.
+We pass the the full resolved link state (speed, duplex, pause) to
+mac_link_up(), and it is now guaranteed that these parameters to
+this function will always be valid (no more SPEED_UNKNOWN or
+DUPLEX_UNKNOWN here - unless phylink is fed with such things.)
 
-> Thanks,
-> Pavan
-> 
-> -- 
-> Qualcomm India Private Limited, on behalf of Qualcomm Innovation Center, Inc.
-> Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
+Drivers should convert over to using the state in mac_link_up()
+rather than configuring the speed, duplex and pause in the
+mac_config() method. The patch series includes a number of MAC
+drivers which I've thought have been easy targets - I've left the
+remainder as I think they need maintainer input. However, *all*
+drivers will need conversion for future phylink development.
+
+v2: add ocelot/felix and qca/ar9331 DSA drivers to patch 2, add
+  received tested-by so far.
+
+ Documentation/networking/sfp-phylink.rst          |  17 +++-
+ drivers/net/dsa/b53/b53_common.c                  |   4 +-
+ drivers/net/dsa/b53/b53_priv.h                    |   4 +-
+ drivers/net/dsa/bcm_sf2.c                         |   4 +-
+ drivers/net/dsa/lantiq_gswip.c                    |   4 +-
+ drivers/net/dsa/mt7530.c                          |   4 +-
+ drivers/net/dsa/mv88e6xxx/chip.c                  |  79 +++++++++++++----
+ drivers/net/dsa/ocelot/felix.c                    |   4 +-
+ drivers/net/dsa/qca/ar9331.c                      |   4 +-
+ drivers/net/dsa/sja1105/sja1105_main.c            |   4 +-
+ drivers/net/ethernet/cadence/macb.h               |   1 -
+ drivers/net/ethernet/cadence/macb_main.c          |  57 +++++++-----
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c  |  61 ++++++++-----
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h  |   1 +
+ drivers/net/ethernet/marvell/mvneta.c             |  63 ++++++++-----
+ drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c   | 102 +++++++++++++---------
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c       |   7 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c |   4 +-
+ drivers/net/ethernet/xilinx/xilinx_axienet_main.c |  37 ++++----
+ drivers/net/phy/phylink.c                         |   9 +-
+ include/linux/phylink.h                           |  57 ++++++++----
+ include/net/dsa.h                                 |   4 +-
+ net/dsa/port.c                                    |   7 +-
+ 23 files changed, 358 insertions(+), 180 deletions(-)
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
