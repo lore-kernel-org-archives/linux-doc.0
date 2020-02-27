@@ -2,192 +2,169 @@ Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1087FC4BA24
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 09:17:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A53DC4BA3B
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 09:55:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D477B2467F
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 09:17:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E341624680
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 09:55:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="znc+w9Pk"
+	dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b="YMBhXrnh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YFRho0yB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728634AbgB0JRH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 04:17:07 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35159 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728637AbgB0JRH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 04:17:07 -0500
-Received: by mail-wm1-f66.google.com with SMTP id m3so2494321wmi.0
-        for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2020 01:17:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=byYUcuzDUs6EI2f9ZAyw6JsIg3wiyl3GVfGmpZXFBGg=;
-        b=znc+w9PkEBnc+zTq9CxylE0W3IOsPMfyj0zzj9rfhzSqa6janRkZRYL48p3tGPMtZB
-         0oR+0ElyxD+M4ZsBvDNSeR7HJDq2K5CNbZxIJ7qpklwpm0Xr2Fn0E9TFiQNmh6jtJfg5
-         QZp4mTQU9f06enAb2YyJWJ4DgFLmrpyy9peHIdQpbHXgMxiCDMbBkAqe02sjC5jID3lh
-         OZVDWGrnDTKfX0iQNWWM9yyuEnqlZRhVXzr4nxpcm67c3J/b7GRxRv9klHWdcw6KsoeE
-         8Hdr+r55IVlqhwlg+jfucl7ZnsfbGGM0sQrk7+UvmcLQ09RR+sFZBPsfRtGYsvIjsb8A
-         HQHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=byYUcuzDUs6EI2f9ZAyw6JsIg3wiyl3GVfGmpZXFBGg=;
-        b=jKXqSViwmu1UXuVZhVLnX0OKycVzR5ewoFDmV0ElJqwtPhqbLOO3pad0U7kTGsLnTY
-         0drqpaOmamZVVoyLkege8uzUFHsglSMLIQsnuZJDT3TQQIcqs4kKHWQQ66FjcVC4XYco
-         TAJdDtVq0wEdClNW0y5fEfmku73IExEAdOeIg8J7K/b9ibh7jJt2gQjv6Q76i7EMvjhQ
-         Vpobo1c6OiZPlN8bOVodn7D36B16Mj01xtihCP85bzlw9gdg4OYKRNd+GIKCSx01ITYo
-         DAJR++4yxtYBRFncu0dPK0PAp8yVAnvvhCnNvnL7ZJzHp+VFLkJ8CDmCbD2/Br6BfUYI
-         h+Kw==
-X-Gm-Message-State: APjAAAX88d/5UrIhD+4tGCakclqIaHqjk8qk5BqEeqhJpjQJt87Ce9/i
-        5vJ2tpWhNlnltciBcnYbysNPTQ==
-X-Google-Smtp-Source: APXvYqxawPiOKaKn88qM82HAWaYmFB3tLwYe0d+o9KWMRvOoNS4J9ny55LDYIKO79xtfY0CVYnrsmg==
-X-Received: by 2002:a05:600c:21c6:: with SMTP id x6mr3966652wmj.17.1582795023046;
-        Thu, 27 Feb 2020 01:17:03 -0800 (PST)
-Received: from ?IPv6:2a01:e34:ed2f:f020:d916:1723:c1c1:22d? ([2a01:e34:ed2f:f020:d916:1723:c1c1:22d])
-        by smtp.googlemail.com with ESMTPSA id b16sm2185717wrq.14.2020.02.27.01.16.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2020 01:17:02 -0800 (PST)
-Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to
- renames
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Jyri Sarha <jsarha@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Stuart Yoder <stuyoder@gmail.com>,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-gpio@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org
-References: <cover.1582361737.git.mchehab+huawei@kernel.org>
- <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <add18b30-6eec-9aba-a961-8ecfe9b32596@linaro.org>
-Date:   Thu, 27 Feb 2020 10:16:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1728704AbgB0Jz4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 04:55:56 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:50321 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728454AbgB0Jz4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 04:55:56 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 1EF9C6D80;
+        Thu, 27 Feb 2020 04:55:55 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 27 Feb 2020 04:55:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
+        dOBxBMu6sq33WTKLlcHkrfoyV1zvS7moot7PPNknccs=; b=YMBhXrnhoMVmVtu+
+        0XpTyhq5MbTVZxBJ+jFB5SXvXsk05RFEEYGuTD0PWZ0RhM0KOk11DEgyyifH4Pg/
+        e71CM7ljablzxuXpnXMTXH5e/Wg44XB957wkbT0BeaFEGshuEAo8kIsFFvp0WTn2
+        +Zlc8021OYxa9Lo/nOv/GeQ9Y35UnSZfrr7LUSsEOOuxxi9sthdBJMp/qibeMCke
+        FRmdRA0pelBNbWi2D/64WKJslPH8xlnRudvt4ajxYZTKWKztymg1cCJnUMdIVfxt
+        GMu/qNJcC3Ee2Q0HbjaP3fP+BS4vl2N9i5EdjtusO2yzGlJZIBafmxh1e+1o7dyV
+        pfDOZQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=dOBxBMu6sq33WTKLlcHkrfoyV1zvS7moot7PPNknc
+        cs=; b=YFRho0yB5hnT4D7AB1zIg9bPyfmHxf4r6cx6hR7DGXqd0tP93RxPf21MH
+        K1acucU3zTdd+6t0ONsnF/of9232+iEgmfJCxm7fUWelARM1fwdRgMKutffRsCGG
+        0GOXm6ooCQWxyNbhEuFRVe5Y5H2qrrvKv0DaY/dcx86k6jxYkorEKNHnRxgsRpck
+        cesFa4YPPQVh9KBHBqjBVmKTdiKj1yi8/L46GnrTTuwq9xfeh1vEkYtuZgvsdf5r
+        MkYcApb5N3aI8L6KzJLWSDmxavESjwBr3BkOUVe8i1ZEDaVMXLAQLu/bqWOArPrE
+        kFiYPxViJ+muSwEo12sLUQybNy+Ig==
+X-ME-Sender: <xms:KpJXXitWMVsTtuw_Szixin9m6lqDvMXbwpqEvSitUl02nKjjRrHZHQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleeigddutdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
+    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecukfhppeduudekrddvtdelrd
+    dukedvrdeludenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+    ohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
+X-ME-Proxy: <xmx:KpJXXqtajhUm6_lL0JXDUt1zEvUibaGbKZriBAd28fiRvMtzvtwHzw>
+    <xmx:KpJXXnPAgNtkG4mN84UnU1jI6JJA89UmX1LYcZhjmFJuNSCAlFJd8w>
+    <xmx:KpJXXo2-HrFnRGSDDn0XaGshgYtpLyBsVir2_pURHqAStlocp7bvxA>
+    <xmx:K5JXXsCShwB4yyPGWNumFQXq4MB-b5rd_dDmKcciX4V3ObTSO_hePA>
+Received: from mickey.themaw.net (unknown [118.209.182.91])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 58D643280063;
+        Thu, 27 Feb 2020 04:55:48 -0500 (EST)
+Message-ID: <9d7b76c32d09492137a253e692624856388693db.camel@themaw.net>
+Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
+From:   Ian Kent <raven@themaw.net>
+To:     Andreas Dilger <adilger@dilger.ca>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Waiman Long <longman@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Eric Sandeen <sandeen@redhat.com>
+Date:   Thu, 27 Feb 2020 17:55:43 +0800
+In-Reply-To: <2EDB6FFC-C649-4C80-999B-945678F5CE87@dilger.ca>
+References: <20200226161404.14136-1-longman@redhat.com>
+         <20200226162954.GC24185@bombadil.infradead.org>
+         <2EDB6FFC-C649-4C80-999B-945678F5CE87@dilger.ca>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/02/2020 10:00, Mauro Carvalho Chehab wrote:
-> Several DT references got broken due to txt->yaml conversion.
+On Wed, 2020-02-26 at 14:28 -0700, Andreas Dilger wrote:
+> On Feb 26, 2020, at 9:29 AM, Matthew Wilcox <willy@infradead.org>
+> wrote:
+> > On Wed, Feb 26, 2020 at 11:13:53AM -0500, Waiman Long wrote:
+> > > A new sysctl parameter "dentry-dir-max" is introduced which
+> > > accepts a
+> > > value of 0 (default) for no limit or a positive integer 256 and
+> > > up. Small
+> > > dentry-dir-max numbers are forbidden to avoid excessive dentry
+> > > count
+> > > checking which can impact system performance.
+> > 
+> > This is always the wrong approach.  A sysctl is just a way of
+> > blaming
+> > the sysadmin for us not being very good at programming.
+> > 
+> > I agree that we need a way to limit the number of negative
+> > dentries.
+> > But that limit needs to be dynamic and depend on how the system is
+> > being
+> > used, not on how some overworked sysadmin has configured it.
+> > 
+> > So we need an initial estimate for the number of negative dentries
+> > that
+> > we need for good performance.  Maybe it's 1000.  It doesn't really
+> > matter;
+> > it's going to change dynamically.
+> > 
+> > Then we need a metric to let us know whether it needs to be
+> > increased.
+> > Perhaps that's "number of new negative dentries created in the last
+> > second".  And we need to decide how much to increase it; maybe it's
+> > by
+> > 50% or maybe by 10%.  Perhaps somewhere between 10-100% depending
+> > on
+> > how high the recent rate of negative dentry creation has been.
+> > 
+> > We also need a metric to let us know whether it needs to be
+> > decreased.
+> > I'm reluctant to say that memory pressure should be that metric
+> > because
+> > very large systems can let the number of dentries grow in an
+> > unbounded
+> > way.  Perhaps that metric is "number of hits in the negative dentry
+> > cache in the last ten seconds".  Again, we'll need to decide how
+> > much
+> > to shrink the target number by.
 > 
-> Those are auto-fixed by running:
-> 
-> 	scripts/documentation-file-ref-check --fix
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> OK, so now instead of a single tunable parameter we need three,
+> because
+> these numbers are totally made up and nobody knows the right values.
+> :-)
+> Defaulting the limit to "disabled/no limit" also has the problem that
+> 99.99% of users won't even know this tunable exists, let alone how to
+> set it correctly, so they will continue to see these problems, and
+> the
+> code may as well not exist (i.e. pure overhead), while Waiman has a
+> better idea today of what would be reasonable defaults.
 
-[ ... ]
+Why have these at all.
 
-> diff --git a/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml b/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
-> index d9fdf4809a49..f3e68ed03abf 100644
-> --- a/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
-> @@ -17,7 +17,7 @@ description: |+
->                  "brcm,bcm2711-avs-monitor", "syscon", "simple-mfd"
->  
->    Refer to the the bindings described in
-> -  Documentation/devicetree/bindings/mfd/syscon.txt
-> +  Documentation/devicetree/bindings/mfd/syscon.yaml
+Not all file systems even produce negative hashed dentries.
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+The most beneficial use of them is to improve performance of rapid
+fire lookups for non-existent names. Longer lived negative hashed
+dentries don't give much benefit at all unless they suddenly have
+lots of hits and that would cost a single allocation on the first
+lookup if the dentry ttl expired and the dentry discarded.
 
+A ttl (say jiffies) set at appropriate times could be a better
+choice all round, no sysctl values at all.
 
--- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Ian
 
