@@ -8,75 +8,75 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E67E4C4BA24
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 00:41:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B81C1C4BA35
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 00:41:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ABF6624679
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 00:41:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F6E824679
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 00:41:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Evu0pvTu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RakaVhNz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728028AbgB0AlF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 19:41:05 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:39473 "EHLO
+        id S1728178AbgB0AlQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 19:41:16 -0500
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:33975 "EHLO
         mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727987AbgB0AlF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 19:41:05 -0500
-Received: by mail-qk1-f195.google.com with SMTP id e16so1521331qkl.6;
-        Wed, 26 Feb 2020 16:41:03 -0800 (PST)
+        with ESMTP id S1728160AbgB0AlM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 19:41:12 -0500
+Received: by mail-qk1-f195.google.com with SMTP id 11so1555594qkd.1;
+        Wed, 26 Feb 2020 16:41:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+OdPtLBop+fC+UYcJhsj8xgvQ6AFBIgkeZOtZL006YA=;
-        b=Evu0pvTuDu5Cnqs7pLtSruDmtez5tqpYKV4/So80R/WTbqrDCje7SHf5ICzXJUVzeP
-         jwWhO+zTNZwkHIFFHwMe79GR4R30pInqmUlvZltzF5gqRhwL/0+FgUlIFYu5qZlws5HQ
-         pCREjbBhQnT//Jtxz+wyw59hmFEEBuTD6CcyV6u///7RvfccIZPn+B95W+xGHUZb0U1T
-         G8Ru1+1l+elTr1FSLVCpeLbPTlUlcI+D3SxqkEha8XG7aCxYjpV6qb/aXPqV34sVfSPj
-         02blhWdIeEIBxY2dyW/7GbeFJgB3Vz8z23d605/zYJi2mFoluVr+5wgDEhKdXCLmnjgU
-         mtJg==
+        bh=N3HEBkdj4Q66EXmD0o3ypRhrbhQ6fBEZAkU7EgqNosg=;
+        b=RakaVhNzgtHMPpokLjqKcfDVurEggH0qrsV8wfwIBVs9U162kFOjdZ9ekNAGC9tDo1
+         TUwFdQA73K51P5P+lyJU7hvY63wnpUelc3S+gOVSyPOlpdjd0o2a+p53/hxesbEjcfg9
+         ONLYiRw4QeVOLPsqaUzEqh55qJl0iffRLoZYTkqP6uA+rjn6Wb4O6bxNdHAHJvfGP/Gc
+         yeeC65TzfOgJKa65c6ToAO/xzRsRiBvr21vDYN7NZvYcJF3U83RWqkP06bxuDrDC0PMk
+         2Qu78Ce3VfBKLwspagi8KLKZGVd49tIalnT0JyRnHEgU9ZgJKJtrQjy2ehEEdrPW1aoT
+         MMIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+OdPtLBop+fC+UYcJhsj8xgvQ6AFBIgkeZOtZL006YA=;
-        b=JyRKQb0ZfNuenndd5MIuNLNpBRz74ILDn8xvf5MJ3nhKVy11m1U2P6qjxMLh2p/BR2
-         aF2hdmZRFpzsl/o0Nb2Xuj6mCM6AyqirOICe6JttnnMKI2XehWlczcjLd+MtO73JDQrL
-         a/h4jahkAUV/JmiV6TYxoJNlKlU/t/DY00SwxlXEjMy2tTdcjjUslHhEXjh8jdcic/wB
-         e9+Uup7snbak/6NWvEd595YIo9fAjN26QiXugfNKFVLw80gVBLvLQsX/WWTegt+BiEWp
-         RYfdlBdJjo27s4UH+4w2LRwb6lsIjT2f79o668F89erc6P8yP60ChYf7ywxx3hXKS3/+
-         WqEQ==
-X-Gm-Message-State: APjAAAWxNEXbF8frTtsVs7cz6Qo9arSCUOTDgsGN8kkUWCVQfps/qERr
-        uPWur5SXfYgZfLMVpb62IGA=
-X-Google-Smtp-Source: APXvYqwNdg6qTDXs6Js9yWF7MsODuS8t9r2umsIaFcnEMaU6i1Jc9Faey2EdkdKn2UyJ70iEwNYboQ==
-X-Received: by 2002:a37:e409:: with SMTP id y9mr2374269qkf.352.1582764063541;
-        Wed, 26 Feb 2020 16:41:03 -0800 (PST)
+        bh=N3HEBkdj4Q66EXmD0o3ypRhrbhQ6fBEZAkU7EgqNosg=;
+        b=kLHLIQOxNo2Z3SSArmFT2/V0E7yCE6JUF7xXoW687Me8gggHC4dlcKh/pacn2hQNwp
+         6C8uN0HETJRqDrxRWsoF+g++YrMRm/izvxpDY0fgatC0ycI+/CHCjZflkyxg2/GnnZP5
+         yC21FBI6Jh0w36Gi1vi3d1h1j6FWXy9GSWq0degoMV+mr2myTDQM0mTnlNrHyUoT8X33
+         KpmAmDoFcmEUEqgNQUlrH2CWpZhjkdAFqXuLO/REVY93OlYEAi5FVARIny8BJkw9welb
+         lLikB6zpnFytN9Rtb4MKp2v9UNYDeU/kzrIrQv/kHYyvClRt38gF0O8n7q6g6/ZFIStQ
+         8DzA==
+X-Gm-Message-State: APjAAAVKMiCCmoDSN6xPSuGcrvhr+dCkpQyzjQTE+b6jaLbSO9U0rI/N
+        a4wlA4cBZsSmTjhmZFckZls=
+X-Google-Smtp-Source: APXvYqwTTmlkFACCr8vHN1s/N5ZBb9BGDnZblhRg9JKyox1p153Fhbk36g0ReVVDWKYswgCiQQCnLw==
+X-Received: by 2002:a05:620a:146c:: with SMTP id j12mr2393530qkl.373.1582764071450;
+        Wed, 26 Feb 2020 16:41:11 -0800 (PST)
 Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id w21sm2251344qth.17.2020.02.26.16.41.02
+        by smtp.gmail.com with ESMTPSA id p126sm2123428qkd.108.2020.02.26.16.41.10
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Feb 2020 16:41:02 -0800 (PST)
+        Wed, 26 Feb 2020 16:41:10 -0800 (PST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 46E1A21F8E;
-        Wed, 26 Feb 2020 19:41:02 -0500 (EST)
+        by mailauth.nyi.internal (Postfix) with ESMTP id 0C11E21F82;
+        Wed, 26 Feb 2020 19:41:10 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Wed, 26 Feb 2020 19:41:02 -0500
-X-ME-Sender: <xms:HhBXXj1ydKbc0boCSM0pNQ0jKhosqSawnU6__taT-Ma_Om2hW_KXUA>
+  by compute4.internal (MEProxy); Wed, 26 Feb 2020 19:41:10 -0500
+X-ME-Sender: <xms:JRBXXh5DyWiPoMuCUn6EwUm-a0h3iP6wKDm98j33ip_s37vYTflHRA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleehgddvjecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepuehoqhhunhcu
     hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucfkphephedvrd
-    duheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    duheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgr
     ihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqd
     eiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhl
     rdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:HhBXXjDwq_Cb3rbLtqc6Et36mFmixp0T3cJGligzyQnqyz4TSXvQpA>
-    <xmx:HhBXXkNq7d0zqZvFiapCroHQj7R9rvFgMKpqC6fLbn2-Hs3j4RdzdA>
-    <xmx:HhBXXnQ61IhTNEfHYgOzXeWHZZq3v_1E_Ie-agFvL4MdRUQq7tHIEg>
-    <xmx:HhBXXjtR2sTBXjE_x_neRGvqYD7XDUTyejJgYBKzK45aeN5QxIlo_-ejjx4>
+X-ME-Proxy: <xmx:JRBXXvceNw-SMc0sno7XAyYxIV7jlrBsFd9qK2taxfY_dmfV2rQchQ>
+    <xmx:JRBXXpon2xG-kz4rqH7OeBSzYSk4lsY0kHHJ8KmVjPhlfc-YlKzQXg>
+    <xmx:JRBXXj1NFWrKTW41mwpGaxXl1SevgIZKOHN-fmsEAw7PTMVpCqXKiw>
+    <xmx:JhBXXgyVOFMzGJqDZa1ulpUqLK8E12hMjYaOW2PX-l3m49yafdx6TbshTPM>
 Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id BC3463060FCB;
-        Wed, 26 Feb 2020 19:41:01 -0500 (EST)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7EC5730610DB;
+        Wed, 26 Feb 2020 19:41:09 -0500 (EST)
 From:   Boqun Feng <boqun.feng@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Alan Stern <stern@rowland.harvard.edu>,
@@ -98,9 +98,9 @@ Cc:     Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v3 1/5] tools/memory-model: Add an exception for limitations on _unless() family
-Date:   Thu, 27 Feb 2020 08:40:45 +0800
-Message-Id: <20200227004049.6853-2-boqun.feng@gmail.com>
+Subject: [PATCH v3 5/5] Documentation/locking/atomic: Add a litmus test smp_mb__after_atomic()
+Date:   Thu, 27 Feb 2020 08:40:49 +0800
+Message-Id: <20200227004049.6853-6-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200227004049.6853-1-boqun.feng@gmail.com>
 References: <20200227004049.6853-1-boqun.feng@gmail.com>
@@ -111,39 +111,120 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-According to Luc, atomic_add_unless() is directly provided by herd7,
-therefore it can be used in litmus tests. So change the limitation
-section in README to unlimit the use of atomic_add_unless().
+We already use a litmus test in atomic_t.txt to describe atomic RMW +
+smp_mb__after_atomic() is stronger than acquire (both the read and the
+write parts are ordered). So make it a litmus test in atomic-tests
+directory, so that people can access the litmus easily.
 
-Cc: Luc Maranget <luc.maranget@inria.fr>
+Additionally, change the processor numbers "P1, P2" to "P0, P1" in
+atomic_t.txt for the consistency with the processor numbers in the
+litmus test, which herd can handle.
+
 Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- tools/memory-model/README | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ ...ter_atomic-is-stronger-than-acquire.litmus | 32 +++++++++++++++++++
+ Documentation/atomic-tests/README             |  5 +++
+ Documentation/atomic_t.txt                    | 10 +++---
+ 3 files changed, 42 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/atomic-tests/Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
 
-diff --git a/tools/memory-model/README b/tools/memory-model/README
-index fc07b52f2028..409211b1c544 100644
---- a/tools/memory-model/README
-+++ b/tools/memory-model/README
-@@ -207,11 +207,15 @@ The Linux-kernel memory model (LKMM) has the following limitations:
- 		case as a store release.
- 
- 	b.	The "unless" RMW operations are not currently modeled:
--		atomic_long_add_unless(), atomic_add_unless(),
--		atomic_inc_unless_negative(), and
--		atomic_dec_unless_positive().  These can be emulated
-+		atomic_long_add_unless(), atomic_inc_unless_negative(),
-+		and atomic_dec_unless_positive().  These can be emulated
- 		in litmus tests, for example, by using atomic_cmpxchg().
- 
-+		One exception of this limitation is atomic_add_unless(),
-+		which is provided directly by herd7 (so no corresponding
-+		definition in linux-kernel.def). atomic_add_unless() is
-+		modeled by herd7 therefore it can be used in litmus tests.
+diff --git a/Documentation/atomic-tests/Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus b/Documentation/atomic-tests/Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
+new file mode 100644
+index 000000000000..9a8e31a44b28
+--- /dev/null
++++ b/Documentation/atomic-tests/Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
+@@ -0,0 +1,32 @@
++C Atomic-RMW+mb__after_atomic-is-stronger-than-acquire
 +
- 	c.	The call_rcu() function is not modeled.  It can be
- 		emulated in litmus tests by adding another process that
- 		invokes synchronize_rcu() and the body of the callback
++(*
++ * Result: Never
++ *
++ * Test that an atomic RMW followed by a smp_mb__after_atomic() is
++ * stronger than a normal acquire: both the read and write parts of
++ * the RMW are ordered before the subsequential memory accesses.
++ *)
++
++{
++}
++
++P0(int *x, atomic_t *y)
++{
++	int r0;
++	int r1;
++
++	r0 = READ_ONCE(*x);
++	smp_rmb();
++	r1 = atomic_read(y);
++}
++
++P1(int *x, atomic_t *y)
++{
++	atomic_inc(y);
++	smp_mb__after_atomic();
++	WRITE_ONCE(*x, 1);
++}
++
++exists
++(0:r0=1 /\ 0:r1=0)
+diff --git a/Documentation/atomic-tests/README b/Documentation/atomic-tests/README
+index a1b72410b539..714cf93816ea 100644
+--- a/Documentation/atomic-tests/README
++++ b/Documentation/atomic-tests/README
+@@ -7,5 +7,10 @@ tools/memory-model/README.
+ LITMUS TESTS
+ ============
+ 
++Atomic-RMW+mb__after_atomic-is-stronger-than-acquire
++	Test that an atomic RMW followed by a smp_mb__after_atomic() is
++	stronger than a normal acquire: both the read and write parts of
++	the RMW are ordered before the subsequential memory accesses.
++
+ Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
+ 	Test that atomic_set() cannot break the atomicity of atomic RMWs.
+diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
+index 67d1d99f8589..0f1fdedf36bb 100644
+--- a/Documentation/atomic_t.txt
++++ b/Documentation/atomic_t.txt
+@@ -233,19 +233,19 @@ as well. Similarly, something like:
+ is an ACQUIRE pattern (though very much not typical), but again the barrier is
+ strictly stronger than ACQUIRE. As illustrated:
+ 
+-  C strong-acquire
++  C Atomic-RMW+mb__after_atomic-is-stronger-than-acquire
+ 
+   {
+   }
+ 
+-  P1(int *x, atomic_t *y)
++  P0(int *x, atomic_t *y)
+   {
+     r0 = READ_ONCE(*x);
+     smp_rmb();
+     r1 = atomic_read(y);
+   }
+ 
+-  P2(int *x, atomic_t *y)
++  P1(int *x, atomic_t *y)
+   {
+     atomic_inc(y);
+     smp_mb__after_atomic();
+@@ -253,14 +253,14 @@ strictly stronger than ACQUIRE. As illustrated:
+   }
+ 
+   exists
+-  (r0=1 /\ r1=0)
++  (0:r0=1 /\ 0:r1=0)
+ 
+ This should not happen; but a hypothetical atomic_inc_acquire() --
+ (void)atomic_fetch_inc_acquire() for instance -- would allow the outcome,
+ because it would not order the W part of the RMW against the following
+ WRITE_ONCE.  Thus:
+ 
+-  P1			P2
++  P0			P1
+ 
+ 			t = LL.acq *y (0)
+ 			t++;
 -- 
 2.25.0
 
