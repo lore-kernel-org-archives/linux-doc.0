@@ -2,122 +2,110 @@ Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E43C9C4BA24
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 03:57:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F4F6C4BA24
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 03:58:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B53AE24672
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 03:57:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20150623.gappssmtp.com header.i=@amacapital-net.20150623.gappssmtp.com header.b="CvFkH5dz"
+	by mail.kernel.org (Postfix) with ESMTP id D623124679
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 03:58:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582775930;
+	bh=m8KRML3npq2G+ZWM9UjEaYAbgafYW3jKje6WYayAnW8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=nn/3I+ZM/uRsbaltvmpzgHqVkHNACwrrUdnmiG52Dzak6sZkU2gTxggzxZQYUkOO4
+	 bXHx8EJQ8sgeWTOAOgziFxLtr8YLGYDg0Qxt+z8fsfxxgPAuAvNR/aoS82LDc/8cVv
+	 0kHk0V+tVFPF0ZT4t81IPEr9VMACqkyjBlIxCUk0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728266AbgB0D5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Feb 2020 22:57:06 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:41736 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728287AbgB0D5F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 22:57:05 -0500
-Received: by mail-pf1-f194.google.com with SMTP id j9so887818pfa.8
-        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2020 19:57:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=CnaaQj5OkZlinyuOBz/+nnOP++fx4EwIlpltdiovgCE=;
-        b=CvFkH5dzd6cq24Yi56VcybisKknibFmU/ow2ZqelBQazvt8BufBh2ODr6THyJye6BK
-         pWi9IQSyRt+DW4H7LH3Aw5WOB0wmY2ss62VcGrpUEDa8LKWEhtep7DgNKCIbBL1AWb6E
-         Tq57vgFbkcc608Dp5NIyKYhwGlsVs0fuPZ3UMk/nQOtDlUMasKcyMX8I/qiEzMoaNKIQ
-         y6n/KjR0q+J0RQiLg4/94jYEXnIlUggAEkQ/dDJpkqkojBDmZJ0kwbgYurQI4Y7i8MIi
-         0yIhFypbvEihEA0ivMQ6+HmGvD0QQVI3e6COI7tobO8x7xKc8jppGDUrtCV8AD2tGzdl
-         S8/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=CnaaQj5OkZlinyuOBz/+nnOP++fx4EwIlpltdiovgCE=;
-        b=kYLDcOwxW9tGSDCM2Y27g3BuUw058T2QNnpy5bYxPkcgLm+8qB4fDrMR4Yvd+HwVzl
-         j5UcM2rUF6MZJ/i8MNdl2/fDJ758XqpjyuQjLL9IxQnWNqi8GGyzGvUy1UaryfZK1AZl
-         0X1qTsK2SuVVqFHaoBsQJQyln+13I9H/1EaoOq8oVVN78uK0wC1YeUOsdKLmX0+LFwmO
-         SYpwQSzgCgwmpt7V/BtSqV5jTY7gr7uR1oRTepW75To1ZNQmrCcYVXNun68caV5lvwjy
-         8fRp9Aa8nzbiVk2ZHxPy+LybX8uVOo+tIhJEVapPpUwnpM+lFC1vykSsrOq9Q3w2Hmts
-         iF7g==
-X-Gm-Message-State: APjAAAWJRvxyjpzX1HZ2fiXLZLqyZ9D2ur/jOfI3UwKQIbYByEXOvKPb
-        gTaKqrezxd7+xNWyK2AYXnk1ZA==
-X-Google-Smtp-Source: APXvYqy28xXxMFJjJ7wZKlE7xuddyqQc8I1BmGULeVfYLEzR3Y+/xN7FT1RQFMCIBqkzWHgsDEn21A==
-X-Received: by 2002:a62:17c3:: with SMTP id 186mr2085313pfx.158.1582775824816;
-        Wed, 26 Feb 2020 19:57:04 -0800 (PST)
-Received: from ?IPv6:2600:1010:b069:8a27:ddd9:92ea:d62b:8a52? ([2600:1010:b069:8a27:ddd9:92ea:d62b:8a52])
-        by smtp.gmail.com with ESMTPSA id j21sm4165728pji.13.2020.02.26.19.57.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2020 19:57:03 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH v9 05/27] x86/cet/shstk: Add Kconfig option for user-mode Shadow Stack protection
-Date:   Wed, 26 Feb 2020 19:57:01 -0800
-Message-Id: <FF42D299-D7A4-4884-9E45-DBEB5853FE56@amacapital.net>
-References: <CAMe9rOqhf4y+e6h8i7P8+70pwLSg8n=ise6LEqABNPKarECdeA@mail.gmail.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
+        id S1728304AbgB0D6u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Feb 2020 22:58:50 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:26156 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728273AbgB0D6u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Feb 2020 22:58:50 -0500
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 01R3wf5t022684;
+        Thu, 27 Feb 2020 12:58:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 01R3wf5t022684
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1582775922;
+        bh=4uYESe3IX1A8M0n72AIHavcEeKHRwHUScqFhq3hkdVY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=phyVR1UaAWo7/HnwO++C5eSAeLXxOrjJmHxGPzfAYVqwNq0ivD87XYFPZePZjcjJ8
+         6ao8D1X9IYOtyo/HQg+fb2EFPzhJ4lL++ipmHJz/7wXAw1NDmpQnbgx0Vz1VbgJY0q
+         3WNqlHpEoE7y9AdFb5B6hogQf5JR7xzpcEdE0AujYMeHYSKhdnsK8nOStp32AD7L/i
+         AsZaQF8gaWN13VKCVjhZYkGFXiYNNTHrt2qsmTzuBMHvYAjJjDzITVNXwPgqZqH0qz
+         NhINRcp6YUGkLeL4egJtXSiY0pUfHJMia3LEUzoa3yqVkpJYc7cdMU7Nci+gvkdi7G
+         tQ5MioAv4WMhA==
+X-Nifty-SrcIP: [209.85.221.178]
+Received: by mail-vk1-f178.google.com with SMTP id i78so359921vke.0;
+        Wed, 26 Feb 2020 19:58:42 -0800 (PST)
+X-Gm-Message-State: APjAAAVWRdYFIgvboO7C4aUQVCdbY1L6XhbIJKl/IqQLpVqU5BF8gdxi
+        9TrOvt8LNkENhwWc1xZpfMZazV7KxZX4U7qlZU8=
+X-Google-Smtp-Source: APXvYqzCoFfHbnxncVSSL5HnDHE8JA+wdwrnv98m0vSgkeCYMgbtsiJvb4E2/FRbHwBiEy1Megk3yox+VqkTHq4lKCs=
+X-Received: by 2002:a1f:2f4c:: with SMTP id v73mr278752vkv.12.1582775920997;
+ Wed, 26 Feb 2020 19:58:40 -0800 (PST)
+MIME-Version: 1.0
+References: <20200225210250.64366-1-ndesaulniers@google.com> <20200226232336.252872-1-ndesaulniers@google.com>
+In-Reply-To: <20200226232336.252872-1-ndesaulniers@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 27 Feb 2020 12:58:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASGSWTO+MRAFg0XKvucSe0-y6-i0MiUoSLB4fMyFaLj0g@mail.gmail.com>
+Message-ID: <CAK7LNASGSWTO+MRAFg0XKvucSe0-y6-i0MiUoSLB4fMyFaLj0g@mail.gmail.com>
+Subject: Re: [PATCH v3] Documentation/llvm: add documentation on building w/ Clang/LLVM
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-In-Reply-To: <CAMe9rOqhf4y+e6h8i7P8+70pwLSg8n=ise6LEqABNPKarECdeA@mail.gmail.com>
-To:     "H.J. Lu" <hjl.tools@gmail.com>
-X-Mailer: iPhone Mail (17D50)
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Feb 27, 2020 at 8:23 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> Added to kbuild documentation. Provides more official info on building
+> kernels with Clang and LLVM than our wiki.
+>
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> Changes V2 -> V3:
+> * Drop Randy's Suggested-by tag. Sorry Randy, I do appreciate the review
+>   though.
+> * Add F: line to MAINTAINERS.
+>
+> Changes V1 -> V2:
+> * s/On going/ongoing/
+> * add Randy's Suggested-by
+> * add Nathan and Sedat's Reviewed-by
+> * Upgrade Kees' Sugguested-by to Reviewed-by
+> * s/suffix/prefix/
 
-> On Feb 26, 2020, at 6:11 PM, H.J. Lu <hjl.tools@gmail.com> wrote:
->=20
-> =EF=BB=BFOn Wed, Feb 26, 2020 at 5:16 PM Dave Hansen <dave.hansen@intel.co=
-m> wrote:
->>=20
->> On 2/26/20 5:02 PM, H.J. Lu wrote:
->>>> That way everybody with old toolchains can still build the kernel (and
->>>> run/test code with your config option on, btw...).
->>> CET requires a complete new OS image from kernel, toolchain, run-time.
->>> CET enabled kernel without the rest of updated OS won't give you CET
->>> at all.
->>=20
->> If you require a new toolchain, nobody even builds your fancy feature.
->> Probably including 0day and all of the lazy maintainers with crufty old
->> distros.
->=20
-> GCC 8 or above is needed since vDSO must be compiled with
-> --fcf-protection=3Dbranch.
 
-Fair enough. I don=E2=80=99t particularly want to carry a gross hack to add t=
-he ENDBRANCHes without compiler support.
+Setting aside the minimal version discussion,
+I am fine with this patch version.
+
+I will apply it shortly.
+
+Thanks.
 
 
+
+-- 
+Best Regards
+Masahiro Yamada
