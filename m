@@ -2,228 +2,144 @@ Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F10D4C35677
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 16:12:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B52EC11D3D
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 16:26:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE4DE246A4
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 16:12:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BC81246B9
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 16:26:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582819938;
-	bh=bJO6WdQDYlAD6N2KW/emClK5Cr61eJebaKNHgXGCCdY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=T4U5vwaLY9WO0DPLirElhphWGlB/kpMmMe1gFqB8kaf2IV5FgySwTMaxUjmb0h39F
-	 dN4S98OGsWo9cZpCy2sxJVnvyY2ED0QNadp9BJpxfx0fIHNC5kSyOnJcAxm/MKs8IC
-	 FsEKcIg8hFxBZUGmhPVrtuAH2QAMLdqaqkkGijjU=
+	s=default; t=1582820774;
+	bh=WmU71Lj4UDtNZ82BoefiR89GTcfxg2tFZvzAqtQOSZQ=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=REVujEB2cNg6Ze6xtLlNUrd9nSiZViddQDt4TBimGsMFUU1GF9TMCmc6WHx3gFwmq
+	 S/M2M3lHXjGU5YoHeT4mIrbaWa685f57nTWqcnzrw0q7svI6I6/VZAgBI7e/HXZmq/
+	 PTduCz+aRjnChyZqxVUnK/H3VAMGB3C6p2p0O6y0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730015AbgB0QMP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 11:12:15 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:27262 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729703AbgB0QMP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 11:12:15 -0500
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 01RGCADP000978;
-        Fri, 28 Feb 2020 01:12:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 01RGCADP000978
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1582819932;
-        bh=dCIdExQy8zrf9NhMRaOGJJL9zPcIodXfI3s7oSAI5p4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=wxYIJFReNxomo24FiCsLd7MDQNSnegeTFXAKLRpKXGC5R+vv2aK/gnANaXgiqyzIZ
-         9V0SLRbj99uCt6mtS38dAqm495QbctDI4FsAtyRjNaEql7f7q53pCkTv0BdUEiJ4sW
-         ZRDf/Jd0Dh5ZTde+NFym86EoIAGG6axZM1HxtC9fHDRTtrkMavKGVN/24g3ApdAy3x
-         hWTPHaQ//w0xD0AkxhLvHuLOSLBBIu3i2inwdRRhxW8hLntCblzURnnKDHtcV6BH4a
-         /p6Q/t6pnikPEvNKurgEar1l3kg/ny2j/NUOOPkLLbVP9SClGoZg7NvOlutEYoMxCG
-         VYOABtvMQvwXg==
-X-Nifty-SrcIP: [209.85.217.43]
-Received: by mail-vs1-f43.google.com with SMTP id m4so2168337vsa.12;
-        Thu, 27 Feb 2020 08:12:11 -0800 (PST)
-X-Gm-Message-State: APjAAAWjuKwuCK1sxNJXxZk60s12kjS37KBr2Azwdu3MIjyr6JOjM1JQ
-        9zNVn2jI146wuT2dA1k12nlWZ9ULi6TcykiGJYk=
-X-Google-Smtp-Source: APXvYqzHtClR5DvEw/exWEpLpyKt9uSNp2+MkFTTUmkcTIr4mHc+49cy/+C4LfpTHnqPQl1ib4adA7gBbtNt83b8m+w=
-X-Received: by 2002:a05:6102:48b:: with SMTP id n11mr3071450vsa.181.1582819930147;
- Thu, 27 Feb 2020 08:12:10 -0800 (PST)
+        id S1730015AbgB0Q0N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 11:26:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56792 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729402AbgB0Q0N (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Feb 2020 11:26:13 -0500
+Received: from paulmck-ThinkPad-P72.home (unknown [163.114.132.128])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3675224697;
+        Thu, 27 Feb 2020 16:26:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582820772;
+        bh=WmU71Lj4UDtNZ82BoefiR89GTcfxg2tFZvzAqtQOSZQ=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=0AEWJ49a5eR1VGeCnDgdj2Al1+fI8AncWZnozP9Pw/ByyAzg4mN4U7T/6tCHtGyRo
+         hOJ0nIE+WpGzBn9d9+6TJBGsRm7JjRKybwS29KzVKMBEPogHM83ACoGc1X7gESbAyu
+         //tE3ILHCkISn6TJLDEn5zyANd+BCU5ceoUmMCRY=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 6225335226D2; Thu, 27 Feb 2020 07:47:55 -0800 (PST)
+Date:   Thu, 27 Feb 2020 07:47:55 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] Documentation/locking/atomic: Add litmus tests
+ for atomic APIs
+Message-ID: <20200227154755.GJ2935@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200227004049.6853-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
-References: <20200225210250.64366-1-ndesaulniers@google.com> <20200226232336.252872-1-ndesaulniers@google.com>
-In-Reply-To: <20200226232336.252872-1-ndesaulniers@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 28 Feb 2020 01:11:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT=O9+VMEy1j9Un9rznnb_qaxtC-C_xO1DLwiZAhCxZ0g@mail.gmail.com>
-Message-ID: <CAK7LNAT=O9+VMEy1j9Un9rznnb_qaxtC-C_xO1DLwiZAhCxZ0g@mail.gmail.com>
-Subject: Re: [PATCH v3] Documentation/llvm: add documentation on building w/ Clang/LLVM
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200227004049.6853-1-boqun.feng@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 8:23 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> Added to kbuild documentation. Provides more official info on building
-> kernels with Clang and LLVM than our wiki.
->
-> Suggested-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
+On Thu, Feb 27, 2020 at 08:40:44AM +0800, Boqun Feng wrote:
+> A recent discussion raises up the requirement for having test cases for
+> atomic APIs:
+> 
+> 	https://lore.kernel.org/lkml/20200213085849.GL14897@hirez.programming.kicks-ass.net/
+> 
+> , and since we already have a way to generate a test module from a
+> litmus test with klitmus[1]. It makes sense that we add more litmus
+> tests for atomic APIs. And based on the previous discussion, I create a
+> new directory Documentation/atomic-tests and put these litmus tests
+> here.
+> 
+> This patchset starts the work by adding the litmus tests which are
+> already used in atomic_t.txt, and also improve the atomic_t.txt to make
+> it consistent with the litmus tests.
+> 
+> Previous version:
+> v1: https://lore.kernel.org/linux-doc/20200214040132.91934-1-boqun.feng@gmail.com/
+> v2: https://lore.kernel.org/lkml/20200219062627.104736-1-boqun.feng@gmail.com/
+> 
+> Changes since v2:
+> 
+> *	Change from "RFC" to "PATCH".
+> 
+> *	Wording improvement in atomic_t.txt as per Alan's suggestion.
+> 
+> *	Add a new patch describing the usage of atomic_add_unless() is
+> 	not limited anymore for LKMM litmus tests.
+> 
+> My PR on supporting "(void) expr;" statement has been merged by Luc
+> (Thank you, Luc). So all the litmus tests in this patchset can be
+> handled by the herdtools compiled from latest master branch of the
+> source code.
+> 
+> Comments and suggestions are welcome!
+> 
+> Regards,
+> Boqun
 
-Applied to linux-kbuild.
+Queued for further review, thank you, Boqun!
 
-Thanks.
+							Thanx, Paul
 
-
-> Changes V2 -> V3:
-> * Drop Randy's Suggested-by tag. Sorry Randy, I do appreciate the review
->   though.
-> * Add F: line to MAINTAINERS.
->
-> Changes V1 -> V2:
-> * s/On going/ongoing/
-> * add Randy's Suggested-by
-> * add Nathan and Sedat's Reviewed-by
-> * Upgrade Kees' Sugguested-by to Reviewed-by
-> * s/suffix/prefix/
->
->  Documentation/kbuild/index.rst |  1 +
->  Documentation/kbuild/llvm.rst  | 80 ++++++++++++++++++++++++++++++++++
->  MAINTAINERS                    |  1 +
->  3 files changed, 82 insertions(+)
->  create mode 100644 Documentation/kbuild/llvm.rst
->
-> diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
-> index 0f144fad99a6..3882bd5f7728 100644
-> --- a/Documentation/kbuild/index.rst
-> +++ b/Documentation/kbuild/index.rst
-> @@ -19,6 +19,7 @@ Kernel Build System
->
->      issues
->      reproducible-builds
-> +    llvm
->
->  .. only::  subproject and html
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> new file mode 100644
-> index 000000000000..d6c79eb4e23e
-> --- /dev/null
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -0,0 +1,80 @@
-> +==============================
-> +Building Linux with Clang/LLVM
-> +==============================
-> +
-> +This document covers how to build the Linux kernel with Clang and LLVM
-> +utilities.
-> +
-> +About
-> +-----
-> +
-> +The Linux kernel has always traditionally been compiled with GNU toolchains
-> +such as GCC and binutils. Ongoing work has allowed for `Clang
-> +<https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
-> +used as viable substitutes. Distributions such as `Android
-> +<https://www.android.com/>`_, `ChromeOS
-> +<https://www.chromium.org/chromium-os>`_, and `OpenMandriva
-> +<https://www.openmandriva.org/>`_ use Clang built kernels.  `LLVM is a
-> +collection of toolchain components implemented in terms of C++ objects
-> +<https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM that
-> +supports C and the GNU C extensions required by the kernel, and is pronounced
-> +"klang," not "see-lang."
-> +
-> +Clang
-> +-----
-> +
-> +The compiler used can be swapped out via `CC=` command line argument to `make`.
-> +`CC=` should be set when selecting a config and during a build.
-> +
-> +       make CC=clang defconfig
-> +
-> +       make CC=clang
-> +
-> +Cross Compiling
-> +---------------
-> +
-> +A single Clang compiler binary will typically contain all supported backends,
-> +which can help simplify cross compiling.
-> +
-> +       ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
-> +
-> +`CROSS_COMPILE` is not used to prefix the Clang compiler binary, instead
-> +`CROSS_COMPILE` is used to set a command line flag: `--target <triple>`. For
-> +example:
-> +
-> +       clang --target aarch64-linux-gnu foo.c
-> +
-> +LLVM Utilities
-> +--------------
-> +
-> +LLVM has substitutes for GNU binutils utilities. These can be invoked as
-> +additional parameters to `make`.
-> +
-> +       make CC=clang AS=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
-> +         OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-objsize \\
-> +         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
-> +         HOSTLD=ld.lld
-> +
-> +Getting Help
-> +------------
-> +
-> +- `Website <https://clangbuiltlinux.github.io/>`_
-> +- `Mailing List <https://groups.google.com/forum/#!forum/clang-built-linux>`_: <clang-built-linux@googlegroups.com>
-> +- `Issue Tracker <https://github.com/ClangBuiltLinux/linux/issues>`_
-> +- IRC: #clangbuiltlinux on chat.freenode.net
-> +- `Telegram <https://t.me/ClangBuiltLinux>`_: @ClangBuiltLinux
-> +- `Wiki <https://github.com/ClangBuiltLinux/linux/wiki>`_
-> +- `Beginner Bugs <https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22>`_
-> +
-> +Getting LLVM
-> +-------------
-> +
-> +- http://releases.llvm.org/download.html
-> +- https://github.com/llvm/llvm-project
-> +- https://llvm.org/docs/GettingStarted.html
-> +- https://llvm.org/docs/CMake.html
-> +- https://apt.llvm.org/
-> +- https://www.archlinux.org/packages/extra/x86_64/llvm/
-> +- https://github.com/ClangBuiltLinux/tc-build
-> +- https://github.com/ClangBuiltLinux/linux/wiki/Building-Clang-from-source
-> +- https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8b85f22b9b69..79e1f9bfb2b6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4124,6 +4124,7 @@ B:        https://github.com/ClangBuiltLinux/linux/issues
->  C:     irc://chat.freenode.net/clangbuiltlinux
->  S:     Supported
->  K:     \b(?i:clang|llvm)\b
-> +F:     Documentation/kbuild/llvm.rst
->
->  CLEANCACHE API
->  M:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-> --
-> 2.25.0.265.gbab2e86ba0-goog
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+> [1]: http://diy.inria.fr/doc/litmus.html#klitmus
+> 
+> Boqun Feng (5):
+>   tools/memory-model: Add an exception for limitations on _unless()
+>     family
+>   Documentation/locking/atomic: Fix atomic-set litmus test
+>   Documentation/locking/atomic: Introduce atomic-tests directory
+>   Documentation/locking/atomic: Add a litmus test for atomic_set()
+>   Documentation/locking/atomic: Add a litmus test smp_mb__after_atomic()
+> 
+>  ...ter_atomic-is-stronger-than-acquire.litmus | 32 +++++++++++++++++++
+>  ...c-RMW-ops-are-atomic-WRT-atomic_set.litmus | 24 ++++++++++++++
+>  Documentation/atomic-tests/README             | 16 ++++++++++
+>  Documentation/atomic_t.txt                    | 24 +++++++-------
+>  MAINTAINERS                                   |  1 +
+>  tools/memory-model/README                     | 10 ++++--
+>  6 files changed, 92 insertions(+), 15 deletions(-)
+>  create mode 100644 Documentation/atomic-tests/Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
+>  create mode 100644 Documentation/atomic-tests/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
+>  create mode 100644 Documentation/atomic-tests/README
+> 
+> -- 
+> 2.25.0
+> 
