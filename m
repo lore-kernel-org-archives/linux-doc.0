@@ -2,117 +2,115 @@ Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A31C3F2C2
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 21:45:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BFEC3F2C4
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 22:13:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 116EB246A1
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 21:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582839938;
-	bh=AM4kdeQCT+o/tr4whfJ+2H1/vGpVdw2AbR8i2yWI6fU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
-	b=RrsENvaasPwz9Rt/UNppXUAXB5Mz2S7rAvPVnrE8G8aQ9REOYN0GFY2erzIvVDEKH
-	 tikYcZnVxIuo8O1Ajqn2GceVOJB3tA2cKsclYhxOVV0GvOIaxEyrnERpkVp9htNki+
-	 2IGiW8op3PyJx3d8ynckzdFaGVxz7ZkxcQNUw/Lg=
+	by mail.kernel.org (Postfix) with ESMTP id A0E582469F
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 22:13:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="hCxh6qfD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729924AbgB0Vph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 16:45:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60054 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729162AbgB0Vph (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Feb 2020 16:45:37 -0500
-Received: from localhost (mobile-166-175-186-165.mycingular.net [166.175.186.165])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C929924690;
-        Thu, 27 Feb 2020 21:45:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582839936;
-        bh=AM4kdeQCT+o/tr4whfJ+2H1/vGpVdw2AbR8i2yWI6fU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=rjUNvDXW4SaRs8m5lIClDqaIbNTlJ26DXp3vVUY8/Jy/UL9SGe/nqsuWfDLrkSFcW
-         MLd7bb0DD5Jn9X8LoDOFIlunDVkoy5xy9Ek9GPefa4wgKkzAt1dCuSNfEQj5ChCWW6
-         Ng608tVC+sstuNJtr7v/hEO9LZ2eiaIxPcZJskF4=
-Date:   Thu, 27 Feb 2020 15:45:34 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     "Spassov, Stanislav" <stanspas@amazon.de>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "ashok.raj@intel.com" <ashok.raj@intel.com>,
-        "okaya@kernel.org" <okaya@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Wang, Wei" <wawei@amazon.de>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Schoenherr, Jan H." <jschoenh@amazon.de>,
-        "rajatja@google.com" <rajatja@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
-Message-ID: <20200227214534.GA143139@google.com>
+        id S1729831AbgB0WNm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 17:13:42 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:44722 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729773AbgB0WNl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 17:13:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=TLyRnJ1kCDzmRuRPTz7K92VaFFh1/vMyyOGH0HaTtQU=; b=hCxh6qfDzl2vp7DfzH7YiKHP4
+        DhRLp6tdz6Pf8sxKQD3D3uLhUeE+80ZYoKZT3UyLGQSdNw2BZ2vr/HFjStzNnKnsTYpuy/9jOOGfk
+        6he1mGrm1X7/9X5DeNZUs1Z0YBlJbGOhyg/Mxqn/zwJREwIsRGrpgC623yJdZzyZ7xB5x/DQCzdNa
+        fm5KA+xAB23YrLCSiNZBi0hBMiSRKZamKETgxTXepn1R/l59dEmUXwWzllDpEEhgRZJDxCjgOc3kp
+        mQO+YUx+2XZASMjQcq5zZM75k/L8YzXGdqB7mqjRvkBPzH4TlE6bzD5IbwetU/vIwC7WwXYqo+UDW
+        J0cfEvkEA==;
+Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:53650)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1j7RPK-0008OF-2y; Thu, 27 Feb 2020 22:13:26 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1j7RP9-0001Kj-JH; Thu, 27 Feb 2020 22:13:15 +0000
+Date:   Thu, 27 Feb 2020 22:13:15 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     David Miller <davem@davemloft.net>
+Cc:     andrew@lunn.ch, linux-doc@vger.kernel.org,
+        thomas.petazzoni@bootlin.com, ioana.ciornei@nxp.com,
+        linux-stm32@st-md-mailman.stormreply.com, f.fainelli@gmail.com,
+        corbet@lwn.net, michal.simek@xilinx.com, joabreu@synopsys.com,
+        kuba@kernel.org, Mark-MC.Lee@mediatek.com, sean.wang@mediatek.com,
+        alexandre.torgue@st.com, hauke@hauke-m.de,
+        radhey.shyam.pandey@xilinx.com, linux-mediatek@lists.infradead.org,
+        john@phrozen.org, matthias.bgg@gmail.com, peppe.cavallaro@st.com,
+        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+        vivien.didelot@gmail.com, mcoquelin.stm32@gmail.com, nbd@nbd.name,
+        olteanv@gmail.com, hkallweit1@gmail.com
+Subject: Re: [PATCH net-next v2 0/8] rework phylink interface for split
+ MAC/PCS support
+Message-ID: <20200227221315.GS25745@shell.armlinux.org.uk>
+References: <20200226102312.GX25745@shell.armlinux.org.uk>
+ <20200227.120254.241641132362203475.davem@davemloft.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <21926ab1c8216382801dca9130343f954247b408.camel@amazon.de>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20200227.120254.241641132362203475.davem@davemloft.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 24, 2020 at 05:52:14PM +0000, Spassov, Stanislav wrote:
-> On Mon, 2020-02-24 at 08:15 -0600, Bjorn Helgaas wrote:
-> > On Sun, Feb 23, 2020 at 01:20:55PM +0100, Stanislav Spassov wrote:
-> > > From: Wei Wang <wawei@amazon.de>
-> > > 
-> > > The reasonable value for the maximum time to wait for a PCI
-> > > device to be ready after reset varies depending on the platform
-> > > and the reliability of its set of devices.
-> > 
-> > There are several mechanisms in the spec for reducing these times,
-> > e.g., Readiness Notifications (PCIe r5.0, sec 6.23), the Readiness
-> > Time Reporting capability (sec 7.9.17), and ACPI _DSM methods (PCI
-> > Firmware Spec r3.2, sec 4.6.8, 4.6.9).
-> > 
-> > I would much rather use standard mechanisms like those instead of
-> > adding kernel parameters.  A user would have to use trial and
-> > error to figure out the value to use with a parameter like this,
-> > and that doesn't feel like a robust approach.
+On Thu, Feb 27, 2020 at 12:02:54PM -0800, David Miller wrote:
+> From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+> Date: Wed, 26 Feb 2020 10:23:12 +0000
 > 
-> I agree that supporting the standard mechanisms is highly desirable,
-> but some sort of fallback poll timeout value is necessary on
-> platforms where none of those mechanisms are supported. Arguably,
-> some kernel configurability (whether via a kernel parameter, as
-> proposed here, or some other means) is still desirable.
+> > The following series changes the phylink interface to allow us to
+> > better support split MAC / MAC PCS setups.  The fundamental change
+> > required for this turns out to be quite simple.
+> > 
+> > Today, mac_config() is used for everything to do with setting the
+> > parameters for the MAC, and mac_link_up() is used to inform the
+> > MAC driver that the link is now up (and so to allow packet flow.)
+> > mac_config() also has had a few implementation issues, with folk
+> > who believe that members such as "speed" and "duplex" are always
+> > valid, where "link" gets used inappropriately, etc.
+> > 
+> > With the proposed patches, all this changes subtly - but in a
+> > backwards compatible way at this stage.
+> > 
+> > We pass the the full resolved link state (speed, duplex, pause) to
+> > mac_link_up(), and it is now guaranteed that these parameters to
+> > this function will always be valid (no more SPEED_UNKNOWN or
+> > DUPLEX_UNKNOWN here - unless phylink is fed with such things.)
+> > 
+> > Drivers should convert over to using the state in mac_link_up()
+> > rather than configuring the speed, duplex and pause in the
+> > mac_config() method. The patch series includes a number of MAC
+> > drivers which I've thought have been easy targets - I've left the
+> > remainder as I think they need maintainer input. However, *all*
+> > drivers will need conversion for future phylink development.
+> > 
+> > v2: add ocelot/felix and qca/ar9331 DSA drivers to patch 2, add
+> >   received tested-by so far.
+> 
+> In order to end the storm in a teacup, I've applied this series.
+> 
+> :-)
+> 
+> Thanks Russell.
 
-IIUC we basically have two issues: 1) the default 60 second timeout is
-too long, and 2) you'd like to reduce the delays further à la the
-Device Readiness _DSM even for firmware that doesn't support that.
+Thanks David, I was getting concerned that the teacup might break! :p
 
-The 60 second timeout came from 821cdad5c46c ("PCI: Wait up to 60
-seconds for device to become ready after FLR") and is probably too
-long.  We probably should pick a smaller value based on numbers from
-the spec and make quirks for devices that needed more time.
-
-As far as reducing delays for specific devices, if we can identify
-them via Vendor/Device ID, can we make per-device values that could be
-set either by the _DSM or by a quirk?
-
-I'm trying to wriggle out of adding yet more PCI kernel parameters
-because people tend to stumble across them and pass them around on
-bulletin boards as ways to "fix" or "speed up" things that really
-should be addressed in better ways.
-
-> I also agree there is no robust method to determine a "good value", but
-> then again - how was the current value for the constant determined? As
-> suggested in PATCH 2, the idea is to lower the global timeout to avoid
-> hung tasks when devices break and never come back after reset.
-
-I don't remember exactly how we came up with 60 seconds; I suspect it
-was just a convenient large number.
-
-Bjorn
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
