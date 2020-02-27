@@ -2,107 +2,99 @@ Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21896C3F2C6
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 23:39:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84648C3F2CD
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 23:45:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E1BD22469B
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 23:39:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5409A246A6
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 23:45:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582847100;
+	bh=jS7+mPtdTkiNXDE3akD6Uj8BOQ6aBPXUdvAiHiiF+a0=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=qzkcI9Cq1WDhloD7OGB0XaJdrhQQQdi5197zQfhz8fPMjcMIh1QdKi7pajIInfWZd
+	 pcWOYPiem+nb3dye9K+hqUKQfKBilMOZjBtKYcystKCLz/9H+FZg4WrBaDrNM+lCeW
+	 87yLkui2WCQOnLG9Y5ucG0LhIiqgm+tL6xDavsck=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729796AbgB0XjE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 18:39:04 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:50308 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729317AbgB0XjE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 18:39:04 -0500
-Received: from 2.general.alexhung.us.vpn ([10.172.65.255] helo=canonical.com)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <alex.hung@canonical.com>)
-        id 1j7Sjo-0006f6-1m; Thu, 27 Feb 2020 23:38:40 +0000
-From:   Alex Hung <alex.hung@canonical.com>
-To:     corbet@lwn.net, rjw@rjwysocki.net, len.brown@intel.com,
-        pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        hpa@zytor.com, x86@kernel.org, mchehab+samsung@kernel.org,
-        jpoimboe@redhat.com, akpm@linux-foundation.org,
-        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
-        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-        alex.hung@canonical.com
-Subject: [PATCH] acpi/x86: add a kernel parameter to disable ACPI BGRT
-Date:   Thu, 27 Feb 2020 16:38:36 -0700
-Message-Id: <20200227233836.5797-1-alex.hung@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        id S1729816AbgB0XpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 18:45:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47738 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729796AbgB0Xo7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Feb 2020 18:44:59 -0500
+Received: from [10.92.140.40] (unknown [167.220.149.40])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 33AC32469B;
+        Thu, 27 Feb 2020 23:44:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582847099;
+        bh=jS7+mPtdTkiNXDE3akD6Uj8BOQ6aBPXUdvAiHiiF+a0=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=TARKyIdG28sunPLcAMYM25ara3hoVOHzWIaKr9YDES8Cduaq59iEm8/vlhUga1sJ0
+         H8rhfwiFmUp60gcNyX1Nu1yuWcu5Me3SqVRYJ3DqA+YodXNjE8o1MfNrySG/0gI9+m
+         yZYo5K02d1/+GOnioBzzo/N+3kTTSOBrm9cHy7vg=
+Subject: Re: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
+To:     Bjorn Helgaas <helgaas@kernel.org>,
+        "Spassov, Stanislav" <stanspas@amazon.de>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+        "ashok.raj@intel.com" <ashok.raj@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Wang, Wei" <wawei@amazon.de>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Schoenherr, Jan H." <jschoenh@amazon.de>,
+        "rajatja@google.com" <rajatja@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20200227214534.GA143139@google.com>
+From:   Sinan Kaya <okaya@kernel.org>
+Autocrypt: addr=okaya@kernel.org; keydata=
+ mQENBFrnOrUBCADGOL0kF21B6ogpOkuYvz6bUjO7NU99PKhXx1MfK/AzK+SFgxJF7dMluoF6
+ uT47bU7zb7HqACH6itTgSSiJeSoq86jYoq5s4JOyaj0/18Hf3/YBah7AOuwk6LtV3EftQIhw
+ 9vXqCnBwP/nID6PQ685zl3vH68yzF6FVNwbDagxUz/gMiQh7scHvVCjiqkJ+qu/36JgtTYYw
+ 8lGWRcto6gr0eTF8Wd8f81wspmUHGsFdN/xPsZPKMw6/on9oOj3AidcR3P9EdLY4qQyjvcNC
+ V9cL9b5I/Ud9ghPwW4QkM7uhYqQDyh3SwgEFudc+/RsDuxjVlg9CFnGhS0nPXR89SaQZABEB
+ AAG0HVNpbmFuIEtheWEgPG9rYXlhQGtlcm5lbC5vcmc+iQFOBBMBCAA4FiEEYdOlMSE+a7/c
+ ckrQvGF4I+4LAFcFAlztcAoCGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQvGF4I+4L
+ AFfidAf/VKHInxep0Z96iYkIq42432HTZUrxNzG9IWk4HN7c3vTJKv2W+b9pgvBF1SmkyQSy
+ 8SJ3Zd98CO6FOHA1FigFyZahVsme+T0GsS3/OF1kjrtMktoREr8t0rK0yKpCTYVdlkHadxmR
+ Qs5xLzW1RqKlrNigKHI2yhgpMwrpzS+67F1biT41227sqFzW9urEl/jqGJXaB6GV+SRKSHN+
+ ubWXgE1NkmfAMeyJPKojNT7ReL6eh3BNB/Xh1vQJew+AE50EP7o36UXghoUktnx6cTkge0ZS
+ qgxuhN33cCOU36pWQhPqVSlLTZQJVxuCmlaHbYWvye7bBOhmiuNKhOzb3FcgT7kBDQRa5zq1
+ AQgAyRq/7JZKOyB8wRx6fHE0nb31P75kCnL3oE+smKW/sOcIQDV3C7mZKLf472MWB1xdr4Tm
+ eXeL/wT0QHapLn5M5wWghC80YvjjdolHnlq9QlYVtvl1ocAC28y43tKJfklhHiwMNDJfdZbw
+ 9lQ2h+7nccFWASNUu9cqZOABLvJcgLnfdDpnSzOye09VVlKr3NHgRyRZa7me/oFJCxrJlKAl
+ 2hllRLt0yV08o7i14+qmvxI2EKLX9zJfJ2rGWLTVe3EJBnCsQPDzAUVYSnTtqELu2AGzvDiM
+ gatRaosnzhvvEK+kCuXuCuZlRWP7pWSHqFFuYq596RRG5hNGLbmVFZrCxQARAQABiQEfBBgB
+ CAAJBQJa5zq1AhsMAAoJELxheCPuCwBX2UYH/2kkMC4mImvoClrmcMsNGijcZHdDlz8NFfCI
+ gSb3NHkarnA7uAg8KJuaHUwBMk3kBhv2BGPLcmAknzBIehbZ284W7u3DT9o1Y5g+LDyx8RIi
+ e7pnMcC+bE2IJExCVf2p3PB1tDBBdLEYJoyFz/XpdDjZ8aVls/pIyrq+mqo5LuuhWfZzPPec
+ 9EiM2eXpJw+Rz+vKjSt1YIhg46YbdZrDM2FGrt9ve3YaM5H0lzJgq/JQPKFdbd5MB0X37Qc+
+ 2m/A9u9SFnOovA42DgXUyC2cSbIJdPWOK9PnzfXqF3sX9Aol2eLUmQuLpThJtq5EHu6FzJ7Y
+ L+s0nPaNMKwv/Xhhm6Y=
+Message-ID: <e162efcd-70fd-3390-2452-4915af1c9171@kernel.org>
+Date:   Thu, 27 Feb 2020 18:44:56 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200227214534.GA143139@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-BGRT is for displaying seamless OEM logo from booting to login screen;
-however, this mechanism does not always work well on all configurations
-and the OEM logo can be displayed multiple times. This looks worse than
-without BGRT enabled.
+On 2/27/2020 4:45 PM, Bjorn Helgaas wrote:
+> The 60 second timeout came from 821cdad5c46c ("PCI: Wait up to 60
+> seconds for device to become ready after FLR") and is probably too
+> long.  We probably should pick a smaller value based on numbers from
+> the spec and make quirks for devices that needed more time.
 
-This patch adds a kernel parameter to disable BGRT in boot time. This is
-easier than re-compiling a kernel with CONFIG_ACPI_BGRT disabled.
-
-Signed-off-by: Alex Hung <alex.hung@canonical.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  3 +++
- arch/x86/kernel/acpi/boot.c                     | 10 +++++++++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index ffff776..55c5b2f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -442,6 +442,9 @@
- 	bert_disable	[ACPI]
- 			Disable BERT OS support on buggy BIOSes.
- 
-+	bgrt_disable	[ACPI][X86]
-+			Disable BGRT to avoid flickering OEM logo.
-+
- 	bttv.card=	[HW,V4L] bttv (bt848 + bt878 based grabber cards)
- 	bttv.radio=	Most important insmod options are available as
- 			kernel args too.
-diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-index 04205ce..d1757ce 100644
---- a/arch/x86/kernel/acpi/boot.c
-+++ b/arch/x86/kernel/acpi/boot.c
-@@ -45,6 +45,7 @@ EXPORT_SYMBOL(acpi_disabled);
- #define PREFIX			"ACPI: "
- 
- int acpi_noirq;				/* skip ACPI IRQ initialization */
-+int acpi_nobgrt;			/* skip ACPI BGRT */
- int acpi_pci_disabled;		/* skip ACPI PCI scan and IRQ initialization */
- EXPORT_SYMBOL(acpi_pci_disabled);
- 
-@@ -1619,7 +1620,7 @@ int __init acpi_boot_init(void)
- 	acpi_process_madt();
- 
- 	acpi_table_parse(ACPI_SIG_HPET, acpi_parse_hpet);
--	if (IS_ENABLED(CONFIG_ACPI_BGRT))
-+	if (IS_ENABLED(CONFIG_ACPI_BGRT) && !acpi_nobgrt)
- 		acpi_table_parse(ACPI_SIG_BGRT, acpi_parse_bgrt);
- 
- 	if (!acpi_noirq)
-@@ -1671,6 +1672,13 @@ static int __init parse_acpi(char *arg)
- }
- early_param("acpi", parse_acpi);
- 
-+static int __init parse_acpi_bgrt(char *arg)
-+{
-+	acpi_nobgrt = true;
-+	return 0;
-+}
-+early_param("bgrt_disable", parse_acpi_bgrt);
-+
- /* FIXME: Using pci= for an ACPI parameter is a travesty. */
- static int __init parse_pci(char *arg)
- {
--- 
-2.7.4
-
+If I remember right, there was no time mention about how long to
+wait. Spec says device should send CRS as long as it is not ready.
