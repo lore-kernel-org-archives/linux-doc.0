@@ -2,636 +2,137 @@ Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22ECCC3F2C6
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 22:31:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6439C3F2C2
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 22:39:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D7D3F24650
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 22:30:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C07A7246A1
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 22:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730353AbgB0Waw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 17:30:52 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:42141 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729745AbgB0Waw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 17:30:52 -0500
-Received: from 79.184.237.30.ipv4.supernova.orange.pl (79.184.237.30) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.341)
- id 030098619b2178ec; Thu, 27 Feb 2020 23:30:48 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Linux PM <linux-pm@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Documentation: cpufreq: Move legacy driver documentation
-Date:   Thu, 27 Feb 2020 23:30:48 +0100
-Message-ID: <2064677.NQqUkctcim@kreacher>
+        id S1729850AbgB0Wjy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 17:39:54 -0500
+Received: from mail104.syd.optusnet.com.au ([211.29.132.246]:50979 "EHLO
+        mail104.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729722AbgB0Wjy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 17:39:54 -0500
+Received: from dread.disaster.area (pa49-195-202-68.pa.nsw.optusnet.com.au [49.195.202.68])
+        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 34B677EA9D0;
+        Fri, 28 Feb 2020 09:39:47 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1j7Ron-0004eO-8O; Fri, 28 Feb 2020 09:39:45 +1100
+Date:   Fri, 28 Feb 2020 09:39:45 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Eric Sandeen <sandeen@redhat.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Waiman Long <longman@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>
+Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
+Message-ID: <20200227223945.GN10737@dread.disaster.area>
+References: <20200226161404.14136-1-longman@redhat.com>
+ <20200226162954.GC24185@bombadil.infradead.org>
+ <0e5124a2-d730-5c41-38fd-2c78d9be4940@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0e5124a2-d730-5c41-38fd-2c78d9be4940@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.3 cv=LYdCFQXi c=1 sm=1 tr=0
+        a=mqTaRPt+QsUAtUurwE173Q==:117 a=mqTaRPt+QsUAtUurwE173Q==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=l697ptgUJYAA:10
+        a=5xOlfOR4AAAA:8 a=z2cq81k1AAAA:20 a=7-415B0cAAAA:8
+        a=mlMlIRDalk7ZbqZ7_3gA:9 a=bReWesNirA5XSw2M:21 a=cHR_8xpGokDfY6ir:21
+        a=CjuIK1q_8ugA:10 a=SGlsW6VomvECssOqsvzv:22 a=biEYGPWJfzWAr4FL6Ov7:22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Thu, Feb 27, 2020 at 11:04:40AM -0800, Eric Sandeen wrote:
+> On 2/26/20 8:29 AM, Matthew Wilcox wrote:
+> > On Wed, Feb 26, 2020 at 11:13:53AM -0500, Waiman Long wrote:
+> >> A new sysctl parameter "dentry-dir-max" is introduced which accepts a
+> >> value of 0 (default) for no limit or a positive integer 256 and up. Small
+> >> dentry-dir-max numbers are forbidden to avoid excessive dentry count
+> >> checking which can impact system performance.
+> > 
+> > This is always the wrong approach.  A sysctl is just a way of blaming
+> > the sysadmin for us not being very good at programming.
+> > 
+> > I agree that we need a way to limit the number of negative dentries.
+> > But that limit needs to be dynamic and depend on how the system is being
+> > used, not on how some overworked sysadmin has configured it.
+> > 
+> > So we need an initial estimate for the number of negative dentries that
+> > we need for good performance.  Maybe it's 1000.  It doesn't really matter;
+> > it's going to change dynamically.
+> > 
+> > Then we need a metric to let us know whether it needs to be increased.
+> > Perhaps that's "number of new negative dentries created in the last
+> > second".  And we need to decide how much to increase it; maybe it's by
+> > 50% or maybe by 10%.  Perhaps somewhere between 10-100% depending on
+> > how high the recent rate of negative dentry creation has been.
+> 
+> There are pitfalls to this approach as well.  Consider what libnss
+> does every time it starts up (via curl in this case)
+> 
+> # cat /proc/sys/fs/dentry-state
+> 3154271	3131421	45	0	2863333	0
+> # for I in `seq 1 10`; do curl https://sandeen.net/ &>/dev/null; done
+> # cat /proc/sys/fs/dentry-state
+> 3170738	3147844	45	0	2879882	0
+> 
+> voila, 16k more negative dcache entries, thanks to:
+> 
+> https://github.com/nss-dev/nss/blob/317cb06697d5b953d825e050c1d8c1ee0d647010/lib/softoken/sdb.c#L390
+> 
+> i.e. each time it inits, it will intentionally create up to 10,000 negative
+> dentries which will never be looked up again.
 
-There are three legacy driver documents in Documentation/cpu-freq/
-that were added years ago and converting them each to the .rst
-format is rather pointless, even though there is some value in
-preserving them.  However, if they are preserved, they need to go
-into the admin-guide part of cpufreq documentation where they belong
-(at least to a certain extent).
+Sandboxing via memcg restricted cgroups means users and/or
+applications cannot create unbound numbers of negative dentries, and
+that largely solves this problem.
 
-To preserve them with minimum amount of changes and put them into the
-right place, and make it possible to process them into HTML (and other
-formats) along with the rest of the documentation, move them each
-as a "literal text" block into a separate section of a single .rst
-"wrapper" file under Documentation/admin-guide/pm/.
+For a system daemons whose environment is controlled by a
+systemd unit file, this should be pretty trivial to do, and memcg
+directed memory reclaim will control negative dentry buildup.
 
-While at it, repair the PCC specification URL in one of them.
+For short-lived applications, teardown of the cgroup will free
+all the negative dentries it created - they don't hang around
+forever.
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- Documentation/admin-guide/pm/cpufreq_drivers.rst |  274 +++++++++++++++++++++++
- Documentation/admin-guide/pm/working-state.rst   |    1 
- Documentation/cpu-freq/amd-powernow.txt          |   38 ---
- Documentation/cpu-freq/cpufreq-nforce2.txt       |   19 -
- Documentation/cpu-freq/pcc-cpufreq.txt           |  207 -----------------
- 5 files changed, 275 insertions(+), 264 deletions(-)
+For long lived applications, negative dentries are bound by the
+application memcg limits, and buildup will only affect the
+applications own performance, not that of the whole system.
 
-Index: linux-pm/Documentation/admin-guide/pm/cpufreq_drivers.rst
-===================================================================
---- /dev/null
-+++ linux-pm/Documentation/admin-guide/pm/cpufreq_drivers.rst
-@@ -0,0 +1,274 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================================
-+Legacy Documentation of CPU Performance Scaling Drivers
-+=======================================================
-+
-+Included below are historic documents describing assorted
-+:doc:`CPU performance scaling <cpufreq>` drivers.  They are reproduced verbatim,
-+with the original white space formatting and indentation preserved, except for
-+the added leading space character in every line of text.
-+
-+
-+AMD PowerNow! Drivers
-+=====================
-+
-+::
-+
-+ PowerNow! and Cool'n'Quiet are AMD names for frequency
-+ management capabilities in AMD processors. As the hardware
-+ implementation changes in new generations of the processors,
-+ there is a different cpu-freq driver for each generation.
-+
-+ Note that the driver's will not load on the "wrong" hardware,
-+ so it is safe to try each driver in turn when in doubt as to
-+ which is the correct driver.
-+
-+ Note that the functionality to change frequency (and voltage)
-+ is not available in all processors. The drivers will refuse
-+ to load on processors without this capability. The capability
-+ is detected with the cpuid instruction.
-+
-+ The drivers use BIOS supplied tables to obtain frequency and
-+ voltage information appropriate for a particular platform.
-+ Frequency transitions will be unavailable if the BIOS does
-+ not supply these tables.
-+
-+ 6th Generation: powernow-k6
-+
-+ 7th Generation: powernow-k7: Athlon, Duron, Geode.
-+
-+ 8th Generation: powernow-k8: Athlon, Athlon 64, Opteron, Sempron.
-+ Documentation on this functionality in 8th generation processors
-+ is available in the "BIOS and Kernel Developer's Guide", publication
-+ 26094, in chapter 9, available for download from www.amd.com.
-+
-+ BIOS supplied data, for powernow-k7 and for powernow-k8, may be
-+ from either the PSB table or from ACPI objects. The ACPI support
-+ is only available if the kernel config sets CONFIG_ACPI_PROCESSOR.
-+ The powernow-k8 driver will attempt to use ACPI if so configured,
-+ and fall back to PST if that fails.
-+ The powernow-k7 driver will try to use the PSB support first, and
-+ fall back to ACPI if the PSB support fails. A module parameter,
-+ acpi_force, is provided to force ACPI support to be used instead
-+ of PSB support.
-+
-+
-+``cpufreq-nforce2``
-+===================
-+
-+::
-+
-+ The cpufreq-nforce2 driver changes the FSB on nVidia nForce2 platforms.
-+
-+ This works better than on other platforms, because the FSB of the CPU
-+ can be controlled independently from the PCI/AGP clock.
-+
-+ The module has two options:
-+
-+ 	fid: 	 multiplier * 10 (for example 8.5 = 85)
-+ 	min_fsb: minimum FSB
-+
-+ If not set, fid is calculated from the current CPU speed and the FSB.
-+ min_fsb defaults to FSB at boot time - 50 MHz.
-+
-+ IMPORTANT: The available range is limited downwards!
-+            Also the minimum available FSB can differ, for systems
-+            booting with 200 MHz, 150 should always work.
-+
-+
-+``pcc-cpufreq``
-+===============
-+
-+::
-+
-+ /*
-+  *  pcc-cpufreq.txt - PCC interface documentation
-+  *
-+  *  Copyright (C) 2009 Red Hat, Matthew Garrett <mjg@redhat.com>
-+  *  Copyright (C) 2009 Hewlett-Packard Development Company, L.P.
-+  *      Nagananda Chumbalkar <nagananda.chumbalkar@hp.com>
-+  */
-+
-+
-+ 			Processor Clocking Control Driver
-+ 			---------------------------------
-+
-+ Contents:
-+ ---------
-+ 1.	Introduction
-+ 1.1	PCC interface
-+ 1.1.1	Get Average Frequency
-+ 1.1.2	Set Desired Frequency
-+ 1.2	Platforms affected
-+ 2.	Driver and /sys details
-+ 2.1	scaling_available_frequencies
-+ 2.2	cpuinfo_transition_latency
-+ 2.3	cpuinfo_cur_freq
-+ 2.4	related_cpus
-+ 3.	Caveats
-+
-+ 1. Introduction:
-+ ----------------
-+ Processor Clocking Control (PCC) is an interface between the platform
-+ firmware and OSPM. It is a mechanism for coordinating processor
-+ performance (ie: frequency) between the platform firmware and the OS.
-+
-+ The PCC driver (pcc-cpufreq) allows OSPM to take advantage of the PCC
-+ interface.
-+
-+ OS utilizes the PCC interface to inform platform firmware what frequency the
-+ OS wants for a logical processor. The platform firmware attempts to achieve
-+ the requested frequency. If the request for the target frequency could not be
-+ satisfied by platform firmware, then it usually means that power budget
-+ conditions are in place, and "power capping" is taking place.
-+
-+ 1.1 PCC interface:
-+ ------------------
-+ The complete PCC specification is available here:
-+ https://acpica.org/sites/acpica/files/Processor-Clocking-Control-v1p0.pdf
-+
-+ PCC relies on a shared memory region that provides a channel for communication
-+ between the OS and platform firmware. PCC also implements a "doorbell" that
-+ is used by the OS to inform the platform firmware that a command has been
-+ sent.
-+
-+ The ACPI PCCH() method is used to discover the location of the PCC shared
-+ memory region. The shared memory region header contains the "command" and
-+ "status" interface. PCCH() also contains details on how to access the platform
-+ doorbell.
-+
-+ The following commands are supported by the PCC interface:
-+ * Get Average Frequency
-+ * Set Desired Frequency
-+
-+ The ACPI PCCP() method is implemented for each logical processor and is
-+ used to discover the offsets for the input and output buffers in the shared
-+ memory region.
-+
-+ When PCC mode is enabled, the platform will not expose processor performance
-+ or throttle states (_PSS, _TSS and related ACPI objects) to OSPM. Therefore,
-+ the native P-state driver (such as acpi-cpufreq for Intel, powernow-k8 for
-+ AMD) will not load.
-+
-+ However, OSPM remains in control of policy. The governor (eg: "ondemand")
-+ computes the required performance for each processor based on server workload.
-+ The PCC driver fills in the command interface, and the input buffer and
-+ communicates the request to the platform firmware. The platform firmware is
-+ responsible for delivering the requested performance.
-+
-+ Each PCC command is "global" in scope and can affect all the logical CPUs in
-+ the system. Therefore, PCC is capable of performing "group" updates. With PCC
-+ the OS is capable of getting/setting the frequency of all the logical CPUs in
-+ the system with a single call to the BIOS.
-+
-+ 1.1.1 Get Average Frequency:
-+ ----------------------------
-+ This command is used by the OSPM to query the running frequency of the
-+ processor since the last time this command was completed. The output buffer
-+ indicates the average unhalted frequency of the logical processor expressed as
-+ a percentage of the nominal (ie: maximum) CPU frequency. The output buffer
-+ also signifies if the CPU frequency is limited by a power budget condition.
-+
-+ 1.1.2 Set Desired Frequency:
-+ ----------------------------
-+ This command is used by the OSPM to communicate to the platform firmware the
-+ desired frequency for a logical processor. The output buffer is currently
-+ ignored by OSPM. The next invocation of "Get Average Frequency" will inform
-+ OSPM if the desired frequency was achieved or not.
-+
-+ 1.2 Platforms affected:
-+ -----------------------
-+ The PCC driver will load on any system where the platform firmware:
-+ * supports the PCC interface, and the associated PCCH() and PCCP() methods
-+ * assumes responsibility for managing the hardware clocking controls in order
-+ to deliver the requested processor performance
-+
-+ Currently, certain HP ProLiant platforms implement the PCC interface. On those
-+ platforms PCC is the "default" choice.
-+
-+ However, it is possible to disable this interface via a BIOS setting. In
-+ such an instance, as is also the case on platforms where the PCC interface
-+ is not implemented, the PCC driver will fail to load silently.
-+
-+ 2. Driver and /sys details:
-+ ---------------------------
-+ When the driver loads, it merely prints the lowest and the highest CPU
-+ frequencies supported by the platform firmware.
-+
-+ The PCC driver loads with a message such as:
-+ pcc-cpufreq: (v1.00.00) driver loaded with frequency limits: 1600 MHz, 2933
-+ MHz
-+
-+ This means that the OPSM can request the CPU to run at any frequency in
-+ between the limits (1600 MHz, and 2933 MHz) specified in the message.
-+
-+ Internally, there is no need for the driver to convert the "target" frequency
-+ to a corresponding P-state.
-+
-+ The VERSION number for the driver will be of the format v.xy.ab.
-+ eg: 1.00.02
-+    ----- --
-+     |    |
-+     |    -- this will increase with bug fixes/enhancements to the driver
-+     |-- this is the version of the PCC specification the driver adheres to
-+
-+
-+ The following is a brief discussion on some of the fields exported via the
-+ /sys filesystem and how their values are affected by the PCC driver:
-+
-+ 2.1 scaling_available_frequencies:
-+ ----------------------------------
-+ scaling_available_frequencies is not created in /sys. No intermediate
-+ frequencies need to be listed because the BIOS will try to achieve any
-+ frequency, within limits, requested by the governor. A frequency does not have
-+ to be strictly associated with a P-state.
-+
-+ 2.2 cpuinfo_transition_latency:
-+ -------------------------------
-+ The cpuinfo_transition_latency field is 0. The PCC specification does
-+ not include a field to expose this value currently.
-+
-+ 2.3 cpuinfo_cur_freq:
-+ ---------------------
-+ A) Often cpuinfo_cur_freq will show a value different than what is declared
-+ in the scaling_available_frequencies or scaling_cur_freq, or scaling_max_freq.
-+ This is due to "turbo boost" available on recent Intel processors. If certain
-+ conditions are met the BIOS can achieve a slightly higher speed than requested
-+ by OSPM. An example:
-+
-+ scaling_cur_freq	: 2933000
-+ cpuinfo_cur_freq	: 3196000
-+
-+ B) There is a round-off error associated with the cpuinfo_cur_freq value.
-+ Since the driver obtains the current frequency as a "percentage" (%) of the
-+ nominal frequency from the BIOS, sometimes, the values displayed by
-+ scaling_cur_freq and cpuinfo_cur_freq may not match. An example:
-+
-+ scaling_cur_freq	: 1600000
-+ cpuinfo_cur_freq	: 1583000
-+
-+ In this example, the nominal frequency is 2933 MHz. The driver obtains the
-+ current frequency, cpuinfo_cur_freq, as 54% of the nominal frequency:
-+
-+ 	54% of 2933 MHz = 1583 MHz
-+
-+ Nominal frequency is the maximum frequency of the processor, and it usually
-+ corresponds to the frequency of the P0 P-state.
-+
-+ 2.4 related_cpus:
-+ -----------------
-+ The related_cpus field is identical to affected_cpus.
-+
-+ affected_cpus	: 4
-+ related_cpus	: 4
-+
-+ Currently, the PCC driver does not evaluate _PSD. The platforms that support
-+ PCC do not implement SW_ALL. So OSPM doesn't need to perform any coordination
-+ to ensure that the same frequency is requested of all dependent CPUs.
-+
-+ 3. Caveats:
-+ -----------
-+ The "cpufreq_stats" module in its present form cannot be loaded and
-+ expected to work with the PCC driver. Since the "cpufreq_stats" module
-+ provides information wrt each P-state, it is not applicable to the PCC driver.
-Index: linux-pm/Documentation/admin-guide/pm/working-state.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/working-state.rst
-+++ linux-pm/Documentation/admin-guide/pm/working-state.rst
-@@ -11,4 +11,5 @@ Working-State Power Management
-    intel_idle
-    cpufreq
-    intel_pstate
-+   cpufreq_drivers
-    intel_epb
-Index: linux-pm/Documentation/cpu-freq/amd-powernow.txt
-===================================================================
---- linux-pm.orig/Documentation/cpu-freq/amd-powernow.txt
-+++ /dev/null
-@@ -1,38 +0,0 @@
--
--PowerNow! and Cool'n'Quiet are AMD names for frequency
--management capabilities in AMD processors. As the hardware
--implementation changes in new generations of the processors,
--there is a different cpu-freq driver for each generation.
--
--Note that the driver's will not load on the "wrong" hardware,
--so it is safe to try each driver in turn when in doubt as to
--which is the correct driver.
--
--Note that the functionality to change frequency (and voltage)
--is not available in all processors. The drivers will refuse
--to load on processors without this capability. The capability
--is detected with the cpuid instruction.
--
--The drivers use BIOS supplied tables to obtain frequency and
--voltage information appropriate for a particular platform.
--Frequency transitions will be unavailable if the BIOS does
--not supply these tables.
--
--6th Generation: powernow-k6
--
--7th Generation: powernow-k7: Athlon, Duron, Geode.
--
--8th Generation: powernow-k8: Athlon, Athlon 64, Opteron, Sempron.
--Documentation on this functionality in 8th generation processors
--is available in the "BIOS and Kernel Developer's Guide", publication
--26094, in chapter 9, available for download from www.amd.com. 
--
--BIOS supplied data, for powernow-k7 and for powernow-k8, may be
--from either the PSB table or from ACPI objects. The ACPI support
--is only available if the kernel config sets CONFIG_ACPI_PROCESSOR.
--The powernow-k8 driver will attempt to use ACPI if so configured,
--and fall back to PST if that fails.
--The powernow-k7 driver will try to use the PSB support first, and
--fall back to ACPI if the PSB support fails. A module parameter,
--acpi_force, is provided to force ACPI support to be used instead 
--of PSB support.
-Index: linux-pm/Documentation/cpu-freq/cpufreq-nforce2.txt
-===================================================================
---- linux-pm.orig/Documentation/cpu-freq/cpufreq-nforce2.txt
-+++ /dev/null
-@@ -1,19 +0,0 @@
--
--The cpufreq-nforce2 driver changes the FSB on nVidia nForce2 platforms.
--
--This works better than on other platforms, because the FSB of the CPU
--can be controlled independently from the PCI/AGP clock.
--
--The module has two options:
--
--	fid: 	 multiplier * 10 (for example 8.5 = 85)
--	min_fsb: minimum FSB
--
--If not set, fid is calculated from the current CPU speed and the FSB.
--min_fsb defaults to FSB at boot time - 50 MHz.
--
--IMPORTANT: The available range is limited downwards!
--           Also the minimum available FSB can differ, for systems 
--           booting with 200 MHz, 150 should always work.
--
--
-Index: linux-pm/Documentation/cpu-freq/pcc-cpufreq.txt
-===================================================================
---- linux-pm.orig/Documentation/cpu-freq/pcc-cpufreq.txt
-+++ /dev/null
-@@ -1,207 +0,0 @@
--/*
-- *  pcc-cpufreq.txt - PCC interface documentation
-- *
-- *  Copyright (C) 2009 Red Hat, Matthew Garrett <mjg@redhat.com>
-- *  Copyright (C) 2009 Hewlett-Packard Development Company, L.P.
-- *      Nagananda Chumbalkar <nagananda.chumbalkar@hp.com>
-- *
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- *
-- *  This program is free software; you can redistribute it and/or modify
-- *  it under the terms of the GNU General Public License as published by
-- *  the Free Software Foundation; version 2 of the License.
-- *
-- *  This program is distributed in the hope that it will be useful, but
-- *  WITHOUT ANY WARRANTY; without even the implied warranty of
-- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE, GOOD TITLE or NON
-- *  INFRINGEMENT. See the GNU General Public License for more details.
-- *
-- *  You should have received a copy of the GNU General Public License along
-- *  with this program; if not, write to the Free Software Foundation, Inc.,
-- *  675 Mass Ave, Cambridge, MA 02139, USA.
-- *
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- */
--
--
--			Processor Clocking Control Driver
--			---------------------------------
--
--Contents:
-----------
--1.	Introduction
--1.1	PCC interface
--1.1.1   Get Average Frequency
--1.1.2	Set Desired Frequency
--1.2	Platforms affected
--2.	Driver and /sys details
--2.1	scaling_available_frequencies
--2.2	cpuinfo_transition_latency
--2.3	cpuinfo_cur_freq
--2.4	related_cpus
--3.	Caveats
--
--1. Introduction:
------------------
--Processor Clocking Control (PCC) is an interface between the platform
--firmware and OSPM. It is a mechanism for coordinating processor
--performance (ie: frequency) between the platform firmware and the OS.
--
--The PCC driver (pcc-cpufreq) allows OSPM to take advantage of the PCC
--interface.
--
--OS utilizes the PCC interface to inform platform firmware what frequency the
--OS wants for a logical processor. The platform firmware attempts to achieve
--the requested frequency. If the request for the target frequency could not be
--satisfied by platform firmware, then it usually means that power budget
--conditions are in place, and "power capping" is taking place.
--
--1.1 PCC interface:
--------------------
--The complete PCC specification is available here:
--http://www.acpica.org/download/Processor-Clocking-Control-v1p0.pdf
--
--PCC relies on a shared memory region that provides a channel for communication
--between the OS and platform firmware. PCC also implements a "doorbell" that
--is used by the OS to inform the platform firmware that a command has been
--sent.
--
--The ACPI PCCH() method is used to discover the location of the PCC shared
--memory region. The shared memory region header contains the "command" and
--"status" interface. PCCH() also contains details on how to access the platform
--doorbell.
--
--The following commands are supported by the PCC interface:
--* Get Average Frequency
--* Set Desired Frequency
--
--The ACPI PCCP() method is implemented for each logical processor and is
--used to discover the offsets for the input and output buffers in the shared
--memory region.
--
--When PCC mode is enabled, the platform will not expose processor performance
--or throttle states (_PSS, _TSS and related ACPI objects) to OSPM. Therefore,
--the native P-state driver (such as acpi-cpufreq for Intel, powernow-k8 for
--AMD) will not load.
--
--However, OSPM remains in control of policy. The governor (eg: "ondemand")
--computes the required performance for each processor based on server workload.
--The PCC driver fills in the command interface, and the input buffer and
--communicates the request to the platform firmware. The platform firmware is
--responsible for delivering the requested performance.
--
--Each PCC command is "global" in scope and can affect all the logical CPUs in
--the system. Therefore, PCC is capable of performing "group" updates. With PCC
--the OS is capable of getting/setting the frequency of all the logical CPUs in
--the system with a single call to the BIOS.
--
--1.1.1 Get Average Frequency:
------------------------------
--This command is used by the OSPM to query the running frequency of the
--processor since the last time this command was completed. The output buffer
--indicates the average unhalted frequency of the logical processor expressed as
--a percentage of the nominal (ie: maximum) CPU frequency. The output buffer
--also signifies if the CPU frequency is limited by a power budget condition.
--
--1.1.2 Set Desired Frequency:
------------------------------
--This command is used by the OSPM to communicate to the platform firmware the
--desired frequency for a logical processor. The output buffer is currently
--ignored by OSPM. The next invocation of "Get Average Frequency" will inform
--OSPM if the desired frequency was achieved or not.
--
--1.2 Platforms affected:
-------------------------
--The PCC driver will load on any system where the platform firmware:
--* supports the PCC interface, and the associated PCCH() and PCCP() methods
--* assumes responsibility for managing the hardware clocking controls in order
--to deliver the requested processor performance
--
--Currently, certain HP ProLiant platforms implement the PCC interface. On those
--platforms PCC is the "default" choice.
--
--However, it is possible to disable this interface via a BIOS setting. In
--such an instance, as is also the case on platforms where the PCC interface
--is not implemented, the PCC driver will fail to load silently.
--
--2. Driver and /sys details:
-----------------------------
--When the driver loads, it merely prints the lowest and the highest CPU
--frequencies supported by the platform firmware.
--
--The PCC driver loads with a message such as:
--pcc-cpufreq: (v1.00.00) driver loaded with frequency limits: 1600 MHz, 2933
--MHz
--
--This means that the OPSM can request the CPU to run at any frequency in
--between the limits (1600 MHz, and 2933 MHz) specified in the message.
--
--Internally, there is no need for the driver to convert the "target" frequency
--to a corresponding P-state.
--
--The VERSION number for the driver will be of the format v.xy.ab.
--eg: 1.00.02
--   ----- --
--    |    |
--    |    -- this will increase with bug fixes/enhancements to the driver
--    |-- this is the version of the PCC specification the driver adheres to
--
--
--The following is a brief discussion on some of the fields exported via the
--/sys filesystem and how their values are affected by the PCC driver:
--
--2.1 scaling_available_frequencies:
------------------------------------
--scaling_available_frequencies is not created in /sys. No intermediate
--frequencies need to be listed because the BIOS will try to achieve any
--frequency, within limits, requested by the governor. A frequency does not have
--to be strictly associated with a P-state.
--
--2.2 cpuinfo_transition_latency:
---------------------------------
--The cpuinfo_transition_latency field is 0. The PCC specification does
--not include a field to expose this value currently.
--
--2.3 cpuinfo_cur_freq:
-----------------------
--A) Often cpuinfo_cur_freq will show a value different than what is declared
--in the scaling_available_frequencies or scaling_cur_freq, or scaling_max_freq.
--This is due to "turbo boost" available on recent Intel processors. If certain
--conditions are met the BIOS can achieve a slightly higher speed than requested
--by OSPM. An example:
--
--scaling_cur_freq	: 2933000
--cpuinfo_cur_freq	: 3196000
--
--B) There is a round-off error associated with the cpuinfo_cur_freq value.
--Since the driver obtains the current frequency as a "percentage" (%) of the
--nominal frequency from the BIOS, sometimes, the values displayed by
--scaling_cur_freq and cpuinfo_cur_freq may not match. An example:
--
--scaling_cur_freq	: 1600000
--cpuinfo_cur_freq	: 1583000
--
--In this example, the nominal frequency is 2933 MHz. The driver obtains the
--current frequency, cpuinfo_cur_freq, as 54% of the nominal frequency:
--
--	54% of 2933 MHz = 1583 MHz
--
--Nominal frequency is the maximum frequency of the processor, and it usually
--corresponds to the frequency of the P0 P-state.
--
--2.4 related_cpus:
-------------------
--The related_cpus field is identical to affected_cpus.
--
--affected_cpus	: 4
--related_cpus	: 4
--
--Currently, the PCC driver does not evaluate _PSD. The platforms that support
--PCC do not implement SW_ALL. So OSPM doesn't need to perform any coordination
--to ensure that the same frequency is requested of all dependent CPUs.
--
--3. Caveats:
-------------
--The "cpufreq_stats" module in its present form cannot be loaded and
--expected to work with the PCC driver. Since the "cpufreq_stats" module
--provides information wrt each P-state, it is not applicable to the PCC driver.
+IOWs, I'd expect this sort of resource control problem to be solved
+at the user, application and/or distro level, not with a huge kernel
+hammer.
 
+> I /think/ the original intent of this work was to limit such rogue
+> applications, so scaling with use probably isn't the way to go.
 
+The original intent was to prevent problems on old kernels that
+supported terabytes of memory but could not use cgroup/memcg
+infrastructure to isolate and contain negative dentry growth.
+That was a much simpler, targeted negative dentry limiting solution,
+not the ... craziness that can be found in this patchset.
 
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
