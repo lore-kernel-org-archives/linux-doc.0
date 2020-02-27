@@ -2,418 +2,509 @@ Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11E63C35DEE
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 17:01:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BEDC3567B
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 17:05:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E825A246A3
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 17:01:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E79C32469F
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 17:05:47 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i2eDaNp+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729360AbgB0RBK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 12:01:10 -0500
-Received: from smtp-8fa8.mail.infomaniak.ch ([83.166.143.168]:53223 "EHLO
-        smtp-8fa8.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729294AbgB0RBK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 12:01:10 -0500
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id DDFAA1003A4D3;
-        Thu, 27 Feb 2020 18:01:05 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 48SzT85slszlhCmN;
-        Thu, 27 Feb 2020 18:01:00 +0100 (CET)
-Subject: Re: [RFC PATCH v14 01/10] landlock: Add object and rule management
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-References: <20200224160215.4136-1-mic@digikod.net>
- <20200227042002.3032-1-hdanton@sina.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <216c8e89-2906-4ad5-f8a1-ab3ec50614fe@digikod.net>
-Date:   Thu, 27 Feb 2020 18:01:00 +0100
-User-Agent: 
+        id S1729161AbgB0RFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 12:05:47 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:39498 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729172AbgB0RFr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 12:05:47 -0500
+Received: by mail-io1-f65.google.com with SMTP id h3so235566ioj.6
+        for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2020 09:05:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Pfg0bi+sFcPndADzUkLpjWKHkAlDvMR2dE5gD9tiHQM=;
+        b=i2eDaNp+Eszd+9W1ID672YkO3fMeyDiOws+pb7XKxfMz5/yaw2FJlsK8ei3fzatqtm
+         4L4L7cX2nCCqrouDM937z8zRqFPgESFhKdDeV6fhKQP9r7zk3tvNVPASH7pru1WgOIdN
+         IpJHyporpGJkLSz8AiughI2xAz39cGKiwta1enlQuvMg3Ng+bXTrtfJyDBWfa4q6HcJ4
+         DCwXnwY+6D+O1HBkAXYakyCs1xZcWV8Qde4g0fAx+EJlRG90lTvtVlbsOcJWsGxVJfdC
+         ZNiecRyC4kXEVjvyFOZc7zkOGg5RxGkXljkHNPhkH82u7BcLJAK3OY3ITZiW4k70Qolu
+         GSCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Pfg0bi+sFcPndADzUkLpjWKHkAlDvMR2dE5gD9tiHQM=;
+        b=XkVqhXI1bkfwIKD38J1uu4ol1TpYq2vQIS7FZ7m0OKgwWVbC3Hg59Q5CDTqOywIN/x
+         p5saTXPl+SJNPunv0517B+mRiyDMTmV1/XtZyMcitpeKfRpQWKF2zQNU/Vo1F5oKhvfg
+         AxnC5x/FBUpehqBqz2T91X3g89YVJ2DdI7VO+yRcf92eyDxy3ec/6kfi9p+zs5cc1Ab5
+         kn7fHM/qTKAfm+PcIZKzWni4ZucE+Gj75Vh6q1GN8y2dLO/nIpR731pdZIoL4OfpnWwi
+         4dSDKBFMtFo3w71rKTHUknEMkBp3WM3yuoqP16CDFxqPgBQ9ih0xT+aVaTRLRK6DWTQm
+         pLXg==
+X-Gm-Message-State: APjAAAWSjSlw+D6aqr5ZE9kxKAMmEfq0Yr2uo7KPBIruqEhcBAhbK7d1
+        o4OyhaNV83jlZ91s9trYzvHzOqAcwDa1nOl4y1RkeQ==
+X-Google-Smtp-Source: APXvYqzShgva7+6pxk0ORMXPxyHT6xrvSZzjtnV0ZVz1cO3EyYEvWyhXwYyjFkEdjhqv39UnsG98JlbbBdnLillQiHw=
+X-Received: by 2002:a5e:d616:: with SMTP id w22mr213500iom.57.1582823145050;
+ Thu, 27 Feb 2020 09:05:45 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200227042002.3032-1-hdanton@sina.com>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+References: <20200225234611.11067-1-mike.leach@linaro.org> <20200225234611.11067-12-mike.leach@linaro.org>
+In-Reply-To: <20200225234611.11067-12-mike.leach@linaro.org>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Thu, 27 Feb 2020 10:05:34 -0700
+Message-ID: <CANLsYkw81si3_cAA1QQWCTGLYS22AMnZGUh9uNgfuK6GXSTKtg@mail.gmail.com>
+Subject: Re: [PATCH v10 11/15] dt-bindings: arm: Juno platform - add CTI
+ entries to device tree
+To:     Mike Leach <mike.leach@linaro.org>,
+        Sudeep Holla <sudeep.holla@arm.com>
+Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree@vger.kernel.org,
+        Coresight ML <coresight@lists.linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+        Rob Herring <robh+dt@kernel.org>, maxime@cerno.tech,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andy Gross <agross@kernel.org>, Jon Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 25 Feb 2020 at 16:46, Mike Leach <mike.leach@linaro.org> wrote:
+>
+> Add in CTI entries for Juno r0, r1 and r2 to device tree entries.
+>
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
+Sudeep, please consider adding to your next tree.
 
-On 27/02/2020 05:20, Hillf Danton wrote:
-> 
-> On Mon, 24 Feb 2020 17:02:06 +0100 Mickaël Salaün 
->> A Landlock object enables to identify a kernel object (e.g. an inode).
->> A Landlock rule is a set of access rights allowed on an object.  Rules
->> are grouped in rulesets that may be tied to a set of processes (i.e.
->> subjects) to enforce a scoped access-control (i.e. a domain).
->>
->> Because Landlock's goal is to empower any process (especially
->> unprivileged ones) to sandbox themselves, we can't rely on a system-wide
->> object identification such as file extended attributes.  Indeed, we need
->> innocuous, composable and modular access-controls.
->>
->> The main challenge with this constraints is to identify kernel objects
->> while this identification is useful (i.e. when a security policy makes
->> use of this object).  But this identification data should be freed once
->> no policy is using it.  This ephemeral tagging should not and may not be
->> written in the filesystem.  We then need to manage the lifetime of a
->> rule according to the lifetime of its object.  To avoid a global lock,
->> this implementation make use of RCU and counters to safely reference
->> objects.
->>
->> A following commit uses this generic object management for inodes.
->>
->> Signed-off-by: Mickaël Salaün <mic@digikod.net>
->> Cc: Andy Lutomirski <luto@amacapital.net>
->> Cc: James Morris <jmorris@namei.org>
->> Cc: Kees Cook <keescook@chromium.org>
->> Cc: Serge E. Hallyn <serge@hallyn.com>
->> ---
->>
->> Changes since v13:
->> * New dedicated implementation, removing the need for eBPF.
->>
->> Previous version:
->> https://lore.kernel.org/lkml/20190721213116.23476-6-mic@digikod.net/
->> ---
->>  MAINTAINERS                |  10 ++
->>  security/Kconfig           |   1 +
->>  security/Makefile          |   2 +
->>  security/landlock/Kconfig  |  15 ++
->>  security/landlock/Makefile |   3 +
->>  security/landlock/object.c | 339 +++++++++++++++++++++++++++++++++++++
->>  security/landlock/object.h | 134 +++++++++++++++
->>  7 files changed, 504 insertions(+)
->>  create mode 100644 security/landlock/Kconfig
->>  create mode 100644 security/landlock/Makefile
->>  create mode 100644 security/landlock/object.c
->>  create mode 100644 security/landlock/object.h
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index fcd79fc38928..206f85768cd9 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -9360,6 +9360,16 @@ F:	net/core/skmsg.c
->>  F:	net/core/sock_map.c
->>  F:	net/ipv4/tcp_bpf.c
->>  
->> +LANDLOCK SECURITY MODULE
->> +M:	Mickaël Salaün <mic@digikod.net>
->> +L:	linux-security-module@vger.kernel.org
->> +W:	https://landlock.io
->> +T:	git https://github.com/landlock-lsm/linux.git
->> +S:	Supported
->> +F:	security/landlock/
->> +K:	landlock
->> +K:	LANDLOCK
->> +
->>  LANTIQ / INTEL Ethernet drivers
->>  M:	Hauke Mehrtens <hauke@hauke-m.de>
->>  L:	netdev@vger.kernel.org
->> diff --git a/security/Kconfig b/security/Kconfig
->> index 2a1a2d396228..9d9981394fb0 100644
->> --- a/security/Kconfig
->> +++ b/security/Kconfig
->> @@ -238,6 +238,7 @@ source "security/loadpin/Kconfig"
->>  source "security/yama/Kconfig"
->>  source "security/safesetid/Kconfig"
->>  source "security/lockdown/Kconfig"
->> +source "security/landlock/Kconfig"
->>  
->>  source "security/integrity/Kconfig"
->>  
->> diff --git a/security/Makefile b/security/Makefile
->> index 746438499029..2472ef96d40a 100644
->> --- a/security/Makefile
->> +++ b/security/Makefile
->> @@ -12,6 +12,7 @@ subdir-$(CONFIG_SECURITY_YAMA)		+= yama
->>  subdir-$(CONFIG_SECURITY_LOADPIN)	+= loadpin
->>  subdir-$(CONFIG_SECURITY_SAFESETID)    += safesetid
->>  subdir-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown
->> +subdir-$(CONFIG_SECURITY_LANDLOCK)		+= landlock
->>  
->>  # always enable default capabilities
->>  obj-y					+= commoncap.o
->> @@ -29,6 +30,7 @@ obj-$(CONFIG_SECURITY_YAMA)		+= yama/
->>  obj-$(CONFIG_SECURITY_LOADPIN)		+= loadpin/
->>  obj-$(CONFIG_SECURITY_SAFESETID)       += safesetid/
->>  obj-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown/
->> +obj-$(CONFIG_SECURITY_LANDLOCK)	+= landlock/
->>  obj-$(CONFIG_CGROUP_DEVICE)		+= device_cgroup.o
->>  
->>  # Object integrity file lists
->> diff --git a/security/landlock/Kconfig b/security/landlock/Kconfig
->> new file mode 100644
->> index 000000000000..4a321d5b3f67
->> --- /dev/null
->> +++ b/security/landlock/Kconfig
->> @@ -0,0 +1,15 @@
->> +# SPDX-License-Identifier: GPL-2.0-only
->> +
->> +config SECURITY_LANDLOCK
->> +	bool "Landlock support"
->> +	depends on SECURITY
->> +	default n
->> +	help
->> +	  This selects Landlock, a safe sandboxing mechanism.  It enables to
->> +	  restrict processes on the fly (i.e. enforce an access control policy),
->> +	  which can complement seccomp-bpf.  The security policy is a set of access
->> +	  rights tied to an object, which could be a file, a socket or a process.
->> +
->> +	  See Documentation/security/landlock/ for further information.
->> +
->> +	  If you are unsure how to answer this question, answer N.
->> diff --git a/security/landlock/Makefile b/security/landlock/Makefile
->> new file mode 100644
->> index 000000000000..cb6deefbf4c0
->> --- /dev/null
->> +++ b/security/landlock/Makefile
->> @@ -0,0 +1,3 @@
->> +obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
->> +
->> +landlock-y := object.o
->> diff --git a/security/landlock/object.c b/security/landlock/object.c
->> new file mode 100644
->> index 000000000000..38fbbb108120
->> --- /dev/null
->> +++ b/security/landlock/object.c
->> @@ -0,0 +1,339 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Landlock LSM - Object and rule management
->> + *
->> + * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
->> + * Copyright © 2018-2020 ANSSI
->> + *
->> + * Principles and constraints of the object and rule management:
->> + * - Do not leak memory.
->> + * - Try as much as possible to free a memory allocation as soon as it is
->> + *   unused.
->> + * - Do not use global lock.
->> + * - Do not charge processes other than the one requesting a Landlock
->> + *   operation.
->> + */
->> +
->> +#include <linux/bug.h>
->> +#include <linux/compiler.h>
->> +#include <linux/compiler_types.h>
->> +#include <linux/err.h>
->> +#include <linux/errno.h>
->> +#include <linux/fs.h>
->> +#include <linux/kernel.h>
->> +#include <linux/list.h>
->> +#include <linux/rbtree.h>
->> +#include <linux/rcupdate.h>
->> +#include <linux/refcount.h>
->> +#include <linux/slab.h>
->> +#include <linux/spinlock.h>
->> +#include <linux/workqueue.h>
->> +
->> +#include "object.h"
->> +
->> +struct landlock_object *landlock_create_object(
->> +		const enum landlock_object_type type, void *underlying_object)
->> +{
->> +	struct landlock_object *object;
->> +
->> +	if (WARN_ON_ONCE(!underlying_object))
->> +		return NULL;
->> +	object = kzalloc(sizeof(*object), GFP_KERNEL);
->> +	if (!object)
->> +		return NULL;
->> +	refcount_set(&object->usage, 1);
->> +	refcount_set(&object->cleaners, 1);
->> +	spin_lock_init(&object->lock);
->> +	INIT_LIST_HEAD(&object->rules);
->> +	object->type = type;
->> +	WRITE_ONCE(object->underlying_object, underlying_object);
->> +	return object;
->> +}
->> +
->> +struct landlock_object *landlock_get_object(struct landlock_object *object)
->> +	__acquires(object->usage)
->> +{
->> +	__acquire(object->usage);
->> +	/*
->> +	 * If @object->usage equal 0, then it will be ignored by writers, and
->> +	 * underlying_object->object may be replaced, but this is not an issue
->> +	 * for release_object().
->> +	 */
->> +	if (object && refcount_inc_not_zero(&object->usage)) {
->> +		/*
->> +		 * It should not be possible to get a reference to an object if
->> +		 * its underlying object is being terminated (e.g. with
->> +		 * landlock_release_object()), because an object is only
->> +		 * modifiable through such underlying object.  This is not the
->> +		 * case with landlock_get_object_cleaner().
->> +		 */
->> +		WARN_ON_ONCE(!READ_ONCE(object->underlying_object));
->> +		return object;
->> +	}
->> +	return NULL;
->> +}
->> +
->> +static struct landlock_object *get_object_cleaner(
->> +		struct landlock_object *object)
->> +	__acquires(object->cleaners)
->> +{
->> +	__acquire(object->cleaners);
->> +	if (object && refcount_inc_not_zero(&object->cleaners))
->> +		return object;
->> +	return NULL;
->> +}
->> +
->> +/*
->> + * There is two cases when an object should be free and the reference to the
->> + * underlying object should be put:
->> + * - when the last rule tied to this object is removed, which is handled by
->> + *   landlock_put_rule() and then release_object();
->> + * - when the object is being terminated (e.g. no more reference to an inode),
->> + *   which is handled by landlock_put_object().
->> + */
->> +static void put_object_free(struct landlock_object *object)
->> +	__releases(object->cleaners)
->> +{
->> +	__release(object->cleaners);
->> +	if (!refcount_dec_and_test(&object->cleaners))
->> +		return;
->> +	WARN_ON_ONCE(refcount_read(&object->usage));
->> +	/*
->> +	 * Ensures a safe use of @object in the RCU block from
->> +	 * landlock_put_rule().
->> +	 */
->> +	kfree_rcu(object, rcu_free);
->> +}
->> +
->> +/*
->> + * Destroys a newly created and useless object.
->> + */
->> +void landlock_drop_object(struct landlock_object *object)
->> +{
->> +	if (WARN_ON_ONCE(!refcount_dec_and_test(&object->usage)))
->> +		return;
->> +	__acquire(object->cleaners);
->> +	put_object_free(object);
->> +}
->> +
->> +/*
->> + * Puts the underlying object (e.g. inode) if it is the first request to
->> + * release @object, without calling landlock_put_object().
->> + *
->> + * Return true if this call effectively marks @object as released, false
->> + * otherwise.
->> + */
->> +static bool release_object(struct landlock_object *object)
->> +	__releases(&object->lock)
->> +{
->> +	void *underlying_object;
->> +
->> +	lockdep_assert_held(&object->lock);
->> +
->> +	underlying_object = xchg(&object->underlying_object, NULL);
-> 
-> A one-line comment looks needed for xchg.
+Thanks,
+Mathieu
 
-Ok. This is to have a guarantee that the underlying_object (e.g. the
-inode pointer) is only used once. I'll add a comment.
-
-> 
->> +	spin_unlock(&object->lock);
->> +	might_sleep();
-> 
-> Have trouble working out what might_sleep is put for.
-
-Patch 5 adds a call to landlock_release_inode(underlying_object, object)
-(LANDLOCK_OBJECT_INODE case), which can sleep e.g., with a call to iput().
-
-> 
->> +	if (!underlying_object)
->> +		return false;
->> +
->> +	switch (object->type) {
->> +	case LANDLOCK_OBJECT_INODE:
->> +		break;
->> +	default:
->> +		WARN_ON_ONCE(1);
->> +	}
->> +	return true;
->> +}
->> +
->> +static void put_object_cleaner(struct landlock_object *object)
->> +	__releases(object->cleaners)
->> +{
->> +	/* Let's try an early lockless check. */
->> +	if (list_empty(&object->rules) &&
->> +			READ_ONCE(object->underlying_object)) {
->> +		/*
->> +		 * Puts @object if there is no rule tied to it and the
->> +		 * remaining user is the underlying object.  This check is
->> +		 * atomic because @object->rules and @object->underlying_object
->> +		 * are protected by @object->lock.
->> +		 */
->> +		spin_lock(&object->lock);
->> +		if (list_empty(&object->rules) &&
->> +				READ_ONCE(object->underlying_object) &&
->> +				refcount_dec_if_one(&object->usage)) {
->> +			/*
->> +			 * Releases @object, in place of
->> +			 * landlock_release_object().
->> +			 *
->> +			 * @object is already empty, implying that all its
->> +			 * previous rules are already disabled.
->> +			 *
->> +			 * Unbalance the @object->cleaners counter to reflect
->> +			 * the underlying object release.
->> +			 */
->> +			if (!WARN_ON_ONCE(!release_object(object))) {
-> 
-> Two ! hurt more than help.
-
-Well, it may not look nice but don't you think it is better than a
-WARN_ON_ONCE(1) in the if block?
-
->> +				__acquire(object->cleaners);
->> +				put_object_free(object);
-> 
-> Why put object more than once?
-
-I just replied to Jann about this subject. This is to "unbalance" the
-counter to potentially free it (if there is no more user). I explain it
-here:
-https://lore.kernel.org/lkml/67465638-e22c-5d1a-df37-862b31d999a1@digikod.net/
-
-> 
->> +			}
->> +		} else {
->> +			spin_unlock(&object->lock);
->> +		}
->> +	}
->> +	put_object_free(object);
->> +}
->> +
-> 
+> ---
+>  arch/arm64/boot/dts/arm/juno-base.dtsi    | 162 +++++++++++++++++++++-
+>  arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi |  37 ++++-
+>  arch/arm64/boot/dts/arm/juno-r1.dts       |  25 ++++
+>  arch/arm64/boot/dts/arm/juno-r2.dts       |  25 ++++
+>  arch/arm64/boot/dts/arm/juno.dts          |  25 ++++
+>  5 files changed, 269 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/arm/juno-base.dtsi b/arch/arm64/boot/dts/arm/juno-base.dtsi
+> index 1f3c80aafbd7..fffd75cd2fd9 100644
+> --- a/arch/arm64/boot/dts/arm/juno-base.dtsi
+> +++ b/arch/arm64/boot/dts/arm/juno-base.dtsi
+> @@ -119,7 +119,7 @@
+>          * The actual size is just 4K though 64K is reserved. Access to the
+>          * unmapped reserved region results in a DECERR response.
+>          */
+> -       etf@20010000 { /* etf0 */
+> +       etf_sys0: etf@20010000 { /* etf0 */
+>                 compatible = "arm,coresight-tmc", "arm,primecell";
+>                 reg = <0 0x20010000 0 0x1000>;
+>
+> @@ -143,7 +143,7 @@
+>                 };
+>         };
+>
+> -       tpiu@20030000 {
+> +       tpiu_sys: tpiu@20030000 {
+>                 compatible = "arm,coresight-tpiu", "arm,primecell";
+>                 reg = <0 0x20030000 0 0x1000>;
+>
+> @@ -196,7 +196,7 @@
+>                 };
+>         };
+>
+> -       etr@20070000 {
+> +       etr_sys: etr@20070000 {
+>                 compatible = "arm,coresight-tmc", "arm,primecell";
+>                 reg = <0 0x20070000 0 0x1000>;
+>                 iommus = <&smmu_etr 0>;
+> @@ -214,7 +214,7 @@
+>                 };
+>         };
+>
+> -       stm@20100000 {
+> +       stm_sys: stm@20100000 {
+>                 compatible = "arm,coresight-stm", "arm,primecell";
+>                 reg = <0 0x20100000 0 0x1000>,
+>                       <0 0x28000000 0 0x1000000>;
+> @@ -291,6 +291,18 @@
+>                 };
+>         };
+>
+> +       cti0: cti@22020000 {
+> +               compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
+> +                            "arm,primecell";
+> +               reg = <0 0x22020000 0 0x1000>;
+> +
+> +               clocks = <&soc_smc50mhz>;
+> +               clock-names = "apb_pclk";
+> +               power-domains = <&scpi_devpd 0>;
+> +
+> +               arm,cs-dev-assoc = <&etm0>;
+> +       };
+> +
+>         funnel@220c0000 { /* cluster0 funnel */
+>                 compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+>                 reg = <0 0x220c0000 0 0x1000>;
+> @@ -351,6 +363,18 @@
+>                 };
+>         };
+>
+> +       cti1: cti@22120000 {
+> +               compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
+> +                            "arm,primecell";
+> +               reg = <0 0x22120000 0 0x1000>;
+> +
+> +               clocks = <&soc_smc50mhz>;
+> +               clock-names = "apb_pclk";
+> +               power-domains = <&scpi_devpd 0>;
+> +
+> +               arm,cs-dev-assoc = <&etm1>;
+> +       };
+> +
+>         cpu_debug2: cpu-debug@23010000 {
+>                 compatible = "arm,coresight-cpu-debug", "arm,primecell";
+>                 reg = <0x0 0x23010000 0x0 0x1000>;
+> @@ -376,6 +400,18 @@
+>                 };
+>         };
+>
+> +       cti2: cti@23020000 {
+> +               compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
+> +                            "arm,primecell";
+> +               reg = <0 0x23020000 0 0x1000>;
+> +
+> +               clocks = <&soc_smc50mhz>;
+> +               clock-names = "apb_pclk";
+> +               power-domains = <&scpi_devpd 0>;
+> +
+> +               arm,cs-dev-assoc = <&etm2>;
+> +       };
+> +
+>         funnel@230c0000 { /* cluster1 funnel */
+>                 compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+>                 reg = <0 0x230c0000 0 0x1000>;
+> @@ -448,6 +484,18 @@
+>                 };
+>         };
+>
+> +       cti3: cti@23120000 {
+> +               compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
+> +                            "arm,primecell";
+> +               reg = <0 0x23120000 0 0x1000>;
+> +
+> +               clocks = <&soc_smc50mhz>;
+> +               clock-names = "apb_pclk";
+> +               power-domains = <&scpi_devpd 0>;
+> +
+> +               arm,cs-dev-assoc = <&etm3>;
+> +       };
+> +
+>         cpu_debug4: cpu-debug@23210000 {
+>                 compatible = "arm,coresight-cpu-debug", "arm,primecell";
+>                 reg = <0x0 0x23210000 0x0 0x1000>;
+> @@ -473,6 +521,18 @@
+>                 };
+>         };
+>
+> +       cti4: cti@23220000 {
+> +               compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
+> +                            "arm,primecell";
+> +               reg = <0 0x23220000 0 0x1000>;
+> +
+> +               clocks = <&soc_smc50mhz>;
+> +               clock-names = "apb_pclk";
+> +               power-domains = <&scpi_devpd 0>;
+> +
+> +               arm,cs-dev-assoc = <&etm4>;
+> +       };
+> +
+>         cpu_debug5: cpu-debug@23310000 {
+>                 compatible = "arm,coresight-cpu-debug", "arm,primecell";
+>                 reg = <0x0 0x23310000 0x0 0x1000>;
+> @@ -498,6 +558,100 @@
+>                 };
+>         };
+>
+> +       cti5: cti@23320000 {
+> +               compatible = "arm,coresight-cti-v8-arch", "arm,coresight-cti",
+> +                            "arm,primecell";
+> +               reg = <0 0x23320000 0 0x1000>;
+> +
+> +               clocks = <&soc_smc50mhz>;
+> +               clock-names = "apb_pclk";
+> +               power-domains = <&scpi_devpd 0>;
+> +
+> +               arm,cs-dev-assoc = <&etm5>;
+> +       };
+> +
+> +       cti@20020000 { /* sys_cti_0 */
+> +               compatible = "arm,coresight-cti", "arm,primecell";
+> +               reg = <0 0x20020000 0 0x1000>;
+> +
+> +               clocks = <&soc_smc50mhz>;
+> +               clock-names = "apb_pclk";
+> +               power-domains = <&scpi_devpd 0>;
+> +
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +
+> +               trig-conns@0 {
+> +                       reg = <0>;
+> +                       arm,trig-in-sigs=<2 3>;
+> +                       arm,trig-in-types=<SNK_FULL SNK_ACQCOMP>;
+> +                       arm,trig-out-sigs=<0 1>;
+> +                       arm,trig-out-types=<SNK_FLUSHIN SNK_TRIGIN>;
+> +                       arm,cs-dev-assoc = <&etr_sys>;
+> +               };
+> +
+> +               trig-conns@1 {
+> +                       reg = <1>;
+> +                       arm,trig-in-sigs=<0 1>;
+> +                       arm,trig-in-types=<SNK_FULL SNK_ACQCOMP>;
+> +                       arm,trig-out-sigs=<7 6>;
+> +                       arm,trig-out-types=<SNK_FLUSHIN SNK_TRIGIN>;
+> +                       arm,cs-dev-assoc = <&etf_sys0>;
+> +               };
+> +
+> +               trig-conns@2 {
+> +                       reg = <2>;
+> +                       arm,trig-in-sigs=<4 5 6 7>;
+> +                       arm,trig-in-types=<STM_TOUT_SPTE STM_TOUT_SW
+> +                                          STM_TOUT_HETE STM_ASYNCOUT>;
+> +                       arm,trig-out-sigs=<4 5>;
+> +                       arm,trig-out-types=<STM_HWEVENT STM_HWEVENT>;
+> +                       arm,cs-dev-assoc = <&stm_sys>;
+> +               };
+> +
+> +               trig-conns@3 {
+> +                       reg = <3>;
+> +                       arm,trig-out-sigs=<2 3>;
+> +                       arm,trig-out-types=<SNK_FLUSHIN SNK_TRIGIN>;
+> +                       arm,cs-dev-assoc = <&tpiu_sys>;
+> +               };
+> +       };
+> +
+> +       cti@20110000 { /* sys_cti_1 */
+> +               compatible = "arm,coresight-cti", "arm,primecell";
+> +               reg = <0 0x20110000 0 0x1000>;
+> +
+> +               clocks = <&soc_smc50mhz>;
+> +               clock-names = "apb_pclk";
+> +               power-domains = <&scpi_devpd 0>;
+> +
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +
+> +               trig-conns@0 {
+> +                       reg = <0>;
+> +                       arm,trig-in-sigs=<0>;
+> +                       arm,trig-in-types=<GEN_INTREQ>;
+> +                       arm,trig-out-sigs=<0>;
+> +                       arm,trig-out-types=<GEN_HALTREQ>;
+> +                       arm,trig-conn-name = "sys_profiler";
+> +               };
+> +
+> +               trig-conns@1 {
+> +                       reg = <1>;
+> +                       arm,trig-out-sigs=<2 3>;
+> +                       arm,trig-out-types=<GEN_HALTREQ GEN_RESTARTREQ>;
+> +                       arm,trig-conn-name = "watchdog";
+> +               };
+> +
+> +               trig-conns@2 {
+> +                       reg = <2>;
+> +                       arm,trig-out-sigs=<1 6>;
+> +                       arm,trig-out-types=<GEN_HALTREQ GEN_RESTARTREQ>;
+> +                       arm,trig-conn-name = "g_counter";
+> +               };
+> +       };
+> +
+>         gpu: gpu@2d000000 {
+>                 compatible = "arm,juno-mali", "arm,mali-t624";
+>                 reg = <0 0x2d000000 0 0x10000>;
+> diff --git a/arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi b/arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi
+> index eda3d9e18af6..752b05f8bf31 100644
+> --- a/arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi
+> +++ b/arch/arm64/boot/dts/arm/juno-cs-r1r2.dtsi
+> @@ -23,7 +23,7 @@
+>                 };
+>         };
+>
+> -       etf@20140000 { /* etf1 */
+> +       etf_sys1: etf@20140000 { /* etf1 */
+>                 compatible = "arm,coresight-tmc", "arm,primecell";
+>                 reg = <0 0x20140000 0 0x1000>;
+>
+> @@ -82,4 +82,39 @@
+>
+>                 };
+>         };
+> +
+> +       cti@20160000 { /* sys_cti_2 */
+> +               compatible = "arm,coresight-cti", "arm,primecell";
+> +               reg = <0 0x20160000 0 0x1000>;
+> +
+> +               clocks = <&soc_smc50mhz>;
+> +               clock-names = "apb_pclk";
+> +               power-domains = <&scpi_devpd 0>;
+> +
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +
+> +               trig-conns@0 {
+> +                       reg = <0>;
+> +                       arm,trig-in-sigs=<0 1>;
+> +                       arm,trig-in-types=<SNK_FULL SNK_ACQCOMP>;
+> +                       arm,trig-out-sigs=<0 1>;
+> +                       arm,trig-out-types=<SNK_FLUSHIN SNK_TRIGIN>;
+> +                       arm,cs-dev-assoc = <&etf_sys1>;
+> +               };
+> +
+> +               trig-conns@1 {
+> +                       reg = <1>;
+> +                       arm,trig-in-sigs=<2 3 4>;
+> +                       arm,trig-in-types=<ELA_DBGREQ ELA_TSTART ELA_TSTOP>;
+> +                       arm,trig-conn-name = "ela_clus_0";
+> +               };
+> +
+> +               trig-conns@2 {
+> +                       reg = <2>;
+> +                       arm,trig-in-sigs=<5 6 7>;
+> +                       arm,trig-in-types=<ELA_DBGREQ ELA_TSTART ELA_TSTOP>;
+> +                       arm,trig-conn-name = "ela_clus_1";
+> +               };
+> +       };
+>  };
+> diff --git a/arch/arm64/boot/dts/arm/juno-r1.dts b/arch/arm64/boot/dts/arm/juno-r1.dts
+> index 5f290090b0cf..02aa51eb311d 100644
+> --- a/arch/arm64/boot/dts/arm/juno-r1.dts
+> +++ b/arch/arm64/boot/dts/arm/juno-r1.dts
+> @@ -9,6 +9,7 @@
+>  /dts-v1/;
+>
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/arm/coresight-cti-dt.h>
+>  #include "juno-base.dtsi"
+>  #include "juno-cs-r1r2.dtsi"
+>
+> @@ -309,3 +310,27 @@
+>  &cpu_debug5 {
+>         cpu = <&A53_3>;
+>  };
+> +
+> +&cti0 {
+> +       cpu = <&A57_0>;
+> +};
+> +
+> +&cti1 {
+> +       cpu = <&A57_1>;
+> +};
+> +
+> +&cti2 {
+> +       cpu = <&A53_0>;
+> +};
+> +
+> +&cti3 {
+> +       cpu = <&A53_1>;
+> +};
+> +
+> +&cti4 {
+> +       cpu = <&A53_2>;
+> +};
+> +
+> +&cti5 {
+> +       cpu = <&A53_3>;
+> +};
+> diff --git a/arch/arm64/boot/dts/arm/juno-r2.dts b/arch/arm64/boot/dts/arm/juno-r2.dts
+> index 305300dd521c..75bb27c2d4dc 100644
+> --- a/arch/arm64/boot/dts/arm/juno-r2.dts
+> +++ b/arch/arm64/boot/dts/arm/juno-r2.dts
+> @@ -9,6 +9,7 @@
+>  /dts-v1/;
+>
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/arm/coresight-cti-dt.h>
+>  #include "juno-base.dtsi"
+>  #include "juno-cs-r1r2.dtsi"
+>
+> @@ -315,3 +316,27 @@
+>  &cpu_debug5 {
+>         cpu = <&A53_3>;
+>  };
+> +
+> +&cti0 {
+> +       cpu = <&A72_0>;
+> +};
+> +
+> +&cti1 {
+> +       cpu = <&A72_1>;
+> +};
+> +
+> +&cti2 {
+> +       cpu = <&A53_0>;
+> +};
+> +
+> +&cti3 {
+> +       cpu = <&A53_1>;
+> +};
+> +
+> +&cti4 {
+> +       cpu = <&A53_2>;
+> +};
+> +
+> +&cti5 {
+> +       cpu = <&A53_3>;
+> +};
+> diff --git a/arch/arm64/boot/dts/arm/juno.dts b/arch/arm64/boot/dts/arm/juno.dts
+> index f00cffbd032c..dbc22e70b62c 100644
+> --- a/arch/arm64/boot/dts/arm/juno.dts
+> +++ b/arch/arm64/boot/dts/arm/juno.dts
+> @@ -9,6 +9,7 @@
+>  /dts-v1/;
+>
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/arm/coresight-cti-dt.h>
+>  #include "juno-base.dtsi"
+>
+>  / {
+> @@ -295,3 +296,27 @@
+>  &cpu_debug5 {
+>         cpu = <&A53_3>;
+>  };
+> +
+> +&cti0 {
+> +       cpu = <&A57_0>;
+> +};
+> +
+> +&cti1 {
+> +       cpu = <&A57_1>;
+> +};
+> +
+> +&cti2 {
+> +       cpu = <&A53_0>;
+> +};
+> +
+> +&cti3 {
+> +       cpu = <&A53_1>;
+> +};
+> +
+> +&cti4 {
+> +       cpu = <&A53_2>;
+> +};
+> +
+> +&cti5 {
+> +       cpu = <&A53_3>;
+> +};
+> --
+> 2.17.1
+>
