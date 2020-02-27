@@ -2,164 +2,165 @@ Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED06BC35E15
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 19:53:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B5E6C11D3D
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 19:58:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BC10A24680
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 19:53:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="BjipnL+U"
+	by mail.kernel.org (Postfix) with ESMTP id 049972469F
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 19:58:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582833517;
+	bh=x3vROII1fesL5Z7wihX+F7A34FxrSIHnIzf7GM+zPQU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=eefnaAaUMIU3HXU8ymjDuwyC8ezGnb3xhd14wsVX0ohHaWqxuEwBBWU05uXVPsZwu
+	 4KY1f6nWNKz7uudOUaGsk7O2Rk5DcHQEsg4lzDHZXgRSPQz6XXN4nSp3Ma7lw1DNIF
+	 0D5h+LingNPsOsiF/D/twARrgiv11PxRrY1JP/Qc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730576AbgB0Txs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 14:53:48 -0500
-Received: from mout.web.de ([217.72.192.78]:52747 "EHLO mout.web.de"
+        id S1730562AbgB0T6g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 14:58:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729594AbgB0Txs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Feb 2020 14:53:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1582833185;
-        bh=GTWOM0bV7TRUSz0scwnhYb8uZ6O9r+S0tRM+9qBpAe8=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=BjipnL+UydZwrecdvV5tHW6fdyNlKU3DlNkVCtNx2XJHagWu/rBm5sT8xrxLGa9KY
-         yt9gnkqbeDmIN3UkJdWbpM3OQqyI0R6E39GSNeokhp61OuMZqlLSML2Y6IqNsOHo8A
-         06Kf6wa4VTFlyYMXiczYrazpatXSvELESgZv8wAE=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([2.243.69.92]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MGzba-1jCN1f1MzS-00DpKt; Thu, 27
- Feb 2020 20:53:05 +0100
-Subject: Re: [PATCH 2/2] Documentation: bootconfig: Add EBNF syntax file
-To:     Masami Hiramatsu <mhiramat@kernel.org>, linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <158278834245.14966.6179457011671073018.stgit@devnote2>
- <158278836196.14966.3881489301852781521.stgit@devnote2>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <2390b729-1b0b-26b5-66bc-92e40e3467b1@web.de>
-Date:   Thu, 27 Feb 2020 20:53:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1729594AbgB0T6g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Feb 2020 14:58:36 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CA48924699;
+        Thu, 27 Feb 2020 19:58:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582833514;
+        bh=x3vROII1fesL5Z7wihX+F7A34FxrSIHnIzf7GM+zPQU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=aiIz6iBHZl7rsJ4UGi3Jb2Bj0iBPC75Qn40xSaLvnPfRdMa3Kej+NqJOv+/Ixc8m7
+         3YwqMoPS0wfx/OmuIOEtqhX5zTtxyqHcEG5I7S9BchKPuXJOoE4G1dSZrv6IP4cJJY
+         8rEJav84fNde49QXjhO85ssR9qaEM2FN3mq/yk9E=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+        by disco-boy.misterjones.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <maz@kernel.org>)
+        id 1j7PIm-008YY2-QX; Thu, 27 Feb 2020 19:58:32 +0000
 MIME-Version: 1.0
-In-Reply-To: <158278836196.14966.3881489301852781521.stgit@devnote2>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:F86AyWFfpD7vkcfFinXfHYJF2uI8Lj7AnM7Kw8gJQnQxkjk4hzB
- Rvmi0skVRgP6YRHJOFgpPUdYtBesd2qAIzUVOtwMI6JWQBA4mig67ADGrP2vK6W1ae1HAHq
- w22lvxXWGRyte/YiKUPC4fIfLyI6L32iCuChtGUywR3suAmDBZujGlAAHpU0357/pMzPgTJ
- Kt4uXuciJqGR/g0QdmxfA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CHlzRp0PJD4=:HQrlLCfOaFdllsR8/xXY82
- YX9iz0PBp7UggFBcThAaZyUV0aVe+CRvXMoLsIiDNIh70rQC2hJB0Lun+lsI4Zr53t9HSoVKx
- 8ncO01c35vqwf78PBQqiaI0ouXOz8rtYMY/4XbAEatzvd06ACeHjSaunmvF3SjJ8V8By/ey3F
- vz25k+p7CRL7HSPZOwRMVL0LwhGxDD1FDyGWfa5vGaDYUNVyh5U3qxQG78y/Zexs6h743OxE6
- X0vEEFnUGOiKLuV1YX21AMcSLPvLKPzQJV5yEaxZH/O2ahetyMQd2acN3ndkRvumou/ZYDgKm
- Kkmp+EEUwifefd22ETmMteJmpOTFi8gLP7uFUZM5oquLB+d9UGJfG2tEJQwNi5ajUZVJLUFrl
- s/vc4BpMMD8C7V8Ik5oT8W+wObA03iNJSRsayCMyZrrzam/74C/+DxOz8wcpbNtC79/lYknQQ
- /YVsXiNbnh68hfqIYqn0ZZYUnDx0Z01yTrtJVS+nmxLG2aUZ+hHWivncfjCRC9krMJlmEZrmi
- U9WMncO17sB7WoxUFnTJjikkmwEWGW37zh3sB+yfsaJA2SPNdxrPsdBkjPKLraiC5FtZ16Izu
- FCwkDRB12hBCyI3oaI0jMHxPBj+yRjt4bbl3pwljxZZQhUbbzeXIyDXtOFfdKik9HRlbewGoJ
- XB3+ne4MBnyCI6n6znRz+Y5w3QVIiXvFuMPACyuQo7RsqbWcq0eotiGkjghRc/hFRgBXS983o
- PXAUQ3BIM4RCLnQrbGflvNtucpaOyZBWYsiNCPL6GrWeuiOZS3rdo22tGxajuv/U90/nA3O1n
- BNIEV/uGbqktNtCSFhN3uUZtoUAZ6uBV2TNzsmFQtqIkcfyIRCoWWLWEVmNqMEeb04V9la9dm
- gqtL4SCWNqQ2XevHOGZxgYGfdC1rQhnHNix5mrvCGXUyxTpKEbcLC6+MZQhx7iPmKkTeQzvse
- oajYIeeShipwMOSFPxZMfaiyVfiv9qxh2psjTorfj15JyfZNOZuxqG8g1UMlsJxmFaONqyMuD
- tkXmpNI/jeslMtW6bV5hYvviwOyXsFutzNNtHHuEeWSoSkzk/dK0lcf0jV5KiTmiaAquhuSGe
- iyGJl7hWDr/bBR1PnX/Vld36vDqMo1dVUA2WvpBgOtaxKCApk5sn9w6YyHPBCLYz/qD/Wjfu3
- wusm3bO6ePp6m6YU1Q1idQNatfSqEWj/PwInF+jaZU4KgkFKRJxOwpn01zN6Amf+tV85gf0qr
- hSit0FstuvX7ItRgr
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 27 Feb 2020 19:58:32 +0000
+From:   Marc Zyngier <maz@kernel.org>
+To:     Ionela Voinescu <ionela.voinescu@arm.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        suzuki.poulose@arm.com, sudeep.holla@arm.com, lukasz.luba@arm.com,
+        valentin.schneider@arm.com, dietmar.eggemann@arm.com,
+        rjw@rjwysocki.net, pkondeti@codeaurora.org, peterz@infradead.org,
+        mingo@redhat.com, vincent.guittot@linaro.org,
+        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>
+Subject: Re: [PATCH v5 3/7] arm64/kvm: disable access to AMU registers from
+ kvm guests
+In-Reply-To: <20200226132947.29738-4-ionela.voinescu@arm.com>
+References: <20200226132947.29738-1-ionela.voinescu@arm.com>
+ <20200226132947.29738-4-ionela.voinescu@arm.com>
+Message-ID: <46b89d0c9704e0a0fb7a4ac2a1fb5b7a@kernel.org>
+X-Sender: maz@kernel.org
+User-Agent: Roundcube Webmail/1.3.10
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: ionela.voinescu@arm.com, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, suzuki.poulose@arm.com, sudeep.holla@arm.com, lukasz.luba@arm.com, valentin.schneider@arm.com, dietmar.eggemann@arm.com, rjw@rjwysocki.net, pkondeti@codeaurora.org, peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org, viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for such a contribution.
+Hi Ionela,
 
+On 2020-02-26 13:29, Ionela Voinescu wrote:
+> Access to the AMU counters should be disabled by default in kvm guests,
+> as information from the counters might reveal activity in other guests
+> or activity on the host.
+> 
+> Therefore, disable access to AMU registers from EL0 and EL1 in kvm
+> guests by:
+>  - Hiding the presence of the extension in the feature register
+>    (SYS_ID_AA64PFR0_EL1) on the VCPU.
+>  - Disabling access to the AMU registers before switching to the guest.
+>  - Trapping accesses and injecting an undefined instruction into the
+>    guest.
+> 
+> Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
+> Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
+> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: James Morse <james.morse@arm.com>
+> Cc: Julien Thierry <julien.thierry.kdev@gmail.com>
+> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
 
-> Add an extended Backus=E2=80=93Naur form (EBNF) syntax file for
+Acked-by: Marc Zyngier <maz@kernel.org>
 
-Can it matter to mention the specific file format specification version
-which should be applied finally?
+A small comment below:
 
-Would you like to refer to any standard variant?
+[...]
 
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 3e909b117f0c..44354c812783 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1003,6 +1003,20 @@ static bool access_pmuserenr(struct kvm_vcpu
+> *vcpu, struct sys_reg_params *p,
+>  	{ SYS_DESC(SYS_PMEVTYPERn_EL0(n)),					\
+>  	  access_pmu_evtyper, reset_unknown, (PMEVTYPER0_EL0 + n), }
+> 
+> +static bool access_amu(struct kvm_vcpu *vcpu, struct sys_reg_params 
+> *p,
+> +			     const struct sys_reg_desc *r)
+> +{
+> +	kvm_inject_undefined(vcpu);
+> +
+> +	return false;
+> +}
+> +
+> +/* Macro to expand the AMU counter and type registers*/
+> +#define AMU_AMEVCNTR0_EL0(n) { SYS_DESC(SYS_AMEVCNTR0_EL0(n)), 
+> access_amu }
+> +#define AMU_AMEVTYPE0_EL0(n) { SYS_DESC(SYS_AMEVTYPE0_EL0(n)), 
+> access_amu }
+> +#define AMU_AMEVCNTR1_EL0(n) { SYS_DESC(SYS_AMEVCNTR1_EL0(n)), 
+> access_amu }
+> +#define AMU_AMEVTYPE1_EL0(n) { SYS_DESC(SYS_AMEVTYPE1_EL0(n)), 
+> access_amu }
+> +
+>  static bool trap_ptrauth(struct kvm_vcpu *vcpu,
+>  			 struct sys_reg_params *p,
+>  			 const struct sys_reg_desc *rd)
+> @@ -1078,8 +1092,10 @@ static u64 read_id_reg(const struct kvm_vcpu 
+> *vcpu,
+>  			 (u32)r->CRn, (u32)r->CRm, (u32)r->Op2);
+>  	u64 val = raz ? 0 : read_sanitised_ftr_reg(id);
+> 
+> -	if (id == SYS_ID_AA64PFR0_EL1 && !vcpu_has_sve(vcpu)) {
+> -		val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
+> +	if (id == SYS_ID_AA64PFR0_EL1) {
+> +		if (!vcpu_has_sve(vcpu))
+> +			val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
+> +		val &= ~(0xfUL << ID_AA64PFR0_AMU_SHIFT);
 
-> bootconfig so that user can logically understand how they
+This will definitely conflict with some of the ongoing rework I have[1].
+I'm happy to provide this as a stable branch for you to rebase on top,
+or use an arm64 provided branch to rebase my stoff on top.
 
-Wording alternative =E2=80=9C=E2=80=A6 that users can =E2=80=A6=E2=80=9D?
+Just let me know how you want to proceed.
 
+Thanks,
 
-> can write correct boot configuration file.
+         M.
 
-Related development tools provide some benefits then, don't they?
-
-
-
-=E2=80=A6
-> +++ b/Documentation/admin-guide/bootconfig.ebnf
-=E2=80=A6
-> +digit =3D "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
-
-Can the specification of such alternatives (or value ranges) become
-more compact (depending on a selected standard)?
-
-
-=E2=80=A6
-> +++ b/Documentation/admin-guide/bootconfig.rst
-=E2=80=A6
-> +Here is the boot configuration file syntax written in EBNF.
-
-I suggest to replace the abbreviation =E2=80=9CEBNF=E2=80=9D by the term =
-=E2=80=9Cextended Backus=E2=80=93Naur form=E2=80=9D
-in such a sentence.
-
-Regards,
-Markus
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/commit/?h=kvm-arm64/debug-fixes-5.6&id=454fb7398d3626328f7f771c07d21e894e4e1a3b
+-- 
+Jazz is not dead. It just smells funny...
