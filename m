@@ -2,107 +2,123 @@ Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6C6AC3F2C6
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 01:21:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F44C3F2CE
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 01:34:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7E573246AE
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 01:21:17 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IH1npzZ+"
+	by mail.kernel.org (Postfix) with ESMTP id 2845C24695
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 01:34:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730675AbgB1BVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 20:21:16 -0500
-Received: from mail-yw1-f74.google.com ([209.85.161.74]:40271 "EHLO
-        mail-yw1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730640AbgB1BVQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 20:21:16 -0500
-Received: by mail-yw1-f74.google.com with SMTP id v126so2546934ywf.7
-        for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2020 17:21:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=MkaS0G1bk+Q5OhBTj99Zlxgrs85NSvS6F5H6SOsXVyU=;
-        b=IH1npzZ+v8JTFD9rsz35zQYEul6R/W7yA2D6y+OHVbHvXqTHNvw94iwhkAAP2DDbVi
-         GBl13bzJPRjEuu19+D47ufplr6qg9wjANWrvanrNpgcqF3wYeITyoFt3EBjPEKAChMee
-         DeaGGyUBsY44m410q88ZWKqK3we31TbcCkm2I/9FYqcTsjtfZrtU59w7sW8UgKR1PAJe
-         CAKr9zLHEDRGuRNAQVHoLYwNfztD6WsUdwPciC+p1QF6ZslfNc/x8Hy7CBCjDGP7F1O7
-         OMmtpISW28bF/hQBE0TciN5jdd+8PFqiw4ehn8+83YXO6s8MOtXeeqCaCT+kJgk3y0WI
-         ockg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=MkaS0G1bk+Q5OhBTj99Zlxgrs85NSvS6F5H6SOsXVyU=;
-        b=Xdw4N6/2vz9HIqHQ0dpX0jy8QvrA5/Kkn08oFPNzoNydMrHuICSVF4+FKepyYSmSzi
-         E59wB2nAphSluB7T6cJ6hjsNtFBDf/HOWWNxriltC3dFY3u+hGNvXSmKimZxKf0niN/3
-         zrIHymJkTccRh32TRffRvEdIEb5dhs5TtmbE+vGhfp8HVFf7vH+yAyijgmoMxx45i60S
-         KxPiEdSsZSgV3TPD9MkpAJdsKZdhZPrBKfElOVltfJaSs1uUDUoBr6MCB5UnjngRA/SO
-         wPXkPN86VAXzUOjsEIHP0qzouvJ6Sv+Sn12ma0OASuFK7GWaLqzG7TCX11kez64G69te
-         eeXw==
-X-Gm-Message-State: APjAAAW5RLPq7qJgd0J83hMxQ7KCkXVeQMgdOy7zOrfiUvdfv6ZRIZ66
-        wBSDhcQf4yKlz9o2mp6dH/rhG/4Aa34GKQdmWaKJsQ==
-X-Google-Smtp-Source: APXvYqw/2+N2t2lLq1K+89TJ7bx2qoTvJJopuhhqt7f6cbBPG3uSnhVLpCVqqF2LFAFntCjNNsq3zJIjfvM4Xn6GSUj6sQ==
-X-Received: by 2002:a0d:c584:: with SMTP id h126mr2210425ywd.173.1582852873384;
- Thu, 27 Feb 2020 17:21:13 -0800 (PST)
-Date:   Thu, 27 Feb 2020 17:20:36 -0800
-In-Reply-To: <20200228012036.15682-1-brendanhiggins@google.com>
-Message-Id: <20200228012036.15682-8-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20200228012036.15682-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
-Subject: [PATCH v3 7/7] Documentation: Add kunit_shutdown to kernel-parameters.txt
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
-        arnd@arndb.de, keescook@chromium.org, skhan@linuxfoundation.org,
-        alan.maguire@oracle.com, yzaikin@google.com, davidgow@google.com,
-        akpm@linux-foundation.org, rppt@linux.ibm.com,
-        frowand.list@gmail.com
-Cc:     gregkh@linuxfoundation.org, sboyd@kernel.org, logang@deltatee.com,
-        mcgrof@kernel.org, linux-um@lists.infradead.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1730233AbgB1Bet (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 20:34:49 -0500
+Received: from 7.mo2.mail-out.ovh.net ([188.165.48.182]:48275 "EHLO
+        7.mo2.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730155AbgB1Bet (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 20:34:49 -0500
+X-Greylist: delayed 12002 seconds by postgrey-1.27 at vger.kernel.org; Thu, 27 Feb 2020 20:34:48 EST
+Received: from player789.ha.ovh.net (unknown [10.108.42.75])
+        by mo2.mail-out.ovh.net (Postfix) with ESMTP id B9FE51CCDF7
+        for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2020 22:59:06 +0100 (CET)
+Received: from sk2.org (37-164-65-132.coucou-networks.fr [37.164.65.132])
+        (Authenticated sender: steve@sk2.org)
+        by player789.ha.ovh.net (Postfix) with ESMTPSA id CCCB8FE2C9FC;
+        Thu, 27 Feb 2020 21:58:59 +0000 (UTC)
+Date:   Thu, 27 Feb 2020 22:58:57 +0100
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] docs: add a script to check sysctl docs
+Message-ID: <20200227225857.2339e365@heffalump.sk2.org>
+In-Reply-To: <20200225033710.312450f6@lwn.net>
+References: <20200219153442.10205-1-steve@sk2.org>
+        <20200225033710.312450f6@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/iabzgcEpPE08BniDcQO5cOd"; protocol="application/pgp-signature"
+X-Ovh-Tracer-Id: 4299248798125149573
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrleeigdduheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtsehgtderreertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucfkpheptddrtddrtddrtddpfeejrdduieegrdeihedrudefvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add kunit_shutdown, an option to specify that the kernel shutsdown after
-running KUnit tests, to the kernel-parameters.txt documentation.
+--Sig_/iabzgcEpPE08BniDcQO5cOd
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Tue, 25 Feb 2020 03:37:10 -0700, Jonathan Corbet <corbet@lwn.net> wrote:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index dbc22d6846275..6ad63e98916f9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2099,6 +2099,14 @@
- 			0: force disabled
- 			1: force enabled
- 
-+	kunit_shutdown	[KERNEL UNIT TESTING FRAMEWORK] Shutdown kernel after
-+			running built-in tests. Tests configured as modules will
-+			not be run.
-+			Default:	(flag not present) don't shutdown
-+			poweroff:	poweroff the kernel after running tests
-+			halt:		halt the kernel after running tests
-+			reboot:		reboot the kernel after running tests
-+
- 	kvm.ignore_msrs=[KVM] Ignore guest accesses to unhandled MSRs.
- 			Default is 0 (don't ignore, but inject #GP)
- 
--- 
-2.25.1.481.gfbce0eb801-goog
+> On Wed, 19 Feb 2020 16:34:42 +0100
+> Stephen Kitt <steve@sk2.org> wrote:
+>=20
+> > This script allows sysctl documentation to be checked against the
+> > kernel source code, to identify missing or obsolete entries. Running
+> > it against 5.5 shows for example that sysctl/kernel.rst has two
+> > obsolete entries and is missing 52 entries.
+> >=20
+> > Signed-off-by: Stephen Kitt <steve@sk2.org>
+> > ---
+> > Changes since v2:
+> > * drop UTF-8 characters
+> > * fix license identifier
+> > * fix example invocation to include path as well as table
+> >=20
+> > v2 was the initial submission (in v2 of the sysctl/kernel.rst patch
+> > set). =20
+>=20
+> This seems like a useful thing to have, so I've applied it.  It would be
+> rather more useful, though, with a bit of ... wait for it ...
+> documentation.  Even just an example command line in the header comments
+> would be a good place to start.  Care to send a followup? :)
 
+The committed script has this:
+
++# Example invocation:
++#	scripts/check-sysctl-docs -vtable=3D"kernel" \
++#		Documentation/admin-guide/sysctl/kernel.rst \
++#		$(git grep -l register_sysctl_)
++#
++# Specify -vdebug=3D1 to see debugging information
+
+but I agree that it needs more documentation ;-). In particular, I need to
+explain what the script expects in terms of document layout...
+
+Where would be the best place? In admin-guide/sysctl/index.rst, as a =E2=80=
+=9Chow to
+maintain these files=E2=80=9D section, or in a separate document, or in the=
+ script
+headers?
+
+Regards,
+
+Stephen
+
+--Sig_/iabzgcEpPE08BniDcQO5cOd
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl5YO6EACgkQgNMC9Yht
+g5zFMw//T2PrZ+7J7+bTixO0z9YWeVi3Gnw7mAmtku0aQIZBGmuwnEn6xmF5E2fQ
+AGNXCyi04TgHQ7LqjYEcO2v6PM3pLXC5iaJnMOQ1xcls2lPd+BQtHcs/bP6lMwuC
+GX745J5Bi7R9iLqbEmU/UMYc7wUW6ZqZpfqWXxUpyOuTlQ7sw98cbi3ud/NqhH/t
+UsAQ8sVg7wfuksXMRZgU0RKHyJTHJ53Snvj3N79FRZbwqHyyFnfGNTtLC+/IdsNs
+zl+qOVZ7bDq53PSuTC+Rlht491ZhFhA1t2s7R3iE1bPhSJX2d8xoXZNhM8BYART2
+su4Ur7GVGxInKoSHi9gttD63fqBWZH/TOZLsUnsBvV3BAXSv6HNXxJeuqTmRZl5I
+a6N6ozk6jjGh1dP/v863rG0n7J4Q6ggpkiSf0zFh2ertHvQBOlJNGnOmB9qiMxNx
+sktNIMerSh49dojPnXng4Tm0t6pO3dQp+YNNXd71wzr2Vt9vpU16RN7aTXI2/z8J
+nOL4q61dXkMHc3K9lU7TjeNyczICHkwbdjsarOPZHDDdXtaf2l+KApSnhtDzGLMh
+j4N0LvakNJybShCiLciQfhNjGs0CGWkljUyfQs7IS94pnZW8SCUVrby9RG0aMbdD
+2SzIAvZhkSAdHMz1lYxZ0a4IOYZshqeGxpec7qjY+JBsYdDuknw=
+=ebj0
+-----END PGP SIGNATURE-----
+
+--Sig_/iabzgcEpPE08BniDcQO5cOd--
