@@ -2,131 +2,183 @@ Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D80C35DEE
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 17:27:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CED68C11D3D
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 17:43:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1B44B246A2
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 17:27:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0680246A5
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 17:43:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NqlqA9ZQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TSB4IyoU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729635AbgB0R10 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 12:27:26 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:45672 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728413AbgB0R10 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 12:27:26 -0500
-Received: by mail-pg1-f196.google.com with SMTP id m15so19460pgv.12;
-        Thu, 27 Feb 2020 09:27:24 -0800 (PST)
+        id S1730345AbgB0RnO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 12:43:14 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33920 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729548AbgB0RnO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 12:43:14 -0500
+Received: by mail-wr1-f66.google.com with SMTP id z15so4539625wrl.1;
+        Thu, 27 Feb 2020 09:43:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Nu4qWyGXEitkgI8n8p9Q8iibxQxSQ0j2p8JZ5tAMehw=;
-        b=NqlqA9ZQ0XHJZn2GauKocLVfMdbLajOtWemmVYWblroy1YxjX8ukY/Z7VTn9mAe6/Q
-         tBUtT6JLtx7HsSQWrcR39pygIY2q4UPXtGEEqq6PDepFp0cBfvD9zDhEmPDO7Z7tBv2N
-         8pu7RtEg3tGvAjArQ9XBIyQaEDCJQvfkogWd2KhOLgvFmRmYzehPJjb/v6z8lYAZWJCZ
-         7SNlix8NtONm5bIR2avyWGP7ofcA4sffVMQYNvPIhPX1pxQLoCkYOLM4KZYdYnqjwnBX
-         3cD0F2Na1MAwgETQw8aS/3COzev4Bhtaa0IM700eIul4/h+mCt+MjUnjWvPc29ohXdVB
-         naug==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=BMqi7wNVy74Epfw3/CXCjxssZh8rP45fbaF8FqplbtM=;
+        b=TSB4IyoUJM+7SNxWfQHNWp8SqiXLs/3NwcS1pRcGPyEE+D7ZuwgScsLS7CtdvbMVdO
+         VIxaPM83TNRCvMEMOXMAQ+BlQ6eapIXMfBKGpy7VEZyGYbykb6iVJfF0Z2DIUqMSTyFK
+         HKOxhaOABj9VHS1ug6APUjjZuE8ZUWftGDf/WNk9nMEIEVInQBJgQ2RRCoarqsoZbHrs
+         +caPNlVvfTCXQTeRuxQUVmZEVmCH6ISoqqH3h5Bcp5oVWwzZzAbn4RM49ylcI5hKHC2e
+         NZ9gsxnem8Q6PWNKTPVqxB3AdJDeYmj6CQujbXfVlRMncQ0LKHG8tyM1DjoUCRuQp5+Y
+         t8cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Nu4qWyGXEitkgI8n8p9Q8iibxQxSQ0j2p8JZ5tAMehw=;
-        b=N9blowM/QbzcGmfZ/0IZfqwpZoAggEDrf4Lu3U3BxFqKtsfSgV3ypuhp4OkKV3JI6O
-         FnaGuv2Vj4o1zuYq0EZCbQW8O+OSjGKuuJCJEqSIIngZYqFAZub4pVdgT5L1QlBelYAH
-         pkVoVCDC0o9a26eQyI0jjtT/ZsvP39WLX3ufPK1S+2JRm8l1FOcJ9iWW6oH3ahtrXRgF
-         Ye/ScRVQulO6Y5evRmIp05IWJ4CRA0Y2cxwAO3TpBxYv/4AZt2WqjByII+QSnxyqKkQ1
-         LR5ap6n24/iiYkWoE61KlZr764OSIIanIel+b11aEyRfLSJpXCdBIjtUyH5Knqij3wan
-         xnkg==
-X-Gm-Message-State: APjAAAWCXlqpZn8OiCEMkHTM2P7iT4ysXdedmMVmaYyFCeI8pYMd0y58
-        eKIiD9+bhUTV7AD79TrsaPQ=
-X-Google-Smtp-Source: APXvYqxTraK0soDcR29iTCztQotzJJ+fayOOisQNUhuUn/qARzTiXgh7Zsw5Sn0p9ALeLFGO2lcJdA==
-X-Received: by 2002:a62:5547:: with SMTP id j68mr83320pfb.6.1582824443753;
-        Thu, 27 Feb 2020 09:27:23 -0800 (PST)
-Received: from localhost.localdomain ([103.46.201.150])
-        by smtp.gmail.com with ESMTPSA id b15sm7865783pft.58.2020.02.27.09.27.17
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BMqi7wNVy74Epfw3/CXCjxssZh8rP45fbaF8FqplbtM=;
+        b=JDwPgJMACTlh9kVll0OvtymAlK1AmXk9zn+uslEdH6TcbsAoZgDII7chqyCqBQuBPy
+         LodSS3PD1NCsQAdAXKNbRHuiO1cXUWenjXnEF//Uc/wh3j/fBafe8ek3/3yDwXrsuqJ4
+         Ee8qwbmq8KNcEF5JLPqqyPUGyC8MGCwvxFP1sJfsmboYr+x6htKpWTl1wRaoGbeU4Pqf
+         QaUwLropsf/voOjRGPNuSokX7ZJhmEQUeDXlLsQlbQD4++HgDT23Zg6DAvMTSEDBHtw/
+         bHWUm4IAaAF+/C2q7DUTY3bEZ7RJfAjOADWKxzvrOOdGGP3T+YKCHUsMrFLWbPhLuRGl
+         F34Q==
+X-Gm-Message-State: APjAAAW3vZlJ3ylPauKyEc+QgkYcoL9xVI/jN+O5jCTuFsarw13JU1PK
+        mi/cQVIqeUe20oHMigBYj8E=
+X-Google-Smtp-Source: APXvYqxn4Muee4YpYbF0JI/llZZZN3gjxROfWrgHUwhT9fQ/79cP1fhPKjJ0y9iFYP2aqzwY+Mcn5Q==
+X-Received: by 2002:a5d:56ca:: with SMTP id m10mr6155698wrw.313.1582825391327;
+        Thu, 27 Feb 2020 09:43:11 -0800 (PST)
+Received: from andrea (ip-213-220-200-127.net.upcbroadband.cz. [213.220.200.127])
+        by smtp.gmail.com with ESMTPSA id d13sm9014648wrc.64.2020.02.27.09.43.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2020 09:27:22 -0800 (PST)
-From:   amanharitsh123 <amanharitsh123@gmail.com>
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        amanharitsh123@gmail.com, "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v2] doc: Convert to checklist.txt to checklist.rst
-Date:   Thu, 27 Feb 2020 22:56:24 +0530
-Message-Id: <20200227172625.4976-1-amanharitsh123@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Thu, 27 Feb 2020 09:43:09 -0800 (PST)
+Date:   Thu, 27 Feb 2020 18:43:04 +0100
+From:   Andrea Parri <parri.andrea@gmail.com>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] Documentation/locking/atomic: Add a litmus test
+ for atomic_set()
+Message-ID: <20200227174304.GA11666@andrea>
+References: <20200227004049.6853-1-boqun.feng@gmail.com>
+ <20200227004049.6853-5-boqun.feng@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200227004049.6853-5-boqun.feng@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch converts checklist.txt to checklist.rst and
-adds it to index.rst
+On Thu, Feb 27, 2020 at 08:40:48AM +0800, Boqun Feng wrote:
+> We already use a litmus test in atomic_t.txt to describe the behavior of
+> an atomic_set() with the an atomic RMW, so add it into atomic-tests
+> directory to make it easily accessible for anyone who cares about the
+> semantics of our atomic APIs.
+> 
+> Additionally, change the sentences describing the test in atomic_t.txt
+> with better wording.
+> 
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> ---
+>  ...c-RMW-ops-are-atomic-WRT-atomic_set.litmus | 24 +++++++++++++++++++
+>  Documentation/atomic-tests/README             |  7 ++++++
+>  Documentation/atomic_t.txt                    |  6 ++---
+>  3 files changed, 34 insertions(+), 3 deletions(-)
+>  create mode 100644 Documentation/atomic-tests/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
+> 
+> diff --git a/Documentation/atomic-tests/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus b/Documentation/atomic-tests/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
+> new file mode 100644
+> index 000000000000..5dd7f04e504a
+> --- /dev/null
+> +++ b/Documentation/atomic-tests/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
+> @@ -0,0 +1,24 @@
+> +C Atomic-set-observable-to-RMW
 
-Signed-off-by: Aman Sharma <amanharitsh123@gmail.com>
-Signed-off-by: amanharitsh123 <amanharitsh123@gmail.com>
----
- Documentation/RCU/{checklist.txt => checklist.rst} | 8 +++++---
- Documentation/RCU/index.rst                        | 1 +
- 2 files changed, 6 insertions(+), 3 deletions(-)
- rename Documentation/RCU/{checklist.txt => checklist.rst} (99%)
+Nit: s/Atomic-set-observable-to-RMW/Atomic-RMW-ops-are-atomic-WRT-atomic_set
 
-diff --git a/Documentation/RCU/checklist.txt b/Documentation/RCU/checklist.rst
-similarity index 99%
-rename from Documentation/RCU/checklist.txt
-rename to Documentation/RCU/checklist.rst
-index e98ff261a438..50fd557b9acd 100644
---- a/Documentation/RCU/checklist.txt
-+++ b/Documentation/RCU/checklist.rst
-@@ -1,5 +1,7 @@
--Review Checklist for RCU Patches
-+.. _checklist_doc: 
- 
-+Review Checklist for RCU Patches
-+================================
- 
- This document contains a checklist for producing and reviewing patches
- that make use of RCU.  Violating any of the rules listed below will
-@@ -442,8 +444,8 @@ over a rather long period of time, but improvements are always welcome!
- 
- 	You instead need to use one of the barrier functions:
- 
--	o	call_rcu() -> rcu_barrier()
--	o	call_srcu() -> srcu_barrier()
-+	-	call_rcu() -> rcu_barrier()
-+	-	call_srcu() -> srcu_barrier()
- 
- 	However, these barrier functions are absolutely -not- guaranteed
- 	to wait for a grace period.  In fact, if there are no call_rcu()
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 81a0a1e5f767..d60eb4ba2cd0 100644
---- a/Documentation/RCU/index.rst
-+++ b/Documentation/RCU/index.rst
-@@ -10,6 +10,7 @@ RCU concepts
-    arrayRCU
-    rcubarrier
-    rcu_dereference
-+   checklist
-    whatisRCU
-    rcu
-    listRCU
--- 
-2.20.1
 
+> +
+> +(*
+> + * Result: Never
+> + *
+> + * Test that atomic_set() cannot break the atomicity of atomic RMWs.
+> + *)
+> +
+> +{
+> +	atomic_t v = ATOMIC_INIT(1);
+> +}
+> +
+> +P0(atomic_t *v)
+> +{
+> +	(void)atomic_add_unless(v,1,0);
+
+Nit: spaces after commas
+
+
+> +}
+> +
+> +P1(atomic_t *v)
+> +{
+> +	atomic_set(v, 0);
+> +}
+> +
+> +exists
+> +(v=2)
+> diff --git a/Documentation/atomic-tests/README b/Documentation/atomic-tests/README
+> index ae61201a4271..a1b72410b539 100644
+> --- a/Documentation/atomic-tests/README
+> +++ b/Documentation/atomic-tests/README
+> @@ -2,3 +2,10 @@ This directory contains litmus tests that are typical to describe the semantics
+>  of our atomic APIs. For more information about how to "run" a litmus test or
+>  how to generate a kernel test module based on a litmus test, please see
+>  tools/memory-model/README.
+> +
+> +============
+> +LITMUS TESTS
+> +============
+> +
+> +Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
+> +	Test that atomic_set() cannot break the atomicity of atomic RMWs.
+> diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
+> index ceb85ada378e..67d1d99f8589 100644
+> --- a/Documentation/atomic_t.txt
+> +++ b/Documentation/atomic_t.txt
+> @@ -85,10 +85,10 @@ smp_store_release() respectively. Therefore, if you find yourself only using
+>  the Non-RMW operations of atomic_t, you do not in fact need atomic_t at all
+>  and are doing it wrong.
+>  
+> -A subtle detail of atomic_set{}() is that it should be observable to the RMW
+> -ops. That is:
+> +A note for the implementation of atomic_set{}() is that it must not break the
+> +atomicity of the RMW ops. That is:
+>  
+> -  C atomic-set
+> +  C Atomic-RMW-ops-are-atomic-WRT-atomic_set
+>  
+>    {
+>      atomic_t v = ATOMIC_INIT(1);
+> -- 
+> 2.25.0
+> 
