@@ -2,50 +2,40 @@ Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C7F4C3F2CD
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 15:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA37C3F2CD
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 15:40:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4F8DD2469F
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 15:32:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5749246AF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 15:40:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e4qoeDNu"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Q1MbV49L"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726796AbgB1PcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Feb 2020 10:32:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58392 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726990AbgB1PcP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Feb 2020 10:32:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582903934;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Bvw4EKIq7Nz96iliNwe+sYPmeB2MxKGQA5tmOw0Z4RU=;
-        b=e4qoeDNugewOs2BzpMKD1l1eGuHpTjCRs8FQXjFMOIV3seKs1ErToZPmLrbsHO0DAsIKyG
-        OKiFHGs2AnnuwsMRsM4zyKhmLH5NPDs5clDZG1JtJTRxO9x4WRP8Nrd+GvyT01oEpzM8uP
-        EZpxo8kf4ui7Y7o9yLxD7zc8ssUHUeY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-ajKGKpX8OVSU15sG2IeCPA-1; Fri, 28 Feb 2020 10:32:10 -0500
-X-MC-Unique: ajKGKpX8OVSU15sG2IeCPA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0043107B7D8;
-        Fri, 28 Feb 2020 15:32:08 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-123-107.rdu2.redhat.com [10.10.123.107])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 72E28101D481;
-        Fri, 28 Feb 2020 15:32:03 +0000 (UTC)
-Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
-To:     Matthew Wilcox <willy@infradead.org>, Ian Kent <raven@themaw.net>
-Cc:     Andreas Dilger <adilger@dilger.ca>,
+        id S1727107AbgB1PkA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Feb 2020 10:40:00 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:51942 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727073AbgB1PkA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Feb 2020 10:40:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=RLl4lTWEQ1GAiGFB/dhL9F5BLvw5PQx9CA3ElGeVs+w=; b=Q1MbV49LowiIjlZpl3pNUVex/6
+        PYMFB6kNE6s0M2yxnhWgQGvqCIe/DlhIOaRLyRdURzf1Wn9ZvewzHhgdjT/tTHbnfX5+HyKMKdxi8
+        IAwZPdqdVKoQFa+GOs3+zAa99/Z05xaPUZbij2dZIvjv+xW6oDHpR+8w3Jx30mojVKFHz36BcJJxQ
+        68phLWX6JxxZqC9nm5LoVlVlnfpPqkbHfGjnQN/KtTRnJEhMArnYpn9dzI1EzifcLvwmTvplhu+xM
+        yneLzr2C54T4EFC8UH0bqR8tFQzr2tRs7AMgJnSkRAhVUkkleL0Bsus5cB9fslrLObZAtkPCqBBJR
+        itBk+T3Q==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j7hjz-00040e-5g; Fri, 28 Feb 2020 15:39:51 +0000
+Date:   Fri, 28 Feb 2020 07:39:51 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Ian Kent <raven@themaw.net>, Andreas Dilger <adilger@dilger.ca>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
         Luis Chamberlain <mcgrof@kernel.org>,
@@ -58,56 +48,30 @@ Cc:     Andreas Dilger <adilger@dilger.ca>,
         Eric Biggers <ebiggers@google.com>,
         Dave Chinner <david@fromorbit.com>,
         Eric Sandeen <sandeen@redhat.com>
+Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
+Message-ID: <20200228153951.GH29971@bombadil.infradead.org>
 References: <20200226161404.14136-1-longman@redhat.com>
  <20200226162954.GC24185@bombadil.infradead.org>
  <2EDB6FFC-C649-4C80-999B-945678F5CE87@dilger.ca>
  <9d7b76c32d09492137a253e692624856388693db.camel@themaw.net>
  <20200228033412.GD29971@bombadil.infradead.org>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <e8730c5e-6610-f25a-f1cc-9d4ffffe0eb5@redhat.com>
-Date:   Fri, 28 Feb 2020 10:32:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ <e8730c5e-6610-f25a-f1cc-9d4ffffe0eb5@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200228033412.GD29971@bombadil.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e8730c5e-6610-f25a-f1cc-9d4ffffe0eb5@redhat.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/27/20 10:34 PM, Matthew Wilcox wrote:
-> On Thu, Feb 27, 2020 at 05:55:43PM +0800, Ian Kent wrote:
->> Not all file systems even produce negative hashed dentries.
->>
->> The most beneficial use of them is to improve performance of rapid
->> fire lookups for non-existent names. Longer lived negative hashed
->> dentries don't give much benefit at all unless they suddenly have
->> lots of hits and that would cost a single allocation on the first
->> lookup if the dentry ttl expired and the dentry discarded.
->>
->> A ttl (say jiffies) set at appropriate times could be a better
->> choice all round, no sysctl values at all.
-> The canonical argument in favour of negative dentries is to improve
-> application startup time as every application searches the library path
-> for the same libraries.  Only they don't do that any more:
+On Fri, Feb 28, 2020 at 10:32:02AM -0500, Waiman Long wrote:
+> On 2/27/20 10:34 PM, Matthew Wilcox wrote:
+> > The canonical argument in favour of negative dentries is to improve
+> > application startup time as every application searches the library path
+                                                               ^^^^^^^
+> > for the same libraries.  Only they don't do that any more:
+                 ^^^^^^^^^
 >
-> $ strace -e file cat /dev/null
-> execve("/bin/cat", ["cat", "/dev/null"], 0x7ffd5f7ddda8 /* 44 vars */) = 0
-> access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
-> openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
-> openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
-> openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
-> openat(AT_FDCWD, "/dev/null", O_RDONLY) = 3
->
-> So, are they still useful?  Or should we, say, keep at most 100 around?
->
-It is the shell that does the path search, not the command itself.
-
-Cheers,
-Longman
+> It is the shell that does the path search, not the command itself.
 
