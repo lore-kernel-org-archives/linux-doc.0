@@ -1,100 +1,72 @@
-Return-Path: <SRS0=WXCa=4P=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84648C3F2CD
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 23:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97918C3F2C6
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 00:07:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5409A246A6
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Feb 2020 23:45:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6293B246B3
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 00:07:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582847100;
-	bh=jS7+mPtdTkiNXDE3akD6Uj8BOQ6aBPXUdvAiHiiF+a0=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=qzkcI9Cq1WDhloD7OGB0XaJdrhQQQdi5197zQfhz8fPMjcMIh1QdKi7pajIInfWZd
-	 pcWOYPiem+nb3dye9K+hqUKQfKBilMOZjBtKYcystKCLz/9H+FZg4WrBaDrNM+lCeW
-	 87yLkui2WCQOnLG9Y5ucG0LhIiqgm+tL6xDavsck=
+	s=default; t=1582848432;
+	bh=xvP324uAy+ijLtQiXUCdDiym03H5jljRtuJFRC/ek4U=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=H/OqJIm/O6J5HjvQvH0XoP/CZb2fqv7gzn3P/M3YYYu1lPI/92KQzAWfXZcDP8OiP
+	 ad4uX5WjPQNpvHjwW3dYVgGpeWqhjKqGM74Vj2TaKn3wm3bvRsvV0S0xgpjXqNGx1K
+	 9+jsDGtz1czZxyoRfHvIh7Vu0vsL/lHGFPPjd/CM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729816AbgB0XpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 18:45:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47738 "EHLO mail.kernel.org"
+        id S1729959AbgB1AHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 19:07:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60198 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729796AbgB0Xo7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Feb 2020 18:44:59 -0500
-Received: from [10.92.140.40] (unknown [167.220.149.40])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1729930AbgB1AHL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Feb 2020 19:07:11 -0500
+Received: from kicinski-fedora-PC1C0HJN.thefacebook.com (unknown [163.114.132.128])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 33AC32469B;
-        Thu, 27 Feb 2020 23:44:58 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DA20621556;
+        Fri, 28 Feb 2020 00:07:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582847099;
-        bh=jS7+mPtdTkiNXDE3akD6Uj8BOQ6aBPXUdvAiHiiF+a0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=TARKyIdG28sunPLcAMYM25ara3hoVOHzWIaKr9YDES8Cduaq59iEm8/vlhUga1sJ0
-         H8rhfwiFmUp60gcNyX1Nu1yuWcu5Me3SqVRYJ3DqA+YodXNjE8o1MfNrySG/0gI9+m
-         yZYo5K02d1/+GOnioBzzo/N+3kTTSOBrm9cHy7vg=
-Subject: Re: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        "Spassov, Stanislav" <stanspas@amazon.de>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "ashok.raj@intel.com" <ashok.raj@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Wang, Wei" <wawei@amazon.de>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Schoenherr, Jan H." <jschoenh@amazon.de>,
-        "rajatja@google.com" <rajatja@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20200227214534.GA143139@google.com>
-From:   Sinan Kaya <okaya@kernel.org>
-Autocrypt: addr=okaya@kernel.org; keydata=
- mQENBFrnOrUBCADGOL0kF21B6ogpOkuYvz6bUjO7NU99PKhXx1MfK/AzK+SFgxJF7dMluoF6
- uT47bU7zb7HqACH6itTgSSiJeSoq86jYoq5s4JOyaj0/18Hf3/YBah7AOuwk6LtV3EftQIhw
- 9vXqCnBwP/nID6PQ685zl3vH68yzF6FVNwbDagxUz/gMiQh7scHvVCjiqkJ+qu/36JgtTYYw
- 8lGWRcto6gr0eTF8Wd8f81wspmUHGsFdN/xPsZPKMw6/on9oOj3AidcR3P9EdLY4qQyjvcNC
- V9cL9b5I/Ud9ghPwW4QkM7uhYqQDyh3SwgEFudc+/RsDuxjVlg9CFnGhS0nPXR89SaQZABEB
- AAG0HVNpbmFuIEtheWEgPG9rYXlhQGtlcm5lbC5vcmc+iQFOBBMBCAA4FiEEYdOlMSE+a7/c
- ckrQvGF4I+4LAFcFAlztcAoCGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQvGF4I+4L
- AFfidAf/VKHInxep0Z96iYkIq42432HTZUrxNzG9IWk4HN7c3vTJKv2W+b9pgvBF1SmkyQSy
- 8SJ3Zd98CO6FOHA1FigFyZahVsme+T0GsS3/OF1kjrtMktoREr8t0rK0yKpCTYVdlkHadxmR
- Qs5xLzW1RqKlrNigKHI2yhgpMwrpzS+67F1biT41227sqFzW9urEl/jqGJXaB6GV+SRKSHN+
- ubWXgE1NkmfAMeyJPKojNT7ReL6eh3BNB/Xh1vQJew+AE50EP7o36UXghoUktnx6cTkge0ZS
- qgxuhN33cCOU36pWQhPqVSlLTZQJVxuCmlaHbYWvye7bBOhmiuNKhOzb3FcgT7kBDQRa5zq1
- AQgAyRq/7JZKOyB8wRx6fHE0nb31P75kCnL3oE+smKW/sOcIQDV3C7mZKLf472MWB1xdr4Tm
- eXeL/wT0QHapLn5M5wWghC80YvjjdolHnlq9QlYVtvl1ocAC28y43tKJfklhHiwMNDJfdZbw
- 9lQ2h+7nccFWASNUu9cqZOABLvJcgLnfdDpnSzOye09VVlKr3NHgRyRZa7me/oFJCxrJlKAl
- 2hllRLt0yV08o7i14+qmvxI2EKLX9zJfJ2rGWLTVe3EJBnCsQPDzAUVYSnTtqELu2AGzvDiM
- gatRaosnzhvvEK+kCuXuCuZlRWP7pWSHqFFuYq596RRG5hNGLbmVFZrCxQARAQABiQEfBBgB
- CAAJBQJa5zq1AhsMAAoJELxheCPuCwBX2UYH/2kkMC4mImvoClrmcMsNGijcZHdDlz8NFfCI
- gSb3NHkarnA7uAg8KJuaHUwBMk3kBhv2BGPLcmAknzBIehbZ284W7u3DT9o1Y5g+LDyx8RIi
- e7pnMcC+bE2IJExCVf2p3PB1tDBBdLEYJoyFz/XpdDjZ8aVls/pIyrq+mqo5LuuhWfZzPPec
- 9EiM2eXpJw+Rz+vKjSt1YIhg46YbdZrDM2FGrt9ve3YaM5H0lzJgq/JQPKFdbd5MB0X37Qc+
- 2m/A9u9SFnOovA42DgXUyC2cSbIJdPWOK9PnzfXqF3sX9Aol2eLUmQuLpThJtq5EHu6FzJ7Y
- L+s0nPaNMKwv/Xhhm6Y=
-Message-ID: <e162efcd-70fd-3390-2452-4915af1c9171@kernel.org>
-Date:   Thu, 27 Feb 2020 18:44:56 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        s=default; t=1582848431;
+        bh=xvP324uAy+ijLtQiXUCdDiym03H5jljRtuJFRC/ek4U=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OQvSCa+7h82sHQgs42+4thsQL5m2zZ/GhIbKK/NT2VWdRiapC3W60Fv7rhnNyiSTC
+         soCOe/xVgEekW5Ey5P0IIEvcZWEFM9xWiAls6VGa9XdfsG6g5P2m1n0hQblmtc42dv
+         YKBBUyHPwQ1SPdJfHmJLnTsA68HMny7wsEg3TbmI=
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     corbet@lwn.net
+Cc:     clm@fb.com, hannes@cmpxchg.org, tj@kernel.org, lizefan@huawei.com,
+        linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH doc 0/5] doc: cgroup: improve formatting
+Date:   Thu, 27 Feb 2020 16:06:48 -0800
+Message-Id: <20200228000653.1572553-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200227214534.GA143139@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/27/2020 4:45 PM, Bjorn Helgaas wrote:
-> The 60 second timeout came from 821cdad5c46c ("PCI: Wait up to 60
-> seconds for device to become ready after FLR") and is probably too
-> long.  We probably should pick a smaller value based on numbers from
-> the spec and make quirks for devices that needed more time.
+A few small changes to the cgroup-v2 doc to improve
+it's rendering.
 
-If I remember right, there was no time mention about how long to
-wait. Spec says device should send CRS as long as it is not ready.
+Jakub Kicinski (5):
+  doc: cgroup: improve formatting
+  doc: cgroup: improve formatting of mem stats
+  doc: cgroup: improve formatting of io example
+  doc: cgroup: improve formatting of cpuset examples
+  doc: cgroup: improve formatting of references
+
+ Documentation/accounting/psi.rst              |  2 ++
+ Documentation/admin-guide/cgroup-v1/index.rst |  2 ++
+ Documentation/admin-guide/cgroup-v2.rst       | 28 ++++++-------------
+ 3 files changed, 12 insertions(+), 20 deletions(-)
+
+-- 
+2.24.1
+
