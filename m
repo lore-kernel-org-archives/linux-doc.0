@@ -2,111 +2,85 @@ Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 365D7C3F2D3
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 15:47:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE42C3F2D2
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 16:16:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02C3A246AE
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 15:47:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JVg/n2sI"
+	by mail.kernel.org (Postfix) with ESMTP id 34CE0246A0
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 16:16:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727125AbgB1PrU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Feb 2020 10:47:20 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37859 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727115AbgB1PrU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Feb 2020 10:47:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582904839;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=M5VyH6QG78kcYA9fsol/765vHxQ9ZwPBQuyaapR5VWs=;
-        b=JVg/n2sIcC4IqXWiBfR9uLTCNULrI0+Vf20qfHIfrCtL3fW2OEOBMWhc6bOWE5LDSKCCXB
-        a8f90gbhO4svQ3rEoEG7xByaAafSkxniwCLU8J4+9klQG/0dujCsEWEkrxXAUNV5JN09FC
-        qs0A97rdAzw9XYPhhJLWGVz0byOIS/A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-mQ_0rQDoOnSMA1s8I2K5_w-1; Fri, 28 Feb 2020 10:47:14 -0500
-X-MC-Unique: mQ_0rQDoOnSMA1s8I2K5_w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51DB4107ACC5;
-        Fri, 28 Feb 2020 15:47:12 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-123-107.rdu2.redhat.com [10.10.123.107])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C300390793;
-        Fri, 28 Feb 2020 15:47:08 +0000 (UTC)
-Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1725928AbgB1QQJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Feb 2020 11:16:09 -0500
+Received: from mga05.intel.com ([192.55.52.43]:51515 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725769AbgB1QQJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Feb 2020 11:16:09 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Feb 2020 08:16:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,496,1574150400"; 
+   d="scan'208";a="261900316"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Feb 2020 08:16:09 -0800
+Message-ID: <e35cc25c4ba1dcb4154276b1e2731891a3c600ec.camel@intel.com>
+Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eric Biggers <ebiggers@google.com>,
-        Eric Sandeen <sandeen@redhat.com>
-References: <20200226161404.14136-1-longman@redhat.com>
- <20200227083029.GL10737@dread.disaster.area>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <e9625cae-ee3f-3e58-903d-dabc131c8c9b@redhat.com>
-Date:   Fri, 28 Feb 2020 10:47:07 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Fri, 28 Feb 2020 07:55:33 -0800
+In-Reply-To: <202002251159.939AA6A@keescook>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-2-yu-cheng.yu@intel.com>
+         <202002251159.939AA6A@keescook>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <20200227083029.GL10737@dread.disaster.area>
-Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/27/20 3:30 AM, Dave Chinner wrote:
-> On Wed, Feb 26, 2020 at 11:13:53AM -0500, Waiman Long wrote:
->> As there is no limit for negative dentries, it is possible that a sizeable
->> portion of system memory can be tied up in dentry cache slabs. Dentry slabs
->> are generally recalimable if the dentries are in the LRUs. Still having
->> too much memory used up by dentries can be problematic:
-> I don't get it.
->
-> Why isn't the solution simply "constrain the application generating
-> unbound numbers of dentries to a memcg"?
->
-> Then when the memcg runs out of memory, it will start reclaiming the
-> dentries that were allocated inside the memcg that are using all
-> it's resources, thereby preventing unbound growth of the dentry
-> cache.
->
-> I mean, this sort of resource control is exactly what memcgs are
-> supposed to be used for and are already used for. I don't see why we
-> need all this complexity for global dentry resource management when
-> memcgs should already provide an effective means of managing and
-> placing bounds on the amount of memory any specific application can
-> use...
+On Tue, 2020-02-25 at 12:02 -0800, Kees Cook wrote:
+> On Wed, Feb 05, 2020 at 10:19:09AM -0800, Yu-cheng Yu wrote:
+> > Explain no_cet_shstk/no_cet_ibt kernel parameters, and introduce a new
+> > document on Control-flow Enforcement Technology (CET).
+> > 
+> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> 
+> I'm not a huge fan of the boot param names, but I can't suggest anything
+> better. ;) I love the extensive docs!
+> 
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Using memcg is one way to limit the damage. The argument that excessive
-negative dentries can push out existing memory objects that can be more
-useful if left alone still applies. Daemons that run in the root memcg
-has no limitation on how much memory that they can use.
+Thanks for reviewing!
 
-There can also be memcgs with high memory limits and long running
-applications. memcg is certainly a useful tool in this regards, but it
-doesn't solve all the problem.
-
-Cheers,
-Longman
-
+Yu-cheng
 
