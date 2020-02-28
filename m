@@ -6,49 +6,51 @@ X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77AE2C3F2CD
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 13:23:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C080BC3F2D2
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 13:26:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4C56D246A3
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 13:23:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B780246A3
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 13:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582896196;
-	bh=/xfaJMoeMDPFtvDaD6zvshgBCk2MToM3z6YB0J1XM6I=;
+	s=default; t=1582896400;
+	bh=z5dwAWLcjLjo0C71mnZQrP9hXaDFY2g2woModyNi4c0=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=gtHAm+gWbcfbIKH8mQ+XvLDR0nTQvNDhSiU6uFhwqimhmAyJVgWNpZusazL/o++qt
-	 hprO1d+qpobxjN36tDWxU9LDQKl1PuvoBSqB0Lb8iwrihLfC0C/I5lrBK8tkVpccJm
-	 Q69pNJtwIQgSwAibo45zBIHHoSrKO2NMUbDDiXIg=
+	b=ZMjqa8d3+wYsBIEg2CBZvb8DnVN3en35+IG1hmqSst1inxcTK/TN7fC66q4mcFVfZ
+	 FSZEfKWZPsVMZp/egDs/ERi7MX9PRAj9KSb0Xtr/wfYnfKK+oPR7UFoo34rAUn1lTP
+	 mE/lXmM7x4AAyjGPuKELcZB8Tx4F9nCC65PH6WWA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725906AbgB1NXP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Feb 2020 08:23:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40520 "EHLO mail.kernel.org"
+        id S1726674AbgB1N0k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Feb 2020 08:26:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41514 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725892AbgB1NXP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Feb 2020 08:23:15 -0500
+        id S1725876AbgB1N0k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Feb 2020 08:26:40 -0500
 Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 552DC2469D;
-        Fri, 28 Feb 2020 13:23:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 997F22469D;
+        Fri, 28 Feb 2020 13:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582896195;
-        bh=/xfaJMoeMDPFtvDaD6zvshgBCk2MToM3z6YB0J1XM6I=;
+        s=default; t=1582896399;
+        bh=z5dwAWLcjLjo0C71mnZQrP9hXaDFY2g2woModyNi4c0=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=wUVgji7WOyczOtZlOltRQm/c7ah9cFPS6gN9u6p9VC9BlGbdKhavlPFqh9Ia8D2Ux
-         1PMqjFTDjibH5oakjj6y+2efFfr+n2pWS8KH9W5mHqUwg+OMQeUre1/Hz1E3bGUy1I
-         08CJRfcTDdkPP9gTBWOsUDfqRq/ymtjtVuAdO9OY=
-Date:   Fri, 28 Feb 2020 22:23:11 +0900
+        b=vXQT6sCm/cOR/vLkA3/epVyaK+gc/odiPnJpy8D+WWU8SCl7cMjkWBs3XHpc3upNc
+         xCz21kzRVtCdp88oK3Khn5r3hMziR4mkrq07D9UCd2vjGk3XstZs+hdaBPLSRlxNzf
+         aFOUTw3b2bd9xE27AfNdVu5bxA/4+C71h+M4MU2A=
+Date:   Fri, 28 Feb 2020 22:26:35 +0900
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Markus Elfring <Markus.Elfring@web.de>
 Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Steven Rostedt <rostedt@goodmis.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [v2 0/1] Documentation: bootconfig: Documentation updates
-Message-Id: <20200228222311.f5b9448027031b16a3be372a@kernel.org>
-In-Reply-To: <957cef56-04b0-3889-6c95-a8ed7606b68d@web.de>
+Subject: Re: [PATCH v2] Documentation: bootconfig: Update boot configuration
+ documentation
+Message-Id: <20200228222635.96b258bedd2e68141b8a45c9@kernel.org>
+In-Reply-To: <57b79bdd-36f1-c8c3-e1d3-7d21db47a8f3@web.de>
 References: <158287861133.18632.12035327305997207220.stgit@devnote2>
-        <957cef56-04b0-3889-6c95-a8ed7606b68d@web.de>
+        <158287862131.18632.11822701514141299400.stgit@devnote2>
+        <57b79bdd-36f1-c8c3-e1d3-7d21db47a8f3@web.de>
 X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -58,28 +60,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 28 Feb 2020 10:00:55 +0100
+On Fri, 28 Feb 2020 11:00:43 +0100
 Markus Elfring <Markus.Elfring@web.de> wrote:
 
-> > I decided to drop EBNF (extended Backus–Naur form) patch
-> > since the ISO/IEC 14977 EBNF seems not carefully defined
+> …
+> > +++ b/Documentation/admin-guide/bootconfig.rst
+> …
+> > +… All sub-keys under "kernel" root key are passed as a part of
+> > +kernel command line [1]_, and ones under "init" root key are passed as a part
+> > +of init command line. …
 > 
-> Significant efforts happened also for this standard.
-> Does its revision refer still to the year 1996?
+> Can an enumeration be clearer for this information?
 > 
+> Will the distinction become more interesting for well-known keys?
 
-Didn't you read the article I shared? I actually wrote up the EBNF
-(ISO/IEC 14977) that was a good pazzle, but just a toy. I found
-no one use it to define their data format, according to the
-article, including ISO itself (lol!) and there are many local
-extension, including W3C EBNF, and those say "I'm EBNF".
-Well, to say the least, I feel it is quite confused.
-
-So, if you are interested in it, I don't stop you to write it up.
-I just keep away from it.
+Your question becomes more meaningless... If you have any such concern,
+you can write a patch on it for a contribution. Yes, you can!
 
 Thank you,
 
 -- 
 Masami Hiramatsu <mhiramat@kernel.org>
-
