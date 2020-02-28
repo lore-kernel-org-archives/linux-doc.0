@@ -2,197 +2,90 @@ Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92ECDC3F2C6
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 03:27:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D512C3F2CF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 03:34:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6BAE624692
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 03:27:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40BA724692
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 03:34:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qdaDLB40"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bd791Ixi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730768AbgB1D1j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 22:27:39 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:36147 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730654AbgB1D1j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 22:27:39 -0500
-Received: by mail-oi1-f193.google.com with SMTP id c16so1556325oic.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2020 19:27:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NDgUQnCysZ7NFsIwDokx6+x5eoZKUCkBzb/ZNj5Uk14=;
-        b=qdaDLB40g+oyHb7JAcITCqVVaUs363TrbWV1T7QaYfFPpjtX8uy60Dkj2GU6XBpJGN
-         lAN731kvw5+DtZs/Jmqj9a2zAwq3yyiugAXweWmF+/7ozu2pZbH5NlF01boeMxI4jdgy
-         wPRxGYAstclqvIhU99ubI0HPyarsbPFL0vGzov59t9CBbria3MovzKiPtqyjDYHWW2JH
-         2VT7OciJqRRyU7x4MX7hi9uKOBuzKgCDwo/tWsH1Su907YVLYbNXINavQw2gJe+mO85A
-         /jDNEzcKqvCRg53uCe5vIYRMa8+V2F9YUQ2DdfHUYcFd8Xslim1gBU7pGdnNPZQA37BA
-         sbBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NDgUQnCysZ7NFsIwDokx6+x5eoZKUCkBzb/ZNj5Uk14=;
-        b=AceIdV+cDdyf8Z0SwdhfKowYn4R4b62IL6Fc0uZ+KTUvi52vq738V2DMFFFRwtwvZ4
-         FIAu3JTKzxa3tGcPaq9ATqXy6VIwhIjgqG5q2P+BFIsvv6OalSpOE/sc9+rrvvL15bZP
-         enj+W0QWbdq36KEX9kHQFWgyDVXySm6Qa2W35AWkVwawjrt4vx48dhXgTj3tkZOloc0s
-         RNtVrGorJwJSSqnsJuJBjonLMKOMd3dI1EKnfPw+ivbKN0XaTMAv9tK6F/NbY6c05knG
-         u8EsSJbtUu+CbSGBUwK6UmaTUbxzkZoyCv+VX9TiQnzibOU4m36gQ8lfzcoS1D8M+KZB
-         t0hw==
-X-Gm-Message-State: APjAAAV1KfG8/JnT2M4eQ5fkYoWpqt0W54Ow3FlBhoF9wkVNr0ypXlQu
-        OpyFs72V34iHsZY3HszgfR/H/L28ph9HgAY8jm1aBQ==
-X-Google-Smtp-Source: APXvYqyOVn3TXyhx+GoHYcgMBBF9yOdT1HuTV+3w8j1kxYzXCl2z3YA80qnpCa43jnHHo1tUjwE1QG14/Zn3P7OrhMk=
-X-Received: by 2002:aca:5205:: with SMTP id g5mr5640oib.43.1582860458043; Thu,
- 27 Feb 2020 19:27:38 -0800 (PST)
+        id S1730665AbgB1DeT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 22:34:19 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:41658 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730638AbgB1DeT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 22:34:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=8ohWsBNybdoUlsH9268dif1L9MEaj5QT7JAO8j1ggLc=; b=Bd791Ixini1pwewoL2V9vEiHTl
+        xbdtRGLm8B+bBqUJvH8F9vnusQAImUKO3DvyUVsUFB5at16CO4xiM2a16YujtnqTUV6fBuQwDqsJg
+        vbXEKlTxmXsD2dAMAl3yqiO7rQdvBMSeltt79eRQgjkE+o0DPBieLMdG6WLVt5NArdeChc4o5ix9k
+        7/fEAVGXho0E/oWy5es6qshWghH/Yy7ggoSNr2UyTQj8JRSBBoVvpVFGQiGezil6RA4OuH0KLiiBX
+        7puBjkRprI2OixIexMypB1eRkx67+XRiHaLYqnMiDXYp9tDCGOXpCiSNxV4H7DNJCUByG2zLRY/aS
+        vPHSUE1w==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j7WPk-0003d7-Dn; Fri, 28 Feb 2020 03:34:12 +0000
+Date:   Thu, 27 Feb 2020 19:34:12 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Ian Kent <raven@themaw.net>
+Cc:     Andreas Dilger <adilger@dilger.ca>,
+        Waiman Long <longman@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Eric Sandeen <sandeen@redhat.com>
+Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
+Message-ID: <20200228033412.GD29971@bombadil.infradead.org>
+References: <20200226161404.14136-1-longman@redhat.com>
+ <20200226162954.GC24185@bombadil.infradead.org>
+ <2EDB6FFC-C649-4C80-999B-945678F5CE87@dilger.ca>
+ <9d7b76c32d09492137a253e692624856388693db.camel@themaw.net>
 MIME-Version: 1.0
-References: <20200222014038.180923-1-saravanak@google.com> <20200222014038.180923-3-saravanak@google.com>
-In-Reply-To: <20200222014038.180923-3-saravanak@google.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Thu, 27 Feb 2020 19:27:01 -0800
-Message-ID: <CAGETcx-xxd_E=-zF5+a58queyGg_5JX9tbCm49YBtcvFUhVEZw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/5] driver core: Add fw_devlink kernel commandline option
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Len Brown <lenb@kernel.org>
-Cc:     Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9d7b76c32d09492137a253e692624856388693db.camel@themaw.net>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 21, 2020 at 5:40 PM Saravana Kannan <saravanak@google.com> wrote:
->
-> fwnode_operations.add_links allows creating device links from
-> information provided by firmware.
->
-> fwnode_operations.add_links is currently implemented only by
-> OF/devicetree code and a specific case of efi. However, there's nothing
-> preventing ACPI or other firmware types from implementing it.
->
-> The OF implementation is currently controlled by a kernel commandline
-> parameter called of_devlink.
->
-> Since this feature is generic isn't limited to OF, add a generic
-> fw_devlink kernel commandline parameter to control this feature across
-> firmware types.
->
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         | 18 +++++++++++++
->  drivers/base/core.c                           | 27 ++++++++++++++++++-
->  include/linux/fwnode.h                        |  2 ++
->  3 files changed, 46 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index dbc22d684627..29985152b66d 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1350,6 +1350,24 @@
->                         can be changed at run time by the max_graph_depth file
->                         in the tracefs tracing directory. default: 0 (no limit)
->
-> +       fw_devlink=     [KNL] Create device links between consumer and supplier
-> +                       devices by scanning the firmware to infer the
-> +                       consumer/supplier relationships. This feature is
-> +                       especially useful when drivers are loaded as modules as
-> +                       it ensures proper ordering of tasks like device probing
-> +                       (suppliers first, then consumers), supplier boot state
-> +                       clean up (only after all consumers have probed),
-> +                       suspend/resume & runtime PM (consumers first, then
-> +                       suppliers).
-> +                       Format: { off | permissive | on | rpm }
-> +                       off --  Don't create device links from firmware info.
-> +                       permissive -- Create device links from firmware info
-> +                               but use it only for ordering boot state clean
-> +                               up (sync_state() calls).
-> +                       on --   Create device links from firmware info and use it
-> +                               to enforce probe and suspend/resume ordering.
-> +                       rpm --  Like "on", but also use to order runtime PM.
-> +
+On Thu, Feb 27, 2020 at 05:55:43PM +0800, Ian Kent wrote:
+> Not all file systems even produce negative hashed dentries.
+> 
+> The most beneficial use of them is to improve performance of rapid
+> fire lookups for non-existent names. Longer lived negative hashed
+> dentries don't give much benefit at all unless they suddenly have
+> lots of hits and that would cost a single allocation on the first
+> lookup if the dentry ttl expired and the dentry discarded.
+> 
+> A ttl (say jiffies) set at appropriate times could be a better
+> choice all round, no sysctl values at all.
 
-A bit of bikeshedding myself: I could rename "on" to "enforce" and
-"rpm" to "enforce-rpm".
+The canonical argument in favour of negative dentries is to improve
+application startup time as every application searches the library path
+for the same libraries.  Only they don't do that any more:
 
-Let me know if any of you have a strong preference on these two options.
+$ strace -e file cat /dev/null
+execve("/bin/cat", ["cat", "/dev/null"], 0x7ffd5f7ddda8 /* 44 vars */) = 0
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/dev/null", O_RDONLY) = 3
 
--Saravana
-
->         gamecon.map[2|3]=
->                         [HW,JOY] Multisystem joystick and NES/SNES/PSX pad
->                         support via parallel port (up to 5 devices per port)
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index d32a3aefff32..aeaca8a3aad9 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -2345,6 +2345,31 @@ static int device_private_init(struct device *dev)
->         return 0;
->  }
->
-> +u32 fw_devlink_flags;
-> +static int __init fw_devlink_setup(char *arg)
-> +{
-> +       if (!arg)
-> +               return -EINVAL;
-> +
-> +       if (strcmp(arg, "off") == 0) {
-> +               fw_devlink_flags = 0;
-> +       } else if (strcmp(arg, "permissive") == 0) {
-> +               fw_devlink_flags = DL_FLAG_SYNC_STATE_ONLY;
-> +       } else if (strcmp(arg, "on") == 0) {
-> +               fw_devlink_flags = DL_FLAG_AUTOPROBE_CONSUMER;
-> +       } else if (strcmp(arg, "rpm") == 0) {
-> +               fw_devlink_flags = DL_FLAG_AUTOPROBE_CONSUMER |
-> +                                  DL_FLAG_PM_RUNTIME;
-> +       }
-> +       return 0;
-> +}
-> +early_param("fw_devlink", fw_devlink_setup);
-> +
-> +u32 fw_devlink_get_flags(void)
-> +{
-> +       return fw_devlink_flags;
-> +}
-> +
->  /**
->   * device_add - add device to device hierarchy.
->   * @dev: device.
-> @@ -2493,7 +2518,7 @@ int device_add(struct device *dev)
->          */
->         device_link_add_missing_supplier_links();
->
-> -       if (fwnode_has_op(dev->fwnode, add_links)) {
-> +       if (fw_devlink_flags && fwnode_has_op(dev->fwnode, add_links)) {
->                 fw_ret = fwnode_call_int_op(dev->fwnode, add_links, dev);
->                 if (fw_ret == -ENODEV)
->                         device_link_wait_for_mandatory_supplier(dev);
-> diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
-> index 8feeb94b8acc..e0abafbb17f8 100644
-> --- a/include/linux/fwnode.h
-> +++ b/include/linux/fwnode.h
-> @@ -170,4 +170,6 @@ struct fwnode_operations {
->         } while (false)
->  #define get_dev_from_fwnode(fwnode)    get_device((fwnode)->dev)
->
-> +extern u32 fw_devlink_get_flags(void);
-> +
->  #endif
-> --
-> 2.25.0.265.gbab2e86ba0-goog
->
+So, are they still useful?  Or should we, say, keep at most 100 around?
