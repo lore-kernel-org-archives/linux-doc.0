@@ -2,138 +2,80 @@ Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5583C3F2D1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 07:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A275C3F2CF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 08:30:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7C8C02469C
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 07:22:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DqCPFLqa"
+	by mail.kernel.org (Postfix) with ESMTP id CE83A246A8
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 08:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582878616;
+	bh=Q4d1ujfugZZbNPZoNXLm0GUaHiz3wA3NnL297v452LY=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=lOS6DD1ddyd8qNa2586yHRupHWPMnSbykLT3XVUvVBkcKa0lmwpyJP0TAlMuaKTJE
+	 YTE1Q5TXQAvEojTzCH7582DUUB1j40GgwVR7DYfwDpp8gex2YppbEsZrWCbNPbjFFN
+	 +qjH5nGl9vAutVcQ+7r9VZWn+rlgZRSwwO5PYIWQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbgB1HWo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Feb 2020 02:22:44 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34985 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726740AbgB1HWn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Feb 2020 02:22:43 -0500
-Received: by mail-pl1-f194.google.com with SMTP id g6so903428plt.2
-        for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2020 23:22:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s3S+hpLp5sIHa629tQ1zsw+Nl29dkCf3S5rCd+p6od0=;
-        b=DqCPFLqaEV3M2s53qW4elKNy8mZ/LySa/GTkoXsaZ38GB0BNEZFMAuIuyfxvFtj/fV
-         1g3uI/JWkqGyNoLF4Jt3NsTHuDB+RMx/j7XseHQMBe/Fo4TDmtC3fAXKshQbQFlO4I6m
-         cfAb+BHfSIpKCiRExZ/REITPXUg8Ahf6KlY7hUZxYCbDUAGHkv2zb27FSz1461MYHIde
-         Wq8p2AhQjWWTUZiXgUSLT2DwWlAOjA4gGIOkWQmdNpR/flJG4LDdvW+y9oOf02bqCy7e
-         u7AnfPxh6Lw4KW1xH4BwHLfqkTQUps9lJ6oIgi+BkaAHfCRgVIu3ZC9L0DtHvm+sZdef
-         AsMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s3S+hpLp5sIHa629tQ1zsw+Nl29dkCf3S5rCd+p6od0=;
-        b=RBv/B09RjCRVN5X2wjj9AX0Jae6h7xIujxHnv3MHFNUMxOXoWJBhu6kWsYgfS3+cCU
-         6f+1rg0UF0i5RHncmwWXbDigoKEiQOh7eXmD6/b7sq9J7/nkrA0Vt8VO2lUQnV1WyoUf
-         yNBKpcwC/SAbWhRkDnG3VMNeET0/E9mbpMy1wKEn/8zxSmmArKyJxV7z5ufM774WZwnB
-         doX+dXpsICEKJLDm4+6nVUvltjNHNkNv3wQC7X3eLgL7aqtC7oIfcLauPY0JLAJfiEOE
-         QkJqeujvPkPPvtauQLTXhr8GGPUbvvJqt7lQ2AcOZbpoXvgDV76qnNH1bDiUp8rpeGVr
-         9mWA==
-X-Gm-Message-State: APjAAAXm1CTIu+oz3SCv+hqDMugWXnOKune5n8mSxFu9HlYmp16GfZKD
-        a4U2J5lNW/VrIjN83lE0HQv4hqz1v0SAB2Ke79uqYQ==
-X-Google-Smtp-Source: APXvYqzfHO2LjscgalGnPNvJuZJRHFvR5JKj+K4ArJrMoTSjQKwCXbbVKSMib1WlxPMb5cTcx8UR195T8BgeHwMobFY=
-X-Received: by 2002:a17:902:8ec1:: with SMTP id x1mr2808157plo.325.1582874562327;
- Thu, 27 Feb 2020 23:22:42 -0800 (PST)
+        id S1726207AbgB1IaQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Feb 2020 03:30:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60210 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725877AbgB1IaQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Feb 2020 03:30:16 -0500
+Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D0E8B246A2;
+        Fri, 28 Feb 2020 08:30:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582878615;
+        bh=Q4d1ujfugZZbNPZoNXLm0GUaHiz3wA3NnL297v452LY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WYJCpbhTUHSWIe+uBteC4n05JfJwUz5R1/wbRvpWT0g4G4z2EbCQ0Ly21DPDnuHpc
+         pZWbhzeqSTnQFkxWVH86xGDLeAc1jFnu1QlNuR5yaWySQbCBll87yUyyFyd8M+m+mA
+         s2J0+JNFCgaMBWMDV5rzIimWgC7LjIhQ9m9PHCxA=
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH v2 0/1] Documentation: bootconfig: Documentaiton updates
+Date:   Fri, 28 Feb 2020 17:30:11 +0900
+Message-Id: <158287861133.18632.12035327305997207220.stgit@devnote2>
+X-Mailer: git-send-email 2.20.1
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-References: <20200228012036.15682-1-brendanhiggins@google.com> <20200228012036.15682-2-brendanhiggins@google.com>
-In-Reply-To: <20200228012036.15682-2-brendanhiggins@google.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 27 Feb 2020 23:22:31 -0800
-Message-ID: <CAFd5g46dVaV18=5mPLTHh06KQ6nDh4Xw4r8PAZDfSXASi=Qpmg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/7] vmlinux.lds.h: add linker section for KUnit test suites
-To:     Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Iurii Zaikin <yzaikin@google.com>,
-        David Gow <davidgow@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>, rppt@linux.ibm.com,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-arch@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 5:20 PM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> Add a linker section where KUnit can put references to its test suites.
-> This patch is the first step in transitioning to dispatching all KUnit
-> tests from a centralized executor rather than having each as its own
-> separate late_initcall.
->
-> Co-developed-by: Iurii Zaikin <yzaikin@google.com>
-> Signed-off-by: Iurii Zaikin <yzaikin@google.com>
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
-> ---
->  include/asm-generic/vmlinux.lds.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-> index e00f41aa8ec4f..99a866f49cb3d 100644
-> --- a/include/asm-generic/vmlinux.lds.h
-> +++ b/include/asm-generic/vmlinux.lds.h
-> @@ -856,6 +856,13 @@
->                 KEEP(*(.con_initcall.init))                             \
->                 __con_initcall_end = .;
->
-> +/* Alignment must be consistent with (kunit_suite *) in include/kunit/test.h */
-> +#define KUNIT_TEST_SUITES                                              \
-> +               . = ALIGN(8);                                           \
+Hi,
 
-After posting this, I saw I had gotten an email from 0day[1]. After
-some investigation, I discovered that this 8 byte alignment works for
-x86 64 bit fine, but only *sometimes* for 32 bit. 4 byte alignment
-seems to work in all cases (so far). I am not sure why we went with
-such a large alignment in hindsight. In any case, I should have a
-fixed revision out pretty soon.
+Here is the 2nd version of the documentation update.
+I decided to drop EBNF (extended Backus–Naur form) patch
+since the ISO/IEC 14977 EBNF seems not carefully defined
+and there are many variants which named EBNF.
+I'll postpone it until finding better solution.
 
-> +               __kunit_suites_start = .;                               \
-> +               KEEP(*(.kunit_test_suites))                             \
-> +               __kunit_suites_end = .;
-> +
->  #ifdef CONFIG_BLK_DEV_INITRD
->  #define INIT_RAM_FS                                                    \
->         . = ALIGN(4);                                                   \
-> @@ -1024,6 +1031,7 @@
->                 INIT_CALLS                                              \
->                 CON_INITCALL                                            \
->                 INIT_RAM_FS                                             \
-> +               KUNIT_TEST_SUITES                                       \
->         }
->
->  #define BSS_SECTION(sbss_align, bss_align, stop_align)                 \
-> --
+Thank you,
 
-[1] https://lists.01.org/hyperkitty/list/lkp@lists.01.org/thread/4I4UW4OAT63ETMIEUJQTOF3BFTMO6ROD/
+---
+
+Masami Hiramatsu (1):
+      Documentation: bootconfig: Update boot configuration documentation
+
+
+ Documentation/admin-guide/bootconfig.rst |  180 +++++++++++++++++++-----------
+ Documentation/trace/boottime-trace.rst   |    2 
+ 2 files changed, 116 insertions(+), 66 deletions(-)
+
+--
+Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
