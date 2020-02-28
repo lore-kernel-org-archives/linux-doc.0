@@ -6,76 +6,80 @@ X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC2BC3F2D2
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 13:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77AE2C3F2CD
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 13:23:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CB356246A3
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 13:11:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C56D246A3
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 13:23:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582895474;
-	bh=ekN33uYg9028hK6SiF2khbsXw9431mFQ3x+40AKHjWo=;
+	s=default; t=1582896196;
+	bh=/xfaJMoeMDPFtvDaD6zvshgBCk2MToM3z6YB0J1XM6I=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=exgfQEGJWjkkSAhtuvWL/FVF6YOXRHvsLwHxCwhKezBru9DPeBMoSba4T7jEiCgfc
-	 O3xlC/7A0Jv0ihUWKqCDtg3DomNqaZROk5lPr1tbtNFNYKIDg7yUHxs0SsHx2JH7q2
-	 P6/mml3WHvR6Gg2fphNCnQhipK0k5BvD0qMjbRc8=
+	b=gtHAm+gWbcfbIKH8mQ+XvLDR0nTQvNDhSiU6uFhwqimhmAyJVgWNpZusazL/o++qt
+	 hprO1d+qpobxjN36tDWxU9LDQKl1PuvoBSqB0Lb8iwrihLfC0C/I5lrBK8tkVpccJm
+	 Q69pNJtwIQgSwAibo45zBIHHoSrKO2NMUbDDiXIg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbgB1NLO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Feb 2020 08:11:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36784 "EHLO mail.kernel.org"
+        id S1725906AbgB1NXP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Feb 2020 08:23:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40520 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725884AbgB1NLO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Feb 2020 08:11:14 -0500
+        id S1725892AbgB1NXP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Feb 2020 08:23:15 -0500
 Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E2C0224677;
-        Fri, 28 Feb 2020 13:11:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 552DC2469D;
+        Fri, 28 Feb 2020 13:23:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582895473;
-        bh=ekN33uYg9028hK6SiF2khbsXw9431mFQ3x+40AKHjWo=;
+        s=default; t=1582896195;
+        bh=/xfaJMoeMDPFtvDaD6zvshgBCk2MToM3z6YB0J1XM6I=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=rDvxCRq/uDJOYemW2mKjAuBXZ06V5J3xBjIjzqoK/DZpK9nn/bfd2mo/ENyhxdOIE
-         X0UQMRc2ecKLztli97DmNHDq6PGjuLHqSxsePK3/U6MFrp1dxUDBRJ1ThjIotxOFdA
-         9sKoGL5VhS1yRvaAH/9KCEnrizItOPtkipx2n3zo=
-Date:   Fri, 28 Feb 2020 22:11:08 +0900
+        b=wUVgji7WOyczOtZlOltRQm/c7ah9cFPS6gN9u6p9VC9BlGbdKhavlPFqh9Ia8D2Ux
+         1PMqjFTDjibH5oakjj6y+2efFfr+n2pWS8KH9W5mHqUwg+OMQeUre1/Hz1E3bGUy1I
+         08CJRfcTDdkPP9gTBWOsUDfqRq/ymtjtVuAdO9OY=
+Date:   Fri, 28 Feb 2020 22:23:11 +0900
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Markus Elfring <Markus.Elfring@web.de>
 Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Steven Rostedt <rostedt@goodmis.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [1/2] Documentation: bootconfig: Update boot configuration
- documentation
-Message-Id: <20200228221108.ff392be76fee6925f27103e6@kernel.org>
-In-Reply-To: <efe38d09-e73d-97b3-d4be-79194ab2685f@web.de>
-References: <158278834245.14966.6179457011671073018.stgit@devnote2>
-        <158278835238.14966.16157216423901327777.stgit@devnote2>
-        <8514c830-319b-33e9-025a-79d399674fb3@web.de>
-        <20200228143528.209db45e5f0f78474ef83387@kernel.org>
-        <efe38d09-e73d-97b3-d4be-79194ab2685f@web.de>
+Subject: Re: [v2 0/1] Documentation: bootconfig: Documentation updates
+Message-Id: <20200228222311.f5b9448027031b16a3be372a@kernel.org>
+In-Reply-To: <957cef56-04b0-3889-6c95-a8ed7606b68d@web.de>
+References: <158287861133.18632.12035327305997207220.stgit@devnote2>
+        <957cef56-04b0-3889-6c95-a8ed7606b68d@web.de>
 X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 28 Feb 2020 09:30:27 +0100
+On Fri, 28 Feb 2020 10:00:55 +0100
 Markus Elfring <Markus.Elfring@web.de> wrote:
 
-> >> How do you think about to add a link to a formal file format description?
-> >
-> > Oh, nice idea. Please contribute it :)
+> > I decided to drop EBNF (extended Backus–Naur form) patch
+> > since the ISO/IEC 14977 EBNF seems not carefully defined
 > 
-> Did you provide it (according to a RST include directive in the subsequent
-> update step)?
+> Significant efforts happened also for this standard.
+> Does its revision refer still to the year 1996?
+> 
 
-No I didn't. I you think that is important, feel free to write up. You have
-a parser code in the kernel already. It might be not hard for you. :)
+Didn't you read the article I shared? I actually wrote up the EBNF
+(ISO/IEC 14977) that was a good pazzle, but just a toy. I found
+no one use it to define their data format, according to the
+article, including ISO itself (lol!) and there are many local
+extension, including W3C EBNF, and those say "I'm EBNF".
+Well, to say the least, I feel it is quite confused.
+
+So, if you are interested in it, I don't stop you to write it up.
+I just keep away from it.
 
 Thank you,
 
 -- 
 Masami Hiramatsu <mhiramat@kernel.org>
+
