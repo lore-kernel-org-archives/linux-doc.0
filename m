@@ -2,123 +2,78 @@ Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F44C3F2CE
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 01:34:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3446C3F2CE
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 02:18:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2845C24695
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 01:34:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 735F82469B
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 02:18:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730233AbgB1Bet (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 20:34:49 -0500
-Received: from 7.mo2.mail-out.ovh.net ([188.165.48.182]:48275 "EHLO
-        7.mo2.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730155AbgB1Bet (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Feb 2020 20:34:49 -0500
-X-Greylist: delayed 12002 seconds by postgrey-1.27 at vger.kernel.org; Thu, 27 Feb 2020 20:34:48 EST
-Received: from player789.ha.ovh.net (unknown [10.108.42.75])
-        by mo2.mail-out.ovh.net (Postfix) with ESMTP id B9FE51CCDF7
-        for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2020 22:59:06 +0100 (CET)
-Received: from sk2.org (37-164-65-132.coucou-networks.fr [37.164.65.132])
-        (Authenticated sender: steve@sk2.org)
-        by player789.ha.ovh.net (Postfix) with ESMTPSA id CCCB8FE2C9FC;
-        Thu, 27 Feb 2020 21:58:59 +0000 (UTC)
-Date:   Thu, 27 Feb 2020 22:58:57 +0100
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs: add a script to check sysctl docs
-Message-ID: <20200227225857.2339e365@heffalump.sk2.org>
-In-Reply-To: <20200225033710.312450f6@lwn.net>
-References: <20200219153442.10205-1-steve@sk2.org>
-        <20200225033710.312450f6@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1730445AbgB1CS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 21:18:57 -0500
+Received: from mga18.intel.com ([134.134.136.126]:64154 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730343AbgB1CS5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Feb 2020 21:18:57 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Feb 2020 18:18:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; 
+   d="scan'208";a="437264890"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.25])
+  by fmsmga005.fm.intel.com with ESMTP; 27 Feb 2020 18:18:55 -0800
+Date:   Thu, 27 Feb 2020 18:18:55 -0800
+From:   "Raj, Ashok" <ashok.raj@intel.com>
+To:     Sinan Kaya <okaya@kernel.org>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        "Spassov, Stanislav" <stanspas@amazon.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Wang, Wei" <wawei@amazon.de>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Schoenherr, Jan H." <jschoenh@amazon.de>,
+        "rajatja@google.com" <rajatja@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Ashok Raj <ashok.raj@intel.com>
+Subject: Re: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
+Message-ID: <20200228021855.GA57330@otc-nc-03>
+References: <20200227214534.GA143139@google.com>
+ <e162efcd-70fd-3390-2452-4915af1c9171@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/iabzgcEpPE08BniDcQO5cOd"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 4299248798125149573
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrleeigdduheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtsehgtderreertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucfkpheptddrtddrtddrtddpfeejrdduieegrdeihedrudefvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e162efcd-70fd-3390-2452-4915af1c9171@kernel.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/iabzgcEpPE08BniDcQO5cOd
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Thu, Feb 27, 2020 at 06:44:56PM -0500, Sinan Kaya wrote:
+> On 2/27/2020 4:45 PM, Bjorn Helgaas wrote:
+> > The 60 second timeout came from 821cdad5c46c ("PCI: Wait up to 60
+> > seconds for device to become ready after FLR") and is probably too
+> > long.  We probably should pick a smaller value based on numbers from
+> > the spec and make quirks for devices that needed more time.
+> 
+> If I remember right, there was no time mention about how long to
+> wait. Spec says device should send CRS as long as it is not ready.
 
-On Tue, 25 Feb 2020 03:37:10 -0700, Jonathan Corbet <corbet@lwn.net> wrote:
+Not exactly.. there are some requirements to follow for rules after
+a conventional reset. 
 
-> On Wed, 19 Feb 2020 16:34:42 +0100
-> Stephen Kitt <steve@sk2.org> wrote:
->=20
-> > This script allows sysctl documentation to be checked against the
-> > kernel source code, to identify missing or obsolete entries. Running
-> > it against 5.5 shows for example that sysctl/kernel.rst has two
-> > obsolete entries and is missing 52 entries.
-> >=20
-> > Signed-off-by: Stephen Kitt <steve@sk2.org>
-> > ---
-> > Changes since v2:
-> > * drop UTF-8 characters
-> > * fix license identifier
-> > * fix example invocation to include path as well as table
-> >=20
-> > v2 was the initial submission (in v2 of the sysctl/kernel.rst patch
-> > set). =20
->=20
-> This seems like a useful thing to have, so I've applied it.  It would be
-> rather more useful, though, with a bit of ... wait for it ...
-> documentation.  Even just an example command line in the header comments
-> would be a good place to start.  Care to send a followup? :)
+Look for "The second set of rules addresses requirements placed on the system"
 
-The committed script has this:
+i'm looking a the 5.0 spec (around page 553) :-). 
 
-+# Example invocation:
-+#	scripts/check-sysctl-docs -vtable=3D"kernel" \
-+#		Documentation/admin-guide/sysctl/kernel.rst \
-+#		$(git grep -l register_sysctl_)
-+#
-+# Specify -vdebug=3D1 to see debugging information
-
-but I agree that it needs more documentation ;-). In particular, I need to
-explain what the script expects in terms of document layout...
-
-Where would be the best place? In admin-guide/sysctl/index.rst, as a =E2=80=
-=9Chow to
-maintain these files=E2=80=9D section, or in a separate document, or in the=
- script
-headers?
-
-Regards,
-
-Stephen
-
---Sig_/iabzgcEpPE08BniDcQO5cOd
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl5YO6EACgkQgNMC9Yht
-g5zFMw//T2PrZ+7J7+bTixO0z9YWeVi3Gnw7mAmtku0aQIZBGmuwnEn6xmF5E2fQ
-AGNXCyi04TgHQ7LqjYEcO2v6PM3pLXC5iaJnMOQ1xcls2lPd+BQtHcs/bP6lMwuC
-GX745J5Bi7R9iLqbEmU/UMYc7wUW6ZqZpfqWXxUpyOuTlQ7sw98cbi3ud/NqhH/t
-UsAQ8sVg7wfuksXMRZgU0RKHyJTHJ53Snvj3N79FRZbwqHyyFnfGNTtLC+/IdsNs
-zl+qOVZ7bDq53PSuTC+Rlht491ZhFhA1t2s7R3iE1bPhSJX2d8xoXZNhM8BYART2
-su4Ur7GVGxInKoSHi9gttD63fqBWZH/TOZLsUnsBvV3BAXSv6HNXxJeuqTmRZl5I
-a6N6ozk6jjGh1dP/v863rG0n7J4Q6ggpkiSf0zFh2ertHvQBOlJNGnOmB9qiMxNx
-sktNIMerSh49dojPnXng4Tm0t6pO3dQp+YNNXd71wzr2Vt9vpU16RN7aTXI2/z8J
-nOL4q61dXkMHc3K9lU7TjeNyczICHkwbdjsarOPZHDDdXtaf2l+KApSnhtDzGLMh
-j4N0LvakNJybShCiLciQfhNjGs0CGWkljUyfQs7IS94pnZW8SCUVrby9RG0aMbdD
-2SzIAvZhkSAdHMz1lYxZ0a4IOYZshqeGxpec7qjY+JBsYdDuknw=
-=ebj0
------END PGP SIGNATURE-----
-
---Sig_/iabzgcEpPE08BniDcQO5cOd--
+In general 1s seems good enough for most cases. For ports that support
+> 5gt/s transfer speed, it says 100ms after link training completes.
+I'm not sure if this means 100ms after getting a DLLSC event?
