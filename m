@@ -2,122 +2,134 @@ Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCA1AC3F2D0
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 09:14:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D1F7C3F2CF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 09:33:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 88A0E246A2
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 09:14:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5154124695
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 09:33:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582881258;
-	bh=ABQ/PPo1SyiNv8cj/FKAzTk1cr6OrMdoykpYE3I4QAw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=Yhv+bE5Lr+KZHpnR437oROnuqSGXDdJd9Xw6TDbpfdLvxWdl+yqXSI8eaItaSmMav
-	 yiv2zBXK0ChZoLKTOu/bzacNammTbszBycUdYCxxmU/u23Rm103ymWhiS43Y+mrpzK
-	 Wmf3NA1LdFspP/ou5Tkx5nSUUxkOiAQB83LJJmsM=
+	s=default; t=1582882420;
+	bh=g259Bdr0TOEOfk7RCUcEIkZFnNW91J8vmXznwDQd4G4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=rDX4HD7cydy+puUecrbvI7EObiHKwNG+6DRpjFa4jSR7awgGZ/ue6GYibM2WG89ly
+	 InlRzmJly1SUdGpIKOXmwBMU3PqX2dewhXumw3gjXSrTQKUtcvnIIZHp/1iKP/JzIa
+	 Km50/TgcZ+mVNa5eaPvnH4pUeHRysqBwt5albyRs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726148AbgB1JOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Feb 2020 04:14:18 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:57802 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726005AbgB1JOS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Feb 2020 04:14:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=ABQ/PPo1SyiNv8cj/FKAzTk1cr6OrMdoykpYE3I4QAw=; b=jC8RONz2FazLAGP12/noAgSXEt
-        wHKhA0l5vUvx4U182++Ls21TleVx1FQYcu82li60d1O3fNXqW2+f9Gt2oCZyBstt1lItso22h0pZq
-        5WUN3YY/wqBu1AF+txAZcIM6R6DZ1h0Dspbkw5AgHevLudrlk0iyA/ly2sAdkghnYuJxAQ3vsYd+Z
-        sp99AYkoKALWi0wAlBARP+fhc9Ma/AtPBLJk/KShw164EFpqwEKbeyAG+WiJg+YNfT/s/OCAAx6vh
-        mySkb8YYivWB2Ucu2Z9J6LHHgfcNk9ugqVUzlksZHXtAvpndeeQHPxSbMwd7Lm5FEZSd4VqyO9nLt
-        Q8YKRl+g==;
-Received: from ip-109-41-131-202.web.vodafone.de ([109.41.131.202] helo=onda.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j7bir-0007du-0w; Fri, 28 Feb 2020 09:14:17 +0000
-Date:   Fri, 28 Feb 2020 10:14:12 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1726583AbgB1Jdk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Feb 2020 04:33:40 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33777 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726563AbgB1Jdj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Feb 2020 04:33:39 -0500
+Received: by mail-ot1-f68.google.com with SMTP id w6so2010676otk.0;
+        Fri, 28 Feb 2020 01:33:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g259Bdr0TOEOfk7RCUcEIkZFnNW91J8vmXznwDQd4G4=;
+        b=MgTHTNGdP10qgz/S+MbxUMpDSs1OOJtiYRwwuuLp0NlLQAb9+fcadzd5KpFNnnisg5
+         dYdM3dkXP+qD4LsOCmhCKfr4H9E8icIzjMutU9fhcpJgm/K7ftap2oRi958GET8t6bUX
+         UFQ2HL+Pkx23dFzhITs3dPt/7HB/wcfchGLyXtNr5oYW3GfEXViXVfxiFKB8kRiLKX39
+         JX80ObCkLOyHxLMzgSgRdGeuPRZ0/tD4znuMtImF/d+AKubJ1HiRWXRC4+0+QiQByNa4
+         B+dZDAslD1ixoLB09k2rTC57x0zbLKeXtl1OVu6Mhp1J2bxpwNvuY7URn2SngrWYBzNS
+         uCSQ==
+X-Gm-Message-State: APjAAAXyhkMaHlcxw0V9pp2V4d5GPjZ5FJfBMruKsHS1+yJHv9G8toAA
+        uozymEIENmZpsW7Di6M8w7P+DT2x4+BCsfD4wM0=
+X-Google-Smtp-Source: APXvYqynVqWYt5/5hazKWORDl6+ffgJGUzCcqyS8DLF3PkOrqdXvLrH2VVv7bD3AXVirwTR2MrY1vx2Bw4YjY/a3llM=
+X-Received: by 2002:a05:6830:1651:: with SMTP id h17mr2382643otr.167.1582882417497;
+ Fri, 28 Feb 2020 01:33:37 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1581956285.git.mchehab+huawei@kernel.org>
+ <7a89b0c82520d340d3c7f45bfd52ee9e6e23dbdf.1581956285.git.mchehab+huawei@kernel.org>
+ <CAJZ5v0jsQ51cp3LQ8qjmMj6tZJPC=t9Y_5SN78fLWe0mpJX08g@mail.gmail.com> <20200228101412.5b57c427@onda.lan>
+In-Reply-To: <20200228101412.5b57c427@onda.lan>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 28 Feb 2020 10:33:26 +0100
+Message-ID: <CAJZ5v0h0sEf=fuC28W3ULQcLGFkuu58WYRURUBPeYyw6rpifFA@mail.gmail.com>
+Subject: Re: [PATCH v2 14/24] docs: cpu-freq: convert index.txt to ReST
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Viresh Kumar <viresh.kumar@linaro.org>,
         Linux PM <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH v2 14/24] docs: cpu-freq: convert index.txt to ReST
-Message-ID: <20200228101412.5b57c427@onda.lan>
-In-Reply-To: <CAJZ5v0jsQ51cp3LQ8qjmMj6tZJPC=t9Y_5SN78fLWe0mpJX08g@mail.gmail.com>
-References: <cover.1581956285.git.mchehab+huawei@kernel.org>
-        <7a89b0c82520d340d3c7f45bfd52ee9e6e23dbdf.1581956285.git.mchehab+huawei@kernel.org>
-        <CAJZ5v0jsQ51cp3LQ8qjmMj6tZJPC=t9Y_5SN78fLWe0mpJX08g@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rafael,
-
-Em Mon, 17 Feb 2020 21:06:20 +0100
-"Rafael J. Wysocki" <rafael@kernel.org> escreveu:
-
-> On Mon, Feb 17, 2020 at 5:20 PM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
+On Fri, Feb 28, 2020 at 10:14 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Hi Rafael,
+>
+> Em Mon, 17 Feb 2020 21:06:20 +0100
+> "Rafael J. Wysocki" <rafael@kernel.org> escreveu:
+>
+> > On Mon, Feb 17, 2020 at 5:20 PM Mauro Carvalho Chehab
+> > <mchehab+huawei@kernel.org> wrote:
+> > >
+> > > most of the stuff there can be re-used with ReST format,
+> > > but we need to add an empty TOC and remove the existing
+> > > entries, as the following conversion patches will be re-adding
+> > > them, as they're converted.
 > >
-> > most of the stuff there can be re-used with ReST format,
-> > but we need to add an empty TOC and remove the existing
-> > entries, as the following conversion patches will be re-adding
-> > them, as they're converted. =20
->=20
-> I see a very little value in converting the files in the cpu-freq
-> directory from .txt to .rst, which I have told you at least twice.
->=20
-> They are just old-style driver API documents for cpufreq, but moving
-> them under driver-api/ as they are would not be a good idea IMO,
-> because at least some of them are outdated (note that the admin-guide
-> part of the cpufreq documentation, in the .rst format, is located
-> under admin-guide/).
->=20
-> I haven't had the time to write a proper replacement for them yet and
-> honestly I find it quite obnoxious to see these reoccurring attempts
-> to blindly convert them to .rst without taking care of their contents
-> and location.
->=20
-> I will take care of these files at one point as promised, but that's
-> not going to happen today or tomorrow and please just leave them alone
-> if that is not a big deal.
+> > I see a very little value in converting the files in the cpu-freq
+> > directory from .txt to .rst, which I have told you at least twice.
+> >
+> > They are just old-style driver API documents for cpufreq, but moving
+> > them under driver-api/ as they are would not be a good idea IMO,
+> > because at least some of them are outdated (note that the admin-guide
+> > part of the cpufreq documentation, in the .rst format, is located
+> > under admin-guide/).
+> >
+> > I haven't had the time to write a proper replacement for them yet and
+> > honestly I find it quite obnoxious to see these reoccurring attempts
+> > to blindly convert them to .rst without taking care of their contents
+> > and location.
+> >
+> > I will take care of these files at one point as promised, but that's
+> > not going to happen today or tomorrow and please just leave them alone
+> > if that is not a big deal.
+>
+> Sorry, I completely forgot that you asked to skip the old cpufreq docs.
+> My bad!
+>
+> The thing is that I have now fully converted all docs to ReST (with a
+> handful exceptions for things that may not make sense to convert, like
+> configuration files that ends with .txt).
 
-Sorry, I completely forgot that you asked to skip the old cpufreq docs.
-My bad!
+And I have this patch:
 
-The thing is that I have now fully converted all docs to ReST (with a
-handful exceptions for things that may not make sense to convert, like
-configuration files that ends with .txt).
+https://patchwork.kernel.org/patch/11411035/
 
-As a matter of helping those (like me) that are trying to finish this
-huge conversion/reorganize task, I would very much prefer to keep those
-files converted somewhere (or trashed, if their contents is now completely
-garbage).
+so at least please drop the commits converting the three files affected by it.
 
-One of the things we discussed at linux-doc ML is to create a "staging"
-area where we can place:
+> As a matter of helping those (like me) that are trying to finish this
+> huge conversion/reorganize task, I would very much prefer to keep those
+> files converted somewhere (or trashed, if their contents is now completely
+> garbage).
+>
+> One of the things we discussed at linux-doc ML is to create a "staging"
+> area where we can place:
+>
+> - things that aren't ready to be at the main documentation body yet;
+> - too obsolete docs that may require major work;
+> - things that we didn't find a good place to put yet.
+>
+> From the last discussions, it seems we reach a consensus about creating that.
 
-- things that aren't ready to be at the main documentation body yet;
-- too obsolete docs that may require major work;
-- things that we didn't find a good place to put yet.
+So the other files in Documentation/cpu-freq/ can be converted to .rst
+as far as I'm concerned (even though I still don't see much value in
+doing that, just for the record).
 
-=46rom the last discussions, it seems we reach a consensus about creating tha=
-t.
+They will be going away anyway in the future, regardless of the format
+in which they are at that time. :-)
 
-So, I should be preparing a separate patchset adding a Documentation/staging
-dir.=20
-
-Would it be OK for you if I change the cpufreq patches on this series to
-be moving those into a new Documentation/staging/cpufreq directory?
-
-Regards,
-Mauro
+Cheers!
