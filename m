@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7375AC3F2D1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 00:07:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D543CC3F2CE
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 00:07:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4BB0C246A6
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 00:07:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A15C0246B5
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 00:07:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582848435;
-	bh=su/zdgqZWOIgoXteahy9y0RwSvWY0ZVcKuqUOz2jKsQ=;
+	s=default; t=1582848433;
+	bh=xqLN7Cu1O7rDNY1EvZk34UdPPiSjm4e5lvNjyJ1idrA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nrJCEs9AeceT4nVtu42K0EWBD7+oLIHw9PwSGioVQ9l/6ew0Yfeu8xpfbSgCKGLVE
-	 CI2ucwPCO/Lu//2ASu9DAztfFZ+Bx6iITZOVuEhHrttwiwBFdkaU/jF6genhgLVGe+
-	 4ur74FpVm0KqtaAZmJJP2G1/6IwZTl7pOTIoENA8=
+	b=OxPPgKGZoFYFcbkeMF7bRXvHY5J5qmplin8hfJpB5K9ovNVNE0qStPCSVSeOCZx6N
+	 DFnbZbTkjYZKoSE448MRLZ8vvluJB6raz4g8RNWu0fo7ijUgwszIsg/3E5VoimRp4o
+	 Fcibq+oKD1vc5UmNy97YrKJqOmPzqzojIffk7v1g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729876AbgB1AHO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 19:07:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60362 "EHLO mail.kernel.org"
+        id S1729987AbgB1AHN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 19:07:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60288 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730028AbgB1AHO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Feb 2020 19:07:14 -0500
+        id S1729953AbgB1AHN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Feb 2020 19:07:13 -0500
 Received: from kicinski-fedora-PC1C0HJN.thefacebook.com (unknown [163.114.132.128])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5053F246B6;
-        Fri, 28 Feb 2020 00:07:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5DAC7246B2;
+        Fri, 28 Feb 2020 00:07:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582848433;
-        bh=su/zdgqZWOIgoXteahy9y0RwSvWY0ZVcKuqUOz2jKsQ=;
+        s=default; t=1582848432;
+        bh=xqLN7Cu1O7rDNY1EvZk34UdPPiSjm4e5lvNjyJ1idrA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0/f3qtgMZjsoNc3LGLQ1TSckFbOseuVrbPJeUglc9BQnSeKHlwhKYVsFsVPfvHKve
-         3g9cLMtVCQglx1U8/ju4kIbNX7iQeFjyLeASO5jRe/Qs9J5wtkjd/e492jeS83GPLI
-         N1LVSaSOrTN28CGikGS41WEUGAy0MZaRDVOfCymQ=
+        b=uY0kQp4pamF2e9whtPed8iI9rJnm8pynxTOZ5hURh6VdDKVmS3cPEWm5s0rfIFjx4
+         +p1vEyw4rjUNVhHkur+EksXvvo8/l8GXFJnpTWK9O/AwxcjVpYrth2NhysjEoIdqWu
+         tUVzHrjTC+N2zojaaiiTM+t90Rw0f6z4jMWhqQq8=
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     corbet@lwn.net
 Cc:     clm@fb.com, hannes@cmpxchg.org, tj@kernel.org, lizefan@huawei.com,
         linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH doc 5/5] doc: cgroup: improve formatting of references
-Date:   Thu, 27 Feb 2020 16:06:53 -0800
-Message-Id: <20200228000653.1572553-6-kuba@kernel.org>
+Subject: [PATCH doc 3/5] doc: cgroup: improve formatting of io example
+Date:   Thu, 27 Feb 2020 16:06:51 -0800
+Message-Id: <20200228000653.1572553-4-kuba@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200228000653.1572553-1-kuba@kernel.org>
 References: <20200228000653.1572553-1-kuba@kernel.org>
@@ -55,76 +55,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Annotate references to other documents to make them clickable.
+We need a literal section, like few paragraphs below.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 ---
- Documentation/accounting/psi.rst              | 2 ++
- Documentation/admin-guide/cgroup-v1/index.rst | 2 ++
- Documentation/admin-guide/cgroup-v2.rst       | 8 ++++----
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/accounting/psi.rst b/Documentation/accounting/psi.rst
-index 621111ce5740..f2b3439edcc2 100644
---- a/Documentation/accounting/psi.rst
-+++ b/Documentation/accounting/psi.rst
-@@ -1,3 +1,5 @@
-+.. _psi:
-+
- ================================
- PSI - Pressure Stall Information
- ================================
-diff --git a/Documentation/admin-guide/cgroup-v1/index.rst b/Documentation/admin-guide/cgroup-v1/index.rst
-index 10bf48bae0b0..226f64473e8e 100644
---- a/Documentation/admin-guide/cgroup-v1/index.rst
-+++ b/Documentation/admin-guide/cgroup-v1/index.rst
-@@ -1,3 +1,5 @@
-+.. _cgroup-v1:
-+
- ========================
- Control Groups version 1
- ========================
 diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 308d096af071..fbb111616705 100644
+index ab8b91014afb..9d16fbc5df63 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -9,7 +9,7 @@ This is the authoritative documentation on the design, interface and
- conventions of cgroup v2.  It describes all userland-visible aspects
- of cgroup including core and specific controller behaviors.  All
- future changes must be reflected in this document.  Documentation for
--v1 is available under Documentation/admin-guide/cgroup-v1/.
-+v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgroup-v1>`.
+@@ -1466,7 +1466,7 @@ IO Interface Files
+ 	  dios		Number of discard IOs
+ 	  ======	=====================
  
- .. CONTENTS
+-	An example read output follows:
++	An example read output follows::
  
-@@ -1023,7 +1023,7 @@ All time durations are in microseconds.
- 	A read-only nested-key file which exists on non-root cgroups.
- 
- 	Shows pressure stall information for CPU. See
--	Documentation/accounting/psi.rst for details.
-+	:ref:`Documentation/accounting/psi.rst <psi>` for details.
- 
-   cpu.uclamp.min
-         A read-write single value file which exists on non-root cgroups.
-@@ -1391,7 +1391,7 @@ PAGE_SIZE multiple when read back.
- 	A read-only nested-key file which exists on non-root cgroups.
- 
- 	Shows pressure stall information for memory. See
--	Documentation/accounting/psi.rst for details.
-+	:ref:`Documentation/accounting/psi.rst <psi>` for details.
- 
- 
- Usage Guidelines
-@@ -1631,7 +1631,7 @@ IO Interface Files
- 	A read-only nested-key file which exists on non-root cgroups.
- 
- 	Shows pressure stall information for IO. See
--	Documentation/accounting/psi.rst for details.
-+	:ref:`Documentation/accounting/psi.rst <psi>` for details.
- 
- 
- Writeback
+ 	  8:16 rbytes=1459200 wbytes=314773504 rios=192 wios=353 dbytes=0 dios=0
+ 	  8:0 rbytes=90430464 wbytes=299008000 rios=8950 wios=1252 dbytes=50331648 dios=3021
 -- 
 2.24.1
 
