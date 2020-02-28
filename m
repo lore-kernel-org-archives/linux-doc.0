@@ -2,128 +2,179 @@ Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C563C3F2CF
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 05:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B53C3F2CF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 06:12:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4E5D2246A3
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 05:35:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35084246A2
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 06:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582868134;
-	bh=N3NjPRzUoSycjVekZ9YJ5FEUvU7t598vWu1DoHOvfp8=;
+	s=default; t=1582870351;
+	bh=cRh1tPtGAw1viMwKMfbbGI536nqanUnqN75l1R2pCEU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=QGRNmAJJgMYgqyZAN+di3kiLsDB1W+/SOUsD7+89mgE6N3R64VU3TuvFtxq+oMX/B
-	 RMfevaJrQ90z3ibDsOQ7IH1OdJxMky11m51wg5UbjZc7gjeEyKL7nvhC+vDsawhiuw
-	 Tx5JLjaYS+rAQ7T3ktaIWKIgCfLufAIv2IF6MTZc=
+	b=NznoT9AgK6ULItSSYdEpgOQHsfUFdJztulIowMmGZ1OM/xIoRY2DpCErH3IsBghYX
+	 1al5aFhGwAVwhlR72FFm6CYV2eJYlhl2I/sU/EeAaNczRlGc7+EzVLZPNO5NI/qHGh
+	 D+Y1TAX5cBRxzVquhzacMv1lImtu5YU1DH/Io/mc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725886AbgB1Ffd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Feb 2020 00:35:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42034 "EHLO mail.kernel.org"
+        id S1725870AbgB1GMa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Feb 2020 01:12:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51158 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725856AbgB1Ffd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Feb 2020 00:35:33 -0500
+        id S1725805AbgB1GMa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Feb 2020 01:12:30 -0500
 Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3558D246A0;
-        Fri, 28 Feb 2020 05:35:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4CC392468A;
+        Fri, 28 Feb 2020 06:12:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582868132;
-        bh=N3NjPRzUoSycjVekZ9YJ5FEUvU7t598vWu1DoHOvfp8=;
+        s=default; t=1582870349;
+        bh=cRh1tPtGAw1viMwKMfbbGI536nqanUnqN75l1R2pCEU=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=z0iAn1fXvV2LrfcaiS49w/EshL+0Rwx6GDoDY7xlkuwpmtT2APdNJGdLf6sND45p4
-         po89FOaZ3sjNLsXpO0stR2M3cYsVIsVOpO2DEoEH/wDYbxiBAQfbXVsHwiuDY7H2ep
-         DBu6YzcZVKkU9wh8wVzMMcl+NPZ1TiugBJAEa25Q=
-Date:   Fri, 28 Feb 2020 14:35:28 +0900
+        b=nGZAYuX9p1OHbRA8wVx4VtO2aEFzdLkn0VVPIkNOTeGQry6CHXDeUqngNhMQtbFfR
+         NepeMTt3K6kF4WC0BYSkAivz5lljD632eLhDm3LFsXRcCfbJItJVVp4ULlgItDEHOY
+         +n0YLLiOcES6i5UxN2eWHKEhhbPDTUikp/YB/zDw=
+Date:   Fri, 28 Feb 2020 15:12:26 +0900
 From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Markus Elfring <Markus.Elfring@web.de>
 Subject: Re: [PATCH 1/2] Documentation: bootconfig: Update boot
  configuration documentation
-Message-Id: <20200228143528.209db45e5f0f78474ef83387@kernel.org>
-In-Reply-To: <8514c830-319b-33e9-025a-79d399674fb3@web.de>
+Message-Id: <20200228151226.3672a6e575d985ed2cda33aa@kernel.org>
+In-Reply-To: <c8494bca-a5f7-0bc6-63f5-b9ec056eb894@infradead.org>
 References: <158278834245.14966.6179457011671073018.stgit@devnote2>
         <158278835238.14966.16157216423901327777.stgit@devnote2>
-        <8514c830-319b-33e9-025a-79d399674fb3@web.de>
+        <c8494bca-a5f7-0bc6-63f5-b9ec056eb894@infradead.org>
 X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 Feb 2020 20:12:17 +0100
-Markus Elfring <Markus.Elfring@web.de> wrote:
+On Thu, 27 Feb 2020 20:50:19 -0800
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-> > +This allows administrators to pass a structured-Key configuration file
+> Hi,
+> A few more comments for you:
 > 
-> Does capitalisation matter here for the word “Key”?
+> On 2/26/20 11:25 PM, Masami Hiramatsu wrote:
+> > Update boot configuration documentation.
+> > 
+> >  - Not using "config" abbreviation but configuration or description.
+> >  - Rewrite descriptions of node and its maxinum number.
+> >  - Add a section of use cases of boot configuration.
+> >  - Move how to use bootconfig to earlier section.
+> >  - Fix some typos, indents and format mistakes.
+> > 
+> > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > ---
+> >  Documentation/admin-guide/bootconfig.rst |  172 +++++++++++++++++++-----------
+> >  Documentation/trace/boottime-trace.rst   |    2 
+> >  2 files changed, 112 insertions(+), 62 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
+> > index cf2edcd09183..4bac98250bc0 100644
+> > --- a/Documentation/admin-guide/bootconfig.rst
+> > +++ b/Documentation/admin-guide/bootconfig.rst
+> > @@ -11,19 +11,98 @@ Boot Configuration
+> >  Overview
+> >  ========
+> >  
+> > -The boot configuration expands the current kernel command line to support
+> > +Boot configuration expands the current kernel command line to support
+> >  additional key-value data when booting the kernel in an efficient way.
+> 
+>                 maybe      s/when/while/
 
-Oops, thanks! that's a typo of key.
+Ah, right.
 
+> 
+> > -This allows administrators to pass a structured-Key config file.
+> > +This allows administrators to pass a structured-Key configuration file
+> > +as a way to supplement the kernel command line to pass system boot parameters.
+> >  
+> > -Config File Syntax
+> > -==================
+> > +Compared with the kernel command line, the boot configuration can provide
+> > +scalability (up to 32 KiB configurations), readability (structured
+> 
+> This makes it sound like bootconfig supports 32 thousand configurations, but
+> (I think) it allows up to 32 KiB of configuration data.
+
+OK, I'll add "data".
+
+> 
+> > +configuration with comments) and compact expression of option groups.
+> > +
+> > +When to Use the Boot Configuration?
+> > +-----------------------------------
+> > +
+> > +The boot configuration supports kernel command line options and init daemon
+> > +boot options. All sub-keys under "kernel" root key are passed as a part of
+> > +kernel command line [1]_, and one under "init" root key are passed as a part
+> 
+>                                  ones  {or those}
+
+OK.
+
+> 
+> > +of init command line. For example, ::
+> > +
+> > +   root=UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82 ro quiet splash console=ttyS0,115200n8 console=tty0
+> > +
+> > +This can be written as following boot configuration file.::
+> > +
+> > +   kernel {
+> > +      root = "UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82" # nvme0n1p3
+> > +      ro       # mount rootfs as read only
+> > +      quiet    # No console log
+> > +      splash   # show splash image on boot screen
+> > +      console = "ttyS0,115200n8" # 1st console to serial device
+> > +      console += tty0            # add 2nd console
+> > +   }
+> > +
 > > +If you think that kernel/init options becomes too long to write in boot-loader
 > > +configuration file or want to comment on each options, you can use this
 > 
-> Can the following wording variant be a bit nicer?
+>                                          on each option,
+
+Oops, OK. 
+
 > 
-> +… or you want to comment on each option, …
-
-OK, since the previous sentence is too long, it is more readable to put the
-subject there.
-
+> > +boot configuration. If unsure, you can still continue to use the legacy
+> > +kernel command line.
+> > +
 > > +Also, some subsystem may depend on the boot configuration, and it has own
-> > +root key.
+> > +root key. For example, ftrace boot-time tracer uses "ftrace" root key to
+> > +describe their options [2]_. In this case, you need to use the boot
 > 
-> Would you like to explain the influence of a key hierarchy any further?
+>             its
 
-Please read the example (boot time tracer) carefully :)
+OK
 
-> > +The boot configuration syntax allows user to merge partially same word keys
-> >  by brace. For example::
-> 
-> “by braces.
-> For example::”?
-
-I think current one is shorter and compact.
-
-> > +The file /proc/bootconfig is a user-space interface to the configuration
-> 
-> “… is an user-…”?
-
-Hm, it seems "a user" is correct wording.
-https://www.quora.com/Which-is-the-correct-usage-a-user-or-an-user
-
-> > +Currently the maximum configuration size is 32 KiB and the total number
-> > +of key-words and values must be under 1024 nodes.
-> 
-> * How were these constraints chosen?
-> 
-> * Can such system limits become more configurable?
-
-No.
-
-> > +(Note: Each key consists of words separated by dot, and value also consists
-> > +of values separated by comma. Here, each word and each value is generally
-> > +called a "node".)
-> 
-> I would prefer the interpretation that nodes contain corresponding attributes.
-
-No. Node is a node. It is merely generic.
+Thank you!
 
 > 
-> How do you think about to add a link to a formal file format description?
+> > +configuration.
+> > +
+> > +.. [1] See :ref:`Documentation/admin-guide/kernel-parameters.rst <kernelparameters>`
+> > +.. [2] See :ref:`Documentation/trace/boottime-trace.rst <boottimetrace>`
+> 
+> 
+> -- 
+> ~Randy
+> 
 
-Oh, nice idea. Please contribute it :)
-
-Thank you,
 
 -- 
 Masami Hiramatsu <mhiramat@kernel.org>
