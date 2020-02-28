@@ -2,78 +2,119 @@ Return-Path: <SRS0=2giX=4Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3446C3F2CE
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 02:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D0AC3F2C6
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 03:15:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 735F82469B
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 02:18:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82373246A0
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Feb 2020 03:15:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582859743;
+	bh=bP/pt7lgm/aRI4m8r78wN75tpYTiIei79Uime6uh70Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=U0swzXL7LHdqXlWHUUUFqbI4+KHVi84DRyaoYDO9ngerE8R1B1hnQrmAnFQpGRkXs
+	 +7ttVW0CPq7dVN/Rkgd3gwrUQ83UvaNgEGPROT2eAfo2UDTnjZrFMopQ4fj4jvuYiu
+	 qFfWjQOYZNmZVxI87n4rhk+/g1UQUcZiOeXKJE+g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730445AbgB1CS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Feb 2020 21:18:57 -0500
-Received: from mga18.intel.com ([134.134.136.126]:64154 "EHLO mga18.intel.com"
+        id S1730586AbgB1DPk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Feb 2020 22:15:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730343AbgB1CS5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Feb 2020 21:18:57 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Feb 2020 18:18:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; 
-   d="scan'208";a="437264890"
-Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.25])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Feb 2020 18:18:55 -0800
-Date:   Thu, 27 Feb 2020 18:18:55 -0800
-From:   "Raj, Ashok" <ashok.raj@intel.com>
-To:     Sinan Kaya <okaya@kernel.org>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
-        "Spassov, Stanislav" <stanspas@amazon.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Wang, Wei" <wawei@amazon.de>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Schoenherr, Jan H." <jschoenh@amazon.de>,
-        "rajatja@google.com" <rajatja@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Ashok Raj <ashok.raj@intel.com>
-Subject: Re: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
-Message-ID: <20200228021855.GA57330@otc-nc-03>
-References: <20200227214534.GA143139@google.com>
- <e162efcd-70fd-3390-2452-4915af1c9171@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e162efcd-70fd-3390-2452-4915af1c9171@kernel.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        id S1730569AbgB1DPj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Feb 2020 22:15:39 -0500
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3C7E52469D;
+        Fri, 28 Feb 2020 03:15:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582859739;
+        bh=bP/pt7lgm/aRI4m8r78wN75tpYTiIei79Uime6uh70Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=R8h1iJXoXJzzYQPKRQPg2tgrYijzLEN/Q7nRgjAc/RI8B9FdpQlisXVFiRaUgZ+nM
+         8qyfN6/OKg63TVM0mleW97377oPKSaK5isyb0YAk38WBctUV0V5scNwqAP7nImNUzg
+         FE41onIuxYk/obHWO6seNPuqvyK2/IGg+Rrncxt8=
+Date:   Fri, 28 Feb 2020 12:15:35 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Markus Elfring <Markus.Elfring@web.de>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH 2/2] Documentation: bootconfig: Add EBNF syntax file
+Message-Id: <20200228121535.0c0e0e67fb11f1e07ea18e4c@kernel.org>
+In-Reply-To: <2390b729-1b0b-26b5-66bc-92e40e3467b1@web.de>
+References: <158278834245.14966.6179457011671073018.stgit@devnote2>
+        <158278836196.14966.3881489301852781521.stgit@devnote2>
+        <2390b729-1b0b-26b5-66bc-92e40e3467b1@web.de>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 06:44:56PM -0500, Sinan Kaya wrote:
-> On 2/27/2020 4:45 PM, Bjorn Helgaas wrote:
-> > The 60 second timeout came from 821cdad5c46c ("PCI: Wait up to 60
-> > seconds for device to become ready after FLR") and is probably too
-> > long.  We probably should pick a smaller value based on numbers from
-> > the spec and make quirks for devices that needed more time.
+On Thu, 27 Feb 2020 20:53:03 +0100
+Markus Elfring <Markus.Elfring@web.de> wrote:
+
+> Thanks for such a contribution.
 > 
-> If I remember right, there was no time mention about how long to
-> wait. Spec says device should send CRS as long as it is not ready.
+> 
+> > Add an extended Backus–Naur form (EBNF) syntax file for
+> 
+> Can it matter to mention the specific file format specification version
+> which should be applied finally?
+> 
+> Would you like to refer to any standard variant?
 
-Not exactly.. there are some requirements to follow for rules after
-a conventional reset. 
+I choose ISO/IEC 14977 : 1996(E), but it seems no good.
 
-Look for "The second set of rules addresses requirements placed on the system"
+Don’t Use ISO/IEC 14977 Extended Backus-Naur Form (EBNF)
+https://dwheeler.com/essays/dont-use-iso-14977-ebnf.html
 
-i'm looking a the 5.0 spec (around page 553) :-). 
+I agree with this article. the ISO 14977 is halfway...
+Not easy for human, but not good for machine too.
+(at least it should support #xN as same as W3C BNF.
 
-In general 1s seems good enough for most cases. For ports that support
-> 5gt/s transfer speed, it says 100ms after link training completes.
-I'm not sure if this means 100ms after getting a DLLSC event?
+I'll drop it until rewriten by other standerd.
+
+> > bootconfig so that user can logically understand how they
+> 
+> Wording alternative “… that users can …”?
+> 
+> 
+> > can write correct boot configuration file.
+> 
+> Related development tools provide some benefits then, don't they?
+> 
+> 
+> 
+> …
+> > +++ b/Documentation/admin-guide/bootconfig.ebnf
+> …
+> > +digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+> 
+> Can the specification of such alternatives (or value ranges) become
+> more compact (depending on a selected standard)?
+
+W3C EBNF support it, ISO14977 doesn't.
+
+> …
+> > +++ b/Documentation/admin-guide/bootconfig.rst
+> …
+> > +Here is the boot configuration file syntax written in EBNF.
+> 
+> I suggest to replace the abbreviation “EBNF” by the term “extended Backus–Naur form”
+> in such a sentence.
+
+I think EBNF is enough.
+
+Thank you,
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
