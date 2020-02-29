@@ -2,193 +2,142 @@ Return-Path: <SRS0=c74n=4R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C1E6C3F2D7
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 05:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CDC9C3F2C6
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 09:01:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 39C012087F
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 05:59:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A9202469C
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 09:01:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ekh6UTfW"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="qIf790cu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725817AbgB2F7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Feb 2020 00:59:49 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36142 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbgB2F7t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Feb 2020 00:59:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=ohlSJGQzr6OomkRSMJ0q0CC7j3gpUcVQAsjMXoqgXwQ=; b=Ekh6UTfWNnb6YYQ06cQVM+HiXS
-        G9yRyeiIHZpWLxLqgwxhd1jSvJaGh3PR5Hvp9wRGbyW92wqNyQ1oa1XCBnrY+kbmV2omumyBDcmry
-        VjfVqwHtWqcpErDyZdG8TcJudBcDu/GeWByU14bzNWvm+sgqiTs+uhv9yyg0hnzA3oAmRmAB47LCi
-        t198Y7kT8KjUmET8Z4ra4C3L4Vr5lAY4kZMnmPl5SD6W7nm53+Ex8KHCN8SSH8FCoBpovS8HDIq4N
-        2YFxRx/tbTTAzOVPIFvRGQiiC6Jqpa+l2AR9DOoFf9Fj2/K/XCztOC1LqoViZcwZCpWuuuVnlV+iI
-        NBizwiYQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j7vAB-0002cD-Pi; Sat, 29 Feb 2020 05:59:47 +0000
-Subject: Re: [PATCH v2] Documentation: bootconfig: Update boot configuration
- documentation
-To:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Markus Elfring <Markus.Elfring@web.de>
-References: <158287861133.18632.12035327305997207220.stgit@devnote2>
- <158287862131.18632.11822701514141299400.stgit@devnote2>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <972ba3a8-9dd7-e043-d2f0-8fa8620686f7@infradead.org>
-Date:   Fri, 28 Feb 2020 21:59:45 -0800
+        id S1726796AbgB2JBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Feb 2020 04:01:09 -0500
+Received: from mout.web.de ([212.227.15.14]:38683 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725747AbgB2JBJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 29 Feb 2020 04:01:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1582966824;
+        bh=bPWE0ezg0cWx6lsgw9ojhULt1+4nlJRreHsEyTPw1dM=;
+        h=X-UI-Sender-Class:From:Subject:To:Cc:References:Date:In-Reply-To;
+        b=qIf790cuY+Aly+XEFnn0Cp+xeXAwmLVO4NU8QHeyhS5AHuE8nbkRF2sCTzyTZ6G2Y
+         LDYlIm+XA3QFeKzsuxsAHKZTOrACxahoaefLDzdzTa/7vj0+T+UWiaaksjdHNcnAjR
+         oANDPfX2bmjNv9JL+63D3DU5FYXSI9zPUeAOmTqE=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.133.172.177]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MOlTq-1j48li1XyI-0068e8; Sat, 29
+ Feb 2020 10:00:24 +0100
+From:   Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: [PATCH 2/2] Documentation: bootconfig: Add EBNF syntax file
+To:     Masami Hiramatsu <mhiramat@kernel.org>, linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <158278834245.14966.6179457011671073018.stgit@devnote2>
+ <158278836196.14966.3881489301852781521.stgit@devnote2>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <c3ea656f-7520-2cb4-7f39-92612343d7bf@web.de>
+Date:   Sat, 29 Feb 2020 10:00:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <158287862131.18632.11822701514141299400.stgit@devnote2>
+In-Reply-To: <158278836196.14966.3881489301852781521.stgit@devnote2>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:aqAiZM/TUMuLvCzo0rRbEBXzeZIQOCBm6VAzx4tAe6/7/ZwKk9a
+ zWdgH/ajI0topB4kEW37k+ujB9oRSIHTWVBDIQkO0TLa99sq+IErTtb2tYn1j9MQfmeqFUW
+ 7/pVN8BspUOWg9T1MLRmtnEa76imJSDsBOriKLyrKsPkx7mTvZ0J5Pvg3aQgh82sGD9+4vz
+ TYX5npke24ox/ZhPJXUpQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0V/2tfrsDRA=:b9ZNN3/C/jUkVx6BIV8bpN
+ LsUhz9a2kkD+C5iiguFhMC95cxDQ5pHutHYX/eXWDqycSe6tcFlrkWSwh/L18FNVjh1DwomNV
+ 7x+Wp4lVrjfpdwYaEWLEzRP1GfJ/kHe6sFLSY0+aq9rHw1mDm9p6fgYr17grkiGNGwPFTgB0X
+ ezArbvc52awJ9AGeZQ19dHAxS3bzDmdUaKPJtvi4RwFXhKu28d+qIMfs/bSr6aAPErid3AwQQ
+ v2dZA8AR2Kja49p+qQePNW+4F/1Y25QN6heLi3Xk/osvHPvMznQOCeSgnyn9JHYpDG5upzjaT
+ 9oi8vekLRWwigZhzCOhYb+m2nu+Eh8hvcdtr9svp1ow90H5YRIHfkYSyHARlwtMUwFAFnjI7c
+ ljRPpc93pUGcV5CPg/FYV6uIgSh/6vOeSmSvd2RQjGtmgCupajm2cgVUaT/K1l5A4kX4vnRWU
+ Lrp+g2ytTK/JKvvgodt0RIC44C2uUPFwG4BhhmXjz3NS4Sp+WGmPGnQU8NiXqf2vxTvXuWqQU
+ 4JhWi9+msv49GkRqEkWO2Ce4Bl+RIXaCCZOV1NTohYwldkHbfROFLW7xRIIBQ2+n3QYzauXJs
+ 7vlnpESET4nLsewmZ8jkFJX7Md9geRElR1SBEGEKxe9eEzlmWBE0Qdvi3MY24hxacgJKXqnBM
+ gN81XRiNXfcm4S5t/zzTY2Gv7HegAH5rbeM5Ryc/0Yv3A2s9zzXYAT3llRKzz6PZEBSXkiQ5X
+ 8tQazOHO5mElnc1nid+y5k+pbZSGKm5uzw+DEDLL6+a4Pgsn09mVO3SuPGx5lAippvZuZGW16
+ L39hyqHAw4x6t/ndoF3R0WUhvmUHZlLddxG1F7Hs7s9Y4Y09ZB3KJQhtb55LFqJMsv5l9mHuL
+ Hge8kk87D5DTUTSTRSX33ggrGZQ1TEZuMLNXDKF+I0I2aGcaj9oq9QX5H2YdZS7Lcn7dPPNRH
+ TxBLZfj4R4lkSDHytzTluRPd7UMpWP656iXom/g0unPlcE/VYe6jckiwewshzcX6SnbKX83Bd
+ 64i7VA+4nccGUg6rA9mBbhdazrFjMGJI8Rns6TI1lZJxbvzs044po55qQHNwrX1xyeDKqiezZ
+ RUrkUq+MiXvf/McSMnkNiXrWnTk+I8drMD0e/EGrZI265a2oTcXq3qMShr8/N7hlZevpERCFN
+ EDFxjKXoZRJH0dExsh7j3OeT3PWgOwU9OWTG2sNZOB2Rj8ZnD8xUEs0Wso3Zu/bMYLmaTd1s2
+ Uwx5rpyxGkmOARwqt
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/28/20 12:30 AM, Masami Hiramatsu wrote:
-> Update boot configuration documentation.
-> 
->  - Not using "config" abbreviation but configuration or description.
->  - Rewrite descriptions of node and its maxinum number.
->  - Add a section of use cases of boot configuration.
->  - Move how to use bootconfig to earlier section.
->  - Fix some typos, indents and format mistakes.
-> 
-> Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> ---
-> Changes in v2:
->  - Fixes additional typos (Thanks Markus and Randy!)
->  - Change a section title to "Tree Structured Key".
-> ---
->  Documentation/admin-guide/bootconfig.rst |  180 +++++++++++++++++++-----------
->  Documentation/trace/boottime-trace.rst   |    2 
->  2 files changed, 116 insertions(+), 66 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-> index cf2edcd09183..6a58d5e64896 100644
-> --- a/Documentation/admin-guide/bootconfig.rst
+=E2=80=A6
 > +++ b/Documentation/admin-guide/bootconfig.rst
-> @@ -11,19 +11,98 @@ Boot Configuration
->  Overview
->  ========
->  
-> -The boot configuration expands the current kernel command line to support
-> -additional key-value data when booting the kernel in an efficient way.
-> -This allows administrators to pass a structured-Key config file.
-> +Boot configuration expands the current kernel command line to support
-> +additional key-value data while booting the kernel in an efficient way.
-> +This allows administrators to pass a structured key configuration file
-> +as a way to supplement the kernel command line to pass system boot parameters.
->  
-> -Config File Syntax
-> -==================
-> +Compared with the kernel command line, the boot configuration can provide
-> +scalability (up to 32 KiB configuration data), readability (structured
-> +configuration with comments) and compact expression of option groups.
+=E2=80=A6
+> +Syntax in EBNF
+> +--------------
+> +
+> +Here is the boot configuration file syntax written in EBNF.
+> +
+> +.. include:: bootconfig.ebnf
+> +   :literal:
 
-Do the comments count in the 32 KiB of data?  I.e., is the max bootconfig
-file size 32 KiB?
+How do you think about to move the content for this section into another R=
+ST file
+so that it can be used as a text module?
 
-> +
-> +When to Use the Boot Configuration?
-> +-----------------------------------
-> +
-> +The boot configuration supports kernel command line options and init daemon
-> +boot options. All sub-keys under "kernel" root key are passed as a part of
-> +kernel command line [1]_, and ones under "init" root key are passed as a part
-> +of init command line. For example, ::
-> +
-> +   root=UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82 ro quiet splash console=ttyS0,115200n8 console=tty0
-> +
-> +This can be written as following boot configuration file.::
-> +
-> +   kernel {
-> +      root = "UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82" # nvme0n1p3
-> +      ro       # mount rootfs as read only
-> +      quiet    # No console log
-> +      splash   # show splash image on boot screen
-> +      console = "ttyS0,115200n8" # 1st console to serial device
-> +      console += tty0            # add 2nd console
-> +   }
-> +
-> +If you think that kernel/init options becomes too long to write in boot-loader
-> +configuration file or you want to comment on each option, the boot
-> +configuration may be suitable. If unsure, you can still continue to use the
-> +legacy kernel command line.
-> +
-> +Also, some subsystem may depend on the boot configuration, and it has own
-> +root key. For example, ftrace boot-time tracer uses "ftrace" root key to
-> +describe its options [2]_. In this case, you need to use the boot
-> +configuration.
+Would you like to improve the outline and corresponding reuse
+for such information any further?
 
-Does this say that "ftrace" requires use of bootconfig?
-It seems to say that.
-
-> +
-> +.. [1] See :ref:`Documentation/admin-guide/kernel-parameters.rst <kernelparameters>`
-> +.. [2] See :ref:`Documentation/trace/boottime-trace.rst <boottimetrace>`
-> +
-> +
-> +How to Use the Boot Configuration?
-> +----------------------------------
-> +
-> +To enable the boot configuration support on your kernel, it must be built with
-> +``CONFIG_BOOT_CONFIG=y`` and ``CONFIG_BLK_DEV_INITRD=y``.
-> +
-> +Next, you can write a boot configuration file and attach it to initrd image.
-> +
-> +The boot configuration file is attached to the end of the initrd (initramfs)
-> +image file with size, checksum and 12-byte magic word as below.
-> +
-> +[initrd][bootconfig][size(u32)][checksum(u32)][#BOOTCONFIG\n]
-> +
-> +The Linux kernel decodes the last part of the initrd image in memory to
-> +get the boot configuration data.
-> +Because of this "piggyback" method, there is no need to change or
-> +update the boot loader and the kernel image itself.
-> +
-> +To do this operation, Linux kernel provides "bootconfig" command under
-> +tools/bootconfig, which allows admin to apply or delete the configuration
-> +file to/from initrd image. You can build it by the following command::
-> +
-> + # make -C tools/bootconfig
-
-Please make that honor O=builddir instead of building in the kernel
-source tree and ignoring O=builddir.
-
-> +
-> +To add your boot configuration file to initrd image, run bootconfig as below
-> +(Old data is removed automatically if exists)::
-> +
-> + # tools/bootconfig/bootconfig -a your-config /boot/initrd.img-X.Y.Z
->  
-> -The boot config syntax is a simple structured key-value. Each key consists
-> -of dot-connected-words, and key and value are connected by ``=``. The value
-> -has to be terminated by semi-colon (``;``) or newline (``\n``).
-> +To remove the configuration from the image, you can use -d option as below::
-> +
-> + # tools/bootconfig/bootconfig -d /boot/initrd.img-X.Y.Z
-> +
-> +At last, add ``bootconfig`` on the normal kernel command line to tell the
-> +kernel to look for the bootconfig at the end of the initrd file. For example::
-> +
-> +  GRUB_CMDLINE_LINUX="bootconfig"
-
-
-thanks.
--- 
-~Randy
-
+Regards,
+Markus
