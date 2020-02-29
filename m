@@ -2,142 +2,108 @@ Return-Path: <SRS0=c74n=4R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CDC9C3F2C6
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 09:01:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFAAAC3F2CE
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 13:28:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A9202469C
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 09:01:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4049246B6
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 13:28:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="qIf790cu"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="Zzma2bbj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726796AbgB2JBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Feb 2020 04:01:09 -0500
-Received: from mout.web.de ([212.227.15.14]:38683 "EHLO mout.web.de"
+        id S1727031AbgB2N2Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Feb 2020 08:28:25 -0500
+Received: from mout.gmx.net ([212.227.15.19]:42671 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725747AbgB2JBJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 29 Feb 2020 04:01:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1582966824;
-        bh=bPWE0ezg0cWx6lsgw9ojhULt1+4nlJRreHsEyTPw1dM=;
-        h=X-UI-Sender-Class:From:Subject:To:Cc:References:Date:In-Reply-To;
-        b=qIf790cuY+Aly+XEFnn0Cp+xeXAwmLVO4NU8QHeyhS5AHuE8nbkRF2sCTzyTZ6G2Y
-         LDYlIm+XA3QFeKzsuxsAHKZTOrACxahoaefLDzdzTa/7vj0+T+UWiaaksjdHNcnAjR
-         oANDPfX2bmjNv9JL+63D3DU5FYXSI9zPUeAOmTqE=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.133.172.177]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MOlTq-1j48li1XyI-0068e8; Sat, 29
- Feb 2020 10:00:24 +0100
-From:   Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [PATCH 2/2] Documentation: bootconfig: Add EBNF syntax file
-To:     Masami Hiramatsu <mhiramat@kernel.org>, linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <158278834245.14966.6179457011671073018.stgit@devnote2>
- <158278836196.14966.3881489301852781521.stgit@devnote2>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <c3ea656f-7520-2cb4-7f39-92612343d7bf@web.de>
-Date:   Sat, 29 Feb 2020 10:00:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727029AbgB2N2Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 29 Feb 2020 08:28:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1582982880;
+        bh=2GkD3a67omBM4btmmj6s4PJQvIZ/iSlOCrqt16OSVyk=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=Zzma2bbj3jujQMCUo3GFO42Tr8wrIsPjcvq3rOUTWNWa8JX1EeagyYMUbjuxZroyF
+         OlUx7/nRMnspi3JNymTBqhXGBn6mMqzEAF8Lh7oknK7vMsAx6FmGWHatxPX+PKPOG6
+         ssphKLAi2+F5u/+zU3x/BJzGB0iK6CbRXeyhIwz0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([5.146.194.5]) by mail.gmx.com (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MFsUv-1jB2pb1em7-00HSYJ; Sat, 29
+ Feb 2020 14:28:00 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: admin-guide: kernel-parameters: Document earlycon options for i.MX UARTs
+Date:   Sat, 29 Feb 2020 14:27:48 +0100
+Message-Id: <20200229132750.2783-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <158278836196.14966.3881489301852781521.stgit@devnote2>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:aqAiZM/TUMuLvCzo0rRbEBXzeZIQOCBm6VAzx4tAe6/7/ZwKk9a
- zWdgH/ajI0topB4kEW37k+ujB9oRSIHTWVBDIQkO0TLa99sq+IErTtb2tYn1j9MQfmeqFUW
- 7/pVN8BspUOWg9T1MLRmtnEa76imJSDsBOriKLyrKsPkx7mTvZ0J5Pvg3aQgh82sGD9+4vz
- TYX5npke24ox/ZhPJXUpQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0V/2tfrsDRA=:b9ZNN3/C/jUkVx6BIV8bpN
- LsUhz9a2kkD+C5iiguFhMC95cxDQ5pHutHYX/eXWDqycSe6tcFlrkWSwh/L18FNVjh1DwomNV
- 7x+Wp4lVrjfpdwYaEWLEzRP1GfJ/kHe6sFLSY0+aq9rHw1mDm9p6fgYr17grkiGNGwPFTgB0X
- ezArbvc52awJ9AGeZQ19dHAxS3bzDmdUaKPJtvi4RwFXhKu28d+qIMfs/bSr6aAPErid3AwQQ
- v2dZA8AR2Kja49p+qQePNW+4F/1Y25QN6heLi3Xk/osvHPvMznQOCeSgnyn9JHYpDG5upzjaT
- 9oi8vekLRWwigZhzCOhYb+m2nu+Eh8hvcdtr9svp1ow90H5YRIHfkYSyHARlwtMUwFAFnjI7c
- ljRPpc93pUGcV5CPg/FYV6uIgSh/6vOeSmSvd2RQjGtmgCupajm2cgVUaT/K1l5A4kX4vnRWU
- Lrp+g2ytTK/JKvvgodt0RIC44C2uUPFwG4BhhmXjz3NS4Sp+WGmPGnQU8NiXqf2vxTvXuWqQU
- 4JhWi9+msv49GkRqEkWO2Ce4Bl+RIXaCCZOV1NTohYwldkHbfROFLW7xRIIBQ2+n3QYzauXJs
- 7vlnpESET4nLsewmZ8jkFJX7Md9geRElR1SBEGEKxe9eEzlmWBE0Qdvi3MY24hxacgJKXqnBM
- gN81XRiNXfcm4S5t/zzTY2Gv7HegAH5rbeM5Ryc/0Yv3A2s9zzXYAT3llRKzz6PZEBSXkiQ5X
- 8tQazOHO5mElnc1nid+y5k+pbZSGKm5uzw+DEDLL6+a4Pgsn09mVO3SuPGx5lAippvZuZGW16
- L39hyqHAw4x6t/ndoF3R0WUhvmUHZlLddxG1F7Hs7s9Y4Y09ZB3KJQhtb55LFqJMsv5l9mHuL
- Hge8kk87D5DTUTSTRSX33ggrGZQ1TEZuMLNXDKF+I0I2aGcaj9oq9QX5H2YdZS7Lcn7dPPNRH
- TxBLZfj4R4lkSDHytzTluRPd7UMpWP656iXom/g0unPlcE/VYe6jckiwewshzcX6SnbKX83Bd
- 64i7VA+4nccGUg6rA9mBbhdazrFjMGJI8Rns6TI1lZJxbvzs044po55qQHNwrX1xyeDKqiezZ
- RUrkUq+MiXvf/McSMnkNiXrWnTk+I8drMD0e/EGrZI265a2oTcXq3qMShr8/N7hlZevpERCFN
- EDFxjKXoZRJH0dExsh7j3OeT3PWgOwU9OWTG2sNZOB2Rj8ZnD8xUEs0Wso3Zu/bMYLmaTd1s2
- Uwx5rpyxGkmOARwqt
+X-Provags-ID: V03:K1:1VGkfDgASuDBsQ/DrDPKFLU0AJKFsUAAAyN9HZl5vHBWniybjGw
+ ETT+7xSao2jKGK9yc1lYOuOinEX5Tw2OiCHRFIhX7p00w2x7+09tKIkztNiiT1lfpRqIt2B
+ hi+sK1Ik+bTnrXWLSF5trFBUOU0DOzTnVuvzBv2WxOPi/4OtZwXuIYf9W+1qiR9IuFdv5Uu
+ WIKhasM5nzHbDDQ6rD23A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KDO1UFQ67J0=:ETat77Cyobjg8abUPIEHtA
+ 2cp/8baAuX3mvKq8ny+nsQaYo26yBHTCiYwIBctipwavlkGDSatAFlMreIJF7bKwsckEDAIRS
+ As7kKFjoK/E5jIPaQWCqvUg2m9f0mpAVpQiSewhBSEcCGTiNhMatCU9T7u6D1szRtC5EpFXiE
+ Yg47oj4b8tjLh4ScwW9styJXMzJWcLds5afZnaxs3yE87yMVPc85miHGMcYnROYDF9V+v3DQH
+ 8ID6HKzuLm9f6WlkUF49jfYtjq8uKecUhwqs9WyDSNeTltlbsmJDN4hSMhnQnbSdjKXnO6O+y
+ kPqE4J8K5LJPlLxX/ippDHjApglWGtjdpqIICJWxXaj17bqyG94YbowopjPej+ahGd+sIMiQs
+ rxdaEkdLNQ9KA5enpWHTch2Ma9qXAVUGp/wr2X2JTNeLD+wvWyoe2FEka39z+g4r68mjSJcGo
+ pAQXPTTmq9KfYZLgL3qPS/1xBfNprXMQi4xNIHMn8oGa5/Kn1E46eib5Wk2z5MrHmRYuD3IwJ
+ hAiFc5LfcxiNz2q7CsaTSPIGHahSjpAFAL2sm9+dQEdXTl2RQzRinF1DcLkJ9F+K/aIgi7NaD
+ piluHxZwa+d2YDU7b9MNwTGwYcRNOerQj4xzzQuzl6GXGEI5l8GghwvyTUYhtL6aIskBmh4Ai
+ ogbfHEV/TAJdmqxYwrxgQeQMODNqjV5vKv9nhaYr7tvDKNE/xRsNkQZvg5OHFHL/utonhMs0q
+ qnhqBpYJN6ZTDkr19igMaNJjAG9V/0uVdLc429cCbqpU3SQnBlyDHdIJTX5ze2dJYQx+XD3DH
+ 8aPae+69HzLS4y07EQ5l3USjnfhIsLKQ3H8REmNGKc8yljY3Cw+qTX0l5mbkQ7PO7AL3+DAb6
+ IqAZaEqWl4bZkA3sqDudMEJE896cjBtZP1DFeyNKRQ/R4sklDxi84Ic9+A97DUhTiSo27oso3
+ MYpwU3DwAnDfazEf7CPMDhXxm4zx219xUmK/KyIzdPVuvbeJb2hMBhsB3C1F2ALl3+whLk2qA
+ tieHbR+GITriiv6K25zSIr2a2jSO8so6Sb1pNWn7pgjdDrJzKZAFIklXQPQ/VgoHNGP3DCThf
+ 2xuBC35ftRFzueu/2au1d6FOOGj786pUnUG+TboKICOqJi0e36sUgAbo3amRQZDkAjx7WhRi/
+ Ufw9OcCxrivRNwHgE/k9+IERoDUWDYGtSXNs2HnRAgweEnzzHPINMSMruU2pIo3aJHrGxxDEB
+ UJ4mp/HkB6UUJdqnx
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=E2=80=A6
-> +++ b/Documentation/admin-guide/bootconfig.rst
-=E2=80=A6
-> +Syntax in EBNF
-> +--------------
-> +
-> +Here is the boot configuration file syntax written in EBNF.
-> +
-> +.. include:: bootconfig.ebnf
-> +   :literal:
+drivers/tty/serial/imx.c implements these earlycon options.
 
-How do you think about to move the content for this section into another R=
-ST file
-so that it can be used as a text module?
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Would you like to improve the outline and corresponding reuse
-for such information any further?
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentati=
+on/admin-guide/kernel-parameters.txt
+index 47cd55e339a5..d118ee5721b7 100644
+=2D-- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1095,6 +1095,12 @@
+ 			A valid base address must be provided, and the serial
+ 			port must already be setup and configured.
 
-Regards,
-Markus
++		ec_imx21,<addr>
++		ec_imx6q,<addr>
++			Start an early, polled-mode, output-only console on the
++			Freescale i.MX UART at the specified address. The UART
++			must already be setup and configured.
++
+ 		ar3700_uart,<addr>
+ 			Start an early, polled-mode console on the
+ 			Armada 3700 serial port at the specified
+=2D-
+2.20.1
+
