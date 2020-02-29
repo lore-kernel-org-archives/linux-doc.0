@@ -2,108 +2,78 @@ Return-Path: <SRS0=c74n=4R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFAAAC3F2CE
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 13:28:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 210F9C3F2D3
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 14:56:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A4049246B6
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 13:28:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="Zzma2bbj"
+	by mail.kernel.org (Postfix) with ESMTP id ED32E246AE
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Feb 2020 14:56:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727031AbgB2N2Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Feb 2020 08:28:25 -0500
-Received: from mout.gmx.net ([212.227.15.19]:42671 "EHLO mout.gmx.net"
+        id S1727085AbgB2O4z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Feb 2020 09:56:55 -0500
+Received: from ms.lwn.net ([45.79.88.28]:42098 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727029AbgB2N2Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 29 Feb 2020 08:28:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1582982880;
-        bh=2GkD3a67omBM4btmmj6s4PJQvIZ/iSlOCrqt16OSVyk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=Zzma2bbj3jujQMCUo3GFO42Tr8wrIsPjcvq3rOUTWNWa8JX1EeagyYMUbjuxZroyF
-         OlUx7/nRMnspi3JNymTBqhXGBn6mMqzEAF8Lh7oknK7vMsAx6FmGWHatxPX+PKPOG6
-         ssphKLAi2+F5u/+zU3x/BJzGB0iK6CbRXeyhIwz0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([5.146.194.5]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MFsUv-1jB2pb1em7-00HSYJ; Sat, 29
- Feb 2020 14:28:00 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: admin-guide: kernel-parameters: Document earlycon options for i.MX UARTs
-Date:   Sat, 29 Feb 2020 14:27:48 +0100
-Message-Id: <20200229132750.2783-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.20.1
+        id S1727068AbgB2O4z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 29 Feb 2020 09:56:55 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 47EE7537;
+        Sat, 29 Feb 2020 14:56:54 +0000 (UTC)
+Date:   Sat, 29 Feb 2020 07:56:53 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Aman Sharma <amanharitsh123@gmail.com>
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] doc: Convert
+ rculist_nulls.txt to rculist_nulls.rst
+Message-ID: <20200229075653.2fd7ae3e@lwn.net>
+In-Reply-To: <20200227180656.15187-1-amanharitsh123@gmail.com>
+References: <20200227180656.15187-1-amanharitsh123@gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1VGkfDgASuDBsQ/DrDPKFLU0AJKFsUAAAyN9HZl5vHBWniybjGw
- ETT+7xSao2jKGK9yc1lYOuOinEX5Tw2OiCHRFIhX7p00w2x7+09tKIkztNiiT1lfpRqIt2B
- hi+sK1Ik+bTnrXWLSF5trFBUOU0DOzTnVuvzBv2WxOPi/4OtZwXuIYf9W+1qiR9IuFdv5Uu
- WIKhasM5nzHbDDQ6rD23A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KDO1UFQ67J0=:ETat77Cyobjg8abUPIEHtA
- 2cp/8baAuX3mvKq8ny+nsQaYo26yBHTCiYwIBctipwavlkGDSatAFlMreIJF7bKwsckEDAIRS
- As7kKFjoK/E5jIPaQWCqvUg2m9f0mpAVpQiSewhBSEcCGTiNhMatCU9T7u6D1szRtC5EpFXiE
- Yg47oj4b8tjLh4ScwW9styJXMzJWcLds5afZnaxs3yE87yMVPc85miHGMcYnROYDF9V+v3DQH
- 8ID6HKzuLm9f6WlkUF49jfYtjq8uKecUhwqs9WyDSNeTltlbsmJDN4hSMhnQnbSdjKXnO6O+y
- kPqE4J8K5LJPlLxX/ippDHjApglWGtjdpqIICJWxXaj17bqyG94YbowopjPej+ahGd+sIMiQs
- rxdaEkdLNQ9KA5enpWHTch2Ma9qXAVUGp/wr2X2JTNeLD+wvWyoe2FEka39z+g4r68mjSJcGo
- pAQXPTTmq9KfYZLgL3qPS/1xBfNprXMQi4xNIHMn8oGa5/Kn1E46eib5Wk2z5MrHmRYuD3IwJ
- hAiFc5LfcxiNz2q7CsaTSPIGHahSjpAFAL2sm9+dQEdXTl2RQzRinF1DcLkJ9F+K/aIgi7NaD
- piluHxZwa+d2YDU7b9MNwTGwYcRNOerQj4xzzQuzl6GXGEI5l8GghwvyTUYhtL6aIskBmh4Ai
- ogbfHEV/TAJdmqxYwrxgQeQMODNqjV5vKv9nhaYr7tvDKNE/xRsNkQZvg5OHFHL/utonhMs0q
- qnhqBpYJN6ZTDkr19igMaNJjAG9V/0uVdLc429cCbqpU3SQnBlyDHdIJTX5ze2dJYQx+XD3DH
- 8aPae+69HzLS4y07EQ5l3USjnfhIsLKQ3H8REmNGKc8yljY3Cw+qTX0l5mbkQ7PO7AL3+DAb6
- IqAZaEqWl4bZkA3sqDudMEJE896cjBtZP1DFeyNKRQ/R4sklDxi84Ic9+A97DUhTiSo27oso3
- MYpwU3DwAnDfazEf7CPMDhXxm4zx219xUmK/KyIzdPVuvbeJb2hMBhsB3C1F2ALl3+whLk2qA
- tieHbR+GITriiv6K25zSIr2a2jSO8so6Sb1pNWn7pgjdDrJzKZAFIklXQPQ/VgoHNGP3DCThf
- 2xuBC35ftRFzueu/2au1d6FOOGj786pUnUG+TboKICOqJi0e36sUgAbo3amRQZDkAjx7WhRi/
- Ufw9OcCxrivRNwHgE/k9+IERoDUWDYGtSXNs2HnRAgweEnzzHPINMSMruU2pIo3aJHrGxxDEB
- UJ4mp/HkB6UUJdqnx
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-drivers/tty/serial/imx.c implements these earlycon options.
+On Thu, 27 Feb 2020 23:36:53 +0530
+Aman Sharma <amanharitsh123@gmail.com> wrote:
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
+> This patch converts rculist_nulls from .txt to .rst format, and also adds
+> it to the index.rst file.
+> 
+> Major changes includes:
+> 1) Addition of section headers and subsection headers.
+> 2) Addition of literal blocks which contains all the codes.
+> 3) Making enumerated list item by changing X) to X. where X is number
+>    like 1,2,3 etc.
+> 
+> Signed-off-by: Aman Sharma <amanharitsh123@gmail.com>
+> ---
+>  Documentation/RCU/index.rst         |   1 +
+>  Documentation/RCU/rculist_nulls.rst | 179 ++++++++++++++++++++++++++++
+>  Documentation/RCU/rculist_nulls.txt | 172 --------------------------
+>  3 files changed, 180 insertions(+), 172 deletions(-)
+>  create mode 100644 Documentation/RCU/rculist_nulls.rst
+>  delete mode 100644 Documentation/RCU/rculist_nulls.txt
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentati=
-on/admin-guide/kernel-parameters.txt
-index 47cd55e339a5..d118ee5721b7 100644
-=2D-- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1095,6 +1095,12 @@
- 			A valid base address must be provided, and the serial
- 			port must already be setup and configured.
+When you put out multiple versions of a patch, it's always good to say
+what has changed; you can put that information right after the "---" line
+above.  That's even more true if you send two versions within minutes of
+each other; recipients will want to know what is going on.
 
-+		ec_imx21,<addr>
-+		ec_imx6q,<addr>
-+			Start an early, polled-mode, output-only console on the
-+			Freescale i.MX UART at the specified address. The UART
-+			must already be setup and configured.
-+
- 		ar3700_uart,<addr>
- 			Start an early, polled-mode console on the
- 			Armada 3700 serial port at the specified
-=2D-
-2.20.1
+Thanks,
 
+jon
