@@ -2,149 +2,107 @@ Return-Path: <SRS0=46XX=4S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F518C3F2D1
-	for <linux-doc@archiver.kernel.org>; Sun,  1 Mar 2020 15:59:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23200C3F2CD
+	for <linux-doc@archiver.kernel.org>; Sun,  1 Mar 2020 16:20:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7925421775
-	for <linux-doc@archiver.kernel.org>; Sun,  1 Mar 2020 15:59:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EDC892468A
+	for <linux-doc@archiver.kernel.org>; Sun,  1 Mar 2020 16:20:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BmBgW1BX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726579AbgCAP7Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 Mar 2020 10:59:16 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:55079 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725945AbgCAP7P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Mar 2020 10:59:15 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j8Qz8-0006pM-Le; Sun, 01 Mar 2020 15:58:30 +0000
-Date:   Sun, 1 Mar 2020 16:58:29 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Aleksa Sarai <cyphar@cyphar.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Oleg Nesterov <oleg@redhat.com>
-Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jann Horn <jannh@google.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: Re: [PATCH] exec: Fix a deadlock in ptrace
-Message-ID: <20200301155829.iiupfihl6z4jkylh@wittgenstein>
-References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <20200301151333.bsjfdjcjddsza2vn@yavin>
+        id S1727075AbgCAQUK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 Mar 2020 11:20:10 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:36531 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726695AbgCAQUK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Mar 2020 11:20:10 -0500
+Received: by mail-pf1-f194.google.com with SMTP id i13so4326436pfe.3
+        for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2020 08:20:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ol996i7Ly7uLXMGPOcxJk9a2/P7UfTmFHb83woUuOo4=;
+        b=BmBgW1BXpb61N9UVhWc3UCobtjZmRY8cfjAit8K3GJNut56umMykryyzI9AzxVCNPu
+         zOEVDsY3sT4UDzTHMxTNl9cA7M9jDoCm9XTPeWxZcTzpfVvX/4GlQyjehDQw0YtTjoWL
+         EB9DXjWAslee7XYEPpiMDSk/CpSA8B7PG1YgEGGc+U8RJWtG64RB7rrOGqzA7b4rQS5s
+         omthZP5UEN5t/YqPCx4Z7BD6vT2yjRFsX2lYXKeIaPmSzb2BFnmgmLEeGuprZ4xHPtlk
+         MsDaZbTpDj609q6Y8zXZ0uP9KGKGRdg1t2ky59PPhmZPGZJqesifD/zmyl5NnA3qyDyZ
+         FcaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ol996i7Ly7uLXMGPOcxJk9a2/P7UfTmFHb83woUuOo4=;
+        b=hNSnniFGqE/JBfAPztvc7r1k99MgNPr4Y0his6FfD6ybubrndO6lCgI7aY8VuL3y8S
+         kVOIew3wgmUlQUTUTtVkUvZrK9F0wIjqFIQ23pGD+YN8Q+msFWctOFZdRlcw9tQfe1N5
+         65cuYllz5PVzX8rQAunpjErOLECdWUEjVvWs1uR203Ohnp94qXr62m6eEhjMDXVryP+q
+         8kBI722T6nDqemc+DMqJzrdPZndpeQ077UNxE6YbpFy75W9pSra9DdTRz0rn9HXem/ks
+         lZehMpp7HzDjDxKs0uP9aJxnHzLzUow8qGOV3/GGYEPv7t6aJa8cfyB7Pnl9hwnDAab/
+         6iOg==
+X-Gm-Message-State: APjAAAU04uyjJWZCSxMF1uCCae47C3CsCBWCm71Bdcv8I47cTjoAKdm7
+        AYt9Kx1VgtLWOEm+wLNDL6b+cw==
+X-Google-Smtp-Source: APXvYqybwsty6KbQzUZw6ydXZynsFTmZ7U2b15x7Sf8aB1XCoBDm81Hv5r+UKknAcAJrYKKAt382gA==
+X-Received: by 2002:a65:6147:: with SMTP id o7mr15882420pgv.442.1583079609158;
+        Sun, 01 Mar 2020 08:20:09 -0800 (PST)
+Received: from google.com ([2620:15c:211:202:ae26:61fb:e2f3:92e7])
+        by smtp.gmail.com with ESMTPSA id e2sm9004532pjs.25.2020.03.01.08.20.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Mar 2020 08:20:08 -0800 (PST)
+Date:   Sun, 1 Mar 2020 08:20:03 -0800
+From:   Marco Ballesio <balejs@google.com>
+To:     Roman Gushchin <guro@fb.com>
+Cc:     tj@kernel.org, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lizefan@huawei.com,
+        hannes@cmpxchg.org, corbet@lwn.net, rjw@rjwysocki.net,
+        pavel@ucw.cz, len.brown@intel.com, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, minchan@google.com, surenb@google.com,
+        dancol@google.com
+Subject: Re: [PATCH] cgroup-v1: freezer: optionally killable freezer
+Message-ID: <20200301162003.GA186618@google.com>
+References: <20200219183231.50985-1-balejs@google.com>
+ <20200229005131.GB9813@google.com>
+ <20200229184300.GA484762@carbon.DHCP.thefacebook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200301151333.bsjfdjcjddsza2vn@yavin>
+In-Reply-To: <20200229184300.GA484762@carbon.DHCP.thefacebook.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 02, 2020 at 02:13:33AM +1100, Aleksa Sarai wrote:
-> On 2020-03-01, Bernd Edlinger <bernd.edlinger@hotmail.de> wrote:
-> > This fixes a deadlock in the tracer when tracing a multi-threaded
-> > application that calls execve while more than one thread are running.
+On Sat, Feb 29, 2020 at 10:43:00AM -0800, Roman Gushchin wrote:
+> On Fri, Feb 28, 2020 at 04:51:31PM -0800, Marco Ballesio wrote:
+> > Hi all,
 > > 
-> > I observed that when running strace on the gcc test suite, it always
-> > blocks after a while, when expect calls execve, because other threads
-> > have to be terminated.  They send ptrace events, but the strace is no
-> > longer able to respond, since it is blocked in vm_access.
-> > 
-> > The deadlock is always happening when strace needs to access the
-> > tracees process mmap, while another thread in the tracee starts to
-> > execve a child process, but that cannot continue until the
-> > PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
-> > 
-> > strace          D    0 30614  30584 0x00000000
-> > Call Trace:
-> > __schedule+0x3ce/0x6e0
-> > schedule+0x5c/0xd0
-> > schedule_preempt_disabled+0x15/0x20
-> > __mutex_lock.isra.13+0x1ec/0x520
-> > __mutex_lock_killable_slowpath+0x13/0x20
-> > mutex_lock_killable+0x28/0x30
-> > mm_access+0x27/0xa0
-> > process_vm_rw_core.isra.3+0xff/0x550
-> > process_vm_rw+0xdd/0xf0
-> > __x64_sys_process_vm_readv+0x31/0x40
-> > do_syscall_64+0x64/0x220
-> > entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > 
-> > expect          D    0 31933  30876 0x80004003
-> > Call Trace:
-> > __schedule+0x3ce/0x6e0
-> > schedule+0x5c/0xd0
-> > flush_old_exec+0xc4/0x770
-> > load_elf_binary+0x35a/0x16c0
-> > search_binary_handler+0x97/0x1d0
-> > __do_execve_file.isra.40+0x5d4/0x8a0
-> > __x64_sys_execve+0x49/0x60
-> > do_syscall_64+0x64/0x220
-> > entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > 
-> > The proposed solution is to have a second mutex that is
-> > used in mm_access, so it is allowed to continue while the
-> > dying threads are not yet terminated.
-> > 
-> > I also took the opportunity to improve the documentation
-> > of prepare_creds, which is obviously out of sync.
-> >
-> > Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+> > did anyone have time to look into my proposal and, in case, are there
+> > any suggestions, ideas or comments about it?
 > 
-> I can't comment on the validity of the patch, but I also found and
-> reported this issue in 2016[1] and the discussion quickly veered into
-> the problem being more complicated (and uglier) than it seems at first
-> glance.
+> Hello, Marco!
 > 
-> You should probably also Cc stable, given this has been a long-standing
-> issue and your patch doesn't look (too) invasive.
+> I'm sorry, somehow I missed the original letter.
 > 
-> [1]: https://lore.kernel.org/lkml/20160921152946.GA24210@dhcp22.suse.cz/
+> In general the cgroup v1 interface is considered frozen. Are there any particular
+> reasons why you want to extend the v1 freezer rather than use the v2 version of it?
+> 
+> You don't even need to fully convert to cgroup v2 in order to do it, some v1
+> controllers can still be used.
+> 
+> Thanks!
+> 
+> Roman
 
-Yeah, I remember you mentioning this a while back.
+Hi Roman,
 
-Bernd, we really want a reproducer for this sent alongside with this
-patch added to:
-tools/testing/selftests/ptrace/
-Having a test for this bug irrespective of whether or not we go with
-this as fix seems really worth it.
+When compared with backports of v2 features and their dependency chains, this
+patch would be easier to carry in Android common. The potential is to have
+killability for frozen processes on hw currently in use.
 
-Oleg seems to have suggested that a potential alternative fix is to wait
-in de_thread() until all other threads in the thread-group have passed
-exit_notiy(). Right now we only kill them but don't wait. Currently
-de_thread() only waits for the thread-group leader to pass exit_notify()
-whenever a non-thread-group leader thread execs (because the exec'ing
-thread becomes the new thread-group leader with the same pid as the
-former thread-group leader).
-
-Christian
+Marco
