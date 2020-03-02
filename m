@@ -2,119 +2,105 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC5CC3F2D7
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 12:28:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7114FC3F2D2
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 13:21:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D574B2173E
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 12:28:49 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VsJemNTs"
+	by mail.kernel.org (Postfix) with ESMTP id 3BD592187F
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 13:21:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583155319;
+	bh=qP8CX5euLy4sZPNJlTpcyTqVD2JvQLV1xMqDxBNGk/U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=hmPusC48sUB4ZM5DjKvdm9vdj8N9w7OBfStSTUsMkyfpQey3fvkxhps7t87qkTVpP
+	 MtnZAhgdXmWJp8bqWiVcKXErZgDIz3LQuamzxrLUxmU3aD03zXmZ7xIhV3+qXO09WY
+	 FVYiNlMiRQzoZnKIXtaCwEKqdOkLiLz/fE1KbbAA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727851AbgCBM2q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 07:28:46 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20842 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727361AbgCBM2p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 07:28:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583152124;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5DG/vW6TCeCX771cIMr5N8VanNi7DmSktqX7A9P5Lf4=;
-        b=VsJemNTsTuZC8xC8GcYvGTsNDuny4AfTVE+m+JgYgUCFwjOMh2BZbr0HoOo/epysYKo11R
-        4cCktcYhLAMpTZKJp87jzhO6aWFvM/Tapx5mutTE9jo8CwgILyAEF3LGzhGf6dSBbV8Ljp
-        iDxBD9K3wKFKQbDkBfGpmwwRAW0jcr8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-GBOwynXFNxyRVY2vU-jPUQ-1; Mon, 02 Mar 2020 07:28:40 -0500
-X-MC-Unique: GBOwynXFNxyRVY2vU-jPUQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 622221B2C988;
-        Mon,  2 Mar 2020 12:28:36 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.70])
-        by smtp.corp.redhat.com (Postfix) with SMTP id DA8D99051B;
-        Mon,  2 Mar 2020 12:28:29 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Mon,  2 Mar 2020 13:28:36 +0100 (CET)
-Date:   Mon, 2 Mar 2020 13:28:29 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Jann Horn <jannh@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        id S1727361AbgCBNV6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 08:21:58 -0500
+Received: from foss.arm.com ([217.140.110.172]:60728 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727334AbgCBNV6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Mar 2020 08:21:58 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDC762F;
+        Mon,  2 Mar 2020 05:21:57 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 32FEA3F534;
+        Mon,  2 Mar 2020 05:21:57 -0800 (PST)
+Date:   Mon, 2 Mar 2020 13:21:55 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Richard Cochran <richardcochran@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCHv2] exec: Fix a deadlock in ptrace
-Message-ID: <20200302122828.GA9769@redhat.com>
-References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <CAG48ez3QHVpMJ9Rb_Q4LEE6uAqQJeS1Myu82U=fgvUfoeiscgw@mail.gmail.com>
- <20200301185244.zkofjus6xtgkx4s3@wittgenstein>
- <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
- <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        John Stultz <john.stultz@linaro.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] kconfig: make 'imply' obey the direct dependency
+Message-ID: <20200302132155.GF4166@sirena.org.uk>
+References: <20200219074950.23344-1-masahiroy@kernel.org>
+ <CAMuHMdU7=jRNCWvtiFhJwUM6P4xNmqwXdPX14qvE=6by1V7APA@mail.gmail.com>
+ <CAK7LNATKh9Y_QmO19iPw+zXT8RG-HfXBFY5bvpX0YSyOO-=NGA@mail.gmail.com>
+ <CAMuHMdWNhd3kwqQ2OYOscq3VFDjip_FZtt8w6PVCenz095kCZg@mail.gmail.com>
+ <CAK7LNAQNb-5RdivSwMONVT_YCXohR-0NMJW5ceVrJPxWUGF+Lg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="rMWmSaSbD7nr+du9"
 Content-Disposition: inline
-In-Reply-To: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAK7LNAQNb-5RdivSwMONVT_YCXohR-0NMJW5ceVrJPxWUGF+Lg@mail.gmail.com>
+X-Cookie: Whistler's mother is off her rocker.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/01, Bernd Edlinger wrote:
->
-> This fixes a deadlock in the tracer when tracing a multi-threaded
-> application that calls execve while more than one thread are running.
 
-Heh. Yes, known problem. See my attempt to fix it:
-https://lore.kernel.org/lkml/20170213141452.GA30203@redhat.com/
+--rMWmSaSbD7nr+du9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> @@ -1224,7 +1224,7 @@ struct mm_struct *mm_access(struct task_struct *task, unsigned int mode)
->  	struct mm_struct *mm;
->  	int err;
->  
-> -	err =  mutex_lock_killable(&task->signal->cred_guard_mutex);
-> +	err =  mutex_lock_killable(&task->signal->cred_change_mutex);
+On Mon, Mar 02, 2020 at 05:21:51PM +0900, Masahiro Yamada wrote:
+> On Wed, Feb 19, 2020 at 6:54 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-So if I understand correctly your patch doesn't fix other problems
-with debugger waiting for cred_guard_mutex.
+> > I always do, when running make oldconfig ;-)
 
-I too do not think this can justify the new mutex in signal_struct...
+> > I only see expected changes from y to m.
+> > I don't see any unexpected changes from m to n.
 
-Oleg.
+> This is because you used oldconfig.
 
+> The 'imply' keyword defines the default
+> of symbols _without_ user-defined values.
+
+This is going to make the behaviour of imply statements a bit
+inconsistent which doesn't seem ideal though it's *probably* fine for
+the SND_SOC_ALL_CODECS case.
+
+--rMWmSaSbD7nr+du9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5dCHIACgkQJNaLcl1U
+h9D7iAf+PCYi3hwZfSI7GUn9mnmz3xVd890KXV1oVj/Ydpqg88/cMNF99lnezlzV
+MF4B10UmHMv02hHHRxFuX4J7sYecAU6E8cNs3fnrraA5ykrW6hXq83DFprv4PqYi
+X0EyO1dj3jEMxRRE7Q2wESspE9QFg/EoHz+fej7B1LU7Os3YVYMfDISUjZkWbl3y
+l566hoDDN2XfcrP/k+tpv/qFQ5xc2kHjBliUH2F8PCETePWYVN0qXBE6UdfIuKar
+Gyj7JIZEXtZzU8BauE1QGQ1SXYFB5C8ezu75MfxX9sXtzvr3UR3eO8A9AtqsCItx
+u6DiWozVeV+kWjI0V7F0EXdCCD6mKw==
+=rptL
+-----END PGP SIGNATURE-----
+
+--rMWmSaSbD7nr+du9--
