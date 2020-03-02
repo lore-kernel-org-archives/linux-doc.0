@@ -2,101 +2,88 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD46AC3F2D2
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:06:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B2CCC3F2D1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:38:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7BE8524695
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:06:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="i6ntJOgc"
+	by mail.kernel.org (Postfix) with ESMTP id 13428246A1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583134696;
+	bh=XIX1LJr3jD45q3Z0gSSWopKbjAyVMDxrUDvlKRrob/E=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=q7FQ3WM6HIOTLzgOm4h/VVHewqbjPUkkNDnHPdSgxe/bKOzAOc0ahQTAXg169QUZP
+	 GkDpzdpyhUk2yH+mczZ0IHm3wmp4g3j8avcGET34ArOlv060y8Q5Tn8sXuBX7U+hRk
+	 WkTdFUqxRRDT0Llel0s9hqK0TM/gOq5w92t0Rk4E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbgCBHGv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 02:06:51 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36206 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgCBHGv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 02:06:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=e+UgOBP2C/fGrEWGLe7tJJaQdy33rX5WFPpAjGLY4fc=; b=i6ntJOgc4OfIEImyEteflOZcPZ
-        AYG+UzbtSIvtt+BilEHf4GRmGpw9I81IRGpvfb0LKOXg3Y9spOzerqUgJlCqX6szl71GyI6veBNmu
-        2mz683PEfZERQjHeRkYjNdbvlbrT8pWnE7YCEjv2gICYU/qczGnKWxj3eprw5OQ7WbQ3km+wJ1gHV
-        7hG4voO1hWM4HAwBVaO8nEI/cZclLXwtnlcFQo/g/08ic19bybo49n1j4DgVVR4dFs9YekY0Q1i7m
-        5sgf0xUGehZovAuBbkL6ic4vtrKPNFtGFfoV3CNBjrOuSa+97o3PKMEq5lBmxr+nIcoRqMB2pub+9
-        VQitlLSg==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j8fA9-0006yk-Ii; Mon, 02 Mar 2020 07:06:49 +0000
-Subject: Re: [PATCH v2] Documentation: bootconfig: Update boot configuration
- documentation
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Markus Elfring <Markus.Elfring@web.de>
-References: <158287861133.18632.12035327305997207220.stgit@devnote2>
- <158287862131.18632.11822701514141299400.stgit@devnote2>
- <972ba3a8-9dd7-e043-d2f0-8fa8620686f7@infradead.org>
- <20200302155247.93558d4865a8bcd160ef39e5@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <2080a377-f03d-9df6-bb4a-c440d6f8ac11@infradead.org>
-Date:   Sun, 1 Mar 2020 23:06:48 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726695AbgCBHiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 02:38:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44694 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726621AbgCBHiP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Mar 2020 02:38:15 -0500
+Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6F3B9246B6;
+        Mon,  2 Mar 2020 07:38:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583134694;
+        bh=XIX1LJr3jD45q3Z0gSSWopKbjAyVMDxrUDvlKRrob/E=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=sF6rR4xmi6t7PeztH1k0fb41pP1sQytvD2Plgcr6tPMqqsBnEd839sgvjK0eV5Hza
+         p/h2YgL568/dOxXva79cGXbTZ2hYDsuoB0aMpmH1zxP2mVSl9pDOO5RjUeGRtI9h5H
+         iikUmjaCIqFKpGMj4ycSsE/WODE+BWmu3mVdQK9w=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1j8feV-0003VZ-Ri; Mon, 02 Mar 2020 08:38:11 +0100
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: [PATCH 03/12] docs: dt: usage_model.rst: fix link for DT usage
+Date:   Mon,  2 Mar 2020 08:37:58 +0100
+Message-Id: <a7e0a5597ace97503c8ff67cdab2351151c7f267.1583134242.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.1
+In-Reply-To: <cover.1583134242.git.mchehab+samsung@kernel.org>
+References: <cover.1583134242.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200302155247.93558d4865a8bcd160ef39e5@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/1/20 10:52 PM, Masami Hiramatsu wrote:
-> On Fri, 28 Feb 2020 21:59:45 -0800
-> Randy Dunlap <rdunlap@infradead.org> wrote:
-> 
->> On 2/28/20 12:30 AM, Masami Hiramatsu wrote:
->>> Update boot configuration documentation.
->>>
->>>  - Not using "config" abbreviation but configuration or description.
->>>  - Rewrite descriptions of node and its maxinum number.
->>>  - Add a section of use cases of boot configuration.
->>>  - Move how to use bootconfig to earlier section.
->>>  - Fix some typos, indents and format mistakes.
->>>
->>> Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
->>> ---
->>> Changes in v2:
->>>  - Fixes additional typos (Thanks Markus and Randy!)
->>>  - Change a section title to "Tree Structured Key".
->>> ---
->>>  Documentation/admin-guide/bootconfig.rst |  180 +++++++++++++++++++-----------
->>>  Documentation/trace/boottime-trace.rst   |    2 
->>>  2 files changed, 116 insertions(+), 66 deletions(-)
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+The devicetree.org doesn't host the Device_Tree_Usage page
+anymore. So, fix the link to point to a new address.
 
->>> +Also, some subsystem may depend on the boot configuration, and it has own
->>> +root key. For example, ftrace boot-time tracer uses "ftrace" root key to
->>> +describe its options [2]_. In this case, you need to use the boot
->>> +configuration.
->>
->> Does this say that "ftrace" requires use of bootconfig?
->> It seems to say that.
-> 
-> Ah, I got it. The last sentence is confusing. How about below?
-> 
-> "If you want to use the boot-time tracer, you need to use the boot configuration."
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/devicetree/usage-model.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, that is better. Thanks.
-
+diff --git a/Documentation/devicetree/usage-model.rst b/Documentation/devicetree/usage-model.rst
+index 326d7af10c5b..e1b42dc63f01 100644
+--- a/Documentation/devicetree/usage-model.rst
++++ b/Documentation/devicetree/usage-model.rst
+@@ -12,7 +12,7 @@ This article describes how Linux uses the device tree.  An overview of
+ the device tree data format can be found on the device tree usage page
+ at devicetree.org\ [1]_.
+ 
+-.. [1] http://devicetree.org/Device_Tree_Usage
++.. [1] https://elinux.org/Device_Tree_Usage
+ 
+ The "Open Firmware Device Tree", or simply Device Tree (DT), is a data
+ structure and language for describing hardware.  More specifically, it
 -- 
-~Randy
+2.21.1
 
