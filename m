@@ -2,290 +2,161 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 831BEC3F2D1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 14:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9AC5C3F2CD
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 15:31:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 50F5D21D56
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 14:54:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D2BB217F4
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 15:31:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="XQekw8sf"
+	dkim=pass (1024-bit key) header.d=pobox.com header.i=@pobox.com header.b="cb0gklsR";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b="yCWE4Ce1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727350AbgCBOyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 09:54:03 -0500
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:56820 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727159AbgCBOyD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 09:54:03 -0500
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200302145400euoutp02f8c7ea1593abae8c984dd6fb6c2b3a6f~4hGWa8K-v1232212322euoutp02f
-        for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2020 14:54:00 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200302145400euoutp02f8c7ea1593abae8c984dd6fb6c2b3a6f~4hGWa8K-v1232212322euoutp02f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1583160840;
-        bh=1YpBDdUSj9Tutu65M9yYPLwIeiCBzQByBPG3bXUqKY4=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=XQekw8sfKybOYgQC9ih5kcxAQgSrNO31iRcSCH5XaG2VW3c0YtT4zC7Dpd5n12vim
-         zRN+naodv8kYLHuuwNiCuYqXICTKIK0hfsKsW2OmW0/M9ed9ejbABQFO/HPN7ijF5b
-         UE+TCrorV90nv4HOdllr6JSlhW95IS/L/t8/yZVA=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200302145400eucas1p27f063bda85698a26b9d40051649fd22f~4hGWBTIDR2039220392eucas1p20;
-        Mon,  2 Mar 2020 14:54:00 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges1new.samsung.com (EUCPMTA) with SMTP id 96.46.61286.80E1D5E5; Mon,  2
-        Mar 2020 14:54:00 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200302145400eucas1p27779f8a73135d47fb5818994550c7b95~4hGVqQ5Fi1653316533eucas1p2G;
-        Mon,  2 Mar 2020 14:54:00 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200302145400eusmtrp1fae3b2bcb60e0fabfc651cacdac0b518~4hGVpez122816728167eusmtrp1h;
-        Mon,  2 Mar 2020 14:54:00 +0000 (GMT)
-X-AuditID: cbfec7f2-ef1ff7000001ef66-6b-5e5d1e081bb3
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id 89.09.07950.80E1D5E5; Mon,  2
-        Mar 2020 14:54:00 +0000 (GMT)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200302145359eusmtip1dbbc18d93b300458c81e7d2b8ca625c8~4hGVP6H3y2510725107eusmtip1w;
-        Mon,  2 Mar 2020 14:53:59 +0000 (GMT)
-Subject: Re: [PATCH 3/3] docs: mips: remove no longer needed au1xxx_ide.rst
- documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>, linux-ide@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <a3c6522f-ab0e-8212-a049-a31286b36ad7@samsung.com>
-Date:   Mon, 2 Mar 2020 15:53:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.8.0
+        id S1726980AbgCBPby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 10:31:54 -0500
+Received: from pb-smtp2.pobox.com ([64.147.108.71]:62715 "EHLO
+        pb-smtp2.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726751AbgCBPby (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 10:31:54 -0500
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id 2251A5E9EC;
+        Mon,  2 Mar 2020 10:31:52 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=+w0TjN0sgfinY77qlaN2DDq+4MI=; b=cb0gkl
+        sR9djEG5wDD+oYCv2F3RvKhPPaRBTl/O6Ggvc1WGCUxCwBCXQf4pwa5G7sGePs0J
+        CXZlkE/Iui3yN8WVlMVJM+oNm0cSfMabp029SBfGlCzMUMaHz8kGLAkeT9ifkoNt
+        sgSvdg6x8LLdue7BMqx+jhhIsuPQdiQlvV8Qc=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id 1911B5E9EB;
+        Mon,  2 Mar 2020 10:31:52 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=WFfea9XXdTCiyqDrZWumH0aOM0ikm6o03o4Ib1MKO6s=; b=yCWE4Ce18rB4VWGl5FYMYYxA+GIP4zQNaSZyYucR4+/AEs6OmTN0GMXiiDy1K/XddT0lduzhElCaZiMbTQ6l21cVmm8dJytVjhbgxI/O3D2h1cajHQE4LBg/YPkwJuEJZ5lflyNXArr5v7aVZ6vA33/DTf2gI1mFCdL+C9C2zhs=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 804655E9EA;
+        Mon,  2 Mar 2020 10:31:51 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id 9FBC12DA0227;
+        Mon,  2 Mar 2020 10:31:50 -0500 (EST)
+Date:   Mon, 2 Mar 2020 10:31:50 -0500 (EST)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] kconfig: allow symbols implied by y to become m
+In-Reply-To: <20200302062340.21453-1-masahiroy@kernel.org>
+Message-ID: <nycvar.YSQ.7.76.2003021024370.1559@knanqh.ubzr>
+References: <20200302062340.21453-1-masahiroy@kernel.org>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20200116122938.20789-4-b.zolnierkie@samsung.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+e3eXe+kyXVaO/iqphRZ+SDBi4mYJIygEJJYidbMi0puyqam
-        qbHQnE5bqYU4hTTztdDGMDU1lGUzETOMIu3hoxX5BKeCmlnOm+R/3/M9n/P7ngM/EhO0c13I
-        RHkqo5BLk0SEPd5mXhs+TnpEx/j9WnelLb1qRFcN5+F0yWsrTtfkP8Zpc8cUh37XWUXQhcZn
-        iNbOmjF6pNsrlCdubRrliI36QkL8qqmZI67VlnHFs32TuHjJ6BFBXLIPjmOSEtMZhW/IFfuE
-        0sEhLKX3WMYT9RdChbo8NYhHAhUA63UVSIPsSQHViKDlva3gbRXLCOZUR9nGEoK8pj58Z2I6
-        txhjoQYEwzXuLDSPQL1p2IacqChYNuZzNYgknSkvmCm8YGMwqogDo0UmwsYQVBCUqPXbaXwq
-        BFY7i7Z9fIs3rt23s+m9lASsEy+5LOMIAxUW3PYmb4s3lgbZbIwSwpjlIYfV+6F9vgqzZQFl
-        toOVxjyMXfo0WJZWuax2gpn+VjtWu8FgWTHODrQg+F3w8990O4KGsk2CpU7C5zfrhC0Zo47A
-        005f1j4FNR/ubC8ElAN8nHdkl3CA0rZyjLX5UJAvYOlDYKg3EDuxmudN2D0k0u26TLfrHN2u
-        c3T/c6sRrkdCJk0pi2eU/nLmuo9SKlOmyeN9ribLjGjrOw1u9ls70MpIrAlRJBLt4Udg0TEC
-        rjRdmSkzISAxkTP/LC8qRsCPk2beYBTJlxVpSYzShFxJXCTkn3g0HS2g4qWpzDWGSWEUO10O
-        yXNRIYesntAAw2Jlo7tl0c3w/dz4pwNdlbkLXuJ9gWE5Ev1Nf5dmdXhOOPH1cIZ2irr4Yy5b
-        8e1Wck/1mDlyY2JhPGLB15DVDd3tFn4go1dFPvAUbhwMW5VQ4mnv8y/erk3WD9XG+vUvplon
-        zdrl4Lt1f8pBYQZT65nsAUli2u16Ea5MkPp7Ywql9C/RZTY/SgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFIsWRmVeSWpSXmKPExsVy+t/xu7occrFxBo3zWSyeHGhntJhzvoXF
-        YuKJTywWC9uWsFgc2/GIyeLyrjlsFp2btjJa9L0+xmxxaY+KA6fHlpU3mTw2repk8zi6ci2T
-        x+K+yawer488ZPH4vEkugC1Kz6Yov7QkVSEjv7jEVina0MJIz9DSQs/IxFLP0Ng81srIVEnf
-        ziYlNSezLLVI3y5BL2PS6bPMBQd0Kla332VrYNyt3MXIySEhYCLxsrmHuYuRi0NIYCmjxJy7
-        TaxdjBxACRmJ4+vLIGqEJf5c62KDqHnNKPF4/j4WkISwQLTEl01tYPUiAioSrzrDQGqYBXqZ
-        JP69nskK0XCUUaLx6HNmkAY2ASuJie2rGEFsXgE7iR+7utlAbBag5k0/p7CD2KICERKHd8yC
-        qhGUODnzCQvIAk6g+k2TrEDCzALqEn/mXWKGsMUlbj2ZzwRhy0tsfzuHeQKj0Cwk3bOQtMxC
-        0jILScsCRpZVjCKppcW56bnFRnrFibnFpXnpesn5uZsYgfG47djPLTsYu94FH2IU4GBU4uH9
-        wRAbJ8SaWFZcmXuIUYKDWUmE15czOk6INyWxsiq1KD++qDQntfgQoynQbxOZpUST84GpIq8k
-        3tDU0NzC0tDc2NzYzEJJnLdD4GCMkEB6YklqdmpqQWoRTB8TB6dUA6Prxmv+C83XTlKZ+ytr
-        7yf+nJmb80ST9c6lRc+q+XOJ8VzKY+ttKpZ8uvsy9stO1X/Qsl7YUfRI4TFxvm0OuaGvznww
-        lYyWyRE+ZSsnfLrRUljR/+WmQ1x/1aT4qy2ZZ4ceztnxX/+og+Zagfh51nPc93CGTGln+D3/
-        G1fmLEmWLDOLiY3TS5RYijMSDbWYi4oTAYPFi4/dAgAA
-X-CMS-MailID: 20200302145400eucas1p27779f8a73135d47fb5818994550c7b95
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200116122952eucas1p2060adca6613ae02096ecc80319e5d197
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200116122952eucas1p2060adca6613ae02096ecc80319e5d197
-References: <20200116122938.20789-1-b.zolnierkie@samsung.com>
-        <CGME20200116122952eucas1p2060adca6613ae02096ecc80319e5d197@eucas1p2.samsung.com>
-        <20200116122938.20789-4-b.zolnierkie@samsung.com>
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: F05AC3AE-5C9A-11EA-B458-D1361DBA3BAF-78420484!pb-smtp2.pobox.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 2 Mar 2020, Masahiro Yamada wrote:
 
-Hi Jonathan,
-
-Gentle ping.
-
-Can we get your ACK to merge this patch through MIPS (or IDE) tree?
-
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
-
-On 1/16/20 1:29 PM, Bartlomiej Zolnierkiewicz wrote:
-> Since the au1xxx-ide IDE host driver is no longer needed its documentation
-> can be removed.
+> The 'imply' keyword restricts a symbol to y or n, excluding m
+> when it is implied by y. This is the original behavior since
+> commit 237e3ad0f195 ("Kconfig: Introduce the "imply" keyword").
 > 
-> Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> However, the author of the 'imply' keyword, Nicolas Pitre, stated
+> that the 'imply' keyword should not impose any restrictions. [1]
+> 
+> I agree, and want to get rid of this tricky behavior.
+> 
+> [1]: https://lkml.org/lkml/2020/2/19/714
+> 
+> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Acked-by: Nicolas Pitre <nico@fluxnic.net>
+
+In addition to the IS_REACHABLE() note, it might be a good idea to 
+suggest adding an "imply" reference to the dependency if the feature 
+provided by BAZ is highli desirable, e.g.:
+
+config FOO
+	tristate
+	imply BAR
+	imply BAZ
+
+
 > ---
->  Documentation/mips/au1xxx_ide.rst | 130 ------------------------------
->  Documentation/mips/index.rst      |   2 -
->  2 files changed, 132 deletions(-)
->  delete mode 100644 Documentation/mips/au1xxx_ide.rst
 > 
-> diff --git a/Documentation/mips/au1xxx_ide.rst b/Documentation/mips/au1xxx_ide.rst
-> deleted file mode 100644
-> index 2f9c2cff6738..000000000000
-> --- a/Documentation/mips/au1xxx_ide.rst
-> +++ /dev/null
-> @@ -1,130 +0,0 @@
-> -.. include:: <isonum.txt>
-> -
-> -======================
-> -MIPS AU1XXX IDE driver
-> -======================
-> -
-> -Released 2005-07-15
-> -
-> -About
-> -=====
-> -
-> -This file describes the 'drivers/ide/au1xxx-ide.c', related files and the
-> -services they provide.
-> -
-> -If you are short in patience and just want to know how to add your hard disc to
-> -the white or black list, go to the 'ADD NEW HARD DISC TO WHITE OR BLACK LIST'
-> -section.
-> -
-> -
-> -License
-> -=======
-> -
-> -:Copyright: |copy| 2003-2005 AMD, Personal Connectivity Solutions
-> -
-> -This program is free software; you can redistribute it and/or modify it under
-> -the terms of the GNU General Public License as published by the Free Software
-> -Foundation; either version 2 of the License, or (at your option) any later
-> -version.
-> -
-> -THIS SOFTWARE IS PROVIDED ``AS IS`` AND ANY EXPRESS OR IMPLIED WARRANTIES,
-> -INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-> -FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR
-> -BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-> -CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-> -SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-> -INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-> -CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-> -ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-> -POSSIBILITY OF SUCH DAMAGE.
-> -
-> -You should have received a copy of the GNU General Public License along with
-> -this program; if not, write to the Free Software Foundation, Inc.,
-> -675 Mass Ave, Cambridge, MA 02139, USA.
-> -
-> -Note:
-> -      for more information, please refer "AMD Alchemy Au1200/Au1550 IDE
-> -      Interface and Linux Device Driver" Application Note.
-> -
-> -
-> -Files, Configs and Compatibility
-> -================================
-> -
-> -Two files are introduced:
-> -
-> -  a) 'arch/mips/include/asm/mach-au1x00/au1xxx_ide.h'
-> -     contains : struct _auide_hwif
-> -
-> -                - timing parameters for PIO mode 0/1/2/3/4
-> -                - timing parameters for MWDMA 0/1/2
-> -
-> -  b) 'drivers/ide/mips/au1xxx-ide.c'
-> -     contains the functionality of the AU1XXX IDE driver
-> -
-> -Following extra configs variables are introduced:
-> -
-> -  CONFIG_BLK_DEV_IDE_AU1XXX_PIO_DBDMA
-> -	- enable the PIO+DBDMA mode
-> -  CONFIG_BLK_DEV_IDE_AU1XXX_MDMA2_DBDMA
-> -	- enable the MWDMA mode
-> -
-> -
-> -Supported IDE Modes
-> -===================
-> -
-> -The AU1XXX IDE driver supported all PIO modes - PIO mode 0/1/2/3/4 - and all
-> -MWDMA modes - MWDMA 0/1/2 -. There is no support for SWDMA and UDMA mode.
-> -
-> -To change the PIO mode use the program hdparm with option -p, e.g.
-> -'hdparm -p0 [device]' for PIO mode 0. To enable the MWDMA mode use the option
-> --X, e.g. 'hdparm -X32 [device]' for MWDMA mode 0.
-> -
-> -
-> -Performance Configurations
-> -==========================
-> -
-> -If the used system doesn't need USB support enable the following kernel
-> -configs::
-> -
-> -    CONFIG_IDE=y
-> -    CONFIG_BLK_DEV_IDE=y
-> -    CONFIG_IDE_GENERIC=y
-> -    CONFIG_BLK_DEV_IDEPCI=y
-> -    CONFIG_BLK_DEV_GENERIC=y
-> -    CONFIG_BLK_DEV_IDEDMA_PCI=y
-> -    CONFIG_BLK_DEV_IDE_AU1XXX=y
-> -    CONFIG_BLK_DEV_IDE_AU1XXX_MDMA2_DBDMA=y
-> -    CONFIG_BLK_DEV_IDEDMA=y
-> -
-> -Also define 'IDE_AU1XXX_BURSTMODE' in 'drivers/ide/mips/au1xxx-ide.c' to enable
-> -the burst support on DBDMA controller.
-> -
-> -If the used system need the USB support enable the following kernel configs for
-> -high IDE to USB throughput.
-> -
-> -::
-> -
-> -    CONFIG_IDE_GENERIC=y
-> -    CONFIG_BLK_DEV_IDEPCI=y
-> -    CONFIG_BLK_DEV_GENERIC=y
-> -    CONFIG_BLK_DEV_IDEDMA_PCI=y
-> -    CONFIG_BLK_DEV_IDE_AU1XXX=y
-> -    CONFIG_BLK_DEV_IDE_AU1XXX_MDMA2_DBDMA=y
-> -    CONFIG_BLK_DEV_IDEDMA=y
-> -
-> -Also undefine 'IDE_AU1XXX_BURSTMODE' in 'drivers/ide/mips/au1xxx-ide.c' to
-> -disable the burst support on DBDMA controller.
-> -
-> -
-> -Acknowledgments
-> -===============
-> -
-> -These drivers wouldn't have been done without the base of kernel 2.4.x AU1XXX
-> -IDE driver from AMD.
-> -
-> -Additional input also from:
-> -Matthias Lenk <matthias.lenk@amd.com>
-> -
-> -Happy hacking!
-> -
-> -Enrico Walther <enrico.walther@amd.com>
-> diff --git a/Documentation/mips/index.rst b/Documentation/mips/index.rst
-> index a93c2f65884c..d5ad8c00f0bd 100644
-> --- a/Documentation/mips/index.rst
-> +++ b/Documentation/mips/index.rst
-> @@ -10,8 +10,6 @@ MIPS-specific Documentation
+>  Documentation/kbuild/kconfig-language.rst | 12 +++++++++++-
+>  scripts/kconfig/symbol.c                  |  5 +----
+>  2 files changed, 12 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index d0111dd26410..d4d988aea679 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -173,7 +173,7 @@ applicable everywhere (see syntax).
+>  	===		===		=============	==============
+>  	n		y		n		N/m/y
+>  	m		y		m		M/y/n
+> -	y		y		y		Y/n
+> +	y		y		y		Y/m/n
+>  	y		n		*		N
+>  	===		===		=============	==============
 >  
->     ingenic-tcu
+> @@ -181,6 +181,16 @@ applicable everywhere (see syntax).
+>    ability to hook into a secondary subsystem while allowing the user to
+>    configure that subsystem out without also having to unset these drivers.
 >  
-> -   au1xxx_ide
-> -
->  .. only::  subproject and html
+> +  Note: If the combination of FOO=y and BAR=m causes a link error,
+> +  you can guard the function call with IS_REACHABLE()::
+> +
+> +	foo_init()
+> +	{
+> +		if (IS_REACHABLE(CONFIG_BAZ))
+> +			baz_register(&foo);
+> +		...
+> +	}
+> +
+>  - limiting menu display: "visible if" <expr>
 >  
->     Indices
+>    This attribute is only applicable to menu blocks, if the condition is
+> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+> index 8d38b700b314..b101ef3c377a 100644
+> --- a/scripts/kconfig/symbol.c
+> +++ b/scripts/kconfig/symbol.c
+> @@ -401,8 +401,7 @@ void sym_calc_value(struct symbol *sym)
+>  				sym_warn_unmet_dep(sym);
+>  			newval.tri = EXPR_OR(newval.tri, sym->rev_dep.tri);
+>  		}
+> -		if (newval.tri == mod &&
+> -		    (sym_get_type(sym) == S_BOOLEAN || sym->implied.tri == yes))
+> +		if (newval.tri == mod && sym_get_type(sym) == S_BOOLEAN)
+>  			newval.tri = yes;
+>  		break;
+>  	case S_STRING:
+> @@ -484,8 +483,6 @@ bool sym_tristate_within_range(struct symbol *sym, tristate val)
+>  		return false;
+>  	if (sym->visible <= sym->rev_dep.tri)
+>  		return false;
+> -	if (sym->implied.tri == yes && val == mod)
+> -		return false;
+>  	if (sym_is_choice_value(sym) && sym->visible == yes)
+>  		return val == yes;
+>  	return val >= sym->rev_dep.tri && val <= sym->visible;
+> -- 
+> 2.17.1
+> 
 > 
