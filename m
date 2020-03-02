@@ -2,182 +2,329 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA514C3F2D8
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 16:43:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8042C3F2D1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 16:50:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A19A92465E
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 16:43:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8562D21D56
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 16:50:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G85budQa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGusZhcg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727261AbgCBQnd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 11:43:33 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:46482 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727202AbgCBQnd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 11:43:33 -0500
-Received: by mail-oi1-f195.google.com with SMTP id a22so10894377oid.13
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 08:43:32 -0800 (PST)
+        id S1727209AbgCBQuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 11:50:20 -0500
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:38902 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727092AbgCBQuU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 11:50:20 -0500
+Received: by mail-yw1-f65.google.com with SMTP id 10so408701ywv.5;
+        Mon, 02 Mar 2020 08:50:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7kNUg6jrLRYXBxRwxs+v6id6LKMnX/sXkRxwLGsubN8=;
-        b=G85budQaXfEQvDNWIalbDXyWPGbmN1VgzYIvybMkE6FjzEE9OQ06bKVGmxbSFZLDeZ
-         NCG1SEAjzWEvnPaBKjkeXOiCbefYDCeZuZT/wMi0k0Z8lRMg1ptUkwT9yyguQl1/2S+o
-         jfJxI20+jwJY/A2UlJ9u9Qil4ApszAgT38+jjcvSvG9xoofpBq921uBU19jjtE1+amxO
-         hwunfbFnfCp0nj6pojNjexPVGNkT+8IQLC8KySny/q03clG9aJQnNSB7rlhWMZOdoDcs
-         Tlc1qt9VorvqgYNwFtqnCnSE57RGtJfTiH7WPMYBRl0+W5TnUTvBhMda5uGFAqYj+Yii
-         VzMw==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=b1eIQNdgk57EaMRryoMwZe8vTrRltHfIo+0nLjaH1wE=;
+        b=hGusZhcgV8/iLeChBx3j1B6xMSVF+zzuDBzBeamfGWnFm+3OBsmzGn0jmSqmOMilIL
+         pe5ryWhhJufPN/nBWPQAXvHBM6LRO40WFw1gGrUBn68SZfqm2psNj7GQA7pDxqVgcbpW
+         mkbEA3D+vcdwSv5KQ5YbOH0Ws8ziWDrYcpw8WRQWt5Hq9MjCrvky68RHc3dtkinsDwYm
+         3J9u/ovbxGEnMGn+/17OM54T/hwhx2z5aTBwYHlJfkS2czBmJ9M5uvmqNE8K8tPqc0XH
+         27GkYiD8dXIS+3qAjXyIxjodAtT0zdfi2mkkIKIFALUXqLYK17oVJqoL5TnVONIBEv3h
+         uuZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7kNUg6jrLRYXBxRwxs+v6id6LKMnX/sXkRxwLGsubN8=;
-        b=SotSvLh3m8hDxGmE/lrw8CmGylT83OH4z7XcSAmD2FJpWaGrAx4bh5GWhrHbDVt930
-         bwRTFeolPsVYl0Hd1Hbcufj6Q47aNoDQ8DbxYHZcyqDx9OKjDHVdSI77hw3D6Imn6f6v
-         aa5RsmF4MF7zqdC8TAgh4OiW8sxT5ekAE8OGwBwnW3+oxrwDcBBB4fFuGd/j6WlxQtzl
-         dkymCD6DhmWf4ggMaJEJG2TpXHYh9bdiNe6BMX03apLZBUNYjXIk7l1AFEQPpqrBSOOL
-         2GAHipzkxYRD/zEH+RO7SRIypi/ZJvXAs9N8VSDQoODy9dc3rqq0Jfhx6uazanTrCL8y
-         yKxw==
-X-Gm-Message-State: ANhLgQ04ZwQb67RHc3gjmKyFUEgAnis/h/9PRYbneek2pls20x08Qu7O
-        TVhhEEjn6S4txy1USArZIp+mJjDr+15WklxLlZCQdQ==
-X-Google-Smtp-Source: ADFU+vtCTAmOxkVME2G4uhIibjer5xiSuOaaEPJPm0R3+yIEc30FvCfm1FJmjYEn5prQfE7J5MaCm+kNmricQKurjnA=
-X-Received: by 2002:a05:6808:8d0:: with SMTP id k16mr12043oij.68.1583167412109;
- Mon, 02 Mar 2020 08:43:32 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=b1eIQNdgk57EaMRryoMwZe8vTrRltHfIo+0nLjaH1wE=;
+        b=OnMhSLzhrJ17/nvlPc39RtJAHpuOD8glGoJFQWhX2pLGMYFBoNSU3XmV63+KpQToRk
+         nbV+R7Umk8czN1E0oSd7rrii3XgsPJOwsamnXWztFxynggp6eXydwki54NBZQxP+rwUt
+         wNesaqEuFQs8YjUvLIf3DltXXvxMIPbHV7wcT91P0T/sSWz1QKYmLAruP/1dZWuGs/t2
+         VvRiVWFCYyQxheftWdrgCnxxEjjGxiE99mLof1TOauFyQm2x188q03b5/FrsBL03+FoI
+         Q5j1Zy36Yu52XSaH6zCU1FvH0CNEzgrR/H4XD4KnnS7beyJpFgQDvqXpEYWBOzy919px
+         N5Yg==
+X-Gm-Message-State: APjAAAWy5x6XCJz6uHibfXQIUbrgQcgnplYLjTI97Rb/QVdmkyr45ddj
+        fTBc9EsPUZvjlmuSZFXr184=
+X-Google-Smtp-Source: APXvYqyY+DO/zIGeGCWWRTfFzOImOdbwwF5VSVun0mb+MADi+x97SRPIoGkr4ICfv9oBlgS3bNRBCQ==
+X-Received: by 2002:a25:dc91:: with SMTP id y139mr17263168ybe.252.1583167818584;
+        Mon, 02 Mar 2020 08:50:18 -0800 (PST)
+Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
+        by smtp.gmail.com with ESMTPSA id y125sm2315341ywc.45.2020.03.02.08.50.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 02 Mar 2020 08:50:17 -0800 (PST)
+Subject: Re: [PATCH v4] Documentation: kunit: Make the KUnit documentation
+ less UML-specific
+To:     David Gow <davidgow@google.com>, brendanhiggins@google.com,
+        skhan@linuxfoundation.org, corbet@lwn.net
+Cc:     kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tim.Bird@sony.com, Frank Rowand <frank.rowand@sony.com>
+References: <20200228191821.42412-1-davidgow@google.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <dd15aa59-d2ef-d42e-1a4f-82b42e2ea350@gmail.com>
+Date:   Mon, 2 Mar 2020 10:50:17 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <CAG48ez3QHVpMJ9Rb_Q4LEE6uAqQJeS1Myu82U=fgvUfoeiscgw@mail.gmail.com>
- <20200301185244.zkofjus6xtgkx4s3@wittgenstein> <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
- <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74zmfc9.fsf@x220.int.ebiederm.org> <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87k142lpfz.fsf@x220.int.ebiederm.org> <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <875zfmloir.fsf@x220.int.ebiederm.org>
-In-Reply-To: <875zfmloir.fsf@x220.int.ebiederm.org>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 2 Mar 2020 17:43:05 +0100
-Message-ID: <CAG48ez0iXMD0mduKWHG6GZZoR+s2jXy776zwiRd+tFADCEiBEw@mail.gmail.com>
-Subject: Re: [PATCHv2] exec: Fix a deadlock in ptrace
-To:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        James Morris <jamorris@linux.microsoft.com>
-Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200228191821.42412-1-davidgow@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 2, 2020 at 5:19 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->
-> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
->
-> > On 3/2/20 4:57 PM, Eric W. Biederman wrote:
-> >> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
-> >>
-> >>>
-> >>> I tried this with s/EACCESS/EACCES/.
-> >>>
-> >>> The test case in this patch is not fixed, but strace does not freeze,
-> >>> at least with my setup where it did freeze repeatable.
-> >>
-> >> Thanks, That is what I was aiming at.
-> >>
-> >> So we have one method we can pursue to fix this in practice.
-> >>
-> >>> That is
-> >>> obviously because it bypasses the cred_guard_mutex.  But all other
-> >>> process that access this file still freeze, and cannot be
-> >>> interrupted except with kill -9.
-> >>>
-> >>> However that smells like a denial of service, that this
-> >>> simple test case which can be executed by guest, creates a /proc/$pid/mem
-> >>> that freezes any process, even root, when it looks at it.
-> >>> I mean: "ln -s README /proc/$pid/mem" would be a nice bomb.
-> >>
-> >> Yes.  Your the test case in your patch a variant of the original
-> >> problem.
-> >>
-> >>
-> >> I have been staring at this trying to understand the fundamentals of the
-> >> original deeper problem.
-> >>
-> >> The current scope of cred_guard_mutex in exec is because being ptraced
-> >> causes suid exec to act differently.  So we need to know early if we are
-> >> ptraced.
-> >>
-> >
-> > It has a second use, that it prevents two threads entering execve,
-> > which would probably result in disaster.
->
-> Exec can fail with an error code up until de_thread.  de_thread causes
-> exec to fail with the error code -EAGAIN for the second thread to get
-> into de_thread.
->
-> So no.  The cred_guard_mutex is not needed for that case at all.
->
-> >> If that case did not exist we could reduce the scope of the
-> >> cred_guard_mutex in exec to where your patch puts the cred_change_mutex.
-> >>
-> >> I am starting to think reworking how we deal with ptrace and exec is the
-> >> way to solve this problem.
->
->
-> I am 99% convinced that the fix is to move cred_guard_mutex down.
+Hi David,
 
-"move cred_guard_mutex down" as in "take it once we've already set up
-the new process, past the point of no return"?
+On 2/28/20 1:18 PM, David Gow wrote:
+> Remove some of the outmoded "Why KUnit" rationale, and move some
+> UML-specific information to the kunit_tool page. Also update the Getting
+> Started guide to mention running tests without the kunit_tool wrapper.
+> 
+> Signed-off-by: David Gow <davidgow@google.com>
+> Reviewed-by: Frank Rowand <frank.rowand@sony.com>
+> ---
+> Sorry: I missed a couple of issues in the last version. They're fixed
+> here, and I think this should be ready to go.
+> 
+> Changelog:
+> 
+> v4:
+> - Fix typo: s/offsers/offers
+> - Talk about KUnit tests running on most "architectures" instead of
+>   "kernel configurations.
+> v3:
+> https://lore.kernel.org/linux-kselftest/20200214235723.254228-1-davidgow@google.com/T/#u
+> - Added a note that KUnit can be used with UML, both with and without
+>   kunit_tool to replace the section moved to kunit_tool.
+> v2:
+> https://lore.kernel.org/linux-kselftest/f99a3d4d-ad65-5fd1-3407-db33f378b1fa@gmail.com/T/
+> - Reinstated the "Why Kunit?" section, minus the comparison with other
+>   testing frameworks (covered in the FAQ), and the description of UML.
+> - Moved the description of UML into to kunit_tool page.
+> - Tidied up the wording around how KUnit is built and run to make it
+>   work
+>   without the UML description.
+> v1:
+> https://lore.kernel.org/linux-kselftest/9c703dea-a9e1-94e2-c12d-3cb0a09e75ac@gmail.com/T/
+> - Initial patch
 
-> Then right after we take cred_guard_mutex do:
->         if (ptraced) {
->                 use_original_creds();
->         }
->
-> And call it a day.
->
-> The details suck but I am 99% certain that would solve everyones
-> problems, and not be too bad to audit either.
+Thanks for all the changes.  The documents are now much more understandable
+and useful.
 
-Ah, hmm, that sounds like it'll work fine at least when no LSMs are involved.
+-Frank
 
-SELinux normally doesn't do the execution-degrading thing, it just
-blocks the execution completely - see their selinux_bprm_set_creds()
-hook. So I think they'd still need to set some state on the task that
-says "we're currently in the middle of an execution where the target
-task will run in context X", and then check against that in the
-ptrace_may_access hook. Or I suppose they could just kill the task
-near the end of execve, although that'd be kinda ugly.
+> 
+>  Documentation/dev-tools/kunit/index.rst      | 40 ++++++----
+>  Documentation/dev-tools/kunit/kunit-tool.rst |  7 ++
+>  Documentation/dev-tools/kunit/start.rst      | 80 ++++++++++++++++----
+>  3 files changed, 99 insertions(+), 28 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
+> index d16a4d2c3a41..e93606ecfb01 100644
+> --- a/Documentation/dev-tools/kunit/index.rst
+> +++ b/Documentation/dev-tools/kunit/index.rst
+> @@ -17,14 +17,23 @@ What is KUnit?
+>  ==============
+>  
+>  KUnit is a lightweight unit testing and mocking framework for the Linux kernel.
+> -These tests are able to be run locally on a developer's workstation without a VM
+> -or special hardware.
+>  
+>  KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+>  Googletest/Googlemock for C++. KUnit provides facilities for defining unit test
+>  cases, grouping related test cases into test suites, providing common
+>  infrastructure for running tests, and much more.
+>  
+> +KUnit consists of a kernel component, which provides a set of macros for easily
+> +writing unit tests. Tests written against KUnit will run on kernel boot if
+> +built-in, or when loaded if built as a module. These tests write out results to
+> +the kernel log in `TAP <https://testanything.org/>`_ format.
+> +
+> +To make running these tests (and reading the results) easier, KUnit offers
+> +:doc:`kunit_tool <kunit-tool>`, which builds a `User Mode Linux
+> +<http://user-mode-linux.sourceforge.net>`_ kernel, runs it, and parses the test
+> +results. This provides a quick way of running KUnit tests during development,
+> +without requiring a virtual machine or separate hardware.
+> +
+>  Get started now: :doc:`start`
+>  
+>  Why KUnit?
+> @@ -36,21 +45,20 @@ allow all possible code paths to be tested in the code under test; this is only
+>  possible if the code under test is very small and does not have any external
+>  dependencies outside of the test's control like hardware.
+>  
+> -Outside of KUnit, there are no testing frameworks currently
+> -available for the kernel that do not require installing the kernel on a test
+> -machine or in a VM and all require tests to be written in userspace running on
+> -the kernel; this is true for Autotest, and kselftest, disqualifying
+> -any of them from being considered unit testing frameworks.
+> +KUnit provides a common framework for unit tests within the kernel.
+> +
+> +KUnit tests can be run on most architectures, and most tests are architecture
+> +independent. All built-in KUnit tests run on kernel startup.  Alternatively,
+> +KUnit and KUnit tests can be built as modules and tests will run when the test
+> +module is loaded.
+>  
+> -KUnit addresses the problem of being able to run tests without needing a virtual
+> -machine or actual hardware with User Mode Linux. User Mode Linux is a Linux
+> -architecture, like ARM or x86; however, unlike other architectures it compiles
+> -to a standalone program that can be run like any other program directly inside
+> -of a host operating system; to be clear, it does not require any virtualization
+> -support; it is just a regular program.
+> +.. note::
+>  
+> -Alternatively, kunit and kunit tests can be built as modules and tests will
+> -run when the test module is loaded.
+> +        KUnit can also run tests without needing a virtual machine or actual
+> +        hardware under User Mode Linux. User Mode Linux is a Linux architecture,
+> +        like ARM or x86, which compiles the kernel as a Linux executable. KUnit
+> +        can be used with UML either by building with ``ARCH=um`` (like any other
+> +        architecture), or by using :doc:`kunit_tool <kunit-tool>`.
+>  
+>  KUnit is fast. Excluding build time, from invocation to completion KUnit can run
+>  several dozen tests in only 10 to 20 seconds; this might not sound like a big
+> @@ -81,3 +89,5 @@ How do I use it?
+>  *   :doc:`start` - for new users of KUnit
+>  *   :doc:`usage` - for a more detailed explanation of KUnit features
+>  *   :doc:`api/index` - for the list of KUnit APIs used for testing
+> +*   :doc:`kunit-tool` - for more information on the kunit_tool helper script
+> +*   :doc:`faq` - for answers to some common questions about KUnit
+> diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
+> index 50d46394e97e..949af2da81e5 100644
+> --- a/Documentation/dev-tools/kunit/kunit-tool.rst
+> +++ b/Documentation/dev-tools/kunit/kunit-tool.rst
+> @@ -12,6 +12,13 @@ the Linux kernel as UML (`User Mode Linux
+>  <http://user-mode-linux.sourceforge.net/>`_), running KUnit tests, parsing
+>  the test results and displaying them in a user friendly manner.
+>  
+> +kunit_tool addresses the problem of being able to run tests without needing a
+> +virtual machine or actual hardware with User Mode Linux. User Mode Linux is a
+> +Linux architecture, like ARM or x86; however, unlike other architectures it
+> +compiles the kernel as a standalone Linux executable that can be run like any
+> +other program directly inside of a host operating system. To be clear, it does
+> +not require any virtualization support: it is just a regular program.
+> +
+>  What is a kunitconfig?
+>  ======================
+>  
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+> index 4e1d24db6b13..e1c5ce80ce12 100644
+> --- a/Documentation/dev-tools/kunit/start.rst
+> +++ b/Documentation/dev-tools/kunit/start.rst
+> @@ -9,11 +9,10 @@ Installing dependencies
+>  KUnit has the same dependencies as the Linux kernel. As long as you can build
+>  the kernel, you can run KUnit.
+>  
+> -KUnit Wrapper
+> -=============
+> -Included with KUnit is a simple Python wrapper that helps format the output to
+> -easily use and read KUnit output. It handles building and running the kernel, as
+> -well as formatting the output.
+> +Running tests with the KUnit Wrapper
+> +====================================
+> +Included with KUnit is a simple Python wrapper which runs tests under User Mode
+> +Linux, and formats the test results.
+>  
+>  The wrapper can be run with:
+>  
+> @@ -21,22 +20,42 @@ The wrapper can be run with:
+>  
+>  	./tools/testing/kunit/kunit.py run --defconfig
+>  
+> -For more information on this wrapper (also called kunit_tool) checkout the
+> +For more information on this wrapper (also called kunit_tool) check out the
+>  :doc:`kunit-tool` page.
+>  
+>  Creating a .kunitconfig
+> -=======================
+> -The Python script is a thin wrapper around Kbuild. As such, it needs to be
+> -configured with a ``.kunitconfig`` file. This file essentially contains the
+> -regular Kernel config, with the specific test targets as well.
+> -
+> +-----------------------
+> +If you want to run a specific set of tests (rather than those listed in the
+> +KUnit defconfig), you can provide Kconfig options in the ``.kunitconfig`` file.
+> +This file essentially contains the regular Kernel config, with the specific
+> +test targets as well. The ``.kunitconfig`` should also contain any other config
+> +options required by the tests.
+> +
+> +A good starting point for a ``.kunitconfig`` is the KUnit defconfig:
+>  .. code-block:: bash
+>  
+>  	cd $PATH_TO_LINUX_REPO
+>  	cp arch/um/configs/kunit_defconfig .kunitconfig
+>  
+> -Verifying KUnit Works
+> ----------------------
+> +You can then add any other Kconfig options you wish, e.g.:
+> +.. code-block:: none
+> +
+> +        CONFIG_LIST_KUNIT_TEST=y
+> +
+> +:doc:`kunit_tool <kunit-tool>` will ensure that all config options set in
+> +``.kunitconfig`` are set in the kernel ``.config`` before running the tests.
+> +It'll warn you if you haven't included the dependencies of the options you're
+> +using.
+> +
+> +.. note::
+> +   Note that removing something from the ``.kunitconfig`` will not trigger a
+> +   rebuild of the ``.config`` file: the configuration is only updated if the
+> +   ``.kunitconfig`` is not a subset of ``.config``. This means that you can use
+> +   other tools (such as make menuconfig) to adjust other config options.
+> +
+> +
+> +Running the tests
+> +-----------------
+>  
+>  To make sure that everything is set up correctly, simply invoke the Python
+>  wrapper from your kernel repo:
+> @@ -62,6 +81,41 @@ followed by a list of tests that are run. All of them should be passing.
+>  	Because it is building a lot of sources for the first time, the
+>  	``Building KUnit kernel`` step may take a while.
+>  
+> +Running tests without the KUnit Wrapper
+> +=======================================
+> +
+> +If you'd rather not use the KUnit Wrapper (if, for example, you need to
+> +integrate with other systems, or use an architecture other than UML), KUnit can
+> +be included in any kernel, and the results read out and parsed manually.
+> +
+> +.. note::
+> +   KUnit is not designed for use in a production system, and it's possible that
+> +   tests may reduce the stability or security of the system.
+> +
+> +
+> +
+> +Configuring the kernel
+> +----------------------
+> +
+> +In order to enable KUnit itself, you simply need to enable the ``CONFIG_KUNIT``
+> +Kconfig option (it's under Kernel Hacking/Kernel Testing and Coverage in
+> +menuconfig). From there, you can enable any KUnit tests you want: they usually
+> +have config options ending in ``_KUNIT_TEST``.
+> +
+> +KUnit and KUnit tests can be compiled as modules: in this case the tests in a
+> +module will be run when the module is loaded.
+> +
+> +Running the tests
+> +-----------------
+> +
+> +Build and run your kernel as usual. Test output will be written to the kernel
+> +log in `TAP <https://testanything.org/>`_ format.
+> +
+> +.. note::
+> +   It's possible that there will be other lines and/or data interspersed in the
+> +   TAP output.
+> +
+> +
+>  Writing your first test
+>  =======================
+>  
+> 
+
