@@ -2,105 +2,119 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB3FBC3F2D1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 11:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC5CC3F2D7
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 12:28:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C01622468A
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 11:53:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D574B2173E
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 12:28:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r6j9t0b6"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VsJemNTs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727775AbgCBLx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 06:53:58 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:39489 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727484AbgCBLx5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 06:53:57 -0500
-Received: by mail-wm1-f67.google.com with SMTP id c24so2837707wml.4
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 03:53:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=azUAbwec9h/nTfVaFPcgmhe6fEkHKvdkY4Og3qBi37Y=;
-        b=r6j9t0b6YVsKN35LyP/H5lUyKRUrdC0WhAe7pyoL9zqxJsdyHeGhs2X3RPXsG77ucE
-         jE/L3lSF6Wv872Mzbni4tCKo2Uf/J5FiErTEvIguKLvUeYhUGNPKhhpaGFNRNrWGk+f2
-         1QjGeQADib8veuFWed0VG38BvxD1/BlcZKNZvBoIdZaKVu4tpxIefsYEaasn1pXrO6pw
-         1IS1EFDyfxBfwjF3zBykGgdaT4Xa+9qN7Hg+f7ZRYZZU9a6HuY5nByYkE4VPQwAGEqOh
-         HGZj0HxfvbruJPh91RNIa+cmcx57q78ersUThwaD49igmWlsnmeX5r7Lhm6Fksn6cv6m
-         AmWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=azUAbwec9h/nTfVaFPcgmhe6fEkHKvdkY4Og3qBi37Y=;
-        b=USkT3WZ4Rch3Knq+49WcOMOl84zEeGfiik1FREDpzzXjtosCRM2p97XnUrBQRYelXz
-         o+6SyteCqAmfz6LkOfB9+E0jNj51o/6npGcLEIUIucJTj5qaqDnJcxBUbVq1NazPi1y/
-         HmAUxiLl7WReQ3mD2J3COTVYt3BnbxdYUaljTSBS6sggeg8Pp+GKlpk6ZcYgdnIkjnPs
-         uDlrYM9Wi7F6SBWN3/U5FY7rJDoqz4akOFUpR0Tl9ip99/PBmTKPIhMxh9nC7NoK4iNt
-         Og/aziuLmHY2f7vHFWzt3O/Nie+SCNRxJb1snKG2m1HtD9DfcUrH2NlTuf2Dkn6e7pFZ
-         78Fg==
-X-Gm-Message-State: APjAAAUWZDGX0Z66cagNYPOQSV+tC8HMP8KnRBiSsaCmwQWPakoK+cPC
-        IRUSKvkMzYr+pC/4T+gBo7Vpgg==
-X-Google-Smtp-Source: APXvYqynY+onBCIIhC4P/zjfJVC1tFcUN36uleAbHJTeNOVBp0N74P2fBTF9cu3aqLEh5sEG98Rv7w==
-X-Received: by 2002:a1c:9d85:: with SMTP id g127mr19364122wme.75.1583150036591;
-        Mon, 02 Mar 2020 03:53:56 -0800 (PST)
-Received: from dell ([2.31.163.122])
-        by smtp.gmail.com with ESMTPSA id j5sm27954117wrx.56.2020.03.02.03.53.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 03:53:55 -0800 (PST)
-Date:   Mon, 2 Mar 2020 11:54:32 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 02/12] docs: dt: convert usage-model.txt to ReST
-Message-ID: <20200302115432.GX3494@dell>
-References: <cover.1583135507.git.mchehab+huawei@kernel.org>
- <0432bc8cdb6abb8618eac89d68db7441b613106d.1583135507.git.mchehab+huawei@kernel.org>
+        id S1727851AbgCBM2q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 07:28:46 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20842 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727361AbgCBM2p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 07:28:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583152124;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5DG/vW6TCeCX771cIMr5N8VanNi7DmSktqX7A9P5Lf4=;
+        b=VsJemNTsTuZC8xC8GcYvGTsNDuny4AfTVE+m+JgYgUCFwjOMh2BZbr0HoOo/epysYKo11R
+        4cCktcYhLAMpTZKJp87jzhO6aWFvM/Tapx5mutTE9jo8CwgILyAEF3LGzhGf6dSBbV8Ljp
+        iDxBD9K3wKFKQbDkBfGpmwwRAW0jcr8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-GBOwynXFNxyRVY2vU-jPUQ-1; Mon, 02 Mar 2020 07:28:40 -0500
+X-MC-Unique: GBOwynXFNxyRVY2vU-jPUQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 622221B2C988;
+        Mon,  2 Mar 2020 12:28:36 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.70])
+        by smtp.corp.redhat.com (Postfix) with SMTP id DA8D99051B;
+        Mon,  2 Mar 2020 12:28:29 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Mon,  2 Mar 2020 13:28:36 +0100 (CET)
+Date:   Mon, 2 Mar 2020 13:28:29 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     Jann Horn <jannh@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCHv2] exec: Fix a deadlock in ptrace
+Message-ID: <20200302122828.GA9769@redhat.com>
+References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <CAG48ez3QHVpMJ9Rb_Q4LEE6uAqQJeS1Myu82U=fgvUfoeiscgw@mail.gmail.com>
+ <20200301185244.zkofjus6xtgkx4s3@wittgenstein>
+ <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
+ <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0432bc8cdb6abb8618eac89d68db7441b613106d.1583135507.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 02 Mar 2020, Mauro Carvalho Chehab wrote:
+On 03/01, Bernd Edlinger wrote:
+>
+> This fixes a deadlock in the tracer when tracing a multi-threaded
+> application that calls execve while more than one thread are running.
 
-> - Add a SPDX header;
-> - Adjust document title;
-> - Use footnoote markups;
-> - Some whitespace fixes and new line breaks;
-> - Mark literal blocks as such;
-> - Add it to devicetree/index.rst.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/devicetree/index.rst            |  1 +
->  Documentation/devicetree/of_unittest.txt      |  2 +-
->  .../{usage-model.txt => usage-model.rst}      | 35 +++++++++++--------
+Heh. Yes, known problem. See my attempt to fix it:
+https://lore.kernel.org/lkml/20170213141452.GA30203@redhat.com/
 
->  include/linux/mfd/core.h                      |  2 +-
+> @@ -1224,7 +1224,7 @@ struct mm_struct *mm_access(struct task_struct *task, unsigned int mode)
+>  	struct mm_struct *mm;
+>  	int err;
+>  
+> -	err =  mutex_lock_killable(&task->signal->cred_guard_mutex);
+> +	err =  mutex_lock_killable(&task->signal->cred_change_mutex);
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+So if I understand correctly your patch doesn't fix other problems
+with debugger waiting for cred_guard_mutex.
 
->  4 files changed, 23 insertions(+), 17 deletions(-)
->  rename Documentation/devicetree/{usage-model.txt => usage-model.rst} (97%)
+I too do not think this can justify the new mutex in signal_struct...
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Oleg.
+
