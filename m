@@ -2,130 +2,142 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA23C3F2D1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 09:36:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5E3C3F2D1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 09:39:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B0C152469C
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 09:36:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D6AD3246B4
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 09:39:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="OYFO9J3m"
+	dkim=pass (1024-bit key) header.d=kalray.eu header.i=@kalray.eu header.b="Sc3D3Sqe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727409AbgCBJgr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 04:36:47 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33435 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726674AbgCBJgr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 04:36:47 -0500
-Received: by mail-wr1-f65.google.com with SMTP id x7so11650763wrr.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 01:36:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bT1Y+mUIU7xcRwW2i9E/T7191FycwgyjFlm/K/VgOMU=;
-        b=OYFO9J3mjGCs6MFFcZSndPzFiA+vQHzzVXvTUxj4HBmUJ5kRQ5gPM3UDfZGXG7faLg
-         78M2ZGy3swqBgvAj+wzOImFTx3tQwYSwPMlr6ldBc6HqsXxyWG6kXmhBgFdLGdLh5lQN
-         kptzwdWT7omuq2QfpBpv2gRXHL3cHaUezL5Ts=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bT1Y+mUIU7xcRwW2i9E/T7191FycwgyjFlm/K/VgOMU=;
-        b=VakY4KShlAKk7+PCXSCWyQ9Tf1kKGR5SszaEeuv9n9HyM7jUY43tkuNnzE+UN8XYyx
-         3wZqMbrEmvqvsajoNBoHdrD8VYRtE9biOhWC4KUjREFKwMpcwGQYBtX6xJTslWHR3ZSl
-         PZNKIl1SO3A+w4o8/8RFDmAD4ddL5EKUltWrduwEwi9SfHcLSxAp4mao5q00xczX2Yta
-         0hILHQtQT87s+xWrGlDHap1gHZVsp9xMd1I/LyOc+o3q2a9cCoVZqqI6z0v/aQvto5BA
-         PX71iZdrdX3izP6MR5ly2adG3oEMUZM84rf73XNuEcPGPY1QyqgNF5wfx2Q7EAxmXR/p
-         mMxw==
-X-Gm-Message-State: APjAAAXTm2VGWvdupAHzJniuNzsVXBTch+wxNhW4VJKS/Nc8XAwlBDhi
-        YhJD3rzglLHSfSPquQTbMyfczg==
-X-Google-Smtp-Source: APXvYqzD1lvE95IKDrDQssMyeZZ9C20r31OpGhphgk9UjZrsqdCLFDmUk+0q2PehrX3szjsfwebOkA==
-X-Received: by 2002:a5d:4b50:: with SMTP id w16mr21313680wrs.230.1583141803047;
-        Mon, 02 Mar 2020 01:36:43 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id y12sm27388889wrw.88.2020.03.02.01.36.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 01:36:42 -0800 (PST)
-Date:   Mon, 2 Mar 2020 10:36:40 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: [PATCH 03/51] drm: add managed resources tied to drm_device
-Message-ID: <20200302093640.GC2363188@phenom.ffwll.local>
-References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
- <20200227181522.2711142-4-daniel.vetter@ffwll.ch>
- <20200228224504.GA23961@ravnborg.org>
- <CAKMK7uHPWZ=F2EyqnM7x1GpXY_SGu3e_jGXX4cg0OGyx_+C8ig@mail.gmail.com>
- <20200229111710.GB3674@ravnborg.org>
- <CAKMK7uEYxM8BAsp+DHUxw+qdE_B3J+ePAxC-j0V+v+J6trffgw@mail.gmail.com>
- <87blpfqffp.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87blpfqffp.fsf@intel.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+        id S1727497AbgCBJjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 04:39:11 -0500
+Received: from zimbra2.kalray.eu ([92.103.151.219]:37840 "EHLO
+        zimbra2.kalray.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726674AbgCBJjL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 04:39:11 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id DFC0727E0309;
+        Mon,  2 Mar 2020 10:39:08 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id OVcSk0bXJ0zi; Mon,  2 Mar 2020 10:39:08 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id 80F0327E035B;
+        Mon,  2 Mar 2020 10:39:08 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 80F0327E035B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1583141948;
+        bh=n+U0zthKoV9vrRbdzy8AknPEHik5gFzG6eQnzyz5s2k=;
+        h=From:To:Date:Message-Id;
+        b=Sc3D3SqeW7plv4WrSfNzAWIhpvFK7hxzJF36qsG0FzoYMvQythy8CoI2RrYGSAEwI
+         kPzXgmekb2/OW4tqHVkriC6nYghsufxECMDBTpHEq5leV3n4yNTHSpb68WE9xEzaK/
+         DDXYX8R6UMxh+thY5o4RzfDdS5A49m5ayjcIlWLU=
+X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id H2qCIA2D7NYT; Mon,  2 Mar 2020 10:39:08 +0100 (CET)
+Received: from triton.lin.mbt.kalray.eu (unknown [192.168.37.25])
+        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 56C0A27E0309;
+        Mon,  2 Mar 2020 10:39:08 +0100 (CET)
+From:   Clement Leger <cleger@kalray.eu>
+To:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-remoteproc@vger.kernel.org
+Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org,
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Clement Leger <cleger@kalray.eu>
+Subject: [PATCH v5 0/8] remoteproc: Add elf64 support
+Date:   Mon,  2 Mar 2020 10:38:54 +0100
+Message-Id: <20200302093902.27849-1-cleger@kalray.eu>
+X-Mailer: git-send-email 2.15.0.276.g89ea799
+In-Reply-To: <20200210162209.23149-1-cleger@kalray.eu>
+References: <20200210162209.23149-1-cleger@kalray.eu>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 02, 2020 at 11:22:34AM +0200, Jani Nikula wrote:
-> On Sat, 29 Feb 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > On Sat, Feb 29, 2020 at 12:17 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> >> > > > +     /**
-> >> > > > +      * @managed:
-> >> > > > +      *
-> >> > > > +      * Managed resources linked to the lifetime of this &drm_device as
-> >> > > > +      * tracked by @ref.
-> >> > > > +      */
-> >> > > > +     struct {
-> >> > > > +             struct list_head resources;
-> >> > > > +             void *final_kfree;
-> >> > > > +             spinlock_t lock;
-> >> > > > +     } managed;
-> >> > >
-> >> > > I am missing kernel-doc here.
-> >> > > At least document that lock is used to guard access to resources.
-> >> > > (s/lock/lock_resources/ ?)
-> >> >
-> >> > Dunno why, but the support for name sub-structures seems to have
-> >> > broken in kerneldoc. So I can type it, but it's not showing up, so I
-> >> > didn't bother. Well I had it, but deleted it again. It's still
-> >> > documented to work, but I have no idea what I'm doing wrong.
-> >>
-> >> Most readers prefer the .c files as the source.
-> >> I personally read the generated kernel doc when I google
-> >> and when I check that my own stuff looks good in kernel-doc format.
-> >> So comments are still valueable despite not being picked up by
-> >> kernel-doc.
-> >> You know this - but I just wanted to encourage you to write the few
-> >> lines that may help me and others :-)
-> >
-> > Hm I thought way back this actually worked. Again ping for Jani, he's
-> > better on top of what's happening in kernel-doc land.
-> 
-> I haven't really been all that active lately, but I think the syntax
-> here would be e.g. "@managed.resources:".
+This serie add support for elf64 in remoteproc (elf loader, coredump). 
+First three patches modifies the type of len argument (in da_to_va),
+boot_addr and rproc_mem_entry len field in order to allow loading elf64
+segment with a u64 size and a u64 entry point.
+Next patches introduce a set of macros to access elf64 and elf32
+transparently.
+Last patches are the actual modifications in the elf loader and
+remoteproc coredump support to add elf64 support.
 
-That's the one that doesn't seem to work unfortunately.
+Changes v4 -> v5:
+ - Add rproc_elf_sanity_check renaming to rproc_elf32_sanity_check
+ - Fix checkpatch warning on > 80 column line
+ - Change u64 len type for size_t in da_to_va and add checks in loader
+ - Modify rproc_mem_entry size field type from int to size_t
+ - Add a patch to override sanity_check function
 
-Adding kerneldoc people and mailing list, maybe this was intentionally
-removed somewhen ... Jon, any pointers?
--Daniel
+Changes v3 -> v4:
+ - Adapt coredump to elf64 file format
+ - Rename remoteproc_elf_loader.h to remoteproc_elf_helpers.h
+ - Update copyright year in remoteproc_elf_helpers.h
+ - Rename macros elf_hdr_* to elf_get_hdr_* for coherency with elf_hdr_set_*
+ - Split elf64 loader patch in 3:
+   - boot_addr u64 change
+   - remoteproc_elf_helpers.h creation
+   - elf64 loading
+
+Changes v2 -> v3:
+ - da_to_va len type changed from int to u64
+ - Add check for elf64 header size
+ - Add comments for name table parsing
+ - Fix typo in "accommodate
+ - Add ELF64 support in documentation
+
+Clement Leger (8):
+  remoteproc: Use size_t type for len in da_to_va
+  remoteproc: Use size_t instead of int for rproc_mem_entry len
+  remoteproc: Use u64 type for boot_addr
+  remoteproc: Add elf helpers to access elf64 and elf32 fields
+  remoteproc: Rename rproc_elf_sanity_check for elf32
+  remoteproc: Add elf64 support in elf loader
+  remoteproc: Allow overriding only sanity_check
+  remoteproc: Adapt coredump to generate correct elf type
+
+ Documentation/remoteproc.txt                |   2 +-
+ drivers/remoteproc/imx_rproc.c              |  11 +-
+ drivers/remoteproc/keystone_remoteproc.c    |   4 +-
+ drivers/remoteproc/qcom_q6v5_adsp.c         |   2 +-
+ drivers/remoteproc/qcom_q6v5_mss.c          |   2 +-
+ drivers/remoteproc/qcom_q6v5_pas.c          |   2 +-
+ drivers/remoteproc/qcom_q6v5_wcss.c         |   2 +-
+ drivers/remoteproc/qcom_wcnss.c             |   2 +-
+ drivers/remoteproc/remoteproc_core.c        |  86 +++++++------
+ drivers/remoteproc/remoteproc_debugfs.c     |   2 +-
+ drivers/remoteproc/remoteproc_elf_helpers.h |  96 ++++++++++++++
+ drivers/remoteproc/remoteproc_elf_loader.c  | 189 +++++++++++++++++++---------
+ drivers/remoteproc/remoteproc_internal.h    |  14 ++-
+ drivers/remoteproc/st_remoteproc.c          |   4 +-
+ drivers/remoteproc/st_slim_rproc.c          |   6 +-
+ drivers/remoteproc/stm32_rproc.c            |   2 +-
+ drivers/remoteproc/wkup_m3_rproc.c          |   4 +-
+ include/linux/remoteproc.h                  |  13 +-
+ 18 files changed, 317 insertions(+), 126 deletions(-)
+ create mode 100644 drivers/remoteproc/remoteproc_elf_helpers.h
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.15.0.276.g89ea799
+
