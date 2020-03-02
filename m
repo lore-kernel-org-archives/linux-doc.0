@@ -2,174 +2,202 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CEFC3F2CD
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 15:33:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 263C0C3F2D1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 15:43:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F03C7217F4
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 15:33:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=pobox.com header.i=@pobox.com header.b="JTM4hoos";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b="MNMkKznI"
+	by mail.kernel.org (Postfix) with ESMTP id 0650721D56
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 15:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727075AbgCBPdZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 10:33:25 -0500
-Received: from pb-smtp1.pobox.com ([64.147.108.70]:58160 "EHLO
-        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727032AbgCBPdZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 10:33:25 -0500
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id 9AD8B4A02C;
-        Mon,  2 Mar 2020 10:33:20 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=Vi38EUq+JMULt2NQV1KsMhxFf0c=; b=JTM4ho
-        os8ys/hV1sCL4G+Rc0Kx8QmWTzZKV01P7hyQFPMcCZzgyfOoz+0GnReg+V+JGMhD
-        xPKugKuXrgZidT1V5tVApzmfPyEbkzemOHBYwKhNyb8lsHKC2vL9+JBlQVNw9CAV
-        jPT2BbnzV7AiuY5kakQ+k4Ddqb4H/emu8tkZs=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id 90CA54A02B;
-        Mon,  2 Mar 2020 10:33:20 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=NmmE9aIpcRhBlAZU4EmzZNvY9119maGX22PMnYUwqTw=; b=MNMkKznIiwC0ytqiHqYHsAQUKLqosFYQDpcp8dbeWE6xxPoOAuGznv177QxWCdRt7Q6GnFoG3Jv9P3G6pjKKI9LHaopAAeyDbPNHdd+CsFuIdkdm4NF/M58JScx3cD+T+1SSTZzBTyxYarWeEZIb/UA3/W0SWLXKvT9I5ff/S50=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 06E674A02A;
-        Mon,  2 Mar 2020 10:33:20 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 33EC02DA0227;
-        Mon,  2 Mar 2020 10:33:19 -0500 (EST)
-Date:   Mon, 2 Mar 2020 10:33:19 -0500 (EST)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+        id S1727631AbgCBPnb convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 10:43:31 -0500
+Received: from mail-oln040092071065.outbound.protection.outlook.com ([40.92.71.65]:35899
+        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727305AbgCBPna (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Mar 2020 10:43:30 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SFt7S5IqhRMS2BtfMLmzqQ6AdzISDqFm9cmLVm7Vw2BsO4Du5ViS2uIC9LPj9H2eCpk1M2BDDDsy3p8sOJlUzu2uopzLCi9Ccm5FDSzj1nWBvd+TuPAZmmz6oLW2Wfhbx9FgrHNcBGpkQu/wQVHd8a915OdiJbHQLl0YWVvotSiZb3tPUNB3QUd27n4+9zD8PojMvQVR5DREB9D9DVRV8rIFLXQq2MYrHhWeOUP06uObwUnwszddEYRAnuwmZX/sBA37mc2PSQfK7KHd6Ujtpn3jzdhOya7T4HwUAhx7Z0u0j5Loe1OwMscrVknTpn8nzhNm/CrquOGa0qTnFzxi5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aKll1uYXY/p4lporydDRyPbyHI3XYNaz0hS7oe1Ogas=;
+ b=FsvVBSbar+IL1Rxk1F67qCrt3dvGMZ6e0kyODDP51JvdmiUd/EFDnbAovWbiqx03wB6Vjqew/cX6DJNu1XnevKaxntid6vNx/uZEgkRxCfZCzTmnGtGjArby6Td7rlQVeAetihrx8gET8lIJwXybKJ245YgXNsAPd8QyYwfZ447gZENrbKYM39FuyV1F1CuECUdgIPOCMNOrat4ZP3d9/sKOW97yCAeosCt/ts8onLtTqAbOHQOXJ+o3Unhuu5B9jDygHqrKz5R0SGhNuIWjAIMMgnyvbAHyXZ2a+6cM3q4BnsGk8idlbGNcZkLicjmfp/qvgbfws1lIOeXpW4AUbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DB5EUR03FT054.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:e400:7e0a::36) by
+ DB5EUR03HT063.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e0a::231)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15; Mon, 2 Mar
+ 2020 15:43:24 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.20.55) by
+ DB5EUR03FT054.mail.protection.outlook.com (10.152.20.248) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2772.15 via Frontend Transport; Mon, 2 Mar 2020 15:43:24 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Mon, 2 Mar 2020
+ 15:43:24 +0000
+Received: from [192.168.1.101] (92.77.140.102) by ZR0P278CA0052.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1d::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.14 via Frontend Transport; Mon, 2 Mar 2020 15:43:22 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+CC:     Jann Horn <jannh@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] kconfig: make 'imply' obey the direct dependency
-In-Reply-To: <20200302062340.21453-2-masahiroy@kernel.org>
-Message-ID: <nycvar.YSQ.7.76.2003021032000.1559@knanqh.ubzr>
-References: <20200302062340.21453-1-masahiroy@kernel.org> <20200302062340.21453-2-masahiroy@kernel.org>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCHv2] exec: Fix a deadlock in ptrace
+Thread-Topic: [PATCHv2] exec: Fix a deadlock in ptrace
+Thread-Index: AQHV8AjGwZG4WijWc0+aQpdADP+q6qg02ufjgACXoYA=
+Date:   Mon, 2 Mar 2020 15:43:24 +0000
+Message-ID: <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <CAG48ez3QHVpMJ9Rb_Q4LEE6uAqQJeS1Myu82U=fgvUfoeiscgw@mail.gmail.com>
+ <20200301185244.zkofjus6xtgkx4s3@wittgenstein>
+ <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
+ <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74zmfc9.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87a74zmfc9.fsf@x220.int.ebiederm.org>
+Accept-Language: en-US, en-GB, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: ZR0P278CA0052.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1d::21) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+x-incomingtopheadermarker: OriginalChecksum:C65645E00256BFF0EF483D4ABF04F7ED9CADCA7DA782503334C81EE275B55748;UpperCasedChecksum:B5B02A4BC8C9B6E7E3C31595013F4DCA6C0D23C66AB23D6F5B8892FBA4152BEE;SizeAsReceived:9189;Count:50
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [dyEnYHlm0P0uZkeIkkriIIvlZ6DvQ6d1]
+x-microsoft-original-message-id: <61e5cb52-cf93-3203-ad57-174abbff19af@hotmail.de>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 50
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 293008bd-2da8-4d78-0182-08d7bec0715c
+x-ms-traffictypediagnostic: DB5EUR03HT063:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8YGYe8UrOXFcm3aSssWupgEEhVcVi9JVL1E2AABGe5vjDQjaRww+7cLsEzPLfb8+6ywdEkeCyWNtByP5r9IZy43Lxrt3a+VuWVfL1b98GWRsl95OA82pgEEiMSiH7Xn4qY+h8/BAFJt/lQKR/+R2IUce2BZZCwil4w5jWmOdVe12Au0vujeQovOjjeQM6lWd
+x-ms-exchange-antispam-messagedata: nGOltsXFW+coIa96+DJIrZYklzcnSMqhRstON9t0wQZXsG8UocU/d/wvILxFg70AO2koqTfnfvn73bVCRlWMZFHiFC1bEmNsKKc8Ofucn1WWhD7Vw+pNbvhxFR0QqeYZ62u+1cOuZTpNrhEp4FVvZw==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <82B95786708D07499487862F589BAAC3@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 251BF298-5C9B-11EA-B9D9-C28CBED8090B-78420484!pb-smtp1.pobox.com
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 293008bd-2da8-4d78-0182-08d7bec0715c
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2020 15:43:24.7444
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR03HT063
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2 Mar 2020, Masahiro Yamada wrote:
+On 3/2/20 7:38 AM, Eric W. Biederman wrote:
+> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+> 
+>> This fixes a deadlock in the tracer when tracing a multi-threaded
+>> application that calls execve while more than one thread are running.
+>>
+>> I observed that when running strace on the gcc test suite, it always
+>> blocks after a while, when expect calls execve, because other threads
+>> have to be terminated.  They send ptrace events, but the strace is no
+>> longer able to respond, since it is blocked in vm_access.
+>>
+>> The deadlock is always happening when strace needs to access the
+>> tracees process mmap, while another thread in the tracee starts to
+>> execve a child process, but that cannot continue until the
+>> PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
+> 
+> I think your patch works, but I don't think to solve your case another
+> mutex is necessary.  Possibly it is justified, but I hesitate to
+> introduce yet another concept in the code.
+> 
+> Having read elsewhere in the thread that this does not solve the problem
+> Oleg has mentioned I am really hesitant to add more complexity to the
+> situation.
+> 
+> 
+> For your case there is a straight forward and local workaround.
+> 
+> When the current task is ptracing the target task don't bother with
+> cred_gaurd_mutex and ptrace_may_access in access_mm as those tests
+> have already passed.  Instead just confirm the ptrace status. AKA
+> the permission check in ptraces_access_vm.
+> 
+> I think something like this is all we need.
+> 
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index cee89229606a..b0ab98c84589 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1224,6 +1224,16 @@ struct mm_struct *mm_access(struct task_struct *task, unsigned int mode)
+>  	struct mm_struct *mm;
+>  	int err;
+>  
+> +	if (task->ptrace && (current == task->parent)) {
+> +		mm = get_task_mm(task);
+> +		if ((get_dumpable(mm) != SUID_DUMP_USER) &&
+> +		    !ptracer_capable(task, mm->user_ns)) {
+> +			mmput(mm);
+> +			mm = ERR_PTR(-EACCESS);
+> +		}
+> +		return mm;
+> +	}
+> +
+>  	err =  mutex_lock_killable(&task->signal->cred_guard_mutex);
+>  	if (err)
+>  		return ERR_PTR(err);
+> 
+> Does this solve your test case?
+> 
 
-> The 'imply' statement may create unmet direct dependency when the
-> implied symbol depends on m.
-> 
-> [Test Code]
-> 
->   config FOO
->           tristate "foo"
->           imply BAZ
-> 
->   config BAZ
->           tristate "baz"
->           depends on BAR
-> 
->   config BAR
->           def_tristate m
-> 
->   config MODULES
->           def_bool y
->           option modules
-> 
-> If you set FOO=y, BAZ is also promoted to y, which results in the
-> following .config file:
-> 
->   CONFIG_FOO=y
->   CONFIG_BAZ=y
->   CONFIG_BAR=m
->   CONFIG_MODULES=y
-> 
-> This does not meet the dependency 'BAZ depends on BAR'.
-> 
-> Unlike 'select', what is worse, Kconfig never shows the
-> 'WARNING: unmet direct dependencies detected for ...' for this case.
-> 
-> Because 'imply' is considered to be weaker than 'depends on', Kconfig
-> should take the direct dependency into account.
-> 
-> For clarification, describe this case in kconfig-language.rst too.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+I tried this with s/EACCESS/EACCES/.
 
-Acked-by: Nicolas Pitre <nico@fluxnic.net>
+The test case in this patch is not fixed, but strace does not freeze,
+at least with my setup where it did freeze repeatable.  That is
+obviously because it bypasses the cred_guard_mutex.  But all other
+process that access this file still freeze, and cannot be
+interrupted except with kill -9.
 
-> ---
-> 
->  Documentation/kbuild/kconfig-language.rst | 7 +++++--
->  scripts/kconfig/symbol.c                  | 4 +++-
->  2 files changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index d4d988aea679..68719e78ff85 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -159,11 +159,11 @@ applicable everywhere (see syntax).
->    Given the following example::
->  
->      config FOO
-> -	tristate
-> +	tristate "foo"
->  	imply BAZ
->  
->      config BAZ
-> -	tristate
-> +	tristate "baz"
->  	depends on BAR
->  
->    The following values are possible:
-> @@ -174,6 +174,9 @@ applicable everywhere (see syntax).
->  	n		y		n		N/m/y
->  	m		y		m		M/y/n
->  	y		y		y		Y/m/n
-> +	n		m		n		N/m
-> +	m		m		m		M/n
-> +	y		m		n		M/n
->  	y		n		*		N
->  	===		===		=============	==============
->  
-> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-> index b101ef3c377a..3dc81397d003 100644
-> --- a/scripts/kconfig/symbol.c
-> +++ b/scripts/kconfig/symbol.c
-> @@ -221,7 +221,7 @@ static void sym_calc_visibility(struct symbol *sym)
->  		sym_set_changed(sym);
->  	}
->  	tri = no;
-> -	if (sym->implied.expr && sym->dir_dep.tri != no)
-> +	if (sym->implied.expr)
->  		tri = expr_calc_value(sym->implied.expr);
->  	if (tri == mod && sym_get_type(sym) == S_BOOLEAN)
->  		tri = yes;
-> @@ -394,6 +394,8 @@ void sym_calc_value(struct symbol *sym)
->  				if (sym->implied.tri != no) {
->  					sym->flags |= SYMBOL_WRITE;
->  					newval.tri = EXPR_OR(newval.tri, sym->implied.tri);
-> +					newval.tri = EXPR_AND(newval.tri,
-> +							      sym->dir_dep.tri);
->  				}
->  			}
->  		calc_newval:
-> -- 
-> 2.17.1
-> 
-> 
+However that smells like a denial of service, that this
+simple test case which can be executed by guest, creates a /proc/$pid/mem
+that freezes any process, even root, when it looks at it.
+I mean: "ln -s README /proc/$pid/mem" would be a nice bomb.
+
+
+Bernd.
