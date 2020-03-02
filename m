@@ -2,317 +2,378 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 727F6C3F2D9
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 09:39:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C43C3F2D7
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 10:03:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 40B732469C
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 09:39:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kalray.eu header.i=@kalray.eu header.b="XA+y5KXx"
+	by mail.kernel.org (Postfix) with ESMTP id 7286521739
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 10:03:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727526AbgCBJjO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 04:39:14 -0500
-Received: from zimbra2.kalray.eu ([92.103.151.219]:37952 "EHLO
-        zimbra2.kalray.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727107AbgCBJjN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 04:39:13 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id DD37B27E080F;
-        Mon,  2 Mar 2020 10:39:10 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id l8JP-bNK42nl; Mon,  2 Mar 2020 10:39:10 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 3FC7727E079B;
-        Mon,  2 Mar 2020 10:39:10 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 3FC7727E079B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1583141950;
-        bh=BOhOpru18Of74fw47ZNccGiGJomWkztVNB+6BbXS6HY=;
-        h=From:To:Date:Message-Id;
-        b=XA+y5KXxRJ7eFxhlm9UvDU2NZq9O0ELJdtQT+NeIj7Afl+m1WyqGuTHd4Ii5vKUd6
-         52Y74XZSE6hoDVlWMCFzpz1j/MWKEkh2WFflGHXbcpej+WGJ3X8GV+NFGl+MZClLwP
-         RhIclI6WA+3xV4Ad3LsRiz5xLFnDUECAemVLdbSE=
-X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id g0bbFj1eC0uq; Mon,  2 Mar 2020 10:39:10 +0100 (CET)
-Received: from triton.lin.mbt.kalray.eu (unknown [192.168.37.25])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 24F3827E035B;
-        Mon,  2 Mar 2020 10:39:10 +0100 (CET)
-From:   Clement Leger <cleger@kalray.eu>
-To:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        id S1727548AbgCBKDj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 05:03:39 -0500
+Received: from smtp-42ac.mail.infomaniak.ch ([84.16.66.172]:48037 "EHLO
+        smtp-42ac.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727536AbgCBKDj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 05:03:39 -0500
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id E0D75100384F5;
+        Mon,  2 Mar 2020 11:03:35 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 48WG1X0501zlh8V6;
+        Mon,  2 Mar 2020 11:03:27 +0100 (CET)
+Subject: Re: [RFC PATCH v14 10/10] landlock: Add user and kernel documentation
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-remoteproc@vger.kernel.org
-Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
-        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Clement Leger <cleger@kalray.eu>
-Subject: [PATCH v5 1/8] remoteproc: Use size_t type for len in da_to_va
-Date:   Mon,  2 Mar 2020 10:38:55 +0100
-Message-Id: <20200302093902.27849-2-cleger@kalray.eu>
-X-Mailer: git-send-email 2.15.0.276.g89ea799
-In-Reply-To: <20200302093902.27849-1-cleger@kalray.eu>
-References: <20200210162209.23149-1-cleger@kalray.eu>
- <20200302093902.27849-1-cleger@kalray.eu>
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+References: <20200224160215.4136-1-mic@digikod.net>
+ <20200224160215.4136-11-mic@digikod.net>
+ <cc8da381-d3dc-3c0a-5afd-96824362b636@infradead.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <e22709f2-af4f-9316-d83e-b794f083595c@digikod.net>
+Date:   Mon, 2 Mar 2020 11:03:55 +0100
+User-Agent: 
+MIME-Version: 1.0
+In-Reply-To: <cc8da381-d3dc-3c0a-5afd-96824362b636@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With upcoming changes in elf loader for elf64 support, section size will
-be a u64. When used with da_to_va, this will potentially lead to
-overflow if using the current "int" type for len argument. Change
-da_to_va prototype to use a size_t for len and fix all users of this
-function.
 
-Signed-off-by: Clement Leger <cleger@kalray.eu>
----
- drivers/remoteproc/imx_rproc.c           | 11 ++++++-----
- drivers/remoteproc/keystone_remoteproc.c |  4 ++--
- drivers/remoteproc/qcom_q6v5_adsp.c      |  2 +-
- drivers/remoteproc/qcom_q6v5_mss.c       |  2 +-
- drivers/remoteproc/qcom_q6v5_pas.c       |  2 +-
- drivers/remoteproc/qcom_q6v5_wcss.c      |  2 +-
- drivers/remoteproc/qcom_wcnss.c          |  2 +-
- drivers/remoteproc/remoteproc_core.c     |  2 +-
- drivers/remoteproc/remoteproc_internal.h |  2 +-
- drivers/remoteproc/st_slim_rproc.c       |  4 ++--
- drivers/remoteproc/wkup_m3_rproc.c       |  4 ++--
- include/linux/remoteproc.h               |  2 +-
- 12 files changed, 20 insertions(+), 19 deletions(-)
+On 29/02/2020 18:23, Randy Dunlap wrote:
+> Hi,
+> Here are a few corrections for you to consider.
+> 
+> 
+> On 2/24/20 8:02 AM, Mickaël Salaün wrote:
+>> This documentation can be built with the Sphinx framework.
+>>
+>> Another location might be more appropriate, though.
+>>
+>> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+>> Reviewed-by: Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>
+>> Cc: Andy Lutomirski <luto@amacapital.net>
+>> Cc: James Morris <jmorris@namei.org>
+>> Cc: Kees Cook <keescook@chromium.org>
+>> Cc: Serge E. Hallyn <serge@hallyn.com>
+>> ---
+>>
+>> Changes since v13:
+>> * Rewrote the documentation according to the major revamp.
+>>
+>> Previous version:
+>> https://lore.kernel.org/lkml/20191104172146.30797-8-mic@digikod.net/
+>> ---
+>>  Documentation/security/index.rst           |   1 +
+>>  Documentation/security/landlock/index.rst  |  18 ++
+>>  Documentation/security/landlock/kernel.rst |  44 ++++
+>>  Documentation/security/landlock/user.rst   | 233 +++++++++++++++++++++
+>>  4 files changed, 296 insertions(+)
+>>  create mode 100644 Documentation/security/landlock/index.rst
+>>  create mode 100644 Documentation/security/landlock/kernel.rst
+>>  create mode 100644 Documentation/security/landlock/user.rst
+>>
+>> diff --git a/Documentation/security/landlock/index.rst b/Documentation/security/landlock/index.rst
+>> new file mode 100644
+>> index 000000000000..dbd33b96ce60
+>> --- /dev/null
+>> +++ b/Documentation/security/landlock/index.rst
+>> @@ -0,0 +1,18 @@
+>> +=========================================
+>> +Landlock LSM: unprivileged access control
+>> +=========================================
+>> +
+>> +:Author: Mickaël Salaün
+>> +
+>> +The goal of Landlock is to enable to restrict ambient rights (e.g.  global
+>> +filesystem access) for a set of processes.  Because Landlock is a stackable
+>> +LSM, it makes possible to create safe security sandboxes as new security layers
+>> +in addition to the existing system-wide access-controls. This kind of sandbox
+>> +is expected to help mitigate the security impact of bugs or
+>> +unexpected/malicious behaviors in user-space applications. Landlock empower any
+> 
+>                                                                        empowers
+> 
+>> +process, including unprivileged ones, to securely restrict themselves.
+>> +
+>> +.. toctree::
+>> +
+>> +    user
+>> +    kernel
+>> diff --git a/Documentation/security/landlock/kernel.rst b/Documentation/security/landlock/kernel.rst
+>> new file mode 100644
+>> index 000000000000..b87769909029
+>> --- /dev/null
+>> +++ b/Documentation/security/landlock/kernel.rst
+>> @@ -0,0 +1,44 @@
+>> +==============================
+>> +Landlock: kernel documentation
+>> +==============================
+>> +
+>> +Landlock's goal is to create scoped access-control (i.e. sandboxing).  To
+>> +harden a whole system, this feature should be available to any process,
+>> +including unprivileged ones.  Because such process may be compromised or
+>> +backdoored (i.e. untrusted), Landlock's features must be safe to use from the
+>> +kernel and other processes point of view.  Landlock's interface must therefore
+>> +expose a minimal attack surface.
+>> +
+>> +Landlock is designed to be usable by unprivileged processes while following the
+>> +system security policy enforced by other access control mechanisms (e.g. DAC,
+>> +LSM).  Indeed, a Landlock rule shall not interfere with other access-controls
+>> +enforced on the system, only add more restrictions.
+>> +
+>> +Any user can enforce Landlock rulesets on their processes.  They are merged and
+>> +evaluated according to the inherited ones in a way that ensure that only more
+> 
+>                                                            ensures
+> 
+>> +constraints can be added.
+>> +
+>> +
+>> +Guiding principles for safe access controls
+>> +===========================================
+>> +
+>> +* A Landlock rule shall be focused on access control on kernel objects instead
+>> +  of syscall filtering (i.e. syscall arguments), which is the purpose of
+>> +  seccomp-bpf.
+>> +* To avoid multiple kind of side-channel attacks (e.g. leak of security
+> 
+>                        kinds
+> 
+>> +  policies, CPU-based attacks), Landlock rules shall not be able to
+>> +  programmatically communicate with user space.
+>> +* Kernel access check shall not slow down access request from unsandboxed
+>> +  processes.
+>> +* Computation related to Landlock operations (e.g. enforce a ruleset) shall
+>> +  only impact the processes requesting them.
+>> +
+>> +
+>> +Landlock rulesets and domains
+>> +=============================
+>> +
+>> +A domain is a read-only ruleset tied to a set of subjects (i.e. tasks).  A
+>> +domain can transition to a new one which is the intersection of the constraints
+>> +from the current and a new ruleset.  The definition of a subject is implicit
+>> +for a task sandboxing itself, which makes the reasoning much easier and helps
+>> +avoid pitfalls.
+>> diff --git a/Documentation/security/landlock/user.rst b/Documentation/security/landlock/user.rst
+>> new file mode 100644
+>> index 000000000000..cbd7f61fca8c
+>> --- /dev/null
+>> +++ b/Documentation/security/landlock/user.rst
+>> @@ -0,0 +1,233 @@
+>> +=================================
+>> +Landlock: userspace documentation
+>> +=================================
+>> +
+>> +Landlock rules
+>> +==============
+>> +
+>> +A Landlock rule enables to describe an action on an object.  An object is
+>> +currently a file hierarchy, and the related filesystem actions are defined in
+>> +`Access rights`_.  A set of rules are aggregated in a ruleset, which can then
+> 
+>                                      is
+> 
+>> +restricts the thread enforcing it, and its future children.
+> 
+>    restrict
+> 
+>> +
+>> +
+>> +Defining and enforcing a security policy
+>> +----------------------------------------
+>> +
+>> +Before defining a security policy, an application should first probe for the
+>> +features supported by the running kernel, which is important to be compatible
+>> +with older kernels.  This can be done thanks to the `landlock` syscall (cf.
+>> +:ref:`syscall`).
+>> +
+>> +.. code-block:: c
+>> +
+>> +    struct landlock_attr_features attr_features;
+>> +
+>> +    if (landlock(LANDLOCK_CMD_GET_FEATURES, LANDLOCK_OPT_GET_FEATURES,
+>> +            sizeof(attr_features), &attr_features)) {
+>> +        perror("Failed to probe the Landlock supported features");
+>> +        return 1;
+>> +    }
+>> +
+>> +Then, we need to create the ruleset that will contains our rules.  For this
+> 
+>                                                  contain
+> 
+>> +example, the ruleset will contains rules which only allow read actions, but
+> 
+>                              contain
+> 
+>> +write actions will be denied.  The ruleset then needs to handle both of these
+>> +kind of actions.  To have a backward compatibility, these actions should be
+>> +ANDed with the supported ones.
+>> +
+>> +.. code-block:: c
+>> +
+>> +    int ruleset_fd;
+>> +    struct landlock_attr_ruleset ruleset = {
+>> +        .handled_access_fs =
+>> +            LANDLOCK_ACCESS_FS_READ |
+>> +            LANDLOCK_ACCESS_FS_READDIR |
+>> +            LANDLOCK_ACCESS_FS_EXECUTE |
+>> +            LANDLOCK_ACCESS_FS_WRITE |
+>> +            LANDLOCK_ACCESS_FS_TRUNCATE |
+>> +            LANDLOCK_ACCESS_FS_CHMOD |
+>> +            LANDLOCK_ACCESS_FS_CHOWN |
+>> +            LANDLOCK_ACCESS_FS_CHGRP |
+>> +            LANDLOCK_ACCESS_FS_LINK_TO |
+>> +            LANDLOCK_ACCESS_FS_RENAME_FROM |
+>> +            LANDLOCK_ACCESS_FS_RENAME_TO |
+>> +            LANDLOCK_ACCESS_FS_RMDIR |
+>> +            LANDLOCK_ACCESS_FS_UNLINK |
+>> +            LANDLOCK_ACCESS_FS_MAKE_CHAR |
+>> +            LANDLOCK_ACCESS_FS_MAKE_DIR |
+>> +            LANDLOCK_ACCESS_FS_MAKE_REG |
+>> +            LANDLOCK_ACCESS_FS_MAKE_SOCK |
+>> +            LANDLOCK_ACCESS_FS_MAKE_FIFO |
+>> +            LANDLOCK_ACCESS_FS_MAKE_BLOCK |
+>> +            LANDLOCK_ACCESS_FS_MAKE_SYM,
+>> +    };
+>> +
+>> +    ruleset.handled_access_fs &= attr_features.access_fs;
+>> +    ruleset_fd = landlock(LANDLOCK_CMD_CREATE_RULESET,
+>> +                    LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+>> +    if (ruleset_fd < 0) {
+>> +        perror("Failed to create a ruleset");
+>> +        return 1;
+>> +    }
+>> +
+>> +We can now add a new rule to this ruleset thanks to the returned file
+>> +descriptor referring to this ruleset.  The rule will only enable to read the
+>> +file hierarchy ``/usr``.  Without other rule, write actions would then be
+> 
+>                              Without other rules,
+> or
+>                              Without another rule,
+> 
+>> +denied by the ruleset.  To add ``/usr`` to the ruleset, we open it with the
+>> +``O_PATH`` flag and fill the &struct landlock_attr_path_beneath with this file
+>> +descriptor.
+>> +
+>> +.. code-block:: c
+>> +
+>> +    int err;
+>> +    struct landlock_attr_path_beneath path_beneath = {
+>> +        .ruleset_fd = ruleset_fd,
+>> +        .allowed_access =
+>> +            LANDLOCK_ACCESS_FS_READ |
+>> +            LANDLOCK_ACCESS_FS_READDIR |
+>> +            LANDLOCK_ACCESS_FS_EXECUTE,
+>> +    };
+>> +
+>> +    path_beneath.allowed_access &= attr_features.access_fs;
+>> +    path_beneath.parent_fd = open("/usr", O_PATH | O_CLOEXEC);
+>> +    if (path_beneath.parent_fd < 0) {
+>> +        perror("Failed to open file");
+>> +        close(ruleset_fd);
+>> +        return 1;
+>> +    }
+>> +    err = landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+>> +            sizeof(path_beneath), &path_beneath);
+>> +    close(path_beneath.parent_fd);
+>> +    if (err) {
+>> +        perror("Failed to update ruleset");
+>> +        close(ruleset_fd);
+>> +        return 1;
+>> +    }
+>> +
+>> +We now have a ruleset with one rule allowing read access to ``/usr`` while
+>> +denying all accesses featured in ``attr_features.access_fs`` to everything else
+>> +on the filesystem.  The next step is to restrict the current thread from
+>> +gaining more privileges (e.g. thanks to a SUID binary).
+>> +
+>> +.. code-block:: c
+>> +
+>> +    if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)) {
+>> +        perror("Failed to restrict privileges");
+>> +        close(ruleset_fd);
+>> +        return 1;
+>> +    }
+>> +
+>> +The current thread is now ready to sandbox itself with the ruleset.
+>> +
+>> +.. code-block:: c
+>> +
+>> +    struct landlock_attr_enforce attr_enforce = {
+>> +        .ruleset_fd = ruleset_fd,
+>> +    };
+>> +
+>> +    if (landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
+>> +            sizeof(attr_enforce), &attr_enforce)) {
+>> +        perror("Failed to enforce ruleset");
+>> +        close(ruleset_fd);
+>> +        return 1;
+>> +    }
+>> +    close(ruleset_fd);
+>> +
+>> +If this last system call succeeds, the current thread is now restricted and
+> 
+>    If this last landlock system call succeeds,
+> 
+> [because close() is the last system call]
+> 
+>> +this policy will be enforced on all its subsequently created children as well.
+>> +Once a thread is landlocked, there is no way to remove its security policy,
+> 
+>                                                    preferably:         policy;
+> 
+>> +only adding more restrictions is allowed.  These threads are now in a new
+>> +Landlock domain, merge of their parent one (if any) with the new ruleset.
+>> +
+>> +A full working code can be found in `samples/landlock/sandboxer.c`_.
+> 
+>    Full working code
+> 
+>> +
+>> +
+>> +Inheritance
+>> +-----------
+>> +
+>> +Every new thread resulting from a :manpage:`clone(2)` inherits Landlock program
+>> +restrictions from its parent.  This is similar to the seccomp inheritance (cf.
+>> +:doc:`/userspace-api/seccomp_filter`) or any other LSM dealing with task's
+>> +:manpage:`credentials(7)`.  For instance, one process' thread may apply
+> 
+>                                                  process's
+> 
+>> +Landlock rules to itself, but they will not be automatically applied to other
+>> +sibling threads (unlike POSIX thread credential changes, cf.
+>> +:manpage:`nptl(7)`).
+> 
+> [snip]
+> 
+> thanks for the documentation.
+> 
 
-diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
-index 3e72b6f38d4b..8957ed271d20 100644
---- a/drivers/remoteproc/imx_rproc.c
-+++ b/drivers/remoteproc/imx_rproc.c
-@@ -186,7 +186,7 @@ static int imx_rproc_stop(struct rproc *rproc)
- }
- 
- static int imx_rproc_da_to_sys(struct imx_rproc *priv, u64 da,
--			       int len, u64 *sys)
-+			       size_t len, u64 *sys)
- {
- 	const struct imx_rproc_dcfg *dcfg = priv->dcfg;
- 	int i;
-@@ -203,19 +203,19 @@ static int imx_rproc_da_to_sys(struct imx_rproc *priv, u64 da,
- 		}
- 	}
- 
--	dev_warn(priv->dev, "Translation failed: da = 0x%llx len = 0x%x\n",
-+	dev_warn(priv->dev, "Translation failed: da = 0x%llx len = 0x%zx\n",
- 		 da, len);
- 	return -ENOENT;
- }
- 
--static void *imx_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
-+static void *imx_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct imx_rproc *priv = rproc->priv;
- 	void *va = NULL;
- 	u64 sys;
- 	int i;
- 
--	if (len <= 0)
-+	if (len == 0)
- 		return NULL;
- 
- 	/*
-@@ -235,7 +235,8 @@ static void *imx_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
- 		}
- 	}
- 
--	dev_dbg(&rproc->dev, "da = 0x%llx len = 0x%x va = 0x%p\n", da, len, va);
-+	dev_dbg(&rproc->dev, "da = 0x%llx len = 0x%zx va = 0x%p\n",
-+		da, len, va);
- 
- 	return va;
- }
-diff --git a/drivers/remoteproc/keystone_remoteproc.c b/drivers/remoteproc/keystone_remoteproc.c
-index 5c4658f00b3d..cd266163a65f 100644
---- a/drivers/remoteproc/keystone_remoteproc.c
-+++ b/drivers/remoteproc/keystone_remoteproc.c
-@@ -246,7 +246,7 @@ static void keystone_rproc_kick(struct rproc *rproc, int vqid)
-  * can be used either by the remoteproc core for loading (when using kernel
-  * remoteproc loader), or by any rpmsg bus drivers.
-  */
--static void *keystone_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
-+static void *keystone_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct keystone_rproc *ksproc = rproc->priv;
- 	void __iomem *va = NULL;
-@@ -255,7 +255,7 @@ static void *keystone_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
- 	size_t size;
- 	int i;
- 
--	if (len <= 0)
-+	if (len == 0)
- 		return NULL;
- 
- 	for (i = 0; i < ksproc->num_mems; i++) {
-diff --git a/drivers/remoteproc/qcom_q6v5_adsp.c b/drivers/remoteproc/qcom_q6v5_adsp.c
-index e953886b2eb7..2b01f2282062 100644
---- a/drivers/remoteproc/qcom_q6v5_adsp.c
-+++ b/drivers/remoteproc/qcom_q6v5_adsp.c
-@@ -270,7 +270,7 @@ static int adsp_stop(struct rproc *rproc)
- 	return ret;
- }
- 
--static void *adsp_da_to_va(struct rproc *rproc, u64 da, int len)
-+static void *adsp_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct qcom_adsp *adsp = (struct qcom_adsp *)rproc->priv;
- 	int offset;
-diff --git a/drivers/remoteproc/qcom_q6v5_mss.c b/drivers/remoteproc/qcom_q6v5_mss.c
-index 471128a2e723..3401a17f8ce6 100644
---- a/drivers/remoteproc/qcom_q6v5_mss.c
-+++ b/drivers/remoteproc/qcom_q6v5_mss.c
-@@ -1148,7 +1148,7 @@ static int q6v5_stop(struct rproc *rproc)
- 	return 0;
- }
- 
--static void *q6v5_da_to_va(struct rproc *rproc, u64 da, int len)
-+static void *q6v5_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct q6v5 *qproc = rproc->priv;
- 	int offset;
-diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
-index db4b3c4bacd7..4e89d04673a4 100644
---- a/drivers/remoteproc/qcom_q6v5_pas.c
-+++ b/drivers/remoteproc/qcom_q6v5_pas.c
-@@ -159,7 +159,7 @@ static int adsp_stop(struct rproc *rproc)
- 	return ret;
- }
- 
--static void *adsp_da_to_va(struct rproc *rproc, u64 da, int len)
-+static void *adsp_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct qcom_adsp *adsp = (struct qcom_adsp *)rproc->priv;
- 	int offset;
-diff --git a/drivers/remoteproc/qcom_q6v5_wcss.c b/drivers/remoteproc/qcom_q6v5_wcss.c
-index f93e1e4a1cc0..f1924b740a10 100644
---- a/drivers/remoteproc/qcom_q6v5_wcss.c
-+++ b/drivers/remoteproc/qcom_q6v5_wcss.c
-@@ -406,7 +406,7 @@ static int q6v5_wcss_stop(struct rproc *rproc)
- 	return 0;
- }
- 
--static void *q6v5_wcss_da_to_va(struct rproc *rproc, u64 da, int len)
-+static void *q6v5_wcss_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct q6v5_wcss *wcss = rproc->priv;
- 	int offset;
-diff --git a/drivers/remoteproc/qcom_wcnss.c b/drivers/remoteproc/qcom_wcnss.c
-index dc135754bb9c..0c7afd038f0d 100644
---- a/drivers/remoteproc/qcom_wcnss.c
-+++ b/drivers/remoteproc/qcom_wcnss.c
-@@ -287,7 +287,7 @@ static int wcnss_stop(struct rproc *rproc)
- 	return ret;
- }
- 
--static void *wcnss_da_to_va(struct rproc *rproc, u64 da, int len)
-+static void *wcnss_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct qcom_wcnss *wcnss = (struct qcom_wcnss *)rproc->priv;
- 	int offset;
-diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-index 307df98347ba..5ab094fc1b55 100644
---- a/drivers/remoteproc/remoteproc_core.c
-+++ b/drivers/remoteproc/remoteproc_core.c
-@@ -185,7 +185,7 @@ EXPORT_SYMBOL(rproc_va_to_pa);
-  * here the output of the DMA API for the carveouts, which should be more
-  * correct.
-  */
--void *rproc_da_to_va(struct rproc *rproc, u64 da, int len)
-+void *rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct rproc_mem_entry *carveout;
- 	void *ptr = NULL;
-diff --git a/drivers/remoteproc/remoteproc_internal.h b/drivers/remoteproc/remoteproc_internal.h
-index 493ef9262411..58580210575c 100644
---- a/drivers/remoteproc/remoteproc_internal.h
-+++ b/drivers/remoteproc/remoteproc_internal.h
-@@ -50,7 +50,7 @@ void rproc_exit_sysfs(void);
- void rproc_free_vring(struct rproc_vring *rvring);
- int rproc_alloc_vring(struct rproc_vdev *rvdev, int i);
- 
--void *rproc_da_to_va(struct rproc *rproc, u64 da, int len);
-+void *rproc_da_to_va(struct rproc *rproc, u64 da, size_t len);
- phys_addr_t rproc_va_to_pa(void *cpu_addr);
- int rproc_trigger_recovery(struct rproc *rproc);
- 
-diff --git a/drivers/remoteproc/st_slim_rproc.c b/drivers/remoteproc/st_slim_rproc.c
-index 04492fead3c8..09bcb4d8b9e0 100644
---- a/drivers/remoteproc/st_slim_rproc.c
-+++ b/drivers/remoteproc/st_slim_rproc.c
-@@ -174,7 +174,7 @@ static int slim_rproc_stop(struct rproc *rproc)
- 	return 0;
- }
- 
--static void *slim_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
-+static void *slim_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct st_slim_rproc *slim_rproc = rproc->priv;
- 	void *va = NULL;
-@@ -191,7 +191,7 @@ static void *slim_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
- 		}
- 	}
- 
--	dev_dbg(&rproc->dev, "da = 0x%llx len = 0x%x va = 0x%pK\n",
-+	dev_dbg(&rproc->dev, "da = 0x%llx len = 0x%zx va = 0x%pK\n",
- 		da, len, va);
- 
- 	return va;
-diff --git a/drivers/remoteproc/wkup_m3_rproc.c b/drivers/remoteproc/wkup_m3_rproc.c
-index 3984e585c847..b9349d684258 100644
---- a/drivers/remoteproc/wkup_m3_rproc.c
-+++ b/drivers/remoteproc/wkup_m3_rproc.c
-@@ -80,14 +80,14 @@ static int wkup_m3_rproc_stop(struct rproc *rproc)
- 	return 0;
- }
- 
--static void *wkup_m3_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
-+static void *wkup_m3_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
- {
- 	struct wkup_m3_rproc *wkupm3 = rproc->priv;
- 	void *va = NULL;
- 	int i;
- 	u32 offset;
- 
--	if (len <= 0)
-+	if (len == 0)
- 		return NULL;
- 
- 	for (i = 0; i < WKUPM3_MEM_MAX; i++) {
-diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
-index 16ad66683ad0..89215798eaea 100644
---- a/include/linux/remoteproc.h
-+++ b/include/linux/remoteproc.h
-@@ -374,7 +374,7 @@ struct rproc_ops {
- 	int (*start)(struct rproc *rproc);
- 	int (*stop)(struct rproc *rproc);
- 	void (*kick)(struct rproc *rproc, int vqid);
--	void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
-+	void * (*da_to_va)(struct rproc *rproc, u64 da, size_t len);
- 	int (*parse_fw)(struct rproc *rproc, const struct firmware *fw);
- 	int (*handle_rsc)(struct rproc *rproc, u32 rsc_type, void *rsc,
- 			  int offset, int avail);
--- 
-2.15.0.276.g89ea799
-
+Done. Thanks for this attentive review!
