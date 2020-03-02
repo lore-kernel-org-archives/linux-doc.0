@@ -2,62 +2,57 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDA6C3F2D4
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:38:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4771C3F2D6
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:38:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 33001246B6
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:38:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87C98246A1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:38:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583134721;
-	bh=T8vFYILzC45eCW4Wh3WxrKNUOWDY4EPays1rr51QIiU=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=WIMCO+IBbZY6Dlr/xrNdp/iJ9W6fSpy2pJWZj4iOI6dJjAzd402EoMROcSHqiminj
-	 0skkOJgkSRbWZ5URFHptIhifm08Rnjyeb1m40gG95kHbpkhIti447NRVfd9dprAZik
-	 +/+A6G6y/Nt4VvtF9nwhmXwxAkgr9lh9SwXtMrGQ=
+	s=default; t=1583134722;
+	bh=4eNStRkuUGNNVk6etOXpQBq5Qk+WOYvFVm7Jt3wI6kw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=GszHNUESmibJQtOwTSvsJFyp9qcGNcaXV02ntO939zj5UQy4ERHfd9j8NWSjmQrsY
+	 txACnuZ3WQCI1P0TKDJUlQEGwNMouuCzmn6XSqsR3jSfRZDtvNLHt1SUSoRwKi2zM5
+	 IP1zEcptUR1GNT0O01TUbWJFt57JVaO1wr5dWEn4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727054AbgCBHiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727027AbgCBHiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 2 Mar 2020 02:38:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44750 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:44752 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726728AbgCBHiQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726874AbgCBHiQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 2 Mar 2020 02:38:16 -0500
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 75907246C3;
+        by mail.kernel.org (Postfix) with ESMTPSA id 73812246C2;
         Mon,  2 Mar 2020 07:38:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583134694;
-        bh=T8vFYILzC45eCW4Wh3WxrKNUOWDY4EPays1rr51QIiU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=wzERUhC5bF+eOidCDFaJu9O4eO82gm15t2C5lmq0HYjReq3+oK2NBuEGyERqazTar
-         +CorwDJFnpmzkcHGkjXl42afKcuAwl48VntNy7JTAB7XnzL8p85eCpZWmaHxw8Xf3T
-         hYlyhvPZnC4zd4uIEAgzMO78fnMi0DLB+1CtA7aA=
+        bh=4eNStRkuUGNNVk6etOXpQBq5Qk+WOYvFVm7Jt3wI6kw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=f0c995f+hbAfvxnVZ2D7JqheOs8Lvlvc75bZudFN5q/3sBDxrKXFbql0QVEGExBrr
+         nDZAj1V1RLdJm816GhGh3UUAFXxIv+YIJvPjGIifvC+ZjT51j5tMawIUlvXvQFduGI
+         R7ODty7X0xtKYzYjA1ARyLJJfDqfOC5DSXmQhNYc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1j8feV-0003VO-OT; Mon, 02 Mar 2020 08:38:11 +0100
+        id 1j8feV-0003Vi-TS; Mon, 02 Mar 2020 08:38:11 +0100
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Andy Whitcroft <apw@canonical.com>, devicetree@vger.kernel.org,
-        Harry Wei <harryxiyou@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Joe Perches <joe@perches.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 00/12] Convert some DT documentation files to ReST
-Date:   Mon,  2 Mar 2020 08:37:55 +0100
-Message-Id: <cover.1583134242.git.mchehab+samsung@kernel.org>
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: [PATCH 05/12] docs: dt: convert changesets to ReST
+Date:   Mon,  2 Mar 2020 08:38:00 +0100
+Message-Id: <b03ed74ccc14d1a9710702fda9b9a6d7d0a7d136.1583134242.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <cover.1583134242.git.mchehab+samsung@kernel.org>
+References: <cover.1583134242.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -65,73 +60,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While most of the devicetree stuff has its own format (with is now being
-converted to YAML format), some documents there are actually
-describing the DT concepts and how to contribute to it.
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-IMHO, those documents would fit perfectly as part of the documentation
-body, as part of the firmare documents set.
+- Add a SPDX header;
+- Add a document title;
+- Some whitespace fixes and new line breaks;
+- Add it to devicetree/index.rst.
 
-This patch series manually converts some DT documents that, on my
-opinion, would belong to it.
-
-If you want to see how this would show at the documentation body,
-a sneak peak of this series (together with the other pending
-doc patches from me) is available at:
-
-	https://www.infradead.org/~mchehab/kernel_docs/devicetree/index.html
-
-Mauro Carvalho Chehab (12):
-  docs: dt: add an index.rst file for devicetree
-  docs: dt: convert usage-model.txt to ReST
-  docs: dt: usage_model.rst: fix link for DT usage
-  docs: dt: convert booting-without-of.txt to ReST format
-  docs: dt: convert changesets to ReST
-  docs: dt: convert dynamic-resolution-notes.txt to ReST
-  docs: dt: convert of_unittest.txt to ReST
-  docs: dt: convert overlay-notes.txt to ReST format
-  docs: dt: minor adjustments at writing-schema.rst
-  docs: dt: convert ABI.txt to ReST format
-  docs: dt: convert submitting-patches.txt to ReST format
-  docs: dt: convert writing-bindings.txt to ReST
-
- Documentation/arm/booting.rst                 |   2 +-
- Documentation/arm/microchip.rst               |   2 +-
- .../devicetree/bindings/{ABI.txt => ABI.rst}  |   5 +-
- .../devicetree/bindings/arm/amlogic.yaml      |   2 +-
- .../devicetree/bindings/arm/syna.txt          |   2 +-
- Documentation/devicetree/bindings/index.rst   |  12 +
- ...ing-patches.txt => submitting-patches.rst} |  12 +-
- ...ting-bindings.txt => writing-bindings.rst} |   9 +-
- ...-without-of.txt => booting-without-of.rst} | 299 ++++++++++--------
- .../{changesets.txt => changesets.rst}        |  24 +-
- ...notes.txt => dynamic-resolution-notes.rst} |   5 +-
- Documentation/devicetree/index.rst            |  18 ++
- .../{of_unittest.txt => of_unittest.rst}      | 186 +++++------
- .../{overlay-notes.txt => overlay-notes.rst}  | 143 +++++----
- .../{usage-model.txt => usage-model.rst}      |  35 +-
- Documentation/devicetree/writing-schema.rst   |   9 +-
- Documentation/index.rst                       |   3 +
- Documentation/process/submitting-patches.rst  |   2 +-
- .../it_IT/process/submitting-patches.rst      |   2 +-
- Documentation/translations/zh_CN/arm/Booting  |   2 +-
- MAINTAINERS                                   |   4 +-
- include/linux/mfd/core.h                      |   2 +-
- scripts/checkpatch.pl                         |   2 +-
- 23 files changed, 446 insertions(+), 336 deletions(-)
- rename Documentation/devicetree/bindings/{ABI.txt => ABI.rst} (94%)
- create mode 100644 Documentation/devicetree/bindings/index.rst
- rename Documentation/devicetree/bindings/{submitting-patches.txt => submitting-patches.rst} (92%)
- rename Documentation/devicetree/bindings/{writing-bindings.txt => writing-bindings.rst} (89%)
- rename Documentation/devicetree/{booting-without-of.txt => booting-without-of.rst} (90%)
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ .../{changesets.txt => changesets.rst}        | 24 ++++++++++++-------
+ Documentation/devicetree/index.rst            |  1 +
+ 2 files changed, 16 insertions(+), 9 deletions(-)
  rename Documentation/devicetree/{changesets.txt => changesets.rst} (59%)
- rename Documentation/devicetree/{dynamic-resolution-notes.txt => dynamic-resolution-notes.rst} (90%)
- create mode 100644 Documentation/devicetree/index.rst
- rename Documentation/devicetree/{of_unittest.txt => of_unittest.rst} (54%)
- rename Documentation/devicetree/{overlay-notes.txt => overlay-notes.rst} (56%)
- rename Documentation/devicetree/{usage-model.txt => usage-model.rst} (97%)
 
+diff --git a/Documentation/devicetree/changesets.txt b/Documentation/devicetree/changesets.rst
+similarity index 59%
+rename from Documentation/devicetree/changesets.txt
+rename to Documentation/devicetree/changesets.rst
+index cb488eeb6353..c7fd8cd6a270 100644
+--- a/Documentation/devicetree/changesets.txt
++++ b/Documentation/devicetree/changesets.rst
+@@ -1,3 +1,9 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=============
++DT Changesets
++=============
++
+ A DT changeset is a method which allows one to apply changes
+ in the live tree in such a way that either the full set of changes
+ will be applied, or none of them will be. If an error occurs partway
+@@ -15,17 +21,17 @@ The sequence of a changeset is as follows.
+ 1. of_changeset_init() - initializes a changeset
+ 
+ 2. A number of DT tree change calls, of_changeset_attach_node(),
+-of_changeset_detach_node(), of_changeset_add_property(),
+-of_changeset_remove_property, of_changeset_update_property() to prepare
+-a set of changes. No changes to the active tree are made at this point.
+-All the change operations are recorded in the of_changeset 'entries'
+-list.
++   of_changeset_detach_node(), of_changeset_add_property(),
++   of_changeset_remove_property, of_changeset_update_property() to prepare
++   a set of changes. No changes to the active tree are made at this point.
++   All the change operations are recorded in the of_changeset 'entries'
++   list.
+ 
+ 3. of_changeset_apply() - Apply the changes to the tree. Either the
+-entire changeset will get applied, or if there is an error the tree will
+-be restored to the previous state. The core ensures proper serialization
+-through locking. An unlocked version __of_changeset_apply is available,
+-if needed.
++   entire changeset will get applied, or if there is an error the tree will
++   be restored to the previous state. The core ensures proper serialization
++   through locking. An unlocked version __of_changeset_apply is available,
++   if needed.
+ 
+ If a successfully applied changeset needs to be removed, it can be done
+ with of_changeset_revert().
+diff --git a/Documentation/devicetree/index.rst b/Documentation/devicetree/index.rst
+index 6b4daf252375..64c78c3ffea6 100644
+--- a/Documentation/devicetree/index.rst
++++ b/Documentation/devicetree/index.rst
+@@ -10,3 +10,4 @@ Open Firmware and Device Tree
+    usage-model
+    writing-schema
+    booting-without-of
++   changesets
 -- 
 2.21.1
-
 
