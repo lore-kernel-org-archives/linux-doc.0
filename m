@@ -7,42 +7,38 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4888C3F2D2
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:24:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB83BC3F2D2
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:34:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6C507246B4
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:24:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AC27246A1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:34:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="SnZZ+hJq"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="I3rgxrHr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727095AbgCBIYZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 03:24:25 -0500
-Received: from mout.web.de ([212.227.17.12]:41785 "EHLO mout.web.de"
+        id S1726426AbgCBIeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 03:34:24 -0500
+Received: from mout.web.de ([212.227.17.12]:40211 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726887AbgCBIYZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Mar 2020 03:24:25 -0500
+        id S1727103AbgCBIeX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Mar 2020 03:34:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1583137418;
-        bh=oOwZ5yNHNAxH4ADQa6ZEfz/xm5NK1m0TwLEgpPwX9jM=;
+        s=dbaedf251592; t=1583138027;
+        bh=sNuTtTRgid97y9KJf3LKxvOS2DrmVQecTFQXgfpkGTk=;
         h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=SnZZ+hJq+gJJIbCTFQUopz2NfIETURMzSRHoTC8Uf2hyv2TJIJnTB0iGjFoXEDBLD
-         3UQlx8lP//seFRTl0oBx8LfEJ+OQzsi8IIzjbWuIKW7JeRlQ8RBXEan3aOazV9o0Ls
-         Bws75PCh2MvS2HbIsCDcm9j1bUwp9ip2tqwjYg9E=
+        b=I3rgxrHrBVwMrzmsMm+zDRYwxh4SysFWydQyen7A1dZoxiljMvAkqok9IYyuLMkSj
+         Xbkh+ctvm8ecpZEYWCutc8iI7XHI4FMrlYBRGlB9KE8gCNzsUXlZ84hdWg42uDY3ch
+         qniZDs0GPfw7/nirrzn5b/hEb4PTgH+BUKYAEKs8=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
 Received: from [192.168.1.2] ([93.133.91.182]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MAvCS-1jGQ8c1ugW-00A1pt; Mon, 02
- Mar 2020 09:23:38 +0100
-Subject: Re: [v2] Documentation: bootconfig: Update boot configuration
- documentation
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MOzwh-1j41gy1XyJ-006P90; Mon, 02
+ Mar 2020 09:33:47 +0100
+Subject: Re: [v3 0/1] Documentation: bootconfig: Documentation updates
 To:     Masami Hiramatsu <mhiramat@kernel.org>, linux-doc@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <158287861133.18632.12035327305997207220.stgit@devnote2>
- <158287862131.18632.11822701514141299400.stgit@devnote2>
- <972ba3a8-9dd7-e043-d2f0-8fa8620686f7@infradead.org>
- <20200302155247.93558d4865a8bcd160ef39e5@kernel.org>
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org
+References: <158313621831.3082.9886161529613724376.stgit@devnote2>
 From:   Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -87,51 +83,47 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <5db1431a-7854-6837-4922-214c094e03aa@web.de>
-Date:   Mon, 2 Mar 2020 09:23:29 +0100
+Message-ID: <98580aa5-e28a-085e-238a-9e9046b1e32e@web.de>
+Date:   Mon, 2 Mar 2020 09:33:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200302155247.93558d4865a8bcd160ef39e5@kernel.org>
+In-Reply-To: <158313621831.3082.9886161529613724376.stgit@devnote2>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:N4P7BCyjZtkHyOWM5mUveUfESBrn1sDMVnXFHjwwTnUZ7qhJ9a3
- VNUA+B5BcnzxCFUu4U8Dv7b3BGr+rkiizJD2aI9OwJp3IhWQb3f9mk+MTYhAFahThYmN8PZ
- UjWFN6iEg9yHY71p8GDKABv0mNvBCnekWbJbiLfJtDjYhM/V5B4pCsHLmwJxWrGj+i6Xl8J
- A1ApD4/8tcESmq546ujyw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Sg/GReKFBAU=:KKlUE3s3Tzk5zNbPTzRpyh
- +N+E8YRwKtyDmJGyDjpKnn3GaRv/lQ+HyLy0pPqwAqMDUolkq9vXZpsdOMpz2zzO5s/rh+UmY
- Oh5iTsq2Z+ICjwAzMj4MlGjPB2XrNLbNO3NvVGqQhVVdcy7zEAXEATZAa70Rku1REge26S8mn
- +0mHdo5ZT8N1paZbVlOJ1z2qJcBOvx76vnPCXbdbfolFcynytSWdCqtR3TjDtKBwB5wKvZq+G
- Fuc3WhWsbDtA557A/EHL1MJEIuR9dTJ13Gg2OjVZr/l96aR/DJ1BbgDmLKEBDJKOfM7mtuhQ/
- bVNMj+4C828UbZjrZxSl5CW6P/s2ynqZLuc8H7mHTx+riQK1hmE9a98UBtvDYp0ySP5t7KKav
- 7dDjchnvmcw+GnkpxayM3mz6smyORPyAgyapDqSs5yAbVpcXCev251DRlyVtoUktbUNGpUJGd
- xfht2D/xvkTpxEwMctjQUYuWRSRkZ2v7WkjZLmB6GfdLF8hLWv/cWax7/mF9GOnQ7YXSX8LEX
- RFF41NIJbYXz8Z1EImbDiXVMR725XloFLPu9J78GuElWmd6P5XddWzuQc2olPWGLvIoq9a7II
- gzn3JZ9eRtcSSKIm0vJGNmtaNvHZcVUpWclGtxTkkJ0vTyC9dmTULesYv146vEx2rccnihCVd
- zs7xQFbtQlUuGabzfO3AgSpF+o9RYm0/sFYsYUJuHO7Xka4PEkfGXoLeTV7CBYfEPJ0ne2QAj
- lHOBT+JCxTa9QxSWdCIV4rEMcEfasCgRY3ZS7WSaeuv6vjnQaPzvVCumNv57mxWhN3N1y2hZp
- 0JPdzXaeHOEYd0sy1DYwRQJYuFft9hczLJkRbr2fDuo8+63EjuvvoQG2lIi9n5dPkJV2pEo1E
- xVZGesfla5GCpf5W/zqIsdoIJ3NPTfAk66YUZr6bTPr12ry1bTy4zbhTB7SmPI7PT3kUobw20
- gQUWxcR1oEVlvqEhglyRAvpdsWnJisqm+Zt2w1KINqxDAiCcPKWiX4jqqtJ/qx3pPHAWkJs9w
- Yg4WLTAOZUbyVK16eVTIFNIZ9pTTC9+g6VRBZTKi52twhss1vusuEehN427z7AoGCnO0ws6Ol
- FO/wDTFtt0CHX32GUsEfWKm2eitsoVQgSpHSrHRQuzQD+rOOQGWYF6dASqKvATl/xqk7GpC+s
- 2SW0zzbQpL2weV+vIE58euTU6oVtGWcu8ceYTf+xKUxbREv7SyKMV9cgpIxobJINNIiuh1QU9
- uoqSuc+n7z5zm/KCz
+X-Provags-ID: V03:K1:f1jpeUa3a9Vov5UttgPR7jtCBkBeIUKs464OtpldBKtWqhHA+om
+ FMCtC80MfagcPZirDKtOvinj+AFR+594J937UZ/bWYTg9gVIcq3dawFER4ZOE+sBq1rTHXS
+ TFTmKHIKSYE+fhhJ4bXMPSC1wpnl7skX+ikRfGqQqfDx0SgHAdQjB3UMzLDOmasuYbNGHPI
+ ujLJrxnpCyiXgCRffLU2Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SnShIVpZTDc=:wFFEJbvdmsxLHi/DN9bQ1X
+ 6Hae69SUuQ7l2PPJShDph/OXUfmVrzlenF4oVGDKS3tAllVrnzaAdZUSQwq/KPF2mjPjDCdYa
+ APz8i+PiKZrApbnEr5M6QnuDrVZMvhDZiYpAgafpgFGivjwDtYOVRjBP4EhcPTh88R5Z5Dxb2
+ vo41N0VZYUOiohuryuOnQ4Bo4wxjqDASXB3pOKZZejC/SVRXGUEPvqM3tpxPT7gq4NKyIAXc0
+ sKhSmpj0uEdVfOx+H/bt4F5qkaDyRC/Zs864PGZ168vXZdd0YQAXI0e3vxuKnsrS/HzoU/AT1
+ +1XSw2Fk1K9mVtw+q3kpfMBgpvj89P9qtKTCEm3Un6NY6E0tI2Q4xbP775jDZ0HtgWmc657QJ
+ ErZxOhn1Xg5Z3jo8lzZPxyxFx9X19dIP5nhs9ihuXh9QrrBlvnYwzPlJBbkEWB/bLkX77VN92
+ ZKSKuloIkwjvLlf5b7VbiyJGD+iqXXecYLeGV1pXNW1toU/PwqcGDmSd6Rn83+YM/IP4A6xBp
+ HXT/BLdpmA5rf9U9XhXgyevpI/u8JQfAnJCWk12KfzLVwgTQqVgcmOpj0CV7yGxfb79rOn4HE
+ gU3A5g6cSXJa7FRQFOlvR7xHBmeiSW7jfDlurhKu+GzEcqHmjDTtApgBmjb5ukXJ/NmGgnJb2
+ ld+2uBL1MtkrAq12hgYL6uzT3Tjm7lJSEewM906Tdk1qCXuUNw9R+nzMt6E5Akh4er19GNErF
+ 6mLN4pMpZ/o6CF42Nxxh3EiErPY7Q85qLh8u8lx2rXoOe064LrXcAJWvVetRCB0kYwq5b7k0C
+ Wmr5wW3aWcay/Uemiqdeenjkn9mp2+xSGqcBpqtg9u2kR/eWDeBHvLNTB0IZPdu9y/OA6XfQV
+ bdK1c03Lqt955tHbB9df6c3l8XD3PdRAy+q1u0B+a2A3awGdxg0ooEDmbt2WILtEJ6SXu081H
+ OeNsnwpuPT1anmar8gLEo0XcGkqraq2KfgNiJv8sPWDmhaGe4kD1d4OXEuk4Fd43HSLw4O2Mb
+ wh0dzwnH3y2uVIZSYjj0+YBQGY+PZXgQa/9sHGDpi2UvVQhOhGzRkqP78TlvdZl1yzbVF73lY
+ oYlPKKiZrjKLAZugf+xkE/0W0jZAqoIjwgBn7SBkA1Jnfsz88q6vx9G19Z+DSag7YxCiGDEYt
+ XFbix2RHHxOTJD7JGUeLGFG8cO9fb/irwn4BAK0SiOveauZT1MXQr2I6Sr8M99SyvPCLirM6r
+ NE6MCWaC2rbpS248S
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Ah, I got it. The last sentence is confusing. How about below?
->
-> "If you want to use the boot-time tracer, you need to use the boot confi=
-guration."
+> Here is the 3rd version of the documentation update.
 
-Can any tracing parameters be specified in the boot command line already?
-
-How many settings will fit into the discussed places?
+I suggest to omit a cover letter for such information
+(according to a single patch).
+The repetition of a typo would be also avoided then.
 
 Regards,
 Markus
