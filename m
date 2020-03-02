@@ -7,47 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94EFDC3F2D1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:19:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CBCEC3F2D4
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:19:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 67716246B4
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:19:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1716246B9
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:19:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583137159;
-	bh=2McQRtYZ+HSM4VsIstHnjM6JtSpkSFvG8RiBiZEorzw=;
+	s=default; t=1583137165;
+	bh=IfRS/R6H+Szpiwi72smGycLsGnORNH/i9azDqozRPuI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=B6DhHAREL1G3v4ujcbTiIUPCoNkJFfcEm7KSxyiazf98UUEeqpglTAwO/1IvqYwK8
-	 wrQQgn0Z9TtqtOjOwo5A4JZIKZA2dPW0dgwUNSs7SPaQtRsNY7IVa0IPyDhHVCQbI5
-	 1VOvF2Ij6zOyNpLnyXbX3jYarnU7B4rHx/61zygg=
+	b=uiG/3+LLi0F3dRRFW+Q4E0FQlQipcAXtuZJdEBAfgQs4dzAhZQAPUnVTLx/Q03nbx
+	 HppGL9OB8TsxY3950gunZojJ4tgHCAnj13OGs1D8vZ9td0k3krSfc/o/oCBQKaGx4S
+	 msFNbUhMrQRl3A/ibRIZjY+eO6rPTBS7qHXQirBM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727383AbgCBITK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 03:19:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57070 "EHLO mail.kernel.org"
+        id S1727154AbgCBITU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 03:19:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56678 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727130AbgCBIQU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727059AbgCBIQU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 2 Mar 2020 03:16:20 -0500
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20CD0246C7;
-        Mon,  2 Mar 2020 08:16:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E937E246B9;
+        Mon,  2 Mar 2020 08:16:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583136979;
-        bh=2McQRtYZ+HSM4VsIstHnjM6JtSpkSFvG8RiBiZEorzw=;
+        bh=IfRS/R6H+Szpiwi72smGycLsGnORNH/i9azDqozRPuI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ndWbLqoE69WGK6FXi41Ia6LIbJWDiORZnkVxnrDHfORpxqDUbINdj3xbWVtOHdfGN
-         CYDHdBvAkOIx4Q7gJ6Qohqs398zgI+6wDybIQUvC5YEanM553EX10GfWOJXGQexiYg
-         LY+QcuRyHB9E+LLp3VtrTRNrfRP7CTsAZ0yNYYWo=
+        b=CzV9VHYdj2Md+uBvKwr2W8pqXFNMC0teiREa9ZEjgsuqNdPGQLiPuip47nIgxChct
+         YOJTFKADMnjkpNLRKORFD88zSBtOS9dyjiXI1KKY20SfOcD7zdxoOZYuoXWDPEztMK
+         mG+wRybjS9E+RUyV/YOhcl9xvwbb/fIAbGuJW72s=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1j8gFN-0003xW-AO; Mon, 02 Mar 2020 09:16:17 +0100
+        id 1j8gFN-0003wv-2Y; Mon, 02 Mar 2020 09:16:17 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 12/42] docs: scsi: convert cxgb3i.txt to ReST
-Date:   Mon,  2 Mar 2020 09:15:45 +0100
-Message-Id: <0708b62b6ec4f0dddc581e412bb02ba6476f4523.1583136624.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org
+Subject: [PATCH 04/42] docs: scsi: convert aacraid.txt to ReST
+Date:   Mon,  2 Mar 2020 09:15:37 +0100
+Message-Id: <67c60ad88777c91937d49771e2a3f48cbf353e4c.1583136624.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <cover.1583136624.git.mchehab+huawei@kernel.org>
 References: <cover.1583136624.git.mchehab+huawei@kernel.org>
@@ -60,82 +64,152 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/scsi/{cxgb3i.txt => cxgb3i.rst} | 22 ++++++++++++-------
+ .../scsi/{aacraid.txt => aacraid.rst}         | 59 ++++++++++++++-----
  Documentation/scsi/index.rst                  |  1 +
- 2 files changed, 15 insertions(+), 8 deletions(-)
- rename Documentation/scsi/{cxgb3i.txt => cxgb3i.rst} (86%)
+ MAINTAINERS                                   |  2 +-
+ drivers/scsi/Kconfig                          |  2 +-
+ 4 files changed, 46 insertions(+), 18 deletions(-)
+ rename Documentation/scsi/{aacraid.txt => aacraid.rst} (83%)
 
-diff --git a/Documentation/scsi/cxgb3i.txt b/Documentation/scsi/cxgb3i.rst
-similarity index 86%
-rename from Documentation/scsi/cxgb3i.txt
-rename to Documentation/scsi/cxgb3i.rst
-index 7ac8032ee9b2..e01f18fbfa9f 100644
---- a/Documentation/scsi/cxgb3i.txt
-+++ b/Documentation/scsi/cxgb3i.rst
-@@ -1,4 +1,8 @@
+diff --git a/Documentation/scsi/aacraid.txt b/Documentation/scsi/aacraid.rst
+similarity index 83%
+rename from Documentation/scsi/aacraid.txt
+rename to Documentation/scsi/aacraid.rst
+index 30f643f611b2..1904674b94f3 100644
+--- a/Documentation/scsi/aacraid.txt
++++ b/Documentation/scsi/aacraid.rst
+@@ -1,7 +1,11 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=================================
- Chelsio S3 iSCSI Driver for Linux
-+=================================
++===================================
+ AACRAID Driver for Linux (take two)
++===================================
  
  Introduction
- ============
-@@ -49,7 +53,8 @@ The following steps need to be taken to accelerates the open-iscsi initiator:
+--------------------------
++============
+ The aacraid driver adds support for Adaptec (http://www.adaptec.com)
+ RAID controllers. This is a major rewrite from the original
+ Adaptec supplied driver. It has significantly cleaned up both the code
+@@ -9,8 +13,11 @@ and the running binary size (the module is less than half the size of
+ the original).
  
-    The cxgb3i module registers a new transport class "cxgb3i" with open-iscsi.
- 
--   * in the case of recompiling the kernel, the cxgb3i selection is located at
-+   * in the case of recompiling the kernel, the cxgb3i selection is located at::
+ Supported Cards/Chipsets
+--------------------------
++========================
 +
- 	Device Drivers
- 		SCSI device support --->
- 			[*] SCSI low-level drivers  --->
-@@ -58,25 +63,26 @@ The following steps need to be taken to accelerates the open-iscsi initiator:
- 2. Create an interface file located under /etc/iscsi/ifaces/ for the new
-    transport class "cxgb3i".
++	===================	=======	=======================================
+ 	PCI ID (pci.ids)	OEM	Product
++	===================	=======	=======================================
+ 	9005:0285:9005:0285	Adaptec	2200S (Vulcan)
+ 	9005:0285:9005:0286	Adaptec	2120S (Crusader)
+ 	9005:0285:9005:0287	Adaptec	2200S (Vulcan-2m)
+@@ -117,34 +124,54 @@ Supported Cards/Chipsets
+ 	9005:0285:108e:0286	SUN	STK RAID INT (Cougar)
+ 	9005:0285:108e:0287	SUN	STK RAID EXT (Prometheus)
+ 	9005:0285:108e:7aae	SUN	STK RAID EM (Narvi)
++	===================	=======	=======================================
  
--   The content of the file should be in the following format:
-+   The content of the file should be in the following format::
+ People
+--------------------------
++======
 +
- 	iface.transport_name = cxgb3i
- 	iface.net_ifacename = <ethX>
- 	iface.ipaddress = <iscsi ip address>
+ Alan Cox <alan@lxorguk.ukuu.org.uk>
+-Christoph Hellwig <hch@infradead.org>	(updates for new-style PCI probing and SCSI host registration,
+-					 small cleanups/fixes)
+-Matt Domsch <matt_domsch@dell.com>	(revision ioctl, adapter messages)
+-Deanna Bonds                            (non-DASD support, PAE fibs and 64 bit, added new adaptec controllers
+-					 added new ioctls, changed scsi interface to use new error handler,
+-					 increased the number of fibs and outstanding commands to a container)
+-
+-					(fixed 64bit and 64G memory model, changed confusing naming convention
+-					 where fibs that go to the hardware are consistently called hw_fibs and
+-					 not just fibs like the name of the driver tracking structure)
+-Mark Salyzyn <Mark_Salyzyn@adaptec.com> Fixed panic issues and added some new product ids for upcoming hbas. Performance tuning, card failover and bug mitigations.
++
++Christoph Hellwig <hch@infradead.org>
++
++- updates for new-style PCI probing and SCSI host registration,
++  small cleanups/fixes
++
++Matt Domsch <matt_domsch@dell.com>
++
++- revision ioctl, adapter messages
++
++Deanna Bonds
++
++- non-DASD support, PAE fibs and 64 bit, added new adaptec controllers
++  added new ioctls, changed scsi interface to use new error handler,
++  increased the number of fibs and outstanding commands to a container
++- fixed 64bit and 64G memory model, changed confusing naming convention
++  where fibs that go to the hardware are consistently called hw_fibs and
++  not just fibs like the name of the driver tracking structure
++
++Mark Salyzyn <Mark_Salyzyn@adaptec.com>
++
++- Fixed panic issues and added some new product ids for upcoming hbas.
++- Performance tuning, card failover and bug mitigations.
++
+ Achim Leubner <Achim_Leubner@adaptec.com>
  
-    * if iface.ipaddress is specified, <iscsi ip address> needs to be either the
--	same as the ethX's ip address or an address on the same subnet. Make
--	sure the ip address is unique in the network.
-+     same as the ethX's ip address or an address on the same subnet. Make
-+     sure the ip address is unique in the network.
+-Original Driver
++- Original Driver
++
+ -------------------------
++
+ Adaptec Unix OEM Product Group
  
- 3. edit /etc/iscsi/iscsid.conf
-    The default setting for MaxRecvDataSegmentLength (131072) is too big;
--   replace with a value no bigger than 15360 (for example 8192):
-+   replace with a value no bigger than 15360 (for example 8192)::
+ Mailing List
+--------------------------
++============
++
+ linux-scsi@vger.kernel.org (Interested parties troll here)
+ Also note this is very different to Brian's original driver
+ so don't expect him to support it.
++
+ Adaptec does support this driver.  Contact Adaptec tech support or
+ aacraid@adaptec.com
  
- 	node.conn[0].iscsi.MaxRecvDataSegmentLength = 8192
- 
-    * The login would fail for a normal session if MaxRecvDataSegmentLength is
--	too big.  A error message in the format of
--	"cxgb3i: ERR! MaxRecvSegmentLength <X> too big. Need to be <= <Y>."
--	would be logged to dmesg.
-+     too big.  A error message in the format of
-+     "cxgb3i: ERR! MaxRecvSegmentLength <X> too big. Need to be <= <Y>."
-+     would be logged to dmesg.
- 
- 4. To direct open-iscsi traffic to go through cxgb3i's accelerated path,
-    "-I <iface file name>" option needs to be specified with most of the
+ Original by Brian Boerner February 2001
++
+ Rewritten by Alan Cox, November 2001
 diff --git a/Documentation/scsi/index.rst b/Documentation/scsi/index.rst
-index 6bb2428c1d56..3809213b83da 100644
+index 99efc77c3ac2..2e0429d1a7a5 100644
 --- a/Documentation/scsi/index.rst
 +++ b/Documentation/scsi/index.rst
-@@ -16,5 +16,6 @@ Linux SCSI Subsystem
-    bfa
-    bnx2fc
-    BusLogic
-+   cxgb3i
+@@ -8,5 +8,6 @@ Linux SCSI Subsystem
+    :maxdepth: 1
+ 
+    53c700
++   aacraid
  
     scsi_transport_srp/figures
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1552db209e69..cb6ecdbc96da 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -236,7 +236,7 @@ M:	Adaptec OEM Raid Solutions <aacraid@microsemi.com>
+ L:	linux-scsi@vger.kernel.org
+ W:	http://www.adaptec.com/
+ S:	Supported
+-F:	Documentation/scsi/aacraid.txt
++F:	Documentation/scsi/aacraid.rst
+ F:	drivers/scsi/aacraid/
+ 
+ ABI/API
+diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
+index 2b882b96e0d4..a153444318fb 100644
+--- a/drivers/scsi/Kconfig
++++ b/drivers/scsi/Kconfig
+@@ -421,7 +421,7 @@ config SCSI_AACRAID
+ 	help
+ 	  This driver supports a variety of Dell, HP, Adaptec, IBM and
+ 	  ICP storage products. For a list of supported products, refer
+-	  to <file:Documentation/scsi/aacraid.txt>.
++	  to <file:Documentation/scsi/aacraid.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called aacraid.
 -- 
 2.21.1
 
