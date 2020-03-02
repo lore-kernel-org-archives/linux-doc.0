@@ -2,247 +2,160 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D974C3F2CD
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 01:29:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 972E0C3F2D1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 06:24:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ED94924697
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 01:29:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A509246B4
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 06:24:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583130269;
+	bh=300FYlPrOZ0xfqnefMKThoEm2G2rBiJuryFHeZGMu6o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=NQWqjrX0P/eJ7mXrJ6nZ5EQcFPJQ2gbi2dmyOqnCPiTxQZx9jU18/ufH8B6RBGqjD
+	 g8AZfhlg43R4TKITj6zMkhenN9rWCRNFyCpxEiVwNwrb0ugW59XQh18EUTxoVQUyap
+	 o6NPLKbUd0ywJ8uFGnet6nFeIEzO4TDvD8qRaW2Q=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbgCBB3Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 Mar 2020 20:29:25 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:38144 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726592AbgCBB3Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 1 Mar 2020 20:29:25 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 74A3D27C3ECEAB96F35B;
-        Mon,  2 Mar 2020 09:29:22 +0800 (CST)
-Received: from [127.0.0.1] (10.177.131.64) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Mon, 2 Mar 2020
- 09:29:15 +0800
-Subject: Re: [PATCH v7 1/4] x86: kdump: move reserve_crashkernel_low() into
- crash_core.c
-To:     John Donnelly <john.p.donnelly@oracle.com>,
-        James Morse <james.morse@arm.com>
-References: <20191223152349.180172-1-chenzhou10@huawei.com>
- <20191223152349.180172-2-chenzhou10@huawei.com>
- <20191227055458.GA14893@dhcp-128-65.nay.redhat.com>
- <09d42854-461b-e85c-ba3f-0e1173dc95b5@huawei.com>
- <20191228093227.GA19720@dhcp-128-65.nay.redhat.com>
- <77c971a4-608f-ee35-40cb-77186a2ddbd1@arm.com>
- <08C19FFB-C6FC-4BB7-A1C2-67CE6B99D2AB@oracle.com>
- <73F5F438-0B79-418D-8AA7-B1164D10AA24@oracle.com>
-CC:     kbuild test robot <lkp@intel.com>, <will@kernel.org>,
-        <linux-doc@vger.kernel.org>, <catalin.marinas@arm.com>,
-        <bhsharma@redhat.com>, <xiexiuqi@huawei.com>,
-        <kexec@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <horms@verge.net.au>, <tglx@linutronix.de>,
-        Dave Young <dyoung@redhat.com>, <mingo@redhat.com>,
-        <linux-arm-kernel@lists.infradead.org>
-From:   Chen Zhou <chenzhou10@huawei.com>
-Message-ID: <f40d64d3-b433-670f-a8d7-73a66cb333b7@huawei.com>
-Date:   Mon, 2 Mar 2020 09:29:13 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
-MIME-Version: 1.0
-In-Reply-To: <73F5F438-0B79-418D-8AA7-B1164D10AA24@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.177.131.64]
-X-CFilter-Loop: Reflected
+        id S1726390AbgCBGY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 01:24:28 -0500
+Received: from conuserg-11.nifty.com ([210.131.2.78]:57529 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725446AbgCBGY2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 01:24:28 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 0226NfKn030880;
+        Mon, 2 Mar 2020 15:23:43 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 0226NfKn030880
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1583130224;
+        bh=wnLhMgIgggfdJrGLtUh15Of/AoVkbl1wJ7X2YZ58njk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=v6hVUWy5WwyAlcJJb3l/KJUxUWIRiIShof48EqopIpSHgwyFLOX9B7ddtMil3lO5g
+         OnYhC0Qib3IRxAzvZeTxW2udp3w08lU8kZBv/luNPtway5Dd2/G+pKLuRQJYlJK5nm
+         +Nyj24K8NjSJw3uZlItRCET9KiBKZ2rTfuNum+2ZqQHJhWNw+l/qAszGAfghwFqZJ2
+         uEQlGAhEtcHHnFMhxF7wx36tSDKYJ7FkiulE6GgNfdbnBFfjXU/kokU3rWaTDDXojV
+         0Mya/P4pwfZAMhFEGtbctJFLipEX/QuocdK4CLUl3SeNS2212vG++OzphNyTdeNdt9
+         SEfeBJrm07mtw==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 2/2] kconfig: make 'imply' obey the direct dependency
+Date:   Mon,  2 Mar 2020 15:23:40 +0900
+Message-Id: <20200302062340.21453-2-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200302062340.21453-1-masahiroy@kernel.org>
+References: <20200302062340.21453-1-masahiroy@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The 'imply' statement may create unmet direct dependency when the
+implied symbol depends on m.
 
+[Test Code]
 
-On 2020/2/24 23:25, John Donnelly wrote:
-> 
-> 
->> On Jan 16, 2020, at 9:47 AM, John Donnelly <john.p.donnelly@oracle.com> wrote:
->>
->>
->>
->>> On Jan 16, 2020, at 9:17 AM, James Morse <james.morse@arm.com> wrote:
->>>
->>> Hi guys,
->>>
->>> On 28/12/2019 09:32, Dave Young wrote:
->>>> On 12/27/19 at 07:04pm, Chen Zhou wrote:
->>>>> On 2019/12/27 13:54, Dave Young wrote:
->>>>>> On 12/23/19 at 11:23pm, Chen Zhou wrote:
->>>>>>> In preparation for supporting reserve_crashkernel_low in arm64 as
->>>>>>> x86_64 does, move reserve_crashkernel_low() into kernel/crash_core.c.
->>>>>>>
->>>>>>> Note, in arm64, we reserve low memory if and only if crashkernel=X,low
->>>>>>> is specified. Different with x86_64, don't set low memory automatically.
->>>>>>
->>>>>> Do you have any reason for the difference?  I'd expect we have same
->>>>>> logic if possible and remove some of the ifdefs.
->>>>>
->>>>> In x86_64, if we reserve crashkernel above 4G, then we call reserve_crashkernel_low()
->>>>> to reserve low memory.
->>>>>
->>>>> In arm64, to simplify, we call reserve_crashkernel_low() at the beginning of reserve_crashkernel()
->>>>> and then relax the arm64_dma32_phys_limit if reserve_crashkernel_low() allocated something.
->>>>> In this case, if reserve crashkernel below 4G there will be 256M low memory set automatically
->>>>> and this needs extra considerations.
->>>
->>>> Sorry that I did not read the old thread details and thought that is
->>>> arch dependent.  But rethink about that, it would be better that we can
->>>> have same semantic about crashkernel parameters across arches.  If we
->>>> make them different then it causes confusion, especially for
->>>> distributions.
->>>
->>> Surely distros also want one crashkernel* string they can use on all platforms without
->>> having to detect the kernel version, platform or changeable memory layout...
->>>
->>>
->>>> OTOH, I thought if we reserve high memory then the low memory should be
->>>> needed.  There might be some exceptions, but I do not know the exact
->>>> one,
->>>
->>>> can we make the behavior same, and special case those systems which
->>>> do not need low memory reservation.
->>>
->>> Its tricky to work out which systems are the 'normal' ones.
->>>
->>> We don't have a fixed memory layout for arm64. Some systems have no memory below 4G.
->>> Others have no memory above 4G.
->>>
->>> Chen Zhou's machine has some memory below 4G, but its too precious to reserve a large
->>> chunk for kdump. Without any memory below 4G some of the drivers won't work.
->>>
->>> I don't see what distros can set as their default for all platforms if high/low are
->>> mutually exclusive with the 'crashkernel=' in use today. How did x86 navigate this, ... or
->>> was it so long ago?
->>>
->>> No one else has reported a problem with the existing placement logic, hence treating this
->>> 'low' thing as the 'in addition' special case.
->>
->>
->> Hi,
->>
->> I am seeing similar  Arm crash dump issues  on  5.4 kernels  where we need  rather large amount of crashkernel memory reserved that is not available below 4GB ( The maximum reserved size appears to be around 768M ) . When I pick memory range higher than 4GB , I see  adapters that fail to initialize :
->>
->>
->> There is no low-memory  <4G  memory for DMA ;     
->>
->> [   11.506792] kworker/0:14: page allocation failure: order:0, 
->> mode:0x104(GFP_DMA32|__GFP_ZERO), nodemask=(null),cpuset=/,mems_allowed=0 
->> [   11.518793] CPU: 0 PID: 150 Comm: kworker/0:14 Not tainted 
->> 5.4.0-1948.3.el8uek.aarch64 #1 
->> [   11.526955] Hardware name: To be filled by O.E.M. Saber/Saber, BIOS 
->> 0ACKL025 01/18/2019 
->> [   11.534948] Workqueue: events work_for_cpu_fn 
->> [   11.539291] Call trace: 
->> [   11.541727]  dump_backtrace+0x0/0x18c 
->> [   11.545376]  show_stack+0x24/0x30 
->> [   11.548679]  dump_stack+0xbc/0xe0 
->> [   11.551982]  warn_alloc+0xf0/0x15c 
->> [   11.555370]  __alloc_pages_slowpath+0xb4c/0xb84 
->> [   11.559887]  __alloc_pages_nodemask+0x2d0/0x330 
->> [   11.564405]  alloc_pages_current+0x8c/0xf8 
->> [   11.568496]  ttm_bo_device_init+0x188/0x220 [ttm] 
->> [   11.573187]  drm_vram_mm_init+0x58/0x80 [drm_vram_helper] 
->> [   11.578572]  drm_vram_helper_alloc_mm+0x64/0xb0 [drm_vram_helper] 
->> [   11.584655]  ast_mm_init+0x38/0x80 [ast] 
->> [   11.588566]  ast_driver_load+0x474/0xa70 [ast] 
->> [   11.593029]  drm_dev_register+0x144/0x1c8 [drm] 
->> [   11.597573]  drm_get_pci_dev+0xa4/0x168 [drm] 
->> [   11.601919]  ast_pci_probe+0x8c/0x9c [ast] 
->> [   11.606004]  local_pci_probe+0x44/0x98 
->> [   11.609739]  work_for_cpu_fn+0x20/0x30 
->> [   11.613474]  process_one_work+0x1c4/0x41c 
->> [   11.617470]  worker_thread+0x150/0x4b0 
->> [   11.621206]  kthread+0x110/0x114 
->> [   11.624422]  ret_from_fork+0x10/0x18 
->>
->> This failure is related to a graphics adapter. 
->>
->> The more complex kdump configurations that use networking stack to NFS mount a filesystem to dump to , or use ssh to copy to another machine,  require more crashkernel memory reservations than perhaps the “default*” settings of  a minimal kdump that creates a minimal  vmcore to local storage in  /var/crash. If crashkernel is too small I get Out of Memory issues and the entire vmcore  process fails. 
->>
->> ( *default kdump setting I assume are a minimal vmcore to /var/crash using primary boot device where /root is located  ) 
->>
-> Hi Chen,
-> 
-> 
-> I was able to unit test these series of kernel  patches  applied to a 5.4.17 test kernel  along with the kexec CLI  change :
-> 
-> 0001-arm64-kdump-add-another-DT-property-to-crash-dump-ke.patch
-> 
-> Applied to :
-> 
-> kexec-tools-2.0.19-12.0.4.el8.src.rpm
-> 
-> And obtained a vmcore using this cmdline :
-> 
-> BOOT_IMAGE=(hd6,gpt2)/vmlinuz-5.4.17-4-uek6m_ol8-jpdonnel+ root=/dev/mapper/ol01-root ro crashkernel=2048M@35G crashkernel=250M,low rd.lvm.lv=ol01/root rd.lvm.lv=ol01/swap console=ttyS4 loglevel=7
-> 
-> Can you add :
-> 
-> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
-> 
-> 
-> How can we  get these changes included into an rc kernel release  ?
-> 
-> Thanks,
-> 
-> John.
+  config FOO
+          tristate "foo"
+          imply BAZ
 
-Hi all,
+  config BAZ
+          tristate "baz"
+          depends on BAR
 
-Friendly ping...
+  config BAR
+          def_tristate m
 
-> 
-> 
->>
->>
->>
->>>
->>>
->>>>> previous discusses:
->>>>> 	https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.org_lkml_2019_6_5_670&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=t2fPg9D87F7D8jm0_3CG9yoiIKdRg4qc_thBw4bzMhc&m=jOAu1DTDpohsWszalfTCYx46eGF19TSWVLchN5yBPgk&s=gS9BLOkmj78lP5L7SP6_VLHwvP249uWKaE2R7N7sxgM&e= 
->>>>> 	https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.org_lkml_2019_6_13_229&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=t2fPg9D87F7D8jm0_3CG9yoiIKdRg4qc_thBw4bzMhc&m=jOAu1DTDpohsWszalfTCYx46eGF19TSWVLchN5yBPgk&s=U1Nis29n3A7XSBzED53fiE4MDAv5NlxYp1UorvvBOOw&e= 
->>>>
->>>> Another concern from James:
->>>> "
->>>> With both crashk_low_res and crashk_res, we end up with two entries in /proc/iomem called
->>>> "Crash kernel". Because its sorted by address, and kexec-tools stops searching when it
->>>> find "Crash kernel", you are always going to get the kernel placed in the lower portion.
->>>> "
->>>>
->>>> The kexec-tools code is iterating all "Crash kernel" ranges and add them
->>>> in an array.  In X86 code, it uses the higher range to locate memory.
->>>
->>> Then my hurried reading of what the user-space code does was wrong!
->>>
->>> If kexec-tools places the kernel in the low region, there may not be enough memory left
->>> for whatever purpose it was reserved for. This was the motivation for giving it a
->>> different name.
->>>
->>>
->>> Thanks,
->>>
->>> James
->>>
->>> _______________________________________________
->>> kexec mailing list
->>> kexec@lists.infradead.org
->>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_kexec&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=t2fPg9D87F7D8jm0_3CG9yoiIKdRg4qc_thBw4bzMhc&m=jOAu1DTDpohsWszalfTCYx46eGF19TSWVLchN5yBPgk&s=bqp02iQDP_Ez-XvLIvj-IPHqbbZwMPlDgmEcG8vhXFE&e= 
->>
->>
->> _______________________________________________
->> kexec mailing list
->> kexec@lists.infradead.org
->> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_kexec&d=DwIGaQ&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=t2fPg9D87F7D8jm0_3CG9yoiIKdRg4qc_thBw4bzMhc&m=whm9_BOrgAjJvBn0Ey_brHhFg2YMU_P0HF02dhgdgwU&s=vLar_m5JbicYwwuo6N84ZiBDGZUPM8bBLSPLQBtPZNY&e= 
-> 
-> 
-> .
-> 
+  config MODULES
+          def_bool y
+          option modules
+
+If you set FOO=y, BAZ is also promoted to y, which results in the
+following .config file:
+
+  CONFIG_FOO=y
+  CONFIG_BAZ=y
+  CONFIG_BAR=m
+  CONFIG_MODULES=y
+
+This does not meet the dependency 'BAZ depends on BAR'.
+
+Unlike 'select', what is worse, Kconfig never shows the
+'WARNING: unmet direct dependencies detected for ...' for this case.
+
+Because 'imply' is considered to be weaker than 'depends on', Kconfig
+should take the direct dependency into account.
+
+For clarification, describe this case in kconfig-language.rst too.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Documentation/kbuild/kconfig-language.rst | 7 +++++--
+ scripts/kconfig/symbol.c                  | 4 +++-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index d4d988aea679..68719e78ff85 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -159,11 +159,11 @@ applicable everywhere (see syntax).
+   Given the following example::
+ 
+     config FOO
+-	tristate
++	tristate "foo"
+ 	imply BAZ
+ 
+     config BAZ
+-	tristate
++	tristate "baz"
+ 	depends on BAR
+ 
+   The following values are possible:
+@@ -174,6 +174,9 @@ applicable everywhere (see syntax).
+ 	n		y		n		N/m/y
+ 	m		y		m		M/y/n
+ 	y		y		y		Y/m/n
++	n		m		n		N/m
++	m		m		m		M/n
++	y		m		n		M/n
+ 	y		n		*		N
+ 	===		===		=============	==============
+ 
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index b101ef3c377a..3dc81397d003 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -221,7 +221,7 @@ static void sym_calc_visibility(struct symbol *sym)
+ 		sym_set_changed(sym);
+ 	}
+ 	tri = no;
+-	if (sym->implied.expr && sym->dir_dep.tri != no)
++	if (sym->implied.expr)
+ 		tri = expr_calc_value(sym->implied.expr);
+ 	if (tri == mod && sym_get_type(sym) == S_BOOLEAN)
+ 		tri = yes;
+@@ -394,6 +394,8 @@ void sym_calc_value(struct symbol *sym)
+ 				if (sym->implied.tri != no) {
+ 					sym->flags |= SYMBOL_WRITE;
+ 					newval.tri = EXPR_OR(newval.tri, sym->implied.tri);
++					newval.tri = EXPR_AND(newval.tri,
++							      sym->dir_dep.tri);
+ 				}
+ 			}
+ 		calc_newval:
+-- 
+2.17.1
 
