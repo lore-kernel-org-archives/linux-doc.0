@@ -2,111 +2,119 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CFF6C3F2D1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 22:40:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A52DC3F2D7
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 22:45:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2E38E20848
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 22:40:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E9A3208C3
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 22:45:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WOFD+1Nf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726998AbgCBWkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 17:40:16 -0500
-Received: from ms.lwn.net ([45.79.88.28]:59688 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726755AbgCBWkK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Mar 2020 17:40:10 -0500
-Received: from meer.lwn.net (localhost [127.0.0.1])
-        by ms.lwn.net (Postfix) with ESMTPA id 20EF199C;
-        Mon,  2 Mar 2020 22:40:09 +0000 (UTC)
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 2/3] docs: move gcc-plugins to the kbuild manual
-Date:   Mon,  2 Mar 2020 15:39:56 -0700
-Message-Id: <20200302223957.905473-3-corbet@lwn.net>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200302223957.905473-1-corbet@lwn.net>
-References: <20200302223957.905473-1-corbet@lwn.net>
+        id S1726979AbgCBWpf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 17:45:35 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:46703 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726778AbgCBWpf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 17:45:35 -0500
+Received: by mail-pg1-f193.google.com with SMTP id y30so512819pga.13
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 14:45:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to;
+        bh=GFD8ViXColObn8FM0PtoZqKUGLmCPza4UuJiavcTlUk=;
+        b=WOFD+1Nf4ROrRkdcS2D5Dsei0yXLkev6qnAqaLDLHleCetNWzzamUGvlzp/253O8jh
+         3r03SkffB+wUd+5cZAcVQv7IP2C7/s6hLTVHBBxDMhIH9Zl/ntMVEcd/f6KslWykbsLn
+         tCMHnOUaFbey1oPEdx6KV21wnn0J36dc3JzMI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to;
+        bh=GFD8ViXColObn8FM0PtoZqKUGLmCPza4UuJiavcTlUk=;
+        b=E5edAFlyhrfuhuw9OhwlwswYWySTXOpORXeeyQdSCrofcp7KQAkfpBN1z+dTdX2ipv
+         wC2MOLwf4HW1Gdml7zwzKodeKxFTzTTo1tQEdzqsBfbeARLO2CzM9Tf35iLIkvWl+vRM
+         9m/fCkiDTHTX3cEqAVLzHLr7D0nVrm1ob5NdK2KzKJtY9rYkt3SpmRFRJy5BCUyafax3
+         mWVKqn99367iTkS1+VZad7Q1rdbflD7Mn3QC1BuGu0FoUp9nvzDhfLufns695POCiI/U
+         FsSsL8jzYMv5QM2aRjCfaxd0izJyi9XwwAQR0MKT81Ry8uCHWXrbVxLWcVMrpPjMwAB0
+         Okyg==
+X-Gm-Message-State: ANhLgQ1fO0Up0U7oohziXkgpGMQmqF3nFz2PGI9prXdy4oDCGrdFClLd
+        RcO0nOq21+/Ou9QVBwbqUOq9Ow==
+X-Google-Smtp-Source: ADFU+vu7n6pQF0dWmSqvn0KXxGvBVGm4fqd9FgIsTrDfyQROBoSJtdUzEcRBWZnkK1aK2uDhIh2uwA==
+X-Received: by 2002:a63:4555:: with SMTP id u21mr1106380pgk.66.1583189132864;
+        Mon, 02 Mar 2020 14:45:32 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id a10sm21559754pgk.71.2020.03.02.14.45.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2020 14:45:31 -0800 (PST)
+Date:   Mon, 2 Mar 2020 14:45:30 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Frank Rowand <frowand.list@gmail.com>, jdike@addtoit.com,
+        richard@nod.at, anton.ivanov@cambridgegreys.com, arnd@arndb.de,
+        skhan@linuxfoundation.org, alan.maguire@oracle.com,
+        yzaikin@google.com, davidgow@google.com, akpm@linux-foundation.org,
+        rppt@linux.ibm.com, gregkh@linuxfoundation.org, sboyd@kernel.org,
+        logang@deltatee.com, mcgrof@kernel.org,
+        linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 4/7] init: main: add KUnit to kernel init
+Message-ID: <202003021439.A6B6FD8@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200228012036.15682-5-brendanhiggins@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Information about GCC plugins is relevant to kernel building, so move this
-document to the kbuild manual.
+On 2/27/20 7:20 PM, Brendan Higgins wrote:
+> Remove KUnit from init calls entirely, instead call directly from
+> kernel_init().
+> 
+> Co-developed-by: Alan Maguire <alan.maguire@oracle.com>
+> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+> [...]
+> diff --git a/init/main.c b/init/main.c
+> index ee4947af823f3..7875a5c486dc4 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -104,6 +104,8 @@
+>  #define CREATE_TRACE_POINTS
+>  #include <trace/events/initcall.h>
+>  
+> +#include <kunit/test.h>
+> +
+>  static int kernel_init(void *);
+>  
+>  extern void init_IRQ(void);
+> @@ -1444,6 +1446,8 @@ static noinline void __init kernel_init_freeable(void)
+>  
+>  	do_basic_setup();
+>  
+> +	kunit_run_all_tests();
+> +
+>  	console_on_rootfs();
+>  
+>  	/*
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/core-api/index.rst                   | 1 -
- Documentation/{core-api => kbuild}/gcc-plugins.rst | 0
- Documentation/kbuild/index.rst                     | 1 +
- MAINTAINERS                                        | 2 +-
- scripts/gcc-plugins/Kconfig                        | 2 +-
- 5 files changed, 3 insertions(+), 3 deletions(-)
- rename Documentation/{core-api => kbuild}/gcc-plugins.rst (100%)
+I'm nervous about this happening before two key pieces of the kernel
+setup, which might lead to weird timing-sensitive bugs or false
+positives:
+	async_synchronize_full()
+	mark_readonly()
 
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index b39dae276b57..9836a0ac09a3 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -102,7 +102,6 @@ Documents that don't fit elsewhere or which have yet to be categorized.
-    :maxdepth: 1
- 
-    librs
--   gcc-plugins
-    ioctl
- 
- .. only:: subproject and html
-diff --git a/Documentation/core-api/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
-similarity index 100%
-rename from Documentation/core-api/gcc-plugins.rst
-rename to Documentation/kbuild/gcc-plugins.rst
-diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
-index 0f144fad99a6..82daf2efcb73 100644
---- a/Documentation/kbuild/index.rst
-+++ b/Documentation/kbuild/index.rst
-@@ -19,6 +19,7 @@ Kernel Build System
- 
-     issues
-     reproducible-builds
-+    gcc-plugins
- 
- .. only::  subproject and html
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 38fe2f3f7b6f..f508f6c783d6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6934,7 +6934,7 @@ S:	Maintained
- F:	scripts/gcc-plugins/
- F:	scripts/gcc-plugin.sh
- F:	scripts/Makefile.gcc-plugins
--F:	Documentation/core-api/gcc-plugins.rst
-+F:	Documentation/kbuild/gcc-plugins.rst
- 
- GASKET DRIVER FRAMEWORK
- M:	Rob Springer <rspringer@google.com>
-diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-index e3569543bdac..f8ca236d6165 100644
---- a/scripts/gcc-plugins/Kconfig
-+++ b/scripts/gcc-plugins/Kconfig
-@@ -23,7 +23,7 @@ menuconfig GCC_PLUGINS
- 	  GCC plugins are loadable modules that provide extra features to the
- 	  compiler. They are useful for runtime instrumentation and static analysis.
- 
--	  See Documentation/core-api/gcc-plugins.rst for details.
-+	  See Documentation/kbuild/gcc-plugins.rst for details.
- 
- if GCC_PLUGINS
- 
+Now, I realize kunit tests _should_ be self-contained, but this seems
+like a possible robustness problem. Is there any reason this can't be
+moved after rcu_end_inkernel_boot() in kernel_init() instead?
+
 -- 
-2.24.1
-
+Kees Cook
