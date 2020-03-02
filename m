@@ -2,301 +2,247 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF05C3F2D1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 00:19:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D974C3F2CD
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 01:29:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D79CF24697
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 00:19:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED94924697
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 01:29:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726751AbgCBATa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 Mar 2020 19:19:30 -0500
-Received: from mail.hallyn.com ([178.63.66.53]:59076 "EHLO mail.hallyn.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726562AbgCBATa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 1 Mar 2020 19:19:30 -0500
-Received: from sl (122.sub-174-235-8.myvzw.com [174.235.8.122])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: serge)
-        by mail.hallyn.com (Postfix) with ESMTPSA id 4C54066E;
-        Sun,  1 Mar 2020 18:19:19 -0600 (CST)
-Date:   Sun, 1 Mar 2020 18:19:13 -0600
-From:   Serge Hallyn <serge@hallyn.com>
-To:     Alexey Budankov <alexey.budankov@linux.intel.com>
-Cc:     James Morris <jmorris@namei.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Helge Deller <deller@gmx.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-man@vger.kernel.org, Andi Kleen <ak@linux.intel.com>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Stephane Eranian <eranian@google.com>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        oprofile-list@lists.sf.net, Jiri Olsa <jolsa@redhat.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [Intel-gfx] [PATCH v7 00/12] Introduce CAP_PERFMON to secure
- system performance monitoring and observability
-Message-ID: <20200302001913.GA21145@sl>
-References: <c8de937a-0b3a-7147-f5ef-69f467e87a13@linux.intel.com>
- <3ae0bed5-204e-de81-7647-5f0d8106cd67@linux.intel.com>
+        id S1726614AbgCBB3Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 Mar 2020 20:29:25 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:38144 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726592AbgCBB3Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 1 Mar 2020 20:29:25 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 74A3D27C3ECEAB96F35B;
+        Mon,  2 Mar 2020 09:29:22 +0800 (CST)
+Received: from [127.0.0.1] (10.177.131.64) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Mon, 2 Mar 2020
+ 09:29:15 +0800
+Subject: Re: [PATCH v7 1/4] x86: kdump: move reserve_crashkernel_low() into
+ crash_core.c
+To:     John Donnelly <john.p.donnelly@oracle.com>,
+        James Morse <james.morse@arm.com>
+References: <20191223152349.180172-1-chenzhou10@huawei.com>
+ <20191223152349.180172-2-chenzhou10@huawei.com>
+ <20191227055458.GA14893@dhcp-128-65.nay.redhat.com>
+ <09d42854-461b-e85c-ba3f-0e1173dc95b5@huawei.com>
+ <20191228093227.GA19720@dhcp-128-65.nay.redhat.com>
+ <77c971a4-608f-ee35-40cb-77186a2ddbd1@arm.com>
+ <08C19FFB-C6FC-4BB7-A1C2-67CE6B99D2AB@oracle.com>
+ <73F5F438-0B79-418D-8AA7-B1164D10AA24@oracle.com>
+CC:     kbuild test robot <lkp@intel.com>, <will@kernel.org>,
+        <linux-doc@vger.kernel.org>, <catalin.marinas@arm.com>,
+        <bhsharma@redhat.com>, <xiexiuqi@huawei.com>,
+        <kexec@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <horms@verge.net.au>, <tglx@linutronix.de>,
+        Dave Young <dyoung@redhat.com>, <mingo@redhat.com>,
+        <linux-arm-kernel@lists.infradead.org>
+From:   Chen Zhou <chenzhou10@huawei.com>
+Message-ID: <f40d64d3-b433-670f-a8d7-73a66cb333b7@huawei.com>
+Date:   Mon, 2 Mar 2020 09:29:13 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3ae0bed5-204e-de81-7647-5f0d8106cd67@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <73F5F438-0B79-418D-8AA7-B1164D10AA24@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.177.131.64]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks, this looks good to me, in keeping with the CAP_SYSLOG break.
 
-Acked-by: Serge E. Hallyn <serge@hallyn.com>
 
-for the set.
-
-James/Ingo/Peter, if noone has remaining objections, whose branch
-should these go in through?
-
-thanks,
--serge
-
-On Tue, Feb 25, 2020 at 12:55:54PM +0300, Alexey Budankov wrote:
+On 2020/2/24 23:25, John Donnelly wrote:
 > 
-> Hi,
 > 
-> Is there anything else I could do in order to move the changes forward
-> or is something still missing from this patch set?
-> Could you please share you mind?
+>> On Jan 16, 2020, at 9:47 AM, John Donnelly <john.p.donnelly@oracle.com> wrote:
+>>
+>>
+>>
+>>> On Jan 16, 2020, at 9:17 AM, James Morse <james.morse@arm.com> wrote:
+>>>
+>>> Hi guys,
+>>>
+>>> On 28/12/2019 09:32, Dave Young wrote:
+>>>> On 12/27/19 at 07:04pm, Chen Zhou wrote:
+>>>>> On 2019/12/27 13:54, Dave Young wrote:
+>>>>>> On 12/23/19 at 11:23pm, Chen Zhou wrote:
+>>>>>>> In preparation for supporting reserve_crashkernel_low in arm64 as
+>>>>>>> x86_64 does, move reserve_crashkernel_low() into kernel/crash_core.c.
+>>>>>>>
+>>>>>>> Note, in arm64, we reserve low memory if and only if crashkernel=X,low
+>>>>>>> is specified. Different with x86_64, don't set low memory automatically.
+>>>>>>
+>>>>>> Do you have any reason for the difference?  I'd expect we have same
+>>>>>> logic if possible and remove some of the ifdefs.
+>>>>>
+>>>>> In x86_64, if we reserve crashkernel above 4G, then we call reserve_crashkernel_low()
+>>>>> to reserve low memory.
+>>>>>
+>>>>> In arm64, to simplify, we call reserve_crashkernel_low() at the beginning of reserve_crashkernel()
+>>>>> and then relax the arm64_dma32_phys_limit if reserve_crashkernel_low() allocated something.
+>>>>> In this case, if reserve crashkernel below 4G there will be 256M low memory set automatically
+>>>>> and this needs extra considerations.
+>>>
+>>>> Sorry that I did not read the old thread details and thought that is
+>>>> arch dependent.  But rethink about that, it would be better that we can
+>>>> have same semantic about crashkernel parameters across arches.  If we
+>>>> make them different then it causes confusion, especially for
+>>>> distributions.
+>>>
+>>> Surely distros also want one crashkernel* string they can use on all platforms without
+>>> having to detect the kernel version, platform or changeable memory layout...
+>>>
+>>>
+>>>> OTOH, I thought if we reserve high memory then the low memory should be
+>>>> needed.  There might be some exceptions, but I do not know the exact
+>>>> one,
+>>>
+>>>> can we make the behavior same, and special case those systems which
+>>>> do not need low memory reservation.
+>>>
+>>> Its tricky to work out which systems are the 'normal' ones.
+>>>
+>>> We don't have a fixed memory layout for arm64. Some systems have no memory below 4G.
+>>> Others have no memory above 4G.
+>>>
+>>> Chen Zhou's machine has some memory below 4G, but its too precious to reserve a large
+>>> chunk for kdump. Without any memory below 4G some of the drivers won't work.
+>>>
+>>> I don't see what distros can set as their default for all platforms if high/low are
+>>> mutually exclusive with the 'crashkernel=' in use today. How did x86 navigate this, ... or
+>>> was it so long ago?
+>>>
+>>> No one else has reported a problem with the existing placement logic, hence treating this
+>>> 'low' thing as the 'in addition' special case.
+>>
+>>
+>> Hi,
+>>
+>> I am seeing similar  Arm crash dump issues  on  5.4 kernels  where we need  rather large amount of crashkernel memory reserved that is not available below 4GB ( The maximum reserved size appears to be around 768M ) . When I pick memory range higher than 4GB , I see  adapters that fail to initialize :
+>>
+>>
+>> There is no low-memory  <4G  memory for DMA ;     
+>>
+>> [   11.506792] kworker/0:14: page allocation failure: order:0, 
+>> mode:0x104(GFP_DMA32|__GFP_ZERO), nodemask=(null),cpuset=/,mems_allowed=0 
+>> [   11.518793] CPU: 0 PID: 150 Comm: kworker/0:14 Not tainted 
+>> 5.4.0-1948.3.el8uek.aarch64 #1 
+>> [   11.526955] Hardware name: To be filled by O.E.M. Saber/Saber, BIOS 
+>> 0ACKL025 01/18/2019 
+>> [   11.534948] Workqueue: events work_for_cpu_fn 
+>> [   11.539291] Call trace: 
+>> [   11.541727]  dump_backtrace+0x0/0x18c 
+>> [   11.545376]  show_stack+0x24/0x30 
+>> [   11.548679]  dump_stack+0xbc/0xe0 
+>> [   11.551982]  warn_alloc+0xf0/0x15c 
+>> [   11.555370]  __alloc_pages_slowpath+0xb4c/0xb84 
+>> [   11.559887]  __alloc_pages_nodemask+0x2d0/0x330 
+>> [   11.564405]  alloc_pages_current+0x8c/0xf8 
+>> [   11.568496]  ttm_bo_device_init+0x188/0x220 [ttm] 
+>> [   11.573187]  drm_vram_mm_init+0x58/0x80 [drm_vram_helper] 
+>> [   11.578572]  drm_vram_helper_alloc_mm+0x64/0xb0 [drm_vram_helper] 
+>> [   11.584655]  ast_mm_init+0x38/0x80 [ast] 
+>> [   11.588566]  ast_driver_load+0x474/0xa70 [ast] 
+>> [   11.593029]  drm_dev_register+0x144/0x1c8 [drm] 
+>> [   11.597573]  drm_get_pci_dev+0xa4/0x168 [drm] 
+>> [   11.601919]  ast_pci_probe+0x8c/0x9c [ast] 
+>> [   11.606004]  local_pci_probe+0x44/0x98 
+>> [   11.609739]  work_for_cpu_fn+0x20/0x30 
+>> [   11.613474]  process_one_work+0x1c4/0x41c 
+>> [   11.617470]  worker_thread+0x150/0x4b0 
+>> [   11.621206]  kthread+0x110/0x114 
+>> [   11.624422]  ret_from_fork+0x10/0x18 
+>>
+>> This failure is related to a graphics adapter. 
+>>
+>> The more complex kdump configurations that use networking stack to NFS mount a filesystem to dump to , or use ssh to copy to another machine,  require more crashkernel memory reservations than perhaps the “default*” settings of  a minimal kdump that creates a minimal  vmcore to local storage in  /var/crash. If crashkernel is too small I get Out of Memory issues and the entire vmcore  process fails. 
+>>
+>> ( *default kdump setting I assume are a minimal vmcore to /var/crash using primary boot device where /root is located  ) 
+>>
+> Hi Chen,
+> 
+> 
+> I was able to unit test these series of kernel  patches  applied to a 5.4.17 test kernel  along with the kexec CLI  change :
+> 
+> 0001-arm64-kdump-add-another-DT-property-to-crash-dump-ke.patch
+> 
+> Applied to :
+> 
+> kexec-tools-2.0.19-12.0.4.el8.src.rpm
+> 
+> And obtained a vmcore using this cmdline :
+> 
+> BOOT_IMAGE=(hd6,gpt2)/vmlinuz-5.4.17-4-uek6m_ol8-jpdonnel+ root=/dev/mapper/ol01-root ro crashkernel=2048M@35G crashkernel=250M,low rd.lvm.lv=ol01/root rd.lvm.lv=ol01/swap console=ttyS4 loglevel=7
+> 
+> Can you add :
+> 
+> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+> 
+> 
+> How can we  get these changes included into an rc kernel release  ?
 > 
 > Thanks,
-> Alexey
 > 
-> On 17.02.2020 11:02, Alexey Budankov wrote:
-> > 
-> > Currently access to perf_events, i915_perf and other performance
-> > monitoring and observability subsystems of the kernel is open only for
-> > a privileged process [1] with CAP_SYS_ADMIN capability enabled in the
-> > process effective set [2].
-> > 
-> > This patch set introduces CAP_PERFMON capability designed to secure
-> > system performance monitoring and observability operations so that
-> > CAP_PERFMON would assist CAP_SYS_ADMIN capability in its governing role
-> > for performance monitoring and observability subsystems of the kernel.
-> > 
-> > CAP_PERFMON intends to harden system security and integrity during
-> > performance monitoring and observability operations by decreasing attack
-> > surface that is available to a CAP_SYS_ADMIN privileged process [2].
-> > Providing the access to performance monitoring and observability
-> > operations under CAP_PERFMON capability singly, without the rest of
-> > CAP_SYS_ADMIN credentials, excludes chances to misuse the credentials
-> > and makes the operation more secure. Thus, CAP_PERFMON implements the
-> > principal of least privilege for performance monitoring and
-> > observability operations (POSIX IEEE 1003.1e: 2.2.2.39 principle of
-> > least privilege: A security design principle that states that a process
-> > or program be granted only those privileges (e.g., capabilities)
-> > necessary to accomplish its legitimate function, and only for the time
-> > that such privileges are actually required)
-> > 
-> > CAP_PERFMON intends to meet the demand to secure system performance
-> > monitoring and observability operations for adoption in security
-> > sensitive, restricted, multiuser production environments (e.g. HPC
-> > clusters, cloud and virtual compute environments), where root or
-> > CAP_SYS_ADMIN credentials are not available to mass users of a system,
-> > and securely unblock accessibility of system performance monitoring and
-> > observability operations beyond root and CAP_SYS_ADMIN use cases.
-> > 
-> > CAP_PERFMON intends to take over CAP_SYS_ADMIN credentials related to
-> > system performance monitoring and observability operations and balance
-> > amount of CAP_SYS_ADMIN credentials following the recommendations in
-> > the capabilities man page [2] for CAP_SYS_ADMIN: "Note: this capability
-> > is overloaded; see Notes to kernel developers, below." For backward
-> > compatibility reasons access to system performance monitoring and
-> > observability subsystems of the kernel remains open for CAP_SYS_ADMIN
-> > privileged processes but CAP_SYS_ADMIN capability usage for secure
-> > system performance monitoring and observability operations is
-> > discouraged with respect to the designed CAP_PERFMON capability.
-> > 
-> > Possible alternative solution to this system security hardening,
-> > capabilities balancing task of making performance monitoring and
-> > observability operations more secure and accessible could be to use
-> > the existing CAP_SYS_PTRACE capability to govern system performance
-> > monitoring and observability subsystems. However CAP_SYS_PTRACE
-> > capability still provides users with more credentials than are
-> > required for secure performance monitoring and observability
-> > operations and this excess is avoided by the designed CAP_PERFMON.
-> > 
-> > Although software running under CAP_PERFMON can not ensure avoidance of
-> > related hardware issues, the software can still mitigate those issues
-> > following the official hardware issues mitigation procedure [3]. The
-> > bugs in the software itself can be fixed following the standard kernel
-> > development process [4] to maintain and harden security of system
-> > performance monitoring and observability operations. Finally, the patch
-> > set is shaped in the way that simplifies backtracking procedure of
-> > possible induced issues [5] as much as possible.
-> > 
-> > The patch set is for tip perf/core repository:
-> > git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip perf/core
-> > sha1: fdb64822443ec9fb8c3a74b598a74790ae8d2e22
-> > 
-> > ---
-> > Changes in v7:
-> > - updated and extended kernel.rst and perf-security.rst documentation 
-> >   files with the information about CAP_PERFMON capability and its use cases
-> > - documented the case of double audit logging of CAP_PERFMON and CAP_SYS_ADMIN
-> >   capabilities on a SELinux enabled system
-> > Changes in v6:
-> > - avoided noaudit checks in perfmon_capable() to explicitly advertise
-> >   CAP_PERFMON usage thru audit logs to secure system performance
-> >   monitoring and observability
-> > Changes in v5:
-> > - renamed CAP_SYS_PERFMON to CAP_PERFMON
-> > - extended perfmon_capable() with noaudit checks
-> > Changes in v4:
-> > - converted perfmon_capable() into an inline function
-> > - made perf_events kprobes, uprobes, hw breakpoints and namespaces data
-> >   available to CAP_SYS_PERFMON privileged processes
-> > - applied perfmon_capable() to drivers/perf and drivers/oprofile
-> > - extended __cmd_ftrace() with support of CAP_SYS_PERFMON
-> > Changes in v3:
-> > - implemented perfmon_capable() macros aggregating required capabilities
-> >   checks
-> > Changes in v2:
-> > - made perf_events trace points available to CAP_SYS_PERFMON privileged
-> >   processes
-> > - made perf_event_paranoid_check() treat CAP_SYS_PERFMON equally to
-> >   CAP_SYS_ADMIN
-> > - applied CAP_SYS_PERFMON to i915_perf, bpf_trace, powerpc and parisc
-> >   system performance monitoring and observability related subsystems
-> > 
-> > ---
-> > Alexey Budankov (12):
-> >   capabilities: introduce CAP_PERFMON to kernel and user space
-> >   perf/core: open access to the core for CAP_PERFMON privileged process
-> >   perf/core: open access to probes for CAP_PERFMON privileged process
-> >   perf tool: extend Perf tool with CAP_PERFMON capability support
-> >   drm/i915/perf: open access for CAP_PERFMON privileged process
-> >   trace/bpf_trace: open access for CAP_PERFMON privileged process
-> >   powerpc/perf: open access for CAP_PERFMON privileged process
-> >   parisc/perf: open access for CAP_PERFMON privileged process
-> >   drivers/perf: open access for CAP_PERFMON privileged process
-> >   drivers/oprofile: open access for CAP_PERFMON privileged process
-> >   doc/admin-guide: update perf-security.rst with CAP_PERFMON information
-> >   doc/admin-guide: update kernel.rst with CAP_PERFMON information
-> > 
-> >  Documentation/admin-guide/perf-security.rst | 65 +++++++++++++--------
-> >  Documentation/admin-guide/sysctl/kernel.rst | 16 +++--
-> >  arch/parisc/kernel/perf.c                   |  2 +-
-> >  arch/powerpc/perf/imc-pmu.c                 |  4 +-
-> >  drivers/gpu/drm/i915/i915_perf.c            | 13 ++---
-> >  drivers/oprofile/event_buffer.c             |  2 +-
-> >  drivers/perf/arm_spe_pmu.c                  |  4 +-
-> >  include/linux/capability.h                  |  4 ++
-> >  include/linux/perf_event.h                  |  6 +-
-> >  include/uapi/linux/capability.h             |  8 ++-
-> >  kernel/events/core.c                        |  6 +-
-> >  kernel/trace/bpf_trace.c                    |  2 +-
-> >  security/selinux/include/classmap.h         |  4 +-
-> >  tools/perf/builtin-ftrace.c                 |  5 +-
-> >  tools/perf/design.txt                       |  3 +-
-> >  tools/perf/util/cap.h                       |  4 ++
-> >  tools/perf/util/evsel.c                     | 10 ++--
-> >  tools/perf/util/util.c                      |  1 +
-> >  18 files changed, 98 insertions(+), 61 deletions(-)
-> > 
-> > ---
-> > Validation (Intel Skylake, 8 cores, Fedora 29, 5.5.0-rc3+, x86_64):
-> > 
-> > libcap library [6], [7], [8] and Perf tool can be used to apply
-> > CAP_PERFMON capability for secure system performance monitoring and
-> > observability beyond the scope permitted by the system wide
-> > perf_event_paranoid kernel setting [9] and below are the steps for
-> > evaluation:
-> > 
-> >   - patch, build and boot the kernel
-> >   - patch, build Perf tool e.g. to /home/user/perf
-> >   ...
-> >   # git clone git://git.kernel.org/pub/scm/libs/libcap/libcap.git libcap
-> >   # pushd libcap
-> >   # patch libcap/include/uapi/linux/capabilities.h with [PATCH 1]
-> >   # make
-> >   # pushd progs
-> >   # ./setcap "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" /home/user/perf
-> >   # ./setcap -v "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" /home/user/perf
-> >   /home/user/perf: OK
-> >   # ./getcap /home/user/perf
-> >   /home/user/perf = cap_sys_ptrace,cap_syslog,cap_perfmon+ep
-> >   # echo 2 > /proc/sys/kernel/perf_event_paranoid
-> >   # cat /proc/sys/kernel/perf_event_paranoid 
-> >   2
-> >   ...
-> >   $ /home/user/perf top
-> >     ... works as expected ...
-> >   $ cat /proc/`pidof perf`/status
-> >   Name:	perf
-> >   Umask:	0002
-> >   State:	S (sleeping)
-> >   Tgid:	2958
-> >   Ngid:	0
-> >   Pid:	2958
-> >   PPid:	9847
-> >   TracerPid:	0
-> >   Uid:	500	500	500	500
-> >   Gid:	500	500	500	500
-> >   FDSize:	256
-> >   ...
-> >   CapInh:	0000000000000000
-> >   CapPrm:	0000004400080000
-> >   CapEff:	0000004400080000 => 01000100 00000000 00001000 00000000 00000000
-> >                                      cap_perfmon,cap_sys_ptrace,cap_syslog
-> >   CapBnd:	0000007fffffffff
-> >   CapAmb:	0000000000000000
-> >   NoNewPrivs:	0
-> >   Seccomp:	0
-> >   Speculation_Store_Bypass:	thread vulnerable
-> >   Cpus_allowed:	ff
-> >   Cpus_allowed_list:	0-7
-> >   ...
-> > 
-> > Usage of cap_perfmon effectively avoids unused credentials excess:
-> > 
-> > - with cap_sys_admin:
-> >   CapEff:	0000007fffffffff => 01111111 11111111 11111111 11111111 11111111
-> > 
-> > - with cap_perfmon:
-> >   CapEff:	0000004400080000 => 01000100 00000000 00001000 00000000 00000000
-> >                                     38   34               19
-> >                                perfmon   syslog           sys_ptrace
-> > 
-> > ---
-> > [1] https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html
-> > [2] http://man7.org/linux/man-pages/man7/capabilities.7.html
-> > [3] https://www.kernel.org/doc/html/latest/process/embargoed-hardware-issues.html
-> > [4] https://www.kernel.org/doc/html/latest/admin-guide/security-bugs.html
-> > [5] https://www.kernel.org/doc/html/latest/process/management-style.html#decisions
-> > [6] http://man7.org/linux/man-pages/man8/setcap.8.html
-> > [7] https://git.kernel.org/pub/scm/libs/libcap/libcap.git
-> > [8] https://sites.google.com/site/fullycapable/, posix_1003.1e-990310.pdf
-> > [9] http://man7.org/linux/man-pages/man2/perf_event_open.2.html
-> > 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> John.
+
+Hi all,
+
+Friendly ping...
+
+> 
+> 
+>>
+>>
+>>
+>>>
+>>>
+>>>>> previous discusses:
+>>>>> 	https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.org_lkml_2019_6_5_670&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=t2fPg9D87F7D8jm0_3CG9yoiIKdRg4qc_thBw4bzMhc&m=jOAu1DTDpohsWszalfTCYx46eGF19TSWVLchN5yBPgk&s=gS9BLOkmj78lP5L7SP6_VLHwvP249uWKaE2R7N7sxgM&e= 
+>>>>> 	https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.org_lkml_2019_6_13_229&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=t2fPg9D87F7D8jm0_3CG9yoiIKdRg4qc_thBw4bzMhc&m=jOAu1DTDpohsWszalfTCYx46eGF19TSWVLchN5yBPgk&s=U1Nis29n3A7XSBzED53fiE4MDAv5NlxYp1UorvvBOOw&e= 
+>>>>
+>>>> Another concern from James:
+>>>> "
+>>>> With both crashk_low_res and crashk_res, we end up with two entries in /proc/iomem called
+>>>> "Crash kernel". Because its sorted by address, and kexec-tools stops searching when it
+>>>> find "Crash kernel", you are always going to get the kernel placed in the lower portion.
+>>>> "
+>>>>
+>>>> The kexec-tools code is iterating all "Crash kernel" ranges and add them
+>>>> in an array.  In X86 code, it uses the higher range to locate memory.
+>>>
+>>> Then my hurried reading of what the user-space code does was wrong!
+>>>
+>>> If kexec-tools places the kernel in the low region, there may not be enough memory left
+>>> for whatever purpose it was reserved for. This was the motivation for giving it a
+>>> different name.
+>>>
+>>>
+>>> Thanks,
+>>>
+>>> James
+>>>
+>>> _______________________________________________
+>>> kexec mailing list
+>>> kexec@lists.infradead.org
+>>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_kexec&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=t2fPg9D87F7D8jm0_3CG9yoiIKdRg4qc_thBw4bzMhc&m=jOAu1DTDpohsWszalfTCYx46eGF19TSWVLchN5yBPgk&s=bqp02iQDP_Ez-XvLIvj-IPHqbbZwMPlDgmEcG8vhXFE&e= 
+>>
+>>
+>> _______________________________________________
+>> kexec mailing list
+>> kexec@lists.infradead.org
+>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_kexec&d=DwIGaQ&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=t2fPg9D87F7D8jm0_3CG9yoiIKdRg4qc_thBw4bzMhc&m=whm9_BOrgAjJvBn0Ey_brHhFg2YMU_P0HF02dhgdgwU&s=vLar_m5JbicYwwuo6N84ZiBDGZUPM8bBLSPLQBtPZNY&e= 
+> 
+> 
+> .
+> 
+
