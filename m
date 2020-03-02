@@ -4,53 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C6CC3F2E0
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D6DEC3F2DE
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:18:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 48FFC246D4
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:18:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53ACA246B4
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:18:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583137097;
-	bh=TVvdyl0GJrye7f1v4SAQ+y//NYsgAc5Ka71XcuuBSjE=;
+	s=default; t=1583137098;
+	bh=VSYlwxOgcKmsJPmO9XgVB01Y5bYH9oETiiWJbAEWE84=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=UGOsHnDe16zd6lu/11/j48aAIyPl6fHBu+MfiMuchEPQYinocnABLVGcZaTfgsaTA
-	 q6loS38JSCSBo9t3rAliSpwBMlxjlC0xciqOHc011/3tVi1722ATWgsxYQD/dMH7QF
-	 8aMzzOc0YYvizV1jcdUAdx7h0adh58v4opzI0c8E=
+	b=DUOdmdC46X4+XofjcTpomrQHKYYzddGRTDu1KCoVYrKcm24cb0rIZpgKMa8L7O/pn
+	 Pw5TEy0Z1UtxXEiFK9diETOE1lJ7BBm7XvaR0KRZUKUAckYYgttASD1DTO9fQlcxN/
+	 C2l20sSS4DqbmNPNa6mdtgVQ/SkQ2P2Kt0Xc8d68=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727501AbgCBISE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 03:18:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57214 "EHLO mail.kernel.org"
+        id S1727414AbgCBISR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 03:18:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56974 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727242AbgCBIQV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727190AbgCBIQV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 2 Mar 2020 03:16:21 -0500
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 95302246F0;
+        by mail.kernel.org (Postfix) with ESMTPSA id 58489246DF;
         Mon,  2 Mar 2020 08:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583136979;
-        bh=TVvdyl0GJrye7f1v4SAQ+y//NYsgAc5Ka71XcuuBSjE=;
+        bh=VSYlwxOgcKmsJPmO9XgVB01Y5bYH9oETiiWJbAEWE84=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FghARQu1AiuwpGh4txG0QLaWAK30FBrduH4LFbhKtNrDXG2ZnpNP4+KiCBS4UckSd
-         GT/xGHVLUk0AdFiy+q6261/ZbmwtC1eR/SAmkn59XNFexgw8/pNDEWd5T03kh7KsZG
-         8GmY4j6g8ytDa7VOtQF5JeVG/cwgFJp2kx0MVpds=
+        b=JTaAzv8GDPNJB9SZmyvkuXFZp6FGwMbRh9WqXyiH4E0IDZ+9bZGG5c2i4hLdrV1K7
+         IHZglUKa4yJNEJZsXbrtei6xps1TWy6UkIRbGqZL+DOeSwJufLF4o9IJ2rF3zFgJ8P
+         CGDL6Ug7jHKYRFYBSa5RnG3EFa3l578T2trEhrg0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1j8gFN-0003ya-Lu; Mon, 02 Mar 2020 09:16:17 +0100
+        id 1j8gFN-0003xa-BB; Mon, 02 Mar 2020 09:16:17 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Oliver Neukum <oliver@neukum.org>,
+        Ali Akcaagac <aliakc@web.de>,
+        Jamie Lenehan <lenehan@twibble.org>,
         "James E.J. Bottomley" <jejb@linux.ibm.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org
-Subject: [PATCH 25/42] docs: scsi: convert ppa.txt to ReST
-Date:   Mon,  2 Mar 2020 09:15:58 +0100
-Message-Id: <3db8cd51d77fef6b66632249412969caa29dec40.1583136624.git.mchehab+huawei@kernel.org>
+        dc395x@twibble.org, linux-scsi@vger.kernel.org
+Subject: [PATCH 13/42] docs: scsi: convert dc395x.txt to ReST
+Date:   Mon,  2 Mar 2020 09:15:46 +0100
+Message-Id: <3c0876df0045695185f922a0404c497a69de36a9.1583136624.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <cover.1583136624.git.mchehab+huawei@kernel.org>
 References: <cover.1583136624.git.mchehab+huawei@kernel.org>
@@ -63,74 +66,185 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/scsi/index.rst            |  1 +
- Documentation/scsi/{ppa.txt => ppa.rst} | 12 ++++++++----
- drivers/scsi/Kconfig                    |  4 ++--
- 3 files changed, 11 insertions(+), 6 deletions(-)
- rename Documentation/scsi/{ppa.txt => ppa.rst} (32%)
+ Documentation/scsi/{dc395x.txt => dc395x.rst} | 75 +++++++++++--------
+ Documentation/scsi/index.rst                  |  1 +
+ MAINTAINERS                                   |  2 +-
+ drivers/scsi/Kconfig                          |  2 +-
+ 4 files changed, 48 insertions(+), 32 deletions(-)
+ rename Documentation/scsi/{dc395x.txt => dc395x.rst} (64%)
 
-diff --git a/Documentation/scsi/index.rst b/Documentation/scsi/index.rst
-index eb2df0e0dcb7..17327f67af68 100644
---- a/Documentation/scsi/index.rst
-+++ b/Documentation/scsi/index.rst
-@@ -29,5 +29,6 @@ Linux SCSI Subsystem
-    megaraid
-    ncr53c8xx
-    NinjaSCSI
-+   ppa
- 
-    scsi_transport_srp/figures
-diff --git a/Documentation/scsi/ppa.txt b/Documentation/scsi/ppa.rst
-similarity index 32%
-rename from Documentation/scsi/ppa.txt
-rename to Documentation/scsi/ppa.rst
-index 05ff47dbe8d1..5fe3859a6892 100644
---- a/Documentation/scsi/ppa.txt
-+++ b/Documentation/scsi/ppa.rst
-@@ -1,13 +1,17 @@
---------- Terse where to get ZIP Drive help info --------
+diff --git a/Documentation/scsi/dc395x.txt b/Documentation/scsi/dc395x.rst
+similarity index 64%
+rename from Documentation/scsi/dc395x.txt
+rename to Documentation/scsi/dc395x.rst
+index 88219f96633d..d779e782b1cb 100644
+--- a/Documentation/scsi/dc395x.txt
++++ b/Documentation/scsi/dc395x.rst
+@@ -1,5 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +======================================
-+Terse where to get ZIP Drive help info
+ README file for the dc395x SCSI driver
+-==========================================
 +======================================
  
- General Iomega ZIP drive page for Linux:
--http://web.archive.org/web/*/http://www.torque.net/~campbell/
-+http://web.archive.org/web/%2E/http://www.torque.net/~campbell/
+ Status
+ ------
+@@ -18,14 +21,14 @@ http://lists.twibble.org/mailman/listinfo/dc395x/
  
- Driver archive for old drivers:
--http://web.archive.org/web/*/http://www.torque.net/~campbell/ppa
-+http://web.archive.org/web/%2E/http://www.torque.net/~campbell/ppa
+ Parameters
+ ----------
+-The driver uses the settings from the EEPROM set in the SCSI BIOS 
++The driver uses the settings from the EEPROM set in the SCSI BIOS
+ setup. If there is no EEPROM, the driver uses default values.
+ Both can be overridden by command line parameters (module or kernel
+ parameters).
  
- Linux Parport page (parallel port)
--http://web.archive.org/web/*/http://www.torque.net/parport/
-+http://web.archive.org/web/%2E/http://www.torque.net/parport/
+ The following parameters are available:
  
- Email list for Linux Parport
- linux-parport@torque.net
+- - safe
++safe
+    Default: 0, Acceptable values: 0 or 1
+ 
+    If safe is set to 1 then the adapter will use conservative
+@@ -33,52 +36,63 @@ The following parameters are available:
+ 
+ 		shortcut for dc395x=7,4,9,15,2,10
+ 
+- - adapter_id
++adapter_id
+    Default: 7, Acceptable values: 0 to 15
+ 
+    Sets the host adapter SCSI ID.
+ 
+- - max_speed
++max_speed
+    Default: 1, Acceptable value: 0 to 7
+-   0 = 20   Mhz
+-   1 = 12.2 Mhz
+-   2 = 10   Mhz
+-   3 = 8    Mhz
+-   4 = 6.7  Mhz
+-   5 = 5.8  Hhz
+-   6 = 5    Mhz
+-   7 = 4    Mhz
+ 
+- - dev_mode
++   ==  ========
++   0   20   Mhz
++   1   12.2 Mhz
++   2   10   Mhz
++   3   8    Mhz
++   4   6.7  Mhz
++   5   5.8  Hhz
++   6   5    Mhz
++   7   4    Mhz
++   ==  ========
++
++dev_mode
+    Bitmap for device configuration
+ 
+    DevMode bit definition:
++
++      === ======== ========  =========================================
+       Bit Val(hex) Val(dec)  Meaning
+-      *0    0x01       1     Parity check
+-      *1    0x02       2     Synchronous Negotiation
+-      *2    0x04       4     Disconnection
+-      *3    0x08       8     Send Start command on startup. (Not used)
+-      *4    0x10      16     Tagged Command Queueing
+-      *5    0x20      32     Wide Negotiation
++      === ======== ========  =========================================
++       0    0x01       1     Parity check
++       1    0x02       2     Synchronous Negotiation
++       2    0x04       4     Disconnection
++       3    0x08       8     Send Start command on startup. (Not used)
++       4    0x10      16     Tagged Command Queueing
++       5    0x20      32     Wide Negotiation
++      === ======== ========  =========================================
+ 
+- - adapter_mode
++adapter_mode
+    Bitmap for adapter configuration
+ 
+    AdaptMode bit definition
++
++    ===== ======== ========  ====================================================
+       Bit Val(hex) Val(dec)  Meaning
+-      *0    0x01       1     Support more than two drives. (Not used)
+-      *1    0x02       2     Use DOS compatible mapping for HDs greater than 1GB.
+-      *2    0x04       4     Reset SCSI Bus on startup.
+-      *3    0x08       8     Active Negation: Improves SCSI Bus noise immunity.
++    ===== ======== ========  ====================================================
++       0    0x01       1     Support more than two drives. (Not used)
++       1    0x02       2     Use DOS compatible mapping for HDs greater than 1GB.
++       2    0x04       4     Reset SCSI Bus on startup.
++       3    0x08       8     Active Negation: Improves SCSI Bus noise immunity.
+        4    0x10      16     Immediate return on BIOS seek command. (Not used)
+     (*)5    0x20      32     Check for LUNs >= 1.
++    ===== ======== ========  ====================================================
+ 
+- - tags
++tags
+    Default: 3, Acceptable values: 0-5
+-   
++
+    The number of tags is 1<<x, if x has been specified
+ 
+- - reset_delay
++reset_delay
+    Default: 1, Acceptable values: 0-180
+ 
+    The seconds to not accept commands after a SCSI Reset
+@@ -95,8 +109,9 @@ License (GPL). Please read it, before using this driver. It should be
+ included in your kernel sources and with your distribution. It carries the
+ filename COPYING. If you don't have it, please ask me to send you one by
+ email.
+-Note: The GNU GPL says also something about warranty and liability. 
++
++Note: The GNU GPL says also something about warranty and liability.
+ Please be aware the following: While we do my best to provide a working and
+-reliable driver, there is a chance, that it will kill your valuable data. 
++reliable driver, there is a chance, that it will kill your valuable data.
+ We refuse to take any responsibility for that. The driver is provided as-is
+ and YOU USE IT AT YOUR OWN RESPONSIBILITY.
+diff --git a/Documentation/scsi/index.rst b/Documentation/scsi/index.rst
+index 3809213b83da..6fe00709cbce 100644
+--- a/Documentation/scsi/index.rst
++++ b/Documentation/scsi/index.rst
+@@ -17,5 +17,6 @@ Linux SCSI Subsystem
+    bnx2fc
+    BusLogic
+    cxgb3i
++   dc395x
+ 
+    scsi_transport_srp/figures
+diff --git a/MAINTAINERS b/MAINTAINERS
+index aac8ef48dc08..1e2ab816fe66 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4690,7 +4690,7 @@ L:	dc395x@twibble.org
+ W:	http://twibble.org/dist/dc395x/
+ W:	http://lists.twibble.org/mailman/listinfo/dc395x/
+ S:	Maintained
+-F:	Documentation/scsi/dc395x.txt
++F:	Documentation/scsi/dc395x.rst
+ F:	drivers/scsi/dc395x.*
+ 
+ DCCP PROTOCOL
 diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
-index e47498f7627e..82462d6a4ce5 100644
+index 5ec7330f82b6..9f5b2ddec6e0 100644
 --- a/drivers/scsi/Kconfig
 +++ b/drivers/scsi/Kconfig
-@@ -804,7 +804,7 @@ config SCSI_PPA
- 	  newer drives)", below.
+@@ -1187,7 +1187,7 @@ config SCSI_DC395x
+ 	  This driver works, but is still in experimental status. So better
+ 	  have a bootable disk and a backup in case of emergency.
  
- 	  For more information about this driver and how to use it you should
--	  read the file <file:Documentation/scsi/ppa.txt>.  You should also read
-+	  read the file <file:Documentation/scsi/ppa.rst>.  You should also read
- 	  the SCSI-HOWTO, which is available from
- 	  <http://www.tldp.org/docs.html#howto>.  If you use this driver,
- 	  you will still be able to use the parallel port for other tasks,
-@@ -831,7 +831,7 @@ config SCSI_IMM
- 	  here and Y to "IOMEGA Parallel Port (ppa - older drives)", above.
+-	  Documentation can be found in <file:Documentation/scsi/dc395x.txt>.
++	  Documentation can be found in <file:Documentation/scsi/dc395x.rst>.
  
- 	  For more information about this driver and how to use it you should
--	  read the file <file:Documentation/scsi/ppa.txt>.  You should also read
-+	  read the file <file:Documentation/scsi/ppa.rst>.  You should also read
- 	  the SCSI-HOWTO, which is available from
- 	  <http://www.tldp.org/docs.html#howto>.  If you use this driver,
- 	  you will still be able to use the parallel port for other tasks,
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called dc395x.
 -- 
 2.21.1
 
