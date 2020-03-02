@@ -7,125 +7,155 @@ X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25509C3F2CD
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 17:46:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89858C3F2CD
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 18:09:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EE3B9214DB
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 17:46:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C90F2146E
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 18:09:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bhPvEOjm"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UqoUm420"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727196AbgCBRqt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 12:46:49 -0500
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:44642 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727030AbgCBRqt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 12:46:49 -0500
-Received: by mail-vk1-f196.google.com with SMTP id x62so41133vkg.11
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 09:46:48 -0800 (PST)
+        id S1727689AbgCBSI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 13:08:57 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:34390 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727468AbgCBSI5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 13:08:57 -0500
+Received: by mail-oi1-f193.google.com with SMTP id g6so176678oiy.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 10:08:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=wRqcBb5NeC8MFmcr1zGXioEPHZAa7v+ogkQOpmNZPmY=;
-        b=bhPvEOjmCSdagKL7wbSNn+LctUqd1mSHmEn2xDEvGzkuiK6UcHtyC+lxQPBpQlis9b
-         MH79TeTlsFO7qPTBa6z4411JqMqW02pV/UZzr7nzeLdlB06ZAyi+pqcIdU9APksPYo90
-         nUEWiNOWR0xD7j7ZSZMY7pDlZNRy4e+PnpIbfx6SKAz25tzKMc0nQ5KgTJhLyI0UbjFR
-         H3wO7m6+wqBA2WjrG8+3fwWwHTSsGKwniZhDKBbmB9ntCpx4qOEDeojx6XTsRw3deXyz
-         rGSuijN9djreVn1bWwoVZMSunjpo6Cp14oV/CsDb92SZz4nWSLWY6P94qaqIttgdND+9
-         GVoQ==
+        bh=PzpHTT1CytF1CxOEOyrFfNGNhtkDEaDUtrYOH2iFLfA=;
+        b=UqoUm420YQqph3lafHzahQC9V4PdPL/4Qyv6M+TEFjDDlhJUhALb/SAIvAmoSGffyg
+         a+snzgE9CJkyJGW23tqeS/3KQPZf8xJ7BanaVOsbMgKmsVis3fA3OOYQ4v4jTJ1AGhBx
+         K9uQcOSkDeBAtHH7P5nmgTAOojjqNLiO2lPI2fA3RN3wz4dmhavt79Zq4NlnBzpJ+OiA
+         y/TbZNOouXWb/oNa3vM1C3IKrlLfcmIRapwpat4xfLEuvxXctHbiwYexiaQCCtswST76
+         0aZ+VZ+Y0oTlg6eIsuwolOfq1+Y8oOzdLvBO6TZUDoqbSO/q1tj2btepq92gHR5lOUfD
+         s1FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wRqcBb5NeC8MFmcr1zGXioEPHZAa7v+ogkQOpmNZPmY=;
-        b=NziB1uqN9DitntBJpvVJpvtyRos4+qdbfM3kVsqiwg32YEur18pi4DBwneoIm7C/Zh
-         D/T0W0/0//jUGUIiPnBpiByjk7YZTu+UpXw1uv6+HGgF/WIsp/g3VmLW0PQDUx2fxPry
-         x2CETlfl3PrAbgCw0njNh1rXm6xGK8RcVk+bflWzYtGn7XNOTtaIvLuVwBdMa5tptp5V
-         nwf+/pX6tEXLIr2UO1apnw35h/R+uj2DnDEw5S70S1suhnJvHRRcWrJijUdhfzyc+kvQ
-         Mx4jJXbP/4/eiAOPkzSG/AHVLDeUs5oB0wjAVO6O3YOys/z0jnNY+B8th/perCrrss5+
-         ivLQ==
-X-Gm-Message-State: ANhLgQ2Nin+aA0itsml/R7cS1iIvfKff2BVGUcW3hQZhJo+aSdHRWURL
-        l7687AohRi6mow/c2RL5t60gy9WjZ8zDvS9YZJLWvA==
-X-Google-Smtp-Source: ADFU+vvI4v1XSZF009wAi9uAcVVON3h+bKuIxN4MJslrz6LFmkBZ04IXzw5whl+Td9/Njl7w5J59jkiRYYRU3oMTDDU=
-X-Received: by 2002:a1f:5385:: with SMTP id h127mr542849vkb.56.1583171207966;
- Mon, 02 Mar 2020 09:46:47 -0800 (PST)
+        bh=PzpHTT1CytF1CxOEOyrFfNGNhtkDEaDUtrYOH2iFLfA=;
+        b=pXvalx/m2qr/OtQ+rjW9NDMHG/jWLn46eGdxJi+HlqgOvqB2bL3I82TVjxfVivPfnP
+         MtYDLaQTM5y+VPGZx/+mtMfeUUjkOJZ/sO5Yq32KPSsh9rTYWgsFey+nN+IgKIpB+M8v
+         yis4NixjFiMLZJrdiapctEloBiW38rJqjPzZIEH/F0bo8fS0wFKMISLLmSa04NGNkB/A
+         +XnV6gsT7M0MKDYnPyZl/sJfsFRkJTUbnWUbg8O3xwd8Ve60pHpfTx9592vEpt0iDyig
+         7uFnL/Q3FS/MmKaX3Rt4B1YStTKJYA/WEHoI9NiRK1ABxCUp+DluB+XD2iIM62Ipw3JC
+         2V9w==
+X-Gm-Message-State: ANhLgQ3NgDyx6yovB6UyT5OXNFXBr4E/Vt96lNljom6dH6smBsDE11R7
+        K/mZy355qSrOp55p4SwGneLiLk0Py34zgpeokecM1Q==
+X-Google-Smtp-Source: ADFU+vvElPHbaOkc/ffKR7JWZMzjpg6bZ6JiSaTN3SNT/Yuy1ZmDiKrsYKSVrGwdXREPaOYmbN9ESv+hvKDnpyK2MgA=
+X-Received: by 2002:aca:538e:: with SMTP id h136mr242942oib.39.1583172536153;
+ Mon, 02 Mar 2020 10:08:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20200219183231.50985-1-balejs@google.com> <20200229005131.GB9813@google.com>
- <20200229184300.GA484762@carbon.DHCP.thefacebook.com> <20200301162003.GA186618@google.com>
- <20200302165330.GA505299@carbon.DHCP.thefacebook.com>
-In-Reply-To: <20200302165330.GA505299@carbon.DHCP.thefacebook.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 2 Mar 2020 09:46:36 -0800
-Message-ID: <CAJuCfpEk4gz9YKVuRBW4E-Up_LSGWCSpyJft4y+rOjyPSa08Zg@mail.gmail.com>
-Subject: Re: [PATCH] cgroup-v1: freezer: optionally killable freezer
-To:     Roman Gushchin <guro@fb.com>
-Cc:     Marco Ballesio <balejs@google.com>, Tejun Heo <tj@kernel.org>,
-        cgroups mailinglist <cgroups@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, rjw@rjwysocki.net,
-        pavel@ucw.cz, len.brown@intel.com, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, Minchan Kim <minchan@google.com>,
-        Daniel Colascione <dancol@google.com>
+References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <CAG48ez3QHVpMJ9Rb_Q4LEE6uAqQJeS1Myu82U=fgvUfoeiscgw@mail.gmail.com>
+ <20200301185244.zkofjus6xtgkx4s3@wittgenstein> <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
+ <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74zmfc9.fsf@x220.int.ebiederm.org> <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87k142lpfz.fsf@x220.int.ebiederm.org> <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <875zfmloir.fsf@x220.int.ebiederm.org> <CAG48ez0iXMD0mduKWHG6GZZoR+s2jXy776zwiRd+tFADCEiBEw@mail.gmail.com>
+ <AM6PR03MB5170BD130F15CE1909F59B55E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <CAG48ez1jj_J3PtENWvu8piFGsik6RvuyD38ie48TYr2k1Rbf3A@mail.gmail.com> <5e5d45a3.1c69fb81.f99ac.0806@mx.google.com>
+In-Reply-To: <5e5d45a3.1c69fb81.f99ac.0806@mx.google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 2 Mar 2020 19:08:29 +0100
+Message-ID: <CAG48ez0zfutdReRCP38+F2O=LMU11FUQAG59YkaKZY8AJNxSGQ@mail.gmail.com>
+Subject: Re: [PATCHv2] exec: Fix a deadlock in ptrace
+To:     Christian Brauner <christian@brauner.io>
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>, linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 2, 2020 at 8:53 AM Roman Gushchin <guro@fb.com> wrote:
->
-> On Sun, Mar 01, 2020 at 08:20:03AM -0800, Marco Ballesio wrote:
-> > On Sat, Feb 29, 2020 at 10:43:00AM -0800, Roman Gushchin wrote:
-> > > On Fri, Feb 28, 2020 at 04:51:31PM -0800, Marco Ballesio wrote:
-> > > > Hi all,
-> > > >
-> > > > did anyone have time to look into my proposal and, in case, are there
-> > > > any suggestions, ideas or comments about it?
-> > >
-> > > Hello, Marco!
-> > >
-> > > I'm sorry, somehow I missed the original letter.
-> > >
-> > > In general the cgroup v1 interface is considered frozen. Are there any particular
-> > > reasons why you want to extend the v1 freezer rather than use the v2 version of it?
-> > >
-> > > You don't even need to fully convert to cgroup v2 in order to do it, some v1
-> > > controllers can still be used.
-> > >
-> > > Thanks!
-> > >
-> > > Roman
+On Mon, Mar 2, 2020 at 6:43 PM <christian@brauner.io> wrote:
+> On March 2, 2020 6:37:27 PM GMT+01:00, Jann Horn <jannh@google.com> wrote:
+> >On Mon, Mar 2, 2020 at 6:01 PM Bernd Edlinger
+> ><bernd.edlinger@hotmail.de> wrote:
+> >> On 3/2/20 5:43 PM, Jann Horn wrote:
+> >> > On Mon, Mar 2, 2020 at 5:19 PM Eric W. Biederman
+> ><ebiederm@xmission.com> wrote:
+[...]
+> >> >> I am 99% convinced that the fix is to move cred_guard_mutex down.
+> >> >
+> >> > "move cred_guard_mutex down" as in "take it once we've already set
+> >up
+> >> > the new process, past the point of no return"?
+> >> >
+> >> >> Then right after we take cred_guard_mutex do:
+> >> >>         if (ptraced) {
+> >> >>                 use_original_creds();
+> >> >>         }
+> >> >>
+> >> >> And call it a day.
+> >> >>
+> >> >> The details suck but I am 99% certain that would solve everyones
+> >> >> problems, and not be too bad to audit either.
+> >> >
+> >> > Ah, hmm, that sounds like it'll work fine at least when no LSMs are
+> >involved.
+> >> >
+> >> > SELinux normally doesn't do the execution-degrading thing, it just
+> >> > blocks the execution completely - see their
+> >selinux_bprm_set_creds()
+> >> > hook. So I think they'd still need to set some state on the task
+> >that
+> >> > says "we're currently in the middle of an execution where the
+> >target
+> >> > task will run in context X", and then check against that in the
+> >> > ptrace_may_access hook. Or I suppose they could just kill the task
+> >> > near the end of execve, although that'd be kinda ugly.
+> >> >
+> >>
+> >> We have current->in_execve for that, right?
+> >> I think when the cred_guard_mutex is taken only in the critical
+> >section,
+> >> then PTRACE_ATTACH could take the guard_mutex, and look at
+> >current->in_execve,
+> >> and just return -EAGAIN in that case, right, everybody happy :)
 > >
-> > Hi Roman,
-> >
-> > When compared with backports of v2 features and their dependency chains, this
-> > patch would be easier to carry in Android common. The potential is to have
-> > killability for frozen processes on hw currently in use.
+> >It's probably going to mean that things like strace will just randomly
+> >fail to attach to processes if they happen to be in the middle of
+> >execve... but I guess that works?
 >
+> That sounds like an acceptable outcome.
+> We can at least risk it and if we regress
+> revert or come up with the more complex
+> solution suggested in another mail here?
 
-Hi Roman,
-
-> I see...
->
-> The implementation looks good to me, but I really not sure if adding new control files
-> to cgroup v1 is a good idea at this point. Are there any plans in the Android world
-> to move forward to cgroup v2? If not, why not?
-
-There are plans to prototype that and gradually move from cgroups v1
-to v2 at least for some cgroup controllers (the ones that can use
-unified hierarchy). Creating an additional per-process cgroup v2
-hierarchy only for freezer would be a high price to pay today. In the
-future when we migrate some controllers to v2 the price will be
-amortized and we will probably be able to do that.
-
-> If there are any specific issues/dependencies, let's discuss and resolve them.
->
-> Thanks!
->
-> Roman
-
-Thanks,
-Suren.
+Yeah, sounds reasonable, I guess.
