@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD870C3F2D1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7140CC3F2D4
 	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:00:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7BDCD246B4
+	by mail.kernel.org (Postfix) with ESMTP id 469DF246B4
 	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1583136026;
-	bh=2/DNAapS2UOdSVGxm+XzjadCyyFdTsbsMdhV6JX9eVk=;
+	bh=hAwgYv9I6N9FUJGWAzMXgm110Nj2KkkEzJ/96xJ9rhA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=e83y7huxjnG32atPL4k8eZ5Kq96YKkXwSayoX6iqYtXV6EKOlX9r8StiXSk/4GWg5
-	 4B+60yXCQEJUiudeS3U7Wc0Oa52g9buH0gYt4gB0CWbEXTnPaFhq4w4QNwQa1yBgIt
-	 Do5l369ITJrjqDi34N3zIEXJ6iFUXPyOIhUhrw3w=
+	b=k5z40CGCtlE1T0/j6TWKxJVlCx3tKqc+PdXniC0CSYX3I3Of+KPrGy/ong3IzD9Je
+	 8ecPo7N1Y3CuhOZzbxe3ubAPBLzV0ZGFG751xEWZg9eLpepP7B9w9hfwHWjBeEqHnC
+	 Kyii24N8DXU32p20Seix/vcUKSXNCTr41b2KVnYk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbgCBH7m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 02:59:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51284 "EHLO mail.kernel.org"
+        id S1727123AbgCBIAW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 03:00:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51254 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727030AbgCBH7m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726951AbgCBH7m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 2 Mar 2020 02:59:42 -0500
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7C2C5246C0;
+        by mail.kernel.org (Postfix) with ESMTPSA id 508F2246B4;
         Mon,  2 Mar 2020 07:59:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583135981;
-        bh=2/DNAapS2UOdSVGxm+XzjadCyyFdTsbsMdhV6JX9eVk=;
+        bh=hAwgYv9I6N9FUJGWAzMXgm110Nj2KkkEzJ/96xJ9rhA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=u9joVP2T5KLYLdFWkyDwgZHFxLQK1nSfLm6W3LdAt7HvOYiRGQ61XtPtrNt4RjI9g
-         lee1I1e4653bVCPWsX8bH88hzvzAwJzDoz/ow69+bIoYXPaECf2Y0fnaqlQwGrfDwz
-         BJ8j08m2hyftr5wGaWZqMGtNw6JF+YS+yoQtvBCw=
+        b=DtuRZwDZzTHdH/U/FoYolrNitNUpxrn358lOut/uaRSo6czfCfN2aLgwGYT+B1X5z
+         M3dwITItj3TmJy217CsbiyX26YYesBbkZOHcS9o/Nal6jFVu0F6c1O5FQMf/NgWb89
+         ckIM7ZIVAotsJRga2Pt3cNy48Q7Eh4Hvq36YJtgo=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1j8fzH-0003gv-7l; Mon, 02 Mar 2020 08:59:39 +0100
+        id 1j8fzH-0003gd-45; Mon, 02 Mar 2020 08:59:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v2 09/12] docs: dt: minor adjustments at writing-schema.rst
-Date:   Mon,  2 Mar 2020 08:59:34 +0100
-Message-Id: <b1e47ef85472a9a98aae12911c76c0e45a557cf4.1583135507.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 05/12] docs: dt: convert changesets to ReST
+Date:   Mon,  2 Mar 2020 08:59:30 +0100
+Message-Id: <b03ed74ccc14d1a9710702fda9b9a6d7d0a7d136.1583135507.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <cover.1583135507.git.mchehab+huawei@kernel.org>
 References: <cover.1583135507.git.mchehab+huawei@kernel.org>
@@ -59,41 +59,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are two literal blocks that aren't mark as such. Mark them,
-in order to make the document to produce a better html output.
-
-While here, also add a SPDX header to it.
+- Add a SPDX header;
+- Add a document title;
+- Some whitespace fixes and new line breaks;
+- Add it to devicetree/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/devicetree/writing-schema.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ .../{changesets.txt => changesets.rst}        | 24 ++++++++++++-------
+ Documentation/devicetree/index.rst            |  1 +
+ 2 files changed, 16 insertions(+), 9 deletions(-)
+ rename Documentation/devicetree/{changesets.txt => changesets.rst} (59%)
 
-diff --git a/Documentation/devicetree/writing-schema.rst b/Documentation/devicetree/writing-schema.rst
-index 7635ab230456..6b3ef308c59f 100644
---- a/Documentation/devicetree/writing-schema.rst
-+++ b/Documentation/devicetree/writing-schema.rst
-@@ -1,4 +1,4 @@
--:orphan:
+diff --git a/Documentation/devicetree/changesets.txt b/Documentation/devicetree/changesets.rst
+similarity index 59%
+rename from Documentation/devicetree/changesets.txt
+rename to Documentation/devicetree/changesets.rst
+index cb488eeb6353..c7fd8cd6a270 100644
+--- a/Documentation/devicetree/changesets.txt
++++ b/Documentation/devicetree/changesets.rst
+@@ -1,3 +1,9 @@
 +.. SPDX-License-Identifier: GPL-2.0
- 
- Writing DeviceTree Bindings in json-schema
- ==========================================
-@@ -124,9 +124,12 @@ dtc must also be built with YAML output support enabled. This requires that
- libyaml and its headers be installed on the host system. For some distributions
- that involves installing the development package, such as:
- 
--Debian:
-+Debian::
 +
-   apt-get install libyaml-dev
--Fedora:
++=============
++DT Changesets
++=============
 +
-+Fedora::
-+
-   dnf -y install libyaml-devel
+ A DT changeset is a method which allows one to apply changes
+ in the live tree in such a way that either the full set of changes
+ will be applied, or none of them will be. If an error occurs partway
+@@ -15,17 +21,17 @@ The sequence of a changeset is as follows.
+ 1. of_changeset_init() - initializes a changeset
  
- Running checks
+ 2. A number of DT tree change calls, of_changeset_attach_node(),
+-of_changeset_detach_node(), of_changeset_add_property(),
+-of_changeset_remove_property, of_changeset_update_property() to prepare
+-a set of changes. No changes to the active tree are made at this point.
+-All the change operations are recorded in the of_changeset 'entries'
+-list.
++   of_changeset_detach_node(), of_changeset_add_property(),
++   of_changeset_remove_property, of_changeset_update_property() to prepare
++   a set of changes. No changes to the active tree are made at this point.
++   All the change operations are recorded in the of_changeset 'entries'
++   list.
+ 
+ 3. of_changeset_apply() - Apply the changes to the tree. Either the
+-entire changeset will get applied, or if there is an error the tree will
+-be restored to the previous state. The core ensures proper serialization
+-through locking. An unlocked version __of_changeset_apply is available,
+-if needed.
++   entire changeset will get applied, or if there is an error the tree will
++   be restored to the previous state. The core ensures proper serialization
++   through locking. An unlocked version __of_changeset_apply is available,
++   if needed.
+ 
+ If a successfully applied changeset needs to be removed, it can be done
+ with of_changeset_revert().
+diff --git a/Documentation/devicetree/index.rst b/Documentation/devicetree/index.rst
+index 6b4daf252375..64c78c3ffea6 100644
+--- a/Documentation/devicetree/index.rst
++++ b/Documentation/devicetree/index.rst
+@@ -10,3 +10,4 @@ Open Firmware and Device Tree
+    usage-model
+    writing-schema
+    booting-without-of
++   changesets
 -- 
 2.21.1
 
