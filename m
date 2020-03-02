@@ -2,134 +2,120 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1EDC3F2D5
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:39:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 250B7C3F2D2
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:48:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 641CF246A1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583134742;
-	bh=f6i/xaLRU1T6rTh9TlFkJDoYWjgK7JZpOPbZpK+IlBg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=F3KT4pyarLfOAJMC+7eW3gAS6yAWaEx3XI4vd0XLGlP5TWjgz8gIeptcqcozp1flD
-	 1HdA1NbWIPItelNDK8t5FXRKpZFe8+zVt/tyygLylR5zzfLAE5M5Y87ULbuljOuNge
-	 vEbbAU4ucxsapXW8bPVlwNiq98OsAD4iMwkwy3/A=
+	by mail.kernel.org (Postfix) with ESMTP id 057EF246B4
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:48:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727331AbgCBHjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 02:39:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44690 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726426AbgCBHiP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Mar 2020 02:38:15 -0500
-Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6ED26246A1;
-        Mon,  2 Mar 2020 07:38:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583134694;
-        bh=f6i/xaLRU1T6rTh9TlFkJDoYWjgK7JZpOPbZpK+IlBg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZC0gx/EyTodst0I9AllFHWhXSLSBkmq8KkXp102rfVUmO6T0D6BYLbJQGR1OQqetT
-         xkGhSk/y5ANztZ5UPr1E0WpnHk3p7TNtBMUnIW667jSBS+pfWj6WofAs92j5ZmfH7+
-         ocCo81f4216vRBgrWURagHldax0zrKZZqCNfIxhs=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1j8feV-0003Vm-UQ; Mon, 02 Mar 2020 08:38:11 +0100
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH 06/12] docs: dt: convert dynamic-resolution-notes.txt to ReST
-Date:   Mon,  2 Mar 2020 08:38:01 +0100
-Message-Id: <959df4057c4b09f73924c9ee5bafd4ad8c861f99.1583134242.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <cover.1583134242.git.mchehab+samsung@kernel.org>
-References: <cover.1583134242.git.mchehab+samsung@kernel.org>
+        id S1726654AbgCBHs2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 02:48:28 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:47552 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725446AbgCBHs2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 02:48:28 -0500
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1j8fns-0001Sk-QB; Mon, 02 Mar 2020 07:47:52 +0000
+Date:   Mon, 2 Mar 2020 08:47:51 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Jann Horn <jannh@google.com>
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH] exec: Fix a deadlock in ptrace
+Message-ID: <20200302074751.evhnq3b5zvtbaqu4@wittgenstein>
+References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <CAG48ez3QHVpMJ9Rb_Q4LEE6uAqQJeS1Myu82U=fgvUfoeiscgw@mail.gmail.com>
+ <20200301185244.zkofjus6xtgkx4s3@wittgenstein>
+ <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Sun, Mar 01, 2020 at 09:00:22PM +0100, Jann Horn wrote:
+> On Sun, Mar 1, 2020 at 7:52 PM Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
+> > On Sun, Mar 01, 2020 at 07:21:03PM +0100, Jann Horn wrote:
+> > > On Sun, Mar 1, 2020 at 12:27 PM Bernd Edlinger
+> > > <bernd.edlinger@hotmail.de> wrote:
+> > > > The proposed solution is to have a second mutex that is
+> > > > used in mm_access, so it is allowed to continue while the
+> > > > dying threads are not yet terminated.
+> > >
+> > > Just for context: When I proposed something similar back in 2016,
+> > > https://lore.kernel.org/linux-fsdevel/20161102181806.GB1112@redhat.com/
+> > > was the resulting discussion thread. At least back then, I looked
+> > > through the various existing users of cred_guard_mutex, and the only
+> > > places that couldn't be converted to the new second mutex were
+> > > PTRACE_ATTACH and SECCOMP_FILTER_FLAG_TSYNC.
+> > >
+> > >
+> > > The ideal solution would IMO be something like this: Decide what the
+> > > new task's credentials should be *before* reaching de_thread(),
+> > > install them into a second cred* on the task (together with the new
+> > > dumpability), drop the cred_guard_mutex, and let ptrace_may_access()
+> > > check against both. After that, some further restructuring might even
+> >
+> > Hm, so essentially a private ptrace_access_cred member in task_struct?
+> 
+> And a second dumpability field, because that changes together with the
+> creds during execve. (Btw, currently the dumpability is in the
+> mm_struct, but that's kinda wrong. The mm_struct is removed from a
+> task on exit while access checks can still be performed against it, and
+> currently ptrace_may_access() just lets the access go through in that
+> case, which weakens the protection offered by PR_SET_DUMPABLE when
+> used for security purposes. I think it ought to be moved over into the
+> task_struct.)
+> 
+> > That would presumably also involve altering various LSM hooks to look at
+> > ptrace_access_cred.
+> 
+> When I tried to implement this in the past, I changed the LSM hook to
+> take the target task's cred* as an argument, and then called the LSM
+> hook twice from ptrace_may_access(). IIRC having the target task's
+> creds as an argument works for almost all the LSMs, with the exception
+> of Yama, which doesn't really care about the target task's creds, so
+> you have to pass in both the task_struct* and the cred*.
 
-- Add a SPDX header;
-- Adjust document title;
-- Add it to devicetree/index.rst.
+It seems we should try PoCing this.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- ...mic-resolution-notes.txt => dynamic-resolution-notes.rst} | 5 ++++-
- Documentation/devicetree/index.rst                           | 1 +
- Documentation/devicetree/overlay-notes.txt                   | 2 +-
- MAINTAINERS                                                  | 2 +-
- 4 files changed, 7 insertions(+), 3 deletions(-)
- rename Documentation/devicetree/{dynamic-resolution-notes.txt => dynamic-resolution-notes.rst} (90%)
-
-diff --git a/Documentation/devicetree/dynamic-resolution-notes.txt b/Documentation/devicetree/dynamic-resolution-notes.rst
-similarity index 90%
-rename from Documentation/devicetree/dynamic-resolution-notes.txt
-rename to Documentation/devicetree/dynamic-resolution-notes.rst
-index c24ec366c5dc..570b7e1f39eb 100644
---- a/Documentation/devicetree/dynamic-resolution-notes.txt
-+++ b/Documentation/devicetree/dynamic-resolution-notes.rst
-@@ -1,5 +1,8 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================================
- Device Tree Dynamic Resolver Notes
------------------------------------
-+==================================
- 
- This document describes the implementation of the in-kernel
- Device Tree resolver, residing in drivers/of/resolver.c
-diff --git a/Documentation/devicetree/index.rst b/Documentation/devicetree/index.rst
-index 64c78c3ffea6..308cac9d7021 100644
---- a/Documentation/devicetree/index.rst
-+++ b/Documentation/devicetree/index.rst
-@@ -11,3 +11,4 @@ Open Firmware and Device Tree
-    writing-schema
-    booting-without-of
-    changesets
-+   dynamic-resolution-notes
-diff --git a/Documentation/devicetree/overlay-notes.txt b/Documentation/devicetree/overlay-notes.txt
-index 725fb8d255c1..3f20a39e4bc2 100644
---- a/Documentation/devicetree/overlay-notes.txt
-+++ b/Documentation/devicetree/overlay-notes.txt
-@@ -3,7 +3,7 @@ Device Tree Overlay Notes
- 
- This document describes the implementation of the in-kernel
- device tree overlay functionality residing in drivers/of/overlay.c and is a
--companion document to Documentation/devicetree/dynamic-resolution-notes.txt[1]
-+companion document to Documentation/devicetree/dynamic-resolution-notes.rst[1]
- 
- How overlays work
- -----------------
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 09b04505e7c3..1380b1ed69a2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12458,7 +12458,7 @@ M:	Pantelis Antoniou <pantelis.antoniou@konsulko.com>
- M:	Frank Rowand <frowand.list@gmail.com>
- L:	devicetree@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/dynamic-resolution-notes.txt
-+F:	Documentation/devicetree/dynamic-resolution-notes.rst
- F:	Documentation/devicetree/overlay-notes.txt
- F:	drivers/of/overlay.c
- F:	drivers/of/resolver.c
--- 
-2.21.1
-
+Christian
