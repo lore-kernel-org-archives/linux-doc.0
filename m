@@ -2,126 +2,105 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1928C3F2D1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 11:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB3FBC3F2D1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 11:53:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C4D5F2173E
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 11:36:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C01622468A
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 11:53:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="aSNe+g53"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r6j9t0b6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726806AbgCBLgF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 06:36:05 -0500
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:64872 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726470AbgCBLgF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 06:36:05 -0500
+        id S1727775AbgCBLx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 06:53:58 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:39489 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727484AbgCBLx5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 06:53:57 -0500
+Received: by mail-wm1-f67.google.com with SMTP id c24so2837707wml.4
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 03:53:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1583148965; x=1614684965;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=oC+sHqqor/YXZFufFO4f+Vkq6AmhWnj6RaFndViWmTI=;
-  b=aSNe+g53E0+IbcRa3RBNdiYcbZzJY/WqwYk0fVcOOCxIbMzIs4W23ayj
-   RW1MfHLY8xdGQ0U+/AdUmKouG068JIqVb1wVPYFnKzZtaUucUXXHFt9nh
-   ieYqGfBvsgGnbcl4xleork7axJUbHZVxFNkjk18uaR4jZ4woP9W91ZpA3
-   4=;
-IronPort-SDR: NFgSqvTchRtrH2OgxPCJhIR+IpWvawBTDEEkLI9AM+1mDBmz/Dl7tM6DwOfUffA0lKp3u/9af3
- cwnogZa21mBg==
-X-IronPort-AV: E=Sophos;i="5.70,506,1574121600"; 
-   d="scan'208";a="28575233"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-c7c08562.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 02 Mar 2020 11:35:58 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1e-c7c08562.us-east-1.amazon.com (Postfix) with ESMTPS id 89BE9249F0D;
-        Mon,  2 Mar 2020 11:35:48 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Mon, 2 Mar 2020 11:35:47 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.74) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Mon, 2 Mar 2020 11:35:35 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.com>
-CC:     SeongJae Park <sjpark@amazon.de>, <aarcange@redhat.com>,
-        <yang.shi@linux.alibaba.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 00/14] Introduce Data Access MONitor (DAMON)
-Date:   Mon, 2 Mar 2020 12:35:12 +0100
-Message-ID: <20200302113512.8880-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200224123047.32506-1-sjpark@amazon.com> (raw)
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=azUAbwec9h/nTfVaFPcgmhe6fEkHKvdkY4Og3qBi37Y=;
+        b=r6j9t0b6YVsKN35LyP/H5lUyKRUrdC0WhAe7pyoL9zqxJsdyHeGhs2X3RPXsG77ucE
+         jE/L3lSF6Wv872Mzbni4tCKo2Uf/J5FiErTEvIguKLvUeYhUGNPKhhpaGFNRNrWGk+f2
+         1QjGeQADib8veuFWed0VG38BvxD1/BlcZKNZvBoIdZaKVu4tpxIefsYEaasn1pXrO6pw
+         1IS1EFDyfxBfwjF3zBykGgdaT4Xa+9qN7Hg+f7ZRYZZU9a6HuY5nByYkE4VPQwAGEqOh
+         HGZj0HxfvbruJPh91RNIa+cmcx57q78ersUThwaD49igmWlsnmeX5r7Lhm6Fksn6cv6m
+         AmWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=azUAbwec9h/nTfVaFPcgmhe6fEkHKvdkY4Og3qBi37Y=;
+        b=USkT3WZ4Rch3Knq+49WcOMOl84zEeGfiik1FREDpzzXjtosCRM2p97XnUrBQRYelXz
+         o+6SyteCqAmfz6LkOfB9+E0jNj51o/6npGcLEIUIucJTj5qaqDnJcxBUbVq1NazPi1y/
+         HmAUxiLl7WReQ3mD2J3COTVYt3BnbxdYUaljTSBS6sggeg8Pp+GKlpk6ZcYgdnIkjnPs
+         uDlrYM9Wi7F6SBWN3/U5FY7rJDoqz4akOFUpR0Tl9ip99/PBmTKPIhMxh9nC7NoK4iNt
+         Og/aziuLmHY2f7vHFWzt3O/Nie+SCNRxJb1snKG2m1HtD9DfcUrH2NlTuf2Dkn6e7pFZ
+         78Fg==
+X-Gm-Message-State: APjAAAUWZDGX0Z66cagNYPOQSV+tC8HMP8KnRBiSsaCmwQWPakoK+cPC
+        IRUSKvkMzYr+pC/4T+gBo7Vpgg==
+X-Google-Smtp-Source: APXvYqynY+onBCIIhC4P/zjfJVC1tFcUN36uleAbHJTeNOVBp0N74P2fBTF9cu3aqLEh5sEG98Rv7w==
+X-Received: by 2002:a1c:9d85:: with SMTP id g127mr19364122wme.75.1583150036591;
+        Mon, 02 Mar 2020 03:53:56 -0800 (PST)
+Received: from dell ([2.31.163.122])
+        by smtp.gmail.com with ESMTPSA id j5sm27954117wrx.56.2020.03.02.03.53.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2020 03:53:55 -0800 (PST)
+Date:   Mon, 2 Mar 2020 11:54:32 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 02/12] docs: dt: convert usage-model.txt to ReST
+Message-ID: <20200302115432.GX3494@dell>
+References: <cover.1583135507.git.mchehab+huawei@kernel.org>
+ <0432bc8cdb6abb8618eac89d68db7441b613106d.1583135507.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.74]
-X-ClientProxiedBy: EX13D04UWA004.ant.amazon.com (10.43.160.234) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0432bc8cdb6abb8618eac89d68db7441b613106d.1583135507.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Mon, 02 Mar 2020, Mauro Carvalho Chehab wrote:
 
-On Mon, 24 Feb 2020 13:30:33 +0100 SeongJae Park <sjpark@amazon.com> wrote:
-
-> From: SeongJae Park <sjpark@amazon.de>
+> - Add a SPDX header;
+> - Adjust document title;
+> - Use footnoote markups;
+> - Some whitespace fixes and new line breaks;
+> - Mark literal blocks as such;
+> - Add it to devicetree/index.rst.
 > 
-> Introduction
-> ============
-> 
-> Memory management decisions can be improved if finer data access information is
-> available.  However, because such finer information usually comes with higher
-> overhead, most systems including Linux forgives the potential improvement and
-> rely on only coarse information or some light-weight heuristics.  The
-> pseudo-LRU and the aggressive THP promotions are such examples.
-> 
-> A number of experimental data access pattern awared memory management
-> optimizations (refer to 'Appendix A' for more details) say the sacrifices are
-> huge.  However, none of those has successfully adopted to Linux kernel mainly
-> due to the absence of a scalable and efficient data access monitoring
-> mechanism.  Refer to 'Appendix B' to see the limitations of existing memory
-> monitoring mechanisms.
-> 
-> DAMON is a data access monitoring subsystem for the problem.  It is 1) accurate
-> enough to be used for the DRAM level memory management (a straightforward
-> DAMON-based optimization achieved up to 2.55x speedup), 2) light-weight enough
-> to be applied online (compared to a straightforward access monitoring scheme,
-> DAMON is up to 94.242.42x lighter) and 3) keeps predefined upper-bound overhead
-> regardless of the size of target workloads (thus scalable).  Refer to 'Appendix
-> C' if you interested in how it is possible.
-> 
-> DAMON has mainly designed for the kernel's memory management mechanisms.
-> However, because it is implemented as a standalone kernel module and provides
-> several interfaces, it can be used by a wide range of users including kernel
-> space programs, user space programs, programmers, and administrators.  DAMON
-> is now supporting the monitoring only, but it will also provide simple and
-> convenient data access pattern awared memory managements by itself.  Refer to
-> 'Appendix D' for more detailed expected usages of DAMON.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/devicetree/index.rst            |  1 +
+>  Documentation/devicetree/of_unittest.txt      |  2 +-
+>  .../{usage-model.txt => usage-model.rst}      | 35 +++++++++++--------
 
-I have posted this patchset once per week, but skip this week because there
-were no comments in last week and therefore made no change in the patchset.
+>  include/linux/mfd/core.h                      |  2 +-
 
-I think I answered to all previous comments and fixed all bugs previously
-found.  May I ask some more comments or reviews?  If I missed something or
-doing wrong, please let me know.
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
+>  4 files changed, 23 insertions(+), 17 deletions(-)
+>  rename Documentation/devicetree/{usage-model.txt => usage-model.rst} (97%)
 
-Thanks,
-SeongJae Park
-
-[...]
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
