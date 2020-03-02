@@ -2,160 +2,185 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89858C3F2CD
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 18:09:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3DEC3F2D1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 18:29:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5C90F2146E
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 18:09:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 848FE24682
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 18:29:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UqoUm420"
+	dkim=pass (1024-bit key) header.d=fb.com header.i=@fb.com header.b="ixoPNZXa";
+	dkim=pass (1024-bit key) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com header.b="CUzk0WsD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727689AbgCBSI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 13:08:57 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:34390 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727468AbgCBSI5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 13:08:57 -0500
-Received: by mail-oi1-f193.google.com with SMTP id g6so176678oiy.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 10:08:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PzpHTT1CytF1CxOEOyrFfNGNhtkDEaDUtrYOH2iFLfA=;
-        b=UqoUm420YQqph3lafHzahQC9V4PdPL/4Qyv6M+TEFjDDlhJUhALb/SAIvAmoSGffyg
-         a+snzgE9CJkyJGW23tqeS/3KQPZf8xJ7BanaVOsbMgKmsVis3fA3OOYQ4v4jTJ1AGhBx
-         K9uQcOSkDeBAtHH7P5nmgTAOojjqNLiO2lPI2fA3RN3wz4dmhavt79Zq4NlnBzpJ+OiA
-         y/TbZNOouXWb/oNa3vM1C3IKrlLfcmIRapwpat4xfLEuvxXctHbiwYexiaQCCtswST76
-         0aZ+VZ+Y0oTlg6eIsuwolOfq1+Y8oOzdLvBO6TZUDoqbSO/q1tj2btepq92gHR5lOUfD
-         s1FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PzpHTT1CytF1CxOEOyrFfNGNhtkDEaDUtrYOH2iFLfA=;
-        b=pXvalx/m2qr/OtQ+rjW9NDMHG/jWLn46eGdxJi+HlqgOvqB2bL3I82TVjxfVivPfnP
-         MtYDLaQTM5y+VPGZx/+mtMfeUUjkOJZ/sO5Yq32KPSsh9rTYWgsFey+nN+IgKIpB+M8v
-         yis4NixjFiMLZJrdiapctEloBiW38rJqjPzZIEH/F0bo8fS0wFKMISLLmSa04NGNkB/A
-         +XnV6gsT7M0MKDYnPyZl/sJfsFRkJTUbnWUbg8O3xwd8Ve60pHpfTx9592vEpt0iDyig
-         7uFnL/Q3FS/MmKaX3Rt4B1YStTKJYA/WEHoI9NiRK1ABxCUp+DluB+XD2iIM62Ipw3JC
-         2V9w==
-X-Gm-Message-State: ANhLgQ3NgDyx6yovB6UyT5OXNFXBr4E/Vt96lNljom6dH6smBsDE11R7
-        K/mZy355qSrOp55p4SwGneLiLk0Py34zgpeokecM1Q==
-X-Google-Smtp-Source: ADFU+vvElPHbaOkc/ffKR7JWZMzjpg6bZ6JiSaTN3SNT/Yuy1ZmDiKrsYKSVrGwdXREPaOYmbN9ESv+hvKDnpyK2MgA=
-X-Received: by 2002:aca:538e:: with SMTP id h136mr242942oib.39.1583172536153;
- Mon, 02 Mar 2020 10:08:56 -0800 (PST)
+        id S1727481AbgCBS3J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 13:29:09 -0500
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:21358 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727126AbgCBS3J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 13:29:09 -0500
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 022IRcju010785;
+        Mon, 2 Mar 2020 10:27:40 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=facebook; bh=mKd9uf1AgIDe5RNlalxdwF40OJYaXAH05DlEkFeGAsY=;
+ b=ixoPNZXaA2QRyu0yDpo4myO+kTuLHe6Qy/5WZdgzJ3L6eZ7ntd8hPWelws79Ec4QXFuC
+ 5Lfsei94Ek3d7AoRTEkv3xOgA9+jpR2tDjDWk5JJ2/oVk8jJNcLCNgMzF/26tlXmXYGU
+ /XF2w1e7SJfNmKhVa6rm/0MYShtDz0Cs1rU= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+        by mx0a-00082601.pphosted.com with ESMTP id 2yg8dcx5mh-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Mon, 02 Mar 2020 10:27:39 -0800
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.230) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1779.2; Mon, 2 Mar 2020 10:27:15 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NACMwikrOJhuUhxFH3fuqmPgD3is5ybLN5t/gUEns6yhc6I1YvVJJ3NDcmt6NKw2yOA10pvgSZxGXw4/NaezzrGTDTiMWHIaIxNFok83DCMVctD3G3mSItEMDrSHWzuY2eadXup/1TF5ljJxM92VGQl3o/zj6u7PkYT8uMlDIkIEjJU9EOKRaKI1rrj3aLldriwoI+WYPhLd9oKhIdCaA8RhXdLzhwm3HeCPj6YwFtnog3hM0FvvMDFYykir+a/xJKhQauocgIRiBeH2prNy/UHwOOvOeJOVufkI1xtLHBBHNl27BY/0whH+wj3YLxKuDE8Tiu01eRLY1wvZlntYWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mKd9uf1AgIDe5RNlalxdwF40OJYaXAH05DlEkFeGAsY=;
+ b=LZTToLfSl6eyKX1T3hySuoAFHyM6/iQKeQgpa2alv2LrJL+klb42GbfUmgHFPvLz0OlACrimRVJx+dbY0NTWAltLK6Lpig6YZ75Zk8gEPKSjBjbvAr2KWBRoCrp+hi/9w0MkghU2PjWM6/2HDiXUuzNm+UuwW+lOzoEzyk7lfiJVcnSA2M674CtQY3uFRdHWa6fPqiPzbarAU/3Z3EfXhQmNOzcxq95iY8Y7kfH6PujYJzCRvcXqzLbeQYs9VoJiZsLxyYkYFwEBKDgsN+vGW5OT98AeTzvEwp23vROH7BqQ84U8s812KA/XWxyCAq7DMOad6jeqS1kyGqmSUKSJug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mKd9uf1AgIDe5RNlalxdwF40OJYaXAH05DlEkFeGAsY=;
+ b=CUzk0WsDAo7GnQn8y7+gAjXpowmapBWEl1tCXmtuwo9JWvMQNtnvQnD5XSG3SOTI1QtsLNopdqHaRXtekksRjslvmG9ep90/bmsA14umZrxE3iiouMoc0O/GupIe7q+f1oxyS0q0NLuuZhqCq0ZOX+8bVfJS5sjOTnhhQEI3w/s=
+Received: from BYAPR15MB2631.namprd15.prod.outlook.com (2603:10b6:a03:150::19)
+ by BYAPR15MB3400.namprd15.prod.outlook.com (2603:10b6:a03:10f::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.18; Mon, 2 Mar
+ 2020 18:27:13 +0000
+Received: from BYAPR15MB2631.namprd15.prod.outlook.com
+ ([fe80::ccb6:a331:77d8:d308]) by BYAPR15MB2631.namprd15.prod.outlook.com
+ ([fe80::ccb6:a331:77d8:d308%7]) with mapi id 15.20.2772.019; Mon, 2 Mar 2020
+ 18:27:13 +0000
+Date:   Mon, 2 Mar 2020 10:27:09 -0800
+From:   Roman Gushchin <guro@fb.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+CC:     Marco Ballesio <balejs@google.com>, Tejun Heo <tj@kernel.org>,
+        cgroups mailinglist <cgroups@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, <rjw@rjwysocki.net>,
+        <pavel@ucw.cz>, <len.brown@intel.com>, <linux-doc@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, Minchan Kim <minchan@google.com>,
+        Daniel Colascione <dancol@google.com>
+Subject: Re: [PATCH] cgroup-v1: freezer: optionally killable freezer
+Message-ID: <20200302182709.GA527458@carbon.dhcp.thefacebook.com>
+References: <20200219183231.50985-1-balejs@google.com>
+ <20200229005131.GB9813@google.com>
+ <20200229184300.GA484762@carbon.DHCP.thefacebook.com>
+ <20200301162003.GA186618@google.com>
+ <20200302165330.GA505299@carbon.DHCP.thefacebook.com>
+ <CAJuCfpEk4gz9YKVuRBW4E-Up_LSGWCSpyJft4y+rOjyPSa08Zg@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpEk4gz9YKVuRBW4E-Up_LSGWCSpyJft4y+rOjyPSa08Zg@mail.gmail.com>
+X-ClientProxiedBy: MWHPR15CA0060.namprd15.prod.outlook.com
+ (2603:10b6:301:4c::22) To BYAPR15MB2631.namprd15.prod.outlook.com
+ (2603:10b6:a03:150::19)
 MIME-Version: 1.0
-References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <CAG48ez3QHVpMJ9Rb_Q4LEE6uAqQJeS1Myu82U=fgvUfoeiscgw@mail.gmail.com>
- <20200301185244.zkofjus6xtgkx4s3@wittgenstein> <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
- <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74zmfc9.fsf@x220.int.ebiederm.org> <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87k142lpfz.fsf@x220.int.ebiederm.org> <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <875zfmloir.fsf@x220.int.ebiederm.org> <CAG48ez0iXMD0mduKWHG6GZZoR+s2jXy776zwiRd+tFADCEiBEw@mail.gmail.com>
- <AM6PR03MB5170BD130F15CE1909F59B55E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <CAG48ez1jj_J3PtENWvu8piFGsik6RvuyD38ie48TYr2k1Rbf3A@mail.gmail.com> <5e5d45a3.1c69fb81.f99ac.0806@mx.google.com>
-In-Reply-To: <5e5d45a3.1c69fb81.f99ac.0806@mx.google.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 2 Mar 2020 19:08:29 +0100
-Message-ID: <CAG48ez0zfutdReRCP38+F2O=LMU11FUQAG59YkaKZY8AJNxSGQ@mail.gmail.com>
-Subject: Re: [PATCHv2] exec: Fix a deadlock in ptrace
-To:     Christian Brauner <christian@brauner.io>
-Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>, linux-doc@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from carbon.dhcp.thefacebook.com (2620:10d:c090:500::4:ec0b) by MWHPR15CA0060.namprd15.prod.outlook.com (2603:10b6:301:4c::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15 via Frontend Transport; Mon, 2 Mar 2020 18:27:12 +0000
+X-Originating-IP: [2620:10d:c090:500::4:ec0b]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7b6f2347-1f75-46f1-c3b0-08d7bed75419
+X-MS-TrafficTypeDiagnostic: BYAPR15MB3400:
+X-Microsoft-Antispam-PRVS: <BYAPR15MB34007914546F0B9E0C4DFF9EBEE70@BYAPR15MB3400.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 033054F29A
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(376002)(396003)(136003)(366004)(39860400002)(346002)(189003)(199004)(478600001)(316002)(86362001)(8936002)(81166006)(81156014)(8676002)(6916009)(2906002)(186003)(16526019)(7416002)(55016002)(33656002)(6666004)(54906003)(9686003)(53546011)(52116002)(1076003)(66946007)(66556008)(4326008)(5660300002)(6506007)(7696005)(66476007);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR15MB3400;H:BYAPR15MB2631.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+Received-SPF: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S3PDV9iqBsRCNy4XkFSj4hmP8nSGnLmiPkeFZroxDMVRLsKakxBBvJxuv6SiYuzqt3sNRU6cWnHfzaTWlmI+OXbvq0ODcNcaT4L+R91MzFbCY4mJEQfsnFujnTxNOIcmVqK1zIuzcPNf6n8sIj06EtkGpmu91Rw4MOnNGcGKp92gytr2yhc+MCG1P/A1kTAwwgPpHgbQqa1aby8L8+JMbdNUQdJIb0J5fySMKbArw+zzvexdckZXeAkSnY3DvmRTTRASSGltqzLjhgMie30pu3+WjfZfHqQTZuKoSw6RphX4lORNcqSIUXN9naDR2omnCLC7k8AINsuSCF/34tOqd9WnlamAsAyJ4bFiiNLTu6pkj6eJoOplp0McaznaXvlwzWZYSsEP8PgUiNKZhW+QRyCQ/deNoLXMOO3mMenkrmOHucPt5pdCMMz5gr6YNiZG
+X-MS-Exchange-AntiSpam-MessageData: nyWtIdFZR1Q6KSkuJEhWKBfN4N0T7msTlM6UwVJ8Nh/Dk8gGwwH04y5ybUT/QMsuxROH9gDZO0w5B+amHSQYwdK2W1B5/19RNOYcZnnvefqMid3jmcqWTp4egwF68k++ro+/I6HLIjgy+2qnPmOsDw8NTg7Luqxv4JEX8JvX9vWl7670T1dsFxT3zXYLVxqR
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b6f2347-1f75-46f1-c3b0-08d7bed75419
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2020 18:27:13.6813
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l4X55bSbnXoc2TIE72leb+iSeEeNIXfGURPReCaAz1K3KrEy8g6imwwvNzLJik1P
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB3400
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-03-02_07:2020-03-02,2020-03-02 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=1 phishscore=0
+ malwarescore=0 impostorscore=0 adultscore=0 mlxlogscore=999 spamscore=0
+ mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003020121
+X-FB-Internal: deliver
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 2, 2020 at 6:43 PM <christian@brauner.io> wrote:
-> On March 2, 2020 6:37:27 PM GMT+01:00, Jann Horn <jannh@google.com> wrote:
-> >On Mon, Mar 2, 2020 at 6:01 PM Bernd Edlinger
-> ><bernd.edlinger@hotmail.de> wrote:
-> >> On 3/2/20 5:43 PM, Jann Horn wrote:
-> >> > On Mon, Mar 2, 2020 at 5:19 PM Eric W. Biederman
-> ><ebiederm@xmission.com> wrote:
-[...]
-> >> >> I am 99% convinced that the fix is to move cred_guard_mutex down.
-> >> >
-> >> > "move cred_guard_mutex down" as in "take it once we've already set
-> >up
-> >> > the new process, past the point of no return"?
-> >> >
-> >> >> Then right after we take cred_guard_mutex do:
-> >> >>         if (ptraced) {
-> >> >>                 use_original_creds();
-> >> >>         }
-> >> >>
-> >> >> And call it a day.
-> >> >>
-> >> >> The details suck but I am 99% certain that would solve everyones
-> >> >> problems, and not be too bad to audit either.
-> >> >
-> >> > Ah, hmm, that sounds like it'll work fine at least when no LSMs are
-> >involved.
-> >> >
-> >> > SELinux normally doesn't do the execution-degrading thing, it just
-> >> > blocks the execution completely - see their
-> >selinux_bprm_set_creds()
-> >> > hook. So I think they'd still need to set some state on the task
-> >that
-> >> > says "we're currently in the middle of an execution where the
-> >target
-> >> > task will run in context X", and then check against that in the
-> >> > ptrace_may_access hook. Or I suppose they could just kill the task
-> >> > near the end of execve, although that'd be kinda ugly.
-> >> >
-> >>
-> >> We have current->in_execve for that, right?
-> >> I think when the cred_guard_mutex is taken only in the critical
-> >section,
-> >> then PTRACE_ATTACH could take the guard_mutex, and look at
-> >current->in_execve,
-> >> and just return -EAGAIN in that case, right, everybody happy :)
+On Mon, Mar 02, 2020 at 09:46:36AM -0800, Suren Baghdasaryan wrote:
+> On Mon, Mar 2, 2020 at 8:53 AM Roman Gushchin <guro@fb.com> wrote:
 > >
-> >It's probably going to mean that things like strace will just randomly
-> >fail to attach to processes if they happen to be in the middle of
-> >execve... but I guess that works?
->
-> That sounds like an acceptable outcome.
-> We can at least risk it and if we regress
-> revert or come up with the more complex
-> solution suggested in another mail here?
+> > On Sun, Mar 01, 2020 at 08:20:03AM -0800, Marco Ballesio wrote:
+> > > On Sat, Feb 29, 2020 at 10:43:00AM -0800, Roman Gushchin wrote:
+> > > > On Fri, Feb 28, 2020 at 04:51:31PM -0800, Marco Ballesio wrote:
+> > > > > Hi all,
+> > > > >
+> > > > > did anyone have time to look into my proposal and, in case, are there
+> > > > > any suggestions, ideas or comments about it?
+> > > >
+> > > > Hello, Marco!
+> > > >
+> > > > I'm sorry, somehow I missed the original letter.
+> > > >
+> > > > In general the cgroup v1 interface is considered frozen. Are there any particular
+> > > > reasons why you want to extend the v1 freezer rather than use the v2 version of it?
+> > > >
+> > > > You don't even need to fully convert to cgroup v2 in order to do it, some v1
+> > > > controllers can still be used.
+> > > >
+> > > > Thanks!
+> > > >
+> > > > Roman
+> > >
+> > > Hi Roman,
+> > >
+> > > When compared with backports of v2 features and their dependency chains, this
+> > > patch would be easier to carry in Android common. The potential is to have
+> > > killability for frozen processes on hw currently in use.
+> >
+> 
+> Hi Roman,
+> 
+> > I see...
+> >
+> > The implementation looks good to me, but I really not sure if adding new control files
+> > to cgroup v1 is a good idea at this point. Are there any plans in the Android world
+> > to move forward to cgroup v2? If not, why not?
+> 
+> There are plans to prototype that and gradually move from cgroups v1
+> to v2 at least for some cgroup controllers (the ones that can use
+> unified hierarchy). Creating an additional per-process cgroup v2
+> hierarchy only for freezer would be a high price to pay today. In the
+> future when we migrate some controllers to v2 the price will be
+> amortized and we will probably be able to do that.
 
-Yeah, sounds reasonable, I guess.
+I see... Thanks for the explanation, Suren!
+
+Overall the idea of extending the frozen v1 interface looks dubious to me.
+Especially if it's only required during the transition to v2.
+
+But of course the decision is on maintainers.
+
+Thanks!
