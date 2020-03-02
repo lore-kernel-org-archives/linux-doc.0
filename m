@@ -4,52 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EC0C3F2D4
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1EDC3F2D5
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:39:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4D495246A1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:39:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 641CF246A1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 07:39:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583134740;
-	bh=4uAsxGGUcqUWD/COuQVojB5OTTc8bDuMT4ZGz9MSG9c=;
+	s=default; t=1583134742;
+	bh=f6i/xaLRU1T6rTh9TlFkJDoYWjgK7JZpOPbZpK+IlBg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TKjMvxpk+n9R6GiguUg+3uP636lqzi85ItZedz+RixjU7E5WJhomcHe6Qjcwmsa3s
-	 5NWqqjSRXtMMgZi58ytQVmZ3Xzow0I6nQtyjLeNdNbhfJgIcfNx/GBXWxqjCBPbrhs
-	 xFcJIuIlNpr2UZPi0nV8yP0K1T/ezSNUc331wMIQ=
+	b=F3KT4pyarLfOAJMC+7eW3gAS6yAWaEx3XI4vd0XLGlP5TWjgz8gIeptcqcozp1flD
+	 1HdA1NbWIPItelNDK8t5FXRKpZFe8+zVt/tyygLylR5zzfLAE5M5Y87ULbuljOuNge
+	 vEbbAU4ucxsapXW8bPVlwNiq98OsAD4iMwkwy3/A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbgCBHiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 02:38:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44686 "EHLO mail.kernel.org"
+        id S1727331AbgCBHjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 02:39:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44690 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726545AbgCBHiP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726426AbgCBHiP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 2 Mar 2020 02:38:15 -0500
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 70280246BF;
+        by mail.kernel.org (Postfix) with ESMTPSA id 6ED26246A1;
         Mon,  2 Mar 2020 07:38:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583134694;
-        bh=4uAsxGGUcqUWD/COuQVojB5OTTc8bDuMT4ZGz9MSG9c=;
+        bh=f6i/xaLRU1T6rTh9TlFkJDoYWjgK7JZpOPbZpK+IlBg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DroSkeJpB0zHiDpXSFIGonVn1/BcR3QNlVJNL2X1qV6+aLPE9ARbe0fulx7ywkzm4
-         w3nTQordNzMA/Fl5BT3Js+puaHTM8yfcTqZdM720A8vQLQ0KKK6AKMZbjJxbDpVluo
-         1IF5VmQ82R7ZPOCvEyOtFS41dsE1AuxoePtHExxM=
+        b=ZC0gx/EyTodst0I9AllFHWhXSLSBkmq8KkXp102rfVUmO6T0D6BYLbJQGR1OQqetT
+         xkGhSk/y5ANztZ5UPr1E0WpnHk3p7TNtBMUnIW667jSBS+pfWj6WofAs92j5ZmfH7+
+         ocCo81f4216vRBgrWURagHldax0zrKZZqCNfIxhs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1j8feW-0003Vy-0g; Mon, 02 Mar 2020 08:38:12 +0100
+        id 1j8feV-0003Vm-UQ; Mon, 02 Mar 2020 08:38:11 +0100
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Frank Rowand <frowand.list@gmail.com>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH 09/12] docs: dt: minor adjustments at writing-schema.rst
-Date:   Mon,  2 Mar 2020 08:38:04 +0100
-Message-Id: <b1e47ef85472a9a98aae12911c76c0e45a557cf4.1583134242.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 06/12] docs: dt: convert dynamic-resolution-notes.txt to ReST
+Date:   Mon,  2 Mar 2020 08:38:01 +0100
+Message-Id: <959df4057c4b09f73924c9ee5bafd4ad8c861f99.1583134242.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <cover.1583134242.git.mchehab+samsung@kernel.org>
 References: <cover.1583134242.git.mchehab+samsung@kernel.org>
@@ -62,42 +64,72 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There are two literal blocks that aren't mark as such. Mark them,
-in order to make the document to produce a better html output.
-
-While here, also add a SPDX header to it.
+- Add a SPDX header;
+- Adjust document title;
+- Add it to devicetree/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/devicetree/writing-schema.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ ...mic-resolution-notes.txt => dynamic-resolution-notes.rst} | 5 ++++-
+ Documentation/devicetree/index.rst                           | 1 +
+ Documentation/devicetree/overlay-notes.txt                   | 2 +-
+ MAINTAINERS                                                  | 2 +-
+ 4 files changed, 7 insertions(+), 3 deletions(-)
+ rename Documentation/devicetree/{dynamic-resolution-notes.txt => dynamic-resolution-notes.rst} (90%)
 
-diff --git a/Documentation/devicetree/writing-schema.rst b/Documentation/devicetree/writing-schema.rst
-index 7635ab230456..6b3ef308c59f 100644
---- a/Documentation/devicetree/writing-schema.rst
-+++ b/Documentation/devicetree/writing-schema.rst
-@@ -1,4 +1,4 @@
--:orphan:
+diff --git a/Documentation/devicetree/dynamic-resolution-notes.txt b/Documentation/devicetree/dynamic-resolution-notes.rst
+similarity index 90%
+rename from Documentation/devicetree/dynamic-resolution-notes.txt
+rename to Documentation/devicetree/dynamic-resolution-notes.rst
+index c24ec366c5dc..570b7e1f39eb 100644
+--- a/Documentation/devicetree/dynamic-resolution-notes.txt
++++ b/Documentation/devicetree/dynamic-resolution-notes.rst
+@@ -1,5 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
- 
- Writing DeviceTree Bindings in json-schema
- ==========================================
-@@ -124,9 +124,12 @@ dtc must also be built with YAML output support enabled. This requires that
- libyaml and its headers be installed on the host system. For some distributions
- that involves installing the development package, such as:
- 
--Debian:
-+Debian::
 +
-   apt-get install libyaml-dev
--Fedora:
-+
-+Fedora::
-+
-   dnf -y install libyaml-devel
++==================================
+ Device Tree Dynamic Resolver Notes
+-----------------------------------
++==================================
  
- Running checks
+ This document describes the implementation of the in-kernel
+ Device Tree resolver, residing in drivers/of/resolver.c
+diff --git a/Documentation/devicetree/index.rst b/Documentation/devicetree/index.rst
+index 64c78c3ffea6..308cac9d7021 100644
+--- a/Documentation/devicetree/index.rst
++++ b/Documentation/devicetree/index.rst
+@@ -11,3 +11,4 @@ Open Firmware and Device Tree
+    writing-schema
+    booting-without-of
+    changesets
++   dynamic-resolution-notes
+diff --git a/Documentation/devicetree/overlay-notes.txt b/Documentation/devicetree/overlay-notes.txt
+index 725fb8d255c1..3f20a39e4bc2 100644
+--- a/Documentation/devicetree/overlay-notes.txt
++++ b/Documentation/devicetree/overlay-notes.txt
+@@ -3,7 +3,7 @@ Device Tree Overlay Notes
+ 
+ This document describes the implementation of the in-kernel
+ device tree overlay functionality residing in drivers/of/overlay.c and is a
+-companion document to Documentation/devicetree/dynamic-resolution-notes.txt[1]
++companion document to Documentation/devicetree/dynamic-resolution-notes.rst[1]
+ 
+ How overlays work
+ -----------------
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 09b04505e7c3..1380b1ed69a2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12458,7 +12458,7 @@ M:	Pantelis Antoniou <pantelis.antoniou@konsulko.com>
+ M:	Frank Rowand <frowand.list@gmail.com>
+ L:	devicetree@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/dynamic-resolution-notes.txt
++F:	Documentation/devicetree/dynamic-resolution-notes.rst
+ F:	Documentation/devicetree/overlay-notes.txt
+ F:	drivers/of/overlay.c
+ F:	drivers/of/resolver.c
 -- 
 2.21.1
 
