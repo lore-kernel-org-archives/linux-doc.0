@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D06EC3F2D8
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:17:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65577C3F2D5
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:17:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 54FD1246B6
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:17:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39502246B6
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 08:17:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583137041;
-	bh=jEdBvHitSUMnzfR+CW7WCZW5wZJypIGRLWq2T1IjxN4=;
+	s=default; t=1583137043;
+	bh=TedJRCCkSL0w21M1N2Y8vbZhKIe2wnJsDAcEp4djbEw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=yDZOCDO81rRbpimEszO7RAX7wKjJomINXHb3UvcOJOJdb34Yy4tVCzVH/0ewPENLZ
-	 j8EjqBWZJXX7m0gwVWkNrwX8WL2DIr5Q1yVVil2bl/JkaKVZclvOlWsot74mRgvnVR
-	 y6t67F21MRwnNsMrtWpAGc3Og4S0s9kqSwTFJfvA=
+	b=Dj8R0OS43hM9PKiTFIuYflI0XHI/Pg0EU7Uq59jOokNkvehTAgzyMMvbZhdsY+oyj
+	 kN3pVjAWcC2RXrRE+57iDBR2MHflQps1jh8gy95MJwp11pE1lqFk5KOgTheF3xGLtZ
+	 YwpBB+V3/8eQs4RiS4xt8XtfQNj5hRR14owkQvA0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727387AbgCBIQY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 03:16:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57084 "EHLO mail.kernel.org"
+        id S1727617AbgCBIRW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 03:17:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57366 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727103AbgCBIQX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Mar 2020 03:16:23 -0500
+        id S1727336AbgCBIQY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Mar 2020 03:16:24 -0500
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A8D63246F8;
+        by mail.kernel.org (Postfix) with ESMTPSA id B57A1246FC;
         Mon,  2 Mar 2020 08:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583136979;
-        bh=jEdBvHitSUMnzfR+CW7WCZW5wZJypIGRLWq2T1IjxN4=;
+        bh=TedJRCCkSL0w21M1N2Y8vbZhKIe2wnJsDAcEp4djbEw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n0qZE6YjdHS+ar4ZNEvf7MUFK/nX0OJvuX0TI466McslLs0m7lbxyxcW5eamodHVi
-         a6XrmhpXOINDmaMfwnP52q8Byg6PscZxpCkviTCIpxHOMhLNdkU6/vAPvGhbEaybVr
-         V24E7hxLFBMdc+DvlIYu87vxyMfUDWZqyOwqmkc0=
+        b=YhOovMWcOI8RcurY0dZyqY8dPSA7Of74Tt2SkKN9Q826an4TSJB8OAGKd6hiaey+i
+         ENjSsf/UWEE7vrC/9an17e5EmsMs9R0HiiRcp9PXwpslOsu3DQR1VAxOFas0Sl3sjH
+         VtopjO/61/xngAsVEWZ9vCvsefoH5/35liQ0ntV4=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1j8gFN-0003z8-Rz; Mon, 02 Mar 2020 09:16:17 +0100
+        id 1j8gFN-0003zK-Tg; Mon, 02 Mar 2020 09:16:17 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 32/42] docs: scsi: convert scsi-parameters.txt to ReST
-Date:   Mon,  2 Mar 2020 09:16:05 +0100
-Message-Id: <f00a5f6f2bf9a2562e0856ee8f45bcf9521d181f.1583136624.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 34/42] docs: scsi: convert sd-parameters.txt to ReST
+Date:   Mon,  2 Mar 2020 09:16:07 +0100
+Message-Id: <8d0b75b0faf13a2e81373570d6ce601b629fb22a.1583136624.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <cover.1583136624.git.mchehab+huawei@kernel.org>
 References: <cover.1583136624.git.mchehab+huawei@kernel.org>
@@ -60,54 +60,65 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/scsi/index.rst                         |  1 +
- .../{scsi-parameters.txt => scsi-parameters.rst}     | 12 ++++++++----
- 2 files changed, 9 insertions(+), 4 deletions(-)
- rename Documentation/scsi/{scsi-parameters.txt => scsi-parameters.rst} (91%)
+ Documentation/scsi/index.rst                  |  1 +
+ .../{sd-parameters.txt => sd-parameters.rst}  | 21 ++++++++++++-------
+ 2 files changed, 14 insertions(+), 8 deletions(-)
+ rename Documentation/scsi/{sd-parameters.txt => sd-parameters.rst} (37%)
 
 diff --git a/Documentation/scsi/index.rst b/Documentation/scsi/index.rst
-index 48337be1c3f1..4bf0bb26f3d5 100644
+index 97276e425f25..6805e157b6e8 100644
 --- a/Documentation/scsi/index.rst
 +++ b/Documentation/scsi/index.rst
-@@ -36,5 +36,6 @@ Linux SCSI Subsystem
-    scsi_fc_transport
-    scsi-generic
+@@ -38,5 +38,6 @@ Linux SCSI Subsystem
     scsi_mid_low_api
-+   scsi-parameters
+    scsi-parameters
+    scsi
++   sd-parameters
  
     scsi_transport_srp/figures
-diff --git a/Documentation/scsi/scsi-parameters.txt b/Documentation/scsi/scsi-parameters.rst
-similarity index 91%
-rename from Documentation/scsi/scsi-parameters.txt
-rename to Documentation/scsi/scsi-parameters.rst
-index 864bbf7f737b..0c4bbb1aee94 100644
---- a/Documentation/scsi/scsi-parameters.txt
-+++ b/Documentation/scsi/scsi-parameters.rst
-@@ -1,16 +1,20 @@
--                          SCSI Kernel Parameters
--                          ~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/Documentation/scsi/sd-parameters.txt b/Documentation/scsi/sd-parameters.rst
+similarity index 37%
+rename from Documentation/scsi/sd-parameters.txt
+rename to Documentation/scsi/sd-parameters.rst
+index 8e5af00d88e7..87d554008bfb 100644
+--- a/Documentation/scsi/sd-parameters.txt
++++ b/Documentation/scsi/sd-parameters.rst
+@@ -1,3 +1,6 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+======================
-+SCSI Kernel Parameters
-+======================
++======================================
+ Linux SCSI Disk Driver (sd) Parameters
+ ======================================
  
- See Documentation/admin-guide/kernel-parameters.rst for general information on
- specifying module parameters.
+@@ -5,18 +8,20 @@ cache_type (RW)
+ ---------------
+ Enable/disable drive write & read cache.
  
- This document may not be entirely up to date and comprehensive. The command
--"modinfo -p ${modulename}" shows a current list of all parameters of a loadable
-+``modinfo -p ${modulename}`` shows a current list of all parameters of a loadable
- module. Loadable modules, after being loaded into the running kernel, also
- reveal their parameters in /sys/module/${modulename}/parameters/. Some of these
- parameters may be changed at runtime by the command
--"echo -n ${value} > /sys/module/${modulename}/parameters/${parm}".
-+``echo -n ${value} > /sys/module/${modulename}/parameters/${parm}``.
+- cache_type string          | WCE RCD | Write cache | Read cache
+-----------------------------+---------+-------------+------------
+- write through              | 0   0   | off         | on
+- none                       | 0   1   | off         | off
+- write back                 | 1   0   | on          | on
+- write back, no read (daft) | 1   1   | on          | off
++===========================   === ===   ===========   ==========
++ cache_type string            WCE RCD   Write cache   Read cache
++===========================   === ===   ===========   ==========
++ write through                0   0     off           on
++ none                         0   1     off           off
++ write back                   1   0     on            on
++ write back, no read (daft)   1   1     on            off
++===========================   === ===   ===========   ==========
  
-+::
+-To set cache type to "write back" and save this setting to the drive:
++To set cache type to "write back" and save this setting to the drive::
  
- 	advansys=	[HW,SCSI]
- 			See header of drivers/scsi/advansys.c.
+   # echo "write back" > cache_type
+ 
+ To modify the caching mode without making the change persistent, prepend
+-"temporary " to the cache type string. E.g.:
++"temporary " to the cache type string. E.g.::
+ 
+   # echo "temporary write back" > cache_type
 -- 
 2.21.1
 
