@@ -2,109 +2,182 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FC63C3F2CD
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 16:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA514C3F2D8
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 16:43:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 71EE42465E
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 16:39:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583167183;
-	bh=e4WX39dx3wQ/Stuc2+G+xsDQB91dilEWlHnVA3qQrCI=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=WZHCAEB6WSUrnCVI+n5SqWW2ukU7ixqkfcAUuaolhmfcoY36T3uDWWOHG+RSrbygW
-	 Xu3VTrcjLmac11R/kbXc92eua1d6Ue50ZYJ+TTam/JAHWhloRdApzDtzybyam04Zuq
-	 yslbNahgVqtCbtj5yYocQBGJqKHm0qMbEN/yMV24=
+	by mail.kernel.org (Postfix) with ESMTP id A19A92465E
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 16:43:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G85budQa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727226AbgCBQjn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 11:39:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48204 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727054AbgCBQjn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Mar 2020 11:39:43 -0500
-Received: from [10.92.140.24] (unknown [167.220.149.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F0C1321D56;
-        Mon,  2 Mar 2020 16:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583167182;
-        bh=e4WX39dx3wQ/Stuc2+G+xsDQB91dilEWlHnVA3qQrCI=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ge2lrXUxdZxrVr3AZTjN7ytRBIxaKjHCDUM6Q4kONpQMM/MWYfXsv00qkXONiI5hi
-         EwHyJg9wG49z0p8+3Nd7kBLP6xZ5rKJHcO6SVgOcaqdYMV5cnJPHstmRSrNuhTbXzu
-         Z1JxrPdZ2cGDWPouyCb9/8tIvFM0f505e9AUsXWU=
-Subject: Re: [PATCH 1/3] PCI: Make PCIE_RESET_READY_POLL_MS configurable
-To:     "Raj, Ashok" <ashok.raj@intel.com>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
-        "Spassov, Stanislav" <stanspas@amazon.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Wang, Wei" <wawei@amazon.de>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Schoenherr, Jan H." <jschoenh@amazon.de>,
-        "rajatja@google.com" <rajatja@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20200227214534.GA143139@google.com>
- <e162efcd-70fd-3390-2452-4915af1c9171@kernel.org>
- <20200228021855.GA57330@otc-nc-03>
-From:   Sinan Kaya <okaya@kernel.org>
-Autocrypt: addr=okaya@kernel.org; keydata=
- mQENBFrnOrUBCADGOL0kF21B6ogpOkuYvz6bUjO7NU99PKhXx1MfK/AzK+SFgxJF7dMluoF6
- uT47bU7zb7HqACH6itTgSSiJeSoq86jYoq5s4JOyaj0/18Hf3/YBah7AOuwk6LtV3EftQIhw
- 9vXqCnBwP/nID6PQ685zl3vH68yzF6FVNwbDagxUz/gMiQh7scHvVCjiqkJ+qu/36JgtTYYw
- 8lGWRcto6gr0eTF8Wd8f81wspmUHGsFdN/xPsZPKMw6/on9oOj3AidcR3P9EdLY4qQyjvcNC
- V9cL9b5I/Ud9ghPwW4QkM7uhYqQDyh3SwgEFudc+/RsDuxjVlg9CFnGhS0nPXR89SaQZABEB
- AAG0HVNpbmFuIEtheWEgPG9rYXlhQGtlcm5lbC5vcmc+iQFOBBMBCAA4FiEEYdOlMSE+a7/c
- ckrQvGF4I+4LAFcFAlztcAoCGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQvGF4I+4L
- AFfidAf/VKHInxep0Z96iYkIq42432HTZUrxNzG9IWk4HN7c3vTJKv2W+b9pgvBF1SmkyQSy
- 8SJ3Zd98CO6FOHA1FigFyZahVsme+T0GsS3/OF1kjrtMktoREr8t0rK0yKpCTYVdlkHadxmR
- Qs5xLzW1RqKlrNigKHI2yhgpMwrpzS+67F1biT41227sqFzW9urEl/jqGJXaB6GV+SRKSHN+
- ubWXgE1NkmfAMeyJPKojNT7ReL6eh3BNB/Xh1vQJew+AE50EP7o36UXghoUktnx6cTkge0ZS
- qgxuhN33cCOU36pWQhPqVSlLTZQJVxuCmlaHbYWvye7bBOhmiuNKhOzb3FcgT7kBDQRa5zq1
- AQgAyRq/7JZKOyB8wRx6fHE0nb31P75kCnL3oE+smKW/sOcIQDV3C7mZKLf472MWB1xdr4Tm
- eXeL/wT0QHapLn5M5wWghC80YvjjdolHnlq9QlYVtvl1ocAC28y43tKJfklhHiwMNDJfdZbw
- 9lQ2h+7nccFWASNUu9cqZOABLvJcgLnfdDpnSzOye09VVlKr3NHgRyRZa7me/oFJCxrJlKAl
- 2hllRLt0yV08o7i14+qmvxI2EKLX9zJfJ2rGWLTVe3EJBnCsQPDzAUVYSnTtqELu2AGzvDiM
- gatRaosnzhvvEK+kCuXuCuZlRWP7pWSHqFFuYq596RRG5hNGLbmVFZrCxQARAQABiQEfBBgB
- CAAJBQJa5zq1AhsMAAoJELxheCPuCwBX2UYH/2kkMC4mImvoClrmcMsNGijcZHdDlz8NFfCI
- gSb3NHkarnA7uAg8KJuaHUwBMk3kBhv2BGPLcmAknzBIehbZ284W7u3DT9o1Y5g+LDyx8RIi
- e7pnMcC+bE2IJExCVf2p3PB1tDBBdLEYJoyFz/XpdDjZ8aVls/pIyrq+mqo5LuuhWfZzPPec
- 9EiM2eXpJw+Rz+vKjSt1YIhg46YbdZrDM2FGrt9ve3YaM5H0lzJgq/JQPKFdbd5MB0X37Qc+
- 2m/A9u9SFnOovA42DgXUyC2cSbIJdPWOK9PnzfXqF3sX9Aol2eLUmQuLpThJtq5EHu6FzJ7Y
- L+s0nPaNMKwv/Xhhm6Y=
-Message-ID: <51d5948e-8d53-432e-8ec2-46704c3e8d41@kernel.org>
-Date:   Mon, 2 Mar 2020 11:39:39 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727261AbgCBQnd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 11:43:33 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:46482 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727202AbgCBQnd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 11:43:33 -0500
+Received: by mail-oi1-f195.google.com with SMTP id a22so10894377oid.13
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 08:43:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7kNUg6jrLRYXBxRwxs+v6id6LKMnX/sXkRxwLGsubN8=;
+        b=G85budQaXfEQvDNWIalbDXyWPGbmN1VgzYIvybMkE6FjzEE9OQ06bKVGmxbSFZLDeZ
+         NCG1SEAjzWEvnPaBKjkeXOiCbefYDCeZuZT/wMi0k0Z8lRMg1ptUkwT9yyguQl1/2S+o
+         jfJxI20+jwJY/A2UlJ9u9Qil4ApszAgT38+jjcvSvG9xoofpBq921uBU19jjtE1+amxO
+         hwunfbFnfCp0nj6pojNjexPVGNkT+8IQLC8KySny/q03clG9aJQnNSB7rlhWMZOdoDcs
+         Tlc1qt9VorvqgYNwFtqnCnSE57RGtJfTiH7WPMYBRl0+W5TnUTvBhMda5uGFAqYj+Yii
+         VzMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7kNUg6jrLRYXBxRwxs+v6id6LKMnX/sXkRxwLGsubN8=;
+        b=SotSvLh3m8hDxGmE/lrw8CmGylT83OH4z7XcSAmD2FJpWaGrAx4bh5GWhrHbDVt930
+         bwRTFeolPsVYl0Hd1Hbcufj6Q47aNoDQ8DbxYHZcyqDx9OKjDHVdSI77hw3D6Imn6f6v
+         aa5RsmF4MF7zqdC8TAgh4OiW8sxT5ekAE8OGwBwnW3+oxrwDcBBB4fFuGd/j6WlxQtzl
+         dkymCD6DhmWf4ggMaJEJG2TpXHYh9bdiNe6BMX03apLZBUNYjXIk7l1AFEQPpqrBSOOL
+         2GAHipzkxYRD/zEH+RO7SRIypi/ZJvXAs9N8VSDQoODy9dc3rqq0Jfhx6uazanTrCL8y
+         yKxw==
+X-Gm-Message-State: ANhLgQ04ZwQb67RHc3gjmKyFUEgAnis/h/9PRYbneek2pls20x08Qu7O
+        TVhhEEjn6S4txy1USArZIp+mJjDr+15WklxLlZCQdQ==
+X-Google-Smtp-Source: ADFU+vtCTAmOxkVME2G4uhIibjer5xiSuOaaEPJPm0R3+yIEc30FvCfm1FJmjYEn5prQfE7J5MaCm+kNmricQKurjnA=
+X-Received: by 2002:a05:6808:8d0:: with SMTP id k16mr12043oij.68.1583167412109;
+ Mon, 02 Mar 2020 08:43:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200228021855.GA57330@otc-nc-03>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <CAG48ez3QHVpMJ9Rb_Q4LEE6uAqQJeS1Myu82U=fgvUfoeiscgw@mail.gmail.com>
+ <20200301185244.zkofjus6xtgkx4s3@wittgenstein> <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
+ <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74zmfc9.fsf@x220.int.ebiederm.org> <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87k142lpfz.fsf@x220.int.ebiederm.org> <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <875zfmloir.fsf@x220.int.ebiederm.org>
+In-Reply-To: <875zfmloir.fsf@x220.int.ebiederm.org>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 2 Mar 2020 17:43:05 +0100
+Message-ID: <CAG48ez0iXMD0mduKWHG6GZZoR+s2jXy776zwiRd+tFADCEiBEw@mail.gmail.com>
+Subject: Re: [PATCHv2] exec: Fix a deadlock in ptrace
+To:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        James Morris <jamorris@linux.microsoft.com>
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/27/2020 9:18 PM, Raj, Ashok wrote:
->> If I remember right, there was no time mention about how long to
->> wait. Spec says device should send CRS as long as it is not ready.
-> Not exactly.. there are some requirements to follow for rules after
-> a conventional reset. 
+On Mon, Mar 2, 2020 at 5:19 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>
+> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+>
+> > On 3/2/20 4:57 PM, Eric W. Biederman wrote:
+> >> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+> >>
+> >>>
+> >>> I tried this with s/EACCESS/EACCES/.
+> >>>
+> >>> The test case in this patch is not fixed, but strace does not freeze,
+> >>> at least with my setup where it did freeze repeatable.
+> >>
+> >> Thanks, That is what I was aiming at.
+> >>
+> >> So we have one method we can pursue to fix this in practice.
+> >>
+> >>> That is
+> >>> obviously because it bypasses the cred_guard_mutex.  But all other
+> >>> process that access this file still freeze, and cannot be
+> >>> interrupted except with kill -9.
+> >>>
+> >>> However that smells like a denial of service, that this
+> >>> simple test case which can be executed by guest, creates a /proc/$pid/mem
+> >>> that freezes any process, even root, when it looks at it.
+> >>> I mean: "ln -s README /proc/$pid/mem" would be a nice bomb.
+> >>
+> >> Yes.  Your the test case in your patch a variant of the original
+> >> problem.
+> >>
+> >>
+> >> I have been staring at this trying to understand the fundamentals of the
+> >> original deeper problem.
+> >>
+> >> The current scope of cred_guard_mutex in exec is because being ptraced
+> >> causes suid exec to act differently.  So we need to know early if we are
+> >> ptraced.
+> >>
+> >
+> > It has a second use, that it prevents two threads entering execve,
+> > which would probably result in disaster.
+>
+> Exec can fail with an error code up until de_thread.  de_thread causes
+> exec to fail with the error code -EAGAIN for the second thread to get
+> into de_thread.
+>
+> So no.  The cred_guard_mutex is not needed for that case at all.
+>
+> >> If that case did not exist we could reduce the scope of the
+> >> cred_guard_mutex in exec to where your patch puts the cred_change_mutex.
+> >>
+> >> I am starting to think reworking how we deal with ptrace and exec is the
+> >> way to solve this problem.
+>
+>
+> I am 99% convinced that the fix is to move cred_guard_mutex down.
 
-Yes, but CRS happens after functional reset, D3hot etc. too not just
-conventional reset.
+"move cred_guard_mutex down" as in "take it once we've already set up
+the new process, past the point of no return"?
 
-1 second is too aggressive. We already have proof that several PCIe
-cards take their time during FLR especially FPGA cards in the orders
-of 10 seconds.
+> Then right after we take cred_guard_mutex do:
+>         if (ptraced) {
+>                 use_original_creds();
+>         }
+>
+> And call it a day.
+>
+> The details suck but I am 99% certain that would solve everyones
+> problems, and not be too bad to audit either.
 
-Current code is waiting up to 60 seconds. If card shows up before that
-we happily return.
+Ah, hmm, that sounds like it'll work fine at least when no LSMs are involved.
 
+SELinux normally doesn't do the execution-degrading thing, it just
+blocks the execution completely - see their selinux_bprm_set_creds()
+hook. So I think they'd still need to set some state on the task that
+says "we're currently in the middle of an execution where the target
+task will run in context X", and then check against that in the
+ptrace_may_access hook. Or I suppose they could just kill the task
+near the end of execve, although that'd be kinda ugly.
