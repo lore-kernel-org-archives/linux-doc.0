@@ -2,148 +2,82 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DAE2C3F2CD
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 20:29:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8758BC3F2CD
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 20:50:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 548B721739
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 20:29:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4EB1321556
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 20:50:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583182243;
+	bh=Ju1eI11ASCoeumNUWOIdA1q+QefYzNsUdI+ZwROTQuI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=piFYhSwD7wSj8jvCwCX0drkduE5Wf7CXMJlGdzuZExEwT4Glc2hp+2G4izQ0ZX8K5
+	 foOWibKt/hwtEKdsG4AzQwR1utIBu9gtpi6leqHTLpwP6K5zOEKY5XPEcnjh1SUhkj
+	 PLTBWLAd650hSoEmF67ZFtfNtpIxwq7KpGUySDZU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbgCBU3B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 15:29:01 -0500
-Received: from mail-oln040092064044.outbound.protection.outlook.com ([40.92.64.44]:44199
-        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725911AbgCBU3B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Mar 2020 15:29:01 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fTNljQOlo/VItxs1j0Fi5N+zMmwEKrqF/1+8tFozmgzXtESspeEJpb5VmBpIcZfahl5fah5AsvmqWXqLH7zLFuSEGuTQacFAM3r3xW06rKdQi+2l4IG8jEGKHcJxoVJ2pTCwVHsyCPqKHqOLSPU6gSG0MgGE4slDpOuhQzKZeHq1RJZeDyXL2nI8H43HRmWPVxD4nklr7H+xrmNy8ye4UHV4X/GmJsH+NwGV1yyZp8yiX/8JTD7x2Ka00HVwdQLIFLmTU8N+Ap2/eUfkVwnhauiBNyMwGO8sdMvXlgAIjS7ilBQ71fSQEReTtLfy1WrZokLUoNQBrLGqK2jiYVkFZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9WItZN0YFIgwuGDkDEsDC/sqmYi0bb5gVZBC8nxRJ/E=;
- b=Q9hvojDEjJ1G9f9SF1D5LgoYkcXymvG3skAbRhSbRQLgG1JG418+RTblZpn4Hc6MpdbAIaru5L0g/nknkpDNhEPEbE4yXu3M8AmabzDrzaUpmv18de10p380TRRpuabCTW+20xmtemAknc6Ug47hy8ZSjSROwGi2RrKbGGAufIkLKAT9cAI9vtZUATBmgk4eFE9i0DDivNVw9ziQ6Ez2L818yyBIkAfWdxoYus4tdvpWb4AJ1DHvz5sQj7W+tTJPcc/P06a/L/dHG5nYyEysRUVXByJT2OZIN2kRcL5PLcCmneafQSwlAgQF0PEIfOf0CIBwi/qA/szYW+wfBo1LDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from HE1EUR01FT058.eop-EUR01.prod.protection.outlook.com
- (2a01:111:e400:7e18::35) by
- HE1EUR01HT174.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e18::124)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15; Mon, 2 Mar
- 2020 20:28:56 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.0.58) by
- HE1EUR01FT058.mail.protection.outlook.com (10.152.0.218) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2772.15 via Frontend Transport; Mon, 2 Mar 2020 20:28:56 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Mon, 2 Mar 2020
- 20:28:56 +0000
-Received: from [192.168.1.101] (92.77.140.102) by AM0PR0102CA0023.eurprd01.prod.exchangelabs.com (2603:10a6:208:14::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15 via Frontend Transport; Mon, 2 Mar 2020 20:28:54 +0000
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-To:     Jann Horn <jannh@google.com>,
-        Christian Brauner <christian@brauner.io>
-CC:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>
-Subject: Re: [PATCHv3] exec: Fix a deadlock in ptrace
-Thread-Topic: [PATCHv3] exec: Fix a deadlock in ptrace
-Thread-Index: AQHV8M6l6N/OOmCoxkO4zYjKB9YU8Kg1wMQA
-Date:   Mon, 2 Mar 2020 20:28:56 +0000
-Message-ID: <AM6PR03MB51709CFCC54A25681C87DABAE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <20200301185244.zkofjus6xtgkx4s3@wittgenstein>
- <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
- <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74zmfc9.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87k142lpfz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <875zfmloir.fsf@x220.int.ebiederm.org>
- <CAG48ez0iXMD0mduKWHG6GZZoR+s2jXy776zwiRd+tFADCEiBEw@mail.gmail.com>
- <AM6PR03MB5170BD130F15CE1909F59B55E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <CAG48ez1jj_J3PtENWvu8piFGsik6RvuyD38ie48TYr2k1Rbf3A@mail.gmail.com>
- <5e5d45a3.1c69fb81.f99ac.0806@mx.google.com>
- <CAG48ez0zfutdReRCP38+F2O=LMU11FUQAG59YkaKZY8AJNxSGQ@mail.gmail.com>
- <AM6PR03MB517034D7787B305832FEA885E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-In-Reply-To: <AM6PR03MB517034D7787B305832FEA885E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Accept-Language: en-US, en-GB, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM0PR0102CA0023.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:14::36) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-x-incomingtopheadermarker: OriginalChecksum:787DD6075D33EEEDAEE3E26861DF4223AC06363B82E577E006F6A557BB55324F;UpperCasedChecksum:2B76CB72DBD1AAE991D4CB4B16B2532DEF00E963AA4A4A30B3351A60950B7833;SizeAsReceived:9897;Count:50
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [8hP23OIvzx9SHL5EUzvkrbLR1Am349/n]
-x-microsoft-original-message-id: <2413bf2b-6663-892d-4898-3ff2cc543d30@hotmail.de>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 50
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: b9ae2766-c41a-4bd8-5934-08d7bee854a8
-x-ms-traffictypediagnostic: HE1EUR01HT174:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SKuFG1FQpeLCmrj5VXY87qA6kKnLO/nBsr9IKsmshVGR34OdWvSQyhaIPBlFhLTEL6e+xF34B2obzfLm48T7UAyCV4nmj+KmkY/jYgUdt6JHmLL5Z3sQptdTmVRAjB3BF4mGBnXdIVONfpf7T+H37Ln8tC8Zf1wPU2WZUDcTCaR8FhAwADkIkRfBpwkdzpvP
-x-ms-exchange-antispam-messagedata: +jwvXQKamDUFGuKNA03o7tEV+/tc4QqAg7aKpBanW2ksZ6pDii2n+opRdV2pDmq9eHWso+4egPZ902wAp4S0BblV+N5V0Czy2DQZH1mbO9NuPb2RN1F1atay1BJl7akmtY4QnLWEp5Mp4zqrhz71Pw==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <273077F5A4E6CE4C8F92F03DD763FF0F@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1726747AbgCBUun (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 15:50:43 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:39446 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbgCBUum (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 15:50:42 -0500
+Received: by mail-oi1-f195.google.com with SMTP id r16so660956oie.6;
+        Mon, 02 Mar 2020 12:50:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=yDBoT2iZyLmE/VyS3LI4bYRTEiyPlUQdoNnsH2g/OMI=;
+        b=Pol7NFjokB2Ge06H1A3bYuRO/D9atB2/C4gfHV45HGo0JXqMxUPpukNtkEDzPiEC8S
+         cPE5ogm7L/tSHM6d4x/F25ZyU2GN8ye96gXX8xBSkny5oLQ8s5IXVLS/hzFr+rvQ1ut3
+         RnK9JpcUa4mdU7+TFRFVC3j0BaaopLzM5O0NsRtnIfP64ubZM1qB7UsNlTZDKthhZFUS
+         4SXmIR9MePqRLO/CU8aIlWuQ0SYQVXIeDsPbZeYmvQS/bVTJ3MfJBCxaAG0fMNMDlpuS
+         JaX8LE8pp/mJrz32VKzaPPxnpO6ltjSFm5SXgSfZ56g8zm5y6m/5TVlVqv8GHp9u65xK
+         ydiQ==
+X-Gm-Message-State: ANhLgQ2hYGlR1PR/E9uvh34eL/SSL/Gt76G6W8Uuf1ZCmXv00lVqbCj7
+        64A9ngV4iqDqKSqz6mJRgA==
+X-Google-Smtp-Source: ADFU+vt7519NjbiovGcpjkF5yZ6FnpdnihlTczsCJTnc0dGuZ5OpApPY2goE3RDVamt/UUzvEZ9rXQ==
+X-Received: by 2002:aca:814:: with SMTP id 20mr182489oii.159.1583182242055;
+        Mon, 02 Mar 2020 12:50:42 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id c7sm6945919otm.63.2020.03.02.12.50.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2020 12:50:41 -0800 (PST)
+Received: (nullmailer pid 7042 invoked by uid 1000);
+        Mon, 02 Mar 2020 20:50:40 -0000
+Date:   Mon, 2 Mar 2020 14:50:40 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Franz Forstmayr <forstmayr.franz@gmail.com>
+Cc:     forstmayr.franz@gmail.com, Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: hwmon: Add compatible for ti,ina260
+Message-ID: <20200302205040.GA6984@bogus>
+References: <20200224232647.29213-1-forstmayr.franz@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9ae2766-c41a-4bd8-5934-08d7bee854a8
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2020 20:28:56.1301
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR01HT174
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200224232647.29213-1-forstmayr.franz@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gMy8yLzIwIDk6MTAgUE0sIEJlcm5kIEVkbGluZ2VyIHdyb3RlOg0KPiAtLS0gYS9pbmNsdWRl
-L2xpbnV4L2JpbmZtdHMuaA0KPiArKysgYi9pbmNsdWRlL2xpbnV4L2JpbmZtdHMuaA0KPiBAQCAt
-NDQsNyArNDQsMTEgQEAgc3RydWN0IGxpbnV4X2JpbnBybSB7DQo+ICAJCSAqIGV4ZWMgaGFzIGhh
-cHBlbmVkLiBVc2VkIHRvIHNhbml0aXplIGV4ZWN1dGlvbiBlbnZpcm9ubWVudA0KPiAgCQkgKiBh
-bmQgdG8gc2V0IEFUX1NFQ1VSRSBhdXh2IGZvciBnbGliYy4NCj4gIAkJICovDQo+IC0JCXNlY3Vy
-ZWV4ZWM6MTsNCj4gKwkJc2VjdXJlZXhlYzoxLA0KPiArCQkvKg0KPiArCQkgKiBTZXQgYnkgZmx1
-c2hfb2xkX2V4ZWMsIHdoZW4gdGhlIGNyZWRfY2hhbmdlX211dGV4IGlzIHRha2VuLg0KDQpPb3Bz
-LCBtaXNzZWQgdG8gdXBkYXRlIHRoaXMgY29tbWVudCwgc2hvdWxkIGJlICJ3aGVuIHRoZSBjcmVk
-X2d1YXJkX211dGV4IGlzIHRha2VuIi4NCg0KSSdsbCBzZW5kIGEgbmV3IHBhdGNoIGxhdGVyLg0K
-DQpCZXJuZC4NCg0KPiArCQkgKi8NCj4gKwkJY2FsbGVkX2ZsdXNoX29sZF9leGVjOjE7DQo+ICAj
-aWZkZWYgX19hbHBoYV9fDQo+ICAJdW5zaWduZWQgaW50IHRhc286MTsNCj4gICNlbmRpZg0K
+On Tue, 25 Feb 2020 00:26:45 +0100, Franz Forstmayr wrote:
+> Add initial support for power/current monitor INA260
+> 
+> Signed-off-by: Franz Forstmayr <forstmayr.franz@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/hwmon/ina2xx.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+
+Acked-by: Rob Herring <robh@kernel.org>
