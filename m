@@ -2,135 +2,443 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8D1C3F2D1
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 06:24:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D792C3F2D2
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 06:40:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 61710246B9
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 06:24:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583130273;
-	bh=9jUnB3/sZ7LknoR3lndv96Isnwnjwrth62SxdiQTLrY=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=TiKSARzhB8CG017B1AVrmfiRNJ3UQzsg8AqH8z0BwVf5B/gtLnDic+vjx9a8it10U
-	 eJHYjqY6hl/HpHnrVbOYROXpBquROHKwK5af/SEfw2OqhGYHIvD+Zk5AAFmRUtgMkZ
-	 pZtLKQR2PTg8tHeSVzxlLxWXJAYRX74XnIGZrxt0=
+	by mail.kernel.org (Postfix) with ESMTP id CFA8C2468E
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 06:40:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725446AbgCBGY3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 01:24:29 -0500
-Received: from conuserg-11.nifty.com ([210.131.2.78]:57551 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726030AbgCBGY3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 01:24:29 -0500
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 0226NfKm030880;
-        Mon, 2 Mar 2020 15:23:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 0226NfKm030880
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1583130222;
-        bh=dLJGtmHzi5rst42jrQBM/khBnOAWWgwO3JKYbMyi3SY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=wXI8SixO3CUvqd8AYVrMt7G+hfKz0IVxwN0p18hqHfohg8yKa9CyUxgeXoP56ZgpW
-         gRSP6bv707i9VnWAzNWrLntE9VW6VwKICgs/yonfXEO87yZYlFfVxrsidy5l3kZy5b
-         dz7SEhGG+qi4N3tof/mCPfKTnuVxD92Exp3WA+bmMH7hQD9Mizy3qwAfCXeQAQzhfO
-         CRqp6QU2pPqP1Nh5xy8JxvQnKy+SE/MMzM5FS8xoYuODjvxb4bSrP7Ia40ZT1VG719
-         TlnJ6zEXbVvSIxi0CqBN3gKhC6fzm4KKO9RU5A9wqcrBElQ3ZKo9dQaDl3O8zxE8Wc
-         5QQIL5jrt3/HA==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        id S1726728AbgCBGkf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 01:40:35 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:36176 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726204AbgCBGke (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 01:40:34 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j8ekd-0001Co-C0; Sun, 01 Mar 2020 23:40:27 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j8ekZ-0007Je-VK; Sun, 01 Mar 2020 23:40:26 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     Jann Horn <jannh@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 1/2] kconfig: allow symbols implied by y to become m
-Date:   Mon,  2 Mar 2020 15:23:39 +0900
-Message-Id: <20200302062340.21453-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
+        "stable\@vger.kernel.org" <stable@vger.kernel.org>
+References: <AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <CAG48ez3QHVpMJ9Rb_Q4LEE6uAqQJeS1Myu82U=fgvUfoeiscgw@mail.gmail.com>
+        <20200301185244.zkofjus6xtgkx4s3@wittgenstein>
+        <CAG48ez3mnYc84iFCA25-rbJdSBi3jh9hkp569XZTbFc_9WYbZw@mail.gmail.com>
+        <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Mon, 02 Mar 2020 00:38:14 -0600
+In-Reply-To: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        (Bernd Edlinger's message of "Sun, 1 Mar 2020 20:34:16 +0000")
+Message-ID: <87a74zmfc9.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1j8ekZ-0007Je-VK;;;mid=<87a74zmfc9.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1//e7nTlsRN0fvWenFVh7U2fAMKCnUdZyE=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCHv2] exec: Fix a deadlock in ptrace
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 'imply' keyword restricts a symbol to y or n, excluding m
-when it is implied by y. This is the original behavior since
-commit 237e3ad0f195 ("Kconfig: Introduce the "imply" keyword").
+Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 
-However, the author of the 'imply' keyword, Nicolas Pitre, stated
-that the 'imply' keyword should not impose any restrictions. [1]
+> This fixes a deadlock in the tracer when tracing a multi-threaded
+> application that calls execve while more than one thread are running.
+>
+> I observed that when running strace on the gcc test suite, it always
+> blocks after a while, when expect calls execve, because other threads
+> have to be terminated.  They send ptrace events, but the strace is no
+> longer able to respond, since it is blocked in vm_access.
+>
+> The deadlock is always happening when strace needs to access the
+> tracees process mmap, while another thread in the tracee starts to
+> execve a child process, but that cannot continue until the
+> PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
 
-I agree, and want to get rid of this tricky behavior.
+I think your patch works, but I don't think to solve your case another
+mutex is necessary.  Possibly it is justified, but I hesitate to
+introduce yet another concept in the code.
 
-[1]: https://lkml.org/lkml/2020/2/19/714
+Having read elsewhere in the thread that this does not solve the problem
+Oleg has mentioned I am really hesitant to add more complexity to the
+situation.
 
-Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- Documentation/kbuild/kconfig-language.rst | 12 +++++++++++-
- scripts/kconfig/symbol.c                  |  5 +----
- 2 files changed, 12 insertions(+), 5 deletions(-)
+For your case there is a straight forward and local workaround.
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index d0111dd26410..d4d988aea679 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -173,7 +173,7 @@ applicable everywhere (see syntax).
- 	===		===		=============	==============
- 	n		y		n		N/m/y
- 	m		y		m		M/y/n
--	y		y		y		Y/n
-+	y		y		y		Y/m/n
- 	y		n		*		N
- 	===		===		=============	==============
+When the current task is ptracing the target task don't bother with
+cred_gaurd_mutex and ptrace_may_access in access_mm as those tests
+have already passed.  Instead just confirm the ptrace status. AKA
+the permission check in ptraces_access_vm.
+
+I think something like this is all we need.
+
+diff --git a/kernel/fork.c b/kernel/fork.c
+index cee89229606a..b0ab98c84589 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1224,6 +1224,16 @@ struct mm_struct *mm_access(struct task_struct *task, unsigned int mode)
+ 	struct mm_struct *mm;
+ 	int err;
  
-@@ -181,6 +181,16 @@ applicable everywhere (see syntax).
-   ability to hook into a secondary subsystem while allowing the user to
-   configure that subsystem out without also having to unset these drivers.
- 
-+  Note: If the combination of FOO=y and BAR=m causes a link error,
-+  you can guard the function call with IS_REACHABLE()::
-+
-+	foo_init()
-+	{
-+		if (IS_REACHABLE(CONFIG_BAZ))
-+			baz_register(&foo);
-+		...
++	if (task->ptrace && (current == task->parent)) {
++		mm = get_task_mm(task);
++		if ((get_dumpable(mm) != SUID_DUMP_USER) &&
++		    !ptracer_capable(task, mm->user_ns)) {
++			mmput(mm);
++			mm = ERR_PTR(-EACCESS);
++		}
++		return mm;
 +	}
 +
- - limiting menu display: "visible if" <expr>
- 
-   This attribute is only applicable to menu blocks, if the condition is
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 8d38b700b314..b101ef3c377a 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -401,8 +401,7 @@ void sym_calc_value(struct symbol *sym)
- 				sym_warn_unmet_dep(sym);
- 			newval.tri = EXPR_OR(newval.tri, sym->rev_dep.tri);
- 		}
--		if (newval.tri == mod &&
--		    (sym_get_type(sym) == S_BOOLEAN || sym->implied.tri == yes))
-+		if (newval.tri == mod && sym_get_type(sym) == S_BOOLEAN)
- 			newval.tri = yes;
- 		break;
- 	case S_STRING:
-@@ -484,8 +483,6 @@ bool sym_tristate_within_range(struct symbol *sym, tristate val)
- 		return false;
- 	if (sym->visible <= sym->rev_dep.tri)
- 		return false;
--	if (sym->implied.tri == yes && val == mod)
--		return false;
- 	if (sym_is_choice_value(sym) && sym->visible == yes)
- 		return val == yes;
- 	return val >= sym->rev_dep.tri && val <= sym->visible;
--- 
-2.17.1
+ 	err =  mutex_lock_killable(&task->signal->cred_guard_mutex);
+ 	if (err)
+ 		return ERR_PTR(err);
 
+Does this solve your test case?
+
+The patch above is short the approriate locking for the ptrace attached
+check.  (tasklist_lock I think).  But is enough to illustrate the idea,
+and it is probably a check we want in any event so that if the tracer
+starts dropping privileges process_vm_readv and process_vm_writev will
+still be usable by the tracer.
+
+Eric
+
+
+> strace          D    0 30614  30584 0x00000000
+> Call Trace:
+> __schedule+0x3ce/0x6e0
+> schedule+0x5c/0xd0
+> schedule_preempt_disabled+0x15/0x20
+> __mutex_lock.isra.13+0x1ec/0x520
+> __mutex_lock_killable_slowpath+0x13/0x20
+> mutex_lock_killable+0x28/0x30
+> mm_access+0x27/0xa0
+> process_vm_rw_core.isra.3+0xff/0x550
+> process_vm_rw+0xdd/0xf0
+> __x64_sys_process_vm_readv+0x31/0x40
+> do_syscall_64+0x64/0x220
+> entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>
+> expect          D    0 31933  30876 0x80004003
+> Call Trace:
+> __schedule+0x3ce/0x6e0
+> schedule+0x5c/0xd0
+> flush_old_exec+0xc4/0x770
+> load_elf_binary+0x35a/0x16c0
+> search_binary_handler+0x97/0x1d0
+> __do_execve_file.isra.40+0x5d4/0x8a0
+> __x64_sys_execve+0x49/0x60
+> do_syscall_64+0x64/0x220
+> entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>
+> The proposed solution is to have a second mutex that is
+> used in mm_access, so it is allowed to continue while the
+> dying threads are not yet terminated.
+>
+> I also took the opportunity to improve the documentation
+> of prepare_creds, which is obviously out of sync.
+>
+> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+> ---
+>  Documentation/security/credentials.rst    | 18 ++++++------
+>  fs/exec.c                                 |  9 ++++++
+>  include/linux/binfmts.h                   |  6 +++-
+>  include/linux/sched/signal.h              |  1 +
+>  init/init_task.c                          |  1 +
+>  kernel/cred.c                             |  2 +-
+>  kernel/fork.c                             |  5 ++--
+>  mm/process_vm_access.c                    |  2 +-
+>  tools/testing/selftests/ptrace/Makefile   |  4 +--
+>  tools/testing/selftests/ptrace/vmaccess.c | 46 +++++++++++++++++++++++++++++++
+>  10 files changed, 79 insertions(+), 15 deletions(-)
+>  create mode 100644 tools/testing/selftests/ptrace/vmaccess.c
+>
+> v2: adds a test case which passes when this patch is applied.
+>
+>
+> diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
+> index 282e79f..c98e0a8 100644
+> --- a/Documentation/security/credentials.rst
+> +++ b/Documentation/security/credentials.rst
+> @@ -437,9 +437,13 @@ new set of credentials by calling::
+>  
+>  	struct cred *prepare_creds(void);
+>  
+> -this locks current->cred_replace_mutex and then allocates and constructs a
+> -duplicate of the current process's credentials, returning with the mutex still
+> -held if successful.  It returns NULL if not successful (out of memory).
+> +this allocates and constructs a duplicate of the current process's credentials.
+> +It returns NULL if not successful (out of memory).
+> +
+> +If called from __do_execve_file, the mutex current->signal->cred_guard_mutex
+> +is acquired before this function gets called, and the mutex
+> +current->signal->cred_change_mutex is acquired later, while the credentials
+> +and the process mmap are actually changed.
+>  
+>  The mutex prevents ``ptrace()`` from altering the ptrace state of a process
+>  while security checks on credentials construction and changing is taking place
+> @@ -466,9 +470,8 @@ by calling::
+>  
+>  This will alter various aspects of the credentials and the process, giving the
+>  LSM a chance to do likewise, then it will use ``rcu_assign_pointer()`` to
+> -actually commit the new credentials to ``current->cred``, it will release
+> -``current->cred_replace_mutex`` to allow ``ptrace()`` to take place, and it
+> -will notify the scheduler and others of the changes.
+> +actually commit the new credentials to ``current->cred``, and it will notify
+> +the scheduler and others of the changes.
+>  
+>  This function is guaranteed to return 0, so that it can be tail-called at the
+>  end of such functions as ``sys_setresuid()``.
+> @@ -486,8 +489,7 @@ invoked::
+>  
+>  	void abort_creds(struct cred *new);
+>  
+> -This releases the lock on ``current->cred_replace_mutex`` that
+> -``prepare_creds()`` got and then releases the new credentials.
+> +This releases the new credentials.
+>  
+>  
+>  A typical credentials alteration function would look something like this::
+> diff --git a/fs/exec.c b/fs/exec.c
+> index 74d88da..a6884e4 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1266,6 +1266,12 @@ int flush_old_exec(struct linux_binprm * bprm)
+>  	if (retval)
+>  		goto out;
+>  
+> +	retval = mutex_lock_killable(&current->signal->cred_change_mutex);
+> +	if (retval)
+> +		goto out;
+> +
+> +	bprm->called_flush_old_exec = 1;
+> +
+>  	/*
+>  	 * Must be called _before_ exec_mmap() as bprm->mm is
+>  	 * not visibile until then. This also enables the update
+> @@ -1420,6 +1426,8 @@ static void free_bprm(struct linux_binprm *bprm)
+>  {
+>  	free_arg_pages(bprm);
+>  	if (bprm->cred) {
+> +		if (bprm->called_flush_old_exec)
+> +			mutex_unlock(&current->signal->cred_change_mutex);
+>  		mutex_unlock(&current->signal->cred_guard_mutex);
+>  		abort_creds(bprm->cred);
+>  	}
+> @@ -1469,6 +1477,7 @@ void install_exec_creds(struct linux_binprm *bprm)
+>  	 * credentials; any time after this it may be unlocked.
+>  	 */
+>  	security_bprm_committed_creds(bprm);
+> +	mutex_unlock(&current->signal->cred_change_mutex);
+>  	mutex_unlock(&current->signal->cred_guard_mutex);
+>  }
+>  EXPORT_SYMBOL(install_exec_creds);
+> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+> index b40fc63..2e1318b 100644
+> --- a/include/linux/binfmts.h
+> +++ b/include/linux/binfmts.h
+> @@ -44,7 +44,11 @@ struct linux_binprm {
+>  		 * exec has happened. Used to sanitize execution environment
+>  		 * and to set AT_SECURE auxv for glibc.
+>  		 */
+> -		secureexec:1;
+> +		secureexec:1,
+> +		/*
+> +		 * Set by flush_old_exec, when the cred_change_mutex is taken.
+> +		 */
+> +		called_flush_old_exec:1;
+>  #ifdef __alpha__
+>  	unsigned int taso:1;
+>  #endif
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index 8805025..37eeabe 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -225,6 +225,7 @@ struct signal_struct {
+>  	struct mutex cred_guard_mutex;	/* guard against foreign influences on
+>  					 * credential calculations
+>  					 * (notably. ptrace) */
+> +	struct mutex cred_change_mutex; /* guard against credentials change */
+>  } __randomize_layout;
+>  
+>  /*
+> diff --git a/init/init_task.c b/init/init_task.c
+> index 9e5cbe5..6cd9a0f 100644
+> --- a/init/init_task.c
+> +++ b/init/init_task.c
+> @@ -26,6 +26,7 @@
+>  	.multiprocess	= HLIST_HEAD_INIT,
+>  	.rlim		= INIT_RLIMITS,
+>  	.cred_guard_mutex = __MUTEX_INITIALIZER(init_signals.cred_guard_mutex),
+> +	.cred_change_mutex = __MUTEX_INITIALIZER(init_signals.cred_change_mutex),
+>  #ifdef CONFIG_POSIX_TIMERS
+>  	.posix_timers = LIST_HEAD_INIT(init_signals.posix_timers),
+>  	.cputimer	= {
+> diff --git a/kernel/cred.c b/kernel/cred.c
+> index 809a985..e4c78de 100644
+> --- a/kernel/cred.c
+> +++ b/kernel/cred.c
+> @@ -676,7 +676,7 @@ void __init cred_init(void)
+>   *
+>   * Returns the new credentials or NULL if out of memory.
+>   *
+> - * Does not take, and does not return holding current->cred_replace_mutex.
+> + * Does not take, and does not return holding ->cred_guard_mutex.
+>   */
+>  struct cred *prepare_kernel_cred(struct task_struct *daemon)
+>  {
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 0808095..0395154 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1224,7 +1224,7 @@ struct mm_struct *mm_access(struct task_struct *task, unsigned int mode)
+>  	struct mm_struct *mm;
+>  	int err;
+>  
+> -	err =  mutex_lock_killable(&task->signal->cred_guard_mutex);
+> +	err =  mutex_lock_killable(&task->signal->cred_change_mutex);
+>  	if (err)
+>  		return ERR_PTR(err);
+>  
+> @@ -1234,7 +1234,7 @@ struct mm_struct *mm_access(struct task_struct *task, unsigned int mode)
+>  		mmput(mm);
+>  		mm = ERR_PTR(-EACCES);
+>  	}
+> -	mutex_unlock(&task->signal->cred_guard_mutex);
+> +	mutex_unlock(&task->signal->cred_change_mutex);
+>  
+>  	return mm;
+>  }
+> @@ -1594,6 +1594,7 @@ static int copy_signal(unsigned long clone_flags, struct task_struct *tsk)
+>  	sig->oom_score_adj_min = current->signal->oom_score_adj_min;
+>  
+>  	mutex_init(&sig->cred_guard_mutex);
+> +	mutex_init(&sig->cred_change_mutex);
+>  
+>  	return 0;
+>  }
+> diff --git a/mm/process_vm_access.c b/mm/process_vm_access.c
+> index 357aa7b..b3e6eb5 100644
+> --- a/mm/process_vm_access.c
+> +++ b/mm/process_vm_access.c
+> @@ -204,7 +204,7 @@ static ssize_t process_vm_rw_core(pid_t pid, struct iov_iter *iter,
+>  	if (!mm || IS_ERR(mm)) {
+>  		rc = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+>  		/*
+> -		 * Explicitly map EACCES to EPERM as EPERM is a more a
+> +		 * Explicitly map EACCES to EPERM as EPERM is a more
+>  		 * appropriate error code for process_vw_readv/writev
+>  		 */
+>  		if (rc == -EACCES)
+> diff --git a/tools/testing/selftests/ptrace/Makefile b/tools/testing/selftests/ptrace/Makefile
+> index c0b7f89..2f1f532 100644
+> --- a/tools/testing/selftests/ptrace/Makefile
+> +++ b/tools/testing/selftests/ptrace/Makefile
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -CFLAGS += -iquote../../../../include/uapi -Wall
+> +CFLAGS += -std=c99 -pthread -iquote../../../../include/uapi -Wall
+>  
+> -TEST_GEN_PROGS := get_syscall_info peeksiginfo
+> +TEST_GEN_PROGS := get_syscall_info peeksiginfo vmaccess
+>  
+>  include ../lib.mk
+> diff --git a/tools/testing/selftests/ptrace/vmaccess.c b/tools/testing/selftests/ptrace/vmaccess.c
+> new file mode 100644
+> index 0000000..ef08c9f
+> --- /dev/null
+> +++ b/tools/testing/selftests/ptrace/vmaccess.c
+> @@ -0,0 +1,46 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (c) 2020 Bernd Edlinger <bernd.edlinger@hotmail.de>
+> + * All rights reserved.
+> + *
+> + * Check whether /proc/$pid/mem can be accessed without causing deadlocks
+> + * when de_thread is blocked with ->cred_guard_mutex held.
+> + */
+> +
+> +#include "../kselftest_harness.h"
+> +#include <stdio.h>
+> +#include <fcntl.h>
+> +#include <pthread.h>
+> +#include <signal.h>
+> +#include <unistd.h>
+> +#include <sys/ptrace.h>
+> +
+> +static void *thread(void *arg)
+> +{
+> +	ptrace(PTRACE_TRACEME, 0, 0, 0);
+> +	return NULL;
+> +}
+> +
+> +TEST(vmaccess)
+> +{
+> +	int f, pid = fork();
+> +	char mm[64];
+> +
+> +	if (!pid) {
+> +		pthread_t pt;
+> +		pthread_create(&pt, NULL, thread, NULL);
+> +		pthread_join(pt, NULL);
+> +		execlp("true", "true", NULL);
+> +	}
+> +
+> +	sleep(1);
+> +	sprintf(mm, "/proc/%d/mem", pid);
+> +	f = open(mm, O_RDONLY);
+> +	ASSERT_LE(0, f)
+> +		close(f);
+> +	/* this is not fixed! ptrace(PTRACE_ATTACH, pid, 0,0); */
+> +	f = kill(pid, SIGCONT);
+> +	ASSERT_EQ(0, f);
+> +}
+> +
+> +TEST_HARNESS_MAIN
