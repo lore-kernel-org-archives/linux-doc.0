@@ -2,105 +2,123 @@ Return-Path: <SRS0=mvKV=4T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7114FC3F2D2
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 13:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0D29C3F2D1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 14:23:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3BD592187F
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 13:21:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583155319;
-	bh=qP8CX5euLy4sZPNJlTpcyTqVD2JvQLV1xMqDxBNGk/U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=hmPusC48sUB4ZM5DjKvdm9vdj8N9w7OBfStSTUsMkyfpQey3fvkxhps7t87qkTVpP
-	 MtnZAhgdXmWJp8bqWiVcKXErZgDIz3LQuamzxrLUxmU3aD03zXmZ7xIhV3+qXO09WY
-	 FVYiNlMiRQzoZnKIXtaCwEKqdOkLiLz/fE1KbbAA=
+	by mail.kernel.org (Postfix) with ESMTP id BF8942173E
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 14:23:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727361AbgCBNV6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 08:21:58 -0500
-Received: from foss.arm.com ([217.140.110.172]:60728 "EHLO foss.arm.com"
+        id S1727093AbgCBOX2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 09:23:28 -0500
+Received: from foss.arm.com ([217.140.110.172]:33320 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727334AbgCBNV6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Mar 2020 08:21:58 -0500
+        id S1726969AbgCBOX2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Mar 2020 09:23:28 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDC762F;
-        Mon,  2 Mar 2020 05:21:57 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 32FEA3F534;
-        Mon,  2 Mar 2020 05:21:57 -0800 (PST)
-Date:   Mon, 2 Mar 2020 13:21:55 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        John Stultz <john.stultz@linaro.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] kconfig: make 'imply' obey the direct dependency
-Message-ID: <20200302132155.GF4166@sirena.org.uk>
-References: <20200219074950.23344-1-masahiroy@kernel.org>
- <CAMuHMdU7=jRNCWvtiFhJwUM6P4xNmqwXdPX14qvE=6by1V7APA@mail.gmail.com>
- <CAK7LNATKh9Y_QmO19iPw+zXT8RG-HfXBFY5bvpX0YSyOO-=NGA@mail.gmail.com>
- <CAMuHMdWNhd3kwqQ2OYOscq3VFDjip_FZtt8w6PVCenz095kCZg@mail.gmail.com>
- <CAK7LNAQNb-5RdivSwMONVT_YCXohR-0NMJW5ceVrJPxWUGF+Lg@mail.gmail.com>
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D20BE2F;
+        Mon,  2 Mar 2020 06:23:27 -0800 (PST)
+Received: from localhost (e108754-lin.cambridge.arm.com [10.1.198.53])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 72AF63F534;
+        Mon,  2 Mar 2020 06:23:27 -0800 (PST)
+Date:   Mon, 2 Mar 2020 14:23:26 +0000
+From:   Ionela Voinescu <ionela.voinescu@arm.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
+        suzuki.poulose@arm.com, sudeep.holla@arm.com, lukasz.luba@arm.com,
+        valentin.schneider@arm.com, dietmar.eggemann@arm.com,
+        rjw@rjwysocki.net, pkondeti@codeaurora.org, peterz@infradead.org,
+        mingo@redhat.com, vincent.guittot@linaro.org,
+        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v5 1/7] arm64: add support for the AMU extension v1
+Message-ID: <20200302142326.GA15709@arm.com>
+References: <20200226132947.29738-1-ionela.voinescu@arm.com>
+ <20200226132947.29738-2-ionela.voinescu@arm.com>
+ <20200228103234.GA3904776@arrakis.emea.arm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rMWmSaSbD7nr+du9"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAQNb-5RdivSwMONVT_YCXohR-0NMJW5ceVrJPxWUGF+Lg@mail.gmail.com>
-X-Cookie: Whistler's mother is off her rocker.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200228103234.GA3904776@arrakis.emea.arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Catalin,
 
---rMWmSaSbD7nr+du9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Friday 28 Feb 2020 at 10:32:34 (+0000), Catalin Marinas wrote:
+> Hi Ionela,
+> 
+> On Wed, Feb 26, 2020 at 01:29:41PM +0000, Ionela Voinescu wrote:
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index dbc22d684627..49f0c436928f 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -318,6 +318,15 @@
+> >  			Format: <a>,<b>
+> >  			See also Documentation/input/joydev/joystick.rst
+> >  
+> > +	amu=		[ARM64]
+> > +			Enables or disables detection, enablement and access to
+> > +			counter registers of the Activity Monitors Unit (AMU).
+> > +			Format: amu=[0/1/on/off/y/n]
+> > +			amu=[0/off/n] ensures access to AMU's counter registers
+> > +				      is not attempted.
+> > +			amu=[1/on/y] (default) enables detection and access to
+> > +				     AMU's counter registers.
+> 
+> Is the only reason for this parameter to be able to disable the feature
+> if the firmware doesn't support it? According to the Kconfig entry, you
+> may see weird behaviour, firmware lock-up. Is the user supposed to try
+> again with amu=0?
+> 
+> I'm not particularly fond of adding kernel parameters to work around
+> broken firmware. We have other architecture features (e.g. PtrAuth) that
+> need enabling at EL3 but we don't have such parameters. If it's likely
+> that we hit this issue in practice, I'd rather have the firmware
+> describing the presence of AMU via some DT entry. But I'd rather not
+> bother at all, just get the vendors to update their firmware.
+> 
 
-On Mon, Mar 02, 2020 at 05:21:51PM +0900, Masahiro Yamada wrote:
-> On Wed, Feb 19, 2020 at 6:54 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+The firmware is supposed to do three actions for the kernel to be able
+to use the counters: enable access to EL2/EL1, enable the counters and
+save/restore the counters before/after core-off.
 
-> > I always do, when running make oldconfig ;-)
+Improper firmware support can trigger different issues: kernel/firmware
+lockup/panic, invalid counter values (0, non-monotonic). Some of them
+might be less likely (firmware lockups), and some might just be due to
+present but improper support(save/restore) and therefore more likely.
 
-> > I only see expected changes from y to m.
-> > I don't see any unexpected changes from m to n.
+The users of the counters, for example frequency invariance [6/7], does
+some validation for this, but unfortunately not all conditions can be
+fully mitigated - validate and bail out if some condition is not
+accomplished - for example the save and restore functionality. This
+might result in improper scale values after idle.
 
-> This is because you used oldconfig.
+Therefore, the amu kernel parameter is not only there if the firmware
+does not support AMU, but it's also there if the firmware support is
+broken/improper. The kernel parameter was added at Suzuki's
+recommendation to be able to bypass its use in single kernels that are
+meant to run on multiple platforms. I also believe this is nice to have
+even for platforms that properly support AMU, but they might not want
+the use of the feature in the kernel.
 
-> The 'imply' keyword defines the default
-> of symbols _without_ user-defined values.
+> If we drop this parameter, patch 1 would need to change. Otherwise the
+> patches look fine.
+> 
 
-This is going to make the behaviour of imply statements a bit
-inconsistent which doesn't seem ideal though it's *probably* fine for
-the SND_SOC_ALL_CODECS case.
+This being said, I agree this was added as a 'just in case' and not as
+support for a likely scenario, therefore, I don't fully disagree to drop
+it for now.
 
---rMWmSaSbD7nr+du9
-Content-Type: application/pgp-signature; name="signature.asc"
+Let me know what you think. If you'd still rather I drop it, I can do that
+and rebase on top of Marc's changes and push v6.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5dCHIACgkQJNaLcl1U
-h9D7iAf+PCYi3hwZfSI7GUn9mnmz3xVd890KXV1oVj/Ydpqg88/cMNF99lnezlzV
-MF4B10UmHMv02hHHRxFuX4J7sYecAU6E8cNs3fnrraA5ykrW6hXq83DFprv4PqYi
-X0EyO1dj3jEMxRRE7Q2wESspE9QFg/EoHz+fej7B1LU7Os3YVYMfDISUjZkWbl3y
-l566hoDDN2XfcrP/k+tpv/qFQ5xc2kHjBliUH2F8PCETePWYVN0qXBE6UdfIuKar
-Gyj7JIZEXtZzU8BauE1QGQ1SXYFB5C8ezu75MfxX9sXtzvr3UR3eO8A9AtqsCItx
-u6DiWozVeV+kWjI0V7F0EXdCCD6mKw==
-=rptL
------END PGP SIGNATURE-----
-
---rMWmSaSbD7nr+du9--
+Thanks,
+Ionela.
