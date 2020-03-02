@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72200C3F2CD
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 23:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A32F0C3F2D8
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 23:12:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 393B22467B
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 23:08:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D47621D56
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Mar 2020 23:12:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ydM6de29"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ofnLSi+j"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726752AbgCBXIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Mar 2020 18:08:18 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:43696 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726898AbgCBXIS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 18:08:18 -0500
-Received: by mail-pl1-f196.google.com with SMTP id x17so401302plm.10
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 15:08:17 -0800 (PST)
+        id S1726876AbgCBXMo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Mar 2020 18:12:44 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:39710 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726752AbgCBXMm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Mar 2020 18:12:42 -0500
+Received: by mail-pf1-f193.google.com with SMTP id l7so454217pff.6
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2020 15:12:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=bHCVavkwu6zfqNW43fiKG14XiAueMcaZslslsOZ/218=;
-        b=ydM6de292BVaEG4QIuyq3YDVMoEUXf/csuA62Efwp3SSERMdRa78DTYxPii0GhrquH
-         ISL5cY5PnKvvgsRwpvwPaI7vfbfzJRRffct/nD7NxWwzR5+nM5zXinq7KnqGZ6IXRQ0a
-         oc6KW7Dm8G/R+weAy54bB+Jxgl2/2PE2CimSIockQWJAFk6q7ZWhhb2y9G0cGsaZQBON
-         jzosmItoJcleMLSIQDULAkmSSKVBi4F1legP3yobRaXw6QIUtUx8/QLvUzOBvdLuhxec
-         JlIVk7m0qsebia9QlP3xo1u+DZYQyvO4TS9/u4XLRK2D0zuABuQfYiyrBrjveBgHGgoz
-         CgMA==
+        bh=cZHkLPyQi4lEOu+PeEyqnnKuw6NNgD2Yqbp/RubP2bc=;
+        b=ofnLSi+jS3OXUcK8vE0gMbM1QBDxh7b5jS1IxWi3HkGpKKOEcm3WJd9aEk0Us7IUKO
+         8nmFWDJfiuwlFyqsXCcVKRAwIBQaYQl/evwVVX80Y3CPQhjcxITZ1o5Jk7P5xhZf2YmV
+         JUbFU5wRnrXfDlxWlBhwcEx9xdQfFjkkoY8zYrA9cLB/YTtxDa+Ix3UgLS37laXFK+lF
+         YO5R32/SpDIyenCGvur0FFCxabBbXTYfaf1ITOLkeTmU1Kzvh/HtnQ2WmKgFvoaxK9pj
+         quRJ7rwJz3FmBNE/PilR6rrZsmbZ6ywl2wXJqkGSS2Gt0C8UBc0UKbqYmILkeUOjgzI9
+         blIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=bHCVavkwu6zfqNW43fiKG14XiAueMcaZslslsOZ/218=;
-        b=BZVGH3V293D7GOx1dkbjh40wMD9FWSKSa3uC1EKtcAo+GoGLuYTx+/OqVy+Mh9XvuM
-         015tH0cgDpcZCtuENYLBoOdTuOshQopjUg8mUZ/jUzgI7CsaIq0JlnVEmX13a4GLnoBY
-         rtlhShYhVN2B0VvIsmmichJXdvw0nEH6oFAhQDX6E1CfxyGmTy4/aeqWiZXinC17x1To
-         a7TWEcR3+bNlLnNl9lv98HTMJwBBcjNTMyDq5YIF3PKZk4F0YXtiMN5OVARALsX5knnz
-         jV/P2Mjy1/oGX8tzHzVRjSEm4Ws5M3KMdUOgF1C1IDSsPYgIGwVHBKMx+sRL6EQM/rCM
-         X9yg==
-X-Gm-Message-State: ANhLgQ3n1pTbVyJltgzTUqI5Kux4MnuINUITZGAH0mXDgPeePaUGdlTj
-        wE1dGlynWXOPGhtT1XRYIBqpsQ==
-X-Google-Smtp-Source: ADFU+vu5Fn9LjuEv0zkVceFz7t9zzw21FhNfEeY+oO2Z6PSUfUEvK0xhiSdQzKkCOH96zHvBaDxllg==
-X-Received: by 2002:a17:902:b7ca:: with SMTP id v10mr1336548plz.308.1583190497213;
-        Mon, 02 Mar 2020 15:08:17 -0800 (PST)
+        bh=cZHkLPyQi4lEOu+PeEyqnnKuw6NNgD2Yqbp/RubP2bc=;
+        b=CU3/Op4/0nrjR7WT4FS5eiq45PR0Cyjg+aa8z9tNIB/1m81yDY3wZLNLXEKFO8ppeF
+         nZ8CrFlBMp39WrCRzP7nGgkoKtbkmeqDWyqUF5qOSP7nAzRsFSOzTW4Xxw8vNM5wDPYV
+         8ctSKAOuhTZ4YjZIMgCXgHfqoqHlZ9uwmGU0gHadCBeru2VU/8RIvQWq2u87lnIyc5pg
+         vsub2CnZ4nSjEDWoojkcC6FWNphXzgTciMIyQ0pzXbcv33MJMyO04ug9HHIyquh6fX8k
+         5TePedH+pWS7hvT2MUiMig9IsYucJdGU5NoBtPr23raGuQlzLy8Dk9AkneU1c0i40uiO
+         tIgQ==
+X-Gm-Message-State: ANhLgQ1TZ+x7eVYGC8DpFnjmP6z2frDHm9h3ZhCz4Xmr5osAOyGZbxVY
+        LPtK2QCPboNAGFYXi7XqYDQSBw==
+X-Google-Smtp-Source: ADFU+vsbt7xW95b/HirVpnFvyPznPrDnd/h85vDaRcM55B9JmCtuRXICrRpYIjC1wXlERTK8an7NHg==
+X-Received: by 2002:a63:f403:: with SMTP id g3mr1256700pgi.62.1583190759696;
+        Mon, 02 Mar 2020 15:12:39 -0800 (PST)
 Received: from yoga (pat_11.qualcomm.com. [192.35.156.11])
-        by smtp.gmail.com with ESMTPSA id t11sm256202pjo.21.2020.03.02.15.08.15
+        by smtp.gmail.com with ESMTPSA id x65sm9095993pfd.34.2020.03.02.15.12.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 15:08:16 -0800 (PST)
-Date:   Mon, 2 Mar 2020 15:08:14 -0800
+        Mon, 02 Mar 2020 15:12:39 -0800 (PST)
+Date:   Mon, 2 Mar 2020 15:12:36 -0800
 From:   Bjorn Andersson <bjorn.andersson@linaro.org>
 To:     Clement Leger <cleger@kalray.eu>
 Cc:     Ohad Ben-Cohen <ohad@wizery.com>, Jonathan Corbet <corbet@lwn.net>,
@@ -72,15 +72,16 @@ Cc:     Ohad Ben-Cohen <ohad@wizery.com>, Jonathan Corbet <corbet@lwn.net>,
         Arnaud Pouliquen <arnaud.pouliquen@st.com>,
         Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>,
         Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH v5 3/8] remoteproc: Use u64 type for boot_addr
-Message-ID: <20200302230814.GC262924@yoga>
+Subject: Re: [PATCH v5 4/8] remoteproc: Add elf helpers to access elf64 and
+ elf32 fields
+Message-ID: <20200302231236.GD262924@yoga>
 References: <20200210162209.23149-1-cleger@kalray.eu>
  <20200302093902.27849-1-cleger@kalray.eu>
- <20200302093902.27849-4-cleger@kalray.eu>
+ <20200302093902.27849-5-cleger@kalray.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200302093902.27849-4-cleger@kalray.eu>
+In-Reply-To: <20200302093902.27849-5-cleger@kalray.eu>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -88,82 +89,125 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Mon 02 Mar 01:38 PST 2020, Clement Leger wrote:
 
-> elf64 entry is defined as a u64. Since boot_addr is used to store the
-> elf entry point, change boot_addr type to u64 to support both elf32
-> and elf64. In the same time, fix users that were using this variable.
+> elf32 and elf64 mainly differ by their types. In order to avoid
+> copy/pasting the whole loader code, generate static inline functions
+> which will access values according to the elf class. It allows to
+> keep a common loader basis.
+> In order to accommodate both elf types sizes, the maximum size for a
+> elf header member is chosen using the maximum value of the field for
+> both elf class.
 > 
 > Signed-off-by: Clement Leger <cleger@kalray.eu>
 
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 > ---
->  drivers/remoteproc/remoteproc_elf_loader.c | 2 +-
->  drivers/remoteproc/remoteproc_internal.h   | 2 +-
->  drivers/remoteproc/st_remoteproc.c         | 2 +-
->  include/linux/remoteproc.h                 | 4 ++--
->  4 files changed, 5 insertions(+), 5 deletions(-)
+>  drivers/remoteproc/remoteproc_elf_helpers.h | 96 +++++++++++++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+>  create mode 100644 drivers/remoteproc/remoteproc_elf_helpers.h
 > 
-> diff --git a/drivers/remoteproc/remoteproc_elf_loader.c b/drivers/remoteproc/remoteproc_elf_loader.c
-> index 606aae166eba..c2a9783cfb9a 100644
-> --- a/drivers/remoteproc/remoteproc_elf_loader.c
-> +++ b/drivers/remoteproc/remoteproc_elf_loader.c
-> @@ -102,7 +102,7 @@ EXPORT_SYMBOL(rproc_elf_sanity_check);
->   * Note that the boot address is not a configurable property of all remote
->   * processors. Some will always boot at a specific hard-coded address.
->   */
-> -u32 rproc_elf_get_boot_addr(struct rproc *rproc, const struct firmware *fw)
-> +u64 rproc_elf_get_boot_addr(struct rproc *rproc, const struct firmware *fw)
->  {
->  	struct elf32_hdr *ehdr  = (struct elf32_hdr *)fw->data;
->  
-> diff --git a/drivers/remoteproc/remoteproc_internal.h b/drivers/remoteproc/remoteproc_internal.h
-> index 58580210575c..0deae5f237b8 100644
-> --- a/drivers/remoteproc/remoteproc_internal.h
-> +++ b/drivers/remoteproc/remoteproc_internal.h
-> @@ -55,7 +55,7 @@ phys_addr_t rproc_va_to_pa(void *cpu_addr);
->  int rproc_trigger_recovery(struct rproc *rproc);
->  
->  int rproc_elf_sanity_check(struct rproc *rproc, const struct firmware *fw);
-> -u32 rproc_elf_get_boot_addr(struct rproc *rproc, const struct firmware *fw);
-> +u64 rproc_elf_get_boot_addr(struct rproc *rproc, const struct firmware *fw);
->  int rproc_elf_load_segments(struct rproc *rproc, const struct firmware *fw);
->  int rproc_elf_load_rsc_table(struct rproc *rproc, const struct firmware *fw);
->  struct resource_table *rproc_elf_find_loaded_rsc_table(struct rproc *rproc,
-> diff --git a/drivers/remoteproc/st_remoteproc.c b/drivers/remoteproc/st_remoteproc.c
-> index ee13d23b43a9..a3268d95a50e 100644
-> --- a/drivers/remoteproc/st_remoteproc.c
-> +++ b/drivers/remoteproc/st_remoteproc.c
-> @@ -190,7 +190,7 @@ static int st_rproc_start(struct rproc *rproc)
->  		}
->  	}
->  
-> -	dev_info(&rproc->dev, "Started from 0x%x\n", rproc->bootaddr);
-> +	dev_info(&rproc->dev, "Started from 0x%llx\n", rproc->bootaddr);
->  
->  	return 0;
->  
-> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
-> index bee559330204..1683d6c386a6 100644
-> --- a/include/linux/remoteproc.h
-> +++ b/include/linux/remoteproc.h
-> @@ -382,7 +382,7 @@ struct rproc_ops {
->  				struct rproc *rproc, const struct firmware *fw);
->  	int (*load)(struct rproc *rproc, const struct firmware *fw);
->  	int (*sanity_check)(struct rproc *rproc, const struct firmware *fw);
-> -	u32 (*get_boot_addr)(struct rproc *rproc, const struct firmware *fw);
-> +	u64 (*get_boot_addr)(struct rproc *rproc, const struct firmware *fw);
->  };
->  
->  /**
-> @@ -498,7 +498,7 @@ struct rproc {
->  	int num_traces;
->  	struct list_head carveouts;
->  	struct list_head mappings;
-> -	u32 bootaddr;
-> +	u64 bootaddr;
->  	struct list_head rvdevs;
->  	struct list_head subdevs;
->  	struct idr notifyids;
+> diff --git a/drivers/remoteproc/remoteproc_elf_helpers.h b/drivers/remoteproc/remoteproc_elf_helpers.h
+> new file mode 100644
+> index 000000000000..4b6be7b6bf4d
+> --- /dev/null
+> +++ b/drivers/remoteproc/remoteproc_elf_helpers.h
+> @@ -0,0 +1,96 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Remote processor elf helpers defines
+> + *
+> + * Copyright (C) 2020 Kalray, Inc.
+> + */
+> +
+> +#ifndef REMOTEPROC_ELF_LOADER_H
+> +#define REMOTEPROC_ELF_LOADER_H
+> +
+> +#include <linux/elf.h>
+> +#include <linux/types.h>
+> +
+> +/**
+> + * fw_elf_get_class - Get elf class
+> + * @fw: the ELF firmware image
+> + *
+> + * Note that we use and elf32_hdr to access the class since the start of the
+> + * struct is the same for both elf class
+> + *
+> + * Return: elf class of the firmware
+> + */
+> +static inline u8 fw_elf_get_class(const struct firmware *fw)
+> +{
+> +	struct elf32_hdr *ehdr = (struct elf32_hdr *)fw->data;
+> +
+> +	return ehdr->e_ident[EI_CLASS];
+> +}
+> +
+> +static inline void elf_hdr_init_ident(struct elf32_hdr *hdr, u8 class)
+> +{
+> +	memcpy(hdr->e_ident, ELFMAG, SELFMAG);
+> +	hdr->e_ident[EI_CLASS] = class;
+> +	hdr->e_ident[EI_DATA] = ELFDATA2LSB;
+> +	hdr->e_ident[EI_VERSION] = EV_CURRENT;
+> +	hdr->e_ident[EI_OSABI] = ELFOSABI_NONE;
+> +}
+> +
+> +/* Generate getter and setter for a specific elf struct/field */
+> +#define ELF_GEN_FIELD_GET_SET(__s, __field, __type) \
+> +static inline __type elf_##__s##_get_##__field(u8 class, const void *arg) \
+> +{ \
+> +	if (class == ELFCLASS32) \
+> +		return (__type) ((const struct elf32_##__s *) arg)->__field; \
+> +	else \
+> +		return (__type) ((const struct elf64_##__s *) arg)->__field; \
+> +} \
+> +static inline void elf_##__s##_set_##__field(u8 class, void *arg, \
+> +					     __type value) \
+> +{ \
+> +	if (class == ELFCLASS32) \
+> +		((struct elf32_##__s *) arg)->__field = (__type) value; \
+> +	else \
+> +		((struct elf64_##__s *) arg)->__field = (__type) value; \
+> +}
+> +
+> +ELF_GEN_FIELD_GET_SET(hdr, e_entry, u64)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_phnum, u16)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_shnum, u16)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_phoff, u64)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_shoff, u64)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_shstrndx, u16)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_machine, u16)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_type, u16)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_version, u32)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_ehsize, u32)
+> +ELF_GEN_FIELD_GET_SET(hdr, e_phentsize, u16)
+> +
+> +ELF_GEN_FIELD_GET_SET(phdr, p_paddr, u64)
+> +ELF_GEN_FIELD_GET_SET(phdr, p_vaddr, u64)
+> +ELF_GEN_FIELD_GET_SET(phdr, p_filesz, u64)
+> +ELF_GEN_FIELD_GET_SET(phdr, p_memsz, u64)
+> +ELF_GEN_FIELD_GET_SET(phdr, p_type, u32)
+> +ELF_GEN_FIELD_GET_SET(phdr, p_offset, u64)
+> +ELF_GEN_FIELD_GET_SET(phdr, p_flags, u32)
+> +ELF_GEN_FIELD_GET_SET(phdr, p_align, u64)
+> +
+> +ELF_GEN_FIELD_GET_SET(shdr, sh_size, u64)
+> +ELF_GEN_FIELD_GET_SET(shdr, sh_offset, u64)
+> +ELF_GEN_FIELD_GET_SET(shdr, sh_name, u32)
+> +ELF_GEN_FIELD_GET_SET(shdr, sh_addr, u64)
+> +
+> +#define ELF_STRUCT_SIZE(__s) \
+> +static inline unsigned long elf_size_of_##__s(u8 class) \
+> +{ \
+> +	if (class == ELFCLASS32)\
+> +		return sizeof(struct elf32_##__s); \
+> +	else \
+> +		return sizeof(struct elf64_##__s); \
+> +}
+> +
+> +ELF_STRUCT_SIZE(shdr)
+> +ELF_STRUCT_SIZE(phdr)
+> +ELF_STRUCT_SIZE(hdr)
+> +
+> +#endif /* REMOTEPROC_ELF_LOADER_H */
 > -- 
 > 2.15.0.276.g89ea799
 > 
