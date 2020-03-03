@@ -2,61 +2,66 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D82C3F2D7
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 20:01:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 600EDC3F2D1
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 20:09:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 847652073B
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 20:01:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C3E820714
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 20:09:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731202AbgCCUBy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 15:01:54 -0500
-Received: from ms.lwn.net ([45.79.88.28]:38730 "EHLO ms.lwn.net"
+        id S1729860AbgCCUJj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 15:09:39 -0500
+Received: from mga12.intel.com ([192.55.52.136]:18317 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730687AbgCCUBy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Mar 2020 15:01:54 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4A107537;
-        Tue,  3 Mar 2020 20:01:53 +0000 (UTC)
-Date:   Tue, 3 Mar 2020 13:01:52 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Bird, Tim" <Tim.Bird@sony.com>
-Cc:     "tbird20d@gmail.com" <tbird20d@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] scripts/sphinx-pre-install: add '-p python3' to
- virtualenv
-Message-ID: <20200303130152.461c3494@lwn.net>
-In-Reply-To: <MWHPR13MB0895EFDA9EBF7740875E661CFDE40@MWHPR13MB0895.namprd13.prod.outlook.com>
-References: <1582594481-23221-1-git-send-email-tim.bird@sony.com>
-        <20200302130911.05a7e465@lwn.net>
-        <MWHPR13MB0895EFDA9EBF7740875E661CFDE40@MWHPR13MB0895.namprd13.prod.outlook.com>
-Organization: LWN.net
+        id S1728393AbgCCUJj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 15:09:39 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Mar 2020 12:09:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,511,1574150400"; 
+   d="scan'208";a="240193043"
+Received: from fkuchars-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.4.236])
+  by orsmga003.jf.intel.com with ESMTP; 03 Mar 2020 12:09:34 -0800
+Date:   Tue, 3 Mar 2020 22:09:28 +0200
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     David Howells <dhowells@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 02/18] docs: crypto: convert asymmetric-keys.txt to
+ ReST
+Message-ID: <20200303200928.GF5775@linux.intel.com>
+References: <cover.1583243826.git.mchehab+huawei@kernel.org>
+ <0e467df334fb6563a50190e0523a5ed1af1638ed.1583243826.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0e467df334fb6563a50190e0523a5ed1af1638ed.1583243826.git.mchehab+huawei@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 3 Mar 2020 17:07:48 +0000
-"Bird, Tim" <Tim.Bird@sony.com> wrote:
+On Tue, Mar 03, 2020 at 02:59:09PM +0100, Mauro Carvalho Chehab wrote:
+> This file is almost compatible with ReST. Just minor changes
+> were needed:
+> 
+> - Adjust document and titles markups;
+> - Adjust numbered list markups;
+> - Add a comments markup for the Contents section;
+> - Add markups for literal blocks.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> The less fragile approach would have been to just
-> always add the '-p python3' option to the virtualenv setup hint,
-> but Mauro seemed to want something more fine-tuned.
+Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 
-At some point I think we'll want to say that Python 2 just isn't supported
-anymore.  After all, the language itself isn't supported anymore.  Perhaps
-it's time to add a warning somewhere.
-
-Thanks,
-
-jon
+/Jarkko
