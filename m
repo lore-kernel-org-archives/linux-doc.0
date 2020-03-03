@@ -2,148 +2,305 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F6E8C3F2C6
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:20:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B77FC3F2D1
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:48:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 514F42073D
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583252442;
-	bh=Zro81PjZvB79s/jq+XpT7vaGwIFOydrEpcLyBTIre54=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=J9d59/gzH0qdyTMDn5bdfN4zBlu4SGra9HWzzNzU9P+qpMT4pxg+6kv/yYI6euZKZ
-	 Usc78ZZxedLyKA40NMDjkFutNjC4PibOe70fHX1wcK/qp0gzQ35wpzSHmB8KUsPUGt
-	 cJemDSjmlfV1+H1vjCx5PgteMQlOwvUJ9LC/S2fE=
+	by mail.kernel.org (Postfix) with ESMTP id 74CF420870
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:48:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729961AbgCCQUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 11:20:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41258 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729382AbgCCQUi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Mar 2020 11:20:38 -0500
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 950FF2083E;
-        Tue,  3 Mar 2020 16:20:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583252437;
-        bh=Zro81PjZvB79s/jq+XpT7vaGwIFOydrEpcLyBTIre54=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sZ3DrP5arT5Uda74vumLAa2MSbiNfVIz2luVx9rFYxLtcTC+Oo7EmkFLEhd6nGgtt
-         As4a7DIpa9oZD61Zh6Lupbal35pfS6oGqT702EMqmCMvq6nNUoTNDo0IooWVwvyBVr
-         TTmvdioo2VKymQ3tSv+czlZGw+dYuvwe1sLSIV20=
-Received: by mail-qk1-f171.google.com with SMTP id p62so3978147qkb.0;
-        Tue, 03 Mar 2020 08:20:37 -0800 (PST)
-X-Gm-Message-State: ANhLgQ30HbpvgZ6+2NJAJr37vQ32zfIyyMHCWTMWRtxKBGg3Zqv4K/C5
-        ghrd5CixpyySh60F5F08gxlu0PshloXEEFHJkg==
-X-Google-Smtp-Source: ADFU+vuMjEgENnYXMgZ0DZmjYOU7SV2y7ndmmk013/U+mJxM6sg3qyyrWb9wOcVBJrSmdtBfV9DfCHaWZOqInJyC6r0=
-X-Received: by 2002:a05:620a:1015:: with SMTP id z21mr4780777qkj.393.1583252436658;
- Tue, 03 Mar 2020 08:20:36 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1583135507.git.mchehab+huawei@kernel.org>
- <20200302123554.08ac0c34@lwn.net> <20200303080947.5f381004@onda.lan>
-In-Reply-To: <20200303080947.5f381004@onda.lan>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 3 Mar 2020 10:20:25 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKsZNFDSsZJ+wzgD1Eaf0fBwZ7BeUv=32jAuE29TeRfnA@mail.gmail.com>
-Message-ID: <CAL_JsqKsZNFDSsZJ+wzgD1Eaf0fBwZ7BeUv=32jAuE29TeRfnA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/12] Convert some DT documentation files to ReST
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1727347AbgCCQsI convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 11:48:08 -0500
+Received: from mail-vi1eur05olkn2013.outbound.protection.outlook.com ([40.92.90.13]:13674
+        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727175AbgCCQsH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 11:48:07 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TxXSGwJyxOJJSfVF95isRusTopJqEISQq+PeECRc0tZbLgi065HEQRZotFxuPOSv/IWYBfAPR1HeJA0LDrWkBjy1CIBCY6656pGbYtKNseeWtawad/36+KGklRILtw5SWdQKn1FXDCq7trsXZ4W9VHioflLhcYWaNdlVNrV6f3XnFa4ErvLbE8HdemYb67+RGXo2I8alpF2GSTv1MVuPR9EpCHuvxIVDt1xtyAFQqvEjwF4MRgFCTAYwDizzLMhUIenY9wrGbAL5i3Xd2lrjN0BMJ75oEJGj9eZxaYJF+RMJ+P97jcp4NIMzbvheETez5cu46xe349yK8HiAZ+6pVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kPqB5Ral2XPaN7+8L5X3jWWV9jvT0c+PO19c90iRNr8=;
+ b=PQwzB0kzfUksrDQTqTlXDCC63HsQAIGyxOpmUJhPxZOjGZZG40odC5NViC3pJcLpWP5YwaNjvFHGjv3ni4Xp9PNSU9Q/U6zYwTj3Hinfa6vqpO5YUkeeaeWlLWAXQ5eKPTCM8uwQyd7GEfbYt3Dsvhfo0Ft5cyYCGyApFCY6fuQJn4Imyn3w4pkG9rtxVlZIvtH3eQeE5BCyF5DBy+PSqZODaKDxKhFAnaARY8REZy5+spiqJx5wLZ5n83tkQQNkq0noaX64XWgPdENpJkArPKIaaL3dUljIZU7e8Hvu3jTJYRCdXsQ8K8V8aAaapy/G61gxSlyIGZ7GwtI2poHWQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from AM6EUR05FT031.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc11::3c) by
+ AM6EUR05HT132.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::480)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.14; Tue, 3 Mar
+ 2020 16:48:02 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.233.240.51) by
+ AM6EUR05FT031.mail.protection.outlook.com (10.233.240.151) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2772.14 via Frontend Transport; Tue, 3 Mar 2020 16:48:02 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Tue, 3 Mar 2020
+ 16:48:01 +0000
+Received: from [192.168.1.101] (92.77.140.102) by FR2P281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.14 via Frontend Transport; Tue, 3 Mar 2020 16:48:00 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+CC:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
+Thread-Topic: [PATCHv5] exec: Fix a deadlock in ptrace
+Thread-Index: AQHV8VwLHjttz8YuA0eRTVSvUK/ceqg2/AiMgAAYPYA=
+Date:   Tue, 3 Mar 2020 16:48:01 +0000
+Message-ID: <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74zmfc9.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87k142lpfz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <875zfmloir.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nmjulm.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003021531.C77EF10@keescook>
+ <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+ <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nlii0b.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87v9nlii0b.fsf@x220.int.ebiederm.org>
+Accept-Language: en-US, en-GB, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: FR2P281CA0009.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::19) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+x-incomingtopheadermarker: OriginalChecksum:A2C3BEAD71CCA3D4DF04CD660CC5A62EA19F3EEA58B170367F6879244E084CE6;UpperCasedChecksum:FA278A141CF444D4BC371EC4AEE728AB5E38FFAABBFEAC432983EC3F6D34A4ED;SizeAsReceived:9658;Count:50
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [5VFh/Y1Vm1Zief3TOfwF2B2OBSonTTn/]
+x-microsoft-original-message-id: <a707b4c3-ee7f-4708-7ba3-8bbbd9344ba3@hotmail.de>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 50
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: bb8c85d8-121e-4e52-97fa-08d7bf92a2e3
+x-ms-traffictypediagnostic: AM6EUR05HT132:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4Ru2NduRa+uiENL4PegR1TGITrvTpVx7Q1PbsVp3UsSVfYLvpFu8AEcdyjRmFCgzIw4yNr3PZWvKdBYMrRaadQdyBZG6E6+tuiyQgRYWOm1XRkZpkLoWy31E40eRVw1KGasHIJgwMiBFWCXFegz6K1b665hYLf04yn965OoyWDtokxih4Gwx6clFIyw1wYCe
+x-ms-exchange-antispam-messagedata: iFKuB+D5cAebMyyBynVr4RX3CnOH5Mok7Vu375i79ZazSVRuHxUUOjB/gZxb9vny24GmwE3C+/HrIDw75UBGX/ufGeYx6s8x89aeitTpTOTYrFO7Scew7fy3lqQGBiqoOguFlW+6yjzv6MhjUPeTsA==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <75742250B8A4564AB1CFEEF3CD6E7B49@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb8c85d8-121e-4e52-97fa-08d7bf92a2e3
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2020 16:48:01.8877
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT132
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 3, 2020 at 1:09 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Em Mon, 2 Mar 2020 12:35:54 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
->
-> > On Mon,  2 Mar 2020 08:59:25 +0100
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> >
-> > > While most of the devicetree stuff has its own format (with is now being
-> > > converted to YAML format), some documents there are actually
-> > > describing the DT concepts and how to contribute to it.
-> > >
-> > > IMHO, those documents would fit perfectly as part of the documentation
-> > > body, as part of the firmare documents set.
-> > >
-> > > This patch series manually converts some DT documents that, on my
-> > > opinion, would belong to it.
-> >
-> > Did you consider putting this stuff into the firmware-guide while you were
-> > at it?  It's not a perfect fit, I guess, but it doesn't seem too awkward
-> > either.
->
-> I placed it just below the firmware-guide at the main index file.
->
-> I have split thoughts about moving the files to there, though. From
-> one side, it may fit better from the PoV of organizing the documentation.
->
-> From other side, newcomers working with DT may expect looking at the
-> text files inside Documentation/devicetree/.
->
-> Maybe I could add an extra patch at the end of this series with the
-> move, adding a "RFC" on his title. This way, we can better discuss it,
-> and either merge the last one or not depending on the comments.
+On 3/3/20 4:18 PM, Eric W. Biederman wrote:
+> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+> 
+>> This fixes a deadlock in the tracer when tracing a multi-threaded
+>> application that calls execve while more than one thread are running.
+>>
+>> I observed that when running strace on the gcc test suite, it always
+>> blocks after a while, when expect calls execve, because other threads
+>> have to be terminated.  They send ptrace events, but the strace is no
+>> longer able to respond, since it is blocked in vm_access.
+>>
+>> The deadlock is always happening when strace needs to access the
+>> tracees process mmap, while another thread in the tracee starts to
+>> execve a child process, but that cannot continue until the
+>> PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
+> 
+> A couple of things.
+> 
+> Why do we think it is safe to change the behavior exposed to userspace?
+> Not the deadlock but all of the times the current code would not
+> deadlock?
+> 
+> Especially given that this is a small window it might be hard for people
+> to track down and report so we need a strong argument that this won't
+> break existing userspace before we just change things.
+> 
 
-Keep in mind that we generate a standalone DT only tree[1] with the
-documentation, dts files and headers. So things should be structured
-such that all the DT documentation could be built by itself without
-dependencies on the 'kernel documentation'. I'm not asking for that to
-be done in this series, but just don't do anything to make that
-harder. I don't *think* have, but just want to make sure that's clear.
+Hmm, I tend to agree.
 
-> > It also seems like it would be good to CC the devicetree folks, or at
-> > least the devicetree mailing list?
+> Usually surveying all of the users of a system call that we can find
+> and checking to see if they might be affected by the change in behavior
+> is difficult enough that we usually opt for not being lazy and
+> preserving the behavior.
+> 
+> This patch is up to two changes in behavior now, that could potentially
+> affect a whole array of programs.  Adding linux-api so that this change
+> in behavior can be documented if/when this change goes through.
+> 
 
-I was wondering what happened to the cover letter on v2...
+One is PTRACE_ACCESS possibly returning EAGAIN, yes.
 
-> Yeah, that would make sense. I'm using get-maintainers script to
-> prepare the c/c list, as it is simply too much work to find the
-> right maintainers by hand, for every single patch.
->
-> I just noticed today that there's just *one entry* at MAINTAINERS
-> file for Documentation/devicetree, and that points to you:
->
->         DOCUMENTATION
->         M:      Jonathan Corbet <corbet@lwn.net>
->         L:      linux-doc@vger.kernel.org
->         S:      Maintained
->         F:      Documentation/
->         F:      scripts/documentation-file-ref-check
->         F:      scripts/kernel-doc
->         F:      scripts/sphinx-pre-install
->         X:      Documentation/ABI/
->         X:      Documentation/firmware-guide/acpi/
->         X:      Documentation/devicetree/
-
-You mean doesn't point to Jon as 'X' is exclude. You missed this entry:
-
-OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
-M:      Rob Herring <robh+dt@kernel.org>
-M:      Mark Rutland <mark.rutland@arm.com>
-L:      devicetree@vger.kernel.org
-T:      git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-Q:      http://patchwork.ozlabs.org/project/devicetree-bindings/list/
-S:      Maintained
-F:      Documentation/devicetree/
-F:      arch/*/boot/dts/
-F:      include/dt-bindings/
+We could try to restrict that behavior change to when any
+thread is ptraced when execve starts, can't be too complicated.
 
 
-Rob
+But the other is only SYS_seccomp returning EAGAIN, when a different
+thread of the current process is calling execve at the same time.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/devicetree/devicetree-rebasing.git/
+I would consider it completely impossible to have any user-visual effect,
+since de_thread is just terminating all threads, including the thread
+where the -EAGAIN was returned, so we will never know what happened.
+
+
+> If you can split the documentation and test fixes out into separate
+> patches that would help reviewing this code, or please make it explicit
+> that the your are changing documentation about behavior that is changing
+> with this patch.
+> 
+
+I am not sure if I have touched the right user documentation.
+
+I only saw a document referring to a non-existent "current->cred_replace_mutex"
+I haven't digged the git history, but that must be pre-historic IMHO.
+It appears to me that is some developer documentation, but it's nevertheless
+worth to keep up to date when the code changes.
+
+So where would I add the possibility for PTRACE_ATTACH to return -EAGAIN ?
+
+
+Bernd.
+
+> Eric
+> 
+>> diff --git a/tools/testing/selftests/ptrace/vmaccess.c b/tools/testing/selftests/ptrace/vmaccess.c
+>> new file mode 100644
+>> index 0000000..6d8a048
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/ptrace/vmaccess.c
+>> @@ -0,0 +1,66 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/*
+>> + * Copyright (c) 2020 Bernd Edlinger <bernd.edlinger@hotmail.de>
+>> + * All rights reserved.
+>> + *
+>> + * Check whether /proc/$pid/mem can be accessed without causing deadlocks
+>> + * when de_thread is blocked with ->cred_guard_mutex held.
+>> + */
+>> +
+>> +#include "../kselftest_harness.h"
+>> +#include <stdio.h>
+>> +#include <fcntl.h>
+>> +#include <pthread.h>
+>> +#include <signal.h>
+>> +#include <unistd.h>
+>> +#include <sys/ptrace.h>
+>> +
+>> +static void *thread(void *arg)
+>> +{
+>> +	ptrace(PTRACE_TRACEME, 0, 0L, 0L);
+>> +	return NULL;
+>> +}
+>> +
+>> +TEST(vmaccess)
+>> +{
+>> +	int f, pid = fork();
+>> +	char mm[64];
+>> +
+>> +	if (!pid) {
+>> +		pthread_t pt;
+>> +
+>> +		pthread_create(&pt, NULL, thread, NULL);
+>> +		pthread_join(pt, NULL);
+>> +		execlp("true", "true", NULL);
+>> +	}
+>> +
+>> +	sleep(1);
+>> +	sprintf(mm, "/proc/%d/mem", pid);
+>> +	f = open(mm, O_RDONLY);
+>> +	ASSERT_LE(0, f);
+>> +	close(f);
+>> +	f = kill(pid, SIGCONT);
+>> +	ASSERT_EQ(0, f);
+>> +}
+>> +
+>> +TEST(attach)
+>> +{
+>> +	int f, pid = fork();
+>> +
+>> +	if (!pid) {
+>> +		pthread_t pt;
+>> +
+>> +		pthread_create(&pt, NULL, thread, NULL);
+>> +		pthread_join(pt, NULL);
+>> +		execlp("true", "true", NULL);
+>> +	}
+>> +
+>> +	sleep(1);
+>> +	f = ptrace(PTRACE_ATTACH, pid, 0L, 0L);
+> 
+> To be meaningful this code needs to learn to loop when
+> ptrace returns -EAGAIN.
+> 
+> Because that is pretty much what any self respecting user space
+> process will do.
+> 
+> At which point I am not certain we can say that the behavior has
+> sufficiently improved not to be a deadlock.
+> 
+
+In this special dead-duck test it won't work, but it would
+still be lots more transparent what is going on, since previously
+you had two zombie process, and no way to even output debug
+messages, which also all self respecting user space processes
+should do.
+
+So yes, I can at least give a good example and re-try it several
+times together with wait4 which a tracer is expected to do.
+
+Bernd.
+
+>> +	ASSERT_EQ(EAGAIN, errno);
+>> +	ASSERT_EQ(f, -1);
+>> +	f = kill(pid, SIGCONT);
+>> +	ASSERT_EQ(0, f);
+>> +}
+>> +
+>> +TEST_HARNESS_MAIN
+> 
+> Eric
+> 
