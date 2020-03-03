@@ -2,134 +2,218 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99C1AC3F2C6
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 14:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA794C3F2C6
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 15:21:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6A53120838
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 14:45:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tfVPG1Dw"
+	by mail.kernel.org (Postfix) with ESMTP id 7A1912073D
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 15:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729464AbgCCOp6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 09:45:58 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:41673 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729372AbgCCOp5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 09:45:57 -0500
-Received: by mail-pf1-f193.google.com with SMTP id j9so1555700pfa.8;
-        Tue, 03 Mar 2020 06:45:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=7+OPrhcCxhD88nBBppkS0Unot2bwdV1u+1a7nZ3TUsA=;
-        b=tfVPG1Dw9PQ6yj4UwhgU3mxjYGO0RhTzt8ID6jjhlLmQXtMp52UV0OzfSqh/wdtHa6
-         Kpadqio3VhBHTE/ZxRWUy1+y8qQOqbcUwNBdQzpRPBY51Ja6iPa7cgfxX5e3I0PU6xb+
-         3WL6PQcWb1xkmUkC1ZN7+Bh++lKbI2tc4camwkdNPmwLbk9Xj0qcSe+fLn3nPG5N2QcC
-         aijaQJOyDt0n9HnxM1+qspoC0ISrkUxvjH3HWzmLSpHaHEf4diNiiD9rpy/vkvbWPNFX
-         KSRx9Qv2eJ4tsoDsMdim1pPo5zpt5UH4Bt2mpw2iEFESfH6aOgyG8tPXSdCc4dEzEKez
-         9dHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=7+OPrhcCxhD88nBBppkS0Unot2bwdV1u+1a7nZ3TUsA=;
-        b=c8MmwVmG4cXiqKt1dJY7+J7O7mptli+5xaAOHOJeO9+lbHiZgr6thJ+O1X0U3/CFh/
-         7gzK0q1Bca1sOZv3Dms5T2Q+PSc7Oph4QqnUqke9/Ce0aDbBGvOHzFrM2fACPQAg3+IU
-         KS3NK59ck4Oa1cvLGYgOMuKCEp8k8V3MCnblDvTkV4ils2ewHC1MIpS7NxPIxRzuQjH9
-         ERl4KeTXZRr7tGUqCLv7ZYk/dozDMBuFPB6CVc2Gcmh9nTm9fJ6MIhssbLuZj+KbA+/2
-         I+0SizAKrR+ECrDYGZ8CO11cDEXEpYe29VOem71uqQGFPjTsEiuKfQ5UdyypRkOwBMAH
-         AQwA==
-X-Gm-Message-State: ANhLgQ0maYmUhQWETjhSsAWY1MJf2x8NcZtlOkeLgwyw06gBQoZtN6O6
-        T2FRLf0wg16mXNNXisihj18=
-X-Google-Smtp-Source: ADFU+vv+wWZZSCz/PWWSj2zrrPSejDYdYRTa8dEA0uwFrJBvvQJareiMv0Ev1scHr5djPToJqBs40A==
-X-Received: by 2002:a63:fc62:: with SMTP id r34mr4498737pgk.437.1583246756508;
-        Tue, 03 Mar 2020 06:45:56 -0800 (PST)
-Received: from localhost.localdomain ([103.118.34.152])
-        by smtp.gmail.com with ESMTPSA id e12sm9344869pff.168.2020.03.03.06.45.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2020 06:45:56 -0800 (PST)
-From:   Pawan Kumar Meena <pawank1804@gmail.com>
-To:     paulmck@kernel.org, joel@joelfernandes.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Pawan Kumar Meena <pawank1804@gmail.com>
-Subject: [PATCH RESEND] Documentation: RCU: lockdep.txt: Convert to lockdep.rst
-Date:   Tue,  3 Mar 2020 20:15:46 +0530
-Message-Id: <20200303144546.20405-1-pawank1804@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1729466AbgCCPVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 10:21:12 -0500
+Received: from out02.mta.xmission.com ([166.70.13.232]:51874 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728787AbgCCPVL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 10:21:11 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j99Lt-0008Dj-DE; Tue, 03 Mar 2020 08:20:57 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j99Ls-00074l-Ha; Tue, 03 Mar 2020 08:20:57 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
+        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
+        <linux-api@vger.kernel.org>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87a74zmfc9.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87k142lpfz.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <875zfmloir.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87v9nmjulm.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <202003021531.C77EF10@keescook>
+        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Tue, 03 Mar 2020 09:18:44 -0600
+In-Reply-To: <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        (Bernd Edlinger's message of "Tue, 3 Mar 2020 13:02:51 +0000")
+Message-ID: <87v9nlii0b.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1j99Ls-00074l-Ha;;;mid=<87v9nlii0b.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX19rGY6nP+Gy6pmv+g93hLTd2evDLDDhunA=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch converts lockdep.txt to lockdep.rst and adds it to index.rst.
+Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 
-Signed-off-by: Pawan Kumar Meena <pawank1804@gmail.com>
----
- Documentation/RCU/index.rst                    | 1 +
- Documentation/RCU/{lockdep.txt => lockdep.rst} | 9 ++++++---
- 2 files changed, 7 insertions(+), 3 deletions(-)
- rename Documentation/RCU/{lockdep.txt => lockdep.rst} (97%)
+> This fixes a deadlock in the tracer when tracing a multi-threaded
+> application that calls execve while more than one thread are running.
+>
+> I observed that when running strace on the gcc test suite, it always
+> blocks after a while, when expect calls execve, because other threads
+> have to be terminated.  They send ptrace events, but the strace is no
+> longer able to respond, since it is blocked in vm_access.
+>
+> The deadlock is always happening when strace needs to access the
+> tracees process mmap, while another thread in the tracee starts to
+> execve a child process, but that cannot continue until the
+> PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
 
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 81a0a1e5f767..109dea13f165 100644
---- a/Documentation/RCU/index.rst
-+++ b/Documentation/RCU/index.rst
-@@ -10,6 +10,7 @@ RCU concepts
-    arrayRCU
-    rcubarrier
-    rcu_dereference
-+   lockdep
-    whatisRCU
-    rcu
-    listRCU
-diff --git a/Documentation/RCU/lockdep.txt b/Documentation/RCU/lockdep.rst
-similarity index 97%
-rename from Documentation/RCU/lockdep.txt
-rename to Documentation/RCU/lockdep.rst
-index 89db949eeca0..3a88d8a59753 100644
---- a/Documentation/RCU/lockdep.txt
-+++ b/Documentation/RCU/lockdep.rst
-@@ -1,4 +1,7 @@
-+.. _lockdep_doc:
-+
- RCU and lockdep checking
-+========================
- 
- All flavors of RCU have lockdep checking available, so that lockdep is
- aware of when each task enters and leaves any flavor of RCU read-side
-@@ -63,7 +66,7 @@ checking of rcu_dereference() primitives:
- The rcu_dereference_check() check expression can be any boolean
- expression, but would normally include a lockdep expression.  However,
- any boolean expression can be used.  For a moderately ornate example,
--consider the following:
-+consider the following::
- 
- 	file = rcu_dereference_check(fdt->fd[fd],
- 				     lockdep_is_held(&files->file_lock) ||
-@@ -82,7 +85,7 @@ RCU read-side critical sections, in case (2) the ->file_lock prevents
- any change from taking place, and finally, in case (3) the current task
- is the only task accessing the file_struct, again preventing any change
- from taking place.  If the above statement was invoked only from updater
--code, it could instead be written as follows:
-+code, it could instead be written as follows::
- 
- 	file = rcu_dereference_protected(fdt->fd[fd],
- 					 lockdep_is_held(&files->file_lock) ||
-@@ -105,7 +108,7 @@ false and they are called from outside any RCU read-side critical section.
- 
- For example, the workqueue for_each_pwq() macro is intended to be used
- either within an RCU read-side critical section or with wq->mutex held.
--It is thus implemented as follows:
-+It is thus implemented as follows::
- 
- 	#define for_each_pwq(pwq, wq)
- 		list_for_each_entry_rcu((pwq), &(wq)->pwqs, pwqs_node,
--- 
-2.17.1
+A couple of things.
 
+Why do we think it is safe to change the behavior exposed to userspace?
+Not the deadlock but all of the times the current code would not
+deadlock?
+
+Especially given that this is a small window it might be hard for people
+to track down and report so we need a strong argument that this won't
+break existing userspace before we just change things.
+
+Usually surveying all of the users of a system call that we can find
+and checking to see if they might be affected by the change in behavior
+is difficult enough that we usually opt for not being lazy and
+preserving the behavior.
+
+This patch is up to two changes in behavior now, that could potentially
+affect a whole array of programs.  Adding linux-api so that this change
+in behavior can be documented if/when this change goes through.
+
+If you can split the documentation and test fixes out into separate
+patches that would help reviewing this code, or please make it explicit
+that the your are changing documentation about behavior that is changing
+with this patch.
+
+Eric
+
+> diff --git a/tools/testing/selftests/ptrace/vmaccess.c b/tools/testing/selftests/ptrace/vmaccess.c
+> new file mode 100644
+> index 0000000..6d8a048
+> --- /dev/null
+> +++ b/tools/testing/selftests/ptrace/vmaccess.c
+> @@ -0,0 +1,66 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (c) 2020 Bernd Edlinger <bernd.edlinger@hotmail.de>
+> + * All rights reserved.
+> + *
+> + * Check whether /proc/$pid/mem can be accessed without causing deadlocks
+> + * when de_thread is blocked with ->cred_guard_mutex held.
+> + */
+> +
+> +#include "../kselftest_harness.h"
+> +#include <stdio.h>
+> +#include <fcntl.h>
+> +#include <pthread.h>
+> +#include <signal.h>
+> +#include <unistd.h>
+> +#include <sys/ptrace.h>
+> +
+> +static void *thread(void *arg)
+> +{
+> +	ptrace(PTRACE_TRACEME, 0, 0L, 0L);
+> +	return NULL;
+> +}
+> +
+> +TEST(vmaccess)
+> +{
+> +	int f, pid = fork();
+> +	char mm[64];
+> +
+> +	if (!pid) {
+> +		pthread_t pt;
+> +
+> +		pthread_create(&pt, NULL, thread, NULL);
+> +		pthread_join(pt, NULL);
+> +		execlp("true", "true", NULL);
+> +	}
+> +
+> +	sleep(1);
+> +	sprintf(mm, "/proc/%d/mem", pid);
+> +	f = open(mm, O_RDONLY);
+> +	ASSERT_LE(0, f);
+> +	close(f);
+> +	f = kill(pid, SIGCONT);
+> +	ASSERT_EQ(0, f);
+> +}
+> +
+> +TEST(attach)
+> +{
+> +	int f, pid = fork();
+> +
+> +	if (!pid) {
+> +		pthread_t pt;
+> +
+> +		pthread_create(&pt, NULL, thread, NULL);
+> +		pthread_join(pt, NULL);
+> +		execlp("true", "true", NULL);
+> +	}
+> +
+> +	sleep(1);
+> +	f = ptrace(PTRACE_ATTACH, pid, 0L, 0L);
+
+To be meaningful this code needs to learn to loop when
+ptrace returns -EAGAIN.
+
+Because that is pretty much what any self respecting user space
+process will do.
+
+At which point I am not certain we can say that the behavior has
+sufficiently improved not to be a deadlock.
+
+> +	ASSERT_EQ(EAGAIN, errno);
+> +	ASSERT_EQ(f, -1);
+> +	f = kill(pid, SIGCONT);
+> +	ASSERT_EQ(0, f);
+> +}
+> +
+> +TEST_HARNESS_MAIN
+
+Eric
