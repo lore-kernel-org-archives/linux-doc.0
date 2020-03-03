@@ -2,254 +2,103 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_SBL,URIBL_SBL_A,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DA92C3F2D1
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 22:01:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A19DBC3F2D1
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 22:56:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 34B4A20870
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 22:01:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73F53206E6
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 22:56:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BhVxK+/L"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XyEZx7P4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727112AbgCCWBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 17:01:50 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:37276 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726809AbgCCWBt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 17:01:49 -0500
-Received: by mail-pf1-f194.google.com with SMTP id p14so2191944pfn.4
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2020 14:01:46 -0800 (PST)
+        id S1727502AbgCCW4Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 17:56:16 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:43870 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727274AbgCCW4P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 17:56:15 -0500
+Received: by mail-qt1-f194.google.com with SMTP id v22so4207901qtp.10
+        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2020 14:56:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=rWUW/hFw9l9361bhE4imeaEyL7jHn9L6GXzM5ESAseU=;
-        b=BhVxK+/LHYafxOQAfuMTX9d/TRms7HTjQhUgidQSpDOh3ucN0yhwgG0GsR08VaGqe0
-         p1rUfVpFAaPgmoZck/OAGk2CoNPI1Y3b+68nSVd5nPpHFc/O55nkwEB9c9/gEjh7S5qs
-         nBGJ/2dqPhhvdC3KJfeWbrkVaGXje+y9JxV/bVIoy6u9P88L181uPzNtb45O2Al29D/W
-         ukEjGV9OazJXP9shM9rlBFZZ7Hz8U7deISs7AzcO/Pp0mst4G0D88hbAuWUmSU94hP/t
-         puyyPjM6DLwJMJW9HG1C6KF5RditipoQDM1oz6sPzZKFzEo5w23TwVwIdGbecoujEfua
-         Y8DQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w+/vd8qTkX/vPxneTlpQ8qwlfxbKoqyPCokDn/ckJFI=;
+        b=XyEZx7P475OFf2EIOuSkVU9LVIVVL6OThDxmppjLPDGwLLP9dl/d1KNn6s5+y72VDJ
+         c7K4+x/atWiVqGR41LIkEcNXA3gqqi4StukVkMgNfoQHq1k/MrSoaPG21HTLjSAcxS05
+         p6SYNnog8CUFaccDZ7gPPsZBQE/oGrV8FPl+kf30BAC02DUNi4TV+SU7g6ZK8J8RNog+
+         XKh3kYO2NGkEdGP0pZoYqJkSJUL/PhIyRHxb7tUr5H88xdGBWYZDtJ4cMYIDSaIEy+d/
+         JUn6hH9drgELKabk12QMG+DGfNXngSPtjtkB9ZOLWklQ5qGFKkKoq+8X669jQ5caqlAH
+         XkHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rWUW/hFw9l9361bhE4imeaEyL7jHn9L6GXzM5ESAseU=;
-        b=qPQwLqVNcqv79pk+ZZHTzyMnC3JiXH0NHc99iA8itCiZPN7UGxOejDP/EzaLST5A3s
-         r2Xo5cEl2ff0zxHac/+j8LI6l85sCofiJteBrgEX8CW6dWn+517R0G/l9kxetno9OfWk
-         H3oqOPSwu+c+eZW2L0HQ9+t+flOqR2w8sOBWZyNnCOZhlzjKqHmA12Iq9D2CK7ZiSh/J
-         8o4twDOsFT7n35z0YejVX0j23BT2GMkKOi2ZTtctyJVT7vVnF12Opb+F/fy50yAwJNOw
-         kR39x2RP1A+ls70cpimAVr5ny1FSqmkRLMgvQN15E1edgQuwoDfqNBJ58wUdvH8D4Gsj
-         NOqw==
-X-Gm-Message-State: ANhLgQ0MMt5/rm4xMa6anh+VcLxk9iX072xztP/ihBb5+3OnGk0DYQqQ
-        btlvThQau1uADgLrXvopJ9npFg==
-X-Google-Smtp-Source: ADFU+vtbmNdboXaJVKJCCWsPJHhUQwS37qhm8rMETgAhfI6yoRx8bCGHJ6YZpsQW8cVKZNiK3wY79Q==
-X-Received: by 2002:a63:e803:: with SMTP id s3mr5803839pgh.237.1583272906003;
-        Tue, 03 Mar 2020 14:01:46 -0800 (PST)
-Received: from minitux (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id x12sm16305062pfi.122.2020.03.03.14.01.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w+/vd8qTkX/vPxneTlpQ8qwlfxbKoqyPCokDn/ckJFI=;
+        b=aPKnZNTD0VWf3Qo9C68EFBOINhInQj2p9mrWgTK+z1pLHrSI2U5y4F0Xlgzt7Rclhp
+         WhqgDYc8CmqP7JYf0bOCgcwEgYbeGrtL/XSY94PcK/PZquU3B2q25q4UwMpEOJphnfZ7
+         eyPF72OXwtWObtDA86tozuRGhmkUWYrCJO6hNhUN1zgaqnVlTgcznJVN71/0/rlRbJtb
+         9sJNyFT94/dUA2TNF7nWBxCbPz+nxlxPJcU6bXx5itk0wkdXjAH7NDFr/MS6AmqpL2VI
+         B9WcSUvPF9wjG4IXc9QZiXJ1gvMwm71yJkAPQihdav70pVd2dwY8wHy37rhA58gCz38I
+         A4RQ==
+X-Gm-Message-State: ANhLgQ1ZO9jY1fkUD2Zyh+ACsOMDGUq21je940CajNuzQFoZNwbet6P1
+        GE3QnVDJwc4OTvucDf/AMp0=
+X-Google-Smtp-Source: ADFU+vuK1O6ufH8jjMxVuvuFFMH4EQdQFC9rNYfHICctLs0aVeo+TJdGeM+sdydy2zOD/Krqh1ERJg==
+X-Received: by 2002:ac8:3227:: with SMTP id x36mr6668487qta.349.1583276173588;
+        Tue, 03 Mar 2020 14:56:13 -0800 (PST)
+Received: from laptop1.home.joalon.se ([168.227.32.157])
+        by smtp.gmail.com with ESMTPSA id 133sm12969689qkh.109.2020.03.03.14.56.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2020 14:01:45 -0800 (PST)
-Date:   Tue, 3 Mar 2020 14:01:42 -0800
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Clement Leger <cleger@kalray.eu>
-Cc:     Ohad Ben-Cohen <ohad@wizery.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-remoteproc@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
-        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH v5 8/8] remoteproc: Adapt coredump to generate correct
- elf type
-Message-ID: <20200303220142.GU1214176@minitux>
-References: <20200210162209.23149-1-cleger@kalray.eu>
- <20200302093902.27849-1-cleger@kalray.eu>
- <20200302093902.27849-9-cleger@kalray.eu>
+        Tue, 03 Mar 2020 14:56:13 -0800 (PST)
+From:   "=?UTF-8?q?Joakim=20L=C3=B6nnegren?=" <joakimlonnegren@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Joakim=20L=C3=B6nnegren?= <joakimlonnegren@gmail.om>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org,
+        =?UTF-8?q?Joakim=20L=C3=B6nnegren?= <joakimlonnegren@gmail.com>
+Subject: [PATCH] Documentation: driver-api/usb/writing_usb_driver.rst: Update documentation links
+Date:   Tue,  3 Mar 2020 19:55:52 -0300
+Message-Id: <20200303225552.142778-1-joakimlonnegren@gmail.om>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200302093902.27849-9-cleger@kalray.eu>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 02 Mar 01:39 PST 2020, Clement Leger wrote:
+In writing_usb_driver.rst:
+Remove link to https://www.qbik.ch/usb/devices/ since it seems to be inactive since 2013
+Update link to linux-usb mailing list archive
 
-> Now that remoteproc can load an elf64, coredump elf class should be
-> the same as the loaded elf class. In order to do that, add a
-> elf_class field to rproc with default values. If an elf is loaded
-> successfully, this field will be updated with the loaded elf class.
-> Then, the coredump core code has been modified to use the generic elf
-> macro in order to create an elf file with correct class.
-> 
-> Signed-off-by: Clement Leger <cleger@kalray.eu>
+Signed-off-by: Joakim Lönnegren <joakimlonnegren@gmail.com>
+---
+ Documentation/driver-api/usb/writing_usb_driver.rst | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+index 4fe1c06b6a13..5987762f5c3f 100644
+--- a/Documentation/driver-api/usb/writing_usb_driver.rst
++++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+@@ -314,11 +314,8 @@ http://www.linux-usb.org/
+ Linux Hotplug Project:
+ http://linux-hotplug.sourceforge.net/
+ 
+-Linux USB Working Devices List:
+-http://www.qbik.ch/usb/devices/
+-
+-linux-usb-devel Mailing List Archives:
+-http://marc.theaimsgroup.com/?l=linux-usb-devel
++linux-usb Mailing List Archives:
++https://marc.info/?l=linux-usb
+ 
+ Programming Guide for Linux USB Device Drivers:
+ http://lmu.web.psi.ch/docu/manuals/software_manuals/linux_sl/usb_linux_programming_guide.pdf
+-- 
+2.25.0
 
-> ---
->  drivers/remoteproc/remoteproc_core.c       | 67 ++++++++++++++++--------------
->  drivers/remoteproc/remoteproc_elf_loader.c |  3 ++
->  include/linux/remoteproc.h                 |  1 +
->  3 files changed, 39 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-> index b932a64a2be2..f923355aa3f9 100644
-> --- a/drivers/remoteproc/remoteproc_core.c
-> +++ b/drivers/remoteproc/remoteproc_core.c
-> @@ -38,6 +38,7 @@
->  #include <linux/platform_device.h>
->  
->  #include "remoteproc_internal.h"
-> +#include "remoteproc_elf_helpers.h"
->  
->  #define HIGH_BITS_MASK 0xFFFFFFFF00000000ULL
->  
-> @@ -1566,20 +1567,21 @@ EXPORT_SYMBOL(rproc_coredump_add_custom_segment);
->  static void rproc_coredump(struct rproc *rproc)
->  {
->  	struct rproc_dump_segment *segment;
-> -	struct elf32_phdr *phdr;
-> -	struct elf32_hdr *ehdr;
-> +	void *phdr;
-> +	void *ehdr;
->  	size_t data_size;
->  	size_t offset;
->  	void *data;
->  	void *ptr;
-> +	u8 class = rproc->elf_class;
->  	int phnum = 0;
->  
->  	if (list_empty(&rproc->dump_segments))
->  		return;
->  
-> -	data_size = sizeof(*ehdr);
-> +	data_size = elf_size_of_hdr(class);
->  	list_for_each_entry(segment, &rproc->dump_segments, node) {
-> -		data_size += sizeof(*phdr) + segment->size;
-> +		data_size += elf_size_of_phdr(class) + segment->size;
->  
->  		phnum++;
->  	}
-> @@ -1590,33 +1592,33 @@ static void rproc_coredump(struct rproc *rproc)
->  
->  	ehdr = data;
->  
-> -	memset(ehdr, 0, sizeof(*ehdr));
-> -	memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
-> -	ehdr->e_ident[EI_CLASS] = ELFCLASS32;
-> -	ehdr->e_ident[EI_DATA] = ELFDATA2LSB;
-> -	ehdr->e_ident[EI_VERSION] = EV_CURRENT;
-> -	ehdr->e_ident[EI_OSABI] = ELFOSABI_NONE;
-> -	ehdr->e_type = ET_CORE;
-> -	ehdr->e_machine = EM_NONE;
-> -	ehdr->e_version = EV_CURRENT;
-> -	ehdr->e_entry = rproc->bootaddr;
-> -	ehdr->e_phoff = sizeof(*ehdr);
-> -	ehdr->e_ehsize = sizeof(*ehdr);
-> -	ehdr->e_phentsize = sizeof(*phdr);
-> -	ehdr->e_phnum = phnum;
-> -
-> -	phdr = data + ehdr->e_phoff;
-> -	offset = ehdr->e_phoff + sizeof(*phdr) * ehdr->e_phnum;
-> +	memset(ehdr, 0, elf_size_of_hdr(class));
-> +	/* e_ident field is common for both elf32 and elf64 */
-> +	elf_hdr_init_ident(ehdr, class);
-> +
-> +	elf_hdr_set_e_type(class, ehdr, ET_CORE);
-> +	elf_hdr_set_e_machine(class, ehdr, EM_NONE);
-> +	elf_hdr_set_e_version(class, ehdr, EV_CURRENT);
-> +	elf_hdr_set_e_entry(class, ehdr, rproc->bootaddr);
-> +	elf_hdr_set_e_phoff(class, ehdr, elf_size_of_hdr(class));
-> +	elf_hdr_set_e_ehsize(class, ehdr, elf_size_of_hdr(class));
-> +	elf_hdr_set_e_phentsize(class, ehdr, elf_size_of_phdr(class));
-> +	elf_hdr_set_e_phnum(class, ehdr, phnum);
-> +
-> +	phdr = data + elf_hdr_get_e_phoff(class, ehdr);
-> +	offset = elf_hdr_get_e_phoff(class, ehdr);
-> +	offset += elf_size_of_phdr(class) * elf_hdr_get_e_phnum(class, ehdr);
-> +
->  	list_for_each_entry(segment, &rproc->dump_segments, node) {
-> -		memset(phdr, 0, sizeof(*phdr));
-> -		phdr->p_type = PT_LOAD;
-> -		phdr->p_offset = offset;
-> -		phdr->p_vaddr = segment->da;
-> -		phdr->p_paddr = segment->da;
-> -		phdr->p_filesz = segment->size;
-> -		phdr->p_memsz = segment->size;
-> -		phdr->p_flags = PF_R | PF_W | PF_X;
-> -		phdr->p_align = 0;
-> +		memset(phdr, 0, elf_size_of_phdr(class));
-> +		elf_phdr_set_p_type(class, phdr, PT_LOAD);
-> +		elf_phdr_set_p_offset(class, phdr, offset);
-> +		elf_phdr_set_p_vaddr(class, phdr, segment->da);
-> +		elf_phdr_set_p_paddr(class, phdr, segment->da);
-> +		elf_phdr_set_p_filesz(class, phdr, segment->size);
-> +		elf_phdr_set_p_memsz(class, phdr, segment->size);
-> +		elf_phdr_set_p_flags(class, phdr, PF_R | PF_W | PF_X);
-> +		elf_phdr_set_p_align(class, phdr, 0);
->  
->  		if (segment->dump) {
->  			segment->dump(rproc, segment, data + offset);
-> @@ -1632,8 +1634,8 @@ static void rproc_coredump(struct rproc *rproc)
->  			}
->  		}
->  
-> -		offset += phdr->p_filesz;
-> -		phdr++;
-> +		offset += elf_phdr_get_p_filesz(class, phdr);
-> +		phdr += elf_size_of_phdr(class);
->  	}
->  
->  	dev_coredumpv(&rproc->dev, data, data_size, GFP_KERNEL);
-> @@ -2031,6 +2033,7 @@ struct rproc *rproc_alloc(struct device *dev, const char *name,
->  	rproc->name = name;
->  	rproc->priv = &rproc[1];
->  	rproc->auto_boot = true;
-> +	rproc->elf_class = ELFCLASS32;
->  
->  	device_initialize(&rproc->dev);
->  	rproc->dev.parent = dev;
-> diff --git a/drivers/remoteproc/remoteproc_elf_loader.c b/drivers/remoteproc/remoteproc_elf_loader.c
-> index 4869fb7d8fe4..16e2c496fd45 100644
-> --- a/drivers/remoteproc/remoteproc_elf_loader.c
-> +++ b/drivers/remoteproc/remoteproc_elf_loader.c
-> @@ -248,6 +248,9 @@ int rproc_elf_load_segments(struct rproc *rproc, const struct firmware *fw)
->  			memset(ptr + filesz, 0, memsz - filesz);
->  	}
->  
-> +	if (ret == 0)
-> +		rproc->elf_class = class;
-> +
->  	return ret;
->  }
->  EXPORT_SYMBOL(rproc_elf_load_segments);
-> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
-> index 1683d6c386a6..ed127b2d35ca 100644
-> --- a/include/linux/remoteproc.h
-> +++ b/include/linux/remoteproc.h
-> @@ -514,6 +514,7 @@ struct rproc {
->  	bool auto_boot;
->  	struct list_head dump_segments;
->  	int nb_vdev;
-> +	u8 elf_class;
->  };
->  
->  /**
-> -- 
-> 2.15.0.276.g89ea799
-> 
