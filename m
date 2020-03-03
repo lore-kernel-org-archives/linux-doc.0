@@ -2,86 +2,117 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C6DC3F2C6
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:21:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B20C3F2CD
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:29:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7C2E420675
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583241677;
-	bh=XB238MXEfH8xpKZt76KZ0NzhaYG/4J/KJ091QcUfRwA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Gt6JzQEcEVk9xXKez26JCVA5ZPdq2XlyG/+Tgxkbp+170olp8AMNfUaV34PjSl1Ah
-	 Ks3kIn10rYOdUW+KvLGW60PFw6Cv/rklDc5RhCIJ4q90ghh7CJo/w69CThQPKK8Gnk
-	 zk0XcLQg8mNNOrvnyVmIGX47V0JIVoeFJkju6wiQ=
+	by mail.kernel.org (Postfix) with ESMTP id 4078320842
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:29:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="SzS5KFyg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727830AbgCCNVR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 08:21:17 -0500
-Received: from foss.arm.com ([217.140.110.172]:46920 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727753AbgCCNVR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Mar 2020 08:21:17 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B1D8FEC;
-        Tue,  3 Mar 2020 05:21:16 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E33803F534;
-        Tue,  3 Mar 2020 05:21:15 -0800 (PST)
-Date:   Tue, 3 Mar 2020 13:21:14 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Ondrej Jirman <megous@megous.com>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] ALSA: pcm: Add a standalone version of
- snd_pcm_limit_hw_rates
-Message-ID: <20200303132114.GF3866@sirena.org.uk>
-References: <20200223034533.1035-1-samuel@sholland.org>
- <20200223034533.1035-2-samuel@sholland.org>
+        id S1727980AbgCCN3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 08:29:51 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:35610 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727913AbgCCN3v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 08:29:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
+        Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
+        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+        Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=bHX1b2/1S5EkvQkNQ9zS/cLGZRGrR/qQ+LJlvoJKItU=; b=SzS5KFygidT4fdT2l+S426X6VR
+        yG7WR1V6n4zvLvjx08lYcfm0/rfT0af24O8meIy1dTPGA8JmObRGjpNQpOXmkVpVdRfRQhV1PTrf8
+        NS8NQjBx57VsinMkpkzMlEt5jXApz1R8X0+TcPz7FDxfFiNeskX0y8bs/Z9rMsHOv/znT8bRIF5zv
+        X6kVjWx4vOS/aUGhkkC+TkCA9GKOXosK25hPl4ok9F+PsNf7vONF8L3gNXnfEyQHzFm0qaGbwwr8b
+        ejAQPnFluj4ymWejQWnBxc5d3gk/YXLhvJuYplJNu78GtrVJ0GiemU/F9vGvQy/dnoONChk8Jq42b
+        teTiFtkg==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([2002:4e20:1eda:1:222:68ff:fe15:37dd]:33522 helo=rmk-PC.armlinux.org.uk)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <rmk@armlinux.org.uk>)
+        id 1j97cF-0008DD-Ig; Tue, 03 Mar 2020 13:29:43 +0000
+Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <rmk@armlinux.org.uk>)
+        id 1j97cE-0004aW-Ur; Tue, 03 Mar 2020 13:29:42 +0000
+From:   Russell King <rmk+kernel@armlinux.org.uk>
+To:     "David S. Miller" <davem@davemloft.net>
+Cc:     Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH net-next] doc: sfp-phylink: correct code indentation
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7mxbaLlpDEyR1+x6"
 Content-Disposition: inline
-In-Reply-To: <20200223034533.1035-2-samuel@sholland.org>
-X-Cookie: Drilling for oil is boring.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <E1j97cE-0004aW-Ur@rmk-PC.armlinux.org.uk>
+Date:   Tue, 03 Mar 2020 13:29:42 +0000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Using vim to edit the phylink documentation reveals some mistakes due
+to the "invisible" pythonesque white space indentation that can't be
+seen with other editors. Fix it.
 
---7mxbaLlpDEyR1+x6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+---
+ Documentation/networking/sfp-phylink.rst | 32 ++++++++++++------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-On Sat, Feb 22, 2020 at 09:45:31PM -0600, Samuel Holland wrote:
-> It can be useful to derive min/max rates of a snd_pcm_hardware without
-> having a snd_pcm_runtime, such as before constructing an ASoC DAI link.
+diff --git a/Documentation/networking/sfp-phylink.rst b/Documentation/networking/sfp-phylink.rst
+index 8d7af28cd835..5aec7c8857d0 100644
+--- a/Documentation/networking/sfp-phylink.rst
++++ b/Documentation/networking/sfp-phylink.rst
+@@ -138,27 +138,27 @@ this documentation.
+ 
+    .. code-block:: c
+ 
+-    static int foo_ethtool_set_link_ksettings(struct net_device *dev,
+-					     const struct ethtool_link_ksettings *cmd)
+-    {
+-	struct foo_priv *priv = netdev_priv(dev);
+-
+-	return phylink_ethtool_ksettings_set(priv->phylink, cmd);
+-    }
+-
+-    static int foo_ethtool_get_link_ksettings(struct net_device *dev,
+-					     struct ethtool_link_ksettings *cmd)
+-    {
+-	struct foo_priv *priv = netdev_priv(dev);
++	static int foo_ethtool_set_link_ksettings(struct net_device *dev,
++						  const struct ethtool_link_ksettings *cmd)
++	{
++		struct foo_priv *priv = netdev_priv(dev);
++	
++		return phylink_ethtool_ksettings_set(priv->phylink, cmd);
++	}
+ 
+-	return phylink_ethtool_ksettings_get(priv->phylink, cmd);
+-    }
++	static int foo_ethtool_get_link_ksettings(struct net_device *dev,
++						  struct ethtool_link_ksettings *cmd)
++	{
++		struct foo_priv *priv = netdev_priv(dev);
++	
++		return phylink_ethtool_ksettings_get(priv->phylink, cmd);
++	}
+ 
+-7. Replace the call to:
++7. Replace the call to::
+ 
+ 	phy_dev = of_phy_connect(dev, node, link_func, flags, phy_interface);
+ 
+-   and associated code with a call to:
++   and associated code with a call to::
+ 
+ 	err = phylink_of_phy_connect(priv->phylink, node, flags);
+ 
+-- 
+2.20.1
 
-Takashi, are you OK with me taking this patch?
-
---7mxbaLlpDEyR1+x6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5eWckACgkQJNaLcl1U
-h9Ducwf/YF/9IryVmRNLlQXZGWZvKAI5ANfSxt6KxrXJelsiOzPqfIIwJARt5zer
-SIOmcAciTHMHaIcr577bM0h9o0GocGU0Ugr9xJimGbIkHkkV8vVP5FvEG5BzDmzq
-+HXwIbriuIB/ya21VXYghWnFqlLtWnaqAPm+pjGJRdwNglphNYgz+YOO/Rg7VMhp
-5LmuTTeNsEW3ZkOzsVUHE5/Dzv5k4KOGd0IXd6mnNZ/elE03NgVTNinYZTYVFF2c
-wjylTL3Lj2LAq5glbu2Jkm5DIEY/9LsB3PlYwiHVwcl/cgSfU5b+pz6oE/r2ezmT
-COhEOZGW3psRcCnqHaxjrsTwfYhNEg==
-=terh
------END PGP SIGNATURE-----
-
---7mxbaLlpDEyR1+x6--
