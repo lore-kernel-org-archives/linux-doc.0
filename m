@@ -2,125 +2,125 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78AA1C3F2D1
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:51:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC96BC3F2D7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:58:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 56AF720863
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:51:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E4DE20838
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:58:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730445AbgCCQvV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 11:51:21 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:49178 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730115AbgCCQvU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 11:51:20 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j9Akd-0004ZP-Kd; Tue, 03 Mar 2020 16:50:35 +0000
-Date:   Tue, 3 Mar 2020 17:50:34 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
-Message-ID: <20200303165034.5w76hbatbnr64pkd@wittgenstein>
-References: <87k142lpfz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <875zfmloir.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nmjulm.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003021531.C77EF10@keescook>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
+        id S1730452AbgCCQ6v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 11:58:51 -0500
+Received: from foss.arm.com ([217.140.110.172]:49756 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727077AbgCCQ6u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 11:58:50 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E68952F;
+        Tue,  3 Mar 2020 08:58:49 -0800 (PST)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.71])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C2583F534;
+        Tue,  3 Mar 2020 08:58:47 -0800 (PST)
+Date:   Tue, 3 Mar 2020 16:58:45 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Ionela Voinescu <ionela.voinescu@arm.com>
+Cc:     will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
+        suzuki.poulose@arm.com, sudeep.holla@arm.com, lukasz.luba@arm.com,
+        valentin.schneider@arm.com, dietmar.eggemann@arm.com,
+        rjw@rjwysocki.net, pkondeti@codeaurora.org, peterz@infradead.org,
+        mingo@redhat.com, vincent.guittot@linaro.org,
+        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v5 1/7] arm64: add support for the AMU extension v1
+Message-ID: <20200303165845.GF823373@arrakis.emea.arm.com>
+References: <20200226132947.29738-1-ionela.voinescu@arm.com>
+ <20200226132947.29738-2-ionela.voinescu@arm.com>
+ <20200228103234.GA3904776@arrakis.emea.arm.com>
+ <20200302142326.GA15709@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87v9nlii0b.fsf@x220.int.ebiederm.org>
+In-Reply-To: <20200302142326.GA15709@arm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 09:18:44AM -0600, Eric W. Biederman wrote:
-> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+On Mon, Mar 02, 2020 at 02:23:26PM +0000, Ionela Voinescu wrote:
+> On Friday 28 Feb 2020 at 10:32:34 (+0000), Catalin Marinas wrote:
+> > On Wed, Feb 26, 2020 at 01:29:41PM +0000, Ionela Voinescu wrote:
+> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > > index dbc22d684627..49f0c436928f 100644
+> > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > @@ -318,6 +318,15 @@
+> > >  			Format: <a>,<b>
+> > >  			See also Documentation/input/joydev/joystick.rst
+> > >  
+> > > +	amu=		[ARM64]
+> > > +			Enables or disables detection, enablement and access to
+> > > +			counter registers of the Activity Monitors Unit (AMU).
+> > > +			Format: amu=[0/1/on/off/y/n]
+> > > +			amu=[0/off/n] ensures access to AMU's counter registers
+> > > +				      is not attempted.
+> > > +			amu=[1/on/y] (default) enables detection and access to
+> > > +				     AMU's counter registers.
+> > 
+> > Is the only reason for this parameter to be able to disable the feature
+> > if the firmware doesn't support it? According to the Kconfig entry, you
+> > may see weird behaviour, firmware lock-up. Is the user supposed to try
+> > again with amu=0?
+> > 
+> > I'm not particularly fond of adding kernel parameters to work around
+> > broken firmware. We have other architecture features (e.g. PtrAuth) that
+> > need enabling at EL3 but we don't have such parameters. If it's likely
+> > that we hit this issue in practice, I'd rather have the firmware
+> > describing the presence of AMU via some DT entry. But I'd rather not
+> > bother at all, just get the vendors to update their firmware.
 > 
-> > This fixes a deadlock in the tracer when tracing a multi-threaded
-> > application that calls execve while more than one thread are running.
-> >
-> > I observed that when running strace on the gcc test suite, it always
-> > blocks after a while, when expect calls execve, because other threads
-> > have to be terminated.  They send ptrace events, but the strace is no
-> > longer able to respond, since it is blocked in vm_access.
-> >
-> > The deadlock is always happening when strace needs to access the
-> > tracees process mmap, while another thread in the tracee starts to
-> > execve a child process, but that cannot continue until the
-> > PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
-> 
-> A couple of things.
-> 
-> Why do we think it is safe to change the behavior exposed to userspace?
-> Not the deadlock but all of the times the current code would not
-> deadlock?
-> 
-> Especially given that this is a small window it might be hard for people
-> to track down and report so we need a strong argument that this won't
-> break existing userspace before we just change things.
-> 
-> Usually surveying all of the users of a system call that we can find
-> and checking to see if they might be affected by the change in behavior
-> is difficult enough that we usually opt for not being lazy and
-> preserving the behavior.
-> 
-> This patch is up to two changes in behavior now, that could potentially
-> affect a whole array of programs.  Adding linux-api so that this change
-> in behavior can be documented if/when this change goes through.
-> 
-> If you can split the documentation and test fixes out into separate
-> patches that would help reviewing this code, or please make it explicit
-> that the your are changing documentation about behavior that is changing
-> with this patch.
+> The firmware is supposed to do three actions for the kernel to be able
+> to use the counters: enable access to EL2/EL1, enable the counters and
+> save/restore the counters before/after core-off.
+[...]
+> Therefore, the amu kernel parameter is not only there if the firmware
+> does not support AMU, but it's also there if the firmware support is
+> broken/improper. The kernel parameter was added at Suzuki's
+> recommendation to be able to bypass its use in single kernels that are
+> meant to run on multiple platforms.
 
-Agreed. I think it'd be good to do it in three patches:
-1. unrelated documentation update
-2. fix + documentation changes specific to the fix
-3. test(s)
+Single kernel images are supposed to run on multiple platforms while
+using the same command line arguments.
 
-Christian
+There are many other ways firmware can screw up but I'm not keen on
+working on such assumption and preemptively adding options to ignore CPU
+features.
+
+> I also believe this is nice to have even for platforms that properly
+> support AMU, but they might not want the use of the feature in the
+> kernel.
+
+Are there any downsides to this feature? If you want it for testing
+purposes, i.e. different scheduler behaviour, fine by me but I'd change
+the text in the Kconfig to not even imply that firmware is allowed to be
+broken as we have a workaround in the kernel.
+
+> > If we drop this parameter, patch 1 would need to change. Otherwise the
+> > patches look fine.
+> 
+> This being said, I agree this was added as a 'just in case' and not as
+> support for a likely scenario, therefore, I don't fully disagree to drop
+> it for now.
+
+If you need it for testing different scheduler behaviours, maybe
+big.LITTLE where AMU is only supported on some CPUs, than keep it. If
+it's only on the assumption that the firmware may be broken, please
+remove it.
+
+Thanks.
+
+-- 
+Catalin
