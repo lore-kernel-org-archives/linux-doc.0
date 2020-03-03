@@ -7,54 +7,50 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42DC3C3F2D7
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:59:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C18BC3F2DB
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:59:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1930521775
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:59:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 13D4D20863
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:59:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583243970;
-	bh=v7VaydWSAceQL49yaEGidbrVpAS3EDgUZ7WBRom2Iok=;
+	s=default; t=1583243971;
+	bh=H6v8m9+eTb8TJjP7/IX9nuNDh4mqr7FOvBYBGbPbrrI=;
 	h=From:Cc:Subject:Date:In-Reply-To:References:To:List-ID:From;
-	b=xrSuzO7A0f/gKJNBa2fVv6PcbXCZjVNEkEtm21KjVy+yovbmSQn3cmXGwXRB3grpr
-	 thmRlpfyeq+PRecSjsI09/thn5thfTYXqycNnY3OsPV3oAjoqKprcDj1Z/9KVC4NQ9
-	 zqOzVmXLucLIriGTUu8UDFlDUjVR94hD3CWz8+Ng=
+	b=psx6LTsnBg4vrbWyIF8QrqdlSNWop5gpxKgHHFcpyS3ymv1b0LuzOInfhhwW5Fdz6
+	 nh1Yvn84WBD2yjBSAmL7jYth2SstSa1eSGXxIxtZT6ORuTrdRLqLc6qhSRLKR5Y5j+
+	 JNkgh5jC3W/AIJ5DTiSEV5W6dfTXj4HhTMSZcqEA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729195AbgCCN73 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 08:59:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45312 "EHLO mail.kernel.org"
+        id S1727753AbgCCN7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 08:59:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45324 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726898AbgCCN73 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1725796AbgCCN73 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 3 Mar 2020 08:59:29 -0500
-Received: from mail.kernel.org (tmo-101-56.customers.d1-online.com [80.187.101.56])
+Received: from mail.kernel.org (x2f7fa80.dyn.telefonica.de [2.247.250.128])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5B6B120675;
+        by mail.kernel.org (Postfix) with ESMTPSA id 650E820863;
         Tue,  3 Mar 2020 13:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583243968;
-        bh=v7VaydWSAceQL49yaEGidbrVpAS3EDgUZ7WBRom2Iok=;
+        bh=H6v8m9+eTb8TJjP7/IX9nuNDh4mqr7FOvBYBGbPbrrI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ijvo5glRV69S3pKCEV3BpvbmwlPw+l9cPmXJPKV3U786DyCyMvhu3hTpuAQyOk7+E
-         lW7kPtbbpCdHIwGpFAbJP4EcqYgr1OoUWbQAL/8W4kQVB1wKgkvxf8MKO9SAkh8hGc
-         n5ns6Z+YL3rHuNmwSvgfz53fng5+13j/OvO4iCMo=
+        b=T9BOHnvFhi4fZDAdhFwv7rk4B9Ag3O/eNXQiB6y+AGzYmNlbcKC2YeOXNLO7k4Pnf
+         LEibqQMZDDM+uHyvJZU17Ni+Ntzs+wWP8OykN74YpxVvQ8MaMMIP/43m2FZRNTLKbu
+         Ty2vgjy1+MjM5fBLowcGWLH/7hfk7ApssxiY7tV8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1j9850-001Yd5-5u; Tue, 03 Mar 2020 14:59:26 +0100
+        id 1j9850-001YdU-Cf; Tue, 03 Mar 2020 14:59:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v3 03/18] docs: crypto: convert api-intro.txt to ReST format
-Date:   Tue,  3 Mar 2020 14:59:10 +0100
-Message-Id: <78d0ddd038a5590c53356ebe8d11cdc3ca85fb30.1583243826.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v3 09/18] docs: misc-devices/c2port.txt: convert to ReST format
+Date:   Tue,  3 Mar 2020 14:59:16 +0100
+Message-Id: <e16e19ff9332ac58311abe743688f83508d5cd0e.1583243826.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1583243826.git.mchehab+huawei@kernel.org>
 References: <cover.1583243826.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
@@ -62,350 +58,132 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Change title markups;
-- Mark literal blocks;
-- Use list markups at authors/credits;
-- Add blank lines when needed;
-- Remove trailing whitespaces.
+- Use copyright symbol;
+- use title markups;
+- adjust indentation;
+- mark literal blocks as such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../crypto/{api-intro.txt => api-intro.rst}   | 186 ++++++++++--------
- Documentation/crypto/index.rst                |   1 +
- 2 files changed, 100 insertions(+), 87 deletions(-)
- rename Documentation/crypto/{api-intro.txt => api-intro.rst} (70%)
+ .../misc-devices/{c2port.txt => c2port.rst}   | 58 ++++++++++---------
+ Documentation/misc-devices/index.rst          |  1 +
+ 2 files changed, 32 insertions(+), 27 deletions(-)
+ rename Documentation/misc-devices/{c2port.txt => c2port.rst} (59%)
 
-diff --git a/Documentation/crypto/api-intro.txt b/Documentation/crypto/api-intro.rst
-similarity index 70%
-rename from Documentation/crypto/api-intro.txt
-rename to Documentation/crypto/api-intro.rst
-index 45d943fcae5b..bcff47d42189 100644
---- a/Documentation/crypto/api-intro.txt
-+++ b/Documentation/crypto/api-intro.rst
+diff --git a/Documentation/misc-devices/c2port.txt b/Documentation/misc-devices/c2port.rst
+similarity index 59%
+rename from Documentation/misc-devices/c2port.txt
+rename to Documentation/misc-devices/c2port.rst
+index ea7344465610..258e1c1d43c7 100644
+--- a/Documentation/misc-devices/c2port.txt
++++ b/Documentation/misc-devices/c2port.rst
 @@ -1,7 +1,11 @@
+-			C2 port support
+-			---------------
 +.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
  
--                    Scatterlist Cryptographic API
--                   
--INTRODUCTION
-+=============================
-+Scatterlist Cryptographic API
-+=============================
-+
-+Introduction
-+============
- 
- The Scatterlist Crypto API takes page vectors (scatterlists) as
- arguments, and works directly on pages.  In some cases (e.g. ECB
-@@ -13,22 +17,23 @@ so that processing can be applied to paged skb's without the need
- for linearization.
- 
- 
--DETAILS
-+Details
-+=======
- 
- At the lowest level are algorithms, which register dynamically with the
- API.
- 
- 'Transforms' are user-instantiated objects, which maintain state, handle all
--of the implementation logic (e.g. manipulating page vectors) and provide an 
--abstraction to the underlying algorithms.  However, at the user 
-+of the implementation logic (e.g. manipulating page vectors) and provide an
-+abstraction to the underlying algorithms.  However, at the user
- level they are very simple.
- 
--Conceptually, the API layering looks like this:
-+Conceptually, the API layering looks like this::
- 
-   [transform api]  (user interface)
-   [transform ops]  (per-type logic glue e.g. cipher.c, compress.c)
-   [algorithm api]  (for registering algorithms)
--  
-+
- The idea is to make the user interface and algorithm registration API
- very simple, while hiding the core logic from both.  Many good ideas
- from existing APIs such as Cryptoapi and Nettle have been adapted for this.
-@@ -44,21 +49,21 @@ one block while the former can operate on an arbitrary amount of data,
- subject to block size requirements (i.e., non-stream ciphers can only
- process multiples of blocks).
- 
--Here's an example of how to use the API:
-+Here's an example of how to use the API::
- 
- 	#include <crypto/hash.h>
- 	#include <linux/err.h>
- 	#include <linux/scatterlist.h>
--	
-+
- 	struct scatterlist sg[2];
- 	char result[128];
- 	struct crypto_ahash *tfm;
- 	struct ahash_request *req;
--	
-+
- 	tfm = crypto_alloc_ahash("md5", 0, CRYPTO_ALG_ASYNC);
- 	if (IS_ERR(tfm))
- 		fail();
--		
-+
- 	/* ... set up the scatterlists ... */
- 
- 	req = ahash_request_alloc(tfm, GFP_ATOMIC);
-@@ -67,18 +72,19 @@ Here's an example of how to use the API:
- 
- 	ahash_request_set_callback(req, 0, NULL, NULL);
- 	ahash_request_set_crypt(req, sg, result, 2);
--	
-+
- 	if (crypto_ahash_digest(req))
- 		fail();
- 
- 	ahash_request_free(req);
- 	crypto_free_ahash(tfm);
- 
--    
-+
- Many real examples are available in the regression test module (tcrypt.c).
- 
- 
--DEVELOPER NOTES
-+Developer Notes
+-(C) Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
 +===============
- 
- Transforms may only be allocated in user context, and cryptographic
- methods may only be called from softirq and user contexts.  For
-@@ -91,7 +97,8 @@ size (typically 8 bytes).  This prevents having to do any copying
- across non-aligned page fragment boundaries.
- 
- 
--ADDING NEW ALGORITHMS
-+Adding New Algorithms
-+=====================
- 
- When submitting a new algorithm for inclusion, a mandatory requirement
- is that at least a few test vectors from known sources (preferably
-@@ -119,132 +126,137 @@ Also check the TODO list at the web site listed below to see what people
- might already be working on.
- 
- 
--BUGS
-+Bugs
-+====
- 
- Send bug reports to:
--linux-crypto@vger.kernel.org
--Cc: Herbert Xu <herbert@gondor.apana.org.au>,
-+    linux-crypto@vger.kernel.org
++C2 port support
++===============
 +
-+Cc:
-+    Herbert Xu <herbert@gondor.apana.org.au>,
-     David S. Miller <davem@redhat.com>
++|copy| Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
  
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+@@ -32,10 +36,10 @@ The C2 Interface main references are at (http://www.silabs.com)
+ Silicon Laboratories site], see:
  
--FURTHER INFORMATION
-+Further Information
-+===================
+ - AN127: FLASH Programming via the C2 Interface at
+-http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf 
++  http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf
  
- For further patches and various updates, including the current TODO
- list, see:
- http://gondor.apana.org.au/~herbert/crypto/
+ - C2 Specification at
+-http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
++  http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
  
+ however it implements a two wire serial communication protocol (bit
+ banging) designed to enable in-system programming, debugging, and
+@@ -47,44 +51,44 @@ Using the driver
+ ----------------
  
--AUTHORS
-+Authors
-+=======
+ Once the driver is loaded you can use sysfs support to get C2port's
+-info or read/write in-system flash.
++info or read/write in-system flash::
  
--James Morris
--David S. Miller
--Herbert Xu
-+- James Morris
-+- David S. Miller
-+- Herbert Xu
+-# ls /sys/class/c2port/c2port0/
+-access            flash_block_size  flash_erase       rev_id
+-dev_id            flash_blocks_num  flash_size        subsystem/
+-flash_access      flash_data        reset             uevent
++  # ls /sys/class/c2port/c2port0/
++  access            flash_block_size  flash_erase       rev_id
++  dev_id            flash_blocks_num  flash_size        subsystem/
++  flash_access      flash_data        reset             uevent
  
+ Initially the C2port access is disabled since you hardware may have
+ such lines multiplexed with other devices so, to get access to the
+-C2port, you need the command:
++C2port, you need the command::
  
--CREDITS
-+Credits
-+=======
+-# echo 1 > /sys/class/c2port/c2port0/access
++  # echo 1 > /sys/class/c2port/c2port0/access
  
- The following people provided invaluable feedback during the development
- of the API:
+ after that you should read the device ID and revision ID of the
+-connected micro controller:
++connected micro controller::
  
--  Alexey Kuznetzov
--  Rusty Russell
--  Herbert Valerio Riedel
--  Jeff Garzik
--  Michael Richardson
--  Andrew Morton
--  Ingo Oeser
--  Christoph Hellwig
-+  - Alexey Kuznetzov
-+  - Rusty Russell
-+  - Herbert Valerio Riedel
-+  - Jeff Garzik
-+  - Michael Richardson
-+  - Andrew Morton
-+  - Ingo Oeser
-+  - Christoph Hellwig
+-# cat /sys/class/c2port/c2port0/dev_id
+-8
+-# cat /sys/class/c2port/c2port0/rev_id
+-1
++  # cat /sys/class/c2port/c2port0/dev_id
++  8
++  # cat /sys/class/c2port/c2port0/rev_id
++  1
  
- Portions of this API were derived from the following projects:
--  
-+
-   Kerneli Cryptoapi (http://www.kerneli.org/)
--    Alexander Kjeldaas
--    Herbert Valerio Riedel
--    Kyle McMartin
--    Jean-Luc Cooke
--    David Bryson
--    Clemens Fruhwirth
--    Tobias Ringstrom
--    Harald Welte
-+   - Alexander Kjeldaas
-+   - Herbert Valerio Riedel
-+   - Kyle McMartin
-+   - Jean-Luc Cooke
-+   - David Bryson
-+   - Clemens Fruhwirth
-+   - Tobias Ringstrom
-+   - Harald Welte
+ However, for security reasons, the in-system flash access in not
+-enabled yet, to do so you need the command:
++enabled yet, to do so you need the command::
  
- and;
--  
-+
-   Nettle (http://www.lysator.liu.se/~nisse/nettle/)
--    Niels Möller
-+   - Niels Möller
+-# echo 1 > /sys/class/c2port/c2port0/flash_access
++  # echo 1 > /sys/class/c2port/c2port0/flash_access
  
- Original developers of the crypto algorithms:
+-After that you can read the whole flash:
++After that you can read the whole flash::
  
--  Dana L. How (DES)
--  Andrew Tridgell and Steve French (MD4)
--  Colin Plumb (MD5)
--  Steve Reid (SHA1)
--  Jean-Luc Cooke (SHA256, SHA384, SHA512)
--  Kazunori Miyazawa / USAGI (HMAC)
--  Matthew Skala (Twofish)
--  Dag Arne Osvik (Serpent)
--  Brian Gladman (AES)
--  Kartikey Mahendra Bhatt (CAST6)
--  Jon Oberheide (ARC4)
--  Jouni Malinen (Michael MIC)
--  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
-+  - Dana L. How (DES)
-+  - Andrew Tridgell and Steve French (MD4)
-+  - Colin Plumb (MD5)
-+  - Steve Reid (SHA1)
-+  - Jean-Luc Cooke (SHA256, SHA384, SHA512)
-+  - Kazunori Miyazawa / USAGI (HMAC)
-+  - Matthew Skala (Twofish)
-+  - Dag Arne Osvik (Serpent)
-+  - Brian Gladman (AES)
-+  - Kartikey Mahendra Bhatt (CAST6)
-+  - Jon Oberheide (ARC4)
-+  - Jouni Malinen (Michael MIC)
-+  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
+-# cat /sys/class/c2port/c2port0/flash_data > image
++  # cat /sys/class/c2port/c2port0/flash_data > image
  
- SHA1 algorithm contributors:
--  Jean-Francois Dive
--  
-+  - Jean-Francois Dive
-+
- DES algorithm contributors:
--  Raimar Falke
--  Gisle Sælensminde
--  Niels Möller
-+  - Raimar Falke
-+  - Gisle Sælensminde
-+  - Niels Möller
+-erase it:
++erase it::
  
- Blowfish algorithm contributors:
--  Herbert Valerio Riedel
--  Kyle McMartin
-+  - Herbert Valerio Riedel
-+  - Kyle McMartin
+-# echo 1 > /sys/class/c2port/c2port0/flash_erase
++  # echo 1 > /sys/class/c2port/c2port0/flash_erase
  
- Twofish algorithm contributors:
--  Werner Koch
--  Marc Mutz
-+  - Werner Koch
-+  - Marc Mutz
+-and write it:
++and write it::
  
- SHA256/384/512 algorithm contributors:
--  Andrew McDonald
--  Kyle McMartin
--  Herbert Valerio Riedel
--  
-+  - Andrew McDonald
-+  - Kyle McMartin
-+  - Herbert Valerio Riedel
-+
- AES algorithm contributors:
--  Alexander Kjeldaas
--  Herbert Valerio Riedel
--  Kyle McMartin
--  Adam J. Richter
--  Fruhwirth Clemens (i586)
--  Linus Torvalds (i586)
-+  - Alexander Kjeldaas
-+  - Herbert Valerio Riedel
-+  - Kyle McMartin
-+  - Adam J. Richter
-+  - Fruhwirth Clemens (i586)
-+  - Linus Torvalds (i586)
+-# cat image > /sys/class/c2port/c2port0/flash_data
++  # cat image > /sys/class/c2port/c2port0/flash_data
  
- CAST5 algorithm contributors:
--  Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
-+  - Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
+-after writing you have to reset the device to execute the new code:
++after writing you have to reset the device to execute the new code::
  
- TEA/XTEA algorithm contributors:
--  Aaron Grothe
--  Michael Ringe
-+  - Aaron Grothe
-+  - Michael Ringe
+-# echo 1 > /sys/class/c2port/c2port0/reset
++  # echo 1 > /sys/class/c2port/c2port0/reset
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+index 04f5dab2384c..c2e880d78734 100644
+--- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -16,6 +16,7 @@ fit into other categories.
  
- Khazad algorithm contributors:
--  Aaron Grothe
-+  - Aaron Grothe
- 
- Whirlpool algorithm contributors:
--  Aaron Grothe
--  Jean-Luc Cooke
-+  - Aaron Grothe
-+  - Jean-Luc Cooke
- 
- Anubis algorithm contributors:
--  Aaron Grothe
-+  - Aaron Grothe
- 
- Tiger algorithm contributors:
--  Aaron Grothe
-+  - Aaron Grothe
- 
- VIA PadLock contributors:
--  Michal Ludvig
-+  - Michal Ludvig
- 
- Camellia algorithm contributors:
--  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
-+  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
- 
- Generic scatterwalk code by Adam J. Richter <adam@yggdrasil.com>
- 
- Please send any credits updates or corrections to:
- Herbert Xu <herbert@gondor.apana.org.au>
--
-diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-index 2bcaf422731e..b2eeab3c8631 100644
---- a/Documentation/crypto/index.rst
-+++ b/Documentation/crypto/index.rst
-@@ -17,6 +17,7 @@ for cryptographic use cases, as well as programming examples.
-    :maxdepth: 2
- 
-    intro
-+   api-intro
-    architecture
-    asymmetric-keys
-    devel-algos
+    ad525x_dpot
+    eeprom
++   c2port
+    ibmvmc
+    ics932s401
+    isl29003
 -- 
 2.24.1
 
