@@ -2,118 +2,110 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B23C3F2C6
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 14:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64B33C3F2D7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 14:21:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0984720866
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 14:03:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N+5Phh/k"
+	by mail.kernel.org (Postfix) with ESMTP id 4110421556
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 14:21:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729337AbgCCOD4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 09:03:56 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48949 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726899AbgCCOD4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 09:03:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583244235;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ceaj2Lg7fPNdB8HydaqL4RB3izyCaF2LynvqRf8Tl8U=;
-        b=N+5Phh/kvHrsbFA7BiIsncYG5nORWPjDD6XT3qE6x5GKM9XAYqG4wZ3Ndqbxvf74fvjohK
-        ymeWM3BZsP0n+3vN6Ofj+W/Dw8CEjRFj5WI9LITBYNZ3852EnBBUEt89B8DUrMfjGBowcR
-        0PIdjjlNEa5RJhS8c4fgSB/Njhb4zDA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-7glexJaBO2yrX5UlR87PwQ-1; Tue, 03 Mar 2020 09:03:51 -0500
-X-MC-Unique: 7glexJaBO2yrX5UlR87PwQ-1
-Received: by mail-wr1-f72.google.com with SMTP id t14so1251130wrs.12
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2020 06:03:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ceaj2Lg7fPNdB8HydaqL4RB3izyCaF2LynvqRf8Tl8U=;
-        b=NgJgFl2H41gk7hCMz4lK7go+uu49ObDsoR6sdqHtaAEnvH7X9aQ5QFkV+wfOS4pbAi
-         ECxczTODAf6evA+eLP0jhjgvTJ+ZioQ9duJ96xvoC7ADh8Z8ixnNiXPmYPVHR5705Bp7
-         muD9eScmSDNwHXCIny9MIfeBqKYjq7M4orJb5Gh0iq07NihX+5b7jZzWg+l2xIAZhSoA
-         vfHKzfHpjgy1NjLxZhtrymvbus5pLlTWWRjtcydBypz1PcIJ/5iKRAj4V7a/+HRbNQAp
-         BnXewNcnHUOLOUmOXPtqiVk9n7wd6eCmEkgQjkjuKo487Hm2g3ejsGqxPlA2BMY0sQlW
-         nDmA==
-X-Gm-Message-State: ANhLgQ1Z8ockwDuAu/lfGDHOBHg3CKZrPyOHB+pfvc+8c1jmcCOdsKyu
-        RjbkT9JZGLKDplQGqXMLfQ0EiriLmrqSBq2Tln3v82Q+Qf/M2QDsUMCxP7tO+C57eDFqrZIajIe
-        rfAYd+CaBhiu3NXs6Cx71
-X-Received: by 2002:adf:b609:: with SMTP id f9mr5238255wre.380.1583244230110;
-        Tue, 03 Mar 2020 06:03:50 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vtRrjACbBzLECzEdikELeWu5riMzPojCsiwMy3rUBXbMXTxIm4JJhpHv89LsfdGxx108rVeSA==
-X-Received: by 2002:adf:b609:: with SMTP id f9mr5238244wre.380.1583244229878;
-        Tue, 03 Mar 2020 06:03:49 -0800 (PST)
-Received: from [192.168.178.40] ([151.20.254.94])
-        by smtp.gmail.com with ESMTPSA id j14sm34519090wrn.32.2020.03.03.06.03.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2020 06:03:49 -0800 (PST)
-Subject: Re: [PATCH v3 18/18] docs: kvm: get read of devices/README
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <cover.1583243826.git.mchehab+huawei@kernel.org>
- <6e9c4aaf704cdc7b4e517122fb87cbe05f0ffd23.1583243827.git.mchehab+huawei@kernel.org>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ef0e7454-d7ff-2dcb-194d-b8b831769eac@redhat.com>
-Date:   Tue, 3 Mar 2020 15:03:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1728771AbgCCOVY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 09:21:24 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:44158 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728113AbgCCOVY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 09:21:24 -0500
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1j98Pg-0002Id-SV; Tue, 03 Mar 2020 14:20:49 +0000
+Date:   Tue, 3 Mar 2020 15:20:47 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     Kees Cook <keescook@chromium.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCHv4] exec: Fix a deadlock in ptrace
+Message-ID: <20200303142047.mrenhvhihe5sm5wv@wittgenstein>
+References: <87k142lpfz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <875zfmloir.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nmjulm.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003021531.C77EF10@keescook>
+ <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+ <AM6PR03MB5170E03613104B2ACE32F057E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51706AE0FE7DA0F3F507F6BAE4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <6e9c4aaf704cdc7b4e517122fb87cbe05f0ffd23.1583243827.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <AM6PR03MB51706AE0FE7DA0F3F507F6BAE4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/03/20 14:59, Mauro Carvalho Chehab wrote:
-> Add the information there inside devices/index.rst
+On Tue, Mar 03, 2020 at 11:23:31AM +0000, Bernd Edlinger wrote:
+> On 3/3/20 11:34 AM, Bernd Edlinger wrote:
+> > On 3/3/20 9:58 AM, Christian Brauner wrote:
+> >> So one issue I see with having to reacquire the cred_guard_mutex might
+> >> be that this would allow tasks holding the cred_guard_mutex to block a
+> >> killed exec'ing task from exiting, right?
+> >>
+> > 
+> > Yes maybe, but I think it will not be worse than it is now.
+> > Since the second time the mutex is acquired it is done with
+> > mutex_lock_killable, so at least kill -9 should get it terminated.
+> > 
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/virt/kvm/devices/README    | 1 -
->  Documentation/virt/kvm/devices/index.rst | 3 +++
->  2 files changed, 3 insertions(+), 1 deletion(-)
->  delete mode 100644 Documentation/virt/kvm/devices/README
 > 
-> diff --git a/Documentation/virt/kvm/devices/README b/Documentation/virt/kvm/devices/README
-> deleted file mode 100644
-> index 34a69834124a..000000000000
-> --- a/Documentation/virt/kvm/devices/README
-> +++ /dev/null
-> @@ -1 +0,0 @@
-> -This directory contains specific device bindings for KVM_CAP_DEVICE_CTRL.
-> diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
-> index 192cda7405c8..cbadafc0e36e 100644
-> --- a/Documentation/virt/kvm/devices/index.rst
-> +++ b/Documentation/virt/kvm/devices/index.rst
-> @@ -4,6 +4,9 @@
->  Devices
->  =======
->  
-> +The following documentation contains specific device bindings
-> +for KVM_CAP_DEVICE_CTRL.
-> +
->  .. toctree::
->     :maxdepth: 2
->  
 > 
+> >  static void free_bprm(struct linux_binprm *bprm)
+> >  {
+> >  	free_arg_pages(bprm);
+> >  	if (bprm->cred) {
+> > +		if (!bprm->called_flush_old_exec)
+> > +			mutex_lock(&current->signal->cred_guard_mutex);
+> > +		current->signal->cred_locked_for_ptrace = false;
+> >  		mutex_unlock(&current->signal->cred_guard_mutex);
+> 
+> 
+> Hmm, cough...
+> actually when the mutex_lock_killable fails, due to kill -9, in flush_old_exec
+> free_bprm locks the same mutex, this time unkillable, but I should better do
+> mutex_lock_killable here, and if that fails, I can leave cred_locked_for_ptrace,
+> it shouldn't matter, since this is a fatal signal anyway, right?
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-
+I think so, yes.
