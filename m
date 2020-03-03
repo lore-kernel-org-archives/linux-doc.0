@@ -2,161 +2,172 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD0A5C3F2D1
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:01:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4190C3F2C6
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:07:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 88E3C20836
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:01:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7579A2080C
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:07:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583255227;
+	bh=IrpmFs+0/+bn4sD7somCGB6rxRCplaHxuMiqdN38XOM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=F3LhhWKUw7bmqYG1uPaGgPgw19e7hwBseLroXAXjJhOBOVDlcWRGgSeLnl+kADk3I
+	 q0tMgdgV6KUCB0icKttTNwFOaS5hBwzCcB3/p6SzSyZo6ZvvEJ+nwEzlJfnfO4kR4K
+	 9xQ/ixDGg/WsCKwBnLjgkncdLjBcOSQEisOFvuUo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730431AbgCCRBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 12:01:50 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:49495 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727175AbgCCRBu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 12:01:50 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j9Aus-0005Fy-RG; Tue, 03 Mar 2020 17:01:10 +0000
-Date:   Tue, 3 Mar 2020 18:01:09 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        id S1730436AbgCCRHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 12:07:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58864 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729755AbgCCRHG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 12:07:06 -0500
+Received: from onda.lan (tmo-101-56.customers.d1-online.com [80.187.101.56])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 12E872080C;
+        Tue,  3 Mar 2020 17:07:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583255226;
+        bh=IrpmFs+0/+bn4sD7somCGB6rxRCplaHxuMiqdN38XOM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pxrk51gfNUerXnSfOy7TNMJJsorC6Is70R8g/JDGLPL+S5iTPE9aArmPesiSUJtMH
+         u5uXUDSRcrIYUy5aDxxOxiKFIe3PyNlV+M3MqgzmOiG7akeGOkqPUvSsLe2EHXVz+b
+         lXKmUTDKrrtLKzthCNsfOiCEYuqCT8JrW9RFLcrA=
+Date:   Tue, 3 Mar 2020 18:07:02 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
-Message-ID: <20200303170109.y6q2acgydyzuh3mp@wittgenstein>
-References: <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <875zfmloir.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nmjulm.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003021531.C77EF10@keescook>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 00/12] Convert some DT documentation files to ReST
+Message-ID: <20200303180702.677ba664@onda.lan>
+In-Reply-To: <20200303180109.670ad7f8@onda.lan>
+References: <cover.1583135507.git.mchehab+huawei@kernel.org>
+        <20200302123554.08ac0c34@lwn.net>
+        <20200303080947.5f381004@onda.lan>
+        <CAL_JsqKsZNFDSsZJ+wzgD1Eaf0fBwZ7BeUv=32jAuE29TeRfnA@mail.gmail.com>
+        <20200303180109.670ad7f8@onda.lan>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 04:48:01PM +0000, Bernd Edlinger wrote:
-> On 3/3/20 4:18 PM, Eric W. Biederman wrote:
-> > Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
-> > 
-> >> This fixes a deadlock in the tracer when tracing a multi-threaded
-> >> application that calls execve while more than one thread are running.
-> >>
-> >> I observed that when running strace on the gcc test suite, it always
-> >> blocks after a while, when expect calls execve, because other threads
-> >> have to be terminated.  They send ptrace events, but the strace is no
-> >> longer able to respond, since it is blocked in vm_access.
-> >>
-> >> The deadlock is always happening when strace needs to access the
-> >> tracees process mmap, while another thread in the tracee starts to
-> >> execve a child process, but that cannot continue until the
-> >> PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
-> > 
-> > A couple of things.
-> > 
-> > Why do we think it is safe to change the behavior exposed to userspace?
-> > Not the deadlock but all of the times the current code would not
-> > deadlock?
-> > 
-> > Especially given that this is a small window it might be hard for people
-> > to track down and report so we need a strong argument that this won't
-> > break existing userspace before we just change things.
-> > 
-> 
-> Hmm, I tend to agree.
-> 
-> > Usually surveying all of the users of a system call that we can find
-> > and checking to see if they might be affected by the change in behavior
-> > is difficult enough that we usually opt for not being lazy and
-> > preserving the behavior.
-> > 
-> > This patch is up to two changes in behavior now, that could potentially
-> > affect a whole array of programs.  Adding linux-api so that this change
-> > in behavior can be documented if/when this change goes through.
-> > 
-> 
-> One is PTRACE_ACCESS possibly returning EAGAIN, yes.
-> 
-> We could try to restrict that behavior change to when any
-> thread is ptraced when execve starts, can't be too complicated.
-> 
-> 
-> But the other is only SYS_seccomp returning EAGAIN, when a different
-> thread of the current process is calling execve at the same time.
-> 
-> I would consider it completely impossible to have any user-visual effect,
-> since de_thread is just terminating all threads, including the thread
-> where the -EAGAIN was returned, so we will never know what happened.
+Em Tue, 3 Mar 2020 18:01:09 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-I think if we risk a user-space facing change we should try the simple
-thing first before making the fix more convoluted? But it's a tough
-call...
-
+> Em Tue, 3 Mar 2020 10:20:25 -0600
+> Rob Herring <robh@kernel.org> escreveu:
 > 
-> 
-> > If you can split the documentation and test fixes out into separate
-> > patches that would help reviewing this code, or please make it explicit
-> > that the your are changing documentation about behavior that is changing
-> > with this patch.
+> > On Tue, Mar 3, 2020 at 1:09 AM Mauro Carvalho Chehab
+> > <mchehab+huawei@kernel.org> wrote:  
+> > >
+> > > Em Mon, 2 Mar 2020 12:35:54 -0700
+> > > Jonathan Corbet <corbet@lwn.net> escreveu:
+> > >    
+> > > > On Mon,  2 Mar 2020 08:59:25 +0100
+> > > > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > > >    
+> > > > > While most of the devicetree stuff has its own format (with is now being
+> > > > > converted to YAML format), some documents there are actually
+> > > > > describing the DT concepts and how to contribute to it.
+> > > > >
+> > > > > IMHO, those documents would fit perfectly as part of the documentation
+> > > > > body, as part of the firmare documents set.
+> > > > >
+> > > > > This patch series manually converts some DT documents that, on my
+> > > > > opinion, would belong to it.    
+> > > >
+> > > > Did you consider putting this stuff into the firmware-guide while you were
+> > > > at it?  It's not a perfect fit, I guess, but it doesn't seem too awkward
+> > > > either.    
+> > >
+> > > I placed it just below the firmware-guide at the main index file.
+> > >
+> > > I have split thoughts about moving the files to there, though. From
+> > > one side, it may fit better from the PoV of organizing the documentation.
+> > >
+> > > From other side, newcomers working with DT may expect looking at the
+> > > text files inside Documentation/devicetree/.
+> > >
+> > > Maybe I could add an extra patch at the end of this series with the
+> > > move, adding a "RFC" on his title. This way, we can better discuss it,
+> > > and either merge the last one or not depending on the comments.    
 > > 
+> > Keep in mind that we generate a standalone DT only tree[1] with the
+> > documentation, dts files and headers. So things should be structured
+> > such that all the DT documentation could be built by itself without
+> > dependencies on the 'kernel documentation'. I'm not asking for that to
+> > be done in this series, but just don't do anything to make that
+> > harder. I don't *think* have, but just want to make sure that's clear.  
 > 
-> I am not sure if I have touched the right user documentation.
+> So, I guess it is better to keep the .rst files under Documentation/devicetree,
+> instead of moving them to Documentation/firmware-guide.
 > 
-> I only saw a document referring to a non-existent "current->cred_replace_mutex"
-> I haven't digged the git history, but that must be pre-historic IMHO.
-> It appears to me that is some developer documentation, but it's nevertheless
-> worth to keep up to date when the code changes.
+> Well, if moved, I guess it would be easy to modify the scripts that produce
+> the documentation to also parse something a new directory inside
+> Documentation/firmware-guide.
 > 
-> So where would I add the possibility for PTRACE_ATTACH to return -EAGAIN ?
+> >   
+> > > > It also seems like it would be good to CC the devicetree folks, or at
+> > > > least the devicetree mailing list?    
+> > 
+> > I was wondering what happened to the cover letter on v2...
+> >   
+> > > Yeah, that would make sense. I'm using get-maintainers script to
+> > > prepare the c/c list, as it is simply too much work to find the
+> > > right maintainers by hand, for every single patch.
+> > >
+> > > I just noticed today that there's just *one entry* at MAINTAINERS
+> > > file for Documentation/devicetree, and that points to you:
+> > >
+> > >         DOCUMENTATION
+> > >         M:      Jonathan Corbet <corbet@lwn.net>
+> > >         L:      linux-doc@vger.kernel.org
+> > >         S:      Maintained
+> > >         F:      Documentation/
+> > >         F:      scripts/documentation-file-ref-check
+> > >         F:      scripts/kernel-doc
+> > >         F:      scripts/sphinx-pre-install
+> > >         X:      Documentation/ABI/
+> > >         X:      Documentation/firmware-guide/acpi/
+> > >         X:      Documentation/devicetree/    
+> > 
+> > You mean doesn't point to Jon as 'X' is exclude. You missed this entry:
+> > 
+> > OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
+> > M:      Rob Herring <robh+dt@kernel.org>
+> > M:      Mark Rutland <mark.rutland@arm.com>
+> > L:      devicetree@vger.kernel.org
+> > T:      git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+> > Q:      http://patchwork.ozlabs.org/project/devicetree-bindings/list/
+> > S:      Maintained
+> > F:      Documentation/devicetree/
+> > F:      arch/*/boot/dts/
+> > F:      include/dt-bindings/  
+> 
+> Yeah, I remember I saw something like the above in the past. However,
+> I'm not seeing this entry at the MAINTAINERS file at next-20200303 anymore.
+> 
+> Did someone removed such entry?
 
-Since that would be a potentially user-visible change it would make the
-most sense to add it to man ptrace(2) if/when we land this change.
+Sorry, false alarm. 
 
-For developers, placing a comment in kernel/ptrace.c:ptrace_attach()
-would make the most sense? We already have something about exec
-protection in there.
+It is there at next. 
 
-Christian
+I guess it is time for call it a day.
+
+That doesn't explain why I didn't add DT ML to the c/c. I'll try to 
+verify what's going on tomorrow.
+
+Regards,
+Mauro
