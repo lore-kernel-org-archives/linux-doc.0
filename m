@@ -2,194 +2,118 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 494C9C3F2D8
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 20:11:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52756C3F2D1
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 20:24:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 29CEF20CC7
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 20:11:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27621208C3
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 20:24:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="LpwQ7l6F"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729574AbgCCULO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 15:11:14 -0500
-Received: from out02.mta.xmission.com ([166.70.13.232]:41204 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727862AbgCCULO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 15:11:14 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1j9Dsi-0002GA-R5; Tue, 03 Mar 2020 13:11:08 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1j9DsW-0007aC-CC; Tue, 03 Mar 2020 13:11:08 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87a74zmfc9.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87k142lpfz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <875zfmloir.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nmjulm.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <202003021531.C77EF10@keescook>
-        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
-        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nlii0b.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Tue, 03 Mar 2020 14:08:44 -0600
-In-Reply-To: <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        (Bernd Edlinger's message of "Tue, 3 Mar 2020 16:48:01 +0000")
-Message-ID: <87a74xi4kz.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1731634AbgCCUYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 15:24:04 -0500
+Received: from mout.gmx.net ([212.227.17.21]:46049 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730081AbgCCUYE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 15:24:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1583267028;
+        bh=QrYr4WHGQhkr0sPNMQBIpvpJ8zplW0R2sig2tXNPwfU=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=LpwQ7l6FcB8oEoscGwus/WT2lgxIT0tlwUGCFSTuU518y11dPnOOQUslzSMqBNJrw
+         EFhTvWcSNsexd0sIGcMMDmHj7AaCe70dn/RXNdyO2fOpa5W36jd4uLb9DBxJGU4/g+
+         9GTJbI0PXLik+RXn/WI6d8I0kgm8qNOYJ4ylPs2Q=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([5.146.195.177]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MhD2Y-1jdJxu3CZ0-00eNsl; Tue, 03
+ Mar 2020 21:23:48 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     netdev@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Sridhar Samudrala <sridhar.samudrala@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: networking: net_failover: Fix a few typos
+Date:   Tue,  3 Mar 2020 21:22:05 +0100
+Message-Id: <20200303202205.31751-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1j9DsW-0007aC-CC;;;mid=<87a74xi4kz.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX18F6HBvD5EFsjRqfjRChWMHQNE7HoAAFNk=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Gz1IwegbMj9/2VEHPx0VwXnj0AmZXWBrJagLObbwy/5G00IDG0O
+ jdFNphZqXRrUd4ELf3+bRZLNUpEXhVDCYspYjxipd++V/Yq3DZ+DtSBG36icKxDOu/ARYdC
+ KESRtM+MdR/aaBWCWU9Q89F0W5zzbsSRvP+YsNfTi+w0r0n+w8RDXB8tllHx4Bwm0r9CeJT
+ 5e9KivCqcBjVDYeK4R9Dw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Yz3EBYbFolo=:MqKxqIqsQHpiSeK97Q5YXv
+ CmfeCsoJA2CIoClzwMKNmTQhccke2lG/zJOuzKe8z1NjPHoeWq8G9oTS5Vy3/PfQ+kVAPH9W2
+ x14VzZivcq0l4l8y8AW8usMrgyIQkwF/p7gdyFedhwwdq85DH28u0U5QgkDVRzq/9SakuvD6X
+ i/8grJ0RYkAznwnUwy5kPKxtSghR+p6m5WgVCrVEHG2/4MFRBX7fFxB5LJVTG+VYaTF+bD9pp
+ X7u0okUgOyS+oSAEdNLmdvYz5hkXMKbnzUN2/FVq6ZDP3sGgHi3Hz9FG6y71sAz/qMdlw86aP
+ D0E8lNehB6t0vqf8CCU0LSC3zso2hA0ZOgSFMJxQqmJaIEgXzKdv/t0K9wofBDu5HQzus6ej6
+ ImVH6gR1Rdu3Ht5Mx9hMX1JBvJFKq6NLEAWIGdxMrCAf5DqJzYJCHc0AzquCT3duwqqsL8Oh2
+ rh962tM8C9V2Iew9pSWPHeOqq56z87HfJjozqSfT4Wd/EGX6PZPLTq+VRX5fVMMOOwHL1nhSf
+ 2xCS9CwxF8BQbsGgA+h7vpRqbmpovxINb4bvQl2F4X96I28bEN4BBJildF/qxX+6JBY0CaHiO
+ tZ9L4DADpe7rXlQTR1BSqT2UH+WRxa56MI88gpEDZr/VUo5Vo9BVhKCZLRsxHK/CtdIH+eeIO
+ nPRBj96CW4B6G3NuS/zNiTFDPjF4gds3pAebwpDAjW5L+0uG3aCfAviOXK3x0cjJmoAGMI2jM
+ lsJGpagGodD+9nET8v6he3QxLhCO+CySE3oPTe1cyq7WlnVsXT/D/C+NkU954VrV/ZNUoBsor
+ gWTmG+8KsjjxxvQXZ5c9wqwIB9Z+oPrth7cgyExw+2YodKfANxSSelhu/z/s+NkXpXuVgfuuB
+ 0TK06TOaJcYpdu2YTpcdOCqUTxYmW4VCaGZxltqDDEWPZ6NaqVrTmpyf0D2He+QT4nJlTGwXg
+ iE1QuFjkXm8y6YwCVXGPDsIdhpLICrlgiG06IPFHzrdMwTme0tGzcvlCTi1oAcWuZSqJa/MAX
+ 8uQPKE98viEncAm80ppbV5ZikZRUufgMcD6lX79W6DeQ7StzzgIm2ygIsHtlpyZUZsmqZF4oY
+ SP+dZT0ce/+qZGUozXJm7ktfDe/1RhX5vIdjadYal9dmr3i2GTRiD8GLOLdePgdMecWTo5nr/
+ PEEJC5k5cVgR9CEb5YhURDhpJRjt802ZPO/hUfzRKNV73DtbwUrEe3cRPspAfBog8aQw9ohMd
+ YVUZs1dN8OLKbWguo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/networking/net_failover.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> On 3/3/20 4:18 PM, Eric W. Biederman wrote:
->> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
->>> diff --git a/tools/testing/selftests/ptrace/vmaccess.c b/tools/testing/selftests/ptrace/vmaccess.c
->>> new file mode 100644
->>> index 0000000..6d8a048
->>> --- /dev/null
->>> +++ b/tools/testing/selftests/ptrace/vmaccess.c
->>> @@ -0,0 +1,66 @@
->>> +// SPDX-License-Identifier: GPL-2.0+
->>> +/*
->>> + * Copyright (c) 2020 Bernd Edlinger <bernd.edlinger@hotmail.de>
->>> + * All rights reserved.
->>> + *
->>> + * Check whether /proc/$pid/mem can be accessed without causing deadlocks
->>> + * when de_thread is blocked with ->cred_guard_mutex held.
->>> + */
->>> +
->>> +#include "../kselftest_harness.h"
->>> +#include <stdio.h>
->>> +#include <fcntl.h>
->>> +#include <pthread.h>
->>> +#include <signal.h>
->>> +#include <unistd.h>
->>> +#include <sys/ptrace.h>
->>> +
->>> +static void *thread(void *arg)
->>> +{
->>> +	ptrace(PTRACE_TRACEME, 0, 0L, 0L);
->>> +	return NULL;
->>> +}
->>> +
->>> +TEST(vmaccess)
->>> +{
->>> +	int f, pid = fork();
->>> +	char mm[64];
->>> +
->>> +	if (!pid) {
->>> +		pthread_t pt;
->>> +
->>> +		pthread_create(&pt, NULL, thread, NULL);
->>> +		pthread_join(pt, NULL);
->>> +		execlp("true", "true", NULL);
->>> +	}
->>> +
->>> +	sleep(1);
->>> +	sprintf(mm, "/proc/%d/mem", pid);
->>> +	f = open(mm, O_RDONLY);
->>> +	ASSERT_LE(0, f);
->>> +	close(f);
->>> +	f = kill(pid, SIGCONT);
->>> +	ASSERT_EQ(0, f);
->>> +}
->>> +
->>> +TEST(attach)
->>> +{
->>> +	int f, pid = fork();
->>> +
->>> +	if (!pid) {
->>> +		pthread_t pt;
->>> +
->>> +		pthread_create(&pt, NULL, thread, NULL);
->>> +		pthread_join(pt, NULL);
->>> +		execlp("true", "true", NULL);
->>> +	}
->>> +
->>> +	sleep(1);
->>> +	f = ptrace(PTRACE_ATTACH, pid, 0L, 0L);
->> 
->> To be meaningful this code needs to learn to loop when
->> ptrace returns -EAGAIN.
->> 
->> Because that is pretty much what any self respecting user space
->> process will do.
->> 
->> At which point I am not certain we can say that the behavior has
->> sufficiently improved not to be a deadlock.
->> 
->
-> In this special dead-duck test it won't work, but it would
-> still be lots more transparent what is going on, since previously
-> you had two zombie process, and no way to even output debug
-> messages, which also all self respecting user space processes
-> should do.
+diff --git a/Documentation/networking/net_failover.rst b/Documentation/net=
+working/net_failover.rst
+index 06c97dcb57ca..e143ab79a960 100644
+=2D-- a/Documentation/networking/net_failover.rst
++++ b/Documentation/networking/net_failover.rst
+@@ -8,9 +8,9 @@ Overview
+ =3D=3D=3D=3D=3D=3D=3D=3D
 
-Agreed it is more transparent.  So if you are going to deadlock
-it is better.
+ The net_failover driver provides an automated failover mechanism via APIs
+-to create and destroy a failover master netdev and mananges a primary and
++to create and destroy a failover master netdev and manages a primary and
+ standby slave netdevs that get registered via the generic failover
+-infrastructrure.
++infrastructure.
 
-My previous proposal (which I admit is more work to implement) would
-actually allow succeeding in this case and so it would not be subject to
-a dead lock (even via -EGAIN) at this point.
+ The failover netdev acts a master device and controls 2 slave devices. Th=
+e
+ original paravirtual interface is registered as 'standby' slave netdev an=
+d
+@@ -29,7 +29,7 @@ virtio-net accelerated datapath: STANDBY mode
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-> So yes, I can at least give a good example and re-try it several
-> times together with wait4 which a tracer is expected to do.
+ net_failover enables hypervisor controlled accelerated datapath to virtio=
+-net
+-enabled VMs in a transparent manner with no/minimal guest userspace chana=
+ges.
++enabled VMs in a transparent manner with no/minimal guest userspace chang=
+es.
 
-Thank you,
+ To support this, the hypervisor needs to enable VIRTIO_NET_F_STANDBY
+ feature on the virtio-net interface and assign the same MAC address to bo=
+th
+=2D-
+2.20.1
 
-Eric
