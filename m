@@ -2,131 +2,149 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC2EC3F2D7
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:09:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2269C3F2CD
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:13:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B67D42146E
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:09:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98D6521739
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:13:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583219395;
-	bh=25tK8WOoFxs0713ihIp2v/ZITVby64PNqh7BHCke+Yc=;
+	s=default; t=1583219624;
+	bh=MMe65kbCVcfKfueOAeVuThyQ2JCDq6d+uBHKyNTEgBc=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=Wu6I2+7+kf+trc2dnoANJ2vkzVEOvY/mMNT+TF3U/mJC0gvLLGN7U65AFX7g+vf9B
-	 TLmXcUPQG0vV3/c743VGuShmHDjqPe6KZLCHxf9mPa9zyrNc9koOCT1MPG2FLC8aPD
-	 bzXVongxWWD7hiWdUW7Q3cbOvi9JFrdc40cTnE5w=
+	b=JxFyjaPpjxqi3A5/gKUy50eSiTwSgclRCBlnFpBqTsaG6HoFFjwrBm2ks5sYGc27p
+	 zmkZSyzzj1lgLl0p1TqgdMQehrgmqlksqxIWRxVyU6yUuDPrDuzpkGSqzElBlNuqhe
+	 UGU7qZhOY5zAnpKZIeNcUcX3ykqQ5HALzyhdPGvU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727426AbgCCHJw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 02:09:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39526 "EHLO mail.kernel.org"
+        id S1727545AbgCCHNo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 02:13:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47616 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725840AbgCCHJw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Mar 2020 02:09:52 -0500
+        id S1727542AbgCCHNn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 02:13:43 -0500
 Received: from onda.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6196A20CC7;
-        Tue,  3 Mar 2020 07:09:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6243B20CC7;
+        Tue,  3 Mar 2020 07:13:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583219391;
-        bh=25tK8WOoFxs0713ihIp2v/ZITVby64PNqh7BHCke+Yc=;
+        s=default; t=1583219622;
+        bh=MMe65kbCVcfKfueOAeVuThyQ2JCDq6d+uBHKyNTEgBc=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZbJbnpZz2MfKVFBPbmxrq+1xY9Pdkkw/QUQp9bomOyWUw/rJb6q+yiJPtpjPlhC+c
-         HdpxKkmIGdmb8A75J6BmmPcZ6cm/Z5Ag2Z823D5MBBix+R6E6ip8SHUlCvshtm7aRK
-         bUSTNRkHrZ6tvkDBrlLApaZ0wenZ3dUqkkRyUXlw=
-Date:   Tue, 3 Mar 2020 08:09:47 +0100
+        b=Ywi1FkjUfaAhMj87r2SnYskJ5HpQuZ5ro1CgFCWCHX863mm0qum+EX670jHusWSWO
+         gi/iFuFRB/oZ1cu7nliMe+4qK7aVlcDaUH098cIhEWgmR6eBmKCMqN+Fnrv/tbeALv
+         dnENZUQDVo7aAHbGo8Rrd7wqKnZNC+6Q/YJRLKaw=
+Date:   Tue, 3 Mar 2020 08:13:38 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
+To:     Frank Rowand <frowand.list@gmail.com>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 00/12] Convert some DT documentation files to ReST
-Message-ID: <20200303080947.5f381004@onda.lan>
-In-Reply-To: <20200302123554.08ac0c34@lwn.net>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 02/12] docs: dt: convert usage-model.txt to ReST
+Message-ID: <20200303081338.2534f4a6@onda.lan>
+In-Reply-To: <03f37836-2e70-3fb0-4bbe-3a3846992b90@gmail.com>
 References: <cover.1583135507.git.mchehab+huawei@kernel.org>
-        <20200302123554.08ac0c34@lwn.net>
+        <0432bc8cdb6abb8618eac89d68db7441b613106d.1583135507.git.mchehab+huawei@kernel.org>
+        <03f37836-2e70-3fb0-4bbe-3a3846992b90@gmail.com>
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 2 Mar 2020 12:35:54 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Em Mon, 2 Mar 2020 15:11:07 -0600
+Frank Rowand <frowand.list@gmail.com> escreveu:
 
-> On Mon,  2 Mar 2020 08:59:25 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
->=20
-> > While most of the devicetree stuff has its own format (with is now being
-> > converted to YAML format), some documents there are actually
-> > describing the DT concepts and how to contribute to it.
-> >=20
-> > IMHO, those documents would fit perfectly as part of the documentation
-> > body, as part of the firmare documents set.
-> >=20
-> > This patch series manually converts some DT documents that, on my
-> > opinion, would belong to it. =20
->=20
-> Did you consider putting this stuff into the firmware-guide while you were
-> at it?  It's not a perfect fit, I guess, but it doesn't seem too awkward
-> either.
+> On 3/2/20 1:59 AM, Mauro Carvalho Chehab wrote:
+> > - Add a SPDX header;
+> > - Adjust document title;
+> > - Use footnoote markups;
+> > - Some whitespace fixes and new line breaks;
+> > - Mark literal blocks as such;
+> > - Add it to devicetree/index.rst.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/devicetree/index.rst            |  1 +
+> >  Documentation/devicetree/of_unittest.txt      |  2 +-
+> >  .../{usage-model.txt => usage-model.rst}      | 35 +++++++++++--------
+> >  include/linux/mfd/core.h                      |  2 +-
+> >  4 files changed, 23 insertions(+), 17 deletions(-)
+> >  rename Documentation/devicetree/{usage-model.txt => usage-model.rst} (97%)
+> > 
+> > diff --git a/Documentation/devicetree/index.rst b/Documentation/devicetree/index.rst
+> > index a11efe26f205..7a6aad7d384a 100644
+> > --- a/Documentation/devicetree/index.rst
+> > +++ b/Documentation/devicetree/index.rst
+> > @@ -7,4 +7,5 @@ Open Firmware and Device Tree
+> >  .. toctree::
+> >     :maxdepth: 1
+> >  
+> > +   usage-model
+> >     writing-schema
+> > diff --git a/Documentation/devicetree/of_unittest.txt b/Documentation/devicetree/of_unittest.txt
+> > index 3e4e7d48ae93..9fdd2de9b770 100644
+> > --- a/Documentation/devicetree/of_unittest.txt
+> > +++ b/Documentation/devicetree/of_unittest.txt
+> > @@ -11,7 +11,7 @@ architecture.
+> >  
+> >  It is recommended to read the following documents before moving ahead.
+> >  
+> > -[1] Documentation/devicetree/usage-model.txt
+> > +[1] Documentation/devicetree/usage-model.rst
+> >  [2] http://www.devicetree.org/Device_Tree_Usage  
+> 
+> You caught this in 03/12.  The file has moved to:
+> 
+>    https://elinux.org/Device_Tree_Usage
 
-I placed it just below the firmware-guide at the main index file.
+Thanks for noticing it!
 
-I have split thoughts about moving the files to there, though. From
-one side, it may fit better from the PoV of organizing the documentation.
+In order to make the changelogs clearer, instead of modifying this
+patch, I'll add an extra hook on patch 03/12 also changing this one. 
 
-=46rom other side, newcomers working with DT may expect looking at the
-text files inside Documentation/devicetree/.
+> 
+> >  
+> >  OF Selftest has been designed to test the interface (include/linux/of.h)
+> > diff --git a/Documentation/devicetree/usage-model.txt b/Documentation/devicetree/usage-model.rst
+> > similarity index 97%
+> > rename from Documentation/devicetree/usage-model.txt
+> > rename to Documentation/devicetree/usage-model.rst
+> > index 33a8aaac02a8..326d7af10c5b 100644
+> > --- a/Documentation/devicetree/usage-model.txt
+> > +++ b/Documentation/devicetree/usage-model.rst
+> > @@ -1,14 +1,18 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=========================
+> >  Linux and the Device Tree
+> > --------------------------
+> > +=========================
+> > +
+> >  The Linux usage model for device tree data
+> >  
+> > -Author: Grant Likely <grant.likely@secretlab.ca>
+> > +:Author: Grant Likely <grant.likely@secretlab.ca>
+> >  
+> >  This article describes how Linux uses the device tree.  An overview of
+> >  the device tree data format can be found on the device tree usage page
+> > -at devicetree.org[1].
+> > +at devicetree.org\ [1]_.
+> >  
+> > -[1] http://devicetree.org/Device_Tree_Usage
+> > +.. [1] http://devicetree.org/Device_Tree_Usage  
+> 
+> And same moved location here.
 
-Maybe I could add an extra patch at the end of this series with the
-move, adding a "RFC" on his title. This way, we can better discuss it,
-and either merge the last one or not depending on the comments.
+And this one too.
 
->=20
-> It also seems like it would be good to CC the devicetree folks, or at
-> least the devicetree mailing list?
-
-Yeah, that would make sense. I'm using get-maintainers script to
-prepare the c/c list, as it is simply too much work to find the
-right maintainers by hand, for every single patch.
-
-I just noticed today that there's just *one entry* at MAINTAINERS
-file for Documentation/devicetree, and that points to you:
-
-	DOCUMENTATION
-	M:	Jonathan Corbet <corbet@lwn.net>
-	L:      linux-doc@vger.kernel.org
-	S:	Maintained
-	F:      Documentation/
-	F:	scripts/documentation-file-ref-check
-	F:	scripts/kernel-doc
-	F:	scripts/sphinx-pre-install
-	X:      Documentation/ABI/
-	X:	Documentation/firmware-guide/acpi/
-	X:	Documentation/devicetree/
-
-So, perhaps we should add something like this to MAINTAINERS:
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe3ab10354c2..64deb23dbb13 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12394,6 +12394,11 @@ L:	linux-rdma@vger.kernel.org
- S:	Supported
- F:	drivers/infiniband/ulp/opa_vnic
-=20
-+OPEN FIRMWARE
-+L:	devicetree@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree
-+
- OPEN FIRMWARE AND DEVICE TREE OVERLAYS
- M:	Pantelis Antoniou <pantelis.antoniou@konsulko.com>
- M:	Frank Rowand <frowand.list@gmail.com>
+> 
+> -Frank
