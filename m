@@ -2,117 +2,123 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B20C3F2CD
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9FBBC3F2C6
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:48:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4078320842
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:29:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="SzS5KFyg"
+	by mail.kernel.org (Postfix) with ESMTP id A820A20838
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583243300;
+	bh=YbJhYyGD3Tryt/jo3wFVNtGaIGAS6BaTuAlj6GrUjxM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=LCAjHlhuC3tsAJyqHpPIdIuBMA3YWqY5SxoV9XgWFg5/CFTnHenzf9F0yQzary7HX
+	 mI0lGt7WKoUUxZQO1LrEYWzSIcx/kwVzZR3dSyla4M4lbnIC+B2pL2uyf8YVp9Yqv5
+	 85rcxGRLkGl49TjmkQBCmCA0k7rSyzRCN7V/3tqg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727980AbgCCN3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 08:29:51 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:35610 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727913AbgCCN3v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 08:29:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-        Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
-        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-        Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=bHX1b2/1S5EkvQkNQ9zS/cLGZRGrR/qQ+LJlvoJKItU=; b=SzS5KFygidT4fdT2l+S426X6VR
-        yG7WR1V6n4zvLvjx08lYcfm0/rfT0af24O8meIy1dTPGA8JmObRGjpNQpOXmkVpVdRfRQhV1PTrf8
-        NS8NQjBx57VsinMkpkzMlEt5jXApz1R8X0+TcPz7FDxfFiNeskX0y8bs/Z9rMsHOv/znT8bRIF5zv
-        X6kVjWx4vOS/aUGhkkC+TkCA9GKOXosK25hPl4ok9F+PsNf7vONF8L3gNXnfEyQHzFm0qaGbwwr8b
-        ejAQPnFluj4ymWejQWnBxc5d3gk/YXLhvJuYplJNu78GtrVJ0GiemU/F9vGvQy/dnoONChk8Jq42b
-        teTiFtkg==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([2002:4e20:1eda:1:222:68ff:fe15:37dd]:33522 helo=rmk-PC.armlinux.org.uk)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1j97cF-0008DD-Ig; Tue, 03 Mar 2020 13:29:43 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1j97cE-0004aW-Ur; Tue, 03 Mar 2020 13:29:42 +0000
-From:   Russell King <rmk+kernel@armlinux.org.uk>
-To:     "David S. Miller" <davem@davemloft.net>
-Cc:     Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH net-next] doc: sfp-phylink: correct code indentation
+        id S1727167AbgCCNsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 08:48:20 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:17398 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726890AbgCCNsU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 08:48:20 -0500
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 023DmF3Q024927;
+        Tue, 3 Mar 2020 22:48:16 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 023DmF3Q024927
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1583243296;
+        bh=xTxEoE0DqYqg792ecc95uiMjXvkkzaqownbqCwALg+w=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=265LoLA2SezrWcr3PUYz0KDYjQC6dNQeOp7xBBiptKIlo5DGo4nO+4R1fveYDvrXH
+         duXNhB4ay7CGmgVufSJD1tyoHnKyyNlsLHeXl50HoAn+Isj5a/GkF8+ntrY1i4XKoM
+         2q72e0yvnC+mvWK5NXvIcd0e2jhgmhlhVFdMMi4uw7fQ4M0lryJy15opX6w+1xejjQ
+         OHS5ssayNNQux9RBsnnzozutuOh7df1pI+ZIV0BvglOL2NX/Sso3sJr63AjKOWbKzF
+         YbR7PQ66efTqSdj37cYQ7R/zx4n+zmY1l5c+IB6dldQLVCE8bukGQ6rFuJMnY82y4J
+         NokNQV+gqaVWQ==
+X-Nifty-SrcIP: [209.85.221.174]
+Received: by mail-vk1-f174.google.com with SMTP id x62so868675vkg.11;
+        Tue, 03 Mar 2020 05:48:16 -0800 (PST)
+X-Gm-Message-State: ANhLgQ3CZgbM2DJBEc3/pkMoVoIsAUWEjVIAN+pQg4V2KEtT+LIKUSgH
+        iL2YkozVM2Bx4MBuUwStMd58acHoop4kHYoSdVo=
+X-Google-Smtp-Source: ADFU+vtXBk0momfM4duMHdkHroEOqDdFo7/vIJTOegKIurOSydDddzPRY//2dkZbcFzZmOWMb4KFV2ITAFYULGGJFGw=
+X-Received: by 2002:a1f:b401:: with SMTP id d1mr2769067vkf.26.1583243294990;
+ Tue, 03 Mar 2020 05:48:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1j97cE-0004aW-Ur@rmk-PC.armlinux.org.uk>
-Date:   Tue, 03 Mar 2020 13:29:42 +0000
+References: <20200226175325.8787-1-masahiroy@kernel.org>
+In-Reply-To: <20200226175325.8787-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 3 Mar 2020 22:47:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARVX6bJPO0yPo7k_ateDNmk_bXGfoR8nmkEUbkCVtJTLw@mail.gmail.com>
+Message-ID: <CAK7LNARVX6bJPO0yPo7k_ateDNmk_bXGfoR8nmkEUbkCVtJTLw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: remove trailing slash from devicetree/binding/
+ for descending
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Using vim to edit the phylink documentation reveals some mistakes due
-to the "invisible" pythonesque white space indentation that can't be
-seen with other editors. Fix it.
+On Thu, Feb 27, 2020 at 2:53 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> obj-* needs a trailing slash for a directory, but subdir-* does not
+> because it already implies a directory.
+>
+> Also, change subdir-y to subdir- to ensure this is effective only
+> for cleaning targets.
+>
+> This makes the cleaning log consistent. (no trailing slash)
+>
+> Before:
+>
+>   $ make clean
+>   CLEAN   Documentation/devicetree/bindings/
+>
+> After:
+>
+>   $ make clean
+>   CLEAN   Documentation/devicetree/bindings
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
-Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
----
- Documentation/networking/sfp-phylink.rst | 32 ++++++++++++------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/networking/sfp-phylink.rst b/Documentation/networking/sfp-phylink.rst
-index 8d7af28cd835..5aec7c8857d0 100644
---- a/Documentation/networking/sfp-phylink.rst
-+++ b/Documentation/networking/sfp-phylink.rst
-@@ -138,27 +138,27 @@ this documentation.
- 
-    .. code-block:: c
- 
--    static int foo_ethtool_set_link_ksettings(struct net_device *dev,
--					     const struct ethtool_link_ksettings *cmd)
--    {
--	struct foo_priv *priv = netdev_priv(dev);
--
--	return phylink_ethtool_ksettings_set(priv->phylink, cmd);
--    }
--
--    static int foo_ethtool_get_link_ksettings(struct net_device *dev,
--					     struct ethtool_link_ksettings *cmd)
--    {
--	struct foo_priv *priv = netdev_priv(dev);
-+	static int foo_ethtool_set_link_ksettings(struct net_device *dev,
-+						  const struct ethtool_link_ksettings *cmd)
-+	{
-+		struct foo_priv *priv = netdev_priv(dev);
-+	
-+		return phylink_ethtool_ksettings_set(priv->phylink, cmd);
-+	}
- 
--	return phylink_ethtool_ksettings_get(priv->phylink, cmd);
--    }
-+	static int foo_ethtool_get_link_ksettings(struct net_device *dev,
-+						  struct ethtool_link_ksettings *cmd)
-+	{
-+		struct foo_priv *priv = netdev_priv(dev);
-+	
-+		return phylink_ethtool_ksettings_get(priv->phylink, cmd);
-+	}
- 
--7. Replace the call to:
-+7. Replace the call to::
- 
- 	phy_dev = of_phy_connect(dev, node, link_func, flags, phy_interface);
- 
--   and associated code with a call to:
-+   and associated code with a call to::
- 
- 	err = phylink_of_phy_connect(priv->phylink, node, flags);
- 
+Applied to linux-kbuild.
+
+
+
+>
+>  Documentation/Makefile | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index d77bb607aea4..39569a2e1953 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -2,7 +2,8 @@
+>  # Makefile for Sphinx documentation
+>  #
+>
+> -subdir-y := devicetree/bindings/
+> +# for cleaning
+> +subdir- := devicetree/bindings
+>
+>  # Check for broken documentation file references
+>  ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
+> --
+> 2.17.1
+>
+
+
 -- 
-2.20.1
-
+Best Regards
+Masahiro Yamada
