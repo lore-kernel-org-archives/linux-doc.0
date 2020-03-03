@@ -2,74 +2,216 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F081EC3F2CD
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:51:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39524C3F2C6
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 08:02:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B4DF720863
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:51:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="c3BWJ1Po"
+	by mail.kernel.org (Postfix) with ESMTP id 1384721739
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 08:02:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727498AbgCCHvs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 02:51:48 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:49088 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725440AbgCCHvs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 02:51:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=LWDpu0pQ+3AjL26hdj7oM9e1WSlMSaxHS4mjk1wiZQs=; b=c3BWJ1PoJXoQF/aKZv90DK2ISI
-        vObZhPG5gpxNvjGUaqHJAsY/AJ3umwM4cFdA2XRA5NJg2dUnQtJgE8w70FKiNxZrMXq4lh2Yi6EiH
-        g6jwW10zip6A9bwFvVRFP0qBqtgKpyryjrVgz06wzruhKWsO6p9b9b7AUwwCyMz8DtSDGvN0W3cS1
-        jTIHRr1ISGUPnGqv6Jrmlkn7u6Rz9FS7gy3oUi4N9ycuhNhYo26WVjJPZh4oakFA3xL3SKrC3tppg
-        VlpAJ0s9/nriXknTN/HwAbzb458moCyEtYjUsWSyG41XQdkDPb40kzvZMOUujEErqnI0I7cs11hiz
-        pnhiQPUA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j92LC-0005hQ-7Y; Tue, 03 Mar 2020 07:51:46 +0000
-Subject: Re: [v3] Documentation: bootconfig: Update boot configuration
- documentation
-To:     Markus Elfring <Markus.Elfring@web.de>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org
-References: <158313621831.3082.9886161529613724376.stgit@devnote2>
- <158313622831.3082.8237132211731864948.stgit@devnote2>
- <8c032093-c652-5e33-36ad-732f73beabab@infradead.org>
- <12200e6e-2ef0-a0e4-9d92-35d7150342d2@web.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <d79b5810-7445-9c91-cd0f-99c45195ba3b@infradead.org>
-Date:   Mon, 2 Mar 2020 23:51:44 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727619AbgCCICf convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 03:02:35 -0500
+Received: from zimbra2.kalray.eu ([92.103.151.219]:40480 "EHLO
+        zimbra2.kalray.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725440AbgCCICe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 03:02:34 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id E6C6D27E094B;
+        Tue,  3 Mar 2020 09:02:32 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id gRGKKHAauRNX; Tue,  3 Mar 2020 09:02:32 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id 60A3E27E097E;
+        Tue,  3 Mar 2020 09:02:32 +0100 (CET)
+X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Ne9rJroH1Pl5; Tue,  3 Mar 2020 09:02:32 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id 42FC827E094B;
+        Tue,  3 Mar 2020 09:02:32 +0100 (CET)
+Date:   Tue, 3 Mar 2020 09:02:31 +0100 (CET)
+From:   =?utf-8?Q?Cl=C3=A9ment?= Leger <cleger@kalrayinc.com>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Ohad Ben-Cohen <ohad@wizery.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>
+Message-ID: <482678048.7666348.1583222551942.JavaMail.zimbra@kalray.eu>
+In-Reply-To: <20200302231342.GE262924@yoga>
+References: <20200210162209.23149-1-cleger@kalray.eu> <20200302093902.27849-1-cleger@kalray.eu> <20200302093902.27849-6-cleger@kalray.eu> <20200302231342.GE262924@yoga>
+Subject: Re: [PATCH v5 5/8] remoteproc: Rename rproc_elf_sanity_check for
+ elf32
 MIME-Version: 1.0
-In-Reply-To: <12200e6e-2ef0-a0e4-9d92-35d7150342d2@web.de>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [192.168.40.202]
+X-Mailer: Zimbra 8.8.15_GA_3895 (ZimbraWebClient - GC75 (Linux)/8.8.15_GA_3895)
+Thread-Topic: remoteproc: Rename rproc_elf_sanity_check for elf32
+Thread-Index: J1/AEqDg9YgPl+SVOgly/5r9Nw/vWg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/2/20 10:52 PM, Markus Elfring wrote:
->> All of the other changes look good to me.
+Hi Bjorn, 
+
+----- On 3 Mar, 2020, at 00:13, Bjorn Andersson bjorn.andersson@linaro.org wrote:
+
+> On Mon 02 Mar 01:38 PST 2020, Clement Leger wrote:
 > 
-> I suggest to take another closer look.
-> Would you like to help with the clarification of any remaining
-> software documentation concerns?
+>> Since this function will be modified to support both elf32 and elf64,
+>> rename the existing one to elf32 (which is the only supported format
+>> at the moment). This will allow not to introduce possible side effect
+>> when adding elf64 support (ie: all backends will still support only
+>> elf32 if not requested explicitely using rproc_elf_sanity_check).
+>> 
+> 
+> Is there a reason for preventing ELF64 binaries be loaded?
 
-There are a few other things that I would change, but I don't think
-that they are showstoppers.
+I decided to go this way to let driver maintainer decide if they want
+to support elf64 to avoid problems with 64bits addresses/sizes which do
+not fit in their native type (size_t for instance). This is probably
+not going to happen and there are additionnal checks before calling
+rproc_da_to_va. And addresses should be filtered by rproc_da_to_va.
+So, actually it seems there is no reason to forbid supporting elf32/64
+for all drivers.
 
--- 
-~Randy
+Regards,
 
+Clément
+
+> 
+> Regards,
+> Bjorn
+> 
+>> Signed-off-by: Clement Leger <cleger@kalray.eu>
+>> ---
+>>  drivers/remoteproc/remoteproc_core.c       | 2 +-
+>>  drivers/remoteproc/remoteproc_elf_loader.c | 6 +++---
+>>  drivers/remoteproc/remoteproc_internal.h   | 2 +-
+>>  drivers/remoteproc/st_remoteproc.c         | 2 +-
+>>  drivers/remoteproc/st_slim_rproc.c         | 2 +-
+>>  drivers/remoteproc/stm32_rproc.c           | 2 +-
+>>  6 files changed, 8 insertions(+), 8 deletions(-)
+>> 
+>> diff --git a/drivers/remoteproc/remoteproc_core.c
+>> b/drivers/remoteproc/remoteproc_core.c
+>> index 4bfaf4a3c4a3..99f0b796fbc7 100644
+>> --- a/drivers/remoteproc/remoteproc_core.c
+>> +++ b/drivers/remoteproc/remoteproc_core.c
+>> @@ -2055,7 +2055,7 @@ struct rproc *rproc_alloc(struct device *dev, const char
+>> *name,
+>>  		rproc->ops->load = rproc_elf_load_segments;
+>>  		rproc->ops->parse_fw = rproc_elf_load_rsc_table;
+>>  		rproc->ops->find_loaded_rsc_table = rproc_elf_find_loaded_rsc_table;
+>> -		rproc->ops->sanity_check = rproc_elf_sanity_check;
+>> +		rproc->ops->sanity_check = rproc_elf32_sanity_check;
+>>  		rproc->ops->get_boot_addr = rproc_elf_get_boot_addr;
+>>  	}
+>>  
+>> diff --git a/drivers/remoteproc/remoteproc_elf_loader.c
+>> b/drivers/remoteproc/remoteproc_elf_loader.c
+>> index c2a9783cfb9a..5a67745f2638 100644
+>> --- a/drivers/remoteproc/remoteproc_elf_loader.c
+>> +++ b/drivers/remoteproc/remoteproc_elf_loader.c
+>> @@ -25,13 +25,13 @@
+>>  #include "remoteproc_internal.h"
+>>  
+>>  /**
+>> - * rproc_elf_sanity_check() - Sanity Check ELF firmware image
+>> + * rproc_elf_sanity_check() - Sanity Check ELF32 firmware image
+>>   * @rproc: the remote processor handle
+>>   * @fw: the ELF firmware image
+>>   *
+>>   * Make sure this fw image is sane.
+>>   */
+>> -int rproc_elf_sanity_check(struct rproc *rproc, const struct firmware *fw)
+>> +int rproc_elf32_sanity_check(struct rproc *rproc, const struct firmware *fw)
+>>  {
+>>  	const char *name = rproc->firmware;
+>>  	struct device *dev = &rproc->dev;
+>> @@ -89,7 +89,7 @@ int rproc_elf_sanity_check(struct rproc *rproc, const struct
+>> firmware *fw)
+>>  
+>>  	return 0;
+>>  }
+>> -EXPORT_SYMBOL(rproc_elf_sanity_check);
+>> +EXPORT_SYMBOL(rproc_elf32_sanity_check);
+>>  
+>>  /**
+>>   * rproc_elf_get_boot_addr() - Get rproc's boot address.
+>> diff --git a/drivers/remoteproc/remoteproc_internal.h
+>> b/drivers/remoteproc/remoteproc_internal.h
+>> index 0deae5f237b8..28639c588d58 100644
+>> --- a/drivers/remoteproc/remoteproc_internal.h
+>> +++ b/drivers/remoteproc/remoteproc_internal.h
+>> @@ -54,7 +54,7 @@ void *rproc_da_to_va(struct rproc *rproc, u64 da, size_t len);
+>>  phys_addr_t rproc_va_to_pa(void *cpu_addr);
+>>  int rproc_trigger_recovery(struct rproc *rproc);
+>>  
+>> -int rproc_elf_sanity_check(struct rproc *rproc, const struct firmware *fw);
+>> +int rproc_elf32_sanity_check(struct rproc *rproc, const struct firmware *fw);
+>>  u64 rproc_elf_get_boot_addr(struct rproc *rproc, const struct firmware *fw);
+>>  int rproc_elf_load_segments(struct rproc *rproc, const struct firmware *fw);
+>>  int rproc_elf_load_rsc_table(struct rproc *rproc, const struct firmware *fw);
+>> diff --git a/drivers/remoteproc/st_remoteproc.c
+>> b/drivers/remoteproc/st_remoteproc.c
+>> index a3268d95a50e..a6cbfa452764 100644
+>> --- a/drivers/remoteproc/st_remoteproc.c
+>> +++ b/drivers/remoteproc/st_remoteproc.c
+>> @@ -233,7 +233,7 @@ static const struct rproc_ops st_rproc_ops = {
+>>  	.parse_fw		= st_rproc_parse_fw,
+>>  	.load			= rproc_elf_load_segments,
+>>  	.find_loaded_rsc_table	= rproc_elf_find_loaded_rsc_table,
+>> -	.sanity_check		= rproc_elf_sanity_check,
+>> +	.sanity_check		= rproc_elf32_sanity_check,
+>>  	.get_boot_addr		= rproc_elf_get_boot_addr,
+>>  };
+>>  
+>> diff --git a/drivers/remoteproc/st_slim_rproc.c
+>> b/drivers/remoteproc/st_slim_rproc.c
+>> index 09bcb4d8b9e0..3cca8b65a8db 100644
+>> --- a/drivers/remoteproc/st_slim_rproc.c
+>> +++ b/drivers/remoteproc/st_slim_rproc.c
+>> @@ -203,7 +203,7 @@ static const struct rproc_ops slim_rproc_ops = {
+>>  	.da_to_va       = slim_rproc_da_to_va,
+>>  	.get_boot_addr	= rproc_elf_get_boot_addr,
+>>  	.load		= rproc_elf_load_segments,
+>> -	.sanity_check	= rproc_elf_sanity_check,
+>> +	.sanity_check	= rproc_elf32_sanity_check,
+>>  };
+>>  
+>>  /**
+>> diff --git a/drivers/remoteproc/stm32_rproc.c b/drivers/remoteproc/stm32_rproc.c
+>> index a18f88044111..9a8b5f5e2572 100644
+>> --- a/drivers/remoteproc/stm32_rproc.c
+>> +++ b/drivers/remoteproc/stm32_rproc.c
+>> @@ -505,7 +505,7 @@ static struct rproc_ops st_rproc_ops = {
+>>  	.load		= rproc_elf_load_segments,
+>>  	.parse_fw	= stm32_rproc_parse_fw,
+>>  	.find_loaded_rsc_table = rproc_elf_find_loaded_rsc_table,
+>> -	.sanity_check	= rproc_elf_sanity_check,
+>> +	.sanity_check	= rproc_elf32_sanity_check,
+>>  	.get_boot_addr	= rproc_elf_get_boot_addr,
+>>  };
+>>  
+>> --
+>> 2.15.0.276.g89ea799
