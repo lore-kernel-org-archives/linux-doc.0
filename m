@@ -2,167 +2,74 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD39FC3F2C6
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F081EC3F2CD
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:51:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 93C9924654
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:50:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4DF720863
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 07:51:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C/AVVaOw"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="c3BWJ1Po"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727571AbgCCHuk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 02:50:40 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:35598 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727552AbgCCHuk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 02:50:40 -0500
-Received: by mail-qk1-f195.google.com with SMTP id 145so2518325qkl.2;
-        Mon, 02 Mar 2020 23:50:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=BhbULqBIdorw/yrEs1cpQIXkzYiAMwapHjsDli7SNmE=;
-        b=C/AVVaOwRUMOQcM2QkfZkYxtY1XRUW6kdvKrulJevxuG6/m6BCkwSOmh1vkwJEattR
-         K2cO/soZ0G4mS1yCz5uEbc8M6tRfZ8hDc/4UgnsLxewUBVG7PW1mtlJmH4yuqpWG2HFL
-         0BOR7EE0z6q/Rn2e6tG3jiuBmPno7lfidiNSVBrakQFDxRCFkjk+vUYldkXeS6Wq7El7
-         YtONSsi4xMbYIPuq9dTkIRO+aqy/6IJrFYDlKGUOzk2CK7AbniZJYRILqKFV5chwLdJC
-         /UhsBX5zUY7GtsKdUX3dfz+Frx7mfxgW4Y5BCoUzACYteQqmkg+82P8OkYuBUbuCv/N5
-         g2jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=BhbULqBIdorw/yrEs1cpQIXkzYiAMwapHjsDli7SNmE=;
-        b=UlKeKfjl8/Hv0Q88eFqU9cN/p63zyRK1yl7npoPcRYJI0/vJOVsQd4MLAsK4Y5DquV
-         A/DV4A1ZMknEa9+nbjvMfdxw7GfiOFbwNrPO2rlKmHLtkesnVbYzpb5Ckck7qTqx4FLF
-         gulI2VCc5dU6nMeabfzOFu5NbU0inv38gdX7ORF6sIarh/D8nDFVZEC3Dd60MH3ggaKc
-         2W9vA5RdxCUzrIZX5A7pheOouhRy6dH0rRY7dmfkcaMQsNZ1aJs9Od//aU+D8NGhOisc
-         8IjhHBmuMmXU1DsYECLEwXi3nRjX1ipzYdNzE6hgPtriSWE8iZtjHi6Z/sS7/i+hOzWy
-         zqsA==
-X-Gm-Message-State: ANhLgQ3HrFGIS/A7cVgQOuonp6PjKAIOWF9v5OXJVcZdMyrJP9zetjfk
-        qUdbSPooiv3RbH8XH+CrTg6VJnSlp9yERI6pM8c=
-X-Google-Smtp-Source: ADFU+vvnqa4SHi+3vaAmK9vIruVCzKAjusAJShsWdCzHBDnIgJIuzP96vxeO5VLCbYsVUfv798aIL4vqMNwbrS/cGx4=
-X-Received: by 2002:a37:8046:: with SMTP id b67mr2937683qkd.218.1583221839180;
- Mon, 02 Mar 2020 23:50:39 -0800 (PST)
+        id S1727498AbgCCHvs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 02:51:48 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:49088 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725440AbgCCHvs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 02:51:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=LWDpu0pQ+3AjL26hdj7oM9e1WSlMSaxHS4mjk1wiZQs=; b=c3BWJ1PoJXoQF/aKZv90DK2ISI
+        vObZhPG5gpxNvjGUaqHJAsY/AJ3umwM4cFdA2XRA5NJg2dUnQtJgE8w70FKiNxZrMXq4lh2Yi6EiH
+        g6jwW10zip6A9bwFvVRFP0qBqtgKpyryjrVgz06wzruhKWsO6p9b9b7AUwwCyMz8DtSDGvN0W3cS1
+        jTIHRr1ISGUPnGqv6Jrmlkn7u6Rz9FS7gy3oUi4N9ycuhNhYo26WVjJPZh4oakFA3xL3SKrC3tppg
+        VlpAJ0s9/nriXknTN/HwAbzb458moCyEtYjUsWSyG41XQdkDPb40kzvZMOUujEErqnI0I7cs11hiz
+        pnhiQPUA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j92LC-0005hQ-7Y; Tue, 03 Mar 2020 07:51:46 +0000
+Subject: Re: [v3] Documentation: bootconfig: Update boot configuration
+ documentation
+To:     Markus Elfring <Markus.Elfring@web.de>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org
+References: <158313621831.3082.9886161529613724376.stgit@devnote2>
+ <158313622831.3082.8237132211731864948.stgit@devnote2>
+ <8c032093-c652-5e33-36ad-732f73beabab@infradead.org>
+ <12200e6e-2ef0-a0e4-9d92-35d7150342d2@web.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <d79b5810-7445-9c91-cd0f-99c45195ba3b@infradead.org>
+Date:   Mon, 2 Mar 2020 23:51:44 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200303005035.13814-1-luke.r.nels@gmail.com> <20200303005035.13814-2-luke.r.nels@gmail.com>
-In-Reply-To: <20200303005035.13814-2-luke.r.nels@gmail.com>
-From:   =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
-Date:   Tue, 3 Mar 2020 08:50:28 +0100
-Message-ID: <CAJ+HfNhSj9ycgh8Y44b_ZruW1A=+W_53fXnCDc488WXSESJ3dw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v4 1/4] riscv, bpf: move common riscv JIT code to header
-To:     Luke Nelson <lukenels@cs.washington.edu>
-Cc:     bpf <bpf@vger.kernel.org>, Luke Nelson <luke.r.nels@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Xi Wang <xi.wang@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Netdev <netdev@vger.kernel.org>, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <12200e6e-2ef0-a0e4-9d92-35d7150342d2@web.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 3 Mar 2020 at 01:50, Luke Nelson <lukenels@cs.washington.edu> wrote=
-:
->
-> This patch factors out code that can be used by both the RV64 and RV32
-> JITs to a common header.
->
-> Rename rv_sb_insn/rv_uj_insn to rv_b_insn/rv_j_insn to match the RISC-V
-> specification.
->
+On 3/2/20 10:52 PM, Markus Elfring wrote:
+>> All of the other changes look good to me.
+> 
+> I suggest to take another closer look.
+> Would you like to help with the clarification of any remaining
+> software documentation concerns?
 
-Thanks for clearing this up!
+There are a few other things that I would change, but I don't think
+that they are showstoppers.
 
-> Co-developed-by: Xi Wang <xi.wang@gmail.com>
-> Signed-off-by: Xi Wang <xi.wang@gmail.com>
-> Signed-off-by: Luke Nelson <luke.r.nels@gmail.com>
-> ---
-> We could put more code into a shared .c file in the future (e.g.,
-> build_body).  It seems to make sense right now to first factor
-> common data structures and helper functions into a header.
+-- 
+~Randy
 
-Yes, I agree.
-
-> ---
->  arch/riscv/net/bpf_jit.h      | 504 ++++++++++++++++++++++++++++++++++
->  arch/riscv/net/bpf_jit_comp.c | 443 +-----------------------------
->  2 files changed, 505 insertions(+), 442 deletions(-)
->  create mode 100644 arch/riscv/net/bpf_jit.h
->
-> diff --git a/arch/riscv/net/bpf_jit.h b/arch/riscv/net/bpf_jit.h
-> new file mode 100644
-> index 000000000000..6f45f95bc4d0
-> --- /dev/null
-> +++ b/arch/riscv/net/bpf_jit.h
-> @@ -0,0 +1,504 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Common functionality for RV32 and RV64 BPF JIT compilers
-> + *
-> + * Copyright (c) 2019 Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
-> + * Copyright (c) 2020 Luke Nelson <luke.r.nels@gmail.com>
-> + * Copyright (c) 2020 Xi Wang <xi.wang@gmail.com>
-
-I'm no lawyer, so this is more of a question; You've pulled out code
-into a header, and renamed two functions. Does that warrant copyright
-line additions? Should my line be removed?
-
-> + */
-> +
-> +#ifndef _BPF_JIT_H
-> +#define _BPF_JIT_H
-> +
-> +#include <linux/bpf.h>
-> +#include <linux/filter.h>
-> +#include <asm/cacheflush.h>
-[...]
-> +
-> +static inline u32 rv_amoadd_w(u8 rd, u8 rs2, u8 rs1, u8 aq, u8 rl)
-> +{
-> +    return rv_amo_insn(0, aq, rl, rs2, rs1, 2, rd, 0x2f);
-> +}
-> +
-> +#if __riscv_xlen =3D=3D 64
-
-Please remove this. If the inlined functions are not used, they're not
-part of the binary. This adds complexity to the code, and without it
-we can catch build errors early on!
-
-> +
-> +/* RV64-only instructions. */
-> +
-[...]
-> +{
-> +    return rv_amo_insn(0, aq, rl, rs2, rs1, 3, rd, 0x2f);
-> +}
-> +
-> +#endif /* __riscv_xlen =3D=3D 64 */
-
-...and this.
-
-Thanks!
-Bj=C3=B6rn
