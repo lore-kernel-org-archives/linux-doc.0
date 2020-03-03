@@ -2,137 +2,184 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8184EC3F2C6
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:07:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70CE4C3F2D7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:19:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 556A82080C
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:07:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C0D120848
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:19:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=Sony.onmicrosoft.com header.i=@Sony.onmicrosoft.com header.b="g/UXZV1n"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PD/R9+Mj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730558AbgCCRHx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 12:07:53 -0500
-Received: from mail-mw2nam12on2108.outbound.protection.outlook.com ([40.107.244.108]:16713
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728158AbgCCRHw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Mar 2020 12:07:52 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ub2AzxsgpTUj8mThIzT5cq2CHlfcx0Nyzjl21HqUNpDndlc6RbSG4uPwGKXrPEixezm8q0xTfGv1/fucZMsM99SVuNI9vhFlvfwQ88c6frFSShUCtnZ+fqNhrdHkIeh5nZSpfpFpV0ReoUhckK1KuBOIg+OWzMKSInNcFuDMhok7x4zNcTXJ18HFanPduP4b4gfIt0ok3HYK9eHpE+KKv5ydgnl09kRVtR/ErfyDKfm/sW7rJrrslIdl1xKgB8Th95134CUxiNr+HcPWKKFs6vchawgn/7hBAa+RChVtI0F1bCWum8EczXy6hbk7TO5gu8NuPaltaUH1NMxByBbFYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/bph4EC4D9MvgfUXOnpnmnieDK6NCxv4Drzeu7jICb4=;
- b=VEEhlc5+CwkT31DeOGlmennH/om/IweKqlvvRNtUtXTG71MAe/TdVxvwMT67zvRGIddGamWI1u9tIdhuB5hYAaRP0hfLPxsAqY2dXZDOUcyYUd/8WkiEFy2rLKxst58Ge7bvuuXBRHwo+yjtQNpDsS3zG6A55adpCn8KjbFcXSYFc6n+2GRlqXybbvQKc/8lwY6tSBbtABHrk/340/tCRyd5rlQr8/dTI/QLozt8iYxlHxFj9RnSZa6yI++RctPwpuuS2mskQ9/cEh0nloh611Qn6qsHwUtRiJBMjDvphdHckpoTF3j10lTv+65oaREmZnKqhIZWNb1v49c2O+xIhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Sony.onmicrosoft.com;
- s=selector2-Sony-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/bph4EC4D9MvgfUXOnpnmnieDK6NCxv4Drzeu7jICb4=;
- b=g/UXZV1nN9DA1fj97AI1iZHV6PyZqv7tX2ixlZCz/QOTgDihnxOC7dGZziXBSpeSDilPY54P9rK34nOvxt9JjB/zy94d3c+Ju+XliGP2YcW0X3VLQYWb3OCFlUmyQLvlTXBsEf9tAFINZuNQBQY6zrU1aD3as11WE/UvAtNoNHg=
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com (2603:10b6:300:2::27)
- by MWHPR13MB1005.namprd13.prod.outlook.com (2603:10b6:300:13::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.5; Tue, 3 Mar
- 2020 17:07:50 +0000
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::308b:ce00:680a:333e]) by MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::308b:ce00:680a:333e%6]) with mapi id 15.20.2793.011; Tue, 3 Mar 2020
- 17:07:49 +0000
-From:   "Bird, Tim" <Tim.Bird@sony.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "tbird20d@gmail.com" <tbird20d@gmail.com>
-CC:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] scripts/sphinx-pre-install: add '-p python3' to
- virtualenv
-Thread-Topic: [PATCH] scripts/sphinx-pre-install: add '-p python3' to
- virtualenv
-Thread-Index: AQHV63v40W4+vR3Xqky9SMj7WmB1Yag1xeiAgAFeC7A=
-Date:   Tue, 3 Mar 2020 17:07:48 +0000
-Message-ID: <MWHPR13MB0895EFDA9EBF7740875E661CFDE40@MWHPR13MB0895.namprd13.prod.outlook.com>
-References: <1582594481-23221-1-git-send-email-tim.bird@sony.com>
- <20200302130911.05a7e465@lwn.net>
-In-Reply-To: <20200302130911.05a7e465@lwn.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Tim.Bird@sony.com; 
-x-originating-ip: [160.33.66.122]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 5ff08347-6d84-48bc-6171-08d7bf9566de
-x-ms-traffictypediagnostic: MWHPR13MB1005:
-x-microsoft-antispam-prvs: <MWHPR13MB10058DF4796F0C24CB79BF5CFDE40@MWHPR13MB1005.namprd13.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 03319F6FEF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(366004)(136003)(39860400002)(346002)(396003)(199004)(189003)(33656002)(54906003)(55016002)(110136005)(26005)(9686003)(76116006)(2906002)(66476007)(4326008)(6506007)(7696005)(66556008)(186003)(5660300002)(71200400001)(64756008)(66946007)(52536014)(66446008)(478600001)(86362001)(81156014)(8676002)(81166006)(316002)(8936002);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR13MB1005;H:MWHPR13MB0895.namprd13.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: sony.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ONi/wBpZyHc643v3HfnRe0zCrUP5exM6UCjgSQN8H/IXs2B4AmdDrFa5hs9LOloPhZ+VI6FnwgdjAL2woPduLUUXEVphMJ0j1kD4g8WT7tmyuwZRrSTUJ2W89F2pNpJhl2lpkCQfasgb/byslQ0n8rJJNkfSu2g8OvpRb7lJ7FezIxhZ5mQI1PmZ9GLYb/ydJZNwU8gwNU531+5ezF+gJyX12GBkN0HeScREeRatuqfilV6/Dmi5ej95edUzgJxf3jsHhn4r8ZXcU2CeNJy6QomkCuKxzZmJFsr77Wo21R6EaSiozfKZo6jmQcnx18EBBAVdL0ZqGEtSgNIhuqVVeEzSROfEaUYaONZM+H3Ijwuc0UhRs+Ry3LEAapCTHisETnKv1kYHuoR69CqIfT7yY1i3/Y8Vn5dQ/4UmKMDXqXLrSQ516LFzW3luzgCs5aEo
-x-ms-exchange-antispam-messagedata: QuzXp0ptUeNNUgw4atf1QChSiDjovxBmrTa41/Y0NPOpdRMpS/q8sNnmvXqBvAFO3RgPU6EiRUzgG0bSWxkU0K+/C1rJMoCUXh2EcH+g+yMKoI7FAzBJvz7i9zZZwgmdbud93PqEPZI9ZKm7i6DEXQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1729883AbgCCRTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 12:19:32 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34773 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728615AbgCCRTc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 12:19:32 -0500
+Received: by mail-pg1-f193.google.com with SMTP id t3so1848203pgn.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2020 09:19:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=jPSqNTJB6oFtzjzmDLc+9zVnydkmrV2ijq5zde7srqc=;
+        b=PD/R9+MjS+r3DY1G3jbJan5hv+mx7KxmbweIwBsaAkxYzqjQTCNjuHqPsRUHaW3YJr
+         t5Jh6b2Ka6CoqdeigyaQtNzCOZR0iimJGwA8oENgpa3+kGANqG30Xt2OCbCjXNQjHNyI
+         OodvimhugQGD0T4mq/XmKAq4YSqGNDHxyeTQd/9uOlg6NmLj+6qIjvzBf1jJsLgE6NJX
+         z5qB6GEBtWHpsBSlb2LfFbw7plyvYn3aj/+92uZBZkiJYlXSMnKG2f9TNXBgCOWPz17o
+         XYSyW6nflrse/YzIEe6TNygYaLyGPNkq3MNyaFP4su8CzCvd/MzpXdykJn686z00nElm
+         EmtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=jPSqNTJB6oFtzjzmDLc+9zVnydkmrV2ijq5zde7srqc=;
+        b=L2dxQU9n4R2n1PxtMILazRNbzF9NWHlEwoknSo6aH6IRLjHksNNjl43xHrI2WufjPP
+         UzE1QVyX3j4HjecfGAmq9COOf5Tqny+YidmNeVbmA/llF9j8d4YTZRLFnmCYrzcasHof
+         xv8umL3dUm9Q/a++5PQ+biiPRqomYLje3dQF1qWIm+huHD6vbuo6gg+IQdVILzdNfusg
+         /+CbWhW0sIYF4E58zvDXhsJKmqxylNVjNsEH+21hgMZ7XstOhytTHmecE95/HynFmkvt
+         CivQtFxz+J+OH1R2+aBQd17epFuY13ES8/z5yWmhdUkN5aERqeSdeCjlU6U0CHKj1FYB
+         ewYQ==
+X-Gm-Message-State: ANhLgQ369AjN4hhSuGP7LwjCsV+mI35eJ6B/o+arl4kwX3NHCYCVl7fF
+        VXlob4ZxoQztdT/r11dIH9UGUvfczbagtdz/Eb6uOiJMpa0=
+X-Google-Smtp-Source: ADFU+vu6NWJHuK3TC1OVfoWKr8Ux8zaenhlStyU8kukkers9pzz+oLzD/jOnecsyJ9hKSHvRucPPHAcCM7FKUpdFab4=
+X-Received: by 2002:a63:4e22:: with SMTP id c34mr5151590pgb.263.1583255970960;
+ Tue, 03 Mar 2020 09:19:30 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ff08347-6d84-48bc-6171-08d7bf9566de
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2020 17:07:48.8969
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cNi7RzWCvnmF/PkCRMql9GpM//kuuIOapu2AqDPdWemlbdByc3sd5Jaug0zwt8X4ZQj32OxH4a0mhUBHBj03YQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR13MB1005
+References: <afbe367ccb7b9abcb9fab7bc5cb5e0686c105a53.1583250595.git.mchehab+huawei@kernel.org>
+ <e733111f3599dff96524ad09ace5204ac6bb496b.1583250595.git.mchehab+huawei@kernel.org>
+In-Reply-To: <e733111f3599dff96524ad09ace5204ac6bb496b.1583250595.git.mchehab+huawei@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 3 Mar 2020 09:19:19 -0800
+Message-ID: <CAKwvOdmHMjA3YepX6LNpFAAvPb1eikO0KcDG2J2JwyP690rk4Q@mail.gmail.com>
+Subject: Re: [PATCH 6/9] docs: translations: it: avoid duplicate refs at programming-language.rst
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> -----Original Message-----
-> From: Jonathan Corbet <corbet@lwn.net>
->=20
-> On Mon, 24 Feb 2020 18:34:41 -0700
-> tbird20d@gmail.com wrote:
->=20
-> > With Ubuntu 16.04 (and presumably Debian distros of the same age),
-> > the instructions for setting up a python virtual environment should
-> > do so with the python 3 interpreter.  On these older distros, the
-> > default python (and virtualenv command) might be python2 based.
-> >
-> > Some of the packages that sphinx relies on are now only available
-> > for python3.  If you don't specify the python3 interpreter for
-> > the virtualenv, you get errors when doing the pip installs for
-> > various packages
-> >
-> > Fix this by adding '-p python3' to the virtualenv recommendation
-> > line.
-> >
-> > Signed-off-by: Tim Bird <tim.bird@sony.com>
->=20
-> I've applied this, even though it feels a bit fragile to me.  But Python
-> stuff can be a bit that way, sometimes, I guess.
+On Tue, Mar 3, 2020 at 7:50 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> As the translations document is part of the main body, we can't
+> keep duplicated references there. So, prefix the Italian ones
+> with "it-".
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-I agree it seems a bit wonky.
-The less fragile approach would have been to just
-always add the '-p python3' option to the virtualenv setup hint,
-but Mauro seemed to want something more fine-tuned.
-As far as the string parsing goes, I think that the format of strings
-returned by lsb-release (and the predecesors that sphinx_pre_install
-checks) is unlikely to change.
+Recensito-da: Nick Desaulniers <ndesaulniers@google.com>
 
-Thanks for applying it.
- -- Tim
+> ---
+>  .../it_IT/process/programming-language.rst    | 30 +++++++++----------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+>
+> diff --git a/Documentation/translations/it_IT/process/programming-languag=
+e.rst b/Documentation/translations/it_IT/process/programming-language.rst
+> index f4b006395849..c4fc9d394c29 100644
+> --- a/Documentation/translations/it_IT/process/programming-language.rst
+> +++ b/Documentation/translations/it_IT/process/programming-language.rst
+> @@ -8,26 +8,26 @@
+>  Linguaggio di programmazione
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+>
+> -Il kernel =C3=A8 scritto nel linguaggio di programmazione C [c-language]=
+_.
+> -Pi=C3=B9 precisamente, il kernel viene compilato con ``gcc`` [gcc]_ usan=
+do
+> -l'opzione ``-std=3Dgnu89`` [gcc-c-dialect-options]_: il dialetto GNU
+> +Il kernel =C3=A8 scritto nel linguaggio di programmazione C [it-c-langua=
+ge]_.
+> +Pi=C3=B9 precisamente, il kernel viene compilato con ``gcc`` [it-gcc]_ u=
+sando
+> +l'opzione ``-std=3Dgnu89`` [it-gcc-c-dialect-options]_: il dialetto GNU
+>  dello standard ISO C90 (con l'aggiunta di alcune funzionalit=C3=A0 da C9=
+9)
+>
+> -Questo dialetto contiene diverse estensioni al linguaggio [gnu-extension=
+s]_,
+> +Questo dialetto contiene diverse estensioni al linguaggio [it-gnu-extens=
+ions]_,
+>  e molte di queste vengono usate sistematicamente dal kernel.
+>
+>  Il kernel offre un certo livello di supporto per la compilazione con ``c=
+lang``
+> -[clang]_ e ``icc`` [icc]_ su diverse architetture, tuttavia in questo mo=
+mento
+> +[it-clang]_ e ``icc`` [it-icc]_ su diverse architetture, tuttavia in que=
+sto momento
+>  il supporto non =C3=A8 completo e richiede delle patch aggiuntive.
+>
+>  Attributi
+>  ---------
+>
+>  Una delle estensioni pi=C3=B9 comuni e usate nel kernel sono gli attribu=
+ti
+> -[gcc-attribute-syntax]_. Gli attributi permettono di aggiungere una sema=
+ntica,
+> +[it-gcc-attribute-syntax]_. Gli attributi permettono di aggiungere una s=
+emantica,
+>  definita dell'implementazione, alle entit=C3=A0 del linguaggio (come le =
+variabili,
+>  le funzioni o i tipi) senza dover fare importanti modifiche sintattiche =
+al
+> -linguaggio stesso (come l'aggiunta di nuove parole chiave) [n2049]_.
+> +linguaggio stesso (come l'aggiunta di nuove parole chiave) [it-n2049]_.
+>
+>  In alcuni casi, gli attributi sono opzionali (ovvero un compilatore che =
+non
+>  dovesse supportarli dovrebbe produrre comunque codice corretto, anche se
+> @@ -41,11 +41,11 @@ possono usare e/o per accorciare il codice.
+>  Per maggiori informazioni consultate il file d'intestazione
+>  ``include/linux/compiler_attributes.h``.
+>
+> -.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
+> -.. [gcc] https://gcc.gnu.org
+> -.. [clang] https://clang.llvm.org
+> -.. [icc] https://software.intel.com/en-us/c-compilers
+> -.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-=
+Options.html
+> -.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
+> -.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-S=
+yntax.html
+> -.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
+> +.. [it-c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
+> +.. [it-gcc] https://gcc.gnu.org
+> +.. [it-clang] https://clang.llvm.org
+> +.. [it-icc] https://software.intel.com/en-us/c-compilers
+> +.. [it-gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Diale=
+ct-Options.html
+> +.. [it-gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.h=
+tml
+> +.. [it-gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribut=
+e-Syntax.html
+> +.. [it-n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
+> --
+> 2.24.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgi=
+d/clang-built-linux/e733111f3599dff96524ad09ace5204ac6bb496b.1583250595.git=
+.mchehab%2Bhuawei%40kernel.org.
 
 
+
+--=20
+Thanks,
+~Nick Desaulniers
