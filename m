@@ -2,154 +2,103 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF8F9C3F2DB
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:21:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22994C3F2C6
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 19:21:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C3CE021556
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:21:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E06612073B
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 19:21:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="FBoRlyCm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730034AbgCCRV2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 12:21:28 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:50095 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729786AbgCCRV2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 12:21:28 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j9BDx-0006cR-KJ; Tue, 03 Mar 2020 17:20:53 +0000
-Date:   Tue, 3 Mar 2020 18:20:52 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
-Message-ID: <20200303172052.fvqk4r7vbtxwo3ig@wittgenstein>
-References: <875zfmloir.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nmjulm.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003021531.C77EF10@keescook>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <20200303170109.y6q2acgydyzuh3mp@wittgenstein>
+        id S1729960AbgCCTVX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 14:21:23 -0500
+Received: from mout.gmx.net ([212.227.17.22]:35201 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729516AbgCCTVX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 14:21:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1583263278;
+        bh=z5MdokEfnohRClHDpHvNTwSEsQsAEZU56XPFTiszgjQ=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=FBoRlyCmC3WWcgtT3nbPmB3SkrAwUgVgkhxQabrxUhtoVAlJ5io97hAwd2Sq4tdw4
+         xxzrXF73hE+Pb8oHR3Ap89aWjGMmdHn3KaJWaJ9XXiWVZO3kqpvSqk9um1cVxpZd0/
+         L/leIqBK161YDttYGkrVDcoP3c0f0yegMjNfHxj4=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([5.146.195.177]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4QsY-1jXqki3JqQ-011RMb; Tue, 03
+ Mar 2020 20:21:18 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: management-style: Fix formatting of emphsized word
+Date:   Tue,  3 Mar 2020 20:21:12 +0100
+Message-Id: <20200303192113.20761-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200303170109.y6q2acgydyzuh3mp@wittgenstein>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:asG4HO3fQkYF44OwjHkqrNtzg8cnJIwXuYEfJr8bzc74H5Tm4iW
+ Itg01JLHuHBQr4bj3g75vJlPGFHTDuHToUuyStrii0XXY+i24phdtS5WVRisv18yHcTLJyO
+ ZwxY/XOEdKNyjqOt+QKw66f9+9c7Te9zUUWNs5PadfgciunW9JBVLOnyfljX7wEkL+PQ83N
+ Curd/Vxr2TkA/AZN+F5EA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pV+ZI0r+ksc=:vU9kIoEpyVXr0hx0sw8XSk
+ XvZA15e5OcwyyfI5saPPbL6dqml6csbcWtTcOXWqHifV/UX9cQd5EhIw8qrT45GHnU2VqvM+N
+ 8yto4nKmQ6RkZ6OVxXNRXEsHz4+krgQydJLpUJfWnb7RY9/0107mUBKh2QHNfrhMq6W/jiPuM
+ Vg0fQUAY49vnhm0e9KlOeUjSGWIeMDwUUx1G+ynv4hFbs9lCQw/3t6IrgcieFjwounOSxKop9
+ TZOzSBPc007bdsCZeMiBUyxnbuIDXbye2lIVWs4DhIsVV05e0XZzbuP4jnTAwVbg1s7MpCT/c
+ Hxkyy6UmEItzHt32LSbgktVkVY6hQknhjiTKa9JOHeGJT8syHR9bUBfHyDlQ90jl5hU2De+tp
+ M/E5GMtiiFyhG0kXIXQJlyL3Oug/n4wzIYH6shYAJpiVaQFEXoHFjyeiUpkecmP/LZMZVBtdk
+ 5t/khNIObkQkfvimOAI3NDBLFncUltqUjc+IVgHH6gF8ieEx0E384E0EzNHUyHtRlBDhT0Zbl
+ NCiuQvxU15JxGGGzexQhfCVUTgmzEsYJ5PWHcaRAkePuoFXIbmp2Pfw0b0a8wP/3WDwWv1x67
+ LuDwWW5Yd43s8GKFHS/4qXb6CBZdmMM4FWmodKK1B1RJ5oAkY67BLD8o+JkmnrXcdirImJ3n6
+ Z4hepjw66obHkmfA5KqqS+I5nM0Aum37gU1y3Jkvm4kCpgtonnh9cSl1W8U7LNIzq5HJZ7uoW
+ I7UO1j5ibisTOOLZxtyYvD6skz95F2kOAFtkobobKBv0dbOoC0vC7uUskLbrXFm2rEJm7kPax
+ 72et1WwaizQBxrCWPa4Aneq9cOgZq/JkvuW2iykpkKzmJmzWetNvzEZqGErZnV4hpY2BglkdS
+ Gb9QCrXVQ//QSQw+ZCMXjitG1MyI3ICJVdu/xoy//uKgln5R1pGwWFElEwhnsiGU7zH3tmyK7
+ FbHzMVgOCjJas4SQ84qFHbohZii6FAnrgLGjOAZdag8rfhnO09QusQpMXlJxMdqrb1AEtFGYl
+ BpfZkd7dNNA8a+5qai3eJWaFgUt98CzW3NOaAUKLcn3w3kXJHBPNqfTPYSNuN11ZsDuguhoL5
+ iBFqkBRf+dq3Em/QXs5aDD8WIcEJRgsH4XxS3kT6npJlmdr9lwDlO35kR2GJW7ERUJhjX4KZ9
+ vTwIsxxgLc+2Df8LMlE3V26J8BvmUk6COpD0h66zcYDWdZ0d4Bsu8ec2mTlRaInUkKRKTKzfL
+ jH4cnoc/vmHja/tBx
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 06:01:11PM +0100, Christian Brauner wrote:
-> On Tue, Mar 03, 2020 at 04:48:01PM +0000, Bernd Edlinger wrote:
-> > On 3/3/20 4:18 PM, Eric W. Biederman wrote:
-> > > Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
-> > > 
-> > >> This fixes a deadlock in the tracer when tracing a multi-threaded
-> > >> application that calls execve while more than one thread are running.
-> > >>
-> > >> I observed that when running strace on the gcc test suite, it always
-> > >> blocks after a while, when expect calls execve, because other threads
-> > >> have to be terminated.  They send ptrace events, but the strace is no
-> > >> longer able to respond, since it is blocked in vm_access.
-> > >>
-> > >> The deadlock is always happening when strace needs to access the
-> > >> tracees process mmap, while another thread in the tracee starts to
-> > >> execve a child process, but that cannot continue until the
-> > >> PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
-> > > 
-> > > A couple of things.
-> > > 
-> > > Why do we think it is safe to change the behavior exposed to userspace?
-> > > Not the deadlock but all of the times the current code would not
-> > > deadlock?
-> > > 
-> > > Especially given that this is a small window it might be hard for people
-> > > to track down and report so we need a strong argument that this won't
-> > > break existing userspace before we just change things.
-> > > 
-> > 
-> > Hmm, I tend to agree.
-> > 
-> > > Usually surveying all of the users of a system call that we can find
-> > > and checking to see if they might be affected by the change in behavior
-> > > is difficult enough that we usually opt for not being lazy and
-> > > preserving the behavior.
-> > > 
-> > > This patch is up to two changes in behavior now, that could potentially
-> > > affect a whole array of programs.  Adding linux-api so that this change
-> > > in behavior can be documented if/when this change goes through.
-> > > 
-> > 
-> > One is PTRACE_ACCESS possibly returning EAGAIN, yes.
-> > 
-> > We could try to restrict that behavior change to when any
-> > thread is ptraced when execve starts, can't be too complicated.
-> > 
-> > 
-> > But the other is only SYS_seccomp returning EAGAIN, when a different
-> > thread of the current process is calling execve at the same time.
-> > 
-> > I would consider it completely impossible to have any user-visual effect,
-> > since de_thread is just terminating all threads, including the thread
-> > where the -EAGAIN was returned, so we will never know what happened.
-> 
-> I think if we risk a user-space facing change we should try the simple
-> thing first before making the fix more convoluted? But it's a tough
-> call...
+Commit 7f2b3c65b9a1 ("Documentation/ManagementStyle: convert it to ReST
+markup") converted _underlined_ to *emphasized* words, but forgot about
+an underscore in this case.
 
-Actually, to get a _rough_ estimate of the possible impact I would
-recommend you run the criu test suite (and possible the strace
-test-suite) on a kernel with and without your fix. That's what I tend to
-do when I touch code I fear will have impact on APIs that very deeply
-touch core kernel. Criu's test-suite makes heavy use of ptrace and
-usually runs into a bunch of interesting (exec) races too, and does have
-tests for handling zombies processes etc. pp.
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/process/management-style.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Should be relatively simple: create a vm and then criu build-dependencies,
-git clone criu; cd criu; make; cd test; ./zdtm.py run -a --keep-going
-If your system doesn't support Selinux properly, you need to disable it
-when running the tests and you also need to make sure that you're using
-python3 or change the shebang in zdtm.py to python3.
+diff --git a/Documentation/process/management-style.rst b/Documentation/pr=
+ocess/management-style.rst
+index 186753ff3d2d..dfbc69bf49d4 100644
+=2D-- a/Documentation/process/management-style.rst
++++ b/Documentation/process/management-style.rst
+@@ -227,7 +227,7 @@ incompetence will grudgingly admit that you at least d=
+idn't try to weasel
+ out of it.
 
-Just a recommendation.
+ Then make the developer who really screwed up (if you can find them) know
+-**in_private** that they screwed up.  Not just so they can avoid it in th=
+e
++**in private** that they screwed up.  Not just so they can avoid it in th=
+e
+ future, but so that they know they owe you one.  And, perhaps even more
+ importantly, they're also likely the person who can fix it.  Because, let=
+'s
+ face it, it sure ain't you.
+=2D-
+2.20.1
 
-Christian
