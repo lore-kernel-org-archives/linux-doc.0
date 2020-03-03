@@ -2,125 +2,162 @@ Return-Path: <SRS0=Succ=4U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC96BC3F2D7
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:58:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A1D1C3F2C6
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:01:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E4DE20838
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 16:58:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DEDEE2073B
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 17:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583254875;
+	bh=M8qxYvgQXX14YLcGf+b9l7zWzEL047vLx9YwgV80qkY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=WT7DvyjrWRYYGupir4TvttlVHXW1uNZCkXIEKoEC9HVTMsUmzXpQNhVV21BzkBls0
+	 FPUDH/QraA9MIKGRDYW1VZtOMp9EtuDXwnMcfBjXBWMttGEnnFPZfTHlL2IOKPRSY+
+	 XxOhrueIdesht3VRxzA/1+3o5dz1fiomB8h9KwCA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730452AbgCCQ6v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 11:58:51 -0500
-Received: from foss.arm.com ([217.140.110.172]:49756 "EHLO foss.arm.com"
+        id S1727879AbgCCRBP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 12:01:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57274 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727077AbgCCQ6u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Mar 2020 11:58:50 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E68952F;
-        Tue,  3 Mar 2020 08:58:49 -0800 (PST)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.71])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C2583F534;
-        Tue,  3 Mar 2020 08:58:47 -0800 (PST)
-Date:   Tue, 3 Mar 2020 16:58:45 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Ionela Voinescu <ionela.voinescu@arm.com>
-Cc:     will@kernel.org, mark.rutland@arm.com, maz@kernel.org,
-        suzuki.poulose@arm.com, sudeep.holla@arm.com, lukasz.luba@arm.com,
-        valentin.schneider@arm.com, dietmar.eggemann@arm.com,
-        rjw@rjwysocki.net, pkondeti@codeaurora.org, peterz@infradead.org,
-        mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v5 1/7] arm64: add support for the AMU extension v1
-Message-ID: <20200303165845.GF823373@arrakis.emea.arm.com>
-References: <20200226132947.29738-1-ionela.voinescu@arm.com>
- <20200226132947.29738-2-ionela.voinescu@arm.com>
- <20200228103234.GA3904776@arrakis.emea.arm.com>
- <20200302142326.GA15709@arm.com>
+        id S1727077AbgCCRBP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 12:01:15 -0500
+Received: from onda.lan (ip-109-40-2-133.web.vodafone.de [109.40.2.133])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D98C42073B;
+        Tue,  3 Mar 2020 17:01:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583254874;
+        bh=M8qxYvgQXX14YLcGf+b9l7zWzEL047vLx9YwgV80qkY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Ij4l8jdmw3wvTqvzDeg4XCG0yQ/8CNU3l6XB0WknejV9BHw7CN7/PryP49fNkSByc
+         QJHqbfwsD+82fRjGFSui6SLFqGTUmMa9y3MSTYCX/5Xt+qEnNVOM9zpjk2JcERiD6d
+         7jJ8XMod4+mmrSYonMkS+j+q23vqR3BUsH1n+wEk=
+Date:   Tue, 3 Mar 2020 18:01:09 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 00/12] Convert some DT documentation files to ReST
+Message-ID: <20200303180109.670ad7f8@onda.lan>
+In-Reply-To: <CAL_JsqKsZNFDSsZJ+wzgD1Eaf0fBwZ7BeUv=32jAuE29TeRfnA@mail.gmail.com>
+References: <cover.1583135507.git.mchehab+huawei@kernel.org>
+        <20200302123554.08ac0c34@lwn.net>
+        <20200303080947.5f381004@onda.lan>
+        <CAL_JsqKsZNFDSsZJ+wzgD1Eaf0fBwZ7BeUv=32jAuE29TeRfnA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200302142326.GA15709@arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 02, 2020 at 02:23:26PM +0000, Ionela Voinescu wrote:
-> On Friday 28 Feb 2020 at 10:32:34 (+0000), Catalin Marinas wrote:
-> > On Wed, Feb 26, 2020 at 01:29:41PM +0000, Ionela Voinescu wrote:
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index dbc22d684627..49f0c436928f 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -318,6 +318,15 @@
-> > >  			Format: <a>,<b>
-> > >  			See also Documentation/input/joydev/joystick.rst
+Em Tue, 3 Mar 2020 10:20:25 -0600
+Rob Herring <robh@kernel.org> escreveu:
+
+> On Tue, Mar 3, 2020 at 1:09 AM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> >
+> > Em Mon, 2 Mar 2020 12:35:54 -0700
+> > Jonathan Corbet <corbet@lwn.net> escreveu:
+> >  
+> > > On Mon,  2 Mar 2020 08:59:25 +0100
+> > > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > > >  
-> > > +	amu=		[ARM64]
-> > > +			Enables or disables detection, enablement and access to
-> > > +			counter registers of the Activity Monitors Unit (AMU).
-> > > +			Format: amu=[0/1/on/off/y/n]
-> > > +			amu=[0/off/n] ensures access to AMU's counter registers
-> > > +				      is not attempted.
-> > > +			amu=[1/on/y] (default) enables detection and access to
-> > > +				     AMU's counter registers.
-> > 
-> > Is the only reason for this parameter to be able to disable the feature
-> > if the firmware doesn't support it? According to the Kconfig entry, you
-> > may see weird behaviour, firmware lock-up. Is the user supposed to try
-> > again with amu=0?
-> > 
-> > I'm not particularly fond of adding kernel parameters to work around
-> > broken firmware. We have other architecture features (e.g. PtrAuth) that
-> > need enabling at EL3 but we don't have such parameters. If it's likely
-> > that we hit this issue in practice, I'd rather have the firmware
-> > describing the presence of AMU via some DT entry. But I'd rather not
-> > bother at all, just get the vendors to update their firmware.
+> > > > While most of the devicetree stuff has its own format (with is now being
+> > > > converted to YAML format), some documents there are actually
+> > > > describing the DT concepts and how to contribute to it.
+> > > >
+> > > > IMHO, those documents would fit perfectly as part of the documentation
+> > > > body, as part of the firmare documents set.
+> > > >
+> > > > This patch series manually converts some DT documents that, on my
+> > > > opinion, would belong to it.  
+> > >
+> > > Did you consider putting this stuff into the firmware-guide while you were
+> > > at it?  It's not a perfect fit, I guess, but it doesn't seem too awkward
+> > > either.  
+> >
+> > I placed it just below the firmware-guide at the main index file.
+> >
+> > I have split thoughts about moving the files to there, though. From
+> > one side, it may fit better from the PoV of organizing the documentation.
+> >
+> > From other side, newcomers working with DT may expect looking at the
+> > text files inside Documentation/devicetree/.
+> >
+> > Maybe I could add an extra patch at the end of this series with the
+> > move, adding a "RFC" on his title. This way, we can better discuss it,
+> > and either merge the last one or not depending on the comments.  
 > 
-> The firmware is supposed to do three actions for the kernel to be able
-> to use the counters: enable access to EL2/EL1, enable the counters and
-> save/restore the counters before/after core-off.
-[...]
-> Therefore, the amu kernel parameter is not only there if the firmware
-> does not support AMU, but it's also there if the firmware support is
-> broken/improper. The kernel parameter was added at Suzuki's
-> recommendation to be able to bypass its use in single kernels that are
-> meant to run on multiple platforms.
+> Keep in mind that we generate a standalone DT only tree[1] with the
+> documentation, dts files and headers. So things should be structured
+> such that all the DT documentation could be built by itself without
+> dependencies on the 'kernel documentation'. I'm not asking for that to
+> be done in this series, but just don't do anything to make that
+> harder. I don't *think* have, but just want to make sure that's clear.
 
-Single kernel images are supposed to run on multiple platforms while
-using the same command line arguments.
+So, I guess it is better to keep the .rst files under Documentation/devicetree,
+instead of moving them to Documentation/firmware-guide.
 
-There are many other ways firmware can screw up but I'm not keen on
-working on such assumption and preemptively adding options to ignore CPU
-features.
+Well, if moved, I guess it would be easy to modify the scripts that produce
+the documentation to also parse something a new directory inside
+Documentation/firmware-guide.
 
-> I also believe this is nice to have even for platforms that properly
-> support AMU, but they might not want the use of the feature in the
-> kernel.
-
-Are there any downsides to this feature? If you want it for testing
-purposes, i.e. different scheduler behaviour, fine by me but I'd change
-the text in the Kconfig to not even imply that firmware is allowed to be
-broken as we have a workaround in the kernel.
-
-> > If we drop this parameter, patch 1 would need to change. Otherwise the
-> > patches look fine.
 > 
-> This being said, I agree this was added as a 'just in case' and not as
-> support for a likely scenario, therefore, I don't fully disagree to drop
-> it for now.
+> > > It also seems like it would be good to CC the devicetree folks, or at
+> > > least the devicetree mailing list?  
+> 
+> I was wondering what happened to the cover letter on v2...
+> 
+> > Yeah, that would make sense. I'm using get-maintainers script to
+> > prepare the c/c list, as it is simply too much work to find the
+> > right maintainers by hand, for every single patch.
+> >
+> > I just noticed today that there's just *one entry* at MAINTAINERS
+> > file for Documentation/devicetree, and that points to you:
+> >
+> >         DOCUMENTATION
+> >         M:      Jonathan Corbet <corbet@lwn.net>
+> >         L:      linux-doc@vger.kernel.org
+> >         S:      Maintained
+> >         F:      Documentation/
+> >         F:      scripts/documentation-file-ref-check
+> >         F:      scripts/kernel-doc
+> >         F:      scripts/sphinx-pre-install
+> >         X:      Documentation/ABI/
+> >         X:      Documentation/firmware-guide/acpi/
+> >         X:      Documentation/devicetree/  
+> 
+> You mean doesn't point to Jon as 'X' is exclude. You missed this entry:
+> 
+> OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
+> M:      Rob Herring <robh+dt@kernel.org>
+> M:      Mark Rutland <mark.rutland@arm.com>
+> L:      devicetree@vger.kernel.org
+> T:      git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+> Q:      http://patchwork.ozlabs.org/project/devicetree-bindings/list/
+> S:      Maintained
+> F:      Documentation/devicetree/
+> F:      arch/*/boot/dts/
+> F:      include/dt-bindings/
 
-If you need it for testing different scheduler behaviours, maybe
-big.LITTLE where AMU is only supported on some CPUs, than keep it. If
-it's only on the assumption that the firmware may be broken, please
-remove it.
+Yeah, I remember I saw something like the above in the past. However,
+I'm not seeing this entry at the MAINTAINERS file at next-20200303 anymore.
 
-Thanks.
+Did someone removed such entry?
 
--- 
-Catalin
+> 
+> 
+> Rob
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/devicetree/devicetree-rebasing.git/
