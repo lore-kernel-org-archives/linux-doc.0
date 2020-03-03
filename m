@@ -7,52 +7,50 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECBB7C3F2D9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F0CBC3F2D8
 	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 15:50:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BA55220866
+	by mail.kernel.org (Postfix) with ESMTP id 5BF7820828
 	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 15:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1583250651;
-	bh=PyKCDooU4KzQOkbDDZXq892AnX71lclOSwV9wlmYVO0=;
+	bh=+shblSsqCNpI+F1Vxv+7A0G+8FOQYxCRqXy2XQEABdI=;
 	h=From:Cc:Subject:Date:In-Reply-To:References:To:List-ID:From;
-	b=AOYg3DdIelXis6tT9cMlpJ3uUleEzQMdRxw5/C2jWldR8UXeCvn6VeD3jWGRMpHt7
-	 QoZBkxPaT6HHx5v1/hO/rEUX7dnDGrjoX0k9sZIMaKoNOyDUebG2piV1PUkPklelKj
-	 LFyKUIFmQgn5mqS6QJ44ObgpOC0EIsAqPTBt5HkU=
+	b=oCIuqFdhawHg8SWCRNjhTz/XYJYT9SQByGllYJfU8jaeLDxrfmGZ7NtZt8F63rigy
+	 Z6T82Zshg5I/orJ1KTSDQ+I1CZ2FUIa4HB7VcNylTn70althf7j118lw7lsGWBmfq/
+	 P3wHp/D2whH/frMJKeYB0moIcWUw0T9kpC+IxxD0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730242AbgCCPuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 10:50:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60066 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730245AbgCCPuu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729099AbgCCPuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 3 Mar 2020 10:50:50 -0500
-Received: from mail.kernel.org (tmo-101-56.customers.d1-online.com [80.187.101.56])
+Received: from mail.kernel.org ([198.145.29.99]:60028 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730242AbgCCPuu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 10:50:50 -0500
+Received: from mail.kernel.org (ip-109-40-2-133.web.vodafone.de [109.40.2.133])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1BC7521741;
-        Tue,  3 Mar 2020 15:50:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C49A6206E2;
+        Tue,  3 Mar 2020 15:50:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583250650;
-        bh=PyKCDooU4KzQOkbDDZXq892AnX71lclOSwV9wlmYVO0=;
+        bh=+shblSsqCNpI+F1Vxv+7A0G+8FOQYxCRqXy2XQEABdI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mY2zVi/2UJK8rPzJbpBPpMZUN48qXP3MFxbHZpeInZ1W52behvVDlAAQDY6SpvpGY
-         l1Mc7YQhchvIzchQAMf6IFu8bHgggSiNzFwWBTHG5pIdM3OJawzM5/y0THK+FK38TY
-         9dT7tNnwnmFHqrYThmLPGjZ4gTeTGt/mky/K0YOE=
+        b=jezWVwCYJ1CLqc9CuTO65ctCrb1XuK1y7eR0tc6Q4UMwfwbtsO3bzkFJJw+Kq3CRN
+         HIL1e86bEf4MEiddlX0f08ghL04bWyd7xGvmp5+Bto2RcoZVfbz9nFATFMLP/HEL6z
+         ocGJNgFM3VKJky+HCV/BI0dwA7X0jF7+66abqwEA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1j99og-001ZPA-KL; Tue, 03 Mar 2020 16:50:42 +0100
+        id 1j99og-001ZOu-G7; Tue, 03 Mar 2020 16:50:42 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Frank Li <Frank.li@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: [PATCH 8/9] docs: perf: imx-ddr.rst: get rid of a warning
-Date:   Tue,  3 Mar 2020 16:50:38 +0100
-Message-Id: <b27b54bd4f847032fd33313d6497ff320c0f3d78.1583250595.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        Saravana Kannan <saravanak@google.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 4/9] docs: driver.rst: supress two ReSt warnings
+Date:   Tue,  3 Mar 2020 16:50:34 +0100
+Message-Id: <8356b02547087979f57cb71fbefb5e5f636c78f4.1583250595.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <afbe367ccb7b9abcb9fab7bc5cb5e0686c105a53.1583250595.git.mchehab+huawei@kernel.org>
 References: <afbe367ccb7b9abcb9fab7bc5cb5e0686c105a53.1583250595.git.mchehab+huawei@kernel.org>
@@ -64,27 +62,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-    Documentation/admin-guide/perf/imx-ddr.rst:47: WARNING: Unexpected indentation.
+Get rid of those, by marking a literal block as such:
+
+	Documentation/driver-api/gpio/driver.rst:425: WARNING: Unexpected indentation.
+	Documentation/driver-api/gpio/driver.rst:423: WARNING: Inline emphasis start-string without end-string.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/perf/imx-ddr.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/driver-api/driver-model/driver.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/perf/imx-ddr.rst b/Documentation/admin-guide/perf/imx-ddr.rst
-index 3726a10a03ba..f05f56c73b7d 100644
---- a/Documentation/admin-guide/perf/imx-ddr.rst
-+++ b/Documentation/admin-guide/perf/imx-ddr.rst
-@@ -43,7 +43,8 @@ value 1 for supported.
+diff --git a/Documentation/driver-api/driver-model/driver.rst b/Documentation/driver-api/driver-model/driver.rst
+index baa6a85c8287..63887b813005 100644
+--- a/Documentation/driver-api/driver-model/driver.rst
++++ b/Documentation/driver-api/driver-model/driver.rst
+@@ -210,7 +210,7 @@ probed.
+ While the typical use case for sync_state() is to have the kernel cleanly take
+ over management of devices from the bootloader, the usage of sync_state() is
+ not restricted to that. Use it whenever it makes sense to take an action after
+-all the consumers of a device have probed.
++all the consumers of a device have probed::
  
-   AXI_ID and AXI_MASKING are mapped on DPCR1 register in performance counter.
-   When non-masked bits are matching corresponding AXI_ID bits then counter is
--  incremented. Perf counter is incremented if
-+  incremented. Perf counter is incremented if::
-+
-         AxID && AXI_MASKING == AXI_ID && AXI_MASKING
+ 	int 	(*remove)	(struct device *dev);
  
-   This filter doesn't support filter different AXI ID for axid-read and axid-write
 -- 
 2.24.1
 
