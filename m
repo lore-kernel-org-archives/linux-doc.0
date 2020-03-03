@@ -7,48 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B59C3C3F2DD
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:59:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAB0DC3F2E0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:59:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8D7AF20863
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:59:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AFCB2086A
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 13:59:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583243976;
-	bh=VCLZmy+ZW2tXSdrfWO+nS8XBzQHmJ+8yirLCEp0Uv0E=;
+	s=default; t=1583243977;
+	bh=n5eLoOtL72gKFNBY2Rei8OO/i/tfcHqYg2Jcx94B2HA=;
 	h=From:Cc:Subject:Date:In-Reply-To:References:To:List-ID:From;
-	b=YzQm3YWTns6rtuxZUEDYF6+Q9Ohdm5M35EdvOjOAzgm7QA3iZXWZ4H8dV+GBoCZwa
-	 k4K454fHCHYK32oVUYAdpJ7cTpDQJC1gJ6ZKXoQ0NLwJbZ3/Hx4fqbxM653wIDVUnE
-	 OQ6R2mhJILZFp3ENG/GmwRaJfI7TLvap+UBCohlY=
+	b=lvO11cdiVP/f40pSlH2Z7jRYGVrh/viHqpNyie3YIwEeNhjdocfitZJcMcdYEqEIC
+	 B9n6kfCmzwRb387Xk+suBqra51+ZXpFXQU4pvTwDKTYAMd5y27U9ZpWt8iUDzWzpqT
+	 Nn6p91PJppDSGRQaIO0eeX16/Y9zxwzZ2g3FnFR4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729340AbgCCN7g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727990AbgCCN7g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 3 Mar 2020 08:59:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45632 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:45728 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729349AbgCCN7f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Mar 2020 08:59:35 -0500
-Received: from mail.kernel.org (tmo-101-56.customers.d1-online.com [80.187.101.56])
+        id S1729364AbgCCN7g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 08:59:36 -0500
+Received: from mail.kernel.org (ip-109-40-2-133.web.vodafone.de [109.40.2.133])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9DC7821556;
+        by mail.kernel.org (Postfix) with ESMTPSA id C792821775;
         Tue,  3 Mar 2020 13:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583243973;
-        bh=VCLZmy+ZW2tXSdrfWO+nS8XBzQHmJ+8yirLCEp0Uv0E=;
+        s=default; t=1583243974;
+        bh=n5eLoOtL72gKFNBY2Rei8OO/i/tfcHqYg2Jcx94B2HA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MTHxLYrbQIw6LLdv/srCr3OYQTiFnkIcyTT17Fb18of8ayfIMNnN/NeertSO4EDUk
-         aNmtuLg8RjWYJyXQSHJdSz+d4lCA0pUcGBHtkUbURAl87oqpACjXeUS9MbgsBbEIrd
-         Ef3+EFF+AxDnF8YekXmzeAPLmFg6lYAa/5y5Ce80=
+        b=UrfO4at/0uNiyedR7AS/oeWUA1qJLf6AxVxedDPCBEDpo7WHk/rh7HSIAcqU1Uj8Y
+         R5ZtyK/9kLB1TaDMYIcz4OzYus1pAEHV39w29N1oJETSBjnSSqHzHsT86GsN8ppZWi
+         vgM6XqxktTLz00L/OW4nTeFgWsQW88et5bfulXao=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1j9850-001Ydg-Fm; Tue, 03 Mar 2020 14:59:26 +0100
+        id 1j9850-001Ydv-J3; Tue, 03 Mar 2020 14:59:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-sh@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v3 12/18] docs: pci: endpoint/function/binding/pci-test.txt convert to ReST
-Date:   Tue,  3 Mar 2020 14:59:19 +0100
-Message-Id: <1f1f59eb9df5e50f0dc8648122c93177ca347c97.1583243826.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 15/18] docs: sh: convert new-machine.txt to ReST
+Date:   Tue,  3 Mar 2020 14:59:22 +0100
+Message-Id: <504eee30e551469d3475bf1bc080abeb21fa7871.1583243826.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1583243826.git.mchehab+huawei@kernel.org>
 References: <cover.1583243826.git.mchehab+huawei@kernel.org>
@@ -60,98 +61,313 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert this file to ReST by adding a proper title to it and
-use the right markups for a table.
-
-While here, add a SPDX header.
+- Add a SPDX header;
+- Adjust document title to follow ReST style;
+- Mark literal blocks as such;
+- Mark a table as such;
+- Add it to sh/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../endpoint/function/binding/pci-test.rst    | 26 +++++++++++++++++++
- .../endpoint/function/binding/pci-test.txt    | 19 --------------
- Documentation/PCI/endpoint/index.rst          |  2 ++
- .../misc-devices/pci-endpoint-test.rst        |  2 +-
- 4 files changed, 29 insertions(+), 20 deletions(-)
- create mode 100644 Documentation/PCI/endpoint/function/binding/pci-test.rst
- delete mode 100644 Documentation/PCI/endpoint/function/binding/pci-test.txt
+ Documentation/sh/index.rst                    |   5 +
+ .../sh/{new-machine.txt => new-machine.rst}   | 195 +++++++++---------
+ 2 files changed, 106 insertions(+), 94 deletions(-)
+ rename Documentation/sh/{new-machine.txt => new-machine.rst} (73%)
 
-diff --git a/Documentation/PCI/endpoint/function/binding/pci-test.rst b/Documentation/PCI/endpoint/function/binding/pci-test.rst
-new file mode 100644
-index 000000000000..57ee866fb165
---- /dev/null
-+++ b/Documentation/PCI/endpoint/function/binding/pci-test.rst
-@@ -0,0 +1,26 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================
-+PCI Test Endpoint Function
-+==========================
-+
-+name: Should be "pci_epf_test" to bind to the pci_epf_test driver.
-+
-+Configurable Fields:
-+
-+================   ===========================================================
-+vendorid	   should be 0x104c
-+deviceid	   should be 0xb500 for DRA74x and 0xb501 for DRA72x
-+revid		   don't care
-+progif_code	   don't care
-+subclass_code	   don't care
-+baseclass_code	   should be 0xff
-+cache_line_size	   don't care
-+subsys_vendor_id   don't care
-+subsys_id	   don't care
-+interrupt_pin	   Should be 1 - INTA, 2 - INTB, 3 - INTC, 4 -INTD
-+msi_interrupts	   Should be 1 to 32 depending on the number of MSI interrupts
-+		   to test
-+msix_interrupts	   Should be 1 to 2048 depending on the number of MSI-X
-+		   interrupts to test
-+================   ===========================================================
-diff --git a/Documentation/PCI/endpoint/function/binding/pci-test.txt b/Documentation/PCI/endpoint/function/binding/pci-test.txt
-deleted file mode 100644
-index cd76ba47394b..000000000000
---- a/Documentation/PCI/endpoint/function/binding/pci-test.txt
-+++ /dev/null
-@@ -1,19 +0,0 @@
--PCI TEST ENDPOINT FUNCTION
--
--name: Should be "pci_epf_test" to bind to the pci_epf_test driver.
--
--Configurable Fields:
--vendorid	 : should be 0x104c
--deviceid	 : should be 0xb500 for DRA74x and 0xb501 for DRA72x
--revid		 : don't care
--progif_code	 : don't care
--subclass_code	 : don't care
--baseclass_code	 : should be 0xff
--cache_line_size	 : don't care
--subsys_vendor_id : don't care
--subsys_id	 : don't care
--interrupt_pin	 : Should be 1 - INTA, 2 - INTB, 3 - INTC, 4 -INTD
--msi_interrupts	 : Should be 1 to 32 depending on the number of MSI interrupts
--		   to test
--msix_interrupts	 : Should be 1 to 2048 depending on the number of MSI-X
--		   interrupts to test
-diff --git a/Documentation/PCI/endpoint/index.rst b/Documentation/PCI/endpoint/index.rst
-index d114ea74b444..4ca7439fbfc9 100644
---- a/Documentation/PCI/endpoint/index.rst
-+++ b/Documentation/PCI/endpoint/index.rst
-@@ -11,3 +11,5 @@ PCI Endpoint Framework
-    pci-endpoint-cfs
-    pci-test-function
-    pci-test-howto
-+
-+   function/binding/pci-test
-diff --git a/Documentation/misc-devices/pci-endpoint-test.rst b/Documentation/misc-devices/pci-endpoint-test.rst
-index 26e5d9ba146b..4cf3f4433be7 100644
---- a/Documentation/misc-devices/pci-endpoint-test.rst
-+++ b/Documentation/misc-devices/pci-endpoint-test.rst
-@@ -53,4 +53,4 @@ ioctl
- 	      Perform read tests. The size of the buffer should be passed
- 	      as argument.
+diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
+index bc8db7ba894a..56c08790265d 100644
+--- a/Documentation/sh/index.rst
++++ b/Documentation/sh/index.rst
+@@ -4,6 +4,11 @@ SuperH Interfaces Guide
  
--.. [1] Documentation/PCI/endpoint/function/binding/pci-test.txt
-+.. [1] Documentation/PCI/endpoint/function/binding/pci-test.rst
+ :Author: Paul Mundt
+ 
++.. toctree::
++    :maxdepth: 1
++
++    new-machine
++
+ Memory Management
+ =================
+ 
+diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
+similarity index 73%
+rename from Documentation/sh/new-machine.txt
+rename to Documentation/sh/new-machine.rst
+index e0961a66130b..e501c52b3b30 100644
+--- a/Documentation/sh/new-machine.txt
++++ b/Documentation/sh/new-machine.rst
+@@ -1,6 +1,8 @@
++.. SPDX-License-Identifier: GPL-2.0
+ 
+-                Adding a new board to LinuxSH
+-               ================================
++=============================
++Adding a new board to LinuxSH
++=============================
+ 
+                Paul Mundt <lethal@linux-sh.org>
+ 
+@@ -19,65 +21,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
+ companion chip type, and CPU type. Looking at a tree view of this directory
+ hierarchy looks like the following:
+ 
+-Board-specific code:
++Board-specific code::
+ 
+-.
+-|-- arch
+-|   `-- sh
+-|       `-- boards
+-|           |-- adx
+-|           |   `-- board-specific files
+-|           |-- bigsur
+-|           |   `-- board-specific files
+-|           |
+-|           ... more boards here ...
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- adx
+-        |   `-- board-specific headers
+-        |-- bigsur
+-        |   `-- board-specific headers
+-        |
+-	.. more boards here ...
++    .
++    |-- arch
++    |   `-- sh
++    |       `-- boards
++    |           |-- adx
++    |           |   `-- board-specific files
++    |           |-- bigsur
++    |           |   `-- board-specific files
++    |           |
++    |           ... more boards here ...
++    |
++    `-- include
++	`-- asm-sh
++	    |-- adx
++	    |   `-- board-specific headers
++	    |-- bigsur
++	    |   `-- board-specific headers
++	    |
++	    .. more boards here ...
+ 
+-Next, for companion chips:
+-.
+-`-- arch
+-    `-- sh
+-        `-- cchips
+-            `-- hd6446x
+-                `-- hd64461
+-                    `-- cchip-specific files
++Next, for companion chips::
++
++    .
++    `-- arch
++	`-- sh
++	    `-- cchips
++		`-- hd6446x
++		    `-- hd64461
++			`-- cchip-specific files
+ 
+ ... and so on. Headers for the companion chips are treated the same way as
+ board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
+ hd64461-specific headers.
+ 
+-Finally, CPU family support is also abstracted:
+-.
+-|-- arch
+-|   `-- sh
+-|       |-- kernel
+-|       |   `-- cpu
+-|       |       |-- sh2
+-|       |       |   `-- SH-2 generic files
+-|       |       |-- sh3
+-|       |       |   `-- SH-3 generic files
+-|       |       `-- sh4
+-|       |           `-- SH-4 generic files
+-|       `-- mm
+-|           `-- This is also broken out per CPU family, so each family can
+-|               have their own set of cache/tlb functions.
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- cpu-sh2
+-        |   `-- SH-2 specific headers
+-        |-- cpu-sh3
+-        |   `-- SH-3 specific headers
+-        `-- cpu-sh4
+-            `-- SH-4 specific headers
++Finally, CPU family support is also abstracted::
++
++    .
++    |-- arch
++    |   `-- sh
++    |       |-- kernel
++    |       |   `-- cpu
++    |       |       |-- sh2
++    |       |       |   `-- SH-2 generic files
++    |       |       |-- sh3
++    |       |       |   `-- SH-3 generic files
++    |       |       `-- sh4
++    |       |           `-- SH-4 generic files
++    |       `-- mm
++    |           `-- This is also broken out per CPU family, so each family can
++    |               have their own set of cache/tlb functions.
++    |
++    `-- include
++	`-- asm-sh
++	    |-- cpu-sh2
++	    |   `-- SH-2 specific headers
++	    |-- cpu-sh3
++	    |   `-- SH-3 specific headers
++	    `-- cpu-sh4
++		`-- SH-4 specific headers
+ 
+ It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
+ need to be dealt with by the CPU family specific code.
+@@ -110,33 +114,33 @@ arch/sh/boards and the include/asm-sh/ hierarchy. In order to better
+ explain this, we use some examples for adding an imaginary board. For
+ setup code, we're required at the very least to provide definitions for
+ get_system_type() and platform_setup(). For our imaginary board, this
+-might look something like:
++might look something like::
+ 
+-/*
+- * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
+- */
+-#include <linux/init.h>
++    /*
++    * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
++    */
++    #include <linux/init.h>
+ 
+-const char *get_system_type(void)
+-{
+-	return "FooTech Vaporboard";
+-}
++    const char *get_system_type(void)
++    {
++	    return "FooTech Vaporboard";
++    }
+ 
+-int __init platform_setup(void)
+-{
+-  	/*
+-	 * If our hardware actually existed, we would do real
+-	 * setup here. Though it's also sane to leave this empty
+-	 * if there's no real init work that has to be done for
+-	 * this board.
+-	 */
++    int __init platform_setup(void)
++    {
++	    /*
++	    * If our hardware actually existed, we would do real
++	    * setup here. Though it's also sane to leave this empty
++	    * if there's no real init work that has to be done for
++	    * this board.
++	    */
+ 
+-	/* Start-up imaginary PCI ... */
++	    /* Start-up imaginary PCI ... */
+ 
+-	/* And whatever else ... */
++	    /* And whatever else ... */
+ 
+-	return 0;
+-}
++	    return 0;
++    }
+ 
+ Our new imaginary board will also have to tie into the machvec in order for it
+ to be of any use.
+@@ -172,16 +176,16 @@ sufficient.
+    vector.
+ 
+    Note that these prototypes are generated automatically by setting
+-   __IO_PREFIX to something sensible. A typical example would be:
++   __IO_PREFIX to something sensible. A typical example would be::
+ 
+ 	#define __IO_PREFIX vapor
+-   	#include <asm/io_generic.h>
++	#include <asm/io_generic.h>
+ 
+    somewhere in the board-specific header. Any boards being ported that still
+    have a legacy io.h should remove it entirely and switch to the new model.
+ 
+  - Add machine vector definitions to the board's setup.c. At a bare minimum,
+-   this must be defined as something like:
++   this must be defined as something like::
+ 
+ 	struct sh_machine_vector mv_vapor __initmv = {
+ 		.mv_name = "vapor",
+@@ -202,20 +206,20 @@ Large portions of the build system are now entirely dynamic, and merely
+ require the proper entry here and there in order to get things done.
+ 
+ The first thing to do is to add an entry to arch/sh/Kconfig, under the
+-"System type" menu:
++"System type" menu::
+ 
+-config SH_VAPOR
+-	bool "Vapor"
+-	help
+-	  select Vapor if configuring for a FooTech Vaporboard.
++    config SH_VAPOR
++	    bool "Vapor"
++	    help
++	    select Vapor if configuring for a FooTech Vaporboard.
+ 
+ next, this has to be added into arch/sh/Makefile. All boards require a
+ machdir-y entry in order to be built. This entry needs to be the name of
+ the board directory as it appears in arch/sh/boards, even if it is in a
+ sub-directory (in which case, all parent directories below arch/sh/boards/
+-need to be listed). For our new board, this entry can look like:
++need to be listed). For our new board, this entry can look like::
+ 
+-machdir-$(CONFIG_SH_VAPOR)	+= vapor
++    machdir-$(CONFIG_SH_VAPOR)	+= vapor
+ 
+ provided that we've placed everything in the arch/sh/boards/vapor/ directory.
+ 
+@@ -230,7 +234,7 @@ This is done by adding an entry to the end of the arch/sh/tools/mach-types
+ list. The method for doing this is self explanatory, and so we won't waste
+ space restating it here. After this is done, you will be able to use
+ implicit checks for your board if you need this somewhere throughout the
+-common code, such as:
++common code, such as::
+ 
+ 	/* Make sure we're on the FooTech Vaporboard */
+ 	if (!mach_is_vapor())
+@@ -253,16 +257,19 @@ build target, and it will be implicitly listed as such in the help text.
+ Looking at the 'make help' output, you should now see something like:
+ 
+ Architecture specific targets (sh):
+-  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
+-  adx_defconfig           - Build for adx
+-  cqreek_defconfig        - Build for cqreek
+-  dreamcast_defconfig     - Build for dreamcast
+-...
+-  vapor_defconfig         - Build for vapor
+ 
+-which then allows you to do:
++  =======================   =============================================
++  zImage                    Compressed kernel image (arch/sh/boot/zImage)
++  adx_defconfig             Build for adx
++  cqreek_defconfig          Build for cqreek
++  dreamcast_defconfig       Build for dreamcast
++  ...
++  vapor_defconfig           Build for vapor
++  =======================   =============================================
+ 
+-$ make ARCH=sh CROSS_COMPILE=sh4-linux- vapor_defconfig vmlinux
++which then allows you to do::
++
++    $ make ARCH=sh CROSS_COMPILE=sh4-linux- vapor_defconfig vmlinux
+ 
+ which will in turn copy the defconfig for this board, run it through
+ oldconfig (prompting you for any new options since the time of creation),
 -- 
 2.24.1
 
