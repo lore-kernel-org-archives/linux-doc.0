@@ -8,97 +8,102 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22994C3F2C6
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 19:21:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A34C3F2D1
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 19:42:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E06612073B
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 19:21:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F251C20CC7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Mar 2020 19:42:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="FBoRlyCm"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="eB87Lvzp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729960AbgCCTVX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 14:21:23 -0500
-Received: from mout.gmx.net ([212.227.17.22]:35201 "EHLO mout.gmx.net"
+        id S1731024AbgCCTmn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 14:42:43 -0500
+Received: from mout.gmx.net ([212.227.17.22]:51695 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729516AbgCCTVX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Mar 2020 14:21:23 -0500
+        id S1729805AbgCCTmn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Mar 2020 14:42:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1583263278;
-        bh=z5MdokEfnohRClHDpHvNTwSEsQsAEZU56XPFTiszgjQ=;
+        s=badeba3b8450; t=1583264548;
+        bh=Xgx8WIi3rVuj8yf+6PVppo0/SP9PD759lC8C/ZJevX4=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=FBoRlyCmC3WWcgtT3nbPmB3SkrAwUgVgkhxQabrxUhtoVAlJ5io97hAwd2Sq4tdw4
-         xxzrXF73hE+Pb8oHR3Ap89aWjGMmdHn3KaJWaJ9XXiWVZO3kqpvSqk9um1cVxpZd0/
-         L/leIqBK161YDttYGkrVDcoP3c0f0yegMjNfHxj4=
+        b=eB87LvzpY4fH8lVAN/IclVKOQbJf21KNtSAXc7/AUx46dVjybVaZxNfZ4ptBYtUgQ
+         iHzGKR8oYupmK0SgQSAXwIC+kAIh+NllSXDKT0GYMMvaiFT3TDnCcMLsaMyWxfSxVj
+         EyMP6P9lCmC8A/wGDNTT0n4mbJHZyAR5yfXhthZw=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from longitude ([5.146.195.177]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4QsY-1jXqki3JqQ-011RMb; Tue, 03
- Mar 2020 20:21:18 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MCsQ4-1jHyrM1mIC-008vBq; Tue, 03
+ Mar 2020 20:42:28 +0100
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-doc@vger.kernel.org
 Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: management-style: Fix formatting of emphsized word
-Date:   Tue,  3 Mar 2020 20:21:12 +0100
-Message-Id: <20200303192113.20761-1-j.neuschaefer@gmx.net>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: dev-tools: kmemleak: Update list of architectures
+Date:   Tue,  3 Mar 2020 20:42:15 +0100
+Message-Id: <20200303194215.23756-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:asG4HO3fQkYF44OwjHkqrNtzg8cnJIwXuYEfJr8bzc74H5Tm4iW
- Itg01JLHuHBQr4bj3g75vJlPGFHTDuHToUuyStrii0XXY+i24phdtS5WVRisv18yHcTLJyO
- ZwxY/XOEdKNyjqOt+QKw66f9+9c7Te9zUUWNs5PadfgciunW9JBVLOnyfljX7wEkL+PQ83N
- Curd/Vxr2TkA/AZN+F5EA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pV+ZI0r+ksc=:vU9kIoEpyVXr0hx0sw8XSk
- XvZA15e5OcwyyfI5saPPbL6dqml6csbcWtTcOXWqHifV/UX9cQd5EhIw8qrT45GHnU2VqvM+N
- 8yto4nKmQ6RkZ6OVxXNRXEsHz4+krgQydJLpUJfWnb7RY9/0107mUBKh2QHNfrhMq6W/jiPuM
- Vg0fQUAY49vnhm0e9KlOeUjSGWIeMDwUUx1G+ynv4hFbs9lCQw/3t6IrgcieFjwounOSxKop9
- TZOzSBPc007bdsCZeMiBUyxnbuIDXbye2lIVWs4DhIsVV05e0XZzbuP4jnTAwVbg1s7MpCT/c
- Hxkyy6UmEItzHt32LSbgktVkVY6hQknhjiTKa9JOHeGJT8syHR9bUBfHyDlQ90jl5hU2De+tp
- M/E5GMtiiFyhG0kXIXQJlyL3Oug/n4wzIYH6shYAJpiVaQFEXoHFjyeiUpkecmP/LZMZVBtdk
- 5t/khNIObkQkfvimOAI3NDBLFncUltqUjc+IVgHH6gF8ieEx0E384E0EzNHUyHtRlBDhT0Zbl
- NCiuQvxU15JxGGGzexQhfCVUTgmzEsYJ5PWHcaRAkePuoFXIbmp2Pfw0b0a8wP/3WDwWv1x67
- LuDwWW5Yd43s8GKFHS/4qXb6CBZdmMM4FWmodKK1B1RJ5oAkY67BLD8o+JkmnrXcdirImJ3n6
- Z4hepjw66obHkmfA5KqqS+I5nM0Aum37gU1y3Jkvm4kCpgtonnh9cSl1W8U7LNIzq5HJZ7uoW
- I7UO1j5ibisTOOLZxtyYvD6skz95F2kOAFtkobobKBv0dbOoC0vC7uUskLbrXFm2rEJm7kPax
- 72et1WwaizQBxrCWPa4Aneq9cOgZq/JkvuW2iykpkKzmJmzWetNvzEZqGErZnV4hpY2BglkdS
- Gb9QCrXVQ//QSQw+ZCMXjitG1MyI3ICJVdu/xoy//uKgln5R1pGwWFElEwhnsiGU7zH3tmyK7
- FbHzMVgOCjJas4SQ84qFHbohZii6FAnrgLGjOAZdag8rfhnO09QusQpMXlJxMdqrb1AEtFGYl
- BpfZkd7dNNA8a+5qai3eJWaFgUt98CzW3NOaAUKLcn3w3kXJHBPNqfTPYSNuN11ZsDuguhoL5
- iBFqkBRf+dq3Em/QXs5aDD8WIcEJRgsH4XxS3kT6npJlmdr9lwDlO35kR2GJW7ERUJhjX4KZ9
- vTwIsxxgLc+2Df8LMlE3V26J8BvmUk6COpD0h66zcYDWdZ0d4Bsu8ec2mTlRaInUkKRKTKzfL
- jH4cnoc/vmHja/tBx
+X-Provags-ID: V03:K1:68jtXPhX06Lu0qfwyrgusjtXB5xCqXNNE/R44+RUrOHmvDBNEdm
+ NIiNnf+gsJzqBZPBuKBjjb29J4LB7iEZtOS/zH59Jj1NWplJMi6nRQPFL28DH9aRPG1PEnO
+ IEbMpeM+euZ2hlHFz/N+eXEpkpem8vA576N+BgqWCakTV1s6jpw1VTFkza8A6Csz7NBtHsJ
+ 84hSagB4hFEd0SNNKRFJg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MMUK9BaEfMo=:MxmQ3bsAR7UBqjddUaoy/4
+ rQLobsayQQeUuuxlesKNFdMDaLbeme0DwvyaYW2tN7ouYxLIhentVrt1qfGCJiwkPM1oGLBRj
+ 5kFeNaDrNcQISCFu008xp6EfQxpWQZEvQNymYSuVQ4aQ1ZRz6rI5hWehjZrDbgxtM6c3UytP0
+ BQxQfM4vKBcIG4qrrc1e9ZVTgI/nGYW9XohjUYWadH463qLOb15VgIOS+GsY1blT1rUSuXHam
+ O3Biz/eDkGjwCG2vSGSUKJyIH2C8UAH7P55r/2+ePEXcrOWWnZh2vTlGecFTka4NsHEhAtQDt
+ HZicvMCQmRvl+qGxz0qK+iRq4p72zU8xceuudwJcvKidxrzHgnzCT4Y+8x3FRkMXbQ5v6Q7u9
+ SSycZcq3QThgY+cqNtWobwxK966RNW1vrhA5XDVHA1CVtSX6upZFFLPuhmcVsvulCKzQ2qP2M
+ LDj9avTFs5chUFm/gDbaFBEOM4NkNJdezH7T4AUvD8pG59fUIm3DHx/h4SQsEDKLgLT6EqZ3H
+ P952jEWmxC57NMwFoasPc6fNWEhtQ1B760KsB7VlyWjX3mOLaLjFlGIA4kyDnY1GwKxCLN4QG
+ H1PxBafNWjdEartrUVdpoUbi6zjUVJuwhwx2TAFwv2MkWuRMYaQBxI6+nhqkaKAerFZE/LlwL
+ jtfTJs2JUlc1L24dpV2zgwkcKAtgTZywKVXWdQcCvqhNaMW0mp3rO4JAUpgeLr0hxIQpdTAO5
+ O/jAy1LOS3QmS1xotQ+ax56NH6AOZ3E/fihRXg57hc5Amg0CMAH5DsmJCEz3WfLo9udj8Re3G
+ 9xkfLmAk1xop/P4O/gOjM7Tte2SL3QhWv9w0Wn/fOdcQZxI8DrZZr7JDgT912TIcdEbDGTZSE
+ WTu6DjSPO4fqTOGvWm2xHA+SMydVE0x12bdTiOUn98m5DEEImxaedJSrZCqTo3Bw7SBYojglR
+ IvB6nOzgkaWWKg6q4+sPJcRSdDGzGqYkSfINRQC+N9oASahReFLKqJ8nYQgI/AbpAlCrR4VOc
+ RDuIdohHgJrCD7KljUSpVL1BKw2nCnCJOJFE7aeOXEO5b4Qx6ymRn3FBMgPoN+mVTyX3HqaT8
+ hvXEtgEJ60QpHT7R7r5YbhWjlMsO77MrejM6FmbhJwIaqYi8dfKm8v2ulSpuXStJPssUyomA/
+ JyO0H50dXdunm1QfHFcMzJHAwXPaH+OOJmgz1zWfGAApvXSsXzzg8Zb5Bgn6gS6kflNlRhQcw
+ q9b0Jl5nLtAu95qjt
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 7f2b3c65b9a1 ("Documentation/ManagementStyle: convert it to ReST
-markup") converted _underlined_ to *emphasized* words, but forgot about
-an underscore in this case.
+* Don't list powerpc twice (once as ppc)
+* Drop tile, which has been removed from the source tree
+* Mention arm64, nds32, arc, and xtensa
 
 Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 =2D--
- Documentation/process/management-style.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/dev-tools/kmemleak.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/process/management-style.rst b/Documentation/pr=
-ocess/management-style.rst
-index 186753ff3d2d..dfbc69bf49d4 100644
-=2D-- a/Documentation/process/management-style.rst
-+++ b/Documentation/process/management-style.rst
-@@ -227,7 +227,7 @@ incompetence will grudgingly admit that you at least d=
-idn't try to weasel
- out of it.
+diff --git a/Documentation/dev-tools/kmemleak.rst b/Documentation/dev-tool=
+s/kmemleak.rst
+index 3a289e8a1d12..fce262883984 100644
+=2D-- a/Documentation/dev-tools/kmemleak.rst
++++ b/Documentation/dev-tools/kmemleak.rst
+@@ -8,7 +8,8 @@ with the difference that the orphan objects are not freed =
+but only
+ reported via /sys/kernel/debug/kmemleak. A similar method is used by the
+ Valgrind tool (``memcheck --leak-check``) to detect the memory leaks in
+ user-space applications.
+-Kmemleak is supported on x86, arm, powerpc, sparc, sh, microblaze, ppc, m=
+ips, s390 and tile.
++Kmemleak is supported on x86, arm, arm64, powerpc, sparc, sh, microblaze,=
+ mips,
++s390, nds32, arc and xtensa.
 
- Then make the developer who really screwed up (if you can find them) know
--**in_private** that they screwed up.  Not just so they can avoid it in th=
-e
-+**in private** that they screwed up.  Not just so they can avoid it in th=
-e
- future, but so that they know they owe you one.  And, perhaps even more
- importantly, they're also likely the person who can fix it.  Because, let=
-'s
- face it, it sure ain't you.
+ Usage
+ -----
 =2D-
 2.20.1
 
