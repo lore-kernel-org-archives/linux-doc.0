@@ -3,72 +3,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94A62C3F2D1
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 12:47:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 517ABC3F2D1
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 14:09:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6D7DA20848
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 12:47:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 355842166E
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 14:09:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729232AbgCDMrq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 07:47:46 -0500
-Received: from coyote.holtmann.net ([212.227.132.17]:56073 "EHLO
-        mail.holtmann.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729175AbgCDMrp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 07:47:45 -0500
-Received: from marcel-macbook.fritz.box (p4FEFC5A7.dip0.t-ipconnect.de [79.239.197.167])
-        by mail.holtmann.org (Postfix) with ESMTPSA id D47C7CECDC;
-        Wed,  4 Mar 2020 13:57:10 +0100 (CET)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
-Subject: Re: [PATCH] MAINTAINERS: adjust to 6lowpan doc ReST conversion
-From:   Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20200304104717.5841-1-lukas.bulwahn@gmail.com>
-Date:   Wed, 4 Mar 2020 13:47:43 +0100
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Bluez mailing list <linux-bluetooth@vger.kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
-        linux-wpan@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Message-Id: <D2D045E0-180D-4F76-93D5-735A5600E62B@holtmann.org>
-References: <20200304104717.5841-1-lukas.bulwahn@gmail.com>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Mailer: Apple Mail (2.3608.60.0.2.5)
+        id S1728767AbgCDOJ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 09:09:28 -0500
+Received: from sauhun.de ([88.99.104.3]:33702 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725795AbgCDOJ2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Mar 2020 09:09:28 -0500
+Received: from localhost (p54B331AD.dip0.t-ipconnect.de [84.179.49.173])
+        by pokefinder.org (Postfix) with ESMTPSA id D9AA22C1F1E;
+        Wed,  4 Mar 2020 15:09:25 +0100 (CET)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH 0/2] include/bitmap.h: updates to docs
+Date:   Wed,  4 Mar 2020 15:09:18 +0100
+Message-Id: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Lukas,
+While looking for functions to handle region of bits, I stumbled over
+two issues in the documentation part of bitmap.h. These two patches
+address them.
 
-> Commit 107db7ec7838 ("docs: networking: convert 6lowpan.txt to ReST")
-> renamed 6lowpan.txt to 6lowpan.rst for the ReST conversion.
-> 
-> Since then, ./scripts/get_maintainer.pl --self-test complains:
-> 
->  warning: no file matches F: Documentation/networking/6lowpan.txt
-> 
-> Adjust 6LOWPAN GENERIC (BTLE/IEEE 802.15.4) entry in MAINTAINERS.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> Mauro, please ack.
-> Marcel, please pick for bluetooth-next.
-> 
-> MAINTAINERS | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
+My guess is that this could go in via Jon's documentation tree, but I
+am CCing Andrew nonetheless.
 
-patch has been applied to bluetooth-next tree.
+Based on v5.6-rc1.
 
-Regards
+Looking forward to comments!
 
-Marcel
+   Wolfram
+
+
+Wolfram Sang (2):
+  include/bitmap.h: add missing parameter in docs
+  include/bitmap.h: add new functions to documentation
+
+ include/linux/bitmap.h | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+-- 
+2.20.1
 
