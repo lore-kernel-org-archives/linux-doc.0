@@ -2,113 +2,103 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MALFORMED_FREEMAIL,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CEDC3F2D7
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 20:40:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B7AFC3F2CE
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 20:50:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D4B982146E
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 20:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583354441;
-	bh=AW+dm1zFyTWQ8FkDWciZrD814+ylxfvHPYpqV1MDjqI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Fa8LQp1x8yZcdi7XZViCn39ZXqzTudcRuY38a7VsoU7MJjl6B/GpQ1ukUsboMtase
-	 VOX8EgL8lEqLwtcZCWTZf01Pe81zGPBKoHAqYSSlv2UbaLbNhP+IGmXqLhMP1UZEtu
-	 4/FI4A3mcM83zgg200Co5oWNSFgyKPKG1Z86qhxM=
+	by mail.kernel.org (Postfix) with ESMTP id D8A5D2146E
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 20:50:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6XelXIL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729248AbgCDUkl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 15:40:41 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:36311 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726440AbgCDUkl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 15:40:41 -0500
-Received: by mail-qt1-f195.google.com with SMTP id t13so2468944qto.3;
-        Wed, 04 Mar 2020 12:40:40 -0800 (PST)
+        id S1728539AbgCDUuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 15:50:50 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:34699 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728482AbgCDUut (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 15:50:49 -0500
+Received: by mail-ed1-f67.google.com with SMTP id c21so2455896edt.1;
+        Wed, 04 Mar 2020 12:50:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=zt0RLm7OTdsp3yOD+OCYiUKlYSum620aC9kq/4VQu2c=;
+        b=b6XelXILrfVo4hOq8Bxsv/Ld0eB3+mY3MTj88ek+YrPTQGEUfBk/ETftrELd4JEMFF
+         S4zkxC+lWlrYJzpv5jTaTixOGpneRoR4kxzY762Uw1basiuicdGEtHL3VuPxw7h0fV2O
+         qqhR49z9mT3VgNmtaYbKvgY2g4MmdmEPwliE/nXBNoTwpd19yy6d8SmvrUZo1ERnqdV6
+         VbMszUyDOxEuAcpH8X/GCH+jvFAgPyBOlF7QrJrVtkFA/Tpe5IXp/WqlYzpn6s6D58bF
+         /USdzLTL07HyT8o2zDHmwkHm8IS9s29ypYAITTvjWmwxRIbpTJkQP7LTkOyyrar7P8hn
+         jXHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kMvb3FkHGy6+3PCd0iRkhP59AmRHfZvsaM4V6wsp0VQ=;
-        b=PzoObFoUEkJu99rFUbzKr5EBKJfe+QkFu5d6qGwbv4QP/Y9FDeUg8hydo/LvFKi3wp
-         DfYxH3xYDddGVuz1TRUGwObqIjJ/6Kyn3eLGtJjXel+n10O0VL/iIPUkL4NoSc86ShJX
-         oTGlDenzEiluPneam+kq7CwG3HKqce6ZghNSZJUFRErP2zuSMGBCAr6T1vx58V725m3h
-         V8wwTqymF3vMg+0kdDayxaLofqjlxhfAs490xlVURVEn6yXlHuOXE3womY7ynF97eK6f
-         Tg6JBO7pSjHQRGY5UkG0sEEIiflJV4ELXgxBhEaffSaibraRD8T/XJAJB1OMJIANQj4x
-         KDTw==
-X-Gm-Message-State: ANhLgQ0W8pTQpHM06rL2mp9/ag7tbaF6RL0EEHW2/WjAxX4TKMJ815k9
-        L5eWG1fnBeXpyswZwzgiLkQ=
-X-Google-Smtp-Source: ADFU+vv/02CvfBCd0uCY7PmzoOMaiUvA+1v27ESLdQ7l4yc5et4cC1jpvow21omkNqgrShpqtJrwIg==
-X-Received: by 2002:ac8:47cf:: with SMTP id d15mr4163094qtr.17.1583354439493;
-        Wed, 04 Mar 2020 12:40:39 -0800 (PST)
-Received: from dennisz-mbp ([2620:10d:c091:500::2:8091])
-        by smtp.gmail.com with ESMTPSA id v82sm14655116qka.51.2020.03.04.12.40.27
+        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=zt0RLm7OTdsp3yOD+OCYiUKlYSum620aC9kq/4VQu2c=;
+        b=ebfvW469mA6/kz+KFRt1iTQ75A0CiCXdPgdvzlawdVvLUshftIoohhwLB61iPWR5RY
+         AsmOYajkd3CFh8Bn9QXJcfQXSeA5OnuyK2Tkw8zzcSVw+z9UHoFFi/y8W3NaKs8jzLmA
+         +ojO+LeCl9SXhrPu6yttlP3KsjlsGBSmUKT5sUiN6AvMJ9YsFTfTkhR8HJXjrIYVWp3r
+         J+YOdvpFg94FfM+1dpnJHEp+ZAVf8k3lq3neEgiJJ6/mmzT6KqmSLuEKUywrmryx7Zfd
+         QaGWQXLcmqyziP7602WIUOX3wI0ZGJQx7csXsxKaWIUo6DCJ3fciE8DSP9PzOIdNoNxx
+         20DA==
+X-Gm-Message-State: ANhLgQ0jfxC7H+JQhBgd1nexZEnnEVEnwkH1ZeOrJd5pfgLHOHWphMWf
+        fZc8XMZjb3tOfobid9HuZLg=
+X-Google-Smtp-Source: ADFU+vsa8BpqTZFAAWs88Do5WrkxCwKcJwPQ4lgHcetbGp8wCV2tilCvbDjuH441aG9SvMa7IFQxHA==
+X-Received: by 2002:aa7:c54a:: with SMTP id s10mr4665670edr.345.1583355047588;
+        Wed, 04 Mar 2020 12:50:47 -0800 (PST)
+Received: from felia ([2001:16b8:2d16:4100:5c62:5f:595c:f76d])
+        by smtp.gmail.com with ESMTPSA id q3sm1384115eju.88.2020.03.04.12.50.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2020 12:40:28 -0800 (PST)
-Date:   Wed, 4 Mar 2020 15:40:26 -0500
-From:   Dennis Zhou <dennis@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Dennis Zhou <dennis@kernel.org>
-Subject: Re: [PATCH 2/2] include/bitmap.h: add new functions to documentation
-Message-ID: <20200304204026.GA55400@dennisz-mbp>
-References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
- <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
+        Wed, 04 Mar 2020 12:50:46 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date:   Wed, 4 Mar 2020 21:50:39 +0100 (CET)
+X-X-Sender: lukas@felia
+To:     Jonathan Corbet <corbet@lwn.net>
+cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: adjust to filesystem doc ReST conversion
+In-Reply-To: <20200304131035.731a3947@lwn.net>
+Message-ID: <alpine.DEB.2.21.2003042145340.2698@felia>
+References: <20200304072950.10532-1-lukas.bulwahn@gmail.com> <20200304131035.731a3947@lwn.net>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Wolfram,
 
-On Wed, Mar 04, 2020 at 03:09:20PM +0100, Wolfram Sang wrote:
-> I found these functions only by chance although I was looking exactly
-> for something like them. So, add them to the list of functions to make
-> them more visible.
+
+On Wed, 4 Mar 2020, Jonathan Corbet wrote:
+
+> On Wed,  4 Mar 2020 08:29:50 +0100
+> Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> > Jonathan, pick pick this patch for doc-next.
 > 
-> Fixes: e837dfde15a4 ("bitmap: genericize percpu bitmap region iterators")
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Cc: Dennis Zhou <dennis@kernel.org>
-> ---
->  include/linux/bitmap.h | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
-> index 804600f7dc35..71ba0ffaa22a 100644
-> --- a/include/linux/bitmap.h
-> +++ b/include/linux/bitmap.h
-> @@ -51,6 +51,12 @@
->   *  bitmap_clear(dst, pos, nbits)               Clear specified bit area
->   *  bitmap_find_next_zero_area(buf, len, pos, n, mask)  Find bit free area
->   *  bitmap_find_next_zero_area_off(buf, len, pos, n, mask, mask_off)  as above
-> + *  bitmap_next_clear_region(map, &start, &end, nbits)  Find next cleared region
-> + *  bitmap_next_set_region(map, &start, &end, nbits)  Find next set region
-> + *  bitmap_for_each_clear_region(map, rs, re, start, end)
-> + *  						Iterate over all cleared regions
-> + *  bitmap_for_each_set_region(map, rs, re, start, end)
-> + *  						Iterate over all set regions
->   *  bitmap_shift_right(dst, src, n, nbits)      *dst = *src >> n
->   *  bitmap_shift_left(dst, src, n, nbits)       *dst = *src << n
->   *  bitmap_cut(dst, src, first, n, nbits)       Cut n bits from first, copy rest
-> -- 
-> 2.20.1
-> 
+> Sigh, I need to work a MAINTAINERS check into my workflow...
+>
 
-Ah thanks. That was a miss not adding the documentation. I can pick
-these up unless Andrew would rather run them through his tree. I have a
-few other miscellaneous documentation cleanups for percpu I need to run
-anyway.
+I getting closer to have zero warnings on the MAINTAINER file matches and 
+then, I would set up a bot following the mailing lists to warn when anyone
+sends a patch that potentially introduces such warning.
+ 
+> Thanks for fixing these, but ... what tree did you generate the patch
+> against?  I doesn't come close to applying to docs-next.
+>
 
-Acked-by: Dennis Zhou <dennis@kernel.org>
+My patch was based on next-20200303, probably too much noise on 
+MAINTAINERS, such that it does not apply cleanly on docs-next.
+If you want, I can send a patch that fits to docs-next. Anyway, merging 
+will be similarly difficult later :(
 
-Thanks,
-Dennis
+Lukas
