@@ -2,154 +2,169 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC7ABC3F2D1
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 08:31:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 063C0C3F2D1
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 08:35:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A72BA214D8
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 08:31:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583310706;
-	bh=lYqhyKk13MUGZZLp7l1bkJ3nSMTIEDjzqewsPw5r2Ks=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=nDTMq19aO6gH/XUUSCbrJm3OKBvBODZyJYOaXkcp6RHySyKl5+zyAC6HmGzBcljSl
-	 igtsXRC5kVdsBDtZ/tBBv6EhWYEysO2RL+1IVnOu+/UNMla1bBAFGAItZg+SiKbvAD
-	 9tTiaQtztQGHGJa2xB4rhAB8/yHYbSdfRvr/rvGE=
+	by mail.kernel.org (Postfix) with ESMTP id CD40521741
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 08:35:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="xyTDMquN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726957AbgCDIbq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 03:31:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53762 "EHLO mail.kernel.org"
+        id S1728762AbgCDIfI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 03:35:08 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:43684 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726860AbgCDIbp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 03:31:45 -0500
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A5E3720732;
-        Wed,  4 Mar 2020 08:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583310705;
-        bh=lYqhyKk13MUGZZLp7l1bkJ3nSMTIEDjzqewsPw5r2Ks=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PlqxSyguTVrfIQ7158rXcz4/dRgj8hJ3KnI6QB8PzY1UmMol9UobRz5bbCm3qhvN6
-         7xmotHzLVga31NqP/DyYnum/42f5uRgoKArUtydl7+iBRo9fZg5yvQ/t84JQe1m5Ol
-         KRzryrz4xVgCkcDJbk/BBM3azx/6NuweuYy8u+IQ=
-Date:   Wed, 4 Mar 2020 09:31:38 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     "Bird, Tim" <Tim.Bird@sony.com>, Jonathan Corbet <corbet@lwn.net>,
-        "tbird20d@gmail.com" <tbird20d@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] scripts/sphinx-pre-install: add '-p python3' to
- virtualenv
-Message-ID: <20200304093138.6aced5a0@coco.lan>
-In-Reply-To: <31a69fe7-c08d-9381-a111-5f522a4c9ffd@darmarit.de>
-References: <1582594481-23221-1-git-send-email-tim.bird@sony.com>
-        <20200302130911.05a7e465@lwn.net>
-        <MWHPR13MB0895EFDA9EBF7740875E661CFDE40@MWHPR13MB0895.namprd13.prod.outlook.com>
-        <20200304064214.64341a49@onda.lan>
-        <31a69fe7-c08d-9381-a111-5f522a4c9ffd@darmarit.de>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728301AbgCDIfI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Mar 2020 03:35:08 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 39D165ED;
+        Wed,  4 Mar 2020 09:35:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1583310902; x=1585125303; bh=ARjgys6wnNKVl92ykcAcXMzpN9kzBsDWxuu
+        6ynvn+j8=; b=xyTDMquNizCJzgbLQKt46zp+ww6YJl3vdXTLTMNM+FCkuo9I/1n
+        1e44bqMr/bAIACVgoFUIvNmIauDsnDozxGP3hG+vBiVTNdW5nZ6F66oXU4W+zqeT
+        Q3EPmec9risFINhtCI+fFdWX7OKT3Ksj8NMShlJ149supb5z5uPzE4EpIRVqgDad
+        sM0RrESmgW1zmnBKIEpidfFSpRvZVlPUobP1KNsYiFVsudtZzK30d65Xvoz1xsTg
+        CYfWzGUThh/PNLBDpOv95ES5UCg5MSc1mZZAM1yS3ZBsHSFnTW6dbf4RjziLgVXO
+        9BGWtZrC+GXPb8oN2vkqsiobLu0kdjj/3ujuqVT2otXFBifRudd2OJcvobQ9sEVf
+        zI5yYjMQlCX5RFtchOiGLQeLidajzNiT527HKYYOTIna8YEjDzvVyW52iF7bqCmM
+        ppu1f7msQn/6vibRCOi2sFXNrhipfe0O0sNGmfmccRbdrAirpXFDwwmgSxTWeqlf
+        Gxi7yskmPXup5ifvAgcO7LWW8a/mAy2+8thvylt/5T8uuF+wsUBDOvgVkpmQO1A7
+        qZMV70xWGj/Ddv6ZYx0i/6Dr+En5yY1t41JYIqFPmU5n55k7BHh2WwR3Y8LS/W96
+        m+xN8hi0f2aL0CBo6AC8IZtBZlZu5xKBdsard4Q0zcUzkMyPI+dKzsjc=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 93dAO4nFNplu; Wed,  4 Mar 2020 09:35:02 +0100 (CET)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id E0A964D1;
+        Wed,  4 Mar 2020 09:35:00 +0100 (CET)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 89999BAF;
+        Wed,  4 Mar 2020 09:35:00 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 6/9] docs: translations: it: avoid duplicate refs at programming-language.rst
+Date:   Wed, 04 Mar 2020 09:34:58 +0100
+Message-ID: <1950025.KkpgXc3J7C@pcbe13614>
+In-Reply-To: <e733111f3599dff96524ad09ace5204ac6bb496b.1583250595.git.mchehab+huawei@kernel.org>
+References: <afbe367ccb7b9abcb9fab7bc5cb5e0686c105a53.1583250595.git.mchehab+huawei@kernel.org> <e733111f3599dff96524ad09ace5204ac6bb496b.1583250595.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 4 Mar 2020 07:20:48 +0100
-Markus Heiser <markus.heiser@darmarit.de> escreveu:
+On Tuesday, March 3, 2020 4:50:36 PM CET Mauro Carvalho Chehab wrote:
+> As the translations document is part of the main body, we can't
+> keep duplicated references there. So, prefix the Italian ones
+> with "it-".
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> Am 04.03.20 um 06:42 schrieb Mauro Carvalho Chehab:
-> > Em Tue, 3 Mar 2020 17:07:48 +0000
-> > "Bird, Tim" <Tim.Bird@sony.com> escreveu:
-> >   
-> >>> -----Original Message-----
-> >>> From: Jonathan Corbet <corbet@lwn.net>
-> >>>
-> >>> On Mon, 24 Feb 2020 18:34:41 -0700
-> >>> tbird20d@gmail.com wrote:
-> >>>      
-> >>>> With Ubuntu 16.04 (and presumably Debian distros of the same age),
-> >>>> the instructions for setting up a python virtual environment should
-> >>>> do so with the python 3 interpreter.  On these older distros, the
-> >>>> default python (and virtualenv command) might be python2 based.
-> >>>>
-> >>>> Some of the packages that sphinx relies on are now only available
-> >>>> for python3.  If you don't specify the python3 interpreter for
-> >>>> the virtualenv, you get errors when doing the pip installs for
-> >>>> various packages
-> >>>>
-> >>>> Fix this by adding '-p python3' to the virtualenv recommendation
-> >>>> line.
-> >>>>
-> >>>> Signed-off-by: Tim Bird <tim.bird@sony.com>  
-> >>>
-> >>> I've applied this, even though it feels a bit fragile to me.  But Python
-> >>> stuff can be a bit that way, sometimes, I guess.  
-> >>
-> >> I agree it seems a bit wonky.  
-> > 
-> > Well, we could, instead, add some code that would be checking python and pip
-> > versions, but still distros could be doing some backports with could
-> > cause side-effects. So, checking for distro versions as done in this patch
-> > seems a lot safer.
-> >   
-> >> The less fragile approach would have been to just
-> >> always add the '-p python3' option to the virtualenv setup hint,
-> >> but Mauro seemed to want something more fine-tuned.  
-> > 
-> > Yeah, I asked for a more fine-tuned version.
-> > 
-> > Depending on python/pip version, adding a -p python3 seems to cause
-> > troubles (at least I found some bug reports about that). I may be
-> > wrong (it was a long time ago), but, before adding the logic that checks
-> > for "python3" I guess I tried first add -p python3, but, back then,
-> > I found some troubles (probably with some old Fedora version).
-> > 
-> > So, better to use this syntax only on distros we know it will
-> > work as expected.
-> >   
-> >> As far as the string parsing goes, I think that the format of strings
-> >> returned by lsb-release (and the predecesors that sphinx_pre_install
-> >> checks) is unlikely to change.  
-> > 
-> > Since when we added this script, we didn't have any troubles yet with
-> > the part of the code with checks the distribution version. So, I guess
-> > that the lsb-release related checks are pretty much reliable.
-> >   
-> 
-> With py3 the recommended way to install virtual environments is::
-> 
->    python3 -m venv sphinx-env
-> 
-> This (python3) is what worked for me on RHEL/CentOS (dnf),
-> archlinux and debian/ubuntu (tested from 16.04 up to 20.04).
+I thought this patch was already there, it was raised some months ago;=20
+probably I am confused I can't retrieve the thread. Anyway:
 
-Hmm... from:
+Reviewed-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-	https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
+Hopefully in the next weeks I should be able to be on duty again and fix al=
+l=20
+the issues and re-align the translation. It took a while to fix my personal=
+=20
+life :)
 
-This works since Python version 3.3. It sounds doable to use it.
+> ---
+>  .../it_IT/process/programming-language.rst    | 30 +++++++++----------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+>=20
+> diff --git
+> a/Documentation/translations/it_IT/process/programming-language.rst
+> b/Documentation/translations/it_IT/process/programming-language.rst index
+> f4b006395849..c4fc9d394c29 100644
+> --- a/Documentation/translations/it_IT/process/programming-language.rst
+> +++ b/Documentation/translations/it_IT/process/programming-language.rst
+> @@ -8,26 +8,26 @@
+>  Linguaggio di programmazione
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+>=20
+> -Il kernel =E8 scritto nel linguaggio di programmazione C [c-language]_.
+> -Pi=F9 precisamente, il kernel viene compilato con ``gcc`` [gcc]_ usando
+> -l'opzione ``-std=3Dgnu89`` [gcc-c-dialect-options]_: il dialetto GNU
+> +Il kernel =E8 scritto nel linguaggio di programmazione C [it-c-language]=
+_.
+> +Pi=F9 precisamente, il kernel viene compilato con ``gcc`` [it-gcc]_ usan=
+do
+> +l'opzione ``-std=3Dgnu89`` [it-gcc-c-dialect-options]_: il dialetto GNU
+>  dello standard ISO C90 (con l'aggiunta di alcune funzionalit=E0 da C99)
+>=20
+> -Questo dialetto contiene diverse estensioni al linguaggio
+> [gnu-extensions]_, +Questo dialetto contiene diverse estensioni al
+> linguaggio [it-gnu-extensions]_, e molte di queste vengono usate
+> sistematicamente dal kernel.
+>=20
+>  Il kernel offre un certo livello di supporto per la compilazione con
+> ``clang`` -[clang]_ e ``icc`` [icc]_ su diverse architetture, tuttavia in
+> questo momento +[it-clang]_ e ``icc`` [it-icc]_ su diverse architetture,
+> tuttavia in questo momento il supporto non =E8 completo e richiede delle
+> patch aggiuntive.
+>=20
+>  Attributi
+>  ---------
+>=20
+>  Una delle estensioni pi=F9 comuni e usate nel kernel sono gli attributi
+> -[gcc-attribute-syntax]_. Gli attributi permettono di aggiungere una
+> semantica, +[it-gcc-attribute-syntax]_. Gli attributi permettono di
+> aggiungere una semantica, definita dell'implementazione, alle entit=E0 del
+> linguaggio (come le variabili, le funzioni o i tipi) senza dover fare
+> importanti modifiche sintattiche al -linguaggio stesso (come l'aggiunta di
+> nuove parole chiave) [n2049]_. +linguaggio stesso (come l'aggiunta di nuo=
+ve
+> parole chiave) [it-n2049]_.
+>=20
+>  In alcuni casi, gli attributi sono opzionali (ovvero un compilatore che =
+non
+> dovesse supportarli dovrebbe produrre comunque codice corretto, anche se =
+@@
+> -41,11 +41,11 @@ possono usare e/o per accorciare il codice.
+>  Per maggiori informazioni consultate il file d'intestazione
+>  ``include/linux/compiler_attributes.h``.
+>=20
+> -.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
+> -.. [gcc] https://gcc.gnu.org
+> -.. [clang] https://clang.llvm.org
+> -.. [icc] https://software.intel.com/en-us/c-compilers
+> -.. [gcc-c-dialect-options]
+> https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html -..
+> [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html -..
+> [gcc-attribute-syntax]
+> https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html -.. [n2049]
+> http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf +..
+> [it-c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards +..
+> [it-gcc] https://gcc.gnu.org
+> +.. [it-clang] https://clang.llvm.org
+> +.. [it-icc] https://software.intel.com/en-us/c-compilers
+> +.. [it-gcc-c-dialect-options]
+> https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html +..
+> [it-gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
+> +.. [it-gcc-attribute-syntax]
+> https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html +.. [it-n2049]
+> http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
 
-Yet, if we'll be switching to this method, the script should check if
-the version is 3.3 or newer. The logic inside get_sphinx_fname() would 
-also require some changes, as it won't need to install anymore the 
-virtualenv program for Python >= 3.3.
 
-> 
-> I am not familiar with the sphinx-pre-install script but may be
-> one of you is able to apply such a patch?
-> 
-> 
->   -- Markus --
+=2D-=20
+=46ederico Vaga
+http://www.federicovaga.it/
 
 
-Thanks,
-Mauro
