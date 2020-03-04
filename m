@@ -2,108 +2,132 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F267C3F2D1
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 19:13:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21471C3F2CE
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 19:53:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DF82D2146E
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 19:13:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KrDb4dJR"
+	by mail.kernel.org (Postfix) with ESMTP id E9BA621739
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 19:53:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583351592;
+	bh=0lTNiqZihmhD7dU5xCTNqpQeoONQroZErkdsf+IQ3/Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=TM8hqDuvWyltHeJsvaquIQK7/8pge6Ve4qg/955xetAcTCib1J2ffK+5oqnitn8kH
+	 banCk0DjXcAwehVtcs5Mq7WD0xkzh25dtPLY1BbQji1w5tXpV2qHElcHDTKl0wwwf5
+	 LnQkXUNBV+r9O9OeacpVd4HrZDJcZia1ITODPxjQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726897AbgCDTNb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 14:13:31 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:45587 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726440AbgCDTNb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 14:13:31 -0500
-Received: by mail-pl1-f196.google.com with SMTP id b22so1424002pls.12
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2020 11:13:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=bWWT0U7gHG36go3/z5DgOvjRYUt+7WTsiRbz2Kqd1qY=;
-        b=KrDb4dJR9TipAek99R/Qkotco316kjOROJVvfj5QLq2nQMUrLqLQWHPvZ2YmRFk+gL
-         Xb457WqeHGsnYiVRwkmmRDvKa0Ml4oO6WGX1TAw3O/GjciLLmoxs89vhtJe24P2pItz7
-         3cdXBGHTQ9kIWAKHZdsOk9hBs8MK1zInEOie8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=bWWT0U7gHG36go3/z5DgOvjRYUt+7WTsiRbz2Kqd1qY=;
-        b=jvFEojtSIHvEIPas+X0tXSzbWbA/fqhJT6iem3L9PZ+fEVowDud4h4EbkJOvuypl6s
-         jEaxbTR4yTtzqsamc+n5ou1Qu3W/fcyfPbveFZxbiIxvkc2wfkn2bsO3yLrxbdszeJPX
-         R3xBKjeXE0MC7n+NMAmO64a4PpYc1eE6kMTzeCpLTUxP1qG7zg2sBwXjBL3B1v/NTbHM
-         FIOI7keuEOXdpF1eqEvy1nwPOE2uzXMElcfiXReX3tSEF15GlCKpa/knSgqsyvTb20/o
-         SJPvCKcWe9Mtl4ShPKpZeQi3nf/QXn5WpyNxP/qp9rqr7Lnx0+WCDPZFYBc/aAUvQ5mF
-         +4yg==
-X-Gm-Message-State: ANhLgQ2Nzt2bbx+i3Os5OwGPrvshCH5grT4OrXLT14N8b7H0VXht5uft
-        D9Hjb6vWhSltkyOlxEAjK5upaqtAVjQ=
-X-Google-Smtp-Source: ADFU+vs8lPKj88hbp2zjV9Zwouj4ueT/9QLwk1yoVWR8eEp+HS7tGSSmKS4bSvY+HXXNwHbodHUsdg==
-X-Received: by 2002:a17:90a:f0c8:: with SMTP id fa8mr4540508pjb.136.1583349210375;
-        Wed, 04 Mar 2020 11:13:30 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r12sm29051419pgu.93.2020.03.04.11.13.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2020 11:13:29 -0800 (PST)
-Date:   Wed, 4 Mar 2020 11:13:28 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: deprecated.rst: Add %p to the list
-Message-ID: <202003041103.A5842AD@keescook>
+        id S1729118AbgCDTxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 14:53:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52484 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728955AbgCDTxL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Mar 2020 14:53:11 -0500
+Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 75F6521556;
+        Wed,  4 Mar 2020 19:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583351590;
+        bh=0lTNiqZihmhD7dU5xCTNqpQeoONQroZErkdsf+IQ3/Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=bkbUz2MGPto95211PrLHnmVLW09hqCkKIoImnDXStIZdoPSH+iXesJndKimBINClM
+         14U6bHtjKEJRVSLW++vtxwlnlzx0bpYrVIwGeHv2sI24xDaFuseQlNp1/remEX/8HA
+         bpBCBeXx1Xl2SdoAmct30hoL33ahPlRePrwEC3l4=
+Date:   Wed, 4 Mar 2020 20:53:05 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Bird, Tim" <Tim.Bird@sony.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "tbird20d@gmail.com" <tbird20d@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] scripts/sphinx-pre-install: add '-p python3' to
+ virtualenv
+Message-ID: <20200304205252.51bac986@coco.lan>
+In-Reply-To: <MWHPR13MB08952CDE2E8F16781B704C18FDE50@MWHPR13MB0895.namprd13.prod.outlook.com>
+References: <1582594481-23221-1-git-send-email-tim.bird@sony.com>
+        <20200302130911.05a7e465@lwn.net>
+        <MWHPR13MB0895EFDA9EBF7740875E661CFDE40@MWHPR13MB0895.namprd13.prod.outlook.com>
+        <20200303130152.461c3494@lwn.net>
+        <MWHPR13MB08952CDE2E8F16781B704C18FDE50@MWHPR13MB0895.namprd13.prod.outlook.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Once in a while %p usage comes up, and I've needed to have a reference
-to point people to. Add %p details to deprecated.rst.
+Em Wed, 4 Mar 2020 17:25:41 +0000
+"Bird, Tim" <Tim.Bird@sony.com> escreveu:
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- Documentation/process/deprecated.rst | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+> > -----Original Message-----
+> > From: Jonathan Corbet <corbet@lwn.net>
+> > 
+> > On Tue, 3 Mar 2020 17:07:48 +0000
+> > "Bird, Tim" <Tim.Bird@sony.com> wrote:
+> >   
+> > > The less fragile approach would have been to just
+> > > always add the '-p python3' option to the virtualenv setup hint,
+> > > but Mauro seemed to want something more fine-tuned.  
+> > 
+> > At some point I think we'll want to say that Python 2 just isn't supported
+> > anymore.  After all, the language itself isn't supported anymore.  Perhaps
+> > it's time to add a warning somewhere.  
+> 
+> Probably.  IMHO always adding the 'p python3' would have been the
+> first vestiges of such a hint, but maybe it should be more explicit.
+> A more explicit statement of "watch out if your default python
+> interpreter is python2" would have probably shortened some of 
+> my setup time.
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index f9f196d3a69b..a4db119f4e09 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -109,6 +109,23 @@ the given limit of bytes to copy. This is inefficient and can lead to
- linear read overflows if a source string is not NUL-terminated. The
- safe replacement is :c:func:`strscpy`.
- 
-+%p format specifier
-+-------------------
-+Using %p in format strings leads to a huge number of address exposures.
-+Instead of leaving these to be exploitable, "%p" should not be used in
-+the kernel. If used currently, it is a hashed value, rendering it
-+unusable for addressing. Paraphrasing Linus's current `guideance <https://lore.kernel.org/lkml/CA+55aFwQEd_d40g4mUCSsVRZzrFPUJt74vc6PPpb675hYNXcKw@mail.gmail.com/>`_:
-+
-+- Just use %p and get the hashed value.
-+- If the hashed value is pointless, ask yourself whether the pointer
-+  itself is important. Maybe it should be removed entirely?
-+- As a last option, if you really think the true pointer value is
-+  important, why is some system state or user privilege level considered
-+  "special"? If it is well justified (in comments and commit log), maybe
-+  you can use %px along with making sure you have sensible permissions.
-+
-+A system-wide toggle will `not be accepted <https://lore.kernel.org/lkml/CA+55aFwieC1-nAs+NFq9RTwaR8ef9hWa4MjNBWL41F-8wM49eA@mail.gmail.com/>`_.
-+
- Variable Length Arrays (VLAs)
- -----------------------------
- Using stack VLAs produces much worse machine code than statically
--- 
-2.20.1
+A warning like that makes sense to me.
 
+> Ubuntu 16.04 and Ubuntu 18.04 both include python3, but have
+> /usr/bin/python default to python2.  So, while the package recommendations
+> from the script were good (and sufficient), the virtualenv hint was somewhat
+> lacking.
 
--- 
-Kees Cook
+And if you try to change the Ubuntu default to python3, some things break 
+there (I did that last month using alternates on Ubuntu 19.10 - had to 
+revert back to python2).
+
+> And, just for full disclosure, I wish there was a way to mark this type of fix
+> with a obsolescence  flag so it could be removed later.  This is the type of
+> thing that gets put into a script as a workaround for a transition period, but
+> keeps being run 10 years later when it's no longer relevant.  Heck, the whole
+> virtualenv recommendation might be irrelevant in the next version of Ubuntu
+> (but maybe the script already figures that out.)
+
+Actually, virtualenv support was added later ;-)
+
+The script supports both virtualenv and distro package install, although
+the current default is to use virtualenv. You can force it to recommend the
+distro package with:
+
+	$ ./scripts/sphinx-pre-install --no-virtualenv
+	Detected OS: Fedora release 30 (Thirty).
+
+	ERROR: please install "python-sphinx", otherwise, build won't work.
+	Warning: better to also install "sphinx_rtd_theme".
+	You should run:
+
+		sudo dnf install -y python3-sphinx python3-sphinx_rtd_theme
+
+	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 721.
+
+The main reason why virtualenv is the default is that we need to
+ensure a certain minimal version (nowadays, it is recommended at least 1.7.9). 
+If one is using a LTS distro, the distro-package could be older than that.
+
+With virtualenv, it is easier to fulfill the minimal version (and the
+recommended one). You may even have multiple Sphinx versions, with is
+quite useful when trying to identify if the html and/or pdf output
+is doing the right thing with different toolchain versions.
+
+Thanks,
+Mauro
