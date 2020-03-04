@@ -2,138 +2,282 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C8B1C3F2CD
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 14:46:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A35C3F2CD
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 15:30:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F368F2166E
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 14:46:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="Q5z+7a5o"
+	by mail.kernel.org (Postfix) with ESMTP id 5CE642073D
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 15:30:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726413AbgCDOqm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 09:46:42 -0500
-Received: from mout.web.de ([212.227.17.12]:39947 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725795AbgCDOqm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 09:46:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1583333155;
-        bh=xAUjkZMNEOqn9QzZ6yJY18Y9cdiyleYEzRzzT1vt4vY=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=Q5z+7a5orRBV/M1jMwz79QR18z6BENEHrtGrrZIvH97qOInoeEQAOAo1JaJ/Y7gWe
-         quHTLfaYSbK7rNmtw0ceiFVPilalOmsO8ZCJ3oLeHT2ZmstRpcBONhBWVg2/Wnrnv4
-         e9A5tfaAht/9fkoN1RRhOgAvIYU9H+e0JPpG3oDU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.49.53.147]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LtWo4-1jYhAF07W8-010y3V; Wed, 04
- Mar 2020 15:45:55 +0100
-Subject: Re: [v4] Documentation: bootconfig: Update boot configuration
- documentation
-To:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-References: <158322634266.31847.8245359938993378502.stgit@devnote2>
- <158322635301.31847.15011454479023637649.stgit@devnote2>
- <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
- <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
-Date:   Wed, 4 Mar 2020 15:45:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727024AbgCDPap (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 10:30:45 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:60406 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725897AbgCDPao (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 10:30:44 -0500
+Received: from b2b-5-147-251-51.unitymedia.biz ([5.147.251.51] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1j9VyE-0002FV-Te; Wed, 04 Mar 2020 15:30:03 +0000
+Date:   Wed, 4 Mar 2020 16:30:02 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     Kees Cook <keescook@chromium.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCHv4] exec: Fix a deadlock in ptrace
+Message-ID: <20200304153002.ck77l6nifnvn647p@wittgenstein>
+References: <87k142lpfz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <875zfmloir.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nmjulm.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003021531.C77EF10@keescook>
+ <AM6PR03MB5170B5C1B95CB1D065EE3AFAE4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003022103.196C313623@keescook>
+ <AM6PR03MB5170A15099986CEC3189F251E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5nKMEK3wVVfbImt4swlrePjgGoZjrYcXVt3rA+nTudbxA/HC3d1
- pldol/s0I3c0o/gM2+3e4lp7ynOI3juDUIMDxhARaMRvhrdgdG6MZI/Ta/+tZZIaocTvePW
- t1+PRJTVGpWsf0phuV8V7chq2e7NCl/d6S/+qi9x6uNyfFv2xyamViRJ9uJa4rhraNJG8LN
- JkRRlLqPZEHwClagNZyBQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pSDlToBWnFQ=:d/pRe8hZlszIYUq9hSQqUR
- oU/hXaqAadbmr5BropZjUMlG0Ys0yzE0+SWzOMmVGTCzalkJOyu/gRYodufLlyyPkp0/xnowO
- fgjpHCqutOCpit2q2OfCC7i9FLDQURh7kHeWUbZalbl4bw3UvL6C1VFI3wnAqKTV5TXIbpPK3
- jo6OfK7i1ofZUhQ+XOw2G5xiwDhJ8BtfdQFMahWkAus+d6nxS7AuEwwbX/HUJIrd4FnU+5omT
- gmOzKVaTyGSE24GzDdr6/qMSE0tGIkcCjray+IrxZAeoJJaV2yhwi2Jxmo1yS7bFFbqxBRDVE
- CvA05cISw6UDzyeJp6pls+B4lrjxAclJrGmHTZaxeNvimEwAIiYsOIvOOkGa0S1/kgWGSfwHW
- r14++wFgc9wBMfQgQU0RAyUFozUvFH33ibq9LXyt0frtgOTmCAa5ffKW256tOcAMVmvf+es2k
- Ehk8HRtREitcJaefrKr7ct8WH8dJ2a3NvTBe66u68VrhDiwslurfhiw1xeRlYDlGAHzAyoJDF
- 19BQEUuAx9lG+cwQOpmMi1Dc7RfIA/dWkth2lPzk3jb56eMnWgIqgI5Y4iV4hoki3BFalr6Kt
- iOEMVDhJxA1YbVZm3XYUCcGbMr9uqRHki4YvxktvAJHaV/8TGGuTG0wluTmwqBgcgaoHv3Er2
- M7jF1cEBOipLU4/7vijh/lDIGMaVlPmogBjQJLGn7TTJZatH9TURFzdHsFlVKDW3ZyrzOiNAy
- ICOXPdqsHPtVcA0MJ/pzxxLO0wBB8hu5Iqp9VqZazKGLfm6RGcxrE6Rl0ikphPzvR/PKFPwNJ
- 7EXra8/FAl9fP4LERrTGDoPMfZqZIqY/KrYYBKKiK9NoDH5XPmIq20CVcGX5LX9ndeRto74hL
- S+paZ3yQMZJWCoUfrhYlrc3c4s+YRyiR+1tAlv8b4O/GVsZ5++KKjvY126SnHCqGQQf3VigsQ
- 9W4XEfolj6tZxcEgFE/eMXBoUS3IPqCHTIuSRDvbYsF4HykyjUdUAJ2qfDh4kdCzWXnvItVug
- OFDIjZmcEImbHEJih4FtAYMf1P1V5kXuwGR8nvskNVp/1Yt786NLc2v51LDu1LSJZnAmgyQRk
- OieQgq6gj6vMS6+NoCpYyVmV9jtthNNgKvmx2Z2moTwixubrMDUqdq5xZMJsDXKfqpOjMLgJd
- w9u8zXhejfN3pgTU6PW4jBXtvD7w2rqkP4/NEhCtj1jdhGfHZgeAqItHofQiTLl7Nc1i2KHQ0
- NtGmYHPEUcJ28KikV
+Content-Disposition: inline
+In-Reply-To: <AM6PR03MB5170A15099986CEC3189F251E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> What about the following?
->
-> User can group identical parent keys together and use braces to list chi=
-ld keys
-> under them.
+On Tue, Mar 03, 2020 at 08:08:26AM +0000, Bernd Edlinger wrote:
+> On 3/3/20 6:29 AM, Kees Cook wrote:
+> > On Tue, Mar 03, 2020 at 04:54:34AM +0000, Bernd Edlinger wrote:
+> >> On 3/3/20 3:26 AM, Kees Cook wrote:
+> >>> On Mon, Mar 02, 2020 at 10:18:07PM +0000, Bernd Edlinger wrote:
+> >>>> [...]
+> >>>
+> >>> If I'm reading this patch correctly, this changes the lifetime of the
+> >>> cred_guard_mutex lock to be:
+> >>> 	- during prepare_bprm_creds()
+> >>> 	- from flush_old_exec() through install_exec_creds()
+> >>> Before, cred_guard_mutex was held from prepare_bprm_creds() through
+> >>> install_exec_creds().
+> > 
+> > BTW, I think the effect of this change (i.e. my paragraph above) should
+> > be distinctly called out in the commit log if this solution moves
+> > forward.
+> > 
+> 
+> Okay, will do.
+> 
+> >>> That means, for example, that check_unsafe_exec()'s documented invariant
+> >>> is violated:
+> >>>     /*
+> >>>      * determine how safe it is to execute the proposed program
+> >>>      * - the caller must hold ->cred_guard_mutex to protect against
+> >>>      *   PTRACE_ATTACH or seccomp thread-sync
+> >>>      */
+> >>
+> >> Oh, right, I haven't understood that hint...
+> > 
+> > I know no_new_privs is checked there, but I haven't studied the
+> > PTRACE_ATTACH part of that comment. If that is handled with the new
+> > check, this comment should be updated.
+> > 
+> 
+> Okay, I change that comment to:
+> 
+> /*
+>  * determine how safe it is to execute the proposed program
+>  * - the caller must have set ->cred_locked_in_execve to protect against
+>  *   PTRACE_ATTACH or seccomp thread-sync
+>  */
+> 
+> >>> I think it also means that the potentially multiple invocations
+> >>> of bprm_fill_uid() (via prepare_binprm() via binfmt_script.c and
+> >>> binfmt_misc.c) would be changing bprm->cred details (uid, gid) without
+> >>> a lock (another place where current's no_new_privs is evaluated).
+> >>
+> >> So no_new_privs can change from 0->1, but should not
+> >> when execve is running.
+> >>
+> >> As long as the calling thread is in execve it won't do this,
+> >> and the only other place, where it may set for other threads
+> >> is in seccomp_sync_threads, but that can easily be avoided see below.
+> > 
+> > Yeah, everything was fine until I had to go complicate things with
+> > TSYNC. ;) The real goal is making sure an exec cannot gain privs while
+> > later gaining a seccomp filter from an unpriv process. The no_new_privs
+> > flag was used to control this, but it required that the filter not get
+> > applied during exec.
+> > 
+> >>> Related, it also means that cred_guard_mutex is unheld for every
+> >>> invocation of search_binary_handler() (which can loop via the previously
+> >>> mentioned binfmt_script.c and binfmt_misc.c), if any of them have hidden
+> >>> dependencies on cred_guard_mutex. (Thought I only see bprm_fill_uid()
+> >>> currently.)
+> >>>
+> >>> For seccomp, the expectations about existing thread states risks races
+> >>> too. There are two locks held for TSYNC:
+> >>> - current->sighand->siglock is held to keep new threads from
+> >>>   appearing/disappearing, which would destroy filter refcounting and
+> >>>   lead to memory corruption.
+> >>
+> >> I don't understand what you mean here.
+> >> How can this lead to memory corruption?
+> > 
+> > Mainly this is a matter of how seccomp manages its filter hierarchy
+> > (since the filters are shared through process ancestry), so if a thread
+> > appears in the middle of TSYNC it may be racing another TSYNC and break
+> > ancestry, leading to bad reference counting on process death, etc.
+> > (Though, yes, with refcount_t now, things should never corrupt, just
+> > waste memory.)
+> > 
+> 
+> I assume for now, that the current->sighand->siglock held while iterating all
+> threads is sufficient here.
+> 
+> >>> - cred_guard_mutex is held to keep no_new_privs in sync with filters to
+> >>>   avoid no_new_privs and filter confusion during exec, which could
+> >>>   lead to exploitable setuid conditions (see below).
+> >>>
+> >>> Just racing a malicious thread during TSYNC is not a very strong
+> >>> example (a malicious thread could do lots of fun things to "current"
+> >>> before it ever got near calling TSYNC), but I think there is the risk
+> >>> of mismatched/confused states that we don't want to allow. One is a
+> >>> particularly bad state that could lead to privilege escalations (in the
+> >>> form of the old "sendmail doesn't check setuid" flaw; if a setuid process
+> >>> has a filter attached that silently fails a priv-dropping setuid call
+> >>> and continues execution with elevated privs, it can be tricked into
+> >>> doing bad things on behalf of the unprivileged parent, which was the
+> >>> primary goal of the original use of cred_guard_mutex with TSYNC[1]):
+> >>>
+> >>> thread A clones thread B
+> >>> thread B starts setuid exec
+> >>> thread A sets no_new_privs
+> >>> thread A calls seccomp with TSYNC
+> >>> thread A in seccomp_sync_threads() sets seccomp filter on self and thread B
+> >>> thread B passes check_unsafe_exec() with no_new_privs unset
+> >>> thread B reaches bprm_fill_uid() with no_new_privs unset and gains privs
+> >>> thread A still in seccomp_sync_threads() sets no_new_privs on thread B
+> >>> thread B finishes exec, now running with elevated privs, a filter chosen
+> >>>          by thread A, _and_ nnp set (which doesn't matter)
+> >>>
+> >>> With the original locking, thread B will fail check_unsafe_exec()
+> >>> because filter and nnp state are changed together, with "atomicity"
+> >>> protected by the cred_guard_mutex.
+> >>>
+> >>
+> >> Ah, good point, thanks!
+> >>
+> >> This can be fixed by checking current->signal->cred_locked_for_ptrace
+> >> while the cred_guard_mutex is locked, like this for instance:
+> >>
+> >> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> >> index b6ea3dc..377abf0 100644
+> >> --- a/kernel/seccomp.c
+> >> +++ b/kernel/seccomp.c
+> >> @@ -342,6 +342,9 @@ static inline pid_t seccomp_can_sync_threads(void)
+> >>         BUG_ON(!mutex_is_locked(&current->signal->cred_guard_mutex));
+> >>         assert_spin_locked(&current->sighand->siglock);
+> >>  
+> >> +       if (current->signal->cred_locked_for_ptrace)
+> >> +               return -EAGAIN;
+> >> +
+> > 
+> > Hmm. I guess something like that could work. TSYNC expects to be able to
+> > report _which_ thread wrecked the call, though... I wonder if in_execve
+> > could be used to figure out the offending thread. Hm, nope, that would
+> > be outside of lock too (and all users are "current" right now, so the
+> > lock wasn't needed before).
+> > 
+> 
+> I could move that in_execve = 1 to prepare_bprm_creds, if it really matters,
+> but the caller will die quickly and cannot do anything with that information
+> when another thread executes execve, right?
+> 
+> >>         /* Validate all threads being eligible for synchronization. */
+> >>         caller = current;
+> >>         for_each_thread(caller, thread) {
+> >>
+> >>
+> >>> And this is just the bad state I _can_ see. I'm worried there are more...
+> >>>
+> >>> All this said, I do see a small similarity here to the work I did to
+> >>> stabilize stack rlimits (there was an ongoing problem with making multiple
+> >>> decisions for the bprm based on current's state -- but current's state
+> >>> was mutable during exec). For this, I saved rlim_stack to bprm and ignored
+> >>> current's copy until exec ended and then stored bprm's copy into current.
+> >>> If the only problem anyone can see here is the handling of no_new_privs,
+> >>> we might be able to solve that similarly, at least disentangling tsync/nnp
+> >>> from cred_guard_mutex.
+> >>>
+> >>
+> >> I still think that is solvable with using cred_locked_for_ptrace and
+> >> simply make the tsync fail if it would otherwise be blocked.
+> > 
+> > I wonder if we can find a better name than "cred_locked_for_ptrace"?
+> > Maybe "cred_unfinished" or "cred_locked_in_exec" or something?
+> > 
+> 
+> Yeah, I'd go with "cred_locked_in_execve".
+> 
+> > And the comment on bool cred_locked_for_ptrace should mention that
+> > access is only allowed under cred_guard_mutex lock.
+> > 
+> 
+> okay.
+> 
+> >>>> +	sig->cred_locked_for_ptrace = false;
+> > 
+> > This is redundant to the zalloc -- I think you can drop it (unless
+> > someone wants to keep it for clarify?)
+> > 
+> 
+> I'll remove that here and in init/init_task.c
+> 
+> > Also, I think cred_locked_for_ptrace needs checking deeper, in
+> > __ptrace_may_access(), not in ptrace_attach(), since LOTS of things make
+> > calls to ptrace_may_access() holding cred_guard_mutex, expecting that to
+> > be sufficient to see a stable version of the thread...
+> > 
+> 
+> No, these need to be addressed individually, but most users just want
+> to know if the current credentials are sufficient at this moment, but will
+> not change the credentials, as ptrace and TSYNC do. 
+> 
+> BTW: Not all users have cred_guard_mutex, see mm/migrate.c,
+> mm/mempolicy.c, kernel/futex.c, fs/proc/namespaces.c etc.
+> So adding an access to cred_locked_for_execve in ptrace_may_access is
+> probably not an option.
 
-Another wording alternative:
-
-The user can group settings together. Curly brackets enclose a configurati=
-on then
-according to a parent context.
-
-Regards,
-Markus
+That could be solved by e.g. adding ptrace_may_access_{no}exec() taking
+cred_guard_mutex.
