@@ -2,97 +2,126 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D71FC3F2D9
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 09:20:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A252EC3F2D1
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 10:22:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4C11B20705
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 09:20:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74A5B214D8
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 10:22:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oBPRt+y4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725797AbgCDJUj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 04:20:39 -0500
-Received: from smtp3-1.goneo.de ([85.220.129.38]:57975 "EHLO smtp3-1.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725283AbgCDJUj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 04:20:39 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by smtp3.goneo.de (Postfix) with ESMTP id 2CC2423F604;
-        Wed,  4 Mar 2020 10:20:37 +0100 (CET)
-X-Virus-Scanned: by goneo
-Received: from smtp3.goneo.de ([127.0.0.1])
-        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id EgvGAP8NJ19H; Wed,  4 Mar 2020 10:20:35 +0100 (CET)
-Received: from [192.168.1.127] (dyndsl-091-096-162-220.ewe-ip-backbone.de [91.96.162.220])
-        by smtp3.goneo.de (Postfix) with ESMTPSA id 24A4523F935;
-        Wed,  4 Mar 2020 10:20:35 +0100 (CET)
-Subject: Re: [PATCH] scripts/sphinx-pre-install: add '-p python3' to
- virtualenv
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     "Bird, Tim" <Tim.Bird@sony.com>, Jonathan Corbet <corbet@lwn.net>,
-        "tbird20d@gmail.com" <tbird20d@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <1582594481-23221-1-git-send-email-tim.bird@sony.com>
- <20200302130911.05a7e465@lwn.net>
- <MWHPR13MB0895EFDA9EBF7740875E661CFDE40@MWHPR13MB0895.namprd13.prod.outlook.com>
- <20200304064214.64341a49@onda.lan>
- <31a69fe7-c08d-9381-a111-5f522a4c9ffd@darmarit.de>
- <20200304093138.6aced5a0@coco.lan>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <c491adf3-ae49-fefc-ea6d-32b75f4f9ca9@darmarit.de>
-Date:   Wed, 4 Mar 2020 10:20:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S2387473AbgCDKWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 05:22:01 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:37773 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728301AbgCDKWA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 05:22:00 -0500
+Received: by mail-pg1-f193.google.com with SMTP id z12so783242pgl.4;
+        Wed, 04 Mar 2020 02:21:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=I473f1xOp0xcoMWJcjpZgjb3E6lfpmms9lzoIFvnCxw=;
+        b=oBPRt+y4oU6gnbNSeAk4XBIEVcAjxjMq228H+/Kf1FVzxqZPtbXDx2lA2jlKcj/biY
+         fG/RGMGcmrEFCg9dDC7ty3/HE0WtyL19YMCDaBKexJvIsCgBtG6nDkvJMeA0UcAa4Yat
+         mlT8AjN/Ihe6sSztMgQILbSACeIXn0r4gKZbjjQxtn4uKXukNLwGp2cIHOB4tQMWi1O8
+         /q5EcQTNJfhWWrmLgM+tfHSDgF1zxInkynQDfYwyiI+Jfuv7S9MpK/hMrxKPsooH7ES9
+         l9OR5F3KSOAuQxuGccvg9gZxHVJspJxKWvjARF6aTmNR/nHxtUUSX8a1rY+uIlnzblVe
+         cqPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=I473f1xOp0xcoMWJcjpZgjb3E6lfpmms9lzoIFvnCxw=;
+        b=fUEtRry1qYUgZs85mLdAYrvubdHB0IIn8QzYg6dpNBUwUbrJmUToB4ZyO71YBwrRN+
+         XPssowdYO8Wg9JX8Yev3O+bVpNWg/1QUUsNcZND1Utj0PuLg49KEQHCZd03DnuLaQH5E
+         92+Jd1KpPkd86oK+6SqBZKNUNCIe6ooze3IBItGCFAZENHKq65U95wRtogm8JBDXS7tj
+         9Rm/JePM06TJKwHVsf94ZRpR2AGpQ7AFSGyMwxtb3h3CbGBx181h2IAqQA2Al97TBWFR
+         Hsu3/oH25ZnH029TCkRHPk02aZtyQbBPRyuhY67RKwm0Jae89HtTHZwKP2tDXueEDFF+
+         kn7g==
+X-Gm-Message-State: ANhLgQ3ehtei3+V3io1rU/JTr74OGF9mouixGPBE+iFDv+3nnXm3XAg+
+        vMsvdI8QwnC9QdGakd3Z7tKeBiWC5d0WfDELtSM=
+X-Google-Smtp-Source: ADFU+vsSfrM9BQwFeyP+XfNzdF7yaI72ARkLmWTSOk+5nI1rJvvwH2iEy8/o/nVhEv9EKoIYE2/Tn2seuagHTt0BorI=
+X-Received: by 2002:a63:1246:: with SMTP id 6mr1947203pgs.4.1583317319277;
+ Wed, 04 Mar 2020 02:21:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200304093138.6aced5a0@coco.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+References: <20200303005035.13814-1-luke.r.nels@gmail.com> <20200303005035.13814-5-luke.r.nels@gmail.com>
+ <20200303100228.GJ1224808@smile.fi.intel.com> <CADasFoCq7S2KRYg+ghAKt1e+hELzEMJaNH74sGdjM7E=z3KcnQ@mail.gmail.com>
+In-Reply-To: <CADasFoCq7S2KRYg+ghAKt1e+hELzEMJaNH74sGdjM7E=z3KcnQ@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 4 Mar 2020 12:21:51 +0200
+Message-ID: <CAHp75VezOTk4kURAkS6OQqPjdiYsPE292ix+WHAPvs8vGpCfGg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v4 4/4] MAINTAINERS: Add entry for RV32G BPF JIT
+To:     Luke Nelson <lukenels@cs.washington.edu>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        bpf <bpf@vger.kernel.org>, Luke Nelson <luke.r.nels@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andriin@fb.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>,
+        Xi Wang <xi.wang@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Mar 4, 2020 at 4:34 AM Luke Nelson <lukenels@cs.washington.edu> wro=
+te:
+> On Tue, Mar 3, 2020 at 2:02 AM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > > -BPF JIT for RISC-V (RV64G)
+> > > +BPF JIT for 32-bit RISC-V (RV32G)
+> > > +M:   Luke Nelson <luke.r.nels@gmail.com>
+> > > +M:   Xi Wang <xi.wang@gmail.com>
+> > > +L:   bpf@vger.kernel.org
+> > > +S:   Maintained
+> > > +F:   arch/riscv/net/
+> > > +X:   arch/riscv/net/bpf_jit_comp.c
+> > > +
+> > > +BPF JIT for 64-bit RISC-V (RV64G)
+> > >  M:   Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
+> > > -L:   netdev@vger.kernel.org
+> > > +L:   bpf@vger.kernel.org
+> > >  S:   Maintained
+> > >  F:   arch/riscv/net/
+> > > +X:   arch/riscv/net/bpf_jit_comp32.c
+> >
+> > Obviously this breaks an order. Please, fix.
+> > Hint: run parse-maintainers.pl after the change.
 
-Am 04.03.20 um 09:31 schrieb Mauro Carvalho Chehab:
-> Em Wed, 4 Mar 2020 07:20:48 +0100
-> Markus Heiser <markus.heiser@darmarit.de> escreveu:
->> With py3 the recommended way to install virtual environments is::
->>
->>     python3 -m venv sphinx-env
->>
->> This (python3) is what worked for me on RHEL/CentOS (dnf),
->> archlinux and debian/ubuntu (tested from 16.04 up to 20.04).
-> 
-> Hmm... from:
-> 
-> 	https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
-> 
-> This works since Python version 3.3. It sounds doable to use it.
-> 
-> Yet, if we'll be switching to this method, the script should check if
-> the version is 3.3 or newer. The logic inside get_sphinx_fname() would
-> also require some changes, as it won't need to install anymore the
-> virtualenv program for Python >= 3.3.
+> Thanks for the comment!
+>
+> I'll change the entry names in v5 to be "BPF JIT for RISC-V (32-bit)"
+> and "BPF JIT for RISC-V (64-bit)", similar to the x86 JIT entries.
+> This will pass parse-maintainers.pl and the entries are still in
+> order.
 
-I guess you can ignore 3.2 and downwards
+Thank you!
 
-   https://en.wikipedia.org/wiki/History_of_Python#Table_of_versions
-
-Support for py2.7 and >=py3.3 should match nearly all use cases / distributions 
-we support.
-
-BTW: starting scripts with:
-
--m <module-name>
-     Searches sys.path for the named module and runs the
-     corresponding .py file as a script.
-
-is mostly more robust.  The option exists also in py2.  From py3.3 on
-a subset of virtualenv is built-in, so you can run '-m venv' ot of the
-box.
-
-   -- Markus --
+--=20
+With Best Regards,
+Andy Shevchenko
