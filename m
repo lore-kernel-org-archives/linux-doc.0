@@ -2,102 +2,135 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73450C3F2C6
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 00:34:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB6EBC3F2D7
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 02:31:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3F04A20870
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 00:34:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9446A214DB
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 02:31:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="WtNevm5+"
+	dkim=pass (1024-bit key) header.d=cs.washington.edu header.i=@cs.washington.edu header.b="S8jgdom0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727870AbgCDAev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 19:34:51 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:43794 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727725AbgCDAev (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 19:34:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=WG3iPdftyaxe4JF5JBknRpB8gUrE1SSRMPAlrPJsmAw=; b=WtNevm5+K2WjRRR67Ed0jVpB6
-        2oJaPGiNNJmApUlAltjHdWr9W/NretAGPe9Z6tevcgzgRk9L2yAT0tUbHxpOwAaek/kj+oBUg2DMe
-        JyaA7k+NBSgfftFwLQGsOsS2Q0MpVXffr86yMK07g1Ig/U+ImfanNGrozJLMbwFJNcU9jmwFCB4h1
-        sgd7H/znFf3SbrihoxKv1/LajzEzRX9qYpazbzDB//g1fE+iCmm7cKKvnfIVCV/itV6RmsQF5gvP6
-        iGrgNxkcuKyFcnpfeGomwtjYtDu/0/koB1HvTX+Y3fBfsYWqE17Z1P80Tv0ZMyRI5HNBe9zsAQ1Eq
-        lXxz6ZIWA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60064)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1j9Hzo-00039p-FC; Wed, 04 Mar 2020 00:34:44 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1j9Hzm-0006Mf-W2; Wed, 04 Mar 2020 00:34:43 +0000
-Date:   Wed, 4 Mar 2020 00:34:42 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     David Miller <davem@davemloft.net>
-Cc:     kuba@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] doc: sfp-phylink: correct code indentation
-Message-ID: <20200304003442.GW25745@shell.armlinux.org.uk>
-References: <E1j97cE-0004aW-Ur@rmk-PC.armlinux.org.uk>
- <20200303.153546.1011655145785464830.davem@davemloft.net>
+        id S2387460AbgCDCbX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 21:31:23 -0500
+Received: from mail-il1-f193.google.com ([209.85.166.193]:36058 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387452AbgCDCbX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 21:31:23 -0500
+Received: by mail-il1-f193.google.com with SMTP id b17so516553iln.3
+        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2020 18:31:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.washington.edu; s=goo201206;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=iDh/enhDaAA8PUFA/sO33m/8w76mEhVPC2n0905OieU=;
+        b=S8jgdom0wODh397o+u6x7vdYMOxPd/sn1jhl7jFTzqmZwArA/RGIOqXd1Lfk54/0Vl
+         OnuKtqPJi4jEGtECkwc5BXE+qT27/RonNFdTLx9kPE210O+Z5T2l6hPG58KWXs+eDdf1
+         pHa2aWWb75igheHNKaBH3PpojCyHVsQH0TMYk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=iDh/enhDaAA8PUFA/sO33m/8w76mEhVPC2n0905OieU=;
+        b=NZ6mYb2FL18skyFngxB9uBlq8bG5O02XidE9SmZ286rYqNfqE1ejJYhfd2x/fqyHUD
+         Mbq1BEt6y+BoSgnS1jJ+6AyVg7+vi4+RYL+9vDyEtjO5dw4bLuwcmNTN20QbIZu2i37P
+         yj2MEQe8xlNKS4guboo5fqwcaRjPrJonDa38azQtOP0pPNETVOR5SCNMIDBH98rU9PLE
+         /7YJ1rJR0xTiB7a+6CkfZPbaqLWITq0xvsugpMDRfPn7QuBJ86dJLVTWxwbO/LX3vpqo
+         M0DC1M62PcqmgwixDBkN0os1Z7MHORa1KzRkXDxd6iHzI3kBXyjnO0zFA7FwNodGwGfl
+         HV4w==
+X-Gm-Message-State: ANhLgQ0XKS8opaFa5hqxCiZLPUpBTCdnDvp5uwfNQcy4nRcASv1I/bGl
+        pFPHOl7PkFyzQMMCRzus+xS6XnBBYSh5TZOnm/TMow==
+X-Google-Smtp-Source: ADFU+vtpJ/AVr87l3sVJ8pp3Eu7HomjQQiORzxtMTMauDedmgqcfPEE0GdUhImRuEnjWdcebpvzP0Zzi0Nqw6HfYP3A=
+X-Received: by 2002:a92:860a:: with SMTP id g10mr674584ild.280.1583289081991;
+ Tue, 03 Mar 2020 18:31:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200303.153546.1011655145785464830.davem@davemloft.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200303005035.13814-1-luke.r.nels@gmail.com> <20200303005035.13814-2-luke.r.nels@gmail.com>
+ <CAJ+HfNhSj9ycgh8Y44b_ZruW1A=+W_53fXnCDc488WXSESJ3dw@mail.gmail.com>
+In-Reply-To: <CAJ+HfNhSj9ycgh8Y44b_ZruW1A=+W_53fXnCDc488WXSESJ3dw@mail.gmail.com>
+From:   Luke Nelson <lukenels@cs.washington.edu>
+Date:   Tue, 3 Mar 2020 18:31:11 -0800
+Message-ID: <CADasFoC5EEXdq43waj9pQDb9HtpG2bWE2yMVySBZ4rpopYbROQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v4 1/4] riscv, bpf: move common riscv JIT code to header
+To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
+Cc:     bpf <bpf@vger.kernel.org>, Luke Nelson <luke.r.nels@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andriin@fb.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Xi Wang <xi.wang@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 03:35:46PM -0800, David Miller wrote:
-> From: Russell King <rmk+kernel@armlinux.org.uk>
-> Date: Tue, 03 Mar 2020 13:29:42 +0000
-> 
-> > Using vim to edit the phylink documentation reveals some mistakes due
-> > to the "invisible" pythonesque white space indentation that can't be
-> > seen with other editors. Fix it.
-> > 
-> > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
-> 
-> I applied this, but you do know that GIT is going to warn about the
-> trailing whitespace to me:
-> 
-> .git/rebase-apply/patch:29: trailing whitespace.
-> 	
-> .git/rebase-apply/patch:39: trailing whitespace.
-> 	
-> warning: 2 lines add whitespace errors.
-> 
-> Do the empty lines really need that leading TAB?
+Hi Bj=C3=B6rn,
 
-If vim's syntax colouring is correct, then it does need the tab for
-the code sequence to be recognised as a block of code.
+Thanks for the comments! Inlined responses below:
 
-As kerneldoc is based on python, and white-space indentation defining
-a block of code is a very (annoying) pythonesque thing, it seems that
-vim's probably correct.  But... unless someone knows how the .rst
-format really works...
+On Mon, Mar 2, 2020 at 11:50 PM Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.co=
+m> wrote:
+>
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Common functionality for RV32 and RV64 BPF JIT compilers
+> > + *
+> > + * Copyright (c) 2019 Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
+> > + * Copyright (c) 2020 Luke Nelson <luke.r.nels@gmail.com>
+> > + * Copyright (c) 2020 Xi Wang <xi.wang@gmail.com>
+>
+> I'm no lawyer, so this is more of a question; You've pulled out code
+> into a header, and renamed two functions. Does that warrant copyright
+> line additions? Should my line be removed?
 
-It could be that vim's syntax colouring for .rst files is broken.
-I was hoping that the documentation people would've spoken up about
-that though, as I explicitly stated in the commit message that the
-patch was based on vim's behaviour.
+This header also includes new code for emitting instructions required
+for the RV32 JIT (e.g., sltu) and some additional pseudoinstructions
+(e.g., bgtu and similar). I'm also no lawyer, so I don't know either
+if this rises to the level of adding copyright lines. I'm happy to
+do the following in v5 if it looks better:
 
-Not having the tabs causes vim to reverse-bold a lot of the file,
-making it basically uneditable without sunglasses.
++ * Copyright (c) 2019 Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
++ *
++ * Modified by ...
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+> > +#if __riscv_xlen =3D=3D 64
+>
+> Please remove this. If the inlined functions are not used, they're not
+> part of the binary. This adds complexity to the code, and without it
+> we can catch build errors early on!
+
+I agree in general we should avoid #if. The reason for using it
+here is to cause build errors if the RV32 JIT ever tries to emit
+an RV64-only instruction by mistake. Otherwise, what is now a build
+error would be delayed to an illegal instruction trap when the JITed
+code is executed, which is much harder to find and diagnose.
+
+We could use separate files, bpf_jit_32.h and bpf_jit_64.h (the
+latter will include the former), if we want to avoid #if. Though
+this adds another form of complexity.
+
+So the options here are 1) using no #if, with the risk of hiding
+subtle bugs in the RV32 JIT; 2) using #if as is; and 3) using
+separate headers. What do you think?
+
+Thanks!
+
+Luke
