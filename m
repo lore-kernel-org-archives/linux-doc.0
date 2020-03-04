@@ -2,270 +2,138 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F8FC3F2CD
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 14:37:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C8B1C3F2CD
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 14:46:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5104E20866
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 14:37:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F368F2166E
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 14:46:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="Q5z+7a5o"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729623AbgCDOhw convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 09:37:52 -0500
-Received: from mail-oln040092072016.outbound.protection.outlook.com ([40.92.72.16]:23299
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726579AbgCDOhw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 09:37:52 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WPM7oXtuh2PQX/o2c/awB8JgMzyPXI1GqQfLmPPQWvnCLzld5FhuhlDi+bPO/OfrLc+jTT+uzjVFtUnk9UlEjnmfw8cG+/YV5EMM71W6A+KIfwxk8RMcLTttTaqZJ8D7GOAaVvGTDryQa+J8NkIM6DTqPkOw0jFac+p3TP5bzQDTMy3ObjaKHqiRp/wMa0ITuRTQXa5c2qrgilIBEvYcTKHWZ8atLxjufLxxEJ8AwFfFgwd8LXTLDgWS0BX7b9K0Xta1181NuvioWdyU6SkBanPTv7Z38NphNvSJxs0WU8rfHwtx+2/dwFABEXI4tQIKhsiDzUa1JApEU+A4wW2m5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QcXQPedkhnNFfILIej2nx8/wTn4g9uUg8LLYl2MjqTA=;
- b=boVa9SH309ngrPYevhQ03HXpzQjwgGd+LxtBywBfb9KyCnaNci/7foGrcHZFkfj6TFchDqXht7htIDnJJ8EEK1vJEW4RkqqXeRhEDpOb92pmyBFDlGM6XNMEQK1E0BrF3ec7KsVRZ7DhXCLC3CvboluC5D1m28bhxxKBViQpW6jy9QRCbOC7X68wudVtwC4EaBRl04oDuLiXlC4hVmcyMReTewPt0bxSZty3OGuInv69C8jVeG0tBBOshMoN3omSDZvFvG4lTF51+0UDcozPgaOqdDNT8/EZ4n9g/sDrgG8vW6SXHd1XZnWSTOid7squVKoiFlmz7iSNnD9JWzv7og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from DB5EUR03FT008.eop-EUR03.prod.protection.outlook.com
- (2a01:111:e400:7e0a::3c) by
- DB5EUR03HT151.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e0a::501)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Wed, 4 Mar
- 2020 14:37:46 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.20.52) by
- DB5EUR03FT008.mail.protection.outlook.com (10.152.20.98) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Wed, 4 Mar 2020 14:37:46 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Wed, 4 Mar 2020
- 14:37:46 +0000
-Received: from [192.168.1.101] (92.77.140.102) by ZRAP278CA0015.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15 via Frontend Transport; Wed, 4 Mar 2020 14:37:44 +0000
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-CC:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
-Thread-Topic: [PATCHv5] exec: Fix a deadlock in ptrace
-Thread-Index: AQHV8VwLHjttz8YuA0eRTVSvUK/ceqg2/AiMgAAYPYCAAFh/v4ABFW8A
-Date:   Wed, 4 Mar 2020 14:37:46 +0000
-Message-ID: <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74zmfc9.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87k142lpfz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <875zfmloir.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nmjulm.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003021531.C77EF10@keescook>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74xi4kz.fsf@x220.int.ebiederm.org>
-In-Reply-To: <87a74xi4kz.fsf@x220.int.ebiederm.org>
-Accept-Language: en-US, en-GB, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: ZRAP278CA0015.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:10::25) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-x-incomingtopheadermarker: OriginalChecksum:8814B95B07A5B0B59BE91785DDCE9E40209FCCC148AD5BC9662A74C4C04787B2;UpperCasedChecksum:E3AEDB6651F319D354AF4BA117D37D3DD92C011E561AB11076661740AC6D35FB;SizeAsReceived:9784;Count:50
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [lNZ/pEmcA9wn5CLL9LaN1KSCnE9NpNc5]
-x-microsoft-original-message-id: <6fab002c-2888-531a-f70d-4d7149bca60d@hotmail.de>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 50
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 681f5db9-d17b-49c9-2eda-08d7c0499aea
-x-ms-traffictypediagnostic: DB5EUR03HT151:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cFUTlXWU0emzpD7yJZ7X/AcOPA6PfI2sjK95LBS1HxgdeALb/3UPEd2zHG6fLJEEij3lW3xDG7SBzT7CBkau8yT6avuneGDRujNzPD896TCxxrxNUnFhKD78GJMmbMFM72XR4liH8jRNuG6krkqtf0ONT91P3Vra39RYCX0pvY2wi49zGnfsW5Q5WNstNBwK
-x-ms-exchange-antispam-messagedata: ql3ua4jqqanbhJSXEGSaZ/qbkSvNDWS8sTVT6aaCR3VYN8evbDUAxOi416yuLFcbgaFn5tm7/70/nc5Mb/iwISypeynwDNGWWyCd5rKNtPZ1/yCMnKFUPTc/oWHFufVCZ/iGS3ErpxWhdba+5HWLoA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <730E5A674ABEB245ADB99ECE0FDD8B86@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: 8BIT
+        id S1726413AbgCDOqm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 09:46:42 -0500
+Received: from mout.web.de ([212.227.17.12]:39947 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725795AbgCDOqm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Mar 2020 09:46:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1583333155;
+        bh=xAUjkZMNEOqn9QzZ6yJY18Y9cdiyleYEzRzzT1vt4vY=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=Q5z+7a5orRBV/M1jMwz79QR18z6BENEHrtGrrZIvH97qOInoeEQAOAo1JaJ/Y7gWe
+         quHTLfaYSbK7rNmtw0ceiFVPilalOmsO8ZCJ3oLeHT2ZmstRpcBONhBWVg2/Wnrnv4
+         e9A5tfaAht/9fkoN1RRhOgAvIYU9H+e0JPpG3oDU=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([78.49.53.147]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LtWo4-1jYhAF07W8-010y3V; Wed, 04
+ Mar 2020 15:45:55 +0100
+Subject: Re: [v4] Documentation: bootconfig: Update boot configuration
+ documentation
+To:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+References: <158322634266.31847.8245359938993378502.stgit@devnote2>
+ <158322635301.31847.15011454479023637649.stgit@devnote2>
+ <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
+ <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
+Date:   Wed, 4 Mar 2020 15:45:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 681f5db9-d17b-49c9-2eda-08d7c0499aea
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2020 14:37:46.5136
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR03HT151
+In-Reply-To: <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:5nKMEK3wVVfbImt4swlrePjgGoZjrYcXVt3rA+nTudbxA/HC3d1
+ pldol/s0I3c0o/gM2+3e4lp7ynOI3juDUIMDxhARaMRvhrdgdG6MZI/Ta/+tZZIaocTvePW
+ t1+PRJTVGpWsf0phuV8V7chq2e7NCl/d6S/+qi9x6uNyfFv2xyamViRJ9uJa4rhraNJG8LN
+ JkRRlLqPZEHwClagNZyBQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pSDlToBWnFQ=:d/pRe8hZlszIYUq9hSQqUR
+ oU/hXaqAadbmr5BropZjUMlG0Ys0yzE0+SWzOMmVGTCzalkJOyu/gRYodufLlyyPkp0/xnowO
+ fgjpHCqutOCpit2q2OfCC7i9FLDQURh7kHeWUbZalbl4bw3UvL6C1VFI3wnAqKTV5TXIbpPK3
+ jo6OfK7i1ofZUhQ+XOw2G5xiwDhJ8BtfdQFMahWkAus+d6nxS7AuEwwbX/HUJIrd4FnU+5omT
+ gmOzKVaTyGSE24GzDdr6/qMSE0tGIkcCjray+IrxZAeoJJaV2yhwi2Jxmo1yS7bFFbqxBRDVE
+ CvA05cISw6UDzyeJp6pls+B4lrjxAclJrGmHTZaxeNvimEwAIiYsOIvOOkGa0S1/kgWGSfwHW
+ r14++wFgc9wBMfQgQU0RAyUFozUvFH33ibq9LXyt0frtgOTmCAa5ffKW256tOcAMVmvf+es2k
+ Ehk8HRtREitcJaefrKr7ct8WH8dJ2a3NvTBe66u68VrhDiwslurfhiw1xeRlYDlGAHzAyoJDF
+ 19BQEUuAx9lG+cwQOpmMi1Dc7RfIA/dWkth2lPzk3jb56eMnWgIqgI5Y4iV4hoki3BFalr6Kt
+ iOEMVDhJxA1YbVZm3XYUCcGbMr9uqRHki4YvxktvAJHaV/8TGGuTG0wluTmwqBgcgaoHv3Er2
+ M7jF1cEBOipLU4/7vijh/lDIGMaVlPmogBjQJLGn7TTJZatH9TURFzdHsFlVKDW3ZyrzOiNAy
+ ICOXPdqsHPtVcA0MJ/pzxxLO0wBB8hu5Iqp9VqZazKGLfm6RGcxrE6Rl0ikphPzvR/PKFPwNJ
+ 7EXra8/FAl9fP4LERrTGDoPMfZqZIqY/KrYYBKKiK9NoDH5XPmIq20CVcGX5LX9ndeRto74hL
+ S+paZ3yQMZJWCoUfrhYlrc3c4s+YRyiR+1tAlv8b4O/GVsZ5++KKjvY126SnHCqGQQf3VigsQ
+ 9W4XEfolj6tZxcEgFE/eMXBoUS3IPqCHTIuSRDvbYsF4HykyjUdUAJ2qfDh4kdCzWXnvItVug
+ OFDIjZmcEImbHEJih4FtAYMf1P1V5kXuwGR8nvskNVp/1Yt786NLc2v51LDu1LSJZnAmgyQRk
+ OieQgq6gj6vMS6+NoCpYyVmV9jtthNNgKvmx2Z2moTwixubrMDUqdq5xZMJsDXKfqpOjMLgJd
+ w9u8zXhejfN3pgTU6PW4jBXtvD7w2rqkP4/NEhCtj1jdhGfHZgeAqItHofQiTLl7Nc1i2KHQ0
+ NtGmYHPEUcJ28KikV
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/3/20 9:08 PM, Eric W. Biederman wrote:
-> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
-> 
->> On 3/3/20 4:18 PM, Eric W. Biederman wrote:
->>> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
->>>> diff --git a/tools/testing/selftests/ptrace/vmaccess.c b/tools/testing/selftests/ptrace/vmaccess.c
->>>> new file mode 100644
->>>> index 0000000..6d8a048
->>>> --- /dev/null
->>>> +++ b/tools/testing/selftests/ptrace/vmaccess.c
->>>> @@ -0,0 +1,66 @@
->>>> +// SPDX-License-Identifier: GPL-2.0+
->>>> +/*
->>>> + * Copyright (c) 2020 Bernd Edlinger <bernd.edlinger@hotmail.de>
->>>> + * All rights reserved.
->>>> + *
->>>> + * Check whether /proc/$pid/mem can be accessed without causing deadlocks
->>>> + * when de_thread is blocked with ->cred_guard_mutex held.
->>>> + */
->>>> +
->>>> +#include "../kselftest_harness.h"
->>>> +#include <stdio.h>
->>>> +#include <fcntl.h>
->>>> +#include <pthread.h>
->>>> +#include <signal.h>
->>>> +#include <unistd.h>
->>>> +#include <sys/ptrace.h>
->>>> +
->>>> +static void *thread(void *arg)
->>>> +{
->>>> +	ptrace(PTRACE_TRACEME, 0, 0L, 0L);
->>>> +	return NULL;
->>>> +}
->>>> +
->>>> +TEST(vmaccess)
->>>> +{
->>>> +	int f, pid = fork();
->>>> +	char mm[64];
->>>> +
->>>> +	if (!pid) {
->>>> +		pthread_t pt;
->>>> +
->>>> +		pthread_create(&pt, NULL, thread, NULL);
->>>> +		pthread_join(pt, NULL);
->>>> +		execlp("true", "true", NULL);
->>>> +	}
->>>> +
->>>> +	sleep(1);
->>>> +	sprintf(mm, "/proc/%d/mem", pid);
->>>> +	f = open(mm, O_RDONLY);
->>>> +	ASSERT_LE(0, f);
->>>> +	close(f);
->>>> +	f = kill(pid, SIGCONT);
->>>> +	ASSERT_EQ(0, f);
->>>> +}
->>>> +
->>>> +TEST(attach)
->>>> +{
->>>> +	int f, pid = fork();
->>>> +
->>>> +	if (!pid) {
->>>> +		pthread_t pt;
->>>> +
->>>> +		pthread_create(&pt, NULL, thread, NULL);
->>>> +		pthread_join(pt, NULL);
->>>> +		execlp("true", "true", NULL);
->>>> +	}
->>>> +
->>>> +	sleep(1);
->>>> +	f = ptrace(PTRACE_ATTACH, pid, 0L, 0L);
->>>
->>> To be meaningful this code needs to learn to loop when
->>> ptrace returns -EAGAIN.
->>>
->>> Because that is pretty much what any self respecting user space
->>> process will do.
->>>
->>> At which point I am not certain we can say that the behavior has
->>> sufficiently improved not to be a deadlock.
->>>
->>
->> In this special dead-duck test it won't work, but it would
->> still be lots more transparent what is going on, since previously
->> you had two zombie process, and no way to even output debug
->> messages, which also all self respecting user space processes
->> should do.
-> 
-> Agreed it is more transparent.  So if you are going to deadlock
-> it is better.
-> 
-> My previous proposal (which I admit is more work to implement) would
-> actually allow succeeding in this case and so it would not be subject to
-> a dead lock (even via -EGAIN) at this point.
-> 
->> So yes, I can at least give a good example and re-try it several
->> times together with wait4 which a tracer is expected to do.
-> 
-> Thank you,
-> 
-> Eric
-> 
+> What about the following?
+>
+> User can group identical parent keys together and use braces to list chi=
+ld keys
+> under them.
 
-Okay, I think it can be done with minimal API changes,
-but it needs two mutexes, one that guards the execve,
-and one that guards only the credentials.
+Another wording alternative:
 
-If no traced sibling thread exists, the mutexes are used this way:
-lock(exec_guard_mutex)
-cred_locked_in_execve = true;
-de_thread()
-lock(cred_guard_mutex)
-unlock(cred_guard_mutex)
-cred_locked_in_execve = false;
-unlock(exec_guard_mutex)
+The user can group settings together. Curly brackets enclose a configurati=
+on then
+according to a parent context.
 
-so effectively no API change at all.
-
-If a traced sibling thread exists, the mutexes are used differently:
-lock(exec_guard_mutex)
-cred_locked_in_execve = true;
-unlock(exec_guard_mutex)
-de_thread()
-lock(cred_guard_mutex)
-unlock(cred_guard_mutex)
-lock(exec_guard_mutex)
-cred_locked_in_execve = false;
-unlock(exec_guard_mutex)
-
-Only the case changes that would deadlock anyway.
-
-
-Bernd.
+Regards,
+Markus
