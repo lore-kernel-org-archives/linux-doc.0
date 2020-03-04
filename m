@@ -2,144 +2,148 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 725E7C3F2D1
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 17:25:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF956C3F2CE
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 18:10:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 41D01217F4
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 17:25:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ACCA221556
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 18:10:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=Sony.onmicrosoft.com header.i=@Sony.onmicrosoft.com header.b="nri5pI//"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="fKpbZjmT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726915AbgCDRZo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 12:25:44 -0500
-Received: from mail-dm6nam11on2095.outbound.protection.outlook.com ([40.107.223.95]:37088
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726561AbgCDRZo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 12:25:44 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WMjUb5E+q6F1m3y+428S90R26Md0nNdmkMf95NpzG6E4Cin7hs1qG82Uezvc45DXHSkyRwjuOMpfzIshRoti1It6W4FNog8HYOjOXQYNV3k9OyGmxty7Q8dC9cTo04gmJ8bmD/4uZmxmLa710hU5b/cJ/T8KSc2pHGDz6/x1iKP/idt2SY411zTP1S76lW6jqykdlEYfeqTjpg+xAD2bugeceO5O4ShU76rK8REIT2/n8BzPm428Wqu5/By8WOGqVgrNGh8p+TaNAT6zGBt+CbQnZFCdmVVNl8NGZ7YunxK//d6inLpxKZLUgNEw4rAPV24VU53WEIV59GSJ8yywtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6HUjv6Gr3JdpMwYv3pNwCA0ugUqMPIdt10ugUKAD8Kw=;
- b=N2toLZYc6cZSRqnaq8q1USXe4m6WmoMazoDYLfDjLq9059UGiksPH+f7sv3x1AeLzqqXYsGWkIdE9rUZ/4hz9eqADiZfhUEUcEH217vnKOvh0LQDyOtJOC9ED2i+Z5jKQBgJ2zZJSKcayHT7A/oi65NvwltDkUKZ0WhJsC3h69+3UMZS9bIRddYskrYcd0LRw5w5plfSsHe/z3UYi4QMFnj2swnDMZt14JtlkUGOn1r9U9NfuUZLn87bbmCS9Wp9dzgdRa56zwgIm0P6IuvgaHKDOx8bJEgWz70C52kdsVXG4sBpmA27IKBOyWldtFXePQEe130aMip4NlX0etaH6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Sony.onmicrosoft.com;
- s=selector2-Sony-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6HUjv6Gr3JdpMwYv3pNwCA0ugUqMPIdt10ugUKAD8Kw=;
- b=nri5pI//emnChvB3K2ql8OSqzJVF/0sCwrAKpPN4yjUdUdzYEPDbtpFvY0BsQOXEYFLA4FtCmxIE9FpqwITCf0/PZpSeund0j/mzMpx4nc9Gxexb/7vz++H24Gp2agXVYpNkfPTsspiquTFZ9EIgb+LHv4tetSs9CIqe1fQJEeo=
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com (2603:10b6:300:2::27)
- by MWHPR13MB1663.namprd13.prod.outlook.com (2603:10b6:300:133::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.9; Wed, 4 Mar
- 2020 17:25:41 +0000
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::308b:ce00:680a:333e]) by MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::308b:ce00:680a:333e%6]) with mapi id 15.20.2793.013; Wed, 4 Mar 2020
- 17:25:41 +0000
-From:   "Bird, Tim" <Tim.Bird@sony.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-CC:     "tbird20d@gmail.com" <tbird20d@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] scripts/sphinx-pre-install: add '-p python3' to
- virtualenv
-Thread-Topic: [PATCH] scripts/sphinx-pre-install: add '-p python3' to
- virtualenv
-Thread-Index: AQHV63v40W4+vR3Xqky9SMj7WmB1Yag1xeiAgAFeC7CAADI+AIABYrOQ
-Date:   Wed, 4 Mar 2020 17:25:41 +0000
-Message-ID: <MWHPR13MB08952CDE2E8F16781B704C18FDE50@MWHPR13MB0895.namprd13.prod.outlook.com>
-References: <1582594481-23221-1-git-send-email-tim.bird@sony.com>
-        <20200302130911.05a7e465@lwn.net>
-        <MWHPR13MB0895EFDA9EBF7740875E661CFDE40@MWHPR13MB0895.namprd13.prod.outlook.com>
- <20200303130152.461c3494@lwn.net>
-In-Reply-To: <20200303130152.461c3494@lwn.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Tim.Bird@sony.com; 
-x-originating-ip: [160.33.66.122]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 259b4b7d-668f-4c8f-b8ad-08d7c061108a
-x-ms-traffictypediagnostic: MWHPR13MB1663:
-x-microsoft-antispam-prvs: <MWHPR13MB1663526D8678701F047CF252FDE50@MWHPR13MB1663.namprd13.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0332AACBC3
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(136003)(376002)(39860400002)(346002)(366004)(199004)(189003)(7696005)(66446008)(8676002)(2906002)(33656002)(66946007)(66556008)(8936002)(76116006)(478600001)(64756008)(81156014)(66476007)(6506007)(86362001)(81166006)(71200400001)(6916009)(5660300002)(316002)(54906003)(4326008)(9686003)(186003)(55016002)(52536014)(26005);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR13MB1663;H:MWHPR13MB0895.namprd13.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: sony.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: uhKkvO3MbAKSxROKe/KojgMNBSgM2bFXElq52tJJ1rUsKIJ7kwXnMwFXHrPZrreFXb5J8k3oh1MBblaJYSlXcVoI++Bkg2sJYtNDc7ElIdJ2y8y0F89euUdxHe0s2CTA7iIGhp5VK7lylU4I5Uiit/dyFhUDTMKmZ77ezgtWGiKLnzZrbrK1AHMIqUYpxJfaSaSqNXcnhZLO2bg2KUYinuFqmNvad2PeUOoJTb1IJrpWb2o8wav5U5RJ0O6upL9diwL+SUwOCksak96gLp+vX5NfonEY1M4Llwxgs1YW8wG2lFRD2043UKCi+7nNLIBponZPN4FNi21VF/bkqO9uAASpXDjB8OT8xVTwZZdYYfrVfBXBd/0FN3/biCIxtC/m25DYQuz8Id07uQBgYa3iiwESykU8flOrMY3dV5KbmKH8p9mSNiHVNa5w9XBkACqg
-x-ms-exchange-antispam-messagedata: 96yto+57RqLqpoe9qlJpqSLiNJlVOKWkvcj0wGIFk73e4ml/4W6wh9H2hTq2BwBd/gUwZkuJzxMiutdIiOKi06tse+fuJUjzgsQM7sWBEAP3IZrijKzGpVgphofNQxf7C4GwZtXAU5kdj4nH7LkXcQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1727656AbgCDSKR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 13:10:17 -0500
+Received: from mout.web.de ([212.227.17.12]:33397 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725795AbgCDSKR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Mar 2020 13:10:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1583345372;
+        bh=yG1FfvEV6fjcxBWY4L63ovhtCnbFDi/AgzvZs9hYyME=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=fKpbZjmTVqGuoqUrsU+JiRLVvGTAesmZ7CSxGaeMpX6LzfH03TfHwpD5BYHfIZyIf
+         SYlNkeqXuS91wB/flEzW4ZT3BqsLU2QVhAPLHR91dXLglPybgEv82CbcA23JYD2JNh
+         pvmb6nryiEpRvIhzxWTMvyTqoTE5HrYKOmp/HbhU=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([78.49.53.147]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MAMli-1jFYkI0fMo-00Bbni; Wed, 04
+ Mar 2020 19:09:32 +0100
+Subject: Re: [v4] Documentation: bootconfig: Update boot configuration
+ documentation
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-doc@vger.kernel.org
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+References: <158322634266.31847.8245359938993378502.stgit@devnote2>
+ <158322635301.31847.15011454479023637649.stgit@devnote2>
+ <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
+ <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
+ <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
+ <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <a9f8980e-4325-52c1-d217-d2fca1add37d@web.de>
+Date:   Wed, 4 Mar 2020 19:09:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 259b4b7d-668f-4c8f-b8ad-08d7c061108a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2020 17:25:41.7222
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kwvI/0Yxx9xdUFHNQ5GxOLasJOTrT2V8k2bDmlpcEQrpuXPF18QcleAURHnBI+ykR6FY5sHzrU/kJgCUCzcfeQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR13MB1663
+In-Reply-To: <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Cpg3UiQITGPMDmPJYUuo1Q59QXmd203BlFaReBaVTBkoPm3UJO2
+ QYUupdwbAEUJgdQKDxncuTF1W8nPpNEVu7Ibd8+rZamN6hz4OpKpxiNxHr2LyjmqvhSLmhY
+ Uv55Gdzr7QYX8yH2IX1McE9ZJKqsmIr6e2emg9eoaOegUAn1OGowN6FkfQWxfHtJRcNfHUG
+ maQxLE+ppJIanNZRGRAfA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:unAbB39ZtUE=:oSfrhnHlE2kSQaLEOINLXj
+ 3MyUrpFvEsIKHJ6quFHX1/LOJiIjmsqfQdQLXiRe+vDV4ZXS0k3z7hHjlqFowZ+ir5h7k/71h
+ hqK/maJvBCcesfs4L+dtBJNplK2nMFkx4A8Pk7n6ApHARgPsWP20IE5fL0RLxtOYT+IBIHx0n
+ /vBvRyD+1tj6xjJddUweQa10llX15PttDwajiY0L4szX6UgO81u15Sev927c/zptdOIPb+zK+
+ jcGGtjg63F8Qn/OQcOi/E3xcMhYGM4UU/UHf8Mknygqx5laT+01+2FAQS5cuPzOBYczfbriw8
+ i3QealJcYYoRt7FH/11993vZ9g0DLLCeGiK68YkyHv81S2QW52NpM4ssVDuqMu4ZvhzPWFTA6
+ pXTF/cLadLivUNTuDt0P2bPqsoHyslRG2IGtc/v+IyizONmkBK8AuXwR1r7fvObOVSYPFpZn2
+ q+gLX3s3pv+hKcuo3rvv0V71rf/skcNoN8QD3AF7IXuBvHbJee85h2IRDIsqsT0biHpM/fOTt
+ 9UFVW6ySVj8FFWo/tzSHP1MLIfYkmqS+GVAe80Kdm6PkWhTEmVe6syqopAIeTaqZYBI6bJkXK
+ 0YfPKDfr6WDMlVLy0LNazJNdp4/eobHfA9DGngxX7VmeJkKdAq460b9gXj2cS4H+GEWIvokrf
+ 3BVyuD1rc6Cvou/Qqu5P/w6w2HE5pSNYA4tX76wCqa8PMqnAdrBzNrhqJAq7EEk1EdkfFkteQ
+ hUT7XI54tpjA9b44VRRIYPWULoOgMtWIyNg0cWzOpG4zeJZbhFYwMfZPJ6h1qHPRlPkENnLym
+ 8oAbCk419yDCnxzlXmHOx779REzSifB78Hrhc7EPGCbd2x3TKqg7dfaj9Y2NVBwpOPXxK7SHR
+ Uxo1WIVJvd8XHZkdMWbqbOxERi/SNiZ1xFfKohV0h5CV0xg2E4xq7YFDx3rjWmS8H2YnlOopf
+ 5jU6qWOnQHm1MDa/HuO3U/bHFfjwbYuOvJSBRuWUNgmVUXFJ7qFzrxRFJiAD/iyYeZEVJaSLo
+ 3zFw+7A+O9K4FTfUrPoA4hjJt3Ff5gd5PJwsqbdlK3iTfO2/ySMUy3uQNpH3tYqJ6IYPRXCoS
+ c5YJ+/6NmKbJXy4LbuIEkbhSJwNYR0zG19IH9yvwjhusbLYHtMc041Iotd84cSlXQ1LF2tDwv
+ cF31HOTffXQJLUZ9zZrGHqcFJCkhwhXk1sh6PZ8E499DaJWDiipU0suAt72inifwwsTes+vWF
+ bj9pZff2DlgyaF8bZ
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> -----Original Message-----
-> From: Jonathan Corbet <corbet@lwn.net>
->=20
-> On Tue, 3 Mar 2020 17:07:48 +0000
-> "Bird, Tim" <Tim.Bird@sony.com> wrote:
->=20
-> > The less fragile approach would have been to just
-> > always add the '-p python3' option to the virtualenv setup hint,
-> > but Mauro seemed to want something more fine-tuned.
->=20
-> At some point I think we'll want to say that Python 2 just isn't supporte=
-d
-> anymore.  After all, the language itself isn't supported anymore.  Perhap=
-s
-> it's time to add a warning somewhere.
+>>> What about the following?
+>>>
+>>> User can group identical parent keys together and use braces to list c=
+hild keys
+>
+>    The user
+=E2=80=A6
+>>> under them.
+>>
+>> Another wording alternative:
+>>
+>> The user can group settings together. Curly brackets enclose a configur=
+ation then
+>> according to a parent context.
+>
+> I slightly prefer Masami's text.
 
-Probably.  IMHO always adding the 'p python3' would have been the
-first vestiges of such a hint, but maybe it should be more explicit.
-A more explicit statement of "watch out if your default python
-interpreter is python2" would have probably shortened some of=20
-my setup time.
+Would you like to improve the distinction for grouping the involved items?
 
-Ubuntu 16.04 and Ubuntu 18.04 both include python3, but have
-/usr/bin/python default to python2.  So, while the package recommendations
-from the script were good (and sufficient), the virtualenv hint was somewha=
-t
-lacking.
-
-And, just for full disclosure, I wish there was a way to mark this type of =
-fix
-with a obsolescence  flag so it could be removed later.  This is the type o=
-f
-thing that gets put into a script as a workaround for a transition period, =
-but
-keeps being run 10 years later when it's no longer relevant.  Heck, the who=
-le
-virtualenv recommendation might be irrelevant in the next version of Ubuntu
-(but maybe the script already figures that out.)
- -- Tim
-
-
+Regards,
+Markus
