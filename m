@@ -2,133 +2,81 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD018C3F2CE
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B461C3F2CE
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:20:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AF70C21739
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:08:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E6F3215A4
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:20:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="KPBxnELE"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S8gzW6+g"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726579AbgCDQIT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 11:08:19 -0500
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:58834 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728278AbgCDQIT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 11:08:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1583338099; x=1614874099;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=jc/5pmQb0YfPhtIbInDedgkyxcFInN57uJozqb4Q7Vc=;
-  b=KPBxnELEWwQRxi86ZgyWeL0TS14/E+WRA4aneA2vF2YyCXJ0GJgkbrBu
-   GRN8cST+iYuLkh9o2xxIaLQPG5v46TG6d8juXFgC4qU9jbIESzi2gdQ/k
-   YaO0I08Wq1I5qtq8jJF0E+azl13Dt+7B0RmW0H9GI5Mbyv1WoEmY1Rv/X
-   s=;
-IronPort-SDR: 2pyxj85lzSXsWPOES5aKY6zToYQjHYcLHFmoLoTVMVJEbwnzkx7WZo1br2DPd94KSzx0s4f9LR
- peenIz+NnxNg==
-X-IronPort-AV: E=Sophos;i="5.70,514,1574121600"; 
-   d="scan'208";a="19761042"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-97fdccfd.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 04 Mar 2020 16:08:04 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
-        by email-inbound-relay-1e-97fdccfd.us-east-1.amazon.com (Postfix) with ESMTPS id AA8A3A20D6;
-        Wed,  4 Mar 2020 16:07:54 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Wed, 4 Mar 2020 16:07:54 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.115) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Wed, 4 Mar 2020 16:07:42 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Rik van Riel <riel@surriel.com>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [RFC v4 2/7] mm/damon: Account age of target regions
-Date:   Wed, 4 Mar 2020 17:07:28 +0100
-Message-ID: <20200304160728.19130-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <221dab45ed46405b707825455086855665ead7cc.camel@surriel.com> (raw)
+        id S1729650AbgCDQUj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 11:20:39 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:40656 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbgCDQUi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 11:20:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=i6EPXcsPhf+W5yJHKSE2MmxHE7uZjMhGSjJOHrOggdc=; b=S8gzW6+gR7oJRlslNUP/b1ARaY
+        3jgyftu6vahHcFT2DEary7hCm+MUfyMyuceCJuVqz55SnIBZKeQOzpjw5LanLUnL8tGIRgJk/WQR7
+        B7IHthWQK0Eu52RRL6p+BXdSyWS+nUcnbXH7yDjl694NSbne4GkDR0T9brSvkg7jlGI9OXMJuhAf7
+        7nK17/mFl5xnsHeLx0zhH0g+uaKxQ3B3DnR9YKpLrghWNoNJvlM3477ecj/LPGaS0NdoA2/2ySHI3
+        NfLm5uQbwOETmrMB2nx5hAhjmQPCExJ7j1/+T5w2QE5ulKAc9u2XxKQWUiyKd112pNtP9B82bPG73
+        VYk3svKQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j9WlB-0007WO-Q9; Wed, 04 Mar 2020 16:20:37 +0000
+Subject: Re: [v4] Documentation: bootconfig: Update boot configuration
+ documentation
+To:     Markus Elfring <Markus.Elfring@web.de>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-doc@vger.kernel.org
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+References: <158322634266.31847.8245359938993378502.stgit@devnote2>
+ <158322635301.31847.15011454479023637649.stgit@devnote2>
+ <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
+ <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
+ <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
+Date:   Wed, 4 Mar 2020 08:20:35 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.115]
-X-ClientProxiedBy: EX13D19UWA001.ant.amazon.com (10.43.160.169) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+In-Reply-To: <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Rick,
+On 3/4/20 6:45 AM, Markus Elfring wrote:
+>> What about the following?
+>>
+>> User can group identical parent keys together and use braces to list child keys
 
-Thank you for question :)
+   The user
+(as Markus noted)
 
-On Wed, 04 Mar 2020 10:21:29 -0500 Rik van Riel <riel@surriel.com> wrote:
-
-> [-- Attachment #1: Type: text/plain, Size: 558 bytes --]
+>> under them.
 > 
-> On Tue, 2020-03-03 at 13:14 +0100, SeongJae Park wrote:
-> > From: SeongJae Park <sjpark@amazon.de>
+> Another wording alternative:
 > 
-> > --- a/mm/damon.c
-> > +++ b/mm/damon.c
-> > @@ -87,6 +87,10 @@ static struct damon_region
-> > *damon_new_region(struct damon_ctx *ctx,
-> >  	ret->sampling_addr = damon_rand(ctx, vm_start, vm_end);
-> >  	INIT_LIST_HEAD(&ret->list);
-> >  
-> > +	ret->age = 0;
-> > +	ret->last_vm_start = vm_start;
-> > +	ret->last_vm_end = vm_end;
-> 
-> Wait, what tree is this supposed to apply against?
-> 
-> I see no mm/damon.c file in current Linus upstream.
+> The user can group settings together. Curly brackets enclose a configuration then
+> according to a parent context.
 
-This patchset is supposed to apply against v5.5 plus DAMON patchset[1] plus a
-patch from Minchan.  You can get the tree this patchset is applied via:
+I slightly prefer Masami's text.
 
-    $ git clone git://github.com/sjp38/linux -b damos/rfc/v4
+-- 
+~Randy
 
-Or, the web is also available:
-https://github.com/sjp38/linux/releases/tag/damos/rfc/v4
-
-I am posting this as a seperate RFC patchset because 1) this patchset is based
-on the tree other than Linus or other maintainers' upstream trees, 2) I
-want to keep the size of original patchset small for convenience of reviewers,
-3) this patchset is relatively recently made and thus might unstable compared
-to the DAMON patchset[1], and 4) I want to share my plan and get early
-feedbacks as many as possible.
-
-Sorry if this made you confused.  Also, if you have some opinions regarding
-this seperated postings, please let me know.
-
-
-[1] https://lore.kernel.org/linux-mm/20200224123047.32506-1-sjpark@amazon.com
-
-
-Thanks,
-SeongJae Park
-
-> 
-> -- 
-> All Rights Reversed.
