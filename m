@@ -2,66 +2,117 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B6CC3F2CE
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 21:23:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C1ACC3F2D1
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 21:26:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9BC2E20838
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 21:23:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B94420838
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 21:26:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388379AbgCDVXB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 16:23:01 -0500
-Received: from ms.lwn.net ([45.79.88.28]:47366 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388337AbgCDVXB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 16:23:01 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 510F8537;
-        Wed,  4 Mar 2020 21:23:00 +0000 (UTC)
-Date:   Wed, 4 Mar 2020 14:22:59 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        id S2388388AbgCDV0Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 16:26:24 -0500
+Received: from smtprelay0215.hostedemail.com ([216.40.44.215]:45176 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2388364AbgCDV0Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 16:26:24 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay01.hostedemail.com (Postfix) with ESMTP id 0BF45100E7B42;
+        Wed,  4 Mar 2020 21:26:23 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: top47_1a6fca43cfd3c
+X-Filterd-Recvd-Size: 3754
+Received: from XPS-9350.home (unknown [47.151.143.254])
+        (Authenticated sender: joe@perches.com)
+        by omf18.hostedemail.com (Postfix) with ESMTPA;
+        Wed,  4 Mar 2020 21:26:21 +0000 (UTC)
+Message-ID: <ed040dd417d578e1ab4491d116c6ac1431142385.camel@perches.com>
+Subject: Re: [PATCH] MAINTAINERS: adjust to filesystem doc ReST conversion
+From:   Joe Perches <joe@perches.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, kernel-janitors@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [v4] Documentation: bootconfig: Update boot configuration
- documentation
-Message-ID: <20200304142259.7eaa3633@lwn.net>
-In-Reply-To: <a6680eb7-5a1d-ea58-0eec-14f2b5bcd99a@web.de>
-References: <158322634266.31847.8245359938993378502.stgit@devnote2>
-        <158322635301.31847.15011454479023637649.stgit@devnote2>
-        <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
-        <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
-        <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
-        <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
-        <a9f8980e-4325-52c1-d217-d2fca1add37d@web.de>
-        <3118d72b-a33c-e6d7-36a1-204d39d2bdbb@infradead.org>
-        <a6680eb7-5a1d-ea58-0eec-14f2b5bcd99a@web.de>
-Organization: LWN.net
+Date:   Wed, 04 Mar 2020 13:24:48 -0800
+In-Reply-To: <20200304212846.0c79c6da@coco.lan>
+References: <20200304072950.10532-1-lukas.bulwahn@gmail.com>
+         <20200304131035.731a3947@lwn.net> <20200304212846.0c79c6da@coco.lan>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 4 Mar 2020 22:20:07 +0100
-Markus Elfring <Markus.Elfring@web.de> wrote:
-
-> > I'm hoping to be done with the current changes. :)  
+On Wed, 2020-03-04 at 21:28 +0100, Mauro Carvalho Chehab wrote:
+> Em Wed, 4 Mar 2020 13:10:35 -0700
+> Jonathan Corbet <corbet@lwn.net> escreveu:
 > 
-> Will a term like “grouping of parent keys” need any additional explanation?
+> > On Wed,  4 Mar 2020 08:29:50 +0100
+> > Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> > 
+> > > Mauro's patch series <cover.1581955849.git.mchehab+huawei@kernel.org>
+> > > ("[PATCH 00/44] Manually convert filesystem FS documents to ReST")
+> > > converts many Documentation/filesystems/ files to ReST.
+> > > 
+> > > Since then, ./scripts/get_maintainer.pl --self-test complains with 27
+> > > warnings on Documentation/filesystems/ of this kind:
+> > > 
+> > >   warning: no file matches F: Documentation/filesystems/...
+> > > 
+> > > Adjust MAINTAINERS entries to all files converted from .txt to .rst in the
+> > > patch series and address the 27 warnings.
+> > > 
+> > > Link: https://lore.kernel.org/linux-erofs/cover.1581955849.git.mchehab+huawei@kernel.org
+> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > > ---
+> > > Mauro, please ack.
+> > > Jonathan, pick pick this patch for doc-next.  
+> > 
+> > Sigh, I need to work a MAINTAINERS check into my workflow...
+> > 
+> > Thanks for fixing these, but ... what tree did you generate the patch
+> > against?  I doesn't come close to applying to docs-next.
+> 
+> I'm starting to suspect that maybe the best workflow would be to just 
+> apply the patches at docs-next keeping links broken, and then run
+> ./scripts/documentation-file-ref-check --fix by the end of a merge
+> window, addressing such breakages.
 
-Honestly, Markus, I think that the patch is good enough for now; time to
-merge it and move on to something else.
+I'm not sure at all that that script will always do the
+right thing with MAINTAINERS, but it seems to work OK
+except for some renames where a .txt file was directly
+renamed to a .rst file in the same directory where there
+was a similarly named file in a different directory.
 
-Thanks,
+Likely the direct rename of a filename extension from
+.txt to .rst should always be applied by the script.
 
-jon
+Anyway, for -next as of today:
+
+$ git diff --shortstat
+ 64 files changed, 116 insertions(+), 116 deletions(-)
+
+> There are usually lots of churn outside the merge window.
+> 
+> Another alternative would be to split the MAINTAINERS file on a
+> per-subsystem basis. If I remember well, someone proposed this once at
+> LKML. I vaguely remember that there were even a patch (or RFC)
+> adding support for such thing for get_maintainers.pl.
+
+Yeah.  get_maintainer.pl does work if the MAINTAINERS
+file is split up a few different ways.
+
+There was also a tool to do the MAINTAINERS split.
+https://lore.kernel.org/patchwork/patch/817857/
+
+I doubt that would matter at all given today's tools and
+the general mechanisms of maintainers renaming files and
+not running checkpatch in the first place.
+
+
