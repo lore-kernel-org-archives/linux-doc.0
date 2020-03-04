@@ -2,102 +2,113 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E789FC3F2CE
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 20:28:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CEDC3F2D7
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 20:40:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B659820870
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 20:28:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4B982146E
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 20:40:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583353736;
-	bh=W/R/FWArGtnpFP7wkWD+JUcgbM7aaWuG7tLZ/8wBXGw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=2oY2Rs328w6RQg+c8cKgFJMpbdBakrxTyzie7bLmjxB0/OOtyricKeDTSHCkn7jTA
-	 bs8DrPKrjRt/W36s4eZ0/zzKYxIX9UhOh6uLKxcFfglo6mYYIUCTrie5wzkhQFLPoD
-	 4gcbBXt4+ckOcB8tJHuvWw173zyyeSGO6rAlJiY4=
+	s=default; t=1583354441;
+	bh=AW+dm1zFyTWQ8FkDWciZrD814+ylxfvHPYpqV1MDjqI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Fa8LQp1x8yZcdi7XZViCn39ZXqzTudcRuY38a7VsoU7MJjl6B/GpQ1ukUsboMtase
+	 VOX8EgL8lEqLwtcZCWTZf01Pe81zGPBKoHAqYSSlv2UbaLbNhP+IGmXqLhMP1UZEtu
+	 4/FI4A3mcM83zgg200Co5oWNSFgyKPKG1Z86qhxM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387740AbgCDU2x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 15:28:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60930 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387469AbgCDU2x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 15:28:53 -0500
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 903A920870;
-        Wed,  4 Mar 2020 20:28:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583353732;
-        bh=W/R/FWArGtnpFP7wkWD+JUcgbM7aaWuG7tLZ/8wBXGw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tDe8gBT9u5HZ078rKAVe1u1xlBXjWnRp/sN6UmaMUBd29a99fJgOOdO/WXbl9sonb
-         KY3uqJ0I77CUk2Lqz0Rv7xccr9s7dWXipag9r9p3nTpLEqjXUSqFsHealLWICYRSe5
-         sEI3clS6XIBDHCTF495XzP/Mc5y9l8/KcU21bHvA=
-Date:   Wed, 4 Mar 2020 21:28:46 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Joe Perches <joe@perches.com>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: adjust to filesystem doc ReST conversion
-Message-ID: <20200304212846.0c79c6da@coco.lan>
-In-Reply-To: <20200304131035.731a3947@lwn.net>
-References: <20200304072950.10532-1-lukas.bulwahn@gmail.com>
-        <20200304131035.731a3947@lwn.net>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729248AbgCDUkl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 15:40:41 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:36311 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726440AbgCDUkl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 15:40:41 -0500
+Received: by mail-qt1-f195.google.com with SMTP id t13so2468944qto.3;
+        Wed, 04 Mar 2020 12:40:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kMvb3FkHGy6+3PCd0iRkhP59AmRHfZvsaM4V6wsp0VQ=;
+        b=PzoObFoUEkJu99rFUbzKr5EBKJfe+QkFu5d6qGwbv4QP/Y9FDeUg8hydo/LvFKi3wp
+         DfYxH3xYDddGVuz1TRUGwObqIjJ/6Kyn3eLGtJjXel+n10O0VL/iIPUkL4NoSc86ShJX
+         oTGlDenzEiluPneam+kq7CwG3HKqce6ZghNSZJUFRErP2zuSMGBCAr6T1vx58V725m3h
+         V8wwTqymF3vMg+0kdDayxaLofqjlxhfAs490xlVURVEn6yXlHuOXE3womY7ynF97eK6f
+         Tg6JBO7pSjHQRGY5UkG0sEEIiflJV4ELXgxBhEaffSaibraRD8T/XJAJB1OMJIANQj4x
+         KDTw==
+X-Gm-Message-State: ANhLgQ0W8pTQpHM06rL2mp9/ag7tbaF6RL0EEHW2/WjAxX4TKMJ815k9
+        L5eWG1fnBeXpyswZwzgiLkQ=
+X-Google-Smtp-Source: ADFU+vv/02CvfBCd0uCY7PmzoOMaiUvA+1v27ESLdQ7l4yc5et4cC1jpvow21omkNqgrShpqtJrwIg==
+X-Received: by 2002:ac8:47cf:: with SMTP id d15mr4163094qtr.17.1583354439493;
+        Wed, 04 Mar 2020 12:40:39 -0800 (PST)
+Received: from dennisz-mbp ([2620:10d:c091:500::2:8091])
+        by smtp.gmail.com with ESMTPSA id v82sm14655116qka.51.2020.03.04.12.40.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2020 12:40:28 -0800 (PST)
+Date:   Wed, 4 Mar 2020 15:40:26 -0500
+From:   Dennis Zhou <dennis@kernel.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Dennis Zhou <dennis@kernel.org>
+Subject: Re: [PATCH 2/2] include/bitmap.h: add new functions to documentation
+Message-ID: <20200304204026.GA55400@dennisz-mbp>
+References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
+ <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 4 Mar 2020 13:10:35 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Hi Wolfram,
 
-> On Wed,  4 Mar 2020 08:29:50 +0100
-> Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On Wed, Mar 04, 2020 at 03:09:20PM +0100, Wolfram Sang wrote:
+> I found these functions only by chance although I was looking exactly
+> for something like them. So, add them to the list of functions to make
+> them more visible.
 > 
-> > Mauro's patch series <cover.1581955849.git.mchehab+huawei@kernel.org>
-> > ("[PATCH 00/44] Manually convert filesystem FS documents to ReST")
-> > converts many Documentation/filesystems/ files to ReST.
-> > 
-> > Since then, ./scripts/get_maintainer.pl --self-test complains with 27
-> > warnings on Documentation/filesystems/ of this kind:
-> > 
-> >   warning: no file matches F: Documentation/filesystems/...
-> > 
-> > Adjust MAINTAINERS entries to all files converted from .txt to .rst in the
-> > patch series and address the 27 warnings.
-> > 
-> > Link: https://lore.kernel.org/linux-erofs/cover.1581955849.git.mchehab+huawei@kernel.org
-> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> > ---
-> > Mauro, please ack.
-> > Jonathan, pick pick this patch for doc-next.  
+> Fixes: e837dfde15a4 ("bitmap: genericize percpu bitmap region iterators")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Cc: Dennis Zhou <dennis@kernel.org>
+> ---
+>  include/linux/bitmap.h | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> Sigh, I need to work a MAINTAINERS check into my workflow...
+> diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
+> index 804600f7dc35..71ba0ffaa22a 100644
+> --- a/include/linux/bitmap.h
+> +++ b/include/linux/bitmap.h
+> @@ -51,6 +51,12 @@
+>   *  bitmap_clear(dst, pos, nbits)               Clear specified bit area
+>   *  bitmap_find_next_zero_area(buf, len, pos, n, mask)  Find bit free area
+>   *  bitmap_find_next_zero_area_off(buf, len, pos, n, mask, mask_off)  as above
+> + *  bitmap_next_clear_region(map, &start, &end, nbits)  Find next cleared region
+> + *  bitmap_next_set_region(map, &start, &end, nbits)  Find next set region
+> + *  bitmap_for_each_clear_region(map, rs, re, start, end)
+> + *  						Iterate over all cleared regions
+> + *  bitmap_for_each_set_region(map, rs, re, start, end)
+> + *  						Iterate over all set regions
+>   *  bitmap_shift_right(dst, src, n, nbits)      *dst = *src >> n
+>   *  bitmap_shift_left(dst, src, n, nbits)       *dst = *src << n
+>   *  bitmap_cut(dst, src, first, n, nbits)       Cut n bits from first, copy rest
+> -- 
+> 2.20.1
 > 
-> Thanks for fixing these, but ... what tree did you generate the patch
-> against?  I doesn't come close to applying to docs-next.
 
-I'm starting to suspect that maybe the best workflow would be to just 
-apply the patches at docs-next keeping links broken, and then run
-./scripts/documentation-file-ref-check --fix by the end of a merge
-window, addressing such breakages.
+Ah thanks. That was a miss not adding the documentation. I can pick
+these up unless Andrew would rather run them through his tree. I have a
+few other miscellaneous documentation cleanups for percpu I need to run
+anyway.
 
-There are usually lots of churn outside the merge window.
-
-Another alternative would be to split the MAINTAINERS file on a
-per-subsystem basis. If I remember well, someone proposed this once at
-LKML. I vaguely remember that there were even a patch (or RFC)
-adding support for such thing for get_maintainers.pl.
+Acked-by: Dennis Zhou <dennis@kernel.org>
 
 Thanks,
-Mauro
+Dennis
