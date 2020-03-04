@@ -2,285 +2,254 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB6CC3F2D7
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD14C3F2D9
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:35:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CDE724671
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:27:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g8pGpYPs"
+	by mail.kernel.org (Postfix) with ESMTP id 26DEB20637
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388348AbgCDQ07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 11:26:59 -0500
-Received: from mail-wr1-f73.google.com ([209.85.221.73]:35480 "EHLO
-        mail-wr1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388335AbgCDQ07 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 11:26:59 -0500
-Received: by mail-wr1-f73.google.com with SMTP id w18so1073031wro.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2020 08:26:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=0XgZjHOQdGAxXnAanWU5HksJ52ua72n/XN1fQpNKAB0=;
-        b=g8pGpYPsvsDBrxlO6M3Y4hyIMgiyMcfYpKkTsZMXMp2XdZRs26B29lIDZ0AuNxaw7b
-         YspHylRaXDB0l6aDBl5gPboatWoZhU7g8xQgKFsnUrXEw1hWc+H783wR6tYEQZOi7w0E
-         ylp9ygDFP4GfK1NbxWuFz3Bnd5tP7Qu+rLH2qWCeQw0LpDEHS+aqvs7iw3TL0t6G1C8O
-         hNCOVQlhQu6i37LnBhERzPCqOl1T3LYex0b12Dk7crnY1Xdtx3DJPRiTsENMl7Dtz84v
-         MTtOuTCjdcMx7mSrkm/Wvqp2lfwmgbia7n+BfS/krcy2ARjEsQGizs8LqzS+TM9OtVQ7
-         c1uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=0XgZjHOQdGAxXnAanWU5HksJ52ua72n/XN1fQpNKAB0=;
-        b=P8NvOIXoXtJuZVlqm858+9lUp0hLgrt68s133qD0mnsHb6BXe9UjMkmd035awX98s1
-         VC0ClMa9VuO7K2QELQg5d0/vSM75tJyvDBFnqWzfCjWcBbCtNUwmBr++kaAYpK6kv22Q
-         OeO4Ji6As0jK1qGTcBCKGja+VQPt1b39dILDW2AdF50a7lWNWgJs/gjBn8EFf4dCsSi+
-         oX0HCRH156Pc+fCvLI5poj+g2YNJcdmi2GWr/W1cKp+B2ICKivoK8an89/vDF37XVDYm
-         4idiC3LdNdM9IyGXOfNbGMxx4imow5J3FATDkYH8Iv2NUc8lriiCU11Wn+TUp8O8ttqk
-         uMQA==
-X-Gm-Message-State: ANhLgQ1fYOUM2E2AF4eAf7ElNrfWGLuR7vLXzXjaUCjIUhno5s/igy63
-        85WTspG+rXV61QGmtORfgfZNKmXkzA==
-X-Google-Smtp-Source: ADFU+vvVIPCteKgA+00HpC3ytUL63neH+qU97ZPI77Ml/MbI7PklsrGOuRokKKmXb9F3ma2Vj0LWMHKzqQ==
-X-Received: by 2002:adf:db84:: with SMTP id u4mr4877175wri.317.1583339215472;
- Wed, 04 Mar 2020 08:26:55 -0800 (PST)
-Date:   Wed,  4 Mar 2020 17:25:41 +0100
-In-Reply-To: <20200304162541.46663-1-elver@google.com>
-Message-Id: <20200304162541.46663-3-elver@google.com>
-Mime-Version: 1.0
-References: <20200304162541.46663-1-elver@google.com>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH 3/3] kcsan: Update API documentation in kcsan-checks.h
-From:   Marco Elver <elver@google.com>
-To:     elver@google.com
-Cc:     paulmck@kernel.org, andreyknvl@google.com, glider@google.com,
-        dvyukov@google.com, kasan-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S2387776AbgCDQfz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 11:35:55 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:42746 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726263AbgCDQfz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 11:35:55 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j9Wzo-000429-0p; Wed, 04 Mar 2020 09:35:44 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j9Wzh-0000J3-B9; Wed, 04 Mar 2020 09:35:43 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
+        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87a74zmfc9.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87k142lpfz.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <875zfmloir.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87v9nmjulm.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <202003021531.C77EF10@keescook>
+        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87v9nlii0b.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87a74xi4kz.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Wed, 04 Mar 2020 10:33:24 -0600
+In-Reply-To: <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        (Bernd Edlinger's message of "Wed, 4 Mar 2020 14:37:46 +0000")
+Message-ID: <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1j9Wzh-0000J3-B9;;;mid=<87r1y8dqqz.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+PbZqkG+MqZcU53qiOMlhhlYuGrYdl+NM=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the API documentation for ASSERT_EXCLUSIVE_* macros and make them
-generate readable documentation for the code examples.
+Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 
-All @variable short summaries were missing ':', which was updated for
-the whole file.
+> On 3/3/20 9:08 PM, Eric W. Biederman wrote:
+>> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+>> 
+>>> On 3/3/20 4:18 PM, Eric W. Biederman wrote:
+>>>> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+>>>>> diff --git a/tools/testing/selftests/ptrace/vmaccess.c b/tools/testing/selftests/ptrace/vmaccess.c
+>>>>> new file mode 100644
+>>>>> index 0000000..6d8a048
+>>>>> --- /dev/null
+>>>>> +++ b/tools/testing/selftests/ptrace/vmaccess.c
+>>>>> @@ -0,0 +1,66 @@
+>>>>> +// SPDX-License-Identifier: GPL-2.0+
+>>>>> +/*
+>>>>> + * Copyright (c) 2020 Bernd Edlinger <bernd.edlinger@hotmail.de>
+>>>>> + * All rights reserved.
+>>>>> + *
+>>>>> + * Check whether /proc/$pid/mem can be accessed without causing deadlocks
+>>>>> + * when de_thread is blocked with ->cred_guard_mutex held.
+>>>>> + */
+>>>>> +
+>>>>> +#include "../kselftest_harness.h"
+>>>>> +#include <stdio.h>
+>>>>> +#include <fcntl.h>
+>>>>> +#include <pthread.h>
+>>>>> +#include <signal.h>
+>>>>> +#include <unistd.h>
+>>>>> +#include <sys/ptrace.h>
+>>>>> +
+>>>>> +static void *thread(void *arg)
+>>>>> +{
+>>>>> +	ptrace(PTRACE_TRACEME, 0, 0L, 0L);
+>>>>> +	return NULL;
+>>>>> +}
+>>>>> +
+>>>>> +TEST(vmaccess)
+>>>>> +{
+>>>>> +	int f, pid = fork();
+>>>>> +	char mm[64];
+>>>>> +
+>>>>> +	if (!pid) {
+>>>>> +		pthread_t pt;
+>>>>> +
+>>>>> +		pthread_create(&pt, NULL, thread, NULL);
+>>>>> +		pthread_join(pt, NULL);
+>>>>> +		execlp("true", "true", NULL);
+>>>>> +	}
+>>>>> +
+>>>>> +	sleep(1);
+>>>>> +	sprintf(mm, "/proc/%d/mem", pid);
+>>>>> +	f = open(mm, O_RDONLY);
+>>>>> +	ASSERT_LE(0, f);
+>>>>> +	close(f);
+>>>>> +	f = kill(pid, SIGCONT);
+>>>>> +	ASSERT_EQ(0, f);
+>>>>> +}
+>>>>> +
+>>>>> +TEST(attach)
+>>>>> +{
+>>>>> +	int f, pid = fork();
+>>>>> +
+>>>>> +	if (!pid) {
+>>>>> +		pthread_t pt;
+>>>>> +
+>>>>> +		pthread_create(&pt, NULL, thread, NULL);
+>>>>> +		pthread_join(pt, NULL);
+>>>>> +		execlp("true", "true", NULL);
+>>>>> +	}
+>>>>> +
+>>>>> +	sleep(1);
+>>>>> +	f = ptrace(PTRACE_ATTACH, pid, 0L, 0L);
+>>>>
+>>>> To be meaningful this code needs to learn to loop when
+>>>> ptrace returns -EAGAIN.
+>>>>
+>>>> Because that is pretty much what any self respecting user space
+>>>> process will do.
+>>>>
+>>>> At which point I am not certain we can say that the behavior has
+>>>> sufficiently improved not to be a deadlock.
+>>>>
+>>>
+>>> In this special dead-duck test it won't work, but it would
+>>> still be lots more transparent what is going on, since previously
+>>> you had two zombie process, and no way to even output debug
+>>> messages, which also all self respecting user space processes
+>>> should do.
+>> 
+>> Agreed it is more transparent.  So if you are going to deadlock
+>> it is better.
+>> 
+>> My previous proposal (which I admit is more work to implement) would
+>> actually allow succeeding in this case and so it would not be subject to
+>> a dead lock (even via -EGAIN) at this point.
+>> 
+>>> So yes, I can at least give a good example and re-try it several
+>>> times together with wait4 which a tracer is expected to do.
+>> 
+>> Thank you,
+>> 
+>> Eric
+>> 
+>
+> Okay, I think it can be done with minimal API changes,
+> but it needs two mutexes, one that guards the execve,
+> and one that guards only the credentials.
+>
+> If no traced sibling thread exists, the mutexes are used this way:
+> lock(exec_guard_mutex)
+> cred_locked_in_execve = true;
+> de_thread()
+> lock(cred_guard_mutex)
+> unlock(cred_guard_mutex)
+> cred_locked_in_execve = false;
+> unlock(exec_guard_mutex)
+>
+> so effectively no API change at all.
+>
+> If a traced sibling thread exists, the mutexes are used differently:
+> lock(exec_guard_mutex)
+> cred_locked_in_execve = true;
+> unlock(exec_guard_mutex)
+> de_thread()
+> lock(cred_guard_mutex)
+> unlock(cred_guard_mutex)
+> lock(exec_guard_mutex)
+> cred_locked_in_execve = false;
+> unlock(exec_guard_mutex)
+>
+> Only the case changes that would deadlock anyway.
 
-Tested with 'make htmldocs'.
 
-Signed-off-by: Marco Elver <elver@google.com>
----
- include/linux/kcsan-checks.h | 98 ++++++++++++++++++++++--------------
- 1 file changed, 61 insertions(+), 37 deletions(-)
+Let me propose a slight alternative that I think sets us up for long
+term success.
 
-diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
-index 1b8aac5d6a0b5..14fd10e5a9177 100644
---- a/include/linux/kcsan-checks.h
-+++ b/include/linux/kcsan-checks.h
-@@ -26,9 +26,9 @@
- /**
-  * __kcsan_check_access - check generic access for races
-  *
-- * @ptr address of access
-- * @size size of access
-- * @type access type modifier
-+ * @ptr: address of access
-+ * @size: size of access
-+ * @type: access type modifier
-  */
- void __kcsan_check_access(const volatile void *ptr, size_t size, int type);
- 
-@@ -64,7 +64,7 @@ void kcsan_flat_atomic_end(void);
-  * Force treating the next n memory accesses for the current context as atomic
-  * operations.
-  *
-- * @n number of following memory accesses to treat as atomic.
-+ * @n: number of following memory accesses to treat as atomic.
-  */
- void kcsan_atomic_next(int n);
- 
-@@ -74,7 +74,7 @@ void kcsan_atomic_next(int n);
-  * Set the access mask for all accesses for the current context if non-zero.
-  * Only value changes to bits set in the mask will be reported.
-  *
-- * @mask bitmask
-+ * @mask: bitmask
-  */
- void kcsan_set_access_mask(unsigned long mask);
- 
-@@ -106,16 +106,16 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
- /**
-  * __kcsan_check_read - check regular read access for races
-  *
-- * @ptr address of access
-- * @size size of access
-+ * @ptr: address of access
-+ * @size: size of access
-  */
- #define __kcsan_check_read(ptr, size) __kcsan_check_access(ptr, size, 0)
- 
- /**
-  * __kcsan_check_write - check regular write access for races
-  *
-- * @ptr address of access
-- * @size size of access
-+ * @ptr: address of access
-+ * @size: size of access
-  */
- #define __kcsan_check_write(ptr, size)                                         \
- 	__kcsan_check_access(ptr, size, KCSAN_ACCESS_WRITE)
-@@ -123,16 +123,16 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
- /**
-  * kcsan_check_read - check regular read access for races
-  *
-- * @ptr address of access
-- * @size size of access
-+ * @ptr: address of access
-+ * @size: size of access
-  */
- #define kcsan_check_read(ptr, size) kcsan_check_access(ptr, size, 0)
- 
- /**
-  * kcsan_check_write - check regular write access for races
-  *
-- * @ptr address of access
-- * @size size of access
-+ * @ptr: address of access
-+ * @size: size of access
-  */
- #define kcsan_check_write(ptr, size)                                           \
- 	kcsan_check_access(ptr, size, KCSAN_ACCESS_WRITE)
-@@ -158,14 +158,26 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
-  * allowed. This assertion can be used to specify properties of concurrent code,
-  * where violation cannot be detected as a normal data race.
-  *
-- * For example, if a per-CPU variable is only meant to be written by a single
-- * CPU, but may be read from other CPUs; in this case, reads and writes must be
-- * marked properly, however, if an off-CPU WRITE_ONCE() races with the owning
-- * CPU's WRITE_ONCE(), would not constitute a data race but could be a harmful
-- * race condition. Using this macro allows specifying this property in the code
-- * and catch such bugs.
-+ * For example, if we only have a single writer, but multiple concurrent
-+ * readers, to avoid data races, all these accesses must be marked; even
-+ * concurrent marked writes racing with the single writer are bugs.
-+ * Unfortunately, due to being marked, they are no longer data races. For cases
-+ * like these, we can use the macro as follows:
-  *
-- * @var variable to assert on
-+ * .. code-block:: c
-+ *
-+ *	void writer(void) {
-+ *		spin_lock(&update_foo_lock);
-+ *		ASSERT_EXCLUSIVE_WRITER(shared_foo);
-+ *		WRITE_ONCE(shared_foo, ...);
-+ *		spin_unlock(&update_foo_lock);
-+ *	}
-+ *	void reader(void) {
-+ *		// update_foo_lock does not need to be held!
-+ *		... = READ_ONCE(shared_foo);
-+ *	}
-+ *
-+ * @var: variable to assert on
-  */
- #define ASSERT_EXCLUSIVE_WRITER(var)                                           \
- 	__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_ASSERT)
-@@ -177,16 +189,22 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
-  * writers). This assertion can be used to specify properties of concurrent
-  * code, where violation cannot be detected as a normal data race.
-  *
-- * For example, in a reference-counting algorithm where exclusive access is
-- * expected after the refcount reaches 0. We can check that this property
-- * actually holds as follows:
-+ * For example, where exclusive access is expected after determining no other
-+ * users of an object are left, but the object is not actually freed. We can
-+ * check that this property actually holds as follows:
-+ *
-+ * .. code-block:: c
-  *
-  *	if (refcount_dec_and_test(&obj->refcnt)) {
-  *		ASSERT_EXCLUSIVE_ACCESS(*obj);
-- *		safely_dispose_of(obj);
-+ *		do_some_cleanup(obj);
-+ *		release_for_reuse(obj);
-  *	}
-  *
-- * @var variable to assert on
-+ * Note: For cases where the object is freed, `KASAN <kasan.html>`_ is a better
-+ * fit to detect use-after-free bugs.
-+ *
-+ * @var: variable to assert on
-  */
- #define ASSERT_EXCLUSIVE_ACCESS(var)                                           \
- 	__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT)
-@@ -200,7 +218,7 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
-  * concurrent readers are permitted. This assertion captures more detailed
-  * bit-level properties, compared to the other (word granularity) assertions.
-  * Only the bits set in @mask are checked for concurrent modifications, while
-- * ignoring the remaining bits, i.e. concurrent writes (or reads) to ~@mask bits
-+ * ignoring the remaining bits, i.e. concurrent writes (or reads) to ~mask bits
-  * are ignored.
-  *
-  * Use this for variables, where some bits must not be modified concurrently,
-@@ -210,17 +228,21 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
-  * but other bits may still be modified concurrently. A reader may wish to
-  * assert that this is true as follows:
-  *
-+ * .. code-block:: c
-+ *
-  *	ASSERT_EXCLUSIVE_BITS(flags, READ_ONLY_MASK);
-  *	foo = (READ_ONCE(flags) & READ_ONLY_MASK) >> READ_ONLY_SHIFT;
-  *
-- *   Note: The access that immediately follows ASSERT_EXCLUSIVE_BITS() is
-- *   assumed to access the masked bits only, and KCSAN optimistically assumes it
-- *   is therefore safe, even in the presence of data races, and marking it with
-- *   READ_ONCE() is optional from KCSAN's point-of-view. We caution, however,
-- *   that it may still be advisable to do so, since we cannot reason about all
-- *   compiler optimizations when it comes to bit manipulations (on the reader
-- *   and writer side). If you are sure nothing can go wrong, we can write the
-- *   above simply as:
-+ * Note: The access that immediately follows ASSERT_EXCLUSIVE_BITS() is assumed
-+ * to access the masked bits only, and KCSAN optimistically assumes it is
-+ * therefore safe, even in the presence of data races, and marking it with
-+ * READ_ONCE() is optional from KCSAN's point-of-view. We caution, however, that
-+ * it may still be advisable to do so, since we cannot reason about all compiler
-+ * optimizations when it comes to bit manipulations (on the reader and writer
-+ * side). If you are sure nothing can go wrong, we can write the above simply
-+ * as:
-+ *
-+ * .. code-block:: c
-  *
-  * 	ASSERT_EXCLUSIVE_BITS(flags, READ_ONLY_MASK);
-  *	foo = (flags & READ_ONLY_MASK) >> READ_ONLY_SHIFT;
-@@ -230,15 +252,17 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
-  * be modified concurrently. Writers, where other bits may change concurrently,
-  * could use the assertion as follows:
-  *
-+ * .. code-block:: c
-+ *
-  *	spin_lock(&foo_lock);
-  *	ASSERT_EXCLUSIVE_BITS(flags, FOO_MASK);
-- *	old_flags = READ_ONCE(flags);
-+ *	old_flags = flags;
-  *	new_flags = (old_flags & ~FOO_MASK) | (new_foo << FOO_SHIFT);
-  *	if (cmpxchg(&flags, old_flags, new_flags) != old_flags) { ... }
-  *	spin_unlock(&foo_lock);
-  *
-- * @var variable to assert on
-- * @mask only check for modifications to bits set in @mask
-+ * @var: variable to assert on
-+ * @mask: only check for modifications to bits set in @mask
-  */
- #define ASSERT_EXCLUSIVE_BITS(var, mask)                                       \
- 	do {                                                                   \
--- 
-2.25.0.265.gbab2e86ba0-goog
+Leave cred_guard_mutex as is, but declare it undesirable.  The
+cred_guard_mutex as designed really is something we should get rid of.
+As it it can sleep over several different userspace accesses.  The
+copying of the exec arguments is technically as prone to deadlock as the
+ptrace case.
 
+Add a new mutex with a better name perhaps "exec_change_mutex" that is
+used to guard the changes that exec makes to a process.
+
+Then we gradually shift all the cred_guard_mutex users over to the new
+mutex.  AKA one patch per user of cred_guard_mutex.  At each patch that
+shifts things over we will have the opportunity to review the code to
+see that there no funny dependencies that were missed.
+
+I will sign up for working on the no_new_privs and ptrace_attach cases
+as I think I can make those happen.  Especially no_new_privs.
+
+Getting the easier cases will resolve your issues and put things on a
+better footing.
+
+Eric
