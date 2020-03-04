@@ -2,123 +2,102 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CAEFC3F2D1
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 00:29:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73450C3F2C6
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 00:34:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EB2DB2064A
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 00:29:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F04A20870
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 00:34:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="WtNevm5+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727823AbgCDA3K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Mar 2020 19:29:10 -0500
-Received: from foss.arm.com ([217.140.110.172]:54252 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727762AbgCDA3K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Mar 2020 19:29:10 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 605DE30E;
-        Tue,  3 Mar 2020 16:29:09 -0800 (PST)
-Received: from localhost (e108754-lin.cambridge.arm.com [10.1.198.53])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF9173F6CF;
-        Tue,  3 Mar 2020 16:29:08 -0800 (PST)
-Date:   Wed, 4 Mar 2020 00:29:07 +0000
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     James Morse <james.morse@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        lukasz.luba@arm.com, valentin.schneider@arm.com,
-        dietmar.eggemann@arm.com, rjw@rjwysocki.net,
-        pkondeti@codeaurora.org, peterz@infradead.org, mingo@redhat.com,
-        vincent.guittot@linaro.org, viresh.kumar@linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        Steve Capper <steve.capper@arm.com>
-Subject: Re: [PATCH v5 2/7] arm64: trap to EL1 accesses to AMU counters from
- EL0
-Message-ID: <20200304002907.GB29652@arm.com>
-References: <20200226132947.29738-1-ionela.voinescu@arm.com>
- <20200226132947.29738-3-ionela.voinescu@arm.com>
- <206c1a87-12aa-a4d4-8fc3-0b03c6125897@arm.com>
+        id S1727870AbgCDAev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Mar 2020 19:34:51 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:43794 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727725AbgCDAev (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Mar 2020 19:34:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=WG3iPdftyaxe4JF5JBknRpB8gUrE1SSRMPAlrPJsmAw=; b=WtNevm5+K2WjRRR67Ed0jVpB6
+        2oJaPGiNNJmApUlAltjHdWr9W/NretAGPe9Z6tevcgzgRk9L2yAT0tUbHxpOwAaek/kj+oBUg2DMe
+        JyaA7k+NBSgfftFwLQGsOsS2Q0MpVXffr86yMK07g1Ig/U+ImfanNGrozJLMbwFJNcU9jmwFCB4h1
+        sgd7H/znFf3SbrihoxKv1/LajzEzRX9qYpazbzDB//g1fE+iCmm7cKKvnfIVCV/itV6RmsQF5gvP6
+        iGrgNxkcuKyFcnpfeGomwtjYtDu/0/koB1HvTX+Y3fBfsYWqE17Z1P80Tv0ZMyRI5HNBe9zsAQ1Eq
+        lXxz6ZIWA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60064)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1j9Hzo-00039p-FC; Wed, 04 Mar 2020 00:34:44 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1j9Hzm-0006Mf-W2; Wed, 04 Mar 2020 00:34:43 +0000
+Date:   Wed, 4 Mar 2020 00:34:42 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     David Miller <davem@davemloft.net>
+Cc:     kuba@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] doc: sfp-phylink: correct code indentation
+Message-ID: <20200304003442.GW25745@shell.armlinux.org.uk>
+References: <E1j97cE-0004aW-Ur@rmk-PC.armlinux.org.uk>
+ <20200303.153546.1011655145785464830.davem@davemloft.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <206c1a87-12aa-a4d4-8fc3-0b03c6125897@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200303.153546.1011655145785464830.davem@davemloft.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
-
-On Friday 28 Feb 2020 at 16:44:53 (+0000), James Morse wrote:
-> Hi Ionela,
+On Tue, Mar 03, 2020 at 03:35:46PM -0800, David Miller wrote:
+> From: Russell King <rmk+kernel@armlinux.org.uk>
+> Date: Tue, 03 Mar 2020 13:29:42 +0000
 > 
-> On 26/02/2020 13:29, Ionela Voinescu wrote:
-> > The activity monitors extension is an optional extension introduced
-> > by the ARMv8.4 CPU architecture. In order to access the activity
-> > monitors counters safely, if desired, the kernel should detect the
-> > presence of the extension through the feature register, and mediate
-> > the access.
+> > Using vim to edit the phylink documentation reveals some mistakes due
+> > to the "invisible" pythonesque white space indentation that can't be
+> > seen with other editors. Fix it.
 > > 
-> > Therefore, disable direct accesses to activity monitors counters
-> > from EL0 (userspace) and trap them to EL1 (kernel).
-> > 
-> > To be noted that the ARM64_AMU_EXTN kernel config and the disable_amu
-> > kernel parameter do not have an effect on this code. Given that the
-> > amuserenr_el0 resets to an UNKNOWN value, setting the trap of EL0
-> > accesses to EL1 is always attempted for safety and security
-> > considerations.
+> > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
 > 
-> > diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
-> > index aafed6902411..7103027b4e64 100644
-> > --- a/arch/arm64/mm/proc.S
-> > +++ b/arch/arm64/mm/proc.S
+> I applied this, but you do know that GIT is going to warn about the
+> trailing whitespace to me:
 > 
-> > @@ -131,6 +131,7 @@ alternative_endif
-> >  	ubfx	x11, x11, #1, #1
-> >  	msr	oslar_el1, x11
-> >  	reset_pmuserenr_el0 x0			// Disable PMU access from EL0
-> > +	reset_amuserenr_el0 x0			// Disable AMU access from EL0
-> >  
-> >  alternative_if ARM64_HAS_RAS_EXTN
-> >  	msr_s	SYS_DISR_EL1, xzr
+> .git/rebase-apply/patch:29: trailing whitespace.
+> 	
+> .git/rebase-apply/patch:39: trailing whitespace.
+> 	
+> warning: 2 lines add whitespace errors.
 > 
-> (This above hunk is in: cpu_do_resume, and this next one is __cpu_setup,)
-> 
-> > @@ -423,6 +424,8 @@ SYM_FUNC_START(__cpu_setup)
-> >  	isb					// Unmask debug exceptions now,
-> >  	enable_dbg				// since this is per-cpu
-> >  	reset_pmuserenr_el0 x0			// Disable PMU access from EL0
-> > +	reset_amuserenr_el0 x0			// Disable AMU access from EL0
-> 
-> I think you only need this in __cpu_setup. The entry-point from cpu-idle calls:
-> | cpu_resume
-> | ->__cpu_setup
-> | -->reset_amuserenr_el0
-> | ->_cpu_resume
-> | -->cpu_do_resume
-> | --->reset_amuserenr_el0
-> 
-> (Which means the PMU reset call is redundant too).
-> 
+> Do the empty lines really need that leading TAB?
 
-Thanks, that seems to be so. I'll submit a separate fix for both amu
-and pmu, if you don't mind, after this set, so it will be a specific
-cleanup patch.
+If vim's syntax colouring is correct, then it does need the tab for
+the code sequence to be recognised as a block of code.
 
-> Its harmless, and needs cleaning up already, so regardless:
-> Reviewed-by: James Morse <james.morse@arm.com>
-> 
+As kerneldoc is based on python, and white-space indentation defining
+a block of code is a very (annoying) pythonesque thing, it seems that
+vim's probably correct.  But... unless someone knows how the .rst
+format really works...
 
-Thank you very much for the review,
-Ionela.
+It could be that vim's syntax colouring for .rst files is broken.
+I was hoping that the documentation people would've spoken up about
+that though, as I explicitly stated in the commit message that the
+patch was based on vim's behaviour.
 
-> 
-> 
-> Thanks,
-> 
-> James
+Not having the tabs causes vim to reverse-bold a lot of the file,
+making it basically uneditable without sunglasses.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
