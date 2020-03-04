@@ -2,110 +2,162 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF970C3F2CE
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 22:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF81DC3F2CE
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 22:58:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AEC6720674
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 22:55:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B63B820848
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 22:58:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725912AbgCDWzz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 17:55:55 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:46881 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725875AbgCDWzz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 17:55:55 -0500
-Received: from 2.general.alexhung.us.vpn ([10.172.65.255] helo=canonical.com)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <alex.hung@canonical.com>)
-        id 1j9cvL-0007N9-Ky; Wed, 04 Mar 2020 22:55:32 +0000
-From:   Alex Hung <alex.hung@canonical.com>
-To:     corbet@lwn.net, rjw@rjwysocki.net, len.brown@intel.com,
-        pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        hpa@zytor.com, x86@kernel.org, mchehab+samsung@kernel.org,
-        jpoimboe@redhat.com, akpm@linux-foundation.org,
-        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
-        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-acpi@vger.kernel.org, alex.hung@canonical.com
-Subject: [PATCH][RESEND] acpi/x86: add a kernel parameter to disable ACPI BGRT
-Date:   Wed,  4 Mar 2020 15:55:29 -0700
-Message-Id: <20200304225529.6706-1-alex.hung@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        id S2388410AbgCDW6m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 17:58:42 -0500
+Received: from smtprelay0238.hostedemail.com ([216.40.44.238]:50423 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2387931AbgCDW6l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 17:58:41 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay02.hostedemail.com (Postfix) with ESMTP id B2C97442C;
+        Wed,  4 Mar 2020 22:58:39 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: trick98_688caee61ad1c
+X-Filterd-Recvd-Size: 7192
+Received: from XPS-9350.home (unknown [47.151.143.254])
+        (Authenticated sender: joe@perches.com)
+        by omf11.hostedemail.com (Postfix) with ESMTPA;
+        Wed,  4 Mar 2020 22:58:38 +0000 (UTC)
+Message-ID: <e43f0cf0117fbfa8fe8c7e62538fd47a24b4657a.camel@perches.com>
+Subject: Re: [PATCH] MAINTAINERS: adjust to filesystem doc ReST conversion
+From:   Joe Perches <joe@perches.com>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Wed, 04 Mar 2020 14:57:04 -0800
+In-Reply-To: <alpine.DEB.2.21.2003042145340.2698@felia>
+References: <20200304072950.10532-1-lukas.bulwahn@gmail.com>
+         <20200304131035.731a3947@lwn.net>
+         <alpine.DEB.2.21.2003042145340.2698@felia>
+Content-Type: multipart/mixed; boundary="=-o23BfZrrZ2cR0WULJF0x"
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-BGRT is for displaying seamless OEM logo from booting to login screen;
-however, this mechanism does not always work well on all configurations
-and the OEM logo can be displayed multiple times. This looks worse than
-without BGRT enabled.
 
-This patch adds a kernel parameter to disable BGRT in boot time. This is
-easier than re-compiling a kernel with CONFIG_ACPI_BGRT disabled.
+--=-o23BfZrrZ2cR0WULJF0x
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alex Hung <alex.hung@canonical.com>
----
+On Wed, 2020-03-04 at 21:50 +0100, Lukas Bulwahn wrote:
+> 
+> On Wed, 4 Mar 2020, Jonathan Corbet wrote:
+> 
+> > On Wed,  4 Mar 2020 08:29:50 +0100
+> > Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> > > Jonathan, pick pick this patch for doc-next.
+> > 
+> > Sigh, I need to work a MAINTAINERS check into my workflow...
+> > 
+> 
+> I getting closer to have zero warnings on the MAINTAINER file matches and 
+> then, I would set up a bot following the mailing lists to warn when anyone
+> sends a patch that potentially introduces such warning.
 
- * Resend to include linux-acpi emailing list
+Hey Lukas.
 
- Documentation/admin-guide/kernel-parameters.txt |  3 +++
- arch/x86/kernel/acpi/boot.c                     | 10 +++++++++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
+I wrote a hacky script that sent emails
+for invalid MAINTAINER F: and X: patterns
+a couple years back.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index ffff776..55c5b2f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -442,6 +442,9 @@
- 	bert_disable	[ACPI]
- 			Disable BERT OS support on buggy BIOSes.
- 
-+	bgrt_disable	[ACPI][X86]
-+			Disable BGRT to avoid flickering OEM logo.
-+
- 	bttv.card=	[HW,V4L] bttv (bt848 + bt878 based grabber cards)
- 	bttv.radio=	Most important insmod options are available as
- 			kernel args too.
-diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-index 04205ce..d1757ce 100644
---- a/arch/x86/kernel/acpi/boot.c
-+++ b/arch/x86/kernel/acpi/boot.c
-@@ -45,6 +45,7 @@ EXPORT_SYMBOL(acpi_disabled);
- #define PREFIX			"ACPI: "
- 
- int acpi_noirq;				/* skip ACPI IRQ initialization */
-+int acpi_nobgrt;			/* skip ACPI BGRT */
- int acpi_pci_disabled;		/* skip ACPI PCI scan and IRQ initialization */
- EXPORT_SYMBOL(acpi_pci_disabled);
- 
-@@ -1619,7 +1620,7 @@ int __init acpi_boot_init(void)
- 	acpi_process_madt();
- 
- 	acpi_table_parse(ACPI_SIG_HPET, acpi_parse_hpet);
--	if (IS_ENABLED(CONFIG_ACPI_BGRT))
-+	if (IS_ENABLED(CONFIG_ACPI_BGRT) && !acpi_nobgrt)
- 		acpi_table_parse(ACPI_SIG_BGRT, acpi_parse_bgrt);
- 
- 	if (!acpi_noirq)
-@@ -1671,6 +1672,13 @@ static int __init parse_acpi(char *arg)
- }
- early_param("acpi", parse_acpi);
- 
-+static int __init parse_acpi_bgrt(char *arg)
-+{
-+	acpi_nobgrt = true;
-+	return 0;
-+}
-+early_param("bgrt_disable", parse_acpi_bgrt);
-+
- /* FIXME: Using pci= for an ACPI parameter is a travesty. */
- static int __init parse_pci(char *arg)
- {
--- 
-2.7.4
+I ran it in September 2018 and March 2019.
+
+It's attached if you want to play with it.
+The email sending bit is commented out.
+
+The script is used like:
+
+$ perl ./scripts/get_maintainer.pl --self-test=patterns | \
+  cut -f2 -d: | \
+  while read line ; do \
+    perl ./dump_section.perl $line \
+  done
+
+
+--=-o23BfZrrZ2cR0WULJF0x
+Content-Type: application/x-perl; name="dump_section.perl"
+Content-Disposition: attachment; filename="dump_section.perl"
+Content-Transfer-Encoding: base64
+
+bXkgJGkgPSAkQVJHVlswXTsKCm15IEBvdXRwdXQgPSAoKTsKbXkgQGxpbmVzID0gKCk7Cm9wZW4g
+KG15ICRtYWludCwgJzwnLCAiTUFJTlRBSU5FUlMiKQogICAgb3IgZGllICIkUDogQ2FuJ3Qgb3Bl
+biBNQUlOVEFJTkVSUyBmaWxlICdNQUlOVEFJTkVSUyc6ICQhXG4iOwp3aGlsZSAoPCRtYWludD4p
+IHsKICAgIG15ICRsaW5lID0gJF87CiAgICBwdXNoKEBsaW5lcywgJGxpbmUpOwp9CmNsb3NlKCRt
+YWludCk7CgpteSAkbG93X2luZGV4ID0gJGkgLSAxOwoKd2hpbGUgKCRsaW5lc1skbG93X2luZGV4
+XSA9fiAvXi46LyAmJiAkbG93X2luZGV4ID4gMCkgewogICAgJGxvd19pbmRleC0tOwp9CgpteSAk
+aGlnaF9pbmRleCA9ICRpIC0gMTsKd2hpbGUgKCRsaW5lc1skaGlnaF9pbmRleF0gPX4gL14uOi8g
+JiYgJGhpZ2hfaW5kZXggPCAkI2xpbmVzKSB7CiAgICAkaGlnaF9pbmRleCsrOwp9CgpwdXNoKEBv
+dXRwdXQsICJBIGZpbGUgcGF0dGVybiBsaW5lIGluIHRoaXMgc2VjdGlvbiBvZiB0aGUgTUFJTlRB
+SU5FUlMgZmlsZSBpbiBsaW51eC1uZXh0XG4iKTsKcHVzaChAb3V0cHV0LCAiZG9lcyBub3QgaGF2
+ZSBhIG1hdGNoIGluIHRoZSBsaW51eCBzb3VyY2UgZmlsZXMuXG4iKTsKcHVzaChAb3V0cHV0LCAi
+XG4iKTsKcHVzaChAb3V0cHV0LCAiVGhpcyBjb3VsZCBvY2N1ciBiZWNhdXNlIGEgbWF0Y2hpbmcg
+ZmlsZW5hbWUgd2FzIG5ldmVyIGFkZGVkLCB3YXMgZGVsZXRlZFxuIik7CnB1c2goQG91dHB1dCwg
+Im9yIHJlbmFtZWQgaW4gc29tZSBvdGhlciBjb21taXQuXG4iKTsKcHVzaChAb3V0cHV0LCAiXG4i
+KTsKcHVzaChAb3V0cHV0LCAiVGhlIGNvbW1pdHMgdGhhdCBhZGRlZCBhbmQgaWYgZm91bmQgcmVu
+YW1lZCBvciByZW1vdmVkIHRoZSBmaWxlIHBhdHRlcm5cbiIpOwpwdXNoKEBvdXRwdXQsICJhcmUg
+c2hvd24gYmVsb3cuXG4iKTsKcHVzaChAb3V0cHV0LCAiXG4iKTsKcHVzaChAb3V0cHV0LCAiUGxl
+YXNlIGZpeCB0aGlzIGRlZmVjdCBhcHByb3ByaWF0ZWx5LlxuIik7CnB1c2goQG91dHB1dCwgIlxu
+Iik7CgpwdXNoKEBvdXRwdXQsICIxOiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cbiIpOwpwdXNoKEBvdXRw
+dXQsICJcbiIpOwpwdXNoKEBvdXRwdXQsICJsaW51eC1uZXh0IE1BSU5UQUlORVJTIHNlY3Rpb246
+XG4iKTsKcHVzaChAb3V0cHV0LCAiXG4iKTsKCm15ICRmaWxlID0gJGxpbmVzWyRpLTFdOwokZmls
+ZSA9fiBzL15bQS1aXTpccysvLzsKY2hvbXAgJGZpbGU7CgpteSAkc2VjdGlvbiA9ICRsaW5lc1sk
+bG93X2luZGV4XTsKCndoaWxlICgkbG93X2luZGV4IDwgJGhpZ2hfaW5kZXgpIHsKICAgIHB1c2go
+QG91dHB1dCwgIi0tPiIpIGlmICgkbG93X2luZGV4ID09ICRpLTEpOwogICAgcHVzaChAb3V0cHV0
+LCAiXHQiIC4gKCRsb3dfaW5kZXgrMSkgLiAiXHQiIC4gJGxpbmVzWyRsb3dfaW5kZXhdKTsKICAg
+ICRsb3dfaW5kZXgrKzsKfQoKcHVzaChAb3V0cHV0LCAiXG4iKTsKcHVzaChAb3V0cHV0LCAiMjog
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tXG4iKTsKcHVzaChAb3V0cHV0LCAiXG4iKTsKCm15IEBibGFtZSA9
+IGBnaXQgYmxhbWUgLUwkaSwrMSBNQUlOVEFJTkVSU2A7Cm15IEBjb21taXRzID0gc3BsaXQoJyAn
+LCAkYmxhbWVbMF0pOwpteSAkY29tbWl0ID0gJGNvbW1pdHNbMF07Cm15IEBjb21taXRfbGluZXMg
+PSBgZ2l0IGxvZyAtMSAtLXN0YXQgJGNvbW1pdGA7CgpwdXNoKEBvdXRwdXQsICJUaGUgbW9zdCBy
+ZWNlbnQgY29tbWl0IHRoYXQgYWRkZWQgb3IgbW9kaWZpZWQgZmlsZSBwYXR0ZXJuICckZmlsZSc6
+XG4iKTsKcHVzaChAb3V0cHV0LCAiXG4iKTsKcHVzaChAb3V0cHV0LCBAY29tbWl0X2xpbmVzKTsK
+CnB1c2goQG91dHB1dCwgIlxuIik7CnB1c2goQG91dHB1dCwgIjM6IC0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LVxuIik7CnB1c2goQG91dHB1dCwgIlxuIik7CgpteSBAZm9sbG93ID0gYGdpdCBsb2cgLS1mb2xs
+b3cgLTEgLS1zdGF0IC1NIC0tICckZmlsZSdgOwppZiAoIUBmb2xsb3cpIHsKICAgIHB1c2goQG91
+dHB1dCwgIk5vIGNvbW1pdCB3aXRoIGZpbGUgcGF0dGVybiAnJGZpbGUnIHdhcyBmb3VuZFxuIik7
+Cn0gZWxzZSB7CiAgICBteSAkY29tbWl0ID0gJGZvbGxvd1swXTsKICAgICRjb21taXQgPX4gcy9e
+Y29tbWl0IC8vOwogICAgQGZvbGxvdyA9IGBnaXQgbG9nIC0tc3RhdCAtMSAtTSAkY29tbWl0YDsK
+ICAgIHB1c2goQG91dHB1dCwgIlRoZSBsYXN0IGNvbW1pdCB3aXRoIGEgcmVhbCBwcmVzZW5jZSBv
+ZiBmaWxlIHBhdHRlcm4gJyRmaWxlJzpcbiIpOwogICAgcHVzaChAb3V0cHV0LCAiXG4iKTsKICAg
+IHB1c2goQG91dHB1dCwgQGZvbGxvdyk7Cn0KCm15IEBtYWludGFpbmVycyA9IGdyZXAoL15ccytc
+ZCtccytbTFJNXTouKiQvLCBAb3V0cHV0KTsKbXkgQHNpZ25lcnMgPSBncmVwKC9eXHMrLiotYnk6
+LiokLywgQG91dHB1dCk7CgpvcGVuIChteSAkZmlsZWgsICc+JywgInBhdHRlcm5zLyRpLnR4dCIp
+OwoKJHNlY3Rpb24gPX4gcy9eXHMrXGQrXHMrLy87CiRzZWN0aW9uID1+IHMvXG4kLy87Cgpwcmlu
+dCAkZmlsZWggIlN1YmplY3Q6IEJhZCBmaWxlIHBhdHRlcm4gaW4gTUFJTlRBSU5FUlMgc2VjdGlv
+biAnJHNlY3Rpb24nXG4iOwpwcmludCAkZmlsZWggIlxuIjsKcHJpbnQgJGZpbGVoIChAb3V0cHV0
+KTsKCmZvcmVhY2ggbXkgJG0gKEBtYWludGFpbmVycykgewogICAgJG0gPX4gcy9eXHMrXGQrXHMr
+LjpccysvLzsKICAgICRtID1+IHMvXHMqXCguKlwpLiokLy87Cn0KCmZvcmVhY2ggbXkgJHMgKEBz
+aWduZXJzKSB7CiAgICAkcyA9fiBzL15ccypbXHdcLV0rLWJ5OlxzKi8vOwp9CgojcHJpbnQgJGZp
+bGVoICgiXG5tYWludGFpbmVyczpcblxuIik7CiNwcmludCAkZmlsZWggKEBtYWludGFpbmVycyk7
+CiNwcmludCAkZmlsZWggKCJcbnNpZ25lcnM6XG5cbiIpOwojcHJpbnQgJGZpbGVoIChAc2lnbmVy
+cyk7CgpteSBAZW1haWxzID0gKCk7CmZvcmVhY2ggbXkgJGVtYWlsIChAbWFpbnRhaW5lcnMsQHNp
+Z25lcnMpIHsKICAgIHB1c2goQGVtYWlscywgJGVtYWlsKSB1bmxlc3MgJGF7JGVtYWlsfSsrOwp9
+CgojcHJpbnQgJGZpbGVoICgiXG5lbWFpbHM6XG5cbiIpOwojcHJpbnQgJGZpbGVoIChAZW1haWxz
+KTsKCm15ICRjYyA9ICIiOwpmb3JlYWNoIG15ICRlbWFpbCAoQGVtYWlscykgewogICAgbXkgJHQg
+PSAkZW1haWw7CiAgICAkdCA9fiBzL1xuJC8vOwogICAgJHQgPX4gcy8iLy9nOwogICAgJGNjIC49
+ICIgLS1jYyBcIiR0XCIiOwp9CgpjbG9zZSAkZmlsZWg7CgpteSAkZ3NtID0gImdpdCBzZW5kLWVt
+YWlsIC0tdG8gXCJsaW51eC1rZXJuZWxcQHZnZXIua2VybmVsLm9yZ1wiIiAuICRjYyAuICIgcGF0
+dGVybnMvJGkudHh0IjsKcHJpbnQoIiRnc21cbiIpOwoKI215IEBnc21fb3V0cHV0ID0gYCRnc21g
+OwoKI3ByaW50KEBnc21fb3V0cHV0KTsK
+
+
+--=-o23BfZrrZ2cR0WULJF0x--
 
