@@ -2,102 +2,89 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51361C3F2CD
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 11:37:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24E5AC3F2CD
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 11:57:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1FFCC2465D
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 11:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583321852;
-	bh=EnJ48mBqSJNuN4pur5d9rPaOtktt8Bg5LJqlLCktZOo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=s6g3o1Edxil6X1h2qOL8gDAHhiDJqYGyb3itBpJmAJYNq2VPaNEtOVtBNJ8Lkyixf
-	 OA13FtFe5tqtQRUWTHaW1yfpAxScyzI6SH4WuRgAumf1uoVnPxZ6wkoFz/oKTF7d4e
-	 JteKbgiacDTDNi21gjmBUyUkV/2xN3qvHqeAorzk=
+	by mail.kernel.org (Postfix) with ESMTP id 04B782072A
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 11:57:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387814AbgCDLh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 06:37:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60042 "EHLO mail.kernel.org"
+        id S2387488AbgCDL5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 06:57:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50885 "EHLO eggs.gnu.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729261AbgCDLh1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 06:37:27 -0500
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2311920870;
-        Wed,  4 Mar 2020 11:37:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583321847;
-        bh=EnJ48mBqSJNuN4pur5d9rPaOtktt8Bg5LJqlLCktZOo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SwU1LASd5/2lSKALZC7pvGkWl05Sb1JkPB43thx8zoYj9QZX7F8y2aY0ETGeuF6gi
-         nPzVe6rAksGD/PZ5WXe5/JHK9hSXxEi5A6aFfRfFBx4PxPqJHVFJhFyktiREXlnPBp
-         PuZldeM963PVB6sDwEMgnE3NzwiF8xVWx7E2hSLA=
-Date:   Wed, 4 Mar 2020 20:37:22 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [PATCH v4] Documentation: bootconfig: Update boot configuration
- documentation
-Message-Id: <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
-In-Reply-To: <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
-References: <158322634266.31847.8245359938993378502.stgit@devnote2>
-        <158322635301.31847.15011454479023637649.stgit@devnote2>
-        <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S2387929AbgCDL5l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Mar 2020 06:57:41 -0500
+Received: from fencepost.gnu.org ([2001:470:142:3::e]:49702)
+        by eggs.gnu.org with esmtp (Exim 4.71)
+        (envelope-from <lxsameer@gnu.org>)
+        id 1j9Seg-0001ih-T4; Wed, 04 Mar 2020 06:57:38 -0500
+Received: from [159.253.226.146] (port=45496 helo=[10.4.0.51])
+        by fencepost.gnu.org with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+        (Exim 4.82)
+        (envelope-from <lxsameer@gnu.org>)
+        id 1j9Sed-0005Ci-Dr; Wed, 04 Mar 2020 06:57:36 -0500
+Subject: Re: [PATCH] MAINTAINERS: adjust to kobject doc ReST conversion
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200304110821.7243-1-lukas.bulwahn@gmail.com>
+From:   Sameer Rahmani <lxsameer@gnu.org>
+Message-ID: <959e8f4c-9ff6-4388-9b6f-23f6e548e9e5@gnu.org>
+Date:   Wed, 4 Mar 2020 11:57:33 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200304110821.7243-1-lukas.bulwahn@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Randy,
 
-Thanks for review and good suggestions!
+On 04/03/2020 11:08, Lukas Bulwahn wrote:
+> Commit 5fed00dcaca8 ("Documentation: kobject.txt has been moved to
+> core-api/kobject.rst") missed to adjust the entry in MAINTAINERS.
+>
+> Since then, ./scripts/get_maintainer.pl --self-test complains:
+>
+>    warning: no file matches F: Documentation/kobject.txt
+>
+> Adjust DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS entry in MAINTAINERS.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> Sameer, please ack.
+> Jonathan, pick pick this patch for doc-next.
+>
+>   MAINTAINERS | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d064049aad1b..998d56e61a41 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5213,7 +5213,7 @@ M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>   R:	"Rafael J. Wysocki" <rafael@kernel.org>
+>   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
+>   S:	Supported
+> -F:	Documentation/kobject.txt
+> +F:	Documentation/core-api/kobject.rst
+>   F:	drivers/base/
+>   F:	fs/debugfs/
+>   F:	fs/sysfs/
 
-On Tue, 3 Mar 2020 20:55:39 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi Lukas,
 
-> > +Boot Configuration Syntax
-> > +=========================
-> > +
-> > +The boot configuration syntax is a simple structured key-value. Each key
-> > +consists of dot-connected-words, and key and value are connected by ``=``.
-> > +The value has to be terminated by semi-colon (``;``) or newline (``\n``).
-> >  For array value, array entries are separated by comma (``,``). ::
-> 
->              values,
-> or just
->    For an array, its entries are separated by
+Thanks for the fix. It looks good to me
 
-I like this latter one.
-
-[...]
-> > +Tree Structured Key
-> > +-------------------
-> >  
-> > -The boot config file syntax allows user to merge partially same word keys
-> > -by brace. For example::
-> > +The boot configuration syntax allows user to merge same parent key using
-> 
->                                  allows the user
-> although I am having problems with the rest of that sentence.
-
-What about the following?
-
-User can group identical parent keys together and use braces to list child keys
-under them.
-
-Thank you,
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
