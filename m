@@ -2,126 +2,108 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A252EC3F2D1
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 10:22:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9F2BC3F2D1
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 10:47:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 74A5B214D8
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 10:22:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83D5B20732
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 10:47:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oBPRt+y4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="drTJ2zTM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387473AbgCDKWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 05:22:01 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:37773 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728301AbgCDKWA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 05:22:00 -0500
-Received: by mail-pg1-f193.google.com with SMTP id z12so783242pgl.4;
-        Wed, 04 Mar 2020 02:21:59 -0800 (PST)
+        id S2387624AbgCDKr2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 05:47:28 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:38535 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387488AbgCDKr1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 05:47:27 -0500
+Received: by mail-ed1-f66.google.com with SMTP id e25so1751036edq.5;
+        Wed, 04 Mar 2020 02:47:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=I473f1xOp0xcoMWJcjpZgjb3E6lfpmms9lzoIFvnCxw=;
-        b=oBPRt+y4oU6gnbNSeAk4XBIEVcAjxjMq228H+/Kf1FVzxqZPtbXDx2lA2jlKcj/biY
-         fG/RGMGcmrEFCg9dDC7ty3/HE0WtyL19YMCDaBKexJvIsCgBtG6nDkvJMeA0UcAa4Yat
-         mlT8AjN/Ihe6sSztMgQILbSACeIXn0r4gKZbjjQxtn4uKXukNLwGp2cIHOB4tQMWi1O8
-         /q5EcQTNJfhWWrmLgM+tfHSDgF1zxInkynQDfYwyiI+Jfuv7S9MpK/hMrxKPsooH7ES9
-         l9OR5F3KSOAuQxuGccvg9gZxHVJspJxKWvjARF6aTmNR/nHxtUUSX8a1rY+uIlnzblVe
-         cqPw==
+        h=from:to:cc:subject:date:message-id;
+        bh=b6DQCUS0+Ug7UlNm5mZo2LZjk1wdwZ8PPHxJgscamZg=;
+        b=drTJ2zTMj0NNTZz8bc6a7Qn9zT9Qkuo5l8l38x7+6y1beHr0FBGlK/Re5BDWKyeD+l
+         kdVh3Jxm2m3t5SCQl24C/QuaCD9kjRZZ9oRTRI2tXAB+3DmjU4lQT6woIGKyDe8Dg1s2
+         cjUAzathkzY7gd5/KxgEgwp8PmO/dHTFtkfE8NxeBhas24s+4DYimHvDe7KCCtfDHxE3
+         6iYEXmG61vBibkXmvkAs8G7MoGCsS81jLRsF8joiK1TsFxb98cCO1H3X/FbnWzyRSx/R
+         kXPKyoNnMfSowRHQBe2CMXfsNsjKSCIlHJ5L+eXmz1gUYIjqNlB3Bi/2uucf22iNzSmF
+         Nbjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=I473f1xOp0xcoMWJcjpZgjb3E6lfpmms9lzoIFvnCxw=;
-        b=fUEtRry1qYUgZs85mLdAYrvubdHB0IIn8QzYg6dpNBUwUbrJmUToB4ZyO71YBwrRN+
-         XPssowdYO8Wg9JX8Yev3O+bVpNWg/1QUUsNcZND1Utj0PuLg49KEQHCZd03DnuLaQH5E
-         92+Jd1KpPkd86oK+6SqBZKNUNCIe6ooze3IBItGCFAZENHKq65U95wRtogm8JBDXS7tj
-         9Rm/JePM06TJKwHVsf94ZRpR2AGpQ7AFSGyMwxtb3h3CbGBx181h2IAqQA2Al97TBWFR
-         Hsu3/oH25ZnH029TCkRHPk02aZtyQbBPRyuhY67RKwm0Jae89HtTHZwKP2tDXueEDFF+
-         kn7g==
-X-Gm-Message-State: ANhLgQ3ehtei3+V3io1rU/JTr74OGF9mouixGPBE+iFDv+3nnXm3XAg+
-        vMsvdI8QwnC9QdGakd3Z7tKeBiWC5d0WfDELtSM=
-X-Google-Smtp-Source: ADFU+vsSfrM9BQwFeyP+XfNzdF7yaI72ARkLmWTSOk+5nI1rJvvwH2iEy8/o/nVhEv9EKoIYE2/Tn2seuagHTt0BorI=
-X-Received: by 2002:a63:1246:: with SMTP id 6mr1947203pgs.4.1583317319277;
- Wed, 04 Mar 2020 02:21:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20200303005035.13814-1-luke.r.nels@gmail.com> <20200303005035.13814-5-luke.r.nels@gmail.com>
- <20200303100228.GJ1224808@smile.fi.intel.com> <CADasFoCq7S2KRYg+ghAKt1e+hELzEMJaNH74sGdjM7E=z3KcnQ@mail.gmail.com>
-In-Reply-To: <CADasFoCq7S2KRYg+ghAKt1e+hELzEMJaNH74sGdjM7E=z3KcnQ@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 4 Mar 2020 12:21:51 +0200
-Message-ID: <CAHp75VezOTk4kURAkS6OQqPjdiYsPE292ix+WHAPvs8vGpCfGg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v4 4/4] MAINTAINERS: Add entry for RV32G BPF JIT
-To:     Luke Nelson <lukenels@cs.washington.edu>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        bpf <bpf@vger.kernel.org>, Luke Nelson <luke.r.nels@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>,
-        Xi Wang <xi.wang@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Netdev <netdev@vger.kernel.org>, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=b6DQCUS0+Ug7UlNm5mZo2LZjk1wdwZ8PPHxJgscamZg=;
+        b=KNkB39CYXDpio5YDiNTIA+yBXmtSCWsD2STl6HT/J1WWFQUaJq44dwoCyGe/0S3gA8
+         PMhmGzALCf+FeqP/nN4hkwYsltrJjaW714CmpPwGNYSPy4fEqef8EImnKrjisA2eXYxl
+         EUvLNelCgg93Hp/kt9chAtz2ZxJC1IMkYRCHHo7wvlUAr7s8sLT6FkfUELa5n8jeJoNK
+         oK+J1LDpreVloWMj3nzLzAvJebs++vCTuXNUfq7vl0TsWJGK0Kc4ebluuI8M4TV5uhNI
+         LbVVyD0rEVvPz9oUUHbR35IgM90pLbtalMdqYks3x/sDY5c21GJR6n9d51PwHAcmByPZ
+         Pygg==
+X-Gm-Message-State: ANhLgQ3j/+njcs0+xgI5YH6BzqffLbCLS38l41fFxh+TTgARqlkxp+CR
+        iNqZZSvcjXXO57VDkT53t3A4BJyC4x4=
+X-Google-Smtp-Source: ADFU+vseIgFS3ZIL+3zyZq5qbs5LEoXF3Ie+FFY6418MPbDsbyXXQiJ4InDXicWMqYfHwlHZx0Rpxw==
+X-Received: by 2002:a50:d0d0:: with SMTP id g16mr2114242edf.187.1583318845457;
+        Wed, 04 Mar 2020 02:47:25 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2d16:4100:3093:39f0:d3ca:23c6])
+        by smtp.gmail.com with ESMTPSA id 29sm1122854ejb.4.2020.03.04.02.47.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2020 02:47:24 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Marcel Holtmann <marcel@holtmann.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-doc@vger.kernel.org,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-bluetooth@vger.kernel.org,
+        Alexander Aring <alex.aring@gmail.com>,
+        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
+        linux-wpan@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: adjust to 6lowpan doc ReST conversion
+Date:   Wed,  4 Mar 2020 11:47:17 +0100
+Message-Id: <20200304104717.5841-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 4, 2020 at 4:34 AM Luke Nelson <lukenels@cs.washington.edu> wro=
-te:
-> On Tue, Mar 3, 2020 at 2:02 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > > -BPF JIT for RISC-V (RV64G)
-> > > +BPF JIT for 32-bit RISC-V (RV32G)
-> > > +M:   Luke Nelson <luke.r.nels@gmail.com>
-> > > +M:   Xi Wang <xi.wang@gmail.com>
-> > > +L:   bpf@vger.kernel.org
-> > > +S:   Maintained
-> > > +F:   arch/riscv/net/
-> > > +X:   arch/riscv/net/bpf_jit_comp.c
-> > > +
-> > > +BPF JIT for 64-bit RISC-V (RV64G)
-> > >  M:   Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
-> > > -L:   netdev@vger.kernel.org
-> > > +L:   bpf@vger.kernel.org
-> > >  S:   Maintained
-> > >  F:   arch/riscv/net/
-> > > +X:   arch/riscv/net/bpf_jit_comp32.c
-> >
-> > Obviously this breaks an order. Please, fix.
-> > Hint: run parse-maintainers.pl after the change.
+Commit 107db7ec7838 ("docs: networking: convert 6lowpan.txt to ReST")
+renamed 6lowpan.txt to 6lowpan.rst for the ReST conversion.
 
-> Thanks for the comment!
->
-> I'll change the entry names in v5 to be "BPF JIT for RISC-V (32-bit)"
-> and "BPF JIT for RISC-V (64-bit)", similar to the x86 JIT entries.
-> This will pass parse-maintainers.pl and the entries are still in
-> order.
+Since then, ./scripts/get_maintainer.pl --self-test complains:
 
-Thank you!
+  warning: no file matches F: Documentation/networking/6lowpan.txt
 
---=20
-With Best Regards,
-Andy Shevchenko
+Adjust 6LOWPAN GENERIC (BTLE/IEEE 802.15.4) entry in MAINTAINERS.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Mauro, please ack.
+Marcel, please pick for bluetooth-next.
+
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e19b275f2ac2..d064049aad1b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -176,7 +176,7 @@ L:	linux-wpan@vger.kernel.org
+ S:	Maintained
+ F:	net/6lowpan/
+ F:	include/net/6lowpan.h
+-F:	Documentation/networking/6lowpan.txt
++F:	Documentation/networking/6lowpan.rst
+ 
+ 6PACK NETWORK DRIVER FOR AX.25
+ M:	Andreas Koensgen <ajk@comnets.uni-bremen.de>
+-- 
+2.17.1
+
