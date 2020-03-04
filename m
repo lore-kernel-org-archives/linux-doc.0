@@ -2,81 +2,95 @@ Return-Path: <SRS0=BeNN=4V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B461C3F2CE
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC4D9C3F2DA
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:26:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4E6F3215A4
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:20:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2F0824671
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Mar 2020 16:26:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S8gzW6+g"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qZMF/8H3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729650AbgCDQUj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 11:20:39 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:40656 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726275AbgCDQUi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 11:20:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=i6EPXcsPhf+W5yJHKSE2MmxHE7uZjMhGSjJOHrOggdc=; b=S8gzW6+gR7oJRlslNUP/b1ARaY
-        3jgyftu6vahHcFT2DEary7hCm+MUfyMyuceCJuVqz55SnIBZKeQOzpjw5LanLUnL8tGIRgJk/WQR7
-        B7IHthWQK0Eu52RRL6p+BXdSyWS+nUcnbXH7yDjl694NSbne4GkDR0T9brSvkg7jlGI9OXMJuhAf7
-        7nK17/mFl5xnsHeLx0zhH0g+uaKxQ3B3DnR9YKpLrghWNoNJvlM3477ecj/LPGaS0NdoA2/2ySHI3
-        NfLm5uQbwOETmrMB2nx5hAhjmQPCExJ7j1/+T5w2QE5ulKAc9u2XxKQWUiyKd112pNtP9B82bPG73
-        VYk3svKQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j9WlB-0007WO-Q9; Wed, 04 Mar 2020 16:20:37 +0000
-Subject: Re: [v4] Documentation: bootconfig: Update boot configuration
- documentation
-To:     Markus Elfring <Markus.Elfring@web.de>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-doc@vger.kernel.org
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-References: <158322634266.31847.8245359938993378502.stgit@devnote2>
- <158322635301.31847.15011454479023637649.stgit@devnote2>
- <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
- <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
- <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
-Date:   Wed, 4 Mar 2020 08:20:35 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S2388225AbgCDQ0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 11:26:54 -0500
+Received: from mail-wm1-f74.google.com ([209.85.128.74]:41046 "EHLO
+        mail-wm1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388312AbgCDQ0x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 11:26:53 -0500
+Received: by mail-wm1-f74.google.com with SMTP id f207so1055397wme.6
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2020 08:26:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=KkLXOOSG3EccFvXnveAsAjlCd4Cuj/e0jkzvyAbgB9g=;
+        b=qZMF/8H31N+tU9HXK3934/ePKJPPhUukwvNWbO2CngiFnO2S1pZA5D04fryyHOjcic
+         hcn/37cJE8ZiJAlv2eXPofk+HXUOZCp++XlFjjV85KedIeF9bNjDRJGCHSiFmdadFZDp
+         BTSItRnZH2VkQwfN7Byv+QQak8Hg6e5SeUFyC5dFzgUUbfK3g81V6GuShW+YVeLOA/Qg
+         258s1gSYoGYox8oAsvfLAO7NwEagbmwJml4qVauqIoDbr6miG9fNkB0ld/457wur/5Mv
+         uE9AGIVTu6sALEIIiU/8qo4V55KzCD3SOq8w6r/9aVJF+JjhZxNw2UWZO0oTS75RQMDk
+         sHSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=KkLXOOSG3EccFvXnveAsAjlCd4Cuj/e0jkzvyAbgB9g=;
+        b=fOOG3m56IUeqJBPlhx3hABsHkMQHp1lpUXOHM2bOjHC+SFqRap61AHCt49T1pnuW93
+         TQ5u1IoaWnCJtukL2XykUHfQTVa+erHhNicgkISi5ZI3EUt75ve8J+K0cGpdK1jJHrK0
+         niBu+nx50t2kwMrSLQfvDrgey7DMoa/Xiy4tHO/hSRJ75FJqpQQS2IheT3TPfxHm6IpL
+         E+okhBbhjd2ijdKTyxXoSb5G7PacZ85ss+DIR4Wxvwt1ddZI9p/cg9qJjK7NUrnFEIV4
+         dOWrlY4p3S6xFUJ4/or3Xquoo2Kwl6AjFRw6Xk1r2LjjinuK4kRMnIh7oJUFoS0GsGhq
+         pbxw==
+X-Gm-Message-State: ANhLgQ1CWoHt0WVxYirQLULGlLTFyAIWq303YFyLDBYu8qdhdiIwQv1U
+        6HEWlNwECeFEcbkp8DGllgKfS97evg==
+X-Google-Smtp-Source: ADFU+vuwHYHwbkfL0PNKCtBj5UcdevPUZcsHif32DA8cz76eBj0bRnn5n5s9CUCgRlXNld1pzFBAFR97Rg==
+X-Received: by 2002:adf:f4c9:: with SMTP id h9mr4909942wrp.168.1583339209473;
+ Wed, 04 Mar 2020 08:26:49 -0800 (PST)
+Date:   Wed,  4 Mar 2020 17:25:39 +0100
+Message-Id: <20200304162541.46663-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+Subject: [PATCH 1/3] kcsan: Fix a typo in a comment
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com
+Cc:     paulmck@kernel.org, andreyknvl@google.com, glider@google.com,
+        dvyukov@google.com, kasan-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, Qiujun Huang <hqjagain@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/4/20 6:45 AM, Markus Elfring wrote:
->> What about the following?
->>
->> User can group identical parent keys together and use braces to list child keys
+From: Qiujun Huang <hqjagain@gmail.com>
 
-   The user
-(as Markus noted)
+s/slots slots/slots/
 
->> under them.
-> 
-> Another wording alternative:
-> 
-> The user can group settings together. Curly brackets enclose a configuration then
-> according to a parent context.
+Signed-off-by: Qiujun Huang <hqjagain@gmail.com>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+[elver: commit message]
+Signed-off-by: Marco Elver <elver@google.com>
+---
+ kernel/kcsan/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I slightly prefer Masami's text.
-
+diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+index eb30ecdc8c009..ee8200835b607 100644
+--- a/kernel/kcsan/core.c
++++ b/kernel/kcsan/core.c
+@@ -45,7 +45,7 @@ static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx) = {
+ };
+ 
+ /*
+- * Helper macros to index into adjacent slots slots, starting from address slot
++ * Helper macros to index into adjacent slots, starting from address slot
+  * itself, followed by the right and left slots.
+  *
+  * The purpose is 2-fold:
 -- 
-~Randy
+2.25.0.265.gbab2e86ba0-goog
 
