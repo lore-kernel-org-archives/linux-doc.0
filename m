@@ -2,110 +2,126 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C98DAC3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 09:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D961AC3F2D1
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 09:11:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A5A95208CD
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 09:07:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB5C9208CD
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 09:11:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="IBJ5dX7z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726915AbgCEJHX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 04:07:23 -0500
-Received: from foss.arm.com ([217.140.110.172]:45250 "EHLO foss.arm.com"
+        id S1725900AbgCEJLU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 04:11:20 -0500
+Received: from mout.web.de ([217.72.192.78]:58481 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727121AbgCEJHV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 04:07:21 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C7634B2;
-        Thu,  5 Mar 2020 01:07:20 -0800 (PST)
-Received: from e108754-lin.cambridge.arm.com (e108754-lin.cambridge.arm.com [10.1.198.53])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 117C43F534;
-        Thu,  5 Mar 2020 01:07:17 -0800 (PST)
-From:   Ionela Voinescu <ionela.voinescu@arm.com>
-To:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, sudeep.holla@arm.com,
-        lukasz.luba@arm.com, valentin.schneider@arm.com,
-        dietmar.eggemann@arm.com, rjw@rjwysocki.net,
-        pkondeti@codeaurora.org, ionela.voinescu@arm.com
-Cc:     peterz@infradead.org, mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: [PATCH v6 7/7] clocksource/drivers/arm_arch_timer: validate arch_timer_rate
-Date:   Thu,  5 Mar 2020 09:06:27 +0000
-Message-Id: <20200305090627.31908-8-ionela.voinescu@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200305090627.31908-1-ionela.voinescu@arm.com>
-References: <20200305090627.31908-1-ionela.voinescu@arm.com>
+        id S1725877AbgCEJLU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 04:11:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1583399441;
+        bh=Fr9GnI7SbNgdoY+pyMuZol4WTCvWyd/VIo8DXiiVrHw=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=IBJ5dX7zElvEb/xKYmSsxnQpCOktv2VnVU/rj0N90Go3ljO8MRrNPviSF7dzw7GrW
+         b+iTzzXYrP9gPCFHuQBQK5ljvBOg+sc3Cyhf/XtxAx7DDX5zD0tQUpZa+HjRjxup8/
+         Rp9zqwhkcieARJ0h81I7NaPXTjIMgVAgnO+pr99U=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([78.48.16.47]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MUncu-1ir4xR2JTw-00Y7QL; Thu, 05
+ Mar 2020 10:10:41 +0100
+Subject: Re: [v5 0/1] Documentation: bootconfig: Documentation updates
+To:     Masami Hiramatsu <mhiramat@kernel.org>, linux-doc@vger.kernel.org
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org
+References: <158339065180.26602.26457588086834858.stgit@devnote2>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <75cea52d-21a4-7c12-baa2-ac7cbd79fed1@web.de>
+Date:   Thu, 5 Mar 2020 10:10:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <158339065180.26602.26457588086834858.stgit@devnote2>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Provags-ID: V03:K1:odk2cBN/gjqLRg+l6kC9LyeU6nm6e+RWtwQnOKwsl3pI0zuy65y
+ bI9QbPNa1DIzzJHjlfKjisNpuhLaDr/2I+VLPOu9uB+HiEAxio4o6pLLxYX9DicYYBDfYmR
+ DdLoGmiMt6/eqEEpJEb9w/cfk6XdHmoKsiqI+KG674d/HQVOzWPl4K/9iQbkcgwgfiaqFYA
+ 3gkDu8Y+3xBeJBZ5yGqNw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ii81T2NKNZA=:wkz4V+PB9nIq+Upt8eEXUv
+ d7t7g5QZMOvgMBPTVF58YSItYyPKDYJ53MOCfosN7d9Pg0uG4laQp3EAdtiOkImiPiLH4YcXF
+ x3UecNObWLbz46cJIexWEYJBicAD3eMS7EG3QnLnuojSrXftuV+9EwSRWeH2pwOS4pJMlmKri
+ jiVFuDxtOW2lEFOmxkPmGCPmLrBtzVkGBir/dZM8pEOnnzgndp5eo2UI5Mzl+hI/J0snPysl8
+ OcWmN+0jcGG9qfaPPsw8Bsx2LiADVJBuCzKP9wk3gLMVdxjkOMuUU+BEFm1G8H0AZi4z5NsPw
+ vu3Cdjf4FO8CUklzV6NERptybd+l5o51WeqOqDx/j2Fr3j1CcxwzLTdTKjF0Gsk7QJ8R2tIjS
+ 2E9pSuEGmxh7eM0ZjVsLnkrIQDqhcDQOdUHfYHBv4wDmXp9aM3rAs+Scjcr8A8K9gQS1WdqGQ
+ ipdhvq5CCiuPS6fUCA09xZ1jJ4tin00OCAKi+I4WMNJ6+20yvjRTTi8PFl3aUiytUCNLOEteV
+ 2zQajfXfoO1zWQ3jkxqE8ydXjuKvTy8pOq4cW4fC7lYSPbq2qy+QN5aHRlVT3AqaqMH/rKgNK
+ PtxM4zWqCIWs9ZCPpm5v6UsibxHj5kXJ2yPygz/pTmQMpRD7AbX1b0sy/jTeHfpq4SsryqAJ9
+ 8eExEyxu4ELnJP4Xy+4xSiUGoZSA9ajSAlyYeXmtEseMd4+IRLVXIV5IFc/lTNZVJLui+Dro/
+ UnhY9pXozyqrt/UGL61rpI2TtP0UVG9OgoyRkJBe7ITT9RVFoL8yWu7zdi3GVwaE6S/upR4eS
+ oF7ffHqD0vTOZu3qz8aLhxEB7zOeQuj+IPvu0wjut8OcnpuEetuPiJWXK4QRBlp7JccxCMQqK
+ tFdY6prEwhHf0YAUz8OacCvuEMC0EhC/io+auOfMoXHk5RJqjQM1aOUM2HYuavZKdgZ9jP58c
+ mOyRvFo6/S75/uKTro7AZpPD3t0WxRi/hVrWa/WC00AC18RuF6w5tTOke31eakMXeCH487Hpj
+ 5Vk04ki94F9/HUf0kqKFy4NlHdL2YvVzYRAYFyH38gWPaxImEHhx82R+r487/DN+cChnVZ3HR
+ fnxs08tzRk0A2izq9cj5wI6OkiwEGuTJkt5RI3scflnHrcEyXAINHR8oeQL4b8TsqPzwv7/U5
+ hs+3wm28tbWY8vyCCU8XkI2lArKB9Jgh5vTJS6FolnTE49W0A0zvJqegt8mRMHDeguo47Jsxy
+ Zwi80fBG6KP2VDb1u
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Using an arch timer with a frequency of less than 1MHz can potentially
-result in incorrect functionality in systems that assume a reasonable
-rate of the arch timer of 1 to 50MHz, described as typical in the
-architecture specification.
+> - Fix some typos.
 
-Therefore, warn if the arch timer rate is below 1MHz, which is
-considered atypical and worth emphasizing.
+These changes were incomplete.
 
-Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
-Suggested-by: Valentin Schneider <valentin.schneider@arm.com>
-Acked-by: Marc Zyngier <maz@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Marc Zyngier <maz@kernel.org>
----
- drivers/clocksource/arm_arch_timer.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/clocksource/arm_arch_timer.c b/drivers/clocksource/arm_arch_timer.c
-index 9a5464c625b4..4faa930eabf8 100644
---- a/drivers/clocksource/arm_arch_timer.c
-+++ b/drivers/clocksource/arm_arch_timer.c
-@@ -885,6 +885,17 @@ static int arch_timer_starting_cpu(unsigned int cpu)
- 	return 0;
- }
- 
-+static int validate_timer_rate(void)
-+{
-+	if (!arch_timer_rate)
-+		return -EINVAL;
-+
-+	/* Arch timer frequency < 1MHz can cause trouble */
-+	WARN_ON(arch_timer_rate < 1000000);
-+
-+	return 0;
-+}
-+
- /*
-  * For historical reasons, when probing with DT we use whichever (non-zero)
-  * rate was probed first, and don't verify that others match. If the first node
-@@ -900,7 +911,7 @@ static void arch_timer_of_configure_rate(u32 rate, struct device_node *np)
- 		arch_timer_rate = rate;
- 
- 	/* Check the timer frequency. */
--	if (arch_timer_rate == 0)
-+	if (validate_timer_rate())
- 		pr_warn("frequency not available\n");
- }
- 
-@@ -1594,9 +1605,10 @@ static int __init arch_timer_acpi_init(struct acpi_table_header *table)
- 	 * CNTFRQ value. This *must* be correct.
- 	 */
- 	arch_timer_rate = arch_timer_get_cntfrq();
--	if (!arch_timer_rate) {
-+	ret = validate_timer_rate();
-+	if (ret) {
- 		pr_err(FW_BUG "frequency not available.\n");
--		return -EINVAL;
-+		return ret;
- 	}
- 
- 	arch_timer_uses_ppi = arch_timer_select_ppi();
--- 
-2.17.1
-
+Regards,
+Markus
