@@ -2,164 +2,81 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BDEAC3F2CD
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 06:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 584CAC3F2D1
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 06:22:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 72EDA2073D
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 06:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583388879;
-	bh=+FpE/LMdtG5BhsGwvEKqTJMLpXq5lLNK2BRtoZJXypY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=lsdrrOoaSg/jf0WN/Udz9n3gU4SaHLl0qnbqeOJaZUJpFAqKcGkPzI1j6VcNUUeas
-	 OuBcebKdoBRDjnCw3KPNXj3qD6BKYPalxja/AORw9lEbTib//DpIapF/Khy1avBdoy
-	 BtssnFFvIQi4vVRDf8GxPBjDx9AVoThKB7eu0CL4=
+	by mail.kernel.org (Postfix) with ESMTP id 3855E208C3
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 06:22:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725830AbgCEGOj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 01:14:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38560 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725818AbgCEGOi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 01:14:38 -0500
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 18AB82073D;
-        Thu,  5 Mar 2020 06:14:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583388877;
-        bh=+FpE/LMdtG5BhsGwvEKqTJMLpXq5lLNK2BRtoZJXypY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HXXu8yPyVZYJa0yyyg+lJOIoxLTTughoUgC4k7QnWRZBwSzNMw1DS7kTqKqnZe6hv
-         WxxD5eV6NZpJk9ckOzWL6vCUwIwkf31t9il/hx8YDxhpWEo4VVqG9x1PPqD996SJZl
-         vbJd7CIlOn6GESTas7M/VBoZAnU0RZKsW/ouPjpk=
-Date:   Thu, 5 Mar 2020 07:14:31 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Joe Perches <joe@perches.com>
+        id S1725861AbgCEGWk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 01:22:40 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:59780 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725839AbgCEGWk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 01:22:40 -0500
+Received: from 1.is.james.uk.vpn ([10.172.254.24] helo=malefic)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <james.troup@canonical.com>)
+        id 1j9ju0-0005S7-TL; Thu, 05 Mar 2020 06:22:37 +0000
+Received: from james by malefic with local (Exim 4.93 #3 (Debian))
+        id 1j9jtw-003dRU-Ie; Thu, 05 Mar 2020 07:22:32 +0100
+From:   James Troup <james.troup@canonical.com>
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: adjust to filesystem doc ReST conversion
-Message-ID: <20200305071431.66362e3c@coco.lan>
-In-Reply-To: <ed040dd417d578e1ab4491d116c6ac1431142385.camel@perches.com>
-References: <20200304072950.10532-1-lukas.bulwahn@gmail.com>
-        <20200304131035.731a3947@lwn.net>
-        <20200304212846.0c79c6da@coco.lan>
-        <ed040dd417d578e1ab4491d116c6ac1431142385.camel@perches.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: deprecated.rst: Add %p to the list
+References: <202003041103.A5842AD@keescook>
+Mail-Copies-To: never
+Date:   Thu, 05 Mar 2020 07:22:31 +0100
+In-Reply-To: <202003041103.A5842AD@keescook> (Kees Cook's message of "Wed, 4
+        Mar 2020 11:13:28 -0800")
+Message-ID: <87mu8vtj6g.fsf@canonical.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 04 Mar 2020 13:24:48 -0800
-Joe Perches <joe@perches.com> escreveu:
+Kees Cook <keescook@chromium.org> writes:
 
-> On Wed, 2020-03-04 at 21:28 +0100, Mauro Carvalho Chehab wrote:
-> > Em Wed, 4 Mar 2020 13:10:35 -0700
-> > Jonathan Corbet <corbet@lwn.net> escreveu:
-> >   
-> > > On Wed,  4 Mar 2020 08:29:50 +0100
-> > > Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> > >   
-> > > > Mauro's patch series <cover.1581955849.git.mchehab+huawei@kernel.org>
-> > > > ("[PATCH 00/44] Manually convert filesystem FS documents to ReST")
-> > > > converts many Documentation/filesystems/ files to ReST.
-> > > > 
-> > > > Since then, ./scripts/get_maintainer.pl --self-test complains with 27
-> > > > warnings on Documentation/filesystems/ of this kind:
-> > > > 
-> > > >   warning: no file matches F: Documentation/filesystems/...
-> > > > 
-> > > > Adjust MAINTAINERS entries to all files converted from .txt to .rst in the
-> > > > patch series and address the 27 warnings.
-> > > > 
-> > > > Link: https://lore.kernel.org/linux-erofs/cover.1581955849.git.mchehab+huawei@kernel.org
-> > > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> > > > ---
-> > > > Mauro, please ack.
-> > > > Jonathan, pick pick this patch for doc-next.    
-> > > 
-> > > Sigh, I need to work a MAINTAINERS check into my workflow...
-> > > 
-> > > Thanks for fixing these, but ... what tree did you generate the patch
-> > > against?  I doesn't come close to applying to docs-next.  
-> > 
-> > I'm starting to suspect that maybe the best workflow would be to just 
-> > apply the patches at docs-next keeping links broken, and then run
-> > ./scripts/documentation-file-ref-check --fix by the end of a merge
-> > window, addressing such breakages.  
-> 
-> I'm not sure at all that that script will always do the
-> right thing with MAINTAINERS,
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index f9f196d3a69b..a4db119f4e09 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -109,6 +109,23 @@ the given limit of bytes to copy. This is inefficient and can lead to
+>  linear read overflows if a source string is not NUL-terminated. The
+>  safe replacement is :c:func:`strscpy`.
+>  
+> +%p format specifier
+> +-------------------
+> +Using %p in format strings leads to a huge number of address exposures.
 
-As it is based on some heuristics, whomever runs it should
-double-check the results.
+Perhaps this sentence should be in the past tense, since %p currently
+prints a hashed value?
 
-> but it seems to work OK
-> except for some renames where a .txt file was directly
-> renamed to a .rst file in the same directory where there
-> was a similarly named file in a different directory.
+> +Instead of leaving these to be exploitable, "%p" should not be used in
+> +the kernel.
 
-Yeah, the script could be smarter to catch this case.
+On its face, this seems to contradict the guidance below?
 
-> Likely the direct rename of a filename extension from
-> .txt to .rst should always be applied by the script.
+> If used currently, it is a hashed value, rendering it
 
-Yeah, makes sense to me. Yet, I got one exception for this:
-I found somewhere a case were there are both foo.txt and foo.rst,
-both with different contents.
+Perhaps: s/it is/it prints/ ?
 
-The solution I took were to rename foo.txt to bar.txt,
-adjusting the cross-references, then convert bar.txt to
-bar.rst.
+> +unusable for addressing. Paraphrasing Linus's current `guideance
+> <https://lore.kernel.org/lkml/CA+55aFwQEd_d40g4mUCSsVRZzrFPUJt74vc6PPpb675hYNXcKw@mail.gmail.com/>`_:
 
-In any case, we're close to finish the conversion. I have
-already patches that convert everything to .rst (with a couple of
-exceptions), and I took the care of doing the cross-reference fixes 
-there. I'm still adjusting some things on this tree. My current plans
-are to have them all applied up to Kernel 5.8, and then start looking
-on better organizing the docs (I'm already doing that for media docs).
+Typo: guidance
 
-Once all of those patches get merged, .txt -> .rst will
-be an exception.
+> +- Just use %p and get the hashed value.
 
-> 
-> Anyway, for -next as of today:
-> 
-> $ git diff --shortstat
->  64 files changed, 116 insertions(+), 116 deletions(-)
-> 
-> > There are usually lots of churn outside the merge window.
-> > 
-> > Another alternative would be to split the MAINTAINERS file on a
-> > per-subsystem basis. If I remember well, someone proposed this once at
-> > LKML. I vaguely remember that there were even a patch (or RFC)
-> > adding support for such thing for get_maintainers.pl.  
-> 
-> Yeah.  get_maintainer.pl does work if the MAINTAINERS
-> file is split up a few different ways.
-> 
-> There was also a tool to do the MAINTAINERS split.
-> https://lore.kernel.org/patchwork/patch/817857/
-> 
-> I doubt that would matter at all given today's tools and
-> the general mechanisms of maintainers renaming files and
-> not running checkpatch in the first place.
-
-Yeah, it may not produce any concrete results on some parts.
-It may help to reduce the conflicts there, though. Also, I guess
-some maintainers will take more care, if they start to have
-their own */MAINTAINERS files.
-
-Thanks,
-Mauro
+-- 
+James
