@@ -2,94 +2,119 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D663AC3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 08:24:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 525D5C3F2CD
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 08:44:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B05D320870
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 08:24:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A53721744
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 08:44:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M2RHZfPP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725844AbgCEIYV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 03:24:21 -0500
-Received: from sauhun.de ([88.99.104.3]:45142 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725816AbgCEIYV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 03:24:21 -0500
-Received: from localhost (p54B330C6.dip0.t-ipconnect.de [84.179.48.198])
-        by pokefinder.org (Postfix) with ESMTPSA id A7A422C1F28;
-        Thu,  5 Mar 2020 09:24:18 +0100 (CET)
-Date:   Thu, 5 Mar 2020 09:24:15 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Dennis Zhou <dennis@kernel.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] include/bitmap.h: add new functions to documentation
-Message-ID: <20200305082415.GA1079@ninjato>
-References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
- <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
- <20200304204026.GA55400@dennisz-mbp>
+        id S1726520AbgCEIoB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 03:44:01 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:41333 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725866AbgCEIoB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 03:44:01 -0500
+Received: by mail-lj1-f193.google.com with SMTP id u26so5106597ljd.8
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2020 00:43:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fbdyI132YwoclqRAqQFcdVx80Hpq+rOO83F3M2/coUY=;
+        b=M2RHZfPPLjF7FpMQLcCbqr8EN9g6Ic3+vH8uz+umLS+RFof6hkjjSGWTRM6jNNndox
+         k6DtkldAR/CFy6cPpqVUsaG5ysOvTdmV7xhr9qA9AOwkMQXVfMLnhkq0azy7efyPI+aS
+         4qvbMDOoeAen2vmmUdCuD6AsTPljasQC9vX32+eqQCBMytLYsMIKUzY+wwBi6asEtwH2
+         xVmjHtapMbyBHpM3bGAW48hfzKoqNSC7wyVR6U/+RZMWp9vtaHXNEHufluU0DVURs3tI
+         W+N/AWsbjr/pRCMw/XP/p0QATrMAgRglWks0u8wK+Dm4YFWcWgccy753zPXixcUkMkKf
+         kfcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fbdyI132YwoclqRAqQFcdVx80Hpq+rOO83F3M2/coUY=;
+        b=UV27cNHHpbGhqR+eIyN4W5l0GQob4GOAtA1sMQTfqm2d9qU0U9l+y/nu9BDpj8QapX
+         FGd3xbm7V3owshlGBAmyNEFjIrbceaNc1cNS5SI0YyVPmyC+lBtW2K1/4f3OfqwjhLtA
+         QLvutqpqtxc5BGfK38sw6kGtPxfr5h1M4L2vfSNwk68zUNluP2HREjLLD90UJMLCJu3w
+         sgGqqi4t4sel28xkHsDlYIQzss8aV7wFaCvTTLOPj8lvPtjagd5s2C8CG/DIkAWk19cp
+         j0Hc7M1f8Czy2qb1kLuaM9moW+6twfe1oRhw7F608viOgcoK97Qo2k5asi8OseWF3+u7
+         7KPg==
+X-Gm-Message-State: ANhLgQ3TuAtCjb2H0Cgce8oYnnksayViowAlaJwdJcpbu9sK2oGH9CXC
+        NNAuzKHVuUM6f+gmIEB32ascwhGQIP5Sig+SR3FmJQ==
+X-Google-Smtp-Source: ADFU+vvRFk8g3wXnA/A8ma/dUQb4x8dS4Zxl9FCH95G0Ve3S38UAd/rE7NSBOFGF0YuUMSSw1xX1W7Ho7mX9olGU4y8=
+X-Received: by 2002:a05:651c:2049:: with SMTP id t9mr4675395ljo.39.1583397839207;
+ Thu, 05 Mar 2020 00:43:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="45Z9DzgjV8m4Oswq"
-Content-Disposition: inline
-In-Reply-To: <20200304204026.GA55400@dennisz-mbp>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190617221134.9930-1-f.fainelli@gmail.com> <20191114181243.q37rxoo3seds6oxy@pengutronix.de>
+ <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com> <20191115070842.2x7psp243nfo76co@pengutronix.de>
+ <20191115114416.ba6lmwb7q4gmepzc@pengutronix.de> <60bda4a9-f4f8-3641-2612-17fab3173b29@gmail.com>
+ <CACRpkdYJR3gQCb4WXwF4tGzk+tT7jMcV9=nDK0PFkeh+0G11bA@mail.gmail.com> <2639dfb0-9e48-cc0f-27e5-34308f790293@gmail.com>
+In-Reply-To: <2639dfb0-9e48-cc0f-27e5-34308f790293@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 5 Mar 2020 09:43:48 +0100
+Message-ID: <CACRpkdZ8JA=DXOxzYwyvBxCMd2Q5uzLTn87AVK7wdrxHFo5ydQ@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] KASan for arm
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Marco Felsch <m.felsch@pengutronix.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Julien Thierry <julien.thierry@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
+        Abbott Liu <liuwenliang@huawei.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Russell King <linux@armlinux.org.uk>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        drjones@redhat.com, Vladimir Murzin <vladimir.murzin@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Jinbum Park <jinb.park7@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rob Landley <rob@landley.net>, philip@cog.systems,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Garnier <thgarnie@google.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Florian,
 
---45Z9DzgjV8m4Oswq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jan 17, 2020 at 8:55 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
 
+> Let me submit and rebase v7 get the auto builders some days to see if it
+> exposes a new build issue and then we toss it to RMK's patch tracker and
+> fix bugs from there?
 
-> > I found these functions only by chance although I was looking exactly
-> > for something like them. So, add them to the list of functions to make
-> > them more visible.
-> >=20
-> > Fixes: e837dfde15a4 ("bitmap: genericize percpu bitmap region iterators=
-")
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > Cc: Dennis Zhou <dennis@kernel.org>
->=20
-> Ah thanks. That was a miss not adding the documentation. I can pick
-> these up unless Andrew would rather run them through his tree. I have a
-> few other miscellaneous documentation cleanups for percpu I need to run
-> anyway.
-
-That sounds like a good fit to me. Will you take both of the patches?
+Sorry for hammering, can we get some initial patches going into
+Russell's patch tracker here? I can sign them off and put them in
+if you don't have time.
 
 Thanks,
-
-   Wolfram
-
-
---45Z9DzgjV8m4Oswq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5gtysACgkQFA3kzBSg
-KbaSyQ//a6OXSGwK/vLNNCOnhGY6pviH+BI2Kt82p5SuaSru/5vIskDNeMCMALkn
-KX+e9JA87IyNXX8nGSznpbWOpS5Mr8Olmomhl6cYoEODwW06AEPvzsqxIKn/I1DO
-0Hvcj1bUbt/wCUuP1GdQAGBJvNYDdDUwwsNVixJCRdM6pxfmTPAWzybogTVy6g1I
-HIQkUqpZS3WQ2euffU0z4fJ/hThAGnLK5T3J9irqZnGDp054f+DS64ytrmMCeboD
-7aITrunzud7KaMYCSV3bf957MZiU7wqZJZZZbhsVnFdyTLRF9hE5bRVQdAb3SXYN
-lhHMhGTkUvZdgRLWPWMaRhGpEj7GWRvhIlql4+s+OK4GDUPHW/5X7EqwZEC2ZQ5r
-hX+hHi+cokiOTrHA6YvGWAnrC+6W0IlEVNJQ6phKC30x+wvNStnZLoa5htO+kNzT
-wvbHOgpaK/sGD2+cmTQMDgZ99v7Zok6pkBMs/Qu4e/HrnLALLIfH7DCkkBkI0w2i
-6cOARozzG7k1NPEGKjEj1N1Re+O3HfIqcHf33N3nbU2hcCmeiv4GL7AxA/g1Z3Nn
-mCVW6YL9PktQkc/zzAuD55h5BKBwuQtVBPwXAdSyhXwBaQwd1abbKDdiS42BmOA6
-C2PxnxZBr3q3tB8mhZjzM+y9DDpig4t1yuMo6RdFkcmE6UeJhIY=
-=vIoE
------END PGP SIGNATURE-----
-
---45Z9DzgjV8m4Oswq--
+Linus Walleij
