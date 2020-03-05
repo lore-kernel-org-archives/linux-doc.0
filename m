@@ -6,86 +6,84 @@ X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0417BC3F2CE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:58:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB0E8C3F2D1
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:59:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CE492214D8
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:58:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D933214D8
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:59:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583369891;
-	bh=qBHd9zT00b7CN2peWKuf3SotoS9UgrnfGTi/urSOl9I=;
+	s=default; t=1583369962;
+	bh=AdbQ5f/7J8xRD1RJTNFcvHuv+j3LCyuretP+IHCgIuE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=CSWK3G0UWgq11WKChALVR3Wc94CQYqcHkBCSHFrx7KaK9P4OA0HkBFN/CBxB7ydaW
-	 4WXRoQ9M9xjy9+XaZ1EdJPifeHXKo9NhdevFvmBZ/R+Ae/WTOLYiwqVI+zhjU8pp0a
-	 u3GCmK5mlheiy8s5X8nZWNfXngU2V1h9lAKN5oOM=
+	b=qch0TDUQcZYhX8QxqFTCM9U4L+ur2eu1GOrgZp8fxldW/ulXV4Ja/JvZ6YYPZWHnL
+	 4ePbZQ7NWuGv0yTpsnT4EWwZ7fDFwmZ0hZSb5oNIcR6DcPjre9/TREMoJTs0ScY4+F
+	 hLzLcTzNuvQf2/iQYV9jNQM4TRX89am+CFZdfY/o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725838AbgCEA6L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 19:58:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59050 "EHLO mail.kernel.org"
+        id S1725554AbgCEA7W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 19:59:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59264 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725818AbgCEA6L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 19:58:11 -0500
+        id S1725308AbgCEA7W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Mar 2020 19:59:22 -0500
 Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8A2CB20842;
-        Thu,  5 Mar 2020 00:58:08 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C093120842;
+        Thu,  5 Mar 2020 00:59:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583369890;
-        bh=qBHd9zT00b7CN2peWKuf3SotoS9UgrnfGTi/urSOl9I=;
+        s=default; t=1583369961;
+        bh=AdbQ5f/7J8xRD1RJTNFcvHuv+j3LCyuretP+IHCgIuE=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Oe/JVIOOL2NJ+2yNnt2zTB42B65tVfqHBaSFXBE2M3ztqk22pAO1uLMOIh7CQ2MKR
-         dKmTVQKvvKoTOE6lu2tS6Kp0N1c8DyjO90n7CJUfgf0/BNzRFeB8b1o9y6VfhFFSji
-         tEgsdcmztSbJ8nCVhFu2O1UAyBmoswbKimT4md/w=
-Date:   Thu, 5 Mar 2020 09:58:06 +0900
+        b=e3LAq9RuZ3ugCTvwSfKBJ+lklf3PpsADX17OJwBFnnNq7X+zl8cLkTCCs/V7ZYwza
+         dSdQOwm7Rojom16NziEbZSHQBAfQvtGsdHrKaGb/vFbq5G2JTaA8LMsfnzgwcogua0
+         B+wrW0UC+afDvTWfyLPiyri3/VaXzh6hmFr0V/tk=
+Date:   Thu, 5 Mar 2020 09:59:17 +0900
 From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Markus Elfring <Markus.Elfring@web.de>, linux-doc@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Markus Elfring <Markus.Elfring@web.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org
 Subject: Re: [v4] Documentation: bootconfig: Update boot configuration
  documentation
-Message-Id: <20200305095806.3ba477b939c07d5bec298b48@kernel.org>
-In-Reply-To: <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
+Message-Id: <20200305095917.9cd7c2a7f5f6b492601e27bb@kernel.org>
+In-Reply-To: <20200304142259.7eaa3633@lwn.net>
 References: <158322634266.31847.8245359938993378502.stgit@devnote2>
         <158322635301.31847.15011454479023637649.stgit@devnote2>
         <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
         <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
         <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
         <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
+        <a9f8980e-4325-52c1-d217-d2fca1add37d@web.de>
+        <3118d72b-a33c-e6d7-36a1-204d39d2bdbb@infradead.org>
+        <a6680eb7-5a1d-ea58-0eec-14f2b5bcd99a@web.de>
+        <20200304142259.7eaa3633@lwn.net>
 X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 4 Mar 2020 08:20:35 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Wed, 4 Mar 2020 14:22:59 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> On 3/4/20 6:45 AM, Markus Elfring wrote:
-> >> What about the following?
-> >>
-> >> User can group identical parent keys together and use braces to list child keys
+> On Wed, 4 Mar 2020 22:20:07 +0100
+> Markus Elfring <Markus.Elfring@web.de> wrote:
 > 
->    The user
-> (as Markus noted)
-
-OK.
-
-> 
-> >> under them.
+> > > I'm hoping to be done with the current changes. :)  
 > > 
-> > Another wording alternative:
-> > 
-> > The user can group settings together. Curly brackets enclose a configuration then
-> > according to a parent context.
+> > Will a term like “grouping of parent keys” need any additional explanation?
 > 
-> I slightly prefer Masami's text.
+> Honestly, Markus, I think that the patch is good enough for now; time to
+> merge it and move on to something else.
 
-Thank you,
+Thanks Jon,
+
+I'll send the final version soon.
 
 -- 
 Masami Hiramatsu <mhiramat@kernel.org>
