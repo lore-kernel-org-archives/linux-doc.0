@@ -2,116 +2,94 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EEC8C3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 07:03:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D663AC3F2D1
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 08:24:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 18F4920870
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 07:03:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J5/XLyRv"
+	by mail.kernel.org (Postfix) with ESMTP id B05D320870
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 08:24:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725866AbgCEHDv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 02:03:51 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:37879 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbgCEHDv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 02:03:51 -0500
-Received: by mail-pg1-f195.google.com with SMTP id z12so2292851pgl.4
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2020 23:03:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=7jbRLVAVV1t65FhLF/sdJH2G4CKA2x85deohg6GB6iI=;
-        b=J5/XLyRvp+Bv76NsT3de+Xrs6fP5DiCuG1OM+6lCJs2Rbavj0QmJUJGIwZYaHDj2FG
-         hkx0cfUFC8aMhWP+S46As+6w0GdN3uVF+cVakmCy11bRyN0/q3uXOjxOLMsauL44w8Wp
-         Y7sEq5Q8OdOHQNuC1F7HVBH8oLoQ505ezE6dM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=7jbRLVAVV1t65FhLF/sdJH2G4CKA2x85deohg6GB6iI=;
-        b=C45Vxd+NjKmEAyjNtw8udAOSymIZuRQNbd8ediJzCo5fNNo3LxkcO5PG+wSEQTEF62
-         UBuUAaQDOcguqiYG7/uhpL9giPLbbSxVekxZgPsWsZTF1L0nMWazTdxoJFrhaYZQau9Q
-         FMMlcoi6r5GsKT4FZAo9oOcvrnVLu4v027bZTj+N8bIhSrZkZdPaWheOFPoi/qFZUA3l
-         AIxRP0KMN1WhQXKkT9V6+X2J6mFAH7FbOFnmw9WciDPybwiiIb9/ILfCLeijDbTc19SE
-         yah5qiY76nWDpUL8Vi9NfZUmiDHVWifqqHNdaBefz6quYqPiO+D7unUHeRavhNJQinEA
-         clgA==
-X-Gm-Message-State: ANhLgQ221ztAPJvUOc8bM7myuyXVbBuXTAHJwRu0jL5R/BKWXC5Jvh70
-        CBiMWn6gxnQDOycnd9fCOvAkNQ==
-X-Google-Smtp-Source: ADFU+vv+pJU9j0cc+gV1qWb3HeKiPK5T36bnZ8WPFOYn7N3xvpDTcqkOYgzQPIQrf9EAfh/CWaIS0g==
-X-Received: by 2002:aa7:87ca:: with SMTP id i10mr6808918pfo.169.1583391829762;
-        Wed, 04 Mar 2020 23:03:49 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o66sm16817935pfb.93.2020.03.04.23.03.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2020 23:03:48 -0800 (PST)
-Date:   Wed, 4 Mar 2020 23:03:47 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     James Troup <james.troup@canonical.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs: deprecated.rst: Add %p to the list
-Message-ID: <202003042301.F844A8C0EC@keescook>
+        id S1725844AbgCEIYV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 03:24:21 -0500
+Received: from sauhun.de ([88.99.104.3]:45142 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725816AbgCEIYV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 03:24:21 -0500
+Received: from localhost (p54B330C6.dip0.t-ipconnect.de [84.179.48.198])
+        by pokefinder.org (Postfix) with ESMTPSA id A7A422C1F28;
+        Thu,  5 Mar 2020 09:24:18 +0100 (CET)
+Date:   Thu, 5 Mar 2020 09:24:15 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Dennis Zhou <dennis@kernel.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] include/bitmap.h: add new functions to documentation
+Message-ID: <20200305082415.GA1079@ninjato>
+References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
+ <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
+ <20200304204026.GA55400@dennisz-mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="45Z9DzgjV8m4Oswq"
 Content-Disposition: inline
+In-Reply-To: <20200304204026.GA55400@dennisz-mbp>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Once in a while %p usage comes up, and I've needed to have a reference
-to point people to. Add %p details to deprecated.rst.
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
-v2: rewrite much of the text to be more clear (James Troup)
----
- Documentation/process/deprecated.rst | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index f9f196d3a69b..8965446f0b71 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -109,6 +109,28 @@ the given limit of bytes to copy. This is inefficient and can lead to
- linear read overflows if a source string is not NUL-terminated. The
- safe replacement is :c:func:`strscpy`.
- 
-+%p format specifier
-+-------------------
-+Traditionally, using "%p" in format strings would lead to regular address
-+exposure flaws in dmesg, proc, sysfs, etc. Instead of leaving these to
-+be exploitable, all "%p" uses in the kernel are being printed as a hashed
-+value, rendering them unusable for addressing. New uses of "%p" should not
-+be added to the kernel. For text addresses, using "%pS" is likely better,
-+as it produces the more useful symbol name instead. For nearly everything
-+else, just do not add "%p" at all.
-+
-+Paraphrasing Linus's current `guidance <https://lore.kernel.org/lkml/CA+55aFwQEd_d40g4mUCSsVRZzrFPUJt74vc6PPpb675hYNXcKw@mail.gmail.com/>`_:
-+
-+- If the hashed "%p" value is pointless, ask yourself whether the pointer
-+  itself is important. Maybe it should be removed entirely?
-+- If you really think the true pointer value is important, why is some
-+  system state or user privilege level considered "special"? If you think
-+  you can justify it (in comments and commit log) well enough to stand
-+  up to Linus's scrutiny, maybe you can use "%px", along with making sure
-+  you have sensible permissions.
-+
-+And finally, know that a toggle for "%p" hashing will `not be accepted <https://lore.kernel.org/lkml/CA+55aFwieC1-nAs+NFq9RTwaR8ef9hWa4MjNBWL41F-8wM49eA@mail.gmail.com/>`_.
-+
- Variable Length Arrays (VLAs)
- -----------------------------
- Using stack VLAs produces much worse machine code than statically
--- 
-2.20.1
+--45Z9DzgjV8m4Oswq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
--- 
-Kees Cook
+> > I found these functions only by chance although I was looking exactly
+> > for something like them. So, add them to the list of functions to make
+> > them more visible.
+> >=20
+> > Fixes: e837dfde15a4 ("bitmap: genericize percpu bitmap region iterators=
+")
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > Cc: Dennis Zhou <dennis@kernel.org>
+>=20
+> Ah thanks. That was a miss not adding the documentation. I can pick
+> these up unless Andrew would rather run them through his tree. I have a
+> few other miscellaneous documentation cleanups for percpu I need to run
+> anyway.
+
+That sounds like a good fit to me. Will you take both of the patches?
+
+Thanks,
+
+   Wolfram
+
+
+--45Z9DzgjV8m4Oswq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5gtysACgkQFA3kzBSg
+KbaSyQ//a6OXSGwK/vLNNCOnhGY6pviH+BI2Kt82p5SuaSru/5vIskDNeMCMALkn
+KX+e9JA87IyNXX8nGSznpbWOpS5Mr8Olmomhl6cYoEODwW06AEPvzsqxIKn/I1DO
+0Hvcj1bUbt/wCUuP1GdQAGBJvNYDdDUwwsNVixJCRdM6pxfmTPAWzybogTVy6g1I
+HIQkUqpZS3WQ2euffU0z4fJ/hThAGnLK5T3J9irqZnGDp054f+DS64ytrmMCeboD
+7aITrunzud7KaMYCSV3bf957MZiU7wqZJZZZbhsVnFdyTLRF9hE5bRVQdAb3SXYN
+lhHMhGTkUvZdgRLWPWMaRhGpEj7GWRvhIlql4+s+OK4GDUPHW/5X7EqwZEC2ZQ5r
+hX+hHi+cokiOTrHA6YvGWAnrC+6W0IlEVNJQ6phKC30x+wvNStnZLoa5htO+kNzT
+wvbHOgpaK/sGD2+cmTQMDgZ99v7Zok6pkBMs/Qu4e/HrnLALLIfH7DCkkBkI0w2i
+6cOARozzG7k1NPEGKjEj1N1Re+O3HfIqcHf33N3nbU2hcCmeiv4GL7AxA/g1Z3Nn
+mCVW6YL9PktQkc/zzAuD55h5BKBwuQtVBPwXAdSyhXwBaQwd1abbKDdiS42BmOA6
+C2PxnxZBr3q3tB8mhZjzM+y9DDpig4t1yuMo6RdFkcmE6UeJhIY=
+=vIoE
+-----END PGP SIGNATURE-----
+
+--45Z9DzgjV8m4Oswq--
