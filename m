@@ -2,137 +2,90 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FECC3F2CE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0417BC3F2CE
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:58:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 95FD420842
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:10:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE492214D8
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:58:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583367047;
-	bh=iRqeuR4zqIe44/ohDAsoST7Lv50uMJs4rL4YHPuU0AE=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=MQghg620j/olaebtmf+RYat6/NuTVcUxw1sqE2nkkMLX83A46Q6i43Ar1//WZkGGM
-	 ewoK+EVeXGzU+i59qsFEcUrXuSJVXyrhED+EMCdz9RGKP4VYKHi9OPjiTWFk58Yu2R
-	 1uKAtrOOh0oO0Y6ule5c8tJEbROiITAYMw1Ea6P8=
+	s=default; t=1583369891;
+	bh=qBHd9zT00b7CN2peWKuf3SotoS9UgrnfGTi/urSOl9I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=CSWK3G0UWgq11WKChALVR3Wc94CQYqcHkBCSHFrx7KaK9P4OA0HkBFN/CBxB7ydaW
+	 4WXRoQ9M9xjy9+XaZ1EdJPifeHXKo9NhdevFvmBZ/R+Ae/WTOLYiwqVI+zhjU8pp0a
+	 u3GCmK5mlheiy8s5X8nZWNfXngU2V1h9lAKN5oOM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388412AbgCEAKr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 19:10:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45454 "EHLO mail.kernel.org"
+        id S1725838AbgCEA6L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 19:58:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59050 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388389AbgCEAKr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 19:10:47 -0500
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+        id S1725818AbgCEA6L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Mar 2020 19:58:11 -0500
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2211020842;
-        Thu,  5 Mar 2020 00:10:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8A2CB20842;
+        Thu,  5 Mar 2020 00:58:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583367046;
-        bh=iRqeuR4zqIe44/ohDAsoST7Lv50uMJs4rL4YHPuU0AE=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=GK/YKQHZXYef51SPBiZpY5AHhRzUhyE6DpUGpmjOZPiTa4gFtV253qBENyjex4FG8
-         fYVr9TNCAyF55cJwGbi07Kam1hscWZbL32pSouG8pT2HqWeaPKao8lcTowOFTi8Et7
-         EWWOfUwk8ADb+sZles3s15N5+SVcTKY7wpfSRSsg=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id E8ACA3522731; Wed,  4 Mar 2020 16:10:45 -0800 (PST)
-Date:   Wed, 4 Mar 2020 16:10:45 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Pawan Kumar Meena <pawank1804@gmail.com>
-Cc:     joel@joelfernandes.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH RESEND] Documentation: RCU: lockdep.txt: Convert to
- lockdep.rst
-Message-ID: <20200305001045.GT2935@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200303144546.20405-1-pawank1804@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200303144546.20405-1-pawank1804@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        s=default; t=1583369890;
+        bh=qBHd9zT00b7CN2peWKuf3SotoS9UgrnfGTi/urSOl9I=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Oe/JVIOOL2NJ+2yNnt2zTB42B65tVfqHBaSFXBE2M3ztqk22pAO1uLMOIh7CQ2MKR
+         dKmTVQKvvKoTOE6lu2tS6Kp0N1c8DyjO90n7CJUfgf0/BNzRFeB8b1o9y6VfhFFSji
+         tEgsdcmztSbJ8nCVhFu2O1UAyBmoswbKimT4md/w=
+Date:   Thu, 5 Mar 2020 09:58:06 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Markus Elfring <Markus.Elfring@web.de>, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [v4] Documentation: bootconfig: Update boot configuration
+ documentation
+Message-Id: <20200305095806.3ba477b939c07d5bec298b48@kernel.org>
+In-Reply-To: <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
+References: <158322634266.31847.8245359938993378502.stgit@devnote2>
+        <158322635301.31847.15011454479023637649.stgit@devnote2>
+        <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
+        <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
+        <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
+        <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 08:15:46PM +0530, Pawan Kumar Meena wrote:
-> This patch converts lockdep.txt to lockdep.rst and adds it to index.rst.
-> 
-> Signed-off-by: Pawan Kumar Meena <pawank1804@gmail.com>
+On Wed, 4 Mar 2020 08:20:35 -0800
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Given an ack from someone on the docs side, I will be happy to queue
-this one.  Given the large change from the last posted version with no
-version history, I am a bit leery of taking it straight away.
-
-						Thanx, Paul
-
-> ---
->  Documentation/RCU/index.rst                    | 1 +
->  Documentation/RCU/{lockdep.txt => lockdep.rst} | 9 ++++++---
->  2 files changed, 7 insertions(+), 3 deletions(-)
->  rename Documentation/RCU/{lockdep.txt => lockdep.rst} (97%)
+> On 3/4/20 6:45 AM, Markus Elfring wrote:
+> >> What about the following?
+> >>
+> >> User can group identical parent keys together and use braces to list child keys
 > 
-> diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-> index 81a0a1e5f767..109dea13f165 100644
-> --- a/Documentation/RCU/index.rst
-> +++ b/Documentation/RCU/index.rst
-> @@ -10,6 +10,7 @@ RCU concepts
->     arrayRCU
->     rcubarrier
->     rcu_dereference
-> +   lockdep
->     whatisRCU
->     rcu
->     listRCU
-> diff --git a/Documentation/RCU/lockdep.txt b/Documentation/RCU/lockdep.rst
-> similarity index 97%
-> rename from Documentation/RCU/lockdep.txt
-> rename to Documentation/RCU/lockdep.rst
-> index 89db949eeca0..3a88d8a59753 100644
-> --- a/Documentation/RCU/lockdep.txt
-> +++ b/Documentation/RCU/lockdep.rst
-> @@ -1,4 +1,7 @@
-> +.. _lockdep_doc:
-> +
->  RCU and lockdep checking
-> +========================
->  
->  All flavors of RCU have lockdep checking available, so that lockdep is
->  aware of when each task enters and leaves any flavor of RCU read-side
-> @@ -63,7 +66,7 @@ checking of rcu_dereference() primitives:
->  The rcu_dereference_check() check expression can be any boolean
->  expression, but would normally include a lockdep expression.  However,
->  any boolean expression can be used.  For a moderately ornate example,
-> -consider the following:
-> +consider the following::
->  
->  	file = rcu_dereference_check(fdt->fd[fd],
->  				     lockdep_is_held(&files->file_lock) ||
-> @@ -82,7 +85,7 @@ RCU read-side critical sections, in case (2) the ->file_lock prevents
->  any change from taking place, and finally, in case (3) the current task
->  is the only task accessing the file_struct, again preventing any change
->  from taking place.  If the above statement was invoked only from updater
-> -code, it could instead be written as follows:
-> +code, it could instead be written as follows::
->  
->  	file = rcu_dereference_protected(fdt->fd[fd],
->  					 lockdep_is_held(&files->file_lock) ||
-> @@ -105,7 +108,7 @@ false and they are called from outside any RCU read-side critical section.
->  
->  For example, the workqueue for_each_pwq() macro is intended to be used
->  either within an RCU read-side critical section or with wq->mutex held.
-> -It is thus implemented as follows:
-> +It is thus implemented as follows::
->  
->  	#define for_each_pwq(pwq, wq)
->  		list_for_each_entry_rcu((pwq), &(wq)->pwqs, pwqs_node,
-> -- 
-> 2.17.1
+>    The user
+> (as Markus noted)
+
+OK.
+
 > 
+> >> under them.
+> > 
+> > Another wording alternative:
+> > 
+> > The user can group settings together. Curly brackets enclose a configuration then
+> > according to a parent context.
+> 
+> I slightly prefer Masami's text.
+
+Thank you,
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
