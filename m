@@ -2,97 +2,72 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 568C2C3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 15:53:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB56C3F2D2
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 16:06:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 366FC2072D
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 15:53:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50F752073B
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 16:06:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="l0SbPoqH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726905AbgCEPxe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 10:53:34 -0500
-Received: from mga05.intel.com ([192.55.52.43]:11793 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725977AbgCEPxe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 10:53:34 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Mar 2020 07:53:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,518,1574150400"; 
-   d="scan'208";a="234452025"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 05 Mar 2020 07:53:27 -0800
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1j9soS-00792v-DX; Thu, 05 Mar 2020 17:53:28 +0200
-Date:   Thu, 5 Mar 2020 17:53:28 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Daniel Borkmann <daniel@iogearbox.net>
-Cc:     =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@gmail.com>,
-        Luke Nelson <lukenels@cs.washington.edu>,
-        bpf <bpf@vger.kernel.org>, Luke Nelson <luke.r.nels@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Xi Wang <xi.wang@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Netdev <netdev@vger.kernel.org>, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH bpf-next v5 0/4] eBPF JIT for RV32G
-Message-ID: <20200305155328.GO1224808@smile.fi.intel.com>
-References: <20200305050207.4159-1-luke.r.nels@gmail.com>
- <CAJ+HfNjrUxVqpBgC-WLHbZX7_7Gd-Lk7ghrmASTmaNySuXVUfg@mail.gmail.com>
- <4633123d-dc61-ab79-d2ee-e0cef66e4cea@iogearbox.net>
+        id S1726504AbgCEQGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 11:06:44 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:39668 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726359AbgCEQGo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 11:06:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=OelL0+sWRwbd3cE6rtMnf8MQ2r2pf+ox8uliO1C/bLU=; b=l0SbPoqHPwOW/A5gzvOvPNwmhE
+        EGMaudbOoPJVAaL0ZEP+gAaORjitUSs0XzZLzWZbHyHL7kY2QxQuOFE1yH1jTTlTyIvZ6TCLCB5G/
+        U9tYa8cT/c34P/XoE4i61lVAfpuKbbU3I2WF2Q2q+1hqF4v6s8X+IuV12ZPP4EjqBHeAKsNYqFYO1
+        XhD3Szen6QzvefodRkLHStC1WWCzzCwFf6h8ek8m3fIn4gMvipASYRMeBMXNGnTTxf+eNVQuQKCo3
+        vH++4arV+53zZvVW/0Yl9Ck0EPK0kzvFn0DtkqKxelBlRR3/M86lnMSN5/2O6oijGQha8xgoFZTGf
+        cD/HeKGQ==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j9t1G-0003YR-Hc; Thu, 05 Mar 2020 16:06:42 +0000
+Subject: Re: [v5] Documentation: bootconfig: Update boot configuration
+ documentation
+To:     Markus Elfring <Markus.Elfring@web.de>, linux-doc@vger.kernel.org
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+References: <158339065180.26602.26457588086834858.stgit@devnote2>
+ <158339066140.26602.7533299987467005089.stgit@devnote2>
+ <ef820445-25c5-a312-57d4-25ff3b4d08cf@infradead.org>
+ <3fb124a6-07d2-7a40-8981-07561aeb3c1e@web.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f823204d-dcd1-2159-a525-02f15562e1af@infradead.org>
+Date:   Thu, 5 Mar 2020 08:06:40 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4633123d-dc61-ab79-d2ee-e0cef66e4cea@iogearbox.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <3fb124a6-07d2-7a40-8981-07561aeb3c1e@web.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 05, 2020 at 04:19:27PM +0100, Daniel Borkmann wrote:
-> On 3/5/20 6:40 AM, Björn Töpel wrote:
-> > On Thu, 5 Mar 2020 at 06:02, Luke Nelson <lukenels@cs.washington.edu> wrote:
-> > > 
-> > > This series adds an eBPF JIT for 32-bit RISC-V (RV32G) to the kernel,
-> > > adapted from the RV64 JIT and the 32-bit ARM JIT.
-> > > 
-> > 
-> > Nice work! Thanks for hanging in there!
-> > 
-> > For the series,
-> > Acked-by: Björn Töpel <bjorn.topel@gmail.com>
-> > Reviewed-by: Björn Töpel <bjorn.topel@gmail.com>
+On 3/5/20 1:33 AM, Markus Elfring wrote:
+>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 > 
-> Applied, thanks everyone!
+> How does this feedback fit to known concerns around the discussed wordings?
 
-> P.s.: I fixed the MAINTAINERS entry in the last one to have both netdev and bpf
-> to be consistent with all the other JIT entries there.
+As far as I am concerned, it means that the documentation is
+sufficiently good enough to be useful and not difficult to read.
 
-Does parse-maintainer.pl happy about your changes?
+It does not mean that it's perfect. Patches can still be made to it.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+~Randy
 
