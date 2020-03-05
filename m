@@ -2,282 +2,162 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FA94C3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:03:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 230F6C3F2D2
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:07:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D3F0F2072A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:02:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EAC912072A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:07:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gNK85IGD"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="eM1DNVJF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726079AbgCETC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 14:02:59 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:55911 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726020AbgCETC7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 14:02:59 -0500
-Received: by mail-wm1-f68.google.com with SMTP id 6so7607766wmi.5;
-        Thu, 05 Mar 2020 11:02:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=GdTI1fZ3Q2aYd8I6QuzV0KCmBCojLWf+sv0lmHpJ8qo=;
-        b=gNK85IGDFeRlgI7q8lz7TbTTtOfh0XNd8GQORC+V9NIJDK0pU4LSMGNlnGToBV9Tzz
-         cMfjsGSpUwFarRVqI75GkeJ0DHJqUU8YmlAWDoyi47lPtABJjpZbCVOYe/EbVVlS9CxE
-         Oy2vJl2e4ndKhSvEmwpvKwzxwMhq42T8rRIISoW3MbQigu8ovC0LM6fb1LFrspNtXBYW
-         4mU6q8Tu2Ky32YvOcCUVlBxNNqbhElzj+bM4j5Yb6FvfPqqUgtl3RbCkXtmIIfa/7C2b
-         ppOyO4H1yhdV67ofA5P3/D0THzQRQc++hvlwMEXxPZRVr5a1U5NzIVkrk/I7FW+YbJeA
-         6PQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=GdTI1fZ3Q2aYd8I6QuzV0KCmBCojLWf+sv0lmHpJ8qo=;
-        b=gHDq0w/HZ6m+krMtEBgfmYSsU803AvWDY0jfdD9OUQlQ4We6bwy3k1keZA5v0LsniX
-         iSCBYDunBE7X4bus1Tbjvsq4E6Kmqyo4vGmCTOUZTdu6oV0kNcfQJBLlGvoVi5BuUzpu
-         fjQqOxZlotfi+DWPxzHoE5cNjQlEO6fLyHvG646V0jrXJKsyTJ8qWn4gAbENm3NWGcE+
-         C/3OOz2TdnJkERyEJEwl0IQvwIoMnOkEyz39sDIM2doklUq17EOYluaXUohuhCggNXBd
-         N4r7L252GlbaxvF8A5y0KqAKWUWXhaG/1txCApcBGY85djkNeDKfH+Eh/uQfYJHz6A/4
-         bl7Q==
-X-Gm-Message-State: ANhLgQ3TsTZ3GiAPhMaPGyS0ShLVMQbRR7YYwicIWzf3uBnJKvaXrtd6
-        2Ad/sBzMcrKqPZeeOWi/bIHt/V0=
-X-Google-Smtp-Source: ADFU+vsuq/vD8sVRob8SYGQe75Mb90tzMK0Rk6CMpjGFcJVDYK0Fzt60aYnlXdzWz0JtntkFCJNk7Q==
-X-Received: by 2002:a05:600c:247:: with SMTP id 7mr183875wmj.181.1583434976131;
-        Thu, 05 Mar 2020 11:02:56 -0800 (PST)
-Received: from avx2 ([46.53.249.49])
-        by smtp.gmail.com with ESMTPSA id z135sm10394199wmc.20.2020.03.05.11.02.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2020 11:02:55 -0800 (PST)
-Date:   Thu, 5 Mar 2020 22:02:53 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     torvalds@linux-foundation.org, corbet@lwn.net
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel,
-        linux-doc@vger.kernel.org, x86@kernel.org
-Subject: [PATCH] doc: code generation style
-Message-ID: <20200305190253.GA28787@avx2>
+        id S1726170AbgCETHb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 14:07:31 -0500
+Received: from mout.web.de ([217.72.192.78]:48591 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725944AbgCETHa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 14:07:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1583435212;
+        bh=LYVvZ+ioeHQCWAJBhSwakN48c0rS/9vm6Ks4MGkOiuE=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=eM1DNVJFQkiHAo6IDh23w9rEz853kXN9HtRQDfPPcE94a2BbiS6vnm1MOwQWQE1dC
+         gZZiWSMy6Cuo1qR49pvW2guygM74lbXXVCckFCP3bgJuXsD4xEOmzBZAK6ry+PKjWx
+         8nuQq3nFCNjMbg6JcIWe4LsX5K0Pm8ZCbQARQmkM=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([78.48.16.47]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LuM1L-1jKCnD2VQl-011mKP; Thu, 05
+ Mar 2020 20:06:52 +0100
+Subject: Re: [v5] Documentation: bootconfig: Update boot configuration
+ documentation
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+References: <158339065180.26602.26457588086834858.stgit@devnote2>
+ <158339066140.26602.7533299987467005089.stgit@devnote2>
+ <ef820445-25c5-a312-57d4-25ff3b4d08cf@infradead.org>
+ <3fb124a6-07d2-7a40-8981-07561aeb3c1e@web.de>
+ <f823204d-dcd1-2159-a525-02f15562e1af@infradead.org>
+ <29c599ef-991d-a253-9f27-5999fb55b228@web.de>
+ <997f73af-dc6c-bc8b-12ba-69270ee4b95d@infradead.org>
+ <dbef7b77-945a-585e-12fe-b5e30eb1a6bc@web.de>
+ <e20f52a0-e522-c2cf-17a4-384a1f3308bc@infradead.org>
+ <ecaffba3-fccd-32ee-763a-a2ec84a65148@web.de>
+ <a6a216ce-8e41-ca35-bd65-25bcacde1d28@infradead.org>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <ac1c953b-fa5d-818d-5232-19a28f52f556@web.de>
+Date:   Thu, 5 Mar 2020 20:06:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <a6a216ce-8e41-ca35-bd65-25bcacde1d28@infradead.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:65ZTYSgKUz2mCBGIJJQxrZ8BYb6sFEeEf6UROplhtqR72sSHMu6
+ hNu/egyHmPnEnJgrd0Wt2zme4N1yHgkku2CjTGiliKB3Vn43MtF5XyaLTdUXHPqjFwJNdBb
+ 8WoCDmWy8bmsLjsWprKjW81XVBktEbveGOzr03dbVVOAQR5aSIPCl6oEG0ErXZKKzZr53Sw
+ R2GJl3+alMzhT4mre9s1w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xe+WGJPJiaI=:lwwZjy+B6OP7a1s2HlYFGu
+ ymch7fGq/5ZkBl/EIl4h5Q8fXYLRl2Dj72Z9IRvnQY+52XQg9uUqrc/SZIr/LkMed6GseHp94
+ 5m5LTbFAbo+RclU3c/Pau2Tt+e5/VefZkUw8qMK0wTw16RImtBeJpG09mNCq2bszNoygP8A7I
+ AkNzEQ+eIzNVJne3ediMpK4U+2OSdRkq45Ak0HPY9a3H78ARHjKOWLItNY26tdAdN1mW8mj4p
+ VUFrgB3LXuY26hV136SaK2NiO4IsxLrRjPryPenV6N8JIgonflXiOITe0g35mZ+X7ReBlH2AD
+ n0Otf5gMZWiATG1UsSxW6keDDIvgmLCnvqk6AblZApJ4e8FXYwUpyZWo/Q2kYlC2cCHA5G38T
+ WOygA4hNght7K70AFIq5VdiG8Ug1oYuDe+peVCV0hPY+SvDQOC+XuAZmTo92RVnVsOqBrwC+m
+ hCiRuiAvr2lu+ZCZI1nHlCisVONBnSVsTfn4KBxUgKSkR5DlW55vPDYwklBmqhgxz6rInsXj5
+ XiDhdG6DXAp7d5r65FyR71gSDZ1cYtZRoAdeaGc5iq72sSv8sXAuGclpMwsbWg0a/P2VbOsbK
+ J/9C3KooI/hnd2Z9NlxRKc9iUekrfaZGL2UmlmYdiekF6fwjd75ZQPg14hXNI72ng5hMC0eAH
+ d4t9nMM/uwvQjX5/arA2wq/Z0Pa4NlJXmU725Epgp3tfkABxuZ/oRGRJnVHqLo3nvg80tESya
+ Amg/GirqM8fsjcIxbMX9EXGZ8iB7X8PRsdj8rPLyEGZgeHKCD+7A70ulIvy2wZ4UHLodJeOBH
+ hdYnJfnOcK9zZwgtHdAg8T7rC+n4FGfAR87yZilwiE5+FgfNQrWBf2OE4Ohg1VT/wUu53w7/r
+ nFG2t9MyyTs1bghCRP3vOdwNNByb53S4h0IMdIV+ATkRqe98yET9K80vQX8HmUiwMd0aVtFTI
+ 50mQrgyXP5ROUV7cpg/kUQ2gnNXb8h6QOJkUHVhVHxEvzTjqXWyg4m0iJU7urXiKsMxGzyrLG
+ /X1WFK7kfhCCqS3juztFblDgcyew3sSMusDMFE+XGWHGm9W/QdO+nMpT8u2JmIouNRrYl+bMO
+ 9ikopWX3G/6eAwIuomcMcDs6UxIfOOL7wgeyHyW4SOPbYEoTNtfUr1D+Nb1gmSHJYLY1REAWF
+ VqfhVYU1rPUiF82ns71NkBagz5k8NRk3vbxGh3Gvyb6I1eaJlptXWuE8GEjOdjeFwD1AeV8FD
+ tJNHxwYufEDlqpYEJ
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I wonder if it would be useful to have something like this in tree.
+>>>> Which of the possibly unanswered issues do you find not concrete enou=
+gh so far?
+>>>
+>>> e.g.:
+>>>>>>  Will the clarification become more constructive for remaining chal=
+lenges?
+>>
+>> Do you expect that known open issues need to be repeated for each patch=
+ revision?
+>
+> Ideally not, but not very much is ideal.
 
-It states trivial things for anyone who looked at disassembly few times
-but still...
+Did you notice any aspects where I would be still looking for more helpful=
+ answers?
 
-Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
----
 
- Documentation/process/code-generation.rst |  196 ++++++++++++++++++++++++++++++
- 1 file changed, 196 insertions(+)
+> IOW, it is sometimes required (if one cares enough; sometimes
+> one just gives up).
 
-new file mode 100644
---- /dev/null
-+++ b/Documentation/process/code-generation.rst
-@@ -0,0 +1,196 @@
-+Code generation
-+===============
-+
-+1) Generic techniques
-+---------------------
-+
-+### a) Inlining/uninlining function calls ###
-+
-+External function call is serious business from code generation point of view.
-+ABIs require that specific arguments are placed into specific registers before
-+doing the call forcing spilling and register shuffling to accomodate ABI rules.
-+Clobbered registers which aren't used by a function are wasted. Declaring
-+function as ``static inline`` in a header gives compiler more information
-+to work with.
-+
-+However, excessing inlining often leads to code bloat for no measurable
-+performance gains. In such case it is probably better to save on generated code
-+for icache, disk I/O and network bandwidth costs.
-+
-+Use ``noinline`` attribute to prevent inlining inside translation unit and
-+see what happens:
-+
-+.. code-block:: c
-+
-+        noinline
-+        int f()
-+        {
-+                ...
-+        }
-+
-+It is hard to advice any more than that as modern compilers generate code in
-+mysterious ways.
-+
-+
-+### b) Appending arguments ###
-+
-+Some functions are thin wrappers appending an argument or two to another
-+function which actually does the job:
-+
-+.. code-block:: c
-+
-+        int g(int, int, flag_t);
-+        int f(int a, int b)
-+        {
-+                return g(a, b, FLAG_C);
-+        }
-+
-+Appending an argument at the end adds minimum amount of code:
-+
-+.. code-block:: none
-+
-+        f:
-+                mov     edx, FLAG_C
-+                jmp     g
-+
-+Appending an argument in the middle or in the beginning will generate
-+reshuffle sequence:
-+
-+.. code-block:: none
-+
-+        f:
-+                mov     edx, esi
-+                mov     esi, edi
-+                mov     edi, FLAG_C
-+                jmp     g
-+
-+Do not enforce this rule religiously as there may be other reasons for
-+specific argument order most notably keeping related arguments together
-+at source level.
-+
-+
-+2) Architecture specific issues (i386/x86_64)
-+---------------------------------------------
-+
-+### a) Member placement ###
-+
-+First member of any structure is very special on i386/x86_64: compiler will
-+use ``[r32]`` or ``[r64]`` addressing mode which has the shortest encoding.
-+After laying out members of a structure into cachelines for performance,
-+move most often used member of the first cacheline to the very beginning.
-+
-+Done that, pay attention to bytes 1--127. Members placed there will be encoded
-+with ``[r64+disp8]`` encoding (or ``[r32+disp8]`` on i386). This is only 1 byte
-+longer than encoding used for the first member but 3 bytes _shorter_ than
-+``[r64+disp32]`` used for all other members. Try to shift more often used
-+members into first 2 cachelines.
-+
-+"Refugee" members living in byte 128 and beyond can be placed in any order.
-+
-+
-+### b) Implicit 32/64-bit casts
-+
-+Avoid casts which change signedness and/or bitness of a value.
-+
-+If some piece of data appears in the code it generally should be kept in its
-+original type unless there are specific reasons to do otherwise (packing, etc).
-+With C's seemingly arcane implicit and explicit casting rules this is good advice
-+from programming language point of view as well.
-+
-+Given the code:
-+
-+.. code-block:: c
-+
-+        void f(size_t);
-+
-+        int len = strlen(s);
-+        f(len);
-+
-+if compiler doesn't or can't maintain value ranges through casts it will have
-+no choice but to assume that all "size_t" values are possible and emit MOVSX
-+instruction:
-+
-+.. code-block:: none
-+
-+        mov     rdi, ...
-+        call    strlen
-+        movsx   rdi, eax
-+        call    f
-+
-+MOVSX by itself it not a problem but it a) may be 1 byte longer than MOV
-+instruction with same arguments and b) it won't be handled by register renaming,
-+increasing dependency chains by 1 instruction.
-+
-+
-+### c) 64-bitness ###
-+
-+64-bit instruction are 1-byte longer than corresponding 32-bit equivalents
-+on x86_64.
-+
-+There is one big 64-bit enabler which is dynamic memory allocation: all
-+kmalloc variant accept ``size_t`` and ``sizeof`` operator returns ``size_t``.
-+
-+Do not use 64-bit/``size_t`` unless strictly necessary (pointer-to-integer
-+conversion, syscall ABI interfaces, integers which can be genuinely big on
-+big machines, statistics).
-+
-+Use 32-bit ``unsigned int``. Kernel simply doesn't to individual 4+ GB
-+allocations and if it does it probably goes via page allocator. Such huge
-+amounts of memory simply aren't needed: network doesn't do gigabyte packets,
-+VFS caps IO at 2 GB minus a little and interating with userspace via
-+``copy_from_user``/``copy_to_user`` is capped at ``INT_MAX`` as well.
-+
-+.. code-block:: c
-+
-+        #define MAX_RW_COUNT (INT_MAX & PAGE_MASK)
-+
-+The only exceptional case is ``size_t`` value being passed directly into
-+a standard function accepting ``size_t`` (``memset``, ``memcpy``, ...).
-+Truncating value to 32-bit won't do anything useful in this case.
-+
-+
-+### d) 16-bitness ###
-+
-+16-bit instructions will generate 1-byte operand size override prefix (66)
-+which again bloats an instruction by 1 byte. Unlike REX prefixes, this is
-+unavoidable.
-+
-+It is better to use 16-bit types at ABI/protocol/memory level, convert
-+to plain ``int``/``unsigned int`` as soon as possible and work with that.
-+
-+Preferred order of bitness on x86_64 is:
-+
-+        32/8-bit > 64-bit > 16-bit.
-+
-+3) Architecture specific issues (arm/arm64)
-+-------------------------------------------
-+
-+### Constant flags value selection ###
-+
-+"Tight" constants can be loaded into a register in 1 instruction on arm and
-+other RISC architectures:
-+
-+.. code-block:: c
-+
-+        int f()
-+        {
-+                return 1;
-+        }
-+
-+.. code-block:: none
-+
-+        00000000 <f>:
-+           0:   e3a00001        mov     r0, #1
-+           4:   e12fff1e        bx      lr
-+
-+Constants which don't fit into 12-bit window on arm will be loaded from memory
-+or constructed with 2 loads:
-+
-+.. code-block:: none
-+
-+        00000000 <f>:
-+           0:   e59f0000        ldr     r0, [pc]        ; 8 <f+0x8>
-+           4:   e12fff1e        bx      lr
-+           8:   00000801        .word   0x00000801      ; <=== 2049
-+
-+After settling on flags/constants push often used values together bitwise.
+I find this communication detail unfortunate occasionally.
+
+
+>> How do you think about the desired tracking of bug reports
+>> also for this software?
+=E2=80=A6
+> Masami seems to be responsive.
+
+The involved contributors show different response delays, don't they?
+
+Regards,
+Markus
