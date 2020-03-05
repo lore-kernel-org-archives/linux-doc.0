@@ -2,194 +2,392 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AEC7C3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 10:32:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48A20C3F2CD
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 13:36:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3EFF921556
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 10:32:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5EB1208C3
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 13:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583404374;
-	bh=sr30sqa4SuM2XE80uZeHb0R8Wbi8yOclxBaVYaYJwn0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=JTndj1Nu7vwNO7/zCFg5OhqNGmU+cmF8+3VQiTnvXznyIJXj56tRcTCGFQfmdMWeT
-	 B/CJd6YSrGE/+xr5SWcjpuiSXtmA5ud/WRAua/Xnv7ZspgJXLNVZ1wSbYe9b6DQUrI
-	 Iwha7SfxiqG+RYPg0cEkik1lE2WL3ifRzInBK6lA=
+	s=default; t=1583415414;
+	bh=UBlaNBt1hQ7Onp9AV55MZ7ZbVo9hmSb7Ny93IPyIlB4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=G9Zrmvhu3++8c8wGARoNTLw0poHs9IPGFIf5ac9aQu63IWHquh7kJM1namYqRw7Ts
+	 4OgQ+KJIUuwU9x3ZzDv3WN7nM9gkC3hqlsavrPSNIGO+tcl6+yVjBBNSJiLRl//FRb
+	 uZIIOGvDNZHInlSVshvZwDHTA1hTb9ycPXpUeOao=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725903AbgCEKcy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 05:32:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56914 "EHLO mail.kernel.org"
+        id S1725974AbgCENgx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 08:36:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42654 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725897AbgCEKcx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 05:32:53 -0500
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1725880AbgCENgx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 08:36:53 -0500
+Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9AC4F2073D;
-        Thu,  5 Mar 2020 10:32:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 161AB2073D;
+        Thu,  5 Mar 2020 13:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583404373;
-        bh=sr30sqa4SuM2XE80uZeHb0R8Wbi8yOclxBaVYaYJwn0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=JdKxasopQqSxschhodSYnvdN8iO9+f6N5a72gnc4p4TfzFl8BDmuvun1BESUVOELF
-         bLNbifmeXRR33qwpXBWnwfc5nZ1zOUEwkoabuHarWiFi+f2GRYpC8/k0/NGWKIt9i2
-         3omCdgs/mbrHYoFavUhLpmsOOPfqkNuiu2ooXpyE=
-Date:   Thu, 5 Mar 2020 19:32:49 +0900
+        s=default; t=1583415412;
+        bh=UBlaNBt1hQ7Onp9AV55MZ7ZbVo9hmSb7Ny93IPyIlB4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=V3U9iWXCyXYgqXU/kfNKncqG/5LJNxTlRhJIsLzs0wdzZbYyLX6VuRadIFfdVNiA9
+         fWZWYII4v/xVJoXml5HKcY+xgeXi7FdyGQHwEvHdqSS+U7OvkRkcMq/GtkjE5Z1ClX
+         V9kYhKLconUfQNiVehbXytZc/+HNvHFyzg9nFQzg=
 From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [PATCH v5] Documentation: bootconfig: Update boot configuration
- documentation
-Message-Id: <20200305193249.4c5f993bb52e5874cd2df627@kernel.org>
+Subject: [PATCH v5.1] Documentation: bootconfig: Update boot configuration documentation
+Date:   Thu,  5 Mar 2020 22:36:47 +0900
+Message-Id: <158341540688.4236.11231142256496896074.stgit@devnote2>
+X-Mailer: git-send-email 2.20.1
 In-Reply-To: <ef820445-25c5-a312-57d4-25ff3b4d08cf@infradead.org>
-References: <158339065180.26602.26457588086834858.stgit@devnote2>
-        <158339066140.26602.7533299987467005089.stgit@devnote2>
-        <ef820445-25c5-a312-57d4-25ff3b4d08cf@infradead.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <ef820445-25c5-a312-57d4-25ff3b4d08cf@infradead.org>
+User-Agent: StGit/0.17.1-dirty
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 4 Mar 2020 23:01:21 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Update boot configuration documentation.
 
-> On 3/4/20 10:44 PM, Masami Hiramatsu wrote:
-> > Update boot configuration documentation.
-> > 
-> >  - Not using "config" abbreviation but configuration or description.
-> >  - Rewrite descriptions of node and its maxinum number.
-> >  - Add a section of use cases of boot configuration.
-> >  - Move how to use bootconfig to earlier section.
-> >  - Fix some typos, indents and format mistakes.
-> > 
-> > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> 
-> Hi Masami,
-> 
-> I swear that I am not trying to cause another version...
+ - Not using "config" abbreviation but configuration or description.
+ - Rewrite descriptions of node and its maxinum number.
+ - Add a section of use cases of boot configuration.
+ - Move how to use bootconfig to earlier section.
+ - Fix some typos, indents and format mistakes.
 
-Oh, no problem. I'll go along with your reviews.
+Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Changes in v5.1:
+ - Fix some mistakes (Thanks Randy!)
+Changes in v5:
+ - Elaborate the document.
+ - Fix some typos.
+Changes in v4:
+ - Remove O= option from examples.
+Changes in v3:
+ - Specify that comments also count in size.
+ - Fix a confusing sentence.
+ - Add O=<builddir> to make command.
+Changes in v2:
+ - Fixes additional typos (Thanks Markus and Randy!)
+ - Change a section title to "Tree Structured Key".
+---
+ Documentation/admin-guide/bootconfig.rst |  201 +++++++++++++++++++-----------
+ Documentation/trace/boottime-trace.rst   |    2 
+ 2 files changed, 131 insertions(+), 72 deletions(-)
 
-> 
-> > ---
-> > Changes in v5:
-> >  - Elaborate the document.
-> >  - Fix some typos.
-> > Changes in v4:
-> >  - Remove O= option from examples.
-> > Changes in v3:
-> >  - Specify that comments also count in size.
-> >  - Fix a confusing sentence.
-> >  - Add O=<builddir> to make command.
-> > Changes in v2:
-> >  - Fixes additional typos (Thanks Markus and Randy!)
-> >  - Change a section title to "Tree Structured Key".
-> > ---
-> >  Documentation/admin-guide/bootconfig.rst |  201 +++++++++++++++++++-----------
-> >  Documentation/trace/boottime-trace.rst   |    2 
-> >  2 files changed, 131 insertions(+), 72 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-> > index cf2edcd09183..3bfc9ddf68e1 100644
-> > --- a/Documentation/admin-guide/bootconfig.rst
-> > +++ b/Documentation/admin-guide/bootconfig.rst
-> > @@ -11,25 +11,106 @@ Boot Configuration
-> 
-> > +When to Use the Boot Configuration?
-> > +-----------------------------------
-> > +
-> > +The boot configuration supports kernel command line options and init daemon
-> > +boot options. All sub-keys under "kernel" root key are passed as a part of
-> > +the kernel command line [1]_, and ones under "init" root key are passed as
-> > +a part of the init daemon's command line. For example, ::
-> > +
-> > +   root=UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82 ro quiet splash console=ttyS0,115200n8 console=tty0
-> > +
-> > +This can be written as following boot configuration file.::
-> > +
-> > +   kernel {
-> > +      root = "UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82" # nvme0n1p3
-> > +      ro       # mount rootfs as read only
-> > +      quiet    # No console log
-> > +      splash   # show splash image on boot screen
-> > +      console = "ttyS0,115200n8" # 1st console to serial device
-> > +      console += tty0            # add 2nd console
-> > +   }
-> > +
-> > +If you think that kernel/init options becomes too long to write in boot-loader
-> 
->                                          become
+diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
+index cf2edcd09183..e620d525b73f 100644
+--- a/Documentation/admin-guide/bootconfig.rst
++++ b/Documentation/admin-guide/bootconfig.rst
+@@ -11,25 +11,106 @@ Boot Configuration
+ Overview
+ ========
+ 
+-The boot configuration expands the current kernel command line to support
+-additional key-value data when booting the kernel in an efficient way.
+-This allows administrators to pass a structured-Key config file.
++Boot configuration expands the current kernel command line to support
++additional key-value data while booting the kernel in an efficient way.
++This allows administrators to pass a structured key configuration file
++as a way to supplement the kernel command line to pass system boot parameters.
+ 
+-Config File Syntax
+-==================
++Compared with the kernel command line, the boot configuration can provide
++scalability (up to 32 KiB configuration data including comments), readability
++(structured configuration with comments) and compact expression of option
++groups.
++
++When to Use the Boot Configuration?
++-----------------------------------
++
++The boot configuration supports kernel command line options and init daemon
++boot options. All sub-keys under "kernel" root key are passed as a part of
++the kernel command line [1]_, and ones under "init" root key are passed as
++a part of the init daemon's command line. For example, ::
++
++   root=UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82 ro quiet splash console=ttyS0,115200n8 console=tty0
++
++This can be written as following boot configuration file.::
++
++   kernel {
++      root = "UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82" # nvme0n1p3
++      ro       # mount rootfs as read only
++      quiet    # No console log
++      splash   # show splash image on boot screen
++      console = "ttyS0,115200n8" # 1st console to serial device
++      console += tty0            # add 2nd console
++   }
++
++If you think that kernel/init options become too long to write in boot-loader
++configuration file or you want to comment on each option, the boot
++configuration may be suitable. If unsure, you can still continue to use the
++legacy kernel command line.
+ 
+-The boot config syntax is a simple structured key-value. Each key consists
+-of dot-connected-words, and key and value are connected by ``=``. The value
+-has to be terminated by semi-colon (``;``) or newline (``\n``).
+-For array value, array entries are separated by comma (``,``). ::
++Also, some features may depend on the boot configuration, and each such
++feature has its own root key. For example, ftrace boot-time tracer uses
++"ftrace" root key to describe its options [2]_. If you want to use such
++features, you need to enable the boot configuration.
+ 
+-KEY[.WORD[...]] = VALUE[, VALUE2[...]][;]
++.. [1] See :ref:`Documentation/admin-guide/kernel-parameters.rst <kernelparameters>`
++.. [2] See :ref:`Documentation/trace/boottime-trace.rst <boottimetrace>`
++
++
++How to Use the Boot Configuration?
++----------------------------------
++
++To enable the boot configuration support on your kernel, it must be built with
++``CONFIG_BOOT_CONFIG=y`` and ``CONFIG_BLK_DEV_INITRD=y``.
++
++Next, you can write a boot configuration file and attach it to initrd image.
++
++The boot configuration file is attached to the end of the initrd (initramfs)
++image file with size, checksum and 12-byte magic word as below.
++
++[initrd][bootconfig][size(u32)][checksum(u32)][#BOOTCONFIG\n]
++
++The Linux kernel decodes the last part of the initrd image in memory to
++get the boot configuration data.
++Because of this "piggyback" method, there is no need to change or
++update the boot loader or the kernel image itself.
++
++To do this operation, Linux kernel provides the "bootconfig" command under
++tools/bootconfig, which allows admin to apply or delete the configuration
++file to/from an initrd image. You can build it by the following command::
++
++ # make -C tools/bootconfig
++
++To add your boot configuration file to an initrd image, run bootconfig as
++below (Old bootconfig is removed automatically if it exists)::
++
++ # tools/bootconfig/bootconfig -a your-config /boot/initrd.img-X.Y.Z
++
++To remove the configuration from the image, you can use the ``-d`` option
++as below::
++
++ # tools/bootconfig/bootconfig -d /boot/initrd.img-X.Y.Z
++
++At last, add ``bootconfig`` on the normal kernel command line to tell the
++kernel to look for the bootconfig at the end of the initrd file. For example::
++
++  GRUB_CMDLINE_LINUX="bootconfig"
++
++
++Boot Configuration Syntax
++=========================
++
++The boot configuration syntax is a simple structured key-value. Each key
++consists of dot-connected-words, and key and value are connected by ``=``.
++The value has to be terminated by semicolon (``;``) or newline (``\n``).
++For an array, its entries are separated by comma (``,``). ::
++
++  KEY[.WORD[...]] = VALUE[, VALUE2[...]][;]
+ 
+ Unlike the kernel command line syntax, spaces are OK around the comma and ``=``.
+ 
+ Each key word must contain only alphabets, numbers, dash (``-``) or underscore
+ (``_``). And each value only contains printable characters or spaces except
+-for delimiters such as semi-colon (``;``), new-line (``\n``), comma (``,``),
++for delimiters such as semicolon (``;``), newline (``\n``), comma (``,``),
+ hash (``#``) and closing brace (``}``).
+ 
+ If you want to use those delimiters in a value, you can use either double-
+@@ -39,25 +120,29 @@ you can not escape these quotes.
+ There can be a key which doesn't have value or has an empty value. Those keys
+ are used for checking if the key exists or not (like a boolean).
+ 
+-Key-Value Syntax
+-----------------
++Tree Structured Key
++-------------------
+ 
+-The boot config file syntax allows user to merge partially same word keys
+-by brace. For example::
++The user can group identical parent keys together and use braces to list child
++keys under them. For example::
+ 
+  foo.bar.baz = value1
+  foo.bar.qux.quux = value2
++ foo.bar.qux.quuz = value3
+ 
+ These can be written also in::
+ 
+  foo.bar {
+-    baz = value1
+-    qux.quux = value2
++   baz = value1
++   qux {
++      quux = value2
++      quuz = value3
++   }
+  }
+ 
+ Or more shorter, written as following::
+ 
+- foo.bar { baz = value1; qux.quux = value2 }
++ foo.bar { baz = value1; qux { quux = value2; quuz = value3 } }
+ 
+ In both styles, same key words are automatically merged when parsing it
+ at boot time. So you can append similar trees or key-values.
+@@ -80,19 +165,18 @@ you can use ``+=`` operator. For example::
+ In this case, the key ``foo`` has ``bar``, ``baz`` and ``qux``.
+ 
+ However, a sub-key and a value can not co-exist under a parent key.
+-For example, following config is NOT allowed.::
++For example, the following configuration is NOT allowed.::
+ 
+  foo = value1
+- foo.bar = value2 # !ERROR! subkey "bar" and value "value1" can NOT co-exist
++ foo.bar = value2 # !ERROR! sub-key "bar" and value "value1" can NOT co-exist
+ 
+ 
+ Comments
+ --------
+ 
+-The config syntax accepts shell-script style comments. The comments starting
+-with hash ("#") until newline ("\n") will be ignored.
+-
+-::
++The boot configuration accepts shell-script style comments. The comments,
++beginning with hash (``#``) and continuing until newline (``\n``), will be
++skipped.::
+ 
+  # comment line
+  foo = value # value is set to foo.
+@@ -100,74 +184,47 @@ with hash ("#") until newline ("\n") will be ignored.
+        2, # 2nd element
+        3  # 3rd element
+ 
+-This is parsed as below::
++This is parsed as below.::
+ 
+  foo = value
+  bar = 1, 2, 3
+ 
+ Note that you can not put a comment between value and delimiter(``,`` or
+-``;``). This means following config has a syntax error ::
++``;``). This means the following description has a syntax error. ::
+ 
+- key = 1 # comment
++ key = 1 # !ERROR! comment is not allowed before delimiter
+        ,2
+ 
+ 
+ /proc/bootconfig
+ ================
+ 
+-/proc/bootconfig is a user-space interface of the boot config.
++The file /proc/bootconfig is a user-space interface to the configuration
++of system boot parameters.
+ Unlike /proc/cmdline, this file shows the key-value style list.
+ Each key-value pair is shown in each line with following style::
+ 
+  KEY[.WORDS...] = "[VALUE]"[,"VALUE2"...]
+ 
+ 
+-Boot Kernel With a Boot Config
+-==============================
+-
+-Since the boot configuration file is loaded with initrd, it will be added
+-to the end of the initrd (initramfs) image file with size, checksum and
+-12-byte magic word as below.
+-
+-[initrd][bootconfig][size(u32)][checksum(u32)][#BOOTCONFIG\n]
+-
+-The Linux kernel decodes the last part of the initrd image in memory to
+-get the boot configuration data.
+-Because of this "piggyback" method, there is no need to change or
+-update the boot loader and the kernel image itself.
+-
+-To do this operation, Linux kernel provides "bootconfig" command under
+-tools/bootconfig, which allows admin to apply or delete the config file
+-to/from initrd image. You can build it by the following command::
+-
+- # make -C tools/bootconfig
+-
+-To add your boot config file to initrd image, run bootconfig as below
+-(Old data is removed automatically if exists)::
+-
+- # tools/bootconfig/bootconfig -a your-config /boot/initrd.img-X.Y.Z
+-
+-To remove the config from the image, you can use -d option as below::
+-
+- # tools/bootconfig/bootconfig -d /boot/initrd.img-X.Y.Z
+-
+-Then add "bootconfig" on the normal kernel command line to tell the
+-kernel to look for the bootconfig at the end of the initrd file.
+-
+ Config File Limitation
+ ======================
+ 
+-Currently the maximum config size size is 32KB and the total key-words (not
+-key-value entries) must be under 1024 nodes.
+-Note: this is not the number of entries but nodes, an entry must consume
+-more than 2 nodes (a key-word and a value). So theoretically, it will be
+-up to 512 key-value pairs. If keys contains 3 words in average, it can
+-contain 256 key-value pairs. In most cases, the number of config items
+-will be under 100 entries and smaller than 8KB, so it would be enough.
+-If the node number exceeds 1024, parser returns an error even if the file
+-size is smaller than 32KB.
+-Anyway, since bootconfig command verifies it when appending a boot config
+-to initrd image, user can notice it before boot.
++Currently the maximum configuration file size (including comments) is 32 KiB
++and the total number of key-words and values must be under 1024 nodes.
++(Note: Each key consists of words separated by dot, and value also consists
++of values separated by comma. Here, each word and each value is generally
++called a "node".)
++
++Theoretically, it will be up to 512 key-value pairs. If keys contain 3
++words in average, it can contain 256 key-value pairs. In most cases,
++the number of configuration items will be under 100 entries and smaller
++than 8 KiB, so it would be enough.
++If the node number exceeds 1024, the parser returns an error even if the
++file size is smaller than 32 KiB.
++Anyway, since the bootconfig command verifies it when appending a boot
++configuration to an initrd image, the user needs to fix any errors
++before boot.
+ 
+ 
+ Bootconfig APIs
+@@ -206,7 +263,7 @@ or get the named array under prefix as below::
+ This accesses a value of "key.prefix.option" and an array of
+ "key.prefix.array-option".
+ 
+-Locking is not needed, since after initialization, the config becomes
++Locking is not needed, since after initialization, the configuration becomes
+ read-only. All data and keys must be copied if you need to modify it.
+ 
+ 
+diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
+index dcb390075ca1..e6cbe22361e9 100644
+--- a/Documentation/trace/boottime-trace.rst
++++ b/Documentation/trace/boottime-trace.rst
+@@ -1,5 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
++.. _boottimetrace:
++
+ =================
+ Boot-time tracing
+ =================
 
-OK.
-
-> 
-> > +configuration file or you want to comment on each option, the boot
-> > +configuration may be suitable. If unsure, you can still continue to use the
-> > +legacy kernel command line.
-> 
-> 
-> > +Boot Configuration Syntax
-> > +=========================
-> > +
-> > +The boot configuration syntax is a simple structured key-value. Each key
-> > +consists of dot-connected-words, and key and value are connected by ``=``.
-> > +The value has to be terminated by semicolon (``;``) or newline (``\n``).
-> > +For an array, its entries are separated by comma (``,``). ::
-> > +
-> > +  KEY[.WORD[...]] = VALUE[, VALUE2[...]][;]
-> >  
-> >  Unlike the kernel command line syntax, spaces are OK around the comma and ``=``.
-> >  
-> >  Each key word must contain only alphabets, numbers, dash (``-``) or underscore
-> >  (``_``). And each value only contains printable characters or spaces except
-> > -for delimiters such as semi-colon (``;``), new-line (``\n``), comma (``,``),
-> > +for delimiters such as semicolon (``;``), new-line (``\n``), comma (``,``),
-> 
->             usually called:                  newline
-
-Yeah, I wonder why I have written so...
-
-> 
-> >  hash (``#``) and closing brace (``}``).
-> >  
-> >  If you want to use those delimiters in a value, you can use either double-
-> 
-> 
-> >  Comments
-> >  --------
-> >  
-> > -The config syntax accepts shell-script style comments. The comments starting
-> > -with hash ("#") until newline ("\n") will be ignored.
-> > -
-> > -::
-> > +The boot configuration accepts shell-script style comments. The comments,
-> > +beginning with hash (``#``) continues until newline (``\n``), will be
-> 
->                                and continuing until newline
-
-OK.
-
-> 
-> > +skipped.::
-> >  
-> >   # comment line
-> >   foo = value # value is set to foo.
-> 
-> 
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thank you!
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
