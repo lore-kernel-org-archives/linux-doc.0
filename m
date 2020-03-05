@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F58DC3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 17:19:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1460BC3F2D8
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 17:21:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ED29C207FD
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 17:19:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D23E6207FD
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 17:21:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583428751;
-	bh=cZr6PQdmiL0Y5o22uj5yyFQjh/COZT2QBmPyV9LF2xA=;
+	s=default; t=1583428913;
+	bh=/5PjSR4kPjWHx0GL4pT1dw9603Pf8EUSxrvXB5tGyEA=;
 	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=B2CGqSn2IvtVBd6UI/jmoQyAUPw/p6fzjIh6myyQI5m9/piqatA9QO0MnH2XsJxtM
-	 oibxKdek+d5dJ5iSSpceAcWGZUbjsXc/r41ptUaPFEZkT7dBp+Bb0D0lY+gDef0baD
-	 7qBiQy9v2xKoLYeKA4cl8tL3KV/mhACOyuN4IUI4=
+	b=DnXXSRaaMF50ROQEU7sTI6yAJfHVbl8HfvPwyi3EIHJRbOEYIj4lIDGc5JYiTqZKg
+	 tT64saqSyL48ydRGsmA9K1lPaYOiulkbBIj2su4SsgnPgf8qt/bt/ezu4l5LDR9rjQ
+	 1BU0rJk747rQ6UD+gLexuAj7eCzbiY5mfkt0EK30=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727513AbgCERTB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 12:19:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41966 "EHLO mail.kernel.org"
+        id S1727658AbgCEROX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 12:14:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40458 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728008AbgCERPS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 12:15:18 -0500
+        id S1727652AbgCEROW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 12:14:22 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3234C207FD;
-        Thu,  5 Mar 2020 17:15:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 19B0020870;
+        Thu,  5 Mar 2020 17:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583428518;
-        bh=cZr6PQdmiL0Y5o22uj5yyFQjh/COZT2QBmPyV9LF2xA=;
+        s=default; t=1583428461;
+        bh=/5PjSR4kPjWHx0GL4pT1dw9603Pf8EUSxrvXB5tGyEA=;
         h=From:To:Cc:Subject:Date:From;
-        b=O5o4zH6uBRMgYUdIS61ti0g0F4ugazmvtokGw0NkSUZ7TyC/OluK+uPGHlQipQetY
-         iq3GtgwQIRw/AWddhnjqiV/DmqeCbXSKmqCtQNQ9vO5wW+cjDtZEiFYxWJ9VkcnhEY
-         gLsKlsYraesdri2OEA54BtscznK3KIBOwxGJEXiM=
+        b=F/1yKuOf3ZtUtxrv6DIhTA0nQ8BM+nNYyoDWVr4+jHc73zmISSyadMJkwWXRByvH1
+         BjAWnPniMgqZCrteA6oyrRFTJi7ENiGlzzHTQDxm5vUjf424pZ2uzBYvjzCbmWGcBq
+         g1wEBtM+/4LkqvUJaJgaqN644tZggHlfYCDJQkLg=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jean Delvare <jdelvare@suse.de>,
@@ -45,9 +45,9 @@ Cc:     Jean Delvare <jdelvare@suse.de>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
         linux-acpi@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/31] ACPI: watchdog: Allow disabling WDAT at boot
-Date:   Thu,  5 Mar 2020 12:14:45 -0500
-Message-Id: <20200305171516.30028-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 01/58] ACPI: watchdog: Allow disabling WDAT at boot
+Date:   Thu,  5 Mar 2020 12:13:22 -0500
+Message-Id: <20200305171420.29595-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-stable: review
@@ -75,7 +75,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 8bf0c0532046f..1a5101b7e853c 100644
+index 5594c8bf1dcd4..b5c933fa971f3 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
 @@ -136,6 +136,10 @@
@@ -90,10 +90,10 @@ index 8bf0c0532046f..1a5101b7e853c 100644
  			Pass the RSDP address to the kernel, mostly used
  			on machines running EFI runtime service to boot the
 diff --git a/drivers/acpi/acpi_watchdog.c b/drivers/acpi/acpi_watchdog.c
-index 95600309ce420..685fd0ef9e8f2 100644
+index b5516b04ffc07..ab6e434b4cee0 100644
 --- a/drivers/acpi/acpi_watchdog.c
 +++ b/drivers/acpi/acpi_watchdog.c
-@@ -58,12 +58,14 @@ static bool acpi_watchdog_uses_rtc(const struct acpi_table_wdat *wdat)
+@@ -55,12 +55,14 @@ static bool acpi_watchdog_uses_rtc(const struct acpi_table_wdat *wdat)
  }
  #endif
  
@@ -109,7 +109,7 @@ index 95600309ce420..685fd0ef9e8f2 100644
  		return NULL;
  
  	status = acpi_get_table(ACPI_SIG_WDAT, 0,
-@@ -91,6 +93,14 @@ bool acpi_has_watchdog(void)
+@@ -88,6 +90,14 @@ bool acpi_has_watchdog(void)
  }
  EXPORT_SYMBOL_GPL(acpi_has_watchdog);
  
