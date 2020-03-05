@@ -2,41 +2,41 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768F2C3F2D2
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:35:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB8A5C3F2D1
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 20:11:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 508E220801
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:35:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1CBF2146E
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 20:11:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="BAlRDlol"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="e6/8zHZq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726036AbgCETfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 14:35:13 -0500
-Received: from mout.web.de ([217.72.192.78]:59997 "EHLO mout.web.de"
+        id S1726049AbgCEULC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 15:11:02 -0500
+Received: from mout.web.de ([217.72.192.78]:34277 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725938AbgCETfM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 14:35:12 -0500
+        id S1726142AbgCEULB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 15:11:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1583436873;
-        bh=Y+cw23oU5ju8MgwfJmBY9T+pEhQ6rykcyk09wwd+ZC8=;
+        s=dbaedf251592; t=1583439023;
+        bh=wRoIHoXkn/jNzgnLhrfKT9vPI6I3Ac9mSmzVegyAJGs=;
         h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=BAlRDlolqJyVm9Y87oocY4Z36g3WBmwAY6FxYTP65ZMRQX/xji/U/j1NLRKpzhfpH
-         ag8f1UZ/hCjHxYV5s/awOgRDWcOE4yydJaepk9f0rN1l0LY7kqpIh4tVTlWq/3jAac
-         GGppCn+7HSxDA2FKlihzoJUnCTSe8gu62nofhnow=
+        b=e6/8zHZqNHHWu8Uw6a+mraRJuHWe+ZS1yBQtALyGDC2yrzjdlp4QXCElp540j8LSj
+         oz/OCkOFJTpz6aXWe9fsXTz4TIe8NvQun1t/NgGh/n/buSiPAVnjG2vBLiEJBQcTzm
+         ENDiGqnWezLLrRyBgAnvy7IOM6kCukbNASni03LQ=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.48.16.47]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LvSLn-1jJ7Uo2TUx-010ZLZ; Thu, 05
- Mar 2020 20:34:33 +0100
+Received: from [192.168.1.2] ([78.48.16.47]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LshWf-1jKld81PMv-012LAg; Thu, 05
+ Mar 2020 21:10:23 +0100
 Subject: Re: [v5] Documentation: bootconfig: Update boot configuration
  documentation
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
+To:     Steven Rostedt <rostedt@goodmis.org>, linux-doc@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
 References: <158339065180.26602.26457588086834858.stgit@devnote2>
  <158339066140.26602.7533299987467005089.stgit@devnote2>
@@ -48,9 +48,9 @@ References: <158339065180.26602.26457588086834858.stgit@devnote2>
  <dbef7b77-945a-585e-12fe-b5e30eb1a6bc@web.de>
  <e20f52a0-e522-c2cf-17a4-384a1f3308bc@infradead.org>
  <ecaffba3-fccd-32ee-763a-a2ec84a65148@web.de>
- <a6a216ce-8e41-ca35-bd65-25bcacde1d28@infradead.org>
- <ac1c953b-fa5d-818d-5232-19a28f52f556@web.de>
- <32047314-c91e-0405-bcfe-43d515128231@infradead.org>
+ <20200305140004.535eeb1a@gandalf.local.home>
+ <af5d4af0-9e06-cc6e-c29e-4c4eebdb9b0e@web.de>
+ <20200305142505.714a5121@gandalf.local.home>
 From:   Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -95,55 +95,90 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <fbc90906-d682-bc04-dd69-1e146ea4d922@web.de>
-Date:   Thu, 5 Mar 2020 20:34:32 +0100
+Message-ID: <2d5df2ac-443b-cc31-c2bf-78947f81dd00@web.de>
+Date:   Thu, 5 Mar 2020 21:10:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <32047314-c91e-0405-bcfe-43d515128231@infradead.org>
+In-Reply-To: <20200305142505.714a5121@gandalf.local.home>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:k34OZIlM4vwSXM7KtmMTah5M3wjWYfF4uOmhIdSvnNAmnvxZNxo
- 4pCW+WGwnmM/3ARQoSA/kJ4qhRSwbywYckrbb4Ly5RwjiBaxTKRpxFkbD314iW++IxfggOY
- F9NoB+jW3BE0zlCQj9fMamKeqn8ekkvGKlGfMN/Jt0Pgbr9Kf2fvZj1T/1BaW3vZSY0v1fZ
- 2G8fHqZ3xUsgLquQbwy2Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BzeDpvRqatg=:7ujYq07QRKbcNMAHXZQW07
- VsSC4QoSrFvrVlTmdsLGLY1F0khftOCA0p6rt018oS/U0mbyWO712XSiV64mRLBtyneohrREU
- yCtNAgQHZl+6NvOzYGMFUBtY806mWxFdhxJU9aHoWYEi8ln3JJVCtE1RM193YUQYkGUmejt4v
- qYsSSnKtykE+b2j2eO7PD4oYTP+eOmxkAlR4V312UmN5xWFq2nVaatYk2XUvzZovSjyfKin6f
- m1l2Jj4g4pb/WiEFUhAs/kjgftC4/G8kHY3/AedtK1SJBFsxiosioFK1UaPRWKV/JniyxN0cm
- t47XNF7XB2FXvZEZI4pvRlYFra7vjQr/gcASCLUMif6My3w+0b009JNlj1q+Mnj/bN3a0F2W3
- aC8NuHRBEh1fzbWIl/WR3uFwxBsW2DOqgeutHw82vlUhVGtXz0etzJ6wif5YC+c4Vpoda6kgP
- 74QKnj8dSJvSQL6n3u7ST5hdYuF4tGYh091c/cANZmAPYUTv1eK+oKPRJUq3sUAzfIwQH5KOx
- adG7SZCu6clP9XXL2rlot9L1QeApDN5jvioVaPnJ7YCEhgPjG7lflei15AjX1bmGrpP+sP7Xd
- xRq1ta9QAb0eZjh7sgFVI5LxzEq3324/sXfYVh2kfqKvfzuBazMqEOctxTE9HVDxtcJYbDUji
- v0EzfqQS4/AGpPkJWdIXmgni4vM3Wm/ETcUq7ULMryAXK/TMK6Py15u64x4FYMf84hxyo0yp9
- mhJQjUScp+3bde+7t2xIrqTDi9Y9APh+Hk6VsUDNl47URvGyJ9JsVANTj6xlCxBSFpuSfPipB
- 68v9kuxEhCkZ+mr9TpGyXCspgFeXCCE1+KyaLnLwuLWXJhKxJOq6oVMVWZ3fyp7vrWOBmHcNA
- 7EtE81XDfqioMSY+iFcp9MKkIFTEUG7RtKQtQGvu+vIkbMNCCYyPKHCv4ZVhl59ezKlDiKif6
- c+0CF/zuNb3NpjSkYeYLgj1QJ7C1gO5SsNNTeOCoZOhhfn4rrYoowMSi4JYtlNuFx0JQuHU1j
- Aj3H+jn24AVv167eJSAG/3MzCrqZYJ/i1OokurbX+1fmKtlJ4paK4vlXlxF9oCnkWR4e+hVO7
- VOwhdREvbRJASfltvY67D9kt8rdH0I5XX5gxWx9noPUSsQ8HRhMibtr48n02lmFZdNX0llJyr
- 5Z7Dhpz8nPXJujMOsQQ7Ay8St1XVJrLnHcm8SCrjj+gq7Yi0E6uj916haaBV8KZWuVUkSVWKO
- go2r+WSOgFTn7Iob+
+X-Provags-ID: V03:K1:Zng0GwqeKwjz1toVlIWqxRR4CryrnheCVZYL95cKRU1oVC6R/bO
+ P/9cz6j45OWN9zm0x2evwAJpE31GfmQa2AVs/oiKtiObeQTIOQ1degGjfGX5YzQKiRm9Cr2
+ oi4cx2Di8t/UTrZMcLdZLgbTniQQmpjsiEJZRaFs3tsneqmZwYvtWxb6jfWor4OxPacHU4W
+ rfnuggzdfLhNGEsL/bjQg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZERt9Wm//3o=:lIe6zUYkgmky0LSJrJcCIR
+ lol2/fB4E8W+v2AvCx38ShAREJ9YivNvy1YhHzac8AlJ8ntsjFSKPfkp/29T+ZTdwT2S+46bh
+ /Z1Q3u8DRGzXkECiDEFWbpQHGz0KOLzQnDi5S6moTV0KgCjFGQ0UW41uUeaRYYzGjn7MOnVOz
+ saK7jFCcD63YeNd+ThFWJdV1ZLPYnNI8dDnH7aL7tZJE9lYlyj7T8nBJjK3xSo3Np0U+GJuD5
+ RMB/F/HsPfn7jkBMEU1DBMxfi1lR3giMJ4KYI32/jdIu5A8RsyDzVLIt3mIP69lmkjxTciCXP
+ iABefLDF3ACYZce9B4jmi0iWiX4LQBk6SOTpjB+qhByMuj4slP9kbn5JUYMsWQUzed8bi6Npv
+ VAWDJUf8NFd4h2Z1eDvH4/5uO74Bj9ejxl5sL4Nne4HzVEga57y2EcV9wzgM0whrYOe1hH5HD
+ qDkwciXH7PYuYn8WGMdMg5cHXAQpNrbAwYpIU4YTU5zXjp8zNlIspKxNzmydld+jkXzTytMIq
+ p8oVP1rWRrRV6Dp7eMbMdC10lhbcSIvKfwVZAp3koeXEmkLjlmHYaSfdghJ41+jjG/87iOgZ6
+ J9+3kMZBrA1d7J9KDVrMRLKDWZlVJo+5eAaAzYkrHwxBd8UoLA49XnIPX1PMcAPkLSPiwmfUS
+ u1br2Bd8gy6l2S0g+0/V2KN3vGEPV0aws+i19F3vxQIUK8sB+bf/sl055ONBybTKX+F0iwqtx
+ xC1GsM0S3KVG9hHoaxT/Nob68rC2RNtSja0lf3oWp6b+KBkNTGL280FbYqHzIznRRWDQfBYzU
+ 0sxjo2XrevMuURU0Fip1sLyTccdA7X1cBzHhuK4wtN/0Y00UlNjGe3SFDq6nQ2cwsBToPq47A
+ 4KSsh0EGRPyCiFds+YxbQHDgI/3tzGoQ66gSv8nXTryckoVn2YP/Y6NAx+2vmm5KvnmEWF+x2
+ XCMOULINfiJlSVNXtX4RnN2aiNNiBNhtRQKHGLlvQbWhYos0VAwqEQL5HOSCnTrZXd6YfDen5
+ 4q2FXX/bS+7dx+Uokp/+J1OZYcKe1DYIPtemtzI+qZ9uIgB7KbIcWISAbHbdICLfYD9j420Pd
+ 98CEiHP3ZZkvLZQVBxDc7Fep57IM6xXaLjYiNOL3AWaStXV+Y3YphnHvoz1EFRePUuxBd8KZp
+ CjHvxg+Hpdxe0NyJ496paDHKGN3AbRJiiXpoezLH9fvGkv95RApl7MXaiqq7bCoY4n96a4Dd8
+ EiZEg/A3YbXZIHF53
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> The involved contributors show different response delays, don't they?
+>> I suggest to take another look at review comments for previous patch ve=
+rsions.
 >
-> That's always the case, in any of the Linux subsystems that I have
-> been involved with.
+> I have, and I believe Masami has satisfactory addressed them,
 
-Some delays are usual.
+I agree to parts of the shown software evolution.
 
-But I can occasionally get the concern that specific constructive feedback
-would be overlooked or intentionally ignored.
-Such a view would be unfortunate if I would like to achieve further improv=
-ements
-also around this software.
+
+> if they needed addressing.
+
+Remaining issues will eventually be clarified under other circumstances.
+
+
+>> Do you identify any feedback as a bug report (or clarification request)=
+ here?
+>
+> I still don't have the foggiest clue what you are talking about.
+
+It seems that a few reminders can help here.
+
+
+> What bug are you reporting?
+
+Examples:
+
+* Another typo
+  =E2=80=9C=E2=80=A6 contain only alphabets, =E2=80=A6=E2=80=9D
+  https://lore.kernel.org/linux-doc/967d6fee-e0cd-c53f-c1f6-b367a979762c@w=
+eb.de/
+  https://lkml.org/lkml/2020/3/5/247
+
+* Use case explanation
+  https://lore.kernel.org/linux-doc/f3c51b0a-2a55-6523-96e2-4f9ef0635d9f@w=
+eb.de/
+  https://lkml.org/lkml/2020/3/5/429
+
+* Challenges for the safe application of key hierarchies
+  =E2=80=9Ckernel.ftrace=E2=80=9D?
+  https://lore.kernel.org/linux-doc/c4a0bc10-a38b-6ea9-e125-7a37f667e61a@w=
+eb.de/
+  https://lkml.org/lkml/2020/2/28/363
+
+* Feature request for syntax description
+  https://lore.kernel.org/linux-doc/2390b729-1b0b-26b5-66bc-92e40e3467b1@w=
+eb.de/
+  https://lkml.org/lkml/2020/2/27/1869
+
 
 Regards,
 Markus
