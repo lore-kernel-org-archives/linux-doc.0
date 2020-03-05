@@ -2,99 +2,93 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C3ADC3F2D2
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:21:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D712C3F2D1
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:25:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 58C5C20801
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:21:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ktKab+fi"
+	by mail.kernel.org (Postfix) with ESMTP id E381220801
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:25:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725963AbgCETVY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 14:21:24 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:53596 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725946AbgCETVX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 14:21:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=RO5gvj1Liy8kmn7CzB4KrBoJkAWMSsWwG2gNJleeRn4=; b=ktKab+fi0a2dSiYwui7V18dNHO
-        zdB8QStI67sqFG7m7lsaWAJakpXaF8ojYlz2BRmRewrH5m1zjwPnzTLELx5ALO8pgqfNXL4gvigVB
-        28aZZ9STgDEhS+Uoi2wNpfKXQwqN+MzcIBXDmvHWTGV43vl33yrxrLtib9HxdXMCdmR8J1dtXcYIm
-        uvJdeAzvp+3oVdLLCuaQ4rgZfT5XVd9GhaBNvx46gYskB2eKSIs+0ePVDOyqgcz8wJg8+O5Gl3Q1y
-        wdJpGqpjL9U/AiDgejiMQOHlgW9r8hmjjTMjO8MNXpesrC3PmcLbSnPiwfQEHVLXvxsNkry1cPxG0
-        3NHCqq0A==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j9w3f-0000R1-4G; Thu, 05 Mar 2020 19:21:23 +0000
-Date:   Thu, 5 Mar 2020 11:21:23 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     torvalds@linux-foundation.org, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel,
-        linux-doc@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH] doc: code generation style
-Message-ID: <20200305192123.GN29971@bombadil.infradead.org>
-References: <20200305190253.GA28787@avx2>
+        id S1726079AbgCETZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 14:25:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55442 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725963AbgCETZI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 14:25:08 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5124E207FD;
+        Thu,  5 Mar 2020 19:25:07 +0000 (UTC)
+Date:   Thu, 5 Mar 2020 14:25:05 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Markus Elfring <Markus.Elfring@web.de>
+Cc:     linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [v5] Documentation: bootconfig: Update boot configuration
+ documentation
+Message-ID: <20200305142505.714a5121@gandalf.local.home>
+In-Reply-To: <af5d4af0-9e06-cc6e-c29e-4c4eebdb9b0e@web.de>
+References: <158339065180.26602.26457588086834858.stgit@devnote2>
+        <158339066140.26602.7533299987467005089.stgit@devnote2>
+        <ef820445-25c5-a312-57d4-25ff3b4d08cf@infradead.org>
+        <3fb124a6-07d2-7a40-8981-07561aeb3c1e@web.de>
+        <f823204d-dcd1-2159-a525-02f15562e1af@infradead.org>
+        <29c599ef-991d-a253-9f27-5999fb55b228@web.de>
+        <997f73af-dc6c-bc8b-12ba-69270ee4b95d@infradead.org>
+        <dbef7b77-945a-585e-12fe-b5e30eb1a6bc@web.de>
+        <e20f52a0-e522-c2cf-17a4-384a1f3308bc@infradead.org>
+        <ecaffba3-fccd-32ee-763a-a2ec84a65148@web.de>
+        <20200305140004.535eeb1a@gandalf.local.home>
+        <af5d4af0-9e06-cc6e-c29e-4c4eebdb9b0e@web.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200305190253.GA28787@avx2>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 05, 2020 at 10:02:53PM +0300, Alexey Dobriyan wrote:
-> I wonder if it would be useful to have something like this in tree.
+On Thu, 5 Mar 2020 20:14:00 +0100
+Markus Elfring <Markus.Elfring@web.de> wrote:
+
+> >>>> Which of the possibly unanswered issues do you find not concrete enough so far?  
+> >>>
+> >>> e.g.:  
+> >>>>>>  Will the clarification become more constructive for remaining challenges?  
+> >>
+> >> Do you expect that known open issues need to be repeated for each patch revision?  
+> >
+> > I'm clueless about what you are talking about.  
 > 
-> It states trivial things for anyone who looked at disassembly few times
-> but still...
+> I suggest to take another look at review comments for previous patch versions.
 
-It's a bit x86-specific, and it ignores things which matter more like
-paying attention to cacheline boundaries in structures.  I'm also not
-convinced that those who come after us in ten years and have to widen
-everything from int to long will thank us for saving a few bytes of
-Icache.
+I have, and I believe Masami has satisfactory addressed them, if they
+needed addressing.
 
-> +.. code-block:: c
-> +
-> +        int g(int, int, flag_t);
-> +        int f(int a, int b)
-> +        {
-> +                return g(a, b, FLAG_C);
-> +        }
-> +
-> +Appending an argument at the end adds minimum amount of code:
-> +
-> +.. code-block:: none
-> +
-> +        f:
-> +                mov     edx, FLAG_C
-> +                jmp     g
-> +
-> +Appending an argument in the middle or in the beginning will generate
-> +reshuffle sequence:
-> +
-> +.. code-block:: none
-> +
-> +        f:
-> +                mov     edx, esi
-> +                mov     esi, edi
-> +                mov     edi, FLAG_C
-> +                jmp     g
+> 
+> 
+> > Yes there's communication difficulties.  
+> 
+> I hope that we can reduce them somehow.
 
-But if f is static inline, then it makes no difference at all.
+Then please be more specific in your correspondence.
 
-> +Constants which don't fit into 12-bit window on arm will be loaded from memory
-> +or constructed with 2 loads:
+> 
+> 
+> >> How do you think about the desired tracking of bug reports
+> >> also for this software?  
+> >
+> > What does that statement have to do with this patch series????  
+> 
+> Do you identify any feedback as a bug report (or clarification request) here?
 
-The 12-bit window on ARM is 8 bits rotated by a power of 4.  So for example,
-0xc000003f is a valid constant, but 0x000001f7 is not.  I don't know what
-arm64 does for constants.
+I still don't have the foggiest clue what you are talking about. What bug
+are you reporting?
 
+-- Steve
