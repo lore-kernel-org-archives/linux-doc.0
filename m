@@ -2,130 +2,153 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E64C3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 21:34:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF26C3F2D1
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 21:48:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 96830207FD
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 21:34:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583444064;
-	bh=IlGxCo+3Eu420GZyWp84Ltnm/C3wZdDdgPLWI4ZtJOo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=SaZGvM7JU656dKYk3EXmYaoJyM3CpQMCKbf01eYGWDqc0zX/2vKe8PVPfWlXpm0ad
-	 LB+LiVXcfZpmcJNIThJTR68vTPm5mdOUFSYvLsWZQrg9bJZ+PHBjhwE3kUqIFEUUFk
-	 JSt+k1JRQwBxIN0mJsSOEuREkxnow++5r1R2YTzQ=
+	by mail.kernel.org (Postfix) with ESMTP id DC3512072A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 21:48:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="KJ/F/Jno"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726142AbgCEVeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 16:34:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39984 "EHLO mail.kernel.org"
+        id S1726080AbgCEVsn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 16:48:43 -0500
+Received: from mout.gmx.net ([212.227.17.22]:40005 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725991AbgCEVeY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 16:34:24 -0500
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A417F20728;
-        Thu,  5 Mar 2020 21:34:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583444063;
-        bh=IlGxCo+3Eu420GZyWp84Ltnm/C3wZdDdgPLWI4ZtJOo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=e1YXpkQepYP5f+HafW//7Je967kcdVYeqvoupSSIaZUrc1aKzrfRENakXJU8OmR0S
-         1kn6Geug/qUNt46YbkNWW8xLnCqLFlKsouexXNZZNBivk63o4iI/dJrENO+oKWZWVd
-         yJcKx4NQ2MKxCQhrfHAHgaeXn6Us8xZj1U6RGFl8=
-Date:   Thu, 5 Mar 2020 22:34:16 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     "Bird, Tim" <Tim.Bird@sony.com>, Jonathan Corbet <corbet@lwn.net>,
-        "tbird20d@gmail.com" <tbird20d@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] scripts/sphinx-pre-install: add '-p python3' to
- virtualenv
-Message-ID: <20200305223416.6a0fdedc@coco.lan>
-In-Reply-To: <c491adf3-ae49-fefc-ea6d-32b75f4f9ca9@darmarit.de>
-References: <1582594481-23221-1-git-send-email-tim.bird@sony.com>
-        <20200302130911.05a7e465@lwn.net>
-        <MWHPR13MB0895EFDA9EBF7740875E661CFDE40@MWHPR13MB0895.namprd13.prod.outlook.com>
-        <20200304064214.64341a49@onda.lan>
-        <31a69fe7-c08d-9381-a111-5f522a4c9ffd@darmarit.de>
-        <20200304093138.6aced5a0@coco.lan>
-        <c491adf3-ae49-fefc-ea6d-32b75f4f9ca9@darmarit.de>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726049AbgCEVsn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 16:48:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1583444884;
+        bh=2ZbX8iy2LPLmbuk32bi++QHMD8DqL6IlLA56q+HPJyg=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=KJ/F/Jno+u5rHjjgjYjFOBCoO9zBiJe6k6KhxuwtQu+Q43hO16ZaaffqOjclB01d5
+         gtj9MPYgJn4hF/yV2ZRUgtQK6p0Kf+zi/kXNIH39Wo1rCvo0EJgQQfiufynbCS9dzv
+         CrUgW6FSVd25zJRWXUupkqDWMwN6nVg5hRre2PUg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([5.146.195.153]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MowGU-1jiiTa16Vi-00qVAp; Thu, 05
+ Mar 2020 22:48:04 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sudeep Dutt <sudeep.dutt@intel.com>,
+        Ashutosh Dixit <ashutosh.dixit@intel.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: Move Intel Many Integrated Core documentation (mic) under misc-devices
+Date:   Thu,  5 Mar 2020 22:47:12 +0100
+Message-Id: <20200305214747.20908-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:q6ZgU8kgD40IX+r1XgjbkvrRc8ACsBRBemccsnuY1/eiFZuKwbB
+ HNF0l8btOQ3e3vktoTqJGWwjL6xY+LieM1eyf3fw0SG1PSYPfv/n70s6xfYYScXYlCWTM+M
+ miDdPBc9BirWnyWnXWDTJrSJ23iPj/Qr2DiuIFArukjDpAsx7dSyV3Tkc71T7GB+SXPe7S6
+ SUeytQi+bewEWh4l1uFnQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hmzQnyJyZ6o=:rlmBulbCbuI6TlpXkawsr8
+ gag9BjJW3cbuwOoFDatopR7f5m1ayt8QiPazTsX4v6Y+E48s6Zn15yDNVwsVsFB7Ezyc62L2R
+ g83gifdAi3YVCru2Kh/x4P4jOihN70axGb5abyLY5RUmdwmMEC0p33q/YbnM7siqEOlS+383k
+ s6G14ANXYn/DZ0iNWa/lobh770AsPtvcS7JpyXMwZCGqKQE6f+z5LdiVxkghtwGsoU0X991Xn
+ xS5taUVIYw4voJcbkVrIQhnvZs5tAEolImvPVih3Yy8euA404c9d/NYGW+15ehu+Jjpl7iEgw
+ +BNIwjxVx73tbuk0O0utowmVYG0h/VgvNiUja++ZW5qMdsCPnsMZ8ceDlDaW81SROP3vq/DYI
+ kdjRGfY8yY8G8YGucaW45yBuLdrGFwsmnYF9N8Q+vsDj8WQ/OSGNmPncfK+JqO0mbfECfi9Lm
+ WzwgzuGpEa+GiDQgwHqQ2wsuTFaqFnzEkmLEG8wJtQxIE30JvKBW382dfss3GeqxupbZWgX8u
+ dloSppUbtqnBIDMc8qP4uOzFQqpyGswYJWYTdHJabP5xxctXtELM/yxNcvZWqVHcDd9OwULJK
+ QN89Hz7KY7DfC0+b+PG6VGbv7688HrTq9jzZZY3qVSsTCIj3G2osizAtAZRHgjBcHNXEUb+9U
+ apCeg87FIzkYLj6LQ+qSsi/fyemE+w+oyAL1JnTJqnWpd7nkFwm0eX4MJkjY8XtWepXcxPqlK
+ /buMleDZSSUxcIlqZadIQ03YUeVkyEflGstKOm8tcsAQ04174Mf1HQVOTDiwmnhlZQGUj+EYy
+ 2cttxOGoSFKRFBwQSSVLFXTxiz0ycSloggRXGJhlOLFt+8tHxjpeg+jksVriBwPNho+r7SwrV
+ KRBxPM5wGiymZT23Masc42fYw1KG/vpfqure4yOrqwFM+idCSZlzIA/Ef6lEO/ryWZcM0CHdG
+ MPV8CvyIIZ1EnJ+ajdfCvA6HTJm2qr5AXOF7qAhoGTEq6Bp/T5PgzNnFTPxpdOlceHxYCcEQb
+ 1vWc5ECe6FcnA0fpWc2FTqrB80uWdQYjQo1hOqOxTzR7X3nfUqeOzk7wLfShtyxH3Pj81ZKS7
+ HDUQHPFlAWmgFcGVO98S/ALrp4crCdx5Nh0GAmiirYQhJ7Ok5OAY4adEjF50LyaL5QIip1ZL2
+ 3gpd6PyCva1ImczuoEnv8kgGVUY1Rd+WhE6gojEhGI7TlyKS6c3xS3M1XC39nnpCJbTFlWRpK
+ QMmrcmBxt/88StHF2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 4 Mar 2020 10:20:34 +0100
-Markus Heiser <markus.heiser@darmarit.de> escreveu:
+It doesn't need to be a top-level chapter.
 
-> 
-> Am 04.03.20 um 09:31 schrieb Mauro Carvalho Chehab:
-> > Em Wed, 4 Mar 2020 07:20:48 +0100
-> > Markus Heiser <markus.heiser@darmarit.de> escreveu:
-> >> With py3 the recommended way to install virtual environments is::
-> >>
-> >>     python3 -m venv sphinx-env
-> >>
-> >> This (python3) is what worked for me on RHEL/CentOS (dnf),
-> >> archlinux and debian/ubuntu (tested from 16.04 up to 20.04).
-> > 
-> > Hmm... from:
-> > 
-> > 	https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
-> > 
-> > This works since Python version 3.3. It sounds doable to use it.
-> > 
-> > Yet, if we'll be switching to this method, the script should check if
-> > the version is 3.3 or newer. The logic inside get_sphinx_fname() would
-> > also require some changes, as it won't need to install anymore the
-> > virtualenv program for Python >= 3.3.
-> 
-> I guess you can ignore 3.2 and downwards
-> 
->    https://en.wikipedia.org/wiki/History_of_Python#Table_of_versions
-> 
-> Support for py2.7 and >=py3.3 should match nearly all use cases / distributions 
-> we support.
-> 
-> BTW: starting scripts with:
-> 
-> -m <module-name>
->      Searches sys.path for the named module and runs the
->      corresponding .py file as a script.
-> 
-> is mostly more robust.  The option exists also in py2.  From py3.3 on
-> a subset of virtualenv is built-in, so you can run '-m venv' ot of the
-> box.
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/index.rst                                | 1 -
+ Documentation/misc-devices/index.rst                   | 1 +
+ Documentation/{ =3D> misc-devices}/mic/index.rst         | 0
+ Documentation/{ =3D> misc-devices}/mic/mic_overview.rst  | 0
+ Documentation/{ =3D> misc-devices}/mic/scif_overview.rst | 0
+ MAINTAINERS                                            | 2 +-
+ 6 files changed, 2 insertions(+), 2 deletions(-)
+ rename Documentation/{ =3D> misc-devices}/mic/index.rst (100%)
+ rename Documentation/{ =3D> misc-devices}/mic/mic_overview.rst (100%)
+ rename Documentation/{ =3D> misc-devices}/mic/scif_overview.rst (100%)
 
-I did some tests... as everything with python, it is not so simple...
-The thing is that "-mvenv" requires a python module called "ensurepip".
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index e99d0bd2589d..6fdad61ee443 100644
+=2D-- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -131,7 +131,6 @@ needed).
+    usb/index
+    PCI/index
+    misc-devices/index
+-   mic/index
+    scheduler/index
 
-On Fedora, openSuse and archlinux, this is installed together with
-python3, but Debian maintainers had a different idea about how to package it.
-There, ensurepip is inside a python3-venv-3.x (where x is 5, 6 or 7 -
-depending on the Ubuntu/Debian version, and if backports repository is
-been used or not).
+ Architecture-agnostic documentation
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-dev=
+ices/index.rst
+index f11c5daeada5..c1dcd2628911 100644
+=2D-- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -20,4 +20,5 @@ fit into other categories.
+    isl29003
+    lis3lv02d
+    max6875
++   mic/index
+    xilinx_sdfec
+diff --git a/Documentation/mic/index.rst b/Documentation/misc-devices/mic/=
+index.rst
+similarity index 100%
+rename from Documentation/mic/index.rst
+rename to Documentation/misc-devices/mic/index.rst
+diff --git a/Documentation/mic/mic_overview.rst b/Documentation/misc-devic=
+es/mic/mic_overview.rst
+similarity index 100%
+rename from Documentation/mic/mic_overview.rst
+rename to Documentation/misc-devices/mic/mic_overview.rst
+diff --git a/Documentation/mic/scif_overview.rst b/Documentation/misc-devi=
+ces/mic/scif_overview.rst
+similarity index 100%
+rename from Documentation/mic/scif_overview.rst
+rename to Documentation/misc-devices/mic/scif_overview.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5b229788d425..cb2f714b3191 100644
+=2D-- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8578,7 +8578,7 @@ F:	include/uapi/linux/scif_ioctl.h
+ F:	drivers/misc/mic/
+ F:	drivers/dma/mic_x100_dma.c
+ F:	drivers/dma/mic_x100_dma.h
+-F:	Documentation/mic/
++F:	Documentation/misc-devices/mic/
 
-There is a package python3-venv too, with installs the right package,
-together with some unneeded stuff (pyvenv, with is a deprecated script). 
+ INTEL PMC CORE DRIVER
+ M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
+=2D-
+2.20.1
 
-Yet, installing python3-venv seems to be a reliable way to install
-the proper package without having to deal with more fragile heuristics.
-
-I'm working on some patches that should hopefully add support for
-using "python3 -mvenv", but testing it is not trivial, as I want
-to ensure that it won't cause troubles on other distros. So, I'm
-installing a myriad of distros with lxc, in order to test how the
-script will actually work with some different environments.
-
-Thanks,
-Mauro
