@@ -2,228 +2,98 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC58C3F2D7
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 05:11:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2D8AC3F2D7
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 05:40:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 87A45208CD
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 05:11:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC3882146E
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 05:40:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b="B5uyHhTh";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NJOA7gNH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZZv6hqD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725937AbgCEFLv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 00:11:51 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:34567 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725839AbgCEFLr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 00:11:47 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 50F5613EC;
-        Thu,  5 Mar 2020 00:11:46 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 05 Mar 2020 00:11:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=WgXHuW9inH73V
-        4eN9Lhc8dVUq0yylRgC2mv73tI5Dos=; b=B5uyHhThrj2OofyyxskhR/L9EAozj
-        MuCOo23YfhH41IZF4duzAQ5aaTbIjz4qIxh9pK8MaJ+qaPiCQzf2h4GWrEuziNpG
-        1B/bRI67OJWzgL0FEnjyHoiYnI18KNX6N6BtAs1/o3rkJRcxx8fe97+kIsZclAgO
-        lXxNiUzRGDoQvtNsNAuGSV/6n4yusOFVAeuGebtdRFs2o6FZ8TKPgPUc2pUY095f
-        P9uwwlSqvCby9ydaqnbujOAVaSeC0pomYoiUCx77imTMGegcVBJNDiLPQWJEcFkc
-        8/hPtLuJ9QFP4s54mDfr0YVFagt95bOfOYC1QRmbixWqorM3FBoFDZ3ZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=WgXHuW9inH73V4eN9Lhc8dVUq0yylRgC2mv73tI5Dos=; b=NJOA7gNH
-        syK7afkZkupBPnZNGLUOSi9ILnoW79aLG8skgIqWVZdTkPJzj+f3ys5P0vqPrMwl
-        zqtmPJWYnfJugJB0VvQqIqY/EXsMKhTEzvuHzY9AGkqy5uxWlGyDhJMEWBx/hhb9
-        BHCvHaDLAShRbQkV5xzerc9tDUYZDkggw5l6tqepYZ5iCzcAOsv0l+7+/TYw6sPD
-        tviMuNQTwO5VKQKsui2HYepqgbwdwsn2EJRfzs5Jsu+knDTSzkYDQJeWXEhqE7Qy
-        NuRHfOtqpn98TY4v9EWmlzyQhXFq8+a4f/CAVAUJXD1qSHFWkacpgNwdtiwAKp75
-        hI4gu0XRasmY3Q==
-X-ME-Sender: <xms:EYpgXsFZUw1fdpsIctcO3TQtLiJcinGgFDdBSK1xSfEnxE3GQyjdBA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedruddtledgkedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucfkph
-    epjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:EYpgXs8f10zp7uGtX61wRzqpMWDxGNgINF1TNdphcxHxgYAOvqzLkw>
-    <xmx:EYpgXhXRnA_5PTIyKOTCumPylRkH8lVDDOCXhJIPAuVZSAcqfAuE2g>
-    <xmx:EYpgXoZJGiNcdOmCAilJfNP8yUuRvbcUKdSGSntbb51UpoyzJSCSQg>
-    <xmx:EopgXuGzW5D9sQsG_WAePJJl7IVTf8wZ-P-gMNNZnH-_ZtdJfa2tag>
-Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-        by mail.messagingengine.com (Postfix) with ESMTPA id ECE51328005E;
-        Thu,  5 Mar 2020 00:11:44 -0500 (EST)
-From:   Samuel Holland <samuel@sholland.org>
-To:     Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jerome Brunet <jbrunet@baylibre.com>
-Cc:     Ondrej Jirman <megous@megous.com>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v4 2/3] ASoC: pcm: Export parameter intersection logic
-Date:   Wed,  4 Mar 2020 23:11:42 -0600
-Message-Id: <20200305051143.60691-3-samuel@sholland.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200305051143.60691-1-samuel@sholland.org>
-References: <20200305051143.60691-1-samuel@sholland.org>
+        id S1725858AbgCEFko (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 00:40:44 -0500
+Received: from mail-qv1-f68.google.com ([209.85.219.68]:45554 "EHLO
+        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725818AbgCEFko (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 00:40:44 -0500
+Received: by mail-qv1-f68.google.com with SMTP id r8so1911337qvs.12;
+        Wed, 04 Mar 2020 21:40:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=THBYMEY1yGfalLtbzYiKSYkmAX5Lj+jvZpr5bKLPTp0=;
+        b=EZZv6hqD7ymuE6lbhHNuFocVxoT/8FJaP+Xdqv6NKFkH2BKU/X52VI7p/f0086Cvex
+         A1xR+vIZOTlfJFozjl7vvRT12YHemz/A6ZbTZe9FB5ikmBiBbxI9W/q4qBGKIMHmWz9n
+         tPAQnLeUfE67fU17daLSM8SxDrAaIJBF5vsbTbLMf87QcxItNe9GtxLwZFUBT1Ov/yDQ
+         p4VkR/YCQzHiq7P42dX/faOLX8Rg3fb8D1jgQZ1QWXDM8BrfdVVCRui5QMvSAD9jyQCb
+         xe9VDdDqfkk8qtrS/XaXQajELx7JA1AomSuxIJrZv+L+cYhrzmFyUyP3gmWH5B2Y8mko
+         qbRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=THBYMEY1yGfalLtbzYiKSYkmAX5Lj+jvZpr5bKLPTp0=;
+        b=Bqr6jnkWOuh93IqQwI8pmzyIyvbhjMFazHdJLt3U9uAZNGmuouklLQlWG/XQXg8o8X
+         17J76YM5cJy5J3T5cbvdd4ai957f1zEvh4++K6SEgmloplgvPyvHDwQwZRp54U3+Aw1C
+         WFeLR0Cr9DWsE5Y6EEUo4QrvXkrdz40VbuteKk4yDW50CPQ9GEhsKs2KSGyQf9eiN2EM
+         2MuWZJFWLcDT/Ga7BrPhuubxlLaGW8q7Gd8w+FIz3cNFXqtwYEBx5pMinW4mIJCVsX4i
+         XkwSy8Ga6bJ5J+7SYH9Ew+u3AUIEgY4PKu/yMUiw+09/1uJzVjLxDl+KUMrx7jvljeAf
+         U4QA==
+X-Gm-Message-State: ANhLgQ1Eoo6mHb3Vd/iH/tWEJx0gvGDx5lNYxPPz8I6Wxvd+o+BjXL1b
+        CpXixewA8xf7oV11COcp3bNo8P3HcwTdyyH30CM=
+X-Google-Smtp-Source: ADFU+vtfOIyH1BW9riEZRACvPgvUTdUP01Lk72U0ekfmC8baXSmHIuWMubjgSVFDnAmUEs9i1uAgEiXwdE9VRISclzc=
+X-Received: by 2002:ad4:4f87:: with SMTP id em7mr4923418qvb.97.1583386840011;
+ Wed, 04 Mar 2020 21:40:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200305050207.4159-1-luke.r.nels@gmail.com>
+In-Reply-To: <20200305050207.4159-1-luke.r.nels@gmail.com>
+From:   =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
+Date:   Thu, 5 Mar 2020 06:40:28 +0100
+Message-ID: <CAJ+HfNjrUxVqpBgC-WLHbZX7_7Gd-Lk7ghrmASTmaNySuXVUfg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v5 0/4] eBPF JIT for RV32G
+To:     Luke Nelson <lukenels@cs.washington.edu>
+Cc:     bpf <bpf@vger.kernel.org>, Luke Nelson <luke.r.nels@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andriin@fb.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Xi Wang <xi.wang@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The logic to calculate the subset of stream parameters supported by all
-DAIs associated with a PCM stream is nontrivial. Export a helper
-function so it can be used to set up simple codec2codec DAI links.
+On Thu, 5 Mar 2020 at 06:02, Luke Nelson <lukenels@cs.washington.edu> wrote=
+:
+>
+> This series adds an eBPF JIT for 32-bit RISC-V (RV32G) to the kernel,
+> adapted from the RV64 JIT and the 32-bit ARM JIT.
+>
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
- include/sound/soc.h |  3 +++
- sound/soc/soc-pcm.c | 59 ++++++++++++++++++++++++++++++---------------
- 2 files changed, 42 insertions(+), 20 deletions(-)
+Nice work! Thanks for hanging in there!
 
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 81e5d17be935..9543d9246ca4 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -471,6 +471,9 @@ bool snd_soc_runtime_ignore_pmdown_time(struct snd_soc_pcm_runtime *rtd);
- void snd_soc_runtime_activate(struct snd_soc_pcm_runtime *rtd, int stream);
- void snd_soc_runtime_deactivate(struct snd_soc_pcm_runtime *rtd, int stream);
- 
-+int snd_soc_runtime_calc_hw(struct snd_soc_pcm_runtime *rtd,
-+			    struct snd_pcm_hardware *hw, int stream);
-+
- int snd_soc_runtime_set_dai_fmt(struct snd_soc_pcm_runtime *rtd,
- 	unsigned int dai_fmt);
- 
-diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-index 90857138c823..2ad501aaa4f9 100644
---- a/sound/soc/soc-pcm.c
-+++ b/sound/soc/soc-pcm.c
-@@ -587,11 +587,18 @@ static void soc_pcm_apply_msb(struct snd_pcm_substream *substream)
- 	soc_pcm_set_msb(substream, cpu_bits);
- }
- 
--static void soc_pcm_init_runtime_hw(struct snd_pcm_substream *substream)
-+/**
-+ * snd_soc_runtime_calc_hw() - Calculate hw limits for a PCM stream
-+ * @rtd: ASoC PCM runtime
-+ * @hw: PCM hardware parameters (output)
-+ * @stream: Direction of the PCM stream
-+ *
-+ * Calculates the subset of stream parameters supported by all DAIs
-+ * associated with the PCM stream.
-+ */
-+int snd_soc_runtime_calc_hw(struct snd_soc_pcm_runtime *rtd,
-+			    struct snd_pcm_hardware *hw, int stream)
- {
--	struct snd_pcm_runtime *runtime = substream->runtime;
--	struct snd_pcm_hardware *hw = &runtime->hw;
--	struct snd_soc_pcm_runtime *rtd = substream->private_data;
- 	struct snd_soc_dai *codec_dai;
- 	struct snd_soc_dai *cpu_dai;
- 	struct snd_soc_pcm_stream *codec_stream;
-@@ -602,7 +609,6 @@ static void soc_pcm_init_runtime_hw(struct snd_pcm_substream *substream)
- 	unsigned int cpu_rate_min = 0, cpu_rate_max = UINT_MAX;
- 	unsigned int rates = UINT_MAX, cpu_rates = UINT_MAX;
- 	u64 formats = ULLONG_MAX;
--	int stream = substream->stream;
- 	int i;
- 
- 	/* first calculate min/max only for CPUs in the DAI link */
-@@ -613,12 +619,8 @@ static void soc_pcm_init_runtime_hw(struct snd_pcm_substream *substream)
- 		 * Otherwise, since the rate, channel, and format values will
- 		 * zero in that case, we would have no usable settings left,
- 		 * causing the resulting setup to fail.
--		 * At least one CPU should match, otherwise we should have
--		 * bailed out on a higher level, since there would be no
--		 * CPU to support the transfer direction in that case.
- 		 */
--		if (!snd_soc_dai_stream_valid(cpu_dai,
--					      substream->stream))
-+		if (!snd_soc_dai_stream_valid(cpu_dai, stream))
- 			continue;
- 
- 		cpu_stream = snd_soc_dai_get_pcm_stream(cpu_dai, stream);
-@@ -640,12 +642,8 @@ static void soc_pcm_init_runtime_hw(struct snd_pcm_substream *substream)
- 		 * Otherwise, since the rate, channel, and format values will
- 		 * zero in that case, we would have no usable settings left,
- 		 * causing the resulting setup to fail.
--		 * At least one CODEC should match, otherwise we should have
--		 * bailed out on a higher level, since there would be no
--		 * CODEC to support the transfer direction in that case.
- 		 */
--		if (!snd_soc_dai_stream_valid(codec_dai,
--					      substream->stream))
-+		if (!snd_soc_dai_stream_valid(codec_dai, stream))
- 			continue;
- 
- 		codec_stream = snd_soc_dai_get_pcm_stream(codec_dai, stream);
-@@ -658,6 +656,10 @@ static void soc_pcm_init_runtime_hw(struct snd_pcm_substream *substream)
- 		rates = snd_pcm_rate_mask_intersect(codec_stream->rates, rates);
- 	}
- 
-+	/* Verify both a valid CPU DAI and a valid CODEC DAI were found */
-+	if (!chan_min || !cpu_chan_min)
-+		return -EINVAL;
-+
- 	/*
- 	 * chan min/max cannot be enforced if there are multiple CODEC DAIs
- 	 * connected to CPU DAI(s), use CPU DAI's directly and let
-@@ -671,18 +673,35 @@ static void soc_pcm_init_runtime_hw(struct snd_pcm_substream *substream)
- 	/* finally find a intersection between CODECs and CPUs */
- 	hw->channels_min = max(chan_min, cpu_chan_min);
- 	hw->channels_max = min(chan_max, cpu_chan_max);
--	if (hw->formats)
--		hw->formats &= formats;
--	else
--		hw->formats = formats;
-+	hw->formats = formats;
- 	hw->rates = snd_pcm_rate_mask_intersect(rates, cpu_rates);
- 
--	snd_pcm_limit_hw_rates(runtime);
-+	snd_pcm_hw_limit_rates(hw);
- 
- 	hw->rate_min = max(hw->rate_min, cpu_rate_min);
- 	hw->rate_min = max(hw->rate_min, rate_min);
- 	hw->rate_max = min_not_zero(hw->rate_max, cpu_rate_max);
- 	hw->rate_max = min_not_zero(hw->rate_max, rate_max);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_runtime_calc_hw);
-+
-+static void soc_pcm_init_runtime_hw(struct snd_pcm_substream *substream)
-+{
-+	struct snd_pcm_hardware *hw = &substream->runtime->hw;
-+	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-+	u64 formats = hw->formats;
-+
-+	/*
-+	 * At least one CPU and one CODEC should match. Otherwise, we should
-+	 * have bailed out on a higher level, since there would be no CPU or
-+	 * CODEC to support the transfer direction in that case.
-+	 */
-+	snd_soc_runtime_calc_hw(rtd, hw, substream->stream);
-+
-+	if (formats)
-+		hw->formats &= formats;
- }
- 
- static int soc_pcm_components_open(struct snd_pcm_substream *substream)
--- 
-2.24.1
-
+For the series,
+Acked-by: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
+Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
