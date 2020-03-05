@@ -2,88 +2,58 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB0E8C3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D43C3F2CE
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 01:46:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9D933214D8
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 00:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583369962;
-	bh=AdbQ5f/7J8xRD1RJTNFcvHuv+j3LCyuretP+IHCgIuE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=qch0TDUQcZYhX8QxqFTCM9U4L+ur2eu1GOrgZp8fxldW/ulXV4Ja/JvZ6YYPZWHnL
-	 4ePbZQ7NWuGv0yTpsnT4EWwZ7fDFwmZ0hZSb5oNIcR6DcPjre9/TREMoJTs0ScY4+F
-	 hLzLcTzNuvQf2/iQYV9jNQM4TRX89am+CFZdfY/o=
+	by mail.kernel.org (Postfix) with ESMTP id 16E4920842
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 01:46:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725554AbgCEA7W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Mar 2020 19:59:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59264 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725308AbgCEA7W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Mar 2020 19:59:22 -0500
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C093120842;
-        Thu,  5 Mar 2020 00:59:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583369961;
-        bh=AdbQ5f/7J8xRD1RJTNFcvHuv+j3LCyuretP+IHCgIuE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=e3LAq9RuZ3ugCTvwSfKBJ+lklf3PpsADX17OJwBFnnNq7X+zl8cLkTCCs/V7ZYwza
-         dSdQOwm7Rojom16NziEbZSHQBAfQvtGsdHrKaGb/vFbq5G2JTaA8LMsfnzgwcogua0
-         B+wrW0UC+afDvTWfyLPiyri3/VaXzh6hmFr0V/tk=
-Date:   Thu, 5 Mar 2020 09:59:17 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Markus Elfring <Markus.Elfring@web.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [v4] Documentation: bootconfig: Update boot configuration
- documentation
-Message-Id: <20200305095917.9cd7c2a7f5f6b492601e27bb@kernel.org>
-In-Reply-To: <20200304142259.7eaa3633@lwn.net>
-References: <158322634266.31847.8245359938993378502.stgit@devnote2>
-        <158322635301.31847.15011454479023637649.stgit@devnote2>
-        <ad1e9855-4c64-53bd-7da5-f7cdafe78571@infradead.org>
-        <20200304203722.8e8699c2a3e0a979aae091b1@kernel.org>
-        <3a3a5f1a-3654-d96d-3b4a-dd649a366c65@web.de>
-        <531371ef-354a-b0fa-f69f-c8cf9ecc9919@infradead.org>
-        <a9f8980e-4325-52c1-d217-d2fca1add37d@web.de>
-        <3118d72b-a33c-e6d7-36a1-204d39d2bdbb@infradead.org>
-        <a6680eb7-5a1d-ea58-0eec-14f2b5bcd99a@web.de>
-        <20200304142259.7eaa3633@lwn.net>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        id S1726083AbgCEBqJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Mar 2020 20:46:09 -0500
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:56543 "EHLO
+        out4436.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725810AbgCEBqJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Mar 2020 20:46:09 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TrhPXjp_1583372756;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TrhPXjp_1583372756)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 05 Mar 2020 09:45:56 +0800
+Subject: Re: [PATCH v2 04/12] docs: dt: convert booting-without-of.txt to ReST
+ format
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harry Wei <harryxiyou@gmail.com>, devicetree@vger.kernel.org
+References: <cover.1583135507.git.mchehab+huawei@kernel.org>
+ <b7c582284fbca91a7431ff14689ab1be2c6fc410.1583135507.git.mchehab+huawei@kernel.org>
+ <CAL_Jsq+qEA16aGAaVnwX6QAPGnCWqnx_6WNuRb0erVAA3rvYSA@mail.gmail.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <b3759bbc-0366-d31b-6ef6-6208ba0bae67@linux.alibaba.com>
+Date:   Thu, 5 Mar 2020 09:45:55 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <CAL_Jsq+qEA16aGAaVnwX6QAPGnCWqnx_6WNuRb0erVAA3rvYSA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 4 Mar 2020 14:22:59 -0700
-Jonathan Corbet <corbet@lwn.net> wrote:
 
-> On Wed, 4 Mar 2020 22:20:07 +0100
-> Markus Elfring <Markus.Elfring@web.de> wrote:
+
+在 2020/3/5 上午2:25, Rob Herring 写道:
+> Let's skip this doc. It's been on my todo to remove it. It's pretty
+> stale and 15 years old. Much of this document is now covered by what's
+> in the DT spec. There's a few pieces that aren't which we need to find
+> new homes for.
 > 
-> > > I'm hoping to be done with the current changes. :)  
-> > 
-> > Will a term like “grouping of parent keys” need any additional explanation?
-> 
-> Honestly, Markus, I think that the patch is good enough for now; time to
-> merge it and move on to something else.
 
-Thanks Jon,
-
-I'll send the final version soon.
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Happy to see a old doc getting update! :)
