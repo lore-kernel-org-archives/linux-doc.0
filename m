@@ -2,96 +2,121 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF3EC3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 20:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6618EC3F2D2
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 20:56:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02DF520732
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 20:51:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="kHLPFozq"
+	by mail.kernel.org (Postfix) with ESMTP id 4AA3A20848
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 20:56:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726181AbgCEUvd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 15:51:33 -0500
-Received: from mout.gmx.net ([212.227.17.22]:59309 "EHLO mout.gmx.net"
+        id S1726259AbgCEU4a convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 15:56:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57260 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726184AbgCEUvd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 15:51:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1583441488;
-        bh=7rYudHkLaPWYz1EG6XE2+tdiDV5EtkdgykUVDPUIQrg=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=kHLPFozql360H4pez2iNYogmkVoKmmhR73v2BUwAW8mFAtdGpvDS6rklh8MChW98P
-         n06AAhtkHI+aPP/i+TjYKEik++5ULTY02Ngjdkr25D1j1qbT7yuESJKwfC1Fgv/55K
-         OwIOT/AKHSIXaeVhbqnBoaLFEJtlvl4QR85Q5sX4=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([5.146.195.153]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McYCb-1jmK9l00lh-00d0g3; Thu, 05
- Mar 2020 21:51:28 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
+        id S1726087AbgCEU4a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 15:56:30 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A9B9020801;
+        Thu,  5 Mar 2020 20:56:29 +0000 (UTC)
+Date:   Thu, 5 Mar 2020 15:56:28 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Markus Elfring <Markus.Elfring@web.de>
+Cc:     linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: it_IT: netdev-FAQ: Fix link to original document
-Date:   Thu,  5 Mar 2020 21:51:21 +0100
-Message-Id: <20200305205123.8569-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.20.1
+Subject: Re: [v5] Documentation: bootconfig: Update boot configuration
+ documentation
+Message-ID: <20200305155628.09a1e1d4@gandalf.local.home>
+In-Reply-To: <2d5df2ac-443b-cc31-c2bf-78947f81dd00@web.de>
+References: <158339065180.26602.26457588086834858.stgit@devnote2>
+        <158339066140.26602.7533299987467005089.stgit@devnote2>
+        <ef820445-25c5-a312-57d4-25ff3b4d08cf@infradead.org>
+        <3fb124a6-07d2-7a40-8981-07561aeb3c1e@web.de>
+        <f823204d-dcd1-2159-a525-02f15562e1af@infradead.org>
+        <29c599ef-991d-a253-9f27-5999fb55b228@web.de>
+        <997f73af-dc6c-bc8b-12ba-69270ee4b95d@infradead.org>
+        <dbef7b77-945a-585e-12fe-b5e30eb1a6bc@web.de>
+        <e20f52a0-e522-c2cf-17a4-384a1f3308bc@infradead.org>
+        <ecaffba3-fccd-32ee-763a-a2ec84a65148@web.de>
+        <20200305140004.535eeb1a@gandalf.local.home>
+        <af5d4af0-9e06-cc6e-c29e-4c4eebdb9b0e@web.de>
+        <20200305142505.714a5121@gandalf.local.home>
+        <2d5df2ac-443b-cc31-c2bf-78947f81dd00@web.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:JAFLwR2jXa4Awfyyo2fmfzgSHQARdU0kgjH/ZvdO9cslYVRO+hg
- VgKzce52rnmt5tBni8r/O1NJK/P59Dfum7pGNL7+xYtyEkWmBG6HMoUncd1uVYi03YogENF
- gI1DbD6CE3AdH9Ro2uFXt88s0mQGyLbumGcC/gfcUURonUOMpa4sLwkge7np1lzLKgr48tN
- y/LnRzZipKS5KOfATUNmA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:T4YW+/QoZ6Y=:utr/OCfyZevLvoe7p6jTH2
- vXTS+33v/vtnwxWKqrZ8rcNltfHLHFQ8PC0x7y+MKRGBq9caEo0yJoAuTxiJWXf585jcohDBd
- O0aiREqDDSbx/L/GwMHnxZNKG/87yBjAo1ohBk6pqdseC2CJHRNKZ7arGWmCp6NQ/KgDJ9Jqg
- GBOVwgsOEeyNYxulNvuFhuQKFDkZJvZrRONSBfphmTPVVLiuVUqhlMCiZU/G8aHkTWIUqINcr
- QiAUlkT7PFWpyjCaCP6ZYWfudMgq2gpgCIkUkx4iTpQkYgWVUeSyPNHkWdBc7EZPK6euAs4U1
- egJwAbO6eVJiULLsFu7o4DXbxoI9+ryTt09I5J38GvoamhzfwmQ0OsP4EPhhxslDkBvlmDmHm
- hPrcvGaE2f67FSCTYpd7WsSjoiyBWrucJ8BpBlG9zW5T3iG8sPMX0rItAE7yx0rUYlZUJI7+K
- ga8YwXYRwyscmPa9DxsFDwsRFQ/HmRTmxmneeZDuU6CmhMkFlPRdcz8h5DchUsrxXQ25F+2FW
- v+iGQROrJjjF/zXLQLf1o24M51B0Op1T3OR7MoxY7LtVvahvnswK50/NWDQX+Tc85+z2F45tD
- SgyGPyry5HwL8fh8l0TzomSVz29gWZMShQebUW5aHKtRi8MEWSsBGFPwlqyvUy9NQaAA2Fnmf
- JO9rHVjd2E6YZw38KLRfn9PMSySGKndw6Qo11Zzi6Kg9+RjWvvozeCVqHNWTXvPqsd4/0/ZtH
- 76h1twGdrksmf81aJ+gH5gAh1CJaSPjHKGOMyWqccX9gLj22E5fYFrrIh1fHfMXYi+Ln0G3EW
- 3X0z0w1MOp/pGKFFxuPbDoU1320EGYp2USvRE40DbO3ZdQL/hGF0twjMbxiyGzEbOnIGwXiu2
- 1foT7ee+8G6W1DFhHDgAuk83R2M89qBDLRfeoMrJ9C/RbPtsZjhdlPojIyCjLASgvdZrYwnqr
- 4/2K0UQDE3+wOaKxB7+l96n5GuRTlafuKYLt7mcEk2m8HBHkWWXMfrS7lwlDPUHuVfaLTdJJG
- 3xVA15OyNJCm71vfUmALAyf6lUurak9ctQiinDP1tyE0gSxryZ2B4Xd/dR7zFwP0eGxFcEuM4
- D4poEvjwl/fPVaQUAXtgGF7sqRUxaqsYN1pXQEzD7bPu8oftoYBA8593SgSmOlys8EJPb+KAi
- hNzVcbEEXXwcnKin7XlrVh6ahmuibCrKwF3FViucHRGMWFcK+l2jkg5XWplM4RGRGsEW8kS8k
- tGcStAq05ccRe7PnO
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- Documentation/translations/it_IT/networking/netdev-FAQ.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 5 Mar 2020 21:10:21 +0100
+Markus Elfring <Markus.Elfring@web.de> wrote:
 
-diff --git a/Documentation/translations/it_IT/networking/netdev-FAQ.rst b/=
-Documentation/translations/it_IT/networking/netdev-FAQ.rst
-index 8489ead7cff1..7e2456bb7d92 100644
-=2D-- a/Documentation/translations/it_IT/networking/netdev-FAQ.rst
-+++ b/Documentation/translations/it_IT/networking/netdev-FAQ.rst
-@@ -1,6 +1,6 @@
- .. include:: ../disclaimer-ita.rst
+> >> I suggest to take another look at review comments for previous patch versions.  
+> >
+> > I have, and I believe Masami has satisfactory addressed them,  
+> 
+> I agree to parts of the shown software evolution.
+> 
+> 
+> > if they needed addressing.  
+> 
+> Remaining issues will eventually be clarified under other circumstances.
+> 
+> 
+> >> Do you identify any feedback as a bug report (or clarification request) here?  
+> >
+> > I still don't have the foggiest clue what you are talking about.  
+> 
+> It seems that a few reminders can help here.
+> 
+> 
+> > What bug are you reporting?  
+> 
+> Examples:
+> 
+> * Another typo
+>   “… contain only alphabets, …”
+>   https://lore.kernel.org/linux-doc/967d6fee-e0cd-c53f-c1f6-b367a979762c@web.de/
+>   https://lkml.org/lkml/2020/3/5/247
 
--:Original: :ref:`Documentation/process/stable-kernel-rules.rst <stable_ke=
-rnel_rules>`
-+:Original: :ref:`Documentation/networking/netdev-FAQ.rst <netdev-FAQ>`
+Legitimate but not critical.
 
- .. _it_netdev-FAQ:
+> 
+> * Use case explanation
+>   https://lore.kernel.org/linux-doc/f3c51b0a-2a55-6523-96e2-4f9ef0635d9f@web.de/
+>   https://lkml.org/lkml/2020/3/5/429
 
-=2D-
-2.20.1
+I believe what Masami has is sufficient.
 
+> 
+> * Challenges for the safe application of key hierarchies
+>   “kernel.ftrace”?
+>   https://lore.kernel.org/linux-doc/c4a0bc10-a38b-6ea9-e125-7a37f667e61a@web.de/
+>   https://lkml.org/lkml/2020/2/28/363
+
+Again, what Masami has is sufficient.
+
+> 
+> * Feature request for syntax description
+>   https://lore.kernel.org/linux-doc/2390b729-1b0b-26b5-66bc-92e40e3467b1@web.de/
+>   https://lkml.org/lkml/2020/2/27/1869
+> 
+
+Masami's reply to you was sufficient.
+
+Of your examples, only one do I see can be applied, but is just a minor
+change in wording.
+
+I don't know where you are going with this, and unless you plan on
+submitting patches, I think this document is complete as is.
+
+-- Steve
