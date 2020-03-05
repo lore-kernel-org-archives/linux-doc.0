@@ -2,153 +2,243 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-6.7 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF26C3F2D1
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 21:48:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDCCCC3F2D7
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 21:52:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DC3512072A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 21:48:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="KJ/F/Jno"
+	by mail.kernel.org (Postfix) with ESMTP id 9703A208CD
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 21:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726080AbgCEVsn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 16:48:43 -0500
-Received: from mout.gmx.net ([212.227.17.22]:40005 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726049AbgCEVsn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 16:48:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1583444884;
-        bh=2ZbX8iy2LPLmbuk32bi++QHMD8DqL6IlLA56q+HPJyg=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=KJ/F/Jno+u5rHjjgjYjFOBCoO9zBiJe6k6KhxuwtQu+Q43hO16ZaaffqOjclB01d5
-         gtj9MPYgJn4hF/yV2ZRUgtQK6p0Kf+zi/kXNIH39Wo1rCvo0EJgQQfiufynbCS9dzv
-         CrUgW6FSVd25zJRWXUupkqDWMwN6nVg5hRre2PUg=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([5.146.195.153]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MowGU-1jiiTa16Vi-00qVAp; Thu, 05
- Mar 2020 22:48:04 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sudeep Dutt <sudeep.dutt@intel.com>,
-        Ashutosh Dixit <ashutosh.dixit@intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1726579AbgCEVvy convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 16:51:54 -0500
+Received: from mail-db8eur05olkn2071.outbound.protection.outlook.com ([40.92.89.71]:35904
+        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726111AbgCEVvy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Mar 2020 16:51:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jEra62OmvctrRWT161kmPvFArxSjDrn2ciJ0PvaDOrP1YpxOKACLpzgrbqIG+0GVUulMXi2FaCCMlXfMRYqC/T+lSw+u1R/Q3/SpFk63wORgTULzaida/UTWiJId/gbvIdNF7uBxui6AMuYYStgJIEdiA4Sr6jY+ok5xXNZpJtn6Yy67TQiMwY6E/7YUhzOcsTy6xspm2U4f8U6uAk1B//o/9H81pXh56FVTSm6chpG3boY7hxtOksmJQtFlZz3o0EqGyLNr/kQoPbunitw8RqUyWPcenKCc7jx1PhM5Srza2j+8dnJ5cy5fTqF0mEEGaHYwLu6Zpzgg7Z7PN1KkTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ipJpyfgd+w7XDS59LHoWR2NghtqM5US2BCtlmFglY3A=;
+ b=enpuWxJon8OWOIv352IZTvuwO6zQqQ7ijF4gzkro/BsvumCwknXqBcnuLA2D0buMx37hG/fuhCdYHZgUYlBQ1plb3UoqK6KLLIXqmXR/3cZQ3JBoc+/2gty/H0CH4tMEhC18mGTz9kkG+1lKwalt4ZEWe1+OgOKfEkmRylFUSR0fjQdtvGglXrOnfKA/VJlj1B+m6RBWrRx8CRu/2kaF12J3EPCBLGVMAEv3dE4XXnPclSJamxM2tQ5QFRY6Bf4GqM3toD1WxeFe6BdwzPFO8OPmWPGfpgxhn5fPbmt9RaINZmjBnQJxw2ooLeM9T7H12rDH2LuWE3FPy6U4pb7NTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from VI1EUR05FT053.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc12::33) by
+ VI1EUR05HT224.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc12::340)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Thu, 5 Mar
+ 2020 21:51:47 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.233.242.56) by
+ VI1EUR05FT053.mail.protection.outlook.com (10.233.242.197) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.11 via Frontend Transport; Thu, 5 Mar 2020 21:51:47 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Thu, 5 Mar 2020
+ 21:51:47 +0000
+Received: from [192.168.1.101] (92.77.140.102) by ZR0P278CA0019.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Thu, 5 Mar 2020 21:51:44 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+CC:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: Move Intel Many Integrated Core documentation (mic) under misc-devices
-Date:   Thu,  5 Mar 2020 22:47:12 +0100
-Message-Id: <20200305214747.20908-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.20.1
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 2/2] exec: Add a exec_update_mutex to replace
+ cred_guard_mutex
+Thread-Topic: [PATCH 2/2] exec: Add a exec_update_mutex to replace
+ cred_guard_mutex
+Thread-Index: AQHV8zOjiaOX92PFsUy1cOGGFJ5V7ag6ihsA
+Date:   Thu, 5 Mar 2020 21:51:47 +0000
+Message-ID: <AM6PR03MB5170375DBF699D4F3DC7A08DE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nmjulm.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003021531.C77EF10@keescook>
+ <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+ <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nlii0b.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87imjicxjw.fsf_-_@x220.int.ebiederm.org>
+In-Reply-To: <87imjicxjw.fsf_-_@x220.int.ebiederm.org>
+Accept-Language: en-US, en-GB, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: ZR0P278CA0019.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1c::6) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+x-incomingtopheadermarker: OriginalChecksum:2CCC710423D8DB4EDD0E4ED8DFE2CBA6438AEC91827CA8918603DFA52594DA11;UpperCasedChecksum:A35E1812273EC370920156D1286E53AD51F796F8A8B7DFC56E6E3A77726E3FBA;SizeAsReceived:9913;Count:50
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [VlK5u45bTAj8z1JtwA8m1r3C6lROL+nH]
+x-microsoft-original-message-id: <b259a8cd-ddb0-8fd6-13f7-84ed1dc92d75@hotmail.de>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 50
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 87efc010-ae9e-4bb6-0588-08d7c14f66f8
+x-ms-traffictypediagnostic: VI1EUR05HT224:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: HYaFzjLqiY7YB2RpnAajxJTyq3HHT2ssnBL4xQq4w2aZ2psYse8/879Lfotp+PcdPsWnIwKJVw7huR4w8VuYoHjkuGKmg2+G34TmsoXeBY552t2GxsO3bOAmvi2ErIw3klubsC0QtoQr3HFXz3HwYtDFLo4vwqq4NMRdLcSaEDao1mM6WT0FBfUzNJLbPWiIkSIIAS27qHw8r21quG/9zvHE8AsOUTpzQMNKiVqdPJQ=
+x-ms-exchange-antispam-messagedata: hSe2C18FiGviccPUxhUdBVsB6fP/U/bTPl4aGbfmKKowQoxsJu9YJShkMN0bPGZ7Y7D3G6fQ1azO9fRWAIozWjSnO4T+CuUO6PnxLamgU1tCfbnr0+4GpgxwPANkZu/Q5Cz1X8QB6GekirASUM9plw==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <71A9A64AA7C4994F9AAA627E38515FD4@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:q6ZgU8kgD40IX+r1XgjbkvrRc8ACsBRBemccsnuY1/eiFZuKwbB
- HNF0l8btOQ3e3vktoTqJGWwjL6xY+LieM1eyf3fw0SG1PSYPfv/n70s6xfYYScXYlCWTM+M
- miDdPBc9BirWnyWnXWDTJrSJ23iPj/Qr2DiuIFArukjDpAsx7dSyV3Tkc71T7GB+SXPe7S6
- SUeytQi+bewEWh4l1uFnQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hmzQnyJyZ6o=:rlmBulbCbuI6TlpXkawsr8
- gag9BjJW3cbuwOoFDatopR7f5m1ayt8QiPazTsX4v6Y+E48s6Zn15yDNVwsVsFB7Ezyc62L2R
- g83gifdAi3YVCru2Kh/x4P4jOihN70axGb5abyLY5RUmdwmMEC0p33q/YbnM7siqEOlS+383k
- s6G14ANXYn/DZ0iNWa/lobh770AsPtvcS7JpyXMwZCGqKQE6f+z5LdiVxkghtwGsoU0X991Xn
- xS5taUVIYw4voJcbkVrIQhnvZs5tAEolImvPVih3Yy8euA404c9d/NYGW+15ehu+Jjpl7iEgw
- +BNIwjxVx73tbuk0O0utowmVYG0h/VgvNiUja++ZW5qMdsCPnsMZ8ceDlDaW81SROP3vq/DYI
- kdjRGfY8yY8G8YGucaW45yBuLdrGFwsmnYF9N8Q+vsDj8WQ/OSGNmPncfK+JqO0mbfECfi9Lm
- WzwgzuGpEa+GiDQgwHqQ2wsuTFaqFnzEkmLEG8wJtQxIE30JvKBW382dfss3GeqxupbZWgX8u
- dloSppUbtqnBIDMc8qP4uOzFQqpyGswYJWYTdHJabP5xxctXtELM/yxNcvZWqVHcDd9OwULJK
- QN89Hz7KY7DfC0+b+PG6VGbv7688HrTq9jzZZY3qVSsTCIj3G2osizAtAZRHgjBcHNXEUb+9U
- apCeg87FIzkYLj6LQ+qSsi/fyemE+w+oyAL1JnTJqnWpd7nkFwm0eX4MJkjY8XtWepXcxPqlK
- /buMleDZSSUxcIlqZadIQ03YUeVkyEflGstKOm8tcsAQ04174Mf1HQVOTDiwmnhlZQGUj+EYy
- 2cttxOGoSFKRFBwQSSVLFXTxiz0ycSloggRXGJhlOLFt+8tHxjpeg+jksVriBwPNho+r7SwrV
- KRBxPM5wGiymZT23Masc42fYw1KG/vpfqure4yOrqwFM+idCSZlzIA/Ef6lEO/ryWZcM0CHdG
- MPV8CvyIIZ1EnJ+ajdfCvA6HTJm2qr5AXOF7qAhoGTEq6Bp/T5PgzNnFTPxpdOlceHxYCcEQb
- 1vWc5ECe6FcnA0fpWc2FTqrB80uWdQYjQo1hOqOxTzR7X3nfUqeOzk7wLfShtyxH3Pj81ZKS7
- HDUQHPFlAWmgFcGVO98S/ALrp4crCdx5Nh0GAmiirYQhJ7Ok5OAY4adEjF50LyaL5QIip1ZL2
- 3gpd6PyCva1ImczuoEnv8kgGVUY1Rd+WhE6gojEhGI7TlyKS6c3xS3M1XC39nnpCJbTFlWRpK
- QMmrcmBxt/88StHF2
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87efc010-ae9e-4bb6-0588-08d7c14f66f8
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2020 21:51:47.5229
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR05HT224
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It doesn't need to be a top-level chapter.
+On 3/5/20 10:16 PM, Eric W. Biederman wrote:
+> 
+> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
+> over the userspace accesses as the arguments from userspace are read.
+> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
+> threads are killed.  The cred_guard_mutex is held over
+> "put_user(0, tsk->clear_child_tid)" in exit_mm().
+> 
+> Any of those can result in deadlock, as the cred_guard_mutex is held
+> over a possible indefinite userspace waits for userspace.
+> 
+> Add exec_update_mutex that is only held over exec updating process
+> with the new contents of exec, so that code that needs not to be
+> confused by exec changing the mm and the cred in ways that can not
+> happen during ordinary execution of a process can take.
+> 
+> The plan is to switch the users of cred_guard_mutex to
+> exed_udpate_mutex one by one.  This lets us move forward while still
+> being careful and not introducing any regressions.
+> 
+> Link: https://lore.kernel.org/lkml/20160921152946.GA24210@dhcp22.suse.cz/
+> Link: https://lore.kernel.org/lkml/AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com/
+> Link: https://lore.kernel.org/linux-fsdevel/20161102181806.GB1112@redhat.com/
+> Link: https://lore.kernel.org/lkml/20160923095031.GA14923@redhat.com/
+> Link: https://lore.kernel.org/lkml/20170213141452.GA30203@redhat.com/
+> Ref: 45c1a159b85b ("Add PTRACE_O_TRACEVFORKDONE and PTRACE_O_TRACEEXIT facilities.")
+> Ref: 456f17cd1a28 ("[PATCH] user-vm-unlock-2.5.31-A2")
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> ---
+>  fs/exec.c                    | 4 ++++
+>  include/linux/sched/signal.h | 9 ++++++++-
+>  kernel/fork.c                | 1 +
+>  3 files changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/exec.c b/fs/exec.c
+> index c243f9660d46..ad7b518f906d 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1182,6 +1182,7 @@ static int de_thread(struct linux_binprm *bprm, struct task_struct *tsk)
+>  		release_task(leader);
+>  	}
+>  
+> +	mutex_lock(&current->signal->exec_update_mutex);
+>  	bprm->unrecoverable = true;
+>  	sig->group_exit_task = NULL;
+>  	sig->notify_count = 0;
+> @@ -1425,6 +1426,8 @@ static void free_bprm(struct linux_binprm *bprm)
+>  {
+>  	free_arg_pages(bprm);
+>  	if (bprm->cred) {
+> +		if (bprm->unrecoverable)
+> +			mutex_unlock(&current->signal->exec_update_mutex);
+>  		mutex_unlock(&current->signal->cred_guard_mutex);
+>  		abort_creds(bprm->cred);
+>  	}
+> @@ -1474,6 +1477,7 @@ void install_exec_creds(struct linux_binprm *bprm)
+>  	 * credentials; any time after this it may be unlocked.
+>  	 */
+>  	security_bprm_committed_creds(bprm);
+> +	mutex_unlock(&current->signal->exec_update_mutex);
+>  	mutex_unlock(&current->signal->cred_guard_mutex);
+>  }
+>  EXPORT_SYMBOL(install_exec_creds);
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index 88050259c466..a29df79540ce 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -224,7 +224,14 @@ struct signal_struct {
+>  
+>  	struct mutex cred_guard_mutex;	/* guard against foreign influences on
+>  					 * credential calculations
+> -					 * (notably. ptrace) */
+> +					 * (notably. ptrace)
+> +					 * Deprecated do not use in new code.
+> +					 * Use exec_update_mutex instead.
+> +					 */
+> +	struct mutex exec_update_mutex;	/* Held while task_struct is being
+> +					 * updated during exec, and may have
+> +					 * inconsistent permissions.
+> +					 */
+>  } __randomize_layout;
+>  
+>  /*
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 60a1295f4384..12896a6ecee6 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1594,6 +1594,7 @@ static int copy_signal(unsigned long clone_flags, struct task_struct *tsk)
+>  	sig->oom_score_adj_min = current->signal->oom_score_adj_min;
+>  
+>  	mutex_init(&sig->cred_guard_mutex);
+> +	mutex_init(&sig->exec_update_mutex);
+>  
+>  	return 0;
+>  }
+> 
+Don't you need to add something like this to init/init_task.c ?
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- Documentation/index.rst                                | 1 -
- Documentation/misc-devices/index.rst                   | 1 +
- Documentation/{ =3D> misc-devices}/mic/index.rst         | 0
- Documentation/{ =3D> misc-devices}/mic/mic_overview.rst  | 0
- Documentation/{ =3D> misc-devices}/mic/scif_overview.rst | 0
- MAINTAINERS                                            | 2 +-
- 6 files changed, 2 insertions(+), 2 deletions(-)
- rename Documentation/{ =3D> misc-devices}/mic/index.rst (100%)
- rename Documentation/{ =3D> misc-devices}/mic/mic_overview.rst (100%)
- rename Documentation/{ =3D> misc-devices}/mic/scif_overview.rst (100%)
+.exec_update_mutex = __MUTEX_INITIALIZER(init_signals.exec_update_mutex),
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index e99d0bd2589d..6fdad61ee443 100644
-=2D-- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -131,7 +131,6 @@ needed).
-    usb/index
-    PCI/index
-    misc-devices/index
--   mic/index
-    scheduler/index
 
- Architecture-agnostic documentation
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-dev=
-ices/index.rst
-index f11c5daeada5..c1dcd2628911 100644
-=2D-- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -20,4 +20,5 @@ fit into other categories.
-    isl29003
-    lis3lv02d
-    max6875
-+   mic/index
-    xilinx_sdfec
-diff --git a/Documentation/mic/index.rst b/Documentation/misc-devices/mic/=
-index.rst
-similarity index 100%
-rename from Documentation/mic/index.rst
-rename to Documentation/misc-devices/mic/index.rst
-diff --git a/Documentation/mic/mic_overview.rst b/Documentation/misc-devic=
-es/mic/mic_overview.rst
-similarity index 100%
-rename from Documentation/mic/mic_overview.rst
-rename to Documentation/misc-devices/mic/mic_overview.rst
-diff --git a/Documentation/mic/scif_overview.rst b/Documentation/misc-devi=
-ces/mic/scif_overview.rst
-similarity index 100%
-rename from Documentation/mic/scif_overview.rst
-rename to Documentation/misc-devices/mic/scif_overview.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5b229788d425..cb2f714b3191 100644
-=2D-- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8578,7 +8578,7 @@ F:	include/uapi/linux/scif_ioctl.h
- F:	drivers/misc/mic/
- F:	drivers/dma/mic_x100_dma.c
- F:	drivers/dma/mic_x100_dma.h
--F:	Documentation/mic/
-+F:	Documentation/misc-devices/mic/
-
- INTEL PMC CORE DRIVER
- M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
-=2D-
-2.20.1
-
+Bernd.
