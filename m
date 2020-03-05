@@ -2,41 +2,42 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A38C3F2D2
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:14:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EB63C3F2D2
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:19:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 49F952072A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:14:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44B732072A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 19:19:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="sOvpAMNq"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="H5Ib57qv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725944AbgCETOm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 14:14:42 -0500
-Received: from mout.web.de ([212.227.17.12]:35539 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725938AbgCETOl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 14:14:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1583435642;
-        bh=yYoyeIir1oCS49BazNEGqOHxSJW902JXiFZg6ZtWCo0=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=sOvpAMNqIuTzlreJRSOzWBEWflbCYDMoKLJm01fK0XQezqMF2HNvQBf9k5aPjY5Bk
-         OCfyXy3+CsAICKawYpNlB7p/E0+PRfxBchY670PkAOzP4nUZAVa4rMOSAufwdWIQXU
-         PzHz2b+myD9a3cWNwnFoy1c5Z2HCnOT5dmK08mGU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.48.16.47]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LuLxD-1jKCgn2Ppv-011mSN; Thu, 05
- Mar 2020 20:14:02 +0100
+        id S1725963AbgCETTd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 14:19:33 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:53360 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725946AbgCETTd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 14:19:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=Q0cdYZagAxQ35sfIY3akXlSzgSgXU3F+wa//Hvdh9+Q=; b=H5Ib57qvdKw7Mz/AanO+yK+B0W
+        z84d3BuM78jl16s+/PVAaag/tyX0+t8qSY6EGzm3/BVB8ClfUvXDlcgxV4/TogYWR8ecIV+obfUVz
+        lyxzhXrk/S43l8eO3plUmbBAC326NM2iaUmzGS2jr49MN+qf6/iZyTmdFDNTsbFE+t29xCOJ8unTo
+        1GVV5kgJoEt5iaZhiq6ULX4e2w66mbzEhje0jSYsZizWtdR8tFx/MzpGX0gbX+CR4QK7iK3jqj7yh
+        /stDd00jI3HpNbAPjhgZtNvebZvCRnUGduAk3Xmjh7v/96vF340GUU5fIQzLiJVhNqu1qs9W+s3M/
+        55uBzH6g==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j9w1s-0007X5-Lz; Thu, 05 Mar 2020 19:19:32 +0000
 Subject: Re: [v5] Documentation: bootconfig: Update boot configuration
  documentation
-To:     Steven Rostedt <rostedt@goodmis.org>, linux-doc@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
+To:     Markus Elfring <Markus.Elfring@web.de>, linux-doc@vger.kernel.org
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
 References: <158339065180.26602.26457588086834858.stgit@devnote2>
  <158339066140.26602.7533299987467005089.stgit@devnote2>
@@ -48,116 +49,57 @@ References: <158339065180.26602.26457588086834858.stgit@devnote2>
  <dbef7b77-945a-585e-12fe-b5e30eb1a6bc@web.de>
  <e20f52a0-e522-c2cf-17a4-384a1f3308bc@infradead.org>
  <ecaffba3-fccd-32ee-763a-a2ec84a65148@web.de>
- <20200305140004.535eeb1a@gandalf.local.home>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <af5d4af0-9e06-cc6e-c29e-4c4eebdb9b0e@web.de>
-Date:   Thu, 5 Mar 2020 20:14:00 +0100
+ <a6a216ce-8e41-ca35-bd65-25bcacde1d28@infradead.org>
+ <ac1c953b-fa5d-818d-5232-19a28f52f556@web.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <32047314-c91e-0405-bcfe-43d515128231@infradead.org>
+Date:   Thu, 5 Mar 2020 11:19:32 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200305140004.535eeb1a@gandalf.local.home>
+In-Reply-To: <ac1c953b-fa5d-818d-5232-19a28f52f556@web.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:w7dirbgb+AKpEucOaYDYu+SYAyIO5j503QXRb3Ph9aIiXPTqeUt
- +P8Rc9o4tSKd3OyBE8Q9wlgVaTz0tv/O/jBxE07bz5ERbVXNtERUE4LiLEbVfVe60rvv/bs
- I1y73w4SCA3vo3+xrrpndDyp0Lx0bF64iEbeV3qxOeBVn32p2vscp2avH2sbKNVI9pkV6+T
- n/UqILshQweoX3bGRy0Pg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sEtKzxtqiZ8=:iNnlHMcEs0LDbp5gqEB+Gz
- 1baRpUcaL+4POFnhnTb+Av3hvrLOypQrylX74zhQAMH6jVm8ellMg8Vq+UBWxz8YtdKGWPstH
- LCiM7Fi761/zTsTZIkqjB0tDzA2M76SYTl6gCJZ9T8VrGOMd6Qpq1z0JRYio39b7m6+CY9BFH
- sJJ14m2G6nRtEuydnTjilq+jnZFZrk0UdqhLDyyQPN+dtJh3AYOOVxHM+60tM3HEobE1SAIjf
- f55bSrDx3c99/+FrDiPKkSS7M/3KmY4ohmKzNrm5mkGReJgB7dzfIoycjaz69JAP261hXVcGQ
- OMjMQGglqNYAmMNd1dbaG1N/Ag9V7wznh73Vetn+4LmbGoBC484a+wFzAz1ofdpxgjdEFAABZ
- zo0pDTg6k+7RPzVyNsLaer3KOXEVQMTmdEux/a26MnglpaYWFeIFqPMF9rq11ZLBKDgJObS9o
- LT9HA512jRgYvpLSznMOYGaeLDBiMerbiFdu90KJDfF93rqU1r+0PuqkRa1t4ubdrRnxMgAqJ
- LdnssCp4a0OBodJHVCEwrUfDEkjXqxDUkGmS7ZHZAU0xauI2I0lWaM2Kj92CMUo/Rje0Djae/
- El1YiVdYBi+alZABk/QgtcpWht0LiSje3lkF+/vVz6CTxR/l54OgtGkrddEbn9UI02ajwcKU9
- I9KhgHzcXXuFvtA24vPRUwTwZfvwaFCPQWzFBbZuMn1GmtYK+9mrQNhGyF1eyvfteTRK+TqZZ
- ut7X9xC0xxd/NG7T9EdNJuqTDJDqMWKpmhIF9ylkNAjG0ZOI9cR35dpGJsKD4WzolTEh/UEL3
- HjqgXArI7uoLbkvajz0ns5NWZS8qohNMWwqghCUn7OUX/8DbAcLJbUIAVc5lQ/NwhyNYA54++
- IPe3bExj1rLPHs0DvtZaPo9t8wgOSS3MlhHNnuCp/Ud7dwQZKkrKI8a0ya2Qlf3L/TZUKpHKx
- 0//0T/YIR0gJbnVLUSu8n3uUJ/Jrve2Yk8kqZ7QeiMSebz3xHveKmQx+qDCs2q4r1hdFH43JA
- 5nNQRVX3XYwyG9WPZNS42t84rrj7bc6ijO9YK9PaVF3hNbhC90WQGAkCLRKdXtYHhTJcoPQDC
- dHokCMxcWBIBZYRD+fpTUKleVSckbLuTvmh+cAMQFGylrxg9Wtq7M+kAVZ37nB1Z6qsEmFAbF
- k4cyZy9NS/IjEw6dWJB+ftvTMuM7+joaTGJLIzU7MPXG0UKgsGGER0BlZP8DG+Eg5odQc4pFX
- fBKqKfLwQmU2dy1PY
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->>>> Which of the possibly unanswered issues do you find not concrete enou=
-gh so far?
+On 3/5/20 11:06 AM, Markus Elfring wrote:
+>>>>> Which of the possibly unanswered issues do you find not concrete enough so far?
+>>>>
+>>>> e.g.:
+>>>>>>>  Will the clarification become more constructive for remaining challenges?
 >>>
->>> e.g.:
->>>>>>  Will the clarification become more constructive for remaining chal=
-lenges?
+>>> Do you expect that known open issues need to be repeated for each patch revision?
 >>
->> Do you expect that known open issues need to be repeated for each patch=
- revision?
->
-> I'm clueless about what you are talking about.
+>> Ideally not, but not very much is ideal.
+> 
+> Did you notice any aspects where I would be still looking for more helpful answers?
 
-I suggest to take another look at review comments for previous patch versi=
-ons.
+Sorry, I haven't been tracking all of the email Q&A/response/replies
+all that carefully.
 
+> 
+>> IOW, it is sometimes required (if one cares enough; sometimes
+>> one just gives up).
+> 
+> I find this communication detail unfortunate occasionally.
 
-> Yes there's communication difficulties.
+Sure. I do too.
 
-I hope that we can reduce them somehow.
+> 
+>>> How do you think about the desired tracking of bug reports
+>>> also for this software?
+> …
+>> Masami seems to be responsive.
+> 
+> The involved contributors show different response delays, don't they?
 
+That's always the case, in any of the Linux subsystems that I have
+been involved with.
 
->> How do you think about the desired tracking of bug reports
->> also for this software?
->
-> What does that statement have to do with this patch series????
+-- 
+~Randy
 
-Do you identify any feedback as a bug report (or clarification request) he=
-re?
-
-Regards,
-Markus
