@@ -2,117 +2,176 @@ Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98CB3C3F2CD
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 06:47:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67EC4C3F2D1
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 07:01:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 70F732166E
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 06:47:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CC3620870
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 07:01:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TrXFGp1U"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hcfPQNWE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726164AbgCEGrV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 01:47:21 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:37968 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbgCEGrU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 01:47:20 -0500
-Received: by mail-pf1-f193.google.com with SMTP id q9so2288504pfs.5
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2020 22:47:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Hi+ymt1+ZK+4/hZC+nU21CDGGtFU5NQQqT7q6q0SBFo=;
-        b=TrXFGp1UOLZ81xjjj8Ld6ZXKtw2LxXMuAhkikXLeq7NEU9qtgy78LQeOfi1M5k88Tu
-         Mg+W7wQdZK7P7xCvaJhZBT77l7k9ZZGWCjbdrgbnM6+30B5npV6eVynIAZ5IOJKx3hOc
-         iTHZaabE3ienA6Kld85mTCGrwU/WQhB/MtnOg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Hi+ymt1+ZK+4/hZC+nU21CDGGtFU5NQQqT7q6q0SBFo=;
-        b=GLMWS7lHab8fMYhbAa3f7KE1Y/AJNxXBMaItgEtPWY1t5mMYpDp0+amDKnh/UGXucR
-         WXBXzD2FfDe5GuUqRtEKcOO02T0qR6eBiZTnDmb6n9UKjrmFMamVg6dLtkj3Pq+Ww8L7
-         mAxnfKZAEFFcwzLBrzIdkBGhM/TQ2VXEF4ab/NxyRm8+2ipgi0CxAapBZyrzL8dnzuzv
-         RBMqhOhcTOCHng5FsOpZvlNGn6wxLvMiVXZHsgAQAEm28r9l7z1Aa/Sx4I1GYhFiUi2t
-         4Rf+GkWmRH19bU8h1Xg+mm/V/BJCAZwkRlkyo3nfg+y15ljdck2ONyg8MsHIp0t0CBL2
-         WfRw==
-X-Gm-Message-State: ANhLgQ11DyGR6Jz1iRESxS9AAFDCSgRziEmNSJjqjDifA5iTtdHnpXKL
-        fy61DlEIuuf0BHg+loh9lG2u5A==
-X-Google-Smtp-Source: ADFU+vsbqls1nrbe9BpspSCMfdCIY41dz2xuWpmDc4hCJpU6bz5CXXDt1Q4w4Okrvft+R6Ri34q0Yw==
-X-Received: by 2002:a65:53cc:: with SMTP id z12mr5426000pgr.399.1583390839872;
-        Wed, 04 Mar 2020 22:47:19 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b133sm30300515pga.43.2020.03.04.22.47.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2020 22:47:19 -0800 (PST)
-Date:   Wed, 4 Mar 2020 22:47:18 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     James Troup <james.troup@canonical.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: deprecated.rst: Add %p to the list
-Message-ID: <202003042240.3F6201CC3@keescook>
-References: <202003041103.A5842AD@keescook>
- <87mu8vtj6g.fsf@canonical.com>
+        id S1725991AbgCEHBX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 02:01:23 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:44048 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725877AbgCEHBX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 02:01:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=l8u4PSC2b1MSuE5GU9e0yGRnIE+XAp+0pmylePcjEsU=; b=hcfPQNWEDOT1RSQ+/VhhzmgyeD
+        ir4+IH5xkZ9F96ObSe4OYI2kpAQVzUXQZjy8Q96nFE7hNAEUzebI/ArcDK6PjlJK6GvmhO3rO6T8V
+        GBMQ4lDH4Mk6sxs55cbXrDA3lQzu/I0mlWhzWVRh0CovUFgO6Cml6ah7fJoPLTbpNFS+eWcGWSaqJ
+        18jBlOpHXt5OfQdFHL7P6Wdw54iPRmVhcGmaMk0RuC7H3f2ZGD1q+I6Jyi4scko7Tk3NJGAK5rdKK
+        W3Cdd4MQ3KpuQW5+HzRrO8QHgYd35kCwccNJFKdwkOaVTnzeWnj7Jt0zyEdAKv9GzQXpvSJ6vDFQl
+        prhnCRxg==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j9kVW-0003aa-FA; Thu, 05 Mar 2020 07:01:22 +0000
+Subject: Re: [PATCH v5] Documentation: bootconfig: Update boot configuration
+ documentation
+To:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Markus Elfring <Markus.Elfring@web.de>
+References: <158339065180.26602.26457588086834858.stgit@devnote2>
+ <158339066140.26602.7533299987467005089.stgit@devnote2>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ef820445-25c5-a312-57d4-25ff3b4d08cf@infradead.org>
+Date:   Wed, 4 Mar 2020 23:01:21 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87mu8vtj6g.fsf@canonical.com>
+In-Reply-To: <158339066140.26602.7533299987467005089.stgit@devnote2>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ah! A wild Troup appears! :)
-
-On Thu, Mar 05, 2020 at 07:22:31AM +0100, James Troup wrote:
-> Kees Cook <keescook@chromium.org> writes:
+On 3/4/20 10:44 PM, Masami Hiramatsu wrote:
+> Update boot configuration documentation.
 > 
-> > diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> > index f9f196d3a69b..a4db119f4e09 100644
-> > --- a/Documentation/process/deprecated.rst
-> > +++ b/Documentation/process/deprecated.rst
-> > @@ -109,6 +109,23 @@ the given limit of bytes to copy. This is inefficient and can lead to
-> >  linear read overflows if a source string is not NUL-terminated. The
-> >  safe replacement is :c:func:`strscpy`.
-> >  
-> > +%p format specifier
-> > +-------------------
-> > +Using %p in format strings leads to a huge number of address exposures.
+>  - Not using "config" abbreviation but configuration or description.
+>  - Rewrite descriptions of node and its maxinum number.
+>  - Add a section of use cases of boot configuration.
+>  - Move how to use bootconfig to earlier section.
+>  - Fix some typos, indents and format mistakes.
 > 
-> Perhaps this sentence should be in the past tense, since %p currently
-> prints a hashed value?
+> Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
 
-Yeah, good point; that should be more clear.
+Hi Masami,
 
+I swear that I am not trying to cause another version...
+
+> ---
+> Changes in v5:
+>  - Elaborate the document.
+>  - Fix some typos.
+> Changes in v4:
+>  - Remove O= option from examples.
+> Changes in v3:
+>  - Specify that comments also count in size.
+>  - Fix a confusing sentence.
+>  - Add O=<builddir> to make command.
+> Changes in v2:
+>  - Fixes additional typos (Thanks Markus and Randy!)
+>  - Change a section title to "Tree Structured Key".
+> ---
+>  Documentation/admin-guide/bootconfig.rst |  201 +++++++++++++++++++-----------
+>  Documentation/trace/boottime-trace.rst   |    2 
+>  2 files changed, 131 insertions(+), 72 deletions(-)
 > 
-> > +Instead of leaving these to be exploitable, "%p" should not be used in
-> > +the kernel.
-> 
-> On its face, this seems to contradict the guidance below?
-> 
-> > If used currently, it is a hashed value, rendering it
-> 
-> Perhaps: s/it is/it prints/ ?
+> diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
+> index cf2edcd09183..3bfc9ddf68e1 100644
+> --- a/Documentation/admin-guide/bootconfig.rst
+> +++ b/Documentation/admin-guide/bootconfig.rst
+> @@ -11,25 +11,106 @@ Boot Configuration
 
-I'll rewrite this whole area...
+> +When to Use the Boot Configuration?
+> +-----------------------------------
+> +
+> +The boot configuration supports kernel command line options and init daemon
+> +boot options. All sub-keys under "kernel" root key are passed as a part of
+> +the kernel command line [1]_, and ones under "init" root key are passed as
+> +a part of the init daemon's command line. For example, ::
+> +
+> +   root=UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82 ro quiet splash console=ttyS0,115200n8 console=tty0
+> +
+> +This can be written as following boot configuration file.::
+> +
+> +   kernel {
+> +      root = "UUID=8cd79b08-bda0-4b9d-954c-5d5f34b98c82" # nvme0n1p3
+> +      ro       # mount rootfs as read only
+> +      quiet    # No console log
+> +      splash   # show splash image on boot screen
+> +      console = "ttyS0,115200n8" # 1st console to serial device
+> +      console += tty0            # add 2nd console
+> +   }
+> +
+> +If you think that kernel/init options becomes too long to write in boot-loader
 
-> 
-> > +unusable for addressing. Paraphrasing Linus's current `guideance
-> > <https://lore.kernel.org/lkml/CA+55aFwQEd_d40g4mUCSsVRZzrFPUJt74vc6PPpb675hYNXcKw@mail.gmail.com/>`_:
-> 
-> Typo: guidance
+                                         become
 
-Thanks for the review! I wonder why ":set spell" missed that...
+> +configuration file or you want to comment on each option, the boot
+> +configuration may be suitable. If unsure, you can still continue to use the
+> +legacy kernel command line.
 
--Kees
 
+> +Boot Configuration Syntax
+> +=========================
+> +
+> +The boot configuration syntax is a simple structured key-value. Each key
+> +consists of dot-connected-words, and key and value are connected by ``=``.
+> +The value has to be terminated by semicolon (``;``) or newline (``\n``).
+> +For an array, its entries are separated by comma (``,``). ::
+> +
+> +  KEY[.WORD[...]] = VALUE[, VALUE2[...]][;]
+>  
+>  Unlike the kernel command line syntax, spaces are OK around the comma and ``=``.
+>  
+>  Each key word must contain only alphabets, numbers, dash (``-``) or underscore
+>  (``_``). And each value only contains printable characters or spaces except
+> -for delimiters such as semi-colon (``;``), new-line (``\n``), comma (``,``),
+> +for delimiters such as semicolon (``;``), new-line (``\n``), comma (``,``),
+
+            usually called:                  newline
+
+>  hash (``#``) and closing brace (``}``).
+>  
+>  If you want to use those delimiters in a value, you can use either double-
+
+
+>  Comments
+>  --------
+>  
+> -The config syntax accepts shell-script style comments. The comments starting
+> -with hash ("#") until newline ("\n") will be ignored.
+> -
+> -::
+> +The boot configuration accepts shell-script style comments. The comments,
+> +beginning with hash (``#``) continues until newline (``\n``), will be
+
+                               and continuing until newline
+
+> +skipped.::
+>  
+>   # comment line
+>   foo = value # value is set to foo.
+
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+thanks.
 -- 
-Kees Cook
+~Randy
+
