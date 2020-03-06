@@ -6,72 +6,73 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F82C10F00
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 08:17:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD453C10F00
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 09:33:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EDDB12072A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 08:17:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8695E2084E
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 09:33:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725908AbgCFIRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 03:17:24 -0500
-Received: from sauhun.de ([88.99.104.3]:55604 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725869AbgCFIRY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Mar 2020 03:17:24 -0500
-Received: from localhost (p54B33158.dip0.t-ipconnect.de [84.179.49.88])
-        by pokefinder.org (Postfix) with ESMTPSA id 9261E2C1F2C;
-        Fri,  6 Mar 2020 09:17:21 +0100 (CET)
-Date:   Fri, 6 Mar 2020 09:17:21 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Dennis Zhou <dennis@kernel.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] include/bitmap.h: updates to docs
-Message-ID: <20200306081721.GB1117@ninjato>
-References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
- <20200305212950.GA79796@dennisz-mbp.dhcp.thefacebook.com>
+        id S1726124AbgCFJd0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 04:33:26 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:11190 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726070AbgCFJd0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Mar 2020 04:33:26 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id BD4911C0AA932FE648A1;
+        Fri,  6 Mar 2020 17:33:22 +0800 (CST)
+Received: from [127.0.0.1] (10.177.223.23) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.439.0; Fri, 6 Mar 2020
+ 17:33:12 +0800
+Subject: Re: [PATCH 00/10] PCI/ATS: Device-tree support and other improvements
+To:     Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        <bhelgaas@google.com>, <will@kernel.org>, <robh+dt@kernel.org>,
+        <lorenzo.pieralisi@arm.com>, <joro@8bytes.org>,
+        <baolu.lu@linux.intel.com>, <linux-doc@vger.kernel.org>,
+        <linux-pci@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+        <iommu@lists.linux-foundation.org>
+CC:     <corbet@lwn.net>, <mark.rutland@arm.com>, <liviu.dudau@arm.com>,
+        <sudeep.holla@arm.com>, <rjw@rjwysocki.net>, <lenb@kernel.org>,
+        <robin.murphy@arm.com>, <dwmw2@infradead.org>,
+        <amurray@thegoodpenguin.co.uk>, <frowand.list@gmail.com>,
+        Linuxarm <linuxarm@huawei.com>
+References: <20200213165049.508908-1-jean-philippe@linaro.org>
+From:   Hanjun Guo <guohanjun@huawei.com>
+Message-ID: <b898317c-c534-aad8-5b0d-45723e0b8e89@huawei.com>
+Date:   Fri, 6 Mar 2020 17:32:57 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="s2ZSL+KKDSLx8OML"
-Content-Disposition: inline
-In-Reply-To: <20200305212950.GA79796@dennisz-mbp.dhcp.thefacebook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200213165049.508908-1-jean-philippe@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.177.223.23]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2020/2/14 0:50, Jean-Philippe Brucker wrote:
+> Enable ATS on device-tree based systems, and factor the common ATS
+> enablement checks into pci_enable_ats().
+> 
+> ATS support in PCIe endpoints is discovered through the ATS capability,
+> but there is no common method for discovering whether the host bridge
+> supports ATS. Each vendor provides their own ACPI method:
+> * DMAR (Intel) reports ATS support per domain or per root port.
+> * IVRS (AMD) reports negative ATS support for a range of devices.
+> * IORT (ARM) reports ATS support for a root complex.
 
---s2ZSL+KKDSLx8OML
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Tested this patch set against 5.6-rc2 on a Kunpeng920 ARM server,
+I just confirmed that this patch set didn't break anything in
+my box with ACPI booting, PCI devices work as expected, FWIW,
 
+Tested-by: Hanjun Guo <guohanjun@huawei.com>
 
-> I've applied this to percpu for-5.7.
+Thanks
+Hanjun
 
-Great, thank you!
-
-
---s2ZSL+KKDSLx8OML
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5iBxEACgkQFA3kzBSg
-KbYMUA//QUJMQqe5qyTC66ZUl/CpVFUB4WVd2ZlV48s0UZcGCduSgYNfrjA17NO5
-rDQg5HXb0+sIeNWZECaDQ1hMQG12gt4h0QFKKugB4wqTc4yp1xn3O4BdIO/OlKNL
-V6JnoiHhDZv8RO4Yf++nL57fwwrJAk7Gtp9PZjoSoWY4ar3VOJ0yeK1Er6b9H7i6
-pkCfKxFnO/mGkoEV7+o3TQVYeP4ADqlFToFhOnGnaF+SpLEWMB9J83s9fuHvlKTE
-gWiDYlDS1Br7FNVmFGtvfKieWvcfMOXUwWFO67Aw+6df/1Gi7NC4zluJQ9dGtYFS
-lTbgFI33fXdrePqVrG2QT5m0Yp8762uH67vYFvAcqkIw55qeXxzcTdTNIwuSlglR
-HFpxvTYDc09fWeru4C2wB8gdLx3R4QG6yvUoG5/7+QlSSMBOx1sgEan7Jco/fHoN
-LvuRQYJQk7tCGjxXNpMvjXJZlAi7z8qb18UFUVvg+FY4dcW1UGUmRf7ozhOO6Y9z
-LZtOpoJgiPj+KmegiwisLhzsc5lRLKIlWUe4iE+8HbAb69pDGqqm4RtaBDBn9Sdx
-6pNVPvvRIR1WK/p7dR3rYCSlaH1Jrd3GM7kZQea289yT8iBzAHJtmol/vuleIFJB
-mn53+nlQ8ny6T7+WnmPjMDkZzqDxZBryt3AkAtGJgymQge2P/1A=
-=eh2X
------END PGP SIGNATURE-----
-
---s2ZSL+KKDSLx8OML--
