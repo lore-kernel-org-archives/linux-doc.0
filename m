@@ -2,114 +2,100 @@ Return-Path: <SRS0=ldhC=4X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 235C5C3F2D8
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 05:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5041C10F00
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 08:08:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 065DE2084E
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 05:21:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B85712072A
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 08:08:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="Mo5EhILj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725873AbgCFFVT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 00:21:19 -0500
-Received: from out01.mta.xmission.com ([166.70.13.231]:56224 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725784AbgCFFVS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Mar 2020 00:21:18 -0500
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jA5QD-0006OO-JB; Thu, 05 Mar 2020 22:21:17 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jA5QC-0004ty-VK; Thu, 05 Mar 2020 22:21:17 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nmjulm.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <202003021531.C77EF10@keescook>
-        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
-        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nlii0b.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87a74xi4kz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
-        <87o8tacxl3.fsf_-_@x220.int.ebiederm.org>
-        <AM6PR03MB51705EB9A5E911295BDF8D2FE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Thu, 05 Mar 2020 23:19:03 -0600
-In-Reply-To: <AM6PR03MB51705EB9A5E911295BDF8D2FE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        (Bernd Edlinger's message of "Thu, 5 Mar 2020 22:34:07 +0000")
-Message-ID: <87blpaawmw.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1726010AbgCFIIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 03:08:23 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:30522 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725935AbgCFIIX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Mar 2020 03:08:23 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 3E96B6BE;
+        Fri,  6 Mar 2020 09:08:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1583482098; x=1585296499; bh=zjFxbFMg6zjLw7+euUvfK/141HdAfBUqTrp
+        GbamgKCs=; b=Mo5EhILjTIBt03Rq/861akwN2vNQhYaplKJnGa+qBKpI4dVTFvF
+        uNZnNVEz34LwGRJYcggf7bbSPoSu3JVJWFXfCeqrABszCgwExBwuVN6x+ZvO50cX
+        hB5x3S0qxyF/aJavIPxSywjOu2ZKrNiAmKXz9Nn4/78Qcb8bi8bBYWqVrlOj5Puy
+        ekhOHMc62oQofFyfq2okgV3C5fcjWkKu8pb7hvItbR2SyUVB9yjC9/S0pD9RRnMh
+        030z2tmP5+Dow7kz+Mr1xksgBTWkHCZQWC1OonSKm8T268L+hOaMG2rLVwSPZHkZ
+        TNmwLfLFelVyCHmqbu2+d5D6sE+9RPD+76iOIGqkNYubT8BXyMBPnlMrN5Xha7n/
+        WFquiKehs5xub0W1vbp7b5k/WMFl5S73pUa2E+g6/FosAjP9yRLv4ABDIH9MUnou
+        zucT38AgimtYW9eTZRCpZRGS9bywkfjTWAWo88JjrsXb8pjw46EfUFNJ4kjqwIX/
+        LdURhcTGTElz/k5OLwsgEIug8PZONuBuWbojMowWAcr6LIO+LH8Cig98j8hHxMf3
+        ySG7bsvg2ka8yOH5PDQ2OsmD0jdGwqOs7b21KeYr06XAJK+JRBSgGfi/GRK+9Qdg
+        4MXyiqu/kF1wbHmxWdGlM3Sxs+L9QIiHFoF43HknzL21eEkBZDMlOOok=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id iovzI00V9jIo; Fri,  6 Mar 2020 09:08:18 +0100 (CET)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 06CE656E;
+        Fri,  6 Mar 2020 09:08:17 +0100 (CET)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 9F51F2401;
+        Fri,  6 Mar 2020 09:08:17 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: it_IT: netdev-FAQ: Fix link to original document
+Date:   Fri, 06 Mar 2020 09:08:16 +0100
+Message-ID: <2924047.tcjekT7ZY2@pcbe13614>
+In-Reply-To: <20200305205123.8569-1-j.neuschaefer@gmx.net>
+References: <20200305205123.8569-1-j.neuschaefer@gmx.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jA5QC-0004ty-VK;;;mid=<87blpaawmw.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX18xi+IMFulUpbVXvPZlB47PFQOqvybEWgY=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH 1/2] exec: Properly mark the point of no return
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+Indeed a copy'n'paste error, thanks
 
-> On 3/5/20 10:15 PM, Eric W. Biederman wrote:
->> @@ -1266,7 +1267,7 @@ int flush_old_exec(struct linux_binprm * bprm)
->>  	 * Make sure we have a private signal table and that
->>  	 * we are unassociated from the previous thread group.
->>  	 */
->> -	retval = de_thread(current);
->> +	retval = de_thread(bprm, current);
->
-> can we get rid of passing current as parameter here?
+Reviewed-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-With a separate patch.  It makes the patch less clear if I make that
-change in this one.
+On Thursday, March 5, 2020 9:51:21 PM CET Jonathan Neusch=E4fer wrote:
+> Signed-off-by: Jonathan Neusch=E4fer <j.neuschaefer@gmx.net>
+> ---
+>  Documentation/translations/it_IT/networking/netdev-FAQ.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/translations/it_IT/networking/netdev-FAQ.rst
+> b/Documentation/translations/it_IT/networking/netdev-FAQ.rst index
+> 8489ead7cff1..7e2456bb7d92 100644
+> --- a/Documentation/translations/it_IT/networking/netdev-FAQ.rst
+> +++ b/Documentation/translations/it_IT/networking/netdev-FAQ.rst
+> @@ -1,6 +1,6 @@
+>  .. include:: ../disclaimer-ita.rst
+>=20
+> -:Original: :ref:`Documentation/process/stable-kernel-rules.rst
+> <stable_kernel_rules>` +:Original:
+> :ref:`Documentation/networking/netdev-FAQ.rst <netdev-FAQ>`
+>=20
+>  .. _it_netdev-FAQ:
+>=20
+> --
+> 2.20.1
 
-Eric
+
+=2D-=20
+=46ederico Vaga
+http://www.federicovaga.it/
+
+
