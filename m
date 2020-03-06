@@ -2,190 +2,158 @@ Return-Path: <SRS0=ldhC=4X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EAC1C10DCE
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 15:03:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 811F3C10DCE
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 16:26:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EA12320848
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 15:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583507019;
-	bh=EZ3C2rlyNUrRxX2zYtuIyyeToL3vAS26vj8u9F3mNuI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
-	b=MVy/YHAp/XnNiz7SXWqPwvokPtPMhpVUrwihyP/uUHRGesjJqJp+S9CkfBJYXzmUl
-	 i0VNJyZ1lqyEbNPMR5WoQR34mT3PBj5lghrPZvu5o8F2NgnEEKhJSCP0puwmhfE1Oo
-	 a5tZUA66nCqhnqz/NicrrjGW9RxBCe8eT7cm3ygE=
+	by mail.kernel.org (Postfix) with ESMTP id 63C9820658
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 16:26:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726898AbgCFPDi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 10:03:38 -0500
-Received: from foss.arm.com ([217.140.110.172]:35168 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726171AbgCFPDi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Mar 2020 10:03:38 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 888A731B;
-        Fri,  6 Mar 2020 07:03:35 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0994B3F237;
-        Fri,  6 Mar 2020 07:03:34 -0800 (PST)
-Date:   Fri, 06 Mar 2020 15:03:33 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Liam Girdwood <lgirdwood@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Ondrej Jirman <megous@megous.com>,
-        Takashi Iwai <tiwai@suse.com>
-Subject: Applied "ASoC: simple-card: Add support for codec2codec DAI links" to the asoc tree
-In-Reply-To:  <20200305051143.60691-4-samuel@sholland.org>
-Message-Id:  <applied-20200305051143.60691-4-samuel@sholland.org>
-X-Patchwork-Hint: ignore
+        id S1726769AbgCFQ0k convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 11:26:40 -0500
+Received: from mail-oln040092074103.outbound.protection.outlook.com ([40.92.74.103]:51330
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726166AbgCFQ0j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Mar 2020 11:26:39 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mndLkuF/4+ZA8pg23sQ9BVkOtGDP0VE5c+lpIaJUjY5YySiJ2Avseh8fQonLow2E+UilVMoEs2iHF8hIC3VRAYouAh7Vwqg1H2dkuzyrrUc+cEH0xzOtpEo6ph2m6pjj2PkW4o7NLJ3jmEFjinyknuVti1ODKfTi0Q/5XGP42GPICaX422J4muvDnUTzaSwmamuwyiclT/DWWLH0OYvY333u8b8OfKvt4OvVtw+uJ6ppL3cuMjOLsUnp2tnf0za8aONfin53ImrsJhDV5Q4R0OhBK+wOPG8b8nTBqAF4mI3CGFtrdq+D1ckftSU/1lPT8YgVvWW8G07TBEKtQTZ+sg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Io7E+Ui2qIzTcTCR72QAGn67K2nLZUYLahWMx2SMUc=;
+ b=X57kxxxfGDnewALInZkbNePdMoLa4oQkduU6T3p6vZKjlh/r2O+Qk9EXP4RKbWDVVWYK+V3jnggakzBFmAsyFgHXAite5gAeq3akrWpdaplqaLetAlV1Zqayc3zIByJoFTBT1LTkHtMVoOxWTr6hr5MAej6Wgo+CAqi+RRpPuKSWIe651eQirSas0L+RVXN1Y3Yh/qR1DBJlJpTD0QYoMuJVo2m4fU+i+IZ7D/LdoXOP4t5UGgMaW2MAyC51gUo5hmsYNoUXOkT5CsVesO3q953423vsUXE2AA9+cj1gTghAMUpjJKIPlwZ+s2kD5Usi/175kxzmB/xtrbL9M+OvUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from VI1EUR04FT058.eop-eur04.prod.protection.outlook.com
+ (2a01:111:e400:7e0e::36) by
+ VI1EUR04HT180.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0e::66)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Fri, 6 Mar
+ 2020 16:26:35 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.28.57) by
+ VI1EUR04FT058.mail.protection.outlook.com (10.152.29.71) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.11 via Frontend Transport; Fri, 6 Mar 2020 16:26:35 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Fri, 6 Mar 2020
+ 16:26:35 +0000
+Received: from [192.168.1.101] (92.77.140.102) by ZRAP278CA0014.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Fri, 6 Mar 2020 16:26:33 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+CC:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 1/2] exec: Properly mark the point of no return
+Thread-Topic: [PATCH 1/2] exec: Properly mark the point of no return
+Thread-Index: AQHV8zOIDtdt4OHpy0WII6Z+9AZegqg6nBAAgABo5giAALyfgA==
+Date:   Fri, 6 Mar 2020 16:26:34 +0000
+Message-ID: <AM6PR03MB5170688693E4114CA9367211E4E30@AM6PR03MB5170.eurprd03.prod.outlook.com>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003021531.C77EF10@keescook>
+ <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+ <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nlii0b.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87o8tacxl3.fsf_-_@x220.int.ebiederm.org>
+ <AM6PR03MB5170B05CFDAF21D8A99B7E48E4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87pndqax3j.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87pndqax3j.fsf@x220.int.ebiederm.org>
+Accept-Language: en-US, en-GB, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: ZRAP278CA0014.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::24) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+x-incomingtopheadermarker: OriginalChecksum:DA816E1DEDC4BA9DF9DBBBF2CC39CA4E2C4664A595A9424824BFDAF23294FBD6;UpperCasedChecksum:E1114A9E9CF3C62F1A20B426AF6762161E7A0FAD8694E8A5FE36B25F189AB47F;SizeAsReceived:9897;Count:50
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [w3tKcLr0mKFaBaS1K/cxK7beXyXo0iyJ]
+x-microsoft-original-message-id: <4fe01e54-2f0f-3381-ed4c-e90f63741717@hotmail.de>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 50
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: ec1878a5-305e-44f8-082d-08d7c1eb2307
+x-ms-traffictypediagnostic: VI1EUR04HT180:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: V3jE/pm2bdQm0TxXo+FfbjDhjLWDPgMmRhMVcgCeHk/31mvdiWIA/DuG/043D396eT0QhFXCyL7dSirFLnZdhQ6U12OdMjsWMC+kR0KRZ3jsaIHXyNtRD30l2bWbKtgFn8hQJZ/5gNNJH9yux7NmmfgrO0/veRe2FrUNcfobzZSqwf+29d8me5/Go+45oAnG
+x-ms-exchange-antispam-messagedata: k+uC5fcaLM7rehNPDQoZeMxt3OfEGzH7p2/ZRbCOhIoecExfA2Ouq1x+euM5xUOFLKbkSJ2wIMD5//t/wWfpdjfvSV3a+CYfh5EKJWqtpiDWQu8cFt0i+4gka2bxuT4/7Yh5+doi7cT4MnQZBcmZtg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <7C09FD473FD1FA4FA82AF05D172951FF@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec1878a5-305e-44f8-082d-08d7c1eb2307
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2020 16:26:34.9940
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR04HT180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The patch
+On 3/6/20 6:09 AM, Eric W. Biederman wrote:
+> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+> 
+>> On 3/5/20 10:15 PM, Eric W. Biederman wrote:
+>>>
+>>> Add a flag binfmt->unrecoverable to mark when execution has gotten to
+>>> the point where it is impossible to return to userspace with the
+>>> calling process unchanged.
+>>>
+>>> While techinically this state starts as soon as de_thread starts
 
-   ASoC: simple-card: Add support for codec2codec DAI links
+typo: s/techinically/technically/
 
-has been applied to the asoc tree at
+>>> killing threads, the only return path at that point is if there is a
+>>> fatal signal pending.  I have choosen instead to set unrecoverable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git 
+I'm not good at english, is this chosen ?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From 95cfc0a0aaf575207152dd7601e782702565a6f1 Mon Sep 17 00:00:00 2001
-From: Samuel Holland <samuel@sholland.org>
-Date: Wed, 4 Mar 2020 23:11:43 -0600
-Subject: [PATCH] ASoC: simple-card: Add support for codec2codec DAI links
-
-Following the example in cb2cf0de1174 ("ASoC: soc-core: care Codec <->
-Codec case by non_legacy_dai_naming"), determine if a DAI link contains
-only codec DAIs by examining the non_legacy_dai_naming flag in each
-DAI's component.
-
-For now, we assume there is only one or a small set of valid PCM stream
-parameters, so num_params == 1 is good enough. We also assume that the
-same params are valid for all supported streams. params is set to the
-subset of parameters common among all DAIs, and then the existing code
-automatically chooses the highest quality of the remaining values when
-the link is brought up.
-
-Signed-off-by: Samuel Holland <samuel@sholland.org>
-Link: https://lore.kernel.org/r/20200305051143.60691-4-samuel@sholland.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- Documentation/sound/soc/codec-to-codec.rst |  9 +++-
- sound/soc/generic/simple-card-utils.c      | 48 ++++++++++++++++++++++
- 2 files changed, 55 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/sound/soc/codec-to-codec.rst b/Documentation/sound/soc/codec-to-codec.rst
-index 810109d7500d..4eaa9a0c41fc 100644
---- a/Documentation/sound/soc/codec-to-codec.rst
-+++ b/Documentation/sound/soc/codec-to-codec.rst
-@@ -104,5 +104,10 @@ Make sure to name your corresponding cpu and codec playback and capture
- dai names ending with "Playback" and "Capture" respectively as dapm core
- will link and power those dais based on the name.
- 
--Note that in current device tree there is no way to mark a dai_link
--as codec to codec. However, it may change in future.
-+A dai_link in a "simple-audio-card" will automatically be detected as
-+codec to codec when all DAIs on the link belong to codec components.
-+The dai_link will be initialized with the subset of stream parameters
-+(channels, format, sample rate) supported by all DAIs on the link. Since
-+there is no way to provide these parameters in the device tree, this is
-+mostly useful for communication with simple fixed-function codecs, such
-+as a Bluetooth controller or cellular modem.
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index 9b794775df53..320e648f7499 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -331,6 +331,50 @@ static int asoc_simple_init_dai(struct snd_soc_dai *dai,
- 	return 0;
- }
- 
-+static int asoc_simple_init_dai_link_params(struct snd_soc_pcm_runtime *rtd,
-+					    struct simple_dai_props *dai_props)
-+{
-+	struct snd_soc_dai_link *dai_link = rtd->dai_link;
-+	struct snd_soc_component *component;
-+	struct snd_soc_pcm_stream *params;
-+	struct snd_pcm_hardware hw;
-+	int i, ret, stream;
-+
-+	/* Only codecs should have non_legacy_dai_naming set. */
-+	for_each_rtd_components(rtd, i, component) {
-+		if (!component->driver->non_legacy_dai_naming)
-+			return 0;
-+	}
-+
-+	/* Assumes the capabilities are the same for all supported streams */
-+	for (stream = 0; stream < 2; stream++) {
-+		ret = snd_soc_runtime_calc_hw(rtd, &hw, stream);
-+		if (ret == 0)
-+			break;
-+	}
-+
-+	if (ret < 0) {
-+		dev_err(rtd->dev, "simple-card: no valid dai_link params\n");
-+		return ret;
-+	}
-+
-+	params = devm_kzalloc(rtd->dev, sizeof(*params), GFP_KERNEL);
-+	if (!params)
-+		return -ENOMEM;
-+
-+	params->formats = hw.formats;
-+	params->rates = hw.rates;
-+	params->rate_min = hw.rate_min;
-+	params->rate_max = hw.rate_max;
-+	params->channels_min = hw.channels_min;
-+	params->channels_max = hw.channels_max;
-+
-+	dai_link->params = params;
-+	dai_link->num_params = 1;
-+
-+	return 0;
-+}
-+
- int asoc_simple_dai_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct asoc_simple_priv *priv = snd_soc_card_get_drvdata(rtd->card);
-@@ -347,6 +391,10 @@ int asoc_simple_dai_init(struct snd_soc_pcm_runtime *rtd)
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = asoc_simple_init_dai_link_params(rtd, dai_props);
-+	if (ret < 0)
-+		return ret;
-+
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(asoc_simple_dai_init);
--- 
-2.20.1
-
+Bernd.
