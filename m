@@ -2,32 +2,32 @@ Return-Path: <SRS0=ldhC=4X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24575C10DCE
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 21:21:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C212DC3F2D6
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 22:01:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E96F620709
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 21:21:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FE46206E2
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 22:01:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbgCFVVE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 16:21:04 -0500
-Received: from out01.mta.xmission.com ([166.70.13.231]:51586 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726194AbgCFVVD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Mar 2020 16:21:03 -0500
+        id S1726237AbgCFWBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 17:01:12 -0500
+Received: from out02.mta.xmission.com ([166.70.13.232]:41264 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726090AbgCFWBL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Mar 2020 17:01:11 -0500
 Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.90_1)
         (envelope-from <ebiederm@xmission.com>)
-        id 1jAKOf-0001bO-Qo; Fri, 06 Mar 2020 14:20:41 -0700
+        id 1jAL1o-0007O8-UN; Fri, 06 Mar 2020 15:01:09 -0700
 Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
         by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.87)
         (envelope-from <ebiederm@xmission.com>)
-        id 1jAKOe-0007Ua-SE; Fri, 06 Mar 2020 14:20:41 -0700
+        id 1jAL1o-0005iy-3n; Fri, 06 Mar 2020 15:01:08 -0700
 From:   ebiederm@xmission.com (Eric W. Biederman)
 To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
 Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
@@ -77,16 +77,16 @@ References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.
         <87imjicxjw.fsf_-_@x220.int.ebiederm.org>
         <AM6PR03MB5170375DBF699D4F3DC7A08DE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
         <87k13yawpp.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170FC44E102D4F8C1B2E854E4E30@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Fri, 06 Mar 2020 15:18:20 -0600
-In-Reply-To: <AM6PR03MB5170FC44E102D4F8C1B2E854E4E30@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        (Bernd Edlinger's message of "Fri, 6 Mar 2020 11:46:01 +0000")
-Message-ID: <877dzx9o83.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170E9D0DB405EC051F7731CE4E30@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Fri, 06 Mar 2020 15:58:52 -0600
+In-Reply-To: <AM6PR03MB5170E9D0DB405EC051F7731CE4E30@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        (Bernd Edlinger's message of "Fri, 6 Mar 2020 19:16:08 +0000")
+Message-ID: <87sgil87s3.fsf@x220.int.ebiederm.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-XM-SPF: eid=1jAKOe-0007Ua-SE;;;mid=<877dzx9o83.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1/H7zIdc5Xdrawq/Ho8JIA/FNvc5wTe1Zg=
+X-XM-SPF: eid=1jAL1o-0005iy-3n;;;mid=<87sgil87s3.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/nQIAja4Tte/KbD9xIUFWHY/xDf5wuGBw=
 X-SA-Exim-Connect-IP: 68.227.160.95
 X-SA-Exim-Mail-From: ebiederm@xmission.com
 Subject: Re: [PATCH 2/2] exec: Add a exec_update_mutex to replace cred_guard_mutex
@@ -99,7 +99,7 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 
-> Am 06.03.20 um 06:17 schrieb Eric W. Biederman:
+> On 3/6/20 6:17 AM, Eric W. Biederman wrote:
 >> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 >> 
 >>> On 3/5/20 10:16 PM, Eric W. Biederman wrote:
@@ -110,57 +110,23 @@ Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 >>>> threads are killed.  The cred_guard_mutex is held over
 >>>> "put_user(0, tsk->clear_child_tid)" in exit_mm().
 >>>>
->>>> Any of those can result in deadlock, as the cred_guard_mutex is held
->>>> over a possible indefinite userspace waits for userspace.
->>>>
->>>> Add exec_update_mutex that is only held over exec updating process
->>>> with the new contents of exec, so that code that needs not to be
->>>> confused by exec changing the mm and the cred in ways that can not
->>>> happen during ordinary execution of a process can take.
->>>>
->>>> The plan is to switch the users of cred_guard_mutex to
->>>> exed_udpate_mutex one by one.  This lets us move forward while still
->>>> being careful and not introducing any regressions.
->>>>
->>>> Link: https://lore.kernel.org/lkml/20160921152946.GA24210@dhcp22.suse.cz/
->>>> Link: https://lore.kernel.org/lkml/AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com/
->>>> Link: https://lore.kernel.org/linux-fsdevel/20161102181806.GB1112@redhat.com/
->>>> Link: https://lore.kernel.org/lkml/20160923095031.GA14923@redhat.com/
->>>> Link: https://lore.kernel.org/lkml/20170213141452.GA30203@redhat.com/
->>>> Ref: 45c1a159b85b ("Add PTRACE_O_TRACEVFORKDONE and PTRACE_O_TRACEEXIT facilities.")
->>>> Ref: 456f17cd1a28 ("[PATCH] user-vm-unlock-2.5.31-A2")
->>>> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
->>>> ---
->>>>  fs/exec.c                    | 4 ++++
->>>>  include/linux/sched/signal.h | 9 ++++++++-
->>>>  kernel/fork.c                | 1 +
->>>>  3 files changed, 13 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/fs/exec.c b/fs/exec.c
->>>> index c243f9660d46..ad7b518f906d 100644
->>>> --- a/fs/exec.c
->>>> +++ b/fs/exec.c
->>>> @@ -1182,6 +1182,7 @@ static int de_thread(struct linux_binprm *bprm, struct task_struct *tsk)
->>>>  		release_task(leader);
->>>>  	}
->>>>  
->>>> +	mutex_lock(&current->signal->exec_update_mutex);
 >
-> And by the way, could you make this mutex_lock_killable?
+> I am all for this patch, and the direction it is heading, Eric.
+>
+> I just wanted to add a note that I think it is
+> possible that exec_mm_release can also invoke put_user(0, tsk->clear_child_tid),
+> under the new exec_update_mutex, since vm_access increments the
+> mm->mm_users, under the cred_update_mutex, but releases the mutex,
+> and the caller can hold the reference for a while and then exec_mmap is not
+> releasing the last reference.
 
-For some reason when I first read this suggestion I thought making this
-mutex_lock_killable would cause me to rework the logic of when I
-set unrecoverable and when I unlock the mutex.  I blame a tired brain.
-If a process has received a fatal signal none of that matters.
+Good catch.  I really appreciate your close look at the details.
 
-So yes I will do that just to make things robust in case we miss
-something that would still make it possible to deadlock in with the new
-mutex.
+I am wondering if process_vm_readv and process_vm_writev could be
+safely changed to use mmgrab and mmdrop, instead of mmget and mmput.
 
-I am a little worried that the new mutex might still cover a little too
-much.  But past a certain point I we are not being able to make this
-code perfect in the first change.  The best we can do is to be careful
-and avoid regressions.  Whatever slips through we can fix when we spot
-the problem.
+That would resolve the potential issue you have pointed out.  I just
+haven't figured out if it is safe.  The mm code has been seriously
+refactored since I knew how it all worked.
 
 Eric
