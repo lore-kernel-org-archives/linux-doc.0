@@ -2,69 +2,61 @@ Return-Path: <SRS0=ldhC=4X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A25A5C10DCE
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 09:42:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10F77C10DCE
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 10:40:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 817042073D
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 09:42:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E5E7E2072D
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 10:40:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726257AbgCFJmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 04:42:14 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:11191 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725927AbgCFJmN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Mar 2020 04:42:13 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id CDAE13C7A857DF44D953;
-        Fri,  6 Mar 2020 17:42:10 +0800 (CST)
-Received: from [127.0.0.1] (10.177.223.23) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Fri, 6 Mar 2020
- 17:42:08 +0800
-Subject: Re: [PATCH 09/11] ACPI/IORT: Drop ATS fwspec flag
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        <bhelgaas@google.com>, <will@kernel.org>, <robh+dt@kernel.org>,
-        <lorenzo.pieralisi@arm.com>, <joro@8bytes.org>,
-        <baolu.lu@linux.intel.com>, <linux-doc@vger.kernel.org>,
-        <linux-pci@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-        <iommu@lists.linux-foundation.org>
-CC:     <corbet@lwn.net>, <mark.rutland@arm.com>, <liviu.dudau@arm.com>,
-        <sudeep.holla@arm.com>, <rjw@rjwysocki.net>, <lenb@kernel.org>,
-        <robin.murphy@arm.com>, <dwmw2@infradead.org>,
-        <amurray@thegoodpenguin.co.uk>, <frowand.list@gmail.com>
-References: <20200213165049.508908-1-jean-philippe@linaro.org>
- <20200213165049.508908-10-jean-philippe@linaro.org>
-From:   Hanjun Guo <guohanjun@huawei.com>
-Message-ID: <5c4855e4-381a-771e-d26d-0d0ad534e776@huawei.com>
-Date:   Fri, 6 Mar 2020 17:42:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.5.0
+        id S1726368AbgCFKkl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 05:40:41 -0500
+Received: from mga09.intel.com ([134.134.136.24]:28360 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726231AbgCFKkl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Mar 2020 05:40:41 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Mar 2020 02:40:41 -0800
+X-IronPort-AV: E=Sophos;i="5.70,521,1574150400"; 
+   d="scan'208";a="234766235"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Mar 2020 02:40:37 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Alexey Dobriyan <adobriyan@gmail.com>,
+        torvalds@linux-foundation.org, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH] doc: code generation style
+In-Reply-To: <20200305190253.GA28787@avx2>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200305190253.GA28787@avx2>
+Date:   Fri, 06 Mar 2020 12:40:35 +0200
+Message-ID: <87k13xojfg.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200213165049.508908-10-jean-philippe@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.177.223.23]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020/2/14 0:50, Jean-Philippe Brucker wrote:
-> Now that the ats_supported flag is in the host bridge structure where it
-> belongs, we can remove it from the per-device fwspec structure.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  drivers/acpi/arm64/iort.c | 11 -----------
->  include/linux/iommu.h     |  4 ----
->  2 files changed, 15 deletions(-)
+On Thu, 05 Mar 2020, Alexey Dobriyan <adobriyan@gmail.com> wrote:
+> +1) Generic techniques
+> +---------------------
+> +
+> +### a) Inlining/uninlining function calls ###
 
-Acked-by: Hanjun Guo <guohanjun@huawei.com>
+What others said about the content is more important, but if you end up
+doing this, please drop the 1) and a) stuff in the headings. It's just
+manual work someone has to update for no real gain.
 
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
