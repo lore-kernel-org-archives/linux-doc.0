@@ -2,161 +2,117 @@ Return-Path: <SRS0=ldhC=4X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5CFEC10DCE
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 11:53:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 951EEC10DCE
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 12:17:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A4A152073B
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 11:53:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74DA420866
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 12:17:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726300AbgCFLxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 06:53:50 -0500
-Received: from foss.arm.com ([217.140.110.172]:60272 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726026AbgCFLxu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Mar 2020 06:53:50 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4756F31B;
-        Fri,  6 Mar 2020 03:53:49 -0800 (PST)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EFEAA3F6C4;
-        Fri,  6 Mar 2020 03:53:46 -0800 (PST)
-Date:   Fri, 6 Mar 2020 11:53:41 +0000
-From:   Sudeep Holla <sudeep.holla@arm.com>
-To:     Ionela Voinescu <ionela.voinescu@arm.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
-        maz@kernel.org, suzuki.poulose@arm.com, lukasz.luba@arm.com,
-        valentin.schneider@arm.com, dietmar.eggemann@arm.com,
-        rjw@rjwysocki.net, pkondeti@codeaurora.org, peterz@infradead.org,
-        mingo@redhat.com, vincent.guittot@linaro.org,
-        viresh.kumar@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v6 6/7] arm64: use activity monitors for frequency
- invariance
-Message-ID: <20200306115341.GA44221@bogus>
-References: <20200305090627.31908-1-ionela.voinescu@arm.com>
- <20200305090627.31908-7-ionela.voinescu@arm.com>
+        id S1726642AbgCFMR1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 07:17:27 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:38082 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726524AbgCFMR0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Mar 2020 07:17:26 -0500
+Received: by mail-ot1-f68.google.com with SMTP id i14so2204485otp.5;
+        Fri, 06 Mar 2020 04:17:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XxqhTkVe9CvcMbnhVkoOtD7xWPU2yvO/vQcxe/RtjbA=;
+        b=OcGzQA7+FqmZP12WK/8K/nJGuU8rwXJz0l1xHQpqTPrqCKR6ClXjsp24lhMmcbyqf3
+         N9foCBnj9pAPLERMpPnccO0Uz+cAyxutaVt//5GPwYmhtweAAvVG+CaX3Z4zdh05la9Z
+         iKRAuRjMOGMAbrDA0ayE8e33fE5rOaSTxonzVpKx3E5DVZANxAK/h9dx4aM37rvzlezW
+         OqyWkEMI3ldT8rfwHUzrim/oZfcsVgstcxqU7bT6VufPI0O62S8l/ipJAfLHUWbHDIE3
+         gX3hN1jOZe8nCSrjE/ADQV5E9jORlllRnbQRBg4/NlwfAnV4Vk1dEHsBa5Dr1Qm0dBLj
+         ZbAA==
+X-Gm-Message-State: ANhLgQ0R4rKzX8ZheDeuZ/pa3Oggq+vabEjh4qLRR625+bjo5YzbUlTn
+        f1VvEb8JbBz6f1oPYmusuBJameQXdDDsFbMvFOsaJg==
+X-Google-Smtp-Source: ADFU+vuJ+BYG1vuglT5s23PLlapfDrFaoXzGNMlzNeLZAOPvMqXejVopvRC8E+qWfgs8r3jk8rX7Tr6ECp47LWsPLCY=
+X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr2215931otk.145.1583497046255;
+ Fri, 06 Mar 2020 04:17:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200305090627.31908-7-ionela.voinescu@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200302062340.21453-1-masahiroy@kernel.org> <20200302062340.21453-2-masahiroy@kernel.org>
+In-Reply-To: <20200302062340.21453-2-masahiroy@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 6 Mar 2020 13:17:15 +0100
+Message-ID: <CAMuHMdWUvKXOU1LWZ-Vmb_tTe8b1wHrWFW6dEnENNSs0S7AvWQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kconfig: make 'imply' obey the direct dependency
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 05, 2020 at 09:06:26AM +0000, Ionela Voinescu wrote:
-> The Frequency Invariance Engine (FIE) is providing a frequency
-> scaling correction factor that helps achieve more accurate
-> load-tracking.
->
-> So far, for arm and arm64 platforms, this scale factor has been
-> obtained based on the ratio between the current frequency and the
-> maximum supported frequency recorded by the cpufreq policy. The
-> setting of this scale factor is triggered from cpufreq drivers by
-> calling arch_set_freq_scale. The current frequency used in computation
-> is the frequency requested by a governor, but it may not be the
-> frequency that was implemented by the platform.
->
-> This correction factor can also be obtained using a core counter and a
-> constant counter to get information on the performance (frequency based
-> only) obtained in a period of time. This will more accurately reflect
-> the actual current frequency of the CPU, compared with the alternative
-> implementation that reflects the request of a performance level from
-> the OS.
->
-> Therefore, implement arch_scale_freq_tick to use activity monitors, if
-> present, for the computation of the frequency scale factor.
->
-> The use of AMU counters depends on:
->  - CONFIG_ARM64_AMU_EXTN - depents on the AMU extension being present
->  - CONFIG_CPU_FREQ - the current frequency obtained using counter
->    information is divided by the maximum frequency obtained from the
->    cpufreq policy.
->
-> While it is possible to have a combination of CPUs in the system with
-> and without support for activity monitors, the use of counters for
-> frequency invariance is only enabled for a CPU if all related CPUs
-> (CPUs in the same frequency domain) support and have enabled the core
-> and constant activity monitor counters. In this way, there is a clear
-> separation between the policies for which arch_set_freq_scale (cpufreq
-> based FIE) is used, and the policies for which arch_scale_freq_tick
-> (counter based FIE) is used to set the frequency scale factor. For
-> this purpose, a late_initcall_sync is registered to trigger validation
-> work for policies that will enable or disable the use of AMU counters
-> for frequency invariance. If CONFIG_CPU_FREQ is not defined, the use
-> of counters is enabled on all CPUs only if all possible CPUs correctly
-> support the necessary counters.
->
-> Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
-> Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Sudeep Holla <sudeep.holla@arm.com>
-> ---
->  arch/arm64/include/asm/topology.h |   9 ++
->  arch/arm64/kernel/cpufeature.c    |   4 +
->  arch/arm64/kernel/topology.c      | 180 ++++++++++++++++++++++++++++++
->  drivers/base/arch_topology.c      |  12 ++
->  include/linux/arch_topology.h     |   2 +
->  5 files changed, 207 insertions(+)
->
+Hi Yamada-san,
 
-[...]
+On Mon, Mar 2, 2020 at 7:24 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> The 'imply' statement may create unmet direct dependency when the
+> implied symbol depends on m.
+>
+> [Test Code]
+>
+>   config FOO
+>           tristate "foo"
+>           imply BAZ
+>
+>   config BAZ
+>           tristate "baz"
+>           depends on BAR
+>
+>   config BAR
+>           def_tristate m
+>
+>   config MODULES
+>           def_bool y
+>           option modules
+>
+> If you set FOO=y, BAZ is also promoted to y, which results in the
+> following .config file:
+>
+>   CONFIG_FOO=y
+>   CONFIG_BAZ=y
+>   CONFIG_BAR=m
+>   CONFIG_MODULES=y
+>
+> This does not meet the dependency 'BAZ depends on BAR'.
+>
+> Unlike 'select', what is worse, Kconfig never shows the
+> 'WARNING: unmet direct dependencies detected for ...' for this case.
+>
+> Because 'imply' is considered to be weaker than 'depends on', Kconfig
+> should take the direct dependency into account.
+>
+> For clarification, describe this case in kconfig-language.rst too.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-> index 6119e11a9f95..8d63673c1689 100644
-> --- a/drivers/base/arch_topology.c
-> +++ b/drivers/base/arch_topology.c
-> @@ -21,6 +21,10 @@
->  #include <linux/sched.h>
->  #include <linux/smp.h>
->
-> +__weak bool arch_freq_counters_available(struct cpumask *cpus)
-> +{
-> +	return false;
-> +}
->  DEFINE_PER_CPU(unsigned long, freq_scale) = SCHED_CAPACITY_SCALE;
->
->  void arch_set_freq_scale(struct cpumask *cpus, unsigned long cur_freq,
-> @@ -29,6 +33,14 @@ void arch_set_freq_scale(struct cpumask *cpus, unsigned long cur_freq,
->  	unsigned long scale;
->  	int i;
->
-> +	/*
-> +	 * If the use of counters for FIE is enabled, just return as we don't
-> +	 * want to update the scale factor with information from CPUFREQ.
-> +	 * Instead the scale factor will be updated from arch_scale_freq_tick.
-> +	 */
-> +	if (arch_freq_counters_available(cpus))
-> +		return;
-> +
->  	scale = (cur_freq << SCHED_CAPACITY_SHIFT) / max_freq;
->
->  	for_each_cpu(i, cpus)
-> diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.h
-> index 3015ecbb90b1..1ccdddb541a7 100644
-> --- a/include/linux/arch_topology.h
-> +++ b/include/linux/arch_topology.h
-> @@ -33,6 +33,8 @@ unsigned long topology_get_freq_scale(int cpu)
->  	return per_cpu(freq_scale, cpu);
->  }
->
-> +bool arch_freq_counters_available(struct cpumask *cpus);
-> +
->  struct cpu_topology {
->  	int thread_id;
->  	int core_id;
+This fixes some issue with "imply SND_SOC_WCD934X".
+Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Sorry for the delay. The arch_topology part looks fine to me. For that part:
+Gr{oetje,eeting}s,
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+                        Geert
+
 
 --
-Regards,
-Sudeep
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
