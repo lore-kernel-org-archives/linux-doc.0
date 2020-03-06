@@ -2,100 +2,76 @@ Return-Path: <SRS0=ldhC=4X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5041C10F00
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 08:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F82C10F00
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 08:17:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B85712072A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 08:08:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="Mo5EhILj"
+	by mail.kernel.org (Postfix) with ESMTP id EDDB12072A
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 08:17:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726010AbgCFIIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 03:08:23 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:30522 "EHLO mx.kolabnow.com"
+        id S1725908AbgCFIRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 03:17:24 -0500
+Received: from sauhun.de ([88.99.104.3]:55604 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725935AbgCFIIX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Mar 2020 03:08:23 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 3E96B6BE;
-        Fri,  6 Mar 2020 09:08:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1583482098; x=1585296499; bh=zjFxbFMg6zjLw7+euUvfK/141HdAfBUqTrp
-        GbamgKCs=; b=Mo5EhILjTIBt03Rq/861akwN2vNQhYaplKJnGa+qBKpI4dVTFvF
-        uNZnNVEz34LwGRJYcggf7bbSPoSu3JVJWFXfCeqrABszCgwExBwuVN6x+ZvO50cX
-        hB5x3S0qxyF/aJavIPxSywjOu2ZKrNiAmKXz9Nn4/78Qcb8bi8bBYWqVrlOj5Puy
-        ekhOHMc62oQofFyfq2okgV3C5fcjWkKu8pb7hvItbR2SyUVB9yjC9/S0pD9RRnMh
-        030z2tmP5+Dow7kz+Mr1xksgBTWkHCZQWC1OonSKm8T268L+hOaMG2rLVwSPZHkZ
-        TNmwLfLFelVyCHmqbu2+d5D6sE+9RPD+76iOIGqkNYubT8BXyMBPnlMrN5Xha7n/
-        WFquiKehs5xub0W1vbp7b5k/WMFl5S73pUa2E+g6/FosAjP9yRLv4ABDIH9MUnou
-        zucT38AgimtYW9eTZRCpZRGS9bywkfjTWAWo88JjrsXb8pjw46EfUFNJ4kjqwIX/
-        LdURhcTGTElz/k5OLwsgEIug8PZONuBuWbojMowWAcr6LIO+LH8Cig98j8hHxMf3
-        ySG7bsvg2ka8yOH5PDQ2OsmD0jdGwqOs7b21KeYr06XAJK+JRBSgGfi/GRK+9Qdg
-        4MXyiqu/kF1wbHmxWdGlM3Sxs+L9QIiHFoF43HknzL21eEkBZDMlOOok=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id iovzI00V9jIo; Fri,  6 Mar 2020 09:08:18 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 06CE656E;
-        Fri,  6 Mar 2020 09:08:17 +0100 (CET)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 9F51F2401;
-        Fri,  6 Mar 2020 09:08:17 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        id S1725869AbgCFIRY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Mar 2020 03:17:24 -0500
+Received: from localhost (p54B33158.dip0.t-ipconnect.de [84.179.49.88])
+        by pokefinder.org (Postfix) with ESMTPSA id 9261E2C1F2C;
+        Fri,  6 Mar 2020 09:17:21 +0100 (CET)
+Date:   Fri, 6 Mar 2020 09:17:21 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Dennis Zhou <dennis@kernel.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: it_IT: netdev-FAQ: Fix link to original document
-Date:   Fri, 06 Mar 2020 09:08:16 +0100
-Message-ID: <2924047.tcjekT7ZY2@pcbe13614>
-In-Reply-To: <20200305205123.8569-1-j.neuschaefer@gmx.net>
-References: <20200305205123.8569-1-j.neuschaefer@gmx.net>
+Subject: Re: [PATCH 0/2] include/bitmap.h: updates to docs
+Message-ID: <20200306081721.GB1117@ninjato>
+References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
+ <20200305212950.GA79796@dennisz-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="s2ZSL+KKDSLx8OML"
+Content-Disposition: inline
+In-Reply-To: <20200305212950.GA79796@dennisz-mbp.dhcp.thefacebook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Indeed a copy'n'paste error, thanks
 
-Reviewed-by: Federico Vaga <federico.vaga@vaga.pv.it>
-
-On Thursday, March 5, 2020 9:51:21 PM CET Jonathan Neusch=E4fer wrote:
-> Signed-off-by: Jonathan Neusch=E4fer <j.neuschaefer@gmx.net>
-> ---
->  Documentation/translations/it_IT/networking/netdev-FAQ.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/translations/it_IT/networking/netdev-FAQ.rst
-> b/Documentation/translations/it_IT/networking/netdev-FAQ.rst index
-> 8489ead7cff1..7e2456bb7d92 100644
-> --- a/Documentation/translations/it_IT/networking/netdev-FAQ.rst
-> +++ b/Documentation/translations/it_IT/networking/netdev-FAQ.rst
-> @@ -1,6 +1,6 @@
->  .. include:: ../disclaimer-ita.rst
->=20
-> -:Original: :ref:`Documentation/process/stable-kernel-rules.rst
-> <stable_kernel_rules>` +:Original:
-> :ref:`Documentation/networking/netdev-FAQ.rst <netdev-FAQ>`
->=20
->  .. _it_netdev-FAQ:
->=20
-> --
-> 2.20.1
+--s2ZSL+KKDSLx8OML
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 
-=2D-=20
-=46ederico Vaga
-http://www.federicovaga.it/
+> I've applied this to percpu for-5.7.
+
+Great, thank you!
 
 
+--s2ZSL+KKDSLx8OML
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5iBxEACgkQFA3kzBSg
+KbYMUA//QUJMQqe5qyTC66ZUl/CpVFUB4WVd2ZlV48s0UZcGCduSgYNfrjA17NO5
+rDQg5HXb0+sIeNWZECaDQ1hMQG12gt4h0QFKKugB4wqTc4yp1xn3O4BdIO/OlKNL
+V6JnoiHhDZv8RO4Yf++nL57fwwrJAk7Gtp9PZjoSoWY4ar3VOJ0yeK1Er6b9H7i6
+pkCfKxFnO/mGkoEV7+o3TQVYeP4ADqlFToFhOnGnaF+SpLEWMB9J83s9fuHvlKTE
+gWiDYlDS1Br7FNVmFGtvfKieWvcfMOXUwWFO67Aw+6df/1Gi7NC4zluJQ9dGtYFS
+lTbgFI33fXdrePqVrG2QT5m0Yp8762uH67vYFvAcqkIw55qeXxzcTdTNIwuSlglR
+HFpxvTYDc09fWeru4C2wB8gdLx3R4QG6yvUoG5/7+QlSSMBOx1sgEan7Jco/fHoN
+LvuRQYJQk7tCGjxXNpMvjXJZlAi7z8qb18UFUVvg+FY4dcW1UGUmRf7ozhOO6Y9z
+LZtOpoJgiPj+KmegiwisLhzsc5lRLKIlWUe4iE+8HbAb69pDGqqm4RtaBDBn9Sdx
+6pNVPvvRIR1WK/p7dR3rYCSlaH1Jrd3GM7kZQea289yT8iBzAHJtmol/vuleIFJB
+mn53+nlQ8ny6T7+WnmPjMDkZzqDxZBryt3AkAtGJgymQge2P/1A=
+=eh2X
+-----END PGP SIGNATURE-----
+
+--s2ZSL+KKDSLx8OML--
