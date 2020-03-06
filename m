@@ -1,62 +1,69 @@
-Return-Path: <SRS0=ObY3=4W=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=ldhC=4X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F1CC3F2D2
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 23:39:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A05F4C3F2D2
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 00:23:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5960A20801
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Mar 2020 23:39:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7494A20801
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 00:23:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbgCEXj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Mar 2020 18:39:29 -0500
-Received: from ms.lwn.net ([45.79.88.28]:37516 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726049AbgCEXj2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Mar 2020 18:39:28 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E54242E4;
-        Thu,  5 Mar 2020 23:39:27 +0000 (UTC)
-Date:   Thu, 5 Mar 2020 16:39:26 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel, linux-doc@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH] doc: code generation style
-Message-ID: <20200305163926.7fb01b21@lwn.net>
-In-Reply-To: <20200305190253.GA28787@avx2>
-References: <20200305190253.GA28787@avx2>
-Organization: LWN.net
+        id S1726191AbgCFAX5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Mar 2020 19:23:57 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:60703 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726128AbgCFAX5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Mar 2020 19:23:57 -0500
+Received: from 2.general.alexhung.us.vpn ([10.172.65.255] helo=canonical.com)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <alex.hung@canonical.com>)
+        id 1jA0mP-0000j5-FO; Fri, 06 Mar 2020 00:23:53 +0000
+From:   Alex Hung <alex.hung@canonical.com>
+To:     rjw@rjwysocki.net, viresh.kumar@linaro.org, corbet@lwn.net,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        alex.hung@canonical.com
+Subject: [PATCH] Documentation: intel_pstate: update links for references
+Date:   Thu,  5 Mar 2020 17:23:50 -0700
+Message-Id: <20200306002350.9166-1-alex.hung@canonical.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 5 Mar 2020 22:02:53 +0300
-Alexey Dobriyan <adobriyan@gmail.com> wrote:
+URLs for presentation and Intel Software Developer’s Manual are updated
+as they were using "http" which are gradually replaced by "https".
 
-> I wonder if it would be useful to have something like this in tree.
-> 
-> It states trivial things for anyone who looked at disassembly few times
-> but still...
+Signed-off-by: Alex Hung <alex.hung@canonical.com>
+---
+ Documentation/admin-guide/pm/intel_pstate.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If nothing else, it needs an introductory paragraph saying what it's about
-and why somebody might want to read it.
+diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documentation/admin-guide/pm/intel_pstate.rst
+index 67e414e34f37..ad392f3aee06 100644
+--- a/Documentation/admin-guide/pm/intel_pstate.rst
++++ b/Documentation/admin-guide/pm/intel_pstate.rst
+@@ -734,10 +734,10 @@ References
+ ==========
+ 
+ .. [1] Kristen Accardi, *Balancing Power and Performance in the Linux Kernel*,
+-       http://events.linuxfoundation.org/sites/events/files/slides/LinuxConEurope_2015.pdf
++       https://events.static.linuxfound.org/sites/events/files/slides/LinuxConEurope_2015.pdf
+ 
+ .. [2] *Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 3: System Programming Guide*,
+-       http://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-system-programming-manual-325384.html
++       https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-system-programming-manual-325384.html
+ 
+ .. [3] *Advanced Configuration and Power Interface Specification*,
+        https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+-- 
+2.17.1
 
-In general, I'm really reluctant to add stuff to the coding-style
-documents (and that's pretty much what this is) without a pretty strong
-feeling that it describes generally accepted practices.  So I'd definitely
-want a fair number of acks before taking something like this.
-
-Thanks,
-
-jon
