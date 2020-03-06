@@ -6,69 +6,104 @@ X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A1B4C10F00
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 13:39:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0758EC10DCE
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 14:04:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4A243208CD
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 13:39:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D61E1208CD
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Mar 2020 14:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583501959;
-	bh=3tDdbKxAaQxlXGa1ABfrKIRu1BxxzYmw1J4oe8Kh6x4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=dxRbepCMCM+f8E+QAygUoRkUToANWeKVD5/wMQc2NQc3jcXqplujt0llAhvlMGFD0
-	 VNsyuR70y5AsZy6Z6w/SnGQoLSddESn/XCdGT3fg8N4WzdrDb8XxGnjFusRdbbygHS
-	 pMS+7mnok3Kt37VTwN67tDRIXLZ5kMsYptH+0+4o=
+	s=default; t=1583503452;
+	bh=Nq9KmkAUq5F9r3sx/yxBgy6aw7mRvtKy8xoVi/1LUaU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=qA3jVTwsjZWmqjmizCYGo0sE9DPLe0g6F/DVdvwcDxmD+2bAufAEeGw4ArFF9JDKh
+	 1omNw4+L1pzDEQ6Y9N6Emeg3VaJ65eaLoqYLiG/Kd1V9x2wr8cVbg7fg9Cgg4X6s5i
+	 zXTMyrJfWhjKxeLBLLqK/rkoMDFXJkHURplS+9KM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726314AbgCFNjS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 08:39:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57080 "EHLO mail.kernel.org"
+        id S1726650AbgCFOEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 09:04:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38388 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726090AbgCFNjS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Mar 2020 08:39:18 -0500
-Received: from localhost (unknown [122.178.250.113])
+        id S1726251AbgCFOEM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Mar 2020 09:04:12 -0500
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7BF312072D;
-        Fri,  6 Mar 2020 13:39:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9312F20866;
+        Fri,  6 Mar 2020 14:04:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583501958;
-        bh=3tDdbKxAaQxlXGa1ABfrKIRu1BxxzYmw1J4oe8Kh6x4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kN5Nv8a54WiDwk4wfaM8Os2GcjQVTbDIbyj+argTNBXWzKVK7LqPQlMth4CkkVoU0
-         iu9H3N/MkyjMML3DlF9LnWZmq0veb+sdxmVZSB0zxolXWiv1RAbitXlfAFfXXHjdRm
-         VqXVNZaBx6ESCVLSWOP7N8eWgSmWLvROEGQK5xKE=
-Date:   Fri, 6 Mar 2020 19:09:14 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/9] docs: dmaengine: provider.rst: get rid of some
- warnings
-Message-ID: <20200306133914.GJ4148@vkoul-mobl>
-References: <afbe367ccb7b9abcb9fab7bc5cb5e0686c105a53.1583250595.git.mchehab+huawei@kernel.org>
- <62cf2a87b379a92c9c0e5a40c2ae8a138b01fe0a.1583250595.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <62cf2a87b379a92c9c0e5a40c2ae8a138b01fe0a.1583250595.git.mchehab+huawei@kernel.org>
+        s=default; t=1583503451;
+        bh=Nq9KmkAUq5F9r3sx/yxBgy6aw7mRvtKy8xoVi/1LUaU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=1VmdVldybeLhw8UkDSUvunsqGSnJj3olRcE2BPDvB6NY6YKLfpOZJ3HNCdILvE1OE
+         552ncCbIyD6AoID2TsIZ/lrANy9t+Zcf7UxSG3gJHff3FhlaslGL+tHNTdr/yYGA6v
+         qOFPJUC7HazIsfQ6YlNCnrz6L7+jkSTtHrZD3UZ0=
+Date:   Fri, 6 Mar 2020 23:04:06 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Markus Elfring <Markus.Elfring@web.de>
+Cc:     linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH v5.1] Documentation: bootconfig: Update boot
+ configuration documentation
+Message-Id: <20200306230406.dd9c7358f00f47ff5760c899@kernel.org>
+In-Reply-To: <58f4d6b3-ce3d-d1a5-aa0f-c31c1bbec091@web.de>
+References: <ef820445-25c5-a312-57d4-25ff3b4d08cf@infradead.org>
+        <158341540688.4236.11231142256496896074.stgit@devnote2>
+        <f3c51b0a-2a55-6523-96e2-4f9ef0635d9f@web.de>
+        <20200306105107.afba066a97db1eb12f290aff@kernel.org>
+        <58f4d6b3-ce3d-d1a5-aa0f-c31c1bbec091@web.de>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03-03-20, 16:50, Mauro Carvalho Chehab wrote:
-> Get rid of those warnings by adding extra blank lines:
-> 
->     Documentation/driver-api/dmaengine/provider.rst:270: WARNING: Unexpected indentation.
->     Documentation/driver-api/dmaengine/provider.rst:273: WARNING: Block quote ends without a blank line; unexpected unindent.
->     Documentation/driver-api/dmaengine/provider.rst:288: WARNING: Unexpected indentation.
->     Documentation/driver-api/dmaengine/provider.rst:290: WARNING: Block quote ends without a blank line; unexpected unindent.
-> 
-> While here, use parenthesis after get_metadata_ptr/set_metadata_len,
-> as, if some day someone adds a kerneldoc markup for those, it
-> should automatically generate a cross-reference to them.
+On Fri, 6 Mar 2020 10:34:30 +0100
+Markus Elfring <Markus.Elfring@web.de> wrote:
 
-Applied, thanks
+> > If you think you have "any more" update candidates, feel free to make
+> > an update "patch" and send to us.
+> 
+> I pointed a few change possibilities out already.
+
+I can not respond to requests only for possibility.
+
+> > That will be the next step.
+> 
+> I got the impression that we are in the process of constructing another patch together
+> which will fix known wording weaknesses.
+
+Would you mean the broken EBNF part? Yeah, maybe, but it is another story.
+I decided to drop it this time.
+You can refine it but please use better format instead of such incomplete one.
+
+> By the way:
+> I wonder about the shown version identifier.
+> Will the patch numbering need also further considerations?
+
+No.
+
+> >> …
+> >>> +++ b/Documentation/admin-guide/bootconfig.rst
+> >> …
+> >>> +If you think that kernel/init options become too long to write in boot-loader
+> >>> +configuration file or you want to comment on each option, the boot
+> >>> +configuration may be suitable. …
+> >>
+> >> Would you like to specify any settings in the boot configuration file
+> >> because the provided storage capacity would be too limited by the kernel command line?
+> >
+> > Yes.
+> 
+> How will affected places be improved after such an agreement?
+
+Would you please make a patch of new sentence?
+
+Thank you,
 
 -- 
-~Vinod
+Masami Hiramatsu <mhiramat@kernel.org>
