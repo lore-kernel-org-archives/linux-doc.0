@@ -2,176 +2,431 @@ Return-Path: <SRS0=doD2=4Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00341C10F26
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 10:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97814C10F25
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 10:07:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CC29D2075A
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 10:02:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583575323;
-	bh=K57qheI3BUpEK74C2M8dStCHv7ATP2ASTLRAtzGxQpE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=x6Ibh4RkqnL+mNCvWEm7BQU5inXzdRs5zO6wjXHG//RT5uRYahHuV23G+VyljdT8X
-	 L6wwRKsMXUwo0o3YInkhpqint9bgAmgtfmJbk4EOAqKM6K40V1irkpvVSw1GzowHaY
-	 cPbMbcrHxC8Zq7yXYWyWGnUIcB2e0VPYsImyzKvQ=
+	by mail.kernel.org (Postfix) with ESMTP id 644992073D
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 10:07:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725939AbgCGKCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Mar 2020 05:02:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57656 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725878AbgCGKB7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 7 Mar 2020 05:01:59 -0500
-Received: from onda.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        id S1725939AbgCGKHb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Mar 2020 05:07:31 -0500
+Received: from asavdk3.altibox.net ([109.247.116.14]:59626 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725878AbgCGKHa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Mar 2020 05:07:30 -0500
+Received: from ravnborg.org (unknown [158.248.194.18])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3DEB4206D5;
-        Sat,  7 Mar 2020 10:01:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583575318;
-        bh=K57qheI3BUpEK74C2M8dStCHv7ATP2ASTLRAtzGxQpE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ucBz2YSHIN/jLFT1Th7tmwlEMgYBachNyqUpxAr3o8UYYjXUF0ZxCqSWqwyvRPyge
-         RDbJFh1lkxwghJX9TvLBD37F1kfD6g9JTLON/X6d5H+Z/G/iTKg0cRlHsaAX76Mpoe
-         3V8RCtWDkNx5m/OlnSPoVSu1kgrGR4qnj5TmKZDY=
-Date:   Sat, 7 Mar 2020 11:01:54 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: adjust to filesystem doc ReST conversion
-Message-ID: <20200307110154.719572e4@onda.lan>
-In-Reply-To: <alpine.DEB.2.21.2003062214500.5521@felia>
-References: <20200304072950.10532-1-lukas.bulwahn@gmail.com>
-        <20200304131035.731a3947@lwn.net>
-        <alpine.DEB.2.21.2003042145340.2698@felia>
-        <e43f0cf0117fbfa8fe8c7e62538fd47a24b4657a.camel@perches.com>
-        <alpine.DEB.2.21.2003062214500.5521@felia>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 5139D20033;
+        Sat,  7 Mar 2020 11:07:24 +0100 (CET)
+Date:   Sat, 7 Mar 2020 11:07:22 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-doc@vger.kernel.org,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [PATCH 51/51] drm: Add docs for managed resources
+Message-ID: <20200307100722.GJ28810@ravnborg.org>
+References: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
+ <20200302222631.3861340-52-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200302222631.3861340-52-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+        a=07d9gI8wAAAA:8 a=VwQbUJbxAAAA:8 a=P1BnusSwAAAA:8 a=ag1SF4gXAAAA:8
+        a=QyXUC8HyAAAA:8 a=e5mUnYsNAAAA:8 a=YXAK5otltNHbHWk6N1wA:9
+        a=M9JO0sF5p5IZXRxC:21 a=sjhRMFua1iregTtX:21 a=CjuIK1q_8ugA:10
+        a=E9Po1WZjFZOl8hwRPBS3:22 a=e2CUPOnPG4QKp8I52DXD:22
+        a=AjGcO6oz07-iQ99wixmX:22 a=D0XLA9XvdZm18NrgonBM:22
+        a=Yupwre4RP9_Eg_Bd0iYG:22 a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 6 Mar 2020 22:17:49 +0100 (CET)
-Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
+Hi Daniel.
 
-> On Wed, 4 Mar 2020, Joe Perches wrote:
+On Mon, Mar 02, 2020 at 11:26:31PM +0100, Daniel Vetter wrote:
+> All collected together to provide a consistent story in one patch,
+> instead of the somewhat bumpy refactor-evolution leading to this.
 > 
-> > On Wed, 2020-03-04 at 21:50 +0100, Lukas Bulwahn wrote:  
-> > > 
-> > > On Wed, 4 Mar 2020, Jonathan Corbet wrote:
-> > >   
-> > > > On Wed,  4 Mar 2020 08:29:50 +0100
-> > > > Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:  
-> > > > > Jonathan, pick pick this patch for doc-next.  
-> > > > 
-> > > > Sigh, I need to work a MAINTAINERS check into my workflow...
-> > > >   
-> > > 
-> > > I getting closer to have zero warnings on the MAINTAINER file matches and 
-> > > then, I would set up a bot following the mailing lists to warn when anyone
-> > > sends a patch that potentially introduces such warning.  
-> > 
-> > Hey Lukas.
-> > 
-> > I wrote a hacky script that sent emails
-> > for invalid MAINTAINER F: and X: patterns
-> > a couple years back.
-> > 
-> > I ran it in September 2018 and March 2019.
-> > 
-> > It's attached if you want to play with it.
-> > The email sending bit is commented out.
-> > 
-> > The script is used like:
-> > 
-> > $ perl ./scripts/get_maintainer.pl --self-test=patterns | \
-> >   cut -f2 -d: | \
-> >   while read line ; do \
-> >     perl ./dump_section.perl $line \
-> >   done
-> >   
+> Also some thoughts on what the next steps could be:
 > 
-> Thanks, Joe. That is certainly helpful, I will try to make use of it in 
-> the future; fortunately, there really not too many invalid F: patterns 
-> left, and I can send the last few patches out myself.
+> - Create a macro called devm_drm_dev_alloc() which essentially wraps
+>   the kzalloc(); devm_drm_dev_init(); drmm_add_final_kfree() combo.
+>   Needs to be a macro since we'll have to do some typeof trickery and
+>   casting to make this fully generic for all drivers that embed struct
+>   drm_device into their own thing.
+> 
+> - A lot of the simple drivers now have essentially just
+>   drm_dev_unplug(); drm_atomic_helper_shutdown(); as their
+>   $bus_driver->remove hook. We could create a devm_mode_config_reset
+>   which sets drm_atomic_helper_shutdown as it's cleanup action, and a
+>   devm_drm_dev_register with drm_dev_unplug as it's cleanup action,
+>   and simple drivers wouldn't have a need for a ->remove function at
+>   all, and we could delete them.
+> 
+> - For more complicated drivers we need drmm_ versions of a _lot_ more
+>   things. All the userspace visible objects (crtc, plane, encoder,
+>   crtc), anything else hanging of those (maybe a drmm_get_edid, at
+>   least for panels and other built-in stuff).
 
-Talking about problems at MAINTAINERS file, while the entries are
-supposed to be in alphabetical order, there are some things at the
-wrong place there.
+When this patch set is landed and the dut have setteled it would
+be good with a detailed todo entry including the above.
+But let's land this first.
 
-This can easily seen with:
+> 
+> Also some more thoughts on why we're not reusing devm_ with maybe a
+> fake struct device embedded into the drm_device (we can't use the
+> kdev, since that's in each drm_minor).
+> 
+> - Code review gets extremely tricky, since every time you see a devm_
+>   you need to carefully check whether the fake device (with the
+>   drm_device lifetim) or the real device (with the lifetim of the
+>   underlying physical device and driver binding) are used. That's not
+>   going to help at all, and we have enormous amounts of drivers who
+>   use devm_ where they really shouldn't. Having different types makes
+>   sure the compiler type checks this for us and ensures correctness.
+> 
+> - The set of functions are very much non-overlapping. E.g.
+>   devm_ioremap makes total sense, drmm_ioremap has the wrong lifetime,
+>   since hw resources need to be cleaned out at driver unbind and wont
+>   outlive that like a drm_device. Similar, but other way round for
+>   drmm_connector_init (which is the only correct version, devm_ for
+>   drm_connector is just buggy). Simply not having the wrong version
+>   again prevents bugs.
+> 
+> Finally I guess this opens a huge todo for all the drivers. I'm
+> semi-tempted to do a tree-wide s/devm_kzalloc/drmm_kzalloc/ since most
+> likely that'll fix an enormous amount of bugs and most likely not
+> cause any issues at all (aside from maybe holding onto memory slightly
+> too long).
+> 
+> v2:
+> - Doc improvements from Laurent.
+> - Also add kerneldoc for the new drmm_add_action_or_reset.
+> 
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-	$ cat MAINTAINERS |grep -E '^[A-Z][A-Z]' >a;sort -f a >b;diff -U1 a b|less
+Looks good - nice overview and good function descriptions.
 
-See for example the first hunk:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-@@ -54,3 +54,2 @@
- ALACRITECH GIGABIT ETHERNET DRIVER
--FORCEDETH GIGABIT ETHERNET DRIVER
- ALCATEL SPEEDTOUCH USB DRIVER
-
-The FORCEDETH entry is completely misplaced.
-
-Same happens here:
-
-@@ -529,4 +529,2 @@
- DIOLAN U2C-12 I2C DRIVER
--FILESYSTEM DIRECT ACCESS (DAX)
--DEVICE DIRECT ACCESS (DAX)
- DIRECTORY NOTIFICATION (DNOTIFY)
-
-With this name, the FILESYSTEM DIRECT ACCESS (DAX) is also misplaced.
-Maybe it was called something else starting with DEVICE in the past?
-
-In any case, I wonder if it would make sense to re-order at least those 
-completely out order entries. On a quick check,  there are only 16 entries
-that seem to be really wrong, if we compare just the first two
-characters of the entries names.
-
-I'm using this small perl script to check:
-
-	open IN, "MAINTAINERS";
-	my $prev = "00";
-	while (<IN>) {
-		next if (m/THE REST/);
-		if (m/^([A-Z\d][A-Z\d])/) {
-			$cur = $1;
-			$entry = $_;
-			$entry =~ s/\s+$//;
-			print "$entry < $full_prev\n" if ($cur lt $prev);
-			$prev = $cur;
-			$full_prev = $entry;
-		}
-	}
-
-It got those results:
-
-	ALCATEL SPEEDTOUCH USB DRIVER < FORCEDETH GIGABIT ETHERNET DRIVER
-	AMAZON ANNAPURNA LABS FIC DRIVER < ARM PRIMECELL VIC PL190/PL192 DRIVER
-	802.11 (including CFG80211/NL80211) < CFAG12864BFB LCD FRAMEBUFFER DRIVER
-	DEVICE DIRECT ACCESS (DAX) < FILESYSTEM DIRECT ACCESS (DAX)
-	GASKET DRIVER FRAMEWORK < GCC PLUGINS
-	NXP FSPI DRIVER < OBJAGG
-	OMFS FILESYSTEM < ONION OMEGA2+ BOARD
-	FLYSKY FSIA6B RC RECEIVER < PHOENIX RC FLIGHT CONTROLLER ADAPTER
-	HANTRO VPU CODEC DRIVER < ROCKCHIP RASTER 2D GRAPHIC ACCELERATION UNIT DRIVER
-	REALTEK WIRELESS DRIVER (rtlwifi family) < RTL8187 WIRELESS DRIVER
-	EMMC CMDQ HOST CONTROLLER INTERFACE (CQHCI) DRIVER < SECURE DIGITAL HOST CONTROLLER INTERFACE (SDHCI) DRIVER
-	SECURE DIGITAL HOST CONTROLLER INTERFACE (SDHCI) MICROCHIP DRIVER < SYNOPSYS SDHCI COMPLIANT DWC MSHC DRIVER
-	SERIAL LOW-POWER INTER-CHIP MEDIA BUS (SLIMbus) < SLEEPABLE READ-COPY UPDATE (SRCU)
-	EXTRA BOOT CONFIG < STMMAC ETHERNET DRIVER
-	TEMPO SEMICONDUCTOR DRIVERS < TRIVIAL PATCHES
-	RCMM REMOTE CONTROLS DECODER < WINBOND CIR DRIVER
-
-	
-Regards,
-Mauro
+> ---
+>  Documentation/gpu/drm-internals.rst |  6 +++
+>  drivers/gpu/drm/drm_drv.c           | 18 +++++++--
+>  drivers/gpu/drm/drm_managed.c       | 61 +++++++++++++++++++++++++++++
+>  include/drm/drm_drv.h               |  4 ++
+>  include/drm/drm_managed.h           | 58 +++++++++++++++++++++++++++
+>  5 files changed, 144 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
+> index a6b6145fda78..12272b168580 100644
+> --- a/Documentation/gpu/drm-internals.rst
+> +++ b/Documentation/gpu/drm-internals.rst
+> @@ -138,6 +138,12 @@ Managed Resources
+>  .. kernel-doc:: drivers/gpu/drm/drm_managed.c
+>     :doc: managed resources
+>  
+> +.. kernel-doc:: drivers/gpu/drm/drm_managed.c
+> +   :export:
+> +
+> +.. kernel-doc:: include/drm/drm_managed.h
+> +   :internal:
+> +
+>  Bus-specific Device Registration and PCI Support
+>  ------------------------------------------------
+>  
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index a82702d0c2fb..cd172080649c 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -260,9 +260,15 @@ void drm_minor_release(struct drm_minor *minor)
+>   * any other resources allocated at device initialization and drop the driver's
+>   * reference to &drm_device using drm_dev_put().
+>   *
+> - * Note that the lifetime rules for &drm_device instance has still a lot of
+> - * historical baggage. Hence use the reference counting provided by
+> - * drm_dev_get() and drm_dev_put() only carefully.
+> + * Note that any allocation or resource which is visible to userspace must be
+> + * released only when the final drm_dev_put() is called, and not when the
+> + * driver is unbound from the underlying physical struct &device. Best to use
+> + * &drm_device managed resources with drmm_add_action(), drmm_kmalloc() and
+> + * related functions.
+> + *
+> + * devres managed resources like devm_kmalloc() can only be used for resources
+> + * directly related to the underlying hardware device, and only used in code
+> + * paths fully protected by drm_dev_enter() and drm_dev_exit().
+>   *
+>   * Display driver example
+>   * ~~~~~~~~~~~~~~~~~~~~~~
+> @@ -606,6 +612,9 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
+>   * arbitrary offset, you must supply a &drm_driver.release callback and control
+>   * the finalization explicitly.
+>   *
+> + * Note that drivers must call drmm_add_final_kfree() after this function has
+> + * completed successfully.
+> + *
+>   * RETURNS:
+>   * 0 on success, or error code on failure.
+>   */
+> @@ -707,6 +716,9 @@ static void devm_drm_dev_init_release(void *data)
+>   * Managed drm_dev_init(). The DRM device initialized with this function is
+>   * automatically put on driver detach using drm_dev_put().
+>   *
+> + * Note that drivers must call drmm_add_final_kfree() after this function has
+> + * completed successfully.
+> + *
+>   * RETURNS:
+>   * 0 on success, or error code on failure.
+>   */
+> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
+> index 8c5f1f03c485..5148ef786c3b 100644
+> --- a/drivers/gpu/drm/drm_managed.c
+> +++ b/drivers/gpu/drm/drm_managed.c
+> @@ -20,7 +20,19 @@
+>   * Inspired by struct &device managed resources, but tied to the lifetime of
+>   * struct &drm_device, which can outlive the underlying physical device, usually
+>   * when userspace has some open files and other handles to resources still open.
+> + *
+> + * Release actions can be added with drmm_add_action(), memory allocations can
+> + * be done directly with drmm_kmalloc() and the related functions. Everything
+> + * will be released on the final drm_dev_put() in reverse order of how the
+> + * release actions have been added and memory has been allocated since driver
+> + * loading started with drm_dev_init().
+> + *
+> + * Note that release actions and managed memory can also be added and removed
+> + * during the lifetime of the driver, all the functions are fully concurrent
+> + * safe. But it is recommended to use managed resources only for resources that
+> + * change rarely, if ever, during the lifetime of the &drm_device instance.
+>   */
+> +
+>  struct drmres_node {
+>  	struct list_head	entry;
+>  	drmres_release_t	release;
+> @@ -105,6 +117,18 @@ static void add_dr(struct drm_device *dev, struct drmres *dr)
+>  		       dr, dr->node.name, (unsigned long) dr->node.size);
+>  }
+>  
+> +/**
+> + * drmm_add_final_kfree - add release action for the final kfree()
+> + * @dev: DRM device
+> + * @parent: pointer to the kmalloc allocation containing @dev
+> + *
+> + * Since the allocation containing the struct &drm_device must be allocated
+> + * before it can be initialized with drm_dev_init() there's no way to allocate
+> + * that memory with drmm_kmalloc(). To side-step this chicken-egg problem the
+> + * pointer for this final kfree() must be specified by calling this function. It
+> + * will be released in the final drm_dev_put() for @dev, after all other release
+> + * actions installed through drmm_add_action() have been processed.
+> + */
+>  void drmm_add_final_kfree(struct drm_device *dev, void *parent)
+>  {
+>  	WARN_ON(dev->managed.final_kfree);
+> @@ -156,6 +180,14 @@ int __drmm_add_action_or_reset(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(__drmm_add_action_or_reset);
+>  
+> +/**
+> + * drmm_add_action - remove a managed release action to a &drm_device
+> + * @dev: DRM device
+> + * @action: release function
+> + * @data: opaque pointer, passed to @action
+> + *
+> + * This function removes a release action added by drmm_add_action().
+> + */
+>  void drmm_remove_action(struct drm_device *dev,
+>  			drmres_release_t action,
+>  			void *data)
+> @@ -184,6 +216,16 @@ void drmm_remove_action(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drmm_remove_action);
+>  
+> +/**
+> + * drmm_kmalloc - &drm_device managed kmalloc()
+> + * @dev: DRM device
+> + * @size: size of the memory allocation
+> + * @gfp: GFP allocation flags
+> + *
+> + * This is a &drm_device managed version of kmalloc(). The allocated memory is
+> + * automatically freed on the final drm_dev_put(). Memory can also be freed
+> + * before the final drm_dev_put() by calling drmm_kfree().
+> + */
+>  void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
+>  {
+>  	struct drmres *dr;
+> @@ -202,6 +244,16 @@ void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
+>  }
+>  EXPORT_SYMBOL(drmm_kmalloc);
+>  
+> +/**
+> + * drmm_kstrdup - &drm_device managed kstrdup()
+> + * @dev: DRM device
+> + * @s: 0-terminated string to be duplicated
+> + * @gfp: GFP allocation flags
+> + *
+> + * This is a &drm_device managed version of kstrdup(). The allocated memory is
+> + * automatically freed on the final drm_dev_put() and works exactly like a
+> + * memory allocation obtained by drmm_kmalloc().
+> + */
+>  char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp)
+>  {
+>  	size_t size;
+> @@ -218,6 +270,15 @@ char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp)
+>  }
+>  EXPORT_SYMBOL_GPL(drmm_kstrdup);
+>  
+> +/**
+> + * drmm_kfree - &drm_device managed kfree()
+> + * @dev: DRM device
+> + * @data: memory allocation to be freed
+> + *
+> + * This is a &drm_device managed version of kfree() which can be used to
+> + * release memory allocated through drmm_kmalloc() or any of its related
+> + * functions before the final drm_dev_put() of @dev.
+> + */
+>  void drmm_kfree(struct drm_device *dev, void *data)
+>  {
+>  	struct drmres *dr_match = NULL, *dr;
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index edee40e31e4b..0fd7fc6f024e 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -266,6 +266,10 @@ struct drm_driver {
+>  	 *
+>  	 * Optional callback for destroying device data after the final
+>  	 * reference is released, i.e. the device is being destroyed.
+> +	 *
+> +	 * This is deprecated, clean up all memory allocations associated with a
+> +	 * &drm_device using drmm_add_action(), drmm_kmalloc() and related
+> +	 * managed resources functions.
+>  	 */
+>  	void (*release) (struct drm_device *);
+>  
+> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
+> index 1e6291407586..af152cfb173c 100644
+> --- a/include/drm/drm_managed.h
+> +++ b/include/drm/drm_managed.h
+> @@ -11,6 +11,19 @@ struct drm_device;
+>  
+>  typedef void (*drmres_release_t)(struct drm_device *dev, void *res);
+>  
+> +/**
+> + * drmm_add_action - add a managed release action to a &drm_device
+> + * @dev: DRM device
+> + * @action: function which should be called when @dev is released
+> + * @data: opaque pointer, passed to @action
+> + *
+> + * This function adds the @release action with optional parameter @data to the
+> + * list of cleanup actions for @dev. The cleanup actions will be run in reverse
+> + * order in the final drm_dev_put() call for @dev.
+> + *
+> + * A release action can be removed before @dev is released by calling
+> + * drmm_remove_action() with matching parameters for @action and @data.
+> + */
+>  #define drmm_add_action(dev, action, data) \
+>  	__drmm_add_action(dev, action, data, #action)
+>  
+> @@ -18,6 +31,15 @@ int __must_check __drmm_add_action(struct drm_device *dev,
+>  				   drmres_release_t action,
+>  				   void *data, const char *name);
+>  
+> +/**
+> + * drmm_add_action_or_reset - add a managed release action to a &drm_device
+> + * @dev: DRM device
+> + * @action: function which should be called when @dev is released
+> + * @data: opaque pointer, passed to @action
+> + *
+> + * Similar to drmm_add_action(), with the only difference that upon failure
+> + * @action is directly called for any cleanup work necessary on failures.
+> + */
+>  #define drmm_add_action_or_reset(dev, action, data) \
+>  	__drmm_add_action_or_reset(dev, action, data, #action)
+>  
+> @@ -32,10 +54,33 @@ void drmm_remove_action(struct drm_device *dev,
+>  void drmm_add_final_kfree(struct drm_device *dev, void *parent);
+>
+>  void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp) __malloc;
+> +
+> +/**
+> + * drmm_kzalloc - &drm_device managed kzalloc()
+> + * @dev: DRM device
+> + * @size: size of the memory allocation
+> + * @gfp: GFP allocation flags
+> + *
+> + * This is a &drm_device managed version of kzalloc(). The allocated memory is
+> + * automatically freed on the final drm_dev_put(). Memory can also be freed
+> + * before the final drm_dev_put() by calling drmm_kfree().
+> + */
+>  static inline void *drmm_kzalloc(struct drm_device *dev, size_t size, gfp_t gfp)
+>  {
+>  	return drmm_kmalloc(dev, size, gfp | __GFP_ZERO);
+>  }
+> +
+> +/**
+> + * drmm_kmalloc_array - &drm_device managed kmalloc_array()
+> + * @dev: DRM device
+> + * @n: number of array elements to allocate
+> + * @size: size of array member
+> + * @flags: GFP allocation flags
+> + *
+> + * This is a &drm_device managed version of kmalloc_array(). The allocated
+> + * memory is automatically freed on the final drm_dev_put() and works exactly
+> + * like a memory allocation obtained by drmm_kmalloc().
+> + */
+>  static inline void *drmm_kmalloc_array(struct drm_device *dev,
+>  				       size_t n, size_t size, gfp_t flags)
+>  {
+> @@ -46,11 +91,24 @@ static inline void *drmm_kmalloc_array(struct drm_device *dev,
+>  
+>  	return drmm_kmalloc(dev, bytes, flags);
+>  }
+> +
+> +/**
+> + * drmm_kcalloc - &drm_device managed kcalloc()
+> + * @dev: DRM device
+> + * @n: number of array elements to allocate
+> + * @size: size of array member
+> + * @flags: GFP allocation flags
+> + *
+> + * This is a &drm_device managed version of kcalloc(). The allocated memory is
+> + * automatically freed on the final drm_dev_put() and works exactly like a
+> + * memory allocation obtained by drmm_kmalloc().
+> + */
+>  static inline void *drmm_kcalloc(struct drm_device *dev,
+>  				 size_t n, size_t size, gfp_t flags)
+>  {
+>  	return drmm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+>  }
+> +
+>  char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp);
+>
+>  void drmm_kfree(struct drm_device *dev, void *data);
+> -- 
+> 2.24.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
