@@ -2,150 +2,147 @@ Return-Path: <SRS0=doD2=4Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3831FC10DCE
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 02:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E648C10F26
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 02:36:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ECDEE2067C
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 02:12:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9F082070A
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 02:36:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ADvKaVVX"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fyzf/Jub"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbgCGCMB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 21:12:01 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:2142 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726314AbgCGCMB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Mar 2020 21:12:01 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e6302c50001>; Fri, 06 Mar 2020 18:11:18 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 06 Mar 2020 18:12:00 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 06 Mar 2020 18:12:00 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 7 Mar
- 2020 02:11:59 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sat, 7 Mar 2020 02:11:59 +0000
-Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e6302ef0000>; Fri, 06 Mar 2020 18:11:59 -0800
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Matthew Wilcox <willy@infradead.org>, <linux-doc@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>
-Subject: [PATCH] mm/gup: fixup for ce35133be382 mm/gup: track FOLL_PIN pages
-Date:   Fri, 6 Mar 2020 18:11:57 -0800
-Message-ID: <20200307021157.235726-1-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1583547078; bh=iLW9L2KGSEmZt4RMbKRU9iH7ArJGdygY6FFfahuV/tQ=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
-         Content-Type;
-        b=ADvKaVVX6pXY8WUtRIsve54FkosMGm3HbHmXkN7J3MO7EqMeVD1eqfL4Xk4Uh4Pgl
-         RerHhHE24nq0mK2MEiC2Znu1sTxa8ZOv3xR9r1xj88KiHvtELgAUiLfKtfsxN0OySV
-         EtyPkb5UJOxQ5novejG+pBg61Uvmli8uUYiRhjjrlGPbo2QI0TTXkMZtwjzKmJcm6Z
-         s/6uRS1Yuo7AksZjDpzJJI/r2MaYVIJBnXDnWWDhQGOau6FYaxyQtOeOKC/m4Aiytt
-         fycklPSUQDfpMcO6LA2Aac2qxAveVZY/TutWbesqSrnUR0qWFwXtKqSTDLOHTJlRXW
-         OmrHPv/APW6qQ==
+        id S1726811AbgCGCgh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 21:36:37 -0500
+Received: from mail-pg1-f201.google.com ([209.85.215.201]:45276 "EHLO
+        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726860AbgCGCgh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Mar 2020 21:36:37 -0500
+Received: by mail-pg1-f201.google.com with SMTP id h2so2508973pgr.12
+        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2020 18:36:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=upHdbTD180chm+zVZgEnvZGj206fX6ERxiKApi6jZ8Y=;
+        b=fyzf/Jubz9HkaxalGwR7GV/FnVvkkR3z+BL3xHAPV78dlk0xTqKWjGufJKSNBjySMS
+         lJ6l9J8ZWaIMU4nYnJuLS0JP2KVJdtg58knvL2LZxAJig1d4nz0Pc8hN4CdjtrkPUh/L
+         yGigvrVnnRAK1tYt/TyWTJZE14KygnZc+/ePsCWL7e5XM7ELayZaGTwE/bQ7cBu7vtFD
+         6vSaxno8O+IO2yfKMw1SR77PmzhVPfUzkkgLsP7YIsL4mg+FKh+FCg7gM4axMP3W3rB0
+         QJnTC98cimALDDZc7nEEDInaKRP29kqGalZn+2xetw6c5m0DBWt7tUDiZlaNbgCzCprP
+         TPUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=upHdbTD180chm+zVZgEnvZGj206fX6ERxiKApi6jZ8Y=;
+        b=MFcj270X84fvojH3VHO73TwMFIKKkBDVL8+Yxc6/Mx3OXNT4WWr3706CproqK7FBEZ
+         7bo9+SuQjadMl+/TcDo563VV+Doe0il7gqr4xy9yK10WP3mU1R6dGr84gI4tB+UFSPGz
+         S+1vqUi1CiQaBJLUIIRot8KwRD9MQZ60d3lfWwETQUQpEVPAgotS/CsOkXqx3jauzTaS
+         3LsvqWxedmrLm3FXlrJxBX3U7fF7GldZ0XZrWF3SelvTaSPoxlfQQ3RGBSbOJodNySdv
+         tdGko1KVLOQcN4b7OBej525ljfX/UzL5VcfRtXvnqXZyfRyrWm4OEXf8laCjIgnUB9Wt
+         etnA==
+X-Gm-Message-State: ANhLgQ2eXKt7MVLYh5ze/j0PZYKYdBc1izkA5icIZK2y+S1sDxBfs7iQ
+        yqVksZ4Jndl8gqwGDSvyr6XeC4D/cDQ=
+X-Google-Smtp-Source: ADFU+vuXQ5IvQYoUUL0swPdg+x5Y+MMF/JrTRrg98tDU5t1A35z2Nv6UucYAIwBa/D0lgjJ2OblQhk4x968=
+X-Received: by 2002:a63:f447:: with SMTP id p7mr6066483pgk.326.1583548595595;
+ Fri, 06 Mar 2020 18:36:35 -0800 (PST)
+Date:   Fri,  6 Mar 2020 18:36:04 -0800
+In-Reply-To: <20200307023611.204708-1-drosen@google.com>
+Message-Id: <20200307023611.204708-2-drosen@google.com>
+Mime-Version: 1.0
+References: <20200307023611.204708-1-drosen@google.com>
+X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
+Subject: [PATCH v8 1/8] unicode: Add utf8_casefold_hash
+From:   Daniel Rosenberg <drosen@google.com>
+To:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Eric Biggers <ebiggers@kernel.org>,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Richard Weinberger <richard@nod.at>
+Cc:     linux-mtd@lists.infradead.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel-team@android.com, Daniel Rosenberg <drosen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a fixup for the mmotm commit ce35133be382
-("mm/gup: track FOLL_PIN pages").
+This adds a case insensitive hash function to allow taking the hash
+without needing to allocate a casefolded copy of the string.
 
-Add kerneldoc comments for pin_user_pages*() routines, in order
-to get rid of "make -W1" warnings when building mm/gup.o.
-
-This just adds @param documentation of:
-    pin_user_pages()
-    pin_user_pages_fast()
-    pin_user_pages_remote()
-
-The param documentation was stolen from other gup.c functions,
-because it looks reasonable enough.
-
-Reported-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+Signed-off-by: Daniel Rosenberg <drosen@google.com>
 ---
- mm/gup.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ fs/unicode/utf8-core.c  | 23 ++++++++++++++++++++++-
+ include/linux/unicode.h |  3 +++
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/mm/gup.c b/mm/gup.c
-index f589299b0d4a..54af3b290cb0 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -2766,6 +2766,12 @@ EXPORT_SYMBOL_GPL(get_user_pages_fast);
- /**
-  * pin_user_pages_fast() - pin user pages in memory without taking locks
-  *
-+ * @start:      starting user address
-+ * @nr_pages:   number of pages from start to pin
-+ * @gup_flags:  flags modifying pin behaviour
-+ * @pages:      array that receives pointers to the pages pinned.
-+ *              Should be at least nr_pages long.
-+ *
-  * Nearly the same as get_user_pages_fast(), except that FOLL_PIN is set. =
-See
-  * get_user_pages_fast() for documentation on the function arguments, beca=
-use
-  * the arguments here are identical.
-@@ -2791,6 +2797,21 @@ EXPORT_SYMBOL_GPL(pin_user_pages_fast);
- /**
-  * pin_user_pages_remote() - pin pages of a remote process (task !=3D curr=
-ent)
-  *
-+ * @tsk:	the task_struct to use for page fault accounting, or
-+ *		NULL if faults are not to be recorded.
-+ * @mm:		mm_struct of target mm
-+ * @start:	starting user address
-+ * @nr_pages:	number of pages from start to pin
-+ * @gup_flags:	flags modifying lookup behaviour
-+ * @pages:	array that receives pointers to the pages pinned.
-+ *		Should be at least nr_pages long. Or NULL, if caller
-+ *		only intends to ensure the pages are faulted in.
-+ * @vmas:	array of pointers to vmas corresponding to each page.
-+ *		Or NULL if the caller does not require them.
-+ * @locked:	pointer to lock flag indicating whether lock is held and
-+ *		subsequently whether VM_FAULT_RETRY functionality can be
-+ *		utilised. Lock must initially be held.
-+ *
-  * Nearly the same as get_user_pages_remote(), except that FOLL_PIN is set=
-. See
-  * get_user_pages_remote() for documentation on the function arguments, be=
-cause
-  * the arguments here are identical.
-@@ -2819,6 +2840,15 @@ EXPORT_SYMBOL(pin_user_pages_remote);
- /**
-  * pin_user_pages() - pin user pages in memory for use by other devices
-  *
-+ * @start:	starting user address
-+ * @nr_pages:	number of pages from start to pin
-+ * @gup_flags:	flags modifying lookup behaviour
-+ * @pages:	array that receives pointers to the pages pinned.
-+ *		Should be at least nr_pages long. Or NULL, if caller
-+ *		only intends to ensure the pages are faulted in.
-+ * @vmas:	array of pointers to vmas corresponding to each page.
-+ *		Or NULL if the caller does not require them.
-+ *
-  * Nearly the same as get_user_pages(), except that FOLL_TOUCH is not set,=
- and
-  * FOLL_PIN is set.
-  *
---=20
-2.25.1
+diff --git a/fs/unicode/utf8-core.c b/fs/unicode/utf8-core.c
+index 2a878b739115d..90656b9980720 100644
+--- a/fs/unicode/utf8-core.c
++++ b/fs/unicode/utf8-core.c
+@@ -6,6 +6,7 @@
+ #include <linux/parser.h>
+ #include <linux/errno.h>
+ #include <linux/unicode.h>
++#include <linux/stringhash.h>
+ 
+ #include "utf8n.h"
+ 
+@@ -122,9 +123,29 @@ int utf8_casefold(const struct unicode_map *um, const struct qstr *str,
+ 	}
+ 	return -EINVAL;
+ }
+-
+ EXPORT_SYMBOL(utf8_casefold);
+ 
++int utf8_casefold_hash(const struct unicode_map *um, const void *salt,
++		       struct qstr *str)
++{
++	const struct utf8data *data = utf8nfdicf(um->version);
++	struct utf8cursor cur;
++	int c;
++	unsigned long hash = init_name_hash(salt);
++
++	if (utf8ncursor(&cur, data, str->name, str->len) < 0)
++		return -EINVAL;
++
++	while ((c = utf8byte(&cur))) {
++		if (c < 0)
++			return c;
++		hash = partial_name_hash((unsigned char)c, hash);
++	}
++	str->hash = end_name_hash(hash);
++	return 0;
++}
++EXPORT_SYMBOL(utf8_casefold_hash);
++
+ int utf8_normalize(const struct unicode_map *um, const struct qstr *str,
+ 		   unsigned char *dest, size_t dlen)
+ {
+diff --git a/include/linux/unicode.h b/include/linux/unicode.h
+index 990aa97d80496..74484d44c7554 100644
+--- a/include/linux/unicode.h
++++ b/include/linux/unicode.h
+@@ -27,6 +27,9 @@ int utf8_normalize(const struct unicode_map *um, const struct qstr *str,
+ int utf8_casefold(const struct unicode_map *um, const struct qstr *str,
+ 		  unsigned char *dest, size_t dlen);
+ 
++int utf8_casefold_hash(const struct unicode_map *um, const void *salt,
++		       struct qstr *str);
++
+ struct unicode_map *utf8_load(const char *version);
+ void utf8_unload(struct unicode_map *um);
+ 
+-- 
+2.25.1.481.gfbce0eb801-goog
 
