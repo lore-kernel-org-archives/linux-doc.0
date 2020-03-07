@@ -2,162 +2,150 @@ Return-Path: <SRS0=doD2=4Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 446D2C10DCE
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 01:05:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3831FC10DCE
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 02:12:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 18197206D7
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 01:05:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECDEE2067C
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 02:12:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ADvKaVVX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbgCGBFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Mar 2020 20:05:30 -0500
-Received: from out02.mta.xmission.com ([166.70.13.232]:55008 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726231AbgCGBFa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Mar 2020 20:05:30 -0500
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jANuA-0007Im-T1; Fri, 06 Mar 2020 18:05:26 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jANu8-0006Ld-L3; Fri, 06 Mar 2020 18:05:26 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <202003021531.C77EF10@keescook>
-        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
-        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nlii0b.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87a74xi4kz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
-        <87imjicxjw.fsf_-_@x220.int.ebiederm.org>
-        <AM6PR03MB5170375DBF699D4F3DC7A08DE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87k13yawpp.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170E9D0DB405EC051F7731CE4E30@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87sgil87s3.fsf@x220.int.ebiederm.org>
-        <87a74t86cs.fsf@x220.int.ebiederm.org>
-Date:   Fri, 06 Mar 2020 19:03:10 -0600
-In-Reply-To: <87a74t86cs.fsf@x220.int.ebiederm.org> (Eric W. Biederman's
-        message of "Fri, 06 Mar 2020 16:29:39 -0600")
-Message-ID: <87v9nh6koh.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1726368AbgCGCMB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Mar 2020 21:12:01 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:2142 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726314AbgCGCMB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Mar 2020 21:12:01 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e6302c50001>; Fri, 06 Mar 2020 18:11:18 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 06 Mar 2020 18:12:00 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 06 Mar 2020 18:12:00 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 7 Mar
+ 2020 02:11:59 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Sat, 7 Mar 2020 02:11:59 +0000
+Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e6302ef0000>; Fri, 06 Mar 2020 18:11:59 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Matthew Wilcox <willy@infradead.org>, <linux-doc@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH] mm/gup: fixup for ce35133be382 mm/gup: track FOLL_PIN pages
+Date:   Fri, 6 Mar 2020 18:11:57 -0800
+Message-ID: <20200307021157.235726-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-XM-SPF: eid=1jANu8-0006Ld-L3;;;mid=<87v9nh6koh.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19ga0TG/cHLdEFkXj9eUOD1GvS7qbzyimM=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH 2/2] exec: Add a exec_update_mutex to replace cred_guard_mutex
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1583547078; bh=iLW9L2KGSEmZt4RMbKRU9iH7ArJGdygY6FFfahuV/tQ=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+         Content-Type;
+        b=ADvKaVVX6pXY8WUtRIsve54FkosMGm3HbHmXkN7J3MO7EqMeVD1eqfL4Xk4Uh4Pgl
+         RerHhHE24nq0mK2MEiC2Znu1sTxa8ZOv3xR9r1xj88KiHvtELgAUiLfKtfsxN0OySV
+         EtyPkb5UJOxQ5novejG+pBg61Uvmli8uUYiRhjjrlGPbo2QI0TTXkMZtwjzKmJcm6Z
+         s/6uRS1Yuo7AksZjDpzJJI/r2MaYVIJBnXDnWWDhQGOau6FYaxyQtOeOKC/m4Aiytt
+         fycklPSUQDfpMcO6LA2Aac2qxAveVZY/TutWbesqSrnUR0qWFwXtKqSTDLOHTJlRXW
+         OmrHPv/APW6qQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ebiederm@xmission.com (Eric W. Biederman) writes:
+This is a fixup for the mmotm commit ce35133be382
+("mm/gup: track FOLL_PIN pages").
 
-> ebiederm@xmission.com (Eric W. Biederman) writes:
->
->> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
->>
->>> On 3/6/20 6:17 AM, Eric W. Biederman wrote:
->>>> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
->>>> 
->>>>> On 3/5/20 10:16 PM, Eric W. Biederman wrote:
->>>>>>
->>>>>> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
->>>>>> over the userspace accesses as the arguments from userspace are read.
->>>>>> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
->>>>>> threads are killed.  The cred_guard_mutex is held over
->>>>>> "put_user(0, tsk->clear_child_tid)" in exit_mm().
->>>>>>
->>>
->>> I am all for this patch, and the direction it is heading, Eric.
->>>
->>> I just wanted to add a note that I think it is
->>> possible that exec_mm_release can also invoke put_user(0, tsk->clear_child_tid),
->>> under the new exec_update_mutex, since vm_access increments the
->>> mm->mm_users, under the cred_update_mutex, but releases the mutex,
->>> and the caller can hold the reference for a while and then exec_mmap is not
->>> releasing the last reference.
->>
->> Good catch.  I really appreciate your close look at the details.
->>
->> I am wondering if process_vm_readv and process_vm_writev could be
->> safely changed to use mmgrab and mmdrop, instead of mmget and mmput.
->>
->> That would resolve the potential issue you have pointed out.  I just
->> haven't figured out if it is safe.  The mm code has been seriously
->> refactored since I knew how it all worked.
->
-> Nope, mmget can not be replaced by mmgrab.
->
-> It might be possible to do something creative like store a cred in place
-> of the userns on the mm and use that for mm_access permission checks.
-> Still we are talking a pretty narrow window, and a case that no one has
-> figured out how to trigger yet.  So I will leave that corner case as
-> something for future improvements.
+Add kerneldoc comments for pin_user_pages*() routines, in order
+to get rid of "make -W1" warnings when building mm/gup.o.
 
-My brain is restless and keep looking at it.
+This just adds @param documentation of:
+    pin_user_pages()
+    pin_user_pages_fast()
+    pin_user_pages_remote()
 
-The worst case is processes created with CLONE_VM|CLONE_CHILD_CLEARTID
-but not CLONE_THREAD.  For those that put_user will occur ever time
-in exec_mmap.
+The param documentation was stolen from other gup.c functions,
+because it looks reasonable enough.
 
-The only solution that I can see is to move taking the new mutex after
-exec_mm_release.  Which may be feasible given how close exec_mmap
-follows de_thread.
+Reported-by: Matthew Wilcox <willy@infradead.org>
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+ mm/gup.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-I am going to sleep on that and perhaps I will be able to see how to
-move taking the mutex lower.
-
-It would be very nice not to have a known issue going into this set of
-changes.
-
-Eric
+diff --git a/mm/gup.c b/mm/gup.c
+index f589299b0d4a..54af3b290cb0 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -2766,6 +2766,12 @@ EXPORT_SYMBOL_GPL(get_user_pages_fast);
+ /**
+  * pin_user_pages_fast() - pin user pages in memory without taking locks
+  *
++ * @start:      starting user address
++ * @nr_pages:   number of pages from start to pin
++ * @gup_flags:  flags modifying pin behaviour
++ * @pages:      array that receives pointers to the pages pinned.
++ *              Should be at least nr_pages long.
++ *
+  * Nearly the same as get_user_pages_fast(), except that FOLL_PIN is set. =
+See
+  * get_user_pages_fast() for documentation on the function arguments, beca=
+use
+  * the arguments here are identical.
+@@ -2791,6 +2797,21 @@ EXPORT_SYMBOL_GPL(pin_user_pages_fast);
+ /**
+  * pin_user_pages_remote() - pin pages of a remote process (task !=3D curr=
+ent)
+  *
++ * @tsk:	the task_struct to use for page fault accounting, or
++ *		NULL if faults are not to be recorded.
++ * @mm:		mm_struct of target mm
++ * @start:	starting user address
++ * @nr_pages:	number of pages from start to pin
++ * @gup_flags:	flags modifying lookup behaviour
++ * @pages:	array that receives pointers to the pages pinned.
++ *		Should be at least nr_pages long. Or NULL, if caller
++ *		only intends to ensure the pages are faulted in.
++ * @vmas:	array of pointers to vmas corresponding to each page.
++ *		Or NULL if the caller does not require them.
++ * @locked:	pointer to lock flag indicating whether lock is held and
++ *		subsequently whether VM_FAULT_RETRY functionality can be
++ *		utilised. Lock must initially be held.
++ *
+  * Nearly the same as get_user_pages_remote(), except that FOLL_PIN is set=
+. See
+  * get_user_pages_remote() for documentation on the function arguments, be=
+cause
+  * the arguments here are identical.
+@@ -2819,6 +2840,15 @@ EXPORT_SYMBOL(pin_user_pages_remote);
+ /**
+  * pin_user_pages() - pin user pages in memory for use by other devices
+  *
++ * @start:	starting user address
++ * @nr_pages:	number of pages from start to pin
++ * @gup_flags:	flags modifying lookup behaviour
++ * @pages:	array that receives pointers to the pages pinned.
++ *		Should be at least nr_pages long. Or NULL, if caller
++ *		only intends to ensure the pages are faulted in.
++ * @vmas:	array of pointers to vmas corresponding to each page.
++ *		Or NULL if the caller does not require them.
++ *
+  * Nearly the same as get_user_pages(), except that FOLL_TOUCH is not set,=
+ and
+  * FOLL_PIN is set.
+  *
+--=20
+2.25.1
 
