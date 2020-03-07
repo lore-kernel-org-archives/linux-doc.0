@@ -2,191 +2,180 @@ Return-Path: <SRS0=doD2=4Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D52C4C10F00
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 11:06:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67745C10F00
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 14:57:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A343C2070A
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 11:06:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3394520674
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 14:57:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726073AbgCGLGn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Mar 2020 06:06:43 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:11195 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726065AbgCGLGm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 7 Mar 2020 06:06:42 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 1335413F9D459FCCC85D;
-        Sat,  7 Mar 2020 19:06:38 +0800 (CST)
-Received: from [127.0.0.1] (10.177.131.64) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Sat, 7 Mar 2020
- 19:06:29 +0800
-Subject: Re: [PATCH v7 2/4] arm64: kdump: reserve crashkenel above 4G for
- crash dump kernel
-To:     Prabhakar Kushwaha <prabhakar.pkin@gmail.com>
-References: <20191223152349.180172-1-chenzhou10@huawei.com>
- <20191223152349.180172-3-chenzhou10@huawei.com>
- <CAJ2QiJ+SQ1orriXJWyhKDcDL9s4Vh5+HQHhWFOKPVmijGpMGvw@mail.gmail.com>
-CC:     Thomas Gleixner <tglx@linutronix.de>, <mingo@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        James Morse <james.morse@arm.com>, <dyoung@redhat.com>,
-        Bhupesh Sharma <bhsharma@redhat.com>, <xiexiuqi@huawei.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        <horms@verge.net.au>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>
-From:   Chen Zhou <chenzhou10@huawei.com>
-Message-ID: <0c00f14a-15ca-44db-7f82-00f15ddd3c88@huawei.com>
-Date:   Sat, 7 Mar 2020 19:06:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S1726086AbgCGO5a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Mar 2020 09:57:30 -0500
+Received: from 8.mo68.mail-out.ovh.net ([46.105.74.219]:32920 "EHLO
+        8.mo68.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbgCGO5a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Mar 2020 09:57:30 -0500
+Received: from player729.ha.ovh.net (unknown [10.108.54.172])
+        by mo68.mail-out.ovh.net (Postfix) with ESMTP id 7B0B915A90C
+        for <linux-doc@vger.kernel.org>; Sat,  7 Mar 2020 15:57:26 +0100 (CET)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player729.ha.ovh.net (Postfix) with ESMTPSA id A9C13104ED0CF;
+        Sat,  7 Mar 2020 14:57:17 +0000 (UTC)
+From:   Stephen Kitt <steve@sk2.org>
+To:     Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+        Jan Kara <jack@suse.cz>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Kitt <steve@sk2.org>
+Subject: [PATCH v2] Document genhd capability flags
+Date:   Sat,  7 Mar 2020 15:56:59 +0100
+Message-Id: <20200307145659.22657-1-steve@sk2.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ2QiJ+SQ1orriXJWyhKDcDL9s4Vh5+HQHhWFOKPVmijGpMGvw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.177.131.64]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 13138688963716533573
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddugedgjeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjedvledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The kernel documentation includes a brief section about genhd
+capabilities, but it turns out that the only documented
+capability (GENHD_FL_MEDIA_CHANGE_NOTIFY) isn't used any more.
 
+This patch removes that flag, and documents the rest, based on my
+understanding of the current uses of these flags in the kernel. The
+documentation is kept in the header file, alongside the declarations,
+in the hope that it will be kept up-to-date in future; the kernel
+documentation is changed to include the documentation generated from
+the header file.
 
-On 2020/3/5 18:13, Prabhakar Kushwaha wrote:
-> On Mon, Dec 23, 2019 at 8:57 PM Chen Zhou <chenzhou10@huawei.com> wrote:
->>
->> Crashkernel=X tries to reserve memory for the crash dump kernel under
->> 4G. If crashkernel=X,low is specified simultaneously, reserve spcified
->> size low memory for crash kdump kernel devices firstly and then reserve
->> memory above 4G.
->>
->> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
->> ---
->>  arch/arm64/kernel/setup.c |  8 +++++++-
->>  arch/arm64/mm/init.c      | 31 +++++++++++++++++++++++++++++--
->>  2 files changed, 36 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
->> index 56f6645..04d1c87 100644
->> --- a/arch/arm64/kernel/setup.c
->> +++ b/arch/arm64/kernel/setup.c
->> @@ -238,7 +238,13 @@ static void __init request_standard_resources(void)
->>                     kernel_data.end <= res->end)
->>                         request_resource(res, &kernel_data);
->>  #ifdef CONFIG_KEXEC_CORE
->> -               /* Userspace will find "Crash kernel" region in /proc/iomem. */
->> +               /*
->> +                * Userspace will find "Crash kernel" region in /proc/iomem.
->> +                * Note: the low region is renamed as Crash kernel (low).
->> +                */
->> +               if (crashk_low_res.end && crashk_low_res.start >= res->start &&
->> +                               crashk_low_res.end <= res->end)
->> +                       request_resource(res, &crashk_low_res);
->>                 if (crashk_res.end && crashk_res.start >= res->start &&
->>                     crashk_res.end <= res->end)
->>                         request_resource(res, &crashk_res);
->> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->> index b65dffd..0d7afd5 100644
->> --- a/arch/arm64/mm/init.c
->> +++ b/arch/arm64/mm/init.c
->> @@ -80,6 +80,7 @@ static void __init reserve_crashkernel(void)
->>  {
->>         unsigned long long crash_base, crash_size;
->>         int ret;
->> +       phys_addr_t crash_max = arm64_dma32_phys_limit;
->>
->>         ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
->>                                 &crash_size, &crash_base);
->> @@ -87,12 +88,38 @@ static void __init reserve_crashkernel(void)
->>         if (ret || !crash_size)
->>                 return;
->>
->> +       ret = reserve_crashkernel_low();
->> +       if (!ret && crashk_low_res.end) {
->> +               /*
->> +                * If crashkernel=X,low specified, there may be two regions,
->> +                * we need to make some changes as follows:
->> +                *
->> +                * 1. rename the low region as "Crash kernel (low)"
->> +                * In order to distinct from the high region and make no effect
->> +                * to the use of existing kexec-tools, rename the low region as
->> +                * "Crash kernel (low)".
->> +                *
->> +                * 2. change the upper bound for crash memory
->> +                * Set MEMBLOCK_ALLOC_ACCESSIBLE upper bound for crash memory.
->> +                *
->> +                * 3. mark the low region as "nomap"
->> +                * The low region is intended to be used for crash dump kernel
->> +                * devices, just mark the low region as "nomap" simply.
->> +                */
->> +               const char *rename = "Crash kernel (low)";
->> +
->> +               crashk_low_res.name = rename;
->> +               crash_max = MEMBLOCK_ALLOC_ACCESSIBLE;
->> +               memblock_mark_nomap(crashk_low_res.start,
->> +                                   resource_size(&crashk_low_res));
->> +       }
->> +
->>         crash_size = PAGE_ALIGN(crash_size);
->>
->>         if (crash_base == 0) {
->>                 /* Current arm64 boot protocol requires 2MB alignment */
->> -               crash_base = memblock_find_in_range(0, arm64_dma32_phys_limit,
->> -                               crash_size, SZ_2M);
->> +               crash_base = memblock_find_in_range(0, crash_max, crash_size,
->> +                               SZ_2M);
->>                 if (crash_base == 0) {
->>                         pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
->>                                 crash_size);
->> --
-> 
-> I tested this patch series on ARM64-ThunderX2 with no issue with
-> bootargs crashkenel=X@Y crashkernel=250M,low
-> 
-> $ dmesg | grep crash
-> [    0.000000] crashkernel reserved: 0x0000000b81200000 -
-> 0x0000000c81200000 (4096 MB)
-> [    0.000000] Kernel command line:
-> BOOT_IMAGE=/boot/vmlinuz-5.6.0-rc4+
-> root=UUID=866b8df3-14f4-4e11-95a1-74a90ee9b694 ro
-> crashkernel=4G@0xb81200000 crashkernel=250M,low nowatchdog earlycon
-> [   29.310209]     crashkernel=250M,low
-> 
-> $  kexec -p -i /boot/vmlinuz-`uname -r`
-> --initrd=/boot/initrd.img-`uname -r` --reuse-cmdline
-> $ echo 1 > /proc/sys/kernel/sysrq ; echo c > /proc/sysrq-trigger
-> 
-> But when i tried with crashkernel=4G crashkernel=250M,low as bootargs.
-> Kernel is not able to allocate memory.
-> [    0.000000] cannot allocate crashkernel (size:0x100000000)
-> [    0.000000] Kernel command line:
-> BOOT_IMAGE=/boot/vmlinuz-5.6.0-rc4+
-> root=UUID=866b8df3-14f4-4e11-95a1-74a90ee9b694 ro crashkernel=4G
-> crashkernel=250M,low nowatchdog
-> [   29.332081]     crashkernel=250M,low
-> 
-> does crashkernel=X@Y mandatory to get allocated beyond 4G?
-> am I missing something?
+Because the ultimate goal is to provide some end-user
+documentation (or end-administrator documentation), the comments are
+perhaps more user-oriented than might be expected. Since the values
+are shown to users in hexadecimal, the documentation lists them in
+hexadecimal, and the constant declarations are adjusted to match.
 
-I can't reproduce the problem in my environment, can you test with other size,
-such as "crashkernel=1G crashkernel=250M,low", see if there is the same issue.
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
+ Documentation/block/capability.rst | 16 ++-----
+ include/linux/genhd.h              | 69 +++++++++++++++++++++++++-----
+ 2 files changed, 62 insertions(+), 23 deletions(-)
 
-Besides, crashkernel=X@Y isn't mandatory to get allocated beyond 4G,
-can you show the whole file /proc/iomem.
+diff --git a/Documentation/block/capability.rst b/Documentation/block/capability.rst
+index 2cf258d64bbe..160a5148b915 100644
+--- a/Documentation/block/capability.rst
++++ b/Documentation/block/capability.rst
+@@ -2,17 +2,9 @@
+ Generic Block Device Capability
+ ===============================
+ 
+-This file documents the sysfs file block/<disk>/capability
++This file documents the sysfs file ``block/<disk>/capability``.
+ 
+-capability is a hex word indicating which capabilities a specific disk
+-supports.  For more information on bits not listed here, see
+-include/linux/genhd.h
++``capability`` is a bitfield, printed in hexadecimal, indicating which
++capabilities a specific block device supports:
+ 
+-GENHD_FL_MEDIA_CHANGE_NOTIFY
+-----------------------------
+-
+-Value: 4
+-
+-When this bit is set, the disk supports Asynchronous Notification
+-of media change events.  These events will be broadcast to user
+-space via kernel uevent.
++.. kernel-doc:: include/linux/genhd.h
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index 6fbe58538ad6..e7244fb6b6ad 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -133,17 +133,64 @@ struct hd_struct {
+ 	struct rcu_work rcu_work;
+ };
+ 
+-#define GENHD_FL_REMOVABLE			1
+-/* 2 is unused */
+-#define GENHD_FL_MEDIA_CHANGE_NOTIFY		4
+-#define GENHD_FL_CD				8
+-#define GENHD_FL_UP				16
+-#define GENHD_FL_SUPPRESS_PARTITION_INFO	32
+-#define GENHD_FL_EXT_DEVT			64 /* allow extended devt */
+-#define GENHD_FL_NATIVE_CAPACITY		128
+-#define GENHD_FL_BLOCK_EVENTS_ON_EXCL_WRITE	256
+-#define GENHD_FL_NO_PART_SCAN			512
+-#define GENHD_FL_HIDDEN				1024
++/**
++ * DOC: genhd capability flags
++ *
++ * ``GENHD_FL_REMOVABLE`` (0x0001): indicates that the block device
++ * gives access to removable media.
++ * When set, the device remains present even when media is not
++ * inserted.
++ * Must not be set for devices which are removed entirely when the
++ * media is removed.
++ *
++ * ``GENHD_FL_CD`` (0x0008): the block device is a CD-ROM-style
++ * device.
++ * Affects responses to the ``CDROM_GET_CAPABILITY`` ioctl.
++ *
++ * ``GENHD_FL_UP`` (0x0010): indicates that the block device is "up",
++ * with a similar meaning to network interfaces.
++ *
++ * ``GENHD_FL_SUPPRESS_PARTITION_INFO`` (0x0020): don't include
++ * partition information in ``/proc/partitions`` or in the output of
++ * printk_all_partitions().
++ * Used for the null block device and some MMC devices.
++ *
++ * ``GENHD_FL_EXT_DEVT`` (0x0040): the driver supports extended
++ * dynamic ``dev_t``, i.e. it wants extended device numbers
++ * (``BLOCK_EXT_MAJOR``).
++ * This affects the maximum number of partitions.
++ *
++ * ``GENHD_FL_NATIVE_CAPACITY`` (0x0080): based on information in the
++ * partition table, the device's capacity has been extended to its
++ * native capacity; i.e. the device has hidden capacity used by one
++ * of the partitions (this is a flag used so that native capacity is
++ * only ever unlocked once).
++ *
++ * ``GENHD_FL_BLOCK_EVENTS_ON_EXCL_WRITE`` (0x0100): event polling is
++ * blocked whenever a writer holds an exclusive lock.
++ *
++ * ``GENHD_FL_NO_PART_SCAN`` (0x0200): partition scanning is disabled.
++ * Used for loop devices in their default settings and some MMC
++ * devices.
++ *
++ * ``GENHD_FL_HIDDEN`` (0x0400): the block device is hidden; it
++ * doesn't produce events, doesn't appear in sysfs, and doesn't have
++ * an associated ``bdev``.
++ * Implies ``GENHD_FL_SUPPRESS_PARTITION_INFO`` and
++ * ``GENHD_FL_NO_PART_SCAN``.
++ * Used for multipath devices.
++ */
++#define GENHD_FL_REMOVABLE			0x0001
++/* 2 is unused (used to be GENHD_FL_DRIVERFS) */
++/* 4 is unused (used to be GENHD_FL_MEDIA_CHANGE_NOTIFY) */
++#define GENHD_FL_CD				0x0008
++#define GENHD_FL_UP				0x0010
++#define GENHD_FL_SUPPRESS_PARTITION_INFO	0x0020
++#define GENHD_FL_EXT_DEVT			0x0040
++#define GENHD_FL_NATIVE_CAPACITY		0x0080
++#define GENHD_FL_BLOCK_EVENTS_ON_EXCL_WRITE	0x0100
++#define GENHD_FL_NO_PART_SCAN			0x0200
++#define GENHD_FL_HIDDEN				0x0400
+ 
+ enum {
+ 	DISK_EVENT_MEDIA_CHANGE			= 1 << 0, /* media changed */
 
-Thanks,
-Chen Zhou
-
-> 
-> --pk
-> 
-> .
-> 
+base-commit: aeb542a1b5c507ea117d21c3e3e012ba16f065ac
+-- 
+2.20.1
 
