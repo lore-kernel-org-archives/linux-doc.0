@@ -2,176 +2,130 @@ Return-Path: <SRS0=zgll=4Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6102AC10DCE
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Mar 2020 21:16:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35784C10DCE
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Mar 2020 21:26:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2BCE92072A
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Mar 2020 21:16:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03DDB20663
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Mar 2020 21:26:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="fft/uxRH"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="VbEOItHQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726346AbgCHVQC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Mar 2020 17:16:02 -0400
-Received: from mout.gmx.net ([212.227.17.22]:53755 "EHLO mout.gmx.net"
+        id S1726346AbgCHV0N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Mar 2020 17:26:13 -0400
+Received: from mout.gmx.net ([212.227.15.19]:37857 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726332AbgCHVQC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 8 Mar 2020 17:16:02 -0400
+        id S1726332AbgCHV0N (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 8 Mar 2020 17:26:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1583702129;
-        bh=SrPI560zXDJrijeCSQccL1i1TJ/uBy66UrOAoyMNzDk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=fft/uxRHwKOK1a4EnkbWRlZE6qOmhleRC9l9PTqjC1H1vJh0hHqGElDJmQqr3UMnj
-         hlNl4I4GcnE7ocMbviYhHTPts661BvaQKMFVBQnL0kAB05oFuNW5CT+PYlat2FNSPb
-         alwfJ6w2rgxGPfq1Jwij0a+gp781W2JLUa9fGhss=
+        s=badeba3b8450; t=1583702751;
+        bh=Yi7lbxUNXC68w1fVUFuEzq9bidnvSVyt1lzmxMiOzYc=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=VbEOItHQu99JI/WzUZwH4KNKfLIGNQQo2W+hUBjr77xN8WogyXp5Ug5C3a0bz0NwN
+         b5fBorNHMlKX/+XS4Ajy7dL/YbeGuqAAZHMGnNqqkTrdCJa3zbNmN+tuiTd4gBkXan
+         cLUQCWrOSACXwBp4aLWfbxpUeAoXN+xnSGebWwy8=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([37.201.214.212]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mj8mb-1jnR1I0bGX-00f7zp; Sun, 08
- Mar 2020 22:15:29 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sudeep Dutt <sudeep.dutt@intel.com>,
-        Ashutosh Dixit <ashutosh.dixit@intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs: Move Intel Many Integrated Core documentation (mic) under misc-devices
-Date:   Sun,  8 Mar 2020 22:14:43 +0100
-Message-Id: <20200308211519.8414-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.20.1
+Received: from longitude ([37.201.214.212]) by mail.gmx.com (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mr9Fs-1jfQN71rvS-00oCaB; Sun, 08
+ Mar 2020 22:25:51 +0100
+Date:   Sun, 8 Mar 2020 22:25:49 +0100
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        linux-doc@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [PATCH 3/3] docs: atomic_ops: Steer readers towards using
+ refcount_t for reference counts
+Message-ID: <20200308212549.GD2376@latitude>
+References: <20200308195618.22768-1-j.neuschaefer@gmx.net>
+ <20200308200007.23314-1-j.neuschaefer@gmx.net>
+ <7ff7dc4e-d606-e2a1-edce-a0485e948e48@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:fcNz+DMw1U/mDTIGdliK2zAZhiqkrw0Ns0FKBI5DZWuD5lAixbi
- oB2SXPdNFn7BbiKOelhgt/CLf/FqJnBErFgFr20DjOsY2C5By1VRsJK+abYPL62WJ3tYRA2
- 7z80o6fEuHdTBmO7hBCIpc4NDuAUMYcbZHgruP2uKsB2j4B7cyXRtxUZQjym0vZtyw/03i7
- Jbh+pnoHYl6TPW7qkrNfg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/DlWjcr07/k=:RhM0/yynJdy15UBqpKuaO3
- YhaU6Y3Fqh9xpSCx49biXCLwbeZKhbO50RpKyKPlmjoLRFZiAmeFdt1xMMdh6b7ZBqzaRJdAk
- 21CH7BoZMECGWWjIZrEW59sReMqmjfBZKXtHg0TvjKFoD4Q+uf6xm4Oudz9d233YKH8gVMhzk
- 7uYtRfRVSLRlF8BqUzqxnUmwYhjGX2OJfm0L88gbv+SWbx6tPUOtvly0K18VvSFOdRArCg9pV
- EP0Bt+BKBVzN9plZvpLq6FNhZ74E2rccmAgEshQ3438g4wQL2uhnx1Hxbyj6N1BrOBboBvZR0
- 0UGf6WbZIWdGNBFOYJgM8frg3hI26vfbEDUl+0lAPMMkUyhgUVl9ZNDu9Rdmy+QqWwoF5vsER
- GqIt5ZLBSeFv+RCBMQ7g/pCSpEb+2WuntSZu2qG6dvz1/3zyH8zDRKpFknY6FGcxEPTQQ3rur
- rzQJQdrigHbpM1E0rH/yIdGa1uAE5oZWiDC5mBp9sO2T/69wUpOwPm6DYWu7Lb98SaZfwdOzj
- lTVBf+YHa9kVWUgh+VwR3kjwrqkNI6ec1g/i1lMLzQdKgVbg5fUFbtRMOKypikJzve7AcMrQG
- uVZlIWf0BsiLd1cwt4eO8biF8rkNqWIQf5iScUOlQgtsFZqU6U9R4Sla7GpclD+Gohb8tH2BI
- zw9uqL8ZJ6X3DlAzQjA5oAutd9+q+4bt1Bs62swdk1NbmL3cneNSyYQrZHVKkWp08XHdP/p/v
- juH6ghJL8IaN+irszQlKXD/L1dbNY+m7tfgRFWogKtu97MSkoY684CeuJlvtuyqh/eH7q/+1w
- gCy6sQ3pq1FmuvyDIJB7BhFIbq0meCfQFctbgbMs3rM7u7AA0PJUrtE6qjRAETl5o5q12NxJH
- nm/xYosZY3oIc5j6TnhD2lESskgv/lvAnGsHLZxAU/U0WWIMWzVfLIMKwXDgXaqUfiGtNw110
- cMAlZ3jTmga6JDnAdglL9I2NA28iPtPm6fOLAha3ZJT7EqG2Qz4ucQTOBPvzMjP184Z9Nrg2f
- rCF5hA88v57V8qSW3fZKoc2xrKe2NTjPzTJ9LU/R7rSd6bt1twup8wdstZfNH73YkG4KyvFSQ
- 3h1xj9h3rUzKukM5b/y2iirOqA6pH6wIptRBYbi2F3QLFfoa/EQqOfE1kpmWz1E0zPVUQIGYD
- OCGVRVTN4DfdSkR+Okdw61VqJ4xhUefkW0ksYpsFCvpNisGtJivOgEgn0a45Ld/fW1t2HAc8B
- wikSBq+xLD2+/faNa
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="UFHRwCdBEJvubb2X"
+Content-Disposition: inline
+In-Reply-To: <7ff7dc4e-d606-e2a1-edce-a0485e948e48@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:31tpsmX2Gc4XHZFgNmUMGC4L5JPVlXItfoeYC+QBaOB0PGXoDMW
+ 708cPNcULQJEhwOBvM51ZAWsUOMfQS9O79xlO8u+k3fZMpS1F6PrEPhJFYJq0e25VsnqMbc
+ eMjaOiHfO6IPe+F655FQdWYCls5tcxh8a/I+NNhR2aOM15YhHEAZRb/abow40xJ5ALSvKyq
+ IZW3bFVWGBSeqpfSB3B/A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2qhi7sL3Vwc=:PiVsK3k6q8txHd14E9zckk
+ txZhgvCNtdiRzdTqbhZwg1VN31OGFDhA/7O8UGauSKjiMqD3FTl8eF0E+SRgM7mQO0RCzauXs
+ 0uMv1JgExncQVJ1grsElV1a2OGqC2sBVOy590+NWg8OAdHpqRhWQ3uIqtqWcPX2D2Hf2JAAeM
+ XpbOfr5FP++G21SBRNeJ6laa5N9qfetcFTyhv1OXoghYinWyXrL013XgDtddICiZJ9e1iaUQz
+ AAscmPj5D2sWCWOgi5CowZcG2WaS7EhCoUx7oK+nEfJ9tLFyBXnxS8+xWzvoQOFsP1lV/Wmd4
+ hW4tyCJ/hMy5PxL1JG8cqnTOZS5Y/nuohcxoMAEZRhlItLjtN9tgblututVw6XnqV/AN2qIr6
+ hAyHEi6XyF8r2qxalAUDfoUUj7PFbitfnsQZ4GRcDKRr9XljdT793ebMp3Kb4KEVQlWYStdO4
+ j99c95PRpFVZrq19LwFRDgTsSrZ3PGFGmFNEK4ApkgU5lF3CF8hAjYyXnj2ku/L/nNWqElItT
+ hhgKSjCfOFKuto22TEyKBx8QqQUqOFv4sHNZw0Nzh1rUNh2ODwai8Rsw9Ntcdrw+bCMOVO8Ae
+ ZWTZMOW1HKu+MO5Qemv7zdl+DuQXd1Vz9VwnXXhmX/yqa49f081z37jTGO0QVITM18+3YKdnM
+ vhcO44rZRVSuLz2+hP9Yh+6IMKDQ29dqhx39jtuSPWcCwj+CFNGDHQhwv3srKKZEPDiFWlGep
+ jxA58RYcmcPUugoQm6VKiAG7X9qb1w8z7fZwQnOzc1Hh517T0N4+Lj74BZQRpUDtS/o1DuWUw
+ brMtnlE1TWeXAV04DasHXAvnVMGp4esM3xrP4p5FLY1RP9ijx/FluJlU2Y3u/3F/gN/R3gRd3
+ 1EPCZmxFJmGu3lmFmzS16pv2nJTQJ88nyqocjDhlAXYUoSnh+QkVZYI375coifhiwXkw0QduC
+ Zf8Md1T5ZGPfWVxebmpCqjiiZATv+hXhMH5Bx1VHITBTiYcS0Ls54CLEkhQnkFjUBjv3TkNaF
+ /Mmk4tyIDtQjje31PNk2cFa1rgatVSYr18nvtXdEiJqX8wNHYExcO7hJULuGH3W9BLql0RSGZ
+ kjOclGnCFeIaMUbwBgFMEs0AlxTy3T1UqrD9SrkiaouvDrw32VNKZvzViS5yhGd5+bArc7Uxb
+ HMILb2m0xZruyEx163z5f1A/kbaBNqj6txR3vzs3mtpe+J8iSHDtxyBOE0KbNetGGMJlOBnmD
+ +boFJYrtTsP5cRjo7
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It doesn't need to be a top-level chapter.
 
-This patch also updates MAINTAINERS and makes sure the F: lines are
-properly sorted.
+--UFHRwCdBEJvubb2X
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
+On Sun, Mar 08, 2020 at 02:07:46PM -0700, Randy Dunlap wrote:
+> On 3/8/20 1:00 PM, Jonathan Neusch=C3=A4fer wrote:
+[...]
+> > +        More recently, reference counts are implement using the
+>=20
+>                                                implemented
 
-v2:
-- Run scripts/parse-maintainers.pl to sort the lines in the MAINTAINERS
-  entry, as suggested by Andy Shevchenko
+Indeed, good catch.
 
-v1:
-- https://lore.kernel.org/lkml/20200305214747.20908-1-j.neuschaefer@gmx.ne=
-t/
-=2D--
- Documentation/index.rst                                | 1 -
- Documentation/misc-devices/index.rst                   | 1 +
- Documentation/{ =3D> misc-devices}/mic/index.rst         | 0
- Documentation/{ =3D> misc-devices}/mic/mic_overview.rst  | 0
- Documentation/{ =3D> misc-devices}/mic/scif_overview.rst | 0
- MAINTAINERS                                            | 8 ++++----
- 6 files changed, 5 insertions(+), 5 deletions(-)
- rename Documentation/{ =3D> misc-devices}/mic/index.rst (100%)
- rename Documentation/{ =3D> misc-devices}/mic/mic_overview.rst (100%)
- rename Documentation/{ =3D> misc-devices}/mic/scif_overview.rst (100%)
+Thanks,
+Jonathan Neusch=C3=A4fer
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index e99d0bd2589d..6fdad61ee443 100644
-=2D-- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -131,7 +131,6 @@ needed).
-    usb/index
-    PCI/index
-    misc-devices/index
--   mic/index
-    scheduler/index
+--UFHRwCdBEJvubb2X
+Content-Type: application/pgp-signature; name="signature.asc"
 
- Architecture-agnostic documentation
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-dev=
-ices/index.rst
-index f11c5daeada5..c1dcd2628911 100644
-=2D-- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -20,4 +20,5 @@ fit into other categories.
-    isl29003
-    lis3lv02d
-    max6875
-+   mic/index
-    xilinx_sdfec
-diff --git a/Documentation/mic/index.rst b/Documentation/misc-devices/mic/=
-index.rst
-similarity index 100%
-rename from Documentation/mic/index.rst
-rename to Documentation/misc-devices/mic/index.rst
-diff --git a/Documentation/mic/mic_overview.rst b/Documentation/misc-devic=
-es/mic/mic_overview.rst
-similarity index 100%
-rename from Documentation/mic/mic_overview.rst
-rename to Documentation/misc-devices/mic/mic_overview.rst
-diff --git a/Documentation/mic/scif_overview.rst b/Documentation/misc-devi=
-ces/mic/scif_overview.rst
-similarity index 100%
-rename from Documentation/mic/scif_overview.rst
-rename to Documentation/misc-devices/mic/scif_overview.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5b229788d425..722b2e5d495b 100644
-=2D-- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8570,15 +8570,15 @@ M:	Ashutosh Dixit <ashutosh.dixit@intel.com>
- S:	Supported
- W:	https://github.com/sudeepdutt/mic
- W:	http://software.intel.com/en-us/mic-developer
-+F:	Documentation/misc-devices/mic/
-+F:	drivers/dma/mic_x100_dma.c
-+F:	drivers/dma/mic_x100_dma.h
-+F:	drivers/misc/mic/
- F:	include/linux/mic_bus.h
- F:	include/linux/scif.h
- F:	include/uapi/linux/mic_common.h
- F:	include/uapi/linux/mic_ioctl.h
- F:	include/uapi/linux/scif_ioctl.h
--F:	drivers/misc/mic/
--F:	drivers/dma/mic_x100_dma.c
--F:	drivers/dma/mic_x100_dma.h
--F:	Documentation/mic/
+-----BEGIN PGP SIGNATURE-----
 
- INTEL PMC CORE DRIVER
- M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
-=2D-
-2.20.1
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl5lYtYACgkQCDBEmo7z
+X9sxeBAAoyLudMLbrFONlymj1JeXx3yBqw9ZfcOD64ryxfRRF2m1ubwkq6vR+prR
+YK0WpHHC9iG6gaW6cF0cZtyt+ees8p2KrOgrwVV9Zol8TRQjM9Y2MdOD6YO5+qQn
+AzzjKW6kA4F8la6p1YRXO5ZNZMfzZiJ+7/v7nPtsLzTPcU2TJsEgVGsyuLgh3uxd
+AyOtCQmzlQseb6F75DL4gz2gujhqp/UReekuSDrRpyeAHNs24z8ImDNm6CvLDGAH
+8bWD/XlopYXE50OalKh150cd1p6xlf8XO8fHIuUqhlJfb1caCBxLQy2Hsc13IyWR
+seT0BR+CCr219TO0K0fo2MMjK1gICUXpZqGH2q3Jv3Jbb77BDLsnugOyHQ2A7Bbr
+pb//s740vURsI3y3D0+GhttA6OuS5LY4RdmcRqcUDWdem5c4mEa//5F6C/d/vcV5
+9Wfuz7A7RAZJjW8RzY3d6G44GumNOaRav1CUm3z9Tuy7NHgzUP2KGxshZAT7pbRg
+JOUiNzwKjroh7+1qo6QB43p5q0SEt9WoiCNr6TItHRSaMTIKTWmk+t1MnQyJUwik
+AcgOcDfcvXhaGMMFHx9uweA9m7q9p6N+b2CD4KesE6PiYS3mU7lEBlTtBRBMZTMP
+w5AIXElmYgW3xubTKzsfe3Z8U2vCnEhIs/DWjBVc/36QJTWvhU4=
+=kF/P
+-----END PGP SIGNATURE-----
 
+--UFHRwCdBEJvubb2X--
