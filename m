@@ -1,72 +1,153 @@
-Return-Path: <SRS0=doD2=4Y=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=zgll=4Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D51DC10F00
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 20:31:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9EBEC10F26
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Mar 2020 03:00:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3B61E206D7
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Mar 2020 20:31:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="e7S/y+jG"
+	by mail.kernel.org (Postfix) with ESMTP id 89C4320656
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Mar 2020 03:00:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726239AbgCGUbl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Mar 2020 15:31:41 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:41516 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726225AbgCGUbl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Mar 2020 15:31:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=p5Qje8RxBhHJAxKEW5syzh0nYVF7uA7bs9uSppk3M08=; b=e7S/y+jGeaZYjPv3GgTKNxpQxf
-        l23Ue2dvWbUK9WtXReYLtOtzgPGQ5uRQ+sNZx6Op6KlijrYgbVC02sZgEgGW+lIEDlMrJfaJuF+PU
-        5xURNpvLPrb6sXMo1B5EiRQAHQfnBWU198KA/6vaPozPye5JwLjfYp8UauCmSts3aJWT62EfG+sFI
-        bmLqw3b7DZbpIdRrqDKDW7vGBiCknMAeijn00jjZph3bEvE/z8wowQzCeiGmSpxeYkFzwFPB46Cih
-        3I52ubxBWlTLiCSW5S7HZ+40mtnV7SlYBRt/lWb6TUshPDssH/xORMLBm8iqAoaQPc874vXb0GG+i
-        fjbDCIfQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jAg6f-0007l5-IJ; Sat, 07 Mar 2020 20:31:33 +0000
-Date:   Sat, 7 Mar 2020 12:31:33 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Stephen Kitt <steve@sk2.org>
-Cc:     Jens Axboe <axboe@kernel.dk>, Jan Kara <jack@suse.cz>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Document genhd capability flags
-Message-ID: <20200307203133.GC31215@bombadil.infradead.org>
-References: <20200307145659.22657-1-steve@sk2.org>
+        id S1726298AbgCHDAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Mar 2020 22:00:46 -0500
+Received: from smtprelay0028.hostedemail.com ([216.40.44.28]:38834 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726269AbgCHDAq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Mar 2020 22:00:46 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 96753181D3417;
+        Sun,  8 Mar 2020 03:00:44 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: worm58_407ce0f971c3f
+X-Filterd-Recvd-Size: 4583
+Received: from XPS-9350.home (unknown [47.151.143.254])
+        (Authenticated sender: joe@perches.com)
+        by omf19.hostedemail.com (Postfix) with ESMTPA;
+        Sun,  8 Mar 2020 03:00:43 +0000 (UTC)
+Message-ID: <4d5291fa3fb4962b1fa55e8fd9ef421ef0c1b1e5.camel@perches.com>
+Subject: [PATCH] parse-maintainers: Do not sort section content by default
+From:   Joe Perches <joe@perches.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Sat, 07 Mar 2020 18:59:05 -0800
+In-Reply-To: <0d5503e1d864f2588e756ae590ff8935e11bf9d6.camel@perches.com>
+References: <20200304072950.10532-1-lukas.bulwahn@gmail.com>
+         <20200304131035.731a3947@lwn.net>
+         <alpine.DEB.2.21.2003042145340.2698@felia>
+         <e43f0cf0117fbfa8fe8c7e62538fd47a24b4657a.camel@perches.com>
+         <alpine.DEB.2.21.2003062214500.5521@felia>
+         <20200307110154.719572e4@onda.lan>
+         <0d5503e1d864f2588e756ae590ff8935e11bf9d6.camel@perches.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200307145659.22657-1-steve@sk2.org>
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 07, 2020 at 03:56:59PM +0100, Stephen Kitt wrote:
-> The kernel documentation includes a brief section about genhd
-> capabilities, but it turns out that the only documented
-> capability (GENHD_FL_MEDIA_CHANGE_NOTIFY) isn't used any more.
-> 
-> This patch removes that flag, and documents the rest, based on my
-> understanding of the current uses of these flags in the kernel. The
-> documentation is kept in the header file, alongside the declarations,
-> in the hope that it will be kept up-to-date in future; the kernel
-> documentation is changed to include the documentation generated from
-> the header file.
-> 
-> Because the ultimate goal is to provide some end-user
-> documentation (or end-administrator documentation), the comments are
-> perhaps more user-oriented than might be expected. Since the values
-> are shown to users in hexadecimal, the documentation lists them in
-> hexadecimal, and the constant declarations are adjusted to match.
-> 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
+Add an --order switch to control section reordering.
+Default for --order is off.
 
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Change the default ordering to a slightly more sensible:
+
+M:  Person acting as a maintainer
+R:  Person acting as a patch reviewer
+L:  Mailing list where patches should be sent
+S:  Maintenance status
+W:  URI for general information
+Q:  URI for patchwork tracking
+B:  URI for bug tracking/submission
+C:  URI for chat
+P:  URI or file for subsystem specific coding styles
+T:  SCM tree type and location
+F:  File and directory pattern
+X:  File and directory exclusion pattern
+N:  File glob
+K:  Keyword - patch content regex
+
+Signed-off-by: Joe Perches <joe@perches.com>
+---
+ scripts/parse-maintainers.pl | 31 +++++++++++++++++++++++++++----
+ 1 file changed, 27 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/parse-maintainers.pl b/scripts/parse-maintainers.pl
+index 255cef1..2ca4eb3 100644
+--- a/scripts/parse-maintainers.pl
++++ b/scripts/parse-maintainers.pl
+@@ -8,13 +8,14 @@ my $input_file = "MAINTAINERS";
+ my $output_file = "MAINTAINERS.new";
+ my $output_section = "SECTION.new";
+ my $help = 0;
+-
++my $order = 0;
+ my $P = $0;
+ 
+ if (!GetOptions(
+ 		'input=s' => \$input_file,
+ 		'output=s' => \$output_file,
+ 		'section=s' => \$output_section,
++		'order!' => \$order,
+ 		'h|help|usage' => \$help,
+ 	    )) {
+     die "$P: invalid argument - use --help if necessary\n";
+@@ -32,6 +33,22 @@ usage: $P [options] <pattern matching regexes>
+   --input => MAINTAINERS file to read (default: MAINTAINERS)
+   --output => sorted MAINTAINERS file to write (default: MAINTAINERS.new)
+   --section => new sorted MAINTAINERS file to write to (default: SECTION.new)
++  --order => Use the preferred section content output ordering (default: 0)
++    Preferred ordering of section output is:
++      M:  Person acting as a maintainer
++      R:  Person acting as a patch reviewer
++      L:  Mailing list where patches should be sent
++      S:  Maintenance status
++      W:  URI for general information
++      Q:  URI for patchwork tracking
++      B:  URI for bug tracking/submission
++      C:  URI for chat
++      P:  URI or file for subsystem specific coding styles
++      T:  SCM tree type and location
++      F:  File and directory pattern
++      X:  File and directory exclusion pattern
++      N:  File glob
++      K:  Keyword - patch content regex
+ 
+ If <pattern match regexes> exist, then the sections that match the
+ regexes are not written to the output file but are written to the
+@@ -56,7 +73,7 @@ sub by_category($$) {
+ 
+ sub by_pattern($$) {
+     my ($a, $b) = @_;
+-    my $preferred_order = 'MRPLSWTQBCFXNK';
++    my $preferred_order = 'MRLSWQBCPTFXNK';
+ 
+     my $a1 = uc(substr($a, 0, 1));
+     my $b1 = uc(substr($b, 0, 1));
+@@ -105,8 +122,14 @@ sub alpha_output {
+ 		print $file $separator;
+ 	    }
+ 	    print $file $key . "\n";
+-	    foreach my $pattern (sort by_pattern split('\n', %$hashref{$key})) {
+-		print $file ($pattern . "\n");
++	    if ($order) {
++		foreach my $pattern (sort by_pattern split('\n', %$hashref{$key})) {
++		    print $file ($pattern . "\n");
++		}
++	    } else {
++		foreach my $pattern (split('\n', %$hashref{$key})) {
++		    print $file ($pattern . "\n");
++		}
+ 	    }
+ 	}
+     }
+
+
