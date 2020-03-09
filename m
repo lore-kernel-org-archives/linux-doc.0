@@ -2,156 +2,209 @@ Return-Path: <SRS0=aoLA=42=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBEEC18E5B
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Mar 2020 19:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B2C9C3F2D1
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Mar 2020 19:21:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E7033215A4
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Mar 2020 19:05:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0500121927
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Mar 2020 19:21:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PKCtKC7u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727757AbgCITFB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Mar 2020 15:05:01 -0400
-Received: from out02.mta.xmission.com ([166.70.13.232]:40768 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727652AbgCITE6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Mar 2020 15:04:58 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBNhv-00065N-Ol; Mon, 09 Mar 2020 13:04:55 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBNhu-0005s2-W6; Mon, 09 Mar 2020 13:04:55 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nlii0b.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87a74xi4kz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
-        <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
-        <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
-        <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <878sk94eay.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y12yc7.fsf@x220.int.ebiederm.org>
-        <87k13t2xpd.fsf@x220.int.ebiederm.org>
-        <87d09l2x5n.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Mon, 09 Mar 2020 14:02:37 -0500
-In-Reply-To: <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        (Bernd Edlinger's message of "Mon, 9 Mar 2020 18:47:33 +0000")
-Message-ID: <871rq12vxu.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1726199AbgCITVU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Mar 2020 15:21:20 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:41089 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726266AbgCITVU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Mar 2020 15:21:20 -0400
+Received: by mail-pg1-f194.google.com with SMTP id b1so5153281pgm.8
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2020 12:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=/Ve3mrSvm1dOHAsegEEjiuaMrFQOijqF+lr2yreUyLE=;
+        b=PKCtKC7uyC8i/DN0MO+jBy7A9dYjm0BvRQHCcABOBfgDupKb+axXLHJ1pIr5+0N6v+
+         EOZwJYSIfs2miXWm90Qjb6yE5EBWGSBAsw/IRyuFapS9v6j5tiHTfsj8sy8fndA4ooO9
+         UKs1UUhQk1xKwDJGKHHRiGZ4SR4ShkUpFn6QuntqJF3mhLrBK3keXR9SOUl0Epx2yryK
+         dqYB3wkDKVT3frMmHokgUdQyCvgwBogJgN9Hy0rbNBvNYsfsuDcnCMas98lYqxyv775v
+         T7xrFLTYcuTQgavNN3+2Qvly5vFOFiA8Upap+DllXIKkLvxGERM74sfSGkAAiWy7yk2p
+         JNtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=/Ve3mrSvm1dOHAsegEEjiuaMrFQOijqF+lr2yreUyLE=;
+        b=knQfRkbwfu9jpZScyoVhzg6KdFtTo6+WxvfaYbfkIEbvY2mIXtSiRPp04Vigz4y904
+         4DufCy1ezj0oXHF4oODuyewnorDDgFQpsrqdh7IfDa665srFft45/IXDaUfVVpZp4gkH
+         b8PuPGTcB4BJjMblgpaK0TWnsA4y56doma/RCADJfNmAlap7Z8eRPVE0cX72JUZIiY28
+         m+4Wfu4M0CUan5pNB7DeIMR8bWppuZH90/ITxO1rsGrqC5Fm95OgP4VacPRIyB657KG8
+         W6bgwGwytoFfjQoy5J8Hf/4ZgRLz+S5Mqo0fTsw7eTB7zTDjGvOXpvE8lYcJMhwcn6gV
+         R7ow==
+X-Gm-Message-State: ANhLgQ1LcxSx9iSdVPbMym6DTZ9IwyDhnR9FM/iQr63VVlfmS4jZyy7I
+        9n0W/31kX0Q+XZelag8rGCD5BQ==
+X-Google-Smtp-Source: ADFU+vv4DHskMayr9V263F+RoX6mwXATWLbep1JlrTDrd3s5h6v5M8VMmhrUgv94rrg0OOERe/5wyg==
+X-Received: by 2002:a62:25c3:: with SMTP id l186mr18053778pfl.52.1583781678971;
+        Mon, 09 Mar 2020 12:21:18 -0700 (PDT)
+Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id u14sm27167815pgg.67.2020.03.09.12.21.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2020 12:21:18 -0700 (PDT)
+Date:   Mon, 9 Mar 2020 13:21:15 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Clement Leger <cleger@kalray.eu>
+Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-remoteproc@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org,
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>
+Subject: Re: [PATCH v5 2/8] remoteproc: Use size_t instead of int for
+ rproc_mem_entry len
+Message-ID: <20200309192115.GB1399@xps15>
+References: <20200210162209.23149-1-cleger@kalray.eu>
+ <20200302093902.27849-1-cleger@kalray.eu>
+ <20200302093902.27849-3-cleger@kalray.eu>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jBNhu-0005s2-W6;;;mid=<871rq12vxu.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX18S4RLnaCZ2goJeyc5+GuAfviIHWA/XA+E=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace cred_guard_mutex
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200302093902.27849-3-cleger@kalray.eu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+On Mon, Mar 02, 2020 at 10:38:56AM +0100, Clement Leger wrote:
+> Now that rproc_da_to_va uses a size_t for length, use a size_t for len field
+> of rproc_mem_entry. Function used to create such structures now takes
+> a size_t instead of int to allow full size range to be handled.
+> 
+> Signed-off-by: Clement Leger <cleger@kalray.eu>
 
-> On 3/9/20 7:36 PM, Eric W. Biederman wrote:
->> 
->> 
->> Does that sound better?
->> 
->
-> almost done.
+With the checkpatch warning fixed:
 
-I think this text is finally clean.
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-    exec: Add exec_update_mutex to replace cred_guard_mutex
-    
-    The cred_guard_mutex is problematic as it is held over possibly
-    indefinite waits for userspace.  The possilbe indefinite waits for
-    userspace that I have identified are: The cred_guard_mutex is held in
-    PTRACE_EVENT_EXIT waiting for the tracer.  The cred_guard_mutex is
-    held over "put_user(0, tsk->clear_child_tid)" in exit_mm().  The
-    cred_guard_mutex is held over "get_user(futex_offset, ...")  in
-    exit_robust_list.  The cred_guard_mutex held over copy_strings.
-    
-    The functions get_user and put_user can trigger a page fault which can
-    potentially wait indefinitely in the case of userfaultfd or if
-    userspace implements part of the page fault path.
-    
-    In any of those cases the userspace process that the kernel is waiting
-    for might make a different system call that winds up taking the
-    cred_guard_mutex and result in deadlock.
-    
-    Holding a mutex over any of those possibly indefinite waits for
-    userspace does not appear necessary.  Add exec_update_mutex that will
-    just cover updating the process during exec where the permissions and
-    the objects pointed to by the task struct may be out of sync.
-    
-    The plan is to switch the users of cred_guard_mutex to
-    exec_update_mutex one by one.  This lets us move forward while still
-    being careful and not introducing any regressions.
-    
-    Link: https://lore.kernel.org/lkml/20160921152946.GA24210@dhcp22.suse.cz/
-    Link: https://lore.kernel.org/lkml/AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com/
-    Link: https://lore.kernel.org/linux-fsdevel/20161102181806.GB1112@redhat.com/
-    Link: https://lore.kernel.org/lkml/20160923095031.GA14923@redhat.com/
-    Link: https://lore.kernel.org/lkml/20170213141452.GA30203@redhat.com/
-    Ref: 45c1a159b85b ("Add PTRACE_O_TRACEVFORKDONE and PTRACE_O_TRACEEXIT facilities.")
-    Ref: 456f17cd1a28 ("[PATCH] user-vm-unlock-2.5.31-A2")
-    Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
-
-
-Bernd do you want to give me your Reviewed-by for this part of the
-series?
-
-After that do you think you can write the obvious patch for mm_access?
-
-I will apply these changes to my tree and push them into linux-next.
-
-Eric
+> ---
+>  drivers/remoteproc/remoteproc_core.c    | 14 ++++++++------
+>  drivers/remoteproc/remoteproc_debugfs.c |  2 +-
+>  include/linux/remoteproc.h              |  6 +++---
+>  3 files changed, 12 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+> index 5ab094fc1b55..4bfaf4a3c4a3 100644
+> --- a/drivers/remoteproc/remoteproc_core.c
+> +++ b/drivers/remoteproc/remoteproc_core.c
+> @@ -318,8 +318,9 @@ int rproc_alloc_vring(struct rproc_vdev *rvdev, int i)
+>  	struct device *dev = &rproc->dev;
+>  	struct rproc_vring *rvring = &rvdev->vring[i];
+>  	struct fw_rsc_vdev *rsc;
+> -	int ret, size, notifyid;
+> +	int ret, notifyid;
+>  	struct rproc_mem_entry *mem;
+> +	size_t size;
+>  
+>  	/* actual size of vring (in bytes) */
+>  	size = PAGE_ALIGN(vring_size(rvring->len, rvring->align));
+> @@ -746,11 +747,12 @@ static int rproc_alloc_carveout(struct rproc *rproc,
+>  	va = dma_alloc_coherent(dev->parent, mem->len, &dma, GFP_KERNEL);
+>  	if (!va) {
+>  		dev_err(dev->parent,
+> -			"failed to allocate dma memory: len 0x%x\n", mem->len);
+> +			"failed to allocate dma memory: len 0x%zx\n",
+> +			mem->len);
+>  		return -ENOMEM;
+>  	}
+>  
+> -	dev_dbg(dev, "carveout va %pK, dma %pad, len 0x%x\n",
+> +	dev_dbg(dev, "carveout va %pK, dma %pad, len 0x%zx\n",
+>  		va, &dma, mem->len);
+>  
+>  	if (mem->da != FW_RSC_ADDR_ANY && !rproc->domain) {
+> @@ -957,7 +959,7 @@ EXPORT_SYMBOL(rproc_add_carveout);
+>   */
+>  struct rproc_mem_entry *
+>  rproc_mem_entry_init(struct device *dev,
+> -		     void *va, dma_addr_t dma, int len, u32 da,
+> +		     void *va, dma_addr_t dma, size_t len, u32 da,
+>  		     int (*alloc)(struct rproc *, struct rproc_mem_entry *),
+>  		     int (*release)(struct rproc *, struct rproc_mem_entry *),
+>  		     const char *name, ...)
+> @@ -999,7 +1001,7 @@ EXPORT_SYMBOL(rproc_mem_entry_init);
+>   * provided by client.
+>   */
+>  struct rproc_mem_entry *
+> -rproc_of_resm_mem_entry_init(struct device *dev, u32 of_resm_idx, int len,
+> +rproc_of_resm_mem_entry_init(struct device *dev, u32 of_resm_idx, size_t len,
+>  			     u32 da, const char *name, ...)
+>  {
+>  	struct rproc_mem_entry *mem;
+> @@ -1270,7 +1272,7 @@ static void rproc_resource_cleanup(struct rproc *rproc)
+>  		unmapped = iommu_unmap(rproc->domain, entry->da, entry->len);
+>  		if (unmapped != entry->len) {
+>  			/* nothing much to do besides complaining */
+> -			dev_err(dev, "failed to unmap %u/%zu\n", entry->len,
+> +			dev_err(dev, "failed to unmap %zx/%zu\n", entry->len,
+>  				unmapped);
+>  		}
+>  
+> diff --git a/drivers/remoteproc/remoteproc_debugfs.c b/drivers/remoteproc/remoteproc_debugfs.c
+> index dd93cf04e17f..82dc34b819df 100644
+> --- a/drivers/remoteproc/remoteproc_debugfs.c
+> +++ b/drivers/remoteproc/remoteproc_debugfs.c
+> @@ -293,7 +293,7 @@ static int rproc_carveouts_show(struct seq_file *seq, void *p)
+>  		seq_printf(seq, "\tVirtual address: %pK\n", carveout->va);
+>  		seq_printf(seq, "\tDMA address: %pad\n", &carveout->dma);
+>  		seq_printf(seq, "\tDevice address: 0x%x\n", carveout->da);
+> -		seq_printf(seq, "\tLength: 0x%x Bytes\n\n", carveout->len);
+> +		seq_printf(seq, "\tLength: 0x%zx Bytes\n\n", carveout->len);
+>  	}
+>  
+>  	return 0;
+> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+> index 89215798eaea..bee559330204 100644
+> --- a/include/linux/remoteproc.h
+> +++ b/include/linux/remoteproc.h
+> @@ -329,7 +329,7 @@ struct rproc;
+>  struct rproc_mem_entry {
+>  	void *va;
+>  	dma_addr_t dma;
+> -	int len;
+> +	size_t len;
+>  	u32 da;
+>  	void *priv;
+>  	char name[32];
+> @@ -599,13 +599,13 @@ void rproc_add_carveout(struct rproc *rproc, struct rproc_mem_entry *mem);
+>  
+>  struct rproc_mem_entry *
+>  rproc_mem_entry_init(struct device *dev,
+> -		     void *va, dma_addr_t dma, int len, u32 da,
+> +		     void *va, dma_addr_t dma, size_t len, u32 da,
+>  		     int (*alloc)(struct rproc *, struct rproc_mem_entry *),
+>  		     int (*release)(struct rproc *, struct rproc_mem_entry *),
+>  		     const char *name, ...);
+>  
+>  struct rproc_mem_entry *
+> -rproc_of_resm_mem_entry_init(struct device *dev, u32 of_resm_idx, int len,
+> +rproc_of_resm_mem_entry_init(struct device *dev, u32 of_resm_idx, size_t len,
+>  			     u32 da, const char *name, ...);
+>  
+>  int rproc_boot(struct rproc *rproc);
+> -- 
+> 2.15.0.276.g89ea799
+> 
