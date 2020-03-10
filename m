@@ -1,152 +1,251 @@
-Return-Path: <SRS0=aoLA=42=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8737C18E5A
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Mar 2020 23:59:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 459A2C10F29
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 00:00:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AB90D24679
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Mar 2020 23:59:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0128824655
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 00:00:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20150623.gappssmtp.com header.i=@amacapital-net.20150623.gappssmtp.com header.b="bbtke5oP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gO8+QJsi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727143AbgCIX7w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Mar 2020 19:59:52 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42155 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727242AbgCIX7w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Mar 2020 19:59:52 -0400
-Received: by mail-wr1-f66.google.com with SMTP id v11so13502067wrm.9
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2020 16:59:49 -0700 (PDT)
+        id S1727519AbgCJAAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Mar 2020 20:00:12 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:37485 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727242AbgCJAAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Mar 2020 20:00:11 -0400
+Received: by mail-pg1-f193.google.com with SMTP id z12so5455610pgl.4
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2020 17:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0PcIMvT9Ges60/RCEcv9P9n3V3wEXCUl81zN9+mizqE=;
-        b=bbtke5oP3UVppLVojB1atGqhDMEwwoZMv55eTr8ZnNZrgn0YDHohNAJDV+eqnhKipa
-         4aN9G0lOac5v18XPEriKg/5/D/0L6WNLOtgk+WPAkKIYHDuW4f7I6O8D05xQO9vTC/CI
-         gvOE7yjLpbAqy2xs5nRCImHAI6w7kO6KCMC/FuGLSpEa/Cn8g0BDVHDycc6ierC/ThYB
-         AZO4cFtCs7Q4J2LJBF7s+XfM3ycj5kw+gP7SQ2AYP7yKhuTikOByPG5P52PIBB6xvitH
-         8x8bbkXarJqpP2ySfHwYKIFOqsbvw5VjToymh99dZ/T1/NHd5AjR6yR4BXjfAUqy2tR0
-         52gw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=CAIbp1jCToJI29feBeEcnjrXkxv3GWdOnu4cDh/4qr0=;
+        b=gO8+QJsi1LWTUcN3H8T6YF+qHYOco+gtqLYeIuO3GQHRlMnsH/Vtkwb2IVlL5W/qfz
+         degW0VCD/5IBWRsXabJZDYGAj84MkK37B53f8nt9r8XC+WXqpDpeXtOWRw44tkyalIn3
+         Zd7B5grh6zPS916RvZ8amE93tj5xu0NuNA47heZkGuWAVidYRnuO4xG991aGR9WIhuUH
+         rGnR5Pik1mBxN3u7r5oncPsRxUqa4u8A7IA2zuf96x8/hHWANutp4RC8M5HHtgzyj7Mr
+         5qMS4mX+WNPsSrcbqYonC/pNJ6//OpShy9zk3uUqXqW8MzKqN2o4/QaBzS92HABci935
+         6VNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0PcIMvT9Ges60/RCEcv9P9n3V3wEXCUl81zN9+mizqE=;
-        b=fKWKxpVvjtlxc8xsSfr+6PfXH01NL7JrrFHELyTuy+mjJcqbM6eypaYVNVkaBfGxU/
-         osCQnTGzywfSxWjB9HYbkfkxTpYG2FQQveB7DUpNz0kn5FIxOMF78qeNHKvRZRZO5Q1y
-         tWX6RAKvLzdWG8nsXzwYoKTZetYDLt0iq6xFzZbmm0/IoP+dC3giASTB/i23QsZ21boj
-         b4ne8QLz5gWwaDIRDyftYA3ytf7u8xg9cvmrp9m80HlIvLDtO3Nx+7qtTMXzaE2serVi
-         JvUJdGPjkgAR+WKNrxZHFqzToRSC5O1yTg3AEp7+404RS2BTGBhEqSX0l3IDRkLgHcmS
-         f+Xg==
-X-Gm-Message-State: ANhLgQ06qPc8nSIZQ61GLGv0pHWP/bvoLL16iGPO63dRsXDSjwDbgdJQ
-        rNM7PrpRqmeMu2Q9Ejs3/gzYVbhbkCvw4NHxQiOz6Q==
-X-Google-Smtp-Source: ADFU+vt2iiohYPhJ2F/0p/lc9pYIMGQoNqww6lZPdFqjkGInjDqr9voSFlL20LHhzIQclFgUMk+afkKjVc/hC1ajvTA=
-X-Received: by 2002:adf:b641:: with SMTP id i1mr23638629wre.18.1583798389063;
- Mon, 09 Mar 2020 16:59:49 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=CAIbp1jCToJI29feBeEcnjrXkxv3GWdOnu4cDh/4qr0=;
+        b=mTLcCmAiv0Pf843bb0k6abx+KyE+Mp82LHX0K8bTGKDI+8CxBNcdbshOmFiu/3LMTM
+         cleVt6p2LqEBG593h5jT0vWkxOwiffYycaufebHmJoTPBMosnj6ViEIl3xxqXBBiSU4/
+         Y1LPLBDtm2uC93Y4E//tKB3PMzhgujfo0lcSvWZqhjNtlrCIaE3gGOECaDWSLcp2Yo1X
+         Rk41vELCZaGiB4Ulgy+ZdS4SxdfUxYQdH6K5lkWtyiPuD1DyY2ZRGtULDb9mhihegLV/
+         XxMg4KakE6jEQ1gDfUKORaPypHIm9F+oPT5ipwcZYfH7swjdhe1otJgiO3RKFZfqyPMG
+         3ZlA==
+X-Gm-Message-State: ANhLgQ2WI7MPG7SwoVpqcS1pCSncJ4PdzYArHCPb+bWatJzVbgeUQZEx
+        VNmEAEG6Agsn7xzIb69mKXM3Xg==
+X-Google-Smtp-Source: ADFU+vuEVxae8PUP2mkQKbg4oGv3HhgzVoU3+FXQRgOedGkNbYK+mbKxWgf7oKhWBpdVHw6tg3w3RA==
+X-Received: by 2002:a63:1201:: with SMTP id h1mr19039845pgl.284.1583798408689;
+        Mon, 09 Mar 2020 17:00:08 -0700 (PDT)
+Received: from builder (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id k14sm20564pfg.104.2020.03.09.17.00.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2020 17:00:08 -0700 (PDT)
+Date:   Mon, 9 Mar 2020 17:00:05 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Cl?ment Leger <cleger@kalrayinc.com>
+Cc:     Ohad Ben-Cohen <ohad@wizery.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: Re: [PATCH v5 5/8] remoteproc: Rename rproc_elf_sanity_check for
+ elf32
+Message-ID: <20200310000005.GF14744@builder>
+References: <20200210162209.23149-1-cleger@kalray.eu>
+ <20200302093902.27849-1-cleger@kalray.eu>
+ <20200302093902.27849-6-cleger@kalray.eu>
+ <20200302231342.GE262924@yoga>
+ <482678048.7666348.1583222551942.JavaMail.zimbra@kalray.eu>
 MIME-Version: 1.0
-References: <CAMe9rOoRTVUzNC88Ho2XTTNJCymrd3L=XdB9xFcgxPVwAZ0FWA@mail.gmail.com>
- <AE81FEF5-ECC5-46AA-804D-9D64E656D16E@amacapital.net> <CAMe9rOoDMenvD9XRL1szR5yLQEwv9Q6f4O7CtwbdZ-cJqzezKA@mail.gmail.com>
- <0088001c-0b12-a7dc-ff2a-9d5c282fa36b@intel.com> <CAMe9rOqf0OHL9397Vikgb=UWhRMf+FmGq-9VAJNmfmzNMMDkCw@mail.gmail.com>
- <56ab33ac-865b-b37e-75f2-a489424566c3@intel.com> <CAMe9rOrzrXORQgcAwzGn+=PBvxCEgc5Km_TQq+P7uoqwiacJSA@mail.gmail.com>
- <c06073a2-6858-d5dc-d74b-ef2568bd9423@intel.com> <CAMe9rOrxM=RefftngNXhP906mrW1SMy7vp+O=yOj_WwcdQpGcg@mail.gmail.com>
-In-Reply-To: <CAMe9rOrxM=RefftngNXhP906mrW1SMy7vp+O=yOj_WwcdQpGcg@mail.gmail.com>
-From:   Andy Lutomirski <luto@amacapital.net>
-Date:   Mon, 9 Mar 2020 16:59:37 -0700
-Message-ID: <CALCETrWF1NQeGXy0GXRwW71Bc3oSN=vsXMsBqnaqs7Us7RYebQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
-To:     "H.J. Lu" <hjl.tools@gmail.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <482678048.7666348.1583222551942.JavaMail.zimbra@kalray.eu>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 9, 2020 at 4:52 PM H.J. Lu <hjl.tools@gmail.com> wrote:
->
-> On Mon, Mar 9, 2020 at 4:21 PM Dave Hansen <dave.hansen@intel.com> wrote:
-> >
-> > On 3/9/20 4:11 PM, H.J. Lu wrote:
-> > > A threaded application is loaded from disk.  The object file on disk is
-> > > either CET enabled or not CET enabled.
-> >
-> > Huh.  Are you saying that all instructions executed on userspace on
-> > Linux come off of object files on the disk?  That's an interesting
-> > assertion.  You might want to go take a look at the processes on your
-> > systems.  Here's my browser for example:
-> >
-> > # for p in $(ps aux | grep chromium | awk '{print $2}' ); do cat
-> > /proc/$p/maps; done | grep ' r-xp 00000000 00:00 0'
-> > ...
-> > 202f00082000-202f000bf000 r-xp 00000000 00:00 0
-> > 202f000c2000-202f000c3000 r-xp 00000000 00:00 0
-> > 202f00102000-202f00103000 r-xp 00000000 00:00 0
-> > 202f00142000-202f00143000 r-xp 00000000 00:00 0
-> > 202f00182000-202f001bf000 r-xp 00000000 00:00 0
-> >
-> > Lots of funny looking memory areas which are anonymous and executable!
-> > Those didn't come off the disk.  Same thing in firefox.  Weird.  Any
-> > idea what those are?
-> >
-> > One guess: https://en.wikipedia.org/wiki/Just-in-time_compilation
->
-> jitted code belongs to a process loaded from disk.  Enable CET in
-> an application which uses JIT engine means to also enable CET in
-> JIT engine.  Take git as an example, "git grep" crashed for me on Tiger
-> Lake.   It turned out that git itself was compiled with -fcf-protection and
-> git was linked against libpcre2-8.so.0 also compiled with -fcf-protection,
-> which has a JIT, sljit, which was not CET enabled.  git crashed in the
-> jitted codes due to missing ENDBR.  I had to enable CET in sljit to make
-> git working on CET enabled Tiger Lake.  So we need to enable CET in
-> JIT engine before enabling CET in applications which use JIT engine.
+On Tue 03 Mar 00:02 PST 2020, Cl?ment Leger wrote:
 
-This could presumably have been fixed by having libpcre or sljit
-disable IBT before calling into JIT code or by running the JIT code in
-another thread.  In the other direction, a non-CET libpcre build could
-build IBT-capable JITted code and enable JIT (by syscall if we allow
-that or by creating a thread?) when calling it.  And IBT has this
-fancy legacy bitmap to allow non-instrumented code to run with IBT on,
-although SHSTK doesn't have hardware support for a similar feature.
+> Hi Bjorn, 
+> 
+> ----- On 3 Mar, 2020, at 00:13, Bjorn Andersson bjorn.andersson@linaro.org wrote:
+> 
+> > On Mon 02 Mar 01:38 PST 2020, Clement Leger wrote:
+> > 
+> >> Since this function will be modified to support both elf32 and elf64,
+> >> rename the existing one to elf32 (which is the only supported format
+> >> at the moment). This will allow not to introduce possible side effect
+> >> when adding elf64 support (ie: all backends will still support only
+> >> elf32 if not requested explicitely using rproc_elf_sanity_check).
+> >> 
+> > 
+> > Is there a reason for preventing ELF64 binaries be loaded?
+> 
+> I decided to go this way to let driver maintainer decide if they want
+> to support elf64 to avoid problems with 64bits addresses/sizes which do
+> not fit in their native type (size_t for instance). This is probably
+> not going to happen and there are additionnal checks before calling
+> rproc_da_to_va. And addresses should be filtered by rproc_da_to_va.
+> So, actually it seems there is no reason to forbid supporting elf32/64
+> for all drivers.
+> 
 
-So, sure, the glibc-linked ELF ecosystem needs some degree of CET
-coordination, but it is absolutely not the case that a process MUST
-have all CET or no CET.  Let's please support the complicated cases in
-the kernel and the ABI too.  If glibc wants to make it annoying to do
-complicated things, so be it.  People work behind glibc's back all the
-time.
+I was hoping to hear some additional feedback on this from others.
 
---Andy
+I've merge the patch as is, but think it would be nice to clean this up
+and just have the driver ignore if fed a 32 or 64-elf.
+
+Regards,
+Bjorn
+
+> Regards,
+> 
+> Clément
+> 
+> > 
+> > Regards,
+> > Bjorn
+> > 
+> >> Signed-off-by: Clement Leger <cleger@kalray.eu>
+> >> ---
+> >>  drivers/remoteproc/remoteproc_core.c       | 2 +-
+> >>  drivers/remoteproc/remoteproc_elf_loader.c | 6 +++---
+> >>  drivers/remoteproc/remoteproc_internal.h   | 2 +-
+> >>  drivers/remoteproc/st_remoteproc.c         | 2 +-
+> >>  drivers/remoteproc/st_slim_rproc.c         | 2 +-
+> >>  drivers/remoteproc/stm32_rproc.c           | 2 +-
+> >>  6 files changed, 8 insertions(+), 8 deletions(-)
+> >> 
+> >> diff --git a/drivers/remoteproc/remoteproc_core.c
+> >> b/drivers/remoteproc/remoteproc_core.c
+> >> index 4bfaf4a3c4a3..99f0b796fbc7 100644
+> >> --- a/drivers/remoteproc/remoteproc_core.c
+> >> +++ b/drivers/remoteproc/remoteproc_core.c
+> >> @@ -2055,7 +2055,7 @@ struct rproc *rproc_alloc(struct device *dev, const char
+> >> *name,
+> >>  		rproc->ops->load = rproc_elf_load_segments;
+> >>  		rproc->ops->parse_fw = rproc_elf_load_rsc_table;
+> >>  		rproc->ops->find_loaded_rsc_table = rproc_elf_find_loaded_rsc_table;
+> >> -		rproc->ops->sanity_check = rproc_elf_sanity_check;
+> >> +		rproc->ops->sanity_check = rproc_elf32_sanity_check;
+> >>  		rproc->ops->get_boot_addr = rproc_elf_get_boot_addr;
+> >>  	}
+> >>  
+> >> diff --git a/drivers/remoteproc/remoteproc_elf_loader.c
+> >> b/drivers/remoteproc/remoteproc_elf_loader.c
+> >> index c2a9783cfb9a..5a67745f2638 100644
+> >> --- a/drivers/remoteproc/remoteproc_elf_loader.c
+> >> +++ b/drivers/remoteproc/remoteproc_elf_loader.c
+> >> @@ -25,13 +25,13 @@
+> >>  #include "remoteproc_internal.h"
+> >>  
+> >>  /**
+> >> - * rproc_elf_sanity_check() - Sanity Check ELF firmware image
+> >> + * rproc_elf_sanity_check() - Sanity Check ELF32 firmware image
+> >>   * @rproc: the remote processor handle
+> >>   * @fw: the ELF firmware image
+> >>   *
+> >>   * Make sure this fw image is sane.
+> >>   */
+> >> -int rproc_elf_sanity_check(struct rproc *rproc, const struct firmware *fw)
+> >> +int rproc_elf32_sanity_check(struct rproc *rproc, const struct firmware *fw)
+> >>  {
+> >>  	const char *name = rproc->firmware;
+> >>  	struct device *dev = &rproc->dev;
+> >> @@ -89,7 +89,7 @@ int rproc_elf_sanity_check(struct rproc *rproc, const struct
+> >> firmware *fw)
+> >>  
+> >>  	return 0;
+> >>  }
+> >> -EXPORT_SYMBOL(rproc_elf_sanity_check);
+> >> +EXPORT_SYMBOL(rproc_elf32_sanity_check);
+> >>  
+> >>  /**
+> >>   * rproc_elf_get_boot_addr() - Get rproc's boot address.
+> >> diff --git a/drivers/remoteproc/remoteproc_internal.h
+> >> b/drivers/remoteproc/remoteproc_internal.h
+> >> index 0deae5f237b8..28639c588d58 100644
+> >> --- a/drivers/remoteproc/remoteproc_internal.h
+> >> +++ b/drivers/remoteproc/remoteproc_internal.h
+> >> @@ -54,7 +54,7 @@ void *rproc_da_to_va(struct rproc *rproc, u64 da, size_t len);
+> >>  phys_addr_t rproc_va_to_pa(void *cpu_addr);
+> >>  int rproc_trigger_recovery(struct rproc *rproc);
+> >>  
+> >> -int rproc_elf_sanity_check(struct rproc *rproc, const struct firmware *fw);
+> >> +int rproc_elf32_sanity_check(struct rproc *rproc, const struct firmware *fw);
+> >>  u64 rproc_elf_get_boot_addr(struct rproc *rproc, const struct firmware *fw);
+> >>  int rproc_elf_load_segments(struct rproc *rproc, const struct firmware *fw);
+> >>  int rproc_elf_load_rsc_table(struct rproc *rproc, const struct firmware *fw);
+> >> diff --git a/drivers/remoteproc/st_remoteproc.c
+> >> b/drivers/remoteproc/st_remoteproc.c
+> >> index a3268d95a50e..a6cbfa452764 100644
+> >> --- a/drivers/remoteproc/st_remoteproc.c
+> >> +++ b/drivers/remoteproc/st_remoteproc.c
+> >> @@ -233,7 +233,7 @@ static const struct rproc_ops st_rproc_ops = {
+> >>  	.parse_fw		= st_rproc_parse_fw,
+> >>  	.load			= rproc_elf_load_segments,
+> >>  	.find_loaded_rsc_table	= rproc_elf_find_loaded_rsc_table,
+> >> -	.sanity_check		= rproc_elf_sanity_check,
+> >> +	.sanity_check		= rproc_elf32_sanity_check,
+> >>  	.get_boot_addr		= rproc_elf_get_boot_addr,
+> >>  };
+> >>  
+> >> diff --git a/drivers/remoteproc/st_slim_rproc.c
+> >> b/drivers/remoteproc/st_slim_rproc.c
+> >> index 09bcb4d8b9e0..3cca8b65a8db 100644
+> >> --- a/drivers/remoteproc/st_slim_rproc.c
+> >> +++ b/drivers/remoteproc/st_slim_rproc.c
+> >> @@ -203,7 +203,7 @@ static const struct rproc_ops slim_rproc_ops = {
+> >>  	.da_to_va       = slim_rproc_da_to_va,
+> >>  	.get_boot_addr	= rproc_elf_get_boot_addr,
+> >>  	.load		= rproc_elf_load_segments,
+> >> -	.sanity_check	= rproc_elf_sanity_check,
+> >> +	.sanity_check	= rproc_elf32_sanity_check,
+> >>  };
+> >>  
+> >>  /**
+> >> diff --git a/drivers/remoteproc/stm32_rproc.c b/drivers/remoteproc/stm32_rproc.c
+> >> index a18f88044111..9a8b5f5e2572 100644
+> >> --- a/drivers/remoteproc/stm32_rproc.c
+> >> +++ b/drivers/remoteproc/stm32_rproc.c
+> >> @@ -505,7 +505,7 @@ static struct rproc_ops st_rproc_ops = {
+> >>  	.load		= rproc_elf_load_segments,
+> >>  	.parse_fw	= stm32_rproc_parse_fw,
+> >>  	.find_loaded_rsc_table = rproc_elf_find_loaded_rsc_table,
+> >> -	.sanity_check	= rproc_elf_sanity_check,
+> >> +	.sanity_check	= rproc_elf32_sanity_check,
+> >>  	.get_boot_addr	= rproc_elf_get_boot_addr,
+> >>  };
+> >>  
+> >> --
+> >> 2.15.0.276.g89ea799
