@@ -5,53 +5,53 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99805C10DCE
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:29:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FEB4C10DCE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:31:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5CB2621927
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:29:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8B03222C3
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:31:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aVfJW5cx"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XK1ouSvI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726463AbgCJU3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 16:29:30 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:38808 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726307AbgCJU32 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 16:29:28 -0400
-Received: by mail-pg1-f193.google.com with SMTP id x7so6825447pgh.5
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 13:29:27 -0700 (PDT)
+        id S1726820AbgCJUbU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 16:31:20 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33761 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726414AbgCJUbU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 16:31:20 -0400
+Received: by mail-pf1-f196.google.com with SMTP id n7so15122pfn.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 13:31:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=dsBrIU5gUV1pckyA8GSxROnnJLAsyLmC/ypr4CZES9w=;
-        b=aVfJW5cxRWyiGAhHyjizHuTpIP1CVGeiD5PpVOAX8E13XOV2zio+KZuEB352+Nm2aP
-         Llx5rft1lxfSQ6IyZMXJ54Wa89MxWC2kb8lpY1CeaItXOQO8e4J60iuFcsOvf/0Lj9YI
-         lmf6stuUg2ygsiOeBvjwo8agJiJGT80VmqQCo=
+        bh=SXv613ohwLZhXYr9jit6ve5UEm0jQz5ZLBUY3A1Qh/4=;
+        b=XK1ouSvIn1SrXrpE2jB7fPZ97wuSynEPpj4HhSXMNSXZWl5ShAjfCYXT5irwpY6R5K
+         GhTb4r+GBtdXtwQ7AqZpQT4zG1MOZvavI8l7jKs0+HzwzxDheOxB6TKArYWjMCD7s5Ob
+         TsIYA2DD/9E+2ADf9dPVRUDESK4sdz6wOBd0k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=dsBrIU5gUV1pckyA8GSxROnnJLAsyLmC/ypr4CZES9w=;
-        b=VOVYxa5huFy+63NhbdFAHaf5WmH1ruwESCRmevxlpqNqnqTq8tzFYeRitbzDsisU9g
-         nlYaYKoZoSEyp4xTzCZ4PAXLIYbhqq08/8BoD2VhcCvpyG0oUHfIdsy2pUYvOXXEL+lB
-         W9KCNpnImwe+OX1AQO8u8+pc1zQ6Xgx9I5WWKzH2CcP40avJcgW9MFHZBbzjIsaOhd4t
-         SRLp6nEH1i0Gc9gtbW0uSB+htW4qBytxXqinO0RB3l+dxymmw8GzGrktivgNgFTFweK4
-         PaYeHqh0GwOr3i8eeoPlQLPNSVVZn1uAk8yPsBTQ8A1wAE9VzzHunO7yU+bGw8fxhepg
-         Y4/w==
-X-Gm-Message-State: ANhLgQ0lkrAgVaQT9nVoluUzYOcgMsY17inTT4CaSnYyKgqC9BIrWOSL
-        m59mAMgSRmUGKDtbXZRCIxBCOA==
-X-Google-Smtp-Source: ADFU+vtvXImBX+SYYOzRy21wWe3GqfJUMiYo6Vi8Qk8uuP81efgz5a4jBX0nQr4DVT8wDqrCYZcPwg==
-X-Received: by 2002:a63:7f05:: with SMTP id a5mr22593983pgd.327.1583872166829;
-        Tue, 10 Mar 2020 13:29:26 -0700 (PDT)
+        bh=SXv613ohwLZhXYr9jit6ve5UEm0jQz5ZLBUY3A1Qh/4=;
+        b=nphtoGbhk2js7/N/DcwrFRuvA7C0j4Qo7bK4bzObbJYuAkurC2NqTl4fxhUZj8N9qw
+         d87baVkxJPbodouiXAJ1DUeWnCTLHK7hC0HR4FEy1HZCNQ5oYu5/h2nb2NFovXVZFTqV
+         KR24hiKiLDVh3KW2Ep3KvS/O+x8Q3ZW5DGfIui7HJin56VJoWZ/mtQOJiC1mlTewXoah
+         HGpvIETF74mjfZmTstWnGj52SOH7VE8I5/mAoV/LBJl/g11QEYRGT7u+FT0asKZZULTY
+         cLpV82174HRC7lZKld/y/DXfH8qGa+RHhNVx0r3cWByUMJ1hk18o2M0ERxhB8hL2BdMk
+         DWbg==
+X-Gm-Message-State: ANhLgQ1DYDOrdpdf4kkvYL6a5IlyqA8BTe4ObpylmzS4b3iL/IKvcNcR
+        0HDUnkROL2INTNez4k6PHmJiBA==
+X-Google-Smtp-Source: ADFU+vui/SI7xY/RL6zB2m7oqlqxvwNncXDyzP64Ny/XUIARUXO4zMninrFbDKhmtcjQIv0QBej9OQ==
+X-Received: by 2002:a63:fc18:: with SMTP id j24mr21853810pgi.16.1583872279279;
+        Tue, 10 Mar 2020 13:31:19 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f4sm13279103pfn.116.2020.03.10.13.29.25
+        by smtp.gmail.com with ESMTPSA id d3sm2205705pfq.126.2020.03.10.13.31.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 13:29:25 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 13:29:25 -0700
+        Tue, 10 Mar 2020 13:31:18 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 13:31:17 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
@@ -85,9 +85,9 @@ Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "stable@vger.kernel.org" <stable@vger.kernel.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 2/5] exec: Factor unshare_sighand out of de_thread and
- call it separately
-Message-ID: <202003101319.BAE7B535A@keescook>
+Subject: Re: [PATCH v2 3/5] exec: Move cleanup of posix timers on exec out of
+ de_thread
+Message-ID: <202003101329.08B332F@keescook>
 References: <87v9nlii0b.fsf@x220.int.ebiederm.org>
  <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
  <87a74xi4kz.fsf@x220.int.ebiederm.org>
@@ -97,129 +97,66 @@ References: <87v9nlii0b.fsf@x220.int.ebiederm.org>
  <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
  <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
  <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87k13u5y26.fsf_-_@x220.int.ebiederm.org>
+ <87eeu25y14.fsf_-_@x220.int.ebiederm.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87k13u5y26.fsf_-_@x220.int.ebiederm.org>
+In-Reply-To: <87eeu25y14.fsf_-_@x220.int.ebiederm.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 08, 2020 at 04:36:17PM -0500, Eric W. Biederman wrote:
+On Sun, Mar 08, 2020 at 04:36:55PM -0500, Eric W. Biederman wrote:
 > 
-> This makes the code clearer and makes it easier to implement a mutex
-> that is not taken over any locations that may block indefinitely waiting
-> for userspace.
+> These functions have very little to do with de_thread move them out
+> of de_thread an into flush_old_exec proper so it can be more clearly
+> seen what flush_old_exec is doing.
 > 
 > Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 > ---
->  fs/exec.c | 39 ++++++++++++++++++++++++++-------------
->  1 file changed, 26 insertions(+), 13 deletions(-)
+>  fs/exec.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
 > diff --git a/fs/exec.c b/fs/exec.c
-> index c3f34791f2f0..ff74b9a74d34 100644
+> index ff74b9a74d34..215d86f77b63 100644
 > --- a/fs/exec.c
 > +++ b/fs/exec.c
-> @@ -1194,6 +1194,23 @@ static int de_thread(struct task_struct *tsk)
->  	flush_itimer_signals();
->  #endif
-
-Semi-related (existing behavior): in de_thread(), what keeps the thread
-group from changing? i.e.:
-
-        if (thread_group_empty(tsk))
-                goto no_thread_group;
-
-        /*
-         * Kill all other threads in the thread group.
-         */
-        spin_lock_irq(lock);
-	... kill other threads under lock ...
-
-Why is the thread_group_emtpy() test not under lock?
-
+> @@ -1189,11 +1189,6 @@ static int de_thread(struct task_struct *tsk)
+>  	/* we have changed execution domain */
+>  	tsk->exit_signal = SIGCHLD;
 >  
-> +	BUG_ON(!thread_group_leader(tsk));
-> +	return 0;
-> +
-> +killed:
-> +	/* protects against exit_notify() and __exit_signal() */
-
-I wonder if include/linux/sched/task.h's definition of tasklist_lock
-should explicitly gain note about group_exit_task and notify_count,
-or, alternatively, signal.h's section on these fields should gain a
-comment? tasklist_lock is unmentioned in signal.h... :(
-
-> +	read_lock(&tasklist_lock);
-> +	sig->group_exit_task = NULL;
-> +	sig->notify_count = 0;
-> +	read_unlock(&tasklist_lock);
-> +	return -EAGAIN;
-> +}
-> +
-> +
-> +static int unshare_sighand(struct task_struct *me)
-> +{
-> +	struct sighand_struct *oldsighand = me->sighand;
-> +
->  	if (refcount_read(&oldsighand->count) != 1) {
->  		struct sighand_struct *newsighand;
->  		/*
-> @@ -1210,23 +1227,13 @@ static int de_thread(struct task_struct *tsk)
->  
->  		write_lock_irq(&tasklist_lock);
->  		spin_lock(&oldsighand->siglock);
-> -		rcu_assign_pointer(tsk->sighand, newsighand);
-> +		rcu_assign_pointer(me->sighand, newsighand);
->  		spin_unlock(&oldsighand->siglock);
->  		write_unlock_irq(&tasklist_lock);
->  
->  		__cleanup_sighand(oldsighand);
->  	}
+> -#ifdef CONFIG_POSIX_TIMERS
+> -	exit_itimers(sig);
+> -	flush_itimer_signals();
+> -#endif
 > -
-> -	BUG_ON(!thread_group_leader(tsk));
+>  	BUG_ON(!thread_group_leader(tsk));
 >  	return 0;
-> -
-> -killed:
-> -	/* protects against exit_notify() and __exit_signal() */
-> -	read_lock(&tasklist_lock);
-> -	sig->group_exit_task = NULL;
-> -	sig->notify_count = 0;
-> -	read_unlock(&tasklist_lock);
-> -	return -EAGAIN;
->  }
 >  
->  char *__get_task_comm(char *buf, size_t buf_size, struct task_struct *tsk)
-> @@ -1264,13 +1271,19 @@ int flush_old_exec(struct linux_binprm * bprm)
->  	int retval;
->  
->  	/*
-> -	 * Make sure we have a private signal table and that
-> -	 * we are unassociated from the previous thread group.
-> +	 * Make this the only thread in the thread group.
->  	 */
->  	retval = de_thread(me);
+> @@ -1277,6 +1272,11 @@ int flush_old_exec(struct linux_binprm * bprm)
 >  	if (retval)
 >  		goto out;
 >  
-> +	/*
-> +	 * Make the signal table private.
-> +	 */
-> +	retval = unshare_sighand(me);
-> +	if (retval)
-> +		goto out;
+> +#ifdef CONFIG_POSIX_TIMERS
+> +	exit_itimers(me->signal);
+> +	flush_itimer_signals();
+> +#endif
 > +
->  	/*
->  	 * Must be called _before_ exec_mmap() as bprm->mm is
->  	 * not visibile until then. This also enables the update
-> -- 
-> 2.25.0
 
-Otherwise, yes, sensible separation.
+I twitch at seeing #ifdefs in .c instead of hidden in the .h declarations
+of these two functions, but as this is a copy/paste, I'll live. ;)
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-Kees
+
+>  	/*
+>  	 * Make the signal table private.
+>  	 */
+> -- 
+> 2.25.0
+> 
 
 -- 
 Kees Cook
