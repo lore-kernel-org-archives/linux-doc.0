@@ -2,61 +2,77 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28077C10DCE
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:57:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46FF6C10DCE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:58:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DE7D4215A4
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:57:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 007F2222C3
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:58:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XNQHeyRL"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f3d2SeYQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726315AbgCJU56 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 16:57:58 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33571 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbgCJU56 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 16:57:58 -0400
-Received: by mail-pf1-f195.google.com with SMTP id n7so45677pfn.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 13:57:57 -0700 (PDT)
+        id S1726998AbgCJU6S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 16:58:18 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:42871 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726411AbgCJU6S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 16:58:18 -0400
+Received: by mail-oi1-f193.google.com with SMTP id l12so15397119oil.9
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 13:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NSnXjtw6BvnjWDGIhdIRejbxeFIsypmUSM0EVeQ+Uig=;
-        b=XNQHeyRLT95Iz7HO7tqkWQ6/sSMwGKo5bd80/1Q/QaJ5M1YExD2yISBVWEW/n3lAUr
-         tkv7AJhIRjzO2Hjw1Eu493BeCu5akkQFw7U5n327J4keqaqVy3NZZOnH0sOQ4c7EAwkY
-         Nfumx3a1xGu9L0OrAtTbJl9mO3bqLw6ZrWiD4=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h/UHe/Z2KYMMhMaL8b+qDKyko05KbGSgYzdkzaqTp1Q=;
+        b=f3d2SeYQpgVLrJGn+2fJsyTeZ33RbVfXHprKDGfMDVqGkosVqqxK/2QXtZccWWFuRj
+         3H1Vuq4RzFKICAJIacPrBnjEijgIAt06KHj7SPbMytEDqSc2bQCFpebWWEhlsNbb9CQg
+         0EENSDiMqajsXSRPNxRgfWg0lSNXm01HzaC2Q189Cu68mrW/BbRm8UCiSyi/wK9LxpS6
+         2v8SST6X243GaY75zF1ejIgXl1Ziq9i2BGhV2I5VVTBY9HyN2WhdvxYYHsUo+yxyBCvr
+         aBlu3LRwvU/UnCu6xf8M8cmA31C/oA+zYoaj/I7R69+QrHOXlVUvmKSQJ/HHZdO+QW+x
+         of0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NSnXjtw6BvnjWDGIhdIRejbxeFIsypmUSM0EVeQ+Uig=;
-        b=Eu/rsfnQeHGIB0wnz7dfK4qhFy08Vaw+sLBerhDTUcB1GwW5Kd/ncylz8+rWUPLbgY
-         DmTl0qM2LOJ8P2gXdGrxDSKMIlXTyWsI3utoNpBYCdbgT48ynfa3ogwytC3zymADwnSI
-         ed3qpZz77f7wI4rHWJpHT2kYfpI2CLPgeqKz7ZUJA3etOGboboGJn+V6e0AqNJ/Wrs2l
-         Bo7FyjYRPGrOASDhdwM0HjPVKRNYVSxh03trE/7Zm+YY4EpdJaa362dJ4Z72q2/9cdy6
-         N5NAI+Pgpcn3bOyN+4wf3ojUzxnTxLWg5KfDxCPIMXMpBnNg/jy8xUMzZBOH8KCS/Q4J
-         e0uQ==
-X-Gm-Message-State: ANhLgQ2CWrepUGv742RWPzANPvDSNT4LgaugMXh6s4GIt2hFvJX4ZtQ7
-        hf2Z8+7iSGDQYl/4cfc2zbsOpg==
-X-Google-Smtp-Source: ADFU+vu4EeH+yVMv9tpwMaGvHwzGMhYFOuE0iRroLbEdduwZiXXe1msMJtUJMFBKLAERB9nEKnQ+wg==
-X-Received: by 2002:a63:650:: with SMTP id 77mr16314387pgg.201.1583873877277;
-        Tue, 10 Mar 2020 13:57:57 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d186sm30572689pfc.8.2020.03.10.13.57.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 13:57:56 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 13:57:55 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h/UHe/Z2KYMMhMaL8b+qDKyko05KbGSgYzdkzaqTp1Q=;
+        b=VnGswp0B+clgGFDpMYHDxRNeaQXggnnAyDXhgVBfF5A8Pic32ZPoGrLtmdwQXtjAt5
+         eFG4G1qkCyVSyhVJR5ukqJ85WIF2iRcEbKF/9iaayS/JcPXrOfqYgWcNc4EPFN3u4aqr
+         cYp3hIy9zjXJrdzLYGEduWTCZUAk4q1D2jSeDwy6Vu2SDdDueRetTMZcvw/K0B85Lpp+
+         WnHfGtHxXinPxOMfvE9ArPDajs4hRSjFt/5s+wPQLytfjPZRDFpYSeDEzRpZR4oggKTV
+         nuWniBXGH4XSTI0sCjKm8sD2BnObpBCTUQg8OeH8+NFI51UKHMf1sCKqlSMmIx57YHcO
+         6dmg==
+X-Gm-Message-State: ANhLgQ0qHpR3q1uQkD7S1FTwO4dnZzN5XbarbrXAlu/zMeJpZM5TYPcu
+        6CS6XGz+gvB7xSjU3GWhKOw1M1WS7tBzuBPmpzoAtQ==
+X-Google-Smtp-Source: ADFU+vveR/NtgdKskuKzJj+LjAOU8LqlTlt4FhpeIgNWQrIm7zC/54AAfayNITfGUlBfRAVwDMOppGapffo777LuptY=
+X-Received: by 2002:aca:b187:: with SMTP id a129mr2648252oif.175.1583873897432;
+ Tue, 10 Mar 2020 13:58:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87k142lpfz.fsf@x220.int.ebiederm.org> <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <875zfmloir.fsf@x220.int.ebiederm.org> <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nmjulm.fsf@x220.int.ebiederm.org> <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003021531.C77EF10@keescook> <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+ <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nlii0b.fsf@x220.int.ebiederm.org> <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74xi4kz.fsf@x220.int.ebiederm.org> <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org> <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org> <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87eeu25y14.fsf_-_@x220.int.ebiederm.org>
+In-Reply-To: <87eeu25y14.fsf_-_@x220.int.ebiederm.org>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 10 Mar 2020 21:57:50 +0100
+Message-ID: <CAG48ez2aYfcwC7Sr6RseFk=PpvLAddcHsVsrTr_AS=jLvUu2KA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] exec: Move cleanup of posix timers on exec out of de_thread
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexey Dobriyan <adobriyan@gmail.com>,
@@ -85,68 +101,46 @@ Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "stable@vger.kernel.org" <stable@vger.kernel.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 2/5] exec: Factor unshare_sighand out of de_thread and
- call it separately
-Message-ID: <202003101356.A2B9885F17@keescook>
-References: <87a74xi4kz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y8dqqz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87k13u5y26.fsf_-_@x220.int.ebiederm.org>
- <202003101319.BAE7B535A@keescook>
- <AM6PR03MB5170BDBF7D6E4AC63B40E9C0E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM6PR03MB5170BDBF7D6E4AC63B40E9C0E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 09:34:03PM +0100, Bernd Edlinger wrote:
-> On 3/10/20 9:29 PM, Kees Cook wrote:
-> > On Sun, Mar 08, 2020 at 04:36:17PM -0500, Eric W. Biederman wrote:
-> >>
-> >> This makes the code clearer and makes it easier to implement a mutex
-> >> that is not taken over any locations that may block indefinitely waiting
-> >> for userspace.
-> >>
-> >> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> >> ---
-> >>  fs/exec.c | 39 ++++++++++++++++++++++++++-------------
-> >>  1 file changed, 26 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/fs/exec.c b/fs/exec.c
-> >> index c3f34791f2f0..ff74b9a74d34 100644
-> >> --- a/fs/exec.c
-> >> +++ b/fs/exec.c
-> >> @@ -1194,6 +1194,23 @@ static int de_thread(struct task_struct *tsk)
-> >>  	flush_itimer_signals();
-> >>  #endif
-> > 
-> > Semi-related (existing behavior): in de_thread(), what keeps the thread
-> > group from changing? i.e.:
-> > 
-> >         if (thread_group_empty(tsk))
-> >                 goto no_thread_group;
-> > 
-> >         /*
-> >          * Kill all other threads in the thread group.
-> >          */
-> >         spin_lock_irq(lock);
-> > 	... kill other threads under lock ...
-> > 
-> > Why is the thread_group_emtpy() test not under lock?
-> > 
-> 
-> A new thread cannot created when only one thread is executing,
-> right?
+On Sun, Mar 8, 2020 at 10:39 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> These functions have very little to do with de_thread move them out
+> of de_thread an into flush_old_exec proper so it can be more clearly
+> seen what flush_old_exec is doing.
+>
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> ---
+>  fs/exec.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/fs/exec.c b/fs/exec.c
+> index ff74b9a74d34..215d86f77b63 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1189,11 +1189,6 @@ static int de_thread(struct task_struct *tsk)
+>         /* we have changed execution domain */
+>         tsk->exit_signal = SIGCHLD;
+>
+> -#ifdef CONFIG_POSIX_TIMERS
+> -       exit_itimers(sig);
+> -       flush_itimer_signals();
+> -#endif
+> -
+>         BUG_ON(!thread_group_leader(tsk));
+>         return 0;
+>
+> @@ -1277,6 +1272,11 @@ int flush_old_exec(struct linux_binprm * bprm)
+>         if (retval)
+>                 goto out;
+>
+> +#ifdef CONFIG_POSIX_TIMERS
+> +       exit_itimers(me->signal);
+> +       flush_itimer_signals();
+> +#endif
 
-*face palm* Yes, of course. :) I'm thinking too hard.
-
--- 
-Kees Cook
+nit: exit_itimers() has a comment referring to de_thread, that should
+probably be updated
