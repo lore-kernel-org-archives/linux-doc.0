@@ -2,151 +2,103 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29472C10DCE
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 22:12:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 589FBC18E5A
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 22:41:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C6702208E4
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 22:12:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 143F421927
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 22:41:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726307AbgCJWMu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 18:12:50 -0400
-Received: from 10.mo3.mail-out.ovh.net ([87.98.165.232]:36423 "EHLO
-        10.mo3.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726273AbgCJWMu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 18:12:50 -0400
-X-Greylist: delayed 929 seconds by postgrey-1.27 at vger.kernel.org; Tue, 10 Mar 2020 18:12:49 EDT
-Received: from player759.ha.ovh.net (unknown [10.108.54.133])
-        by mo3.mail-out.ovh.net (Postfix) with ESMTP id A312E245F52
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 22:57:18 +0100 (CET)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player759.ha.ovh.net (Postfix) with ESMTPSA id 5878B104D32F2;
-        Tue, 10 Mar 2020 21:57:05 +0000 (UTC)
-Date:   Tue, 10 Mar 2020 22:57:02 +0100
-From:   Stephen Kitt <steve@sk2.org>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>, bpf <bpf@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] docs: sysctl/kernel: document BPF entries
-Message-ID: <20200310225702.2da4519c@heffalump.sk2.org>
-In-Reply-To: <CAADnVQJ0EephJiY8F5KJFbYPBg2=hTHOi3WOUtVFE=qgoVbSuA@mail.gmail.com>
-References: <20200309180350.21075-1-steve@sk2.org>
-        <CAADnVQJ0EephJiY8F5KJFbYPBg2=hTHOi3WOUtVFE=qgoVbSuA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726411AbgCJWlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 18:41:04 -0400
+Received: from vmicros1.altlinux.org ([194.107.17.57]:58882 "EHLO
+        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726307AbgCJWlE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 18:41:04 -0400
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+        by vmicros1.altlinux.org (Postfix) with ESMTP id 236F272CCF0;
+        Wed, 11 Mar 2020 01:41:01 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+        id 1A1F07CC7FF; Wed, 11 Mar 2020 01:41:01 +0300 (MSK)
+Date:   Wed, 11 Mar 2020 01:41:01 +0300
+From:   "Dmitry V. Levin" <ldv@altlinux.org>
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 2/4] selftests/ptrace: add test cases for dead-locks
+Message-ID: <20200310224100.GA1563@altlinux.org>
+References: <878sk94eay.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y12yc7.fsf@x220.int.ebiederm.org>
+ <87k13t2xpd.fsf@x220.int.ebiederm.org>
+ <87d09l2x5n.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <871rq12vxu.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <877dzt1fnf.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51703199741A2C27A78980FFE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/O4H7GWQKOH1ilLfxU.Pj.YK"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 954200173656165741
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvtddgudegiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM6PR03MB51703199741A2C27A78980FFE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/O4H7GWQKOH1ilLfxU.Pj.YK
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, Mar 10, 2020 at 02:44:01PM +0100, Bernd Edlinger wrote:
+> This adds test cases for ptrace deadlocks.
+> 
+> Additionally fixes a compile problem in get_syscall_info.c,
+> observed with gcc-4.8.4:
+> 
+> get_syscall_info.c: In function 'get_syscall_info':
+> get_syscall_info.c:93:3: error: 'for' loop initial declarations are only
+>                                  allowed in C99 mode
+>    for (unsigned int i = 0; i < ARRAY_SIZE(args); ++i) {
+>    ^
+> get_syscall_info.c:93:3: note: use option -std=c99 or -std=gnu99 to compile
+>                                your code
+[...]
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -CFLAGS += -iquote../../../../include/uapi -Wall
+> +CFLAGS += -std=c99 -pthread -iquote../../../../include/uapi -Wall
 
-On Tue, 10 Mar 2020 10:47:15 -0700, Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+Wouldn't it be better to choose -std=gnu99 over -std=c99?
 
-> On Mon, Mar 9, 2020 at 11:05 AM Stephen Kitt <steve@sk2.org> wrote:
-> >
-> > Based on the implementation in kernel/bpf/syscall.c,
-> > kernel/bpf/trampoline.c, include/linux/filter.h, and the documentation
-> > in bpftool-prog.rst.
-> >
-> > The section style doesn't match the surrounding sections; it matches
-> > the style of the reworked kernel.rst queued up in docs-next.
-> >
-> > Signed-off-by: Stephen Kitt <steve@sk2.org>
-> > ---
-> >
-> > Notes:
-> >     Changes since v1:
-> >     - rebased on bpf-next instead of docs-next.
-> >
-> >  Documentation/admin-guide/sysctl/kernel.rst | 24 +++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst
-> > b/Documentation/admin-guide/sysctl/kernel.rst index
-> > def074807cee..eea7afd509ac 100644 ---
-> > a/Documentation/admin-guide/sysctl/kernel.rst +++
-> > b/Documentation/admin-guide/sysctl/kernel.rst @@ -174,6 +174,20 @@ See
-> > the type_of_loader and ext_loader_ver fields in
-> > Documentation/x86/boot.rst for additional information.
-> >
-> >
-> > +bpf_stats_enabled
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Controls whether the kernel should collect statistics on BPF programs
-> > +(total time spent running, number of times run...). Enabling
-> > +statistics causes a slight reduction in performance on each program
-> > +run. The statistics can be seen using ``bpftool``.
-> > +
-> > +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +0 Don't collect statistics (default).
-> > +1 Collect statistics.
-> > +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +
-> >  cap_last_cap:
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > @@ -1123,6 +1137,16 @@ NMI switch that most IA32 servers have fires
-> > unknown NMI up, for example.  If a system hangs up, try pressing the NMI
-> > switch.
-> >
-> >
-> > +unprivileged_bpf_disabled
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> > +
-> > +Writing 1 to this entry will disabled unprivileged calls to ``bpf()``;=
- =20
->=20
-> same typo as was pointed out earlier.
 
-Oh dear, sorry about that, v3 is on its way :-(.
-
-Regards,
-
-Stephen
-
---Sig_/O4H7GWQKOH1ilLfxU.Pj.YK
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl5oDS4ACgkQgNMC9Yht
-g5wY9hAAk12F/rXYyveXRZ0+57xIPIGL2rBRZOEF8WxN8lEbpREk35+vufvy4p0l
-cxnAPh/aIcZA9dkxZOA1prAK+B6Q2tIvCKXLWOhr5WW3C31hEDfPfbqr9PvPp9DJ
-m1JorpMHFdiwYOymrTBg+Xgm8I/4F6InRlnHchNAMw/kronscoCFC7sh6yJiXRrr
-gyEV7tA5IQm4rGzCwxOIyU3IqeKvNOyeh41aor4YcjL7Y3l+WB7XV2XieVP7zX1Z
-OwvrFGWKJGz+rj3A4i5JLZchFfnwuA3jVS80QbyfpMNuS/ICWGoDCYw3K5mqvwce
-00Ur1+UCAH41PIT8If0yF7/hDzyr/X8ZHcdvjoObOqTJ33rjxJWEnezzlXqNUwiz
-qhmVNaJ3TUmSkGpMlu0ATEzoj0yvgeuXtoq9DjrXaZ+BKWsMgnUaE3+7jMlbuUIJ
-hMD/0Fk+d8x4dTUUIyIkHvSFrJq5TEtWYsTlIWpP0KvLLf3Uf+11/Ve4vtPsHsVC
-qyOMa9arCvV82yjRzvR2m74+ld1zBk7lH0r+X6mLnX4iJd6MNLY79UCUZ0ACTWME
-xQQ7kENBvARy+UHwkwNpv4ybd1P+1I6hZu+NKvV+ZWkXvqGsr71v0N1nEgbd+ZSV
-kadnjSZlyoMP546no7de7kvl2iAqB1UDeD2L26W5zHCRjprStlA=
-=6Whk
------END PGP SIGNATURE-----
-
---Sig_/O4H7GWQKOH1ilLfxU.Pj.YK--
+-- 
+ldv
