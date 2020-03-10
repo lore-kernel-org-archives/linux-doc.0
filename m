@@ -2,204 +2,245 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 056A1C10F27
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 16:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54601C3F2D0
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 16:37:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C32FF20848
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 16:24:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Ax/9s7og"
+	by mail.kernel.org (Postfix) with ESMTP id 283B7222C4
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 16:37:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726488AbgCJQYJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 12:24:09 -0400
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:25950 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726385AbgCJQYJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 12:24:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1583857449; x=1615393449;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=VrseEukOssTilgqY2XKYefkrT6ke1sG7DpqNk8hn9uE=;
-  b=Ax/9s7ogfoqTlt72XxiJEw9iln0akWUibpkvy5b5vZpQhcabDFuohPzo
-   MRKuCokOGOvtJ6kQoMN3VjMFkWXtsXvKfVzr02FvJCpHT/dGw6jXiWhJF
-   I413yztwvnJl3QfVUUlWsutyg2S+yVK+svu83K+YjTJZFzZMpcWA2ZgTc
-   8=;
-IronPort-SDR: u3sR+s5CccWviaAIqc9+8qRAfx/Zq2ue01/8WFJ0cTgakwM4ylenCHtTNDjoB11YuNpwtAI27r
- uVMKUNBz4nTA==
-X-IronPort-AV: E=Sophos;i="5.70,537,1574121600"; 
-   d="scan'208";a="21871583"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 10 Mar 2020 16:23:19 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com (Postfix) with ESMTPS id 76E5EA1F37;
-        Tue, 10 Mar 2020 16:23:09 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Tue, 10 Mar 2020 16:23:08 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.16) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 10 Mar 2020 16:22:56 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <aarcange@redhat.com>,
-        <yang.shi@linux.alibaba.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v6 02/14] mm/damon: Implement region based sampling
-Date:   Tue, 10 Mar 2020 17:22:40 +0100
-Message-ID: <20200310162240.27935-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200310155510.000025d2@Huawei.com> (raw)
+        id S1726442AbgCJQhc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 12:37:32 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:49529 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726307AbgCJQhb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 12:37:31 -0400
+Received: from mail-wr1-f70.google.com ([209.85.221.70])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <gpiccoli@canonical.com>)
+        id 1jBhsn-0005o3-1Q
+        for linux-doc@vger.kernel.org; Tue, 10 Mar 2020 16:37:29 +0000
+Received: by mail-wr1-f70.google.com with SMTP id o9so7042988wrw.14
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 09:37:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4/1vSfCnxZe+ZRJl0Ahymr08X57sUM0OfEyVYbuW7lY=;
+        b=KK3SGOWEo+Hf7snJ1J515VFvB1mwFVjLof2DP49ozdFHw472Ygfk2rAFD0+LGpOOHu
+         PeRAqjX1etujNIJEZuK/I4nSt+WQ4a5+6sbZr19YywXyMDvdhvUCiwbiDI4PLHcfK/6+
+         hrR+PnDqpBwo3HVDE3G3hvCOyYhQSK6255qawyj0LwL0N2If0OD/LmNh4aZxEUdJ7LUT
+         VOLBxuWlV0QRL55q+GSe7tUHbj9buL9Rk+knRe90IynHbrRlNvTbW8GERAHN/m+JULQF
+         QPX2tvKatGeAYubyFUZ3Qp1E3aSHEA5qwISzxWUrhwPH9g3aSUWqT3BNTA99hG7C5NmE
+         TFcw==
+X-Gm-Message-State: ANhLgQ3EaHJZdy9otxlchnm0/l44BysCJcDXAbaPMN5iNFq2dkGapxNX
+        FT77uL71TGv38dVkowIuAaXAdNzlScFdt2Tneqxx2DpIhxGMWLFdccX3819kIktnc1Nnwc7R7sq
+        iwQW2DP6jE+JJX7SeJ2XtJADSEPyzTsN1mpEzUQ==
+X-Received: by 2002:adf:f7c9:: with SMTP id a9mr28531578wrq.225.1583858248027;
+        Tue, 10 Mar 2020 09:37:28 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsenMx5R3gesM6WKVR+3LK//AB0rndmi/X6XKcabuYn6bg5a7aa2J/R87Bl3uSkvuxOM29O6w==
+X-Received: by 2002:adf:f7c9:: with SMTP id a9mr28531555wrq.225.1583858247642;
+        Tue, 10 Mar 2020 09:37:27 -0700 (PDT)
+Received: from localhost (189-47-87-73.dsl.telesp.net.br. [189.47.87.73])
+        by smtp.gmail.com with ESMTPSA id v20sm15458777wrv.17.2020.03.10.09.37.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 10 Mar 2020 09:37:26 -0700 (PDT)
+From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, tglx@linutronix.de,
+        akpm@linux-foundation.org, gpiccoli@canonical.com,
+        kernel@gpiccoli.net
+Subject: [PATCH] panic: Add sysctl/cmdline to dump all CPUs backtraces on oops event
+Date:   Tue, 10 Mar 2020 13:37:00 -0300
+Message-Id: <20200310163700.19186-1-gpiccoli@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.16]
-X-ClientProxiedBy: EX13P01UWB001.ant.amazon.com (10.43.161.59) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 10 Mar 2020 15:55:10 +0000 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+Usually when kernel reach an oops condition, it's a point of no return;
+in case not enough debug information is available in the kernel splat,
+one of the last resorts would be to collect a kernel crash dump and
+analyze it. The problem with this approach is that in order to collect
+the dump, a panic is required (to kexec-load the crash kernel). When
+in an environment of multiple virtual machines, users may prefer to
+try living with the oops, at least until being able to properly
+shutdown their VMs / finish their important tasks.
 
-> On Tue, 10 Mar 2020 12:52:33 +0100
-> SeongJae Park <sjpark@amazon.com> wrote:
-> 
-> > Added replies to your every comment in line below.  I agree to your whole
-> > opinions, will apply those in next spin! :)
-> > 
-> 
-> One additional question inline that came to mind.  Using a single statistic
-> to monitor huge page and normal page hits is going to give us problems
-> I think.
+This patch implements a way to collect a bit more debug details when an
+oops event is reached, by printing all the CPUs backtraces through the
+usage of NMIs (on architectures that support that). The sysctl/kernel
+parameter added (and documented) here was called "oops_all_cpu_backtrace"
+and when set will (as the name suggests) dump all CPUs backtraces.
 
-Ah, you're right!!!  This is indeed a critical bug!
+Far from ideal, this may be the last option though for users that for
+some reason cannot panic on oops. Most of times oopses are clear enough
+to indicate the kernel portion that must be investigated, but in virtual
+environments it's possible to observe hypervisor/KVM issues that could
+lead to oopses shown in other guests CPUs (like virtual APIC crashes).
+This patch hence aims to help debug such complex issues without
+resorting to kdump.
 
-> 
-> Perhaps I'm missing something?
-> 
-> > > > +/*
-> > > > + * Check whether the given region has accessed since the last check  
-> > > 
-> > > Should also make clear that this sets us up for the next access check at
-> > > a different memory address it the region.
-> > > 
-> > > Given the lack of connection between activities perhaps just split this into
-> > > two functions that are always called next to each other.  
-> > 
-> > Will make the description more clearer as suggested.
-> > 
-> > Also, I found that I'm not clearing *pte and *pmd before going 'mkold', thanks
-> > to this comment.  Will fix it, either.
-> > 
-> > >   
-> > > > + *
-> > > > + * mm	'mm_struct' for the given virtual address space
-> > > > + * r	the region to be checked
-> > > > + */
-> > > > +static void kdamond_check_access(struct damon_ctx *ctx,
-> > > > +			struct mm_struct *mm, struct damon_region *r)
-> > > > +{
-> > > > +	pte_t *pte = NULL;
-> > > > +	pmd_t *pmd = NULL;
-> > > > +	spinlock_t *ptl;
-> > > > +
-> > > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-> > > > +		goto mkold;
-> > > > +
-> > > > +	/* Read the page table access bit of the page */
-> > > > +	if (pte && pte_young(*pte))
-> > > > +		r->nr_accesses++;
-> > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE  
-> > > 
-> > > Is it worth having this protection?  Seems likely to have only a very small
-> > > influence on performance and makes it a little harder to reason about the code.  
-> > 
-> > It was necessary for addressing 'implicit declaration' problem of 'pmd_young()'
-> > and 'pmd_mkold()' for build of DAMON on several architectures including User
-> > Mode Linux.
-> > 
-> > Will modularize the code for better readability.
-> > 
-> > >   
-> > > > +	else if (pmd && pmd_young(*pmd))
-> > > > +		r->nr_accesses++;
-> 
-> So we increment a region count by one if we have an access in a huge page, or
-> in a normal page.
-> 
-> If we get a region that has a mixture of the two, this seems likely to give a
-> bad approximation.
-> 
-> Assume the region is accessed 'evenly' but each " 4k page" is only hit 10% of the time
-> (where a hit is in one check period)
-> 
-> If our address in a page, then we'll hit 10% of the time, but if it is in a 2M
-> huge page then we'll hit a much higher percentage of the time.
-> 1 - (0.9^512) ~= 1
-> 
-> Should we look to somehow account for this?
-
-Yes, this is really critical bug and we should fix this!  Thank you so much for
-finding this!
-
-> 
-> > > > +#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
-> > > > +
-> > > > +	spin_unlock(ptl);
-> > > > +
-> > > > +mkold:
-> > > > +	/* mkold next target */
-> > > > +	r->sampling_addr = damon_rand(ctx, r->vm_start, r->vm_end);
-> > > > +
-> > > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-> > > > +		return;
-> > > > +
-> > > > +	if (pte) {
-> > > > +		if (pte_young(*pte)) {
-> > > > +			clear_page_idle(pte_page(*pte));
-> > > > +			set_page_young(pte_page(*pte));
-> > > > +		}
-> > > > +		*pte = pte_mkold(*pte);
-> > > > +	}
-> > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > > > +	else if (pmd) {
-> > > > +		if (pmd_young(*pmd)) {
-> > > > +			clear_page_idle(pmd_page(*pmd));
-> > > > +			set_page_young(pmd_page(*pmd));
-> > > > +		}
-> > > > +		*pmd = pmd_mkold(*pmd);
-> > > > +	}
-
-This is also very problematic if several regions are backed by a single huge
-page, as only one region in the huge page will be checked as accessed.
-
-Will address these problems in next spin!
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@canonical.com>
+---
 
 
-Thanks,
-SeongJae Park
+As a P.S. note, my choice to put the backtrace dump in the end of
+oops_enter() was from previous experience (in which I used this
+approach in a kprobes to collect more data on oops), but I'd
+gladly accept suggestion in case there's a better place to dump
+this. Thanks in advance for the reviews!
+Cheers,
 
-> > > > +#endif
-> > > > +
-> > > > +	spin_unlock(ptl);
-> > > > +}
-> > > > +
-> 
-> 
+Guilherme
+
+
+ .../admin-guide/kernel-parameters.txt         |  8 +++++++
+ Documentation/admin-guide/sysctl/kernel.rst   | 15 +++++++++++++
+ include/linux/kernel.h                        |  6 ++++++
+ kernel/panic.c                                | 21 +++++++++++++++++++
+ kernel/sysctl.c                               | 11 ++++++++++
+ 5 files changed, 61 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 4c6595b5f6c8..888b1fab3f6e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3333,6 +3333,14 @@
+ 			This will also cause panics on machine check exceptions.
+ 			Useful together with panic=30 to trigger a reboot.
+ 
++	oops_all_cpu_backtrace=
++			[KNL] Should kernel generates backtraces on all cpus
++			when oops occurs - this should be a last measure resort
++			in case	a kdump cannot be collected, for example.
++			Defaults to 0 and can be controlled by the sysctl
++			kernel.oops_all_cpu_backtrace.
++			Format: <integer>
++
+ 	page_alloc.shuffle=
+ 			[KNL] Boolean flag to control whether the page allocator
+ 			should randomize its free lists. The randomization may
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 218c717c1354..460112c3f656 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -57,6 +57,7 @@ show up in /proc/sys/kernel:
+ - msgmnb
+ - msgmni
+ - nmi_watchdog
++- oops_all_cpu_backtrace
+ - osrelease
+ - ostype
+ - overflowgid
+@@ -573,6 +574,20 @@ numa_balancing_scan_size_mb is how many megabytes worth of pages are
+ scanned for a given scan.
+ 
+ 
++oops_all_cpu_backtrace:
++================
++
++Determines if kernel should NMI all CPUs to dump their backtraces when
++an oops event occurs. It should be used as a last resort in case a panic
++cannot be triggered (to protect VMs running, for example) or kdump can't
++be collected. This file shows up if CONFIG_SMP is enabled.
++
++0: Won't show all CPUs backtraces when an oops is detected.
++This is the default behavior.
++
++1: Will NMI all CPUs and dump their backtraces when an oops is detected.
++
++
+ osrelease, ostype & version:
+ ============================
+ 
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 0d9db2a14f44..6cd00257b572 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -513,6 +513,12 @@ static inline u32 int_sqrt64(u64 x)
+ }
+ #endif
+ 
++#ifdef CONFIG_SMP
++extern unsigned int sysctl_oops_all_cpu_backtrace;
++#else
++#define sysctl_oops_all_cpu_backtrace 0
++#endif /* CONFIG_SMP */
++
+ extern void bust_spinlocks(int yes);
+ extern int oops_in_progress;		/* If set, an oops, panic(), BUG() or die() is in progress */
+ extern int panic_timeout;
+diff --git a/kernel/panic.c b/kernel/panic.c
+index b69ee9e76cb2..73c340418575 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -36,6 +36,24 @@
+ #define PANIC_TIMER_STEP 100
+ #define PANIC_BLINK_SPD 18
+ 
++#ifdef CONFIG_SMP
++/*
++ * Should we dump all CPUs backtraces in an oops event?
++ * Defaults to 0, can be changed either via cmdline or sysctl.
++ */
++unsigned int __read_mostly sysctl_oops_all_cpu_backtrace;
++
++static int __init oops_backtrace_setup(char *str)
++{
++	int rc = kstrtouint(str, 0, &sysctl_oops_all_cpu_backtrace);
++
++	if (rc)
++		return rc;
++	return 1;
++}
++__setup("oops_all_cpu_backtrace=", oops_backtrace_setup);
++#endif /* CONFIG_SMP */
++
+ int panic_on_oops = CONFIG_PANIC_ON_OOPS_VALUE;
+ static unsigned long tainted_mask =
+ 	IS_ENABLED(CONFIG_GCC_PLUGIN_RANDSTRUCT) ? (1 << TAINT_RANDSTRUCT) : 0;
+@@ -515,6 +533,9 @@ void oops_enter(void)
+ 	/* can't trust the integrity of the kernel anymore: */
+ 	debug_locks_off();
+ 	do_oops_enter_exit();
++
++	if (sysctl_oops_all_cpu_backtrace)
++		trigger_all_cpu_backtrace();
+ }
+ 
+ /*
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index 238f268de486..1ac31d9d5b7e 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -813,6 +813,17 @@ static struct ctl_table kern_table[] = {
+ 		.proc_handler	= proc_dointvec,
+ 	},
+ #endif
++#ifdef CONFIG_SMP
++	{
++		.procname	= "oops_all_cpu_backtrace",
++		.data		= &sysctl_oops_all_cpu_backtrace,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
++#endif /* CONFIG_SMP */
+ 	{
+ 		.procname	= "pid_max",
+ 		.data		= &pid_max,
+-- 
+2.25.1
+
