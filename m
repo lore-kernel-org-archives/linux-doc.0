@@ -2,203 +2,96 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B35AC10F27
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:39:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 253D7C10F27
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:43:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02EAA20675
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:39:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED1DE20727
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:43:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgCJRjn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 13:39:43 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2544 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726271AbgCJRjn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Mar 2020 13:39:43 -0400
-Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id D88EA615F023B609DD86;
-        Tue, 10 Mar 2020 17:39:40 +0000 (GMT)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- LHREML712-CAH.china.huawei.com (10.201.108.35) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 10 Mar 2020 17:39:40 +0000
-Received: from localhost (10.202.226.57) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 10 Mar
- 2020 17:39:40 +0000
-Date:   Tue, 10 Mar 2020 17:39:38 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <aarcange@redhat.com>, <yang.shi@linux.alibaba.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 02/14] mm/damon: Implement region based sampling
-Message-ID: <20200310173938.00002af4@Huawei.com>
-In-Reply-To: <20200310162240.27935-1-sjpark@amazon.com>
-References: <20200310155510.000025d2@Huawei.com>
-        <20200310162240.27935-1-sjpark@amazon.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1726283AbgCJRnb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 13:43:31 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44314 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726269AbgCJRnb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Mar 2020 13:43:31 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 996C8823;
+        Tue, 10 Mar 2020 17:43:29 +0000 (UTC)
+Date:   Tue, 10 Mar 2020 11:43:28 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+        Kai =?UTF-8?B?TcOka2lzYXJh?= <Kai.Makisara@kolumbus.fi>,
+        linux-scsi@vger.kernel.org,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>,
+        megaraidlinux.pdl@broadcom.com,
+        Sumit Saxena <sumit.saxena@broadcom.com>,
+        esc.storagedev@microsemi.com, Doug Gilbert <dgilbert@interlog.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        HighPoint Linux Team <linux@highpoint-tech.com>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Hannes Reinecke <hare@suse.com>, dc395x@twibble.org,
+        Oliver Neukum <oliver@neukum.org>,
+        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+        "Juergen E. Fischer" <fischer@norbit.de>,
+        Khalid Aziz <khalid@gonehiking.org>,
+        Kashyap Desai <kashyap.desai@broadcom.com>,
+        Jamie Lenehan <lenehan@twibble.org>,
+        Ali Akcaagac <aliakc@web.de>,
+        Don Brace <don.brace@microsemi.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Finn Thain <fthain@telegraphics.com.au>,
+        Avri Altman <avri.altman@wdc.com>,
+        GOTO Masanori <gotom@debian.or.jp>
+Subject: Re: [PATCH 00/42] Manually convert SCSI documentation to ReST
+ format
+Message-ID: <20200310114328.6354cffb@lwn.net>
+In-Reply-To: <cover.1583136624.git.mchehab+huawei@kernel.org>
+References: <cover.1583136624.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.57]
-X-ClientProxiedBy: lhreml715-chm.china.huawei.com (10.201.108.66) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 10 Mar 2020 17:22:40 +0100
-SeongJae Park <sjpark@amazon.com> wrote:
+On Mon,  2 Mar 2020 09:15:33 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> On Tue, 10 Mar 2020 15:55:10 +0000 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+> This patch series manually convert all SCSI documentation files to ReST.
 > 
-> > On Tue, 10 Mar 2020 12:52:33 +0100
-> > SeongJae Park <sjpark@amazon.com> wrote:
-> >   
-> > > Added replies to your every comment in line below.  I agree to your whole
-> > > opinions, will apply those in next spin! :)
-> > >   
-> > 
-> > One additional question inline that came to mind.  Using a single statistic
-> > to monitor huge page and normal page hits is going to give us problems
-> > I think.  
+> This is part of a bigger series that finaly finishes the migration to ReST.
+> After that, we can focus on more interesting tasks from the documentation
+> PoV, like cleaning obsolete stuff and filling the gaps.
 > 
-> Ah, you're right!!!  This is indeed a critical bug!
+> If you want to see how this would show at the documentation body,
+> a sneak peak of this series (together with the other pending
+> doc patches from me) is available at:
 > 
-> > 
-> > Perhaps I'm missing something?
-> >   
-> > > > > +/*
-> > > > > + * Check whether the given region has accessed since the last check    
-> > > > 
-> > > > Should also make clear that this sets us up for the next access check at
-> > > > a different memory address it the region.
-> > > > 
-> > > > Given the lack of connection between activities perhaps just split this into
-> > > > two functions that are always called next to each other.    
-> > > 
-> > > Will make the description more clearer as suggested.
-> > > 
-> > > Also, I found that I'm not clearing *pte and *pmd before going 'mkold', thanks
-> > > to this comment.  Will fix it, either.
-> > >   
-> > > >     
-> > > > > + *
-> > > > > + * mm	'mm_struct' for the given virtual address space
-> > > > > + * r	the region to be checked
-> > > > > + */
-> > > > > +static void kdamond_check_access(struct damon_ctx *ctx,
-> > > > > +			struct mm_struct *mm, struct damon_region *r)
-> > > > > +{
-> > > > > +	pte_t *pte = NULL;
-> > > > > +	pmd_t *pmd = NULL;
-> > > > > +	spinlock_t *ptl;
-> > > > > +
-> > > > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-> > > > > +		goto mkold;
-> > > > > +
-> > > > > +	/* Read the page table access bit of the page */
-> > > > > +	if (pte && pte_young(*pte))
-> > > > > +		r->nr_accesses++;
-> > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE    
-> > > > 
-> > > > Is it worth having this protection?  Seems likely to have only a very small
-> > > > influence on performance and makes it a little harder to reason about the code.    
-> > > 
-> > > It was necessary for addressing 'implicit declaration' problem of 'pmd_young()'
-> > > and 'pmd_mkold()' for build of DAMON on several architectures including User
-> > > Mode Linux.
-> > > 
-> > > Will modularize the code for better readability.
-> > >   
-> > > >     
-> > > > > +	else if (pmd && pmd_young(*pmd))
-> > > > > +		r->nr_accesses++;  
-> > 
-> > So we increment a region count by one if we have an access in a huge page, or
-> > in a normal page.
-> > 
-> > If we get a region that has a mixture of the two, this seems likely to give a
-> > bad approximation.
-> > 
-> > Assume the region is accessed 'evenly' but each " 4k page" is only hit 10% of the time
-> > (where a hit is in one check period)
-> > 
-> > If our address in a page, then we'll hit 10% of the time, but if it is in a 2M
-> > huge page then we'll hit a much higher percentage of the time.
-> > 1 - (0.9^512) ~= 1
-> > 
-> > Should we look to somehow account for this?  
+>         https://www.infradead.org/~mchehab/kernel_docs/scsi/index.html
 > 
-> Yes, this is really critical bug and we should fix this!  Thank you so much for
-> finding this!
+> This series is available on this devel branch:
 > 
-> >   
-> > > > > +#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
-> > > > > +
-> > > > > +	spin_unlock(ptl);
-> > > > > +
-> > > > > +mkold:
-> > > > > +	/* mkold next target */
-> > > > > +	r->sampling_addr = damon_rand(ctx, r->vm_start, r->vm_end);
-> > > > > +
-> > > > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-> > > > > +		return;
-> > > > > +
-> > > > > +	if (pte) {
-> > > > > +		if (pte_young(*pte)) {
-> > > > > +			clear_page_idle(pte_page(*pte));
-> > > > > +			set_page_young(pte_page(*pte));
-> > > > > +		}
-> > > > > +		*pte = pte_mkold(*pte);
-> > > > > +	}
-> > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > > > > +	else if (pmd) {
-> > > > > +		if (pmd_young(*pmd)) {
-> > > > > +			clear_page_idle(pmd_page(*pmd));
-> > > > > +			set_page_young(pmd_page(*pmd));
-> > > > > +		}
-> > > > > +		*pmd = pmd_mkold(*pmd);
-> > > > > +	}  
+>         https://git.linuxtv.org/mchehab/experimental.git/log/?h=scsi_docs_20200228
 > 
-> This is also very problematic if several regions are backed by a single huge
-> page, as only one region in the huge page will be checked as accessed.
-> 
-> Will address these problems in next spin!
+> and it is based on next-20200228
 
-Good point.  There is little point in ever having multiple regions including
-a single huge page.  Would it be possible to tweak the region splitting algorithm
-to not do this?
+Any thoughts from the SCSI maintainers on this series?  Assuming you're
+favorable, would you like to carry it or should I?
 
-Jonathan
+Thanks,
 
-> 
-> 
-> Thanks,
-> SeongJae Park
-> 
-> > > > > +#endif
-> > > > > +
-> > > > > +	spin_unlock(ptl);
-> > > > > +}
-> > > > > +  
-> > 
-> >   
-
-
+jon
