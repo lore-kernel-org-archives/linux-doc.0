@@ -2,59 +2,59 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CFEFC10F27
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:56:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28077C10DCE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:57:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1ABAB2467F
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:56:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE7D4215A4
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:57:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HoWjp37P"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XNQHeyRL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727636AbgCJUz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 16:55:59 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:44946 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727469AbgCJUz7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 16:55:59 -0400
-Received: by mail-pf1-f196.google.com with SMTP id b72so17976pfb.11
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 13:55:56 -0700 (PDT)
+        id S1726315AbgCJU56 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 16:57:58 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:33571 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726265AbgCJU56 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 16:57:58 -0400
+Received: by mail-pf1-f195.google.com with SMTP id n7so45677pfn.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 13:57:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=XCee8pfoSpfKAyMHOiluaFP5r2d1cxa5sV/2QbU588A=;
-        b=HoWjp37PtFeniqj35yD1VTg9ADYkej22MfwMB13TIeFC7foF85mFkueDcopx5DNEc6
-         Gnjfy52P9IdsdWJrxkP6VvsqgV7Ue9g2VZYhaEy0A6IxGTIL6JYTjbsqPyWEMiArT+m7
-         INOy2/C/ssYCuaWafqLRtBe62wmczU69h1pvQ=
+        bh=NSnXjtw6BvnjWDGIhdIRejbxeFIsypmUSM0EVeQ+Uig=;
+        b=XNQHeyRLT95Iz7HO7tqkWQ6/sSMwGKo5bd80/1Q/QaJ5M1YExD2yISBVWEW/n3lAUr
+         tkv7AJhIRjzO2Hjw1Eu493BeCu5akkQFw7U5n327J4keqaqVy3NZZOnH0sOQ4c7EAwkY
+         Nfumx3a1xGu9L0OrAtTbJl9mO3bqLw6ZrWiD4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=XCee8pfoSpfKAyMHOiluaFP5r2d1cxa5sV/2QbU588A=;
-        b=ALwk4Q+qpCgh8e57PR+Z8zXI10GT60oWH6RyjLS2qGgTXvlB00vYvm30Hmq7CkkhAV
-         l7yJK85nIHso+u18jZucLiKcIwLdpEmQnVp124xMJ+HzUNql7LJnA4iLcerWlaR7mwZv
-         OzEUgkp6WwPWrOO1bVK0RjyMaaLmaqA2zaQU7IgHHuumy+uqZmhNEp3oTpobwuGa4Axe
-         aCsHPSPxgFUuK5F9lWwAWk3GBmPHVtcsBd9LzzLRSUHWDA4bKQ3iwtTJUscn0pAwSHSd
-         Mi9j10NuxTj7WEWBg0ys1W7TLTZNNz/fsKBR3cAbWbM7jFUWWK1fY/loe6+kJ+fBTNnD
-         RFeQ==
-X-Gm-Message-State: ANhLgQ0JBKbo01SGmAoXC4EAuIx31CoJJg4K4vpOkSIaU5QOs123qtgO
-        MiAOTW2H8CklwgQBr+XlLVURAw==
-X-Google-Smtp-Source: ADFU+vv4dCRRSTIODLKjbWRTG/zSV8gZAQ/i5OlKX+nEWRlVelr9/0GQ269GPVKo38XW0ci648ABSw==
-X-Received: by 2002:a63:450b:: with SMTP id s11mr22416425pga.45.1583873756120;
-        Tue, 10 Mar 2020 13:55:56 -0700 (PDT)
+        bh=NSnXjtw6BvnjWDGIhdIRejbxeFIsypmUSM0EVeQ+Uig=;
+        b=Eu/rsfnQeHGIB0wnz7dfK4qhFy08Vaw+sLBerhDTUcB1GwW5Kd/ncylz8+rWUPLbgY
+         DmTl0qM2LOJ8P2gXdGrxDSKMIlXTyWsI3utoNpBYCdbgT48ynfa3ogwytC3zymADwnSI
+         ed3qpZz77f7wI4rHWJpHT2kYfpI2CLPgeqKz7ZUJA3etOGboboGJn+V6e0AqNJ/Wrs2l
+         Bo7FyjYRPGrOASDhdwM0HjPVKRNYVSxh03trE/7Zm+YY4EpdJaa362dJ4Z72q2/9cdy6
+         N5NAI+Pgpcn3bOyN+4wf3ojUzxnTxLWg5KfDxCPIMXMpBnNg/jy8xUMzZBOH8KCS/Q4J
+         e0uQ==
+X-Gm-Message-State: ANhLgQ2CWrepUGv742RWPzANPvDSNT4LgaugMXh6s4GIt2hFvJX4ZtQ7
+        hf2Z8+7iSGDQYl/4cfc2zbsOpg==
+X-Google-Smtp-Source: ADFU+vu4EeH+yVMv9tpwMaGvHwzGMhYFOuE0iRroLbEdduwZiXXe1msMJtUJMFBKLAERB9nEKnQ+wg==
+X-Received: by 2002:a63:650:: with SMTP id 77mr16314387pgg.201.1583873877277;
+        Tue, 10 Mar 2020 13:57:57 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w138sm5130844pff.145.2020.03.10.13.55.55
+        by smtp.gmail.com with ESMTPSA id d186sm30572689pfc.8.2020.03.10.13.57.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 13:55:55 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 13:55:54 -0700
+        Tue, 10 Mar 2020 13:57:56 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 13:57:55 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -85,53 +85,68 @@ Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "stable@vger.kernel.org" <stable@vger.kernel.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace
- cred_guard_mutex
-Message-ID: <202003101352.28BE3BEB4@keescook>
-References: <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
- <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <878sk94eay.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y12yc7.fsf@x220.int.ebiederm.org>
- <87k13t2xpd.fsf@x220.int.ebiederm.org>
- <87d09l2x5n.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <871rq12vxu.fsf@x220.int.ebiederm.org>
+Subject: Re: [PATCH v2 2/5] exec: Factor unshare_sighand out of de_thread and
+ call it separately
+Message-ID: <202003101356.A2B9885F17@keescook>
+References: <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87k13u5y26.fsf_-_@x220.int.ebiederm.org>
+ <202003101319.BAE7B535A@keescook>
+ <AM6PR03MB5170BDBF7D6E4AC63B40E9C0E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871rq12vxu.fsf@x220.int.ebiederm.org>
+In-Reply-To: <AM6PR03MB5170BDBF7D6E4AC63B40E9C0E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 09, 2020 at 02:02:37PM -0500, Eric W. Biederman wrote:
->     exec: Add exec_update_mutex to replace cred_guard_mutex
->     
->     The cred_guard_mutex is problematic as it is held over possibly
->     indefinite waits for userspace.  The possilbe indefinite waits for
->     userspace that I have identified are: The cred_guard_mutex is held in
->     PTRACE_EVENT_EXIT waiting for the tracer.  The cred_guard_mutex is
->     held over "put_user(0, tsk->clear_child_tid)" in exit_mm().  The
->     cred_guard_mutex is held over "get_user(futex_offset, ...")  in
->     exit_robust_list.  The cred_guard_mutex held over copy_strings.
+On Tue, Mar 10, 2020 at 09:34:03PM +0100, Bernd Edlinger wrote:
+> On 3/10/20 9:29 PM, Kees Cook wrote:
+> > On Sun, Mar 08, 2020 at 04:36:17PM -0500, Eric W. Biederman wrote:
+> >>
+> >> This makes the code clearer and makes it easier to implement a mutex
+> >> that is not taken over any locations that may block indefinitely waiting
+> >> for userspace.
+> >>
+> >> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> >> ---
+> >>  fs/exec.c | 39 ++++++++++++++++++++++++++-------------
+> >>  1 file changed, 26 insertions(+), 13 deletions(-)
+> >>
+> >> diff --git a/fs/exec.c b/fs/exec.c
+> >> index c3f34791f2f0..ff74b9a74d34 100644
+> >> --- a/fs/exec.c
+> >> +++ b/fs/exec.c
+> >> @@ -1194,6 +1194,23 @@ static int de_thread(struct task_struct *tsk)
+> >>  	flush_itimer_signals();
+> >>  #endif
+> > 
+> > Semi-related (existing behavior): in de_thread(), what keeps the thread
+> > group from changing? i.e.:
+> > 
+> >         if (thread_group_empty(tsk))
+> >                 goto no_thread_group;
+> > 
+> >         /*
+> >          * Kill all other threads in the thread group.
+> >          */
+> >         spin_lock_irq(lock);
+> > 	... kill other threads under lock ...
+> > 
+> > Why is the thread_group_emtpy() test not under lock?
+> > 
+> 
+> A new thread cannot created when only one thread is executing,
+> right?
 
-I suspect you're not trying to make a comprehensive list here, but do
-you want to mention seccomp too (since it's yet another weird case).
-
-> [...]
->     Holding a mutex over any of those possibly indefinite waits for
->     userspace does not appear necessary.  Add exec_update_mutex that will
->     just cover updating the process during exec where the permissions and
->     the objects pointed to by the task struct may be out of sync.
-
-Should the specific resources be pointed out here? creds, mm, ... ?
-
-But otherwise, yup, looks sane:
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
+*face palm* Yes, of course. :) I'm thinking too hard.
 
 -- 
 Kees Cook
