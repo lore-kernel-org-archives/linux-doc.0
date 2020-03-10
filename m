@@ -2,73 +2,60 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50292C18E5A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57000C18E5B
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:16:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 145C1222C3
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:11:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DC46222C3
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 20:16:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m/uY0trW"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J4M0uyN8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727280AbgCJUL1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 16:11:27 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:33232 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726918AbgCJUL1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 16:11:27 -0400
-Received: by mail-oi1-f193.google.com with SMTP id r7so2104402oij.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 13:11:26 -0700 (PDT)
+        id S1727547AbgCJUQd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 16:16:33 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42923 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727386AbgCJUQc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 16:16:32 -0400
+Received: by mail-pf1-f193.google.com with SMTP id f5so7012636pfk.9
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 13:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=K3vOtJHo8wa+L0rub3QWCJZcPdNt+IghtsNXVMZnf9o=;
-        b=m/uY0trWMAr4FqVX9i9CSnmjQPURPHBOvx6pe5fEMWJ/e5Tk2vaRLevTLCVkqDclV/
-         9U8dYbHfSmT1VryWEJSOssyM6R8QAQdwr6JjSl1yllVynLdhE+EqANllz3GJD9T5HKJx
-         5o1mk82fLBEMHb75zYy13h8oqLlVg+LksCTipqO4JL4jJKJTlWmW0OpW3rTbODkp5lQD
-         o6zv+ZZn4FMnxGec2LxSQUD3vMa8YdhAk6f9V4RcuRPJetmizxPCHUgu3hzhD81e8CVo
-         Qx3HgSr4qFdSi9ME0sT7JSnsZUpOvPvCvsVRKmVC565oSKAhwb9Ar6hsa+h/gil57td2
-         EUFA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DUOjVP5Gbs/kqvClABR44FE8+xg+AgbM19bKNtAY6RM=;
+        b=J4M0uyN8yr+WE91/EnStnaXtqW7/nhowSFEP7427vQyPhmyVseK/RtuSzWChg/C9Hr
+         zZ+zMYnkWIePFvXZqr08Bgtu6LZxyciu3wJk6FDiKEN2gAr2hr9x1d1z8YndRb7xny59
+         LIF8JAG0apaOV2Wrk6HcAMaxdWObISAFLKEGM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=K3vOtJHo8wa+L0rub3QWCJZcPdNt+IghtsNXVMZnf9o=;
-        b=FgtKuWRVwZWkvva0C0ySCcG/qU26rE6Opce7WIEaiFd+AI0zfBVs+2NoGp/0403NZW
-         F+DjNuruQXl+Dt9olgCCCC6Xm+NThvjHJxOMzSiOdKrpZwUU3moFYaJ1kSazeEn8cPdC
-         es5sOvK0Uhcu7uNDO7beI88vQEfLhYeoZnlv8ew54pN/8DCs8Vjx4wXjY+1Odb+b86W5
-         tyEfR8D7A9WMX0ahRJSzohvTNz4Z7ha4BAVUUztL2EqAj8IcXtPqjHNcciLJ/8xdcXtH
-         8HVRqWDSsQG7Qsh83gD2YaAUTPuNjjpKp4UhT/8ewEnXt+g1V2AtHfsc9Pk9RjwTGceY
-         W3Xg==
-X-Gm-Message-State: ANhLgQ269IHlOAdo0smaKVDi0xWIW81YP+zQouPOnJlW6blN1iffRfpk
-        vAFKDhf+2ODLJp17lf28Nhc8n4B6K6F5WSWxNA/+Lg==
-X-Google-Smtp-Source: ADFU+vvZVc2KY+6w3Oc3P2SV7qOVRFP8YKpYN4giT8uBe7Bxf6wvbyMTpIifKCNOOu6O6nioDLX4rtyrr5xoVXiS41s=
-X-Received: by 2002:aca:bac1:: with SMTP id k184mr2032952oif.157.1583871086051;
- Tue, 10 Mar 2020 13:11:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <87r1y8dqqz.fsf@x220.int.ebiederm.org> <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org> <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87eeu25y14.fsf_-_@x220.int.ebiederm.org> <20200309195909.h2lv5uawce5wgryx@wittgenstein>
- <877dztz415.fsf@x220.int.ebiederm.org> <20200309201729.yk5sd26v4bz4gtou@wittgenstein>
- <87k13txnig.fsf@x220.int.ebiederm.org> <20200310085540.pztaty2mj62xt2nm@wittgenstein>
- <87wo7svy96.fsf_-_@x220.int.ebiederm.org> <CAG48ez2cUZMVOAXfHPNjKjYsMSaWkjUjOCHo0KYZ+oXQUW4viA@mail.gmail.com>
- <87k13sui1p.fsf@x220.int.ebiederm.org> <CAG48ez2vRgaEVJ=Rs8gn6HkGO6syL8MpSOUq7BNN+OUE1uYxCA@mail.gmail.com>
-In-Reply-To: <CAG48ez2vRgaEVJ=Rs8gn6HkGO6syL8MpSOUq7BNN+OUE1uYxCA@mail.gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 10 Mar 2020 21:10:59 +0100
-Message-ID: <CAG48ez1LjW1xAGe-5tNtstCWxG2bkiHaQUMOcJNjx=z-2Wc2Jw@mail.gmail.com>
-Subject: Re: [PATCH] pidfd: Stop taking cred_guard_mutex
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DUOjVP5Gbs/kqvClABR44FE8+xg+AgbM19bKNtAY6RM=;
+        b=X1z5c5Sbxl7K+BC41S/bwDZUwlR942SqRAD7miRmUcPO06KT+WLagd5LxC3IXzfd6R
+         K6mowthxR5TUQxK5yS1mK6k0UO2cRUaeKfsN1BG2Krkntdo4cr7n6tjgrrqdrth2f769
+         PEZ8rlOunwu7csEPMU0CZRfIKVELn8TLLMJwoSTm4ZJfAsd7NyWm6ZOTyeRbAt2xAoe+
+         Muac6SSZHupGxvXVvqTA1gM34cC3U9xnLGzpx4TVa5LxHLSBI26zA20X8tUgjYLKTlIm
+         KxnY0P8rpugfIkJHPrp940WP48enVUTXQ1QiUkkwDuHX3ykKrjRN97gw21BnjZhYbqr/
+         w07w==
+X-Gm-Message-State: ANhLgQ2uyeMPHohr0skrVoGAlXhQnEVLFbX6tIzeo2OJBJWYmi3GCnn+
+        prlQdR9WqfOOZUFScs+Xv3ddxA==
+X-Google-Smtp-Source: ADFU+vsvmkmyViYLeWPBKmK8uPBvLdmLN608raLFS0mCOwqgEfnZb/AeMfnBRwxnwZ3Ngq2HL/ZZcg==
+X-Received: by 2002:a63:2882:: with SMTP id o124mr6655825pgo.390.1583871391628;
+        Tue, 10 Mar 2020 13:16:31 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n9sm45162722pfq.160.2020.03.10.13.16.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2020 13:16:30 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 13:16:29 -0700
+From:   Kees Cook <keescook@chromium.org>
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexey Dobriyan <adobriyan@gmail.com>,
@@ -96,48 +83,46 @@ Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sargun Dhillon <sargun@sargun.me>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 3/5] exec: Move cleanup of posix timers on exec out of
+ de_thread
+Message-ID: <202003101313.CF8CBDC582@keescook>
+References: <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87eeu25y14.fsf_-_@x220.int.ebiederm.org>
+ <20200309195909.h2lv5uawce5wgryx@wittgenstein>
+ <877dztz415.fsf@x220.int.ebiederm.org>
+ <20200309201729.yk5sd26v4bz4gtou@wittgenstein>
+ <87k13txnig.fsf@x220.int.ebiederm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87k13txnig.fsf@x220.int.ebiederm.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 9:00 PM Jann Horn <jannh@google.com> wrote:
-> On Tue, Mar 10, 2020 at 8:29 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> > Jann Horn <jannh@google.com> writes:
-> > > On Tue, Mar 10, 2020 at 7:54 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> > >> During exec some file descriptors are closed and the files struct is
-> > >> unshared.  But all of that can happen at other times and it has the
-> > >> same protections during exec as at ordinary times.  So stop taking the
-> > >> cred_guard_mutex as it is useless.
-> > >>
-> > >> Furthermore he cred_guard_mutex is a bad idea because it is deadlock
-> > >> prone, as it is held in serveral while waiting possibly indefinitely
-> > >> for userspace to do something.
-[...]
-> > > If you make this change, then if this races with execution of a setuid
-> > > program that afterwards e.g. opens a unix domain socket, an attacker
-> > > will be able to steal that socket and inject messages into
-> > > communication with things like DBus. procfs currently has the same
-> > > race, and that still needs to be fixed, but at least procfs doesn't
-> > > let you open things like sockets because they don't have a working
-> > > ->open handler, and it enforces the normal permission check for
-> > > opening files.
-> >
-> > It isn't only exec that can change credentials.  Do we need a lock for
-> > changing credentials?
-[...]
-> > If we need a lock around credential change let's design and build that.
-> > Having a mismatch between what a lock is designed to do, and what
-> > people use it for can only result in other bugs as people get confused.
->
-> Hmm... what benefits do we get from making it a separate lock? I guess
-> it would allow us to make it a per-task lock instead of a
-> signal_struct-wide one? That might be helpful...
+On Mon, Mar 09, 2020 at 03:48:55PM -0500, Eric W. Biederman wrote:
+> And I completely agree that we should at least rename tsk to me.
+> Just for clarity.
 
-But actually, isn't the core purpose of the cred_guard_mutex to guard
-against concurrent credential changes anyway? That's what almost
-everyone uses it for, and it's in the name...
+I think it wouldn't hurt to add comments to spell it out explicitly
+in each of the tsk->me functions, something like:
+
+/*
+ * The "me" task_struct argument here must only ever refer to "current",
+ * but it gets passed in to avoid re-calculating "current" in each helper.
+ */
+
+I've found that the exec code in its entirety would be better off with
+more comments. :) Usually that's the bulk of what I find myself adding
+when I make changes in this area. ;)
+
+-Kees
+
+-- 
+Kees Cook
