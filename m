@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A72DC18E5B
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:45:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A757C18E5B
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:45:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1C46324677
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:45:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26FCD24649
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:45:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583847917;
-	bh=QV/YhrXB507I35crAk+H4cnqKUMeOOIb1T6UoCpsegk=;
+	s=default; t=1583847920;
+	bh=v1ibHBg6DTRtUp+SedmMmXeNHtn4raAyh+0/LYsY63M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ijWIl3+Mwk2yp9oBt6WUy8x0xb6antv66NOIgb/H10oBhza3IaJBX7q05tMKdxeWl
-	 JyZ/Eh1b+ZS4OTS1D1VfgOIscdYz6HgzlOct9mUgCNlrnwMhJzruF4zqVgmGzRfnBM
-	 o0ZJbdXBPv1mwcEtBxb2Gtcmnb57OMjIchvlvRa0=
+	b=nnw4h9r9pMtoxF9Szoyqvwz+KAzUb7GdqKv0aOhj0oPoxY3AZcJ8cO21CUOhohYgy
+	 HM4NJTu61sfyA7+5Am1uFVlJj2yZUNV1wlBNkGMW0IRawyLmLqvqcUeaZVH36xkkCN
+	 9WHgzT2a7DVSoPFh3FXRRZDENzuLc6R1fqqCK+PI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727095AbgCJNpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 09:45:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37586 "EHLO mail.kernel.org"
+        id S1727725AbgCJNpT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 09:45:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37456 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726809AbgCJNnS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726423AbgCJNnS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 10 Mar 2020 09:43:18 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0ED8124686;
+        by mail.kernel.org (Postfix) with ESMTPSA id 0B5D124655;
         Tue, 10 Mar 2020 13:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583847797;
-        bh=QV/YhrXB507I35crAk+H4cnqKUMeOOIb1T6UoCpsegk=;
+        bh=v1ibHBg6DTRtUp+SedmMmXeNHtn4raAyh+0/LYsY63M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UNsRqN6SPxeYlSV3GphBNFQfsQvIkCe1WSe2BrdolHfuvwBVg6LQajr0YKk6uWD/U
-         3KnbBOJlcJyuPUD1Vy7O388SddYK2Vqr4gTuW9kZS/bEK64NktDRm+tIq/T1Fe73Oo
-         pyycee3ucdlP1YmnrpJY7n3bv0x6nqFfjhtytonQ=
+        b=rYQS006drAvezb72he/BiufCMnUJADj2ImXeUJN96UYuenKKY1t3OPlWM3OdVqDoM
+         85fy99N64USF3pqlsEVNlm7zACoWqT6h7uTYx8W06xkv32UyGLD3nLp0XqFzkNIbUP
+         X/ithqDDUHKbomYBYXmtJ4MH+gh1hnv7QydlL/0s=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jBfAB-0005vh-5h; Tue, 10 Mar 2020 14:43:15 +0100
+        id 1jBfAB-0005vU-27; Tue, 10 Mar 2020 14:43:15 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         linux-media@vger.kernel.org
-Subject: [PATCH v2 07/22] media: docs: split development info from bttv.rst
-Date:   Tue, 10 Mar 2020 14:42:58 +0100
-Message-Id: <e32e499178b6c1a2d825209de69f40663fca9b6a.1583847556.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 04/22] media: docs: split ci.rst into uAPI and user guide docs
+Date:   Tue, 10 Mar 2020 14:42:55 +0100
+Message-Id: <72365309c5e6c3ae13654d171ef4bdedc400fc6e.1583847556.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1583847556.git.mchehab+huawei@kernel.org>
 References: <cover.1583847556.git.mchehab+huawei@kernel.org>
@@ -59,289 +59,374 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file contains both admin and development stuff. Split on
-two, as they're usually read by different audiences.
+The ci.rst file contains two parts: the first one describing
+how to use the CA high level interface; the second one with
+uAPI internals.
+
+Split this on two separate files, adding the uAPI bits
+to the DVB ca.rst configuration.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/v4l-drivers/bttv-devel.rst          | 123 ++++++++++++++++++
- Documentation/media/v4l-drivers/bttv.rst      | 120 -----------------
- Documentation/media/v4l-drivers/index.rst     |   1 +
- 3 files changed, 124 insertions(+), 120 deletions(-)
- create mode 100644 Documentation/media/v4l-drivers/bttv-devel.rst
+ Documentation/media/dvb-drivers/ci.rst        | 160 +-----------------
+ Documentation/media/uapi/dvb/ca.rst           |   1 +
+ .../media/uapi/dvb/ca_high_level.rst          | 157 +++++++++++++++++
+ 3 files changed, 161 insertions(+), 157 deletions(-)
+ create mode 100644 Documentation/media/uapi/dvb/ca_high_level.rst
 
-diff --git a/Documentation/media/v4l-drivers/bttv-devel.rst b/Documentation/media/v4l-drivers/bttv-devel.rst
-new file mode 100644
-index 000000000000..396fad572c93
---- /dev/null
-+++ b/Documentation/media/v4l-drivers/bttv-devel.rst
-@@ -0,0 +1,123 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+The bttv driver
-+===============
-+
-+bttv and sound mini howto
-+-------------------------
-+
-+There are a lot of different bt848/849/878/879 based boards available.
-+Making video work often is not a big deal, because this is handled
-+completely by the bt8xx chip, which is common on all boards.  But
-+sound is handled in slightly different ways on each board.
-+
-+To handle the grabber boards correctly, there is a array tvcards[] in
-+bttv-cards.c, which holds the information required for each board.
-+Sound will work only, if the correct entry is used (for video it often
-+makes no difference).  The bttv driver prints a line to the kernel
-+log, telling which card type is used.  Like this one:
-+
-+.. code-block:: none
-+
-+	bttv0: model: BT848(Hauppauge old) [autodetected]
-+
-+You should verify this is correct.  If it isn't, you have to pass the
-+correct board type as insmod argument, "insmod bttv card=2" for
-+example.  The file CARDLIST has a list of valid arguments for card.
-+If your card isn't listed there, you might check the source code for
-+new entries which are not listed yet.  If there isn't one for your
-+card, you can check if one of the existing entries does work for you
-+(just trial and error...).
-+
-+Some boards have an extra processor for sound to do stereo decoding
-+and other nice features.  The msp34xx chips are used by Hauppauge for
-+example.  If your board has one, you might have to load a helper
-+module like msp3400.o to make sound work.  If there isn't one for the
-+chip used on your board:  Bad luck.  Start writing a new one.  Well,
-+you might want to check the video4linux mailing list archive first...
-+
-+Of course you need a correctly installed soundcard unless you have the
-+speakers connected directly to the grabber board.  Hint: check the
-+mixer settings too.  ALSA for example has everything muted by default.
-+
-+
-+How sound works in detail
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Still doesn't work?  Looks like some driver hacking is required.
-+Below is a do-it-yourself description for you.
-+
-+The bt8xx chips have 32 general purpose pins, and registers to control
-+these pins.  One register is the output enable register
-+(BT848_GPIO_OUT_EN), it says which pins are actively driven by the
-+bt848 chip.  Another one is the data register (BT848_GPIO_DATA), where
-+you can get/set the status if these pins.  They can be used for input
-+and output.
-+
-+Most grabber board vendors use these pins to control an external chip
-+which does the sound routing.  But every board is a little different.
-+These pins are also used by some companies to drive remote control
-+receiver chips.  Some boards use the i2c bus instead of the gpio pins
-+to connect the mux chip.
-+
-+As mentioned above, there is a array which holds the required
-+information for each known board.  You basically have to create a new
-+line for your board.  The important fields are these two:
-+
-+.. code-block:: c
-+
-+	struct tvcard
-+	{
-+		[ ... ]
-+		u32 gpiomask;
-+		u32 audiomux[6]; /* Tuner, Radio, external, internal, mute, stereo */
-+	};
-+
-+gpiomask specifies which pins are used to control the audio mux chip.
-+The corresponding bits in the output enable register
-+(BT848_GPIO_OUT_EN) will be set as these pins must be driven by the
-+bt848 chip.
-+
-+The audiomux\[\] array holds the data values for the different inputs
-+(i.e. which pins must be high/low for tuner/mute/...).  This will be
-+written to the data register (BT848_GPIO_DATA) to switch the audio
-+mux.
-+
-+
-+What you have to do is figure out the correct values for gpiomask and
-+the audiomux array.  If you have Windows and the drivers four your
-+card installed, you might to check out if you can read these registers
-+values used by the windows driver.  A tool to do this is available
-+from ftp://telepresence.dmem.strath.ac.uk/pub/bt848/winutil, but it
-+doesn't work with bt878 boards according to some reports I received.
-+Another one with bt878 support is available from
-+http://btwincap.sourceforge.net/Files/btspy2.00.zip
-+
-+You might also dig around in the \*.ini files of the Windows applications.
-+You can have a look at the board to see which of the gpio pins are
-+connected at all and then start trial-and-error ...
-+
-+
-+Starting with release 0.7.41 bttv has a number of insmod options to
-+make the gpio debugging easier:
-+
-+.. code-block:: none
-+
-+	bttv_gpio=0/1		enable/disable gpio debug messages
-+	gpiomask=n		set the gpiomask value
-+	audiomux=i,j,...	set the values of the audiomux array
-+	audioall=a		set the values of the audiomux array (one
-+				value for all array elements, useful to check
-+				out which effect the particular value has).
-+
-+The messages printed with bttv_gpio=1 look like this:
-+
-+.. code-block:: none
-+
-+	bttv0: gpio: en=00000027, out=00000024 in=00ffffd8 [audio: off]
-+
-+	en  =	output _en_able register (BT848_GPIO_OUT_EN)
-+	out =	_out_put bits of the data register (BT848_GPIO_DATA),
-+		i.e. BT848_GPIO_DATA & BT848_GPIO_OUT_EN
-+	in  = 	_in_put bits of the data register,
-+		i.e. BT848_GPIO_DATA & ~BT848_GPIO_OUT_EN
-diff --git a/Documentation/media/v4l-drivers/bttv.rst b/Documentation/media/v4l-drivers/bttv.rst
-index f956ee264099..9b15a0cba283 100644
---- a/Documentation/media/v4l-drivers/bttv.rst
-+++ b/Documentation/media/v4l-drivers/bttv.rst
-@@ -438,126 +438,6 @@ parking, thus lowering arbitration performance. The Bt879 drivers must
- query for these non-compliant devices, and set the EN_VSFX bit only if
- required.
+diff --git a/Documentation/media/dvb-drivers/ci.rst b/Documentation/media/dvb-drivers/ci.rst
+index 35f33f1f9e2a..ded4d8fbbf92 100644
+--- a/Documentation/media/dvb-drivers/ci.rst
++++ b/Documentation/media/dvb-drivers/ci.rst
+@@ -1,7 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
--bttv and sound mini howto
---------------------------
+-Digital TV Conditional Access Interface (CI API)
+-================================================
++Digital TV Conditional Access Interface
++=======================================
+ 
+ 
+ .. note::
+@@ -15,7 +15,7 @@ existing low level CI API.
+ .. note::
+ 
+    For the Twinhan/Twinhan clones, the dst_ca module handles the CI
+-   hardware handling.This module is loaded automatically if a CI
++   hardware handling. This module is loaded automatically if a CI
+    (Common Interface, that holds the CAM (Conditional Access Module)
+    is detected.
+ 
+@@ -75,157 +75,3 @@ Modules that have been tested by this driver at present are
+ (1) Irdeto 1 and 2 from SCM
+ (2) Viaccess from SCM
+ (3) Dragoncam
 -
--There are a lot of different bt848/849/878/879 based boards available.
--Making video work often is not a big deal, because this is handled
--completely by the bt8xx chip, which is common on all boards.  But
--sound is handled in slightly different ways on each board.
+-The High level CI API
+-~~~~~~~~~~~~~~~~~~~~~
 -
--To handle the grabber boards correctly, there is a array tvcards[] in
--bttv-cards.c, which holds the information required for each board.
--Sound will work only, if the correct entry is used (for video it often
--makes no difference).  The bttv driver prints a line to the kernel
--log, telling which card type is used.  Like this one:
+-For the programmer
+-^^^^^^^^^^^^^^^^^^
 -
--.. code-block:: none
+-With the High Level CI approach any new card with almost any random
+-architecture can be implemented with this style, the definitions
+-inside the switch statement can be easily adapted for any card, thereby
+-eliminating the need for any additional ioctls.
 -
--	bttv0: model: BT848(Hauppauge old) [autodetected]
--
--You should verify this is correct.  If it isn't, you have to pass the
--correct board type as insmod argument, "insmod bttv card=2" for
--example.  The file CARDLIST has a list of valid arguments for card.
--If your card isn't listed there, you might check the source code for
--new entries which are not listed yet.  If there isn't one for your
--card, you can check if one of the existing entries does work for you
--(just trial and error...).
--
--Some boards have an extra processor for sound to do stereo decoding
--and other nice features.  The msp34xx chips are used by Hauppauge for
--example.  If your board has one, you might have to load a helper
--module like msp3400.o to make sound work.  If there isn't one for the
--chip used on your board:  Bad luck.  Start writing a new one.  Well,
--you might want to check the video4linux mailing list archive first...
--
--Of course you need a correctly installed soundcard unless you have the
--speakers connected directly to the grabber board.  Hint: check the
--mixer settings too.  ALSA for example has everything muted by default.
+-The disadvantage is that the driver/hardware has to manage the rest. For
+-the application programmer it would be as simple as sending/receiving an
+-array to/from the CI ioctls as defined in the Linux DVB API. No changes
+-have been made in the API to accommodate this feature.
 -
 -
--How sound works in detail
--~~~~~~~~~~~~~~~~~~~~~~~~~
+-Why the need for another CI interface?
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -
--Still doesn't work?  Looks like some driver hacking is required.
--Below is a do-it-yourself description for you.
+-This is one of the most commonly asked question. Well a nice question.
+-Strictly speaking this is not a new interface.
 -
--The bt8xx chips have 32 general purpose pins, and registers to control
--these pins.  One register is the output enable register
--(BT848_GPIO_OUT_EN), it says which pins are actively driven by the
--bt848 chip.  Another one is the data register (BT848_GPIO_DATA), where
--you can get/set the status if these pins.  They can be used for input
--and output.
--
--Most grabber board vendors use these pins to control an external chip
--which does the sound routing.  But every board is a little different.
--These pins are also used by some companies to drive remote control
--receiver chips.  Some boards use the i2c bus instead of the gpio pins
--to connect the mux chip.
--
--As mentioned above, there is a array which holds the required
--information for each known board.  You basically have to create a new
--line for your board.  The important fields are these two:
+-The CI interface is defined in the DVB API in ca.h as:
 -
 -.. code-block:: c
 -
--	struct tvcard
--	{
--		[ ... ]
--		u32 gpiomask;
--		u32 audiomux[6]; /* Tuner, Radio, external, internal, mute, stereo */
--	};
+-	typedef struct ca_slot_info {
+-		int num;               /* slot number */
 -
--gpiomask specifies which pins are used to control the audio mux chip.
--The corresponding bits in the output enable register
--(BT848_GPIO_OUT_EN) will be set as these pins must be driven by the
--bt848 chip.
+-		int type;              /* CA interface this slot supports */
+-	#define CA_CI            1     /* CI high level interface */
+-	#define CA_CI_LINK       2     /* CI link layer level interface */
+-	#define CA_CI_PHYS       4     /* CI physical layer level interface */
+-	#define CA_DESCR         8     /* built-in descrambler */
+-	#define CA_SC          128     /* simple smart card interface */
 -
--The audiomux\[\] array holds the data values for the different inputs
--(i.e. which pins must be high/low for tuner/mute/...).  This will be
--written to the data register (BT848_GPIO_DATA) to switch the audio
--mux.
+-		unsigned int flags;
+-	#define CA_CI_MODULE_PRESENT 1 /* module (or card) inserted */
+-	#define CA_CI_MODULE_READY   2
+-	} ca_slot_info_t;
+-
+-This CI interface follows the CI high level interface, which is not
+-implemented by most applications. Hence this area is revisited.
+-
+-This CI interface is quite different in the case that it tries to
+-accommodate all other CI based devices, that fall into the other categories.
+-
+-This means that this CI interface handles the EN50221 style tags in the
+-Application layer only and no session management is taken care of by the
+-application. The driver/hardware will take care of all that.
+-
+-This interface is purely an EN50221 interface exchanging APDU's. This
+-means that no session management, link layer or a transport layer do
+-exist in this case in the application to driver communication. It is
+-as simple as that. The driver/hardware has to take care of that.
+-
+-With this High Level CI interface, the interface can be defined with the
+-regular ioctls.
+-
+-All these ioctls are also valid for the High level CI interface
+-
+-#define CA_RESET          _IO('o', 128)
+-#define CA_GET_CAP        _IOR('o', 129, ca_caps_t)
+-#define CA_GET_SLOT_INFO  _IOR('o', 130, ca_slot_info_t)
+-#define CA_GET_DESCR_INFO _IOR('o', 131, ca_descr_info_t)
+-#define CA_GET_MSG        _IOR('o', 132, ca_msg_t)
+-#define CA_SEND_MSG       _IOW('o', 133, ca_msg_t)
+-#define CA_SET_DESCR      _IOW('o', 134, ca_descr_t)
 -
 -
--What you have to do is figure out the correct values for gpiomask and
--the audiomux array.  If you have Windows and the drivers four your
--card installed, you might to check out if you can read these registers
--values used by the windows driver.  A tool to do this is available
--from ftp://telepresence.dmem.strath.ac.uk/pub/bt848/winutil, but it
--doesn't work with bt878 boards according to some reports I received.
--Another one with bt878 support is available from
--http://btwincap.sourceforge.net/Files/btspy2.00.zip
--
--You might also dig around in the \*.ini files of the Windows applications.
--You can have a look at the board to see which of the gpio pins are
--connected at all and then start trial-and-error ...
--
--
--Starting with release 0.7.41 bttv has a number of insmod options to
--make the gpio debugging easier:
+-On querying the device, the device yields information thus:
 -
 -.. code-block:: none
 -
--	bttv_gpio=0/1		enable/disable gpio debug messages
--	gpiomask=n		set the gpiomask value
--	audiomux=i,j,...	set the values of the audiomux array
--	audioall=a		set the values of the audiomux array (one
--				value for all array elements, useful to check
--				out which effect the particular value has).
+-	CA_GET_SLOT_INFO
+-	----------------------------
+-	Command = [info]
+-	APP: Number=[1]
+-	APP: Type=[1]
+-	APP: flags=[1]
+-	APP: CI High level interface
+-	APP: CA/CI Module Present
 -
--The messages printed with bttv_gpio=1 look like this:
+-	CA_GET_CAP
+-	----------------------------
+-	Command = [caps]
+-	APP: Slots=[1]
+-	APP: Type=[1]
+-	APP: Descrambler keys=[16]
+-	APP: Type=[1]
+-
+-	CA_SEND_MSG
+-	----------------------------
+-	Descriptors(Program Level)=[ 09 06 06 04 05 50 ff f1]
+-	Found CA descriptor @ program level
+-
+-	(20) ES type=[2] ES pid=[201]  ES length =[0 (0x0)]
+-	(25) ES type=[4] ES pid=[301]  ES length =[0 (0x0)]
+-	ca_message length is 25 (0x19) bytes
+-	EN50221 CA MSG=[ 9f 80 32 19 03 01 2d d1 f0 08 01 09 06 06 04 05 50 ff f1 02 e0 c9 00 00 04 e1 2d 00 00]
+-
+-
+-Not all ioctl's are implemented in the driver from the API, the other
+-features of the hardware that cannot be implemented by the API are achieved
+-using the CA_GET_MSG and CA_SEND_MSG ioctls. An EN50221 style wrapper is
+-used to exchange the data to maintain compatibility with other hardware.
+-
+-.. code-block:: c
+-
+-	/* a message to/from a CI-CAM */
+-	typedef struct ca_msg {
+-		unsigned int index;
+-		unsigned int type;
+-		unsigned int length;
+-		unsigned char msg[256];
+-	} ca_msg_t;
+-
+-
+-The flow of data can be described thus,
 -
 -.. code-block:: none
 -
--	bttv0: gpio: en=00000027, out=00000024 in=00ffffd8 [audio: off]
+-	App (User)
+-	-----
+-	parse
+-	  |
+-	  |
+-	  v
+-	en50221 APDU (package)
+-   --------------------------------------
+-   |	  |				| High Level CI driver
+-   |	  |				|
+-   |	  v				|
+-   |	en50221 APDU (unpackage)	|
+-   |	  |				|
+-   |	  |				|
+-   |	  v				|
+-   |	sanity checks			|
+-   |	  |				|
+-   |	  |				|
+-   |	  v				|
+-   |	do (H/W dep)			|
+-   --------------------------------------
+-	  |    Hardware
+-	  |
+-	  v
 -
--	en  =	output _en_able register (BT848_GPIO_OUT_EN)
--	out =	_out_put bits of the data register (BT848_GPIO_DATA),
--		i.e. BT848_GPIO_DATA & BT848_GPIO_OUT_EN
--	in  = 	_in_put bits of the data register,
--		i.e. BT848_GPIO_DATA & ~BT848_GPIO_OUT_EN
 -
 -
+-
+-The High Level CI interface uses the EN50221 DVB standard, following a
+-standard ensures futureproofness.
+diff --git a/Documentation/media/uapi/dvb/ca.rst b/Documentation/media/uapi/dvb/ca.rst
+index 8796512c1378..c6ee624b1234 100644
+--- a/Documentation/media/uapi/dvb/ca.rst
++++ b/Documentation/media/uapi/dvb/ca.rst
+@@ -29,3 +29,4 @@ application.
  
- Other elements of the tvcards array
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/media/v4l-drivers/index.rst
-index 2b8e2cbfff23..52d7c8d14ee7 100644
---- a/Documentation/media/v4l-drivers/index.rst
-+++ b/Documentation/media/v4l-drivers/index.rst
-@@ -66,6 +66,7 @@ For more details see the file COPYING in the source distribution of Linux.
- 	vivid
- 	zr364xx
- 
-+	bttv-devel
- 	cpia2_devel
- 	vimc-devel
- 
+     ca_data_types
+     ca_function_calls
++    ca_high_level
+diff --git a/Documentation/media/uapi/dvb/ca_high_level.rst b/Documentation/media/uapi/dvb/ca_high_level.rst
+new file mode 100644
+index 000000000000..a73f3691c31f
+--- /dev/null
++++ b/Documentation/media/uapi/dvb/ca_high_level.rst
+@@ -0,0 +1,157 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++The High level CI API
++=====================
++
++.. note::
++
++   This documentation is outdated.
++
++This document describes the high level CI API as in accordance to the
++Linux DVB API.
++
++
++With the High Level CI approach any new card with almost any random
++architecture can be implemented with this style, the definitions
++inside the switch statement can be easily adapted for any card, thereby
++eliminating the need for any additional ioctls.
++
++The disadvantage is that the driver/hardware has to manage the rest. For
++the application programmer it would be as simple as sending/receiving an
++array to/from the CI ioctls as defined in the Linux DVB API. No changes
++have been made in the API to accommodate this feature.
++
++
++Why the need for another CI interface?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++This is one of the most commonly asked question. Well a nice question.
++Strictly speaking this is not a new interface.
++
++The CI interface is defined in the DVB API in ca.h as:
++
++.. code-block:: c
++
++	typedef struct ca_slot_info {
++		int num;               /* slot number */
++
++		int type;              /* CA interface this slot supports */
++	#define CA_CI            1     /* CI high level interface */
++	#define CA_CI_LINK       2     /* CI link layer level interface */
++	#define CA_CI_PHYS       4     /* CI physical layer level interface */
++	#define CA_DESCR         8     /* built-in descrambler */
++	#define CA_SC          128     /* simple smart card interface */
++
++		unsigned int flags;
++	#define CA_CI_MODULE_PRESENT 1 /* module (or card) inserted */
++	#define CA_CI_MODULE_READY   2
++	} ca_slot_info_t;
++
++This CI interface follows the CI high level interface, which is not
++implemented by most applications. Hence this area is revisited.
++
++This CI interface is quite different in the case that it tries to
++accommodate all other CI based devices, that fall into the other categories.
++
++This means that this CI interface handles the EN50221 style tags in the
++Application layer only and no session management is taken care of by the
++application. The driver/hardware will take care of all that.
++
++This interface is purely an EN50221 interface exchanging APDU's. This
++means that no session management, link layer or a transport layer do
++exist in this case in the application to driver communication. It is
++as simple as that. The driver/hardware has to take care of that.
++
++With this High Level CI interface, the interface can be defined with the
++regular ioctls.
++
++All these ioctls are also valid for the High level CI interface
++
++#define CA_RESET          _IO('o', 128)
++#define CA_GET_CAP        _IOR('o', 129, ca_caps_t)
++#define CA_GET_SLOT_INFO  _IOR('o', 130, ca_slot_info_t)
++#define CA_GET_DESCR_INFO _IOR('o', 131, ca_descr_info_t)
++#define CA_GET_MSG        _IOR('o', 132, ca_msg_t)
++#define CA_SEND_MSG       _IOW('o', 133, ca_msg_t)
++#define CA_SET_DESCR      _IOW('o', 134, ca_descr_t)
++
++
++On querying the device, the device yields information thus:
++
++.. code-block:: none
++
++	CA_GET_SLOT_INFO
++	----------------------------
++	Command = [info]
++	APP: Number=[1]
++	APP: Type=[1]
++	APP: flags=[1]
++	APP: CI High level interface
++	APP: CA/CI Module Present
++
++	CA_GET_CAP
++	----------------------------
++	Command = [caps]
++	APP: Slots=[1]
++	APP: Type=[1]
++	APP: Descrambler keys=[16]
++	APP: Type=[1]
++
++	CA_SEND_MSG
++	----------------------------
++	Descriptors(Program Level)=[ 09 06 06 04 05 50 ff f1]
++	Found CA descriptor @ program level
++
++	(20) ES type=[2] ES pid=[201]  ES length =[0 (0x0)]
++	(25) ES type=[4] ES pid=[301]  ES length =[0 (0x0)]
++	ca_message length is 25 (0x19) bytes
++	EN50221 CA MSG=[ 9f 80 32 19 03 01 2d d1 f0 08 01 09 06 06 04 05 50 ff f1 02 e0 c9 00 00 04 e1 2d 00 00]
++
++
++Not all ioctl's are implemented in the driver from the API, the other
++features of the hardware that cannot be implemented by the API are achieved
++using the CA_GET_MSG and CA_SEND_MSG ioctls. An EN50221 style wrapper is
++used to exchange the data to maintain compatibility with other hardware.
++
++.. code-block:: c
++
++	/* a message to/from a CI-CAM */
++	typedef struct ca_msg {
++		unsigned int index;
++		unsigned int type;
++		unsigned int length;
++		unsigned char msg[256];
++	} ca_msg_t;
++
++
++The flow of data can be described thus,
++
++.. code-block:: none
++
++	App (User)
++	-----
++	parse
++	  |
++	  |
++	  v
++	en50221 APDU (package)
++   --------------------------------------
++   |	  |				| High Level CI driver
++   |	  |				|
++   |	  v				|
++   |	en50221 APDU (unpackage)	|
++   |	  |				|
++   |	  |				|
++   |	  v				|
++   |	sanity checks			|
++   |	  |				|
++   |	  |				|
++   |	  v				|
++   |	do (H/W dep)			|
++   --------------------------------------
++	  |    Hardware
++	  |
++	  v
++
++The High Level CI interface uses the EN50221 DVB standard, following a
++standard ensures futureproofness.
 -- 
 2.24.1
 
