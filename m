@@ -2,171 +2,158 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08AF9C10DCE
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:29:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B814C10DCE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:30:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C93E220873
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:29:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 37D3B222C3
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:30:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tNa2jovN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727406AbgCJT3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 15:29:55 -0400
-Received: from out02.mta.xmission.com ([166.70.13.232]:54394 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726545AbgCJT3z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 15:29:55 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBkZc-0005OS-FU; Tue, 10 Mar 2020 13:29:52 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBkZZ-0002Nd-K3; Tue, 10 Mar 2020 13:29:52 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Jann Horn <jannh@google.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Kees Cook <keescook@chromium.org>,
+        id S1727211AbgCJTar (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 15:30:47 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:35237 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726604AbgCJTar (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 15:30:47 -0400
+Received: by mail-pl1-f193.google.com with SMTP id g6so5847744plt.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 12:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=AJRSlX8ACsNJYHeYADgE5H8uhXcF0mJHjX5CwOONp+U=;
+        b=tNa2jovN2/9sEj+6L+LwQ89bUm6qQeL5msJv6lU9KS/ceeZ43FUB09Flmsn6bgDHj4
+         aAZ1SXH+4BR3x+lnlFZj+jZ4zGtboFb18SrT62j0SZ/0dzyG4C3e8vqirT3qBl+vQyFY
+         FmhEfWDKOmwrZAbmVMS89aVn9svg7eNR81bzxT1otZKw7VXyHPfGicxpnBlFOj+tLr3E
+         oPBY4Y/Zd97bn7KYmCDKZJ3hekzFzeu2r+vXpUsxmHsjV9c2f+eH3NBdTzCO2HkVBdqT
+         z3Nt7KOgDUJ3b5vWXwF5iZzGRN7QlM583joEbUXkF7mdmeWDZbrljNYf8dGuJmwiiI++
+         H2Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AJRSlX8ACsNJYHeYADgE5H8uhXcF0mJHjX5CwOONp+U=;
+        b=PLeAe56JZy2n87rWhA4/fVOwlxhfJkbORl7vLhjuUkQJqYUOBPQSSOu5wbtbGKPn0k
+         66ZMoP3qzgtDvXrLoxEwU/z/OA0Dbcg+gnEvy9FPbJXtzUMlvimr1PU1xP9SQY6f5K+P
+         SeQ5AM02frj+y13fL6TrEqtZpjSsewiilHQuUC1FYJlTVvdNDukV7Jd6MMHZXJywxva0
+         UfjL0Pjrt11Fz8yRYbuWeP0HB98r6duievEgPnzh6a+p3jsi77457+vumtO4sxaLQK8c
+         c+897cgDJUAsRcysF/lXWTfYTSB58b8T4x6i9wPYmDxwZlGq8ReFGVd3FEfs8ZZr/Iwp
+         a4rw==
+X-Gm-Message-State: ANhLgQ3UO2Qv0oY8KhXPaaFX84enWOWVKw1Z3QNb512MDab1nSE+fLC2
+        o+WeUHX+DIzw5mIMC6+Ie1H0+Q==
+X-Google-Smtp-Source: ADFU+vsVDVUGxR6MJs+LL+a6nlg/iZNbc1sWFgPhY/gWhW0iz8LwAh/F6g2cpRAUdwBA/bEkQ0opQA==
+X-Received: by 2002:a17:90b:4903:: with SMTP id kr3mr3246307pjb.3.1583868646154;
+        Tue, 10 Mar 2020 12:30:46 -0700 (PDT)
+Received: from yoga (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id 19sm27050061pfn.30.2020.03.10.12.30.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2020 12:30:45 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 12:30:42 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Cl?ment Leger <cleger@kalrayinc.com>
+Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sargun Dhillon <sargun@sargun.me>
-References: <87r1y8dqqz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
-        <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
-        <87eeu25y14.fsf_-_@x220.int.ebiederm.org>
-        <20200309195909.h2lv5uawce5wgryx@wittgenstein>
-        <877dztz415.fsf@x220.int.ebiederm.org>
-        <20200309201729.yk5sd26v4bz4gtou@wittgenstein>
-        <87k13txnig.fsf@x220.int.ebiederm.org>
-        <20200310085540.pztaty2mj62xt2nm@wittgenstein>
-        <87wo7svy96.fsf_-_@x220.int.ebiederm.org>
-        <CAG48ez2cUZMVOAXfHPNjKjYsMSaWkjUjOCHo0KYZ+oXQUW4viA@mail.gmail.com>
-Date:   Tue, 10 Mar 2020 14:27:30 -0500
-In-Reply-To: <CAG48ez2cUZMVOAXfHPNjKjYsMSaWkjUjOCHo0KYZ+oXQUW4viA@mail.gmail.com>
-        (Jann Horn's message of "Tue, 10 Mar 2020 20:16:47 +0100")
-Message-ID: <87k13sui1p.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>
+Subject: Re: [PATCH v5 5/8] remoteproc: Rename rproc_elf_sanity_check for
+ elf32
+Message-ID: <20200310193042.GK264362@yoga>
+References: <20200210162209.23149-1-cleger@kalray.eu>
+ <20200302093902.27849-1-cleger@kalray.eu>
+ <20200302093902.27849-6-cleger@kalray.eu>
+ <20200302231342.GE262924@yoga>
+ <482678048.7666348.1583222551942.JavaMail.zimbra@kalray.eu>
+ <20200310000005.GF14744@builder>
+ <20200310152031.GA25781@xps15>
+ <371773363.9138477.1583854699708.JavaMail.zimbra@kalray.eu>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jBkZZ-0002Nd-K3;;;mid=<87k13sui1p.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19Z1jtSmtmPbttkGJihPVv1nviFC/pSEI0=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH] pidfd: Stop taking cred_guard_mutex
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <371773363.9138477.1583854699708.JavaMail.zimbra@kalray.eu>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jann Horn <jannh@google.com> writes:
+On Tue 10 Mar 08:38 PDT 2020, Cl?ment Leger wrote:
 
-> On Tue, Mar 10, 2020 at 7:54 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->> During exec some file descriptors are closed and the files struct is
->> unshared.  But all of that can happen at other times and it has the
->> same protections during exec as at ordinary times.  So stop taking the
->> cred_guard_mutex as it is useless.
->>
->> Furthermore he cred_guard_mutex is a bad idea because it is deadlock
->> prone, as it is held in serveral while waiting possibly indefinitely
->> for userspace to do something.
->
-> Please don't. Just use the new exec_update_mutex like everywhere else.
->
->> Cc: Sargun Dhillon <sargun@sargun.me>
->> Cc: Christian Brauner <christian.brauner@ubuntu.com>
->> Cc: Arnd Bergmann <arnd@arndb.de>
->> Fixes: 8649c322f75c ("pid: Implement pidfd_getfd syscall")
->> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
->> ---
->>  kernel/pid.c | 6 ------
->>  1 file changed, 6 deletions(-)
->>
->> Christian if you don't have any objections I will take this one through
->> my tree.
->>
->> I tried to figure out why this code path takes the cred_guard_mutex and
->> the archive on lore.kernel.org was not helpful in finding that part of
->> the conversation.
->
-> That was my suggestion.
->
->> diff --git a/kernel/pid.c b/kernel/pid.c
->> index 60820e72634c..53646d5616d2 100644
->> --- a/kernel/pid.c
->> +++ b/kernel/pid.c
->> @@ -577,17 +577,11 @@ static struct file *__pidfd_fget(struct task_struct *task, int fd)
->>         struct file *file;
->>         int ret;
->>
->> -       ret = mutex_lock_killable(&task->signal->cred_guard_mutex);
->> -       if (ret)
->> -               return ERR_PTR(ret);
->> -
->>         if (ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS))
->>                 file = fget_task(task, fd);
->>         else
->>                 file = ERR_PTR(-EPERM);
->>
->> -       mutex_unlock(&task->signal->cred_guard_mutex);
->> -
->>         return file ?: ERR_PTR(-EBADF);
->>  }
->
-> If you make this change, then if this races with execution of a setuid
-> program that afterwards e.g. opens a unix domain socket, an attacker
-> will be able to steal that socket and inject messages into
-> communication with things like DBus. procfs currently has the same
-> race, and that still needs to be fixed, but at least procfs doesn't
-> let you open things like sockets because they don't have a working
-> ->open handler, and it enforces the normal permission check for
-> opening files.
+> Hi Mathieu,
+> 
+> ----- On 10 Mar, 2020, at 16:20, Mathieu Poirier mathieu.poirier@linaro.org wrote:
+> 
+> > On Mon, Mar 09, 2020 at 05:00:05PM -0700, Bjorn Andersson wrote:
+> >> On Tue 03 Mar 00:02 PST 2020, Cl?ment Leger wrote:
+> >> 
+> >> > Hi Bjorn,
+> >> > 
+> >> > ----- On 3 Mar, 2020, at 00:13, Bjorn Andersson bjorn.andersson@linaro.org
+> >> > wrote:
+> >> > 
+> >> > > On Mon 02 Mar 01:38 PST 2020, Clement Leger wrote:
+> >> > > 
+> >> > >> Since this function will be modified to support both elf32 and elf64,
+> >> > >> rename the existing one to elf32 (which is the only supported format
+> >> > >> at the moment). This will allow not to introduce possible side effect
+> >> > >> when adding elf64 support (ie: all backends will still support only
+> >> > >> elf32 if not requested explicitely using rproc_elf_sanity_check).
+> >> > >> 
+> >> > > 
+> >> > > Is there a reason for preventing ELF64 binaries be loaded?
+> >> > 
+> >> > I decided to go this way to let driver maintainer decide if they want
+> >> > to support elf64 to avoid problems with 64bits addresses/sizes which do
+> >> > not fit in their native type (size_t for instance). This is probably
+> >> > not going to happen and there are additionnal checks before calling
+> >> > rproc_da_to_va. And addresses should be filtered by rproc_da_to_va.
+> >> > So, actually it seems there is no reason to forbid supporting elf32/64
+> >> > for all drivers.
+> >> > 
+> >> 
+> >> I was hoping to hear some additional feedback on this from others.
+> > 
+> > I didn't follow up on this one because I agreed with your assesment and didn't
+> > think it was needed.
+> > 
+> > Simply put I would rather see rproc_elf_sanity_check() gain support for elf64
+> > and let the platform code decide what to do with format they don't support
+> > rather than spinning a new function.
+> > 
+> >> 
+> >> I've merge the patch as is, but think it would be nice to clean this up
+> >> and just have the driver ignore if fed a 32 or 64-elf.
+> > 
+> > It would be really nice to see this cleaned up in time for the coming merge
+> > window...
+> 
+> I could have sent a V7, but Bjorn was faster than my comment ;)
 
-It isn't only exec that can change credentials.  Do we need a lock for
-changing credentials?
+I figured it had been maturing on the list long enough and expected the
+cleanup to be a nice incremental patch.
 
-Wouldn't it be sufficient to simply test ptrace_may_access after
-we get a copy of the file?
+> Bjorn, Is there any way to revert that or it's already pushed ?
+> I already have a clean V7.
+> 
 
-If we need a lock around credential change let's design and build that.
-Having a mismatch between what a lock is designed to do, and what
-people use it for can only result in other bugs as people get confused.
+Please base your changes on what's in rproc-next (and today's
+linux-next).
 
-Eric
+Thank you,
+Bjorn
