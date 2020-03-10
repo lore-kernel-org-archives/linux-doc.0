@@ -2,150 +2,595 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07911C10F25
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 01:21:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93273C10F29
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 01:30:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C5FC424649
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 01:21:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20150623.gappssmtp.com header.i=@amacapital-net.20150623.gappssmtp.com header.b="g/iv7CpG"
+	by mail.kernel.org (Postfix) with ESMTP id 56DB624655
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 01:30:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726134AbgCJBVF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Mar 2020 21:21:05 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:45458 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726186AbgCJBVF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Mar 2020 21:21:05 -0400
-Received: by mail-pl1-f195.google.com with SMTP id b22so4727755pls.12
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2020 18:21:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:mime-version:subject:from:in-reply-to:cc
-         :date:message-id:references:to;
-        bh=mrUxxgNRy+5E4bEZVXAZNOiHka9AVVm3vCKbU9l6fA4=;
-        b=g/iv7CpG8/DiYA4NA/mKsrAq67vf66xkLwrtr0OnzjXecbrlOk01TyaasjqzOJ/cy6
-         jkjE+yfOHqhIEodGUnCwDH2I67yhqD/opVoCRpcoVgu+agPVZLyJsNAcnfduPxpLnSIY
-         FWAJ7VcA1vbAbasZjJHBV3szxpyaw/IjVhpRpaZZAzmlolgnoqTrx5PFTbyFCLsWL/hh
-         e+FHgrtXApyn35w6Vpk1Rs7+FEhw6F26iHRoXV7X8YTvuouFOniMH3ge0MiWbLs+nVG7
-         4yVzA5v9uxjBTgJSNciJkl25N5hFus4/aSfLvMtEJHuvytjNWQXk1EtEGjXwJI8TsJ8b
-         Lf5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:mime-version:subject
-         :from:in-reply-to:cc:date:message-id:references:to;
-        bh=mrUxxgNRy+5E4bEZVXAZNOiHka9AVVm3vCKbU9l6fA4=;
-        b=K4vqT5LsS6IQbr6l50eHVeN+XdYPOQqChdh4MGI/yjUOq0wF/Nny8Z0o1F6ndOLt9c
-         Qp8kxxZRn+KSmLMa2wTy7SvNfH9rQjocObZlULr3wAXFz/mENwG0rwxyJ82a0Jn7IRGI
-         WboCuc+XHqcdlRmhlcRXAimgVJWZAMjOgqX2wc0pla3oNoUww5CrI96PnlUpNtHaldWu
-         wUTSAskSM7hLQJLmpe7dKgfegQpNuRyR+e3n9RalPkkQic7VlloLvFWNikv9AOEQ4D9R
-         PEdVd47/wgrS8hXUF9q7T7Xm3ttelZMjJh2pAbTfLJ4bTRoZDYcJlySSpuJrpAC46oX0
-         ibqw==
-X-Gm-Message-State: ANhLgQ0IF2Xn0aB/bQKiBRp4AfoHy+UcsuifUwX8QlF/td987t+8xbRg
-        yq/NUOUlrRyJFNuPs6jOhIuQYQ==
-X-Google-Smtp-Source: ADFU+vsv4okX8I4n8qmcxoYDTnfJmLGi0d3Bk5liMiDsLRDCvsApNaCvlR6NOzyOKkYBsF2RXUSNlQ==
-X-Received: by 2002:a17:902:8a8f:: with SMTP id p15mr14339433plo.45.1583803264156;
-        Mon, 09 Mar 2020 18:21:04 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b047:6b2c:4878:83f4:4223:51c6? ([2600:1010:b047:6b2c:4878:83f4:4223:51c6])
-        by smtp.gmail.com with ESMTPSA id 17sm14250924pfu.166.2020.03.09.18.21.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Mar 2020 18:21:03 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
-From:   Andy Lutomirski <luto@amacapital.net>
-In-Reply-To: <CAMe9rOpJjaro_qK6kghGNuSHDaP_MjVaZMbok2kbuBD48VmvXg@mail.gmail.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Date:   Mon, 9 Mar 2020 18:21:01 -0700
-Message-Id: <E7E7A2AE-500A-4817-B00A-BE419E89C6F9@amacapital.net>
-References: <CAMe9rOpJjaro_qK6kghGNuSHDaP_MjVaZMbok2kbuBD48VmvXg@mail.gmail.com>
-To:     "H.J. Lu" <hjl.tools@gmail.com>
-X-Mailer: iPhone Mail (17D50)
+        id S1726134AbgCJBay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Mar 2020 21:30:54 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:11611 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726121AbgCJBax (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Mar 2020 21:30:53 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id A251B7E4828CF1C25233;
+        Tue, 10 Mar 2020 09:30:27 +0800 (CST)
+Received: from [127.0.0.1] (10.173.223.253) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Tue, 10 Mar 2020
+ 09:30:19 +0800
+Subject: Re: [PATCH v7 2/4] arm64: kdump: reserve crashkenel above 4G for
+ crash dump kernel
+To:     Prabhakar Kushwaha <prabhakar.pkin@gmail.com>
+References: <20191223152349.180172-1-chenzhou10@huawei.com>
+ <20191223152349.180172-3-chenzhou10@huawei.com>
+ <CAJ2QiJ+SQ1orriXJWyhKDcDL9s4Vh5+HQHhWFOKPVmijGpMGvw@mail.gmail.com>
+ <0c00f14a-15ca-44db-7f82-00f15ddd3c88@huawei.com>
+ <CAJ2QiJL5Zj3Z=jrLVVn_n3vwNnTVtUZZMSkEaiVNLTA-ZmOe-Q@mail.gmail.com>
+ <f95f2761-f4c9-58b6-485c-2da6c8cc6811@gmail.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>, <mingo@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        James Morse <james.morse@arm.com>, <dyoung@redhat.com>,
+        Bhupesh Sharma <bhsharma@redhat.com>, <xiexiuqi@huawei.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        <horms@verge.net.au>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Ganapatrao Prabhakerrao Kulkarni <gkulkarni@marvell.com>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <cdf7dea4-732e-4d9d-932c-9435b0ed7b9b@huawei.com>
+Date:   Tue, 10 Mar 2020 09:30:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
+MIME-Version: 1.0
+In-Reply-To: <f95f2761-f4c9-58b6-485c-2da6c8cc6811@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.173.223.253]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I am baffled by this discussion.
+Hi,
 
->> On Mar 9, 2020, at 5:09 PM, H.J. Lu <hjl.tools@gmail.com> wrote:
->>=20
->> =EF=BB=BFOn Mon, Mar 9, 2020 at 4:59 PM Andy Lutomirski <luto@amacapital.=
-net> wrote:
->=20
->>>> .
->> This could presumably have been fixed by having libpcre or sljit
->> disable IBT before calling into JIT code or by running the JIT code in
->> another thread.  In the other direction, a non-CET libpcre build could
->> build IBT-capable JITted code and enable JIT (by syscall if we allow
->> that or by creating a thread?) when calling it.  And IBT has this
->=20
-> This is not how thread in user space works.
+On 2020/3/9 23:51, Prabhakar Kushwaha wrote:
+> On 3/9/2020 10:18 AM, Prabhakar Kushwaha wrote:
+>> Hi Chen,
+>>
+>> On Sat, Mar 7, 2020 at 4:36 PM Chen Zhou <chenzhou10@huawei.com> wrote:
+>>>
+>>>
+>>>
+>>> On 2020/3/5 18:13, Prabhakar Kushwaha wrote:
+>>>> On Mon, Dec 23, 2019 at 8:57 PM Chen Zhou <chenzhou10@huawei.com> wrote:
+>>>>>
+>>>>> Crashkernel=X tries to reserve memory for the crash dump kernel under
+>>>>> 4G. If crashkernel=X,low is specified simultaneously, reserve spcified
+>>>>> size low memory for crash kdump kernel devices firstly and then reserve
+>>>>> memory above 4G.
+>>>>>
+>>>>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>>>>> ---
+>>>>>  arch/arm64/kernel/setup.c |  8 +++++++-
+>>>>>  arch/arm64/mm/init.c      | 31 +++++++++++++++++++++++++++++--
+>>>>>  2 files changed, 36 insertions(+), 3 deletions(-)
+>>>>>
+>>>>> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+>>>>> index 56f6645..04d1c87 100644
+>>>>> --- a/arch/arm64/kernel/setup.c
+>>>>> +++ b/arch/arm64/kernel/setup.c
+>>>>> @@ -238,7 +238,13 @@ static void __init request_standard_resources(void)
+>>>>>                     kernel_data.end <= res->end)
+>>>>>                         request_resource(res, &kernel_data);
+>>>>>  #ifdef CONFIG_KEXEC_CORE
+>>>>> -               /* Userspace will find "Crash kernel" region in /proc/iomem. */
+>>>>> +               /*
+>>>>> +                * Userspace will find "Crash kernel" region in /proc/iomem.
+>>>>> +                * Note: the low region is renamed as Crash kernel (low).
+>>>>> +                */
+>>>>> +               if (crashk_low_res.end && crashk_low_res.start >= res->start &&
+>>>>> +                               crashk_low_res.end <= res->end)
+>>>>> +                       request_resource(res, &crashk_low_res);
+>>>>>                 if (crashk_res.end && crashk_res.start >= res->start &&
+>>>>>                     crashk_res.end <= res->end)
+>>>>>                         request_resource(res, &crashk_res);
+>>>>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>>>>> index b65dffd..0d7afd5 100644
+>>>>> --- a/arch/arm64/mm/init.c
+>>>>> +++ b/arch/arm64/mm/init.c
+>>>>> @@ -80,6 +80,7 @@ static void __init reserve_crashkernel(void)
+>>>>>  {
+>>>>>         unsigned long long crash_base, crash_size;
+>>>>>         int ret;
+>>>>> +       phys_addr_t crash_max = arm64_dma32_phys_limit;
+>>>>>
+>>>>>         ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+>>>>>                                 &crash_size, &crash_base);
+>>>>> @@ -87,12 +88,38 @@ static void __init reserve_crashkernel(void)
+>>>>>         if (ret || !crash_size)
+>>>>>                 return;
+>>>>>
+>>>>> +       ret = reserve_crashkernel_low();
+>>>>> +       if (!ret && crashk_low_res.end) {
+>>>>> +               /*
+>>>>> +                * If crashkernel=X,low specified, there may be two regions,
+>>>>> +                * we need to make some changes as follows:
+>>>>> +                *
+>>>>> +                * 1. rename the low region as "Crash kernel (low)"
+>>>>> +                * In order to distinct from the high region and make no effect
+>>>>> +                * to the use of existing kexec-tools, rename the low region as
+>>>>> +                * "Crash kernel (low)".
+>>>>> +                *
+>>>>> +                * 2. change the upper bound for crash memory
+>>>>> +                * Set MEMBLOCK_ALLOC_ACCESSIBLE upper bound for crash memory.
+>>>>> +                *
+>>>>> +                * 3. mark the low region as "nomap"
+>>>>> +                * The low region is intended to be used for crash dump kernel
+>>>>> +                * devices, just mark the low region as "nomap" simply.
+>>>>> +                */
+>>>>> +               const char *rename = "Crash kernel (low)";
+>>>>> +
+>>>>> +               crashk_low_res.name = rename;
+>>>>> +               crash_max = MEMBLOCK_ALLOC_ACCESSIBLE;
+>>>>> +               memblock_mark_nomap(crashk_low_res.start,
+>>>>> +                                   resource_size(&crashk_low_res));
+>>>>> +       }
+>>>>> +
+>>>>>         crash_size = PAGE_ALIGN(crash_size);
+>>>>>
+>>>>>         if (crash_base == 0) {
+>>>>>                 /* Current arm64 boot protocol requires 2MB alignment */
+>>>>> -               crash_base = memblock_find_in_range(0, arm64_dma32_phys_limit,
+>>>>> -                               crash_size, SZ_2M);
+>>>>> +               crash_base = memblock_find_in_range(0, crash_max, crash_size,
+>>>>> +                               SZ_2M);
+>>>>>                 if (crash_base == 0) {
+>>>>>                         pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+>>>>>                                 crash_size);
+>>>>> --
+>>>>
+>>>> I tested this patch series on ARM64-ThunderX2 with no issue with
+>>>> bootargs crashkenel=X@Y crashkernel=250M,low
+>>>>
+>>>> $ dmesg | grep crash
+>>>> [    0.000000] crashkernel reserved: 0x0000000b81200000 -
+>>>> 0x0000000c81200000 (4096 MB)
+>>>> [    0.000000] Kernel command line:
+>>>> BOOT_IMAGE=/boot/vmlinuz-5.6.0-rc4+
+>>>> root=UUID=866b8df3-14f4-4e11-95a1-74a90ee9b694 ro
+>>>> crashkernel=4G@0xb81200000 crashkernel=250M,low nowatchdog earlycon
+>>>> [   29.310209]     crashkernel=250M,low
+>>>>
+>>>> $  kexec -p -i /boot/vmlinuz-`uname -r`
+>>>> --initrd=/boot/initrd.img-`uname -r` --reuse-cmdline
+>>>> $ echo 1 > /proc/sys/kernel/sysrq ; echo c > /proc/sysrq-trigger
+>>>>
+>>>> But when i tried with crashkernel=4G crashkernel=250M,low as bootargs.
+>>>> Kernel is not able to allocate memory.
+>>>> [    0.000000] cannot allocate crashkernel (size:0x100000000)
+>>>> [    0.000000] Kernel command line:
+>>>> BOOT_IMAGE=/boot/vmlinuz-5.6.0-rc4+
+>>>> root=UUID=866b8df3-14f4-4e11-95a1-74a90ee9b694 ro crashkernel=4G
+>>>> crashkernel=250M,low nowatchdog
+>>>> [   29.332081]     crashkernel=250M,low
+>>>>
+>>>> does crashkernel=X@Y mandatory to get allocated beyond 4G?
+>>>> am I missing something?
+>>>
+>>> I can't reproduce the problem in my environment, can you test with other size,
+>>> such as "crashkernel=1G crashkernel=250M,low", see if there is the same issue.
+>>>
+>> I tried 1G also. Same error, please find the logs
+>>
+>> $ dmesg | grep crash
+>> [    0.000000] cannot allocate crashkernel (size:0x40000000)
+>> [    0.000000] Kernel command line:
+>> BOOT_IMAGE=/boot/vmlinuz-5.6.0-rc4+
+>> root=UUID=866b8df3-14f4-4e11-95a1-74a90ee9b694 ro nowatchdog earlycon
+>> crashkernel=1G crashkernel=250M,low
+>> [   29.326916]     crashkernel=250M,low
+>>
+>>
+>>> Besides, crashkernel=X@Y isn't mandatory to get allocated beyond 4G,
+>>
+>> this was my understanding also.
+>>
+>>> can you show the whole file /proc/iomem.
+>>>
+>>
+>> $ cat /proc/iomem
+>> 00000000-00000000 : PCI ECAM
+>> 00000000-00000000 : PCI ECAM
+>> 00000000-00000000 : PCI Bus 0000:00
+>>   00000000-00000000 : PCI Bus 0000:0f
+>>     00000000-00000000 : PCI Bus 0000:10
+>>       00000000-00000000 : 0000:10:00.0
+>>       00000000-00000000 : 0000:10:00.0
+>>   00000000-00000000 : PCI Bus 0000:01
+>>     00000000-00000000 : 0000:01:00.0
+>>     00000000-00000000 : 0000:01:00.1
+>>   00000000-00000000 : PCI Bus 0000:05
+>>     00000000-00000000 : 0000:05:00.0
+>>     00000000-00000000 : 0000:05:00.1
+>>   00000000-00000000 : PCI Bus 0000:09
+>>     00000000-00000000 : 0000:09:00.0
+>>     00000000-00000000 : 0000:09:00.1
+>>   00000000-00000000 : 0000:00:10.0
+>>     00000000-00000000 : ahci
+>>   00000000-00000000 : 0000:00:10.1
+>>     00000000-00000000 : ahci
+>> 00000000-00000000 : PCI Bus 0000:80
+>>   00000000-00000000 : PCI Bus 0000:83
+>>     00000000-00000000 : 0000:83:00.0
+>>     00000000-00000000 : 0000:83:00.0
+>>       00000000-00000000 : nvme
+>>   00000000-00000000 : PCI Bus 0000:89
+>>     00000000-00000000 : 0000:89:00.0
+>>       00000000-00000000 : e1000e
+>>     00000000-00000000 : 0000:89:00.0
+>>     00000000-00000000 : 0000:89:00.0
+>>       00000000-00000000 : e1000e
+>>     00000000-00000000 : 0000:89:00.0
+>>       00000000-00000000 : e1000e
+>>   00000000-00000000 : PCI Bus 0000:8d
+>>     00000000-00000000 : 0000:8d:00.0
+>>     00000000-00000000 : 0000:8d:00.0
+>>       00000000-00000000 : mpt3sas
+>> 00000000-00000000 : reserved
+>> 00000000-00000000 : System RAM
+>>   00000000-00000000 : Kernel code
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : Kernel data
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>> 00000000-00000000 : reserved
+>> 00000000-00000000 : System RAM
+>> 00000000-00000000 : reserved
+>> 00000000-00000000 : System RAM
+>>   00000000-00000000 : reserved
+>> 00000000-00000000 : reserved
+>> 00000000-00000000 : System RAM
+>>   00000000-00000000 : reserved
+>> 00000000-00000000 : reserved
+>> 00000000-00000000 : System RAM
+>>   00000000-00000000 : reserved
+>> 00000000-00000000 : reserved
+>> 00000000-00000000 : System RAM
+>>   00000000-00000000 : reserved
+>> 00000000-00000000 : reserved
+>> 00000000-00000000 : System RAM
+>>   00000000-00000000 : reserved
+>> 00000000-00000000 : CAV901C:00
+>> 00000000-00000000 : CAV901D:00
+>>   00000000-00000000 : CAV901C:00
+>> 00000000-00000000 : CAV901E:00
+>>   00000000-00000000 : CAV901C:00
+>> 00000000-00000000 : CAV901F:00
+>>   00000000-00000000 : CAV901C:00
+>> 00000000-00000000 : CAV9006:00
+>>   00000000-00000000 : CAV9006:00
+>> 00000000-00000000 : ARMH0011:00
+>>   00000000-00000000 : ARMH0011:00
+>> 00000000-00000000 : arm-smmu-v3.0.auto
+>>   00000000-00000000 : arm-smmu-v3.0.auto
+>> 00000000-00000000 : arm-smmu-v3.1.auto
+>>   00000000-00000000 : arm-smmu-v3.1.auto
+>> 00000000-00000000 : arm-smmu-v3.2.auto
+>>   00000000-00000000 : arm-smmu-v3.2.auto
+>> 00000000-00000000 : CAV901C:01
+>> 00000000-00000000 : CAV901D:01
+>>   00000000-00000000 : CAV901C:01
+>> 00000000-00000000 : CAV901E:01
+>>   00000000-00000000 : CAV901C:01
+>> 00000000-00000000 : CAV901F:01
+>>   00000000-00000000 : CAV901C:01
+>> 00000000-00000000 : CAV9007:06
+>>   00000000-00000000 : CAV9007:06
+>> 00000000-00000000 : arm-smmu-v3.3.auto
+>>   00000000-00000000 : arm-smmu-v3.3.auto
+>> 00000000-00000000 : arm-smmu-v3.4.auto
+>>   00000000-00000000 : arm-smmu-v3.4.auto
+>> 00000000-00000000 : arm-smmu-v3.5.auto
+>>   00000000-00000000 : arm-smmu-v3.5.auto
+>> 00000000-00000000 : System RAM
+>> 00000000-00000000 : System RAM
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>> 00000000-00000000 : System RAM
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>>   00000000-00000000 : reserved
+>> 00000000-00000000 : PCI Bus 0000:00
+>>   00000000-00000000 : PCI Bus 0000:01
+>>     00000000-00000000 : 0000:01:00.0
+>>     00000000-00000000 : 0000:01:00.1
+>>     00000000-00000000 : 0000:01:00.0
+>>     00000000-00000000 : 0000:01:00.1
+>>     00000000-00000000 : 0000:01:00.0
+>>     00000000-00000000 : 0000:01:00.1
+>>   00000000-00000000 : PCI Bus 0000:05
+>>     00000000-00000000 : 0000:05:00.0
+>>       00000000-00000000 : bnx2x
+>>     00000000-00000000 : 0000:05:00.1
+>>       00000000-00000000 : bnx2x
+>>     00000000-00000000 : 0000:05:00.0
+>>       00000000-00000000 : bnx2x
+>>     00000000-00000000 : 0000:05:00.0
+>>       00000000-00000000 : bnx2x
+>>     00000000-00000000 : 0000:05:00.1
+>>       00000000-00000000 : bnx2x
+>>     00000000-00000000 : 0000:05:00.1
+>>       00000000-00000000 : bnx2x
+>>   00000000-00000000 : PCI Bus 0000:09
+>>     00000000-00000000 : 0000:09:00.0
+>>       00000000-00000000 : i40e
+>>     00000000-00000000 : 0000:09:00.1
+>>       00000000-00000000 : i40e
+>>     00000000-00000000 : 0000:09:00.0
+>>     00000000-00000000 : 0000:09:00.1
+>>     00000000-00000000 : 0000:09:00.0
+>>       00000000-00000000 : i40e
+>>     00000000-00000000 : 0000:09:00.1
+>>       00000000-00000000 : i40e
+>>     00000000-00000000 : 0000:09:00.0
+>>     00000000-00000000 : 0000:09:00.1
+>>   00000000-00000000 : 0000:00:0f.0
+>>     00000000-00000000 : xhci-hcd
+>>   00000000-00000000 : 0000:00:0f.0
+>>   00000000-00000000 : 0000:00:0f.1
+>>     00000000-00000000 : xhci-hcd
+>>   00000000-00000000 : 0000:00:0f.1
+>>   00000000-00000000 : 0000:00:10.0
+>>     00000000-00000000 : ahci
+>>   00000000-00000000 : 0000:00:10.1
+>>     00000000-00000000 : ahci
+>> 00000000-00000000 : PCI Bus 0000:80
+>>
+> 
+> resending with correct logs (after login as root)
+> 
+> $ cat /proc/iomem
+> 30000000-37ffffff : PCI ECAM
+> 38000000-3fffffff : PCI ECAM
+> 40000000-5fffffff : PCI Bus 0000:00
+>   40000000-417fffff : PCI Bus 0000:0f
+>     40000000-417fffff : PCI Bus 0000:10
+>       40000000-40ffffff : 0000:10:00.0
+>       41000000-4101ffff : 0000:10:00.0
+>   41800000-418fffff : PCI Bus 0000:01
+>     41800000-4183ffff : 0000:01:00.0
+>     41840000-4187ffff : 0000:01:00.1
+>   41900000-419fffff : PCI Bus 0000:05
+>     41900000-4197ffff : 0000:05:00.0
+>     41980000-419fffff : 0000:05:00.1
+>   41a00000-41afffff : PCI Bus 0000:09
+>     41a00000-41a7ffff : 0000:09:00.0
+>     41a80000-41afffff : 0000:09:00.1
+>   41b00000-41b0ffff : 0000:00:10.0
+>     41b00000-41b0ffff : ahci
+>   41b10000-41b1ffff : 0000:00:10.1
+>     41b10000-41b1ffff : ahci
+> 60000000-7fffffff : PCI Bus 0000:80
+>   60000000-600fffff : PCI Bus 0000:83
+>     60000000-6001ffff : 0000:83:00.0
+>     60020000-60023fff : 0000:83:00.0
+>       60020000-60023fff : nvme
+>   60100000-601fffff : PCI Bus 0000:89
+>     60100000-6017ffff : 0000:89:00.0
+>       60100000-6017ffff : e1000e
+>     60180000-601bffff : 0000:89:00.0
+>     601c0000-601dffff : 0000:89:00.0
+>       601c0000-601dffff : e1000e
+>     601e0000-601e3fff : 0000:89:00.0
+>       601e0000-601e3fff : e1000e
+>   60200000-603fffff : PCI Bus 0000:8d
+>     60200000-602fffff : 0000:8d:00.0
+>     60300000-6030ffff : 0000:8d:00.0
+>       60300000-6030ffff : mpt3sas
+> 802f0000-8030ffff : reserved
+> e6247000-e6247fff : reserved
+> e6720000-e690ffff : reserved
+> e6a90000-e6a9ffff : reserved
+> e6ab0000-e721ffff : reserved
+> e7240000-e7240fff : reserved
+> fac00000-fafdffff : reserved
+> 400040400-40004041f : CAV901C:00
+> 400040480-400040567 : CAV901D:00
+>   400040480-400040567 : CAV901C:00
+> 400040600-40004073b : CAV901E:00
+>   400040600-40004073b : CAV901C:00
+> 400041400-40004177f : CAV901F:00
+>   400041400-40004177f : CAV901C:00
+> 402000100-402000fff : CAV9006:00
+>   402000100-402000fff : CAV9006:00
+> 402020000-40202ffff : ARMH0011:00
+>   402020000-40202ffff : ARMH0011:00
+> 402300000-40230ffff : arm-smmu-v3.0.auto
+>   402300000-40230ffff : arm-smmu-v3.0.auto
+> 402320000-40232ffff : arm-smmu-v3.1.auto
+>   402320000-40232ffff : arm-smmu-v3.1.auto
+> 402340000-40234ffff : arm-smmu-v3.2.auto
+>   402340000-40234ffff : arm-smmu-v3.2.auto
+> 440040400-44004041f : CAV901C:01
+> 440040480-440040567 : CAV901D:01
+>   440040480-440040567 : CAV901C:01
+> 440040600-44004073b : CAV901E:01
+>   440040600-44004073b : CAV901C:01
+> 440041400-44004177f : CAV901F:01
+>   440041400-44004177f : CAV901C:01
+> 4421a0000-4421affff : CAV9007:06
+>   4421a0000-4421affff : CAV9007:06
+> 442300000-44230ffff : arm-smmu-v3.3.auto
+>   442300000-44230ffff : arm-smmu-v3.3.auto
+> 442320000-44232ffff : arm-smmu-v3.4.auto
+>   442320000-44232ffff : arm-smmu-v3.4.auto
+> 442340000-44234ffff : arm-smmu-v3.5.auto
+>   442340000-44234ffff : arm-smmu-v3.5.auto
+> b81200000-c811fffff : System RAM
+>   b81280000-b8270ffff : Kernel code
+>   b82710000-b82dfffff : reserved
+>   b82e00000-b83168fff : Kernel data
+>   b83169000-baccd7fff : reserved
+>   c78a00000-c7fffffff : reserved
+>   c80129000-c801a9fff : reserved
+>   c801aa000-c809e9fff : reserved
+>   c809ec000-c809eefff : reserved
+>   c809ef000-c811fffff : reserved
+> 10000000000-13fffffffff : PCI Bus 0000:00
+>   10000000000-100013fffff : PCI Bus 0000:01
+>     10000000000-100007fffff : 0000:01:00.0
+>     10000800000-10000ffffff : 0000:01:00.1
+>     10001000000-1000101ffff : 0000:01:00.0
+>     10001020000-1000103ffff : 0000:01:00.1
+>     10001040000-1000104ffff : 0000:01:00.0
+>     10001050000-1000105ffff : 0000:01:00.1
+>   10001400000-100037fffff : PCI Bus 0000:05
+>     10001400000-1000140ffff : 0000:05:00.0
+>       10001400000-1000140ffff : bnx2x
+>     10001410000-1000141ffff : 0000:05:00.1
+>       10001410000-1000141ffff : bnx2x
+>     10001800000-10001ffffff : 0000:05:00.0
+>       10001800000-10001ffffff : bnx2x
+>     10002000000-100027fffff : 0000:05:00.0
+>       10002000000-100027fffff : bnx2x
+>     10002800000-10002ffffff : 0000:05:00.1
+>       10002800000-10002ffffff : bnx2x
+>     10003000000-100037fffff : 0000:05:00.1
+>       10003000000-100037fffff : bnx2x
+>   10003800000-100053fffff : PCI Bus 0000:09
+>     10003800000-10003ffffff : 0000:09:00.0
+>       10003800000-10003ffffff : i40e
+>     10004000000-100047fffff : 0000:09:00.1
+>       10004000000-100047fffff : i40e
+>     10004800000-10004bfffff : 0000:09:00.0
+>     10004c00000-10004ffffff : 0000:09:00.1
+>     10005000000-10005007fff : 0000:09:00.0
+>       10005000000-10005007fff : i40e
+>     10005008000-1000500ffff : 0000:09:00.1
+>       10005008000-1000500ffff : i40e
+>     10005010000-1000510ffff : 0000:09:00.0
+>     10005110000-1000520ffff : 0000:09:00.1
+>   10005400000-1000540ffff : 0000:00:0f.0
+>     10005400000-1000540ffff : xhci-hcd
+>   10005410000-1000541ffff : 0000:00:0f.0
+>   10005420000-1000542ffff : 0000:00:0f.1
+>     10005420000-1000542ffff : xhci-hcd
+>   10005430000-1000543ffff : 0000:00:0f.1
+>   10005440000-1000544ffff : 0000:00:10.0
+>     10005440000-1000544ffff : ahci
+>   10005450000-1000545ffff : 0000:00:10.1
+>     10005450000-1000545ffff : ahci
+> 14000000000-17fffffffff : PCI Bus 0000:80
+> 
+> 
+> failure with crashkernel=1G
+> 
+> :~$ dmesg | grep crash
+> [    0.000000] cannot allocate crashkernel (size:0x40000000)
+> [    0.000000] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-5.6.0-rc4+
+> root=UUID=866b8df3-14f4-4e11-95a1-74a90ee9b694 ro nowatchdog earlycon
+> crashkernel=1G crashkernel=250M,low
+> [   29.326916]     crashkernel=250M,low
+> 
 
-void create_cet_thread(void (*func)(), unsigned int cet_flags);
+I read these clearly, found that your all testcases failed including
+"crashkernel=4G@0xb81200000 crashkernel=250M,low".
 
-I could implement this using clone() if the kernel provides the requisite su=
-pport. Sure, creating threads behind libc=E2=80=99s back like this is perilo=
-us, but it can be done.
+There is no "Crash kernel (low)" in all your tests, that is there is no enough
+low memory, in these cases, parameters equal to 4G@0xb81200000, crashkernel=4G
+and crashkernel=1G.
 
->=20
->> fancy legacy bitmap to allow non-instrumented code to run with IBT on,
->> although SHSTK doesn't have hardware support for a similar feature.
->=20
-> All these changes are called CET enabing.
+crashkernel=4G and crashkernel=1G all failed because there is no low memory.
 
-What does that mean?  If program A loads library B, and library B very caref=
-ully loads CET-mismatched code, program A may be blissfully unaware.
+Thanks,
+Chen Zhou
 
->=20
->> So, sure, the glibc-linked ELF ecosystem needs some degree of CET
->> coordination, but it is absolutely not the case that a process MUST
->> have all CET or no CET.  Let's please support the complicated cases in
->> the kernel and the ABI too.  If glibc wants to make it annoying to do
->> complicated things, so be it.  People work behind glibc's back all the
->> time.
->=20
-> CET is no different from NX in this regard.
+> --pk
+> 
+> .
+> 
 
-NX is in the page tables, and CET, mostly, is not.  Also, we seriously flubb=
-ed READ_IMPLIES_EXEC and made it affect far more mappings than ever should h=
-ave been affected.
-
-If a legacy program (non-NX-aware) loads a newer library, and the library op=
-ens a device node and mmaps it PROT_READ, it gets RX.  This is not a good de=
-sign. In fact, it=E2=80=99s actively problematic.
-
-Let us please not take Linux=E2=80=99s NX legacy support as an example of go=
-od design.=
