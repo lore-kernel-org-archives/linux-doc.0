@@ -2,281 +2,480 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5E60C10F27
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 08:12:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FAD4C10F27
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 08:54:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8EC592467D
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 08:12:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D10020873
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 08:54:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726220AbgCJIMr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 04:12:47 -0400
-Received: from zimbra2.kalray.eu ([92.103.151.219]:50818 "EHLO
-        zimbra2.kalray.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725919AbgCJIMq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 04:12:46 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 10EAA27E0589;
-        Tue, 10 Mar 2020 09:12:45 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id suHw1Lkpx2r5; Tue, 10 Mar 2020 09:12:44 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 53AB727E05D7;
-        Tue, 10 Mar 2020 09:12:44 +0100 (CET)
-X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id nSuIx9HZ4Lhp; Tue, 10 Mar 2020 09:12:44 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 35E2027E0589;
-        Tue, 10 Mar 2020 09:12:44 +0100 (CET)
-Date:   Tue, 10 Mar 2020 09:12:44 +0100 (CET)
-From:   =?utf-8?Q?Cl=C3=A9ment?= Leger <cleger@kalrayinc.com>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
-        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>
-Message-ID: <1569234651.9042535.1583827964044.JavaMail.zimbra@kalray.eu>
-In-Reply-To: <20200309235710.GE14744@builder>
-References: <20200210162209.23149-1-cleger@kalray.eu> <20200302093902.27849-1-cleger@kalray.eu> <20200302093902.27849-9-cleger@kalray.eu> <20200309203223.GE1399@xps15> <20200309235710.GE14744@builder>
-Subject: Re: [PATCH v5 8/8] remoteproc: Adapt coredump to generate correct
- elf type
+        id S1726486AbgCJIyK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 04:54:10 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2530 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726466AbgCJIyK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Mar 2020 04:54:10 -0400
+Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.106])
+        by Forcepoint Email with ESMTP id 8B7DF2371FA65AEE872B;
+        Tue, 10 Mar 2020 08:54:08 +0000 (GMT)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ LHREML714-CAH.china.huawei.com (10.201.108.37) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 10 Mar 2020 08:54:07 +0000
+Received: from localhost (10.202.226.57) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 10 Mar
+ 2020 08:54:07 +0000
+Date:   Tue, 10 Mar 2020 08:54:05 +0000
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
+        <aarcange@redhat.com>, <yang.shi@linux.alibaba.com>,
+        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
+        <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 01/14] mm: Introduce Data Access MONitor (DAMON)
+Message-ID: <20200310085405.000061af@Huawei.com>
+In-Reply-To: <20200224123047.32506-2-sjpark@amazon.com>
+References: <20200224123047.32506-1-sjpark@amazon.com>
+ <20200224123047.32506-2-sjpark@amazon.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.40.202]
-X-Mailer: Zimbra 8.8.15_GA_3895 (ZimbraWebClient - GC75 (Linux)/8.8.15_GA_3895)
-Thread-Topic: remoteproc: Adapt coredump to generate correct elf type
-Thread-Index: aSfVDzvI7FHWKtYkTa2dk6v5khxkEA==
+X-Originating-IP: [10.202.226.57]
+X-ClientProxiedBy: lhreml715-chm.china.huawei.com (10.201.108.66) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bjorn,
+Apologies if anyone gets these twice. I had an email server throttling
+issue yesterday.
 
------ On 10 Mar, 2020, at 00:57, Bjorn Andersson bjorn.andersson@linaro.org wrote:
+On Mon, 24 Feb 2020 13:30:34 +0100
+SeongJae Park <sjpark@amazon.com> wrote:
 
-> On Mon 09 Mar 13:32 PDT 2020, Mathieu Poirier wrote:
+> From: SeongJae Park <sjpark@amazon.de>
 > 
->> On Mon, Mar 02, 2020 at 10:39:02AM +0100, Clement Leger wrote:
->> > Now that remoteproc can load an elf64, coredump elf class should be
->> > the same as the loaded elf class. In order to do that, add a
->> > elf_class field to rproc with default values. If an elf is loaded
->> > successfully, this field will be updated with the loaded elf class.
->> > Then, the coredump core code has been modified to use the generic elf
->> > macro in order to create an elf file with correct class.
->> > 
->> > Signed-off-by: Clement Leger <cleger@kalray.eu>
->> > ---
->> >  drivers/remoteproc/remoteproc_core.c       | 67 ++++++++++++++++--------------
->> >  drivers/remoteproc/remoteproc_elf_loader.c |  3 ++
->> >  include/linux/remoteproc.h                 |  1 +
->> >  3 files changed, 39 insertions(+), 32 deletions(-)
->> > 
->> > diff --git a/drivers/remoteproc/remoteproc_core.c
->> > b/drivers/remoteproc/remoteproc_core.c
->> > index b932a64a2be2..f923355aa3f9 100644
->> > --- a/drivers/remoteproc/remoteproc_core.c
->> > +++ b/drivers/remoteproc/remoteproc_core.c
->> > @@ -38,6 +38,7 @@
->> >  #include <linux/platform_device.h>
->> >  
->> >  #include "remoteproc_internal.h"
->> > +#include "remoteproc_elf_helpers.h"
->> >  
->> >  #define HIGH_BITS_MASK 0xFFFFFFFF00000000ULL
->> >  
->> > @@ -1566,20 +1567,21 @@ EXPORT_SYMBOL(rproc_coredump_add_custom_segment);
->> >  static void rproc_coredump(struct rproc *rproc)
->> >  {
->> >  	struct rproc_dump_segment *segment;
->> > -	struct elf32_phdr *phdr;
->> > -	struct elf32_hdr *ehdr;
->> > +	void *phdr;
->> > +	void *ehdr;
->> >  	size_t data_size;
->> >  	size_t offset;
->> >  	void *data;
->> >  	void *ptr;
->> > +	u8 class = rproc->elf_class;
->> >  	int phnum = 0;
->> >  
->> >  	if (list_empty(&rproc->dump_segments))
->> >  		return;
->> >  
->> > -	data_size = sizeof(*ehdr);
->> > +	data_size = elf_size_of_hdr(class);
->> >  	list_for_each_entry(segment, &rproc->dump_segments, node) {
->> > -		data_size += sizeof(*phdr) + segment->size;
->> > +		data_size += elf_size_of_phdr(class) + segment->size;
->> >  
->> >  		phnum++;
->> >  	}
->> > @@ -1590,33 +1592,33 @@ static void rproc_coredump(struct rproc *rproc)
->> >  
->> >  	ehdr = data;
->> >  
->> > -	memset(ehdr, 0, sizeof(*ehdr));
->> > -	memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
->> > -	ehdr->e_ident[EI_CLASS] = ELFCLASS32;
->> > -	ehdr->e_ident[EI_DATA] = ELFDATA2LSB;
->> > -	ehdr->e_ident[EI_VERSION] = EV_CURRENT;
->> > -	ehdr->e_ident[EI_OSABI] = ELFOSABI_NONE;
->> > -	ehdr->e_type = ET_CORE;
->> > -	ehdr->e_machine = EM_NONE;
->> > -	ehdr->e_version = EV_CURRENT;
->> > -	ehdr->e_entry = rproc->bootaddr;
->> > -	ehdr->e_phoff = sizeof(*ehdr);
->> > -	ehdr->e_ehsize = sizeof(*ehdr);
->> > -	ehdr->e_phentsize = sizeof(*phdr);
->> > -	ehdr->e_phnum = phnum;
->> > -
->> > -	phdr = data + ehdr->e_phoff;
->> > -	offset = ehdr->e_phoff + sizeof(*phdr) * ehdr->e_phnum;
->> > +	memset(ehdr, 0, elf_size_of_hdr(class));
->> > +	/* e_ident field is common for both elf32 and elf64 */
->> > +	elf_hdr_init_ident(ehdr, class);
->> > +
->> > +	elf_hdr_set_e_type(class, ehdr, ET_CORE);
->> > +	elf_hdr_set_e_machine(class, ehdr, EM_NONE);
->> > +	elf_hdr_set_e_version(class, ehdr, EV_CURRENT);
->> > +	elf_hdr_set_e_entry(class, ehdr, rproc->bootaddr);
->> > +	elf_hdr_set_e_phoff(class, ehdr, elf_size_of_hdr(class));
->> > +	elf_hdr_set_e_ehsize(class, ehdr, elf_size_of_hdr(class));
->> > +	elf_hdr_set_e_phentsize(class, ehdr, elf_size_of_phdr(class));
->> > +	elf_hdr_set_e_phnum(class, ehdr, phnum);
->> > +
->> > +	phdr = data + elf_hdr_get_e_phoff(class, ehdr);
->> > +	offset = elf_hdr_get_e_phoff(class, ehdr);
->> > +	offset += elf_size_of_phdr(class) * elf_hdr_get_e_phnum(class, ehdr);
->> > +
->> >  	list_for_each_entry(segment, &rproc->dump_segments, node) {
->> > -		memset(phdr, 0, sizeof(*phdr));
->> > -		phdr->p_type = PT_LOAD;
->> > -		phdr->p_offset = offset;
->> > -		phdr->p_vaddr = segment->da;
->> > -		phdr->p_paddr = segment->da;
->> > -		phdr->p_filesz = segment->size;
->> > -		phdr->p_memsz = segment->size;
->> > -		phdr->p_flags = PF_R | PF_W | PF_X;
->> > -		phdr->p_align = 0;
->> > +		memset(phdr, 0, elf_size_of_phdr(class));
->> > +		elf_phdr_set_p_type(class, phdr, PT_LOAD);
->> > +		elf_phdr_set_p_offset(class, phdr, offset);
->> > +		elf_phdr_set_p_vaddr(class, phdr, segment->da);
->> > +		elf_phdr_set_p_paddr(class, phdr, segment->da);
->> > +		elf_phdr_set_p_filesz(class, phdr, segment->size);
->> > +		elf_phdr_set_p_memsz(class, phdr, segment->size);
->> > +		elf_phdr_set_p_flags(class, phdr, PF_R | PF_W | PF_X);
->> > +		elf_phdr_set_p_align(class, phdr, 0);
->> >  
->> >  		if (segment->dump) {
->> >  			segment->dump(rproc, segment, data + offset);
->> > @@ -1632,8 +1634,8 @@ static void rproc_coredump(struct rproc *rproc)
->> >  			}
->> >  		}
->> >  
->> > -		offset += phdr->p_filesz;
->> > -		phdr++;
->> > +		offset += elf_phdr_get_p_filesz(class, phdr);
->> > +		phdr += elf_size_of_phdr(class);
->> >  	}
->> >  
->> >  	dev_coredumpv(&rproc->dev, data, data_size, GFP_KERNEL);
->> > @@ -2031,6 +2033,7 @@ struct rproc *rproc_alloc(struct device *dev, const char
->> > *name,
->> >  	rproc->name = name;
->> >  	rproc->priv = &rproc[1];
->> >  	rproc->auto_boot = true;
->> > +	rproc->elf_class = ELFCLASS32;
->> 
->> I would initialise this to ELFCLASSNONE to make sure that if a platform driver
->> overwrites rproc_elf_load_segments or doesn't provide one, we don't falsely
->> deduce the elf type.  It goes without saying that if elf_class == ELFCLASSNONE,
->> a coredump is not generated.
->> 
-> 
-> I like the idea of making the choice explicit, perhaps even more
-> explicit than the assumption that the coredumps should be of the same
-> type as the ELF loaded. Note that it's different consumers of the two
-> ELF files.
-> 
->> Unless you think this is a seriously bad idea or Bjorn over rules me,
+> This commit introduces a kernel module named DAMON.  Note that this
+> commit is implementing only the stub for the module load/unload, basic
+> data structures, and simple manipulation functions of the structures to
+> keep the size of commit small.  The core mechanisms of DAMON will be
+> implemented one by one by following commits.
 
-Ok, I tried to do the equivalent of what was existing (ie elf32 by default).
-But IMHO, letting the driver choose the elf type is a better idea.
-
->> 
->> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
->> 
-> 
-> Not sure if it count as "over ruling", I accept your suggestion but used
-> your R-b to merge the patch as is, no need to hold this up any longer.
-> 
-> Clement, can you please follow up with a patch implementing this (don't
-> forget that the qcom drivers doesn't use rproc_elf_load_segments())
-
-I was going to send a v7, please tell me if you want to hold it a bit more.
-If not, I will address the remaining comments in next commits.
+Interesting piece of work.  I'm reviewing this partly as an exercise in
+understanding it, but I'll point out minor stuff on the basis I might
+as well whilst I'm here. ;)  Note I review bottom up so some comments
+won't make much sense read from the top.
 
 > 
-> Thanks Clement and thanks for the reviews Mathieu.
+> Brief Introduction
+> ==================
+
+I'd keep this level of intro for the cover letter / docs.  It's not
+particularly useful in commit message it git.
+
 > 
-> Regards,
-> Bjorn
+> Memory management decisions can be improved if finer data access
+> information is available.  However, because such finer information
+> usually comes with higher overhead, most systems including Linux
+> forgives the potential improvement and rely on only coarse information
+> or some light-weight heuristics.  The pseudo-LRU and the aggressive THP
+> promotions are such examples.
 > 
->> Thanks,
->> Mathieu
->> 
->> >  
->> >  	device_initialize(&rproc->dev);
->> >  	rproc->dev.parent = dev;
->> > diff --git a/drivers/remoteproc/remoteproc_elf_loader.c
->> > b/drivers/remoteproc/remoteproc_elf_loader.c
->> > index 4869fb7d8fe4..16e2c496fd45 100644
->> > --- a/drivers/remoteproc/remoteproc_elf_loader.c
->> > +++ b/drivers/remoteproc/remoteproc_elf_loader.c
->> > @@ -248,6 +248,9 @@ int rproc_elf_load_segments(struct rproc *rproc, const
->> > struct firmware *fw)
->> >  			memset(ptr + filesz, 0, memsz - filesz);
->> >  	}
->> >  
->> > +	if (ret == 0)
->> > +		rproc->elf_class = class;
->> > +
->> >  	return ret;
->> >  }
->> >  EXPORT_SYMBOL(rproc_elf_load_segments);
->> > diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
->> > index 1683d6c386a6..ed127b2d35ca 100644
->> > --- a/include/linux/remoteproc.h
->> > +++ b/include/linux/remoteproc.h
->> > @@ -514,6 +514,7 @@ struct rproc {
->> >  	bool auto_boot;
->> >  	struct list_head dump_segments;
->> >  	int nb_vdev;
->> > +	u8 elf_class;
->> >  };
->> >  
->> >  /**
->> > --
->> > 2.15.0.276.g89ea799
+> A number of experimental data access pattern awared memory management
+> optimizations say the sacrifices are huge.  However, none of those has
+> successfully adopted to Linux kernel mainly due to the absence of a
+> scalable and efficient data access monitoring mechanism.
+> 
+> DAMON is a data access monitoring solution for the problem.  It is 1)
+> accurate enough for the DRAM level memory management, 2) light-weight
+> enough to be applied online, and 3) keeps predefined upper-bound
+> overhead regardless of the size of target workloads (thus scalable).
+> 
+> DAMON is implemented as a standalone kernel module and provides several
+> simple interfaces.  Owing to that, though it has mainly designed for the
+> kernel's memory management mechanisms, it can be also used for a wide
+> range of user space programs and people.
+> 
+> Frequently Asked Questions
+> ==========================
+> 
+> Q: Why not integrated with perf?
+> A: From the perspective of perf like profilers, DAMON can be thought of
+> as a data source in kernel, like tracepoints, pressure stall information
+> (psi), or idle page tracking.  Thus, it can be easily integrated with
+> those.  However, this patchset doesn't provide a fancy perf integration
+> because current step of DAMON development is focused on its core logic
+> only.  That said, DAMON already provides two interfaces for user space
+> programs, which based on debugfs and tracepoint, respectively.  Using
+> the tracepoint interface, you can use DAMON with perf.  This patchset
+> also provides the debugfs interface based user space tool for DAMON.  It
+> can be used to record, visualize, and analyze data access pattern of
+> target processes in a convenient way.
+> 
+> Q: Why a new module, instead of extending perf or other tools?
+> A: First, DAMON aims to be used by other programs including the kernel.
+> Therefore, having dependency to specific tools like perf is not
+> desirable.  Second, because it need to be lightweight as much as
+> possible so that it can be used online, any unnecessary overhead such as
+> kernel - user space context switching cost should be avoided.  These are
+> the two most biggest reasons why DAMON is implemented in the kernel
+> space.  The idle page tracking subsystem would be the kernel module that
+> most seems similar to DAMON.  However, it's own interface is not
+> compatible with DAMON.  Also, the internal implementation of it has no
+> common part to be reused by DAMON.
+> 
+> Q: Can 'perf mem' provide the data required for DAMON?
+> A: On the systems supporting 'perf mem', yes.  DAMON is using the PTE
+> Accessed bits in low level.  Other H/W or S/W features that can be used
+> for the purpose could be used.  However, as explained with above
+> question, DAMON need to be implemented in the kernel space.
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> ---
+>  mm/Kconfig  |  12 +++
+>  mm/Makefile |   1 +
+>  mm/damon.c  | 224 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 237 insertions(+)
+>  create mode 100644 mm/damon.c
+> 
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index ab80933be65f..387d469f40ec 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -739,4 +739,16 @@ config ARCH_HAS_HUGEPD
+>  config MAPPING_DIRTY_HELPERS
+>          bool
+>  
+> +config DAMON
+> +	tristate "Data Access Monitor"
+> +	depends on MMU
+> +	default n
+
+No need to specify a default of n.
+
+> +	help
+> +	  Provides data access monitoring.
+> +
+> +	  DAMON is a kernel module that allows users to monitor the actual
+> +	  memory access pattern of specific user-space processes.  It aims to
+> +	  be 1) accurate enough to be useful for performance-centric domains,
+> +	  and 2) sufficiently light-weight so that it can be applied online.
+> +
+>  endmenu
+> diff --git a/mm/Makefile b/mm/Makefile
+> index 1937cc251883..2911b3832c90 100644
+> --- a/mm/Makefile
+> +++ b/mm/Makefile
+> @@ -108,3 +108,4 @@ obj-$(CONFIG_ZONE_DEVICE) += memremap.o
+>  obj-$(CONFIG_HMM_MIRROR) += hmm.o
+>  obj-$(CONFIG_MEMFD_CREATE) += memfd.o
+>  obj-$(CONFIG_MAPPING_DIRTY_HELPERS) += mapping_dirty_helpers.o
+> +obj-$(CONFIG_DAMON) += damon.o
+> diff --git a/mm/damon.c b/mm/damon.c
+> new file mode 100644
+> index 000000000000..aafdca35b7b8
+> --- /dev/null
+> +++ b/mm/damon.c
+> @@ -0,0 +1,224 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Data Access Monitor
+> + *
+> + * Copyright 2019 Amazon.com, Inc. or its affiliates.  All rights reserved.
+> + *
+> + * Author: SeongJae Park <sjpark@amazon.de>
+> + */
+> +
+> +#define pr_fmt(fmt) "damon: " fmt
+> +
+> +#include <linux/mm.h>
+> +#include <linux/module.h>
+> +#include <linux/random.h>
+> +#include <linux/slab.h>
+> +
+> +#define damon_get_task_struct(t) \
+> +	(get_pid_task(find_vpid(t->pid), PIDTYPE_PID))
+> +
+> +#define damon_next_region(r) \
+> +	(container_of(r->list.next, struct damon_region, list))
+> +
+> +#define damon_prev_region(r) \
+> +	(container_of(r->list.prev, struct damon_region, list))
+> +
+> +#define damon_for_each_region(r, t) \
+> +	list_for_each_entry(r, &t->regions_list, list)
+> +
+> +#define damon_for_each_region_safe(r, next, t) \
+> +	list_for_each_entry_safe(r, next, &t->regions_list, list)
+> +
+> +#define damon_for_each_task(ctx, t) \
+> +	list_for_each_entry(t, &(ctx)->tasks_list, list)
+> +
+> +#define damon_for_each_task_safe(ctx, t, next) \
+> +	list_for_each_entry_safe(t, next, &(ctx)->tasks_list, list)
+> +
+> +/* Represents a monitoring target region on the virtual address space */
+> +struct damon_region {
+> +	unsigned long vm_start;
+> +	unsigned long vm_end;
+> +	unsigned long sampling_addr;
+> +	unsigned int nr_accesses;
+> +	struct list_head list;
+> +};
+> +
+> +/* Represents a monitoring target task */
+> +struct damon_task {
+> +	unsigned long pid;
+> +	struct list_head regions_list;
+> +	struct list_head list;
+> +};
+> +
+> +struct damon_ctx {
+> +	struct rnd_state rndseed;
+> +
+> +	struct list_head tasks_list;	/* 'damon_task' objects */
+> +};
+> +
+> +/* Get a random number in [l, r) */
+> +#define damon_rand(ctx, l, r) (l + prandom_u32_state(&ctx->rndseed) % (r - l))
+> +
+> +/*
+> + * Construct a damon_region struct
+> + *
+> + * Returns the pointer to the new struct if success, or NULL otherwise
+> + */
+> +static struct damon_region *damon_new_region(struct damon_ctx *ctx,
+> +				unsigned long vm_start, unsigned long vm_end)
+> +{
+> +	struct damon_region *ret;
+
+I'd give this a different variable name.  Expectation in kernel is often
+that ret is simply an magic handle to be passed on.  Don't normally expect
+to set elements of it.  I'd go long hand and call it region.
+
+> +
+> +	ret = kmalloc(sizeof(struct damon_region), GFP_KERNEL);
+
+sizeof(*ret)
+
+> +	if (!ret)
+> +		return NULL;
+
+blank line.
+
+> +	ret->vm_start = vm_start;
+> +	ret->vm_end = vm_end;
+> +	ret->nr_accesses = 0;
+> +	ret->sampling_addr = damon_rand(ctx, vm_start, vm_end);
+> +	INIT_LIST_HEAD(&ret->list);
+> +
+> +	return ret;
+> +}
+> +
+> +/*
+> + * Add a region between two other regions
+Interestingly even the list.h comments for __list_add call this
+function "insert".   No idea why it isn't simply called that..
+
+Perhaps damon_insert_region would be clearer and avoid need
+for comment?
+
+> + */
+> +static inline void damon_add_region(struct damon_region *r,
+> +		struct damon_region *prev, struct damon_region *next)
+> +{
+> +	__list_add(&r->list, &prev->list, &next->list);
+> +}
+> +
+> +/*
+> + * Append a region to a task's list of regions
+
+I'd argue the naming is sufficient that the comment adds little.
+
+> + */
+> +static void damon_add_region_tail(struct damon_region *r, struct damon_task *t)
+> +{
+> +	list_add_tail(&r->list, &t->regions_list);
+> +}
+> +
+> +/*
+> + * Delete a region from its list
+
+The list is an implementation detail. I'd not mention that in the comments.
+
+> + */
+> +static void damon_del_region(struct damon_region *r)
+> +{
+> +	list_del(&r->list);
+> +}
+> +
+> +/*
+> + * De-allocate a region
+
+Obvious comment - seem rot risk note below.
+
+> + */
+> +static void damon_free_region(struct damon_region *r)
+> +{
+> +	kfree(r);
+> +}
+> +
+> +static void damon_destroy_region(struct damon_region *r)
+> +{
+> +	damon_del_region(r);
+> +	damon_free_region(r);
+> +}
+> +
+> +/*
+> + * Construct a damon_task struct
+> + *
+> + * Returns the pointer to the new struct if success, or NULL otherwise
+> + */
+> +static struct damon_task *damon_new_task(unsigned long pid)
+> +{
+> +	struct damon_task *t;
+> +
+> +	t = kmalloc(sizeof(struct damon_task), GFP_KERNEL);
+
+sizeof(*t) is probably less error prone if this code is maintained
+in the long run.
+
+> +	if (!t)
+> +		return NULL;
+
+blank line.
+
+> +	t->pid = pid;
+> +	INIT_LIST_HEAD(&t->regions_list);
+> +
+> +	return t;
+> +}
+> +
+> +/* Returns n-th damon_region of the given task */
+> +struct damon_region *damon_nth_region_of(struct damon_task *t, unsigned int n)
+> +{
+> +	struct damon_region *r;
+> +	unsigned int i;
+> +
+> +	i = 0;
+	unsigned int i = 0;
+
+> +	damon_for_each_region(r, t) {
+> +		if (i++ == n)
+> +			return r;
+> +	}
+
+blank line helps readability a little.
+
+> +	return NULL;
+> +}
+> +
+> +static void damon_add_task_tail(struct damon_ctx *ctx, struct damon_task *t)
+
+I'm curious, do we care that it's on the tail?  If not I'd look on that as an
+implementation detail and just call this 
+
+damon_add_task()
+
+> +{
+> +	list_add_tail(&t->list, &ctx->tasks_list);
+> +}
+> +
+> +static void damon_del_task(struct damon_task *t)
+> +{
+> +	list_del(&t->list);
+> +}
+> +
+> +static void damon_free_task(struct damon_task *t)
+> +{
+> +	struct damon_region *r, *next;
+> +
+> +	damon_for_each_region_safe(r, next, t)
+> +		damon_free_region(r);
+> +	kfree(t);
+> +}
+> +
+> +static void damon_destroy_task(struct damon_task *t)
+> +{
+> +	damon_del_task(t);
+> +	damon_free_task(t);
+> +}
+> +
+> +/*
+> + * Returns number of monitoring target tasks
+
+As below, kind of obvious so just room for rot.
+
+> + */
+> +static unsigned int nr_damon_tasks(struct damon_ctx *ctx)
+> +{
+> +	struct damon_task *t;
+> +	unsigned int ret = 0;
+> +
+> +	damon_for_each_task(ctx, t)
+> +		ret++;
+> +	return ret;
+> +}
+> +
+> +/*
+> + * Returns the number of target regions for a given target task
+
+Always a trade off between useful comments and possibility of docs
+rotting.  I'd drop this comment certainly.
+The function name is self explanatory.
+
+> + */
+> +static unsigned int nr_damon_regions(struct damon_task *t)
+> +{
+> +	struct damon_region *r;
+> +	unsigned int ret = 0;
+> +
+> +	damon_for_each_region(r, t)
+> +		ret++;
+
+Blank line here would help readability a tiny bit.
+Same in other places where we have something followed by a nice
+simple return statement.
+
+> +	return ret;
+> +}
+> +
+> +static int __init damon_init(void)
+> +{
+> +	pr_info("init\n");
+
+Drop these. They are just noise.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static void __exit damon_exit(void)
+> +{
+> +	pr_info("exit\n");
+> +}
+> +
+> +module_init(damon_init);
+> +module_exit(damon_exit);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("SeongJae Park <sjpark@amazon.de>");
+> +MODULE_DESCRIPTION("DAMON: Data Access MONitor");
+
+
