@@ -2,82 +2,187 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DDC0C18E5A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:05:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 518B8C18E5C
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:09:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 576DA21D7E
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:05:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22FE520727
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:09:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727268AbgCJTFi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 15:05:38 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:54506 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726851AbgCJTFh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 15:05:37 -0400
-Received: from mail-lf1-f71.google.com ([209.85.167.71])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <guilherme.piccoli@canonical.com>)
-        id 1jBkC7-0007qc-FS
-        for linux-doc@vger.kernel.org; Tue, 10 Mar 2020 19:05:35 +0000
-Received: by mail-lf1-f71.google.com with SMTP id f3so1618110lfm.14
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 12:05:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TkV8UM14FmWKPCm47uTjcGb+2xm1o4k53lOL6TQAvbU=;
-        b=uEjCk7CkSbURY80EpzVlLTm7r3VadMisuQ6QfZ1vwg7YO5v69h5zDPdVZr6gTJ4W1B
-         9d04COERwxk/5guxkLg8++qTmuDl7QAxsBtjqZnpYPYRGDJpm2DkJ01MJViH0vSOrqlT
-         ERUe3SSQfFkl5w4S3pB/b8JmqhtxrVuIWRg6NfdySG8e5xcfRQqwm8Zaa3icZi7rJSot
-         ecoMdOCoiOEHeQr1UmBWmdhBMrJu/aaDnh7ujQo61n0cd64E/0SdlHVZ/horoTb280tM
-         xsTQSvOd8L211FtBSVkg88xCZNsDAbOk1fc7gnMoBExkU9r3F47aWzM0jOWNI+XsaF4O
-         gH1w==
-X-Gm-Message-State: ANhLgQ2PbZTDLu4wg7JnTEGXMBLHgOsivqbhocVFmC1FZYd/oQrsVZi1
-        juUTt38B9PiQydqdVh0k9TR+PJg5hR6GNnK/5cFy3PflqzgqGB0m8ndxUPQZONoHqJgMAnwTIR1
-        Wj0dsbjQf9vs5hFX5tsHbk6Zz6G2Yu58f7VlWMKJq1GZxX6MNQ7CwnQ==
-X-Received: by 2002:a2e:8e96:: with SMTP id z22mr413585ljk.2.1583867134859;
-        Tue, 10 Mar 2020 12:05:34 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtHjE/uS5DhyDzG1HLUUAry+gnUpqxN9JYuDnp/ngMW8W4gXxm/s1Mt1vymubj7q6w90a72K8mMmrYJGR49pTE=
-X-Received: by 2002:a2e:8e96:: with SMTP id z22mr413572ljk.2.1583867134587;
- Tue, 10 Mar 2020 12:05:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200310151503.11589-1-gpiccoli@canonical.com>
- <20200310110554.1fc016ad@lwn.net> <CAHD1Q_w26XP5fOcqW_toDLvEU0crt1dUUjiwCyWTn_U1-Nh=1g@mail.gmail.com>
- <20200310124923.58845026@lwn.net>
-In-Reply-To: <20200310124923.58845026@lwn.net>
-From:   Guilherme Piccoli <gpiccoli@canonical.com>
-Date:   Tue, 10 Mar 2020 16:04:58 -0300
-Message-ID: <CAHD1Q_wowq-v20Q_nyYJmBq0PSpbuedkfij9TZvcaK9F1d8KUw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Better document the softlockup_panic sysctl
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        swood@redhat.com, mcgrof@kernel.org,
+        id S1726497AbgCJTI7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 15:08:59 -0400
+Received: from out02.mta.xmission.com ([166.70.13.232]:43668 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726403AbgCJTI7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 15:08:59 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jBkFN-0001yX-6z; Tue, 10 Mar 2020 13:08:57 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jBkFL-0004Uf-I6; Tue, 10 Mar 2020 13:08:57 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>, mingo@kernel.org,
-        "Guilherme G. Piccoli" <kernel@gpiccoli.net>
-Content-Type: text/plain; charset="UTF-8"
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
+        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+        <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+        <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
+        <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <878sk94eay.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87r1y12yc7.fsf@x220.int.ebiederm.org>
+        <87k13t2xpd.fsf@x220.int.ebiederm.org>
+        <87d09l2x5n.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <871rq12vxu.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <877dzt1fnf.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <875zfcxlwy.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170BD2476E35068E182EFA4E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Tue, 10 Mar 2020 14:06:36 -0500
+In-Reply-To: <AM6PR03MB5170BD2476E35068E182EFA4E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        (Bernd Edlinger's message of "Tue, 10 Mar 2020 18:45:47 +0100")
+Message-ID: <874kuwvxkz.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1jBkFL-0004Uf-I6;;;mid=<874kuwvxkz.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX18WbrkloOri1g4xv59aV91UgTyj+0r0tb4=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH 3/4] proc: io_accounting: Use new infrastructure to fix deadlocks in execve
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 3:49 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> That's what the MAINTAINERS file is for:
->
->         T:      git git://git.lwn.net/linux.git docs-next
->
-> jon
+Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 
-Heheh thanks Jon! I got this tree and was able to apply cleanly the V2
-there (on docs-next branch), so I think we're good; let me know
-otherwise.
-Cheers,
+> This changes do_io_accounting to use the new exec_update_mutex
+> instead of cred_guard_mutex.
+>
+> This fixes possible deadlocks when the trace is accessing
+> /proc/$pid/io for instance.
+>
+> This should be safe, as the credentials are only used for reading.
+
+This is an improvement.
+
+We probably want to do this just as an incremental step in making things
+better but perhaps I am blind but I am not finding the reason for
+guarding this with the cred_guard_mutex to be at all persuasive.
+
+I think moving the ptrace_may_access check down to after the
+unlock_task_sighand would be just as effective at addressing the
+concerns raised in the original commit.  I think the task_lock provides
+all of the barrier we need to make it safe to move the ptrace_may_access
+checks safe.
+
+The reason I say this is I don't see exec changing ->ioac.  Just
+performing some I/O which would update the io accounting statistics.
+
+Can anyone see if I am wrong?
+
+Eric
 
 
-Guilherme
+commit 293eb1e7772b25a93647c798c7b89bf26c2da2e0
+Author: Vasiliy Kulikov <segoon@openwall.com>
+Date:   Tue Jul 26 16:08:38 2011 -0700
+
+    proc: fix a race in do_io_accounting()
+    
+    If an inode's mode permits opening /proc/PID/io and the resulting file
+    descriptor is kept across execve() of a setuid or similar binary, the
+    ptrace_may_access() check tries to prevent using this fd against the
+    task with escalated privileges.
+    
+    Unfortunately, there is a race in the check against execve().  If
+    execve() is processed after the ptrace check, but before the actual io
+    information gathering, io statistics will be gathered from the
+    privileged process.  At least in theory this might lead to gathering
+    sensible information (like ssh/ftp password length) that wouldn't be
+    available otherwise.
+    
+    Holding task->signal->cred_guard_mutex while gathering the io
+    information should protect against the race.
+    
+    The order of locking is similar to the one inside of ptrace_attach():
+    first goes cred_guard_mutex, then lock_task_sighand().
+    
+    Signed-off-by: Vasiliy Kulikov <segoon@openwall.com>
+    Cc: Al Viro <viro@zeniv.linux.org.uk>
+    Cc: <stable@kernel.org>
+    Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+    Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+
+
+
+> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+> ---
+>  fs/proc/base.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index 4fdfe4f..529d0c6 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -2770,7 +2770,7 @@ static int do_io_accounting(struct task_struct *task, struct seq_file *m, int wh
+>  	unsigned long flags;
+>  	int result;
+>  
+> -	result = mutex_lock_killable(&task->signal->cred_guard_mutex);
+> +	result = mutex_lock_killable(&task->signal->exec_update_mutex);
+>  	if (result)
+>  		return result;
+>  
+> @@ -2806,7 +2806,7 @@ static int do_io_accounting(struct task_struct *task, struct seq_file *m, int wh
+>  	result = 0;
+>  
+>  out_unlock:
+> -	mutex_unlock(&task->signal->cred_guard_mutex);
+> +	mutex_unlock(&task->signal->exec_update_mutex);
+>  	return result;
+>  }
