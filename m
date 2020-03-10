@@ -2,311 +2,110 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB88C18E5B
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:18:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5D45C10F27
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:22:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EF5F422525
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:18:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9672520873
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 19:22:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X5aIYN6T"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MmjLu5wl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbgCJTSO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 15:18:14 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:34368 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727138AbgCJTSO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 15:18:14 -0400
-Received: by mail-il1-f193.google.com with SMTP id c8so12697631ilm.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 12:18:12 -0700 (PDT)
+        id S1726604AbgCJTWZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 15:22:25 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:36440 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726497AbgCJTWZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 15:22:25 -0400
+Received: by mail-pl1-f193.google.com with SMTP id g12so5833071plo.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 12:22:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=G9Ot2Xjszp51gBGx58sDCr2xmlbyP0UP+3fOehYA85Y=;
-        b=X5aIYN6TebDU8ZPHAulU19T+56uXL0NNZOGsZ2yI255jZXTRhANUfEW0pdg3g6V4f+
-         RnNpsMdAMBPeInxTjr5X6L3xe1VwWcKooWjXm6sO0/UwBTnGiFVEotJjAGy4W7WC9EOh
-         X0/lmano+UjrwmxF4AyezAz3W3gJakMUwozQmF0xQ3xM1c979GC999/a6Vl0NNXX1X1+
-         5GXYRtQib/gJQ0A6rJo+nu72qwxWwjUKmAm/vqYPnGGveYzqNCE32bBXOtRmpLK6wre5
-         sXzh9F4Gz/wyWM8Y0MxqWuCUHQB0YLZWMbvqlconEwNe6FkfZNRrgaQE/mrA5B/z5Gsy
-         cSVw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Vrf8fXIC1r2+JvlXlYgJWxCM5oPrpq5MZD/CQnIzo+w=;
+        b=MmjLu5wlCm1KVWVg8MptJtFwJswJGmrA7TNTK6MlBe1QSv/l6sU0nu+xKUKFI5me9o
+         88d+/cMpF6gvVKH5e38OY0sZpb0yCnFMSTlBQPQcLhTCOcS96CUUksnCUaHuQvU1WaFN
+         06B+kAybXERrT5cBsw8iPIopCKaMFgckQdHZI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=G9Ot2Xjszp51gBGx58sDCr2xmlbyP0UP+3fOehYA85Y=;
-        b=Ws5ybEQCdsupm2WcQRR/PXjvAP6YcrSt7lL+o6a27DvaDbO41Aok9hbN2c2UmLZFmV
-         dP8EV0nwVy1QNwgxksU1cDMHLdj+8ZAxu6FisMzfL42p+lWzsKqWH3FpjXUGRcQC5Ens
-         GgvLmOYhPG0QZRPzxBt9a0/t1kN4CadjMY0F4B42nZG+HEmamJXPb6Nt/LeUQJNLLMQQ
-         DWCpHNIr9ZfoptDWyT9uPnfEhKHyoNuiY8ZdCk1momizfls1D7Wbz/J7rUv+l9qoBIT6
-         p6EkZgLx+nFw4VGGafKaz0fqipfYbyxvXngsIdQklzoy55gUoJpJQoAQMRY/WVnyZFht
-         v/jQ==
-X-Gm-Message-State: ANhLgQ2+Je2N7hq2q9XhGR0hLP61ew4CLXUk74ZZGeqBPoqPpgd7Jsw+
-        ddE1aldT5j4AxurxnN5GQB3Ni+QIJJi+zJ2Osrl7Qg==
-X-Google-Smtp-Source: ADFU+vuBl9jtZKrPN3uOSXR4Nv2qnd2K1O9u2s6kWhC90nd+WCfqnZMbV026ei3A9zreO8ZDOJ/03oYzKw2p+9VWrMk=
-X-Received: by 2002:a92:8586:: with SMTP id f128mr10567161ilh.50.1583867891455;
- Tue, 10 Mar 2020 12:18:11 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Vrf8fXIC1r2+JvlXlYgJWxCM5oPrpq5MZD/CQnIzo+w=;
+        b=fdY4bSYWGXgFLu0nA0ww18J8wFcoqR2Kx0Wo1UZprjFwWlgKjNGfK3+lp4Y33QnNC+
+         xB4nHgnVomRl8Lj/4VANziO0mL1jeSmcyeKa3M/ykF0lDZrdkn94pSiq3aT0Ua1S+ksb
+         u4T5/TaxCUojXOPF7Mbpr+bz9bbImDg8qV9hlFjHOky4Qj36ZOisuC7o8zM6bMoWE9GK
+         iEFH0S1QmGuHSOSUExOzdvwSZ3a/La++oRPFErBfGEnah8WpJ06eUJ9zbOFCSr+e86fW
+         4fixpRr4cD1l5BR8p17kNQZByG5Ivi1EAuRB2xCUDlilwKpPAuBKy4ctezgSpoyaB9VJ
+         VPkg==
+X-Gm-Message-State: ANhLgQ1JxsRjYF8zQdmpMoxod7bsiLBGvEke89XlOY5OPEQu/PBklDOS
+        VM+us+LJeeuBy3tnRnRy4s5VPS/quyU=
+X-Google-Smtp-Source: ADFU+vsysRpDn6XtMDd6KeAEkYr65mpcbz9mvFMHbNITyDJ6Jk+4GBWwtp+4wEdTCClVX71+QtvaoQ==
+X-Received: by 2002:a17:902:8a81:: with SMTP id p1mr21836886plo.284.1583868143955;
+        Tue, 10 Mar 2020 12:22:23 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id o66sm35070452pfb.93.2020.03.10.12.22.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2020 12:22:22 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 12:22:21 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Joe Perches <joe@perches.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: deprecated.rst: Clean up fall-through details
+Message-ID: <202003101221.A1388D0C@keescook>
+References: <202003041102.47A4E4B62@keescook>
+ <20200310112356.1b5b32f2@lwn.net>
 MIME-Version: 1.0
-References: <20200210162209.23149-1-cleger@kalray.eu> <20200302093902.27849-1-cleger@kalray.eu>
- <20200302093902.27849-6-cleger@kalray.eu> <20200302231342.GE262924@yoga>
- <482678048.7666348.1583222551942.JavaMail.zimbra@kalray.eu>
- <20200310000005.GF14744@builder> <20200310152031.GA25781@xps15> <371773363.9138477.1583854699708.JavaMail.zimbra@kalray.eu>
-In-Reply-To: <371773363.9138477.1583854699708.JavaMail.zimbra@kalray.eu>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Tue, 10 Mar 2020 13:18:00 -0600
-Message-ID: <CANLsYkx8QhJTozKNpFXiVYGLPpbdBLLAh=arqANHL-xQKLwrew@mail.gmail.com>
-Subject: Re: [PATCH v5 5/8] remoteproc: Rename rproc_elf_sanity_check for elf32
-To:     =?UTF-8?Q?Cl=C3=A9ment_Leger?= <cleger@kalrayinc.com>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
-        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200310112356.1b5b32f2@lwn.net>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 10 Mar 2020 at 09:38, Cl=C3=A9ment Leger <cleger@kalrayinc.com> wro=
-te:
->
-> Hi Mathieu,
->
-> ----- On 10 Mar, 2020, at 16:20, Mathieu Poirier mathieu.poirier@linaro.o=
-rg wrote:
->
-> > On Mon, Mar 09, 2020 at 05:00:05PM -0700, Bjorn Andersson wrote:
-> >> On Tue 03 Mar 00:02 PST 2020, Cl?ment Leger wrote:
-> >>
-> >> > Hi Bjorn,
-> >> >
-> >> > ----- On 3 Mar, 2020, at 00:13, Bjorn Andersson bjorn.andersson@lina=
-ro.org
-> >> > wrote:
-> >> >
-> >> > > On Mon 02 Mar 01:38 PST 2020, Clement Leger wrote:
-> >> > >
-> >> > >> Since this function will be modified to support both elf32 and el=
-f64,
-> >> > >> rename the existing one to elf32 (which is the only supported for=
-mat
-> >> > >> at the moment). This will allow not to introduce possible side ef=
-fect
-> >> > >> when adding elf64 support (ie: all backends will still support on=
-ly
-> >> > >> elf32 if not requested explicitely using rproc_elf_sanity_check).
-> >> > >>
-> >> > >
-> >> > > Is there a reason for preventing ELF64 binaries be loaded?
-> >> >
-> >> > I decided to go this way to let driver maintainer decide if they wan=
-t
-> >> > to support elf64 to avoid problems with 64bits addresses/sizes which=
- do
-> >> > not fit in their native type (size_t for instance). This is probably
-> >> > not going to happen and there are additionnal checks before calling
-> >> > rproc_da_to_va. And addresses should be filtered by rproc_da_to_va.
-> >> > So, actually it seems there is no reason to forbid supporting elf32/=
-64
-> >> > for all drivers.
-> >> >
-> >>
-> >> I was hoping to hear some additional feedback on this from others.
-> >
-> > I didn't follow up on this one because I agreed with your assesment and=
- didn't
-> > think it was needed.
-> >
-> > Simply put I would rather see rproc_elf_sanity_check() gain support for=
- elf64
-> > and let the platform code decide what to do with format they don't supp=
-ort
-> > rather than spinning a new function.
-> >
-> >>
-> >> I've merge the patch as is, but think it would be nice to clean this u=
-p
-> >> and just have the driver ignore if fed a 32 or 64-elf.
-> >
-> > It would be really nice to see this cleaned up in time for the coming m=
-erge
-> > window...
->
-> I could have sent a V7, but Bjorn was faster than my comment ;)
-> Bjorn, Is there any way to revert that or it's already pushed ?
-> I already have a clean V7.
+On Tue, Mar 10, 2020 at 11:23:56AM -0600, Jonathan Corbet wrote:
+> On Wed, 4 Mar 2020 11:03:24 -0800
+> Kees Cook <keescook@chromium.org> wrote:
+> 
+> > Add example of fall-through, list-ify the case ending statements, and
+> > adjust the markup for links and readability. While here, adjust
+> > strscpy() details to mention strscpy_pad().
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> 
+> Applied, thanks.  But ...
+> 
+> > ---
+> >  Documentation/process/deprecated.rst | 48 +++++++++++++++++-----------
+> >  1 file changed, 29 insertions(+), 19 deletions(-)
+> > 
+> > diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> > index 179f2a5625a0..f9f196d3a69b 100644
+> > --- a/Documentation/process/deprecated.rst
+> > +++ b/Documentation/process/deprecated.rst
+> > @@ -94,8 +94,8 @@ and other misbehavior due to the missing termination. It also NUL-pads the
+> >  destination buffer if the source contents are shorter than the destination
+> >  buffer size, which may be a needless performance penalty for callers using
+> >  only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
+> > -(Users of :c:func:`strscpy` still needing NUL-padding will need an
+> > -explicit :c:func:`memset` added.)
+> > +(Users of :c:func:`strscpy` still needing NUL-padding should instead
+> > +use strscpy_pad().)
+> 
+> :c:func: usage should really be stomped on when we encounter it.  There's
+> a few in this file; I'll tack on a quick patch making them go away.
 
-Just send another patchset that applies on top of this one.
+Oops, yes, I meant to do another pass for that. I will double-check
+future patches!
 
->
-> Thanks,
->
-> Cl=C3=A9ment
->
-> >
-> > Thanks
-> > Mathieu
-> >
-> >>
-> >> Regards,
-> >> Bjorn
-> >>
-> >> > Regards,
-> >> >
-> >> > Cl=C3=A9ment
-> >> >
-> >> > >
-> >> > > Regards,
-> >> > > Bjorn
-> >> > >
-> >> > >> Signed-off-by: Clement Leger <cleger@kalray.eu>
-> >> > >> ---
-> >> > >>  drivers/remoteproc/remoteproc_core.c       | 2 +-
-> >> > >>  drivers/remoteproc/remoteproc_elf_loader.c | 6 +++---
-> >> > >>  drivers/remoteproc/remoteproc_internal.h   | 2 +-
-> >> > >>  drivers/remoteproc/st_remoteproc.c         | 2 +-
-> >> > >>  drivers/remoteproc/st_slim_rproc.c         | 2 +-
-> >> > >>  drivers/remoteproc/stm32_rproc.c           | 2 +-
-> >> > >>  6 files changed, 8 insertions(+), 8 deletions(-)
-> >> > >>
-> >> > >> diff --git a/drivers/remoteproc/remoteproc_core.c
-> >> > >> b/drivers/remoteproc/remoteproc_core.c
-> >> > >> index 4bfaf4a3c4a3..99f0b796fbc7 100644
-> >> > >> --- a/drivers/remoteproc/remoteproc_core.c
-> >> > >> +++ b/drivers/remoteproc/remoteproc_core.c
-> >> > >> @@ -2055,7 +2055,7 @@ struct rproc *rproc_alloc(struct device *de=
-v, const char
-> >> > >> *name,
-> >> > >>                 rproc->ops->load =3D rproc_elf_load_segments;
-> >> > >>                 rproc->ops->parse_fw =3D rproc_elf_load_rsc_table=
-;
-> >> > >>                 rproc->ops->find_loaded_rsc_table =3D rproc_elf_f=
-ind_loaded_rsc_table;
-> >> > >> -               rproc->ops->sanity_check =3D rproc_elf_sanity_che=
-ck;
-> >> > >> +               rproc->ops->sanity_check =3D rproc_elf32_sanity_c=
-heck;
-> >> > >>                 rproc->ops->get_boot_addr =3D rproc_elf_get_boot_=
-addr;
-> >> > >>         }
-> >> > >>
-> >> > >> diff --git a/drivers/remoteproc/remoteproc_elf_loader.c
-> >> > >> b/drivers/remoteproc/remoteproc_elf_loader.c
-> >> > >> index c2a9783cfb9a..5a67745f2638 100644
-> >> > >> --- a/drivers/remoteproc/remoteproc_elf_loader.c
-> >> > >> +++ b/drivers/remoteproc/remoteproc_elf_loader.c
-> >> > >> @@ -25,13 +25,13 @@
-> >> > >>  #include "remoteproc_internal.h"
-> >> > >>
-> >> > >>  /**
-> >> > >> - * rproc_elf_sanity_check() - Sanity Check ELF firmware image
-> >> > >> + * rproc_elf_sanity_check() - Sanity Check ELF32 firmware image
-> >> > >>   * @rproc: the remote processor handle
-> >> > >>   * @fw: the ELF firmware image
-> >> > >>   *
-> >> > >>   * Make sure this fw image is sane.
-> >> > >>   */
-> >> > >> -int rproc_elf_sanity_check(struct rproc *rproc, const struct fir=
-mware *fw)
-> >> > >> +int rproc_elf32_sanity_check(struct rproc *rproc, const struct f=
-irmware *fw)
-> >> > >>  {
-> >> > >>         const char *name =3D rproc->firmware;
-> >> > >>         struct device *dev =3D &rproc->dev;
-> >> > >> @@ -89,7 +89,7 @@ int rproc_elf_sanity_check(struct rproc *rproc,=
- const struct
-> >> > >> firmware *fw)
-> >> > >>
-> >> > >>         return 0;
-> >> > >>  }
-> >> > >> -EXPORT_SYMBOL(rproc_elf_sanity_check);
-> >> > >> +EXPORT_SYMBOL(rproc_elf32_sanity_check);
-> >> > >>
-> >> > >>  /**
-> >> > >>   * rproc_elf_get_boot_addr() - Get rproc's boot address.
-> >> > >> diff --git a/drivers/remoteproc/remoteproc_internal.h
-> >> > >> b/drivers/remoteproc/remoteproc_internal.h
-> >> > >> index 0deae5f237b8..28639c588d58 100644
-> >> > >> --- a/drivers/remoteproc/remoteproc_internal.h
-> >> > >> +++ b/drivers/remoteproc/remoteproc_internal.h
-> >> > >> @@ -54,7 +54,7 @@ void *rproc_da_to_va(struct rproc *rproc, u64 d=
-a, size_t len);
-> >> > >>  phys_addr_t rproc_va_to_pa(void *cpu_addr);
-> >> > >>  int rproc_trigger_recovery(struct rproc *rproc);
-> >> > >>
-> >> > >> -int rproc_elf_sanity_check(struct rproc *rproc, const struct fir=
-mware *fw);
-> >> > >> +int rproc_elf32_sanity_check(struct rproc *rproc, const struct f=
-irmware *fw);
-> >> > >>  u64 rproc_elf_get_boot_addr(struct rproc *rproc, const struct fi=
-rmware *fw);
-> >> > >>  int rproc_elf_load_segments(struct rproc *rproc, const struct fi=
-rmware *fw);
-> >> > >>  int rproc_elf_load_rsc_table(struct rproc *rproc, const struct f=
-irmware *fw);
-> >> > >> diff --git a/drivers/remoteproc/st_remoteproc.c
-> >> > >> b/drivers/remoteproc/st_remoteproc.c
-> >> > >> index a3268d95a50e..a6cbfa452764 100644
-> >> > >> --- a/drivers/remoteproc/st_remoteproc.c
-> >> > >> +++ b/drivers/remoteproc/st_remoteproc.c
-> >> > >> @@ -233,7 +233,7 @@ static const struct rproc_ops st_rproc_ops =
-=3D {
-> >> > >>         .parse_fw               =3D st_rproc_parse_fw,
-> >> > >>         .load                   =3D rproc_elf_load_segments,
-> >> > >>         .find_loaded_rsc_table  =3D rproc_elf_find_loaded_rsc_tab=
-le,
-> >> > >> -       .sanity_check           =3D rproc_elf_sanity_check,
-> >> > >> +       .sanity_check           =3D rproc_elf32_sanity_check,
-> >> > >>         .get_boot_addr          =3D rproc_elf_get_boot_addr,
-> >> > >>  };
-> >> > >>
-> >> > >> diff --git a/drivers/remoteproc/st_slim_rproc.c
-> >> > >> b/drivers/remoteproc/st_slim_rproc.c
-> >> > >> index 09bcb4d8b9e0..3cca8b65a8db 100644
-> >> > >> --- a/drivers/remoteproc/st_slim_rproc.c
-> >> > >> +++ b/drivers/remoteproc/st_slim_rproc.c
-> >> > >> @@ -203,7 +203,7 @@ static const struct rproc_ops slim_rproc_ops =
-=3D {
-> >> > >>         .da_to_va       =3D slim_rproc_da_to_va,
-> >> > >>         .get_boot_addr  =3D rproc_elf_get_boot_addr,
-> >> > >>         .load           =3D rproc_elf_load_segments,
-> >> > >> -       .sanity_check   =3D rproc_elf_sanity_check,
-> >> > >> +       .sanity_check   =3D rproc_elf32_sanity_check,
-> >> > >>  };
-> >> > >>
-> >> > >>  /**
-> >> > >> diff --git a/drivers/remoteproc/stm32_rproc.c b/drivers/remotepro=
-c/stm32_rproc.c
-> >> > >> index a18f88044111..9a8b5f5e2572 100644
-> >> > >> --- a/drivers/remoteproc/stm32_rproc.c
-> >> > >> +++ b/drivers/remoteproc/stm32_rproc.c
-> >> > >> @@ -505,7 +505,7 @@ static struct rproc_ops st_rproc_ops =3D {
-> >> > >>         .load           =3D rproc_elf_load_segments,
-> >> > >>         .parse_fw       =3D stm32_rproc_parse_fw,
-> >> > >>         .find_loaded_rsc_table =3D rproc_elf_find_loaded_rsc_tabl=
-e,
-> >> > >> -       .sanity_check   =3D rproc_elf_sanity_check,
-> >> > >> +       .sanity_check   =3D rproc_elf32_sanity_check,
-> >> > >>         .get_boot_addr  =3D rproc_elf_get_boot_addr,
-> >> > >>  };
-> >> > >>
-> >> > >> --
-> > > > >> 2.15.0.276.g89ea799
+-- 
+Kees Cook
