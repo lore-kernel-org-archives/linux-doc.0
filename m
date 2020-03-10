@@ -2,173 +2,257 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9EA7C18E5A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 15:55:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95FCDC10F27
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 15:57:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AC4DC215A4
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 15:55:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B554208E4
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 15:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726716AbgCJPzS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 11:55:18 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2542 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726480AbgCJPzR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Mar 2020 11:55:17 -0400
-Received: from lhreml706-cah.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 8A3E3C6E21A78A430E07;
-        Tue, 10 Mar 2020 15:55:13 +0000 (GMT)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml706-cah.china.huawei.com (10.201.108.47) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 10 Mar 2020 15:55:13 +0000
-Received: from localhost (10.202.226.57) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 10 Mar
- 2020 15:55:12 +0000
-Date:   Tue, 10 Mar 2020 15:55:10 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <aarcange@redhat.com>, <yang.shi@linux.alibaba.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 02/14] mm/damon: Implement region based sampling
-Message-ID: <20200310155510.000025d2@Huawei.com>
-In-Reply-To: <20200310115233.23246-1-sjpark@amazon.com>
-References: <20200310085721.00000a0f@Huawei.com>
-        <20200310115233.23246-1-sjpark@amazon.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1726569AbgCJP5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 11:57:06 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:46194 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726353AbgCJP5F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 11:57:05 -0400
+Received: from mail-wm1-f70.google.com ([209.85.128.70])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <gpiccoli@canonical.com>)
+        id 1jBhFf-0001iO-Bu
+        for linux-doc@vger.kernel.org; Tue, 10 Mar 2020 15:57:03 +0000
+Received: by mail-wm1-f70.google.com with SMTP id p186so580330wmp.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 08:57:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5bU2bAsKCmhGtQG8kyL29QcjXAg6Y2S3H5JueO4Uiyo=;
+        b=sa/i88gTuyBDzNHX0QtLh7uGkyDuFWsL3eyuA8F1PfRTvtTbWPrqXzPm+y+uxSUXrM
+         K2kfofPBaZsnPT59CwYUszCvBJxalGgay1/45bdeLxPbPUFzyR87Lmum83JsjcPM0Xka
+         K8v3xQj/gE8WRNdZcU94ElnppoSL4K18WKYWPTYcn/aIm18y+bRf2XkmUxMdkisHdQo+
+         qdve3/474RrKIRJoDB2ClLgTO5YpT4hlKZBwEnQD/FwzqzBYGTb1pNdMA2fps4+i0TNL
+         5w5YbB5ROdm6VvKF5pzKhHY18lajArVu0BwbxEZPmKWVigBvUgrVvMRSMGnO2BlPe/uD
+         DeiQ==
+X-Gm-Message-State: ANhLgQ3M5pHZuN04avNTMhdwbBeXZq8QB9zagKgVqrFLCxtUYPdFOt59
+        51k73cAIjY0tiCvkQPJ2F03Hz1RlQeNyIC6uAdB1LaJ82ro/mtQgE085iylR5sIDFXIdyBXsIj9
+        3JPNxZ7MemfYdgBwT4Se88dYNa+lsNNPePx+k3w==
+X-Received: by 2002:a5d:4382:: with SMTP id i2mr27043800wrq.424.1583855822759;
+        Tue, 10 Mar 2020 08:57:02 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtwXC/I1eK0vh+vQ0Rr6XLMpACaGQdcAhI6O2uc9M49Po4n8L+6y3hqKiqs5jQnam6z0Du/0g==
+X-Received: by 2002:a5d:4382:: with SMTP id i2mr27043774wrq.424.1583855822450;
+        Tue, 10 Mar 2020 08:57:02 -0700 (PDT)
+Received: from localhost (189-47-87-73.dsl.telesp.net.br. [189.47.87.73])
+        by smtp.gmail.com with ESMTPSA id r19sm4461075wmh.26.2020.03.10.08.57.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 10 Mar 2020 08:57:01 -0700 (PDT)
+From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+To:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, tglx@linutronix.de,
+        gpiccoli@canonical.com, kernel@gpiccoli.net,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: [PATCH] kernel/hung_task.c: Introduce sysctl to print all traces when a hung task is detected
+Date:   Tue, 10 Mar 2020 12:56:50 -0300
+Message-Id: <20200310155650.17968-1-gpiccoli@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.57]
-X-ClientProxiedBy: lhreml715-chm.china.huawei.com (10.201.108.66) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 10 Mar 2020 12:52:33 +0100
-SeongJae Park <sjpark@amazon.com> wrote:
+Commit 401c636a0eeb ("kernel/hung_task.c: show all hung tasks before panic")
+introduced a change in that we started to show all CPUs backtraces when a
+hung task is detected _and_ the sysctl/kernel parameter "hung_task_panic"
+is set. The idea is good, because usually when observing deadlocks (that
+may lead to hung tasks), the culprit is another task holding a lock and
+not necessarily the task detected as hung.
 
-> Added replies to your every comment in line below.  I agree to your whole
-> opinions, will apply those in next spin! :)
-> 
+The problem with this approach is that dumping backtraces is a slightly
+expensive task, specially printing that on console (and specially in many
+CPU machines, as servers commonly found nowadays). So, users that plan to
+collect a kdump to investigate the hung tasks and narrow down the deadlock
+definitely don't need the CPUs backtrace on dmesg/console, which will delay
+the panic and pollute the log (crash tool would easily grab all CPUs traces
+with 'bt -a' command).
+Also, there's the reciprocal scenario: some users may be interested in
+seeing the CPUs backtraces but not have the system panic when a hung task
+is detected. The current approach hence is almost as embedding a policy in
+the kernel, by forcing the CPUs backtraces' dump (only) on hung_task_panic.
 
-One additional question inline that came to mind.  Using a single statistic
-to monitor huge page and normal page hits is going to give us problems
-I think.
+This patch decouples the panic event on hung task from the CPUs backtraces
+dump, by creating (and documenting) a new sysctl/kernel parameter called
+"hung_task_all_cpu_backtrace", analog to the approach taken on soft/hard
+lockups, that have both a panic and an "all_cpu_backtrace" sysctl to allow
+individual control. The new mechanism for dumping the CPUs backtraces on
+hung task detection respects "hung_task_warnings" by not dumping the
+traces in case there's no warnings left.
 
-Perhaps I'm missing something?
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@canonical.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  6 ++++
+ Documentation/admin-guide/sysctl/kernel.rst   | 15 ++++++++++
+ include/linux/sched/sysctl.h                  |  7 +++++
+ kernel/hung_task.c                            | 30 +++++++++++++++++--
+ kernel/sysctl.c                               | 11 +++++++
+ 5 files changed, 67 insertions(+), 2 deletions(-)
 
-> > > +/*
-> > > + * Check whether the given region has accessed since the last check  
-> > 
-> > Should also make clear that this sets us up for the next access check at
-> > a different memory address it the region.
-> > 
-> > Given the lack of connection between activities perhaps just split this into
-> > two functions that are always called next to each other.  
-> 
-> Will make the description more clearer as suggested.
-> 
-> Also, I found that I'm not clearing *pte and *pmd before going 'mkold', thanks
-> to this comment.  Will fix it, either.
-> 
-> >   
-> > > + *
-> > > + * mm	'mm_struct' for the given virtual address space
-> > > + * r	the region to be checked
-> > > + */
-> > > +static void kdamond_check_access(struct damon_ctx *ctx,
-> > > +			struct mm_struct *mm, struct damon_region *r)
-> > > +{
-> > > +	pte_t *pte = NULL;
-> > > +	pmd_t *pmd = NULL;
-> > > +	spinlock_t *ptl;
-> > > +
-> > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-> > > +		goto mkold;
-> > > +
-> > > +	/* Read the page table access bit of the page */
-> > > +	if (pte && pte_young(*pte))
-> > > +		r->nr_accesses++;
-> > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE  
-> > 
-> > Is it worth having this protection?  Seems likely to have only a very small
-> > influence on performance and makes it a little harder to reason about the code.  
-> 
-> It was necessary for addressing 'implicit declaration' problem of 'pmd_young()'
-> and 'pmd_mkold()' for build of DAMON on several architectures including User
-> Mode Linux.
-> 
-> Will modularize the code for better readability.
-> 
-> >   
-> > > +	else if (pmd && pmd_young(*pmd))
-> > > +		r->nr_accesses++;
-
-So we increment a region count by one if we have an access in a huge page, or
-in a normal page.
-
-If we get a region that has a mixture of the two, this seems likely to give a
-bad approximation.
-
-Assume the region is accessed 'evenly' but each " 4k page" is only hit 10% of the time
-(where a hit is in one check period)
-
-If our address in a page, then we'll hit 10% of the time, but if it is in a 2M
-huge page then we'll hit a much higher percentage of the time.
-1 - (0.9^512) ~= 1
-
-Should we look to somehow account for this?
-
-> > > +#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
-> > > +
-> > > +	spin_unlock(ptl);
-> > > +
-> > > +mkold:
-> > > +	/* mkold next target */
-> > > +	r->sampling_addr = damon_rand(ctx, r->vm_start, r->vm_end);
-> > > +
-> > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-> > > +		return;
-> > > +
-> > > +	if (pte) {
-> > > +		if (pte_young(*pte)) {
-> > > +			clear_page_idle(pte_page(*pte));
-> > > +			set_page_young(pte_page(*pte));
-> > > +		}
-> > > +		*pte = pte_mkold(*pte);
-> > > +	}
-> > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > > +	else if (pmd) {
-> > > +		if (pmd_young(*pmd)) {
-> > > +			clear_page_idle(pmd_page(*pmd));
-> > > +			set_page_young(pmd_page(*pmd));
-> > > +		}
-> > > +		*pmd = pmd_mkold(*pmd);
-> > > +	}
-> > > +#endif
-> > > +
-> > > +	spin_unlock(ptl);
-> > > +}
-> > > +
-
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index adf77ead02c3..4c6595b5f6c8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1453,6 +1453,12 @@
+ 			x86-64 are 2M (when the CPU supports "pse") and 1G
+ 			(when the CPU supports the "pdpe1gb" cpuinfo flag).
+ 
++	hung_task_all_cpu_backtrace=
++			[KNL] Should kernel generates backtraces on all cpus
++			when a hung task is detected. Defaults to 0 and can
++			be controlled by hung_task_all_cpu_backtrace sysctl.
++			Format: <integer>
++
+ 	hung_task_panic=
+ 			[KNL] Should the hung task detector generate panics.
+ 			Format: <integer>
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 95b2f3256323..218c717c1354 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -40,6 +40,7 @@ show up in /proc/sys/kernel:
+ - hotplug
+ - hardlockup_all_cpu_backtrace
+ - hardlockup_panic
++- hung_task_all_cpu_backtrace
+ - hung_task_panic
+ - hung_task_check_count
+ - hung_task_timeout_secs
+@@ -339,6 +340,20 @@ Path for the hotplug policy agent.
+ Default value is "/sbin/hotplug".
+ 
+ 
++hung_task_all_cpu_backtrace:
++================
++
++Determines if kernel should NMI all CPUs to dump their backtraces when
++a hung task is detected. This file shows up if CONFIG_DETECT_HUNG_TASK
++and CONFIG_SMP are enabled.
++
++0: Won't show all CPUs backtraces when a hung task is detected.
++This is the default behavior.
++
++1: Will NMI all CPUs and dump their backtraces when a hung task
++is detected.
++
++
+ hung_task_panic:
+ ================
+ 
+diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+index d4f6215ee03f..8cd29440ec8a 100644
+--- a/include/linux/sched/sysctl.h
++++ b/include/linux/sched/sysctl.h
+@@ -7,6 +7,13 @@
+ struct ctl_table;
+ 
+ #ifdef CONFIG_DETECT_HUNG_TASK
++
++#ifdef CONFIG_SMP
++extern unsigned int sysctl_hung_task_all_cpu_backtrace;
++#else
++#define sysctl_hung_task_all_cpu_backtrace 0
++#endif /* CONFIG_SMP */
++
+ extern int	     sysctl_hung_task_check_count;
+ extern unsigned int  sysctl_hung_task_panic;
+ extern unsigned long sysctl_hung_task_timeout_secs;
+diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+index 14a625c16cb3..54152b26117e 100644
+--- a/kernel/hung_task.c
++++ b/kernel/hung_task.c
+@@ -53,9 +53,28 @@ int __read_mostly sysctl_hung_task_warnings = 10;
+ static int __read_mostly did_panic;
+ static bool hung_task_show_lock;
+ static bool hung_task_call_panic;
++static bool hung_task_show_bt;
+ 
+ static struct task_struct *watchdog_task;
+ 
++#ifdef CONFIG_SMP
++/*
++ * Should we dump all CPUs backtraces in a hung task event?
++ * Defaults to 0, can be changed either via cmdline or sysctl.
++ */
++unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
++
++static int __init hung_task_backtrace_setup(char *str)
++{
++	int rc = kstrtouint(str, 0, &sysctl_hung_task_all_cpu_backtrace);
++
++	if (rc)
++		return rc;
++	return 1;
++}
++__setup("hung_task_all_cpu_backtrace=", hung_task_backtrace_setup);
++#endif /* CONFIG_SMP */
++
+ /*
+  * Should we panic (and reboot, if panic_timeout= is set) when a
+  * hung task is detected:
+@@ -137,6 +156,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+ 			" disables this message.\n");
+ 		sched_show_task(t);
+ 		hung_task_show_lock = true;
++
++		if (sysctl_hung_task_all_cpu_backtrace)
++			hung_task_show_bt = true;
+ 	}
+ 
+ 	touch_nmi_watchdog();
+@@ -201,10 +223,14 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
+ 	rcu_read_unlock();
+ 	if (hung_task_show_lock)
+ 		debug_show_all_locks();
+-	if (hung_task_call_panic) {
++
++	if (hung_task_show_bt) {
++		hung_task_show_bt = false;
+ 		trigger_all_cpu_backtrace();
++	}
++
++	if (hung_task_call_panic)
+ 		panic("hung_task: blocked tasks");
+-	}
+ }
+ 
+ static long hung_timeout_jiffies(unsigned long last_checked,
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index ad5b88a53c5a..238f268de486 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1098,6 +1098,17 @@ static struct ctl_table kern_table[] = {
+ 	},
+ #endif
+ #ifdef CONFIG_DETECT_HUNG_TASK
++#ifdef CONFIG_SMP
++	{
++		.procname	= "hung_task_all_cpu_backtrace",
++		.data		= &sysctl_hung_task_all_cpu_backtrace,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
++#endif /* CONFIG_SMP */
+ 	{
+ 		.procname	= "hung_task_panic",
+ 		.data		= &sysctl_hung_task_panic,
+-- 
+2.25.1
 
