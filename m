@@ -2,50 +2,50 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1C0C18E5B
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 11:54:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F71DC10F27
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 11:56:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 516B124692
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 11:54:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C8DE2464B
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 11:56:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="iLBCfvHB"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="hwNIUsqU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726307AbgCJLyh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 07:54:37 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:16519 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726224AbgCJLyh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 07:54:37 -0400
+        id S1726403AbgCJL4A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 07:56:00 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:37654 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726252AbgCJLz7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 07:55:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1583841276; x=1615377276;
+  t=1583841360; x=1615377360;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    mime-version;
-  bh=gezZ4d843S2nTlbh9azi04SsH51yHFiHn28vQPiIVl4=;
-  b=iLBCfvHBtVhpDKdq4uiSHcPnA5jG5Y+JxnGWCTJF4UWUnP7IM6b7DfJe
-   4cCs2oyAIbGgq/4S00A5GznbsGhUbRmiZ00Xo0msYWmK8xXIjqgtrPyVr
-   fNrXKjM5eTxWDUu2V1EUfJlDYdgKfLN0HjRhLfEr2xhs824dwx6xGmeeR
-   o=;
-IronPort-SDR: H53N5QpDKI5MamzQr6yc0Yjhy9NaBhIYeKmGDRzv8TSaaHLlS9BjzeKh3xxENRdj94wrjCuZnU
- LXACy6IFyMvA==
+  bh=42jpFvXj+e+5M6txGyfHb4+LbQzmZ+mgcwNH5FeGZuA=;
+  b=hwNIUsqUoW8yR+Ph86kn366JaGALkwbKPQ/g+Q77YQ26F4JzmW9CFovM
+   gfTFHWFg+sDXys8wiyKIN2UaJhzTNaHoGP3PwOZr88g9+sWkHfN5wn5UZ
+   /UxGjSAgy4yWiZyvDfC3kpAf5ZZBlVCxymDaJqftXg5R7MH/yPY88tX6a
+   Q=;
+IronPort-SDR: rrJ4bs6Hva56wFJ9c+8BBKsIN4n5I/z68c4BJpFz5zfqrZls7viM7ZMCUEz/lFMGXY0tKc0Rus
+ qdihhLb/JVxQ==
 X-IronPort-AV: E=Sophos;i="5.70,536,1574121600"; 
-   d="scan'208";a="20840160"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-807d4a99.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 10 Mar 2020 11:54:23 +0000
+   d="scan'208";a="21951063"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-c7c08562.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 10 Mar 2020 11:55:57 +0000
 Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1a-807d4a99.us-east-1.amazon.com (Postfix) with ESMTPS id C4AFEA2B10;
-        Tue, 10 Mar 2020 11:54:21 +0000 (UTC)
+        by email-inbound-relay-1e-c7c08562.us-east-1.amazon.com (Postfix) with ESMTPS id C4526240EF9;
+        Tue, 10 Mar 2020 11:55:46 +0000 (UTC)
 Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
  EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Tue, 10 Mar 2020 11:54:21 +0000
+ id 15.0.1236.3; Tue, 10 Mar 2020 11:55:46 +0000
 Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.16) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 10 Mar 2020 11:54:09 +0000
+ id 15.0.1497.2; Tue, 10 Mar 2020 11:55:34 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
@@ -61,59 +61,35 @@ CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
         <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
         <vbabka@suse.cz>, <vdavydov.dev@gmail.com>, <linux-mm@kvack.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v6 04/14] mm/damon: Apply dynamic memory mapping changes
-Date:   Tue, 10 Mar 2020 12:53:55 +0100
-Message-ID: <20200310115355.23840-1-sjpark@amazon.com>
+Subject: Re: Re: [PATCH v6 05/14] mm/damon: Implement callbacks
+Date:   Tue, 10 Mar 2020 12:55:19 +0100
+Message-ID: <20200310115519.24554-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200310090026.00005ea9@Huawei.com> (raw)
+In-Reply-To: <20200310090116.0000723f@Huawei.com> (raw)
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.43.160.16]
-X-ClientProxiedBy: EX13D15UWB004.ant.amazon.com (10.43.161.61) To
+X-ClientProxiedBy: EX13D07UWB003.ant.amazon.com (10.43.161.66) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 10 Mar 2020 09:00:26 +0000 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+On Tue, 10 Mar 2020 09:01:16 +0000 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
 
-> On Mon, 24 Feb 2020 13:30:37 +0100
+> On Mon, 24 Feb 2020 13:30:38 +0100
 > SeongJae Park <sjpark@amazon.com> wrote:
 > 
 > > From: SeongJae Park <sjpark@amazon.de>
 > > 
-> > Only a number of parts in the virtual address space of the processes is
-> > mapped to physical memory and accessed.  Thus, tracking the unmapped
-> > address regions is just wasteful.  However, tracking every memory
-> > mapping change might incur an overhead.  For the reason, DAMON applies
-> > the dynamic memory mapping changes to the tracking regions only for each
-> > of a user-specified time interval (``regions update interval``).
-> > 
-> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Trivial inline. Otherwise makes sense to me.
+> > This commit implements callbacks for DAMON.  Using this, DAMON users can
+> > install their callbacks for each step of the access monitoring so that
+> > they can do something interesting with the monitored access pattrns
 > 
-[...]
-> > +static void damon_apply_three_regions(struct damon_ctx *ctx,
-> > +		struct damon_task *t, struct region bregions[3])
-> > +{
-> > +	struct damon_region *r, *next;
-> > +	unsigned int i = 0;
-> > +
-> > +	/* Remove regions which isn't in the three big regions now */
-> > +	damon_for_each_region_safe(r, next, t) {
-> > +		for (i = 0; i < 3; i++) {
-> > +			if (damon_intersect(r, &bregions[i]))
-> > +				break;
-> > +		}
-> > +		if (i == 3)
-> > +			damon_destroy_region(r);
-> > +	}
-> > +
-> > +	/* Adjust intersecting regions to fit with the threee big regions */
+> patterns
+
+Thank you for finding!
+
 > 
-> three
-
-Good eye!  Thanks for finding :)
-
 [...]
