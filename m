@@ -6,31 +6,33 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CCA4C10F27
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:13:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D938DC10F27
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:17:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E705A2146E
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:13:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B222B2146E
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:17:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbgCJRNl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 13:13:41 -0400
-Received: from ms.lwn.net ([45.79.88.28]:44020 "EHLO ms.lwn.net"
+        id S1726414AbgCJRR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 13:17:57 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44048 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726380AbgCJRNl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Mar 2020 13:13:41 -0400
+        id S1726395AbgCJRR5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Mar 2020 13:17:57 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BF1852E4;
-        Tue, 10 Mar 2020 17:13:40 +0000 (UTC)
-Date:   Tue, 10 Mar 2020 11:13:39 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 851432E4;
+        Tue, 10 Mar 2020 17:17:56 +0000 (UTC)
+Date:   Tue, 10 Mar 2020 11:17:55 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: admin-guide: binfmt-misc: Improve the title
-Message-ID: <20200310111339.2c5e3152@lwn.net>
-In-Reply-To: <20200308210935.7273-1-j.neuschaefer@gmx.net>
-References: <20200308210935.7273-1-j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: it_IT: netdev-FAQ: Fix link to original document
+Message-ID: <20200310111755.31b5c0a3@lwn.net>
+In-Reply-To: <20200305205123.8569-1-j.neuschaefer@gmx.net>
+References: <20200305205123.8569-1-j.neuschaefer@gmx.net>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -40,30 +42,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun,  8 Mar 2020 22:09:34 +0100
+On Thu,  5 Mar 2020 21:51:21 +0100
 Jonathan Neuschäfer <j.neuschaefer@gmx.net> wrote:
 
-> Trim the title a bit, since it's relatively long. Add `binfmt_misc` to
-> make it easier to search for the feature by its common name.
-> 
 > Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 > ---
->  Documentation/admin-guide/binfmt-misc.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/translations/it_IT/networking/netdev-FAQ.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/admin-guide/binfmt-misc.rst b/Documentation/admin-guide/binfmt-misc.rst
-> index bcdfbe39976e..82aab71ca783 100644
-> --- a/Documentation/admin-guide/binfmt-misc.rst
-> +++ b/Documentation/admin-guide/binfmt-misc.rst
-> @@ -1,5 +1,5 @@
-> -Kernel Support for miscellaneous (your favourite) Binary Formats v1.1
-> -=====================================================================
-> +Kernel Support for miscellaneous Binary Formats (binfmt_misc)
-> +=============================================================
+> diff --git a/Documentation/translations/it_IT/networking/netdev-FAQ.rst b/Documentation/translations/it_IT/networking/netdev-FAQ.rst
+> index 8489ead7cff1..7e2456bb7d92 100644
+> --- a/Documentation/translations/it_IT/networking/netdev-FAQ.rst
+> +++ b/Documentation/translations/it_IT/networking/netdev-FAQ.rst
+> @@ -1,6 +1,6 @@
+>  .. include:: ../disclaimer-ita.rst
 > 
->  This Kernel feature allows you to invoke almost (for restrictions see below)
->  every program by simply typing its name in the shell.
-
+> -:Original: :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
+> +:Original: :ref:`Documentation/networking/netdev-FAQ.rst <netdev-FAQ>`
+> 
+>  .. _it_netdev-FAQ:
+> 
+> --
+> 2.20.1
+> 
 Applied, thanks.
 
 jon
