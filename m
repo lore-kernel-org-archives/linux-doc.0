@@ -2,226 +2,268 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=FORGED_MUA_MOZILLA,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F2EC18E5A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 15:17:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9975AC18E5B
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 15:20:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 53B6E20727
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 15:17:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 552AA22525
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 15:20:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m/zNCZ70"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726420AbgCJPRc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 11:17:32 -0400
-Received: from mail-oln040092071019.outbound.protection.outlook.com ([40.92.71.19]:33099
-        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726283AbgCJPRb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Mar 2020 11:17:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DT83+kwv9a1Vq8572rSuao9T3PzrxiAKOr5mG17eFemn8jzHvvboLDjCMli4RU0aAXFZg7Br3WvyJvBBaVXtmDIkDmP+IZvk1YaOD1rHdPBav4+O5xL/M4DW3oBhIVlajkRhu51fD1QwdYW6QbcH3O6tKotm+qsFkUFoWTF2zBI3V7v70DvEISKd4jc6fuG1vmrs5PXhsKyz+xbPOK2MLzHoZl6RW1o1HR0Fid3fqYkLTYS3eFrOzCZq5sGQWUOU+NKV+sOArQe8yFndwTb4+jkJ6gsJIlTzlvzu78GGg6sWMqjbQnq4Yhw5cNKbuMSQyIAq/xfZq1leq4a2TWgEGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7MERsL12ctMhu/N6mOV36IeX7WrSbnsrDvcLG/CgAcM=;
- b=k0kIsu9sFIO/sZAviAQGqyJU0ilpecEEo0mWQabNnhFjnLRnpArGNlqg7vKXHQan1KtJw9daN/amXRYIVWpvV5VTjrvVRy3v14C+Z6qVXVmj9FuebqOvd0doXWU0/2XYzSmO+RH1wLQ9Bsqb9q2Khi8xrmNnowko10IerUT9akdEP+8oV+urenPcO2QSm6C62wVSjH6SOvuVMsvL15mc3pEHMOJW7nUrVcy1ww6dG+LmyL+f3lA7tihvToEO+oWk6ZDsQ1proSDseWpWSyM3pTgDeW9cmPwcUxB08MV+W0EHVM02+pSAIZSBx3HTGQKCTIydMkwUA39wMY6tU/fq9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
- dkim=pass header.d=hotmail.de; arc=none
-Received: from VE1EUR03FT009.eop-EUR03.prod.protection.outlook.com
- (2a01:111:e400:7e09::36) by
- VE1EUR03HT218.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e09::394)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Tue, 10 Mar
- 2020 15:17:27 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.18.59) by
- VE1EUR03FT009.mail.protection.outlook.com (10.152.18.92) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Tue, 10 Mar 2020 15:17:27 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:4ABB00EC27A7E899A622942F93AAC0B5D7405984177B6CBE182C36D6D85FC71D;UpperCasedChecksum:ED1AEF8E26893324273C4B6F6273B37170CD7EA0D4FB7E0E77F27A89EAE9FD5E;SizeAsReceived:10277;Count:50
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
- 15:17:27 +0000
-Subject: Re: [PATCH 1/4] exec: Fix a deadlock in ptrace
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
- <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <878sk94eay.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y12yc7.fsf@x220.int.ebiederm.org> <87k13t2xpd.fsf@x220.int.ebiederm.org>
- <87d09l2x5n.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <871rq12vxu.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <877dzt1fnf.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517033EAD25BED15CC84E17DE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87d09kxmxl.fsf@x220.int.ebiederm.org>
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-Message-ID: <AM6PR03MB517090B728A0F6E982C9C920E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Tue, 10 Mar 2020 16:17:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-In-Reply-To: <87d09kxmxl.fsf@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM4PR07CA0020.eurprd07.prod.outlook.com
- (2603:10a6:205:1::33) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-X-Microsoft-Original-Message-ID: <782f7067-518a-4979-64ae-6027f3e17ce2@hotmail.de>
+        id S1727806AbgCJPUg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 11:20:36 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:34156 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727818AbgCJPUg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 11:20:36 -0400
+Received: by mail-pf1-f194.google.com with SMTP id 23so4827931pfj.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 08:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=6MhFgIdze8CFf2DOrBawMYLjN6c8ytgEy4KTgM5UsKI=;
+        b=m/zNCZ70DcHzitOz0JSTs00aicOWLVtUPobgMC2juOgSuvBdRUs2ULP0Ups4xAIQ4+
+         GkiAoRRV7UEuj9/HSK3R8iaYqmCTarzCPhjS+DlYPrfcEvSBosUBkj+izKK2cQjS8BjW
+         GFq1ZXcm0Cgr3caOvqgwfypDmqe3jbdjn018IQLTmBYACIgMYqij/5lRoPNNCUMhGdhX
+         gTfK86J+0GkyCRD62BYej6x5QSHQ4y6zPt7H+6m6gOtGalne8wVoFc0jlhTdYfolU+Qu
+         Ng3TUPVBRljKkoRg3ffG8G99Z61/jah0DJbo9NMGFbjDtP1dnbj6HzePS3abQQ81/6bp
+         UdNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=6MhFgIdze8CFf2DOrBawMYLjN6c8ytgEy4KTgM5UsKI=;
+        b=lf1FOoQEv3FbUBKlhdpE6V5YlWuYpjr04SaatfWmsz5mBuAcVwqHp6vTQ+j47FxAbP
+         FMeAVwe0lYikRXzbrVrGuAdy5HnCJTjhrPROyxd5otfN2X+DM/ZLkRuSnumfWF67v9eZ
+         D9ere1/6RMwfEttfnY71Lib6Qzm07ge1zH0fA2icaaGRhF+ONq0RjC8n5MrBJBNZSqaP
+         42QCaOxNo5DF271bpDskJFuUH4k6/7xsofSspkLvxqgrtgx++Am+5/ii9xzK+yjQ5T4c
+         GIHLVDBApI+OPXbxg39symLadEw+csVUlPQXfzIM3CTsW5tOHOOOMEnYL9l3S9BoUN6/
+         W4cA==
+X-Gm-Message-State: ANhLgQ0JjUVPWLiH0IuW1IP8XyPzi8fhPsDaQJEelF9+oY6lVGkECWMf
+        3wyC2OXS4rG7WZVbUrNCKslooQ==
+X-Google-Smtp-Source: ADFU+vuDMeVSrBmcnm1f3SeMtYbGOm0trJg8lN9EATMG0oGxhlTM5PSR5uh75bg8T3fDm2w5zn88ZA==
+X-Received: by 2002:a62:ce48:: with SMTP id y69mr10163479pfg.178.1583853634107;
+        Tue, 10 Mar 2020 08:20:34 -0700 (PDT)
+Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id dw19sm2662207pjb.16.2020.03.10.08.20.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2020 08:20:33 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 09:20:31 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Cl?ment Leger <cleger@kalrayinc.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Loic PALLARDY <loic.pallardy@st.com>, s-anna <s-anna@ti.com>
+Subject: Re: [PATCH v5 5/8] remoteproc: Rename rproc_elf_sanity_check for
+ elf32
+Message-ID: <20200310152031.GA25781@xps15>
+References: <20200210162209.23149-1-cleger@kalray.eu>
+ <20200302093902.27849-1-cleger@kalray.eu>
+ <20200302093902.27849-6-cleger@kalray.eu>
+ <20200302231342.GE262924@yoga>
+ <482678048.7666348.1583222551942.JavaMail.zimbra@kalray.eu>
+ <20200310000005.GF14744@builder>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.101] (92.77.140.102) by AM4PR07CA0020.eurprd07.prod.outlook.com (2603:10a6:205:1::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.6 via Frontend Transport; Tue, 10 Mar 2020 15:17:25 +0000
-X-Microsoft-Original-Message-ID: <782f7067-518a-4979-64ae-6027f3e17ce2@hotmail.de>
-X-TMN:  [Z3lgAUqy4nucF3x8Z/b2WnzlOwmiw+VC]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 50
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: dd300894-40f9-430f-0808-08d7c5062475
-X-MS-TrafficTypeDiagnostic: VE1EUR03HT218:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +6qWBWJOP1x9rrV2MrYaCF5/02/aHcK94Y2nQWTSx+x8klWi8SpBN+mLW2CGqp1dRg92LgGFgvFKBECHvTP2ccGnhyfr+NJ/WFIMXS5BMWT21fmg+m01JijgCz9r4/Zt6qN5Gp9XIaBmkY+wSd9zLWIlwSNV2VvzaJCUA0udtl8txGGhQLqI1iTLlIkZVAD4jj81I+bqyUNKCw/9w44gqx/FNebVbi2yCQ9Y/lVFcTw=
-X-MS-Exchange-AntiSpam-MessageData: mHipqRo6hS60olGOUYG9i2a6ZJYV6ymKNPegcyfCBaKKiWHYB1JJyc3RULEkWbU1SavTZn2gcfro8yyaCVZXjIzzdloK9OWnR/4wCITZdNtbbpRFV2PhsW2uf3eEBCHdRSqs8mX9Hq4OLeSkFQa9/g==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd300894-40f9-430f-0808-08d7c5062475
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 15:17:27.3816
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT218
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200310000005.GF14744@builder>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/10/20 4:13 PM, Eric W. Biederman wrote:
-> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+On Mon, Mar 09, 2020 at 05:00:05PM -0700, Bjorn Andersson wrote:
+> On Tue 03 Mar 00:02 PST 2020, Cl?ment Leger wrote:
 > 
->> This fixes a deadlock in the tracer when tracing a multi-threaded
->> application that calls execve while more than one thread are running.
->>
->> I observed that when running strace on the gcc test suite, it always
->> blocks after a while, when expect calls execve, because other threads
->> have to be terminated.  They send ptrace events, but the strace is no
->> longer able to respond, since it is blocked in vm_access.
->>
->> The deadlock is always happening when strace needs to access the
->> tracees process mmap, while another thread in the tracee starts to
->> execve a child process, but that cannot continue until the
->> PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
+> > Hi Bjorn, 
+> > 
+> > ----- On 3 Mar, 2020, at 00:13, Bjorn Andersson bjorn.andersson@linaro.org wrote:
+> > 
+> > > On Mon 02 Mar 01:38 PST 2020, Clement Leger wrote:
+> > > 
+> > >> Since this function will be modified to support both elf32 and elf64,
+> > >> rename the existing one to elf32 (which is the only supported format
+> > >> at the moment). This will allow not to introduce possible side effect
+> > >> when adding elf64 support (ie: all backends will still support only
+> > >> elf32 if not requested explicitely using rproc_elf_sanity_check).
+> > >> 
+> > > 
+> > > Is there a reason for preventing ELF64 binaries be loaded?
+> > 
+> > I decided to go this way to let driver maintainer decide if they want
+> > to support elf64 to avoid problems with 64bits addresses/sizes which do
+> > not fit in their native type (size_t for instance). This is probably
+> > not going to happen and there are additionnal checks before calling
+> > rproc_da_to_va. And addresses should be filtered by rproc_da_to_va.
+> > So, actually it seems there is no reason to forbid supporting elf32/64
+> > for all drivers.
+> > 
 > 
-> Overall this looks good.  Mind if I change the subject to:
-> "exec: Fix a deadlock in strace" ?
-> 
+> I was hoping to hear some additional feedback on this from others.
 
-Sure, go ahead.
+I didn't follow up on this one because I agreed with your assesment and didn't
+think it was needed.
+
+Simply put I would rather see rproc_elf_sanity_check() gain support for elf64
+and let the platform code decide what to do with format they don't support
+rather than spinning a new function.
+
+> 
+> I've merge the patch as is, but think it would be nice to clean this up
+> and just have the driver ignore if fed a 32 or 64-elf.
+
+It would be really nice to see this cleaned up in time for the coming merge
+window...
 
 Thanks
-Bernd.
+Mathieu
 
-> Eric
 > 
+> Regards,
+> Bjorn
 > 
->>
->> strace          D    0 30614  30584 0x00000000
->> Call Trace:
->> __schedule+0x3ce/0x6e0
->> schedule+0x5c/0xd0
->> schedule_preempt_disabled+0x15/0x20
->> __mutex_lock.isra.13+0x1ec/0x520
->> __mutex_lock_killable_slowpath+0x13/0x20
->> mutex_lock_killable+0x28/0x30
->> mm_access+0x27/0xa0
->> process_vm_rw_core.isra.3+0xff/0x550
->> process_vm_rw+0xdd/0xf0
->> __x64_sys_process_vm_readv+0x31/0x40
->> do_syscall_64+0x64/0x220
->> entry_SYSCALL_64_after_hwframe+0x44/0xa9
->>
->> expect          D    0 31933  30876 0x80004003
->> Call Trace:
->> __schedule+0x3ce/0x6e0
->> schedule+0x5c/0xd0
->> flush_old_exec+0xc4/0x770
->> load_elf_binary+0x35a/0x16c0
->> search_binary_handler+0x97/0x1d0
->> __do_execve_file.isra.40+0x5d4/0x8a0
->> __x64_sys_execve+0x49/0x60
->> do_syscall_64+0x64/0x220
->> entry_SYSCALL_64_after_hwframe+0x44/0xa9
->>
->> This changes mm_access to use the new exec_update_mutex
->> instead of cred_guard_mutex.
->>
->> This patch is based on the following patch by Eric W. Biederman:
->> "[PATCH 0/5] Infrastructure to allow fixing exec deadlocks"
->> Link: https://lore.kernel.org/lkml/87v9ne5y4y.fsf_-_@x220.int.ebiederm.org/
->>
->> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
->> ---
->>  kernel/fork.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/kernel/fork.c b/kernel/fork.c
->> index c12595a..5720ff3 100644
->> --- a/kernel/fork.c
->> +++ b/kernel/fork.c
->> @@ -1224,7 +1224,7 @@ struct mm_struct *mm_access(struct task_struct *task, unsigned int mode)
->>  	struct mm_struct *mm;
->>  	int err;
->>  
->> -	err =  mutex_lock_killable(&task->signal->cred_guard_mutex);
->> +	err =  mutex_lock_killable(&task->signal->exec_update_mutex);
->>  	if (err)
->>  		return ERR_PTR(err);
->>  
->> @@ -1234,7 +1234,7 @@ struct mm_struct *mm_access(struct task_struct *task, unsigned int mode)
->>  		mmput(mm);
->>  		mm = ERR_PTR(-EACCES);
->>  	}
->> -	mutex_unlock(&task->signal->cred_guard_mutex);
->> +	mutex_unlock(&task->signal->exec_update_mutex);
->>  
->>  	return mm;
->>  }
+> > Regards,
+> > 
+> > Clément
+> > 
+> > > 
+> > > Regards,
+> > > Bjorn
+> > > 
+> > >> Signed-off-by: Clement Leger <cleger@kalray.eu>
+> > >> ---
+> > >>  drivers/remoteproc/remoteproc_core.c       | 2 +-
+> > >>  drivers/remoteproc/remoteproc_elf_loader.c | 6 +++---
+> > >>  drivers/remoteproc/remoteproc_internal.h   | 2 +-
+> > >>  drivers/remoteproc/st_remoteproc.c         | 2 +-
+> > >>  drivers/remoteproc/st_slim_rproc.c         | 2 +-
+> > >>  drivers/remoteproc/stm32_rproc.c           | 2 +-
+> > >>  6 files changed, 8 insertions(+), 8 deletions(-)
+> > >> 
+> > >> diff --git a/drivers/remoteproc/remoteproc_core.c
+> > >> b/drivers/remoteproc/remoteproc_core.c
+> > >> index 4bfaf4a3c4a3..99f0b796fbc7 100644
+> > >> --- a/drivers/remoteproc/remoteproc_core.c
+> > >> +++ b/drivers/remoteproc/remoteproc_core.c
+> > >> @@ -2055,7 +2055,7 @@ struct rproc *rproc_alloc(struct device *dev, const char
+> > >> *name,
+> > >>  		rproc->ops->load = rproc_elf_load_segments;
+> > >>  		rproc->ops->parse_fw = rproc_elf_load_rsc_table;
+> > >>  		rproc->ops->find_loaded_rsc_table = rproc_elf_find_loaded_rsc_table;
+> > >> -		rproc->ops->sanity_check = rproc_elf_sanity_check;
+> > >> +		rproc->ops->sanity_check = rproc_elf32_sanity_check;
+> > >>  		rproc->ops->get_boot_addr = rproc_elf_get_boot_addr;
+> > >>  	}
+> > >>  
+> > >> diff --git a/drivers/remoteproc/remoteproc_elf_loader.c
+> > >> b/drivers/remoteproc/remoteproc_elf_loader.c
+> > >> index c2a9783cfb9a..5a67745f2638 100644
+> > >> --- a/drivers/remoteproc/remoteproc_elf_loader.c
+> > >> +++ b/drivers/remoteproc/remoteproc_elf_loader.c
+> > >> @@ -25,13 +25,13 @@
+> > >>  #include "remoteproc_internal.h"
+> > >>  
+> > >>  /**
+> > >> - * rproc_elf_sanity_check() - Sanity Check ELF firmware image
+> > >> + * rproc_elf_sanity_check() - Sanity Check ELF32 firmware image
+> > >>   * @rproc: the remote processor handle
+> > >>   * @fw: the ELF firmware image
+> > >>   *
+> > >>   * Make sure this fw image is sane.
+> > >>   */
+> > >> -int rproc_elf_sanity_check(struct rproc *rproc, const struct firmware *fw)
+> > >> +int rproc_elf32_sanity_check(struct rproc *rproc, const struct firmware *fw)
+> > >>  {
+> > >>  	const char *name = rproc->firmware;
+> > >>  	struct device *dev = &rproc->dev;
+> > >> @@ -89,7 +89,7 @@ int rproc_elf_sanity_check(struct rproc *rproc, const struct
+> > >> firmware *fw)
+> > >>  
+> > >>  	return 0;
+> > >>  }
+> > >> -EXPORT_SYMBOL(rproc_elf_sanity_check);
+> > >> +EXPORT_SYMBOL(rproc_elf32_sanity_check);
+> > >>  
+> > >>  /**
+> > >>   * rproc_elf_get_boot_addr() - Get rproc's boot address.
+> > >> diff --git a/drivers/remoteproc/remoteproc_internal.h
+> > >> b/drivers/remoteproc/remoteproc_internal.h
+> > >> index 0deae5f237b8..28639c588d58 100644
+> > >> --- a/drivers/remoteproc/remoteproc_internal.h
+> > >> +++ b/drivers/remoteproc/remoteproc_internal.h
+> > >> @@ -54,7 +54,7 @@ void *rproc_da_to_va(struct rproc *rproc, u64 da, size_t len);
+> > >>  phys_addr_t rproc_va_to_pa(void *cpu_addr);
+> > >>  int rproc_trigger_recovery(struct rproc *rproc);
+> > >>  
+> > >> -int rproc_elf_sanity_check(struct rproc *rproc, const struct firmware *fw);
+> > >> +int rproc_elf32_sanity_check(struct rproc *rproc, const struct firmware *fw);
+> > >>  u64 rproc_elf_get_boot_addr(struct rproc *rproc, const struct firmware *fw);
+> > >>  int rproc_elf_load_segments(struct rproc *rproc, const struct firmware *fw);
+> > >>  int rproc_elf_load_rsc_table(struct rproc *rproc, const struct firmware *fw);
+> > >> diff --git a/drivers/remoteproc/st_remoteproc.c
+> > >> b/drivers/remoteproc/st_remoteproc.c
+> > >> index a3268d95a50e..a6cbfa452764 100644
+> > >> --- a/drivers/remoteproc/st_remoteproc.c
+> > >> +++ b/drivers/remoteproc/st_remoteproc.c
+> > >> @@ -233,7 +233,7 @@ static const struct rproc_ops st_rproc_ops = {
+> > >>  	.parse_fw		= st_rproc_parse_fw,
+> > >>  	.load			= rproc_elf_load_segments,
+> > >>  	.find_loaded_rsc_table	= rproc_elf_find_loaded_rsc_table,
+> > >> -	.sanity_check		= rproc_elf_sanity_check,
+> > >> +	.sanity_check		= rproc_elf32_sanity_check,
+> > >>  	.get_boot_addr		= rproc_elf_get_boot_addr,
+> > >>  };
+> > >>  
+> > >> diff --git a/drivers/remoteproc/st_slim_rproc.c
+> > >> b/drivers/remoteproc/st_slim_rproc.c
+> > >> index 09bcb4d8b9e0..3cca8b65a8db 100644
+> > >> --- a/drivers/remoteproc/st_slim_rproc.c
+> > >> +++ b/drivers/remoteproc/st_slim_rproc.c
+> > >> @@ -203,7 +203,7 @@ static const struct rproc_ops slim_rproc_ops = {
+> > >>  	.da_to_va       = slim_rproc_da_to_va,
+> > >>  	.get_boot_addr	= rproc_elf_get_boot_addr,
+> > >>  	.load		= rproc_elf_load_segments,
+> > >> -	.sanity_check	= rproc_elf_sanity_check,
+> > >> +	.sanity_check	= rproc_elf32_sanity_check,
+> > >>  };
+> > >>  
+> > >>  /**
+> > >> diff --git a/drivers/remoteproc/stm32_rproc.c b/drivers/remoteproc/stm32_rproc.c
+> > >> index a18f88044111..9a8b5f5e2572 100644
+> > >> --- a/drivers/remoteproc/stm32_rproc.c
+> > >> +++ b/drivers/remoteproc/stm32_rproc.c
+> > >> @@ -505,7 +505,7 @@ static struct rproc_ops st_rproc_ops = {
+> > >>  	.load		= rproc_elf_load_segments,
+> > >>  	.parse_fw	= stm32_rproc_parse_fw,
+> > >>  	.find_loaded_rsc_table = rproc_elf_find_loaded_rsc_table,
+> > >> -	.sanity_check	= rproc_elf_sanity_check,
+> > >> +	.sanity_check	= rproc_elf32_sanity_check,
+> > >>  	.get_boot_addr	= rproc_elf_get_boot_addr,
+> > >>  };
+> > >>  
+> > >> --
+> > >> 2.15.0.276.g89ea799
