@@ -2,49 +2,35 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 389C4C10F27
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:13:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CCA4C10F27
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:13:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0C9BB2146E
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:13:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E705A2146E
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 17:13:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726438AbgCJRNC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 13:13:02 -0400
-Received: from ms.lwn.net ([45.79.88.28]:44002 "EHLO ms.lwn.net"
+        id S1726414AbgCJRNl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 13:13:41 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44020 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726395AbgCJRNC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Mar 2020 13:13:02 -0400
+        id S1726380AbgCJRNl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Mar 2020 13:13:41 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 805B92E4;
-        Tue, 10 Mar 2020 17:13:01 +0000 (UTC)
-Date:   Tue, 10 Mar 2020 11:13:00 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id BF1852E4;
+        Tue, 10 Mar 2020 17:13:40 +0000 (UTC)
+Date:   Tue, 10 Mar 2020 11:13:39 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Sudeep Dutt <sudeep.dutt@intel.com>,
-        Ashutosh Dixit <ashutosh.dixit@intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] docs: Move Intel Many Integrated Core documentation
- (mic) under misc-devices
-Message-ID: <20200310111300.4bf7359a@lwn.net>
-In-Reply-To: <CAHp75VfX0hWGaWqJcrShYW6SOi9B24LGm=02BGZXg7qOevgZBg@mail.gmail.com>
-References: <20200308211519.8414-1-j.neuschaefer@gmx.net>
-        <CAHp75VfX0hWGaWqJcrShYW6SOi9B24LGm=02BGZXg7qOevgZBg@mail.gmail.com>
+To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: admin-guide: binfmt-misc: Improve the title
+Message-ID: <20200310111339.2c5e3152@lwn.net>
+In-Reply-To: <20200308210935.7273-1-j.neuschaefer@gmx.net>
+References: <20200308210935.7273-1-j.neuschaefer@gmx.net>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -54,22 +40,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 9 Mar 2020 09:34:37 +0200
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+On Sun,  8 Mar 2020 22:09:34 +0100
+Jonathan Neuschäfer <j.neuschaefer@gmx.net> wrote:
 
-> On Sun, Mar 8, 2020 at 11:17 PM Jonathan Neuschäfer
-> <j.neuschaefer@gmx.net> wrote:
-> >
-> > It doesn't need to be a top-level chapter.
-> >
-> > This patch also updates MAINTAINERS and makes sure the F: lines are
-> > properly sorted.
-> >  
+> Trim the title a bit, since it's relatively long. Add `binfmt_misc` to
+> make it easier to search for the feature by its common name.
 > 
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> for MAINTAINERS change.
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> ---
+>  Documentation/admin-guide/binfmt-misc.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> > Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> diff --git a/Documentation/admin-guide/binfmt-misc.rst b/Documentation/admin-guide/binfmt-misc.rst
+> index bcdfbe39976e..82aab71ca783 100644
+> --- a/Documentation/admin-guide/binfmt-misc.rst
+> +++ b/Documentation/admin-guide/binfmt-misc.rst
+> @@ -1,5 +1,5 @@
+> -Kernel Support for miscellaneous (your favourite) Binary Formats v1.1
+> -=====================================================================
+> +Kernel Support for miscellaneous Binary Formats (binfmt_misc)
+> +=============================================================
+> 
+>  This Kernel feature allows you to invoke almost (for restrictions see below)
+>  every program by simply typing its name in the shell.
 
 Applied, thanks.
 
