@@ -2,160 +2,117 @@ Return-Path: <SRS0=0k1m=44=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 113ADC18E5B
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 00:17:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E3D2C10DCE
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 00:26:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C7C8B227BF
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 00:17:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28103222C3
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 00:26:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727695AbgCKARp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 20:17:45 -0400
-Received: from out02.mta.xmission.com ([166.70.13.232]:40022 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbgCKARp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 20:17:45 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBp3z-0008FJ-R6; Tue, 10 Mar 2020 18:17:31 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBp3y-0000VK-Vy; Tue, 10 Mar 2020 18:17:31 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Jann Horn <jannh@google.com>
-Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <875zfmloir.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nmjulm.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <202003021531.C77EF10@keescook>
-        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
-        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nlii0b.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87a74xi4kz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
-        <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
-        <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
-        <CAG48ez13XXWNRLrPFRHRsvPKSwSK1-6k+1F7QujWOJtVuk0QHg@mail.gmail.com>
-        <87wo7roq2c.fsf@x220.int.ebiederm.org>
-        <CAG48ez1j2=pdj0nc1syHkh6X4d=aHuCH1srzA6hT7+32QD+6Gg@mail.gmail.com>
-Date:   Tue, 10 Mar 2020 19:15:12 -0500
-In-Reply-To: <CAG48ez1j2=pdj0nc1syHkh6X4d=aHuCH1srzA6hT7+32QD+6Gg@mail.gmail.com>
-        (Jann Horn's message of "Wed, 11 Mar 2020 00:21:49 +0100")
-Message-ID: <87k13roigf.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1727591AbgCKA0Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 20:26:16 -0400
+Received: from 7.mo177.mail-out.ovh.net ([46.105.61.149]:53877 "EHLO
+        7.mo177.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727484AbgCKA0Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 20:26:16 -0400
+X-Greylist: delayed 8400 seconds by postgrey-1.27 at vger.kernel.org; Tue, 10 Mar 2020 20:26:16 EDT
+Received: from player779.ha.ovh.net (unknown [10.108.54.209])
+        by mo177.mail-out.ovh.net (Postfix) with ESMTP id 84EEB121685
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2020 22:58:51 +0100 (CET)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player779.ha.ovh.net (Postfix) with ESMTPSA id C61D8103FEFF3;
+        Tue, 10 Mar 2020 21:58:38 +0000 (UTC)
+From:   Stephen Kitt <steve@sk2.org>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andriin@fb.com>, bpf@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Kitt <steve@sk2.org>
+Subject: [PATCH v3] docs: sysctl/kernel: document BPF entries
+Date:   Tue, 10 Mar 2020 22:58:24 +0100
+Message-Id: <20200310215824.17139-1-steve@sk2.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jBp3y-0000VK-Vy;;;mid=<87k13roigf.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX191GcjSpm9Har/C6Rc/ejl26zceokkfPxs=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace cred_guard_mutex
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 980377346576829727
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvtddgudegiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jann Horn <jannh@google.com> writes:
+Based on the implementation in kernel/bpf/syscall.c,
+kernel/bpf/trampoline.c, include/linux/filter.h, and the documentation
+in bpftool-prog.rst.
 
-> On Tue, Mar 10, 2020 at 10:33 PM Eric W. Biederman
-> <ebiederm@xmission.com> wrote:
->> Jann Horn <jannh@google.com> writes:
->> > On Sun, Mar 8, 2020 at 10:41 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->> >> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
->> >> over the userspace accesses as the arguments from userspace are read.
->> >> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
->> >> threads are killed.  The cred_guard_mutex is held over
->> >> "put_user(0, tsk->clear_child_tid)" in exit_mm().
->> >>
->> >> Any of those can result in deadlock, as the cred_guard_mutex is held
->> >> over a possible indefinite userspace waits for userspace.
->> >>
->> >> Add exec_update_mutex that is only held over exec updating process
->> >> with the new contents of exec, so that code that needs not to be
->> >> confused by exec changing the mm and the cred in ways that can not
->> >> happen during ordinary execution of a process.
->> >>
->> >> The plan is to switch the users of cred_guard_mutex to
->> >> exec_udpate_mutex one by one.  This lets us move forward while still
->> >> being careful and not introducing any regressions.
->> > [...]
->> >> @@ -1034,6 +1035,11 @@ static int exec_mmap(struct mm_struct *mm)
->> >>                         return -EINTR;
->> >>                 }
->> >>         }
->> >> +
->> >> +       ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
->> >> +       if (ret)
->> >> +               return ret;
->> >
->> > We're already holding the old mmap_sem, and now nest the
->> > exec_update_mutex inside it; but then while still holding the
->> > exec_update_mutex, we do mmput(), which can e.g. end up in ksm_exit(),
->> > which can do down_write(&mm->mmap_sem) from __ksm_exit(). So I think
->> > at least lockdep will be unhappy, and I'm not sure whether it's an
->> > actual problem or not.
->>
->> Good point.  I should double check the lock ordering here with mmap_sem.
->> It doesn't look like mmput takes mmap_sem
->
-> You sure about that? mmput() -> __mmput() -> ksm_exit() ->
-> __ksm_exit() -> down_write(&mm->mmap_sem)
->
-> Or also: mmput() -> __mmput() -> khugepaged_exit() ->
-> __khugepaged_exit() -> down_write(&mm->mmap_sem)
->
-> Or is there a reason why those paths can't happen?
+The section style doesn't match the surrounding sections; it matches
+the style of the reworked kernel.rst queued up in docs-next.
 
-Clearly I didn't look far enough. 
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
 
-I will adjust this so that exec_update_mutex is taken before mmap_sem.
-Anything else is just asking for trouble.
+Notes:
+    Changes since v2:
+    - fixed "will disabled" typo.
+    
+    Changes since v1:
+    - rebased on bpf-next instead of docs-next.
 
-Eric
+ Documentation/admin-guide/sysctl/kernel.rst | 24 +++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index def074807cee..9e1417628572 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -174,6 +174,20 @@ See the type_of_loader and ext_loader_ver fields in
+ Documentation/x86/boot.rst for additional information.
+ 
+ 
++bpf_stats_enabled
++=================
++
++Controls whether the kernel should collect statistics on BPF programs
++(total time spent running, number of times run...). Enabling
++statistics causes a slight reduction in performance on each program
++run. The statistics can be seen using ``bpftool``.
++
++= ===================================
++0 Don't collect statistics (default).
++1 Collect statistics.
++= ===================================
++
++
+ cap_last_cap:
+ =============
+ 
+@@ -1123,6 +1137,16 @@ NMI switch that most IA32 servers have fires unknown NMI up, for
+ example.  If a system hangs up, try pressing the NMI switch.
+ 
+ 
++unprivileged_bpf_disabled
++=========================
++
++Writing 1 to this entry will disable unprivileged calls to ``bpf()``;
++once disabled, calling ``bpf()`` without ``CAP_SYS_ADMIN`` will return
++``-EPERM``.
++
++Once set, this can't be cleared.
++
++
+ watchdog:
+ =========
+ 
+
+base-commit: 3e7c67d90e3ed2f34fce42699f11b150dd1d3999
+-- 
+2.20.1
+
