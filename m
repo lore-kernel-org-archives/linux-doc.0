@@ -2,164 +2,265 @@ Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=FORGED_MUA_MOZILLA,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 483A6C18E5B
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:43:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87224C3F2C6
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:43:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1DACE24649
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:43:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E10820675
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:43:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583847829;
+	bh=5PlHhPzSK+0l2GtUGdprWuSb0TB3BTurH4keibjpyJM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=u8XUcF4pSKcCV+XdG6DCu6nO+aAGi0kkYH8xGhJ6fsMkiXw5yldyEUWdiDz5+abnM
+	 UCNCADlAG1qF9xoD0Lm4qgXB0NfsxnEQLPjZsRjnQBDKl2bwijrFyO2nQKiDFaUSnu
+	 4B+CmfjVvKlw7PiQU8txeRgnIyXo72vfGULGIK5M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727198AbgCJNn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 09:43:28 -0400
-Received: from mail-oln040092065090.outbound.protection.outlook.com ([40.92.65.90]:30183
-        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727312AbgCJNn1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Mar 2020 09:43:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bMN6w/Qr/aS+HIOfZPZ5/HS/kEaZhWvScWGYXuxjLY9WPXvIlNnaRl2RxRBJkYp9LsVyZ5h2jRsUwI6i7IoMvi1bRiafxWezUycxxBDBtBY2427+Q+cfBK2/yPcNAfBxaQ21trd3Kbc8KYnwkNAqXKEbj7oPV7FV4VIUku2HQmBh2eBs+xKzUjx9gc3utBJbDeU/+3eDCCujn9dD+6tzRiBfqUJyA74cP3nMCkqXDmIoQNLakQdgNdcuORh9N9rtkCOx4goGZzsm8/fIoLw4WkDh32o3whyYGtkXKEA2dpwRfp+BC/DaAYBHOylwXBB7McYM/VrsHGSWJln0JKbv4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XTIzbf6Kcu4NlVyKdTF/2JwkVBkFSzRIiCGYzIWzx7U=;
- b=h9QF3UhrzTj4e/81LMmX0Ji/eLV2aiCo+nL7CpLUd/qLUdR9H/fsmLHQZDBFIbmrWctZlBTOto4mqvLUwkCGkQ2xoD1TCjbMuiaaAFAhVc5/abY99YEfEMRYkUvOVgzrqfzhw3kYc9YKJXenNf2LiGvLgZJzKzDFHXg8YkubiPWzxXFH6EcmBBrDZiAx2gWnfkE1ta77q4HVQT5khORC9s1V9UpUkmhB/OQscEd8xuET45BLJKrLjh/fFUbFTTFS2a8x1ZsEujHao6kkZIxctxStZkXJx/R8riT1M99Ri6a36kPed5b6WzNXAW3+So0Qg+zZhSEMM8w5KmV0Q0GnfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
- dkim=pass header.d=hotmail.de; arc=none
-Received: from HE1EUR01FT023.eop-EUR01.prod.protection.outlook.com
- (2a01:111:e400:7e18::3a) by
- HE1EUR01HT009.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e18::488)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Tue, 10 Mar
- 2020 13:43:23 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.0.52) by
- HE1EUR01FT023.mail.protection.outlook.com (10.152.0.162) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Tue, 10 Mar 2020 13:43:23 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:BC32DD4A261A6B8205E6ADF6EAB85B37EC990743ABB9F94782C126A987649264;UpperCasedChecksum:35D01622DF07921CB9D4DB6EBAE8AA9A4EC44BD275AB2ADAEE31F947CB5AF6DD;SizeAsReceived:10306;Count:50
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
- 13:43:23 +0000
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-Subject: [PATCH 0/4] Use new infrastructure to fix deadlocks in execve
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y8dqqz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
- <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <878sk94eay.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y12yc7.fsf@x220.int.ebiederm.org> <87k13t2xpd.fsf@x220.int.ebiederm.org>
- <87d09l2x5n.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <871rq12vxu.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <877dzt1fnf.fsf@x220.int.ebiederm.org>
-Message-ID: <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Tue, 10 Mar 2020 14:43:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-In-Reply-To: <877dzt1fnf.fsf@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR06CA0101.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::42) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-X-Microsoft-Original-Message-ID: <c7315cf7-713e-5b1d-38f7-20f77d3babea@hotmail.de>
+        id S1727170AbgCJNns (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 09:43:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37716 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727304AbgCJNnU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Mar 2020 09:43:20 -0400
+Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AF5B8246BB;
+        Tue, 10 Mar 2020 13:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583847797;
+        bh=5PlHhPzSK+0l2GtUGdprWuSb0TB3BTurH4keibjpyJM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=wmFV3lvweOaILFZqknun7j+8CoR8I/MGrnJJKsNcNuyiCJXCnUW2Y3yR2JpMjEELP
+         j24EIT55wol3D/NdfnIl6HHHWbB+X2LUaGATA4ZAn4Mh40hi/h9Dupt25XftTcXPfK
+         JuJtn6+0hYM26qlxxA3VBmMCdWbERLYKlfxXTGxM=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jBfAB-0005wo-OR; Tue, 10 Mar 2020 14:43:15 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 21/22] media: docs: add an uAPI chapter for driver-specific stuff
+Date:   Tue, 10 Mar 2020 14:43:12 +0100
+Message-Id: <eb09422f4292b1462978abc02acf41e7630c698c.1583847557.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1583847556.git.mchehab+huawei@kernel.org>
+References: <cover.1583847556.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.101] (92.77.140.102) by AM0PR06CA0101.eurprd06.prod.outlook.com (2603:10a6:208:fa::42) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Tue, 10 Mar 2020 13:43:21 +0000
-X-Microsoft-Original-Message-ID: <c7315cf7-713e-5b1d-38f7-20f77d3babea@hotmail.de>
-X-TMN:  [brG/2mTCvyYYudno6HDU6fhBD8F14Y7+]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 50
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 10d9e532-7fd0-4b56-d300-08d7c4f9006b
-X-MS-TrafficTypeDiagnostic: HE1EUR01HT009:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KpfFSpSqKmus4lGNhEHdz7J7tlMiA/tSubeDZRFzX52cevNYsjMTr1uWuT8AbioUTZkwNOO4/GJPHzZYVcI2TAl5cWNaqLHSfnwgIxMORe7Svl1uJd8HFmgKr7IiZpbiHIpUQQ4tbkU8BhwpTwFq7DUi1rgPN1CR9ESMpMMRhORTn7MGYLayQTTXqv1C0zdz
-X-MS-Exchange-AntiSpam-MessageData: HovD+oKudL+zDQeiwb8n73p9ytIxhfk+yzOEkn0mybXKdEQbxNrH6ctVE3knvAgLYmSqR2tvFNxsbDWZrrPu+frQIKPfS3UDRTETi4Nfq1EApXmHeGw5lZX1aV5oM0cXbi2AlwRkL41XCTZrRjAMjg==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10d9e532-7fd0-4b56-d300-08d7c4f9006b
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 13:43:23.3299
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR01HT009
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a follow up on Eric's patch series to
-fix the deadlocks observed with ptracing when execve
-in multi-threaded applications.
+There are some uAPI stuff that are driver-specific. Add them
+to the main media uAPI body.
 
-This fixes the simple and most important case where
-the cred_guard_mutex causes strace to deadlock.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/media/index.rst                              | 2 --
+ .../media/drivers}/cx2341x-uapi.rst                        | 0
+ .../media/drivers}/imx-uapi.rst                            | 0
+ .../v4l-drivers => userspace-api/media/drivers}/index.rst  | 7 +++----
+ .../media/drivers}/max2175.rst                             | 0
+ .../media/drivers}/meye-uapi.rst                           | 0
+ .../media/drivers}/omap3isp-uapi.rst                       | 0
+ .../media/drivers}/uvcvideo.rst                            | 0
+ Documentation/userspace-api/media/index.rst                | 2 ++
+ Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst   | 2 +-
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst  | 2 +-
+ Documentation/userspace-api/media/v4l/pixfmt-reserved.rst  | 2 +-
+ MAINTAINERS                                                | 4 ++--
+ drivers/media/i2c/max2175.c                                | 6 +++---
+ 14 files changed, 13 insertions(+), 14 deletions(-)
+ rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/cx2341x-uapi.rst (100%)
+ rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/imx-uapi.rst (100%)
+ rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/index.rst (97%)
+ rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/max2175.rst (100%)
+ rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/meye-uapi.rst (100%)
+ rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/omap3isp-uapi.rst (100%)
+ rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/uvcvideo.rst (100%)
 
-This also adds a test case (which is only partially
-fixed so far, the rest of the fixes will follow
-soon).
-
-Two trivial comment fixes are also included.
-
-Bernd Edlinger (4):
-  exec: Fix a deadlock in ptrace
-  selftests/ptrace: add test cases for dead-locks
-  mm: docs: Fix a comment in process_vm_rw_core
-  kernel: doc: remove outdated comment in prepare_kernel_cred
-
- kernel/cred.c                             |  2 -
- kernel/fork.c                             |  4 +-
- mm/process_vm_access.c                    |  2 +-
- tools/testing/selftests/ptrace/Makefile   |  4 +-
- tools/testing/selftests/ptrace/vmaccess.c | 86 +++++++++++++++++++++++++++++++
- 5 files changed, 91 insertions(+), 7 deletions(-)
- create mode 100644 tools/testing/selftests/ptrace/vmaccess.c
-
+diff --git a/Documentation/media/index.rst b/Documentation/media/index.rst
+index a5cd600e0b04..e93fd88881af 100644
+--- a/Documentation/media/index.rst
++++ b/Documentation/media/index.rst
+@@ -15,8 +15,6 @@ Linux Media Subsystem Documentation
+    ../userspace-api/media/index
+    ../driver-api/media/index
+ 
+-   v4l-drivers/index
+-
+ .. only:: html and subproject
+ 
+    Indices
+diff --git a/Documentation/media/v4l-drivers/cx2341x-uapi.rst b/Documentation/userspace-api/media/drivers/cx2341x-uapi.rst
+similarity index 100%
+rename from Documentation/media/v4l-drivers/cx2341x-uapi.rst
+rename to Documentation/userspace-api/media/drivers/cx2341x-uapi.rst
+diff --git a/Documentation/media/v4l-drivers/imx-uapi.rst b/Documentation/userspace-api/media/drivers/imx-uapi.rst
+similarity index 100%
+rename from Documentation/media/v4l-drivers/imx-uapi.rst
+rename to Documentation/userspace-api/media/drivers/imx-uapi.rst
+diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+similarity index 97%
+rename from Documentation/media/v4l-drivers/index.rst
+rename to Documentation/userspace-api/media/drivers/index.rst
+index ee7faff88a33..05a82f8c0c99 100644
+--- a/Documentation/media/v4l-drivers/index.rst
++++ b/Documentation/userspace-api/media/drivers/index.rst
+@@ -2,7 +2,7 @@
+ 
+ .. include:: <isonum.txt>
+ 
+-.. _v4l-drivers:
++.. _v4l-drivers_uapi:
+ 
+ ################################################
+ Video4Linux (V4L)  driver-specific documentation
+@@ -31,10 +31,9 @@ For more details see the file COPYING in the source distribution of Linux.
+ 	:maxdepth: 5
+ 	:numbered:
+ 
+-	max2175
+-	uvcvideo
+-
+ 	cx2341x-uapi
+ 	imx-uapi
++	max2175
+ 	meye-uapi
+ 	omap3isp-uapi
++	uvcvideo
+diff --git a/Documentation/media/v4l-drivers/max2175.rst b/Documentation/userspace-api/media/drivers/max2175.rst
+similarity index 100%
+rename from Documentation/media/v4l-drivers/max2175.rst
+rename to Documentation/userspace-api/media/drivers/max2175.rst
+diff --git a/Documentation/media/v4l-drivers/meye-uapi.rst b/Documentation/userspace-api/media/drivers/meye-uapi.rst
+similarity index 100%
+rename from Documentation/media/v4l-drivers/meye-uapi.rst
+rename to Documentation/userspace-api/media/drivers/meye-uapi.rst
+diff --git a/Documentation/media/v4l-drivers/omap3isp-uapi.rst b/Documentation/userspace-api/media/drivers/omap3isp-uapi.rst
+similarity index 100%
+rename from Documentation/media/v4l-drivers/omap3isp-uapi.rst
+rename to Documentation/userspace-api/media/drivers/omap3isp-uapi.rst
+diff --git a/Documentation/media/v4l-drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
+similarity index 100%
+rename from Documentation/media/v4l-drivers/uvcvideo.rst
+rename to Documentation/userspace-api/media/drivers/uvcvideo.rst
+diff --git a/Documentation/userspace-api/media/index.rst b/Documentation/userspace-api/media/index.rst
+index 614310f82395..bcfdd1a5caa0 100644
+--- a/Documentation/userspace-api/media/index.rst
++++ b/Documentation/userspace-api/media/index.rst
+@@ -31,3 +31,5 @@ entitled "GNU Free Documentation License".
+     cec/cec-api
+     gen-errors
+     fdl-appendix
++
++    drivers/index
+diff --git a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+index 751c6590e774..dd0b6646beb5 100644
+--- a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
++++ b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+@@ -438,7 +438,7 @@ MPEG stream.
+ *Historical context*: This format specification originates from a
+ custom, embedded, sliced VBI data format used by the ``ivtv`` driver.
+ This format has already been informally specified in the kernel sources
+-in the file ``Documentation/media/v4l-drivers/cx2341x-uapi.rst`` . The
++in the file ``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst`` . The
+ maximum size of the payload and other aspects of this format are driven
+ by the CX23415 MPEG decoder's capabilities and limitations with respect
+ to extracting, decoding, and displaying sliced VBI data embedded within
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index f81016c97a0d..9b48338fb783 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -116,7 +116,7 @@ enum v4l2_mpeg_stream_vbi_fmt -
+     * - ``V4L2_MPEG_STREAM_VBI_FMT_IVTV``
+       - VBI in private packets, IVTV format (documented in the kernel
+ 	sources in the file
+-	``Documentation/media/v4l-drivers/cx2341x-uapi.rst``)
++	``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst``)
+ 
+ 
+ 
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+index dbdcf6c9f072..59b9e7238f90 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+@@ -58,7 +58,7 @@ please make a proposal on the linux-media mailing list.
+       - YUV 4:2:0 format used by the IVTV driver.
+ 
+ 	The format is documented in the kernel sources in the file
+-	``Documentation/media/v4l-drivers/cx2341x-uapi.rst``
++	``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst``
+     * .. _V4L2-PIX-FMT-CPIA1:
+ 
+       - ``V4L2_PIX_FMT_CPIA1``
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cf4fd454e053..a883c2e53b86 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10135,7 +10135,7 @@ L:	linux-media@vger.kernel.org
+ T:	git git://linuxtv.org/media_tree.git
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/i2c/max2175.txt
+-F:	Documentation/media/v4l-drivers/max2175.rst
++F:	Documentation/userspace-api/media/drivers/max2175.rst
+ F:	drivers/media/i2c/max2175*
+ F:	include/uapi/linux/max2175.h
+ 
+@@ -11251,7 +11251,7 @@ F:	kernel/module.c
+ MOTION EYE VAIO PICTUREBOOK CAMERA DRIVER
+ W:	http://popies.net/meye/
+ S:	Orphan
+-F:	Documentation/media/v4l-drivers/meye*
++F:	Documentation/userspace-api/media/drivers/meye*
+ F:	drivers/media/pci/meye/
+ F:	include/uapi/linux/meye.h
+ 
+diff --git a/drivers/media/i2c/max2175.c b/drivers/media/i2c/max2175.c
+index 506a30e69ced..03b4ed3a61b8 100644
+--- a/drivers/media/i2c/max2175.c
++++ b/drivers/media/i2c/max2175.c
+@@ -1194,7 +1194,7 @@ static const struct v4l2_ctrl_ops max2175_ctrl_ops = {
+ 
+ /*
+  * I2S output enable/disable configuration. This is a private control.
+- * Refer to Documentation/media/v4l-drivers/max2175.rst for more details.
++ * Refer to Documentation/userspace-api/media/drivers/max2175.rst for more details.
+  */
+ static const struct v4l2_ctrl_config max2175_i2s_en = {
+ 	.ops = &max2175_ctrl_ops,
+@@ -1210,7 +1210,7 @@ static const struct v4l2_ctrl_config max2175_i2s_en = {
+ 
+ /*
+  * HSLS value control LO freq adjacent location configuration.
+- * Refer to Documentation/media/v4l-drivers/max2175.rst for more details.
++ * Refer to Documentation/userspace-api/media/drivers/max2175.rst for more details.
+  */
+ static const struct v4l2_ctrl_config max2175_hsls = {
+ 	.ops = &max2175_ctrl_ops,
+@@ -1226,7 +1226,7 @@ static const struct v4l2_ctrl_config max2175_hsls = {
+ /*
+  * Rx modes below are a set of preset configurations that decides the tuner's
+  * sck and sample rate of transmission. They are separate for EU & NA regions.
+- * Refer to Documentation/media/v4l-drivers/max2175.rst for more details.
++ * Refer to Documentation/userspace-api/media/drivers/max2175.rst for more details.
+  */
+ static const char * const max2175_ctrl_eu_rx_modes[] = {
+ 	[MAX2175_EU_FM_1_2]	= "EU FM 1.2",
 -- 
-1.9.1
+2.24.1
+
