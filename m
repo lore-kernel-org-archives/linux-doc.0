@@ -7,190 +7,324 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79C80C18E7A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:44:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F38EC18E5B
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:44:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 37FAC24685
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:44:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0976B24685
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 13:44:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583847851;
-	bh=5q/CzOOsYllK0uZT25tyGHbJBrmagjGBbvBIeR7M0w8=;
+	s=default; t=1583847852;
+	bh=E8QkjHVkzOcpMzAbxGJQTzkpHIqmt5HiFJokGy90umg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=s8nXSRTw7S1jt+xrgFpPZLAA7qOda0+tSXy34XxiZbvJlYYjnzrZBgPAR/ILQmDxt
-	 lCn1cD6o9aEKIx++xw/vZXAl7xT9IBZQ+ye+KjXkSQxHEamnKhp2DfHDvUI+eYBuSF
-	 ckFFCOHZIW5DEtEwEaVaxkue5ogPp7r3+pLaCDzs=
+	b=c46WKDljeA8A66s7zyZThSUlRnFkvEmdzezrH1LVcGF/MGWQ9mphD/UaHLcSx0b63
+	 wkitxn//LQ7Vxhj3Gqe8nGBmmC6DxivEgtig4t8B5YK1mBbwaURI2TOXXWOJ9eDXpp
+	 2RE5auuhlZoGVOxXHMmc12zp3eR/xIijpVYOkkuo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727387AbgCJNnU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 09:43:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37578 "EHLO mail.kernel.org"
+        id S1726415AbgCJNoL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 09:44:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37590 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726779AbgCJNnT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727206AbgCJNnT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 10 Mar 2020 09:43:19 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0E75924685;
+        by mail.kernel.org (Postfix) with ESMTPSA id 68419246AA;
         Tue, 10 Mar 2020 13:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583847797;
-        bh=5q/CzOOsYllK0uZT25tyGHbJBrmagjGBbvBIeR7M0w8=;
+        bh=E8QkjHVkzOcpMzAbxGJQTzkpHIqmt5HiFJokGy90umg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=koyWg2VW4qb+jhP25yJa09C7jYYheRvIL1Y72h6YbVpKr5H2AnKJRkrj3HlcN3seM
-         eLjDc2cJNZpbZlLMueFb2uYFXsJS9db3Cr/ekShdwwws8o7NUL3pLMMS5I7AN/UNF3
-         VVcay0NG+SdLRBiNAfuGxSgf05t7IznnkDDjfeF4=
+        b=1fsorBq9m4u8TSGUhgE7YDg4bocLSDsZCkOBBLiKF7xc0o4IUXDlUrth4mwUpCTB7
+         nwDVR3Og3/3jap8Yq4/BNLay6ifrDiRXwDqSDHFVH5RR7pMJl14Xs8sjkriSZqjYu2
+         zIIQSbKzlahHqKg2MDkaNZiXku9SpxfJCKf3GJlY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jBfAB-0005vY-3D; Tue, 10 Mar 2020 14:43:15 +0100
+        id 1jBfAB-0005wK-EA; Tue, 10 Mar 2020 14:43:15 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2 05/22] media: docs: split meye.rst into admin and uAPI docs
-Date:   Tue, 10 Mar 2020 14:42:56 +0100
-Message-Id: <c16f22752f9c8b0e1cb9ddc26b4a46b3bc7b4ed6.1583847556.git.mchehab+huawei@kernel.org>
+        linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 15/22] media: docs: split uAPI info from imx.rst
+Date:   Tue, 10 Mar 2020 14:43:06 +0100
+Message-Id: <da5a18aa27c564cdb4fa6f84026be1c72c1a877c.1583847556.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1583847556.git.mchehab+huawei@kernel.org>
 References: <cover.1583847556.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of placing both info from admin PoV and uAPI at the
-same place, split into two separate documents.
+This file contains both driver develompent documentation and
+userspace API.
+
+Split on two, as they're usually read by different audiences.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/media/v4l-drivers/index.rst     |  1 +
- Documentation/media/v4l-drivers/meye-uapi.rst | 53 +++++++++++++++++++
- Documentation/media/v4l-drivers/meye.rst      | 41 --------------
- 3 files changed, 54 insertions(+), 41 deletions(-)
- create mode 100644 Documentation/media/v4l-drivers/meye-uapi.rst
+ Documentation/media/v4l-drivers/imx-uapi.rst | 125 +++++++++++++++++++
+ Documentation/media/v4l-drivers/imx.rst      |  88 +------------
+ Documentation/media/v4l-drivers/index.rst    |   1 +
+ 3 files changed, 128 insertions(+), 86 deletions(-)
+ create mode 100644 Documentation/media/v4l-drivers/imx-uapi.rst
 
-diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/media/v4l-drivers/index.rst
-index 72fbb394f6a2..5a87bd1da9bd 100644
---- a/Documentation/media/v4l-drivers/index.rst
-+++ b/Documentation/media/v4l-drivers/index.rst
-@@ -67,3 +67,4 @@ For more details see the file COPYING in the source distribution of Linux.
- 	zr364xx
- 
- 	cpia2_devel
-+	meye-uapi
-diff --git a/Documentation/media/v4l-drivers/meye-uapi.rst b/Documentation/media/v4l-drivers/meye-uapi.rst
+diff --git a/Documentation/media/v4l-drivers/imx-uapi.rst b/Documentation/media/v4l-drivers/imx-uapi.rst
 new file mode 100644
-index 000000000000..66b1c142f920
+index 000000000000..8d47712dea9f
 --- /dev/null
-+++ b/Documentation/media/v4l-drivers/meye-uapi.rst
-@@ -0,0 +1,53 @@
++++ b/Documentation/media/v4l-drivers/imx-uapi.rst
+@@ -0,0 +1,125 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+.. include:: <isonum.txt>
++=========================
++i.MX Video Capture Driver
++=========================
 +
-+Vaio Picturebook Motion Eye Camera Driver
-+=========================================
++Events
++======
 +
-+Copyright |copy| 2001-2004 Stelian Pop <stelian@popies.net>
++.. _imx_api_ipuX_csiY:
 +
-+Copyright |copy| 2001-2002 Alcôve <www.alcove.com>
++ipuX_csiY
++---------
 +
-+Copyright |copy| 2000 Andrew Tridgell <tridge@samba.org>
++This subdev can generate the following event when enabling the second
++IDMAC source pad:
 +
-+Private API
-+-----------
++- V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR
 +
-+The driver supports frame grabbing with the video4linux API,
-+so all video4linux tools (like xawtv) should work with this driver.
++The user application can subscribe to this event from the ipuX_csiY
++subdev node. This event is generated by the Frame Interval Monitor
++(see below for more on the FIM).
 +
-+Besides the video4linux interface, the driver has a private interface
-+for accessing the Motion Eye extended parameters (camera sharpness,
-+agc, video framerate), the snapshot and the MJPEG capture facilities.
++Controls
++========
 +
-+This interface consists of several ioctls (prototypes and structures
-+can be found in include/linux/meye.h):
++.. _imx_api_FIM:
 +
-+MEYEIOC_G_PARAMS and MEYEIOC_S_PARAMS
-+	Get and set the extended parameters of the motion eye camera.
-+	The user should always query the current parameters with
-+	MEYEIOC_G_PARAMS, change what he likes and then issue the
-+	MEYEIOC_S_PARAMS call (checking for -EINVAL). The extended
-+	parameters are described by the meye_params structure.
++Frame Interval Monitor in ipuX_csiY
++-----------------------------------
++
++The adv718x decoders can occasionally send corrupt fields during
++NTSC/PAL signal re-sync (too little or too many video lines). When
++this happens, the IPU triggers a mechanism to re-establish vertical
++sync by adding 1 dummy line every frame, which causes a rolling effect
++from image to image, and can last a long time before a stable image is
++recovered. Or sometimes the mechanism doesn't work at all, causing a
++permanent split image (one frame contains lines from two consecutive
++captured images).
++
++From experiment it was found that during image rolling, the frame
++intervals (elapsed time between two EOF's) drop below the nominal
++value for the current standard, by about one frame time (60 usec),
++and remain at that value until rolling stops.
++
++While the reason for this observation isn't known (the IPU dummy
++line mechanism should show an increase in the intervals by 1 line
++time every frame, not a fixed value), we can use it to detect the
++corrupt fields using a frame interval monitor. If the FIM detects a
++bad frame interval, the ipuX_csiY subdev will send the event
++V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR. Userland can register with
++the FIM event notification on the ipuX_csiY subdev device node.
++Userland can issue a streaming restart when this event is received
++to correct the rolling/split image.
++
++The ipuX_csiY subdev includes custom controls to tweak some dials for
++FIM. If one of these controls is changed during streaming, the FIM will
++be reset and will continue at the new settings.
++
++- V4L2_CID_IMX_FIM_ENABLE
++
++Enable/disable the FIM.
++
++- V4L2_CID_IMX_FIM_NUM
++
++How many frame interval measurements to average before comparing against
++the nominal frame interval reported by the sensor. This can reduce noise
++caused by interrupt latency.
++
++- V4L2_CID_IMX_FIM_TOLERANCE_MIN
++
++If the averaged intervals fall outside nominal by this amount, in
++microseconds, the V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR event is sent.
++
++- V4L2_CID_IMX_FIM_TOLERANCE_MAX
++
++If any intervals are higher than this value, those samples are
++discarded and do not enter into the average. This can be used to
++discard really high interval errors that might be due to interrupt
++latency from high system load.
++
++- V4L2_CID_IMX_FIM_NUM_SKIP
++
++How many frames to skip after a FIM reset or stream restart before
++FIM begins to average intervals.
++
++- V4L2_CID_IMX_FIM_ICAP_CHANNEL / V4L2_CID_IMX_FIM_ICAP_EDGE
++
++These controls will configure an input capture channel as the method
++for measuring frame intervals. This is superior to the default method
++of measuring frame intervals via EOF interrupt, since it is not subject
++to uncertainty errors introduced by interrupt latency.
++
++Input capture requires hardware support. A VSYNC signal must be routed
++to one of the i.MX6 input capture channel pads.
++
++V4L2_CID_IMX_FIM_ICAP_CHANNEL configures which i.MX6 input capture
++channel to use. This must be 0 or 1.
++
++V4L2_CID_IMX_FIM_ICAP_EDGE configures which signal edge will trigger
++input capture events. By default the input capture method is disabled
++with a value of IRQ_TYPE_NONE. Set this control to IRQ_TYPE_EDGE_RISING,
++IRQ_TYPE_EDGE_FALLING, or IRQ_TYPE_EDGE_BOTH to enable input capture,
++triggered on the given signal edge(s).
++
++When input capture is disabled, frame intervals will be measured via
++EOF interrupt.
 +
 +
-+MEYEIOC_QBUF_CAPT
-+	Queue a buffer for capture (the buffers must have been
-+	obtained with a VIDIOCGMBUF call and mmap'ed by the
-+	application). The argument to MEYEIOC_QBUF_CAPT is the
-+	buffer number to queue (or -1 to end capture). The first
-+	call to MEYEIOC_QBUF_CAPT starts the streaming capture.
++File list
++---------
 +
-+MEYEIOC_SYNC
-+	Takes as an argument the buffer number you want to sync.
-+	This ioctl blocks until the buffer is filled and ready
-+	for the application to use. It returns the buffer size.
++drivers/staging/media/imx/
++include/media/imx.h
++include/linux/imx-media.h
 +
-+MEYEIOC_STILLCAPT and MEYEIOC_STILLJCAPT
-+	Takes a snapshot in an uncompressed or compressed jpeg format.
-+	This ioctl blocks until the snapshot is done and returns (for
-+	jpeg snapshot) the size of the image. The image data is
-+	available from the first mmap'ed buffer.
 +
-+Look at the 'motioneye' application code for an actual example.
-diff --git a/Documentation/media/v4l-drivers/meye.rst b/Documentation/media/v4l-drivers/meye.rst
-index dc57a6a91b43..9098a1e65f8b 100644
---- a/Documentation/media/v4l-drivers/meye.rst
-+++ b/Documentation/media/v4l-drivers/meye.rst
-@@ -87,47 +87,6 @@ Usage:
- 	motioneye (<http://popies.net/meye/>)
- 		for getting ppm or jpg snapshots, mjpeg video
++Authors
++-------
++
++- Steve Longerbeam <steve_longerbeam@mentor.com>
++- Philipp Zabel <kernel@pengutronix.de>
++- Russell King <linux@armlinux.org.uk>
++
++Copyright (C) 2012-2017 Mentor Graphics Inc.
+diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
+index 1246573c1019..3182951c7651 100644
+--- a/Documentation/media/v4l-drivers/imx.rst
++++ b/Documentation/media/v4l-drivers/imx.rst
+@@ -191,14 +191,7 @@ or unqualified interlaced). The capture interface will enforce the same
+ field order as the source pad field order (interlaced-bt if source pad
+ is seq-bt, interlaced-tb if source pad is seq-tb).
  
--Private API
-------------
+-This subdev can generate the following event when enabling the second
+-IDMAC source pad:
 -
--The driver supports frame grabbing with the video4linux API,
--so all video4linux tools (like xawtv) should work with this driver.
+-- V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR
 -
--Besides the video4linux interface, the driver has a private interface
--for accessing the Motion Eye extended parameters (camera sharpness,
--agc, video framerate), the snapshot and the MJPEG capture facilities.
--
--This interface consists of several ioctls (prototypes and structures
--can be found in include/linux/meye.h):
--
--MEYEIOC_G_PARAMS and MEYEIOC_S_PARAMS
--	Get and set the extended parameters of the motion eye camera.
--	The user should always query the current parameters with
--	MEYEIOC_G_PARAMS, change what he likes and then issue the
--	MEYEIOC_S_PARAMS call (checking for -EINVAL). The extended
--	parameters are described by the meye_params structure.
--
--
--MEYEIOC_QBUF_CAPT
--	Queue a buffer for capture (the buffers must have been
--	obtained with a VIDIOCGMBUF call and mmap'ed by the
--	application). The argument to MEYEIOC_QBUF_CAPT is the
--	buffer number to queue (or -1 to end capture). The first
--	call to MEYEIOC_QBUF_CAPT starts the streaming capture.
--
--MEYEIOC_SYNC
--	Takes as an argument the buffer number you want to sync.
--	This ioctl blocks until the buffer is filled and ready
--	for the application to use. It returns the buffer size.
--
--MEYEIOC_STILLCAPT and MEYEIOC_STILLJCAPT
--	Takes a snapshot in an uncompressed or compressed jpeg format.
--	This ioctl blocks until the snapshot is done and returns (for
--	jpeg snapshot) the size of the image. The image data is
--	available from the first mmap'ed buffer.
--
--Look at the 'motioneye' application code for an actual example.
--
- Bugs / Todo
- -----------
+-The user application can subscribe to this event from the ipuX_csiY
+-subdev node. This event is generated by the Frame Interval Monitor
+-(see below for more on the FIM).
++For events produced by ipuX_csiY, see ref:`imx_api_ipuX_csiY`.
  
+ Cropping in ipuX_csiY
+ ---------------------
+@@ -247,84 +240,7 @@ rate by half at the IDMAC output source pad:
+ Frame Interval Monitor in ipuX_csiY
+ -----------------------------------
+ 
+-The adv718x decoders can occasionally send corrupt fields during
+-NTSC/PAL signal re-sync (too little or too many video lines). When
+-this happens, the IPU triggers a mechanism to re-establish vertical
+-sync by adding 1 dummy line every frame, which causes a rolling effect
+-from image to image, and can last a long time before a stable image is
+-recovered. Or sometimes the mechanism doesn't work at all, causing a
+-permanent split image (one frame contains lines from two consecutive
+-captured images).
+-
+-From experiment it was found that during image rolling, the frame
+-intervals (elapsed time between two EOF's) drop below the nominal
+-value for the current standard, by about one frame time (60 usec),
+-and remain at that value until rolling stops.
+-
+-While the reason for this observation isn't known (the IPU dummy
+-line mechanism should show an increase in the intervals by 1 line
+-time every frame, not a fixed value), we can use it to detect the
+-corrupt fields using a frame interval monitor. If the FIM detects a
+-bad frame interval, the ipuX_csiY subdev will send the event
+-V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR. Userland can register with
+-the FIM event notification on the ipuX_csiY subdev device node.
+-Userland can issue a streaming restart when this event is received
+-to correct the rolling/split image.
+-
+-The ipuX_csiY subdev includes custom controls to tweak some dials for
+-FIM. If one of these controls is changed during streaming, the FIM will
+-be reset and will continue at the new settings.
+-
+-- V4L2_CID_IMX_FIM_ENABLE
+-
+-Enable/disable the FIM.
+-
+-- V4L2_CID_IMX_FIM_NUM
+-
+-How many frame interval measurements to average before comparing against
+-the nominal frame interval reported by the sensor. This can reduce noise
+-caused by interrupt latency.
+-
+-- V4L2_CID_IMX_FIM_TOLERANCE_MIN
+-
+-If the averaged intervals fall outside nominal by this amount, in
+-microseconds, the V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR event is sent.
+-
+-- V4L2_CID_IMX_FIM_TOLERANCE_MAX
+-
+-If any intervals are higher than this value, those samples are
+-discarded and do not enter into the average. This can be used to
+-discard really high interval errors that might be due to interrupt
+-latency from high system load.
+-
+-- V4L2_CID_IMX_FIM_NUM_SKIP
+-
+-How many frames to skip after a FIM reset or stream restart before
+-FIM begins to average intervals.
+-
+-- V4L2_CID_IMX_FIM_ICAP_CHANNEL
+-- V4L2_CID_IMX_FIM_ICAP_EDGE
+-
+-These controls will configure an input capture channel as the method
+-for measuring frame intervals. This is superior to the default method
+-of measuring frame intervals via EOF interrupt, since it is not subject
+-to uncertainty errors introduced by interrupt latency.
+-
+-Input capture requires hardware support. A VSYNC signal must be routed
+-to one of the i.MX6 input capture channel pads.
+-
+-V4L2_CID_IMX_FIM_ICAP_CHANNEL configures which i.MX6 input capture
+-channel to use. This must be 0 or 1.
+-
+-V4L2_CID_IMX_FIM_ICAP_EDGE configures which signal edge will trigger
+-input capture events. By default the input capture method is disabled
+-with a value of IRQ_TYPE_NONE. Set this control to IRQ_TYPE_EDGE_RISING,
+-IRQ_TYPE_EDGE_FALLING, or IRQ_TYPE_EDGE_BOTH to enable input capture,
+-triggered on the given signal edge(s).
+-
+-When input capture is disabled, frame intervals will be measured via
+-EOF interrupt.
+-
++See ref:`imx_api_FIM`.
+ 
+ ipuX_vdic
+ ---------
+diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/media/v4l-drivers/index.rst
+index 364c65ea86fb..67665a8abe02 100644
+--- a/Documentation/media/v4l-drivers/index.rst
++++ b/Documentation/media/v4l-drivers/index.rst
+@@ -75,5 +75,6 @@ For more details see the file COPYING in the source distribution of Linux.
+ 	vimc-devel
+ 
+ 	cx2341x-uapi
++	imx-uapi
+ 	meye-uapi
+ 	omap3isp-uapi
 -- 
 2.24.1
 
