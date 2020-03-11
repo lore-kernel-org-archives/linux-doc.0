@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42269C33C84
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:47:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D292C33C89
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:47:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 15E52208E4
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:47:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D4962253D
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:47:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v/Zaf60v"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kGuexoqb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729479AbgCKMrE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Mar 2020 08:47:04 -0400
-Received: from mail-wm1-f47.google.com ([209.85.128.47]:55591 "EHLO
-        mail-wm1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729449AbgCKMq6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 08:46:58 -0400
-Received: by mail-wm1-f47.google.com with SMTP id 6so1931399wmi.5
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 05:46:57 -0700 (PDT)
+        id S1729493AbgCKMrH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Mar 2020 08:47:07 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39955 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729472AbgCKMrF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 08:47:05 -0400
+Received: by mail-wm1-f65.google.com with SMTP id e26so1954634wme.5
+        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 05:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3krMYkJ5TguiyRWERa/+CMYLcOJYUhlPd6t/ch8qqgQ=;
-        b=v/Zaf60vUqEkNfZdt1gJK9VC+hb3PZmmanEVWPvFm7vnZBA5ZwW1m4ZykGbhtwPbxS
-         WDb8SaSMRfYNq9MWw8D64WiMIUDABRqX0BpAT4ePCPBmBilmDeqovdmyjQQbeeinzjT3
-         dU7ZYFiTiptVbhWvRNSSwkbXuMm85b7zo3+WewNnxbyUAgpAYg6IacX7b8dZIsVjmoPL
-         ljKaqQwgtRwTqJbizGpaPcYht4A3xsbwTlrPglZUOAUbUiWXn8f1kPSnUL4oTeXCwx5a
-         HVG7oETbPqToLR4mHqQQfeuOcp3PJuFsthzK2H6yoTG+E5ivLt3KD6d/PuIk6kKoxhmV
-         ptdw==
+        bh=FfMBk8SLNbiqvSQTKNw5nVOwT2ukh4ZsyZ4CcWYi0pU=;
+        b=kGuexoqbuQJZfLJ6IRVhdgqXT2Li0ISoLXz0HBfWDMtpencXONYJHfL5BMvcPqfGns
+         KTLe7/XryQ8otcvTvvBmXsfwat0eWTcx2+S3AY+1GUovN8spX6q7o2ijMrTUu5CI7XZi
+         sXSmXpsBNPqNuYtOOjN0yT9WFBfYw8z72+I3JHP780/sn1m+qnJhj57OTTCF5Rl7VNbI
+         I7+Cx38sOpBfHpJyAtHR0EJE+EL+xYVzqLpK9UKTABDAepAg9uvq1mm+y1d2lHqjsV/o
+         5qIAXn96SgCfw69yQzALEut3rCN9yVu46I16Uc8TUdhIIoc5YfzmjtVW8PyrVvwzibNe
+         fBRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3krMYkJ5TguiyRWERa/+CMYLcOJYUhlPd6t/ch8qqgQ=;
-        b=TyOF7TLe/r+cFRrnkSTszRRzyCPkOvpfkOfzdQvYLWf081JefGmRLUkRkBj5vWeC15
-         +PeibrbYNem3JzLf/+H6TDVo6KFE55gsyPskkH0YGmjOi+6neA/QOyZMpyzlBePavkPY
-         8MgD07k/AQdtu5YqXVRgIBCKNMKPgGMRf8/GCfvd2Hk76sIQ1N4DmApL2N5hvF6/Vvw/
-         /dF9+Qc+0qbc4iYAs9E/Wgu8hV5oj4beY1ZFyty8+uMtRlbdXe7s7z3gUCpkouZ5XGCj
-         uhNXGG9+fIkfXZMEezcyEC5wzFu6tYWSRDdwtehGiH+oPiDmCTgl6CXy4WMxSULrPlIS
-         N+yw==
-X-Gm-Message-State: ANhLgQ0sVhq7Y/r1oHJ1h8/eEcVb1t15uICAvf+RBB8wZu9JtCdtS3qo
-        IbalvxU8fAJRWoOpBVt5E/OVV7LznBs=
-X-Google-Smtp-Source: ADFU+vt+OuMwfLSUXiB+t1SNAG3tC3rRy29ica+E537TLkfPGDuXQo1KUhGf31RO2GY8IfyREARQ2w==
-X-Received: by 2002:a1c:c3c3:: with SMTP id t186mr3842975wmf.118.1583930815804;
-        Wed, 11 Mar 2020 05:46:55 -0700 (PDT)
+        bh=FfMBk8SLNbiqvSQTKNw5nVOwT2ukh4ZsyZ4CcWYi0pU=;
+        b=qgVsCWnYUNeouRJsKYseVBfgimv91EiV9Q4CSKff5dzBXd7+UIArJ4OvlQUzXCXRjy
+         f0egVlCIQDLaxTflzGE93L3KlBmC1YqHYGgEFGSvvYSuvB6Jc8deMx92F31n5bAU94n1
+         OZk2rjjkJHQn3pDUf3o7ReE5fdVo0ZGcJI3Gxjd2Pw8TCYNsJM6TUOBCrAn1ekQtQU+a
+         Yj6p3WBPvLkhCocyYRj6S7dywHPOXjQFGCsceHDO7q77ICSE9fQORAEybsk2DhdK2wi/
+         Uh8cVjjPOvQXWeqsJ1xek0JZnInGo88xi98Ss8BTGIgt+NyJW3YeHsejGCpvlpFGV7DE
+         LAcQ==
+X-Gm-Message-State: ANhLgQ2NDRFNpi59V58yuNOyVG8+pun1t6KOkgWPb+qZRE1rR4jxUTn5
+        pLy2O5eGLGrTj6Yg25ATDQ9Vrg==
+X-Google-Smtp-Source: ADFU+vtntOL4brDxmDQGG6xeJrIuadRvitxT9k9QnLoTDiM4xzqU981cVjB7SKKNNlkYOG+EtlWXJA==
+X-Received: by 2002:a1c:5443:: with SMTP id p3mr3479986wmi.149.1583930823712;
+        Wed, 11 Mar 2020 05:47:03 -0700 (PDT)
 Received: from localhost.localdomain ([2001:171b:c9a8:fbc0:116c:c27a:3e7f:5eaf])
-        by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.46.54
+        by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.47.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 05:46:55 -0700 (PDT)
+        Wed, 11 Mar 2020 05:47:03 -0700 (PDT)
 From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
 To:     bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
         joro@8bytes.org, baolu.lu@linux.intel.com, sudeep.holla@arm.com,
@@ -64,11 +64,10 @@ Cc:     lorenzo.pieralisi@arm.com, corbet@lwn.net, mark.rutland@arm.com,
         liviu.dudau@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
         lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
         amurray@thegoodpenguin.co.uk, frowand.list@gmail.com,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 01/11] dt-bindings: PCI: generic: Add ats-supported property
-Date:   Wed, 11 Mar 2020 13:44:56 +0100
-Message-Id: <20200311124506.208376-2-jean-philippe@linaro.org>
+        Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: [PATCH v2 07/11] iommu/arm-smmu-v3: Use pci_ats_supported()
+Date:   Wed, 11 Mar 2020 13:45:02 +0100
+Message-Id: <20200311124506.208376-8-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200311124506.208376-1-jean-philippe@linaro.org>
 References: <20200311124506.208376-1-jean-philippe@linaro.org>
@@ -79,42 +78,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a way for firmware to tell the OS that ATS is supported by the PCI
-root complex. An endpoint with ATS enabled may send Translation Requests
-and Translated Memory Requests, which look just like Normal Memory
-Requests with a non-zero AT field. So a root controller that ignores the
-AT field may simply forward the request to the IOMMU as a Normal Memory
-Request, which could end badly. In any case, the endpoint will be
-unusable.
+The new pci_ats_supported() function checks if a device supports ATS and
+is allowed to use it.
 
-The ats-supported property allows the OS to only enable ATS in endpoints
-if the root controller can handle ATS requests. Only add the property to
-pcie-host-ecam-generic for the moment. For non-generic root controllers,
-availability of ATS can be inferred from the compatible string.
-
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- Documentation/devicetree/bindings/pci/host-generic-pci.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/iommu/arm-smmu-v3.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/pci/host-generic-pci.yaml b/Documentation/devicetree/bindings/pci/host-generic-pci.yaml
-index 47353d0cd394..7d40edd7f1ef 100644
---- a/Documentation/devicetree/bindings/pci/host-generic-pci.yaml
-+++ b/Documentation/devicetree/bindings/pci/host-generic-pci.yaml
-@@ -107,6 +107,12 @@ properties:
+diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
+index 4f0a38dae6db..87ae31ef35a1 100644
+--- a/drivers/iommu/arm-smmu-v3.c
++++ b/drivers/iommu/arm-smmu-v3.c
+@@ -2592,26 +2592,14 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
+ 	}
+ }
  
-   dma-coherent: true
+-#ifdef CONFIG_PCI_ATS
+ static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
+ {
+-	struct pci_dev *pdev;
++	struct device *dev = master->dev;
+ 	struct arm_smmu_device *smmu = master->smmu;
+-	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
+-
+-	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
+-	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
+-		return false;
  
-+  ats-supported:
-+    description:
-+      Indicates that a PCIe host controller supports ATS, and can handle Memory
-+      Requests with Address Type (AT).
-+    type: boolean
-+
- required:
-   - compatible
-   - reg
+-	pdev = to_pci_dev(master->dev);
+-	return !pdev->untrusted && pdev->ats_cap;
++	return (smmu->features & ARM_SMMU_FEAT_ATS) && dev_is_pci(dev) &&
++		pci_ats_supported(to_pci_dev(dev));
+ }
+-#else
+-static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
+-{
+-	return false;
+-}
+-#endif
+ 
+ static void arm_smmu_enable_ats(struct arm_smmu_master *master)
+ {
 -- 
 2.25.1
 
