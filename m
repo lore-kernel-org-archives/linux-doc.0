@@ -2,146 +2,170 @@ Return-Path: <SRS0=0k1m=44=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84869C10F27
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 13:21:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB945C2BB57
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 14:56:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 63610222D9
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 13:21:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 936EA2072F
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 14:56:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Xc7KTwBm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729530AbgCKNVD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Mar 2020 09:21:03 -0400
-Received: from mga12.intel.com ([192.55.52.136]:30445 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729345AbgCKNVC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Mar 2020 09:21:02 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 06:21:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,541,1574150400"; 
-   d="scan'208";a="389260038"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga004.jf.intel.com with ESMTP; 11 Mar 2020 06:20:56 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jC1IA-008k0b-2U; Wed, 11 Mar 2020 15:20:58 +0200
-Date:   Wed, 11 Mar 2020 15:20:58 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Guan Xuetao <gxt@pku.edu.cn>, Enrico Weigelt <info@metux.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Pragat Pandya <pragat.pandya@gmail.com>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: fix pointers to io-mapping.rst and io_ordering.rst
- files
-Message-ID: <20200311132058.GO1922688@smile.fi.intel.com>
-References: <c0205119db4fef536272cb0a183b6c14c2c8bf4c.1583927470.git.mchehab+huawei@kernel.org>
+        id S1729927AbgCKO4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Mar 2020 10:56:36 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35482 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729844AbgCKO4f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 10:56:35 -0400
+Received: by mail-ot1-f68.google.com with SMTP id k26so2267639otr.2
+        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 07:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ouxKLWRXOtqbKDl0q+UmOju78v5owF0LnUPYL3Cn3Kg=;
+        b=Xc7KTwBmSvnyR04w7xAsoM4QolF0XcaryYGGSqywW6r0XlqYx9XvikGX4w7bLlxxLJ
+         7Q9AwD+7i/TJ2mStAI9eb2ob9VCt6KgwBw+LR3gAYpgM3S9uQWoNLD+xlKhWnCsJiDsd
+         gQ/4BkYOpVHRSRCowJu6XRQFruet41lwL6gwC6z3ZSErV3n8O+X2f+eZSuo5E01C3UV8
+         tyeHf9B1wPr69eyCIlYMAQR5+WIsB75Z+R5FBKu1iRw02ws17iiqnH3dVPNo9lJU7J88
+         tpacvkSbf6Ri5ZPR6z68IF56hdGSxpTT8rbI4/vpexPf/ozipoU+b1l6PAcyKYZfa7Y6
+         rVAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ouxKLWRXOtqbKDl0q+UmOju78v5owF0LnUPYL3Cn3Kg=;
+        b=ECgrNNrokvCC60LQlAu9vDHmzCaX6ucC7bMoTOWR84bHqENDvjcSbaE9hwE/ycdRVq
+         5a+AbIXvSAn0JUkXZben9DQQ5bY1GkhAsBCJoBniFoy2DQijuO+NbPBSvAM7kszvCAVJ
+         uyDW/25WBAkeiSqvqMblvAaJH/DAENIl6fnqwJ2pfnqSd3Gsm1b18Hi4EMkBYNtJhpZH
+         lZiwTeJATxLnwUvzgxC3rNIDugqsRDolVum1OoMyCPLSHUYUsnpPK1QBk3NpxeMByvfV
+         G62yoySO8DHQL2cKMYzoAiwLqlo9HOKMkSafQCTl5hRARUoIOYyTK7+DmikuUZrSA/CS
+         Cwtg==
+X-Gm-Message-State: ANhLgQ0ZBiFiOL1YcOlZxMT3wZuCGieGjdv6hIvkCsPGoRe6u71OEQtH
+        DEjRFbMniE9y2Hi1JXl8XT5f13wgoUYB/6E8nYAlbQ==
+X-Google-Smtp-Source: ADFU+vsoVPEYUzYAEvw3qgsbNcHFvKCUWY2EnYgxb3/1wEn7Xj5CByupWPUTgv6N0jalxR0NpVo1qN7c0CgaHTbYtAA=
+X-Received: by 2002:a4a:a8c6:: with SMTP id r6mr553536oom.21.1583938593523;
+ Wed, 11 Mar 2020 07:56:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c0205119db4fef536272cb0a183b6c14c2c8bf4c.1583927470.git.mchehab+huawei@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <87r1y8dqqz.fsf@x220.int.ebiederm.org> <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org> <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87eeu25y14.fsf_-_@x220.int.ebiederm.org> <20200309195909.h2lv5uawce5wgryx@wittgenstein>
+ <877dztz415.fsf@x220.int.ebiederm.org> <20200309201729.yk5sd26v4bz4gtou@wittgenstein>
+ <87k13txnig.fsf@x220.int.ebiederm.org> <20200310085540.pztaty2mj62xt2nm@wittgenstein>
+ <87wo7svy96.fsf_-_@x220.int.ebiederm.org> <CAG48ez2cUZMVOAXfHPNjKjYsMSaWkjUjOCHo0KYZ+oXQUW4viA@mail.gmail.com>
+ <87k13sui1p.fsf@x220.int.ebiederm.org> <CAG48ez2vRgaEVJ=Rs8gn6HkGO6syL8MpSOUq7BNN+OUE1uYxCA@mail.gmail.com>
+ <CAG48ez1LjW1xAGe-5tNtstCWxG2bkiHaQUMOcJNjx=z-2Wc2Jw@mail.gmail.com>
+ <AM6PR03MB5170AF454A8A9C37891B12B2E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <5a8b2794-b498-af33-1327-ff2861cff83f@hotmail.de>
+In-Reply-To: <5a8b2794-b498-af33-1327-ff2861cff83f@hotmail.de>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 11 Mar 2020 15:56:07 +0100
+Message-ID: <CAG48ez33hx0NavmLub1QjzTw_DJuyRtkB71Mm35Hmp1x+DjmFA@mail.gmail.com>
+Subject: Re: [PATCH] pidfd: Stop taking cred_guard_mutex
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "adobriyan@gmail.com" <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "duyuyang@gmail.com" <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        "christian@kellner.me" <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "sargun@sargun.me" <sargun@sargun.me>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 11, 2020 at 12:51:17PM +0100, Mauro Carvalho Chehab wrote:
-> Those files got moved, but cross-references still point to the
-> wrong places.
+On Wed, Mar 11, 2020 at 7:12 AM Bernd Edlinger
+<bernd.edlinger@hotmail.de> wrote:
+> On 3/10/20 9:22 PM, Bernd Edlinger wrote:
+> > On 3/10/20 9:10 PM, Jann Horn wrote:
+> >> On Tue, Mar 10, 2020 at 9:00 PM Jann Horn <jannh@google.com> wrote:
+> >>> On Tue, Mar 10, 2020 at 8:29 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> >>>> Jann Horn <jannh@google.com> writes:
+> >>>>> On Tue, Mar 10, 2020 at 7:54 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> >>>>>> During exec some file descriptors are closed and the files struct is
+> >>>>>> unshared.  But all of that can happen at other times and it has the
+> >>>>>> same protections during exec as at ordinary times.  So stop taking the
+> >>>>>> cred_guard_mutex as it is useless.
+> >>>>>>
+> >>>>>> Furthermore he cred_guard_mutex is a bad idea because it is deadlock
+> >>>>>> prone, as it is held in serveral while waiting possibly indefinitely
+> >>>>>> for userspace to do something.
+> >> [...]
+> >>>>> If you make this change, then if this races with execution of a setuid
+> >>>>> program that afterwards e.g. opens a unix domain socket, an attacker
+> >>>>> will be able to steal that socket and inject messages into
+> >>>>> communication with things like DBus. procfs currently has the same
+> >>>>> race, and that still needs to be fixed, but at least procfs doesn't
+> >>>>> let you open things like sockets because they don't have a working
+> >>>>> ->open handler, and it enforces the normal permission check for
+> >>>>> opening files.
+> >>>>
+> >>>> It isn't only exec that can change credentials.  Do we need a lock for
+> >>>> changing credentials?
+> >> [...]
+> >>>> If we need a lock around credential change let's design and build that.
+> >>>> Having a mismatch between what a lock is designed to do, and what
+> >>>> people use it for can only result in other bugs as people get confused.
+> >>>
+> >>> Hmm... what benefits do we get from making it a separate lock? I guess
+> >>> it would allow us to make it a per-task lock instead of a
+> >>> signal_struct-wide one? That might be helpful...
+> >>
+> >> But actually, isn't the core purpose of the cred_guard_mutex to guard
+> >> against concurrent credential changes anyway? That's what almost
+> >> everyone uses it for, and it's in the name...
+> >>
+> >
+> > The main reason d'etre of exec_update_mutex is to get a consitent
+> > view of task->mm and task credentials.
+> > > The reason why you want the cred_guard_mutex, is that some action
+> > is changing the resulting credentials that the execve is about
+> > to install, and that is the data flow in the opposite direction.
+> >
+>
+> So in other words, you need the exec_update_mutex when you
+> access another thread's credentials and possibly the mmap at the
+> same time.
 
-FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Or the file descriptor table, or register state, ...
 
-> Fixes: fcd680727157 ("Documentation: Add io-mapping.rst to driver-api manual")
-> Fixes: d1ce350015d8 ("Documentation: Add io_ordering.rst to driver-api manual")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/PCI/pci.rst                        | 2 +-
->  Documentation/translations/zh_CN/io_ordering.txt | 4 ++--
->  arch/unicore32/include/asm/io.h                  | 2 +-
->  include/linux/io-mapping.h                       | 2 +-
->  4 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-> index 6864f9a70f5f..8c016d8c9862 100644
-> --- a/Documentation/PCI/pci.rst
-> +++ b/Documentation/PCI/pci.rst
-> @@ -239,7 +239,7 @@ from the PCI device config space. Use the values in the pci_dev structure
->  as the PCI "bus address" might have been remapped to a "host physical"
->  address by the arch/chip-set specific kernel support.
->  
-> -See Documentation/io-mapping.txt for how to access device registers
-> +See Documentation/driver-api/io-mapping.rst for how to access device registers
->  or device memory.
->  
->  The device driver needs to call pci_request_region() to verify
-> diff --git a/Documentation/translations/zh_CN/io_ordering.txt b/Documentation/translations/zh_CN/io_ordering.txt
-> index 1f8127bdd415..7bb3086227ae 100644
-> --- a/Documentation/translations/zh_CN/io_ordering.txt
-> +++ b/Documentation/translations/zh_CN/io_ordering.txt
-> @@ -1,4 +1,4 @@
-> -Chinese translated version of Documentation/io_ordering.txt
-> +Chinese translated version of Documentation/driver-api/io_ordering.rst
->  
->  If you have any comment or update to the content, please contact the
->  original document maintainer directly.  However, if you have a problem
-> @@ -8,7 +8,7 @@ or if there is a problem with the translation.
->  
->  Chinese maintainer: Lin Yongting <linyongting@gmail.com>
->  ---------------------------------------------------------------------
-> -Documentation/io_ordering.txt 的中文翻译
-> +Documentation/driver-api/io_ordering.rst 的中文翻译
->  
->  如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
->  交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-> diff --git a/arch/unicore32/include/asm/io.h b/arch/unicore32/include/asm/io.h
-> index 3ca74e1cde7d..bd4e7c332f85 100644
-> --- a/arch/unicore32/include/asm/io.h
-> +++ b/arch/unicore32/include/asm/io.h
-> @@ -27,7 +27,7 @@ extern void __uc32_iounmap(volatile void __iomem *addr);
->   * ioremap and friends.
->   *
->   * ioremap takes a PCI memory address, as specified in
-> - * Documentation/io-mapping.txt.
-> + * Documentation/driver-api/io-mapping.rst.
->   *
->   */
->  #define ioremap(cookie, size)		__uc32_ioremap(cookie, size)
-> diff --git a/include/linux/io-mapping.h b/include/linux/io-mapping.h
-> index 837058bc1c9f..b336622612f3 100644
-> --- a/include/linux/io-mapping.h
-> +++ b/include/linux/io-mapping.h
-> @@ -16,7 +16,7 @@
->   * The io_mapping mechanism provides an abstraction for mapping
->   * individual pages from an io device to the CPU in an efficient fashion.
->   *
-> - * See Documentation/io-mapping.txt
-> + * See Documentation/driver-api/io-mapping.rst
->   */
->  
->  struct io_mapping {
-> -- 
-> 2.24.1
-> 
+> You need no mutex at all when you are just accessing or
+> even changing the credentials of the current thread.  (If another
+> thread is doing execve, your task will be killed, and wether
+> or not the credentials were changed does not matter any more)
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Only if the only access checks you care about are those related to mm access.
