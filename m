@@ -2,136 +2,126 @@ Return-Path: <SRS0=0k1m=44=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A69B6C10F27
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:46:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CDBC18E5A
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:46:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8205021655
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:46:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36145208E4
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:46:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FXsN33Jo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729436AbgCKMq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729447AbgCKMq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 11 Mar 2020 08:46:56 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:54252 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729279AbgCKMqz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 08:46:55 -0400
-Received: from mail-wm1-f71.google.com ([209.85.128.71])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <gpiccoli@canonical.com>)
-        id 1jC0lB-0002tv-8Y
-        for linux-doc@vger.kernel.org; Wed, 11 Mar 2020 12:46:53 +0000
-Received: by mail-wm1-f71.google.com with SMTP id a23so857114wmm.8
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 05:46:53 -0700 (PDT)
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33522 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729434AbgCKMq4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 08:46:56 -0400
+Received: by mail-wr1-f67.google.com with SMTP id a25so2460804wrd.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 05:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9aHr7/EWopa+d5MVT7UWPgRiU9Syfo6iTheTFisLSBg=;
+        b=FXsN33JoJealTXC3dRRue6HkzhWSIRjvlNRUP49llb/Tp1/P6LLbWK2WENByBzb932
+         Vi1Fg8Ri+qgxJrwy5zjp/NXrbWtEhuMkRTQj1X4R9I44S53W3vZuVYp8IrCbYVblbQ3t
+         O28JXtBnjgkZqXtJcIVINkr/xuwcmJ4AcO+2ctUVBEJKMuSZEV7wYUoSaD3Zco3ZO7q/
+         ujjg+wfK4m1DiebSFJn9cbZqflg/q7DAWj/98GahfRpw7xqn470ERyL3IPCqRQQaQIB0
+         0zSlrkdrriSBVsPOQ4i+h5gPOwW+U83Jz9SjjpEDyMiKdpx/YTRM4O6K6sHqODrD7YCC
+         shxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=tvJQ44fhgXDdQWn9cAVor3F6zkLzPnJd2Xj0RCMCHmY=;
-        b=RMFDSN+PfqEx4OP5ozNzeK58pRgWSUTvwu0zYdevKjXSVdp+YvDgL9PL2iHfJ66B1H
-         zbNxP2kDblEbYIko5TIagCDBv/nWPMtn5c2bIAVPI78hERgj3p2srndK/6ijcVR0j8Ak
-         9ykIYvUIWvZY5o8dPnD3ZKXkSwHWYQHYPvNNBBpoBuY9YXIXKVcDifslE+xppQW3uzyR
-         /tlRF5Ve5x+eSgBOwgrcms8VIJoAaYCaQeKG6i/QziN+GgDhyIsAfj+jznxHIchPGuvl
-         Yk+XHgl7UCjJblfPtOKtIn2ewn7f5oSL1Z8GuSNa77p/EUDF3Cm2dXZr4dngYzH1OWI1
-         SGyg==
-X-Gm-Message-State: ANhLgQ1zDISMIdoq6h2a7sdGYvyQrqeW7bZj8qWvkVgkPkdvLcbCPTr3
-        BKXcvZDoUI1II89FaAo6Jiv/1W+yorn3X5FKJO2oFAyP/Ry6g/MqkPNrQRVQo6yLhD6LLPArueA
-        e1V9Jofju+gc9ck9jh0/uEJEA3h2EUy52abNwUA==
-X-Received: by 2002:adf:a4d2:: with SMTP id h18mr4479062wrb.90.1583930812954;
-        Wed, 11 Mar 2020 05:46:52 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtAy92hJw4Au2IdrMrzzgrgGedx1iAVmYY2M7Bh+NAeJKr0TODVlWeXtDrPpdu/KAZGYTygCg==
-X-Received: by 2002:adf:a4d2:: with SMTP id h18mr4479040wrb.90.1583930812703;
-        Wed, 11 Mar 2020 05:46:52 -0700 (PDT)
-Received: from [192.168.1.75] (189-47-87-73.dsl.telesp.net.br. [189.47.87.73])
-        by smtp.gmail.com with ESMTPSA id b5sm28652028wrj.1.2020.03.11.05.46.49
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Mar 2020 05:46:51 -0700 (PDT)
-Subject: Re: [PATCH] panic: Add sysctl/cmdline to dump all CPUs backtraces on
- oops event
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        tglx@linutronix.de, kernel@gpiccoli.net
-References: <20200310163700.19186-1-gpiccoli@canonical.com>
- <93f20e59-41b1-48ad-b0eb-e670b18994d5@infradead.org>
- <20200310182647.59f6ea73aad3aca619065f1e@linux-foundation.org>
-From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=gpiccoli@canonical.com; prefer-encrypt=mutual; keydata=
- mQENBFpVBxcBCADPNKmu2iNKLepiv8+Ssx7+fVR8lrL7cvakMNFPXsXk+f0Bgq9NazNKWJIn
- Qxpa1iEWTZcLS8ikjatHMECJJqWlt2YcjU5MGbH1mZh+bT3RxrJRhxONz5e5YILyNp7jX+Vh
- 30rhj3J0vdrlIhPS8/bAt5tvTb3ceWEic9mWZMsosPavsKVcLIO6iZFlzXVu2WJ9cov8eQM/
- irIgzvmFEcRyiQ4K+XUhuA0ccGwgvoJv4/GWVPJFHfMX9+dat0Ev8HQEbN/mko/bUS4Wprdv
- 7HR5tP9efSLucnsVzay0O6niZ61e5c97oUa9bdqHyApkCnGgKCpg7OZqLMM9Y3EcdMIJABEB
- AAG0LUd1aWxoZXJtZSBHLiBQaWNjb2xpIDxncGljY29saUBjYW5vbmljYWwuY29tPokBNwQT
- AQgAIQUCWmClvQIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDOR5EF9K/7Gza3B/9d
- 5yczvEwvlh6ksYq+juyuElLvNwMFuyMPsvMfP38UslU8S3lf+ETukN1S8XVdeq9yscwtsRW/
- 4YoUwHinJGRovqy8gFlm3SAtjfdqysgJqUJwBmOtcsHkmvFXJmPPGVoH9rMCUr9s6VDPox8f
- q2W5M7XE9YpsfchS/0fMn+DenhQpV3W6pbLtuDvH/81GKrhxO8whSEkByZbbc+mqRhUSTdN3
- iMpRL0sULKPVYbVMbQEAnfJJ1LDkPqlTikAgt3peP7AaSpGs1e3pFzSEEW1VD2jIUmmDku0D
- LmTHRl4t9KpbU/H2/OPZkrm7809QovJGRAxjLLPcYOAP7DUeltveuQENBFpVBxcBCADbxD6J
- aNw/KgiSsbx5Sv8nNqO1ObTjhDR1wJw+02Bar9DGuFvx5/qs3ArSZkl8qX0X9Vhptk8rYnkn
- pfcrtPBYLoux8zmrGPA5vRgK2ItvSc0WN31YR/6nqnMfeC4CumFa/yLl26uzHJa5RYYQ47jg
- kZPehpc7IqEQ5IKy6cCKjgAkuvM1rDP1kWQ9noVhTUFr2SYVTT/WBHqUWorjhu57/OREo+Tl
- nxI1KrnmW0DbF52tYoHLt85dK10HQrV35OEFXuz0QPSNrYJT0CZHpUprkUxrupDgkM+2F5LI
- bIcaIQ4uDMWRyHpDbczQtmTke0x41AeIND3GUc+PQ4hWGp9XABEBAAGJAR8EGAEIAAkFAlpV
- BxcCGwwACgkQzkeRBfSv+xv1wwgAj39/45O3eHN5pK0XMyiRF4ihH9p1+8JVfBoSQw7AJ6oU
- 1Hoa+sZnlag/l2GTjC8dfEGNoZd3aRxqfkTrpu2TcfT6jIAsxGjnu+fUCoRNZzmjvRziw3T8
- egSPz+GbNXrTXB8g/nc9mqHPPprOiVHDSK8aGoBqkQAPZDjUtRwVx112wtaQwArT2+bDbb/Y
- Yh6gTrYoRYHo6FuQl5YsHop/fmTahpTx11IMjuh6IJQ+lvdpdfYJ6hmAZ9kiVszDF6pGFVkY
- kHWtnE2Aa5qkxnA2HoFpqFifNWn5TyvJFpyqwVhVI8XYtXyVHub/WbXLWQwSJA4OHmqU8gDl
- X18zwLgdiQ==
-Message-ID: <64a6c1c0-9514-e823-3507-a131c7daa578@canonical.com>
-Date:   Wed, 11 Mar 2020 09:46:45 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9aHr7/EWopa+d5MVT7UWPgRiU9Syfo6iTheTFisLSBg=;
+        b=p+hW5hJBhLRnPeXdZnye385nFHLvh+ojuFzwR4DmDgPXQuK57HQP1TTvc7MSXFHVMR
+         JnXPIytPv3EfXao89SnlIl8nbY7X8jniFs3VkD1bpT8yuOoYLoIKysb21i3QCUIY3P5A
+         w2SQwLjPUSm9/SYp/0+b8EGVLZPgDdvkMvFHmPNWTXrkqtAT3/rHUv1Yz12pCClM1qTI
+         gFh/44umk+ZJXJPFAfJhbPKkcKj9Wo26T0P4ZJCpXpumNstKHAw6MUuy2mpGFoc8M9zA
+         FfW0Ns+J9usJ9nO3ftZNg7Jj5YZwUAR5CU7pJ+KcmU3XV7PpkLGe0ZEVuwMPmbexu7Qo
+         mLjw==
+X-Gm-Message-State: ANhLgQ3IR9w1x1w9bZ35vx2KBAbqZwHPLetdKN8HX0wiCmezfztKgr/J
+        S/i+Po6ng2cwPqDQVtxZH9VjNQ==
+X-Google-Smtp-Source: ADFU+vvLjmlfZFee1kgQb0ezvJQIIb3y7DZjOUpYxqDYvVtYVhI9wjUkV+NDFpgxKBOntX41muaOsw==
+X-Received: by 2002:adf:bb81:: with SMTP id q1mr4344011wrg.110.1583930814354;
+        Wed, 11 Mar 2020 05:46:54 -0700 (PDT)
+Received: from localhost.localdomain ([2001:171b:c9a8:fbc0:116c:c27a:3e7f:5eaf])
+        by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.46.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2020 05:46:53 -0700 (PDT)
+From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
+To:     bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
+        joro@8bytes.org, baolu.lu@linux.intel.com, sudeep.holla@arm.com,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org
+Cc:     lorenzo.pieralisi@arm.com, corbet@lwn.net, mark.rutland@arm.com,
+        liviu.dudau@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
+        lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
+        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: [PATCH v2 00/11] PCI/ATS: Device-tree support and other improvements
+Date:   Wed, 11 Mar 2020 13:44:55 +0100
+Message-Id: <20200311124506.208376-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200310182647.59f6ea73aad3aca619065f1e@linux-foundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/03/2020 22:26, Andrew Morton wrote:
-> On Tue, 10 Mar 2020 13:59:15 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
-> 
->>> +oops_all_cpu_backtrace:
->>> +================
->>> +
->>> +Determines if kernel should NMI all CPUs to dump their backtraces when
->>
->> I would much prefer that to be written without using NMI as a verb.
-> 
-> "Non maskably interrupt" ;)
-> 
-> I think it's OK.  Concise and the meaning is clear.
+Enable ATS on device-tree based systems, and factor the common ATS
+enablement checks into pci_enable_ats().
 
-Hi Andrew, good idea heheh
-Thank you and all that reviewed the grammar/wording, certainly I can
-change that and resubmit.
+Since v1 [1] I added acks and review tags, simplified patch 3 and tried
+to clarify the comment in patch 2.
 
+I'd like acks or comments on the following patches:
+* PCI on patches 2, 3 and 5
+* Arm SMMUv3 on patch 7
+* Intel VT-d on patch 8
+* arm64 DT on patch 10 
 
-> 
-> 
-> Why do we need the kernel boot parameter?  Isn't
-> /proc/sys/kernel/oops_all_cpu_backtrace sufficient?
-> 
+Thanks,
+Jean
 
-I kept the kernel parameter as a consistency thing - every sysctl
-"*_all_cpubacktrace" has a respective kernel parameter, so I did the
-same (and if we get an oops booting a new kernel, this is maybe useful
-depending on the point we get the oops). But if it's a problem for you,
-I can remove the kernel parameter, your choice.
+[1] https://lore.kernel.org/linux-iommu/20200213165049.508908-1-jean-philippe@linaro.org/
 
-Cheers,
+Jean-Philippe Brucker (11):
+  dt-bindings: PCI: generic: Add ats-supported property
+  PCI: Add ats_supported host bridge flag
+  PCI: OF: Check whether the host bridge supports ATS
+  ACPI/IORT: Check ATS capability in root complex node
+  PCI/ATS: Gather checks into pci_ats_supported()
+  iommu/amd: Use pci_ats_supported()
+  iommu/arm-smmu-v3: Use pci_ats_supported()
+  iommu/vt-d: Use pci_ats_supported()
+  ACPI/IORT: Drop ATS fwspec flag
+  arm64: dts: fast models: Enable PCIe ATS for Base RevC FVP
+  Documentation: Generalize the "pci=noats" boot parameter
 
+ .../admin-guide/kernel-parameters.txt         |  4 +-
+ .../bindings/pci/host-generic-pci.yaml        |  6 +++
+ arch/arm64/boot/dts/arm/fvp-base-revc.dts     |  1 +
+ drivers/acpi/arm64/iort.c                     | 38 +++++++++++++------
+ drivers/acpi/pci_root.c                       |  3 ++
+ drivers/iommu/amd_iommu.c                     | 12 ++----
+ drivers/iommu/arm-smmu-v3.c                   | 18 ++-------
+ drivers/iommu/intel-iommu.c                   |  9 ++---
+ drivers/pci/ats.c                             | 30 ++++++++++++++-
+ drivers/pci/controller/pci-host-common.c      | 11 ++++++
+ drivers/pci/probe.c                           |  8 ++++
+ include/linux/acpi_iort.h                     |  8 ++++
+ include/linux/iommu.h                         |  4 --
+ include/linux/pci-ats.h                       |  3 ++
+ include/linux/pci.h                           |  1 +
+ 15 files changed, 109 insertions(+), 47 deletions(-)
 
-Guilherme
+-- 
+2.25.1
+
