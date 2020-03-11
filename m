@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F1C5C33C82
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:47:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13893C2BB57
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:47:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 75899222D9
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:47:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5D1722527
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 12:47:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MjFUpxHp"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bM45cSb5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729384AbgCKMrC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Mar 2020 08:47:02 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:54384 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729471AbgCKMrC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 08:47:02 -0400
-Received: by mail-wm1-f68.google.com with SMTP id n8so1931600wmc.4
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 05:47:01 -0700 (PDT)
+        id S1729483AbgCKMrG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Mar 2020 08:47:06 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39236 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729481AbgCKMrF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 08:47:05 -0400
+Received: by mail-wr1-f66.google.com with SMTP id r15so2441621wrx.6
+        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 05:47:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=b6OCZpMX/zgjbiuYOZTv/yFn5g+Ml1pLP7pmNaB6uOk=;
-        b=MjFUpxHpBskH8AZCa8gyvEeUFGWD8nE+I7Ccpw5x/EXEZNlkDfyhMtLIM9pIzDpMVv
-         yv0WXrEyAyadtJ8laExtvI33SAK/Yj/XjyQUF33QkNa3LaJWSWjjXypqpRKmE99YyjLb
-         Kzy38i8AKYH4slxDJSkaJhQqvJ0EyrgpZHy986v4LgMtDJY23CAifDPwM90WBTpJll1C
-         aCNKlrXt1hD1ylm12EIODmL0J+kS46opQN5Wu90Eqk0d9OEv7vwJtW1G2hoWdmN9jEBN
-         PsbTfgKubpyqXHQuVx5zuV7EXMF/qnMdkHydeM2T9wWjSBiZg5D3b6eUELp4nBntbfqe
-         BObw==
+        bh=VY7nWjSoNMWvNd0g+xzvWepeHfbATP8qtCHjDYePPIE=;
+        b=bM45cSb5Ozho2TEVIim6lgIlvJ17mCR4C+CsT0Pimx9uxnQtSRpiekb7vk+z4TyBsg
+         i7bCTVuOPTtPUnD2gS9GnmKQttH1xBdYZqnq7yaTFWf44UtlBDgeGi2Es8eKBPIPPPDW
+         LkYcp3rebBLLDqlaAmYWvqR8k6Z0HKttNv5g+FX0w3DwWT8V2qEp9TbR7xK1Xs2Xfv7w
+         rCLokPC198gIy+yenj4tR9bAAp9qsRBLynUJuCnGQmJE3DnkPLxWi3/fYa7x3rTRXbVT
+         dl0hIDgEYGiTAMo+9g7A7MoDCl4F6e3beKsqThLrOGkIuYk7YRvTsfD3H2hnQqzrnbmn
+         0SjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=b6OCZpMX/zgjbiuYOZTv/yFn5g+Ml1pLP7pmNaB6uOk=;
-        b=jhNCJk12+mVq58bePAUvd7BtFHYCx6U5KKuwjtUv3LtI04em6kNwHKonI2raaW0nAJ
-         /mfFEioBzaxXLraQRIfvhhpFOvcchLyhuLAjmt1N5PZEeSmUYLQQvt+1HS9cHD2GqKme
-         7tMN5oB+SZh+fj85AmFNMV5NiX3gVjzFEbD8LmubBzLrh/sVgvKPeMsNfG46c7s4gPjm
-         sUjGmoybjqApKzlAKmSthQ/8A7EaY1ezKgWC//wRHfRbUIXndcKUmVFEVbiZw1HXFtpr
-         tqBQNGk6hQhOx/cExGZMLROd0RsdUm0VF2T2sd377ExKAXQXfXf2WEKEtsR30dAMFV7B
-         xyRw==
-X-Gm-Message-State: ANhLgQ1IdpsajIv82kaZYPHJD9xdcKkncPROQ2Tm/4OogIvX/WmGqCP6
-        iLNIeOamslf8qINhOFT9Ptwgzw==
-X-Google-Smtp-Source: ADFU+vtkHVanNQvPFzQ2zU8Odytq9w4wgEuuvipDqHybssyuXsKZkeB4j+7vEMafMywcklgaRLR7SA==
-X-Received: by 2002:a7b:c414:: with SMTP id k20mr3677774wmi.119.1583930820944;
-        Wed, 11 Mar 2020 05:47:00 -0700 (PDT)
+        bh=VY7nWjSoNMWvNd0g+xzvWepeHfbATP8qtCHjDYePPIE=;
+        b=bRc5zXqlBFtuLG+rtWsce2jnKZRuFaSJmoR+iSXImVMFcoLVJu7Is5XyHOWzXDemoo
+         Y3Rx3vBFOmG6dw74D3WfcHWIhEPFM9R2wctLp47YG3Jhn9vyw82xlNSadMlnilv7B/DH
+         Csio8UtcQmqo5/fKT+xA37kgWk7JbBFua759np8CxQyLPLQT72ajWPxNq+QEPP5knaeX
+         Obrh9fALmz+/2LTvFwL+d1rkvc/zSIcxeZhAT0pV2iP0WzVzGbvKq14HCHysAUPoLCnO
+         38pF0s81mTJ6LJSBGiFIxtU87FEesdFb86oTkBBhLPC0eV48u8YvBp5Xdkj0dwNit6aC
+         ej1g==
+X-Gm-Message-State: ANhLgQ1T96V30YjfCetaUYMjxVUrK1uyU4lxumkOhdjJKnUpr/4+tAKD
+        rkvHyinN/iPhiHBZc9szruztnA==
+X-Google-Smtp-Source: ADFU+vvwMGkHBLCwyNQwQal6X/GbzQAYuf8900S7rXGVFBA3Oqi6Q9GIzMLJrx/FlXi4IXLOUR1+0A==
+X-Received: by 2002:a5d:6591:: with SMTP id q17mr4218053wru.22.1583930822453;
+        Wed, 11 Mar 2020 05:47:02 -0700 (PDT)
 Received: from localhost.localdomain ([2001:171b:c9a8:fbc0:116c:c27a:3e7f:5eaf])
-        by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.46.59
+        by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.47.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 05:47:00 -0700 (PDT)
+        Wed, 11 Mar 2020 05:47:01 -0700 (PDT)
 From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
 To:     bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
         joro@8bytes.org, baolu.lu@linux.intel.com, sudeep.holla@arm.com,
@@ -65,9 +65,9 @@ Cc:     lorenzo.pieralisi@arm.com, corbet@lwn.net, mark.rutland@arm.com,
         lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
         amurray@thegoodpenguin.co.uk, frowand.list@gmail.com,
         Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH v2 05/11] PCI/ATS: Gather checks into pci_ats_supported()
-Date:   Wed, 11 Mar 2020 13:45:00 +0100
-Message-Id: <20200311124506.208376-6-jean-philippe@linaro.org>
+Subject: [PATCH v2 06/11] iommu/amd: Use pci_ats_supported()
+Date:   Wed, 11 Mar 2020 13:45:01 +0100
+Message-Id: <20200311124506.208376-7-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200311124506.208376-1-jean-philippe@linaro.org>
 References: <20200311124506.208376-1-jean-philippe@linaro.org>
@@ -78,91 +78,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-IOMMU drivers need to perform several tests when checking if a device
-supports ATS.  Move them all into a new function that returns true when
-a device and its host bridge support ATS.
-
-Since pci_enable_ats() now calls pci_ats_supported(), the following
-new checks are now common:
-* whether a device is trusted.  Devices plugged into external-facing
-  ports such as thunderbolt are untrusted.
-* whether the host bridge supports ATS, which defaults to true unless
-  the firmware description states that ATS isn't supported by the host
-  bridge.
+The pci_ats_supported() function checks if a device supports ATS and is
+allowed to use it.  In addition to checking that the device has an ATS
+capability and that the global pci=noats is not set
+(pci_ats_disabled()), it also checks if a device is untrusted (plugged
+into an external-facing port such as thunderbolt).
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/pci/ats.c       | 30 +++++++++++++++++++++++++++++-
- include/linux/pci-ats.h |  3 +++
- 2 files changed, 32 insertions(+), 1 deletion(-)
+ drivers/iommu/amd_iommu.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
-index 390e92f2d8d1..bbfd0d42b8b9 100644
---- a/drivers/pci/ats.c
-+++ b/drivers/pci/ats.c
-@@ -30,6 +30,34 @@ void pci_ats_init(struct pci_dev *dev)
- 	dev->ats_cap = pos;
- }
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index aac132bd1ef0..084f0b2e132e 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -291,16 +291,15 @@ static struct iommu_group *acpihid_device_group(struct device *dev)
+ static bool pci_iommuv2_capable(struct pci_dev *pdev)
+ {
+ 	static const int caps[] = {
+-		PCI_EXT_CAP_ID_ATS,
+ 		PCI_EXT_CAP_ID_PRI,
+ 		PCI_EXT_CAP_ID_PASID,
+ 	};
+ 	int i, pos;
  
-+/**
-+ * pci_ats_supported - check if the device can use ATS
-+ * @dev: the PCI device
-+ *
-+ * Returns true if the device supports ATS and is allowed to use it, false
-+ * otherwise.
-+ */
-+bool pci_ats_supported(struct pci_dev *dev)
-+{
-+	struct pci_host_bridge *bridge;
-+
-+	if (!dev->ats_cap)
-+		return false;
-+
-+	if (dev->untrusted)
-+		return false;
-+
-+	bridge = pci_find_host_bridge(dev->bus);
-+	if (!bridge)
-+		return false;
-+
-+	if (!bridge->ats_supported)
-+		return false;
-+
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(pci_ats_supported);
-+
- /**
-  * pci_enable_ats - enable the ATS capability
-  * @dev: the PCI device
-@@ -42,7 +70,7 @@ int pci_enable_ats(struct pci_dev *dev, int ps)
- 	u16 ctrl;
- 	struct pci_dev *pdev;
+-	if (pci_ats_disabled())
++	if (!pci_ats_supported(pdev))
+ 		return false;
  
--	if (!dev->ats_cap)
-+	if (!pci_ats_supported(dev))
- 		return -EINVAL;
+-	for (i = 0; i < 3; ++i) {
++	for (i = 0; i < 2; ++i) {
+ 		pos = pci_find_ext_capability(pdev, caps[i]);
+ 		if (pos == 0)
+ 			return false;
+@@ -3040,11 +3039,8 @@ int amd_iommu_device_info(struct pci_dev *pdev,
  
- 	if (WARN_ON(dev->ats_enabled))
-diff --git a/include/linux/pci-ats.h b/include/linux/pci-ats.h
-index d08f0869f121..f75c307f346d 100644
---- a/include/linux/pci-ats.h
-+++ b/include/linux/pci-ats.h
-@@ -6,11 +6,14 @@
+ 	memset(info, 0, sizeof(*info));
  
- #ifdef CONFIG_PCI_ATS
- /* Address Translation Service */
-+bool pci_ats_supported(struct pci_dev *dev);
- int pci_enable_ats(struct pci_dev *dev, int ps);
- void pci_disable_ats(struct pci_dev *dev);
- int pci_ats_queue_depth(struct pci_dev *dev);
- int pci_ats_page_aligned(struct pci_dev *dev);
- #else /* CONFIG_PCI_ATS */
-+static inline bool pci_ats_supported(struct pci_dev *d)
-+{ return false; }
- static inline int pci_enable_ats(struct pci_dev *d, int ps)
- { return -ENODEV; }
- static inline void pci_disable_ats(struct pci_dev *d) { }
+-	if (!pci_ats_disabled()) {
+-		pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_ATS);
+-		if (pos)
+-			info->flags |= AMD_IOMMU_DEVICE_FLAG_ATS_SUP;
+-	}
++	if (pci_ats_supported(pdev))
++		info->flags |= AMD_IOMMU_DEVICE_FLAG_ATS_SUP;
+ 
+ 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PRI);
+ 	if (pos)
 -- 
 2.25.1
 
