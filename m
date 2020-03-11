@@ -7,165 +7,102 @@ X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB945C2BB57
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 14:56:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B8C8C2BAEE
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 17:46:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 936EA2072F
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 14:56:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0DF12073E
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 17:46:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Xc7KTwBm"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bkrnUftX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729927AbgCKO4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Mar 2020 10:56:36 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:35482 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729844AbgCKO4f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 10:56:35 -0400
-Received: by mail-ot1-f68.google.com with SMTP id k26so2267639otr.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 07:56:34 -0700 (PDT)
+        id S1730453AbgCKRqx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Mar 2020 13:46:53 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:36979 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730505AbgCKRqx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 13:46:53 -0400
+Received: by mail-lj1-f195.google.com with SMTP id r24so3343150ljd.4
+        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 10:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ouxKLWRXOtqbKDl0q+UmOju78v5owF0LnUPYL3Cn3Kg=;
-        b=Xc7KTwBmSvnyR04w7xAsoM4QolF0XcaryYGGSqywW6r0XlqYx9XvikGX4w7bLlxxLJ
-         7Q9AwD+7i/TJ2mStAI9eb2ob9VCt6KgwBw+LR3gAYpgM3S9uQWoNLD+xlKhWnCsJiDsd
-         gQ/4BkYOpVHRSRCowJu6XRQFruet41lwL6gwC6z3ZSErV3n8O+X2f+eZSuo5E01C3UV8
-         tyeHf9B1wPr69eyCIlYMAQR5+WIsB75Z+R5FBKu1iRw02ws17iiqnH3dVPNo9lJU7J88
-         tpacvkSbf6Ri5ZPR6z68IF56hdGSxpTT8rbI4/vpexPf/ozipoU+b1l6PAcyKYZfa7Y6
-         rVAg==
+        bh=mlpzXRhsMRDH1YY7GqVuVp0TT22uI+TLEFO2W2lrSms=;
+        b=bkrnUftXBQZT9mtbI/EX+cveDpBLPJw5YgtyI66gzgie3phE0v0QHsOzjvTZVZ9Sk5
+         LZ2SeHAHTgtVv59iU8D+Q7y72uG/GpzZXa2WL2mVl0sVqSY9OOVxXTrzzW8TJ3QRqwR9
+         D3x7FIW1oNXUbRu0geCKaQRCITuGpqDhunFslSWLg1b6t8soT29RKgj1UEZczzHuamxP
+         yr+uoZzFijDhwi/CPUOKKeXaPBi1t9Y7X22XObnK9HSc8gmO1V2npZZUMOpOPRT7DKRu
+         Erbbj3Pp4Dkg6QYdOABx0A91KfBGxJP1nWbHQGaUBWPLpbU60f66M0QrmL1Q2AQsT5hk
+         kJMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ouxKLWRXOtqbKDl0q+UmOju78v5owF0LnUPYL3Cn3Kg=;
-        b=ECgrNNrokvCC60LQlAu9vDHmzCaX6ucC7bMoTOWR84bHqENDvjcSbaE9hwE/ycdRVq
-         5a+AbIXvSAn0JUkXZben9DQQ5bY1GkhAsBCJoBniFoy2DQijuO+NbPBSvAM7kszvCAVJ
-         uyDW/25WBAkeiSqvqMblvAaJH/DAENIl6fnqwJ2pfnqSd3Gsm1b18Hi4EMkBYNtJhpZH
-         lZiwTeJATxLnwUvzgxC3rNIDugqsRDolVum1OoMyCPLSHUYUsnpPK1QBk3NpxeMByvfV
-         G62yoySO8DHQL2cKMYzoAiwLqlo9HOKMkSafQCTl5hRARUoIOYyTK7+DmikuUZrSA/CS
-         Cwtg==
-X-Gm-Message-State: ANhLgQ0ZBiFiOL1YcOlZxMT3wZuCGieGjdv6hIvkCsPGoRe6u71OEQtH
-        DEjRFbMniE9y2Hi1JXl8XT5f13wgoUYB/6E8nYAlbQ==
-X-Google-Smtp-Source: ADFU+vsoVPEYUzYAEvw3qgsbNcHFvKCUWY2EnYgxb3/1wEn7Xj5CByupWPUTgv6N0jalxR0NpVo1qN7c0CgaHTbYtAA=
-X-Received: by 2002:a4a:a8c6:: with SMTP id r6mr553536oom.21.1583938593523;
- Wed, 11 Mar 2020 07:56:33 -0700 (PDT)
+        bh=mlpzXRhsMRDH1YY7GqVuVp0TT22uI+TLEFO2W2lrSms=;
+        b=PSTeBM7CJpkWOx4jgeAaGmuf9NbxJ8+eJZWIF+7VV5fSribTuPVeGvAgbVcfvQC28C
+         2OE+4sZIKQJVguvA1NdY3Wnshf+J3w1F+IdE+NshROew95zdsBBUve2suAPlmzNTHHK0
+         O7kIMIo/ia+gqnqsQfbaV7e7LR3ypfU3yaimgAFU/QNeA+7mkcAJ7+tEoI0EgeSU92kN
+         LnFGnGfCeu2RoGwzxdp+qmhmDoOt8i9PML09bD2eHJ7WzZ+vw4uDjDrC2L9xgm0g2Xfc
+         t6HWBLHTCP7UXaMHnNTgIE3G1quyMfUrFgUt27N5Nxg3497wRBeDnP7XtGQHUmW512pD
+         DhKA==
+X-Gm-Message-State: ANhLgQ3PEzzKk3nfwbc1I7NYWtiB4V3VONFK4IRP/VeCQZqxULrYmnRH
+        IhtxShP/5gz/MWkotjo9Bqf75sZvhZPom3A4SCUPTQ==
+X-Google-Smtp-Source: ADFU+vuv+Ke3zgGZnAERPw2KandsCR0n/RBp6MbjM/E+G39q41RYqt5YG3ZNzNUI16R+eGmxfkbQj35WzkWRmnMEg4Q=
+X-Received: by 2002:a2e:800a:: with SMTP id j10mr2690722ljg.23.1583948811038;
+ Wed, 11 Mar 2020 10:46:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <87r1y8dqqz.fsf@x220.int.ebiederm.org> <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org> <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87eeu25y14.fsf_-_@x220.int.ebiederm.org> <20200309195909.h2lv5uawce5wgryx@wittgenstein>
- <877dztz415.fsf@x220.int.ebiederm.org> <20200309201729.yk5sd26v4bz4gtou@wittgenstein>
- <87k13txnig.fsf@x220.int.ebiederm.org> <20200310085540.pztaty2mj62xt2nm@wittgenstein>
- <87wo7svy96.fsf_-_@x220.int.ebiederm.org> <CAG48ez2cUZMVOAXfHPNjKjYsMSaWkjUjOCHo0KYZ+oXQUW4viA@mail.gmail.com>
- <87k13sui1p.fsf@x220.int.ebiederm.org> <CAG48ez2vRgaEVJ=Rs8gn6HkGO6syL8MpSOUq7BNN+OUE1uYxCA@mail.gmail.com>
- <CAG48ez1LjW1xAGe-5tNtstCWxG2bkiHaQUMOcJNjx=z-2Wc2Jw@mail.gmail.com>
- <AM6PR03MB5170AF454A8A9C37891B12B2E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <5a8b2794-b498-af33-1327-ff2861cff83f@hotmail.de>
-In-Reply-To: <5a8b2794-b498-af33-1327-ff2861cff83f@hotmail.de>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 11 Mar 2020 15:56:07 +0100
-Message-ID: <CAG48ez33hx0NavmLub1QjzTw_DJuyRtkB71Mm35Hmp1x+DjmFA@mail.gmail.com>
-Subject: Re: [PATCH] pidfd: Stop taking cred_guard_mutex
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "adobriyan@gmail.com" <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "duyuyang@gmail.com" <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        "christian@kellner.me" <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "sargun@sargun.me" <sargun@sargun.me>
+References: <20200219183231.50985-1-balejs@google.com> <20200303134855.GA186184@mtj.thefacebook.com>
+In-Reply-To: <20200303134855.GA186184@mtj.thefacebook.com>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Wed, 11 Mar 2020 10:46:15 -0700
+Message-ID: <CAKOZuevzE=0Oa8gn--rkVJ8t69S+o2vK--pki65XXg6EVuOhMQ@mail.gmail.com>
+Subject: Re: [PATCH] cgroup-v1: freezer: optionally killable freezer
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Marco Ballesio <balejs@google.com>, Roman Gushchin <guro@fb.com>,
+        cgroups@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>, lizefan@huawei.com,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, rjw@rjwysocki.net,
+        Pavel Machek <pavel@ucw.cz>, len.brown@intel.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-pm@vger.kernel.org, Minchan Kim <minchan@google.com>,
+        Suren Baghdasaryan <surenb@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 11, 2020 at 7:12 AM Bernd Edlinger
-<bernd.edlinger@hotmail.de> wrote:
-> On 3/10/20 9:22 PM, Bernd Edlinger wrote:
-> > On 3/10/20 9:10 PM, Jann Horn wrote:
-> >> On Tue, Mar 10, 2020 at 9:00 PM Jann Horn <jannh@google.com> wrote:
-> >>> On Tue, Mar 10, 2020 at 8:29 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >>>> Jann Horn <jannh@google.com> writes:
-> >>>>> On Tue, Mar 10, 2020 at 7:54 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >>>>>> During exec some file descriptors are closed and the files struct is
-> >>>>>> unshared.  But all of that can happen at other times and it has the
-> >>>>>> same protections during exec as at ordinary times.  So stop taking the
-> >>>>>> cred_guard_mutex as it is useless.
-> >>>>>>
-> >>>>>> Furthermore he cred_guard_mutex is a bad idea because it is deadlock
-> >>>>>> prone, as it is held in serveral while waiting possibly indefinitely
-> >>>>>> for userspace to do something.
-> >> [...]
-> >>>>> If you make this change, then if this races with execution of a setuid
-> >>>>> program that afterwards e.g. opens a unix domain socket, an attacker
-> >>>>> will be able to steal that socket and inject messages into
-> >>>>> communication with things like DBus. procfs currently has the same
-> >>>>> race, and that still needs to be fixed, but at least procfs doesn't
-> >>>>> let you open things like sockets because they don't have a working
-> >>>>> ->open handler, and it enforces the normal permission check for
-> >>>>> opening files.
-> >>>>
-> >>>> It isn't only exec that can change credentials.  Do we need a lock for
-> >>>> changing credentials?
-> >> [...]
-> >>>> If we need a lock around credential change let's design and build that.
-> >>>> Having a mismatch between what a lock is designed to do, and what
-> >>>> people use it for can only result in other bugs as people get confused.
-> >>>
-> >>> Hmm... what benefits do we get from making it a separate lock? I guess
-> >>> it would allow us to make it a per-task lock instead of a
-> >>> signal_struct-wide one? That might be helpful...
-> >>
-> >> But actually, isn't the core purpose of the cred_guard_mutex to guard
-> >> against concurrent credential changes anyway? That's what almost
-> >> everyone uses it for, and it's in the name...
-> >>
-> >
-> > The main reason d'etre of exec_update_mutex is to get a consitent
-> > view of task->mm and task credentials.
-> > > The reason why you want the cred_guard_mutex, is that some action
-> > is changing the resulting credentials that the execve is about
-> > to install, and that is the data flow in the opposite direction.
-> >
+On Tue, Mar 3, 2020 at 5:48 AM Tejun Heo <tj@kernel.org> wrote:
 >
-> So in other words, you need the exec_update_mutex when you
-> access another thread's credentials and possibly the mmap at the
-> same time.
+> Hello,
+>
+> On Wed, Feb 19, 2020 at 10:32:31AM -0800, Marco Ballesio wrote:
+> > @@ -94,6 +94,18 @@ The following cgroupfs files are created by cgroup freezer.
+> >    Shows the parent-state.  0 if none of the cgroup's ancestors is
+> >    frozen; otherwise, 1.
+> >
+> > +* freezer.killable: Read-write
+> > +
+> > +  When read, returns the killable state of a cgroup - "1" if frozen
+> > +  tasks will respond to fatal signals, or "0" if they won't.
+> > +
+> > +  When written, this property sets the killable state of the cgroup.
+> > +  A value equal to "1" will switch the state of all frozen tasks in
+> > +  the cgroup to TASK_INTERRUPTIBLE (similarly to cgroup v2) and will
+> > +  make them react to fatal signals. A value of "0" will switch the
+> > +  state of frozen tasks to TASK_UNINTERRUPTIBLE and they won't respond
+> > +  to signals unless thawed or unfrozen.
+>
+> As Roman said, I'm not too sure about adding a new cgroup1 freezer
+> interface at this point. If we do this, *maybe* a mount option would
+> be more minimal?
 
-Or the file descriptor table, or register state, ...
-
-> You need no mutex at all when you are just accessing or
-> even changing the credentials of the current thread.  (If another
-> thread is doing execve, your task will be killed, and wether
-> or not the credentials were changed does not matter any more)
-
-Only if the only access checks you care about are those related to mm access.
+I'd still prefer a cgroup flag. A mount option is a bigger
+compatibility risk and isn't really any simpler than another cgroup
+flag. A mount option will affect anything using the cgroup mount
+point, potentially turning non-killable frozen processes into killable
+ones unexpectedly. (Sure, you could mount multiple times, but only one
+location is canonical, and that's the one that's going to get the flag
+flipped.) A per-cgroup flag allows people to opt into the new behavior
+only in specific contexts, so it's safer.
