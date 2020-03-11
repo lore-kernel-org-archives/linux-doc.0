@@ -1,36 +1,57 @@
-Return-Path: <linux-doc-owner@vger.kernel.org>
+Return-Path: <SRS0=0k1m=44=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-6.7 required=3.0 tests=FORGED_MUA_MOZILLA,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E469C5ACBF
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 19:48:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 17EAA7D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Mar 2020 16:31:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A20F120737
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 19:48:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730052AbgCKQbm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Mar 2020 12:31:42 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:54052 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729675AbgCKQbm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 12:31:42 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jC4GW-0001qd-9w; Wed, 11 Mar 2020 10:31:28 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jC4GV-0006Xl-GD; Wed, 11 Mar 2020 10:31:28 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Jann Horn <jannh@google.com>,
+        id S2387413AbgCKTsn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Mar 2020 15:48:43 -0400
+Received: from mail-vi1eur05olkn2043.outbound.protection.outlook.com ([40.92.90.43]:50048
+        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730705AbgCKTsl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Mar 2020 15:48:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J8NEwoeAFioSFIOQiQUtA9WAMmB+oVV0s74oA04vTvhMGmvCVjNGg2TpfhLoeDgjs7ckjASkVcM9hhH9WdSWU7YTC4Xlu/2BeXsxhoheLkf0HJXSLKeCHFZobFNFi4PJvSKT/fslywa6CCBEdvMhkL1D69MaHmbkTgFMTK+pLfXD3nPff4TgcOvJSF8tZmDpWJsKiYxGN5ZSHoBCbQSD2FbYQLWwt0QtQV+AKZfrg/EhakXVfSVKEDVUwwn98gPysZTjhGSC7D9BsNifv+AZrIw1kNulhQF/gVRDGYBDIMxRGq7a4K7k0SKL0QR1kBO0Mn+ubGm6oIfEkzGnD+0bLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vsscKs0P5jyU2LHhrYkdbgvnKWhlHbB0QpXnPagrln8=;
+ b=fHjJFugl2p8GOcOb9RAR1h+cSNBRcxLNW+nNA1IYxLJk8BnnqQtwnPG1mOJwrm02FeQokI4kVDnqipNa6HWMruKILTR+M8d6jNG4/o05rj1gy1LG0f04TiO9VdwXMDHKhhUCQX8xzXYEBYWfG69/iOlKmtshcecbE8CmSVtkN9hFlY5NL0d0X8Q8+T9JqsR4NBqL+sS6Ku0eRvHCwiT2PcW6k6zDDZR8Hl2TDKUlj4Wp7UaLklSQ1kkDxNjmKMWs7FObYmN0LYKoX5CyQvoRCgZfxtUwMvgIP8kijwo34ceOmdkRRHe0Dkb8X8imOEdkEwKeV5T2pbvea0AedCpdWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
+ dkim=pass header.d=hotmail.de; arc=none
+Received: from VI1EUR05FT027.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc12::36) by
+ VI1EUR05HT105.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc12::392)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.13; Wed, 11 Mar
+ 2020 19:48:33 +0000
+Received: from PR2PR03MB5179.eurprd03.prod.outlook.com (10.233.242.56) by
+ VI1EUR05FT027.mail.protection.outlook.com (10.233.242.209) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.13 via Frontend Transport; Wed, 11 Mar 2020 19:48:33 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:FAB945D2B34D4EFAC4DBFD187298691FD6C823159495DCDC001B7FD28278D05A;UpperCasedChecksum:EADB10275C5B21F815CCF6A0C3D4BE24A629B26DE934B31006B168A0BF411FD8;SizeAsReceived:9941;Count:50
+Received: from PR2PR03MB5179.eurprd03.prod.outlook.com
+ ([fe80::5914:cd4e:9863:88c2]) by PR2PR03MB5179.eurprd03.prod.outlook.com
+ ([fe80::5914:cd4e:9863:88c2%5]) with mapi id 15.20.2793.013; Wed, 11 Mar 2020
+ 19:48:33 +0000
+Subject: Re: [PATCH 3/4] proc: io_accounting: Use new infrastructure to fix
+ deadlocks in execve
+To:     Kees Cook <keescook@chromium.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexey Dobriyan <adobriyan@gmail.com>,
@@ -39,7 +60,7 @@ Cc:     Jann Horn <jannh@google.com>,
         Frederic Weisbecker <frederic@kernel.org>,
         Andrei Vagin <avagin@gmail.com>,
         Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
         Yuyang Du <duyuyang@gmail.com>,
         David Hildenbrand <david@redhat.com>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
@@ -53,131 +74,123 @@ Cc:     Jann Horn <jannh@google.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
         Aleksa Sarai <cyphar@cyphar.com>,
         "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nlii0b.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87a74xi4kz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
-        <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
-        <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
-        <CAG48ez13XXWNRLrPFRHRsvPKSwSK1-6k+1F7QujWOJtVuk0QHg@mail.gmail.com>
-        <87wo7roq2c.fsf@x220.int.ebiederm.org>
-        <CAG48ez1j2=pdj0nc1syHkh6X4d=aHuCH1srzA6hT7+32QD+6Gg@mail.gmail.com>
-        <87k13roigf.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51709C444F21281F6A40F039E4FC0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Wed, 11 Mar 2020 11:29:08 -0500
-In-Reply-To: <AM6PR03MB51709C444F21281F6A40F039E4FC0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        (Bernd Edlinger's message of "Wed, 11 Mar 2020 07:33:35 +0100")
-Message-ID: <87d09ionxn.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <87r1y12yc7.fsf@x220.int.ebiederm.org>
+ <87k13t2xpd.fsf@x220.int.ebiederm.org> <87d09l2x5n.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <871rq12vxu.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <877dzt1fnf.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <875zfcxlwy.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170BD2476E35068E182EFA4E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003111203.738487D@keescook>
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+Message-ID: <PR2PR03MB51793050A9C93CC2EBEF86B3E4FC0@PR2PR03MB5179.eurprd03.prod.outlook.com>
+Date:   Wed, 11 Mar 2020 20:48:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+In-Reply-To: <202003111203.738487D@keescook>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR0701CA0010.eurprd07.prod.outlook.com
+ (2603:10a6:200:42::20) To PR2PR03MB5179.eurprd03.prod.outlook.com
+ (2603:10a6:101:25::12)
+X-Microsoft-Original-Message-ID: <39910082-2854-132b-4f4f-5cb36ae86400@hotmail.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jC4GV-0006Xl-GD;;;mid=<87d09ionxn.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19ZjP97Ct6MFalNH8PhJ+rPzWt746X6+Og=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace cred_guard_mutex
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.101] (92.77.140.102) by AM4PR0701CA0010.eurprd07.prod.outlook.com (2603:10a6:200:42::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.7 via Frontend Transport; Wed, 11 Mar 2020 19:48:31 +0000
+X-Microsoft-Original-Message-ID: <39910082-2854-132b-4f4f-5cb36ae86400@hotmail.de>
+X-TMN:  [63zg36Uak5VhpA77nTTr6TqJcIutlNup]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 50
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: da2c8154-b793-45f2-70c4-08d7c5f52e57
+X-MS-TrafficTypeDiagnostic: VI1EUR05HT105:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zWd+v+xeCZKIQ4mfXXvRjRcB3XdpB7KsBOQzdQsaUZlA7LXjxYAtKegqNSUathgXFsU/VIOCPZruD/ZMMXB2Y9ohb3L1F74+cZQpT3djxwcf9dRK++mYhcUNBjeFfEp0xdjvPlPyooOMP0wpW24e/cC6/v8d0BYLUvBXb00fVKkFtbSIhGNMwP+m6xF9nK9A
+X-MS-Exchange-AntiSpam-MessageData: r7Gso8je51C8bHqcpuokpObQSpFKilSYZNH3jC+bqzrIdb8xdZCDsIvJpC+kq4QGygSbrdtQ7dA6gfXG6CAIvkRY2eU84NDHVCuMbFYtHbP+FU6zI3p55ZS8houha5au9PUobZ5JKsLE8nePXrwSRA==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da2c8154-b793-45f2-70c4-08d7c5f52e57
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 19:48:33.6733
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR05HT105
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Archived-At: <http://archive.lwn.net:8080/linux-doc/87d09ionxn.fsf@x220.int.ebiederm.org/>
-List-Archive: <http://archive.lwn.net:8080/linux-doc/>
-List-Post: <mailto:linux-doc@vger.kernel.org>
 
-Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+On 3/11/20 8:08 PM, Kees Cook wrote:
+> On Tue, Mar 10, 2020 at 06:45:47PM +0100, Bernd Edlinger wrote:
+>> This changes do_io_accounting to use the new exec_update_mutex
+>> instead of cred_guard_mutex.
+>>
+>> This fixes possible deadlocks when the trace is accessing
+>> /proc/$pid/io for instance.
+>>
+>> This should be safe, as the credentials are only used for reading.
+> 
+> I'd like to see the rationale described better here for why it should be
+> safe. I'm still not seeing why this is safe here, as we might check
+> ptrace_may_access() with one cred and then iterate io accounting with a
+> different credential...
+> 
+> What am I missing?
+> 
 
-> On 3/11/20 1:15 AM, Eric W. Biederman wrote:
->> Jann Horn <jannh@google.com> writes:
->> 
->>> On Tue, Mar 10, 2020 at 10:33 PM Eric W. Biederman
->>> <ebiederm@xmission.com> wrote:
->>>> Jann Horn <jannh@google.com> writes:
->>>>> On Sun, Mar 8, 2020 at 10:41 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->>>>>> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
->>>>>> over the userspace accesses as the arguments from userspace are read.
->>>>>> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
->>>>>> threads are killed.  The cred_guard_mutex is held over
->>>>>> "put_user(0, tsk->clear_child_tid)" in exit_mm().
->>>>>>
->>>>>> Any of those can result in deadlock, as the cred_guard_mutex is held
->>>>>> over a possible indefinite userspace waits for userspace.
->>>>>>
->>>>>> Add exec_update_mutex that is only held over exec updating process
->>>>>> with the new contents of exec, so that code that needs not to be
->>>>>> confused by exec changing the mm and the cred in ways that can not
->>>>>> happen during ordinary execution of a process.
->>>>>>
->>>>>> The plan is to switch the users of cred_guard_mutex to
->>>>>> exec_udpate_mutex one by one.  This lets us move forward while still
->>>>>> being careful and not introducing any regressions.
->>>>> [...]
->>>>>> @@ -1034,6 +1035,11 @@ static int exec_mmap(struct mm_struct *mm)
->>>>>>                         return -EINTR;
->>>>>>                 }
->>>>>>         }
->>>>>> +
->>>>>> +       ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
->>>>>> +       if (ret)
->>>>>> +               return ret;
->>>>>
->>>>> We're already holding the old mmap_sem, and now nest the
->>>>> exec_update_mutex inside it; but then while still holding the
->>>>> exec_update_mutex, we do mmput(), which can e.g. end up in ksm_exit(),
->>>>> which can do down_write(&mm->mmap_sem) from __ksm_exit(). So I think
->>>>> at least lockdep will be unhappy, and I'm not sure whether it's an
->>>>> actual problem or not.
->>>>
->>>> Good point.  I should double check the lock ordering here with mmap_sem.
->>>> It doesn't look like mmput takes mmap_sem
->>>
->>> You sure about that? mmput() -> __mmput() -> ksm_exit() ->
->>> __ksm_exit() -> down_write(&mm->mmap_sem)
->>>
->>> Or also: mmput() -> __mmput() -> khugepaged_exit() ->
->>> __khugepaged_exit() -> down_write(&mm->mmap_sem)
->>>
->>> Or is there a reason why those paths can't happen?
->> 
->> Clearly I didn't look far enough. 
->> 
->> I will adjust this so that exec_update_mutex is taken before mmap_sem.
->> Anything else is just asking for trouble.
->> 
->
-> Note that vm_access does also mmput under the exec_update_mutex.
-> So I don't see a huge problem here.
-> But maybe I missed something.
+The same here, even if execve is already started, the credentials
+are not actually changed until the execve acquired the exec_update_mutex.
 
-The issue is that to prevent deadlock locks must always be taken
-in the same order.
+The data flow is from the task->cred => do_io_accounting,
+if the data flow would be from do_io_accounting => task's no new privs
+you would see an entirely different patch.
 
-Taking mmap_sem then exec_update_mutex at the start of the function,
-then taking exec_update_mutex then mmap_sem in mmput, takes the
-two locks in two different orders.   Which means that in the right
-set or circumstances:
+I am open for suggestions how to improve the description, or even
+add a comment from time to time :)
 
-thread1:                                thread2:
-   obtain mmap_sem                      optain exec_update_mutex
-      wait for exec_update_mutex        wait for mmap_sem
+Thanks
+Bernd.
 
-Which guarantees that neither thread will make progress.
-
-The fix is easy I just need to take exec_update_mutex a few lines
-earlier.
-
-Eric
-
+> -Kees
+> 
+>>
+>> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+>> ---
+>>  fs/proc/base.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/fs/proc/base.c b/fs/proc/base.c
+>> index 4fdfe4f..529d0c6 100644
+>> --- a/fs/proc/base.c
+>> +++ b/fs/proc/base.c
+>> @@ -2770,7 +2770,7 @@ static int do_io_accounting(struct task_struct *task, struct seq_file *m, int wh
+>>  	unsigned long flags;
+>>  	int result;
+>>  
+>> -	result = mutex_lock_killable(&task->signal->cred_guard_mutex);
+>> +	result = mutex_lock_killable(&task->signal->exec_update_mutex);
+>>  	if (result)
+>>  		return result;
+>>  
+>> @@ -2806,7 +2806,7 @@ static int do_io_accounting(struct task_struct *task, struct seq_file *m, int wh
+>>  	result = 0;
+>>  
+>>  out_unlock:
+>> -	mutex_unlock(&task->signal->cred_guard_mutex);
+>> +	mutex_unlock(&task->signal->exec_update_mutex);
+>>  	return result;
+>>  }
+>>  
+>> -- 
+>> 1.9.1
+> 
