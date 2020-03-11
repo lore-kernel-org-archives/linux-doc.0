@@ -2,196 +2,202 @@ Return-Path: <SRS0=0k1m=44=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1,USER_IN_DEF_DKIM_WL autolearn=unavailable
+X-Spam-Status: No, score=-6.7 required=3.0 tests=FORGED_MUA_MOZILLA,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA23DC4CECE
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 19:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B86EC2BB1D
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 19:38:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D3EC020738
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 19:32:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DWMg+i0R"
+	by mail.kernel.org (Postfix) with ESMTP id 6734620738
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 19:38:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731114AbgCKTb6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Mar 2020 15:31:58 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:46622 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731003AbgCKTb5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 15:31:57 -0400
-Received: by mail-pg1-f196.google.com with SMTP id y30so1716445pga.13
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2020 12:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=nrr0UrVgn5X3zlkkY/AvuhDFOpNyA1sBfPxPwX99Zio=;
-        b=DWMg+i0RW/xutS/C0lrLv5qkdOkRJdJrd7AEzJ+nhuFzo5UDID2I7osmZjKepfTMG4
-         QQ67+/sCPNIZ7NiaU8mRmDgy1xa+7fBGAeZZZkoTx0ai5DVbYNyxHYdGOZP0auhU1pUF
-         UePGYNNb68RUudvV922Q5HtVehqC2USEIk+jpbQq+gqi7fI8y+o1huJ0sJdj4YlbDaNc
-         a+tkRUGnWS+VXaa4CUwX7hR+D1hdRnZIhTJ92Lgzzk3/jj1uAGlq0dC5KMSpGWJr/Wmn
-         sId2NEwJHNKE/JOvxQjgupkfsriJZ9/JR7Q0YcDQmyz76MrrEKq3+0syQOUAMb6O47t8
-         CX2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=nrr0UrVgn5X3zlkkY/AvuhDFOpNyA1sBfPxPwX99Zio=;
-        b=Hvw/k4Tzi3wsrPYrqci6BRC+3mtlQUStJOJWEObDoys9WQNe5vxpPICItkoM8DmRA/
-         wXAN77B542QClGyL2XgOyS4xB/2KRvE98KD9iJVzfOWoPadQeKePmRxo1zWAMDNxTewT
-         qjtlsEv7+GbClmXLDwqTMl/7S1zGcApS6MbzQhzxifjvTJx9F5/AFJ4QthM4p94eQqY0
-         acJO4Mxzc3xdVD72t7nR4CLD4r1SuLdyOTmCpQI+zz1kkGdY06L3poa2XQe5DM+X7Trx
-         r2De1A+e7/VvGO0wU/rUKCJuosXzSHFIfQsUWHGVxmw0XZ/kXp4PBRGd3r+RVxfofM9Y
-         ccQg==
-X-Gm-Message-State: ANhLgQ2DD36lhHEq9yR6iT9DQyJ+/7oemzK18JOJRau80jEEr9OxOt35
-        W4AhdheciILOPxzSLR3mgRnSSdwIIRk=
-X-Google-Smtp-Source: ADFU+vukvfW+3meQvVc7eQJOnbW2y3Dt9sKRma1Xy4nV73Wr4TLb+pJSKHj51H8zu6dSS6TupFT38g==
-X-Received: by 2002:a62:7f8f:: with SMTP id a137mr4368557pfd.145.1583955115898;
-        Wed, 11 Mar 2020 12:31:55 -0700 (PDT)
-Received: from [2620:15c:17:3:3a5:23a7:5e32:4598] ([2620:15c:17:3:3a5:23a7:5e32:4598])
-        by smtp.gmail.com with ESMTPSA id k20sm29707459pfk.123.2020.03.11.12.31.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 12:31:54 -0700 (PDT)
-Date:   Wed, 11 Mar 2020 12:31:53 -0700 (PDT)
-From:   David Rientjes <rientjes@google.com>
-X-X-Sender: rientjes@chino.kir.corp.google.com
-To:     Ivan Teterevkov <ivan.teterevkov@nutanix.com>
-cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jgross@suse.com" <jgross@suse.com>,
-        "oneukum@suse.com" <oneukum@suse.com>,
+        id S1730925AbgCKTil (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Mar 2020 15:38:41 -0400
+Received: from mail-oln040092074027.outbound.protection.outlook.com ([40.92.74.27]:64694
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730913AbgCKTil (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Mar 2020 15:38:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FxqizhXowGPVQb7gyJLcQECU/FqGhfzGmQd1MewWia2Rm4433r3CHJAgdJ/x8P52wZNKoDFaJzfvjbrcSKunKyxlQNV5Z0ycDmdwjdlHEVwMdaz1vDNEjOjJizINvoQAHg11chLO2OX4a7LdM9N5KCDe51IDl5SUkc3WT1eWRvDTWNXVxB3PIqObObuu60XsS4M7coyYr/9s7Hm5FdNCPNrpUnUc7IynwByLclkIMTzZkyunnGvLe2mOfxdX1pqElQxtTCFtyB2edKSXD7NYHCJuQrYj6UeFXWjnLakDgdKw/t5/rdbNWuOv2ToDONH8vVwU3hW1GS0nY9Scwy3LxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2nx7o+DSt7gNZ1iatttl7B9FP5QzBo0eRm3uNP7bG0E=;
+ b=IuQPrn8WZwdVbjJAdoDhhAQaab+yyRCpg5J/efjDp2ppirKGrPiaRnhiBYMxwXvg8Nk1EaGm+Qo7HQnX38zrpd8G/UR5y4QBv4540hyZY2zVpcuxrz6oXReevd4DcnGpnLdJWQJk1GoevRD7pdk8ippkvJGAIvoGo3ULOjMkC6Pu+Mt2HlHu2LNOKuEsbChcfvPxn+e62tfKZ2+5p7mD5tGfuq/AwnM3NZVqh9xnQ9Z8i3TOTYmGQp/dC1oXJbF8S5K2WgOyzrOhKcgsxEQ0J8HDM+2pFeZtCVOUkB5KD6LuK5rirYB+8r02aSY1qSPZ+UUqNChc6vFoWpPqXh/WQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
+ dkim=pass header.d=hotmail.de; arc=none
+Received: from DB3EUR04FT031.eop-eur04.prod.protection.outlook.com
+ (2a01:111:e400:7e0c::36) by
+ DB3EUR04HT004.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0c::445)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.13; Wed, 11 Mar
+ 2020 19:38:38 +0000
+Received: from PR2PR03MB5179.eurprd03.prod.outlook.com (10.152.24.54) by
+ DB3EUR04FT031.mail.protection.outlook.com (10.152.24.239) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.13 via Frontend Transport; Wed, 11 Mar 2020 19:38:38 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:366CCCF2C02D71A0751CB0FC9F5A248A87BFE6D9F1FB3B1F06D9EAAB83B13DF6;UpperCasedChecksum:CA563FFDA8E05A80BB7B26D6AD28A01FB23FE5E84E8A0F30CDEE3775B2D8A5CF;SizeAsReceived:9923;Count:50
+Received: from PR2PR03MB5179.eurprd03.prod.outlook.com
+ ([fe80::5914:cd4e:9863:88c2]) by PR2PR03MB5179.eurprd03.prod.outlook.com
+ ([fe80::5914:cd4e:9863:88c2%5]) with mapi id 15.20.2793.013; Wed, 11 Mar 2020
+ 19:38:38 +0000
+Subject: Re: [PATCH 2/4] proc: Use new infrastructure to fix deadlocks in
+ execve
+To:     Kees Cook <keescook@chromium.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: Re: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
-In-Reply-To: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
-Message-ID: <alpine.DEB.2.21.2003111227230.171292@chino.kir.corp.google.com>
-References: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <87r1y12yc7.fsf@x220.int.ebiederm.org>
+ <87k13t2xpd.fsf@x220.int.ebiederm.org> <87d09l2x5n.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <871rq12vxu.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <877dzt1fnf.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <875zfcxlwy.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705D211EC8E7EA270627B1E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003111208.640025F75@keescook>
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+Message-ID: <PR2PR03MB5179D83C617929DFF76EB11BE4FC0@PR2PR03MB5179.eurprd03.prod.outlook.com>
+Date:   Wed, 11 Mar 2020 20:38:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+In-Reply-To: <202003111208.640025F75@keescook>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM3PR07CA0107.eurprd07.prod.outlook.com
+ (2603:10a6:207:7::17) To PR2PR03MB5179.eurprd03.prod.outlook.com
+ (2603:10a6:101:25::12)
+X-Microsoft-Original-Message-ID: <12e38caf-cd81-15bb-0f6e-c53ed2cabdae@hotmail.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.101] (92.77.140.102) by AM3PR07CA0107.eurprd07.prod.outlook.com (2603:10a6:207:7::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.9 via Frontend Transport; Wed, 11 Mar 2020 19:38:34 +0000
+X-Microsoft-Original-Message-ID: <12e38caf-cd81-15bb-0f6e-c53ed2cabdae@hotmail.de>
+X-TMN:  [AYF23+fkc86AnRk6FHpxGeBnU4JhYZ5N]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 50
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 860b4db5-a7f4-4cad-bbaf-08d7c5f3cabc
+X-MS-TrafficTypeDiagnostic: DB3EUR04HT004:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oeW4fZgyDIkVqd6f3sDWM700pD4I3P9Z6mDYV67IIuiFhwILMBd5Ky5MOJCweljF6Lf4ZyVMhGJoaFhZAJJnsh0v2rApaGZL1m1eIvspu8r7rfxNJdaT6HH9JFL5BzPRxZS3FiMLrl1SlTds6vb0juhskeH4vIFUvcIxVnxQ+RXngM5UmhpuXfF63FhFb3YH
+X-MS-Exchange-AntiSpam-MessageData: w9Wy/jGhlm+2KTCL8XOZJu/40LPAvvmmKkvHfIh0bKiLndqYEGoFVH8QfbcP9FQ11qLWrUyckUlranK24dHQ8xkfiFPwNwuMXIV5yA59Ngbm2oB7EVvFbd37ZRhGuwXZ1MDmLEwn+Az2BXthI5uy8A==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 860b4db5-a7f4-4cad-bbaf-08d7c5f3cabc
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 19:38:38.0437
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3EUR04HT004
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 11 Mar 2020, Ivan Teterevkov wrote:
-
-> This patch adds a couple of knobs:
+On 3/11/20 8:10 PM, Kees Cook wrote:
+> On Tue, Mar 10, 2020 at 06:45:32PM +0100, Bernd Edlinger wrote:
+>> This changes lock_trace to use the new exec_update_mutex
+>> instead of cred_guard_mutex.
+>>
+>> This fixes possible deadlocks when the trace is accessing
+>> /proc/$pid/stack for instance.
+>>
+>> This should be safe, as the credentials are only used for reading,
+>> and task->mm is updated on execve under the new exec_update_mutex.
+>>
+>> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
 > 
-> - The configuration option (CONFIG_VM_SWAPPINESS).
-> - The command line parameter (vm_swappiness).
-> 
-> The default value is preserved, but now defined by CONFIG_VM_SWAPPINESS.
-> 
-> Historically, the default swappiness is set to the well-known value 60,
-> and this works well for the majority of cases. The vm_swappiness is also
-> exposed as the kernel parameter that can be changed at runtime too, e.g.
-> with sysctl.
-> 
-> This approach might not suit well some configurations, e.g. systemd-based
-> distros, where systemd is put in charge of the cgroup controllers,
-> including the memory one. In such cases, the default swappiness 60
-> is copied across the cgroup subtrees early at startup, when systemd
-> is arranging the slices for its services, before the sysctl.conf
-> or tmpfiles.d/*.conf changes are applied.
+> I have the same question here as in 3/4. I should probably rescind my
+> Reviewed-by until I'm convinced about the security-safety of this -- why
+> is this not a race against cred changes?
 > 
 
-Seems like something that can be fully handled by an initscript that would 
-set the sysctl and then iterate the memcg hierarchy propagating the 
-non-default value.  I don't think that's too much of an ask if userspace 
-wants to manipulate the swappiness value.
+The credentials of a thread that is currently executing execve is already
+set in the bprm structure, however the credential in the task structure
+is not yet changed, as well as the process memory map keeps stable
+until the exec_update_mutex is acquired.
 
-Or maybe we can be more clever: have memcg->swappiness store -1 by default 
-unless it is changed by the user explicitly and then have 
-mem_cgroup_swappiness() return vm_swappiness for this value.  If the user 
-overwrites it, it's intended.
+What is done with this functions is access the call stack of the
+process before the new executable is actually started.
 
-So there are a couple options here but I don't think one of them is to add 
-a new config option or kernel command line option.
+There would immediately be a severe security problem if we did
+not use any mutex as the check would be then with the old credential,
+but the stack trace would potentially reveal secret function
+calls that are done by a setuid program when it starts up.
 
-> One could run a script to traverse the cgroup trees later and set the
-> desired memory.swappiness individually in each occurrence when the runtime
-> is set up, but this would require some amount of work to implement
-> properly. Instead, why not set the default swappiness as early as possible?
+
+Bernd.
+
+
+> -Kees
 > 
-> Signed-off-by: Ivan Teterevkov <ivan.teterevkov@nutanix.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  4 ++++
->  mm/Kconfig                                    | 10 ++++++++
->  mm/vmscan.c                                   | 24 ++++++++++++++++++-
->  3 files changed, 37 insertions(+), 1 deletion(-)
+>> ---
+>>  fs/proc/base.c | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/fs/proc/base.c b/fs/proc/base.c
+>> index ebea950..4fdfe4f 100644
+>> --- a/fs/proc/base.c
+>> +++ b/fs/proc/base.c
+>> @@ -403,11 +403,11 @@ static int proc_pid_wchan(struct seq_file *m, struct pid_namespace *ns,
+>>  
+>>  static int lock_trace(struct task_struct *task)
+>>  {
+>> -	int err = mutex_lock_killable(&task->signal->cred_guard_mutex);
+>> +	int err = mutex_lock_killable(&task->signal->exec_update_mutex);
+>>  	if (err)
+>>  		return err;
+>>  	if (!ptrace_may_access(task, PTRACE_MODE_ATTACH_FSCREDS)) {
+>> -		mutex_unlock(&task->signal->cred_guard_mutex);
+>> +		mutex_unlock(&task->signal->exec_update_mutex);
+>>  		return -EPERM;
+>>  	}
+>>  	return 0;
+>> @@ -415,7 +415,7 @@ static int lock_trace(struct task_struct *task)
+>>  
+>>  static void unlock_trace(struct task_struct *task)
+>>  {
+>> -	mutex_unlock(&task->signal->cred_guard_mutex);
+>> +	mutex_unlock(&task->signal->exec_update_mutex);
+>>  }
+>>  
+>>  #ifdef CONFIG_STACKTRACE
+>> -- 
+>> 1.9.1
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index c07815d230bc..5d54a4303522 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5317,6 +5317,10 @@
->  			  P	Enable page structure init time poisoning
->  			  -	Disable all of the above options
->  
-> +	vm_swappiness=	[KNL]
-> +			Sets the default vm_swappiness.
-> +			Ranges from 0 to 100, the default value is 60.
-> +
->  	vmalloc=nn[KMG]	[KNL,BOOT] Forces the vmalloc area to have an exact
->  			size of <nn>. This can be used to increase the
->  			minimum size (128MB on x86). It can also be used to diff --git a/mm/Kconfig b/mm/Kconfig index ab80933be65f..ec59c19e578e 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -739,4 +739,14 @@ config ARCH_HAS_HUGEPD  config MAPPING_DIRTY_HELPERS
->          bool
->  
-> +config VM_SWAPPINESS
-> +	int "Default memory swappiness"
-> +	default 60
-> +	range 0 100
-> +	help
-> +	  Sets the default vm_swappiness, that could be changed later
-> +	  in the runtime, e.g. kernel command line, sysctl, etc.
-> +
-> +	  Higher value means more swappy. Historically, defaults to 60.
-> +
->  endmenu
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 876370565455..7d2d3550f698 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -163,7 +163,29 @@ struct scan_control {
->  /*
->   * From 0 .. 100.  Higher means more swappy.
->   */
-> -int vm_swappiness = 60;
-> +int vm_swappiness = CONFIG_VM_SWAPPINESS;
-> +
-> +static int __init swappiness_cmdline(char *str) {
-> +	int val, err;
-> +
-> +	if (!str)
-> +		return -EINVAL;
-> +
-> +	err = kstrtoint(str, 10, &val);
-> +	if (err)
-> +		return -EINVAL;
-> +
-> +	if (val < 0 || val > 100)
-> +		return -EINVAL;
-> +
-> +	vm_swappiness = val;
-> +
-> +	return 0;
-> +}
-> +
-> +early_param("vm_swappiness", swappiness_cmdline);
-> +
->  /*
->   * The total number of pages which are beyond the high watermark within all
->   * zones.
