@@ -2,79 +2,109 @@ Return-Path: <SRS0=0k1m=44=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B035C0044D
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 20:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10934C0044D
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 20:38:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1738620749
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 20:20:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 136CD2074B
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 20:38:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="IfAh+L8Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731054AbgCKUUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Mar 2020 16:20:02 -0400
-Received: from ms.lwn.net ([45.79.88.28]:53066 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731030AbgCKUUC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Mar 2020 16:20:02 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BF8A7536;
-        Wed, 11 Mar 2020 20:20:01 +0000 (UTC)
-Date:   Wed, 11 Mar 2020 14:20:00 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     =?UTF-8?B?572X5qWa5oiQ?= <luochucheng@vivo.com>
-Cc:     =?UTF-8?B?546L5paH6JmO?= <wenhu.wang@vivo.com>,
-        tekkamanninja <tekkamanninja@gmail.com>,
-        harryxiyou <harryxiyou@gmail.com>,
-        mamurph <mamurph@cs.clemson.edu>,
-        linux-kernel <linux-kernel@zh-kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH]Documentation/filesystems/tranlastions : translate
- debugfs.txt into Chinese
-Message-ID: <20200311142000.08d47ac2@lwn.net>
-In-Reply-To: <ALAAwACICO4H10tGCUblMaq2.1.1583889675079.Hmail.luochucheng@vivo.com>
-References: <ALAAwACICO4H10tGCUblMaq2.1.1583889675079.Hmail.luochucheng@vivo.com>
-Organization: LWN.net
+        id S1726817AbgCKUi3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Mar 2020 16:38:29 -0400
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:59420 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726684AbgCKUi3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 16:38:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=3hYQEX/tomyIOsSexIuldCUpSADhNxZ8eQYnaEcFn18=; b=IfAh+L8ZczZRtFfoWmsl9z/ye
+        XcfBseejrsr3l1sZrmLXzEBAfftLamurehbQuN625BX+V+gsTLyAK2pcZbI+BkVMsr0tzka7O0ClM
+        kfg60MDbLmQQpQu1gtlJPVWK6xGkExmPKhH23r1GblU6JZL+oImiRRDzmmZBhdM72jIPF7nUzuf6f
+        37UhPl9ek5oMESkdqvvCiawQCtNIXjP4+9M6nBveQ4MWzS6KedxOzb73EIqlHhUUKJudj49csc/Y6
+        VXBhVIdgylGq/uei+lT3PJ6dp5U0QM+A5GQUqP29qoLaT65VkEy1/QSkCDF7kNKeNbkU4mU1BvbNr
+        CkD7H8ZOA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35140)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1jC87P-0005PG-LZ; Wed, 11 Mar 2020 20:38:24 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1jC87O-0005ce-3f; Wed, 11 Mar 2020 20:38:18 +0000
+Date:   Wed, 11 Mar 2020 20:38:18 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     peter@bikeshed.quignogs.org.uk
+Cc:     linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] Reformat return value descriptions as ReST lists.
+Message-ID: <20200311203817.GT25745@shell.armlinux.org.uk>
+References: <20200311192823.16213-1-peter@bikeshed.quignogs.org.uk>
+ <20200311192823.16213-2-peter@bikeshed.quignogs.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200311192823.16213-2-peter@bikeshed.quignogs.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 11 Mar 2020 09:21:15 +0800 (GMT+08:00)
-罗楚成 <luochucheng@vivo.com> wrote:
-
-> docs/zh_CN: translate Documentaion/filesystems/debugfs.txt to Chinese.
+On Wed, Mar 11, 2020 at 07:28:23PM +0000, peter@bikeshed.quignogs.org.uk wrote:
+> From: Peter Lister <peter@bikeshed.quignogs.org.uk>
 > 
+> Added line breaks and blank lines to separate list items and escaped end-of-line
+> colons.
 > 
-> Since debugfs is widely used in kernel development to help developers to debug their
-> new features, it's necessary to translate it into Chinese to make debug easier for
-> Chinese developers.
+> This removes these warnings from doc build...
 > 
+> ./drivers/net/phy/sfp-bus.c:579: WARNING: Unexpected indentation.
+> ./drivers/net/phy/sfp-bus.c:619: WARNING: Unexpected indentation.
 > 
-> Signed-off-by: luochucheng<luochucheng@vivo.com>
+> Signed-off-by: Peter Lister <peter@bikeshed.quignogs.org.uk>
+> ---
+>  drivers/net/phy/sfp-bus.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/net/phy/sfp-bus.c b/drivers/net/phy/sfp-bus.c
+> index d949ea7b4f8c..df1c66df830f 100644
+> --- a/drivers/net/phy/sfp-bus.c
+> +++ b/drivers/net/phy/sfp-bus.c
+> @@ -572,12 +572,18 @@ static void sfp_upstream_clear(struct sfp_bus *bus)
+>   * the sfp_bus structure, incrementing its reference count.  This must
+>   * be put via sfp_bus_put() when done.
+>   *
+> - * Returns: on success, a pointer to the sfp_bus structure,
+> + * Returns\:
+> + *
+> + *          on success, a pointer to the sfp_bus structure,
+>   *	    %NULL if no SFP is specified,
+> + *
+>   * 	    on failure, an error pointer value:
+> + *
+>   * 		corresponding to the errors detailed for
+>   * 		fwnode_property_get_reference_args().
+> + *
+>   * 	        %-ENOMEM if we failed to allocate the bus.
+> + *
+>   *		an error from the upstream's connect_phy() method.
 
-You did not read the message I sent you last time.  So I will repeat:
+Is this really necessary?  This seems to be rather OTT, and makes the
+comment way too big IMHO.
 
- - How are you generating this patch?  You should be using git
-   format-patch, which should be generating a diffstat (which is missing).
-
- - You need to add this file to index.rst so it becomes part of the docs
-   build.
-
- - Please put your proper name in the signed-off-by line
-
- - Please fix the white-space issues that wreck the code samples in your
-   translated document.
-
-Additionally, sending the patch without trivial typos (i.e. misspelled
-directory names) in the changelog would be appreciated.
-
-Thank you,
-
-jon
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 10.2Mbps down 587kbps up
