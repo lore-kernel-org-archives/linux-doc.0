@@ -1,132 +1,161 @@
-Return-Path: <SRS0=92oT=43=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=0k1m=44=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ADA1C10DCE
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 23:45:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 113ADC18E5B
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 00:17:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3616821927
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Mar 2020 23:45:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="PAACmhBK"
+	by mail.kernel.org (Postfix) with ESMTP id C7C8B227BF
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Mar 2020 00:17:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727591AbgCJXp1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Mar 2020 19:45:27 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:35830 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727397AbgCJXp1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 19:45:27 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02ANf3e5032736;
-        Tue, 10 Mar 2020 23:42:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : references : date : in-reply-to : message-id : mime-version :
- content-type; s=corp-2020-01-29;
- bh=d++pBOAa1FdXyAcpnc6NBDFsyfEdneSErw8Gddqne/c=;
- b=PAACmhBK2qP8iS9epvnlcwBMY9Ux2PRc9cLsuTcGeRmkSyjCshAjaof3QnpW+aiRm9K5
- NJPh4fDPhfPrBHtzi80sPUYF2IDsRQOMbQ07XfkgTYifEah30JwauA05xOPW9v2m+P2g
- 6ejSe3Uanjl8Pg4CvJ0LzObCg/7tfZNsDz3kAkOeZV4MiXbtpnCTPT3CINW7L2dWtH/M
- WA7/KBSVX6oPIiDzAioANH73oxZSnn4RCpzpnE7WQ1Ob3C+ME/B31Q+LEw4Zz+cu77z3
- kHfLQArKEGVqRqoln5pgaymUTTo0rGCuJGQzJOtKkkCWaGv4f94I6W8tMLTU8/0cdYo/ HQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 2ym31ugjcg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 10 Mar 2020 23:42:42 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02ANciVM028239;
-        Tue, 10 Mar 2020 23:40:41 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3030.oracle.com with ESMTP id 2yp8puubhw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 10 Mar 2020 23:40:41 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02ANePNm009536;
-        Tue, 10 Mar 2020 23:40:25 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 10 Mar 2020 16:40:24 -0700
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
-        Kai =?utf-8?Q?M?= =?utf-8?Q?=C3=A4kisara?= 
-        <Kai.Makisara@kolumbus.fi>, linux-scsi@vger.kernel.org,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>,
-        megaraidlinux.pdl@broadcom.com,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        esc.storagedev@microsemi.com, Doug Gilbert <dgilbert@interlog.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        HighPoint Linux Team <linux@highpoint-tech.com>,
-        Michael Schmitz <schmitzmic@gmail.com>,
-        Hannes Reinecke <hare@suse.com>, dc395x@twibble.org,
-        Oliver Neukum <oliver@neukum.org>,
-        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-        "Juergen E. Fischer" <fischer@norbit.de>,
-        Khalid Aziz <khalid@gonehiking.org>,
-        Kashyap Desai <kashyap.desai@broadcom.com>,
-        Jamie Lenehan <lenehan@twibble.org>,
-        Ali Akcaagac <aliakc@web.de>,
-        Don Brace <don.brace@microsemi.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Finn Thain <fthain@telegraphics.com.au>,
-        Avri Altman <avri.altman@wdc.com>,
-        GOTO Masanori <gotom@debian.or.jp>
-Subject: Re: [PATCH 00/42] Manually convert SCSI documentation to ReST format
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-References: <cover.1583136624.git.mchehab+huawei@kernel.org>
-Date:   Tue, 10 Mar 2020 19:40:19 -0400
-In-Reply-To: <cover.1583136624.git.mchehab+huawei@kernel.org> (Mauro Carvalho
-        Chehab's message of "Mon, 2 Mar 2020 09:15:33 +0100")
-Message-ID: <yq14kuvu6cc.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
+        id S1727695AbgCKARp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Mar 2020 20:17:45 -0400
+Received: from out02.mta.xmission.com ([166.70.13.232]:40022 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726463AbgCKARp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Mar 2020 20:17:45 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jBp3z-0008FJ-R6; Tue, 10 Mar 2020 18:17:31 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jBp3y-0000VK-Vy; Tue, 10 Mar 2020 18:17:31 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Jann Horn <jannh@google.com>
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
+        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <875zfmloir.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87v9nmjulm.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <202003021531.C77EF10@keescook>
+        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87v9nlii0b.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87a74xi4kz.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+        <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+        <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
+        <CAG48ez13XXWNRLrPFRHRsvPKSwSK1-6k+1F7QujWOJtVuk0QHg@mail.gmail.com>
+        <87wo7roq2c.fsf@x220.int.ebiederm.org>
+        <CAG48ez1j2=pdj0nc1syHkh6X4d=aHuCH1srzA6hT7+32QD+6Gg@mail.gmail.com>
+Date:   Tue, 10 Mar 2020 19:15:12 -0500
+In-Reply-To: <CAG48ez1j2=pdj0nc1syHkh6X4d=aHuCH1srzA6hT7+32QD+6Gg@mail.gmail.com>
+        (Jann Horn's message of "Wed, 11 Mar 2020 00:21:49 +0100")
+Message-ID: <87k13roigf.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
- mlxlogscore=999 bulkscore=0 suspectscore=0 mlxscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003100141
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 lowpriorityscore=0
- spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=0
- phishscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003100141
+X-XM-SPF: eid=1jBp3y-0000VK-Vy;;;mid=<87k13roigf.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX191GcjSpm9Har/C6Rc/ejl26zceokkfPxs=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace cred_guard_mutex
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Jann Horn <jannh@google.com> writes:
 
-Mauro,
-
-> This patch series manually convert all SCSI documentation files to
-> ReST.
+> On Tue, Mar 10, 2020 at 10:33 PM Eric W. Biederman
+> <ebiederm@xmission.com> wrote:
+>> Jann Horn <jannh@google.com> writes:
+>> > On Sun, Mar 8, 2020 at 10:41 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>> >> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
+>> >> over the userspace accesses as the arguments from userspace are read.
+>> >> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
+>> >> threads are killed.  The cred_guard_mutex is held over
+>> >> "put_user(0, tsk->clear_child_tid)" in exit_mm().
+>> >>
+>> >> Any of those can result in deadlock, as the cred_guard_mutex is held
+>> >> over a possible indefinite userspace waits for userspace.
+>> >>
+>> >> Add exec_update_mutex that is only held over exec updating process
+>> >> with the new contents of exec, so that code that needs not to be
+>> >> confused by exec changing the mm and the cred in ways that can not
+>> >> happen during ordinary execution of a process.
+>> >>
+>> >> The plan is to switch the users of cred_guard_mutex to
+>> >> exec_udpate_mutex one by one.  This lets us move forward while still
+>> >> being careful and not introducing any regressions.
+>> > [...]
+>> >> @@ -1034,6 +1035,11 @@ static int exec_mmap(struct mm_struct *mm)
+>> >>                         return -EINTR;
+>> >>                 }
+>> >>         }
+>> >> +
+>> >> +       ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
+>> >> +       if (ret)
+>> >> +               return ret;
+>> >
+>> > We're already holding the old mmap_sem, and now nest the
+>> > exec_update_mutex inside it; but then while still holding the
+>> > exec_update_mutex, we do mmput(), which can e.g. end up in ksm_exit(),
+>> > which can do down_write(&mm->mmap_sem) from __ksm_exit(). So I think
+>> > at least lockdep will be unhappy, and I'm not sure whether it's an
+>> > actual problem or not.
+>>
+>> Good point.  I should double check the lock ordering here with mmap_sem.
+>> It doesn't look like mmput takes mmap_sem
 >
-> This is part of a bigger series that finaly finishes the migration to
-> ReST.  After that, we can focus on more interesting tasks from the
-> documentation PoV, like cleaning obsolete stuff and filling the gaps.
+> You sure about that? mmput() -> __mmput() -> ksm_exit() ->
+> __ksm_exit() -> down_write(&mm->mmap_sem)
+>
+> Or also: mmput() -> __mmput() -> khugepaged_exit() ->
+> __khugepaged_exit() -> down_write(&mm->mmap_sem)
+>
+> Or is there a reason why those paths can't happen?
 
-Applied to 5.7/scsi-queue.
+Clearly I didn't look far enough. 
 
-For some reason patch 23 didn't show up in the mbox so I had a bunch of
-conflicts due to the ncr53c8xx entry missing from index.rst. I thought
-you had somehow lost that patch along the way and decided to proceed
-regardless. However, it turns out the patch was missing due to a lore
-issue. By the time I figured out what the problem was, I had made it to
-the end of the series. And as a result, in my tree the ncr53c8xx patch
-comes last.
+I will adjust this so that exec_update_mutex is taken before mmap_sem.
+Anything else is just asking for trouble.
 
-Anyway. Thanks for cleaning this up!
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Eric
