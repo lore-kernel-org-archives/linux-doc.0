@@ -2,117 +2,114 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BBA0C2BB1D
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:03:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7003CC1975A
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:21:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D694720716
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:03:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4759D2067C
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:21:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="TfmuNTiD"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hlXc9bv7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727179AbgCLODc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 10:03:32 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36546 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727208AbgCLODb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 10:03:31 -0400
-Received: by mail-wr1-f67.google.com with SMTP id s5so7662231wrg.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 07:03:28 -0700 (PDT)
+        id S1727514AbgCLOVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 10:21:49 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39545 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727531AbgCLOVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 10:21:48 -0400
+Received: by mail-lj1-f195.google.com with SMTP id f10so6635022ljn.6
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 07:21:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=gZ8EzvWOoYPssGlE3Bc08q7j/BuTfnqODyWmkhQlWkA=;
-        b=TfmuNTiDZFVaKt1FsbjC8KD47kKTzeJiW0a5jYgMkGEHRDgSlpXWqwgP9A7Gf33Eld
-         aml8lOwBZNhMGI52wgky/dJ3sd2Cvhad5IH02L91tKg6lIeYC0MhdZ2sdzNY2oSomsNY
-         /ZHFB9z2P8NlaXCugSOWKuHmS2oJd8Dx2iKz8=
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=79OHKgNVg5IiTjP/EryhR/on7yjmd+OeOqFhBOB19Rg=;
+        b=hlXc9bv7wKtJYos/CvmIf1aWytTx7tjjvZA7MyZXi7udPi5CdammboSrae1hgCitp/
+         MSpq1qvYRN9mFEXkFN/xNTTmmao3V3GjlW0KxdQXRUqYqGp5IwObLZ7yB+renP8z+pfN
+         tTWRkIMDIS1GZe95+PfMemVe3rr1Kwnkd636g3iGRWP+yiHdYGH7FrFNCkkgIeRsEdxg
+         L1z1MSWPXkvi5ST+LYKisjEtlJI83foQzqkY8AUQk+nrdOaavjVDuTxl3sWpnDBKyxpA
+         I+Y+/KkkggsGEGEO3b8x79C2+nvBFhV0SVSG0v4dMd8b9iZmSihZqNyIYhxl61ZhaL+L
+         SMHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=gZ8EzvWOoYPssGlE3Bc08q7j/BuTfnqODyWmkhQlWkA=;
-        b=lCbkLd9J2awtMXlWa/ozO3DsPuBv1LyAwmzKl0324jMqLez+GwM03gUxmJS3/NdP8b
-         4Dn6zyTALL/ialY6CzoLxBMvOoVQ5D7wwW6pJ5/rXc5ONjeqcf16dvkbXQ0f49O4R2lO
-         WODS7ZdxuZrwXKuN9XwzDhwZk3vV5GD1fJ//qHnnUp8QChnWH/ko9EfdLZaA8TNfcOP/
-         6g+QlLzHvsm6frHzrkpWTqgonANIfz2R8sNGLA+BgwVvBiAVgxm2aGaNEeusE3xCpuXH
-         Ju+imdEH1lLMVrApyrmevphPiTm73slOUYanN3gTeohvzcjVCsT9QVx2VWvQgw9Y4+K+
-         YDdQ==
-X-Gm-Message-State: ANhLgQ1etExaaARE7a9N3cWFIgjYw9A7MFjHhQpUa5Nt1TRE8dnpqe/q
-        hVdYSOTQWZuThWi5YZO1knjovQ==
-X-Google-Smtp-Source: ADFU+vv1/ATpkRSO8dO42Isg6QmWT0wIt5OWthWLFxdkk6d8XZ/NFK6+zJf5AKfIuiiU1XmqFp5T9A==
-X-Received: by 2002:adf:b3d6:: with SMTP id x22mr10936079wrd.242.1584021808040;
-        Thu, 12 Mar 2020 07:03:28 -0700 (PDT)
-Received: from localhost ([89.32.122.5])
-        by smtp.gmail.com with ESMTPSA id d63sm12680261wmd.44.2020.03.12.07.03.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2020 07:03:27 -0700 (PDT)
-Date:   Thu, 12 Mar 2020 14:03:26 +0000
-From:   Chris Down <chris@chrisdown.name>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        David Rientjes <rientjes@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jgross@suse.com" <jgross@suse.com>,
-        "oneukum@suse.com" <oneukum@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: Re: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
-Message-ID: <20200312140326.GA1701917@chrisdown.name>
-References: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
- <alpine.DEB.2.21.2003111227230.171292@chino.kir.corp.google.com>
- <BL0PR02MB5601808F36BE202813E9D562E9FD0@BL0PR02MB5601.namprd02.prod.outlook.com>
- <20200312133636.GJ22433@bombadil.infradead.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=79OHKgNVg5IiTjP/EryhR/on7yjmd+OeOqFhBOB19Rg=;
+        b=GKZT78sqQ0EsTVr/ZHzw4nw8oJ/xLE5bMTqv1DZxJlI+8YsOtL/+arLh4BXw9xvWhE
+         uerPq/hhpKfjiBRusTTDmlBzfWnLgd0G/8D1SMI7epp5YG1OmHFgct1shhOWw5dsQsZ7
+         ar4vuzrYIFiAVlhiEUuG+LNrrOSMJjk4kVsIJVp6o+HBjKHu3yo4crHepM48yi2Ch4AW
+         7MzJRCxCJ2qZSBkpmNEuq8aJHbOx85bIXcrFu7HdENc3BZ4FRizZmGixw04ICk1eyZNe
+         0AenfqBVXuGbtLc3DJ0PZhFGSkJBCgPKlxBR8Cd+IUkPEnxyrrb3xYMEKNX1QEQHnbjS
+         R0fg==
+X-Gm-Message-State: ANhLgQ3F1zFC7zvDfTFWK6byrJInc+XCrX2/rjx2IRyA427jUgjkog27
+        uCYOTMkT83Ho+pxE7c1KNWVFnG4X5biogXGS5N04HA==
+X-Google-Smtp-Source: ADFU+vtcIZFKaUxv+zzMf8n7cOQduYtCadrIv8wfIOW4HDImubBu1ngGLVdiQB+7d6huEorOiDcjWc0JqvkBbK9RrNg=
+X-Received: by 2002:a05:651c:2c1:: with SMTP id f1mr5239338ljo.125.1584022905409;
+ Thu, 12 Mar 2020 07:21:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200312133636.GJ22433@bombadil.infradead.org>
+References: <20200218151812.7816-1-geert+renesas@glider.be> <20200218151812.7816-3-geert+renesas@glider.be>
+In-Reply-To: <20200218151812.7816-3-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 12 Mar 2020 15:21:34 +0100
+Message-ID: <CACRpkda1JAnC=Feb39GeKEEP6q8Qwpsth6J+4OKj6A8S3YAUyQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/5] gpiolib: Add support for GPIO line table lookup
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matthew Wilcox writes:
->On Thu, Mar 12, 2020 at 12:48:22PM +0000, Ivan Teterevkov wrote:
->> This is exactly what I'm trying to avoid: in some distros there is no way
->> to tackle the configuration early enough, e.g. in systemd-based systems
->> the systemd is the process that starts first and arranges memcg in a way
->> it's configured, but unfortunately, it doesn't offer the swappiness knob.
+Hi Geert,
+
+I'm sorry for the slow review, it's a large patch set and
+takes some time to sit down and review, and see whether my
+earlier comments have been addressed.
+
+On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+
+> Currently GPIOs can only be referred to by GPIO controller and offset in
+> GPIO lookup tables.
 >
->This sounds like a systemd problem.  Have you talked to the systemd
->people about fixing it in systemd?
+> Add support for looking them up by line name.
+> Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
+> that this field can have two meanings, and update the kerneldoc and
+> GPIO_LOOKUP*() macros.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 
-Hi there ;-)
+I will try to understand why this change is necessary to implement
+the gpio aggregator (probablt I will comment that on the other
+patches like "aha now I see it" or so, but it would help a lot if the
+commit message
+would state the technical reason to why we need to do this change,
+like what it is that you want to do and why you cannot do it without
+this change.
 
-In general most of us maintaining cgroups in systemd run with cgroup v2, so 
-this isn't a problem we run into in production. The swappiness controls in 
-general don't make a whole lot of sense being distributed hierarchically, so 
-they've been phased out entirely in cgroup v2.
-
-If there had been a patch years ago implementing this in systemd we'd probably 
-have accepted it, but cgroup v1 is dying and I am really not in favour of 
-adding more code to massage its rough edges. We already have enough problems 
-generated by it already.
-
-However, the following kludge in tmpfiles.d should work to solve your immediate 
-problem:
-
-	w /sys/fs/cgroup/memory/system.slice/memory.swappiness - - - - value
-
-Taking my systemd hat off and putting my -mm hat on: let's not add more hacky 
-APIs at cgroup v1's behest, or we'll be here until we're pushing up the 
-daisies.
-
-Thanks,
-
-Chris
+Yours,
+Linus Walleij
