@@ -2,97 +2,106 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_SBL,URIBL_SBL_A,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32211C10DCE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 19:10:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 723BFC10DCE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 20:14:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0DB7A206F1
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 19:10:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45D26206E2
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 20:14:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sPl23zHT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726481AbgCLTKT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 15:10:19 -0400
-Received: from 18.mo6.mail-out.ovh.net ([46.105.73.110]:46975 "EHLO
-        18.mo6.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726523AbgCLTKT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 15:10:19 -0400
-Received: from player687.ha.ovh.net (unknown [10.110.115.188])
-        by mo6.mail-out.ovh.net (Postfix) with ESMTP id DAA28203533
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 20:10:17 +0100 (CET)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player687.ha.ovh.net (Postfix) with ESMTPSA id D21501053114D;
-        Thu, 12 Mar 2020 19:10:04 +0000 (UTC)
-Date:   Thu, 12 Mar 2020 20:10:01 +0100
-From:   Stephen Kitt <steve@sk2.org>
-To:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <t-kristo@ti.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: driver-api/dma.../provider.rst: fix indents
-Message-ID: <20200312201001.17756b09@heffalump.sk2.org>
-In-Reply-To: <20200312181318.1368421-1-steve@sk2.org>
-References: <20200312181318.1368421-1-steve@sk2.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726736AbgCLUOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 16:14:40 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:42224 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726558AbgCLUOj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 16:14:39 -0400
+Received: by mail-qk1-f195.google.com with SMTP id e11so8514181qkg.9
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 13:14:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fvn2pKJibTXb2bx4NAqDt6T4DN8tL7CJJx9nTdlYHBY=;
+        b=sPl23zHTF+ghYCHNijMqfI2KsPB/F7Rs+Y5NyLRwLcZZJvm6UoBZ28Ov/BIrBMUngT
+         UbMHL3hlWpAhEx9CHPlUJNyPBhRT8M4oe5VfYS72vapkzmaULTa3/xlWgIWg9KILKyd5
+         /zCsoVr0WtEH0xYACYoaUtx27xxQowzfESDTy8UFH5TjrxxL9/JuS6Jp7qkbpWJTi1/I
+         cYzkMKeoeYX5DeVrqhhlKl79TP5Q5A9YJgMn/H4Ju4/vZPKYgaxynXL3Y/Y2XpJ4B3um
+         75wWe7YIbyOIAeWeU7m/W5Ubvj4f2btcIJkmPmFCKKWrxgivkvY6z1c6k4S3xI0gvoCw
+         ZRbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fvn2pKJibTXb2bx4NAqDt6T4DN8tL7CJJx9nTdlYHBY=;
+        b=JfIGZnV7THirH3pw8nHVq8v1LirtQlDiKwvC0x+RMW8OBRvSS9g1NKWb7SmlShDUA7
+         nMXF2Zga53SKoOBYvWrFsv3Q3RMlRnVDYWGIzhdHv7zGnPW606UvNX9bmGfxIaxYxveo
+         Nky3KB1FbJk7sDcQHmJ2tKXVkbteW1ZD3hwRMnuKOoPegZJyC+2mmqGzDksGRm5YwWSU
+         LN2TQzYPJtmEY7I+8KYd6XPg9rqRr+vLzR1OoTTfPofC+YmxRCNqkXe7x+NP32QqNLDq
+         PSz1BMdDD59F3uI20gNs86coVIxBOELWXvArNxKocot096Rz5Yo9wbt9QXW40O8PsZFN
+         0zrg==
+X-Gm-Message-State: ANhLgQ2M1B+JxQ5Ik/snh/Usb19tiBRgfaSE6Cl8vd9lXzeUhkHD8fV6
+        HAQrlbGbV9Eq9+XPuHANZnqw76uTOSE9eg==
+X-Google-Smtp-Source: ADFU+vsCMeQySD/CiWh7iZws1d/MNp1qEdmdO8uJrFqjYgk5TT/9nw5M442yCXlaAW3Va7gZgn+JAg==
+X-Received: by 2002:a05:620a:1083:: with SMTP id g3mr4568562qkk.470.1584044078841;
+        Thu, 12 Mar 2020 13:14:38 -0700 (PDT)
+Received: from laptop1.home.joalon.se ([168.227.33.39])
+        by smtp.gmail.com with ESMTPSA id p23sm1245219qkm.39.2020.03.12.13.14.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2020 13:14:38 -0700 (PDT)
+From:   "=?UTF-8?q?Joakim=20L=C3=B6nnegren?=" <joakimlonnegren@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Joakim=20L=C3=B6nnegren?= <joakimlonnegren@gmail.om>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org,
+        =?UTF-8?q?Joakim=20L=C3=B6nnegren?= <joakimlonnegren@gmail.com>
+Subject: [PATCH v2] Documentation: driver-api/usb/writing_usb_driver.rst Updates documentation links
+Date:   Thu, 12 Mar 2020 17:13:55 -0300
+Message-Id: <20200312201354.285839-1-joakimlonnegren@gmail.om>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/D1hSsBmuZS=0yQzzXmBo_nm"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 9878927258995543368
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvhedguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/D1hSsBmuZS=0yQzzXmBo_nm
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+In writing_usb_driver.rst:
+Remove link to https://www.qbik.ch/usb/devices/ since it seems to be inactive since 2013
+Update link to linux-usb mailing list archive
 
-On Thu, 12 Mar 2020 19:13:18 +0100, Stephen Kitt <steve@sk2.org> wrote:
-> This fixes some block indentations, formatting them as definitions
-> (which seems appropriate given the content), and addressing these
-> warnings:
->=20
-> 	Documentation/driver-api/dmaengine/provider.rst:270: WARNING:
-> Unexpected indentation.
-> 	Documentation/driver-api/dmaengine/provider.rst:273: WARNING: Block
-> quote ends without a blank line; unexpected unindent.
-> 	Documentation/driver-api/dmaengine/provider.rst:288: WARNING:
-> Unexpected indentation.
-> 	Documentation/driver-api/dmaengine/provider.rst:290: WARNING: Block
-> quote ends without a blank line; unexpected unindent.
+Signed-off-by: Joakim Lönnegren <joakimlonnegren@gmail.com>
+---
+Change in v2:
+updates the mailing list archive to lore.kernel.org
+---
+ Documentation/driver-api/usb/writing_usb_driver.rst | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-... which are already fixed in linux-next, so please ignore this.
+diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+index 4fe1c06b6a13..0b3d9ff221bb 100644
+--- a/Documentation/driver-api/usb/writing_usb_driver.rst
++++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+@@ -314,11 +314,8 @@ http://www.linux-usb.org/
+ Linux Hotplug Project:
+ http://linux-hotplug.sourceforge.net/
+ 
+-Linux USB Working Devices List:
+-http://www.qbik.ch/usb/devices/
+-
+-linux-usb-devel Mailing List Archives:
+-http://marc.theaimsgroup.com/?l=linux-usb-devel
++linux-usb Mailing List Archives:
++https://lore.kernel.org/linux-usb/
+ 
+ Programming Guide for Linux USB Device Drivers:
+ http://lmu.web.psi.ch/docu/manuals/software_manuals/linux_sl/usb_linux_programming_guide.pdf
+-- 
+2.25.0
 
-Regards,
-
-Stephen
-
---Sig_/D1hSsBmuZS=0yQzzXmBo_nm
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl5qiQkACgkQgNMC9Yht
-g5yjPQ/+IIi6Nyd2DgTkmWshlC+0gijXtvuEY2mvIpUm4MUnJ0QNTmC4ICVJBjHo
-+JlNfadJLaxXBqomZ1tEyBh8/9C5sFGkfyar8ofz88lX4ee1A6h8PQL1z39HtXvY
-YlSf1xSdWcjFO6BmLDAMpMBnl40dsGLFYtnSYrCerzj1It4JQUPDTSv5vSdm/Rnq
-IIE4ccNoy1LnkqqqgpsyOtih20U5MJvtZVSl3Pcnbb5SkxpQlE0kHaqZGj6EpDF2
-OIM7sIZj+ADJ+fnMEp1M/IkSCxVu/YBox7m1sOsuTAgMfjbEC6v5FDYHTMtkT/Hh
-Rdpo6HWWTIFPaWFOQC/tKQQfYR63YVHZ8npMrmYwPAzqGFJ4Ql/lWKfFvDOz6XAB
-SbrDt/FgpjN0E7p52ePT7HkPI04xojnzvPMzt+mD3hPOVFIAFQDzwPngI47WFGnK
-ZuUVylhfMVIPmzxzHNuuwjUPDwqiqhPPhfHpHF3mvb8v+urpv20Id5V9YJP1BI2Q
-InwPGeoj27I6jcIJcHijq9GSWRmzpzxyU3janNAAFsQaLZamMwAEOsOt8AaUVA7J
-zT4jSw6gD79MXP5BGMKuN772PIg+7dlf8yY/kW3+jIuuBLVTXX8WRKpazuklS3UZ
-byPY5jWhPt4dnKSzwhXVAL/aGN9wPPgSea5PE6SxSbfVF3xZjAQ=
-=WVyT
------END PGP SIGNATURE-----
-
---Sig_/D1hSsBmuZS=0yQzzXmBo_nm--
