@@ -6,100 +6,110 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A303C1975A
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:24:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C39C10DCE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:31:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 031EC2071C
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:24:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 638D1206F1
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:31:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbgCLSYo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 14:24:44 -0400
-Received: from 2.mo178.mail-out.ovh.net ([46.105.39.61]:60083 "EHLO
-        2.mo178.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726681AbgCLSYo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 14:24:44 -0400
-X-Greylist: delayed 155305 seconds by postgrey-1.27 at vger.kernel.org; Thu, 12 Mar 2020 14:24:42 EDT
-Received: from player759.ha.ovh.net (unknown [10.108.54.133])
-        by mo178.mail-out.ovh.net (Postfix) with ESMTP id 98A1F9543D
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 19:07:44 +0100 (CET)
+        id S1726406AbgCLSbn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 14:31:43 -0400
+Received: from 8.mo6.mail-out.ovh.net ([178.33.42.204]:36470 "EHLO
+        8.mo6.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726362AbgCLSbn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 14:31:43 -0400
+X-Greylist: delayed 598 seconds by postgrey-1.27 at vger.kernel.org; Thu, 12 Mar 2020 14:31:42 EDT
+Received: from player728.ha.ovh.net (unknown [10.108.35.122])
+        by mo6.mail-out.ovh.net (Postfix) with ESMTP id 634F320454C
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 19:13:49 +0100 (CET)
 Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
         (Authenticated sender: steve@sk2.org)
-        by player759.ha.ovh.net (Postfix) with ESMTPSA id 3FFD5106367DE;
-        Thu, 12 Mar 2020 18:07:36 +0000 (UTC)
+        by player728.ha.ovh.net (Postfix) with ESMTPSA id 7C8D11047C29C;
+        Thu, 12 Mar 2020 18:13:36 +0000 (UTC)
 From:   Stephen Kitt <steve@sk2.org>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
+To:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <t-kristo@ti.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH] docs: driver-api/gpio/driver.rst: fix code blocks
-Date:   Thu, 12 Mar 2020 19:06:51 +0100
-Message-Id: <20200312180650.1365059-1-steve@sk2.org>
+Subject: [PATCH] docs: driver-api/dma.../provider.rst: fix indents
+Date:   Thu, 12 Mar 2020 19:13:18 +0100
+Message-Id: <20200312181318.1368421-1-steve@sk2.org>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 8822551671076179420
+X-Ovh-Tracer-Id: 8925290037935820104
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvhedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvhedgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Two code blocks have duplicate declarations (:: and explicit
-.. code-block), this fixes them, addressing these warnings:
+This fixes some block indentations, formatting them as definitions
+(which seems appropriate given the content), and addressing these
+warnings:
 
-	Documentation/driver-api/gpio/driver.rst:425: WARNING: Unexpected indentation.
-	Documentation/driver-api/gpio/driver.rst:423: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:427: WARNING: Block quote ends without a blank line; unexpected unindent.
-	Documentation/driver-api/gpio/driver.rst:429: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:429: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:429: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:433: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:446: WARNING: Unexpected indentation.
-	Documentation/driver-api/gpio/driver.rst:440: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:440: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:447: WARNING: Block quote ends without a blank line; unexpected unindent.
-	Documentation/driver-api/gpio/driver.rst:449: WARNING: Definition list ends without a blank line; unexpected unindent.
-	Documentation/driver-api/gpio/driver.rst:462: WARNING: Unexpected indentation.
-	Documentation/driver-api/gpio/driver.rst:460: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:462: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:465: WARNING: Block quote ends without a blank line; unexpected unindent.
-	Documentation/driver-api/gpio/driver.rst:467: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:467: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:467: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:471: WARNING: Inline emphasis start-string without end-string.
-	Documentation/driver-api/gpio/driver.rst:478: WARNING: Inline emphasis start-string without end-string.
+	Documentation/driver-api/dmaengine/provider.rst:270: WARNING: Unexpected indentation.
+	Documentation/driver-api/dmaengine/provider.rst:273: WARNING: Block quote ends without a blank line; unexpected unindent.
+	Documentation/driver-api/dmaengine/provider.rst:288: WARNING: Unexpected indentation.
+	Documentation/driver-api/dmaengine/provider.rst:290: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-Fixes: 4e29b70d5437 ("Documentation: gpio: driver.rst: Fix warnings")
+Fixes: 7d083ae98357 ("dmaengine: doc: Add sections for per descriptor metadata support")
 Signed-off-by: Stephen Kitt <steve@sk2.org>
 ---
- Documentation/driver-api/gpio/driver.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/driver-api/dmaengine/provider.rst | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-index 871922529332..9809f593c0ab 100644
---- a/Documentation/driver-api/gpio/driver.rst
-+++ b/Documentation/driver-api/gpio/driver.rst
-@@ -416,7 +416,7 @@ The preferred way to set up the helpers is to fill in the
- struct gpio_irq_chip inside struct gpio_chip before adding the gpio_chip.
- If you do this, the additional irq_chip will be set up by gpiolib at the
- same time as setting up the rest of the GPIO functionality. The following
--is a typical example of a cascaded interrupt handler using gpio_irq_chip::
-+is a typical example of a cascaded interrupt handler using gpio_irq_chip:
+diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+index 790a15089f1f..6367a79de47d 100644
+--- a/Documentation/driver-api/dmaengine/provider.rst
++++ b/Documentation/driver-api/dmaengine/provider.rst
+@@ -260,34 +260,35 @@ descriptors. Depending on the architecture the DMA driver can implement either
+ or both of the methods and it is up to the client driver to choose which one
+ to use.
  
- .. code-block:: c
+-- DESC_METADATA_CLIENT
+-
++DESC_METADATA_CLIENT
+   The metadata buffer is allocated/provided by the client driver and it is
+   attached (via the dmaengine_desc_attach_metadata() helper to the descriptor.
  
-@@ -453,7 +453,7 @@ is a typical example of a cascaded interrupt handler using gpio_irq_chip::
-   return devm_gpiochip_add_data(dev, &g->gc, g);
+   From the DMA driver the following is expected for this mode:
+-  - DMA_MEM_TO_DEV / DEV_MEM_TO_MEM
++
++  DMA_MEM_TO_DEV / DEV_MEM_TO_MEM
+     The data from the provided metadata buffer should be prepared for the DMA
+     controller to be sent alongside of the payload data. Either by copying to a
+     hardware descriptor, or highly coupled packet.
+-  - DMA_DEV_TO_MEM
++  DMA_DEV_TO_MEM
+     On transfer completion the DMA driver must copy the metadata to the client
+     provided metadata buffer before notifying the client about the completion.
+     After the transfer completion, DMA drivers must not touch the metadata
+     buffer provided by the client.
  
- The helper support using hierarchical interrupt controllers as well.
--In this case the typical set-up will look like this::
-+In this case the typical set-up will look like this:
+-- DESC_METADATA_ENGINE
+-
++DESC_METADATA_ENGINE
+   The metadata buffer is allocated/managed by the DMA driver. The client driver
+   can ask for the pointer, maximum size and the currently used size of the
+   metadata and can directly update or read it. dmaengine_desc_get_metadata_ptr()
+   and dmaengine_desc_set_metadata_len() is provided as helper functions.
  
- .. code-block:: c
+   From the DMA driver the following is expected for this mode:
+-  - get_metadata_ptr
++
++  get_metadata_ptr
+     Should return a pointer for the metadata buffer, the maximum size of the
+     metadata buffer and the currently used / valid (if any) bytes in the buffer.
+-  - set_metadata_len
++
++  set_metadata_len
+     It is called by the clients after it have placed the metadata to the buffer
+     to let the DMA driver know the number of valid bytes provided.
  
 
 base-commit: 7d3d3254adaa61cba896f71497f56901deb618e5
