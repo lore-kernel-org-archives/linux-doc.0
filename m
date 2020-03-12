@@ -2,106 +2,117 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_SBL,URIBL_SBL_A,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 723BFC10DCE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 20:14:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C740DC4CECE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 20:45:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 45D26206E2
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 20:14:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sPl23zHT"
+	by mail.kernel.org (Postfix) with ESMTP id A07CC20738
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 20:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584045918;
+	bh=zZzSYd+OhEGo8pmui4OqaDSuxP1H2anQxWw6SpQUHb8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
+	b=ttOAzfX9JBlifmPmnnnDv8Ur1Ap1jIC3Y3jw6qKX7CNDk7p9TMVwdmHT3kB04WpC3
+	 46OqnNzIVcoIEEcQ8L9GfSTIJNrTbrAZU4RyrZckEOWNgVjOADN1dlgTiFNFBdMo5r
+	 Q2fZrA8fKcLwTqcsoANSsyRtfi4w9tDi0vyoBWgw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbgCLUOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 16:14:40 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:42224 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726558AbgCLUOj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 16:14:39 -0400
-Received: by mail-qk1-f195.google.com with SMTP id e11so8514181qkg.9
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 13:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fvn2pKJibTXb2bx4NAqDt6T4DN8tL7CJJx9nTdlYHBY=;
-        b=sPl23zHTF+ghYCHNijMqfI2KsPB/F7Rs+Y5NyLRwLcZZJvm6UoBZ28Ov/BIrBMUngT
-         UbMHL3hlWpAhEx9CHPlUJNyPBhRT8M4oe5VfYS72vapkzmaULTa3/xlWgIWg9KILKyd5
-         /zCsoVr0WtEH0xYACYoaUtx27xxQowzfESDTy8UFH5TjrxxL9/JuS6Jp7qkbpWJTi1/I
-         cYzkMKeoeYX5DeVrqhhlKl79TP5Q5A9YJgMn/H4Ju4/vZPKYgaxynXL3Y/Y2XpJ4B3um
-         75wWe7YIbyOIAeWeU7m/W5Ubvj4f2btcIJkmPmFCKKWrxgivkvY6z1c6k4S3xI0gvoCw
-         ZRbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fvn2pKJibTXb2bx4NAqDt6T4DN8tL7CJJx9nTdlYHBY=;
-        b=JfIGZnV7THirH3pw8nHVq8v1LirtQlDiKwvC0x+RMW8OBRvSS9g1NKWb7SmlShDUA7
-         nMXF2Zga53SKoOBYvWrFsv3Q3RMlRnVDYWGIzhdHv7zGnPW606UvNX9bmGfxIaxYxveo
-         Nky3KB1FbJk7sDcQHmJ2tKXVkbteW1ZD3hwRMnuKOoPegZJyC+2mmqGzDksGRm5YwWSU
-         LN2TQzYPJtmEY7I+8KYd6XPg9rqRr+vLzR1OoTTfPofC+YmxRCNqkXe7x+NP32QqNLDq
-         PSz1BMdDD59F3uI20gNs86coVIxBOELWXvArNxKocot096Rz5Yo9wbt9QXW40O8PsZFN
-         0zrg==
-X-Gm-Message-State: ANhLgQ2M1B+JxQ5Ik/snh/Usb19tiBRgfaSE6Cl8vd9lXzeUhkHD8fV6
-        HAQrlbGbV9Eq9+XPuHANZnqw76uTOSE9eg==
-X-Google-Smtp-Source: ADFU+vsCMeQySD/CiWh7iZws1d/MNp1qEdmdO8uJrFqjYgk5TT/9nw5M442yCXlaAW3Va7gZgn+JAg==
-X-Received: by 2002:a05:620a:1083:: with SMTP id g3mr4568562qkk.470.1584044078841;
-        Thu, 12 Mar 2020 13:14:38 -0700 (PDT)
-Received: from laptop1.home.joalon.se ([168.227.33.39])
-        by smtp.gmail.com with ESMTPSA id p23sm1245219qkm.39.2020.03.12.13.14.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2020 13:14:38 -0700 (PDT)
-From:   "=?UTF-8?q?Joakim=20L=C3=B6nnegren?=" <joakimlonnegren@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Joakim=20L=C3=B6nnegren?= <joakimlonnegren@gmail.om>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org,
-        =?UTF-8?q?Joakim=20L=C3=B6nnegren?= <joakimlonnegren@gmail.com>
-Subject: [PATCH v2] Documentation: driver-api/usb/writing_usb_driver.rst Updates documentation links
-Date:   Thu, 12 Mar 2020 17:13:55 -0300
-Message-Id: <20200312201354.285839-1-joakimlonnegren@gmail.om>
-X-Mailer: git-send-email 2.25.0
+        id S1726788AbgCLUpR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 16:45:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36764 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726246AbgCLUpR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Mar 2020 16:45:17 -0400
+Received: from localhost (mobile-166-175-186-165.mycingular.net [166.175.186.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 067F0205F4;
+        Thu, 12 Mar 2020 20:45:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584045916;
+        bh=zZzSYd+OhEGo8pmui4OqaDSuxP1H2anQxWw6SpQUHb8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=nx7m7zJcnrAvX1RV8llWgsCoe4zJIRYbu9W2a5EFju1bjHduukyyrr861uJ2A38+c
+         SD4yPMh1iEsi3jWdLg+wFDm11H4Mn213zXfKWrpetsfmbPZmH4P3EnuIJMFcVRAlzQ
+         GHFsnrLuzMfgwFRn6465StIBaqkEOazOtFgUBYDc=
+Date:   Thu, 12 Mar 2020 15:45:14 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc:     will@kernel.org, robh+dt@kernel.org, joro@8bytes.org,
+        baolu.lu@linux.intel.com, sudeep.holla@arm.com,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
+        lorenzo.pieralisi@arm.com, corbet@lwn.net, mark.rutland@arm.com,
+        liviu.dudau@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
+        lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
+        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
+Subject: Re: [PATCH v2 03/11] PCI: OF: Check whether the host bridge supports
+ ATS
+Message-ID: <20200312204514.GA178416@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200311124506.208376-4-jean-philippe@linaro.org>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In writing_usb_driver.rst:
-Remove link to https://www.qbik.ch/usb/devices/ since it seems to be inactive since 2013
-Update link to linux-usb mailing list archive
+On Wed, Mar 11, 2020 at 01:44:58PM +0100, Jean-Philippe Brucker wrote:
+> When setting up a generic host on a device-tree based system, copy the
+> ats-supported flag into the pci_host_bridge structure.
+> 
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+> v1->v2: keep the helper in pci-host-common.c
+> ---
+>  drivers/pci/controller/pci-host-common.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/pci/controller/pci-host-common.c b/drivers/pci/controller/pci-host-common.c
+> index 250a3fc80ec6..2e800bc6ae7a 100644
+> --- a/drivers/pci/controller/pci-host-common.c
+> +++ b/drivers/pci/controller/pci-host-common.c
+> @@ -54,6 +54,16 @@ static struct pci_config_window *gen_pci_init(struct device *dev,
+>  	return ERR_PTR(err);
+>  }
+>  
+> +static void of_pci_host_check_ats(struct pci_host_bridge *bridge)
+> +{
+> +	struct device_node *np = bridge->bus->dev.of_node;
+> +
+> +	if (!np)
+> +		return;
+> +
+> +	bridge->ats_supported = of_property_read_bool(np, "ats-supported");
+> +}
+> +
+>  int pci_host_common_probe(struct platform_device *pdev,
+>  			  struct pci_ecam_ops *ops)
+>  {
+> @@ -92,6 +102,7 @@ int pci_host_common_probe(struct platform_device *pdev,
+>  		return ret;
+>  	}
+>  
+> +	of_pci_host_check_ats(bridge);
 
-Signed-off-by: Joakim Lönnegren <joakimlonnegren@gmail.com>
----
-Change in v2:
-updates the mailing list archive to lore.kernel.org
----
- Documentation/driver-api/usb/writing_usb_driver.rst | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+I would prefer to write this as a predicate instead of having the
+assignment be a side-effect, e.g.,
 
-diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
-index 4fe1c06b6a13..0b3d9ff221bb 100644
---- a/Documentation/driver-api/usb/writing_usb_driver.rst
-+++ b/Documentation/driver-api/usb/writing_usb_driver.rst
-@@ -314,11 +314,8 @@ http://www.linux-usb.org/
- Linux Hotplug Project:
- http://linux-hotplug.sourceforge.net/
- 
--Linux USB Working Devices List:
--http://www.qbik.ch/usb/devices/
--
--linux-usb-devel Mailing List Archives:
--http://marc.theaimsgroup.com/?l=linux-usb-devel
-+linux-usb Mailing List Archives:
-+https://lore.kernel.org/linux-usb/
- 
- Programming Guide for Linux USB Device Drivers:
- http://lmu.web.psi.ch/docu/manuals/software_manuals/linux_sl/usb_linux_programming_guide.pdf
--- 
-2.25.0
+  bridge->ats_supported = of_pci_host_ats_supported(bridge);
 
+If that works for you,
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+>  	platform_set_drvdata(pdev, bridge->bus);
+>  	return 0;
+>  }
+> -- 
+> 2.25.1
+> 
