@@ -2,276 +2,136 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C32FC10DCE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 07:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B887FC1975A
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 07:54:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7EB012071B
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 07:31:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C77F206B7
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 07:54:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="XE0WGkCN"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EpWXmU25"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387999AbgCLHbQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 03:31:16 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:54443 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387930AbgCLHbQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 03:31:16 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id CIJBjX5Kt9Im2CIJFjigM2; Thu, 12 Mar 2020 08:31:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1583998273; bh=ckO9wc/0YsnvmvvoxJ4Iuhz855VOuIfWEB/AEfwSExM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=XE0WGkCN8kCZzEgryF1ANA9vfFSoHWNAWFFcKdjGo+XSEeCM5HkTkp2/xXNL9j/l/
-         RALQOOJJe0sE+aPDiY8aXZ879cE3SSt69lSv6tUB3uhA1WS78x7skMEs4g+A68n5fR
-         2Od80X96zj7zODJJQ5ByknTf1jmRWqUSkhyxA1vk8LXNtFUw06DWqs8+KkZsjLXIQh
-         ue6cZCF/J15WpxQnNpfnMiXvkgFo1J3CsSmCMephbijiCLf3KQLny9nZYmkJkAdvaS
-         mo6/w/TDHsDcgyM4Zx1Hnk0j8GGrDwu+9NbSyw//PbntZAfxxDiAt0TgBCG+/v+vdc
-         wFIg8VDGYYlrQ==
-Subject: Re: [PATCH v2 21/22] media: docs: add an uAPI chapter for
- driver-specific stuff
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1583847556.git.mchehab+huawei@kernel.org>
- <eb09422f4292b1462978abc02acf41e7630c698c.1583847557.git.mchehab+huawei@kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <7a6dc292-8051-3141-6fef-ca7b86984a10@xs4all.nl>
-Date:   Thu, 12 Mar 2020 08:31:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S2387898AbgCLHys (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 03:54:48 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44234 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388027AbgCLHys (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 03:54:48 -0400
+Received: by mail-wr1-f68.google.com with SMTP id l18so6077084wru.11
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 00:54:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pr04BKgViz7j88JBgxuUWEhe3OvdyJ6JSxyYo6mbxRM=;
+        b=EpWXmU25L0YGiiRM8vJA3DFaYTd2tQHV/7f1WBTrWn3S4r9BSEwymIHqNVZSw4dMvj
+         iyFMVzICUPU+kCGh2X+TFBzft2lxPcpMbo2NwY076sG0P7S8cnI2qb5nx+YdVFbTNEKI
+         Z7BthyeuRMPKwkqWfD4mJzybiJp3XzMU1lUrJoyP65Uc00FpC6n2iQcNwChNa9vNvld+
+         k7pTldNv6wbqW9jcOZyltSbxgDfSmSCexv+/zHWUc0V2kqkQvsQi0AAyblBeXyXYdrQm
+         tiByVIzqJB4Lcq46F6IOlGlYJts4l+kW8g962H+cWT1VTDfEKGKKH9N9Zr/wVINNVYVX
+         QiYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pr04BKgViz7j88JBgxuUWEhe3OvdyJ6JSxyYo6mbxRM=;
+        b=sLZ4XnMyKu/8miVOh6X7Xvkjw9MgeoekDktk5vjSLnFdN1LLxzxiZzTP8ljBqA6mvE
+         /2k8ZJD/HVHmk0aytX5GXBP+PSu9D2ECvPnv4eJW6b6zMmixOrogR80Y0pq+PesqwKr7
+         F+bDqQo8hPepQn0fKAZ1inFq1hLA3+bTa3N1MViuK8qdvEh5T0PD8Wy6exxkynYFi8GV
+         JQVkp2JYSH5BGjhuhMIeQU4iPIQNNP45jW9HQtmB7+5SL/rc3+a8AwToIOiGMZkPQSSg
+         MwOk+TOqotRiJFC60Zao/CL69ggLrFJMQtgLrJOw8h8WJH4wkzTpprPkxYj9XUuq+KcV
+         t+UQ==
+X-Gm-Message-State: ANhLgQ1OQ9MQDgC/l/sfkfmaH9OqsJce4wCiGTqqeJwORxG5hdOmFFPE
+        bAdV4MDeseMPspDGy0U2raKnEg==
+X-Google-Smtp-Source: ADFU+vtT5PIgJyJgbHd5navhTh3TzppWQ7now/ZfW46dAJfhZnjJPv9XMBdkmY0dc+S4uOHKFCAEpQ==
+X-Received: by 2002:a5d:474d:: with SMTP id o13mr9266723wrs.162.1583999684449;
+        Thu, 12 Mar 2020 00:54:44 -0700 (PDT)
+Received: from myrica ([2001:171b:c9a8:fbc0:116c:c27a:3e7f:5eaf])
+        by smtp.gmail.com with ESMTPSA id f207sm12446498wme.9.2020.03.12.00.54.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2020 00:54:43 -0700 (PDT)
+Date:   Thu, 12 Mar 2020 08:54:36 +0100
+From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
+To:     Lu Baolu <baolu.lu@linux.intel.com>
+Cc:     bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
+        joro@8bytes.org, sudeep.holla@arm.com, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        iommu@lists.linux-foundation.org, lorenzo.pieralisi@arm.com,
+        corbet@lwn.net, mark.rutland@arm.com, liviu.dudau@arm.com,
+        guohanjun@huawei.com, rjw@rjwysocki.net, lenb@kernel.org,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
+Subject: Re: [PATCH v2 08/11] iommu/vt-d: Use pci_ats_supported()
+Message-ID: <20200312075436.GA568802@myrica>
+References: <20200311124506.208376-1-jean-philippe@linaro.org>
+ <20200311124506.208376-9-jean-philippe@linaro.org>
+ <7019230c-3c56-e6db-6704-d73f23fa39b5@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <eb09422f4292b1462978abc02acf41e7630c698c.1583847557.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPsT7R25rji2KSvoTUFDgjK2likkS8HQkuW9Q6huTlQdskhYF+A1hF1Mir7rt7lWB82zwyPkQcJlIdi5UFrrnYkLSO4Uf/YK4HQChkaPmXVsVUGCu2GQ
- jOLL1Rgx/a3hvlc4l7525YrkR2k/IifKmY7XLR0/oAy8L82k4C0XauHZQsnjfOzdfi1SrnklG7MTy9OpJRgiNL4qRbL1axwyz1E2QupnNvaBo6xmQBSZaCNh
- E2UYz3ZrETcFW3LGTJDPo/mjRQX0OLBdY1PpTEz3fN7lvF/2/BooMliYQxhBs87i0p1WJLL/ujZTAlFtp2rbgRQtrvVylWkCgaBFhx944kGtQwpwO1JSaYOR
- o9PE8D9rJ3LJOT3/iyCjCDX7XiTYkt6yz18tcoIQqzwh4/0LuK9vyyrwgOpVzUMwRjbjMQ4OlO2HGm5a6s2TgXFHFUFpZV96weXChLkEhfaKwqx/57MvNYpR
- mAhoaaXc9X2MRHtl70gACjIdHOE4Em3U81dF8Xi+YhURMmRZazPUQoiDH3nsmHBYDsWU5dYXE/QmTiHqWWhEVOSIe8bUMN8WW4DQDw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7019230c-3c56-e6db-6704-d73f23fa39b5@linux.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/10/20 2:43 PM, Mauro Carvalho Chehab wrote:
-> There are some uAPI stuff that are driver-specific. Add them
-> to the main media uAPI body.
+Hi Baolu,
+
+On Thu, Mar 12, 2020 at 09:44:16AM +0800, Lu Baolu wrote:
+> Hi Jean,
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/media/index.rst                              | 2 --
->  .../media/drivers}/cx2341x-uapi.rst                        | 0
->  .../media/drivers}/imx-uapi.rst                            | 0
->  .../v4l-drivers => userspace-api/media/drivers}/index.rst  | 7 +++----
->  .../media/drivers}/max2175.rst                             | 0
->  .../media/drivers}/meye-uapi.rst                           | 0
->  .../media/drivers}/omap3isp-uapi.rst                       | 0
->  .../media/drivers}/uvcvideo.rst                            | 0
->  Documentation/userspace-api/media/index.rst                | 2 ++
->  Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst   | 2 +-
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst  | 2 +-
->  Documentation/userspace-api/media/v4l/pixfmt-reserved.rst  | 2 +-
->  MAINTAINERS                                                | 4 ++--
->  drivers/media/i2c/max2175.c                                | 6 +++---
->  14 files changed, 13 insertions(+), 14 deletions(-)
->  rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/cx2341x-uapi.rst (100%)
->  rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/imx-uapi.rst (100%)
->  rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/index.rst (97%)
->  rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/max2175.rst (100%)
->  rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/meye-uapi.rst (100%)
->  rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/omap3isp-uapi.rst (100%)
->  rename Documentation/{media/v4l-drivers => userspace-api/media/drivers}/uvcvideo.rst (100%)
+> On 2020/3/11 20:45, Jean-Philippe Brucker wrote:
+> > The pci_ats_supported() function checks if a device supports ATS and is
+> > allowed to use it.
+> > 
+> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > ---
+> >   drivers/iommu/intel-iommu.c | 9 +++------
+> >   1 file changed, 3 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> > index 6fa6de2b6ad5..17208280ef5c 100644
+> > --- a/drivers/iommu/intel-iommu.c
+> > +++ b/drivers/iommu/intel-iommu.c
+> > @@ -1454,8 +1454,7 @@ static void iommu_enable_dev_iotlb(struct device_domain_info *info)
+> >   	    !pci_reset_pri(pdev) && !pci_enable_pri(pdev, 32))
+> >   		info->pri_enabled = 1;
+> >   #endif
+> > -	if (!pdev->untrusted && info->ats_supported &&
+> > -	    pci_ats_page_aligned(pdev) &&
+> > +	if (info->ats_supported && pci_ats_page_aligned(pdev) &&
+> >   	    !pci_enable_ats(pdev, VTD_PAGE_SHIFT)) {
+> >   		info->ats_enabled = 1;
+> >   		domain_update_iotlb(info->domain);
+> > @@ -2611,10 +2610,8 @@ static struct dmar_domain *dmar_insert_one_dev_info(struct intel_iommu *iommu,
+> >   	if (dev && dev_is_pci(dev)) {
+> >   		struct pci_dev *pdev = to_pci_dev(info->dev);
+> > -		if (!pdev->untrusted &&
+> > -		    !pci_ats_disabled() &&
 > 
-> diff --git a/Documentation/media/index.rst b/Documentation/media/index.rst
-> index a5cd600e0b04..e93fd88881af 100644
-> --- a/Documentation/media/index.rst
-> +++ b/Documentation/media/index.rst
-> @@ -15,8 +15,6 @@ Linux Media Subsystem Documentation
->     ../userspace-api/media/index
->     ../driver-api/media/index
->  
-> -   v4l-drivers/index
-> -
->  .. only:: html and subproject
->  
->     Indices
-> diff --git a/Documentation/media/v4l-drivers/cx2341x-uapi.rst b/Documentation/userspace-api/media/drivers/cx2341x-uapi.rst
-> similarity index 100%
-> rename from Documentation/media/v4l-drivers/cx2341x-uapi.rst
-> rename to Documentation/userspace-api/media/drivers/cx2341x-uapi.rst
-> diff --git a/Documentation/media/v4l-drivers/imx-uapi.rst b/Documentation/userspace-api/media/drivers/imx-uapi.rst
-> similarity index 100%
-> rename from Documentation/media/v4l-drivers/imx-uapi.rst
-> rename to Documentation/userspace-api/media/drivers/imx-uapi.rst
-> diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> similarity index 97%
-> rename from Documentation/media/v4l-drivers/index.rst
-> rename to Documentation/userspace-api/media/drivers/index.rst
-> index ee7faff88a33..05a82f8c0c99 100644
-> --- a/Documentation/media/v4l-drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -2,7 +2,7 @@
->  
->  .. include:: <isonum.txt>
->  
-> -.. _v4l-drivers:
-> +.. _v4l-drivers_uapi:
->  
->  ################################################
->  Video4Linux (V4L)  driver-specific documentation
-> @@ -31,10 +31,9 @@ For more details see the file COPYING in the source distribution of Linux.
->  	:maxdepth: 5
->  	:numbered:
->  
-> -	max2175
-> -	uvcvideo
-> -
->  	cx2341x-uapi
->  	imx-uapi
-> +	max2175
->  	meye-uapi
->  	omap3isp-uapi
-> +	uvcvideo
-> diff --git a/Documentation/media/v4l-drivers/max2175.rst b/Documentation/userspace-api/media/drivers/max2175.rst
-> similarity index 100%
-> rename from Documentation/media/v4l-drivers/max2175.rst
-> rename to Documentation/userspace-api/media/drivers/max2175.rst
-> diff --git a/Documentation/media/v4l-drivers/meye-uapi.rst b/Documentation/userspace-api/media/drivers/meye-uapi.rst
-> similarity index 100%
-> rename from Documentation/media/v4l-drivers/meye-uapi.rst
-> rename to Documentation/userspace-api/media/drivers/meye-uapi.rst
-> diff --git a/Documentation/media/v4l-drivers/omap3isp-uapi.rst b/Documentation/userspace-api/media/drivers/omap3isp-uapi.rst
-> similarity index 100%
-> rename from Documentation/media/v4l-drivers/omap3isp-uapi.rst
-> rename to Documentation/userspace-api/media/drivers/omap3isp-uapi.rst
-> diff --git a/Documentation/media/v4l-drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> similarity index 100%
-> rename from Documentation/media/v4l-drivers/uvcvideo.rst
-> rename to Documentation/userspace-api/media/drivers/uvcvideo.rst
-> diff --git a/Documentation/userspace-api/media/index.rst b/Documentation/userspace-api/media/index.rst
-> index 614310f82395..bcfdd1a5caa0 100644
-> --- a/Documentation/userspace-api/media/index.rst
-> +++ b/Documentation/userspace-api/media/index.rst
-> @@ -31,3 +31,5 @@ entitled "GNU Free Documentation License".
->      cec/cec-api
->      gen-errors
->      fdl-appendix
-> +
-> +    drivers/index
-> diff --git a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-> index 751c6590e774..dd0b6646beb5 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-> @@ -438,7 +438,7 @@ MPEG stream.
->  *Historical context*: This format specification originates from a
->  custom, embedded, sliced VBI data format used by the ``ivtv`` driver.
->  This format has already been informally specified in the kernel sources
-> -in the file ``Documentation/media/v4l-drivers/cx2341x-uapi.rst`` . The
-> +in the file ``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst`` . The
->  maximum size of the payload and other aspects of this format are driven
->  by the CX23415 MPEG decoder's capabilities and limitations with respect
->  to extracting, decoding, and displaying sliced VBI data embedded within
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index f81016c97a0d..9b48338fb783 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -116,7 +116,7 @@ enum v4l2_mpeg_stream_vbi_fmt -
->      * - ``V4L2_MPEG_STREAM_VBI_FMT_IVTV``
->        - VBI in private packets, IVTV format (documented in the kernel
->  	sources in the file
-> -	``Documentation/media/v4l-drivers/cx2341x-uapi.rst``)
-> +	``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst``)
+> The pci_ats_disabled() couldn't be replaced by pci_ats_supported(). Even
+> pci_ats_supported() returns true, user still can disable it. Or move
+> ats_disabled into pci_ats_supported()?
 
-This chunk (and several others like this one) does not appear to belong to
-this patch. It looks like they really should be merged with patch 19 instead.
+It is already there, but hidden behind the "if (!dev->ats_cap)":
+pci_ats_init() only sets dev->ats_cap after checking that
+pci_ats_disabled() returns false.
 
-Regards,
+Thanks,
+Jean
 
-	Hans
-
->  
->  
->  
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> index dbdcf6c9f072..59b9e7238f90 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> @@ -58,7 +58,7 @@ please make a proposal on the linux-media mailing list.
->        - YUV 4:2:0 format used by the IVTV driver.
->  
->  	The format is documented in the kernel sources in the file
-> -	``Documentation/media/v4l-drivers/cx2341x-uapi.rst``
-> +	``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst``
->      * .. _V4L2-PIX-FMT-CPIA1:
->  
->        - ``V4L2_PIX_FMT_CPIA1``
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cf4fd454e053..a883c2e53b86 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10135,7 +10135,7 @@ L:	linux-media@vger.kernel.org
->  T:	git git://linuxtv.org/media_tree.git
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/media/i2c/max2175.txt
-> -F:	Documentation/media/v4l-drivers/max2175.rst
-> +F:	Documentation/userspace-api/media/drivers/max2175.rst
->  F:	drivers/media/i2c/max2175*
->  F:	include/uapi/linux/max2175.h
->  
-> @@ -11251,7 +11251,7 @@ F:	kernel/module.c
->  MOTION EYE VAIO PICTUREBOOK CAMERA DRIVER
->  W:	http://popies.net/meye/
->  S:	Orphan
-> -F:	Documentation/media/v4l-drivers/meye*
-> +F:	Documentation/userspace-api/media/drivers/meye*
->  F:	drivers/media/pci/meye/
->  F:	include/uapi/linux/meye.h
->  
-> diff --git a/drivers/media/i2c/max2175.c b/drivers/media/i2c/max2175.c
-> index 506a30e69ced..03b4ed3a61b8 100644
-> --- a/drivers/media/i2c/max2175.c
-> +++ b/drivers/media/i2c/max2175.c
-> @@ -1194,7 +1194,7 @@ static const struct v4l2_ctrl_ops max2175_ctrl_ops = {
->  
->  /*
->   * I2S output enable/disable configuration. This is a private control.
-> - * Refer to Documentation/media/v4l-drivers/max2175.rst for more details.
-> + * Refer to Documentation/userspace-api/media/drivers/max2175.rst for more details.
->   */
->  static const struct v4l2_ctrl_config max2175_i2s_en = {
->  	.ops = &max2175_ctrl_ops,
-> @@ -1210,7 +1210,7 @@ static const struct v4l2_ctrl_config max2175_i2s_en = {
->  
->  /*
->   * HSLS value control LO freq adjacent location configuration.
-> - * Refer to Documentation/media/v4l-drivers/max2175.rst for more details.
-> + * Refer to Documentation/userspace-api/media/drivers/max2175.rst for more details.
->   */
->  static const struct v4l2_ctrl_config max2175_hsls = {
->  	.ops = &max2175_ctrl_ops,
-> @@ -1226,7 +1226,7 @@ static const struct v4l2_ctrl_config max2175_hsls = {
->  /*
->   * Rx modes below are a set of preset configurations that decides the tuner's
->   * sck and sample rate of transmission. They are separate for EU & NA regions.
-> - * Refer to Documentation/media/v4l-drivers/max2175.rst for more details.
-> + * Refer to Documentation/userspace-api/media/drivers/max2175.rst for more details.
->   */
->  static const char * const max2175_ctrl_eu_rx_modes[] = {
->  	[MAX2175_EU_FM_1_2]	= "EU FM 1.2",
 > 
-
+> Best regards,
+> baolu
+> 
+> > -		    ecap_dev_iotlb_support(iommu->ecap) &&
+> > -		    pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_ATS) &&
+> > +		if (ecap_dev_iotlb_support(iommu->ecap) &&
+> > +		    pci_ats_supported(pdev) &&
+> >   		    dmar_find_matched_atsr_unit(pdev))
+> >   			info->ats_supported = 1;
