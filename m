@@ -2,102 +2,128 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E669C0044D
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 01:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F1FC0044D
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 03:08:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B6DB020739
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 01:44:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6475320735
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 03:08:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="UfT85iLQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387562AbgCLBo0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Mar 2020 21:44:26 -0400
-Received: from mga07.intel.com ([134.134.136.100]:51962 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387501AbgCLBoZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Mar 2020 21:44:25 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 18:44:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,543,1574150400"; 
-   d="scan'208";a="443763768"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.208.137]) ([10.254.208.137])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2020 18:44:18 -0700
-Cc:     baolu.lu@linux.intel.com, lorenzo.pieralisi@arm.com,
-        corbet@lwn.net, mark.rutland@arm.com, liviu.dudau@arm.com,
-        guohanjun@huawei.com, rjw@rjwysocki.net, lenb@kernel.org,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
-Subject: Re: [PATCH v2 08/11] iommu/vt-d: Use pci_ats_supported()
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
-        joro@8bytes.org, sudeep.holla@arm.com, linux-doc@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-        iommu@lists.linux-foundation.org
-References: <20200311124506.208376-1-jean-philippe@linaro.org>
- <20200311124506.208376-9-jean-philippe@linaro.org>
-From:   Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <7019230c-3c56-e6db-6704-d73f23fa39b5@linux.intel.com>
-Date:   Thu, 12 Mar 2020 09:44:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S2387675AbgCLDIm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Mar 2020 23:08:42 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:43308 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387657AbgCLDIm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 23:08:42 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02C2xM45175710;
+        Thu, 12 Mar 2020 03:05:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=YpmzN3cJx+gWH6uTD4QVgcwdVZLJvMbCnFkIOCirj8M=;
+ b=UfT85iLQOV69sBWI021DzAJf8z/b6PcAYOenUqDbZYVIUXZQyJMHoaCJEX0MB62mOii7
+ ANDUftThTCcCpT/1fMLe4WdmXsMWTfvPejhFH5KR8hggnu9RXmqRUJgwJkc6cSJNLxG9
+ WOqyV1ua0sqvhSUGUWtMkUl943jD52cZkxWPTg0ANYHoC/ue1nnw74n+tiHqhWirCJ/U
+ wV8sp7D12DOtm0S2Vc5iKu/oeEiUJAUZJwN88L2d50vZWXndIly+iwtvfQTbSBI9Eylg
+ T7M99t5qiZq8+Tapi7/m72uD8IEZ8bzvjZc8C6JOsMe35+3jD9Pyz3Rb3wzsWj3XRQnk xQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 2yp7hmbf3c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 12 Mar 2020 03:05:57 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02C2xUn9018696;
+        Thu, 12 Mar 2020 03:05:57 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 2yp8q1tqt5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 12 Mar 2020 03:05:57 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02C35UdG003438;
+        Thu, 12 Mar 2020 03:05:30 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 11 Mar 2020 20:05:30 -0700
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+        Kai =?utf-8?Q?M=C3=A4kisara?= <Kai.Makisara@kolumbus.fi>,
+        linux-scsi@vger.kernel.org,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>,
+        megaraidlinux.pdl@broadcom.com,
+        Sumit Saxena <sumit.saxena@broadcom.com>,
+        esc.storagedev@microsemi.com, Doug Gilbert <dgilbert@interlog.com>,
+        HighPoint Linux Team <linux@highpoint-tech.com>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Hannes Reinecke <hare@suse.com>, dc395x@twibble.org,
+        Oliver Neukum <oliver@neukum.org>,
+        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+        "Juergen E. Fischer" <fischer@norbit.de>,
+        Khalid Aziz <khalid@gonehiking.org>,
+        Kashyap Desai <kashyap.desai@broadcom.com>,
+        Jamie Lenehan <lenehan@twibble.org>,
+        Ali Akcaagac <aliakc@web.de>,
+        Don Brace <don.brace@microsemi.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Finn Thain <fthain@telegraphics.com.au>,
+        Avri Altman <avri.altman@wdc.com>,
+        GOTO Masanori <gotom@debian.or.jp>
+Subject: Re: [PATCH 00/42] Manually convert SCSI documentation to ReST format
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <cover.1583136624.git.mchehab+huawei@kernel.org>
+        <yq14kuvu6cc.fsf@oracle.com> <20200311125024.6acd2567@onda.lan>
+Date:   Wed, 11 Mar 2020 23:05:24 -0400
+In-Reply-To: <20200311125024.6acd2567@onda.lan> (Mauro Carvalho Chehab's
+        message of "Wed, 11 Mar 2020 12:50:24 +0100")
+Message-ID: <yq15zfab7d7.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200311124506.208376-9-jean-philippe@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9557 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 suspectscore=0 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003120013
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9557 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0
+ priorityscore=1501 clxscore=1015 mlxscore=0 impostorscore=0
+ mlxlogscore=999 suspectscore=0 phishscore=0 malwarescore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003120013
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jean,
 
-On 2020/3/11 20:45, Jean-Philippe Brucker wrote:
-> The pci_ats_supported() function checks if a device supports ATS and is
-> allowed to use it.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->   drivers/iommu/intel-iommu.c | 9 +++------
->   1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-> index 6fa6de2b6ad5..17208280ef5c 100644
-> --- a/drivers/iommu/intel-iommu.c
-> +++ b/drivers/iommu/intel-iommu.c
-> @@ -1454,8 +1454,7 @@ static void iommu_enable_dev_iotlb(struct device_domain_info *info)
->   	    !pci_reset_pri(pdev) && !pci_enable_pri(pdev, 32))
->   		info->pri_enabled = 1;
->   #endif
-> -	if (!pdev->untrusted && info->ats_supported &&
-> -	    pci_ats_page_aligned(pdev) &&
-> +	if (info->ats_supported && pci_ats_page_aligned(pdev) &&
->   	    !pci_enable_ats(pdev, VTD_PAGE_SHIFT)) {
->   		info->ats_enabled = 1;
->   		domain_update_iotlb(info->domain);
-> @@ -2611,10 +2610,8 @@ static struct dmar_domain *dmar_insert_one_dev_info(struct intel_iommu *iommu,
->   	if (dev && dev_is_pci(dev)) {
->   		struct pci_dev *pdev = to_pci_dev(info->dev);
->   
-> -		if (!pdev->untrusted &&
-> -		    !pci_ats_disabled() &&
+Mauro,
 
-The pci_ats_disabled() couldn't be replaced by pci_ats_supported(). Even
-pci_ats_supported() returns true, user still can disable it. Or move
-ats_disabled into pci_ats_supported()?
+> Btw, maybe due to the conflict you had, I double-checked that two
+> files ended by being deleted instead of converted (looking at today's
+> linux-next).
 
-Best regards,
-baolu
+Yeah, I messed that up, sorry! The files were in my repo but I evidently
+forgot to add them after manually applying so they ended up missing in
+the commit.
 
-> -		    ecap_dev_iotlb_support(iommu->ecap) &&
-> -		    pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_ATS) &&
-> +		if (ecap_dev_iotlb_support(iommu->ecap) &&
-> +		    pci_ats_supported(pdev) &&
->   		    dmar_find_matched_atsr_unit(pdev))
->   			info->ats_supported = 1;
+> Feel free to either apply it as a separate patch at the end or to fold
+> with the previously applied patches. Whatever works best for you.
+
+Since your series was near the top of my tree I decided to grab a fresh
+mbox from lore. I manually added the missing pieces from my mail folder
+so the series would apply cleanly.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
