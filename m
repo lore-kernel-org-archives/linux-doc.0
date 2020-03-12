@@ -2,117 +2,122 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C39C10DCE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:31:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDDBFC10DCE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:34:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 638D1206F1
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:31:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A206E2067C
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:34:59 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="V4idd58r"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbgCLSbn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 14:31:43 -0400
-Received: from 8.mo6.mail-out.ovh.net ([178.33.42.204]:36470 "EHLO
-        8.mo6.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726362AbgCLSbn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 14:31:43 -0400
-X-Greylist: delayed 598 seconds by postgrey-1.27 at vger.kernel.org; Thu, 12 Mar 2020 14:31:42 EDT
-Received: from player728.ha.ovh.net (unknown [10.108.35.122])
-        by mo6.mail-out.ovh.net (Postfix) with ESMTP id 634F320454C
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 19:13:49 +0100 (CET)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player728.ha.ovh.net (Postfix) with ESMTPSA id 7C8D11047C29C;
-        Thu, 12 Mar 2020 18:13:36 +0000 (UTC)
-From:   Stephen Kitt <steve@sk2.org>
-To:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <t-kristo@ti.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH] docs: driver-api/dma.../provider.rst: fix indents
-Date:   Thu, 12 Mar 2020 19:13:18 +0100
-Message-Id: <20200312181318.1368421-1-steve@sk2.org>
-X-Mailer: git-send-email 2.24.1
+        id S1726469AbgCLSe7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 14:34:59 -0400
+Received: from mout.gmx.net ([212.227.15.19]:34145 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726406AbgCLSe7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Mar 2020 14:34:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1584038093;
+        bh=f56xVHIr6zr2PZHI0TS7LUqKLBAli/KY7kMif9yhxy0=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=V4idd58raCGnnFUXYwiJAquLjofThszFDTGpDCYypEnYHfbhB7mP64BSV32P2pr6k
+         ztzTuqHMWIsVXjIbSzMvgFPgrhn48OFl1tYcNHQtAJXj7GG78a3o3DZv/Pzu2YQBYm
+         kWVNn7zRD90TKX+woWpRtnMUCcH4bTm7Wy+wS4Kw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([37.201.214.34]) by mail.gmx.com (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mdeb5-1jlnUC1PTV-00Zejg; Thu, 12
+ Mar 2020 19:34:53 +0100
+Date:   Thu, 12 Mar 2020 19:34:52 +0100
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: driver-api/gpio/driver.rst: fix code blocks
+Message-ID: <20200312183452.GF2376@latitude>
+References: <20200312180650.1365059-1-steve@sk2.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 8925290037935820104
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvhedgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jTMWTj4UTAEmbWeb"
+Content-Disposition: inline
+In-Reply-To: <20200312180650.1365059-1-steve@sk2.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:4djGkxK8HRts3U3sv1OSqZPHYAc9JiWcsVUMAEWwSiJThefE6M+
+ 3Ezy8jEu8zfg7xKAal+KwWz3gjK3FhwyEAq+kRaNwmJrjKY84WFKSsOGveklpff+zkbD8bs
+ ygbmt74xP9CLDdxTdGJbQG3uAN+NwxZ/I9B1JhPe0F15fwQM495YAlczrPICqL5f+B7NlEe
+ Aeu3653rM46ouuEAVJUkg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:307PlKFVLfM=:3EP8wbRYu7nviegtlfHjn6
+ HuoFGhZZBF3DzJCP+NO7jRuVdk8CKE1BDc3YNLY07OMrA7PbEtVPq1ADLL/XQkS0UWfhRKG4D
+ vMRMgWiPu5usclWPXALb8LM2m5Jvtibf1gZwsXVdDPapLX5Bx4dsbgsMk7P0Ob/OiVx8Vz4IS
+ TIZKVlFXPKhmpPYWawlpiYh24cFNmuhg6qx4vJQajXYRhP0gmXCy5Nktc2JWqSOA2c5hKF3yR
+ JxUEIfm9emrJWqmHS+7DT9PspgruTIcXcQJRfXZLmBad7q7C8uVgAR9CKgdse5LB1PE79W+4O
+ AODaBvFpbE0wmG8jN7OMpASuzZdlwOT4TmeFFwLHK/PzbyUdNOPNT35dg+B6059I6PYqTQGd4
+ ptdXqUfIJ8IBV/dIEBaRZn8Teig0axAooO7XY4Hp7pQxJFRxc+y1frOv6bpm2Q7kzoqe+aaHf
+ tbeQUB5T9fHb7LQhK6x3Qrn8o10w1mdWCRCVsHaP59GF945a6LvYsEL18JEWsUmKBesfGiFxm
+ IukK7Y7eqHGJDweDHUxVlEpIUHW+nJV83I3IiK0BAdZcdqIvvc8PaAL8JRzrUJHRt8LUQj4yg
+ 5G6AYut50uYROz4VQuawhr0RwIVgnXyA1WBsN0q4XoC7o/Ou4QWLyomTqDhpcqSecwf/YHa1l
+ Zz3c7u6eBFPLL3zOXNK2SKZ+9hnYsYV5PYeY9cosRZ3QOH3XBQJax3DsWfMb0LICwZHCYAeMg
+ 7Il15ezjkbrFRB0cDxbvZcKQo/iXIWYYNUv1CADzU3ky2AKE4aVcVP2oYC/nBhzKF8XfuxHkd
+ YfZA52F/qlN8o82v6sYnPNtCuSBSfDKJKgW3NfL9/uhTxqwktxj7UbLm5bQ2a84gyV5M2c0rC
+ 5/8q/GDf2Et8Y8tdz3qw9yFxJurIieIzq9wME2ik8dStJgDXOhzWsKAxrcA7qFOy1RLnYBbfN
+ 4a/yOlZRA3BtXYe67WfRFgjslot88ebFApiNjjjrHqRRfgbt6Ft3CpNX7AMSJTLWdyOiHEl07
+ bZfljBEiN7kEEFXdvaQsNGWuVuxUizHP47gksdmpMk7Oxcy/2CLchkUt8bYZKulyrmC43YRNO
+ ph1O7IhuCcWdoj+k4hKrrfOxMbV3Vzk6y20WiPE/j4i1SFk4QGtBXP5EU54mDEpcmy/AvJq+g
+ +emx98YZjW+jfwkeuR5u7d1OQ9fwylZHG7kv3lhyLsrUdTCS1AVs1xtPwMqb7uDcIhCRtiJju
+ wcZ7ku/bKlc31GiFq
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This fixes some block indentations, formatting them as definitions
-(which seems appropriate given the content), and addressing these
-warnings:
 
-	Documentation/driver-api/dmaengine/provider.rst:270: WARNING: Unexpected indentation.
-	Documentation/driver-api/dmaengine/provider.rst:273: WARNING: Block quote ends without a blank line; unexpected unindent.
-	Documentation/driver-api/dmaengine/provider.rst:288: WARNING: Unexpected indentation.
-	Documentation/driver-api/dmaengine/provider.rst:290: WARNING: Block quote ends without a blank line; unexpected unindent.
+--jTMWTj4UTAEmbWeb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 7d083ae98357 ("dmaengine: doc: Add sections for per descriptor metadata support")
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- Documentation/driver-api/dmaengine/provider.rst | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+On Thu, Mar 12, 2020 at 07:06:51PM +0100, Stephen Kitt wrote:
+> -is a typical example of a cascaded interrupt handler using gpio_irq_chip=
+::
+> +is a typical example of a cascaded interrupt handler using gpio_irq_chip:
 
-diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
-index 790a15089f1f..6367a79de47d 100644
---- a/Documentation/driver-api/dmaengine/provider.rst
-+++ b/Documentation/driver-api/dmaengine/provider.rst
-@@ -260,34 +260,35 @@ descriptors. Depending on the architecture the DMA driver can implement either
- or both of the methods and it is up to the client driver to choose which one
- to use.
- 
--- DESC_METADATA_CLIENT
--
-+DESC_METADATA_CLIENT
-   The metadata buffer is allocated/provided by the client driver and it is
-   attached (via the dmaengine_desc_attach_metadata() helper to the descriptor.
- 
-   From the DMA driver the following is expected for this mode:
--  - DMA_MEM_TO_DEV / DEV_MEM_TO_MEM
-+
-+  DMA_MEM_TO_DEV / DEV_MEM_TO_MEM
-     The data from the provided metadata buffer should be prepared for the DMA
-     controller to be sent alongside of the payload data. Either by copying to a
-     hardware descriptor, or highly coupled packet.
--  - DMA_DEV_TO_MEM
-+  DMA_DEV_TO_MEM
-     On transfer completion the DMA driver must copy the metadata to the client
-     provided metadata buffer before notifying the client about the completion.
-     After the transfer completion, DMA drivers must not touch the metadata
-     buffer provided by the client.
- 
--- DESC_METADATA_ENGINE
--
-+DESC_METADATA_ENGINE
-   The metadata buffer is allocated/managed by the DMA driver. The client driver
-   can ask for the pointer, maximum size and the currently used size of the
-   metadata and can directly update or read it. dmaengine_desc_get_metadata_ptr()
-   and dmaengine_desc_set_metadata_len() is provided as helper functions.
- 
-   From the DMA driver the following is expected for this mode:
--  - get_metadata_ptr
-+
-+  get_metadata_ptr
-     Should return a pointer for the metadata buffer, the maximum size of the
-     metadata buffer and the currently used / valid (if any) bytes in the buffer.
--  - set_metadata_len
-+
-+  set_metadata_len
-     It is called by the clients after it have placed the metadata to the buffer
-     to let the DMA driver know the number of valid bytes provided.
- 
+Thanks for the patch, but Mauro already fixed it:
 
-base-commit: 7d3d3254adaa61cba896f71497f56901deb618e5
--- 
-2.24.1
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/=
+?id=3Dc1c8b1ff0a1985d4992f49a5775bbcf6ee5ccfba
 
+
+
+Cheers,
+Jonathan Neusch=C3=A4fer
+
+--jTMWTj4UTAEmbWeb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl5qgMUACgkQCDBEmo7z
+X9uQ9g/+JakMD13xglbFpTuEQ4Ny5G7da9WPxI7Gw3nEFve3nK3g/iipF76GJYmy
+UutgaQ0n18lyy531xH77pkVtLeQlWSh60i6yvMn0BDx0x6rRbJ4fXipAXNw2P4Q1
+eelUj7tGn8ZgHCDbeF30zxFd5qm/xGBgw7eIZe7pht+836WspJTSZCNuWh3sEGFW
+Mq7UtnKVqx11uTun7sOzp1JUuCiDDe6LXjqGVpORTImU1D27M+Wv5J44sOAXqJyq
+XOyY83v7JLHow2RANRH+griJFctFYuRpNHpLVuXp/+ROfaQPLPf2DpMx2CdsQKCn
+jMCsLd0wb23nFiO2KFQv3nzlXa0qd8KLmCCKdogul//De1DikOcFMQhvU+0CucVq
+uaV5OflNViaJ6UCI6frDPfpFiEl7cFU/3iA3ETqdSkXr0f58P4yVWAG77Iu9zLB8
+UNm9vCQoRbV3j3n89cD0oS1u7ET+ejBTWV1XwdQWA9PChIkqmKJYnRmAlovxkrP9
+le46kHIugAmGFitu1vaLEZi7BKd6m3NglIzUXevHpUVCB9XTya76rmDOUseOCMqO
+32Sl0FcawyMp5A6fhNWBtm20B/s+w0dJEkfMGKdJyF23nChFvD9uNDtRJAffl5QI
+PCf6461DD3KaHIkZEoJNX8HsdLk67lHYQemv+BfKk5zQ5zSXd2E=
+=MRzh
+-----END PGP SIGNATURE-----
+
+--jTMWTj4UTAEmbWeb--
