@@ -2,98 +2,117 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EECB5C1975A
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 13:48:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BBA0C2BB1D
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:03:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BFF612067C
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 13:48:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D694720716
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:03:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="NlWfLO/f"
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="TfmuNTiD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727445AbgCLNsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 09:48:02 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:46652 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725978AbgCLNsC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 09:48:02 -0400
-Received: by mail-io1-f66.google.com with SMTP id v3so5686642iom.13
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 06:48:00 -0700 (PDT)
+        id S1727179AbgCLODc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 10:03:32 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36546 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727208AbgCLODb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 10:03:31 -0400
+Received: by mail-wr1-f67.google.com with SMTP id s5so7662231wrg.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 07:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JQXIGCXCcQkX5b0h95Wn70qT4Lsg/1L/D4OIHLSiNCA=;
-        b=NlWfLO/fYNg9mLVfR9yLiSb1v37zDB/6P3U6ychPiHzh5TDCvUkTE5txbHWJvt5p0o
-         cYxYiIIgF42V7QUW4zYohjpFh1DByWUcNJGrI5BLB3jo8P/c6DNUSDofvxc71QAI//lh
-         s2rmzVQrJkeA3BpNaZ5Ra+UQauJZkZE7RZR0thXR+bXuy6C29p1kuHZ5vlb/T8rEqrdu
-         fAMvuzFZ+qzz5SWgqnvQTNlRh/yyt+Gwq9ILZ3gR+jqBHmStJJHG6iFv4z8Jc57MSaRZ
-         4KuKPaEkEK0NGzF1pAC+EeVCtxAqOS8Y+K5Zo0A8B4HQ2WG6mEWH79+BEVMb/ZdXa1gE
-         Z8YQ==
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gZ8EzvWOoYPssGlE3Bc08q7j/BuTfnqODyWmkhQlWkA=;
+        b=TfmuNTiDZFVaKt1FsbjC8KD47kKTzeJiW0a5jYgMkGEHRDgSlpXWqwgP9A7Gf33Eld
+         aml8lOwBZNhMGI52wgky/dJ3sd2Cvhad5IH02L91tKg6lIeYC0MhdZ2sdzNY2oSomsNY
+         /ZHFB9z2P8NlaXCugSOWKuHmS2oJd8Dx2iKz8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JQXIGCXCcQkX5b0h95Wn70qT4Lsg/1L/D4OIHLSiNCA=;
-        b=tMiGBgN+72LDxuQ6qaSoqueHJYBi6vu3bFuoDyVlKj9/wtN8xIfZyb83Nmk2k2VwLV
-         m5L89/mtv3m0cZ+tV3ch6QfT+/frONLbSUwLixrbxzF/jVDcb2X416OV+0cE7aL1NXaY
-         jvKut6WZi0M/TDZJQrlGqutF7R+WGqFGti/LtT+9zwzHudCf3urs4H7828vkc42aUjyp
-         71k2Ji4jWfs1uNqn2C0MstZsiOcxZNlKDnb5Of9w16JIjDfrnCHCOgFgZcFKcBHmpwl3
-         X97jcGnhQv0NdTyBKQX/CZN3pOcpUwH1HO7xH10nR9WiF99cuXcRlraE83+dmuQ5ltor
-         oBQw==
-X-Gm-Message-State: ANhLgQ2LJiHDiqcr/J3vwn+vCSgAkYrZdT37ZkHci5Zplfx91tn7Xplu
-        tbnXH38Rl0kqIJotfjin64zKbA==
-X-Google-Smtp-Source: ADFU+vsWK0+qm1KrXJJJWqWO/Zr+xTuuiQe26ah9eyr/b3281WjdadrCklpN3z38eqR/yRWhcY09BQ==
-X-Received: by 2002:a02:b894:: with SMTP id p20mr8035881jam.86.1584020879998;
-        Thu, 12 Mar 2020 06:47:59 -0700 (PDT)
-Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id y71sm4689317ilk.23.2020.03.12.06.47.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Mar 2020 06:47:59 -0700 (PDT)
-Subject: Re: [PATCH v2] Document genhd capability flags
-To:     Stephen Kitt <steve@sk2.org>, Matthew Wilcox <willy@infradead.org>,
-        Jan Kara <jack@suse.cz>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200307145659.22657-1-steve@sk2.org>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <ec5479a2-138b-3da3-e09a-edaca6292fb6@kernel.dk>
-Date:   Thu, 12 Mar 2020 07:47:58 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gZ8EzvWOoYPssGlE3Bc08q7j/BuTfnqODyWmkhQlWkA=;
+        b=lCbkLd9J2awtMXlWa/ozO3DsPuBv1LyAwmzKl0324jMqLez+GwM03gUxmJS3/NdP8b
+         4Dn6zyTALL/ialY6CzoLxBMvOoVQ5D7wwW6pJ5/rXc5ONjeqcf16dvkbXQ0f49O4R2lO
+         WODS7ZdxuZrwXKuN9XwzDhwZk3vV5GD1fJ//qHnnUp8QChnWH/ko9EfdLZaA8TNfcOP/
+         6g+QlLzHvsm6frHzrkpWTqgonANIfz2R8sNGLA+BgwVvBiAVgxm2aGaNEeusE3xCpuXH
+         Ju+imdEH1lLMVrApyrmevphPiTm73slOUYanN3gTeohvzcjVCsT9QVx2VWvQgw9Y4+K+
+         YDdQ==
+X-Gm-Message-State: ANhLgQ1etExaaARE7a9N3cWFIgjYw9A7MFjHhQpUa5Nt1TRE8dnpqe/q
+        hVdYSOTQWZuThWi5YZO1knjovQ==
+X-Google-Smtp-Source: ADFU+vv1/ATpkRSO8dO42Isg6QmWT0wIt5OWthWLFxdkk6d8XZ/NFK6+zJf5AKfIuiiU1XmqFp5T9A==
+X-Received: by 2002:adf:b3d6:: with SMTP id x22mr10936079wrd.242.1584021808040;
+        Thu, 12 Mar 2020 07:03:28 -0700 (PDT)
+Received: from localhost ([89.32.122.5])
+        by smtp.gmail.com with ESMTPSA id d63sm12680261wmd.44.2020.03.12.07.03.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2020 07:03:27 -0700 (PDT)
+Date:   Thu, 12 Mar 2020 14:03:26 +0000
+From:   Chris Down <chris@chrisdown.name>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        David Rientjes <rientjes@google.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jgross@suse.com" <jgross@suse.com>,
+        "oneukum@suse.com" <oneukum@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
+Message-ID: <20200312140326.GA1701917@chrisdown.name>
+References: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
+ <alpine.DEB.2.21.2003111227230.171292@chino.kir.corp.google.com>
+ <BL0PR02MB5601808F36BE202813E9D562E9FD0@BL0PR02MB5601.namprd02.prod.outlook.com>
+ <20200312133636.GJ22433@bombadil.infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20200307145659.22657-1-steve@sk2.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20200312133636.GJ22433@bombadil.infradead.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/7/20 7:56 AM, Stephen Kitt wrote:
-> The kernel documentation includes a brief section about genhd
-> capabilities, but it turns out that the only documented
-> capability (GENHD_FL_MEDIA_CHANGE_NOTIFY) isn't used any more.
-> 
-> This patch removes that flag, and documents the rest, based on my
-> understanding of the current uses of these flags in the kernel. The
-> documentation is kept in the header file, alongside the declarations,
-> in the hope that it will be kept up-to-date in future; the kernel
-> documentation is changed to include the documentation generated from
-> the header file.
-> 
-> Because the ultimate goal is to provide some end-user
-> documentation (or end-administrator documentation), the comments are
-> perhaps more user-oriented than might be expected. Since the values
-> are shown to users in hexadecimal, the documentation lists them in
-> hexadecimal, and the constant declarations are adjusted to match.
+Matthew Wilcox writes:
+>On Thu, Mar 12, 2020 at 12:48:22PM +0000, Ivan Teterevkov wrote:
+>> This is exactly what I'm trying to avoid: in some distros there is no way
+>> to tackle the configuration early enough, e.g. in systemd-based systems
+>> the systemd is the process that starts first and arranges memcg in a way
+>> it's configured, but unfortunately, it doesn't offer the swappiness knob.
+>
+>This sounds like a systemd problem.  Have you talked to the systemd
+>people about fixing it in systemd?
 
-Applied, thanks.
+Hi there ;-)
 
--- 
-Jens Axboe
+In general most of us maintaining cgroups in systemd run with cgroup v2, so 
+this isn't a problem we run into in production. The swappiness controls in 
+general don't make a whole lot of sense being distributed hierarchically, so 
+they've been phased out entirely in cgroup v2.
 
+If there had been a patch years ago implementing this in systemd we'd probably 
+have accepted it, but cgroup v1 is dying and I am really not in favour of 
+adding more code to massage its rough edges. We already have enough problems 
+generated by it already.
+
+However, the following kludge in tmpfiles.d should work to solve your immediate 
+problem:
+
+	w /sys/fs/cgroup/memory/system.slice/memory.swappiness - - - - value
+
+Taking my systemd hat off and putting my -mm hat on: let's not add more hacky 
+APIs at cgroup v1's behest, or we'll be here until we're pushing up the 
+daisies.
+
+Thanks,
+
+Chris
