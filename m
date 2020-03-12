@@ -2,111 +2,238 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B845C4CECE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 08:18:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B149CC10DCE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 09:21:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 22C1220746
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 08:18:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8006A2067C
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 09:21:16 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="j8TK+EQF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726462AbgCLISz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 04:18:55 -0400
-Received: from mga05.intel.com ([192.55.52.43]:51333 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726023AbgCLISz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Mar 2020 04:18:55 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 01:18:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,544,1574150400"; 
-   d="scan'208";a="261424574"
-Received: from unknown (HELO [10.254.208.137]) ([10.254.208.137])
-  by orsmga002.jf.intel.com with ESMTP; 12 Mar 2020 01:18:47 -0700
-Cc:     baolu.lu@linux.intel.com, bhelgaas@google.com, will@kernel.org,
-        robh+dt@kernel.org, joro@8bytes.org, sudeep.holla@arm.com,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
-        lorenzo.pieralisi@arm.com, corbet@lwn.net, mark.rutland@arm.com,
-        liviu.dudau@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
-        lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
-        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
-Subject: Re: [PATCH v2 08/11] iommu/vt-d: Use pci_ats_supported()
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20200311124506.208376-1-jean-philippe@linaro.org>
- <20200311124506.208376-9-jean-philippe@linaro.org>
- <7019230c-3c56-e6db-6704-d73f23fa39b5@linux.intel.com>
- <20200312075436.GA568802@myrica>
-From:   Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <5e508904-e432-e3b9-1fe4-0c4e11df10fc@linux.intel.com>
-Date:   Thu, 12 Mar 2020 16:18:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726254AbgCLJVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 05:21:16 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:21505 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726099AbgCLJVP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 05:21:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1584004874; x=1615540874;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=2uCJ+4ws4cvlEV+wb61ZNYapETdHtIGmrv87apB/d5Y=;
+  b=j8TK+EQFXF/EHi+avbrNqU8NWVYDhBw09s12w/PIVns7kN2QqEwrjDXX
+   9Vkvsw6FXH6cUXSM3i2PojN/4jJjlQBl1VaPlkl30aiZou5e200GATLFH
+   6sHBk9WXnJdDhf0NAc5itj4sYUCLq3H/mKXFRWlPBS1FstdE+heDjlbhz
+   8=;
+IronPort-SDR: byhSOgQR6MQP6GXvYn18sTTUXQ1OXhL4l7uE+EVjmfFsOwkRWzCdefsL6goSsigDWavy6wQX8V
+ L/f9xsbvJEUA==
+X-IronPort-AV: E=Sophos;i="5.70,544,1574121600"; 
+   d="scan'208";a="32157934"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 12 Mar 2020 09:21:10 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
+        by email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com (Postfix) with ESMTPS id D137CA1D81;
+        Thu, 12 Mar 2020 09:21:00 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1236.3; Thu, 12 Mar 2020 09:20:59 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.152) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 12 Mar 2020 09:20:47 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
+        "SeongJae Park" <sjpark@amazon.de>, <aarcange@redhat.com>,
+        <yang.shi@linux.alibaba.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
+        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
+        <dwmw@amazon.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
+        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
+        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [PATCH v6 02/14] mm/damon: Implement region based sampling
+Date:   Thu, 12 Mar 2020 10:20:30 +0100
+Message-ID: <20200312092030.347-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200310173938.00002af4@Huawei.com> (raw)
 MIME-Version: 1.0
-In-Reply-To: <20200312075436.GA568802@myrica>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.152]
+X-ClientProxiedBy: EX13D15UWB003.ant.amazon.com (10.43.161.138) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020/3/12 15:54, Jean-Philippe Brucker wrote:
-> Hi Baolu,
+On Tue, 10 Mar 2020 17:39:38 +0000 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+
+> On Tue, 10 Mar 2020 17:22:40 +0100
+> SeongJae Park <sjpark@amazon.com> wrote:
 > 
-> On Thu, Mar 12, 2020 at 09:44:16AM +0800, Lu Baolu wrote:
->> Hi Jean,
->>
->> On 2020/3/11 20:45, Jean-Philippe Brucker wrote:
->>> The pci_ats_supported() function checks if a device supports ATS and is
->>> allowed to use it.
->>>
->>> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
->>> ---
->>>    drivers/iommu/intel-iommu.c | 9 +++------
->>>    1 file changed, 3 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
->>> index 6fa6de2b6ad5..17208280ef5c 100644
->>> --- a/drivers/iommu/intel-iommu.c
->>> +++ b/drivers/iommu/intel-iommu.c
->>> @@ -1454,8 +1454,7 @@ static void iommu_enable_dev_iotlb(struct device_domain_info *info)
->>>    	    !pci_reset_pri(pdev) && !pci_enable_pri(pdev, 32))
->>>    		info->pri_enabled = 1;
->>>    #endif
->>> -	if (!pdev->untrusted && info->ats_supported &&
->>> -	    pci_ats_page_aligned(pdev) &&
->>> +	if (info->ats_supported && pci_ats_page_aligned(pdev) &&
->>>    	    !pci_enable_ats(pdev, VTD_PAGE_SHIFT)) {
->>>    		info->ats_enabled = 1;
->>>    		domain_update_iotlb(info->domain);
->>> @@ -2611,10 +2610,8 @@ static struct dmar_domain *dmar_insert_one_dev_info(struct intel_iommu *iommu,
->>>    	if (dev && dev_is_pci(dev)) {
->>>    		struct pci_dev *pdev = to_pci_dev(info->dev);
->>> -		if (!pdev->untrusted &&
->>> -		    !pci_ats_disabled() &&
->>
->> The pci_ats_disabled() couldn't be replaced by pci_ats_supported(). Even
->> pci_ats_supported() returns true, user still can disable it. Or move
->> ats_disabled into pci_ats_supported()?
+> > On Tue, 10 Mar 2020 15:55:10 +0000 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+> > 
+> > > On Tue, 10 Mar 2020 12:52:33 +0100
+> > > SeongJae Park <sjpark@amazon.com> wrote:
+> > >   
+> > > > Added replies to your every comment in line below.  I agree to your whole
+> > > > opinions, will apply those in next spin! :)
+> > > >   
+> > > 
+> > > One additional question inline that came to mind.  Using a single statistic
+> > > to monitor huge page and normal page hits is going to give us problems
+> > > I think.  
+> > 
+> > Ah, you're right!!!  This is indeed a critical bug!
+> > 
+> > > 
+> > > Perhaps I'm missing something?
+> > >   
+> > > > > > +/*
+> > > > > > + * Check whether the given region has accessed since the last check    
+> > > > > 
+> > > > > Should also make clear that this sets us up for the next access check at
+> > > > > a different memory address it the region.
+> > > > > 
+> > > > > Given the lack of connection between activities perhaps just split this into
+> > > > > two functions that are always called next to each other.    
+> > > > 
+> > > > Will make the description more clearer as suggested.
+> > > > 
+> > > > Also, I found that I'm not clearing *pte and *pmd before going 'mkold', thanks
+> > > > to this comment.  Will fix it, either.
+> > > >   
+> > > > >     
+> > > > > > + *
+> > > > > > + * mm	'mm_struct' for the given virtual address space
+> > > > > > + * r	the region to be checked
+> > > > > > + */
+> > > > > > +static void kdamond_check_access(struct damon_ctx *ctx,
+> > > > > > +			struct mm_struct *mm, struct damon_region *r)
+> > > > > > +{
+> > > > > > +	pte_t *pte = NULL;
+> > > > > > +	pmd_t *pmd = NULL;
+> > > > > > +	spinlock_t *ptl;
+> > > > > > +
+> > > > > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
+> > > > > > +		goto mkold;
+> > > > > > +
+> > > > > > +	/* Read the page table access bit of the page */
+> > > > > > +	if (pte && pte_young(*pte))
+> > > > > > +		r->nr_accesses++;
+> > > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE    
+> > > > > 
+> > > > > Is it worth having this protection?  Seems likely to have only a very small
+> > > > > influence on performance and makes it a little harder to reason about the code.    
+> > > > 
+> > > > It was necessary for addressing 'implicit declaration' problem of 'pmd_young()'
+> > > > and 'pmd_mkold()' for build of DAMON on several architectures including User
+> > > > Mode Linux.
+> > > > 
+> > > > Will modularize the code for better readability.
+> > > >   
+> > > > >     
+> > > > > > +	else if (pmd && pmd_young(*pmd))
+> > > > > > +		r->nr_accesses++;  
+> > > 
+> > > So we increment a region count by one if we have an access in a huge page, or
+> > > in a normal page.
+> > > 
+> > > If we get a region that has a mixture of the two, this seems likely to give a
+> > > bad approximation.
+> > > 
+> > > Assume the region is accessed 'evenly' but each " 4k page" is only hit 10% of the time
+> > > (where a hit is in one check period)
+> > > 
+> > > If our address in a page, then we'll hit 10% of the time, but if it is in a 2M
+> > > huge page then we'll hit a much higher percentage of the time.
+> > > 1 - (0.9^512) ~= 1
+> > > 
+> > > Should we look to somehow account for this?  
+> > 
+> > Yes, this is really critical bug and we should fix this!  Thank you so much for
+> > finding this!
+> > 
+> > >   
+> > > > > > +#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
+> > > > > > +
+> > > > > > +	spin_unlock(ptl);
+> > > > > > +
+> > > > > > +mkold:
+> > > > > > +	/* mkold next target */
+> > > > > > +	r->sampling_addr = damon_rand(ctx, r->vm_start, r->vm_end);
+> > > > > > +
+> > > > > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
+> > > > > > +		return;
+> > > > > > +
+> > > > > > +	if (pte) {
+> > > > > > +		if (pte_young(*pte)) {
+> > > > > > +			clear_page_idle(pte_page(*pte));
+> > > > > > +			set_page_young(pte_page(*pte));
+> > > > > > +		}
+> > > > > > +		*pte = pte_mkold(*pte);
+> > > > > > +	}
+> > > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > > > > > +	else if (pmd) {
+> > > > > > +		if (pmd_young(*pmd)) {
+> > > > > > +			clear_page_idle(pmd_page(*pmd));
+> > > > > > +			set_page_young(pmd_page(*pmd));
+> > > > > > +		}
+> > > > > > +		*pmd = pmd_mkold(*pmd);
+> > > > > > +	}  
+> > 
+> > This is also very problematic if several regions are backed by a single huge
+> > page, as only one region in the huge page will be checked as accessed.
+> > 
+> > Will address these problems in next spin!
 > 
-> It is already there, but hidden behind the "if (!dev->ats_cap)":
-> pci_ats_init() only sets dev->ats_cap after checking that
-> pci_ats_disabled() returns false.
->
+> Good point.  There is little point in ever having multiple regions including
+> a single huge page.  Would it be possible to tweak the region splitting algorithm
+> to not do this?
 
-Ah! Yes.
+Yes, it would be a good solution.  However, I believe this is a problem of the
+access checking mechanism, as the definition of the region is only 'memory
+area having similar access frequency'.  Adding more rules such as 'it should
+be aligned by HUGE PAGE size' might make things more complex.  Also, we're
+currently using page table Accessed bits as the primitive for the access check,
+but it could be extended to other primitives in future.   Therefore, I would
+like to modify the access checking mechanism to aware the huge pages
+existance.
 
-Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+For regions containing both regular pages and huge pages, the huge pages will
+make some errorneous high access frequency as you noted before,  but the
+adaptive regions adjustment will eventually split them.
 
-> Thanks,
-> Jean
+If you have other concerns or opinions, please let me know.
 
-Best regards,
-baolu
+
+Thanks,
+SeongJae Park
+
+> 
+> Jonathan
+> 
+> > 
+> > 
+> > Thanks,
+> > SeongJae Park
+> > 
+> > > > > > +#endif
+> > > > > > +
+> > > > > > +	spin_unlock(ptl);
+> > > > > > +}
+> > > > > > +  
+> > > 
+> > >   
+> 
+> 
