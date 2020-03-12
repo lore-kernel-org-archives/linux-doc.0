@@ -2,238 +2,114 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B149CC10DCE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 09:21:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB0BC2BB1D
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 09:25:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8006A2067C
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 09:21:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="j8TK+EQF"
+	by mail.kernel.org (Postfix) with ESMTP id 097662071B
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 09:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584005139;
+	bh=+5Gp7w5vcJsY8vWZ7gDNnArFa78EQVe2jx3jSlUGg4o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=1fsmNig0zT/2lWz0m1zgm/U+tKIwF35FPQIebZkK+/XIuGwndSJDbYcAAfLrlcn7r
+	 6avr65e7zr3k5jHJ3YnH30l5+cJd77JZUoxPyPGqfdlYcddkzW7SBBHdjPa7FZBhRi
+	 Azxj1aTCngbTD6n1ZOW7s1mzliDC7UvxukzrJKoo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726254AbgCLJVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 05:21:16 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:21505 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726099AbgCLJVP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 05:21:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1584004874; x=1615540874;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=2uCJ+4ws4cvlEV+wb61ZNYapETdHtIGmrv87apB/d5Y=;
-  b=j8TK+EQFXF/EHi+avbrNqU8NWVYDhBw09s12w/PIVns7kN2QqEwrjDXX
-   9Vkvsw6FXH6cUXSM3i2PojN/4jJjlQBl1VaPlkl30aiZou5e200GATLFH
-   6sHBk9WXnJdDhf0NAc5itj4sYUCLq3H/mKXFRWlPBS1FstdE+heDjlbhz
-   8=;
-IronPort-SDR: byhSOgQR6MQP6GXvYn18sTTUXQ1OXhL4l7uE+EVjmfFsOwkRWzCdefsL6goSsigDWavy6wQX8V
- L/f9xsbvJEUA==
-X-IronPort-AV: E=Sophos;i="5.70,544,1574121600"; 
-   d="scan'208";a="32157934"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 12 Mar 2020 09:21:10 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
-        by email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com (Postfix) with ESMTPS id D137CA1D81;
-        Thu, 12 Mar 2020 09:21:00 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Thu, 12 Mar 2020 09:20:59 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.152) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 12 Mar 2020 09:20:47 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <aarcange@redhat.com>,
-        <yang.shi@linux.alibaba.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v6 02/14] mm/damon: Implement region based sampling
-Date:   Thu, 12 Mar 2020 10:20:30 +0100
-Message-ID: <20200312092030.347-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200310173938.00002af4@Huawei.com> (raw)
+        id S1726194AbgCLJZh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 05:25:37 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:56176 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726858AbgCLJZh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 05:25:37 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 6so5227544wmi.5;
+        Thu, 12 Mar 2020 02:25:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cMMKbXhN9eUImpsZTVHPnKioeTIq6eieLdWAKaUpf5Q=;
+        b=rYRyJo4r9Y64yafECUSIfNxEsCCUxWPxAZt4CF94+z2UE5cQy1zxrLKrkq+tmabAjY
+         RQ2ggT5C0E10fN55vZ5uh9yPABCvh3wfPyZCcG0bDnVUTxE3zEvs7RuZpN4p4PTotxTc
+         XXZnhaF/FuP8EUa39UUHU3uoCMsQlj7bwYAFTfP3c+GbaP46rLnDi0TJj9bfp7LZcFG+
+         a2Hlk4d4851vGTpX/rSSg5dOb3MeDNTmzXkbN5gBIcLnAxgKpxQQBhZ8Mb5UIT3u8UNk
+         dlvizuZ4CkJOhErnpm/awe+PfLm33IM447DC2jb8JL7QcO35tiN9SV2MiZDvZjvVE+hV
+         jPMg==
+X-Gm-Message-State: ANhLgQ3i4MwPxhogA1hhERqYOvB4144wGQADK2l+pah0wjp8uGsZ14EU
+        aeDBTNusk6R3z5VkFUMQRC+di3NC
+X-Google-Smtp-Source: ADFU+vuonuF0fj4AX6GKv6FiF9ZC8rUyNxOFkSydg0YUX+Sx7UVQ+93RWd3J+LrP6b3rbzvpv1EAjw==
+X-Received: by 2002:a1c:56d5:: with SMTP id k204mr4046198wmb.13.1584005133477;
+        Thu, 12 Mar 2020 02:25:33 -0700 (PDT)
+Received: from localhost (ip-37-188-253-35.eurotel.cz. [37.188.253.35])
+        by smtp.gmail.com with ESMTPSA id v10sm3832526wml.44.2020.03.12.02.25.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2020 02:25:32 -0700 (PDT)
+Date:   Thu, 12 Mar 2020 10:25:31 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Ivan Teterevkov <ivan.teterevkov@nutanix.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jgross@suse.com" <jgross@suse.com>,
+        "oneukum@suse.com" <oneukum@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
+Message-ID: <20200312092531.GU23944@dhcp22.suse.cz>
+References: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.152]
-X-ClientProxiedBy: EX13D15UWB003.ant.amazon.com (10.43.161.138) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 10 Mar 2020 17:39:38 +0000 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-
-> On Tue, 10 Mar 2020 17:22:40 +0100
-> SeongJae Park <sjpark@amazon.com> wrote:
+On Wed 11-03-20 17:45:58, Ivan Teterevkov wrote:
+> This patch adds a couple of knobs:
 > 
-> > On Tue, 10 Mar 2020 15:55:10 +0000 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-> > 
-> > > On Tue, 10 Mar 2020 12:52:33 +0100
-> > > SeongJae Park <sjpark@amazon.com> wrote:
-> > >   
-> > > > Added replies to your every comment in line below.  I agree to your whole
-> > > > opinions, will apply those in next spin! :)
-> > > >   
-> > > 
-> > > One additional question inline that came to mind.  Using a single statistic
-> > > to monitor huge page and normal page hits is going to give us problems
-> > > I think.  
-> > 
-> > Ah, you're right!!!  This is indeed a critical bug!
-> > 
-> > > 
-> > > Perhaps I'm missing something?
-> > >   
-> > > > > > +/*
-> > > > > > + * Check whether the given region has accessed since the last check    
-> > > > > 
-> > > > > Should also make clear that this sets us up for the next access check at
-> > > > > a different memory address it the region.
-> > > > > 
-> > > > > Given the lack of connection between activities perhaps just split this into
-> > > > > two functions that are always called next to each other.    
-> > > > 
-> > > > Will make the description more clearer as suggested.
-> > > > 
-> > > > Also, I found that I'm not clearing *pte and *pmd before going 'mkold', thanks
-> > > > to this comment.  Will fix it, either.
-> > > >   
-> > > > >     
-> > > > > > + *
-> > > > > > + * mm	'mm_struct' for the given virtual address space
-> > > > > > + * r	the region to be checked
-> > > > > > + */
-> > > > > > +static void kdamond_check_access(struct damon_ctx *ctx,
-> > > > > > +			struct mm_struct *mm, struct damon_region *r)
-> > > > > > +{
-> > > > > > +	pte_t *pte = NULL;
-> > > > > > +	pmd_t *pmd = NULL;
-> > > > > > +	spinlock_t *ptl;
-> > > > > > +
-> > > > > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-> > > > > > +		goto mkold;
-> > > > > > +
-> > > > > > +	/* Read the page table access bit of the page */
-> > > > > > +	if (pte && pte_young(*pte))
-> > > > > > +		r->nr_accesses++;
-> > > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE    
-> > > > > 
-> > > > > Is it worth having this protection?  Seems likely to have only a very small
-> > > > > influence on performance and makes it a little harder to reason about the code.    
-> > > > 
-> > > > It was necessary for addressing 'implicit declaration' problem of 'pmd_young()'
-> > > > and 'pmd_mkold()' for build of DAMON on several architectures including User
-> > > > Mode Linux.
-> > > > 
-> > > > Will modularize the code for better readability.
-> > > >   
-> > > > >     
-> > > > > > +	else if (pmd && pmd_young(*pmd))
-> > > > > > +		r->nr_accesses++;  
-> > > 
-> > > So we increment a region count by one if we have an access in a huge page, or
-> > > in a normal page.
-> > > 
-> > > If we get a region that has a mixture of the two, this seems likely to give a
-> > > bad approximation.
-> > > 
-> > > Assume the region is accessed 'evenly' but each " 4k page" is only hit 10% of the time
-> > > (where a hit is in one check period)
-> > > 
-> > > If our address in a page, then we'll hit 10% of the time, but if it is in a 2M
-> > > huge page then we'll hit a much higher percentage of the time.
-> > > 1 - (0.9^512) ~= 1
-> > > 
-> > > Should we look to somehow account for this?  
-> > 
-> > Yes, this is really critical bug and we should fix this!  Thank you so much for
-> > finding this!
-> > 
-> > >   
-> > > > > > +#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
-> > > > > > +
-> > > > > > +	spin_unlock(ptl);
-> > > > > > +
-> > > > > > +mkold:
-> > > > > > +	/* mkold next target */
-> > > > > > +	r->sampling_addr = damon_rand(ctx, r->vm_start, r->vm_end);
-> > > > > > +
-> > > > > > +	if (follow_pte_pmd(mm, r->sampling_addr, NULL, &pte, &pmd, &ptl))
-> > > > > > +		return;
-> > > > > > +
-> > > > > > +	if (pte) {
-> > > > > > +		if (pte_young(*pte)) {
-> > > > > > +			clear_page_idle(pte_page(*pte));
-> > > > > > +			set_page_young(pte_page(*pte));
-> > > > > > +		}
-> > > > > > +		*pte = pte_mkold(*pte);
-> > > > > > +	}
-> > > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > > > > > +	else if (pmd) {
-> > > > > > +		if (pmd_young(*pmd)) {
-> > > > > > +			clear_page_idle(pmd_page(*pmd));
-> > > > > > +			set_page_young(pmd_page(*pmd));
-> > > > > > +		}
-> > > > > > +		*pmd = pmd_mkold(*pmd);
-> > > > > > +	}  
-> > 
-> > This is also very problematic if several regions are backed by a single huge
-> > page, as only one region in the huge page will be checked as accessed.
-> > 
-> > Will address these problems in next spin!
+> - The configuration option (CONFIG_VM_SWAPPINESS).
+> - The command line parameter (vm_swappiness).
 > 
-> Good point.  There is little point in ever having multiple regions including
-> a single huge page.  Would it be possible to tweak the region splitting algorithm
-> to not do this?
-
-Yes, it would be a good solution.  However, I believe this is a problem of the
-access checking mechanism, as the definition of the region is only 'memory
-area having similar access frequency'.  Adding more rules such as 'it should
-be aligned by HUGE PAGE size' might make things more complex.  Also, we're
-currently using page table Accessed bits as the primitive for the access check,
-but it could be extended to other primitives in future.   Therefore, I would
-like to modify the access checking mechanism to aware the huge pages
-existance.
-
-For regions containing both regular pages and huge pages, the huge pages will
-make some errorneous high access frequency as you noted before,  but the
-adaptive regions adjustment will eventually split them.
-
-If you have other concerns or opinions, please let me know.
-
-
-Thanks,
-SeongJae Park
-
+> The default value is preserved, but now defined by CONFIG_VM_SWAPPINESS.
 > 
-> Jonathan
+> Historically, the default swappiness is set to the well-known value 60,
+> and this works well for the majority of cases. The vm_swappiness is also
+> exposed as the kernel parameter that can be changed at runtime too, e.g.
+> with sysctl.
 > 
-> > 
-> > 
-> > Thanks,
-> > SeongJae Park
-> > 
-> > > > > > +#endif
-> > > > > > +
-> > > > > > +	spin_unlock(ptl);
-> > > > > > +}
-> > > > > > +  
-> > > 
-> > >   
+> This approach might not suit well some configurations, e.g. systemd-based
+> distros, where systemd is put in charge of the cgroup controllers,
+> including the memory one. In such cases, the default swappiness 60
+> is copied across the cgroup subtrees early at startup, when systemd
+> is arranging the slices for its services, before the sysctl.conf
+> or tmpfiles.d/*.conf changes are applied.
 > 
-> 
+> One could run a script to traverse the cgroup trees later and set the
+> desired memory.swappiness individually in each occurrence when the runtime
+> is set up, but this would require some amount of work to implement
+> properly. Instead, why not set the default swappiness as early as possible?
+
+I have to say I am not a great fan of more tunning for swappiness as
+this is quite a poor tunning for many years already. It essentially does
+nothing in many cases because the reclaim process ignores to value in
+many cases (have a look a get_scan_count. I have seen quite some
+reports that setting a specific value for vmswappiness didn't make any
+change. The knob itself has a terrible semantic to begin with because
+there is no way to express I really prefer to swap rather than page
+cache reclaim.
+
+This all makes me think that swappiness is a historical mistake that we
+should rather make obsolete than promote even further.
+-- 
+Michal Hocko
+SUSE Labs
