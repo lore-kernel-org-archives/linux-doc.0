@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7003CC1975A
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 040ABC5ACBF
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:23:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4759D2067C
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:21:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CEDA220650
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:23:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hlXc9bv7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kPO+ikxE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727514AbgCLOVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 10:21:49 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:39545 "EHLO
+        id S1727677AbgCLOXW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 10:23:22 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:43440 "EHLO
         mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727531AbgCLOVs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 10:21:48 -0400
-Received: by mail-lj1-f195.google.com with SMTP id f10so6635022ljn.6
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 07:21:46 -0700 (PDT)
+        with ESMTP id S1727669AbgCLOXW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 10:23:22 -0400
+Received: by mail-lj1-f195.google.com with SMTP id r7so6637805ljp.10
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 07:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=79OHKgNVg5IiTjP/EryhR/on7yjmd+OeOqFhBOB19Rg=;
-        b=hlXc9bv7wKtJYos/CvmIf1aWytTx7tjjvZA7MyZXi7udPi5CdammboSrae1hgCitp/
-         MSpq1qvYRN9mFEXkFN/xNTTmmao3V3GjlW0KxdQXRUqYqGp5IwObLZ7yB+renP8z+pfN
-         tTWRkIMDIS1GZe95+PfMemVe3rr1Kwnkd636g3iGRWP+yiHdYGH7FrFNCkkgIeRsEdxg
-         L1z1MSWPXkvi5ST+LYKisjEtlJI83foQzqkY8AUQk+nrdOaavjVDuTxl3sWpnDBKyxpA
-         I+Y+/KkkggsGEGEO3b8x79C2+nvBFhV0SVSG0v4dMd8b9iZmSihZqNyIYhxl61ZhaL+L
-         SMHA==
+        bh=5Dt+A0XYoM4z0Muyh4Z1oK3OQIHOd+TenS7WS4Spt8M=;
+        b=kPO+ikxEgegYspLtVJSTdDZGCrznn2iZHcCDSpipCfIKchWvbMXImnOGvH1GmkJfoD
+         KcE6fvz9RgDqdCcl4OhN7O0CjnJ+M6liGFX7kS02szV8Mo1+CU8jkrhYkKZ+cX6rh0Qw
+         H/nnJeTMB5ClokfZT4zcoYejI5wYd4XBiBYB1T5WDgosR4K8w/H85ETqh8BS+y3N6LvM
+         5Y95Pb1xYZfEjIrgLVRhecU/tTp74SEk3Ps55TNUzCeR9gXSB6amj6Kc+BpjDlZq6zaG
+         WIiIfQNErmoQIOMBgKTJD8wyx6zy8TH+bDi310hmLvyph1kUIo4otwnn+KNf7P9k3532
+         g2vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=79OHKgNVg5IiTjP/EryhR/on7yjmd+OeOqFhBOB19Rg=;
-        b=GKZT78sqQ0EsTVr/ZHzw4nw8oJ/xLE5bMTqv1DZxJlI+8YsOtL/+arLh4BXw9xvWhE
-         uerPq/hhpKfjiBRusTTDmlBzfWnLgd0G/8D1SMI7epp5YG1OmHFgct1shhOWw5dsQsZ7
-         ar4vuzrYIFiAVlhiEUuG+LNrrOSMJjk4kVsIJVp6o+HBjKHu3yo4crHepM48yi2Ch4AW
-         7MzJRCxCJ2qZSBkpmNEuq8aJHbOx85bIXcrFu7HdENc3BZ4FRizZmGixw04ICk1eyZNe
-         0AenfqBVXuGbtLc3DJ0PZhFGSkJBCgPKlxBR8Cd+IUkPEnxyrrb3xYMEKNX1QEQHnbjS
-         R0fg==
-X-Gm-Message-State: ANhLgQ3F1zFC7zvDfTFWK6byrJInc+XCrX2/rjx2IRyA427jUgjkog27
-        uCYOTMkT83Ho+pxE7c1KNWVFnG4X5biogXGS5N04HA==
-X-Google-Smtp-Source: ADFU+vtcIZFKaUxv+zzMf8n7cOQduYtCadrIv8wfIOW4HDImubBu1ngGLVdiQB+7d6huEorOiDcjWc0JqvkBbK9RrNg=
-X-Received: by 2002:a05:651c:2c1:: with SMTP id f1mr5239338ljo.125.1584022905409;
- Thu, 12 Mar 2020 07:21:45 -0700 (PDT)
+        bh=5Dt+A0XYoM4z0Muyh4Z1oK3OQIHOd+TenS7WS4Spt8M=;
+        b=cKn93rsQ7OtuuYiM7SwzEsKbGuzr7mpTd/V2dyRzeE+WvVV9kaR4coRoOidkLN4XG7
+         4mXi1BD2yUljW7c/XsABChWEuQocoT0NYV7WI1GaF9+FSa6rDNCEGCgx9CK6ZXsy0B4z
+         ol/jwF3wdZ3t0/Xh7tbNcyT0nM9CD+gwB8mvkJxGt+hXG5ClN8qABCunv4+2xqdxkBq0
+         C3tXP9Z4JOA/5ASPp6DtuJBlRg04w7FT6Q+4mcD+JCakyH6LFjElsH6puc9jV5EXlANH
+         0wGi/e+IjNAZ4gHym7vlyw8io7iB5KE1b5a8tqa1vfTO/gGu05pBqlSrUQv5w45xPY8K
+         xLnw==
+X-Gm-Message-State: ANhLgQ0XVHWZppeCWyZhaexOOV8ETvr5Jp+hfHD1P5VT6EMgUuR7+b0P
+        a0xP4RR7PMZVdYbhp9gnisQrWMJreLsHIggo/7+n6Q==
+X-Google-Smtp-Source: ADFU+vv7LNhuqWt6huv0FXgE1q4FBl/D6hN2gAx1rsopSHV4jlVMS8grUwQme6vafr3oWKM7JsBOgEJp0guAr/W7u10=
+X-Received: by 2002:a05:651c:2049:: with SMTP id t9mr5600275ljo.39.1584022999468;
+ Thu, 12 Mar 2020 07:23:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200218151812.7816-1-geert+renesas@glider.be> <20200218151812.7816-3-geert+renesas@glider.be>
-In-Reply-To: <20200218151812.7816-3-geert+renesas@glider.be>
+References: <20200218151812.7816-1-geert+renesas@glider.be> <20200218151812.7816-2-geert+renesas@glider.be>
+In-Reply-To: <20200218151812.7816-2-geert+renesas@glider.be>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Mar 2020 15:21:34 +0100
-Message-ID: <CACRpkda1JAnC=Feb39GeKEEP6q8Qwpsth6J+4OKj6A8S3YAUyQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/5] gpiolib: Add support for GPIO line table lookup
+Date:   Thu, 12 Mar 2020 15:23:08 +0100
+Message-ID: <CACRpkdZGKB9opaOFT8Yz-tfE9vcCVeF9EvvBi7jWWuAAh3C_FA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] gpiolib: Add support for gpiochipN-based table lookup
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -81,35 +81,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
-
-I'm sorry for the slow review, it's a large patch set and
-takes some time to sit down and review, and see whether my
-earlier comments have been addressed.
-
 On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
 
-> Currently GPIOs can only be referred to by GPIO controller and offset in
-> GPIO lookup tables.
+> Currently GPIO controllers can only be referred to by label in GPIO
+> lookup tables.
 >
-> Add support for looking them up by line name.
-> Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
-> that this field can have two meanings, and update the kerneldoc and
-> GPIO_LOOKUP*() macros.
+> Add support for looking them up by "gpiochipN" name, with "N" the
+> corresponding GPIO device's ID number.
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 > Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 > Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 
-I will try to understand why this change is necessary to implement
-the gpio aggregator (probablt I will comment that on the other
-patches like "aha now I see it" or so, but it would help a lot if the
-commit message
-would state the technical reason to why we need to do this change,
-like what it is that you want to do and why you cannot do it without
-this change.
+Just like with patch 2/5 I have the same problem here that
+the commit message doesn't state the technical reason why
+we need to change this and support the device name in these
+tables and not just labels.
+
+(Possibly again I will realize it...)
 
 Yours,
 Linus Walleij
