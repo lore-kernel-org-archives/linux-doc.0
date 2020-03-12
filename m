@@ -2,126 +2,102 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45C58C4CECE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 21:21:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E33FC1975A
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 22:11:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1F408206CD
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 21:21:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584048088;
-	bh=7QxQN2DwLQDaVoXZb2JtRCzxu6x2CTMFwMZ1K7jh2Tw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
-	b=mSboM/b71DAWob6vIYZoOlPUJcxYhQ87JMosMukxdL8mBxWUeNFWIZvoFAirznwdb
-	 4jft+laCtyzL/s7SVSgGQu4Nr75QALCnKEiQqAJ1U4znLcrVaUEg0lS1cmlpjMOfOq
-	 zDjZ8qMNocDOC1VSyQCqU73YT76mnNCSjJYKym3w=
+	by mail.kernel.org (Postfix) with ESMTP id 7320020716
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 22:11:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lLp+JNv1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbgCLVV1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 17:21:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56984 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726442AbgCLVV1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Mar 2020 17:21:27 -0400
-Received: from localhost (mobile-166-175-186-165.mycingular.net [166.175.186.165])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AE8B3206BE;
-        Thu, 12 Mar 2020 21:21:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584048086;
-        bh=7QxQN2DwLQDaVoXZb2JtRCzxu6x2CTMFwMZ1K7jh2Tw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=QqRSOd7LF3x7XcKV2ckDTs7eei1HR1cy25PL5NuTve+HDQbfdSyp8CF+vk+l6giQ4
-         u3TU2kj8GRNgjxzk74X0Ojxauu/0EYksv/nxCZHLDY0/m+lr+Nj2deVAcUKn/iC3Mx
-         8/LOU5eJCGAMcwqjgAe1ZLJi8w879jpNlPq1YdfQ=
-Date:   Thu, 12 Mar 2020 16:21:24 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc:     will@kernel.org, robh+dt@kernel.org, joro@8bytes.org,
-        baolu.lu@linux.intel.com, sudeep.holla@arm.com,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
-        lorenzo.pieralisi@arm.com, corbet@lwn.net, mark.rutland@arm.com,
-        liviu.dudau@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
-        lenb@kernel.org, robin.murphy@arm.com, dwmw2@infradead.org,
-        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
-Subject: Re: [PATCH v2 02/11] PCI: Add ats_supported host bridge flag
-Message-ID: <20200312212124.GA178131@google.com>
+        id S1726834AbgCLWLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 18:11:30 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:34556 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726550AbgCLWLa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 18:11:30 -0400
+Received: by mail-lf1-f68.google.com with SMTP id i19so6216199lfl.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 15:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=f+nbJgOAkU3OKGNy5HAiFcAe6BZ2/dfnnfHDkezdsLM=;
+        b=lLp+JNv1GIglmiE7sOrC1qiIR92TS5cKLDQInmmSnSrfr1qRJIqEePz4qZzmCMaXQg
+         WfjeGL9/4gKBTTDka+GpLlLtpbiD1yloqRAJ0j1uaN1RPyfrSudbA4agtp71u5vQLvVh
+         kbfpE2jpEmTv+gLLK2bdDBoWn9tFPGdA8uR+LZOOg0cNSMA//V8Yzq7FYJEWfGS9egxp
+         ssrmkKAtsOcFrY+F+ktTdm/G2ys1pRbkX5kFFOvXt+HDZmd1myZbaTJUa01dn3e+L37B
+         lhEYR0ODVOxYIzPOrxSPTQoqyVKo30x+HMDzyYjtalF/Xk6Pf7WKXUgxp0pP1/UDQYLp
+         ZXFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=f+nbJgOAkU3OKGNy5HAiFcAe6BZ2/dfnnfHDkezdsLM=;
+        b=lnNTp/xRpQfDP5zA4apPSHHS8rnQ6HH6wIFPaWJB5aIYbmDKSv+0rwwko7ADkbyt+h
+         t1LqXYDNZdTG1Dcvd9XEcXiYN3SEC+6MDb1VvQNCf41y516gTt9+FK/sqjDPqd6WHS6E
+         KF/9+ze60BShfRKHX55gxIFQhpcZ9TGZ3iyHzTmLxwwcYkvkuaWZlEV4lkKYtIxtrBOZ
+         kN9L3s5jLoLNwK718k0kyNngdcnT2Q4mWUpWijMCJctGqfqYoSpiHBl2VBfW3SvLuY4a
+         ab1tFKT1H3+H2isHs6jIF6M8yyIqKXZWkYNmXAATH9Ski0GpuFkRKlXove1THtuqGkSN
+         Vckg==
+X-Gm-Message-State: ANhLgQ1IR+szuPl6bee5QhMA/BpwMAvTtWY24ecVlxyfhLodKyBgBFKH
+        q70MJk2Qu8duPE0fm8Przdc9ff3jX+2Ao1bTlg266w==
+X-Google-Smtp-Source: ADFU+vuw+qDSh0ZHQbXiX986v1sXjlwq0l/RRl8ekqAVAeCDt4hyCXShVedgqdcfYfGOHvVzkalKAjAB5l3YONcMxRA=
+X-Received: by 2002:a19:4354:: with SMTP id m20mr2516445lfj.166.1584051087657;
+ Thu, 12 Mar 2020 15:11:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200311124506.208376-3-jean-philippe@linaro.org>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+References: <20200307023611.204708-1-drosen@google.com> <20200307023611.204708-3-drosen@google.com>
+ <20200307034850.GH23230@ZenIV.linux.org.uk>
+In-Reply-To: <20200307034850.GH23230@ZenIV.linux.org.uk>
+From:   Daniel Rosenberg <drosen@google.com>
+Date:   Thu, 12 Mar 2020 15:11:16 -0700
+Message-ID: <CA+PiJmR=zp9P_Mam2EuVgy-vZftDTGQWuFmuO6asPeU_jEy8OQ@mail.gmail.com>
+Subject: Re: [PATCH v8 2/8] fs: Add standard casefolding support
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Eric Biggers <ebiggers@kernel.org>,
+        linux-fscrypt@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 11, 2020 at 01:44:57PM +0100, Jean-Philippe Brucker wrote:
-> Each vendor has their own way of describing whether a host bridge
-> supports ATS.  The Intel and AMD ACPI tables selectively enable or
-> disable ATS per device or sub-tree, while Arm has a single bit for each
-> host bridge.  For those that need it, add an ats_supported bit to the
-> host bridge structure.
+On Fri, Mar 6, 2020 at 7:48 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> On Fri, Mar 06, 2020 at 06:36:05PM -0800, Daniel Rosenberg wrote:
+>
+>         Have you even tested that?  Could you tell me where does the calculated
+> hash go?  And just what is it doing trying to check if the name we are about to
+> look up in directory specified by 'dentry' might be pointing to dentry->d_iname?
 
-Can you mention the specific ACPI tables here in the commit log?
+Turns out I tested exactly not that :/ Ran tests on the wrong kernel.
+I've fixed my setup so that shouldn't happen again. The calculated
+hash there goes exactly nowhere because I failed to copy it back into
+the original qstr.
+I'm trying to see if the name is a small name, which, if my
+understanding is correct, is the only time a name might change from
+underneath you in an RCU context. This assumes that the name either
+comes from the dentry, or is otherwise not subject to changes. It's
+based around the check that take_dentry_name_snapshot does. It does
+feel a bit sketchy to assume that, so I'm very open to other
+suggestions there.
 
-Maybe elaborate on the "for those that need it" bit?  I'm not sure if
-you need it for the cases where DT or ACPI tells us directly for the
-host bridge, or if you need it for the more selective cases?
-
-I guess in one sense you *always* need it since you check the cached
-bit later.
-
-I don't understand the implications of this, especially the selective
-situation.  Given your comment from the first posting, I thought this
-was a property of the host bridge, so I don't know what it means to
-say some devices support ATS but others don't.
-
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
-> v1->v2: try to improve the comment
-> ---
->  drivers/pci/probe.c | 8 ++++++++
->  include/linux/pci.h | 1 +
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 512cb4312ddd..b5e36f06b40a 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -598,6 +598,14 @@ static void pci_init_host_bridge(struct pci_host_bridge *bridge)
->  	bridge->native_shpc_hotplug = 1;
->  	bridge->native_pme = 1;
->  	bridge->native_ltr = 1;
-> +
-> +	/*
-> +	 * Some systems (ACPI IORT, device-tree) declare ATS support at the host
-> +	 * bridge, and clear this bit when ATS isn't supported. Others (ACPI
-> +	 * DMAR and IVRS) declare ATS support with a smaller granularity, and
-> +	 * need this bit set.
-> +	 */
-> +	bridge->ats_supported = 1;
->  }
->  
->  struct pci_host_bridge *pci_alloc_host_bridge(size_t priv)
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 3840a541a9de..9fe2e84d74d7 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -511,6 +511,7 @@ struct pci_host_bridge {
->  	unsigned int	native_pme:1;		/* OS may use PCIe PME */
->  	unsigned int	native_ltr:1;		/* OS may use PCIe LTR */
->  	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
-> +	unsigned int	ats_supported:1;
->  
->  	/* Resource alignment requirements */
->  	resource_size_t (*align_resource)(struct pci_dev *dev,
-> -- 
-> 2.25.1
-> 
+I'm going through that hassle because the various utf8 functions do a
+lot of dereferencing the string and manipulating pointers by those
+values, expecting them to be consistent. It might be enough to just go
+through that code and add a bunch of checks to make sure we can't
+accidentally walk off of either end.
