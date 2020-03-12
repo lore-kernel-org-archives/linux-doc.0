@@ -2,122 +2,112 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_SBL,URIBL_SBL_A autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDDBFC10DCE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:34:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F69C10DCE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:40:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A206E2067C
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:34:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8DC402067C
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 18:40:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="V4idd58r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aiiFQEu8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbgCLSe7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 14:34:59 -0400
-Received: from mout.gmx.net ([212.227.15.19]:34145 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726406AbgCLSe7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Mar 2020 14:34:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1584038093;
-        bh=f56xVHIr6zr2PZHI0TS7LUqKLBAli/KY7kMif9yhxy0=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=V4idd58raCGnnFUXYwiJAquLjofThszFDTGpDCYypEnYHfbhB7mP64BSV32P2pr6k
-         ztzTuqHMWIsVXjIbSzMvgFPgrhn48OFl1tYcNHQtAJXj7GG78a3o3DZv/Pzu2YQBYm
-         kWVNn7zRD90TKX+woWpRtnMUCcH4bTm7Wy+wS4Kw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([37.201.214.34]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mdeb5-1jlnUC1PTV-00Zejg; Thu, 12
- Mar 2020 19:34:53 +0100
-Date:   Thu, 12 Mar 2020 19:34:52 +0100
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Stephen Kitt <steve@sk2.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: driver-api/gpio/driver.rst: fix code blocks
-Message-ID: <20200312183452.GF2376@latitude>
-References: <20200312180650.1365059-1-steve@sk2.org>
+        id S1726643AbgCLSkJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 14:40:09 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:34036 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726362AbgCLSkI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 14:40:08 -0400
+Received: by mail-io1-f68.google.com with SMTP id h131so6783932iof.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 11:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=z4HDMdYPRXEXUw8YzZaH0lPM3kLQ+sEaQbLN+MWL2mQ=;
+        b=aiiFQEu8IipvIlj2LuKwHIAy5l7E7beFfrjvlf0OYfdXt/7gmfqS4il4vYUF8U61k/
+         LzIkMctoohIQr6yPcrqQ9DuTAbVGFRJezdcv8YJrZ0Mks6Mt90jQbGlwBDivqjBrM/P8
+         kmjAT9zB7EfvKKekUvoaECFEsoGCJA/Iw/8+TvGuGUwjvNnQp6BaZkXxhk8Wq6Kcpn1J
+         8Mtlyyd7i3AVU+G54FYDX2lpYWJK7aIp20aXUrovJMtO30o1CmB4h6CbMpGp28oSC3Zt
+         M/Ybt4X/xeuWS+kQekyWWr2QEo9XObv9Po6p6br+hDOC3gdbRL6Is3SUs2JdCuCIWnNx
+         oqKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=z4HDMdYPRXEXUw8YzZaH0lPM3kLQ+sEaQbLN+MWL2mQ=;
+        b=ZmaAGWNJgFgWzkBGkhrXojjXS91+NM4kwbk9dYJdXQgb0NQTSMglWaDgl/G7Y1M73r
+         IIY6p93nidbYtKM/DVfVkCYZll4Z5GRvtJClXF4d2KKytQAJjkCf7RWIVYWHy0rugrJ3
+         6xYQL2tAejrZvMs/FiO9qgJpof7h37pUsV9sgGC6GdD9J0ySFO4+1h+gTWNxnLNE5a2N
+         YGW+tDQq5dCEoI1FUp1966sz3yQuBENI1JAy2ivjTKTSZNEeVtmxtZpwffjQg8GJhtav
+         gKm6ryGDD4pgpSGmlO0OxQkCO4wZmstaKwJzYeY2T0QvHS5QIzhgDQIYqUOBdwVphNI/
+         CMSA==
+X-Gm-Message-State: ANhLgQ2a9JeZc+EV/kDJhXZcZp+F/g7Uf1i3JAZfPMYc813BOC47t76E
+        QyCDX3t8fSk0rnFpwFQR7l3S/ovN/RQrubNP6HvSRnVd
+X-Google-Smtp-Source: ADFU+vu839A43CF5L97p8C231xviJ3mA4uZSevSjoq8CHoVDs7Si0nDd7UfLjJSNI3hj09DRmxtMo/WrtVIcBOqlXVw=
+X-Received: by 2002:a6b:7c4b:: with SMTP id b11mr8915949ioq.118.1584038407782;
+ Thu, 12 Mar 2020 11:40:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="jTMWTj4UTAEmbWeb"
-Content-Disposition: inline
-In-Reply-To: <20200312180650.1365059-1-steve@sk2.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:4djGkxK8HRts3U3sv1OSqZPHYAc9JiWcsVUMAEWwSiJThefE6M+
- 3Ezy8jEu8zfg7xKAal+KwWz3gjK3FhwyEAq+kRaNwmJrjKY84WFKSsOGveklpff+zkbD8bs
- ygbmt74xP9CLDdxTdGJbQG3uAN+NwxZ/I9B1JhPe0F15fwQM495YAlczrPICqL5f+B7NlEe
- Aeu3653rM46ouuEAVJUkg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:307PlKFVLfM=:3EP8wbRYu7nviegtlfHjn6
- HuoFGhZZBF3DzJCP+NO7jRuVdk8CKE1BDc3YNLY07OMrA7PbEtVPq1ADLL/XQkS0UWfhRKG4D
- vMRMgWiPu5usclWPXALb8LM2m5Jvtibf1gZwsXVdDPapLX5Bx4dsbgsMk7P0Ob/OiVx8Vz4IS
- TIZKVlFXPKhmpPYWawlpiYh24cFNmuhg6qx4vJQajXYRhP0gmXCy5Nktc2JWqSOA2c5hKF3yR
- JxUEIfm9emrJWqmHS+7DT9PspgruTIcXcQJRfXZLmBad7q7C8uVgAR9CKgdse5LB1PE79W+4O
- AODaBvFpbE0wmG8jN7OMpASuzZdlwOT4TmeFFwLHK/PzbyUdNOPNT35dg+B6059I6PYqTQGd4
- ptdXqUfIJ8IBV/dIEBaRZn8Teig0axAooO7XY4Hp7pQxJFRxc+y1frOv6bpm2Q7kzoqe+aaHf
- tbeQUB5T9fHb7LQhK6x3Qrn8o10w1mdWCRCVsHaP59GF945a6LvYsEL18JEWsUmKBesfGiFxm
- IukK7Y7eqHGJDweDHUxVlEpIUHW+nJV83I3IiK0BAdZcdqIvvc8PaAL8JRzrUJHRt8LUQj4yg
- 5G6AYut50uYROz4VQuawhr0RwIVgnXyA1WBsN0q4XoC7o/Ou4QWLyomTqDhpcqSecwf/YHa1l
- Zz3c7u6eBFPLL3zOXNK2SKZ+9hnYsYV5PYeY9cosRZ3QOH3XBQJax3DsWfMb0LICwZHCYAeMg
- 7Il15ezjkbrFRB0cDxbvZcKQo/iXIWYYNUv1CADzU3ky2AKE4aVcVP2oYC/nBhzKF8XfuxHkd
- YfZA52F/qlN8o82v6sYnPNtCuSBSfDKJKgW3NfL9/uhTxqwktxj7UbLm5bQ2a84gyV5M2c0rC
- 5/8q/GDf2Et8Y8tdz3qw9yFxJurIieIzq9wME2ik8dStJgDXOhzWsKAxrcA7qFOy1RLnYBbfN
- 4a/yOlZRA3BtXYe67WfRFgjslot88ebFApiNjjjrHqRRfgbt6Ft3CpNX7AMSJTLWdyOiHEl07
- bZfljBEiN7kEEFXdvaQsNGWuVuxUizHP47gksdmpMk7Oxcy/2CLchkUt8bYZKulyrmC43YRNO
- ph1O7IhuCcWdoj+k4hKrrfOxMbV3Vzk6y20WiPE/j4i1SFk4QGtBXP5EU54mDEpcmy/AvJq+g
- +emx98YZjW+jfwkeuR5u7d1OQ9fwylZHG7kv3lhyLsrUdTCS1AVs1xtPwMqb7uDcIhCRtiJju
- wcZ7ku/bKlc31GiFq
+References: <20200303225552.142778-1-joakimlonnegren@gmail.om> <20200310113117.4fc9632e@lwn.net>
+In-Reply-To: <20200310113117.4fc9632e@lwn.net>
+From:   =?UTF-8?Q?Joakim_L=C3=B6nnegren?= <joakimlonnegren@gmail.com>
+Date:   Thu, 12 Mar 2020 15:39:55 -0300
+Message-ID: <CAN1Azk4Bmmba3Bu+SKcOUzE4WZsRXo4fcrR041asinRnWXUs3g@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: driver-api/usb/writing_usb_driver.rst:
+ Update documentation links
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue 10 Mar 2020 14:31
+Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Tue,  3 Mar 2020 19:55:52 -0300
+> "Joakim L=C3=B6nnegren" <joakimlonnegren@gmail.com> wrote:
+>
+> > In writing_usb_driver.rst:
+> > Remove link to https://www.qbik.ch/usb/devices/ since it seems to be in=
+active since 2013
+> > Update link to linux-usb mailing list archive
+> >
+> > Signed-off-by: Joakim L=C3=B6nnegren <joakimlonnegren@gmail.com>
+> > ---
+> >  Documentation/driver-api/usb/writing_usb_driver.rst | 7 ++-----
+> >  1 file changed, 2 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Docu=
+mentation/driver-api/usb/writing_usb_driver.rst
+> > index 4fe1c06b6a13..5987762f5c3f 100644
+> > --- a/Documentation/driver-api/usb/writing_usb_driver.rst
+> > +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+> > @@ -314,11 +314,8 @@ http://www.linux-usb.org/
+> >  Linux Hotplug Project:
+> >  http://linux-hotplug.sourceforge.net/
+> >
+> > -Linux USB Working Devices List:
+> > -http://www.qbik.ch/usb/devices/
+> > -
+> > -linux-usb-devel Mailing List Archives:
+> > -http://marc.theaimsgroup.com/?l=3Dlinux-usb-devel
+> > +linux-usb Mailing List Archives:
+> > +https://marc.info/?l=3Dlinux-usb
+>
+> I think this is a good idea, but can we put in a link to the
+> lore.kernel.org archive for this list instead?
+>
+> Thanks,
+>
+> jon
 
---jTMWTj4UTAEmbWeb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Absolutely, I'll send a new version soon.
 
-On Thu, Mar 12, 2020 at 07:06:51PM +0100, Stephen Kitt wrote:
-> -is a typical example of a cascaded interrupt handler using gpio_irq_chip=
-::
-> +is a typical example of a cascaded interrupt handler using gpio_irq_chip:
-
-Thanks for the patch, but Mauro already fixed it:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/=
-?id=3Dc1c8b1ff0a1985d4992f49a5775bbcf6ee5ccfba
-
-
-
-Cheers,
-Jonathan Neusch=C3=A4fer
-
---jTMWTj4UTAEmbWeb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl5qgMUACgkQCDBEmo7z
-X9uQ9g/+JakMD13xglbFpTuEQ4Ny5G7da9WPxI7Gw3nEFve3nK3g/iipF76GJYmy
-UutgaQ0n18lyy531xH77pkVtLeQlWSh60i6yvMn0BDx0x6rRbJ4fXipAXNw2P4Q1
-eelUj7tGn8ZgHCDbeF30zxFd5qm/xGBgw7eIZe7pht+836WspJTSZCNuWh3sEGFW
-Mq7UtnKVqx11uTun7sOzp1JUuCiDDe6LXjqGVpORTImU1D27M+Wv5J44sOAXqJyq
-XOyY83v7JLHow2RANRH+griJFctFYuRpNHpLVuXp/+ROfaQPLPf2DpMx2CdsQKCn
-jMCsLd0wb23nFiO2KFQv3nzlXa0qd8KLmCCKdogul//De1DikOcFMQhvU+0CucVq
-uaV5OflNViaJ6UCI6frDPfpFiEl7cFU/3iA3ETqdSkXr0f58P4yVWAG77Iu9zLB8
-UNm9vCQoRbV3j3n89cD0oS1u7ET+ejBTWV1XwdQWA9PChIkqmKJYnRmAlovxkrP9
-le46kHIugAmGFitu1vaLEZi7BKd6m3NglIzUXevHpUVCB9XTya76rmDOUseOCMqO
-32Sl0FcawyMp5A6fhNWBtm20B/s+w0dJEkfMGKdJyF23nChFvD9uNDtRJAffl5QI
-PCf6461DD3KaHIkZEoJNX8HsdLk67lHYQemv+BfKk5zQ5zSXd2E=
-=MRzh
------END PGP SIGNATURE-----
-
---jTMWTj4UTAEmbWeb--
+/Joakim
