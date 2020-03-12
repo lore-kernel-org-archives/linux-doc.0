@@ -2,93 +2,102 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0193C2BB1D
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 00:49:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E669C0044D
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 01:44:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 099E32071B
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 00:49:50 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="I8n0l60Q"
+	by mail.kernel.org (Postfix) with ESMTP id B6DB020739
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 01:44:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731627AbgCLAtq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Mar 2020 20:49:46 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:46626 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731423AbgCLAtp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Mar 2020 20:49:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=JzdyPrN62BdDAmrcldEmQFBwM9GdlQHzAxzjjEn6/H4=; b=I8n0l60QOxFd+cp1P0neh7j0VR
-        z70RmleKd/l2LQqNCfyS3at4gq0Ah39vt0UeHGb7Ln1Y8F4evjFFz2DNhpGf2P9oQZrEQOziZFk4e
-        NkC8lvwUXApjj8AIaMD9L8Z6xa0ME5+VSt4FjDIC6MJrjT+jsALZz3g0ijpX39ZLFf0pb4ftipMjz
-        gJ5R0QxLbRASQ5bylEPSkjNTdmwQwxISYGAiNrSmOhkr51riRVHJsOxK4/2m3vyqlrGyjmeuZO5l7
-        FgeOMMtM3h5fUk2VTU0Faj2pyWk/GPQCIOZjt1bzyGCJOxSXWpioyI13QCMxKoYKqgTgAtWRQBxXc
-        gUex38tg==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jCC2i-0004EW-5V; Thu, 12 Mar 2020 00:49:44 +0000
-Date:   Wed, 11 Mar 2020 17:49:44 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     peter@bikeshed.quignogs.org.uk
-Cc:     linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] Reformat return value descriptions as ReST lists.
-Message-ID: <20200312004944.GF22433@bombadil.infradead.org>
-References: <20200311192823.16213-1-peter@bikeshed.quignogs.org.uk>
- <20200311192823.16213-2-peter@bikeshed.quignogs.org.uk>
+        id S2387562AbgCLBo0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Mar 2020 21:44:26 -0400
+Received: from mga07.intel.com ([134.134.136.100]:51962 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387501AbgCLBoZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Mar 2020 21:44:25 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 18:44:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,543,1574150400"; 
+   d="scan'208";a="443763768"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.208.137]) ([10.254.208.137])
+  by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2020 18:44:18 -0700
+Cc:     baolu.lu@linux.intel.com, lorenzo.pieralisi@arm.com,
+        corbet@lwn.net, mark.rutland@arm.com, liviu.dudau@arm.com,
+        guohanjun@huawei.com, rjw@rjwysocki.net, lenb@kernel.org,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        amurray@thegoodpenguin.co.uk, frowand.list@gmail.com
+Subject: Re: [PATCH v2 08/11] iommu/vt-d: Use pci_ats_supported()
+To:     Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
+        joro@8bytes.org, sudeep.holla@arm.com, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        iommu@lists.linux-foundation.org
+References: <20200311124506.208376-1-jean-philippe@linaro.org>
+ <20200311124506.208376-9-jean-philippe@linaro.org>
+From:   Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <7019230c-3c56-e6db-6704-d73f23fa39b5@linux.intel.com>
+Date:   Thu, 12 Mar 2020 09:44:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200311192823.16213-2-peter@bikeshed.quignogs.org.uk>
+In-Reply-To: <20200311124506.208376-9-jean-philippe@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 11, 2020 at 07:28:23PM +0000, peter@bikeshed.quignogs.org.uk wrote:
-> Added line breaks and blank lines to separate list items and escaped end-of-line
-> colons.
+Hi Jean,
+
+On 2020/3/11 20:45, Jean-Philippe Brucker wrote:
+> The pci_ats_supported() function checks if a device supports ATS and is
+> allowed to use it.
 > 
-> This removes these warnings from doc build...
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>   drivers/iommu/intel-iommu.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
 > 
-> ./drivers/net/phy/sfp-bus.c:579: WARNING: Unexpected indentation.
-> ./drivers/net/phy/sfp-bus.c:619: WARNING: Unexpected indentation.
+> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> index 6fa6de2b6ad5..17208280ef5c 100644
+> --- a/drivers/iommu/intel-iommu.c
+> +++ b/drivers/iommu/intel-iommu.c
+> @@ -1454,8 +1454,7 @@ static void iommu_enable_dev_iotlb(struct device_domain_info *info)
+>   	    !pci_reset_pri(pdev) && !pci_enable_pri(pdev, 32))
+>   		info->pri_enabled = 1;
+>   #endif
+> -	if (!pdev->untrusted && info->ats_supported &&
+> -	    pci_ats_page_aligned(pdev) &&
+> +	if (info->ats_supported && pci_ats_page_aligned(pdev) &&
+>   	    !pci_enable_ats(pdev, VTD_PAGE_SHIFT)) {
+>   		info->ats_enabled = 1;
+>   		domain_update_iotlb(info->domain);
+> @@ -2611,10 +2610,8 @@ static struct dmar_domain *dmar_insert_one_dev_info(struct intel_iommu *iommu,
+>   	if (dev && dev_is_pci(dev)) {
+>   		struct pci_dev *pdev = to_pci_dev(info->dev);
+>   
+> -		if (!pdev->untrusted &&
+> -		    !pci_ats_disabled() &&
 
-I'm all in favour of removing warnings, but I think you've fixed this
-the wrong way.
+The pci_ats_disabled() couldn't be replaced by pci_ats_supported(). Even
+pci_ats_supported() returns true, user still can disable it. Or move
+ats_disabled into pci_ats_supported()?
 
-> @@ -572,12 +572,18 @@ static void sfp_upstream_clear(struct sfp_bus *bus)
->   * the sfp_bus structure, incrementing its reference count.  This must
->   * be put via sfp_bus_put() when done.
->   *
-> - * Returns: on success, a pointer to the sfp_bus structure,
-> + * Returns\:
+Best regards,
+baolu
 
-This should be Return: (not Returns:) and marks a section header,
-not the beginning of the list.  See the "Return values" section
-in Documentation/doc-guide/kernel-doc.rst
-
-> + *
-> + *          on success, a pointer to the sfp_bus structure,
->   *	    %NULL if no SFP is specified,
-> + *
->   * 	    on failure, an error pointer value:
-> + *
->   * 		corresponding to the errors detailed for
->   * 		fwnode_property_get_reference_args().
-> + *
->   * 	        %-ENOMEM if we failed to allocate the bus.
-> + *
->   *		an error from the upstream's connect_phy() method.
-
-Seems to me this should use the " * * VALUE - Description" format
-described in the document I mentioned above.
+> -		    ecap_dev_iotlb_support(iommu->ecap) &&
+> -		    pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_ATS) &&
+> +		if (ecap_dev_iotlb_support(iommu->ecap) &&
+> +		    pci_ats_supported(pdev) &&
+>   		    dmar_find_matched_atsr_unit(pdev))
+>   			info->ats_supported = 1;
