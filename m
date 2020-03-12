@@ -2,248 +2,231 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 596D3C10DCE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:57:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0090C10DCE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 15:23:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2393020663
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 14:57:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m2lcmjUG"
+	by mail.kernel.org (Postfix) with ESMTP id 8FED420674
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 15:23:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727363AbgCLO5j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 10:57:39 -0400
-Received: from mail-ua1-f67.google.com ([209.85.222.67]:35962 "EHLO
-        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726436AbgCLO5j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 10:57:39 -0400
-Received: by mail-ua1-f67.google.com with SMTP id 8so2223543uar.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2020 07:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bxw33SxWFZjkWPj88ZuXOvwLRBj2S+g2ZJwa2FkjrJE=;
-        b=m2lcmjUGkYWP7vkV0Vjot/cSZwZUNCcrXd/WLLuloMRr0AWoQY+jqcc/1wuUSM7DDw
-         PqWzpdtoqX/gAP4yv2cKjurTp3cckazG7srtdvXHK8g76Tki8cdQXX8xelU3OB3zySg9
-         0KsHSFbk9uRX8+aRa4wmtwMYAvXbuXLOv70swGxt1sVRBXSVStkyGrRkeW0hlNtS8bAC
-         H/DBHSdfGZmPGLqt093ppxRWjhZFdTFTZEnGt5kqd8UjsiZIQAZuxC20LSQMDmhmwdCA
-         N6uxbr+q2W5htsfi5uFGNaAIdqYa9P6ZEEPBx1gbDz0x5QKr21FtszKn/uXbNtDP0Kgm
-         zboA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bxw33SxWFZjkWPj88ZuXOvwLRBj2S+g2ZJwa2FkjrJE=;
-        b=NXURHUEuTXi/Mwup5JJ0kodqmZ/79iVLuQeiJXScyvBusPgRiGpuzsEMLpg44Aub2c
-         2OcW+xMWwW5DGqtf4Ta9RCueJiW9lvyxTsRkOuTqtzfr2CBsDUdRANRR2HbCN+qrRkct
-         JbOtyulHaGgg7K8R2//70DGJfydbEOwE3ffOau4kpT1tEj14jnZ30cW/jj7CCyvvIg8P
-         AZgjj6+LY471fsbvSp8t6P4s+OPuvsJm5oK+GcF64uynWamPg9uqJk4wM4hQP+TP04IU
-         XvtCGqNcwk6a1jSK+a89Bc6jdECLd3nFbdYc6m7SUPMwNnA5NhSeIW0+liLP1iQEgKh1
-         cULg==
-X-Gm-Message-State: ANhLgQ0skG2D8/JxGUIxIVvevgVFLEZaZS4++soIDncxd9A/l56eiN/8
-        9O5CmkOImkZHjFFecOuSDJ9fioY+yCOZhzr5Kvk3ew==
-X-Google-Smtp-Source: ADFU+vt8Y3FRACC456zlqNPr2bqDTb34pZ4BOiYmKDy6ILZJ5KXw0GLwuYQXTML4HDWtsFJfrbuTd6Mahqifpd8BpCo=
-X-Received: by 2002:ab0:2a55:: with SMTP id p21mr3753572uar.54.1584025057464;
- Thu, 12 Mar 2020 07:57:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200218151812.7816-1-geert+renesas@glider.be> <20200218151812.7816-4-geert+renesas@glider.be>
-In-Reply-To: <20200218151812.7816-4-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Mar 2020 15:57:26 +0100
-Message-ID: <CACRpkdacAaw4PJp3Oa569JJTHTB4HjP-hPqZLmdFcuxvdvwBHg@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] gpio: Add GPIO Aggregator
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        id S1727598AbgCLPXy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 11:23:54 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52640 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727446AbgCLPXy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Mar 2020 11:23:54 -0400
+Received: from dhcp-172-16-24-104.sw.ru ([172.16.24.104])
+        by relay.sw.ru with esmtp (Exim 4.92.3)
+        (envelope-from <ktkhai@virtuozzo.com>)
+        id 1jCPgC-0008Rx-Fq; Thu, 12 Mar 2020 18:23:24 +0300
+Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace
+ cred_guard_mutex
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+ <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nlii0b.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
+ <f37a5d68-9674-533f-ee9c-a49174605710@virtuozzo.com>
+ <87d09hn4kt.fsf@x220.int.ebiederm.org>
+ <dbce35c7-c060-cfd8-bde1-98fd9a0747a9@virtuozzo.com>
+ <87lfo5lju6.fsf@x220.int.ebiederm.org>
+From:   Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <f4e941aa-3a63-d74a-4f72-0e81e794f622@virtuozzo.com>
+Date:   Thu, 12 Mar 2020 18:23:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <87lfo5lju6.fsf@x220.int.ebiederm.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
+On 12.03.2020 17:38, Eric W. Biederman wrote:
+> Kirill Tkhai <ktkhai@virtuozzo.com> writes:
+> 
+>> On 12.03.2020 15:24, Eric W. Biederman wrote:
+>>> Kirill Tkhai <ktkhai@virtuozzo.com> writes:
+>>>
+>>>> On 09.03.2020 00:38, Eric W. Biederman wrote:
+>>>>>
+>>>>> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
+>>>>> over the userspace accesses as the arguments from userspace are read.
+>>>>> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
+>>>>> threads are killed.  The cred_guard_mutex is held over
+>>>>> "put_user(0, tsk->clear_child_tid)" in exit_mm().
+>>>>>
+>>>>> Any of those can result in deadlock, as the cred_guard_mutex is held
+>>>>> over a possible indefinite userspace waits for userspace.
+>>>>>
+>>>>> Add exec_update_mutex that is only held over exec updating process
+>>>>> with the new contents of exec, so that code that needs not to be
+>>>>> confused by exec changing the mm and the cred in ways that can not
+>>>>> happen during ordinary execution of a process.
+>>>>>
+>>>>> The plan is to switch the users of cred_guard_mutex to
+>>>>> exec_udpate_mutex one by one.  This lets us move forward while still
+>>>>> being careful and not introducing any regressions.
+>>>>>
+>>>>> Link: https://lore.kernel.org/lkml/20160921152946.GA24210@dhcp22.suse.cz/
+>>>>> Link: https://lore.kernel.org/lkml/AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com/
+>>>>> Link: https://lore.kernel.org/linux-fsdevel/20161102181806.GB1112@redhat.com/
+>>>>> Link: https://lore.kernel.org/lkml/20160923095031.GA14923@redhat.com/
+>>>>> Link: https://lore.kernel.org/lkml/20170213141452.GA30203@redhat.com/
+>>>>> Ref: 45c1a159b85b ("Add PTRACE_O_TRACEVFORKDONE and PTRACE_O_TRACEEXIT facilities.")
+>>>>> Ref: 456f17cd1a28 ("[PATCH] user-vm-unlock-2.5.31-A2")
+>>>>> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+>>>>> ---
+>>>>>  fs/exec.c                    | 9 +++++++++
+>>>>>  include/linux/sched/signal.h | 9 ++++++++-
+>>>>>  init/init_task.c             | 1 +
+>>>>>  kernel/fork.c                | 1 +
+>>>>>  4 files changed, 19 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/fs/exec.c b/fs/exec.c
+>>>>> index d820a7272a76..ffeebb1f167b 100644
+>>>>> --- a/fs/exec.c
+>>>>> +++ b/fs/exec.c
+>>>>> @@ -1014,6 +1014,7 @@ static int exec_mmap(struct mm_struct *mm)
+>>>>>  {
+>>>>>  	struct task_struct *tsk;
+>>>>>  	struct mm_struct *old_mm, *active_mm;
+>>>>> +	int ret;
+>>>>>  
+>>>>>  	/* Notify parent that we're no longer interested in the old VM */
+>>>>>  	tsk = current;
+>>>>> @@ -1034,6 +1035,11 @@ static int exec_mmap(struct mm_struct *mm)
+>>>>>  			return -EINTR;
+>>>>>  		}
+>>>>>  	}
+>>>>> +
+>>>>> +	ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
+>>>>> +	if (ret)
+>>>>> +		return ret;
+>>>>
+>>>> You missed old_mm->mmap_sem unlock. See here:
+>>>
+>>> Duh.  Thank you.
+>>>
+>>> I actually need to switch the lock ordering here, and I haven't yet
+>>> because my son was sick yesterday.
+>>
+>> There is some fundamental problem with your patch, since the below fires in 100% cases
+>> on current linux-next:
+> 
+> Thank you.
+> 
+> I have just backed this out of linux-next for now because it is clearly
+> flawed.
+> 
+> You make some good points about the recursion.  I will go back to the
+> drawing board and see what I can work out.
+> 
+> 
+>> [   22.838717] kernel BUG at fs/exec.c:1474!
+>>
+>> diff --git a/fs/exec.c b/fs/exec.c
+>> index 47582cd97f86..0f77f8c94905 100644
+>> --- a/fs/exec.c
+>> +++ b/fs/exec.c
+>> @@ -1470,8 +1470,10 @@ static void free_bprm(struct linux_binprm *bprm)
+>>  {
+>>  	free_arg_pages(bprm);
+>>  	if (bprm->cred) {
+>> -		if (!bprm->mm)
+>> +		if (!bprm->mm) {
+>> +			BUG_ON(!mutex_is_locked(&current->signal->exec_update_mutex));
+>>  			mutex_unlock(&current->signal->exec_update_mutex);
+>> +		}
+>>  		mutex_unlock(&current->signal->cred_guard_mutex);
+>>  		abort_creds(bprm->cred);
+>>  	}
+>> @@ -1521,6 +1523,7 @@ void install_exec_creds(struct linux_binprm *bprm)
+>>  	 * credentials; any time after this it may be unlocked.
+>>  	 */
+>>  	security_bprm_committed_creds(bprm);
+>> +	BUG_ON(!mutex_is_locked(&current->signal->exec_update_mutex));
+>>  	mutex_unlock(&current->signal->exec_update_mutex);
+>>  	mutex_unlock(&current->signal->cred_guard_mutex);
+>>  }
+>>
+>> ---------------------------------------------------------------------------------------------
+>>
+>> First time the mutex is unlocked in:
+>>
+>> exec_binprm()->search_binary_handler()->.load_binary->install_exec_creds()
+>>
+>> Then exec_binprm()->search_binary_handler()->.load_binary->flush_old_exec() clears mm:
+>>
+>>         bprm->mm = NULL;        
+>>
+>> Second time the mutex is unlocked in free_bprm():
+>>
+>> 	if (bprm->cred) {
+>>                 if (!bprm->mm)
+>>                         mutex_unlock(&current->signal->exec_update_mutex);
+>>
+>> My opinion is we should not relay on side indicators like bprm->mm. Better you may
+>> introduce struct linux_binprm::exec_update_mutex_is_locked. So the next person dealing
+>> with this after you won't waste much time on diving into this. Also, if someone decides
+>> to change the place, where bprm->mm is set into NULL, this person will bump into hell
+>> of dependences between unrelated components like your newly introduced mutex.
+>>
+>> So, I'm strongly for *struct linux_binprm::exec_update_mutex_is_locked*, since this improves
+>> modularity.
+> 
+> Am I wrong or is that also a problem with cred_guard_mutex?
 
-thanks for your patience and again sorry for procrastination on my part :(
+No, there is no a problem.
 
-Overall I start to like this driver a lot. It has come a long way.
+cred_guard_mutex is locked in a pair with bprm->cred = prepare_exec_creds() assignment.
 
-Some comments below are nitpicky, bear with me if they seem stupid.
-
-On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-
-> +#define DRV_NAME       "gpio-aggregator"
-> +#define pr_fmt(fmt)    DRV_NAME ": " fmt
-
-I would just use dev_[info|err] for all messages to get rid of this.
-
-> +#include <linux/bitmap.h>
-> +#include <linux/bitops.h>
-> +#include <linux/ctype.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/gpio/driver.h>
-> +#include <linux/gpio/machine.h>
-> +#include <linux/idr.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/overflow.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/string.h>
-> +
-> +#include "gpiolib.h"
-
-When this file is includes I prefer if there is a comment next to
-this include saying why we have to touch internals and which
-ones.
-
-> +struct gpio_aggregator {
-> +       struct gpiod_lookup_table *lookups;
-> +       struct platform_device *pdev;
-
-What about just storing struct device *dev?
-
-Then callbacks can just
-
-dev_err(aggregator->dev, "myerror\n");
-
-> +static char *get_arg(char **args)
-> +{
-> +       char *start = *args, *end;
-> +
-> +       start = skip_spaces(start);
-> +       if (!*start)
-> +               return NULL;
-> +
-> +       if (*start == '"') {
-> +               /* Quoted arg */
-> +               end = strchr(++start, '"');
-> +               if (!end)
-> +                       return ERR_PTR(-EINVAL);
-> +       } else {
-> +               /* Unquoted arg */
-> +               for (end = start; *end && !isspace(*end); end++) ;
-> +       }
-> +
-> +       if (*end)
-> +               *end++ = '\0';
-> +
-> +       *args = end;
-> +       return start;
-> +}
-
-Isn't this function reimplementing strsep()?
-while ((s = strsep(&p, " \""))) {
-or something.
-
-I'm not the best with strings, just asking so I know you tried it
-already.
-
-> +static int aggr_parse(struct gpio_aggregator *aggr)
-> +{
-> +       unsigned int first_index, last_index, i, n = 0;
-> +       char *name, *offsets, *first, *last, *next;
-> +       char *args = aggr->args;
-> +       int error;
-> +
-> +       for (name = get_arg(&args), offsets = get_arg(&args); name;
-> +            offsets = get_arg(&args)) {
-> +               if (IS_ERR(name)) {
-> +                       pr_err("Cannot get GPIO specifier: %pe\n", name);
-
-If gpio_aggregrator contained struct device *dev this would be
-dev_err(aggr->dev, "...\n");
-
-> +static void gpio_aggregator_free(struct gpio_aggregator *aggr)
-> +{
-> +       platform_device_unregister(aggr->pdev);
-
-Aha maybe store both the pdev and the dev in the struct then?
-
-Or print using &aggr->pdev.dev.
-
-> +       /*
-> +        * If any of the GPIO lines are sleeping, then the entire forwarder
-> +        * will be sleeping.
-> +        * If any of the chips support .set_config(), then the forwarder will
-> +        * support setting configs.
-> +        */
-> +       for (i = 0; i < ngpios; i++) {
-> +               dev_dbg(dev, "gpio %u => gpio-%d (%s)\n", i,
-> +                       desc_to_gpio(descs[i]), descs[i]->label ? : "?");
-
-If this desc->label business is why you need to include
-"gpiolib.h" then I'd prefer if you just add a
-
-const char *gpiod_get_producer_name(struct gpio_desc *desc);
-
-to gpiolib (add in <linux/gpio/consumer.h> so that gpiolib can
-try to give you something reasonable to print for the label here.
-I ran into that problem before (wanting to print something like this)
-and usually just printed the offset.
-
-But if it is a serious debug issue, let's fix a helper for this.
-
-gpiod_get_producer_name() could return the thing in
-desc->label if that is set or else something along
-"chipname-offset" or "unknown", I'm not very picky
-with that.
-
-> error = aggr_add_gpio(aggr, name, U16_MAX, &n);
-
-Is the reason why you use e.g. "gpiochip0" as name here that this
-is a simple ABI for userspace?
-
-Such like obtained from /sys/bus/gpio/devices/<chipname>?
-
-I would actually prefer to just add a sysfs attribute
-such as "name" and set it to the value of gpiochip->label.
-
-These labels are compulsory and supposed to be unique.
-
-Then whatever creates an aggregator can just use
-cat /sys/bus/gpio/devices/gpiochipN/name to send in
-through the sysfs interface to this kernel driver.
-
-This will protect you in the following way:
-
-When a system is booted and populated the N in
-gpiochipN is not stable and this aggregator will be used
-by scripts that assume it is. We already had this dilemma
-with things like network interfaces like eth0/1.
-
-This can be because of things like probe order which
-can be random, or because someone compiled a
-kernel with a new driver for a gpiochip that wasn't
-detected before. This recently happened to Raspberry Pi,
-that added gpio driver for "firmware GPIOs" (IIRC).
-
-The label on the chip is going to be more stable
-I think, so it is better to use that.
-
-This should also rid the need to include "gpiolib.h"
-which makes me nervous.
-
-Yours,
-Linus Walleij
+cred_guard_mutex is unlocked in a pair with bprm->cred = NULL clearing (see install_exec_creds()).
+Further free_bprm() skip unlock in case of bprm->cred is NULL.
