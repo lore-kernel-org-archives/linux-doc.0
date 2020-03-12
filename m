@@ -2,164 +2,145 @@ Return-Path: <SRS0=XGz1=45=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D31C1975A
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 10:28:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11F3AC1975A
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 10:44:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7C98B2071C
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 10:28:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE52E2071B
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Mar 2020 10:44:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="VWA7Nib7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726677AbgCLK2Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Mar 2020 06:28:24 -0400
-Received: from relay.sw.ru ([185.231.240.75]:40258 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725978AbgCLK2X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Mar 2020 06:28:23 -0400
-Received: from dhcp-172-16-24-104.sw.ru ([172.16.24.104])
-        by relay.sw.ru with esmtp (Exim 4.92.3)
-        (envelope-from <ktkhai@virtuozzo.com>)
-        id 1jCL3s-0005To-55; Thu, 12 Mar 2020 13:27:32 +0300
-Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace
- cred_guard_mutex
-To:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1726917AbgCLKoe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Mar 2020 06:44:34 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:45611 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725268AbgCLKoe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Mar 2020 06:44:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1584009874; x=1615545874;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=JjVUVkyITKh6OnXxlF9voS+7ECWo+oagHMISZeb68n4=;
+  b=VWA7Nib7v5txFk4Ebznxsd5t/8sX3UDrHhinTW/VM3cXXKjmlvBBDAO1
+   sJgXHh6l1nm9HZWMc3ittp4WBzrzh02qJOu2JpSrmy8qzsEc3OIWnS4A+
+   KcPZu2JWLl4ZNtpyMfMT9MaQ4xKxcxnGLvxyKhD1i50AJQw9m5878r8Es
+   k=;
+IronPort-SDR: /Fi5fDHbdGgFaeEVjGxuBCgt3uvjHvA06aECjECSM9gV2TCJT98Kim5T9TGOmaz7BBCuUl7Wyk
+ oi8Pwii65PZA==
+X-IronPort-AV: E=Sophos;i="5.70,544,1574121600"; 
+   d="scan'208";a="20742458"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 12 Mar 2020 10:44:22 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com (Postfix) with ESMTPS id E50F32820B7;
+        Thu, 12 Mar 2020 10:44:19 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1236.3; Thu, 12 Mar 2020 10:44:19 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.47) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 12 Mar 2020 10:44:06 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     Shakeel Butt <shakeelb@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nmjulm.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003021531.C77EF10@keescook>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74xi4kz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y8dqqz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
-From:   Kirill Tkhai <ktkhai@virtuozzo.com>
-Message-ID: <f37a5d68-9674-533f-ee9c-a49174605710@virtuozzo.com>
-Date:   Thu, 12 Mar 2020 13:27:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        SeongJae Park <sjpark@amazon.de>,
+        "Andrea Arcangeli" <aarcange@redhat.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>, <dwmw@amazon.com>,
+        <jolsa@redhat.com>, "Kirill A. Shutemov" <kirill@shutemov.name>,
+        <mark.rutland@arm.com>, Mel Gorman <mgorman@suse.de>,
+        Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, "Vlastimil Babka" <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Linux MM <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: Re: Re: [PATCH v6 00/14] Introduce Data Access MONitor (DAMON)
+Date:   Thu, 12 Mar 2020 11:43:45 +0100
+Message-ID: <20200312104345.10032-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200312100759.20502-1-sjpark@amazon.com> (raw)
 MIME-Version: 1.0
-In-Reply-To: <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.47]
+X-ClientProxiedBy: EX13D16UWB001.ant.amazon.com (10.43.161.17) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09.03.2020 00:38, Eric W. Biederman wrote:
-> 
-> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
-> over the userspace accesses as the arguments from userspace are read.
-> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
-> threads are killed.  The cred_guard_mutex is held over
-> "put_user(0, tsk->clear_child_tid)" in exit_mm().
-> 
-> Any of those can result in deadlock, as the cred_guard_mutex is held
-> over a possible indefinite userspace waits for userspace.
-> 
-> Add exec_update_mutex that is only held over exec updating process
-> with the new contents of exec, so that code that needs not to be
-> confused by exec changing the mm and the cred in ways that can not
-> happen during ordinary execution of a process.
-> 
-> The plan is to switch the users of cred_guard_mutex to
-> exec_udpate_mutex one by one.  This lets us move forward while still
-> being careful and not introducing any regressions.
-> 
-> Link: https://lore.kernel.org/lkml/20160921152946.GA24210@dhcp22.suse.cz/
-> Link: https://lore.kernel.org/lkml/AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com/
-> Link: https://lore.kernel.org/linux-fsdevel/20161102181806.GB1112@redhat.com/
-> Link: https://lore.kernel.org/lkml/20160923095031.GA14923@redhat.com/
-> Link: https://lore.kernel.org/lkml/20170213141452.GA30203@redhat.com/
-> Ref: 45c1a159b85b ("Add PTRACE_O_TRACEVFORKDONE and PTRACE_O_TRACEEXIT facilities.")
-> Ref: 456f17cd1a28 ("[PATCH] user-vm-unlock-2.5.31-A2")
-> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> ---
->  fs/exec.c                    | 9 +++++++++
->  include/linux/sched/signal.h | 9 ++++++++-
->  init/init_task.c             | 1 +
->  kernel/fork.c                | 1 +
->  4 files changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/exec.c b/fs/exec.c
-> index d820a7272a76..ffeebb1f167b 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1014,6 +1014,7 @@ static int exec_mmap(struct mm_struct *mm)
->  {
->  	struct task_struct *tsk;
->  	struct mm_struct *old_mm, *active_mm;
-> +	int ret;
->  
->  	/* Notify parent that we're no longer interested in the old VM */
->  	tsk = current;
-> @@ -1034,6 +1035,11 @@ static int exec_mmap(struct mm_struct *mm)
->  			return -EINTR;
->  		}
->  	}
-> +
-> +	ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
-> +	if (ret)
-> +		return ret;
+On Thu, 12 Mar 2020 11:07:59 +0100 SeongJae Park <sjpark@amazon.com> wrote:
 
-You missed old_mm->mmap_sem unlock. See here:
+> On Tue, 10 Mar 2020 10:21:34 -0700 Shakeel Butt <shakeelb@google.com> wrote:
+> 
+> > On Mon, Feb 24, 2020 at 4:31 AM SeongJae Park <sjpark@amazon.com> wrote:
+> > >
+> > > From: SeongJae Park <sjpark@amazon.de>
+> > >
+> > > Introduction
+> > > ============
+> > >
+[...]
+> > 
+> > I do want to question the actual motivation of the design followed by this work.
+> > 
+> > With the already present Page Idle Tracking feature in the kernel, I
+> > can envision that the region sampling and adaptive region adjustments
+> > can be done in the user space. Due to sampling, the additional
+> > overhead will be very small and configurable.
+> > 
+> > Additionally the proposed mechanism has inherent assumption of the
+> > presence of spatial locality (for virtual memory) in the monitored
+> > processes which is very workload dependent.
+> > 
+> > Given that the the same mechanism can be implemented in the user space
+> > within tolerable overhead and is workload dependent, why it should be
+> > done in the kernel? What exactly is the advantage of implementing this
+> > in kernel?
+> 
+> First of all, DAMON is not for only user space processes, but also for kernel
+> space core mechanisms.  Many of the core mechanisms will be able to use DAMON
+> for access pattern based optimizations, with light overhead and reasonable
+> accuracy.
+> 
+> Implementing DAMON in user space is of course possible, but it will be
+> inefficient.  Using it from kernel space would make no sense, and it would
+> incur unnecessarily frequent kernel-user context switches, which is very
+> expensive nowadays.
 
-diff --git a/fs/exec.c b/fs/exec.c
-index 47582cd97f86..d557bac3e862 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1063,8 +1063,11 @@ static int exec_mmap(struct mm_struct *mm)
- 	}
- 
- 	ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
--	if (ret)
-+	if (ret) {
-+		if (old_mm)
-+			up_read(&old_mm->mmap_sem);
- 		return ret;
-+	}
- 
- 	task_lock(tsk);
- 	active_mm = tsk->active_mm;
+Forgot mentioning about the spatial locality.  Yes, it is workload dependant,
+but still pervasive in many case.  Also, many core mechanisms in kernel such as
+read-ahead or LRU are already using some similar assumptions.
+
+If it is so problematic, you could set the maximum number of regions to the
+number of pages in the system so that each region monitors each page.
+
+
+Thanks,
+SeongJae Park
+
+> 
+> 
+> Thanks,
+> SeongJae Park
+> 
+> 
+> > 
+> > thanks,
+> > Shakeel
+> 
