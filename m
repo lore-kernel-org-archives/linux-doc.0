@@ -2,288 +2,177 @@ Return-Path: <SRS0=hUYu=46=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA05C10DCE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 10:50:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF3AC10DCE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 13:33:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A079C20724
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 10:50:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C812C206B7
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 13:33:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b="HGFsVt52"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EuRQd5Ze"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726481AbgCMKuK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Mar 2020 06:50:10 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:57072 "EHLO
-        mx0a-002c1b01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726420AbgCMKuK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 06:50:10 -0400
-Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
-        by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 02DAkqG9022722;
-        Fri, 13 Mar 2020 03:49:35 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=cOm3nM+8UQAf5yfr9vbOrVSZXVWYXq/IdPh3vdykGfE=;
- b=HGFsVt5258QBzeDhCpt8GTQTmry7+cgl8h1XgGqqlevJAopVRfzCd8TSCDJqVqnEaTjA
- W5+LS/7BvwQhsDmzhKf1xCpxSU8khUk40swSnaeJqypxXH4blDCpvwnKHcFKf2LEZ5JZ
- Ims6V6/PKWiKt47Iw3nJZN7YSx8/fveDtMT/6nc97dorw7StnLVD3N9ub8sPycu85HtH
- wZPIwwUyEAD9KaWbiNmjV4dpvU/SKbuL4hQWMP9jl23jKlGG2F/Hs5CuN6hgoiE+KK2i
- JbSm6GtKWJY/mv+ONJ5ATMWmjcOwng2Cq+qPbhG+kcU7yR4Fvr6QMDaiXUOqD/WB2a31 ZA== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2175.outbound.protection.outlook.com [104.47.58.175])
-        by mx0a-002c1b01.pphosted.com with ESMTP id 2yqt8q9rf7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 13 Mar 2020 03:49:35 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EJQMRNPf1QaUbKe/GW76sX7jJ/7S0I8c5QtYGGvmepvj9qGHDgPb5uVpo6MzB/nsq8hCMImBhBPLQFOSqnaDaF7I7uKX598ChvINpi07IQvk8e7Zngg7M9QsCFOJ3N7nhwvC543c3rzXiWy3NHFFN125tjIEb4EVllcusSYdNgWj2W98TqFZ+dKilSgmCTfmiLSeog4+aasZT00wUwnANvLxwp2ER8WZuCGXq9ExXDcsX2gVyXz4O8K06aYAAVboWp3Y7SuDmsLqrCg1hjp4el5OeMog+xm9B49RZN0YflYnSauBcxQppQza3xpVLoauN51IIKmU2KMEKJZI4Fb7cQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cOm3nM+8UQAf5yfr9vbOrVSZXVWYXq/IdPh3vdykGfE=;
- b=iWaUFCz6ten3lKgrU8dPju2C2dR8AzZpl7hrVOlv1ooJIcrzwKlx1dRWhph37OKBTMnny00KZbYtMz3RGhr2iR9m9PDgFOnMI6gth3eXolScCMJn/H98CIvtsjoZefXH+43rgbXqUq3Y1840zOpg1/zfaSMY5M8/k6a1qbTyWEtnhkSziQZ4fMuGIWPvkpdcCCJKE6zCi2F6stfq5vGQiF0tUfhW2zyj/utFB3F5P7/tcVfA9Wz3ll/sMy2KQbQ3piyhY7IKsbTs4uFjAUL5aCJ4Tiz30zOmTyKktaTSwZu8eTV01sSmc8SM9QOj4XBN9xT4LEw3RKG1zU9y/hqz5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BL0PR02MB5601.namprd02.prod.outlook.com (2603:10b6:208:88::10)
- by BL0PR02MB4642.namprd02.prod.outlook.com (2603:10b6:208:40::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.17; Fri, 13 Mar
- 2020 10:49:33 +0000
-Received: from BL0PR02MB5601.namprd02.prod.outlook.com
- ([fe80::ddf8:e6cc:908f:a98c]) by BL0PR02MB5601.namprd02.prod.outlook.com
- ([fe80::ddf8:e6cc:908f:a98c%6]) with mapi id 15.20.2814.007; Fri, 13 Mar 2020
- 10:49:33 +0000
-From:   Ivan Teterevkov <ivan.teterevkov@nutanix.com>
-To:     Chris Down <chris@chrisdown.name>,
-        Matthew Wilcox <willy@infradead.org>
-CC:     David Rientjes <rientjes@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jgross@suse.com" <jgross@suse.com>,
-        "oneukum@suse.com" <oneukum@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: RE: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
-Thread-Topic: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
-Thread-Index: AdX3zHNqbuFpQvKERxyPueA21j6FDgAD0RWAACPlSzAAAfzUAAAA7+kAACrp4sA=
-Date:   Fri, 13 Mar 2020 10:49:32 +0000
-Message-ID: <BL0PR02MB56011828432D343371088516E9FA0@BL0PR02MB5601.namprd02.prod.outlook.com>
-References: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
- <alpine.DEB.2.21.2003111227230.171292@chino.kir.corp.google.com>
- <BL0PR02MB5601808F36BE202813E9D562E9FD0@BL0PR02MB5601.namprd02.prod.outlook.com>
- <20200312133636.GJ22433@bombadil.infradead.org>
- <20200312140326.GA1701917@chrisdown.name>
-In-Reply-To: <20200312140326.GA1701917@chrisdown.name>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [62.254.189.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c43d75cb-871b-4aff-9e8f-08d7c73c36f9
-x-ms-traffictypediagnostic: BL0PR02MB4642:
-x-microsoft-antispam-prvs: <BL0PR02MB4642EEDDF562BE217404A279E9FA0@BL0PR02MB4642.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 034119E4F6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(136003)(39860400002)(346002)(376002)(366004)(199004)(4326008)(5660300002)(2906002)(6506007)(64756008)(66476007)(8936002)(66556008)(66446008)(66946007)(8676002)(54906003)(7696005)(81156014)(26005)(186003)(316002)(110136005)(9686003)(76116006)(86362001)(55016002)(71200400001)(478600001)(7416002)(81166006)(44832011)(33656002)(52536014);DIR:OUT;SFP:1102;SCL:1;SRVR:BL0PR02MB4642;H:BL0PR02MB5601.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
-received-spf: None (protection.outlook.com: nutanix.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ONvCNTjk/2P5wXDcko+i2eqUMtvDZNqPTK+tQWupk8jOX3J0Oq/b9CkMoH+SLbsS0LLDcjvOdz01Jw2qHKO/But1jEfuZpqTaJ6OsSzYSgl/Vq9Jm4LLQkweHLb8fPAt7fogMXhfWtmfg7BgJGn7fWBS3YBqJaLGUjiCw1Q4gzpGJpkubJdz3aqoGMuza4kobj5qnoCZd4csZ8M99nrGRb7yBqLETMQhMq4ZPXWOfRSv7hWENYMZL0zsoBupmlyW5gVwKcY4sld/XQRUejXsrQQTe5DVj4w+oYVr6HH8BXdDF2zBrZ2Zrn2dvwokbjtY+f2s73swkDFQCq1UmUgb83GmK9hhgymDqBd9kLneaNQuv09tDQvvs7mdh+5JOm1+dQeGpdqEpxQ7um6zUAvGv0IwN8waXOT6knCdBTBrS5QLiRMgoYkMg6tVi3l++Vhd
-x-ms-exchange-antispam-messagedata: REq4pho8XWRlNDilrWIOIesw3B+DQ+64lImfRFROgdCrvpJj9R58PyUrXyNoVNwfnykj6tcbZGmZRQs9yO2/3FwC+ld+N82kixHAkF0NrBUbBK2tm+A8A7s6uJLoW+mjL/TVKzH+h9eWuASRq/E57A==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726678AbgCMNdG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Mar 2020 09:33:06 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53323 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726554AbgCMNdF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 09:33:05 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 25so9972775wmk.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2020 06:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LjnIa5czhZ90JtQBFVRg5fkvm0j0Tbj99Zacb6jIP1w=;
+        b=EuRQd5ZejDOiKZcRRHTIkogL7X/HxaCg7vN6W9xTCSMn2CIU+zi6dDzcBjBx8UFPdr
+         Dz5CD6alhCKRiG07sog1/AM0iyjfTCF+tZOH8BHEUgQ7FwJtImZccjQT/4KJKLo+9wCE
+         ADWJKhaeiaXVvbfKYg+APspo+Z+pD+J1mRyIFpWHFoyRt1t/ZHViPsGX8aYK3gtUIy+0
+         RMsR3nYtNjy0AenHguC9gdJXj2CesVDbmT2PA3jCPlCOTbY/m81eab/r8p5vnPyzGMSY
+         uAv48Zz0uXVu6gpinPBfgyiU6mz7Fy/QE0RFeI3xFf36dFER1xcKW/GfhwnzgHXMjGhn
+         bgIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=LjnIa5czhZ90JtQBFVRg5fkvm0j0Tbj99Zacb6jIP1w=;
+        b=JaPcHNrV1ynDQrlDIP0vZq3E2J8/IkiX/1D9cwdzK29L34fZn557H+3tDnzImCF0Uf
+         mspIwZSCGDKlxIVjsRYofVaC0Cnyt8vJ8rLIe25cxBVQ6ISJu7CxSGb20JHMAXhcbJJL
+         AsCtLpRRuHMI+A2orOWxjpMghOutEO3za+pg+1VhLF069eDf/HsFqA6C14XUb+PDAxDn
+         2qoYQo+Gl4/05P1V428Ky/lnoUhXBOhy/RBWvKW2uq5l3eMdhLwtvbYQkxt5YO905gEM
+         yBEPtS/RN8PmcUTNxUwwrYiMpwVSgexmhdWlJOqzBCfDOywcLNRljzIVNpsjr7ra8FPg
+         NZjw==
+X-Gm-Message-State: ANhLgQ0HOmkQagebZ62MgrNLtLVVmTSEnqaTVz5qYWRB1goXhlt9UztT
+        QbRMNHTd5SOpPe0Apq6FxJXpjw==
+X-Google-Smtp-Source: ADFU+vtQgxEeMd3PVIBdTqgiUf0QUqIljm0MnfwmwMmqjIcFKtlXnmqERc8Y/T/+2fEWD2LssZQFkg==
+X-Received: by 2002:a1c:41d6:: with SMTP id o205mr10756239wma.122.1584106382776;
+        Fri, 13 Mar 2020 06:33:02 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:40fb:3990:3519:cc26? ([2a01:e34:ed2f:f020:40fb:3990:3519:cc26])
+        by smtp.googlemail.com with ESMTPSA id s7sm5413721wri.61.2020.03.13.06.33.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Mar 2020 06:33:02 -0700 (PDT)
+Subject: Re: [PATCH 0/3] Thermal extensions for flexibility in cooling device
+ bindings
+To:     lukasz.luba@arm.com, linux-kernel@vger.kernel.org,
+        rui.zhang@intel.com, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     amit.kucheria@verdurent.com, corbet@lwn.net,
+        dietmar.eggemann@arm.com
+References: <20191216140622.25467-1-lukasz.luba@arm.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <11b6ccb2-ddd8-39cf-a3c8-4dd53e7e50d8@linaro.org>
+Date:   Fri, 13 Mar 2020 14:33:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c43d75cb-871b-4aff-9e8f-08d7c73c36f9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2020 10:49:32.8949
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /PlyYGk1cUVwPYztCcXTJ/qkOkRypmX3GN9feTl3D3yoJIZu5c6y7AYGJp4PiitkRv7mPm7MBQiOI69ORWRPHSX0rJQBLsiZgiV4dHZSGA4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4642
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
- definitions=2020-03-13_04:2020-03-12,2020-03-13 signatures=0
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <20191216140622.25467-1-lukasz.luba@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thurs, 12 Mar 2020, Chris Down wrote:
 
-> Matthew Wilcox writes:
-> >On Thu, Mar 12, 2020 at 12:48:22PM +0000, Ivan Teterevkov wrote:
-> >> This is exactly what I'm trying to avoid: in some distros there is no
-> >> way to tackle the configuration early enough, e.g. in systemd-based
-> >> systems the systemd is the process that starts first and arranges
-> >> memcg in a way it's configured, but unfortunately, it doesn't offer th=
-e
-> swappiness knob.
-> >
-> >This sounds like a systemd problem.  Have you talked to the systemd
-> >people about fixing it in systemd?
->=20
-> Hi there ;-)
->=20
-> In general most of us maintaining cgroups in systemd run with cgroup v2, =
-so this
-> isn't a problem we run into in production. The swappiness controls in gen=
-eral
-> don't make a whole lot of sense being distributed hierarchically, so they=
-'ve been
-> phased out entirely in cgroup v2.
->=20
-> If there had been a patch years ago implementing this in systemd we'd pro=
-bably
-> have accepted it, but cgroup v1 is dying and I am really not in favour of=
- adding
-> more code to massage its rough edges. We already have enough problems
-> generated by it already.
->=20
-> However, the following kludge in tmpfiles.d should work to solve your
-> immediate
-> problem:
->=20
-> 	w /sys/fs/cgroup/memory/system.slice/memory.swappiness - - - - value
->=20
-> Taking my systemd hat off and putting my -mm hat on: let's not add more h=
-acky
-> APIs at cgroup v1's behest, or we'll be here until we're pushing up the d=
-aisies.
->=20
-> Thanks,
->=20
-> Chris
+Hi Lukasz,
 
-The above approach doesn't work for me in el7 with systemd 219 or ubuntu 19
-with systemd 242 because presumably the systemd-tmpfiles services start too
-late. Please find the snippet at the bottom of the email.
+On 16/12/2019 15:06, lukasz.luba@arm.com wrote:
+> From: Lukasz Luba <lukasz.luba@arm.com>
+> 
+> Hi all,
+> 
+> This patch set adds extensions to existing thermal zones and cooling devices
+> binding. Currently they are pinned using static definitions e.g. DT cooling
+> maps. These changes enable userspace like trusted middleware to change the
+> layout of cooling maps unbinding and binding the cooling devices.
+> It might be helpful for drivers loaded as a modules. They can be added to
+> existing thermal zones to take part of the power split.
+> It is based on the current work in thermal branch thermal/linux-next
+> https://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git/log/?h=thermal/linux-next
 
-The only approach that seems to work is to set up a service to run:
+I've been keeping this series out of the previous merge because it did
+not raise any comments and we are touching the sysfs.
 
-$ find /sys/fs/cgroup/memory/ -name memory.swappiness | while read -r name;=
- do echo 0 > "${name}"; done
+For this release, I still don't know what to do with it.
 
-I think this is quite ugly because there might be a race condition with
-the systemd that could be creating the slices while the find is running.
-One could suggest constraining the depth and going from top to the
-bottom of the memcg but this still looks inherently unstable.
+Anyone a comment on this series? Rui ?
 
-This is why I ended up with the vm_swappiness patch (which I don't
-quite like myself) but this appears to be the only rock solid option
-unless I've missed anything obvious. There is no doubt that cgroup v1
-is due for replacement and vm_swappiness is frightening but they still
-have certain advantages to employ until they are history.
+> Lukasz Luba (3):
+>   docs: thermal: Add bind, unbind information together with trip point
+>   thermal: Make cooling device trip point writable from sysfs
+>   thermal: Add sysfs binding for cooling device and thermal zone
+> 
+>  .../driver-api/thermal/sysfs-api.rst          | 30 +++++++-
+>  drivers/thermal/thermal_core.c                |  3 +-
+>  drivers/thermal/thermal_core.h                |  2 +
+>  drivers/thermal/thermal_sysfs.c               | 77 +++++++++++++++++++
+>  4 files changed, 109 insertions(+), 3 deletions(-)
+> 
 
-$ systemctl --version
-systemd 242 (242)
-+PAM +AUDIT +SELINUX +IMA +APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +=
-GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2 -IDN +PC=
-RE2 default-hierarchy=3Dhybrid
 
-$ cat /etc/lsb-release
-DISTRIB_ID=3DUbuntu
-DISTRIB_RELEASE=3D19.10
-DISTRIB_CODENAME=3Deoan
-DISTRIB_DESCRIPTION=3D"Ubuntu 19.10"
+-- 
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-$ uname -a
-Linux ubuntu 5.6.0-rc5-custom #1 SMP Wed Mar 11 14:59:15 GMT 2020 x86_64 x8=
-6_64 x86_64 GNU/Linux
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
-$ tail -1 /etc/sysctl.conf
-vm.swappiness=3D10
-
-$ cat /etc/tmpfiles.d/10-swap.conf
-w /sys/fs/cgroup/memory/system.slice/memory.swappiness - - - - 20
-w /sys/fs/cgroup/memory/user.slice/memory.swappiness   - - - - 30
-
-$ find /sys/fs/cgroup/memory -name memory.swappiness | while read -r name; =
-do cat "${name}"; done | sort | uniq -c
-      1 10
-     32 20
-      6 30
-     21 60
-
-$ find /sys/fs/cgroup/memory -name memory.swappiness | while read -r name; =
-do echo "${name}"; cat "${name}"; done | grep --before-context=3D1 60
-/sys/fs/cgroup/memory/system.slice/systemd-udevd.service/memory.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/sys-fs-fuse-connections.mount/memory.swa=
-ppiness
-60
-/sys/fs/cgroup/memory/system.slice/snap-gnome\x2d3\x2d28\x2d1804-116.mount/=
-memory.swappiness
-60
-/sys/fs/cgroup/memory/system.slice/snap-gnome\x2dlogs-81.mount/memory.swapp=
-iness
-60
-/sys/fs/cgroup/memory/system.slice/sys-kernel-config.mount/memory.swappines=
-s
-60
---
-/sys/fs/cgroup/memory/system.slice/snap-core-7917.mount/memory.swappiness
-60
-/sys/fs/cgroup/memory/system.slice/sys-kernel-debug.mount/memory.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/snap-gnome\x2dcharacters-399.mount/memor=
-y.swappiness
-60
-/sys/fs/cgroup/memory/system.slice/swapfile.swap/memory.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/snap-gtk\x2dcommon\x2dthemes-1440.mount/=
-memory.swappiness
-60
-/sys/fs/cgroup/memory/system.slice/snap-gnome\x2dcharacters-317.mount/memor=
-y.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/systemd-journald.service/memory.swappine=
-ss
-60
---
-/sys/fs/cgroup/memory/system.slice/dev-mqueue.mount/memory.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/snap-gtk\x2dcommon\x2dthemes-1353.mount/=
-memory.swappiness
-60
-/sys/fs/cgroup/memory/system.slice/snap-core-8689.mount/memory.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/snap-gnome\x2d3\x2d28\x2d1804-71.mount/m=
-emory.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/snap-core18-1668.mount/memory.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/snap-gnome\x2dcalculator-501.mount/memor=
-y.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/dev-hugepages.mount/memory.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/snap-gnome\x2dcalculator-544.mount/memor=
-y.swappiness
-60
---
-/sys/fs/cgroup/memory/system.slice/snap-core18-1223.mount/memory.swappiness
-60
