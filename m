@@ -2,145 +2,118 @@ Return-Path: <SRS0=hUYu=46=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C44C10DCE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 19:56:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06609C10DCE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 20:17:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 184E0206E2
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 19:56:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE41F20637
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 20:17:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RWKXimb/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Und9Fuua"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbgCMT4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Mar 2020 15:56:53 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:42704 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726477AbgCMT4x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 15:56:53 -0400
-Received: by mail-il1-f195.google.com with SMTP id p2so2446942ile.9
-        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2020 12:56:53 -0700 (PDT)
+        id S1726892AbgCMURD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Mar 2020 16:17:03 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44857 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726480AbgCMURD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 16:17:03 -0400
+Received: by mail-wr1-f66.google.com with SMTP id l18so13649344wru.11;
+        Fri, 13 Mar 2020 13:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e0nZcrWW+XWUA13+VyJ2F8NUVji6aYhnawU95UaXq7I=;
-        b=RWKXimb/9wsHUnK7Swa0yTzLr3ojhDWBxT+i4Xq/OjRUG1d/lnf+po7cGm5zLDvWRA
-         AsH3LpnnW4qVf3aw49f5Ird4gNTjSHLS6ckjdgYhRW9+eqCt0spoCfaZKPRkFJE9FbRN
-         7Im760gSM4OyZXoh2931W8azaUMSnYMC0iNmCUtWLW37+hxYKxpE+p0EOmdS2OG6Fuz/
-         zGdiWHQTVGO3sIIe2ZaW8CP45oG2Zr1warA7GYzsJA2VtroVYsNgagxHGptiwrrB3+fy
-         3H05BkZHtTxUjY59jQisi8unV1IW439hn0jmnQ49aZ/thqZ8ov8Owco8WOir2ZsENk3h
-         Q/fA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=XOtjPzu8hP+iCuLMAjq0wZ2LsERKW6jgS14BUr9BC8A=;
+        b=Und9FuuajHuhLitN++eMQwK9QvTmb8P68OQUjXzVFgaATpxXoVIguc3k8ZUUS7A+Rw
+         vjuTm+yKdCQ8+JsYpyxy8sOxFG9O/ZQglUje3B0CLRtKdnYtqse0mkFWf8I4CiJGniqS
+         fB8MisM+KjCABsVnA9sktAJXWI6duofnltkPjSACH3ckau9lbJlZjd44k00ZGwsRE+8V
+         /YQVH+IDpfkPdWk4d1bQIqpmMV9gognIutW2ggAWd5HzY8kv2BqwVqOoefaRviMda3+C
+         pa6Dag34BJHcSBw6a3I2Thtd0NY75X9CilqU0PlcdOvSuTgz9g6DfTAYJezgcUc8aNNO
+         K4XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e0nZcrWW+XWUA13+VyJ2F8NUVji6aYhnawU95UaXq7I=;
-        b=mB2U/0zks7f3b0xLH84ozXBvTxDBf/eF/piIRCJfXOSO98C+n1DpFT3Xt8fR2ZxrH+
-         8ZCXuz/g47NWiXmZ8MvhJDhpQGiNbzDmbeP7QCSm7rtgrCqB5HoNdPBwRqYaQRMagY0a
-         puTLoGWrkyDUWnYNmM6/kahlPy3W3trdAfdFHV/kR7ssZULQKh/GdHs9fD/przfykdCf
-         GAaQRuo4UEhwocapCj6Fe+3Sh+BHagDaCTggCrS2T7Bl0wTDwa/HJn9m4x0ZjI5QvqnB
-         sAG20sebzEtrEW0oib6+XKU5/CTquaFy8rCJTI9x6HPFViBKiQXFp+35/aLeKeTjlXu+
-         mu2A==
-X-Gm-Message-State: ANhLgQ3zpisr6EpTxtRmCZvXLD8fZ+Er2HbYuQChYbeOUEE+LVPF4Clq
-        wo8/sz1JgFEsF5jZmj0wY3jAvmteIWxzBs8Y8Lah9A==
-X-Google-Smtp-Source: ADFU+vvWsuACVinNssETDSwh96yZazoS+/mO6s+BXyEncZRyfkh8iRO4nXCNyy07Ha6URY2D4tNo7Lq+OOjMabx2PZU=
-X-Received: by 2002:a92:8352:: with SMTP id f79mr11006887ild.58.1584129412372;
- Fri, 13 Mar 2020 12:56:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200227151416.14271-1-mike.leach@linaro.org>
-In-Reply-To: <20200227151416.14271-1-mike.leach@linaro.org>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Fri, 13 Mar 2020 13:56:41 -0600
-Message-ID: <CANLsYkzbOCaL6kYbD6bDrqA9CF=V5Qr6CzJMgYNsanhGZBrU2w@mail.gmail.com>
-Subject: Re: [PATCH v5 0/6] Describe CoreSight topology using sysfs links
-To:     Mike Leach <mike.leach@linaro.org>
-Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "Suzuki K. Poulose" <suzuki.poulose@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=XOtjPzu8hP+iCuLMAjq0wZ2LsERKW6jgS14BUr9BC8A=;
+        b=ZavcY/ynVGi5l5Vlp1bE+f+HyClg5uNP6RcX4xg8ZaaIhhGhzL7UpbGctRKrx6+1QK
+         3m9ioJ3Ikj5GpI+/t85hqprGDXBxLxH3MwiUV/bADyGe2dLVgwUfRV4sHd70BKSoDMRP
+         X/5x16Dl5P5AiyGsKOWUqVuNmR26OboRh1M/IMeV/c28Oms6o5h83/G4akfHI8EjZVIP
+         qVbDslLRkvAy/j2fVocMy2RZdn8KcBi1ZuDXDzBSU1z60UYzlXSuOEdIinjPkV9CPez9
+         a55s2RobF7S09PCxDxR8F2oXt9mVPN6rA1Z3LIXs+v51TABcUHzT3g9+R40ha6RP+SLG
+         b7CQ==
+X-Gm-Message-State: ANhLgQ3PmSftZoEkO0cM8AE57dZmdND1HIcTI4Kvj2AR1DbFMLxUXATp
+        htKU6vtQoKcBpyeufctuPyk=
+X-Google-Smtp-Source: ADFU+vtmqobzopOGR/xCwGyyqwYOTZ5kNJKM1jUat5dAtqgdVPODPmKRnf6k/UkpsN7dTOXOSBOS9g==
+X-Received: by 2002:adf:b652:: with SMTP id i18mr3318672wre.310.1584130621241;
+        Fri, 13 Mar 2020 13:17:01 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:2450:10d2:194d:6183:2c38:fb6d:576a])
+        by smtp.gmail.com with ESMTPSA id d7sm7634380wrc.25.2020.03.13.13.16.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2020 13:17:00 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc:     SeongJae Park <sjpark@amazon.com>, akpm@linux-foundation.org,
+        SeongJae Park <sjpark@amazon.de>, aarcange@redhat.com,
+        yang.shi@linux.alibaba.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        brendan.d.gregg@gmail.com, brendanhiggins@google.com, cai@lca.pw,
+        colin.king@canonical.com, corbet@lwn.net, dwmw@amazon.com,
+        jolsa@redhat.com, kirill@shutemov.name, mark.rutland@arm.com,
+        mgorman@suse.de, minchan@kernel.org, mingo@redhat.com,
+        namhyung@kernel.org, peterz@infradead.org, rdunlap@infradead.org,
+        rientjes@google.com, rostedt@goodmis.org, shuah@kernel.org,
+        sj38.park@gmail.com, vbabka@suse.cz, vdavydov.dev@gmail.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH v6 02/14] mm/damon: Implement region based sampling
+Date:   Fri, 13 Mar 2020 21:16:49 +0100
+Message-Id: <20200313201649.26646-1-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200313172954.00001f3c@Huawei.com> (raw)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 Feb 2020 at 08:14, Mike Leach <mike.leach@linaro.org> wrote:
->
-> The connections between CoreSight sources, links and sinks is not obvious
-> without documentation or access to the device tree / ACPI definitions for
-> the platform.
->
-> This patchset provides sysfs links to enable the user to follow the trace
-> patch from source to sink.
->
-> Components in the trace path are updated to have a connections sysfs
-> group, which collates all the links for that component.
->
-> The CTI components which exist aside from the main trace patch, also
-> have an added connections directory showing connections to other
-> CoreSight devices.
->
-> This patchset applies on top of the recent CTI v10 patchset [1].
->
-> Adaptation of an original patchset [2] from Suzuki, reusing 2 patches
-> unchanged with update to 3rd adapt to the new common code for trace
-> path and CTI component links & add a default connections group.
->
-> Tested on Juno r1, DB410c; kernel 5.6-rc3
->
-> [1] http://lists.infradead.org/pipermail/linux-arm-kernel/2020-February/714140.html
-> [2] https://lists.linaro.org/pipermail/coresight/2019-May/002803.html
->
-> Changes since v4:
-> 1) Rebased for v10 CTI set[1].
-> 2) Code for adding in the CTI->[other CoreSight] links revised to ensure
-> consistent create / release process. Warn on highly unlikely event that
-> link cannot be made & remove any programmatic association between the
-> components.
->
-> Changes since v3:
-> 1) Rebased onto 5.6-rc1 kernel with CTI set[1].
->
-> Changes since v2:
-> 1) Fixed issues with signature ordering noted by Suzuki.
-> 2) Alterations to main CTI set[1] to overcome issue noted by Matthieu.
->
-> Changes since v1:
-> 1) Code from original v4 CTI set moved here so that all connections related
-> code in this set.
-> 2) Connections directory mandatory for all CoreSight components and
-> generated as part of the registration process.
-> Mike Leach (3):
->   coresight: Add generic sysfs link creation functions
->   coresight: cti: Add in sysfs links to other coresight devices
->   coresight: docs: Add information about the topology representations
->
-> Suzuki K Poulose (3):
->   coresight: Pass coresight_device for coresight_release_platform_data
->   coresight: add return value for fixup connections
->   coresight: Expose device connections via sysfs
->
->  .../trace/coresight/coresight-ect.rst         |   5 +-
->  Documentation/trace/coresight/coresight.rst   |  85 ++++++++
->  drivers/hwtracing/coresight/Makefile          |   3 +-
->  drivers/hwtracing/coresight/coresight-cti.c   |  52 ++++-
->  .../hwtracing/coresight/coresight-platform.c  |   2 +-
->  drivers/hwtracing/coresight/coresight-priv.h  |  12 +-
->  drivers/hwtracing/coresight/coresight-sysfs.c | 204 ++++++++++++++++++
->  drivers/hwtracing/coresight/coresight.c       |  75 ++++---
->  include/linux/coresight.h                     |  22 ++
->  9 files changed, 428 insertions(+), 32 deletions(-)
->  create mode 100644 drivers/hwtracing/coresight/coresight-sysfs.c
->
+On Fri, 13 Mar 2020 17:29:54 +0000 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
 
-I have applied this set.
+> On Mon, 24 Feb 2020 13:30:35 +0100
+> SeongJae Park <sjpark@amazon.com> wrote:
+> 
+> > From: SeongJae Park <sjpark@amazon.de>
+> > 
+> > This commit implements DAMON's basic access check and region based
+> > sampling mechanisms.  This change would seems make no sense, mainly
+> > because it is only a part of the DAMON's logics.  Following two commits
+> > will make more sense.
+> > 
+[...]
+> 
+> Came across a minor issue inline.  kthread_run calls kthread_create.
+> That gives a potential sleep while atomic issue given the spin lock.
+> 
+> Can probably be fixed by preallocating the thread then starting it later.
+> 
+> Jonathan
+[...]
+> > +/*
+> > + * Start or stop the kdamond
+> > + *
+> > + * Returns 0 if success, negative error code otherwise.
+> > + */
+> > +static int damon_turn_kdamond(struct damon_ctx *ctx, bool on)
+> > +{
+> > +	spin_lock(&ctx->kdamond_lock);
+> > +	ctx->kdamond_stop = !on;
+> > +	if (!ctx->kdamond && on) {
+> > +		ctx->kdamond = kthread_run(kdamond_fn, ctx, "kdamond");
+> 
+> Can't do this under a spin lock.
+
+Good catch!  And, agree to your suggestion.  I will fix this in that way!
+
 
 Thanks,
-Mathieu
-
-> --
-> 2.17.1
->
+SeongJae Park
