@@ -2,90 +2,86 @@ Return-Path: <SRS0=hUYu=46=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFBCC10DCE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 22:00:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A20EC4CECE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 23:36:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2B3AD2074F
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 22:00:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1829F2074D
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 23:36:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TflqlyHT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727290AbgCMWAX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Mar 2020 18:00:23 -0400
-Received: from mga04.intel.com ([192.55.52.120]:3418 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726543AbgCMWAX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Mar 2020 18:00:23 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Mar 2020 15:00:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,550,1574150400"; 
-   d="scan'208";a="416431849"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005.jf.intel.com with ESMTP; 13 Mar 2020 15:00:21 -0700
-Message-ID: <c8c394fba4b64c9151201952752647d61324c0a8.camel@intel.com>
-Subject: Re: [RFC PATCH v9 15/27] mm: Handle THP/HugeTLB Shadow Stack page
- fault
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Date:   Fri, 13 Mar 2020 15:00:20 -0700
-In-Reply-To: <202002251258.7D6DA92@keescook>
-References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
-         <20200205181935.3712-16-yu-cheng.yu@intel.com>
-         <202002251258.7D6DA92@keescook>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1727333AbgCMXgJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Mar 2020 19:36:09 -0400
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:38361 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726534AbgCMXgJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 19:36:09 -0400
+Received: by mail-pj1-f65.google.com with SMTP id m15so4497864pje.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2020 16:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8yb3Smk+WA2kNJUHhi0CWWEYTegjFeAzvGSfP7GO6hE=;
+        b=TflqlyHTwj9HWSK9TQZowQOwFWsskqIaBoymjzHlLwmtLBJMVYPsTb+R3GWOs1v7Ti
+         xlvTgLPvWJed7HLrQH8YrIMgOeF6jKFF9CIgnSc1hJ4qmjM7hSyNWEs8ClRU/KW6Y1vm
+         e1Q0pVlXHRzHL8W8jn4mh54p4elTmSHBw8/VvAy7UGeulkhCyW/CaFWV2qcpiXjHwHUO
+         UfKHHNJ6SknFlGqR7h2epcW8wVWlUC21bgck0h9n1j7wBEqPC0heISglpGIB6/heU2lY
+         JJkeNi9Xcvu5HkXCOP4hNipZMybBhCnY/Ei6jGUFNbrgm4a3uyXJ/jZk0ftJRfrsv1tt
+         kjwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8yb3Smk+WA2kNJUHhi0CWWEYTegjFeAzvGSfP7GO6hE=;
+        b=gjHHWCCU7H3n8wTA8cuXzSsSxCaj5x/M0SXZZHDeVbpaNeNYQmkFQvyIzwyfjcGgeo
+         EaL0vHEEHFzX44wc9mfDSsKSX1k2oEQGa2hvs8Xbn8ykvulRvbnc+UB9pLwYWMn6P48X
+         bbb3ySDgvq0EaGOkIv8xrBNEO8zoKJXQ5L46CJl+h2aq009l3tkdqqeOHa35Wl0dOeT0
+         RwpU6NJM5q/Q1EVdeUznfcY5RT07QjvPB16z3LB7y8xEPclPwM7Avhmr8PFWeIjZG9BA
+         0Z9ztDUFV9tujXY2d8CNr4s/om9eO1Q3jBWQPK6tZ7xIxIWVYNFtDzFfl1HO594iWAmX
+         9hIA==
+X-Gm-Message-State: ANhLgQ1n8KwNwAbJwmfih0Sh0ROu7dICmPGKPQwXnsP/lRZht0Xvx92i
+        DH2FNQvhjIg16SE9vjhrtNoJf0FWwxRWQTXHKtaoLg==
+X-Google-Smtp-Source: ADFU+vslN70O13CIstyDYtjFT6z/TCx8Q8y8naQJ4HvhFoYnijLayIc1CiIYxlFlDENFpInoZkezf8Yo91jWhTHpC3w=
+X-Received: by 2002:a17:90b:d8d:: with SMTP id bg13mr11892026pjb.29.1584142567940;
+ Fri, 13 Mar 2020 16:36:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20200228191821.42412-1-davidgow@google.com>
+In-Reply-To: <20200228191821.42412-1-davidgow@google.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Fri, 13 Mar 2020 16:35:56 -0700
+Message-ID: <CAFd5g446OxmrseU=U-n7D1bL3OdgFF=sYZmUg2utx_Sa9LEF1w@mail.gmail.com>
+Subject: Re: [PATCH v4] Documentation: kunit: Make the KUnit documentation
+ less UML-specific
+To:     David Gow <davidgow@google.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Frank Rowand <frank.rowand@sony.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2020-02-25 at 12:59 -0800, Kees Cook wrote:
-> On Wed, Feb 05, 2020 at 10:19:23AM -0800, Yu-cheng Yu wrote:
-> > This patch implements THP Shadow Stack (SHSTK) copying in the same way as
-> > in the previous patch for regular PTE.
-> > 
-> > In copy_huge_pmd(), clear the dirty bit from the PMD to cause a page fault
-> > upon the next SHSTK access to the PMD.  At that time, fix the PMD and
-> > copy/re-use the page.
-> 
-> Now is as good a time as any to ask: do you have selftests for all this?
-> It seems like it would be really nice to have a way to verify SHSTK is
-> working correctly.
+On Fri, Feb 28, 2020 at 11:18 AM David Gow <davidgow@google.com> wrote:
+>
+> Remove some of the outmoded "Why KUnit" rationale, and move some
+> UML-specific information to the kunit_tool page. Also update the Getting
+> Started guide to mention running tests without the kunit_tool wrapper.
+>
+> Signed-off-by: David Gow <davidgow@google.com>
+> Reviewed-by: Frank Rowand <frank.rowand@sony.com>
 
-Yes, I have some simple tests at https://github.com/yyu168/cet-smoke-test.
-I also run Linux/tools/testing/selftests/x86 and GLIBC tests with CET and THP
-combinations.
-
-Yu-cheng
-
-
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
