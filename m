@@ -2,177 +2,160 @@ Return-Path: <SRS0=hUYu=46=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF3AC10DCE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 13:33:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95498C4CECE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 14:45:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C812C206B7
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 13:33:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6019F206FA
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Mar 2020 14:45:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EuRQd5Ze"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="0SODmnzD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbgCMNdG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Mar 2020 09:33:06 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53323 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726554AbgCMNdF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 09:33:05 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 25so9972775wmk.3
-        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2020 06:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LjnIa5czhZ90JtQBFVRg5fkvm0j0Tbj99Zacb6jIP1w=;
-        b=EuRQd5ZejDOiKZcRRHTIkogL7X/HxaCg7vN6W9xTCSMn2CIU+zi6dDzcBjBx8UFPdr
-         Dz5CD6alhCKRiG07sog1/AM0iyjfTCF+tZOH8BHEUgQ7FwJtImZccjQT/4KJKLo+9wCE
-         ADWJKhaeiaXVvbfKYg+APspo+Z+pD+J1mRyIFpWHFoyRt1t/ZHViPsGX8aYK3gtUIy+0
-         RMsR3nYtNjy0AenHguC9gdJXj2CesVDbmT2PA3jCPlCOTbY/m81eab/r8p5vnPyzGMSY
-         uAv48Zz0uXVu6gpinPBfgyiU6mz7Fy/QE0RFeI3xFf36dFER1xcKW/GfhwnzgHXMjGhn
-         bgIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=LjnIa5czhZ90JtQBFVRg5fkvm0j0Tbj99Zacb6jIP1w=;
-        b=JaPcHNrV1ynDQrlDIP0vZq3E2J8/IkiX/1D9cwdzK29L34fZn557H+3tDnzImCF0Uf
-         mspIwZSCGDKlxIVjsRYofVaC0Cnyt8vJ8rLIe25cxBVQ6ISJu7CxSGb20JHMAXhcbJJL
-         AsCtLpRRuHMI+A2orOWxjpMghOutEO3za+pg+1VhLF069eDf/HsFqA6C14XUb+PDAxDn
-         2qoYQo+Gl4/05P1V428Ky/lnoUhXBOhy/RBWvKW2uq5l3eMdhLwtvbYQkxt5YO905gEM
-         yBEPtS/RN8PmcUTNxUwwrYiMpwVSgexmhdWlJOqzBCfDOywcLNRljzIVNpsjr7ra8FPg
-         NZjw==
-X-Gm-Message-State: ANhLgQ0HOmkQagebZ62MgrNLtLVVmTSEnqaTVz5qYWRB1goXhlt9UztT
-        QbRMNHTd5SOpPe0Apq6FxJXpjw==
-X-Google-Smtp-Source: ADFU+vtQgxEeMd3PVIBdTqgiUf0QUqIljm0MnfwmwMmqjIcFKtlXnmqERc8Y/T/+2fEWD2LssZQFkg==
-X-Received: by 2002:a1c:41d6:: with SMTP id o205mr10756239wma.122.1584106382776;
-        Fri, 13 Mar 2020 06:33:02 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:40fb:3990:3519:cc26? ([2a01:e34:ed2f:f020:40fb:3990:3519:cc26])
-        by smtp.googlemail.com with ESMTPSA id s7sm5413721wri.61.2020.03.13.06.33.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Mar 2020 06:33:02 -0700 (PDT)
-Subject: Re: [PATCH 0/3] Thermal extensions for flexibility in cooling device
- bindings
-To:     lukasz.luba@arm.com, linux-kernel@vger.kernel.org,
-        rui.zhang@intel.com, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     amit.kucheria@verdurent.com, corbet@lwn.net,
-        dietmar.eggemann@arm.com
-References: <20191216140622.25467-1-lukasz.luba@arm.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <11b6ccb2-ddd8-39cf-a3c8-4dd53e7e50d8@linaro.org>
-Date:   Fri, 13 Mar 2020 14:33:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20191216140622.25467-1-lukasz.luba@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1726633AbgCMOpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Mar 2020 10:45:06 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:32874 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726436AbgCMOpG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 10:45:06 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02DEf90K043459;
+        Fri, 13 Mar 2020 14:44:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=2bYGbHKQiCujE7eTENg61jJv56inJcLz71K5/wejO7s=;
+ b=0SODmnzDpyhHGABLe/wttFYJee2Ivt8Vtjws6qQ57PlYcOdIetPOZ9mi5oMP4Tb7IrJZ
+ b4puuikREjkIvbIvkdlyU+ZGMJhlHSkSqgdUXKsyoP4ysq56uXwtx6653zAyOyJagKTM
+ ggformcYpGt/GH2nCFcREF6M0IURRBwVf+lV0Od0276atq6H70al9zRO2HHlL4l0JkFX
+ /IILAswaMQgLsDGwd4MMyAe8YuJNnAazzVoijzYL/u/bRvFuZ0Ve8cpyszDyHNVUO7Xp
+ k8P4ey0xbQdKT6T2ODmjVaY1yeXLNPOsFqFlEDSJ2ABKGksL+csHcBkc9Kne1eSG/P60 Cg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2120.oracle.com with ESMTP id 2yqtaev721-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 13 Mar 2020 14:44:58 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02DEcMR2011141;
+        Fri, 13 Mar 2020 14:44:57 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 2yqtact4ba-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 13 Mar 2020 14:44:57 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02DEitmJ019360;
+        Fri, 13 Mar 2020 14:44:55 GMT
+Received: from dhcp-10-175-173-225.vpn.oracle.com (/10.175.173.225)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 13 Mar 2020 07:44:55 -0700
+From:   Alan Maguire <alan.maguire@oracle.com>
+To:     brendanhiggins@google.com, frowand.list@gmail.com,
+        gregkh@linuxfoundation.org, shuah@kernel.org
+Cc:     corbet@lwn.net, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, Alan Maguire <alan.maguire@oracle.com>
+Subject: [PATCH v7 kunit-next 0/4] kunit: add debugfs representation to show results
+Date:   Fri, 13 Mar 2020 14:44:38 +0000
+Message-Id: <1584110682-3837-1-git-send-email-alan.maguire@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9558 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=4
+ malwarescore=0 bulkscore=0 adultscore=0 mlxscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003130077
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9558 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 suspectscore=4
+ mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003130077
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+When kunit tests are run on native (i.e. non-UML) environments, the results
+of test execution are often intermixed with dmesg output.  This patch
+series attempts to solve this by providing a debugfs representation
+of the results of the last test run, available as
 
-Hi Lukasz,
+/sys/kernel/debug/kunit/<testsuite>/results
 
-On 16/12/2019 15:06, lukasz.luba@arm.com wrote:
-> From: Lukasz Luba <lukasz.luba@arm.com>
-> 
-> Hi all,
-> 
-> This patch set adds extensions to existing thermal zones and cooling devices
-> binding. Currently they are pinned using static definitions e.g. DT cooling
-> maps. These changes enable userspace like trusted middleware to change the
-> layout of cooling maps unbinding and binding the cooling devices.
-> It might be helpful for drivers loaded as a modules. They can be added to
-> existing thermal zones to take part of the power split.
-> It is based on the current work in thermal branch thermal/linux-next
-> https://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git/log/?h=thermal/linux-next
+Changes since v6:
 
-I've been keeping this series out of the previous merge because it did
-not raise any comments and we are touching the sysfs.
+- fixed regexp parsing in kunit_parser.py to ensure test results are read
+  successfully with 4-space indentation (Brendan, patch 3)
 
-For this release, I still don't know what to do with it.
+Changes since v5:
 
-Anyone a comment on this series? Rui ?
+- replaced undefined behaviour use of snprintf(buf, ..., buf) in
+  kunit_log() with a function to append string to existing log
+  (Frank, patch 1)
+- added clarification on log size limitations to documentation
+  (Frank, patch 4)
 
-> Lukasz Luba (3):
->   docs: thermal: Add bind, unbind information together with trip point
->   thermal: Make cooling device trip point writable from sysfs
->   thermal: Add sysfs binding for cooling device and thermal zone
-> 
->  .../driver-api/thermal/sysfs-api.rst          | 30 +++++++-
->  drivers/thermal/thermal_core.c                |  3 +-
->  drivers/thermal/thermal_core.h                |  2 +
->  drivers/thermal/thermal_sysfs.c               | 77 +++++++++++++++++++
->  4 files changed, 109 insertions(+), 3 deletions(-)
-> 
+Changes since v4:
 
+- added suite-level log expectations to kunit log test (Brendan, patch 2)
+- added log expectations (of it being NULL) for case where
+  CONFIG_KUNIT_DEBUGFS=n to kunit log test (patch 2)
+- added patch 3 which replaces subtest tab indentation with 4 space
+  indentation as per TAP 14 spec (Frank, patch 3)
+
+Changes since v3:
+
+- added CONFIG_KUNIT_DEBUGFS to support conditional compilation of debugfs
+  representation, including string logging (Frank, patch 1)
+- removed unneeded NULL check for test_case in
+  kunit_suite_for_each_test_case() (Frank, patch 1)
+- added kunit log test to verify logging multiple strings works
+  (Frank, patch 2)
+- rephrased description of results file (Frank, patch 3)
+
+Changes since v2:
+
+- updated kunit_status2str() to kunit_status_to_string() and made it
+  static inline in include/kunit/test.h (Brendan)
+- added log string to struct kunit_suite and kunit_case, with log
+  pointer in struct kunit pointing at the case log.  This allows us
+  to collect kunit_[err|info|warning]() messages at the same time
+  as we printk() them.  This solves for the most part the sharing
+  of log messages between test execution and debugfs since we
+  just print the suite log (which contains the test suite preamble)
+  and the individual test logs.  The only exception is the suite-level
+  status, which we cannot store in the suite log as it would mean
+  we'd print the suite and its status prior to the suite's results.
+  (Brendan, patch 1)
+- dropped debugfs-based kunit run patch for now so as not to cause
+  problems with tests currently under development (Brendan)
+- fixed doc issues with code block (Brendan, patch 3)
+
+Changes since v1:
+ - trimmed unneeded include files in lib/kunit/debugfs.c (Greg)
+ - renamed global debugfs functions to be prefixed with kunit_ (Greg)
+ - removed error checking for debugfs operations (Greg)
+
+Alan Maguire (4):
+  kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
+  kunit: add log test
+  kunit: subtests should be indented 4 spaces according to TAP
+  kunit: update documentation to describe debugfs representation
+
+ Documentation/dev-tools/kunit/usage.rst |  14 +++
+ include/kunit/test.h                    |  59 +++++++++++--
+ lib/kunit/Kconfig                       |   8 ++
+ lib/kunit/Makefile                      |   4 +
+ lib/kunit/assert.c                      |  79 ++++++++---------
+ lib/kunit/debugfs.c                     | 116 +++++++++++++++++++++++++
+ lib/kunit/debugfs.h                     |  30 +++++++
+ lib/kunit/kunit-test.c                  |  45 +++++++++-
+ lib/kunit/test.c                        | 147 +++++++++++++++++++++++++-------
+ tools/testing/kunit/kunit_parser.py     |  10 +--
+ 10 files changed, 426 insertions(+), 86 deletions(-)
+ create mode 100644 lib/kunit/debugfs.c
+ create mode 100644 lib/kunit/debugfs.h
 
 -- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+1.8.3.1
 
