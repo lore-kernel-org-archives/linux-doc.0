@@ -2,138 +2,75 @@ Return-Path: <SRS0=Nog0=5A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2217C0044D
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 02:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7DBFC1975A
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 02:04:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CDCC62051A
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 02:02:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 914F72051A
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 02:04:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727405AbgCOCC1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 14 Mar 2020 22:02:27 -0400
-Received: from smtprelay0001.hostedemail.com ([216.40.44.1]:38378 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726550AbgCOCC1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Mar 2020 22:02:27 -0400
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave01.hostedemail.com (Postfix) with ESMTP id 4185A1803D435;
-        Sat, 14 Mar 2020 21:15:46 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 0A5D1180286F5;
-        Sat, 14 Mar 2020 21:15:46 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: order55_4f4bcd68dbf2c
-X-Filterd-Recvd-Size: 4799
-Received: from XPS-9350.home (unknown [47.151.143.254])
-        (Authenticated sender: joe@perches.com)
-        by omf18.hostedemail.com (Postfix) with ESMTPA;
-        Sat, 14 Mar 2020 21:15:44 +0000 (UTC)
-Message-ID: <7a2977ea9baacd1580ff80689f2c8f20d45b069d.camel@perches.com>
-Subject: [PATCH] coding-style.rst: Add fallthrough as an emacs keyword
-From:   Joe Perches <joe@perches.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Sat, 14 Mar 2020 14:13:59 -0700
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.1-2 
+        id S1727589AbgCOCEp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 Mar 2020 22:04:45 -0400
+Received: from www262.sakura.ne.jp ([202.181.97.72]:54034 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726757AbgCOCEo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Mar 2020 22:04:44 -0400
+Received: from fsav107.sakura.ne.jp (fsav107.sakura.ne.jp [27.133.134.234])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 02E4RG0I007339;
+        Sat, 14 Mar 2020 13:27:16 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav107.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp);
+ Sat, 14 Mar 2020 13:27:16 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 02E4RFiB007324
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+        Sat, 14 Mar 2020 13:27:15 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH] kernel/hung_task.c: Introduce sysctl to print all traces
+ when a hung task is detected
+To:     Kees Cook <keescook@chromium.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, mcgrof@kernel.org, yzaikin@google.com,
+        tglx@linutronix.de, kernel@gpiccoli.net
+References: <20200310155650.17968-1-gpiccoli@canonical.com>
+ <ef3b3e9a-9d58-60ec-d638-88ad57d29aec@canonical.com>
+ <202003132011.8143A71FE@keescook>
+From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <c4b05b32-216a-e130-259f-0d9506ff9244@i-love.sakura.ne.jp>
+Date:   Sat, 14 Mar 2020 13:27:13 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <202003132011.8143A71FE@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-fallthrough was added as a pseudo-keyword by commit 294f69e662d1
-("compiler_attributes.h: Add 'fallthrough' pseudo keyword for switch/case use")
+On 2020/03/14 12:12, Kees Cook wrote:
+> On Fri, Mar 13, 2020 at 02:23:37PM -0300, Guilherme G. Piccoli wrote:
+>> Kees / Testsuo, are you OK with this patch once I resend with the
+>> suggestions you gave me?
+> 
+> I think so, yes. Send a v2 (to akpm with us in CC).
+> 
+>> Is there anybody else I should loop in the patch that should take a
+>> look? Never sent sysctl stuff before, sorry if I forgot somebody heheh
+> 
+> akpm usually takes these kinds of things.
+> 
 
-Add fallthrough as a keyword to the example .emacs content
-so emacs can colorize or highlight the uses.
-
-Signed-off-by: Joe Perches <joe@perches.com>
----
-
-I've no idea how to remove the infinite monkeys jibe from the chinese translation
-
- Documentation/process/coding-style.rst                    | 9 +++++----
- Documentation/translations/it_IT/process/coding-style.rst | 9 +++++----
- Documentation/translations/zh_CN/process/coding-style.rst | 5 ++++-
- 3 files changed, 14 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index acb2f1b..3260cd 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -577,9 +577,7 @@ item, explaining its use.
- That's OK, we all do.  You've probably been told by your long-time Unix
- user helper that ``GNU emacs`` automatically formats the C sources for
- you, and you've noticed that yes, it does do that, but the defaults it
--uses are less than desirable (in fact, they are worse than random
--typing - an infinite number of monkeys typing into GNU emacs would never
--make a good program).
-+uses are less than desirable.
- 
- So, you can either get rid of GNU emacs, or change it to use saner
- values.  To do the latter, you can stick the following in your .emacs file:
-@@ -631,7 +629,10 @@ values.  To do the latter, you can stick the following in your .emacs file:
- 
-   (dir-locals-set-directory-class
-    (expand-file-name "~/src/linux-trees")
--   'linux-kernel)
-+   'linux-kernel
-+   (font-lock-add-keywords 'c-mode
-+			   '(("\\<\\(fallthrough\\)\\>" . font-lock-keyword-face)))
-+  )
- 
- This will make emacs go better with the kernel coding style for C
- files below ``~/src/linux-trees``.
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index 8725f2b..67364f 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -584,9 +584,7 @@ commento per spiegarne l'uso.
- Va bene, li facciamo tutti.  Probabilmente vi è stato detto dal vostro
- aiutante Unix di fiducia che ``GNU emacs`` formatta automaticamente il
- codice C per conto vostro, e avete notato che sì, in effetti lo fa, ma che
--i modi predefiniti non sono proprio allettanti (infatti, sono peggio che
--premere tasti a caso - un numero infinito di scimmie che scrivono in
--GNU emacs non faranno mai un buon programma).
-+i modi predefiniti non sono proprio allettanti.
- 
- Quindi, potete sbarazzarvi di GNU emacs, o riconfigurarlo con valori più
- sensati.  Per fare quest'ultima cosa, potete appiccicare il codice che
-@@ -639,7 +637,10 @@ segue nel vostro file .emacs:
- 
-   (dir-locals-set-directory-class
-    (expand-file-name "~/src/linux-trees")
--   'linux-kernel)
-+   'linux-kernel
-+   (font-lock-add-keywords 'c-mode
-+			   '(("\\<\\(fallthrough\\)\\>" . font-lock-keyword-face)))
-+  )
- 
- Questo farà funzionare meglio emacs con lo stile del kernel per i file che
- si trovano nella cartella ``~/src/linux-trees``.
-diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-index eae10bc..6c9443 100644
---- a/Documentation/translations/zh_CN/process/coding-style.rst
-+++ b/Documentation/translations/zh_CN/process/coding-style.rst
-@@ -558,7 +558,10 @@ Documentation/doc-guide/ 和 scripts/kernel-doc 以获得详细信息。
- 
-   (dir-locals-set-directory-class
-    (expand-file-name "~/src/linux-trees")
--   'linux-kernel)
-+   'linux-kernel
-+   (font-lock-add-keywords 'c-mode
-+			   '(("\\<\\(fallthrough\\)\\>" . font-lock-keyword-face)))
-+  )
- 
- 这会让 emacs 在 ``~/src/linux-trees`` 下的 C 源文件获得更好的内核代码风格。
- 
-
-
+Well, maybe sysctl_hung_task_all_cpu_backtrace = 1 by default is better for
+compatibility? Please CC or BCC kernel-testing people so that they can add
+hung_task_all_cpu_backtrace=1 kernel command line parameter to their testing
+environments if sysctl_hung_task_all_cpu_backtrace = 0 by default.
