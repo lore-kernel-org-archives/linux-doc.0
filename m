@@ -2,148 +2,85 @@ Return-Path: <SRS0=ZijC=47=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB63C4CECE
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Mar 2020 01:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 609D2C4CECE
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Mar 2020 03:13:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4200C2074B
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Mar 2020 01:30:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584149407;
-	bh=vFPRqj51GZag1JlfGyQscQkHysRJLfwsyD2BHctO5/g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=C79Sv1B1/5AelY1gRRWuuxz7bJBXzslWBeUKBB+KS++O99f2fodQDurqLwXyKSjYc
-	 mVC4zcg/fIBjHC5bAF1ldcqKqfdGfYCwbqa3f4nuAN24HAeQaNIkhgI8Gy3KTi71dT
-	 Y9MuPVhn8irQs3CVoEBoutLmibkGATkcK4sydXqU=
+	by mail.kernel.org (Postfix) with ESMTP id 2C3F92074E
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Mar 2020 03:13:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="W6ezz92F"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbgCNBaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Mar 2020 21:30:04 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:40396 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726853AbgCNBaE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 21:30:04 -0400
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 02E1TwYt031818;
-        Sat, 14 Mar 2020 10:29:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 02E1TwYt031818
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1584149399;
-        bh=s+MLlPHJBKXrpuiK/f0t8GUAtsMBrB5F071oJPbl8vI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ED+w/hULkW6n1anfIyoGOTMM/5oIAJDxoVFphJoOi1Ia95t/7M8QFVXKBjoVSUYBF
-         loBRrmRtNKr6XnDGhCEO7/65FnYD2PrFkBlwQNKQcQXZ85i5A14dCRwWrYad1M5Xaj
-         7XyHagz14YQp8qxYIXh0qNWseSY8Vd1ZI3I+OK4ioPMJZ6+/LzhBuLXB94XZ+EoBHT
-         NCAA1ncM1sonPjQR4d8/NWjXuqAOs5bpXnzYp3kiUKcltWpWXtDub4am//bmrUmoir
-         NKLyJ89rrqzEYH1EQq+jexYR8PjoweRD8PWhF28/ZObc4Q1D3uX18Vse8Hw9Rbprgv
-         sdRKKfp3/8zeg==
-X-Nifty-SrcIP: [209.85.217.45]
-Received: by mail-vs1-f45.google.com with SMTP id c18so7591989vsq.7;
-        Fri, 13 Mar 2020 18:29:58 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ2TfjCspXjzvMF5+QGGYLdo3rvU42rYiKTDWtNOlksXgj4E4z/l
-        ILZeTQ1hKEqWtzC/ljGij0QNVxjNXP+ZM7H4txI=
-X-Google-Smtp-Source: ADFU+vs+Ei+coS5nmQYJ3m/p8jpM2R7rWBOFjjjJU8mvIZotzPAjx5d+zMNUiyTqlzLFL88Xz3l+0c7SsV0WqGBk52I=
-X-Received: by 2002:a67:2d55:: with SMTP id t82mr2322834vst.215.1584149397781;
- Fri, 13 Mar 2020 18:29:57 -0700 (PDT)
+        id S1726752AbgCNDMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Mar 2020 23:12:55 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36438 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726467AbgCNDMx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 23:12:53 -0400
+Received: by mail-pg1-f194.google.com with SMTP id z4so353455pgu.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2020 20:12:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=a4vxLIWWizY4c94tKl8VxzoeCXjGcvdAGAK/KKBIiws=;
+        b=W6ezz92Fnc3Q/6TEc9BYLSA6xe+WA9hEJXfgEQZIyFIsHVOW2NBbH5DPiqAJcu5JuP
+         89pFOrYQQjN250fN/yIJqbyrY/PL2EEyLT0eNefPLUNFyPanFZWHpCahR/d0OOLoVWkK
+         KJRWch1vHZa9uSzMPyR92lWlIsKeosUfl0jqI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=a4vxLIWWizY4c94tKl8VxzoeCXjGcvdAGAK/KKBIiws=;
+        b=KW626zB3DmH10UF1RnfdZaLv+CBPLFnrdeAVGUpa1+3ErzxLt8Tego3Dx7PvNF+kvy
+         BjYjDMFYOFR949skTpW6US/788B3oaKVCxMLiI+4u+rIPerwnYgyLP0hThODt6gALbhd
+         z0aRvtFtRPn9sc+16IhCl0IosXwJ6SsYgFD4B1KzeDkeQGBjJ1TXLHw0nJAFrLae8RIB
+         CjbNgLSqAPtThRM9ZVsYirC/5YJAyL9kIwIra6R8/xoY+TwvNKkRDtlams8QLxEeBlNb
+         8ApEm2ENmDT+jEym3iTzdD/GSBF1DH+vX0qVNmvsRu09X4XdZJ3Dyn++ASAH3+0byV0K
+         2n3Q==
+X-Gm-Message-State: ANhLgQ2jlWNlO2EVzkmbHn0CGcefvkY/Ie+Kwvu1zLRxWyXYO4xKQlo/
+        +mFwmyqqnH06WE2AdBOAvDjaJQ==
+X-Google-Smtp-Source: ADFU+vs4x5cG7qYmSSdMh7Lt9j4AbCiuf8O4X5jvNemXHgiKvZMzloMDqnCWSAI9GJ6X1EWvJR70AA==
+X-Received: by 2002:a63:3193:: with SMTP id x141mr16084059pgx.311.1584155572098;
+        Fri, 13 Mar 2020 20:12:52 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id k3sm2188966pgr.40.2020.03.13.20.12.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2020 20:12:51 -0700 (PDT)
+Date:   Fri, 13 Mar 2020 20:12:50 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+Cc:     Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, mcgrof@kernel.org, yzaikin@google.com,
+        tglx@linutronix.de, kernel@gpiccoli.net
+Subject: Re: [PATCH] kernel/hung_task.c: Introduce sysctl to print all traces
+ when a hung task is detected
+Message-ID: <202003132011.8143A71FE@keescook>
+References: <20200310155650.17968-1-gpiccoli@canonical.com>
+ <ef3b3e9a-9d58-60ec-d638-88ad57d29aec@canonical.com>
 MIME-Version: 1.0
-References: <20200311225044.29502-1-masahiroy@kernel.org>
-In-Reply-To: <20200311225044.29502-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 14 Mar 2020 10:29:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ=AVRwXxErOvs=2iK2vKYU3GrF_am7JUUFBiVGPchWXw@mail.gmail.com>
-Message-ID: <CAK7LNAQ=AVRwXxErOvs=2iK2vKYU3GrF_am7JUUFBiVGPchWXw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix references to other documents
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ef3b3e9a-9d58-60ec-d638-88ad57d29aec@canonical.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 7:50 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> All the files in Documentation/kbuild/ were converted to reST.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+On Fri, Mar 13, 2020 at 02:23:37PM -0300, Guilherme G. Piccoli wrote:
+> Kees / Testsuo, are you OK with this patch once I resend with the
+> suggestions you gave me?
 
-Applied to linux-kbuild.
+I think so, yes. Send a v2 (to akpm with us in CC).
 
+> Is there anybody else I should loop in the patch that should take a
+> look? Never sent sysctl stuff before, sorry if I forgot somebody heheh
 
->
->  Documentation/kbuild/kbuild.rst                 | 2 +-
->  Documentation/kbuild/kconfig-macro-language.rst | 2 +-
->  Documentation/kbuild/makefiles.rst              | 6 +++---
->  3 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> index f1e5dce86af7..510f38d7e78a 100644
-> --- a/Documentation/kbuild/kbuild.rst
-> +++ b/Documentation/kbuild/kbuild.rst
-> @@ -237,7 +237,7 @@ This is solely useful to speed up test compiles.
->  KBUILD_EXTRA_SYMBOLS
->  --------------------
->  For modules that use symbols from other modules.
-> -See more details in modules.txt.
-> +See more details in modules.rst.
->
->  ALLSOURCE_ARCHS
->  ---------------
-> diff --git a/Documentation/kbuild/kconfig-macro-language.rst b/Documentation/kbuild/kconfig-macro-language.rst
-> index 35b3263b7e40..8b413ef9603d 100644
-> --- a/Documentation/kbuild/kconfig-macro-language.rst
-> +++ b/Documentation/kbuild/kconfig-macro-language.rst
-> @@ -44,7 +44,7 @@ intermediate::
->              def_bool y
->
->  Then, Kconfig moves onto the evaluation stage to resolve inter-symbol
-> -dependency as explained in kconfig-language.txt.
-> +dependency as explained in kconfig-language.rst.
->
->
->  Variables
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 6bc126a14b3d..04d5c01a2e99 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -924,7 +924,7 @@ When kbuild executes, the following steps are followed (roughly):
->         $(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
->         are used for assembler.
->
-> -       From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
-> +       From commandline AFLAGS_MODULE shall be used (see kbuild.rst).
->
->      KBUILD_CFLAGS_KERNEL
->         $(CC) options specific for built-in
-> @@ -937,7 +937,7 @@ When kbuild executes, the following steps are followed (roughly):
->
->         $(KBUILD_CFLAGS_MODULE) is used to add arch-specific options that
->         are used for $(CC).
-> -       From commandline CFLAGS_MODULE shall be used (see kbuild.txt).
-> +       From commandline CFLAGS_MODULE shall be used (see kbuild.rst).
->
->      KBUILD_LDFLAGS_MODULE
->         Options for $(LD) when linking modules
-> @@ -945,7 +945,7 @@ When kbuild executes, the following steps are followed (roughly):
->         $(KBUILD_LDFLAGS_MODULE) is used to add arch-specific options
->         used when linking modules. This is often a linker script.
->
-> -       From commandline LDFLAGS_MODULE shall be used (see kbuild.txt).
-> +       From commandline LDFLAGS_MODULE shall be used (see kbuild.rst).
->
->      KBUILD_LDS
->
-> --
-> 2.17.1
->
-
+akpm usually takes these kinds of things.
 
 -- 
-Best Regards
-Masahiro Yamada
+Kees Cook
