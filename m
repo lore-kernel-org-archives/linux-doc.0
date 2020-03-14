@@ -2,70 +2,63 @@ Return-Path: <SRS0=ZijC=47=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9843CC10DCE
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Mar 2020 00:03:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB63C4CECE
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Mar 2020 01:30:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5E9B3206E7
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Mar 2020 00:03:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ejxy5joI"
+	by mail.kernel.org (Postfix) with ESMTP id 4200C2074B
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Mar 2020 01:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584149407;
+	bh=vFPRqj51GZag1JlfGyQscQkHysRJLfwsyD2BHctO5/g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=C79Sv1B1/5AelY1gRRWuuxz7bJBXzslWBeUKBB+KS++O99f2fodQDurqLwXyKSjYc
+	 mVC4zcg/fIBjHC5bAF1ldcqKqfdGfYCwbqa3f4nuAN24HAeQaNIkhgI8Gy3KTi71dT
+	 Y9MuPVhn8irQs3CVoEBoutLmibkGATkcK4sydXqU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbgCNADV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Mar 2020 20:03:21 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:45386 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbgCNADU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 20:03:20 -0400
-Received: by mail-pl1-f194.google.com with SMTP id b22so5060279pls.12
-        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2020 17:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1itqh9cc4kh0XmayEu5vKsKFU6ua5zUzS5gt0O5c6J0=;
-        b=Ejxy5joItEd/+5sGbhoUHJ8XAwEfTSI0bZzwHp4wHGBwpcPPqqsq2++qFrDqLAae4Y
-         /W9IRQZcLDhIDI+TQjMqPzbfsinuCNiEUL4GpZy/4PGlO8fDXkgiT+rh04nwySAdbgdD
-         UkuZ36lP21XVB3QODVfE43DBWvuhyfVA7asrGUwYj903BZarex5nwAIQhJpkfLIvfzWy
-         t3SalKNJlk+51HHfN66eQ+EZLU8qZwlsA6orv9aUKz37I8nxUf6H3rZnkdt+jQaZfApu
-         rMg7cDdnoE9ABTQ5ljUQB6e9CrTE6NocR2mDp+nEByf2wn56bVP2rk+v/gX4ImpQVv+5
-         +pSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1itqh9cc4kh0XmayEu5vKsKFU6ua5zUzS5gt0O5c6J0=;
-        b=Txr+06bsMTiP1OtJJW1KyxByyNx7lMkLrWpflCkoDlDLtq+QQOYPuapsNRCg/VcVNp
-         hnvk8z+gj25bzq9FPfxg1tB1DMYFrCPeatkHU4IIFV+bCq0kN7rB4WxhS74oepbwadmo
-         KEpjlR+icZCTPfpqvlW0I7Kpn+rB8A/a8m9NZGRsUaTCs3kqUdgfTJjnYfuuRGehW/X3
-         /AhDGpbTp5BFTHdVK/wLzs9+ujVYsqkl07doXZqlBCFq8E2Jg34oth9TKk9sgw31/O5f
-         sqTrObOVrJoTJLrulvt3b1WUnbL1uH6GOw9YO5G/71pbWaaH6FBmd+F0P6o/nddGaVKc
-         cPJQ==
-X-Gm-Message-State: ANhLgQ1u5gItD078Sa0IaBMAIxCes/PMyjARlNbScmIxd4LyzllCzoAT
-        jLyfc8BSxudW+tCLiC19Mxt8hhmFah4l5khEC0zu5A==
-X-Google-Smtp-Source: ADFU+vuB0Mxx+ltAIpT9/01uYB0ZCYPpx70ZsaVCPcTRWke0kPSN9SBNs7G9abQecMpMnU0d4AwlLZqMycCMSvs/j1k=
-X-Received: by 2002:a17:90a:a616:: with SMTP id c22mr12903657pjq.47.1584144199202;
- Fri, 13 Mar 2020 17:03:19 -0700 (PDT)
+        id S1726860AbgCNBaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Mar 2020 21:30:04 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:40396 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726853AbgCNBaE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Mar 2020 21:30:04 -0400
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 02E1TwYt031818;
+        Sat, 14 Mar 2020 10:29:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 02E1TwYt031818
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1584149399;
+        bh=s+MLlPHJBKXrpuiK/f0t8GUAtsMBrB5F071oJPbl8vI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ED+w/hULkW6n1anfIyoGOTMM/5oIAJDxoVFphJoOi1Ia95t/7M8QFVXKBjoVSUYBF
+         loBRrmRtNKr6XnDGhCEO7/65FnYD2PrFkBlwQNKQcQXZ85i5A14dCRwWrYad1M5Xaj
+         7XyHagz14YQp8qxYIXh0qNWseSY8Vd1ZI3I+OK4ioPMJZ6+/LzhBuLXB94XZ+EoBHT
+         NCAA1ncM1sonPjQR4d8/NWjXuqAOs5bpXnzYp3kiUKcltWpWXtDub4am//bmrUmoir
+         NKLyJ89rrqzEYH1EQq+jexYR8PjoweRD8PWhF28/ZObc4Q1D3uX18Vse8Hw9Rbprgv
+         sdRKKfp3/8zeg==
+X-Nifty-SrcIP: [209.85.217.45]
+Received: by mail-vs1-f45.google.com with SMTP id c18so7591989vsq.7;
+        Fri, 13 Mar 2020 18:29:58 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ2TfjCspXjzvMF5+QGGYLdo3rvU42rYiKTDWtNOlksXgj4E4z/l
+        ILZeTQ1hKEqWtzC/ljGij0QNVxjNXP+ZM7H4txI=
+X-Google-Smtp-Source: ADFU+vs+Ei+coS5nmQYJ3m/p8jpM2R7rWBOFjjjJU8mvIZotzPAjx5d+zMNUiyTqlzLFL88Xz3l+0c7SsV0WqGBk52I=
+X-Received: by 2002:a67:2d55:: with SMTP id t82mr2322834vst.215.1584149397781;
+ Fri, 13 Mar 2020 18:29:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <1584110682-3837-1-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1584110682-3837-1-git-send-email-alan.maguire@oracle.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 13 Mar 2020 17:03:07 -0700
-Message-ID: <CAFd5g44FvKCjj-qHCpkZhQEtWxgR7fA5qiNb_GN_YANuzsJM1w@mail.gmail.com>
-Subject: Re: [PATCH v7 kunit-next 0/4] kunit: add debugfs representation to
- show results
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>, shuah <shuah@kernel.org>,
+References: <20200311225044.29502-1-masahiroy@kernel.org>
+In-Reply-To: <20200311225044.29502-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 14 Mar 2020 10:29:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ=AVRwXxErOvs=2iK2vKYU3GrF_am7JUUFBiVGPchWXw@mail.gmail.com>
+Message-ID: <CAK7LNAQ=AVRwXxErOvs=2iK2vKYU3GrF_am7JUUFBiVGPchWXw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: fix references to other documents
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
@@ -73,68 +66,84 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 7:44 AM Alan Maguire <alan.maguire@oracle.com> wrote:
+On Thu, Mar 12, 2020 at 7:50 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> When kunit tests are run on native (i.e. non-UML) environments, the results
-> of test execution are often intermixed with dmesg output.  This patch
-> series attempts to solve this by providing a debugfs representation
-> of the results of the last test run, available as
+> All the files in Documentation/kbuild/ were converted to reST.
 >
-> /sys/kernel/debug/kunit/<testsuite>/results
->
-> Changes since v6:
->
-> - fixed regexp parsing in kunit_parser.py to ensure test results are read
->   successfully with 4-space indentation (Brendan, patch 3)
->
-> Changes since v5:
->
-> - replaced undefined behaviour use of snprintf(buf, ..., buf) in
->   kunit_log() with a function to append string to existing log
->   (Frank, patch 1)
-> - added clarification on log size limitations to documentation
->   (Frank, patch 4)
->
-> Changes since v4:
->
-> - added suite-level log expectations to kunit log test (Brendan, patch 2)
-> - added log expectations (of it being NULL) for case where
->   CONFIG_KUNIT_DEBUGFS=n to kunit log test (patch 2)
-> - added patch 3 which replaces subtest tab indentation with 4 space
->   indentation as per TAP 14 spec (Frank, patch 3)
->
-> Changes since v3:
->
-> - added CONFIG_KUNIT_DEBUGFS to support conditional compilation of debugfs
->   representation, including string logging (Frank, patch 1)
-> - removed unneeded NULL check for test_case in
->   kunit_suite_for_each_test_case() (Frank, patch 1)
-> - added kunit log test to verify logging multiple strings works
->   (Frank, patch 2)
-> - rephrased description of results file (Frank, patch 3)
->
-> Changes since v2:
->
-> - updated kunit_status2str() to kunit_status_to_string() and made it
->   static inline in include/kunit/test.h (Brendan)
-> - added log string to struct kunit_suite and kunit_case, with log
->   pointer in struct kunit pointing at the case log.  This allows us
->   to collect kunit_[err|info|warning]() messages at the same time
->   as we printk() them.  This solves for the most part the sharing
->   of log messages between test execution and debugfs since we
->   just print the suite log (which contains the test suite preamble)
->   and the individual test logs.  The only exception is the suite-level
->   status, which we cannot store in the suite log as it would mean
->   we'd print the suite and its status prior to the suite's results.
->   (Brendan, patch 1)
-> - dropped debugfs-based kunit run patch for now so as not to cause
->   problems with tests currently under development (Brendan)
-> - fixed doc issues with code block (Brendan, patch 3)
->
-> Changes since v1:
->  - trimmed unneeded include files in lib/kunit/debugfs.c (Greg)
->  - renamed global debugfs functions to be prefixed with kunit_ (Greg)
->  - removed error checking for debugfs operations (Greg)
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
-Everything looks good to me. I tried running kunit_tool and everything
-looked good there well.
+Applied to linux-kbuild.
+
+
+>
+>  Documentation/kbuild/kbuild.rst                 | 2 +-
+>  Documentation/kbuild/kconfig-macro-language.rst | 2 +-
+>  Documentation/kbuild/makefiles.rst              | 6 +++---
+>  3 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> index f1e5dce86af7..510f38d7e78a 100644
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -237,7 +237,7 @@ This is solely useful to speed up test compiles.
+>  KBUILD_EXTRA_SYMBOLS
+>  --------------------
+>  For modules that use symbols from other modules.
+> -See more details in modules.txt.
+> +See more details in modules.rst.
+>
+>  ALLSOURCE_ARCHS
+>  ---------------
+> diff --git a/Documentation/kbuild/kconfig-macro-language.rst b/Documentation/kbuild/kconfig-macro-language.rst
+> index 35b3263b7e40..8b413ef9603d 100644
+> --- a/Documentation/kbuild/kconfig-macro-language.rst
+> +++ b/Documentation/kbuild/kconfig-macro-language.rst
+> @@ -44,7 +44,7 @@ intermediate::
+>              def_bool y
+>
+>  Then, Kconfig moves onto the evaluation stage to resolve inter-symbol
+> -dependency as explained in kconfig-language.txt.
+> +dependency as explained in kconfig-language.rst.
+>
+>
+>  Variables
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index 6bc126a14b3d..04d5c01a2e99 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -924,7 +924,7 @@ When kbuild executes, the following steps are followed (roughly):
+>         $(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
+>         are used for assembler.
+>
+> -       From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
+> +       From commandline AFLAGS_MODULE shall be used (see kbuild.rst).
+>
+>      KBUILD_CFLAGS_KERNEL
+>         $(CC) options specific for built-in
+> @@ -937,7 +937,7 @@ When kbuild executes, the following steps are followed (roughly):
+>
+>         $(KBUILD_CFLAGS_MODULE) is used to add arch-specific options that
+>         are used for $(CC).
+> -       From commandline CFLAGS_MODULE shall be used (see kbuild.txt).
+> +       From commandline CFLAGS_MODULE shall be used (see kbuild.rst).
+>
+>      KBUILD_LDFLAGS_MODULE
+>         Options for $(LD) when linking modules
+> @@ -945,7 +945,7 @@ When kbuild executes, the following steps are followed (roughly):
+>         $(KBUILD_LDFLAGS_MODULE) is used to add arch-specific options
+>         used when linking modules. This is often a linker script.
+>
+> -       From commandline LDFLAGS_MODULE shall be used (see kbuild.txt).
+> +       From commandline LDFLAGS_MODULE shall be used (see kbuild.rst).
+>
+>      KBUILD_LDS
+>
+> --
+> 2.17.1
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
