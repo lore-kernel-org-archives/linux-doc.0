@@ -2,75 +2,120 @@ Return-Path: <SRS0=Nog0=5A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7DBFC1975A
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 02:04:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFCFC1975A
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 02:30:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 914F72051A
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 02:04:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B158205C9
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 02:30:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YzxmYKTS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727589AbgCOCEp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 14 Mar 2020 22:04:45 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:54034 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726757AbgCOCEo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Mar 2020 22:04:44 -0400
-Received: from fsav107.sakura.ne.jp (fsav107.sakura.ne.jp [27.133.134.234])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 02E4RG0I007339;
-        Sat, 14 Mar 2020 13:27:16 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav107.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp);
- Sat, 14 Mar 2020 13:27:16 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 02E4RFiB007324
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Sat, 14 Mar 2020 13:27:15 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH] kernel/hung_task.c: Introduce sysctl to print all traces
- when a hung task is detected
-To:     Kees Cook <keescook@chromium.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, mcgrof@kernel.org, yzaikin@google.com,
-        tglx@linutronix.de, kernel@gpiccoli.net
-References: <20200310155650.17968-1-gpiccoli@canonical.com>
- <ef3b3e9a-9d58-60ec-d638-88ad57d29aec@canonical.com>
- <202003132011.8143A71FE@keescook>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <c4b05b32-216a-e130-259f-0d9506ff9244@i-love.sakura.ne.jp>
-Date:   Sat, 14 Mar 2020 13:27:13 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727919AbgCOCal (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 Mar 2020 22:30:41 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:32873 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727913AbgCOCal (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Mar 2020 22:30:41 -0400
+Received: by mail-oi1-f196.google.com with SMTP id r7so14003063oij.0
+        for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2020 19:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=2Vtp6RziDROzvH8yIpP+NdD0+3UH936uqc8V70qQipQ=;
+        b=YzxmYKTSEsNy4DT+S0weqMXMr5P/1nzCYGs7YS0f5LFK69IBCOIg7sExvuMPd2kwAr
+         zyWtVr5EsMuWOKAittBQyKGgGbzsYH9Gc2K3WWRnzqeGGYingVIIIF49pgzLPbChCciV
+         ZpN2FeU2lqEGAlFNTZFVS/uHPgO0YiewmSxas=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=2Vtp6RziDROzvH8yIpP+NdD0+3UH936uqc8V70qQipQ=;
+        b=GjqRaho2jzZ28LQxVzLlBSbjbNJZvf6MGQzkDJKN85EA0QdD4AtlXriZ1PCYbpp+v8
+         J+9YR56ZeS5H9E/4WtQNjz060q6mprjj087M7TgVg1GAODEY0yX89UJGy4T+5hf/u5ao
+         YmUZvrNq0tG51QrA45wqkpcL8qV9ioWTj6AlblxJmPs0GLdEraZ7wU8/fKCIhutnIAU/
+         RBfgYrIMFO3iFn4SqLUcngJpxKJWszD5oRZGyPvbvg5JE7nL4RWhGWa6sR9+H4mqArw+
+         hNlpCUgcFN2Y/n2N0QYTKZBzN4ZpBQamOjXkJ1d0I14miuLcJXm35R047kpu1Dnc+ZeB
+         dAog==
+X-Gm-Message-State: ANhLgQ1Sqk1Exvu+JwyYa6Ag2/6VjS9zS2JWBXpxhunrEIZIizbvoauA
+        a0Zfv1nyhwr+MnIgb4beJIWemzdgORw=
+X-Google-Smtp-Source: ADFU+vtcv4mmKyVQD6HwYI0JfKVikRY3fBaC0JTroah921NcWDc4xFgcfScoMqYygxt9fTA2h70mSQ==
+X-Received: by 2002:a17:90a:c715:: with SMTP id o21mr17508203pjt.160.1584224992481;
+        Sat, 14 Mar 2020 15:29:52 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 63sm22033516pfx.132.2020.03.14.15.29.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Mar 2020 15:29:51 -0700 (PDT)
+Date:   Sat, 14 Mar 2020 15:29:50 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: deprecated.rst: Add BUG()-family
+Message-ID: <202003141524.59C619B51A@keescook>
 MIME-Version: 1.0
-In-Reply-To: <202003132011.8143A71FE@keescook>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020/03/14 12:12, Kees Cook wrote:
-> On Fri, Mar 13, 2020 at 02:23:37PM -0300, Guilherme G. Piccoli wrote:
->> Kees / Testsuo, are you OK with this patch once I resend with the
->> suggestions you gave me?
-> 
-> I think so, yes. Send a v2 (to akpm with us in CC).
-> 
->> Is there anybody else I should loop in the patch that should take a
->> look? Never sent sysctl stuff before, sorry if I forgot somebody heheh
-> 
-> akpm usually takes these kinds of things.
-> 
+Linus continues to remind[1] people to stop using the BUG()-family of
+functions. We should have this better documented (even if checkpatch.pl
+has been warning[2] since 2015), so add more details to deprecated.rst,
+as a distinct place to point people to for guidance.
 
-Well, maybe sysctl_hung_task_all_cpu_backtrace = 1 by default is better for
-compatibility? Please CC or BCC kernel-testing people so that they can add
-hung_task_all_cpu_backtrace=1 kernel command line parameter to their testing
-environments if sysctl_hung_task_all_cpu_backtrace = 0 by default.
+[1] https://lore.kernel.org/lkml/CAHk-=whDHsbK3HTOpTF=ue_o04onRwTEaK_ZoJp_fjbqq4+=Jw@mail.gmail.com/
+[2] https://git.kernel.org/linus/9d3e3c705eb395528fd8f17208c87581b134da48
+
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/process/deprecated.rst | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 8965446f0b71..38843c7a9ad6 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -29,6 +29,28 @@ a header file, it isn't the full solution. Such interfaces must either
+ be fully removed from the kernel, or added to this file to discourage
+ others from using them in the future.
+ 
++BUG() and BUG_ON()
++------------------
++Use WARN() and WARN_ON() instead, and handle the "impossible"
++error condition as gracefully as possible. While the BUG()-family
++of APIs were originally designed to act as an "impossible situation"
++assert and to kill a kernel thread "safely", they turn out to just be
++too risky. (e.g. "In what order do locks need to be released? Have
++various states been restored?") Very commonly, using BUG() will
++destabilize a system or entirely break it, which makes it impossible
++to debug or even get viable crash reports. Linus has `very strong
++<https://lore.kernel.org/lkml/CA+55aFy6jNLsywVYdGp83AMrXBo_P-pkjkphPGrO=82SPKCpLQ@mail.gmail.com/>`_
++feelings `about this
++<https://lore.kernel.org/lkml/CAHk-=whDHsbK3HTOpTF=ue_o04onRwTEaK_ZoJp_fjbqq4+=Jw@mail.gmail.com/>`_.
++
++Note that the WARN()-family should only be used for "expected to
++be unreachable" situations. If you want to warn about "reachable
++but undesirable" situations, please use the pr_warn()-family of
++functions. System owners may have set the *panic_on_warn* sysctl,
++to make sure their systems do not continue running in the face of
++"unreachable" conditions. (For example, see commits like `this one
++<https://git.kernel.org/linus/d4689846881d160a4d12a514e991a740bcb5d65a>`_.)
++
+ open-coded arithmetic in allocator arguments
+ --------------------------------------------
+ Dynamic size calculations (especially multiplication) should not be
+-- 
+2.20.1
+
+
+-- 
+Kees Cook
