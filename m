@@ -2,151 +2,65 @@ Return-Path: <SRS0=Nog0=5A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=0.3 required=3.0 tests=DATE_IN_PAST_12_24,
+	DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4100C10DCE
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 06:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BA3C2BB1D
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 07:15:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9271120724
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 06:09:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C509206E9
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 07:15:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MMrIUEuz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726898AbgCOGJX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Mar 2020 02:09:23 -0400
-Received: from m17617.mail.qiye.163.com ([59.111.176.17]:59772 "EHLO
-        m17617.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726963AbgCOGJX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Mar 2020 02:09:23 -0400
-Received: from ubuntu.localdomain (unknown [58.251.74.226])
-        by m17617.mail.qiye.163.com (Hmail) with ESMTPA id 8C94D260F36;
-        Sun, 15 Mar 2020 14:09:08 +0800 (CST)
-From:   Wang Wenhu <wenhu.wang@vivo.com>
-To:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@vivo.com, Wang Wenhu <wenhu.wang@vivo.com>
-Subject: [PATCH v2,RESEND] doc: zh_CN: fix style problems for io_ordering.txt
-Date:   Sat, 14 Mar 2020 23:08:55 -0700
-Message-Id: <20200315060857.82880-1-wenhu.wang@vivo.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727444AbgCOHPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 Mar 2020 03:15:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49192 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727670AbgCOHPj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Mar 2020 03:15:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=vXc/c+ZKh3wHtb2Dc8YCwaJA//JT5SbM6lXWpvbO8AQ=; b=MMrIUEuzJ7ebjTc9V9Nlnb76n0
+        gQrqIhRup7osiVRCct3KlZzlmrOFKYJxstp2o1tjF3yAPe8ZyKFXgO39+HEDxPtq2/PLVf4szDnR6
+        MuOTnbvBlbW0Y2wo/hBY7h8tnd1A36QjFiqympgUhuAHsqAXzi+ei527pdTvx7CX9WwjMjB+gZXJA
+        GhEMuXocBMYfmbtVOX38t+8rjoz3QLRW+2Qoal6G+OZ8ARmYbIBSh9MJ5aMR6a7EYgWRvwyOKGVdZ
+        yQ+KWxKa3J6dehD/ZDl5VZ8FUByCU+tm8d8x+J2AQ1yGLjODsbO7HgyX1UB0F2eJQMtcUCyBK0zYK
+        10/F1sIA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jD7m0-0001K0-MD; Sat, 14 Mar 2020 14:28:20 +0000
+Date:   Sat, 14 Mar 2020 07:28:20 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        tglx@linutronix.de, akpm@linux-foundation.org, kernel@gpiccoli.net
+Subject: Re: [PATCH] panic: Add sysctl/cmdline to dump all CPUs backtraces on
+ oops event
+Message-ID: <20200314142820.GQ22433@bombadil.infradead.org>
+References: <20200310163700.19186-1-gpiccoli@canonical.com>
+ <93f20e59-41b1-48ad-b0eb-e670b18994d5@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZTlVPSUxCQkJCTEhJQkxKSVlXWShZQU
-        hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NAw6MRw4GjgzEjdLLU4VSRAZ
-        GjQKFAtVSlVKTkNPSU5JTk5KS01JVTMWGhIXVQweFRMOVQwaFRw7DRINFFUYFBZFWVdZEgtZQVlO
-        Q1VJTkpVTE9VSUlNWVdZCAFZQU9NTU03Bg++
-X-HM-Tid: 0a70dccf76c39375kuws8c94d260f36
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <93f20e59-41b1-48ad-b0eb-e670b18994d5@infradead.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Problems exist in the Chinese translation of io_ordering.txt.
-Partly for the difference between Chinese and English character
-encoding format, and the others are of the failure to comply
-with the ReST markups.
+On Tue, Mar 10, 2020 at 01:59:15PM -0700, Randy Dunlap wrote:
+> > +oops_all_cpu_backtrace:
+> > +================
+> > +
+> > +Determines if kernel should NMI all CPUs to dump their backtraces when
+> 
+> I would much prefer that to be written without using NMI as a verb.
 
-Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
----
-v2: resend for the failure of delivering.
-
- .../translations/zh_CN/io_ordering.txt        | 72 ++++++++++++-------
- 1 file changed, 46 insertions(+), 26 deletions(-)
-
-diff --git a/Documentation/translations/zh_CN/io_ordering.txt b/Documentation/translations/zh_CN/io_ordering.txt
-index 1f8127bdd415..080ed2911db0 100644
---- a/Documentation/translations/zh_CN/io_ordering.txt
-+++ b/Documentation/translations/zh_CN/io_ordering.txt
-@@ -29,39 +29,59 @@ Documentation/io_ordering.txt 的中文翻译
- 这也可以保证后面的写操作只在前面的写操作之后到达设备（这非常类似于内存
- 屏障操作，mb()，不过仅适用于I/O）。
- 
-+A more concrete example from a hypothetical device driver::
-+
-+		...
-+	CPU A:  spin_lock_irqsave(&dev_lock, flags)
-+	CPU A:  val = readl(my_status);
-+	CPU A:  ...
-+	CPU A:  writel(newval, ring_ptr);
-+	CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
-+		...
-+	CPU B:  spin_lock_irqsave(&dev_lock, flags)
-+	CPU B:  val = readl(my_status);
-+	CPU B:  ...
-+	CPU B:  writel(newval2, ring_ptr);
-+	CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
-+		...
-+
-+
- 假设一个设备驱动程的具体例子：
-+::
- 
-+		...
-+	CPU A:  spin_lock_irqsave(&dev_lock, flags)
-+	CPU A:  val = readl(my_status);
-+	CPU A:  ...
-+	CPU A:  writel(newval, ring_ptr);
-+	CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
-+		...
-+	CPU B:  spin_lock_irqsave(&dev_lock, flags)
-+	CPU B:  val = readl(my_status);
-+	CPU B:  ...
-+	CPU B:  writel(newval2, ring_ptr);
-+	CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
-         ...
--CPU A:  spin_lock_irqsave(&dev_lock, flags)
--CPU A:  val = readl(my_status);
--CPU A:  ...
--CPU A:  writel(newval, ring_ptr);
--CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
--        ...
--CPU B:  spin_lock_irqsave(&dev_lock, flags)
--CPU B:  val = readl(my_status);
--CPU B:  ...
--CPU B:  writel(newval2, ring_ptr);
--CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
--        ...
-+
- 
- 上述例子中，设备可能会先接收到newval2的值，然后接收到newval的值，问题就
- 发生了。不过很容易通过下面方法来修复：
-+::
- 
--        ...
--CPU A:  spin_lock_irqsave(&dev_lock, flags)
--CPU A:  val = readl(my_status);
--CPU A:  ...
--CPU A:  writel(newval, ring_ptr);
--CPU A:  (void)readl(safe_register); /* 配置寄存器？*/
--CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
--        ...
--CPU B:  spin_lock_irqsave(&dev_lock, flags)
--CPU B:  val = readl(my_status);
--CPU B:  ...
--CPU B:  writel(newval2, ring_ptr);
--CPU B:  (void)readl(safe_register); /* 配置寄存器？*/
--CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
-+		...
-+	CPU A:  spin_lock_irqsave(&dev_lock, flags)
-+	CPU A:  val = readl(my_status);
-+	CPU A:  ...
-+	CPU A:  writel(newval, ring_ptr);
-+	CPU A:  (void)readl(safe_register); /* 配置寄存器？*/
-+	CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
-+		...
-+	CPU B:  spin_lock_irqsave(&dev_lock, flags)
-+	CPU B:  val = readl(my_status);
-+	CPU B:  ...
-+	CPU B:  writel(newval2, ring_ptr);
-+	CPU B:  (void)readl(safe_register); /* 配置寄存器？*/
-+	CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
- 
- 在解决方案中，读取safe_register寄存器，触发IO芯片清刷未处理的写操作，
- 再处理后面的读操作，防止引发数据不一致问题。
--- 
-2.17.1
+Concrete suggestion: "If this option is set, the kernel will send an NMI to
+all CPUs to dump ..."
 
