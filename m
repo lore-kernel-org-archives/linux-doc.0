@@ -2,165 +2,75 @@ Return-Path: <SRS0=Nog0=5A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE21C10DCE
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 15:53:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C876C10DCE
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 19:15:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1F10A20575
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 15:53:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDEA6206B1
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 19:15:09 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="kttOKYuv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728844AbgCOPxz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Mar 2020 11:53:55 -0400
-Received: from m17617.mail.qiye.163.com ([59.111.176.17]:7014 "EHLO
-        m17617.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728634AbgCOPxz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Mar 2020 11:53:55 -0400
-Received: from ubuntu.localdomain (unknown [58.251.74.226])
-        by m17617.mail.qiye.163.com (Hmail) with ESMTPA id AAAA226111A;
-        Sun, 15 Mar 2020 23:53:37 +0800 (CST)
-From:   Wang Wenhu <wenhu.wang@vivo.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        Wang Wenhu <wenhu.wang@vivo.com>,
-        Eric Biggers <ebiggers@google.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-fsdevel@vger.kernel.org
-Cc:     kernel@vivo.com
-Subject: [PATCH v2,2/2] doc: zh_CN: add translation for virtiofs
-Date:   Sun, 15 Mar 2020 08:52:39 -0700
-Message-Id: <20200315155258.91725-2-wenhu.wang@vivo.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200315155258.91725-1-wenhu.wang@vivo.com>
-References: <20200315092810.87008-1-wenhu.wang@vivo.com>
- <20200315155258.91725-1-wenhu.wang@vivo.com>
+        id S1728972AbgCOTPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 Mar 2020 15:15:09 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:62002 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728608AbgCOTPJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 15 Mar 2020 15:15:09 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id D03E1DA2;
+        Sun, 15 Mar 2020 20:15:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :message-id:date:date:subject:subject:from:from:received
+        :received:received; s=dkim20160331; t=1584299706; x=1586114107;
+         bh=bag8h3Bf6++qo4qUBbiROrtyTc+uXuSQ3/jdLqq3kGA=; b=kttOKYuvoKh8
+        6ZiRaVlh10inSXP6fYEI7q9c+OqlBqQYy1lj0ubyvhmqHK/OTPqqNfovD3AvcBXV
+        bjVOHIVu6of3qLnnFV60RNjrkb/zya6iCF09ME0vnI05QK0NO5UvYcJ/fV4sRLsr
+        bgt3JbCeECY4h11cfFXpFBK51mG7Ye4Zb6CW884+BFlZj2dig8ZDNPqbQpqeeT2c
+        Vp1cuduxntdOmQXSIExkJZ3kdyE1o4bqkXB9ic7aCYDRTGhfYKhsAf9Z6cvp2E47
+        OUecFSncaCfZwG2NMETPHkgzWdbsK+BL+vMTo73mormdOgoaLrEJ1Hoqrrb2x2xk
+        R14akKCq/jhE1MMii8frpcAPJLRlDrcYsII1vzt1IGWuvC8WmDAf7PCxHdEKHllO
+        WT8OlS2FQRx71BZGlEV+I3i3yzkr7sjPX1RiBdfXf75QG175bcDiAhzRDWfT85Pm
+        bVC3pQsk+ohwEk+New31vxc1nYGIT7HmgzCXpjImE6a91w0SU56TZrvo4xo1cZ1P
+        i+Ct23Xx6JoOCa5TPiXWRkwOntuIX0UFJPGcX/9szZ2YJcMxVDxItdqS9a92S0qX
+        Uk7vyr07mxH8f38tVIO85fBSBkTOoqHds0/8Pw2SajgULWc9M3k3sLT7WZkpzEJj
+        E4E9Dc+MJIjdSah8oM8gDGR+juxgYpI=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 81KobMb9mNtI; Sun, 15 Mar 2020 20:15:06 +0100 (CET)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 0C3FE829;
+        Sun, 15 Mar 2020 20:15:05 +0100 (CET)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id B622E2376;
+        Sun, 15 Mar 2020 20:15:05 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Subject: Sphinx Use Of 'autosectionlabel'
+Date:   Sun, 15 Mar 2020 20:15:04 +0100
+Message-ID: <1651548.KylsOV6ox4@harkonnen>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVCT0xLS0tLSU1MS0lDQ1lXWShZQU
-        hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MxQ6NBw5KTg9MDcfSRw3KT1K
-        EzQwFDZVSlVKTkNPSUNMTUlNT0tLVTMWGhIXVQweFRMOVQwaFRw7DRINFFUYFBZFWVdZEgtZQVlO
-        Q1VJTkpVTE9VSUlNWVdZCAFZQU1NQkw3Bg++
-X-HM-Tid: 0a70dee6a0899375kuwsaaaa226111a
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate virtiofs.rst in Documentation/filesystems/ into Chinese.
+Hi Jon,
 
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
----
-Changelog v2:
- - add a blank line in the end of index.rst to index virtiofs.rst
- - Asked-by Stefan Hajnoczi
- - added SPDX header and Copyright info
----
- Documentation/filesystems/virtiofs.rst        |  2 +
- .../translations/zh_CN/filesystems/index.rst  |  2 +
- .../zh_CN/filesystems/virtiofs.rst            | 61 +++++++++++++++++++
- 3 files changed, 65 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/filesystems/virtiofs.rst
+a while ago we had a chat about the sphinx option 
+'sphinx.ext.autosectionlabel'
 
-diff --git a/Documentation/filesystems/virtiofs.rst b/Documentation/filesystems/virtiofs.rst
-index 4f338e3cb3f7..7c4301d962f8 100644
---- a/Documentation/filesystems/virtiofs.rst
-+++ b/Documentation/filesystems/virtiofs.rst
-@@ -1,3 +1,5 @@
-+.. _virtiofs_index:
-+
- .. SPDX-License-Identifier: GPL-2.0
- 
- ===================================================
-diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-index 0a2cabfeaf7b..fd3700a4db6d 100644
---- a/Documentation/translations/zh_CN/filesystems/index.rst
-+++ b/Documentation/translations/zh_CN/filesystems/index.rst
-@@ -27,3 +27,5 @@ Linux Kernel中的文件系统
- .. toctree::
-    :maxdepth: 2
- 
-+   virtiofs
-+
-diff --git a/Documentation/translations/zh_CN/filesystems/virtiofs.rst b/Documentation/translations/zh_CN/filesystems/virtiofs.rst
-new file mode 100644
-index 000000000000..cd836a9b2ac4
---- /dev/null
-+++ b/Documentation/translations/zh_CN/filesystems/virtiofs.rst
-@@ -0,0 +1,61 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. raw:: latex
-+
-+	\renewcommand\thesection*
-+	\renewcommand\thesubsection*
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/filesystems/virtiofs.rst <virtiofs_index>`
-+
-+译者
-+::
-+
-+	中文版维护者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
-+	中文版翻译者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
-+	中文版校译者:  王文虎 Wang Wenhu <wenhu.wang@vivo.com>
-+
-+===========================================
-+virtiofs: virtio-fs 主机<->客机共享文件系统
-+===========================================
-+
-+- Copyright (C) 2020 Vivo Communication Technology Co. Ltd.
-+
-+介绍
-+====
-+Linux的virtiofs文件系统实现了一个半虚拟化VIRTIO类型“virtio-fs”设备的驱动，通过该\
-+类型设备实现客机<->主机文件系统共享。它允许客机挂载一个已经导出到主机的目录。
-+
-+客机通常需要访问主机或者远程系统上的文件。使用场景包括：在新客机安装时让文件对其\
-+可见；从主机上的根文件系统启动；对无状态或临时客机提供持久存储和在客机之间共享目录。
-+
-+尽管在某些任务可能通过使用已有的网络文件系统完成，但是却需要非常难以自动化的配置\
-+步骤，且将存储网络暴露给客机。而virtio-fs设备通过提供不经过网络的文件系统访问文件\
-+的设计方式解决了这些问题。
-+
-+另外，virto-fs设备发挥了主客机共存的优点提高了性能，并且提供了网络文件系统所不具备
-+的一些语义功能。
-+
-+用法
-+====
-+以``myfs``标签将文件系统挂载到``/mnt``:
-+
-+.. code-block:: sh
-+
-+  guest# mount -t virtiofs myfs /mnt
-+
-+请查阅 https://virtio-fs.gitlab.io/ 了解配置QEMU和virtiofsd守护程序的详细信息。
-+
-+内幕
-+====
-+由于virtio-fs设备将FUSE协议用于文件系统请求，因此Linux的virtiofs文件系统与FUSE文\
-+件系统客户端紧密集成在一起。客机充当FUSE客户端而主机充当FUSE服务器，内核与用户空\
-+间之间的/dev/fuse接口由virtio-fs设备接口代替。
-+
-+FUSE请求被置于虚拟队列中由主机处理。主机填充缓冲区中的响应部分，而客机处理请求的完成部分。
-+
-+将/dev/fuse映射到虚拟队列需要解决/dev/fuse和虚拟队列之间语义上的差异。每次读取\
-+/dev/fuse设备时，FUSE客户端都可以选择要传输的请求，从而可以使某些请求优先于其他\
-+请求。虚拟队列有其队列语义，无法更改已入队请求的顺序。在虚拟队列已满的情况下尤
-+其关键，因为此时不可能加入高优先级的请求。为了解决此差异，virtio-fs设备采用“hiprio”\
-+（高优先级）虚拟队列，专门用于有别于普通请求的高优先级请求。
--- 
-2.17.1
+https://lkml.org/lkml/2019/11/24/85
+
+I can't see this patch in "docs-next". Are you planning to apply it, or should 
+I continue to use/add labels?
+
 
