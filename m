@@ -2,145 +2,81 @@ Return-Path: <SRS0=Nog0=5A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=3.0 tests=DATE_IN_PAST_03_06,
-	DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA666C10DCE
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 07:16:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAF17C10DCE
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 09:28:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 808AB206E9
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 07:16:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AU/XB7mV"
+	by mail.kernel.org (Postfix) with ESMTP id ADEFB206B1
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 09:28:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727740AbgCOHQC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Mar 2020 03:16:02 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49192 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727674AbgCOHPf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Mar 2020 03:15:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=wAfYh2xdWxAPIQJMB0mxlXqUYNASxsyPuzu7mvOnmEc=; b=AU/XB7mVJWInyKEADhOo52OrCP
-        mHHs4FpGwJVFsaEJIkwKB7GPlSxFxK5wb8lY/h7k1B2HI8/TEkr5nu6+qzH+meQbqOy+RBLbLEzMk
-        9fYmB10Qv6zwHhHdlZUG9O6k8w5IYi/7TpGJuqYkAqVdyyT0bjQ6ygAnsKRb9gPfM5sRlcnTnPCbK
-        2iYLwNUNb8rV7WJLCE/o74fQ9dC9we5VzowkOyE++PUmAj8V16Z1EeO6ce6YjYBTThvu3AlG55kgl
-        96pb4yEWavmHxUe1+6udBFG6cZbW2IQZohTgCBHmFUUSJ/hKXIntwyV8/kQhr2nyk0+BVsgcfEUMH
-        RyPc/nhQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jDKEa-00050h-44; Sun, 15 Mar 2020 03:46:40 +0000
-Date:   Sat, 14 Mar 2020 20:46:40 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1728130AbgCOJ2h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 Mar 2020 05:28:37 -0400
+Received: from m17617.mail.qiye.163.com ([59.111.176.17]:4452 "EHLO
+        m17617.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726521AbgCOJ2h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Mar 2020 05:28:37 -0400
+Received: from ubuntu.localdomain (unknown [58.251.74.226])
+        by m17617.mail.qiye.163.com (Hmail) with ESMTPA id 0C3E82613D7;
+        Sun, 15 Mar 2020 17:28:29 +0800 (CST)
+From:   Wang Wenhu <wenhu.wang@vivo.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         Eric Biggers <ebiggers@google.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Eric Sandeen <sandeen@redhat.com>
-Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
-Message-ID: <20200315034640.GV22433@bombadil.infradead.org>
-References: <20200226161404.14136-1-longman@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200226161404.14136-1-longman@redhat.com>
+        Wang Wenhu <wenhu.wang@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     kernel@vivo.com
+Subject: [PATCH 0/2] doc: zh_CN: facilitate translation for filesystems
+Date:   Sun, 15 Mar 2020 02:27:58 -0700
+Message-Id: <20200315092810.87008-1-wenhu.wang@vivo.com>
+X-Mailer: git-send-email 2.17.1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZTlVIT0tCQkJNS0hJTEpPQ1lXWShZQU
+        hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MTo6Pzo5KDg6ODcYLEgOK1Y#
+        PjRPCh1VSlVKTkNPSU1PTkpKTUJJVTMWGhIXVQweFRMOVQwaFRw7DRINFFUYFBZFWVdZEgtZQVlO
+        Q1VJTkpVTE9VSUlNWVdZCAFZQUlDQ0k3Bg++
+X-HM-Tid: 0a70dd85f8929375kuws0c3e82613d7
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 26, 2020 at 11:13:53AM -0500, Waiman Long wrote:
-> As there is no limit for negative dentries, it is possible that a sizeable
-> portion of system memory can be tied up in dentry cache slabs. Dentry slabs
-> are generally recalimable if the dentries are in the LRUs. Still having
-> too much memory used up by dentries can be problematic:
-> 
->  1) When a filesystem with too many negative dentries is being unmounted,
->     the process of draining the dentries associated with the filesystem
->     can take some time. To users, the system may seem to hang for
->     a while.  The long wait may also cause unexpected timeout error or
->     other warnings.  This can happen when a long running container with
->     many negative dentries is being destroyed, for instance.
-> 
->  2) Tying up too much memory in unused negative dentries means there
->     are less memory available for other use. Even though the kernel is
->     able to reclaim unused dentries when running out of free memory,
->     it will still introduce additional latency to the application
->     reducing its performance.
+This patch series set up the basic facility for the translation work
+of the docs residing on filesystems into Chinese, indexing the filesystems
+directory and adding one indexed translation into it. The virtiofs.rst
+added is not only a translation itself but also an simple example that
+future developers would take.
 
-There's a third problem, which is that having a lot of negative dentries
-can clog the hash chains.  I tried to quantify this, and found a weird result:
+The detailed diff info also shows the basic essential markups of
+the toctree and reStructuredText, at least for the most simple occasions.
+More translations of filesystems are on their way, and futher,
+of more subsystems.
 
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m5.402s
-user	0m4.361s
-sys	0m1.230s
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m5.572s
-user	0m4.337s
-sys	0m1.407s
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m5.607s
-user	0m4.522s
-sys	0m1.342s
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m5.599s
-user	0m4.472s
-sys	0m1.369s
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m5.574s
-user	0m4.498s
-sys	0m1.300s
+---
+Wang Wenhu (2):
+  doc: zh_CN: index files in filesystems subdirectory
+  doc: zh_CN: add translation for virtiofs
 
-Pretty consistent system time, between about 1.3 and 1.4 seconds.
+ Documentation/filesystems/index.rst           |  2 +
+ Documentation/filesystems/virtiofs.rst        |  2 +
+ .../translations/zh_CN/filesystems/index.rst  | 29 +++++++++
+ .../zh_CN/filesystems/virtiofs.rst            | 62 +++++++++++++++++++
+ Documentation/translations/zh_CN/index.rst    |  1 +
+ 5 files changed, 96 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/index.rst
+ create mode 100644 Documentation/translations/zh_CN/filesystems/virtiofs.rst
 
-root@bobo-kvm:~# grep dentry /proc/slabinfo 
-dentry             20394  21735    192   21    1 : tunables    0    0    0 : slabdata   1035   1035      0
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m5.515s
-user	0m4.353s
-sys	0m1.359s
+-- 
+2.17.1
 
-At this point, we have 20k dentries allocated.
-
-Now, pollute the dcache with names that don't exist:
-
-root@bobo-kvm:~# for i in `seq 1 100000`; do cat /dev/null$i >/dev/zero; done 2>/dev/null
-root@bobo-kvm:~# grep dentry /proc/slabinfo 
-dentry             20605  21735    192   21    1 : tunables    0    0    0 : slabdata   1035   1035      0
-
-Huh.  We've kept the number of dentries pretty constant.  Still, maybe the
-bad dentries have pushed out the good ones.
-
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m6.644s
-user	0m4.921s
-sys	0m1.946s
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m6.676s
-user	0m5.004s
-sys	0m1.909s
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m6.662s
-user	0m4.980s
-sys	0m1.916s
-root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
-real	0m6.714s
-user	0m4.973s
-sys	0m1.986s
-
-Well, we certainly made it suck.  Up to a pretty consistent 1.9-2.0 seconds
-of kernel time, or 50% worse.  We've also made user time worse, somehow.
-
-Anyhow, I should write a proper C program to measure this.  But I thought
-I'd share this raw data with you now to demonstrate that dcache pollution
-is a real problem today, even on a machine with 2GB.
