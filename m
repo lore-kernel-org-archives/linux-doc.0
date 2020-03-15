@@ -2,162 +2,122 @@ Return-Path: <SRS0=Nog0=5A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 242E0C10DCE
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 13:29:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E1D4C10DCE
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 14:53:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EE40F20637
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 13:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584278949;
-	bh=s8379HnFo2iZ4Twm+6ARTTUODgsoskbteNmr9qGqLOs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=svRHbWN7QAD3xmyIeum/7ZNknWigPifB73B67nz2yBzHmVser0gjuU0FhVsqX/AyW
-	 UAbl3UxO89wxZNmXk4PTLv489hOL1mX5saQqa5sCuN5/5pCkVFtNas1j5+Z0PGtGXf
-	 a04dHhH6SCkuBzFLalJ/DDmZYmBjycmcSQ9cq+Ws=
+	by mail.kernel.org (Postfix) with ESMTP id 44FD4206B1
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Mar 2020 14:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728640AbgCON3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Mar 2020 09:29:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50156 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728598AbgCON3I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 15 Mar 2020 09:29:08 -0400
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5C589205ED;
-        Sun, 15 Mar 2020 13:29:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584278947;
-        bh=s8379HnFo2iZ4Twm+6ARTTUODgsoskbteNmr9qGqLOs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HKC4DkmseQpfZpW97SGaeDU+hkpawU0VyhzR49L2zJIfyYY4C57Oexun5M2lBG83t
-         VP3KLoXDykbVpIpX++Rg9bU+Afc+v8FqDNQa6FVxqdNOxQMm3mN8ib9/18zFZ284Z5
-         iVuI3oK1a/l+06meRLg1ztujCg0ZPgGN0wEFDWTk=
-Date:   Sun, 15 Mar 2020 14:28:57 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Wang Wenhu <wenhu.wang@vivo.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Eric Biggers <ebiggers@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-fsdevel@vger.kernel.org, "Theodore Ts'o" <tytso@mit.edu>,
-        kernel@vivo.com
-Subject: Re: [PATCH 1/2] doc: zh_CN: index files in filesystems subdirectory
-Message-ID: <20200315142857.79c59e7e@coco.lan>
-In-Reply-To: <20200315092810.87008-2-wenhu.wang@vivo.com>
-References: <20200315092810.87008-1-wenhu.wang@vivo.com>
-        <20200315092810.87008-2-wenhu.wang@vivo.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728676AbgCOOxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 Mar 2020 10:53:12 -0400
+Received: from 20.mo3.mail-out.ovh.net ([178.33.47.94]:60976 "EHLO
+        20.mo3.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728661AbgCOOxM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Mar 2020 10:53:12 -0400
+X-Greylist: delayed 7798 seconds by postgrey-1.27 at vger.kernel.org; Sun, 15 Mar 2020 10:53:11 EDT
+Received: from player692.ha.ovh.net (unknown [10.110.103.169])
+        by mo3.mail-out.ovh.net (Postfix) with ESMTP id EBFCA24697F
+        for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2020 13:27:09 +0100 (CET)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player692.ha.ovh.net (Postfix) with ESMTPSA id 2285A104E0990;
+        Sun, 15 Mar 2020 12:26:53 +0000 (UTC)
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andriin@fb.com>, linux-doc@vger.kernel.org
+Cc:     bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Kitt <steve@sk2.org>
+Subject: [PATCH v4] docs: sysctl/kernel: document BPF entries
+Date:   Sun, 15 Mar 2020 13:26:48 +0100
+Message-Id: <20200315122648.20558-1-steve@sk2.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 2241948192757337477
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeftddgudehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sun, 15 Mar 2020 02:27:59 -0700
-Wang Wenhu <wenhu.wang@vivo.com> escreveu:
+Based on the implementation in kernel/bpf/syscall.c,
+kernel/bpf/trampoline.c, include/linux/filter.h, and the documentation
+in bpftool-prog.rst.
 
-> Add filesystems subdirectory into the table of Contents for zh_CN,
-> all translations residing on it would be indexed conveniently.
->=20
-> Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
-> ---
->  Documentation/filesystems/index.rst           |  2 ++
->  .../translations/zh_CN/filesystems/index.rst  | 27 +++++++++++++++++++
->  Documentation/translations/zh_CN/index.rst    |  1 +
->  3 files changed, 30 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/filesystems/index.rst
->=20
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesyst=
-ems/index.rst
-> index 386eaad008b2..ab47d5b1f092 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -1,3 +1,5 @@
-> +.. _filesystems_index:
-> +
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
 
-Please add a SPDX header on the top.
+Notes:
+    This patch is intended for docs-next, but I'd appreciate reviews from
+    BPF developers.
+    
+    Changes since v3:
+    - moved back to docs-next.
+    
+    Changes since v2:
+    - fixed "will disabled" typo.
+    
+    Changes since v1:
+    - rebased on bpf-next instead of docs-next.
 
-Regards,
-Mauro
+ Documentation/admin-guide/sysctl/kernel.rst | 24 +++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
->  Filesystems in the Linux kernel
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Doc=
-umentation/translations/zh_CN/filesystems/index.rst
-> new file mode 100644
-> index 000000000000..a47dd86d6196
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
-> @@ -0,0 +1,27 @@
-> +.. raw:: latex
-> +
-> +	\renewcommand\thesection*
-> +	\renewcommand\thesubsection*
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/filesystems/index.rst <filesystems_index>`
-> +:Translator: Wang Wenhu <wenhu.wang@vivo.com>
-> +
-> +.. _cn_filesystems_index:
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Linux Kernel=E4=B8=AD=E7=9A=84=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=E8=BF=99=E4=BB=BD=E6=AD=A3=E5=9C=A8=E5=BC=80=E5=8F=91=E7=9A=84=E6=89=8B=
-=E5=86=8C=E6=88=96=E8=AE=B8=E5=9C=A8=E6=9C=AA=E6=9D=A5=E6=9F=90=E4=B8=AA=E8=
-=BE=89=E7=85=8C=E7=9A=84=E6=97=A5=E5=AD=90=E9=87=8C=E4=BB=A5=E6=98=93=E6=87=
-=82=E7=9A=84=E5=BD=A2=E5=BC=8F=E5=B0=86Linux=E8=99=9A=E6=8B=9F\
-> +=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=EF=BC=88VFS=EF=BC=89=E5=B1=82=E4=BB=
-=A5=E5=8F=8A=E5=9F=BA=E4=BA=8E=E5=85=B6=E4=B8=8A=E7=9A=84=E5=90=84=E7=A7=8D=
-=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E5=A6=82=E4=BD=95=E5=B7=A5=E4=BD=9C=E5=
-=91=88=E7=8E=B0=E7=BB=99=E5=A4=A7=E5=AE=B6=E3=80=82=E5=BD=93=E5=89=8D\
-> +=E5=8F=AF=E4=BB=A5=E7=9C=8B=E5=88=B0=E4=B8=8B=E9=9D=A2=E7=9A=84=E5=86=85=
-=E5=AE=B9=E3=80=82
-> +
-> +=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E5=AE=9E=E7=8E=B0=E6=96=87=E6=A1=A3=
-=E3=80=82
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
-ranslations/zh_CN/index.rst
-> index d3165535ec9e..76850a5dd982 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -14,6 +14,7 @@
->     :maxdepth: 2
-> =20
->     process/index
-> +   filesystems/index
-> =20
->  =E7=9B=AE=E5=BD=95=E5=92=8C=E8=A1=A8=E6=A0=BC
->  ----------
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 335696d3360d..88c51c0a5ce6 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -102,6 +102,20 @@ See the ``type_of_loader`` and ``ext_loader_ver`` fields in
+ :doc:`/x86/boot` for additional information.
+ 
+ 
++bpf_stats_enabled
++=================
++
++Controls whether the kernel should collect statistics on BPF programs
++(total time spent running, number of times run...). Enabling
++statistics causes a slight reduction in performance on each program
++run. The statistics can be seen using ``bpftool``.
++
++= ===================================
++0 Don't collect statistics (default).
++1 Collect statistics.
++= ===================================
++
++
+ cap_last_cap
+ ============
+ 
+@@ -1166,6 +1180,16 @@ NMI switch that most IA32 servers have fires unknown NMI up, for
+ example.  If a system hangs up, try pressing the NMI switch.
+ 
+ 
++unprivileged_bpf_disabled
++=========================
++
++Writing 1 to this entry will disable unprivileged calls to ``bpf()``;
++once disabled, calling ``bpf()`` without ``CAP_SYS_ADMIN`` will return
++``-EPERM``.
++
++Once set, this can't be cleared.
++
++
+ watchdog
+ ========
+ 
 
+base-commit: 7d3d3254adaa61cba896f71497f56901deb618e5
+-- 
+2.20.1
 
-
-Thanks,
-Mauro
