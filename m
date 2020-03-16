@@ -2,272 +2,131 @@ Return-Path: <SRS0=2eIQ=5B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADE28C1975A
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 07:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D0EC0044D
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 07:44:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7AB6520719
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 07:26:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7F+KDCG"
+	by mail.kernel.org (Postfix) with ESMTP id F195A20674
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 07:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729927AbgCPH0k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Mar 2020 03:26:40 -0400
-Received: from mail-qv1-f67.google.com ([209.85.219.67]:38316 "EHLO
-        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729554AbgCPH0k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Mar 2020 03:26:40 -0400
-Received: by mail-qv1-f67.google.com with SMTP id p60so8273120qva.5;
-        Mon, 16 Mar 2020 00:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=faItreCP5r0+oIAAYCGxgKu+OE+Ay1+bPlAFFz83FQI=;
-        b=Q7F+KDCGPJ83Hxlp9t40RdunVcdST3R/waK3vYRcxAJDcMvQpnCpubDp8M0a0QEbte
-         HhDhhKXSy3fWSB8W4gLtmjn9nZiklQ0XoeVAyHr50MJMd3Yrjq9fox8OVpiG07KlyCCY
-         dZGSB2Ys2aTBzYaK/Km4++srjG7qaNQBlJvx1i3m4Wqln5gkDGr/6SC0nDtTttGRd/DH
-         3+E0inqsyO+eqUTD6XmUZ/wCx77U76IxknXD5xmnCuNCyyv/x4bm43yljV1FfqgneJlX
-         Z5DdRJ8EKPVQG+vkjrG7NKOUYo3tVYiJeIaTurAcs3l5+ZGbM0WCJb+A+oWls0MKZ+x5
-         UZLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=faItreCP5r0+oIAAYCGxgKu+OE+Ay1+bPlAFFz83FQI=;
-        b=efU2BQ481TOrxFY/a12DacsANr1H0Pp6u8xcBjoteplMQKSVfl1LAir1fFAHlZM6wW
-         GuI+ILi/eBS1GWonDoBHpd3gxinfqpcFqxNyZWK5fQg/4FI5ICWYUwnqTXOLbghnWczS
-         kHGrJQDu8MBjuJLgEy/vLOs9iKexTzSsI9Wk2+g+296UoYdK06r6QKLoVamjzMY6jK0o
-         qJS2UDuDwlW7P4br5bqa0qEDWhsqdJzysAG/1+aFFzq7qVM+6h7aIv+CaY2AZXpT30/u
-         4muD3aasN8JekVkuIgMRQLIXHDy1MTHPn+MA2FjMLBQ17J/8X1csOaLxGsgw8c0OIoG3
-         yCTw==
-X-Gm-Message-State: ANhLgQ3EzOon1/Tsrd7NzH5wpg+oAhNTxU8VDKeJt+HtCxSToTf732QP
-        EjCCv/5D3FrqlfAXnVYB60hizvlPAes=
-X-Google-Smtp-Source: ADFU+vt9LUg8yfYeUPu6y6CbYlK4XN761ggzE4bPBRB7Aq8wc3/fWOqXg7FwQ1Tfwd4PzHVK+MC7AQ==
-X-Received: by 2002:ad4:4364:: with SMTP id u4mr11000387qvt.58.1584343598492;
-        Mon, 16 Mar 2020 00:26:38 -0700 (PDT)
-Received: from dhcp-12-139.nay.redhat.com ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id b7sm16799644qkh.0.2020.03.16.00.26.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2020 00:26:37 -0700 (PDT)
-From:   Hangbin Liu <liuhangbin@gmail.com>
-To:     linux-kselftest@vger.kernel.org
-Cc:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Hangbin Liu <liuhangbin@gmail.com>
-Subject: [RFC PATCHv2] selftests/run_kselftest.sh: make each test individually selectable
-Date:   Mon, 16 Mar 2020 15:26:26 +0800
-Message-Id: <20200316072626.24037-1-liuhangbin@gmail.com>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20200309101256.868-1-liuhangbin@gmail.com>
-References: <20200309101256.868-1-liuhangbin@gmail.com>
+        id S1729929AbgCPHoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Mar 2020 03:44:09 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:39089 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728302AbgCPHoJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Mar 2020 03:44:09 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0TsjIkOZ_1584344641;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TsjIkOZ_1584344641)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 16 Mar 2020 15:44:01 +0800
+Subject: Re: [PATCH v2,1/2] doc: zh_CN: index files in filesystems
+ subdirectory
+To:     Wang Wenhu <wenhu.wang@vivo.com>, Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Eric Biggers <ebiggers@google.com>,
+        Jaskaran Singh <jaskaransingh7654321@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     kernel@vivo.com
+References: <20200315092810.87008-1-wenhu.wang@vivo.com>
+ <20200315155258.91725-1-wenhu.wang@vivo.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <c163e158-125c-1b31-1bfb-6927b86d2a82@linux.alibaba.com>
+Date:   Mon, 16 Mar 2020 15:44:01 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200315155258.91725-1-wenhu.wang@vivo.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, after generating run_kselftest.sh, there is no way to choose
-which test we could run. All the tests are listed together and we have
-to run all every time. This patch enhanced the run_kselftest.sh to make
-the tests individually selectable. e.g.
+Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
 
-  $ ./run_kselftest.sh -t "bpf size timers"
-
-Note: I use `tr -s "/-" "_"` to cover the path name to function name in
-tests. e.g. networking/timestamping -> networking_timestamping.
-
-Before the patch:
-
-$ cat run_kselftest.sh
-\#!/bin/sh
-BASE_DIR=$(realpath $(dirname $0))
-cd $BASE_DIR
-. ./kselftest/runner.sh
-ROOT=$PWD
-if [ "$1" = "--summary" ]; then
-  logfile=$BASE_DIR/output.log
-  cat /dev/null > $logfile
-fi
-[ -w /dev/kmsg ] && echo "kselftest: Running tests in android" >> /dev/kmsg
-cd android
-run_many        \
-        "run.sh"
-cd $ROOT
-...<snip>...
-[ -w /dev/kmsg ] && echo "kselftest: Running tests in zram" >> /dev/kmsg
-cd zram
-run_many        \
-        "zram.sh"
-cd $ROOT
-
-After the patch:
-$ cat run_kselftest.sh
-\#!/bin/sh
-BASE_DIR=$(realpath $(dirname $0))
-. ./kselftest/runner.sh
-TESTS="android ...<snip>... zram"
-
-run_android()
-{
-        [ -w /dev/kmsg ] && echo "kselftest: Running tests in android" >> /dev/kmsg
-        cd android
-        run_many        \
-                "run.sh"
-        cd $ROOT
-}
-
-...<snip>...
-
-run_zram()
-{
-        [ -w /dev/kmsg ] && echo "kselftest: Running tests in zram" >> /dev/kmsg
-        cd zram
-        run_many        \
-                "zram.sh"
-        cd $ROOT
-}
-
-usage()
-{
-        cat <<EOF
-usage: ${0##*/} OPTS
-        -s | --summary          Only print summary info and put detailed log in output.log
-        -t | --tests            Test name you want to run specifically
-        -h | --help             Show this usage info
-EOF
-}
-
-while true; do
-        case "$1" in
-        -s | --summary ) logfile=$BASE_DIR/output.log; cat /dev/null > $logfile; shift ;;
-        -t | --tests ) TESTS=$2; shift 2 ;;
-        -h | --help ) usage; exit 0;;
-        "" ) break;;
-        * ) usage; exit 1;;
-        esac
-done
-
-cd $BASE_DIR
-ROOT=$PWD
-for test in $TESTS; do
-        run_$test
-done
-
-v2: update document and commit description.
-
-Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
----
- Documentation/dev-tools/kselftest.rst |  4 +++
- tools/testing/selftests/Makefile      | 48 +++++++++++++++++++++------
- tools/testing/selftests/lib.mk        |  2 +-
- 3 files changed, 43 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index 61ae13c44f91..e856713a1deb 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -151,6 +151,10 @@ note some tests will require root privileges::
-    $ cd kselftest
-    $ ./run_kselftest.sh
- 
-+Or you can run some specific test cases in the installed Kselftests by::
-+
-+   $ ./run_kselftest.sh -t "bpf size timers"
-+
- Contributing new tests
- ======================
- 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index be22dbe94a4c..5481ea0634cf 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -212,13 +212,9 @@ ifdef INSTALL_PATH
- 	@# Ask all targets to emit their test scripts
- 	echo "#!/bin/sh" > $(ALL_SCRIPT)
- 	echo "BASE_DIR=\$$(realpath \$$(dirname \$$0))" >> $(ALL_SCRIPT)
--	echo "cd \$$BASE_DIR" >> $(ALL_SCRIPT)
- 	echo ". ./kselftest/runner.sh" >> $(ALL_SCRIPT)
--	echo "ROOT=\$$PWD" >> $(ALL_SCRIPT)
--	echo "if [ \"\$$1\" = \"--summary\" ]; then" >> $(ALL_SCRIPT)
--	echo "  logfile=\$$BASE_DIR/output.log" >> $(ALL_SCRIPT)
--	echo "  cat /dev/null > \$$logfile" >> $(ALL_SCRIPT)
--	echo "fi" >> $(ALL_SCRIPT)
-+	echo "TESTS=\"$(TARGETS)\"" | tr -s "/-" "_" >> $(ALL_SCRIPT)
-+	echo "" >> $(ALL_SCRIPT);
- 
- 	@# While building run_kselftest.sh skip also non-existent TARGET dirs:
- 	@# they could be the result of a build failure and should NOT be
-@@ -226,15 +222,47 @@ ifdef INSTALL_PATH
- 	for TARGET in $(TARGETS); do \
- 		BUILD_TARGET=$$BUILD/$$TARGET;	\
- 		[ ! -d $(INSTALL_PATH)/$$TARGET ] && echo "Skipping non-existent dir: $$TARGET" && continue; \
--		echo "[ -w /dev/kmsg ] && echo \"kselftest: Running tests in $$TARGET\" >> /dev/kmsg" >> $(ALL_SCRIPT); \
--		echo "cd $$TARGET" >> $(ALL_SCRIPT); \
--		echo -n "run_many" >> $(ALL_SCRIPT); \
-+		echo "run_$$TARGET()" | tr -s "/-" "_" >> $(ALL_SCRIPT); \
-+		echo "{" >> $(ALL_SCRIPT); \
-+		echo -e "\t[ -w /dev/kmsg ] && echo \"kselftest: Running tests in $$TARGET\" >> /dev/kmsg" >> $(ALL_SCRIPT); \
-+		echo -e "\tcd $$TARGET" >> $(ALL_SCRIPT); \
-+		echo -en "\trun_many" >> $(ALL_SCRIPT); \
- 		echo -n "Emit Tests for $$TARGET\n"; \
- 		$(MAKE) -s --no-print-directory OUTPUT=$$BUILD_TARGET -C $$TARGET emit_tests >> $(ALL_SCRIPT); \
- 		echo "" >> $(ALL_SCRIPT);	    \
--		echo "cd \$$ROOT" >> $(ALL_SCRIPT); \
-+		echo -e "\tcd \$$ROOT" >> $(ALL_SCRIPT); \
-+		echo "}" >> $(ALL_SCRIPT); \
-+		echo "" >> $(ALL_SCRIPT); \
- 	done;
- 
-+	echo "usage()" >> $(ALL_SCRIPT);
-+	echo "{" >> $(ALL_SCRIPT);
-+	echo -e "\tcat <<EOF" >> $(ALL_SCRIPT);
-+	echo "usage: \$${0##*/} OPTS" >> $(ALL_SCRIPT);
-+	echo -e "\t-s | --summary\t\tOnly print summary info and put detailed log in output.log" >> $(ALL_SCRIPT);
-+	echo -e "\t-t | --tests\t\tTest name you want to run specifically" >> $(ALL_SCRIPT);
-+	echo -e "\t-h | --help\t\tShow this usage info" >> $(ALL_SCRIPT);
-+	echo "EOF" >> $(ALL_SCRIPT);
-+	echo "}" >> $(ALL_SCRIPT);
-+	echo "" >> $(ALL_SCRIPT);
-+
-+	echo "while true; do" >> $(ALL_SCRIPT);
-+	echo -e "\tcase \"\$$1\" in" >> $(ALL_SCRIPT);
-+	echo -e "\t-s | --summary ) logfile=\$$BASE_DIR/output.log; cat /dev/null > \$$logfile; shift ;;" >> $(ALL_SCRIPT);
-+	echo -e "\t-t | --tests ) TESTS=\$$2; shift 2 ;;" >> $(ALL_SCRIPT);
-+	echo -e "\t-h | --help ) usage; exit 0;;" >> $(ALL_SCRIPT);
-+	echo -e "\t\"\" ) break;;" >> $(ALL_SCRIPT);
-+	echo -e "\t* ) usage; exit 1;;" >> $(ALL_SCRIPT);
-+	echo -e "\tesac" >> $(ALL_SCRIPT);
-+	echo "done" >> $(ALL_SCRIPT);
-+	echo "" >> $(ALL_SCRIPT);
-+
-+	echo "cd \$$BASE_DIR" >> $(ALL_SCRIPT)
-+	echo "ROOT=\$$PWD" >> $(ALL_SCRIPT)
-+
-+	echo "for test in \$$TESTS; do" >> $(ALL_SCRIPT); \
-+	echo -e "\trun_\$$test" >> $(ALL_SCRIPT); \
-+	echo "done" >> $(ALL_SCRIPT); \
- 	chmod u+x $(ALL_SCRIPT)
- else
- 	$(error Error: set INSTALL_PATH to use install)
-diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
-index 1c8a1963d03f..2dc5a0cca6f3 100644
---- a/tools/testing/selftests/lib.mk
-+++ b/tools/testing/selftests/lib.mk
-@@ -107,7 +107,7 @@ emit_tests:
- 	for TEST in $(TEST_GEN_PROGS) $(TEST_CUSTOM_PROGS) $(TEST_PROGS); do \
- 		BASENAME_TEST=`basename $$TEST`;	\
- 		echo "	\\";				\
--		echo -n "	\"$$BASENAME_TEST\"";	\
-+		echo -ne "\t\t\"$$BASENAME_TEST\"";	\
- 	done;						\
- 
- # define if isn't already. It is undefined in make O= case.
--- 
-2.19.2
-
+在 2020/3/15 下午11:52, Wang Wenhu 写道:
+> Add filesystems subdirectory into the table of Contents for zh_CN,
+> all translations residing on it would be indexed conveniently.
+> 
+> Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
+> ---
+> Changelog:
+>  - v2 added SPDX header
+> ---
+>  Documentation/filesystems/index.rst           |  2 ++
+>  .../translations/zh_CN/filesystems/index.rst  | 29 +++++++++++++++++++
+>  Documentation/translations/zh_CN/index.rst    |  1 +
+>  3 files changed, 32 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/filesystems/index.rst
+> 
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index 386eaad008b2..ab47d5b1f092 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -1,3 +1,5 @@
+> +.. _filesystems_index:
+> +
+>  ===============================
+>  Filesystems in the Linux kernel
+>  ===============================
+> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+> new file mode 100644
+> index 000000000000..0a2cabfeaf7b
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
+> @@ -0,0 +1,29 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. raw:: latex
+> +
+> +	\renewcommand\thesection*
+> +	\renewcommand\thesubsection*
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :ref:`Documentation/filesystems/index.rst <filesystems_index>`
+> +:Translator: Wang Wenhu <wenhu.wang@vivo.com>
+> +
+> +.. _cn_filesystems_index:
+> +
+> +========================
+> +Linux Kernel中的文件系统
+> +========================
+> +
+> +这份正在开发的手册或许在未来某个辉煌的日子里以易懂的形式将Linux虚拟\
+> +文件系统（VFS）层以及基于其上的各种文件系统如何工作呈现给大家。当前\
+> +可以看到下面的内容。
+> +
+> +文件系统
+> +========
+> +
+> +文件系统实现文档。
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+> index d3165535ec9e..76850a5dd982 100644
+> --- a/Documentation/translations/zh_CN/index.rst
+> +++ b/Documentation/translations/zh_CN/index.rst
+> @@ -14,6 +14,7 @@
+>     :maxdepth: 2
+>  
+>     process/index
+> +   filesystems/index
+>  
+>  目录和表格
+>  ----------
+> 
