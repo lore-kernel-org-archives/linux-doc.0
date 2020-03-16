@@ -2,276 +2,272 @@ Return-Path: <SRS0=2eIQ=5B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23EFDC0044D
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 07:01:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADE28C1975A
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 07:26:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BDD3120679
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 07:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584342083;
-	bh=2/M2ChLBW/nP2NSP8Nh1OoS3EnGuZZl0K6fHDHNZxmA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=s+zHf0ZwcAMYdrEhWa8E8iexD5CSXP8arMtDWT5LXrBC3oje4L+04zbuW4mPjMzfX
-	 TfQy8HzzUowPJdAooG6s8NvrSSoh1/qfwn5d9+/xknhuAxyAZgDSxFFOFtXhnJ15v4
-	 BZ4pNEa0b21EL9CRwMJbFvoEfWqO2iwLXRXPZxj8=
+	by mail.kernel.org (Postfix) with ESMTP id 7AB6520719
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 07:26:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7F+KDCG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729319AbgCPHBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Mar 2020 03:01:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728302AbgCPHBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Mar 2020 03:01:22 -0400
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7605F20575;
-        Mon, 16 Mar 2020 07:01:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584342080;
-        bh=2/M2ChLBW/nP2NSP8Nh1OoS3EnGuZZl0K6fHDHNZxmA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=1+0hX8F0yt6lAze4g2CFbmdYa1MEj3AKccddPQzDW2+iDFMzP9fBijTq8uhAaj14j
-         jtxuyDMUhznPtLBeQ1CJCqkxNgDuv78g7d8yUmoWIGuTOP/J4ArBsTRI/2MdM4WWlB
-         iCtiIGYFo1kRr1+BPrKm3iEIH+0USEaAA4BAAXVs=
-Date:   Mon, 16 Mar 2020 08:01:09 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Wang Wenhu <wenhu.wang@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        Eric Biggers <ebiggers@google.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        virtualization@lists.linux-foundation.org,
-        linux-fsdevel@vger.kernel.org, kernel@vivo.com
-Subject: Re: [PATCH v2,2/2] doc: zh_CN: add translation for virtiofs
-Message-ID: <20200316080109.5ea05868@coco.lan>
-In-Reply-To: <20200315155258.91725-2-wenhu.wang@vivo.com>
-References: <20200315092810.87008-1-wenhu.wang@vivo.com>
-        <20200315155258.91725-1-wenhu.wang@vivo.com>
-        <20200315155258.91725-2-wenhu.wang@vivo.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729927AbgCPH0k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Mar 2020 03:26:40 -0400
+Received: from mail-qv1-f67.google.com ([209.85.219.67]:38316 "EHLO
+        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729554AbgCPH0k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Mar 2020 03:26:40 -0400
+Received: by mail-qv1-f67.google.com with SMTP id p60so8273120qva.5;
+        Mon, 16 Mar 2020 00:26:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=faItreCP5r0+oIAAYCGxgKu+OE+Ay1+bPlAFFz83FQI=;
+        b=Q7F+KDCGPJ83Hxlp9t40RdunVcdST3R/waK3vYRcxAJDcMvQpnCpubDp8M0a0QEbte
+         HhDhhKXSy3fWSB8W4gLtmjn9nZiklQ0XoeVAyHr50MJMd3Yrjq9fox8OVpiG07KlyCCY
+         dZGSB2Ys2aTBzYaK/Km4++srjG7qaNQBlJvx1i3m4Wqln5gkDGr/6SC0nDtTttGRd/DH
+         3+E0inqsyO+eqUTD6XmUZ/wCx77U76IxknXD5xmnCuNCyyv/x4bm43yljV1FfqgneJlX
+         Z5DdRJ8EKPVQG+vkjrG7NKOUYo3tVYiJeIaTurAcs3l5+ZGbM0WCJb+A+oWls0MKZ+x5
+         UZLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=faItreCP5r0+oIAAYCGxgKu+OE+Ay1+bPlAFFz83FQI=;
+        b=efU2BQ481TOrxFY/a12DacsANr1H0Pp6u8xcBjoteplMQKSVfl1LAir1fFAHlZM6wW
+         GuI+ILi/eBS1GWonDoBHpd3gxinfqpcFqxNyZWK5fQg/4FI5ICWYUwnqTXOLbghnWczS
+         kHGrJQDu8MBjuJLgEy/vLOs9iKexTzSsI9Wk2+g+296UoYdK06r6QKLoVamjzMY6jK0o
+         qJS2UDuDwlW7P4br5bqa0qEDWhsqdJzysAG/1+aFFzq7qVM+6h7aIv+CaY2AZXpT30/u
+         4muD3aasN8JekVkuIgMRQLIXHDy1MTHPn+MA2FjMLBQ17J/8X1csOaLxGsgw8c0OIoG3
+         yCTw==
+X-Gm-Message-State: ANhLgQ3EzOon1/Tsrd7NzH5wpg+oAhNTxU8VDKeJt+HtCxSToTf732QP
+        EjCCv/5D3FrqlfAXnVYB60hizvlPAes=
+X-Google-Smtp-Source: ADFU+vt9LUg8yfYeUPu6y6CbYlK4XN761ggzE4bPBRB7Aq8wc3/fWOqXg7FwQ1Tfwd4PzHVK+MC7AQ==
+X-Received: by 2002:ad4:4364:: with SMTP id u4mr11000387qvt.58.1584343598492;
+        Mon, 16 Mar 2020 00:26:38 -0700 (PDT)
+Received: from dhcp-12-139.nay.redhat.com ([209.132.188.80])
+        by smtp.gmail.com with ESMTPSA id b7sm16799644qkh.0.2020.03.16.00.26.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2020 00:26:37 -0700 (PDT)
+From:   Hangbin Liu <liuhangbin@gmail.com>
+To:     linux-kselftest@vger.kernel.org
+Cc:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Hangbin Liu <liuhangbin@gmail.com>
+Subject: [RFC PATCHv2] selftests/run_kselftest.sh: make each test individually selectable
+Date:   Mon, 16 Mar 2020 15:26:26 +0800
+Message-Id: <20200316072626.24037-1-liuhangbin@gmail.com>
+X-Mailer: git-send-email 2.19.2
+In-Reply-To: <20200309101256.868-1-liuhangbin@gmail.com>
+References: <20200309101256.868-1-liuhangbin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sun, 15 Mar 2020 08:52:39 -0700
-Wang Wenhu <wenhu.wang@vivo.com> escreveu:
+Currently, after generating run_kselftest.sh, there is no way to choose
+which test we could run. All the tests are listed together and we have
+to run all every time. This patch enhanced the run_kselftest.sh to make
+the tests individually selectable. e.g.
 
-> Translate virtiofs.rst in Documentation/filesystems/ into Chinese.
->=20
-> Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
-> ---
-> Changelog v2:
->  - add a blank line in the end of index.rst to index virtiofs.rst
->  - Asked-by Stefan Hajnoczi
->  - added SPDX header and Copyright info
-> ---
->  Documentation/filesystems/virtiofs.rst        |  2 +
->  .../translations/zh_CN/filesystems/index.rst  |  2 +
->  .../zh_CN/filesystems/virtiofs.rst            | 61 +++++++++++++++++++
->  3 files changed, 65 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/filesystems/virtiofs=
-.rst
->=20
-> diff --git a/Documentation/filesystems/virtiofs.rst b/Documentation/files=
-ystems/virtiofs.rst
-> index 4f338e3cb3f7..7c4301d962f8 100644
-> --- a/Documentation/filesystems/virtiofs.rst
-> +++ b/Documentation/filesystems/virtiofs.rst
-> @@ -1,3 +1,5 @@
-> +.. _virtiofs_index:
-> +
->  .. SPDX-License-Identifier: GPL-2.0
+  $ ./run_kselftest.sh -t "bpf size timers"
 
-Please place the SPDX as the first line, e. g.:
+Note: I use `tr -s "/-" "_"` to cover the path name to function name in
+tests. e.g. networking/timestamping -> networking_timestamping.
 
-	.. SPDX-License-Identifier: GPL-2.0
-	+
-	+.. _virtiofs_index:
+Before the patch:
 
-After doing such change:
+$ cat run_kselftest.sh
+\#!/bin/sh
+BASE_DIR=$(realpath $(dirname $0))
+cd $BASE_DIR
+. ./kselftest/runner.sh
+ROOT=$PWD
+if [ "$1" = "--summary" ]; then
+  logfile=$BASE_DIR/output.log
+  cat /dev/null > $logfile
+fi
+[ -w /dev/kmsg ] && echo "kselftest: Running tests in android" >> /dev/kmsg
+cd android
+run_many        \
+        "run.sh"
+cd $ROOT
+...<snip>...
+[ -w /dev/kmsg ] && echo "kselftest: Running tests in zram" >> /dev/kmsg
+cd zram
+run_many        \
+        "zram.sh"
+cd $ROOT
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+After the patch:
+$ cat run_kselftest.sh
+\#!/bin/sh
+BASE_DIR=$(realpath $(dirname $0))
+. ./kselftest/runner.sh
+TESTS="android ...<snip>... zram"
 
-(In time: I'm not reviewing the translation - as I don't speak Mandarin)
+run_android()
+{
+        [ -w /dev/kmsg ] && echo "kselftest: Running tests in android" >> /dev/kmsg
+        cd android
+        run_many        \
+                "run.sh"
+        cd $ROOT
+}
 
-> =20
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Doc=
-umentation/translations/zh_CN/filesystems/index.rst
-> index 0a2cabfeaf7b..fd3700a4db6d 100644
-> --- a/Documentation/translations/zh_CN/filesystems/index.rst
-> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
-> @@ -27,3 +27,5 @@ Linux Kernel=E4=B8=AD=E7=9A=84=E6=96=87=E4=BB=B6=E7=B3=
-=BB=E7=BB=9F
->  .. toctree::
->     :maxdepth: 2
-> =20
-> +   virtiofs
-> +
-> diff --git a/Documentation/translations/zh_CN/filesystems/virtiofs.rst b/=
-Documentation/translations/zh_CN/filesystems/virtiofs.rst
-> new file mode 100644
-> index 000000000000..cd836a9b2ac4
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/filesystems/virtiofs.rst
-> @@ -0,0 +1,61 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. raw:: latex
-> +
-> +	\renewcommand\thesection*
-> +	\renewcommand\thesubsection*
+...<snip>...
 
-Same note as on the previous patch: please check if this works with
-1.7.9 and latest Sphinx versions
+run_zram()
+{
+        [ -w /dev/kmsg ] && echo "kselftest: Running tests in zram" >> /dev/kmsg
+        cd zram
+        run_many        \
+                "zram.sh"
+        cd $ROOT
+}
 
-Regards,
-Mauro
+usage()
+{
+        cat <<EOF
+usage: ${0##*/} OPTS
+        -s | --summary          Only print summary info and put detailed log in output.log
+        -t | --tests            Test name you want to run specifically
+        -h | --help             Show this usage info
+EOF
+}
 
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/filesystems/virtiofs.rst <virtiofs_index>`
-> +
-> +=E8=AF=91=E8=80=85
-> +::
-> +
-> +	=E4=B8=AD=E6=96=87=E7=89=88=E7=BB=B4=E6=8A=A4=E8=80=85=EF=BC=9A =E7=8E=
-=8B=E6=96=87=E8=99=8E Wang Wenhu <wenhu.wang@vivo.com>
-> +	=E4=B8=AD=E6=96=87=E7=89=88=E7=BF=BB=E8=AF=91=E8=80=85=EF=BC=9A =E7=8E=
-=8B=E6=96=87=E8=99=8E Wang Wenhu <wenhu.wang@vivo.com>
-> +	=E4=B8=AD=E6=96=87=E7=89=88=E6=A0=A1=E8=AF=91=E8=80=85:  =E7=8E=8B=E6=
-=96=87=E8=99=8E Wang Wenhu <wenhu.wang@vivo.com>
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +virtiofs: virtio-fs =E4=B8=BB=E6=9C=BA<->=E5=AE=A2=E6=9C=BA=E5=85=B1=E4=
-=BA=AB=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +- Copyright (C) 2020 Vivo Communication Technology Co. Ltd.
-> +
-> +=E4=BB=8B=E7=BB=8D
-> +=3D=3D=3D=3D
-> +Linux=E7=9A=84virtiofs=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E5=AE=9E=E7=
-=8E=B0=E4=BA=86=E4=B8=80=E4=B8=AA=E5=8D=8A=E8=99=9A=E6=8B=9F=E5=8C=96VIRTIO=
-=E7=B1=BB=E5=9E=8B=E2=80=9Cvirtio-fs=E2=80=9D=E8=AE=BE=E5=A4=87=E7=9A=84=E9=
-=A9=B1=E5=8A=A8=EF=BC=8C=E9=80=9A=E8=BF=87=E8=AF=A5\
-> +=E7=B1=BB=E5=9E=8B=E8=AE=BE=E5=A4=87=E5=AE=9E=E7=8E=B0=E5=AE=A2=E6=9C=BA=
-<->=E4=B8=BB=E6=9C=BA=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E5=85=B1=E4=BA=AB=
-=E3=80=82=E5=AE=83=E5=85=81=E8=AE=B8=E5=AE=A2=E6=9C=BA=E6=8C=82=E8=BD=BD=E4=
-=B8=80=E4=B8=AA=E5=B7=B2=E7=BB=8F=E5=AF=BC=E5=87=BA=E5=88=B0=E4=B8=BB=E6=9C=
-=BA=E7=9A=84=E7=9B=AE=E5=BD=95=E3=80=82
-> +
-> +=E5=AE=A2=E6=9C=BA=E9=80=9A=E5=B8=B8=E9=9C=80=E8=A6=81=E8=AE=BF=E9=97=AE=
-=E4=B8=BB=E6=9C=BA=E6=88=96=E8=80=85=E8=BF=9C=E7=A8=8B=E7=B3=BB=E7=BB=9F=E4=
-=B8=8A=E7=9A=84=E6=96=87=E4=BB=B6=E3=80=82=E4=BD=BF=E7=94=A8=E5=9C=BA=E6=99=
-=AF=E5=8C=85=E6=8B=AC=EF=BC=9A=E5=9C=A8=E6=96=B0=E5=AE=A2=E6=9C=BA=E5=AE=89=
-=E8=A3=85=E6=97=B6=E8=AE=A9=E6=96=87=E4=BB=B6=E5=AF=B9=E5=85=B6\
-> +=E5=8F=AF=E8=A7=81=EF=BC=9B=E4=BB=8E=E4=B8=BB=E6=9C=BA=E4=B8=8A=E7=9A=84=
-=E6=A0=B9=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E5=90=AF=E5=8A=A8=EF=BC=9B=E5=
-=AF=B9=E6=97=A0=E7=8A=B6=E6=80=81=E6=88=96=E4=B8=B4=E6=97=B6=E5=AE=A2=E6=9C=
-=BA=E6=8F=90=E4=BE=9B=E6=8C=81=E4=B9=85=E5=AD=98=E5=82=A8=E5=92=8C=E5=9C=A8=
-=E5=AE=A2=E6=9C=BA=E4=B9=8B=E9=97=B4=E5=85=B1=E4=BA=AB=E7=9B=AE=E5=BD=95=E3=
-=80=82
-> +
-> +=E5=B0=BD=E7=AE=A1=E5=9C=A8=E6=9F=90=E4=BA=9B=E4=BB=BB=E5=8A=A1=E5=8F=AF=
-=E8=83=BD=E9=80=9A=E8=BF=87=E4=BD=BF=E7=94=A8=E5=B7=B2=E6=9C=89=E7=9A=84=E7=
-=BD=91=E7=BB=9C=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E5=AE=8C=E6=88=90=EF=BC=
-=8C=E4=BD=86=E6=98=AF=E5=8D=B4=E9=9C=80=E8=A6=81=E9=9D=9E=E5=B8=B8=E9=9A=BE=
-=E4=BB=A5=E8=87=AA=E5=8A=A8=E5=8C=96=E7=9A=84=E9=85=8D=E7=BD=AE\
-> +=E6=AD=A5=E9=AA=A4=EF=BC=8C=E4=B8=94=E5=B0=86=E5=AD=98=E5=82=A8=E7=BD=91=
-=E7=BB=9C=E6=9A=B4=E9=9C=B2=E7=BB=99=E5=AE=A2=E6=9C=BA=E3=80=82=E8=80=8Cvir=
-tio-fs=E8=AE=BE=E5=A4=87=E9=80=9A=E8=BF=87=E6=8F=90=E4=BE=9B=E4=B8=8D=E7=BB=
-=8F=E8=BF=87=E7=BD=91=E7=BB=9C=E7=9A=84=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=
-=E8=AE=BF=E9=97=AE=E6=96=87=E4=BB=B6\
-> +=E7=9A=84=E8=AE=BE=E8=AE=A1=E6=96=B9=E5=BC=8F=E8=A7=A3=E5=86=B3=E4=BA=86=
-=E8=BF=99=E4=BA=9B=E9=97=AE=E9=A2=98=E3=80=82
-> +
-> +=E5=8F=A6=E5=A4=96=EF=BC=8Cvirto-fs=E8=AE=BE=E5=A4=87=E5=8F=91=E6=8C=A5=
-=E4=BA=86=E4=B8=BB=E5=AE=A2=E6=9C=BA=E5=85=B1=E5=AD=98=E7=9A=84=E4=BC=98=E7=
-=82=B9=E6=8F=90=E9=AB=98=E4=BA=86=E6=80=A7=E8=83=BD=EF=BC=8C=E5=B9=B6=E4=B8=
-=94=E6=8F=90=E4=BE=9B=E4=BA=86=E7=BD=91=E7=BB=9C=E6=96=87=E4=BB=B6=E7=B3=BB=
-=E7=BB=9F=E6=89=80=E4=B8=8D=E5=85=B7=E5=A4=87
-> +=E7=9A=84=E4=B8=80=E4=BA=9B=E8=AF=AD=E4=B9=89=E5=8A=9F=E8=83=BD=E3=80=82
-> +
-> +=E7=94=A8=E6=B3=95
-> +=3D=3D=3D=3D
-> +=E4=BB=A5``myfs``=E6=A0=87=E7=AD=BE=E5=B0=86=E6=96=87=E4=BB=B6=E7=B3=BB=
-=E7=BB=9F=E6=8C=82=E8=BD=BD=E5=88=B0``/mnt``:
-> +
-> +.. code-block:: sh
-> +
-> +  guest# mount -t virtiofs myfs /mnt
-> +
-> +=E8=AF=B7=E6=9F=A5=E9=98=85 https://virtio-fs.gitlab.io/ =E4=BA=86=E8=A7=
-=A3=E9=85=8D=E7=BD=AEQEMU=E5=92=8Cvirtiofsd=E5=AE=88=E6=8A=A4=E7=A8=8B=E5=
-=BA=8F=E7=9A=84=E8=AF=A6=E7=BB=86=E4=BF=A1=E6=81=AF=E3=80=82
-> +
-> +=E5=86=85=E5=B9=95
-> +=3D=3D=3D=3D
-> +=E7=94=B1=E4=BA=8Evirtio-fs=E8=AE=BE=E5=A4=87=E5=B0=86FUSE=E5=8D=8F=E8=
-=AE=AE=E7=94=A8=E4=BA=8E=E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E8=AF=B7=E6=B1=
-=82=EF=BC=8C=E5=9B=A0=E6=AD=A4Linux=E7=9A=84virtiofs=E6=96=87=E4=BB=B6=E7=
-=B3=BB=E7=BB=9F=E4=B8=8EFUSE=E6=96=87\
-> +=E4=BB=B6=E7=B3=BB=E7=BB=9F=E5=AE=A2=E6=88=B7=E7=AB=AF=E7=B4=A7=E5=AF=86=
-=E9=9B=86=E6=88=90=E5=9C=A8=E4=B8=80=E8=B5=B7=E3=80=82=E5=AE=A2=E6=9C=BA=E5=
-=85=85=E5=BD=93FUSE=E5=AE=A2=E6=88=B7=E7=AB=AF=E8=80=8C=E4=B8=BB=E6=9C=BA=
-=E5=85=85=E5=BD=93FUSE=E6=9C=8D=E5=8A=A1=E5=99=A8=EF=BC=8C=E5=86=85=E6=A0=
-=B8=E4=B8=8E=E7=94=A8=E6=88=B7=E7=A9=BA\
-> +=E9=97=B4=E4=B9=8B=E9=97=B4=E7=9A=84/dev/fuse=E6=8E=A5=E5=8F=A3=E7=94=B1=
-virtio-fs=E8=AE=BE=E5=A4=87=E6=8E=A5=E5=8F=A3=E4=BB=A3=E6=9B=BF=E3=80=82
-> +
-> +FUSE=E8=AF=B7=E6=B1=82=E8=A2=AB=E7=BD=AE=E4=BA=8E=E8=99=9A=E6=8B=9F=E9=
-=98=9F=E5=88=97=E4=B8=AD=E7=94=B1=E4=B8=BB=E6=9C=BA=E5=A4=84=E7=90=86=E3=80=
-=82=E4=B8=BB=E6=9C=BA=E5=A1=AB=E5=85=85=E7=BC=93=E5=86=B2=E5=8C=BA=E4=B8=AD=
-=E7=9A=84=E5=93=8D=E5=BA=94=E9=83=A8=E5=88=86=EF=BC=8C=E8=80=8C=E5=AE=A2=E6=
-=9C=BA=E5=A4=84=E7=90=86=E8=AF=B7=E6=B1=82=E7=9A=84=E5=AE=8C=E6=88=90=E9=83=
-=A8=E5=88=86=E3=80=82
-> +
-> +=E5=B0=86/dev/fuse=E6=98=A0=E5=B0=84=E5=88=B0=E8=99=9A=E6=8B=9F=E9=98=9F=
-=E5=88=97=E9=9C=80=E8=A6=81=E8=A7=A3=E5=86=B3/dev/fuse=E5=92=8C=E8=99=9A=E6=
-=8B=9F=E9=98=9F=E5=88=97=E4=B9=8B=E9=97=B4=E8=AF=AD=E4=B9=89=E4=B8=8A=E7=9A=
-=84=E5=B7=AE=E5=BC=82=E3=80=82=E6=AF=8F=E6=AC=A1=E8=AF=BB=E5=8F=96\
-> +/dev/fuse=E8=AE=BE=E5=A4=87=E6=97=B6=EF=BC=8CFUSE=E5=AE=A2=E6=88=B7=E7=
-=AB=AF=E9=83=BD=E5=8F=AF=E4=BB=A5=E9=80=89=E6=8B=A9=E8=A6=81=E4=BC=A0=E8=BE=
-=93=E7=9A=84=E8=AF=B7=E6=B1=82=EF=BC=8C=E4=BB=8E=E8=80=8C=E5=8F=AF=E4=BB=A5=
-=E4=BD=BF=E6=9F=90=E4=BA=9B=E8=AF=B7=E6=B1=82=E4=BC=98=E5=85=88=E4=BA=8E=E5=
-=85=B6=E4=BB=96\
-> +=E8=AF=B7=E6=B1=82=E3=80=82=E8=99=9A=E6=8B=9F=E9=98=9F=E5=88=97=E6=9C=89=
-=E5=85=B6=E9=98=9F=E5=88=97=E8=AF=AD=E4=B9=89=EF=BC=8C=E6=97=A0=E6=B3=95=E6=
-=9B=B4=E6=94=B9=E5=B7=B2=E5=85=A5=E9=98=9F=E8=AF=B7=E6=B1=82=E7=9A=84=E9=A1=
-=BA=E5=BA=8F=E3=80=82=E5=9C=A8=E8=99=9A=E6=8B=9F=E9=98=9F=E5=88=97=E5=B7=B2=
-=E6=BB=A1=E7=9A=84=E6=83=85=E5=86=B5=E4=B8=8B=E5=B0=A4
-> +=E5=85=B6=E5=85=B3=E9=94=AE=EF=BC=8C=E5=9B=A0=E4=B8=BA=E6=AD=A4=E6=97=B6=
-=E4=B8=8D=E5=8F=AF=E8=83=BD=E5=8A=A0=E5=85=A5=E9=AB=98=E4=BC=98=E5=85=88=E7=
-=BA=A7=E7=9A=84=E8=AF=B7=E6=B1=82=E3=80=82=E4=B8=BA=E4=BA=86=E8=A7=A3=E5=86=
-=B3=E6=AD=A4=E5=B7=AE=E5=BC=82=EF=BC=8Cvirtio-fs=E8=AE=BE=E5=A4=87=E9=87=87=
-=E7=94=A8=E2=80=9Chiprio=E2=80=9D\
-> +=EF=BC=88=E9=AB=98=E4=BC=98=E5=85=88=E7=BA=A7=EF=BC=89=E8=99=9A=E6=8B=9F=
-=E9=98=9F=E5=88=97=EF=BC=8C=E4=B8=93=E9=97=A8=E7=94=A8=E4=BA=8E=E6=9C=89=E5=
-=88=AB=E4=BA=8E=E6=99=AE=E9=80=9A=E8=AF=B7=E6=B1=82=E7=9A=84=E9=AB=98=E4=BC=
-=98=E5=85=88=E7=BA=A7=E8=AF=B7=E6=B1=82=E3=80=82
+while true; do
+        case "$1" in
+        -s | --summary ) logfile=$BASE_DIR/output.log; cat /dev/null > $logfile; shift ;;
+        -t | --tests ) TESTS=$2; shift 2 ;;
+        -h | --help ) usage; exit 0;;
+        "" ) break;;
+        * ) usage; exit 1;;
+        esac
+done
 
+cd $BASE_DIR
+ROOT=$PWD
+for test in $TESTS; do
+        run_$test
+done
 
+v2: update document and commit description.
 
-Thanks,
-Mauro
+Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+---
+ Documentation/dev-tools/kselftest.rst |  4 +++
+ tools/testing/selftests/Makefile      | 48 +++++++++++++++++++++------
+ tools/testing/selftests/lib.mk        |  2 +-
+ 3 files changed, 43 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+index 61ae13c44f91..e856713a1deb 100644
+--- a/Documentation/dev-tools/kselftest.rst
++++ b/Documentation/dev-tools/kselftest.rst
+@@ -151,6 +151,10 @@ note some tests will require root privileges::
+    $ cd kselftest
+    $ ./run_kselftest.sh
+ 
++Or you can run some specific test cases in the installed Kselftests by::
++
++   $ ./run_kselftest.sh -t "bpf size timers"
++
+ Contributing new tests
+ ======================
+ 
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index be22dbe94a4c..5481ea0634cf 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -212,13 +212,9 @@ ifdef INSTALL_PATH
+ 	@# Ask all targets to emit their test scripts
+ 	echo "#!/bin/sh" > $(ALL_SCRIPT)
+ 	echo "BASE_DIR=\$$(realpath \$$(dirname \$$0))" >> $(ALL_SCRIPT)
+-	echo "cd \$$BASE_DIR" >> $(ALL_SCRIPT)
+ 	echo ". ./kselftest/runner.sh" >> $(ALL_SCRIPT)
+-	echo "ROOT=\$$PWD" >> $(ALL_SCRIPT)
+-	echo "if [ \"\$$1\" = \"--summary\" ]; then" >> $(ALL_SCRIPT)
+-	echo "  logfile=\$$BASE_DIR/output.log" >> $(ALL_SCRIPT)
+-	echo "  cat /dev/null > \$$logfile" >> $(ALL_SCRIPT)
+-	echo "fi" >> $(ALL_SCRIPT)
++	echo "TESTS=\"$(TARGETS)\"" | tr -s "/-" "_" >> $(ALL_SCRIPT)
++	echo "" >> $(ALL_SCRIPT);
+ 
+ 	@# While building run_kselftest.sh skip also non-existent TARGET dirs:
+ 	@# they could be the result of a build failure and should NOT be
+@@ -226,15 +222,47 @@ ifdef INSTALL_PATH
+ 	for TARGET in $(TARGETS); do \
+ 		BUILD_TARGET=$$BUILD/$$TARGET;	\
+ 		[ ! -d $(INSTALL_PATH)/$$TARGET ] && echo "Skipping non-existent dir: $$TARGET" && continue; \
+-		echo "[ -w /dev/kmsg ] && echo \"kselftest: Running tests in $$TARGET\" >> /dev/kmsg" >> $(ALL_SCRIPT); \
+-		echo "cd $$TARGET" >> $(ALL_SCRIPT); \
+-		echo -n "run_many" >> $(ALL_SCRIPT); \
++		echo "run_$$TARGET()" | tr -s "/-" "_" >> $(ALL_SCRIPT); \
++		echo "{" >> $(ALL_SCRIPT); \
++		echo -e "\t[ -w /dev/kmsg ] && echo \"kselftest: Running tests in $$TARGET\" >> /dev/kmsg" >> $(ALL_SCRIPT); \
++		echo -e "\tcd $$TARGET" >> $(ALL_SCRIPT); \
++		echo -en "\trun_many" >> $(ALL_SCRIPT); \
+ 		echo -n "Emit Tests for $$TARGET\n"; \
+ 		$(MAKE) -s --no-print-directory OUTPUT=$$BUILD_TARGET -C $$TARGET emit_tests >> $(ALL_SCRIPT); \
+ 		echo "" >> $(ALL_SCRIPT);	    \
+-		echo "cd \$$ROOT" >> $(ALL_SCRIPT); \
++		echo -e "\tcd \$$ROOT" >> $(ALL_SCRIPT); \
++		echo "}" >> $(ALL_SCRIPT); \
++		echo "" >> $(ALL_SCRIPT); \
+ 	done;
+ 
++	echo "usage()" >> $(ALL_SCRIPT);
++	echo "{" >> $(ALL_SCRIPT);
++	echo -e "\tcat <<EOF" >> $(ALL_SCRIPT);
++	echo "usage: \$${0##*/} OPTS" >> $(ALL_SCRIPT);
++	echo -e "\t-s | --summary\t\tOnly print summary info and put detailed log in output.log" >> $(ALL_SCRIPT);
++	echo -e "\t-t | --tests\t\tTest name you want to run specifically" >> $(ALL_SCRIPT);
++	echo -e "\t-h | --help\t\tShow this usage info" >> $(ALL_SCRIPT);
++	echo "EOF" >> $(ALL_SCRIPT);
++	echo "}" >> $(ALL_SCRIPT);
++	echo "" >> $(ALL_SCRIPT);
++
++	echo "while true; do" >> $(ALL_SCRIPT);
++	echo -e "\tcase \"\$$1\" in" >> $(ALL_SCRIPT);
++	echo -e "\t-s | --summary ) logfile=\$$BASE_DIR/output.log; cat /dev/null > \$$logfile; shift ;;" >> $(ALL_SCRIPT);
++	echo -e "\t-t | --tests ) TESTS=\$$2; shift 2 ;;" >> $(ALL_SCRIPT);
++	echo -e "\t-h | --help ) usage; exit 0;;" >> $(ALL_SCRIPT);
++	echo -e "\t\"\" ) break;;" >> $(ALL_SCRIPT);
++	echo -e "\t* ) usage; exit 1;;" >> $(ALL_SCRIPT);
++	echo -e "\tesac" >> $(ALL_SCRIPT);
++	echo "done" >> $(ALL_SCRIPT);
++	echo "" >> $(ALL_SCRIPT);
++
++	echo "cd \$$BASE_DIR" >> $(ALL_SCRIPT)
++	echo "ROOT=\$$PWD" >> $(ALL_SCRIPT)
++
++	echo "for test in \$$TESTS; do" >> $(ALL_SCRIPT); \
++	echo -e "\trun_\$$test" >> $(ALL_SCRIPT); \
++	echo "done" >> $(ALL_SCRIPT); \
+ 	chmod u+x $(ALL_SCRIPT)
+ else
+ 	$(error Error: set INSTALL_PATH to use install)
+diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
+index 1c8a1963d03f..2dc5a0cca6f3 100644
+--- a/tools/testing/selftests/lib.mk
++++ b/tools/testing/selftests/lib.mk
+@@ -107,7 +107,7 @@ emit_tests:
+ 	for TEST in $(TEST_GEN_PROGS) $(TEST_CUSTOM_PROGS) $(TEST_PROGS); do \
+ 		BASENAME_TEST=`basename $$TEST`;	\
+ 		echo "	\\";				\
+-		echo -n "	\"$$BASENAME_TEST\"";	\
++		echo -ne "\t\t\"$$BASENAME_TEST\"";	\
+ 	done;						\
+ 
+ # define if isn't already. It is undefined in make O= case.
+-- 
+2.19.2
+
