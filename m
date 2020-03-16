@@ -2,172 +2,127 @@ Return-Path: <SRS0=2eIQ=5B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E5EC0044D
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 11:02:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC14AC0044D
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 13:51:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EAFA1205ED
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 11:02:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AB952051A
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 13:51:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730749AbgCPLCz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Mar 2020 07:02:55 -0400
-Received: from m17617.mail.qiye.163.com ([59.111.176.17]:43796 "EHLO
-        m17617.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730678AbgCPLCz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Mar 2020 07:02:55 -0400
-Received: from ubuntu.localdomain (unknown [58.251.74.227])
-        by m17617.mail.qiye.163.com (Hmail) with ESMTPA id DC89A261636;
-        Mon, 16 Mar 2020 19:02:43 +0800 (CST)
-From:   Wang Wenhu <wenhu.wang@vivo.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jaskaran Singh <jaskaransingh7654321@gmail.com>,
-        Wang Wenhu <wenhu.wang@vivo.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-fsdevel@vger.kernel.org
-Cc:     kernel@vivo.com
-Subject: [PATCH v3,2/2] doc: zh_CN: add translation for virtiofs
-Date:   Mon, 16 Mar 2020 04:01:32 -0700
-Message-Id: <20200316110143.97848-2-wenhu.wang@vivo.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200316110143.97848-1-wenhu.wang@vivo.com>
-References: <20200315155258.91725-1-wenhu.wang@vivo.com>
- <20200316110143.97848-1-wenhu.wang@vivo.com>
+        id S1731384AbgCPNvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Mar 2020 09:51:31 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:36988 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731110AbgCPNva (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Mar 2020 09:51:30 -0400
+Received: from mail-qt1-f200.google.com ([209.85.160.200])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <gpiccoli@canonical.com>)
+        id 1jDq9Q-0002e9-Ga
+        for linux-doc@vger.kernel.org; Mon, 16 Mar 2020 13:51:28 +0000
+Received: by mail-qt1-f200.google.com with SMTP id y11so17099218qtn.3
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2020 06:51:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=EhIQwlnNAveoTYBrgyMkuzdwJCAMfoWP2So3b4Xexpc=;
+        b=drkmJQMcQ49HTwZw02CwoWnzYiiQdBSiAawaL/DBC+dmaETRzCaMw1eJjmTSoWitEk
+         CKBQYYPIq4bZCNPZUFMnOoPwNcLf0tmcSV7anjgJV8DpZxWi7qf0BKL5jh9DZY2EGU7y
+         pStmGvDcbaQyHlu+n9JUUrdCkRRvxKgG9/Pu7HnVdwjCQWcsPpEnVxAF4tVOdXClgZLq
+         YGReJnTLMhT47Vbqr+0To1GNf6NK4EJumjfVrKmFhVZPzdrp7trvT7vfWR4JsH2OdpEc
+         1+Ovx3mpQEVBfvH6F1VaBEHTZnU86OND1EJvo4RJeqAOoAPJZos96aXbMs+rOPnoCpGG
+         MTTQ==
+X-Gm-Message-State: ANhLgQ1Zk20LohwYYaHaSj0z1qp2i6eegDX6l7GU67pwOGr+KOGLosSm
+        djLLWWT8SPcx2wkIRV9/vBsfuzNoLB5sGQNwXk9B6ElKjq+7I/PTP+Tw9dh3h9WD02vLAt4SP7d
+        Rcurijl0e22qYdxNGQslQa1GKVoa4Y3OqLo/mNQ==
+X-Received: by 2002:a37:888:: with SMTP id 130mr24577656qki.261.1584366687699;
+        Mon, 16 Mar 2020 06:51:27 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vszzPiSqqYYwz+LzbS41Ek/MGxZWMC8cVuT9ZHY+0rJ56S9EG2HbTJ3yNqMrYODePkX06qYAA==
+X-Received: by 2002:a37:888:: with SMTP id 130mr24577633qki.261.1584366687458;
+        Mon, 16 Mar 2020 06:51:27 -0700 (PDT)
+Received: from [192.168.1.75] (189-47-87-73.dsl.telesp.net.br. [189.47.87.73])
+        by smtp.gmail.com with ESMTPSA id c18sm6469605qka.111.2020.03.16.06.51.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 16 Mar 2020 06:51:26 -0700 (PDT)
+Subject: Re: [PATCH] panic: Add sysctl/cmdline to dump all CPUs backtraces on
+ oops event
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        tglx@linutronix.de, akpm@linux-foundation.org, kernel@gpiccoli.net
+References: <20200310163700.19186-1-gpiccoli@canonical.com>
+ <93f20e59-41b1-48ad-b0eb-e670b18994d5@infradead.org>
+ <20200314142820.GQ22433@bombadil.infradead.org>
+ <43c0e375-6ed1-6a4e-1d61-c0255bf94f26@infradead.org>
+From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=gpiccoli@canonical.com; prefer-encrypt=mutual; keydata=
+ mQENBFpVBxcBCADPNKmu2iNKLepiv8+Ssx7+fVR8lrL7cvakMNFPXsXk+f0Bgq9NazNKWJIn
+ Qxpa1iEWTZcLS8ikjatHMECJJqWlt2YcjU5MGbH1mZh+bT3RxrJRhxONz5e5YILyNp7jX+Vh
+ 30rhj3J0vdrlIhPS8/bAt5tvTb3ceWEic9mWZMsosPavsKVcLIO6iZFlzXVu2WJ9cov8eQM/
+ irIgzvmFEcRyiQ4K+XUhuA0ccGwgvoJv4/GWVPJFHfMX9+dat0Ev8HQEbN/mko/bUS4Wprdv
+ 7HR5tP9efSLucnsVzay0O6niZ61e5c97oUa9bdqHyApkCnGgKCpg7OZqLMM9Y3EcdMIJABEB
+ AAG0LUd1aWxoZXJtZSBHLiBQaWNjb2xpIDxncGljY29saUBjYW5vbmljYWwuY29tPokBNwQT
+ AQgAIQUCWmClvQIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDOR5EF9K/7Gza3B/9d
+ 5yczvEwvlh6ksYq+juyuElLvNwMFuyMPsvMfP38UslU8S3lf+ETukN1S8XVdeq9yscwtsRW/
+ 4YoUwHinJGRovqy8gFlm3SAtjfdqysgJqUJwBmOtcsHkmvFXJmPPGVoH9rMCUr9s6VDPox8f
+ q2W5M7XE9YpsfchS/0fMn+DenhQpV3W6pbLtuDvH/81GKrhxO8whSEkByZbbc+mqRhUSTdN3
+ iMpRL0sULKPVYbVMbQEAnfJJ1LDkPqlTikAgt3peP7AaSpGs1e3pFzSEEW1VD2jIUmmDku0D
+ LmTHRl4t9KpbU/H2/OPZkrm7809QovJGRAxjLLPcYOAP7DUeltveuQENBFpVBxcBCADbxD6J
+ aNw/KgiSsbx5Sv8nNqO1ObTjhDR1wJw+02Bar9DGuFvx5/qs3ArSZkl8qX0X9Vhptk8rYnkn
+ pfcrtPBYLoux8zmrGPA5vRgK2ItvSc0WN31YR/6nqnMfeC4CumFa/yLl26uzHJa5RYYQ47jg
+ kZPehpc7IqEQ5IKy6cCKjgAkuvM1rDP1kWQ9noVhTUFr2SYVTT/WBHqUWorjhu57/OREo+Tl
+ nxI1KrnmW0DbF52tYoHLt85dK10HQrV35OEFXuz0QPSNrYJT0CZHpUprkUxrupDgkM+2F5LI
+ bIcaIQ4uDMWRyHpDbczQtmTke0x41AeIND3GUc+PQ4hWGp9XABEBAAGJAR8EGAEIAAkFAlpV
+ BxcCGwwACgkQzkeRBfSv+xv1wwgAj39/45O3eHN5pK0XMyiRF4ihH9p1+8JVfBoSQw7AJ6oU
+ 1Hoa+sZnlag/l2GTjC8dfEGNoZd3aRxqfkTrpu2TcfT6jIAsxGjnu+fUCoRNZzmjvRziw3T8
+ egSPz+GbNXrTXB8g/nc9mqHPPprOiVHDSK8aGoBqkQAPZDjUtRwVx112wtaQwArT2+bDbb/Y
+ Yh6gTrYoRYHo6FuQl5YsHop/fmTahpTx11IMjuh6IJQ+lvdpdfYJ6hmAZ9kiVszDF6pGFVkY
+ kHWtnE2Aa5qkxnA2HoFpqFifNWn5TyvJFpyqwVhVI8XYtXyVHub/WbXLWQwSJA4OHmqU8gDl
+ X18zwLgdiQ==
+Message-ID: <a4f5bff0-82c8-114e-0386-9d44baa3cfac@canonical.com>
+Date:   Mon, 16 Mar 2020 10:51:22 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZT1VOSE9CQkJDT0xPSklKSllXWShZQU
-        hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PhQ6FBw*FTg1SzZLMhIWMS8U
-        HRIaCwJVSlVKTkNPSE5NTk1CTU5LVTMWGhIXVQweFRMOVQwaFRw7DRINFFUYFBZFWVdZEgtZQVlO
-        Q1VJTkpVTE9VSUlMWVdZCAFZQUxKS0M3Bg++
-X-HM-Tid: 0a70e3029e069375kuwsdc89a261636
+In-Reply-To: <43c0e375-6ed1-6a4e-1d61-c0255bf94f26@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate virtiofs.rst in Documentation/filesystems/ into Chinese.
+On 14/03/2020 18:18, Randy Dunlap wrote:
+> On 3/14/20 7:28 AM, Matthew Wilcox wrote:
+>> On Tue, Mar 10, 2020 at 01:59:15PM -0700, Randy Dunlap wrote:
+>>>> +oops_all_cpu_backtrace:
+>>>> +================
+>>>> +
+>>>> +Determines if kernel should NMI all CPUs to dump their backtraces when
+>>>
+>>> I would much prefer that to be written without using NMI as a verb.
+>>
+>> Concrete suggestion: "If this option is set, the kernel will send an NMI to
+>> all CPUs to dump ..."
+>>
+> 
+> Ack.  Thanks for that.
+> 
 
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
----
-Changelog:
-v2:
- - add a blank line in the end of index.rst to index virtiofs.rst
- - Asked-by Stefan Hajnoczi
- - added SPDX header and Copyright info
-v3:
- - rm raw latex field in translations/zh_CN/filesystems/index.rst
-   for none compatibility test with Sphinx 1.7.9 or later(only v1.6.7 avalible for me now).
- - mv SPDX-License-Identifier to the top
- - Reviewed-by labels added
----
- Documentation/filesystems/virtiofs.rst        |  2 +
- .../translations/zh_CN/filesystems/index.rst  |  2 +
- .../zh_CN/filesystems/virtiofs.rst            | 58 +++++++++++++++++++
- 3 files changed, 62 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/filesystems/virtiofs.rst
+Thanks Randy and Matthew! I'll implement those changes and resend as V2.
+If anybody has suggestions of people I should add to CC list, please let
+me know.
 
-diff --git a/Documentation/filesystems/virtiofs.rst b/Documentation/filesystems/virtiofs.rst
-index 4f338e3cb3f7..e06e4951cb39 100644
---- a/Documentation/filesystems/virtiofs.rst
-+++ b/Documentation/filesystems/virtiofs.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. _virtiofs_index:
-+
- ===================================================
- virtiofs: virtio-fs host<->guest shared file system
- ===================================================
-diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-index f5adcdc5fa1c..14f155edaf69 100644
---- a/Documentation/translations/zh_CN/filesystems/index.rst
-+++ b/Documentation/translations/zh_CN/filesystems/index.rst
-@@ -23,3 +23,5 @@ Linux Kernel中的文件系统
- .. toctree::
-    :maxdepth: 2
- 
-+   virtiofs
-+
-diff --git a/Documentation/translations/zh_CN/filesystems/virtiofs.rst b/Documentation/translations/zh_CN/filesystems/virtiofs.rst
-new file mode 100644
-index 000000000000..09bc9e012e2a
---- /dev/null
-+++ b/Documentation/translations/zh_CN/filesystems/virtiofs.rst
-@@ -0,0 +1,58 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/filesystems/virtiofs.rst <virtiofs_index>`
-+
-+译者
-+::
-+
-+	中文版维护者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
-+	中文版翻译者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
-+	中文版校译者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
-+
-+===========================================
-+virtiofs: virtio-fs 主机<->客机共享文件系统
-+===========================================
-+
-+- Copyright (C) 2020 Vivo Communication Technology Co. Ltd.
-+
-+介绍
-+====
-+Linux的virtiofs文件系统实现了一个半虚拟化VIRTIO类型“virtio-fs”设备的驱动，通过该\
-+类型设备实现客机<->主机文件系统共享。它允许客机挂载一个已经导出到主机的目录。
-+
-+客机通常需要访问主机或者远程系统上的文件。使用场景包括：在新客机安装时让文件对其\
-+可见；从主机上的根文件系统启动；对无状态或临时客机提供持久存储和在客机之间共享目录。
-+
-+尽管在某些任务可能通过使用已有的网络文件系统完成，但是却需要非常难以自动化的配置\
-+步骤，且将存储网络暴露给客机。而virtio-fs设备通过提供不经过网络的文件系统访问文件\
-+的设计方式解决了这些问题。
-+
-+另外，virto-fs设备发挥了主客机共存的优点提高了性能，并且提供了网络文件系统所不具备
-+的一些语义功能。
-+
-+用法
-+====
-+以``myfs``标签将文件系统挂载到``/mnt``:
-+
-+.. code-block:: sh
-+
-+  guest# mount -t virtiofs myfs /mnt
-+
-+请查阅 https://virtio-fs.gitlab.io/ 了解配置QEMU和virtiofsd守护程序的详细信息。
-+
-+内幕
-+====
-+由于virtio-fs设备将FUSE协议用于文件系统请求，因此Linux的virtiofs文件系统与FUSE文\
-+件系统客户端紧密集成在一起。客机充当FUSE客户端而主机充当FUSE服务器，内核与用户空\
-+间之间的/dev/fuse接口由virtio-fs设备接口代替。
-+
-+FUSE请求被置于虚拟队列中由主机处理。主机填充缓冲区中的响应部分，而客机处理请求的完成部分。
-+
-+将/dev/fuse映射到虚拟队列需要解决/dev/fuse和虚拟队列之间语义上的差异。每次读取\
-+/dev/fuse设备时，FUSE客户端都可以选择要传输的请求，从而可以使某些请求优先于其他\
-+请求。虚拟队列有其队列语义，无法更改已入队请求的顺序。在虚拟队列已满的情况下尤
-+其关键，因为此时不可能加入高优先级的请求。为了解决此差异，virtio-fs设备采用“hiprio”\
-+（高优先级）虚拟队列，专门用于有别于普通请求的高优先级请求。
-+
--- 
-2.17.1
+Thanks again,
 
+
+Guilherme
