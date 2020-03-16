@@ -2,207 +2,94 @@ Return-Path: <SRS0=2eIQ=5B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D71C0044D
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 14:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF19EC18E5B
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 15:48:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F24D92077A
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 14:53:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2CD120679
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Mar 2020 15:48:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584373722;
+	bh=hgo1mJoERylQnqXK/Qzm4LRDUpgAiG0+pmKFSvZomaQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=cIRvpZQS5RRMZq3IQ8e4VSPFBvzMgPmPT/uYiq6yigxc//s2i/EaBxKCjktV9U708
+	 0IxWJijUGR6g+x8kDhm2qr8DhN55Cj1gTxTp5lx2i40ogxiIjY38c7eaPzwy2Vi/De
+	 5tZIX//6jPc54uY+cqF4sPe0ZsPETD8D77hOmgJc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731633AbgCPOxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Mar 2020 10:53:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58298 "EHLO mx2.suse.de"
+        id S1731892AbgCPPsm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Mar 2020 11:48:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48700 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731631AbgCPOxZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Mar 2020 10:53:25 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 76FE1AD72;
-        Mon, 16 Mar 2020 14:53:22 +0000 (UTC)
-From:   Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
-To:     Michal Hocko <mhocko@kernel.org>,
-        Ivan Teterevkov <ivan.teterevkov@nutanix.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jgross@suse.com" <jgross@suse.com>,
-        "oneukum@suse.com" <oneukum@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-References: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
- <20200312092531.GU23944@dhcp22.suse.cz>
- <BL0PR02MB5601B50A2D9AEE6318D51893E9FD0@BL0PR02MB5601.namprd02.prod.outlook.com>
- <20200312132642.GW23944@dhcp22.suse.cz>
-Message-ID: <4ea2e014-17ea-6d1e-a6cd-775fb6550cd2@suse.cz>
-Date:   Mon, 16 Mar 2020 15:53:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1731685AbgCPPsm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Mar 2020 11:48:42 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D217C2051A;
+        Mon, 16 Mar 2020 15:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584373721;
+        bh=hgo1mJoERylQnqXK/Qzm4LRDUpgAiG0+pmKFSvZomaQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Za6mh7KDdv9dR38PI076BNUhiopaZCf0+hr79++iIoZYWraYO/CUHmaixd7xgv8Le
+         yueJN2TPyLFVFJfjUaPpJyEFNje6v5oiYHwgY2t9gCshrsIrjDkyUmxmvBOzDxW5dQ
+         h2cofCD3g2K0Xmafbqbs+gf8bKMoav5gNbUAF3/g=
+Date:   Mon, 16 Mar 2020 15:48:35 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+        linux-doc@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [PATCH 0/3] docs: a few improvements for atomic_ops.rst
+Message-ID: <20200316154835.GA13004@willie-the-truck>
+References: <20200308195618.22768-1-j.neuschaefer@gmx.net>
+ <20200309090650.GF12561@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-In-Reply-To: <20200312132642.GW23944@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200309090650.GF12561@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/12/20 2:26 PM, Michal Hocko wrote:
-> On Thu 12-03-20 12:54:19, Ivan Teterevkov wrote:
->> 
->> Absolutely agree, the semantics of the vm_swappiness is perplexing.
->> Moreover, the same get_scan_count treats vm_swappiness and cgroups
->> memory.swappiness differently, in particular, 0 disables the memcg swap.
->> 
->> Certainly, the patch adds some additional exposure to a parameter that
->> is not trivial to tackle but it's already getting created with a magic
->> number which is also confusing. Is there any harm to be done by the patch
->> considering the already existing sysctl interface to that knob?
+On Mon, Mar 09, 2020 at 10:06:50AM +0100, Peter Zijlstra wrote:
+> On Sun, Mar 08, 2020 at 08:56:15PM +0100, Jonathan Neuschäfer wrote:
+> > Hi,
+> > 
+> > this is a short series of unrelated fixes that make the atomic
+> > operations documentation look and read a bit better.
+> > 
+> > Jonathan Neuschäfer (3):
+> >   docs: atomic_ops: Remove colons where they don't make sense
+> >   docs: atomic_ops: Move two paragraphs into the warning block above
+> >   docs: atomic_ops: Steer readers towards using refcount_t for reference
+> >     counts
+> > 
+> >  Documentation/core-api/atomic_ops.rst         | 24 ++++++++++++-------
 > 
-> Like any other config option/kernel parameter. It is adding the the
-> overall config space size problem and unless this is really needed I
-> would rather not make it worse.
+> FWIW, I consider this a dead document. I've written
+> Documentation/atomic_t.txt and Documentation/atomic_bitops.txt as a
+> replacement. If there is anything in atomic_ops you feel is missing from
+> those two, please tell as I'm planing to delete atomic_ops soon.
 
-Setting the vm_swappiness specific case aside, I wonder if if would be
-useful to be able to emulate any sysctl with a kernel parameter,
-i.e. boot the kernel with sysctl.vm.swappiness=X
-There are already some options that provide kernel parameter as well
-as sysctl, why not just support all.
-Quick and dirty proof of concept:
+For the deletion:
 
-----8<-----
-diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
-index 02fa84493f23..62ae963a5c0c 100644
---- a/include/linux/sysctl.h
-+++ b/include/linux/sysctl.h
-@@ -206,6 +206,7 @@ struct ctl_table_header *register_sysctl_paths(const struct ctl_path *path,
- void unregister_sysctl_table(struct ctl_table_header * table);
- 
- extern int sysctl_init(void);
-+int process_sysctl_arg(char *param, char *val, const char *unused, void *arg);
- 
- extern struct ctl_table sysctl_mount_point[];
- 
-diff --git a/init/main.c b/init/main.c
-index ee4947af823f..c1544ff4ec5b 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -1345,6 +1345,23 @@ void __weak free_initmem(void)
- 	free_initmem_default(POISON_FREE_INITMEM);
- }
- 
-+static void do_sysctl_args(void)
-+{
-+	size_t len = strlen(saved_command_line) + 1;
-+	char *command_line;
-+
-+	command_line = kzalloc(len, GFP_KERNEL);
-+	if (!command_line)
-+		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
-+
-+	strcpy(command_line, saved_command_line);
-+
-+	parse_args("Setting sysctl args", command_line,
-+		   NULL, 0, -1, -1, NULL, process_sysctl_arg);
-+
-+	kfree(command_line);
-+}
-+
- static int __ref kernel_init(void *unused)
- {
- 	int ret;
-@@ -1367,6 +1384,8 @@ static int __ref kernel_init(void *unused)
- 
- 	rcu_end_inkernel_boot();
- 
-+	do_sysctl_args();
-+
- 	if (ramdisk_execute_command) {
- 		ret = run_init_process(ramdisk_execute_command);
- 		if (!ret)
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index ad5b88a53c5a..5b3b520d29a8 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -1980,6 +1980,66 @@ int __init sysctl_init(void)
- 	return 0;
- }
- 
-+int process_sysctl_arg(char *param, char *val,
-+			       const char *unused, void *arg)
-+{
-+	size_t count;
-+	char *tmp;
-+	int err;
-+	loff_t ppos = 0;
-+	struct ctl_table *base, *child = NULL, *found = NULL;
-+
-+	if (strncmp(param, "sysctl.", sizeof("sysctl.") - 1))
-+		return 0;
-+
-+	param += (sizeof("sysctl.") - 1);
-+
-+	pr_notice("sysctl: %s=%s", param, val);
-+
-+	tmp = strchr(param, '.');
-+	if (!tmp) {
-+		pr_notice("invalid sysctl param '%s' on command line", param);
-+		return 0;
-+	}
-+
-+	*tmp = '\0';
-+
-+	for (base = &sysctl_base_table[0]; base->procname != 0; base++) {
-+		if (strcmp(param, base->procname) == 0) {
-+			child = base->child;
-+			break;
-+		}
-+	}
-+
-+	if (!child) {
-+		pr_notice("unknown sysctl prefix '%s' on command line", param);
-+		return 0;
-+	}
-+
-+	tmp++;
-+
-+	for (; child->procname != 0; child++) {
-+		if (strcmp(tmp, child->procname) == 0) {
-+			found = child;
-+			break;
-+		}
-+	}
-+
-+	if (!found) {
-+		pr_notice("unknown sysctl param '%s.%s' on command line", param, tmp);
-+		return 0;
-+	}
-+
-+	count = strlen(val);
-+	err = found->proc_handler(found, 1, val, &count, &ppos);
-+
-+	if (err)
-+		pr_notice("error %d setting sysctl '%s.%s' from command line",
-+				err, param, tmp);
-+
-+	return 0;
-+}
-+
- #endif /* CONFIG_SYSCTL */
- 
- /*
--- 
-2.25.1
+Acked-by: Will Deacon <will@kernel.org>
 
-
-
-
+Will
