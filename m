@@ -2,96 +2,249 @@ Return-Path: <SRS0=98ua=5C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F80C1975A
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 19:16:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31152C2BB1D
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 19:46:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C939220714
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 19:16:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED7082073E
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 19:46:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JTCUiqIu"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JI600Y+S"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726643AbgCQTQy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 15:16:54 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57678 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726638AbgCQTQy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 15:16:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=8gmkMPc55PnhvAe6dxsKKiOFnfmTOzZAgDVOqMBrgvU=; b=JTCUiqIu5SjTnZG3KLQhp9zeWX
-        +tnBTHqGT5I1ZuJ9+9PUptXzSMcZCokGxQqBWgJ5Y3j3EXo9dD9ANmAKv+ZTpFvEYgtpSSlZDjepA
-        6IG5N8Xnmwsv1aeaweukC0Je0dhgQP+9RFLk91ckuNYpDAk787YEaO1jsxZOXPEhuSPSR3q6NWBMH
-        SAuWMtFt+41YEWzHWxdu3kZJ9biPX3t38ZKQMJjTPo+Jzz51eMzafE+ehQmOiPwf3liAgn/fWbQ6g
-        aDV8Z2npPiJLWVH2eJc5iW8WvYZl/s+ouQ0FQSLdIpE5QHDIw6lCI8UA5ZpokUgp4mjxjUfWHkiMj
-        7wGTrbmQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jEHhp-0007iO-5x; Tue, 17 Mar 2020 19:16:49 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5753830110E;
-        Tue, 17 Mar 2020 20:16:47 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 49399284D7DE8; Tue, 17 Mar 2020 20:16:47 +0100 (CET)
-Date:   Tue, 17 Mar 2020 20:16:47 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>
-Subject: Re: [PATCH 04/17] kernel: futex.c: get rid of a docs build warning
-Message-ID: <20200317191647.GC20713@hirez.programming.kicks-ass.net>
-References: <cover.1584456635.git.mchehab+huawei@kernel.org>
- <aab1052263e340a3eada5522f32be318890314a1.1584456635.git.mchehab+huawei@kernel.org>
- <20200317165805.GA20713@hirez.programming.kicks-ass.net>
- <20200317113633.32078328@lwn.net>
+        id S1726491AbgCQTqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Mar 2020 15:46:30 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35247 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726541AbgCQTq0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 15:46:26 -0400
+Received: by mail-ot1-f67.google.com with SMTP id k26so23089937otr.2
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2020 12:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9s2Sb3c4MxnnBmpoBuePNWugbWE68PyhFAR020YyxKI=;
+        b=JI600Y+S7vaaL+M1SlEKgAEtEUPT5Q45PYyhNUPJY82ExiEm4yLvuyoLjANOxrw/L8
+         K0LSxUZhq+pXM1GGwp3j51HMQSJZsaS91TWVYRhmi3aC265XUUVxVsf85Lt6C4FHfODU
+         F+8841uMdqRd6VymvDirqjn9SmklKMzELb2nq4ltyUMq1nVMo8mh6KrYIj6CXSK8975s
+         8Wppxc9EDwI6+CuP2CcdW21eufAGc9NTfDD0XTQ6x9Ta4mXhWmyFq+EubLApEE3PIMY3
+         UluxszB5ZBrGmCkrxM1stsbflxhZ846CG2/SzeG3kVFjDKkewelUAmzGKrdjkzgjSzUp
+         gkCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9s2Sb3c4MxnnBmpoBuePNWugbWE68PyhFAR020YyxKI=;
+        b=PMVPj8m4/gMwx5LE3HvaE/JxSsGzUrHVBkvbvT5DfFRHRseDZzmW6MZr/tbX0VrnlJ
+         s4HtEZOgqQ2NMQQ2X8JB8Cv9Ed0GlBoyob7UZQ4Hx/7GWUxFX6AuYs5AouPkZqNQ6kq/
+         73n9BberRdxb23pROR1HD0K/ne9WL3umI2fbHxm5VSyMIwZ+r6sZGGmaB0x5yZSSRbzF
+         8hzF8mHxtijk0giezEx4tcKkIKggWHn2LRKu8epy6ZrDgvujFVVKKb8PdIatFtXJSJvI
+         WxafPAcBE2xFcuuUcgWS/09lmb57hxCXAmAPRd7hPCaGg/bdWQxZ3At8s3CgeWvEX9mN
+         3vqw==
+X-Gm-Message-State: ANhLgQ2tpr5daflo1LsZWOP8xsAyqotA/KwudqMt4tpjTn9inxd6FPR9
+        lvz5nnGii+/qyGpwerB/MLjSiHkm67EirWHUBdJSAA==
+X-Google-Smtp-Source: ADFU+vuKl0l5cSfO5Cy+yKgBZm1XSTGaBWgXbflYl3a2hR5fw7Go07ECSMEPZtHP+SUIHarbwT5aqXaP0EMleeCdfQE=
+X-Received: by 2002:a9d:5e8b:: with SMTP id f11mr858477otl.110.1584474384151;
+ Tue, 17 Mar 2020 12:46:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200317113633.32078328@lwn.net>
+References: <20200224160215.4136-1-mic@digikod.net> <CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com>
+ <873d7419-bdd9-8a52-0a9b-dddbe31df4f9@digikod.net> <CAG48ez0=0W5Ok-8nASqZrZ28JboXRRi3gDxV5u6mdcOtzwuRVA@mail.gmail.com>
+ <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net>
+In-Reply-To: <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 17 Mar 2020 20:45:57 +0100
+Message-ID: <CAG48ez16yT+zbK1WPxr2TnxrifW5c2DnpFLbWRRLUT_WpuFNmw@mail.gmail.com>
+Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 11:36:33AM -0600, Jonathan Corbet wrote:
-> On Tue, 17 Mar 2020 17:58:05 +0100
-> Peter Zijlstra <peterz@infradead.org> wrote:
-> 
-> > On Tue, Mar 17, 2020 at 03:54:13PM +0100, Mauro Carvalho Chehab wrote:
-> > > Adjust whitespaces and blank lines in order to get rid of this:
-> > > 
-> > > 	./kernel/futex.c:491: WARNING: Definition list ends without a blank line; unexpected unindent.
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > ---
-> > >  kernel/futex.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/kernel/futex.c b/kernel/futex.c
-> > > index 67f004133061..dda6ddbc2e7d 100644
-> > > --- a/kernel/futex.c
-> > > +++ b/kernel/futex.c
-> > > @@ -486,7 +486,8 @@ static u64 get_inode_sequence_number(struct inode *inode)
-> > >   * The key words are stored in @key on success.
-> > >   *
-> > >   * For shared mappings (when @fshared), the key is:
-> > > - *   ( inode->i_sequence, page->index, offset_within_page )
-> > > + * ( inode->i_sequence, page->index, offset_within_page )
-> > > + *  
-> > 
-> > WTH, that's less readable.
-> 
-> It won't render well in the build either; that should be a literal block.
+On Tue, Mar 17, 2020 at 6:50 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> On 17/03/2020 17:19, Jann Horn wrote:
+> > On Thu, Mar 12, 2020 at 12:38 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.=
+net> wrote:
+> >> On 10/03/2020 00:44, Jann Horn wrote:
+> >>> On Mon, Feb 24, 2020 at 5:03 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod=
+.net> wrote:
+>
+> [...]
+>
+> >>> Aside from those things, there is also a major correctness issue wher=
+e
+> >>> I'm not sure how to solve it properly:
+> >>>
+> >>> Let's say a process installs a filter on itself like this:
+> >>>
+> >>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
+> >>> ACCESS_FS_ROUGHLY_WRITE};
+> >>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
+> >>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> >>> struct landlock_attr_path_beneath path_beneath =3D {
+> >>>   .ruleset_fd =3D ruleset_fd,
+> >>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
+> >>>   .parent_fd =3D open("/tmp/foobar", O_PATH),
+> >>> };
+> >>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> >>> sizeof(path_beneath), &path_beneath);
+> >>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> >>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rules=
+et_fd };
+> >>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
+> >>> sizeof(attr_enforce), &attr_enforce);
+> >>>
+> >>> At this point, the process is not supposed to be able to write to
+> >>> anything outside /tmp/foobar, right? But what happens if the process
+> >>> does the following next?
+> >>>
+> >>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
+> >>> ACCESS_FS_ROUGHLY_WRITE};
+> >>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
+> >>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> >>> struct landlock_attr_path_beneath path_beneath =3D {
+> >>>   .ruleset_fd =3D ruleset_fd,
+> >>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
+> >>>   .parent_fd =3D open("/", O_PATH),
+> >>> };
+> >>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> >>> sizeof(path_beneath), &path_beneath);
+> >>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> >>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rules=
+et_fd };
+> >>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
+> >>> sizeof(attr_enforce), &attr_enforce);
+> >>>
+> >>> As far as I can tell from looking at the source, after this, you will
+> >>> have write access to the entire filesystem again. I think the idea is
+> >>> that LANDLOCK_CMD_ENFORCE_RULESET should only let you drop privileges=
+,
+> >>> not increase them, right?
+> >>
+> >> There is an additionnal check in syscall.c:get_path_from_fd(): it is
+> >> forbidden to add a rule with a path which is not accessible (according
+> >> to LANDLOCK_ACCESS_FS_OPEN) thanks to a call to security_file_open(),
+> >> but this is definitely not perfect.
+> >
+> > Ah, I missed that.
+> >
+> >>> I think the easy way to fix this would be to add a bitmask to each
+> >>> rule that says from which ruleset it originally comes, and then let
+> >>> check_access_path() collect these bitmasks from each rule with OR, an=
+d
+> >>> check at the end whether the resulting bitmask is full - if not, at
+> >>> least one of the rulesets did not permit the access, and it should be
+> >>> denied.
+> >>>
+> >>> But maybe it would make more sense to change how the API works
+> >>> instead, and get rid of the concept of "merging" two rulesets
+> >>> together? Instead, we could make the API work like this:
+> >>>
+> >>>  - LANDLOCK_CMD_CREATE_RULESET gives you a file descriptor whose
+> >>> ->private_data contains a pointer to the old ruleset of the process,
+> >>> as well as a pointer to a new empty ruleset.
+> >>>  - LANDLOCK_CMD_ADD_RULE fails if the specified rule would not be
+> >>> permitted by the old ruleset, then adds the rule to the new ruleset
+> >>>  - LANDLOCK_CMD_ENFORCE_RULESET fails if the old ruleset pointer in
+> >>> ->private_data doesn't match the current ruleset of the process, then
+> >>> replaces the old ruleset with the new ruleset.
+> >>>
+> >>> With this, the new ruleset is guaranteed to be a subset of the old
+> >>> ruleset because each of the new ruleset's rules is permitted by the
+> >>> old ruleset. (Unless the directory hierarchy rotates, but in that cas=
+e
+> >>> the inaccuracy isn't much worse than what would've been possible
+> >>> through RCU path walk anyway AFAIK.)
+> >>>
+> >>> What do you think?
+> >>>
+> >>
+> >> I would prefer to add the same checks you described at first (with
+> >> check_access_path), but only when creating a new ruleset with
+> >> merge_ruleset() (which should probably be renamed). This enables not t=
+o
+> >> rely on a parent ruleset/domain until the enforcement, which is the ca=
+se
+> >> anyway.
+> >> Unfortunately this doesn't work for some cases with bind mounts. Becau=
+se
+> >> check_access_path() goes through one path, another (bind mounted) path
+> >> could be illegitimately allowed.
+> >
+> > Hmm... I'm not sure what you mean. At the moment, landlock doesn't
+> > allow any sandboxed process to change the mount hierarchy, right? Can
+> > you give an example where this would go wrong?
+>
+> Indeed, a Landlocked process must no be able to change its mount
+> namespace layout. However, bind mounts may already exist.
+> Let's say a process sandbox itself to only access /a in a read-write
+> way.
 
-it renders perfectly in an ASCII text editor, which is by far the most
-important interface for all this.
+So, first policy:
+
+/a RW
+
+> Then, this process (or one of its children) add a new restriction
+> on /a/b to only be able to read this hierarchy.
+
+You mean with the second policy looking like this?
+
+/a RW
+/a/b R
+
+Then the resulting policy would be:
+
+/a RW policy_bitmask=3D0x00000003 (bits 0 and 1 set)
+/a/b R policy_bitmask=3D0x00000002 (bit 1 set)
+required_bits=3D0x00000003 (bits 0 and 1 set)
+
+> The check at insertion
+> time would allow this because this access right is a subset of the
+> access right allowed with the parent directory. However, If /a/b is bind
+> mounted somewhere else, let's say in /private/b, then the second
+> enforcement just gave new access rights to this hierarchy too.
+
+But with the solution I proposed, landlock's path walk would see
+something like this when accessing a file at /private/b/foo:
+/private/b/foo <no rules>
+  policies seen until now: 0x00000000
+/private/b <access: R, policy_bitmask=3D0x00000002>
+  policies seen until now: 0x00000002
+/private <no rules>
+  policies seen until now: 0x00000002
+/ <no rules>
+  policies seen until now: 0x00000002
+
+It wouldn't encounter any rule from the first policy, so the OR of the
+seen policy bitmasks would be 0x00000002, which is not the required
+value 0x00000003, and so the access would be denied.
