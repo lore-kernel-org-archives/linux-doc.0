@@ -2,111 +2,86 @@ Return-Path: <SRS0=98ua=5C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB2DC3F2CE
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C0E9C18E5B
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 15:03:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C4F7A20754
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:55:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584456935;
-	bh=IcrlfQvgKmeYInQEb1V6SDbd5RTpr3lZF8EoWwbFokY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nmA0d+Iwz4vvrzeC2bi/mMfUEWWXbN1GOAew7HEdkwlxcmwPo7hDMcoKuxVPSRyJp
-	 l7xOD2bhjIP3NYXrKGNw5WkslOdeYCJuxzH4jNLnggq0rp7PATg5Hxt0NAbGJVXk8L
-	 nYfGDMabufgKnuancmY1jn0164/pVS09fUElc1fc=
+	by mail.kernel.org (Postfix) with ESMTP id 0C9F520735
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 15:03:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726924AbgCQOyb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 10:54:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43436 "EHLO mail.kernel.org"
+        id S1726476AbgCQPDZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Mar 2020 11:03:25 -0400
+Received: from sauhun.de ([88.99.104.3]:35330 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726785AbgCQOyb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Mar 2020 10:54:31 -0400
-Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6311D20738;
-        Tue, 17 Mar 2020 14:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584456870;
-        bh=IcrlfQvgKmeYInQEb1V6SDbd5RTpr3lZF8EoWwbFokY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kbEbEZt+bsHAesAtxuLzRRMp6+HiKS9NfSGqHVUtA/O42M2b+O7Yn1Vky/Ip9kQ3w
-         ZIhLTlovd2OpUUhVK4sDF89+b+h4Sj0k+c9U+OhiWB1fegd8SpQTgaFQfT7ae4OCIb
-         ky4lnaiHHeW1sGF89rVAsDUsBuQGqtCNC6t1Fyoc=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jEDbw-000AMf-Jb; Tue, 17 Mar 2020 15:54:28 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 07/17] scripts: kernel-doc: proper handle @foo->bar()
-Date:   Tue, 17 Mar 2020 15:54:16 +0100
-Message-Id: <69af92761e5e286f00c29105615de20d1dcab9c3.1584456635.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1584456635.git.mchehab+huawei@kernel.org>
+        id S1726388AbgCQPDY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Mar 2020 11:03:24 -0400
+Received: from localhost (p54B330FD.dip0.t-ipconnect.de [84.179.48.253])
+        by pokefinder.org (Postfix) with ESMTPSA id 83B072C1E8B;
+        Tue, 17 Mar 2020 16:03:22 +0100 (CET)
+Date:   Tue, 17 Mar 2020 16:03:22 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 13/17] i2c: include/linux/i2c.h: fix a doc warning
+Message-ID: <20200317150322.GB1134@ninjato>
 References: <cover.1584456635.git.mchehab+huawei@kernel.org>
+ <24cbf9166b21531186e5b6d37a3f9201f957abef.1584456635.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zx4FCpZtqtKETZ7O"
+Content-Disposition: inline
+In-Reply-To: <24cbf9166b21531186e5b6d37a3f9201f957abef.1584456635.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pattern @foo->bar() is valid, as it can be used by a
-function pointer inside a struct passed as a parameter.
 
-Right now, it causes a warning:
+--zx4FCpZtqtKETZ7O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	./drivers/firewire/core-transaction.c:606: WARNING: Inline strong start-string without end-string.
+On Tue, Mar 17, 2020 at 03:54:22PM +0100, Mauro Carvalho Chehab wrote:
+> Don't let non-letters inside a literal block without escaping it, as
+> the toolchain would mis-interpret it:
+>=20
+> ./include/linux/i2c.h:518: WARNING: Inline strong start-string without en=
+d-string.
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-In this specific case, the kernel-doc markup is:
+Shall I take this via I2C?
 
-	/**
-	 * fw_core_remove_address_handler() - unregister an address handler
-	 * @handler: callback
-	 *
-	 * To be called in process context.
-	 *
-	 * When fw_core_remove_address_handler() returns, @handler->callback() is
-	 * guaranteed to not run on any CPU anymore.
-	 */
+If not:
 
-With seems valid on my eyes. So, instead of trying to hack
-the kernel-doc markup, let's teach it about how to handle
-such things. This should likely remove lots of other similar
-warnings as well.
+Acked-by: Wolfram Sang <wsa@the-dreams.de>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/kernel-doc | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index f2d73f04e71d..d15c8ea95d93 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -214,6 +214,7 @@ my $type_constant2 = '\%([-_\w]+)';
- my $type_func = '(\w+)\(\)';
- my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
- my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
-+my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
- my $type_env = '(\$\w+)';
- my $type_enum = '\&(enum\s*([_\w]+))';
- my $type_struct = '\&(struct\s*([_\w]+))';
-@@ -249,6 +250,7 @@ my @highlights_rst = (
-                        [$type_member_func, "\\:c\\:type\\:`\$1\$2\$3\\\\(\\\\) <\$1>`"],
-                        [$type_member, "\\:c\\:type\\:`\$1\$2\$3 <\$1>`"],
- 		       [$type_fp_param, "**\$1\\\\(\\\\)**"],
-+		       [$type_fp_param2, "**\$1\\\\(\\\\)**"],
-                        [$type_func, "\$1()"],
-                        [$type_enum, "\\:c\\:type\\:`\$1 <\$2>`"],
-                        [$type_struct, "\\:c\\:type\\:`\$1 <\$2>`"],
--- 
-2.24.1
+--zx4FCpZtqtKETZ7O
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5w5rkACgkQFA3kzBSg
+KbZfkg//aSwBF24M2bUR133Y8c045B6aXfKMJanxvgG1YhXfEwrBg+fV+N1bJwkM
+VUlrOQVUflwbzHMoKbkKoLG0cfCZvTy8XK/m86h1ryOYC+vDtxL1FoegGUDSfuJl
+rXVMMp0HyrPBNVg6TJ2lRldK6gdEMmCghsaYLbIMwa60ZyLjmBYKOAiehHOi48sc
+hkN/bPwNOhJUaB8NmcclXxqXAwEG6thoN0qJYewukukPfhlcn+M2w9XpsK9XlUMr
+VbQ4SB+h6PEncvi7EAOFd1QZhfXvfOkfofRXDhxhVctiTyiwm85f0xp/+1oSnAyn
+lLYr46bqky4dS5GYiPlpi4oHXi0lu445+uy1VSA4YY2KSx3z9IHl3PWdiQsJ0yh/
+YPMYMQ5hz5P9129RbiZWYzSuNhgsPLAamvcAh86T/BzNKxfgOjcNV8ITGJZAJ3TD
+jwATu7SZUwVJduGq7xknoJTyRdONxBzHVbLi+tRGFTlwZYmU1Upmo9o3lmeEmDaQ
+tK8eNlKuiNAR5QSAAyJ5yNZquLrhPjWVgnfsFg6HkW2FaNhq/D2ck8iv/n1vl+HU
+c38Jwmk0XYRYYc1eeADRM6qC2jbxFb30FR7USfX5HedJGUdYI9gOc4gQwfosOxvQ
+mqIDG4s04ADPoZ8KMbr1wdn2LQELsNxwHQkoOnprtipOBTf8nSs=
+=xvct
+-----END PGP SIGNATURE-----
+
+--zx4FCpZtqtKETZ7O--
