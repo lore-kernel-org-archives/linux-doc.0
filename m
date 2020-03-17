@@ -2,136 +2,106 @@ Return-Path: <SRS0=98ua=5C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E86C4CECE
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 13:50:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D00C10F29
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 13:55:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1F4FF20767
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 13:50:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC0F2205ED
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 13:55:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="QSiI3s0Y"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="YeIk7e4Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726683AbgCQNur (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 09:50:47 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53396 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726596AbgCQNuq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 09:50:46 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 25so21550892wmk.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2020 06:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=weGSHusuD3aKifnaFA/EzOIoqClxmTlaJmSpzpOoxs0=;
-        b=QSiI3s0YoV7n7/tnYog9oUBP3Cc6GxHGUCwCh0UhqjNIkn6pKoWxwDwIc7ZHfuKyt1
-         kEdvFCQ6j7+Noa9+D0kVSXd1O/Rq0h4ff0AABiKfQ0W9cNhse4SjTXrrb27FQeHJRpqX
-         rIA1fPNgK6D/F/8d3tqP2UVTDNrxXWhDA5E8X6jidyynaIZ0Cy+aY7WG7NpXiQONb4V8
-         LujVukcDZrWz+C7PF5bEhVfs5Bz/2BHH9zTE0HxRpIGKa2vvxtylEPZVlwnF7tZUgTXY
-         0rCI7jvUsKgzmx+R0sfFe10N4oWZb67+facmOeYl3vGzjeHlueh6TX64XNpmNRTf9oox
-         +L4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=weGSHusuD3aKifnaFA/EzOIoqClxmTlaJmSpzpOoxs0=;
-        b=U2QwKqLyQIiAfA4Ecrtkuwta8t+utvGLH1G2RH/FGDG/i7V57EZYCJjyKb+09BrZG8
-         Zl5gBDpCtwFaiAY2drIQIXqWi4F5zJb9iPEZkicQbv0yBhZ6gaepaOPTwBdbSmUEHQaq
-         IYDAWy+lXqYZCrlf8+JVidmOV4Nw2fiFEK6v1z2gUQgavsksWmV3TATxADlQFCyimMDR
-         NO+hjngqsN7UlWohbwcfWEIKsUY4pYuz8paVQ1fYOtZSqViMzoQ0pTXnkGeOfU7CAgQc
-         e9LqHSOg9xp4wa18H/BTKebgPZ4fsJXdrm1vPwrHIfG5yyHqoM8gU6pwZKaa0rbs5+3B
-         HTow==
-X-Gm-Message-State: ANhLgQ0NW2WQ6PoGPWytImNa03qxMsyCAXUZFWXcc4DWak+zr6ziulux
-        fSNy6nohhx5/nHxCkXrDcoaCBeSB3KDdpLEyv6skSA==
-X-Google-Smtp-Source: ADFU+vusa/y0ClrKHxHtyBDmZj1O+rMx8uu0qjHobSSS5JQecz+zDpUKEEddBu5XlbGpEmdbaIvM2nWs+JrNOWL77kQ=
-X-Received: by 2002:a05:600c:21d1:: with SMTP id x17mr5249108wmj.3.1584453043184;
- Tue, 17 Mar 2020 06:50:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1584450500.git.mchehab+huawei@kernel.org> <cf60ef88712e4f46f4e4bf40b2c646451d921827.1584450500.git.mchehab+huawei@kernel.org>
-In-Reply-To: <cf60ef88712e4f46f4e4bf40b2c646451d921827.1584450500.git.mchehab+huawei@kernel.org>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Tue, 17 Mar 2020 14:50:32 +0100
-Message-ID: <CAMpxmJUPA2qDwDu-LUh-RtXt66NhQUdjnPOCSaaBZ9xEm0C5LQ@mail.gmail.com>
-Subject: Re: [PATCH 05/12] docs: dt: fix references to ap806-system-controller.txt
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
+        id S1726752AbgCQNzR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Mar 2020 09:55:17 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:1395 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726148AbgCQNzQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 09:55:16 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 02HDhTpk012643;
+        Tue, 17 Mar 2020 14:55:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=Gu8RU4M1Yo3oc9oR0Y2I53Ep8ZKZwvbmvsOve/l4pnw=;
+ b=YeIk7e4ZHYokxGEvJ18AYwo9q/lhRftRIISV68pYsX4428j05cOV4Wdo3NwrLZRl4QKD
+ 9ndz/oH7Ew/B4Y5aCOBpxjVQqT2pXjc70DhV/OK/60O5Sd+SzCPoD/6EutHDqcoxoRAb
+ q13Qrgj52tkTXLYIbHaLf2w8U/saael70S7apisoDRJNCDq7k+0aCg3MUeZDj7w5Bi/b
+ jj6pWVcuAhrVTd5yiEdoeudUUPGYlG17FewmGlaam/QvoRr241JkkJhwtbcVhi8O/nKf
+ PxLctnxUiIgCODE3E+Di4H2WPor5ajfAbFbdp6mhZ90tMeYwy5Xj5fzuVfYbp0pADyGn rA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2yrqa9rjf1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 Mar 2020 14:55:00 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BAEC1100034;
+        Tue, 17 Mar 2020 14:54:55 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 694092AE6AE;
+        Tue, 17 Mar 2020 14:54:55 +0100 (CET)
+Received: from SFHDAG3NODE3.st.com (10.75.127.9) by SFHDAG3NODE3.st.com
+ (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 17 Mar
+ 2020 14:54:55 +0100
+Received: from SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476]) by
+ SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476%20]) with mapi id
+ 15.00.1347.000; Tue, 17 Mar 2020 14:54:55 +0100
+From:   Benjamin GAIGNARD <benjamin.gaignard@st.com>
+To:     Dan Murphy <dmurphy@ti.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        "David S. Miller" <davem@davemloft.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Ben Peled <bpeled@marvell.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        linux-pwm@vger.kernel.org, linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        linux-pm <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 04/12] docs: dt: fix references to m_can.txt file
+Thread-Topic: [PATCH 04/12] docs: dt: fix references to m_can.txt file
+Thread-Index: AQHV/F1/4CRB7GeziEugXmY9nZvK7ahMs1sAgAADZYCAAAcHAA==
+Date:   Tue, 17 Mar 2020 13:54:55 +0000
+Message-ID: <15305686-3795-3af6-ae13-b77ce62e857f@st.com>
+References: <cover.1584450500.git.mchehab+huawei@kernel.org>
+ <db67f9bc93f062179942f1e095a46b572a442b76.1584450500.git.mchehab+huawei@kernel.org>
+ <376dba43-84cc-6bf9-6c69-270c689caf37@pengutronix.de>
+ <60f77c6f-0536-1f50-1b49-2f604026a5cb@ti.com>
+In-Reply-To: <60f77c6f-0536-1f50-1b49-2f604026a5cb@ti.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.47]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E7AAA9F3391F1B41B639F9310C1C4FDE@st.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.645
+ definitions=2020-03-17_05:2020-03-17,2020-03-17 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-wt., 17 mar 2020 o 14:10 Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> napisa=C5=82(a):
->
-> ap806-system-controller.txt was renamed to ap80x-system-controller.txt.
->
-> Update its references accordingly.
->
-> Fixes: 2537831bbc19 ("dt-bindings: ap80x: replace AP806 with AP80x")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/devicetree/bindings/gpio/gpio-mvebu.txt        | 2 +-
->  Documentation/devicetree/bindings/thermal/armada-thermal.txt | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-mvebu.txt b/Docu=
-mentation/devicetree/bindings/gpio/gpio-mvebu.txt
-> index 2e097b57f170..0fc6700ed800 100644
-> --- a/Documentation/devicetree/bindings/gpio/gpio-mvebu.txt
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-mvebu.txt
-> @@ -14,7 +14,7 @@ Required properties:
->
->      "marvell,armada-8k-gpio" should be used for the Armada 7K and 8K
->      SoCs (either from AP or CP), see
-> -    Documentation/devicetree/bindings/arm/marvell/ap806-system-controlle=
-r.txt
-> +    Documentation/devicetree/bindings/arm/marvell/ap80x-system-controlle=
-r.txt
->      for specific details about the offset property.
->
->  - reg: Address and length of the register set for the device. Only one
-> diff --git a/Documentation/devicetree/bindings/thermal/armada-thermal.txt=
- b/Documentation/devicetree/bindings/thermal/armada-thermal.txt
-> index f3b441100890..b0bee7e42038 100644
-> --- a/Documentation/devicetree/bindings/thermal/armada-thermal.txt
-> +++ b/Documentation/devicetree/bindings/thermal/armada-thermal.txt
-> @@ -12,7 +12,7 @@ Required properties:
->
->  Note: these bindings are deprecated for AP806/CP110 and should instead
->  follow the rules described in:
-> -Documentation/devicetree/bindings/arm/marvell/ap806-system-controller.tx=
-t
-> +Documentation/devicetree/bindings/arm/marvell/ap80x-system-controller.tx=
-t
->  Documentation/devicetree/bindings/arm/marvell/cp110-system-controller.tx=
-t
->
->  - reg: Device's register space.
-> --
-> 2.24.1
->
-
-For GPIO:
-
-Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+DQoNCk9uIDMvMTcvMjAgMjoyOSBQTSwgRGFuIE11cnBoeSB3cm90ZToNCj4gSGVsbG8NCj4NCj4g
+T24gMy8xNy8yMCA4OjE3IEFNLCBNYXJjIEtsZWluZS1CdWRkZSB3cm90ZToNCj4+IE9uIDMvMTcv
+MjAgMjoxMCBQTSwgTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIHdyb3RlOg0KPj4+IFRoaXMgZmlsZSB3
+YXMgY29udmVydGVkIHRvIGpzb24gYW5kIHJlbmFtZWQuIFVwZGF0ZSBpdHMNCj4+PiByZWZlcmVu
+Y2VzIGFjY29yZGluZ2x5Lg0KPj4+DQo+Pj4gRml4ZXM6IDgyNDY3NGI1OWY3MiAoImR0LWJpbmRp
+bmdzOiBuZXQ6IGNhbjogQ29udmVydCBNX0NBTiB0byANCj4+PiBqc29uLXNjaGVtYSIpDQo+DQo+
+IEkgYW0gdHJ5aW5nIHRvIGZpbmQgb3V0IHdoZXJlIHRoZSBhYm92ZSBjb21taXQgd2FzIGFwcGxp
+ZWQNCj4NCj4gSSBkb24ndCBzZWUgaXQgaW4gY2FuLW5leHQgb3IgbGludXgtY2FuLiBJIG5lZWQg
+dG8gdXBkYXRlIHRoZSB0Y2FuIGR0IA0KPiBiaW5kaW5nIGZpbGUgYXMgaXQgd2FzIG1pc3NlZC4N
+Cj4NCj4gQW5kIEkgYW0gbm90IHN1cmUgd2h5IHRoZSBtYWludGFpbmVycyBvZiB0aGVzZSBmaWxl
+cyB3ZXJlIG5vdCBDQydkIG9uIA0KPiB0aGUgY29udmVyc2lvbiBvZiB0aGlzIGJpbmRpbmcuDQoN
+Ckl0IHdhcyBtZXJnZWQgaW4gZGV2aWNlLXRyZWUtbmV4dC4NCg0KSSBoYXZlIHB1dCBpbiBjb3B5
+IHRoZSBwZW9wbGUgdGhhdCBnZXRfbWFpbnRhaW5lcnMgcHJvdmlkZXMgdG8gbWUuDQpTb3JyeSBp
+ZiBJIGZvcmdvdCBzb21lb25lLg0KDQpCZW5qYW1pbg0KPg0KPiBEYW4NCj4NCg==
