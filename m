@@ -2,201 +2,128 @@ Return-Path: <SRS0=98ua=5C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E28ACC4CECE
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 06:55:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3684C10F29
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 08:29:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B0EBE2074D
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 06:55:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Nab2iMTk"
+	by mail.kernel.org (Postfix) with ESMTP id 70B96205ED
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 08:29:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584433760;
+	bh=8zYOibsTES81lzDVKT5Acos+gREQ/gzEriHSAFk9KFA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=1f+HyZ0mgKqu3/o1NKaMA1XyRjjUNhjlc8GtBY9UyAIV3IMraB5ZMkNkOSs/dpLVv
+	 lgssyfSQc9lcjsahbTCbwEa7695MHkj/Vwg9v4tmBoFqF0Df+YwKP3Zx9jooFTeGP0
+	 jVhJdT9CeCHXj9V1VkzvPTI55rS3xdf7T6b/YJq0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726490AbgCQGzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 02:55:16 -0400
-Received: from mail-qk1-f201.google.com ([209.85.222.201]:56099 "EHLO
-        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726399AbgCQGzM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 02:55:12 -0400
-Received: by mail-qk1-f201.google.com with SMTP id a8so8889721qkn.22
-        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2020 23:55:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=7ngORi0qjHGKSTPYP6jqwB2CTxTKHni0v/JyFS4TsJY=;
-        b=Nab2iMTktoEDgr02ucqDK9isAmOo4ipKNIJmcdWX9C+9c6ibZ0ACWVVDLKrmvFK2Nv
-         +n/CdhwFe7D0fcDDF+KueDiskyTSirfZzgH7ApN17BUlo33WGiDWYQxSdr+88om+U7ug
-         yLoYp18sCc0bH6o010hAp7CyOux2D4YkIDi5T36j6CpG9ul39ZcoEkPKPhqNjdZI5Hbq
-         126yvaty609YLDursNVsFv1zTmvhwtCRCM5ONcqGkUz4vJt9r3XlTRWSa/0fb+rJO1Jk
-         ZCqKS5PHRoyv6IVk7cQ1Tmnu4uXf0ZkfZkTpEZsAsodLYoQolYkSZVpKlgOncY4D208G
-         e0aQ==
+        id S1726039AbgCQI3U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Mar 2020 04:29:20 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42616 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725868AbgCQI3T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 04:29:19 -0400
+Received: by mail-wr1-f66.google.com with SMTP id v11so24460568wrm.9;
+        Tue, 17 Mar 2020 01:29:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=7ngORi0qjHGKSTPYP6jqwB2CTxTKHni0v/JyFS4TsJY=;
-        b=FN9vi6iz7QGfQtZjkqzTXERAZZOkfeCW7o2iuLEeP0qcwP1UmS3NUnZw24Ibt7Mvcq
-         L9/TN7G/N4IgBHUxqrIXRAoQdjwbLhILYas06JOerV+OWfGNHefCbX4YiulEk61cw71V
-         OlE3hro2BTBaAD2Ll3UTLD6+DHS9iEcpt3VpJ/zfGJoXk8kPBRnDWmFzO/0ujCa5YjOA
-         4vYlVLcjG71vJPBSSfJFEX1h9ZdBf5KKsyPqrWfaQjXNZaysQBDKg0eqCGpyt8CvOSXy
-         SaC/hY1/G1Q11a8Scxd5Di9O8kbnIg45jo7y+7PKx9xXJJz4iCJQyytxWSw0Ox0c8mj9
-         eyJg==
-X-Gm-Message-State: ANhLgQ038JBmxz/kUe0KmUcipdVKzYFo4Qq7Tijy6HkxsP6g+5kQI3kk
-        SctoTyzuLkxX066hGIUXg8jw/5r9qmpxuRU=
-X-Google-Smtp-Source: ADFU+vu6Q/y175df99s4giYR9vMy2KQkhva5yiVcjNt6xji0hnXCikbzl84Cs4t7LJdeoDn8q4XTKNSqQvCeU0w=
-X-Received: by 2002:ac8:3003:: with SMTP id f3mr3817009qte.293.1584428111301;
- Mon, 16 Mar 2020 23:55:11 -0700 (PDT)
-Date:   Mon, 16 Mar 2020 23:54:50 -0700
-In-Reply-To: <20200317065452.236670-1-saravanak@google.com>
-Message-Id: <20200317065452.236670-5-saravanak@google.com>
-Mime-Version: 1.0
-References: <20200317065452.236670-1-saravanak@google.com>
-X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
-Subject: [PATCH v1 4/6] driver core: Add device link flag DL_FLAG_AUTOPROBE_CONSUMER
-From:   Saravana Kannan <saravanak@google.com>
-To:     stable@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Saravana Kannan <saravanak@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel-team@android.com,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2wAIk4DL6bwX6X4hEBIHh+kWSNyLcbub91KA8tHHHRo=;
+        b=UPM+dNBtZwxJe9TAi0hTbj7yopIfWkEuY2oEoQLxAsaIEoBkEnQcjmLNFGuqC2NUV+
+         ugqjKFUx9IcL54WJQrtPuAvZWgs5W7rXyg+Ui9hhtgelt2mdnCFfzrYZCAd4NLqjl4XA
+         i+GSbJgq708R9jABMtCa6VbN7JxNg95OyUwgA+4ctgBJT4wbYwXo/JFG/WFIx/Zl+fvR
+         Dkyd0g373CEan99MvBlqMy4PvAhFcDsRMRMbpjQ7g4+q8cMHtPqxNeVqofCeSufqoy3M
+         /FrFJVFaJeI1oTcGC0FgDlgLkn+dJ0tmL543WWVB2EyjMWDEURVcMdKkCRm5koJQM3yj
+         7woQ==
+X-Gm-Message-State: ANhLgQ1NB48J/CYDN7+3sFjFJJSilwu0ZRbJaa7ims0EPZzJ3m4fuXw5
+        T3hJRe3UPUIFHQ8Hvcp5pi0=
+X-Google-Smtp-Source: ADFU+vtRCX5NUpwX52GydJiSEFAALOfdTj1N3Zg+KwSO45zWC3wQWr+svNsTDVRa8D4IMiuUnabBgg==
+X-Received: by 2002:adf:a155:: with SMTP id r21mr4682249wrr.264.1584433755663;
+        Tue, 17 Mar 2020 01:29:15 -0700 (PDT)
+Received: from localhost (ip-37-188-255-121.eurotel.cz. [37.188.255.121])
+        by smtp.gmail.com with ESMTPSA id a1sm3544746wru.75.2020.03.17.01.29.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2020 01:29:14 -0700 (PDT)
+Date:   Tue, 17 Mar 2020 09:29:13 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jgross@suse.com" <jgross@suse.com>,
+        "oneukum@suse.com" <oneukum@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
+Message-ID: <20200317082913.GE26018@dhcp22.suse.cz>
+References: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
+ <20200312092531.GU23944@dhcp22.suse.cz>
+ <BL0PR02MB5601B50A2D9AEE6318D51893E9FD0@BL0PR02MB5601.namprd02.prod.outlook.com>
+ <20200312132642.GW23944@dhcp22.suse.cz>
+ <4ea2e014-17ea-6d1e-a6cd-775fb6550cd2@suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4ea2e014-17ea-6d1e-a6cd-775fb6550cd2@suse.cz>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+On Mon 16-03-20 15:53:21, Vlastimil Babka wrote:
+> On 3/12/20 2:26 PM, Michal Hocko wrote:
+> > On Thu 12-03-20 12:54:19, Ivan Teterevkov wrote:
+> >> 
+> >> Absolutely agree, the semantics of the vm_swappiness is perplexing.
+> >> Moreover, the same get_scan_count treats vm_swappiness and cgroups
+> >> memory.swappiness differently, in particular, 0 disables the memcg swap.
+> >> 
+> >> Certainly, the patch adds some additional exposure to a parameter that
+> >> is not trivial to tackle but it's already getting created with a magic
+> >> number which is also confusing. Is there any harm to be done by the patch
+> >> considering the already existing sysctl interface to that knob?
+> > 
+> > Like any other config option/kernel parameter. It is adding the the
+> > overall config space size problem and unless this is really needed I
+> > would rather not make it worse.
+> 
+> Setting the vm_swappiness specific case aside, I wonder if if would be
+> useful to be able to emulate any sysctl with a kernel parameter,
+> i.e. boot the kernel with sysctl.vm.swappiness=X
+> There are already some options that provide kernel parameter as well
+> as sysctl, why not just support all.
 
-Add a new device link flag, DL_FLAG_AUTOPROBE_CONSUMER, to request the
-driver core to probe for a consumer driver automatically after binding
-a driver to the supplier device on a persistent managed device link.
+This sounds like a much better idea than a case by case handling. I
+wouldn't be surprised if some kernel parameters would duplicate sysctl
+values. I cannot judge the implementation unfortunately but from a quick
+glance it makes sense to me. Especially where you hooked it into because
+not all handlers are simple setters for a global value. Some of them
+have a much more complicated logic which requires a lot of
+infrastructure to be set up already. So putting do_sysctl_args right
+before the init is executed should be good enough.
 
-As unbinding the supplier driver on a managed device link causes the
-consumer driver to be detached from its device automatically, this
-flag provides a complementary mechanism which is needed to address
-some "composite device" use cases.
+Care to post an RFC to a larger audience? Let's see where we get from
+there.
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-(cherry picked from commit e7dd40105aac9ba051e44ad711123bc53a5e4c71)
-Signed-off-by: Saravana Kannan <saravanak@google.com>
----
- Documentation/driver-api/device_link.rst |  9 +++++++++
- drivers/base/core.c                      | 16 +++++++++++++++-
- drivers/base/dd.c                        |  2 +-
- include/linux/device.h                   |  3 +++
- 4 files changed, 28 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/driver-api/device_link.rst b/Documentation/driver-api/device_link.rst
-index e249e074a8d2..c764755121c7 100644
---- a/Documentation/driver-api/device_link.rst
-+++ b/Documentation/driver-api/device_link.rst
-@@ -94,6 +94,15 @@ Similarly, when the device link is added from supplier's ``->probe`` callback,
- ``DL_FLAG_AUTOREMOVE_SUPPLIER`` causes the device link to be automatically
- purged when the supplier fails to probe or later unbinds.
- 
-+If neither ``DL_FLAG_AUTOREMOVE_CONSUMER`` nor ``DL_FLAG_AUTOREMOVE_SUPPLIER``
-+is set, ``DL_FLAG_AUTOPROBE_CONSUMER`` can be used to request the driver core
-+to probe for a driver for the consumer driver on the link automatically after
-+a driver has been bound to the supplier device.
-+
-+Note, however, that any combinations of ``DL_FLAG_AUTOREMOVE_CONSUMER``,
-+``DL_FLAG_AUTOREMOVE_SUPPLIER`` or ``DL_FLAG_AUTOPROBE_CONSUMER`` with
-+``DL_FLAG_STATELESS`` are invalid and cannot be used.
-+
- Limitations
- ===========
- 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index d8273792950b..3495da13b18a 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -195,6 +195,12 @@ void device_pm_move_to_tail(struct device *dev)
-  * the link will be maintained until one of the devices pointed to by it (either
-  * the consumer or the supplier) is unregistered.
-  *
-+ * Also, if DL_FLAG_STATELESS, DL_FLAG_AUTOREMOVE_CONSUMER and
-+ * DL_FLAG_AUTOREMOVE_SUPPLIER are not set in @flags (that is, a persistent
-+ * managed device link is being added), the DL_FLAG_AUTOPROBE_CONSUMER flag can
-+ * be used to request the driver core to automaticall probe for a consmer
-+ * driver after successfully binding a driver to the supplier device.
-+ *
-  * The combination of DL_FLAG_STATELESS and either DL_FLAG_AUTOREMOVE_CONSUMER
-  * or DL_FLAG_AUTOREMOVE_SUPPLIER set in @flags at the same time is invalid and
-  * will cause NULL to be returned upfront.
-@@ -215,7 +221,12 @@ struct device_link *device_link_add(struct device *consumer,
- 
- 	if (!consumer || !supplier ||
- 	    (flags & DL_FLAG_STATELESS &&
--	     flags & (DL_FLAG_AUTOREMOVE_CONSUMER | DL_FLAG_AUTOREMOVE_SUPPLIER)))
-+	     flags & (DL_FLAG_AUTOREMOVE_CONSUMER |
-+		      DL_FLAG_AUTOREMOVE_SUPPLIER |
-+		      DL_FLAG_AUTOPROBE_CONSUMER)) ||
-+	    (flags & DL_FLAG_AUTOPROBE_CONSUMER &&
-+	     flags & (DL_FLAG_AUTOREMOVE_CONSUMER |
-+		      DL_FLAG_AUTOREMOVE_SUPPLIER)))
- 		return NULL;
- 
- 	if (flags & DL_FLAG_PM_RUNTIME && flags & DL_FLAG_RPM_ACTIVE) {
-@@ -576,6 +587,9 @@ void device_links_driver_bound(struct device *dev)
- 
- 		WARN_ON(link->status != DL_STATE_DORMANT);
- 		WRITE_ONCE(link->status, DL_STATE_AVAILABLE);
-+
-+		if (link->flags & DL_FLAG_AUTOPROBE_CONSUMER)
-+			driver_deferred_probe_add(link->consumer);
- 	}
- 
- 	list_for_each_entry(link, &dev->links.suppliers, c_node) {
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 5f6416e6ba96..caaeb7910a04 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -116,7 +116,7 @@ static void deferred_probe_work_func(struct work_struct *work)
- }
- static DECLARE_WORK(deferred_probe_work, deferred_probe_work_func);
- 
--static void driver_deferred_probe_add(struct device *dev)
-+void driver_deferred_probe_add(struct device *dev)
- {
- 	mutex_lock(&deferred_probe_mutex);
- 	if (list_empty(&dev->p->deferred_probe)) {
-diff --git a/include/linux/device.h b/include/linux/device.h
-index c74ce473589a..7569cff2f4dc 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -339,6 +339,7 @@ struct device *driver_find_device(struct device_driver *drv,
- 				  struct device *start, void *data,
- 				  int (*match)(struct device *dev, void *data));
- 
-+void driver_deferred_probe_add(struct device *dev);
- int driver_deferred_probe_check_state(struct device *dev);
- 
- /**
-@@ -824,12 +825,14 @@ enum device_link_state {
-  * PM_RUNTIME: If set, the runtime PM framework will use this link.
-  * RPM_ACTIVE: Run pm_runtime_get_sync() on the supplier during link creation.
-  * AUTOREMOVE_SUPPLIER: Remove the link automatically on supplier driver unbind.
-+ * AUTOPROBE_CONSUMER: Probe consumer driver automatically after supplier binds.
-  */
- #define DL_FLAG_STATELESS		BIT(0)
- #define DL_FLAG_AUTOREMOVE_CONSUMER	BIT(1)
- #define DL_FLAG_PM_RUNTIME		BIT(2)
- #define DL_FLAG_RPM_ACTIVE		BIT(3)
- #define DL_FLAG_AUTOREMOVE_SUPPLIER	BIT(4)
-+#define DL_FLAG_AUTOPROBE_CONSUMER	BIT(5)
- 
- /**
-  * struct device_link - Device link representation.
+> Quick and dirty proof of concept:
+> @@ -1367,6 +1384,8 @@ static int __ref kernel_init(void *unused)
+>  
+>  	rcu_end_inkernel_boot();
+>  
+> +	do_sysctl_args();
+> +
+>  	if (ramdisk_execute_command) {
+>  		ret = run_init_process(ramdisk_execute_command);
+>  		if (!ret)
 -- 
-2.25.1.481.gfbce0eb801-goog
-
+Michal Hocko
+SUSE Labs
