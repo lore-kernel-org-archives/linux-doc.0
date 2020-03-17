@@ -2,103 +2,78 @@ Return-Path: <SRS0=98ua=5C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D268C10F29
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:06:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4CAAC10F29
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:51:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0F75320738
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584453979;
-	bh=DmaqvTgO1fmmMqgI6fMIcL8ag6suzOfDR3kPhV4+PwA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=sYJq2Xzrh2SCj2TWepO65/0SEjxJuiawZCSVsZrnYqeBM6Zr+YDmz8vyZSTGy3bDS
-	 p8baMyhP8IyD0xupxpXz6PawNVm0mi97s+KKe9NZhiP1s98F3v4yZfbnpsc9pe5FRf
-	 /0pPdQVoyIcQIJrxS1w/+uvjDsbKz8DzraoxnJpE=
+	by mail.kernel.org (Postfix) with ESMTP id 96971206EC
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:51:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbgCQOGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 10:06:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57530 "EHLO mail.kernel.org"
+        id S1726248AbgCQOvK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Mar 2020 10:51:10 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39978 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726187AbgCQOGS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Mar 2020 10:06:18 -0400
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 81860205ED;
-        Tue, 17 Mar 2020 14:06:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584453977;
-        bh=DmaqvTgO1fmmMqgI6fMIcL8ag6suzOfDR3kPhV4+PwA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=MCWCwGfnU+jb8ce35ywWcM47WdZTqfv4Ej/STM9Dw7MqFKaQ9sFNBXUhH0PJA7pE9
-         qTD2mYziACOoGGIwTyBYLbP0CLGQc8ez0gbcnEvy2hBD4NHBP7z+lFwIPgGDCGPJ9D
-         IettSkaEBTtKSQEL/Vf+Z+7EDfgo9+zMzzMQrC6Y=
-Date:   Tue, 17 Mar 2020 15:06:09 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     Marc Kleine-Budde <mkl@pengutronix.de>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        <linux-can@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH 04/12] docs: dt: fix references to m_can.txt file
-Message-ID: <20200317150609.4d5c7c71@coco.lan>
-In-Reply-To: <60f77c6f-0536-1f50-1b49-2f604026a5cb@ti.com>
-References: <cover.1584450500.git.mchehab+huawei@kernel.org>
-        <db67f9bc93f062179942f1e095a46b572a442b76.1584450500.git.mchehab+huawei@kernel.org>
-        <376dba43-84cc-6bf9-6c69-270c689caf37@pengutronix.de>
-        <60f77c6f-0536-1f50-1b49-2f604026a5cb@ti.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726189AbgCQOvK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Mar 2020 10:51:10 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id EDA10AFFD;
+        Tue, 17 Mar 2020 14:51:07 +0000 (UTC)
+Subject: Re: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jgross@suse.com" <jgross@suse.com>,
+        "oneukum@suse.com" <oneukum@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+References: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
+ <20200312092531.GU23944@dhcp22.suse.cz>
+ <BL0PR02MB5601B50A2D9AEE6318D51893E9FD0@BL0PR02MB5601.namprd02.prod.outlook.com>
+ <20200312132642.GW23944@dhcp22.suse.cz>
+ <4ea2e014-17ea-6d1e-a6cd-775fb6550cd2@suse.cz>
+ <20200317082913.GE26018@dhcp22.suse.cz>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <4e08008f-bf20-6a9c-0ffb-f6438c326612@suse.cz>
+Date:   Tue, 17 Mar 2020 15:51:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200317082913.GE26018@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 17 Mar 2020 08:29:45 -0500
-Dan Murphy <dmurphy@ti.com> escreveu:
+On 3/17/20 9:29 AM, Michal Hocko wrote:
+> On Mon 16-03-20 15:53:21, Vlastimil Babka wrote:
+>> On 3/12/20 2:26 PM, Michal Hocko wrote:
+> 
+> This sounds like a much better idea than a case by case handling. I
+> wouldn't be surprised if some kernel parameters would duplicate sysctl
+> values. I cannot judge the implementation unfortunately but from a quick
+> glance it makes sense to me. Especially where you hooked it into because
+> not all handlers are simple setters for a global value. Some of them
+> have a much more complicated logic which requires a lot of
+> infrastructure to be set up already. So putting do_sysctl_args right
+> before the init is executed should be good enough.
+> 
+> Care to post an RFC to a larger audience? Let's see where we get from
+> there.
 
-> Hello
->=20
-> On 3/17/20 8:17 AM, Marc Kleine-Budde wrote:
-> > On 3/17/20 2:10 PM, Mauro Carvalho Chehab wrote: =20
-> >> This file was converted to json and renamed. Update its
-> >> references accordingly.
-> >>
-> >> Fixes: 824674b59f72 ("dt-bindings: net: can: Convert M_CAN to json-sch=
-ema") =20
->=20
-> I am trying to find out where the above commit was applied
->=20
-> I don't see it in can-next or linux-can. I need to update the tcan dt=20
-> binding file as it was missed.
->=20
-> And I am not sure why the maintainers of these files were not CC'd on=20
-> the conversion of this binding.
+FYI done: (I didn't CC everybody from this thread)
 
-=46rom Next/merge.log:
-
-Merging devicetree/for-next (d047cd8a2760 scripts/dtc: Update to upstream v=
-ersion v1.6.0-2-g87a656ae5ff9)
-$ git merge devicetree/for-next
-Removing scripts/dtc/libfdt/Makefile.libfdt
-Removing scripts/dtc/Makefile.dtc
-...
- create mode 100644 Documentation/devicetree/bindings/net/can/bosch,m_can.y=
-aml
- delete mode 100644 Documentation/devicetree/bindings/net/can/m_can.txt
-
-It sounds that those came from DT for-next branch.
-
-Thanks,
-Mauro
+https://lore.kernel.org/linux-api/20200317132105.24555-1-vbabka@suse.cz/
