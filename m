@@ -2,78 +2,122 @@ Return-Path: <SRS0=98ua=5C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4CAAC10F29
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:51:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B69C4C18E5B
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:54:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 96971206EC
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:51:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7317F20780
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:54:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584456871;
+	bh=EQt8XNF67n6Qz/qYgjsQ6OrZnV8PGeVV9kM2E6Xo1RM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=YfP/bYL51HAMqa9e/lpW7AE/WdAZgQUXqF4SIjczSc3vBDB0ar4KFbEbHsO6mhShs
+	 TZOrw87Dw69mxSvj5OPAGC1HNqYR7z2d8ZgSsPCt3sTkv5U2cP6v+Yegheu29aTDnR
+	 vfP6OVdBWqwEgj8YSLl1OKWmALEGUslCMSBwkvjA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbgCQOvK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 10:51:10 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39978 "EHLO mx2.suse.de"
+        id S1726802AbgCQOyb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Mar 2020 10:54:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43428 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726189AbgCQOvK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Mar 2020 10:51:10 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id EDA10AFFD;
-        Tue, 17 Mar 2020 14:51:07 +0000 (UTC)
-Subject: Re: [PATCH] mm/vmscan: add vm_swappiness configuration knobs
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jgross@suse.com" <jgross@suse.com>,
-        "oneukum@suse.com" <oneukum@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-References: <BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com>
- <20200312092531.GU23944@dhcp22.suse.cz>
- <BL0PR02MB5601B50A2D9AEE6318D51893E9FD0@BL0PR02MB5601.namprd02.prod.outlook.com>
- <20200312132642.GW23944@dhcp22.suse.cz>
- <4ea2e014-17ea-6d1e-a6cd-775fb6550cd2@suse.cz>
- <20200317082913.GE26018@dhcp22.suse.cz>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <4e08008f-bf20-6a9c-0ffb-f6438c326612@suse.cz>
-Date:   Tue, 17 Mar 2020 15:51:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726783AbgCQOya (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Mar 2020 10:54:30 -0400
+Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4F90F20724;
+        Tue, 17 Mar 2020 14:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584456870;
+        bh=EQt8XNF67n6Qz/qYgjsQ6OrZnV8PGeVV9kM2E6Xo1RM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RueX3oIjzReC6mbi0x8E5FbR4B6JmuuosRjGYhQfoJP6FUW5I1d87YHLzroI3VqHr
+         aTlyextonkTgWKILznM0gPhOolMhHWhoCwjS4lmyZRoAF6OcqNFTe24gxlNj44gMMY
+         nLp9fwI1zZvq+RkAkB/vMntVV6cEiLmBE7xn/ETw=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jEDbw-000AMH-Bc; Tue, 17 Mar 2020 15:54:28 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 01/17] docs: amu: supress some Sphinx warnings
+Date:   Tue, 17 Mar 2020 15:54:10 +0100
+Message-Id: <d12f2ee809ee078c1e5e6d6da6dd9465f35109e2.1584456635.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1584456635.git.mchehab+huawei@kernel.org>
+References: <cover.1584456635.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200317082913.GE26018@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/17/20 9:29 AM, Michal Hocko wrote:
-> On Mon 16-03-20 15:53:21, Vlastimil Babka wrote:
->> On 3/12/20 2:26 PM, Michal Hocko wrote:
-> 
-> This sounds like a much better idea than a case by case handling. I
-> wouldn't be surprised if some kernel parameters would duplicate sysctl
-> values. I cannot judge the implementation unfortunately but from a quick
-> glance it makes sense to me. Especially where you hooked it into because
-> not all handlers are simple setters for a global value. Some of them
-> have a much more complicated logic which requires a lot of
-> infrastructure to be set up already. So putting do_sysctl_args right
-> before the init is executed should be good enough.
-> 
-> Care to post an RFC to a larger audience? Let's see where we get from
-> there.
+Add extra blank lines on some places, in order to avoid those
+warnings when building the docs:
 
-FYI done: (I didn't CC everybody from this thread)
+    Documentation/arm64/amu.rst:26: WARNING: Unexpected indentation.
+    Documentation/arm64/amu.rst:60: WARNING: Unexpected indentation.
+    Documentation/arm64/amu.rst:81: WARNING: Unexpected indentation.
+    Documentation/arm64/amu.rst:108: WARNING: Unexpected indentation.
 
-https://lore.kernel.org/linux-api/20200317132105.24555-1-vbabka@suse.cz/
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/arm64/amu.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/arm64/amu.rst b/Documentation/arm64/amu.rst
+index 5057b11100ed..452ec8b115c2 100644
+--- a/Documentation/arm64/amu.rst
++++ b/Documentation/arm64/amu.rst
+@@ -23,6 +23,7 @@ optional external memory-mapped interface.
+ 
+ Version 1 of the Activity Monitors architecture implements a counter group
+ of four fixed and architecturally defined 64-bit event counters.
++
+   - CPU cycle counter: increments at the frequency of the CPU.
+   - Constant counter: increments at the fixed frequency of the system
+     clock.
+@@ -57,6 +58,7 @@ counters, only the presence of the extension.
+ 
+ Firmware (code running at higher exception levels, e.g. arm-tf) support is
+ needed to:
++
+  - Enable access for lower exception levels (EL2 and EL1) to the AMU
+    registers.
+  - Enable the counters. If not enabled these will read as 0.
+@@ -78,6 +80,7 @@ are not trapped in EL2/EL3.
+ 
+ The fixed counters of AMUv1 are accessible though the following system
+ register definitions:
++
+  - SYS_AMEVCNTR0_CORE_EL0
+  - SYS_AMEVCNTR0_CONST_EL0
+  - SYS_AMEVCNTR0_INST_RET_EL0
+@@ -93,6 +96,7 @@ Userspace access
+ ----------------
+ 
+ Currently, access from userspace to the AMU registers is disabled due to:
++
+  - Security reasons: they might expose information about code executed in
+    secure mode.
+  - Purpose: AMU counters are intended for system management use.
+@@ -105,6 +109,7 @@ Virtualization
+ 
+ Currently, access from userspace (EL0) and kernelspace (EL1) on the KVM
+ guest side is disabled due to:
++
+  - Security reasons: they might expose information about code executed
+    by other guests or the host.
+ 
+-- 
+2.24.1
+
