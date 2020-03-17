@@ -2,84 +2,96 @@ Return-Path: <SRS0=98ua=5C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B40FC2BB1D
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 17:51:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F80C1975A
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 19:16:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7CC1720738
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 17:51:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C939220714
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 19:16:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JTCUiqIu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726476AbgCQRvs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 13:51:48 -0400
-Received: from smtp-8fae.mail.infomaniak.ch ([83.166.143.174]:35261 "EHLO
-        smtp-8fae.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726549AbgCQRvs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 13:51:48 -0400
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4884010045F29;
-        Tue, 17 Mar 2020 18:51:46 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (ns3096276.ip-94-23-54.eu [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 48hghx0Jy5zls2l2;
-        Tue, 17 Mar 2020 18:51:45 +0100 (CET)
-Subject: Re: [RFC PATCH v14 06/10] landlock: Add syscall implementation
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     linux-kernel@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-References: <20200224160215.4136-1-mic@digikod.net>
- <20200224160215.4136-7-mic@digikod.net>
- <20200317164709.GA23230@ZenIV.linux.org.uk>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <a0f52aed-7234-59d3-35ea-98ae9d8a23ae@digikod.net>
-Date:   Tue, 17 Mar 2020 18:51:44 +0100
-User-Agent: 
+        id S1726643AbgCQTQy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Mar 2020 15:16:54 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57678 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726638AbgCQTQy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 15:16:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=8gmkMPc55PnhvAe6dxsKKiOFnfmTOzZAgDVOqMBrgvU=; b=JTCUiqIu5SjTnZG3KLQhp9zeWX
+        +tnBTHqGT5I1ZuJ9+9PUptXzSMcZCokGxQqBWgJ5Y3j3EXo9dD9ANmAKv+ZTpFvEYgtpSSlZDjepA
+        6IG5N8Xnmwsv1aeaweukC0Je0dhgQP+9RFLk91ckuNYpDAk787YEaO1jsxZOXPEhuSPSR3q6NWBMH
+        SAuWMtFt+41YEWzHWxdu3kZJ9biPX3t38ZKQMJjTPo+Jzz51eMzafE+ehQmOiPwf3liAgn/fWbQ6g
+        aDV8Z2npPiJLWVH2eJc5iW8WvYZl/s+ouQ0FQSLdIpE5QHDIw6lCI8UA5ZpokUgp4mjxjUfWHkiMj
+        7wGTrbmQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jEHhp-0007iO-5x; Tue, 17 Mar 2020 19:16:49 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5753830110E;
+        Tue, 17 Mar 2020 20:16:47 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 49399284D7DE8; Tue, 17 Mar 2020 20:16:47 +0100 (CET)
+Date:   Tue, 17 Mar 2020 20:16:47 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Darren Hart <dvhart@infradead.org>
+Subject: Re: [PATCH 04/17] kernel: futex.c: get rid of a docs build warning
+Message-ID: <20200317191647.GC20713@hirez.programming.kicks-ass.net>
+References: <cover.1584456635.git.mchehab+huawei@kernel.org>
+ <aab1052263e340a3eada5522f32be318890314a1.1584456635.git.mchehab+huawei@kernel.org>
+ <20200317165805.GA20713@hirez.programming.kicks-ass.net>
+ <20200317113633.32078328@lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20200317164709.GA23230@ZenIV.linux.org.uk>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200317113633.32078328@lwn.net>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Mar 17, 2020 at 11:36:33AM -0600, Jonathan Corbet wrote:
+> On Tue, 17 Mar 2020 17:58:05 +0100
+> Peter Zijlstra <peterz@infradead.org> wrote:
+> 
+> > On Tue, Mar 17, 2020 at 03:54:13PM +0100, Mauro Carvalho Chehab wrote:
+> > > Adjust whitespaces and blank lines in order to get rid of this:
+> > > 
+> > > 	./kernel/futex.c:491: WARNING: Definition list ends without a blank line; unexpected unindent.
+> > > 
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > > ---
+> > >  kernel/futex.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/kernel/futex.c b/kernel/futex.c
+> > > index 67f004133061..dda6ddbc2e7d 100644
+> > > --- a/kernel/futex.c
+> > > +++ b/kernel/futex.c
+> > > @@ -486,7 +486,8 @@ static u64 get_inode_sequence_number(struct inode *inode)
+> > >   * The key words are stored in @key on success.
+> > >   *
+> > >   * For shared mappings (when @fshared), the key is:
+> > > - *   ( inode->i_sequence, page->index, offset_within_page )
+> > > + * ( inode->i_sequence, page->index, offset_within_page )
+> > > + *  
+> > 
+> > WTH, that's less readable.
+> 
+> It won't render well in the build either; that should be a literal block.
 
-On 17/03/2020 17:47, Al Viro wrote:
-> On Mon, Feb 24, 2020 at 05:02:11PM +0100, Mickaël Salaün wrote:
-> 
->> +static int get_path_from_fd(u64 fd, struct path *path)
-> 
->> +	/*
->> +	 * Only allows O_PATH FD: enable to restrict ambiant (FS) accesses
->> +	 * without requiring to open and risk leaking or misuing a FD.  Accept
->> +	 * removed, but still open directory (S_DEAD).
->> +	 */
->> +	if (!(f.file->f_mode & FMODE_PATH) || !f.file->f_path.mnt ||
-> 					      ^^^^^^^^^^^^^^^^^^^
-> Could you explain what that one had been be about?  The underlined
-> subexpression is always false; was that supposed to check some
-> condition and if so, which one?
-> 
-
-This was just to be sure that the next assignment "path->mnt =
-f.file->f_path.mnt;" always creates a valid path. If this is always
-true, I will remove it.
+it renders perfectly in an ASCII text editor, which is by far the most
+important interface for all this.
