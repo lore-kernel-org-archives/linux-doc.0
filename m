@@ -7,48 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 970F1C3F2CE
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:54:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 026E5C5ACBF
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:54:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 65A1720724
+	by mail.kernel.org (Postfix) with ESMTP id CD48020735
 	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 14:54:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1584456895;
-	bh=iuxHZUHgV1Ve8453hRLoOALmDPKLOUsSVmgcVeZhw4A=;
+	bh=Z2Tr7SHgyJAdHR4e50WA2Y+RgbHkio00wtYGgYjmrXI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=yE0NfKgxyEMJx43ODFoOljjsaCXRydja8tB1dcuWP8R5/vTUxQxm6If+CBqi0nT4w
-	 s3WE6qc9QKZzxKby90PC+r+TxZEJiL+pRGys85jlRzq7/imtVvlurMYFqVrVtj4Bol
-	 uaTtpZ8Wc0UQUMK8DVHFIo372Q3NrzE1q41btZ8c=
+	b=zx3erCqXZtpnb+28f1T2vkGEniW6KHiLWS7rtwAS6vdDgMOyvRKrEwpLpp/r9FTKd
+	 kTWUEGuIAdxjeQm8LIiObEhEN/DDKi+B2yuA7HBKXu2c1JtmHB0DU+wwBxnibeIInB
+	 pmNL7JGOfigdpBb6PWxmOwzqb7vGX6oCBM9YWd+s=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726683AbgCQOys (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 10:54:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43590 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726783AbgCQOyc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726982AbgCQOyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 17 Mar 2020 10:54:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43580 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726819AbgCQOyb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Mar 2020 10:54:31 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D29092077A;
+        by mail.kernel.org (Postfix) with ESMTPSA id 70FA920753;
         Tue, 17 Mar 2020 14:54:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584456871;
-        bh=iuxHZUHgV1Ve8453hRLoOALmDPKLOUsSVmgcVeZhw4A=;
+        s=default; t=1584456870;
+        bh=Z2Tr7SHgyJAdHR4e50WA2Y+RgbHkio00wtYGgYjmrXI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=utq+Q3tRhWIkQyERasQeahiB9WO1fD1N3jDhBmZw8vHCGCZr9EeXl2wkAC90UicVd
-         sL/eK1FM427PeiyYdoW8QxxHxToCKILBVET+uaXnc2EoXxnvCfgg4Rs/Crh7FTtz9+
-         L5mudHqkjoxdWDLSqAltjVWokw0LRfVJDXLsanuY=
+        b=lh1s79RO7iVtKUEU3KT+kuvlzhdKwwMTsrXtoJSF7HN+ww5IcRzuO757zhsPXQveC
+         Nc3wSDtZzQQN7Umg16gnk4EBFPgbxMQHQR/kTsNY/n7ws8iqjyG1dIeZPxuZ7Hpu2R
+         KEyqc9e+Rjcos+chlF7JUPKIB0s+QJhdJGKtcWtI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jEDbw-000ANJ-U6; Tue, 17 Mar 2020 15:54:28 +0100
+        id 1jEDbw-000AMk-KY; Tue, 17 Mar 2020 15:54:28 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jens Axboe <axboe@kernel.dk>, linux-ide@vger.kernel.org
-Subject: [PATCH 15/17] ata: libata-core: fix a doc warning
-Date:   Tue, 17 Mar 2020 15:54:24 +0100
-Message-Id: <af7858d43dc600c780c39e4daa79e92e7d3858ec.1584456635.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 08/17] lib: bitmap.c: get rid of some doc warnings
+Date:   Tue, 17 Mar 2020 15:54:17 +0100
+Message-Id: <ac57e12e0b75cb723597db61296950ce2d6d8577.1584456635.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1584456635.git.mchehab+huawei@kernel.org>
 References: <cover.1584456635.git.mchehab+huawei@kernel.org>
@@ -59,37 +58,70 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The docs toolchain doesn't recognise this pattern:
+There are two ascii art drawings there. Use a block markup tag there
+in order to get rid of those warnings:
 
-	@link->[hw_]sata_spd_limit
+	./lib/bitmap.c:189: WARNING: Unexpected indentation.
+	./lib/bitmap.c:190: WARNING: Block quote ends without a blank line; unexpected unindent.
+	./lib/bitmap.c:190: WARNING: Unexpected indentation.
+	./lib/bitmap.c:191: WARNING: Line block ends without a blank line.
 
-As it can't really process it. So, instead, let's mark it with
-a literal block markup:
+It should be noticed that there's actually a syntax violation
+right now, as something like:
 
-	``link->[hw_]sata_spd_limit``
+	/**
+	 ...
+	 @src:
 
-in order to get rid of the following warning:
-
-	./drivers/ata/libata-core.c:5974: WARNING: Unknown target name: "hw".
+will be handled as a definition for @src parameter, and not as
+part of a diagram. So, we need to add something before it, in
+order for this to be processed the way it should.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/ata/libata-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ lib/bitmap.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index 175b2a9dc000..ae0230740474 100644
---- a/drivers/ata/libata-core.c
-+++ b/drivers/ata/libata-core.c
-@@ -5975,7 +5975,7 @@ void ata_link_init(struct ata_port *ap, struct ata_link *link, int pmp)
-  *	sata_link_init_spd - Initialize link->sata_spd_limit
-  *	@link: Link to configure sata_spd_limit for
+diff --git a/lib/bitmap.c b/lib/bitmap.c
+index 89260aa342d6..21a7640c5eed 100644
+--- a/lib/bitmap.c
++++ b/lib/bitmap.c
+@@ -182,21 +182,22 @@ EXPORT_SYMBOL(__bitmap_shift_left);
   *
-- *	Initialize @link->[hw_]sata_spd_limit to the currently
-+ *	Initialize ``link->[hw_]sata_spd_limit`` to the currently
-  *	configured value.
+  * In pictures, example for a big-endian 32-bit architecture:
   *
-  *	LOCKING:
+- * @src:
+- * 31                                   63
+- * |                                    |
+- * 10000000 11000001 11110010 00010101  10000000 11000001 01110010 00010101
+- *                 |  |              |                                    |
+- *                16  14             0                                   32
++ * The @src bitmap is::
+  *
+- * if @cut is 3, and @first is 14, bits 14-16 in @src are cut and @dst is:
++ *   31                                   63
++ *   |                                    |
++ *   10000000 11000001 11110010 00010101  10000000 11000001 01110010 00010101
++ *                   |  |              |                                    |
++ *                  16  14             0                                   32
+  *
+- * 31                                   63
+- * |                                    |
+- * 10110000 00011000 00110010 00010101  00010000 00011000 00101110 01000010
+- *                    |              |                                    |
+- *                    14 (bit 17     0                                   32
+- *                        from @src)
++ * if @cut is 3, and @first is 14, bits 14-16 in @src are cut and @dst is::
++ *
++ *   31                                   63
++ *   |                                    |
++ *   10110000 00011000 00110010 00010101  00010000 00011000 00101110 01000010
++ *                      |              |                                    |
++ *                      14 (bit 17     0                                   32
++ *                          from @src)
+  *
+  * Note that @dst and @src might overlap partially or entirely.
+  *
 -- 
 2.24.1
 
