@@ -2,84 +2,77 @@ Return-Path: <SRS0=98ua=5C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28D37C2BB1D
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 17:36:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C2CAC1975A
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 17:36:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0D5BB20735
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 17:36:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FB2520724
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 17:36:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726148AbgCQRgD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 13:36:03 -0400
-Received: from einhorn-mail.in-berlin.de ([217.197.80.20]:46191 "EHLO
-        einhorn-mail.in-berlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726680AbgCQRgC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 13:36:02 -0400
-X-Greylist: delayed 443 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Mar 2020 13:36:01 EDT
-X-Envelope-From: stefanr@s5r6.in-berlin.de
-Received: from authenticated.user (localhost [127.0.0.1]) by einhorn.in-berlin.de  with ESMTPSA id 02HHRurI015186
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Tue, 17 Mar 2020 18:28:08 +0100
-Date:   Tue, 17 Mar 2020 18:27:55 +0100
-From:   Stefan Richter <stefanr@s5r6.in-berlin.de>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux1394-devel@lists.sourceforge.net
-Subject: Re: [PATCH 06/17] firewire: firewire-cdev.hL get rid of a docs
- warning
-Message-ID: <20200317182755.1c4dd7e7@kant>
-In-Reply-To: <1e2af9e7b75c2d968033b5054969c2095b317b16.1584456635.git.mchehab+huawei@kernel.org>
+        id S1726680AbgCQRgf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Mar 2020 13:36:35 -0400
+Received: from ms.lwn.net ([45.79.88.28]:33612 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726655AbgCQRge (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Mar 2020 13:36:34 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 23EAD891;
+        Tue, 17 Mar 2020 17:36:34 +0000 (UTC)
+Date:   Tue, 17 Mar 2020 11:36:33 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Darren Hart <dvhart@infradead.org>
+Subject: Re: [PATCH 04/17] kernel: futex.c: get rid of a docs build warning
+Message-ID: <20200317113633.32078328@lwn.net>
+In-Reply-To: <20200317165805.GA20713@hirez.programming.kicks-ass.net>
 References: <cover.1584456635.git.mchehab+huawei@kernel.org>
-        <1e2af9e7b75c2d968033b5054969c2095b317b16.1584456635.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        <aab1052263e340a3eada5522f32be318890314a1.1584456635.git.mchehab+huawei@kernel.org>
+        <20200317165805.GA20713@hirez.programming.kicks-ass.net>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mar 17 Mauro Carvalho Chehab wrote:
-> This warning:
+On Tue, 17 Mar 2020 17:58:05 +0100
+Peter Zijlstra <peterz@infradead.org> wrote:
+
+> On Tue, Mar 17, 2020 at 03:54:13PM +0100, Mauro Carvalho Chehab wrote:
+> > Adjust whitespaces and blank lines in order to get rid of this:
+> > 
+> > 	./kernel/futex.c:491: WARNING: Definition list ends without a blank line; unexpected unindent.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  kernel/futex.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/kernel/futex.c b/kernel/futex.c
+> > index 67f004133061..dda6ddbc2e7d 100644
+> > --- a/kernel/futex.c
+> > +++ b/kernel/futex.c
+> > @@ -486,7 +486,8 @@ static u64 get_inode_sequence_number(struct inode *inode)
+> >   * The key words are stored in @key on success.
+> >   *
+> >   * For shared mappings (when @fshared), the key is:
+> > - *   ( inode->i_sequence, page->index, offset_within_page )
+> > + * ( inode->i_sequence, page->index, offset_within_page )
+> > + *  
 > 
-> 	./include/uapi/linux/firewire-cdev.h:312: WARNING: Inline literal start-string without end-string.
-> 
-> is because %FOO doesn't work if there's a parenthesis at the
-> string (as a parenthesis may indicate a function). So, mark
-> the literal block using the alternate ``FOO`` syntax.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> WTH, that's less readable.
 
-I figure this is meant to go through the Documentation tree, hence
+It won't render well in the build either; that should be a literal block.
 
-Acked-by: Stefan Richter <stefanr@s5r6.in-berlin.de>
-
-But if I am to apply it, give me a note.
-
-> ---
->  include/uapi/linux/firewire-cdev.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/linux/firewire-cdev.h b/include/uapi/linux/firewire-cdev.h
-> index 1acd2b179aef..7e5b5c10a49c 100644
-> --- a/include/uapi/linux/firewire-cdev.h
-> +++ b/include/uapi/linux/firewire-cdev.h
-> @@ -308,7 +308,7 @@ struct fw_cdev_event_iso_interrupt_mc {
->  /**
->   * struct fw_cdev_event_iso_resource - Iso resources were allocated or freed
->   * @closure:	See &fw_cdev_event_common;
-> - *		set by %FW_CDEV_IOC_(DE)ALLOCATE_ISO_RESOURCE(_ONCE) ioctl
-> + *		set by``FW_CDEV_IOC_(DE)ALLOCATE_ISO_RESOURCE(_ONCE)`` ioctl
->   * @type:	%FW_CDEV_EVENT_ISO_RESOURCE_ALLOCATED or
->   *		%FW_CDEV_EVENT_ISO_RESOURCE_DEALLOCATED
->   * @handle:	Reference by which an allocated resource can be deallocated
-
--- 
-Stefan Richter
--======--=-- --== =---=
-http://arcgraph.de/sr/
+jon
