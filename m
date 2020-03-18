@@ -2,572 +2,785 @@ Return-Path: <SRS0=afVm=5D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C86C5ACD6
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 17:41:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6317DC10F29
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:06:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 50B7F20753
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 17:41:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38D5A20768
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:06:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OpLKPzDz"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LvQR5aT2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726506AbgCRRlk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Mar 2020 13:41:40 -0400
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:55817 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbgCRRlj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 13:41:39 -0400
-Received: by mail-pj1-f66.google.com with SMTP id mj6so1637375pjb.5
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 10:41:37 -0700 (PDT)
+        id S1726897AbgCRSGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Mar 2020 14:06:45 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:38655 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726506AbgCRSGp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 14:06:45 -0400
+Received: by mail-pl1-f196.google.com with SMTP id w3so11522263plz.5
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 11:06:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+kKBb8kG12UUwkftgPYtPm16TCFFiuszQ2Fu/VKTR78=;
-        b=OpLKPzDziVVVpuoeV1G8N50XKUo2Aq/17dla6ZYaoPGv0IGY4srGVx1qBDLH+HE0Xv
-         F8Re8b8u14lWXQ+EfHKIcaKuIa5x8MkSi0iPTfu2vkz5Zk3pPY979P6Uu+pwkPoXUPsH
-         mGfCX9hxdn6bsRTU4GOZngD5zZtQeQa9/ay5Y=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=StLuTsbAJNFgHj9ykAiO/YD+Gjl6VSt3gLGFM9EiX2w=;
+        b=LvQR5aT2w9gZx1EAFZdbubKq7pspVbSKeabr+dBvRk/ASUYwz8S3Tww51MjYqse9UX
+         91qU43PQhmoYMwrj9VlzioTYM5bMMy6ZDjD2zHibmkLZT0FVVPuVAnoA940QgJxFHy0Z
+         poM2Nslr3Gj+yExmoucIxFPpg8yentrp2eDxU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+kKBb8kG12UUwkftgPYtPm16TCFFiuszQ2Fu/VKTR78=;
-        b=rw8uHl2gMyjJkX3C/JZ0wjkCdSrU/IuT4iwM46/bcYNvS9t/qpGZZnusukC6s1jlTF
-         3QmgVzS8YQ8G/YpGEYyWx7BDLNYd3o6p/9UGhUlGzeQmSWTHhexZwwCoMjMuD5+7rhr8
-         WowpYx2Q8QwyE0Vzac3u9c/VrbGybhB4OkgLOeOmERXdSpVBLkZ7Vb0tKBwaGUR4rueA
-         OECe0KOg3+Iz2/ZIf++Adexqwa9ypk/Wq1nLzGCOqDIJE6EZj+p8aJE9eyFy6Pv5QQBz
-         0f4XQ6ElAExi08XeRRXYEMjx5eyhHA2plwasrjRIjwuzXBOc5kpdXc5r1Kef1dgX1Ls4
-         4TIA==
-X-Gm-Message-State: ANhLgQ1ezeALDKHDdgE/2y+EuN7fpSUeKhjjjXST1mq5UOax7M86UUrc
-        0G1WiP/VREf2iWqx4C11KD7/Jw==
-X-Google-Smtp-Source: ADFU+vuUVtcwgb61DRT0ROP8mn40Wdf1TBXHEUje7thO1B+6KgqNI49vUc/lQwpJobbTDYfy6xkj/w==
-X-Received: by 2002:a17:90b:11d5:: with SMTP id gv21mr5923339pjb.191.1584553296336;
-        Wed, 18 Mar 2020 10:41:36 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:1:fa53:7765:582b:82b9])
-        by smtp.gmail.com with ESMTPSA id k5sm2934127pju.29.2020.03.18.10.41.35
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=StLuTsbAJNFgHj9ykAiO/YD+Gjl6VSt3gLGFM9EiX2w=;
+        b=GVQC3SXULf9YTD326jC/gxH+JrPSFDSG7DoApGsLVZHiwbuii4B8ZbKhu8pjVRC+Mj
+         JHQh+gPISO4N4v+p+u/zd4ow2lWZyzB+0BpJrFZHi1IOG62gg1jdF+SnVon+RrPYjBqk
+         WQ3E+kvKq8gcFIt6QQwbU1RfGrLFAxpc4CRHAgjpuGANtbCpugxAop8yPPx4peZnROC6
+         EddsaBSB6D2rmLgreEWwoW/inc9D7bWlkEw8p4igxL+roJeeGkw53ohC94EE1lzFM4KB
+         sgaIwYq+/vn8Ro5uAQFfPP9UHkz6n5Cf5sTBpeTFVcTq2QOKFWINJDBN+Ehrcc+cx+jM
+         4gHA==
+X-Gm-Message-State: ANhLgQ0yhrYHVjipColJN26xKLv/BvKnKiw7b6O38PoMp/pyheiVFOxs
+        s37NsrDpKFU+4W43g2MA2vIOQw==
+X-Google-Smtp-Source: ADFU+vvRlwA0LZ9KP5rmbRl2mgti1nj2cWcZL2YYuP9kiKy8Yf2dakTV9Ih1AKSAhyD/TrN3BDvMMQ==
+X-Received: by 2002:a17:90a:730b:: with SMTP id m11mr5903587pjk.195.1584554803163;
+        Wed, 18 Mar 2020 11:06:43 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d11sm7208962pfo.39.2020.03.18.11.06.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2020 10:41:35 -0700 (PDT)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v2 2/2] docs: locking: Drop :c:func: throughout
-Date:   Wed, 18 Mar 2020 10:41:33 -0700
-Message-Id: <20200318174133.160206-3-swboyd@chromium.org>
-X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
-In-Reply-To: <20200318174133.160206-1-swboyd@chromium.org>
-References: <20200318174133.160206-1-swboyd@chromium.org>
+        Wed, 18 Mar 2020 11:06:42 -0700 (PDT)
+Date:   Wed, 18 Mar 2020 11:06:41 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
+Cc:     Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mtd@lists.infradead.org
+Subject: Re: [PATCH v2 02/11] blkoops: add blkoops, a warpper for pstore/blk
+Message-ID: <202003181025.20B6978@keescook>
+References: <1581078355-19647-1-git-send-email-liaoweixiong@allwinnertech.com>
+ <1581078355-19647-3-git-send-email-liaoweixiong@allwinnertech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1581078355-19647-3-git-send-email-liaoweixiong@allwinnertech.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel doc tooling knows how to do this itself so drop this markup
-throughout this file to simplify.
+On Fri, Feb 07, 2020 at 08:25:46PM +0800, WeiXiong Liao wrote:
+> blkoops is a better wrapper for pstore/blk, which provides efficient
+> configuration mothod. It divides all configurations of pstore/blk into
 
-Suggested-by: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- Documentation/kernel-hacking/locking.rst | 176 +++++++++++------------
- 1 file changed, 88 insertions(+), 88 deletions(-)
+typo: method
 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index 9850c1e52607..6ed806e6061b 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -150,17 +150,17 @@ Locking Only In User Context
- If you have a data structure which is only ever accessed from user
- context, then you can use a simple mutex (``include/linux/mutex.h``) to
- protect it. This is the most trivial case: you initialize the mutex.
--Then you can call :c:func:`mutex_lock_interruptible()` to grab the
--mutex, and :c:func:`mutex_unlock()` to release it. There is also a
--:c:func:`mutex_lock()`, which should be avoided, because it will
-+Then you can call mutex_lock_interruptible() to grab the
-+mutex, and mutex_unlock() to release it. There is also a
-+mutex_lock(), which should be avoided, because it will
- not return if a signal is received.
- 
- Example: ``net/netfilter/nf_sockopt.c`` allows registration of new
--:c:func:`setsockopt()` and :c:func:`getsockopt()` calls, with
--:c:func:`nf_register_sockopt()`. Registration and de-registration
-+setsockopt() and getsockopt() calls, with
-+nf_register_sockopt(). Registration and de-registration
- are only done on module load and unload (and boot time, where there is
- no concurrency), and the list of registrations is only consulted for an
--unknown :c:func:`setsockopt()` or :c:func:`getsockopt()` system
-+unknown setsockopt() or getsockopt() system
- call. The ``nf_sockopt_mutex`` is perfect to protect this, especially
- since the setsockopt and getsockopt calls may well sleep.
- 
-@@ -170,19 +170,19 @@ Locking Between User Context and Softirqs
- If a softirq shares data with user context, you have two problems.
- Firstly, the current user context can be interrupted by a softirq, and
- secondly, the critical region could be entered from another CPU. This is
--where :c:func:`spin_lock_bh()` (``include/linux/spinlock.h``) is
-+where spin_lock_bh() (``include/linux/spinlock.h``) is
- used. It disables softirqs on that CPU, then grabs the lock.
--:c:func:`spin_unlock_bh()` does the reverse. (The '_bh' suffix is
-+spin_unlock_bh() does the reverse. (The '_bh' suffix is
- a historical reference to "Bottom Halves", the old name for software
- interrupts. It should really be called spin_lock_softirq()' in a
- perfect world).
- 
--Note that you can also use :c:func:`spin_lock_irq()` or
--:c:func:`spin_lock_irqsave()` here, which stop hardware interrupts
-+Note that you can also use spin_lock_irq() or
-+spin_lock_irqsave() here, which stop hardware interrupts
- as well: see `Hard IRQ Context <#hard-irq-context>`__.
- 
- This works perfectly for UP as well: the spin lock vanishes, and this
--macro simply becomes :c:func:`local_bh_disable()`
-+macro simply becomes local_bh_disable()
- (``include/linux/interrupt.h``), which protects you from the softirq
- being run.
- 
-@@ -216,8 +216,8 @@ Different Tasklets/Timers
- ~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- If another tasklet/timer wants to share data with your tasklet or timer
--, you will both need to use :c:func:`spin_lock()` and
--:c:func:`spin_unlock()` calls. :c:func:`spin_lock_bh()` is
-+, you will both need to use spin_lock() and
-+spin_unlock() calls. spin_lock_bh() is
- unnecessary here, as you are already in a tasklet, and none will be run
- on the same CPU.
- 
-@@ -234,14 +234,14 @@ The same softirq can run on the other CPUs: you can use a per-CPU array
- going so far as to use a softirq, you probably care about scalable
- performance enough to justify the extra complexity.
- 
--You'll need to use :c:func:`spin_lock()` and
--:c:func:`spin_unlock()` for shared data.
-+You'll need to use spin_lock() and
-+spin_unlock() for shared data.
- 
- Different Softirqs
- ~~~~~~~~~~~~~~~~~~
- 
--You'll need to use :c:func:`spin_lock()` and
--:c:func:`spin_unlock()` for shared data, whether it be a timer,
-+You'll need to use spin_lock() and
-+spin_unlock() for shared data, whether it be a timer,
- tasklet, different softirq or the same or another softirq: any of them
- could be running on a different CPU.
- 
-@@ -259,38 +259,38 @@ If a hardware irq handler shares data with a softirq, you have two
- concerns. Firstly, the softirq processing can be interrupted by a
- hardware interrupt, and secondly, the critical region could be entered
- by a hardware interrupt on another CPU. This is where
--:c:func:`spin_lock_irq()` is used. It is defined to disable
-+spin_lock_irq() is used. It is defined to disable
- interrupts on that cpu, then grab the lock.
--:c:func:`spin_unlock_irq()` does the reverse.
-+spin_unlock_irq() does the reverse.
- 
--The irq handler does not need to use :c:func:`spin_lock_irq()`, because
-+The irq handler does not need to use spin_lock_irq(), because
- the softirq cannot run while the irq handler is running: it can use
--:c:func:`spin_lock()`, which is slightly faster. The only exception
-+spin_lock(), which is slightly faster. The only exception
- would be if a different hardware irq handler uses the same lock:
--:c:func:`spin_lock_irq()` will stop that from interrupting us.
-+spin_lock_irq() will stop that from interrupting us.
- 
- This works perfectly for UP as well: the spin lock vanishes, and this
--macro simply becomes :c:func:`local_irq_disable()`
-+macro simply becomes local_irq_disable()
- (``include/asm/smp.h``), which protects you from the softirq/tasklet/BH
- being run.
- 
--:c:func:`spin_lock_irqsave()` (``include/linux/spinlock.h``) is a
-+spin_lock_irqsave() (``include/linux/spinlock.h``) is a
- variant which saves whether interrupts were on or off in a flags word,
--which is passed to :c:func:`spin_unlock_irqrestore()`. This means
-+which is passed to spin_unlock_irqrestore(). This means
- that the same code can be used inside an hard irq handler (where
- interrupts are already off) and in softirqs (where the irq disabling is
- required).
- 
- Note that softirqs (and hence tasklets and timers) are run on return
--from hardware interrupts, so :c:func:`spin_lock_irq()` also stops
--these. In that sense, :c:func:`spin_lock_irqsave()` is the most
-+from hardware interrupts, so spin_lock_irq() also stops
-+these. In that sense, spin_lock_irqsave() is the most
- general and powerful locking function.
- 
- Locking Between Two Hard IRQ Handlers
- -------------------------------------
- 
- It is rare to have to share data between two IRQ handlers, but if you
--do, :c:func:`spin_lock_irqsave()` should be used: it is
-+do, spin_lock_irqsave() should be used: it is
- architecture-specific whether all interrupts are disabled inside irq
- handlers themselves.
- 
-@@ -304,11 +304,11 @@ Pete Zaitcev gives the following summary:
-    (``copy_from_user*(`` or ``kmalloc(x,GFP_KERNEL)``).
- 
- -  Otherwise (== data can be touched in an interrupt), use
--   :c:func:`spin_lock_irqsave()` and
--   :c:func:`spin_unlock_irqrestore()`.
-+   spin_lock_irqsave() and
-+   spin_unlock_irqrestore().
- 
- -  Avoid holding spinlock for more than 5 lines of code and across any
--   function call (except accessors like :c:func:`readb()`).
-+   function call (except accessors like readb()).
- 
- Table of Minimum Requirements
- -----------------------------
-@@ -320,7 +320,7 @@ particular thread can only run on one CPU at a time, but if it needs
- shares data with another thread, locking is required).
- 
- Remember the advice above: you can always use
--:c:func:`spin_lock_irqsave()`, which is a superset of all other
-+spin_lock_irqsave(), which is a superset of all other
- spinlock primitives.
- 
- ============== ============= ============= ========= ========= ========= ========= ======= ======= ============== ==============
-@@ -363,13 +363,13 @@ They can be used if you need no access to the data protected with the
- lock when some other thread is holding the lock. You should acquire the
- lock later if you then need access to the data protected with the lock.
- 
--:c:func:`spin_trylock()` does not spin but returns non-zero if it
-+spin_trylock() does not spin but returns non-zero if it
- acquires the spinlock on the first try or 0 if not. This function can be
--used in all contexts like :c:func:`spin_lock()`: you must have
-+used in all contexts like spin_lock(): you must have
- disabled the contexts that might interrupt you and acquire the spin
- lock.
- 
--:c:func:`mutex_trylock()` does not suspend your task but returns
-+mutex_trylock() does not suspend your task but returns
- non-zero if it could lock the mutex on the first try or 0 if not. This
- function cannot be safely used in hardware or software interrupt
- contexts despite not sleeping.
-@@ -490,14 +490,14 @@ easy, since we copy the data for the user, and never let them access the
- objects directly.
- 
- There is a slight (and common) optimization here: in
--:c:func:`cache_add()` we set up the fields of the object before
-+cache_add() we set up the fields of the object before
- grabbing the lock. This is safe, as no-one else can access it until we
- put it in cache.
- 
- Accessing From Interrupt Context
- --------------------------------
- 
--Now consider the case where :c:func:`cache_find()` can be called
-+Now consider the case where cache_find() can be called
- from interrupt context: either a hardware interrupt or a softirq. An
- example would be a timer which deletes object from the cache.
- 
-@@ -566,16 +566,16 @@ which are taken away, and the ``+`` are lines which are added.
-              return ret;
-      }
- 
--Note that the :c:func:`spin_lock_irqsave()` will turn off
-+Note that the spin_lock_irqsave() will turn off
- interrupts if they are on, otherwise does nothing (if we are already in
- an interrupt handler), hence these functions are safe to call from any
- context.
- 
--Unfortunately, :c:func:`cache_add()` calls :c:func:`kmalloc()`
-+Unfortunately, cache_add() calls kmalloc()
- with the ``GFP_KERNEL`` flag, which is only legal in user context. I
--have assumed that :c:func:`cache_add()` is still only called in
-+have assumed that cache_add() is still only called in
- user context, otherwise this should become a parameter to
--:c:func:`cache_add()`.
-+cache_add().
- 
- Exposing Objects Outside This File
- ----------------------------------
-@@ -592,7 +592,7 @@ This makes locking trickier, as it is no longer all in one place.
- The second problem is the lifetime problem: if another structure keeps a
- pointer to an object, it presumably expects that pointer to remain
- valid. Unfortunately, this is only guaranteed while you hold the lock,
--otherwise someone might call :c:func:`cache_delete()` and even
-+otherwise someone might call cache_delete() and even
- worse, add another object, re-using the same address.
- 
- As there is only one lock, you can't hold it forever: no-one else would
-@@ -693,8 +693,8 @@ Here is the code::
- 
- We encapsulate the reference counting in the standard 'get' and 'put'
- functions. Now we can return the object itself from
--:c:func:`cache_find()` which has the advantage that the user can
--now sleep holding the object (eg. to :c:func:`copy_to_user()` to
-+cache_find() which has the advantage that the user can
-+now sleep holding the object (eg. to copy_to_user() to
- name to userspace).
- 
- The other point to note is that I said a reference should be held for
-@@ -710,7 +710,7 @@ number of atomic operations defined in ``include/asm/atomic.h``: these
- are guaranteed to be seen atomically from all CPUs in the system, so no
- lock is required. In this case, it is simpler than using spinlocks,
- although for anything non-trivial using spinlocks is clearer. The
--:c:func:`atomic_inc()` and :c:func:`atomic_dec_and_test()`
-+atomic_inc() and atomic_dec_and_test()
- are used instead of the standard increment and decrement operators, and
- the lock is no longer used to protect the reference count itself.
- 
-@@ -802,7 +802,7 @@ name to change, there are three possibilities:
- -  You can make ``cache_lock`` non-static, and tell people to grab that
-    lock before changing the name in any object.
- 
---  You can provide a :c:func:`cache_obj_rename()` which grabs this
-+-  You can provide a cache_obj_rename() which grabs this
-    lock and changes the name for the caller, and tell everyone to use
-    that function.
- 
-@@ -861,11 +861,11 @@ Note that I decide that the popularity count should be protected by the
- ``cache_lock`` rather than the per-object lock: this is because it (like
- the :c:type:`struct list_head <list_head>` inside the object)
- is logically part of the infrastructure. This way, I don't need to grab
--the lock of every object in :c:func:`__cache_add()` when seeking
-+the lock of every object in __cache_add() when seeking
- the least popular.
- 
- I also decided that the id member is unchangeable, so I don't need to
--grab each object lock in :c:func:`__cache_find()` to examine the
-+grab each object lock in __cache_find() to examine the
- id: the object lock is only used by a caller who wants to read or write
- the name field.
- 
-@@ -887,7 +887,7 @@ trivial to diagnose: not a
- stay-up-five-nights-talk-to-fluffy-code-bunnies kind of problem.
- 
- For a slightly more complex case, imagine you have a region shared by a
--softirq and user context. If you use a :c:func:`spin_lock()` call
-+softirq and user context. If you use a spin_lock() call
- to protect it, it is possible that the user context will be interrupted
- by the softirq while it holds the lock, and the softirq will then spin
- forever trying to get the same lock.
-@@ -985,12 +985,12 @@ you might do the following::
- 
- 
- Sooner or later, this will crash on SMP, because a timer can have just
--gone off before the :c:func:`spin_lock_bh()`, and it will only get
--the lock after we :c:func:`spin_unlock_bh()`, and then try to free
-+gone off before the spin_lock_bh(), and it will only get
-+the lock after we spin_unlock_bh(), and then try to free
- the element (which has already been freed!).
- 
- This can be avoided by checking the result of
--:c:func:`del_timer()`: if it returns 1, the timer has been deleted.
-+del_timer(): if it returns 1, the timer has been deleted.
- If 0, it means (in this case) that it is currently running, so we can
- do::
- 
-@@ -1012,9 +1012,9 @@ do::
- 
- 
- Another common problem is deleting timers which restart themselves (by
--calling :c:func:`add_timer()` at the end of their timer function).
-+calling add_timer() at the end of their timer function).
- Because this is a fairly common case which is prone to races, you should
--use :c:func:`del_timer_sync()` (``include/linux/timer.h``) to
-+use del_timer_sync() (``include/linux/timer.h``) to
- handle this case. It returns the number of times the timer had to be
- deleted before we finally stopped it from adding itself back in.
- 
-@@ -1086,7 +1086,7 @@ adding ``new`` to a single linked list called ``list``::
-             list->next = new;
- 
- 
--The :c:func:`wmb()` is a write memory barrier. It ensures that the
-+The wmb() is a write memory barrier. It ensures that the
- first operation (setting the new element's ``next`` pointer) is complete
- and will be seen by all CPUs, before the second operation is (putting
- the new element into the list). This is important, since modern
-@@ -1097,7 +1097,7 @@ rest of the list.
- 
- Fortunately, there is a function to do this for standard
- :c:type:`struct list_head <list_head>` lists:
--:c:func:`list_add_rcu()` (``include/linux/list.h``).
-+list_add_rcu() (``include/linux/list.h``).
- 
- Removing an element from the list is even simpler: we replace the
- pointer to the old element with a pointer to its successor, and readers
-@@ -1108,7 +1108,7 @@ will either see it, or skip over it.
-             list->next = old->next;
- 
- 
--There is :c:func:`list_del_rcu()` (``include/linux/list.h``) which
-+There is list_del_rcu() (``include/linux/list.h``) which
- does this (the normal version poisons the old object, which we don't
- want).
- 
-@@ -1116,9 +1116,9 @@ The reader must also be careful: some CPUs can look through the ``next``
- pointer to start reading the contents of the next element early, but
- don't realize that the pre-fetched contents is wrong when the ``next``
- pointer changes underneath them. Once again, there is a
--:c:func:`list_for_each_entry_rcu()` (``include/linux/list.h``)
-+list_for_each_entry_rcu() (``include/linux/list.h``)
- to help you. Of course, writers can just use
--:c:func:`list_for_each_entry()`, since there cannot be two
-+list_for_each_entry(), since there cannot be two
- simultaneous writers.
- 
- Our final dilemma is this: when can we actually destroy the removed
-@@ -1127,14 +1127,14 @@ the list right now: if we free this element and the ``next`` pointer
- changes, the reader will jump off into garbage and crash. We need to
- wait until we know that all the readers who were traversing the list
- when we deleted the element are finished. We use
--:c:func:`call_rcu()` to register a callback which will actually
-+call_rcu() to register a callback which will actually
- destroy the object once all pre-existing readers are finished.
--Alternatively, :c:func:`synchronize_rcu()` may be used to block
-+Alternatively, synchronize_rcu() may be used to block
- until all pre-existing are finished.
- 
- But how does Read Copy Update know when the readers are finished? The
- method is this: firstly, the readers always traverse the list inside
--:c:func:`rcu_read_lock()`/:c:func:`rcu_read_unlock()` pairs:
-+rcu_read_lock()/rcu_read_unlock() pairs:
- these simply disable preemption so the reader won't go to sleep while
- reading the list.
- 
-@@ -1223,12 +1223,12 @@ this is the fundamental idea.
-      }
- 
- Note that the reader will alter the popularity member in
--:c:func:`__cache_find()`, and now it doesn't hold a lock. One
-+__cache_find(), and now it doesn't hold a lock. One
- solution would be to make it an ``atomic_t``, but for this usage, we
- don't really care about races: an approximate result is good enough, so
- I didn't change it.
- 
--The result is that :c:func:`cache_find()` requires no
-+The result is that cache_find() requires no
- synchronization with any other functions, so is almost as fast on SMP as
- it would be on UP.
- 
-@@ -1240,9 +1240,9 @@ and put the reference count.
- 
- Now, because the 'read lock' in RCU is simply disabling preemption, a
- caller which always has preemption disabled between calling
--:c:func:`cache_find()` and :c:func:`object_put()` does not
-+cache_find() and object_put() does not
- need to actually get and put the reference count: we could expose
--:c:func:`__cache_find()` by making it non-static, and such
-+__cache_find() by making it non-static, and such
- callers could simply call that.
- 
- The benefit here is that the reference count is not written to: the
-@@ -1260,11 +1260,11 @@ counter. Nice and simple.
- If that was too slow (it's usually not, but if you've got a really big
- machine to test on and can show that it is), you could instead use a
- counter for each CPU, then none of them need an exclusive lock. See
--:c:func:`DEFINE_PER_CPU()`, :c:func:`get_cpu_var()` and
--:c:func:`put_cpu_var()` (``include/linux/percpu.h``).
-+DEFINE_PER_CPU(), get_cpu_var() and
-+put_cpu_var() (``include/linux/percpu.h``).
- 
- Of particular use for simple per-cpu counters is the ``local_t`` type,
--and the :c:func:`cpu_local_inc()` and related functions, which are
-+and the cpu_local_inc() and related functions, which are
- more efficient than simple code on some architectures
- (``include/asm/local.h``).
- 
-@@ -1289,10 +1289,10 @@ irq handler doesn't use a lock, and all other accesses are done as so::
-         enable_irq(irq);
-         spin_unlock(&lock);
- 
--The :c:func:`disable_irq()` prevents the irq handler from running
-+The disable_irq() prevents the irq handler from running
- (and waits for it to finish if it's currently running on other CPUs).
- The spinlock prevents any other accesses happening at the same time.
--Naturally, this is slower than just a :c:func:`spin_lock_irq()`
-+Naturally, this is slower than just a spin_lock_irq()
- call, so it only makes sense if this type of access happens extremely
- rarely.
- 
-@@ -1315,22 +1315,22 @@ from user context, and can sleep.
- 
- -  Accesses to userspace:
- 
--   -  :c:func:`copy_from_user()`
-+   -  copy_from_user()
- 
--   -  :c:func:`copy_to_user()`
-+   -  copy_to_user()
- 
--   -  :c:func:`get_user()`
-+   -  get_user()
- 
--   -  :c:func:`put_user()`
-+   -  put_user()
- 
---  :c:func:`kmalloc(GFP_KERNEL) <kmalloc>`
-+-  kmalloc(GP_KERNEL) <kmalloc>`
- 
---  :c:func:`mutex_lock_interruptible()` and
--   :c:func:`mutex_lock()`
-+-  mutex_lock_interruptible() and
-+   mutex_lock()
- 
--   There is a :c:func:`mutex_trylock()` which does not sleep.
-+   There is a mutex_trylock() which does not sleep.
-    Still, it must not be used inside interrupt context since its
--   implementation is not safe for that. :c:func:`mutex_unlock()`
-+   implementation is not safe for that. mutex_unlock()
-    will also never sleep. It cannot be used in interrupt context either
-    since a mutex must be released by the same task that acquired it.
- 
-@@ -1340,11 +1340,11 @@ Some Functions Which Don't Sleep
- Some functions are safe to call from any context, or holding almost any
- lock.
- 
---  :c:func:`printk()`
-+-  printk()
- 
---  :c:func:`kfree()`
-+-  kfree()
- 
---  :c:func:`add_timer()` and :c:func:`del_timer()`
-+-  add_timer() and del_timer()
- 
- Mutex API reference
- ===================
-@@ -1400,26 +1400,26 @@ preemption
- 
- bh
-   Bottom Half: for historical reasons, functions with '_bh' in them often
--  now refer to any software interrupt, e.g. :c:func:`spin_lock_bh()`
-+  now refer to any software interrupt, e.g. spin_lock_bh()
-   blocks any software interrupt on the current CPU. Bottom halves are
-   deprecated, and will eventually be replaced by tasklets. Only one bottom
-   half will be running at any time.
- 
- Hardware Interrupt / Hardware IRQ
--  Hardware interrupt request. :c:func:`in_irq()` returns true in a
-+  Hardware interrupt request. in_irq() returns true in a
-   hardware interrupt handler.
- 
- Interrupt Context
-   Not user context: processing a hardware irq or software irq. Indicated
--  by the :c:func:`in_interrupt()` macro returning true.
-+  by the in_interrupt() macro returning true.
- 
- SMP
-   Symmetric Multi-Processor: kernels compiled for multiple-CPU machines.
-   (``CONFIG_SMP=y``).
- 
- Software Interrupt / softirq
--  Software interrupt handler. :c:func:`in_irq()` returns false;
--  :c:func:`in_softirq()` returns true. Tasklets and softirqs both
-+  Software interrupt handler. in_irq() returns false;
-+  in_softirq() returns true. Tasklets and softirqs both
-   fall into the category of 'software interrupts'.
- 
-   Strictly speaking a softirq is one of up to 32 enumerated software
+> 2 parts, configurations for user and configurations for driver.
+> 
+> Configurations for user detemine how pstore/blk work, such as
+> dump_oops and dmesg_size. They can be set by Kconfig and module
+> parameters.
+
+I'd like to keep blkoops as close to ramoops as possible on the user
+configuration side. Notes below...
+
+> Configurations for driver are all about block/non-block device, such as
+> total_size of device and read/write operations. They should be provided
+> by device drivers, calling blkoops_register_device() for non-block
+> device and blkoops_register_blkdev() for block device.
+
+By non-block do you mean nvme etc? What is the right term for spinning
+disk and nvme collectively? (I always considered them all to be "block"
+devices.)
+
+> If device driver support for panic records, @panic_write must be valid.
+> If panic occurs and pstore/blk does not recover yet, the first zone
+> of dmesg will be used.
+
+I'd like to maintain pstore terminology here: there is the "front end"
+(dmesg, console, pmsg, etc) and there is the "back end" (ramoops,
+blkoops, efi, etc). Since the block layer is a behind blkoops, I'd like
+to come up with a term for this since "device driver" is, I think, too
+general. You call it later "block device driver", so let's use that
+everywhere you say "device driver".
+
+Then we have the layers: pstore front end, pstore core, pstore back end,
+and block device driver.
+
+> Besides, Block device driver has no need to verify which partition is
+> used and provides generic read/write operations. Because blkoops has
+> done it. It also means that if users do not care panic records but
+> records for oops/console/pmsg/ftrace, block device driver should do
+> nothing.
+> 
+> Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
+> ---
+>  MAINTAINERS             |   2 +-
+>  fs/pstore/Kconfig       |  61 ++++++++
+>  fs/pstore/Makefile      |   2 +
+>  fs/pstore/blkoops.c     | 402 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/blkoops.h |  58 +++++++
+>  5 files changed, 524 insertions(+), 1 deletion(-)
+>  create mode 100644 fs/pstore/blkoops.c
+>  create mode 100644 include/linux/blkoops.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cc0a4a8ae06a..e4ba97130560 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13381,7 +13381,7 @@ F:	drivers/firmware/efi/efi-pstore.c
+>  F:	drivers/acpi/apei/erst.c
+>  F:	Documentation/admin-guide/ramoops.rst
+>  F:	Documentation/devicetree/bindings/reserved-memory/ramoops.txt
+> -K:	\b(pstore|ramoops)
+> +K:	\b(pstore|ramoops|blkoops)
+>  
+>  PTP HARDWARE CLOCK SUPPORT
+>  M:	Richard Cochran <richardcochran@gmail.com>
+> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
+> index 536fde9e13e8..7a57a8edb612 100644
+> --- a/fs/pstore/Kconfig
+> +++ b/fs/pstore/Kconfig
+> @@ -163,3 +163,64 @@ config PSTORE_BLK
+>  	  where it can be read back at some later point.
+>  
+>  	  If unsure, say N.
+> +
+> +config PSTORE_BLKOOPS
+> +	tristate "pstore block with oops logger"
+> +	depends on PSTORE_BLK
+> +	help
+> +	  This is a wrapper for pstore/blk.
+
+Is there a reason to keep this separate from PSTORE_BLK? (i.e. why a
+separate Kconfig?)
+
+> +
+> +	  NOTE that, both kconfig and module parameters can configure blkoops,
+> +	  but module parameters have priority over kconfig.
+> +
+> +	  If unsure, say N.
+> +
+> +config PSTORE_BLKOOPS_DMESG_SIZE
+> +	int "dmesg size in kbytes for blkoops"
+
+How about "Size in Kbytes of dmesg to store"? (It will already show up
+under the parent config, so no need to repeat "blkoops" here.
+
+> +	depends on PSTORE_BLKOOPS
+> +	default 64
+> +	help
+> +	  This just sets size of dmesg (dmesg_size) for pstore/blk. The size is
+> +	  in KB and must be a multiple of 4.
+> +
+> +	  NOTE that, both kconfig and module parameters can configure blkoops,
+
+nit: "Kconfig" instead of "kconfig"
+
+> +	  but module parameters have priority over kconfig.
+>
+> +config PSTORE_BLKOOPS_BLKDEV
+> +	string "block device for blkoops"
+
+Maybe clarify with as "block device identifier for blkoops" ? Also, I'd
+put this before the DMESG_SIZE.
+
+> +	depends on PSTORE_BLKOOPS
+> +	default ""
+> +	help
+> +	  Which block device should be used for pstore/blk.
+> +
+> +	  It accept the following variants:
+> +	  1) <hex_major><hex_minor> device number in hexadecimal represents
+> +	     itself no leading 0x, for example b302.
+> +	  2) /dev/<disk_name> represents the device number of disk
+> +	  3) /dev/<disk_name><decimal> represents the device number
+> +	     of partition - device number of disk plus the partition number
+> +	  4) /dev/<disk_name>p<decimal> - same as the above, this form is
+> +	     used when disk name of partitioned disk ends with a digit.
+> +	  5) PARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF representing the
+> +	     unique id of a partition if the partition table provides it.
+> +	     The UUID may be either an EFI/GPT UUID, or refer to an MSDOS
+> +	     partition using the format SSSSSSSS-PP, where SSSSSSSS is a zero-
+> +	     filled hex representation of the 32-bit "NT disk signature", and PP
+> +	     is a zero-filled hex representation of the 1-based partition number.
+> +	  6) PARTUUID=<UUID>/PARTNROFF=<int> to select a partition in relation
+> +	     to a partition with a known unique id.
+> +	  7) <major>:<minor> major and minor number of the device separated by
+> +	     a colon.
+> +
+> +	  NOTE that, both kconfig and module parameters can configure blkoops,
+> +	  but module parameters have priority over kconfig.
+> +
+> +config PSTORE_BLKOOPS_DUMP_OOPS
+> +	bool "dump oops"
+
+Why is this a Kconfig at all? Isn't the whole point to always catch
+oopses? :) Let's leave this default to 1 (as ramoops does).
+
+> +	depends on PSTORE_BLKOOPS
+> +	default y
+> +	help
+> +	  Whether blkoops dumps oops or not.
+> +
+> +	  NOTE that, both kconfig and module parameters can configure blkoops,
+> +	  but module parameters have priority over kconfig.
+> diff --git a/fs/pstore/Makefile b/fs/pstore/Makefile
+> index 0ee2fc8d1bfb..24b3d488d2f0 100644
+> --- a/fs/pstore/Makefile
+> +++ b/fs/pstore/Makefile
+> @@ -15,3 +15,5 @@ obj-$(CONFIG_PSTORE_RAM)	+= ramoops.o
+>  
+>  obj-$(CONFIG_PSTORE_BLK) += pstore_blk.o
+>  pstore_blk-y += blkzone.o
+> +
+> +obj-$(CONFIG_PSTORE_BLKOOPS) += blkoops.o
+> diff --git a/fs/pstore/blkoops.c b/fs/pstore/blkoops.c
+> new file mode 100644
+> index 000000000000..8027c3af8c8d
+> --- /dev/null
+> +++ b/fs/pstore/blkoops.c
+> @@ -0,0 +1,402 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#define pr_fmt(fmt) "blkoops : " fmt
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/string.h>
+> +#include <linux/of.h>
+> +#include <linux/of_address.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/blkoops.h>
+> +#include <linux/mount.h>
+> +#include <linux/uio.h>
+> +
+> +static long dmesg_size = -1;
+> +module_param(dmesg_size, long, 0400);
+> +MODULE_PARM_DESC(dmesg_size, "demsg size in kbytes");
+
+Can this be named "record_size" to match ramoops?
+
+> +static int dump_oops = -1;
+
+I'd default this to 1 as mentioned in the Kconfig.
+
+> +module_param(dump_oops, int, 0400);
+> +MODULE_PARM_DESC(total_size, "whether dump oops");
+> +
+> +/**
+> + * The block device to use. Most of the time, it is a partition of block
+> + * device. It's fine to ignore it if you are not block device and register
+> + * to blkoops by blkoops_register_device(). In this case, @blkdev is
+> + * useless and @read, @write and @total_size must be supplied.
+> + *
+> + * @blkdev accepts the following variants:
+> + * 1) <hex_major><hex_minor> device number in hexadecimal represents itself
+> + *    no leading 0x, for example b302.
+> + * 2) /dev/<disk_name> represents the device number of disk
+> + * 3) /dev/<disk_name><decimal> represents the device number
+> + *    of partition - device number of disk plus the partition number
+> + * 4) /dev/<disk_name>p<decimal> - same as the above, that form is
+> + *    used when disk name of partitioned disk ends on a digit.
+> + * 5) PARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF representing the
+> + *    unique id of a partition if the partition table provides it.
+> + *    The UUID may be either an EFI/GPT UUID, or refer to an MSDOS
+> + *    partition using the format SSSSSSSS-PP, where SSSSSSSS is a zero-
+> + *    filled hex representation of the 32-bit "NT disk signature", and PP
+> + *    is a zero-filled hex representation of the 1-based partition number.
+> + * 6) PARTUUID=<UUID>/PARTNROFF=<int> to select a partition in relation to
+> + *    a partition with a known unique id.
+> + * 7) <major>:<minor> major and minor number of the device separated by
+> + *    a colon.
+> + */
+> +static char blkdev[80];
+
+static char blkdev[80] = CONFIG_PSTORE_BLKOOPS_BLKDEV;
+
+> +module_param_string(blkdev, blkdev, 80, 0400);
+> +MODULE_PARM_DESC(blkdev, "the block device for general read/write");
+> +
+> +static DEFINE_MUTEX(blkz_lock);
+> +static struct block_device *blkoops_bdev;
+> +static struct blkz_info *bzinfo;
+> +static blkoops_blk_panic_write_op blkdev_panic_write;
+> +
+> +#ifdef CONFIG_PSTORE_BLKOOPS_DMESG_SIZE
+
+This (and all the others below) will always be defined, so no need to
+test it -- just use it as needed below.
+
+> +#define DEFAULT_DMESG_SIZE CONFIG_PSTORE_BLKOOPS_DMESG_SIZE
+> +#else
+> +#define DEFAULT_DMESG_SIZE 0
+> +#endif
+> +
+> +#ifdef CONFIG_PSTORE_BLKOOPS_DUMP_OOPS
+> +#define DEFAULT_DUMP_OOPS CONFIG_PSTORE_BLKOOPS_DUMP_OOPS
+> +#else
+> +#define DEFAULT_DUMP_OOPS 1
+> +#endif
+> +
+> +#ifdef CONFIG_PSTORE_BLKOOPS_BLKDEV
+> +#define DEFAULT_BLKDEV CONFIG_PSTORE_BLKOOPS_BLKDEV
+> +#else
+> +#define DEFAULT_BLKDEV ""
+> +#endif
+> +
+> +/**
+> + * register device to blkoops
+> + *
+> + * Drivers, not only block drivers but also non-block drivers can call this
+> + * function to register to blkoops. It will pack for blkzone and pstore.
+> + */
+> +int blkoops_register_device(struct blkoops_device *bo_dev)
+> +{
+> +	int ret;
+> +
+> +	if (!bo_dev || !bo_dev->total_size || !bo_dev->read || !bo_dev->write)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&blkz_lock);
+> +
+> +	/* someone already registered before */
+> +	if (bzinfo) {
+> +		mutex_unlock(&blkz_lock);
+> +		return -EBUSY;
+> +	}
+> +	bzinfo = kzalloc(sizeof(struct blkz_info), GFP_KERNEL);
+> +	if (!bzinfo) {
+> +		mutex_unlock(&blkz_lock);
+> +		return -ENOMEM;
+> +	}
+> +
+> +#define verify_size(name, defsize, alignsize) {				\
+> +		long _##name_ = (name);					\
+> +		if (_##name_ < 0)					\
+> +			_##name_ = (defsize);				\
+> +		_##name_ = _##name_ <= 0 ? 0 : (_##name_ * 1024);	\
+> +		if (_##name_ & ((alignsize) - 1)) {			\
+> +			pr_info(#name " must align to %d\n",		\
+> +					(alignsize));			\
+> +			_##name_ = ALIGN(name, (alignsize));		\
+> +		}							\
+> +		name = _##name_ / 1024;					\
+> +		bzinfo->name = _##name_;				\
+> +	}
+> +
+> +	verify_size(dmesg_size, DEFAULT_DMESG_SIZE, 4096);
+> +#undef verify_size
+
+As mentioned, can this be named "record_size"?
+
+> +	dump_oops = !!(dump_oops < 0 ? DEFAULT_DUMP_OOPS : dump_oops);
+> +
+> +	bzinfo->total_size = bo_dev->total_size;
+> +	bzinfo->dump_oops = dump_oops;
+> +	bzinfo->read = bo_dev->read;
+> +	bzinfo->write = bo_dev->write;
+
+Why copy these separate functions? Shouldn't bzinfo just keep a pointer
+to bo_dev?
+
+> +	bzinfo->panic_write = bo_dev->panic_write;
+> +	bzinfo->name = "blkoops";
+> +	bzinfo->owner = THIS_MODULE;
+> +
+> +	ret = blkz_register(bzinfo);
+> +	if (ret) {
+> +		kfree(bzinfo);
+> +		bzinfo = NULL;
+> +	}
+> +	mutex_unlock(&blkz_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(blkoops_register_device);
+> +
+> +void blkoops_unregister_device(struct blkoops_device *bo_dev)
+> +{
+> +	mutex_lock(&blkz_lock);
+> +	if (bzinfo && bzinfo->read == bo_dev->read) {
+
+Why this read equality test?
+
+> +		blkz_unregister(bzinfo);
+> +		kfree(bzinfo);
+> +		bzinfo = NULL;
+> +	}
+> +	mutex_unlock(&blkz_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(blkoops_unregister_device);
+> +
+> +/**
+> + * get block_device of @blkdev
+> + * @holder: exclusive holder identifier
+> + *
+> + * On success, @blkoops_bdev will save the block_device and the returned
+> + * block_device has reference count of one.
+> + */
+> +static struct block_device *blkoops_get_bdev(void *holder)
+> +{
+> +	struct block_device *bdev = ERR_PTR(-ENODEV);
+> +	fmode_t mode = FMODE_READ | FMODE_WRITE;
+> +
+> +	if (!blkdev[0] && strlen(DEFAULT_BLKDEV))
+> +		snprintf(blkdev, 80, "%s", DEFAULT_BLKDEV);
+> +	if (!blkdev[0])
+> +		return ERR_PTR(-ENODEV);
+
+I'd drop these tests -- and the snprintf isn't needed with the change
+above on initialization.
+
+> +
+> +	mutex_lock(&blkz_lock);
+> +	if (bzinfo)
+> +		goto out;
+> +	if (holder)
+> +		mode |= FMODE_EXCL;
+> +	bdev = blkdev_get_by_path(blkdev, mode, holder);
+> +	if (IS_ERR(bdev)) {
+> +		dev_t devt;
+> +
+> +		devt = name_to_dev_t(blkdev);
+> +		if (devt == 0) {
+> +			bdev = ERR_PTR(-ENODEV);
+> +			goto out;
+> +		}
+> +		bdev = blkdev_get_by_dev(devt, mode, holder);
+> +	}
+> +out:
+> +	mutex_unlock(&blkz_lock);
+> +	return bdev;
+> +}
+> +
+> +static void blkoops_put_bdev(struct block_device *bdev, void *holder)
+> +{
+> +	fmode_t mode = FMODE_READ | FMODE_WRITE;
+> +
+> +	if (!bdev)
+> +		return;
+> +
+> +	mutex_lock(&blkz_lock);
+> +	if (holder)
+> +		mode |= FMODE_EXCL;
+> +	blkdev_put(bdev, mode);
+> +	mutex_unlock(&blkz_lock);
+> +}
+> +
+> +static ssize_t blkoops_generic_blk_read(char *buf, size_t bytes, loff_t pos)
+> +{
+> +	ssize_t ret;
+> +	struct block_device *bdev = blkoops_bdev;
+> +	struct file filp;
+> +	mm_segment_t ofs;
+> +	struct kiocb kiocb;
+> +	struct iov_iter iter;
+> +	struct iovec iov = {
+> +		.iov_base = (void __user *)buf,
+> +		.iov_len = bytes
+> +	};
+> +
+> +	if (!bdev)
+> +		return -ENODEV;
+> +
+> +	memset(&filp, 0, sizeof(struct file));
+> +	filp.f_mapping = bdev->bd_inode->i_mapping;
+> +	filp.f_flags = O_DSYNC | __O_SYNC | O_NOATIME;
+> +	filp.f_inode = bdev->bd_inode;
+> +
+> +	init_sync_kiocb(&kiocb, &filp);
+> +	kiocb.ki_pos = pos;
+> +	iov_iter_init(&iter, READ, &iov, 1, bytes);
+> +
+> +	ofs = get_fs();
+> +	set_fs(KERNEL_DS);
+> +	ret = generic_file_read_iter(&kiocb, &iter);
+> +	set_fs(ofs);
+
+Please don't use "set_fs". I think you want ITER_KVEC and to use
+vfs_iter_read()? A lot of work went into removing set_fs() uses; we
+should not add more. :)
+https://lwn.net/Articles/722267/
+
+> +	return ret;
+> +}
+> +
+> +static ssize_t blkoops_generic_blk_write(const char *buf, size_t bytes,
+> +		loff_t pos)
+> +{
+> +	struct block_device *bdev = blkoops_bdev;
+> +	struct iov_iter iter;
+> +	struct kiocb kiocb;
+> +	struct file filp;
+> +	mm_segment_t ofs;
+> +	ssize_t ret;
+> +	struct iovec iov = {
+> +		.iov_base = (void __user *)buf,
+> +		.iov_len = bytes
+> +	};
+> +
+> +	if (!bdev)
+> +		return -ENODEV;
+> +
+> +	/* Console/Ftrace recorder may handle buffer until flush dirty zones */
+> +	if (in_interrupt() || irqs_disabled())
+> +		return -EBUSY;
+> +
+> +	memset(&filp, 0, sizeof(struct file));
+> +	filp.f_mapping = bdev->bd_inode->i_mapping;
+> +	filp.f_flags = O_DSYNC | __O_SYNC | O_NOATIME;
+> +	filp.f_inode = bdev->bd_inode;
+> +
+> +	init_sync_kiocb(&kiocb, &filp);
+> +	kiocb.ki_pos = pos;
+> +	iov_iter_init(&iter, WRITE, &iov, 1, bytes);
+> +
+> +	ofs = get_fs();
+> +	set_fs(KERNEL_DS);
+
+Same.
+
+> +
+> +	inode_lock(bdev->bd_inode);
+> +	ret = generic_write_checks(&kiocb, &iter);
+> +	if (ret > 0)
+> +		ret = generic_perform_write(&filp, &iter, pos);
+> +	inode_unlock(bdev->bd_inode);
+> +
+> +	if (likely(ret > 0)) {
+> +		const struct file_operations f_op = {.fsync = blkdev_fsync};
+> +
+> +		filp.f_op = &f_op;
+> +		kiocb.ki_pos += ret;
+> +		ret = generic_write_sync(&kiocb, ret);
+> +	}
+> +	set_fs(ofs);
+> +	return ret;
+> +}
+> +
+> +static inline unsigned long blkoops_bdev_size(struct block_device *bdev)
+> +{
+> +	return (unsigned long)part_nr_sects_read(bdev->bd_part) << SECTOR_SHIFT;
+> +}
+> +
+> +static ssize_t blkoops_blk_panic_write(const char *buf, size_t size,
+> +		loff_t off)
+> +{
+> +	int ret;
+> +
+> +	if (!blkdev_panic_write)
+> +		return -EOPNOTSUPP;
+> +
+> +	/* size and off must align to SECTOR_SIZE for block device */
+> +	ret = blkdev_panic_write(buf, off >> SECTOR_SHIFT,
+> +			size >> SECTOR_SHIFT);
+> +	return ret ? -EIO : size;
+> +}
+> +
+> +/**
+> + * register block device to blkoops
+> + * @major: the major device number of registering device
+> + * @panic_write: the write interface for panic case.
+> + *
+> + * It is ONLY used for block device to register to blkoops. In this case,
+> + * the module parameter @blkdev must be valid. Generic read/write interfaces
+> + * will be used.
+> + *
+> + * Block driver has no need to verify which partition is used. Block driver
+> + * should only tell me what major number is, so blkoops can get the matching
+> + * driver for @blkdev.
+> + *
+> + * If block driver support for panic records, @panic_write must be valid. If
+> + * panic occurs but pstore/blk does not recover yet, the first zone of dmesg
+> + * will be used.
+> + */
+> +int blkoops_register_blkdev(unsigned int major,
+> +		blkoops_blk_panic_write_op panic_write)
+> +{
+> +	struct block_device *bdev;
+> +	struct blkoops_device bo_dev = {0};
+> +	int ret = -ENODEV;
+> +	void *holder = blkdev;
+> +
+> +	bdev = blkoops_get_bdev(holder);
+> +	if (IS_ERR(bdev))
+> +		return PTR_ERR(bdev);
+
+This seems like a good place to report getting or failing to get the
+named block device.
+
+	bdev = blkoops_get_bdev(holder);
+	if (IS_ERR(bdev)) {
+		pr_err("failed to open '%s'!\n", blkdev);
+		return PTR_ERR(bdev);
+	}
+
+> +
+> +	blkoops_bdev = bdev;
+> +	blkdev_panic_write = panic_write;
+> +
+> +	/* only allow driver matching the @blkdev */
+> +	if (!bdev->bd_dev || MAJOR(bdev->bd_dev) != major)
+
+And add similar error reports here.
+
+> +		goto err_put_bdev;
+> +
+> +	bo_dev.total_size = blkoops_bdev_size(bdev);
+> +	if (bo_dev.total_size == 0)
+> +		goto err_put_bdev;
+
+And here. We want to make failures as discoverable as possible.
+
+> +	bo_dev.panic_write = panic_write ? blkoops_blk_panic_write : NULL;
+> +	bo_dev.read = blkoops_generic_blk_read;
+> +	bo_dev.write = blkoops_generic_blk_write;
+> +
+> +	ret = blkoops_register_device(&bo_dev);
+> +	if (ret)
+> +		goto err_put_bdev;
+
+	pr_info("using '%s'\n", blkdev);
+
+> +	return 0;
+> +
+> +err_put_bdev:
+> +	blkdev_panic_write = NULL;
+> +	blkoops_bdev = NULL;
+> +	blkoops_put_bdev(bdev, holder);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(blkoops_register_blkdev);
+> +
+> +void blkoops_unregister_blkdev(unsigned int major)
+> +{
+> +	struct blkoops_device bo_dev = {.read = blkoops_generic_blk_read};
+> +	void *holder = blkdev;
+> +
+> +	if (blkoops_bdev && MAJOR(blkoops_bdev->bd_dev) == major) {
+> +		blkoops_unregister_device(&bo_dev);
+> +		blkoops_put_bdev(blkoops_bdev, holder);
+> +		blkdev_panic_write = NULL;
+> +		blkoops_bdev = NULL;
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(blkoops_unregister_blkdev);
+> +
+> +/**
+> + * get information of @blkdev
+> + * @devt: the block device num of @blkdev
+> + * @nr_sectors: the sector count of @blkdev
+> + * @start_sect: the start sector of @blkdev
+> + *
+> + * Block driver needs the follow information for @panic_write.
+> + */
+> +int blkoops_blkdev_info(dev_t *devt, sector_t *nr_sects, sector_t *start_sect)
+> +{
+> +	struct block_device *bdev;
+> +
+> +	bdev = blkoops_get_bdev(NULL);
+> +	if (IS_ERR(bdev))
+> +		return PTR_ERR(bdev);
+> +
+> +	if (devt)
+> +		*devt = bdev->bd_dev;
+> +	if (nr_sects)
+> +		*nr_sects = part_nr_sects_read(bdev->bd_part);
+> +	if (start_sect)
+> +		*start_sect = get_start_sect(bdev);
+> +
+> +	blkoops_put_bdev(bdev, NULL);
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(blkoops_blkdev_info);
+
+I don't see this function getting used anywhere. Can it be removed? I
+see the notes in the Documentation. Could these values just be cached at
+open time instead of reopening the device?
+
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("WeiXiong Liao <liaoweixiong@allwinnertech.com>");
+> +MODULE_DESCRIPTION("Wrapper for Pstore BLK with Oops logger");
+> diff --git a/include/linux/blkoops.h b/include/linux/blkoops.h
+> new file mode 100644
+> index 000000000000..fe63739309aa
+> --- /dev/null
+> +++ b/include/linux/blkoops.h
+> @@ -0,0 +1,58 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef __BLKOOPS_H_
+> +#define __BLKOOPS_H_
+> +
+> +#include <linux/types.h>
+> +#include <linux/blkdev.h>
+> +#include <linux/pstore_blk.h>
+> +
+> +/**
+> + * struct blkoops_device - backend blkoops driver structure.
+> + *
+> + * This structure is ONLY used for non-block device by
+> + * blkoops_register_device(). If block device, you are strongly recommended
+> + * to use blkoops_register_blkdev().
+> + *
+> + * @total_size:
+> + *	The total size in bytes pstore/blk can use. It must be greater than
+> + *	4096 and be multiple of 4096.
+> + * @read, @write:
+> + *	The general (not panic) read/write operation.
+> + *
+> + *	Both of the @size and @offset parameters on this interface are
+> + *	the relative size of the space provided, not the whole disk/flash.
+> + *
+> + *	On success, the number of bytes read should be returned.
+> + *	On error, negative number should be returned.
+> + * @panic_write:
+> + *	The write operation only used for panic.
+> + *
+> + *	Both of the @size and @offset parameters on this interface are
+> + *	the relative size of the space provided, not the whole disk/flash.
+> + *
+> + *	On success, the number of bytes read should be returned.
+> + *	On error, negative number should be returned.
+> + */
+> +struct blkoops_device {
+> +	unsigned long total_size;
+> +	blkz_read_op read;
+> +	blkz_write_op write;
+> +	blkz_write_op panic_write;
+> +};
+> +
+> +/*
+> + * Panic write for block device who should write alignmemt to SECTOR_SIZE.
+> + * On success, zero should be returned. Others mean error.
+> + */
+> +typedef int (*blkoops_blk_panic_write_op)(const char *buf, sector_t start_sect,
+> +		sector_t sects);
+> +
+> +int  blkoops_register_device(struct blkoops_device *bo_dev);
+> +void blkoops_unregister_device(struct blkoops_device *bo_dev);
+> +int  blkoops_register_blkdev(unsigned int major,
+> +		blkoops_blk_panic_write_op panic_write);
+> +void blkoops_unregister_blkdev(unsigned int major);
+> +int  blkoops_blkdev_info(dev_t *devt, sector_t *nr_sects, sector_t *start_sect);
+> +
+> +#endif
+> -- 
+> 1.9.1
+> 
+
 -- 
-Sent by a computer, using git, on the internet
-
+Kees Cook
