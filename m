@@ -4,54 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AFACC5ACD6
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:35:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCAADC10DCE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:42:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6899A20785
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:35:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC0B52077F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:42:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lYD74A1Y"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RNshLByR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726506AbgCRSfs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Mar 2020 14:35:48 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:35487 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726638AbgCRSfr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 14:35:47 -0400
-Received: by mail-pj1-f68.google.com with SMTP id j20so809633pjz.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 11:35:46 -0700 (PDT)
+        id S1726638AbgCRSm5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Mar 2020 14:42:57 -0400
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:37234 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726619AbgCRSm5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 14:42:57 -0400
+Received: by mail-pj1-f65.google.com with SMTP id ca13so1580757pjb.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 11:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=v55B2a/Zwvx3CXP9CMik1IV/79dcJ/3V1375/GTUm0Y=;
-        b=lYD74A1YEKqfQWcC0viSFqQGwnB5cSq1cXqUxYr3DRclIOEclTe4uE4xnKn+c/TFEI
-         TgFMYTuBldFoGEpSwn518h1PhSB4dXuG1kDJwYT2qChOUHkeTkAc1KpM52NgW6tz9dNw
-         AQYpcDgNXsnZiPBoWJOsT4uyTHysJkmTwtsLs=
+        bh=FgQUeqczmCOiMLXJY/YgmlhiPodfwWFEQ6rmmnOqT2I=;
+        b=RNshLByRet19hMEwb8FtxHQ4qbBwmjLc285o6H3HiHgrUaqRFtLN58W3KdnKNDFM4a
+         IYWCrg7B/XijnDcoo2wLu4Gtt/R1vc/xnDhz0CeI9707c9g3g6nwxgPTVxujHeG0Vu5/
+         ec96267kJA4rrGMPZ0HQHOE0rZODIqhj99ULQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=v55B2a/Zwvx3CXP9CMik1IV/79dcJ/3V1375/GTUm0Y=;
-        b=L3hcj7GQnz3ovh2+Y3a05jFxl1ZIsl9BWHXDnD3tBrKr9RbtCjPkcgEVvRyAHvvOm4
-         CafkraxOrBKjyFF4TAzNZ0ws60bqYXY0AhLM4AqOGxE2MVNvE8Mlp9ezZKHti+5/D5HD
-         MkPGqXj5FITYn25aBorfLlQ4LVET1qHa3P5bx2s+ILMDzhYhWJ/1wS4J38JSZNZ10CQg
-         B0qroNwWhcO0eTgAmVp3chFE/nKUIINcRAvdMIouTyZyRIFYIp2nI3QECAO99Q2SaZgX
-         pQ0ufCnBtj1iaitN/Zjo4q+fuOdU6I3duo0psbzMDtZr7ebxh1WHKlZf97H46C9Iq+Rz
-         V0XA==
-X-Gm-Message-State: ANhLgQ1d/s8AKsi3btmHhS6aBLVWBDW8t+zkvCALjTZmc7YDxYaTaoD0
-        T0V0xskdi3F4r6TxnTogM+g0HA==
-X-Google-Smtp-Source: ADFU+vuyzSHt8QatiGLYf6IYtJjZw1cG3ovV9vuH8DlYYljpVAflAybcftSCvIkQOgrM3h9WTPyyOg==
-X-Received: by 2002:a17:902:710c:: with SMTP id a12mr5020050pll.283.1584556545656;
-        Wed, 18 Mar 2020 11:35:45 -0700 (PDT)
+        bh=FgQUeqczmCOiMLXJY/YgmlhiPodfwWFEQ6rmmnOqT2I=;
+        b=Mk3LvNHIqwdFIW04aR/4yYLwlJpXsGiuRIERu0eITk4UGUT7zh45iLtqgEWhjSqcQk
+         8qVORrfoIyqxcsw6pbhz0qa1+6id2U+G5hTr3wMvZUMHw3Y9KOZQqdpzdMtIKW/VZxI+
+         EWjsefEZS+HFBcycX3Avkw3Spl1jm4EQUPeUmWqjhT/LUgcW1kNU/TDOM6zxSei7uYnO
+         k9rjZnxlqzyDHlCt8h6/Vqu4bE4zYinBe5+JGo0q7LtfbMHQJCQHje41PC7hjpJe5O2+
+         qskp0+RPEfQhCTX6WUqlzTs1ULsPnm0F+P5yACpupAIMUvCIJRSYH8S1yuS/+2cBhoqJ
+         SJOQ==
+X-Gm-Message-State: ANhLgQ0DkDIOamWxrK9VNtW/vk8QIxRXzCtBpuztlulPlE1n4FQCUEwU
+        qqEgRfQg4VRp4ol2LiiMF9GJbg==
+X-Google-Smtp-Source: ADFU+vsRQSeuB84FI8YRbqpkqkMEhyPRSPoUqLTKWdOQ7eE+yK5gcWvfdV0oolcwy4+XxW2jmIZ3Cw==
+X-Received: by 2002:a17:902:9349:: with SMTP id g9mr5374705plp.16.1584556973360;
+        Wed, 18 Mar 2020 11:42:53 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o33sm3249796pje.19.2020.03.18.11.35.44
+        by smtp.gmail.com with ESMTPSA id l67sm3087706pjb.23.2020.03.18.11.42.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2020 11:35:44 -0700 (PDT)
-Date:   Wed, 18 Mar 2020 11:35:43 -0700
+        Wed, 18 Mar 2020 11:42:52 -0700 (PDT)
+Date:   Wed, 18 Mar 2020 11:42:50 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
 Cc:     Anton Vorontsov <anton@enomsg.org>,
@@ -68,239 +68,199 @@ Cc:     Anton Vorontsov <anton@enomsg.org>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org
-Subject: Re: [PATCH v2 07/11] pstore/blk: skip broken zone for mtd device
-Message-ID: <202003181131.3A8F861F@keescook>
+Subject: Re: [PATCH v2 08/11] blkoops: respect for device to pick recorders
+Message-ID: <202003181136.5F115BFCC1@keescook>
 References: <1581078355-19647-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1581078355-19647-8-git-send-email-liaoweixiong@allwinnertech.com>
+ <1581078355-19647-9-git-send-email-liaoweixiong@allwinnertech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1581078355-19647-8-git-send-email-liaoweixiong@allwinnertech.com>
+In-Reply-To: <1581078355-19647-9-git-send-email-liaoweixiong@allwinnertech.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 07, 2020 at 08:25:51PM +0800, WeiXiong Liao wrote:
+In the subject and through-out:
+
+s/recorders/pstore front-ends/
+
+On Fri, Feb 07, 2020 at 08:25:52PM +0800, WeiXiong Liao wrote:
 > It's one of a series of patches for adaptive to MTD device.
+
+typo: adapting
+
 > 
-> MTD device is not block device. As the block of flash (MTD device) will
-> be broken, it's necessary for pstore/blk to skip the broken block
-> (bad block).
+> MTD device is not block device. The sector of flash (MTD device) will be
+> broken if erase over limited cycles. Avoid damaging block so fast, we
+> can not write to a sector frequently. So, the recorders of pstore/blk
+> like console and ftrace recorder should not be supported.
 > 
-> If device drivers return -ENEXT, pstore/blk will try next zone of dmesg.
+> Besides, mtd device need aligned write/erase size. To avoid
+> over-erasing/writing flash, we should keep a aligned cache and read old
+> data to cache before write/erase, which make codes more complex. So,
+> pmsg do not be supported now because it writes misaligned.
+> 
+> How about dmesg? Luckly, pstore/blk keeps several aligned chunks for
+> dmesg and uses one by one for wear balance.
+> 
+> So, MTD device for pstore should pick recorders, that is why the patch
+> here.
 > 
 > Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
 > ---
->  Documentation/admin-guide/pstore-block.rst |  3 +-
->  fs/pstore/blkzone.c                        | 74 +++++++++++++++++++++++-------
->  include/linux/blkoops.h                    |  4 +-
->  include/linux/pstore_blk.h                 |  4 ++
->  4 files changed, 66 insertions(+), 19 deletions(-)
+>  Documentation/admin-guide/pstore-block.rst |  9 +++++++++
+>  fs/pstore/blkoops.c                        | 29 +++++++++++++++++++++--------
+>  include/linux/blkoops.h                    | 14 +++++++++++++-
+>  3 files changed, 43 insertions(+), 9 deletions(-)
 > 
 > diff --git a/Documentation/admin-guide/pstore-block.rst b/Documentation/admin-guide/pstore-block.rst
-> index c8a5f68960c3..be865dfc1a28 100644
+> index be865dfc1a28..299142b3d8e6 100644
 > --- a/Documentation/admin-guide/pstore-block.rst
 > +++ b/Documentation/admin-guide/pstore-block.rst
-> @@ -188,7 +188,8 @@ The parameter @offset of these interface is the relative position of the device.
->  Normally the number of bytes read/written should be returned, while for error,
->  negative number will be returned. The following return numbers mean more:
+> @@ -166,6 +166,15 @@ It is only required by block device which is registered by
+>  ``blkoops_register_blkdev``.  It's the major device number of registered
+>  devices, by which blkoops can get the matching driver for @blkdev.
 >  
-> --EBUSY: pstore/blk should try again later.
-> +1. -EBUSY: pstore/blk should try again later.
-> +#. -ENEXT: this zone is used or broken, pstore/blk should try next one.
+> +flags
+> +~~~~~
+> +
+> +Refer to macro starting with *BLKOOPS_DEV_SUPPORT_* which is defined in
+> +*linux/blkoops.h*. They tell us that which pstore/blk recorders this device
+> +supports. Default zero means all recorders for compatible, witch is the same
+
+typo: witch -> which
+
+> +as BLKOOPS_DEV_SUPPORT_ALL. Recorder works only when chunk size is not zero
+> +and device support.
+
+There are already flags for this, please see "Supported frontends"
+in include/linux/pstore.h
+
+> +
+>  total_size
+>  ~~~~~~~~~~
 >  
->  panic_write (for non-block device)
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> diff --git a/fs/pstore/blkzone.c b/fs/pstore/blkzone.c
-> index 442e5a5bbfda..205aeff28992 100644
-> --- a/fs/pstore/blkzone.c
-> +++ b/fs/pstore/blkzone.c
-> @@ -207,6 +207,9 @@ static int blkz_zone_write(struct blkz_zone *zone,
+> diff --git a/fs/pstore/blkoops.c b/fs/pstore/blkoops.c
+> index c76bab671b0b..01170b344f00 100644
+> --- a/fs/pstore/blkoops.c
+> +++ b/fs/pstore/blkoops.c
+> @@ -128,9 +128,16 @@ int blkoops_register_device(struct blkoops_device *bo_dev)
+>  		return -ENOMEM;
+>  	}
 >  
->  	return 0;
->  set_dirty:
-> +	/* no need to mark dirty if going to try next zone */
-> +	if (wcnt == -ENEXT)
-> +		return -ENEXT;
->  	atomic_set(&zone->dirty, true);
->  	/* flush dirty zones nicely */
->  	if (wcnt == -EBUSY && !is_on_panic())
-> @@ -360,7 +363,11 @@ static int blkz_recover_dmesg_meta(struct blkz_context *cxt)
->  			return -EINVAL;
+> -#define verify_size(name, defsize, alignsize) {				\
+> -		long _##name_ = (name);					\
+> -		if (_##name_ < 0)					\
+> +	/* zero means all recorders for compatible */
+> +	if (bo_dev->flags == BLKOOPS_DEV_SUPPORT_DEFAULT)
+> +		bo_dev->flags = BLKOOPS_DEV_SUPPORT_ALL;
+> +#define verify_size(name, defsize, alignsize, enable) {			\
+> +		long _##name_;						\
+> +		if (!(enable))						\
+> +			_##name_ = 0;					\
+> +		else if ((name) >= 0)					\
+> +			_##name_ = (name);				\
+> +		else							\
+>  			_##name_ = (defsize);				\
+>  		_##name_ = _##name_ <= 0 ? 0 : (_##name_ * 1024);	\
+>  		if (_##name_ & ((alignsize) - 1)) {			\
+> @@ -142,10 +149,14 @@ int blkoops_register_device(struct blkoops_device *bo_dev)
+>  		bzinfo->name = _##name_;				\
+>  	}
 >  
->  		rcnt = info->read((char *)buf, len, zone->off);
-> -		if (rcnt != len) {
-> +		if (rcnt == -ENEXT) {
-> +			pr_debug("%s with id %lu may be broken, skip\n",
-> +					zone->name, i);
-> +			continue;
-> +		} else if (rcnt != len) {
->  			pr_err("read %s with id %lu failed\n", zone->name, i);
->  			return (int)rcnt < 0 ? (int)rcnt : -EIO;
->  		}
-> @@ -650,24 +657,58 @@ static void blkz_write_kmsg_hdr(struct blkz_zone *zone,
->  		hdr->counter = 0;
->  }
+> -	verify_size(dmesg_size, DEFAULT_DMESG_SIZE, 4096);
+> -	verify_size(pmsg_size, DEFAULT_PMSG_SIZE, 4096);
+> -	verify_size(console_size, DEFAULT_CONSOLE_SIZE, 4096);
+> -	verify_size(ftrace_size, DEFAULT_FTRACE_SIZE, 4096);
+> +	verify_size(dmesg_size, DEFAULT_DMESG_SIZE, 4096,
+> +			bo_dev->flags & BLKOOPS_DEV_SUPPORT_DMESG);
+> +	verify_size(pmsg_size, DEFAULT_PMSG_SIZE, 4096,
+> +			bo_dev->flags & BLKOOPS_DEV_SUPPORT_PMSG);
+> +	verify_size(console_size, DEFAULT_CONSOLE_SIZE, 4096,
+> +			bo_dev->flags & BLKOOPS_DEV_SUPPORT_CONSOLE);
+> +	verify_size(ftrace_size, DEFAULT_FTRACE_SIZE, 4096,
+> +			bo_dev->flags & BLKOOPS_DEV_SUPPORT_FTRACE);
+
+I'd kind of prefer this patch be moved much earlier in the series so
+that the later additions of front-end support doesn't have to be touched
+twice. i.e. when PMSG support is added, it is added as a whole here and
+does the flag check in that patch, etc.
+
+>  #undef verify_size
+>  	dump_oops = !!(dump_oops < 0 ? DEFAULT_DUMP_OOPS : dump_oops);
 >  
-> +/*
-> + * In case zone is broken, which may occur to MTD device, we try each zones,
-> + * start at cxt->dmesg_write_cnt.
-> + */
->  static inline int notrace blkz_dmesg_write_do(struct blkz_context *cxt,
->  		struct pstore_record *record)
+> @@ -336,6 +347,7 @@ static ssize_t blkoops_blk_panic_write(const char *buf, size_t size,
+>   * register block device to blkoops
+>   * @major: the major device number of registering device
+>   * @panic_write: the write interface for panic case.
+> + * @flags: Refer to macro starting with BLKOOPS_DEV_SUPPORT.
+>   *
+>   * It is ONLY used for block device to register to blkoops. In this case,
+>   * the module parameter @blkdev must be valid. Generic read/write interfaces
+> @@ -349,7 +361,7 @@ static ssize_t blkoops_blk_panic_write(const char *buf, size_t size,
+>   * panic occurs but pstore/blk does not recover yet, the first zone of dmesg
+>   * will be used.
+>   */
+> -int blkoops_register_blkdev(unsigned int major,
+> +int blkoops_register_blkdev(unsigned int major, unsigned int flags,
+>  		blkoops_blk_panic_write_op panic_write)
 >  {
-> +	int ret = -EBUSY;
->  	size_t size, hlen;
->  	struct blkz_zone *zone;
-> -	unsigned int zonenum;
-> +	unsigned int i;
+>  	struct block_device *bdev;
+> @@ -372,6 +384,7 @@ int blkoops_register_blkdev(unsigned int major,
+>  	if (bo_dev.total_size == 0)
+>  		goto err_put_bdev;
+>  	bo_dev.panic_write = panic_write ? blkoops_blk_panic_write : NULL;
+> +	bo_dev.flags = flags;
+>  	bo_dev.read = blkoops_generic_blk_read;
+>  	bo_dev.write = blkoops_generic_blk_write;
 >  
-> -	zonenum = cxt->dmesg_write_cnt;
-> -	zone = cxt->dbzs[zonenum];
-> -	if (unlikely(!zone))
-> -		return -ENOSPC;
-> -	cxt->dmesg_write_cnt = (zonenum + 1) % cxt->dmesg_max_cnt;
-> +	for (i = 0; i < cxt->dmesg_max_cnt; i++) {
-> +		unsigned int zonenum, len;
-> +
-> +		zonenum = (cxt->dmesg_write_cnt + i) % cxt->dmesg_max_cnt;
-> +		zone = cxt->dbzs[zonenum];
-> +		if (unlikely(!zone))
-> +			return -ENOSPC;
->  
-> -	pr_debug("write %s to zone id %d\n", zone->name, zonenum);
-> -	blkz_write_kmsg_hdr(zone, record);
-> -	hlen = sizeof(struct blkz_dmesg_header);
-> -	size = min_t(size_t, record->size, zone->buffer_size - hlen);
-> -	return blkz_zone_write(zone, FLUSH_ALL, record->buf, size, hlen);
-> +		/* avoid destorying old data, allocate a new one */
-> +		len = zone->buffer_size + sizeof(*zone->buffer);
-> +		zone->oldbuf = zone->buffer;
-> +		zone->buffer = kzalloc(len, GFP_KERNEL);
-> +		if (!zone->buffer) {
-> +			zone->buffer = zone->oldbuf;
-> +			return -ENOMEM;
-> +		}
-> +		zone->buffer->sig = zone->oldbuf->sig;
-> +
-> +		pr_debug("write %s to zone id %d\n", zone->name, zonenum);
-> +		blkz_write_kmsg_hdr(zone, record);
-> +		hlen = sizeof(struct blkz_dmesg_header);
-> +		size = min_t(size_t, record->size, zone->buffer_size - hlen);
-> +		ret = blkz_zone_write(zone, FLUSH_ALL, record->buf, size, hlen);
-> +		if (likely(!ret || ret != -ENEXT)) {
-> +			cxt->dmesg_write_cnt = zonenum + 1;
-> +			cxt->dmesg_write_cnt %= cxt->dmesg_max_cnt;
-> +			/* no need to try next zone, free last zone buffer */
-> +			kfree(zone->oldbuf);
-> +			zone->oldbuf = NULL;
-> +			return ret;
-> +		}
-> +
-> +		pr_debug("zone %u may be broken, try next dmesg zone\n",
-> +				zonenum);
-> +		kfree(zone->buffer);
-> +		zone->buffer = zone->oldbuf;
-> +		zone->oldbuf = NULL;
-> +	}
-> +
-> +	return -EBUSY;
->  }
->  
->  static int notrace blkz_dmesg_write(struct blkz_context *cxt,
-> @@ -791,7 +832,6 @@ static int notrace blkz_pstore_write(struct pstore_record *record)
->  	}
->  }
->  
-> -#define READ_NEXT_ZONE ((ssize_t)(-1024))
->  static struct blkz_zone *blkz_read_next_zone(struct blkz_context *cxt)
->  {
->  	struct blkz_zone *zone = NULL;
-> @@ -852,7 +892,7 @@ static ssize_t blkz_dmesg_read(struct blkz_zone *zone,
->  	if (blkz_read_dmesg_hdr(zone, record)) {
->  		atomic_set(&zone->buffer->datalen, 0);
->  		atomic_set(&zone->dirty, 0);
-> -		return READ_NEXT_ZONE;
-> +		return -ENEXT;
->  	}
->  	size -= sizeof(struct blkz_dmesg_header);
->  
-> @@ -877,7 +917,7 @@ static ssize_t blkz_dmesg_read(struct blkz_zone *zone,
->  	if (unlikely(blkz_zone_read(zone, record->buf + hlen, size,
->  				sizeof(struct blkz_dmesg_header)) < 0)) {
->  		kfree(record->buf);
-> -		return READ_NEXT_ZONE;
-> +		return -ENEXT;
->  	}
->  
->  	return size + hlen;
-> @@ -891,7 +931,7 @@ static ssize_t blkz_record_read(struct blkz_zone *zone,
->  
->  	buf = (struct blkz_buffer *)zone->oldbuf;
->  	if (!buf)
-> -		return READ_NEXT_ZONE;
-> +		return -ENEXT;
->  
->  	size = atomic_read(&buf->datalen);
->  	start = atomic_read(&buf->start);
-> @@ -943,7 +983,7 @@ static ssize_t blkz_pstore_read(struct pstore_record *record)
->  	}
->  
->  	ret = readop(zone, record);
-> -	if (ret == READ_NEXT_ZONE)
-> +	if (ret == -ENEXT)
->  		goto next_zone;
->  	return ret;
->  }
 > diff --git a/include/linux/blkoops.h b/include/linux/blkoops.h
-> index 8f40f225545d..71c596fd4cc8 100644
+> index 71c596fd4cc8..bc7665d14a98 100644
 > --- a/include/linux/blkoops.h
 > +++ b/include/linux/blkoops.h
-> @@ -27,6 +27,7 @@
->   *	On error, negative number should be returned. The following returning
->   *	number means more:
->   *	  -EBUSY: pstore/blk should try again later.
-> + *	  -ENEXT: this zone is used or broken, pstore/blk should try next one.
->   * @panic_write:
->   *	The write operation only used for panic.
->   *
-> @@ -45,7 +46,8 @@ struct blkoops_device {
->  
->  /*
->   * Panic write for block device who should write alignmemt to SECTOR_SIZE.
-> - * On success, zero should be returned. Others mean error.
-> + * On success, zero should be returned. Others mean error except that -ENEXT
-> + * means the zone is used or broken, pstore/blk should try next one.
->   */
->  typedef int (*blkoops_blk_panic_write_op)(const char *buf, sector_t start_sect,
->  		sector_t sects);
-> diff --git a/include/linux/pstore_blk.h b/include/linux/pstore_blk.h
-> index 77704c1b404a..bbbe4fe37f7c 100644
-> --- a/include/linux/pstore_blk.h
-> +++ b/include/linux/pstore_blk.h
-> @@ -6,6 +6,9 @@
+> @@ -6,6 +6,7 @@
 >  #include <linux/types.h>
 >  #include <linux/blkdev.h>
+>  #include <linux/pstore_blk.h>
+> +#include <linux/bitops.h>
 >  
-> +/* read/write function return -ENEXT means try next zone */
-> +#define ENEXT ((ssize_t)(1024))
-
-I really don't like inventing errno numbers. Can you just reuse an
-existing (but non-block) errno like ESRCH or ENOMSG or something?
-
-> +
 >  /**
->   * struct blkz_info - backend blkzone driver structure
+>   * struct blkoops_device - backend blkoops driver structure.
+> @@ -14,6 +15,10 @@
+>   * blkoops_register_device(). If block device, you are strongly recommended
+>   * to use blkoops_register_blkdev().
 >   *
-> @@ -42,6 +45,7 @@
->   *	On error, negative number should be returned. The following returning
->   *	number means more:
->   *	  -EBUSY: pstore/blk should try again later.
-> + *	  -ENEXT: this zone is used or broken, pstore/blk should try next one.
->   * @panic_write:
->   *	The write operation only used for panic. It's optional if you do not
->   *	care panic record. If panic occur but blkzone do not recover yet, the
+> + * @flags:
+> + *	Refer to macro starting with BLKOOPS_DEV_SUPPORT_. These macros tell
+> + *	us that which pstore/blk recorders this device supports. Zero means
+> + *	all recorders for compatible.
+>   * @total_size:
+>   *	The total size in bytes pstore/blk can use. It must be greater than
+>   *	4096 and be multiple of 4096.
+> @@ -38,6 +43,13 @@
+>   *	On error, negative number should be returned.
+>   */
+>  struct blkoops_device {
+> +	unsigned int flags;
+> +#define BLKOOPS_DEV_SUPPORT_ALL		UINT_MAX
+> +#define BLKOOPS_DEV_SUPPORT_DEFAULT	(0)
+> +#define BLKOOPS_DEV_SUPPORT_DMESG	BIT(0)
+> +#define BLKOOPS_DEV_SUPPORT_PMSG	BIT(1)
+> +#define BLKOOPS_DEV_SUPPORT_CONSOLE	BIT(2)
+> +#define BLKOOPS_DEV_SUPPORT_FTRACE	BIT(3)
+>  	unsigned long total_size;
+>  	blkz_read_op read;
+>  	blkz_write_op write;
+> @@ -54,7 +66,7 @@ typedef int (*blkoops_blk_panic_write_op)(const char *buf, sector_t start_sect,
+>  
+>  int  blkoops_register_device(struct blkoops_device *bo_dev);
+>  void blkoops_unregister_device(struct blkoops_device *bo_dev);
+> -int  blkoops_register_blkdev(unsigned int major,
+> +int  blkoops_register_blkdev(unsigned int major, unsigned int flags,
+>  		blkoops_blk_panic_write_op panic_write);
+>  void blkoops_unregister_blkdev(unsigned int major);
+>  int  blkoops_blkdev_info(dev_t *devt, sector_t *nr_sects, sector_t *start_sect);
 > -- 
 > 1.9.1
 > 
