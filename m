@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B56F7C10DCE
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:13:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2BFCC10DCE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:17:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7C50420786
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:13:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82D4E20768
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 18:17:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WaDfGFD2"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IYxPCrmL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726911AbgCRSNQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Mar 2020 14:13:16 -0400
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:39973 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726638AbgCRSNQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 14:13:16 -0400
-Received: by mail-pj1-f65.google.com with SMTP id bo3so1540841pjb.5
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 11:13:15 -0700 (PDT)
+        id S1726796AbgCRSRB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Mar 2020 14:17:01 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:44012 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726631AbgCRSRA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 14:17:00 -0400
+Received: by mail-pl1-f195.google.com with SMTP id f8so11522537plt.10
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 11:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=VNwNQ4/fdbVjQHkJDcFfL9rHU6zu+yh1atcjUXfSy9k=;
-        b=WaDfGFD2ltnwnHRDBvQREFP6g0oENfV+HHD7YU1xs7M11y9efKBbHt4Fhtv5iJADK6
-         DXezh+/2liaThBsMpp/GgbMM3uhMWbZida5ifFEkaSODiOCpwBqTf0UBHFPD1u+tflu9
-         7jHfzm2HzxF1IaIdwN/5MIn8QJHkLxJHwKqbI=
+        bh=bJql7FNwt+ftRKL30sKuRpwkydXtCt31lqH38pXfL64=;
+        b=IYxPCrmLgPbfXsfukfNy8+O0y8cG+8tL2L7ghYxF0pPHm+7eXbPx2fr3sUm6iSWwzi
+         YDC+rUzZC504cYjbWXnWkR1abaJKaQKwaMx+6hXdLydKocj59Y7hdSacpG2K0ts4QhFt
+         MFsn035m5+brguKz17Luk2HIGidY1L8exlarY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=VNwNQ4/fdbVjQHkJDcFfL9rHU6zu+yh1atcjUXfSy9k=;
-        b=hu7P4lY1ctysVx44LXEBtYxCveVlB0h5euYSMwq3oISnbCCpQ0wAueasmbsxWnMHeS
-         mktpAh1MxFYb5lhc8kGzf9JVyRK2HlLfVaxhJWc0sbzMfzWqPwJ1ozWpFCrNFRlVV4F+
-         LpNwjRhSxXujB82n6qYsInPX4NogeFcUhIveeXI40ReLQRj8LPET2cnbcK6MwGoBgkD3
-         fibKfT3W1rSxKLSDCKVO8qojeUqgYX7MC454ZwkwUsi+TBrpxAiR4t1WG4pFwbMmfTIX
-         Tyty2RI1gc1i4jpGPSImsTH7H1dn8by4SZkmmEpHtk0H0qG06HFP/MHuzWssg/bUYm+c
-         v3Gw==
-X-Gm-Message-State: ANhLgQ0WCAB+oH51pQRLQesjiziqw/i1NaOxfzEvwgxRmubLGO64LrzW
-        PsCdhQJEoGZsMhnTdoPewSBpag==
-X-Google-Smtp-Source: ADFU+vvt8UDb1aMKzK4X1M7YTY29Igg9C5Jn0+LsiiRdzVrCI0chlEHUHdGluu7vXlOE23ulBV45rQ==
-X-Received: by 2002:a17:90a:c793:: with SMTP id gn19mr5928090pjb.51.1584555194234;
-        Wed, 18 Mar 2020 11:13:14 -0700 (PDT)
+        bh=bJql7FNwt+ftRKL30sKuRpwkydXtCt31lqH38pXfL64=;
+        b=MGdgto8IYQYn9uNXFVtCb0sjFQgAnsapac7lhw+OY6FK4qsi9IgXU++5IPQrrtWTQ/
+         tJ6tL+RKiyp7I+qczMWP1Ew0j5z/pkILmCk5UchzfSMnJm/8MfY8viBtp6zMtpxaiuDB
+         NSSLq46AGsm9fip+4LNUo7xT5AriEsiIttVtbfk4qTuV3XQ+GULzbAmfkUchq9cGKANY
+         jvII7hCouRx8yUfSMQa4tb0FFDMG87MXLNe8yFIzXheHXlKhOJkMG4hHzLlFL3OftITt
+         t8h/Ru6adfuTmAff75FBGUQgO9oMxPJjkHmBzDWN56+0mfL6jT8aPOqbDeJE+ZTY0m5w
+         d97Q==
+X-Gm-Message-State: ANhLgQ1H6kX5tE9IHta1yH7jtnNNs0L0elATI7v62hzqmbPsiB44ebxd
+        dh70D0hZpEmx21mPTDpOT3/WNg==
+X-Google-Smtp-Source: ADFU+vuWXPi9Z/xT6eEBFBHd9Ri++jwKsvi73h6rmZLJVG5kMx6iqKlJuv8DyUpaGyQKTNQsgat/iw==
+X-Received: by 2002:a17:902:bf48:: with SMTP id u8mr5110551pls.320.1584555418505;
+        Wed, 18 Mar 2020 11:16:58 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f19sm6534754pgf.33.2020.03.18.11.13.11
+        by smtp.gmail.com with ESMTPSA id i124sm7055500pfg.14.2020.03.18.11.16.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2020 11:13:13 -0700 (PDT)
-Date:   Wed, 18 Mar 2020 11:13:11 -0700
+        Wed, 18 Mar 2020 11:16:57 -0700 (PDT)
+Date:   Wed, 18 Mar 2020 11:16:56 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
 Cc:     Anton Vorontsov <anton@enomsg.org>,
@@ -68,53 +68,51 @@ Cc:     Anton Vorontsov <anton@enomsg.org>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org
-Subject: Re: [PATCH v2 03/11] pstore/blk: blkoops: support pmsg recorder
-Message-ID: <202003181107.6B776F0E5F@keescook>
+Subject: Re: [PATCH v2 04/11] pstore/blk: blkoops: support console recorder
+Message-ID: <202003181113.46DD4C142F@keescook>
 References: <1581078355-19647-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1581078355-19647-4-git-send-email-liaoweixiong@allwinnertech.com>
+ <1581078355-19647-5-git-send-email-liaoweixiong@allwinnertech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1581078355-19647-4-git-send-email-liaoweixiong@allwinnertech.com>
+In-Reply-To: <1581078355-19647-5-git-send-email-liaoweixiong@allwinnertech.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 07, 2020 at 08:25:47PM +0800, WeiXiong Liao wrote:
-> pmsg support recorder for userspace. To enable pmsg, just make pmsg_size
-> be greater than 0 and a multiple of 4096.
+On Fri, Feb 07, 2020 at 08:25:48PM +0800, WeiXiong Liao wrote:
+> Support recorder for console. To enable console recorder, just make
+> console_size be greater than 0 and a multiple of 4096.
 > 
 > Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
 > ---
->  fs/pstore/Kconfig          |  12 +++
->  fs/pstore/blkoops.c        |  11 +++
->  fs/pstore/blkzone.c        | 229 +++++++++++++++++++++++++++++++++++++++++++--
->  include/linux/pstore_blk.h |   4 +
->  4 files changed, 246 insertions(+), 10 deletions(-)
+>  fs/pstore/Kconfig          |  12 ++++++
+>  fs/pstore/blkoops.c        |  11 +++++
+>  fs/pstore/blkzone.c        | 101 ++++++++++++++++++++++++++++++++++-----------
+>  include/linux/blkoops.h    |   6 ++-
+>  include/linux/pstore_blk.h |   8 +++-
+>  5 files changed, 112 insertions(+), 26 deletions(-)
 > 
 > diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-> index 7a57a8edb612..bbf1fdb5eaa7 100644
+> index bbf1fdb5eaa7..5f0a42823028 100644
 > --- a/fs/pstore/Kconfig
 > +++ b/fs/pstore/Kconfig
-> @@ -186,6 +186,18 @@ config PSTORE_BLKOOPS_DMESG_SIZE
+> @@ -198,6 +198,18 @@ config PSTORE_BLKOOPS_PMSG_SIZE
 >  	  NOTE that, both kconfig and module parameters can configure blkoops,
 >  	  but module parameters have priority over kconfig.
 >  
-> +config PSTORE_BLKOOPS_PMSG_SIZE
-> +	int "pmsg size in kbytes for blkoops"
+> +config PSTORE_BLKOOPS_CONSOLE_SIZE
+> +	int "console size in kbytes for blkoops"
 > +	depends on PSTORE_BLKOOPS
-> +	depends on PSTORE_PMSG
+> +	depends on PSTORE_CONSOLE
 > +	default 64
 
-Instead of "depends on PSTORE_PMSG", you can do:
-
-	default 64 if PSTORE_PMSG
-	default 0
+Same tricks here as for the PMSG.
 
 > +	help
-> +	  This just sets size of pmsg (pmsg_size) for pstore/blk. The size is
-> +	  in KB and must be a multiple of 4.
+> +	  This just sets size of console (console_size) for pstore/blk. The
+> +	  size is in KB and must be a multiple of 4.
 > +
 > +	  NOTE that, both kconfig and module parameters can configure blkoops,
 > +	  but module parameters have priority over kconfig.
@@ -123,308 +121,208 @@ Instead of "depends on PSTORE_PMSG", you can do:
 >  	string "block device for blkoops"
 >  	depends on PSTORE_BLKOOPS
 > diff --git a/fs/pstore/blkoops.c b/fs/pstore/blkoops.c
-> index 8027c3af8c8d..02e6e4c1f965 100644
+> index 02e6e4c1f965..05990bc3b168 100644
 > --- a/fs/pstore/blkoops.c
 > +++ b/fs/pstore/blkoops.c
-> @@ -16,6 +16,10 @@
->  module_param(dmesg_size, long, 0400);
->  MODULE_PARM_DESC(dmesg_size, "demsg size in kbytes");
+> @@ -20,6 +20,10 @@
+>  module_param(pmsg_size, long, 0400);
+>  MODULE_PARM_DESC(pmsg_size, "pmsg size in kbytes");
 >  
-> +static long pmsg_size = -1;
-
-Now PSTORE_BLKOOPS_PMSG_SIZE will always be available and you can set it
-here.
-
-> +module_param(pmsg_size, long, 0400);
-> +MODULE_PARM_DESC(pmsg_size, "pmsg size in kbytes");
+> +static long console_size = -1;
+> +module_param(console_size, long, 0400);
+> +MODULE_PARM_DESC(console_size, "console size in kbytes");
 > +
 >  static int dump_oops = -1;
 >  module_param(dump_oops, int, 0400);
 >  MODULE_PARM_DESC(total_size, "whether dump oops");
-> @@ -60,6 +64,12 @@
->  #define DEFAULT_DMESG_SIZE 0
+> @@ -70,6 +74,12 @@
+>  #define DEFAULT_PMSG_SIZE 0
 >  #endif
 >  
-> +#ifdef CONFIG_PSTORE_BLKOOPS_PMSG_SIZE
-> +#define DEFAULT_PMSG_SIZE CONFIG_PSTORE_BLKOOPS_PMSG_SIZE
+> +#ifdef CONFIG_PSTORE_BLKOOPS_CONSOLE_SIZE
+> +#define DEFAULT_CONSOLE_SIZE CONFIG_PSTORE_BLKOOPS_CONSOLE_SIZE
 > +#else
-> +#define DEFAULT_PMSG_SIZE 0
+> +#define DEFAULT_CONSOLE_SIZE 0
 > +#endif
-
-And drop this.
-
 > +
 >  #ifdef CONFIG_PSTORE_BLKOOPS_DUMP_OOPS
 >  #define DEFAULT_DUMP_OOPS CONFIG_PSTORE_BLKOOPS_DUMP_OOPS
 >  #else
-> @@ -113,6 +123,7 @@ int blkoops_register_device(struct blkoops_device *bo_dev)
->  	}
+> @@ -124,6 +134,7 @@ int blkoops_register_device(struct blkoops_device *bo_dev)
 >  
 >  	verify_size(dmesg_size, DEFAULT_DMESG_SIZE, 4096);
-> +	verify_size(pmsg_size, DEFAULT_PMSG_SIZE, 4096);
+>  	verify_size(pmsg_size, DEFAULT_PMSG_SIZE, 4096);
+> +	verify_size(console_size, DEFAULT_CONSOLE_SIZE, 4096);
 >  #undef verify_size
 >  	dump_oops = !!(dump_oops < 0 ? DEFAULT_DUMP_OOPS : dump_oops);
 >  
 > diff --git a/fs/pstore/blkzone.c b/fs/pstore/blkzone.c
-> index f77f612b50ba..a3464252d52e 100644
+> index a3464252d52e..9a7e9b06ccf7 100644
 > --- a/fs/pstore/blkzone.c
 > +++ b/fs/pstore/blkzone.c
-> @@ -24,12 +24,14 @@
->   *
->   * @sig: signature to indicate header (BLK_SIG xor BLKZONE-type value)
->   * @datalen: length of data in @data
-> + * @start: offset into @data where the beginning of the stored bytes begin
->   * @data: zone data.
->   */
->  struct blkz_buffer {
->  #define BLK_SIG (0x43474244) /* DBGC */
->  	uint32_t sig;
->  	atomic_t datalen;
-> +	atomic_t start;
->  	uint8_t data[];
->  };
->  
-> @@ -85,8 +87,10 @@ struct blkz_zone {
->  
+> @@ -88,9 +88,11 @@ struct blkz_zone {
 >  struct blkz_context {
 >  	struct blkz_zone **dbzs;	/* dmesg block zones */
-> +	struct blkz_zone *pbz;		/* Pmsg block zone */
+>  	struct blkz_zone *pbz;		/* Pmsg block zone */
+> +	struct blkz_zone *cbz;		/* console block zone */
 >  	unsigned int dmesg_max_cnt;
 >  	unsigned int dmesg_read_cnt;
-> +	unsigned int pmsg_read_cnt;
+>  	unsigned int pmsg_read_cnt;
+> +	unsigned int console_read_cnt;
 >  	unsigned int dmesg_write_cnt;
 >  	/*
 >  	 * the counter should be recovered when recover.
-> @@ -119,6 +123,11 @@ static inline int buffer_datalen(struct blkz_zone *zone)
->  	return atomic_read(&zone->buffer->datalen);
+> @@ -111,6 +113,9 @@ struct blkz_context {
+>  };
+>  static struct blkz_context blkz_cxt;
+>  
+> +static void blkz_flush_all_dirty_zones(struct work_struct *);
+> +static DECLARE_WORK(blkz_cleaner, blkz_flush_all_dirty_zones);
+> +
+>  enum blkz_flush_mode {
+>  	FLUSH_NONE = 0,
+>  	FLUSH_PART,
+> @@ -200,6 +205,9 @@ static int blkz_zone_write(struct blkz_zone *zone,
+>  	return 0;
+>  set_dirty:
+>  	atomic_set(&zone->dirty, true);
+> +	/* flush dirty zones nicely */
+> +	if (wcnt == -EBUSY && !is_on_panic())
+> +		schedule_work(&blkz_cleaner);
+>  	return -EBUSY;
 >  }
 >  
-> +static inline int buffer_start(struct blkz_zone *zone)
+> @@ -266,6 +274,15 @@ static int blkz_move_zone(struct blkz_zone *old, struct blkz_zone *new)
+>  	return 0;
+>  }
+>  
+> +static void blkz_flush_all_dirty_zones(struct work_struct *work)
 > +{
-> +	return atomic_read(&zone->buffer->start);
+> +	struct blkz_context *cxt = &blkz_cxt;
+> +
+> +	blkz_flush_dirty_zone(cxt->pbz);
+> +	blkz_flush_dirty_zone(cxt->cbz);
+> +	blkz_flush_dirty_zones(cxt->dbzs, cxt->dmesg_max_cnt);
 > +}
 > +
->  static inline bool is_on_panic(void)
+>  static int blkz_recover_dmesg_data(struct blkz_context *cxt)
 >  {
->  	struct blkz_context *cxt = &blkz_cxt;
-> @@ -410,6 +419,69 @@ static int blkz_recover_dmesg(struct blkz_context *cxt)
+>  	struct blkz_info *info = cxt->bzinfo;
+> @@ -419,15 +436,13 @@ static int blkz_recover_dmesg(struct blkz_context *cxt)
 >  	return ret;
 >  }
 >  
-> +static int blkz_recover_pmsg(struct blkz_context *cxt)
-> +{
-> +	struct blkz_info *info = cxt->bzinfo;
-> +	struct blkz_buffer *oldbuf;
-> +	struct blkz_zone *zone = NULL;
-> +	int ret = 0;
-> +	ssize_t rcnt, len;
-> +
-> +	zone = cxt->pbz;
-> +	if (!zone || zone->oldbuf)
-> +		return 0;
-> +
-> +	if (is_on_panic())
-> +		goto out;
-> +
-> +	if (unlikely(!info->read))
-> +		return -EINVAL;
-> +
-> +	len = zone->buffer_size + sizeof(*oldbuf);
-> +	oldbuf = kzalloc(len, GFP_KERNEL);
-> +	if (!oldbuf)
-> +		return -ENOMEM;
-> +
-> +	rcnt = info->read((char *)oldbuf, len, zone->off);
-> +	if (rcnt != len) {
-> +		pr_debug("recover pmsg failed\n");
-> +		ret = (int)rcnt < 0 ? (int)rcnt : -EIO;
-> +		goto free_oldbuf;
-> +	}
-> +
-> +	if (oldbuf->sig != zone->buffer->sig) {
-> +		pr_debug("no valid data in zone %s\n", zone->name);
-> +		goto free_oldbuf;
-> +	}
-> +
-> +	if (zone->buffer_size < atomic_read(&oldbuf->datalen) ||
-> +		zone->buffer_size < atomic_read(&oldbuf->start)) {
-> +		pr_info("found overtop zone: %s: off %lu, size %zu\n",
-> +				zone->name, zone->off, zone->buffer_size);
-> +		goto free_oldbuf;
-> +	}
-> +
-> +	if (!atomic_read(&oldbuf->datalen)) {
-> +		pr_debug("found erased zone: %s: id 0, off %lu, size %zu, datalen %d\n",
-> +				zone->name, zone->off, zone->buffer_size,
-> +				atomic_read(&oldbuf->datalen));
-> +		kfree(oldbuf);
-> +		goto out;
-> +	}
-> +
-> +	pr_debug("found nice zone: %s: id 0, off %lu, size %zu, datalen %d\n",
-> +			zone->name, zone->off, zone->buffer_size,
-> +			atomic_read(&oldbuf->datalen));
-> +	zone->oldbuf = oldbuf;
-> +out:
-> +	blkz_flush_dirty_zone(zone);
-> +	return 0;
-> +
-> +free_oldbuf:
-> +	kfree(oldbuf);
-> +	return ret;
-> +}
-> +
->  static inline int blkz_recovery(struct blkz_context *cxt)
+> -static int blkz_recover_pmsg(struct blkz_context *cxt)
+> +static int blkz_recover_zone(struct blkz_context *cxt, struct blkz_zone *zone)
 >  {
->  	int ret = -EBUSY;
-> @@ -421,6 +493,10 @@ static inline int blkz_recovery(struct blkz_context *cxt)
+>  	struct blkz_info *info = cxt->bzinfo;
+>  	struct blkz_buffer *oldbuf;
+> -	struct blkz_zone *zone = NULL;
+>  	int ret = 0;
+>  	ssize_t rcnt, len;
+>  
+> -	zone = cxt->pbz;
+>  	if (!zone || zone->oldbuf)
+>  		return 0;
+>  
+> @@ -493,7 +508,11 @@ static inline int blkz_recovery(struct blkz_context *cxt)
 >  	if (ret)
 >  		goto recover_fail;
 >  
-> +	ret = blkz_recover_pmsg(cxt);
+> -	ret = blkz_recover_pmsg(cxt);
+> +	ret = blkz_recover_zone(cxt, cxt->pbz);
 > +	if (ret)
 > +		goto recover_fail;
 > +
->  	pr_debug("recover end!\n");
->  	atomic_set(&cxt->recovered, 1);
->  	return 0;
-> @@ -435,9 +511,17 @@ static int blkz_pstore_open(struct pstore_info *psi)
->  	struct blkz_context *cxt = psi->data;
+> +	ret = blkz_recover_zone(cxt, cxt->cbz);
+>  	if (ret)
+>  		goto recover_fail;
+>  
+> @@ -512,6 +531,7 @@ static int blkz_pstore_open(struct pstore_info *psi)
 >  
 >  	cxt->dmesg_read_cnt = 0;
-> +	cxt->pmsg_read_cnt = 0;
+>  	cxt->pmsg_read_cnt = 0;
+> +	cxt->console_read_cnt = 0;
 >  	return 0;
 >  }
 >  
-> +static inline bool blkz_old_ok(struct blkz_zone *zone)
-> +{
-> +	if (zone && zone->oldbuf && atomic_read(&zone->oldbuf->datalen))
-> +		return true;
-> +	return false;
-> +}
-> +
->  static inline bool blkz_ok(struct blkz_zone *zone)
->  {
->  	if (zone && zone->buffer && buffer_datalen(zone))
-> @@ -455,6 +539,25 @@ static inline int blkz_dmesg_erase(struct blkz_context *cxt,
+> @@ -539,7 +559,7 @@ static inline int blkz_dmesg_erase(struct blkz_context *cxt,
 >  	return blkz_zone_write(zone, FLUSH_META, NULL, 0, 0);
 >  }
 >  
-> +static inline int blkz_pmsg_erase(struct blkz_context *cxt,
-> +		struct blkz_zone *zone)
-> +{
-> +	if (unlikely(!blkz_old_ok(zone)))
-> +		return 0;
-> +
-> +	kfree(zone->oldbuf);
-> +	zone->oldbuf = NULL;
-> +	/*
-> +	 * if there are new data in zone buffer, that means the old data
-> +	 * are already invalid. It is no need to flush 0 (erase) to
-> +	 * block device.
-> +	 */
-> +	if (!buffer_datalen(zone))
-> +		return blkz_zone_write(zone, FLUSH_META, NULL, 0, 0);
-> +	blkz_flush_dirty_zone(zone);
-> +	return 0;
-> +}
-> +
->  static int blkz_pstore_erase(struct pstore_record *record)
+> -static inline int blkz_pmsg_erase(struct blkz_context *cxt,
+> +static inline int blkz_record_erase(struct blkz_context *cxt,
+>  		struct blkz_zone *zone)
 >  {
->  	struct blkz_context *cxt = record->psi->data;
-> @@ -462,6 +565,8 @@ static int blkz_pstore_erase(struct pstore_record *record)
->  	switch (record->type) {
+>  	if (unlikely(!blkz_old_ok(zone)))
+> @@ -566,9 +586,10 @@ static int blkz_pstore_erase(struct pstore_record *record)
 >  	case PSTORE_TYPE_DMESG:
 >  		return blkz_dmesg_erase(cxt, cxt->dbzs[record->id]);
-> +	case PSTORE_TYPE_PMSG:
-> +		return blkz_pmsg_erase(cxt, cxt->pbz);
->  	default:
->  		return -EINVAL;
+>  	case PSTORE_TYPE_PMSG:
+> -		return blkz_pmsg_erase(cxt, cxt->pbz);
+> -	default:
+> -		return -EINVAL;
+> +		return blkz_record_erase(cxt, cxt->pbz);
+> +	case PSTORE_TYPE_CONSOLE:
+> +		return blkz_record_erase(cxt, cxt->cbz);
+> +	default: return -EINVAL;
 >  	}
-> @@ -482,8 +587,10 @@ static void blkz_write_kmsg_hdr(struct blkz_zone *zone,
->  	hdr->reason = record->reason;
->  	if (hdr->reason == KMSG_DUMP_OOPS)
->  		hdr->counter = ++cxt->oops_counter;
-> -	else
-> +	else if (hdr->reason == KMSG_DUMP_PANIC)
->  		hdr->counter = ++cxt->panic_counter;
-> +	else
-> +		hdr->counter = 0;
 >  }
 >  
->  static inline int notrace blkz_dmesg_write_do(struct blkz_context *cxt,
-> @@ -546,6 +653,55 @@ static int notrace blkz_dmesg_write(struct blkz_context *cxt,
+> @@ -653,17 +674,15 @@ static int notrace blkz_dmesg_write(struct blkz_context *cxt,
 >  	return 0;
 >  }
 >  
-> +static int notrace blkz_pmsg_write(struct blkz_context *cxt,
-> +		struct pstore_record *record)
-> +{
-> +	struct blkz_zone *zone;
-> +	size_t start, rem;
-> +	int cnt = record->size;
-> +	bool is_full_data = false;
-> +	char *buf = record->buf;
-> +
-> +	zone = cxt->pbz;
-> +	if (!zone)
-> +		return -ENOSPC;
-> +
-> +	if (atomic_read(&zone->buffer->datalen) >= zone->buffer_size)
-> +		is_full_data = true;
-> +
-> +	if (unlikely(cnt > zone->buffer_size)) {
-> +		buf += cnt - zone->buffer_size;
-> +		cnt = zone->buffer_size;
-> +	}
-> +
-> +	start = buffer_start(zone);
-> +	rem = zone->buffer_size - start;
-> +	if (unlikely(rem < cnt)) {
-> +		blkz_zone_write(zone, FLUSH_PART, buf, rem, start);
-> +		buf += rem;
-> +		cnt -= rem;
-> +		start = 0;
-> +		is_full_data = true;
-> +	}
-> +
-> +	atomic_set(&zone->buffer->start, cnt + start);
-> +	blkz_zone_write(zone, FLUSH_PART, buf, cnt, start);
-> +
-> +	/**
-> +	 * blkz_zone_write will set datalen as start + cnt.
-> +	 * It work if actual data length lesser than buffer size.
-> +	 * If data length greater than buffer size, pmsg will rewrite to
-> +	 * beginning of zone, which make buffer->datalen wrongly.
-> +	 * So we should reset datalen as buffer size once actual data length
-> +	 * greater than buffer size.
-> +	 */
-> +	if (is_full_data) {
-> +		atomic_set(&zone->buffer->datalen, zone->buffer_size);
-> +		blkz_zone_write(zone, FLUSH_META, NULL, 0, 0);
-> +	}
-> +	return 0;
-> +}
-> +
->  static int notrace blkz_pstore_write(struct pstore_record *record)
+> -static int notrace blkz_pmsg_write(struct blkz_context *cxt,
+> -		struct pstore_record *record)
+> +static int notrace blkz_record_write(struct blkz_context *cxt,
+> +		struct blkz_zone *zone, struct pstore_record *record)
+
+How about generalizing this earlier in the patch series instead of
+mutating it here?
+
 >  {
->  	struct blkz_context *cxt = record->psi->data;
-> @@ -557,6 +713,8 @@ static int notrace blkz_pstore_write(struct pstore_record *record)
+> -	struct blkz_zone *zone;
+>  	size_t start, rem;
+>  	int cnt = record->size;
+>  	bool is_full_data = false;
+>  	char *buf = record->buf;
+>  
+> -	zone = cxt->pbz;
+> -	if (!zone)
+> +	if (!zone || !record)
+>  		return -ENOSPC;
+>  
+>  	if (atomic_read(&zone->buffer->datalen) >= zone->buffer_size)
+> @@ -710,11 +729,20 @@ static int notrace blkz_pstore_write(struct pstore_record *record)
+>  			record->reason == KMSG_DUMP_PANIC)
+>  		atomic_set(&cxt->on_panic, 1);
+>  
+> +	/*
+> +	 * if on panic, do not write except dmesg records
+> +	 * Fix case that panic_write prints log which wakes up console recorder.
+> +	 */
+> +	if (is_on_panic() && record->type != PSTORE_TYPE_DMESG)
+> +		return -EBUSY;
+> +
 >  	switch (record->type) {
 >  	case PSTORE_TYPE_DMESG:
 >  		return blkz_dmesg_write(cxt, record);
-> +	case PSTORE_TYPE_PMSG:
-> +		return blkz_pmsg_write(cxt, record);
+> +	case PSTORE_TYPE_CONSOLE:
+> +		return blkz_record_write(cxt, cxt->cbz, record);
+>  	case PSTORE_TYPE_PMSG:
+> -		return blkz_pmsg_write(cxt, record);
+> +		return blkz_record_write(cxt, cxt->pbz, record);
 >  	default:
 >  		return -EINVAL;
 >  	}
-> @@ -573,6 +731,13 @@ static struct blkz_zone *blkz_read_next_zone(struct blkz_context *cxt)
+> @@ -738,6 +766,13 @@ static struct blkz_zone *blkz_read_next_zone(struct blkz_context *cxt)
 >  			return zone;
 >  	}
 >  
-> +	if (cxt->pmsg_read_cnt == 0) {
-> +		cxt->pmsg_read_cnt++;
-> +		zone = cxt->pbz;
+> +	if (cxt->console_read_cnt == 0) {
+> +		cxt->console_read_cnt++;
+> +		zone = cxt->cbz;
 > +		if (blkz_old_ok(zone))
 > +			return zone;
 > +	}
@@ -432,182 +330,178 @@ And drop this.
 >  	return NULL;
 >  }
 >  
-> @@ -611,7 +776,8 @@ static ssize_t blkz_dmesg_read(struct blkz_zone *zone,
->  		char *buf = kasprintf(GFP_KERNEL,
->  				"%s: Total %d times\n",
->  				record->reason == KMSG_DUMP_OOPS ? "Oops" :
-> -				"Panic", record->count);
-> +				record->reason == KMSG_DUMP_PANIC ? "Panic" :
-> +				"Unknown", record->count);
-
-Please use get_reason_str() here.
-
->  		hlen = strlen(buf);
->  		record->buf = krealloc(buf, hlen + size, GFP_KERNEL);
->  		if (!record->buf) {
-> @@ -633,6 +799,29 @@ static ssize_t blkz_dmesg_read(struct blkz_zone *zone,
+> @@ -799,7 +834,7 @@ static ssize_t blkz_dmesg_read(struct blkz_zone *zone,
 >  	return size + hlen;
 >  }
 >  
-> +static ssize_t blkz_pmsg_read(struct blkz_zone *zone,
-> +		struct pstore_record *record)
-> +{
-> +	size_t size, start;
-> +	struct blkz_buffer *buf;
-> +
-> +	buf = (struct blkz_buffer *)zone->oldbuf;
-> +	if (!buf)
-> +		return READ_NEXT_ZONE;
-> +
-> +	size = atomic_read(&buf->datalen);
-> +	start = atomic_read(&buf->start);
-> +
-> +	record->buf = kmalloc(size, GFP_KERNEL);
-> +	if (!record->buf)
-> +		return -ENOMEM;
-> +
-> +	memcpy(record->buf, buf->data + start, size - start);
-> +	memcpy(record->buf + size - start, buf->data, start);
-> +
-> +	return size;
-> +}
-> +
+> -static ssize_t blkz_pmsg_read(struct blkz_zone *zone,
+> +static ssize_t blkz_record_read(struct blkz_zone *zone,
+>  		struct pstore_record *record)
+>  {
+>  	size_t size, start;
+> @@ -825,7 +860,7 @@ static ssize_t blkz_pmsg_read(struct blkz_zone *zone,
 >  static ssize_t blkz_pstore_read(struct pstore_record *record)
 >  {
 >  	struct blkz_context *cxt = record->psi->data;
-> @@ -657,6 +846,9 @@ static ssize_t blkz_pstore_read(struct pstore_record *record)
->  		blkz_read = blkz_dmesg_read;
+> -	ssize_t (*blkz_read)(struct blkz_zone *zone,
+> +	ssize_t (*readop)(struct blkz_zone *zone,
+>  			struct pstore_record *record);
+>  	struct blkz_zone *zone;
+>  	ssize_t ret;
+> @@ -843,17 +878,19 @@ static ssize_t blkz_pstore_read(struct pstore_record *record)
+>  	record->type = zone->type;
+>  	switch (record->type) {
+>  	case PSTORE_TYPE_DMESG:
+> -		blkz_read = blkz_dmesg_read;
+> +		readop = blkz_dmesg_read;
 >  		record->id = cxt->dmesg_read_cnt - 1;
 >  		break;
-> +	case PSTORE_TYPE_PMSG:
-> +		blkz_read = blkz_pmsg_read;
-> +		break;
+> +	case PSTORE_TYPE_CONSOLE:
+> +		/* fallthrough */
+
+Since this case has no body, you can leave off the "fallthrough". (But
+if you want to mark it anyway, please use "fallthrough;" instead of a
+comment.)
+
+>  	case PSTORE_TYPE_PMSG:
+> -		blkz_read = blkz_pmsg_read;
+> +		readop = blkz_record_read;
+>  		break;
 >  	default:
 >  		goto next_zone;
 >  	}
-> @@ -712,8 +904,10 @@ static struct blkz_zone *blkz_init_zone(enum pstore_type_id type,
->  	zone->type = type;
->  	zone->buffer_size = size - sizeof(struct blkz_buffer);
->  	zone->buffer->sig = type ^ BLK_SIG;
-> +	zone->oldbuf = NULL;
->  	atomic_set(&zone->dirty, 0);
->  	atomic_set(&zone->buffer->datalen, 0);
-> +	atomic_set(&zone->buffer->start, 0);
 >  
->  	*off += size;
+> -	ret = blkz_read(zone, record);
+> +	ret = readop(zone, record);
+>  	if (ret == READ_NEXT_ZONE)
+>  		goto next_zone;
+>  	return ret;
+> @@ -1001,15 +1038,25 @@ static int blkz_cut_zones(struct blkz_context *cxt)
+>  		goto fail_out;
+>  	}
 >  
-> @@ -798,17 +992,26 @@ static int blkz_cut_zones(struct blkz_context *cxt)
->  	struct blkz_info *info = cxt->bzinfo;
->  	unsigned long off = 0;
->  	int err;
-> -	size_t size;
-> +	size_t off_size = 0;
->  
-> -	size = info->total_size;
-> -	cxt->dbzs = blkz_init_zones(PSTORE_TYPE_DMESG, &off, size,
-> +	off_size += info->pmsg_size;
-> +	cxt->pbz = blkz_init_zone(PSTORE_TYPE_PMSG, &off, info->pmsg_size);
-> +	if (IS_ERR(cxt->pbz)) {
-> +		err = PTR_ERR(cxt->pbz);
-> +		goto fail_out;
+> +	off_size += info->console_size;
+> +	cxt->cbz = blkz_init_zone(PSTORE_TYPE_CONSOLE, &off,
+> +			info->console_size);
+> +	if (IS_ERR(cxt->cbz)) {
+> +		err = PTR_ERR(cxt->cbz);
+> +		goto free_pmsg;
 > +	}
 > +
-> +	cxt->dbzs = blkz_init_zones(PSTORE_TYPE_DMESG, &off,
-> +			info->total_size - off_size,
+>  	cxt->dbzs = blkz_init_zones(PSTORE_TYPE_DMESG, &off,
+>  			info->total_size - off_size,
 >  			info->dmesg_size, &cxt->dmesg_max_cnt);
 >  	if (IS_ERR(cxt->dbzs)) {
 >  		err = PTR_ERR(cxt->dbzs);
-> -		goto fail_out;
-> +		goto free_pmsg;
+> -		goto free_pmsg;
+> +		goto free_console;
 >  	}
 >  
 >  	return 0;
-> +free_pmsg:
-> +	blkz_free_zone(&cxt->pbz);
+> +free_console:
+> +	blkz_free_zone(&cxt->cbz);
+>  free_pmsg:
+>  	blkz_free_zone(&cxt->pbz);
 >  fail_out:
->  	return err;
->  }
-> @@ -824,7 +1027,7 @@ int blkz_register(struct blkz_info *info)
+> @@ -1027,7 +1074,7 @@ int blkz_register(struct blkz_info *info)
 >  		return -EINVAL;
 >  	}
 >  
-> -	if (!info->dmesg_size) {
-> +	if (!info->dmesg_size && !info->pmsg_size) {
+> -	if (!info->dmesg_size && !info->pmsg_size) {
+> +	if (!info->dmesg_size && !info->pmsg_size && !info->console_size) {
 >  		pr_warn("at least one of the records be non-zero\n");
 >  		return -EINVAL;
 >  	}
-> @@ -851,6 +1054,7 @@ int blkz_register(struct blkz_info *info)
->  
+> @@ -1055,6 +1102,7 @@ int blkz_register(struct blkz_info *info)
 >  	check_size(total_size, 4096);
 >  	check_size(dmesg_size, SECTOR_SIZE);
-> +	check_size(pmsg_size, SECTOR_SIZE);
+>  	check_size(pmsg_size, SECTOR_SIZE);
+> +	check_size(console_size, SECTOR_SIZE);
 >  
 >  #undef check_size
 >  
-> @@ -882,6 +1086,7 @@ int blkz_register(struct blkz_info *info)
->  	pr_debug("register %s with properties:\n", info->name);
+> @@ -1087,6 +1135,7 @@ int blkz_register(struct blkz_info *info)
 >  	pr_debug("\ttotal size : %ld Bytes\n", info->total_size);
 >  	pr_debug("\tdmesg size : %ld Bytes\n", info->dmesg_size);
-> +	pr_debug("\tpmsg size : %ld Bytes\n", info->pmsg_size);
+>  	pr_debug("\tpmsg size : %ld Bytes\n", info->pmsg_size);
+> +	pr_debug("\tconsole size : %ld Bytes\n", info->console_size);
 >  
 >  	err = blkz_cut_zones(cxt);
 >  	if (err) {
-> @@ -900,11 +1105,14 @@ int blkz_register(struct blkz_info *info)
->  	}
->  	cxt->pstore.data = cxt;
->  	if (info->dmesg_size)
-> -		cxt->pstore.flags = PSTORE_FLAGS_DMESG;
-> +		cxt->pstore.flags |= PSTORE_FLAGS_DMESG;
-> +	if (info->pmsg_size)
-> +		cxt->pstore.flags |= PSTORE_FLAGS_PMSG;
+> @@ -1108,11 +1157,15 @@ int blkz_register(struct blkz_info *info)
+>  		cxt->pstore.flags |= PSTORE_FLAGS_DMESG;
+>  	if (info->pmsg_size)
+>  		cxt->pstore.flags |= PSTORE_FLAGS_PMSG;
+> +	if (info->console_size)
+> +		cxt->pstore.flags |= PSTORE_FLAGS_CONSOLE;
 >  
-> -	pr_info("Registered %s as blkzone backend for %s%s\n", info->name,
-> +	pr_info("Registered %s as blkzone backend for %s%s%s\n", info->name,
+> -	pr_info("Registered %s as blkzone backend for %s%s%s\n", info->name,
+> +	pr_info("Registered %s as blkzone backend for %s%s%s%s\n",
+> +			info->name,
 >  			cxt->dbzs && cxt->bzinfo->dump_oops ? "Oops " : "",
-> -			cxt->dbzs && cxt->bzinfo->panic_write ? "Panic " : "");
-> +			cxt->dbzs && cxt->bzinfo->panic_write ? "Panic " : "",
-> +			cxt->pbz ? "Pmsg" : "");
-
-I'd switch to leading spaces so can leave these strings unchanged as you
-add them:
-
-	for%s%s%s\n", info->name,
-		cxt->dbzs && cxt->bzinfo->dump_oops ? " Oops" : "",
-		cxt->dbzs && cxt->bzinfo->panic_write ? " Panic" : "",
-		cxt->pbz ? " Pmsg" : "");
-
-etc
-
+>  			cxt->dbzs && cxt->bzinfo->panic_write ? "Panic " : "",
+> -			cxt->pbz ? "Pmsg" : "");
+> +			cxt->pbz ? "Pmsg " : "",
+> +			cxt->cbz ? "Console" : "");
 >  
 >  	err = pstore_register(&cxt->pstore);
 >  	if (err) {
-> @@ -940,6 +1148,7 @@ void blkz_unregister(struct blkz_info *info)
->  	spin_unlock(&cxt->bzinfo_lock);
+> @@ -1139,6 +1192,8 @@ void blkz_unregister(struct blkz_info *info)
+>  {
+>  	struct blkz_context *cxt = &blkz_cxt;
 >  
->  	blkz_free_zones(&cxt->dbzs, &cxt->dmesg_max_cnt);
-> +	blkz_free_zone(&cxt->pbz);
->  }
->  EXPORT_SYMBOL_GPL(blkz_unregister);
->  
+> +	flush_work(&blkz_cleaner);
+> +
+>  	pstore_unregister(&cxt->pstore);
+>  	kfree(cxt->pstore.buf);
+>  	cxt->pstore.bufsize = 0;
+> diff --git a/include/linux/blkoops.h b/include/linux/blkoops.h
+> index fe63739309aa..8f40f225545d 100644
+> --- a/include/linux/blkoops.h
+> +++ b/include/linux/blkoops.h
+> @@ -23,8 +23,10 @@
+>   *	Both of the @size and @offset parameters on this interface are
+>   *	the relative size of the space provided, not the whole disk/flash.
+>   *
+> - *	On success, the number of bytes read should be returned.
+> - *	On error, negative number should be returned.
+> + *	On success, the number of bytes read/write should be returned.
+> + *	On error, negative number should be returned. The following returning
+> + *	number means more:
+> + *	  -EBUSY: pstore/blk should try again later.
+>   * @panic_write:
+>   *	The write operation only used for panic.
+>   *
 > diff --git a/include/linux/pstore_blk.h b/include/linux/pstore_blk.h
-> index 589d276fa4e4..af06be25bd01 100644
+> index af06be25bd01..546375e04419 100644
 > --- a/include/linux/pstore_blk.h
 > +++ b/include/linux/pstore_blk.h
-> @@ -19,6 +19,9 @@
->   * @dmesg_size:
->   *	The size of each zones for dmesg (oops & panic). Zero means disabled,
->   *	otherwise, it must be multiple of SECTOR_SIZE(512 Bytes).
-> + * @pmsg_size:
-> + *	The size of zone for pmsg. Zero means disabled, othewise, it must be
-> + *	multiple of SECTOR_SIZE(512).
+> @@ -22,6 +22,9 @@
+>   * @pmsg_size:
+>   *	The size of zone for pmsg. Zero means disabled, othewise, it must be
+>   *	multiple of SECTOR_SIZE(512).
+> + * @console_size:
+> + *	The size of zone for console. Zero means disabled, othewise, it must
+> + *	be multiple of SECTOR_SIZE(512).
 >   * @dump_oops:
 >   *	Dump oops and panic log or only panic.
 >   * @read, @write:
-> @@ -50,6 +53,7 @@ struct blkz_info {
->  
+> @@ -33,7 +36,9 @@
+>   *	the relative size of the space provided, not the whole disk/flash.
+>   *
+>   *	On success, the number of bytes read/write should be returned.
+> - *	On error, negative number should be returned.
+> + *	On error, negative number should be returned. The following returning
+> + *	number means more:
+> + *	  -EBUSY: pstore/blk should try again later.
+>   * @panic_write:
+>   *	The write operation only used for panic. It's optional if you do not
+>   *	care panic record. If panic occur but blkzone do not recover yet, the
+> @@ -54,6 +59,7 @@ struct blkz_info {
 >  	unsigned long total_size;
 >  	unsigned long dmesg_size;
-> +	unsigned long pmsg_size;
+>  	unsigned long pmsg_size;
+> +	unsigned long console_size;
 >  	int dump_oops;
 >  	blkz_read_op read;
 >  	blkz_write_op write;
