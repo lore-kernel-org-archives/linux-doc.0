@@ -1,177 +1,172 @@
-Return-Path: <SRS0=98ua=5C=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=afVm=5D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 266CBC1975A
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 22:07:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BB0C10DCE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 03:59:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DEC4A20714
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Mar 2020 22:07:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584482822;
-	bh=ZzzF4IInyWhfmdGwjTELReIaxVNrOMVNvqgepjegWQc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
-	b=a+AXg86Cm/BoAIV3rJKFqMMvLiPdcj9xhouXljk4/dgpL8m5d9g1E+PTdFh0gNliS
-	 Vyvix4WTK3pNlPLJ3AznjpJ9H9kqSmgSVJ4z/kMYc20t8erXI62vQauMqEcmqsYY2r
-	 hcaysUb6D/wKuIubCMJgjusGOtwj2kDod2nrgITw=
+	by mail.kernel.org (Postfix) with ESMTP id 0D3E12075E
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 03:59:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ssscSuh9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbgCQWHB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 18:07:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60160 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726680AbgCQWHB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Mar 2020 18:07:01 -0400
-Received: from localhost (mobile-166-175-186-165.mycingular.net [166.175.186.165])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F80120714;
-        Tue, 17 Mar 2020 22:06:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584482819;
-        bh=ZzzF4IInyWhfmdGwjTELReIaxVNrOMVNvqgepjegWQc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=OdOXnXj9LlSGcDZMNHeRsmlw4R57pKj6EiC8MD4IYlG/mH6hlAw1YPB+y5D4DjfZD
-         0zada6GEQGuQT5DVcQQeHaxTHzpG2F8q++JeNEKmjHf0n/Po+lSz0W7aIMBRa1I2tr
-         JGxkHo7hbyhZrrtrcku9dvGGSuDndoVzh2h0ClDQ=
-Date:   Tue, 17 Mar 2020 17:06:57 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-pci@vger.kernel.org
-Subject: Re: [PATCH 03/17] docs: pci: boot-interrupts.rst: improve html output
-Message-ID: <20200317220657.GA234515@google.com>
+        id S1726682AbgCRD7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Mar 2020 23:59:44 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:17687 "EHLO
+        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726597AbgCRD7o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 23:59:44 -0400
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200318035942epoutp019cd783fa35484f679117965f0227f9f0~9SfoIfmOf2184721847epoutp01E
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 03:59:42 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200318035942epoutp019cd783fa35484f679117965f0227f9f0~9SfoIfmOf2184721847epoutp01E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1584503982;
+        bh=rF8Nc0FWRFNClr9CXh8EhzVicDOxmlCv3lRGhO6uRZo=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=ssscSuh9NNYws0B+TZPJ2A6SMa58V1nqI/WQMCThccEzo3sLn4eBX4pf03oVZRAkg
+         Scav6csX2FvPLdezI6x2gGOSZlJb58qv61uacxTs37hgP+oiXdhVQ1GucjZTLMYnou
+         uS6AmM3Pzw8CAB2vZssksQniuZcstD4189qXbttc=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200318035941epcas1p1e5ee90d94474aa52e0836c5afb299c1f~9SfnpI-0m0291402914epcas1p1N;
+        Wed, 18 Mar 2020 03:59:41 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.40.153]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 48hxBM0hM0zMqYlm; Wed, 18 Mar
+        2020 03:59:39 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        DF.23.04160.7AC917E5; Wed, 18 Mar 2020 12:59:35 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200318035934epcas1p2acdad1d395c836b1373d54c24946cd35~9SfhAJUbk0508705087epcas1p2f;
+        Wed, 18 Mar 2020 03:59:34 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200318035934epsmtrp1eab0046e05c779b4ebad09fb6ca22f03~9Sfg-dJgd1081810818epsmtrp1O;
+        Wed, 18 Mar 2020 03:59:34 +0000 (GMT)
+X-AuditID: b6c32a38-2afff70000001040-dd-5e719ca774e6
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        2F.C3.04024.6AC917E5; Wed, 18 Mar 2020 12:59:34 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200318035934epsmtip27b4925559b8914c6ef4d83ab523de86c~9Sfg0H0e31728917289epsmtip2V;
+        Wed, 18 Mar 2020 03:59:34 +0000 (GMT)
+Subject: Re: [PATCH 05/17] devfreq: devfreq.h: get rid of some doc warnings
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        linux-pm@vger.kernel.org
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <430fe26d-8fcb-3f71-91d1-46ccbd8146ef@samsung.com>
+Date:   Wed, 18 Mar 2020 13:08:23 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+        Thunderbird/59.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2e7eea224a8bb76ef2c02bd3c830156baeb35d0f.1584456635.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <c013b308c08b47d1208c22362ec1034ac148c1b6.1584456635.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+Xm3uyktfy7Tk3+U3ugPJW23Ob091CIpSwOpKAjSXdxt2p7u
+        btGDwKR09vAt5FKzlqYGPczKpFqYFJK9MCnMUNHeZZkVZZFtu4v873PO+R7O+f5+R0rIT5Jh
+        0hyjlbMYWT1FBoiu3I6MiT5Tk5uhuHaJYEZvFSLmfv4HCXOy4LSI6e2oIZmJo12IGT7eh5jn
+        +5vIFZKU1pYiMsVZXCFOKW5rQSkTrXPTRVt1y7M5VsNZwjljlkmTY9QmUKkbM1dlquIUdDS9
+        hImnwo2sgUugktPSo1fn6N0bUOE7Wb3NnUpneZ5alLjcYrJZufBsE29NoDizRm9eYo7hWQNv
+        M2pjskyGpbRCsVjlFqp12d32SYm5MWjXz0vHUB4qmXkI+UsBx8LnoXt+HpbjdgSvhhceQgFu
+        /oJgYmxCLATfEdT1NxP/Ohxd+Ugo3EDgun1OJASfEDx/c5j0qGbhVCh9NeTlYKyD8frLpEdE
+        4DYEv4veI0+BxFHgevPMKwrEEdD3Y8Sbl+FEGKic9LIIL4DBZ3VezWy8GbqvHPBpgqC7elTk
+        YX+shrcNT7x5AodC/+gJP4HnwdWPNYRnMODXJLx/VO4neEiGb4WPfTwL3t1tkwgcBm9LCny8
+        F5q7u0ih2Y6gzfVILBSU4GqocDdL3RMi4XzHIiEdAdd+1fqWmAlj346IPRLAMrAXyAXJfOgd
+        euEbOwechUVkKaIc0+w4pllwTLPg+D+sHolaUAhn5g1ajqfNsdO/uxV5zzOKaUfXH6R1IixF
+        1AyZ9II5Qy5md/K7DZ0IpAQVLHPmmjLkMg27ew9nMWVabHqO70Qq92uXEWGzs0zuYzdaM2nV
+        YqVSycTScSqapkJlVU/1GXKsZa2cjuPMnOVfn5/UPywPnVpTW77j3cLYwUhnWe+2quG5UesO
+        OoLXVkOfHStt7f0Dq0JOTWklPSH3S59c7yB7voc+dN48unbEftF6tVH9Yd/KpDu6urJx9dTZ
+        yi2a4ZJBV89SdcgyFOhoaogbDMg/PxKfRo6b0hXrU1MTNvzxr96U9HIs6W78V2o7WyZ+2RxA
+        ifhslo4iLDz7FzrWphu0AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeLIzCtJLcpLzFFi42LZdlhJXnfZnMI4g8bD4hZPDrQzWpxtesNu
+        sbBtCYvF5V1z2Cw+9x5htHg4+yqjxe3GFWwO7B6bVnWyeSzum8zq0bdlFaPH501yASxRXDYp
+        qTmZZalF+nYJXBknO36xFywTrPi5eQZjA2M/XxcjJ4eEgInErCNNjCC2kMBuRol/HdkQcUmJ
+        aRePMncxcgDZwhKHDxd3MXIBlbxllOi9eo0FpEZYwFtiwrMHbCC2iEC2xKJr08DizAJbGCUa
+        dyZCNDxjlLh35Bs7SIJNQEti/4sbYA38AooSV388BlvMK2AncWfKLzCbRUBV4v6NeWA1ogJh
+        EjuXPGaCqBGUODnzCdgCToEEiZdLrzBCLFOX+DPvEjOELS5x68l8JghbXmL72znMExiFZyFp
+        n4WkZRaSlllIWhYwsqxilEwtKM5Nzy02LDDMSy3XK07MLS7NS9dLzs/dxAiOIS3NHYyXl8Qf
+        YhTgYFTi4U3YVBAnxJpYVlyZe4hRgoNZSYR3cWF+nBBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHe
+        p3nHIoUE0hNLUrNTUwtSi2CyTBycUg2MLOJTXzov91r0aXbKxNCjdm/K9ztcKP73/k9r0knN
+        67K3gk/6nUien3pGNlrT/3b1pXn9WxaWfw29XXzyi+IvFx0RXufp1w4Xzu5ZHWf7oGqStVtf
+        so6ww13N/ICIl5eMJ2xaediopK+gvux+kXX9XBduDS1ep9J/Tgsln/T1Op13O+U8R+66Ektx
+        RqKhFnNRcSIAUqOZG50CAAA=
+X-CMS-MailID: 20200318035934epcas1p2acdad1d395c836b1373d54c24946cd35
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200317145506epcas1p4fe623186134d80a24d32b9f91fb24804
+References: <cover.1584456635.git.mchehab+huawei@kernel.org>
+        <CGME20200317145506epcas1p4fe623186134d80a24d32b9f91fb24804@epcas1p4.samsung.com>
+        <c013b308c08b47d1208c22362ec1034ac148c1b6.1584456635.git.mchehab+huawei@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 03:54:12PM +0100, Mauro Carvalho Chehab wrote:
-> There are some warnings with this file:
+On 3/17/20 11:54 PM, Mauro Carvalho Chehab wrote:
+> Mark "void *data" as literal, in order to avoid those doc warnings:
 > 
->     /Documentation/PCI/boot-interrupts.rst:42: WARNING: Unexpected indentation.
->     /Documentation/PCI/boot-interrupts.rst:52: WARNING: Block quote ends without a blank line; unexpected unindent.
->     /Documentation/PCI/boot-interrupts.rst:92: WARNING: Unexpected indentation.
->     /Documentation/PCI/boot-interrupts.rst:98: WARNING: Unexpected indentation.
->     /Documentation/PCI/boot-interrupts.rst:136: WARNING: Unexpected indentation.
-> 
-> It turns that this file conversion to ReST could be improved,
-> in order to remove the warnings and provide a better output.
-> 
-> So, fix the warnings by adjusting blank lines, add a table and
-> some list markups. Also, mark endnodes as such.
+> 	./include/linux/devfreq.h:156: WARNING: Inline emphasis start-string without end-string.
+> 	./include/linux/devfreq.h:259: WARNING: Inline emphasis start-string without end-string.
+> 	./include/linux/devfreq.h:279: WARNING: Inline emphasis start-string without end-string.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
 > ---
->  Documentation/PCI/boot-interrupts.rst | 34 +++++++++++++++------------
->  1 file changed, 19 insertions(+), 15 deletions(-)
+>  include/linux/devfreq.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/PCI/boot-interrupts.rst b/Documentation/PCI/boot-interrupts.rst
-> index d078ef3eb192..2ec70121bfca 100644
-> --- a/Documentation/PCI/boot-interrupts.rst
-> +++ b/Documentation/PCI/boot-interrupts.rst
-> @@ -32,12 +32,13 @@ interrupt goes unhandled over time, they are tracked by the Linux kernel as
->  Spurious Interrupts. The IRQ will be disabled by the Linux kernel after it
->  reaches a specific count with the error "nobody cared". This disabled IRQ
->  now prevents valid usage by an existing interrupt which may happen to share
-> -the IRQ line.
-> +the IRQ line::
+> diff --git a/include/linux/devfreq.h b/include/linux/devfreq.h
+> index 82630fafacde..57e871a559a9 100644
+> --- a/include/linux/devfreq.h
+> +++ b/include/linux/devfreq.h
+> @@ -158,7 +158,7 @@ struct devfreq_stats {
+>   * functions except for the context of callbacks defined in struct
+>   * devfreq_governor, the governor should protect its access with the
+>   * struct mutex lock in struct devfreq. A governor may use this mutex
+> - * to protect its own private data in void *data as well.
+> + * to protect its own private data in ``void *data`` as well.
+>   */
+>  struct devfreq {
+>  	struct list_head node;
+> @@ -256,7 +256,7 @@ struct devfreq *devfreq_get_devfreq_by_phandle(struct device *dev, int index);
 >  
->    irq 19: nobody cared (try booting with the "irqpoll" option)
->    CPU: 0 PID: 2988 Comm: irq/34-nipalk Tainted: 4.14.87-rt49-02410-g4a640ec-dirty #1
->    Hardware name: National Instruments NI PXIe-8880/NI PXIe-8880, BIOS 2.1.5f1 01/09/2020
->    Call Trace:
-> +
->    <IRQ>
->     ? dump_stack+0x46/0x5e
->     ? __report_bad_irq+0x2e/0xb0
-> @@ -85,15 +86,18 @@ Mitigations
->  The mitigations take the form of PCI quirks. The preference has been to
->  first identify and make use of a means to disable the routing to the PCH.
->  In such a case a quirk to disable boot interrupt generation can be
-> -added.[1]
-> +added. [1]_
+>  #if IS_ENABLED(CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND)
+>  /**
+> - * struct devfreq_simple_ondemand_data - void *data fed to struct devfreq
+> + * struct devfreq_simple_ondemand_data - ``void *data`` fed to struct devfreq
+>   *	and devfreq_add_device
+>   * @upthreshold:	If the load is over this value, the frequency jumps.
+>   *			Specify 0 to use the default. Valid value = 0 to 100.
+> @@ -276,7 +276,7 @@ struct devfreq_simple_ondemand_data {
 >  
-> -  Intel® 6300ESB I/O Controller Hub
-> +Intel® 6300ESB I/O Controller Hub
->    Alternate Base Address Register:
->     BIE: Boot Interrupt Enable
-> -	  0 = Boot interrupt is enabled.
-> -	  1 = Boot interrupt is disabled.
->  
-> -  Intel® Sandy Bridge through Sky Lake based Xeon servers:
-> +	  ==  ===========================
-> +	  0   Boot interrupt is enabled.
-> +	  1   Boot interrupt is disabled.
-> +	  ==  ===========================
-> +
-> +Intel® Sandy Bridge through Sky Lake based Xeon servers:
->    Coherent Interface Protocol Interrupt Control
->     dis_intx_route2pch/dis_intx_route2ich/dis_intx_route2dmi2:
->  	  When this bit is set. Local INTx messages received from the
-> @@ -109,12 +113,12 @@ line by default.  Therefore, on chipsets where this INTx routing cannot be
->  disabled, the Linux kernel will reroute the valid interrupt to its legacy
->  interrupt. This redirection of the handler will prevent the occurrence of
->  the spurious interrupt detection which would ordinarily disable the IRQ
-> -line due to excessive unhandled counts.[2]
-> +line due to excessive unhandled counts. [2]_
->  
->  The config option X86_REROUTE_FOR_BROKEN_BOOT_IRQS exists to enable (or
->  disable) the redirection of the interrupt handler to the PCH interrupt
->  line. The option can be overridden by either pci=ioapicreroute or
-> -pci=noioapicreroute.[3]
-> +pci=noioapicreroute. [3]_
->  
->  
->  More Documentation
-> @@ -127,19 +131,19 @@ into the evolution of its handling with chipsets.
->  Example of disabling of the boot interrupt
->  ------------------------------------------
->  
-> -Intel® 6300ESB I/O Controller Hub (Document # 300641-004US)
-> +      - Intel® 6300ESB I/O Controller Hub (Document # 300641-004US)
->  	5.7.3 Boot Interrupt
->  	https://www.intel.com/content/dam/doc/datasheet/6300esb-io-controller-hub-datasheet.pdf
->  
-> -Intel® Xeon® Processor E5-1600/2400/2600/4600 v3 Product Families
-> -Datasheet - Volume 2: Registers (Document # 330784-003)
-> +      - Intel® Xeon® Processor E5-1600/2400/2600/4600 v3 Product Families
-> +	Datasheet - Volume 2: Registers (Document # 330784-003)
->  	6.6.41 cipintrc Coherent Interface Protocol Interrupt Control
->  	https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/xeon-e5-v3-datasheet-vol-2.pdf
->  
->  Example of handler rerouting
->  ----------------------------
->  
-> -Intel® 6700PXH 64-bit PCI Hub (Document # 302628)
-> +      - Intel® 6700PXH 64-bit PCI Hub (Document # 302628)
->  	2.15.2 PCI Express Legacy INTx Support and Boot Interrupt
->  	https://www.intel.com/content/dam/doc/datasheet/6700pxh-64-bit-pci-hub-datasheet.pdf
->  
-> @@ -150,6 +154,6 @@ Cheers,
->      Sean V Kelley
->      sean.v.kelley@linux.intel.com
->  
-> -[1] https://lore.kernel.org/r/12131949181903-git-send-email-sassmann@suse.de/
-> -[2] https://lore.kernel.org/r/12131949182094-git-send-email-sassmann@suse.de/
-> -[3] https://lore.kernel.org/r/487C8EA7.6020205@suse.de/
-> +.. [1] https://lore.kernel.org/r/12131949181903-git-send-email-sassmann@suse.de/
-> +.. [2] https://lore.kernel.org/r/12131949182094-git-send-email-sassmann@suse.de/
-> +.. [3] https://lore.kernel.org/r/487C8EA7.6020205@suse.de/
-> -- 
-> 2.24.1
+>  #if IS_ENABLED(CONFIG_DEVFREQ_GOV_PASSIVE)
+>  /**
+> - * struct devfreq_passive_data - void *data fed to struct devfreq
+> + * struct devfreq_passive_data - ``void *data`` fed to struct devfreq
+>   *	and devfreq_add_device
+>   * @parent:	the devfreq instance of parent device.
+>   * @get_target_freq:	Optional callback, Returns desired operating frequency
 > 
+
+Applied it. Thanks.
+
+-- 
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
