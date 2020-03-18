@@ -2,154 +2,371 @@ Return-Path: <SRS0=afVm=5D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3D0C4332D
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 22:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4AB6C4332B
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 23:34:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7646B2076F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 22:55:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8313720768
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 23:34:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Ce2szXcq"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DrrXM1Tf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727315AbgCRWzg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Mar 2020 18:55:36 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:36380 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726704AbgCRWzg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 18:55:36 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02IMrlf6071331;
-        Wed, 18 Mar 2020 22:54:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=k6GRUsKzVXLcCjYW1URm4LWEsIVLbuUR75pRpcs7jfc=;
- b=Ce2szXcqKXTI+HYLH8FYP/wXV6iZiiKOFiXrEFWqdPJZZGa+j5A6up1nM+H+PFvqAruq
- 2bmtsY7uC4VN2eaTZy/ynVjVztGCL0aB3JQxl3COHF0Ov0PwR4HlLwExDxRFMh2/cNXG
- i1ybAR233CYhUfDGv/pxrloIrywaQulPtyk7ClLHZs9yCHfZzR5cpSIIIa+WT1rA5dzF
- NFd4ZArbsmv7PEUgi2CZJ24KAFXN2HF//8sIVskEaOldoq6xbpUb/mM3QxImkymGPtMk
- aIwWY1Fs+z9eC6yx+apJdCdvWN5RNRjcCWh+OF3G1lU2Pog392rIPJcyhg+sABAAxpu/ Rg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 2yub2757m3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 18 Mar 2020 22:54:54 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02IMq3hY125264;
-        Wed, 18 Mar 2020 22:52:53 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 2ys92j3h77-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 18 Mar 2020 22:52:53 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02IMqo0j011508;
-        Wed, 18 Mar 2020 22:52:50 GMT
-Received: from [192.168.1.206] (/71.63.128.209)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 18 Mar 2020 15:52:49 -0700
-Subject: Re: [PATCH 1/4] hugetlbfs: add arch_hugetlb_valid_size
-To:     Dave Hansen <dave.hansen@intel.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S.Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20200318220634.32100-1-mike.kravetz@oracle.com>
- <20200318220634.32100-2-mike.kravetz@oracle.com>
- <831a0773-1ba6-4d72-44b9-7472123b8528@intel.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <5aceea6a-8dc0-a44b-80c6-94511b5c75ca@oracle.com>
-Date:   Wed, 18 Mar 2020 15:52:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727191AbgCRXeM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Mar 2020 19:34:12 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:46858 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727190AbgCRXeL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 19:34:11 -0400
+Received: by mail-oi1-f196.google.com with SMTP id x5so686418oic.13
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 16:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=6IKlL+I/c+Hjy4y3Xx8YKRHHyf6Y2ndtzTeKefGZ0X0=;
+        b=DrrXM1TfGXM7JpdPjJELh2Jet/0olmv7sgsJVcrfO7NNAm/C/uyNtme7E3RQnm7e+i
+         2YJureu5k61DYblkRP+iPdXjAj6EmoxPiSARalPXqDlODHBYpQUrTo+7+LWZQEaGtq4z
+         PWxPkuzUsv3k04l7Z0iBS0WqR/llQh3FVVrQOOulX84B2lD338s2/H/o5WrE5DPjv/Ky
+         ROl0qCPSz4ymdkxl27Z6MsJBAKiP17fV4389dy1Dn5iuD3LMNBb4AGc09RyXd4B7XEHE
+         ySE3qNl/9EKEnQS5sd1SsSKs/oXsgIHSjA6vuGQmMLZGV+j7AlmeM0VBLcPchf3vk+8Q
+         fJag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=6IKlL+I/c+Hjy4y3Xx8YKRHHyf6Y2ndtzTeKefGZ0X0=;
+        b=qULdv9oLef9+ha+aJdf/N1MahXGNQt//ZuEOll9jkSHYaEo521iY0nNHqnANTj+CbA
+         MqSFkq4t7pO5FFSihmb8bOUwUKpS70MvsJk9OH2sau3zdl287RQIaaNUAKPrVQgy+a0j
+         l4e+lQ26vkG3KKu35+xGbYSil2mglJUr6tpnbpBKPP3LAQM+ETAORUe81/WC8OGUBh00
+         uwxxgh02Ck5OmCWQRjZ6LFYRi0xymlvKbs/v3BhwcGvXyBSCf+P1f0zfaPJl6U5nQz4f
+         JJXbHp71Sjly83NO56IQhHHTMbrLGTRfjFPvIhbwinOEuOEZH8Z9EpGtjUpBEETFHd0y
+         L8Rw==
+X-Gm-Message-State: ANhLgQ0EI724NgWxT1YxVoveXzzjDr+yed4/Lyd4XnPySReqDoPDhSGV
+        BOGYlBCI2EruriB3V9mo5IlGeuXUsANwk6dI/VSo/Q==
+X-Google-Smtp-Source: ADFU+vv8F3Y9wGStW1nBrbFs3yrWKsAXE0IC+0piatRYJ3uczWe5YH3FoAj96UZ0SHVWroel259FmrrZ8VibD0XoKz8=
+X-Received: by 2002:aca:5e88:: with SMTP id s130mr335083oib.47.1584574450560;
+ Wed, 18 Mar 2020 16:34:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <831a0773-1ba6-4d72-44b9-7472123b8528@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9564 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
- mlxscore=0 spamscore=0 bulkscore=0 adultscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003180098
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9564 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 impostorscore=0
- mlxlogscore=999 mlxscore=0 phishscore=0 adultscore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003180098
+References: <20200224160215.4136-1-mic@digikod.net> <CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com>
+ <873d7419-bdd9-8a52-0a9b-dddbe31df4f9@digikod.net> <CAG48ez0=0W5Ok-8nASqZrZ28JboXRRi3gDxV5u6mdcOtzwuRVA@mail.gmail.com>
+ <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net> <CAG48ez16yT+zbK1WPxr2TnxrifW5c2DnpFLbWRRLUT_WpuFNmw@mail.gmail.com>
+ <e8530226-f295-a897-1132-7e6970dad49f@digikod.net>
+In-Reply-To: <e8530226-f295-a897-1132-7e6970dad49f@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 19 Mar 2020 00:33:44 +0100
+Message-ID: <CAG48ez1K-7Lq2Ep_p9fOvXQ-fwj_8dA1CFd5SVDbT4ccqejDzA@mail.gmail.com>
+Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/18/20 3:15 PM, Dave Hansen wrote:
-> Hi Mike,
-> 
-> The series looks like a great idea to me.  One nit on the x86 bits,
-> though...
-> 
->> diff --git a/arch/x86/mm/hugetlbpage.c b/arch/x86/mm/hugetlbpage.c
->> index 5bfd5aef5378..51e6208fdeec 100644
->> --- a/arch/x86/mm/hugetlbpage.c
->> +++ b/arch/x86/mm/hugetlbpage.c
->> @@ -181,16 +181,25 @@ hugetlb_get_unmapped_area(struct file *file, unsigned long addr,
->>  #endif /* CONFIG_HUGETLB_PAGE */
->>  
->>  #ifdef CONFIG_X86_64
->> +bool __init arch_hugetlb_valid_size(unsigned long long size)
->> +{
->> +	if (size == PMD_SIZE)
->> +		return true;
->> +	else if (size == PUD_SIZE && boot_cpu_has(X86_FEATURE_GBPAGES))
->> +		return true;
->> +	else
->> +		return false;
->> +}
-> 
-> I'm pretty sure it's possible to have a system without 2M/PMD page
-> support.  We even have a handy-dandy comment about it in
-> arch/x86/include/asm/required-features.h:
-> 
-> 	#ifdef CONFIG_X86_64
-> 	#ifdef CONFIG_PARAVIRT
-> 	/* Paravirtualized systems may not have PSE or PGE available */
-> 	#define NEED_PSE        0
-> 	...
-> 
-> I *think* you need an X86_FEATURE_PSE check here to be totally correct.
-> 
-> 	if (size == PMD_SIZE && cpu_feature_enabled(X86_FEATURE_PSE))
-> 		return true;
-> 
-> BTW, I prefer cpu_feature_enabled() to boot_cpu_has() because it
-> includes disabled-features checking.  I don't think any of it matters
-> for these specific features, but I generally prefer it on principle.
+On Wed, Mar 18, 2020 at 1:06 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> On 17/03/2020 20:45, Jann Horn wrote:
+> > On Tue, Mar 17, 2020 at 6:50 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
+et> wrote:
+> >> On 17/03/2020 17:19, Jann Horn wrote:
+> >>> On Thu, Mar 12, 2020 at 12:38 AM Micka=C3=ABl Sala=C3=BCn <mic@digiko=
+d.net> wrote:
+> >>>> On 10/03/2020 00:44, Jann Horn wrote:
+> >>>>> On Mon, Feb 24, 2020 at 5:03 PM Micka=C3=ABl Sala=C3=BCn <mic@digik=
+od.net> wrote:
+> >>
+> >> [...]
+> >>
+> >>>>> Aside from those things, there is also a major correctness issue wh=
+ere
+> >>>>> I'm not sure how to solve it properly:
+> >>>>>
+> >>>>> Let's say a process installs a filter on itself like this:
+> >>>>>
+> >>>>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
+> >>>>> ACCESS_FS_ROUGHLY_WRITE};
+> >>>>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
+> >>>>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> >>>>> struct landlock_attr_path_beneath path_beneath =3D {
+> >>>>>   .ruleset_fd =3D ruleset_fd,
+> >>>>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
+> >>>>>   .parent_fd =3D open("/tmp/foobar", O_PATH),
+> >>>>> };
+> >>>>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> >>>>> sizeof(path_beneath), &path_beneath);
+> >>>>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> >>>>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rul=
+eset_fd };
+> >>>>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET=
+,
+> >>>>> sizeof(attr_enforce), &attr_enforce);
+> >>>>>
+> >>>>> At this point, the process is not supposed to be able to write to
+> >>>>> anything outside /tmp/foobar, right? But what happens if the proces=
+s
+> >>>>> does the following next?
+> >>>>>
+> >>>>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
+> >>>>> ACCESS_FS_ROUGHLY_WRITE};
+> >>>>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
+> >>>>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> >>>>> struct landlock_attr_path_beneath path_beneath =3D {
+> >>>>>   .ruleset_fd =3D ruleset_fd,
+> >>>>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
+> >>>>>   .parent_fd =3D open("/", O_PATH),
+> >>>>> };
+> >>>>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> >>>>> sizeof(path_beneath), &path_beneath);
+> >>>>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> >>>>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rul=
+eset_fd };
+> >>>>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET=
+,
+> >>>>> sizeof(attr_enforce), &attr_enforce);
+> >>>>>
+> >>>>> As far as I can tell from looking at the source, after this, you wi=
+ll
+> >>>>> have write access to the entire filesystem again. I think the idea =
+is
+> >>>>> that LANDLOCK_CMD_ENFORCE_RULESET should only let you drop privileg=
+es,
+> >>>>> not increase them, right?
+> >>>>
+> >>>> There is an additionnal check in syscall.c:get_path_from_fd(): it is
+> >>>> forbidden to add a rule with a path which is not accessible (accordi=
+ng
+> >>>> to LANDLOCK_ACCESS_FS_OPEN) thanks to a call to security_file_open()=
+,
+> >>>> but this is definitely not perfect.
+> >>>
+> >>> Ah, I missed that.
+> >>>
+> >>>>> I think the easy way to fix this would be to add a bitmask to each
+> >>>>> rule that says from which ruleset it originally comes, and then let
+> >>>>> check_access_path() collect these bitmasks from each rule with OR, =
+and
+> >>>>> check at the end whether the resulting bitmask is full - if not, at
+> >>>>> least one of the rulesets did not permit the access, and it should =
+be
+> >>>>> denied.
+> >>>>>
+> >>>>> But maybe it would make more sense to change how the API works
+> >>>>> instead, and get rid of the concept of "merging" two rulesets
+> >>>>> together? Instead, we could make the API work like this:
+> >>>>>
+> >>>>>  - LANDLOCK_CMD_CREATE_RULESET gives you a file descriptor whose
+> >>>>> ->private_data contains a pointer to the old ruleset of the process=
+,
+> >>>>> as well as a pointer to a new empty ruleset.
+> >>>>>  - LANDLOCK_CMD_ADD_RULE fails if the specified rule would not be
+> >>>>> permitted by the old ruleset, then adds the rule to the new ruleset
+> >>>>>  - LANDLOCK_CMD_ENFORCE_RULESET fails if the old ruleset pointer in
+> >>>>> ->private_data doesn't match the current ruleset of the process, th=
+en
+> >>>>> replaces the old ruleset with the new ruleset.
+> >>>>>
+> >>>>> With this, the new ruleset is guaranteed to be a subset of the old
+> >>>>> ruleset because each of the new ruleset's rules is permitted by the
+> >>>>> old ruleset. (Unless the directory hierarchy rotates, but in that c=
+ase
+> >>>>> the inaccuracy isn't much worse than what would've been possible
+> >>>>> through RCU path walk anyway AFAIK.)
+> >>>>>
+> >>>>> What do you think?
+> >>>>>
+> >>>>
+> >>>> I would prefer to add the same checks you described at first (with
+> >>>> check_access_path), but only when creating a new ruleset with
+> >>>> merge_ruleset() (which should probably be renamed). This enables not=
+ to
+> >>>> rely on a parent ruleset/domain until the enforcement, which is the =
+case
+> >>>> anyway.
+> >>>> Unfortunately this doesn't work for some cases with bind mounts. Bec=
+ause
+> >>>> check_access_path() goes through one path, another (bind mounted) pa=
+th
+> >>>> could be illegitimately allowed.
+> >>>
+> >>> Hmm... I'm not sure what you mean. At the moment, landlock doesn't
+> >>> allow any sandboxed process to change the mount hierarchy, right? Can
+> >>> you give an example where this would go wrong?
+> >>
+> >> Indeed, a Landlocked process must no be able to change its mount
+> >> namespace layout. However, bind mounts may already exist.
+> >> Let's say a process sandbox itself to only access /a in a read-write
+> >> way.
+> >
+> > So, first policy:
+> >
+> > /a RW
+> >
+> >> Then, this process (or one of its children) add a new restriction
+> >> on /a/b to only be able to read this hierarchy.
+> >
+> > You mean with the second policy looking like this?
+>
+> Right.
+>
+> >
+> > /a RW
+> > /a/b R
+> >
+> > Then the resulting policy would be:
+> >
+> > /a RW policy_bitmask=3D0x00000003 (bits 0 and 1 set)
+> > /a/b R policy_bitmask=3D0x00000002 (bit 1 set)
+> > required_bits=3D0x00000003 (bits 0 and 1 set)
+> >
+> >> The check at insertion
+> >> time would allow this because this access right is a subset of the
+> >> access right allowed with the parent directory. However, If /a/b is bi=
+nd
+> >> mounted somewhere else, let's say in /private/b, then the second
+> >> enforcement just gave new access rights to this hierarchy too.
+> >
+> > But with the solution I proposed, landlock's path walk would see
+> > something like this when accessing a file at /private/b/foo:
+> > /private/b/foo <no rules>
+> >   policies seen until now: 0x00000000
+> > /private/b <access: R, policy_bitmask=3D0x00000002>
+> >   policies seen until now: 0x00000002
+> > /private <no rules>
+> >   policies seen until now: 0x00000002
+> > / <no rules>
+> >   policies seen until now: 0x00000002
+> >
+> > It wouldn't encounter any rule from the first policy, so the OR of the
+> > seen policy bitmasks would be 0x00000002, which is not the required
+> > value 0x00000003, and so the access would be denied.
+> As I understand your proposition, we need to build the required_bits
+> when adding a rule or enforcing/merging a ruleset with a domain. The
+> issue is that a rule only refers to a struct inode, not a struct path.
+> For your proposition to work, we would need to walk through the file
+> path when adding a rule to a ruleset, which means that we need to depend
+> of the current view of the process (i.e. its mount namespace), and its
+> Landlock domain.
 
-Sounds good.  I'll incorporate those changes into a v2, unless someone
-else with has a different opinion.
+I don't see why that is necessary. Why would we have to walk the file
+path when adding a rule?
 
-BTW, this patch should not really change the way the code works today.
-It is mostly a movement of code.  Unless I am missing something, the
-existing code will always allow setup of PMD_SIZE hugetlb pages.
--- 
-Mike Kravetz
+> If the required_bits field is set when the ruleset is
+> merged with the domain, it is not possible anymore to walk through the
+> corresponding initial file path, which makes the enforcement step too
+> late to check for such consistency. The important point is that a
+> ruleset/domain doesn't have a notion of file hierarchy, a ruleset is
+> only a set of tagged inodes.
+>
+> I'm not sure I got your proposition right, though. When and how would
+> you generate the required_bits?
+
+Using your terminology:
+A domain is a collection of N layers, which are assigned indices 0..N-1.
+For each possible access type, a domain has a bitmask containing N
+bits that stores which layers control that access type. (Basically a
+per-layer version of fs_access_mask.)
+To validate an access, you start by ORing together the bitmasks for
+the requested access types; that gives you the required_bits mask,
+which lists all layers that want to control the access.
+Then you set seen_policy_bits=3D0, then do the
+check_access_path_continue() loop while keeping track of which layers
+you've seen with "seen_policy_bits |=3D access->contributing_policies",
+or something like that.
+And in the end, you check that seen_policy_bits is a superset of
+required_bits - something like `(~seen_policy_bits) & required_bits =3D=3D
+0`.
+
+AFAICS to create a new domain from a bunch of layers, you wouldn't
+have to do any path walking.
+
+> Here is my updated proposition: add a layer level and a depth to each
+> rule (once enforced/merged with a domain), and a top layer level for a
+> domain. When enforcing a ruleset (i.e. merging a ruleset into the
+> current domain), the layer level of a new rule would be the incremented
+> top layer level.
+> If there is no rule (from this domain) tied to the same
+> inode, then the depth of the new rule is 1. However, if there is already
+> a rule tied to the same inode and if this rule's layer level is the
+> previous top layer level, then the depth and the layer level are both
+> incremented and the rule is updated with the new access rights (boolean
+> AND).
+>
+> The policy looks like this:
+> domain top_layer=3D2
+> /a RW policy_bitmask=3D0x00000003 layer=3D1 depth=3D1
+> /a/b R policy_bitmask=3D0x00000002 layer=3D2 depth=3D1
+>
+> The path walk access check walks through all inodes and start with a
+> layer counter equal to the top layer of the current domain. For each
+> encountered inode tied to a rule, the access rights are checked and a
+> new check ensures that the layer of the matching rule is the same as the
+> counter (this may be a merged ruleset containing rules pertaining to the
+> same hierarchy, which is fine) or equal to the decremented counter (i.e.
+> the path walk just reached the underlying layer). If the path walk
+> encounter a rule with a layer strictly less than the counter minus one,
+> there is a whole in the layers which means that the ruleset
+> hierarchy/subset does not match, and the access must be denied.
+>
+> When accessing a file at /private/b/foo for a read access:
+> /private/b/foo <no rules>
+>   allowed_access=3Dunknown layer_counter=3D2
+> /private/b <access: R, policy_bitmask=3D0x00000002, layer=3D2, depth=3D1>
+>   allowed_access=3Dallowed layer_counter=3D2
+> /private <no rules>
+>   allowed_access=3Dallowed layer_counter=3D2
+> / <no rules>
+>   allowed_access=3Dallowed layer_counter=3D2
+>
+> Because the layer_counter didn't reach 1, the access request is then deni=
+ed.
+>
+> This proposition enables not to rely on a parent ruleset at first, only
+> when enforcing/merging a ruleset with a domain. This also solves the
+> issue with multiple inherited/nested rules on the same inode (in which
+> case the depth just grows). Moreover, this enables to safely stop the
+> path walk as soon as we reach the layer 1.
+
+(FWIW, you could do the same optimization with the seen_policy_bits approac=
+h.)
+
+I guess the difference between your proposal and mine is that in my
+proposal, the following would work, in effect permitting W access to
+/foo/bar/baz (and nothing else)?
+
+first ruleset:
+  /foo W
+second ruleset:
+  /foo/bar/baz W
+third ruleset:
+  /foo/bar W
+
+whereas in your proposal, IIUC it wouldn't be valid for a new ruleset
+to whitelist a superset of what was whitelisted in a previous ruleset?
