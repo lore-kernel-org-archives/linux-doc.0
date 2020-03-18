@@ -2,171 +2,91 @@ Return-Path: <SRS0=afVm=5D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BB0C10DCE
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 03:59:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 108ABC5ACD6
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 05:44:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0D3E12075E
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 03:59:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3DA820663
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 05:44:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ssscSuh9"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="auMuif27"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbgCRD7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Mar 2020 23:59:44 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:17687 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726597AbgCRD7o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Mar 2020 23:59:44 -0400
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200318035942epoutp019cd783fa35484f679117965f0227f9f0~9SfoIfmOf2184721847epoutp01E
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 03:59:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200318035942epoutp019cd783fa35484f679117965f0227f9f0~9SfoIfmOf2184721847epoutp01E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1584503982;
-        bh=rF8Nc0FWRFNClr9CXh8EhzVicDOxmlCv3lRGhO6uRZo=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=ssscSuh9NNYws0B+TZPJ2A6SMa58V1nqI/WQMCThccEzo3sLn4eBX4pf03oVZRAkg
-         Scav6csX2FvPLdezI6x2gGOSZlJb58qv61uacxTs37hgP+oiXdhVQ1GucjZTLMYnou
-         uS6AmM3Pzw8CAB2vZssksQniuZcstD4189qXbttc=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200318035941epcas1p1e5ee90d94474aa52e0836c5afb299c1f~9SfnpI-0m0291402914epcas1p1N;
-        Wed, 18 Mar 2020 03:59:41 +0000 (GMT)
-Received: from epsmges1p4.samsung.com (unknown [182.195.40.153]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 48hxBM0hM0zMqYlm; Wed, 18 Mar
-        2020 03:59:39 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-        DF.23.04160.7AC917E5; Wed, 18 Mar 2020 12:59:35 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200318035934epcas1p2acdad1d395c836b1373d54c24946cd35~9SfhAJUbk0508705087epcas1p2f;
-        Wed, 18 Mar 2020 03:59:34 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200318035934epsmtrp1eab0046e05c779b4ebad09fb6ca22f03~9Sfg-dJgd1081810818epsmtrp1O;
-        Wed, 18 Mar 2020 03:59:34 +0000 (GMT)
-X-AuditID: b6c32a38-2afff70000001040-dd-5e719ca774e6
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        2F.C3.04024.6AC917E5; Wed, 18 Mar 2020 12:59:34 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200318035934epsmtip27b4925559b8914c6ef4d83ab523de86c~9Sfg0H0e31728917289epsmtip2V;
-        Wed, 18 Mar 2020 03:59:34 +0000 (GMT)
-Subject: Re: [PATCH 05/17] devfreq: devfreq.h: get rid of some doc warnings
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        linux-pm@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <430fe26d-8fcb-3f71-91d1-46ccbd8146ef@samsung.com>
-Date:   Wed, 18 Mar 2020 13:08:23 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
-        Thunderbird/59.0
+        id S1726994AbgCRFo2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Mar 2020 01:44:28 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:32951 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726550AbgCRFo2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 01:44:28 -0400
+Received: by mail-pf1-f193.google.com with SMTP id n7so13299546pfn.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2020 22:44:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qXY2yMRGwktYokk3pPFwmmTxw2SIkRhzk6Ye/AepEnM=;
+        b=auMuif27BF2tfyRqSNTt4zSVURfB7x5ZyhtvFy0jfEjowqXES6bMXaYbo9Rcjq9sOO
+         NkXoBSCwuP0ZDQF4xMbnZXE2eiWzYeLKBPHB0T+1ep2X1MfnosDT4wsHaJ9PVplBUgph
+         5joOAvaRgGFjqKtAtGLxOd6crzo+aegDG7PVY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qXY2yMRGwktYokk3pPFwmmTxw2SIkRhzk6Ye/AepEnM=;
+        b=FgIxAm9JGl9gteed22ys0aa1pCYc5qSOF8vkrt8yDHpDJCpAX9US+h3XB7Tk1PI1sO
+         RiPn5C5pGhbLuCKdAQsKT7S3Awjf/Nj+XNmX50eTHSyqUnrXT/2GAhpbFrr+7NzhPmey
+         KNp+WIY2IqJZujChf0V0sYURhGLLkggvWjTWz4OkI2tDgR8sctxj7IDpAG0ZbV4S6hSb
+         UIJVt/av+Zt04lX2ufvlBGT4CTh1OYvZ2XJEy8tn7ZhHiJA5IOReXbwneU/mbo3J9rAd
+         lJG0AA2g1iHT0BX3BKcnlOFJYpA1WDoS/N748PsooCunj4Dg36oopx/rM5XiMlke04jF
+         jmHQ==
+X-Gm-Message-State: ANhLgQ3KF5QjUyPB9TKoTSGL8tV5WyzVJpeuU4Ak59qF1BrRqHOV6a7m
+        m31hmwzK3sfT3f3k5lqHP0wOuA==
+X-Google-Smtp-Source: ADFU+vsYBFmDXYadiM2XWYH/z8MFjrQ3chr28RyzZ4TN+iHPIz4KZzaFkI1eus8KAFNzwyVqrvROsA==
+X-Received: by 2002:a65:458e:: with SMTP id o14mr2875894pgq.323.1584510266817;
+        Tue, 17 Mar 2020 22:44:26 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id e11sm5005003pfj.95.2020.03.17.22.44.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2020 22:44:26 -0700 (PDT)
+From:   Stephen Boyd <swboyd@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] docs: locking: Add 'need' to hardirq section
+Date:   Tue, 17 Mar 2020 22:44:25 -0700
+Message-Id: <20200318054425.111928-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
 MIME-Version: 1.0
-In-Reply-To: <c013b308c08b47d1208c22362ec1034ac148c1b6.1584456635.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+Xm3uyktfy7Tk3+U3ugPJW23Ob091CIpSwOpKAjSXdxt2p7u
-        btGDwKR09vAt5FKzlqYGPczKpFqYFJK9MCnMUNHeZZkVZZFtu4v873PO+R7O+f5+R0rIT5Jh
-        0hyjlbMYWT1FBoiu3I6MiT5Tk5uhuHaJYEZvFSLmfv4HCXOy4LSI6e2oIZmJo12IGT7eh5jn
-        +5vIFZKU1pYiMsVZXCFOKW5rQSkTrXPTRVt1y7M5VsNZwjljlkmTY9QmUKkbM1dlquIUdDS9
-        hImnwo2sgUugktPSo1fn6N0bUOE7Wb3NnUpneZ5alLjcYrJZufBsE29NoDizRm9eYo7hWQNv
-        M2pjskyGpbRCsVjlFqp12d32SYm5MWjXz0vHUB4qmXkI+UsBx8LnoXt+HpbjdgSvhhceQgFu
-        /oJgYmxCLATfEdT1NxP/Ohxd+Ugo3EDgun1OJASfEDx/c5j0qGbhVCh9NeTlYKyD8frLpEdE
-        4DYEv4veI0+BxFHgevPMKwrEEdD3Y8Sbl+FEGKic9LIIL4DBZ3VezWy8GbqvHPBpgqC7elTk
-        YX+shrcNT7x5AodC/+gJP4HnwdWPNYRnMODXJLx/VO4neEiGb4WPfTwL3t1tkwgcBm9LCny8
-        F5q7u0ih2Y6gzfVILBSU4GqocDdL3RMi4XzHIiEdAdd+1fqWmAlj346IPRLAMrAXyAXJfOgd
-        euEbOwechUVkKaIc0+w4pllwTLPg+D+sHolaUAhn5g1ajqfNsdO/uxV5zzOKaUfXH6R1IixF
-        1AyZ9II5Qy5md/K7DZ0IpAQVLHPmmjLkMg27ew9nMWVabHqO70Qq92uXEWGzs0zuYzdaM2nV
-        YqVSycTScSqapkJlVU/1GXKsZa2cjuPMnOVfn5/UPywPnVpTW77j3cLYwUhnWe+2quG5UesO
-        OoLXVkOfHStt7f0Dq0JOTWklPSH3S59c7yB7voc+dN48unbEftF6tVH9Yd/KpDu6urJx9dTZ
-        yi2a4ZJBV89SdcgyFOhoaogbDMg/PxKfRo6b0hXrU1MTNvzxr96U9HIs6W78V2o7WyZ+2RxA
-        ifhslo4iLDz7FzrWphu0AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeLIzCtJLcpLzFFi42LZdlhJXnfZnMI4g8bD4hZPDrQzWpxtesNu
-        sbBtCYvF5V1z2Cw+9x5htHg4+yqjxe3GFWwO7B6bVnWyeSzum8zq0bdlFaPH501yASxRXDYp
-        qTmZZalF+nYJXBknO36xFywTrPi5eQZjA2M/XxcjJ4eEgInErCNNjCC2kMBuRol/HdkQcUmJ
-        aRePMncxcgDZwhKHDxd3MXIBlbxllOi9eo0FpEZYwFtiwrMHbCC2iEC2xKJr08DizAJbGCUa
-        dyZCNDxjlLh35Bs7SIJNQEti/4sbYA38AooSV388BlvMK2AncWfKLzCbRUBV4v6NeWA1ogJh
-        EjuXPGaCqBGUODnzCdgCToEEiZdLrzBCLFOX+DPvEjOELS5x68l8JghbXmL72znMExiFZyFp
-        n4WkZRaSlllIWhYwsqxilEwtKM5Nzy02LDDMSy3XK07MLS7NS9dLzs/dxAiOIS3NHYyXl8Qf
-        YhTgYFTi4U3YVBAnxJpYVlyZe4hRgoNZSYR3cWF+nBBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHe
-        p3nHIoUE0hNLUrNTUwtSi2CyTBycUg2MLOJTXzov91r0aXbKxNCjdm/K9ztcKP73/k9r0knN
-        67K3gk/6nUien3pGNlrT/3b1pXn9WxaWfw29XXzyi+IvFx0RXufp1w4Xzu5ZHWf7oGqStVtf
-        so6ww13N/ICIl5eMJ2xaediopK+gvux+kXX9XBduDS1ep9J/Tgsln/T1Op13O+U8R+66Ektx
-        RqKhFnNRcSIAUqOZG50CAAA=
-X-CMS-MailID: 20200318035934epcas1p2acdad1d395c836b1373d54c24946cd35
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200317145506epcas1p4fe623186134d80a24d32b9f91fb24804
-References: <cover.1584456635.git.mchehab+huawei@kernel.org>
-        <CGME20200317145506epcas1p4fe623186134d80a24d32b9f91fb24804@epcas1p4.samsung.com>
-        <c013b308c08b47d1208c22362ec1034ac148c1b6.1584456635.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/17/20 11:54 PM, Mauro Carvalho Chehab wrote:
-> Mark "void *data" as literal, in order to avoid those doc warnings:
-> 
-> 	./include/linux/devfreq.h:156: WARNING: Inline emphasis start-string without end-string.
-> 	./include/linux/devfreq.h:259: WARNING: Inline emphasis start-string without end-string.
-> 	./include/linux/devfreq.h:279: WARNING: Inline emphasis start-string without end-string.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  include/linux/devfreq.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/devfreq.h b/include/linux/devfreq.h
-> index 82630fafacde..57e871a559a9 100644
-> --- a/include/linux/devfreq.h
-> +++ b/include/linux/devfreq.h
-> @@ -158,7 +158,7 @@ struct devfreq_stats {
->   * functions except for the context of callbacks defined in struct
->   * devfreq_governor, the governor should protect its access with the
->   * struct mutex lock in struct devfreq. A governor may use this mutex
-> - * to protect its own private data in void *data as well.
-> + * to protect its own private data in ``void *data`` as well.
->   */
->  struct devfreq {
->  	struct list_head node;
-> @@ -256,7 +256,7 @@ struct devfreq *devfreq_get_devfreq_by_phandle(struct device *dev, int index);
->  
->  #if IS_ENABLED(CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND)
->  /**
-> - * struct devfreq_simple_ondemand_data - void *data fed to struct devfreq
-> + * struct devfreq_simple_ondemand_data - ``void *data`` fed to struct devfreq
->   *	and devfreq_add_device
->   * @upthreshold:	If the load is over this value, the frequency jumps.
->   *			Specify 0 to use the default. Valid value = 0 to 100.
-> @@ -276,7 +276,7 @@ struct devfreq_simple_ondemand_data {
->  
->  #if IS_ENABLED(CONFIG_DEVFREQ_GOV_PASSIVE)
->  /**
-> - * struct devfreq_passive_data - void *data fed to struct devfreq
-> + * struct devfreq_passive_data - ``void *data`` fed to struct devfreq
->   *	and devfreq_add_device
->   * @parent:	the devfreq instance of parent device.
->   * @get_target_freq:	Optional callback, Returns desired operating frequency
-> 
+Add the missing word to make this sentence read properly.
 
-Applied it. Thanks.
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
+ Documentation/kernel-hacking/locking.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index a8518ac0d31d..9850c1e52607 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -263,7 +263,7 @@ by a hardware interrupt on another CPU. This is where
+ interrupts on that cpu, then grab the lock.
+ :c:func:`spin_unlock_irq()` does the reverse.
+ 
+-The irq handler does not to use :c:func:`spin_lock_irq()`, because
++The irq handler does not need to use :c:func:`spin_lock_irq()`, because
+ the softirq cannot run while the irq handler is running: it can use
+ :c:func:`spin_lock()`, which is slightly faster. The only exception
+ would be if a different hardware irq handler uses the same lock:
+
+base-commit: fb33c6510d5595144d585aa194d377cf74d31911
 -- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+Sent by a computer, using git, on the internet
+
