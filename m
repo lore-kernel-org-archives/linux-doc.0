@@ -2,108 +2,119 @@ Return-Path: <SRS0=afVm=5D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3C28C5ACD7
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 09:15:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24CA4C5ACD7
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 10:37:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9B3A920770
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 09:15:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="QJqSNg8P"
+	by mail.kernel.org (Postfix) with ESMTP id 0402A2076C
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 10:37:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727355AbgCRJPa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Mar 2020 05:15:30 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:44725 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbgCRJPa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 05:15:30 -0400
-Received: by mail-qk1-f196.google.com with SMTP id j4so20892550qkc.11
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 02:15:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8+ePRCjp2COuxHOwe4fehGApC+vyauxE5AKc9JXm2Bc=;
-        b=QJqSNg8Psy4iKtjCBvszKB2g2XSpz9hUQBtOUZRdQsBtrZF/T5Vkx30wbzKCtfTnMv
-         HX9EgYZNdRvnkRyxansVwKdnvaIVQ69xRf5SHo6o9rr8nB2nq/r0TtpsaPkFnszstZD+
-         YI5dw0bxrtOBN7cMH4nKiW1GrnGWMEPu4wB/rZ4cZJPGt/BiLvg97OBHd4gNwvf5e1HP
-         LCI3txsnGbaQBmw5BTW4NaroF79V/WoRY6qzU8xMXhdNjuvqs9KjvjHNTRHJkNnob80I
-         AXleCzpdbpi8fWr5pO4IBOFBFRmmtiG+p0HlCKaqs2Nm2RVxsCbOQedeixq8BvW7fsFe
-         TY7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8+ePRCjp2COuxHOwe4fehGApC+vyauxE5AKc9JXm2Bc=;
-        b=clOjeAPCFMAUucJ3Q6oZ9GPXtHhour3fJZqymcREUkHoRhNxVOWpTIUzxmIRWZULl2
-         upmaHb1o9k+cd/EY18x2MIKJa8aSgYj+2yoQhQ/3LWvWXyYYYe/L3hbxT3g1s5vY5ISy
-         0mC0lqZYloRpaVDwWfaFuTJR5b3u5Ov2yo6aSA7fBsHtySNmfg8NDrPwMJUObPn6jXbF
-         DGLKXIqmXCGlJ2odSKCdAYeUHBTyT5gorOnFti2yqpwXTnBwyg/dPZsq0z+kdsa1bKv2
-         xkLjeb8mzpPZTPxHAO4myiXCBEFhHvuQZJLNHxwjdTLAwTsy/yEAZnrKLKe42P2wuDVY
-         MtQw==
-X-Gm-Message-State: ANhLgQ15gSetwRKTcRelL/bHOGbeAWtC/bUi7482z055Wuq23zkH14Gb
-        5r1CdZf4FRZ/yDlO+RmdKasYkX/7FpRNLzdKbpy85Q==
-X-Google-Smtp-Source: ADFU+vucljXV9cDR4psrQ9kMHd8pH3XRVFw7ths8JrGC+4S1GOKCYJkhhHl0AMAeLANHqBbRNLg2ovvvEI52ejnn8IQ=
-X-Received: by 2002:a37:3c9:: with SMTP id 192mr3031931qkd.330.1584522927690;
- Wed, 18 Mar 2020 02:15:27 -0700 (PDT)
+        id S1727630AbgCRKhB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Mar 2020 06:37:01 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:49291 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727177AbgCRKhB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 06:37:01 -0400
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1jEW4F-0007jf-05; Wed, 18 Mar 2020 11:36:55 +0100
+Received: from [IPv6:2a03:f580:87bc:d400:124:7ee3:e89c:2c00] (unknown [IPv6:2a03:f580:87bc:d400:124:7ee3:e89c:2c00])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits)
+         client-signature RSA-PSS (4096 bits))
+        (Client CN "mkl@blackshift.org", Issuer "StartCom Class 1 Client CA" (not verified))
+        (Authenticated sender: mkl@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id EDA824D0528;
+        Wed, 18 Mar 2020 10:36:51 +0000 (UTC)
+Subject: Re: [PATCH] docs: dt: Fix m_can.txt reference in tcan4x5x.txt
+To:     Dan Murphy <dmurphy@ti.com>, linux-doc@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-can@vger.kernel.org, robh+dt@kernel.org, davem@davemloft.net,
+        wg@grandegger.com, corbet@lwn.net, linux-kernel@vger.kernel.org
+References: <20200317161900.14380-1-dmurphy@ti.com>
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mkl@pengutronix.de; prefer-encrypt=mutual; keydata=
+ mQINBFFVq30BEACtnSvtXHoeHJxG6nRULcvlkW6RuNwHKmrqoksispp43X8+nwqIFYgb8UaX
+ zu8T6kZP2wEIpM9RjEL3jdBjZNCsjSS6x1qzpc2+2ivjdiJsqeaagIgvy2JWy7vUa4/PyGfx
+ QyUeXOxdj59DvLwAx8I6hOgeHx2X/ntKAMUxwawYfPZpP3gwTNKc27dJWSomOLgp+gbmOmgc
+ 6U5KwhAxPTEb3CsT5RicsC+uQQFumdl5I6XS+pbeXZndXwnj5t84M+HEj7RN6bUfV2WZO/AB
+ Xt5+qFkC/AVUcj/dcHvZwQJlGeZxoi4veCoOT2MYqfR0ax1MmN+LVRvKm29oSyD4Ts/97cbs
+ XsZDRxnEG3z/7Winiv0ZanclA7v7CQwrzsbpCv+oj+zokGuKasofzKdpywkjAfSE1zTyF+8K
+ nxBAmzwEqeQ3iKqBc3AcCseqSPX53mPqmwvNVS2GqBpnOfY7Mxr1AEmxdEcRYbhG6Xdn+ACq
+ Dq0Db3A++3PhMSaOu125uIAIwMXRJIzCXYSqXo8NIeo9tobk0C/9w3fUfMTrBDtSviLHqlp8
+ eQEP8+TDSmRP/CwmFHv36jd+XGmBHzW5I7qw0OORRwNFYBeEuiOIgxAfjjbLGHh9SRwEqXAL
+ kw+WVTwh0MN1k7I9/CDVlGvc3yIKS0sA+wudYiselXzgLuP5cQARAQABtCZNYXJjIEtsZWlu
+ ZS1CdWRkZSA8bWtsQHBlbmd1dHJvbml4LmRlPokCVAQTAQoAPgIbAwIeAQIXgAULCQgHAwUV
+ CgkICwUWAgMBABYhBMFAC6CzmJ5vvH1bXCte4hHFiupUBQJcUsSbBQkM366zAAoJECte4hHF
+ iupUgkAP/2RdxKPZ3GMqag33jKwKAbn/fRqAFWqUH9TCsRH3h6+/uEPnZdzhkL4a9p/6OeJn
+ Z6NXqgsyRAOTZsSFcwlfxLNHVxBWm8pMwrBecdt4lzrjSt/3ws2GqxPsmza1Gs61lEdYvLST
+ Ix2vPbB4FAfE0kizKAjRZzlwOyuHOr2ilujDsKTpFtd8lV1nBNNn6HBIBR5ShvJnwyUdzuby
+ tOsSt7qJEvF1x3y49bHCy3uy+MmYuoEyG6zo9udUzhVsKe3hHYC2kfB16ZOBjFC3lH2U5An+
+ yQYIIPZrSWXUeKjeMaKGvbg6W9Oi4XEtrwpzUGhbewxCZZCIrzAH2hz0dUhacxB201Y/faY6
+ BdTS75SPs+zjTYo8yE9Y9eG7x/lB60nQjJiZVNvZ88QDfVuLl/heuIq+fyNajBbqbtBT5CWf
+ mOP4Dh4xjm3Vwlz8imWW/drEVJZJrPYqv0HdPbY8jVMpqoe5jDloyVn3prfLdXSbKPexlJaW
+ 5tnPd4lj8rqOFShRnLFCibpeHWIumqrIqIkiRA9kFW3XMgtU6JkIrQzhJb6Tc6mZg2wuYW0d
+ Wo2qvdziMgPkMFiWJpsxM9xPk9BBVwR+uojNq5LzdCsXQ2seG0dhaOTaaIDWVS8U/V8Nqjrl
+ 6bGG2quo5YzJuXKjtKjZ4R6k762pHJ3tnzI/jnlc1sXz
+Message-ID: <8a450951-a28d-dabf-6d52-2c827c5b749e@pengutronix.de>
+Date:   Wed, 18 Mar 2020 11:36:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <cover.1584456635.git.mchehab+huawei@kernel.org> <51197e3568f073e22c280f0584bfa20b44436708.1584456635.git.mchehab+huawei@kernel.org>
-In-Reply-To: <51197e3568f073e22c280f0584bfa20b44436708.1584456635.git.mchehab+huawei@kernel.org>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 18 Mar 2020 10:15:16 +0100
-Message-ID: <CAMpxmJXW51AhqL8EMch6myth9fLQ2XnO6nC8NztJL3=ZiH0kdA@mail.gmail.com>
-Subject: Re: [PATCH 12/17] gpio: gpiolib.c: fix a doc warning
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200317161900.14380-1-dmurphy@ti.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-wt., 17 mar 2020 o 15:54 Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> napisa=C5=82(a):
->
-> Use a different markup for the ERR_PTR, as %FOO doesn't work
-> if there are parenthesis. So, use, instead:
->
->         ``ERR_PTR(-EINVAL)``
->
-> This fixes the following warning:
->
->         ./drivers/gpio/gpiolib.c:139: WARNING: Inline literal start-strin=
-g without end-string.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/gpio/gpiolib.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> index f31b1d46599e..74d8973025da 100644
-> --- a/drivers/gpio/gpiolib.c
-> +++ b/drivers/gpio/gpiolib.c
-> @@ -136,7 +136,7 @@ EXPORT_SYMBOL_GPL(gpio_to_desc);
->   * @hwnum: hardware number of the GPIO for this chip
->   *
->   * Returns:
-> - * A pointer to the GPIO descriptor or %ERR_PTR(-EINVAL) if no GPIO exis=
-ts
-> + * A pointer to the GPIO descriptor or ``ERR_PTR(-EINVAL)`` if no GPIO e=
-xists
->   * in the given chip for the specified hardware number.
->   */
->  struct gpio_desc *gpiochip_get_desc(struct gpio_chip *chip,
-> --
-> 2.24.1
->
+On 3/17/20 5:19 PM, Dan Murphy wrote:
+> Fix the m_can.txt reference to point to the bosch,m_can.yaml.
+> 
+> Fixes: 824674b59f72 ("dt-bindings: net: can: Convert M_CAN to json-schema")
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
 
-Reviewed-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Mauro Carvalho Chehab has already send a patch. See:
+https://lkml.org/lkml/2020/3/17/843
+
+Feel free to ack that patch.
+
+Marc
+
+> ---
+>  Documentation/devicetree/bindings/net/can/tcan4x5x.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/can/tcan4x5x.txt b/Documentation/devicetree/bindings/net/can/tcan4x5x.txt
+> index 6bdcc3f84bd3..3613c2c8f75d 100644
+> --- a/Documentation/devicetree/bindings/net/can/tcan4x5x.txt
+> +++ b/Documentation/devicetree/bindings/net/can/tcan4x5x.txt
+> @@ -14,7 +14,7 @@ Required properties:
+>                      the interrupt.
+>  	- interrupts: interrupt specification for data-ready.
+>  
+> -See Documentation/devicetree/bindings/net/can/m_can.txt for additional
+> +See Documentation/devicetree/bindings/net/can/bosch,m_can.yaml for additional
+>  required property details.
+>  
+>  Optional properties:
+> 
+
+
+-- 
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
