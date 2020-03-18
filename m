@@ -7,112 +7,156 @@ X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B094C10DCE
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 19:11:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D37AC10DCE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 19:53:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3487D20768
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 19:11:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D506F2077E
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Mar 2020 19:53:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lkxzxSmP"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bzGHtNA2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726930AbgCRTLU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Mar 2020 15:11:20 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:46130 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726911AbgCRTLU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 15:11:20 -0400
-Received: by mail-ot1-f68.google.com with SMTP id 111so26682189oth.13
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 12:11:20 -0700 (PDT)
+        id S1726733AbgCRTxB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Mar 2020 15:53:01 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:39651 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726704AbgCRTxB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 15:53:01 -0400
+Received: by mail-oi1-f195.google.com with SMTP id d63so107606oig.6
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 12:53:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YEcNvKoxRLNncmofEeVv4yeDWdrbk4dUuTY3/HM5SJg=;
-        b=lkxzxSmPoiFVrjW+D44Nlzoy7Y9BTyZ6PQpCllGw154b100MP5WuWaOD8/idtKRdN1
-         eW54dVH6b4J85Yh7iKi6bJJfbSelvRDFyXBx3wyvx0oFFus1AOlmctj2Z5JvbyIEHHUZ
-         /Jr09tDhinfXqXBq2oebzgol6mVeYcC+UyXyTHDzlp5RJD7V8dU38+VbiMAZuPGG6YF9
-         hvBVYwDFqmUd6ydHL8N8g88fq/GSAzaTFW8j6JuF/V3UyExsBxHJS4eMrACrNI4o5nLl
-         sC+7J1xx3mn9ikCZuhxsvKAh6qOSY243TaGZYevQ1VsO2EVhb25BOP3Gwdm7RCayZFKz
-         QIhA==
+        bh=/O7ydZcGkEnjjR0DKfEZl8dzF7U8chbFAqM/QMwcPsg=;
+        b=bzGHtNA2tGO9KKY0VBVcKXGej5Hl6Fvi3iAb97Ei+QJuQs5DgXJIGoSSh33cEvrT89
+         jDfI2j9hBYEP2DFVT2bu8Ma/xTvnr1TvkkmDWuNjWz0QQcQcYcDGPxKgATGCybrDKkcO
+         yeLO/j/P4tnAVMAVXZ8z35Ifth6PtGFOQtt8eqLen2JxNtuVI0Q1V4YAATUGlsKML0xC
+         beVvRLkOWokeQiA0NWCyzDue30siSFbMShz0g1EgEG/+rBUh/GenyejbbQzUxIh+H6T0
+         SLOdsi/iKplRCqLTp48HO8JJ4hedHC91oIKM3XpsH5FHgGoj/+62KkhKLTZeCOM1HlOq
+         pKhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YEcNvKoxRLNncmofEeVv4yeDWdrbk4dUuTY3/HM5SJg=;
-        b=YQrDk+9wohVK/5uyd1BMoJgim4twCTJ18hVbFwD7nqQtuAFAvXqmdJoe2l42r63dO7
-         fiD+t+rifRCIBJe3u/AAUIaVT7OerlF/I+tUp355rjrhhrUy/mHvudz8JtAL6b9QISBP
-         w2+jk2LBA8XhBh1rXNNZrE5+MPZI2NMkAGTlHxYI7LeO3pU5OPpa32L3YEP5oVeVUyQ0
-         tvGLNB4DTb8Ffybl46Z0UM9kgp0ZL8uYt6OaeVkIsM2fKrtwX/grDrccFMiv0H3HJyI3
-         ckBS/M2gLKVv0QRQZnLDWc+YjmRl4QA1DtdLA+q9qJxMD+Kj8EE+gY8da8RivI0ggIuw
-         ACAQ==
-X-Gm-Message-State: ANhLgQ2Ba0KTmQUOxRwV0ffd8v835eN8/i0oo44tbp3gXOssvPjeAtmq
-        6+HeQPYPgAtM13sTC5R+DFmijBmUS3GYqbldx2KsgA==
-X-Google-Smtp-Source: ADFU+vuQqQyKYY3GzReouxvk6jJyqQUm+Irep1pzseE+uxctbZi52pzI8VMFuxyNWh599gkbGFQoVDq1JwgQY4XyDz8=
-X-Received: by 2002:a9d:6186:: with SMTP id g6mr5088006otk.236.1584558679434;
- Wed, 18 Mar 2020 12:11:19 -0700 (PDT)
+        bh=/O7ydZcGkEnjjR0DKfEZl8dzF7U8chbFAqM/QMwcPsg=;
+        b=B0/SqnfZdTsQIeQOLTn5OPEt/uH+M1YKc75vwpgqL+tVpEIzJdVwkcF7xSKIOiqsaP
+         VITR3BA4vYGt2XqbpRAN1xs9Y/MYMAX5RAfM7Y8EqpT1ytzImJUXSfYzchGldZrGWnNN
+         /GcGvp7rrP5dDGVeyjLSL+p7IqkiIo3IA7BukPDqVkKQ5LMFbxvQQnZmqdgNcs2o7Wsq
+         S0YENEzB9ucTCEEZ1POGXaE7KNpKJECB9Q5Tk9PQph0LK3TN0MXVb6arr9etaZxsg9rB
+         y13ulFK16X5vk7Qcl2A4e1tX09/DIFrMC7C5prCbiugstjsPzLq7490MFsmu923mWnVR
+         uHlQ==
+X-Gm-Message-State: ANhLgQ1gUL7vZ+7oNJtMU+ETGP/RMHizleYJS6OxhVIxGl3Q2dUI8OYa
+        eCocSSYCkYJS7o7Wp5gcSuYSXZIIu2va1uveAbG6fQ==
+X-Google-Smtp-Source: ADFU+vuOPpGMHPfZ/DDnCyvqaCHk4JwFerE7ZzmLuNMC4CG6jDBlIsZV59kQghivA5FHpMPqabGb6KMfq0nTMT39gMc=
+X-Received: by 2002:aca:af93:: with SMTP id y141mr4368099oie.144.1584561180301;
+ Wed, 18 Mar 2020 12:53:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200317065452.236670-1-saravanak@google.com>
-In-Reply-To: <20200317065452.236670-1-saravanak@google.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 18 Mar 2020 12:10:43 -0700
-Message-ID: <CAGETcx-uZ3YJHCYqFm3so8-woTvL3SSDY2deNonthTetcE+mXQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/6] Fix device links functional breakage in 4.19.99
-To:     stable <stable@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Android Kernel Team <kernel-team@android.com>
+References: <20200312100759.20502-1-sjpark@amazon.com> <20200312104345.10032-1-sjpark@amazon.com>
+In-Reply-To: <20200312104345.10032-1-sjpark@amazon.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Wed, 18 Mar 2020 12:52:48 -0700
+Message-ID: <CALvZod7JoOKZRGb6nnmA4ymsZCXdHetS_CPFbFeC1Rqmx4yYHw@mail.gmail.com>
+Subject: Re: Re: Re: [PATCH v6 00/14] Introduce Data Access MONitor (DAMON)
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        SeongJae Park <sjpark@amazon.de>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        brendan.d.gregg@gmail.com,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>, dwmw@amazon.com,
+        jolsa@redhat.com, "Kirill A. Shutemov" <kirill@shutemov.name>,
+        mark.rutland@arm.com, Mel Gorman <mgorman@suse.de>,
+        Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
+        peterz@infradead.org, Randy Dunlap <rdunlap@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, shuah@kernel.org,
+        sj38.park@gmail.com, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 16, 2020 at 11:54 PM Saravana Kannan <saravanak@google.com> wrote:
+On Thu, Mar 12, 2020 at 3:44 AM SeongJae Park <sjpark@amazon.com> wrote:
 >
-> As mentioned in an earlier email thread [1], 4.19.99 broke the ability
-> to create stateful and stateless device links between the same set of
-> devices when it pulled in a valid bug fix [2]. While the fix was valid,
-> it removes a functionality that was present before the bug fix.
+> On Thu, 12 Mar 2020 11:07:59 +0100 SeongJae Park <sjpark@amazon.com> wrote:
 >
-> This patch series attempts to fix that by pulling in more patches from
-> upstream. I've just done compilation testing so far. But wanted to send
-> out a v1 to see if this patch list was acceptable before I fixed up the
-> commit text format to match what's needed for stable mailing list.
+> > On Tue, 10 Mar 2020 10:21:34 -0700 Shakeel Butt <shakeelb@google.com> wrote:
+> >
+> > > On Mon, Feb 24, 2020 at 4:31 AM SeongJae Park <sjpark@amazon.com> wrote:
+> > > >
+> > > > From: SeongJae Park <sjpark@amazon.de>
+> > > >
+> > > > Introduction
+> > > > ============
+> > > >
+> [...]
+> > >
+> > > I do want to question the actual motivation of the design followed by this work.
+> > >
+> > > With the already present Page Idle Tracking feature in the kernel, I
+> > > can envision that the region sampling and adaptive region adjustments
+> > > can be done in the user space. Due to sampling, the additional
+> > > overhead will be very small and configurable.
+> > >
+> > > Additionally the proposed mechanism has inherent assumption of the
+> > > presence of spatial locality (for virtual memory) in the monitored
+> > > processes which is very workload dependent.
+> > >
+> > > Given that the the same mechanism can be implemented in the user space
+> > > within tolerable overhead and is workload dependent, why it should be
+> > > done in the kernel? What exactly is the advantage of implementing this
+> > > in kernel?
+> >
+> > First of all, DAMON is not for only user space processes, but also for kernel
+> > space core mechanisms.  Many of the core mechanisms will be able to use DAMON
+> > for access pattern based optimizations, with light overhead and reasonable
+> > accuracy.
+
+Which kernel space core mechanisms? I can see memory reclaim, do you
+envision some other component as well.
+
+Let's discuss how this can interact with memory reclaim and we can see
+if there is any benefit to do this in kernel.
+
+> >
+> > Implementing DAMON in user space is of course possible, but it will be
+> > inefficient.  Using it from kernel space would make no sense, and it would
+> > incur unnecessarily frequent kernel-user context switches, which is very
+> > expensive nowadays.
 >
-> Some of the patches are new functionality, but for a first pass, it was
-> easier to pull these in than try and fix the conflicts. If these patches
-> are okay to pull into stable, then all I need to do is fix the commit
-> text.
+> Forgot mentioning about the spatial locality.  Yes, it is workload dependant,
+> but still pervasive in many case.  Also, many core mechanisms in kernel such as
+> read-ahead or LRU are already using some similar assumptions.
+>
 
-I took a closer look at all the patches. Everyone of them is a bug fix
-except Patch 4/6. But Patch 4/6 is a fairly minimal change and I think
-it's easier/cleaner to just pick it up too instead of trying to
-resolve merge conflicts in the stable branch.
+Not sure about the LRU but yes read-ahead in several places does
+assume spatial locality. However most of those are configurable and
+the userspace can enable/disable the read-ahead based on the workload.
 
-1/6 - Fixes what appears to be a memory leak bug in upstream.
-2/6 - Fixes error in initial state of the device link if it's created
-under some circumstances.
-3/6 - Fixes a ref count bug in upstream. Looks like it can lead to memory leaks?
-4/6 - Adds a minor feature to kick off a probe attempt of a consumer
-5/6 - Fixes the break in functionality that happened in 4.19.99
-6/6 - Fixes bug in 5/6 (upstream bug)
+>
+> If it is so problematic, you could set the maximum number of regions to the
+> number of pages in the system so that each region monitors each page.
+>
 
-Greg
+How will this work in the process context? Number of regions equal to
+the number of mapped pages?
 
-Do these patches look okay for you to pull into 4.19 stable? If so,
-please let me know if you need me to send v2 with commit fix up.
+Basically I am trying to envision the comparison of physical memory
+based monitoring (using idle page tracking) vs pid+VA based
+monitoring.
 
-The only fix up needed is to these patches at this point is changing
-"(cherry picked from commit ...)" with "[ Upstream commit ... ]". The
-SHAs themselves are the correct SHAs from upstream.
+Anyways I am not against your proposal. I am trying to see how to make
+it more general to be applicable to more use-cases and one such
+use-case which I am interested in is monitoring all the user pages on
+the system for proactive reclaim purpose.
 
-Thanks,
-Saravana
+Shakeel
