@@ -2,245 +2,120 @@ Return-Path: <SRS0=tpYU=5E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34856C4332B
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 21:18:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C4DC4332B
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 23:01:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0CAC920786
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 21:18:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6226F20658
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 23:01:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Tf78afLj"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cZNIZJdo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725768AbgCSVSF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Mar 2020 17:18:05 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:40725 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726619AbgCSVSF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Mar 2020 17:18:05 -0400
-Received: by mail-oi1-f195.google.com with SMTP id y71so4300946oia.7
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2020 14:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4C+0nKFxrFROQId9OciywMK+cltQuGW8rSImB/XpE18=;
-        b=Tf78afLj/m/bi1jEn2dedtTK5zop4owAQzcX3wyo5V2S+9CuMcHQb2WI6FP6o3Jb2Z
-         9kG2/43U+Ux4h8FtNpjk+dvWJOkqXBWhJc6u+oszorqaLHlefR2HxruTLUgbDo9vtvs9
-         VsZfgRLTaDof9ve4kEgPIrUa3y1cMTBN6hZtnaLs1AUr6TNJz6UU0YHepkEtgP5XiUBo
-         yKfGqXYLL9STToaIsbEUGRI1l+5P/o1MiTU9WHK8HQ7e2atdfkQmnMU4HyHhfDTty3Hg
-         tRea4auOXg+pxAvVuGDWpY9By8Z3tZloSjkVxqfNaY2jmWk33NoRBXSoywuJZbuc6Elk
-         IvQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4C+0nKFxrFROQId9OciywMK+cltQuGW8rSImB/XpE18=;
-        b=l+T0KTFTjdaTeofE7BJ4dqockxjSCsfgGfbnPsHZwLNO/ApBJWAkNX5Bc3/96+6T12
-         Dl90HW51egpU/f6qC9ceop2qZn3h9x/1VWcyhT2ECTqxGDTNAAyq3qU+k45F1TFspPvw
-         S/xre49Tef076U3WqOeUrIywitmvLX5AaCcUeSVUzClmIDew/i5AfD1PF+qyuIukuVYK
-         /U0D6QGQOKnESrQaFjAWq9VjlG7difHrOYycua0JB6Eua3Nj7EY+PWNyY1y7bzu9bjuw
-         d1+4a5cz3EDSC1l28PSJg/kl4kyTSpOq9WDzZyc7NEqoscgX3zVRLbgTjOBqr3wFNHbK
-         rssQ==
-X-Gm-Message-State: ANhLgQ1THHLXM1GGczTUOd5Jy5RaacDGe+QvxBq/Emf1PnvgdoBF5j2y
-        QrNwnA8I06UHAi+asd5EVu+z1u3npfG4XT5WA4oIsQ==
-X-Google-Smtp-Source: ADFU+vvHueiVN2vm54kmRzDAr+XPiDXdCxsSO49VaaCHt9qN865al8ErN5y3kk+48T9ySDC+IbgANXTlwgqIxqx4psI=
-X-Received: by 2002:aca:bac1:: with SMTP id k184mr4023086oif.157.1584652683852;
- Thu, 19 Mar 2020 14:18:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200224160215.4136-1-mic@digikod.net> <CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com>
- <873d7419-bdd9-8a52-0a9b-dddbe31df4f9@digikod.net> <CAG48ez0=0W5Ok-8nASqZrZ28JboXRRi3gDxV5u6mdcOtzwuRVA@mail.gmail.com>
- <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net> <CAG48ez16yT+zbK1WPxr2TnxrifW5c2DnpFLbWRRLUT_WpuFNmw@mail.gmail.com>
- <e8530226-f295-a897-1132-7e6970dad49f@digikod.net> <CAG48ez1K-7Lq2Ep_p9fOvXQ-fwj_8dA1CFd5SVDbT4ccqejDzA@mail.gmail.com>
- <2d48e3e3-e7b2-ec33-91c5-be6a308a12d4@digikod.net>
-In-Reply-To: <2d48e3e3-e7b2-ec33-91c5-be6a308a12d4@digikod.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 19 Mar 2020 22:17:37 +0100
-Message-ID: <CAG48ez18LrDVLdp3agTwHNYxOBJyEb5PZ1dkwbNjpPVQoTsLcA@mail.gmail.com>
-Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1727442AbgCSXBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Mar 2020 19:01:22 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:36534 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727237AbgCSXBW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Mar 2020 19:01:22 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02JMw39N111982;
+        Thu, 19 Mar 2020 23:01:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=wtKkOMzpj5yF3znT+VYDwakqpbRDOd9bsKsjl4H7//g=;
+ b=cZNIZJdoCYwNQ2jj+oiAbDILtY7zR06HmPoW58zrquNUj3stxD87WskEBrfksB6LheRG
+ ui4CnzGsqgNkYQLA1ZFB7v9/HqgdyvvhWkS6OBKZhEq1bL2oUfQc8Y3b9iqP2nRa/5y1
+ izkfVagy8ltlb5M+PP3ZHX6D0Fjv+jcuIWkpOAFodZTYbVgn3HdlMw0ARK5sDcOSyu4g
+ 0Dy8C6baM1H7Vsavb9ll40ns7wLF517kiO6cFKFsjw6zPadKTzCQp6TormidBSo8zFSW
+ EaBdiCrSTv9WJYgd+Z4G8QeZT3QhPOPmSPwZO+qB6iM3TqTcYFNGNbjD13F313VcN3qc ng== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 2yub27aw14-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 19 Mar 2020 23:01:20 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02JMwDRM022431;
+        Thu, 19 Mar 2020 23:01:19 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 2ys92nh796-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 19 Mar 2020 23:01:19 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02JN1Ils007236;
+        Thu, 19 Mar 2020 23:01:19 GMT
+Received: from toshiba-tecra.hsd1.ca.comcast.net (/10.159.250.146)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 19 Mar 2020 16:01:18 -0700
+From:   Victor Erminpour <victor.erminpour@oracle.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: Prefer 'python3' when building htmldocs
+Date:   Thu, 19 Mar 2020 16:00:42 -0700
+Message-Id: <1584658842-778-1-git-send-email-victor.erminpour@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9565 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
+ mlxscore=0 spamscore=0 bulkscore=0 adultscore=0 suspectscore=1
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003190092
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9565 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 impostorscore=0
+ mlxlogscore=999 mlxscore=0 phishscore=0 adultscore=0 suspectscore=1
+ clxscore=1011 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003190092
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 5:58 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
-> On 19/03/2020 00:33, Jann Horn wrote:
-> > On Wed, Mar 18, 2020 at 1:06 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
-et> wrote:
-[...]
-> >> As I understand your proposition, we need to build the required_bits
-> >> when adding a rule or enforcing/merging a ruleset with a domain. The
-> >> issue is that a rule only refers to a struct inode, not a struct path.
-> >> For your proposition to work, we would need to walk through the file
-> >> path when adding a rule to a ruleset, which means that we need to depe=
-nd
-> >> of the current view of the process (i.e. its mount namespace), and its
-> >> Landlock domain.
-> >
-> > I don't see why that is necessary. Why would we have to walk the file
-> > path when adding a rule?
-> >
-> >> If the required_bits field is set when the ruleset is
-> >> merged with the domain, it is not possible anymore to walk through the
-> >> corresponding initial file path, which makes the enforcement step too
-> >> late to check for such consistency. The important point is that a
-> >> ruleset/domain doesn't have a notion of file hierarchy, a ruleset is
-> >> only a set of tagged inodes.
-> >>
-> >> I'm not sure I got your proposition right, though. When and how would
-> >> you generate the required_bits?
-> >
-> > Using your terminology:
-> > A domain is a collection of N layers, which are assigned indices 0..N-1=
-.
-> > For each possible access type, a domain has a bitmask containing N
-> > bits that stores which layers control that access type. (Basically a
-> > per-layer version of fs_access_mask.)
->
-> OK, so there is a bit for each domain, which means that you get a limit
-> of, let's say 64 layers? Knowing that each layer can be created by a
-> standalone application, potentially nested in a bunch of layers, this
-> seems artificially limiting.
+Prefer 'python3' and 'sphinx-build-3' when building htmldocs.
+Building htmldocs fails on systems that don't have 'python'
+and 'sphinx-build' installed, but do have 'python3' and
+'sphinx-build-3' available.
 
-Yes, that is a downside of my approach.
+Signed-off-by: Victor Erminpour <victor.erminpour@oracle.com>
+---
+ Documentation/Makefile | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-> > To validate an access, you start by ORing together the bitmasks for
-> > the requested access types; that gives you the required_bits mask,
-> > which lists all layers that want to control the access.
-> > Then you set seen_policy_bits=3D0, then do the
-> > check_access_path_continue() loop while keeping track of which layers
-> > you've seen with "seen_policy_bits |=3D access->contributing_policies",
-> > or something like that.
-> > And in the end, you check that seen_policy_bits is a superset of
-> > required_bits - something like `(~seen_policy_bits) & required_bits =3D=
-=3D
-> > 0`.
-> >
-> > AFAICS to create a new domain from a bunch of layers, you wouldn't
-> > have to do any path walking.
->
-> Right, I misunderstood your previous email.
->
-> >
-> >> Here is my updated proposition: add a layer level and a depth to each
-> >> rule (once enforced/merged with a domain), and a top layer level for a
-> >> domain. When enforcing a ruleset (i.e. merging a ruleset into the
-> >> current domain), the layer level of a new rule would be the incremente=
-d
-> >> top layer level.
-> >> If there is no rule (from this domain) tied to the same
-> >> inode, then the depth of the new rule is 1. However, if there is alrea=
-dy
-> >> a rule tied to the same inode and if this rule's layer level is the
-> >> previous top layer level, then the depth and the layer level are both
-> >> incremented and the rule is updated with the new access rights (boolea=
-n
-> >> AND).
-> >>
-> >> The policy looks like this:
-> >> domain top_layer=3D2
-> >> /a RW policy_bitmask=3D0x00000003 layer=3D1 depth=3D1
-> >> /a/b R policy_bitmask=3D0x00000002 layer=3D2 depth=3D1
-> >>
-> >> The path walk access check walks through all inodes and start with a
-> >> layer counter equal to the top layer of the current domain. For each
-> >> encountered inode tied to a rule, the access rights are checked and a
-> >> new check ensures that the layer of the matching rule is the same as t=
-he
-> >> counter (this may be a merged ruleset containing rules pertaining to t=
-he
-> >> same hierarchy, which is fine) or equal to the decremented counter (i.=
-e.
-> >> the path walk just reached the underlying layer). If the path walk
-> >> encounter a rule with a layer strictly less than the counter minus one=
-,
-> >> there is a whole in the layers which means that the ruleset
-> >> hierarchy/subset does not match, and the access must be denied.
-> >>
-> >> When accessing a file at /private/b/foo for a read access:
-> >> /private/b/foo <no rules>
-> >>   allowed_access=3Dunknown layer_counter=3D2
-> >> /private/b <access: R, policy_bitmask=3D0x00000002, layer=3D2, depth=
-=3D1>
-> >>   allowed_access=3Dallowed layer_counter=3D2
-> >> /private <no rules>
-> >>   allowed_access=3Dallowed layer_counter=3D2
-> >> / <no rules>
-> >>   allowed_access=3Dallowed layer_counter=3D2
-> >>
-> >> Because the layer_counter didn't reach 1, the access request is then d=
-enied.
-> >>
-> >> This proposition enables not to rely on a parent ruleset at first, onl=
-y
-> >> when enforcing/merging a ruleset with a domain. This also solves the
-> >> issue with multiple inherited/nested rules on the same inode (in which
-> >> case the depth just grows). Moreover, this enables to safely stop the
-> >> path walk as soon as we reach the layer 1.
-> >
-> > (FWIW, you could do the same optimization with the seen_policy_bits app=
-roach.)
-> >
-> > I guess the difference between your proposal and mine is that in my
-> > proposal, the following would work, in effect permitting W access to
-> > /foo/bar/baz (and nothing else)?
-> >
-> > first ruleset:
-> >   /foo W
-> > second ruleset:
-> >   /foo/bar/baz W
-> > third ruleset:
-> >   /foo/bar W
-> >
-> > whereas in your proposal, IIUC it wouldn't be valid for a new ruleset
-> > to whitelist a superset of what was whitelisted in a previous ruleset?
-> >
->
-> This behavior seems dangerous because a process which sandbox itself to
-> only access /foo/bar W can bypass the restrictions from one of its
-> parent domains (i.e. only access /foo/bar/baz W). Indeed, each layer is
-> (most of the time) a different and standalone security policy.
-
-It isn't actually bypassing the restriction: You still can't actually
-access files like /foo/bar/blah, because a path walk from there
-doesn't encounter any rules from the second ruleset.
-
-> To sum up, the bitmask approach doesn't have the notion of layers
-> ordering. It is then not possible to check that a rule comes from a
-> domain which is the direct ancestor of a child's domain. I want each
-> policy/layer to be really nested in the sense that a process sandboxing
-> itself can only add more restriction to itself with regard to its parent
-> domain (and the whole hierarchy). This is a similar approach to
-> seccomp-bpf (with chained filters), except there is almost no overhead
-> to nest several policies/layers together because they are flattened.
-> Using the layer level and depth approach enables to implement this.
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index d77bb607aea4..00c400523e15 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -11,6 +11,7 @@ endif
+ 
+ # You can set these variables from the command line.
+ SPHINXBUILD   = sphinx-build
++SPHINXBUILD3  = sphinx-build-3
+ SPHINXOPTS    =
+ SPHINXDIRS    = .
+ _SPHINXDIRS   = $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst))
+@@ -61,11 +62,23 @@ loop_cmd = $(echo-cmd) $(cmd_$(1)) || exit;
+ # $5 reST source folder relative to $(srctree)/$(src),
+ #    e.g. "media" for the linux-tv book-set at ./Documentation/media
+ 
++HAVE_PYTHON3 := $(shell if which $(PYTHON3) >/dev/null 2>&1; then echo 1; else echo 0; fi)
++HAVE_SPHINX3 := $(shell if which $(SPHINXBUILD3) >/dev/null 2>&1; then echo 1; else echo 0; fi)
++PYTHON_BIN = $(PYTHON)
++
++# If we have both python3 and sphinx-build-3,
++# prefer python3 over python.
++ifeq ($(HAVE_PYTHON3),1)
++    ifeq ($(HAVE_SPHINX3),1)
++        PYTHON_BIN = $(PYTHON3)
++    endif
++endif
++
+ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+       cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/media $2 && \
+ 	PYTHONDONTWRITEBYTECODE=1 \
+ 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
+-	$(PYTHON) $(srctree)/scripts/jobserver-exec \
++	$(PYTHON_BIN) $(srctree)/scripts/jobserver-exec \
+ 	$(SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+ 	$(SPHINXBUILD) \
+ 	-b $2 \
