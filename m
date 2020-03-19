@@ -2,133 +2,101 @@ Return-Path: <SRS0=tpYU=5E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A20C4332B
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 00:21:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58231C4332D
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 00:36:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8F28020752
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 00:21:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22A9B20752
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 00:36:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U2dqLL+6"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="eF92YLiE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbgCSAVi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Mar 2020 20:21:38 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:59928 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726647AbgCSAVi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 20:21:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=Y0czQRAz/kOPllfphXUjXudXCZCxZCs56nRoN+fK9Zs=; b=U2dqLL+663SgPnghCMGR8BF8Y0
-        CZcLj/WCyPzBCV3IAXDape2LJMGZ9E9h8mLvL93UF6xS6flxgRdFGaZ8/3EZeFY5MLpjBkVXQdM3F
-        26ktVz0JuP/YjCOcMiUwXM8U/3WqY/1g/8JlnNOgitbzgKslHSBWEAMVo14KQymj5kToLM+xxIAPd
-        lPVeE9cKJREw8RGyVwEvCDVMzH3khG9KgYpDhZwQ52cH4cn0i8R7SP4WibjhCrLOYKc7abcSk0Cc6
-        k46Y3sU2mrcoF3pjsyU8z4kAqRfkXv0RuDgUdWhj0llbGVWPwKQDK3am5dUfZzcsQeeM023WkwPRb
-        /dkivxmA==;
-Received: from c-73-157-219-8.hsd1.or.comcast.net ([73.157.219.8] helo=[10.0.0.252])
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jEivf-0000pW-Gf; Thu, 19 Mar 2020 00:20:55 +0000
-Subject: Re: [PATCH 4/4] hugetlbfs: clean up command line processing
-To:     Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Longpeng <longpeng2@huawei.com>, Will Deacon <will@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>
-References: <20200318220634.32100-1-mike.kravetz@oracle.com>
- <20200318220634.32100-5-mike.kravetz@oracle.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <1820045d-0bf2-9a86-226d-e9c4d5928749@infradead.org>
-Date:   Wed, 18 Mar 2020 17:20:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726858AbgCSAgr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Mar 2020 20:36:47 -0400
+Received: from mail-qv1-f66.google.com ([209.85.219.66]:38917 "EHLO
+        mail-qv1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726777AbgCSAgr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 20:36:47 -0400
+Received: by mail-qv1-f66.google.com with SMTP id v38so126915qvf.6
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2020 17:36:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=fqdpgXYcUZijy2Tim4u70zVZLXSOAEfPxfR1JdoPz+o=;
+        b=eF92YLiEaamcZiN6MXf0NWxBawKcgVk/aO7nYp/v0aF+nAyU8fZ8yRayp7R2SYysw4
+         gUDqIZs8WLlKEdONsjZUMAOkY2AKTPsFj9zNxWfNqDyrgVCZOJ/ydBgY+TNr8wDObmpQ
+         vuQEW3RbUbb7MMLkOGyXavxHs+M233FNPmLzszDaTXyq4DrXj5Pz9J437XjVLsyUbG4w
+         tmc/sYlEXyrtobrU4DSfE4A3nqv2RVETnhfp5ZbYTYWeROIpkeXaI7ywUpT6lXSynk9a
+         klU0QrudtOz21VAM7ZAg5omyvS4zRBfMs221owN2xgHT8hC0vfQN+34mbKS51HV1Mf66
+         6mtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=fqdpgXYcUZijy2Tim4u70zVZLXSOAEfPxfR1JdoPz+o=;
+        b=A0ES01gvBBcNgoAQdhFSKMZ34jRmZrLsqZo+wWYvAfyrakTo8uvXGTKoWz404LyhWE
+         KeuKgriLw4d5FK3A0w1iGKJ9IoECG9ovlkBje92J7Mt8Pc2ZJ0IWAZBxo1B6KXdfL01d
+         6vWrxWN52BKoHPizlgLHgvaDQhqlSAXMznDXOazoztp39igA+xLVm3jzOiUYk61/c3XO
+         UKnu7t4nh/kdW9Cb4vO6lSM+OKs7AdMcOyxJQroKpfF12hIXJtKuKnFOpI8hOc5r17Yp
+         fAsxJIy/020EVEFDhFg1j/yJ5SPVnnCtZltv6YpeDkWsTbb3RORkbp34+v5Bw6j4mpaZ
+         7a+A==
+X-Gm-Message-State: ANhLgQ0bosDF1esu58V5gDcCctUUntZ1CLM6EbARPG5Xphtw8wweYUD9
+        LngE5uDNxOX+EGX+5kpO8713Cg==
+X-Google-Smtp-Source: ADFU+vsFt1BuB+oCHIvm0540W/zf+ZnzvOL6/mgS9/sImW9FgDFqvnX787lcAKwo39SFTXr3uTX5dg==
+X-Received: by 2002:a05:6214:72f:: with SMTP id c15mr605415qvz.3.1584578206504;
+        Wed, 18 Mar 2020 17:36:46 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id t7sm310920qtr.88.2020.03.18.17.36.45
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 18 Mar 2020 17:36:45 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jEjAz-0002ID-Cs; Wed, 18 Mar 2020 21:36:45 -0300
+Date:   Wed, 18 Mar 2020 21:36:45 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Dennis Dalessandro <dennis.dalessandro@intel.com>,
+        Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+        Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 14/17] infiniband: pa_vnic_encap.h: get rid of a warning
+Message-ID: <20200319003645.GH20941@ziepe.ca>
+References: <cover.1584456635.git.mchehab+huawei@kernel.org>
+ <9dce702510505556d75a13d9641e09218a4b4a65.1584456635.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200318220634.32100-5-mike.kravetz@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9dce702510505556d75a13d9641e09218a4b4a65.1584456635.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
-
-On 3/18/20 3:06 PM, Mike Kravetz wrote:
-> With all hugetlb page processing done in a single file clean up code.
-> - Make code match desired semantics
->   - Update documentation with semantics
-> - Make all warnings and errors messages start with 'HugeTLB:'.
-> - Consistently name command line parsing routines.
-> - Add comments to code
->   - Describe some of the subtle interactions
->   - Describe semantics of command line arguments
+On Tue, Mar 17, 2020 at 03:54:23PM +0100, Mauro Carvalho Chehab wrote:
+> The right markup for a variable is @foo, and not @foo[].
 > 
-> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
+> Using a wrong markup caused this warning:
+> 
+> 	./drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:243: WARNING: Inline strong start-string without end-string.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/admin-guide/mm/hugetlbpage.rst | 26 +++++++
->  mm/hugetlb.c                                 | 78 +++++++++++++++-----
->  2 files changed, 87 insertions(+), 17 deletions(-)
+>  drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
+Do you want this to go to the RDMA tree? I wasn't cc'd on the cover
+letter
 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index cc85b4f156ca..2b9bf01db2b6 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
+Otherwise
 
-> @@ -3214,8 +3238,15 @@ static int __init hugetlb_nrpages_setup(char *s)
->  
->  	return 1;
->  }
-> -__setup("hugepages=", hugetlb_nrpages_setup);
-> +__setup("hugepages=", hugepages_setup);
->  
-> +/*
-> + * hugepagesz command line processing
-> + * A specific huge page size can only be specified once with hugepagesz.
-> + * hugepagesz is followed by hugepages on the commnad line.  The global
-
-typo:                                            command
-
-> + * variable 'parsed_valid_hugepagesz' is used to determine if prior
-> + * hugepagesz argument was valid.
-> + */
->  static int __init hugepagesz_setup(char *s)
->  {
->  	unsigned long long size;
-
-
-Does any of this need to be updated?  (from Documentation/admin-guide/kernel-parameters.txt)
-
-	hugepagesz=	[HW,IA-64,PPC,X86-64] The size of the HugeTLB pages.
-			On x86-64 and powerpc, this option can be specified
-			multiple times interleaved with hugepages= to reserve
-			huge pages of different sizes. Valid pages sizes on
-			x86-64 are 2M (when the CPU supports "pse") and 1G
-			(when the CPU supports the "pdpe1gb" cpuinfo flag).
-
-
--- 
-~Randy
-
+Acked-by: Jason Gunthorpe <jgg@mellanox.com>
+ 
+Thanks,
+Jason
