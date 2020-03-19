@@ -2,369 +2,383 @@ Return-Path: <SRS0=tpYU=5E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 600FEC4332B
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 03:21:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D04ECC4332B
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 06:26:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 34D4A20768
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 03:21:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9860820714
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 06:26:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726623AbgCSDVw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Mar 2020 23:21:52 -0400
-Received: from m177134.mail.qiye.163.com ([123.58.177.134]:47524 "EHLO
-        m177134.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726596AbgCSDVw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Mar 2020 23:21:52 -0400
-Received: from lcc-VirtualBox.vivo.xyz (unknown [58.251.74.227])
-        by m17617.mail.qiye.163.com (Hmail) with ESMTPA id 35C64261B7F;
-        Thu, 19 Mar 2020 11:21:04 +0800 (CST)
-From:   Chucheng Luo <luochucheng@vivo.com>
-To:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Chucheng Luo <luochucheng@vivo.com>, linux-doc@vger.kernel.org,
+        id S1725812AbgCSG0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Mar 2020 02:26:37 -0400
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:39896 "EHLO
+        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725767AbgCSG0h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Mar 2020 02:26:37 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R291e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0Tt04BxJ_1584599154;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0Tt04BxJ_1584599154)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 19 Mar 2020 14:25:54 +0800
+Subject: Re: [PATCH v2] Translate Documentation/filesystems/debugfs.txt into
+ Chinese
+To:     Chucheng Luo <luochucheng@vivo.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     kernel@vivo.com
-Subject: [PATCH v3] Translate Documentation/filesystems/debugfs.txt into Chinese
-Date:   Thu, 19 Mar 2020 11:20:43 +0800
-Message-Id: <20200319032057.29833-1-luochucheng@vivo.com>
-X-Mailer: git-send-email 2.17.1
+References: <20200319030039.29006-1-luochucheng@vivo.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <21d534e9-e7f6-f3ed-c7cc-0fd3691ad679@linux.alibaba.com>
+Date:   Thu, 19 Mar 2020 14:25:54 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+In-Reply-To: <20200319030039.29006-1-luochucheng@vivo.com>
+Content-Type: text/plain; charset=gbk
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUlXWQgYFAkeWUFZTVVDS0tCQkJNT0pPSkNPTVlXWShZQU
-        hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PBQ6HQw6MzgwMCtRUVFRLzFI
-        DBgaC0pVSlVKTkNPTkNDS01PTEpJVTMWGhIXVRcOFBgTDhgTHhUcOw0SDRRVGBQWRVlXWRILWUFZ
-        TkNVSU5KVUxPVUlJTFlXWQgBWUFKSEhDQzcG
-X-HM-Tid: 0a70f0cf06ed9375kuws35c64261b7f
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate debugfs.txt into Chinese and link it to the index.
 
-Signed-off-by: Chucheng Luo <luochucheng@vivo.com>
-Acked-by: Jonathan Corbet <corbet@lwn.net>
----
- .../zh_CN/filesystems/debugfs.rst             | 257 ++++++++++++++++++
- .../translations/zh_CN/filesystems/index.rst  |  21 ++
- Documentation/translations/zh_CN/index.rst    |   2 +
- 3 files changed, 280 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/filesystems/debugfs.rst
- create mode 100644 Documentation/translations/zh_CN/filesystems/index.rst
 
-diff --git a/Documentation/translations/zh_CN/filesystems/debugfs.rst b/Documentation/translations/zh_CN/filesystems/debugfs.rst
-new file mode 100644
-index 000000000000..02f639445d3d
---- /dev/null
-+++ b/Documentation/translations/zh_CN/filesystems/debugfs.rst
-@@ -0,0 +1,257 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/filesystems/debugfs.txt<debugfs_index>`
-+
-+==========================
-+Debugfs
-+==========================
-+
-+è¯‘è€…
-+::
-+
-+	ä¸­æ–‡ç‰ˆç»´æŠ¤è€…ï¼š ç½—æ¥šæˆ Chucheng Luo <luochucheng@vivo.com>
-+	ä¸­æ–‡ç‰ˆç¿»è¯‘è€…ï¼š ç½—æ¥šæˆ Chucheng Luo <luochucheng@vivo.com>
-+	ä¸­æ–‡ç‰ˆæ ¡è¯‘è€…:  ç½—æ¥šæˆ Chucheng Luo <luochucheng@vivo.com>
-+
-+
-+
-+
-+ç‰ˆæƒæ‰€æœ‰2009 Jonathan Corbet <corbet@lwn.net>
-+
-+ä»‹ç»
-+====
-+
-+Debugfsæ˜¯å†…æ ¸å¼€å‘äººå‘˜åœ¨ç”¨æˆ·ç©ºé—´è·å–ä¿¡æ¯çš„ç®€å•æ–¹æ³•ã€‚
-+ä¸/procä¸åŒï¼Œprocåªæä¾›è¿›ç¨‹ä¿¡æ¯ã€‚ä¹Ÿä¸åƒsysfs,å…·æœ‰ä¸¥æ ¼çš„â€œæ¯ä¸ªæ–‡ä»¶ä¸€ä¸ªå€¼â€œçš„è§„åˆ™ã€‚
-+debugfsæ ¹æœ¬æ²¡æœ‰è§„åˆ™ã€‚å¼€å‘äººå‘˜å¯ä»¥æ”¾ç½®ä»–ä»¬æƒ³è¦çš„ä»»ä½•ä¿¡æ¯åœ¨é‚£é‡Œã€‚
-+debugfsæ–‡ä»¶ç³»ç»Ÿä¹Ÿä¸èƒ½ç”¨ä½œç¨³å®šçš„
-+ABIæ¥å£åˆ°ç”¨æˆ·ç©ºé—´ï¼›ä»ç†è®ºä¸Šè®²ï¼Œæ–‡ä»¶åœ¨debugfsé‡Œå¯¼å‡ºæ²¡æœ‰ä»»ä½•ç¨³å®šæ€§çš„çº¦æŸã€‚
-+å°½ç®¡[1]ç°å®ä¸–ç•Œå¹¶ä¸æ€»æ˜¯é‚£ä¹ˆç®€å•ã€‚
-+å³ä½¿æ˜¯debugfsæ¥å£ï¼Œä¹Ÿæœ€å¥½æ ¹æ®éœ€è¦è¿›è¡Œè®¾è®¡
-+æ°¸è¿œä¿æŒä¸‹å»ã€‚
-+
-+ç”¨æ³•
-+====
-+
-+Debugfsé€šå¸¸ä½¿ç”¨ä»¥ä¸‹å‘½ä»¤å®‰è£…::
-+
-+    mount -t debugfs none /sys/kernel/debug
-+
-+ï¼ˆæˆ–ç­‰æ•ˆçš„/etc/fstabè¡Œï¼‰ã€‚
-+debugfsæ ¹ç›®å½•é»˜è®¤ä»…å¯ç”±rootç”¨æˆ·è®¿é—®ã€‚
-+è¦æ›´æ”¹å¯¹æ ‘çš„è®¿é—®ï¼Œè¯·ä½¿ç”¨â€œ uidâ€ï¼Œâ€œ gidâ€å’Œâ€œ modeâ€æŒ‚è½½é€‰é¡¹ã€‚
-+
-+è¯·æ³¨æ„ï¼Œdebugfs APIä»…å¯¼å‡ºä¸ºGPLåˆ°æ¨¡å—ã€‚
-+
-+ä½¿ç”¨debugfsçš„ä»£ç åº”åŒ…å«<linux/debugfs.h>ã€‚ç„¶åï¼Œç¬¬ä¸€é˜¶
-+ä¸šåŠ¡å°†æ˜¯åˆ›å»ºè‡³å°‘ä¸€ä¸ªç›®å½•æ¥ä¿å­˜ä¸€ç»„debugfsæ–‡ä»¶::
-+
-+    struct dentry *debugfs_create_dir(const char *name, struct dentry *parent);
-+
-+å¦‚æœæˆåŠŸï¼Œæ­¤è°ƒç”¨å°†åœ¨æŒ‡å®šçš„çˆ¶ç›®å½•ç›®å½•ä¸‹åˆ›å»ºä¸€ä¸ªåä¸ºnameçš„ç›®å½•ã€‚
-+å¦‚æœparentä¸ºNULLï¼Œåˆ™ç›®å½•ä¸º
-+åœ¨debugfsæ ¹ç›®å½•ä¸­åˆ›å»ºã€‚æˆåŠŸæ—¶ï¼Œè¿”å›å€¼æ˜¯ä¸€ä¸ªç»“æ„
-+dentryæŒ‡é’ˆï¼Œå¯ç”¨äºåœ¨ç›®å½•ä¸­åˆ›å»ºæ–‡ä»¶ï¼ˆä»¥åŠ
-+æœ€åå°†å…¶æ¸…ç†å¹²å‡€ï¼‰ã€‚ ERR_PTRï¼ˆ-ERRORï¼‰è¿”å›å€¼è¡¨é¢å‡ºé”™ã€‚å¦‚æœè¿”å›ERR_PTRï¼ˆ-ENODEVï¼‰ï¼Œåˆ™ä¸º
-+è¡¨æ˜å†…æ ¸æ˜¯åœ¨æ²¡æœ‰debugfsæ”¯æŒçš„æƒ…å†µä¸‹æ„å»ºçš„ï¼Œå¹¶ä¸”ä¸‹è¿°å‡½æ•°éƒ½ä¸ä¼šèµ·ä½œç”¨ã€‚
-+
-+åœ¨debugfsç›®å½•ä¸­åˆ›å»ºæ–‡ä»¶çš„æœ€é€šç”¨æ–¹æ³•æ˜¯::
-+
-+    struct dentry *debugfs_create_file(const char *name, umode_t mode,
-+				       struct dentry *parent, void *data,
-+				       const struct file_operations *fops);
-+
-+åœ¨è¿™é‡Œï¼Œnameæ˜¯è¦åˆ›å»ºçš„æ–‡ä»¶çš„åç§°ï¼Œmodeæè¿°äº†è®¿é—®
-+æ–‡ä»¶åº”å…·æœ‰çš„æƒé™ï¼ŒparentæŒ‡å‘åº”è¯¥ä¿å­˜æ–‡ä»¶çš„ç›®å½•
-+ï¼Œdataå°†å­˜å‚¨åœ¨äº§ç”Ÿçš„inodeç»“æ„çš„i_privateå­—æ®µä¸­
-+ï¼Œè€Œfopsæ˜¯ä¸€ç»„æ–‡ä»¶æ“ä½œï¼Œå…¶ä¸­
-+å®ç°æ–‡ä»¶çš„è¡Œä¸ºã€‚è‡³å°‘ï¼Œreadï¼ˆï¼‰å’Œ/æˆ–writeï¼ˆï¼‰
-+æ“ä½œåº”æä¾›ï¼›å…¶ä»–å¯ä»¥æ ¹æ®éœ€è¦åŒ…æ‹¬åœ¨å†…ã€‚å†æ¬¡ï¼Œ
-+è¿”å›å€¼å°†æ˜¯æŒ‡å‘åˆ›å»ºæ–‡ä»¶çš„dentryæŒ‡é’ˆï¼Œ
-+é”™è¯¯æ—¶æ˜¾ç¤ºERR_PTRï¼ˆ-ERRORï¼‰ï¼Œä¸æ”¯æŒdebugfsæ—¶è¿”å›å€¼ä¸ºERR_PTRï¼ˆ-ENODEVï¼‰ã€‚
-+
-+åˆ›å»ºä¸€ä¸ªåˆå§‹å¤§å°çš„æ–‡ä»¶ï¼Œå¯ä»¥ä½¿ç”¨ä»¥ä¸‹å‡½æ•°ä»£æ›¿::
-+
-+    struct dentry *debugfs_create_file_size(const char *name, umode_t mode,
-+				struct dentry *parent, void *data,
-+				const struct file_operations *fops,
-+				loff_t file_size);
-+
-+file_sizeæ˜¯åˆå§‹æ–‡ä»¶å¤§å°ã€‚å…¶ä»–å‚æ•°è·Ÿå‡½æ•°debugfs_create_fileçš„ç›¸åŒã€‚
-+
-+åœ¨è®¸å¤šæƒ…å†µä¸‹ï¼Œåˆ›å»ºä¸€ç»„æ–‡ä»¶æ“ä½œä¸æ˜¯
-+å®é™…å¿…è¦çš„ï¼Œå¯¹äºç®€å•çš„æƒ…å†µã€‚debugfsä»£ç æä¾›äº†è®¸å¤šå¸®åŠ©å‡½æ•°
-+ã€‚åŒ…å«å•ä¸ªæ•´æ•°å€¼çš„æ–‡ä»¶å¯ä»¥ä½¿ç”¨ä»¥ä¸‹ä»»ä½•ä¸€é¡¹åˆ›å»º::
-+
-+    void debugfs_create_u8(const char *name, umode_t mode,
-+			   struct dentry *parent, u8 *value);
-+    void debugfs_create_u16(const char *name, umode_t mode,
-+			    struct dentry *parent, u16 *value);
-+    struct dentry *debugfs_create_u32(const char *name, umode_t mode,
-+				      struct dentry *parent, u32 *value);
-+    void debugfs_create_u64(const char *name, umode_t mode,
-+			    struct dentry *parent, u64 *value);
-+
-+è¿™äº›æ–‡ä»¶æ”¯æŒè¯»å–å’Œå†™å…¥ç»™å®šå€¼ã€‚å¦‚æœå…·ä½“
-+ä¸åº”å†™å…¥æ–‡ä»¶ï¼Œåªéœ€ç›¸åº”åœ°è®¾ç½®æ¨¡å¼ä½ã€‚çš„
-+è¿™äº›æ–‡ä»¶ä¸­çš„å€¼ä»¥åè¿›åˆ¶è¡¨ç¤ºï¼›å¦‚æœåå…­è¿›åˆ¶æ›´åˆé€‚ï¼Œ
-+å¯ä»¥ä½¿ç”¨ä»¥ä¸‹åŠŸèƒ½::
-+
-+    void debugfs_create_x8(const char *name, umode_t mode,
-+			   struct dentry *parent, u8 *value);
-+    void debugfs_create_x16(const char *name, umode_t mode,
-+			    struct dentry *parent, u16 *value);
-+    void debugfs_create_x32(const char *name, umode_t mode,
-+			    struct dentry *parent, u32 *value);
-+    void debugfs_create_x64(const char *name, umode_t mode,
-+			    struct dentry *parent, u64 *value);
-+
-+åªè¦å¼€å‘äººå‘˜çŸ¥é“å¯¼å‡ºå€¼çš„å¤§å°ï¼Œè¿™äº›åŠŸèƒ½å°±å¾ˆæœ‰ç”¨ã€‚
-+æŸäº›ç±»å‹åœ¨ä¸åŒçš„æ¶æ„ä¸Šå¯ä»¥å…·æœ‰ä¸åŒçš„å®½åº¦
-+ä½†æ˜¯ï¼Œè¿™æ ·ä¼šä½¿æƒ…å†µå˜å¾—æœ‰äº›å¤æ‚ã€‚æœ‰
-+åœ¨ä»¥ä¸‹ç‰¹æ®Šæƒ…å†µä¸‹å¯ä»¥æä¾›å¸®åŠ©çš„åŠŸèƒ½::
-+
-+    void debugfs_create_size_t(const char *name, umode_t mode,
-+			       struct dentry *parent, size_t *value);
-+
-+ä¸å‡ºæ‰€æ–™ï¼Œæ­¤å‡½æ•°å°†åˆ›å»ºä¸€ä¸ªdebugfsæ–‡ä»¶æ¥è¡¨ç¤º
-+ç±»å‹ä¸ºsize_tçš„å˜é‡ã€‚
-+
-+åŒæ ·åœ°ï¼Œä¹Ÿæœ‰æ— ç¬¦å·é•¿æ•´å‹å‹å˜é‡çš„åŠ©æ‰‹ï¼Œä»¥åè¿›åˆ¶è¡¨ç¤º
-+å’Œåå…­è¿›åˆ¶::
-+
-+    struct dentry *debugfs_create_ulong(const char *name, umode_t mode,
-+					struct dentry *parent,
-+					unsigned long *value);
-+    void debugfs_create_xul(const char *name, umode_t mode,
-+			    struct dentry *parent, unsigned long *value);
-+
-+å¸ƒå°”å€¼å¯ä»¥é€šè¿‡ä»¥ä¸‹æ–¹å¼æ”¾ç½®åœ¨debugfsä¸­::
-+
-+    struct dentry *debugfs_create_bool(const char *name, umode_t mode,
-+				       struct dentry *parent, bool *value);
-+
-+
-+è¯»å–ç»“æœæ–‡ä»¶å°†äº§ç”ŸYï¼ˆå¯¹äºéé›¶å€¼ï¼‰æˆ–
-+Nï¼Œåè·Ÿæ¢è¡Œç¬¦ã€‚å¦‚æœå†™å…¥ï¼Œå®ƒå°†æ¥å—å¤§å†™æˆ–
-+å°å†™å€¼æˆ–1æˆ–0ã€‚ä»»ä½•å…¶ä»–è¾“å…¥å°†è¢«å¿½ç•¥ã€‚
-+
-+åŒæ ·ï¼Œå¯ä»¥ä½¿ç”¨ä»¥ä¸‹å‘½ä»¤å°†atomic_tå€¼æ”¾ç½®åœ¨debugfsä¸­::
-+
-+    void debugfs_create_atomic_t(const char *name, umode_t mode,
-+				 struct dentry *parent, atomic_t *value)
-+
-+è¯»å–æ­¤æ–‡ä»¶å°†è·å¾—atomic_tå€¼ï¼Œå¹¶å†™å…¥è¯¥æ–‡ä»¶
-+å°†è®¾ç½®atomic_tå€¼ã€‚
-+
-+å¦ä¸€ä¸ªé€‰æ‹©æ˜¯å¯¼å‡ºä¸€ä¸ªä»»æ„äºŒè¿›åˆ¶æ•°æ®å—ï¼Œ
-+è¿™ä¸ªç»“æ„å’ŒåŠŸèƒ½::
-+
-+    struct debugfs_blob_wrapper {
-+	void *data;
-+	unsigned long size;
-+    };
-+
-+    struct dentry *debugfs_create_blob(const char *name, umode_t mode,
-+				       struct dentry *parent,
-+				       struct debugfs_blob_wrapper *blob);
-+
-+è¯»å–æ­¤æ–‡ä»¶å°†è¿”å›ç”±æŒ‡é’ˆæŒ‡å‘debugfs_blob_wrapperç»“æ„
-+çš„æ•°æ®ã€‚ä¸€äº›é©±åŠ¨ä½¿ç”¨â€œblobsâ€ä½œä¸ºä¸€ç§ç®€å•çš„æ–¹æ³•
-+è¿”å›å‡ è¡Œï¼ˆé™æ€ï¼‰æ ¼å¼åŒ–æ–‡æœ¬è¾“å‡ºã€‚è¿™ä¸ªåŠŸèƒ½
-+å¯ç”¨äºå¯¼å‡ºäºŒè¿›åˆ¶ä¿¡æ¯ï¼Œä½†ä¼¼ä¹æ²¡æœ‰
-+åœ¨ä¸»çº¿ä¸­æ‰§è¡Œæ­¤æ“ä½œçš„ä»»ä½•ä»£ç ã€‚è¯·æ³¨æ„ï¼Œä½¿ç”¨debugfs_create_blobï¼ˆï¼‰å‘½ä»¤åˆ›å»ºçš„æ‰€æœ‰æ–‡ä»¶
-+æ˜¯åªè¯»çš„ã€‚
-+
-+å¦‚æœæ‚¨è¦è½¬å‚¨ä¸€ä¸ªå¯„å­˜å™¨å—ï¼ˆå‘ç”Ÿçš„äº‹æƒ…ç›¸å½“
-+é€šå¸¸åœ¨å¼€å‘è¿‡ç¨‹ä¸­ï¼Œå³ä½¿å¾ˆå°‘æœ‰è¿™æ ·çš„ä»£ç åˆ°è¾¾ä¸»çº¿ã€‚
-+Debugfsæä¾›ä¸¤ä¸ªåŠŸèƒ½ï¼šä¸€ä¸ªç”¨äºåˆ›å»ºä»…å¯„å­˜å™¨æ–‡ä»¶ï¼Œå¦ä¸€ä¸ª
-+æŠŠä¸€ä¸ªå¯„å­˜å™¨å—æ’å…¥ä¸€ä¸ªé¡ºåºæ–‡ä»¶ä¸­::
-+
-+    struct debugfs_reg32 {
-+	char *name;
-+	unsigned long offset;
-+    };
-+
-+    struct debugfs_regset32 {
-+	struct debugfs_reg32 *regs;
-+	int nregs;
-+	void __iomem *base;
-+    };
-+
-+    struct dentry *debugfs_create_regset32(const char *name, umode_t mode,
-+				     struct dentry *parent,
-+				     struct debugfs_regset32 *regset);
-+
-+    void debugfs_print_regs32(struct seq_file *s, struct debugfs_reg32 *regs,
-+			 int nregs, void __iomem *base, char *prefix);
-+
-+â€œbaseâ€å‚æ•°å¯èƒ½ä¸º0ï¼Œä½†æ‚¨å¯èƒ½éœ€è¦æ„å»ºreg32æ•°ç»„
-+ä½¿ç”¨__stringifyï¼Œå®é™…ä¸Šæœ‰è®¸å¤šå¯„å­˜å™¨åç§°ï¼ˆå®ï¼‰
-+å¯„å­˜å™¨å—çš„åŸºå€ä¸Šçš„å­—èŠ‚åç§»é‡ã€‚
-+
-+å¦‚æœè¦åœ¨debugfsä¸­è½¬å‚¨u32æ•°ç»„ï¼Œå¯ä»¥ä½¿ç”¨ä»¥ä¸‹å‘½ä»¤åˆ›å»ºæ–‡ä»¶::
-+
-+     void debugfs_create_u32_array(const char *name, umode_t mode,
-+			struct dentry *parent,
-+			u32 *array, u32 elements);
-+
-+â€œarrayâ€å‚æ•°æä¾›æ•°æ®ï¼Œè€Œâ€œelementsâ€å‚æ•°ä¸º
-+æ•°ç»„ä¸­å…ƒç´ çš„æ•°é‡ã€‚æ³¨æ„ï¼šå»ºç«‹æ•°ç»„åï¼Œ
-+å¤§å°æ— æ³•æ›´æ”¹ã€‚
-+
-+æœ‰ä¸€ä¸ªå¸®åŠ©å‡½æ•°æ¥åˆ›å»ºä¸è®¾å¤‡ç›¸å…³çš„seq_file::
-+
-+   struct dentry *debugfs_create_devm_seqfile(struct device *dev,
-+				const char *name,
-+				struct dentry *parent,
-+				int (*read_fn)(struct seq_file *s,
-+					void *data));
-+
-+â€œdevâ€å‚æ•°æ˜¯ä¸æ­¤debugfsæ–‡ä»¶ç›¸å…³çš„è®¾å¤‡ï¼Œå¹¶ä¸”
-+â€œread_fnâ€æ˜¯ä¸€ä¸ªå‡½æ•°æŒ‡é’ˆï¼Œå°†è¢«è°ƒç”¨ä»¥æ‰“å°
-+seq_fileå†…å®¹ã€‚
-+
-+è¿˜æœ‰ä¸€äº›å…¶ä»–çš„é¢å‘ç›®å½•çš„å¸®åŠ©å™¨åŠŸèƒ½::
-+
-+    struct dentry *debugfs_rename(struct dentry *old_dir,
-+		                  struct dentry *old_dentry,
-+		                  struct dentry *new_dir,
-+				  const char *new_name);
-+
-+    struct dentry *debugfs_create_symlink(const char *name,
-+                                          struct dentry *parent,
-+                                          const char *target);
-+
-+è°ƒç”¨debugfs_rename()å°†ä¸ºç°æœ‰çš„debugfsæ–‡ä»¶æä¾›ä¸€ä¸ªæ–°åç§°ï¼Œ
-+å¯èƒ½åœ¨å…¶ä»–ç›®å½•ä¸­ã€‚ new_nameå‡½æ•°è°ƒç”¨ä¹‹å‰ä¸èƒ½å­˜åœ¨ï¼›
-+è¿”å›å€¼ä¸ºold_dentryï¼Œå…¶ä¸­åŒ…å«æ›´æ–°çš„ä¿¡æ¯ã€‚
-+å¯ä»¥ä½¿ç”¨debugfs_create_symlinkï¼ˆï¼‰åˆ›å»ºç¬¦å·é“¾æ¥ã€‚
-+
-+æ‰€æœ‰debugfsç”¨æˆ·å¿…é¡»è€ƒè™‘çš„ä¸€ä»¶äº‹æ˜¯ï¼š
-+æ²¡æœ‰è‡ªåŠ¨æ¸…é™¤åœ¨debugfsä¸­åˆ›å»ºçš„ä»»ä½•ç›®å½•ã€‚å¦‚æœä¸€ä¸ª
-+åœ¨ä¸æ˜¾å¼åˆ é™¤debugfsæ¡ç›®çš„æƒ…å†µä¸‹å¸è½½æ¨¡å—ï¼Œç»“æœ
-+å°†ä¼šæœ‰å¾ˆå¤šé™ˆæ—§çš„æŒ‡é’ˆï¼Œå’Œæ²¡å®Œæ²¡äº†çš„é«˜åº¦åç¤¾ä¼šè¡Œä¸ºã€‚
-+å› æ­¤ï¼Œæ‰€æœ‰debugfsç”¨æˆ·-è‡³å°‘æ˜¯é‚£äº›å¯ä»¥ä½œä¸ºæ¨¡å—æ„å»ºçš„ç”¨æˆ·-å¿…é¡»
-+å‡†å¤‡åˆ é™¤åœ¨æ­¤åˆ›å»ºçš„æ‰€æœ‰æ–‡ä»¶å’Œç›®å½•ã€‚ä¸€ä»½æ–‡ä»¶
-+å¯ä»¥é€šè¿‡ä»¥ä¸‹æ–¹å¼åˆ é™¤::
-+
-+    void debugfs_remove(struct dentry *dentry);
-+
-+dentryå€¼å¯ä»¥ä¸ºNULLæˆ–é”™è¯¯å€¼ï¼Œåœ¨è¿™ç§æƒ…å†µä¸‹ï¼Œä¸ä¼šæœ‰ä»»ä½•ç»“æœ
-+è¢«åˆ é™¤ã€‚
-+
-+ä»å‰ï¼Œdebugfsç”¨æˆ·éœ€è¦è®°ä½è¯¥dentry
-+ä»–ä»¬åˆ›å»ºçš„æ¯ä¸ªdebugfsæ–‡ä»¶çš„æŒ‡é’ˆï¼Œä»¥ä¾¿æ‰€æœ‰æ–‡ä»¶éƒ½å¯ä»¥
-+æ¸…ç†ã€‚ä½†æ˜¯ï¼Œæˆ‘ä»¬ç°åœ¨ç”Ÿæ´»åœ¨æ›´åŠ æ–‡æ˜çš„æ—¶ä»£ï¼Œå¹¶ä¸”debugfsç”¨æˆ·
-+èƒ½è°ƒç”¨::
-+
-+    void debugfs_remove_recursive(struct dentry *dentry);
-+
-+å¦‚æœä¼ é€’äº†æ­¤å‡½æ•°ï¼Œåˆ™å¯¹åº”äº
-+é¡¶å±‚ç›®å½•ï¼Œè¯¥ç›®å½•ä¸‹çš„æ•´ä¸ªå±‚æ¬¡ç»“æ„å°†ä¼šè¢«åˆ é™¤ã€‚
-+
-+æ³¨æ„ï¼š
-+[1] http://lwn.net/Articles/309298/
-diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-new file mode 100644
-index 000000000000..3a7f5233767d
---- /dev/null
-+++ b/Documentation/translations/zh_CN/filesystems/index.rst
-@@ -0,0 +1,21 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============================
-+Linux å†…æ ¸ä¸­çš„æ–‡ä»¶ç³»ç»Ÿ
-+===============================
-+
-+è¿™ä¸ªä¸å®Œæ•´çš„æŒ‡å—åœ¨æŸä¸€å¤©å°†ä¼šæä¾›å…³äºLinux è™šæ‹Ÿæ–‡ä»¶ç³»ç»Ÿ(VFS)å±‚å¦‚ä½•å·¥ä½œçš„
-+å®Œæ•´ä¿¡æ¯ã€‚ä»¥åŠVFSä»¥ä¸‹çš„çš„æ–‡ä»¶ç³»ç»Ÿã€‚ç›®å‰ä¸ºæ­¢ï¼Œæˆ‘ä»¬æä¾›äº†ä»¥ä¸‹ä¿¡æ¯ã€‚
-+
-+
-+
-+
-+æ–‡ä»¶ç³»ç»Ÿ
-+===========
-+
-+å…³äºæ–‡ä»¶ç³»ç»Ÿå®ç°çš„æ–‡æ¡£.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   debugfs
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index d3165535ec9e..770f886d081c 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -1,3 +1,4 @@
-+.. SPDX-License-Identifier: GPL-2.0
- .. raw:: latex
- 
- 	\renewcommand\thesection*
-@@ -14,6 +15,7 @@
-    :maxdepth: 2
- 
-    process/index
-+   filesystems/index
- 
- ç›®å½•å’Œè¡¨æ ¼
- ----------
--- 
-2.17.1
+ÔÚ 2020/3/19 ÉÏÎç11:00, Chucheng Luo Ğ´µÀ:
+> Translate debugfs.txt into Chinese and link it to the index.
+> 
+> Signed-off-by: Chucheng Luo <luochucheng@vivo.com>
+> Acked-by: Jonathan Corbet<corbet@lwn.net>
+> ---
+>  .../zh_CN/filesystems/debugfs.rst             | 257 ++++++++++++++++++
+>  .../translations/zh_CN/filesystems/index.rst  |  19 ++
+>  Documentation/translations/zh_CN/index.rst    |   1 +
+>  3 files changed, 277 insertions(+)
+>  create mode 100755 Documentation/translations/zh_CN/filesystems/debugfs.rst
+>  create mode 100755 Documentation/translations/zh_CN/filesystems/index.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/filesystems/debugfs.rst b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+> new file mode 100755
+> index 000000000000..02f639445d3d
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+> @@ -0,0 +1,257 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :ref:`Documentation/filesystems/debugfs.txt<debugfs_index>`
+> +
+> +==========================
+> +Debugfs
+> +==========================
+> +
+> +ÒëÕß
+> +::
+> +
+> +	ÖĞÎÄ°æÎ¬»¤Õß£º ÂŞ³ş³É Chucheng Luo <luochucheng@vivo.com>
+> +	ÖĞÎÄ°æ·­ÒëÕß£º ÂŞ³ş³É Chucheng Luo <luochucheng@vivo.com>
+> +	ÖĞÎÄ°æĞ£ÒëÕß:  ÂŞ³ş³É Chucheng Luo <luochucheng@vivo.com>
+> +
+> +
+> +
+> +
+> +°æÈ¨ËùÓĞ2009 Jonathan Corbet <corbet@lwn.net>
+> +
+> +½éÉÜ
+> +====
+> +
+> +DebugfsÊÇÄÚºË¿ª·¢ÈËÔ±ÔÚÓÃ»§¿Õ¼ä»ñÈ¡ĞÅÏ¢µÄ¼òµ¥·½·¨¡£
+> +Óë/proc²»Í¬£¬procÖ»Ìá¹©½ø³ÌĞÅÏ¢¡£Ò²²»Ïñsysfs,¾ßÓĞÑÏ¸ñµÄ¡°Ã¿¸öÎÄ¼şÒ»¸öÖµ¡°µÄ¹æÔò¡£
+> +debugfs¸ù±¾Ã»ÓĞ¹æÔò¡£¿ª·¢ÈËÔ±¿ÉÒÔ·ÅÖÃËûÃÇÏëÒªµÄÈÎºÎĞÅÏ¢ÔÚÄÇÀï¡£
+> +debugfsÎÄ¼şÏµÍ³Ò²²»ÄÜÓÃ×÷ÎÈ¶¨µÄ
 
+Could we follow 80 chars rule here and all following?
+
+
+> +ABI½Ó¿Úµ½ÓÃ»§¿Õ¼ä£»´ÓÀíÂÛÉÏ½²£¬ÎÄ¼şÔÚdebugfsÀïµ¼³öÃ»ÓĞÈÎºÎÎÈ¶¨ĞÔµÄÔ¼Êø¡£
+> +¾¡¹Ü[1]ÏÖÊµÊÀ½ç²¢²»×ÜÊÇÄÇÃ´¼òµ¥¡£
+> +¼´Ê¹ÊÇdebugfs½Ó¿Ú£¬Ò²×îºÃ¸ù¾İĞèÒª½øĞĞÉè¼Æ
+> +ÓÀÔ¶±£³ÖÏÂÈ¥¡£
+
+It's hard to understand in Chinese here.
+ 
+> +
+> +ÓÃ·¨
+> +====
+> +
+> +DebugfsÍ¨³£Ê¹ÓÃÒÔÏÂÃüÁî°²×°::
+> +
+> +    mount -t debugfs none /sys/kernel/debug
+> +
+> +£¨»òµÈĞ§µÄ/etc/fstabĞĞ£©¡£
+> +debugfs¸ùÄ¿Â¼Ä¬ÈÏ½ö¿ÉÓÉrootÓÃ»§·ÃÎÊ¡£
+> +Òª¸ü¸Ä¶ÔÊ÷µÄ·ÃÎÊ£¬ÇëÊ¹ÓÃ¡° uid¡±£¬¡° gid¡±ºÍ¡° mode¡±¹ÒÔØÑ¡Ïî¡£
+> +
+> +Çë×¢Òâ£¬debugfs API½öµ¼³öÎªGPLµ½Ä£¿é¡£
+> +
+> +Ê¹ÓÃdebugfsµÄ´úÂëÓ¦°üº¬<linux/debugfs.h>¡£È»ºó£¬µÚÒ»½×
+> +ÒµÎñ½«ÊÇ´´½¨ÖÁÉÙÒ»¸öÄ¿Â¼À´±£´æÒ»×édebugfsÎÄ¼ş::
+> +
+> +    struct dentry *debugfs_create_dir(const char *name, struct dentry *parent);
+> +
+> +Èç¹û³É¹¦£¬´Ëµ÷ÓÃ½«ÔÚÖ¸¶¨µÄ¸¸Ä¿Â¼Ä¿Â¼ÏÂ´´½¨Ò»¸öÃûÎªnameµÄÄ¿Â¼¡£
+> +Èç¹ûparentÎªNULL£¬ÔòÄ¿Â¼Îª
+> +ÔÚdebugfs¸ùÄ¿Â¼ÖĞ´´½¨¡£³É¹¦Ê±£¬·µ»ØÖµÊÇÒ»¸ö½á¹¹
+> +dentryÖ¸Õë£¬¿ÉÓÃÓÚÔÚÄ¿Â¼ÖĞ´´½¨ÎÄ¼ş£¨ÒÔ¼°
+> +×îºó½«ÆäÇåÀí¸É¾»£©¡£ ERR_PTR£¨-ERROR£©·µ»ØÖµ±íÃæ³ö´í¡£Èç¹û·µ»ØERR_PTR£¨-ENODEV£©£¬ÔòÎª
+> +±íÃ÷ÄÚºËÊÇÔÚÃ»ÓĞdebugfsÖ§³ÖµÄÇé¿öÏÂ¹¹½¨µÄ£¬²¢ÇÒÏÂÊöº¯Êı¶¼²»»áÆğ×÷ÓÃ¡£
+> +
+> +ÔÚdebugfsÄ¿Â¼ÖĞ´´½¨ÎÄ¼şµÄ×îÍ¨ÓÃ·½·¨ÊÇ::
+> +
+> +    struct dentry *debugfs_create_file(const char *name, umode_t mode,
+> +				       struct dentry *parent, void *data,
+> +				       const struct file_operations *fops);
+> +
+> +ÔÚÕâÀï£¬nameÊÇÒª´´½¨µÄÎÄ¼şµÄÃû³Æ£¬modeÃèÊöÁË·ÃÎÊ
+> +ÎÄ¼şÓ¦¾ßÓĞµÄÈ¨ÏŞ£¬parentÖ¸ÏòÓ¦¸Ã±£´æÎÄ¼şµÄÄ¿Â¼
+> +£¬data½«´æ´¢ÔÚ²úÉúµÄinode½á¹¹µÄi_private×Ö¶ÎÖĞ
+> +£¬¶øfopsÊÇÒ»×éÎÄ¼ş²Ù×÷£¬ÆäÖĞ
+> +ÊµÏÖÎÄ¼şµÄĞĞÎª¡£ÖÁÉÙ£¬read£¨£©ºÍ/»òwrite£¨£©
+> +²Ù×÷Ó¦Ìá¹©£»ÆäËû¿ÉÒÔ¸ù¾İĞèÒª°üÀ¨ÔÚÄÚ¡£ÔÙ´Î£¬
+> +·µ»ØÖµ½«ÊÇÖ¸Ïò´´½¨ÎÄ¼şµÄdentryÖ¸Õë£¬
+> +´íÎóÊ±ÏÔÊ¾ERR_PTR£¨-ERROR£©£¬²»Ö§³ÖdebugfsÊ±·µ»ØÖµÎªERR_PTR£¨-ENODEV£©¡£
+> +
+> +´´½¨Ò»¸ö³õÊ¼´óĞ¡µÄÎÄ¼ş£¬¿ÉÒÔÊ¹ÓÃÒÔÏÂº¯Êı´úÌæ::
+> +
+> +    struct dentry *debugfs_create_file_size(const char *name, umode_t mode,
+> +				struct dentry *parent, void *data,
+> +				const struct file_operations *fops,
+> +				loff_t file_size);
+> +
+> +file_sizeÊÇ³õÊ¼ÎÄ¼ş´óĞ¡¡£ÆäËû²ÎÊı¸úº¯Êıdebugfs_create_fileµÄÏàÍ¬¡£
+> +
+> +ÔÚĞí¶àÇé¿öÏÂ£¬´´½¨Ò»×éÎÄ¼ş²Ù×÷²»ÊÇ
+> +Êµ¼Ê±ØÒªµÄ£¬
+
+Change to "Ã»ÓĞÊµ¼Ê±ØÒªÈ¥´´½¨Ò»×éÎÄ¼ş²Ù×÷" ?
+
+Chinese often has different words sequence from English in sentence.  
+Please pay attention on this.
+ 
+¶ÔÓÚ¼òµ¥µÄÇé¿ö¡£debugfs´úÂëÌá¹©ÁËĞí¶à°ïÖúº¯Êı
+> +¡£°üº¬µ¥¸öÕûÊıÖµµÄÎÄ¼ş¿ÉÒÔÊ¹ÓÃÒÔÏÂÈÎºÎÒ»Ïî´´½¨::
+> +
+> +    void debugfs_create_u8(const char *name, umode_t mode,
+> +			   struct dentry *parent, u8 *value);
+> +    void debugfs_create_u16(const char *name, umode_t mode,
+> +			    struct dentry *parent, u16 *value);
+> +    struct dentry *debugfs_create_u32(const char *name, umode_t mode,
+> +				      struct dentry *parent, u32 *value);
+> +    void debugfs_create_u64(const char *name, umode_t mode,
+> +			    struct dentry *parent, u64 *value);
+> +
+> +ÕâĞ©ÎÄ¼şÖ§³Ö¶ÁÈ¡ºÍĞ´Èë¸ø¶¨Öµ¡£Èç¹û¾ßÌå
+> +²»Ó¦Ğ´ÈëÎÄ¼ş£¬Ö»ĞèÏàÓ¦µØÉèÖÃÄ£Ê½Î»¡£µÄ
+> +ÕâĞ©ÎÄ¼şÖĞµÄÖµÒÔÊ®½øÖÆ±íÊ¾£»Èç¹ûÊ®Áù½øÖÆ¸üºÏÊÊ£¬
+> +¿ÉÒÔÊ¹ÓÃÒÔÏÂ¹¦ÄÜ::
+> +
+> +    void debugfs_create_x8(const char *name, umode_t mode,
+> +			   struct dentry *parent, u8 *value);
+> +    void debugfs_create_x16(const char *name, umode_t mode,
+> +			    struct dentry *parent, u16 *value);
+> +    void debugfs_create_x32(const char *name, umode_t mode,
+> +			    struct dentry *parent, u32 *value);
+> +    void debugfs_create_x64(const char *name, umode_t mode,
+> +			    struct dentry *parent, u64 *value);
+> +
+> +Ö»Òª¿ª·¢ÈËÔ±ÖªµÀµ¼³öÖµµÄ´óĞ¡£¬ÕâĞ©¹¦ÄÜ¾ÍºÜÓĞÓÃ¡£
+> +Ä³Ğ©ÀàĞÍÔÚ²»Í¬µÄ¼Ü¹¹ÉÏ¿ÉÒÔ¾ßÓĞ²»Í¬µÄ¿í¶È
+> +µ«ÊÇ£¬ÕâÑù»áÊ¹Çé¿ö±äµÃÓĞĞ©¸´ÔÓ¡£ÓĞ
+> +ÔÚÒÔÏÂÌØÊâÇé¿öÏÂ¿ÉÒÔÌá¹©°ïÖúµÄ¹¦ÄÜ::
+> +
+> +    void debugfs_create_size_t(const char *name, umode_t mode,
+> +			       struct dentry *parent, size_t *value);
+> +
+> +²»³öËùÁÏ£¬´Ëº¯Êı½«´´½¨Ò»¸ödebugfsÎÄ¼şÀ´±íÊ¾
+> +ÀàĞÍÎªsize_tµÄ±äÁ¿¡£
+> +
+> +Í¬ÑùµØ£¬Ò²ÓĞÎŞ·ûºÅ³¤ÕûĞÍĞÍ±äÁ¿µÄÖúÊÖ£¬ÒÔÊ®½øÖÆ±íÊ¾
+> +ºÍÊ®Áù½øÖÆ::
+> +
+> +    struct dentry *debugfs_create_ulong(const char *name, umode_t mode,
+> +					struct dentry *parent,
+> +					unsigned long *value);
+> +    void debugfs_create_xul(const char *name, umode_t mode,
+> +			    struct dentry *parent, unsigned long *value);
+> +
+> +²¼¶ûÖµ¿ÉÒÔÍ¨¹ıÒÔÏÂ·½Ê½·ÅÖÃÔÚdebugfsÖĞ::
+> +
+> +    struct dentry *debugfs_create_bool(const char *name, umode_t mode,
+> +				       struct dentry *parent, bool *value);
+> +
+> +
+> +¶ÁÈ¡½á¹ûÎÄ¼ş½«²úÉúY£¨¶ÔÓÚ·ÇÁãÖµ£©»ò
+> +N£¬ºó¸ú»»ĞĞ·û¡£Èç¹ûĞ´Èë£¬Ëü½«½ÓÊÜ´óĞ´»ò
+> +Ğ¡Ğ´Öµ»ò1»ò0¡£ÈÎºÎÆäËûÊäÈë½«±»ºöÂÔ¡£
+> +
+> +Í¬Ñù£¬¿ÉÒÔÊ¹ÓÃÒÔÏÂÃüÁî½«atomic_tÖµ·ÅÖÃÔÚdebugfsÖĞ::
+> +
+> +    void debugfs_create_atomic_t(const char *name, umode_t mode,
+> +				 struct dentry *parent, atomic_t *value)
+> +
+> +¶ÁÈ¡´ËÎÄ¼ş½«»ñµÃatomic_tÖµ£¬²¢Ğ´Èë¸ÃÎÄ¼ş
+> +½«ÉèÖÃatomic_tÖµ¡£
+> +
+> +ÁíÒ»¸öÑ¡ÔñÊÇµ¼³öÒ»¸öÈÎÒâ¶ş½øÖÆÊı¾İ¿é£¬
+> +Õâ¸ö½á¹¹ºÍ¹¦ÄÜ::
+> +
+> +    struct debugfs_blob_wrapper {
+> +	void *data;
+> +	unsigned long size;
+> +    };
+> +
+> +    struct dentry *debugfs_create_blob(const char *name, umode_t mode,
+> +				       struct dentry *parent,
+> +				       struct debugfs_blob_wrapper *blob);
+> +
+> +¶ÁÈ¡´ËÎÄ¼ş½«·µ»ØÓÉÖ¸ÕëÖ¸Ïòdebugfs_blob_wrapper½á¹¹
+> +µÄÊı¾İ¡£Ò»Ğ©Çı¶¯Ê¹ÓÃ¡°blobs¡±×÷ÎªÒ»ÖÖ¼òµ¥µÄ·½·¨
+> +·µ»Ø¼¸ĞĞ£¨¾²Ì¬£©¸ñÊ½»¯ÎÄ±¾Êä³ö¡£Õâ¸ö¹¦ÄÜ
+> +¿ÉÓÃÓÚµ¼³ö¶ş½øÖÆĞÅÏ¢£¬µ«ËÆºõÃ»ÓĞ
+> +ÔÚÖ÷ÏßÖĞÖ´ĞĞ´Ë²Ù×÷µÄÈÎºÎ´úÂë¡£Çë×¢Òâ£¬Ê¹ÓÃdebugfs_create_blob£¨£©ÃüÁî´´½¨µÄËùÓĞÎÄ¼ş
+> +ÊÇÖ»¶ÁµÄ¡£
+> +
+> +Èç¹ûÄúÒª×ª´¢Ò»¸ö¼Ä´æÆ÷¿é£¨·¢ÉúµÄÊÂÇéÏàµ±
+> +Í¨³£ÔÚ¿ª·¢¹ı³ÌÖĞ£¬¼´Ê¹ºÜÉÙÓĞÕâÑùµÄ´úÂëµ½´ïÖ÷Ïß¡£
+> +DebugfsÌá¹©Á½¸ö¹¦ÄÜ£ºÒ»¸öÓÃÓÚ´´½¨½ö¼Ä´æÆ÷ÎÄ¼ş£¬ÁíÒ»¸ö
+> +°ÑÒ»¸ö¼Ä´æÆ÷¿é²åÈëÒ»¸öË³ĞòÎÄ¼şÖĞ::
+> +
+> +    struct debugfs_reg32 {
+> +	char *name;
+> +	unsigned long offset;
+> +    };
+> +
+> +    struct debugfs_regset32 {
+> +	struct debugfs_reg32 *regs;
+> +	int nregs;
+> +	void __iomem *base;
+> +    };
+> +
+> +    struct dentry *debugfs_create_regset32(const char *name, umode_t mode,
+> +				     struct dentry *parent,
+> +				     struct debugfs_regset32 *regset);
+> +
+> +    void debugfs_print_regs32(struct seq_file *s, struct debugfs_reg32 *regs,
+> +			 int nregs, void __iomem *base, char *prefix);
+> +
+> +¡°base¡±²ÎÊı¿ÉÄÜÎª0£¬µ«Äú¿ÉÄÜĞèÒª¹¹½¨reg32Êı×é
+> +Ê¹ÓÃ__stringify£¬Êµ¼ÊÉÏÓĞĞí¶à¼Ä´æÆ÷Ãû³Æ£¨ºê£©
+> +¼Ä´æÆ÷¿éµÄ»ùÖ·ÉÏµÄ×Ö½ÚÆ«ÒÆÁ¿¡£
+> +
+> +Èç¹ûÒªÔÚdebugfsÖĞ×ª´¢u32Êı×é£¬¿ÉÒÔÊ¹ÓÃÒÔÏÂÃüÁî´´½¨ÎÄ¼ş::
+> +
+> +     void debugfs_create_u32_array(const char *name, umode_t mode,
+> +			struct dentry *parent,
+> +			u32 *array, u32 elements);
+> +
+> +¡°array¡±²ÎÊıÌá¹©Êı¾İ£¬¶ø¡°elements¡±²ÎÊıÎª
+> +Êı×éÖĞÔªËØµÄÊıÁ¿¡£×¢Òâ£º½¨Á¢Êı×éºó£¬
+> +´óĞ¡ÎŞ·¨¸ü¸Ä¡£
+> +
+> +ÓĞÒ»¸ö°ïÖúº¯ÊıÀ´´´½¨ÓëÉè±¸Ïà¹ØµÄseq_file::
+> +
+> +   struct dentry *debugfs_create_devm_seqfile(struct device *dev,
+> +				const char *name,
+> +				struct dentry *parent,
+> +				int (*read_fn)(struct seq_file *s,
+> +					void *data));
+> +
+> +¡°dev¡±²ÎÊıÊÇÓë´ËdebugfsÎÄ¼şÏà¹ØµÄÉè±¸£¬²¢ÇÒ
+> +¡°read_fn¡±ÊÇÒ»¸öº¯ÊıÖ¸Õë£¬½«±»µ÷ÓÃÒÔ´òÓ¡
+> +seq_fileÄÚÈİ¡£
+> +
+> +»¹ÓĞÒ»Ğ©ÆäËûµÄÃæÏòÄ¿Â¼µÄ°ïÖúÆ÷¹¦ÄÜ::
+> +
+> +    struct dentry *debugfs_rename(struct dentry *old_dir,
+> +		                  struct dentry *old_dentry,
+> +		                  struct dentry *new_dir,
+> +				  const char *new_name);
+> +
+> +    struct dentry *debugfs_create_symlink(const char *name,
+> +                                          struct dentry *parent,
+> +                                          const char *target);
+> +
+> +µ÷ÓÃdebugfs_rename()½«ÎªÏÖÓĞµÄdebugfsÎÄ¼şÌá¹©Ò»¸öĞÂÃû³Æ£¬
+> +¿ÉÄÜÔÚÆäËûÄ¿Â¼ÖĞ¡£ new_nameº¯Êıµ÷ÓÃÖ®Ç°²»ÄÜ´æÔÚ£»
+> +·µ»ØÖµÎªold_dentry£¬ÆäÖĞ°üº¬¸üĞÂµÄĞÅÏ¢¡£
+> +¿ÉÒÔÊ¹ÓÃdebugfs_create_symlink£¨£©´´½¨·ûºÅÁ´½Ó¡£
+> +
+> +ËùÓĞdebugfsÓÃ»§±ØĞë¿¼ÂÇµÄÒ»¼şÊÂÊÇ£º
+> +Ã»ÓĞ×Ô¶¯Çå³ıÔÚdebugfsÖĞ´´½¨µÄÈÎºÎÄ¿Â¼¡£Èç¹ûÒ»¸ö
+> +ÔÚ²»ÏÔÊ½É¾³ıdebugfsÌõÄ¿µÄÇé¿öÏÂĞ¶ÔØÄ£¿é£¬½á¹û
+> +½«»áÓĞºÜ¶à³Â¾ÉµÄÖ¸Õë£¬ºÍÃ»ÍêÃ»ÁËµÄ¸ß¶È·´Éç»áĞĞÎª¡£
+
+it's hard to understand.
+
+
+> +Òò´Ë£¬ËùÓĞdebugfsÓÃ»§-ÖÁÉÙÊÇÄÇĞ©¿ÉÒÔ×÷ÎªÄ£¿é¹¹½¨µÄÓÃ»§-±ØĞë
+> +×¼±¸É¾³ıÔÚ´Ë´´½¨µÄËùÓĞÎÄ¼şºÍÄ¿Â¼¡£Ò»·İÎÄ¼ş
+> +¿ÉÒÔÍ¨¹ıÒÔÏÂ·½Ê½É¾³ı::
+> +
+> +    void debugfs_remove(struct dentry *dentry);
+> +
+> +dentryÖµ¿ÉÒÔÎªNULL»ò´íÎóÖµ£¬ÔÚÕâÖÖÇé¿öÏÂ£¬²»»áÓĞÈÎºÎ½á¹û
+> +±»É¾³ı¡£
+> +
+> +´ÓÇ°£¬debugfsÓÃ»§ĞèÒª¼Ç×¡¸Ãdentry
+> +ËûÃÇ´´½¨µÄÃ¿¸ödebugfsÎÄ¼şµÄÖ¸Õë£¬ÒÔ±ãËùÓĞÎÄ¼ş¶¼¿ÉÒÔ
+
+Could you understand this?
+
+> +ÇåÀí¡£µ«ÊÇ£¬ÎÒÃÇÏÖÔÚÉú»îÔÚ¸ü¼ÓÎÄÃ÷µÄÊ±´ú£¬²¢ÇÒdebugfsÓÃ»§
+> +ÄÜµ÷ÓÃ::
+> +
+> +    void debugfs_remove_recursive(struct dentry *dentry);
+> +
+> +Èç¹û´«µİÁË´Ëº¯Êı£¬Ôò¶ÔÓ¦ÓÚ
+> +¶¥²ãÄ¿Â¼£¬¸ÃÄ¿Â¼ÏÂµÄÕû¸ö²ã´Î½á¹¹½«»á±»É¾³ı¡£
+> +
+> +×¢Òâ£º
+> +[1] http://lwn.net/Articles/309298/
+> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+> new file mode 100755
+> index 000000000000..79b6c20f9575
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
+> @@ -0,0 +1,19 @@
+> +===============================
+> +Linux ÄÚºËÖĞµÄÎÄ¼şÏµÍ³
+> +===============================
+> +
+> +Õâ¸ö²»ÍêÕûµÄÖ¸ÄÏÔÚÄ³Ò»Ìì½«»áÌá¹©¹ØÓÚLinux ĞéÄâÎÄ¼şÏµÍ³(VFS)²ãÈçºÎ¹¤×÷µÄ
+> +ÍêÕûĞÅÏ¢¡£ÒÔ¼°VFSÒÔÏÂµÄµÄÎÄ¼şÏµÍ³¡£Ä¿Ç°ÎªÖ¹£¬ÎÒÃÇÌá¹©ÁËÒÔÏÂĞÅÏ¢¡£
+> +
+> +
+> +
+> +
+> +ÎÄ¼şÏµÍ³
+> +===========
+> +
+> +¹ØÓÚÎÄ¼şÏµÍ³ÊµÏÖµÄÎÄµµ.
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +   debugfs
+> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+> index d3165535ec9e..76850a5dd982 100644
+> --- a/Documentation/translations/zh_CN/index.rst
+> +++ b/Documentation/translations/zh_CN/index.rst
+> @@ -14,6 +14,7 @@
+>     :maxdepth: 2
+>  
+>     process/index
+> +   filesystems/index
+>  
+>  Ä¿Â¼ºÍ±í¸ñ
+>  ----------
+> 
