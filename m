@@ -2,43 +2,87 @@ Return-Path: <SRS0=tpYU=5E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D04ECC4332B
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 06:26:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB413C4332E
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 07:01:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9860820714
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 06:26:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8D0120714
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Mar 2020 07:01:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=c-s.fr header.i=@c-s.fr header.b="kSCCxuWg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725812AbgCSG0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Mar 2020 02:26:37 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:39896 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725767AbgCSG0h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Mar 2020 02:26:37 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R291e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0Tt04BxJ_1584599154;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0Tt04BxJ_1584599154)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 19 Mar 2020 14:25:54 +0800
-Subject: Re: [PATCH v2] Translate Documentation/filesystems/debugfs.txt into
- Chinese
-To:     Chucheng Luo <luochucheng@vivo.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@vivo.com
-References: <20200319030039.29006-1-luochucheng@vivo.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <21d534e9-e7f6-f3ed-c7cc-0fd3691ad679@linux.alibaba.com>
-Date:   Thu, 19 Mar 2020 14:25:54 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.5.0
+        id S1726589AbgCSHBK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Mar 2020 03:01:10 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:38932 "EHLO pegase1.c-s.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725787AbgCSHBJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Mar 2020 03:01:09 -0400
+Received: from localhost (mailhub1-int [192.168.12.234])
+        by localhost (Postfix) with ESMTP id 48jd9D5Wspz9v1Md;
+        Thu, 19 Mar 2020 08:01:04 +0100 (CET)
+Authentication-Results: localhost; dkim=pass
+        reason="1024-bit key; insecure key"
+        header.d=c-s.fr header.i=@c-s.fr header.b=kSCCxuWg; dkim-adsp=pass;
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+        with ESMTP id a91KdXxJSw9z; Thu, 19 Mar 2020 08:01:04 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 48jd9D4MMFz9v1Mc;
+        Thu, 19 Mar 2020 08:01:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
+        t=1584601264; bh=f1YwOhdxX26Y+wBuzZ6KcmY62u5y/+8Hvgm0wH6ueYs=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=kSCCxuWg89EGpfCGJFvQQEKaoHe/kCd5TGb/eJd9YNW4o9nMza+I2DetAh60y0OYl
+         jNWoevB3fgK3oMJ2kFYnvfR61+Z0w2UWeOnoIyGuiPFaUDv3CG1pmdSv9t5BVLTXov
+         N7ub0KXLdsT/u4I32YAoSgYf0fhvDN90dndC0kTk=
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 784F58B769;
+        Thu, 19 Mar 2020 08:01:05 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id MWrtuWx18n7g; Thu, 19 Mar 2020 08:01:05 +0100 (CET)
+Received: from [192.168.4.90] (unknown [192.168.4.90])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id DFB5B8B798;
+        Thu, 19 Mar 2020 08:01:03 +0100 (CET)
+Subject: Re: [PATCH 1/4] hugetlbfs: add arch_hugetlb_valid_size
+To:     Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Longpeng <longpeng2@huawei.com>, Will Deacon <will@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>
+References: <20200318220634.32100-1-mike.kravetz@oracle.com>
+ <20200318220634.32100-2-mike.kravetz@oracle.com>
+From:   Christophe Leroy <christophe.leroy@c-s.fr>
+Message-ID: <c3071359-c5d3-4247-7f16-6f61b2fa0756@c-s.fr>
+Date:   Thu, 19 Mar 2020 08:00:59 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200319030039.29006-1-luochucheng@vivo.com>
-Content-Type: text/plain; charset=gbk
+In-Reply-To: <20200318220634.32100-2-mike.kravetz@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -47,338 +91,215 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-在 2020/3/19 上午11:00, Chucheng Luo 写道:
-> Translate debugfs.txt into Chinese and link it to the index.
+Le 18/03/2020 脿 23:06, Mike Kravetz a 茅crit聽:
+> The architecture independent routine hugetlb_default_setup sets up
+> the default huge pages size.  It has no way to verify if the passed
+> value is valid, so it accepts it and attempts to validate at a later
+> time.  This requires undocumented cooperation between the arch specific
+> and arch independent code.
 > 
-> Signed-off-by: Chucheng Luo <luochucheng@vivo.com>
-> Acked-by: Jonathan Corbet<corbet@lwn.net>
+> For architectures that support more than one huge page size, provide
+> a routine arch_hugetlb_valid_size to validate a huge page size.
+> hugetlb_default_setup can use this to validate passed values.
+> 
+> arch_hugetlb_valid_size will also be used in a subsequent patch to
+> move processing of the "hugepagesz=" in arch specific code to a common
+> routine in arch independent code.
+> 
+> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
 > ---
->  .../zh_CN/filesystems/debugfs.rst             | 257 ++++++++++++++++++
->  .../translations/zh_CN/filesystems/index.rst  |  19 ++
->  Documentation/translations/zh_CN/index.rst    |   1 +
->  3 files changed, 277 insertions(+)
->  create mode 100755 Documentation/translations/zh_CN/filesystems/debugfs.rst
->  create mode 100755 Documentation/translations/zh_CN/filesystems/index.rst
+>   arch/arm64/include/asm/hugetlb.h   |  2 ++
+>   arch/arm64/mm/hugetlbpage.c        | 19 ++++++++++++++-----
+>   arch/powerpc/include/asm/hugetlb.h |  3 +++
+>   arch/powerpc/mm/hugetlbpage.c      | 20 +++++++++++++-------
+>   arch/riscv/include/asm/hugetlb.h   |  3 +++
+>   arch/riscv/mm/hugetlbpage.c        | 28 ++++++++++++++++++----------
+>   arch/s390/include/asm/hugetlb.h    |  3 +++
+>   arch/s390/mm/hugetlbpage.c         | 18 +++++++++++++-----
+>   arch/sparc/include/asm/hugetlb.h   |  3 +++
+>   arch/sparc/mm/init_64.c            | 23 ++++++++++++++++-------
+>   arch/x86/include/asm/hugetlb.h     |  3 +++
+>   arch/x86/mm/hugetlbpage.c          | 21 +++++++++++++++------
+>   include/linux/hugetlb.h            |  7 +++++++
+>   mm/hugetlb.c                       | 16 +++++++++++++---
+>   14 files changed, 126 insertions(+), 43 deletions(-)
 > 
-> diff --git a/Documentation/translations/zh_CN/filesystems/debugfs.rst b/Documentation/translations/zh_CN/filesystems/debugfs.rst
-> new file mode 100755
-> index 000000000000..02f639445d3d
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/filesystems/debugfs.rst
-> @@ -0,0 +1,257 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/filesystems/debugfs.txt<debugfs_index>`
-> +
-> +==========================
-> +Debugfs
-> +==========================
-> +
-> +译者
-> +::
-> +
-> +	中文版维护者： 罗楚成 Chucheng Luo <luochucheng@vivo.com>
-> +	中文版翻译者： 罗楚成 Chucheng Luo <luochucheng@vivo.com>
-> +	中文版校译者:  罗楚成 Chucheng Luo <luochucheng@vivo.com>
-> +
-> +
-> +
-> +
-> +版权所有2009 Jonathan Corbet <corbet@lwn.net>
-> +
-> +介绍
-> +====
-> +
-> +Debugfs是内核开发人员在用户空间获取信息的简单方法。
-> +与/proc不同，proc只提供进程信息。也不像sysfs,具有严格的“每个文件一个值“的规则。
-> +debugfs根本没有规则。开发人员可以放置他们想要的任何信息在那里。
-> +debugfs文件系统也不能用作稳定的
 
-Could we follow 80 chars rule here and all following?
+[snip]
 
+> diff --git a/arch/powerpc/include/asm/hugetlb.h b/arch/powerpc/include/asm/hugetlb.h
+> index bd6504c28c2f..3b5939016955 100644
+> --- a/arch/powerpc/include/asm/hugetlb.h
+> +++ b/arch/powerpc/include/asm/hugetlb.h
+> @@ -64,6 +64,9 @@ static inline void arch_clear_hugepage_flags(struct page *page)
+>   {
+>   }
+>   
+> +#define arch_hugetlb_valid_size arch_hugetlb_valid_size
+> +extern bool __init arch_hugetlb_valid_size(unsigned long long size);
 
-> +ABI接口到用户空间；从理论上讲，文件在debugfs里导出没有任何稳定性的约束。
-> +尽管[1]现实世界并不总是那么简单。
-> +即使是debugfs接口，也最好根据需要进行设计
-> +永远保持下去。
+Don't add 'extern' keyword, it is irrelevant for a function declaration.
 
-It's hard to understand in Chinese here.
- 
-> +
-> +用法
-> +====
-> +
-> +Debugfs通常使用以下命令安装::
-> +
-> +    mount -t debugfs none /sys/kernel/debug
-> +
-> +（或等效的/etc/fstab行）。
-> +debugfs根目录默认仅可由root用户访问。
-> +要更改对树的访问，请使用“ uid”，“ gid”和“ mode”挂载选项。
-> +
-> +请注意，debugfs API仅导出为GPL到模块。
-> +
-> +使用debugfs的代码应包含<linux/debugfs.h>。然后，第一阶
-> +业务将是创建至少一个目录来保存一组debugfs文件::
-> +
-> +    struct dentry *debugfs_create_dir(const char *name, struct dentry *parent);
-> +
-> +如果成功，此调用将在指定的父目录目录下创建一个名为name的目录。
-> +如果parent为NULL，则目录为
-> +在debugfs根目录中创建。成功时，返回值是一个结构
-> +dentry指针，可用于在目录中创建文件（以及
-> +最后将其清理干净）。 ERR_PTR（-ERROR）返回值表面出错。如果返回ERR_PTR（-ENODEV），则为
-> +表明内核是在没有debugfs支持的情况下构建的，并且下述函数都不会起作用。
-> +
-> +在debugfs目录中创建文件的最通用方法是::
-> +
-> +    struct dentry *debugfs_create_file(const char *name, umode_t mode,
-> +				       struct dentry *parent, void *data,
-> +				       const struct file_operations *fops);
-> +
-> +在这里，name是要创建的文件的名称，mode描述了访问
-> +文件应具有的权限，parent指向应该保存文件的目录
-> +，data将存储在产生的inode结构的i_private字段中
-> +，而fops是一组文件操作，其中
-> +实现文件的行为。至少，read（）和/或write（）
-> +操作应提供；其他可以根据需要包括在内。再次，
-> +返回值将是指向创建文件的dentry指针，
-> +错误时显示ERR_PTR（-ERROR），不支持debugfs时返回值为ERR_PTR（-ENODEV）。
-> +
-> +创建一个初始大小的文件，可以使用以下函数代替::
-> +
-> +    struct dentry *debugfs_create_file_size(const char *name, umode_t mode,
-> +				struct dentry *parent, void *data,
-> +				const struct file_operations *fops,
-> +				loff_t file_size);
-> +
-> +file_size是初始文件大小。其他参数跟函数debugfs_create_file的相同。
-> +
-> +在许多情况下，创建一组文件操作不是
-> +实际必要的，
+checkpatch --strict doesn't like it either 
+(https://openpower.xyz/job/snowpatch/job/snowpatch-linux-checkpatch/12318//artifact/linux/checkpatch.log)
 
-Change to "没有实际必要去创建一组文件操作" ?
+> +
+>   #include <asm-generic/hugetlb.h>
+>   
+>   #else /* ! CONFIG_HUGETLB_PAGE */
+> diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpage.c
+> index 33b3461d91e8..b78f660252f3 100644
+> --- a/arch/powerpc/mm/hugetlbpage.c
+> +++ b/arch/powerpc/mm/hugetlbpage.c
+> @@ -558,7 +558,7 @@ unsigned long vma_mmu_pagesize(struct vm_area_struct *vma)
+>   	return vma_kernel_pagesize(vma);
+>   }
+>   
+> -static int __init add_huge_page_size(unsigned long long size)
+> +bool __init arch_hugetlb_valid_size(unsigned long long size)
+>   {
+>   	int shift = __ffs(size);
+>   	int mmu_psize;
+> @@ -566,20 +566,26 @@ static int __init add_huge_page_size(unsigned long long size)
+>   	/* Check that it is a page size supported by the hardware and
+>   	 * that it fits within pagetable and slice limits. */
+>   	if (size <= PAGE_SIZE || !is_power_of_2(size))
+> -		return -EINVAL;
+> +		return false;
+>   
+>   	mmu_psize = check_and_get_huge_psize(shift);
+>   	if (mmu_psize < 0)
+> -		return -EINVAL;
+> +		return false;
+>   
+>   	BUG_ON(mmu_psize_defs[mmu_psize].shift != shift);
+>   
+> -	/* Return if huge page size has already been setup */
+> -	if (size_to_hstate(size))
+> -		return 0;
+> +	return true;
+> +}
+>   
+> -	hugetlb_add_hstate(shift - PAGE_SHIFT);
+> +static int __init add_huge_page_size(unsigned long long size)
+> +{
+> +	int shift = __ffs(size);
+> +
+> +	if (!arch_hugetlb_valid_size(size))
+> +		return -EINVAL;
+>   
+> +	if (!size_to_hstate(size))
+> +		hugetlb_add_hstate(shift - PAGE_SHIFT);
+>   	return 0;
+>   }
+>   
 
-Chinese often has different words sequence from English in sentence.  
-Please pay attention on this.
- 
-对于简单的情况。debugfs代码提供了许多帮助函数
-> +。包含单个整数值的文件可以使用以下任何一项创建::
-> +
-> +    void debugfs_create_u8(const char *name, umode_t mode,
-> +			   struct dentry *parent, u8 *value);
-> +    void debugfs_create_u16(const char *name, umode_t mode,
-> +			    struct dentry *parent, u16 *value);
-> +    struct dentry *debugfs_create_u32(const char *name, umode_t mode,
-> +				      struct dentry *parent, u32 *value);
-> +    void debugfs_create_u64(const char *name, umode_t mode,
-> +			    struct dentry *parent, u64 *value);
-> +
-> +这些文件支持读取和写入给定值。如果具体
-> +不应写入文件，只需相应地设置模式位。的
-> +这些文件中的值以十进制表示；如果十六进制更合适，
-> +可以使用以下功能::
-> +
-> +    void debugfs_create_x8(const char *name, umode_t mode,
-> +			   struct dentry *parent, u8 *value);
-> +    void debugfs_create_x16(const char *name, umode_t mode,
-> +			    struct dentry *parent, u16 *value);
-> +    void debugfs_create_x32(const char *name, umode_t mode,
-> +			    struct dentry *parent, u32 *value);
-> +    void debugfs_create_x64(const char *name, umode_t mode,
-> +			    struct dentry *parent, u64 *value);
-> +
-> +只要开发人员知道导出值的大小，这些功能就很有用。
-> +某些类型在不同的架构上可以具有不同的宽度
-> +但是，这样会使情况变得有些复杂。有
-> +在以下特殊情况下可以提供帮助的功能::
-> +
-> +    void debugfs_create_size_t(const char *name, umode_t mode,
-> +			       struct dentry *parent, size_t *value);
-> +
-> +不出所料，此函数将创建一个debugfs文件来表示
-> +类型为size_t的变量。
-> +
-> +同样地，也有无符号长整型型变量的助手，以十进制表示
-> +和十六进制::
-> +
-> +    struct dentry *debugfs_create_ulong(const char *name, umode_t mode,
-> +					struct dentry *parent,
-> +					unsigned long *value);
-> +    void debugfs_create_xul(const char *name, umode_t mode,
-> +			    struct dentry *parent, unsigned long *value);
-> +
-> +布尔值可以通过以下方式放置在debugfs中::
-> +
-> +    struct dentry *debugfs_create_bool(const char *name, umode_t mode,
-> +				       struct dentry *parent, bool *value);
-> +
-> +
-> +读取结果文件将产生Y（对于非零值）或
-> +N，后跟换行符。如果写入，它将接受大写或
-> +小写值或1或0。任何其他输入将被忽略。
-> +
-> +同样，可以使用以下命令将atomic_t值放置在debugfs中::
-> +
-> +    void debugfs_create_atomic_t(const char *name, umode_t mode,
-> +				 struct dentry *parent, atomic_t *value)
-> +
-> +读取此文件将获得atomic_t值，并写入该文件
-> +将设置atomic_t值。
-> +
-> +另一个选择是导出一个任意二进制数据块，
-> +这个结构和功能::
-> +
-> +    struct debugfs_blob_wrapper {
-> +	void *data;
-> +	unsigned long size;
-> +    };
-> +
-> +    struct dentry *debugfs_create_blob(const char *name, umode_t mode,
-> +				       struct dentry *parent,
-> +				       struct debugfs_blob_wrapper *blob);
-> +
-> +读取此文件将返回由指针指向debugfs_blob_wrapper结构
-> +的数据。一些驱动使用“blobs”作为一种简单的方法
-> +返回几行（静态）格式化文本输出。这个功能
-> +可用于导出二进制信息，但似乎没有
-> +在主线中执行此操作的任何代码。请注意，使用debugfs_create_blob（）命令创建的所有文件
-> +是只读的。
-> +
-> +如果您要转储一个寄存器块（发生的事情相当
-> +通常在开发过程中，即使很少有这样的代码到达主线。
-> +Debugfs提供两个功能：一个用于创建仅寄存器文件，另一个
-> +把一个寄存器块插入一个顺序文件中::
-> +
-> +    struct debugfs_reg32 {
-> +	char *name;
-> +	unsigned long offset;
-> +    };
-> +
-> +    struct debugfs_regset32 {
-> +	struct debugfs_reg32 *regs;
-> +	int nregs;
-> +	void __iomem *base;
-> +    };
-> +
-> +    struct dentry *debugfs_create_regset32(const char *name, umode_t mode,
-> +				     struct dentry *parent,
-> +				     struct debugfs_regset32 *regset);
-> +
-> +    void debugfs_print_regs32(struct seq_file *s, struct debugfs_reg32 *regs,
-> +			 int nregs, void __iomem *base, char *prefix);
-> +
-> +“base”参数可能为0，但您可能需要构建reg32数组
-> +使用__stringify，实际上有许多寄存器名称（宏）
-> +寄存器块的基址上的字节偏移量。
-> +
-> +如果要在debugfs中转储u32数组，可以使用以下命令创建文件::
-> +
-> +     void debugfs_create_u32_array(const char *name, umode_t mode,
-> +			struct dentry *parent,
-> +			u32 *array, u32 elements);
-> +
-> +“array”参数提供数据，而“elements”参数为
-> +数组中元素的数量。注意：建立数组后，
-> +大小无法更改。
-> +
-> +有一个帮助函数来创建与设备相关的seq_file::
-> +
-> +   struct dentry *debugfs_create_devm_seqfile(struct device *dev,
-> +				const char *name,
-> +				struct dentry *parent,
-> +				int (*read_fn)(struct seq_file *s,
-> +					void *data));
-> +
-> +“dev”参数是与此debugfs文件相关的设备，并且
-> +“read_fn”是一个函数指针，将被调用以打印
-> +seq_file内容。
-> +
-> +还有一些其他的面向目录的帮助器功能::
-> +
-> +    struct dentry *debugfs_rename(struct dentry *old_dir,
-> +		                  struct dentry *old_dentry,
-> +		                  struct dentry *new_dir,
-> +				  const char *new_name);
-> +
-> +    struct dentry *debugfs_create_symlink(const char *name,
-> +                                          struct dentry *parent,
-> +                                          const char *target);
-> +
-> +调用debugfs_rename()将为现有的debugfs文件提供一个新名称，
-> +可能在其他目录中。 new_name函数调用之前不能存在；
-> +返回值为old_dentry，其中包含更新的信息。
-> +可以使用debugfs_create_symlink（）创建符号链接。
-> +
-> +所有debugfs用户必须考虑的一件事是：
-> +没有自动清除在debugfs中创建的任何目录。如果一个
-> +在不显式删除debugfs条目的情况下卸载模块，结果
-> +将会有很多陈旧的指针，和没完没了的高度反社会行为。
+[snip]
 
-it's hard to understand.
+> diff --git a/arch/x86/mm/hugetlbpage.c b/arch/x86/mm/hugetlbpage.c
+> index 5bfd5aef5378..51e6208fdeec 100644
+> --- a/arch/x86/mm/hugetlbpage.c
+> +++ b/arch/x86/mm/hugetlbpage.c
+> @@ -181,16 +181,25 @@ hugetlb_get_unmapped_area(struct file *file, unsigned long addr,
+>   #endif /* CONFIG_HUGETLB_PAGE */
+>   
+>   #ifdef CONFIG_X86_64
+> +bool __init arch_hugetlb_valid_size(unsigned long long size)
+> +{
+> +	if (size == PMD_SIZE)
+> +		return true;
+> +	else if (size == PUD_SIZE && boot_cpu_has(X86_FEATURE_GBPAGES))
+> +		return true;
+> +	else
+> +		return false;
+> +}
+> +
+>   static __init int setup_hugepagesz(char *opt)
+>   {
+> -	unsigned long ps = memparse(opt, &opt);
+> -	if (ps == PMD_SIZE) {
+> -		hugetlb_add_hstate(PMD_SHIFT - PAGE_SHIFT);
+> -	} else if (ps == PUD_SIZE && boot_cpu_has(X86_FEATURE_GBPAGES)) {
+> -		hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
+> +	unsigned long long ps = memparse(opt, &opt);
+> +
+> +	if (arch_hugetlb_valid_size(ps)) {
+> +		hugetlb_add_hstate(ilog2(ps) - PAGE_SHIFT);
+>   	} else {
+>   		hugetlb_bad_size();
+> -		printk(KERN_ERR "hugepagesz: Unsupported page size %lu M\n",
+> +		printk(KERN_ERR "hugepagesz: Unsupported page size %llu M\n",
+>   			ps >> 20);
 
+Nowadays we use pr_err() instead of printk.
 
-> +因此，所有debugfs用户-至少是那些可以作为模块构建的用户-必须
-> +准备删除在此创建的所有文件和目录。一份文件
-> +可以通过以下方式删除::
-> +
-> +    void debugfs_remove(struct dentry *dentry);
-> +
-> +dentry值可以为NULL或错误值，在这种情况下，不会有任何结果
-> +被删除。
-> +
-> +从前，debugfs用户需要记住该dentry
-> +他们创建的每个debugfs文件的指针，以便所有文件都可以
+It would also likely allow you to have everything fit on a single line.
 
-Could you understand this?
+>   		return 0;
+>   	}
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index b831e9fa1a26..33343eb980d0 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -678,6 +678,13 @@ static inline spinlock_t *huge_pte_lockptr(struct hstate *h,
+>   	return &mm->page_table_lock;
+>   }
+>   
+> +#ifndef arch_hugetlb_valid_size
+> +static inline bool arch_hugetlb_valid_size(unsigned long long size)
+> +{
+> +	return (size == HPAGE_SIZE);
 
-> +清理。但是，我们现在生活在更加文明的时代，并且debugfs用户
-> +能调用::
+Not sure the ( ) are necessary.
+
+> +}
+> +#endif
 > +
-> +    void debugfs_remove_recursive(struct dentry *dentry);
+>   #ifndef hugepages_supported
+>   /*
+>    * Some platform decide whether they support huge pages at boot
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index d8ebd876871d..2f99359b93af 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -3224,12 +3224,22 @@ static int __init hugetlb_nrpages_setup(char *s)
+>   }
+>   __setup("hugepages=", hugetlb_nrpages_setup);
+>   
+> -static int __init hugetlb_default_setup(char *s)
+> +static int __init default_hugepagesz_setup(char *s)
+>   {
+> -	default_hstate_size = memparse(s, &s);
+> +	unsigned long long size;
+
+Why unsigned long long ?
+
+default_hstate_size is long.
+
+I can't imagine 32 bits platforms having a hugepage with a 64 bits size.
+
+> +	char *saved_s = s;
 > +
-> +如果传递了此函数，则对应于
-> +顶层目录，该目录下的整个层次结构将会被删除。
+> +	size = memparse(s, &s);
+
+The updated s is not reused after that so you can pass NULL instead of 
+&s and then you don't need the saved_s.
+
 > +
-> +注意：
-> +[1] http://lwn.net/Articles/309298/
-> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-> new file mode 100755
-> index 000000000000..79b6c20f9575
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
-> @@ -0,0 +1,19 @@
-> +===============================
-> +Linux 内核中的文件系统
-> +===============================
+> +	if (!arch_hugetlb_valid_size(size)) {
+> +		pr_err("HugeTLB: unsupported default_hugepagesz %s\n", saved_s);
+> +		return 0;
+> +	}
 > +
-> +这个不完整的指南在某一天将会提供关于Linux 虚拟文件系统(VFS)层如何工作的
-> +完整信息。以及VFS以下的的文件系统。目前为止，我们提供了以下信息。
-> +
-> +
-> +
-> +
-> +文件系统
-> +===========
-> +
-> +关于文件系统实现的文档.
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   debugfs
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index d3165535ec9e..76850a5dd982 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -14,6 +14,7 @@
->     :maxdepth: 2
->  
->     process/index
-> +   filesystems/index
->  
->  目录和表格
->  ----------
+> +	default_hstate_size = size;
+>   	return 1;
+>   }
+> -__setup("default_hugepagesz=", hugetlb_default_setup);
+> +__setup("default_hugepagesz=", default_hugepagesz_setup);
+>   
+>   static unsigned int cpuset_mems_nr(unsigned int *array)
+>   {
 > 
+
+
+Christophe
