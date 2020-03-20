@@ -2,125 +2,135 @@ Return-Path: <SRS0=irxi=5F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C35C7C4332B
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 05:30:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC6E9C4332B
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 09:26:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 98E6B2072D
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 05:30:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92E3C20739
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 09:26:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EZIUuPiz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tbq+fbIO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726030AbgCTFaP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Mar 2020 01:30:15 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:46403 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgCTFaN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Mar 2020 01:30:13 -0400
-Received: by mail-oi1-f195.google.com with SMTP id x5so5266037oic.13
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2020 22:30:12 -0700 (PDT)
+        id S1726778AbgCTJ04 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Mar 2020 05:26:56 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43301 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726704AbgCTJ0z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Mar 2020 05:26:55 -0400
+Received: by mail-lj1-f196.google.com with SMTP id u15so5346922lji.10
+        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2020 02:26:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+thAp6yyX7UKE9dtUxDENsQxMtVNf3sefwYHyrkPjH0=;
-        b=EZIUuPizsyWJamEo8OnXltTQLT0zbEnN7i0eoveXQdd8aAXB0sTHgk0h0j2aPv3xdl
-         PvlcmCU9Qqo6UPCU0YGJjPZHZklXi0mnfTFFSMmLJO2+8XQJhgG2+SrUYGqJLbRUs34w
-         MHA/fMaS5ydEyWuSCzaNeVFjEQP3llaZOTs2mjgeihPn7LkbpRz5ycvSOPlzm6gBjn0W
-         OaxQcy9AeArJqrxxJWa3gm8Z8TuZZTaY8qlWeFQ/x5EcXXheQhyOAhxkq6P9XBi6DkuI
-         q84xSlpwp6t9y/DeFQzUxsQx2V8ge6Z5qW1kL9lgqfzvKq4NqI8zeJih0o6Bvzr7ePwC
-         XgPA==
+        bh=Xb2+TkejQMyeRgV2FN7crNaJyjiX8rMU6p7e/O+WXs0=;
+        b=tbq+fbIOQCPDoIaCZyKPTLUNOGRkJRUrZkJZAQgonMZpLrWXjWX7Qtc+As8KQ5LXdG
+         sTWgnaH15HiCIBzv4PNxsm/oEkGNFwjnF3FFhpvXSm2a0Cxoxbi+DZihSyN5j3+h8RZA
+         UJfIbNdNm5vzWcpNFnkp8nIYwubgVmtCTwheuBGl5A1KEQZR2w4QGAul1X4jx6ilWgqq
+         e7W+zpYkxhoss0ivMVNoGTH87T4HRNDcMqQ9J+tvCiQOWHZa8Eiqjd0kgx0tQ864WYn9
+         jAXVKp5AI3xJmdEDtOJgME9RmxQvtjMvVByhDfeX3DY3a7HmxlcC82UHbIwmjWXnUIH0
+         Y5uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+thAp6yyX7UKE9dtUxDENsQxMtVNf3sefwYHyrkPjH0=;
-        b=CRDFT7chTLrxh+OMgLjpSLJlJLogB4bNIghcMC+sWJn+anBgwl295Ex+KFVc1cWYOE
-         SootQ3kf8EMsOz/Rk+pVPDuO1Qa2w6itf9ClegfeK96mepbUbpzqV5eDresNOPth9HUp
-         LLuIXGk3hfBm2VeVApsFIbHbKcUtigcu7wO313PMEPul8neqVX0zcljHxAHfNW3RZPiF
-         MzZUYnsfCV/9psNTMKbLZwcXP/OJnczrme8GI6tGfoZh6bKNVKNFR7JmmlrhBe3Brh9e
-         CZ0+AU5v5noOkR2yruRmnB6j4/GwfNj+KTjTxjKnhp4dJhsyCRqZ+ssE65FLViyCs8u6
-         3JNQ==
-X-Gm-Message-State: ANhLgQ30yFpKQx0ehjJ/NCLHbm6fdKYw6TEjGNT35g4tMWhv7PtcSbSk
-        MywiFvu+dTeax4IxBwSPcjzEkHpqiErwH5InYXqPPg==
-X-Google-Smtp-Source: ADFU+vs9ry2XYsgdK4314uO1jxo2AlhedtLaVepDUfyzcjwnRtJPqD/97uig5eK0Wc99bItxHnujbp8fjRWMCAR3xjM=
-X-Received: by 2002:aca:f541:: with SMTP id t62mr5236270oih.172.1584682212108;
- Thu, 19 Mar 2020 22:30:12 -0700 (PDT)
+        bh=Xb2+TkejQMyeRgV2FN7crNaJyjiX8rMU6p7e/O+WXs0=;
+        b=fnDF+iPmqZXlByi34s5lTC4zq1yNfuSrquYcQysJ0sHzX1PYyGQe2vYQMxvycK0G8A
+         f4MjtMmOK9pAWJt0PkKS7T/xwBDBeCy8YGDb1sO0ljkgFtc3EoBviKPM+xY55AVQQ0+1
+         LcIUfhG90wb51WrAw8BwK+kuyJUj4S8Ar981OZi7ttHxGS81OsD1o0bBrxyp/ZPO7g+e
+         yzHHxCLnWABATwshV8gw9R8HJzk5RMyHI2YhHLCYpPOiai62e98DkXB7Q6Ub1uZthFJM
+         ztPtaXbJ89gy2/ZKKfBNZY/Jr9vXqxxfgVceK6neSvbBeD1GHvYaA6WvkZSZgCg6B/j9
+         9ZcQ==
+X-Gm-Message-State: ANhLgQ2Mk9B5HNGznCza49zXvePB4/Pr0Zro1b+z8WGoH/Yv5osdwIeC
+        tHRsRVyBDlLbVR4gHvcAnwhpDdHrPXS7rIbvKc0KQg==
+X-Google-Smtp-Source: ADFU+vtuJ0t8Nqq40yxEBdJE/UuZY+X1aSolICR4o1I8kWzUt2hZ40fB2rvEyc9S2cEgGGbq33gRugkfewIJCU8F73I=
+X-Received: by 2002:a2e:8ecf:: with SMTP id e15mr4982788ljl.223.1584696412508;
+ Fri, 20 Mar 2020 02:26:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200317065452.236670-1-saravanak@google.com> <CAGETcx-uZ3YJHCYqFm3so8-woTvL3SSDY2deNonthTetcE+mXQ@mail.gmail.com>
- <20200319073927.GA3442166@kroah.com>
-In-Reply-To: <20200319073927.GA3442166@kroah.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Thu, 19 Mar 2020 22:29:36 -0700
-Message-ID: <CAGETcx-3oeJOvpCYj==RJuBU9HP8F0ZNr0YLvUHGHF52b=F7HA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/6] Fix device links functional breakage in 4.19.99
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     stable <stable@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+References: <20190617221134.9930-1-f.fainelli@gmail.com> <20191114181243.q37rxoo3seds6oxy@pengutronix.de>
+ <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com> <20191115070842.2x7psp243nfo76co@pengutronix.de>
+ <20191115114416.ba6lmwb7q4gmepzc@pengutronix.de> <60bda4a9-f4f8-3641-2612-17fab3173b29@gmail.com>
+ <CACRpkdYJR3gQCb4WXwF4tGzk+tT7jMcV9=nDK0PFkeh+0G11bA@mail.gmail.com>
+ <2639dfb0-9e48-cc0f-27e5-34308f790293@gmail.com> <CACRpkdZ8JA=DXOxzYwyvBxCMd2Q5uzLTn87AVK7wdrxHFo5ydQ@mail.gmail.com>
+ <20200305094328.sizz4vm4wamywdct@pengutronix.de>
+In-Reply-To: <20200305094328.sizz4vm4wamywdct@pengutronix.de>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 20 Mar 2020 10:26:40 +0100
+Message-ID: <CACRpkdYzSZY0r=YYiosvi2CA7mia5oiXAWUkbYSqjU1PZ_6w=g@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] KASan for arm
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Julien Thierry <julien.thierry@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
+        Abbott Liu <liuwenliang@huawei.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Russell King <linux@armlinux.org.uk>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        drjones@redhat.com, Vladimir Murzin <vladimir.murzin@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Jinbum Park <jinb.park7@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Android Kernel Team <kernel-team@android.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rob Landley <rob@landley.net>, philip@cog.systems,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Garnier <thgarnie@google.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 12:39 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On Thu, Mar 5, 2020 at 10:44 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> On 20-03-05 09:43, Linus Walleij wrote:
+> > Hi Florian,
+> >
+> > On Fri, Jan 17, 2020 at 8:55 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
+> >
+> > > Let me submit and rebase v7 get the auto builders some days to see if it
+> > > exposes a new build issue and then we toss it to RMK's patch tracker and
+> > > fix bugs from there?
+> >
+> > Sorry for hammering, can we get some initial patches going into
+> > Russell's patch tracker here? I can sign them off and put them in
+> > if you don't have time.
 >
-> On Wed, Mar 18, 2020 at 12:10:43PM -0700, Saravana Kannan wrote:
-> > On Mon, Mar 16, 2020 at 11:54 PM Saravana Kannan <saravanak@google.com> wrote:
-> > >
-> > > As mentioned in an earlier email thread [1], 4.19.99 broke the ability
-> > > to create stateful and stateless device links between the same set of
-> > > devices when it pulled in a valid bug fix [2]. While the fix was valid,
-> > > it removes a functionality that was present before the bug fix.
-> > >
-> > > This patch series attempts to fix that by pulling in more patches from
-> > > upstream. I've just done compilation testing so far. But wanted to send
-> > > out a v1 to see if this patch list was acceptable before I fixed up the
-> > > commit text format to match what's needed for stable mailing list.
-> > >
-> > > Some of the patches are new functionality, but for a first pass, it was
-> > > easier to pull these in than try and fix the conflicts. If these patches
-> > > are okay to pull into stable, then all I need to do is fix the commit
-> > > text.
-> >
-> > I took a closer look at all the patches. Everyone of them is a bug fix
-> > except Patch 4/6. But Patch 4/6 is a fairly minimal change and I think
-> > it's easier/cleaner to just pick it up too instead of trying to
-> > resolve merge conflicts in the stable branch.
-> >
-> > 1/6 - Fixes what appears to be a memory leak bug in upstream.
-> > 2/6 - Fixes error in initial state of the device link if it's created
-> > under some circumstances.
-> > 3/6 - Fixes a ref count bug in upstream. Looks like it can lead to memory leaks?
-> > 4/6 - Adds a minor feature to kick off a probe attempt of a consumer
-> > 5/6 - Fixes the break in functionality that happened in 4.19.99
-> > 6/6 - Fixes bug in 5/6 (upstream bug)
-> >
-> > Greg
-> >
-> > Do these patches look okay for you to pull into 4.19 stable? If so,
-> > please let me know if you need me to send v2 with commit fix up.
-> >
-> > The only fix up needed is to these patches at this point is changing
-> > "(cherry picked from commit ...)" with "[ Upstream commit ... ]". The
-> > SHAs themselves are the correct SHAs from upstream.
->
-> These all look good to me, now all queued up, thanks.
+> I've tested the branch on several imx6 based boards with different
+> toolchains. Some boards booting normal and some of them are lost in
+> space... I didn't debugged it yet just wanted to inform you.
 
-Awesome, thanks!
+Hm. I will bring up the KASan stack on more boards.
 
--Saravana
+If the system is anywhere close to being low on memory they
+will naturally crash, this is an unavoidable side effect of KASan
+or anything else that just chew of a big chunk of memory, that I ran into,
+as I was booting from initramfs on very memory
+constrained systems.
+
+Yours,
+Linus Walleij
