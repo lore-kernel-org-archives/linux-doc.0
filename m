@@ -2,130 +2,113 @@ Return-Path: <SRS0=irxi=5F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F15AEC4332E
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 14:02:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78314C4332D
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 15:11:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C883320777
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 14:02:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CFE02078C
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 15:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584712968;
-	bh=5Z1pwexTYyYy7sJMHe5keJj5QUuvGZ/XrTgYgp87Uzs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=O3HvjblWzEFPSh93FQJJSNRqZbk/I6m3Pt2WoON5HKf69AFhjfmkK1YOsd1JRi0Jg
-	 CfRhSjkHqqIbvQA7azOoo9VCQR1trjSzPrSNMW45m/eXu9taFFRkxZ4ZEHcd1v+XrB
-	 zTUe2RR3WH6+uYTl0SnVcayrFPstutAAA1jdP0ek=
+	s=default; t=1584717068;
+	bh=wudnCbbJkjczxJlVMnm2x1ea/nxbRMb1+tCH6Lys7I0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=FewaDcjSQFriCpCzAsRPEhfntfzSTAzjZ+/3h8Xck52EqEpMZW5LmpI+sr7/oo+Ko
+	 HeWH8kvRIxAepTvPCXwPKWtO+cG0VA9gLZQutg0qGTHuYTrGHAGnZua8grrkDXEdR1
+	 ZtIGxWDzvnXbXBwXwLdWfKc18uoVOCXSZ/X20OIw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbgCTOCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Mar 2020 10:02:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60234 "EHLO mail.kernel.org"
+        id S1726954AbgCTPLH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Mar 2020 11:11:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56046 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726773AbgCTOCs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Mar 2020 10:02:48 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1726913AbgCTPLH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Mar 2020 11:11:07 -0400
+Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F21AA2051A;
-        Fri, 20 Mar 2020 14:02:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A31032072C;
+        Fri, 20 Mar 2020 15:11:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584712965;
-        bh=5Z1pwexTYyYy7sJMHe5keJj5QUuvGZ/XrTgYgp87Uzs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CU1YZ99qYJjikO714HJH+W1kSSWtM3oLBz3Ba5Qr9MKPBBgyb81IhZjckTVEYTERa
-         0qZq+Oz5Wb63F44ixOBDajGaMzEvL6yRLxI/ao0QE5aP/fhFTp68/17ewN2mScGYWN
-         tx1uwXKWpzgaWa6Dycv2plDnaEhOoo9lzTw5v9PE=
-Date:   Fri, 20 Mar 2020 15:02:43 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v12 03/10] firmware: Rename FW_OPT_NOFALLBACK to
- FW_OPT_NOFALLBACK_SYSFS
-Message-ID: <20200320140243.GA636547@kroah.com>
-References: <20200115163554.101315-1-hdegoede@redhat.com>
- <20200115163554.101315-4-hdegoede@redhat.com>
- <20200124085751.GA2957916@kroah.com>
- <d25d5d6e-0348-b19f-539e-048cfa70d6a6@redhat.com>
- <20200318132741.GA2794545@kroah.com>
- <8fa336bd-339f-40e0-08fe-e6b968736679@redhat.com>
+        s=default; t=1584717066;
+        bh=wudnCbbJkjczxJlVMnm2x1ea/nxbRMb1+tCH6Lys7I0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Nd3IfO1Jz3ojOLpMXR8IcWgatHz1bSFvGmD3lf26kmG0hyvaeI27BhRWgoKQvJ02n
+         aKePetfzIEYKee/x3WlS4K37C6KIsgCULzuH+UIzjPRFjTNuv0S0bX4BWb/zeaNa6U
+         LNcpnFxFqBQtDet+MgrYxPVjzTP8r8afTfGpnf+w=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jFJIe-000ukj-Kb; Fri, 20 Mar 2020 16:11:04 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 2/2] docs: conf.py: avoid thousands of duplicate label warning on Sphinx
+Date:   Fri, 20 Mar 2020 16:11:03 +0100
+Message-Id: <74f4d8d91c648d7101c45b4b99cc93532f4dadc6.1584716446.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1584716446.git.mchehab+huawei@kernel.org>
+References: <cover.1584716446.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8fa336bd-339f-40e0-08fe-e6b968736679@redhat.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 18, 2020 at 02:56:23PM +0100, Hans de Goede wrote:
-> Hi Greg,
-> 
-> On 3/18/20 2:27 PM, Greg Kroah-Hartman wrote:
-> > On Fri, Jan 24, 2020 at 10:16:48AM +0100, Hans de Goede wrote:
-> > > Hi,
-> > > 
-> > > On 1/24/20 9:57 AM, Greg Kroah-Hartman wrote:
-> > > > On Wed, Jan 15, 2020 at 05:35:47PM +0100, Hans de Goede wrote:
-> > > > > This is a preparation patch for adding a new platform fallback mechanism,
-> > > > > which will have its own enable/disable FW_OPT_xxx option.
-> > > > > 
-> > > > > Note this also fixes a typo in one of the re-wordwrapped comments:
-> > > > > enfoce -> enforce.
-> > > > > 
-> > > > > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
-> > > > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > > > 
-> > > > I've taken this in my tree for now in a quest to try to get others to
-> > > > pay attention to this series...
-> > > 
-> > > Thank you.
-> > > 
-> > > As mentioned before I believe that this series is ready for merging now.
-> > > 
-> > > Andy Lutomirski had one last change request for v12 of the second
-> > > patch in the series, specifically to replace the loop searching for
-> > > the prefix with a memem, but the kernel does not have memmem.
-> > > 
-> > > Andy, are you ok with v12 as is, given that we don't have memmem ?
-> > > 
-> > > Assuming Andy is ok with v12 as is, then to merge this we need
-> > > to probably wait for 5.6-rc1 and then have the x86/efi folks do
-> > > an immutable branch with the first 2 patches of the series.
-> > 
-> > Did this every happen?  Or do I need to dump this all into my tree?
-> 
-> Ard has done a immutable branch with just the 2 patches:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git/tag/?h=stable-shared-branch-for-driver-tree
-> 
-> I did not see any mails about this being pulled / merged, but I just
-> checked and this has landed in the tip tree 10 days ago:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/log/include/linux/efi.h?h=efi/core
-> 
-> So if you merge the stable-shared-branch-for-driver-tree tag and then
-> merge patches 3-8 of this series (or rather 4-8 since you already
-> merged 3 IIRC) that would be great.
+The autosectionlabel extension is nice, as it allows to refer to
+a section by its name without requiring any extra tag to create
+a reference name.
 
-Ok, I've merged the above branch with just the two patches, and the rest
-of yours now, sorry this took so long.
+However, on its default, it has two serious problems:
 
-greg k-h
+1) the namespace is global. So, two files with different
+   "introduction" section would create a label with the
+   same name. This is easily solvable by forcing the extension
+   to prepend the file name with:
+
+	autosectionlabel_prefix_document = True
+
+2) It doesn't work hierarchically. So, if there are two level 1
+   sessions (let's say, one labeled "open" and another one "ioctl")
+   and both have a level 2 "synopsis" label, both section 2 will
+   have the same identical name.
+
+   Currently, there's no way to tell Sphinx to create an
+   hierarchical reference like:
+
+		open / synopsis
+		ioctl / synopsis
+
+  This causes around 800 warnings. So, the fix should be to
+  not let autosectionlabel to produce references for anything
+  that it is not at a chapter level within any doc, with:
+
+	autosectionlabel_maxdepth = 2
+
+Fixes: 58ad30cf91f0 ("docs: fix reference to core-api/namespaces.rst")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/conf.py | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index fa2bfcd6df1d..9ae8e9abf846 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -40,6 +40,10 @@ extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
+               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+               'maintainers_include', 'sphinx.ext.autosectionlabel' ]
+ 
++# Ensure that autosectionlabel will produce unique names
++autosectionlabel_prefix_document = True
++autosectionlabel_maxdepth = 2
++
+ # The name of the math extension changed on Sphinx 1.4
+ if (major == 1 and minor > 3) or (major > 1):
+     extensions.append("sphinx.ext.imgmath")
+-- 
+2.24.1
+
