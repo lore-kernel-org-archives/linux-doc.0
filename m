@@ -2,106 +2,113 @@ Return-Path: <SRS0=irxi=5F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E987CC4332D
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 11:24:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A3AC4332B
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 11:59:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BCD3420786
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 11:24:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="VXkUZHjl"
+	by mail.kernel.org (Postfix) with ESMTP id 6A63A20754
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 11:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584705564;
+	bh=aoZ7zim27WwTwQgSmmGFXrg6+n7WZ5+GAMCJAf+nuNs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=jgJTRu7ScrYcZB3MTFrkNcrhLoovRvBxSBxN/S89JO5U1fmIYND20Tse6s7MPlOOa
+	 D/DGDhRQjoB/nZZGUKN0lqXlCFHOWaYuXDamhhKa/MncEGpSjfJmV6Ta09cbNsBla6
+	 wEQX8hZE1/ZOClJjUIapu5xEWnM0UMT4pk8SjstM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727209AbgCTLYv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Mar 2020 07:24:51 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:13690 "EHLO mx.kolabnow.com"
+        id S1726894AbgCTL7Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Mar 2020 07:59:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39282 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726820AbgCTLYv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Mar 2020 07:24:51 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 8268C40D49;
-        Fri, 20 Mar 2020 12:24:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1584703488; x=1586517889; bh=L4wPJtn50I51+Mq1xXTEU9qAXC8zThyChF1
-        UTylT4Ek=; b=VXkUZHjlkIg9lQ+dbJJk7fhtnrnjYZ1/w86vPvJxqb6wodOWjUX
-        kMQHTrxi7FFv/hN4dmQTa4LeHQGqwIHfe4PhaX8MPEyFVnE046LFWsj7NX1PkRuX
-        N4LWEGv9cF2ySkygQ6woBlK/SJZJ+rbDMs+Hhb6fVM3NJlgYRmbIACDpZojnB3w4
-        7MYLFBwsTF8lQ6YT5fTGf3Wn06+SeHSLzaEGvt+laCgFfHXM8ceUBFVoa4uFRvXx
-        ErhTbA10xbOln6juYvX1ma4KpI8lqy4AvSgNOfz5VuG217iZoaGMPCNUh0qkVbw9
-        sA2Dq9TykTJKZwZwtaVLD/Jz2nNW6lDcEt197LaJnVxpLBnkwXHgJ20s+pukLM9l
-        si++ZXQ+c0X+Thxd1p1Irlw8ZbY83td2dzVltngtGbBy+82z/jSYVmgjONS2Nrhm
-        K3P6I0NdIY59Ot+pxWd+1x+k568aZfdO4Fplw3kZHAyLR5iAMM0HwYZLZJ5C9rFb
-        CWk1eSCemF+OeZkPxhErCQi6PH+d+/TVToPnPtxGaFeqIG6STdLF3IxwVdVCjIKl
-        GdpFg+XnlTF2K98eNVEPWBiCSrwZntCfCnr7mudL5hY9zd7ywD3J+uY8eGii6ety
-        j5vMvuTwtejdEjovEATwmqDFp7DkRWBy4lp02VctVCU+OFHzKuiRed3E=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id vEpvX-rmhzOR; Fri, 20 Mar 2020 12:24:48 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 0A31140D30;
-        Fri, 20 Mar 2020 12:24:46 +0100 (CET)
-Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 9F7256948;
-        Fri, 20 Mar 2020 12:24:46 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        id S1726893AbgCTL7X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Mar 2020 07:59:23 -0400
+Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6F0C820722;
+        Fri, 20 Mar 2020 11:59:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584705563;
+        bh=aoZ7zim27WwTwQgSmmGFXrg6+n7WZ5+GAMCJAf+nuNs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=A7OzQWA832eTfXGvXXmBJRl9zuJTstSvzScbIvTe67lko6VAcDy0fbsFHycitqNzm
+         QrIggfVZI/H+JNW/uwmj/cnwBepqUCcD01OpNG0zBf+sQSewFnlZfC61ug2Kqgvg8l
+         ArS13d+oZsTDTBoinUYI0GEKwBXg7oYpUXp93UIY=
+Date:   Fri, 20 Mar 2020 12:59:18 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] docs: conf.py: avoid thousands of duplicate label warning on Sphinx
-Date:   Fri, 20 Mar 2020 12:24:45 +0100
-Message-ID: <3508337.2CZTLhteCP@harkonnen>
-In-Reply-To: <16f1c270a9077032de379b1cb30dfbb3e3670aee.1584702515.git.mchehab+huawei@kernel.org>
-References: <20200320112122.48244ec4@coco.lan> <16f1c270a9077032de379b1cb30dfbb3e3670aee.1584702515.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] docs: conf.py: avoid thousands of duplicate label
+ warning on Sphinx
+Message-ID: <20200320125918.5eb5af04@coco.lan>
+In-Reply-To: <3508337.2CZTLhteCP@harkonnen>
+References: <20200320112122.48244ec4@coco.lan>
+        <16f1c270a9077032de379b1cb30dfbb3e3670aee.1584702515.git.mchehab+huawei@kernel.org>
+        <3508337.2CZTLhteCP@harkonnen>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Friday, March 20, 2020 12:12:35 PM CET Mauro Carvalho Chehab wrote:
-> The autosectionlabel extension is nice, as it allows to refer to
-> a section by its name without requiring any extra tag to create
-> a reference name.
-> 
-> However, on its default, it has two serious problems:
-> 
-> 1) the namespace is global. So, two files with different
->    "introduction" section would create a label with the
->    same name. This is easily solvable by forcing the extension
->    to prepend the file name with:
-> 
-> 	autosectionlabel_prefix_document = True
-> 
-> 2) It doesn't work hierarchically. So, if there are two level 1
->    sessions (let's say, one labeled "open" and another one "ioctl")
->    and both have a level 2 "synopsis" label, both section 2 will
->    have the same identical name.
-> 
->    Currently, there's no way to tell Sphinx to create an
->    hierarchical reference like:
-> 
-> 		open / synopsis
-> 		ioctl / synopsis
-> 
->   This causes around 800 warnings. So, the fix should be to
->   not let autosectionlabel to produce references for anything
->   that it is not at level one, with:
-> 
-> 	autosectionlabel_maxdepth = 1
+Em Fri, 20 Mar 2020 12:24:45 +0100
+Federico Vaga <federico.vaga@vaga.pv.it> escreveu:
 
-So, for level 1 headers is fine to use autosectionlabel, but if we want to 
-refer to level 2,3... we have to create labels manually.
+> On Friday, March 20, 2020 12:12:35 PM CET Mauro Carvalho Chehab wrote:
+> > The autosectionlabel extension is nice, as it allows to refer to
+> > a section by its name without requiring any extra tag to create
+> > a reference name.
+> > 
+> > However, on its default, it has two serious problems:
+> > 
+> > 1) the namespace is global. So, two files with different
+> >    "introduction" section would create a label with the
+> >    same name. This is easily solvable by forcing the extension
+> >    to prepend the file name with:
+> > 
+> > 	autosectionlabel_prefix_document = True
+> > 
+> > 2) It doesn't work hierarchically. So, if there are two level 1
+> >    sessions (let's say, one labeled "open" and another one "ioctl")
+> >    and both have a level 2 "synopsis" label, both section 2 will
+> >    have the same identical name.
+> > 
+> >    Currently, there's no way to tell Sphinx to create an
+> >    hierarchical reference like:
+> > 
+> > 		open / synopsis
+> > 		ioctl / synopsis
+> > 
+> >   This causes around 800 warnings. So, the fix should be to
+> >   not let autosectionlabel to produce references for anything
+> >   that it is not at level one, with:
+> > 
+> > 	autosectionlabel_maxdepth = 1  
+> 
+> So, for level 1 headers is fine to use autosectionlabel, but if we want to 
+> refer to level 2,3... we have to create labels manually.
 
-Fine with me
+Yes.
 
+If we want to use it for other levels, the autosectionlabel extension
+would need to be modified to work on an hierarchical way, creating an
+unique label that would contain the entire hierarchy, starting from
+the filename.
 
+Also, ideally, it should also handle cross-reference locally, searching
+first for a reference at the same hierarchical level, then at level - 1
+and so on.
 
+I suspect that, even with that, we may still have some troubles, as
+right now some files may have explicitly defined a reference like
+that, but those would likely be easy to fix.
 
+Thanks,
+Mauro
