@@ -2,153 +2,122 @@ Return-Path: <SRS0=irxi=5F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E857C4332B
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 18:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28105C4332B
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 20:10:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7657020777
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 18:20:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E607E20714
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 20:10:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ROF8fL4c"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fvAklPMv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726789AbgCTSU0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Mar 2020 14:20:26 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:54436 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726829AbgCTSU0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Mar 2020 14:20:26 -0400
-Received: by mail-pj1-f68.google.com with SMTP id np9so2864309pjb.4
-        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2020 11:20:25 -0700 (PDT)
+        id S1726829AbgCTUKp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Mar 2020 16:10:45 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:46523 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726773AbgCTUKp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Mar 2020 16:10:45 -0400
+Received: by mail-pf1-f196.google.com with SMTP id c19so3838347pfo.13
+        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2020 13:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=RVSRfcV+K0pn1zszQCXh+F75MQYeICFTBaMdga96uY8=;
-        b=ROF8fL4cRZOKjexdiQjvRriYL5aMB2v6UG48zv2w65UIZVXk7AuVFSi6y696oOXNgd
-         OvVHFsVQNRrgCH99H9N1yvFIVrPS6ys9mIlNNMSdcv+QWT7LmYHbymhkONJJ4Iind7wU
-         XawwvMxLzn/ahDIsk46CsBzOvZd50S7qX5rI8=
+         :content-disposition:in-reply-to:user-agent;
+        bh=8wBJM863apF0IwOPmO9fuaOOqzaQw306izkJnc0/fII=;
+        b=fvAklPMvJlNS9vNQhJdK1AuiQZmkjC9vvIRMZAQNcvfDDWR0w81khYqp5RiIul11WS
+         WNDSy3c75Luwy9fag1iFfAx9/w70boBzrfy11P7KavWhZ+KyL4ceLQOJRHR1B3zrPJUZ
+         qdClxBt0eYYcn70/mYeISAvctswbPnd48V7CRpzrwo3NX8m/mAo6R6EhXlXVD9++v7TH
+         uYxvLdjJRlOBxjGld2ZPPSL3GxoFznoZ8mkQV+c9Q3N7U+vOYd5Lmjf43xm/r76g91X/
+         AUhtUkfSWDvveqHe5UZzR9+cCVaNJjrJ+Pco0WFaX1iLxXn9O15Mu5/ruLY0L6YUn2/+
+         4ONQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RVSRfcV+K0pn1zszQCXh+F75MQYeICFTBaMdga96uY8=;
-        b=hBZp54/mF5p63EN5kqmeJQqIEfjU3sUC2vcsJ1DSkHiuvCwtx4Pc/I7FeunuCuxfIt
-         CohRTJlxDbeV26Jiqb+3+B8lDxFJpZICURMB2b833U8gpuJy5yP7JGWSa0FyzL/qiL/7
-         K2o/eIbnP41e5+tvTVrHCDUIDcNuEiWlfJbDlyS6/dXuGdQxHqSR2vvNE9Ri7DCYbqgM
-         q5x+ztz0lXQmV24KOXdxgojgHyQClotOddib+T/eVcRdj74e123Hrq2RIGpWRKbwPvCk
-         jMmE2gGqSHw57ulItE55+aUvBOlIzUdiXOVm1/GTyyoGZYQajlxaDoSLdGnmvFtGDVja
-         P1wQ==
-X-Gm-Message-State: ANhLgQ2hwGRzDSAPG7pDmasNhoEafo40kIbRMBF5ZMrBSSwCGik3on1k
-        jlLDKvxc8a5UU5RMKemZQdygiw==
-X-Google-Smtp-Source: ADFU+vvh9wNdOc6LXFIlkPM76qeYw8uzvfR7zvmRHA7t4NFIeMW1f7FJ0y8bVnB9QWXKTnZPYdAwPw==
-X-Received: by 2002:a17:902:8348:: with SMTP id z8mr8998254pln.342.1584728424639;
-        Fri, 20 Mar 2020 11:20:24 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id g9sm6093642pfi.37.2020.03.20.11.20.22
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8wBJM863apF0IwOPmO9fuaOOqzaQw306izkJnc0/fII=;
+        b=YGjWdVlnuFOgtVu0lwMw5IFk2VgVITI71M59j3650hms9DGnEd8+FkXVY9c7fW7WBR
+         pncrp9z5kHlfdqOnqyZtcckIUALGg5kql/qM/CeKEw9/HtVvkTFS7tGkTANr817GS+Lr
+         W/tlHQ5bcYRWTZ31xBne0hyVK6hlsblhK2c6LomR+EiE8gbztX6U43pBo8BnT3FSG9sP
+         lxJP8FmmKmlsBeGaKP5Le4/D/G+n2ufv+CYI61G6tRx1qM9t1txB6KI14XrcsaWtMIan
+         jprAUoS5WPxO82rrVEH53OyH52Jnd3q1dPzQzdjVYyJbEzkoHuq+XkLQh9KFHrZqw8vz
+         qfpA==
+X-Gm-Message-State: ANhLgQ3eOXGMpep4ixzaLB7GX5HpQhsWZprXPQj7dZm7C5kiWoA5ZiJM
+        jO/F123J4mnepJ9WJSt+xy7a/A==
+X-Google-Smtp-Source: ADFU+vt4bqdyXNnRbChIEYqGnF9tjkMzkpQ2TcoyY685E+bmpfFRtb9zrOeEKlZxBHUT4jtOCkI9MQ==
+X-Received: by 2002:a63:4d6:: with SMTP id 205mr10113365pge.10.1584735044151;
+        Fri, 20 Mar 2020 13:10:44 -0700 (PDT)
+Received: from google.com ([2620:15c:211:202:ae26:61fb:e2f3:92e7])
+        by smtp.gmail.com with ESMTPSA id t142sm5878431pgb.31.2020.03.20.13.10.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 11:20:23 -0700 (PDT)
-Date:   Fri, 20 Mar 2020 11:20:22 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Cc:     Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-Subject: Re: [PATCH v2 01/11] pstore/blk: new support logger for block devices
-Message-ID: <202003201111.BE5EAB9A@keescook>
-References: <1581078355-19647-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1581078355-19647-2-git-send-email-liaoweixiong@allwinnertech.com>
- <202002251626.63FE3E7C6@keescook>
- <5fd540be-6ed9-a1c7-4932-e67194dddca8@allwinnertech.com>
- <202003180944.3B36871@keescook>
- <dab67ab1-c03f-0507-3d56-4a9578e85f6b@allwinnertech.com>
+        Fri, 20 Mar 2020 13:10:43 -0700 (PDT)
+Date:   Fri, 20 Mar 2020 13:10:38 -0700
+From:   Marco Ballesio <balejs@google.com>
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Roman Gushchin <guro@fb.com>,
+        cgroups@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>, lizefan@huawei.com,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, rjw@rjwysocki.net,
+        Pavel Machek <pavel@ucw.cz>, len.brown@intel.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-pm@vger.kernel.org, Minchan Kim <minchan@google.com>,
+        Suren Baghdasaryan <surenb@google.com>
+Subject: Re: [PATCH] cgroup-v1: freezer: optionally killable freezer
+Message-ID: <20200320201038.GB79184@google.com>
+References: <20200219183231.50985-1-balejs@google.com>
+ <20200303134855.GA186184@mtj.thefacebook.com>
+ <CAKOZuevzE=0Oa8gn--rkVJ8t69S+o2vK--pki65XXg6EVuOhMQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dab67ab1-c03f-0507-3d56-4a9578e85f6b@allwinnertech.com>
+In-Reply-To: <CAKOZuevzE=0Oa8gn--rkVJ8t69S+o2vK--pki65XXg6EVuOhMQ@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 20, 2020 at 09:50:36AM +0800, WeiXiong Liao wrote:
-> On 2020/3/19 AM 1:23, Kees Cook wrote:
-> > On Thu, Feb 27, 2020 at 04:21:51PM +0800, liaoweixiong wrote:
-> >> On 2020/2/26 AM 8:52, Kees Cook wrote:
-> >>> On Fri, Feb 07, 2020 at 08:25:45PM +0800, WeiXiong Liao wrote:
-> >>>> +obj-$(CONFIG_PSTORE_BLK) += pstore_blk.o
-> >>>> +pstore_blk-y += blkzone.o
-> >>>
-> >>> Why this dance with files? I would just expect:
-> >>>
-> >>> obj-$(CONFIG_PSTORE_BLK)     += blkzone.o
-> >>>
-> >>
-> >> This makes the built module named blkzone.ko rather than
-> >> pstore_blk.ko.
-> > 
-> > You can just do a regular build rule:
-> > 
-> > obj-$(CONFIG_PSTORE_BLK) += blkzone.o
-> > 
+On Wed, Mar 11, 2020 at 10:46:15AM -0700, Daniel Colascione wrote:
+> On Tue, Mar 3, 2020 at 5:48 AM Tejun Heo <tj@kernel.org> wrote:
+> >
+> > Hello,
+> >
+> > On Wed, Feb 19, 2020 at 10:32:31AM -0800, Marco Ballesio wrote:
+> > > @@ -94,6 +94,18 @@ The following cgroupfs files are created by cgroup freezer.
+> > >    Shows the parent-state.  0 if none of the cgroup's ancestors is
+> > >    frozen; otherwise, 1.
+> > >
+> > > +* freezer.killable: Read-write
+> > > +
+> > > +  When read, returns the killable state of a cgroup - "1" if frozen
+> > > +  tasks will respond to fatal signals, or "0" if they won't.
+> > > +
+> > > +  When written, this property sets the killable state of the cgroup.
+> > > +  A value equal to "1" will switch the state of all frozen tasks in
+> > > +  the cgroup to TASK_INTERRUPTIBLE (similarly to cgroup v2) and will
+> > > +  make them react to fatal signals. A value of "0" will switch the
+> > > +  state of frozen tasks to TASK_UNINTERRUPTIBLE and they won't respond
+> > > +  to signals unless thawed or unfrozen.
+> >
+> > As Roman said, I'm not too sure about adding a new cgroup1 freezer
+> > interface at this point. If we do this, *maybe* a mount option would
+> > be more minimal?
 > 
-> I don't get it. If make it as your words, the built module will be
-> blkzone.ko.
-> The module is named pstore/blk, however it built out blkzone.ko. I think
-> it's confusing.
+> I'd still prefer a cgroup flag. A mount option is a bigger
+> compatibility risk and isn't really any simpler than another cgroup
+> flag. A mount option will affect anything using the cgroup mount
+> point, potentially turning non-killable frozen processes into killable
+> ones unexpectedly. (Sure, you could mount multiple times, but only one
+> location is canonical, and that's the one that's going to get the flag
+> flipped.) A per-cgroup flag allows people to opt into the new behavior
+> only in specific contexts, so it's safer.
 
-I mean just pick whatever filename you want it to be named. The Makefile
-case for ramoops was that ramoops got renamed but we wanted to keep the
-old API name.
+It might also be desirable for userland to have a way to modify the behavior of
+an already mounted v1 freezer.
 
-So, if you want it named pstore-blk.ko, just rename blkzone.c to
-pstore-blk.c.
-
-> >>> If you're expecting concurrent writers (use of atomic_set(), I would
-> >>> expect the whole write to be locked instead. (i.e. what happens if
-> >>> multiple callers call blkz_zone_write()?)
-> >>>
-> >>
-> >> I don't agree with it. The datalen will be updated everywhere. It's useless
-> >> to lock here.
-> > 
-> > But there could be multiple writers; locking should be needed.
-> > 
-> 
-> All the recorders such as dmesg, pmsg, console and ftrace have been
-> locked on
-> pstore and upper layers. So, a recorder will not write in parallel and
-> different
-> recorders operate privately zone. They don't have any influence on each
-> other.
-
-Yes, sorry, I was confusing myself about pmsg, and I forgot it had a
-global lock. Each are locked or split by CPU.
-
-> The only parallel case I think is that recorder writes while dirty-flush
-> thread is
-> working. And the dirty-flusher will flush the whole zone rather than
-> part of it, so,
-> it is OK to call in parallel.
-
-Okay, thanks for clarifying.
-
-> Based on these reasons, I don't think locking should be needed.
-
-Agreed.
-
--- 
-Kees Cook
+Tejun, would it be acceptable to have a flag but disable it by default, hiding
+it behind a kernel configuration option?
