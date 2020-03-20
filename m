@@ -2,122 +2,180 @@ Return-Path: <SRS0=irxi=5F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
-	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=FORGED_MUA_MOZILLA,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28105C4332B
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 20:10:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B919C4332B
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 20:24:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E607E20714
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 20:10:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fvAklPMv"
+	by mail.kernel.org (Postfix) with ESMTP id DD09E20739
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 20:24:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbgCTUKp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Mar 2020 16:10:45 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:46523 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726773AbgCTUKp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Mar 2020 16:10:45 -0400
-Received: by mail-pf1-f196.google.com with SMTP id c19so3838347pfo.13
-        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2020 13:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=8wBJM863apF0IwOPmO9fuaOOqzaQw306izkJnc0/fII=;
-        b=fvAklPMvJlNS9vNQhJdK1AuiQZmkjC9vvIRMZAQNcvfDDWR0w81khYqp5RiIul11WS
-         WNDSy3c75Luwy9fag1iFfAx9/w70boBzrfy11P7KavWhZ+KyL4ceLQOJRHR1B3zrPJUZ
-         qdClxBt0eYYcn70/mYeISAvctswbPnd48V7CRpzrwo3NX8m/mAo6R6EhXlXVD9++v7TH
-         uYxvLdjJRlOBxjGld2ZPPSL3GxoFznoZ8mkQV+c9Q3N7U+vOYd5Lmjf43xm/r76g91X/
-         AUhtUkfSWDvveqHe5UZzR9+cCVaNJjrJ+Pco0WFaX1iLxXn9O15Mu5/ruLY0L6YUn2/+
-         4ONQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8wBJM863apF0IwOPmO9fuaOOqzaQw306izkJnc0/fII=;
-        b=YGjWdVlnuFOgtVu0lwMw5IFk2VgVITI71M59j3650hms9DGnEd8+FkXVY9c7fW7WBR
-         pncrp9z5kHlfdqOnqyZtcckIUALGg5kql/qM/CeKEw9/HtVvkTFS7tGkTANr817GS+Lr
-         W/tlHQ5bcYRWTZ31xBne0hyVK6hlsblhK2c6LomR+EiE8gbztX6U43pBo8BnT3FSG9sP
-         lxJP8FmmKmlsBeGaKP5Le4/D/G+n2ufv+CYI61G6tRx1qM9t1txB6KI14XrcsaWtMIan
-         jprAUoS5WPxO82rrVEH53OyH52Jnd3q1dPzQzdjVYyJbEzkoHuq+XkLQh9KFHrZqw8vz
-         qfpA==
-X-Gm-Message-State: ANhLgQ3eOXGMpep4ixzaLB7GX5HpQhsWZprXPQj7dZm7C5kiWoA5ZiJM
-        jO/F123J4mnepJ9WJSt+xy7a/A==
-X-Google-Smtp-Source: ADFU+vt4bqdyXNnRbChIEYqGnF9tjkMzkpQ2TcoyY685E+bmpfFRtb9zrOeEKlZxBHUT4jtOCkI9MQ==
-X-Received: by 2002:a63:4d6:: with SMTP id 205mr10113365pge.10.1584735044151;
-        Fri, 20 Mar 2020 13:10:44 -0700 (PDT)
-Received: from google.com ([2620:15c:211:202:ae26:61fb:e2f3:92e7])
-        by smtp.gmail.com with ESMTPSA id t142sm5878431pgb.31.2020.03.20.13.10.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 13:10:43 -0700 (PDT)
-Date:   Fri, 20 Mar 2020 13:10:38 -0700
-From:   Marco Ballesio <balejs@google.com>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Roman Gushchin <guro@fb.com>,
-        cgroups@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>, lizefan@huawei.com,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, rjw@rjwysocki.net,
-        Pavel Machek <pavel@ucw.cz>, len.brown@intel.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-pm@vger.kernel.org, Minchan Kim <minchan@google.com>,
-        Suren Baghdasaryan <surenb@google.com>
-Subject: Re: [PATCH] cgroup-v1: freezer: optionally killable freezer
-Message-ID: <20200320201038.GB79184@google.com>
-References: <20200219183231.50985-1-balejs@google.com>
- <20200303134855.GA186184@mtj.thefacebook.com>
- <CAKOZuevzE=0Oa8gn--rkVJ8t69S+o2vK--pki65XXg6EVuOhMQ@mail.gmail.com>
+        id S1726773AbgCTUYO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Mar 2020 16:24:14 -0400
+Received: from mail-oln040092073016.outbound.protection.outlook.com ([40.92.73.16]:14830
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726666AbgCTUYO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Mar 2020 16:24:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DB+SzLgw5fb9DlMUuCkR9KshgOxf42Gecy2nvOt2JTMPyjxoSnccuRiKw9N/SVnWBB/hvADbqXslaKfPu2L8FDsBaC2BfFoqiEAbyx8tI2ErStnjs0DY9Ny55/uA4EmkOtuvuaTR2EaEOxIfUcNOASmo3IbGU0+GlTuCByk6GOGk11vmmLpDGjdhPdKmmen7VcpXNGKKkmIEM4XyScd2CZ44C/bk55VzewvfsqttdFxbmaJRZvP95haa71gN3Jer4LKfSQC2Yi+6Ui2i0wENPFecg1aMaFDqWP3dOOxoRa7z1jvYMQzzTHgyaNHD/PPUszLRth9INvMRuVuM01FXrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wnzrjsR1MXLEfp6VYylXz8lJomJ1GTiPhRkhVOp2Jno=;
+ b=ZalEUzDOZ/npxYTykyNjG3l8jwlHX6GquY9aXLNAtlVL25zZRyTLtgMOzxhshdP17zWCsKvMVJGXqCt3cFbOCUDNYi+LJhAltHW9KW2Fa59Un6J38EK/4XAErulT/7y1330JIfjiJmNeu2Q6V5XGdRuDZ6Yvj7ISNftv+8e+nYe2UBcaOaxJACdgRqZ5QEC/my5ZV+ZMmS5yNlD/GAu3/q9I4VjYq+VEuS30SMwpWh3u7KTbxYicruEGTxnubRzXArk/gjY7g8VoUA9HY1lqpqxf/5l/aMzWdn9Q2UC25hAvpILSH+UUIYk3c/cV/zHrAXyl7lA7q5I8WlILvYs9kA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
+ dkim=pass header.d=hotmail.de; arc=none
+Received: from DB3EUR04FT027.eop-eur04.prod.protection.outlook.com
+ (2a01:111:e400:7e0c::34) by
+ DB3EUR04HT231.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0c::208)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.13; Fri, 20 Mar
+ 2020 20:24:08 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.24.52) by
+ DB3EUR04FT027.mail.protection.outlook.com (10.152.24.122) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.13 via Frontend Transport; Fri, 20 Mar 2020 20:24:08 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:AEE64B1550B431206270635F9D8A99774518771E6545A912F7D017D5C57AC256;UpperCasedChecksum:39FFD2F0D261FA8D423CE5CB0EBC04B6973AC5A609322673B09495AF68875B6A;SizeAsReceived:9280;Count:47
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2835.017; Fri, 20 Mar 2020
+ 20:24:07 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+Subject: [PATCH v6 00/16] Infrastructure to allow fixing exec deadlocks
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Message-ID: <AM6PR03MB5170B2F5BE24A28980D05780E4F50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Fri, 20 Mar 2020 21:24:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0009.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::19) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+X-Microsoft-Original-Message-ID: <0c6e2f5d-4e5c-db65-782e-0f47e07a9ced@hotmail.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKOZuevzE=0Oa8gn--rkVJ8t69S+o2vK--pki65XXg6EVuOhMQ@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.101] (92.77.140.102) by ZR0P278CA0009.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.19 via Frontend Transport; Fri, 20 Mar 2020 20:24:05 +0000
+X-Microsoft-Original-Message-ID: <0c6e2f5d-4e5c-db65-782e-0f47e07a9ced@hotmail.de>
+X-TMN:  [J1V25By95N2xhKpxjpMoIW+RBDPTCscq]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: df6b3e20-eaaa-4365-478a-08d7cd0ca42f
+X-MS-TrafficTypeDiagnostic: DB3EUR04HT231:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nYSeCGFPYSn+2eWASvmdey0sKtb1geuGHM2M+1N6b3cj5+RU2stF3ICfdrQ6wsftMYqa5ZMAcBXJ/yjB3cKZQjFvllM5WRNHq2fJmDKy9qFMAF6Y0mI3ixe5xFAdpg0eZQGqsE0l9OnXrmmh1fidZrPLCvPklHZMQkS23OysnaZO71COsSejZ9A9ZlBKPnsqAEnGLQkoRYDEe+aqe6tzJeDq/X77xmflrVX5YlyVcbM=
+X-MS-Exchange-AntiSpam-MessageData: Quk3kAnSpHqQSnlEPNhZqLyGraCYXIlLyt2nhzqRWoLnS3EXQpfX6rwhKcdQW3o/OUsPfFD1/mOkTu6HpQ/Xyesnvxn4wpX6ejv1e29K1ybsqCRaTEBRhOd9pm7UWUIckwgaTtp3A6eGp2usm0cPnQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df6b3e20-eaaa-4365-478a-08d7cd0ca42f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2020 20:24:07.7116
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3EUR04HT231
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 11, 2020 at 10:46:15AM -0700, Daniel Colascione wrote:
-> On Tue, Mar 3, 2020 at 5:48 AM Tejun Heo <tj@kernel.org> wrote:
-> >
-> > Hello,
-> >
-> > On Wed, Feb 19, 2020 at 10:32:31AM -0800, Marco Ballesio wrote:
-> > > @@ -94,6 +94,18 @@ The following cgroupfs files are created by cgroup freezer.
-> > >    Shows the parent-state.  0 if none of the cgroup's ancestors is
-> > >    frozen; otherwise, 1.
-> > >
-> > > +* freezer.killable: Read-write
-> > > +
-> > > +  When read, returns the killable state of a cgroup - "1" if frozen
-> > > +  tasks will respond to fatal signals, or "0" if they won't.
-> > > +
-> > > +  When written, this property sets the killable state of the cgroup.
-> > > +  A value equal to "1" will switch the state of all frozen tasks in
-> > > +  the cgroup to TASK_INTERRUPTIBLE (similarly to cgroup v2) and will
-> > > +  make them react to fatal signals. A value of "0" will switch the
-> > > +  state of frozen tasks to TASK_UNINTERRUPTIBLE and they won't respond
-> > > +  to signals unless thawed or unfrozen.
-> >
-> > As Roman said, I'm not too sure about adding a new cgroup1 freezer
-> > interface at this point. If we do this, *maybe* a mount option would
-> > be more minimal?
-> 
-> I'd still prefer a cgroup flag. A mount option is a bigger
-> compatibility risk and isn't really any simpler than another cgroup
-> flag. A mount option will affect anything using the cgroup mount
-> point, potentially turning non-killable frozen processes into killable
-> ones unexpectedly. (Sure, you could mount multiple times, but only one
-> location is canonical, and that's the one that's going to get the flag
-> flipped.) A per-cgroup flag allows people to opt into the new behavior
-> only in specific contexts, so it's safer.
+This is an infrastructure change that makes way for fixing this issue.
+Each patch was already posted previously so this is just a cleanup of
+the original mailing list thread(s) which got out of control by now.
 
-It might also be desirable for userland to have a way to modify the behavior of
-an already mounted v1 freezer.
+Everything started here:
+https://lore.kernel.org/lkml/AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com/
 
-Tejun, would it be acceptable to have a flag but disable it by default, hiding
-it behind a kernel configuration option?
+I added reviewed-by tags from the mailing list threads, except when
+withdrawn.
+
+It took a lot longer than expected to collect everything from the
+mailinglist threads, since several commit messages have been infected
+with typos, and they got fixed without a new patch version.
+
+- Correct the point of no return.
+- Add two new mutexes to replace cred_guard_mutex.
+- Fix each use of cred_guard_mutex.
+- Update documentation.
+- Add a test case.
+
+Bernd Edlinger (11):
+  exec: Fix a deadlock in strace
+  selftests/ptrace: add test cases for dead-locks
+  mm: docs: Fix a comment in process_vm_rw_core
+  kernel: doc: remove outdated comment cred.c
+  kernel/kcmp.c: Use new infrastructure to fix deadlocks in execve
+  proc: Use new infrastructure to fix deadlocks in execve
+  proc: io_accounting: Use new infrastructure to fix deadlocks in execve
+  perf: Use new infrastructure to fix deadlocks in execve
+  pidfd: Use new infrastructure to fix deadlocks in execve
+  exec: Fix dead-lock in de_thread with ptrace_attach
+  doc: Update documentation of ->exec_*_mutex
+
+Eric W. Biederman (5):
+  exec: Only compute current once in flush_old_exec
+  exec: Factor unshare_sighand out of de_thread and call it separately
+  exec: Move cleanup of posix timers on exec out of de_thread
+  exec: Move exec_mmap right after de_thread in flush_old_exec
+  exec: Add exec_update_mutex to replace cred_guard_mutex
+
+ Documentation/security/credentials.rst    |  29 +++++--
+ fs/exec.c                                 | 122 ++++++++++++++++++++++--------
+ fs/proc/base.c                            |  23 +++---
+ include/linux/binfmts.h                   |   8 +-
+ include/linux/sched/signal.h              |  17 ++++-
+ init/init_task.c                          |   3 +-
+ kernel/cred.c                             |   4 +-
+ kernel/events/core.c                      |  12 +--
+ kernel/fork.c                             |   7 +-
+ kernel/kcmp.c                             |   8 +-
+ kernel/pid.c                              |   4 +-
+ kernel/ptrace.c                           |  20 ++++-
+ kernel/seccomp.c                          |  15 ++--
+ mm/process_vm_access.c                    |   2 +-
+ tools/testing/selftests/ptrace/Makefile   |   4 +-
+ tools/testing/selftests/ptrace/vmaccess.c |  86 +++++++++++++++++++++
+ 16 files changed, 278 insertions(+), 86 deletions(-)
+ create mode 100644 tools/testing/selftests/ptrace/vmaccess.c
+
+-- 
+1.9.1
