@@ -2,134 +2,112 @@ Return-Path: <SRS0=irxi=5F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9662DC4332B
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 10:21:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02906C4332D
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 11:12:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 57D252076C
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 10:21:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1BCA20732
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 11:12:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584699690;
-	bh=NZSnQDBgPuiRLwk7BUtGDRlwx1qB7pwmF0Mf3fESOQQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=gRDAe52A94I5Hk36YiTAWb4Q2rULxOxR4hAwK8rFbNRvj+7/KJCAeXfpge5c7J9Cg
-	 9uINuvTr3HB4YDt1Rp+X/Xnd7H88WPeP7C1gcCKOlz164YDn/bjuQRctlXprUyTsTX
-	 xp+rYwI2yAMC1beAsqYIKcOUpe9bVi4pUF1qstd0=
+	s=default; t=1584702761;
+	bh=jrxRPo3Al4EllmStVtukK8u75F0dpWLR0x6+rUwc8jw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=uTcNRHYont3CBtUu6C7Wurx5MPnPT2eIgFxTox9tfwxHB50Xp27sqlBRrHaHiu8r/
+	 sWk4BGebO8K7cXqjtcnpKrcIH2sCPwYgPAAOPX1CgiDtftzkhZAt+DzflTwyW+Slqc
+	 8nS1pdNB9ILRvdPA3yDZMBxRQ+YVG4ct7vKtImYk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726767AbgCTKVa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Mar 2020 06:21:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46756 "EHLO mail.kernel.org"
+        id S1726805AbgCTLMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Mar 2020 07:12:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56506 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726954AbgCTKV3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Mar 2020 06:21:29 -0400
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        id S1726726AbgCTLMl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Mar 2020 07:12:41 -0400
+Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7E2A020754;
-        Fri, 20 Mar 2020 10:21:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5841820732;
+        Fri, 20 Mar 2020 11:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584699688;
-        bh=NZSnQDBgPuiRLwk7BUtGDRlwx1qB7pwmF0Mf3fESOQQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nKvOTbu3MVtN4G+eSJLUiJm7CCaBMhoC7BCy2GzSitb7OhJr/l/sIff930JGWAYgu
-         65Fl5ZH4puN2DxvNPGMtZMMsOgyli1IHdPhiXpDFxNUxS/yiEJ8eBIheSzOgaPiOON
-         s/4pD2vhD5QRvjZI/90AtmXGudekcBIREPZPBQ2A=
-Date:   Fri, 20 Mar 2020 11:21:22 +0100
+        s=default; t=1584702760;
+        bh=jrxRPo3Al4EllmStVtukK8u75F0dpWLR0x6+rUwc8jw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=18UjZVsAMzB7G3D+8UiPRBRhGti9d8bXoDeEGqGx318Pa3fKia4NUxA3CWvEpPSl9
+         TL4gh7DyjePqjv3ICrxWu30RmHTzJt1BmlNmyks88SM/AYTa0gIFSMCdFtkbY60R7y
+         pSS5fPKhvhRUlYhThFheO4267115cyTZuv1IVf8w=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jFFZu-000nqZ-9e; Fri, 20 Mar 2020 12:12:38 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: fix reference to core-api/namespaces.rst
-Message-ID: <20200320112122.48244ec4@coco.lan>
-In-Reply-To: <2008227.4siv4ILC15@harkonnen>
-References: <20191122115337.1541-1-federico.vaga@vaga.pv.it>
-        <20191122103437.59fda273@lwn.net>
-        <2008227.4siv4ILC15@harkonnen>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] docs: conf.py: avoid thousands of duplicate label warning on Sphinx
+Date:   Fri, 20 Mar 2020 12:12:35 +0100
+Message-Id: <16f1c270a9077032de379b1cb30dfbb3e3670aee.1584702515.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200320112122.48244ec4@coco.lan>
+References: <20200320112122.48244ec4@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sun, 24 Nov 2019 18:02:02 +0100
-Federico Vaga <federico.vaga@vaga.pv.it> escreveu:
+The autosectionlabel extension is nice, as it allows to refer to
+a section by its name without requiring any extra tag to create
+a reference name.
 
-> > diff --git a/Documentation/conf.py b/Documentation/conf.py
-> > index 3c7bdf4cd31f..fa2bfcd6df1d 100644
-> > --- a/Documentation/conf.py
-> > +++ b/Documentation/conf.py
-> > @@ -38,7 +38,7 @@ needs_sphinx = '1.3'
-> >  # ones.
-> >  extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
-> >                'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-> > -              'maintainers_include']
-> > +              'maintainers_include', 'sphinx.ext.autosectionlabel' ]
-> > 
+However, on its default, it has two serious problems:
 
-Testing today's linux-next branch. This extension caused *lots* of
-warnings like this:
+1) the namespace is global. So, two files with different
+   "introduction" section would create a label with the
+   same name. This is easily solvable by forcing the extension
+   to prepend the file name with:
 
-	Documentation/driver-api/uio-howto.rst:12: WARNING: duplicate label translations, other instance in Documentation/index.rst
+	autosectionlabel_prefix_document = True
 
-The thing is that, by default, autosectionlabel uses a global namespace,
-with cause lots of troubles with sections like "introduction". So, it
-needs to be ensured that no duplication will happen.
+2) It doesn't work hierarchically. So, if there are two level 1
+   sessions (let's say, one labeled "open" and another one "ioctl")
+   and both have a level 2 "synopsis" label, both section 2 will
+   have the same identical name.
 
-Btw, I tried to setup this:
+   Currently, there's no way to tell Sphinx to create an
+   hierarchical reference like:
 
-	diff --git a/Documentation/conf.py b/Documentation/conf.py
-	index fa2bfcd6df1d..7eaadde98a86 100644
-	--- a/Documentation/conf.py
-	+++ b/Documentation/conf.py
-	@@ -40,6 +40,9 @@ extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
-	               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-	               'maintainers_include', 'sphinx.ext.autosectionlabel' ]
-	 
-	+# Avoid lots of warnings with autosectionlabel extension
-	+autosectionlabel_prefix_document = True
-	+
-	 # The name of the math extension changed on Sphinx 1.4
-	 if (major == 1 and minor > 3) or (major > 1):
-	     extensions.append("sphinx.ext.imgmath")
-	
-But I still get lots of duplicated section labels inside the same file,
-like this one (757 warnings):
+		open / synopsis
+		ioctl / synopsis
 
-	docs/Documentation/driver-api/parport-lowlevel.rst:815: WARNING: duplicate label driver-api/parport-lowlevel:description, other instance in Documentation/driver-api/parport-lowlevel.rst
+  This causes around 800 warnings. So, the fix should be to
+  not let autosectionlabel to produce references for anything
+  that it is not at level one, with:
 
-There we have things that are similar to man pages, like this:
+	autosectionlabel_maxdepth = 1
 
-	parport_register_driver - register a device driver with parport
-	---------------------------------------------------------------
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/conf.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-	SYNOPSIS
-	^^^^^^^^
-...
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index fa2bfcd6df1d..f193bae85a36 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -40,6 +40,10 @@ extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
+               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+               'maintainers_include', 'sphinx.ext.autosectionlabel' ]
+ 
++# Ensure that autosectionlabel will produce unique names
++autosectionlabel_prefix_document = True
++autosectionlabel_maxdepth = 1
++
+ # The name of the math extension changed on Sphinx 1.4
+ if (major == 1 and minor > 3) or (major > 1):
+     extensions.append("sphinx.ext.imgmath")
+-- 
+2.24.1
 
-	parport_unregister_driver - tell parport to forget about this driver
-	--------------------------------------------------------------------
-
-	SYNOPSIS
-	^^^^^^^^
-
-A solution would be to split all the files that are hitting this, but
-I suspect that this is too much effort for too less benefit.
-
-I would instead just revert this patch and fix it by adding a normal
-explicit reference.
-
-Another alternative would be to patch the Sphinx extension to make it
-handle references on an hierarchical way, e. g. the above references
-should be, instead of just "synopsis":
-
-	parport-lowlevel / parport_register_driver - register a device driver with parport / synopsis
-	parport-lowlevel / parport_unregister_driver - tell parport to forget about this driver / synopsis
-
-Thanks,
-Mauro
