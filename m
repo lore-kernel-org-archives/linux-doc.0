@@ -2,138 +2,130 @@ Return-Path: <SRS0=irxi=5F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D1A2C4332D
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 13:44:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F15AEC4332E
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 14:02:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2554920739
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 13:44:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C883320777
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Mar 2020 14:02:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584711877;
-	bh=ZZutdD5YPTWqPt41mFJKH6cFpW9EUFP9C9HiZAsGki0=;
+	s=default; t=1584712968;
+	bh=5Z1pwexTYyYy7sJMHe5keJj5QUuvGZ/XrTgYgp87Uzs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=aD7ttczrdf+KIeVbjuKaNl+WQ/Imb/OgU0AYVvtXPJFoIyJp77eUPO+u1nQ3nN2lX
-	 urNBaKhCdzdBW4RbRSes56oehrpcZgcA1gQHsNjr3RBevRCvZTzN+tBDeDX0hlSflf
-	 RYEfHPpctwE2TfiXaqF4ES/Opdfizsd/zUWYWtcg=
+	b=O3HvjblWzEFPSh93FQJJSNRqZbk/I6m3Pt2WoON5HKf69AFhjfmkK1YOsd1JRi0Jg
+	 CfRhSjkHqqIbvQA7azOoo9VCQR1trjSzPrSNMW45m/eXu9taFFRkxZ4ZEHcd1v+XrB
+	 zTUe2RR3WH6+uYTl0SnVcayrFPstutAAA1jdP0ek=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727229AbgCTNod (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Mar 2020 09:44:33 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36852 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726843AbgCTNod (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Mar 2020 09:44:33 -0400
-Received: by mail-wr1-f67.google.com with SMTP id 31so1534465wrs.3;
-        Fri, 20 Mar 2020 06:44:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JoMCT/BRNQiPNC0aagaWJkcjnStn6MMheHBwrTllAYE=;
-        b=PlUnHyS+XQ1zkv5WMm+aXYF7W7FzC81HX92HNNkkUW1HCS8GL9MTThfjoq90cMHCvV
-         sjEdbBjITa5PigGXXCaFqMhvFvyUSvv2Pn/TYRLDzdTA1eCtXVrn+VV5U/54dJCsHmId
-         c23VxxumlkR8rzrJQIBhL7AEE7QL2gfC7SOjsAbdJe1dIRZAjIjY1ReFbZaplUVJhuJ9
-         wac2o6cJ7E1zR3soErNRKhymEejgvmzSlw0HLezlpI3g3D1TLsGQ95TEsFna1cy0AH3X
-         AZ1Vk7g5sOiocHEkVLxLR6LumB15QLkJO8z70Fuy8PvgVYtSAUlzOLoRtf7pesN/pVOY
-         lX/Q==
-X-Gm-Message-State: ANhLgQ1m5WoX/GbiOYFg+MknCMjl0I2Ac6QKsJEjjce9W5ditOXQAbsn
-        A/0g819CBbvlHNee3LMsRSs=
-X-Google-Smtp-Source: ADFU+vvNQ+OVi0CDztzjk8c5YtCs3frJ0uwb28VpsQJngNtXMbSTyMNx7K5uLhR9puA4Gim3tpbQtg==
-X-Received: by 2002:adf:914e:: with SMTP id j72mr11378978wrj.109.1584711870045;
-        Fri, 20 Mar 2020 06:44:30 -0700 (PDT)
-Received: from localhost (ip-37-188-140-107.eurotel.cz. [37.188.140.107])
-        by smtp.gmail.com with ESMTPSA id n63sm4850139wmf.6.2020.03.20.06.44.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 06:44:29 -0700 (PDT)
-Date:   Fri, 20 Mar 2020 14:44:28 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Ivan Teterevkov <ivan.teterevkov@nutanix.com>
-Cc:     "rientjes@google.com" <rientjes@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "vbabka@suse.cz" <vbabka@suse.cz>, "tj@kernel.org" <tj@kernel.org>,
-        "lizefan@huawei.com" <lizefan@huawei.com>,
-        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "vdavydov.dev@gmail.com" <vdavydov.dev@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "guro@fb.com" <guro@fb.com>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "chris@chrisdown.name" <chris@chrisdown.name>,
-        "yang.shi@linux.alibaba.com" <yang.shi@linux.alibaba.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "minchan@kernel.org" <minchan@kernel.org>,
-        "ying.huang@intel.com" <ying.huang@intel.com>,
-        "ziqian.lzq@antfin.com" <ziqian.lzq@antfin.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        Jonathan Davies <jond@nutanix.com>
-Subject: Re: [RFC] memcg: fix default behaviour of non-overridden
- memcg.swappiness
-Message-ID: <20200320134428.GG24409@dhcp22.suse.cz>
-References: <BL0PR02MB560170CD4D4245D4B89BC22EE9F40@BL0PR02MB5601.namprd02.prod.outlook.com>
+        id S1726801AbgCTOCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Mar 2020 10:02:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726773AbgCTOCs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Mar 2020 10:02:48 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F21AA2051A;
+        Fri, 20 Mar 2020 14:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584712965;
+        bh=5Z1pwexTYyYy7sJMHe5keJj5QUuvGZ/XrTgYgp87Uzs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CU1YZ99qYJjikO714HJH+W1kSSWtM3oLBz3Ba5Qr9MKPBBgyb81IhZjckTVEYTERa
+         0qZq+Oz5Wb63F44ixOBDajGaMzEvL6yRLxI/ao0QE5aP/fhFTp68/17ewN2mScGYWN
+         tx1uwXKWpzgaWa6Dycv2plDnaEhOoo9lzTw5v9PE=
+Date:   Fri, 20 Mar 2020 15:02:43 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v12 03/10] firmware: Rename FW_OPT_NOFALLBACK to
+ FW_OPT_NOFALLBACK_SYSFS
+Message-ID: <20200320140243.GA636547@kroah.com>
+References: <20200115163554.101315-1-hdegoede@redhat.com>
+ <20200115163554.101315-4-hdegoede@redhat.com>
+ <20200124085751.GA2957916@kroah.com>
+ <d25d5d6e-0348-b19f-539e-048cfa70d6a6@redhat.com>
+ <20200318132741.GA2794545@kroah.com>
+ <8fa336bd-339f-40e0-08fe-e6b968736679@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <BL0PR02MB560170CD4D4245D4B89BC22EE9F40@BL0PR02MB5601.namprd02.prod.outlook.com>
+In-Reply-To: <8fa336bd-339f-40e0-08fe-e6b968736679@redhat.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 19-03-20 17:38:30, Ivan Teterevkov wrote:
-> This patch tries to resolve uncertainty around the memcg.swappiness when
-> it's not overridden by the user: shall there be the latest vm_swappiness
-> or the value captured at the moment when the cgroup was created?
+On Wed, Mar 18, 2020 at 02:56:23PM +0100, Hans de Goede wrote:
+> Hi Greg,
 > 
-> I'm sitting on the fence with regards to this patch because cgroup v1 is
-> considered legacy nowadays and the semantics of "swappiness" is already
-> overwhelmed. However, the patch might be considered as a "fix" because
-> looking at the documentation [1] one might have the impression that it's
-> the latest /proc/sys/vm/swappiness value that should be found in the
-> memcg.swappiness unless it's overridden or inherited from a cgroup where
-> it was overridden when the given cgroup was created.
-
-Could you be more specific what makes you think this? Let me quote the
-whole thing here
-: 5.3 swappiness
-: --------------
-: 
-: Overrides /proc/sys/vm/swappiness for the particular group. The tunable
-: in the root cgroup corresponds to the global swappiness setting.
-: 
-: Please note that unlike during the global reclaim, limit reclaim
-: enforces that 0 swappiness really prevents from any swapping even if
-: there is a swap storage available. This might lead to memcg OOM killer
-: if there are no file pages to reclaim.
-
-I do not want to pick on words here but to me it sounds this tunable is
-clearly documented as the explicit override for the global value. The
-root memcg corresponds to the global limit because root tends to be
-special in many other aspects. But in general, the semantic of knobs is
-that they do not unexpectedly change their values without an explicit
-user/admin intervention.
+> On 3/18/20 2:27 PM, Greg Kroah-Hartman wrote:
+> > On Fri, Jan 24, 2020 at 10:16:48AM +0100, Hans de Goede wrote:
+> > > Hi,
+> > > 
+> > > On 1/24/20 9:57 AM, Greg Kroah-Hartman wrote:
+> > > > On Wed, Jan 15, 2020 at 05:35:47PM +0100, Hans de Goede wrote:
+> > > > > This is a preparation patch for adding a new platform fallback mechanism,
+> > > > > which will have its own enable/disable FW_OPT_xxx option.
+> > > > > 
+> > > > > Note this also fixes a typo in one of the re-wordwrapped comments:
+> > > > > enfoce -> enforce.
+> > > > > 
+> > > > > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> > > > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > > > 
+> > > > I've taken this in my tree for now in a quest to try to get others to
+> > > > pay attention to this series...
+> > > 
+> > > Thank you.
+> > > 
+> > > As mentioned before I believe that this series is ready for merging now.
+> > > 
+> > > Andy Lutomirski had one last change request for v12 of the second
+> > > patch in the series, specifically to replace the loop searching for
+> > > the prefix with a memem, but the kernel does not have memmem.
+> > > 
+> > > Andy, are you ok with v12 as is, given that we don't have memmem ?
+> > > 
+> > > Assuming Andy is ok with v12 as is, then to merge this we need
+> > > to probably wait for 5.6-rc1 and then have the x86/efi folks do
+> > > an immutable branch with the first 2 patches of the series.
+> > 
+> > Did this every happen?  Or do I need to dump this all into my tree?
 > 
-> Also, shall this magic -1 be exposed to the user? I think it's a "no",
-> but what if the user wants to un-override the memcg.swappiness...
-
-If we are to use such a semantic then it absolutely has to be an opt-in
-behavior and expressed in some way to the user space (e.g. a symbolic
-name referring to the global setting).
+> Ard has done a immutable branch with just the 2 patches:
 > 
-> What do you reckon?
+> https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git/tag/?h=stable-shared-branch-for-driver-tree
+> 
+> I did not see any mails about this being pulled / merged, but I just
+> checked and this has landed in the tip tree 10 days ago:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/log/include/linux/efi.h?h=efi/core
+> 
+> So if you merge the stable-shared-branch-for-driver-tree tag and then
+> merge patches 3-8 of this series (or rather 4-8 since you already
+> merged 3 IIRC) that would be great.
 
-I am not convinced we need it. There would have to be a real life
-usecase that cannot really work with the current semantic. I remember
-that this has been brought up when discussing early swappiness
-initialization [1]. But it seems there is a much better solution for
-that problem [2].
+Ok, I've merged the above branch with just the two patches, and the rest
+of yours now, sorry this took so long.
 
-[1] http://lkml.kernel.org/r/BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com
-[2] http://lkml.kernel.org/r/20200317132105.24555-1-vbabka@suse.cz
--- 
-Michal Hocko
-SUSE Labs
+greg k-h
