@@ -2,103 +2,205 @@ Return-Path: <SRS0=MzY8=5G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF4C3C4332B
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Mar 2020 07:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90DB5C4332E
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Mar 2020 10:18:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8D32E20739
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Mar 2020 07:46:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52805206F9
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Mar 2020 10:18:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="Na2YlNyA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728003AbgCUHqZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Mar 2020 03:46:25 -0400
-Received: from m213143.mail.qiye.163.com ([223.252.213.143]:58005 "EHLO
-        m213143.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727961AbgCUHqZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Mar 2020 03:46:25 -0400
-X-Greylist: delayed 343 seconds by postgrey-1.27 at vger.kernel.org; Sat, 21 Mar 2020 03:46:14 EDT
-Received: from vivo.com (wm-7 [127.0.0.1])
-        by m213143.mail.qiye.163.com (Hmail) with ESMTP id 332BD5814F8;
-        Sat, 21 Mar 2020 15:40:15 +0800 (CST)
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Message-ID: <AAcAiQCjCGSRNYLoGw6Zkqov.3.1584776415192.Hmail.wenhu.wang@vivo.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@vivo.com
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSCB2MixSRVNFTkRdIGRvYzogemhfQ046IGZpeCBzdHlsZSBwcm9ibGVtcyBmb3IgaW9fb3JkZXJpbmcudHh0?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 58.251.74.227
-In-Reply-To: <20200320172426.121d881d@lwn.net>
+        id S1727071AbgCUKSF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Mar 2020 06:18:05 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:36876 "EHLO
+        forwardcorp1o.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727052AbgCUKSF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Mar 2020 06:18:05 -0400
+Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net [IPv6:2a02:6b8:0:1a2d::301])
+        by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id A1CE02E1471;
+        Sat, 21 Mar 2020 13:18:00 +0300 (MSK)
+Received: from iva4-7c3d9abce76c.qloud-c.yandex.net (iva4-7c3d9abce76c.qloud-c.yandex.net [2a02:6b8:c0c:4e8e:0:640:7c3d:9abc])
+        by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id YtLecgDI86-HxAehnBO;
+        Sat, 21 Mar 2020 13:18:00 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
+        t=1584785880; bh=qBScgYCZjZTlIpm/AdZDrRFl7YnlFGv41LveLZYaOxs=;
+        h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
+        b=Na2YlNyAY45EcKPYHXLhelGXdR0Fx1EPBQijjQr63f3fU7LBbX6C5VBbZyS7VLaU7
+         xzomeNK71b4GO0HSSn8ADmiIhRSMWJEHrK1Nj2YhC08JSCEe1k0w4c/cAa9n8t2gt/
+         sCkxKxbmtqIBQ2YKg4Xz6m2GGCw8HVaa5PKo5x68=
+Authentication-Results: mxbackcorp1o.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
+Received: from unknown (unknown [2a02:6b8:b081:918::1:1])
+        by iva4-7c3d9abce76c.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id 8ruPl76BlO-HxceQfsw;
+        Sat, 21 Mar 2020 13:17:59 +0300
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client certificate not present)
+Subject: Re: [PATCH 00/11] fs/dcache: Limit # of negative dentries
+To:     Matthew Wilcox <willy@infradead.org>,
+        Waiman Long <longman@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Eric Biggers <ebiggers@google.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Eric Sandeen <sandeen@redhat.com>
+References: <20200226161404.14136-1-longman@redhat.com>
+ <20200315034640.GV22433@bombadil.infradead.org>
+From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Message-ID: <6fcf86e9-8555-b86b-17f0-cc15217d834e@yandex-team.ru>
+Date:   Sat, 21 Mar 2020 13:17:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Received: from wenhu.wang@vivo.com( [58.251.74.227) ] by ajax-webmail ( [127.0.0.1] ) ; Sat, 21 Mar 2020 15:40:15 +0800 (GMT+08:00)
-From:   =?UTF-8?B?546L5paH6JmO?= <wenhu.wang@vivo.com>
-Date:   Sat, 21 Mar 2020 15:40:15 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVDTUtLS0tKSEhOSk9PWVdZKFlBSE
-        83V1ktWUFJV1kJDhceCFlBWTU0KTY6NyQpLjc#WQY+
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUhNTEJNTEJCSUpDN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
-        WUc6Ohg6Eio4ETg8KCk1IjcUPAxNIRAKFA1VSFVKTkNPTExNT0pMTUpLVTMWGhIXVQweFRMOVQwa
-        FRw7DRINFFUYFBZFWVdZEgtZQVlOQ1VJTkpVTE9VSUlMWVdZCAFZQU5CSkI3Bg++
-X-HM-Tid: 0a70fc0907f27f7bkuuk332bd5814f8
+In-Reply-To: <20200315034640.GV22433@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4KRGF0ZTogMjAyMC0wMy0yMSAw
-NzoyNDoyNgpUbzogIFdhbmcgV2VuaHUgPHdlbmh1LndhbmdAdml2by5jb20+CkNjOiAgSGFycnkg
-V2VpIDxoYXJyeXhpeW91QGdtYWlsLmNvbT4sQWxleCBTaGkgPGFsZXguc2hpQGxpbnV4LmFsaWJh
-YmEuY29tPixsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnLGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5l
-bC5vcmcsa2VybmVsQHZpdm8uY29tClN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIsUkVTRU5EXSBkb2M6
-IHpoX0NOOiBmaXggc3R5bGUgcHJvYmxlbXMgZm9yIGlvX29yZGVyaW5nLnR4dD5PbiBTYXQsIDE0
-IE1hciAyMDIwIDIzOjA4OjU1IC0wNzAwCj5XYW5nIFdlbmh1IDx3ZW5odS53YW5nQHZpdm8uY29t
-PiB3cm90ZToKPgo+PiBQcm9ibGVtcyBleGlzdCBpbiB0aGUgQ2hpbmVzZSB0cmFuc2xhdGlvbiBv
-ZiBpb19vcmRlcmluZy50eHQuCj4+IFBhcnRseSBmb3IgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiBD
-aGluZXNlIGFuZCBFbmdsaXNoIGNoYXJhY3Rlcgo+PiBlbmNvZGluZyBmb3JtYXQsIGFuZCB0aGUg
-b3RoZXJzIGFyZSBvZiB0aGUgZmFpbHVyZSB0byBjb21wbHkKPj4gd2l0aCB0aGUgUmVTVCBtYXJr
-dXBzLgo+Cj5TbyBJIGZlZWwgbGlrZSBJJ20gbWlzc2luZyBzb21ldGhpbmcgaGVyZS4uLgpTb21l
-IHN0eWxlIG1vZGlmaWNhdGlvbiwgc3VjaCBhcyAiOjoiIGZpZWxkIGFkZGVkIHdpdGhpbiBhIG5l
-d2xpbmUgaW5kaWNhdGluZwpzdGFydCBvZiBhIGJsb2NrLiBCZWNhdXNlIG9mIHRoZSBkaWZmZXJl
-bmNlIGJldHdlZW4gZW5jb2Rpbmcgb2YgQ2hpbmVzZSBhbmQKRW5nbGlzaCwgaXQgZGlkIG5vdCB3
-b3JrIHdlbGwgZm9yIENoaW5lc2UgdG8ganVzdCBwdXQgaXQgYWZ0ZXIgc29tZSBDaGluZXNlCmNo
-YXJhY3RlcnMgd2l0aGluIHRoZSBzYW1lIGxpbmUuCgpUaGUgZmlsZSBpcyBjdXJyZW50bHkgYSB0
-eHQgZmlsZShub25lIHJzdCksIHNvIGl0J3MgT0sganVzdCBpZ25vcmUgdGhlIG1vZGlmYWN0aW9u
-cy4KPgo+PiBTaWduZWQtb2ZmLWJ5OiBXYW5nIFdlbmh1IDx3ZW5odS53YW5nQHZpdm8uY29tPgo+
-PiAtLS0KPj4gdjI6IHJlc2VuZCBmb3IgdGhlIGZhaWx1cmUgb2YgZGVsaXZlcmluZy4KPj4gCj4+
-ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2lvX29yZGVyaW5nLnR4dCAgICAgICAgfCA3MiArKysr
-KysrKysrKystLS0tLS0tCj4+ICAxIGZpbGUgY2hhbmdlZCwgNDYgaW5zZXJ0aW9ucygrKSwgMjYg
-ZGVsZXRpb25zKC0pCj4+IAo+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
-bnMvemhfQ04vaW9fb3JkZXJpbmcudHh0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vaW9fb3JkZXJpbmcudHh0Cj4+IGluZGV4IDFmODEyN2JkZDQxNS4uMDgwZWQyOTExZGIwIDEw
-MDY0NAo+PiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9pb19vcmRlcmlu
-Zy50eHQKPj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vaW9fb3JkZXJp
-bmcudHh0Cj4+IEBAIC0yOSwzOSArMjksNTkgQEAgRG9jdW1lbnRhdGlvbi9pb19vcmRlcmluZy50
-eHQg55qE5Lit5paH57+76K+RCj4+ICDov5nkuZ/lj6/ku6Xkv53or4HlkI7pnaLnmoTlhpnmk43k
-vZzlj6rlnKjliY3pnaLnmoTlhpnmk43kvZzkuYvlkI7liLDovr7orr7lpIfvvIjov5npnZ7luLjn
-sbvkvLzkuo7lhoXlrZgKPj4gIOWxj+manOaTjeS9nO+8jG1iKCnvvIzkuI3ov4fku4XpgILnlKjk
-uo5JL0/vvInjgIIKPj4gIAo+PiArQSBtb3JlIGNvbmNyZXRlIGV4YW1wbGUgZnJvbSBhIGh5cG90
-aGV0aWNhbCBkZXZpY2UgZHJpdmVyOjoKPj4gKwo+PiArCQkuLi4KPj4gKwlDUFUgQTogIHNwaW5f
-bG9ja19pcnFzYXZlKCZkZXZfbG9jaywgZmxhZ3MpCj4+ICsJQ1BVIEE6ICB2YWwgPSByZWFkbCht
-eV9zdGF0dXMpOwo+PiArCUNQVSBBOiAgLi4uCj4+ICsJQ1BVIEE6ICB3cml0ZWwobmV3dmFsLCBy
-aW5nX3B0cik7Cj4+ICsJQ1BVIEE6ICBzcGluX3VubG9ja19pcnFyZXN0b3JlKCZkZXZfbG9jaywg
-ZmxhZ3MpCj4+ICsJCS4uLgo+PiArCUNQVSBCOiAgc3Bpbl9sb2NrX2lycXNhdmUoJmRldl9sb2Nr
-LCBmbGFncykKPj4gKwlDUFUgQjogIHZhbCA9IHJlYWRsKG15X3N0YXR1cyk7Cj4+ICsJQ1BVIEI6
-ICAuLi4KPj4gKwlDUFUgQjogIHdyaXRlbChuZXd2YWwyLCByaW5nX3B0cik7Cj4+ICsJQ1BVIEI6
-ICBzcGluX3VubG9ja19pcnFyZXN0b3JlKCZkZXZfbG9jaywgZmxhZ3MpCj4+ICsJCS4uLgo+PiAr
-Cj4+ICsKPj4gIOWBh+iuvuS4gOS4quiuvuWkh+mpseWKqOeoi+eahOWFt+S9k+S+i+WtkO+8mgo+
-PiArOjoKPj4gIAo+PiArCQkuLi4KPj4gKwlDUFUgQTogIHNwaW5fbG9ja19pcnFzYXZlKCZkZXZf
-bG9jaywgZmxhZ3MpCj4+ICsJQ1BVIEE6ICB2YWwgPSByZWFkbChteV9zdGF0dXMpOwo+PiArCUNQ
-VSBBOiAgLi4uCj4+ICsJQ1BVIEE6ICB3cml0ZWwobmV3dmFsLCByaW5nX3B0cik7Cj4+ICsJQ1BV
-IEE6ICBzcGluX3VubG9ja19pcnFyZXN0b3JlKCZkZXZfbG9jaywgZmxhZ3MpCj4+ICsJCS4uLgo+
-PiArCUNQVSBCOiAgc3Bpbl9sb2NrX2lycXNhdmUoJmRldl9sb2NrLCBmbGFncykKPj4gKwlDUFUg
-QjogIHZhbCA9IHJlYWRsKG15X3N0YXR1cyk7Cj4+ICsJQ1BVIEI6ICAuLi4KPj4gKwlDUFUgQjog
-IHdyaXRlbChuZXd2YWwyLCByaW5nX3B0cik7Cj4+ICsJQ1BVIEI6ICBzcGluX3VubG9ja19pcnFy
-ZXN0b3JlKCZkZXZfbG9jaywgZmxhZ3MpCj4KPkl0IHN1cmUgbG9va3MgbGlrZSB5b3UncmUgYWRk
-aW5nIHRoZSBzYW1lIHRleHQgdHdpY2UgaGVyZS4uLj8KQXMgSSBtZW50aW9uZWQgYmVsb3cgdGhl
-IHNpZ24tb2ZmIGFyZWEsIGRlbGl2ZXJ5IGZhaWx1cmUgaGFwcGVuZWQgc28KdGhpcyBpcyBqdXN0
-IGEgcmVzZW50IHZlcnNpb24uCj4KPlRoYW5rcywKPgo+am9uCj4KDQoNCg==
+On 15/03/2020 06.46, Matthew Wilcox wrote:
+> On Wed, Feb 26, 2020 at 11:13:53AM -0500, Waiman Long wrote:
+>> As there is no limit for negative dentries, it is possible that a sizeable
+>> portion of system memory can be tied up in dentry cache slabs. Dentry slabs
+>> are generally recalimable if the dentries are in the LRUs. Still having
+>> too much memory used up by dentries can be problematic:
+>>
+>>   1) When a filesystem with too many negative dentries is being unmounted,
+>>      the process of draining the dentries associated with the filesystem
+>>      can take some time. To users, the system may seem to hang for
+>>      a while.  The long wait may also cause unexpected timeout error or
+>>      other warnings.  This can happen when a long running container with
+>>      many negative dentries is being destroyed, for instance.
+>>
+>>   2) Tying up too much memory in unused negative dentries means there
+>>      are less memory available for other use. Even though the kernel is
+>>      able to reclaim unused dentries when running out of free memory,
+>>      it will still introduce additional latency to the application
+>>      reducing its performance.
+> 
+> There's a third problem, which is that having a lot of negative dentries
+> can clog the hash chains.  I tried to quantify this, and found a weird result:
+
+Yep. I've seen this in the wild. Server hard too much unused memory.
+
+https://lore.kernel.org/lkml/ff0993a2-9825-304c-6a5b-2e9d4b940032@yandex-team.ru/T/#u
+
+---quote---
+
+I've seen problem on large server where horde of negative dentries
+slowed down all lookups significantly:
+
+watchdog: BUG: soft lockup - CPU#25 stuck for 22s! [atop:968884] at __d_lookup_rcu+0x6f/0x190
+
+slabtop:
+
+    OBJS ACTIVE  USE OBJ SIZE  SLABS OBJ/SLAB CACHE SIZE NAME
+85118166 85116916   0%    0.19K 2026623       42  16212984K dentry
+16577106 16371723   0%    0.10K 425054       39   1700216K buffer_head
+935850 934379   0%    1.05K  31195       30    998240K ext4_inode_cache
+663740 654967   0%    0.57K  23705       28    379280K radix_tree_node
+399987 380055   0%    0.65K   8163       49    261216K proc_inode_cache
+226380 168813   0%    0.19K   5390       42     43120K cred_jar
+   70345  65721   0%    0.58K   1279       55     40928K inode_cache
+105927  43314   0%    0.31K   2077       51     33232K filp
+630972 601503   0%    0.04K   6186      102     24744K ext4_extent_status
+    5848   4269   0%    3.56K    731        8     23392K task_struct
+   16224  11531   0%    1.00K    507       32     16224K kmalloc-1024
+    6752   5833   0%    2.00K    422       16     13504K kmalloc-2048
+199680 158086   0%    0.06K   3120       64     12480K anon_vma_chain
+156128 154751   0%    0.07K   2788       56     11152K Acpi-Operand
+
+Total RAM is 256 GB
+
+These dentries came from temporary files created and deleted by postgres.
+But this could be easily reproduced by lookup of non-existent files.
+
+Of course, memory pressure easily washes them away.
+
+Similar problem happened before around proc sysctl entries:
+https://lkml.org/lkml/2017/2/10/47
+
+This one does not concentrate in one bucket and needs much more memory.
+
+Looks like dcache needs some kind of background shrinker started
+when dcache size or fraction of negative dentries exceeds some threshold.
+
+---end---
+
+> > root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m5.402s
+> user	0m4.361s
+> sys	0m1.230s
+> root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m5.572s
+> user	0m4.337s
+> sys	0m1.407s
+> root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m5.607s
+> user	0m4.522s
+> sys	0m1.342s
+> root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m5.599s
+> user	0m4.472s
+> sys	0m1.369s
+> root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m5.574s
+> user	0m4.498s
+> sys	0m1.300s
+> 
+> Pretty consistent system time, between about 1.3 and 1.4 seconds.
+> 
+> root@bobo-kvm:~# grep dentry /proc/slabinfo
+> dentry             20394  21735    192   21    1 : tunables    0    0    0 : slabdata   1035   1035      0
+> root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m5.515s
+> user	0m4.353s
+> sys	0m1.359s
+> 
+> At this point, we have 20k dentries allocated.
+> 
+> Now, pollute the dcache with names that don't exist:
+> 
+> root@bobo-kvm:~# for i in `seq 1 100000`; do cat /dev/null$i >/dev/zero; done 2>/dev/null
+> root@bobo-kvm:~# grep dentry /proc/slabinfo
+> dentry             20605  21735    192   21    1 : tunables    0    0    0 : slabdata   1035   1035      0
+> 
+> Huh.  We've kept the number of dentries pretty constant.  Still, maybe the
+> bad dentries have pushed out the good ones.
+> 
+> root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m6.644s
+> user	0m4.921s
+> sys	0m1.946s
+> root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m6.676s
+> user	0m5.004s
+> sys	0m1.909s
+> root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m6.662s
+> user	0m4.980s
+> sys	0m1.916s
+> root@bobo-kvm:~# time for i in `seq 1 10000`; do cat /dev/null >/dev/zero; done
+> real	0m6.714s
+> user	0m4.973s
+> sys	0m1.986s
+> 
+> Well, we certainly made it suck.  Up to a pretty consistent 1.9-2.0 seconds
+> of kernel time, or 50% worse.  We've also made user time worse, somehow.
+> 
+> Anyhow, I should write a proper C program to measure this.  But I thought
+> I'd share this raw data with you now to demonstrate that dcache pollution
+> is a real problem today, even on a machine with 2GB.
+> 
+
