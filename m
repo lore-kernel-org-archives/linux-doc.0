@@ -2,138 +2,82 @@ Return-Path: <SRS0=X7yh=5H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31330C4332E
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Mar 2020 15:59:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2031C4332B
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Mar 2020 16:21:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F405D20724
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Mar 2020 15:59:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jlRqkmR/"
+	by mail.kernel.org (Postfix) with ESMTP id CFFB520724
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Mar 2020 16:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726809AbgCVP7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Mar 2020 11:59:15 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:41018 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725970AbgCVP7O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Mar 2020 11:59:14 -0400
-Received: by mail-pl1-f196.google.com with SMTP id t16so4783360plr.8
-        for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2020 08:59:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=PluEgB5CGHn5zIpx8WT7vUDABEi6WP6504DCfOquj6o=;
-        b=jlRqkmR/q0VZPRBfaUHIyYnR4OYoJj1t9u9gSVkszMQKDXNKOtA4tGMcr+N8oj4kQJ
-         v+CHKQK6pd49ksBYnkX9J7l4rBRVy+ulNiDZg9qE7SKA077y1LZ+WISoir5WfFF+gHdZ
-         KDrLrafv7vYCdtP+vRPho318LyXdizai8mqwM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PluEgB5CGHn5zIpx8WT7vUDABEi6WP6504DCfOquj6o=;
-        b=NMZAZXFuOBRc+uWSj7AV8sxIWupBNywDKGMxanthGAfblHadatT1/TW8kM7JjZfNvR
-         N/ttWBHFyoM+f2CZ3xfAVpUWR4mnyH+IcBAHrlBghgimf2QcZs6H0DWTRG0R+V/LVbOj
-         KifJcN2IxF2u7YrU0BVzylKbmTUMQodizWRkMp4f4sro6jXJYwVyISo5hkpn6hI6Set6
-         7atMMywL97sVkjrNTKW+5nBKV4+J29Wa+UNjux3Lw+HCKcdD4ge5/Q/Apfj7kPm3FUtF
-         7qOyaXtBzbTPsg8wYnMf+x8hro724NdyK4ItTpz6LWNDCAC+NOuWknrOaHWEP9PFf2H6
-         Tzmw==
-X-Gm-Message-State: ANhLgQ0YRqHnvamm/nWEKS7dRcpNu0apuRKxttLi7BQ1akocfgafYXmJ
-        hx4GNWnpg9U7zEm7Wj1fKym0NQ==
-X-Google-Smtp-Source: ADFU+vvhqzwqYD5/diSgghDIEd9lyztkeS8kSQVvuUtRaNA6/tp+betHbMLKqpDQy6uKuylJ/6pnJw==
-X-Received: by 2002:a17:902:d898:: with SMTP id b24mr14591699plz.0.1584892751838;
-        Sun, 22 Mar 2020 08:59:11 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b9sm9852106pgi.75.2020.03.22.08.59.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2020 08:59:11 -0700 (PDT)
-Date:   Sun, 22 Mar 2020 08:59:10 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Cc:     Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-Subject: Re: [PATCH v2 03/11] pstore/blk: blkoops: support pmsg recorder
-Message-ID: <202003220846.978F969@keescook>
-References: <1581078355-19647-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1581078355-19647-4-git-send-email-liaoweixiong@allwinnertech.com>
- <202003181107.6B776F0E5F@keescook>
- <4ddb742f-7819-25e9-7bf4-49a80823d2aa@allwinnertech.com>
+        id S1726583AbgCVQVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Mar 2020 12:21:12 -0400
+Received: from sauhun.de ([88.99.104.3]:51450 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726538AbgCVQVM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 22 Mar 2020 12:21:12 -0400
+Received: from localhost (p54B33042.dip0.t-ipconnect.de [84.179.48.66])
+        by pokefinder.org (Postfix) with ESMTPSA id 260382C0064;
+        Sun, 22 Mar 2020 17:21:10 +0100 (CET)
+Date:   Sun, 22 Mar 2020 17:21:09 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 13/17] i2c: include/linux/i2c.h: fix a doc warning
+Message-ID: <20200322162109.GD6766@ninjato>
+References: <cover.1584456635.git.mchehab+huawei@kernel.org>
+ <24cbf9166b21531186e5b6d37a3f9201f957abef.1584456635.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Hf61M2y+wYpnELGG"
 Content-Disposition: inline
-In-Reply-To: <4ddb742f-7819-25e9-7bf4-49a80823d2aa@allwinnertech.com>
+In-Reply-To: <24cbf9166b21531186e5b6d37a3f9201f957abef.1584456635.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 22, 2020 at 07:14:37PM +0800, WeiXiong Liao wrote:
-> hi Kees Cook,
-> 
-> On 2020/3/19 AM 2:13, Kees Cook wrote:
-> > On Fri, Feb 07, 2020 at 08:25:47PM +0800, WeiXiong Liao wrote:
-> >> +config PSTORE_BLKOOPS_PMSG_SIZE
-> >> +	int "pmsg size in kbytes for blkoops"
-> >> +	depends on PSTORE_BLKOOPS
-> >> +	depends on PSTORE_PMSG
-> >> +	default 64
-> > 
-> > Instead of "depends on PSTORE_PMSG", you can do:
-> > 
-> > 	default 64 if PSTORE_PMSG
-> > 	default 0
-> > 
-> 
-> What happens if PSTORE_BLKOOPS_PMSG_SIZE is non-zero while
-> PSTORE_PMSG is disabled? The pmsg recorder do not work but pstore/blk
-> will always allocate zone for pmsg recorder since pmsg_size is non-zero.
-> It waste storage space.
 
-Yeah, true. This gets back to my wanting to have this be more dynamic in
-the pstore core. But, yes, for now, you're right.
+--Hf61M2y+wYpnELGG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You can still do this for initialization:
+On Tue, Mar 17, 2020 at 03:54:22PM +0100, Mauro Carvalho Chehab wrote:
+> Don't let non-letters inside a literal block without escaping it, as
+> the toolchain would mis-interpret it:
+>=20
+> ./include/linux/i2c.h:518: WARNING: Inline strong start-string without en=
+d-string.
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-static long pmsg_size = IS_ENABLED(CONFIG_PSTORE_PMSG)
-				?  CONFIG_PSTORE_BLKOOPS_PMSG_SIZE
-				: -1;
+Applied to for-current, thanks!
 
-But that'll require logic changes to verify_size(). We can revisit this
-after v3.
 
-> >> @@ -611,7 +776,8 @@ static ssize_t blkz_dmesg_read(struct blkz_zone *zone,
-> >>  		char *buf = kasprintf(GFP_KERNEL,
-> >>  				"%s: Total %d times\n",
-> >>  				record->reason == KMSG_DUMP_OOPS ? "Oops" :
-> >> -				"Panic", record->count);
-> >> +				record->reason == KMSG_DUMP_PANIC ? "Panic" :
-> >> +				"Unknown", record->count);
-> > 
-> > Please use get_reason_str() here.
-> > 
-> 
-> get_reason_str() is marked 'static' on platform.c and pstore/blk only
-> support oops
-> and panic, it's no need to check more reason number.
+--Hf61M2y+wYpnELGG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I'd still rather identical strings not be scattered around pstore. :) Go
-ahead and make get_reason_str() non-static and rename it
-pstore_get_reason_str(), EXPORT_SYMBOL(), add to pstore.h etc.
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Kees Cook
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl53kHUACgkQFA3kzBSg
+KbaR/g//XGC6Arwv37/lpyGmllIA2LKJ9gXePjLavzZUFPQk6zXot7DD68Y9wTyj
+TyOyRYEhNB2wuv8W2HHvqQLzBav/vd85qNOkq72aoCdoYNPWBCP93pbx2sfcqO+F
+Uf7hwToamo9VBzbw/DdNCDj9ChnmOjfSgdy94vQr7NNCfwqcHTqMwj9ZC4oLHWk/
+XU961lX9rRO6UDQ57WtyVFw62SA6NffupUm0iOU6o1ITjzCQIM5fi+7xxM/JcLR7
+LQpm0vxljUabEHBUbNsHyOFj/NcysWwBV1sbz8rxUJsBg6lWx6qO3n3ZZgudsm9X
+72A6boD4FTK7TMVkyt+KOHV6qU7L6fjVqMfihJDu/1xI79sI5NiffakpCYkVIN5B
+ZnOBKJ7QmUN3yDK93ts/eL9XcCG1mV9v9ExAVBUL0cefsjlQPLI4TminofRmYSDH
+3xHxoTpWWZ824KmbTAqPuXMJLFwdBaQgwc6n4YiKhKiLgpWrp4H2VnysLaGuruXg
+udnNvKYxKXEA78lpZroUapYw0gyxk3YLXRd/h2GN5m6wbrr+CcTGxpOjSSaBGGgc
+18cnqaeWIuZb9rkLqLC2tUN9GW5KxL7KfOiTLH05LZ/0MV7rbNkhH7YJzx0FcFrn
+fV/GL6MCFVrmORzy53T7qwOBCKwcmd/z5Q1/3G1M+h03r/1w9TQ=
+=8TIH
+-----END PGP SIGNATURE-----
+
+--Hf61M2y+wYpnELGG--
