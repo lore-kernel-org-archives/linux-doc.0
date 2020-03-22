@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F2FC4332E
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Mar 2020 15:16:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E51C4332E
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Mar 2020 15:44:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0F7A02080C
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Mar 2020 15:16:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A35B220722
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Mar 2020 15:44:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cI3Ojtue"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="euo5bqfj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726470AbgCVPQG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Mar 2020 11:16:06 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:38855 "EHLO
+        id S1726814AbgCVPo3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Mar 2020 11:44:29 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33870 "EHLO
         mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726623AbgCVPQF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Mar 2020 11:16:05 -0400
-Received: by mail-pf1-f193.google.com with SMTP id z25so1816948pfa.5
-        for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2020 08:16:04 -0700 (PDT)
+        with ESMTP id S1725970AbgCVPo2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Mar 2020 11:44:28 -0400
+Received: by mail-pf1-f193.google.com with SMTP id 23so6201463pfj.1
+        for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2020 08:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=6dpw9rDwVFF+jBSqqps/Fz65ini0gev9EsYNdaUAAOw=;
-        b=cI3Ojtue1abNbnhEXHj2iryE86swUOebT5p/+8RCaO5uNSnhQ9Y7TVRjkqQM9VLRFP
-         dJv9sDMVYKxFQa0rCrirVl8449WdxPXtbt8AiVGom/vRGCQjpA1SrRhdc4HdrJ8NCERe
-         BzLIan9hI5+ldnBF53MPXrWaJDzIME7aEKxgc=
+        bh=YL+MR4SeE7ZMKyLj3pq91f9YbQ3vSzoJuwAbHw1Bf+c=;
+        b=euo5bqfjl82QDaTCxgYHrwbwx1CZxogNrh71EorKsEz+of9psHTsKBi9jD+BVMF9/i
+         la6IlwZiIeBLqJdotzhOopEAsYNyxuiIiKC2dHtrnbApYpn1uIZynco9BNDWDp53KcYi
+         mm0N4OoucSO7VRIAfKI4scY1S3I6oOMPCgbzE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=6dpw9rDwVFF+jBSqqps/Fz65ini0gev9EsYNdaUAAOw=;
-        b=H5pmPqUKHCHaYPx0nZeoKrDjBn71U52vt9+t28HOPDsiUu1cX6X4KfE/PO5U4aJTp+
-         gTMixJ74ZxXh1GGWvC7WqtOSbOZPucJZzx0fmTNFhI2ndop3Lqz5VrIFHwSoAH7HDEhp
-         tLvHh9GgT2Tgo6yLk73lDmKkcHIezvoDQmuigM1wF0IwuaiGA/3rTppk7gFQH9FzzWKT
-         EtJgELyXNmF1Mdi3D4ejn+7YNjxrD5SOsQZ9OoN1tkduUgcW7PXbrJgvSQN9eW+8ozXR
-         FvcST+TKeKD4K21xbTSt9jr9Gh8IhAKkiJuKqJG/9GtXxJnAeDozmWGU4ldZ3uDrsbcK
-         7f7w==
-X-Gm-Message-State: ANhLgQ0z6PPHh/30a7jHiw5c6DEAmzZrnKFZ8/TiSe3jxmJrVgzj4P45
-        qGkL8lmITiJKle9aID+Een/iEg==
-X-Google-Smtp-Source: ADFU+vuWKzy086D5ElUKvJfnJKYW2BQ4xV1n4gXNC8LIJaIR7+nZmnQmmYjnlO8aEfT/1OxfgJL/Cg==
-X-Received: by 2002:a63:ff0d:: with SMTP id k13mr8595652pgi.376.1584890163299;
-        Sun, 22 Mar 2020 08:16:03 -0700 (PDT)
+        bh=YL+MR4SeE7ZMKyLj3pq91f9YbQ3vSzoJuwAbHw1Bf+c=;
+        b=mpkWDwqCUrWXHljcGA066SV3hPsRmeSJVsGcUhbF0OkBBxoXK+gkSUOmOpMk+aNbbe
+         Kc6kYZmdr/VsxqohTxKhE4qPL6k2SxIITzYq4NMR1IuSWaqPxfVoAJxCow8tED5ls0Io
+         mtILvXvtuFYlQyZJXJ24589fO0YPNfuAvlIu7UjyliFBAFt5ruAr6lvyT4Dt7aWiE53A
+         c3vHe0P27FyRIHrmQa954WcSVuV+GRkjdMpPPcO/My3f8KKbGlJ7VZFCcQ57WzMDkWXQ
+         Tw+7M6092diOdIzT2a7k9xtaG6lSQxmgFuIC/pt2Ei9MC8z8+naIHZ7e26efGkPut7EB
+         7KFw==
+X-Gm-Message-State: ANhLgQ23EgWD3rqRahBSSc+GqLap8dUmgWaN02pnmxOX1WKkw2oh+F6z
+        G2eHCbPUx99NJNM4T8hqWRN4lzQSJDM=
+X-Google-Smtp-Source: ADFU+vsOuZnbrkJ1+OlzMtqbAiGhhpTVn5FLmXciOuBCi3EqN698sLpsBrXbCZstEAjm/8Z8ZeWbNA==
+X-Received: by 2002:a62:144c:: with SMTP id 73mr20002041pfu.265.1584891866727;
+        Sun, 22 Mar 2020 08:44:26 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 11sm10770850pfz.91.2020.03.22.08.16.02
+        by smtp.gmail.com with ESMTPSA id 71sm11249418pfv.8.2020.03.22.08.44.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2020 08:16:02 -0700 (PDT)
-Date:   Sun, 22 Mar 2020 08:16:01 -0700
+        Sun, 22 Mar 2020 08:44:25 -0700 (PDT)
+Date:   Sun, 22 Mar 2020 08:44:24 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
 Cc:     Anton Vorontsov <anton@enomsg.org>,
@@ -67,56 +67,200 @@ Cc:     Anton Vorontsov <anton@enomsg.org>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org
-Subject: Re: [PATCH v2 05/11] pstore/blk: blkoops: support ftrace recorder
-Message-ID: <202003220814.713B5DF7AA@keescook>
+Subject: Re: [PATCH v2 02/11] blkoops: add blkoops, a warpper for pstore/blk
+Message-ID: <202003220816.C877AB41A4@keescook>
 References: <1581078355-19647-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1581078355-19647-6-git-send-email-liaoweixiong@allwinnertech.com>
- <202003181117.6EA5486@keescook>
- <42205dc0-f001-bbf0-00b6-85aca0cdb1f8@allwinnertech.com>
+ <1581078355-19647-3-git-send-email-liaoweixiong@allwinnertech.com>
+ <202003181025.20B6978@keescook>
+ <11f3dcbf-dba5-8fdc-6b2c-43dbe4e478c8@allwinnertech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <42205dc0-f001-bbf0-00b6-85aca0cdb1f8@allwinnertech.com>
+In-Reply-To: <11f3dcbf-dba5-8fdc-6b2c-43dbe4e478c8@allwinnertech.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 22, 2020 at 07:42:07PM +0800, WeiXiong Liao wrote:
-> On 2020/3/19 AM 2:19, Kees Cook wrote:
-> > On Fri, Feb 07, 2020 at 08:25:49PM +0800, WeiXiong Liao wrote:
-> >> +static int blkz_recover_zones(struct blkz_context *cxt,
-> >> +		struct blkz_zone **zones, unsigned int cnt)
-> >> +{
-> >> +	int ret;
-> >> +	unsigned int i;
-> >> +	struct blkz_zone *zone;
-> >> +
-> >> +	if (!zones)
-> >> +		return 0;
-> >> +
-> >> +	for (i = 0; i < cnt; i++) {
-> >> +		zone = zones[i];
-> >> +		if (unlikely(!zone))
-> >> +			continue;
-> >> +		ret = blkz_recover_zone(cxt, zone);
-> >> +		if (ret)
-> >> +			goto recover_fail;
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +recover_fail:
-> >> +	pr_debug("recover %s[%u] failed\n", zone->name, i);
-> >> +	return ret;
-> >> +}
+On Sun, Mar 22, 2020 at 06:00:34PM +0800, WeiXiong Liao wrote:
+> On 2020/3/19 AM2:06, Kees Cook wrote:
+> > On Fri, Feb 07, 2020 at 08:25:46PM +0800, WeiXiong Liao wrote:
+> >> blkoops is a better wrapper for pstore/blk, which provides efficient
+> >> configuration mothod. It divides all configurations of pstore/blk into
 > > 
-> > Why is this introduced here? Shouldn't this be earlier in the series?
+> > typo: method
+> > 
 > 
-> blkz_recover_zones() is used to recover a array of zones. Only ftrace
-> recorder need it, so it's introduced here.
+> I will fix it.
+> 
+> >> 2 parts, configurations for user and configurations for driver.
+> >>
+> >> Configurations for user detemine how pstore/blk work, such as
+> >> dump_oops and dmesg_size. They can be set by Kconfig and module
+> >> parameters.
+> > 
+> > I'd like to keep blkoops as close to ramoops as possible on the user
+> > configuration side. Notes below...
+> > 
+> 
+> Is your question why not use device-tree on the user configuration
+> side? Here are my answer about it.
+> 
+> There is an important difference between blkoops and ramoops.
+> The ramoops can be initialized at any time since ram already be
+> ready. However, blkoops must waits for block_dev registering.
 
-Okay, that's fine. I thought maybe the dmesg front-end could use it too?
-Anyway, I can look at it again in v3. :)
+Right, that's true and looks fine as you have it. I meant I wondered if
+there was a way to teach blkoops about mtd device naming (in the same
+way that it already supports many ways to find matching block devices by
+path, by UUID, etc). That way when blkoops see a matching MTD device,
+it'll load the mtd module, etc. For now, let's leave this as-is, and
+revisit this idea after v3.
+
+> No, non-block here means devices such as MTD device which is not a block
+> device and do not use generic block layer.
+
+How are filesystems implemented on top of MTD devices? Are they
+MTD-specific, or is there a block layer driver that goes on top of MTD?
+
+> So, why not extract a common layer from ramoops and blkoops to allocate
+> and manager storage sapce? That is what psotre/blk (blkzone.c) do. The
+> ramoops and the blkoops do not care about the use of storage.
+> 
+> I don't know whether the common layer is good enough to ramoops and
+> whether is good time to rename the common layer from pstore/blk to
+> psotre/zone?
+
+Yeah, I'm still looking through that. I'd love to be able to merge the
+pstore/zone with much of ram.c. That way we could even get ECC support
+on non-RAM storage devices. :)
+
+But let's not worry about that for v3. I'd like to get our
+configurations matched up, though. To that end, yes, let's keep your
+"dmesg_size" (or should we maybe call this "oops_size" to distinguish
+oops dmesg from console dmesg) and I will add an alias to ramoops to
+support "oops_size". Then we can have a single place to configure
+settings for the pstore/zone layer. I'll keep thinking about how to best
+to that.
+
+> How about Makefile and Kconfig as follow?
+> 
+> 	<Kconfig>
+> 	config PSOTRE_ZONE
+> 		# NOTE.
+> 		# the configuration is hidden from users and selected by
+> 		# pstore/blk.
+> 		help
+> 		  The common layer for pstore/blk (and pstore/ram in the future)
+> 		  to manager storage as zones.
+> 	config PSTORE_BLK
+> 		tristate "Log panic/oops to a block device"
+> 		select PSOTRE_ZONE
+> 		help
+> 		  ......
+> 	config PSTORE_BLK_DMESG_SIZE
+> 		......
+> 
+> 	<Makefile>
+> 	#  Note: rename blkzone.c to pstore_zone.c
+> 	obj-$(CONFIG_PSTORE_ZONE) += pstore_zone.c
+> 
+> 	# Note: rename blkoops.c to pstore_blk.c
+> 	obj-$(CONFIG_PSTORE_BLK) += pstore_blk.c
+
+Yeah, this works, though with the "psotre" typos fixed. ;) The comments
+in the Makefile aren't needed, since there's no renaming actually
+happening. They're just named that from the first time they appear
+upstream.
+
+> 
+> >> +
+> >> +	  NOTE that, both kconfig and module parameters can configure blkoops,
+> >> +	  but module parameters have priority over kconfig.
+> >> +
+> >> +	  If unsure, say N.
+> >> +
+> >> +config PSTORE_BLKOOPS_DMESG_SIZE
+> >> +	int "dmesg size in kbytes for blkoops"
+> > 
+> > How about "Size in Kbytes of dmesg to store"? (It will already show up
+> > under the parent config, so no need to repeat "blkoops" here.
+> 
+> That's good idea.
+
+Or, based on above, "Size if Kbytes of oops log to store"?
+
+> >> +#ifdef CONFIG_PSTORE_BLKOOPS_DMESG_SIZE
+> > 
+> > This (and all the others below) will always be defined, so no need to
+> > test it -- just use it as needed below.
+> > 
+> 
+> It's fine to dmesg_size and dump_oops but not pmsg_size, ftrace_size
+> and console_size, because they will be not available sometimes.
+
+Yeah, this has bothered me for a while but mostly only ramoops cared
+(almost all the other backends only support the oops frontend :P).
+I have some ideas about this, but I'm not quite ready to implement it
+(basically, the backend would tell the core what it could support,
+and the core would examine available frontends and then report back to
+the backend what it needed). But that's not something we need for v3.
+I'll keep thinking about it.
+
+> >> +	bzinfo->total_size = bo_dev->total_size;
+> >> +	bzinfo->dump_oops = dump_oops;
+> >> +	bzinfo->read = bo_dev->read;
+> >> +	bzinfo->write = bo_dev->write;
+> > 
+> > Why copy these separate functions? Shouldn't bzinfo just keep a pointer
+> > to bo_dev?
+> > 
+> 
+> bo_dev is a structure defined in blkoops and not available to bzinfo.
+> 
+> At the very beginning of my design, the pstore/blk is a common layer
+> for  blkoops and ramoops. So, it's not suitable for bzinfo to keep a
+> pointer to structure of blkoops.
+
+We may need to revisit this in the future in order to keep the module
+loading sane: we can't have the function body get unloaded while
+something holding a pointer to it is active. But this would be a small
+change at a later time. Let's leave this as-is for v3.
+
+> I will keep generic_file_read_iter() rather than vfs_iter_read().
+
+Absolutely. :)
+
+> >> +
+> >> +	blkoops_bdev = bdev;
+> >> +	blkdev_panic_write = panic_write;
+> >> +
+> >> +	/* only allow driver matching the @blkdev */
+> >> +	if (!bdev->bd_dev || MAJOR(bdev->bd_dev) != major)
+> > 
+> > And add similar error reports here.
+> > 
+> 
+> I'd  use pr_debug rather than pr_err. Because we allow mulitiple
+> devices to attempt to register to blkoops. It's not an error.
+> 
+> pr_debug("invalid major %u (expect %u)\n", major, MAJOR(bdev->bd_dev));
+
+Ah! Right. Then it should separate "non matching" with pr_debug() and
+"the matching one failed" with pr_err() (i.e. it's the right device, but
+something about it is bad: bad size, can't register, etc).
+
+> > I don't see this function getting used anywhere. Can it be removed? I
+> > see the notes in the Documentation. Could these values just be cached at
+> > open time instead of reopening the device?
+> > 
+> 
+> This function is reserved for block driver to get information about the
+> using block device. So it can't be removed.
+> 
+> Sure, a new structrue is created to cached these values.
+
+Okay.
 
 -- 
 Kees Cook
