@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A97FC54FCE
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 01:57:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF2AC1975A
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 01:57:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4BA8420732
+	by mail.kernel.org (Postfix) with ESMTP id D56DD20732
 	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 01:57:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="IkAnfVYE"
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="LKskb9/q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727050AbgCWB5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Mar 2020 21:57:47 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:39885 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727023AbgCWB5q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Mar 2020 21:57:46 -0400
-Received: by mail-qk1-f195.google.com with SMTP id b62so4435303qkf.6
-        for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2020 18:57:45 -0700 (PDT)
+        id S1727031AbgCWB54 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Mar 2020 21:57:56 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:35569 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727040AbgCWB5r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Mar 2020 21:57:47 -0400
+Received: by mail-qk1-f194.google.com with SMTP id k13so2056586qki.2
+        for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2020 18:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NJY0ihWnh3RZuY83D6QpDoF7Tl/RV0ol1+Ik0szRLsc=;
-        b=IkAnfVYEOpQOAUGEvyLE2juB/CKhK6XLMxVFnUYj/A+J4o6L1uYJ4tXG5AYNydlxzf
-         UO9hnQy6Vyj1oOvOJ/WGR2gDXZ16bCYUVHI2qgp/QgRc/oQefJm+BvHK+qh/k99oqMJQ
-         F82pb2PUhPNPybpbAH8seevdTJATx+Kz/+Mi0=
+        bh=vz9xBYT7w2JZFqAtcJyqqCJgtO34i29+WCO4KTVtkB8=;
+        b=LKskb9/qJnxs+ndLBRI6a2Qvn4blylgqfSDZDNHlcfPrnXsyfOH+lvtJTl/4/hpMFZ
+         ehZS19cQtTegYgR2LjnZPtCsQKUNC/VZ7WGPfwJnCLebkOze/3K6jTLYgwHpVxON6LKA
+         ogda2WQ/xUnbauY8b7cNfrjtnYo/DoaCrYvko=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NJY0ihWnh3RZuY83D6QpDoF7Tl/RV0ol1+Ik0szRLsc=;
-        b=DyV0PD9um7AliJBIZ8CoPsp3oxq6XjtYLx3AuZeSuVQ4uOvZm279Sy0eY452uK7jxD
-         NcWyH0G7Pso3b2Q/ifDbisS+GG2VIA2ggv5d4cDVNrq3luA3MghciD6mLW+7a+HD6cIL
-         gFlWVGlQbtGhkRQhzNBpiyzwpR7TeNFbWYwP0NI1XMaS2EU5b+Z0L+TJ19Y7QHOnJmbQ
-         fIab9jWNu1XauMBw3UehzJzOocG1rif6FiSWVxYAOLG8ExfSbuQ97ri2IIBY+boZNNR4
-         BfLIKaMiRyTco/GMLbAnm399yVAeCP78zeffGsrSXPSjb7qJsVYqgZ9Kp+1kExFnjm/+
-         Vbzg==
-X-Gm-Message-State: ANhLgQ2ivhkR+dFpUn6syIw2P0wiVDxLwhrfxAIo5g70Zvc4GtZMxNLF
-        Y5zG4BJEcYc9VB1iD+SST7Y1sA==
-X-Google-Smtp-Source: ADFU+vuVETBy0kueh2dy84RYBddE01RCKOLxWsiVzmOylGJSbu2SmdNGPJcKxXFFuAVRwjDi+Fqa5g==
-X-Received: by 2002:a37:bc43:: with SMTP id m64mr18280336qkf.287.1584928665421;
-        Sun, 22 Mar 2020 18:57:45 -0700 (PDT)
+        bh=vz9xBYT7w2JZFqAtcJyqqCJgtO34i29+WCO4KTVtkB8=;
+        b=BywpIs/R7Doun1vAod2A0TehMIUBNcYxjXKHntd3L+TfoPngCMxAOcdMz4cvcwdYbD
+         3gfprYSlPGZyOojMaxMyBkRwQLeoFYaNYmI4G+HD9MM+vZtH3QDcK9txs3lXQoKMIHCD
+         XM2rwW+RjaSDjHHkEdXkvoBgTPqu/xrakKknAo747sj1v1SwTib127W5i5llYVhVhllG
+         b//rZuNlqc6LGip70/PNO8qLNyLsoDKzMS6/haYN6JNzsxqIvXM3Btir3OZv0yAeq5Gi
+         R1OHsRU4mwzn9dlgCt6krhnd5pFJmySCCsyRyS/VMP1przu/xt0BXoUtgvN6zu3MLXlv
+         mTXw==
+X-Gm-Message-State: ANhLgQ1AfezTLKNdqUgeZo43STgHU+Q2nssZdmdt0b+zKZGLB4gX1Hko
+        Yff/O3uJDYOztiSBQr7/tWOm4w==
+X-Google-Smtp-Source: ADFU+vt1yWrK2R2GI2UFyps1U5tV/pTHQam8GzIYyN4qfwwXi4mmjWSN2KEPsWPNu5U2UR1d7x9Ieg==
+X-Received: by 2002:a37:8b01:: with SMTP id n1mr16659727qkd.407.1584928666324;
+        Sun, 22 Mar 2020 18:57:46 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id e66sm10146233qkd.129.2020.03.22.18.57.44
+        by smtp.gmail.com with ESMTPSA id e66sm10146233qkd.129.2020.03.22.18.57.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2020 18:57:45 -0700 (PDT)
+        Sun, 22 Mar 2020 18:57:46 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
@@ -67,9 +67,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Akira Yokosawa <akiyks@gmail.com>,
         Daniel Lustig <dlustig@nvidia.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v2 3/4] Documentation: LKMM: Add litmus test for RCU GP guarantee where reader stores
-Date:   Sun, 22 Mar 2020 21:57:34 -0400
-Message-Id: <20200323015735.236279-3-joel@joelfernandes.org>
+Subject: [PATCH v2 4/4] MAINTAINERS: Update maintainers for new Documentaion/litmus-tests/
+Date:   Sun, 22 Mar 2020 21:57:35 -0400
+Message-Id: <20200323015735.236279-4-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.25.1.696.g5e7596f4ac-goog
 In-Reply-To: <20200323015735.236279-1-joel@joelfernandes.org>
 References: <20200323015735.236279-1-joel@joelfernandes.org>
@@ -80,72 +80,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds an example for the important RCU grace period guarantee, which
-shows an RCU reader can never span a grace period.
+Also add me as Reviewer for LKMM. Previously a patch to do this was
+Acked but somewhere along the line got lost. Add myself in this patch.
 
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- Documentation/litmus-tests/README             |  5 +++
- .../litmus-tests/rcu/RCU+sync+read.litmus     | 37 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 Documentation/litmus-tests/rcu/RCU+sync+read.litmus
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
-index 84208bc197f2e..79d187f75679d 100644
---- a/Documentation/litmus-tests/README
-+++ b/Documentation/litmus-tests/README
-@@ -7,3 +7,8 @@ RCU (/rcu directory)
- MP+onceassign+derefonce.litmus
-     Demonstrates that rcu_assign_pointer() and rcu_dereference() to
-     ensure that an RCU reader will not see pre-initialization garbage.
-+
-+RCU+sync+read.litmus
-+RCU+sync+free.litmus
-+    Both the above litmus tests demonstrate the RCU grace period guarantee
-+    that an RCU read-side critical section can never span a grace period.
-diff --git a/Documentation/litmus-tests/rcu/RCU+sync+read.litmus b/Documentation/litmus-tests/rcu/RCU+sync+read.litmus
-new file mode 100644
-index 0000000000000..f34176720231d
---- /dev/null
-+++ b/Documentation/litmus-tests/rcu/RCU+sync+read.litmus
-@@ -0,0 +1,37 @@
-+C RCU+sync+read
-+
-+(*
-+ * Result: Never
-+ *
-+ * This litmus test demonstrates that after a grace period, an RCU updater always
-+ * sees all stores done in prior RCU read-side critical sections. Such
-+ * read-side critical sections would have ended before the grace period ended.
-+ *
-+ * This is one implication of the RCU grace-period guarantee, which says (among
-+ * other things) that an RCU read-side critical section cannot span a grace period.
-+ *)
-+
-+{
-+int x = 0;
-+int y = 0;
-+}
-+
-+P0(int *x, int *y)
-+{
-+	rcu_read_lock();
-+	WRITE_ONCE(*x, 1);
-+	WRITE_ONCE(*y, 1);
-+	rcu_read_unlock();
-+}
-+
-+P1(int *x, int *y)
-+{
-+	int r0;
-+	int r1;
-+
-+	r0 = READ_ONCE(*x);
-+	synchronize_rcu();
-+	r1 = READ_ONCE(*y);
-+}
-+
-+exists (1:r0=1 /\ 1:r1=0)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc1d18cb5d186..fc38b181fdff9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9699,6 +9699,7 @@ M:	Luc Maranget <luc.maranget@inria.fr>
+ M:	"Paul E. McKenney" <paulmck@kernel.org>
+ R:	Akira Yokosawa <akiyks@gmail.com>
+ R:	Daniel Lustig <dlustig@nvidia.com>
++R:	Joel Fernandes <joel@joelfernandes.org>
+ L:	linux-kernel@vger.kernel.org
+ L:	linux-arch@vger.kernel.org
+ S:	Supported
+@@ -9709,6 +9710,7 @@ F:	Documentation/atomic_t.txt
+ F:	Documentation/core-api/atomic_ops.rst
+ F:	Documentation/core-api/refcount-vs-atomic.rst
+ F:	Documentation/memory-barriers.txt
++F:	Documentation/litmus-tests/
+ 
+ LIS3LV02D ACCELEROMETER DRIVER
+ M:	Eric Piel <eric.piel@tremplin-utc.net>
 -- 
 2.25.1.696.g5e7596f4ac-goog
 
