@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B2BC54FCF
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 01:57:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A97FC54FCE
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 01:57:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C88BE20753
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 01:57:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BA8420732
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 01:57:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="OUqCP+XT"
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="IkAnfVYE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726954AbgCWB5p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Mar 2020 21:57:45 -0400
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:40897 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727023AbgCWB5p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Mar 2020 21:57:45 -0400
-Received: by mail-qv1-f65.google.com with SMTP id cy12so6409236qvb.7
+        id S1727050AbgCWB5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Mar 2020 21:57:47 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:39885 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727023AbgCWB5q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Mar 2020 21:57:46 -0400
+Received: by mail-qk1-f195.google.com with SMTP id b62so4435303qkf.6
         for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2020 18:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CPTNBS3Fi1p/gJitdrGM7rlktRgoXOE8J7X5+PPOovI=;
-        b=OUqCP+XTeWIkHEUTQ6MHdonPY/cGSi2e/kfYesyOU3ynrutAH8Q4VfxvKw0tUXIA/b
-         h8un8v0SlSrOn9Yg6Yhn1DVmJnVOF3dXuHkCd44v1WwL8eUeaN7FcJVa12o6V3kZ6T+2
-         EOvZv9JCEPxbjA2/e+eFrjr6gYlBsufneUQBc=
+        bh=NJY0ihWnh3RZuY83D6QpDoF7Tl/RV0ol1+Ik0szRLsc=;
+        b=IkAnfVYEOpQOAUGEvyLE2juB/CKhK6XLMxVFnUYj/A+J4o6L1uYJ4tXG5AYNydlxzf
+         UO9hnQy6Vyj1oOvOJ/WGR2gDXZ16bCYUVHI2qgp/QgRc/oQefJm+BvHK+qh/k99oqMJQ
+         F82pb2PUhPNPybpbAH8seevdTJATx+Kz/+Mi0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CPTNBS3Fi1p/gJitdrGM7rlktRgoXOE8J7X5+PPOovI=;
-        b=Z3R5Kvf2wqwPfPFbL9SH12lMh4mNPV2xt/mYVAQ/AnytM/m8Ep/lFOVl5gOOxXnSt4
-         2bgTZ8HXbzWGDq8Dl7gYXdLltBvWDCCx8OYXaxmp2prU+co18wyvTyukLKrYSZeV/GPD
-         QR36sOGC/LLR9tQIVN4cgSosQ5Bqjwq0fISOF8qWHFwonZ5hMXdssELr4P24n7s503Kv
-         h4G6mKZCouw8yubKLw4SjW2OXuqhLfrZ/1VW6gk49uI2MvmbWe3Q/Fwqm7cboLLywIeN
-         Ic5xWy/c2VIQzJBoT0X9ZxPitvFK5wGozc4CFxN3t0cpz3cSWeBwcQQAowxKH5C/BsNh
-         KAeQ==
-X-Gm-Message-State: ANhLgQ0+AZnLDujtd2+3aq6RtNe/XGFgfbmbP//8VvN5eZPKM6gZYqCN
-        T0yHNEPNUTQm54NEzCwze0WVdw==
-X-Google-Smtp-Source: ADFU+vurS72m7f6mnjBTHvHJyTIsKVlVQ4eL+s7Pv5ptJP29NDfgUt3p4H6dsIh7t5UoIZdzRhVTpQ==
-X-Received: by 2002:a0c:f849:: with SMTP id g9mr6774944qvo.108.1584928664464;
-        Sun, 22 Mar 2020 18:57:44 -0700 (PDT)
+        bh=NJY0ihWnh3RZuY83D6QpDoF7Tl/RV0ol1+Ik0szRLsc=;
+        b=DyV0PD9um7AliJBIZ8CoPsp3oxq6XjtYLx3AuZeSuVQ4uOvZm279Sy0eY452uK7jxD
+         NcWyH0G7Pso3b2Q/ifDbisS+GG2VIA2ggv5d4cDVNrq3luA3MghciD6mLW+7a+HD6cIL
+         gFlWVGlQbtGhkRQhzNBpiyzwpR7TeNFbWYwP0NI1XMaS2EU5b+Z0L+TJ19Y7QHOnJmbQ
+         fIab9jWNu1XauMBw3UehzJzOocG1rif6FiSWVxYAOLG8ExfSbuQ97ri2IIBY+boZNNR4
+         BfLIKaMiRyTco/GMLbAnm399yVAeCP78zeffGsrSXPSjb7qJsVYqgZ9Kp+1kExFnjm/+
+         Vbzg==
+X-Gm-Message-State: ANhLgQ2ivhkR+dFpUn6syIw2P0wiVDxLwhrfxAIo5g70Zvc4GtZMxNLF
+        Y5zG4BJEcYc9VB1iD+SST7Y1sA==
+X-Google-Smtp-Source: ADFU+vuVETBy0kueh2dy84RYBddE01RCKOLxWsiVzmOylGJSbu2SmdNGPJcKxXFFuAVRwjDi+Fqa5g==
+X-Received: by 2002:a37:bc43:: with SMTP id m64mr18280336qkf.287.1584928665421;
+        Sun, 22 Mar 2020 18:57:45 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id e66sm10146233qkd.129.2020.03.22.18.57.43
+        by smtp.gmail.com with ESMTPSA id e66sm10146233qkd.129.2020.03.22.18.57.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2020 18:57:44 -0700 (PDT)
+        Sun, 22 Mar 2020 18:57:45 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
@@ -67,9 +67,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Akira Yokosawa <akiyks@gmail.com>,
         Daniel Lustig <dlustig@nvidia.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v2 2/4] Documentation: LKMM: Add litmus test for RCU GP guarantee where updater frees object
-Date:   Sun, 22 Mar 2020 21:57:33 -0400
-Message-Id: <20200323015735.236279-2-joel@joelfernandes.org>
+Subject: [PATCH v2 3/4] Documentation: LKMM: Add litmus test for RCU GP guarantee where reader stores
+Date:   Sun, 22 Mar 2020 21:57:34 -0400
+Message-Id: <20200323015735.236279-3-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.25.1.696.g5e7596f4ac-goog
 In-Reply-To: <20200323015735.236279-1-joel@joelfernandes.org>
 References: <20200323015735.236279-1-joel@joelfernandes.org>
@@ -85,58 +85,67 @@ shows an RCU reader can never span a grace period.
 
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- .../litmus-tests/rcu/RCU+sync+free.litmus     | 42 +++++++++++++++++++
- 1 file changed, 42 insertions(+)
- create mode 100644 Documentation/litmus-tests/rcu/RCU+sync+free.litmus
+ Documentation/litmus-tests/README             |  5 +++
+ .../litmus-tests/rcu/RCU+sync+read.litmus     | 37 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 Documentation/litmus-tests/rcu/RCU+sync+read.litmus
 
-diff --git a/Documentation/litmus-tests/rcu/RCU+sync+free.litmus b/Documentation/litmus-tests/rcu/RCU+sync+free.litmus
+diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
+index 84208bc197f2e..79d187f75679d 100644
+--- a/Documentation/litmus-tests/README
++++ b/Documentation/litmus-tests/README
+@@ -7,3 +7,8 @@ RCU (/rcu directory)
+ MP+onceassign+derefonce.litmus
+     Demonstrates that rcu_assign_pointer() and rcu_dereference() to
+     ensure that an RCU reader will not see pre-initialization garbage.
++
++RCU+sync+read.litmus
++RCU+sync+free.litmus
++    Both the above litmus tests demonstrate the RCU grace period guarantee
++    that an RCU read-side critical section can never span a grace period.
+diff --git a/Documentation/litmus-tests/rcu/RCU+sync+read.litmus b/Documentation/litmus-tests/rcu/RCU+sync+read.litmus
 new file mode 100644
-index 0000000000000..4ee67e12f513a
+index 0000000000000..f34176720231d
 --- /dev/null
-+++ b/Documentation/litmus-tests/rcu/RCU+sync+free.litmus
-@@ -0,0 +1,42 @@
-+C RCU+sync+free
++++ b/Documentation/litmus-tests/rcu/RCU+sync+read.litmus
+@@ -0,0 +1,37 @@
++C RCU+sync+read
 +
 +(*
 + * Result: Never
 + *
-+ * This litmus test demonstrates that an RCU reader can never see a write that
-+ * follows a grace period, if it did not see writes that precede that grace
-+ * period.
-+ *
-+ * This is a typical pattern of RCU usage, where the write before the grace
-+ * period assigns a pointer, and the writes following the grace period destroy
-+ * the object that the pointer used to point to.
++ * This litmus test demonstrates that after a grace period, an RCU updater always
++ * sees all stores done in prior RCU read-side critical sections. Such
++ * read-side critical sections would have ended before the grace period ended.
 + *
 + * This is one implication of the RCU grace-period guarantee, which says (among
 + * other things) that an RCU read-side critical section cannot span a grace period.
 + *)
 +
 +{
-+int x = 1;
-+int *y = &x;
-+int z = 1;
++int x = 0;
++int y = 0;
 +}
 +
-+P0(int *x, int *z, int **y)
++P0(int *x, int *y)
 +{
-+	int *r0;
-+	int r1;
-+
 +	rcu_read_lock();
-+	r0 = rcu_dereference(*y);
-+	r1 = READ_ONCE(*r0);
++	WRITE_ONCE(*x, 1);
++	WRITE_ONCE(*y, 1);
 +	rcu_read_unlock();
 +}
 +
-+P1(int *x, int *z, int **y)
++P1(int *x, int *y)
 +{
-+	rcu_assign_pointer(*y, z);
++	int r0;
++	int r1;
++
++	r0 = READ_ONCE(*x);
 +	synchronize_rcu();
-+	WRITE_ONCE(*x, 0);
++	r1 = READ_ONCE(*y);
 +}
 +
-+exists (0:r0=x /\ 0:r1=0)
++exists (1:r0=1 /\ 1:r1=0)
 -- 
 2.25.1.696.g5e7596f4ac-goog
 
