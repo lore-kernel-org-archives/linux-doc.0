@@ -2,244 +2,108 @@ Return-Path: <SRS0=kJSq=5I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A460FC10DCE
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 22:30:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA2A2C4332B
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 23:22:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7AD3520753
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 22:30:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F02B20719
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Mar 2020 23:22:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KkVzm046"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbgCWWap (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Mar 2020 18:30:45 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:42775 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725990AbgCWWao (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Mar 2020 18:30:44 -0400
-Received: from mail-qt1-f197.google.com ([209.85.160.197])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <gpiccoli@canonical.com>)
-        id 1jGVak-0008VN-5E
-        for linux-doc@vger.kernel.org; Mon, 23 Mar 2020 22:30:42 +0000
-Received: by mail-qt1-f197.google.com with SMTP id v3so14447926qte.17
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2020 15:30:42 -0700 (PDT)
+        id S1727032AbgCWXWZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Mar 2020 19:22:25 -0400
+Received: from mail-vk1-f201.google.com ([209.85.221.201]:45488 "EHLO
+        mail-vk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725990AbgCWXWZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Mar 2020 19:22:25 -0400
+Received: by mail-vk1-f201.google.com with SMTP id j68so5844750vkj.12
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2020 16:22:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=nGAFHlfBd3e/4DpEoxTJ41Z972i/CI0Z5FKhkiHor+U=;
+        b=KkVzm0461yU6p8JLPw5BdoWxzunch2vLEcP54K5QZvsLM4QoavKN+hEQuBLXUZlmd8
+         6y1ZQrF318g9bGJkcYAo3JjgjZwIh7/5zTFX8r7ZTNLHmekAAY+NLyZVPp/fBWEHPzI8
+         F36WcYCv4PNE9M2wNe6yEni6hoT0UiB6CoCXBV+YYjezYkDJRKQLf8kFLyoJZzVnbhtf
+         Az7Lh4RV8yf8M821Z8dWCJcAjiGmb4JeiM7KCafgK2JjhOTg+PBY3KtGO3gm/Fy46KUL
+         kkYHU9VbxZ2TT3+qkvTSei9kIe/XRbm4ydvwomJ2LbpBP6pkJKhuYp8a/naTLHheYtFc
+         U62g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eLU6QAsvnXROGLfRM3tayO8KnVh0W3thszMUzPMtEKg=;
-        b=h7ljFy7W7MOvLkrh9g+8WDqC90wtbxPTV+OjgRAxQYUZkUOHHNpjpjULnU07kjWpfq
-         pr3GRRZ3nlLufEJaMaQDtMhrLQtnogoQ7/UFf6TrvDy3r1avpjzdGpGSKKgD9/S/iYha
-         yNOTUW4T1zFsQsKTdpt8Zoi4Ov51XZtz6jE7ubN9bNDG3ymk4ohFFOst1WnC5C9lCNnH
-         YV6PSpQWrH9D8Wm9l1cQIVn01GySD9U0MFSBwofVAMIGwjsLht5RVX9aojSJJKOHgW1b
-         rDjh+NFt6iybdtknaqLbZ63eiH1T0qveufSKfoIBA2IZ/Lj/R0g8j5TcjNY1hO03xBid
-         ihyw==
-X-Gm-Message-State: ANhLgQ1Sp4g2Im54xQCt8zWSBoIDGqT0GPCZB/UuugvUQm/Z6oviZyn/
-        9CCXI5L6B13i71Oip3LCP24GGUO7KLmwwknUDIZKiBdpZWRXu/7S4pLVAksVjh76VO7PciQAG93
-        p6qUvvFiHs9U11LWSiWXDrihlvY34Db9iDtL9jg==
-X-Received: by 2002:ac8:a8b:: with SMTP id d11mr22756224qti.94.1585002641070;
-        Mon, 23 Mar 2020 15:30:41 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsTQBRiPkiwW3HiyLOozMBtqzvrhukAt8NVf/Rykr5oh/XnNKcWvstjmOpyCmFqRJWYI13/yw==
-X-Received: by 2002:ac8:a8b:: with SMTP id d11mr22756188qti.94.1585002640687;
-        Mon, 23 Mar 2020 15:30:40 -0700 (PDT)
-Received: from localhost (189-47-87-73.dsl.telesp.net.br. [189.47.87.73])
-        by smtp.gmail.com with ESMTPSA id w30sm13984116qtw.21.2020.03.23.15.30.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 23 Mar 2020 15:30:39 -0700 (PDT)
-From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, tglx@linutronix.de,
-        akpm@linux-foundation.org, linux-api@vger.kernel.org,
-        rdunlap@infradead.org, willy@infradead.org, gpiccoli@canonical.com,
-        kernel@gpiccoli.net
-Subject: [PATCH V2] panic: Add sysctl/cmdline to dump all CPUs backtraces on oops event
-Date:   Mon, 23 Mar 2020 19:30:35 -0300
-Message-Id: <20200323223035.29891-1-gpiccoli@canonical.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=nGAFHlfBd3e/4DpEoxTJ41Z972i/CI0Z5FKhkiHor+U=;
+        b=R2f9usXttjacjqrDZpTTxmB4NS3bXDbgSI+sldaVG0gOchrTMmh4seqPxVpk6IT60V
+         HOUIh5NQ785kiH7y9REENuJRSQrhFrwWT5N0ffqu2uzPCNSAIrAzmNDWxTCVLKaPHQJt
+         jV2LANdn7vOGP9/tU37gvVNHOHpWHFoFBpcQI994duF8R0F461cYjVThlTPGTV3dYRPq
+         ywErKUqxuBEchB4Lk9p6JId1W1XWy9g276L0C77ZN475Z1cOYbnsyI8f7mQSEPZNd1QQ
+         0nWoBHTEGTzy2k+UIeWeL2SLJxoZvPIraAUFZu8iew+EvQvy7wslIcU4iEvouZtw7DLp
+         DXJg==
+X-Gm-Message-State: ANhLgQ2TGG/KaYfwNowwGgPxyiEwYmCwfGQasHCSpZClC6RLj4Rl12Ye
+        k8LrGGsSF5T/ydmuBzMNliUhrNnL3mIMWZ+cYtk=
+X-Google-Smtp-Source: ADFU+vskvFj1HOnGYXk4svHJcctnmJs6/MIQ4hjyv2RxvzqHxMbJ2FfebvZdnvXto9grRKUnfRyaGkZMqTTYZmCxue4=
+X-Received: by 2002:ab0:2553:: with SMTP id l19mr5446513uan.128.1585005742543;
+ Mon, 23 Mar 2020 16:22:22 -0700 (PDT)
+Date:   Mon, 23 Mar 2020 16:22:14 -0700
+Message-Id: <20200323232214.24939-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.1.696.g5e7596f4ac-goog
+Subject: [PATCH] Documentation: x86: exception-tables: document CONFIG_BUILDTIME_TABLE_SORT
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     corbet@lwn.net
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Usually when kernel reach an oops condition, it's a point of no return;
-in case not enough debug information is available in the kernel splat,
-one of the last resorts would be to collect a kernel crash dump and
-analyze it. The problem with this approach is that in order to collect
-the dump, a panic is required (to kexec-load the crash kernel). When
-in an environment of multiple virtual machines, users may prefer to
-try living with the oops, at least until being able to properly
-shutdown their VMs / finish their important tasks.
+Provide more information about __ex_table sorting post link.
 
-This patch implements a way to collect a bit more debug details when an
-oops event is reached, by printing all the CPUs backtraces through the
-usage of NMIs (on architectures that support that). The sysctl/kernel
-parameter added (and documented) here was called "oops_all_cpu_backtrace"
-and when set will (as the name suggests) dump all CPUs backtraces.
+The exception tables and fixup tables use a commonly recurring pattern
+in the kernel of storing the address of labels as date in custom ELF
+sections, then finding these sections, iterating elements within them,
+and possibly revisiting them or modifying the data at these addresses.
 
-Far from ideal, this may be the last option though for users that for
-some reason cannot panic on oops. Most of times oopses are clear enough
-to indicate the kernel portion that must be investigated, but in virtual
-environments it's possible to observe hypervisor/KVM issues that could
-lead to oopses shown in other guests CPUs (like virtual APIC crashes).
-This patch hence aims to help debug such complex issues without
-resorting to kdump.
+Sorting readonly arrays to minimize runtime penalties is quite clever.
 
-Signed-off-by: Guilherme G. Piccoli <gpiccoli@canonical.com>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
+ Documentation/x86/exception-tables.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-
-V2: Implemented grammar suggestions from Randy, Andrew and
-Matthew. Thanks in advance for the reviews!
-Cheers,
-
-Guilherme
-
-
- .../admin-guide/kernel-parameters.txt         |  8 +++++++
- Documentation/admin-guide/sysctl/kernel.rst   | 17 +++++++++++++++
- include/linux/kernel.h                        |  6 ++++++
- kernel/panic.c                                | 21 +++++++++++++++++++
- kernel/sysctl.c                               | 11 ++++++++++
- 5 files changed, 63 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 7a14caac6c94..7db622028c00 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3333,6 +3333,14 @@
- 			This will also cause panics on machine check exceptions.
- 			Useful together with panic=30 to trigger a reboot.
+diff --git a/Documentation/x86/exception-tables.rst b/Documentation/x86/exception-tables.rst
+index ed6d4b0cf62c..15455b2f7ba8 100644
+--- a/Documentation/x86/exception-tables.rst
++++ b/Documentation/x86/exception-tables.rst
+@@ -257,6 +257,9 @@ the fault, in our case the actual value is c0199ff5:
+ the original assembly code: > 3:      movl $-14,%eax
+ and linked in vmlinux     : > c0199ff5 <.fixup+10b5> movl   $0xfffffff2,%eax
  
-+	oops_all_cpu_backtrace=
-+			[KNL] Should kernel generate backtraces on all cpus
-+			when oops occurs - this should be a last measure resort
-+			in case	a kdump cannot be collected, for example.
-+			Defaults to 0 and can be controlled by the sysctl
-+			kernel.oops_all_cpu_backtrace.
-+			Format: <integer>
++If the fixup was able to handle the exception, control flow may be returned
++to the instruction after the one that triggered the fault, ie. local label 2b.
 +
- 	page_alloc.shuffle=
- 			[KNL] Boolean flag to control whether the page allocator
- 			should randomize its free lists. The randomization may
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 8b4ff69d2348..8660001d3a3e 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -57,6 +57,7 @@ show up in /proc/sys/kernel:
- - msgmnb
- - msgmni
- - nmi_watchdog
-+- oops_all_cpu_backtrace
- - osrelease
- - ostype
- - overflowgid
-@@ -572,6 +573,22 @@ numa_balancing_scan_size_mb is how many megabytes worth of pages are
- scanned for a given scan.
+ The assembly code::
  
+  > .section __ex_table,"a"
+@@ -344,3 +347,9 @@ pointer which points to one of:
+      it as special.
  
-+oops_all_cpu_backtrace:
-+================
+ More functions can easily be added.
 +
-+If this option is set, the kernel will send an NMI to all CPUs to dump
-+their backtraces when an oops event occurs. It should be used as a last
-+resort in case a panic cannot be triggered (to protect VMs running, for
-+example) or kdump can't be collected. This file shows up if CONFIG_SMP
-+is enabled.
-+
-+0: Won't show all CPUs backtraces when an oops is detected.
-+This is the default behavior.
-+
-+1: Will non-maskably interrupt all CPUs and dump their backtraces when
-+an oops event is detected.
-+
-+
- osrelease, ostype & version:
- ============================
- 
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 0d9db2a14f44..6cd00257b572 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -513,6 +513,12 @@ static inline u32 int_sqrt64(u64 x)
- }
- #endif
- 
-+#ifdef CONFIG_SMP
-+extern unsigned int sysctl_oops_all_cpu_backtrace;
-+#else
-+#define sysctl_oops_all_cpu_backtrace 0
-+#endif /* CONFIG_SMP */
-+
- extern void bust_spinlocks(int yes);
- extern int oops_in_progress;		/* If set, an oops, panic(), BUG() or die() is in progress */
- extern int panic_timeout;
-diff --git a/kernel/panic.c b/kernel/panic.c
-index b69ee9e76cb2..73c340418575 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -36,6 +36,24 @@
- #define PANIC_TIMER_STEP 100
- #define PANIC_BLINK_SPD 18
- 
-+#ifdef CONFIG_SMP
-+/*
-+ * Should we dump all CPUs backtraces in an oops event?
-+ * Defaults to 0, can be changed either via cmdline or sysctl.
-+ */
-+unsigned int __read_mostly sysctl_oops_all_cpu_backtrace;
-+
-+static int __init oops_backtrace_setup(char *str)
-+{
-+	int rc = kstrtouint(str, 0, &sysctl_oops_all_cpu_backtrace);
-+
-+	if (rc)
-+		return rc;
-+	return 1;
-+}
-+__setup("oops_all_cpu_backtrace=", oops_backtrace_setup);
-+#endif /* CONFIG_SMP */
-+
- int panic_on_oops = CONFIG_PANIC_ON_OOPS_VALUE;
- static unsigned long tainted_mask =
- 	IS_ENABLED(CONFIG_GCC_PLUGIN_RANDSTRUCT) ? (1 << TAINT_RANDSTRUCT) : 0;
-@@ -515,6 +533,9 @@ void oops_enter(void)
- 	/* can't trust the integrity of the kernel anymore: */
- 	debug_locks_off();
- 	do_oops_enter_exit();
-+
-+	if (sysctl_oops_all_cpu_backtrace)
-+		trigger_all_cpu_backtrace();
- }
- 
- /*
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 238f268de486..1ac31d9d5b7e 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -813,6 +813,17 @@ static struct ctl_table kern_table[] = {
- 		.proc_handler	= proc_dointvec,
- 	},
- #endif
-+#ifdef CONFIG_SMP
-+	{
-+		.procname	= "oops_all_cpu_backtrace",
-+		.data		= &sysctl_oops_all_cpu_backtrace,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
-+	},
-+#endif /* CONFIG_SMP */
- 	{
- 		.procname	= "pid_max",
- 		.data		= &pid_max,
++CONFIG_BUILDTIME_TABLE_SORT allows the __ex_table section to be sorted post
++link of the kernel image, via a host utility scripts/sorttable. It will set the
++symbol main_extable_sort_needed to 0, avoiding sorting the __ex_table section
++at boot time. With the exception table sorted, at runtime when an exception
++occurs we can quickly lookup the __ex_table entry via binary search.
 -- 
-2.25.1
+2.25.1.696.g5e7596f4ac-goog
 
