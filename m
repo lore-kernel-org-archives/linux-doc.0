@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F6FBC2BAEE
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 13:44:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED936C43331
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 13:44:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E3EE4206F6
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 13:44:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9687206F6
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 13:44:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585057477;
-	bh=kXBgL77aKBseXgTmvFFT2dzAuc5r0P2z+w2gjYWQYQQ=;
+	s=default; t=1585057478;
+	bh=PMZLvau6l0DTq6hZbaVXDrSebT6xY40VOvUd+dhMy3g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RhOaH5MihYxH9C+mu504dyWFUEzGhnVlRFPO94hy7k6j/FLcciewTHkTWpJNXekIR
-	 BeqQP8fSBDDw+UmBsNJwwxBI/MwESkVt9ARkECpBYydYSNQWBLbm+iNQGioMLbw3R1
-	 jzw8ALEvXxCxHwVCTJBS0ISfXF9z1lkB+mJcnK6g=
+	b=IA53rchE3H6TiC/XvuTZTmChGnD625v3Uyjc3rw7vQ8FgQrJ/uhDTLejGMKYW3rOi
+	 SNE4ut5FF+x1+hdeBCARjutadpqt/McJ9BqkIsmdnKCRCv4JV2ehOUYCB+1kR/FXQx
+	 KeZExHOiG1oDE+63KvP7BzTwY9gha0wk1g+s/V1g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728756AbgCXNoX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Mar 2020 09:44:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39094 "EHLO mail.kernel.org"
+        id S1727653AbgCXNoi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Mar 2020 09:44:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38990 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727815AbgCXNnT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727514AbgCXNnT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 24 Mar 2020 09:43:19 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 979BB208E0;
+        by mail.kernel.org (Postfix) with ESMTPSA id 8D97620775;
         Tue, 24 Mar 2020 13:43:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1585057398;
-        bh=kXBgL77aKBseXgTmvFFT2dzAuc5r0P2z+w2gjYWQYQQ=;
+        bh=PMZLvau6l0DTq6hZbaVXDrSebT6xY40VOvUd+dhMy3g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CvDerwhRR4Ll4atuijGCMkd+eCL3inE5VMZhWcf8GbSkD4mBfT5nF5MAo+8IAqvwo
-         PUgSCfbwHaM+g942abpcbcFhNaPRjsRMQhWYpnbxvFvFs9Lah3d0pZjoPVZi0jLerv
-         WBZMUJftJWA9y0ZjqntVUGxIiHtujC5lFN/LILBQ=
+        b=XlfvLdNZIVNPTe6OqjJRVqjsE6p1mfs/LB/TnEMooKS/ceswfZAvTKghG2c4IU1hN
+         arSkY81jXxlV3e9J4FbrW/Wi3iolJ4Powe0bIRd+R23FUrhHJ3iyU+PAqJsCC75X/M
+         Rdfe0cAbwvbcnBZiTvo3Wdmmstx9G+3TcChohrwM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jGjps-0025rV-Sa; Tue, 24 Mar 2020 14:43:16 +0100
+        id 1jGjps-0025ql-Hb; Tue, 24 Mar 2020 14:43:16 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v2 11/20] media: Kconfig: move comment to siano include
-Date:   Tue, 24 Mar 2020 14:43:04 +0100
-Message-Id: <df1ece11a2d64883ba87ed492f18ca52b613c837.1585057134.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 02/20] media: Kconfig: not all V4L2 platform drivers are for camera
+Date:   Tue, 24 Mar 2020 14:42:55 +0100
+Message-Id: <e39e656c49c05829f0cf9affd7918818351d09e6.1585057134.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1585057134.git.mchehab+huawei@kernel.org>
 References: <cover.1585057134.git.mchehab+huawei@kernel.org>
@@ -59,37 +59,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Showing this comment without showing the Siano mmc option
-is very weird! Place the option together, and make it
-visible only when showing Siano configuration.
+When the platform drivers got added, they were all part of
+complex camera support. This is not the case anymore, as we
+now have codecs and other stuff there too.
+
+So, fix the dependencies, in order to not require users to
+manually select something that it doesn't make sense.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/mmc/Kconfig       | 1 -
- drivers/media/mmc/siano/Kconfig | 2 ++
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/Kconfig          | 3 +--
+ drivers/media/platform/Kconfig | 1 -
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/mmc/Kconfig b/drivers/media/mmc/Kconfig
-index 5217f5bd205e..75aa6de08d53 100644
---- a/drivers/media/mmc/Kconfig
-+++ b/drivers/media/mmc/Kconfig
-@@ -1,3 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0-only
--comment "MMC/SDIO adapters"
- source "drivers/media/mmc/siano/Kconfig"
-diff --git a/drivers/media/mmc/siano/Kconfig b/drivers/media/mmc/siano/Kconfig
-index 1919f6fea8b1..570696019a9e 100644
---- a/drivers/media/mmc/siano/Kconfig
-+++ b/drivers/media/mmc/siano/Kconfig
-@@ -2,6 +2,8 @@
- #
- # Siano Mobile Silicon Digital TV device configuration
- #
-+comment "MMC/SDIO DVB adapters"
-+	depends on DVB_CORE && HAS_DMA && MMC
+diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+index 9dfea5c4b6ab..4af21fa73fcf 100644
+--- a/drivers/media/Kconfig
++++ b/drivers/media/Kconfig
+@@ -99,8 +99,7 @@ source "drivers/media/mc/Kconfig"
+ config VIDEO_DEV
+ 	tristate
+ 	depends on MEDIA_SUPPORT
+-	depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
+-	default y
++	default MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT || V4L_PLATFORM_DRIVERS
  
- config SMS_SDIO_DRV
- 	tristate "Siano SMS1xxx based MDTV via SDIO interface"
+ config VIDEO_V4L2_SUBDEV_API
+ 	bool "V4L2 sub-device userspace API"
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index e01bbb9dd1c1..34f40c2c8c45 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -5,7 +5,6 @@
+ 
+ menuconfig V4L_PLATFORM_DRIVERS
+ 	bool "V4L platform devices"
+-	depends on MEDIA_CAMERA_SUPPORT
+ 	help
+ 	  Say Y here to enable support for platform-specific V4L drivers.
+ 
 -- 
 2.24.1
 
