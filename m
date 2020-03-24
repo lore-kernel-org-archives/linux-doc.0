@@ -2,351 +2,388 @@ Return-Path: <SRS0=tsXf=5J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7B92C10DCE
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 05:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C39C10DCE
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 06:50:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A2F5B20714
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 05:23:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56D152073E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 06:50:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726026AbgCXFXk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Mar 2020 01:23:40 -0400
-Received: from foss.arm.com ([217.140.110.172]:57602 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725923AbgCXFXj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Mar 2020 01:23:39 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA3067FA;
-        Mon, 23 Mar 2020 22:23:38 -0700 (PDT)
-Received: from p8cg001049571a15.arm.com (unknown [10.163.1.71])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F2AC73F7C3;
-        Mon, 23 Mar 2020 22:27:40 -0700 (PDT)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-mm@kvack.org
-Cc:     christophe.leroy@c-s.fr,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH V2 3/3] Documentation/mm: Add descriptions for arch page table helpers
-Date:   Tue, 24 Mar 2020 10:52:55 +0530
-Message-Id: <1585027375-9997-4-git-send-email-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
-References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
+        id S1727426AbgCXGu2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Mar 2020 02:50:28 -0400
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:39265 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727367AbgCXGu1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Mar 2020 02:50:27 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01358;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0TtUkIEH_1585032618;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TtUkIEH_1585032618)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 24 Mar 2020 14:50:19 +0800
+Subject: Re: [PATCH v4] Translate debugfs.txt into Chinese and link it to the
+ index.
+To:     Chucheng Luo <luochucheng@vivo.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kernel@vivo.com
+References: <20200323085348.15121-1-luochucheng@vivo.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <ac86742c-8a4c-3afe-e1c1-a35bca4b6c94@linux.alibaba.com>
+Date:   Tue, 24 Mar 2020 14:49:58 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200323085348.15121-1-luochucheng@vivo.com>
+Content-Type: text/plain; charset=gbk
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This removes existing description from the test and instead adds a specific
-description file for all arch page table helpers which is in sync with the
-semantics being tested via CONFIG_DEBUG_VM_PGTABLE. All future changes
-either to these descriptions here or the debug test should always remain
-in sync.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-Suggested-by: Mike Rapoport <rppt@kernel.org>
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
- Documentation/vm/arch_pgtable_helpers.rst | 256 ++++++++++++++++++++++
- mm/debug_vm_pgtable.c                     |  13 +-
- 2 files changed, 259 insertions(+), 10 deletions(-)
- create mode 100644 Documentation/vm/arch_pgtable_helpers.rst
+Did you use 'git am' try to apply your patch before sent it out?
 
-diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
-new file mode 100644
-index 000000000000..1fc8a1d8932a
---- /dev/null
-+++ b/Documentation/vm/arch_pgtable_helpers.rst
-@@ -0,0 +1,256 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _arch_page_table_helpers:
-+
-+===============================
-+Architecture Page Table Helpers
-+===============================
-+
-+Generic MM expects architectures (with MMU) to provide helpers to create, access
-+and modify page table entries at various level for different memory functions.
-+These page table helpers need to conform to a common semantics across platforms.
-+Following tables describe the expected semantics which can also be tested during
-+boot via CONFIG_DEBUG_VM_PGTABLE option. All future changes in here or the debug
-+test need to be in sync.
-+
-+======================
-+PTE Page Table Helpers
-+======================
-+
-+--------------------------------------------------------------------------------
-+| pte_same                  | Tests whether both PTE entries are the same      |
-+--------------------------------------------------------------------------------
-+| pte_bad                   | Tests a non-table mapped PTE                     |
-+--------------------------------------------------------------------------------
-+| pte_present               | Tests a valid mapped PTE                         |
-+--------------------------------------------------------------------------------
-+| pte_young                 | Tests a young PTE                                |
-+--------------------------------------------------------------------------------
-+| pte_dirty                 | Tests a dirty PTE                                |
-+--------------------------------------------------------------------------------
-+| pte_write                 | Tests a writable PTE                             |
-+--------------------------------------------------------------------------------
-+| pte_special               | Tests a special PTE                              |
-+--------------------------------------------------------------------------------
-+| pte_protnone              | Tests a PROT_NONE PTE                            |
-+--------------------------------------------------------------------------------
-+| pte_devmap                | Tests a ZONE_DEVICE mapped PTE                   |
-+--------------------------------------------------------------------------------
-+| pte_soft_dirty            | Tests a soft dirty PTE                           |
-+--------------------------------------------------------------------------------
-+| pte_swp_soft_dirty        | Tests a soft dirty swapped PTE                   |
-+--------------------------------------------------------------------------------
-+| pte_mkyoung               | Creates a young PTE                              |
-+--------------------------------------------------------------------------------
-+| pte_mkold                 | Creates an old PTE                               |
-+--------------------------------------------------------------------------------
-+| pte_mkdirty               | Creates a dirty PTE                              |
-+--------------------------------------------------------------------------------
-+| pte_mkclean               | Creates a clean PTE                              |
-+--------------------------------------------------------------------------------
-+| pte_mkwrite               | Creates a writable PTE                           |
-+--------------------------------------------------------------------------------
-+| pte_mkwrprotect           | Creates a write protected PTE                    |
-+--------------------------------------------------------------------------------
-+| pte_mkspecial             | Creates a special PTE                            |
-+--------------------------------------------------------------------------------
-+| pte_mkdevmap              | Creates a ZONE_DEVICE mapped PTE                 |
-+--------------------------------------------------------------------------------
-+| pte_mksoft_dirty          | Creates a soft dirty PTE                         |
-+--------------------------------------------------------------------------------
-+| pte_clear_soft_dirty      | Clears a soft dirty PTE                          |
-+--------------------------------------------------------------------------------
-+| pte_swp_mksoft_dirty      | Creates a soft dirty swapped PTE                 |
-+--------------------------------------------------------------------------------
-+| pte_swp_clear_soft_dirty  | Clears a soft dirty swapped PTE                  |
-+--------------------------------------------------------------------------------
-+| pte_mknotpresent          | Invalidates a mapped PTE                         |
-+--------------------------------------------------------------------------------
-+| ptep_get_and_clear        | Clears a PTE                                     |
-+--------------------------------------------------------------------------------
-+| ptep_get_and_clear_full   | Clears a PTE                                     |
-+--------------------------------------------------------------------------------
-+| ptep_test_and_clear_young | Clears young from a PTE                          |
-+--------------------------------------------------------------------------------
-+| ptep_set_wrprotect        | Converts into a write protected PTE              |
-+--------------------------------------------------------------------------------
-+| ptep_set_access_flags     | Converts into a more permissive PTE              |
-+--------------------------------------------------------------------------------
-+
-+======================
-+PMD Page Table Helpers
-+======================
-+
-+--------------------------------------------------------------------------------
-+| pmd_same                  | Tests whether both PMD entries are the same      |
-+--------------------------------------------------------------------------------
-+| pmd_bad                   | Tests a non-table mapped PMD                     |
-+--------------------------------------------------------------------------------
-+| pmd_leaf                  | Tests a leaf mapped PMD                          |
-+--------------------------------------------------------------------------------
-+| pmd_huge                  | Tests a HugeTLB mapped PMD                       |
-+--------------------------------------------------------------------------------
-+| pmd_trans_huge            | Tests a Transparent Huge Page (THP) at PMD       |
-+--------------------------------------------------------------------------------
-+| pmd_present               | Tests a valid mapped PMD                         |
-+--------------------------------------------------------------------------------
-+| pmd_young                 | Tests a young PMD                                |
-+--------------------------------------------------------------------------------
-+| pmd_dirty                 | Tests a dirty PMD                                |
-+--------------------------------------------------------------------------------
-+| pmd_write                 | Tests a writable PMD                             |
-+--------------------------------------------------------------------------------
-+| pmd_special               | Tests a special PMD                              |
-+--------------------------------------------------------------------------------
-+| pmd_protnone              | Tests a PROT_NONE PMD                            |
-+--------------------------------------------------------------------------------
-+| pmd_devmap                | Tests a ZONE_DEVICE mapped PMD                   |
-+--------------------------------------------------------------------------------
-+| pmd_soft_dirty            | Tests a soft dirty PMD                           |
-+--------------------------------------------------------------------------------
-+| pmd_swp_soft_dirty        | Tests a soft dirty swapped PMD                   |
-+--------------------------------------------------------------------------------
-+| pmd_mkyoung               | Creates a young PMD                              |
-+--------------------------------------------------------------------------------
-+| pmd_mkold                 | Creates an old PMD                               |
-+--------------------------------------------------------------------------------
-+| pmd_mkdirty               | Creates a dirty PMD                              |
-+--------------------------------------------------------------------------------
-+| pmd_mkclean               | Creates a clean PMD                              |
-+--------------------------------------------------------------------------------
-+| pmd_mkwrite               | Creates a writable PMD                           |
-+--------------------------------------------------------------------------------
-+| pmd_mkwrprotect           | Creates a write protected PMD                    |
-+--------------------------------------------------------------------------------
-+| pmd_mkspecial             | Creates a special PMD                            |
-+--------------------------------------------------------------------------------
-+| pmd_mkdevmap              | Creates a ZONE_DEVICE mapped PMD                 |
-+--------------------------------------------------------------------------------
-+| pmd_mksoft_dirty          | Creates a soft dirty PMD                         |
-+--------------------------------------------------------------------------------
-+| pmd_clear_soft_dirty      | Clears a soft dirty PMD                          |
-+--------------------------------------------------------------------------------
-+| pmd_swp_mksoft_dirty      | Creates a soft dirty swapped PMD                 |
-+--------------------------------------------------------------------------------
-+| pmd_swp_clear_soft_dirty  | Clears a soft dirty swapped PMD                  |
-+--------------------------------------------------------------------------------
-+| pmd_mknotpresent          | Invalidates a mapped PMD                         |
-+--------------------------------------------------------------------------------
-+| pmd_set_huge              | Creates a PMD huge mapping                       |
-+--------------------------------------------------------------------------------
-+| pmd_clear_huge            | Clears a PMD huge mapping                        |
-+--------------------------------------------------------------------------------
-+| pmdp_get_and_clear        | Clears a PMD                                     |
-+--------------------------------------------------------------------------------
-+| pmdp_get_and_clear_full   | Clears a PMD                                     |
-+--------------------------------------------------------------------------------
-+| pmdp_test_and_clear_young | Clears young from a PMD                          |
-+--------------------------------------------------------------------------------
-+| pmdp_set_wrprotect        | Converts into a write protected PMD              |
-+--------------------------------------------------------------------------------
-+| pmdp_set_access_flags     | Converts into a more permissive PMD              |
-+--------------------------------------------------------------------------------
-+
-+======================
-+PUD Page Table Helpers
-+======================
-+
-+--------------------------------------------------------------------------------
-+| pud_same                  | Tests whether both PUD entries are the same      |
-+--------------------------------------------------------------------------------
-+| pud_bad                   | Tests a non-table mapped PUD                     |
-+--------------------------------------------------------------------------------
-+| pud_leaf                  | Tests a leaf mapped PUD                          |
-+--------------------------------------------------------------------------------
-+| pud_huge                  | Tests a HugeTLB mapped PUD                       |
-+--------------------------------------------------------------------------------
-+| pud_trans_huge            | Tests a Transparent Huge Page (THP) at PUD       |
-+--------------------------------------------------------------------------------
-+| pud_present               | Tests a valid mapped PUD                         |
-+--------------------------------------------------------------------------------
-+| pud_young                 | Tests a young PUD                                |
-+--------------------------------------------------------------------------------
-+| pud_dirty                 | Tests a dirty PUD                                |
-+--------------------------------------------------------------------------------
-+| pud_write                 | Tests a writable PUD                             |
-+--------------------------------------------------------------------------------
-+| pud_devmap                | Tests a ZONE_DEVICE mapped PUD                   |
-+--------------------------------------------------------------------------------
-+| pud_mkyoung               | Creates a young PUD                              |
-+--------------------------------------------------------------------------------
-+| pud_mkold                 | Creates an old PUD                               |
-+--------------------------------------------------------------------------------
-+| pud_mkdirty               | Creates a dirty PUD                              |
-+--------------------------------------------------------------------------------
-+| pud_mkclean               | Creates a clean PUD                              |
-+--------------------------------------------------------------------------------
-+| pud_mkwrite               | Creates a writable PMD                           |
-+--------------------------------------------------------------------------------
-+| pud_mkwrprotect           | Creates a write protected PMD                    |
-+--------------------------------------------------------------------------------
-+| pud_mkdevmap              | Creates a ZONE_DEVICE mapped PMD                 |
-+--------------------------------------------------------------------------------
-+| pud_mknotpresent          | Invalidates a mapped PUD                         |
-+--------------------------------------------------------------------------------
-+| pud_set_huge              | Creates a PUD huge mapping                       |
-+--------------------------------------------------------------------------------
-+| pud_clear_huge            | Clears a PUD huge mapping                        |
-+--------------------------------------------------------------------------------
-+| pudp_get_and_clear        | Clears a PUD                                     |
-+--------------------------------------------------------------------------------
-+| pudp_get_and_clear_full   | Clears a PUD                                     |
-+--------------------------------------------------------------------------------
-+| pudp_test_and_clear_young | Clears young from a PUD                          |
-+--------------------------------------------------------------------------------
-+| pudp_set_wrprotect        | Converts into a write protected PUD              |
-+--------------------------------------------------------------------------------
-+| pudp_set_access_flags     | Converts into a more permissive PUD              |
-+--------------------------------------------------------------------------------
-+
-+==========================
-+HugeTLB Page Table Helpers
-+==========================
-+
-+--------------------------------------------------------------------------------
-+| pte_huge                  | Tests a HugeTLB                                  |
-+--------------------------------------------------------------------------------
-+| pte_mkhuge                | Creates a HugeTLB                                |
-+--------------------------------------------------------------------------------
-+| huge_pte_dirty            | Tests a dirty HugeTLB                            |
-+--------------------------------------------------------------------------------
-+| huge_pte_write            | Tests a writable HugeTLB                         |
-+--------------------------------------------------------------------------------
-+| huge_pte_mkdirty          | Creates a dirty HugeTLB                          |
-+--------------------------------------------------------------------------------
-+| huge_pte_mkwrite          | Creates a writable HugeTLB                       |
-+--------------------------------------------------------------------------------
-+| huge_pte_mkwrprotect      | Creates a write protected HugeTLB                |
-+--------------------------------------------------------------------------------
-+| huge_ptep_get_and_clear   | Clears a HugeTLB                                 |
-+--------------------------------------------------------------------------------
-+| huge_ptep_set_wrprotect   | Converts into a write protected HugeTLB          |
-+--------------------------------------------------------------------------------
-+| huge_ptep_set_access_flags  | Converts into a more permissive HugeTLB        |
-+--------------------------------------------------------------------------------
-+
-+========================
-+SWAP Page Table Helpers
-+========================
-+
-+--------------------------------------------------------------------------------
-+| __pte_to_swp_entry        | Creates a swapped entry (arch) from a mapepd PTE |
-+--------------------------------------------------------------------------------
-+| __swp_to_pte_entry        | Creates a mapped PTE from a swapped entry (arch) |
-+--------------------------------------------------------------------------------
-+| __pmd_to_swp_entry        | Creates a swapped entry (arch) from a mapepd PMD |
-+--------------------------------------------------------------------------------
-+| __swp_to_pmd_entry        | Creates a mapped PMD from a swapped entry (arch) |
-+--------------------------------------------------------------------------------
-+| is_migration_entry        | Tests a migration (read or write) swapped entry  |
-+--------------------------------------------------------------------------------
-+| is_write_migration_entry  | Tests a write migration swapped entry            |
-+--------------------------------------------------------------------------------
-+| make_migration_entry_read | Converts into read migration swapped entry       |
-+--------------------------------------------------------------------------------
-+| make_migration_entry      | Creates a migration swapped entry (read or write)|
-+--------------------------------------------------------------------------------
-diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
-index 87b4b495333b..7c210f99a812 100644
---- a/mm/debug_vm_pgtable.c
-+++ b/mm/debug_vm_pgtable.c
-@@ -32,16 +32,9 @@
- #include <asm/tlbflush.h>
- 
- /*
-- * Basic operations
-- *
-- * mkold(entry)			= An old and not a young entry
-- * mkyoung(entry)		= A young and not an old entry
-- * mkdirty(entry)		= A dirty and not a clean entry
-- * mkclean(entry)		= A clean and not a dirty entry
-- * mkwrite(entry)		= A write and not a write protected entry
-- * wrprotect(entry)		= A write protected and not a write entry
-- * pxx_bad(entry)		= A mapped and non-table entry
-- * pxx_same(entry1, entry2)	= Both entries hold the exact same value
-+ * Please refer Documentation/vm/arch_pgtable_helpers.rst for the semantics
-+ * expectations that are being validated here. All future changes in here
-+ * or the documentation need to be in sync.
-  */
- #define VMFLAGS	(VM_READ|VM_WRITE|VM_EXEC)
- 
--- 
-2.20.1
+fatal: cannot convert from y to UTF-8
 
+
+
+在 2020/3/23 下午4:53, Chucheng Luo 写道:
+> Translate Documentation/filesystems/debugfs.txt into Chinese.
+> 
+> Signed-off-by: Chucheng Luo <luochucheng@vivo.com>
+> ---
+>  .../zh_CN/filesystems/debugfs.rst             | 253 ++++++++++++++++++
+>  .../translations/zh_CN/filesystems/index.rst  |  21 ++
+>  Documentation/translations/zh_CN/index.rst    |   2 +
+>  3 files changed, 276 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/filesystems/debugfs.rst
+>  create mode 100644 Documentation/translations/zh_CN/filesystems/index.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/filesystems/debugfs.rst b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+> new file mode 100644
+> index 000000000000..9c7012c4b48a
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+> @@ -0,0 +1,253 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. warning::
+> +     此文件的目的是为让中文读者更容易阅读和理解，而不是作为一个分支。 因此，
+> +     如果您对此文件有任何意见或更新，请先尝试更新原始英文文件。
+> +
+> +.. note::
+> +     如果您发现本文档与原始文件有任何不同或者有翻译问题，请联系该文件的译者，
+> +     或者请求罗楚成的帮助：<luochucheng@vivo.com>。
+
+We have a  disclaimer-zh_CN.rst, please use it.
+
+> +
+> +:Original: :ref:`Documentation/filesystems/debugfs.txt<debugfs_index>`
+> +
+
+it's broken, no space between 'debugfs.txt' and <xxx>.
+
+
+> +==========================
+> +Debugfs
+> +==========================
+
+too many '=' here.
+
+> +
+> +译者
+> +::
+> +
+> +	中文版维护者： 罗楚成 Chucheng Luo <luochucheng@vivo.com>
+> +	中文版翻译者： 罗楚成 Chucheng Luo <luochucheng@vivo.com>
+> +	中文版校译者:  罗楚成 Chucheng Luo <luochucheng@vivo.com>
+> +
+> +
+> +
+> +
+> +版权所有2020 罗楚成 <luochucheng@vivo.com>
+> +
+> +介绍
+> +====
+
+no introduce in original file, please follow it.
+
+> +
+> +Debugfs是内核开发人员在用户空间获取信息的简单方法。
+> +与/proc不同，proc只提供进程信息。
+> +也不像sysfs,具有严格的“每个文件一个值“的规则。
+> +debugfs根本没有规则,开发人员可以在这里放置他们想要的任何信息。
+> +debugfs文件系统也不能用作稳定的ABI接口。
+> +从理论上讲，debugfs导出文件的时候没有任何约束。
+> +但是[1]实际情况并不总是那么简单。
+> +即使是debugfs接口，也最好根据需要进行设计,
+> +并尽量保持接口不变。
+
+Again 80 chars for one line!
+
+> +
+> +用法
+> +====
+> +
+> +Debugfs通常使用以下命令安装::
+> +
+> +    mount -t debugfs none /sys/kernel/debug
+> +
+> +（或等效的/etc/fstab行）。
+> +debugfs根目录默认仅可由root用户访问。
+> +要更改对文件树的访问，请使用“ uid”，“ gid”和“ mode”挂载选项。
+> +
+> +请注意，debugfs API仅按照GPL协议导出到模块。
+> +
+> +使用debugfs的代码应包含<linux/debugfs.h>。
+> +然后，首先是创建至少一个目录来保存一组debugfs文件::
+> +
+> +    struct dentry *debugfs_create_dir(const char *name, struct dentry *parent);
+> +
+> +如果成功，此调用将在指定的父目录下创建一个名为name的目录。
+> +如果parent参数为空，则会在debugfs根目录中创建。
+> +创建目录成功时，返回值是一个指向dentry结构体的指针。
+> +该dentry结构体的指针可用于在目录中创建文件（以及最后将其清理干净）。
+> +ERR_PTR（-ERROR）返回值表明出错。
+> +如果返回ERR_PTR（-ENODEV），则表明内核
+> +是在没有debugfs支持的情况下构建的，并且下述函数都不会起作用。
+> +
+> +在debugfs目录中创建文件的最通用方法是::
+> +
+> +    struct dentry *debugfs_create_file(const char *name, umode_t mode,
+> +				       struct dentry *parent, void *data,
+> +				       const struct file_operations *fops);
+> +
+> +在这里，name是要创建的文件的名称，mode描述了访问
+> +文件应具有的权限，parent指向应该保存文件的目录
+> +，data将存储在产生的inode结构体的i_private字段中
+> +，而fops是一组文件操作函数，这些函数中
+> +实现文件操作的具体行为。至少，read（）和/或write（）
+> +操作应提供；其他可以根据需要包括在内。同样的，
+> +返回值将是指向创建文件的dentry指针，
+> +错误时返回ERR_PTR（-ERROR），系统不支持debugfs时返回值为ERR_PTR（-ENODEV）。
+> +
+> +创建一个初始大小的文件，可以使用以下函数代替::
+> +
+> +    struct dentry *debugfs_create_file_size(const char *name, umode_t mode,
+> +				struct dentry *parent, void *data,
+> +				const struct file_operations *fops,
+> +				loff_t file_size);
+> +
+> +file_size是初始文件大小。其他参数跟函数debugfs_create_file的相同。
+> +
+> +在许多情况下，没必要自己去创建一组文件操作;
+> +对于一些简单的情况,debugfs代码提供了许多帮助函数。
+> +包含单个整数值的文件可以使用以下任何一项创建::
+> +
+> +    void debugfs_create_u8(const char *name, umode_t mode,
+> +			   struct dentry *parent, u8 *value);
+> +    void debugfs_create_u16(const char *name, umode_t mode,
+> +			    struct dentry *parent, u16 *value);
+> +    struct dentry *debugfs_create_u32(const char *name, umode_t mode,
+> +				      struct dentry *parent, u32 *value);
+> +    void debugfs_create_u64(const char *name, umode_t mode,
+> +			    struct dentry *parent, u64 *value);
+> +
+> +这些文件支持读取和写入给定值。
+> +如果某个文件不支持写入，只需根据需要设置mode参数位。
+> +这些文件中的值以十进制表示；如果需要使用十六进制，
+> +可以使用以下函数替代::
+> +
+> +    void debugfs_create_x8(const char *name, umode_t mode,
+> +			   struct dentry *parent, u8 *value);
+> +    void debugfs_create_x16(const char *name, umode_t mode,
+> +			    struct dentry *parent, u16 *value);
+> +    void debugfs_create_x32(const char *name, umode_t mode,
+> +			    struct dentry *parent, u32 *value);
+> +    void debugfs_create_x64(const char *name, umode_t mode,
+> +			    struct dentry *parent, u64 *value);
+> +
+> +这些功能只有在开发人员知道导出值的大小的时候才有用。
+> +某些数据类型在不同的架构上有不同的宽度，这样会使情况变得有些复杂。
+> +在这种特殊情况下可以使用以下函数::
+> +
+> +    void debugfs_create_size_t(const char *name, umode_t mode,
+> +			       struct dentry *parent, size_t *value);
+> +
+> +不出所料，此函数将创建一个debugfs文件来表示类型为size_t的变量。
+> +
+> +同样地，也有导出无符号长整型变量的函数，分别以十进制和十六进制表示如下::
+> +
+> +    struct dentry *debugfs_create_ulong(const char *name, umode_t mode,
+> +					struct dentry *parent,
+> +					unsigned long *value);
+> +    void debugfs_create_xul(const char *name, umode_t mode,
+> +			    struct dentry *parent, unsigned long *value);
+> +
+> +布尔值可以通过以下方式放置在debugfs中::
+> +
+> +    struct dentry *debugfs_create_bool(const char *name, umode_t mode,
+> +				       struct dentry *parent, bool *value);
+> +
+> +
+> +读取结果文件将产生Y（对于非零值）或N，后跟换行符。
+> +写入的时候，它只接受大写或小写值或1或0。任何其他输入将被忽略。
+> +
+> +同样，atomic_t类型的值也可以放置在debugfs中::
+> +
+> +    void debugfs_create_atomic_t(const char *name, umode_t mode,
+> +				 struct dentry *parent, atomic_t *value)
+> +
+> +读取此文件将获得atomic_t值，写入此文件将设置atomic_t值。
+> +
+> +另一个选择是通过以下结构体和函数导出一个任意二进制数据块::
+> +
+> +    struct debugfs_blob_wrapper {
+> +	void *data;
+> +	unsigned long size;
+> +    };
+> +
+> +    struct dentry *debugfs_create_blob(const char *name, umode_t mode,
+> +				       struct dentry *parent,
+> +				       struct debugfs_blob_wrapper *blob);
+> +
+> +读取此文件将返回由指针指向debugfs_blob_wrapper结构体的数据。
+> +一些驱动使用“blobs”作为一种返回几行（静态）格式化文本的简单方法。
+> +这个函数可用于导出二进制信息，但似乎在主线中没有任何代码这样做。
+> +请注意，使用debugfs_create_blob（）命令创建的所有文件是只读的。
+> +
+> +如果您要转储一个寄存器块（在开发过程中经常会这么做，
+> +但是这样的调试代码很少上传到主线中。
+> +Debugfs提供两个函数：一个用于创建仅寄存器文件，
+> +另一个把一个寄存器块插入一个顺序文件中::
+> +
+> +    struct debugfs_reg32 {
+> +	char *name;
+> +	unsigned long offset;
+> +    };
+> +
+> +    struct debugfs_regset32 {
+> +	struct debugfs_reg32 *regs;
+> +	int nregs;
+> +	void __iomem *base;
+> +    };
+> +
+> +    struct dentry *debugfs_create_regset32(const char *name, umode_t mode,
+> +				     struct dentry *parent,
+> +				     struct debugfs_regset32 *regset);
+> +
+> +    void debugfs_print_regs32(struct seq_file *s, struct debugfs_reg32 *regs,
+> +			 int nregs, void __iomem *base, char *prefix);
+> +
+> +“base”参数可能为0，但您可能需要使用__stringify构建
+> +reg32数组，实际上有许多寄存器名称（宏）是寄存器块在
+> +基址上的字节偏移量。
+> +
+> +如果要在debugfs中转储u32数组，可以使用以下函数创建文件::
+> +
+> +     void debugfs_create_u32_array(const char *name, umode_t mode,
+> +			struct dentry *parent,
+> +			u32 *array, u32 elements);
+> +
+> +“array”参数提供数据，而“elements”参数为
+> +数组中元素的数量。注意：数组创建后，数组大小无法更改。
+> +
+> +有一个函数来创建与设备相关的seq_file::
+> +
+> +   struct dentry *debugfs_create_devm_seqfile(struct device *dev,
+> +				const char *name,
+> +				struct dentry *parent,
+> +				int (*read_fn)(struct seq_file *s,
+> +					void *data));
+> +
+> +“dev”参数是与此debugfs文件相关的设备，并且
+> +“read_fn”是一个函数指针，这个函数在打印seq_file内容的时候被回调。
+> +
+> +还有一些其他的面向目录的函数::
+> +
+> +    struct dentry *debugfs_rename(struct dentry *old_dir,
+> +		                  struct dentry *old_dentry,
+> +		                  struct dentry *new_dir,
+> +				  const char *new_name);
+> +
+> +    struct dentry *debugfs_create_symlink(const char *name,
+> +                                          struct dentry *parent,
+> +                                          const char *target);
+> +
+> +调用debugfs_rename()将为现有的debugfs文件重命名，
+> +可能同时切换目录。 new_name函数调用之前不能存在；
+> +返回值为old_dentry，其中包含更新的信息。
+> +可以使用debugfs_create_symlink（）创建符号链接。
+> +
+> +所有debugfs用户必须考虑的一件事是：
+> +debugfs不会自动清除在其中创建的任何目录。
+> +如果一个模块在不显式删除debugfs目录的情况下卸载模块，
+> +结果将会遗留很多野指针，从而导致系统不稳定。
+> +因此，所有debugfs用户-至少是那些可以作为模块构建的用户-必须
+> +做模块unload的时候准备删除在此创建的所有文件和目录。
+> +一份文件可以通过以下方式删除::
+> +
+> +    void debugfs_remove(struct dentry *dentry);
+> +
+> +dentry值可以为NULL或错误值，在这种情况下，不会有任何文件被删除。
+> +
+> +很久以前，内核开发者使用debugfs时需要记录
+> +他们创建的每个dentry指针，以便最后所有文件都可以被清理掉。
+> +但是，现在debugfs用户能调用以下函数递归清除之前创建的文件::
+> +
+> +    void debugfs_remove_recursive(struct dentry *dentry);
+> +
+> +如果将对应顶层目录的dentry传递给以上函数，
+> +则该目录下的整个层次结构将会被删除。
+> +
+> +注意：
+
+no 'attention' in original file.
+
+> +[1] http://lwn.net/Articles/309298/
+> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+> new file mode 100644
+> index 000000000000..3a7f5233767d
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
+> @@ -0,0 +1,21 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===============================
+> +Linux 内核中的文件系统
+> +===============================
+> +
+> +这个不完整的指南在某一天将会提供关于Linux 虚拟文件系统(VFS)层如何工作的
+> +完整信息。以及VFS以下的的文件系统。目前为止，我们提供了以下信息。
+> +
+> +
+> +
+> +
+> +文件系统
+> +===========
+> +
+> +关于文件系统实现的文档.
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +   debugfs
+> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+> index d3165535ec9e..770f886d081c 100644
+> --- a/Documentation/translations/zh_CN/index.rst
+> +++ b/Documentation/translations/zh_CN/index.rst
+> @@ -1,3 +1,4 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+>  .. raw:: latex
+>  
+>  	\renewcommand\thesection*
+> @@ -14,6 +15,7 @@
+>     :maxdepth: 2
+>  
+>     process/index
+> +   filesystems/index
+>  
+>  目录和表格
+>  ----------
+> 
