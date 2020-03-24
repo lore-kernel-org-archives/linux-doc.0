@@ -4,124 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A877C54EEB
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 08:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68542C4332B
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 10:15:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4255220836
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 08:51:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CD122080C
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 10:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585039910;
-	bh=dC+UtIWPTIfE6gTzFrtwWs6FddaIep1P4cFyIVs6exQ=;
+	s=default; t=1585044925;
+	bh=Ng776RDVUtwc7KQiVz21I8I2Wgral1f/GNSOxXixasQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=u3xgr4nuRlkYfZEa+jAHBEI7yQRzA6Fyd2f87yJZtBB5/icyTT/T1NOHrEB+JM/T5
-	 qN1kEo/tJIrgg5f34WVdPIkdf8dc9gQnWUHc+qwTE5Z3fLiRUCXPWMTOwpeLCZGFxF
-	 UPqopP2759B5JVR4P+Bnt+JDOSxV0wUdAV8unitY=
+	b=cdgxgue3dyCvs/PM3xg57fm9gQp/LuCNfJju7elcMmrTukysHYieqRHsp3m9xn5B9
+	 yku5NKeCmIsmcy59C1tP9eN0lBy1WqpXVz/LiAuh4TQeiNi12txsf+lWZfann7W59S
+	 ACBTviEJs/78h82IZqsV0DVELuTKFejw4olHIsPw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727425AbgCXIv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Mar 2020 04:51:27 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:17668 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727388AbgCXIv0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Mar 2020 04:51:26 -0400
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 02O8mgsl011219;
-        Tue, 24 Mar 2020 17:49:01 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 02O8mgsl011219
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585039742;
-        bh=s0I5SOuN4Cdii5q1Bnu+2uo8oY7Phl6nmh/yFk4bv3o=;
+        id S1727148AbgCXKPY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Mar 2020 06:15:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49250 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726994AbgCXKPY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Mar 2020 06:15:24 -0400
+Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EF9C92080C;
+        Tue, 24 Mar 2020 10:15:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585044924;
+        bh=Ng776RDVUtwc7KQiVz21I8I2Wgral1f/GNSOxXixasQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=db6hzkHI/NUH249ZqcRDYDfDe7GjyhgWCZVEEqEZfEZI3S6EwdYG1NtOgjiK171el
-         MjI3tcpwCT0daxXBK+R/TOqQzVneYQsbupnIcxgg2QCaB7ZzDGOzLCDxr8rMTUUFXa
-         B3UBz9H/dfpDiBg64mTb2KNZZOHa85gzYOvTQCyDQ2Yf8CEdnNfKhDbXMhXnTlme5T
-         /vwMJ9P7KSCRdM8GtxROlB105f7gzUPGdScoGbm6cf/CFMcios3IkyOf+f8QRAHZG+
-         NKByMqsLhIOfmKaV0z6CaT+GIjfDMUF/whvLdFouvk7Zjffqz5Aw24Sn/M5pdVEQMU
-         crRjI6Rw5wUNg==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux@googlegroups.com,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        linux-crypto@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-kbuild@vger.kernel.org, Borislav Petkov <bp@suse.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 14/16] Documentation/changes: Raise minimum supported binutils version to 2.23
-Date:   Tue, 24 Mar 2020 17:48:19 +0900
-Message-Id: <20200324084821.29944-15-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200324084821.29944-1-masahiroy@kernel.org>
-References: <20200324084821.29944-1-masahiroy@kernel.org>
+        b=SrI1EStL6N2czPIvrLO/O+OPW/W3qsBSsCz4X8Ohr+eKhLangk0n+/HG47GtTyl6Z
+         NKZ6KOMGNkxerLO+IS/pQvSM5FCWjhbJINtTwZRDWcM8kpijSD3WBycHC2Dk1SkpFS
+         4Jlemtlv3MeOVM7t4cCRCOdDJtN6+JtuRvY+42Fc=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jGgag-001pjR-8z; Tue, 24 Mar 2020 11:15:22 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 3/8] media: pci: move VIDEO_PCI_SKELETON to a different Kconfig
+Date:   Tue, 24 Mar 2020 11:15:16 +0100
+Message-Id: <8a09c8d2144c36f8d370f6ab069ff1c6e6d6fb00.1585044374.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1585044374.git.mchehab+huawei@kernel.org>
+References: <cover.1585044374.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Borislav Petkov <bp@suse.de>
+The V4L2 PCI skeleton is not part of the V4L2 core. Move it
+to appear together with the other PCI drivers, at the end,
+as this is something that normal users don't even need to
+bother.
 
-The currently minimum-supported binutils version 2.21 has the problem of
-promoting symbols which are defined outside of a section into absolute.
-According to Arvind:
-
-  binutils-2.21 and -2.22. An x86-64 defconfig will fail with
-          Invalid absolute R_X86_64_32S relocation: _etext
-  and after fixing that one, with
-          Invalid absolute R_X86_64_32S relocation: __end_of_kernel_reserve
-
-Those two versions of binutils have a bug when it comes to handling
-symbols defined outside of a section and binutils 2.23 has the proper
-fix, see: https://sourceware.org/legacy-ml/binutils/2012-06/msg00155.html
-
-Therefore, up to the fixed version directly, skipping the broken ones.
-
-Currently shipping distros already have the fixed binutils version so
-there should be no breakage resulting from this.
-
-For more details about the whole thing, see the thread in Link.
-
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Link: https://lkml.kernel.org/r/20200110202349.1881840-1-nivedita@alum.mit.edu
-Acked-by: Kees Cook <keescook@chromium.org>
-Acked-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
+ drivers/media/pci/Kconfig       | 10 ++++++++++
+ drivers/media/v4l2-core/Kconfig | 10 ----------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
- Documentation/process/changes.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index e47863575917..91c5ff8e161e 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -31,7 +31,7 @@ you probably needn't concern yourself with pcmciautils.
- ====================== ===============  ========================================
- GNU C                  4.6              gcc --version
- GNU make               3.81             make --version
--binutils               2.21             ld -v
-+binutils               2.23             ld -v
- flex                   2.5.35           flex --version
- bison                  2.0              bison --version
- util-linux             2.10o            fdformat --version
-@@ -76,7 +76,7 @@ You will need GNU make 3.81 or later to build the kernel.
- Binutils
- --------
+diff --git a/drivers/media/pci/Kconfig b/drivers/media/pci/Kconfig
+index dcb3719f440e..9336f8446cf0 100644
+--- a/drivers/media/pci/Kconfig
++++ b/drivers/media/pci/Kconfig
+@@ -56,5 +56,15 @@ endif
  
--Binutils 2.21 or newer is needed to build the kernel.
-+Binutils 2.23 or newer is needed to build the kernel.
+ source "drivers/media/pci/intel/ipu3/Kconfig"
  
- pkg-config
- ----------
++config VIDEO_PCI_SKELETON
++	tristate "Skeleton PCI V4L2 driver"
++	depends on PCI
++	depends on SAMPLES
++	depends on VIDEO_V4L2 && VIDEOBUF2_CORE
++	depends on VIDEOBUF2_MEMOPS && VIDEOBUF2_DMA_CONTIG
++	help
++	  Enable build of the skeleton PCI driver, used as a reference
++	  when developing new drivers.
++
+ endif #MEDIA_PCI_SUPPORT
+ endif #PCI
+diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+index 39e3fb30ba0b..26276b257eae 100644
+--- a/drivers/media/v4l2-core/Kconfig
++++ b/drivers/media/v4l2-core/Kconfig
+@@ -31,16 +31,6 @@ config VIDEO_FIXED_MINOR_RANGES
+ 
+ 	  When in doubt, say N.
+ 
+-config VIDEO_PCI_SKELETON
+-	tristate "Skeleton PCI V4L2 driver"
+-	depends on PCI
+-	depends on SAMPLES
+-	depends on VIDEO_V4L2 && VIDEOBUF2_CORE
+-	depends on VIDEOBUF2_MEMOPS && VIDEOBUF2_DMA_CONTIG
+-	help
+-	  Enable build of the skeleton PCI driver, used as a reference
+-	  when developing new drivers.
+-
+ # Used by drivers that need tuner.ko
+ config VIDEO_TUNER
+ 	tristate
 -- 
-2.17.1
+2.24.1
 
