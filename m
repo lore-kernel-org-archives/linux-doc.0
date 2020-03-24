@@ -2,43 +2,44 @@ Return-Path: <SRS0=tsXf=5J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEFF6C10DCE
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 08:51:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A877C54EEB
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 08:51:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 73CEC208CA
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 08:51:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4255220836
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 08:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585039893;
-	bh=XpeSGloTOpzAfB8BnIfIwbZO3fNOBFM+FQhLIeWRVIU=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=igEDof+t3OlRnl+HMaB9Ns1/8F/VWxvBn0g7xzaAWFERoWRTkk6/AEldm8NWDVkZ3
-	 xdACZIX+9Pamp5QWBNSJhbilV1CSSHik0SgiR+mR/hAOKe/c49StOrQkzQR6UfEekJ
-	 wGU+pzWN338STfmxnwMagokMhIUut+8wryCJWueM=
+	s=default; t=1585039910;
+	bh=dC+UtIWPTIfE6gTzFrtwWs6FddaIep1P4cFyIVs6exQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=u3xgr4nuRlkYfZEa+jAHBEI7yQRzA6Fyd2f87yJZtBB5/icyTT/T1NOHrEB+JM/T5
+	 qN1kEo/tJIrgg5f34WVdPIkdf8dc9gQnWUHc+qwTE5Z3fLiRUCXPWMTOwpeLCZGFxF
+	 UPqopP2759B5JVR4P+Bnt+JDOSxV0wUdAV8unitY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727470AbgCXIvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Mar 2020 04:51:32 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:17862 "EHLO
+        id S1727425AbgCXIv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Mar 2020 04:51:27 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:17668 "EHLO
         conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727458AbgCXIvb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Mar 2020 04:51:31 -0400
+        with ESMTP id S1727388AbgCXIv0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Mar 2020 04:51:26 -0400
 Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 02O8mgsX011219;
-        Tue, 24 Mar 2020 17:48:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 02O8mgsX011219
+        by conuserg-09.nifty.com with ESMTP id 02O8mgsl011219;
+        Tue, 24 Mar 2020 17:49:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 02O8mgsl011219
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585039724;
-        bh=jHh3bC0B7EFxldpRV9Bvb2uWBZf2Z0xQXY60ZYUAXx0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=1o9+mpHFkS4x2Y0HZGvJs1ONHqBTcDMWc7Nery2mXY+kapd34XF+IE5uh5GmdgK2b
-         YD4YFFD/szqOC+vo7Uf1l4ZaCTT1UvZ9Xmi4tPoabnc/r1fMr+gi+U5u+bzow+akIF
-         mQqikeUO69C9p0JysCAuHcqff1GyfsJhRRKdbqYlIcICFhDd5iQ2oQqZY+bf/K2jST
-         1YAO6qxPQXcT9dJjVah9rfbJAOUCVd9hR1b0qdUjjbSiD0JUIOth4HT8cjXI4faEub
-         4EGjTEYzllKv6+ShI9tQbGpGYqTd4UmNSYUeuCCoBcfTEqVnPy9gndnm0c/S/O6Gi/
-         iDFBgnDjfPmVQ==
+        s=dec2015msa; t=1585039742;
+        bh=s0I5SOuN4Cdii5q1Bnu+2uo8oY7Phl6nmh/yFk4bv3o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=db6hzkHI/NUH249ZqcRDYDfDe7GjyhgWCZVEEqEZfEZI3S6EwdYG1NtOgjiK171el
+         MjI3tcpwCT0daxXBK+R/TOqQzVneYQsbupnIcxgg2QCaB7ZzDGOzLCDxr8rMTUUFXa
+         B3UBz9H/dfpDiBg64mTb2KNZZOHa85gzYOvTQCyDQ2Yf8CEdnNfKhDbXMhXnTlme5T
+         /vwMJ9P7KSCRdM8GtxROlB105f7gzUPGdScoGbm6cf/CFMcios3IkyOf+f8QRAHZG+
+         NKByMqsLhIOfmKaV0z6CaT+GIjfDMUF/whvLdFouvk7Zjffqz5Aw24Sn/M5pdVEQMU
+         crRjI6Rw5wUNg==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kernel@vger.kernel.org
@@ -52,117 +53,75 @@ Cc:     "David S . Miller" <davem@davemloft.net>,
         Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
         "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-kbuild@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Borislav Petkov <bp@suse.de>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jim Kukunas <james.t.kukunas@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 00/16] x86, crypto: remove always-defined CONFIG_AS_* and cosolidate Kconfig/Makefiles
-Date:   Tue, 24 Mar 2020 17:48:05 +0900
-Message-Id: <20200324084821.29944-1-masahiroy@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 14/16] Documentation/changes: Raise minimum supported binutils version to 2.23
+Date:   Tue, 24 Mar 2020 17:48:19 +0900
+Message-Id: <20200324084821.29944-15-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200324084821.29944-1-masahiroy@kernel.org>
+References: <20200324084821.29944-1-masahiroy@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series of cleanups was prompted by Linus:
-https://lkml.org/lkml/2020/3/12/726
+From: Borislav Petkov <bp@suse.de>
 
-First, this series drop always-on CONFIG_AS_* options.
-Some of those options were introduced in old days.
-For example, the check for CONFIG_AS_CFI dates back to 2006.
+The currently minimum-supported binutils version 2.21 has the problem of
+promoting symbols which are defined outside of a section into absolute.
+According to Arvind:
 
-We raise the minimal tool versions from time to time.
-Currently, we require binutils 2.21
-(and we plan to bump it to 2.23 for v5.7-rc1).
+  binutils-2.21 and -2.22. An x86-64 defconfig will fail with
+          Invalid absolute R_X86_64_32S relocation: _etext
+  and after fixing that one, with
+          Invalid absolute R_X86_64_32S relocation: __end_of_kernel_reserve
 
-After cleaning away the old checks,
-as-instr calls are moved to Kconfig from Makefiles.
-(patch 11)
+Those two versions of binutils have a bug when it comes to handling
+symbols defined outside of a section and binutils 2.23 has the proper
+fix, see: https://sourceware.org/legacy-ml/binutils/2012-06/msg00155.html
 
-This allows more Kconfig / Makefile cleanups.
-Patch 12 is complex, but I double-checked it does the equivalent.
+Therefore, up to the fixed version directly, skipping the broken ones.
 
-Patch 14 bumps the binutils version to 2.23,
-and patch 15 removes more CONFIG_AS_* options.
+Currently shipping distros already have the fixed binutils version so
+there should be no breakage resulting from this.
 
-I folded all relevanet patches into this series,
-as suggested by Jason A. Donenfeld.
+For more details about the whole thing, see the thread in Link.
 
-If x86 maintainers take care of this series, that's good.
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Link: https://lkml.kernel.org/r/20200110202349.1881840-1-nivedita@alum.mit.edu
+Acked-by: Kees Cook <keescook@chromium.org>
+Acked-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-If it is OK to queue this up to Kbuild tree,
-I will send a pull request to Linus.
+ Documentation/process/changes.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thank you.
-
-
-
-Borislav Petkov (1):
-  Documentation/changes: Raise minimum supported binutils version to
-    2.23
-
-Jason A. Donenfeld (4):
-  x86: probe assembler capabilities via kconfig instead of makefile
-  crypto: x86 - rework configuration based on Kconfig
-  crypto: curve25519 - do not pollute dispatcher based on assembler
-  x86: update AS_* macros to binutils >=2.23, supporting ADX and AVX2
-
-Masahiro Yamada (11):
-  lib/raid6/test: fix build on distros whose /bin/sh is not bash
-  x86: remove unneeded defined(__ASSEMBLY__) check from asm/dwarf2.h
-  x86: remove always-defined CONFIG_AS_CFI
-  x86: remove unneeded (CONFIG_AS_)CFI_SIGNAL_FRAME
-  x86: remove always-defined CONFIG_AS_CFI_SECTIONS
-  x86: remove always-defined CONFIG_AS_SSSE3
-  x86: remove always-defined CONFIG_AS_AVX
-  x86: add comments about the binutils version to support code in
-    as-instr
-  x86: replace arch macros from compiler with CONFIG_X86_{32,64}
-  drm/i915: remove always-defined CONFIG_AS_MOVNTDQA
-  crypto: x86 - clean up poly1305-x86_64-cryptogams.S by 'make clean'
-
- Documentation/process/changes.rst             |   4 +-
- arch/x86/Kconfig                              |   2 +
- arch/x86/Kconfig.assembler                    |  14 ++
- arch/x86/Makefile                             |  22 ---
- arch/x86/crypto/Makefile                      | 162 +++++++-----------
- arch/x86/crypto/aesni-intel_avx-x86_64.S      |   6 -
- arch/x86/crypto/aesni-intel_glue.c            |  21 +--
- arch/x86/crypto/blake2s-core.S                |   2 -
- arch/x86/crypto/chacha_glue.c                 |   6 +-
- arch/x86/crypto/poly1305-x86_64-cryptogams.pl |  16 --
- arch/x86/crypto/poly1305_glue.c               |  11 +-
- arch/x86/crypto/sha1_ssse3_asm.S              |   4 -
- arch/x86/crypto/sha1_ssse3_glue.c             |  13 --
- arch/x86/crypto/sha256-avx-asm.S              |   3 -
- arch/x86/crypto/sha256-avx2-asm.S             |   3 -
- arch/x86/crypto/sha256_ssse3_glue.c           |  12 --
- arch/x86/crypto/sha512-avx-asm.S              |   2 -
- arch/x86/crypto/sha512-avx2-asm.S             |   3 -
- arch/x86/crypto/sha512_ssse3_glue.c           |  10 --
- arch/x86/include/asm/dwarf2.h                 |  44 -----
- arch/x86/include/asm/xor_avx.h                |   9 -
- drivers/gpu/drm/i915/Makefile                 |   3 -
- drivers/gpu/drm/i915/i915_memcpy.c            |   5 -
- include/crypto/curve25519.h                   |   6 +-
- kernel/signal.c                               |   2 +-
- lib/raid6/algos.c                             |  12 +-
- lib/raid6/avx2.c                              |   4 -
- lib/raid6/recov_avx2.c                        |   6 -
- lib/raid6/recov_ssse3.c                       |   6 -
- lib/raid6/test/Makefile                       |   9 +-
- 30 files changed, 98 insertions(+), 324 deletions(-)
- create mode 100644 arch/x86/Kconfig.assembler
-
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index e47863575917..91c5ff8e161e 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -31,7 +31,7 @@ you probably needn't concern yourself with pcmciautils.
+ ====================== ===============  ========================================
+ GNU C                  4.6              gcc --version
+ GNU make               3.81             make --version
+-binutils               2.21             ld -v
++binutils               2.23             ld -v
+ flex                   2.5.35           flex --version
+ bison                  2.0              bison --version
+ util-linux             2.10o            fdformat --version
+@@ -76,7 +76,7 @@ You will need GNU make 3.81 or later to build the kernel.
+ Binutils
+ --------
+ 
+-Binutils 2.21 or newer is needed to build the kernel.
++Binutils 2.23 or newer is needed to build the kernel.
+ 
+ pkg-config
+ ----------
 -- 
 2.17.1
 
