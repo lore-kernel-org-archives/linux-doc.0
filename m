@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DD34C54FCE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2B8C54FCF
 	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 10:15:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E26192080C
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 10:15:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5DB2E208C3
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 10:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1585044949;
-	bh=cL0BLqma9/afGrVRw6wv2HjXvWZfwS9SlngDwmWrnZw=;
+	bh=PMZLvau6l0DTq6hZbaVXDrSebT6xY40VOvUd+dhMy3g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=d5CL/ntjq5c1XojRAeBq9Nt6Jva7dT8PoJXG7DITzxRiAlpHrb5JrvF4LgTiZIgpA
-	 CfHUfwgFq8SsyiWxP4Wupk5OYyKkb7o57iIsSnRJxuSI0dLL/yTVRkQ6KU3z1aD9zL
-	 vEBq3x/0OpeMFrKHVQCpubyzjvdbFaJXhQHwG0cc=
+	b=E1LTLbfV4QOMD7h7KOROE+5Wj6mt6SVBaCWFxeKMFz2gHMvtaElVb0p57+CaXtXlG
+	 PXuD1WHsCxBbqJzXvuvqsHY6mfSFW0gfeQDmJ5aAr6MjfLiOR+ldgd6nYyn1pXnKDn
+	 TaZqPLaIuHWSbI1GhpEGa/8GWS3G8/sd4ZEAsu8I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727420AbgCXKPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Mar 2020 06:15:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49284 "EHLO mail.kernel.org"
+        id S1727230AbgCXKPY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Mar 2020 06:15:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49256 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727223AbgCXKPY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727124AbgCXKPY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 24 Mar 2020 06:15:24 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1C28A208C3;
-        Tue, 24 Mar 2020 10:15:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F290620842;
+        Tue, 24 Mar 2020 10:15:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1585044924;
-        bh=cL0BLqma9/afGrVRw6wv2HjXvWZfwS9SlngDwmWrnZw=;
+        bh=PMZLvau6l0DTq6hZbaVXDrSebT6xY40VOvUd+dhMy3g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xaMrM1WJqlhassxyORzCJF4GD78bOdmVw79ntqzgrNzlUKFm5JSQFjoK7d1PoDiv7
-         WRhOWhT1pfotXHEB4EXzgeRLV5bXLK+30mTxdugaQghn1jWrnWJ5wjHu3iqS+Ny5Ix
-         ELl4W0WrNUN1O6I/1usSDwT8dur9/FWElu10ut/k=
+        b=y67ysyZb7bopawB7MCN+ln3cDzwVvbDbzX78LIfjdT7IJHbob7+TS7dNCJyewuq1x
+         DBuCGDtgJWj2Td1q8tZ0yCrU9hOWW6q8Tx9njI9+oZhJy71Pjl9IPDaqrop/IZX4tF
+         xNyBrDJ2JT+0NCztA49cfDlPUW+gffiqaAJgkezs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jGgag-001pjd-BX; Tue, 24 Mar 2020 11:15:22 +0100
+        id 1jGgag-001pjN-80; Tue, 24 Mar 2020 11:15:22 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 5/8] media: Kconfig: update the MEDIA_SUPPORT help message
-Date:   Tue, 24 Mar 2020 11:15:18 +0100
-Message-Id: <33b555ba214d4fd5bf9c30752a303f89a296cbec.1585044374.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 2/8] media: Kconfig: not all V4L2 platform drivers are for camera
+Date:   Tue, 24 Mar 2020 11:15:15 +0100
+Message-Id: <ca8d88d30b801dc378489ea7fed4c0318f5343de.1585044374.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1585044374.git.mchehab+huawei@kernel.org>
 References: <cover.1585044374.git.mchehab+huawei@kernel.org>
@@ -58,30 +58,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are more things than just cameras and TV devices on
-media. Update the help message accordingly.
+When the platform drivers got added, they were all part of
+complex camera support. This is not the case anymore, as we
+now have codecs and other stuff there too.
+
+So, fix the dependencies, in order to not require users to
+manually select something that it doesn't make sense.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/Kconfig | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/Kconfig          | 3 +--
+ drivers/media/platform/Kconfig | 1 -
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index 586d8931d9fc..18dea82d76d7 100644
+index 9dfea5c4b6ab..4af21fa73fcf 100644
 --- a/drivers/media/Kconfig
 +++ b/drivers/media/Kconfig
-@@ -18,8 +18,10 @@ menuconfig MEDIA_SUPPORT
- 	tristate "Multimedia support"
- 	depends on HAS_IOMEM
+@@ -99,8 +99,7 @@ source "drivers/media/mc/Kconfig"
+ config VIDEO_DEV
+ 	tristate
+ 	depends on MEDIA_SUPPORT
+-	depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
+-	default y
++	default MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT || V4L_PLATFORM_DRIVERS
+ 
+ config VIDEO_V4L2_SUBDEV_API
+ 	bool "V4L2 sub-device userspace API"
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index e01bbb9dd1c1..34f40c2c8c45 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -5,7 +5,6 @@
+ 
+ menuconfig V4L_PLATFORM_DRIVERS
+ 	bool "V4L platform devices"
+-	depends on MEDIA_CAMERA_SUPPORT
  	help
--	  If you want to use Webcams, Video grabber devices and/or TV devices
--	  enable this option and other options below.
-+	  If you want to use media devices, including Webcams, Video grabber
-+	  devices and/or TV devices, V4L2 codecs, etc, enable this option
-+	  and other options below.
-+
- 	  Additional info and docs are available on the web at
- 	  <https://linuxtv.org>
+ 	  Say Y here to enable support for platform-specific V4L drivers.
  
 -- 
 2.24.1
