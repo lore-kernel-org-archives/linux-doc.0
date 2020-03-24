@@ -2,291 +2,112 @@ Return-Path: <SRS0=tsXf=5J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 605E7C43331
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 14:27:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A5FC43331
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 16:59:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 25AA820789
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 14:27:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4AE722076F
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 16:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585060070;
-	bh=t+Sb33ZjPcisbGKgkhqBELHezEdoT5YtLW05AptApis=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=Ae4Wtpb74GQOPUSl9/ePwKVMMRk4vElbAyrUX2P1U/fJCmIZjxt+EHullRKr1rc7r
-	 RR3YvX3vSTFNJQow0eHDkNtiGb/6J1DraEgex30s5MKeV123Md3nzI8TshzaPz9GcE
-	 vo8b3SRSU7az15WWSEx9uN1GwyDrJKRKymUoZ93c=
+	s=default; t=1585069155;
+	bh=wv7V6OA+vnQKUw2Y4zY+fl+UxUMw0in7d1nJHJs3HkQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=L3i/738HbatCHCLTQrrHmj/fvUP2m13rwj5phzrzYg18qRfJFV1X60lNHEA6vkPC2
+	 CPcriY39m+1wPB96HcOG+RuWNWAhwr5xFEnJdmKGeAWBXREZqAuudrz2WF9UmLwO9G
+	 PKYTxaAue+I9jzefQoWYuxztE133JakyeO7GAj3I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727525AbgCXO1t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Mar 2020 10:27:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36216 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727393AbgCXO1t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Mar 2020 10:27:49 -0400
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C8D3520788;
-        Tue, 24 Mar 2020 14:27:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585060068;
-        bh=t+Sb33ZjPcisbGKgkhqBELHezEdoT5YtLW05AptApis=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=xlWFO1kxav6222NoaAcI+ZLD07pDFnnXwyyfz1xW8ugDomdoIKwPN+MWyy1fB6sCA
-         3Z4feHEJl9jgr0PwJb41t2UpjofJjFbdsIrUPThPR83LXlU5GuuamO2TJO8/oIpTti
-         wE/4GduNQYPb9xMgxE2FZk/NOThBGNcYN9FJCw8I=
-Date:   Tue, 24 Mar 2020 15:27:42 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net,
-        Helen Koike <helen.koike@collabora.com>
-Subject: Re: [PATCH v2 00/20] Reorganize media Kconfig
-Message-ID: <20200324152742.1e21d644@coco.lan>
-In-Reply-To: <0e4b107c-eb85-9726-3e77-5999b9b6a0ef@xs4all.nl>
-References: <cover.1585057134.git.mchehab+huawei@kernel.org>
-        <0e4b107c-eb85-9726-3e77-5999b9b6a0ef@xs4all.nl>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726962AbgCXQ7O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Mar 2020 12:59:14 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:46054 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725767AbgCXQ7O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Mar 2020 12:59:14 -0400
+Received: by mail-ed1-f67.google.com with SMTP id u59so21489521edc.12
+        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2020 09:59:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WsR634IM9mmhNsoHiRslx4q1ur3OKG9sqLOfW3mTlvE=;
+        b=Z4pJJsNRptNjfG3P3MoBuNrYlnzenPIYlkT2d80DcIZW7UeaJ7NzLHI1ja4yIjcDoc
+         /iKfJJvm1iYP31UYLTqjCrBqL5Uar8necO8dCIgcOuI51Nj7AidT3P8YaYaCV6jUFzMJ
+         fsKqZJnyfGhT7+0lEb4rByJaviH4S/tML+mT4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WsR634IM9mmhNsoHiRslx4q1ur3OKG9sqLOfW3mTlvE=;
+        b=K7zt+P8W2o4q3UP2qPL3fQtNFv/pFeWfrhMjwUhNIEbktc2uSH07stJZXXW6uUVIJx
+         w/mqhsoqCRPM1HArBruaYSedtjU+RpRxFHp+ngNiRUHkTd6HY174a87v8URMjSadUjTV
+         fZf9VnmwFXdu1qRdmKjZfPzedVjLs7WhpJtb9AdZRXrxYEXrXecNVtfzFLL0ZlLARB8n
+         teHmRpZL3rrIOFdUXSkTNcClQC/1VI6Aq2h6iuIBt8DFLP31CU07FTwmpbpg+2sCBEdu
+         SC61TTbhGpCmJRwW7kiB+J9GX+URZDmYouM359wH2QQZc0c1Pi1LLC1kYqv0BAZHR8TV
+         XCag==
+X-Gm-Message-State: ANhLgQ1LDJ2unbQMOL7cJFD1TbfQGJJAnhBD4+64zYdjw/ePXHNCMWcr
+        eqg8blvTlTCLCZilp/L52EAPm6Mbnvw=
+X-Google-Smtp-Source: ADFU+vuzxJtoajZ4ipx7eHcS4uQfHVM1EgUXQ0zle8CU1psZP9wY8XE8WMjv24Ze6BWMvueirWuygw==
+X-Received: by 2002:a17:906:751:: with SMTP id z17mr7027730ejb.11.1585069152238;
+        Tue, 24 Mar 2020 09:59:12 -0700 (PDT)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com. [209.85.208.43])
+        by smtp.gmail.com with ESMTPSA id j10sm229681ejv.13.2020.03.24.09.59.11
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Mar 2020 09:59:12 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id e5so11558942edq.5
+        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2020 09:59:11 -0700 (PDT)
+X-Received: by 2002:a05:6512:10cf:: with SMTP id k15mr17550349lfg.142.1585068727556;
+ Tue, 24 Mar 2020 09:52:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200324084821.29944-1-masahiroy@kernel.org>
+In-Reply-To: <20200324084821.29944-1-masahiroy@kernel.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 24 Mar 2020 09:51:51 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjEi4VoT8qkBhrBtdZ27shyrPwo0ETpuOdxk5anHtQqhQ@mail.gmail.com>
+Message-ID: <CAHk-=wjEi4VoT8qkBhrBtdZ27shyrPwo0ETpuOdxk5anHtQqhQ@mail.gmail.com>
+Subject: Re: [PATCH 00/16] x86, crypto: remove always-defined CONFIG_AS_* and
+ cosolidate Kconfig/Makefiles
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jim Kukunas <james.t.kukunas@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        intel-gfx@lists.freedesktop.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 24 Mar 2020 14:58:59 +0100
-Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
+On Tue, Mar 24, 2020 at 1:49 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> If it is OK to queue this up to Kbuild tree,
+> I will send a pull request to Linus.
 
-> On 3/24/20 2:42 PM, Mauro Carvalho Chehab wrote:
-> > This patch series do lots of reorg at the media Kconfig options.
-> > It also move test drivers from platform dir to a new one.  
-> 
-> You sent this to linux-doc, but you probably meant linux-media.
-> 
-> Can you repost?
+Looks fine to me, assuming we didn't now get some confusion due to
+duplicate patches (I think Jason got his tree added to -next already).
 
-Oh! Sorry for that. I used the same git clone I have lots of doc patches,
-as it would make easier for me to rebase, but forgot that the send
-code inside .git/config was pointing to a different c/c list.
+And yeah, that end result looks much better.
 
-Resent.
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> > After this change, the main config is organized on menus, allowing to
-> > select:
-> > 
-> > 	- type of devices selection - the filtering options
-> > 	- Media core options - with API and other core stuff
-> > 	- Media core extra options
-> > 	- Media drivers
-> > 	- Media ancillary drivers
-> > 
-> > The "type of devices" menu has the filtering options for:
-> > 
-> > 	- Cameras and video grabbers
-> > 	- Analog TV
-> > 	- Digital TV
-> > 	- AM/FM radio receivers/transmitters
-> > 	- SDR
-> > 	- CEC
-> > 	- Embeded devices (SoC)
-> > 	- Test drivers
-> > 
-> > This way, one interested only on embedded devices can unselect
-> > everything but "Embedded devices (SoC)" option.
-> > 
-> > Distros for PC/Laptops can enable everything but 
-> > "Embedded devices (SoC)" and "Test drivers".
-> > 
-> > Users can select just what they want, without bothering with
-> > hundreds of options that he won't have any clue about their
-> > meanings.
-> > 
-> > Mauro Carvalho Chehab (20):
-> >   media: dvb-usb: auto-select CYPRESS_FIRMWARE
-> >   media: Kconfig: not all V4L2 platform drivers are for camera
-> >   media: pci: move VIDEO_PCI_SKELETON to a different Kconfig
-> >   media: reorganize the drivers menu options
-> >   media: Kconfig: update the MEDIA_SUPPORT help message
-> >   media: Kconfig: use a sub-menu to select supported devices
-> >   media: Kconfig: add an option to filter in/out the embedded drivers
-> >   media: split test drivers from platform directory
-> >   media: Kconfig: make filtering devices optional
-> >   media: Kconfig: move CEC-specific options to cec/Kconfig
-> >   media: Kconfig: move comment to siano include
-> >   media: Kconfig: move DVB-specific options to dvb-core/Kconfig
-> >   media: Kconfig: move V4L2 subdev API to v4l2-core/Kconfig
-> >   media: Kconfig: move drivers-specific TTPCI_EEPROM Kconfig var
-> >   media: Kconfig: move media controller core select to main Kconfig
-> >   media: Kconfig: better organize menu items
-> >   media: Kconfig: mode firewire comment to firewire/Kconfig
-> >   media: Kconfig: place all options under a sub-menu
-> >   media: Kconfig: move the position of sub-driver autoselection
-> >   media: Kconfig: on !EMBEDDED && !EXPERT, enable driver filtering
-> > 
-> >  drivers/media/Kconfig                         | 216 ++++++++++--------
-> >  drivers/media/cec/Kconfig                     |  10 +
-> >  drivers/media/common/Kconfig                  |   2 +-
-> >  drivers/media/dvb-core/Kconfig                |  26 +++
-> >  drivers/media/firewire/Kconfig                |   5 +-
-> >  drivers/media/mc/Kconfig                      |   9 -
-> >  drivers/media/mmc/Kconfig                     |   1 -
-> >  drivers/media/mmc/siano/Kconfig               |   2 +
-> >  drivers/media/pci/Kconfig                     |  10 +
-> >  drivers/media/platform/Kconfig                |  24 --
-> >  drivers/media/platform/Makefile               |   5 -
-> >  drivers/media/test_drivers/Kconfig            |  28 +++
-> >  drivers/media/test_drivers/Makefile           |   9 +
-> >  .../vicodec/Kconfig                           |   0
-> >  .../vicodec/Makefile                          |   0
-> >  .../vicodec/codec-fwht.c                      |   0
-> >  .../vicodec/codec-fwht.h                      |   0
-> >  .../vicodec/codec-v4l2-fwht.c                 |   0
-> >  .../vicodec/codec-v4l2-fwht.h                 |   0
-> >  .../vicodec/vicodec-core.c                    |   0
-> >  .../media/{platform => test_drivers}/vim2m.c  |   0
-> >  .../{platform => test_drivers}/vimc/Kconfig   |   0
-> >  .../{platform => test_drivers}/vimc/Makefile  |   0
-> >  .../vimc/vimc-capture.c                       |   0
-> >  .../vimc/vimc-common.c                        |   0
-> >  .../vimc/vimc-common.h                        |   0
-> >  .../vimc/vimc-core.c                          |   0
-> >  .../vimc/vimc-debayer.c                       |   0
-> >  .../vimc/vimc-scaler.c                        |   0
-> >  .../vimc/vimc-sensor.c                        |   0
-> >  .../vimc/vimc-streamer.c                      |   0
-> >  .../vimc/vimc-streamer.h                      |   0
-> >  .../{platform => test_drivers}/vivid/Kconfig  |   0
-> >  .../{platform => test_drivers}/vivid/Makefile |   0
-> >  .../vivid/vivid-cec.c                         |   0
-> >  .../vivid/vivid-cec.h                         |   0
-> >  .../vivid/vivid-core.c                        |   0
-> >  .../vivid/vivid-core.h                        |   0
-> >  .../vivid/vivid-ctrls.c                       |   0
-> >  .../vivid/vivid-ctrls.h                       |   0
-> >  .../vivid/vivid-kthread-cap.c                 |   0
-> >  .../vivid/vivid-kthread-cap.h                 |   0
-> >  .../vivid/vivid-kthread-out.c                 |   0
-> >  .../vivid/vivid-kthread-out.h                 |   0
-> >  .../vivid/vivid-kthread-touch.c               |   0
-> >  .../vivid/vivid-kthread-touch.h               |   0
-> >  .../vivid/vivid-meta-cap.c                    |   0
-> >  .../vivid/vivid-meta-cap.h                    |   0
-> >  .../vivid/vivid-meta-out.c                    |   0
-> >  .../vivid/vivid-meta-out.h                    |   0
-> >  .../vivid/vivid-osd.c                         |   0
-> >  .../vivid/vivid-osd.h                         |   0
-> >  .../vivid/vivid-radio-common.c                |   0
-> >  .../vivid/vivid-radio-common.h                |   0
-> >  .../vivid/vivid-radio-rx.c                    |   0
-> >  .../vivid/vivid-radio-rx.h                    |   0
-> >  .../vivid/vivid-radio-tx.c                    |   0
-> >  .../vivid/vivid-radio-tx.h                    |   0
-> >  .../vivid/vivid-rds-gen.c                     |   0
-> >  .../vivid/vivid-rds-gen.h                     |   0
-> >  .../vivid/vivid-sdr-cap.c                     |   0
-> >  .../vivid/vivid-sdr-cap.h                     |   0
-> >  .../vivid/vivid-touch-cap.c                   |   0
-> >  .../vivid/vivid-touch-cap.h                   |   0
-> >  .../vivid/vivid-vbi-cap.c                     |   0
-> >  .../vivid/vivid-vbi-cap.h                     |   0
-> >  .../vivid/vivid-vbi-gen.c                     |   0
-> >  .../vivid/vivid-vbi-gen.h                     |   0
-> >  .../vivid/vivid-vbi-out.c                     |   0
-> >  .../vivid/vivid-vbi-out.h                     |   0
-> >  .../vivid/vivid-vid-cap.c                     |   0
-> >  .../vivid/vivid-vid-cap.h                     |   0
-> >  .../vivid/vivid-vid-common.c                  |   0
-> >  .../vivid/vivid-vid-common.h                  |   0
-> >  .../vivid/vivid-vid-out.c                     |   0
-> >  .../vivid/vivid-vid-out.h                     |   0
-> >  drivers/media/usb/Kconfig                     |   6 +
-> >  drivers/media/usb/dvb-usb/Kconfig             |   1 +
-> >  drivers/media/v4l2-core/Kconfig               |  19 +-
-> >  79 files changed, 222 insertions(+), 151 deletions(-)
-> >  create mode 100644 drivers/media/test_drivers/Kconfig
-> >  create mode 100644 drivers/media/test_drivers/Makefile
-> >  rename drivers/media/{platform => test_drivers}/vicodec/Kconfig (100%)
-> >  rename drivers/media/{platform => test_drivers}/vicodec/Makefile (100%)
-> >  rename drivers/media/{platform => test_drivers}/vicodec/codec-fwht.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vicodec/codec-fwht.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vicodec/codec-v4l2-fwht.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vicodec/codec-v4l2-fwht.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vicodec/vicodec-core.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vim2m.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/Kconfig (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/Makefile (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/vimc-capture.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/vimc-common.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/vimc-common.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/vimc-core.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/vimc-debayer.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/vimc-scaler.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/vimc-sensor.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/vimc-streamer.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vimc/vimc-streamer.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/Kconfig (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/Makefile (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-cec.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-cec.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-core.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-core.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-ctrls.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-ctrls.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-kthread-cap.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-kthread-cap.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-kthread-out.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-kthread-out.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-kthread-touch.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-kthread-touch.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-meta-cap.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-meta-cap.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-meta-out.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-meta-out.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-osd.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-osd.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-radio-common.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-radio-common.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-radio-rx.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-radio-rx.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-radio-tx.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-radio-tx.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-rds-gen.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-rds-gen.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-sdr-cap.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-sdr-cap.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-touch-cap.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-touch-cap.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vbi-cap.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vbi-cap.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vbi-gen.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vbi-gen.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vbi-out.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vbi-out.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vid-cap.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vid-cap.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vid-common.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vid-common.h (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vid-out.c (100%)
-> >  rename drivers/media/{platform => test_drivers}/vivid/vivid-vid-out.h (100%)
-> >   
-> 
-
-
-
-Thanks,
-Mauro
+             Linus
