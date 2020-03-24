@@ -4,53 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2B8C54FCF
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 10:15:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 811DCC4332B
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 10:39:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5DB2E208C3
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 10:15:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 482212070A
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Mar 2020 10:39:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585044949;
-	bh=PMZLvau6l0DTq6hZbaVXDrSebT6xY40VOvUd+dhMy3g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=E1LTLbfV4QOMD7h7KOROE+5Wj6mt6SVBaCWFxeKMFz2gHMvtaElVb0p57+CaXtXlG
-	 PXuD1WHsCxBbqJzXvuvqsHY6mfSFW0gfeQDmJ5aAr6MjfLiOR+ldgd6nYyn1pXnKDn
-	 TaZqPLaIuHWSbI1GhpEGa/8GWS3G8/sd4ZEAsu8I=
+	s=default; t=1585046398;
+	bh=Vr30dNMEWIjGd6IiJI50wytyImepg0RxkrgoIh9ce/M=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=TT/GdDeSJjZpadrCSlk6pJ4WOb8BvstqdnaoQ21Ku0lhMbmsSJRUcTH1yOqvVULbm
+	 kLDpVFa7z1h0bLjYxLSArrLADfm9OGa5LjCqjGRAwhymjCkjMpRSU+9Z+cuI3wQLIP
+	 1Zx1Ls4FW9x9fQO1aRRVJ/q4442EXjqWTSl9YTtY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727230AbgCXKPY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Mar 2020 06:15:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49256 "EHLO mail.kernel.org"
+        id S1727112AbgCXKj6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Mar 2020 06:39:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57920 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727124AbgCXKPY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Mar 2020 06:15:24 -0400
+        id S1727066AbgCXKj5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Mar 2020 06:39:57 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F290620842;
-        Tue, 24 Mar 2020 10:15:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 422622070A;
+        Tue, 24 Mar 2020 10:39:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585044924;
-        bh=PMZLvau6l0DTq6hZbaVXDrSebT6xY40VOvUd+dhMy3g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=y67ysyZb7bopawB7MCN+ln3cDzwVvbDbzX78LIfjdT7IJHbob7+TS7dNCJyewuq1x
-         DBuCGDtgJWj2Td1q8tZ0yCrU9hOWW6q8Tx9njI9+oZhJy71Pjl9IPDaqrop/IZX4tF
-         xNyBrDJ2JT+0NCztA49cfDlPUW+gffiqaAJgkezs=
+        s=default; t=1585046397;
+        bh=Vr30dNMEWIjGd6IiJI50wytyImepg0RxkrgoIh9ce/M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OwII8d/0znQrCeCBrD91pnGAB1RdIbDPCXxoWnRUIAAuvsi3hbq5vNOz4g2jgiSq3
+         P2K2KT1+FyA85uWb7GFU6wGJj+K4IbN9V5YZSGIWZMyLa8DVjqIYugBVcArbCISbj1
+         uyKTZ0zUiELLBH/m9Uk+CeeHPQPI4rciHJOM81AI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jGgag-001pjN-80; Tue, 24 Mar 2020 11:15:22 +0100
+        id 1jGgyR-0021eA-2k; Tue, 24 Mar 2020 11:39:55 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 2/8] media: Kconfig: not all V4L2 platform drivers are for camera
-Date:   Tue, 24 Mar 2020 11:15:15 +0100
-Message-Id: <ca8d88d30b801dc378489ea7fed4c0318f5343de.1585044374.git.mchehab+huawei@kernel.org>
+Subject: [PATCH] media: Kconfig: make filtering devices optional
+Date:   Tue, 24 Mar 2020 11:39:53 +0100
+Message-Id: <b0b805a9e89136607f4dbb018d5e0c2498eb6aa2.1585046350.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1585044374.git.mchehab+huawei@kernel.org>
-References: <cover.1585044374.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -58,45 +56,80 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When the platform drivers got added, they were all part of
-complex camera support. This is not the case anymore, as we
-now have codecs and other stuff there too.
+The per-device option selection is a feature that some
+developers love, while others hate...
 
-So, fix the dependencies, in order to not require users to
-manually select something that it doesn't make sense.
+So, let's make both happy by making it optional.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/Kconfig          | 3 +--
- drivers/media/platform/Kconfig | 1 -
- 2 files changed, 1 insertion(+), 3 deletions(-)
+
+ drivers/media/Kconfig | 41 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index 9dfea5c4b6ab..4af21fa73fcf 100644
+index 4c06728a4ab7..85476197837c 100644
 --- a/drivers/media/Kconfig
 +++ b/drivers/media/Kconfig
-@@ -99,8 +99,7 @@ source "drivers/media/mc/Kconfig"
- config VIDEO_DEV
- 	tristate
+@@ -25,9 +25,13 @@ menuconfig MEDIA_SUPPORT
+ 	  Additional info and docs are available on the web at
+ 	  <https://linuxtv.org>
+ 
+-menu "Types of devices to be supported"
++if MEDIA_SUPPORT
++
++menuconfig MEDIA_SUPPORT_FILTER
++	bool "Filter devices by their types"
  	depends on MEDIA_SUPPORT
--	depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
--	default y
-+	default MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT || V4L_PLATFORM_DRIVERS
  
- config VIDEO_V4L2_SUBDEV_API
- 	bool "V4L2 sub-device userspace API"
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index e01bbb9dd1c1..34f40c2c8c45 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -5,7 +5,6 @@
++if MEDIA_SUPPORT_FILTER
+ #
+ # Multimedia support - automatically enable V4L2 and DVB core
+ #
+@@ -106,10 +110,41 @@ config MEDIA_TEST_SUPPORT
+ 	  have regressions.
  
- menuconfig V4L_PLATFORM_DRIVERS
- 	bool "V4L platform devices"
--	depends on MEDIA_CAMERA_SUPPORT
- 	help
- 	  Say Y here to enable support for platform-specific V4L drivers.
+ 	  Say Y when you have a software defined radio device.
++endif #MEDIA_SUPPORT_FILTER
+ 
+-endmenu # media support types
++if !MEDIA_SUPPORT_FILTER
++config MEDIA_CAMERA_SUPPORT
++	bool
++	default y
+ 
+-if MEDIA_SUPPORT
++config MEDIA_ANALOG_TV_SUPPORT
++	bool
++	default y
++
++config MEDIA_DIGITAL_TV_SUPPORT
++	bool
++	default y
++
++config MEDIA_RADIO_SUPPORT
++	bool
++	default y
++
++config MEDIA_SDR_SUPPORT
++	bool
++	default y
++
++config MEDIA_CEC_SUPPORT
++	bool
++	default y
++
++config MEDIA_EMBEDDED_SUPPORT
++	bool
++	default y
++
++config MEDIA_TEST_SUPPORT
++	bool
++	default y
++endif #MEDIA_SUPPORT_FILTER
+ 
+ comment "Media core options"
  
 -- 
 2.24.1
+
 
