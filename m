@@ -2,86 +2,141 @@ Return-Path: <SRS0=dTg4=5K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D962C2D0E5
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 20:29:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C779BC2D0E8
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 21:51:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02D5D20719
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 20:29:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZI2byf2r"
+	by mail.kernel.org (Postfix) with ESMTP id A8A0220775
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 21:51:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727316AbgCYU3Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 16:29:16 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:33881 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727275AbgCYU3Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 16:29:16 -0400
-Received: by mail-io1-f67.google.com with SMTP id h131so3753052iof.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2020 13:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PU8MusG8hezkzW5+KO/6eKPDv5BwIZAo7r3U1MyX75U=;
-        b=ZI2byf2rDJAZbfLYIXaAtMe63t/0GZoKwJ4cK63V8WQp6VV2H/N8jjA3QPBc5D27gM
-         kcc5YHnX7hmE9y5h4ERM1pqI8/u7ax3SGdAaz2nzqYK8MIeWO/F5R6sImG+aYjVIjGIe
-         +mJupj1LoVmeoww+WGM9cKjT9YyWnxsVR2gjuo1doh6veivh3sR6gjhHvYV6DyZZY7J/
-         6znmOWw1IZ9IKbczFzX4/NakSIY0YPwWONtukKHn45S/NknmbZ6ORd0r2/OoSfxdwlIo
-         +YjNScxCFwoqud/dYZSZiUw66GNobXRASbg8+3OMXxCUD0MHhXmZC1/XDf+frjMWzZtC
-         61bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PU8MusG8hezkzW5+KO/6eKPDv5BwIZAo7r3U1MyX75U=;
-        b=Gk3CNP+L/FUxVg38Ncw9468NjSj/CKuSbU0p/rp3Em9uXwo2FyBVmyDQ4P0vWzhK5F
-         RWF2W00enL2DGb7aeUn3g/XOIj1e4TZmNoQqz4FYz4DL0rmj9SUC+MyiLpDUP5KGax05
-         cBa48Fj37x6yod9zEOAtgU4H916t5PFQD3gjD5TiUZR/N7ehf4S8bfP5tzS7F42ibvxJ
-         djnVI4gYA7LVIMIsSgPxDbbrmav5e2kb4Siwr9azt7XByCW4UVJ2v1EPIp3kXP60g+2D
-         CTIUmGqrf6fULrILIdx7fCjB8dmH+iZ4z+vjJKHHPHXpevF4AMlY9BVqHDlINZKxQRu8
-         px7Q==
-X-Gm-Message-State: ANhLgQ3QUXPAMT2umJJZovzIf30IORzjt9B1X8S+R0ECvlxhteIxIjnW
-        CjyDG1+np2SLTFp+4MKZuMUj3fmPy9NTe1l/tRiqYg==
-X-Google-Smtp-Source: ADFU+vtmJqBnftLMH2+YVqFQ9mUmLnM8IJNNLIYZmzTFdCDzijDPUJnekA7kYFkGsSJAc9tM9X7A8KYbax34+wu6Me8=
-X-Received: by 2002:a02:93c1:: with SMTP id z59mr4456806jah.11.1585168154776;
- Wed, 25 Mar 2020 13:29:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200325194317.526492-1-ross.philipson@oracle.com>
-In-Reply-To: <20200325194317.526492-1-ross.philipson@oracle.com>
-From:   Matthew Garrett <mjg59@google.com>
-Date:   Wed, 25 Mar 2020 13:29:03 -0700
-Message-ID: <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel support
-To:     Ross Philipson <ross.philipson@oracle.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
+        id S1727357AbgCYVvP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 17:51:15 -0400
+Received: from mga14.intel.com ([192.55.52.115]:65091 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726081AbgCYVvO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Mar 2020 17:51:14 -0400
+IronPort-SDR: djFS2Wy2Bm0pYdKq90Kv16FTpCEzT3qGacrldRkPofD7BLTfivDxiwADK4KH3gQfJe67tkWQEH
+ XYYarTIaPd7A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2020 14:51:14 -0700
+IronPort-SDR: 6xgudFIjy1CzWRRc48LtFdeAxHVrlYFfTo63YZE4NYbvMjdkFxHVPJPGrO+UNQp0Xr2jTj3nKa
+ WTzhXN/fIh5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,305,1580803200"; 
+   d="scan'208";a="238631971"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga007.fm.intel.com with ESMTP; 25 Mar 2020 14:51:14 -0700
+Message-ID: <e1122e1d77dec0d5f0a698c855833050c740a4bc.camel@intel.com>
+Subject: Re: [RFC PATCH v9 25/27] x86/cet/shstk: Handle thread Shadow Stack
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, trenchboot-devel@googlegroups.com
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Wed, 25 Mar 2020 14:51:13 -0700
+In-Reply-To: <202002251324.5D515260@keescook>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-26-yu-cheng.yu@intel.com>
+         <202002251324.5D515260@keescook>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 12:43 PM Ross Philipson
-<ross.philipson@oracle.com> wrote:
-> To enable the kernel to be launched by GETSEC or SKINIT, a stub must be
-> built into the setup section of the compressed kernel to handle the
-> specific state that the late launch process leaves the BSP. This is a
-> lot like the EFI stub that is found in the same area. Also this stub
-> must measure everything that is going to be used as early as possible.
-> This stub code and subsequent code must also deal with the specific
-> state that the late launch leaves the APs in.
+On Tue, 2020-02-25 at 13:29 -0800, Kees Cook wrote:
+> On Wed, Feb 05, 2020 at 10:19:33AM -0800, Yu-cheng Yu wrote:
+> > [...]
+> > A 64-bit SHSTK has a fixed size of RLIMIT_STACK. A compat-mode thread SHSTK
+> > has a fixed size of 1/4 RLIMIT_STACK.  This allows more threads to share a
+> > 32-bit address space.
+> 
+> I am not understanding this part. :) Entries are sizeof(unsigned long),
+> yes? A 1/2 RLIMIT_STACK would cover 32-bit, but 1/4 is less, so why does
+> that provide for more threads?
 
-How does this integrate with the EFI entry point? That's the expected
-entry point on most modern x86. What's calling ExitBootServices() in
-this flow, and does the secure launch have to occur after it? It'd be
-a lot easier if you could still use the firmware's TPM code rather
-than carrying yet another copy.
+Each thread has a separate shadow stack.  If each shadow stack is smaller, the
+address space can accommodate more shadow stack allocations.
+
+> >[...]
+> > diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> > index cba5c7656aab..5b45abda80a1 100644
+> > --- a/arch/x86/kernel/cet.c
+> > +++ b/arch/x86/kernel/cet.c
+> > @@ -170,6 +170,47 @@ int cet_setup_shstk(void)
+> >  	return 0;
+> >  }
+> >  
+> > +int cet_setup_thread_shstk(struct task_struct *tsk)
+> > +{
+> > +	unsigned long addr, size;
+> > +	struct cet_user_state *state;
+> > +	struct cet_status *cet = &tsk->thread.cet;
+> > +
+> > +	if (!cet->shstk_enabled)
+> > +		return 0;
+> > +
+> > +	state = get_xsave_addr(&tsk->thread.fpu.state.xsave,
+> > +			       XFEATURE_CET_USER);
+> > +
+> > +	if (!state)
+> > +		return -EINVAL;
+> > +
+> > +	size = rlimit(RLIMIT_STACK);
+> 
+> Is SHSTK incompatible with RLIM_INFINITY stack rlimits?
+
+I will change it to:
+
+	size = min(rlimit(RLIMIT_STACK), 4 GB);
+
+> 
+> > +
+> > +	/*
+> > +	 * Compat-mode pthreads share a limited address space.
+> > +	 * If each function call takes an average of four slots
+> > +	 * stack space, we need 1/4 of stack size for shadow stack.
+> > +	 */
+> > +	if (in_compat_syscall())
+> > +		size /= 4;
+> > +
+> > +	addr = alloc_shstk(size);
+> 
+> I assume it'd fail here, but I worry about Stack Clash style attacks.
+> I'd like to see test cases that make sure the SHSTK gap is working
+> correctly.
+
+I will work on some tests.
+
+Thanks,
+Yu-cheng
+
+
