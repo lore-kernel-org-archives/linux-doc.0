@@ -2,107 +2,71 @@ Return-Path: <SRS0=dTg4=5K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84AF3C18E5B
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 09:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D67E5C43331
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 09:33:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 673F4206F6
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 09:15:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC2A920772
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 09:33:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726109AbgCYJPE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 05:15:04 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46044 "EHLO mx2.suse.de"
+        id S1727346AbgCYJdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 05:33:18 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58424 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725903AbgCYJPE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Mar 2020 05:15:04 -0400
+        id S1727158AbgCYJdS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Mar 2020 05:33:18 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 950E3ABD1;
-        Wed, 25 Mar 2020 09:15:01 +0000 (UTC)
-Date:   Wed, 25 Mar 2020 10:14:57 +0100
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
-        <linux-i2c@vger.kernel.org>
-Subject: Re: [PATCH v6 2/8] i2c: i801: Use GPIO_LOOKUP() helper macro
-Message-ID: <20200325101457.0fff5bb9@endymion>
-In-Reply-To: <20200324135653.6676-2-geert+renesas@glider.be>
-References: <20200324135328.5796-1-geert+renesas@glider.be>
-        <20200324135653.6676-1-geert+renesas@glider.be>
-        <20200324135653.6676-2-geert+renesas@glider.be>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        by mx2.suse.de (Postfix) with ESMTP id 7C6CEAAFD;
+        Wed, 25 Mar 2020 09:33:15 +0000 (UTC)
+Subject: Re: [PATCH V2] kernel/hung_task.c: Introduce sysctl to print all
+ traces when a hung task is detected
+To:     Kees Cook <keescook@chromium.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, mcgrof@kernel.org, yzaikin@google.com,
+        tglx@linutronix.de, penguin-kernel@I-love.SAKURA.ne.jp,
+        akpm@linux-foundation.org, cocci@systeme.lip6.fr,
+        linux-api@vger.kernel.org, kernel@gpiccoli.net,
+        randy Dunlap <rdunlap@infradead.org>
+References: <20200323214618.28429-1-gpiccoli@canonical.com>
+ <b73a6519-0529-e36f-fac5-e4b638ceb3cf@suse.cz>
+ <eee335a2-e673-39bf-ae64-e49c66f74255@canonical.com>
+ <202003241119.A666E1C694@keescook>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <9eab7f80-bad4-bcb1-7ec7-b6b90839b13a@suse.cz>
+Date:   Wed, 25 Mar 2020 10:33:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <202003241119.A666E1C694@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 Mar 2020 14:56:47 +0100, Geert Uytterhoeven wrote:
-> i801_add_mux() fills in the GPIO lookup table by manually populating an
-> array of gpiod_lookup structures.  Use the existing GPIO_LOOKUP() helper
-> macro instead, to relax a dependency on the gpiod_lookup structure's
-> member names.
+On 3/24/20 7:20 PM, Kees Cook wrote:
+> On Tue, Mar 24, 2020 at 09:45:40AM -0300, Guilherme G. Piccoli wrote:
+>> Thanks Randy and Vlastimil for the comments. I really liked your
+>> approach Vlastimil, I agree that we have no reason to not have a generic
+>> sysctl setting via cmdline mechanism - I'll rework this patch removing
+>> the kernel parameter (same for other patch I just submitted).
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Jean Delvare <jdelvare@suse.com>
-> Cc: linux-i2c@vger.kernel.org
-> ---
-> While this patch is a dependency for "[PATCH v6 4/8] gpiolib: Add
-> support for GPIO lookup by line name", it can be applied independently.
-> But an Acked-by would be nice, too.
+> I've been thinking we'll likely want to have a big patch series that
+> removes all the old "duplicate" boot params and adds some kind of
+> "alias" mechanism.
 > 
-> Cover letter and full series at
-> https://lore.kernel.org/r/20200324135328.5796-1-geert+renesas@glider.be/
-> 
-> v6:
->   - New.
-> ---
->  drivers/i2c/busses/i2c-i801.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
-> index ca4f096fef749302..8e64a71bea684cc7 100644
-> --- a/drivers/i2c/busses/i2c-i801.c
-> +++ b/drivers/i2c/busses/i2c-i801.c
-> @@ -1444,9 +1444,9 @@ static int i801_add_mux(struct i801_priv *priv)
->  		return -ENOMEM;
->  	lookup->dev_id = "i2c-mux-gpio";
->  	for (i = 0; i < mux_config->n_gpios; i++) {
-> -		lookup->table[i].chip_label = mux_config->gpio_chip;
-> -		lookup->table[i].chip_hwnum = mux_config->gpios[i];
-> -		lookup->table[i].con_id = "mux";
-> +		lookup->table[i] = (struct gpiod_lookup)
-> +			GPIO_LOOKUP(mux_config->gpio_chip,
-> +				    mux_config->gpios[i], "mux", 0);
->  	}
->  	gpiod_add_lookup_table(lookup);
->  	priv->lookup = lookup;
+> Vlastimil, have you happened to keep a list of other "redundant" boot
+> params you've noticed in the kernel? I bet there are a lot. :)
 
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
+Well, I found about 4 that mentioned sysctl in
+Documentation/admin-guide/kernel-parameters.txt
+I suspect there will be more, but won't be trivial to identify them.
 
--- 
-Jean Delvare
-SUSE L3 Support
+
