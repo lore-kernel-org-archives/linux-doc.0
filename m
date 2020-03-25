@@ -2,84 +2,114 @@ Return-Path: <SRS0=dTg4=5K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFCE6C54FCF
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 15:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A5DC2D0E5
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 19:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AE2A52073E
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 15:42:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 889D120740
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 19:43:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="iioRgsX+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727695AbgCYPmK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 11:42:10 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:60136 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727644AbgCYPmK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 11:42:10 -0400
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jH89x-0002aK-CF; Wed, 25 Mar 2020 15:41:37 +0000
-Date:   Wed, 25 Mar 2020 16:41:33 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v6 10/16] kernel/kcmp.c: Use new infrastructure to fix
- deadlocks in execve
-Message-ID: <20200325154133.5gcxkpnnbyasqvl6@wittgenstein>
-References: <077b63b7-6f5e-aa8e-bf96-a586b481cc46@hotmail.de>
- <AM6PR03MB5170FFDE1D7BF09DD2663EDEE4F50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        id S1727576AbgCYTn5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 15:43:57 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:50976 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727401AbgCYTn4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 15:43:56 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02PJeNUl126879;
+        Wed, 25 Mar 2020 19:43:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=HSRsOOQW8bntMDbaRCFyx56wyw0QuBUro13yxcUuNss=;
+ b=iioRgsX+XuhHsjk2/si5lx5hh3Y5WB+JQFstUTYCV4hFdfu4EYgd732gEQ9sIxYXSQ/p
+ gxfuntP8h7GG5MgFCoC3M2FovJy4IwaZ7QW5PzecyJZzppPIQunhaiy5fys733/d4Ngc
+ BkKW/7m8cx3JXUvyOKliRn5vEj89Q05nXQKQ2zJqao/SyOG/cr8AY6mEmacZNIUmv1O9
+ k+HPCnI2pAC6QrsgdkNNBZC0lCQot9GfwRYbG307yVaquZxaM8nDiqXW+EeoMGV3tDHT
+ 7Qg7pXnm2pZ9s66HB+32skcIqSaGr02gk40V7PtkrTH1b0flBRhwHCk+wwFqk06Y4NfO 2A== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 3005kvasxv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 25 Mar 2020 19:43:28 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02PJgYw9072475;
+        Wed, 25 Mar 2020 19:43:27 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 30073b1tvw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 25 Mar 2020 19:43:27 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02PJhPs2025269;
+        Wed, 25 Mar 2020 19:43:25 GMT
+Received: from pneuma.us.oracle.com (/10.39.203.246)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 25 Mar 2020 12:43:25 -0700
+From:   Ross Philipson <ross.philipson@oracle.com>
+To:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     ross.philipson@oracle.com, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        trenchboot-devel@googlegroups.com
+Subject: [RFC PATCH 01/12] x86: Secure Launch Kconfig
+Date:   Wed, 25 Mar 2020 15:43:06 -0400
+Message-Id: <20200325194317.526492-2-ross.philipson@oracle.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200325194317.526492-1-ross.philipson@oracle.com>
+References: <20200325194317.526492-1-ross.philipson@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <AM6PR03MB5170FFDE1D7BF09DD2663EDEE4F50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9571 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003250157
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9571 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 phishscore=0
+ suspectscore=0 impostorscore=0 spamscore=0 adultscore=0 priorityscore=1501
+ mlxlogscore=999 lowpriorityscore=0 mlxscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003250156
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 20, 2020 at 09:27:05PM +0100, Bernd Edlinger wrote:
-> This changes kcmp_epoll_target to use the new exec_update_mutex
-> instead of cred_guard_mutex.
-> 
-> This should be safe, as the credentials are only used for reading,
-> and furthermore ->mm and ->sighand are updated on execve,
-> but only under the new exec_update_mutex.
-> 
-> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+Initial bits to bring in Secure Launch functionality. Add Kconfig
+options for compiling in/out the Secure Launch code.
 
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+---
+ arch/x86/Kconfig | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 5e8949953660..7f3406a9948b 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2014,6 +2014,17 @@ config EFI_MIXED
+ 
+ 	   If unsure, say N.
+ 
++config SECURE_LAUNCH
++	bool "Secure Launch support"
++	default n
++	depends on X86_64
++	help
++	  This Secure Launch kernel feature allows a bzImage to be loaded
++	  directly through Intel TXT or AMD SKINIT measured launch. This
++	  allows extablishing a Dynamic Root of Trust Measurement (DRTM)
++	  of all the modules and configuration information used for
++	  boooting the operating system.
++
+ config SECCOMP
+ 	def_bool y
+ 	prompt "Enable seccomp to safely compute untrusted bytecode"
+-- 
+2.25.1
+
