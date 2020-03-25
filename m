@@ -2,164 +2,148 @@ Return-Path: <SRS0=dTg4=5K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D51C1975A
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 05:10:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34F5AC18E5B
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 08:55:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0420220714
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 05:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585113044;
-	bh=CEofRKgm4Ye5H1cnbE+nOcxxg32rFb+bxsw6TvF2B1o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=zGvBK02HRgyqZ5E+X7oFqxp5kAG5jEacWd72+SLxNx1E1JKTzV/wjBzbbQZqYc1s0
-	 denV2xxCRDaKz+aX1FucMORMKI90DlzCuiuxS2kDSQY+aL7G+bVY2A6rRY4IXkuP9k
-	 ovcWM/nNPULjc9ElX9klRBFCzH7gzz5k7cCZTN/w=
+	by mail.kernel.org (Postfix) with ESMTP id 12F022076A
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 08:55:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725907AbgCYFKn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 01:10:43 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:23447 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725263AbgCYFKn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 01:10:43 -0400
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 02P5ABfc011337;
-        Wed, 25 Mar 2020 14:10:12 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 02P5ABfc011337
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585113012;
-        bh=goHEK+Svl1j1CHZ8RGvjblzdAWdDcWxFnIuljEdud0o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DnT5KzDtk1VZ4bX5jz1F2rsdqsISqFkA3UcZ8xsfhN86oNs2j/XPmD5P0cCs/JhpC
-         4djo10x3J7e7VKuxZ6VaqctGHnlh7v8Y2a60Ld7EPdInTe+DqQnV3Yv2mMRbEtWync
-         MiWlzZhvtXqwbjoutaboaVOvFnOMo0MJcs+5uYk6RNu52LFYtiOci3i1kOmUu1RoBi
-         xhqivkrrBXMFOs8hfcQ/k+Do1CGoUI92UhBVNthIcvYQO4wcMswpJWLXGNNqUdh7Tw
-         n7tev83ZNX9rklVlt+woYh25RkzUKyFRAAw9ucZjUiaVa3CirJ/T2AZaRCO80gKTwU
-         bP6ZfZcCxvw5g==
-X-Nifty-SrcIP: [209.85.217.46]
-Received: by mail-vs1-f46.google.com with SMTP id u11so785408vsg.2;
-        Tue, 24 Mar 2020 22:10:11 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ2vNbc2TrzjPxjgBIKbjx7jdeRQw5e6nOYp13rqZwpbzX8EPZmU
-        sPc59FID1rTdNjijqL5feN1mlNAWFqqvWJEvY4M=
-X-Google-Smtp-Source: ADFU+vu+bM6M5+X0alIJHo1ALDGfE82bX+MEHXukXjfTCtMpyx9j4+KKQCB6mj8BRZ3ztAMCXwbRLo3j/oOEZhFBzJo=
-X-Received: by 2002:a67:2d55:: with SMTP id t82mr1251970vst.215.1585113010953;
- Tue, 24 Mar 2020 22:10:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200324084821.29944-1-masahiroy@kernel.org> <20200325045940.GA24974@gmail.com>
-In-Reply-To: <20200325045940.GA24974@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 25 Mar 2020 14:09:34 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQvgT=OWVuBVrvgdZ7AAkoaV_K_Y+w9bOFxRPw_1TOSUA@mail.gmail.com>
-Message-ID: <CAK7LNAQvgT=OWVuBVrvgdZ7AAkoaV_K_Y+w9bOFxRPw_1TOSUA@mail.gmail.com>
-Subject: Re: [PATCH 00/16] x86, crypto: remove always-defined CONFIG_AS_* and
- cosolidate Kconfig/Makefiles
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jim Kukunas <james.t.kukunas@linux.intel.com>,
+        id S1727466AbgCYIzl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 04:55:41 -0400
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:60731 "EHLO
+        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727460AbgCYIzl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 04:55:41 -0400
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07439015|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0260262-0.000154574-0.973819;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03306;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.H50xpyL_1585126516;
+Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.H50xpyL_1585126516)
+          by smtp.aliyun-inc.com(10.147.42.241);
+          Wed, 25 Mar 2020 16:55:34 +0800
+From:   WeiXiong Liao <liaoweixiong@allwinnertech.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <a.p.zijlstra@chello.nl>
-Content-Type: text/plain; charset="UTF-8"
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mtd@lists.infradead.org,
+        WeiXiong Liao <liaoweixiong@allwinnertech.com>
+Subject: [PATCH v3 09/11] pstore/blk: a way to get user configure about pstore front-ends.
+Date:   Wed, 25 Mar 2020 16:55:04 +0800
+Message-Id: <1585126506-18635-10-git-send-email-liaoweixiong@allwinnertech.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1585126506-18635-1-git-send-email-liaoweixiong@allwinnertech.com>
+References: <1585126506-18635-1-git-send-email-liaoweixiong@allwinnertech.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ingo,
+It's one of a series of patches to adapt to MTD device.
 
-On Wed, Mar 25, 2020 at 1:59 PM Ingo Molnar <mingo@kernel.org> wrote:
->
->
-> * Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> > This series of cleanups was prompted by Linus:
-> > https://lkml.org/lkml/2020/3/12/726
-> >
-> > First, this series drop always-on CONFIG_AS_* options.
-> > Some of those options were introduced in old days.
-> > For example, the check for CONFIG_AS_CFI dates back to 2006.
-> >
-> > We raise the minimal tool versions from time to time.
-> > Currently, we require binutils 2.21
-> > (and we plan to bump it to 2.23 for v5.7-rc1).
-> >
-> > After cleaning away the old checks,
-> > as-instr calls are moved to Kconfig from Makefiles.
-> > (patch 11)
-> >
-> > This allows more Kconfig / Makefile cleanups.
-> > Patch 12 is complex, but I double-checked it does the equivalent.
-> >
-> > Patch 14 bumps the binutils version to 2.23,
-> > and patch 15 removes more CONFIG_AS_* options.
-> >
-> > I folded all relevanet patches into this series,
-> > as suggested by Jason A. Donenfeld.
-> >
-> > If x86 maintainers take care of this series, that's good.
-> >
-> > If it is OK to queue this up to Kbuild tree,
-> > I will send a pull request to Linus.
-> >
-> > Thank you.
->
-> LGTM. I've got these four from Jason A. Donenfeld queued up in
-> tip:WIP.x86/asm:
->
->  bd5b1283e41c: ("crypto: Curve25519 - do not pollute dispatcher based on assembler")
->  829f32d78588: ("crypto: X86 - rework configuration, based on Kconfig")
->  95ef9f80ed63: ("x86/build: Probe assembler from Kconfig instead of Kbuild")
->  1651e700664b: ("x86: Fix bitops.h warning with a moved cast")
->
-> I suppose these might interact (maybe even conflict), and are topically
-> related.
->
-> Would you like to pull these into the kbuild tree? You can find them in:
->
->    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git WIP.x86/asm
->
-> Thanks,
->
->         Ingo
+It's different to block driver, MTD driver should check zone size
+and get identifier to MTD device. To make it, psblk_usr_info() is
+created.
 
+Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
+---
+ fs/pstore/pstore_blk.c     | 37 ++++++++++++++++++++++++++++++-------
+ include/linux/pstore_blk.h | 10 ++++++++++
+ 2 files changed, 40 insertions(+), 7 deletions(-)
 
-I did not know that these had already landed in tip tree.
-
-They are immature version.
-(In fact CONFIG_AS_CFI and AS_ADX are false-negative
-if GCC that defaults to 32-bit is used.)
-
-Can you simply discard the WIP.x86/asm branch,
-and only reapply
-1651e700664b: ("x86: Fix bitops.h warning with a moved cast")
-
-?
-
-
+diff --git a/fs/pstore/pstore_blk.c b/fs/pstore/pstore_blk.c
+index d6949146135b..061609b66d8a 100644
+--- a/fs/pstore/pstore_blk.c
++++ b/fs/pstore/pstore_blk.c
+@@ -84,6 +84,17 @@
+ 	sector_t start_sect;
+ } g_bdev_info;
+ 
++#define check_size(name, alignsize) ({				\
++	long _##name_ = (name);					\
++	_##name_ = _##name_ <= 0 ? 0 : (_##name_ * 1024);	\
++	if (_##name_ & ((alignsize) - 1)) {			\
++		pr_info(#name " must align to %d\n",		\
++				(alignsize));			\
++		_##name_ = ALIGN(name, (alignsize));		\
++	}							\
++	_##name_;						\
++})
++
+ /**
+  * struct psblk_device - back-end pstore/blk driver structure.
+  *
+@@ -138,13 +149,11 @@ static int psblk_register_do(struct psblk_device *dev)
+ 	if (!dev->flags)
+ 		dev->flags = UINT_MAX;
+ #define verify_size(name, alignsize, enable) {				\
+-		long _##name_ = (enable) ? (name) : 0;			\
+-		_##name_ = _##name_ <= 0 ? 0 : (_##name_ * 1024);	\
+-		if (_##name_ & ((alignsize) - 1)) {			\
+-			pr_info(#name " must align to %d\n",		\
+-					(alignsize));			\
+-			_##name_ = ALIGN(name, (alignsize));		\
+-		}							\
++		long _##name_;						\
++		if (enable)						\
++			_##name_ = check_size(name, alignsize);		\
++		else							\
++			_##name_ = 0;					\
+ 		name = _##name_ / 1024;					\
+ 		psz_info->name = _##name_;				\
+ 	}
+@@ -464,6 +473,20 @@ int psblk_blkdev_info(dev_t *devt, sector_t *nr_sects, sector_t *start_sect)
+ }
+ EXPORT_SYMBOL_GPL(psblk_blkdev_info);
+ 
++/* get information of pstore/blk */
++int psblk_usr_info(struct psblk_info *info)
++{
++	strncpy(info->device, blkdev, 80);
++	info->dump_oops = dump_oops <= 0 ? 0 : 1;
++	info->oops_size = check_size(oops_size, 4096);
++	info->pmsg_size = check_size(pmsg_size, 4096);
++	info->ftrace_size = check_size(ftrace_size, 4096);
++	info->console_size = check_size(console_size, 4096);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(psblk_usr_info);
++
+ MODULE_LICENSE("GPL");
+ MODULE_AUTHOR("WeiXiong Liao <liaoweixiong@allwinnertech.com>");
+ MODULE_DESCRIPTION("Block device Oops/Panic logger");
+diff --git a/include/linux/pstore_blk.h b/include/linux/pstore_blk.h
+index 828b0763d477..d2ea1733b51a 100644
+--- a/include/linux/pstore_blk.h
++++ b/include/linux/pstore_blk.h
+@@ -27,4 +27,14 @@ int  psblk_register_blkdev(unsigned int major, unsigned int flags,
+ void psblk_unregister_blkdev(unsigned int major);
+ int  psblk_blkdev_info(dev_t *devt, sector_t *nr_sects, sector_t *start_sect);
+ 
++struct psblk_info {
++	int dump_oops;
++	char device[80];
++	unsigned long oops_size;
++	unsigned long pmsg_size;
++	unsigned long console_size;
++	unsigned long ftrace_size;
++};
++int psblk_usr_info(struct psblk_info *info);
++
+ #endif
 -- 
-Best Regards
-Masahiro Yamada
+1.9.1
+
