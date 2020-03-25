@@ -2,99 +2,87 @@ Return-Path: <SRS0=dTg4=5K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27402C2D0E7
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 20:05:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE78C2D0E5
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 20:21:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E98F220773
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 20:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585166735;
-	bh=KQrQobMfXnFgSLgQMvsALc1syatq3RUPZzn2UmwaMVw=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=hSGDws2UT7BDl5RTbw2bOZHveJBTdQUp2iBomUWdEjpmKEYzyQe/RfLhIJKH+wCf9
-	 MVYDXsK0QwjxjYr5MoxiyHtXro37a34r9wAxEhRyjKhwnYbGLHioHtSKVi3vsi2tOf
-	 xGnlr8rifzjKWUOCbuttsQuwUZKde1wZmmv9fW6I=
+	by mail.kernel.org (Postfix) with ESMTP id 3567320740
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 20:21:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I5+h1gu5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727280AbgCYUFe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 16:05:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43348 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727236AbgCYUFe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Mar 2020 16:05:34 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4542620658;
-        Wed, 25 Mar 2020 20:05:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585166733;
-        bh=KQrQobMfXnFgSLgQMvsALc1syatq3RUPZzn2UmwaMVw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=GV5JghfmqxWq3tY+RJacwokQxZRZmQbmJvX4q4IR9JKa+SwqragqcX5Y9e8cMtR7l
-         xUOZj63b50DHIQeQTeZeYljtcmpe5aKFwQN3m0tm0/a6tjog6aJmnxYzgMDoAM7kEQ
-         rv97ZvcPtzgSJdD3QMYQ96KFBwR3kD8UDDvoVTjk=
-Subject: Re: [PATCH v7 kunit-next 3/4] kunit: subtests should be indented 4
- spaces according to TAP
-To:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org
-Cc:     corbet@lwn.net, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, shuah <shuah@kernel.org>
-References: <1584110682-3837-1-git-send-email-alan.maguire@oracle.com>
- <1584110682-3837-4-git-send-email-alan.maguire@oracle.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <dd82e9cb-6c88-58cf-933e-f2a644e09b15@kernel.org>
-Date:   Wed, 25 Mar 2020 14:05:32 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1727452AbgCYUV1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 16:21:27 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:45475 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727316AbgCYUV1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 16:21:27 -0400
+Received: by mail-io1-f67.google.com with SMTP id a24so3090981iol.12
+        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2020 13:21:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5wcc3fwrS8JnPRZprBTyUdvWc4Xei4mHeogWRJkq6CY=;
+        b=I5+h1gu5mhDMyLsqRy+xtMr+jh3nd27e83biTBarZMcqTcDeYgBseua5H+62syFNcz
+         nlLeOTcMKcP+UQ2EbWz8mTHCNhnDP8S9ZqOf0YhHJcLvj0NH3V8ewqVrHtdkao934D69
+         5oA/ci7plPjM92gm5MPNqF6RpkNkffYZ9AzwOQthDYXjhXl6hUT5ydE4H65F+GjyRpwk
+         oZ1W1EFjC8y6ErFvwQHUkdlFoFtHcXD25cothFiX8R+NxsZm+DJf+ZjywXBwd8MlYV1/
+         T7MR37EFQzOM2GejOS/cBQj/WDlNZ+pHCHsvSuFH44inNY2/K8Aded6YdR1TnkaEH2Y8
+         3f+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5wcc3fwrS8JnPRZprBTyUdvWc4Xei4mHeogWRJkq6CY=;
+        b=FrCQ6HxOoABxzb4c9oiyZUi93S8mt4iM9cyHEAUHELACB503xvUb1JvWyYY+Ep6/LY
+         cXVLI7oU8zmTcuYTN28L2k8aiqbdeKymyA2AUVOFULrf1GYtJtI+3wYKOe5+slp0OXUg
+         CtMWItJGhhbmF8pU/7FEx+D/V1vJUy85PyoqOWySJry3T9Z2hzyFUNldRnRFOTipbeR/
+         IHoNxEs9exLM8MXrXXHk/qlA8XJ+cYAVmycMd7J3BAz9NHb56YYfHKx7giJLi1ljG9d7
+         VUo+zy/tdkCJdihxtKfy4HPDlEzBjyu+A5ZL2jaLjU/lpeE+b++oTrNp6oEBcf9FRFIQ
+         swMw==
+X-Gm-Message-State: ANhLgQ3n7XOmx1AtRO7P1Zg7cyHQYIReqQPxEPSaJUrB6mofm9fhc0Oc
+        Crbb8ZdP1IpScmNf15GBLJFRCEKWh4LTtummEe0+2VkYS3Y=
+X-Google-Smtp-Source: ADFU+vtJ+fOxLlnspbtL6pwbALF1L9KsGYInL+DB8gtfBgoir8Bj2Q75/B8f/uXkeHCMuhDUMX/RYJB09K2CK7Sutxc=
+X-Received: by 2002:a5e:c803:: with SMTP id y3mr4608774iol.82.1585167686234;
+ Wed, 25 Mar 2020 13:21:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1584110682-3837-4-git-send-email-alan.maguire@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200325194317.526492-1-ross.philipson@oracle.com> <20200325194317.526492-11-ross.philipson@oracle.com>
+In-Reply-To: <20200325194317.526492-11-ross.philipson@oracle.com>
+From:   Matthew Garrett <mjg59@google.com>
+Date:   Wed, 25 Mar 2020 13:21:14 -0700
+Message-ID: <CACdnJuvkrMCbOwqkWUOZunXmu1AwfRpjNp3OAfqR2y0O+OK5Fw@mail.gmail.com>
+Subject: Re: [RFC PATCH 10/12] x86: Secure Launch adding event log securityfs
+To:     Ross Philipson <ross.philipson@oracle.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, trenchboot-devel@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/13/20 8:44 AM, Alan Maguire wrote:
-> Introduce KUNIT_INDENT macro which corresponds to 4-space indentation,
-> and use it to modify indentation from tab to 4 spaces.
-> 
-> Suggested-by: Frank Rowand <frowand.list@gmail.com>
-> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> Reviewed-by: Frank Rowand <frank.rowand@sony.com>
-> ---
->   include/kunit/test.h                |  7 +++-
->   lib/kunit/assert.c                  | 79 +++++++++++++++++++------------------
->   lib/kunit/test.c                    |  6 +--
->   tools/testing/kunit/kunit_parser.py | 10 ++---
->   4 files changed, 54 insertions(+), 48 deletions(-)
-> 
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index f7b2ed4c..d49cdb4 100644
-> --- a/include/kunit/test.h
-> +++ b/include/kunit/test.h
-> @@ -84,6 +84,10 @@ struct kunit_resource {
->   /* Size of log associated with test. */
->   #define KUNIT_LOG_SIZE	512
->   
-> +/* TAP specifies subtest indentation of 4 spaces. */
-> +#define KUNIT_INDENT	"    "
-> +#define KUNIT_INDENT2	KUNIT_INDENT KUNIT_INDENT
+On Wed, Mar 25, 2020 at 12:43 PM Ross Philipson
+<ross.philipson@oracle.com> wrote:
+>
+> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+>
+> The late init functionality registers securityfs nodes to allow fetching
+> of and writing events to the late launch TPM log.
 
-Sorry for a late comment on this.
+Is there a reason we would want this exposed separately from the
+regular event log, rather than just appending it there?
 
-What's the reason to do it this way? Why wouldn't you define
-it as 8 spaces long string?
+> +static ssize_t sl_evtlog_write(struct file *file, const char __user *buf,
+> +                               size_t datalen, loff_t *ppos)
+> +{
 
-Also can you please make sure to run checkpatch --strict on the
-patches you send?
-
-thanks,
--- Shuah
+What's expected to be writing to this?
