@@ -7,22 +7,22 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D20CC54FDB
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 08:56:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11608C54FDA
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 08:56:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6E38520714
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 08:56:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D60FB20771
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 08:56:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727552AbgCYIz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 04:55:59 -0400
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:36369 "EHLO
+        id S1727671AbgCYI4F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 04:56:05 -0400
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:54913 "EHLO
         smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727458AbgCYIzn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 04:55:43 -0400
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.149378-0.00041665-0.850205;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03278;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.H50xpyL_1585126516;
+        by vger.kernel.org with ESMTP id S1727457AbgCYI4F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 04:56:05 -0400
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0775484-0.000381191-0.92207;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03301;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.H50xpyL_1585126516;
 Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.H50xpyL_1585126516)
           by smtp.aliyun-inc.com(10.147.42.241);
-          Wed, 25 Mar 2020 16:55:35 +0800
+          Wed, 25 Mar 2020 16:55:31 +0800
 From:   WeiXiong Liao <liaoweixiong@allwinnertech.com>
 To:     Kees Cook <keescook@chromium.org>,
         Anton Vorontsov <anton@enomsg.org>,
@@ -40,9 +40,9 @@ To:     Kees Cook <keescook@chromium.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org,
         WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Subject: [PATCH v3 10/11] pstore/zone: pstore/blk: support non-block devices
-Date:   Wed, 25 Mar 2020 16:55:05 +0800
-Message-Id: <1585126506-18635-11-git-send-email-liaoweixiong@allwinnertech.com>
+Subject: [PATCH v3 06/11] pstore/blk: blkoops: support ftrace recorder
+Date:   Wed, 25 Mar 2020 16:55:01 +0800
+Message-Id: <1585126506-18635-7-git-send-email-liaoweixiong@allwinnertech.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1585126506-18635-1-git-send-email-liaoweixiong@allwinnertech.com>
 References: <1585126506-18635-1-git-send-email-liaoweixiong@allwinnertech.com>
@@ -51,284 +51,389 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To support non-block device like MTD device. A non-block driver calls
-psblk_register_device() to register to pstore/blk.
-
-In addition, pstore/zone should also fix to non-block devices like
-MTD device. MTD device is not block device and an erase must be done
-before write. To adapt to non block device like MTD device,
-pstore/zone must call the special erase job rather than set the
-@datalen of zone to 0, which works on block device but not MTD device.
-If no this patch, pstore on MTD disables to remove log file.
+Support recorder for ftrace. To enable ftrace recorder, just make
+ftrace_size be greater than 0 and a multiple of 4096.
 
 Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
 ---
- Documentation/admin-guide/pstore-block.rst | 17 +++++++---
- fs/pstore/pstore_blk.c                     | 52 ++++++++++++------------------
- fs/pstore/pstore_zone.c                    |  8 ++++-
- include/linux/pstore_blk.h                 | 37 +++++++++++++++++++++
- include/linux/pstore_zone.h                |  6 ++++
- 5 files changed, 83 insertions(+), 37 deletions(-)
+ fs/pstore/Kconfig           |  12 ++++
+ fs/pstore/pstore_blk.c      |   9 +++
+ fs/pstore/pstore_zone.c     | 172 +++++++++++++++++++++++++++++++++++++++++++-
+ include/linux/pstore_zone.h |   2 +
+ 4 files changed, 193 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/pstore-block.rst b/Documentation/admin-guide/pstore-block.rst
-index a96415eaaf24..a31155b36e62 100644
---- a/Documentation/admin-guide/pstore-block.rst
-+++ b/Documentation/admin-guide/pstore-block.rst
-@@ -7,8 +7,8 @@ Introduction
- ------------
+diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
+index bf90de48ad3c..55ce726be795 100644
+--- a/fs/pstore/Kconfig
++++ b/fs/pstore/Kconfig
+@@ -237,6 +237,18 @@ config PSTORE_BLK_CONSOLE_SIZE
+ 	  NOTE that, both Kconfig and module parameters can configure
+ 	  pstore/blk, but module parameters have priority over Kconfig.
  
- Pstore block (pstore/blk) is an oops/panic logger that writes its logs to a
--block device before the system crashes. You can get these log files by
--mounting pstore filesystem like::
-+block device and non-block device before the system crashes. You can get
-+these log files by mounting pstore filesystem like::
- 
-     mount -t pstore pstore /sys/fs/pstore
- 
-@@ -24,8 +24,8 @@ Configurations for user determine how pstore/blk works, such as pmsg_size,
- oops_size and so on. All of them support both Kconfig and module parameters,
- but module parameters have priority over Kconfig.
- 
--Configurations for driver are all about block device, such as total_size
--of block device and read/write operations.
-+Configurations for driver are all about block device and non-block device,
-+such as total_size of block device and read/write operations.
- 
- Configurations for user
- -----------------------
-@@ -146,6 +146,15 @@ driver uses ``psblk_register_blkdev`` to register to pstore/blk.
- .. kernel-doc:: fs/pstore/pstore_blk.c
-    :identifiers: psblk_register_blkdev
- 
-+A non-block device driver uses ``psblk_register_device`` with
-+``struct psblk_device`` to register to pstore/blk.
++config PSTORE_BLK_FTRACE_SIZE
++	int "Size in Kbytes of ftarce to store"
++	depends on PSTORE_BLK
++	depends on PSTORE_FTRACE
++	default 64
++	help
++	  This just sets size of ftrace (ftrace_size) for pstore/blk. The
++	  size is in KB and must be a multiple of 4.
 +
-+.. kernel-doc:: fs/pstore/pstore_blk.c
-+   :identifiers: psblk_register_device
++	  NOTE that, both Kconfig and module parameters can configure
++	  pstore/blk, but module parameters have priority over Kconfig.
 +
-+.. kernel-doc:: include/linux/pstore_blk.h
-+   :identifiers: psblk_device
-+
- Compression and header
- ----------------------
- 
+ config PSTORE_BLK_DUMP_OOPS
+ 	bool "dump oops"
+ 	depends on PSTORE_BLK
 diff --git a/fs/pstore/pstore_blk.c b/fs/pstore/pstore_blk.c
-index 061609b66d8a..5c8006376677 100644
+index 2b513acaa18f..560e7b3f0945 100644
 --- a/fs/pstore/pstore_blk.c
 +++ b/fs/pstore/pstore_blk.c
-@@ -96,36 +96,15 @@
- })
+@@ -34,6 +34,14 @@
+ module_param(console_size, long, 0400);
+ MODULE_PARM_DESC(console_size, "console size in kbytes");
  
- /**
-- * struct psblk_device - back-end pstore/blk driver structure.
-+ * psblk_register_device() - register non-block device to pstore/blk
-  *
-- * @total_size: The total size in bytes pstore/blk can use. It must be greater
-- *		than 4096 and be multiple of 4096.
-- * @flags:	Refer to macro starting with PSTORE_FLAGS defined in
-- *		linux/pstore.h. It means what front-ends this device support.
-- *		Zero means all recorders for compatible.
-- * @read:	The general read operation. Both of the function parameters
-- *		@size and @offset are relative value to bock device (not the
-- *		whole disk).
-- *		On success, the number of bytes should be returned, others
-- *		means error.
-- * @write:	The same as @read, but the following error number:
-- *		-EBUSY means try to write again later.
-- *		-ENOMSG means to try next zone.
-- * @panic_write:The write operation only used for panic case. It's optional
-- *		if you do not care panic log. The parameters are relative
-- *		value to storage.
-- *		On success, the number of bytes should be returned, others
-- *		excluding -ENOMSG mean error. -ENOMSG means to try next zone.
-+ * @dev: non-block device information
-+ *
-+ * Return:
-+ * * 0		- OK
-+ * * Others	- something error.
-  */
--struct psblk_device {
--	unsigned long total_size;
--	unsigned int flags;
--	psz_read_op read;
--	psz_write_op write;
--	psz_write_op panic_write;
--};
--
--static int psblk_register_do(struct psblk_device *dev)
-+int psblk_register_device(struct psblk_device *dev)
- {
- 	int ret;
++#if IS_ENABLED(CONFIG_PSTORE_FTRACE)
++static long ftrace_size = CONFIG_PSTORE_BLK_FTRACE_SIZE;
++#else
++static long ftrace_size = -1;
++#endif
++module_param(ftrace_size, long, 0400);
++MODULE_PARM_DESC(ftrace_size, "ftrace size in kbytes");
++
+ static int dump_oops = CONFIG_PSTORE_BLK_DUMP_OOPS;
+ module_param(dump_oops, int, 0400);
+ MODULE_PARM_DESC(total_size, "whether dump oops");
+@@ -141,6 +149,7 @@ static int psblk_register_do(struct psblk_device *dev)
+ 	verify_size(oops_size, 4096, dev->flags & PSTORE_FLAGS_DMESG);
+ 	verify_size(pmsg_size, 4096, dev->flags & PSTORE_FLAGS_PMSG);
+ 	verify_size(console_size, 4096, dev->flags & PSTORE_FLAGS_CONSOLE);
++	verify_size(ftrace_size, 4096, dev->flags & PSTORE_FLAGS_FTRACE);
+ #undef verify_size
+ 	dump_oops = dump_oops <= 0 ? 0 : 1;
  
-@@ -169,6 +148,7 @@ static int psblk_register_do(struct psblk_device *dev)
- 	psz_info->dump_oops = dump_oops;
- 	psz_info->read = dev->read;
- 	psz_info->write = dev->write;
-+	psz_info->erase = dev->erase;
- 	psz_info->panic_write = dev->panic_write;
- 	psz_info->name = MODNAME;
- 	psz_info->owner = THIS_MODULE;
-@@ -181,8 +161,14 @@ static int psblk_register_do(struct psblk_device *dev)
- 	mutex_unlock(&psz_lock);
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(psblk_register_device);
- 
--static void psblk_unregister_do(struct psblk_device *dev)
-+/**
-+ * psblk_unregister_blkdev() - unregister block device from pstore/blk
-+ *
-+ * @dev: non-block device information
-+ */
-+void psblk_unregister_device(struct psblk_device *dev)
- {
- 	mutex_lock(&psz_lock);
- 	if (psz_info && psz_info->read == dev->read) {
-@@ -192,6 +178,7 @@ static void psblk_unregister_do(struct psblk_device *dev)
- 	}
- 	mutex_unlock(&psz_lock);
- }
-+EXPORT_SYMBOL_GPL(psblk_unregister_device);
- 
- /**
-  * psblk_get_bdev() - open block device
-@@ -405,11 +392,12 @@ int psblk_register_blkdev(unsigned int major, unsigned int flags,
- 
- 	dev.total_size = psblk_bdev_size(bdev);
- 	dev.flags = flags;
--	dev.panic_write = panic_write ? psblk_blk_panic_write : NULL;
- 	dev.read = psblk_generic_blk_read;
- 	dev.write = psblk_generic_blk_write;
-+	dev.erase = NULL;
-+	dev.panic_write = panic_write ? psblk_blk_panic_write : NULL;
- 
--	ret = psblk_register_do(&dev);
-+	ret = psblk_register_device(&dev);
- 	if (ret)
- 		goto err_put_bdev;
- 
-@@ -435,7 +423,7 @@ void psblk_unregister_blkdev(unsigned int major)
- 	void *holder = blkdev;
- 
- 	if (psblk_bdev && MAJOR(psblk_bdev->bd_dev) == major) {
--		psblk_unregister_do(&dev);
-+		psblk_unregister_device(&dev);
- 		psblk_put_bdev(psblk_bdev, holder);
- 		blkdev_panic_write = NULL;
- 		psblk_bdev = NULL;
 diff --git a/fs/pstore/pstore_zone.c b/fs/pstore/pstore_zone.c
-index 84ff53c1aaae..e51bc794f908 100644
+index e1e84505b046..1da4fc760d31 100644
 --- a/fs/pstore/pstore_zone.c
 +++ b/fs/pstore/pstore_zone.c
-@@ -652,15 +652,21 @@ static inline int psz_oops_erase(struct psz_context *cxt,
- 	struct psz_buffer *buffer = zone->buffer;
- 	struct psz_oops_header *hdr =
- 		(struct psz_oops_header *)buffer->data;
-+	size_t size;
- 
- 	if (unlikely(!psz_ok(zone)))
- 		return 0;
-+
- 	/* this zone is already updated, no need to erase */
- 	if (record->count != hdr->counter)
- 		return 0;
- 
-+	size = buffer_datalen(zone) + sizeof(*zone->buffer);
- 	atomic_set(&zone->buffer->datalen, 0);
--	return psz_zone_write(zone, FLUSH_META, NULL, 0, 0);
-+	if (cxt->psz_info->erase)
-+		return cxt->psz_info->erase(size, zone->off);
-+	else
-+		return psz_zone_write(zone, FLUSH_META, NULL, 0, 0);
+@@ -88,11 +88,14 @@ struct psz_zone {
+  * @opszs: oops/panic storage zones
+  * @ppsz: pmsg storage zone
+  * @cpsz: console storage zone
++ * @fpszs: ftrace storage zones
+  * @oops_max_cnt: max count of @opszs
+  * @oops_read_cnt: counter to read oops zone
+  * @oops_write_cnt: counter to write
+  * @pmsg_read_cnt: counter to read pmsg zone
+  * @console_read_cnt: counter to read console zone
++ * @ftrace_max_cnt: max count of @fpszs
++ * @ftrace_read_cnt: counter to read ftrace zone
+  * @oops_counter: counter to oops
+  * @panic_counter: counter to panic
+  * @recovered: whether finish recovering data from storage
+@@ -105,11 +108,14 @@ struct psz_context {
+ 	struct psz_zone **opszs;
+ 	struct psz_zone *ppsz;
+ 	struct psz_zone *cpsz;
++	struct psz_zone **fpszs;
+ 	unsigned int oops_max_cnt;
+ 	unsigned int oops_read_cnt;
+ 	unsigned int oops_write_cnt;
+ 	unsigned int pmsg_read_cnt;
+ 	unsigned int console_read_cnt;
++	unsigned int ftrace_max_cnt;
++	unsigned int ftrace_read_cnt;
+ 	/*
+ 	 * the counter should be recovered when recover.
+ 	 * It records the oops/panic times after burning rather than booting.
+@@ -308,6 +314,7 @@ static void psz_flush_all_dirty_zones(struct work_struct *work)
+ 	psz_flush_dirty_zone(cxt->ppsz);
+ 	psz_flush_dirty_zone(cxt->cpsz);
+ 	psz_flush_dirty_zones(cxt->opszs, cxt->oops_max_cnt);
++	psz_flush_dirty_zones(cxt->fpszs, cxt->ftrace_max_cnt);
  }
  
- static inline int psz_record_erase(struct psz_context *cxt,
-diff --git a/include/linux/pstore_blk.h b/include/linux/pstore_blk.h
-index d2ea1733b51a..e733f28aef2c 100644
---- a/include/linux/pstore_blk.h
-+++ b/include/linux/pstore_blk.h
-@@ -8,6 +8,41 @@
- #include <linux/pstore_zone.h>
+ static int psz_recover_oops_data(struct psz_context *cxt)
+@@ -542,6 +549,31 @@ static int psz_recover_zone(struct psz_context *cxt, struct psz_zone *zone)
+ 	return ret;
+ }
  
- /**
-+ * struct psblk_device - back-end pstore/blk driver structure.
-+ *
-+ * @total_size: The total size in bytes pstore/blk can use. It must be greater
-+ *		than 4096 and be multiple of 4096.
-+ * @flags:	Refer to macro starting with PSTORE_FLAGS defined in
-+ *		linux/pstore.h. It means what front-ends this device support.
-+ *		Zero means all recorders for compatible.
-+ * @read:	The general read operation. Both of the function parameters
-+ *		@size and @offset are relative value to bock device (not the
-+ *		whole disk).
-+ *		On success, the number of bytes should be returned, others
-+ *		means error.
-+ * @write:	The same as @read, but the following error number:
-+ *		-EBUSY means try to write again later.
-+ *		-ENOMSG means to try next zone.
-+ * @erase:	The general erase operation for device with special removing
-+ *		job. Both of the function parameters @size and @offset are
-+ *		relative value to storage.
-+ *		Return 0 on success and others on failure.
-+ * @panic_write:The write operation only used for panic case. It's optional
-+ *		if you do not care panic log. The parameters are relative
-+ *		value to storage.
-+ *		On success, the number of bytes should be returned, others
-+ *		excluding -ENOMSG mean error. -ENOMSG means to try next zone.
-+ */
-+struct psblk_device {
-+	unsigned long total_size;
-+	unsigned int flags;
-+	psz_read_op read;
-+	psz_write_op write;
-+	psz_erase_op erase;
-+	psz_write_op panic_write;
-+};
++static int psz_recover_zones(struct psz_context *cxt,
++		struct psz_zone **zones, unsigned int cnt)
++{
++	int ret;
++	unsigned int i;
++	struct psz_zone *zone;
 +
-+/**
-  * typedef psblk_panic_write_op - panic write operation to block device
-  *
-  * @buf: the data to write
-@@ -22,6 +57,8 @@
- typedef int (*psblk_panic_write_op)(const char *buf, sector_t start_sect,
- 		sector_t sects);
++	if (!zones)
++		return 0;
++
++	for (i = 0; i < cnt; i++) {
++		zone = zones[i];
++		if (unlikely(!zone))
++			continue;
++		ret = psz_recover_zone(cxt, zone);
++		if (ret)
++			goto recover_fail;
++	}
++
++	return 0;
++recover_fail:
++	pr_debug("recover %s[%u] failed\n", zone->name, i);
++	return ret;
++}
++
+ /**
+  * psz_recovery() - recover data from storage
+  * @cxt: the context of pstore/zone
+@@ -569,6 +601,10 @@ static inline int psz_recovery(struct psz_context *cxt)
+ 	if (ret)
+ 		goto recover_fail;
  
-+int psblk_register_device(struct psblk_device *dev);
-+void psblk_unregister_device(struct psblk_device *dev);
- int  psblk_register_blkdev(unsigned int major, unsigned int flags,
- 		psblk_panic_write_op panic_write);
- void psblk_unregister_blkdev(unsigned int major);
++	ret = psz_recover_zones(cxt, cxt->fpszs, cxt->ftrace_max_cnt);
++	if (ret)
++		goto recover_fail;
++
+ 	pr_debug("recover end!\n");
+ 	atomic_set(&cxt->recovered, 1);
+ 	return 0;
+@@ -585,6 +621,7 @@ static int psz_pstore_open(struct pstore_info *psi)
+ 	cxt->oops_read_cnt = 0;
+ 	cxt->pmsg_read_cnt = 0;
+ 	cxt->console_read_cnt = 0;
++	cxt->ftrace_read_cnt = 0;
+ 	return 0;
+ }
+ 
+@@ -651,6 +688,10 @@ static int psz_pstore_erase(struct pstore_record *record)
+ 		return psz_record_erase(cxt, cxt->ppsz);
+ 	case PSTORE_TYPE_CONSOLE:
+ 		return psz_record_erase(cxt, cxt->cpsz);
++	case PSTORE_TYPE_FTRACE:
++		if (record->id >= cxt->ftrace_max_cnt)
++			return -EINVAL;
++		return psz_record_erase(cxt, cxt->fpszs[record->id]);
+ 	default: return -EINVAL;
+ 	}
+ }
+@@ -806,6 +847,13 @@ static int notrace psz_pstore_write(struct pstore_record *record)
+ 		return psz_record_write(cxt->cpsz, record);
+ 	case PSTORE_TYPE_PMSG:
+ 		return psz_record_write(cxt->ppsz, record);
++	case PSTORE_TYPE_FTRACE: {
++		int zonenum = smp_processor_id();
++
++		if (!cxt->fpszs)
++			return -ENOSPC;
++		return psz_record_write(cxt->fpszs[zonenum], record);
++	}
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -821,6 +869,14 @@ static struct psz_zone *psz_read_next_zone(struct psz_context *cxt)
+ 			return zone;
+ 	}
+ 
++	if (cxt->ftrace_read_cnt < cxt->ftrace_max_cnt)
++		/*
++		 * No need psz_old_ok(). Let psz_ftrace_read() do so for
++		 * combination. psz_ftrace_read() should traverse over
++		 * all zones in case of some zone without data.
++		 */
++		return cxt->fpszs[cxt->ftrace_read_cnt++];
++
+ 	if (cxt->pmsg_read_cnt == 0) {
+ 		cxt->pmsg_read_cnt++;
+ 		zone = cxt->ppsz;
+@@ -894,6 +950,98 @@ static ssize_t psz_oops_read(struct psz_zone *zone,
+ 	return size + hlen;
+ }
+ 
++static int psz_ftrace_combine(char *src1_buf, size_t src1_size,
++		char *src2_buf, size_t src2_size,
++		char **dest_buf, size_t *dest_size)
++{
++	size_t src1_off, src2_off, total;
++	size_t src1_idx = 0, src2_idx = 0, merged_idx = 0;
++	void *merged_buf;
++	struct pstore_ftrace_record *mrec, *s1rec, *s2rec;
++	size_t record_size = sizeof(struct pstore_ftrace_record);
++
++	src1_off = src1_size % record_size;
++	src1_size -= src1_off;
++
++	src2_off = src2_size % record_size;
++	src2_size -= src2_off;
++
++	total = src1_size + src2_size;
++	merged_buf = kmalloc(total, GFP_KERNEL);
++	if (!merged_buf)
++		return -ENOMEM;
++
++	s1rec = (struct pstore_ftrace_record *)(src1_buf + src1_off);
++	s2rec = (struct pstore_ftrace_record *)(src2_buf + src2_off);
++	mrec = (struct pstore_ftrace_record *)(merged_buf);
++
++	while (src1_size > 0 && src2_size > 0) {
++		u64 s1_ts, s2_ts;
++
++		s1_ts = pstore_ftrace_read_timestamp(&s1rec[src1_idx]);
++		s2_ts = pstore_ftrace_read_timestamp(&s2rec[src2_idx]);
++		if (s1_ts < s2_ts) {
++			mrec[merged_idx++] = s1rec[src1_idx++];
++			src1_size -= record_size;
++		} else {
++			mrec[merged_idx++] = s2rec[src2_idx++];
++			src2_size -= record_size;
++		}
++	}
++
++	while (src1_size > 0) {
++		mrec[merged_idx++] = s1rec[src1_idx++];
++		src1_size -= record_size;
++	}
++
++	while (src2_size > 0) {
++		mrec[merged_idx++] = s2rec[src2_idx++];
++		src2_size -= record_size;
++	}
++
++	*dest_buf = merged_buf;
++	*dest_size = total;
++	return 0;
++}
++
++/* try to combine all ftrace zones */
++static ssize_t psz_ftrace_read(struct psz_zone *zone,
++		struct pstore_record *record)
++{
++	struct psz_context *cxt = record->psi->data;
++	struct psz_buffer *buf;
++	char *dest;
++	size_t dest_size;
++	int ret;
++
++	if (!zone || !record)
++		return -ENOSPC;
++
++	if (!psz_old_ok(zone))
++		goto out;
++
++	buf = (struct psz_buffer *)zone->oldbuf;
++	if (!buf)
++		return -ENOMSG;
++
++	ret = psz_ftrace_combine(record->buf, record->size,
++			(char *)buf->data, atomic_read(&buf->datalen),
++			&dest, &dest_size);
++	if (unlikely(ret))
++		return ret;
++
++	kfree(record->buf);
++	record->buf = dest;
++	record->size = dest_size;
++
++out:
++	if (cxt->ftrace_read_cnt < cxt->ftrace_max_cnt)
++		/* then, read next ftrace zone */
++		return -ENOMSG;
++	record->id = 0;
++	return record->size ? record->size : -ENOMSG;
++}
++
+ static ssize_t psz_record_read(struct psz_zone *zone,
+ 		struct pstore_record *record)
+ {
+@@ -944,6 +1092,9 @@ static ssize_t psz_pstore_read(struct pstore_record *record)
+ 		readop = psz_oops_read;
+ 		record->id = cxt->oops_read_cnt - 1;
+ 		break;
++	case PSTORE_TYPE_FTRACE:
++		readop = psz_ftrace_read;
++		break;
+ 	case PSTORE_TYPE_CONSOLE:
+ 		fallthrough;
+ 	case PSTORE_TYPE_PMSG:
+@@ -1095,6 +1246,8 @@ static void psz_free_all_zones(struct psz_context *cxt)
+ 		psz_free_zone(&cxt->ppsz);
+ 	if (cxt->cpsz)
+ 		psz_free_zone(&cxt->cpsz);
++	if (cxt->fpszs)
++		psz_free_zones(&cxt->fpszs, &cxt->ftrace_max_cnt);
+ }
+ 
+ static int psz_alloc_zones(struct psz_context *cxt)
+@@ -1119,6 +1272,16 @@ static int psz_alloc_zones(struct psz_context *cxt)
+ 		goto free_out;
+ 	}
+ 
++	off_size += info->ftrace_size;
++	cxt->fpszs = psz_init_zones(PSTORE_TYPE_FTRACE, &off,
++			info->ftrace_size,
++			info->ftrace_size / nr_cpu_ids,
++			&cxt->ftrace_max_cnt);
++	if (IS_ERR(cxt->fpszs)) {
++		err = PTR_ERR(cxt->fpszs);
++		goto free_out;
++	}
++
+ 	cxt->opszs = psz_init_zones(PSTORE_TYPE_DMESG, &off,
+ 			info->total_size - off_size,
+ 			info->oops_size, &cxt->oops_max_cnt);
+@@ -1182,6 +1345,7 @@ int psz_register(struct psz_info *info)
+ 	check_size(oops_size, SECTOR_SIZE);
+ 	check_size(pmsg_size, SECTOR_SIZE);
+ 	check_size(console_size, SECTOR_SIZE);
++	check_size(ftrace_size, SECTOR_SIZE);
+ 
+ #undef check_size
+ 
+@@ -1215,6 +1379,7 @@ int psz_register(struct psz_info *info)
+ 	pr_debug("\toops size : %ld Bytes\n", info->oops_size);
+ 	pr_debug("\tpmsg size : %ld Bytes\n", info->pmsg_size);
+ 	pr_debug("\tconsole size : %ld Bytes\n", info->console_size);
++	pr_debug("\tftrace size : %ld Bytes\n", info->ftrace_size);
+ 
+ 	err = psz_alloc_zones(cxt);
+ 	if (err) {
+@@ -1238,12 +1403,15 @@ int psz_register(struct psz_info *info)
+ 		cxt->pstore.flags |= PSTORE_FLAGS_PMSG;
+ 	if (info->console_size)
+ 		cxt->pstore.flags |= PSTORE_FLAGS_CONSOLE;
++	if (info->ftrace_size)
++		cxt->pstore.flags |= PSTORE_FLAGS_FTRACE;
+ 
+-	pr_info("Registered %s as pszone backend for%s%s%s%s\n", info->name,
++	pr_info("Registered %s as pszone backend for%s%s%s%s%s\n", info->name,
+ 			cxt->opszs && cxt->psz_info->dump_oops ? " Oops" : "",
+ 			cxt->opszs && cxt->psz_info->panic_write ? " Panic" : "",
+ 			cxt->ppsz ? " Pmsg" : "",
+-			cxt->cpsz ? " Console" : "");
++			cxt->cpsz ? " Console" : "",
++			cxt->fpszs ? " Ftrace" : "");
+ 
+ 	err = pstore_register(&cxt->pstore);
+ 	if (err) {
 diff --git a/include/linux/pstore_zone.h b/include/linux/pstore_zone.h
-index 2bfa79bff97b..c2db8e5c6542 100644
+index 8a1838633010..a138e8b7dc20 100644
 --- a/include/linux/pstore_zone.h
 +++ b/include/linux/pstore_zone.h
-@@ -7,6 +7,7 @@
- 
- typedef ssize_t (*psz_read_op)(char *, size_t, loff_t);
- typedef ssize_t (*psz_write_op)(const char *, size_t, loff_t);
-+typedef ssize_t (*psz_erase_op)(size_t, loff_t);
- /**
-  * struct psz_info - pstore/zone back-end driver structure
-  *
-@@ -27,6 +28,10 @@
-  * @write:	The same as @read, but the following error number:
-  *		-EBUSY means try to write again later.
-  *		-ENOMSG means to try next zone.
-+ * @erase:	The general erase operation for device with special removing
-+ *		job. Both of the function parameters @size and @offset are
-+ *		relative value to storage.
-+ *		Return 0 on success and others on failure.
-  * @panic_write:The write operation only used for panic case. It's optional
-  *		if you do not care panic log. The parameters are relative
-  *		value to storage.
-@@ -45,6 +50,7 @@ struct psz_info {
+@@ -18,6 +18,7 @@
+  *		it must be multiple of SECTOR_SIZE(512 Bytes).
+  * @pmsg_size:	The size of pmsg zone which is the same as @oops_size.
+  * @console_size:The size of console zone which is the same as @oops_size.
++ * @ftrace_size:The size of ftrace zone which is the same as @oops_size.
+  * @dump_oops:	Whether to dump oops log.
+  * @read:	The general read operation. Both of the function parameters
+  *		@size and @offset are relative value to storage.
+@@ -36,6 +37,7 @@ struct psz_info {
+ 	unsigned long oops_size;
+ 	unsigned long pmsg_size;
+ 	unsigned long console_size;
++	unsigned long ftrace_size;
  	int dump_oops;
  	psz_read_op read;
  	psz_write_op write;
-+	psz_erase_op erase;
- 	psz_write_op panic_write;
- };
- 
 -- 
 1.9.1
 
