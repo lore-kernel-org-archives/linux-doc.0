@@ -2,137 +2,93 @@ Return-Path: <SRS0=dTg4=5K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA0FC2D0E8
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 22:11:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B81C9C43331
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 22:52:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D3C9E2082E
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 22:11:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A3C02073E
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 22:52:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585174271;
-	bh=yWNg9yztHt+7I4h0soifkK3UL3DvWslZVJ7YKdYxXzM=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=L0Nti34oRHwR49bi+KWojxBz6+8TvDuSy8io/4kPJsdAcdA74Q3J2vSN7lG2AOmJM
-	 ueQZCPyFHFYTJaoWbfZgGCGyCYJX4n3U/XTbZ9Zxy7UHy4iSlOJb0AV5PfNC7IrFgt
-	 QkwNCC0IZvJjv/f9Sh3r6ZIzgefq45zEp2V+IAnM=
+	s=default; t=1585176726;
+	bh=BZo++6PRmqn8ECQe/7430RjXeOgiPlyvU+6fA5R/8iY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=ZZZOBO4FAf3zXsoTmJ7kOtqL3moCxy7OajnJCeRHub4nha9qaaQ+3FuzSH5pnBSqU
+	 ZKGXDWzvMrR4n4Pq8pc08z0WFaw0rf5SiCx0XzD8Xf4Azj0HyLNHqoDEhPjQxAnUr3
+	 5wc6VsbSo8l0qsBuVKo3jHCVQMzCd+DvFAOGqt/c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727395AbgCYWLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 18:11:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48904 "EHLO mail.kernel.org"
+        id S1727395AbgCYWwG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 18:52:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57690 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727358AbgCYWLL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Mar 2020 18:11:11 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        id S1727389AbgCYWwF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Mar 2020 18:52:05 -0400
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AC2D520719;
-        Wed, 25 Mar 2020 22:11:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 276B420857
+        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2020 22:52:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585174270;
-        bh=yWNg9yztHt+7I4h0soifkK3UL3DvWslZVJ7YKdYxXzM=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=civQwJIX1MzK96vfW26z8Mc4qQdpo12r5aMh1NIM9mjYIm7Nr8ig9pskeVZ2uGAF9
-         9VNljHBmxcbjtmyVADgCM4D189mssdgH2VezZbOGKaiQvMRNpudaIzmCLLKVwe+ZyR
-         uiv8YskcJTZHhmHcZLso+ITce7hQ4QCHPzOXg0Dw=
-Subject: Re: [PATCH v7 kunit-next 3/4] kunit: subtests should be indented 4
- spaces according to TAP
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     brendanhiggins@google.com, frowand.list@gmail.com,
-        gregkh@linuxfoundation.org, corbet@lwn.net,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        shuah <shuah@kernel.org>
-References: <1584110682-3837-1-git-send-email-alan.maguire@oracle.com>
- <1584110682-3837-4-git-send-email-alan.maguire@oracle.com>
- <dd82e9cb-6c88-58cf-933e-f2a644e09b15@kernel.org>
- <alpine.LRH.2.21.2003252202360.25268@localhost>
-From:   shuah <shuah@kernel.org>
-Message-ID: <6b41e9fe-aa9e-698b-d356-0227e6f2021c@kernel.org>
-Date:   Wed, 25 Mar 2020 16:11:08 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        s=default; t=1585176725;
+        bh=BZo++6PRmqn8ECQe/7430RjXeOgiPlyvU+6fA5R/8iY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=oqE2zfQ7M+BGJElI8imezU4HMq/9zP88BjHgISTQpdoLzJnXsVh4L+G6bVqJDNlor
+         C9AGXZyus4QTGEQBnmR6rJHUONL8HytIO5IvfL+kQC3PJhOcgHt5VgfiqqZLqCXq2q
+         M/Nd0gmjlffukJ1WCmAKUKy1QGHwiAJ7gUGyJC34=
+Received: by mail-wr1-f52.google.com with SMTP id m17so5541278wrw.11
+        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2020 15:52:05 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ2hTUbv4uhBmyp1tbbz2DQ2ih7B4E7HvtDoV+m7VloNn/DO0rtg
+        CAiVyvMYHQ1SU7gf12w0OrBB7icr9WAFBh/H2puB4Q==
+X-Google-Smtp-Source: ADFU+vv21ld+hrhT+I0z4y6bvTelpXW8Ycz3l5c9xhZW6OY7a1I6dFmQWslgtsn+EG3S6IleQh7weJA7gseNw7s3llg=
+X-Received: by 2002:adf:9dc6:: with SMTP id q6mr5774802wre.70.1585176723482;
+ Wed, 25 Mar 2020 15:52:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <alpine.LRH.2.21.2003252202360.25268@localhost>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200325194317.526492-1-ross.philipson@oracle.com> <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com>
+In-Reply-To: <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Wed, 25 Mar 2020 15:51:52 -0700
+X-Gmail-Original-Message-ID: <CALCETrUshiLMHyf4DShgDRtCvnzUVyRQgmgCiudvhuhw05cDxg@mail.gmail.com>
+Message-ID: <CALCETrUshiLMHyf4DShgDRtCvnzUVyRQgmgCiudvhuhw05cDxg@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel support
+To:     Matthew Garrett <mjg59@google.com>
+Cc:     Ross Philipson <ross.philipson@oracle.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        dpsmith@apertussolutions.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, trenchboot-devel@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/25/20 4:03 PM, Alan Maguire wrote:
-> On Wed, 25 Mar 2020, shuah wrote:
-> 
->> On 3/13/20 8:44 AM, Alan Maguire wrote:
->>> Introduce KUNIT_INDENT macro which corresponds to 4-space indentation,
->>> and use it to modify indentation from tab to 4 spaces.
->>>
->>> Suggested-by: Frank Rowand <frowand.list@gmail.com>
->>> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
->>> Reviewed-by: Frank Rowand <frank.rowand@sony.com>
->>> ---
->>>    include/kunit/test.h                |  7 +++-
->>>    lib/kunit/assert.c                  | 79
->>>    +++++++++++++++++++------------------
->>>    lib/kunit/test.c                    |  6 +--
->>>    tools/testing/kunit/kunit_parser.py | 10 ++---
->>>    4 files changed, 54 insertions(+), 48 deletions(-)
->>>
->>> diff --git a/include/kunit/test.h b/include/kunit/test.h
->>> index f7b2ed4c..d49cdb4 100644
->>> --- a/include/kunit/test.h
->>> +++ b/include/kunit/test.h
->>> @@ -84,6 +84,10 @@ struct kunit_resource {
->>>    /* Size of log associated with test. */
->>>    #define KUNIT_LOG_SIZE	512
->>>    
->>> +/* TAP specifies subtest indentation of 4 spaces. */
->>> +#define KUNIT_INDENT	"    "
->>> +#define KUNIT_INDENT2	KUNIT_INDENT KUNIT_INDENT
->>
->> Sorry for a late comment on this.
->>
->> What's the reason to do it this way? Why wouldn't you define
->> it as 8 spaces long string?
->>
-> 
-> I could have I suppose; I thought it makes it a bit easier
-> to read as above (though it did generate a checkpatch
-> warning; I thought readability was more important in this
-> case, but I can alter if needed).
->   
-Please do. Couple of things. KUNIT_INDENT2 doesn't really
-tell me much. Same with KUNIT_INDENT
+On Wed, Mar 25, 2020 at 1:29 PM Matthew Garrett <mjg59@google.com> wrote:
+>
+> On Wed, Mar 25, 2020 at 12:43 PM Ross Philipson
+> <ross.philipson@oracle.com> wrote:
+> > To enable the kernel to be launched by GETSEC or SKINIT, a stub must be
+> > built into the setup section of the compressed kernel to handle the
+> > specific state that the late launch process leaves the BSP. This is a
+> > lot like the EFI stub that is found in the same area. Also this stub
+> > must measure everything that is going to be used as early as possible.
+> > This stub code and subsequent code must also deal with the specific
+> > state that the late launch leaves the APs in.
+>
+> How does this integrate with the EFI entry point? That's the expected
+> entry point on most modern x86. What's calling ExitBootServices() in
+> this flow, and does the secure launch have to occur after it? It'd be
+> a lot easier if you could still use the firmware's TPM code rather
+> than carrying yet another copy.
 
-Please make the names more descriptive. Something along the
-lines of
-
-KUNIT_INDENT_4SPACE
-KUNIT_INDENT_8SPACE
-
->> Also can you please make sure to run checkpatch --strict on the
->> patches you send?
->>
-> 
-> Sure! There were also some other line-too-long warnings
-> generated as a result of this patch, but when I fixed those
-> checkpatch complained about splitting strings across multiple
-> lines.  The only way out was to reduce the amount of information
-> in the log messages, which I didn't want to do.  In future I can
-> note checkpatch warnings that I couldn't find a way to fix in the
-> commit message if that would help?
-> 
-
-I understand. This is an error though. I am willing to ignore line-too
-long warnings for the most part. I don't like to see errors in general.
-
-thanks,
--- Shuah
-
-
-
+I was wondering why the bootloader was involved at all.  In other
+words, could you instead hand off control to the kernel just like
+normal and have the kernel itself (in normal code, the EFI stub, or
+wherever it makes sense) do the DRTM launch all by itself?  This would
+avoid needing to patch bootloaders, to implement this specially for
+QEMU -kernel, to get the exact right buy-in from all the cloud
+vendors, etc.  It would also give you more flexibility to evolve
+exactly what configuration maps to exactly what PCRs in the future.
