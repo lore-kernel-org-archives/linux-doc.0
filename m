@@ -2,144 +2,144 @@ Return-Path: <SRS0=dTg4=5K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,PDS_TONAME_EQ_TOLOCAL_HDRS_LCASE,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AEE2C43331
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 21:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0482C43331
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 22:04:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 12ABB20658
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 21:59:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C813B20719
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 22:04:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="qAan3Byk"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lO8+ptMy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727357AbgCYV7F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 17:59:05 -0400
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21103 "EHLO
-        sender4-of-o51.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727351AbgCYV7F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 17:59:05 -0400
-X-Greylist: delayed 903 seconds by postgrey-1.27 at vger.kernel.org; Wed, 25 Mar 2020 17:59:04 EDT
-ARC-Seal: i=1; a=rsa-sha256; t=1585172614; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=ZSORfTBkrOkN85glZk0NRuP90SGMFU3eASh0QZ4AT2ROVTsclV3AkjiEIsJ2E4lm7uMShrL2QjehzEJXMCkq6njoULLjJCPvgcDPkdSUcQMDmZc2tBHrqZJ4yWY73aamqFjtcGiusjOinVy9iex5A4angQ+VPDV7dXiTXWoyQ1c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1585172614; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=6ikTch8JDQ5LCNbBZkc5GMGLLK5g7Wz1EeJzLn7t/oM=; 
-        b=drirh98/sh92TmZmSwvhRedZPfTvwUQqENN7wUY+UPKG/2KkODB5zacGaRJWaAmCKX3AWcMv19AkYq9TqRynwafWw2YBga/kTzl65tJgawqHBANA7hhsftxEAEc6FdzuI0UZNY9FmKIWsrT0QD9QDpq8naHFfUkpStuLqzSV1Aw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=apertussolutions.com;
-        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-        dmarc=pass header.from=<dpsmith@apertussolutions.com> header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585172614;
-        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-        bh=6ikTch8JDQ5LCNbBZkc5GMGLLK5g7Wz1EeJzLn7t/oM=;
-        b=qAan3BykwaGrJssTaprfaWUUDZ4kK9eYLf0Zu7RbQAbhV1bq3ZrrYuA5MtLZPAm5
-        /I6GE6tEDBImsJ3kHytqm1yhUbqU9aREfhM8OfqROCQicemEMx89DJ28X3XLn8WEunp
-        kn+2HIvv2QljqXpNTc+/Q57jn63yjNALbIimnuLs=
-Received: from [10.10.1.24] (c-73-129-47-101.hsd1.md.comcast.net [73.129.47.101]) by mx.zohomail.com
-        with SMTPS id 1585172612264530.4678071564699; Wed, 25 Mar 2020 14:43:32 -0700 (PDT)
-Subject: Re: [RFC PATCH 10/12] x86: Secure Launch adding event log securityfs
-To:     Matthew Garrett <mjg59@google.com>,
-        Ross Philipson <ross.philipson@oracle.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, trenchboot-devel@googlegroups.com
-References: <20200325194317.526492-1-ross.philipson@oracle.com>
- <20200325194317.526492-11-ross.philipson@oracle.com>
- <CACdnJuvkrMCbOwqkWUOZunXmu1AwfRpjNp3OAfqR2y0O+OK5Fw@mail.gmail.com>
-From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Message-ID: <38ab048a-f2b0-9778-d9ce-c15374abde94@apertussolutions.com>
-Autocrypt: addr=dpsmith@apertussolutions.com; prefer-encrypt=mutual; keydata=
- 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
-Date:   Wed, 25 Mar 2020 17:43:30 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1727401AbgCYWEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 18:04:09 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:37042 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726081AbgCYWEJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 18:04:09 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02PM35m1109673;
+        Wed, 25 Mar 2020 22:04:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : in-reply-to : message-id : references : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=gaA4GEcqi9j2CQxBte6tshCMih51XWIGLpE+4um3dyI=;
+ b=lO8+ptMyy3Hd+wTBQDCZqwarI3fgPTqvuHWVbdeNyohJt26hR4ulc9MUPu7IcDI8nSNp
+ koJ2natxAHqFLij/14heAIuQW7bJwANaNv8B8kjVxDQWUbaqxg6JAl3V6jGKV0QEMCAP
+ 6DRDvi0LQbO2MEoTvAX4a+Dtv4DkkBGOR2T8IGvjtUIbIj8XFyApNr+Qu8ZS+JJXSwHj
+ Q/87pahcU4dZ4nb5aVUeZSPd7NgQwaDOV+eGvztomrodhHSsmGCn5VMMEVtZWztBdI6z
+ nRqL15OWqG5KdTCTTFt2rNfei+0hg+oMJeVqj43a+pl4Yak848lZX/CncG7sq8t/gBvD 0g== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 2ywavmcc91-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 25 Mar 2020 22:04:01 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02PM1p0a021401;
+        Wed, 25 Mar 2020 22:04:01 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 3006r7b4nj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 25 Mar 2020 22:04:01 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02PM40ll008484;
+        Wed, 25 Mar 2020 22:04:00 GMT
+Received: from dhcp-10-175-163-133.vpn.oracle.com (/10.175.163.133)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 25 Mar 2020 15:03:59 -0700
+Date:   Wed, 25 Mar 2020 22:03:52 +0000 (GMT)
+From:   Alan Maguire <alan.maguire@oracle.com>
+X-X-Sender: alan@localhost
+To:     shuah <shuah@kernel.org>
+cc:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org, corbet@lwn.net,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 kunit-next 3/4] kunit: subtests should be indented 4
+ spaces according to TAP
+In-Reply-To: <dd82e9cb-6c88-58cf-933e-f2a644e09b15@kernel.org>
+Message-ID: <alpine.LRH.2.21.2003252202360.25268@localhost>
+References: <1584110682-3837-1-git-send-email-alan.maguire@oracle.com> <1584110682-3837-4-git-send-email-alan.maguire@oracle.com> <dd82e9cb-6c88-58cf-933e-f2a644e09b15@kernel.org>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <CACdnJuvkrMCbOwqkWUOZunXmu1AwfRpjNp3OAfqR2y0O+OK5Fw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9571 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=4
+ phishscore=0 spamscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003250168
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9571 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 clxscore=1015 impostorscore=0
+ phishscore=0 suspectscore=4 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003250168
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/25/20 4:21 PM, Matthew Garrett wrote:
-> On Wed, Mar 25, 2020 at 12:43 PM Ross Philipson
-> <ross.philipson@oracle.com> wrote:
->>
->> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
->>
->> The late init functionality registers securityfs nodes to allow fetching
->> of and writing events to the late launch TPM log.
->=20
-> Is there a reason we would want this exposed separately from the
-> regular event log, rather than just appending it there?
+On Wed, 25 Mar 2020, shuah wrote:
 
-We created a separate securityfs node as the intent is to eventually
-expose additional information relating to state of the Dynamic Launch.
-We only implemented the log node as it is the only node we required for
-demonstrating the initial capability. By no means are we tied to this
-path for the log. If maintainers would like to see the DRTM log be
-colocated with the SRTM log, we can move the logic over to the tpm
-driver's eventlog code.
+> On 3/13/20 8:44 AM, Alan Maguire wrote:
+> > Introduce KUNIT_INDENT macro which corresponds to 4-space indentation,
+> > and use it to modify indentation from tab to 4 spaces.
+> > 
+> > Suggested-by: Frank Rowand <frowand.list@gmail.com>
+> > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> > Reviewed-by: Frank Rowand <frank.rowand@sony.com>
+> > ---
+> >   include/kunit/test.h                |  7 +++-
+> >   lib/kunit/assert.c                  | 79
+> >   +++++++++++++++++++------------------
+> >   lib/kunit/test.c                    |  6 +--
+> >   tools/testing/kunit/kunit_parser.py | 10 ++---
+> >   4 files changed, 54 insertions(+), 48 deletions(-)
+> > 
+> > diff --git a/include/kunit/test.h b/include/kunit/test.h
+> > index f7b2ed4c..d49cdb4 100644
+> > --- a/include/kunit/test.h
+> > +++ b/include/kunit/test.h
+> > @@ -84,6 +84,10 @@ struct kunit_resource {
+> >   /* Size of log associated with test. */
+> >   #define KUNIT_LOG_SIZE	512
+> >   
+> > +/* TAP specifies subtest indentation of 4 spaces. */
+> > +#define KUNIT_INDENT	"    "
+> > +#define KUNIT_INDENT2	KUNIT_INDENT KUNIT_INDENT
+> 
+> Sorry for a late comment on this.
+> 
+> What's the reason to do it this way? Why wouldn't you define
+> it as 8 spaces long string?
+>
 
+I could have I suppose; I thought it makes it a bit easier
+to read as above (though it did generate a checkpatch
+warning; I thought readability was more important in this   
+case, but I can alter if needed).
+ 
+> Also can you please make sure to run checkpatch --strict on the
+> patches you send?
+>
 
->> +static ssize_t sl_evtlog_write(struct file *file, const char __user *bu=
-f,
->> +                               size_t datalen, loff_t *ppos)
->> +{
->=20
-> What's expected to be writing to this?
->=20
+Sure! There were also some other line-too-long warnings
+generated as a result of this patch, but when I fixed those
+checkpatch complained about splitting strings across multiple
+lines.  The only way out was to reduce the amount of information
+in the log messages, which I didn't want to do.  In future I can
+note checkpatch warnings that I couldn't find a way to fix in the
+commit message if that would help?
 
-We want to support a multitude of use cases but for an initial
-demonstrator it was felt better to emulate the way people are using
-Intel TXT, via tboot as an intermediate loader in the boot chain. When
-using a Secure Launch for an intermediate loader implementation, the
-implementer has the richness of the user-space runtime for collecting
-measurements. As a result they may want(be forced) to do the hashing in
-user-space and since this is a measurement that is part of the DRTM
-chain it needs to get appended to that log. Thus it seemed natural to
-enable the extending of the log by allowing one to write to the log's
-securityfs node.
+Thanks for taking a look!
 
-V/r,
-Daniel P. Smith
-
+Alan
+ 
+> thanks,
+> -- Shuah
+> 
+> 
