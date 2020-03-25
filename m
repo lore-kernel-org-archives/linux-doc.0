@@ -2,172 +2,421 @@ Return-Path: <SRS0=dTg4=5K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B30BC43331
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 09:38:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3E1C54FD3
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 11:26:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 00D9A20775
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 09:38:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40FA020771
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 11:26:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="nj9JIoQ4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727358AbgCYJiz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 05:38:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32384 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727265AbgCYJiz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 05:38:55 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 02P9XX2j130844
-        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2020 05:38:54 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2ywet4pd6x-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2020 05:38:54 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <borntraeger@de.ibm.com>;
-        Wed, 25 Mar 2020 09:38:49 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 25 Mar 2020 09:38:43 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 02P9bglF50790860
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 25 Mar 2020 09:37:42 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C0E794C04E;
-        Wed, 25 Mar 2020 09:38:44 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 846CB4C046;
-        Wed, 25 Mar 2020 09:38:41 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.145.106.7])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 25 Mar 2020 09:38:41 +0000 (GMT)
-Subject: Re: [PATCH 1/4] hugetlbfs: add arch_hugetlb_valid_size
-To:     "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)" 
-        <longpeng2@huawei.com>, Mike Kravetz <mike.kravetz@oracle.com>,
-        Dave Hansen <dave.hansen@intel.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        "David S.Miller" <davem@davemloft.net>,
+        id S1727451AbgCYL0U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 07:26:20 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:47660 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727082AbgCYL0U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 07:26:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1585135575; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vxToi3KTDzFJBN1BtzBBWc1h5r29Fizq0kChEo/QN34=;
+        b=nj9JIoQ48/+TrFjPOPi5gGRB2uVE++5Na+KwJdpekcF/14qnsel6Lm9T5TdXHN8qyNWRlH
+        IPfpe6YRwY4DR4l6JANh/GtXeqpw2fgBw4Bq3kz0AwcKlNnkCOv3h+k9MhoynTUZRd+4Qi
+        VBT5sg7ZTqTpD17BQYz0DVfRxQyFfug=
+Date:   Wed, 25 Mar 2020 12:25:58 +0100
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v7 01/12] irqchip: Add driver for Loongson I/O Local
+ Interrupt Controller
+To:     Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc:     linux-mips@vger.kernel.org, Huacai Chen <chenhc@lemote.com>,
+        Marc Zyngier <maz@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20200318220634.32100-1-mike.kravetz@oracle.com>
- <20200318220634.32100-2-mike.kravetz@oracle.com>
- <831a0773-1ba6-4d72-44b9-7472123b8528@intel.com>
- <5aceea6a-8dc0-a44b-80c6-94511b5c75ca@oracle.com>
- <5ea6313e-ec4f-a043-632b-ef2901ce2cc9@huawei.com>
-From:   Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date:   Wed, 25 Mar 2020 10:38:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        John Crispin <john@phrozen.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        "H. Nikolaus Schaller" <hns@goldelico.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Yinglu Yang <yangyinglu@loongson.cn>,
+        Allison Randal <allison@lohutok.net>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Paul Burton <paulburton@kernel.org>,
+        Manuel Lauss <manuel.lauss@gmail.com>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Matt Redfearn <matt.redfearn@mips.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-ide@vger.kernel.org
+Message-Id: <AFYQ7Q.2LEJN3L8ZS5J3@crapouillou.net>
+In-Reply-To: <20200325022916.106641-2-jiaxun.yang@flygoat.com>
+References: <20200325022916.106641-1-jiaxun.yang@flygoat.com>
+        <20200325022916.106641-2-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
-In-Reply-To: <5ea6313e-ec4f-a043-632b-ef2901ce2cc9@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20032509-0008-0000-0000-000003638BC7
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20032509-0009-0000-0000-00004A84FAF9
-Message-Id: <505b3d0a-b754-ba56-0b98-b7551ef414be@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.645
- definitions=2020-03-25_01:2020-03-23,2020-03-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- mlxlogscore=915 adultscore=0 spamscore=0 clxscore=1011 phishscore=0
- malwarescore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003250082
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Jiaxun,
 
 
-On 25.03.20 03:58, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
-[...]
-> Hi Mike,
-> 
-> Inspired by Dave's opinion, it seems the x86-specific hugepages_supported should
-> also need to use cpu_feature_enabled instead.
-> 
-> Also, I wonder if the hugepages_supported is correct ? There're two arch
-> specific hugepages_supported:
-> x86:
-> #define hugepages_supported() boot_cpu_has(X86_FEATURE_PSE)
-> and
-> s390:
-> #define hugepages_supported() (MACHINE_HAS_EDAT1)
-> 
-> Is it possible that x86 has X86_FEATURE_GBPAGES but hasn't X86_FEATURE_GBPAGES
-> or s390 has MACHINE_HAS_EDAT2 but hasn't MACHINE_HAS_EDAT1 ?
+Le mer. 25 mars 2020 =E0 10:28, Jiaxun Yang <jiaxun.yang@flygoat.com> a=20
+=E9crit :
+> This controller appeared on Loongson family of chips as the primary
+> package interrupt source.
+>=20
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Co-developed-by: Huacai Chen <chenhc@lemote.com>
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> Reviewed-by: Marc Zyngier <maz@kernel.org>
+> ---
+> v4-v5:
+> 	Resolve suggestions from maz:
+> 		- Remove DT validation
+> 		- Simplify unnucessary functions & variables
+> ---
+>  drivers/irqchip/Kconfig                |   9 +
+>  drivers/irqchip/Makefile               |   1 +
+>  drivers/irqchip/irq-loongson-liointc.c | 261=20
+> +++++++++++++++++++++++++
+>  3 files changed, 271 insertions(+)
+>  create mode 100644 drivers/irqchip/irq-loongson-liointc.c
+>=20
+> diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> index 6d397732138d..c609eaa319d2 100644
+> --- a/drivers/irqchip/Kconfig
+> +++ b/drivers/irqchip/Kconfig
+> @@ -513,4 +513,13 @@ config EXYNOS_IRQ_COMBINER
+>  	  Say yes here to add support for the IRQ combiner devices embedded
+>  	  in Samsung Exynos chips.
+>=20
+> +config LOONGSON_LIOINTC
+> +	bool "Loongson Local I/O Interrupt Controller"
+> +	depends on MACH_LOONGSON64
+> +	default y
+> +	select IRQ_DOMAIN
+> +	select GENERIC_IRQ_CHIP
+> +	help
+> +	  Support for the Loongson Local I/O Interrupt Controller.
+> +
+>  endmenu
+> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+> index eae0d78cbf22..5e7678efdfe6 100644
+> --- a/drivers/irqchip/Makefile
+> +++ b/drivers/irqchip/Makefile
+> @@ -105,3 +105,4 @@ obj-$(CONFIG_MADERA_IRQ)		+=3D irq-madera.o
+>  obj-$(CONFIG_LS1X_IRQ)			+=3D irq-ls1x.o
+>  obj-$(CONFIG_TI_SCI_INTR_IRQCHIP)	+=3D irq-ti-sci-intr.o
+>  obj-$(CONFIG_TI_SCI_INTA_IRQCHIP)	+=3D irq-ti-sci-inta.o
+> +obj-$(CONFIG_LOONGSON_LIOINTC)		+=3D irq-loongson-liointc.o
+> diff --git a/drivers/irqchip/irq-loongson-liointc.c=20
+> b/drivers/irqchip/irq-loongson-liointc.c
+> new file mode 100644
+> index 000000000000..18de2c09ece4
+> --- /dev/null
+> +++ b/drivers/irqchip/irq-loongson-liointc.c
+> @@ -0,0 +1,261 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + *  Copyright (C) 2020, Jiaxun Yang <jiaxun.yang@flygoat.com>
+> + *  Loongson Local IO Interrupt Controller support
+> + */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/init.h>
+> +#include <linux/types.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/ioport.h>
+> +#include <linux/irqchip.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/io.h>
+> +#include <linux/smp.h>
+> +#include <linux/irqchip/chained_irq.h>
+> +
+> +#include <boot_param.h>
+> +
+> +#define LIOINTC_CHIP_IRQ	32
+> +#define LIOINTC_NUM_PARENT 4
+> +
+> +#define LIOINTC_INTC_CHIP_START	0x20
+> +
+> +#define LIOINTC_REG_INTC_STATUS	(LIOINTC_INTC_CHIP_START + 0x20)
+> +#define LIOINTC_REG_INTC_EN_STATUS	(LIOINTC_INTC_CHIP_START + 0x04)
+> +#define LIOINTC_REG_INTC_ENABLE	(LIOINTC_INTC_CHIP_START + 0x08)
+> +#define LIOINTC_REG_INTC_DISABLE	(LIOINTC_INTC_CHIP_START + 0x0c)
+> +#define LIOINTC_REG_INTC_POL	(LIOINTC_INTC_CHIP_START + 0x10)
+> +#define LIOINTC_REG_INTC_EDGE	(LIOINTC_INTC_CHIP_START + 0x14)
+> +
+> +#define LIOINTC_SHIFT_INTx	4
+> +
+> +struct liointc_handler_data {
+> +	struct liointc_priv	*priv;
+> +	u32			parent_int_map;
+> +};
+> +
+> +struct liointc_priv {
+> +	struct irq_chip_generic		*gc;
+> +	struct liointc_handler_data	handler[LIOINTC_NUM_PARENT];
+> +	u8				map_cache[LIOINTC_CHIP_IRQ];
+> +};
+> +
+> +static void liointc_chained_handle_irq(struct irq_desc *desc)
+> +{
+> +	struct liointc_handler_data *handler =3D=20
+> irq_desc_get_handler_data(desc);
+> +	struct irq_chip *chip =3D irq_desc_get_chip(desc);
+> +	struct irq_chip_generic *gc =3D handler->priv->gc;
+> +	u32 pending;
+> +
+> +	chained_irq_enter(chip, desc);
+> +
+> +	pending =3D readl(gc->reg_base + LIOINTC_REG_INTC_STATUS);
+> +
+> +	if (!pending)
+> +		spurious_interrupt();
+> +
+> +	while (pending) {
+> +		int bit =3D __ffs(pending);
+> +
+> +		generic_handle_irq(irq_find_mapping(gc->domain, bit));
+> +		pending &=3D ~BIT(bit);
+> +	}
 
-The s390 architecture says that 
+Consider using the for_each_set_bit() macro from <linux/bitops.h>.
+See drivers/irqchip/irq-ingenic-tcu.c for instance.
 
-When EDAT-2 applies, the following function is available in the DAT process:
- - EDAT-1 applies.
-[..]
+> +
+> +	chained_irq_exit(chip, desc);
+> +}
+> +
+> +static void liointc_set_bit(struct irq_chip_generic *gc,
+> +				unsigned int offset,
+> +				u32 mask, bool set)
+> +{
+> +	if (set)
+> +		writel(readl(gc->reg_base + offset) | mask,
+> +				gc->reg_base + offset);
+> +	else
+> +		writel(readl(gc->reg_base + offset) & ~mask,
+> +				gc->reg_base + offset);
+> +}
+> +
+> +static int liointc_set_type(struct irq_data *data, unsigned int type)
+> +{
+> +	struct irq_chip_generic *gc =3D irq_data_get_irq_chip_data(data);
+> +	u32 mask =3D data->mask;
+> +	unsigned long flags;
+> +
+> +	irq_gc_lock_irqsave(gc, flags);
+> +	switch (type) {
+> +	case IRQ_TYPE_LEVEL_HIGH:
+> +		liointc_set_bit(gc, LIOINTC_REG_INTC_EDGE, mask, false);
+> +		liointc_set_bit(gc, LIOINTC_REG_INTC_POL, mask, true);
+> +		break;
+> +	case IRQ_TYPE_LEVEL_LOW:
+> +		liointc_set_bit(gc, LIOINTC_REG_INTC_EDGE, mask, false);
+> +		liointc_set_bit(gc, LIOINTC_REG_INTC_POL, mask, false);
+> +		break;
+> +	case IRQ_TYPE_EDGE_RISING:
+> +		liointc_set_bit(gc, LIOINTC_REG_INTC_EDGE, mask, true);
+> +		liointc_set_bit(gc, LIOINTC_REG_INTC_POL, mask, true);
+> +		break;
+> +	case IRQ_TYPE_EDGE_FALLING:
+> +		liointc_set_bit(gc, LIOINTC_REG_INTC_EDGE, mask, true);
+> +		liointc_set_bit(gc, LIOINTC_REG_INTC_POL, mask, false);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +	irq_gc_unlock_irqrestore(gc, flags);
+> +
+> +	irqd_set_trigger_type(data, type);
+> +	return 0;
+> +}
+> +
+> +static void liointc_resume(struct irq_chip_generic *gc)
+> +{
+> +	struct liointc_priv *priv =3D gc->private;
+> +	unsigned long flags;
+> +	int i;
+> +
+> +	irq_gc_lock_irqsave(gc, flags);
+> +	/* Disable all at first */
+> +	writel(0xffffffff, gc->reg_base + LIOINTC_REG_INTC_DISABLE);
+> +	/* Revert map cache */
+> +	for (i =3D 0; i < LIOINTC_CHIP_IRQ; i++)
+> +		writeb(priv->map_cache[i], gc->reg_base + i);
+> +	/* Revert mask cache */
+> +	writel(~gc->mask_cache, gc->reg_base + LIOINTC_REG_INTC_ENABLE);
+> +	irq_gc_unlock_irqrestore(gc, flags);
+> +}
+> +
+> +static const char * const parent_names[] =3D {"int0", "int1", "int2",=20
+> "int3"};
+> +
+> +int __init liointc_of_init(struct device_node *node,
+> +				struct device_node *parent)
+> +{
+> +	struct irq_chip_generic *gc;
+> +	struct irq_domain *domain;
+> +	struct irq_chip_type *ct;
+> +	struct liointc_priv *priv;
+> +	void __iomem *base;
+> +	u32 of_parent_int_map[LIOINTC_NUM_PARENT];
+> +	int parent_irq[LIOINTC_NUM_PARENT];
+> +	bool have_parent =3D FALSE;
+> +	int sz, i, err =3D 0;
+> +
+> +	priv =3D kzalloc(sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	base =3D of_iomap(node, 0);
+> +	if (!base) {
+> +		err =3D -ENODEV;
+> +		goto out_free_priv;
+> +	}
+> +
+> +	for (i =3D 0; i < LIOINTC_NUM_PARENT; i++) {
+> +		parent_irq[i] =3D of_irq_get_byname(node, parent_names[i]);
+> +		if (parent_irq[i] > 0)
+> +			have_parent =3D TRUE;
+> +	}
+> +	if (!have_parent) {
+> +		err =3D -ENODEV;
+> +		goto out_iounmap;
+> +	}
+> +
+> +	sz =3D of_property_read_variable_u32_array(node,
+> +						"loongson,parent_int_map",
+> +						&of_parent_int_map[0],
+> +						LIOINTC_NUM_PARENT,
+> +						LIOINTC_NUM_PARENT);
+> +	if (sz < 4) {
+> +		pr_err("loongson-liointc: No parent_int_map\n");
+> +		err =3D -ENODEV;
+> +		goto out_iounmap;
+> +	}
+> +
+> +	for (i =3D 0; i < LIOINTC_NUM_PARENT; i++)
+> +		priv->handler[i].parent_int_map =3D of_parent_int_map[i];
+> +
+> +	/* Setup IRQ domain */
+> +	domain =3D irq_domain_add_linear(node, 32,
+> +					&irq_generic_chip_ops, priv);
+> +	if (!domain) {
+> +		pr_err("loongson-liointc: cannot add IRQ domain\n");
+> +		err =3D -EINVAL;
+> +		goto out_iounmap;
+> +	}
+> +
+> +	err =3D irq_alloc_domain_generic_chips(domain, 32, 1,
+> +					node->full_name, handle_level_irq,
+> +					IRQ_NOPROBE, 0, 0);
+> +	if (err) {
+> +		pr_err("loongson-liointc: unable to register IRQ domain\n");
+> +		goto out_free_domain;
+> +	}
+> +
+> +
+> +	/* Disable all IRQs */
+> +	writel(0xffffffff, base + LIOINTC_REG_INTC_DISABLE);
+> +	/* Set to level triggered */
+> +	writel(0x0, base + LIOINTC_REG_INTC_EDGE);
+> +
+> +	/* Generate parent INT part of map cache */
+> +	for (i =3D 0; i < LIOINTC_NUM_PARENT; i++) {
+> +		u32 pending =3D priv->handler[i].parent_int_map;
+> +
+> +		while (pending) {
+> +			int bit =3D __ffs(pending);
+> +
+> +			priv->map_cache[bit] =3D BIT(i) << LIOINTC_SHIFT_INTx;
+> +			pending &=3D ~BIT(bit);
+> +		}
 
-So if the machine has EDAT-2 it also has EDAT-1.
+Same here.
+
+-Paul
+
+> +	}
+> +
+> +	for (i =3D 0; i < LIOINTC_CHIP_IRQ; i++) {
+> +		/* Generate core part of map cache */
+> +		priv->map_cache[i] |=3D BIT(loongson_sysconf.boot_cpu_id);
+> +		writeb(priv->map_cache[i], base + i);
+> +	}
+> +
+> +	gc =3D irq_get_domain_generic_chip(domain, 0);
+> +	gc->private =3D priv;
+> +	gc->reg_base =3D base;
+> +	gc->domain =3D domain;
+> +	gc->resume =3D liointc_resume;
+> +
+> +	ct =3D gc->chip_types;
+> +	ct->regs.enable =3D LIOINTC_REG_INTC_ENABLE;
+> +	ct->regs.disable =3D LIOINTC_REG_INTC_DISABLE;
+> +	ct->chip.irq_unmask =3D irq_gc_unmask_enable_reg;
+> +	ct->chip.irq_mask =3D irq_gc_mask_disable_reg;
+> +	ct->chip.irq_mask_ack =3D irq_gc_mask_disable_reg;
+> +	ct->chip.irq_set_type =3D liointc_set_type;
+> +
+> +	gc->mask_cache =3D 0xffffffff;
+> +	priv->gc =3D gc;
+> +
+> +	for (i =3D 0; i < LIOINTC_NUM_PARENT; i++) {
+> +		if (parent_irq[i] <=3D 0)
+> +			continue;
+> +
+> +		priv->handler[i].priv =3D priv;
+> +		irq_set_chained_handler_and_data(parent_irq[i],
+> +				liointc_chained_handle_irq, &priv->handler[i]);
+> +	}
+> +
+> +	return 0;
+> +
+> +out_free_domain:
+> +	irq_domain_remove(domain);
+> +out_iounmap:
+> +	iounmap(base);
+> +out_free_priv:
+> +	kfree(priv);
+> +
+> +	return err;
+> +}
+> +
+> +IRQCHIP_DECLARE(loongson_liointc_1_0, "loongson,liointc-1.0",=20
+> liointc_of_init);
+> +IRQCHIP_DECLARE(loongson_liointc_1_0a, "loongson,liointc-1.0a",=20
+> liointc_of_init);
+> --
+> 2.26.0.rc2
+>=20
+>=20
+
 
