@@ -4,25 +4,25 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BFC5C54FD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D20CC54FDB
 	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 08:56:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 44A0120771
+	by mail.kernel.org (Postfix) with ESMTP id 6E38520714
 	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 08:56:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727546AbgCYIzn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 04:55:43 -0400
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:36120 "EHLO
+        id S1727552AbgCYIz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 04:55:59 -0400
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:36369 "EHLO
         smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727417AbgCYIzn (ORCPT
+        by vger.kernel.org with ESMTP id S1727458AbgCYIzn (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 04:55:43 -0400
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0137709-0.000556379-0.985673;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03267;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.H50xpyL_1585126516;
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.149378-0.00041665-0.850205;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03278;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.H50xpyL_1585126516;
 Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.H50xpyL_1585126516)
           by smtp.aliyun-inc.com(10.147.42.241);
-          Wed, 25 Mar 2020 16:55:32 +0800
+          Wed, 25 Mar 2020 16:55:35 +0800
 From:   WeiXiong Liao <liaoweixiong@allwinnertech.com>
 To:     Kees Cook <keescook@chromium.org>,
         Anton Vorontsov <anton@enomsg.org>,
@@ -40,9 +40,9 @@ To:     Kees Cook <keescook@chromium.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org,
         WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Subject: [PATCH v3 07/11] Documentation: create document for pstore/blk
-Date:   Wed, 25 Mar 2020 16:55:02 +0800
-Message-Id: <1585126506-18635-8-git-send-email-liaoweixiong@allwinnertech.com>
+Subject: [PATCH v3 10/11] pstore/zone: pstore/blk: support non-block devices
+Date:   Wed, 25 Mar 2020 16:55:05 +0800
+Message-Id: <1585126506-18635-11-git-send-email-liaoweixiong@allwinnertech.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1585126506-18635-1-git-send-email-liaoweixiong@allwinnertech.com>
 References: <1585126506-18635-1-git-send-email-liaoweixiong@allwinnertech.com>
@@ -51,274 +51,284 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pstore/blk is a new back-end of pstore to dump oops/pmsg log to
-block device.
+To support non-block device like MTD device. A non-block driver calls
+psblk_register_device() to register to pstore/blk.
 
-The document, at Documentation/admin-guide/pstore-block.rst, tells us
-how to use pstore/blk.
+In addition, pstore/zone should also fix to non-block devices like
+MTD device. MTD device is not block device and an erase must be done
+before write. To adapt to non block device like MTD device,
+pstore/zone must call the special erase job rather than set the
+@datalen of zone to 0, which works on block device but not MTD device.
+If no this patch, pstore on MTD disables to remove log file.
 
 Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
 ---
- Documentation/admin-guide/pstore-block.rst | 223 +++++++++++++++++++++++++++++
- MAINTAINERS                                |   1 +
- fs/pstore/Kconfig                          |   2 +
- 3 files changed, 226 insertions(+)
- create mode 100644 Documentation/admin-guide/pstore-block.rst
+ Documentation/admin-guide/pstore-block.rst | 17 +++++++---
+ fs/pstore/pstore_blk.c                     | 52 ++++++++++++------------------
+ fs/pstore/pstore_zone.c                    |  8 ++++-
+ include/linux/pstore_blk.h                 | 37 +++++++++++++++++++++
+ include/linux/pstore_zone.h                |  6 ++++
+ 5 files changed, 83 insertions(+), 37 deletions(-)
 
 diff --git a/Documentation/admin-guide/pstore-block.rst b/Documentation/admin-guide/pstore-block.rst
-new file mode 100644
-index 000000000000..a96415eaaf24
---- /dev/null
+index a96415eaaf24..a31155b36e62 100644
+--- a/Documentation/admin-guide/pstore-block.rst
 +++ b/Documentation/admin-guide/pstore-block.rst
-@@ -0,0 +1,223 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Pstore block oops/panic logger
-+==============================
-+
-+Introduction
-+------------
-+
-+Pstore block (pstore/blk) is an oops/panic logger that writes its logs to a
-+block device before the system crashes. You can get these log files by
-+mounting pstore filesystem like::
-+
-+    mount -t pstore pstore /sys/fs/pstore
-+
-+
-+Pstore block concepts
-+---------------------
-+
-+Pstore/blk provides efficient configuration method for pstore/blk, which
-+divides all configurations into two parts, configurations for user and
-+configurations for driver.
-+
-+Configurations for user determine how pstore/blk works, such as pmsg_size,
-+oops_size and so on. All of them support both Kconfig and module parameters,
-+but module parameters have priority over Kconfig.
-+
-+Configurations for driver are all about block device, such as total_size
-+of block device and read/write operations.
-+
-+Configurations for user
-+-----------------------
-+
-+All of these configurations support both Kconfig and module parameters, but
-+module parameters have priority over Kconfig.
-+
-+Here is an example for module parameters::
-+
-+        pstore_blk.blkdev=179:7 pstore_blk.oops_size=64
-+
-+The detail of each configurations may be of interest to you.
-+
-+blkdev
-+~~~~~~
-+
-+The block device to use. Most of the time, it is a partition of block device.
-+It's required for pstore/blk.
-+
-+It accepts the following variants:
-+
-+1. <hex_major><hex_minor> device number in hexadecimal represents itself; no
-+   leading 0x, for example b302.
-+#. /dev/<disk_name> represents the device number of disk
-+#. /dev/<disk_name><decimal> represents the device number of partition - device
-+   number of disk plus the partition number
-+#. /dev/<disk_name>p<decimal> - same as the above; this form is used when disk
-+   name of partitioned disk ends with a digit.
-+#. PARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF represents the unique id of
-+   a partition if the partition table provides it. The UUID may be either an
-+   EFI/GPT UUID, or refer to an MSDOS partition using the format SSSSSSSS-PP,
-+   where SSSSSSSS is a zero-filled hex representation of the 32-bit
-+   "NT disk signature", and PP is a zero-filled hex representation of the
-+   1-based partition number.
-+#. PARTUUID=<UUID>/PARTNROFF=<int> to select a partition in relation to a
-+   partition with a known unique id.
-+#. <major>:<minor> major and minor number of the device separated by a colon.
-+
-+oops_size
-+~~~~~~~~~
-+
-+The chunk size in KB for oops/panic front-end. It **MUST** be a multiple of 4.
-+It's optional if you do not care oops/panic log.
-+
-+There are multiple chunks for oops/panic front-end depending on the remaining
-+space except other pstore front-ends.
-+
-+Pstore/blk will log to oops/panic chunks one by one, and always overwrite the
-+oldest chunk if there is no more free chunk.
-+
-+pmsg_size
-+~~~~~~~~~
-+
-+The chunk size in KB for pmsg front-end. It **MUST** be a multiple of 4.
-+It's optional if you do not care pmsg log.
-+
-+Unlike oops/panic front-end, there is only one chunk for pmsg front-end.
-+
-+Pmsg is a user space accessible pstore object. Writes to */dev/pmsg0* are
-+appended to the chunk. On reboot the contents are available in
-+*/sys/fs/pstore/pmsg-pstore-blk-0*.
-+
-+console_size
-+~~~~~~~~~~~~
-+
-+The chunk size in KB for console front-end.  It **MUST** be a multiple of 4.
-+It's optional if you do not care console log.
-+
-+Similar to pmsg front-end, there is only one chunk for console front-end.
-+
-+All log of console will be appended to the chunk. On reboot the contents are
-+available in */sys/fs/pstore/console-pstore-blk-0*.
-+
-+ftrace_size
-+~~~~~~~~~~~
-+
-+The chunk size in KB for ftrace front-end. It **MUST** be a multiple of 4.
-+It's optional if you do not care console log.
-+
-+Similar to oops front-end, there are multiple chunks for ftrace front-end
-+depending on the count of cpu processors. Each chunk size is equal to
-+ftrace_size / processors_count.
-+
-+All log of ftrace will be appended to the chunk. On reboot the contents are
-+combined and available in */sys/fs/pstore/ftrace-pstore-blk-0*.
-+
-+Persistent function tracing might be useful for debugging software or hardware
-+related hangs. Here is an example of usage::
-+
-+ # mount -t pstore pstore /sys/fs/pstore
-+ # mount -t debugfs debugfs /sys/kernel/debug/
-+ # echo 1 > /sys/kernel/debug/pstore/record_ftrace
-+ # reboot -f
-+ [...]
-+ # mount -t pstore pstore /sys/fs/pstore
-+ # tail /sys/fs/pstore/ftrace-pstore-blk-0
-+ CPU:0 ts:5914676 c0063828  c0063b94  call_cpuidle <- cpu_startup_entry+0x1b8/0x1e0
-+ CPU:0 ts:5914678 c039ecdc  c006385c  cpuidle_enter_state <- call_cpuidle+0x44/0x48
-+ CPU:0 ts:5914680 c039e9a0  c039ecf0  cpuidle_enter_freeze <- cpuidle_enter_state+0x304/0x314
-+ CPU:0 ts:5914681 c0063870  c039ea30  sched_idle_set_state <- cpuidle_enter_state+0x44/0x314
-+ CPU:1 ts:5916720 c0160f59  c015ee04  kernfs_unmap_bin_file <- __kernfs_remove+0x140/0x204
-+ CPU:1 ts:5916721 c05ca625  c015ee0c  __mutex_lock_slowpath <- __kernfs_remove+0x148/0x204
-+ CPU:1 ts:5916723 c05c813d  c05ca630  yield_to <- __mutex_lock_slowpath+0x314/0x358
-+ CPU:1 ts:5916724 c05ca2d1  c05ca638  __ww_mutex_lock <- __mutex_lock_slowpath+0x31c/0x358
-+
-+dump_oops
-+~~~~~~~~~
-+
-+Dumping both oopses and panics can be done by setting 1 (not zero) in the
-+``dump_oops`` member while setting 0 in that variable dumps only the panics.
-+
-+Configurations for driver
-+-------------------------
-+
-+Only a block device driver cares about these configurations. A block device
-+driver uses ``psblk_register_blkdev`` to register to pstore/blk.
+@@ -7,8 +7,8 @@ Introduction
+ ------------
+ 
+ Pstore block (pstore/blk) is an oops/panic logger that writes its logs to a
+-block device before the system crashes. You can get these log files by
+-mounting pstore filesystem like::
++block device and non-block device before the system crashes. You can get
++these log files by mounting pstore filesystem like::
+ 
+     mount -t pstore pstore /sys/fs/pstore
+ 
+@@ -24,8 +24,8 @@ Configurations for user determine how pstore/blk works, such as pmsg_size,
+ oops_size and so on. All of them support both Kconfig and module parameters,
+ but module parameters have priority over Kconfig.
+ 
+-Configurations for driver are all about block device, such as total_size
+-of block device and read/write operations.
++Configurations for driver are all about block device and non-block device,
++such as total_size of block device and read/write operations.
+ 
+ Configurations for user
+ -----------------------
+@@ -146,6 +146,15 @@ driver uses ``psblk_register_blkdev`` to register to pstore/blk.
+ .. kernel-doc:: fs/pstore/pstore_blk.c
+    :identifiers: psblk_register_blkdev
+ 
++A non-block device driver uses ``psblk_register_device`` with
++``struct psblk_device`` to register to pstore/blk.
 +
 +.. kernel-doc:: fs/pstore/pstore_blk.c
-+   :identifiers: psblk_register_blkdev
-+
-+Compression and header
-+----------------------
-+
-+Block device is large enough for uncompressed oops data. Actually we do not
-+recommend data compression because pstore/blk will insert some information into
-+the first line of oops/panic data. For example::
-+
-+        Panic: Total 16 times
-+
-+It means that it's OOPS|Panic for the 16th time since the first booting.
-+Sometimes the number of occurrences of oops|panic since the first booting is
-+important to judge whether the system is stable.
-+
-+The following line is inserted by pstore filesystem. For example::
-+
-+        Oops#2 Part1
-+
-+It means that it's OOPS for the 2nd time on the last boot.
-+
-+Reading the data
-+----------------
-+
-+The dump data can be read from the pstore filesystem. The format for these
-+files is ``dmesg-pstore-blk-[N]`` for oops/panic front-end,
-+``pmsg-pstore-blk-0`` for pmsg front-end and so on.  The timestamp of the
-+dump file records the trigger time. To delete a stored record from block
-+device, simply unlink the respective pstore file.
-+
-+Attentions in panic read/write APIs
-+-----------------------------------
-+
-+If on panic, the kernel is not going to run for much longer, the tasks will not
-+be scheduled and most kernel resources will be out of service. It
-+looks like a single-threaded program running on a single-core computer.
-+
-+The following points require special attention for panic read/write APIs:
-+
-+1. Can **NOT** allocate any memory.
-+   If you need memory, just allocate while the block driver is initializing
-+   rather than waiting until the panic.
-+#. Must be polled, **NOT** interrupt driven.
-+   No task schedule any more. The block driver should delay to ensure the write
-+   succeeds, but NOT sleep.
-+#. Can **NOT** take any lock.
-+   There is no other task, nor any shared resource; you are safe to break all
-+   locks.
-+#. Just use CPU to transfer.
-+   Do not use DMA to transfer unless you are sure that DMA will not keep lock.
-+#. Control registers directly.
-+   Please control registers directly rather than use Linux kernel resources.
-+   Do I/O map while initializing rather than wait until a panic occurs.
-+#. Reset your block device and controller if necessary.
-+   If you are not sure of the state of your block device and controller when
-+   a panic occurs, you are safe to stop and reset them.
-+
-+Pstore/blk supports psblk_blkdev_info(), which is defined in
-+*linux/pstore_blk.h*, to get information of using block device, such as the
-+device number, sector count and start sector of the whole disk.
-+
-+pstore block internals
-+----------------------
-+
-+For developer reference, here are all the important structures and APIs:
-+
-+.. kernel-doc:: fs/pstore/pstore_zone.c
-+   :internal:
-+
-+.. kernel-doc:: include/linux/pstore_zone.h
-+   :internal:
-+
-+.. kernel-doc:: fs/pstore/pstore_blk.c
-+   :export:
++   :identifiers: psblk_register_device
 +
 +.. kernel-doc:: include/linux/pstore_blk.h
-+   :internal:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cc0a4a8ae06a..f553323b68c9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13380,6 +13380,7 @@ F:	include/linux/pstore*
- F:	drivers/firmware/efi/efi-pstore.c
- F:	drivers/acpi/apei/erst.c
- F:	Documentation/admin-guide/ramoops.rst
-+F:	Documentation/admin-guide/pstore-block.rst
- F:	Documentation/devicetree/bindings/reserved-memory/ramoops.txt
- K:	\b(pstore|ramoops)
- 
-diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-index 55ce726be795..699f1925948f 100644
---- a/fs/pstore/Kconfig
-+++ b/fs/pstore/Kconfig
-@@ -171,6 +171,8 @@ config PSTORE_BLK
- 	  This enables panic and oops message to be logged to a block dev
- 	  where it can be read back at some later point.
- 
-+	  For more information, see Documentation/admin-guide/pstore-block.rst.
++   :identifiers: psblk_device
 +
- 	  If unsure, say N.
+ Compression and header
+ ----------------------
  
- config PSTORE_BLK_BLKDEV
+diff --git a/fs/pstore/pstore_blk.c b/fs/pstore/pstore_blk.c
+index 061609b66d8a..5c8006376677 100644
+--- a/fs/pstore/pstore_blk.c
++++ b/fs/pstore/pstore_blk.c
+@@ -96,36 +96,15 @@
+ })
+ 
+ /**
+- * struct psblk_device - back-end pstore/blk driver structure.
++ * psblk_register_device() - register non-block device to pstore/blk
+  *
+- * @total_size: The total size in bytes pstore/blk can use. It must be greater
+- *		than 4096 and be multiple of 4096.
+- * @flags:	Refer to macro starting with PSTORE_FLAGS defined in
+- *		linux/pstore.h. It means what front-ends this device support.
+- *		Zero means all recorders for compatible.
+- * @read:	The general read operation. Both of the function parameters
+- *		@size and @offset are relative value to bock device (not the
+- *		whole disk).
+- *		On success, the number of bytes should be returned, others
+- *		means error.
+- * @write:	The same as @read, but the following error number:
+- *		-EBUSY means try to write again later.
+- *		-ENOMSG means to try next zone.
+- * @panic_write:The write operation only used for panic case. It's optional
+- *		if you do not care panic log. The parameters are relative
+- *		value to storage.
+- *		On success, the number of bytes should be returned, others
+- *		excluding -ENOMSG mean error. -ENOMSG means to try next zone.
++ * @dev: non-block device information
++ *
++ * Return:
++ * * 0		- OK
++ * * Others	- something error.
+  */
+-struct psblk_device {
+-	unsigned long total_size;
+-	unsigned int flags;
+-	psz_read_op read;
+-	psz_write_op write;
+-	psz_write_op panic_write;
+-};
+-
+-static int psblk_register_do(struct psblk_device *dev)
++int psblk_register_device(struct psblk_device *dev)
+ {
+ 	int ret;
+ 
+@@ -169,6 +148,7 @@ static int psblk_register_do(struct psblk_device *dev)
+ 	psz_info->dump_oops = dump_oops;
+ 	psz_info->read = dev->read;
+ 	psz_info->write = dev->write;
++	psz_info->erase = dev->erase;
+ 	psz_info->panic_write = dev->panic_write;
+ 	psz_info->name = MODNAME;
+ 	psz_info->owner = THIS_MODULE;
+@@ -181,8 +161,14 @@ static int psblk_register_do(struct psblk_device *dev)
+ 	mutex_unlock(&psz_lock);
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(psblk_register_device);
+ 
+-static void psblk_unregister_do(struct psblk_device *dev)
++/**
++ * psblk_unregister_blkdev() - unregister block device from pstore/blk
++ *
++ * @dev: non-block device information
++ */
++void psblk_unregister_device(struct psblk_device *dev)
+ {
+ 	mutex_lock(&psz_lock);
+ 	if (psz_info && psz_info->read == dev->read) {
+@@ -192,6 +178,7 @@ static void psblk_unregister_do(struct psblk_device *dev)
+ 	}
+ 	mutex_unlock(&psz_lock);
+ }
++EXPORT_SYMBOL_GPL(psblk_unregister_device);
+ 
+ /**
+  * psblk_get_bdev() - open block device
+@@ -405,11 +392,12 @@ int psblk_register_blkdev(unsigned int major, unsigned int flags,
+ 
+ 	dev.total_size = psblk_bdev_size(bdev);
+ 	dev.flags = flags;
+-	dev.panic_write = panic_write ? psblk_blk_panic_write : NULL;
+ 	dev.read = psblk_generic_blk_read;
+ 	dev.write = psblk_generic_blk_write;
++	dev.erase = NULL;
++	dev.panic_write = panic_write ? psblk_blk_panic_write : NULL;
+ 
+-	ret = psblk_register_do(&dev);
++	ret = psblk_register_device(&dev);
+ 	if (ret)
+ 		goto err_put_bdev;
+ 
+@@ -435,7 +423,7 @@ void psblk_unregister_blkdev(unsigned int major)
+ 	void *holder = blkdev;
+ 
+ 	if (psblk_bdev && MAJOR(psblk_bdev->bd_dev) == major) {
+-		psblk_unregister_do(&dev);
++		psblk_unregister_device(&dev);
+ 		psblk_put_bdev(psblk_bdev, holder);
+ 		blkdev_panic_write = NULL;
+ 		psblk_bdev = NULL;
+diff --git a/fs/pstore/pstore_zone.c b/fs/pstore/pstore_zone.c
+index 84ff53c1aaae..e51bc794f908 100644
+--- a/fs/pstore/pstore_zone.c
++++ b/fs/pstore/pstore_zone.c
+@@ -652,15 +652,21 @@ static inline int psz_oops_erase(struct psz_context *cxt,
+ 	struct psz_buffer *buffer = zone->buffer;
+ 	struct psz_oops_header *hdr =
+ 		(struct psz_oops_header *)buffer->data;
++	size_t size;
+ 
+ 	if (unlikely(!psz_ok(zone)))
+ 		return 0;
++
+ 	/* this zone is already updated, no need to erase */
+ 	if (record->count != hdr->counter)
+ 		return 0;
+ 
++	size = buffer_datalen(zone) + sizeof(*zone->buffer);
+ 	atomic_set(&zone->buffer->datalen, 0);
+-	return psz_zone_write(zone, FLUSH_META, NULL, 0, 0);
++	if (cxt->psz_info->erase)
++		return cxt->psz_info->erase(size, zone->off);
++	else
++		return psz_zone_write(zone, FLUSH_META, NULL, 0, 0);
+ }
+ 
+ static inline int psz_record_erase(struct psz_context *cxt,
+diff --git a/include/linux/pstore_blk.h b/include/linux/pstore_blk.h
+index d2ea1733b51a..e733f28aef2c 100644
+--- a/include/linux/pstore_blk.h
++++ b/include/linux/pstore_blk.h
+@@ -8,6 +8,41 @@
+ #include <linux/pstore_zone.h>
+ 
+ /**
++ * struct psblk_device - back-end pstore/blk driver structure.
++ *
++ * @total_size: The total size in bytes pstore/blk can use. It must be greater
++ *		than 4096 and be multiple of 4096.
++ * @flags:	Refer to macro starting with PSTORE_FLAGS defined in
++ *		linux/pstore.h. It means what front-ends this device support.
++ *		Zero means all recorders for compatible.
++ * @read:	The general read operation. Both of the function parameters
++ *		@size and @offset are relative value to bock device (not the
++ *		whole disk).
++ *		On success, the number of bytes should be returned, others
++ *		means error.
++ * @write:	The same as @read, but the following error number:
++ *		-EBUSY means try to write again later.
++ *		-ENOMSG means to try next zone.
++ * @erase:	The general erase operation for device with special removing
++ *		job. Both of the function parameters @size and @offset are
++ *		relative value to storage.
++ *		Return 0 on success and others on failure.
++ * @panic_write:The write operation only used for panic case. It's optional
++ *		if you do not care panic log. The parameters are relative
++ *		value to storage.
++ *		On success, the number of bytes should be returned, others
++ *		excluding -ENOMSG mean error. -ENOMSG means to try next zone.
++ */
++struct psblk_device {
++	unsigned long total_size;
++	unsigned int flags;
++	psz_read_op read;
++	psz_write_op write;
++	psz_erase_op erase;
++	psz_write_op panic_write;
++};
++
++/**
+  * typedef psblk_panic_write_op - panic write operation to block device
+  *
+  * @buf: the data to write
+@@ -22,6 +57,8 @@
+ typedef int (*psblk_panic_write_op)(const char *buf, sector_t start_sect,
+ 		sector_t sects);
+ 
++int psblk_register_device(struct psblk_device *dev);
++void psblk_unregister_device(struct psblk_device *dev);
+ int  psblk_register_blkdev(unsigned int major, unsigned int flags,
+ 		psblk_panic_write_op panic_write);
+ void psblk_unregister_blkdev(unsigned int major);
+diff --git a/include/linux/pstore_zone.h b/include/linux/pstore_zone.h
+index 2bfa79bff97b..c2db8e5c6542 100644
+--- a/include/linux/pstore_zone.h
++++ b/include/linux/pstore_zone.h
+@@ -7,6 +7,7 @@
+ 
+ typedef ssize_t (*psz_read_op)(char *, size_t, loff_t);
+ typedef ssize_t (*psz_write_op)(const char *, size_t, loff_t);
++typedef ssize_t (*psz_erase_op)(size_t, loff_t);
+ /**
+  * struct psz_info - pstore/zone back-end driver structure
+  *
+@@ -27,6 +28,10 @@
+  * @write:	The same as @read, but the following error number:
+  *		-EBUSY means try to write again later.
+  *		-ENOMSG means to try next zone.
++ * @erase:	The general erase operation for device with special removing
++ *		job. Both of the function parameters @size and @offset are
++ *		relative value to storage.
++ *		Return 0 on success and others on failure.
+  * @panic_write:The write operation only used for panic case. It's optional
+  *		if you do not care panic log. The parameters are relative
+  *		value to storage.
+@@ -45,6 +50,7 @@ struct psz_info {
+ 	int dump_oops;
+ 	psz_read_op read;
+ 	psz_write_op write;
++	psz_erase_op erase;
+ 	psz_write_op panic_write;
+ };
+ 
 -- 
 1.9.1
 
