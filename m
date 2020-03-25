@@ -2,110 +2,114 @@ Return-Path: <SRS0=dTg4=5K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C8C0C54FD3
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 02:42:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B1DC54FD2
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 02:48:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3627620753
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 02:42:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B7D920724
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Mar 2020 02:48:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H4706YZq"
+	dkim=pass (1024-bit key) header.d=flygoat.com header.i=jiaxun.yang@flygoat.com header.b="MGBDxLNR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727339AbgCYCm1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Mar 2020 22:42:27 -0400
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:55409 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727249AbgCYCm0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Mar 2020 22:42:26 -0400
-Received: by mail-pj1-f65.google.com with SMTP id mj6so395096pjb.5
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2020 19:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=tJVGZmmA1bFjoevn7/qDYyyvIJ/eyc0u4ubgnC7ziTY=;
-        b=H4706YZqf8/zScGoFg12vybnR9M2VsIQVJgSz3rS1dHY9dQHDGFEdxDFbUd7d1zTgX
-         a1SAGpNqJGQq66/k++qcyoET2sxmyH3emD3uXnYHai1yW2TdH35PONdQL7aDm0PfPzyp
-         tYlxhgWpkpR2jgcSCMS6Pg5GkhF65IhQxffKc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=tJVGZmmA1bFjoevn7/qDYyyvIJ/eyc0u4ubgnC7ziTY=;
-        b=iVph8KhZMdJpAeQv5cJkhsnva7iWw8ojO526Im3dMnmzmmWWpamBi2e1WsxkdkFuh2
-         f5zTH9gtoUwfhIDPzK53xw8MPYjLAn7Nwu9q6yqDM/L1/tN2cAbAPT7PMA+AHI+U3C+z
-         QO7D+oT8hXmKRwg6abyIIh5guGCqDaIk2uAa60IbrDdikiJYo7ZHwziFNTO510ISuedp
-         +oERcWttOb4w0EnjHOv9XVlUwhmWsk0N+i9s/ar2bSmt8fpalXhO/JSdXIQNbn+cYkB7
-         4lcGZpjgtyvbVrh7qF0yq8Y0rZGYNLnO1rtSACTjGPDhVdjxNtJXYREtvG1jnP+QIrJk
-         4/+w==
-X-Gm-Message-State: ANhLgQ1a8qPXUFgt8ehTGk32TAQQBbUCMXw7SA4TJnpsz2JbW8zcILBd
-        NjTHDICMuybF48zz1HzodosIKw==
-X-Google-Smtp-Source: ADFU+vtS5LbLrzS1jhzDwYVrTj6A9lZWX06g/Mga4Nlp7aFIrRyOCBB7aq2FIo/kyw4uUBQ1+JG/MQ==
-X-Received: by 2002:a17:90a:33d1:: with SMTP id n75mr1033588pjb.167.1585104145832;
-        Tue, 24 Mar 2020 19:42:25 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
-        by smtp.gmail.com with ESMTPSA id x4sm858194pgr.9.2020.03.24.19.42.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 19:42:25 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        id S1727259AbgCYCsu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Mar 2020 22:48:50 -0400
+Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17816 "EHLO
+        sender3-op-o12.zoho.com.cn" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727262AbgCYCsu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Mar 2020 22:48:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585103479;
+        s=mail; d=flygoat.com; i=jiaxun.yang@flygoat.com;
+        h=From:To:Cc:Message-ID:Subject:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type;
+        bh=yyST9a4xds2OxHP7d839ZExH6zCAlPz7AHq/7HnkO+0=;
+        b=MGBDxLNRcnw+6qJTvx05eGMOstYRHvSbOhuEdL7taDXptxvfLF8rxsPHnav4P5/Q
+        SBBaP5Qom4Rj2JDEN/p7/3X20BPAT9msWTkvCAPl981eGaAwf4QKTXyCMyiHxBw0Znr
+        fHKyc1f+uskxwMln9lWHOMzalLTXvL57vAlH9D2s=
+Received: from localhost.localdomain (39.155.141.144 [39.155.141.144]) by mx.zoho.com.cn
+        with SMTPS id 1585103477959328.4875849949635; Wed, 25 Mar 2020 10:31:17 +0800 (CST)
+From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
+To:     linux-mips@vger.kernel.org
+Cc:     Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Huacai Chen <chenhc@lemote.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        John Crispin <john@phrozen.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "H. Nikolaus Schaller" <hns@goldelico.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Yinglu Yang <yangyinglu@loongson.cn>,
+        Allison Randal <allison@lohutok.net>,
+        Manuel Lauss <manuel.lauss@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Paul Burton <paulburton@kernel.org>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Matt Redfearn <matt.redfearn@mips.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-ide@vger.kernel.org
+Message-ID: <20200325022916.106641-3-jiaxun.yang@flygoat.com>
+Subject: [PATCH v7 01/12] MIPS: Loongson: Do not initialise statics to 0
+Date:   Wed, 25 Mar 2020 10:28:18 +0800
+X-Mailer: git-send-email 2.26.0.rc2
+In-Reply-To: <20200325022916.106641-1-jiaxun.yang@flygoat.com>
+References: <20200325022916.106641-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <5cfeed6df208b74913312a1c97235ee615180f91.1582361737.git.mchehab+huawei@kernel.org>
-References: <cover.1582361737.git.mchehab+huawei@kernel.org> <5cfeed6df208b74913312a1c97235ee615180f91.1582361737.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 3/7] docs: fix broken references to text files
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-arch@vger.kernel.org, linux-nfs@vger.kernel.org,
-        kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        netdev@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        kvm-ppc@vger.kernel.org, linux-mm@kvack.org,
-        dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Date:   Tue, 24 Mar 2020 19:42:24 -0700
-Message-ID: <158510414428.125146.17397141028775937874@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+X-ZohoCNMailClient: External
+Content-Type: text/plain; charset=utf8
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Mauro Carvalho Chehab (2020-02-22 01:00:03)
-> Several references got broken due to txt to ReST conversion.
->=20
-> Several of them can be automatically fixed with:
->=20
->         scripts/documentation-file-ref-check --fix
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/hwtracing/coresight/Kconfig                  |  2 +-
->=20
-> diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/core=
-sight/Kconfig
-> index 6ff30e25af55..6d42a6d3766f 100644
-> --- a/drivers/hwtracing/coresight/Kconfig
-> +++ b/drivers/hwtracing/coresight/Kconfig
-> @@ -107,7 +107,7 @@ config CORESIGHT_CPU_DEBUG
->           can quickly get to know program counter (PC), secure state,
->           exception level, etc. Before use debugging functionality, platf=
-orm
->           needs to ensure the clock domain and power domain are enabled
-> -         properly, please refer Documentation/trace/coresight-cpu-debug.=
-rst
-> +         properly, please refer Documentation/trace/coresight/coresight-=
-cpu-debug.rst
->           for detailed description and the example for usage.
-> =20
->  endif
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
 
-I ran into this today and almost sent a patch. Can you split this patch
-up into more pieces and send it off to the respective subsystem
-maintainers?
+Fix the following checkpatch error:
+
+ERROR: do not initialise statics to 0
+#125: FILE: loongson64/numa.c:125:
++=09static unsigned long num_physpages =3D 0;
+
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+Signed-off-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+---
+ arch/mips/loongson64/numa.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/mips/loongson64/numa.c b/arch/mips/loongson64/numa.c
+index e5b40c5e3296..1ae072df4831 100644
+--- a/arch/mips/loongson64/numa.c
++++ b/arch/mips/loongson64/numa.c
+@@ -122,7 +122,7 @@ static unsigned long nid_to_addroffset(unsigned int nid=
+)
+ static void __init szmem(unsigned int node)
+ {
+ =09u32 i, mem_type;
+-=09static unsigned long num_physpages =3D 0;
++=09static unsigned long num_physpages;
+ =09u64 node_id, node_psize, start_pfn, end_pfn, mem_start, mem_size;
+=20
+ =09/* Parse memory information and activate */
+--=20
+2.26.0.rc2
+
+
