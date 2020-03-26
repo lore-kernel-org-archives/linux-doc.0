@@ -2,159 +2,279 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC51C2D0E9
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:33:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A01DFC43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:34:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9970620722
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:33:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20150623.gappssmtp.com header.i=@amacapital-net.20150623.gappssmtp.com header.b="NrpPlECo"
+	by mail.kernel.org (Postfix) with ESMTP id 6BD3520714
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728043AbgCZUdZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 16:33:25 -0400
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:55814 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727880AbgCZUdW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 16:33:22 -0400
-Received: by mail-pj1-f67.google.com with SMTP id mj6so2952280pjb.5
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 13:33:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=31LBMmRcYe+yEGtoM08ZSaLwaQfDlxsblA8wVchHVi8=;
-        b=NrpPlECo6AI/hAQE3I/XEDAjdjtUo9LXqFqVAUMuzk1z6cbpF8zmw6aox8LpgFf6/D
-         e9DU2naiucIg6yd2Ts76fWA+ep+Gef7o5mHgq35y2n0lR8oGOCTdq8645lxKk264kt7M
-         fGlozyLZ/YECGQkKZp3ZuIQ9TuAVcsw7vmeEXm/dV6M5pNEWF2e+HRV35RyDCM2Gg4b6
-         QXl+vV0oSLfr7kuwXp1717znu1qp4xMgHFUHuCr0yvsK7sY6n/0WUSPg+IvDoZu0a/Db
-         Kb+kPOT74J/2lhYllCcc/XEgBWVZ2HG4UDhkPAFvX0GLeaE0/gpaNxU2/rL02Dm+OYiU
-         uU0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=31LBMmRcYe+yEGtoM08ZSaLwaQfDlxsblA8wVchHVi8=;
-        b=NLax8FS2S/Pbz/LpCj3eBDas8Q+Mov/lKtVpCCOcl4haCzW69bKCBb+dlNbGMs+RIj
-         W2dFIMXOjSmL7yQnt9iyAzFHS9uuifJGthPhbfPL/LjurjDszHwTJd2rORZhm8Xksbhz
-         AFPCLRbifJTN5wbswG0phDfap9D6VTW1eH1McJL/PDBUvAJ5M3PreGzPVSVzGg1RpnJm
-         TGi+0CGiZ9R9rNgg9uQUprjIB+VcFrOJq7CeHtEwiYlvAihjQv35xyKPjs2vyhe5mT+c
-         CDbe3Av1BQo6nnhG3gM/P118P38i1CyoaTKci7M+IPRsCvJA2Iplc3bhwlsG7uVO++AN
-         5v4Q==
-X-Gm-Message-State: ANhLgQ2Aq0EJQ06OT3aCj4S1wZi8WhhdgkbBRgeQ12t6K8H+hnKlOZ5X
-        ibYZ5PtK8g1Xl2q3x820l/k1NQ==
-X-Google-Smtp-Source: ADFU+vu+gUBPTHCiLbo4oeQsnkYNtYX/UDxhFzKc+aeKr+GO4BTRKm7q6N09v+wRxLLr/n/j+YjkuA==
-X-Received: by 2002:a17:902:b088:: with SMTP id p8mr10115931plr.106.1585254800408;
-        Thu, 26 Mar 2020 13:33:20 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:6dcf:5ef7:9489:9d02? ([2601:646:c200:1ef2:6dcf:5ef7:9489:9d02])
-        by smtp.gmail.com with ESMTPSA id 79sm2388418pfz.23.2020.03.26.13.33.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2020 13:33:19 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel support
-Date:   Thu, 26 Mar 2020 13:33:17 -0700
-Message-Id: <FE871C2B-15BB-4089-A912-40F2E9FE680B@amacapital.net>
-References: <CACdnJutT1F7YJ5KFkyuaZv=nj8GqC+mrnoAsHZfMP1ZRNUQg3Q@mail.gmail.com>
-Cc:     Daniel Kiper <daniel.kiper@oracle.com>,
-        Ross Philipson <ross.philipson@oracle.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        trenchboot-devel@googlegroups.com,
-        Ard Biesheuvel <ardb@kernel.org>, leif@nuviainc.com,
-        eric.snowberg@oracle.com, piotr.krol@3mdeb.com,
-        krystian.hebel@3mdeb.com, michal.zygowski@3mdeb.com,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        andrew.cooper3@citrix.com
-In-Reply-To: <CACdnJutT1F7YJ5KFkyuaZv=nj8GqC+mrnoAsHZfMP1ZRNUQg3Q@mail.gmail.com>
-To:     Matthew Garrett <mjg59@google.com>
-X-Mailer: iPhone Mail (17D50)
+        id S1727711AbgCZUeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 16:34:24 -0400
+Received: from smtp-190b.mail.infomaniak.ch ([185.125.25.11]:51317 "EHLO
+        smtp-190b.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727653AbgCZUeY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 16:34:24 -0400
+X-Greylist: delayed 402 seconds by postgrey-1.27 at vger.kernel.org; Thu, 26 Mar 2020 16:34:23 EDT
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 48pGkh05xGzlh9HG;
+        Thu, 26 Mar 2020 21:27:40 +0100 (CET)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 48pGkf3VgqzlkXXh;
+        Thu, 26 Mar 2020 21:27:38 +0100 (CET)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v15 00/10] Landlock LSM
+Date:   Thu, 26 Mar 2020 21:27:21 +0100
+Message-Id: <20200326202731.693608-1-mic@digikod.net>
+X-Mailer: git-send-email 2.26.0.rc2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
+
+This new patch series brings improvements, fix some bugs but mainly
+simplify the code.
+
+The object, rule and ruleset management are simplified at the expense of
+a less aggressive memory freeing (contributed by Jann Horn [1]).  There
+is now less use of RCU for an improved readability.  Access checks that
+can be reached by file-descriptor-based syscalls are removed for now
+(truncate, getattr, lock, chmod, chown, chgrp, ioctl).  This will be
+handle in a future evolution of Landlock, but right now the goal is to
+lighten the code to ease review.  The SLOC count for security/landlock/
+was 1542 with the previous patch series while the current series shrinks
+it to 1273.
+
+The other main improvement is the addition of rule layer levels to
+ensure that a nested sandbox cannot bypass the access restrictions set
+by its parents.
+
+The syscall is now wired for all architectures and the tests passed for
+x86_32 and x86_64.
+
+The compiled documentation is available here:
+https://landlock.io/linux-doc/landlock-v15/security/landlock/index.html
+
+This series can be applied on top of v5.6-rc7.  This can be tested with
+CONFIG_SECURITY_LANDLOCK and CONFIG_SAMPLE_LANDLOCK.  This patch series
+can be found in a Git repository here:
+https://github.com/landlock-lsm/linux/commits/landlock-v15
+I would really appreciate constructive comments on the design and the code.
 
 
-> On Mar 26, 2020, at 1:19 PM, Matthew Garrett <mjg59@google.com> wrote:
->=20
-> =EF=BB=BFOn Thu, Mar 26, 2020 at 6:40 AM Daniel Kiper <daniel.kiper@oracle=
-.com> wrote:
->>> On Wed, Mar 25, 2020 at 01:29:03PM -0700, 'Matthew Garrett' via trenchbo=
-ot-devel wrote:
->>> On Wed, Mar 25, 2020 at 12:43 PM Ross Philipson
->>> <ross.philipson@oracle.com> wrote:
->>>> To enable the kernel to be launched by GETSEC or SKINIT, a stub must be=
+# Landlock LSM
 
->>>> built into the setup section of the compressed kernel to handle the
->>>> specific state that the late launch process leaves the BSP. This is a
->>>> lot like the EFI stub that is found in the same area. Also this stub
->>>> must measure everything that is going to be used as early as possible.
->>>> This stub code and subsequent code must also deal with the specific
->>>> state that the late launch leaves the APs in.
->>>=20
->>> How does this integrate with the EFI entry point? That's the expected
->>=20
->> It does not. We do not want and need to tie secure launch with UEFI.
->=20
-> I agree that it shouldn't be required, but it should be possible. We
-> shouldn't add new entry points that don't integrate with the standard
-> way of booting the kernel.
->=20
->>> What's calling ExitBootServices() in
->>=20
->> Currently it is a bootloader, the GRUB which I am working on... OK, this
->> is not perfect but if we want to call ExitBootServices() from the kernel
->> then we have to move all pre-launch code from the bootloader to the
->> kernel. Not nice because then everybody who wants to implement secure
->> launch in different kernel, hypervisor, etc. has to re-implement whole
->> pre-launch code again.
->=20
-> We call ExitBootServices() in the EFI stub, so this is fine as long as
-> the EFI stub hands over control to the SL code. But yes, I think it's
-> a requirement that it be kernel-owned code calling ExitBootServices().
->=20
->>> this flow, and does the secure launch have to occur after it? It'd be
->>=20
->> Yes, it does.
->=20
-> Ok. The firmware TPM interfaces are gone after ExitBootServices(), so
-> we're going to need an additional implementation.
->=20
->> I think any post-launch code in the kernel should not call anything from
->> the gap. And UEFI belongs to the gap. OK, we can potentially re-use UEFI
->> TPM code in the pre-launch phase but I am not convinced that we should
->> (I am looking at it right now). And this leads us to other question
->> which pops up here and there. How to call UEFI runtime services, e.g. to
->> modify UEFI variables, update firmware, etc., from MLE or even from the
->> OS started from MLE? In my opinion it is not safe to call anything from
->> the gap after secure launch. However, on the other hand we have to give
->> an option to change the boot order or update the firmware. So, how to
->> do that? I do not have an easy answer yet...
->=20
-> How does Windows manage this? Retaining access to EFI runtime services
-> is necessary, and the areas in the memory map marked as runtime
-> services code or data should be considered part of the TCB and
-> measured - they're very much not part of the gap.
+The goal of Landlock is to enable to restrict ambient rights (e.g.
+global filesystem access) for a set of processes.  Because Landlock is a
+stackable LSM [2], it makes possible to create safe security sandboxes
+as new security layers in addition to the existing system-wide
+access-controls. This kind of sandbox is expected to help mitigate the
+security impact of bugs or unexpected/malicious behaviors in user-space
+applications. Landlock empowers any process, including unprivileged
+ones, to securely restrict themselves.
 
-As a straw-man approach: make the rule that we never call EFI after secure l=
-aunch. Instead we write out any firmware variables that we want to change on=
- disk somewhere.  When we want to commit those changes, we reboot, commit th=
-e changes, and re-launch. Or we deactivate the kernel kexec-style, seal the i=
-mage against PCRs, blow away PCRs, call EFI, relaunch, unseal the PCRs, and c=
-ontinue on our merry way.
+Landlock is inspired by seccomp-bpf but instead of filtering syscalls
+and their raw arguments, a Landlock rule can restrict the use of kernel
+objects like file hierarchies, according to the kernel semantic.
+Landlock also takes inspiration from other OS sandbox mechanisms: XNU
+Sandbox, FreeBSD Capsicum or OpenBSD Pledge/Unveil.
 
-I=E2=80=99m not sure how SMM fits in to this whole mess.
 
-If we insist on allowing EFI calls and SMM, then we may be able to *measure*=
- our exposure to potentially malicious firmware, but we can=E2=80=99t elimin=
-ate it. I personally trust OEM firmware about as far as I can throw it.=
+# Current limitations
+
+## Path walk
+
+Landlock need to use dentries to identify a file hierarchy, which is
+needed for composable and unprivileged access-controls. This means that
+path resolution/walking (handled with inode_permission()) is not
+supported, yet. The same limitation also apply to readlink(2). This
+could be filled with a future extension first of the LSM framework. The
+Landlock userspace ABI can handle such change with new options (e.g. to
+the struct landlock_ruleset).
+
+## UnionFS
+
+An UnionFS super-block use a set of upper and lower directories.  Access
+request to a file in one of these hierarchy trigger a call to
+ovl_path_real() which generate another access request according to the
+matching hierarchy. Because such super-block is not aware of its current
+mount point, OverlayFS can't create a dedicated mnt_parent for each of
+the upper and lower directories mount clones. It is then not currently
+possible to track the source of such indirect access-request, and then
+not possible to identify a unified OverlayFS hierarchy.
+
+
+## Memory limits
+
+There is currently no limit on the memory usage.  Any idea to leverage
+an existing mechanism (e.g. rlimit)?
+
+
+# Changes since v14
+
+* Simplify the object, rule and ruleset management at the expense of a
+  less aggressive memory freeing.
+* Remove access checks that may be required for FD-only requests:
+  truncate, getattr, lock, chmod, chown, chgrp, ioctl.
+* Add the notion of rule layer level to ensure that a nested sandbox
+  cannot bypass the access restrictions set by its parent.
+* Wire up the syscall for all architectures.
+* Clean up the code and add more documentation.
+* Some improvements and bug fixes.
+
+
+# Changes since v13
+
+* Revamp of the LSM: remove the need for eBPF and seccomp(2).
+* Implement a full filesystem access-control.
+* Take care of the backward compatibility issues, especially for
+  security features, following a best-effort approach.
+
+Previous version:
+https://lore.kernel.org/lkml/20200224160215.4136-1-mic@digikod.net/
+
+
+[1] https://lore.kernel.org/lkml/CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com/
+[2] https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
+
+Regards,
+
+Mickaël Salaün (10):
+  landlock: Add object management
+  landlock: Add ruleset and domain management
+  landlock: Set up the security framework and manage credentials
+  landlock: Add ptrace restrictions
+  fs,landlock: Support filesystem access-control
+  landlock: Add syscall implementation
+  arch: Wire up landlock() syscall
+  selftests/landlock: Add initial tests
+  samples/landlock: Add a sandbox manager example
+  landlock: Add user and kernel documentation
+
+ Documentation/security/index.rst              |    1 +
+ Documentation/security/landlock/index.rst     |   18 +
+ Documentation/security/landlock/kernel.rst    |   69 +
+ Documentation/security/landlock/user.rst      |  227 +++
+ MAINTAINERS                                   |   12 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |    1 +
+ arch/arm/tools/syscall.tbl                    |    1 +
+ arch/arm64/include/asm/unistd.h               |    2 +-
+ arch/arm64/include/asm/unistd32.h             |    2 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |    1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |    1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |    1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |    1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |    1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |    1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |    1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |    1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |    1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |    1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |    1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |    1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |    1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |    1 +
+ fs/super.c                                    |    2 +
+ include/linux/fs.h                            |    5 +
+ include/linux/landlock.h                      |   22 +
+ include/linux/syscalls.h                      |    3 +
+ include/uapi/asm-generic/unistd.h             |    4 +-
+ include/uapi/linux/landlock.h                 |  311 ++++
+ kernel/sys_ni.c                               |    3 +
+ samples/Kconfig                               |    7 +
+ samples/Makefile                              |    1 +
+ samples/landlock/.gitignore                   |    1 +
+ samples/landlock/Makefile                     |   15 +
+ samples/landlock/sandboxer.c                  |  217 +++
+ security/Kconfig                              |   11 +-
+ security/Makefile                             |    2 +
+ security/landlock/Kconfig                     |   18 +
+ security/landlock/Makefile                    |    4 +
+ security/landlock/common.h                    |   20 +
+ security/landlock/cred.c                      |   46 +
+ security/landlock/cred.h                      |   55 +
+ security/landlock/fs.c                        |  561 ++++++++
+ security/landlock/fs.h                        |   42 +
+ security/landlock/object.c                    |   66 +
+ security/landlock/object.h                    |   92 ++
+ security/landlock/ptrace.c                    |  120 ++
+ security/landlock/ptrace.h                    |   14 +
+ security/landlock/ruleset.c                   |  352 +++++
+ security/landlock/ruleset.h                   |  182 +++
+ security/landlock/setup.c                     |   39 +
+ security/landlock/setup.h                     |   18 +
+ security/landlock/syscall.c                   |  521 +++++++
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/landlock/.gitignore   |    4 +
+ tools/testing/selftests/landlock/Makefile     |   26 +
+ tools/testing/selftests/landlock/common.h     |   42 +
+ tools/testing/selftests/landlock/config       |    5 +
+ tools/testing/selftests/landlock/test_base.c  |  113 ++
+ tools/testing/selftests/landlock/test_fs.c    | 1249 +++++++++++++++++
+ .../testing/selftests/landlock/test_ptrace.c  |  294 ++++
+ tools/testing/selftests/landlock/true.c       |    5 +
+ 62 files changed, 4833 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/security/landlock/index.rst
+ create mode 100644 Documentation/security/landlock/kernel.rst
+ create mode 100644 Documentation/security/landlock/user.rst
+ create mode 100644 include/linux/landlock.h
+ create mode 100644 include/uapi/linux/landlock.h
+ create mode 100644 samples/landlock/.gitignore
+ create mode 100644 samples/landlock/Makefile
+ create mode 100644 samples/landlock/sandboxer.c
+ create mode 100644 security/landlock/Kconfig
+ create mode 100644 security/landlock/Makefile
+ create mode 100644 security/landlock/common.h
+ create mode 100644 security/landlock/cred.c
+ create mode 100644 security/landlock/cred.h
+ create mode 100644 security/landlock/fs.c
+ create mode 100644 security/landlock/fs.h
+ create mode 100644 security/landlock/object.c
+ create mode 100644 security/landlock/object.h
+ create mode 100644 security/landlock/ptrace.c
+ create mode 100644 security/landlock/ptrace.h
+ create mode 100644 security/landlock/ruleset.c
+ create mode 100644 security/landlock/ruleset.h
+ create mode 100644 security/landlock/setup.c
+ create mode 100644 security/landlock/setup.h
+ create mode 100644 security/landlock/syscall.c
+ create mode 100644 tools/testing/selftests/landlock/.gitignore
+ create mode 100644 tools/testing/selftests/landlock/Makefile
+ create mode 100644 tools/testing/selftests/landlock/common.h
+ create mode 100644 tools/testing/selftests/landlock/config
+ create mode 100644 tools/testing/selftests/landlock/test_base.c
+ create mode 100644 tools/testing/selftests/landlock/test_fs.c
+ create mode 100644 tools/testing/selftests/landlock/test_ptrace.c
+ create mode 100644 tools/testing/selftests/landlock/true.c
+
+-- 
+2.26.0.rc2
+
