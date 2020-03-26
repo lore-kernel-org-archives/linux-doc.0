@@ -2,71 +2,79 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88286C43331
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 19:07:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA157C43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 19:17:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 645E720658
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 19:07:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7C5520719
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 19:17:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728383AbgCZTHp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 15:07:45 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:52904 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726340AbgCZTHp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 15:07:45 -0400
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 11B8115CBC338;
-        Thu, 26 Mar 2020 12:07:43 -0700 (PDT)
-Date:   Thu, 26 Mar 2020 12:07:43 -0700 (PDT)
-Message-Id: <20200326.120743.1932411612374465145.davem@davemloft.net>
-To:     joe@perches.com
-Cc:     florinel.iordache@nxp.com, netdev@vger.kernel.org, andrew@lunn.ch,
-        f.fainelli@gmail.com, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, kuba@kernel.org,
-        corbet@lwn.net, shawnguo@kernel.org, leoyang.li@nxp.com,
-        madalin.bucur@oss.nxp.com, ioana.ciornei@nxp.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 6/9] net: phy: add backplane kr driver support
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <46bf05a81237ed716bf06b48891fcd7c129eae5d.camel@perches.com>
-References: <1585230682-24417-7-git-send-email-florinel.iordache@nxp.com>
-        <20200326.115330.2250343131621391364.davem@davemloft.net>
-        <46bf05a81237ed716bf06b48891fcd7c129eae5d.camel@perches.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 26 Mar 2020 12:07:44 -0700 (PDT)
+        id S1726363AbgCZTRN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 15:17:13 -0400
+Received: from balrog.mythic-beasts.com ([46.235.227.24]:34699 "EHLO
+        balrog.mythic-beasts.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726359AbgCZTRN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 15:17:13 -0400
+Received: from [87.115.226.141] (port=49586 helo=slartibartfast.quignogs.org.uk)
+        by balrog.mythic-beasts.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92.3)
+        (envelope-from <peter@bikeshed.quignogs.org.uk>)
+        id 1jHY04-00037G-J0; Thu, 26 Mar 2020 19:17:08 +0000
+From:   peter@bikeshed.quignogs.org.uk
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Lister <peter@bikeshed.quignogs.org.uk>
+Subject: [PATCH v2 0/1] Compactly make code examples into literal blocks
+Date:   Thu, 26 Mar 2020 19:16:27 +0000
+Message-Id: <20200326191628.10052-1-peter@bikeshed.quignogs.org.uk>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200311133027.2c77f348@lwn.net>
+References: <20200311133027.2c77f348@lwn.net>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-BlackCat-Spam-Score: 50
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Joe Perches <joe@perches.com>
-Date: Thu, 26 Mar 2020 11:55:17 -0700
+From: Peter Lister <peter@bikeshed.quignogs.org.uk>
 
-> On Thu, 2020-03-26 at 11:53 -0700, David Miller wrote:
->> From: Florinel Iordache <florinel.iordache@nxp.com>
->> Date: Thu, 26 Mar 2020 15:51:19 +0200
->> 
->> > +static void kr_reset_master_lane(struct kr_lane_info *krln)
->> > +{
->> > +     struct phy_device *bpphy = krln->bpphy;
->> > +     struct backplane_phy_info *bp_phy = bpphy->priv;
->> > +     const struct lane_io_ops *lane_ops = krln->bp_phy->bp_dev.lane_ops;
->> 
->> Please use reverse christmas tree ordering for local variables.
-> 
-> How (any why) do you suggest the first 2 entries here
-> should be ordered?
+In a previous patch, I fixed a couple of doc build warnings due to a
+section heading "Example:" which didn't have the intended effect of
+inserting a heading and literal quoting the following code snippet. I
+added an explicit double colon to fix warnings and produce nice ReST.
 
-You have to sometimes put assignments into the code body rather than
-the declarations in situations like this.
+Jon suggested that I could have used a minimal form "Example::".
+Unfortunately not - kernel-doc munges the output so that the formatted
+output ends up as a stray colon and no literal block.
+
+Looking around in the source tree, it seems that parameter definitions
+can be more complex than the original authors of kernel-doc allowed
+for. Return values often need lists and examples often should be
+literal blocks. Many comments in the source are "ASCII formatted" but
+kernel-doc can make a mess of them and generate doc build warnings
+along the way.
+
+It seems useful to support some terse idioms which serve as compact
+source annotation and also generate well formed ReST.
+
+Here is a first try to let a heading directly introduce a literal
+block - the "Example::" form for code snippets and an update to
+platform.c to use it, just as Jon suggested.
+
+Peter Lister (1):
+  Provide a compact idiom to add code examples in kerneldoc comments.
+
+ drivers/base/platform.c |  4 ++--
+ scripts/kernel-doc      | 19 +++++++++++++++----
+ 2 files changed, 17 insertions(+), 6 deletions(-)
+
+-- 
+2.25.1
+
