@@ -2,157 +2,75 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0862C2D0ED
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 16:47:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93FEBC43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 17:05:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AB5292073E
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 16:47:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6922320714
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 17:05:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727502AbgCZQru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 12:47:50 -0400
-Received: from smtprelay0003.hostedemail.com ([216.40.44.3]:41814 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726267AbgCZQru (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 12:47:50 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 1BFC818029121;
-        Thu, 26 Mar 2020 16:47:48 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: moon13_26d3129e62d05
-X-Filterd-Recvd-Size: 4910
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf08.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 26 Mar 2020 16:47:46 +0000 (UTC)
-Message-ID: <00d11cf766237d9c12c2a06458962c4bae84fa78.camel@perches.com>
-Subject: Re: [PATCH] parse-maintainers: Do not sort section content by
- default
-From:   Joe Perches <joe@perches.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 26 Mar 2020 09:45:55 -0700
-In-Reply-To: <4d5291fa3fb4962b1fa55e8fd9ef421ef0c1b1e5.camel@perches.com>
-References: <20200304072950.10532-1-lukas.bulwahn@gmail.com>
-         <20200304131035.731a3947@lwn.net>
-         <alpine.DEB.2.21.2003042145340.2698@felia>
-         <e43f0cf0117fbfa8fe8c7e62538fd47a24b4657a.camel@perches.com>
-         <alpine.DEB.2.21.2003062214500.5521@felia>
-         <20200307110154.719572e4@onda.lan>
-         <0d5503e1d864f2588e756ae590ff8935e11bf9d6.camel@perches.com>
-         <4d5291fa3fb4962b1fa55e8fd9ef421ef0c1b1e5.camel@perches.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
+        id S1727495AbgCZRFU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 13:05:20 -0400
+Received: from verein.lst.de ([213.95.11.211]:46743 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726954AbgCZRFT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Mar 2020 13:05:19 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id CF3D2227A81; Thu, 26 Mar 2020 18:05:16 +0100 (CET)
+Date:   Thu, 26 Mar 2020 18:05:16 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Alexander Graf <graf@amazon.com>
+Cc:     iommu@lists.linux-foundation.org,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        x86@kernel.org, Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        dwmw@amazon.com, benh@amazon.com,
+        Jan Kiszka <jan.kiszka@siemens.com>, alcioa@amazon.com,
+        aggh@amazon.com, aagch@amazon.com, dhr@amazon.com
+Subject: Re: [PATCH] swiotlb: Allow swiotlb to live at pre-defined address
+Message-ID: <20200326170516.GB6387@lst.de>
+References: <20200326162922.27085-1-graf@amazon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200326162922.27085-1-graf@amazon.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2020-03-07 at 18:59 -0800, Joe Perches wrote:
-> Add an --order switch to control section reordering.
-> Default for --order is off.
-
-> Change the default ordering to a slightly more sensible:
+On Thu, Mar 26, 2020 at 05:29:22PM +0100, Alexander Graf wrote:
+> The swiotlb is a very convenient fallback mechanism for bounce buffering of
+> DMAable data. It is usually used for the compatibility case where devices
+> can only DMA to a "low region".
 > 
-> M:  Person acting as a maintainer
-> R:  Person acting as a patch reviewer
-> L:  Mailing list where patches should be sent
-> S:  Maintenance status
-> W:  URI for general information
-> Q:  URI for patchwork tracking
-> B:  URI for bug tracking/submission
-> C:  URI for chat
-> P:  URI or file for subsystem specific coding styles
-> T:  SCM tree type and location
-> F:  File and directory pattern
-> X:  File and directory exclusion pattern
-> N:  File glob
-> K:  Keyword - patch content regex
-
-Linus? ping?
-
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
->  scripts/parse-maintainers.pl | 31 +++++++++++++++++++++++++++----
->  1 file changed, 27 insertions(+), 4 deletions(-)
+> However, in some scenarios this "low region" may be bound even more
+> heavily. For example, there are embedded system where only an SRAM region
+> is shared between device and CPU. There are also heterogeneous computing
+> scenarios where only a subset of RAM is cache coherent between the
+> components of the system. There are partitioning hypervisors, where
+> a "control VM" that implements device emulation has limited view into a
+> partition's memory for DMA capabilities due to safety concerns.
 > 
-> diff --git a/scripts/parse-maintainers.pl b/scripts/parse-maintainers.pl
-> index 255cef1..2ca4eb3 100644
-> --- a/scripts/parse-maintainers.pl
-> +++ b/scripts/parse-maintainers.pl
-> @@ -8,13 +8,14 @@ my $input_file = "MAINTAINERS";
->  my $output_file = "MAINTAINERS.new";
->  my $output_section = "SECTION.new";
->  my $help = 0;
-> -
-> +my $order = 0;
->  my $P = $0;
->  
->  if (!GetOptions(
->  		'input=s' => \$input_file,
->  		'output=s' => \$output_file,
->  		'section=s' => \$output_section,
-> +		'order!' => \$order,
->  		'h|help|usage' => \$help,
->  	    )) {
->      die "$P: invalid argument - use --help if necessary\n";
-> @@ -32,6 +33,22 @@ usage: $P [options] <pattern matching regexes>
->    --input => MAINTAINERS file to read (default: MAINTAINERS)
->    --output => sorted MAINTAINERS file to write (default: MAINTAINERS.new)
->    --section => new sorted MAINTAINERS file to write to (default: SECTION.new)
-> +  --order => Use the preferred section content output ordering (default: 0)
-> +    Preferred ordering of section output is:
-> +      M:  Person acting as a maintainer
-> +      R:  Person acting as a patch reviewer
-> +      L:  Mailing list where patches should be sent
-> +      S:  Maintenance status
-> +      W:  URI for general information
-> +      Q:  URI for patchwork tracking
-> +      B:  URI for bug tracking/submission
-> +      C:  URI for chat
-> +      P:  URI or file for subsystem specific coding styles
-> +      T:  SCM tree type and location
-> +      F:  File and directory pattern
-> +      X:  File and directory exclusion pattern
-> +      N:  File glob
-> +      K:  Keyword - patch content regex
->  
->  If <pattern match regexes> exist, then the sections that match the
->  regexes are not written to the output file but are written to the
-> @@ -56,7 +73,7 @@ sub by_category($$) {
->  
->  sub by_pattern($$) {
->      my ($a, $b) = @_;
-> -    my $preferred_order = 'MRPLSWTQBCFXNK';
-> +    my $preferred_order = 'MRLSWQBCPTFXNK';
->  
->      my $a1 = uc(substr($a, 0, 1));
->      my $b1 = uc(substr($b, 0, 1));
-> @@ -105,8 +122,14 @@ sub alpha_output {
->  		print $file $separator;
->  	    }
->  	    print $file $key . "\n";
-> -	    foreach my $pattern (sort by_pattern split('\n', %$hashref{$key})) {
-> -		print $file ($pattern . "\n");
-> +	    if ($order) {
-> +		foreach my $pattern (sort by_pattern split('\n', %$hashref{$key})) {
-> +		    print $file ($pattern . "\n");
-> +		}
-> +	    } else {
-> +		foreach my $pattern (split('\n', %$hashref{$key})) {
-> +		    print $file ($pattern . "\n");
-> +		}
->  	    }
->  	}
->      }
+> This patch adds a command line driven mechanism to move all DMA memory into
+> a predefined shared memory region which may or may not be part of the
+> physical address layout of the Operating System.
 > 
+> Ideally, the typical path to set this configuration would be through Device
+> Tree or ACPI, but neither of the two mechanisms is standardized yet. Also,
+> in the x86 MicroVM use case, we have neither ACPI nor Device Tree, but
+> instead configure the system purely through kernel command line options.
+> 
+> I'm sure other people will find the functionality useful going forward
+> though and extend it to be triggered by DT/ACPI in the future.
 
+I'm totally against hacking in a kernel parameter for this.  We'll need
+a proper documented DT or ACPI way.  We also need to feed this information
+into the actual DMA bounce buffering decisions and not just the swiotlb
+placement.
