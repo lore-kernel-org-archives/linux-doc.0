@@ -2,112 +2,124 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A5A9C2D0ED
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 21:26:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81746C2D0E5
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 21:28:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0E27220714
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 21:26:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5301520714
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 21:28:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R1ZbV8ZH"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M6cg4sv8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726296AbgCZV0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 17:26:44 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41640 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbgCZV0o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 17:26:44 -0400
-Received: by mail-lj1-f194.google.com with SMTP id n17so8043069lji.8
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 14:26:42 -0700 (PDT)
+        id S1726363AbgCZV2k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 17:28:40 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:34042 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726359AbgCZV2i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 17:28:38 -0400
+Received: by mail-il1-f194.google.com with SMTP id t11so6884886ils.1
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 14:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=K6HhQ5CXYnVrjzdCb0GiH9KRJ8oDBIqHlDAtHtGoEj0=;
-        b=R1ZbV8ZHF2uNrvQMw6yLPcZXYX/L1Bi1ZDegFPmpGCQZQxDo4xJstG1+5lxSGccQjM
-         DtHC3HQ/jx2YMTytcd6ultwEU/i0RlVnZivmFm9vimqHtelawlsMju+sVKJ7lHhUFclt
-         CAT0JwPBKGwAs7QH0zYIR8ngkUu1HqQt+JNM8LA/bSlIAM7ldYL3U3TWwGQQsnl/Hel9
-         6kj0OiO6KeusAjhbIL7po4EZAoa2QzUuNNDHmg7OdxCfj5w04nJlHikrm/4rjGHXVBbt
-         BztQyx2aUzDzf8VaHiOVqUzXyYasFaATNZCxsfBVkbIyEnDecxq0KQKBEI2iK76fHmnY
-         Nh5Q==
+         :cc:content-transfer-encoding;
+        bh=Btlqx21eu40zUkcej/V6liXdJs8HK+Dpn/OJAl+X7mA=;
+        b=M6cg4sv8ajLQueUJZXq4N/kjX221+tiJF3yQSbWclKBVnWsv+Ff2zDfM6Bxb6emo97
+         LQ1F9sPt3GWYLMPIdeL4dgPAXK5i4ESgbkSvjnUj5ytNaBhoyXlsz6x5It7brFjgReOv
+         n3MYFBCKdFqDEPs2O4hZKMy8DL1bmo9gMFqgPuJ/hsxgK/RcKyParZEVp1UdPgnkc0NK
+         ypUXfY0uVphJ5BknZRjb/x1FhKKT3ZFlCaklkosor2ursaMGsd8dvOP3HzYYhh7Juy2F
+         ayKp0BZ7fvweMRKcyB6i+xLNqNgAu+fvFuiwQOPjis10vBxB9LI0i1il4vufxE3hZufc
+         TXAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=K6HhQ5CXYnVrjzdCb0GiH9KRJ8oDBIqHlDAtHtGoEj0=;
-        b=EcPnf72N99nq90SKnQJF2BgzrVt0Je8LoEEXz6n8WZOrcat8spbyYTeYVv+v5Ocyb1
-         1nEWei9RMRMmit+H2EB6obPnVuD0pc9E+yikKUNj2SJbhMNhh0IwDOJ3R3Z58bwt92Bn
-         NKv7oc+pwa3hCFWCZ/kNQdWgh4MVTNTpSIKqfKjHt1PUdpkhj2gEOkjE9lT8S5tEHBW7
-         tJtE91daBF9OPspAizL3doOTDs6bj0HtS1HnKZdxQJqmatn+KUetr/tpcevcgNMGy7xH
-         pws6dKjML2lD9bgdH0F8FKDfyvEFoP8Qr2os8Z9vrfOU28IoRxTfD5MFpAkVBKbBw9qr
-         4ggA==
-X-Gm-Message-State: AGi0Puat89L2cja2hMv092xfTYkmkCmWd996No/9UI+wQdDtVhZharKl
-        d2BmSoqDmud+onkMNF5utN4Yk8J+WX783h10VutRvA==
-X-Google-Smtp-Source: APiQypLsy28BzQ4YoJJE2i0gYrneALBvsp4MxQ5uVCHUPAjFEGFTMqFCGi01B7eAtiikChneeDns42u4uM1vGmEAXuk=
-X-Received: by 2002:a2e:9c48:: with SMTP id t8mr568502ljj.168.1585258002139;
- Thu, 26 Mar 2020 14:26:42 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Btlqx21eu40zUkcej/V6liXdJs8HK+Dpn/OJAl+X7mA=;
+        b=AzoIyoC+r+3OXKv/6GY1B2ibvM82yJ2/KMEFh+un5JKCmGn8ps184ohmOpumBj8HnT
+         8kBQYO7YdaYVsiRktcu9L7hIUVYk4L7OECqb0JDxNB1wNNPWqmd/rzxWfMnrHIT3Sxlj
+         SA7QmMi5YehWZNsKANYbB1uPtjG+ADCyKERYLfHH0FafgLqEhJmXjkGat7F2izvPbL/N
+         n3E3PEDDUVoOn4usrH3ehODcGfqtak0kFwUyMDcG/t+8ssECCSkqvDtrgCGETzJOEFAL
+         v3SYKAzrD3zh+Jx0Vrz3P0CQ/dnbzDD8gUQGTmnpnsRTPzlHFVsWDMrH6RPi6nlm7G+N
+         pfaQ==
+X-Gm-Message-State: ANhLgQ3jO0Whn3vbhFPVCGZlaUEB5gzMmNNUKvEk0R+oXZWyWhmOMSQ9
+        92LupoxZiG3KK/RiPskbJ7DaYY9n2EPX0Ofn6H0nvg==
+X-Google-Smtp-Source: ADFU+vtLzOd32bY6WCTbTFgGTLvCSJZvih2LXQlPgGOADfvm83VghlrezAbG6LvoVKJt3DkATZXqLyP+LNg02NhPwmE=
+X-Received: by 2002:a92:8384:: with SMTP id p4mr11224795ilk.16.1585258116250;
+ Thu, 26 Mar 2020 14:28:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200324135328.5796-1-geert+renesas@glider.be>
- <20200324135653.6676-1-geert+renesas@glider.be> <20200324135653.6676-5-geert+renesas@glider.be>
-In-Reply-To: <20200324135653.6676-5-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 26 Mar 2020 22:26:30 +0100
-Message-ID: <CACRpkdZuQrPqFPyoop9pv6MVwqwz_C6ZNKMxWqSFXdAMkhbsvQ@mail.gmail.com>
-Subject: Re: [PATCH v6 5/8] gpiolib: Introduce gpiod_set_config()
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
+References: <CACdnJusd7m-c0zLmAjSq9Sb9HxyCkhyyp5W=4FMdysgu7_g=Sw@mail.gmail.com>
+ <BB670F86-9362-4A8C-8BE6-64A5AF9537A7@amacapital.net>
+In-Reply-To: <BB670F86-9362-4A8C-8BE6-64A5AF9537A7@amacapital.net>
+From:   Matthew Garrett <mjg59@google.com>
+Date:   Thu, 26 Mar 2020 14:28:25 -0700
+Message-ID: <CACdnJus6H3LQww8hkTMpPKN7u_sb1PXmgPwQOCSVZR_fi7GMrA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel support
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Daniel Kiper <daniel.kiper@oracle.com>,
+        Ross Philipson <ross.philipson@oracle.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-doc@vger.kernel.org,
+        "Daniel P. Smith" <dpsmith@apertussolutions.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        trenchboot-devel@googlegroups.com,
+        Ard Biesheuvel <ardb@kernel.org>, leif@nuviainc.com,
+        eric.snowberg@oracle.com, piotr.krol@3mdeb.com,
+        krystian.hebel@3mdeb.com, michal.zygowski@3mdeb.com,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        andrew.cooper3@citrix.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-
-> The GPIO Aggregator will need a method to forward a .set_config() call
-> to its parent gpiochip.  This requires obtaining the gpio_chip and
-> offset for a given gpio_desc.  While gpiod_to_chip() is public,
-> gpio_chip_hwgpio() is not, so there is currently no method to obtain the
-> needed GPIO offset parameter.
+On Thu, Mar 26, 2020 at 2:07 PM Andy Lutomirski <luto@amacapital.net> wrote=
+:
+> > On Mar 26, 2020, at 1:40 PM, Matthew Garrett <mjg59@google.com> wrote:
+> >
+> > =EF=BB=BFOn Thu, Mar 26, 2020 at 1:33 PM Andy Lutomirski <luto@amacapit=
+al.net> wrote:
+> >> As a straw-man approach: make the rule that we never call EFI after se=
+cure launch. Instead we write out any firmware variables that we want to ch=
+ange on disk somewhere.  When we want to commit those changes, we reboot, c=
+ommit the changes, and re-launch. Or we deactivate the kernel kexec-style, =
+seal the image against PCRs, blow away PCRs, call EFI, relaunch, unseal the=
+ PCRs, and continue on our merry way.
+> >
+> > That breaks the memory overwrite protection code, where a variable is
+> > set at boot and cleared on a controlled reboot.
 >
-> Hence introduce a public gpiod_set_config() helper, which invokes the
-> .set_config() callback through a gpio_desc pointer, like is done for
-> most other gpio_chip callbacks.
->
-> Rewrite the existing gpiod_set_debounce() helper as a wrapper around
-> gpiod_set_config(), to avoid duplication.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v6:
->   - New.
+> Can you elaborate?  I=E2=80=99m not familiar with this.
 
-This is nice, I tried to actually just apply this (you also sent some
-two cleanups that I tried to apply) byt Yue's cleanup patch
-commit d18fddff061d2796525e6d4a958cb3d30aed8efd
-"gpiolib: Remove duplicated function gpio_do_set_config()"
-makes none of them apply :/
+https://trustedcomputinggroup.org/wp-content/uploads/TCG_PlatformResetAttac=
+kMitigationSpecification_1.10_published.pdf
+- you want to protect in-memory secrets from a physically present
+attacker hitting the reset button, booting something else and just
+dumping RAM. This is avoided by setting a variable at boot time (in
+the boot stub), and then clearing it on reboot once the secrets have
+been cleared from RAM. If the variable isn't cleared, the firmware
+overwrites all RAM contents before booting anything else.
 
-Yours,
-Linus Walleij
+> > As for the second approach - how would we
+> > verify that the EFI code hadn't modified any user pages? Those
+> > wouldn't be measured during the second secure launch. If we're calling
+> > the code at runtime then I think we need to assert that it's trusted.
+>
+> Maybe you=E2=80=99re misunderstanding my suggestion.  I=E2=80=99m suggest=
+ing that we hibernate the whole running system to memory (more like kexec j=
+ump than hibernate) and authenticated-encrypt the whole thing (including us=
+er memory) with a PCR-sealed key. We jump to a stub that zaps PCRs does EFI=
+ calls. Then we re-launch and decrypt memory.
+
+When you say "re-launch", you mean perform a second secure launch? I
+think that would work, as long as we could reconstruct an identical
+state to ensure that the PCR17 values matched - and that seems like a
+hard problem.
