@@ -2,78 +2,157 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AB6AC43331
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:13:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA2B0C43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:15:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4FCC5206E6
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:13:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="FSqcZVqv"
+	by mail.kernel.org (Postfix) with ESMTP id BBE6420714
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:15:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1585253700;
+	bh=o1vMvq4OXn5LTOH+tAFfGSmQddiNm84t7AUPsdzQFuU=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=XzUyj9IyjH1pSsIgnO7FrPErUniit/eiuvJV+gwSa3ZoaQ+IHS3YVWzBgkrwqUndg
+	 arzXIe1CtuWzcxoSghdOUqyDuW9CxU4fJx2yNFGzMR7SVIo8vp1Ls+z6wmfxzdXIHu
+	 boO2OXL+1seJ0W70RgKlMs4zUeX/ifL4JCcm/VRw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbgCZUNa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 16:13:30 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:60062 "EHLO vps0.lunn.ch"
+        id S1727612AbgCZUPA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 16:15:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38532 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726363AbgCZUNa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Mar 2020 16:13:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=zwAVpJjqPLq6MNjNDRRsQrtVSOVks/wsW0vawmy5I7M=; b=FSqcZVqvG+4ObFQxnM5G6yMi7O
-        EaRdqLRt4IZCBSs967tq9jqR77bXOKAzbrrV4qfB7maXYu/RXBJWPLYByKO4FeJ+3aofZruSiuzvO
-        L4sHuZEERWMA/AdVRqyU77if1nwI6FmqNrwz+09q+NTufDsoBf81h9+gr8pqrvnu20AE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
-        (envelope-from <andrew@lunn.ch>)
-        id 1jHYsI-0002vn-OE; Thu, 26 Mar 2020 21:13:10 +0100
-Date:   Thu, 26 Mar 2020 21:13:10 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Joe Perches <joe@perches.com>
-Cc:     florinel.iordache@nxp.com, davem@davemloft.net,
-        netdev@vger.kernel.org, f.fainelli@gmail.com, hkallweit1@gmail.com,
-        linux@armlinux.org.uk, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, kuba@kernel.org, corbet@lwn.net,
-        shawnguo@kernel.org, leoyang.li@nxp.com, madalin.bucur@oss.nxp.com,
-        ioana.ciornei@nxp.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 7/9] net: phy: enable qoriq backplane support
-Message-ID: <20200326201310.GB11004@lunn.ch>
-References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
- <1585230682-24417-8-git-send-email-florinel.iordache@nxp.com>
- <ba3b1a69496eb08cb071dace96fd385ff8f838e7.camel@perches.com>
+        id S1726363AbgCZUPA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Mar 2020 16:15:00 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3DCF02070A;
+        Thu, 26 Mar 2020 20:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585253698;
+        bh=o1vMvq4OXn5LTOH+tAFfGSmQddiNm84t7AUPsdzQFuU=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ChYsyZVKrOjooEmo6qcud+pXwOAddaMliBnjJ6d/jq56naAHn7gqJvMaXnFyzMqqD
+         M7+kvDPwVeV7QDs/5ja6ycvMAya+St2RxH8s8nW0is6EHpeOilp9xPeOXJF1lnmFmA
+         vI72t0ZThRt5T5zqJ+smP/VOjqsH4AQc+5N7rPC8=
+Subject: Re: [PATCH v8 kunit-next 0/4] kunit: add debugfs representation to
+ show results
+To:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        linux-kselftest@vger.kernel.org
+Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        shuah <shuah@kernel.org>
+References: <1585232710-322-1-git-send-email-alan.maguire@oracle.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <2333d91d-2575-87ba-d8bb-60023cc19990@kernel.org>
+Date:   Thu, 26 Mar 2020 14:14:46 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ba3b1a69496eb08cb071dace96fd385ff8f838e7.camel@perches.com>
+In-Reply-To: <1585232710-322-1-git-send-email-alan.maguire@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > +static int qoriq_backplane_config_init(struct phy_device *bpphy)
-> > +{
-> []
-> > +	for (i = 0; i < bp_phy->num_lanes; i++) {
-> []
-> > +		ret = of_address_to_resource(lane_node, 0, &res);
-> > +		if (ret) {
-> > +			bpdev_err(bpphy,
-> > +				  "could not obtain lane memory map for index=%d, ret = %d\n",
-> > +				  i, ret);
-> > +			return ret;
+On 3/26/20 8:25 AM, Alan Maguire wrote:
+> When kunit tests are run on native (i.e. non-UML) environments, the results
+> of test execution are often intermixed with dmesg output.  This patch
+> series attempts to solve this by providing a debugfs representation
+> of the results of the last test run, available as
 > 
-> This could use the new vsprintf %pe extension:
+> /sys/kernel/debug/kunit/<testsuite>/results
+> 
+> Changes since v7:
+> 
+> - renamed KUNIT_INDENT[2] to KUNIT_SUBTEST_INDENT, KUNIT_SUBSUBTEST_INDENT
+>    and added more description to their definitions to clarify why they
+>    are defined as they are (Shuah)
+> - defined KUNIT_SUBSUBTEST_INDENT directly as 8 spaces to avoid
+>    checkpatch error (Shuah)
+> 
+> Changes since v6:
+> 
+> - fixed regexp parsing in kunit_parser.py to ensure test results are read
+>    successfully with 4-space indentation (Brendan, patch 3)
+> 
+> Changes since v5:
+> 
+> - replaced undefined behaviour use of snprintf(buf, ..., buf) in
+>    kunit_log() with a function to append string to existing log
+>    (Frank, patch 1)
+> - added clarification on log size limitations to documentation
+>    (Frank, patch 4)
+> 
+> Changes since v4:
+> 
+> - added suite-level log expectations to kunit log test (Brendan, patch 2)
+> - added log expectations (of it being NULL) for case where
+>    CONFIG_KUNIT_DEBUGFS=n to kunit log test (patch 2)
+> - added patch 3 which replaces subtest tab indentation with 4 space
+>    indentation as per TAP 14 spec (Frank, patch 3)
+> 
+> Changes since v3:
+> 
+> - added CONFIG_KUNIT_DEBUGFS to support conditional compilation of debugfs
+>    representation, including string logging (Frank, patch 1)
+> - removed unneeded NULL check for test_case in
+>    kunit_suite_for_each_test_case() (Frank, patch 1)
+> - added kunit log test to verify logging multiple strings works
+>    (Frank, patch 2)
+> - rephrased description of results file (Frank, patch 3)
+> 
+> Changes since v2:
+> 
+> - updated kunit_status2str() to kunit_status_to_string() and made it
+>    static inline in include/kunit/test.h (Brendan)
+> - added log string to struct kunit_suite and kunit_case, with log
+>    pointer in struct kunit pointing at the case log.  This allows us
+>    to collect kunit_[err|info|warning]() messages at the same time
+>    as we printk() them.  This solves for the most part the sharing
+>    of log messages between test execution and debugfs since we
+>    just print the suite log (which contains the test suite preamble)
+>    and the individual test logs.  The only exception is the suite-level
+>    status, which we cannot store in the suite log as it would mean
+>    we'd print the suite and its status prior to the suite's results.
+>    (Brendan, patch 1)
+> - dropped debugfs-based kunit run patch for now so as not to cause
+>    problems with tests currently under development (Brendan)
+> - fixed doc issues with code block (Brendan, patch 3)
+> 
+> Changes since v1:
+>   - trimmed unneeded include files in lib/kunit/debugfs.c (Greg)
+>   - renamed global debugfs functions to be prefixed with kunit_ (Greg)
+>   - removed error checking for debugfs operations (Greg)
+> 
+> Alan Maguire (4):
+>    kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
+>    kunit: add log test
+>    kunit: subtests should be indented 4 spaces according to TAP
+>    kunit: update documentation to describe debugfs representation
+> 
+>   Documentation/dev-tools/kunit/usage.rst |  14 +++
+>   include/kunit/test.h                    |  63 ++++++++++++--
+>   lib/kunit/Kconfig                       |   8 ++
+>   lib/kunit/Makefile                      |   4 +
+>   lib/kunit/assert.c                      |  79 ++++++++---------
+>   lib/kunit/debugfs.c                     | 116 +++++++++++++++++++++++++
+>   lib/kunit/debugfs.h                     |  30 +++++++
+>   lib/kunit/kunit-test.c                  |  44 +++++++++-
+>   lib/kunit/test.c                        | 148 +++++++++++++++++++++++++-------
+>   tools/testing/kunit/kunit_parser.py     |  10 +--
+>   10 files changed, 430 insertions(+), 86 deletions(-)
+>   create mode 100644 lib/kunit/debugfs.c
+>   create mode 100644 lib/kunit/debugfs.h
+> 
 
-Hi Joe
+Thanks. Applied to linux-kselftest kunit for 5.7-rc1.
 
-Probably a FAQ. But is there plans to extend vsprintf to take an int
-errno value, rather than having to do this ugly ERR_PTR(ret) every
-time? Format string %de ?
-
-      Andrew
+thanks,
+-- Shuah
