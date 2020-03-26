@@ -2,243 +2,157 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E061C43331
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 16:29:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0862C2D0ED
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 16:47:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CF19E20719
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 16:29:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="M8vUVFQq"
+	by mail.kernel.org (Postfix) with ESMTP id AB5292073E
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 16:47:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727719AbgCZQ3w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 12:29:52 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:16879 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726422AbgCZQ3w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 12:29:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1585240192; x=1616776192;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=r+xjheFg90V4UFzgZ0rM14eOyfYQV2OU8fVkinKNWrk=;
-  b=M8vUVFQqDFAZ7/j2O7E3JzkC987Kja1QPz4jXZUPPnCNysJJuzrRU6UY
-   Bigj6asV3BSiQZC6z/EmVHg1+YK+RuVxjh2DAWfH0Kr1nB1gxonJR/p6E
-   sEEW5bxb+vWgoE08IxgH4uvctH+5Qji0y5pnXkKkkEkXj864n2e0YtXDt
-   Q=;
-IronPort-SDR: Vqc8XNR/nV6kC9BOFdWbPaGMpkEdd1pl+T+7DbBuXMBpUvH2T424C97nNzoPhE2D6VOBjXzaU3
- iyqtUxndPETw==
-X-IronPort-AV: E=Sophos;i="5.72,309,1580774400"; 
-   d="scan'208";a="22863346"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-821c648d.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 26 Mar 2020 16:29:37 +0000
-Received: from EX13MTAUWC001.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
-        by email-inbound-relay-1a-821c648d.us-east-1.amazon.com (Postfix) with ESMTPS id 7C0CEA2A22;
-        Thu, 26 Mar 2020 16:29:34 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Thu, 26 Mar 2020 16:29:33 +0000
-Received: from u79c5a0a55de558.ant.amazon.com (10.43.162.173) by
- EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 26 Mar 2020 16:29:29 +0000
-From:   Alexander Graf <graf@amazon.com>
-To:     <iommu@lists.linux-foundation.org>
-CC:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, <x86@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, <dwmw@amazon.com>,
-        <benh@amazon.com>, Jan Kiszka <jan.kiszka@siemens.com>,
-        <alcioa@amazon.com>, <aggh@amazon.com>, <aagch@amazon.com>,
-        <dhr@amazon.com>
-Subject: [PATCH] swiotlb: Allow swiotlb to live at pre-defined address
-Date:   Thu, 26 Mar 2020 17:29:22 +0100
-Message-ID: <20200326162922.27085-1-graf@amazon.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727502AbgCZQru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 12:47:50 -0400
+Received: from smtprelay0003.hostedemail.com ([216.40.44.3]:41814 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726267AbgCZQru (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 12:47:50 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 1BFC818029121;
+        Thu, 26 Mar 2020 16:47:48 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: moon13_26d3129e62d05
+X-Filterd-Recvd-Size: 4910
+Received: from XPS-9350.home (unknown [47.151.136.130])
+        (Authenticated sender: joe@perches.com)
+        by omf08.hostedemail.com (Postfix) with ESMTPA;
+        Thu, 26 Mar 2020 16:47:46 +0000 (UTC)
+Message-ID: <00d11cf766237d9c12c2a06458962c4bae84fa78.camel@perches.com>
+Subject: Re: [PATCH] parse-maintainers: Do not sort section content by
+ default
+From:   Joe Perches <joe@perches.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 26 Mar 2020 09:45:55 -0700
+In-Reply-To: <4d5291fa3fb4962b1fa55e8fd9ef421ef0c1b1e5.camel@perches.com>
+References: <20200304072950.10532-1-lukas.bulwahn@gmail.com>
+         <20200304131035.731a3947@lwn.net>
+         <alpine.DEB.2.21.2003042145340.2698@felia>
+         <e43f0cf0117fbfa8fe8c7e62538fd47a24b4657a.camel@perches.com>
+         <alpine.DEB.2.21.2003062214500.5521@felia>
+         <20200307110154.719572e4@onda.lan>
+         <0d5503e1d864f2588e756ae590ff8935e11bf9d6.camel@perches.com>
+         <4d5291fa3fb4962b1fa55e8fd9ef421ef0c1b1e5.camel@perches.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.173]
-X-ClientProxiedBy: EX13D03UWC003.ant.amazon.com (10.43.162.79) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The swiotlb is a very convenient fallback mechanism for bounce buffering of
-DMAable data. It is usually used for the compatibility case where devices
-can only DMA to a "low region".
+On Sat, 2020-03-07 at 18:59 -0800, Joe Perches wrote:
+> Add an --order switch to control section reordering.
+> Default for --order is off.
 
-However, in some scenarios this "low region" may be bound even more
-heavily. For example, there are embedded system where only an SRAM region
-is shared between device and CPU. There are also heterogeneous computing
-scenarios where only a subset of RAM is cache coherent between the
-components of the system. There are partitioning hypervisors, where
-a "control VM" that implements device emulation has limited view into a
-partition's memory for DMA capabilities due to safety concerns.
+> Change the default ordering to a slightly more sensible:
+> 
+> M:  Person acting as a maintainer
+> R:  Person acting as a patch reviewer
+> L:  Mailing list where patches should be sent
+> S:  Maintenance status
+> W:  URI for general information
+> Q:  URI for patchwork tracking
+> B:  URI for bug tracking/submission
+> C:  URI for chat
+> P:  URI or file for subsystem specific coding styles
+> T:  SCM tree type and location
+> F:  File and directory pattern
+> X:  File and directory exclusion pattern
+> N:  File glob
+> K:  Keyword - patch content regex
 
-This patch adds a command line driven mechanism to move all DMA memory into
-a predefined shared memory region which may or may not be part of the
-physical address layout of the Operating System.
+Linus? ping?
 
-Ideally, the typical path to set this configuration would be through Device
-Tree or ACPI, but neither of the two mechanisms is standardized yet. Also,
-in the x86 MicroVM use case, we have neither ACPI nor Device Tree, but
-instead configure the system purely through kernel command line options.
-
-I'm sure other people will find the functionality useful going forward
-though and extend it to be triggered by DT/ACPI in the future.
-
-Signed-off-by: Alexander Graf <graf@amazon.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  3 +-
- Documentation/x86/x86_64/boot-options.rst       |  4 ++-
- kernel/dma/swiotlb.c                            | 46 +++++++++++++++++++++++--
- 3 files changed, 49 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c07815d230bc..d085d55c3cbe 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4785,11 +4785,12 @@
- 			it if 0 is given (See Documentation/admin-guide/cgroup-v1/memory.rst)
- 
- 	swiotlb=	[ARM,IA-64,PPC,MIPS,X86]
--			Format: { <int> | force | noforce }
-+			Format: { <int> | force | noforce | addr=<phys addr> }
- 			<int> -- Number of I/O TLB slabs
- 			force -- force using of bounce buffers even if they
- 			         wouldn't be automatically used by the kernel
- 			noforce -- Never use bounce buffers (for debugging)
-+			addr=<phys addr> -- Try to allocate SWIOTLB at defined address
- 
- 	switches=	[HW,M68k]
- 
-diff --git a/Documentation/x86/x86_64/boot-options.rst b/Documentation/x86/x86_64/boot-options.rst
-index 2b98efb5ba7f..ca46c57b68c9 100644
---- a/Documentation/x86/x86_64/boot-options.rst
-+++ b/Documentation/x86/x86_64/boot-options.rst
-@@ -297,11 +297,13 @@ iommu options only relevant to the AMD GART hardware IOMMU:
- iommu options only relevant to the software bounce buffering (SWIOTLB) IOMMU
- implementation:
- 
--    swiotlb=<pages>[,force]
-+    swiotlb=<pages>[,force][,addr=<phys addr>]
-       <pages>
-         Prereserve that many 128K pages for the software IO bounce buffering.
-       force
-         Force all IO through the software TLB.
-+      addr=<phys addr>
-+        Try to allocate SWIOTLB at defined address
- 
- Settings for the IBM Calgary hardware IOMMU currently found in IBM
- pSeries and xSeries machines
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index c19379fabd20..83da0caa2f93 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -46,6 +46,7 @@
- #include <linux/init.h>
- #include <linux/memblock.h>
- #include <linux/iommu-helper.h>
-+#include <linux/io.h>
- 
- #define CREATE_TRACE_POINTS
- #include <trace/events/swiotlb.h>
-@@ -102,6 +103,12 @@ unsigned int max_segment;
- #define INVALID_PHYS_ADDR (~(phys_addr_t)0)
- static phys_addr_t *io_tlb_orig_addr;
- 
-+/*
-+ * The TLB phys addr may be defined on the command line. Store it here if it is.
-+ */
-+static phys_addr_t io_tlb_addr = INVALID_PHYS_ADDR;
-+
-+
- /*
-  * Protect the above data structures in the map and unmap calls
-  */
-@@ -119,11 +126,23 @@ setup_io_tlb_npages(char *str)
- 	}
- 	if (*str == ',')
- 		++str;
--	if (!strcmp(str, "force")) {
-+	if (!strncmp(str, "force", 5)) {
- 		swiotlb_force = SWIOTLB_FORCE;
--	} else if (!strcmp(str, "noforce")) {
-+		str += 5;
-+	} else if (!strncmp(str, "noforce", 7)) {
- 		swiotlb_force = SWIOTLB_NO_FORCE;
- 		io_tlb_nslabs = 1;
-+		str += 7;
-+	}
-+
-+	if (*str == ',')
-+		++str;
-+	if (!strncmp(str, "addr=", 5)) {
-+		char *addrstr = str + 5;
-+
-+		io_tlb_addr = kstrtoul(addrstr, 0, &str);
-+		if (addrstr == str)
-+			io_tlb_addr = INVALID_PHYS_ADDR;
- 	}
- 
- 	return 0;
-@@ -239,6 +258,25 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
- 	return 0;
- }
- 
-+static int __init swiotlb_init_io(int verbose, unsigned long bytes)
-+{
-+	unsigned __iomem char *vstart;
-+
-+	if (io_tlb_addr == INVALID_PHYS_ADDR)
-+		return -EINVAL;
-+
-+	vstart = memremap(io_tlb_addr, bytes, MEMREMAP_WB);
-+	if (!vstart)
-+		return -EINVAL;
-+
-+	if (swiotlb_init_with_tbl(vstart, io_tlb_nslabs, verbose)) {
-+		memunmap(vstart);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * Statically reserve bounce buffer space and initialize bounce buffer data
-  * structures for the software IO TLB used to implement the DMA API.
-@@ -257,6 +295,10 @@ swiotlb_init(int verbose)
- 
- 	bytes = io_tlb_nslabs << IO_TLB_SHIFT;
- 
-+	/* Map IO TLB from device memory */
-+	if (!swiotlb_init_io(verbose, bytes))
-+		return;
-+
- 	/* Get IO TLB memory from the low pages */
- 	vstart = memblock_alloc_low(PAGE_ALIGN(bytes), PAGE_SIZE);
- 	if (vstart && !swiotlb_init_with_tbl(vstart, io_tlb_nslabs, verbose))
--- 
-2.16.4
-
-
-
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
+> Signed-off-by: Joe Perches <joe@perches.com>
+> ---
+>  scripts/parse-maintainers.pl | 31 +++++++++++++++++++++++++++----
+>  1 file changed, 27 insertions(+), 4 deletions(-)
+> 
+> diff --git a/scripts/parse-maintainers.pl b/scripts/parse-maintainers.pl
+> index 255cef1..2ca4eb3 100644
+> --- a/scripts/parse-maintainers.pl
+> +++ b/scripts/parse-maintainers.pl
+> @@ -8,13 +8,14 @@ my $input_file = "MAINTAINERS";
+>  my $output_file = "MAINTAINERS.new";
+>  my $output_section = "SECTION.new";
+>  my $help = 0;
+> -
+> +my $order = 0;
+>  my $P = $0;
+>  
+>  if (!GetOptions(
+>  		'input=s' => \$input_file,
+>  		'output=s' => \$output_file,
+>  		'section=s' => \$output_section,
+> +		'order!' => \$order,
+>  		'h|help|usage' => \$help,
+>  	    )) {
+>      die "$P: invalid argument - use --help if necessary\n";
+> @@ -32,6 +33,22 @@ usage: $P [options] <pattern matching regexes>
+>    --input => MAINTAINERS file to read (default: MAINTAINERS)
+>    --output => sorted MAINTAINERS file to write (default: MAINTAINERS.new)
+>    --section => new sorted MAINTAINERS file to write to (default: SECTION.new)
+> +  --order => Use the preferred section content output ordering (default: 0)
+> +    Preferred ordering of section output is:
+> +      M:  Person acting as a maintainer
+> +      R:  Person acting as a patch reviewer
+> +      L:  Mailing list where patches should be sent
+> +      S:  Maintenance status
+> +      W:  URI for general information
+> +      Q:  URI for patchwork tracking
+> +      B:  URI for bug tracking/submission
+> +      C:  URI for chat
+> +      P:  URI or file for subsystem specific coding styles
+> +      T:  SCM tree type and location
+> +      F:  File and directory pattern
+> +      X:  File and directory exclusion pattern
+> +      N:  File glob
+> +      K:  Keyword - patch content regex
+>  
+>  If <pattern match regexes> exist, then the sections that match the
+>  regexes are not written to the output file but are written to the
+> @@ -56,7 +73,7 @@ sub by_category($$) {
+>  
+>  sub by_pattern($$) {
+>      my ($a, $b) = @_;
+> -    my $preferred_order = 'MRPLSWTQBCFXNK';
+> +    my $preferred_order = 'MRLSWQBCPTFXNK';
+>  
+>      my $a1 = uc(substr($a, 0, 1));
+>      my $b1 = uc(substr($b, 0, 1));
+> @@ -105,8 +122,14 @@ sub alpha_output {
+>  		print $file $separator;
+>  	    }
+>  	    print $file $key . "\n";
+> -	    foreach my $pattern (sort by_pattern split('\n', %$hashref{$key})) {
+> -		print $file ($pattern . "\n");
+> +	    if ($order) {
+> +		foreach my $pattern (sort by_pattern split('\n', %$hashref{$key})) {
+> +		    print $file ($pattern . "\n");
+> +		}
+> +	    } else {
+> +		foreach my $pattern (split('\n', %$hashref{$key})) {
+> +		    print $file ($pattern . "\n");
+> +		}
+>  	    }
+>  	}
+>      }
+> 
 
