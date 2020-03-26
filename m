@@ -2,142 +2,151 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F8DC43331
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C283C43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:14:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E23462073E
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:10:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3ED9C20714
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1585264452;
+	bh=pBpYKCYnqkY69V5IhWZ/DJiK6T7TRaVaD2ZvmGOEuS4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=RQhgRqIouk0f4hoS2mH4gylEw4MU+61fwZ7UPzZKTGjRSev4mw8Ia3kUGp9+9Gbju
+	 sxnvEW3AeHAl9jjaqcPQzEcLZbZx/aFdNGoO7SoA3g+pspK0Mi/1K96LA3GYKOchf9
+	 cdZotkHB08ROSFJh7pG3PqgKttoayySKoLmL2EbQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbgCZXK7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 19:10:59 -0400
-Received: from mga06.intel.com ([134.134.136.31]:29133 "EHLO mga06.intel.com"
+        id S1727439AbgCZXOL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 19:14:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36762 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726067AbgCZXK7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Mar 2020 19:10:59 -0400
-IronPort-SDR: VwBJnGtyY/UvitF5+C5Yn68FhEggHXO1+y8XgxPenn9v+OKImIAmjIYyp90ctKbWBa+MS0m2qP
- zyl7p2ZupWCA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2020 16:10:58 -0700
-IronPort-SDR: mT6DgSbAS6BUtA3qPF3BNnsM7CA2xqJFL7clGUrlUWnMZnXGxQ1Ynx/BNWyjiuLWmS5cVYB3EF
- gKbtIFsOUblw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,310,1580803200"; 
-   d="scan'208";a="250952340"
-Received: from lirivera-mobl1.amr.corp.intel.com (HELO [10.251.8.87]) ([10.251.8.87])
-  by orsmga006.jf.intel.com with ESMTP; 26 Mar 2020 16:10:57 -0700
-Subject: Re: [PATCH 1/4] hugetlbfs: add arch_hugetlb_valid_size
-To:     Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S.Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Shutemov, Kirill" <kirill.shutemov@intel.com>
-References: <20200318220634.32100-1-mike.kravetz@oracle.com>
- <20200318220634.32100-2-mike.kravetz@oracle.com>
- <831a0773-1ba6-4d72-44b9-7472123b8528@intel.com>
- <5aceea6a-8dc0-a44b-80c6-94511b5c75ca@oracle.com>
- <1c8b16c7-248e-b75f-96c6-eabc953c5066@intel.com>
- <530e6e11-ad1a-55bc-e61e-9da6eb7fea21@oracle.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <ae80063f-cef8-3141-3c6b-9130def5396a@intel.com>
-Date:   Thu, 26 Mar 2020 16:10:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727393AbgCZXOL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Mar 2020 19:14:11 -0400
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 70261208FE
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 23:14:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585264450;
+        bh=pBpYKCYnqkY69V5IhWZ/DJiK6T7TRaVaD2ZvmGOEuS4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=nNx+mI6ABRCHDoPFwj94WyC7rJi0CnjZZMRGH1IMgdPUiiYaDdczR2RYxzmj5F3VY
+         gMHKe5fl7h5UDsvgBHpIe3+tNvgdkfhOdN/0Ivu7iqYlvZwEpbUs1auWaN3fyfFyxn
+         SPwdX0Y64sOV1ufFqHPBZrTcIrsIY5kN69kTiAsc=
+Received: by mail-wm1-f54.google.com with SMTP id c81so9466001wmd.4
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 16:14:10 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ3L0CneqMyn3NHt6Jp1uCU8p31x/Vqm3gz9JyjaPn2ssoQIFGSo
+        PSs2IhvPowA1T3JLDxLO9JC3cXPQD0dYdVVGlXU/tA==
+X-Google-Smtp-Source: ADFU+vuwoO/FGdbYD7WuoSUeoCQPV6aJnU4Jo48Ndl/Q19AIohripXx7VFMXL5Ej+zBmJfVFYrfJhZMXOGODzbtI3yA=
+X-Received: by 2002:adf:b641:: with SMTP id i1mr11924938wre.18.1585264448743;
+ Thu, 26 Mar 2020 16:14:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <530e6e11-ad1a-55bc-e61e-9da6eb7fea21@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200325194317.526492-1-ross.philipson@oracle.com>
+ <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com>
+ <CALCETrUshiLMHyf4DShgDRtCvnzUVyRQgmgCiudvhuhw05cDxg@mail.gmail.com> <6bb09673-292e-b056-3755-ffc51a1d6b59@apertussolutions.com>
+In-Reply-To: <6bb09673-292e-b056-3755-ffc51a1d6b59@apertussolutions.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 26 Mar 2020 16:13:56 -0700
+X-Gmail-Original-Message-ID: <CALCETrUnyTbihpqjZ-rwKDsyS=1yMg1KGTD60PJMj7R1-5PbhA@mail.gmail.com>
+Message-ID: <CALCETrUnyTbihpqjZ-rwKDsyS=1yMg1KGTD60PJMj7R1-5PbhA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel support
+To:     "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Matthew Garrett <mjg59@google.com>,
+        Ross Philipson <ross.philipson@oracle.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, trenchboot-devel@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/26/20 2:56 PM, Mike Kravetz wrote:
-> Perhaps it would be best to check hugepages_supported() when parsing
-> hugetlb command line options.  If not enabled, throw an error.  This
-> will be much easier to do after moving all command line parsing to
-> arch independent code.
+On Thu, Mar 26, 2020 at 1:51 PM Daniel P. Smith
+<dpsmith@apertussolutions.com> wrote:
+>
+> On 3/25/20 6:51 PM, Andy Lutomirski wrote:
+> > On Wed, Mar 25, 2020 at 1:29 PM Matthew Garrett <mjg59@google.com> wrote:
+> >>
+> >> On Wed, Mar 25, 2020 at 12:43 PM Ross Philipson
+> >> <ross.philipson@oracle.com> wrote:
+> >>> To enable the kernel to be launched by GETSEC or SKINIT, a stub must be
+> >>> built into the setup section of the compressed kernel to handle the
+> >>> specific state that the late launch process leaves the BSP. This is a
+> >>> lot like the EFI stub that is found in the same area. Also this stub
+> >>> must measure everything that is going to be used as early as possible.
+> >>> This stub code and subsequent code must also deal with the specific
+> >>> state that the late launch leaves the APs in.
+> >>
+> >> How does this integrate with the EFI entry point? That's the expected
+> >> entry point on most modern x86. What's calling ExitBootServices() in
+> >> this flow, and does the secure launch have to occur after it? It'd be
+> >> a lot easier if you could still use the firmware's TPM code rather
+> >> than carrying yet another copy.
+> >
+> > I was wondering why the bootloader was involved at all.  In other
+> > words, could you instead hand off control to the kernel just like
+> > normal and have the kernel itself (in normal code, the EFI stub, or
+> > wherever it makes sense) do the DRTM launch all by itself?  This would
+> > avoid needing to patch bootloaders, to implement this specially for
+> > QEMU -kernel, to get the exact right buy-in from all the cloud
+> > vendors, etc.  It would also give you more flexibility to evolve
+> > exactly what configuration maps to exactly what PCRs in the future.
+> >
+>
+> Partly this is driven by the fact that one of the goals for the
+> TrenchBoot project is about more universal/unified, cross open source
+> project adoption of Dynamic Launch. Another aspect is that initiating a
+> Dynamic Launch requires additional file(s) to be loaded, the platform to
+> be put into a quiescent state, and the invocation of the SENTER/SKINIT
+> instruction can be thought of as a soft reset of the CPU that on Intel
+> even results in the CPU being in a different mode (SMX) which has a
+> subtle change to its behavior. In the TCG Dynamic Launch design, the
+> component responsible for this loading, preparing, and Dynamic Launch
+> Instruction invocation is referred to as the Preamble and IMHO the best
+> time for dealing with such a disruptive behavior caused by invoking the
+> instruction is at the boot boundary. It also makes for a good transition
+> point to enable switching between kernels in control of the system
+> whereby the integrity will be establish by the hardware instead of the
+> kernel (UEFI, GRUB, Linux, etc.) that loaded it. I think what helps
+> address your concern is that one of the next items on the roadmap is to
+> extend kexec to be able to perform the Preamble. As I just mentioned,
+> this provides a clean way to transition for one Linux kernel that may or
+> may not have been started via a Dynamic Launch could relaunch itself,
+> launch a new Linux kernel, or even launch a non-Linux kernel that is
+> Dynamic Launch aware.
+>
 
-Yeah, that sounds sane.
+Hmm.  I don't have any real objection to the kernel supporting this
+type of secure launch, but I do have some more questions first.
 
-> Is that a sufficient way to address this concern?  I think it is a good
-> change in any case.
+One of the problems with the old tboot code and the general state of
+dynamic-root-of-trust is that it's an incredible pain in the neck to
+even test.  I think it would be helpful if I could build a kernel that
+supported secure launch (Intel or AMD) and just run the thing.  I
+realize that you're planning to integrate this into GRUB, etc, but it
+might be nice if even existing GRUB and EFI shell can do this.  How
+hard would it be to make the kernel support a mode where whatever
+blobs are required are in the initrd or built in like firmware and
+where I could set a command line argument like secure_launch=on and
+have the kernel secure launch itself?
 
-(Thanks to Kirill for pointing this out.)
+Are you planning on supporting a mode where kernel A kexecs to kernel
+B, kernel B is secure launched, and then kernel B resumes kernel A and
+re-launches it?  If so, would it work better if the measured state of
+the kernel were the *uncompressed* text or even the uncompressed and
+alternative-ified text?  Or is the idea that the secure launch entry
+will figure out that it's actually a resume and not a fresh boot and
+behave accordingly?
 
-So, it turns out the x86 huge page enumeration is totally buggered.
-X86_FEATURE_PSE is actually meaningless on 64-bit (and 32-bit PAE).  All
-CPUs architecturally support 2MB pages regardless of X86_FEATURE_PSE and
-the state of CR4.PSE.
-
-So, on x86_64 at least, hugepages_supported() should *always* return 1.
-
-1GB page support can continue to be dependent on X86_FEATURE_GBPAGES.
+What's the situation like in a VM?  Can I run the secure launch entry
+in a VM somehow?  Can I actually initiate the dynamic launch from the
+VM?
