@@ -2,151 +2,100 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C283C43331
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:14:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D45C2D0E7
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:30:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3ED9C20714
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:14:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585264452;
-	bh=pBpYKCYnqkY69V5IhWZ/DJiK6T7TRaVaD2ZvmGOEuS4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=RQhgRqIouk0f4hoS2mH4gylEw4MU+61fwZ7UPzZKTGjRSev4mw8Ia3kUGp9+9Gbju
-	 sxnvEW3AeHAl9jjaqcPQzEcLZbZx/aFdNGoO7SoA3g+pspK0Mi/1K96LA3GYKOchf9
-	 cdZotkHB08ROSFJh7pG3PqgKttoayySKoLmL2EbQ=
+	by mail.kernel.org (Postfix) with ESMTP id ACCC820663
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727439AbgCZXOL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 19:14:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36762 "EHLO mail.kernel.org"
+        id S1727593AbgCZXaa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 19:30:30 -0400
+Received: from namei.org ([65.99.196.166]:43756 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727393AbgCZXOL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Mar 2020 19:14:11 -0400
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 70261208FE
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 23:14:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585264450;
-        bh=pBpYKCYnqkY69V5IhWZ/DJiK6T7TRaVaD2ZvmGOEuS4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nNx+mI6ABRCHDoPFwj94WyC7rJi0CnjZZMRGH1IMgdPUiiYaDdczR2RYxzmj5F3VY
-         gMHKe5fl7h5UDsvgBHpIe3+tNvgdkfhOdN/0Ivu7iqYlvZwEpbUs1auWaN3fyfFyxn
-         SPwdX0Y64sOV1ufFqHPBZrTcIrsIY5kN69kTiAsc=
-Received: by mail-wm1-f54.google.com with SMTP id c81so9466001wmd.4
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 16:14:10 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ3L0CneqMyn3NHt6Jp1uCU8p31x/Vqm3gz9JyjaPn2ssoQIFGSo
-        PSs2IhvPowA1T3JLDxLO9JC3cXPQD0dYdVVGlXU/tA==
-X-Google-Smtp-Source: ADFU+vuwoO/FGdbYD7WuoSUeoCQPV6aJnU4Jo48Ndl/Q19AIohripXx7VFMXL5Ej+zBmJfVFYrfJhZMXOGODzbtI3yA=
-X-Received: by 2002:adf:b641:: with SMTP id i1mr11924938wre.18.1585264448743;
- Thu, 26 Mar 2020 16:14:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200325194317.526492-1-ross.philipson@oracle.com>
- <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com>
- <CALCETrUshiLMHyf4DShgDRtCvnzUVyRQgmgCiudvhuhw05cDxg@mail.gmail.com> <6bb09673-292e-b056-3755-ffc51a1d6b59@apertussolutions.com>
-In-Reply-To: <6bb09673-292e-b056-3755-ffc51a1d6b59@apertussolutions.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 26 Mar 2020 16:13:56 -0700
-X-Gmail-Original-Message-ID: <CALCETrUnyTbihpqjZ-rwKDsyS=1yMg1KGTD60PJMj7R1-5PbhA@mail.gmail.com>
-Message-ID: <CALCETrUnyTbihpqjZ-rwKDsyS=1yMg1KGTD60PJMj7R1-5PbhA@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel support
-To:     "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Matthew Garrett <mjg59@google.com>,
-        Ross Philipson <ross.philipson@oracle.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        id S1726954AbgCZXaa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Mar 2020 19:30:30 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id 02QNSlWb015673;
+        Thu, 26 Mar 2020 23:28:47 GMT
+Date:   Fri, 27 Mar 2020 10:28:47 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
+To:     Serge Hallyn <serge@hallyn.com>
+cc:     Alexey Budankov <alexey.budankov@linux.intel.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Helge Deller <deller@gmx.de>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, trenchboot-devel@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+        linux-man@vger.kernel.org, Andi Kleen <ak@linux.intel.com>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        Igor Lubashev <ilubashe@akamai.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Stephane Eranian <eranian@google.com>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        oprofile-list@lists.sf.net, Jiri Olsa <jolsa@redhat.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [Intel-gfx] [PATCH v7 00/12] Introduce CAP_PERFMON to secure
+ system performance monitoring and observability
+In-Reply-To: <20200302001913.GA21145@sl>
+Message-ID: <alpine.LRH.2.21.2003271026290.14767@namei.org>
+References: <c8de937a-0b3a-7147-f5ef-69f467e87a13@linux.intel.com> <3ae0bed5-204e-de81-7647-5f0d8106cd67@linux.intel.com> <20200302001913.GA21145@sl>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 1:51 PM Daniel P. Smith
-<dpsmith@apertussolutions.com> wrote:
->
-> On 3/25/20 6:51 PM, Andy Lutomirski wrote:
-> > On Wed, Mar 25, 2020 at 1:29 PM Matthew Garrett <mjg59@google.com> wrote:
-> >>
-> >> On Wed, Mar 25, 2020 at 12:43 PM Ross Philipson
-> >> <ross.philipson@oracle.com> wrote:
-> >>> To enable the kernel to be launched by GETSEC or SKINIT, a stub must be
-> >>> built into the setup section of the compressed kernel to handle the
-> >>> specific state that the late launch process leaves the BSP. This is a
-> >>> lot like the EFI stub that is found in the same area. Also this stub
-> >>> must measure everything that is going to be used as early as possible.
-> >>> This stub code and subsequent code must also deal with the specific
-> >>> state that the late launch leaves the APs in.
-> >>
-> >> How does this integrate with the EFI entry point? That's the expected
-> >> entry point on most modern x86. What's calling ExitBootServices() in
-> >> this flow, and does the secure launch have to occur after it? It'd be
-> >> a lot easier if you could still use the firmware's TPM code rather
-> >> than carrying yet another copy.
-> >
-> > I was wondering why the bootloader was involved at all.  In other
-> > words, could you instead hand off control to the kernel just like
-> > normal and have the kernel itself (in normal code, the EFI stub, or
-> > wherever it makes sense) do the DRTM launch all by itself?  This would
-> > avoid needing to patch bootloaders, to implement this specially for
-> > QEMU -kernel, to get the exact right buy-in from all the cloud
-> > vendors, etc.  It would also give you more flexibility to evolve
-> > exactly what configuration maps to exactly what PCRs in the future.
-> >
->
-> Partly this is driven by the fact that one of the goals for the
-> TrenchBoot project is about more universal/unified, cross open source
-> project adoption of Dynamic Launch. Another aspect is that initiating a
-> Dynamic Launch requires additional file(s) to be loaded, the platform to
-> be put into a quiescent state, and the invocation of the SENTER/SKINIT
-> instruction can be thought of as a soft reset of the CPU that on Intel
-> even results in the CPU being in a different mode (SMX) which has a
-> subtle change to its behavior. In the TCG Dynamic Launch design, the
-> component responsible for this loading, preparing, and Dynamic Launch
-> Instruction invocation is referred to as the Preamble and IMHO the best
-> time for dealing with such a disruptive behavior caused by invoking the
-> instruction is at the boot boundary. It also makes for a good transition
-> point to enable switching between kernels in control of the system
-> whereby the integrity will be establish by the hardware instead of the
-> kernel (UEFI, GRUB, Linux, etc.) that loaded it. I think what helps
-> address your concern is that one of the next items on the roadmap is to
-> extend kexec to be able to perform the Preamble. As I just mentioned,
-> this provides a clean way to transition for one Linux kernel that may or
-> may not have been started via a Dynamic Launch could relaunch itself,
-> launch a new Linux kernel, or even launch a non-Linux kernel that is
-> Dynamic Launch aware.
->
+On Sun, 1 Mar 2020, Serge Hallyn wrote:
 
-Hmm.  I don't have any real objection to the kernel supporting this
-type of secure launch, but I do have some more questions first.
+> Thanks, this looks good to me, in keeping with the CAP_SYSLOG break.
+> 
+> Acked-by: Serge E. Hallyn <serge@hallyn.com>
+> 
+> for the set.
+> 
+> James/Ingo/Peter, if noone has remaining objections, whose branch
+> should these go in through?
+> 
+> thanks,
+> -serge
+> 
+> On Tue, Feb 25, 2020 at 12:55:54PM +0300, Alexey Budankov wrote:
+> > 
+> > Hi,
+> > 
+> > Is there anything else I could do in order to move the changes forward
+> > or is something still missing from this patch set?
+> > Could you please share you mind?
 
-One of the problems with the old tboot code and the general state of
-dynamic-root-of-trust is that it's an incredible pain in the neck to
-even test.  I think it would be helpful if I could build a kernel that
-supported secure launch (Intel or AMD) and just run the thing.  I
-realize that you're planning to integrate this into GRUB, etc, but it
-might be nice if even existing GRUB and EFI shell can do this.  How
-hard would it be to make the kernel support a mode where whatever
-blobs are required are in the initrd or built in like firmware and
-where I could set a command line argument like secure_launch=on and
-have the kernel secure launch itself?
+Alexey,
 
-Are you planning on supporting a mode where kernel A kexecs to kernel
-B, kernel B is secure launched, and then kernel B resumes kernel A and
-re-launches it?  If so, would it work better if the measured state of
-the kernel were the *uncompressed* text or even the uncompressed and
-alternative-ified text?  Or is the idea that the secure launch entry
-will figure out that it's actually a resume and not a fresh boot and
-behave accordingly?
+It seems some of the previous Acks are not included in this patchset, e.g. 
+https://lkml.org/lkml/2020/1/22/655
 
-What's the situation like in a VM?  Can I run the secure launch entry
-in a VM somehow?  Can I actually initiate the dynamic launch from the
-VM?
+Every patch needs a Reviewed-by or Acked-by from maintainers of the code 
+being changed.
+
+You have enough from the security folk, but I can't see any included from 
+the perf folk.
+
+
+-- 
+James Morris
+<jmorris@namei.org>
+
