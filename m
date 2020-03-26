@@ -2,157 +2,134 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA2B0C43331
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:15:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FCCCC2D0E9
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:19:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BBE6420714
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585253700;
-	bh=o1vMvq4OXn5LTOH+tAFfGSmQddiNm84t7AUPsdzQFuU=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=XzUyj9IyjH1pSsIgnO7FrPErUniit/eiuvJV+gwSa3ZoaQ+IHS3YVWzBgkrwqUndg
-	 arzXIe1CtuWzcxoSghdOUqyDuW9CxU4fJx2yNFGzMR7SVIo8vp1Ls+z6wmfxzdXIHu
-	 boO2OXL+1seJ0W70RgKlMs4zUeX/ifL4JCcm/VRw=
+	by mail.kernel.org (Postfix) with ESMTP id 060E82078E
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 20:19:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mrKSk27Q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727612AbgCZUPA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 16:15:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38532 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726363AbgCZUPA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Mar 2020 16:15:00 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3DCF02070A;
-        Thu, 26 Mar 2020 20:14:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585253698;
-        bh=o1vMvq4OXn5LTOH+tAFfGSmQddiNm84t7AUPsdzQFuU=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ChYsyZVKrOjooEmo6qcud+pXwOAddaMliBnjJ6d/jq56naAHn7gqJvMaXnFyzMqqD
-         M7+kvDPwVeV7QDs/5ja6ycvMAya+St2RxH8s8nW0is6EHpeOilp9xPeOXJF1lnmFmA
-         vI72t0ZThRt5T5zqJ+smP/VOjqsH4AQc+5N7rPC8=
-Subject: Re: [PATCH v8 kunit-next 0/4] kunit: add debugfs representation to
- show results
-To:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        linux-kselftest@vger.kernel.org
-Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        shuah <shuah@kernel.org>
-References: <1585232710-322-1-git-send-email-alan.maguire@oracle.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <2333d91d-2575-87ba-d8bb-60023cc19990@kernel.org>
-Date:   Thu, 26 Mar 2020 14:14:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1728713AbgCZUTo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 16:19:44 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:34589 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728587AbgCZUTn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 16:19:43 -0400
+Received: by mail-il1-f195.google.com with SMTP id t11so6705038ils.1
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 13:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2dOHIQM15C+8J2rrlogjSwV4spTK3lPNUtfX8p1nrXQ=;
+        b=mrKSk27QeQHjOhXDQ67+/nvXEJW9w0/5zoTq0a3tKFUS5MEt0c8/8hyr9bA/lTtcZc
+         usly1JHNxlla3H/Z/lx62QtQG/yuXx3E9yREvC7YE+KFdrZRa1w2X/3r8Wp0N5W+tQvQ
+         vW9SIOWUhjdDUtyBWGLxhpykQPilXkcZCKd5TuKwpsvC8sgHDQLTfnQ1GOnbgxcj4ocl
+         RbuuOeFwOi4nupN8mAU0KKNF8E996G+GZReVy6dbztLiHFcw6uj3QsnhfmPMgIIztihp
+         EZ/PStOMq+tEGtwYXNLFa1+rqA070AZY6YalKjALb79Nz7mTMn/cKm+rYa3bGpLHMpqp
+         KlOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2dOHIQM15C+8J2rrlogjSwV4spTK3lPNUtfX8p1nrXQ=;
+        b=DZBEPYAMeTNdZ5Qp5WPlcVH7ibgZbZX8GdNYVDGuNnEVEzeUvN1Md7GQh8UUv4p+G4
+         ofafoOuAJzt5P7aKfy4hk5ozP/g6Ul0bs+9lEOYzU143zoyRWKWjiWAb20TWx2DEPLxM
+         gNvQUjl7CquCaj87YOnZhDP4L+gf2IwmBIpqnkNgV0+sPHGhSFw+nsBmJdmteo3HkLfW
+         DzEale99TLwy9l7CgpsdWhaEdgwTfr13oLRcuNx1xYstsTaaB/PGHay6fm9SEuiNd03G
+         JXhu+zVP3IIIbacXUsoTwwf6GKEgo04+u59XKwBTQmI0pxsJPf55sm+EwfWFKdQRv+Dh
+         U8FA==
+X-Gm-Message-State: ANhLgQ1591i7TUludt2rao893sUMfYvZ1WU89vgmvPKmNt3yFk+ugP7P
+        vGxhNUeJWjxEHJ3IQfoRtyKSusTYn2Xq3zdC99Bx5A==
+X-Google-Smtp-Source: ADFU+vv9DU+eeDcpOTiazVkWPCi0VWmR4L7HpVdNPP5erkX2ql7MUXAnFmpS/pDyT/XQQ+IAZqH1L7D77DQ/545HJzs=
+X-Received: by 2002:a92:8384:: with SMTP id p4mr10939777ilk.16.1585253982337;
+ Thu, 26 Mar 2020 13:19:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1585232710-322-1-git-send-email-alan.maguire@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200325194317.526492-1-ross.philipson@oracle.com>
+ <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com> <20200326134011.c4dswiq2g7eln3qd@tomti.i.net-space.pl>
+In-Reply-To: <20200326134011.c4dswiq2g7eln3qd@tomti.i.net-space.pl>
+From:   Matthew Garrett <mjg59@google.com>
+Date:   Thu, 26 Mar 2020 13:19:30 -0700
+Message-ID: <CACdnJutT1F7YJ5KFkyuaZv=nj8GqC+mrnoAsHZfMP1ZRNUQg3Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel support
+To:     Daniel Kiper <daniel.kiper@oracle.com>
+Cc:     Ross Philipson <ross.philipson@oracle.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        trenchboot-devel@googlegroups.com,
+        Ard Biesheuvel <ardb@kernel.org>, leif@nuviainc.com,
+        eric.snowberg@oracle.com, piotr.krol@3mdeb.com,
+        krystian.hebel@3mdeb.com, michal.zygowski@3mdeb.com,
+        James Bottomley <james.bottomley@hansenpartnership.com>,
+        andrew.cooper3@citrix.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/26/20 8:25 AM, Alan Maguire wrote:
-> When kunit tests are run on native (i.e. non-UML) environments, the results
-> of test execution are often intermixed with dmesg output.  This patch
-> series attempts to solve this by providing a debugfs representation
-> of the results of the last test run, available as
-> 
-> /sys/kernel/debug/kunit/<testsuite>/results
-> 
-> Changes since v7:
-> 
-> - renamed KUNIT_INDENT[2] to KUNIT_SUBTEST_INDENT, KUNIT_SUBSUBTEST_INDENT
->    and added more description to their definitions to clarify why they
->    are defined as they are (Shuah)
-> - defined KUNIT_SUBSUBTEST_INDENT directly as 8 spaces to avoid
->    checkpatch error (Shuah)
-> 
-> Changes since v6:
-> 
-> - fixed regexp parsing in kunit_parser.py to ensure test results are read
->    successfully with 4-space indentation (Brendan, patch 3)
-> 
-> Changes since v5:
-> 
-> - replaced undefined behaviour use of snprintf(buf, ..., buf) in
->    kunit_log() with a function to append string to existing log
->    (Frank, patch 1)
-> - added clarification on log size limitations to documentation
->    (Frank, patch 4)
-> 
-> Changes since v4:
-> 
-> - added suite-level log expectations to kunit log test (Brendan, patch 2)
-> - added log expectations (of it being NULL) for case where
->    CONFIG_KUNIT_DEBUGFS=n to kunit log test (patch 2)
-> - added patch 3 which replaces subtest tab indentation with 4 space
->    indentation as per TAP 14 spec (Frank, patch 3)
-> 
-> Changes since v3:
-> 
-> - added CONFIG_KUNIT_DEBUGFS to support conditional compilation of debugfs
->    representation, including string logging (Frank, patch 1)
-> - removed unneeded NULL check for test_case in
->    kunit_suite_for_each_test_case() (Frank, patch 1)
-> - added kunit log test to verify logging multiple strings works
->    (Frank, patch 2)
-> - rephrased description of results file (Frank, patch 3)
-> 
-> Changes since v2:
-> 
-> - updated kunit_status2str() to kunit_status_to_string() and made it
->    static inline in include/kunit/test.h (Brendan)
-> - added log string to struct kunit_suite and kunit_case, with log
->    pointer in struct kunit pointing at the case log.  This allows us
->    to collect kunit_[err|info|warning]() messages at the same time
->    as we printk() them.  This solves for the most part the sharing
->    of log messages between test execution and debugfs since we
->    just print the suite log (which contains the test suite preamble)
->    and the individual test logs.  The only exception is the suite-level
->    status, which we cannot store in the suite log as it would mean
->    we'd print the suite and its status prior to the suite's results.
->    (Brendan, patch 1)
-> - dropped debugfs-based kunit run patch for now so as not to cause
->    problems with tests currently under development (Brendan)
-> - fixed doc issues with code block (Brendan, patch 3)
-> 
-> Changes since v1:
->   - trimmed unneeded include files in lib/kunit/debugfs.c (Greg)
->   - renamed global debugfs functions to be prefixed with kunit_ (Greg)
->   - removed error checking for debugfs operations (Greg)
-> 
-> Alan Maguire (4):
->    kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
->    kunit: add log test
->    kunit: subtests should be indented 4 spaces according to TAP
->    kunit: update documentation to describe debugfs representation
-> 
->   Documentation/dev-tools/kunit/usage.rst |  14 +++
->   include/kunit/test.h                    |  63 ++++++++++++--
->   lib/kunit/Kconfig                       |   8 ++
->   lib/kunit/Makefile                      |   4 +
->   lib/kunit/assert.c                      |  79 ++++++++---------
->   lib/kunit/debugfs.c                     | 116 +++++++++++++++++++++++++
->   lib/kunit/debugfs.h                     |  30 +++++++
->   lib/kunit/kunit-test.c                  |  44 +++++++++-
->   lib/kunit/test.c                        | 148 +++++++++++++++++++++++++-------
->   tools/testing/kunit/kunit_parser.py     |  10 +--
->   10 files changed, 430 insertions(+), 86 deletions(-)
->   create mode 100644 lib/kunit/debugfs.c
->   create mode 100644 lib/kunit/debugfs.h
-> 
+On Thu, Mar 26, 2020 at 6:40 AM Daniel Kiper <daniel.kiper@oracle.com> wrote:
+> On Wed, Mar 25, 2020 at 01:29:03PM -0700, 'Matthew Garrett' via trenchboot-devel wrote:
+> > On Wed, Mar 25, 2020 at 12:43 PM Ross Philipson
+> > <ross.philipson@oracle.com> wrote:
+> > > To enable the kernel to be launched by GETSEC or SKINIT, a stub must be
+> > > built into the setup section of the compressed kernel to handle the
+> > > specific state that the late launch process leaves the BSP. This is a
+> > > lot like the EFI stub that is found in the same area. Also this stub
+> > > must measure everything that is going to be used as early as possible.
+> > > This stub code and subsequent code must also deal with the specific
+> > > state that the late launch leaves the APs in.
+> >
+> > How does this integrate with the EFI entry point? That's the expected
+>
+> It does not. We do not want and need to tie secure launch with UEFI.
 
-Thanks. Applied to linux-kselftest kunit for 5.7-rc1.
+I agree that it shouldn't be required, but it should be possible. We
+shouldn't add new entry points that don't integrate with the standard
+way of booting the kernel.
 
-thanks,
--- Shuah
+> > What's calling ExitBootServices() in
+>
+> Currently it is a bootloader, the GRUB which I am working on... OK, this
+> is not perfect but if we want to call ExitBootServices() from the kernel
+> then we have to move all pre-launch code from the bootloader to the
+> kernel. Not nice because then everybody who wants to implement secure
+> launch in different kernel, hypervisor, etc. has to re-implement whole
+> pre-launch code again.
+
+We call ExitBootServices() in the EFI stub, so this is fine as long as
+the EFI stub hands over control to the SL code. But yes, I think it's
+a requirement that it be kernel-owned code calling ExitBootServices().
+
+> > this flow, and does the secure launch have to occur after it? It'd be
+>
+> Yes, it does.
+
+Ok. The firmware TPM interfaces are gone after ExitBootServices(), so
+we're going to need an additional implementation.
+
+> I think any post-launch code in the kernel should not call anything from
+> the gap. And UEFI belongs to the gap. OK, we can potentially re-use UEFI
+> TPM code in the pre-launch phase but I am not convinced that we should
+> (I am looking at it right now). And this leads us to other question
+> which pops up here and there. How to call UEFI runtime services, e.g. to
+> modify UEFI variables, update firmware, etc., from MLE or even from the
+> OS started from MLE? In my opinion it is not safe to call anything from
+> the gap after secure launch. However, on the other hand we have to give
+> an option to change the boot order or update the firmware. So, how to
+> do that? I do not have an easy answer yet...
+
+How does Windows manage this? Retaining access to EFI runtime services
+is necessary, and the areas in the memory map marked as runtime
+services code or data should be considered part of the TCB and
+measured - they're very much not part of the gap.
