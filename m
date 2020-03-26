@@ -2,95 +2,126 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 261C0C2D0E7
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 22:54:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63EACC43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:00:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EFEA32074D
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 22:54:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585263272;
-	bh=f0UjLGri193S89E3mYjLNfonM34OhMW9YPxHGg7KafM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=ejQ3a/pkW7O6edN/MSuB1nn0l9/o6vqm/buo5R5mDvjtv5llw1fztt9Dq0qqnZQva
-	 bcA6obYdG0u9oDACrrGViwd3IGiC8BqaBT6CeRPKen+EyQybCWoLI77vlC+tBNtHpu
-	 R7Xj6Y7hIgnl7tERrZdcSMsw2zhVVKF3Ad0Ub7lI=
+	by mail.kernel.org (Postfix) with ESMTP id 2C86420774
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 23:00:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lbSiQuYz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727719AbgCZWyb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 18:54:31 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41178 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726954AbgCZWya (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 18:54:30 -0400
-Received: by mail-lj1-f194.google.com with SMTP id n17so8249057lji.8
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 15:54:27 -0700 (PDT)
+        id S1726296AbgCZXAA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 19:00:00 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:42515 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726067AbgCZXAA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 19:00:00 -0400
+Received: by mail-il1-f194.google.com with SMTP id f16so7043112ilj.9
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 15:59:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dketg2xmeCHjMWwyChFsYCLkTQHS2H7rmpcy40U5XQk=;
-        b=Mz5JJuHy+EHtTW2ruQf6KS8rf1FyuAKeuMpuRqgexQnmQQXt6lXbg+bouBcIe/NI2b
-         R1cEuYVS8YOPkYGJL/h8vPIKKTpgjeVLMEQKoTdrlx6KjEjvXsSQtn4JutgSGcLNu7FE
-         HzaHp6I8DeDQygWQA5Xz+Ha5vDztHbTw+RVIQ=
+        bh=FYvxodz7d4pB6VdW2wEtyiPcxDIa/w32jDzfvDzkoU8=;
+        b=lbSiQuYzsX/YLfN+amKkN7JbC15Gb8HRMWXLvWiCBK258OaPQEQ7d9xfRenumyr08U
+         YcKjxNgsNm/3FM0LY9dxX6E4qwllOE6RUd1Tbiw0IzQBxryQx2UmIQQmhoX2Zv9oPyRU
+         EEZrrO75nib7VAy3lsA/9BP7HHZ/uRgXXcV1lCJBcLT/bwC72VJKZxO4fvIszMKoCotW
+         UtI9ZiiAn9BeiOpisURIzjiSa7pSDbIScdakKPDZ1XO9aJihiQGhVIu6//DNihisrNpg
+         sWHefA17+Q6Jk5zeb3Rr3/2u/YynXU1YfG3L+MUb5k4y2Ee0C54t+20F/mCHyaJiaTl4
+         AKaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dketg2xmeCHjMWwyChFsYCLkTQHS2H7rmpcy40U5XQk=;
-        b=gs5GqtruJ/kzHzlvwwM3uhyhY7ZRnw7SoDyYxbcAmACSJtAWTUlJlp8v26REMuymT9
-         atA9RK6eW82OAQ/wyIugIblvmyuRsRR4vsDtFqXgVeWApZDHPbnNU7unkyjkL7tOslHT
-         683sLgrFyFPWAqWTVA0Q6X+IuKrLqnum600YBgiee5Hcflp7sofY0dXN3HtOwCNeCyrD
-         vTWGoCKZ58SrhhzZssxezRuWpQc+gnxa8ACFwsaIKviTmctBxkLCuNH/cD0UO3sDnNil
-         OEhiq2rGNu+9dyqcJPRF1Euq8ncyn8UvHMFZc7lJGiZ/NPzDzUjLiF/E/Nv/cS+LQslO
-         2Elw==
-X-Gm-Message-State: ANhLgQ0gDiaRbF4btHzlUcoBfJT2QzilotUOwUrypXRp4mb7XrM3FJi6
-        5O4RyNPpShYECpb4ME39IY3tTKBCJeM=
-X-Google-Smtp-Source: ADFU+vsvHTslcRBecSv0skA0+TBBbe1z3QkY8ZKleKR2TiAzINEVmvpg0Q85dOkzWGZ3fbwYUbR3kw==
-X-Received: by 2002:a05:651c:1044:: with SMTP id x4mr6163498ljm.230.1585263265736;
-        Thu, 26 Mar 2020 15:54:25 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id 15sm2165051lfr.17.2020.03.26.15.54.23
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2020 15:54:24 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id v4so6269544lfo.12
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 15:54:23 -0700 (PDT)
-X-Received: by 2002:ac2:5e70:: with SMTP id a16mr3366363lfr.152.1585263263622;
- Thu, 26 Mar 2020 15:54:23 -0700 (PDT)
+        bh=FYvxodz7d4pB6VdW2wEtyiPcxDIa/w32jDzfvDzkoU8=;
+        b=Kd9KRzy2rABtr36WlSrIsHcjK9PA8VGJ1MJWMsrGPNNLN2CKoKsY9DMkedCdInoJyL
+         UL5JJQ5832L5LkMkNXZUe2U+MeYexDDNzLT0mMbl0HdAOc3xUUcYspJ+PdjTFlXv6s4g
+         ssocjENKuVxLjKAtgZMaFc4kPg+t5ps79QfAJNbKvIU/9IU/mQJt2vEg5nKuzpGccwSG
+         vSWD0V0hYG1D02ZkxYZBA4z5Putcezh0bK2h8bv5mSnAV8Y0TCor1cFDZ9AVRx5nCzef
+         OQJKBiBpO8AmGAkYOJac3rs65Qp0Cvu0cpUPKNNASJYCltCTvKQu59ePovG3/6p2spWS
+         9Phw==
+X-Gm-Message-State: ANhLgQ1KupGJ+uZ/TCYGAvTJPjB+L8YgO7jPlaAY4RnbZIBMjfkrvluw
+        fHGSd1Ud5GW7IyYjR3/ilaJbMMqi5IIfu3o7/W0gUg==
+X-Google-Smtp-Source: ADFU+vuAPTvM3KUXkmj+Y6Uglnz+a3Q5ZiayBinGz1MOoF086L2mOH6jeDwzcK/I0VCF5aU669EVQfotwXDcBSc3SYg=
+X-Received: by 2002:a92:358b:: with SMTP id c11mr10435037ilf.64.1585263598976;
+ Thu, 26 Mar 2020 15:59:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200304072950.10532-1-lukas.bulwahn@gmail.com>
- <20200304131035.731a3947@lwn.net> <alpine.DEB.2.21.2003042145340.2698@felia>
- <e43f0cf0117fbfa8fe8c7e62538fd47a24b4657a.camel@perches.com>
- <alpine.DEB.2.21.2003062214500.5521@felia> <20200307110154.719572e4@onda.lan>
- <0d5503e1d864f2588e756ae590ff8935e11bf9d6.camel@perches.com>
- <4d5291fa3fb4962b1fa55e8fd9ef421ef0c1b1e5.camel@perches.com> <00d11cf766237d9c12c2a06458962c4bae84fa78.camel@perches.com>
-In-Reply-To: <00d11cf766237d9c12c2a06458962c4bae84fa78.camel@perches.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 26 Mar 2020 15:54:07 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wg3=D0uFHXFsEz2CAvFGTb8RV1KJH-eOCqR5JUQGvOqeA@mail.gmail.com>
-Message-ID: <CAHk-=wg3=D0uFHXFsEz2CAvFGTb8RV1KJH-eOCqR5JUQGvOqeA@mail.gmail.com>
-Subject: Re: [PATCH] parse-maintainers: Do not sort section content by default
-To:     Joe Perches <joe@perches.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+References: <CACdnJusd7m-c0zLmAjSq9Sb9HxyCkhyyp5W=4FMdysgu7_g=Sw@mail.gmail.com>
+ <BB670F86-9362-4A8C-8BE6-64A5AF9537A7@amacapital.net> <CACdnJus6H3LQww8hkTMpPKN7u_sb1PXmgPwQOCSVZR_fi7GMrA@mail.gmail.com>
+ <CALCETrU4W7q=QyTX_iq_kN4nVK58WoOD0F_NBt7z8p7xiE7hfA@mail.gmail.com>
+In-Reply-To: <CALCETrU4W7q=QyTX_iq_kN4nVK58WoOD0F_NBt7z8p7xiE7hfA@mail.gmail.com>
+From:   Matthew Garrett <mjg59@google.com>
+Date:   Thu, 26 Mar 2020 15:59:47 -0700
+Message-ID: <CACdnJuu9sqzUWjPJRPOY6pKDJxTqwwf6NQEWQewXtufPQHikOg@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel support
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Daniel Kiper <daniel.kiper@oracle.com>,
+        Ross Philipson <ross.philipson@oracle.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        "Daniel P. Smith" <dpsmith@apertussolutions.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        trenchboot-devel@googlegroups.com,
+        Ard Biesheuvel <ardb@kernel.org>, leif@nuviainc.com,
+        eric.snowberg@oracle.com, piotr.krol@3mdeb.com,
+        krystian.hebel@3mdeb.com, michal.zygowski@3mdeb.com,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 9:47 AM Joe Perches <joe@perches.com> wrote:
+On Thu, Mar 26, 2020 at 3:52 PM Andy Lutomirski <luto@kernel.org> wrote:
 >
-> Linus? ping?
+> On Thu, Mar 26, 2020 at 2:28 PM Matthew Garrett <mjg59@google.com> wrote:
+> > https://trustedcomputinggroup.org/wp-content/uploads/TCG_PlatformResetAttackMitigationSpecification_1.10_published.pdf
+> > - you want to protect in-memory secrets from a physically present
+> > attacker hitting the reset button, booting something else and just
+> > dumping RAM. This is avoided by setting a variable at boot time (in
+> > the boot stub), and then clearing it on reboot once the secrets have
+> > been cleared from RAM. If the variable isn't cleared, the firmware
+> > overwrites all RAM contents before booting anything else.
+>
+> I admit my information is rather dated, but I'm pretty sure that at
+> least some and possibly all TXT implementations solve this more
+> directly.  In particular, as I understand it, when you TXT-launch
+> anything, a nonvolatile flag in the chipset is set.  On reboot, the
+> chipset will not allow access to memory *at all* until an
+> authenticated code module wipes memory and clears that flag.
 
-Applied and pushed out.
+Mm, yes, this one might be something we can just ignore in the TXT case.
 
-            Linus
+> > When you say "re-launch", you mean perform a second secure launch? I
+> > think that would work, as long as we could reconstruct an identical
+> > state to ensure that the PCR17 values matched - and that seems like a
+> > hard problem.
+>
+> Exactly.  I would hope that performing a second secure launch would
+> reproduce the same post-launch PCRs as the first launch.  If the
+> kernel were wise enough to record all PCR extensions, it could replay
+> them.
+
+That presumably depends on how much state is in the measured region -
+we can't just measure the code in order to assert that we're secure.
+
+> In any case, I'm kind of with Daniel here.  We survived for quite a
+> long time without EFI variables at all.  The ability to write them is
+> nice, and we certainly need some way, however awkward, to write them
+> on rare occasions, but I don't think we really need painless runtime
+> writes to EFI variables.
+
+I'm fine with a solution that involves jumping through some hoops, but
+it feels like simply supporting measuring and passing through the
+runtime services would be fine - if you want to keep them outside the
+TCB, build a kernel that doesn't have EFI runtime service support and
+skip that measurement?
