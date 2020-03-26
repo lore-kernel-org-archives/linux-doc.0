@@ -2,125 +2,143 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A1FC2D0E7
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 09:22:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4054C43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 13:41:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9F06F20719
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 09:22:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585214542;
-	bh=Md3LoPRM1sFBRqfmLmGzEg9ac5p0ij8EM9OgKtPgV9c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=vJztQAb5L3au9J4a3pQ0YXsNcqtt12IMcjaQdzY2VdGLpWEFYtCWY6OUx/DH1aWJs
-	 wC0d4Ic74YxpvO2v63SAAk4iV38qa5gaxq/3KSO0tvRQm0OjM+56sDUADxljlDgkdu
-	 sNHqyw9XS84ZJOqQT9G7vzn7h0XlFbdPq50sHAAA=
+	by mail.kernel.org (Postfix) with ESMTP id B907220774
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 13:41:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="POqSritt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726292AbgCZJWT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 05:22:19 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:52544 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbgCZJWS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 05:22:18 -0400
-Received: by mail-wm1-f68.google.com with SMTP id z18so5647108wmk.2;
-        Thu, 26 Mar 2020 02:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=FlDn5DLuAGFwOKbYCG6SBICMqVpoIS+lwTO53ZZDDjM=;
-        b=dnfFO30O8b3RHtisdF7O/LiOdkh/dGOet8uunkTrexLbVqPR+mk8mHCwRsw6tk7KLv
-         auq6wGbDAz0TCaH7hgT3AOV6cKXX7hHNpWE2HuusvvM73PietjLjxDKuuZOqmmQ//Ul1
-         jYXRonD3rZ/o40owKe3SUybXM+MEcOCrLrATCzJzVb4iH9/w+oTVltDAY8WDD19GP6PY
-         kt8GSCVtHsjJMZn/k+DnyW9lAo7OQxFDDTquFzauPzkbafYzNtb5rBgX6k+HHYeA7Wcz
-         y/Okk0gWNzvBzqlIHdWGI8cXCcwSCT7YlgNWhkUmWaXaLmi4gTEtwgXiUp4cqAD5niQM
-         w4Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FlDn5DLuAGFwOKbYCG6SBICMqVpoIS+lwTO53ZZDDjM=;
-        b=grMH9n698ZdWvEoEyVsOTtjHzDS0mcQYMbqetBKMr79Ca1xn66q5zAk6u94q+gbY6c
-         kUZ6ePJpl9lmdxNNToFhnvow1tbQLyxxpYIhGTMAsLWcg/nYY9Ssyr97/0B0GFBBAwL2
-         msqGWz4O68TxC5dHiuX3hBMtW120e40G0MS79J5HoKjAW/QQUFjqpDzlo++SOCDp6/zF
-         /mJiv+WwXTlLPCDSS74FbU1pzW996sHE/ix3RxKv0Mh7hnD/oSgYyxKoiEKF7a9jtiFi
-         v1p1K37D6kO6tDBbe697HxYojGzRvxFQVN4Mccb2heY05dRt2Yehh5QHn8SUzSSYPge6
-         kvow==
-X-Gm-Message-State: ANhLgQ3jzLLn4ePZXj/tfHB+DXqj+pNK9REJHTijkb9MdEE1rLxkERWK
-        +A9R5ZacDwAD8xRUlhmUFqIbcShY
-X-Google-Smtp-Source: ADFU+vt9VB3BsFSpXR1BzUyvHfDJQ1tQSyYFNyjRyc3JUCaQ6kAKCPhCNBUEuy6J5/CKiAsmakOtXw==
-X-Received: by 2002:a05:600c:20a:: with SMTP id 10mr2201122wmi.135.1585214536655;
-        Thu, 26 Mar 2020 02:22:16 -0700 (PDT)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
-        by smtp.gmail.com with ESMTPSA id l8sm2728757wmj.2.2020.03.26.02.22.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2020 02:22:16 -0700 (PDT)
-Date:   Thu, 26 Mar 2020 10:22:13 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        id S1727444AbgCZNlG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 09:41:06 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:46064 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725994AbgCZNlG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 09:41:06 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02QDdON6026557;
+        Thu, 26 Mar 2020 13:40:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
+ bh=47kOGG+bdoJaXnP8m/osKaGZ0uajF8a3MGNKMsop3vY=;
+ b=POqSrittxnwjNutlDxb96joCHnJG44Uwn0rAnWaPePWcbKl24WTa/fHu8MBJbYxX/DUI
+ 1Lgrt4Gy6uxnHBYL0Gm3CfnKJCAnlnKAAZcjgmKYbiTcXy6T91ziidi0vYCGLM1S8wCy
+ KKpWPeiXFX5tZ+Z8R0DeA/NGhu6u9SJJK681d4nzOCTO0rDrsYOc2IdwViUO263hlfxS
+ UnGr2W57gQ3+rYanhvGnx8N5+fe+ny+8YNBDQPgKeh/7A345gyVLVMQI7+F9GbPyMVub
+ gXLxxklYBHLI5p2QUrWpzSYpviHg6mPJbJVfRNhgsIyOLgl67JL/4RtTn6gJaxAMxdmS mQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 2ywabrfun5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 26 Mar 2020 13:40:24 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02QDVgiS000938;
+        Thu, 26 Mar 2020 13:40:23 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 3003gkvkmb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 26 Mar 2020 13:40:23 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02QDeHrF000682;
+        Thu, 26 Mar 2020 13:40:18 GMT
+Received: from tomti.i.net-space.pl (/10.175.206.254)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 26 Mar 2020 06:40:17 -0700
+Date:   Thu, 26 Mar 2020 14:40:11 +0100
+From:   Daniel Kiper <daniel.kiper@oracle.com>
+To:     Matthew Garrett <mjg59@google.com>
+Cc:     Ross Philipson <ross.philipson@oracle.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
         Thomas Gleixner <tglx@linutronix.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        "David S. Miller" <davem@davemloft.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jim Kukunas <james.t.kukunas@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 00/16] x86, crypto: remove always-defined CONFIG_AS_*
- and cosolidate Kconfig/Makefiles
-Message-ID: <20200326092213.GA100918@gmail.com>
-References: <20200326080104.27286-1-masahiroy@kernel.org>
- <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        trenchboot-devel@googlegroups.com, ardb@kernel.org,
+        leif@nuviainc.com, eric.snowberg@oracle.com, piotr.krol@3mdeb.com,
+        krystian.hebel@3mdeb.com, michal.zygowski@3mdeb.com,
+        james.bottomley@hansenpartnership.com, andrew.cooper3@citrix.com
+Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux
+ kernel support
+Message-ID: <20200326134011.c4dswiq2g7eln3qd@tomti.i.net-space.pl>
+References: <20200325194317.526492-1-ross.philipson@oracle.com>
+ <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9571 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ phishscore=0 adultscore=0 spamscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003260104
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9571 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0
+ lowpriorityscore=0 malwarescore=0 phishscore=0 priorityscore=1501
+ clxscore=1011 adultscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003260104
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hey,
 
-* Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+CC-in Ard, Leif, Eric, Piotr, Krystian, Michał, James and Andrew...
 
-> Very little has changed from last time, and this whole series still
-> looks good to me. I think I already ack'd most packages, but in case
-> it helps:
-> 
-> Reviewed-by: Jason A. Donenfeld <Jason@zx2c4.com>
+On Wed, Mar 25, 2020 at 01:29:03PM -0700, 'Matthew Garrett' via trenchboot-devel wrote:
+> On Wed, Mar 25, 2020 at 12:43 PM Ross Philipson
+> <ross.philipson@oracle.com> wrote:
+> > To enable the kernel to be launched by GETSEC or SKINIT, a stub must be
+> > built into the setup section of the compressed kernel to handle the
+> > specific state that the late launch process leaves the BSP. This is a
+> > lot like the EFI stub that is found in the same area. Also this stub
+> > must measure everything that is going to be used as early as possible.
+> > This stub code and subsequent code must also deal with the specific
+> > state that the late launch leaves the APs in.
+>
+> How does this integrate with the EFI entry point? That's the expected
 
-Acked-by: Ingo Molnar <mingo@kernel.org>
+It does not. We do not want and need to tie secure launch with UEFI.
 
-> Since this touches a lot of stuff, it might be best to get it in as 
-> early as possible during the merge window, as I imagine new code being 
-> added is going to want to be touching those makefiles too.
+> entry point on most modern x86.
 
-I'd argue the opposite: please merge this later in the merge window, to 
-not disrupt the vast body of other stuff that has already been lined up 
-and has been tested, and to give time for these new bits to get tested 
-some more.
+Yeah, most but not all...
 
-Also, please get it into -next ASAP, today would be ideal for test 
-coverage ...
+> What's calling ExitBootServices() in
 
-Thanks,
+Currently it is a bootloader, the GRUB which I am working on... OK, this
+is not perfect but if we want to call ExitBootServices() from the kernel
+then we have to move all pre-launch code from the bootloader to the
+kernel. Not nice because then everybody who wants to implement secure
+launch in different kernel, hypervisor, etc. has to re-implement whole
+pre-launch code again.
 
-	Ingo
+> this flow, and does the secure launch have to occur after it? It'd be
+
+Yes, it does.
+
+> a lot easier if you could still use the firmware's TPM code rather
+> than carrying yet another copy.
+
+I think any post-launch code in the kernel should not call anything from
+the gap. And UEFI belongs to the gap. OK, we can potentially re-use UEFI
+TPM code in the pre-launch phase but I am not convinced that we should
+(I am looking at it right now). And this leads us to other question
+which pops up here and there. How to call UEFI runtime services, e.g. to
+modify UEFI variables, update firmware, etc., from MLE or even from the
+OS started from MLE? In my opinion it is not safe to call anything from
+the gap after secure launch. However, on the other hand we have to give
+an option to change the boot order or update the firmware. So, how to
+do that? I do not have an easy answer yet...
+
+Daniel
