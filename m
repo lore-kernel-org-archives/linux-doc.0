@@ -2,177 +2,168 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 311D4C43331
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 14:23:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B80C43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 14:30:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1436920775
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 14:23:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2853920714
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 14:30:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="pN+jxk1G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727828AbgCZOXZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 10:23:25 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:50461 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727991AbgCZOXW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 10:23:22 -0400
-Received: (qmail 6696 invoked by uid 500); 26 Mar 2020 10:23:21 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 26 Mar 2020 10:23:21 -0400
-Date:   Thu, 26 Mar 2020 10:23:21 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     Boqun Feng <boqun.feng@gmail.com>
-cc:     linux-kernel@vger.kernel.org,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        <linux-arch@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v4 3/4] Documentation/litmus-tests/atomic: Add a test
- for atomic_set()
-In-Reply-To: <20200326024022.7566-4-boqun.feng@gmail.com>
-Message-ID: <Pine.LNX.4.44L0.2003261023010.5714-100000@netrider.rowland.org>
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+        id S1727832AbgCZOap (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 10:30:45 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:49468 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726296AbgCZOap (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 10:30:45 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02QETBsR005507;
+        Thu, 26 Mar 2020 14:30:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=4BLw30Hr96cQMep2R4AUjnjhT8BzoA3mA+LrI3ZVIQ4=;
+ b=pN+jxk1GQHQYEkuHt3xhzRsNG5EeRlzoYsly95rFnyYoNLFk6eYK/fsMHjth+OL4vUzB
+ YSCftFMrlTC0mk4F4LNNEDrH/KPb+NNu2VKeUtxBABF3b+73Wu2J/PSIBnSMqqtVR0i2
+ iUJCf7Ch3jEqUhhYQXTEatCNgG1P9m3yCb3KS/3tZpvehJ88VbY8yutBYyoNcIXBzwb9
+ rWrEAqW7Wa8b8kaQG32k0rOLQDZEyJRbkV2h4kZvRGV/N0/FCx+DfNJcia2k9LLCwM9Q
+ Dg2sBxfgLCCUI3582qe+QdE83CP8Wg7NwzIwRsvod6fLEYuAN/Jq1BmM053DMZ9aLaJI Jg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2120.oracle.com with ESMTP id 2ywavmg427-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 26 Mar 2020 14:30:37 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02QESWYi115612;
+        Thu, 26 Mar 2020 14:28:36 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3030.oracle.com with ESMTP id 2yxw4trgjw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 26 Mar 2020 14:28:36 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02QESWZw011629;
+        Thu, 26 Mar 2020 14:28:32 GMT
+Received: from localhost.uk.oracle.com (/10.175.198.205)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 26 Mar 2020 07:28:32 -0700
+From:   Alan Maguire <alan.maguire@oracle.com>
+To:     brendanhiggins@google.com, frowand.list@gmail.com,
+        gregkh@linuxfoundation.org, shuah@kernel.org,
+        linux-kselftest@vger.kernel.org
+Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org
+Subject: [PATCH v8 kunit-next 0/4] kunit: add debugfs representation to show results
+Date:   Thu, 26 Mar 2020 14:25:06 +0000
+Message-Id: <1585232710-322-1-git-send-email-alan.maguire@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9571 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
+ spamscore=0 mlxlogscore=999 adultscore=0 phishscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003260112
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9571 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 clxscore=1015 impostorscore=0
+ phishscore=0 suspectscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003260112
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 26 Mar 2020, Boqun Feng wrote:
+When kunit tests are run on native (i.e. non-UML) environments, the results
+of test execution are often intermixed with dmesg output.  This patch
+series attempts to solve this by providing a debugfs representation
+of the results of the last test run, available as
 
-> We already use a litmus test in atomic_t.txt to describe the behavior of
-> an atomic_set() with the an atomic RMW, so add it into atomic-tests
-> directory to make it easily accessible for anyone who cares about the
-> semantics of our atomic APIs.
-> 
-> Besides currently the litmus test "atomic-set" in atomic_t.txt has a few
-> things to be improved:
-> 
-> 1)	The CPU/Processor numbers "P1,P2" are not only inconsistent with
-> 	the rest of the document, which uses "CPU0" and "CPU1", but also
-> 	unacceptable by the herd tool, which requires processors start
-> 	at "P0".
-> 
-> 2)	The initialization block uses a "atomic_set()", which is OK, but
-> 	it's better to use ATOMIC_INIT() to make clear this is an
-> 	initialization.
-> 
-> 3)	The return value of atomic_add_unless() is discarded
-> 	inexplicitly, which is OK for C language, but it will be helpful
-> 	to the herd tool if we use a void cast to make the discard
-> 	explicit.
-> 
-> 4)	The name and the paragraph describing the test need to be more
-> 	accurate and aligned with our wording in LKMM.
-> 
-> Therefore fix these in both atomic_t.txt and the new added litmus test.
-> 
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> Acked-by: Andrea Parri <parri.andrea@gmail.com>
-> ---
+/sys/kernel/debug/kunit/<testsuite>/results
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Changes since v7:
 
->  Documentation/atomic_t.txt                    | 14 +++++------
->  ...c-RMW-ops-are-atomic-WRT-atomic_set.litmus | 24 +++++++++++++++++++
->  Documentation/litmus-tests/atomic/README      |  7 ++++++
->  3 files changed, 38 insertions(+), 7 deletions(-)
->  create mode 100644 Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-> 
-> diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
-> index 0ab747e0d5ac..67d1d99f8589 100644
-> --- a/Documentation/atomic_t.txt
-> +++ b/Documentation/atomic_t.txt
-> @@ -85,21 +85,21 @@ smp_store_release() respectively. Therefore, if you find yourself only using
->  the Non-RMW operations of atomic_t, you do not in fact need atomic_t at all
->  and are doing it wrong.
->  
-> -A subtle detail of atomic_set{}() is that it should be observable to the RMW
-> -ops. That is:
-> +A note for the implementation of atomic_set{}() is that it must not break the
-> +atomicity of the RMW ops. That is:
->  
-> -  C atomic-set
-> +  C Atomic-RMW-ops-are-atomic-WRT-atomic_set
->  
->    {
-> -    atomic_set(v, 1);
-> +    atomic_t v = ATOMIC_INIT(1);
->    }
->  
-> -  P1(atomic_t *v)
-> +  P0(atomic_t *v)
->    {
-> -    atomic_add_unless(v, 1, 0);
-> +    (void)atomic_add_unless(v, 1, 0);
->    }
->  
-> -  P2(atomic_t *v)
-> +  P1(atomic_t *v)
->    {
->      atomic_set(v, 0);
->    }
-> diff --git a/Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus b/Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-> new file mode 100644
-> index 000000000000..49385314d911
-> --- /dev/null
-> +++ b/Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-> @@ -0,0 +1,24 @@
-> +C Atomic-RMW-ops-are-atomic-WRT-atomic_set
-> +
-> +(*
-> + * Result: Never
-> + *
-> + * Test that atomic_set() cannot break the atomicity of atomic RMWs.
-> + *)
-> +
-> +{
-> +	atomic_t v = ATOMIC_INIT(1);
-> +}
-> +
-> +P0(atomic_t *v)
-> +{
-> +	(void)atomic_add_unless(v, 1, 0);
-> +}
-> +
-> +P1(atomic_t *v)
-> +{
-> +	atomic_set(v, 0);
-> +}
-> +
-> +exists
-> +(v=2)
-> diff --git a/Documentation/litmus-tests/atomic/README b/Documentation/litmus-tests/atomic/README
-> index ae61201a4271..a1b72410b539 100644
-> --- a/Documentation/litmus-tests/atomic/README
-> +++ b/Documentation/litmus-tests/atomic/README
-> @@ -2,3 +2,10 @@ This directory contains litmus tests that are typical to describe the semantics
->  of our atomic APIs. For more information about how to "run" a litmus test or
->  how to generate a kernel test module based on a litmus test, please see
->  tools/memory-model/README.
-> +
-> +============
-> +LITMUS TESTS
-> +============
-> +
-> +Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-> +	Test that atomic_set() cannot break the atomicity of atomic RMWs.
-> 
+- renamed KUNIT_INDENT[2] to KUNIT_SUBTEST_INDENT, KUNIT_SUBSUBTEST_INDENT
+  and added more description to their definitions to clarify why they
+  are defined as they are (Shuah)
+- defined KUNIT_SUBSUBTEST_INDENT directly as 8 spaces to avoid
+  checkpatch error (Shuah)
+
+Changes since v6:
+
+- fixed regexp parsing in kunit_parser.py to ensure test results are read
+  successfully with 4-space indentation (Brendan, patch 3)
+
+Changes since v5:
+
+- replaced undefined behaviour use of snprintf(buf, ..., buf) in
+  kunit_log() with a function to append string to existing log
+  (Frank, patch 1)
+- added clarification on log size limitations to documentation
+  (Frank, patch 4)
+
+Changes since v4:
+
+- added suite-level log expectations to kunit log test (Brendan, patch 2)
+- added log expectations (of it being NULL) for case where
+  CONFIG_KUNIT_DEBUGFS=n to kunit log test (patch 2)
+- added patch 3 which replaces subtest tab indentation with 4 space
+  indentation as per TAP 14 spec (Frank, patch 3)
+
+Changes since v3:
+
+- added CONFIG_KUNIT_DEBUGFS to support conditional compilation of debugfs
+  representation, including string logging (Frank, patch 1)
+- removed unneeded NULL check for test_case in
+  kunit_suite_for_each_test_case() (Frank, patch 1)
+- added kunit log test to verify logging multiple strings works
+  (Frank, patch 2)
+- rephrased description of results file (Frank, patch 3)
+
+Changes since v2:
+
+- updated kunit_status2str() to kunit_status_to_string() and made it
+  static inline in include/kunit/test.h (Brendan)
+- added log string to struct kunit_suite and kunit_case, with log
+  pointer in struct kunit pointing at the case log.  This allows us
+  to collect kunit_[err|info|warning]() messages at the same time
+  as we printk() them.  This solves for the most part the sharing
+  of log messages between test execution and debugfs since we
+  just print the suite log (which contains the test suite preamble)
+  and the individual test logs.  The only exception is the suite-level
+  status, which we cannot store in the suite log as it would mean
+  we'd print the suite and its status prior to the suite's results.
+  (Brendan, patch 1)
+- dropped debugfs-based kunit run patch for now so as not to cause
+  problems with tests currently under development (Brendan)
+- fixed doc issues with code block (Brendan, patch 3)
+
+Changes since v1:
+ - trimmed unneeded include files in lib/kunit/debugfs.c (Greg)
+ - renamed global debugfs functions to be prefixed with kunit_ (Greg)
+ - removed error checking for debugfs operations (Greg)
+
+Alan Maguire (4):
+  kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
+  kunit: add log test
+  kunit: subtests should be indented 4 spaces according to TAP
+  kunit: update documentation to describe debugfs representation
+
+ Documentation/dev-tools/kunit/usage.rst |  14 +++
+ include/kunit/test.h                    |  63 ++++++++++++--
+ lib/kunit/Kconfig                       |   8 ++
+ lib/kunit/Makefile                      |   4 +
+ lib/kunit/assert.c                      |  79 ++++++++---------
+ lib/kunit/debugfs.c                     | 116 +++++++++++++++++++++++++
+ lib/kunit/debugfs.h                     |  30 +++++++
+ lib/kunit/kunit-test.c                  |  44 +++++++++-
+ lib/kunit/test.c                        | 148 +++++++++++++++++++++++++-------
+ tools/testing/kunit/kunit_parser.py     |  10 +--
+ 10 files changed, 430 insertions(+), 86 deletions(-)
+ create mode 100644 lib/kunit/debugfs.c
+ create mode 100644 lib/kunit/debugfs.h
+
+-- 
+1.8.3.1
 
