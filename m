@@ -2,230 +2,144 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D73AFC2D0E7
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 02:41:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C29AC43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 03:09:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A18DA2073E
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 02:41:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+XtDpPY"
+	by mail.kernel.org (Postfix) with ESMTP id E932B20719
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 03:09:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727822AbgCZCkx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Mar 2020 22:40:53 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:36034 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727805AbgCZCkw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Mar 2020 22:40:52 -0400
-Received: by mail-qt1-f193.google.com with SMTP id m33so4147815qtb.3;
-        Wed, 25 Mar 2020 19:40:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=b3wMLtwJjVx+cW6i5BwYTXEhVTKTsG2r4lo8N4p/ptY=;
-        b=G+XtDpPYFDSyRzm0QXWKZwQ1v4BUaj6m0HrOPZTJHDU3pfomu98YgSKwFfgzg6spNT
-         MA/Im34q5ZDnMIVDB04KS2MZ6ywaKwGuzN5sxLdAkkKzrzv/xALvRWvBLm67Jg8GmqcD
-         SDvcbfJSJPkLPYIEtwwQ3HIO7SB+UZa2Ef2ghVJshGBcGjJTJRcnJb/vg5+Lq4qiU3oA
-         vdBKRD1F9pBN9MB4xTVS7Eb7+NXh7FQmfPPvAmCZs76yu8PUFLYQlzk6EcglAeT3iq9G
-         NXH1XN2z1N78uOO5wCL/szfhsHW/bQUbR62QUD2MvRgWj1vuu7ac5itB89CuebQUegGO
-         S6sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=b3wMLtwJjVx+cW6i5BwYTXEhVTKTsG2r4lo8N4p/ptY=;
-        b=lO9U8w6+OCI7bBn8ie+i28oIdNMmtjgs9nffZCCEDIAO43pePl23M5oDTQCEd0oIpD
-         pEwz85sKVZabPcTqi6BTYOvRHKCyXnXX8lSWTtAkio27o8l9rdw0hHUmZtpCmEUSxDQO
-         r9uV8EZWeRaI8LFYiyci+4HFoRKDdZtmOW528bm29VzlHcahHkXC50ikhsw8YPe6BJCA
-         BFEEUJeLuVlNIA1WtpNpr1Yx7APUGE/h3ZhWWQQeeuuqw5/IFLGPwGR2GHzIho6caMlu
-         /Xg0ZKWM84W6LWUqS5k+5QO5du/TD2es4xwjHocAiMKY6tWK/DX0n7CebUCmenbc3aLA
-         ECXg==
-X-Gm-Message-State: ANhLgQ1ZJkDCSLwWBi0xYRyPADWJU40ouutSkSfC9clm/n6XDOlvValb
-        ZJY7ylBXnwRTDei3j1/pN6g=
-X-Google-Smtp-Source: ADFU+vuBYJphO1kTx7mC+IwOjpOMaxnxWuorjwSu3zdstMRXUhAMpjk5Wd3f7oSj7xg9X7A6HUovpA==
-X-Received: by 2002:ac8:5458:: with SMTP id d24mr6099798qtq.255.1585190450781;
-        Wed, 25 Mar 2020 19:40:50 -0700 (PDT)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id u15sm671282qte.91.2020.03.25.19.40.49
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Mar 2020 19:40:50 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id A946227C0054;
-        Wed, 25 Mar 2020 22:40:49 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 25 Mar 2020 22:40:49 -0400
-X-ME-Sender: <xms:MRZ8Xqd8-e4xC1P39ujhKq2Cuq7B4duhzav-mY5x6Nao14FdrU43cg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudehhedggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeeuohhquhhn
-    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecukfhppeehvd
-    drudehhedrudduuddrjedunecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehm
-    rghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthi
-    dqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghi
-    lhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:MRZ8XtIR3odx_LF3yzi81FiCAFdznMqZoAVYaOoLhkhBjZaMKRdwvQ>
-    <xmx:MRZ8XkRopE2VapEkhzcYlNz9SqWQ0difShU7j7nyusQlX4ZP4iAJ7Q>
-    <xmx:MRZ8XrGX5wVt6WtziPOuUHhgv5x3wTjshA0ZcEXQv55_IZmJ7UHlGw>
-    <xmx:MRZ8XgnzRFB-Ng4uvMGCighA-lZ7GYgscs2tR7on794xWeWpf6GyiZYOs8o>
-Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 27FAE3067F32;
-        Wed, 25 Mar 2020 22:40:49 -0400 (EDT)
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v4 3/4] Documentation/litmus-tests/atomic: Add a test for atomic_set()
-Date:   Thu, 26 Mar 2020 10:40:21 +0800
-Message-Id: <20200326024022.7566-4-boqun.feng@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200326024022.7566-1-boqun.feng@gmail.com>
-References: <20200326024022.7566-1-boqun.feng@gmail.com>
+        id S1727612AbgCZDJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Mar 2020 23:09:43 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:12134 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727585AbgCZDJn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Mar 2020 23:09:43 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 112EDC7C64946249E08A;
+        Thu, 26 Mar 2020 11:09:40 +0800 (CST)
+Received: from [127.0.0.1] (10.177.131.64) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Thu, 26 Mar 2020
+ 11:09:39 +0800
+Subject: Re: [PATCH v7 0/4] support reserving crashkernel above 4G on arm64
+ kdump
+To:     <tglx@linutronix.de>, <mingo@redhat.com>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <james.morse@arm.com>, <dyoung@redhat.com>, <bhsharma@redhat.com>,
+        <john.p.donnelly@oracle.com>, <pkushwaha@marvell.com>
+References: <20191223152349.180172-1-chenzhou10@huawei.com>
+CC:     <horms@verge.net.au>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>
+From:   Chen Zhou <chenzhou10@huawei.com>
+Message-ID: <a57d46bc-881e-3526-91ca-558bf64e2aa8@huawei.com>
+Date:   Thu, 26 Mar 2020 11:09:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191223152349.180172-1-chenzhou10@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.177.131.64]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We already use a litmus test in atomic_t.txt to describe the behavior of
-an atomic_set() with the an atomic RMW, so add it into atomic-tests
-directory to make it easily accessible for anyone who cares about the
-semantics of our atomic APIs.
+Hi all,
 
-Besides currently the litmus test "atomic-set" in atomic_t.txt has a few
-things to be improved:
+Friendly ping...
 
-1)	The CPU/Processor numbers "P1,P2" are not only inconsistent with
-	the rest of the document, which uses "CPU0" and "CPU1", but also
-	unacceptable by the herd tool, which requires processors start
-	at "P0".
-
-2)	The initialization block uses a "atomic_set()", which is OK, but
-	it's better to use ATOMIC_INIT() to make clear this is an
-	initialization.
-
-3)	The return value of atomic_add_unless() is discarded
-	inexplicitly, which is OK for C language, but it will be helpful
-	to the herd tool if we use a void cast to make the discard
-	explicit.
-
-4)	The name and the paragraph describing the test need to be more
-	accurate and aligned with our wording in LKMM.
-
-Therefore fix these in both atomic_t.txt and the new added litmus test.
-
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-Acked-by: Andrea Parri <parri.andrea@gmail.com>
----
- Documentation/atomic_t.txt                    | 14 +++++------
- ...c-RMW-ops-are-atomic-WRT-atomic_set.litmus | 24 +++++++++++++++++++
- Documentation/litmus-tests/atomic/README      |  7 ++++++
- 3 files changed, 38 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-
-diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
-index 0ab747e0d5ac..67d1d99f8589 100644
---- a/Documentation/atomic_t.txt
-+++ b/Documentation/atomic_t.txt
-@@ -85,21 +85,21 @@ smp_store_release() respectively. Therefore, if you find yourself only using
- the Non-RMW operations of atomic_t, you do not in fact need atomic_t at all
- and are doing it wrong.
- 
--A subtle detail of atomic_set{}() is that it should be observable to the RMW
--ops. That is:
-+A note for the implementation of atomic_set{}() is that it must not break the
-+atomicity of the RMW ops. That is:
- 
--  C atomic-set
-+  C Atomic-RMW-ops-are-atomic-WRT-atomic_set
- 
-   {
--    atomic_set(v, 1);
-+    atomic_t v = ATOMIC_INIT(1);
-   }
- 
--  P1(atomic_t *v)
-+  P0(atomic_t *v)
-   {
--    atomic_add_unless(v, 1, 0);
-+    (void)atomic_add_unless(v, 1, 0);
-   }
- 
--  P2(atomic_t *v)
-+  P1(atomic_t *v)
-   {
-     atomic_set(v, 0);
-   }
-diff --git a/Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus b/Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-new file mode 100644
-index 000000000000..49385314d911
---- /dev/null
-+++ b/Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-@@ -0,0 +1,24 @@
-+C Atomic-RMW-ops-are-atomic-WRT-atomic_set
-+
-+(*
-+ * Result: Never
-+ *
-+ * Test that atomic_set() cannot break the atomicity of atomic RMWs.
-+ *)
-+
-+{
-+	atomic_t v = ATOMIC_INIT(1);
-+}
-+
-+P0(atomic_t *v)
-+{
-+	(void)atomic_add_unless(v, 1, 0);
-+}
-+
-+P1(atomic_t *v)
-+{
-+	atomic_set(v, 0);
-+}
-+
-+exists
-+(v=2)
-diff --git a/Documentation/litmus-tests/atomic/README b/Documentation/litmus-tests/atomic/README
-index ae61201a4271..a1b72410b539 100644
---- a/Documentation/litmus-tests/atomic/README
-+++ b/Documentation/litmus-tests/atomic/README
-@@ -2,3 +2,10 @@ This directory contains litmus tests that are typical to describe the semantics
- of our atomic APIs. For more information about how to "run" a litmus test or
- how to generate a kernel test module based on a litmus test, please see
- tools/memory-model/README.
-+
-+============
-+LITMUS TESTS
-+============
-+
-+Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-+	Test that atomic_set() cannot break the atomicity of atomic RMWs.
--- 
-2.25.1
+On 2019/12/23 23:23, Chen Zhou wrote:
+> This patch series enable reserving crashkernel above 4G in arm64.
+> 
+> There are following issues in arm64 kdump:
+> 1. We use crashkernel=X to reserve crashkernel below 4G, which will fail
+> when there is no enough low memory.
+> 2. Currently, crashkernel=Y@X can be used to reserve crashkernel above 4G,
+> in this case, if swiotlb or DMA buffers are required, crash dump kernel
+> will boot failure because there is no low memory available for allocation.
+> 
+> To solve these issues, introduce crashkernel=X,low to reserve specified
+> size low memory.
+> Crashkernel=X tries to reserve memory for the crash dump kernel under
+> 4G. If crashkernel=Y,low is specified simultaneously, reserve spcified
+> size low memory for crash kdump kernel devices firstly and then reserve
+> memory above 4G.
+> 
+> When crashkernel is reserved above 4G in memory, that is, crashkernel=X,low
+> is specified simultaneously, kernel should reserve specified size low memory
+> for crash dump kernel devices. So there may be two crash kernel regions, one
+> is below 4G, the other is above 4G.
+> In order to distinct from the high region and make no effect to the use of
+> kexec-tools, rename the low region as "Crash kernel (low)", and add DT property
+> "linux,low-memory-range" to crash dump kernel's dtb to pass the low region.
+> 
+> Besides, we need to modify kexec-tools:
+> arm64: kdump: add another DT property to crash dump kernel's dtb(see [1])
+> 
+> The previous changes and discussions can be retrieved from:
+> 
+> Changes since [v6]
+> - Fix build errors reported by kbuild test robot.
+> 
+> Changes since [v5]
+> - Move reserve_crashkernel_low() into kernel/crash_core.c.
+> - Delete crashkernel=X,high.
+> - Modify crashkernel=X,low.
+> If crashkernel=X,low is specified simultaneously, reserve spcified size low
+> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
+> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
+> pass to crash dump kernel by DT property "linux,low-memory-range".
+> - Update Documentation/admin-guide/kdump/kdump.rst.
+> 
+> Changes since [v4]
+> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
+> 
+> Changes since [v3]
+> - Add memblock_cap_memory_ranges back for multiple ranges.
+> - Fix some compiling warnings.
+> 
+> Changes since [v2]
+> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
+> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
+> patch.
+> 
+> Changes since [v1]:
+> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
+> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
+> in fdt_enforce_memory_region().
+> There are at most two crash kernel regions, for two crash kernel regions
+> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
+> and then remove the memory range in the middle.
+> 
+> [1]: http://lists.infradead.org/pipermail/kexec/2019-August/023569.html
+> [v1]: https://lkml.org/lkml/2019/4/2/1174
+> [v2]: https://lkml.org/lkml/2019/4/9/86
+> [v3]: https://lkml.org/lkml/2019/4/9/306
+> [v4]: https://lkml.org/lkml/2019/4/15/273
+> [v5]: https://lkml.org/lkml/2019/5/6/1360
+> [v6]: https://lkml.org/lkml/2019/8/30/142
+> 
+> Chen Zhou (4):
+>   x86: kdump: move reserve_crashkernel_low() into crash_core.c
+>   arm64: kdump: reserve crashkenel above 4G for crash dump kernel
+>   arm64: kdump: add memory for devices by DT property, low-memory-range
+>   kdump: update Documentation about crashkernel on arm64
+> 
+>  Documentation/admin-guide/kdump/kdump.rst       | 13 +++-
+>  Documentation/admin-guide/kernel-parameters.txt | 12 +++-
+>  arch/arm64/kernel/setup.c                       |  8 ++-
+>  arch/arm64/mm/init.c                            | 61 ++++++++++++++++-
+>  arch/x86/kernel/setup.c                         | 62 ++----------------
+>  include/linux/crash_core.h                      |  3 +
+>  include/linux/kexec.h                           |  2 -
+>  kernel/crash_core.c                             | 87 +++++++++++++++++++++++++
+>  kernel/kexec_core.c                             | 17 -----
+>  9 files changed, 183 insertions(+), 82 deletions(-)
+> 
 
