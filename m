@@ -2,139 +2,151 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7A76C2D0E5
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 22:04:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1807C43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 22:37:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8301F20714
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 22:04:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D4BA2077D
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 22:37:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="DkZIPKkv"
+	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="S/z57nl+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726954AbgCZWEu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 18:04:50 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:40104 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbgCZWEt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 18:04:49 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02QLn98F086088;
-        Thu, 26 Mar 2020 21:56:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=jJlpHWqDgAaQnn+x/AibIAVJw425RNnEJVeE/H96C6Q=;
- b=DkZIPKkvMhi7MgJ7A6372ctDD6ur875QCwmr9LjM6f/gcN5OLsYztXi/9wp7FD338Eh1
- BcpAaYJlJsPca1+YzPWnvyZLl0/l9jzlAO26D9M2lRz/YnxIOtavH2bdzDl78rbNS7QS
- w/70j06rpqsxG+rvW1byAPFer6qmmn6ntz8ZtvxuNNNNHPQ6CcnDnqC0fhG48N9veZVg
- BCfsiKmD0CdRGaJja5RXf7JXI4W1+6Wfb9/4o4noftsF2yrL4eKSp0J70hpbbeGCvHbP
- j84RfZbN8C8lsTDgCFGpBO0ICKX/8T12IimZxxtb9mIqtc54TXgPLYw1Bv1mXgDOPyi2 vQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 2ywavmjcja-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 26 Mar 2020 21:56:24 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02QLpI7M027652;
-        Thu, 26 Mar 2020 21:56:24 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 2yxw4ufgb2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 26 Mar 2020 21:56:23 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02QLuAlh008996;
-        Thu, 26 Mar 2020 21:56:10 GMT
-Received: from [192.168.1.206] (/71.63.128.209)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 26 Mar 2020 14:56:10 -0700
-Subject: Re: [PATCH 1/4] hugetlbfs: add arch_hugetlb_valid_size
-To:     Dave Hansen <dave.hansen@intel.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S.Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20200318220634.32100-1-mike.kravetz@oracle.com>
- <20200318220634.32100-2-mike.kravetz@oracle.com>
- <831a0773-1ba6-4d72-44b9-7472123b8528@intel.com>
- <5aceea6a-8dc0-a44b-80c6-94511b5c75ca@oracle.com>
- <1c8b16c7-248e-b75f-96c6-eabc953c5066@intel.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <530e6e11-ad1a-55bc-e61e-9da6eb7fea21@oracle.com>
-Date:   Thu, 26 Mar 2020 14:56:07 -0700
+        id S1726540AbgCZWh4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 18:37:56 -0400
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21193 "EHLO
+        sender4-of-o51.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726067AbgCZWhz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 18:37:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1585262249; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=fLNe87Iq8cSe8A+18WVaDDcNG5ppJqZCQ6jUJfof79UHjUYy3E+AtN0EcK3UxcfzHRY72VbwjgYpvC4PFW6yHbxz0qXMM+Gbu6OAC73zksQLaNeh6WEfRcmW22oux5UWM51siSJglIvsiig5zEneFZDkILQ5U3L32Yv7RdeAocw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1585262249; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=pos5YAHvuON5Ws4+7IsIwQp6G9vSpP14iyYMctqeebk=; 
+        b=A+eZnW63ZgwyT7aFla6XL/pY/cQ/x3g1wa+vBJZo2GFodKcxAv1AkDFOz9B2mKuXZNGGXEyllVU/CPS+KmsZBTOEkewGKcZ56Gb/RcdZslOQNajpFDFZAnNQO1Gz0GC0VQeuR6wU3SN3dMuIn8i8BQwzbxMgZIT5dEyf6gGG+IE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=apertussolutions.com;
+        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+        dmarc=pass header.from=<dpsmith@apertussolutions.com> header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585262249;
+        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+        bh=pos5YAHvuON5Ws4+7IsIwQp6G9vSpP14iyYMctqeebk=;
+        b=S/z57nl+sK27xvfu4feo2yA8ysrY6lASuN+YnB/NmQt+15IFX1WGv7PaFFbWZDXy
+        Cct0QI2pkjm5D1LKZZQngf+0VZQdGQ21jQykIhDNgDbiHy4ExODe2QwB25GkKih1n/Y
+        s7ecmw+HVQVixo4ch66bblrMdOfKKyTJNcHf9mIw=
+Received: from [10.10.1.24] (c-73-129-47-101.hsd1.md.comcast.net [73.129.47.101]) by mx.zohomail.com
+        with SMTPS id 1585262247635552.2214311642554; Thu, 26 Mar 2020 15:37:27 -0700 (PDT)
+Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel
+ support
+To:     Matthew Garrett <mjg59@google.com>
+Cc:     Ross Philipson <ross.philipson@oracle.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, trenchboot-devel@googlegroups.com
+References: <20200325194317.526492-1-ross.philipson@oracle.com>
+ <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com>
+ <bacbc25a-c724-d2fd-40bd-065799cd6195@apertussolutions.com>
+ <CACdnJusRATYv3Une5r14KHJVEg5COVW9B_BNViUXjavSxZ6d5A@mail.gmail.com>
+From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Message-ID: <8199b81d-7230-44d9-bddf-92af562fe6b1@apertussolutions.com>
+Autocrypt: addr=dpsmith@apertussolutions.com; prefer-encrypt=mutual; keydata=
+ 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
+Date:   Thu, 26 Mar 2020 18:37:20 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <1c8b16c7-248e-b75f-96c6-eabc953c5066@intel.com>
+In-Reply-To: <CACdnJusRATYv3Une5r14KHJVEg5COVW9B_BNViUXjavSxZ6d5A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9572 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=2
- spamscore=0 mlxlogscore=999 adultscore=0 phishscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003260159
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9572 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 bulkscore=0 clxscore=1011 impostorscore=0
- phishscore=0 suspectscore=2 mlxlogscore=999 spamscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2003260159
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/18/20 4:36 PM, Dave Hansen wrote:
-> On 3/18/20 3:52 PM, Mike Kravetz wrote:
->> Sounds good.  I'll incorporate those changes into a v2, unless someone
->> else with has a different opinion.
->>
->> BTW, this patch should not really change the way the code works today.
->> It is mostly a movement of code.  Unless I am missing something, the
->> existing code will always allow setup of PMD_SIZE hugetlb pages.
-> 
-> Hah, I totally skipped over the old code in the diff.
-> 
-> It looks like we'll disable hugetblfs *entirely* if PSE isn't supported.
->  I think this is actually wrong, but nobody ever noticed.  I think you'd
-> have to be running as a guest under a hypervisor that's lying about PSE
-> not being supported *and* care about 1GB pages.  Nobody does that.
+On 3/26/20 4:54 PM, Matthew Garrett wrote:
+> On Thu, Mar 26, 2020 at 1:50 PM Daniel P. Smith
+> <dpsmith@apertussolutions.com> wrote:
+>> It is not part of the EFI entry point as we are not entering the kernel
+>> from EFI but I will address that further in my response to Andy. The
+>> expectation is that if you are on an UEFI platform then EBS should have
+>> already been called.
+>=20
+> Ok. In that case should the EFI boot stub optionally be calling this
+> instead of startup_32?
+>=20
+>> With respect to using the firmware's TPM code, one
+>> of the purposes of a TCG Dynamic Launch is to remove the firmware from
+>> the code being trusted in making the integrity measurement of the
+>> kernel. I trust the firmware to initialize the hardware because I have
+>> to and it does give a trust chain, aka the SRTM, that can attest to what
+>> was used during that process. When the OS kernel is being started that
+>> trust chain has become weak (or even broken). I want a new trust chain
+>> that can provide better footing for asserting the integrity of the
+>> kernel and this is what Dynamic Launch gives us. I would like to think I
+>> did a fair job explaining this at LSS last fall[1][2] and would
+>> recommend those that are curious to review the slides/watch the
+>> presentation.
+>=20
+> PCs depend on the availability of EFI runtime services - it's not
+> possible to just assert that they're untrusted and so unsupported. The
+> TPM code is part of boot services which (based on your design) are
+> unavailable at this point, so I agree that you need your own
+> implementation.
+>=20
 
-Actually, !PSE will disable hugetlbfs a little later in the boot process.
-You are talking about hugepages_supported() correct?
+I appreciate this has been a heated area of debate, but with all due
+respect that might be a slight over statement w.r.t. dependency on
+runtime services and not what I was saying about the trustworthiness of
+UEFI. If I have a UEFI platform, I trust EFI to boot the system but that
+does not mean I have to trust it to measure my OS kernel or manage the
+running system. Secure Launch provides a means to start a measurement
+trust chain starting with CPU taking the first measurement and then I
+can do things like disabling runtime services in the kernel or do crazy
+things like using the dynamic launch to switch to a minimal temporary
+kernel that can do high trust operations such as interfacing with
+entities outside your trust boundary, e.g. runtime services.
 
-I think something really bad could happen in this situation (!PSE and
-X86_FEATURE_GBPAGES).  When parsing 'hugepages=' for gigantic pages we
-immediately allocate from bootmem.  This happens before later checks in
-hugetlb_init for hugepages_supported().  So, I think we would end up
-allocating GB pages from bootmem and not be able to use or free them. :(
+Please understand I really do not want my own implementation. I tried to
+see if we could just #include in the minimal needed parts from the
+in-tree TPM driver but could not find a clean way to do so. Perhaps
+there might be a future opportunity to collaborate with the TPM driver
+maintainers to refactor in a way that we can just reuse instead of
+reimplement.
 
-Perhaps it would be best to check hugepages_supported() when parsing
-hugetlb command line options.  If not enabled, throw an error.  This
-will be much easier to do after moving all command line parsing to
-arch independent code.
-
-Is that a sufficient way to address this concern?  I think it is a good
-change in any case.
--- 
-Mike Kravetz
