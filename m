@@ -2,104 +2,107 @@ Return-Path: <SRS0=jv2Y=5L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15304C2D0E5
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 21:08:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA52C43331
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 21:13:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DA5D820722
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 21:08:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qAM3YCcZ"
+	by mail.kernel.org (Postfix) with ESMTP id 7D5BE20719
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Mar 2020 21:13:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1585257182;
+	bh=1HvFts9rQeuRzYxOlzyu9ed5O5MaRtckzVZ9rEw49+E=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=oTwAp5bqCTKDIM+XkXVb8ePR1j7QWzW6NeUOd00zyOzCcRyyEuE9uJWgwZ3A2GQes
+	 KdJcp3c5lP8NufFrRgohyYCgDIDRB9jzoH2+jgKJ7rzdRu3q4tYf9C53gy+7mOp6rS
+	 l6bHhZPwhJtuHpAK97BqGd9d/fLN+5TOmJIPA8wo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727611AbgCZVIF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 17:08:05 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:39416 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726034AbgCZVIF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 17:08:05 -0400
-Received: by mail-lj1-f194.google.com with SMTP id i20so8000141ljn.6
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 14:08:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qAyBvgO4bOnc2gaynrGXEwwg2q9+bev/7Krv5slmOVU=;
-        b=qAM3YCcZs+npTx9BPPePlvKxpXslhpkUmEgugnm4zAlkgCuERkzo5/Ny5AqJKWuNI0
-         ee9NxL1Vene0EIe9MIIcEKVSNl3ELO9DzQV1v6OPZG/ymJS0GzpS5HpxEvajOFYGjLg/
-         8hTPoBBa+SZXYZv6GDDVEZOCIWiZqN1g2fSUO5WXwcWQv99jmowC0bv5jm8HQyAY9R0W
-         WdBbuyvVCJZ2oMFZsQJAT+IreTv93hXErVplWvMb+uKMkrZFThR29bTqy3mIrEYIHPb1
-         cOi1OYNIA3oIG4m5I6aUIgAH2xkWc7L3IilysL0bNP6jOWASQMrsZRbeWVUn4aYTPotV
-         ivYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qAyBvgO4bOnc2gaynrGXEwwg2q9+bev/7Krv5slmOVU=;
-        b=UrCerEy32vZPHdhuJGB1ACioiPZgUgOGb5O75BHN2lOtwecY/iE4YoXom+QZ13W4CN
-         lcBBPhVmWCN8C5EKwGh8bTZHpI5ekjMo2LX3BuTa7VAaKEjTdRZ4mv4SJtjlvZr7urvG
-         n/ztKFL7UxIyXc2MxHfql/gHzOTo2MHjQ3LKXq0+EOCwblfu7gJVPYmUedi4DDCmBXzh
-         foL2m7/a0UWnci/3yj3QqrnHnpUYkmDzCQFgF1bjwzGMPSEF5onWyRacHqXbsNx/4SbL
-         KnMiiFYZCFygKIgfeGYO7shFmwK8Y0aRtulae5FDx43FkP7SG1fzqSfZE4a0eKmzfckk
-         RsCw==
-X-Gm-Message-State: AGi0PuYvzW+Jlt4+9Hu5CDF71SiwqY9NwvOpZD8bb6WKroUIqymCyVvc
-        HsgBMUEENBWj2N0J+trdldsmR/uH62BIn0SuWL9y9Q==
-X-Google-Smtp-Source: APiQypKkTPp+fGz1ypK0j7lnjDyL1kGteAfWqjf8dTuHziw1bMtpKGCBe6kauaYbNGvlyl7GaC+Y5sCmhx3hwF0rDz8=
-X-Received: by 2002:a05:651c:28a:: with SMTP id b10mr3830382ljo.223.1585256882978;
- Thu, 26 Mar 2020 14:08:02 -0700 (PDT)
+        id S1727652AbgCZVNC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 17:13:02 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:20175 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727884AbgCZVNB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 17:13:01 -0400
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 02QLCux3029921;
+        Fri, 27 Mar 2020 06:12:56 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 02QLCux3029921
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1585257177;
+        bh=yUWTDQTSG+CELwmMJY3M4PyyjvvHxAi5WzaSE/lWqWs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=02ax5uD7o97ywHVTM+BzqvV5KxZq7HYns7pOohZvn/H/gS5KFk5dbFbsxwdf2UO4S
+         1vqgsJtvu7G6cL6QxIOeeAfB7udsm/QfTFmvxTfuFM4wBO/O48Zk7DfzdkY6eJcLqZ
+         IYWMLO9qD356FZlV4oG/s8OoRqthhbrehJW26Vcszqfnjt/CzHVWfnd/4452UUWixv
+         BUNH6/d9yw/4kHTvTVnv/QzWGiv0H4p/k0G64hu8GCyt6Nv0WvyS4X5BxKhmC981/N
+         xLS1cNma8U/X2FiQX7Cf+UbsbUdRi74RlEOVV/aDPSaYzz5d/uHwb4vaz8fAJ8XJJ5
+         UsXN64bnn8b1A==
+X-Nifty-SrcIP: [209.85.222.43]
+Received: by mail-ua1-f43.google.com with SMTP id m18so2713958uap.9;
+        Thu, 26 Mar 2020 14:12:56 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ1wJy6VNHDmUTF4zoy/Xjou+tK3TCuHIiyX+EJFSOELlH8aBnQ6
+        NSvXwmg20K8b+nlWxqc+Wf3RfcAIpcVyzrNXBhE=
+X-Google-Smtp-Source: ADFU+vt/pF+IMJk2I2eYB42/QwdxfxYfeO3mcmt/FNF9nUsRTsBXsBiH5xt4Zbky0X6BnYqInbOxR2tZvNrmVUvbcYI=
+X-Received: by 2002:a9f:28c5:: with SMTP id d63mr8552249uad.25.1585257175580;
+ Thu, 26 Mar 2020 14:12:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200324135328.5796-1-geert+renesas@glider.be> <20200324135653.6676-1-geert+renesas@glider.be>
-In-Reply-To: <20200324135653.6676-1-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 26 Mar 2020 22:07:51 +0100
-Message-ID: <CACRpkdb=AVvyo6EOigKv+t5L4U=VjJ-16_ERimDvVWuCiU4Mxg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/8] ARM: integrator: impd1: Use GPIO_LOOKUP() helper macro
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+References: <20200326080104.27286-1-masahiroy@kernel.org> <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
+ <20200326092213.GA100918@gmail.com> <CAK7LNAQ7-wpm+g=cXeJ01vGrO1nVjfP-ornKm=SXoDEn4x+DjQ@mail.gmail.com>
+ <CAHmME9qnWWYV+eWVmx2yoADB9oecZKj=UgLkdSHe_=MnxedtSQ@mail.gmail.com>
+In-Reply-To: <CAHmME9qnWWYV+eWVmx2yoADB9oecZKj=UgLkdSHe_=MnxedtSQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 27 Mar 2020 06:12:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQNx0TxWGCzNM-2JqfEJuyDKnLMcqJv8Be_9_Ty5wv5Lg@mail.gmail.com>
+Message-ID: <CAK7LNAQNx0TxWGCzNM-2JqfEJuyDKnLMcqJv8Be_9_Ty5wv5Lg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/16] x86, crypto: remove always-defined CONFIG_AS_*
+ and cosolidate Kconfig/Makefiles
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        "David S. Miller" <davem@davemloft.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jim Kukunas <james.t.kukunas@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        intel-gfx@lists.freedesktop.org,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-
-> impd1_probe() fills in the GPIO lookup table by manually populating an
-> array of gpiod_lookup structures.  Use the existing GPIO_LOOKUP() helper
-> macro instead, to relax a dependency on the gpiod_lookup structure's
-> member names.
+On Fri, Mar 27, 2020 at 5:46 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
-> While this patch is a dependency for "[PATCH v6 4/8] gpiolib: Add
-> support for GPIO lookup by line name", it can be applied independently.
-> But an Acked-by would be nice, too.
+> On Thu, Mar 26, 2020 at 2:44 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > I collected more Reviewed-by and Acked-by,
+> > then pushed this series to
+> >
+> > git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+> > kbuild-asinstr
+>
+> But not the version of the penultimate patch that Nick ack'd....
 
-I simply applied this patch for v5.7 in the GPIO tree since I am the
-maintainer of this platform, and I might want to change stuff around
-Integrator next cycle so it's good to have this covered.
+Dropped Nick's Reviewed-by.
 
-Yours,
-Linus Walleij
+
+-- 
+Best Regards
+Masahiro Yamada
