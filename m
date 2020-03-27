@@ -2,57 +2,110 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF87C43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE01C2D0ED
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:51:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5613820748
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:49:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7E45207FF
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:51:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="XvzIk11Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727287AbgC0Pt1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 11:49:27 -0400
-Received: from mx.sdf.org ([205.166.94.20]:53882 "EHLO mx.sdf.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726959AbgC0Pt0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Mar 2020 11:49:26 -0400
-Received: from sdf.org (IDENT:lkml@sdf.lonestar.org [205.166.94.16])
-        by mx.sdf.org (8.15.2/8.14.5) with ESMTPS id 02RFnMBV014590
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits) verified NO);
-        Fri, 27 Mar 2020 15:49:23 GMT
-Received: (from lkml@localhost)
-        by sdf.org (8.15.2/8.12.8/Submit) id 02RFnMtX006769;
-        Fri, 27 Mar 2020 15:49:22 GMT
-Date:   Fri, 27 Mar 2020 15:49:22 +0000
-From:   George Spelvin <lkml@SDF.ORG>
-To:     linux-doc@vger.kernel.org
-Cc:     corbet@lwn.net, lkml@sdf.org
-Subject: Tweak MAINTAINERS text to match get_maintainer.pl?
-Message-ID: <20200327154922.GB19653@SDF.ORG>
+        id S1727549AbgC0Pvn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 11:51:43 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:38618 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726900AbgC0Pvm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 11:51:42 -0400
+Received: by mail-qt1-f196.google.com with SMTP id z12so8928437qtq.5
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 08:51:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=m8e1t2URI8U7vsMzc9OwFUvFf9TchHday/nZmdlm/Bc=;
+        b=XvzIk11ZgUsdpnfnuoichso6upeqV2Fr6l3tyzOo5JKIkUELWesJaX8XSghz6si3tD
+         xXRm2ovbTBK2aS1SptYapKH5L778NQZ0wXK+y++E/Y3aqyitiUEJ9yvE7dcOcls2gkX3
+         G4wnpAHNQAe8i+B2MFW9fxmioVMs544R1zkKK02CSeICz9leLhZmPFN/pEtGv1NRftNE
+         9a1vI+58/uweZP6JMlx0iwVGIBWhSTndYgpbN0lCaFx9nDkBCRT05OQU0VIPQr04VJxL
+         CotSzb297EAD8vP52+rw2GCqXW2VTlVwqs+8GrqnVrE9fd9hD0yoL6AnzxkzkZS6Rd6R
+         Annw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=m8e1t2URI8U7vsMzc9OwFUvFf9TchHday/nZmdlm/Bc=;
+        b=c7fnSsaMyX8dmCoFRHo0NO81i6sEFT3LEqIhGJP6k3fsHP1AFqa04ovJQ8ygx9boRH
+         snQQPWb38cp5axgz+PzPlsvGMYmUl43txYaF0D5hc49rpiCE64cwOeTtfJ9CNkGIlE9V
+         5ahzbwJyq4irG6NTOe8Xg1oC+DP4BtS7zGqpE4yEqh4uBuUyv0JGJjXMb5qWYpgUR7cA
+         XIyWv6VZK2VM7g6vBJhS29JqKchibzZjjwFcXiyNEquif+iDKKz8ohTdW+OxTTvPZeU2
+         eDnyA/WNDzCmeTP9Xah9WVZ6p/XArB0NqZmD5yhvQLw/t0lTTf2gTDfaEtufiWAZ0a65
+         lf7g==
+X-Gm-Message-State: ANhLgQ1xt64Jt/Vs6qTqgNFCkHDhSxJvWtduYnQic/C8NI3SpPK9yz1o
+        YFvz2zYAMcTR8w+FJo2kXart/w==
+X-Google-Smtp-Source: ADFU+vs7IQPv1SwKkkfEK42tDG3IIZh7dDMSegkFSdNrKQY6L07g3w09IacJgdU3HOCbM7FKaYHRGw==
+X-Received: by 2002:aed:2415:: with SMTP id r21mr5456624qtc.82.1585324299805;
+        Fri, 27 Mar 2020 08:51:39 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id d2sm3967804qkl.98.2020.03.27.08.51.39
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 27 Mar 2020 08:51:39 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jHrGk-0002JY-Io; Fri, 27 Mar 2020 12:51:38 -0300
+Date:   Fri, 27 Mar 2020 12:51:38 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Dennis Dalessandro <dennis.dalessandro@intel.com>,
+        Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+        Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 14/17] infiniband: pa_vnic_encap.h: get rid of a warning
+Message-ID: <20200327155138.GX20941@ziepe.ca>
+References: <cover.1584456635.git.mchehab+huawei@kernel.org>
+ <9dce702510505556d75a13d9641e09218a4b4a65.1584456635.git.mchehab+huawei@kernel.org>
+ <20200319003645.GH20941@ziepe.ca>
+ <20200327153226.1fed1835@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20200327153226.1fed1835@coco.lan>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I rcently submitted a patch to the WILC1000 staging driver. I erred by 
-only sending it to the people listed for that driver in the MAINTAINERS 
-file, and missed gregkh and the devel@driverdev.osuosl.org list.
+On Fri, Mar 27, 2020 at 03:32:26PM +0100, Mauro Carvalho Chehab wrote:
+> Em Wed, 18 Mar 2020 21:36:45 -0300
+> Jason Gunthorpe <jgg@ziepe.ca> escreveu:
+> 
+> > On Tue, Mar 17, 2020 at 03:54:23PM +0100, Mauro Carvalho Chehab wrote:
+> > > The right markup for a variable is @foo, and not @foo[].
+> > > 
+> > > Using a wrong markup caused this warning:
+> > > 
+> > > 	./drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:243: WARNING: Inline strong start-string without end-string.
+> > > 
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > >  drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)  
+> > 
+> > Do you want this to go to the RDMA tree? I wasn't cc'd on the cover
+> > letter
+> 
+> Sorry for not answering earlier. Got sidetracked with other things.
+> 
+> Yeah, if there are still time, feel free to pick it. Otherwise, 
+> I'll likely send again after the merge window, to be applied either 
+> by you or via the docs tree.
 
-Now, get_maintainer.pl does output those addresses, as they cover all of 
-drivers/staging/, but I was misled by the text in MAINTAINERS "When 
-reading this list, please look for the most precise areas first."
+Sure, done
 
-I took that to mean that the specific superseded the general, but
-apparently I'm supposed to take the union.
-
-Except that I'm pretty sure Linus is meant to be a fallback, not
-Cc:ed on every driver patch.
-
-So I'm confused about what the actual rules are.  But if they're encoded 
-in check_maintainer.pl, could the text in MAINTAINERS be updated to match? 
-Thank you.
+Thanks,
+Jason
