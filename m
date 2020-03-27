@@ -7,59 +7,58 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D93DDC2D0E8
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 21:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C816C2D0E8
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 21:37:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B0C0E206F6
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 21:33:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4315920714
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 21:37:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gRSIg1Qw"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lahDEBVq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727806AbgC0Vdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 17:33:54 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:35401 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727752AbgC0Vdx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 17:33:53 -0400
-Received: by mail-lf1-f68.google.com with SMTP id t16so8253221lfl.2
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 14:33:51 -0700 (PDT)
+        id S1727541AbgC0Vhi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 17:37:38 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:39305 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727611AbgC0Vhi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 17:37:38 -0400
+Received: by mail-lf1-f67.google.com with SMTP id h6so3323727lfp.6
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 14:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dzvDwMUyG06J3AV5cwO/m7cs6Sh4fmPAAPA7hxTv980=;
-        b=gRSIg1QwEzIrjZsOKmca5lM0DJGUPgYdVr2fCBp18i17PUM79/QbUfa9whxB1yleIu
-         19uOZ+GytcxmNRc+uGdfToX3iDfx/vj5Kkp0opY6r+xrlOGCbN5MmsDlz21KklP+n7hQ
-         MpylNrstB6SstKltT48fN3JOCTPNt4jT6z/fjF0dX9tM8PbnFU0oJer4qREeeUNAKSpX
-         6MKL5IavYbzJ1uANrnLVHQGFD6Y5HLW5QSK2FzMDh807/dLrnRAMUw/QJgFrV0cgo2Q+
-         Qet9m7dtlAssP+WFw0OjcCXKeYbPU6jo6nm6uKCq3kYu0//UDnT30vx9p2BejYcVUvZh
-         ZO1w==
+        bh=/6P/ugUG8QPN1PLqi6CLq7SxjX8NFnDCuavJA3Wde1E=;
+        b=lahDEBVq+V7MEitEv24mEfdDx+ECSXtHN+KA62Gf5ItiJ1T+tDT8IWT4Oy22V9BsXC
+         6JaUyn62gDbbeAweC22pKUYqIidnovzsnM7DZS/3dAC/3/rSk5L52uSrG8+ZEpNokRoF
+         DAcc3GvLOC/ssSMB8MQ5gqL2f74Gp6tRux0EURwEZRovg6fD33++EMNMJHG8TpO81M7J
+         Mt83QcXquqLJVR9ORbRpZm1ECFmS406DJdA7rkOGaLuwywkPfYQtd7G56RMATPaHmnNG
+         GJdQYRUgmxyx9hZzmpIXWlpouQK7AOtyGExNg/CAyJqJkZU/svLfvM9MdHzKmMqw3M9X
+         2vUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dzvDwMUyG06J3AV5cwO/m7cs6Sh4fmPAAPA7hxTv980=;
-        b=gMRXmHoMbTetb+eA1ObwwYX9V9Jd9S9Auq6hWTdcF+NKz6Oxnp2bKIL7vL4wgOb/yE
-         e6FnnEtbxXYB4R0+YC6Ymor44CCP0Ly0910UEIFoIeCO/jzae5LzcNe3opYzsqbMBMEG
-         5+EyO6JOCnPOwa+sjzY4Qvpixo3NTksI7/vQTThuAhwM0T31x4dnf6WuOj18nEbCxfhu
-         xGIrM+qEJ0e6RKfjFhFSRtkJj5bfBu8rzbkL5+wSKkmBs1XYhL8Bk5Ntj3yOkWCRj+Pc
-         kLtIubV5AmkS3Zf+GwrDslbQYefQAYSAlm73na8/vNtgXGoIv31BEvpZQXOiTUKdSloB
-         AM3g==
-X-Gm-Message-State: AGi0PuYBzuP80EiOX4jW8Lj6B5da3nUdw+KZTJzEyiHQW3uPg7tMGejh
-        uR3qKpbBxEpgZIRoN5MhQ1wjZ5daMpfOJHQJ+SIYeshHQ70=
-X-Google-Smtp-Source: APiQypLPB2bx74iqYlIDZcf1TI5kqtkeuL4BUeP6Olm1S22lCTiyT7KkrzX0yGdpEq6wWOI9W+VlzHcPMEoWS21Y4Is=
-X-Received: by 2002:a19:be92:: with SMTP id o140mr740571lff.217.1585344830265;
- Fri, 27 Mar 2020 14:33:50 -0700 (PDT)
+        bh=/6P/ugUG8QPN1PLqi6CLq7SxjX8NFnDCuavJA3Wde1E=;
+        b=cntyXhlczzbw4woy2rFX8hhJmnAXy/1dIvyTQLwBshYhBtqaH3IxSSAHQ0m8/CuFk0
+         92+TMWyoy81NU6xBdxdJL2DHbfzAXk2P2RaFS1F2BUfb/fnJJTWw8I/mS2aFJVyOI1S5
+         UgORiHcaPHhEubUL4psdqTxOahqfkUo7ASlQzR/00DPegwtl8C0rZOGSGkJrkVcb9UPa
+         vXLt1RArd07Y0gfy8PjFRckfmm05UP10Clhv5fNabALQtdgyvPB/qtSGu8Cg46oZmNRJ
+         tNjknrAU2KF/p7YAWUKpgcVspeBBhgMbh1ktPnpphsXxXcj/lwDYThYSFBQNA+LnDOjR
+         M9DA==
+X-Gm-Message-State: AGi0PuZXzMu4nUhNC9Ddv1GrEbTH+bZsmHIGsri+QPf4iW8ewKM8WfAI
+        8ki6dMuSyU6YbbPZRUZn7UT044ujM10KYxantxehmw==
+X-Google-Smtp-Source: APiQypLBRjm8m9TRh5E1Wf02gWdM2GuN6ua450wAQk3DBPj55sqZgue9A3EKHJXEe1wTh5T/OQvRR8bY8YYI7pRonwA=
+X-Received: by 2002:a05:6512:6c4:: with SMTP id u4mr806577lff.89.1585345054013;
+ Fri, 27 Mar 2020 14:37:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200324135328.5796-1-geert+renesas@glider.be>
  <20200324135653.6676-1-geert+renesas@glider.be> <20200324135653.6676-5-geert+renesas@glider.be>
- <CACRpkdZuQrPqFPyoop9pv6MVwqwz_C6ZNKMxWqSFXdAMkhbsvQ@mail.gmail.com> <CAMuHMdVpiO+KGRTF=83kubuuJF2p8TJhWe_X32amSTa6bXsCxg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVpiO+KGRTF=83kubuuJF2p8TJhWe_X32amSTa6bXsCxg@mail.gmail.com>
+In-Reply-To: <20200324135653.6676-5-geert+renesas@glider.be>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 27 Mar 2020 22:33:38 +0100
-Message-ID: <CACRpkdaG0Fd7rpfqO6p0j9RL3T-whCof=YewH=rR3Bwe89KeUA@mail.gmail.com>
+Date:   Fri, 27 Mar 2020 22:37:22 +0100
+Message-ID: <CACRpkda8Uc7fDbV8EsG+EpDGw35-k+9-U7njhaaQVvhY5rwmcg@mail.gmail.com>
 Subject: Re: [PATCH v6 5/8] gpiolib: Introduce gpiod_set_config()
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Harish Jenny K N <harish_kandiga@mentor.com>,
@@ -84,48 +83,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 27, 2020 at 9:45 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Thu, Mar 26, 2020 at 10:26 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> > On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > > The GPIO Aggregator will need a method to forward a .set_config() call
-> > > to its parent gpiochip.  This requires obtaining the gpio_chip and
-> > > offset for a given gpio_desc.  While gpiod_to_chip() is public,
-> > > gpio_chip_hwgpio() is not, so there is currently no method to obtain the
-> > > needed GPIO offset parameter.
-> > >
-> > > Hence introduce a public gpiod_set_config() helper, which invokes the
-> > > .set_config() callback through a gpio_desc pointer, like is done for
-> > > most other gpio_chip callbacks.
-> > >
-> > > Rewrite the existing gpiod_set_debounce() helper as a wrapper around
-> > > gpiod_set_config(), to avoid duplication.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > v6:
-> > >   - New.
-> >
-> > This is nice, I tried to actually just apply this (you also sent some
-> > two cleanups that I tried to apply) byt Yue's cleanup patch
-> > commit d18fddff061d2796525e6d4a958cb3d30aed8efd
-> > "gpiolib: Remove duplicated function gpio_do_set_config()"
-> > makes none of them apply :/
->
-> /me confused.
->
-> That commit was reverted later, so it shouldn't matter.
->
-> I have just verified, and both my full series and just this single
-> patch, do apply fine to all of current gpio/for-next, linus/master, and
-> next-20200327.  They even apply fine to gpio/for-next before or after
-> the two cleanups I sent, too.
->
-> What am I missing?
+On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Ah I see, it is because my development branch is based on
-v5.6-rc1. So I have to merge in a later -rc where this revert
-is applied so that this applies.
+> The GPIO Aggregator will need a method to forward a .set_config() call
+> to its parent gpiochip.  This requires obtaining the gpio_chip and
+> offset for a given gpio_desc.  While gpiod_to_chip() is public,
+> gpio_chip_hwgpio() is not, so there is currently no method to obtain the
+> needed GPIO offset parameter.
+>
+> Hence introduce a public gpiod_set_config() helper, which invokes the
+> .set_config() callback through a gpio_desc pointer, like is done for
+> most other gpio_chip callbacks.
+>
+> Rewrite the existing gpiod_set_debounce() helper as a wrapper around
+> gpiod_set_config(), to avoid duplication.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v6:
+>   - New.
+
+Patch applied in preparation for the next kernel cycle
+so we get Geert's patch stack down.
 
 Yours,
 Linus Walleij
