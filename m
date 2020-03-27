@@ -2,83 +2,150 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2C72C43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 06:32:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA36EC43331
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 06:46:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 600C020716
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 06:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585290756;
-	bh=ZRrCX6Kb/mbwp2oOlBAUbxjPIj5ASBM+09HqLycX7h0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=y4cSQidfVN1hj3iBffIvR7fW93F1bdydA37EUSWm1iMIYYvj1PlKzoXJAeNGb18S7
-	 yWLfSdPZ48nnNiZ3tKpfdrozxGMq4uO03MM3yh3E7HZ/bKXPGAlf+NWXsJUJPlt7qD
-	 /b5kYpfke8GHAW9tEhwStSnUjWoJFSwRzwZCUMfs=
+	by mail.kernel.org (Postfix) with ESMTP id 8AABF20714
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 06:46:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726002AbgC0Gcg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 02:32:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44420 "EHLO mail.kernel.org"
+        id S1726418AbgC0Gqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 02:46:52 -0400
+Received: from foss.arm.com ([217.140.110.172]:41054 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725992AbgC0Gcf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Mar 2020 02:32:35 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D8CFA20663;
-        Fri, 27 Mar 2020 06:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585290755;
-        bh=ZRrCX6Kb/mbwp2oOlBAUbxjPIj5ASBM+09HqLycX7h0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vndsNj2aNpMgJeMQrfekwmAcagH6Rw1vkxM72gTToe9qTz5/xdFchzyh58pwc6/lP
-         fvn10/C5aDbTKUejU8mzFzPX8JUa0qOkMlQbb68AdEVKhT6h+dXJK4u3I8LuEVijhl
-         VbKRMQpM43X854FooyTJ/SrzWjUbpqPeF3baIEFo=
-Date:   Fri, 27 Mar 2020 07:32:32 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     peter@bikeshed.quignogs.org.uk
-Cc:     Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v3 1/1] A compact idiom to add code examples in kerneldoc
- comments.
-Message-ID: <20200327063232.GF1601217@kroah.com>
-References: <20200326192947.GM22483@bombadil.infradead.org>
- <20200326195156.11858-1-peter@bikeshed.quignogs.org.uk>
- <20200326195156.11858-2-peter@bikeshed.quignogs.org.uk>
+        id S1725956AbgC0Gqw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Mar 2020 02:46:52 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC7317FA;
+        Thu, 26 Mar 2020 23:46:50 -0700 (PDT)
+Received: from [10.163.1.31] (unknown [10.163.1.31])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B53F3F71F;
+        Thu, 26 Mar 2020 23:50:47 -0700 (PDT)
+Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
+To:     Christophe Leroy <christophe.leroy@c-s.fr>, linux-mm@kvack.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-riscv@lists.infradead.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
+ <2bb4badc-2b7a-e15d-a99b-b1bd38c9d9bf@arm.com>
+ <a46d18ed-8911-1ec3-c32f-58b6e0d959d7@c-s.fr>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+Message-ID: <9675882f-0ec5-5e46-551f-dd3aa38bf8d8@arm.com>
+Date:   Fri, 27 Mar 2020 12:16:34 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200326195156.11858-2-peter@bikeshed.quignogs.org.uk>
+In-Reply-To: <a46d18ed-8911-1ec3-c32f-58b6e0d959d7@c-s.fr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 07:51:56PM +0000, peter@bikeshed.quignogs.org.uk wrote:
-> From: Peter Lister <peter@bikeshed.quignogs.org.uk>
-> 
-> scripts/kernel-doc - When a double colon follows a section heading
-> (e.g. Example::), write a double colon line to the ReST output to make
-> the following text (e.g. a code snippet) into a literal block.
-> 
-> drivers/base/platform.c - Changed Example: headings to Example:: to
-> literalise code snippets as above.
-> 
-> This patch also removes two kerneldoc build warnings:
-> ./drivers/base/platform.c:134: WARNING: Unexpected indentation.
-> ./drivers/base/platform.c:213: WARNING: Unexpected indentation.
-> 
-> Signed-off-by: Peter Lister <peter@bikeshed.quignogs.org.uk>
-> ---
->  drivers/base/platform.c |  4 ++--
->  scripts/kernel-doc      | 19 +++++++++++++++----
->  2 files changed, 17 insertions(+), 6 deletions(-)
 
-For the driver/base/platform.c change:
+On 03/26/2020 08:53 PM, Christophe Leroy wrote:
+> 
+> 
+> Le 26/03/2020 à 03:23, Anshuman Khandual a écrit :
+>>
+>>
+>> On 03/24/2020 10:52 AM, Anshuman Khandual wrote:
+>>> This series adds more arch page table helper tests. The new tests here are
+>>> either related to core memory functions and advanced arch pgtable helpers.
+>>> This also creates a documentation file enlisting all expected semantics as
+>>> suggested by Mike Rapoport (https://lkml.org/lkml/2020/1/30/40).
+>>>
+>>> This series has been tested on arm64 and x86 platforms.
+>>
+>> If folks can test these patches out on remaining ARCH_HAS_DEBUG_VM_PGTABLE
+>> enabled platforms i.e s390, arc, powerpc (32 and 64), that will be really
+>> appreciated. Thank you.
+>>
+> 
+> On powerpc 8xx (PPC32), I get:
+> 
+> [   53.338368] debug_vm_pgtable: debug_vm_pgtable: Validating architecture page table helpers
+> [   53.347403] ------------[ cut here ]------------
+> [   53.351832] WARNING: CPU: 0 PID: 1 at mm/debug_vm_pgtable.c:647 debug_vm_pgtable+0x280/0x3f4
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+mm/debug_vm_pgtable.c:647 ?
+
+With the following commits in place
+
+53a8338ce (HEAD) Documentation/mm: Add descriptions for arch page table helper
+5d4913fc1 mm/debug: Add tests validating arch advanced page table helpers
+bcaf120a7 mm/debug: Add tests validating arch page table helpers for core features
+d6ed5a4a5 x86/memory: Drop pud_mknotpresent()
+0739d1f8d mm/debug: Add tests validating architecture page table helpers
+16fbf79b0 (tag: v5.6-rc7) Linux 5.6-rc7
+
+mm/debug_vm_pgtable.c:647 is here.
+
+#ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot)
+{
+        swp_entry_t swp;
+        pmd_t pmd;  -----------------------------> Line #647
+
+        pmd = pfn_pmd(pfn, prot);
+        swp = __pmd_to_swp_entry(pmd);
+        WARN_ON(!pmd_same(pmd, __swp_entry_to_pmd(swp)));
+}
+#else
+static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot) { }
+#end
+
+Did I miss something ?
+
+> [   53.360140] CPU: 0 PID: 1 Comm: swapper Not tainted 5.6.0-rc7-s3k-dev-01090-g92710e99881f #3544
+> [   53.368718] NIP:  c0777c04 LR: c0777bb8 CTR: 00000000
+> [   53.373720] REGS: c9023df0 TRAP: 0700   Not tainted (5.6.0-rc7-s3k-dev-01090-g92710e99881f)
+> [   53.382042] MSR:  00029032 <EE,ME,IR,DR,RI>  CR: 22000222  XER: 20000000
+> [   53.388667]
+> [   53.388667] GPR00: c0777bb8 c9023ea8 c6120000 00000001 1e410000 00000000 00000000 007641c9
+> [   53.388667] GPR08: 00000000 00000001 00000000 ffffffff 82000222 00000000 c00039b8 00000000
+> [   53.388667] GPR16: 00000000 00000000 00000000 fffffff0 065fc000 1e410000 c6600000 000001e4
+> [   53.388667] GPR24: 000001d9 c062d14c c65fc000 c642d448 000006c9 00000000 c65f8000 c65fc040
+> [   53.423400] NIP [c0777c04] debug_vm_pgtable+0x280/0x3f4
+> [   53.428559] LR [c0777bb8] debug_vm_pgtable+0x234/0x3f4
+> [   53.433593] Call Trace:
+> [   53.436048] [c9023ea8] [c0777bb8] debug_vm_pgtable+0x234/0x3f4 (unreliable)
+> [   53.442936] [c9023f28] [c00039e0] kernel_init+0x28/0x124
+> [   53.448184] [c9023f38] [c000f174] ret_from_kernel_thread+0x14/0x1c
+> [   53.454245] Instruction dump:
+> [   53.457180] 41a20008 4bea3ed9 62890021 7d36b92e 7d36b82e 71290fd0 3149ffff 7d2a4910
+> [   53.464838] 0f090000 5789077e 3149ffff 7d2a4910 <0f090000> 38c00000 38a00000 38800000
+> [   53.472671] ---[ end trace fd5dd92744dc0065 ]---
+Could you please point me to the exact test which is failing ?
+
+> [   53.519778] Freeing unused kernel memory: 608K
+> 
+> 
+So I assume that the system should have come till runtime just fine apart from
+the above warning message because.
