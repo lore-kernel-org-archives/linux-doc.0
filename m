@@ -2,110 +2,170 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C816C2D0E8
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 21:37:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C14C2D0E5
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 22:18:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4315920714
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 21:37:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB35720838
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 22:18:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lahDEBVq"
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="jCyHDDxn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727541AbgC0Vhi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 17:37:38 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:39305 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727611AbgC0Vhi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 17:37:38 -0400
-Received: by mail-lf1-f67.google.com with SMTP id h6so3323727lfp.6
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 14:37:34 -0700 (PDT)
+        id S1727620AbgC0WSs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 18:18:48 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:41844 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727702AbgC0WSp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 18:18:45 -0400
+Received: by mail-qk1-f193.google.com with SMTP id q188so12574711qke.8
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 15:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/6P/ugUG8QPN1PLqi6CLq7SxjX8NFnDCuavJA3Wde1E=;
-        b=lahDEBVq+V7MEitEv24mEfdDx+ECSXtHN+KA62Gf5ItiJ1T+tDT8IWT4Oy22V9BsXC
-         6JaUyn62gDbbeAweC22pKUYqIidnovzsnM7DZS/3dAC/3/rSk5L52uSrG8+ZEpNokRoF
-         DAcc3GvLOC/ssSMB8MQ5gqL2f74Gp6tRux0EURwEZRovg6fD33++EMNMJHG8TpO81M7J
-         Mt83QcXquqLJVR9ORbRpZm1ECFmS406DJdA7rkOGaLuwywkPfYQtd7G56RMATPaHmnNG
-         GJdQYRUgmxyx9hZzmpIXWlpouQK7AOtyGExNg/CAyJqJkZU/svLfvM9MdHzKmMqw3M9X
-         2vUQ==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=N7gy/G5yt4C6gRMEJcBMgk3+X7PiFDeDUNz7oegRXTc=;
+        b=jCyHDDxnBfF/r4/912n+KwCBdRCnAbq0UBj3G8+HIjnKd+Ah5x2L8MCROJ0t5AuUPH
+         uKyWVUP4P9eeMqpOMjdj3SNpUA/MFPTTunwWKdvArGIEWmn/VzLWo2z/kSo5iGXUlQ6W
+         FOdWDHLQsBtkpt0t9NzbPsKeForxOVVJckPG8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/6P/ugUG8QPN1PLqi6CLq7SxjX8NFnDCuavJA3Wde1E=;
-        b=cntyXhlczzbw4woy2rFX8hhJmnAXy/1dIvyTQLwBshYhBtqaH3IxSSAHQ0m8/CuFk0
-         92+TMWyoy81NU6xBdxdJL2DHbfzAXk2P2RaFS1F2BUfb/fnJJTWw8I/mS2aFJVyOI1S5
-         UgORiHcaPHhEubUL4psdqTxOahqfkUo7ASlQzR/00DPegwtl8C0rZOGSGkJrkVcb9UPa
-         vXLt1RArd07Y0gfy8PjFRckfmm05UP10Clhv5fNabALQtdgyvPB/qtSGu8Cg46oZmNRJ
-         tNjknrAU2KF/p7YAWUKpgcVspeBBhgMbh1ktPnpphsXxXcj/lwDYThYSFBQNA+LnDOjR
-         M9DA==
-X-Gm-Message-State: AGi0PuZXzMu4nUhNC9Ddv1GrEbTH+bZsmHIGsri+QPf4iW8ewKM8WfAI
-        8ki6dMuSyU6YbbPZRUZn7UT044ujM10KYxantxehmw==
-X-Google-Smtp-Source: APiQypLBRjm8m9TRh5E1Wf02gWdM2GuN6ua450wAQk3DBPj55sqZgue9A3EKHJXEe1wTh5T/OQvRR8bY8YYI7pRonwA=
-X-Received: by 2002:a05:6512:6c4:: with SMTP id u4mr806577lff.89.1585345054013;
- Fri, 27 Mar 2020 14:37:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200324135328.5796-1-geert+renesas@glider.be>
- <20200324135653.6676-1-geert+renesas@glider.be> <20200324135653.6676-5-geert+renesas@glider.be>
-In-Reply-To: <20200324135653.6676-5-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 27 Mar 2020 22:37:22 +0100
-Message-ID: <CACRpkda8Uc7fDbV8EsG+EpDGw35-k+9-U7njhaaQVvhY5rwmcg@mail.gmail.com>
-Subject: Re: [PATCH v6 5/8] gpiolib: Introduce gpiod_set_config()
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=N7gy/G5yt4C6gRMEJcBMgk3+X7PiFDeDUNz7oegRXTc=;
+        b=jO+x35VQAUgX4fZY0Sq4x0LaFVDI1SOTLJJp8YwdyVxlYY1P8AxmANWsY/8t7bUJiL
+         pWUnw4BnxyYh+Y+eqwDeBO9+i1Nb3Uk7As03CH7pSE86f5tgdwfYmdfZX7HG5BSO/rwQ
+         6/E0kKMBVaInkTtMsByKyXU2nFkDilX7eKR+is6U5FsurtIi6WJ1NUrpwNFuuAGK1HAu
+         FrbRht96Fv10y5MXDREqEc+1FKdHispsHzcU3iZVJ8X8rozlUFVTpGbjdcppyYqLFP6f
+         YH4L8s2x+fdCFzTsuPqcR8rFmtKZNKvG1GGhW97ewhG1O4EZflLjB+/fHmvUcAJ2+Cei
+         G6cg==
+X-Gm-Message-State: ANhLgQ3pF3X7ys7IDrKyVWfROhyrwLR4GVDiopnFVtWWbbvYlBHXmNxt
+        yEGfSwz7abgnk4sZ4H4BAeaTig==
+X-Google-Smtp-Source: ADFU+vu0g7q3fxyouuFS26fuvwVSpjPJNDmOaZ5QUZLg7+PprW6EA4oP+A3S2YPT8MOEVRaSlw3/jw==
+X-Received: by 2002:a37:992:: with SMTP id 140mr1664796qkj.36.1585347524268;
+        Fri, 27 Mar 2020 15:18:44 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id d201sm4559968qke.59.2020.03.27.15.18.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2020 15:18:43 -0700 (PDT)
+Date:   Fri, 27 Mar 2020 18:18:43 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] Documentation/litmus-tests: Add litmus tests for
+ atomic APIs
+Message-ID: <20200327221843.GA226939@google.com>
+References: <20200326024022.7566-1-boqun.feng@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200326024022.7566-1-boqun.feng@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+On Thu, Mar 26, 2020 at 10:40:18AM +0800, Boqun Feng wrote:
+> A recent discussion raises up the requirement for having test cases for
+> atomic APIs:
+> 
+> 	https://lore.kernel.org/lkml/20200213085849.GL14897@hirez.programming.kicks-ass.net/
+> 
+> , and since we already have a way to generate a test module from a
+> litmus test with klitmus[1]. It makes sense that we add more litmus
+> tests for atomic APIs. And based on the previous discussion, I create a
+> new directory Documentation/atomic-tests and put these litmus tests
+> here.
+> 
+> This patchset starts the work by adding the litmus tests which are
+> already used in atomic_t.txt, and also improve the atomic_t.txt to make
+> it consistent with the litmus tests.
+> 
+> Previous version:
+> v1: https://lore.kernel.org/linux-doc/20200214040132.91934-1-boqun.feng@gmail.com/
+> v2: https://lore.kernel.org/lkml/20200219062627.104736-1-boqun.feng@gmail.com/
+> v3: https://lore.kernel.org/linux-doc/20200227004049.6853-1-boqun.feng@gmail.com/
 
-> The GPIO Aggregator will need a method to forward a .set_config() call
-> to its parent gpiochip.  This requires obtaining the gpio_chip and
-> offset for a given gpio_desc.  While gpiod_to_chip() is public,
-> gpio_chip_hwgpio() is not, so there is currently no method to obtain the
-> needed GPIO offset parameter.
->
-> Hence introduce a public gpiod_set_config() helper, which invokes the
-> .set_config() callback through a gpio_desc pointer, like is done for
-> most other gpio_chip callbacks.
->
-> Rewrite the existing gpiod_set_debounce() helper as a wrapper around
-> gpiod_set_config(), to avoid duplication.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v6:
->   - New.
+For full series:
 
-Patch applied in preparation for the next kernel cycle
-so we get Geert's patch stack down.
+Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Yours,
-Linus Walleij
+One question I had was in the existing atomic_set() documentation, it talks
+about atomic_add_unless() implementation based on locking could have issues.
+It says the way to fix such cases is:
+
+Quote:
+    the typical solution is to then implement atomic_set{}() with
+    atomic_xchg().
+
+I didn't get how using atomic_xchg() fixes it. Is the assumption there that
+atomic_xchg() would be implemented using locking to avoid atomic_set() having
+issues? If so, we could clarify that in the document.
+
+thanks,
+
+ - Joel
+
+> 
+> Changes since v3:
+> 
+> *	Merge two patches on atomic-set litmus test into one as per
+> 	Alan. (Alan, you have acked only one of the two patches, so I
+> 	don't add you acked-by for the combined patch).
+> 
+> *	Move the atomic litmus tests into litmus-tests/atomic to align
+> 	with Joel's recent patches on RCU litmus tests.
+> 
+> I think we still haven't reach to a conclusion for the difference of
+> atomic_add_unless() in herdtools, and I'm currently reading the source
+> code of herd to resovle this. This is just an updated version to resolve
+> ealier comments and react on Joel's RCU litmus tests.
+> 
+> Regards,
+> Boqun
+> 
+> [1]: http://diy.inria.fr/doc/litmus.html#klitmus
+> 
+> Boqun Feng (4):
+>   tools/memory-model: Add an exception for limitations on _unless()
+>     family
+>   Documentation/litmus-tests: Introduce atomic directory
+>   Documentation/litmus-tests/atomic: Add a test for atomic_set()
+>   Documentation/litmus-tests/atomic: Add a test for
+>     smp_mb__after_atomic()
+> 
+>  Documentation/atomic_t.txt                    | 24 +++++++-------
+>  ...ter_atomic-is-stronger-than-acquire.litmus | 32 +++++++++++++++++++
+>  ...c-RMW-ops-are-atomic-WRT-atomic_set.litmus | 24 ++++++++++++++
+>  Documentation/litmus-tests/atomic/README      | 16 ++++++++++
+>  tools/memory-model/README                     | 10 ++++--
+>  5 files changed, 91 insertions(+), 15 deletions(-)
+>  create mode 100644 Documentation/litmus-tests/atomic/Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
+>  create mode 100644 Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
+>  create mode 100644 Documentation/litmus-tests/atomic/README
+> 
+> -- 
+> 2.25.1
+> 
