@@ -2,110 +2,89 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE01C2D0ED
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:51:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F045C2D0E5
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 16:41:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D7E45207FF
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:51:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="XvzIk11Z"
+	by mail.kernel.org (Postfix) with ESMTP id 7B7802073E
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 16:41:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727549AbgC0Pvn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 11:51:43 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:38618 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726900AbgC0Pvm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 11:51:42 -0400
-Received: by mail-qt1-f196.google.com with SMTP id z12so8928437qtq.5
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 08:51:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=m8e1t2URI8U7vsMzc9OwFUvFf9TchHday/nZmdlm/Bc=;
-        b=XvzIk11ZgUsdpnfnuoichso6upeqV2Fr6l3tyzOo5JKIkUELWesJaX8XSghz6si3tD
-         xXRm2ovbTBK2aS1SptYapKH5L778NQZ0wXK+y++E/Y3aqyitiUEJ9yvE7dcOcls2gkX3
-         G4wnpAHNQAe8i+B2MFW9fxmioVMs544R1zkKK02CSeICz9leLhZmPFN/pEtGv1NRftNE
-         9a1vI+58/uweZP6JMlx0iwVGIBWhSTndYgpbN0lCaFx9nDkBCRT05OQU0VIPQr04VJxL
-         CotSzb297EAD8vP52+rw2GCqXW2VTlVwqs+8GrqnVrE9fd9hD0yoL6AnzxkzkZS6Rd6R
-         Annw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=m8e1t2URI8U7vsMzc9OwFUvFf9TchHday/nZmdlm/Bc=;
-        b=c7fnSsaMyX8dmCoFRHo0NO81i6sEFT3LEqIhGJP6k3fsHP1AFqa04ovJQ8ygx9boRH
-         snQQPWb38cp5axgz+PzPlsvGMYmUl43txYaF0D5hc49rpiCE64cwOeTtfJ9CNkGIlE9V
-         5ahzbwJyq4irG6NTOe8Xg1oC+DP4BtS7zGqpE4yEqh4uBuUyv0JGJjXMb5qWYpgUR7cA
-         XIyWv6VZK2VM7g6vBJhS29JqKchibzZjjwFcXiyNEquif+iDKKz8ohTdW+OxTTvPZeU2
-         eDnyA/WNDzCmeTP9Xah9WVZ6p/XArB0NqZmD5yhvQLw/t0lTTf2gTDfaEtufiWAZ0a65
-         lf7g==
-X-Gm-Message-State: ANhLgQ1xt64Jt/Vs6qTqgNFCkHDhSxJvWtduYnQic/C8NI3SpPK9yz1o
-        YFvz2zYAMcTR8w+FJo2kXart/w==
-X-Google-Smtp-Source: ADFU+vs7IQPv1SwKkkfEK42tDG3IIZh7dDMSegkFSdNrKQY6L07g3w09IacJgdU3HOCbM7FKaYHRGw==
-X-Received: by 2002:aed:2415:: with SMTP id r21mr5456624qtc.82.1585324299805;
-        Fri, 27 Mar 2020 08:51:39 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id d2sm3967804qkl.98.2020.03.27.08.51.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 27 Mar 2020 08:51:39 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jHrGk-0002JY-Io; Fri, 27 Mar 2020 12:51:38 -0300
-Date:   Fri, 27 Mar 2020 12:51:38 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Dennis Dalessandro <dennis.dalessandro@intel.com>,
-        Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
-        Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 14/17] infiniband: pa_vnic_encap.h: get rid of a warning
-Message-ID: <20200327155138.GX20941@ziepe.ca>
-References: <cover.1584456635.git.mchehab+huawei@kernel.org>
- <9dce702510505556d75a13d9641e09218a4b4a65.1584456635.git.mchehab+huawei@kernel.org>
- <20200319003645.GH20941@ziepe.ca>
- <20200327153226.1fed1835@coco.lan>
+        id S1727740AbgC0Ql2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 12:41:28 -0400
+Received: from ms.lwn.net ([45.79.88.28]:47238 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727593AbgC0Ql2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Mar 2020 12:41:28 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 03A11537;
+        Fri, 27 Mar 2020 16:41:27 +0000 (UTC)
+Date:   Fri, 27 Mar 2020 10:41:26 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     peter@bikeshed.quignogs.org.uk,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 0/1] Compactly make code examples into literal blocks
+Message-ID: <20200327104126.667b5d5b@lwn.net>
+In-Reply-To: <87imiqghop.fsf@intel.com>
+References: <20200326192947.GM22483@bombadil.infradead.org>
+        <20200326195156.11858-1-peter@bikeshed.quignogs.org.uk>
+        <87imiqghop.fsf@intel.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200327153226.1fed1835@coco.lan>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 27, 2020 at 03:32:26PM +0100, Mauro Carvalho Chehab wrote:
-> Em Wed, 18 Mar 2020 21:36:45 -0300
-> Jason Gunthorpe <jgg@ziepe.ca> escreveu:
-> 
-> > On Tue, Mar 17, 2020 at 03:54:23PM +0100, Mauro Carvalho Chehab wrote:
-> > > The right markup for a variable is @foo, and not @foo[].
-> > > 
-> > > Using a wrong markup caused this warning:
-> > > 
-> > > 	./drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:243: WARNING: Inline strong start-string without end-string.
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > >  drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)  
-> > 
-> > Do you want this to go to the RDMA tree? I wasn't cc'd on the cover
-> > letter
-> 
-> Sorry for not answering earlier. Got sidetracked with other things.
-> 
-> Yeah, if there are still time, feel free to pick it. Otherwise, 
-> I'll likely send again after the merge window, to be applied either 
-> by you or via the docs tree.
+On Fri, 27 Mar 2020 13:28:54 +0200
+Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
-Sure, done
+> IMHO the real problem is kernel-doc doing too much preprocessing on the
+> input, preventing us from doing what would be the sensible thing in
+> rst. The more we try to fix the problem by adding more kernel-doc
+> processing, the further we dig ourselves into this hole.
+> 
+> If kernel-doc didn't have its own notion of section headers, such as
+> "example:", we wouldn't have this problem to begin with. We could just
+> use the usual rst construct; "example::" followed by an indented block.
+> 
+> I'm not going to stand in the way of the patch, but I'm telling you,
+> this is going to get harder, not easier, on this path.
+
+I agree with you in principle.  The problem, of course, is that this is a
+legacy gift from before the RST days and it will be hard to change.
+
+A quick grep shows that the pattern:
+
+	* Example:
+
+appears nearly 100 times in current kernels.  It is not inconceivable to
+make a push to get rid of all of those, turning them into ordinary RST
+syntax - especially since not all of those are actually kerneldoc
+comments.
+
+The same quick grep says that "returns?:" appears about 10,000 times.
+*That* will be painful to change, and I can only imagine that some
+resistance would have to be overcome at some point.
+
+So what do folks think we should do? :)
+
+I want to ponder on this for a bit.  Peter, that may mean that I hold this
+patch past the 5.7 merge window, which perhaps makes sense at this point
+anyway, sorry.  But I really would like to push things into a direction
+that moves us away from gnarly perl hacks and toward something more
+maintainable in the long term.
 
 Thanks,
-Jason
+
+jon
