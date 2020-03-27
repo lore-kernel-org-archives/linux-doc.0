@@ -2,117 +2,99 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B889C43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 14:55:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08927C2D0E5
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 14:59:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5C4B220748
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 14:55:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585320903;
-	bh=NLcg8KW/dZw7wy0b01U+CcbR/Kn5ISoIiCtxhv/EldU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=MurSlpOCSnCeqPH7lx5JSnAY1DGt18YcZnz8Fkhb7jk5qHNNSmoLeO4+QOQfcpt+i
-	 /Bv61agEmXyVThd06Cpy2f7/mVRmaBZVun4PcxPxwF/oKRATEictmLJBHQAo+DKYq9
-	 EnOn2511n+HhP55NABVpQMxGMCw9C+PBDhh0+Bt4=
+	by mail.kernel.org (Postfix) with ESMTP id D1FC7207FF
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 14:59:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727799AbgC0OzD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 10:55:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41128 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726515AbgC0OzC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Mar 2020 10:55:02 -0400
-Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 342442073B;
-        Fri, 27 Mar 2020 14:54:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585320902;
-        bh=NLcg8KW/dZw7wy0b01U+CcbR/Kn5ISoIiCtxhv/EldU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lj+ypSdD3GgA7cTWkjGw6AEbmyo0TBSyGhajV9dIULl5V9teVxwnjAmjzq0QD5wyJ
-         BOBtagFDlNDVunjYnRRgq0tXkMaUncYAH4kmdu9qLvmu5DZD82jkf1Aj6eiKVkoSM2
-         P4dczkaw3svEpC60eOqFY4A5RZavGk1tWvTjYCRU=
-Date:   Fri, 27 Mar 2020 15:54:56 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        id S1727185AbgC0O7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 10:59:18 -0400
+Received: from smtp-bc0a.mail.infomaniak.ch ([45.157.188.10]:42225 "EHLO
+        smtp-bc0a.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727322AbgC0O7S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 10:59:18 -0400
+X-Greylist: delayed 66689 seconds by postgrey-1.27 at vger.kernel.org; Fri, 27 Mar 2020 10:59:17 EDT
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 48plPH759QzljC1w;
+        Fri, 27 Mar 2020 15:59:15 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 48plPD42s4zln3X2;
+        Fri, 27 Mar 2020 15:59:12 +0100 (CET)
+Subject: Re: [PATCH v15 09/10] samples/landlock: Add a sandbox manager example
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Simon Horman <simon.horman@netronome.com>,
-        Harish Bandi <c-hbandi@codeaurora.org>,
-        Venkata Lakshmi Narayana Gubba <gubbaven@codeaurora.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Rocky Liao <rjliao@codeaurora.org>,
-        Matthias Brugger <mbrugger@suse.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH] docs: dt: fix a broken reference for a file converted
- to json
-Message-ID: <20200327155456.6d582bde@coco.lan>
-In-Reply-To: <CAL_JsqLZQN253PDi-HXtP3s5CCg0OzaUK99onC9UjQWeVw3KYw@mail.gmail.com>
-References: <33fa622c263ad40a129dc2b8dd0111b40016bc17.1585316085.git.mchehab+huawei@kernel.org>
-        <CAL_JsqLZQN253PDi-HXtP3s5CCg0OzaUK99onC9UjQWeVw3KYw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+References: <20200326202731.693608-1-mic@digikod.net>
+ <20200326202731.693608-10-mic@digikod.net>
+ <11634607-2fdb-1868-03d0-94096763766f@infradead.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <4285db52-e7ce-6a0f-3791-fd39c892489e@digikod.net>
+Date:   Fri, 27 Mar 2020 15:59:00 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <11634607-2fdb-1868-03d0-94096763766f@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 27 Mar 2020 08:26:58 -0600
-Rob Herring <robh+dt@kernel.org> escreveu:
 
-> On Fri, Mar 27, 2020 at 7:34 AM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > Changeset 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
-> > moved a binding to json and updated the links. Yet, one link
-> > was forgotten.  
+On 27/03/2020 00:54, Randy Dunlap wrote:
+> Hi,
 > 
-> It was not. There's a merge conflict, so I dropped it until after rc1.
+> On 3/26/20 1:27 PM, Mickaël Salaün wrote:
+>> diff --git a/samples/Kconfig b/samples/Kconfig
+>> index 9d236c346de5..b54408c5bd86 100644
+>> --- a/samples/Kconfig
+>> +++ b/samples/Kconfig
+>> @@ -120,6 +120,13 @@ config SAMPLE_HIDRAW
+>>  	bool "hidraw sample"
+>>  	depends on HEADERS_INSTALL
+>>  
+>> +config SAMPLE_LANDLOCK
+>> +	bool "Build Landlock sample code"
+>> +	select HEADERS_INSTALL
+> 
+> I think that this should be like all of the other users of HEADERS_INSTALL
+> and depend on that instead of select-ing it.
 
-Ah, ok.
+Ok, I though it made sense to select it automatically, but I'll get back
+the "depends on".
 
-Thanks!
-Mauro
+Thanks.
 
-> >
-> > Update this one too.
-> >
-> > Fixes: 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt b/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
-> > index beca6466d59a..d2202791c1d4 100644
-> > --- a/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
-> > +++ b/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
-> > @@ -29,7 +29,7 @@ Required properties for compatible string qcom,wcn399x-bt:
-> >
-> >  Optional properties for compatible string qcom,wcn399x-bt:
-> >
-> > - - max-speed: see Documentation/devicetree/bindings/serial/slave-device.txt
-> > + - max-speed: see Documentation/devicetree/bindings/serial/serial.yaml
-> >   - firmware-name: specify the name of nvm firmware to load
-> >   - clocks: clock provided to the controller
-> >
-> > --
-> > 2.25.1
-> >  
-
-
-
-Thanks,
-Mauro
+> 
+>> +	help
+>> +	  Build a simple Landlock sandbox manager able to launch a process
+>> +	  restricted by a user-defined filesystem access-control security policy.
+>> +
+>>  config SAMPLE_PIDFD
+>>  	bool "pidfd sample"
+>>  	depends on HEADERS_INSTALL
+> 
+> thanks.
+> 
