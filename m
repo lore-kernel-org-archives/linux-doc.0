@@ -2,90 +2,99 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D75ACC2D0EF
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 10:23:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBEBC2D0E8
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 11:29:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A473920714
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 10:23:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="txdKACCd"
+	by mail.kernel.org (Postfix) with ESMTP id BAFA1206F8
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 11:29:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726450AbgC0KXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 06:23:06 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39741 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726002AbgC0KXF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 06:23:05 -0400
-Received: by mail-lj1-f196.google.com with SMTP id i20so9614707ljn.6
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 03:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/6+qsGlY5ufaYGYSvfi6R/XdWdgiZnQOUmk027h++wY=;
-        b=txdKACCdM7XXYtTJw1Cpjkvm6oyL7atR/RjEVZa4sh+MYp1TgRoMuB4B04Q0FgZjsv
-         y0KzVBiDt3Z1FhO2p8E+MU3YRMufVrRxCYmY7YjzjKWlGskcN+zZ06vyYjx+OiQr0UZ3
-         gpNercDKBycZnaS5EtnhmJ38FNp+YDDfQgGRFHKExKCyZWsHI9amhTlaUmujm60c5TI2
-         Ge3c0sBOTmyfm1JbVHfFedn9QZukp8yXjcH/fCQ5IpDzWxKthGjvXw00GQVULuC2mKz0
-         n2kpIEvWqRvtHSRWdfOvd0+a8KJf2vlqa1o2A7Quk9XZ2UFXj2EBVl8YdPspHfIuzTXf
-         v91A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/6+qsGlY5ufaYGYSvfi6R/XdWdgiZnQOUmk027h++wY=;
-        b=pe8+EHwyFZz3RD7hmtw9PZ3OLKcG6sj8v3zBrc720/OOOonsMQiQj/eRmtadCNk5vg
-         DJ+0dWOQjAY2SwBQalUSCnF0Rt666+dU7PgydZ2sXacoRy/bbKS0kXYtqoeSWzx57tnr
-         p16OPYay2VvF5jbF2P2y8FeNGUh3TTU2VGs+fKoMKcYvZMuqdy7DwYt0imn8+x4lryDN
-         QlGPl0Injmb6f3FHEL5PLMpjTXEvdcSExQHE497CIr3I9aTL49pCvw3QYboPadk1yCv2
-         mxbu9c9Y/Chi+ZWO78ii02gbSZHM2aPK7jFVrCSDAFGCXJefs5naMFLRMVgacy+teK5g
-         8/vA==
-X-Gm-Message-State: AGi0PuZbFv7izauhQA4o+xh9GZH8us79IjQyFPwf5mhXw0TDcsNyIYc7
-        Ljd345FX/YsaTV7nVCCw/b8dUdp6wKbSW2nZuJcxuQqUXhI=
-X-Google-Smtp-Source: APiQypLAxlxUn/h9pbLaNqfw8TLuPxvnQJeZXEcak++olZSdCahmwgdRjDUQzOitW2xd7O4LOLGl+Jaw0WeumCFSA7U=
-X-Received: by 2002:a2e:5048:: with SMTP id v8mr7429532ljd.99.1585304583741;
- Fri, 27 Mar 2020 03:23:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1584456635.git.mchehab+huawei@kernel.org> <51197e3568f073e22c280f0584bfa20b44436708.1584456635.git.mchehab+huawei@kernel.org>
-In-Reply-To: <51197e3568f073e22c280f0584bfa20b44436708.1584456635.git.mchehab+huawei@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 27 Mar 2020 11:22:52 +0100
-Message-ID: <CACRpkdYrL02YHn5dPnh_Oz0Ysm5BxHrwQgwNMtsD55XGid_hCQ@mail.gmail.com>
-Subject: Re: [PATCH 12/17] gpio: gpiolib.c: fix a doc warning
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        id S1726901AbgC0L3C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 07:29:02 -0400
+Received: from mga07.intel.com ([134.134.136.100]:42872 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726165AbgC0L3B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Mar 2020 07:29:01 -0400
+IronPort-SDR: qmRQtPUyEqOI3dZ0YK37c52nazaj6MqnxJn68ovJVmOS9grsNHqWkW5FjysdrNYSOL3pnOIHx5
+ F5IOPvIGeBYA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2020 04:29:00 -0700
+IronPort-SDR: TplRB2qtu8oKUu9udsKs3UpndgrkxW74fpbT7cF7If3oZvrQSJN5Eibvf6GDn9jmdtzJskRy33
+ sd2jMyaKWhLQ==
+X-IronPort-AV: E=Sophos;i="5.72,312,1580803200"; 
+   d="scan'208";a="421070855"
+Received: from defretin-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.56.231])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2020 04:28:57 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     peter@bikeshed.quignogs.org.uk,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Peter Lister <peter@bikeshed.quignogs.org.uk>
+Subject: Re: [PATCH v3 0/1] Compactly make code examples into literal blocks
+In-Reply-To: <20200326195156.11858-1-peter@bikeshed.quignogs.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200326192947.GM22483@bombadil.infradead.org> <20200326195156.11858-1-peter@bikeshed.quignogs.org.uk>
+Date:   Fri, 27 Mar 2020 13:28:54 +0200
+Message-ID: <87imiqghop.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 3:54 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
-
-> Use a different markup for the ERR_PTR, as %FOO doesn't work
-> if there are parenthesis. So, use, instead:
+On Thu, 26 Mar 2020, peter@bikeshed.quignogs.org.uk wrote:
+> From: Peter Lister <peter@bikeshed.quignogs.org.uk>
 >
->         ``ERR_PTR(-EINVAL)``
+> [ A couple of typos corrected. Thanks, Matthew ]
 >
-> This fixes the following warning:
+> In a previous patch, I fixed a couple of doc build warnings due to a
+> section heading "Example:" which didn't have the intended effect of
+> inserting a heading and literal quoting the following code snippet. I
+> added an explicit double colon to fix warnings and produce nice ReST.
 >
->         ./drivers/gpio/gpiolib.c:139: WARNING: Inline literal start-string without end-string.
+> Jon suggested that I could have used a minimal form "Example::".
+> Unfortunately not - kernel-doc munges the output so that the formatted
+> output ends up as a stray colon and no literal block.
 >
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Looking around in the source tree, it seems that parameter definitions
+> can be more complex than the original authors of kernel-doc allowed
+> for. Return values often need lists and examples often should be
+> literal blocks. Many comments in the source are "ASCII formatted" but
+> kernel-doc can make a mess of them and generate doc build warnings
+> along the way.
+>
+> It seems useful to support some terse idioms which serve as compact
+> source annotation and also generate well formed ReST.
+>
+> Here is a first try to let a heading directly introduce a literal
+> block - the "Example::" form for code snippets and an update to
+> platform.c to use it, just as Jon suggested.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+IMHO the real problem is kernel-doc doing too much preprocessing on the
+input, preventing us from doing what would be the sensible thing in
+rst. The more we try to fix the problem by adding more kernel-doc
+processing, the further we dig ourselves into this hole.
 
-Mauro are you merging this or do you want me to merge it?
+If kernel-doc didn't have its own notion of section headers, such as
+"example:", we wouldn't have this problem to begin with. We could just
+use the usual rst construct; "example::" followed by an indented block.
 
-Yours,
-Linus Walleij
+I'm not going to stand in the way of the patch, but I'm telling you,
+this is going to get harder, not easier, on this path.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
