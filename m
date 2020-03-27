@@ -2,264 +2,90 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0174BC43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 09:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D75ACC2D0EF
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 10:23:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C2DCF20578
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 09:59:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A473920714
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 10:23:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="FOMeTWdR"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="txdKACCd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726168AbgC0J7F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 05:59:05 -0400
-Received: from mout.web.de ([212.227.17.11]:48729 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726027AbgC0J7F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Mar 2020 05:59:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1585303125;
-        bh=3sJu9fUArkbibaP7WFaKAEzBqN+q83Qrxfjqw40JE6M=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=FOMeTWdRP5Eq/kmssOzWMXzpWckepwiZa8XLZnpzSmVHwM/Wpzli/svaTVQCA8KRs
-         FdBtlRpT/mnjCrt1aLSZfG9jMCto/q+8HKIStBsiVgtM/nHTWoewJw1Xheq/REYPOl
-         9sFNduTJJIsIMdb4sZh76/GwWiKv7Yxj+OxI7Is8=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.10] ([95.157.55.156]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Le4Lg-1jaMzw3m0K-00psvk; Fri, 27
- Mar 2020 10:58:45 +0100
-Subject: Re: [PATCH] swiotlb: Allow swiotlb to live at pre-defined address
-To:     Alexander Graf <graf@amazon.com>, iommu@lists.linux-foundation.org
-Cc:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, x86@kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        dwmw@amazon.com, benh@amazon.com, alcioa@amazon.com,
-        aggh@amazon.com, aagch@amazon.com, dhr@amazon.com
-References: <20200326162922.27085-1-graf@amazon.com>
-From:   Jan Kiszka <jan.kiszka@web.de>
-Message-ID: <9ff68753-20d1-62b1-6250-91ed4beb1bde@web.de>
-Date:   Fri, 27 Mar 2020 10:58:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1726450AbgC0KXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 06:23:06 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39741 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726002AbgC0KXF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 06:23:05 -0400
+Received: by mail-lj1-f196.google.com with SMTP id i20so9614707ljn.6
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 03:23:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/6+qsGlY5ufaYGYSvfi6R/XdWdgiZnQOUmk027h++wY=;
+        b=txdKACCdM7XXYtTJw1Cpjkvm6oyL7atR/RjEVZa4sh+MYp1TgRoMuB4B04Q0FgZjsv
+         y0KzVBiDt3Z1FhO2p8E+MU3YRMufVrRxCYmY7YjzjKWlGskcN+zZ06vyYjx+OiQr0UZ3
+         gpNercDKBycZnaS5EtnhmJ38FNp+YDDfQgGRFHKExKCyZWsHI9amhTlaUmujm60c5TI2
+         Ge3c0sBOTmyfm1JbVHfFedn9QZukp8yXjcH/fCQ5IpDzWxKthGjvXw00GQVULuC2mKz0
+         n2kpIEvWqRvtHSRWdfOvd0+a8KJf2vlqa1o2A7Quk9XZ2UFXj2EBVl8YdPspHfIuzTXf
+         v91A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/6+qsGlY5ufaYGYSvfi6R/XdWdgiZnQOUmk027h++wY=;
+        b=pe8+EHwyFZz3RD7hmtw9PZ3OLKcG6sj8v3zBrc720/OOOonsMQiQj/eRmtadCNk5vg
+         DJ+0dWOQjAY2SwBQalUSCnF0Rt666+dU7PgydZ2sXacoRy/bbKS0kXYtqoeSWzx57tnr
+         p16OPYay2VvF5jbF2P2y8FeNGUh3TTU2VGs+fKoMKcYvZMuqdy7DwYt0imn8+x4lryDN
+         QlGPl0Injmb6f3FHEL5PLMpjTXEvdcSExQHE497CIr3I9aTL49pCvw3QYboPadk1yCv2
+         mxbu9c9Y/Chi+ZWO78ii02gbSZHM2aPK7jFVrCSDAFGCXJefs5naMFLRMVgacy+teK5g
+         8/vA==
+X-Gm-Message-State: AGi0PuZbFv7izauhQA4o+xh9GZH8us79IjQyFPwf5mhXw0TDcsNyIYc7
+        Ljd345FX/YsaTV7nVCCw/b8dUdp6wKbSW2nZuJcxuQqUXhI=
+X-Google-Smtp-Source: APiQypLAxlxUn/h9pbLaNqfw8TLuPxvnQJeZXEcak++olZSdCahmwgdRjDUQzOitW2xd7O4LOLGl+Jaw0WeumCFSA7U=
+X-Received: by 2002:a2e:5048:: with SMTP id v8mr7429532ljd.99.1585304583741;
+ Fri, 27 Mar 2020 03:23:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200326162922.27085-1-graf@amazon.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:PdNtUhVPObC1NxI5ax+8GQe3v47vjTq4mEi/59bmOUWMu8JZqRT
- TNsTyDMgV8WUeg5bRVyv6+8YkM5TSW3rx1+/2MwfU3JfQDCCwUpNZyLngpOBHLtQ4yZEokN
- 9Srm+Yp8CXFi0oImvFpp+VZZAGxD/8rob6pQYSNrIwWC6pwbq78YBDWjj7y5Wvtw/FICW73
- 39eDdNmuXDeVlwXfDcYww==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yc+0mO+tq5w=:bs26ghpzYfEHeSNgiR/cxk
- qn5cFDWow2uB1Q8hzYS++4jk6MRQO1NS24MjTgkFukmI7h8blEstF1DgaQ+pvkrAMMipH97HK
- fRYwtiLvE0wE7Qdmxd+63EodXC9wP0zjEVTnxQq7P63BazGxO7S0GLEJByvuh/6HS62tv9ew+
- P0CZ5P/rkald9bPj7rXArwRwxZDUbsK5qIVMpJpBWqYVgUkjkGiFHv5GxWqJPYjxvL4f9nyxV
- bcuWFVS6I6UlGhM/1IvUZLAsV876+nRRUAiQ7V8GNEsjFy7SEj/A2okKv9Mi+bEs3iYBSeD5R
- DDar4nrE65D+blKX6CAz+cEiZMYaVhkK8ddqp4i0/3t68qD1G0NuIGOpleI34oq4qIRuzAfab
- CErKH/UXBkqk8XEJMeLimQEMTepz5+7fbVCONVwx5NI68RPm+LApdueKgIyUiGzWn5ve5mGya
- oUP1T50PaRofQ1vUilOpVC8muIum2t/wcK/e5Y7t9148BXSZr4rKdgMBff58N7nmGIQBXJyTK
- 8DmcLFDLKHF1xAS/ItRytGalJ0+h0kXhdYF2t9Z/4boqcJ3dbaWSoz3DuKzUY2oYfI1hwMOoz
- nvcNGmt1DMbG4JQ3tt8mA/KT/Q5jVec2cuKOGvTzQOKM0Q6CUeZ/QMaRutpFiel+o6k98yAb7
- KlzYXFnSCuHVAvzVwvSUhizU2nF/1xmEPFXNQxhRgAt1tLJzLekBZ5qe3eNtxg6NHyP6N7v0I
- lQFIX9Tm4Eg1eCXl2TfY9KoQKq53vF/V2ThhYoLEL7DOohCVWQ17Fo3YRilwON7SnR/5W+SCk
- S4Tg2OWiJ7n5MU97jWlSKewChMlCGJW2qqCODzZ82EKVsBjGuZacJk8HAdE6xmQAtUnuTv5xH
- uq1fm92lH90rv2WMJM0u9N4EnWy/Ez/yF+wi9Yu42IAqJxHKaLoqjZqRShcIich0MZJKq40K0
- lgfE3qrxeGvNE9dTl9TaFGmYkeWgZeFMhUXeWdmpORU26MdBA7exRoJuBRLQPCjoYEa5d+fLR
- aYtTLh7cMroAFgn/pVi0EjLIkYH1XHR7qj46p0yB4Fjwo794q3JWWfrp7mNMmByyNH7UdZWjz
- VYfQwQA/1KrBbFzNjYelnSyHT6cNRTgF+MIo2kGzSVFkrA3tfUnNzeEl1tHFqSpVM9wKXayd1
- 6MEqAK50K4x2Y+yYcNGJmwb5SzULGS2h6LW6i8meC6OBSI69+U3sc5M+NxkDCMmrFlkNRzzfK
- diZRZZ8kpd4amq0dq
+References: <cover.1584456635.git.mchehab+huawei@kernel.org> <51197e3568f073e22c280f0584bfa20b44436708.1584456635.git.mchehab+huawei@kernel.org>
+In-Reply-To: <51197e3568f073e22c280f0584bfa20b44436708.1584456635.git.mchehab+huawei@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 27 Mar 2020 11:22:52 +0100
+Message-ID: <CACRpkdYrL02YHn5dPnh_Oz0Ysm5BxHrwQgwNMtsD55XGid_hCQ@mail.gmail.com>
+Subject: Re: [PATCH 12/17] gpio: gpiolib.c: fix a doc warning
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26.03.20 17:29, Alexander Graf wrote:
-> The swiotlb is a very convenient fallback mechanism for bounce buffering=
- of
-> DMAable data. It is usually used for the compatibility case where device=
-s
-> can only DMA to a "low region".
->
-> However, in some scenarios this "low region" may be bound even more
-> heavily. For example, there are embedded system where only an SRAM regio=
-n
-> is shared between device and CPU. There are also heterogeneous computing
-> scenarios where only a subset of RAM is cache coherent between the
-> components of the system. There are partitioning hypervisors, where
-> a "control VM" that implements device emulation has limited view into a
-> partition's memory for DMA capabilities due to safety concerns.
->
-> This patch adds a command line driven mechanism to move all DMA memory i=
-nto
-> a predefined shared memory region which may or may not be part of the
-> physical address layout of the Operating System.
->
-> Ideally, the typical path to set this configuration would be through Dev=
-ice
-> Tree or ACPI, but neither of the two mechanisms is standardized yet. Als=
-o,
-> in the x86 MicroVM use case, we have neither ACPI nor Device Tree, but
-> instead configure the system purely through kernel command line options.
->
-> I'm sure other people will find the functionality useful going forward
-> though and extend it to be triggered by DT/ACPI in the future.
->
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> ---
->   Documentation/admin-guide/kernel-parameters.txt |  3 +-
->   Documentation/x86/x86_64/boot-options.rst       |  4 ++-
->   kernel/dma/swiotlb.c                            | 46 +++++++++++++++++=
-++++++--
->   3 files changed, 49 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documenta=
-tion/admin-guide/kernel-parameters.txt
-> index c07815d230bc..d085d55c3cbe 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4785,11 +4785,12 @@
->   			it if 0 is given (See Documentation/admin-guide/cgroup-v1/memory.rs=
-t)
->
->   	swiotlb=3D	[ARM,IA-64,PPC,MIPS,X86]
-> -			Format: { <int> | force | noforce }
-> +			Format: { <int> | force | noforce | addr=3D<phys addr> }
->   			<int> -- Number of I/O TLB slabs
->   			force -- force using of bounce buffers even if they
->   			         wouldn't be automatically used by the kernel
->   			noforce -- Never use bounce buffers (for debugging)
-> +			addr=3D<phys addr> -- Try to allocate SWIOTLB at defined address
->
->   	switches=3D	[HW,M68k]
->
-> diff --git a/Documentation/x86/x86_64/boot-options.rst b/Documentation/x=
-86/x86_64/boot-options.rst
-> index 2b98efb5ba7f..ca46c57b68c9 100644
-> --- a/Documentation/x86/x86_64/boot-options.rst
-> +++ b/Documentation/x86/x86_64/boot-options.rst
-> @@ -297,11 +297,13 @@ iommu options only relevant to the AMD GART hardwa=
-re IOMMU:
->   iommu options only relevant to the software bounce buffering (SWIOTLB)=
- IOMMU
->   implementation:
->
-> -    swiotlb=3D<pages>[,force]
-> +    swiotlb=3D<pages>[,force][,addr=3D<phys addr>]
->         <pages>
->           Prereserve that many 128K pages for the software IO bounce buf=
-fering.
->         force
->           Force all IO through the software TLB.
-> +      addr=3D<phys addr>
-> +        Try to allocate SWIOTLB at defined address
->
->   Settings for the IBM Calgary hardware IOMMU currently found in IBM
->   pSeries and xSeries machines
-> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index c19379fabd20..83da0caa2f93 100644
-> --- a/kernel/dma/swiotlb.c
-> +++ b/kernel/dma/swiotlb.c
-> @@ -46,6 +46,7 @@
->   #include <linux/init.h>
->   #include <linux/memblock.h>
->   #include <linux/iommu-helper.h>
-> +#include <linux/io.h>
->
->   #define CREATE_TRACE_POINTS
->   #include <trace/events/swiotlb.h>
-> @@ -102,6 +103,12 @@ unsigned int max_segment;
->   #define INVALID_PHYS_ADDR (~(phys_addr_t)0)
->   static phys_addr_t *io_tlb_orig_addr;
->
-> +/*
-> + * The TLB phys addr may be defined on the command line. Store it here =
-if it is.
-> + */
-> +static phys_addr_t io_tlb_addr =3D INVALID_PHYS_ADDR;
-> +
-> +
->   /*
->    * Protect the above data structures in the map and unmap calls
->    */
-> @@ -119,11 +126,23 @@ setup_io_tlb_npages(char *str)
->   	}
->   	if (*str =3D=3D ',')
->   		++str;
-> -	if (!strcmp(str, "force")) {
-> +	if (!strncmp(str, "force", 5)) {
->   		swiotlb_force =3D SWIOTLB_FORCE;
-> -	} else if (!strcmp(str, "noforce")) {
-> +		str +=3D 5;
-> +	} else if (!strncmp(str, "noforce", 7)) {
->   		swiotlb_force =3D SWIOTLB_NO_FORCE;
->   		io_tlb_nslabs =3D 1;
-> +		str +=3D 7;
-> +	}
-> +
-> +	if (*str =3D=3D ',')
-> +		++str;
-> +	if (!strncmp(str, "addr=3D", 5)) {
-> +		char *addrstr =3D str + 5;
-> +
-> +		io_tlb_addr =3D kstrtoul(addrstr, 0, &str);
-> +		if (addrstr =3D=3D str)
-> +			io_tlb_addr =3D INVALID_PHYS_ADDR;
->   	}
->
->   	return 0;
-> @@ -239,6 +258,25 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigne=
-d long nslabs, int verbose)
->   	return 0;
->   }
->
-> +static int __init swiotlb_init_io(int verbose, unsigned long bytes)
-> +{
-> +	unsigned __iomem char *vstart;
-> +
-> +	if (io_tlb_addr =3D=3D INVALID_PHYS_ADDR)
-> +		return -EINVAL;
-> +
-> +	vstart =3D memremap(io_tlb_addr, bytes, MEMREMAP_WB);
-> +	if (!vstart)
-> +		return -EINVAL;
-> +
-> +	if (swiotlb_init_with_tbl(vstart, io_tlb_nslabs, verbose)) {
-> +		memunmap(vstart);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   /*
->    * Statically reserve bounce buffer space and initialize bounce buffer=
- data
->    * structures for the software IO TLB used to implement the DMA API.
-> @@ -257,6 +295,10 @@ swiotlb_init(int verbose)
->
->   	bytes =3D io_tlb_nslabs << IO_TLB_SHIFT;
->
-> +	/* Map IO TLB from device memory */
-> +	if (!swiotlb_init_io(verbose, bytes))
-> +		return;
-> +
->   	/* Get IO TLB memory from the low pages */
->   	vstart =3D memblock_alloc_low(PAGE_ALIGN(bytes), PAGE_SIZE);
->   	if (vstart && !swiotlb_init_with_tbl(vstart, io_tlb_nslabs, verbose))
->
+On Tue, Mar 17, 2020 at 3:54 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 
-To make this useful also for shared-memory based devices, it should not
-only have a command-line independent interface. Multi-instance support
-would be needed so that you can attach swiotlb with individual address
-ranges to devices that need it and leave it alone for other that do not
-(e.g. passed-through guest devices).
+> Use a different markup for the ERR_PTR, as %FOO doesn't work
+> if there are parenthesis. So, use, instead:
+>
+>         ``ERR_PTR(-EINVAL)``
+>
+> This fixes the following warning:
+>
+>         ./drivers/gpio/gpiolib.c:139: WARNING: Inline literal start-string without end-string.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Jan
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Mauro are you merging this or do you want me to merge it?
+
+Yours,
+Linus Walleij
