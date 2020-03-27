@@ -4,53 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C07C43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 13:27:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92304C43331
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 13:34:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EBFCB2082E
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 13:27:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 68E5720658
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 13:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585315635;
-	bh=psper8VrHdCV5HS9lHJgsiiF7t3x+38IYIHkZSHTF2M=;
+	s=default; t=1585316095;
+	bh=50d7atbbqCu8sVfTjeDFx1DNlGegS0O1DKeZQZ52JP8=;
 	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=baNyJhTBr5mqQKcfBtcoiNXGrm+sf12mHgmvRkYXrYrMqVg2yHOoKNp/ufoxVj9xE
-	 pK3FNa1/IxCSYE4JAudBFz9tkoxtvMd/iYGQU/nPy+XyH9Qa/VtHAwha/QJml4c3BA
-	 Sfo/Uj0ITQoccKFYUH/Hphdrq3Zo78WcRbsjU05g=
+	b=Nv8kmRBodmBjQWKVIkBEupxBRfpeT4/S/55MgQgoDtW5NeWPFHvmW+HBEmgsu7d9e
+	 4B+X5/73eWaAeyLGXm711dRNXoPcPgCNigsiHqvqhp1KpTR36ba2np/XTKLr+d1dpE
+	 VObQztAD5XJD9IQQ2RqeeelTRYpMl4HxZ0VfHezo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726333AbgC0N1O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 09:27:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41864 "EHLO mail.kernel.org"
+        id S1726540AbgC0Nev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 09:34:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47836 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726275AbgC0N1O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Mar 2020 09:27:14 -0400
+        id S1726275AbgC0Nev (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Mar 2020 09:34:51 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B01B32082D;
-        Fri, 27 Mar 2020 13:27:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 28EF120658;
+        Fri, 27 Mar 2020 13:34:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585315633;
-        bh=psper8VrHdCV5HS9lHJgsiiF7t3x+38IYIHkZSHTF2M=;
+        s=default; t=1585316090;
+        bh=50d7atbbqCu8sVfTjeDFx1DNlGegS0O1DKeZQZ52JP8=;
         h=From:To:Cc:Subject:Date:From;
-        b=tWpc8j/ddZhHm/TZbBG2ZYCyusJh/SvmRjlLv1scAy7u4YDtLztrlURvoUCIKyVZi
-         lCL9J5rPqok/G25W79cpCTpSVhyn81AoZUKwxAuS4d9HAbhn01TXpmyqJiwq1RQ9AQ
-         WHlQ1R5vylA7KWbpjduGA/9WlXWOGLdL0+9YdtUg=
+        b=WBUFkK5g/Fd0EJOxssi6MUZ8HPDTne7wpMIkbWcxTeqKQxpHTFrdDUGhYKsfAiNsr
+         DUQJCsqXySsHXU3oZs7SEwrbj4VOHzh+wky1vfgBqQNR+bklIcYFGZZaQRh0o6yd4W
+         xRJC502G1n6dGOTlOIc6cmGye2/plnCxTk7nVWFw=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jHp0x-0049dW-4D; Fri, 27 Mar 2020 14:27:11 +0100
+        id 1jHp8J-0049th-V8; Fri, 27 Mar 2020 14:34:47 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Subject: [PATCH] MAINTAINERS: dt: fix pointers for ARM Integrator, Versatile and RealView
-Date:   Fri, 27 Mar 2020 14:27:10 +0100
-Message-Id: <13cb650158b3fa2c09d3cefc5694e0868ae7f88f.1585315608.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Simon Horman <simon.horman@netronome.com>,
+        Harish Bandi <c-hbandi@codeaurora.org>,
+        Venkata Lakshmi Narayana Gubba <gubbaven@codeaurora.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Rocky Liao <rjliao@codeaurora.org>,
+        Matthias Brugger <mbrugger@suse.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH] docs: dt: fix a broken reference for a file converted to json
+Date:   Fri, 27 Mar 2020 14:34:47 +0100
+Message-Id: <33fa622c263ad40a129dc2b8dd0111b40016bc17.1585316085.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,40 +67,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a conversion from a plain text binding file into 4 yaml ones.
-The old file got removed, causing this new warning:
+Changeset 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
+moved a binding to json and updated the links. Yet, one link
+was forgotten.
 
-	Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm-boards
+Update this one too.
 
-Address it by replacing the old reference by the new ones
-
-Fixes: 2d483550b6d2 ("dt-bindings: arm: Drop the non-YAML bindings")
-Fixes: 33fbfb3eaf4e ("dt-bindings: arm: Add Integrator YAML schema")
-Fixes: 4b900070d50d ("dt-bindings: arm: Add Versatile YAML schema")
-Fixes: 7db625b9fa75 ("dt-bindings: arm: Add RealView YAML schema")
-Fixes: 4fb00d9066c1 ("dt-bindings: arm: Add Versatile Express and Juno YAML schema")
+Fixes: 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3d3f00c70555..f9264b14ac30 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1295,7 +1295,10 @@ ARM INTEGRATOR, VERSATILE AND REALVIEW SUPPORT
- M:	Linus Walleij <linus.walleij@linaro.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/arm/arm-boards
-+F:	Documentation/devicetree/bindings/arm/arm,integrator.yaml
-+F:	Documentation/devicetree/bindings/arm/arm,realview.yaml
-+F:	Documentation/devicetree/bindings/arm/arm,versatile.yaml
-+F:	Documentation/devicetree/bindings/arm/arm,vexpress-juno.yaml
- F:	Documentation/devicetree/bindings/auxdisplay/arm-charlcd.txt
- F:	Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
- F:	Documentation/devicetree/bindings/i2c/i2c-versatile.txt
+diff --git a/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt b/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
+index beca6466d59a..d2202791c1d4 100644
+--- a/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
++++ b/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
+@@ -29,7 +29,7 @@ Required properties for compatible string qcom,wcn399x-bt:
+ 
+ Optional properties for compatible string qcom,wcn399x-bt:
+ 
+- - max-speed: see Documentation/devicetree/bindings/serial/slave-device.txt
++ - max-speed: see Documentation/devicetree/bindings/serial/serial.yaml
+  - firmware-name: specify the name of nvm firmware to load
+  - clocks: clock provided to the controller
+ 
 -- 
 2.25.1
-
 
