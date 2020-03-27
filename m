@@ -2,196 +2,324 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F635C2D0EE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 07:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 396E9C43331
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 07:37:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DB6A120723
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 07:00:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=c-s.fr header.i=@c-s.fr header.b="UX15Jazq"
+	by mail.kernel.org (Postfix) with ESMTP id 05873206F2
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 07:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725956AbgC0HAy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 03:00:54 -0400
-Received: from pegase1.c-s.fr ([93.17.236.30]:37711 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725857AbgC0HAy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Mar 2020 03:00:54 -0400
-Received: from localhost (mailhub1-int [192.168.12.234])
-        by localhost (Postfix) with ESMTP id 48pXnH05D3z9txq3;
-        Fri, 27 Mar 2020 08:00:51 +0100 (CET)
-Authentication-Results: localhost; dkim=pass
-        reason="1024-bit key; insecure key"
-        header.d=c-s.fr header.i=@c-s.fr header.b=UX15Jazq; dkim-adsp=pass;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-        with ESMTP id RA_-yOiis4rA; Fri, 27 Mar 2020 08:00:50 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 48pXnG5XWyz9txq2;
-        Fri, 27 Mar 2020 08:00:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
-        t=1585292450; bh=Ws1T27uMA0wfJZIl4CR6AQkUqBHuQiB6haJ0qz+xiIM=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=UX15Jazq692nKezahgcBWFZADQzoEn5TOJTlYr5XLS/57u6ncysBxqFZPWgQbrlBy
-         BLPR/FqnpU+HiqGEHw4aO+Mm3ZF1ZASdmP3rOi0gJGXiZXKXdy6KknGg8FIO+Or9JQ
-         qCqJd84lmJi/DNXsbkiMINQjf68WtsGi+npCBrzc=
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 8BDF78B7BC;
-        Fri, 27 Mar 2020 08:00:51 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id oH2Pf5pBdxv5; Fri, 27 Mar 2020 08:00:51 +0100 (CET)
-Received: from pc16570vm.idsi0.si.c-s.fr (unknown [192.168.4.90])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 655658B756;
-        Fri, 27 Mar 2020 08:00:49 +0100 (CET)
-Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
-To:     Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
- <2bb4badc-2b7a-e15d-a99b-b1bd38c9d9bf@arm.com>
- <a46d18ed-8911-1ec3-c32f-58b6e0d959d7@c-s.fr>
- <9675882f-0ec5-5e46-551f-dd3aa38bf8d8@arm.com>
-From:   Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <ef28cb75-40b8-5ab5-83ba-84fd4384c7c5@c-s.fr>
-Date:   Fri, 27 Mar 2020 07:00:45 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1726360AbgC0Hhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 03:37:51 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:36923 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726115AbgC0Hhv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 03:37:51 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1jHjYj-0002rV-K0; Fri, 27 Mar 2020 08:37:41 +0100
+Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ore@pengutronix.de>)
+        id 1jHjYg-0002CN-Co; Fri, 27 Mar 2020 08:37:38 +0100
+Date:   Fri, 27 Mar 2020 08:37:38 +0100
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Clement Leger <cleger@kalray.eu>
+Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-remoteproc@vger.kernel.org,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Loic PALLARDY <loic.pallardy@st.com>,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        s-anna <s-anna@ti.com>, Fabio Estevam <festevam@gmail.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 1/8] remoteproc: Use size_t type for len in da_to_va
+Message-ID: <20200327073738.o633jukxpmue4aeg@pengutronix.de>
+References: <20200210162209.23149-1-cleger@kalray.eu>
+ <20200302093902.27849-1-cleger@kalray.eu>
+ <20200302093902.27849-2-cleger@kalray.eu>
 MIME-Version: 1.0
-In-Reply-To: <9675882f-0ec5-5e46-551f-dd3aa38bf8d8@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200302093902.27849-2-cleger@kalray.eu>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 08:36:42 up 132 days, 22:55, 152 users,  load average: 0.15, 0.08,
+ 0.06
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 03/27/2020 06:46 AM, Anshuman Khandual wrote:
+On Mon, Mar 02, 2020 at 10:38:55AM +0100, Clement Leger wrote:
+> With upcoming changes in elf loader for elf64 support, section size will
+> be a u64. When used with da_to_va, this will potentially lead to
+> overflow if using the current "int" type for len argument. Change
+> da_to_va prototype to use a size_t for len and fix all users of this
+> function.
 > 
-> On 03/26/2020 08:53 PM, Christophe Leroy wrote:
->>
->>
->> Le 26/03/2020 à 03:23, Anshuman Khandual a écrit :
->>>
->>>
->>> On 03/24/2020 10:52 AM, Anshuman Khandual wrote:
->>>> This series adds more arch page table helper tests. The new tests here are
->>>> either related to core memory functions and advanced arch pgtable helpers.
->>>> This also creates a documentation file enlisting all expected semantics as
->>>> suggested by Mike Rapoport (https://lkml.org/lkml/2020/1/30/40).
->>>>
->>>> This series has been tested on arm64 and x86 platforms.
->>>
->>> If folks can test these patches out on remaining ARCH_HAS_DEBUG_VM_PGTABLE
->>> enabled platforms i.e s390, arc, powerpc (32 and 64), that will be really
->>> appreciated. Thank you.
->>>
->>
->> On powerpc 8xx (PPC32), I get:
->>
->> [   53.338368] debug_vm_pgtable: debug_vm_pgtable: Validating architecture page table helpers
->> [   53.347403] ------------[ cut here ]------------
->> [   53.351832] WARNING: CPU: 0 PID: 1 at mm/debug_vm_pgtable.c:647 debug_vm_pgtable+0x280/0x3f4
+> Signed-off-by: Clement Leger <cleger@kalray.eu>
+> ---
+>  drivers/remoteproc/imx_rproc.c           | 11 ++++++-----
+
+Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+
+>  drivers/remoteproc/keystone_remoteproc.c |  4 ++--
+>  drivers/remoteproc/qcom_q6v5_adsp.c      |  2 +-
+>  drivers/remoteproc/qcom_q6v5_mss.c       |  2 +-
+>  drivers/remoteproc/qcom_q6v5_pas.c       |  2 +-
+>  drivers/remoteproc/qcom_q6v5_wcss.c      |  2 +-
+>  drivers/remoteproc/qcom_wcnss.c          |  2 +-
+>  drivers/remoteproc/remoteproc_core.c     |  2 +-
+>  drivers/remoteproc/remoteproc_internal.h |  2 +-
+>  drivers/remoteproc/st_slim_rproc.c       |  4 ++--
+>  drivers/remoteproc/wkup_m3_rproc.c       |  4 ++--
+>  include/linux/remoteproc.h               |  2 +-
+>  12 files changed, 20 insertions(+), 19 deletions(-)
 > 
-> mm/debug_vm_pgtable.c:647 ?
+> diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
+> index 3e72b6f38d4b..8957ed271d20 100644
+> --- a/drivers/remoteproc/imx_rproc.c
+> +++ b/drivers/remoteproc/imx_rproc.c
+> @@ -186,7 +186,7 @@ static int imx_rproc_stop(struct rproc *rproc)
+>  }
+>  
+>  static int imx_rproc_da_to_sys(struct imx_rproc *priv, u64 da,
+> -			       int len, u64 *sys)
+> +			       size_t len, u64 *sys)
+>  {
+>  	const struct imx_rproc_dcfg *dcfg = priv->dcfg;
+>  	int i;
+> @@ -203,19 +203,19 @@ static int imx_rproc_da_to_sys(struct imx_rproc *priv, u64 da,
+>  		}
+>  	}
+>  
+> -	dev_warn(priv->dev, "Translation failed: da = 0x%llx len = 0x%x\n",
+> +	dev_warn(priv->dev, "Translation failed: da = 0x%llx len = 0x%zx\n",
+>  		 da, len);
+>  	return -ENOENT;
+>  }
+>  
+> -static void *imx_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
+> +static void *imx_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct imx_rproc *priv = rproc->priv;
+>  	void *va = NULL;
+>  	u64 sys;
+>  	int i;
+>  
+> -	if (len <= 0)
+> +	if (len == 0)
+>  		return NULL;
+>  
+>  	/*
+> @@ -235,7 +235,8 @@ static void *imx_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
+>  		}
+>  	}
+>  
+> -	dev_dbg(&rproc->dev, "da = 0x%llx len = 0x%x va = 0x%p\n", da, len, va);
+> +	dev_dbg(&rproc->dev, "da = 0x%llx len = 0x%zx va = 0x%p\n",
+> +		da, len, va);
+>  
+>  	return va;
+>  }
+> diff --git a/drivers/remoteproc/keystone_remoteproc.c b/drivers/remoteproc/keystone_remoteproc.c
+> index 5c4658f00b3d..cd266163a65f 100644
+> --- a/drivers/remoteproc/keystone_remoteproc.c
+> +++ b/drivers/remoteproc/keystone_remoteproc.c
+> @@ -246,7 +246,7 @@ static void keystone_rproc_kick(struct rproc *rproc, int vqid)
+>   * can be used either by the remoteproc core for loading (when using kernel
+>   * remoteproc loader), or by any rpmsg bus drivers.
+>   */
+> -static void *keystone_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
+> +static void *keystone_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct keystone_rproc *ksproc = rproc->priv;
+>  	void __iomem *va = NULL;
+> @@ -255,7 +255,7 @@ static void *keystone_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
+>  	size_t size;
+>  	int i;
+>  
+> -	if (len <= 0)
+> +	if (len == 0)
+>  		return NULL;
+>  
+>  	for (i = 0; i < ksproc->num_mems; i++) {
+> diff --git a/drivers/remoteproc/qcom_q6v5_adsp.c b/drivers/remoteproc/qcom_q6v5_adsp.c
+> index e953886b2eb7..2b01f2282062 100644
+> --- a/drivers/remoteproc/qcom_q6v5_adsp.c
+> +++ b/drivers/remoteproc/qcom_q6v5_adsp.c
+> @@ -270,7 +270,7 @@ static int adsp_stop(struct rproc *rproc)
+>  	return ret;
+>  }
+>  
+> -static void *adsp_da_to_va(struct rproc *rproc, u64 da, int len)
+> +static void *adsp_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct qcom_adsp *adsp = (struct qcom_adsp *)rproc->priv;
+>  	int offset;
+> diff --git a/drivers/remoteproc/qcom_q6v5_mss.c b/drivers/remoteproc/qcom_q6v5_mss.c
+> index 471128a2e723..3401a17f8ce6 100644
+> --- a/drivers/remoteproc/qcom_q6v5_mss.c
+> +++ b/drivers/remoteproc/qcom_q6v5_mss.c
+> @@ -1148,7 +1148,7 @@ static int q6v5_stop(struct rproc *rproc)
+>  	return 0;
+>  }
+>  
+> -static void *q6v5_da_to_va(struct rproc *rproc, u64 da, int len)
+> +static void *q6v5_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct q6v5 *qproc = rproc->priv;
+>  	int offset;
+> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
+> index db4b3c4bacd7..4e89d04673a4 100644
+> --- a/drivers/remoteproc/qcom_q6v5_pas.c
+> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
+> @@ -159,7 +159,7 @@ static int adsp_stop(struct rproc *rproc)
+>  	return ret;
+>  }
+>  
+> -static void *adsp_da_to_va(struct rproc *rproc, u64 da, int len)
+> +static void *adsp_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct qcom_adsp *adsp = (struct qcom_adsp *)rproc->priv;
+>  	int offset;
+> diff --git a/drivers/remoteproc/qcom_q6v5_wcss.c b/drivers/remoteproc/qcom_q6v5_wcss.c
+> index f93e1e4a1cc0..f1924b740a10 100644
+> --- a/drivers/remoteproc/qcom_q6v5_wcss.c
+> +++ b/drivers/remoteproc/qcom_q6v5_wcss.c
+> @@ -406,7 +406,7 @@ static int q6v5_wcss_stop(struct rproc *rproc)
+>  	return 0;
+>  }
+>  
+> -static void *q6v5_wcss_da_to_va(struct rproc *rproc, u64 da, int len)
+> +static void *q6v5_wcss_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct q6v5_wcss *wcss = rproc->priv;
+>  	int offset;
+> diff --git a/drivers/remoteproc/qcom_wcnss.c b/drivers/remoteproc/qcom_wcnss.c
+> index dc135754bb9c..0c7afd038f0d 100644
+> --- a/drivers/remoteproc/qcom_wcnss.c
+> +++ b/drivers/remoteproc/qcom_wcnss.c
+> @@ -287,7 +287,7 @@ static int wcnss_stop(struct rproc *rproc)
+>  	return ret;
+>  }
+>  
+> -static void *wcnss_da_to_va(struct rproc *rproc, u64 da, int len)
+> +static void *wcnss_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct qcom_wcnss *wcnss = (struct qcom_wcnss *)rproc->priv;
+>  	int offset;
+> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+> index 307df98347ba..5ab094fc1b55 100644
+> --- a/drivers/remoteproc/remoteproc_core.c
+> +++ b/drivers/remoteproc/remoteproc_core.c
+> @@ -185,7 +185,7 @@ EXPORT_SYMBOL(rproc_va_to_pa);
+>   * here the output of the DMA API for the carveouts, which should be more
+>   * correct.
+>   */
+> -void *rproc_da_to_va(struct rproc *rproc, u64 da, int len)
+> +void *rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct rproc_mem_entry *carveout;
+>  	void *ptr = NULL;
+> diff --git a/drivers/remoteproc/remoteproc_internal.h b/drivers/remoteproc/remoteproc_internal.h
+> index 493ef9262411..58580210575c 100644
+> --- a/drivers/remoteproc/remoteproc_internal.h
+> +++ b/drivers/remoteproc/remoteproc_internal.h
+> @@ -50,7 +50,7 @@ void rproc_exit_sysfs(void);
+>  void rproc_free_vring(struct rproc_vring *rvring);
+>  int rproc_alloc_vring(struct rproc_vdev *rvdev, int i);
+>  
+> -void *rproc_da_to_va(struct rproc *rproc, u64 da, int len);
+> +void *rproc_da_to_va(struct rproc *rproc, u64 da, size_t len);
+>  phys_addr_t rproc_va_to_pa(void *cpu_addr);
+>  int rproc_trigger_recovery(struct rproc *rproc);
+>  
+> diff --git a/drivers/remoteproc/st_slim_rproc.c b/drivers/remoteproc/st_slim_rproc.c
+> index 04492fead3c8..09bcb4d8b9e0 100644
+> --- a/drivers/remoteproc/st_slim_rproc.c
+> +++ b/drivers/remoteproc/st_slim_rproc.c
+> @@ -174,7 +174,7 @@ static int slim_rproc_stop(struct rproc *rproc)
+>  	return 0;
+>  }
+>  
+> -static void *slim_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
+> +static void *slim_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct st_slim_rproc *slim_rproc = rproc->priv;
+>  	void *va = NULL;
+> @@ -191,7 +191,7 @@ static void *slim_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
+>  		}
+>  	}
+>  
+> -	dev_dbg(&rproc->dev, "da = 0x%llx len = 0x%x va = 0x%pK\n",
+> +	dev_dbg(&rproc->dev, "da = 0x%llx len = 0x%zx va = 0x%pK\n",
+>  		da, len, va);
+>  
+>  	return va;
+> diff --git a/drivers/remoteproc/wkup_m3_rproc.c b/drivers/remoteproc/wkup_m3_rproc.c
+> index 3984e585c847..b9349d684258 100644
+> --- a/drivers/remoteproc/wkup_m3_rproc.c
+> +++ b/drivers/remoteproc/wkup_m3_rproc.c
+> @@ -80,14 +80,14 @@ static int wkup_m3_rproc_stop(struct rproc *rproc)
+>  	return 0;
+>  }
+>  
+> -static void *wkup_m3_rproc_da_to_va(struct rproc *rproc, u64 da, int len)
+> +static void *wkup_m3_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len)
+>  {
+>  	struct wkup_m3_rproc *wkupm3 = rproc->priv;
+>  	void *va = NULL;
+>  	int i;
+>  	u32 offset;
+>  
+> -	if (len <= 0)
+> +	if (len == 0)
+>  		return NULL;
+>  
+>  	for (i = 0; i < WKUPM3_MEM_MAX; i++) {
+> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+> index 16ad66683ad0..89215798eaea 100644
+> --- a/include/linux/remoteproc.h
+> +++ b/include/linux/remoteproc.h
+> @@ -374,7 +374,7 @@ struct rproc_ops {
+>  	int (*start)(struct rproc *rproc);
+>  	int (*stop)(struct rproc *rproc);
+>  	void (*kick)(struct rproc *rproc, int vqid);
+> -	void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
+> +	void * (*da_to_va)(struct rproc *rproc, u64 da, size_t len);
+>  	int (*parse_fw)(struct rproc *rproc, const struct firmware *fw);
+>  	int (*handle_rsc)(struct rproc *rproc, u32 rsc_type, void *rsc,
+>  			  int offset, int avail);
+> -- 
+> 2.15.0.276.g89ea799
 > 
-> With the following commits in place
 > 
-> 53a8338ce (HEAD) Documentation/mm: Add descriptions for arch page table helper
-> 5d4913fc1 mm/debug: Add tests validating arch advanced page table helpers
-> bcaf120a7 mm/debug: Add tests validating arch page table helpers for core features
-> d6ed5a4a5 x86/memory: Drop pud_mknotpresent()
-> 0739d1f8d mm/debug: Add tests validating architecture page table helpers
-> 16fbf79b0 (tag: v5.6-rc7) Linux 5.6-rc7
-
-I have:
-
-facaa5eb5909 (HEAD -> helpers0) mm/debug: Add tests validating arch 
-advanced page table helpers
-6389fed515fc mm/debug: Add tests validating arch page table helpers for 
-core features
-dc14ecc8b94e mm/debug: add tests validating architecture page table helpers
-c6624071c338 (origin/merge, merge) Automatic merge of branches 'master', 
-'next' and 'fixes' into merge
-58e05c5508e6 Automatic merge of branches 'master', 'next' and 'fixes' 
-into merge
-1b649e0bcae7 (origin/master, origin/HEAD) Merge 
-git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
-
-origin is https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git
-
-I can't see your last patch in powerpc mailing list 
-(https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=166237)
-
-> 
-> mm/debug_vm_pgtable.c:647 is here.
-
-Line 647 is:
-
-	WARN_ON(!pte_same(pte, __swp_entry_to_pte(swp)));
-
-
-> 
-> #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
-> static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot)
-> {
->          swp_entry_t swp;
->          pmd_t pmd;  -----------------------------> Line #647
-> 
->          pmd = pfn_pmd(pfn, prot);
->          swp = __pmd_to_swp_entry(pmd);
->          WARN_ON(!pmd_same(pmd, __swp_entry_to_pmd(swp)));
-> }
-> #else
-> static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot) { }
-> #end
-> 
-> Did I miss something ?
 > 
 
-[...]
-
-> Could you please point me to the exact test which is failing ?
-> 
->> [   53.519778] Freeing unused kernel memory: 608K
->>
->>
-> So I assume that the system should have come till runtime just fine apart from
-> the above warning message because.
-> 
-
-Yes it boots fine otherwise.
-
-Christophe
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
