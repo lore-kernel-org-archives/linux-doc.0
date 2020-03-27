@@ -2,91 +2,100 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB30DC43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 13:47:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF2FC2D0EC
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 14:22:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 98911208E4
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 13:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585316833;
-	bh=7Pepu9uT9jkfT1u0Lw+gmVZkqKbmxOrp/H5fM5L/zww=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=P0shXHztHVvlDoH56+7s2Wdva29g1xqUGBvJikp+oPHeDSXzFTyNHfHcb6UX1EgOY
-	 boZqUJet7tVtA92IIwG4UHA3oFkq/WB194tUnRZkSe7Lcil6fgr4W9GGe5z33fodMQ
-	 MqJeIpc/1Z8noM3cFycBlLBWW9EprQYGrDT/7mPw=
+	by mail.kernel.org (Postfix) with ESMTP id 6E01E20658
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 14:22:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="P04eDa8u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727242AbgC0NrN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 09:47:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57004 "EHLO mail.kernel.org"
+        id S1727345AbgC0OWy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 10:22:54 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:34046 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726275AbgC0NrN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Mar 2020 09:47:13 -0400
-Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CDAD8207FF;
-        Fri, 27 Mar 2020 13:47:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585316832;
-        bh=7Pepu9uT9jkfT1u0Lw+gmVZkqKbmxOrp/H5fM5L/zww=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=r6jUV25hxb/sEpYPoqpJU1QKNzNxsiNj7D3JzeqbhGADUSCqB0TdMOv/B0ej8NnKt
-         8ShhDGrgzq2OzTXESqv5ic0ArU0UYXJimhf90bFpyTOWFd+yxw1BZ8equJV8WA0nz6
-         9BsPMjcC2cuum+Ix9ZoMEiSu1aq8DXrK5eOhZM30=
-Date:   Fri, 27 Mar 2020 14:47:07 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH 12/17] gpio: gpiolib.c: fix a doc warning
-Message-ID: <20200327144707.3367e97d@coco.lan>
-In-Reply-To: <CACRpkdYrL02YHn5dPnh_Oz0Ysm5BxHrwQgwNMtsD55XGid_hCQ@mail.gmail.com>
-References: <cover.1584456635.git.mchehab+huawei@kernel.org>
-        <51197e3568f073e22c280f0584bfa20b44436708.1584456635.git.mchehab+huawei@kernel.org>
-        <CACRpkdYrL02YHn5dPnh_Oz0Ysm5BxHrwQgwNMtsD55XGid_hCQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726656AbgC0OWx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Mar 2020 10:22:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=U0es5eCjPHafmknYI44UIritcApZVL6ufHPKfH3LHp8=; b=P04eDa8uV9VPNA/3xDFaHSp7lu
+        PTChCW80xpzV6lIYT1iZfFj2B4jFIt5iRbfawNZSgHYK1l2bIRJQgP0ktBL/Tf9so2gmFp6xazFee
+        kRIRD6dSvVtcDK6pjzZmXw3K7HrUK3rGXWYJ6FAMgSVulG/K0G5QgFVSrtgfn6r4I32s=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
+        (envelope-from <andrew@lunn.ch>)
+        id 1jHpsj-0002C9-4p; Fri, 27 Mar 2020 15:22:45 +0100
+Date:   Fri, 27 Mar 2020 15:22:45 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Florinel Iordache <florinel.iordache@nxp.com>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, f.fainelli@gmail.com,
+        hkallweit1@gmail.com, linux@armlinux.org.uk,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, kuba@kernel.org,
+        corbet@lwn.net, shawnguo@kernel.org, leoyang.li@nxp.com,
+        madalin.bucur@oss.nxp.com, ioana.ciornei@nxp.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 6/9] net: phy: add backplane kr driver support
+Message-ID: <20200327142245.GF11004@lunn.ch>
+References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
+ <1585230682-24417-7-git-send-email-florinel.iordache@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1585230682-24417-7-git-send-email-florinel.iordache@nxp.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 27 Mar 2020 11:22:52 +0100
-Linus Walleij <linus.walleij@linaro.org> escreveu:
+> +/* Backplane custom logging */
+> +#define BPDEV_LOG(name) \
+> +	char log_buffer[LOG_BUFFER_SIZE]; \
+> +	va_list args; va_start(args, msg); \
+> +	vsnprintf(log_buffer, LOG_BUFFER_SIZE - 1, msg, args); \
+> +	if (!bpphy->attached_dev) \
+> +		dev_##name(&bpphy->mdio.dev, log_buffer); \
+> +	else \
+> +		dev_##name(&bpphy->mdio.dev, "%s: %s", \
+> +			netdev_name(bpphy->attached_dev), log_buffer); \
+> +	va_end(args)
 
-> On Tue, Mar 17, 2020 at 3:54 PM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> 
-> > Use a different markup for the ERR_PTR, as %FOO doesn't work
-> > if there are parenthesis. So, use, instead:
-> >
-> >         ``ERR_PTR(-EINVAL)``
-> >
-> > This fixes the following warning:
-> >
-> >         ./drivers/gpio/gpiolib.c:139: WARNING: Inline literal start-string without end-string.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> 
-> Mauro are you merging this or do you want me to merge it?
+> +void bpdev_err(struct phy_device *bpphy, char *msg, ...)
+> +{
+> +	BPDEV_LOG(err);
+> +}
+> +EXPORT_SYMBOL(bpdev_err);
+> +
+> +void bpdev_warn(struct phy_device *bpphy, char *msg, ...)
+> +{
+> +	BPDEV_LOG(warn);
+> +}
+> +EXPORT_SYMBOL(bpdev_warn);
+> +
+> +void bpdev_info(struct phy_device *bpphy, char *msg, ...)
+> +{
+> +	BPDEV_LOG(info);
+> +}
+> +EXPORT_SYMBOL(bpdev_info);
+> +
+> +void bpdev_dbg(struct phy_device *bpphy, char *msg, ...)
+> +{
+> +	BPDEV_LOG(dbg);
+> +}
+> +EXPORT_SYMBOL(bpdev_dbg);
 
-Feel free to merge it.
+You are currently modelling this as a phydev. So please just use
+phydev_err(), phydev_info(), phydev_dbg() etc.
 
-My plan is to rebase my trees after the merge window, re-sending
-anything that got missed for them to be either applied directly
-or via the docs tree.
+Also, if you look at other PHY code, struct phy_device * is nearly
+always called phydev. Please try to be consistent with the existing
+code base.
 
-Thanks,
-Mauro
+     Andrew
