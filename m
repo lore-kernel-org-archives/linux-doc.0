@@ -2,88 +2,57 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E58C43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:45:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF87C43331
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:49:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 80D232074F
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:45:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="bPPkVIFb"
+	by mail.kernel.org (Postfix) with ESMTP id 5613820748
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 15:49:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727242AbgC0PpD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 11:45:03 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:34284 "EHLO vps0.lunn.ch"
+        id S1727287AbgC0Pt1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 11:49:27 -0400
+Received: from mx.sdf.org ([205.166.94.20]:53882 "EHLO mx.sdf.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726515AbgC0PpD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Mar 2020 11:45:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=Pm/asNb1Pns7utlRhHbrECwkl0DqjgsSY9mzrFMWbfc=; b=bPPkVIFbYibgLevFJDBOJPj9z8
-        vLZPFE4CZqVSOcg9UstAwQmVVhdcjPIkgLkeDbZiXK3wfVC9q4l/VkbVHndf0uxEA4l3lmnhvUTa6
-        pExzEGX0D5qVstXT3yGsZR0Am0t+PtD7PgcCmE+JQHMW7IQuXkJ3EDqm2dN1R+y6Kb/M=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
-        (envelope-from <andrew@lunn.ch>)
-        id 1jHrA8-0002qY-2y; Fri, 27 Mar 2020 16:44:48 +0100
-Date:   Fri, 27 Mar 2020 16:44:48 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     Florinel Iordache <florinel.iordache@nxp.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        Leo Li <leoyang.li@nxp.com>,
-        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [EXT] Re: [PATCH net-next 2/9] dt-bindings: net: add backplane
- dt bindings
-Message-ID: <20200327154448.GK11004@lunn.ch>
-References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
- <1585230682-24417-3-git-send-email-florinel.iordache@nxp.com>
- <20200327010411.GM3819@lunn.ch>
- <AM0PR04MB5443185A1236F621B9EC9873FBCC0@AM0PR04MB5443.eurprd04.prod.outlook.com>
- <20200327152849.GP25745@shell.armlinux.org.uk>
+        id S1726959AbgC0Pt0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Mar 2020 11:49:26 -0400
+Received: from sdf.org (IDENT:lkml@sdf.lonestar.org [205.166.94.16])
+        by mx.sdf.org (8.15.2/8.14.5) with ESMTPS id 02RFnMBV014590
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits) verified NO);
+        Fri, 27 Mar 2020 15:49:23 GMT
+Received: (from lkml@localhost)
+        by sdf.org (8.15.2/8.12.8/Submit) id 02RFnMtX006769;
+        Fri, 27 Mar 2020 15:49:22 GMT
+Date:   Fri, 27 Mar 2020 15:49:22 +0000
+From:   George Spelvin <lkml@SDF.ORG>
+To:     linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net, lkml@sdf.org
+Subject: Tweak MAINTAINERS text to match get_maintainer.pl?
+Message-ID: <20200327154922.GB19653@SDF.ORG>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200327152849.GP25745@shell.armlinux.org.uk>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> What worries me is the situation which I've been working on, where
-> we want access to the PCS PHYs, and we can't have the PCS PHYs
-> represented as a phylib PHY because we may have a copper PHY behind
-> the PCS PHY, and we want to be talking to the copper PHY in the
-> first instance (the PCS PHY effectivel ybecomes a slave to the
-> copper PHY.)
+I rcently submitted a patch to the WILC1000 staging driver. I erred by 
+only sending it to the people listed for that driver in the MAINTAINERS 
+file, and missed gregkh and the devel@driverdev.osuosl.org list.
 
-I guess we need to clarify what KR actually means. If we have a
-backplane with a MAC on each end, i think modelling it as a PHY could
-work.
+Now, get_maintainer.pl does output those addresses, as they cover all of 
+drivers/staging/, but I was misled by the text in MAINTAINERS "When 
+reading this list, please look for the most precise areas first."
 
-If however, we have a MAC connected to a backplane, and on the end of
-the backplane is a traditional PHY, or an SFP cage, we have problems.
-As your point out, we cannot have two PHYs in a chain for one MAC.
+I took that to mean that the specific superseded the general, but
+apparently I'm supposed to take the union.
 
-But i agree with Russell. We need a general solution of how we deal
-with PCSs.
+Except that I'm pretty sure Linus is meant to be a fallback, not
+Cc:ed on every driver patch.
 
-   Andrew
+So I'm confused about what the actual rules are.  But if they're encoded 
+in check_maintainer.pl, could the text in MAINTAINERS be updated to match? 
+Thank you.
