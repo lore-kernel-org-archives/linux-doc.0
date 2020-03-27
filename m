@@ -2,54 +2,54 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24CFEC43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 12:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20467C43331
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 13:02:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E0E422082E
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 12:40:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC46A2082E
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 13:02:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="kJRXQ18X"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="BkQejmU5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727707AbgC0Mk1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 08:40:27 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:33562 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726540AbgC0Mk0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 08:40:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=VHTZ48c5gjThBk1eiRrFIzohciBF7kA3crWky1H4U3M=; b=kJRXQ18XeeyTv/qyEIBjDj46d
-        Aje7W0Lhjs42MoJN3VEs3MoNadoIdiZZAcf+4KV1UGFKTWrq5RrL7FAkpJMPrgNhQ63MLIi+A2UzH
-        9+qgleFguHbZsXtCrx25vRe6AQUsRsq66pE+tVjPVyY8Dxxnk1PrfRTbKwE6b76hBfyMxsftG6+dT
-        VIrk79xbt4DEJEq7IN81x/spNjEUhKRtA1ktKPZU6QteberrcNkI6jKs66g94zsmGA6kxgWoGIyXN
-        DLJc1FlOuKF0Sey3m01bNyTel4p7PLToU1Z5awodVTJmX9SdCmlJsO5uJk6VIB4CrFvJ3qSInO21b
-        g1TUUAYjQ==;
-Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:37898)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1jHoHT-00013s-IW; Fri, 27 Mar 2020 12:40:16 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1jHoHP-0004E8-JH; Fri, 27 Mar 2020 12:40:07 +0000
-Date:   Fri, 27 Mar 2020 12:40:07 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florinel Iordache <florinel.iordache@nxp.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
+        id S1727593AbgC0NCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 09:02:23 -0400
+Received: from mail-eopbgr50046.outbound.protection.outlook.com ([40.107.5.46]:32779
+        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726165AbgC0NCW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Mar 2020 09:02:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lmREUd3Wz2PekEMDbOMqJCuoFVoLqa/yTRyAKzGTYnHBEtAUVRiqjW9lPeeEhCV8hHeczdonX8ax8WgqN9EvxGfHq1+gGRqexeDuYGglYQiCqpMpMCwL9/n5DwTeKw4SROizVDvruMpoCUs6uUDGTAgcC2dKr5YZAdhvoXRMajH5SNDnVyof0mwE4NamF789ki6ixW+uWg6Q894ZiKsYAUvlWlvF/v2r6HIza9WqfkUSdRRllgQPpAAPeUxrMC2SVgJzKKU+5pgYqOcQnp7LVYaMld+HhaUG+/prlBggdJmqiIyjZ7oWAEd6b/s35EyHYl+AtONoBmsDzB+eEfBWWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z2vXgZBKpZCJfHhJcX3ltJE7w+g9AwbEN+s+FGEQw9A=;
+ b=DUv+qzvDrRUSka1S1Dotj3MXGpDGyLjm0Lipa24TYRoj5N/bdcKyTlXZoQis8FFXXOXZ8mQVs3znTFU160vTDmPnoRdp2fpD96UHM4BKEHwfl6tE2UG6xKCZKY1IN4AeHPVVbC3h3PyEEt24GSvHeKuFS/6No6vS0CG9jp0m5ndQkLeVW5U/1AuZb/KYWSdYLU2ycvlY4LXbR3Gi9HBwpVzrX6BLZKsKgZj9M36DyU+mkwr3CtEHJgkMv4pKMzXSF2OShX5E0kEC+M/O69d3UQXETXtOmQeCI60ozGehBWcuRXMQkuhM78K0ae/qvDY079q00Cbk6wIctPF3eh/Wjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z2vXgZBKpZCJfHhJcX3ltJE7w+g9AwbEN+s+FGEQw9A=;
+ b=BkQejmU5DpIeZQg0kPtDKJfyLpae6q1ocQ3zVnaZYQmh6yhIFFi4RKEMLQ6GeHqF+n58LQC4r5KFFaGTFVzRqc3T0tUu3jQljBOu7lbHSkaOU2EA9n373jm6kY2um+aNeBdxGgTdGKhkLGZOSXXsUXgqjVMHAJkmu3SiW/5z3iI=
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com (20.178.114.161) by
+ AM0PR04MB5953.eurprd04.prod.outlook.com (20.178.112.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2856.18; Fri, 27 Mar 2020 13:02:17 +0000
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::ccc:be36:aaf0:709a]) by AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::ccc:be36:aaf0:709a%7]) with mapi id 15.20.2856.019; Fri, 27 Mar 2020
+ 13:02:17 +0000
+From:   Florinel Iordache <florinel.iordache@nxp.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+CC:     "davem@davemloft.net" <davem@davemloft.net>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
         "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "robh+dt@kernel.org" <robh+dt@kernel.org>,
@@ -58,133 +58,132 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "shawnguo@kernel.org" <shawnguo@kernel.org>,
         Leo Li <leoyang.li@nxp.com>,
+        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
         Ioana Ciornei <ioana.ciornei@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next 3/9] net: phy: add kr phy connection type
-Message-ID: <20200327124007.GJ25745@shell.armlinux.org.uk>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Florinel Iordache <florinel.iordache@nxp.com>
+Subject: RE: [EXT] Re: [PATCH net-next 6/9] net: phy: add backplane kr driver
+ support
+Thread-Topic: [EXT] Re: [PATCH net-next 6/9] net: phy: add backplane kr driver
+ support
+Thread-Index: AQHWA3XAuILwZD5jSkSvPDf9MRgGVqhboSQAgADGgpA=
+Date:   Fri, 27 Mar 2020 13:02:17 +0000
+Message-ID: <AM0PR04MB5443C1142ABE578ACC641FC5FBCC0@AM0PR04MB5443.eurprd04.prod.outlook.com>
 References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
- <1585230682-24417-4-git-send-email-florinel.iordache@nxp.com>
- <20200327001515.GL3819@lunn.ch>
- <20200327120151.GG25745@shell.armlinux.org.uk>
- <AM0PR04MB6980E904C03F164E6A1D2267ECCC0@AM0PR04MB6980.eurprd04.prod.outlook.com>
+ <1585230682-24417-7-git-send-email-florinel.iordache@nxp.com>
+ <20200327010706.GN3819@lunn.ch>
+In-Reply-To: <20200327010706.GN3819@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=florinel.iordache@nxp.com; 
+x-originating-ip: [78.96.99.111]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 6774d1e0-6c24-4059-a6b4-08d7d24f141e
+x-ms-traffictypediagnostic: AM0PR04MB5953:|AM0PR04MB5953:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR04MB5953B12DBD44782E84D12FCDFBCC0@AM0PR04MB5953.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0355F3A3AE
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5443.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(136003)(366004)(376002)(396003)(39860400002)(346002)(44832011)(6916009)(478600001)(316002)(186003)(4326008)(54906003)(7696005)(76116006)(55016002)(66476007)(71200400001)(64756008)(6506007)(52536014)(8936002)(81156014)(81166006)(86362001)(9686003)(7416002)(66556008)(26005)(66946007)(66446008)(5660300002)(2906002)(33656002)(8676002);DIR:OUT;SFP:1101;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1dDC8Axkfh/dF1XN5mhnqnnmnIS9hPKXSfJ1TsyNgmKr6XHW+dxuPqLN2yLY4OvCpLtQg2VozxPnrKTH2ZcSxtwFxwn+2/0Ygzrr8iye6L7PCuZmcAhlPeTYAvar0LCPsXSRoZItr0cpA3HGcxTsrlkvdE/Gnt3O3cuh/+mOgJWnAqQa2qNvCmXltsU+zU/3u8qRiEYxU1dRy+wQ2BCQ1NoRIlbAf6Af5S/X4Zem8IngRF87zU/wfDfLxR5S5cxqN1pqvAjQJ108XSNpzw34tZqXy+o4UsWkkeyHSn1A0WjKhJH6W/bxIrSrSrJLC6PcN8h6IO4R7VSaD5yoMEkjyRIJy0mxvMpEK7spPeTPd+YQpRgZw9hweo/Xb4Gkej1iauF3RTI7545/RUhm8hUSThPPEiwKKSPsYhiboET/QM5sEXjnORQpSpD/ZCL+D0Ho
+x-ms-exchange-antispam-messagedata: MGT7SOw0u3Uc9X6VHhs4xd9WqYZ2G6reR/xkUuEq4WLSV/9mqP14CRkffto4xkPOyRcxfXgQh7tUFejGGJMlgYdWP2HtH+nzspBnLmSqSYgWGVRXpwL7Mk7bFNYpXWRRpVv4UlAHZAbLqxRIKm3B/w==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM0PR04MB6980E904C03F164E6A1D2267ECCC0@AM0PR04MB6980.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6774d1e0-6c24-4059-a6b4-08d7d24f141e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Mar 2020 13:02:17.7037
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vfSxV0b2rhvelcLC6IEClS47lo+tyXZtse1E1pFolF89NuH2GHDFN5q/YZTu5DHaIuxHKtlevj4N9GGng+mBjH3vf+78qvomM+FW/SbhSmA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB5953
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 27, 2020 at 12:12:37PM +0000, Madalin Bucur (OSS) wrote:
-> > -----Original Message-----
-> > From: netdev-owner@vger.kernel.org <netdev-owner@vger.kernel.org> On
-> > Behalf Of Russell King - ARM Linux admin
-> > Sent: Friday, March 27, 2020 2:02 PM
-> > To: Andrew Lunn <andrew@lunn.ch>
-> > Cc: Florinel Iordache <florinel.iordache@nxp.com>; davem@davemloft.net;
-> > netdev@vger.kernel.org; f.fainelli@gmail.com; hkallweit1@gmail.com;
-> > devicetree@vger.kernel.org; linux-doc@vger.kernel.org; robh+dt@kernel.org;
-> > mark.rutland@arm.com; kuba@kernel.org; corbet@lwn.net;
-> > shawnguo@kernel.org; Leo Li <leoyang.li@nxp.com>; Madalin Bucur (OSS)
-> > <madalin.bucur@oss.nxp.com>; Ioana Ciornei <ioana.ciornei@nxp.com>; linux-
-> > kernel@vger.kernel.org
-> > Subject: Re: [PATCH net-next 3/9] net: phy: add kr phy connection type
-> > 
-> > On Fri, Mar 27, 2020 at 01:15:15AM +0100, Andrew Lunn wrote:
-> > > On Thu, Mar 26, 2020 at 03:51:16PM +0200, Florinel Iordache wrote:
-> > > > Add support for backplane kr phy connection types currently available
-> > > > (10gbase-kr, 40gbase-kr4) and the required phylink updates (cover all
-> > > > the cases for KR modes which are clause 45 compatible to correctly
-> > assign
-> > > > phy_interface and phylink#supported)
-> > > >
-> > > > Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
-> > > > ---
-> > > >  drivers/net/phy/phylink.c | 15 ++++++++++++---
-> > > >  include/linux/phy.h       |  6 +++++-
-> > > >  2 files changed, 17 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
-> > > > index fed0c59..db1bb87 100644
-> > > > --- a/drivers/net/phy/phylink.c
-> > > > +++ b/drivers/net/phy/phylink.c
-> > > > @@ -4,6 +4,7 @@
-> > > >   * technologies such as SFP cages where the PHY is hot-pluggable.
-> > > >   *
-> > > >   * Copyright (C) 2015 Russell King
-> > > > + * Copyright 2020 NXP
-> > > >   */
-> > > >  #include <linux/ethtool.h>
-> > > >  #include <linux/export.h>
-> > > > @@ -303,7 +304,6 @@ static int phylink_parse_mode(struct phylink *pl,
-> > struct fwnode_handle *fwnode)
-> > > >  			break;
-> > > >
-> > > >  		case PHY_INTERFACE_MODE_USXGMII:
-> > > > -		case PHY_INTERFACE_MODE_10GKR:
-> > >
-> > > We might have a backwards compatibility issue here. If i remember
-> > > correctly, there are some boards out in the wild using
-> > > PHY_INTERFACE_MODE_10GKR not PHY_INTERFACE_MODE_10GBASER.
-> > >
-> > > See e0f909bc3a242296da9ccff78277f26d4883a79d
-> > >
-> > > Russell, what do you say about this?
-> > 
-> > Yes, and that's a point that I made when I introduced 10GBASER to
-> > correct that mistake.  It is way too soon to change this; it will
-> > definitely cause regressions:
-> > 
-> > $ grep 10gbase-kr arch/*/boot/dts -r
-> > arch/arm64/boot/dts/marvell/cn9131-db.dts:      phy-mode = "10gbase-kr";
-> > arch/arm64/boot/dts/marvell/armada-8040-mcbin.dts:      phy-mode =
-> > "10gbase-kr";
-> > arch/arm64/boot/dts/marvell/armada-8040-mcbin.dts:      phy-mode =
-> > "10gbase-kr";
-> > arch/arm64/boot/dts/marvell/armada-7040-db.dts:    phy-mode = "10gbase-
-> > kr";
-> > arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dts:   phy-mode =
-> > "10gbase-kr";
-> > arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dts:   phy-mode =
-> > "10gbase-kr";
-> > arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dts:     phy-mode =
-> > "10gbase-kr";
-> > arch/arm64/boot/dts/marvell/armada-8040-db.dts: phy-mode = "10gbase-kr";
-> > arch/arm64/boot/dts/marvell/armada-8040-db.dts: phy-mode = "10gbase-kr";
-> > arch/arm64/boot/dts/marvell/cn9132-db.dts:      phy-mode = "10gbase-kr";
-> > arch/arm64/boot/dts/marvell/cn9130-db.dts:      phy-mode = "10gbase-kr";
-> > 
-> > So any change to the existing PHY_INTERFACE_MODE_10GKR will likely
-> > break all these platforms.
-> 
-> Hi Russell,
-> 
-> I hoped a fix for those would be in by now, it's not useful to leave them like
-> that.
+> > +static u32 le_ioread32(void __iomem *reg) {
+> > +     return ioread32(reg);
+> > +}
+> > +
+> > +static void le_iowrite32(u32 value, void __iomem *reg) {
+> > +     iowrite32(value, reg);
+> > +}
+> > +
+> > +static u32 be_ioread32(void __iomem *reg) {
+> > +     return ioread32be(reg);
+> > +}
+> > +
+> > +static void be_iowrite32(u32 value, void __iomem *reg) {
+> > +     iowrite32be(value, reg);
+> > +}
+>=20
+> This is very surprising to me. I've not got my head around the structure =
+of this
+> code yet, but i'm surprised to see memory mapped access functions in gene=
+ric
+> code.
+>=20
+>        Andrew
 
-I haven't had the time to address the ones I know about, sorry.
-However, there are some platforms in that list which I've no
-knowledge of, which I therefore can't change.
+Hi Andrew,
 
-> We have a similar situation, where all boards using XFI interfaces contain
-> phy-connection-type="xgmii" for a long time now but that did not stop anyone from
-> adding a warning in the Aquantia driver:
-> 
-> +       WARN(phydev->interface == PHY_INTERFACE_MODE_XGMII,
-> +            "Your devicetree is out of date, please update it. The AQR107 family doesn't support XGMII, maybe you mean USXGMII.\n");
-> +
-> 
-> Maybe we need a warning added here too, until the proper phy-mode is used for
-> these boards, to allow for a transition period.
+This is part of the framework used to automatically setup desired I/O=20
+callbacks for memory access according to device specific endianness=20
+which is specified in the specific device tree (DTS).
+This approach (explained below) was used to avoid the potential=20
+redundant code related to memory access LE/BE which should be=20
+similar for all devices.=20
 
-Adding a warning can only be done once the current users have been
-updated, otherwise it's technically introducing a regression.  Plus
-some users may actually be correct.  I never did get to the bottom
-of that, because that required discussion and no one seems willing
-to discuss it.
+This portion of code is just preparing these four static IO routines=20
+for specific endianness access LE/BE which are then installed as=20
+callbacks by the generic driver on generic DT parsing routine:=20
+backplane_parse_dt according to endianness flag:
++    /* setup ioread/iowrite according to endianness */
++    if (bp_phy->bp_dev.is_little_endian) {
++        bp_phy->bp_dev.io.read32 =3D le_ioread32;
++        bp_phy->bp_dev.io.write32 =3D le_iowrite32;
++    } else {
++        bp_phy->bp_dev.io.read32 =3D be_ioread32;
++        bp_phy->bp_dev.io.write32 =3D be_iowrite32;
++    }
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 10.2Mbps down 587kbps up
+These io callbacks are setup in the following structure:
++/* Endianness specific memory I/O operations */=20
+struct mem_io_ops {
+
+which is part of generic structure:
++/* Backplane device info */
++struct backplane_dev_info {
++. . .=20
++    struct mem_io_ops io;
+
+which in the end will be used directly by the device specific code for=20
+specific memory access according to specific endianness specified=20
+in the DTS.=20
+
+The endianness flag must be correctly set by the device specific code=20
+before calling the generic function backplane_parse_dt, according to=20
+device specific endianness specified in the specific device tree DTS:
++bp_phy->bp_dev.is_little_endian =3D of_property_read_bool(serdes_node,
+                            "little-endian");
+
+This action to setup desired IO callbacks could also be performed in the=20
+specific device code but by using this framework the process is more=20
+automatic, it's reusing the logic and therefore decreasing the overall=20
+LOC required.
+If any specific device is doing this action by itself (which is a similar=20
+action regardless the specific device) then we will end up with a lot of=20
+redundant code.
+
+Florin.
