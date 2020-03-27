@@ -2,99 +2,129 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBEBC2D0E8
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 11:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0322C43331
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 12:02:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BAFA1206F8
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 11:29:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 778FD206DB
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 12:02:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="qrI9PjSf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbgC0L3C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 07:29:02 -0400
-Received: from mga07.intel.com ([134.134.136.100]:42872 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726165AbgC0L3B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Mar 2020 07:29:01 -0400
-IronPort-SDR: qmRQtPUyEqOI3dZ0YK37c52nazaj6MqnxJn68ovJVmOS9grsNHqWkW5FjysdrNYSOL3pnOIHx5
- F5IOPvIGeBYA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2020 04:29:00 -0700
-IronPort-SDR: TplRB2qtu8oKUu9udsKs3UpndgrkxW74fpbT7cF7If3oZvrQSJN5Eibvf6GDn9jmdtzJskRy33
- sd2jMyaKWhLQ==
-X-IronPort-AV: E=Sophos;i="5.72,312,1580803200"; 
-   d="scan'208";a="421070855"
-Received: from defretin-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.56.231])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2020 04:28:57 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     peter@bikeshed.quignogs.org.uk,
-        Matthew Wilcox <willy@infradead.org>,
+        id S1726515AbgC0MCG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 08:02:06 -0400
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:33052 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726165AbgC0MCG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 08:02:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=0KCyy4fR6uqfv7pQ7Bns3VVcVENtN8zz9qfPJTw1u4U=; b=qrI9PjSf/erLcmWVGVGBLQ3Mq
+        01EOlIAqHOrpOFWwygcxDrNjhTmbFQ9VQX92GkkqsZ+n5l2wtjzpSi+3A50x8bCduK1sO1pVfsB61
+        bHohG0qrEgypXagKGIaLv0ERu47suHhJkWI+wHldYyowaoRWhi5U6MgxJ5vFQXbaWzgeUTXlywCkB
+        hkoRLzdjJ8V8DZ1Nj9hXLvXwZCUIOup90jsHvuaY0ptujc453VdVh54oUfD24NtB2R+AKS4XcLKFH
+        K+xpv5v5M74br+N3dEVjydMvRcwTVQ67AsDpoLwSnjRcDbmfnhY0B1I2/f/x4cJJoQ+7Xx8fuO2fA
+        Q3UM/wpTg==;
+Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:37884)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1jHngR-0000tb-TR; Fri, 27 Mar 2020 12:01:56 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1jHngO-0004Bh-2o; Fri, 27 Mar 2020 12:01:52 +0000
+Date:   Fri, 27 Mar 2020 12:01:52 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Florinel Iordache <florinel.iordache@nxp.com>, davem@davemloft.net,
+        netdev@vger.kernel.org, f.fainelli@gmail.com, hkallweit1@gmail.com,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, kuba@kernel.org,
+        corbet@lwn.net, shawnguo@kernel.org, leoyang.li@nxp.com,
+        madalin.bucur@oss.nxp.com, ioana.ciornei@nxp.com,
         linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Lister <peter@bikeshed.quignogs.org.uk>
-Subject: Re: [PATCH v3 0/1] Compactly make code examples into literal blocks
-In-Reply-To: <20200326195156.11858-1-peter@bikeshed.quignogs.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200326192947.GM22483@bombadil.infradead.org> <20200326195156.11858-1-peter@bikeshed.quignogs.org.uk>
-Date:   Fri, 27 Mar 2020 13:28:54 +0200
-Message-ID: <87imiqghop.fsf@intel.com>
+Subject: Re: [PATCH net-next 3/9] net: phy: add kr phy connection type
+Message-ID: <20200327120151.GG25745@shell.armlinux.org.uk>
+References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
+ <1585230682-24417-4-git-send-email-florinel.iordache@nxp.com>
+ <20200327001515.GL3819@lunn.ch>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200327001515.GL3819@lunn.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 26 Mar 2020, peter@bikeshed.quignogs.org.uk wrote:
-> From: Peter Lister <peter@bikeshed.quignogs.org.uk>
->
-> [ A couple of typos corrected. Thanks, Matthew ]
->
-> In a previous patch, I fixed a couple of doc build warnings due to a
-> section heading "Example:" which didn't have the intended effect of
-> inserting a heading and literal quoting the following code snippet. I
-> added an explicit double colon to fix warnings and produce nice ReST.
->
-> Jon suggested that I could have used a minimal form "Example::".
-> Unfortunately not - kernel-doc munges the output so that the formatted
-> output ends up as a stray colon and no literal block.
->
-> Looking around in the source tree, it seems that parameter definitions
-> can be more complex than the original authors of kernel-doc allowed
-> for. Return values often need lists and examples often should be
-> literal blocks. Many comments in the source are "ASCII formatted" but
-> kernel-doc can make a mess of them and generate doc build warnings
-> along the way.
->
-> It seems useful to support some terse idioms which serve as compact
-> source annotation and also generate well formed ReST.
->
-> Here is a first try to let a heading directly introduce a literal
-> block - the "Example::" form for code snippets and an update to
-> platform.c to use it, just as Jon suggested.
+On Fri, Mar 27, 2020 at 01:15:15AM +0100, Andrew Lunn wrote:
+> On Thu, Mar 26, 2020 at 03:51:16PM +0200, Florinel Iordache wrote:
+> > Add support for backplane kr phy connection types currently available
+> > (10gbase-kr, 40gbase-kr4) and the required phylink updates (cover all
+> > the cases for KR modes which are clause 45 compatible to correctly assign
+> > phy_interface and phylink#supported)
+> > 
+> > Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
+> > ---
+> >  drivers/net/phy/phylink.c | 15 ++++++++++++---
+> >  include/linux/phy.h       |  6 +++++-
+> >  2 files changed, 17 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+> > index fed0c59..db1bb87 100644
+> > --- a/drivers/net/phy/phylink.c
+> > +++ b/drivers/net/phy/phylink.c
+> > @@ -4,6 +4,7 @@
+> >   * technologies such as SFP cages where the PHY is hot-pluggable.
+> >   *
+> >   * Copyright (C) 2015 Russell King
+> > + * Copyright 2020 NXP
+> >   */
+> >  #include <linux/ethtool.h>
+> >  #include <linux/export.h>
+> > @@ -303,7 +304,6 @@ static int phylink_parse_mode(struct phylink *pl, struct fwnode_handle *fwnode)
+> >  			break;
+> >  
+> >  		case PHY_INTERFACE_MODE_USXGMII:
+> > -		case PHY_INTERFACE_MODE_10GKR:
+> 
+> We might have a backwards compatibility issue here. If i remember
+> correctly, there are some boards out in the wild using
+> PHY_INTERFACE_MODE_10GKR not PHY_INTERFACE_MODE_10GBASER.
+> 
+> See e0f909bc3a242296da9ccff78277f26d4883a79d
+> 
+> Russell, what do you say about this?
 
-IMHO the real problem is kernel-doc doing too much preprocessing on the
-input, preventing us from doing what would be the sensible thing in
-rst. The more we try to fix the problem by adding more kernel-doc
-processing, the further we dig ourselves into this hole.
+Yes, and that's a point that I made when I introduced 10GBASER to
+correct that mistake.  It is way too soon to change this; it will
+definitely cause regressions:
 
-If kernel-doc didn't have its own notion of section headers, such as
-"example:", we wouldn't have this problem to begin with. We could just
-use the usual rst construct; "example::" followed by an indented block.
+$ grep 10gbase-kr arch/*/boot/dts -r
+arch/arm64/boot/dts/marvell/cn9131-db.dts:      phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-mcbin.dts:      phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-mcbin.dts:      phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-7040-db.dts:    phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dts:   phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dts:   phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dts:     phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-db.dts: phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/armada-8040-db.dts: phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/cn9132-db.dts:      phy-mode = "10gbase-kr";
+arch/arm64/boot/dts/marvell/cn9130-db.dts:      phy-mode = "10gbase-kr";
 
-I'm not going to stand in the way of the patch, but I'm telling you,
-this is going to get harder, not easier, on this path.
-
-
-BR,
-Jani.
-
+So any change to the existing PHY_INTERFACE_MODE_10GKR will likely
+break all these platforms.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 10.2Mbps down 587kbps up
