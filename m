@@ -2,170 +2,245 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C14C2D0E5
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 22:18:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF597C2D0EC
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 22:39:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EB35720838
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 22:18:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="jCyHDDxn"
+	by mail.kernel.org (Postfix) with ESMTP id 92D0E20663
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 22:39:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727620AbgC0WSs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 18:18:48 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:41844 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727702AbgC0WSp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 18:18:45 -0400
-Received: by mail-qk1-f193.google.com with SMTP id q188so12574711qke.8
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 15:18:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=N7gy/G5yt4C6gRMEJcBMgk3+X7PiFDeDUNz7oegRXTc=;
-        b=jCyHDDxnBfF/r4/912n+KwCBdRCnAbq0UBj3G8+HIjnKd+Ah5x2L8MCROJ0t5AuUPH
-         uKyWVUP4P9eeMqpOMjdj3SNpUA/MFPTTunwWKdvArGIEWmn/VzLWo2z/kSo5iGXUlQ6W
-         FOdWDHLQsBtkpt0t9NzbPsKeForxOVVJckPG8=
+        id S1727717AbgC0WjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 18:39:13 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:43275 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727716AbgC0WjN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 18:39:13 -0400
+Received: from mail-qt1-f197.google.com ([209.85.160.197])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <gpiccoli@canonical.com>)
+        id 1jHxat-0000Vt-Ne
+        for linux-doc@vger.kernel.org; Fri, 27 Mar 2020 22:36:51 +0000
+Received: by mail-qt1-f197.google.com with SMTP id w3so9556882qtc.8
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 15:36:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=N7gy/G5yt4C6gRMEJcBMgk3+X7PiFDeDUNz7oegRXTc=;
-        b=jO+x35VQAUgX4fZY0Sq4x0LaFVDI1SOTLJJp8YwdyVxlYY1P8AxmANWsY/8t7bUJiL
-         pWUnw4BnxyYh+Y+eqwDeBO9+i1Nb3Uk7As03CH7pSE86f5tgdwfYmdfZX7HG5BSO/rwQ
-         6/E0kKMBVaInkTtMsByKyXU2nFkDilX7eKR+is6U5FsurtIi6WJ1NUrpwNFuuAGK1HAu
-         FrbRht96Fv10y5MXDREqEc+1FKdHispsHzcU3iZVJ8X8rozlUFVTpGbjdcppyYqLFP6f
-         YH4L8s2x+fdCFzTsuPqcR8rFmtKZNKvG1GGhW97ewhG1O4EZflLjB+/fHmvUcAJ2+Cei
-         G6cg==
-X-Gm-Message-State: ANhLgQ3pF3X7ys7IDrKyVWfROhyrwLR4GVDiopnFVtWWbbvYlBHXmNxt
-        yEGfSwz7abgnk4sZ4H4BAeaTig==
-X-Google-Smtp-Source: ADFU+vu0g7q3fxyouuFS26fuvwVSpjPJNDmOaZ5QUZLg7+PprW6EA4oP+A3S2YPT8MOEVRaSlw3/jw==
-X-Received: by 2002:a37:992:: with SMTP id 140mr1664796qkj.36.1585347524268;
-        Fri, 27 Mar 2020 15:18:44 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id d201sm4559968qke.59.2020.03.27.15.18.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2020 15:18:43 -0700 (PDT)
-Date:   Fri, 27 Mar 2020 18:18:43 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] Documentation/litmus-tests: Add litmus tests for
- atomic APIs
-Message-ID: <20200327221843.GA226939@google.com>
-References: <20200326024022.7566-1-boqun.feng@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O94P0uoScvdbW3wTdJiQYQPyg7B5lC7WAC85T+bbce4=;
+        b=btrbDXejqq0Em8afvNF+PARNONJOdGtORoACH6pwmUlfuatDCzrnptKYEDZDg34VP3
+         CsYej4WNZxko3sM3n5k9md6fVW7W753ZaotguiHnYRDFB/taTJi+bAX6JDuS11wfRsYS
+         GtNnvXKBy3hMCvAroBSP3QMbKnap6heHW6r7ElsGCsDtD+x719Ndry2Un3xJV+ur2zPZ
+         RhYgMq7I0xjpfvxxwDYAg/t8hYSVOmuTg0SRtJ6+c8Z70Aej/nEtiMNCQfvsxeqhKXlk
+         036RB3nJSL0XGgXirvGVL8MA6HK5QOZPkPSLs3fA1Vjf32X22hoX9g64WsKChnPqHyqV
+         JTkQ==
+X-Gm-Message-State: ANhLgQ0NudUg9ljTBzH1YUK/jMIIEcY6JLxgc59AwLJsbINCEhIPR7Pg
+        llEY+QO+0ShtiaI/UEsR9mbd3pkX2ldtgKM3LJNHaebZyliGz6ZARloAw7ONNPrpRRFlzCYKb1U
+        JnF0mutYIiqrNGcmJA/JGExLUMdX+zK2WeyLv6Q==
+X-Received: by 2002:ae9:ed4a:: with SMTP id c71mr1637013qkg.418.1585348610705;
+        Fri, 27 Mar 2020 15:36:50 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsEdbz0uv5I6GDIIDnD05XVXJ9B1aeiR0bCDmtaklFI7RlYJRhcoq0y3fccbC+JNH6yttitqQ==
+X-Received: by 2002:ae9:ed4a:: with SMTP id c71mr1636966qkg.418.1585348610238;
+        Fri, 27 Mar 2020 15:36:50 -0700 (PDT)
+Received: from localhost (189-47-87-73.dsl.telesp.net.br. [189.47.87.73])
+        by smtp.gmail.com with ESMTPSA id c40sm5212630qtk.18.2020.03.27.15.36.48
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 27 Mar 2020 15:36:49 -0700 (PDT)
+From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+To:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        akpm@linux-foundation.org
+Cc:     linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        tglx@linutronix.de, penguin-kernel@I-love.SAKURA.ne.jp,
+        vbabka@suse.cz, rdunlap@infradead.org, willy@infradead.org,
+        gpiccoli@canonical.com, kernel@gpiccoli.net
+Subject: [PATCH V3] kernel/hung_task.c: Introduce sysctl to print all traces when a hung task is detected
+Date:   Fri, 27 Mar 2020 19:36:46 -0300
+Message-Id: <20200327223646.20779-1-gpiccoli@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200326024022.7566-1-boqun.feng@gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 10:40:18AM +0800, Boqun Feng wrote:
-> A recent discussion raises up the requirement for having test cases for
-> atomic APIs:
-> 
-> 	https://lore.kernel.org/lkml/20200213085849.GL14897@hirez.programming.kicks-ass.net/
-> 
-> , and since we already have a way to generate a test module from a
-> litmus test with klitmus[1]. It makes sense that we add more litmus
-> tests for atomic APIs. And based on the previous discussion, I create a
-> new directory Documentation/atomic-tests and put these litmus tests
-> here.
-> 
-> This patchset starts the work by adding the litmus tests which are
-> already used in atomic_t.txt, and also improve the atomic_t.txt to make
-> it consistent with the litmus tests.
-> 
-> Previous version:
-> v1: https://lore.kernel.org/linux-doc/20200214040132.91934-1-boqun.feng@gmail.com/
-> v2: https://lore.kernel.org/lkml/20200219062627.104736-1-boqun.feng@gmail.com/
-> v3: https://lore.kernel.org/linux-doc/20200227004049.6853-1-boqun.feng@gmail.com/
+Commit 401c636a0eeb ("kernel/hung_task.c: show all hung tasks before panic")
+introduced a change in that we started to show all CPUs backtraces when a
+hung task is detected _and_ the sysctl/kernel parameter "hung_task_panic"
+is set. The idea is good, because usually when observing deadlocks (that
+may lead to hung tasks), the culprit is another task holding a lock and
+not necessarily the task detected as hung.
 
-For full series:
+The problem with this approach is that dumping backtraces is a slightly
+expensive task, specially printing that on console (and specially in many
+CPU machines, as servers commonly found nowadays). So, users that plan to
+collect a kdump to investigate the hung tasks and narrow down the deadlock
+definitely don't need the CPUs backtrace on dmesg/console, which will delay
+the panic and pollute the log (crash tool would easily grab all CPUs traces
+with 'bt -a' command).
+Also, there's the reciprocal scenario: some users may be interested in
+seeing the CPUs backtraces but not have the system panic when a hung task
+is detected. The current approach hence is almost as embedding a policy in
+the kernel, by forcing the CPUs backtraces' dump (only) on hung_task_panic.
 
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+This patch decouples the panic event on hung task from the CPUs
+backtraces dump, by creating (and documenting) a new sysctl called
+"hung_task_all_cpu_backtrace", analog to the approach taken on soft/hard
+lockups, that have both a panic and an "all_cpu_backtrace" sysctl to allow
+individual control. The new mechanism for dumping the CPUs backtraces on
+hung task detection respects "hung_task_warnings" by not dumping the
+traces in case there's no warnings left.
 
-One question I had was in the existing atomic_set() documentation, it talks
-about atomic_add_unless() implementation based on locking could have issues.
-It says the way to fix such cases is:
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@canonical.com>
+---
 
-Quote:
-    the typical solution is to then implement atomic_set{}() with
-    atomic_xchg().
+V3: Following the suggestion from Vlastimil, removed the kernel parameter
+since soon we (hopefully) will have a generic approach to set sysctls via
+kernel parameters[0] - thanks Vlastimil, great idea!
 
-I didn't get how using atomic_xchg() fixes it. Is the assumption there that
-atomic_xchg() would be implemented using locking to avoid atomic_set() having
-issues? If so, we could clarify that in the document.
+Thanks,
 
-thanks,
+Guilherme
 
- - Joel
+[0] lore.kernel.org/lkml/20200326181606.7027-1-vbabka@suse.cz/T
 
-> 
-> Changes since v3:
-> 
-> *	Merge two patches on atomic-set litmus test into one as per
-> 	Alan. (Alan, you have acked only one of the two patches, so I
-> 	don't add you acked-by for the combined patch).
-> 
-> *	Move the atomic litmus tests into litmus-tests/atomic to align
-> 	with Joel's recent patches on RCU litmus tests.
-> 
-> I think we still haven't reach to a conclusion for the difference of
-> atomic_add_unless() in herdtools, and I'm currently reading the source
-> code of herd to resovle this. This is just an updated version to resolve
-> ealier comments and react on Joel's RCU litmus tests.
-> 
-> Regards,
-> Boqun
-> 
-> [1]: http://diy.inria.fr/doc/litmus.html#klitmus
-> 
-> Boqun Feng (4):
->   tools/memory-model: Add an exception for limitations on _unless()
->     family
->   Documentation/litmus-tests: Introduce atomic directory
->   Documentation/litmus-tests/atomic: Add a test for atomic_set()
->   Documentation/litmus-tests/atomic: Add a test for
->     smp_mb__after_atomic()
-> 
->  Documentation/atomic_t.txt                    | 24 +++++++-------
->  ...ter_atomic-is-stronger-than-acquire.litmus | 32 +++++++++++++++++++
->  ...c-RMW-ops-are-atomic-WRT-atomic_set.litmus | 24 ++++++++++++++
->  Documentation/litmus-tests/atomic/README      | 16 ++++++++++
->  tools/memory-model/README                     | 10 ++++--
->  5 files changed, 91 insertions(+), 15 deletions(-)
->  create mode 100644 Documentation/litmus-tests/atomic/Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
->  create mode 100644 Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
->  create mode 100644 Documentation/litmus-tests/atomic/README
-> 
-> -- 
-> 2.25.1
-> 
+
+ Documentation/admin-guide/sysctl/kernel.rst | 15 +++++++++++++++
+ include/linux/sched/sysctl.h                |  7 +++++++
+ kernel/hung_task.c                          | 20 ++++++++++++++++++--
+ kernel/sysctl.c                             | 11 +++++++++++
+ 4 files changed, 51 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index def074807cee..8b4ff69d2348 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -40,6 +40,7 @@ show up in /proc/sys/kernel:
+ - hotplug
+ - hardlockup_all_cpu_backtrace
+ - hardlockup_panic
++- hung_task_all_cpu_backtrace
+ - hung_task_panic
+ - hung_task_check_count
+ - hung_task_timeout_secs
+@@ -338,6 +339,20 @@ Path for the hotplug policy agent.
+ Default value is "/sbin/hotplug".
+ 
+ 
++hung_task_all_cpu_backtrace:
++================
++
++If this option is set, the kernel will send an NMI to all CPUs to dump
++their backtraces when a hung task is detected. This file shows up if
++CONFIG_DETECT_HUNG_TASK and CONFIG_SMP are enabled.
++
++0: Won't show all CPUs backtraces when a hung task is detected.
++This is the default behavior.
++
++1: Will non-maskably interrupt all CPUs and dump their backtraces when
++a hung task is detected.
++
++
+ hung_task_panic:
+ ================
+ 
+diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+index d4f6215ee03f..8cd29440ec8a 100644
+--- a/include/linux/sched/sysctl.h
++++ b/include/linux/sched/sysctl.h
+@@ -7,6 +7,13 @@
+ struct ctl_table;
+ 
+ #ifdef CONFIG_DETECT_HUNG_TASK
++
++#ifdef CONFIG_SMP
++extern unsigned int sysctl_hung_task_all_cpu_backtrace;
++#else
++#define sysctl_hung_task_all_cpu_backtrace 0
++#endif /* CONFIG_SMP */
++
+ extern int	     sysctl_hung_task_check_count;
+ extern unsigned int  sysctl_hung_task_panic;
+ extern unsigned long sysctl_hung_task_timeout_secs;
+diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+index 14a625c16cb3..9a774aee1a44 100644
+--- a/kernel/hung_task.c
++++ b/kernel/hung_task.c
+@@ -53,9 +53,18 @@ int __read_mostly sysctl_hung_task_warnings = 10;
+ static int __read_mostly did_panic;
+ static bool hung_task_show_lock;
+ static bool hung_task_call_panic;
++static bool hung_task_show_all_bt;
+ 
+ static struct task_struct *watchdog_task;
+ 
++#ifdef CONFIG_SMP
++/*
++ * Should we dump all CPUs backtraces in a hung task event?
++ * Defaults to 0, can be changed via sysctl.
++ */
++unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
++#endif /* CONFIG_SMP */
++
+ /*
+  * Should we panic (and reboot, if panic_timeout= is set) when a
+  * hung task is detected:
+@@ -137,6 +146,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+ 			" disables this message.\n");
+ 		sched_show_task(t);
+ 		hung_task_show_lock = true;
++
++		if (sysctl_hung_task_all_cpu_backtrace)
++			hung_task_show_all_bt = true;
+ 	}
+ 
+ 	touch_nmi_watchdog();
+@@ -201,10 +213,14 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
+ 	rcu_read_unlock();
+ 	if (hung_task_show_lock)
+ 		debug_show_all_locks();
+-	if (hung_task_call_panic) {
++
++	if (hung_task_show_all_bt) {
++		hung_task_show_all_bt = false;
+ 		trigger_all_cpu_backtrace();
++	}
++
++	if (hung_task_call_panic)
+ 		panic("hung_task: blocked tasks");
+-	}
+ }
+ 
+ static long hung_timeout_jiffies(unsigned long last_checked,
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index ad5b88a53c5a..238f268de486 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1098,6 +1098,17 @@ static struct ctl_table kern_table[] = {
+ 	},
+ #endif
+ #ifdef CONFIG_DETECT_HUNG_TASK
++#ifdef CONFIG_SMP
++	{
++		.procname	= "hung_task_all_cpu_backtrace",
++		.data		= &sysctl_hung_task_all_cpu_backtrace,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
++#endif /* CONFIG_SMP */
+ 	{
+ 		.procname	= "hung_task_panic",
+ 		.data		= &sysctl_hung_task_panic,
+-- 
+2.25.1
+
