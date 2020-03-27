@@ -2,123 +2,95 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D47E4C43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 00:10:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE0A8C2D0E7
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 00:15:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AAC80206E6
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 00:10:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79A7F20719
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 00:15:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TJN6sC+8"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="HsJzc7G0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727682AbgC0AKT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Mar 2020 20:10:19 -0400
-Received: from mail-ua1-f74.google.com ([209.85.222.74]:41026 "EHLO
-        mail-ua1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726067AbgC0AKQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Mar 2020 20:10:16 -0400
-Received: by mail-ua1-f74.google.com with SMTP id 77so3130707uaj.8
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2020 17:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=3tfyaLuAfpZuF8gPEN5kV8PywGPqjSpoYq8AR2MUYtk=;
-        b=TJN6sC+8oWTSOJwb0xY0YeyXkIs1oTnqAMcAgSSYAR/XFKorS8Ft661exMPDkdbGAt
-         5WPH3nuDvc8XnRSi2zhq2EGgPB4JuJDKMxbhSMxBiSPCz81FMZ3YvPEBSh/U9FXL8BCL
-         EOUsX1awLt5XnsMs7i4raTlMYEcNkPKyfmA3+NGei5Jn0cttiS+WHt+NV9ASVy30XHVL
-         lukWgxWshtOmkwYLvxqu/WgFPf5sWj4+VDD25dZJkbyfVpcVCNaN5MLMuGeFwGpLCkDT
-         tTnsN4g2q8n3xv7G5eoYOLE493qNFdJX5evV7Y+ojj3AKLY/4dWhMuGPLmo8PMaPcYtA
-         fytw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=3tfyaLuAfpZuF8gPEN5kV8PywGPqjSpoYq8AR2MUYtk=;
-        b=R9iyztBHH6x3zA7RgWs1Y1q7F0GkBgIxmETbuLk0hsrQ4hRaXli3aTHfNX3EmPowCW
-         nR1u04adBcuEzkTPBHIo0Ib+yky2xGjE28TagmWTEiPA0KFS+dDAIPARp1m5YVlBypiH
-         +zsrup0oflODLSMUMmYQaq2ffKqY8bhsqvY1Flh0u7xNUSEtGvLFMLgmCKj7Y+nhVmI9
-         r3fY55PIIW85ZYyd6wkxcv/VTUxinEITJJ74AflltesU4AWe6m9oJIfspbFxgEsJp8rl
-         ICN3qaKFXehwU9H2UxFiaJ+xEp9nsWly00o2PiiRr3kTo8FnVbKXShcYpKs9W/THvexl
-         2R3w==
-X-Gm-Message-State: ANhLgQ1YnhMGT1mQX4Nan7gOqmB/5cxWYjKyYpVMtoNHVGrDXUeYmosf
-        UQenNpRCT0rI/SFmKXeoCa1KQ/oDcR4HCLHm7gg=
-X-Google-Smtp-Source: ADFU+vuX2Pv05iQ94hFa+uznmO7wr+zzCgMTzK+c3Val5FEKzSMZDc/oejp4XULlTsTjKFoC+Xktu4qoe3qpiEhnpBU=
-X-Received: by 2002:a67:eccf:: with SMTP id i15mr5938910vsp.130.1585267813949;
- Thu, 26 Mar 2020 17:10:13 -0700 (PDT)
-Date:   Thu, 26 Mar 2020 17:09:51 -0700
-In-Reply-To: <6e26c798-1439-2bbd-6801-8fd21c4e6926@zytor.com>
-Message-Id: <20200327000951.84071-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <6e26c798-1439-2bbd-6801-8fd21c4e6926@zytor.com>
-X-Mailer: git-send-email 2.26.0.rc2.310.g2932bb562d-goog
-Subject: [PATCH v2] Documentation: x86: exception-tables: document CONFIG_BUILDTIME_TABLE_SORT
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     corbet@lwn.net
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1727446AbgC0AP0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Mar 2020 20:15:26 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:60680 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726359AbgC0AP0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Mar 2020 20:15:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=hd1YFsXLbrypTE4jWtW6CeMXVCF7Ic9nihmkXsYCCD4=; b=HsJzc7G0a9knRIHt+lZN7CgY4l
+        aC+6VHmZ1DrIsd2cNn6tl+DhmNGFt+S2AWz76VmXK5u887jBzcJ0q6MVB9qLWQp1v9dgb+3gImGLw
+        ODSDTS3xY3hIR3nIz7Qkzutx3d2BWDQwdbEWhgqe7IURUcbypOz19oFGfNERpenPCmI0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
+        (envelope-from <andrew@lunn.ch>)
+        id 1jHceZ-0004we-2F; Fri, 27 Mar 2020 01:15:15 +0100
+Date:   Fri, 27 Mar 2020 01:15:15 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Florinel Iordache <florinel.iordache@nxp.com>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, f.fainelli@gmail.com,
+        hkallweit1@gmail.com, linux@armlinux.org.uk,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, kuba@kernel.org,
+        corbet@lwn.net, shawnguo@kernel.org, leoyang.li@nxp.com,
+        madalin.bucur@oss.nxp.com, ioana.ciornei@nxp.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 3/9] net: phy: add kr phy connection type
+Message-ID: <20200327001515.GL3819@lunn.ch>
+References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
+ <1585230682-24417-4-git-send-email-florinel.iordache@nxp.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1585230682-24417-4-git-send-email-florinel.iordache@nxp.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Provide more information about __ex_table sorting post link.
+On Thu, Mar 26, 2020 at 03:51:16PM +0200, Florinel Iordache wrote:
+> Add support for backplane kr phy connection types currently available
+> (10gbase-kr, 40gbase-kr4) and the required phylink updates (cover all
+> the cases for KR modes which are clause 45 compatible to correctly assign
+> phy_interface and phylink#supported)
+> 
+> Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
+> ---
+>  drivers/net/phy/phylink.c | 15 ++++++++++++---
+>  include/linux/phy.h       |  6 +++++-
+>  2 files changed, 17 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+> index fed0c59..db1bb87 100644
+> --- a/drivers/net/phy/phylink.c
+> +++ b/drivers/net/phy/phylink.c
+> @@ -4,6 +4,7 @@
+>   * technologies such as SFP cages where the PHY is hot-pluggable.
+>   *
+>   * Copyright (C) 2015 Russell King
+> + * Copyright 2020 NXP
+>   */
+>  #include <linux/ethtool.h>
+>  #include <linux/export.h>
+> @@ -303,7 +304,6 @@ static int phylink_parse_mode(struct phylink *pl, struct fwnode_handle *fwnode)
+>  			break;
+>  
+>  		case PHY_INTERFACE_MODE_USXGMII:
+> -		case PHY_INTERFACE_MODE_10GKR:
 
-The exception tables and fixup tables use a commonly recurring pattern
-in the kernel of storing the address of labels as date in custom ELF
-sections, then finding these sections, iterating elements within them,
-and possibly revisiting them or modifying the data at these addresses.
+We might have a backwards compatibility issue here. If i remember
+correctly, there are some boards out in the wild using
+PHY_INTERFACE_MODE_10GKR not PHY_INTERFACE_MODE_10GBASER.
 
-Sorting readonly arrays to minimize runtime penalties is quite clever.
+See e0f909bc3a242296da9ccff78277f26d4883a79d
 
-Suggested-by: H. Peter Anvin <hpa@zytor.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes V1 -> V2:
-* Add Peter's note about early exception handling (final paragraph).
+Russell, what do you say about this?
 
- Documentation/x86/exception-tables.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/Documentation/x86/exception-tables.rst b/Documentation/x86/exception-tables.rst
-index ed6d4b0cf62c..81a393867f10 100644
---- a/Documentation/x86/exception-tables.rst
-+++ b/Documentation/x86/exception-tables.rst
-@@ -257,6 +257,9 @@ the fault, in our case the actual value is c0199ff5:
- the original assembly code: > 3:      movl $-14,%eax
- and linked in vmlinux     : > c0199ff5 <.fixup+10b5> movl   $0xfffffff2,%eax
- 
-+If the fixup was able to handle the exception, control flow may be returned
-+to the instruction after the one that triggered the fault, ie. local label 2b.
-+
- The assembly code::
- 
-  > .section __ex_table,"a"
-@@ -344,3 +347,14 @@ pointer which points to one of:
-      it as special.
- 
- More functions can easily be added.
-+
-+CONFIG_BUILDTIME_TABLE_SORT allows the __ex_table section to be sorted post
-+link of the kernel image, via a host utility scripts/sorttable. It will set the
-+symbol main_extable_sort_needed to 0, avoiding sorting the __ex_table section
-+at boot time. With the exception table sorted, at runtime when an exception
-+occurs we can quickly lookup the __ex_table entry via binary search.
-+
-+This is not just a boot time optimization, some architectures require this
-+table to be sorted in order to handle exceptions relatively early in the boot
-+process. For example, i386 makes use of this form of exception handling before
-+paging support is even enabled!
--- 
-2.26.0.rc2.310.g2932bb562d-goog
-
+	 Andrew
