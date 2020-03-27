@@ -2,127 +2,73 @@ Return-Path: <SRS0=6TNM=5M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10EA4C43331
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 18:11:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AF20C43331
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 18:27:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DAA2B2071B
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 18:11:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AAOuHu6m"
+	by mail.kernel.org (Postfix) with ESMTP id F41E920737
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Mar 2020 18:27:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727335AbgC0SLV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Mar 2020 14:11:21 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:42585 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726515AbgC0SLV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 14:11:21 -0400
-Received: by mail-ot1-f66.google.com with SMTP id z5so10437941oth.9
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2020 11:11:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AS7mvCEIh3pfi107as5vEH/QpwGnWQ91Bq23h2zKukA=;
-        b=AAOuHu6msnb0522EGCRpK5xZtBD58kCNF61e9Hh//c38fWvY0k+cdPmoykV4JIxRPF
-         ql4vdYzydpzORHqlk4VlQTcwQuJ8Kk/83bg19CB+gkem47HMZMzklPdg2aMSVbGCRlFB
-         3fc5RNFdO3bHVh18AOj67uALOTnbnV8NjLr7on5LJpRbDz6+cMAT28nIZYNVMCbyP8ri
-         VP+Vxi8PEN3wxPULWQSY2ioic0SD8MqCzWs/M6FKR15/ftOgU2YyMDdpofWYCZ1dWS/H
-         YfUHBPrj0f6haCuibFeFc+lga6BjN5idf9AE9BRy/dOjSkc68DEvAIFFBQ+wZsVpXqvv
-         mIOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AS7mvCEIh3pfi107as5vEH/QpwGnWQ91Bq23h2zKukA=;
-        b=G3XtvDUcJfhumErfonuSToP2k0F5AGSqi4pfrlKo2sOzjmnuqtdjf+BhTr7Ea4aDB2
-         DX98Bpn2jY5WZ7HX368TDyTssyzp4xJR75nvAl6ovQuOjeyhGoqbgXfAHJf3oX5zM0ye
-         nO5Ozfn9XNpQUJ/fk+CR3VuasqOUjudxwltJKmcBu3CFHPmIP1RuQuCIKHFq6eDqxcgi
-         vjsIc1+L3RYW96NGSbUZu+vr/l50IUX+zkFrCuQOA2tjZnQb4nI8l+fUssXLhzpIYUi6
-         F/K1lDuGbb+ooRy+BZpgEoIZspoLrTKz4E3sHt58dsBBioZO7yuwDrMBuDpKExqE1a8d
-         RLRw==
-X-Gm-Message-State: ANhLgQ3O/G2nJYMuvBkE+zJkqZyY7/sok6BMhxIiqxQ44W3jp+5eaC85
-        orQK4Iu6zlY9CSwPhLmwUuGkbLLm9LPTmtE1M9cQMw==
-X-Google-Smtp-Source: ADFU+vvOv8c9JQm5kJNhUDWGfgsraRLePI5O5SCd/PtS/FVJ+qQm9TfMsznMckxhjSugQh0d2JMqHv913HiGhIhwIlA=
-X-Received: by 2002:a05:6830:1ac1:: with SMTP id r1mr11748856otc.139.1585332679671;
- Fri, 27 Mar 2020 11:11:19 -0700 (PDT)
+        id S1727322AbgC0S10 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Mar 2020 14:27:26 -0400
+Received: from smtprelay0016.hostedemail.com ([216.40.44.16]:52816 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726275AbgC0S10 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Mar 2020 14:27:26 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id DC564181D330D;
+        Fri, 27 Mar 2020 18:27:24 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: comb05_5cf10df77e138
+X-Filterd-Recvd-Size: 1870
+Received: from XPS-9350 (unknown [172.58.92.163])
+        (Authenticated sender: joe@perches.com)
+        by omf08.hostedemail.com (Postfix) with ESMTPA;
+        Fri, 27 Mar 2020 18:27:18 +0000 (UTC)
+Message-ID: <32d1dee7e9c7dd104cd7405a22fb5d5e3ef61303.camel@perches.com>
+Subject: Re: [PATCH net-next 6/9] net: phy: add backplane kr driver support
+From:   Joe Perches <joe@perches.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florinel Iordache <florinel.iordache@nxp.com>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, f.fainelli@gmail.com,
+        hkallweit1@gmail.com, linux@armlinux.org.uk,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, kuba@kernel.org,
+        corbet@lwn.net, shawnguo@kernel.org, leoyang.li@nxp.com,
+        madalin.bucur@oss.nxp.com, ioana.ciornei@nxp.com,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 27 Mar 2020 11:25:26 -0700
+In-Reply-To: <20200327142245.GF11004@lunn.ch>
+References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
+         <1585230682-24417-7-git-send-email-florinel.iordache@nxp.com>
+         <20200327142245.GF11004@lunn.ch>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20200327170132.17275-1-grant.likely@arm.com>
-In-Reply-To: <20200327170132.17275-1-grant.likely@arm.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Fri, 27 Mar 2020 11:10:43 -0700
-Message-ID: <CAGETcx8CJqMQaHBj1r5MhNBTw7Smz4BRHPkB0kCUCJPSmW6KwA@mail.gmail.com>
-Subject: Re: [PATCH] Add documentation on meaning of -EPROBE_DEFER
-To:     Grant Likely <grant.likely@arm.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, nd@arm.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 27, 2020 at 10:01 AM Grant Likely <grant.likely@arm.com> wrote:
->
-> Add a bit of documentation on what it means when a driver .probe() hook
-> returns the -EPROBE_DEFER error code, including the limitation that
-> -EPROBE_DEFER should be returned as early as possible, before the driver
-> starts to register child devices.
->
-> Also: minor markup fixes in the same file
->
-> Signed-off-by: Grant Likely <grant.likely@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Saravana Kannan <saravanak@google.com>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  .../driver-api/driver-model/driver.rst        | 32 ++++++++++++++++---
->  1 file changed, 27 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/driver-api/driver-model/driver.rst b/Documentation/driver-api/driver-model/driver.rst
-> index baa6a85c8287..63057d9bc8a6 100644
-> --- a/Documentation/driver-api/driver-model/driver.rst
-> +++ b/Documentation/driver-api/driver-model/driver.rst
-> @@ -4,7 +4,6 @@ Device Drivers
->
->  See the kerneldoc for the struct device_driver.
->
-> -
->  Allocation
->  ~~~~~~~~~~
->
-> @@ -167,9 +166,26 @@ the driver to that device.
->
->  A driver's probe() may return a negative errno value to indicate that
->  the driver did not bind to this device, in which case it should have
-> -released all resources it allocated::
-> +released all resources it allocated.
-> +
-> +Optionally, probe() may return -EPROBE_DEFER if the driver depends on
-> +resources that are not yet available (e.g., supplied by a driver that
-> +hasn't initialized yet).  The driver core will put the device onto the
-> +deferred probe list and will try to call it again later. If a driver
-> +must defer, it should return -EPROBE_DEFER as early as possible to
-> +reduce the amount of time spent on setup work that will need to be
-> +unwound and reexecuted at a later time.
-> +
-> +.. warning::
-> +      -EPROBE_DEFER must not be returned if probe() has already created
-> +      child devices, even if those child devices are removed again
-> +      in a cleanup path. If -EPROBE_DEFER is returned after a child
-> +      device has been registered, it may result in an infinite loop of
-> +      .probe() calls to the same driver.
+On Fri, 2020-03-27 at 15:22 +0100, Andrew Lunn wrote:
+> > +/* Backplane custom logging */
+> > +#define BPDEV_LOG(name) \
+> > +	char log_buffer[LOG_BUFFER_SIZE]; \
+> > +	va_list args; va_start(args, msg); \
+> > +	vsnprintf(log_buffer, LOG_BUFFER_SIZE - 1, msg, args); \
+> > +	if (!bpphy->attached_dev) \
+> > +		dev_##name(&bpphy->mdio.dev, log_buffer); \
+> > +	else \
+> > +		dev_##name(&bpphy->mdio.dev, "%s: %s", \
+> > +			netdev_name(bpphy->attached_dev), log_buffer); \
+> > +	va_end(args)
 
-The infinite loop is a current implementation behavior. Not an
-intentional choice. So, maybe we can say the behavior is undefined
-instead?
+This could also use %pV instead of an intermediate buffer.
 
--Saravana
+It's also bad form to use macros with required
+external variables.
+
