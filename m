@@ -2,125 +2,116 @@ Return-Path: <SRS0=px74=5N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF91C43331
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Mar 2020 11:13:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48AB9C43331
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Mar 2020 11:50:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5654620716
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Mar 2020 11:13:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16F6D20732
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Mar 2020 11:50:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JjZXpr+f"
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="wruyawcv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726156AbgC1LNy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Mar 2020 07:13:54 -0400
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:39142 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725973AbgC1LNy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Mar 2020 07:13:54 -0400
-Received: by mail-pj1-f67.google.com with SMTP id z3so4394144pjr.4;
-        Sat, 28 Mar 2020 04:13:54 -0700 (PDT)
+        id S1726268AbgC1Lu2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Mar 2020 07:50:28 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:36468 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726265AbgC1Lu2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Mar 2020 07:50:28 -0400
+Received: by mail-qk1-f193.google.com with SMTP id d11so13803165qko.3
+        for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2020 04:50:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JHKDu3SHaGK6jliTTjKmnnyNvNI2zpe4g9Mnvcse/6U=;
-        b=JjZXpr+faWoFwnjljT/0aLpOMDk8TEgnmJo5L/tJtSac1bSLEI/7nzIMDDflEAndud
-         t04+2fwxNWfa0/yVL2EOOrh+dJBumrDRR1PUQO2nZ4GqhHxiSMvwhStGoyOmQNv+tgPn
-         ieKULnxkXw0O7XA0pzo4/0XtZf3KuaKGcq8BQF3aEviBvQHf3ICILu1RyallfDi6BzbD
-         wLZXwJzSL27Kn/ygUc2MQoul2uuqnmnW6rtwEZBP3lNiEGgIOSfsVgDbzRu7GcodnI7T
-         lDuUoDF5AqRN4qTNX75v7s4odfqgWZbZFzNDq6/u4fD7K6DMu2A4jfMZw+GawwCHXnGL
-         ODEQ==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PXOaWkf6K2Whqr4tczFKE+1Lhm0x7YcGQ6GGzYXABXQ=;
+        b=wruyawcvW8FYxDeUaH/b3sR9f8qVFJNMds5GXrlnCIL4b4t3MHPibhHne7Za5AesWp
+         +oZnYwJyHBF7rLaEj3+xRg7T5fJxnvcgCaXvzW/j0ZoW8S8LGz7HY/9cmXGJaWBhgnkX
+         3ev0sjOfZuxAiXphJs4iPsEiSx26FWby11+kM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JHKDu3SHaGK6jliTTjKmnnyNvNI2zpe4g9Mnvcse/6U=;
-        b=f9/Nl03TiRGUEFkuRWC+5SHJoJexdTtGIczpxwQeiAbnQgHXh6NKKzLctlINJGCqwe
-         vtMoGIvnrKa19ca4jXCXjk5pJHjVUi01YR9xPn2IrEiQrspYQGd0QSTfxmBg1SU7ab4d
-         m9mvz+qp+27S3gHe4g8Vyz4+YkmtATBOKtSGNscPB9zowgUtBscf6GpkCabI7zxMY09g
-         VqWK7j/l/7Ae8G6aJhCVzR//+4OylL0Dfuygf696XppDpaalI70Sg8QOIwyn2g8pVbKn
-         oDhfOmTDTk4EuBzIF9E67R4AK8kUNe8JtDP+6EXA511EoSoIGKICjVY0hdj9bH86bR1C
-         IWXQ==
-X-Gm-Message-State: ANhLgQ2MyhmuyzlG6Ao5NpMxex0wm4Y3qyqNVx/XWRN7L3c2zRKYNW0Y
-        Hnj34NBQ7FQlm6nrbe03TOisS2aWFmlXDEAXh70=
-X-Google-Smtp-Source: ADFU+vsPlAnVEJwYfCnbQleJ81FB80fakkIOo5K9e6HANE1E53SCYgT1ENfkiEGwEuoODWldO34h3mWNIPElz3W8eqY=
-X-Received: by 2002:a17:902:7c05:: with SMTP id x5mr3440708pll.255.1585394033590;
- Sat, 28 Mar 2020 04:13:53 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PXOaWkf6K2Whqr4tczFKE+1Lhm0x7YcGQ6GGzYXABXQ=;
+        b=a8n/MbzHqPLGmP6xbkOuo60ZXC7CWMz90idrGU0MfWDUs5jcN6N3qcRW31RgeDXtFB
+         y79NPon4JQv2HFxMzC/8T79ys6xmPzFl3Ojto3nza8Vt68Ijj4XymPTKWr3vj68tU9rq
+         SnA3I6MTv7okkmK4z0lhs3MQ153y6AIKLWuSI7k+wzp5Dok1WLLwRwGfi0zNeYf9ahEp
+         CqOqLazxNrWMEtNsE/E+DR26gVfdiK084lZPsrX8LEJu0Pfh2h1aelgIwIl9skvyrmni
+         N+tU3WPYoOTU9f+3dUvt4RYgwGopzXsjkWBeBGJoFY2tputXXxZtcwWXMxJsH9SQeZcv
+         +sDQ==
+X-Gm-Message-State: ANhLgQ0wgeY9xsz0qJnrCgXZ98yiPqOelpYO/6lx5NXv2AIVdw9nj+PL
+        s1NMMnAEX2E6PuoHWezFlhwr7Q==
+X-Google-Smtp-Source: ADFU+vuJZg9x4i3uIawWWwhUP6qOTLg47eTiVN4Q7Bu5YZJWAls9LsVdqiTybdkCsbmFuWW5s7NtMg==
+X-Received: by 2002:a37:4d88:: with SMTP id a130mr1086530qkb.443.1585396227212;
+        Sat, 28 Mar 2020 04:50:27 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id q1sm6610470qtn.69.2020.03.28.04.50.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2020 04:50:26 -0700 (PDT)
+Date:   Sat, 28 Mar 2020 07:50:26 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Sonny Rao <sonnyrao@google.com>
+Subject: Re: [PATCH] docs: cgroup-v1: Document the cpuset_v2_mode mount option
+Message-ID: <20200328115026.GA135587@google.com>
+References: <20200328014748.24140-1-longman@redhat.com>
 MIME-Version: 1.0
-References: <20200327170132.17275-1-grant.likely@arm.com> <CAGETcx8CJqMQaHBj1r5MhNBTw7Smz4BRHPkB0kCUCJPSmW6KwA@mail.gmail.com>
- <2885b440-77a5-f2be-7524-d5fba2b0c08a@arm.com> <CAGETcx_0=W6P_Zf-6fvDfncXUrPvt31bf6de-RWwHaXtwJizmQ@mail.gmail.com>
-In-Reply-To: <CAGETcx_0=W6P_Zf-6fvDfncXUrPvt31bf6de-RWwHaXtwJizmQ@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 28 Mar 2020 13:13:42 +0200
-Message-ID: <CAHp75VdXG2vGNp-0DLqAMx377nwyjzEt5=+Nakg4_vhaDGZB-A@mail.gmail.com>
-Subject: Re: [PATCH] Add documentation on meaning of -EPROBE_DEFER
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Grant Likely <grant.likely@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, nd <nd@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200328014748.24140-1-longman@redhat.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 28, 2020 at 1:57 AM Saravana Kannan <saravanak@google.com> wrote:
-> On Fri, Mar 27, 2020 at 4:25 PM Grant Likely <grant.likely@arm.com> wrote:
-> > On 27/03/2020 18:10, Saravana Kannan wrote:
-> > > On Fri, Mar 27, 2020 at 10:01 AM Grant Likely <grant.likely@arm.com> wrote:
-> > >>
-> > >> Add a bit of documentation on what it means when a driver .probe() hook
-> > >> returns the -EPROBE_DEFER error code, including the limitation that
-> > >> -EPROBE_DEFER should be returned as early as possible, before the driver
-> > >> starts to register child devices.
+On Fri, Mar 27, 2020 at 09:47:48PM -0400, Waiman Long wrote:
+> The cpuset in cgroup v1 accepts a special "cpuset_v2_mode" mount
+> option that make cpuset.cpus and cpuset.mems behave more like those in
+> cgroup v2.  Document it to make other people more aware of this feature
+> that can be useful in some circumstances.
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-...
+Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-> > >> +Optionally, probe() may return -EPROBE_DEFER if the driver depends on
-> > >> +resources that are not yet available (e.g., supplied by a driver that
-> > >> +hasn't initialized yet).  The driver core will put the device onto the
-> > >> +deferred probe list and will try to call it again later. If a driver
-> > >> +must defer, it should return -EPROBE_DEFER as early as possible to
-> > >> +reduce the amount of time spent on setup work that will need to be
-> > >> +unwound and reexecuted at a later time.
-> > >> +
-> > >> +.. warning::
-> > >> +      -EPROBE_DEFER must not be returned if probe() has already created
-> > >> +      child devices, even if those child devices are removed again
-> > >> +      in a cleanup path. If -EPROBE_DEFER is returned after a child
-> > >> +      device has been registered, it may result in an infinite loop of
-> > >> +      .probe() calls to the same driver.
-> > >
-> > > The infinite loop is a current implementation behavior. Not an
-> > > intentional choice. So, maybe we can say the behavior is undefined
-> > > instead?
+thanks,
 
-Why? *Good* documentation must describe the actual behaviour, not hide it.
+ - Joel
 
-> > If you feel strongly about it, but I don't have any problem with
-> > documenting it as the current implementation behaviour, and then
-> > changing the text if that ever changes.
->
-> Assuming Greg is okay with this doc update, I'm kinda leaning towards
-> "undefined"
-
-I think it should not distort the reality.
-
-> because if documented as "infinite loop" people might be
-> hesitant towards removing that behavior.
-
-This is funny argument. Won't we do kernel better?
-
->  But I'll let Greg make the
-> final call. Not going to NACK for this point.
-
--- 
-With Best Regards,
-Andy Shevchenko
+> ---
+>  Documentation/admin-guide/cgroup-v1/cpusets.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+> index 86a6ae995d54..7ade3abd342a 100644
+> --- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
+> +++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+> @@ -223,6 +223,17 @@ cpu_online_mask using a CPU hotplug notifier, and the mems file
+>  automatically tracks the value of node_states[N_MEMORY]--i.e.,
+>  nodes with memory--using the cpuset_track_online_nodes() hook.
+>  
+> +The cpuset.effective_cpus and cpuset.effective_mems files are
+> +normally read-only copies of cpuset.cpus and cpuset.mems files
+> +respectively.  If the cpuset cgroup filesystem is mounted with the
+> +special "cpuset_v2_mode" option, the behavior of these files will become
+> +similar to the corresponding files in cpuset v2.  In other words, hotplug
+> +events will not change cpuset.cpus and cpuset.mems.  Those events will
+> +only affect cpuset.effective_cpus and cpuset.effective_mems which show
+> +the actual cpus and memory nodes that are currently used by this cpuset.
+> +See Documentation/admin-guide/cgroup-v2.rst for more information about
+> +cpuset v2 behavior.
+> +
+>  
+>  1.4 What are exclusive cpusets ?
+>  --------------------------------
+> -- 
+> 2.18.1
+> 
