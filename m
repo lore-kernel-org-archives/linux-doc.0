@@ -2,116 +2,255 @@ Return-Path: <SRS0=px74=5N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48AB9C43331
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Mar 2020 11:50:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9759CC43331
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Mar 2020 11:57:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 16F6D20732
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Mar 2020 11:50:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62E3720716
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Mar 2020 11:57:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="wruyawcv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NKp2k3F8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726268AbgC1Lu2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Mar 2020 07:50:28 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:36468 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbgC1Lu2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Mar 2020 07:50:28 -0400
-Received: by mail-qk1-f193.google.com with SMTP id d11so13803165qko.3
-        for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2020 04:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=PXOaWkf6K2Whqr4tczFKE+1Lhm0x7YcGQ6GGzYXABXQ=;
-        b=wruyawcvW8FYxDeUaH/b3sR9f8qVFJNMds5GXrlnCIL4b4t3MHPibhHne7Za5AesWp
-         +oZnYwJyHBF7rLaEj3+xRg7T5fJxnvcgCaXvzW/j0ZoW8S8LGz7HY/9cmXGJaWBhgnkX
-         3ev0sjOfZuxAiXphJs4iPsEiSx26FWby11+kM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=PXOaWkf6K2Whqr4tczFKE+1Lhm0x7YcGQ6GGzYXABXQ=;
-        b=a8n/MbzHqPLGmP6xbkOuo60ZXC7CWMz90idrGU0MfWDUs5jcN6N3qcRW31RgeDXtFB
-         y79NPon4JQv2HFxMzC/8T79ys6xmPzFl3Ojto3nza8Vt68Ijj4XymPTKWr3vj68tU9rq
-         SnA3I6MTv7okkmK4z0lhs3MQ153y6AIKLWuSI7k+wzp5Dok1WLLwRwGfi0zNeYf9ahEp
-         CqOqLazxNrWMEtNsE/E+DR26gVfdiK084lZPsrX8LEJu0Pfh2h1aelgIwIl9skvyrmni
-         N+tU3WPYoOTU9f+3dUvt4RYgwGopzXsjkWBeBGJoFY2tputXXxZtcwWXMxJsH9SQeZcv
-         +sDQ==
-X-Gm-Message-State: ANhLgQ0wgeY9xsz0qJnrCgXZ98yiPqOelpYO/6lx5NXv2AIVdw9nj+PL
-        s1NMMnAEX2E6PuoHWezFlhwr7Q==
-X-Google-Smtp-Source: ADFU+vuJZg9x4i3uIawWWwhUP6qOTLg47eTiVN4Q7Bu5YZJWAls9LsVdqiTybdkCsbmFuWW5s7NtMg==
-X-Received: by 2002:a37:4d88:: with SMTP id a130mr1086530qkb.443.1585396227212;
-        Sat, 28 Mar 2020 04:50:27 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id q1sm6610470qtn.69.2020.03.28.04.50.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2020 04:50:26 -0700 (PDT)
-Date:   Sat, 28 Mar 2020 07:50:26 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        Sonny Rao <sonnyrao@google.com>
-Subject: Re: [PATCH] docs: cgroup-v1: Document the cpuset_v2_mode mount option
-Message-ID: <20200328115026.GA135587@google.com>
-References: <20200328014748.24140-1-longman@redhat.com>
+        id S1726402AbgC1L5y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Mar 2020 07:57:54 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:36360 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726391AbgC1L5y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Mar 2020 07:57:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585396673;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=MlgUgoCS6ugUoJeRRLBbalZpTjLxsTZKRshOClHAQAs=;
+        b=NKp2k3F8GYu72mZce4I21+YQQ4B8nAKBXokrVKPy92mvMUhz5363C3gNq1/OPhUrTUeiPI
+        WU5TATyRggL11mH6oihNPcJAZe2WjQDWpXhpN7Kd5d9gButeHbJ5MqWkBnHwA2Wd+TfdjS
+        /UDEkfZQfYdNSUffSfOBCOLdqGRyVOw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-ikfo-PwRMFC4t_MRjKb6Kg-1; Sat, 28 Mar 2020 07:57:49 -0400
+X-MC-Unique: ikfo-PwRMFC4t_MRjKb6Kg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AB0B8017CC;
+        Sat, 28 Mar 2020 11:57:46 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-137.pek2.redhat.com [10.72.12.137])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8661D90800;
+        Sat, 28 Mar 2020 11:57:37 +0000 (UTC)
+Date:   Sat, 28 Mar 2020 19:57:33 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Alexander Graf <graf@amazon.com>
+Cc:     iommu@lists.linux-foundation.org,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        x86@kernel.org, Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        dwmw@amazon.com, benh@amazon.com,
+        Jan Kiszka <jan.kiszka@siemens.com>, alcioa@amazon.com,
+        aggh@amazon.com, aagch@amazon.com, dhr@amazon.com,
+        Laszlo Ersek <lersek@redhat.com>, bhe@redhat.com,
+        lijiang@redhat.com, kasong@redhat.com, brijesh.singh@amd.com,
+        thomas.lendacky@amd.com, kexec@lists.infradead.org
+Subject: Re: [PATCH] swiotlb: Allow swiotlb to live at pre-defined address
+Message-ID: <20200328115733.GA67084@dhcp-128-65.nay.redhat.com>
+References: <20200326162922.27085-1-graf@amazon.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200328014748.24140-1-longman@redhat.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20200326162922.27085-1-graf@amazon.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 27, 2020 at 09:47:48PM -0400, Waiman Long wrote:
-> The cpuset in cgroup v1 accepts a special "cpuset_v2_mode" mount
-> option that make cpuset.cpus and cpuset.mems behave more like those in
-> cgroup v2.  Document it to make other people more aware of this feature
-> that can be useful in some circumstances.
+On 03/26/20 at 05:29pm, Alexander Graf wrote:
+> The swiotlb is a very convenient fallback mechanism for bounce buffering of
+> DMAable data. It is usually used for the compatibility case where devices
+> can only DMA to a "low region".
 > 
-> Signed-off-by: Waiman Long <longman@redhat.com>
+> However, in some scenarios this "low region" may be bound even more
+> heavily. For example, there are embedded system where only an SRAM region
+> is shared between device and CPU. There are also heterogeneous computing
+> scenarios where only a subset of RAM is cache coherent between the
+> components of the system. There are partitioning hypervisors, where
+> a "control VM" that implements device emulation has limited view into a
+> partition's memory for DMA capabilities due to safety concerns.
+> 
+> This patch adds a command line driven mechanism to move all DMA memory into
+> a predefined shared memory region which may or may not be part of the
+> physical address layout of the Operating System.
+> 
+> Ideally, the typical path to set this configuration would be through Device
+> Tree or ACPI, but neither of the two mechanisms is standardized yet. Also,
+> in the x86 MicroVM use case, we have neither ACPI nor Device Tree, but
+> instead configure the system purely through kernel command line options.
+> 
+> I'm sure other people will find the functionality useful going forward
+> though and extend it to be triggered by DT/ACPI in the future.
 
-Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Hmm, we have a use case for kdump, this maybe useful.  For example
+swiotlb is enabled by default if AMD SME/SEV is active, and in kdump
+kernel we have to increase the crashkernel reserved size for the extra
+swiotlb requirement.  I wonder if we can just reuse the old kernel's
+swiotlb region and pass the addr to kdump kernel.
 
-thanks,
-
- - Joel
-
+> 
+> Signed-off-by: Alexander Graf <graf@amazon.com>
 > ---
->  Documentation/admin-guide/cgroup-v1/cpusets.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  Documentation/admin-guide/kernel-parameters.txt |  3 +-
+>  Documentation/x86/x86_64/boot-options.rst       |  4 ++-
+>  kernel/dma/swiotlb.c                            | 46 +++++++++++++++++++++++--
+>  3 files changed, 49 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
-> index 86a6ae995d54..7ade3abd342a 100644
-> --- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
-> +++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
-> @@ -223,6 +223,17 @@ cpu_online_mask using a CPU hotplug notifier, and the mems file
->  automatically tracks the value of node_states[N_MEMORY]--i.e.,
->  nodes with memory--using the cpuset_track_online_nodes() hook.
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index c07815d230bc..d085d55c3cbe 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4785,11 +4785,12 @@
+>  			it if 0 is given (See Documentation/admin-guide/cgroup-v1/memory.rst)
 >  
-> +The cpuset.effective_cpus and cpuset.effective_mems files are
-> +normally read-only copies of cpuset.cpus and cpuset.mems files
-> +respectively.  If the cpuset cgroup filesystem is mounted with the
-> +special "cpuset_v2_mode" option, the behavior of these files will become
-> +similar to the corresponding files in cpuset v2.  In other words, hotplug
-> +events will not change cpuset.cpus and cpuset.mems.  Those events will
-> +only affect cpuset.effective_cpus and cpuset.effective_mems which show
-> +the actual cpus and memory nodes that are currently used by this cpuset.
-> +See Documentation/admin-guide/cgroup-v2.rst for more information about
-> +cpuset v2 behavior.
+>  	swiotlb=	[ARM,IA-64,PPC,MIPS,X86]
+> -			Format: { <int> | force | noforce }
+> +			Format: { <int> | force | noforce | addr=<phys addr> }
+>  			<int> -- Number of I/O TLB slabs
+>  			force -- force using of bounce buffers even if they
+>  			         wouldn't be automatically used by the kernel
+>  			noforce -- Never use bounce buffers (for debugging)
+> +			addr=<phys addr> -- Try to allocate SWIOTLB at defined address
+>  
+>  	switches=	[HW,M68k]
+>  
+> diff --git a/Documentation/x86/x86_64/boot-options.rst b/Documentation/x86/x86_64/boot-options.rst
+> index 2b98efb5ba7f..ca46c57b68c9 100644
+> --- a/Documentation/x86/x86_64/boot-options.rst
+> +++ b/Documentation/x86/x86_64/boot-options.rst
+> @@ -297,11 +297,13 @@ iommu options only relevant to the AMD GART hardware IOMMU:
+>  iommu options only relevant to the software bounce buffering (SWIOTLB) IOMMU
+>  implementation:
+>  
+> -    swiotlb=<pages>[,force]
+> +    swiotlb=<pages>[,force][,addr=<phys addr>]
+>        <pages>
+>          Prereserve that many 128K pages for the software IO bounce buffering.
+>        force
+>          Force all IO through the software TLB.
+> +      addr=<phys addr>
+> +        Try to allocate SWIOTLB at defined address
+>  
+>  Settings for the IBM Calgary hardware IOMMU currently found in IBM
+>  pSeries and xSeries machines
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index c19379fabd20..83da0caa2f93 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -46,6 +46,7 @@
+>  #include <linux/init.h>
+>  #include <linux/memblock.h>
+>  #include <linux/iommu-helper.h>
+> +#include <linux/io.h>
+>  
+>  #define CREATE_TRACE_POINTS
+>  #include <trace/events/swiotlb.h>
+> @@ -102,6 +103,12 @@ unsigned int max_segment;
+>  #define INVALID_PHYS_ADDR (~(phys_addr_t)0)
+>  static phys_addr_t *io_tlb_orig_addr;
+>  
+> +/*
+> + * The TLB phys addr may be defined on the command line. Store it here if it is.
+> + */
+> +static phys_addr_t io_tlb_addr = INVALID_PHYS_ADDR;
 > +
+> +
+>  /*
+>   * Protect the above data structures in the map and unmap calls
+>   */
+> @@ -119,11 +126,23 @@ setup_io_tlb_npages(char *str)
+>  	}
+>  	if (*str == ',')
+>  		++str;
+> -	if (!strcmp(str, "force")) {
+> +	if (!strncmp(str, "force", 5)) {
+>  		swiotlb_force = SWIOTLB_FORCE;
+> -	} else if (!strcmp(str, "noforce")) {
+> +		str += 5;
+> +	} else if (!strncmp(str, "noforce", 7)) {
+>  		swiotlb_force = SWIOTLB_NO_FORCE;
+>  		io_tlb_nslabs = 1;
+> +		str += 7;
+> +	}
+> +
+> +	if (*str == ',')
+> +		++str;
+> +	if (!strncmp(str, "addr=", 5)) {
+> +		char *addrstr = str + 5;
+> +
+> +		io_tlb_addr = kstrtoul(addrstr, 0, &str);
+> +		if (addrstr == str)
+> +			io_tlb_addr = INVALID_PHYS_ADDR;
+>  	}
 >  
->  1.4 What are exclusive cpusets ?
->  --------------------------------
+>  	return 0;
+> @@ -239,6 +258,25 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
+>  	return 0;
+>  }
+>  
+> +static int __init swiotlb_init_io(int verbose, unsigned long bytes)
+> +{
+> +	unsigned __iomem char *vstart;
+> +
+> +	if (io_tlb_addr == INVALID_PHYS_ADDR)
+> +		return -EINVAL;
+> +
+> +	vstart = memremap(io_tlb_addr, bytes, MEMREMAP_WB);
+> +	if (!vstart)
+> +		return -EINVAL;
+> +
+> +	if (swiotlb_init_with_tbl(vstart, io_tlb_nslabs, verbose)) {
+> +		memunmap(vstart);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * Statically reserve bounce buffer space and initialize bounce buffer data
+>   * structures for the software IO TLB used to implement the DMA API.
+> @@ -257,6 +295,10 @@ swiotlb_init(int verbose)
+>  
+>  	bytes = io_tlb_nslabs << IO_TLB_SHIFT;
+>  
+> +	/* Map IO TLB from device memory */
+> +	if (!swiotlb_init_io(verbose, bytes))
+> +		return;
+> +
+>  	/* Get IO TLB memory from the low pages */
+>  	vstart = memblock_alloc_low(PAGE_ALIGN(bytes), PAGE_SIZE);
+>  	if (vstart && !swiotlb_init_with_tbl(vstart, io_tlb_nslabs, verbose))
 > -- 
-> 2.18.1
+> 2.16.4
 > 
+> 
+> 
+> 
+> Amazon Development Center Germany GmbH
+> Krausenstr. 38
+> 10117 Berlin
+> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+> Sitz: Berlin
+> Ust-ID: DE 289 237 879
+> 
+> 
+> 
+
+Thanks
+Dave
+
