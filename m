@@ -2,165 +2,192 @@ Return-Path: <SRS0=9tmv=5O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A18B9C43331
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 09:02:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54587C2D0EE
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 14:22:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 70E9120716
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 09:02:02 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="07E0C60Q"
+	by mail.kernel.org (Postfix) with ESMTP id 3446B20733
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 14:22:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727635AbgC2JCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Mar 2020 05:02:02 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:34368 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727504AbgC2JCB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Mar 2020 05:02:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=H5gHcZt58ItxyBwqaqxZtntJGLmB68FixgDVNtg8rCs=; b=07E0C60Qj23SXfi8N3GXmOZby
-        1Hyu8JB6hjpqjVbF5nzJMATZNq7dhhOrute0Hyn00mXx80gRd3XdzNmtNIB7nMSCmCpqz/nl08AKK
-        k1ebxfRQ6/3jvcJ8JxSft+oWkYRLzN+rYGQSWCgltsgB5q00nYWgXMBVfU/01oeqtBL0/X2uY3nhQ
-        JnhwCkHDAK8MiExjdHJYTM3b6Axw22rJUXByf/MjgCz8FrU0I4zTKHPujP4vBVO717XpEHcoxQ0CS
-        1NQdgGPYuNbi/nYU5+y4A7xknuGQUU48hKfDeJcl5SMYOTxLyOHU1dWcoSIlUAF9W4fyPRR5IXt6x
-        rG5MBnaKA==;
-Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:38708)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1jITpB-0003yK-JF; Sun, 29 Mar 2020 10:01:45 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1jITp6-000650-KD; Sun, 29 Mar 2020 10:01:40 +0100
-Date:   Sun, 29 Mar 2020 10:01:40 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Florinel Iordache <florinel.iordache@nxp.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        Leo Li <leoyang.li@nxp.com>,
-        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [EXT] Re: [PATCH net-next 3/9] net: phy: add kr phy connection
- type
-Message-ID: <20200329090140.GW25745@shell.armlinux.org.uk>
-References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
- <1585230682-24417-4-git-send-email-florinel.iordache@nxp.com>
- <20200327001515.GL3819@lunn.ch>
- <AM0PR04MB54435F251B435789A435A0BBFBCA0@AM0PR04MB5443.eurprd04.prod.outlook.com>
+        id S1728160AbgC2OWL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Mar 2020 10:22:11 -0400
+Received: from foss.arm.com ([217.140.110.172]:58914 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727488AbgC2OWL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Mar 2020 10:22:11 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5D9C31B;
+        Sun, 29 Mar 2020 07:22:10 -0700 (PDT)
+Received: from [10.163.1.70] (unknown [10.163.1.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 542D63F68F;
+        Sun, 29 Mar 2020 07:22:01 -0700 (PDT)
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
+To:     Christophe Leroy <christophe.leroy@c-s.fr>, linux-mm@kvack.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-riscv@lists.infradead.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
+ <2bb4badc-2b7a-e15d-a99b-b1bd38c9d9bf@arm.com>
+ <a46d18ed-8911-1ec3-c32f-58b6e0d959d7@c-s.fr>
+ <9675882f-0ec5-5e46-551f-dd3aa38bf8d8@arm.com>
+ <ef28cb75-40b8-5ab5-83ba-84fd4384c7c5@c-s.fr>
+Message-ID: <bf4558b2-1fe9-f0cc-3e6f-34bdf3734056@arm.com>
+Date:   Sun, 29 Mar 2020 19:51:54 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM0PR04MB54435F251B435789A435A0BBFBCA0@AM0PR04MB5443.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <ef28cb75-40b8-5ab5-83ba-84fd4384c7c5@c-s.fr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 29, 2020 at 08:22:10AM +0000, Florinel Iordache wrote:
-> > On Thu, Mar 26, 2020 at 03:51:16PM +0200, Florinel Iordache wrote:
-> > > Add support for backplane kr phy connection types currently available
-> > > (10gbase-kr, 40gbase-kr4) and the required phylink updates (cover all
-> > > the cases for KR modes which are clause 45 compatible to correctly
-> > > assign phy_interface and phylink#supported)
-> > >
-> > > Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
-> > > ---
-> > >  drivers/net/phy/phylink.c | 15 ++++++++++++---
-> > >  include/linux/phy.h       |  6 +++++-
-> > >  2 files changed, 17 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
-> > > index fed0c59..db1bb87 100644
-> > > --- a/drivers/net/phy/phylink.c
-> > > +++ b/drivers/net/phy/phylink.c
-> > > @@ -4,6 +4,7 @@
-> > >   * technologies such as SFP cages where the PHY is hot-pluggable.
-> > >   *
-> > >   * Copyright (C) 2015 Russell King
-> > > + * Copyright 2020 NXP
-> > >   */
-> > >  #include <linux/ethtool.h>
-> > >  #include <linux/export.h>
-> > > @@ -303,7 +304,6 @@ static int phylink_parse_mode(struct phylink *pl, struct
-> > fwnode_handle *fwnode)
-> > >                       break;
-> > >
-> > >               case PHY_INTERFACE_MODE_USXGMII:
-> > > -             case PHY_INTERFACE_MODE_10GKR:
-> > 
-> > We might have a backwards compatibility issue here. If i remember correctly,
-> > there are some boards out in the wild using PHY_INTERFACE_MODE_10GKR not
-> > PHY_INTERFACE_MODE_10GBASER.
-> > 
-> > See e0f909bc3a242296da9ccff78277f26d4883a79d
-> > 
-> > Russell, what do you say about this?
-> > 
-> >          Andrew
+
+On 03/27/2020 12:30 PM, Christophe Leroy wrote:
 > 
-> Ethernet interface nomenclature is using the following terminology:
-> e.g. 10GBase-KR: data rate (10G),  modulation type (Base = Baseband),
-> medium type (K = BacKplane), physical layer encoding scheme
-> (R = scRambling/descRambling using 64b/66b encoding that allows for
-> Ethernet framing at a rate of 10.3125 Gbit/s)
-> So 10GBase-R name provide information only about the data rate and
-> the encoding scheme without specifying the interface medium.
-> 10GBase-R is a family of many different standards specified for
-> several different physical medium for copper and optical fiber like
-> for example:
-> 	10GBase-SR: Short range (over fiber)
-> 	10GBase-LR: Long reach (over fiber)
-> 	10GBase-LRM: Long reach multi-mode (over fiber)
-> 	10GBase-ER: Extended reach (over fiber)
-> 	10GBase-CR: 10G over copper
-> 	10GBase-KR: Backplane
 > 
-> 10GBase-KR represents Ethernet operation over electrical backplanes on
-> single lane and uses the same physical layer encoding as 10GBase-LR/ER/SR
-> defined in IEEE802.3 Clause 49. 
+> On 03/27/2020 06:46 AM, Anshuman Khandual wrote:
+>>
+>> On 03/26/2020 08:53 PM, Christophe Leroy wrote:
+>>>
+>>>
+>>> Le 26/03/2020 à 03:23, Anshuman Khandual a écrit :
+>>>>
+>>>>
+>>>> On 03/24/2020 10:52 AM, Anshuman Khandual wrote:
+>>>>> This series adds more arch page table helper tests. The new tests here are
+>>>>> either related to core memory functions and advanced arch pgtable helpers.
+>>>>> This also creates a documentation file enlisting all expected semantics as
+>>>>> suggested by Mike Rapoport (https://lkml.org/lkml/2020/1/30/40).
+>>>>>
+>>>>> This series has been tested on arm64 and x86 platforms.
+>>>>
+>>>> If folks can test these patches out on remaining ARCH_HAS_DEBUG_VM_PGTABLE
+>>>> enabled platforms i.e s390, arc, powerpc (32 and 64), that will be really
+>>>> appreciated. Thank you.
+>>>>
+>>>
+>>> On powerpc 8xx (PPC32), I get:
+>>>
+>>> [   53.338368] debug_vm_pgtable: debug_vm_pgtable: Validating architecture page table helpers
+>>> [   53.347403] ------------[ cut here ]------------
+>>> [   53.351832] WARNING: CPU: 0 PID: 1 at mm/debug_vm_pgtable.c:647 debug_vm_pgtable+0x280/0x3f4
+>>
+>> mm/debug_vm_pgtable.c:647 ?
+>>
+>> With the following commits in place
+>>
+>> 53a8338ce (HEAD) Documentation/mm: Add descriptions for arch page table helper
+>> 5d4913fc1 mm/debug: Add tests validating arch advanced page table helpers
+>> bcaf120a7 mm/debug: Add tests validating arch page table helpers for core features
+>> d6ed5a4a5 x86/memory: Drop pud_mknotpresent()
+>> 0739d1f8d mm/debug: Add tests validating architecture page table helpers
+>> 16fbf79b0 (tag: v5.6-rc7) Linux 5.6-rc7
+> 
+> I have:
+> 
+> facaa5eb5909 (HEAD -> helpers0) mm/debug: Add tests validating arch advanced page table helpers
+> 6389fed515fc mm/debug: Add tests validating arch page table helpers for core features
+> dc14ecc8b94e mm/debug: add tests validating architecture page table helpers
+> c6624071c338 (origin/merge, merge) Automatic merge of branches 'master', 'next' and 'fixes' into merge
+> 58e05c5508e6 Automatic merge of branches 'master', 'next' and 'fixes' into merge
+> 1b649e0bcae7 (origin/master, origin/HEAD) Merge git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
+> 
+> origin is https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git
+> 
+> I can't see your last patch in powerpc mailing list (https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=166237)
 
-I'm not sure why NXP folk think that they have to keep explaining this
-to us.  You do not.
+My bad, did not update the last patch with required lists (will fix).
 
-> So prior to my change, phy_interface_t provided both enumerators which is correct:
-> 	PHY_INTERFACE_MODE_10GBASER
-> 	PHY_INTERFACE_MODE_10GKR
-> Perhaps PHY_INTERFACE_MODE_10GKR was not used before because Backplane
-> support was not available and all 10GBase-R family of interfaces should
-> be using PHY_INTERFACE_MODE_10GBASER.
+> 
+>>
+>> mm/debug_vm_pgtable.c:647 is here.
+> 
+> Line 647 is:
+> 
+>     WARN_ON(!pte_same(pte, __swp_entry_to_pte(swp)));
 
-What you are missing is that PHY_INTERFACE_MODE_10GKR was introduced
-first and used _incorrectly_.  We are currently mid-transition to
-correct that mistake.
+Both set of definitions suggest that the last three bits (if present)
+on the PTE will be discarded during PTE->SWP->PTE conversion which
+might be leading to this mismatch and subsequent failure.
 
-While we are in transition, PHY_INTERFACE_MODE_10GKR can _not_ be used
-correctly, and nothing NXP or anyone else says will change that fact
-until the transition has been completed.
+arch/powerpc/include/asm/nohash/32/pgtable.h
+arch/powerpc/include/asm/book3s/32/pgtable.h
 
-In kernel land, we do not intentionally regress platforms, even if we
-have made a mistake.
+#define __pte_to_swp_entry(pte)         ((swp_entry_t) { pte_val(pte) >> 3 })
+#define __swp_entry_to_pte(x)           ((pte_t) { (x).val << 3 })
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 10.2Mbps down 587kbps up
+Also there are some more architectures (microblaze, sh, etc) where these
+conversions are not always preserving. On powerpc64, it sets back _PAGE_PTE
+irrespective of whether the bit was originally set or not.
+
+Probably it is wrong to expect that PTE->SWP->PTE conversion will be always
+preserving. So wondering if it is worth changing this test to accommodate
+all such architectures or just drop it instead.
+
+> 
+> 
+>>
+>> #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+>> static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot)
+>> {
+>>          swp_entry_t swp;
+>>          pmd_t pmd;  -----------------------------> Line #647
+>>
+>>          pmd = pfn_pmd(pfn, prot);
+>>          swp = __pmd_to_swp_entry(pmd);
+>>          WARN_ON(!pmd_same(pmd, __swp_entry_to_pmd(swp)));
+>> }
+>> #else
+>> static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot) { }
+>> #end
+>>
+>> Did I miss something ?
+>>
+> 
+> [...]
+> 
+>> Could you please point me to the exact test which is failing ?
+>>
+>>> [   53.519778] Freeing unused kernel memory: 608K
+>>>
+>>>
+>> So I assume that the system should have come till runtime just fine apart from
+>> the above warning message because.
+>>
+> 
+> Yes it boots fine otherwise.
+
+Cool, that is good to know.
+
+> 
+> Christophe
+> 
