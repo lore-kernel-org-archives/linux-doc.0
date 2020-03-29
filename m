@@ -2,167 +2,198 @@ Return-Path: <SRS0=9tmv=5O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=FORGED_MUA_MOZILLA,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C747C2D0EE
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 06:36:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA28C43331
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 08:22:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CAF9206DB
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 06:36:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4604206E6
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 08:22:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="j8YspKOO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbgC2GgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Mar 2020 02:36:22 -0400
-Received: from mail-oln040092072031.outbound.protection.outlook.com ([40.92.72.31]:43515
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
+        id S1727144AbgC2IWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Mar 2020 04:22:15 -0400
+Received: from mail-eopbgr30071.outbound.protection.outlook.com ([40.107.3.71]:30806
+        "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726912AbgC2GgW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Mar 2020 02:36:22 -0400
+        id S1726342AbgC2IWP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Mar 2020 04:22:15 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DxQBZvT1De1T0Q2PiYx+KqrbhtmorGJ4L9u35Mejs0hEteq0+H4qKdVhbpbHX6ux6SJm1Mv8ZtZ0vDagII2XZYHXH/Nk2ioh6z9QHGQIckce++W/RsHyFZnnvNAsR0aSV8BEssReRaEENV0UvLC/O5Rypt0GWeQEiBQ2vVD5ev0eBg7V5z3D97xa9w4ZB5tEtUl3+eJ4RcC4RUy8p4GRvaboWC+geeBPrdwCS2FvMklCGBWx9xKgvOC33LcYUKR/e+V/DnVyRzEOX7Ht9Bck9RptcZhQYB7BtPWoHsfIwBSokFWgJ7xHSFu5AOgh2QjpnBnGKlebjW/4ZZwqqXJe3Q==
+ b=Nek/XSj8PQ5TZjlELL0veSQDp4DZRzJ+89zVK31cZcpRzLhKTUbTJyZBfDNxKtiegLYTWVbjsTQ+9V7AJLPFtoqODU9j7VWikdTlRyCwDLL5Vrcm8LHsiKenBB3m3f4CGQ8dWb7rkoa4F0dtX5ZjAQhfcmViKnmemN6FMaE1g1aLl82WK+n84CHySVicyP3raxyy3XaJgRod8FK/BsogGdEJCCcaM3nOKEne7c69uXU33rHru29F2jj/9bZEcrNlHy57EHmQ7PvulyOXOrN14O2NiSjo/izRFb+FIgi/PjuTnetydn0TXeY6/4C9lYLQNGl6ecB0kdejCg3DCBA8Kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fwp+uQ8HM8pwpe8ZH/JzuU7EHAJYZBBWZMnostibveQ=;
- b=SrV5wO1SmDM+k30P+vb4UW58n0ULyNOGp4D7KbOV+bBUoiTxc5bCa8Veno00mVpgaV7s2JqPg/WiUGcBqorttFvJaUlVG70HYCIZ+wTkMNLJcAz+rCrZ9OzlrcnM2VBqrjMHEtG3k6kfXbXsgOtFzu5MtJQ/zKqnxBdxp6NcCI75E/6r+OBUIpkcFx//8hgSrC+CKuQHRDzSomWy+Vc0SSIwgCpi6nvudyDs1pdlAWZNRDhAXBcfjp28Bx4L/hWGV2co9pTwamUMeQzn7aUYHQmpmld8TJatmV/JfmeqjaQG+X4wxtrNHQ6we+VxI0kHglhHbLHhBZflMcDjKMeiGQ==
+ bh=PPhiiF3PKA4GruwIu3IDcoVKU2zL3OpehCcaxODQl94=;
+ b=UjVCqc7LCdolyHiDwcFBtBvemHpYJQhJNC2X05LybKoRwsXXwhuTcHxfFf+d10oNlHUOKetsXJKDR0xNVBrR+ZWe4ZrIfOWOTOtGPtjVoOB/eT5UXSpLjc2O1iTck+CJ7Yi3XjSK+l8NyBUofJy8A41ArW06agsosbwwaAheERZ7ej7NQCaHVZMa/aEYvW2nneWpos7+CP+sImd1nE4g1HBPWy+OOYqksKJv0juzRqNY2axF6dn7orHZy2y3yU4BNHFBV+zeUFbPYFb2UMMZcEGnrrgRMVLZbacneE22UGhjBntSD3WffcsTNmg4cyiRWLPWaAKeA1v022nqDsQDHQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
- dkim=pass header.d=hotmail.de; arc=none
-Received: from VE1EUR03FT041.eop-EUR03.prod.protection.outlook.com
- (2a01:111:e400:7e09::4d) by
- VE1EUR03HT115.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e09::268)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.17; Sun, 29 Mar
- 2020 06:36:18 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.18.56) by
- VE1EUR03FT041.mail.protection.outlook.com (10.152.19.163) with Microsoft SMTP
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PPhiiF3PKA4GruwIu3IDcoVKU2zL3OpehCcaxODQl94=;
+ b=j8YspKOOFXDdgIEA5SPP8sBvl+I5wK50YDy8NFzR0jLV2Q2EH7y0R4waYoIdVfknXcm1wS+RqVyrJ6r9dChZuJ4bmDZ2+lU6Uo7uWtnLXCEDWqWO5GM1JKlq6O36zoa58ERh7O8SPmJ9WWJqvAB3YRQeGmS2mTRzQRVpGL4BI4c=
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com (20.178.114.161) by
+ AM0PR04MB4690.eurprd04.prod.outlook.com (20.177.40.74) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2856.17 via Frontend Transport; Sun, 29 Mar 2020 06:36:18 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:9C4D017BA2481E7479A2C2531E34F8C07BDE1FCF52BD939200BB0D77DF220E73;UpperCasedChecksum:66BD48ECA13AC4D92CFCF8DB80D93BFE98FA00C1F0ACA51A672F531C510B0964;SizeAsReceived:9666;Count:50
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2835.025; Sun, 29 Mar 2020
- 06:36:18 +0000
-Subject: Re: [PATCH v6 15/16] exec: Fix dead-lock in de_thread with
- ptrace_attach
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        "jannh@google.com" <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "adobriyan@gmail.com" <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "duyuyang@gmail.com" <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        "christian@kellner.me" <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
+ 15.20.2856.20; Sun, 29 Mar 2020 08:22:10 +0000
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::ccc:be36:aaf0:709a]) by AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::ccc:be36:aaf0:709a%7]) with mapi id 15.20.2856.019; Sun, 29 Mar 2020
+ 08:22:10 +0000
+From:   Florinel Iordache <florinel.iordache@nxp.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+CC:     "davem@davemloft.net" <davem@davemloft.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>,
+        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <077b63b7-6f5e-aa8e-bf96-a586b481cc46@hotmail.de>
- <b6537ae6-31b1-5c50-f32b-8b8332ace882@hotmail.de>
- <87a7448q7t.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51700B30078BDCB6C6A4E0CAE4CA0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Message-ID: <AM6PR03MB5170480FE4462D0DFF04B14BE4CA0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Sun, 29 Mar 2020 08:36:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-In-Reply-To: <AM6PR03MB51700B30078BDCB6C6A4E0CAE4CA0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Content-Type: text/plain; charset=windows-1252
+        Florinel Iordache <florinel.iordache@nxp.com>
+Subject: RE: [EXT] Re: [PATCH net-next 3/9] net: phy: add kr phy connection
+ type
+Thread-Topic: [EXT] Re: [PATCH net-next 3/9] net: phy: add kr phy connection
+ type
+Thread-Index: AQHWA3W5Efen8PD/TUubWXt5OukOuqhbkqiAgAOsR/A=
+Date:   Sun, 29 Mar 2020 08:22:10 +0000
+Message-ID: <AM0PR04MB54435F251B435789A435A0BBFBCA0@AM0PR04MB5443.eurprd04.prod.outlook.com>
+References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
+ <1585230682-24417-4-git-send-email-florinel.iordache@nxp.com>
+ <20200327001515.GL3819@lunn.ch>
+In-Reply-To: <20200327001515.GL3819@lunn.ch>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZR0P278CA0038.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1d::7) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-X-Microsoft-Original-Message-ID: <468cc5cc-9ac0-190e-c869-afc8eeb4264b@hotmail.de>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=florinel.iordache@nxp.com; 
+x-originating-ip: [78.96.99.111]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c43ef43a-9b45-4533-5363-08d7d3ba4743
+x-ms-traffictypediagnostic: AM0PR04MB4690:|AM0PR04MB4690:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR04MB4690F8B7A708D70BE9AFE8D2FBCA0@AM0PR04MB4690.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 035748864E
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5443.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(366004)(136003)(39850400004)(396003)(346002)(376002)(6506007)(7696005)(71200400001)(5660300002)(54906003)(33656002)(478600001)(186003)(55016002)(9686003)(4326008)(26005)(64756008)(66946007)(52536014)(6916009)(66446008)(76116006)(66476007)(8676002)(316002)(66556008)(86362001)(81156014)(44832011)(2906002)(81166006)(7416002)(8936002);DIR:OUT;SFP:1101;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9N0pPFpAvkMn5ofnDHVswvu1mV1sF9gGcKuNSY6UA8Gu9YCnIaZfOD8KUZAl6SpSD/eAmtp0kmeOSezcV/ykL19Igg/PzEydsRr+dkp+MZRQQ5CCler/qiD6Lzj0HszAA54CcQ1XFsbhA+b8z5glQ2av8FkxNGxui2w0lTkQ7bskc4fY0yrjabyKHN3kcQZw3FScy0R0NEYw1M1FzT5IRbd/MkJJZZT0LyMoKk3GN9pkn7AawzU5Lhr9v2VQ291l3qG8pnKjFe5Bge1J4Muee66GIUBb9ZB9eEBXcSg96ZbHatOnuldQfu/LlyZKTOQPmI9YG/T8Z5CX8ZQBZ3LejuLI8HwdfHeSIFp9xqes48Ehrmru/S5gal9fgBnReqRoU2NDIpIpbOQLaHW4Bvw9nKepJxndWKS7bGxMc4TFNT2kn/xrKVIEnd+ignBcq75R
+x-ms-exchange-antispam-messagedata: 51dmKYQHwuNTiTCS6AoPWaeYU0q5MkBRBHDdE9DejtbDCIePbkPzFYJox/T0kaZImsjgS54uqSa+jPYUePzOzG6cEyOMqei2ekXHDbCiZZtrzU1aQS0TgZGwshQi99RB3sBd+ymx3Eb2bsp+RF8O6A==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.101] (92.77.140.102) by ZR0P278CA0038.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1d::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.19 via Frontend Transport; Sun, 29 Mar 2020 06:36:16 +0000
-X-Microsoft-Original-Message-ID: <468cc5cc-9ac0-190e-c869-afc8eeb4264b@hotmail.de>
-X-TMN:  [YSNqkoVkGPbE9LVpfsvLuc8avDaSmBwm]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 50
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: aca972d2-0306-4c2d-f6f3-08d7d3ab7c7f
-X-MS-TrafficTypeDiagnostic: VE1EUR03HT115:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: w74RRcKfQNGFhv2iIUBASQoDIm6/Pxdz8wDja7713bv3BcDYbTL1fNdsRWtgWCOi5XZC64ZKdo9u9cRoHwlJXu2jQB72Xx9EaTFYGTu6zp337qa+cDIyuLJBAjUltGhoAtrYyrGv0QfPwjrK9xSUBb+kBZ6SUKtjMhFsHBgKxSDlMWoiXhsuGMp8ZzTSJ1Fo
-X-MS-Exchange-AntiSpam-MessageData: d3puSzqSYI2uPhPDzZu5cNqyZHjfI8e3lGyn9tAhrbSbUYVC3bynFSO+qK5hfe02MW20eZpTFX6MQPgEXvuFkzDlrTXAL3NoDpOu34O/W4PpLvp7TtdoUQGG5BI98Kv3TrtbZUZbw9/2koKUhgM8/g==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aca972d2-0306-4c2d-f6f3-08d7d3ab7c7f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2020 06:36:18.1761
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c43ef43a-9b45-4533-5363-08d7d3ba4743
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2020 08:22:10.7777
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT115
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vCmbOsmcR7TzxwzJkpA0f8bGk9GwSiz2IK32GNgD0TlX76VVSPZsOdC/KrsYlvr1O4SVKs9ze/X5FCqUCuvt5yEU8c3sUrqLZvsv2eXVVrs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB4690
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/29/20 6:31 AM, Bernd Edlinger wrote:
-> On 3/25/20 3:27 PM, Eric W. Biederman wrote:
->> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
->> At a minimum the code is subtle and I don't see big fat
->> warning comments that subtle code needs to keep people
->> from using it wrong.
->>
-> 
-> Okay, I can add big fat warning comments, yeah.
-> 
+> On Thu, Mar 26, 2020 at 03:51:16PM +0200, Florinel Iordache wrote:
+> > Add support for backplane kr phy connection types currently available
+> > (10gbase-kr, 40gbase-kr4) and the required phylink updates (cover all
+> > the cases for KR modes which are clause 45 compatible to correctly
+> > assign phy_interface and phylink#supported)
+> >
+> > Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
+> > ---
+> >  drivers/net/phy/phylink.c | 15 ++++++++++++---
+> >  include/linux/phy.h       |  6 +++++-
+> >  2 files changed, 17 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+> > index fed0c59..db1bb87 100644
+> > --- a/drivers/net/phy/phylink.c
+> > +++ b/drivers/net/phy/phylink.c
+> > @@ -4,6 +4,7 @@
+> >   * technologies such as SFP cages where the PHY is hot-pluggable.
+> >   *
+> >   * Copyright (C) 2015 Russell King
+> > + * Copyright 2020 NXP
+> >   */
+> >  #include <linux/ethtool.h>
+> >  #include <linux/export.h>
+> > @@ -303,7 +304,6 @@ static int phylink_parse_mode(struct phylink *pl, s=
+truct
+> fwnode_handle *fwnode)
+> >                       break;
+> >
+> >               case PHY_INTERFACE_MODE_USXGMII:
+> > -             case PHY_INTERFACE_MODE_10GKR:
+>=20
+> We might have a backwards compatibility issue here. If i remember correct=
+ly,
+> there are some boards out in the wild using PHY_INTERFACE_MODE_10GKR not
+> PHY_INTERFACE_MODE_10GBASER.
+>=20
+> See e0f909bc3a242296da9ccff78277f26d4883a79d
+>=20
+> Russell, what do you say about this?
+>=20
+>          Andrew
 
-So how about that:
+Ethernet interface nomenclature is using the following terminology:
+e.g. 10GBase-KR: data rate (10G),  modulation type (Base =3D Baseband),
+medium type (K =3D BacKplane), physical layer encoding scheme
+(R =3D scRambling/descRambling using 64b/66b encoding that allows for
+Ethernet framing at a rate of 10.3125 Gbit/s)
+So 10GBase-R name provide information only about the data rate and
+the encoding scheme without specifying the interface medium.
+10GBase-R is a family of many different standards specified for
+several different physical medium for copper and optical fiber like
+for example:
+	10GBase-SR: Short range (over fiber)
+	10GBase-LR: Long reach (over fiber)
+	10GBase-LRM: Long reach multi-mode (over fiber)
+	10GBase-ER: Extended reach (over fiber)
+	10GBase-CR: 10G over copper
+	10GBase-KR: Backplane
 
-diff --git a/kernel/ptrace.c b/kernel/ptrace.c
-index 221759e..2d6b5cd 100644
---- a/kernel/ptrace.c
-+++ b/kernel/ptrace.c
-@@ -395,6 +395,17 @@ static int ptrace_attach(struct task_struct *task, long req
-        if (mutex_lock_interruptible(&task->signal->exec_guard_mutex))
-                goto out;
- 
-+       /*
-+        * BIG FAT WARNING - Fragile code ahead.
-+        * Please do not insert any code between these two
-+        * if statements.  It may happen that execve has to
-+        * release the exec_guard_mutex in order to prevent
-+        * deadlocks.  In that case unsafe_execve_in_progress
-+        * will be set.  If that happens you cannot assume that
-+        * the usual guarantees implied by exec_guard_mutex
-+        * are valid.  Just return -EAGAIN in that case and
-+        * unlock the mutex immediately.
-+        */
-        retval = -EAGAIN;
-        if (unlikely(task->signal->unsafe_execve_in_progress))
-                goto unlock_creds;
+10GBase-KR represents Ethernet operation over electrical backplanes on
+single lane and uses the same physical layer encoding as 10GBase-LR/ER/SR
+defined in IEEE802.3 Clause 49.=20
+So prior to my change, phy_interface_t provided both enumerators which is c=
+orrect:
+	PHY_INTERFACE_MODE_10GBASER
+	PHY_INTERFACE_MODE_10GKR
+Perhaps PHY_INTERFACE_MODE_10GKR was not used before because Backplane
+support was not available and all 10GBase-R family of interfaces should
+be using PHY_INTERFACE_MODE_10GBASER.
+In case PHY_INTERFACE_MODE_10GKR was used before, this is probably
+incorrect and should be changed for those boards to use the correct phy
+connection type: PHY_INTERFACE_MODE_10GBASER.
+Moreover now I also introduced a new phy connection type to cover also:
+40GBase-KR4 which is 40G Backplane over 4-lanes:
+	PHY_INTERFACE_MODE_40GKR4
 
-Is that cool enough :-)
+Prior to adding backplane support, 10GKR case was handled the same as
+10GBASER in phylink_parse_mode.=20
+But now because we are adding support for backplane modes, all backplane
+phy connection types (like: 10GKR, 40GKR4) must be treated separately to
+correctly setup the supported phylink.
 
-
-Thanks
-Bernd.
+Florin.
