@@ -2,192 +2,112 @@ Return-Path: <SRS0=9tmv=5O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54587C2D0EE
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 14:22:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 210ABC43331
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 14:48:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3446B20733
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 14:22:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0E2F20733
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Mar 2020 14:48:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728160AbgC2OWL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Mar 2020 10:22:11 -0400
-Received: from foss.arm.com ([217.140.110.172]:58914 "EHLO foss.arm.com"
+        id S1728276AbgC2OsL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Mar 2020 10:48:11 -0400
+Received: from mga01.intel.com ([192.55.52.88]:32557 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727488AbgC2OWL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Mar 2020 10:22:11 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5D9C31B;
-        Sun, 29 Mar 2020 07:22:10 -0700 (PDT)
-Received: from [10.163.1.70] (unknown [10.163.1.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 542D63F68F;
-        Sun, 29 Mar 2020 07:22:01 -0700 (PDT)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
-To:     Christophe Leroy <christophe.leroy@c-s.fr>, linux-mm@kvack.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
+        id S1728245AbgC2OsL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Mar 2020 10:48:11 -0400
+IronPort-SDR: iLd7iGvGspOVEtGFXGuVAv65b7ywRNq1dQb7N0Tiw4NOA+B7tpiGYw4ndBBW07zpIm2DWnHdc9
+ Y+PtIyEcPwJQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2020 07:48:10 -0700
+IronPort-SDR: nBtIlt8xw3X87rGtSiAizW/ezAp70RXQNKCOhFd0IT1apP1sgku/UPl5TJEycg9t45f4eNxojk
+ SoiuDVtLQgOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,320,1580803200"; 
+   d="scan'208";a="272123787"
+Received: from chenyu-office.sh.intel.com ([10.239.158.173])
+  by fmsmga004.fm.intel.com with ESMTP; 29 Mar 2020 07:48:08 -0700
+From:   Chen Yu <yu.c.chen@intel.com>
+To:     linux-pm@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
- <2bb4badc-2b7a-e15d-a99b-b1bd38c9d9bf@arm.com>
- <a46d18ed-8911-1ec3-c32f-58b6e0d959d7@c-s.fr>
- <9675882f-0ec5-5e46-551f-dd3aa38bf8d8@arm.com>
- <ef28cb75-40b8-5ab5-83ba-84fd4384c7c5@c-s.fr>
-Message-ID: <bf4558b2-1fe9-f0cc-3e6f-34bdf3734056@arm.com>
-Date:   Sun, 29 Mar 2020 19:51:54 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <ef28cb75-40b8-5ab5-83ba-84fd4384c7c5@c-s.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Chen Yu <yu.c.chen@intel.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH][v2] PM / sleep: Add pm_debug_messages boot command control
+Date:   Sun, 29 Mar 2020 22:46:40 +0800
+Message-Id: <20200329144640.20536-1-yu.c.chen@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Debug messages from the system suspend/hibernation infrastructure
+is disabled by default, and can only be enabled after the system
+has boot up via /sys/power/pm_debug_messages. This makes the hibernation
+resume hard to track as it involves system boot up across hibernation.
+There's no chance for software_resume() to track the resume process,
+eg.
 
-On 03/27/2020 12:30 PM, Christophe Leroy wrote:
-> 
-> 
-> On 03/27/2020 06:46 AM, Anshuman Khandual wrote:
->>
->> On 03/26/2020 08:53 PM, Christophe Leroy wrote:
->>>
->>>
->>> Le 26/03/2020 à 03:23, Anshuman Khandual a écrit :
->>>>
->>>>
->>>> On 03/24/2020 10:52 AM, Anshuman Khandual wrote:
->>>>> This series adds more arch page table helper tests. The new tests here are
->>>>> either related to core memory functions and advanced arch pgtable helpers.
->>>>> This also creates a documentation file enlisting all expected semantics as
->>>>> suggested by Mike Rapoport (https://lkml.org/lkml/2020/1/30/40).
->>>>>
->>>>> This series has been tested on arm64 and x86 platforms.
->>>>
->>>> If folks can test these patches out on remaining ARCH_HAS_DEBUG_VM_PGTABLE
->>>> enabled platforms i.e s390, arc, powerpc (32 and 64), that will be really
->>>> appreciated. Thank you.
->>>>
->>>
->>> On powerpc 8xx (PPC32), I get:
->>>
->>> [   53.338368] debug_vm_pgtable: debug_vm_pgtable: Validating architecture page table helpers
->>> [   53.347403] ------------[ cut here ]------------
->>> [   53.351832] WARNING: CPU: 0 PID: 1 at mm/debug_vm_pgtable.c:647 debug_vm_pgtable+0x280/0x3f4
->>
->> mm/debug_vm_pgtable.c:647 ?
->>
->> With the following commits in place
->>
->> 53a8338ce (HEAD) Documentation/mm: Add descriptions for arch page table helper
->> 5d4913fc1 mm/debug: Add tests validating arch advanced page table helpers
->> bcaf120a7 mm/debug: Add tests validating arch page table helpers for core features
->> d6ed5a4a5 x86/memory: Drop pud_mknotpresent()
->> 0739d1f8d mm/debug: Add tests validating architecture page table helpers
->> 16fbf79b0 (tag: v5.6-rc7) Linux 5.6-rc7
-> 
-> I have:
-> 
-> facaa5eb5909 (HEAD -> helpers0) mm/debug: Add tests validating arch advanced page table helpers
-> 6389fed515fc mm/debug: Add tests validating arch page table helpers for core features
-> dc14ecc8b94e mm/debug: add tests validating architecture page table helpers
-> c6624071c338 (origin/merge, merge) Automatic merge of branches 'master', 'next' and 'fixes' into merge
-> 58e05c5508e6 Automatic merge of branches 'master', 'next' and 'fixes' into merge
-> 1b649e0bcae7 (origin/master, origin/HEAD) Merge git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
-> 
-> origin is https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git
-> 
-> I can't see your last patch in powerpc mailing list (https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=166237)
+Turning on the pm_debug_messages during boot up by appending
+'pm_debug_message'.
 
-My bad, did not update the last patch with required lists (will fix).
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: Len Brown <lenb@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Chen Yu <yu.c.chen@intel.com>
+---
+v2: According to Randy's suggestion, add the command line
+    option to Documentation/admin-guide/kernel-parameters.txt
+---
+ Documentation/admin-guide/kernel-parameters.txt | 3 +++
+ kernel/power/main.c                             | 7 +++++++
+ 2 files changed, 10 insertions(+)
 
-> 
->>
->> mm/debug_vm_pgtable.c:647 is here.
-> 
-> Line 647 is:
-> 
->     WARN_ON(!pte_same(pte, __swp_entry_to_pte(swp)));
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index c07815d230bc..105ec73743d7 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3698,6 +3698,9 @@
+ 			Override pmtimer IOPort with a hex value.
+ 			e.g. pmtmr=0x508
+ 
++	pm_debug_message	[SUSPEND,KNL]
++			Enable suspend/resume debug messages during boot up.
++
+ 	pnp.debug=1	[PNP]
+ 			Enable PNP debug messages (depends on the
+ 			CONFIG_PNP_DEBUG_MESSAGES option).  Change at run-time
+diff --git a/kernel/power/main.c b/kernel/power/main.c
+index 69b7a8aeca3b..1da3d7c15e03 100644
+--- a/kernel/power/main.c
++++ b/kernel/power/main.c
+@@ -535,6 +535,13 @@ static ssize_t pm_debug_messages_store(struct kobject *kobj,
+ 
+ power_attr(pm_debug_messages);
+ 
++static int __init pm_debug_message_setup(char *str)
++{
++	pm_debug_messages_on = true;
++	return 1;
++}
++__setup("pm_debug_message", pm_debug_message_setup);
++
+ /**
+  * __pm_pr_dbg - Print a suspend debug message to the kernel log.
+  * @defer: Whether or not to use printk_deferred() to print the message.
+-- 
+2.17.1
 
-Both set of definitions suggest that the last three bits (if present)
-on the PTE will be discarded during PTE->SWP->PTE conversion which
-might be leading to this mismatch and subsequent failure.
-
-arch/powerpc/include/asm/nohash/32/pgtable.h
-arch/powerpc/include/asm/book3s/32/pgtable.h
-
-#define __pte_to_swp_entry(pte)         ((swp_entry_t) { pte_val(pte) >> 3 })
-#define __swp_entry_to_pte(x)           ((pte_t) { (x).val << 3 })
-
-Also there are some more architectures (microblaze, sh, etc) where these
-conversions are not always preserving. On powerpc64, it sets back _PAGE_PTE
-irrespective of whether the bit was originally set or not.
-
-Probably it is wrong to expect that PTE->SWP->PTE conversion will be always
-preserving. So wondering if it is worth changing this test to accommodate
-all such architectures or just drop it instead.
-
-> 
-> 
->>
->> #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
->> static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot)
->> {
->>          swp_entry_t swp;
->>          pmd_t pmd;  -----------------------------> Line #647
->>
->>          pmd = pfn_pmd(pfn, prot);
->>          swp = __pmd_to_swp_entry(pmd);
->>          WARN_ON(!pmd_same(pmd, __swp_entry_to_pmd(swp)));
->> }
->> #else
->> static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot) { }
->> #end
->>
->> Did I miss something ?
->>
-> 
-> [...]
-> 
->> Could you please point me to the exact test which is failing ?
->>
->>> [   53.519778] Freeing unused kernel memory: 608K
->>>
->>>
->> So I assume that the system should have come till runtime just fine apart from
->> the above warning message because.
->>
-> 
-> Yes it boots fine otherwise.
-
-Cool, that is good to know.
-
-> 
-> Christophe
-> 
