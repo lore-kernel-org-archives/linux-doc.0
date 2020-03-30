@@ -2,114 +2,114 @@ Return-Path: <SRS0=u/cv=5P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C11E0C2D0E5
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 15:39:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CD69C43331
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 16:09:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 98CFC2073B
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 15:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585582791;
-	bh=YXP+ZxDUHbQPXG+vN02hy2oglUrQTaehFkRMOGXes9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=PDc636YZUvDpY1EOsqj4Vs06ckzG4SN9b9kROK/xc/0sWUsy0yqhi6ZUnppq7YORh
-	 0e3z10+L19J2rQ9w+b3vpFbO9MVZmXT0DNzHK4EGUgjy+qf2+R5DaYwvpuvnBi3mEF
-	 q9WGau1CXoAhE0nAMc1Zyb3CrDp7gvohMUewZKrY=
+	by mail.kernel.org (Postfix) with ESMTP id 5DF422072E
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 16:09:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bpq7LsqJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729439AbgC3Pjv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Mar 2020 11:39:51 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:39891 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729398AbgC3Pjv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 11:39:51 -0400
-Received: by mail-il1-f194.google.com with SMTP id r5so16224709ilq.6;
-        Mon, 30 Mar 2020 08:39:50 -0700 (PDT)
+        id S1729914AbgC3QJy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Mar 2020 12:09:54 -0400
+Received: from mail-qk1-f182.google.com ([209.85.222.182]:40058 "EHLO
+        mail-qk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727890AbgC3QJx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 12:09:53 -0400
+Received: by mail-qk1-f182.google.com with SMTP id l25so19567434qki.7;
+        Mon, 30 Mar 2020 09:09:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UtnZua9sH2Iz7Lmw4x/rdjkPSeBWQLU1aJEbCn/TIY4=;
+        b=bpq7LsqJ6UNpk2gk9z/Tl5PrVf64JY3bOJ3Di3Vg97FIDygLrz9nK6Re0fdMXazZ/F
+         /Beo8zSsS2BXoyBYZNu7q7BPgBTyt50DWidVdeYzEcDjuOm3vY1+2e2yn4Fz4pDvOkL3
+         qFy+kqIEqFDzZ3UY6tNcSpKKAdMgHGShtno8lRa1Aon8joF8bE4L8U/jWa87OopMVxMB
+         s1BY0r5hOMQNlZYVEyFIRYunxexRpqrPzvrcTal6T+FcFEQkcVRfac1hZV7VaKXzVItQ
+         hTNT24N/FOcfA2USXvDPc3RAlHF5UnoClWLLgWHSlPgs3bE0zInO6J8ieXT/867NfS2t
+         hPrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=W6rZXeVDXuiNB2eyzP6KmsiWKTclilo12JD/by0Xhl0=;
-        b=Mlfn2BhjX8eDqA22OA7Vl6fBctKJ+QNZ9XbgMwLcFFniJpB3r4rabf3nyENn2wCv73
-         sMqHjkafKgA6AmRhO7+D2s9oPBqnSZEtKPWsejwNw3E7pctcjgSYSkxZaPI7aLnMUjNQ
-         DX2SsxEfJHMpxN/Sgv+HCg0xOe+HUNwKQbmK0qa0JPHkhziEJPeJHEyb5EPfMfe1QGc/
-         PJZ0SKhacud2cnbsD7K1DhsNZlzM+ByrQYQcvxWMMYDKTGEwDsSztLYmoBQqqLOYUO5E
-         VegKKqaXHviFDTgyWlb5lSEo9O8F65xATYxKYmo7kBZ4mkhkb1EXZTGy31rnWVQHxuLd
-         RJyA==
-X-Gm-Message-State: ANhLgQ0j2dXXPJLhF3d/mfTveQjYBXPoTcpqD2NAyD8JkFO8JeiXYv5g
-        fvLXxgk4gqZVeo1Pt0MPuQ==
-X-Google-Smtp-Source: ADFU+vuVQIgPaf1Ao71iRH8paXsYDjItwWB3E5W7tkX2cZKV+GuUz/WVjODL+5u2LtNfZTgwONZfnw==
-X-Received: by 2002:a05:6e02:e89:: with SMTP id t9mr12192934ilj.83.1585582789835;
-        Mon, 30 Mar 2020 08:39:49 -0700 (PDT)
-Received: from rob-hp-laptop ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id n8sm2216453ilm.12.2020.03.30.08.39.47
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UtnZua9sH2Iz7Lmw4x/rdjkPSeBWQLU1aJEbCn/TIY4=;
+        b=kQdaC5u3V6p0UShiBqgAkBSQ3safHT26i/FkHk2F8+q5e6uKInuvqxzzuZa0RYARk2
+         3cnHR+HgyObhgVq6aL41MipRRzxMUAn4taRz46ml3nWVtO790G6wrnucy3L4+QrmImh3
+         XVORHFYOZVEV48mdXT0iMVTzlZD6c1FYyVGv7ObQb2vWbFW3r5KaxHDLJvsNyJr/uoI+
+         7n9CBMSYYkZ83jp7R8PPq39o4rI2CHGF6WlT+7qN1vU5fO6e654LGURjOtadAx1eKo7J
+         zfQuckC3icbzLjTKi9G1jqGfO0gNcav+7IogX0Z4bhqZfRuf1hQSnqfTWCtR4es8IxO/
+         eJeg==
+X-Gm-Message-State: ANhLgQ02+tD/JvVznnZsVE9z3CXYz8tD49Bia+EZMh5Q0+tv1A1sZOJl
+        UvJafW+9wGtydzSdrhS2bHxrAMysBr386Q==
+X-Google-Smtp-Source: ADFU+vsIf6Rq8zIGRIGqrFGZj1stu4iXXpPIMDoOLgUuA+FCsvZIsHP9TqFltRu78UbXw6AiHhneeg==
+X-Received: by 2002:a37:8044:: with SMTP id b65mr727931qkd.238.1585584592639;
+        Mon, 30 Mar 2020 09:09:52 -0700 (PDT)
+Received: from stingray.lan (pool-173-76-255-234.bstnma.fios.verizon.net. [173.76.255.234])
+        by smtp.gmail.com with ESMTPSA id z18sm11789091qtz.77.2020.03.30.09.09.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2020 08:39:49 -0700 (PDT)
-Received: (nullmailer pid 21313 invoked by uid 1000);
-        Mon, 30 Mar 2020 15:39:45 -0000
-Date:   Mon, 30 Mar 2020 09:39:45 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Florinel Iordache <florinel.iordache@nxp.com>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, andrew@lunn.ch,
-        f.fainelli@gmail.com, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, kuba@kernel.org,
-        corbet@lwn.net, shawnguo@kernel.org, leoyang.li@nxp.com,
-        madalin.bucur@oss.nxp.com, ioana.ciornei@nxp.com,
-        linux-kernel@vger.kernel.org,
-        Florinel Iordache <florinel.iordache@nxp.com>
-Subject: Re: [PATCH net-next 2/9] dt-bindings: net: add backplane dt bindings
-Message-ID: <20200330153945.GA20686@bogus>
-References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
- <1585230682-24417-3-git-send-email-florinel.iordache@nxp.com>
+        Mon, 30 Mar 2020 09:09:52 -0700 (PDT)
+From:   Thomas Hebb <tommyhebb@gmail.com>
+To:     alsa-devel@alsa-project.org
+Cc:     linux-kernel@vger.kernel.org, Kailang Yang <kailang@realtek.com>,
+        Thomas Hebb <tommyhebb@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hui Wang <hui.wang@canonical.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jian-Hong Pan <jian-hong@endlessm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        Sergey Bostandzhyan <jin@mediatomb.cc>,
+        Takashi Iwai <tiwai@suse.com>,
+        Tomas Espeleta <tomas.espeleta@gmail.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/3] Properly fix headphone noise on the XPS 13 and other ALC256 devices
+Date:   Mon, 30 Mar 2020 12:09:36 -0400
+Message-Id: <cover.1585584498.git.tommyhebb@gmail.com>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1585230682-24417-3-git-send-email-florinel.iordache@nxp.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 26 Mar 2020 15:51:15 +0200, Florinel Iordache wrote:
-> Add ethernet backplane device tree bindings
-> 
-> Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
-> ---
->  .../bindings/net/ethernet-controller.yaml          |  3 +-
->  .../devicetree/bindings/net/ethernet-phy.yaml      | 53 +++++++++++++
->  Documentation/devicetree/bindings/net/serdes.yaml  | 90 ++++++++++++++++++++++
->  3 files changed, 145 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/net/serdes.yaml
-> 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+The root cause of various pervasive audio problems on the XPS 13
+9350/9360, mostly relating to the headphone jack, turns out to be an
+undocumented feature of the ALC256 and similar codecs that routes audio
+along paths not exposed in the HDA node graph. The best we've had so far
+to configure this feature is magic numbers provided by Realtek, none of
+which have fully fixed all issues.
 
-Documentation/devicetree/bindings/net/serdes.yaml:  mapping values are not allowed in this context
-  in "<unicode string>", line 30, column 62
-Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/net/serdes.example.dts' failed
-make[1]: *** [Documentation/devicetree/bindings/net/serdes.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-Documentation/devicetree/bindings/net/ethernet-phy.yaml:  mapping values are not allowed in this context
-  in "<unicode string>", line 179, column 20
-Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/net/ethernet-phy.example.dts' failed
-make[1]: *** [Documentation/devicetree/bindings/net/ethernet-phy.example.dts] Error 1
-warning: no schema found in file: Documentation/devicetree/bindings/net/serdes.yaml
-warning: no schema found in file: Documentation/devicetree/bindings/net/ethernet-phy.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/net/serdes.yaml: ignoring, error parsing file
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/net/ethernet-phy.yaml: ignoring, error parsing file
-Makefile:1262: recipe for target 'dt_binding_check' failed
-make: *** [dt_binding_check] Error 2
+This series documents the "PC Beep Hidden Register", which controls the
+feature and which I've reverse engineered using black box techniques,
+and uses my findings to hopefully fix the headphone issues on my XPS 13
+once and for all.
 
-See https://patchwork.ozlabs.org/patch/1261991
+Changes in v2:
+- Change fixed value from 0x4727 to 0x5757, which should behave
+  identically, on advice from Kailang.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
+Thomas Hebb (3):
+  ALSA: doc: Document PC Beep Hidden Register on Realtek ALC256
+  ALSA: hda/realtek - Set principled PC Beep configuration for ALC256
+  ALSA: hda/realtek - Remove now-unnecessary XPS 13 headphone noise
+    fixups
 
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+ Documentation/sound/hd-audio/index.rst        |   1 +
+ Documentation/sound/hd-audio/models.rst       |   2 -
+ .../sound/hd-audio/realtek-pc-beep.rst        | 129 ++++++++++++++++++
+ sound/pci/hda/patch_realtek.c                 |  49 ++-----
+ 4 files changed, 139 insertions(+), 42 deletions(-)
+ create mode 100644 Documentation/sound/hd-audio/realtek-pc-beep.rst
 
-Please check and re-submit.
+-- 
+2.25.2
+
