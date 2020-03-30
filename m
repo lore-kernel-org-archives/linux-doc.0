@@ -2,126 +2,232 @@ Return-Path: <SRS0=u/cv=5P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9973C43331
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 20:15:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 454CAC43331
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 20:42:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9F9DD20714
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 20:15:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E72120733
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 20:42:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RoNOfN4K"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="SoqkNnxD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728169AbgC3UPd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Mar 2020 16:15:33 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:53698 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727437AbgC3UPd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 16:15:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=/xEbuMGYqmKuHMDUjBVJBLPSd80GP8iW0lTrFNQajdc=; b=RoNOfN4K2vUegOotGDYgeJWEot
-        kv2sgwuqwkdc5K2UiMqswl1k0KhFobQVPqYDpBN1gHj+OKMfQHf2zFSzX+CccW239CJA7UUAoSoat
-        k0Y9FlUx1EB7DiLAspF9mGU0QUMSzK2l8qHFfzi31vRtcMEG4+YKPxYCBTqkzKSHAizc0XvnzoLG7
-        /m8iClxzCeE2Nos8MRR/rGw3ZxJalgZxDPUmrOQBEs/BOs7jxs/E9C3MCGjpQBUBqbcn+P7/hCsdW
-        tQc1TFa4zMly2KLuX41ajABY/EblsHBIm+ByOXb8n6h2xPznquh5XSfFg5iy1gCBdyfb7lIn8Yjjz
-        FV7mG8Qw==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jJ0oF-0006Lj-Kn; Mon, 30 Mar 2020 20:14:59 +0000
-Date:   Mon, 30 Mar 2020 13:14:59 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Kees Cook <keescook@chromium.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v6 00/16] Infrastructure to allow fixing exec deadlocks
-Message-ID: <20200330201459.GF22483@bombadil.infradead.org>
-References: <AM6PR03MB5170B2F5BE24A28980D05780E4F50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <871rpg8o7v.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170938306F22C3CF61CC573E4CD0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003282041.A2639091@keescook>
- <AM6PR03MB5170E0E722ED0B05B149C135E4CB0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        id S1727942AbgC3UmW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Mar 2020 16:42:22 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:64132 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727437AbgC3UmW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 16:42:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1585600940; x=1617136940;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=pzei7EPNdSl0vQstWZdYvFBARJOekVDWFMh3y2n4Zzg=;
+  b=SoqkNnxDDNpLJEjSehgHaebK+wGoVdRSn1EUjoFNeiLFwvu+XsbQ52Wb
+   WFIYkGy9huKpC9aYl7CpIqR0zH/6qnFmDeLNj2BoAJ1/HSoJbiPbbCK7b
+   6FktbahnxEU1cznScP+FEEL1r5VaNTna9q+cTStoIFd+OZJ76CGnHqytR
+   g=;
+IronPort-SDR: ZQ+rhy1V3tG9tO8gx4zMdwYV99PRd2MSqkQa6tUb6O30D5v+rRPtyfdHoJg1n+6rvekwp2wRW2
+ RRTQjGuwOMAQ==
+X-IronPort-AV: E=Sophos;i="5.72,325,1580774400"; 
+   d="scan'208";a="25953907"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-16acd5e0.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 30 Mar 2020 20:42:17 +0000
+Received: from EX13MTAUWC001.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1a-16acd5e0.us-east-1.amazon.com (Postfix) with ESMTPS id C9F3AA2992;
+        Mon, 30 Mar 2020 20:42:09 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Mon, 30 Mar 2020 20:42:09 +0000
+Received: from 38f9d3867b82.ant.amazon.com (10.43.162.134) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 30 Mar 2020 20:42:02 +0000
+Subject: Re: [PATCH] swiotlb: Allow swiotlb to live at pre-defined address
+To:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Kairui Song <kasong@redhat.com>, <anthony.yznaga@oracle.com>,
+        Jan Setje-Eilers <jan.setjeeilers@oracle.com>
+CC:     Dave Young <dyoung@redhat.com>, <iommu@lists.linux-foundation.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        "Marek Szyprowski" <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, <dwmw@amazon.com>,
+        <benh@amazon.com>, Jan Kiszka <jan.kiszka@siemens.com>,
+        <alcioa@amazon.com>, <aggh@amazon.com>, <aagch@amazon.com>,
+        <dhr@amazon.com>, Laszlo Ersek <lersek@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Lianbo Jiang <lijiang@redhat.com>,
+        <brijesh.singh@amd.com>,
+        "Lendacky, Thomas" <thomas.lendacky@amd.com>,
+        <kexec@lists.infradead.org>,
+        "Schoenherr, Jan H." <jschoenh@amazon.de>
+References: <20200326162922.27085-1-graf@amazon.com>
+ <20200328115733.GA67084@dhcp-128-65.nay.redhat.com>
+ <CACPcB9d_Pz9SRhSsRzqygRR6waV7r8MnGcCP952svnZtpFaxnQ@mail.gmail.com>
+ <20200330134004.GA31026@char.us.oracle.com>
+From:   Alexander Graf <graf@amazon.com>
+Message-ID: <51432837-8804-0600-c7a3-8849506f999e@amazon.com>
+Date:   Mon, 30 Mar 2020 22:42:00 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
+ Gecko/20100101 Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM6PR03MB5170E0E722ED0B05B149C135E4CB0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+In-Reply-To: <20200330134004.GA31026@char.us.oracle.com>
+Content-Language: en-US
+X-Originating-IP: [10.43.162.134]
+X-ClientProxiedBy: EX13D10UWB002.ant.amazon.com (10.43.161.130) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Type: text/plain; charset="windows-1252"; format="flowed"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 30, 2020 at 10:12:02PM +0200, Bernd Edlinger wrote:
-> On 3/29/20 5:44 AM, Kees Cook wrote:
-> > On Sat, Mar 28, 2020 at 11:32:35PM +0100, Bernd Edlinger wrote:
-> >> Oh, do I understand you right, that I can add a From: in the
-> >> *body* of the mail, and then the From: in the MIME header part
-> >> which I cannot change is ignored, so I can make you the author?
-> > 
-> > Correct. (If you use "git send-email" it'll do this automatically.)
-> > 
-> > e.g., trimmed from my workflow:
-> > 
-> > git format-patch -n --to "$to" --cover-letter -o outgoing/ \
-> > 	--subject-prefix "PATCH v$version" "$SHA"
-> > edit outgoing/0000-*
-> > git send-email --transfer-encoding=8bit --8bit-encoding=UTF-8 \
-> > 	--from="$ME" --to="$to" --cc="$ME" --cc="...more..." outgoing/*
-> > 
-> > 
-> 
-> Okay, thanks, I see that is very helpful information for me, and in
-> this case I had also fixed a small bug in one of Eric's patches, which
-> was initially overlooked (aquiring mutexes in wrong order,
-> releasing an unlocked mutex in some error paths).
-> I am completely unexperienced, and something that complex was not
-> expected to happen :-) so this is just to make sure I can handle it
-> correctly if something like this happens again.
-> 
-> In the case of PATCH v6 05/16 I removed the Reviewd-by: Bernd Edlinger
-> since it is now somehow two authors and reviewing own code is obviously
-> not ok, instead I added a Signed-off-by: Bernd Edlinger (and posted the
-> whole series on Eric's behalf (after asking Eric's permissing per off-list
-> e-mail, which probably ended in his spam folder)
-> 
-> Is this having two Signed-off-by: for mutliple authors the
-> correct way to handle a shared authorship?
 
-If the patch comes through you, then Reviewed-by: is inappropriate.
-Instead, you should use Signed-off-by: in the second sense of
-Documentation/process/submitting-patches.rst
 
-This also documents how to handle "minor changes" that you make.
+On 30.03.20 15:40, Konrad Rzeszutek Wilk wrote:
+> =
+
+> =
+
+> =
+
+> On Mon, Mar 30, 2020 at 02:06:01PM +0800, Kairui Song wrote:
+>> On Sat, Mar 28, 2020 at 7:57 PM Dave Young <dyoung@redhat.com> wrote:
+>>>
+>>> On 03/26/20 at 05:29pm, Alexander Graf wrote:
+>>>> The swiotlb is a very convenient fallback mechanism for bounce bufferi=
+ng of
+>>>> DMAable data. It is usually used for the compatibility case where devi=
+ces
+>>>> can only DMA to a "low region".
+>>>>
+>>>> However, in some scenarios this "low region" may be bound even more
+>>>> heavily. For example, there are embedded system where only an SRAM reg=
+ion
+>>>> is shared between device and CPU. There are also heterogeneous computi=
+ng
+>>>> scenarios where only a subset of RAM is cache coherent between the
+>>>> components of the system. There are partitioning hypervisors, where
+>>>> a "control VM" that implements device emulation has limited view into a
+>>>> partition's memory for DMA capabilities due to safety concerns.
+>>>>
+>>>> This patch adds a command line driven mechanism to move all DMA memory=
+ into
+>>>> a predefined shared memory region which may or may not be part of the
+>>>> physical address layout of the Operating System.
+>>>>
+>>>> Ideally, the typical path to set this configuration would be through D=
+evice
+>>>> Tree or ACPI, but neither of the two mechanisms is standardized yet. A=
+lso,
+>>>> in the x86 MicroVM use case, we have neither ACPI nor Device Tree, but
+>>>> instead configure the system purely through kernel command line option=
+s.
+>>>>
+>>>> I'm sure other people will find the functionality useful going forward
+>>>> though and extend it to be triggered by DT/ACPI in the future.
+>>>
+>>> Hmm, we have a use case for kdump, this maybe useful.  For example
+>>> swiotlb is enabled by default if AMD SME/SEV is active, and in kdump
+>>> kernel we have to increase the crashkernel reserved size for the extra
+>>> swiotlb requirement.  I wonder if we can just reuse the old kernel's
+>>> swiotlb region and pass the addr to kdump kernel.
+>>>
+>>
+>> Yes, definitely helpful for kdump kernel. This can help reduce the
+>> crashkernel value.
+>>
+>> Previously I was thinking about something similar, play around the
+>> e820 entry passed to kdump and let it place swiotlb in wanted region.
+>> Simply remap it like in this patch looks much cleaner.
+>>
+>> If this patch is acceptable, one more patch is needed to expose the
+>> swiotlb in iomem, so kexec-tools can pass the right kernel cmdline to
+>> second kernel.
+> =
+
+> We seem to be passsing a lot of data to kexec.. Perhaps something
+> of a unified way since we seem to have a lot of things to pass - disabling
+> IOMMU, ACPI RSDT address, and then this.
+> =
+
+> CC-ing Anthony who is working on something - would you by any chance
+> have a doc on this?
+
+
+I see in general 2 use cases here:
+
+
+1) Allow for a generic mechanism to have the fully system, individual =
+
+buses, devices or functions of a device go through a particular, =
+
+self-contained bounce buffer.
+
+This sounds like the holy grail to a lot of problems. It would solve =
+
+typical embedded scenarios where you only have a shared SRAM. It solves =
+
+the safety case (to some extent) where you need to ensure that one =
+
+device interaction doesn't conflict with another device interaction. It =
+
+also solves the problem I've tried to solve with the patch here.
+
+It's unfortunately a lot harder than the patch I sent, so it will take =
+
+me some time to come up with a working patch set.. I suppose starting =
+
+with a DT binding only is sensible. Worst case, x86 does also support DT ...
+
+(And yes, I'm always happy to review patches if someone else beats me to it)
+
+
+2) Reuse the SWIOTLB from the previous boot on kexec/kdump
+
+I see little direct relation to SEV here. The only reason SEV makes it =
+
+more relevant, is that you need to have an SWIOTLB region available with =
+
+SEV while without you could live with a disabled IOMMU.
+
+However, I can definitely understand how you would want to have a way to =
+
+tell the new kexec'ed kernel where the old SWIOTLB was, so it can reuse =
+
+its memory for its own SWIOTLB. That way, you don't have to reserve =
+
+another 64MB of RAM for kdump.
+
+What I'm curious on is whether we need to be as elaborate. Can't we just =
+
+pass the old SWIOTLB as free memory to the new kexec'ed kernel and =
+
+everything else will fall into place? All that would take is a bit of =
+
+shuffling on the e820 table pass-through to the kexec'ed kernel, no?
+
+
+Thanks,
+
+Alex
+
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
+
