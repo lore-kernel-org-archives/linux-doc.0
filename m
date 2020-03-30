@@ -2,130 +2,114 @@ Return-Path: <SRS0=u/cv=5P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC78EC43331
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 14:07:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C11E0C2D0E5
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 15:39:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9925920776
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 14:07:38 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PbKDIEzB"
+	by mail.kernel.org (Postfix) with ESMTP id 98CFC2073B
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 15:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1585582791;
+	bh=YXP+ZxDUHbQPXG+vN02hy2oglUrQTaehFkRMOGXes9Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=PDc636YZUvDpY1EOsqj4Vs06ckzG4SN9b9kROK/xc/0sWUsy0yqhi6ZUnppq7YORh
+	 0e3z10+L19J2rQ9w+b3vpFbO9MVZmXT0DNzHK4EGUgjy+qf2+R5DaYwvpuvnBi3mEF
+	 q9WGau1CXoAhE0nAMc1Zyb3CrDp7gvohMUewZKrY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727822AbgC3OHi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Mar 2020 10:07:38 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:54309 "EHLO
-        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726830AbgC3OHi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 10:07:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1585577257;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9LrxmkAvaSght2/9QdSVfP4wqkPdT52lYY1qjr1mVKY=;
-        b=PbKDIEzBD1jaRxQUrYwn9MXzfNbJuHtnasoiRH5AfseJ7aJXIDy1e+NA3q4BPbPiJ24n+C
-        eQAWj7hniPjTYL2CFKGinrQOaZNLmDDqF8X5mGkYESBV1DPy8bpOipVhS/qHJDswvZUNBf
-        KBw2KRSzKlBkrrCB1SZC/oQqqJKjlW0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-5NXvyPVMOWiYxqgB3CFbtQ-1; Mon, 30 Mar 2020 10:07:35 -0400
-X-MC-Unique: 5NXvyPVMOWiYxqgB3CFbtQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1E1C800D50;
-        Mon, 30 Mar 2020 14:07:33 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-116-140.rdu2.redhat.com [10.10.116.140])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C586A60C85;
-        Mon, 30 Mar 2020 14:07:32 +0000 (UTC)
-Subject: Re: [PATCH v2] docs: cgroup-v1: Document the cpuset_v2_mode mount
- option
-To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
-        Sonny Rao <sonnyrao@google.com>
-References: <20200330140615.25549-1-longman@redhat.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <1b25bc58-b916-660f-090a-1a1f13a4656d@redhat.com>
-Date:   Mon, 30 Mar 2020 10:07:31 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1729439AbgC3Pjv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Mar 2020 11:39:51 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:39891 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729398AbgC3Pjv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 11:39:51 -0400
+Received: by mail-il1-f194.google.com with SMTP id r5so16224709ilq.6;
+        Mon, 30 Mar 2020 08:39:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=W6rZXeVDXuiNB2eyzP6KmsiWKTclilo12JD/by0Xhl0=;
+        b=Mlfn2BhjX8eDqA22OA7Vl6fBctKJ+QNZ9XbgMwLcFFniJpB3r4rabf3nyENn2wCv73
+         sMqHjkafKgA6AmRhO7+D2s9oPBqnSZEtKPWsejwNw3E7pctcjgSYSkxZaPI7aLnMUjNQ
+         DX2SsxEfJHMpxN/Sgv+HCg0xOe+HUNwKQbmK0qa0JPHkhziEJPeJHEyb5EPfMfe1QGc/
+         PJZ0SKhacud2cnbsD7K1DhsNZlzM+ByrQYQcvxWMMYDKTGEwDsSztLYmoBQqqLOYUO5E
+         VegKKqaXHviFDTgyWlb5lSEo9O8F65xATYxKYmo7kBZ4mkhkb1EXZTGy31rnWVQHxuLd
+         RJyA==
+X-Gm-Message-State: ANhLgQ0j2dXXPJLhF3d/mfTveQjYBXPoTcpqD2NAyD8JkFO8JeiXYv5g
+        fvLXxgk4gqZVeo1Pt0MPuQ==
+X-Google-Smtp-Source: ADFU+vuVQIgPaf1Ao71iRH8paXsYDjItwWB3E5W7tkX2cZKV+GuUz/WVjODL+5u2LtNfZTgwONZfnw==
+X-Received: by 2002:a05:6e02:e89:: with SMTP id t9mr12192934ilj.83.1585582789835;
+        Mon, 30 Mar 2020 08:39:49 -0700 (PDT)
+Received: from rob-hp-laptop ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id n8sm2216453ilm.12.2020.03.30.08.39.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2020 08:39:49 -0700 (PDT)
+Received: (nullmailer pid 21313 invoked by uid 1000);
+        Mon, 30 Mar 2020 15:39:45 -0000
+Date:   Mon, 30 Mar 2020 09:39:45 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Florinel Iordache <florinel.iordache@nxp.com>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, andrew@lunn.ch,
+        f.fainelli@gmail.com, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, kuba@kernel.org,
+        corbet@lwn.net, shawnguo@kernel.org, leoyang.li@nxp.com,
+        madalin.bucur@oss.nxp.com, ioana.ciornei@nxp.com,
+        linux-kernel@vger.kernel.org,
+        Florinel Iordache <florinel.iordache@nxp.com>
+Subject: Re: [PATCH net-next 2/9] dt-bindings: net: add backplane dt bindings
+Message-ID: <20200330153945.GA20686@bogus>
+References: <1585230682-24417-1-git-send-email-florinel.iordache@nxp.com>
+ <1585230682-24417-3-git-send-email-florinel.iordache@nxp.com>
 MIME-Version: 1.0
-In-Reply-To: <20200330140615.25549-1-longman@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1585230682-24417-3-git-send-email-florinel.iordache@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/30/20 10:06 AM, Waiman Long wrote:
-> The cpuset in cgroup v1 accepts a special "cpuset_v2_mode" mount
-> option that make cpuset.cpus and cpuset.mems behave more like those in
-> cgroup v2.  Document it to make other people more aware of this feature
-> that can be useful in some circumstances.
->
-> Signed-off-by: Waiman Long <longman@redhat.com>
+On Thu, 26 Mar 2020 15:51:15 +0200, Florinel Iordache wrote:
+> Add ethernet backplane device tree bindings
+> 
+> Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
 > ---
->  Documentation/admin-guide/cgroup-v1/cpusets.rst | 11 +++++++++++
->  kernel/cgroup/cpuset.c                          |  8 ++++++--
->  2 files changed, 17 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
-> index 86a6ae995d54..7ade3abd342a 100644
-> --- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
-> +++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
-> @@ -223,6 +223,17 @@ cpu_online_mask using a CPU hotplug notifier, and the mems file
->  automatically tracks the value of node_states[N_MEMORY]--i.e.,
->  nodes with memory--using the cpuset_track_online_nodes() hook.
->  
-> +The cpuset.effective_cpus and cpuset.effective_mems files are
-> +normally read-only copies of cpuset.cpus and cpuset.mems files
-> +respectively.  If the cpuset cgroup filesystem is mounted with the
-> +special "cpuset_v2_mode" option, the behavior of these files will become
-> +similar to the corresponding files in cpuset v2.  In other words, hotplug
-> +events will not change cpuset.cpus and cpuset.mems.  Those events will
-> +only affect cpuset.effective_cpus and cpuset.effective_mems which show
-> +the actual cpus and memory nodes that are currently used by this cpuset.
-> +See Documentation/admin-guide/cgroup-v2.rst for more information about
-> +cpuset v2 behavior.
-> +
->  
->  1.4 What are exclusive cpusets ?
->  --------------------------------
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 58f5073acff7..729d3a5c772e 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -358,8 +358,12 @@ static DECLARE_WORK(cpuset_hotplug_work, cpuset_hotplug_workfn);
->  static DECLARE_WAIT_QUEUE_HEAD(cpuset_attach_wq);
->  
->  /*
-> - * Cgroup v2 behavior is used when on default hierarchy or the
-> - * cgroup_v2_mode flag is set.
-> + * Cgroup v2 behavior is used on the "cpus" and "mems" control files when
-> + * on default hierarchy or when the cpuset_v2_mode flag is set by mounting
-> + * the v1 cpuset cgroup filesystem with the "cpuset_v2_mode" mount option.
-> + * With v2 behavior, "cpus" and "mems" are always what the users have
-> + * requested and won't be changed by hotplug events. Only the effective
-> + * cpus or mems will be affected.
->   */
->  static inline bool is_in_v2_mode(void)
->  {
+>  .../bindings/net/ethernet-controller.yaml          |  3 +-
+>  .../devicetree/bindings/net/ethernet-phy.yaml      | 53 +++++++++++++
+>  Documentation/devicetree/bindings/net/serdes.yaml  | 90 ++++++++++++++++++++++
+>  3 files changed, 145 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/net/serdes.yaml
+> 
 
-On second thought, I should have clarified the cpuset_v2_mode option in
-the cpuset.c file itself also.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Cheers,
-Longman
+Documentation/devicetree/bindings/net/serdes.yaml:  mapping values are not allowed in this context
+  in "<unicode string>", line 30, column 62
+Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/net/serdes.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/net/serdes.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+Documentation/devicetree/bindings/net/ethernet-phy.yaml:  mapping values are not allowed in this context
+  in "<unicode string>", line 179, column 20
+Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/net/ethernet-phy.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/net/ethernet-phy.example.dts] Error 1
+warning: no schema found in file: Documentation/devicetree/bindings/net/serdes.yaml
+warning: no schema found in file: Documentation/devicetree/bindings/net/ethernet-phy.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/net/serdes.yaml: ignoring, error parsing file
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/net/ethernet-phy.yaml: ignoring, error parsing file
+Makefile:1262: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
 
+See https://patchwork.ozlabs.org/patch/1261991
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
