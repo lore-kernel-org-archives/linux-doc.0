@@ -2,89 +2,171 @@ Return-Path: <SRS0=u/cv=5P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A5E4C43331
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 21:15:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B045C43331
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 22:29:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02FB320733
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 21:15:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585602914;
-	bh=563kFtHq7a6QiOei8DKREsLDADmWnUNBEG+/DTlUvXQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=NuVVeuwgVV/kbzDe1enmjFK1RmJNkCT5RLY1rUwQ8iYQY7Y2A6uvmeLGWcQ0pTwnB
-	 T3/yVVyw2WjCJo8ZNWOvsJk4WkEJP8hPmkYTqiNHOr3IiOxKZa3GLJwfaY3f68V0NC
-	 3arPdZaTS7FxC3pe5vge5kK7TQYssPZb7bLf+2kE=
+	by mail.kernel.org (Postfix) with ESMTP id 28AEF20774
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 22:29:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728405AbgC3VPK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Mar 2020 17:15:10 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:43294 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728376AbgC3VPK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 17:15:10 -0400
-Received: by mail-io1-f68.google.com with SMTP id x9so12994533iom.10;
-        Mon, 30 Mar 2020 14:15:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DiQpzvoXsdu2ngt5gwdJMip4fqFPo7qKub8h97nqjG0=;
-        b=VRCdeBUjYJaOtUV4GH/Oi+kg0r1sHN0FOhjrmqzq8dnCIOLhhfX7ujA148joB/b4g+
-         o0t0uRrpgbD8neF9vuzf9vE/7spQbRo67sQQKAqadR+9134ACff9oXzkTQxhcNP1Ho1M
-         icLNsxnmNq2aDpdsb8b0NedI0aQlqg05GYtE15Mo5KUwp+0/OcPNFCfMJvYPSFIq0/y/
-         LPjZ2kXWLD6Rtc7qG9S2aod1Wp3Zjcy5xd2c8dDW+HQlulFf5/zwxGhDdYD0zuc4eOTk
-         5Lw+KbWpHK1kBIGDluZfpRXKNDX5KZX6YrK/9RYO6ZLNZuXtsDcSJeFmGY88RfDDYyWY
-         D23Q==
-X-Gm-Message-State: ANhLgQ3HV9K2s/B2Vi4XQNfof74hE0vlcnonQzMZjxjZ63/LBKova2hm
-        KN9dlqOlVIaGEbAHV1OPhA==
-X-Google-Smtp-Source: ADFU+vvmElgbY3zcH67E5ZpTJhcpBhMdNuV5bHMxaQeVOZ5mZFOmyvAdfClT9+s9vA7kkG9dM9Mg6A==
-X-Received: by 2002:a02:8784:: with SMTP id t4mr10913216jai.31.1585602909188;
-        Mon, 30 Mar 2020 14:15:09 -0700 (PDT)
-Received: from rob-hp-laptop ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id w88sm5212239ila.24.2020.03.30.14.15.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2020 14:15:08 -0700 (PDT)
-Received: (nullmailer pid 30071 invoked by uid 1000);
-        Mon, 30 Mar 2020 21:15:07 -0000
-Date:   Mon, 30 Mar 2020 15:15:07 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, Jyri Sarha <jsarha@ti.com>,
-        David Airlie <airlied@linux.ie>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 10/12] docs: dt: display/ti: fix typos at the devicetree/
- directory name
-Message-ID: <20200330211507.GA14220@bogus>
-References: <cover.1584450500.git.mchehab+huawei@kernel.org>
- <875b824ac97bd76dfe77b6227ff9b6b2671a6abf.1584450500.git.mchehab+huawei@kernel.org>
+        id S1729436AbgC3W3h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Mar 2020 18:29:37 -0400
+Received: from haggis.mythic-beasts.com ([46.235.224.141]:55403 "EHLO
+        haggis.mythic-beasts.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728987AbgC3W3h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 18:29:37 -0400
+Received: from [87.115.226.118] (port=56474 helo=slartibartfast.quignogs.org.uk)
+        by haggis.mythic-beasts.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92.3)
+        (envelope-from <peter@bikeshed.quignogs.org.uk>)
+        id 1jJ2uU-0002Qz-EI; Mon, 30 Mar 2020 23:29:34 +0100
+Subject: Re: [PATCH v3 0/1] Compactly make code examples into literal blocks
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org
+References: <20200326192947.GM22483@bombadil.infradead.org>
+ <20200326195156.11858-1-peter@bikeshed.quignogs.org.uk>
+ <87imiqghop.fsf@intel.com> <20200327104126.667b5d5b@lwn.net>
+From:   Peter Lister <peter@bikeshed.quignogs.org.uk>
+Organization: Quignogs! (Bikeshed)
+Message-ID: <7d7f4cbb-e8e8-411d-62f4-7a32a2ac8d8a@bikeshed.quignogs.org.uk>
+Date:   Mon, 30 Mar 2020 23:29:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <875b824ac97bd76dfe77b6227ff9b6b2671a6abf.1584450500.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200327104126.667b5d5b@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+X-BlackCat-Spam-Score: 0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 02:10:49PM +0100, Mauro Carvalho Chehab wrote:
-> The name of the devicetree directory is wrong on those three
-> TI bindings:
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 2 +-
->  Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml | 2 +-
->  Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml   | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+On 27/03/2020 16:41, Jonathan Corbet wrote:
 
-Applied to drm-misc.
+> On Fri, 27 Mar 2020 13:28:54 +0200
+> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+>> IMHO the real problem is kernel-doc doing too much preprocessing on the
+>> input, preventing us from doing what would be the sensible thing in
+>> rst. The more we try to fix the problem by adding more kernel-doc
+>> processing, the further we dig ourselves into this hole.
+>>
+>> If kernel-doc didn't have its own notion of section headers, such as
+>> "example:", we wouldn't have this problem to begin with. We could just
+>> use the usual rst construct; "example::" followed by an indented block.
+>>
+>> I'm not going to stand in the way of the patch, but I'm telling you,
+>> this is going to get harder, not easier, on this path.
+> I agree with you in principle.  The problem, of course, is that this is a
+> legacy gift from before the RST days and it will be hard to change.
+>
+> A quick grep shows that the pattern:
+>
+> 	* Example:
+>
+> appears nearly 100 times in current kernels.  It is not inconceivable to
+> make a push to get rid of all of those, turning them into ordinary RST
+> syntax - especially since not all of those are actually kerneldoc
+> comments.
+>
+> The same quick grep says that "returns?:" appears about 10,000 times.
+> *That* will be painful to change, and I can only imagine that some
+> resistance would have to be overcome at some point.
+>
+> So what do folks think we should do? :)
+>
+> I want to ponder on this for a bit.  Peter, that may mean that I hold this
+> patch past the 5.7 merge window, which perhaps makes sense at this point
+> anyway, sorry.  But I really would like to push things into a direction
+> that moves us away from gnarly perl hacks and toward something more
+> maintainable in the long term.
 
-Rob
+I would have been surprised if it had been accepted as is.
+
+Matthew and Greg, thanks for reviewing - I have a feeling you might need 
+to do this a few times more.
+
+Over the past few days, I too have been pondering, certain thatthis 
+patch, a mini tweak of the existing kernel-doc, is not theright 
+answer.Equally, I'm unconvinced that the "right" answer is a wholesale 
+move to ReST, so where's the happy medium?
+
+<alert: long email, tldr: "Finding the happy medium on kerneldoc layout 
+in C source comments">
+
+A week or two back, I tried to fix doc build "indentation" warnings due 
+to return value listsin sfb-bus.c. Russell King didn't like my patch 
+saying "I think it's more important that the documentation interferes to 
+a minimal degree with the code in the file".[ Mauro's patch to sfb-bus.c 
+is now in linux-next. He fixed the problem with a bullet list - 
+thriftier with the line breaks andthe official fix in the kerneldoc 
+notes - but I'll argue that a simple list or definition list might be 
+more appropriate. ]
+
+Russell and Matthew argue that the primary purpose of source annotation 
+is to aid developers and that any significant detraction (verbosity, 
+whitespace) is not excused by prettier docs. FWIW, my background is 
+sysadmin (much perl) and system/kernel programming (mostly C) and I 
+agree with them.
+
+Jani, if you see risks of complexity and maintenance problems, then so 
+do I. But the point of kernel-doc is surely to be a specific semantic 
+markup which works for developers and maintainers and allows doc authors 
+access to their annotation.  The format clearly needs thought,perl is 
+less fashionable than it was and kernel-doc - er - needs work, but I 
+don't see the *idea* as inherently broken. I suggest that there would be 
+good developer buy-in to searchable pretty docs if a few compact idioms 
+reliably did The Right Thing and didn't spit out doc build warnings.
+
+The build warnings I currently observe do not tell me "the author got it 
+wrong", but rather "kernel-doc didn't understand the author's intention".
+
+Consider this excerpt from the kerneldoc comment for bitmap_cut(), 
+recently added to lib/bitmap.c. (NB - this is an example in the 
+description section - the parameters, including src, have already been 
+described).
+
+  * In pictures, example for a big-endian 32-bit architecture:
+  *
+  * @src:
+  * 31                                   63
+  * |                                    |
+  * 10000000 11000001 11110010 00010101  10000000 11000001 01110010 00010101
+  *                 | |              |                                    |
+  *                16 14             0                                   32
+  *
+
+This fails because 1) the diagram isn't made literal (and so generates a 
+indentation build warning) and 2) "@src:" is interpreted as an extra 
+definition of src which scrunges the first one. I find it hard to assert 
+that the author's intentions were wrong; it's the kind of good 
+annotation we should hope for in a newly added function. If "* @src:" 
+gained an double colon and we guaranteed that, after a description 
+section header, references to a parameter didn't overwrite the original 
+definition, this would work fine.
+
+My instinct is to fix doc build issues with minimal changes: not actual 
+ReST, but clear idioms reliably generating good ReST. This should be 
+accompanied by tests for developers and reviewers so that we can have a 
+fair stab at getting it right first time and (of course) documentation.
+
+Could I ask anyone who disagrees to suggest their preferred way to lay 
+out the comment for bitmap_cut()?
+
+One head-on approachis to literalise *all* kerneldoc comments for 
+functions and structures. The kerneldoc keywords then serve only to 
+generate links; the ReST output is minimal but guaranteed validand 
+warning free. Would any readers of API docs be inconvenienced? The 
+target readership are presumably programmers, and the searchability of 
+the sphinx RTD is more useful to me than the formatting.
+
+All the best,
+Peter
