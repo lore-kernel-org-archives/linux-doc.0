@@ -1,211 +1,207 @@
-Return-Path: <SRS0=u/cv=5P=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=SHIp=5Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FC5C43331
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 23:37:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E32C43331
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 01:40:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E044820771
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Mar 2020 23:37:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B74AC2072A
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 01:40:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="S05WgtKN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l2CifpBI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728991AbgC3Xhz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Mar 2020 19:37:55 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:44638 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728980AbgC3Xhz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 19:37:55 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02UNNTCo175413;
-        Mon, 30 Mar 2020 23:37:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=62p3SqIkPRrTrUQUrnww+150K3Afb4y1vUHtmaHqJDQ=;
- b=S05WgtKNcniGTGoZkZru+F83SF9x+zQgMHlTW8JThcP3UculkmgVkB//MqH/IBuWIsgW
- AhvBqYz5MHQCQLscQocRDwwiIkNDwkXINYYY2riJ6eZ3/PP97vOTrldIal4xgC3zF89E
- Zys5ZHZcEKgpLdq0S0iYvF/HConRjWReUyWEo5M5RVM0lGv01utFD8VLCwsVyXf9MDxO
- vpxkbiJqfQcHYYnZ/2b/TIbva1oeAamBfPdTzW7V6uUMdP5rSSkaTrBH2qkOYm0kuKws
- e8ET8Gln4lknR4zOGV8HsOacIJ61Pu0YmcbKeHTgWdEYGM6FlH7eF8RNA3LJZqCF24as xQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 301xhkss0g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 30 Mar 2020 23:37:24 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02UNMIM5174852;
-        Mon, 30 Mar 2020 23:37:24 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3030.oracle.com with ESMTP id 302g4qhm1t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 30 Mar 2020 23:37:24 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02UNbKmi008947;
-        Mon, 30 Mar 2020 23:37:20 GMT
-Received: from [10.154.136.252] (/10.154.136.252)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 30 Mar 2020 16:37:20 -0700
-Subject: Re: [PATCH] swiotlb: Allow swiotlb to live at pre-defined address
-To:     Alexander Graf <graf@amazon.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Kairui Song <kasong@redhat.com>,
-        Jan Setje-Eilers <jan.setjeeilers@oracle.com>
-Cc:     Dave Young <dyoung@redhat.com>, iommu@lists.linux-foundation.org,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, dwmw@amazon.com,
-        benh@amazon.com, Jan Kiszka <jan.kiszka@siemens.com>,
-        alcioa@amazon.com, aggh@amazon.com, aagch@amazon.com,
-        dhr@amazon.com, Laszlo Ersek <lersek@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Lianbo Jiang <lijiang@redhat.com>,
-        brijesh.singh@amd.com,
-        "Lendacky, Thomas" <thomas.lendacky@amd.com>,
-        kexec@lists.infradead.org,
-        "Schoenherr, Jan H." <jschoenh@amazon.de>
-References: <20200326162922.27085-1-graf@amazon.com>
- <20200328115733.GA67084@dhcp-128-65.nay.redhat.com>
- <CACPcB9d_Pz9SRhSsRzqygRR6waV7r8MnGcCP952svnZtpFaxnQ@mail.gmail.com>
- <20200330134004.GA31026@char.us.oracle.com>
- <51432837-8804-0600-c7a3-8849506f999e@amazon.com>
-From:   Anthony Yznaga <anthony.yznaga@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <5dd6e987-8867-9fb8-386a-f86bbe0828e8@oracle.com>
-Date:   Mon, 30 Mar 2020 16:37:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1729373AbgCaBkq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Mar 2020 21:40:46 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:40605 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729358AbgCaBkp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Mar 2020 21:40:45 -0400
+Received: by mail-qt1-f193.google.com with SMTP id c9so17036832qtw.7;
+        Mon, 30 Mar 2020 18:40:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=EKZAtUisNzB+elti6oItTfupGpeOM+Jg12azmI7Z6WE=;
+        b=l2CifpBIVvo4k2KAev3wORlbRMa5Ibr+LVBJPpQJ0rAZai46OojX7Xaj9S4KNLkQTu
+         q66THOkKIH6K+54NA6GaXlZndn9ZdijkFIMGKLlnCPfJBLj1Qa4WPO/nV+fx1qjrk2Ht
+         nT7XBR1kLifRcJmNVuZFpq4ZgAFHLgQrABFyt/I/0x8Sy8ori+r85kfTwi96Xrqq0mgG
+         0pcvCIMlhgQDJt6VVRdGWtjGS1Bdx0XTg2lghp7l5nf9f5OncRVtzH387NkxyIVdxmwp
+         0jEmVS/oTuLC1jrtTnnC5pH1ykTtJdqJkZJ0XSRuxiELHxl3hTKbjCFwpS7DBxzY6L4N
+         Wd1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EKZAtUisNzB+elti6oItTfupGpeOM+Jg12azmI7Z6WE=;
+        b=LkkNRjW9GTQBtke2JGtWYpAmEMzG3WX9GJXNoRImyJ22ALMCwjntG5KkHukiMkbeg+
+         LwGtFgvZhWoxKAzrk23bN+c7FeJbKQh3DQdpObJWPGqbVZhi4gaOjLxSpkLLApy4hB25
+         J2A7cpYumSC+SVO5/LobQsz8zWF7sx/3ta/6BRVczu8iBUJaQJxzskDZSYxY66GyYmG7
+         mq+KYgisHQSzi/4Wpt7OnJSI/l+1CD8hvJXKmj6GhFTt19JWnFZke2DZMBhxWd7JbVlP
+         NraUbZLCF+RahlBCpoqA8C9msMRNxnfVibXn+6iUQOMvIAT2dKCD1Z/nSdB1nb0vNpi6
+         WVJA==
+X-Gm-Message-State: ANhLgQ3APPxBOzCBmlO7SmNHvauaDfRrbnY+gsU6lNiiyxlSnhl+KlEO
+        7ZqSgeKBlO/JIF4IeBTckxM=
+X-Google-Smtp-Source: ADFU+vs4vmEDilC0bYzltcbOvzpZBl2xxNRerAiCGin1ZTsNVPxqBfN1CM3eH+fAXVAVANPGPtyN9Q==
+X-Received: by 2002:ac8:348f:: with SMTP id w15mr2919381qtb.219.1585618843878;
+        Mon, 30 Mar 2020 18:40:43 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id j85sm11874791qke.20.2020.03.30.18.40.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 30 Mar 2020 18:40:43 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id DF00027C0054;
+        Mon, 30 Mar 2020 21:40:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 30 Mar 2020 21:40:41 -0400
+X-ME-Sender: <xms:lp-CXoU3EkuNtreqUNGhtXLl-pSdCDyn3Z6b2DjG-F2GU7b_PBDahg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudeiiedggeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhn
+    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuffhomhgrih
+    hnpehkvghrnhgvlhdrohhrghdpihhnrhhirgdrfhhrnecukfhppeehvddrudehhedruddu
+    uddrjedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedt
+    ieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfh
+    higihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:lp-CXkF5NpG9FGc8Esr-qGI6vQLqK-plwQMH23SoCq5ZUUrmgkwbnQ>
+    <xmx:lp-CXicdsnSlZW57uKdCmc1BSLecrdPJQoossGWCfGyin4cZwZkjxg>
+    <xmx:lp-CXlZ9rLfMlYpUY5h7EXcBCfrGjqd_zAphE1tDspVL5g8XmMX9sA>
+    <xmx:mZ-CXtUh2T713PAsia1T5B0H7f59XNA8XmX3DhsUVRCbnseIWtNr21mwtvQ>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7E2FA306CA8E;
+        Mon, 30 Mar 2020 21:40:38 -0400 (EDT)
+Date:   Tue, 31 Mar 2020 09:40:37 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] Documentation/litmus-tests: Add litmus tests for
+ atomic APIs
+Message-ID: <20200331014037.GB59159@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200326024022.7566-1-boqun.feng@gmail.com>
+ <20200327221843.GA226939@google.com>
 MIME-Version: 1.0
-In-Reply-To: <51432837-8804-0600-c7a3-8849506f999e@amazon.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 suspectscore=0
- mlxscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2003300192
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
- suspectscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- clxscore=1011 phishscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003300192
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200327221843.GA226939@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Mar 27, 2020 at 06:18:43PM -0400, Joel Fernandes wrote:
+> On Thu, Mar 26, 2020 at 10:40:18AM +0800, Boqun Feng wrote:
+> > A recent discussion raises up the requirement for having test cases for
+> > atomic APIs:
+> > 
+> > 	https://lore.kernel.org/lkml/20200213085849.GL14897@hirez.programming.kicks-ass.net/
+> > 
+> > , and since we already have a way to generate a test module from a
+> > litmus test with klitmus[1]. It makes sense that we add more litmus
+> > tests for atomic APIs. And based on the previous discussion, I create a
+> > new directory Documentation/atomic-tests and put these litmus tests
+> > here.
+> > 
+> > This patchset starts the work by adding the litmus tests which are
+> > already used in atomic_t.txt, and also improve the atomic_t.txt to make
+> > it consistent with the litmus tests.
+> > 
+> > Previous version:
+> > v1: https://lore.kernel.org/linux-doc/20200214040132.91934-1-boqun.feng@gmail.com/
+> > v2: https://lore.kernel.org/lkml/20200219062627.104736-1-boqun.feng@gmail.com/
+> > v3: https://lore.kernel.org/linux-doc/20200227004049.6853-1-boqun.feng@gmail.com/
+> 
+> For full series:
+> 
+> Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> 
+> One question I had was in the existing atomic_set() documentation, it talks
+> about atomic_add_unless() implementation based on locking could have issues.
+> It says the way to fix such cases is:
+> 
+> Quote:
+>     the typical solution is to then implement atomic_set{}() with
+>     atomic_xchg().
+> 
+> I didn't get how using atomic_xchg() fixes it. Is the assumption there that
+> atomic_xchg() would be implemented using locking to avoid atomic_set() having
 
+Right, I think that's the intent of the sentence.
 
-On 3/30/20 1:42 PM, Alexander Graf wrote:
->
->
-> On 30.03.20 15:40, Konrad Rzeszutek Wilk wrote:
->>
->>
->>
->> On Mon, Mar 30, 2020 at 02:06:01PM +0800, Kairui Song wrote:
->>> On Sat, Mar 28, 2020 at 7:57 PM Dave Young <dyoung@redhat.com> wrote:
->>>>
->>>> On 03/26/20 at 05:29pm, Alexander Graf wrote:
->>>>> The swiotlb is a very convenient fallback mechanism for bounce buffering of
->>>>> DMAable data. It is usually used for the compatibility case where devices
->>>>> can only DMA to a "low region".
->>>>>
->>>>> However, in some scenarios this "low region" may be bound even more
->>>>> heavily. For example, there are embedded system where only an SRAM region
->>>>> is shared between device and CPU. There are also heterogeneous computing
->>>>> scenarios where only a subset of RAM is cache coherent between the
->>>>> components of the system. There are partitioning hypervisors, where
->>>>> a "control VM" that implements device emulation has limited view into a
->>>>> partition's memory for DMA capabilities due to safety concerns.
->>>>>
->>>>> This patch adds a command line driven mechanism to move all DMA memory into
->>>>> a predefined shared memory region which may or may not be part of the
->>>>> physical address layout of the Operating System.
->>>>>
->>>>> Ideally, the typical path to set this configuration would be through Device
->>>>> Tree or ACPI, but neither of the two mechanisms is standardized yet. Also,
->>>>> in the x86 MicroVM use case, we have neither ACPI nor Device Tree, but
->>>>> instead configure the system purely through kernel command line options.
->>>>>
->>>>> I'm sure other people will find the functionality useful going forward
->>>>> though and extend it to be triggered by DT/ACPI in the future.
->>>>
->>>> Hmm, we have a use case for kdump, this maybe useful.  For example
->>>> swiotlb is enabled by default if AMD SME/SEV is active, and in kdump
->>>> kernel we have to increase the crashkernel reserved size for the extra
->>>> swiotlb requirement.  I wonder if we can just reuse the old kernel's
->>>> swiotlb region and pass the addr to kdump kernel.
->>>>
->>>
->>> Yes, definitely helpful for kdump kernel. This can help reduce the
->>> crashkernel value.
->>>
->>> Previously I was thinking about something similar, play around the
->>> e820 entry passed to kdump and let it place swiotlb in wanted region.
->>> Simply remap it like in this patch looks much cleaner.
->>>
->>> If this patch is acceptable, one more patch is needed to expose the
->>> swiotlb in iomem, so kexec-tools can pass the right kernel cmdline to
->>> second kernel.
->>
->> We seem to be passsing a lot of data to kexec.. Perhaps something
->> of a unified way since we seem to have a lot of things to pass - disabling
->> IOMMU, ACPI RSDT address, and then this.
->>
->> CC-ing Anthony who is working on something - would you by any chance
->> have a doc on this?
->
->
-> I see in general 2 use cases here:
->
->
-> 1) Allow for a generic mechanism to have the fully system, individual buses, devices or functions of a device go through a particular, self-contained bounce buffer.
->
-> This sounds like the holy grail to a lot of problems. It would solve typical embedded scenarios where you only have a shared SRAM. It solves the safety case (to some extent) where you need to ensure that one device interaction doesn't conflict with another device interaction. It also solves the problem I've tried to solve with the patch here.
->
-> It's unfortunately a lot harder than the patch I sent, so it will take me some time to come up with a working patch set.. I suppose starting with a DT binding only is sensible. Worst case, x86 does also support DT ...
->
-> (And yes, I'm always happy to review patches if someone else beats me to it)
+> issues? If so, we could clarify that in the document.
+> 
 
-Not precisely what is described here, but I am working on a somewhat generic mechanism for preserving pages across kexec based on this old RFC patch set: https://lkml.org/lkml/2013/7/1/211.  I expect to post patches soon.
+Patches are welcome ;-)
 
-Anthony
+Regards,
+Boqun
 
->
->
-> 2) Reuse the SWIOTLB from the previous boot on kexec/kdump
->
-> I see little direct relation to SEV here. The only reason SEV makes it more relevant, is that you need to have an SWIOTLB region available with SEV while without you could live with a disabled IOMMU.
->
-> However, I can definitely understand how you would want to have a way to tell the new kexec'ed kernel where the old SWIOTLB was, so it can reuse its memory for its own SWIOTLB. That way, you don't have to reserve another 64MB of RAM for kdump.
->
-> What I'm curious on is whether we need to be as elaborate. Can't we just pass the old SWIOTLB as free memory to the new kexec'ed kernel and everything else will fall into place? All that would take is a bit of shuffling on the e820 table pass-through to the kexec'ed kernel, no?
->
->
-> Thanks,
->
-> Alex
->
->
->
->
-> Amazon Development Center Germany GmbH
-> Krausenstr. 38
-> 10117 Berlin
-> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-> Sitz: Berlin
-> Ust-ID: DE 289 237 879
->
->
->
-
+> thanks,
+> 
+>  - Joel
+> 
+> > 
+> > Changes since v3:
+> > 
+> > *	Merge two patches on atomic-set litmus test into one as per
+> > 	Alan. (Alan, you have acked only one of the two patches, so I
+> > 	don't add you acked-by for the combined patch).
+> > 
+> > *	Move the atomic litmus tests into litmus-tests/atomic to align
+> > 	with Joel's recent patches on RCU litmus tests.
+> > 
+> > I think we still haven't reach to a conclusion for the difference of
+> > atomic_add_unless() in herdtools, and I'm currently reading the source
+> > code of herd to resovle this. This is just an updated version to resolve
+> > ealier comments and react on Joel's RCU litmus tests.
+> > 
+> > Regards,
+> > Boqun
+> > 
+> > [1]: http://diy.inria.fr/doc/litmus.html#klitmus
+> > 
+> > Boqun Feng (4):
+> >   tools/memory-model: Add an exception for limitations on _unless()
+> >     family
+> >   Documentation/litmus-tests: Introduce atomic directory
+> >   Documentation/litmus-tests/atomic: Add a test for atomic_set()
+> >   Documentation/litmus-tests/atomic: Add a test for
+> >     smp_mb__after_atomic()
+> > 
+> >  Documentation/atomic_t.txt                    | 24 +++++++-------
+> >  ...ter_atomic-is-stronger-than-acquire.litmus | 32 +++++++++++++++++++
+> >  ...c-RMW-ops-are-atomic-WRT-atomic_set.litmus | 24 ++++++++++++++
+> >  Documentation/litmus-tests/atomic/README      | 16 ++++++++++
+> >  tools/memory-model/README                     | 10 ++++--
+> >  5 files changed, 91 insertions(+), 15 deletions(-)
+> >  create mode 100644 Documentation/litmus-tests/atomic/Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
+> >  create mode 100644 Documentation/litmus-tests/atomic/Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
+> >  create mode 100644 Documentation/litmus-tests/atomic/README
+> > 
+> > -- 
+> > 2.25.1
+> > 
