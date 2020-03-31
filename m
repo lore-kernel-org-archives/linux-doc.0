@@ -2,347 +2,219 @@ Return-Path: <SRS0=SHIp=5Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB800C43331
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 16:09:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FAC7C2D0F1
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 16:18:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B499A20784
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 16:09:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CFA920786
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 16:18:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Q8SznlHn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730635AbgCaQJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Mar 2020 12:09:07 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2624 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730562AbgCaQJH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 31 Mar 2020 12:09:07 -0400
-Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 4F75321FF23481335C12;
-        Tue, 31 Mar 2020 17:09:05 +0100 (IST)
-Received: from localhost (10.47.93.255) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 31 Mar
- 2020 17:09:04 +0100
-Date:   Tue, 31 Mar 2020 17:08:55 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        id S1727703AbgCaQS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Mar 2020 12:18:57 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:18588 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726194AbgCaQS5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Mar 2020 12:18:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1585671536; x=1617207536;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=j47iG3/6ABXelKOEb1VGsazRAbxs1IaTL1RoQDUKVho=;
+  b=Q8SznlHnJW4Qu6v4PNcf9Hau0f7dZPKoZdjc9B4Xq/zT4KvbiO3UWnCP
+   HzIkINpvfJwdeldBIdh0vbTfoR/xv0ISELNkPTAE/CNrPG3+Uq87PUITz
+   8dXRYsbVFacwBEAxoc9DJqWDBkZ0uLws84DLHru33Ea8+iCDnHbSTNh4I
+   U=;
+IronPort-SDR: bzVRkZ3wQEhXMzphCLlpGcJWfFkJzlY0Vji48fr6khF9wVdOljVbRVialA9y7Y4Lv43xtq1EWI
+ +GXhjTXNDvYg==
+X-IronPort-AV: E=Sophos;i="5.72,328,1580774400"; 
+   d="scan'208";a="26124928"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-2225282c.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 31 Mar 2020 16:18:53 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2c-2225282c.us-west-2.amazon.com (Postfix) with ESMTPS id 0E57BA0706;
+        Tue, 31 Mar 2020 16:18:51 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 31 Mar 2020 16:18:50 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.134) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 31 Mar 2020 16:18:35 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+CC:     SeongJae Park <sjpark@amazon.com>,
+        <alexander.shishkin@linux.intel.com>, <linux-mm@kvack.org>,
+        <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
+        <aarcange@redhat.com>, <acme@kernel.org>, <amit@kernel.org>,
         <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
         <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
         <dwmw@amazon.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
         <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
         <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
         <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <rostedt@goodmis.org>, <shakeelb@google.com>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
         <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 05/15] mm/damon: Adaptively adjust regions
-Message-ID: <20200331170855.0000024f@Huawei.com>
-In-Reply-To: <20200318112722.30143-6-sjpark@amazon.com>
-References: <20200318112722.30143-1-sjpark@amazon.com>
-        <20200318112722.30143-6-sjpark@amazon.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [RFC v5 0/7] Implement Data Access Monitoring-based Memory Operation Schemes
+Date:   Tue, 31 Mar 2020 18:18:19 +0200
+Message-ID: <20200331161819.28544-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200331165155.000028e4@Huawei.com> (raw)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.93.255]
-X-ClientProxiedBy: lhreml736-chm.china.huawei.com (10.201.108.87) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.134]
+X-ClientProxiedBy: EX13D15UWB002.ant.amazon.com (10.43.161.9) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 18 Mar 2020 12:27:12 +0100
-SeongJae Park <sjpark@amazon.com> wrote:
+On Tue, 31 Mar 2020 16:51:55 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
 
-> From: SeongJae Park <sjpark@amazon.de>
+> On Mon, 30 Mar 2020 13:50:35 +0200
+> SeongJae Park <sjpark@amazon.com> wrote:
 > 
-> At the beginning of the monitoring, DAMON constructs the initial regions
-> by evenly splitting the memory mapped address space of the process into
-> the user-specified minimal number of regions.  In this initial state,
-> the assumption of the regions (pages in same region have similar access
-> frequencies) is normally not kept and thus the monitoring quality could
-> be low.  To keep the assumption as much as possible, DAMON adaptively
-> merges and splits each region.
+> > From: SeongJae Park <sjpark@amazon.de>
+> > 
+> > DAMON[1] can be used as a primitive for data access awared memory management
+> > optimizations.  That said, users who want such optimizations should run DAMON,
+> > read the monitoring results, analyze it, plan a new memory management scheme,
+> > and apply the new scheme by themselves.  Such efforts will be inevitable for
+> > some complicated optimizations.
+> > 
+> > However, in many other cases, the users could simply want the system to apply a
+> > memory management action to a memory region of a specific size having a
+> > specific access frequency for a specific time.  For example, "page out a memory
+> > region larger than 100 MiB keeping only rare accesses more than 2 minutes", or
+> > "Do not use THP for a memory region larger than 2 MiB rarely accessed for more
+> > than 1 seconds".
+> > 
+> > This RFC patchset makes DAMON to handle such data access monitoring-based
+> > operation schemes.  With this change, users can do the data access awared
+> > optimizations by simply specifying their schemes to DAMON.
 > 
-> For each ``aggregation interval``, it compares the access frequencies of
-> adjacent regions and merges those if the frequency difference is small.
-> Then, after it reports and clears the aggregated access frequency of
-> each region, it splits each region into two regions if the total number
-> of regions is smaller than the half of the user-specified maximum number
-> of regions.
 > 
-> In this way, DAMON provides its best-effort quality and minimal overhead
-> while keeping the bounds users set for their trade-off.
+> Hi SeongJae,
 > 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> I'm wondering if I'm misreading the results below or a data handling mixup
+> occured. See inline.
 
-A few more edge cases in here, and a suggestion that might be more costly
-but lead to simpler code.
+Thank you for question, Jonathan!
 
-Jonathan
-
-> ---
->  include/linux/damon.h |   6 +-
->  mm/damon.c            | 148 ++++++++++++++++++++++++++++++++++++++++--
->  2 files changed, 145 insertions(+), 9 deletions(-)
 > 
-> diff --git a/include/linux/damon.h b/include/linux/damon.h
-> index f1945df6e6b4..7562b85b1ec0 100644
-> --- a/include/linux/damon.h
-> +++ b/include/linux/damon.h
-> @@ -42,6 +42,7 @@ struct damon_ctx {
->  	unsigned long sample_interval;
->  	unsigned long aggr_interval;
->  	unsigned long min_nr_regions;
-> +	unsigned long max_nr_regions;
->  
->  	struct timespec64 last_aggregation;
->  
-> @@ -54,8 +55,9 @@ struct damon_ctx {
->  };
->  
->  int damon_set_pids(struct damon_ctx *ctx, unsigned long *pids, ssize_t nr_pids);
-> -int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-> -		unsigned long aggr_int, unsigned long min_nr_reg);
-> +int damon_set_attrs(struct damon_ctx *ctx,
-> +		unsigned long sample_int, unsigned long aggr_int,
-> +		unsigned long min_nr_reg, unsigned long max_nr_reg);
->  int damon_start(struct damon_ctx *ctx);
->  int damon_stop(struct damon_ctx *ctx);
->  
-> diff --git a/mm/damon.c b/mm/damon.c
-> index 018016793555..23c0de3b502e 100644
-> --- a/mm/damon.c
-> +++ b/mm/damon.c
-> @@ -342,9 +342,12 @@ static int damon_three_regions_of(struct damon_task *t,
->   * regions is wasteful.  That said, because we can deal with small noises,
->   * tracking every mapping is not strictly required but could even incur a high
->   * overhead if the mapping frequently changes or the number of mappings is
-> - * high.  Nonetheless, this may seems very weird.  DAMON's dynamic regions
-> - * adjustment mechanism, which will be implemented with following commit will
-> - * make this more sense.
-> + * high.  The adaptive regions adjustment mechanism will further help to deal
-> + * with the noises by simply identifying the unmapped areas as a region that
-> + * has no access.  Moreover, applying the real mappings that would have many
-> + * unmapped areas inside will make the adaptive mechanism quite complex.  That
-> + * said, too huge unmapped areas inside the monitoring target should be removed
-> + * to not take the time for the adaptive mechanism.
->   *
->   * For the reason, we convert the complex mappings to three distinct regions
->   * that cover every mapped areas of the address space.  Also the two gaps
-> @@ -533,6 +536,121 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
->  	}
->  }
->  
-> +#define sz_damon_region(r) (r->vm_end - r->vm_start)
-> +
-> +/*
-> + * Merge two adjacent regions into one region
-> + */
-> +static void damon_merge_two_regions(struct damon_region *l,
-> +				struct damon_region *r)
-> +{
-> +	l->nr_accesses = (l->nr_accesses * sz_damon_region(l) +
-> +			r->nr_accesses * sz_damon_region(r)) /
-> +			(sz_damon_region(l) + sz_damon_region(r));
-> +	l->vm_end = r->vm_end;
-> +	damon_destroy_region(r);
-> +}
-> +
-> +#define diff_of(a, b) (a > b ? a - b : b - a)
-> +
-> +/*
-> + * Merge adjacent regions having similar access frequencies
-> + *
-> + * t		task that merge operation will make change
-> + * thres	merge regions having '->nr_accesses' diff smaller than this
-> + */
-> +static void damon_merge_regions_of(struct damon_task *t, unsigned int thres)
-> +{
-> +	struct damon_region *r, *prev = NULL, *next;
-> +
-> +	damon_for_each_region_safe(r, next, t) {
-> +		if (!prev || prev->vm_end != r->vm_start ||
-> +		    diff_of(prev->nr_accesses, r->nr_accesses) > thres) {
-> +			prev = r;
-> +			continue;
-> +		}
-> +		damon_merge_two_regions(prev, r);
-> +	}
-> +}
-> +
-> +/*
-> + * Merge adjacent regions having similar access frequencies
-> + *
-> + * threshold	merge regions havind nr_accesses diff larger than this
-> + *
-> + * This function merges monitoring target regions which are adjacent and their
-> + * access frequencies are similar.  This is for minimizing the monitoring
-> + * overhead under the dynamically changeable access pattern.  If a merge was
-> + * unnecessarily made, later 'kdamond_split_regions()' will revert it.
-> + */
-> +static void kdamond_merge_regions(struct damon_ctx *c, unsigned int threshold)
-> +{
-> +	struct damon_task *t;
-> +
-> +	damon_for_each_task(c, t)
-> +		damon_merge_regions_of(t, threshold);
-> +}
-> +
-> +/*
-> + * Split a region into two small regions
-> + *
-> + * r		the region to be split
-> + * sz_r		size of the first sub-region that will be made
-> + */
-> +static void damon_split_region_at(struct damon_ctx *ctx,
-> +		struct damon_region *r, unsigned long sz_r)
-> +{
-> +	struct damon_region *new;
-> +
-> +	new = damon_new_region(ctx, r->vm_start + sz_r, r->vm_end);
-> +	r->vm_end = new->vm_start;
+> Thanks,
+> 
+> Jonathan
+> 
+> > 
+[...]
+> > Results
+> > -------
+> > 
+> > Below two tables show the measurement results.  The runtimes are in seconds
+> > while the memory usages are in KiB.  Each configurations except 'orig' shows
+> > its overhead relative to 'orig' in percent within parenthesises.
+> > 
+> > runtime                 orig     rec      (overhead) thp      (overhead) ethp     (overhead) prcl     (overhead)
+> > parsec3/blackscholes    107.594  107.956  (0.34)     106.750  (-0.78)    107.672  (0.07)     111.916  (4.02)    
+> > parsec3/bodytrack       79.230   79.368   (0.17)     78.908   (-0.41)    79.705   (0.60)     80.423   (1.50)    
+> > parsec3/canneal         142.831  143.810  (0.69)     123.530  (-13.51)   133.778  (-6.34)    144.998  (1.52)    
+> > parsec3/dedup           11.986   11.959   (-0.23)    11.762   (-1.87)    12.028   (0.35)     13.313   (11.07)   
+> > parsec3/facesim         210.125  209.007  (-0.53)    205.226  (-2.33)    207.766  (-1.12)    209.815  (-0.15)   
+> > parsec3/ferret          191.601  191.177  (-0.22)    190.420  (-0.62)    191.775  (0.09)     192.638  (0.54)    
+> > parsec3/fluidanimate    212.735  212.970  (0.11)     209.151  (-1.68)    211.904  (-0.39)    218.573  (2.74)    
+> > parsec3/freqmine        291.225  290.873  (-0.12)    289.258  (-0.68)    289.884  (-0.46)    298.373  (2.45)    
+> > parsec3/raytrace        118.289  119.586  (1.10)     119.045  (0.64)     119.064  (0.66)     137.919  (16.60)   
+> > parsec3/streamcluster   323.565  328.168  (1.42)     279.565  (-13.60)   287.452  (-11.16)   333.244  (2.99)    
+> > parsec3/swaptions       155.140  155.473  (0.21)     153.816  (-0.85)    156.423  (0.83)     156.237  (0.71)    
+> > parsec3/vips            58.979   59.311   (0.56)     58.733   (-0.42)    59.005   (0.04)     61.062   (3.53)    
+> > parsec3/x264            70.539   68.413   (-3.01)    64.760   (-8.19)    67.180   (-4.76)    68.103   (-3.45)   
+> > splash2x/barnes         80.414   81.751   (1.66)     73.585   (-8.49)    80.232   (-0.23)    115.753  (43.95)   
+> > splash2x/fft            33.902   34.111   (0.62)     24.228   (-28.53)   29.926   (-11.73)   44.438   (31.08)   
+> > splash2x/lu_cb          85.556   86.001   (0.52)     84.538   (-1.19)    86.000   (0.52)     91.447   (6.89)    
+> > splash2x/lu_ncb         93.399   93.652   (0.27)     90.463   (-3.14)    94.008   (0.65)     93.901   (0.54)    
+> > splash2x/ocean_cp       45.253   45.191   (-0.14)    43.049   (-4.87)    44.022   (-2.72)    46.588   (2.95)    
+> > splash2x/ocean_ncp      86.927   87.065   (0.16)     50.747   (-41.62)   86.855   (-0.08)    199.553  (129.57)  
+> > splash2x/radiosity      91.433   91.511   (0.09)     90.626   (-0.88)    91.865   (0.47)     104.524  (14.32)   
+> > splash2x/radix          31.923   32.023   (0.31)     25.194   (-21.08)   32.035   (0.35)     39.231   (22.89)   
+> > splash2x/raytrace       84.367   84.677   (0.37)     82.417   (-2.31)    83.505   (-1.02)    84.857   (0.58)    
+> > splash2x/volrend        87.499   87.495   (-0.00)    86.775   (-0.83)    87.311   (-0.21)    87.511   (0.01)    
+> > splash2x/water_nsquared 236.397  236.759  (0.15)     219.902  (-6.98)    224.228  (-5.15)    238.562  (0.92)    
+> > splash2x/water_spatial  89.646   89.767   (0.14)     89.735   (0.10)     90.347   (0.78)     103.585  (15.55)   
+> > total                   3020.570 3028.080 (0.25)     2852.190 (-5.57)    2953.960 (-2.21)    3276.550 (8.47)    
+> > 
+> > 
+> > memused.avg             orig         rec          (overhead) thp          (overhead) ethp         (overhead) prcl         (overhead)
+> > parsec3/blackscholes    1785916.600  1834201.400  (2.70)     1826249.200  (2.26)     1828079.200  (2.36)     1712210.600  (-4.13)   
+> > parsec3/bodytrack       1415049.400  1434317.600  (1.36)     1423715.000  (0.61)     1430392.600  (1.08)     1435136.000  (1.42)    
+> > parsec3/canneal         1043489.800  1058617.600  (1.45)     1040484.600  (-0.29)    1048664.800  (0.50)     1050280.000  (0.65)    
+> > parsec3/dedup           2414453.200  2458493.200  (1.82)     2411379.400  (-0.13)    2400516.000  (-0.58)    2461120.800  (1.93)    
+> > parsec3/facesim         541597.200   550097.400   (1.57)     544364.600   (0.51)     553240.000   (2.15)     552316.400   (1.98)    
+> > parsec3/ferret          317986.600   332346.000   (4.52)     320218.000   (0.70)     331085.000   (4.12)     330895.200   (4.06)    
+> > parsec3/fluidanimate    576183.400   585442.000   (1.61)     577780.200   (0.28)     587703.400   (2.00)     506501.000   (-12.09)  
+> > parsec3/freqmine        990869.200   997817.000   (0.70)     990350.400   (-0.05)    997669.000   (0.69)     763325.800   (-22.96)  
+> > parsec3/raytrace        1748370.800  1757109.200  (0.50)     1746153.800  (-0.13)    1757830.400  (0.54)     1581455.800  (-9.55)   
+> > parsec3/streamcluster   121521.800   140452.400   (15.58)    129725.400   (6.75)     132266.000   (8.84)     130558.200   (7.44)    
+> > parsec3/swaptions       15592.400    29018.800    (86.11)    14765.800    (-5.30)    27260.200    (74.83)    26631.600    (70.80)   
+> > parsec3/vips            2957567.600  2967993.800  (0.35)     2956623.200  (-0.03)    2973062.600  (0.52)     2951402.000  (-0.21)   
+> > parsec3/x264            3169012.400  3175048.800  (0.19)     3190345.400  (0.67)     3189353.000  (0.64)     3172924.200  (0.12)    
+> > splash2x/barnes         1209066.000  1213125.400  (0.34)     1217261.400  (0.68)     1209661.600  (0.05)     921041.800   (-23.82)  
+> > splash2x/fft            9359313.200  9195213.000  (-1.75)    9377562.400  (0.19)     9050957.600  (-3.29)    9517977.000  (1.70)    
+> > splash2x/lu_cb          514966.200   522939.400   (1.55)     520870.400   (1.15)     522635.000   (1.49)     329933.600   (-35.93)  
+> > splash2x/lu_ncb         514180.400   525974.800   (2.29)     521420.200   (1.41)     521063.600   (1.34)     523557.000   (1.82)    
+> > splash2x/ocean_cp       3346493.400  3288078.000  (-1.75)    3382253.800  (1.07)     3289477.600  (-1.70)    3260810.400  (-2.56)   
+> > splash2x/ocean_ncp      3909966.400  3882968.800  (-0.69)    7037196.000  (79.98)    4046363.400  (3.49)     3471452.400  (-11.22)  
+> > splash2x/radiosity      1471119.400  1470626.800  (-0.03)    1482604.200  (0.78)     1472718.400  (0.11)     546893.600   (-62.82)  
+> > splash2x/radix          1748360.800  1729163.400  (-1.10)    1371463.200  (-21.56)   1701993.600  (-2.65)    1817519.600  (3.96)    
+> > splash2x/raytrace       46670.000    60172.200    (28.93)    51901.600    (11.21)    60782.600    (30.24)    52644.800    (12.80)   
+> > splash2x/volrend        150666.600   167444.200   (11.14)    151335.200   (0.44)     163345.000   (8.41)     162760.000   (8.03)    
+> > splash2x/water_nsquared 45720.200    59422.400    (29.97)    46031.000    (0.68)     61801.400    (35.17)    62627.000    (36.98)   
+> > splash2x/water_spatial  663052.200   672855.800   (1.48)     665787.600   (0.41)     674696.200   (1.76)     471052.600   (-28.96)  
+> > total                   40077300.000 40108900.000 (0.08)     42997900.000 (7.29)     40032700.000 (-0.11)    37813000.000 (-5.65)   
+> > 
+> > 
+[...]
+> > 
+> > Efficient THP
+> > ~~~~~~~~~~~~~
+> > 
+> > THP 'always' enabled policy achieves 5.57% speedup but incurs 7.29% memory
+> > overhead.  It achieves 41.62% speedup in best case, but 79.98% memory overhead
+> > in worst case.  Interestingly, both the best and worst case are with
+> > 'splash2x/ocean_ncp').
+> 
+> The results above don't seems to support this any more? 
+> 
+> > runtime                 orig     rec      (overhead) thp      (overhead) ethp     (overhead) prcl     (overhead)
+> > splash2x/ocean_ncp      86.927   87.065   (0.16)     50.747   (-41.62)   86.855   (-0.08)    199.553  (129.57) 
 
-We may well have a sampling address that is in the wrong region.
-It should have little effect on the stats as will fix on next sample
-but in my view still worth cleaning up.
+Hmm... But, I don't get what point you meaning...  In the data, column of 'thp'
+means the THP 'always' enabled policy.  And, the following column shows the
+overhead of it compared to that of 'orig', in percent.  Thus, the data says THP
+'always' enabled policy enabled kernel consumes 50.747 seconds to finish
+splash2x/ocean_ncp, while THP disabled original kernel consumes 86.927 seconds.
+Thus, the overhead is ``(50.747 - 86.927) / 86.927 = -0.4162``.  In other
+words, 41.62% speedup.
 
-> +
-> +	damon_insert_region(new, r, damon_next_region(r));
-> +}
-> +
-> +static void damon_split_regions_of(struct damon_ctx *ctx, struct damon_task *t)
-> +{
-> +	struct damon_region *r, *next;
-> +	unsigned long sz_left_region;
-> +
-> +	damon_for_each_region_safe(r, next, t) {
-> +		/*
-> +		 * Randomly select size of left sub-region to be at least
-> +		 * 10 percent and at most 90% of original region
-> +		 */
-> +		sz_left_region = (prandom_u32_state(&ctx->rndseed) % 9 + 1) *
-> +			(r->vm_end - r->vm_start) / 10;
-> +		/* Do not allow blank region */
-> +		if (sz_left_region == 0)
-> +			continue;
-> +		damon_split_region_at(ctx, r, sz_left_region);
-> +	}
-> +}
-> +
-> +/*
-> + * splits every target regions into two randomly-sized regions
-> + *
-> + * This function splits every target regions into two random-sized regions if
-> + * current total number of the regions is smaller than the half of the
-> + * user-specified maximum number of regions.  This is for maximizing the
-> + * monitoring accuracy under the dynamically changeable access patterns.  If a
-> + * split was unnecessarily made, later 'kdamond_merge_regions()' will revert
-> + * it.
-> + */
-> +static void kdamond_split_regions(struct damon_ctx *ctx)
-> +{
-> +	struct damon_task *t;
-> +	unsigned int nr_regions = 0;
-> +
-> +	damon_for_each_task(ctx, t)
-> +		nr_regions += nr_damon_regions(t);
-> +	if (nr_regions > ctx->max_nr_regions / 2)
-> +		return;
-> +
-> +	damon_for_each_task(ctx, t)
-> +		damon_split_regions_of(ctx, t);
-> +}
-> +
->  /*
->   * Check whether current monitoring should be stopped
->   *
-> @@ -571,21 +689,29 @@ static int kdamond_fn(void *data)
->  	struct damon_task *t;
->  	struct damon_region *r, *next;
->  	struct mm_struct *mm;
-> +	unsigned int max_nr_accesses;
->  
->  	pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
->  	kdamond_init_regions(ctx);
->  	while (!kdamond_need_stop(ctx)) {
-> +		max_nr_accesses = 0;
->  		damon_for_each_task(ctx, t) {
->  			mm = damon_get_mm(t);
->  			if (!mm)
->  				continue;
-> -			damon_for_each_region(r, t)
-> +			damon_for_each_region(r, t) {
->  				kdamond_check_access(ctx, mm, r);
-> +				max_nr_accesses = max(r->nr_accesses,
-> +						max_nr_accesses);
-> +			}
->  			mmput(mm);
->  		}
->  
-> -		if (kdamond_aggregate_interval_passed(ctx))
-> +		if (kdamond_aggregate_interval_passed(ctx)) {
-> +			kdamond_merge_regions(ctx, max_nr_accesses / 10);
->  			kdamond_reset_aggregated(ctx);
-> +			kdamond_split_regions(ctx);
-> +		}
+Also, 5.57% speedup and 7.29% memory overhead is for _total_.  This data shows
+it.
 
-I wonder if it would be simpler to split the sampling address setup and
-mkold from the access check.  We would have to walk regions twice,
-but not have to bother separately dealing with updating some regions
-if they are modified in the above block.
+> > runtime                 orig     rec      (overhead) thp      (overhead) ethp     (overhead) prcl     (overhead)
+> > total                   3020.570 3028.080 (0.25)     2852.190 (-5.57)    2953.960 (-2.21)    3276.550 (8.47)    
 
-Also, the above has some overhead, so will bias that first sample each
-time the block above runs.  If we do the mkold afterwards it will make
-much less difference.
-
->  
->  		usleep_range(ctx->sample_interval, ctx->sample_interval + 1);
->  	}
-> @@ -702,24 +828,32 @@ int damon_set_pids(struct damon_ctx *ctx, unsigned long *pids, ssize_t nr_pids)
->   * @sample_int:		time interval between samplings
->   * @aggr_int:		time interval between aggregations
->   * @min_nr_reg:		minimal number of regions
-> + * @max_nr_reg:		maximum number of regions
->   *
->   * This function should not be called while the kdamond is running.
->   * Every time interval is in micro-seconds.
->   *
->   * Return: 0 on success, negative error code otherwise.
->   */
-> -int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-> -		unsigned long aggr_int, unsigned long min_nr_reg)
-> +int damon_set_attrs(struct damon_ctx *ctx,
-> +			unsigned long sample_int, unsigned long aggr_int,
-> +			unsigned long min_nr_reg, unsigned long max_nr_reg)
->  {
->  	if (min_nr_reg < 3) {
->  		pr_err("min_nr_regions (%lu) should be bigger than 2\n",
->  				min_nr_reg);
->  		return -EINVAL;
->  	}
-> +	if (min_nr_reg >= ctx->max_nr_regions) {
-> +		pr_err("invalid nr_regions.  min (%lu) >= max (%lu)\n",
-> +				min_nr_reg, max_nr_reg);
-> +		return -EINVAL;
-> +	}
->  
->  	ctx->sample_interval = sample_int;
->  	ctx->aggr_interval = aggr_int;
->  	ctx->min_nr_regions = min_nr_reg;
-> +	ctx->max_nr_regions = max_nr_reg;
->  
->  	return 0;
->  }
+Maybe I made you confused by ambiguously saying this.  Sorry if so.  Or, if I'm
+still misunderstanding your point, please let me know.
 
 
+Thanks,
+SeongJae Park
+ 
+[...]
