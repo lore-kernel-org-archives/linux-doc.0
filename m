@@ -2,121 +2,59 @@ Return-Path: <SRS0=SHIp=5Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2909C2D0F0
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 23:03:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE02DC43331
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 23:08:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C650B20787
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 23:03:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="BYPoPlZD"
+	by mail.kernel.org (Postfix) with ESMTP id B2DD220842
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 23:08:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731362AbgCaXDz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Mar 2020 19:03:55 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:39226 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730589AbgCaXDz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Mar 2020 19:03:55 -0400
-Received: by mail-qk1-f196.google.com with SMTP id b62so25111565qkf.6
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2020 16:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=massaru-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=6+Ad8chN8N6NC/ANcuSXXfqOAu/A2JYw1wt09IvHLHk=;
-        b=BYPoPlZDMsKi0FSqwT7J8j6e3ZsLsoLTc7e6bIfOvF8i9JfwL7ujted9TDYKSoyCEL
-         wss6qyMAAdamEMvjPT/2XG2iacb18LUIARFADHbjQeX9VksO5PqLSbZxbeT06uYN98YF
-         4BQopInUjf1ZuGBvv67W/pnS8xy0ztTGyLBWHG33iRK7T52eSeT0vLLjb4bHx9tz2K1J
-         qjaQDPDGP9cY7gIqyqz+kGRc8cwjYbjNXKXVcTnXfqmRAg7b9DPF6suxl4WF3fau28jE
-         MKGMYopKmx6oqV5ILGl6MO0TDuf9+ewPUKiOVbP6bhHhx5z4ZJtytn/nREN/UCOMjdRj
-         jZDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6+Ad8chN8N6NC/ANcuSXXfqOAu/A2JYw1wt09IvHLHk=;
-        b=IaGmW04cHfsN1OfnWiOC+yp1khXJkJOnJFoGIaP8+Y6cBgCQmLJNP0+G6AeOg2HrPx
-         Enfrw2TkMc5pN4iyz+YkmyHXFA01RR6MUQaCIAn+obblTH0mtWdTqbYkhBuhLEhZc65i
-         8Girc9r72ZfcR6TucZuP1NqsMFgHgQkBrkqfkT0yhzRIBSQLSDTqjSBVWORyU9jSx1KD
-         D0aZya+5Qo7WTl8/WxGSaEr4y6gsbr1fTBfA0U8PvPBsWldTuPfmPUdRtWwoyT+UVuAR
-         rzgDWUXBNRyrDgjI3OQzxPVKGF1/DiA3SAHVH13rh8LNTOtQK1TkQdsTqN0mQ4IGid5m
-         OUrQ==
-X-Gm-Message-State: ANhLgQ1Cy6LRAGFVhoaocsQSF0GuAr7Yy2Md0sBesz54hMwvAtO2PYOr
-        2hk/RCEPmPPiwr8qgNem+IfWCA==
-X-Google-Smtp-Source: ADFU+vvgq8KvtHWzopj9WKZIu9UuPfUEJEUwl8GnN31YdGOfnI2WhbAP2wY/viaa+nxTOMOBd1yfgw==
-X-Received: by 2002:ae9:dd85:: with SMTP id r127mr6295575qkf.58.1585695832139;
-        Tue, 31 Mar 2020 16:03:52 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
-        by smtp.gmail.com with ESMTPSA id j39sm228345qtk.96.2020.03.31.16.03.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 16:03:51 -0700 (PDT)
-Message-ID: <6db0b1a2a521386613489443053a980621c48767.camel@massaru.org>
-Subject: Re: [PATCH 1/2] Documentation: filesystems: Convert sysfs-pci to
- ReST
-From:   Vitor Massaru Iha <vitor@massaru.org>
-To:     Jonathan Corbet <corbet@lwn.net>
+        id S1731340AbgCaXIo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Mar 2020 19:08:44 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44738 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731331AbgCaXIo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 31 Mar 2020 19:08:44 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 6531E2F3;
+        Tue, 31 Mar 2020 23:08:43 +0000 (UTC)
+Date:   Tue, 31 Mar 2020 17:08:42 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Vitor Massaru Iha <vitor@massaru.org>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         brendanhiggins@google.com, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Date:   Tue, 31 Mar 2020 20:03:46 -0300
-In-Reply-To: <20200331165707.7c708646@lwn.net>
+Subject: Re: [PATCH 1/2] Documentation: filesystems: Convert sysfs-pci to
+ ReST
+Message-ID: <20200331170842.517ddc0a@lwn.net>
+In-Reply-To: <6db0b1a2a521386613489443053a980621c48767.camel@massaru.org>
 References: <cover.1585693146.git.vitor@massaru.org>
-         <637c0379a76fcf4eb6cdde0de3cc727203fd942f.1585693146.git.vitor@massaru.org>
-         <20200331165707.7c708646@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
+        <637c0379a76fcf4eb6cdde0de3cc727203fd942f.1585693146.git.vitor@massaru.org>
+        <20200331165707.7c708646@lwn.net>
+        <6db0b1a2a521386613489443053a980621c48767.camel@massaru.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2020-03-31 at 16:57 -0600, Jonathan Corbet wrote:
-> On Tue, 31 Mar 2020 19:28:56 -0300
-> Vitor Massaru Iha <vitor@massaru.org> wrote:
-> 
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > ---
-> >  .../{sysfs-pci.txt => sysfs-pci.rst}          | 40 ++++++++++-----
-> > ----
-> >  1 file changed, 22 insertions(+), 18 deletions(-)
-> >  rename Documentation/filesystems/{sysfs-pci.txt => sysfs-pci.rst}
-> > (82%)
-> 
-> Please supply a changelog with your patches.
-> 
-> The conversion you have done in this file is incomplete; I suspect
-> that
-> you have not actually built the docs and seen what the results look
-> like.
-> There are literal blocks that you have not marked as such, as a
-> minimum.
-> Please actually do a docs build (after adding this file to index.rst)
-> and
-> make sure that the output is what you intended.
-> 
-> One other thing of note...this file dates back to before the Git era,
-> and
-> while it has seen numerous tweaks since then, it's clearly
-> outdated.  Look
-> at what's actually under /sys/devices/pci* compared to what's
-> documented.
-> I will take the conversion without it, but what I would really like
-> to see
-> would be an effort to document all of the attributes that appear
-> there
-> with current kernels.
-> 
-> Thanks,
-> 
-> jon
+On Tue, 31 Mar 2020 20:03:46 -0300
+Vitor Massaru Iha <vitor@massaru.org> wrote:
 
-Thanks for the review, I will check your comments and correct themif that document is still needed.
+> Thanks for the review, I will check your comments and correct themif
+> that document is still needed.
 
-BR,
-Vitor
+Oh we definitely still want the document; it's out of date but not overtly
+wrong.
 
+Thanks,
+
+jon
