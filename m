@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E8CC2D0F3
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 22:29:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD427C2D0F0
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 22:29:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 88B16208E4
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 22:29:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7813A208FE
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 22:29:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="WEbQhK9U"
+	dkim=pass (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="1HPT3qPK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731518AbgCaW3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Mar 2020 18:29:08 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:37420 "EHLO
+        id S1731504AbgCaW3F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Mar 2020 18:29:05 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:44812 "EHLO
         mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731514AbgCaW3H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Mar 2020 18:29:07 -0400
-Received: by mail-qk1-f194.google.com with SMTP id x3so24997199qki.4
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2020 15:29:06 -0700 (PDT)
+        with ESMTP id S1727955AbgCaW3F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Mar 2020 18:29:05 -0400
+Received: by mail-qk1-f194.google.com with SMTP id j4so24930150qkc.11
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2020 15:29:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=massaru-org.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6nYFV2QWqYi47IsY2NnyndMBRfL9Zb689yvP+ZRhJYQ=;
-        b=WEbQhK9UN2CvW9DcH2pEKnkPZxZFQ66KstFZKM4h+j//VHXq4PrK0nS0kMDpen9JyH
-         8G7WfaWPzlYy9D7M2q8Ya/+zecQ3uVleocnuvM/goO7i2O9LkxiMkjczGQN6E/cY0Fdf
-         eukl1mMNKCk7+x6UJ5Y5svvrFY0qTgqmUdKii7Qp2hJ5UU4L1nZGOmGHOaGauF4SI85b
-         zq/V3aJh77372onSSRONdWyJNJtTc0h3pRBV7HCC9+NUlxtTC9UVjOSLZru4m7YRJSR/
-         mXX47pjtP9B+U4ZHHeWeXXBIns1Td/Gvc7E5ojSr94dLkemRYH5sV6u8a4c3RzHlm4ks
-         t7lw==
+        bh=EIvjO3useBmli2uM/TiwQHJ2Nhnb37wdo2/REgTIMZs=;
+        b=1HPT3qPKF4EF9BC3fvNrOGqBGrIGMEw/N6QnTXx2h0iMrwZt1fxApFa5I2f+PnrHpq
+         IFOQRd9KYU4U3crhwvG1Tv69ZX4X/ZSZfkcJB0F/4LmS404Ny9okaNvOZWH6Vx//JCcY
+         HXFOuJmYWOJoNc69bF/N4pTLr6dU68Uq8znrzmBf9088qdZKMOTeMrpsQuK1c0b79KE0
+         7fOcHlBBEqJlkIZ8VWS5DKaCbAPERXmQHVwiNZbB+mCv5DcWUQOfAYyt6Rp8hnkGCwkE
+         4F5beE/fL1IhefnVEvRBmFGs2ldU4cFy5nOwJElFwcyiXtXfote4mRslLOF0AdgaHynN
+         YqvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6nYFV2QWqYi47IsY2NnyndMBRfL9Zb689yvP+ZRhJYQ=;
-        b=GEO0eNnj6CKE8iIMI6S3qtnmd5fXsuQoKlObzktn5v3jcdCjQHKh2qXUWe3MYkrvCr
-         dU1RKde4y47MKHVZRlj9PQUh4lFvUzAXr1QcY948EDbvFbNicp9kQJ0pGV3bGkCVjfIH
-         PauRLghJwf03DBFaxXBZHUYMY4QcJg93uEpeEMVn539gcYM3uHv8Hp7wDPK60epBCOts
-         iu0xlaulDHLaKzZyUSCpJFkYe5DURnOQToXghZZbuZEFMSsqCQpQgTK3jZiFlTD7JZyb
-         re3jwkWYBUyyqxa9fzOhiBQLymxJ9M18SP7AaLavVGj4VCSBkEtDmdkdrwo7Ee5HTVW3
-         Alpw==
-X-Gm-Message-State: ANhLgQ2Ibn1VaIJfNs0EGB0/6R5uNikK79c5tMy6EpacFzGDgqP8it1T
-        +mjzZRmzHaUet+iEIxdtf0cc0nyNkf2T8w==
-X-Google-Smtp-Source: ADFU+vujLgQRKH4PKzJMmO4KEOhtyZLdp/89fmvgK6ikN22LNygxkkodSRrEqDYEtYdVOw+eHiht/w==
-X-Received: by 2002:ae9:efce:: with SMTP id d197mr7149016qkg.211.1585693745963;
-        Tue, 31 Mar 2020 15:29:05 -0700 (PDT)
+        bh=EIvjO3useBmli2uM/TiwQHJ2Nhnb37wdo2/REgTIMZs=;
+        b=cOcfwnrTP/qWb5yv3+chB74/C+sT/SJ/ITQo0so/41mVSy/ro7+BIEHq9hE+B5zdes
+         OG5AlzI/MXxfipiawOegsxZoiLF2PaSSl7pSNoH3U+KphQ4ai06fj3w+CHrEo3+dM2nX
+         wGhoEBO23VP3FZgHi/wXUEoJ0ftTnUttqFuKO0cHSRwt4RgrTUfLCTO0DVuCnMnzwRlk
+         IANea7KpeAMvtisEocIO0FExa3CEru/SFYa96Lvg+Wjw889tSOZ6cUtbqtIdi1JkEWPX
+         y8pO08z8wz0tIhsVlWyBVqtoJdZtjI45+m6KItaDdRWtunqHDKcohohS0k6B5hCVJ5rR
+         q9UQ==
+X-Gm-Message-State: ANhLgQ0ubYILJM1zeXWcK02fWLKlfJBXj4Hsv+co1V60dWUsIP+SP5lk
+        BsIcIfe+K2/usCs2P6Uy4SBYxXjeoF0sfw==
+X-Google-Smtp-Source: ADFU+vsB9OsLCigCjj1qUXSQG2YbPmxN3ALbi3VoPNxdq8ur1BeKVGK6sYWWNssgVP13PjbMrTT47w==
+X-Received: by 2002:a37:a397:: with SMTP id m145mr6970037qke.411.1585693743617;
+        Tue, 31 Mar 2020 15:29:03 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
-        by smtp.gmail.com with ESMTPSA id 206sm238659qkn.36.2020.03.31.15.29.03
+        by smtp.gmail.com with ESMTPSA id 206sm238659qkn.36.2020.03.31.15.29.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 15:29:05 -0700 (PDT)
+        Tue, 31 Mar 2020 15:29:03 -0700 (PDT)
 From:   Vitor Massaru Iha <vitor@massaru.org>
 To:     linux-doc@vger.kernel.org
 Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
         brendanhiggins@google.com, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH 2/2] Documentation: filesystems: remove whitespaces
-Date:   Tue, 31 Mar 2020 19:28:57 -0300
-Message-Id: <97cb61253283b4054e9f00364eb08eeedb5bd95e.1585693146.git.vitor@massaru.org>
+Subject: [PATCH 1/2] Documentation: filesystems: Convert sysfs-pci to ReST
+Date:   Tue, 31 Mar 2020 19:28:56 -0300
+Message-Id: <637c0379a76fcf4eb6cdde0de3cc727203fd942f.1585693146.git.vitor@massaru.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <cover.1585693146.git.vitor@massaru.org>
 References: <cover.1585693146.git.vitor@massaru.org>
@@ -74,27 +74,69 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
 ---
- Documentation/filesystems/sysfs-pci.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../{sysfs-pci.txt => sysfs-pci.rst}          | 40 ++++++++++---------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
+ rename Documentation/filesystems/{sysfs-pci.txt => sysfs-pci.rst} (82%)
 
-diff --git a/Documentation/filesystems/sysfs-pci.rst b/Documentation/filesystems/sysfs-pci.rst
-index 9b93e7444b15..e4df647ec9db 100644
---- a/Documentation/filesystems/sysfs-pci.rst
+diff --git a/Documentation/filesystems/sysfs-pci.txt b/Documentation/filesystems/sysfs-pci.rst
+similarity index 82%
+rename from Documentation/filesystems/sysfs-pci.txt
+rename to Documentation/filesystems/sysfs-pci.rst
+index 06f1d64c6f70..9b93e7444b15 100644
+--- a/Documentation/filesystems/sysfs-pci.txt
 +++ b/Documentation/filesystems/sysfs-pci.rst
-@@ -71,11 +71,11 @@ don't support mmapping of certain resources, so be sure to check the return
- value from any attempted mmap.  The most notable of these are I/O port
- resources, which also provide read/write access.
+@@ -1,5 +1,8 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================================
+ Accessing PCI device resources through sysfs
+---------------------------------------------
++============================================
  
--The 'enable' file provides a counter that indicates how many times the device 
-+The 'enable' file provides a counter that indicates how many times the device
- has been enabled.  If the 'enable' file currently returns '4', and a '1' is
- echoed into it, it will then return '5'.  Echoing a '0' into it will decrease
- the count.  Even when it returns to 0, though, some of the initialisation
--may not be reversed.  
-+may not be reversed.
+ sysfs, usually mounted at /sys, provides access to PCI resources on platforms
+ that support it.  For example, a given bus might look like this:
+@@ -30,23 +33,24 @@ This bus contains a single function device in slot 0.  The domain and bus
+ numbers are reproduced for convenience.  Under the device directory are several
+ files, each with their own function.
  
- The 'rom' file is special in that it provides read-only access to the device's
- ROM file, if available.  It's disabled by default, however, so applications
+-       file		   function
+-       ----		   --------
+-       class		   PCI class (ascii, ro)
+-       config		   PCI config space (binary, rw)
+-       device		   PCI device (ascii, ro)
+-       enable	           Whether the device is enabled (ascii, rw)
+-       irq		   IRQ number (ascii, ro)
+-       local_cpus	   nearby CPU mask (cpumask, ro)
+-       remove		   remove device from kernel's list (ascii, wo)
+-       resource		   PCI resource host addresses (ascii, ro)
+-       resource0..N	   PCI resource N, if present (binary, mmap, rw[1])
+-       resource0_wc..N_wc  PCI WC map resource N, if prefetchable (binary, mmap)
+-       revision		   PCI revision (ascii, ro)
+-       rom		   PCI ROM resource, if present (binary, ro)
+-       subsystem_device	   PCI subsystem device (ascii, ro)
+-       subsystem_vendor	   PCI subsystem vendor (ascii, ro)
+-       vendor		   PCI vendor (ascii, ro)
++	file		    function
++	=================== ======================================================
++	class		    PCI class (ascii, ro)
++	config		    PCI config space (binary, rw)
++	device		    PCI device (ascii, ro)
++	enable		    Whether the device is enabled (ascii, rw)
++	irq		    IRQ number (ascii, ro)
++	local_cpus	    nearby CPU mask (cpumask, ro)
++	remove		    remove device from kernel's list (ascii, wo)
++	resource	    PCI resource host addresses (ascii, ro)
++	resource0..N	    PCI resource N, if present (binary, mmap, rw[1])
++	resource0_wc..N_wc  PCI WC map resource N, if prefetchable (binary, mmap)
++	revision	    PCI revision (ascii, ro)
++	rom		    PCI ROM resource, if present (binary, ro)
++	subsystem_device    PCI subsystem device (ascii, ro)
++	subsystem_vendor    PCI subsystem vendor (ascii, ro)
++	vendor		    PCI vendor (ascii, ro)
++	=================== ======================================================
+ 
+   ro - read only file
+   rw - file is readable and writable
 -- 
 2.21.1
 
