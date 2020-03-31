@@ -2,354 +2,308 @@ Return-Path: <SRS0=SHIp=5Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED07C2D0F1
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 06:30:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 137CDC2D0E8
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 08:12:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E41A920842
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 06:30:11 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Zaxzgois"
+	by mail.kernel.org (Postfix) with ESMTP id DE22820B1F
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 08:12:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726327AbgCaGaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Mar 2020 02:30:11 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35749 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726236AbgCaGaL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Mar 2020 02:30:11 -0400
-Received: by mail-pl1-f196.google.com with SMTP id c12so4911156plz.2
-        for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2020 23:30:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jjn+ASRlX8M3ZZPMh5uPprMvWDPtGLPGmzZNh+IUH1Q=;
-        b=ZaxzgoisWtL73VOT31YL2mGQgRi0brkCjMTdPnhOnIY6uduQ6W//C9tSoLJnrQI5qg
-         OdS77Gh7NqpnwpMG+mRNB3ukt9o6Gn8vontAd1C1aSiNGhF8iqxV5VxvEsFTDrIrK2lj
-         eqzmroC18AuTfqdxzJ+ihzoR82EIQQtJVMRApizOmh/aSPVeLTvSOd82Qk7iqED+pdzT
-         zcYzt5oBSMn8yW2IJN+DWDmyy7O5lmI9Avi8xwND8vkQy61J6wPDYHPFdgQsgp6hD4az
-         1uapUCq6YnrQMZacAOCY0zHeRZjzhqcCXY2VWiYcFMutm9WquLU7wVord4pXGE82jZ3p
-         Tt1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jjn+ASRlX8M3ZZPMh5uPprMvWDPtGLPGmzZNh+IUH1Q=;
-        b=c8JHADwESOgGQ/6ljGDmKcjljFfeUN6wiH+4TiyPc5OQ7+Mz/7nGMcKKWq+IxeJx87
-         pwRH4ZDcpNKX7peRDZems97CprQQ7RBFLVURHJvXsMYCcqLxrsnVF2vyW+eWlaq7iOpB
-         avONcdXmZpAWhUXeFrwMsJRs6097upvDEWxSgiT5KBovCX7viSrU+wBamiJWEYQcxYnO
-         kxSSKl44ZGb0Erk1pcUYa/zUDeJyXxt0HNfMfDSs/uFGYoXqNdWa+89DnqCw8a/SKGWj
-         WUOI2LHw+Hz+lWXkWZebWAUIqIgeFx571CarAzOmvb/p1F0ps5t9kbxYKTcSY1ehwhS6
-         oW0w==
-X-Gm-Message-State: AGi0PuYvaofDwOVXjEAmJ4Avks9+dqVXmvupXGh64NIv8jM2fxUhouoy
-        3NkMNXiMt5U9mrZ6C/1orgxHNQ==
-X-Google-Smtp-Source: APiQypJ/Cv1F1BPohc2bSxoc4ke0wWmo8tfo0CTKdBVVo8zaosJp7T0VLejTn8j2tewP6vPoRn6iVg==
-X-Received: by 2002:a17:90a:868b:: with SMTP id p11mr2188819pjn.34.1585636209011;
-        Mon, 30 Mar 2020 23:30:09 -0700 (PDT)
-Received: from localhost.localdomain ([117.210.211.37])
-        by smtp.gmail.com with ESMTPSA id e7sm4348162pfm.3.2020.03.30.23.30.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 30 Mar 2020 23:30:08 -0700 (PDT)
-From:   Sumit Garg <sumit.garg@linaro.org>
-To:     jarkko.sakkinen@linux.intel.com, zohar@linux.ibm.com,
-        jejb@linux.ibm.com
-Cc:     corbet@lwn.net, casey@schaufler-ca.com, janne.karhunen@gmail.com,
-        kgoldman@us.ibm.com, david.safford@ge.com, monty.wiseman@ge.com,
-        daniel.thompson@linaro.org, keyrings@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tee-dev@lists.linaro.org,
-        Sumit Garg <sumit.garg@linaro.org>
-Subject: [PATCH] doc: trusted-encrypted: updates with TEE as a new trust source
-Date:   Tue, 31 Mar 2020 11:59:25 +0530
-Message-Id: <1585636165-22481-1-git-send-email-sumit.garg@linaro.org>
-X-Mailer: git-send-email 2.7.4
+        id S1726332AbgCaIMp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Mar 2020 04:12:45 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48812 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726299AbgCaIMp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 31 Mar 2020 04:12:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 3BAADAE68;
+        Tue, 31 Mar 2020 08:12:41 +0000 (UTC)
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+        maarten.lankhorst@linux.intel.com, sam@ravnborg.org,
+        kraxel@redhat.com, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/vram-helpers: Merge code into a single file
+Date:   Tue, 31 Mar 2020 10:12:38 +0200
+Message-Id: <20200331081238.24749-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update documentation for Trusted and Encrypted Keys with TEE as a new
-trust source. Following is brief description of updates:
+Most of the documentation was in an otherwise empty file, which was
+probably just left from a previous clean-up effort. So move code and
+documentation into a single file.
 
-- Add a section to demostrate a list of supported devices along with
-  their security properties/guarantees.
-- Add a key generation section.
-- Updates for usage section including differences specific to a trust
-  source.
-
-Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
+ Documentation/gpu/drm-mm.rst             |  9 ---
+ drivers/gpu/drm/Makefile                 |  3 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c    | 95 ++++++++++++++++++++++--
+ drivers/gpu/drm/drm_vram_helper_common.c | 94 -----------------------
+ 4 files changed, 91 insertions(+), 110 deletions(-)
+ delete mode 100644 drivers/gpu/drm/drm_vram_helper_common.c
 
-First of all apologies for the long delay due to my involvement on other
-projects. So now I am able to pick up pending documentation work [1].
-
-I have tried to list down comparison on the basis of security properties/
-guarantees among TPM and a TEE as mentioned by Mimi here [2].
-
-So I do look forward to comments and fruitful discussions.
-
-[1] https://lkml.org/lkml/2019/11/4/886
-[2] https://lore.kernel.org/linux-integrity/1568025601.4614.253.camel@linux.ibm.com/#t
-
- Documentation/security/keys/trusted-encrypted.rst | 201 ++++++++++++++++++----
- 1 file changed, 170 insertions(+), 31 deletions(-)
-
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 50ac8bc..c12ba47 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -6,30 +6,161 @@ Trusted and Encrypted Keys are two new key types added to the existing kernel
- key ring service.  Both of these new types are variable length symmetric keys,
- and in both cases all keys are created in the kernel, and user space sees,
- stores, and loads only encrypted blobs.  Trusted Keys require the availability
--of a Trusted Platform Module (TPM) chip for greater security, while Encrypted
--Keys can be used on any system.  All user level blobs, are displayed and loaded
--in hex ascii for convenience, and are integrity verified.
-+of a Trust Source for greater security, while Encrypted Keys can be used on any
-+system. All user level blobs, are displayed and loaded in hex ascii for
-+convenience, and are integrity verified.
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index c77b326012606..1839762044be1 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -373,15 +373,6 @@ GEM CMA Helper Functions Reference
+ .. kernel-doc:: drivers/gpu/drm/drm_gem_cma_helper.c
+    :export:
  
--Trusted Keys use a TPM both to generate and to seal the keys.  Keys are sealed
--under a 2048 bit RSA key in the TPM, and optionally sealed to specified PCR
--(integrity measurement) values, and only unsealed by the TPM, if PCRs and blob
--integrity verifications match.  A loaded Trusted Key can be updated with new
--(future) PCR values, so keys are easily migrated to new pcr values, such as
--when the kernel and initramfs are updated.  The same key can have many saved
--blobs under different PCR values, so multiple boots are easily supported.
- 
--TPM 1.2
---------
-+Trust Source
-+============
- 
--By default, trusted keys are sealed under the SRK, which has the default
--authorization value (20 zeros).  This can be set at takeownership time with the
--trouser's utility: "tpm_takeownership -u -z".
-+Trust Source provides the sense of security for the Trusted Keys, on which
-+basis Trusted Keys establishes a Trust model with its user. A Trust Source could
-+differ from one system to another depending on its security requirements. It
-+could be either an off-chip device or an on-chip device. Following section
-+demostrates a list of supported devices along with their security properties/
-+guarantees:
- 
--TPM 2.0
---------
-+  *  Root of trust for storage
- 
--The user must first create a storage key and make it persistent, so the key is
--available after reboot. This can be done using the following commands.
-+     (1) TPM (Trusted Platform Module: hardware device)
-+
-+         Rooted to Storage Root Key (SRK) which never leaves the TPM that
-+         provides crypto operation to establish root of trust for storage.
-+
-+     (2) TEE (Trusted Execution Environment: OP-TEE based on Arm TrustZone)
-+
-+         Rooted to Hardware Unique Key (HUK) which is generally burnt in on-chip
-+         fuses and is accessible to TEE only.
-+
-+  *  Execution isolation
-+
-+     (1) TPM
-+
-+         Fixed set of operations running in isolated execution environment.
-+
-+     (2) TEE
-+
-+         Customizable set of operations running in isolated execution
-+         environment verified via Secure/Trusted boot process.
-+
-+  * Optional binding to platform integrity state
-+
-+     (1) TPM
-+
-+         Keys can be optionally sealed to specified PCR (integrity measurement)
-+         values, and only unsealed by the TPM, if PCRs and blob integrity
-+         verifications match. A loaded Trusted Key can be updated with new
-+         (future) PCR values, so keys are easily migrated to new pcr values,
-+         such as when the kernel and initramfs are updated.  The same key can
-+         have many saved blobs under different PCR values, so multiple boots are
-+         easily supported.
-+
-+     (2) TEE
-+
-+         Relies on Secure/Trusted boot process for platform integrity. It can
-+         be extended with TEE based measured boot process.
-+
-+  *  On-chip versus off-chip
-+
-+     (1) TPM
-+
-+         Off-chip device connected via serial bus (like I2C, SPI etc.) exposing
-+         physical access which represents an attack surface that can be
-+         mitigated via tamper detection.
-+
-+     (2) TEE
-+
-+         On-chip functionality, immune to this attack surface.
-+
-+  *  Memory attacks (DRAM based like attaching a bus monitor etc.)
-+
-+     (1) TPM
-+
-+         Immune to these attacks as it doesn’t make use of system DRAM.
-+
-+     (2) TEE
-+
-+         An implementation based on TrustZone protected DRAM is susceptible to
-+         such attacks. In order to mitigate these attacks one needs to rely on
-+         on-chip secure RAM to store secrets or have the entire TEE
-+         implementation based on on-chip secure RAM. An alternative mitigation
-+         would be to use encrypted DRAM.
-+
-+  *  Side-channel attacks (cache, memory, CPU or time based)
-+
-+     (1) TPM
-+
-+         Immune to side-channel attacks as its resources are isolated from the
-+         main OS.
-+
-+     (2) TEE
-+
-+         A careful implementation is required to mitigate against these attacks
-+         for resources which are shared (eg. shared memory) with the main OS.
-+         Cache and CPU based side-channel attacks can be mitigated via
-+         invalidating caches and CPU registers during context switch to and from
-+         the secure world.
-+         To mitigate against time based attacks, one needs to have time
-+         invariant implementations (like crypto algorithms etc.).
-+
-+  *  Resistance to physical attacks (power analysis, electromagnetic emanation,
-+     probes etc.)
-+
-+     (1) TPM
-+
-+         Provides limited protection utilizing tamper resistance.
-+
-+     (2) TEE
-+
-+         Provides no protection by itself, relies on the underlying platform for
-+         features such as tamper resistance.
-+
-+
-+Key Generation
-+==============
-+
-+Trusted Keys
-+------------
-+
-+New keys are created from trust source generated random numbers, and are
-+encrypted/decrypted using trust source storage root key.
-+
-+  *  TPM (hardware device) based RNG
-+
-+     Strength of random numbers may vary from one device manufacturer to
-+     another.
-+
-+  *  TEE (OP-TEE based on Arm TrustZone) based RNG
-+
-+     RNG is customizable as per platform needs. It can either be direct output
-+     from platform specific hardware RNG or a software based Fortuna CSPRNG
-+     which can be seeded via multiple entropy sources.
-+
-+Encrypted Keys
-+--------------
-+
-+Encrypted keys do not depend on a trust source, and are faster, as they use AES
-+for encryption/decryption. New keys are created from kernel generated random
-+numbers, and are encrypted/decrypted using a specified ‘master’ key. The
-+‘master’ key can either be a trusted-key or user-key type. The main disadvantage
-+of encrypted keys is that if they are not rooted in a trusted key, they are only
-+as secure as the user key encrypting them. The master user key should therefore
-+be loaded in as secure a way as possible, preferably early in boot.
-+
-+
-+Usage
-+=====
-+
-+Trusted Keys usage: TPM
-+-----------------------
-+
-+TPM 1.2: By default, trusted keys are sealed under the SRK, which has the
-+default authorization value (20 zeros).  This can be set at takeownership time
-+with the trouser's utility: "tpm_takeownership -u -z".
-+
-+TPM 2.0: The user must first create a storage key and make it persistent, so the
-+key is available after reboot. This can be done using the following commands.
- 
- With the IBM TSS 2 stack::
- 
-@@ -79,14 +210,21 @@ TPM_STORED_DATA format.  The key length for new keys are always in bytes.
- Trusted Keys can be 32 - 128 bytes (256 - 1024 bits), the upper limit is to fit
- within the 2048 bit SRK (RSA) keylength, with all necessary structure/padding.
- 
--Encrypted keys do not depend on a TPM, and are faster, as they use AES for
--encryption/decryption.  New keys are created from kernel generated random
--numbers, and are encrypted/decrypted using a specified 'master' key.  The
--'master' key can either be a trusted-key or user-key type.  The main
--disadvantage of encrypted keys is that if they are not rooted in a trusted key,
--they are only as secure as the user key encrypting them.  The master user key
--should therefore be loaded in as secure a way as possible, preferably early in
--boot.
-+Trusted Keys usage: TEE
-+-----------------------
-+
-+Usage::
-+
-+    keyctl add trusted name "new keylen" ring
-+    keyctl add trusted name "load hex_blob" ring
-+    keyctl print keyid
-+
-+"keyctl print" returns an ascii hex copy of the sealed key, which is in format
-+specific to TEE device implementation.  The key length for new keys are always
-+in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
-+
-+Encrypted Keys usage
-+--------------------
- 
- The decrypted portion of encrypted keys can contain either a simple symmetric
- key or a more complex structure. The format of the more complex structure is
-@@ -104,8 +242,8 @@ Where::
- 	format:= 'default | ecryptfs | enc32'
- 	key-type:= 'trusted' | 'user'
- 
+-VRAM Helper Function Reference
+-==============================
 -
- Examples of trusted and encrypted key usage:
-+--------------------------------------------
+-.. kernel-doc:: drivers/gpu/drm/drm_vram_helper_common.c
+-   :doc: overview
+-
+-.. kernel-doc:: include/drm/drm_gem_vram_helper.h
+-   :internal:
+-
+ GEM VRAM Helper Functions Reference
+ -----------------------------------
  
- Create and save a trusted key named "kmk" of length 32 bytes.
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 183c600483073..f34d08c834851 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -33,8 +33,7 @@ drm-$(CONFIG_PCI) += drm_pci.o
+ drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
+ drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
  
-@@ -151,7 +289,7 @@ Load a trusted key from the saved blob::
-     f1f8fff03ad0acb083725535636addb08d73dedb9832da198081e5deae84bfaf0409c22b
-     e4a8aea2b607ec96931e6f4d4fe563ba
+-drm_vram_helper-y := drm_gem_vram_helper.o \
+-		     drm_vram_helper_common.o
++drm_vram_helper-y := drm_gem_vram_helper.o
+ obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
  
--Reseal a trusted key under new pcr values::
-+Reseal (TPM specific) a trusted key under new pcr values::
+ drm_ttm_helper-y := drm_gem_ttm_helper.o
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index d4e4f80d3a6c1..d70e335f7ee3e 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -1,5 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
  
-     $ keyctl update 268728824 "update pcrinfo=`cat pcr.blob`"
-     $ keyctl print 268728824
-@@ -165,11 +303,12 @@ Reseal a trusted key under new pcr values::
-     7ef6a24defe4846104209bf0c3eced7fa1a672ed5b125fc9d8cd88b476a658a4434644ef
-     df8ae9a178e9f83ba9f08d10fa47e4226b98b0702f06b3b8
- 
++#include <linux/module.h>
 +
- The initial consumer of trusted keys is EVM, which at boot time needs a high
- quality symmetric key for HMAC protection of file metadata.  The use of a
- trusted key provides strong guarantees that the EVM key has not been
--compromised by a user level problem, and when sealed to specific boot PCR
--values, protects against boot and offline attacks.  Create and save an
-+compromised by a user level problem, and when sealed to a platform integrity
-+state, protects against boot and offline attacks.  Create and save an
- encrypted key "evm" using the above trusted key "kmk":
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+@@ -19,13 +21,93 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+ /**
+  * DOC: overview
+  *
+- * This library provides a GEM buffer object that is backed by video RAM
+- * (VRAM). It can be used for framebuffer devices with dedicated memory.
++ * This library provides &struct drm_gem_vram_object (GEM VRAM), a GEM
++ * buffer object that is backed by video RAM (VRAM). It can be used for
++ * framebuffer devices with dedicated memory.
+  *
+  * The data structure &struct drm_vram_mm and its helpers implement a memory
+- * manager for simple framebuffer devices with dedicated video memory. Buffer
+- * objects are either placed in video RAM or evicted to system memory. The rsp.
+- * buffer object is provided by &struct drm_gem_vram_object.
++ * manager for simple framebuffer devices with dedicated video memory. GEM
++ * VRAM buffer objects are either placed in the video memory or remain evicted
++ * to system memory.
++ *
++ * With the GEM interface userspace applications create, manage and destroy
++ * graphics buffers, such as an on-screen framebuffer. GEM does not provide
++ * an implementation of these interfaces. It's up to the DRM driver to
++ * provide an implementation that suits the hardware. If the hardware device
++ * contains dedicated video memory, the DRM driver can use the VRAM helper
++ * library. Each active buffer object is stored in video RAM. Active
++ * buffer are used for drawing the current frame, typically something like
++ * the frame's scanout buffer or the cursor image. If there's no more space
++ * left in VRAM, inactive GEM objects can be moved to system memory.
++ *
++ * The easiest way to use the VRAM helper library is to call
++ * drm_vram_helper_alloc_mm(). The function allocates and initializes an
++ * instance of &struct drm_vram_mm in &struct drm_device.vram_mm . Use
++ * &DRM_GEM_VRAM_DRIVER to initialize &struct drm_driver and
++ * &DRM_VRAM_MM_FILE_OPERATIONS to initialize &struct file_operations;
++ * as illustrated below.
++ *
++ * .. code-block:: c
++ *
++ *	struct file_operations fops ={
++ *		.owner = THIS_MODULE,
++ *		DRM_VRAM_MM_FILE_OPERATION
++ *	};
++ *	struct drm_driver drv = {
++ *		.driver_feature = DRM_ ... ,
++ *		.fops = &fops,
++ *		DRM_GEM_VRAM_DRIVER
++ *	};
++ *
++ *	int init_drm_driver()
++ *	{
++ *		struct drm_device *dev;
++ *		uint64_t vram_base;
++ *		unsigned long vram_size;
++ *		int ret;
++ *
++ *		// setup device, vram base and size
++ *		// ...
++ *
++ *		ret = drm_vram_helper_alloc_mm(dev, vram_base, vram_size);
++ *		if (ret)
++ *			return ret;
++ *		return 0;
++ *	}
++ *
++ * This creates an instance of &struct drm_vram_mm, exports DRM userspace
++ * interfaces for GEM buffer management and initializes file operations to
++ * allow for accessing created GEM buffers. With this setup, the DRM driver
++ * manages an area of video RAM with VRAM MM and provides GEM VRAM objects
++ * to userspace.
++ *
++ * To clean up the VRAM memory management, call drm_vram_helper_release_mm()
++ * in the driver's clean-up code.
++ *
++ * .. code-block:: c
++ *
++ *	void fini_drm_driver()
++ *	{
++ *		struct drm_device *dev = ...;
++ *
++ *		drm_vram_helper_release_mm(dev);
++ *	}
++ *
++ * For drawing or scanout operations, buffer object have to be pinned in video
++ * RAM. Call drm_gem_vram_pin() with &DRM_GEM_VRAM_PL_FLAG_VRAM or
++ * &DRM_GEM_VRAM_PL_FLAG_SYSTEM to pin a buffer object in video RAM or system
++ * memory. Call drm_gem_vram_unpin() to release the pinned object afterwards.
++ *
++ * A buffer object that is pinned in video RAM has a fixed address within that
++ * memory region. Call drm_gem_vram_offset() to retrieve this value. Typically
++ * it's used to program the hardware's scanout engine for framebuffers, set
++ * the cursor overlay's image for a mouse cursor, or use it as input to the
++ * hardware's draing engine.
++ *
++ * To access a buffer object's memory from the DRM driver, call
++ * drm_gem_vram_kmap(). It (optionally) maps the buffer into kernel address
++ * space and returns the memory address. Use drm_gem_vram_kunmap() to
++ * release the mapping.
+  */
  
- option 1: omitting 'format'::
+ /*
+@@ -1204,3 +1286,6 @@ drm_vram_helper_mode_valid(struct drm_device *dev,
+ 	return drm_vram_helper_mode_valid_internal(dev, mode, max_bpp);
+ }
+ EXPORT_SYMBOL(drm_vram_helper_mode_valid);
++
++MODULE_DESCRIPTION("DRM VRAM memory-management helpers");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/drm_vram_helper_common.c b/drivers/gpu/drm/drm_vram_helper_common.c
+deleted file mode 100644
+index 2000d9b33fd52..0000000000000
+--- a/drivers/gpu/drm/drm_vram_helper_common.c
++++ /dev/null
+@@ -1,94 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-
+-#include <linux/module.h>
+-
+-/**
+- * DOC: overview
+- *
+- * This library provides &struct drm_gem_vram_object (GEM VRAM), a GEM
+- * buffer object that is backed by video RAM. It can be used for
+- * framebuffer devices with dedicated memory. The video RAM is managed
+- * by &struct drm_vram_mm (VRAM MM).
+- *
+- * With the GEM interface userspace applications create, manage and destroy
+- * graphics buffers, such as an on-screen framebuffer. GEM does not provide
+- * an implementation of these interfaces. It's up to the DRM driver to
+- * provide an implementation that suits the hardware. If the hardware device
+- * contains dedicated video memory, the DRM driver can use the VRAM helper
+- * library. Each active buffer object is stored in video RAM. Active
+- * buffer are used for drawing the current frame, typically something like
+- * the frame's scanout buffer or the cursor image. If there's no more space
+- * left in VRAM, inactive GEM objects can be moved to system memory.
+- *
+- * The easiest way to use the VRAM helper library is to call
+- * drm_vram_helper_alloc_mm(). The function allocates and initializes an
+- * instance of &struct drm_vram_mm in &struct drm_device.vram_mm . Use
+- * &DRM_GEM_VRAM_DRIVER to initialize &struct drm_driver and
+- * &DRM_VRAM_MM_FILE_OPERATIONS to initialize &struct file_operations;
+- * as illustrated below.
+- *
+- * .. code-block:: c
+- *
+- *	struct file_operations fops ={
+- *		.owner = THIS_MODULE,
+- *		DRM_VRAM_MM_FILE_OPERATION
+- *	};
+- *	struct drm_driver drv = {
+- *		.driver_feature = DRM_ ... ,
+- *		.fops = &fops,
+- *		DRM_GEM_VRAM_DRIVER
+- *	};
+- *
+- *	int init_drm_driver()
+- *	{
+- *		struct drm_device *dev;
+- *		uint64_t vram_base;
+- *		unsigned long vram_size;
+- *		int ret;
+- *
+- *		// setup device, vram base and size
+- *		// ...
+- *
+- *		ret = drm_vram_helper_alloc_mm(dev, vram_base, vram_size);
+- *		if (ret)
+- *			return ret;
+- *		return 0;
+- *	}
+- *
+- * This creates an instance of &struct drm_vram_mm, exports DRM userspace
+- * interfaces for GEM buffer management and initializes file operations to
+- * allow for accessing created GEM buffers. With this setup, the DRM driver
+- * manages an area of video RAM with VRAM MM and provides GEM VRAM objects
+- * to userspace.
+- *
+- * To clean up the VRAM memory management, call drm_vram_helper_release_mm()
+- * in the driver's clean-up code.
+- *
+- * .. code-block:: c
+- *
+- *	void fini_drm_driver()
+- *	{
+- *		struct drm_device *dev = ...;
+- *
+- *		drm_vram_helper_release_mm(dev);
+- *	}
+- *
+- * For drawing or scanout operations, buffer object have to be pinned in video
+- * RAM. Call drm_gem_vram_pin() with &DRM_GEM_VRAM_PL_FLAG_VRAM or
+- * &DRM_GEM_VRAM_PL_FLAG_SYSTEM to pin a buffer object in video RAM or system
+- * memory. Call drm_gem_vram_unpin() to release the pinned object afterwards.
+- *
+- * A buffer object that is pinned in video RAM has a fixed address within that
+- * memory region. Call drm_gem_vram_offset() to retrieve this value. Typically
+- * it's used to program the hardware's scanout engine for framebuffers, set
+- * the cursor overlay's image for a mouse cursor, or use it as input to the
+- * hardware's draing engine.
+- *
+- * To access a buffer object's memory from the DRM driver, call
+- * drm_gem_vram_kmap(). It (optionally) maps the buffer into kernel address
+- * space and returns the memory address. Use drm_gem_vram_kunmap() to
+- * release the mapping.
+- */
+-
+-MODULE_DESCRIPTION("DRM VRAM memory-management helpers");
+-MODULE_LICENSE("GPL");
 -- 
-2.7.4
+2.26.0
 
