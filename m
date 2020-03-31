@@ -2,98 +2,156 @@ Return-Path: <SRS0=SHIp=5Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA2DC43331
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 17:03:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 149B7C2D0EE
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 17:10:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 97AED20848
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 17:03:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF27520CC7
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 17:10:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gv8h7sxT"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ejCKGv9e"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731382AbgCaRDT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Mar 2020 13:03:19 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43614 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730216AbgCaRDS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Mar 2020 13:03:18 -0400
-Received: by mail-pl1-f195.google.com with SMTP id v23so8327614ply.10;
-        Tue, 31 Mar 2020 10:03:17 -0700 (PDT)
+        id S1730672AbgCaRKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Mar 2020 13:10:53 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34596 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726595AbgCaRKx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Mar 2020 13:10:53 -0400
+Received: by mail-ot1-f68.google.com with SMTP id m2so8084026otr.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2020 10:10:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Yd9n/NfdsWvDzatSM9dtUbvLNgnkRjCRYnyN7pRmUEQ=;
-        b=gv8h7sxTrDW1QebkmyoO0dEycs7UO33dS5tzWDiZkRVNgptE2srgn/MfIfhJb3M7FY
-         F2sftAjYfhwknJlxyGJHZiHOOdJkh/8oUeh8vUywbFp8IKpeYznJdMyk6PDT+VHRMdoK
-         jceSkSCZ9p+USu8jU2UMXf8oBR/PrzBPdgs2LS/M7zq6yB9Qr5ATaRIt3Nd8b4+e6fLl
-         tpE8GGiiCNm0Tu+BX7GTNC2bqzj78Cok85f2/fpL1XTCnKEgtY9Bf2Fem4AEAOleAeNq
-         OvlY3P0as+iKodwlTeK5aqT+9Jf9ZEHI64HNI0+cLa4xxSUJ/ls3hQJ+ChqvOe+ajsyV
-         VMzA==
+        bh=qHYDmZrgq5jmEkRfovldh3Vm9VQlL40sufsyBZ8bEao=;
+        b=ejCKGv9ewqzPDwu36dgEf76BAdc6P8/FNIHvqlRJ2NbFTsqobiYJueIPM1QZi0OCCQ
+         mbU1B6WSb811ZFiG9JOqTsYC1SHqnNkP67uF97SvOhv96tkShJMN5PdECEv/UVHWpBbe
+         dmopibqZGT8YOlWB1Mxjj8B8vSeGI+adpgikk5ZFFX19jP5gQEyzgvSeCkR+ruYYKmOR
+         1nHq5goBe3vvatRr2t6ArsKapoHRzQb/Dp8xUl9h++ZuJuyY81r7fl+m1ecyqBeAUMb9
+         U7tiQZCEeGGDdpZ4SYSLIDyZTmrECoB9X/A+YpKZrNIyVhGzFEbffqrR2St0hFC6aHil
+         3G0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Yd9n/NfdsWvDzatSM9dtUbvLNgnkRjCRYnyN7pRmUEQ=;
-        b=XGJfz7hH8BCghqX2nZgjLNct+q2L6T0EzeRRVDcAcDOn3XfIbK2HbMRhHRctpxzuIy
-         OiWPCFPrBlHFg6qrFUB/Yxx2MhloRBlGT0Uu0vyFELYpAXN5C5FeDCc30zdNvZWGjp+H
-         t+OjAO7JywgVm2LpQo1dHSLLdFIXTwdAKUhMoDi/Y91ZHxasVptaZQ+nFJPmTTiU3wK+
-         R6hkStbjsoGtWAheYzmCXsSB4DtSICegPghlHX2W/A8E8RFpQVS+srK2Y+wFNC0X/MbO
-         nrTlifWlP8CE8zODa9dTLpYZJsP8jH9XdJq71Ez8lUccycUbGjarHfcp+AFtnZjeTnZ9
-         48VA==
-X-Gm-Message-State: AGi0PuZcmLb72mQG39jQ/QKJ0yamvyR2Gtzlumxwi7VYcVZ9i3FffBB7
-        PyAb3RdoQ46tzpecS/sIkR1OWMIG4h5C/U3xP8o=
-X-Google-Smtp-Source: APiQypKc8qQ6HBvaOsQ3Oispy2HlVpP7rEMYHP2bwe8eR3GDSAy4awCO0zPuJDT0XWYG0F5MgTZBza69yOugN9vng74=
-X-Received: by 2002:a17:90a:e982:: with SMTP id v2mr3023640pjy.1.1585674197234;
- Tue, 31 Mar 2020 10:03:17 -0700 (PDT)
+        bh=qHYDmZrgq5jmEkRfovldh3Vm9VQlL40sufsyBZ8bEao=;
+        b=HxERunyuUYnRWD7HZfbtUac3Cks/naOlSjWmIKbiSqV2qu90XxfSJuSKQAjgRAXzLM
+         upVDkkkwhFJYTuobS3dxk0Bjm1t1dquk1vLRQDJ2tZ3iVVOo7Ck6wWJD9aEFgUIc1z01
+         1i0O2kj2ULMETPpEoKHTsRLGK9M0jSF0QTfyylfcCMJOHbP67TtLv4YNCDt/mKaXYIS+
+         dWzetdvW8zBsrQeMe3ihk+UE4WvMeIbPFv0HbjSYoOYTONedcnaGgpHfzAbxB9H1n/8Y
+         668FE9vVggjutI/dXZxAwSTSJ94O7VQd2FC0RaSK6gavrclasLevaHaSn7g3zowjJ9z7
+         GlCw==
+X-Gm-Message-State: ANhLgQ0vZ08MpzBWqd/aY1nBNvzgIj3c7xNcy9NDNqU8RfvTBIy7LdO8
+        4rqKBBwaozEISjp+lFWw9Oru/Y0CsIcjEhylFlcSuA==
+X-Google-Smtp-Source: ADFU+vvG/KSouwa/5JXn2S/dDVOQi5q+3SzbGyUUkrqFLoZCxv6KzvHR1l+yj5t93H1llPNa0r7/9yF4i0utZTLMJIE=
+X-Received: by 2002:a05:6830:1ac1:: with SMTP id r1mr9669891otc.139.1585674651276;
+ Tue, 31 Mar 2020 10:10:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200327170132.17275-1-grant.likely@arm.com> <20200331143355.GP1922688@smile.fi.intel.com>
- <20200331164340.GA1821785@kroah.com>
-In-Reply-To: <20200331164340.GA1821785@kroah.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 31 Mar 2020 20:03:10 +0300
-Message-ID: <CAHp75VfHHdn46t852RfUbo9Y5mMU8vn-kvDo3yx656TwQyuSiw@mail.gmail.com>
-Subject: Re: [PATCH] Add documentation on meaning of -EPROBE_DEFER
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Grant Likely <grant.likely@arm.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
+References: <20200222014038.180923-1-saravanak@google.com> <20200222014038.180923-6-saravanak@google.com>
+ <CAMuHMdW_pvt1b6Y8e5j0Q5yDFMsg5z61upOo+gFaq7zf1F0V6w@mail.gmail.com>
+In-Reply-To: <CAMuHMdW_pvt1b6Y8e5j0Q5yDFMsg5z61upOo+gFaq7zf1F0V6w@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 31 Mar 2020 10:10:15 -0700
+Message-ID: <CAGETcx_pg_wFLP9zdhxzKUnVp3Hx_t3xz88bas4UJavgehupBw@mail.gmail.com>
+Subject: Re: [PATCH v1 5/5] of: property: Delete of_devlink kernel commandline option
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        nd <nd@arm.com>, Jonathan Corbet <corbet@lwn.net>,
-        Saravana Kannan <saravanak@google.com>
+        linux-efi <linux-efi@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 31, 2020 at 7:46 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On Tue, Mar 31, 2020 at 5:20 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> On Tue, Mar 31, 2020 at 05:33:55PM +0300, Andy Shevchenko wrote:
-> > On Fri, Mar 27, 2020 at 05:01:32PM +0000, Grant Likely wrote:
-> > > Add a bit of documentation on what it means when a driver .probe() hook
-> > > returns the -EPROBE_DEFER error code, including the limitation that
-> > > -EPROBE_DEFER should be returned as early as possible, before the driver
-> > > starts to register child devices.
-> > >
-> > > Also: minor markup fixes in the same file
+> Hi Saravana,
+>
+> On Sat, Feb 22, 2020 at 2:41 AM Saravana Kannan <saravanak@google.com> wrote:
+> > With the addition of fw_devlink kernel commandline option, of_devlink is
+> > redundant and not useful anymore. So, delete it.
 > >
-> > Greg, can we at least for time being have this documented, means applied?
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
 >
-> It's the middle of the merge window, you know I can't take anything in
-> my trees until after -rc1 is out.
+> Thanks for your patch!
+>
+> This is now commit e94f62b7140fa3da ("of: property: Delete of_devlink
+> kernel commandline option") upstream.
+>
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -3299,12 +3299,6 @@
+> >                         This can be set from sysctl after boot.
+> >                         See Documentation/admin-guide/sysctl/vm.rst for details.
+> >
+> > -       of_devlink      [OF, KNL] Create device links between consumer and
+> > -                       supplier devices by scanning the devictree to infer the
+> > -                       consumer/supplier relationships.  A consumer device
+> > -                       will not be probed until all the supplier devices have
+> > -                       probed successfully.
+> > -
+> >         ohci1394_dma=early      [HW] enable debugging via the ohci1394 driver.
+> >                         See Documentation/debugging-via-ohci1394.txt for more
+> >                         info.
+>
+> While I agree with the thunk above...
+>
+> > diff --git a/drivers/of/property.c b/drivers/of/property.c
+> > index 15fc9315f1a7..f104f15b57fb 100644
+> > --- a/drivers/of/property.c
+> > +++ b/drivers/of/property.c
+> > @@ -1299,15 +1299,9 @@ static int of_link_to_suppliers(struct device *dev,
+> >         return ret;
+> >  }
+> >
+> > -static bool of_devlink;
+> > -core_param(of_devlink, of_devlink, bool, 0);
+> > -
+> >  static int of_fwnode_add_links(const struct fwnode_handle *fwnode,
+> >                                struct device *dev)
+> >  {
+> > -       if (!of_devlink)
+> > -               return 0;
+> > -
+> >         if (unlikely(!is_of_node(fwnode)))
+> >                 return 0;
 
-Right.
+Hi Geert,
 
-> I will queue it up then, thanks.
+> ... I have some reservations about removing the actual code.
+> The "of_devlink" kernel parameter was supported in v5.5 and v5.6, so
+> removing its support may silently break some setups.
+>
+> Is this likely to happen?
 
-Thank you!
+As much as I'd love to see people start using this, I doubt of_devlink
+has been significantly adopted outside of Android yet (I'm working on
+making that easier :)). I'd be happy to be proven wrong though :)
 
--- 
-With Best Regards,
-Andy Shevchenko
+of_devlink/fw_devlink is mainly useful when module loading is causing
+ordering and clean up issues. So if deletion of of_devlink breaks
+anything, I'd expect it to break in obvious ways and not silently.
+
+> Do we need a compatibility fallback that warns to user to update his kernel
+> command line?
+
+I don't think we need to, but I'm not strongly against your suggestion
+either. Let us know what you think.
+
+-Saravana
