@@ -3,33 +3,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A217C43331
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 10:50:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA70CC43331
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 11:22:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 52FF920772
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 10:50:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C71D420772
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 11:22:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730341AbgCaKuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Mar 2020 06:50:20 -0400
-Received: from mga14.intel.com ([192.55.52.115]:60412 "EHLO mga14.intel.com"
+        id S1730262AbgCaLWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Mar 2020 07:22:48 -0400
+Received: from mga12.intel.com ([192.55.52.136]:11298 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730334AbgCaKuT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 31 Mar 2020 06:50:19 -0400
-IronPort-SDR: 6N3+p9g2GPFr213W6+QPQ5anU4prJIU0Es2HR/K4WwlVsvUrCImzRblTdC2JP/7XbtoVCncdHM
- COCIpurndnFQ==
+        id S1729925AbgCaLWs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 31 Mar 2020 07:22:48 -0400
+IronPort-SDR: m3oV1wZ7CKXjUcCtgM/cia3tIqIMzcssjhKTPqn6cDCxdxfVsBNS0BB7E0C2+bj9oi7DCls2En
+ Z0/5hrjJLOng==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 03:50:19 -0700
-IronPort-SDR: 7ZdsGnayby9LSlUmAMcalf9gYIQYKT0i8scMQNoonNhigi0Ho0g3Qr69ndtFg+P5kFKWpyB7st
- J43LhNPNzCBQ==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 04:22:47 -0700
+IronPort-SDR: T46vXkmTBU59wKBI5vmZTpcqJ7Iy+LJTdx8Q1AX03unyLguBP+uRpLotN8mnXMmxnle/iHVQYd
+ ns1r1Q/W+Iyw==
 X-IronPort-AV: E=Sophos;i="5.72,327,1580803200"; 
-   d="scan'208";a="422252454"
+   d="scan'208";a="422260524"
 Received: from unknown (HELO localhost) ([10.249.38.166])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 03:50:15 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 04:22:44 -0700
 From:   Jani Nikula <jani.nikula@linux.intel.com>
 To:     Matthew Wilcox <willy@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
@@ -37,11 +37,11 @@ Cc:     peter@bikeshed.quignogs.org.uk, linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org
 Subject: Re: [PATCH v3 0/1] Compactly make code examples into literal blocks
-In-Reply-To: <20200327165022.GP22483@bombadil.infradead.org>
+In-Reply-To: <20200327173500.GR22483@bombadil.infradead.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200326192947.GM22483@bombadil.infradead.org> <20200326195156.11858-1-peter@bikeshed.quignogs.org.uk> <87imiqghop.fsf@intel.com> <20200327104126.667b5d5b@lwn.net> <20200327165022.GP22483@bombadil.infradead.org>
-Date:   Tue, 31 Mar 2020 13:50:11 +0300
-Message-ID: <87zhbwg5ng.fsf@intel.com>
+References: <20200326192947.GM22483@bombadil.infradead.org> <20200326195156.11858-1-peter@bikeshed.quignogs.org.uk> <87imiqghop.fsf@intel.com> <20200327104126.667b5d5b@lwn.net> <20200327165022.GP22483@bombadil.infradead.org> <20200327111106.57982763@lwn.net> <20200327173500.GR22483@bombadil.infradead.org>
+Date:   Tue, 31 Mar 2020 14:22:41 +0300
+Message-ID: <87v9mkg45a.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
@@ -50,74 +50,87 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Fri, 27 Mar 2020, Matthew Wilcox <willy@infradead.org> wrote:
-> On Fri, Mar 27, 2020 at 10:41:26AM -0600, Jonathan Corbet wrote:
->> On Fri, 27 Mar 2020 13:28:54 +0200
->> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Fri, Mar 27, 2020 at 11:11:06AM -0600, Jonathan Corbet wrote:
+>> On Fri, 27 Mar 2020 09:50:22 -0700
+>> Matthew Wilcox <willy@infradead.org> wrote:
 >> 
->> > IMHO the real problem is kernel-doc doing too much preprocessing on the
->> > input, preventing us from doing what would be the sensible thing in
->> > rst. The more we try to fix the problem by adding more kernel-doc
->> > processing, the further we dig ourselves into this hole.
+>> > Let me just check I understand Jani's proposal here.  You want to change
 >> > 
->> > If kernel-doc didn't have its own notion of section headers, such as
->> > "example:", we wouldn't have this problem to begin with. We could just
->> > use the usual rst construct; "example::" followed by an indented block.
+>> > * Return: Number of pages, or negative errno on failure
 >> > 
->> > I'm not going to stand in the way of the patch, but I'm telling you,
->> > this is going to get harder, not easier, on this path.
+>> > to
+>> > 
+>> > * Return
+>> > * ~~~~~~
+>> > * Number of pages, or negative errno on failure
+>> > 
+>> > If so, I oppose such an increase in verbosity and I think most others
+>> > would too.  If not, please let me know what you're actually proposing ;-)
 >> 
->> I agree with you in principle.  The problem, of course, is that this is a
->> legacy gift from before the RST days and it will be hard to change.
->> 
->> A quick grep shows that the pattern:
->> 
->> 	* Example:
->> 
->> appears nearly 100 times in current kernels.  It is not inconceivable to
->> make a push to get rid of all of those, turning them into ordinary RST
->> syntax - especially since not all of those are actually kerneldoc
->> comments.
->> 
->> The same quick grep says that "returns?:" appears about 10,000 times.
->> *That* will be painful to change, and I can only imagine that some
->> resistance would have to be overcome at some point.
->> 
->> So what do folks think we should do? :)
+>> I told you there would be resistance :)
 >
-> Let me just check I understand Jani's proposal here.  You want to change
+> Happy to help out!
 >
-> * Return: Number of pages, or negative errno on failure
->
-> to
->
-> * Return
-> * ~~~~~~
-> * Number of pages, or negative errno on failure
->
-> If so, I oppose such an increase in verbosity and I think most others
-> would too.  If not, please let me know what you're actually proposing ;-)
+>> I think a reasonable case can be made for using the same documentation
+>> format throughout our docs, rather than inventing something special for
+>> kerneldoc comments.  So I personally don't think the above is terrible,
+>> but as I already noted, I anticipate resistance.
+>> 
+>> An alternative would be to make a little sphinx extension; then it would
+>> read more like:
+>> 
+>> 	.. returns:: Number of pages, except when the moon is full
+>> 
+>> ...which would still probably not be entirely popular.
 
-Due to historical reasons, I think kernel-doc must handle a handful of
-special cases, as a preprocessor converting old conventions to rst. The
-title line, parameters, returns, and some in-line markup for &struct,
-etc.
+I don't really think it would need to be a sphinx extension. If I were
+to do this from scratch, I'd just leave it be any convention that's
+compatible with rst. Perhaps field lists [1], for both parameters and
+return values. With that you could do things like:
 
-I'm not proposing changing "return:", because it's too widespread.
+ * :Returns: 0 on success.
+ * :Returns: -ENOCOFFEE when out of coffee.
+ * :Returns: Other negative error codes for other errors.
 
-I *am* questioning everything else that necessitates adding *more*
-special casing to handle things that would be easy to do in rst. I think
-we should be moving in the other direction, fixing things by removing
-special casing where we can. Case in point, "example:" as a section.
+or:
 
-Why should we be adding different ways of doing things in the
-documentation comments and the documentation files? Not having to do
-that was one of the original goals. Unify stuff to one markup. Make
-kernel-doc comments in source an extension to the documents under
-Documentation/.
+ * :Returns: 0 on success, -ENOCOFFEE when out of coffee, and other negative
+ *           error codes for other errors.
+
+according to your tastes, and both render nicely. You could actually
+start using those *now* without changes to kernel-doc or anything. Try
+it!
+
+(Side note, I think it would be nice to preprocess the current @param:
+stuff into field lists instead of the definition lists that we use now.)
+
+> I certainly see the value in consistency throughout our documentation.
+> But I don't think it's a given that the documentation of the return
+> value is necessarily its own section.  I see kernel-doc as being more
+> about semantic markup and the rst files as being a presentation markup.
+>
+> So I'm fine with Return:: introducing a list or Example:: introducing
+> a code section; these are special purpose keywords.  I'm not a fan of
+> using raw rst in kernel-doc.  Of course if we can make the kernel-doc
+> and rst languages the same for the same concepts, that's great.
+
+IMO, if you want to make a list, you use rst lists. If you want to add a
+preformatted text block, you use rst preformatted text block. I don't
+see any reason why those should be tied to certain headings such as
+"return" or "example". Return does not have to be a list, and example
+does not have to be a preformatted block.
+
+I am also not a fan of *overusing* rst in kernel-doc. But we have it
+there so that you can use it when you need it, and not have to hack at
+the godawful kernel-doc the perl script every time. So that you can just
+point at the widely available documentation on rst for doing everything,
+instead of telling people to go figure it out from the perl source.
 
 BR,
 Jani.
 
+
+[1] https://docutils.sourceforge.io/docs/user/rst/quickref.html#field-lists
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
