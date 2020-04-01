@@ -2,336 +2,272 @@ Return-Path: <SRS0=yfWO=5R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD4FC2D0F3
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 17:59:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8449CC2D0F0
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 18:39:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CE95320719
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 17:59:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5087420784
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 18:39:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="rPs/cbJ3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730574AbgDAR7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Apr 2020 13:59:51 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:59463 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730420AbgDAR7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 13:59:51 -0400
-Received: from 185.80.35.16 (185.80.35.16) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.341)
- id 36c63c6a6212dabb; Wed, 1 Apr 2020 19:59:47 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Linux PM <linux-pm@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH] Documentation: PM: sleep: Document system-wide suspend code flows
-Date:   Wed, 01 Apr 2020 19:59:46 +0200
-Message-ID: <2548116.mvXUDI8C0e@kreacher>
+        id S1732707AbgDASjx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Apr 2020 14:39:53 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:45596 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726640AbgDASjw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 14:39:52 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031IctXl187349;
+        Wed, 1 Apr 2020 18:38:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=/5Ag0BwqV2s+DVWwyTDjgNnbLx8fakjUne3mO5qHzOs=;
+ b=rPs/cbJ343KJFmPfRF7d1+xyeTV5Q7rO18NfD2c5LrNh+9zmvhwNTSuNGLZzAEPHT8cj
+ L+/yhx+lkH592qSXQEy/31SB2YcV4nlG0Wi5N0tpXaarIjE9XcGVSMawfGNjZe3xzq+W
+ DsG5POdYUjkBoDDjZwFe/FZF0K1Z+T7IXzQPyPLtUJIBYer0OGlXFXomks264fZzTc+0
+ MlI3quSZ6eOoy9TxAVe6p9AKVjRueAnxUFnw36ULgb3ZivrCImXxLcjNcMa5mxCru7n+
+ nOIN8dIldEO4Al4Jib4VxNyh/Z3qgOS3nuIZ5b0vBHjZhkGirnojgWw2TtG28EZ9eqbR pQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 303aqhqmxq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 01 Apr 2020 18:38:54 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031IcUxW175889;
+        Wed, 1 Apr 2020 18:38:40 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3020.oracle.com with ESMTP id 302ga0ym95-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 01 Apr 2020 18:38:40 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 031IccWI006129;
+        Wed, 1 Apr 2020 18:38:38 GMT
+Received: from monkey.oracle.com (/71.63.128.209)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 01 Apr 2020 11:38:38 -0700
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Longpeng <longpeng2@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Mina Almasry <almasrymina@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Subject: [PATCH v2 3/4] hugetlbfs: remove hugetlb_add_hstate() warning for existing hstate
+Date:   Wed,  1 Apr 2020 11:38:18 -0700
+Message-Id: <20200401183819.20647-4-mike.kravetz@oracle.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200401183819.20647-1-mike.kravetz@oracle.com>
+References: <20200401183819.20647-1-mike.kravetz@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9578 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 mlxscore=0 spamscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004010151
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9578 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 clxscore=1015
+ malwarescore=0 impostorscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004010151
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+The routine hugetlb_add_hstate prints a warning if the hstate already
+exists.  This was originally done as part of kernel command line
+parsing.  If 'hugepagesz=' was specified more than once, the warning
+	pr_warn("hugepagesz= specified twice, ignoring\n");
+would be printed.
 
-Add a document describing high-level system-wide suspend code flows
-in Linux.
+Some architectures want to enable all huge page sizes.  They would
+call hugetlb_add_hstate for all supported sizes.  However, this was
+done after command line processing and as a result hstates could have
+already been created for some sizes.  To make sure no warning were
+printed, there would often be code like:
+	if (!size_to_hstate(size)
+		hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT)
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+The only time we want to print the warning is as the result of command
+line processing.  So, remove the warning from hugetlb_add_hstate and
+add it to the single arch independent routine processing "hugepagesz=".
+After this, calls to size_to_hstate() in arch specific code can be
+removed and hugetlb_add_hstate can be called without worrying about
+warning messages.
+
+Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
 ---
- Documentation/admin-guide/pm/suspend-flows.rst |  270 +++++++++++++++++++++++++
- Documentation/admin-guide/pm/system-wide.rst   |    1 
- 2 files changed, 271 insertions(+)
+ arch/arm64/mm/hugetlbpage.c   | 16 ++++------------
+ arch/powerpc/mm/hugetlbpage.c |  3 +--
+ arch/riscv/mm/hugetlbpage.c   |  2 +-
+ arch/sparc/mm/init_64.c       | 19 ++++---------------
+ arch/x86/mm/hugetlbpage.c     |  2 +-
+ mm/hugetlb.c                  |  9 ++++++---
+ 6 files changed, 17 insertions(+), 34 deletions(-)
 
-Index: linux-pm/Documentation/admin-guide/pm/suspend-flows.rst
-===================================================================
---- /dev/null
-+++ linux-pm/Documentation/admin-guide/pm/suspend-flows.rst
-@@ -0,0 +1,270 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
-+
-+=========================
-+System Suspend Code Flows
-+=========================
-+
-+:Copyright: |copy| 2020 Intel Corporation
-+
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-+
-+At least one global system-wide transition needs to be carried out for the
-+system to get from the working state into one of the supported
-+:doc:`sleep states <sleep-states>`.  Hibernation requires more than one
-+transition to occur for this purpose, but the other sleep states, commonly
-+referred to as *system-wide suspend* (or simply *system suspend*) states, need
-+only one.
-+
-+For those sleep states, the transition from the working state of the system into
-+the target sleep state is referred to as *system suspend* too (in the majority
-+of cases, whether this means a transition or a sleep state of the system should
-+be clear from the context) and the transition back from the sleep state into the
-+working state is referred to as *system resume*.
-+
-+The kernel code flows associated with the syspend and resume transitions for
-+different sleep states of the system are quite similar, but there are some
-+significant differences between the :ref:`suspend-to-idle <s2idle>` code flows
-+and the code flows related to the :ref:`suspend-to-RAM <s2ram>` and
-+:ref:`standby <standby>` sleep states.
-+
-+The :ref:`suspend-to-RAM <s2ram>` and :ref:`standby <standby>` sleep states
-+cannot be implemented without platform support and the difference between them
-+boils down to the platform-specific actions carried out by the suspend and
-+resume hooks that need to be provided by the platform driver to make them
-+available.  Apart from that, the suspend and resume code flows for these sleep
-+states are mostly identical, so they both together will be referred to as
-+*platform-dependent suspend* states in what follows.
-+
-+
-+.. _s2idle_suspend:
-+
-+Suspend-to-idle Suspend Code Flow
-+=================================
-+
-+The following steps are taken in order to transition the system from the working
-+state to the :ref:`suspend-to-idle <s2idle>` sleep state:
-+
-+ 1. Invoking system-wide suspend notifiers.
-+
-+    Kernel subsystems can register callbacks to be invoked when the suspend
-+    transition is about to occur and when the resume transition has finished.
-+
-+    That allows them to prepare for the change of the system state and to clean
-+    up after getting back to the working state.
-+
-+ 2. Freezing tasks.
-+
-+    Tasks are frozen primarily in order to avoid unchecked hardware accesses
-+    from user space through MMIO regions or I/O registers exposed directly to
-+    it and to prevent user space from entering the kernel while the next step
-+    of the transition is in progress (which might have been problematic for
-+    various reasons).
-+
-+    All user space tasks are intercepted as though they were sent a signal and
-+    put into uninterruptible sleep until the end of the subsequent system resume
-+    transition.
-+
-+    The kernel threads that choose to be frozen during system suspend for
-+    specific reasons are frozen subsequently, but they are not intercepted.
-+    Instead, they are expected to periodically check whether or not they need
-+    to be frozen and to put themselves into uninterruptible sleep if so.  [Note,
-+    however, that kernel threads can use locking and other concurrency controls
-+    available in kernel space to synchronize themselves with system suspend and
-+    resume, which can be much more precise than the freezing, so the latter is
-+    not a recommended option for kernel threads.]
-+
-+ 3. Suspending devices and reconfiguring IRQs.
-+
-+    Devices are suspended in four phases called *prepare*, *suspend*,
-+    *late suspend* and *noirq suspend* (see :ref:`driverapi_pm_devices` for more
-+    information on what exactly happens in each phase).
-+
-+    Every device is visited in each phase, but typically it is not physically
-+    accessed in more than two of them.
-+
-+    The runtime PM API is disabled for every device during the *late* suspend
-+    phase and high-level ("action") interrupt handlers are prevented from being
-+    invoked before the *noirq* suspend phase.
-+
-+    Interrupts are still handled after that, but they are only acknowledged to
-+    interrupt controllers without performing any device-specific actions that
-+    would be triggered in the working state of the system (those actions are
-+    deferred till the subsequent system resume transition as described
-+    `below <s2idle_resume_>`_).
-+
-+    IRQs associated with system wakeup devices are "armed" so that the resume
-+    transition of the system is started when one of them signals an event.
-+
-+ 4. Freezing the scheduler tick and suspending timekeeping.
-+
-+    When all devices have been suspended, CPUs enter the idle loop and are put
-+    into the deepest available idle state.  While doing that, each of them
-+    "freezes" its own scheduler tick so that the timer events associated with
-+    the tick do not occur until the CPU is woken up by another interrupt source.
-+
-+    The last CPU to enter the idle state also stops the timekeeping which
-+    (among other things) prevents high resolution timers from triggering going
-+    forward until the first CPU that is woken up restarts the timekeeping.
-+    That allows the CPUs to stay in the deep idle state relatively long in one
-+    go.
-+
-+    From this point on, the CPUs can only be woken up by non-timer hardware
-+    interrupts.  If that happens, they go back to the idle state unless the
-+    interrupt that woke up one of them comes from an IRQ that has been armed for
-+    system wakeup, in which case the system resume transition is started.
-+
-+
-+.. _s2idle_resume:
-+
-+Suspend-to-idle Resume Code Flow
-+================================
-+
-+The following steps are taken in order to transition the system from the
-+:ref:`suspend-to-idle <s2idle>` sleep state into the working state:
-+
-+ 1. Resuming timekeeping and unfreezing the scheduler tick.
-+
-+    When one of the CPUs is woken up (by a non-timer hardware interrupt), it
-+    leaves the idle state entered in the last step of the preceding suspend
-+    transition, restarts the timekeeping (unless it has been restarted already
-+    by another CPU that woke up earlier) and the scheduler tick on that CPU is
-+    unfrozen.
-+
-+    If the interrupt that has woken up the CPU was armed for system wakeup,
-+    the system resume transition begins.
-+
-+ 2. Resuming devices and restoring the working-state configuration of IRQs.
-+
-+    Devices are resumeed in four phases called *noirq resume*, *early resume*,
-+    *resume* and *complete* (see :ref:`driverapi_pm_devices` for more
-+    information on what exactly happens in each phase).
-+
-+    Every device is visited in each phase, but typically it is not physically
-+    accessed in more than two of them.
-+
-+    The working-state configuration of IRQs is restored after the *noirq* resume
-+    phase and the runtime PM API is re-enabled for every device whose driver
-+    supports it during the *early* resume phase.
-+
-+ 3. Thawing tasks.
-+
-+    Tasks frozen in step 2 of the preceding `suspend <s2idle_suspend_>`_
-+    transition are "thawed", which means that they are woken up from the
-+    uninterruptible sleep that they went into at that time and user space tasks
-+    are allowed to exit the kernel.
-+
-+ 4. Invoking system-wide resume notifiers.
-+
-+    This is analogous to step 1 of the `suspend <s2idle_suspend_>`_ transition
-+    and the same set of callbacks is invoked at this point, but a different
-+    "notification type" parameter value is passed to them.
-+
-+
-+Platform-dependent Suspend Code Flow
-+====================================
-+
-+The following steps are taken in order to transition the system from the working
-+state to platform-dependent suspend state:
-+
-+ 1. Invoking system-wide suspend notifiers.
-+
-+    This step is the same as step 1 of the suspend-to-idle suspend transision
-+    described `above <s2idle_suspend_>`_.
-+
-+ 2. Freezing tasks.
-+
-+    This step is the same as step 2 of the suspend-to-idle suspend transision
-+    described `above <s2idle_suspend_>`_.
-+
-+ 3. Suspending devices and reconfiguring IRQs.
-+
-+    This step is analogous to step 3 of the suspend-to-idle suspend transision
-+    described `above <s2idle_suspend_>`_, but the arming of IRQs for system
-+    wakeup generally does not have any effect on the platform.
-+
-+    There are platforms that can go into a very deep low-power state internally
-+    when all CPUs in them are in sufficiently deep idle states and all I/O
-+    devices have been put into low-power states.  On those platforms,
-+    suspend-to-idle can reduce system power very effectively.
-+
-+    On the other platforms, however, low-level components (like interrupt
-+    controllers) need to be turned off in a platform-specific way (implemented
-+    in the hooks provided by the platform driver) to achieve comparable power
-+    reduction.
-+
-+    That usually prevents in-band hardware interrupts from waking up the system,
-+    which must be done in a special platform-dependent way.  Then, the
-+    configuration of system wakeup sources usually starts when system wakeup
-+    devices are suspended and is finalized by the platform suspend hooks later
-+    on.
-+
-+ 4. Disabling non-boot CPUs.
-+
-+    On some platforms the suspend hooks mentioned above must run in a one-CPU
-+    configuration of the system (in particular, the herware cannot be accessed
-+    by any code running in parallel with the platform suspend hooks that may,
-+    and often do, trap into the platform firmware in order to finalize the
-+    suspend transition).
-+
-+    For this reason, the CPU offline/online (CPU hotplug) framework is used
-+    to take all of the CPUs in the system, except for one (the boot CPU),
-+    offline (typially, the CPUs that have been taken offline go into deep idle
-+    states).
-+
-+    This means that all tasks are migrated away from those CPUs and all IRQs are
-+    rerouted to the only CPU that remains online.
-+
-+ 5. Suspending core system components.
-+
-+    This prepares the core system components for (possibly) losing power going
-+    forward and suspends the timekeeping.
-+
-+ 6. Platform-specific power removal.
-+
-+    This is expected to remove power from all of the system components except
-+    for the mamory controller and RAM (in order to preserve the contents of the
-+    latter) and some devices designated for system wakeup.
-+
-+    In many cases control is passed to the platform firmware which is expected
-+    to finalize the suspend transition as needed.
-+
-+
-+Platform-dependent Resume Code Flow
-+===================================
-+
-+The following steps are taken in order to transition the system from a
-+platform-dependent suspend state into the working state:
-+
-+ 1. Platform-specific system wakeup.
-+
-+    The platform is woken up by a signal from one of the designated system
-+    wakeup devices (which need not be an in-band hardware interrupt)  and
-+    control is passed back to the kernel (the working configuration of the
-+    platform may need to be restored by the platform firmware before the
-+    kernel gets control again).
-+
-+ 2. Resuming core system components.
-+
-+    The suspend-time configuration of the core system components is restored and
-+    the timekeeping is resumed.
-+
-+ 3. Re-enabling non-boot CPUs.
-+
-+    The CPUs disabled in step 4 of the preceding suspend transition are taken
-+    back online and their suspend-time configuration is restored.
-+
-+ 4. Resuming devices and restoring the working-state configuration of IRQs.
-+
-+    This step is the same as step 2 of the suspend-to-idle suspend transision
-+    described `above <s2idle_resume_>`_.
-+
-+ 5. Thawing tasks.
-+
-+    This step is the same as step 3 of the suspend-to-idle suspend transision
-+    described `above <s2idle_resume_>`_.
-+
-+ 6. Invoking system-wide resume notifiers.
-+
-+    This step is the same as step 4 of the suspend-to-idle suspend transision
-+    described `above <s2idle_resume_>`_.
-Index: linux-pm/Documentation/admin-guide/pm/system-wide.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/system-wide.rst
-+++ linux-pm/Documentation/admin-guide/pm/system-wide.rst
-@@ -8,3 +8,4 @@ System-Wide Power Management
-    :maxdepth: 2
+diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
+index f706b821aba6..21fa98b51e00 100644
+--- a/arch/arm64/mm/hugetlbpage.c
++++ b/arch/arm64/mm/hugetlbpage.c
+@@ -441,22 +441,14 @@ void huge_ptep_clear_flush(struct vm_area_struct *vma,
+ 	clear_flush(vma->vm_mm, addr, ptep, pgsize, ncontig);
+ }
  
-    sleep-states
-+   suspend-flows
-
-
+-static void __init add_huge_page_size(unsigned long size)
+-{
+-	if (size_to_hstate(size))
+-		return;
+-
+-	hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT);
+-}
+-
+ static int __init hugetlbpage_init(void)
+ {
+ #ifdef CONFIG_ARM64_4K_PAGES
+-	add_huge_page_size(PUD_SIZE);
++	hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
+ #endif
+-	add_huge_page_size(CONT_PMD_SIZE);
+-	add_huge_page_size(PMD_SIZE);
+-	add_huge_page_size(CONT_PTE_SIZE);
++	hugetlb_add_hstate(CONT_PMD_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(PMD_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(CONT_PTE_SHIFT - PAGE_SHIFT);
+ 
+ 	return 0;
+ }
+diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpage.c
+index 2c3fa0a7787b..4d5ed1093615 100644
+--- a/arch/powerpc/mm/hugetlbpage.c
++++ b/arch/powerpc/mm/hugetlbpage.c
+@@ -584,8 +584,7 @@ static int __init add_huge_page_size(unsigned long long size)
+ 	if (!arch_hugetlb_valid_size((unsigned long)size))
+ 		return -EINVAL;
+ 
+-	if (!size_to_hstate(size))
+-		hugetlb_add_hstate(shift - PAGE_SHIFT);
++	hugetlb_add_hstate(shift - PAGE_SHIFT);
+ 	return 0;
+ }
+ 
+diff --git a/arch/riscv/mm/hugetlbpage.c b/arch/riscv/mm/hugetlbpage.c
+index 4e5d7e9f0eef..932dadfdca54 100644
+--- a/arch/riscv/mm/hugetlbpage.c
++++ b/arch/riscv/mm/hugetlbpage.c
+@@ -26,7 +26,7 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
+ static __init int gigantic_pages_init(void)
+ {
+ 	/* With CONTIG_ALLOC, we can allocate gigantic pages at runtime */
+-	if (IS_ENABLED(CONFIG_64BIT) && !size_to_hstate(1UL << PUD_SHIFT))
++	if (IS_ENABLED(CONFIG_64BIT))
+ 		hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
+ 	return 0;
+ }
+diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
+index 4618f96fd30f..ae819a16d07a 100644
+--- a/arch/sparc/mm/init_64.c
++++ b/arch/sparc/mm/init_64.c
+@@ -325,23 +325,12 @@ static void __update_mmu_tsb_insert(struct mm_struct *mm, unsigned long tsb_inde
+ }
+ 
+ #ifdef CONFIG_HUGETLB_PAGE
+-static void __init add_huge_page_size(unsigned long size)
+-{
+-	unsigned int order;
+-
+-	if (size_to_hstate(size))
+-		return;
+-
+-	order = ilog2(size) - PAGE_SHIFT;
+-	hugetlb_add_hstate(order);
+-}
+-
+ static int __init hugetlbpage_init(void)
+ {
+-	add_huge_page_size(1UL << HPAGE_64K_SHIFT);
+-	add_huge_page_size(1UL << HPAGE_SHIFT);
+-	add_huge_page_size(1UL << HPAGE_256MB_SHIFT);
+-	add_huge_page_size(1UL << HPAGE_2GB_SHIFT);
++	hugetlb_add_hstate(HPAGE_64K_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(HPAGE_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(HPAGE_256MB_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(HPAGE_2GB_SHIFT - PAGE_SHIFT);
+ 
+ 	return 0;
+ }
+diff --git a/arch/x86/mm/hugetlbpage.c b/arch/x86/mm/hugetlbpage.c
+index 937d640a89e3..cf5781142716 100644
+--- a/arch/x86/mm/hugetlbpage.c
++++ b/arch/x86/mm/hugetlbpage.c
+@@ -195,7 +195,7 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
+ static __init int gigantic_pages_init(void)
+ {
+ 	/* With compaction or CMA we can allocate gigantic pages at runtime */
+-	if (boot_cpu_has(X86_FEATURE_GBPAGES) && !size_to_hstate(1UL << PUD_SHIFT))
++	if (boot_cpu_has(X86_FEATURE_GBPAGES))
+ 		hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
+ 	return 0;
+ }
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 02b13ee26790..72a4343509d5 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -3216,8 +3216,7 @@ static int __init hugetlb_init(void)
+ 		}
+ 
+ 		default_hstate_size = HPAGE_SIZE;
+-		if (!size_to_hstate(default_hstate_size))
+-			hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
++		hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
+ 	}
+ 	default_hstate_idx = hstate_index(size_to_hstate(default_hstate_size));
+ 	if (default_hstate_max_huge_pages) {
+@@ -3255,7 +3254,6 @@ void __init hugetlb_add_hstate(unsigned int order)
+ 	unsigned long i;
+ 
+ 	if (size_to_hstate(PAGE_SIZE << order)) {
+-		pr_warn("hugepagesz= specified twice, ignoring\n");
+ 		return;
+ 	}
+ 	BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
+@@ -3330,6 +3328,11 @@ static int __init hugepagesz_setup(char *s)
+ 		return 0;
+ 	}
+ 
++	if (size_to_hstate(size)) {
++		pr_warn("HugeTLB: hugepagesz %s specified twice, ignoring\n", s);
++		return 0;
++	}
++
+ 	hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT);
+ 	return 1;
+ }
+-- 
+2.25.1
 
