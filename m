@@ -2,53 +2,54 @@ Return-Path: <SRS0=yfWO=5R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0945C43331
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 14:15:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 544DEC18E5B
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 14:21:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 90BD020705
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 14:15:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20DDC20705
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 14:21:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="FLoiFyV9"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="Z+AKAFs0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732955AbgDAOPD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Apr 2020 10:15:03 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:58452 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732826AbgDAOPD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 10:15:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=CG4OmPa/gJjzatQG79XkzsR0JM6D3FtKUESWPgDFYUI=; b=FLoiFyV9GBN4e5K2JSJFsYsLy
-        eQEiCGTHai8I/AIPsdax4gnpxe1sTozOowESIDOeFOHX6PXaLlaOIa1qCKZD2OHOOJ6BP1fQJ3bsG
-        yOmw5xJo828E6kLdA7vqcOoooAnPu+C/dHp2sm21JTA2wlMZmwLqK+GGcOfV8GOGy7s730Q/2meIn
-        I9iPGDwRX4pbJIzxJ2BG9NQl/yXBP59v8n1kQUNFxw1uh/gJoOuvlGRxHByXAnU5Xq4BR9o+H2Hev
-        MHu19blJGnmGCDkaY6T3g9vCEjVUFOjs7ae8+ltAm1ZjPUtbLlL5/ukGo3KKgYK80Q/xmLiTaLpj/
-        VLsSYYRNA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:44274)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1jJe8r-0006LQ-Nb; Wed, 01 Apr 2020 15:14:53 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1jJe8m-0000lb-QQ; Wed, 01 Apr 2020 15:14:48 +0100
-Date:   Wed, 1 Apr 2020 15:14:48 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Florinel Iordache <florinel.iordache@nxp.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        "davem@davemloft.net" <davem@davemloft.net>,
+        id S1732922AbgDAOVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Apr 2020 10:21:36 -0400
+Received: from mail-eopbgr140073.outbound.protection.outlook.com ([40.107.14.73]:5351
+        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1732205AbgDAOVg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Apr 2020 10:21:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k1rruNO3/pMXmzna3M9oic47i5Lfx3/wwxOIsF7i2rY8OFqAA0VhGkF5lNwciPVMxHEv+HbH0PN1tbxFk9FSr9BhnpHxtcGBDMqjjVMeYLKOUo9D1BOKtIWG4TITp+mpAFu5JyZ7E6e9NTnxRMTn2KZf+zdjUuduY0wr5ZKA+mUntN6OYnQyyHvdyUspZtjRnhn4KNvwLvStK9dPjWERe4QgpvjN1F04L+q69Xtt7z/TPukda45AseGNawTSFDOeWLN8zBQCa4FfFoDrfT3qs+sILW56zfXjj7GUadVLzf04hJj3/uBB2g3c7Np6EMLpWSG0e8NypX3ZACK0zpQamw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1jz0BGOXq0nHgoApsMEmTwGe561EMm73LmRro4EnDCk=;
+ b=g3Pmf1VJL6yroo3e/XdxAvlZJWXFzUTZTjydodprk4E5fBy9wDVd+SyUpvZXaoH99hU1M3bzfozq7XjRbxznAqZ4Al4K7e17LsA9Ea9H9nbbmzvuIHRSLdaKPnDishu8Lm1R6QIzkorfibNP4+n34aHrKwuRbNRmjOWumFbjN30Er3ErOwRRvJsSB+jMQdd0bJhqfwy9IAiaLwLkKfqSMUNsi/4WaASiZ9yXiX3U/sy6pWmTJTEtiQlC9NjTRCHY0S2Ay77q3iHNYUFeT6JDuvhkOl+P4ZYsiYkQiH4cizb3PNx7elT/g13uZm9LQihKbQ1H8f+zJZkAT0I67IfiRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1jz0BGOXq0nHgoApsMEmTwGe561EMm73LmRro4EnDCk=;
+ b=Z+AKAFs0X3gZUBU0p7FJDPifHOZVA/Zy9dj3K509cxk/vTFisC8Z0vUTda8uPm2wehx983TTnPhTB/9C9wSywkj66gp0wURTGdFC8wO28ekOXeueDf1fS+/27SB152bMBnthkS8qv7q6oWyiJIw69wKCntsuyxLeFNH70tBkUz8=
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com (20.178.114.161) by
+ AM0PR04MB4467.eurprd04.prod.outlook.com (52.135.151.28) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2856.20; Wed, 1 Apr 2020 14:21:28 +0000
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::ccc:be36:aaf0:709a]) by AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::ccc:be36:aaf0:709a%7]) with mapi id 15.20.2856.019; Wed, 1 Apr 2020
+ 14:21:28 +0000
+From:   Florinel Iordache <florinel.iordache@nxp.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+CC:     "davem@davemloft.net" <davem@davemloft.net>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
         "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "robh+dt@kernel.org" <robh+dt@kernel.org>,
@@ -59,89 +60,117 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Leo Li <leoyang.li@nxp.com>,
         "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
         Ioana Ciornei <ioana.ciornei@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next 6/9] net: phy: add backplane kr driver support
-Message-ID: <20200401141448.GU25745@shell.armlinux.org.uk>
-References: <AM0PR04MB544326757B0B510C7C3C6417FBC90@AM0PR04MB5443.eurprd04.prod.outlook.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Florinel Iordache <florinel.iordache@nxp.com>
+Subject: RE: [EXT] Re: [PATCH net-next 6/9] net: phy: add backplane kr driver
+ support
+Thread-Topic: [EXT] Re: [PATCH net-next 6/9] net: phy: add backplane kr driver
+ support
+Thread-Index: AdYIKJUsx3bt4MTYS3+XcE5ss4tWhQABBMuAAAD8oPA=
+Date:   Wed, 1 Apr 2020 14:21:28 +0000
+Message-ID: <AM0PR04MB544389A6B2400335A23E4960FBC90@AM0PR04MB5443.eurprd04.prod.outlook.com>
+References: <AM0PR04MB5443E8D583734C98C54C519EFBC90@AM0PR04MB5443.eurprd04.prod.outlook.com>
+ <20200401135135.GA62290@lunn.ch>
+In-Reply-To: <20200401135135.GA62290@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=florinel.iordache@nxp.com; 
+x-originating-ip: [78.96.99.111]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 27154afd-1b07-40ef-088b-08d7d647f7f7
+x-ms-traffictypediagnostic: AM0PR04MB4467:|AM0PR04MB4467:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR04MB4467866B87E436E12388D466FBC90@AM0PR04MB4467.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 03607C04F0
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5443.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(136003)(346002)(396003)(39860400002)(376002)(366004)(6506007)(52536014)(71200400001)(64756008)(44832011)(9686003)(66446008)(26005)(2906002)(5660300002)(66556008)(186003)(66946007)(55016002)(76116006)(66476007)(7696005)(86362001)(81156014)(33656002)(316002)(478600001)(8936002)(81166006)(8676002)(7416002)(54906003)(6916009)(4326008);DIR:OUT;SFP:1101;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: udNBqA06JfHPR6bmj4Mm0lbv4MqDe1+H338TOYdGX4jY4K0Fvf1q335DW5VEeXFsvErRoy+eOk7ZqWvY17+O/Yd2nlhBxPiKXkMT1NULsd0l3T4k8fCbevBE4MUIEqLe0O851PKrdMn2SDmrVlBxWspnXfuzJ0PhYU2c/HwgxsO5lH0JLamLQ1DbIDerIWbkJxMNX+g9kdQYmtjyO7txbcoxV21pOHtt3tkOd0Jyg6jDQD66FXEYdZq7/fY3Sa4NquGE4snYWf6pD4peyRKqGQf0S8u69tDJtLPIk++pn+mv/MvMWnwvPKy/xpijuw3r3QUo8pneIFqkRSCOg5c57fzl2H9O7drsphtVQdn/gONYF+RlRpbwhjDTzB4YumqLxnIse+KbElsBZm7crM7s4xQwbPdULI+ftKGZNB57HQ4NMZCyQQHEDWBGNBFxlSD3
+x-ms-exchange-antispam-messagedata: JoVljybq5WNWUA+6z/8kmxem5FQhw3KOVvZLIYEN0ylMgsSE8BH/M3biPDzqwVZb8HBIyi29coOU6pjOTPdQQqmR/PX8Z1MYlMBwaD7X4tw/vUekPVu0bgANgnfwLcysA0+E43ngJphBqv0OSlDrvA==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM0PR04MB544326757B0B510C7C3C6417FBC90@AM0PR04MB5443.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27154afd-1b07-40ef-088b-08d7d647f7f7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2020 14:21:28.6459
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cmpjOhrcc+f55ML+ibivQdedK8D6DNVaR4pRjPvxdi9GxwDMqeeWLqWEpQiUm6FlcGUHegIHj5+Bh2tq0jukgPKWdY2894ap5TXn+McNOxU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB4467
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 01, 2020 at 02:01:25PM +0000, Florinel Iordache wrote:
-> > On Thu, Mar 26, 2020 at 03:51:19PM +0200, Florinel Iordache wrote:
-> > > Add support for backplane kr generic driver including link training
-> > > (ieee802.3ap/ba) and fixed equalization algorithm
+> On Wed, Apr 01, 2020 at 01:35:36PM +0000, Florinel Iordache wrote:
+> > > On Thu, Mar 26, 2020 at 03:51:19PM +0200, Florinel Iordache wrote:
+> > > > +static void setup_supported_linkmode(struct phy_device *bpphy) {
+> > > > +     struct backplane_phy_info *bp_phy =3D bpphy->priv;
 > > >
-> > > Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
-> > > +/* Read AN Link Status */
-> > > +static int is_an_link_up(struct phy_device *bpphy) {
-> > > +     struct backplane_phy_info *bp_phy = bpphy->priv;
-> > > +     int ret, val = 0;
-> > > +
-> > > +     mutex_lock(&bp_phy->bpphy_lock);
-> > > +
-> > > +     /* Read twice because Link_Status is LL (Latched Low) bit */
-> > > +     val = phy_read_mmd(bpphy, MDIO_MMD_AN, bp_phy-
-> > >bp_dev.mdio.an_status);
-> > > +     val = phy_read_mmd(bpphy, MDIO_MMD_AN,
-> > > + bp_phy->bp_dev.mdio.an_status);
-> > 
-> > Why not just
-> > 
-> > val = phy_read_mmd(bpphy, MDIO_MMD_AN, MDIO_CTRL1);
-> > 
-> > Or is your hardware not actually conformant to the standard?
-> > 
-> > There has also been a lot of discussion of reading the status twice is correct or
-> > not. Don't you care the link has briefly gone down and up again?
-> > 
-> >         Andrew
-> 
-> This could be changed to use directly the MDIO_STAT1 in order to read
-> AN status (and use MDIO_CTRL1 for writing the control register) but this
-> is more flexible and more readable since we defined the structure
-> kr_mdio_info that contains all registers offsets required by backplane
-> driver like: LT(link training) registers, AN registers, PMD registers.
-> So we wanted to put all these together to be clear that all these
-> offsets are essential for backplane driver and they can be setup
-> automatically by calling the function: backplane_setup_mdio_c45.
-> 
-> + void backplane_setup_mdio_c45(struct backplane_kr_info *bpkr)
-> + /* KX/KR AN registers: IEEE802.3 Clause 45 (MMD 7) */
-> + bpkr->mdio.an_control = MDIO_CTRL1;
-> + bpkr->mdio.an_status = MDIO_STAT1;
-> + bpkr->mdio.an_ad_ability_0 = MDIO_PMA_EXTABLE_10GBKR;
-> + bpkr->mdio.an_ad_ability_1 = MDIO_PMA_EXTABLE_10GBKR + 1;
-> + bpkr->mdio.an_lp_base_page_ability_1 = MDIO_PMA_EXTABLE_10GBKR + 4;
+> > > I'm not sure it is a good idea to completely take over phydev->priv
+> > > like this, in what is just helper code. What if the PHY driver needs
+> > > memory of its own? There are a few examples of this already in other
+> > > PHY drivers. Could a KR PHY contain a temperature sensor? Could it
+> > > contain statistics counters which need accumulating?
+> > >
+> > >         Andrew
+> >
+> > Backplane KR driver allocates memory for structure backplane_phy_info
+> > which is saved in phydev->priv. After all this is the purpose of priv
+> > according to its description in phy.h: <<private data pointer For use
+> > by PHYs to maintain extra state>>. Here the priv is used to maintain
+> > extra state needed for backplane. This way the backplane specific data
+> > becomes available for all PHY callbacks (defined in struct phy_driver)
+> > that receive a pointer to phy_device structure. This initial version
+> > doesn't include accumulating statistics counters but we have in plan
+> > to add these in future versions. The counters will be kept in specific
+> > structures as members of the main backplane data mentioned above and
+> > entire support will be integrated with ethtool.
+>=20
+> Hi Florinel
+>=20
+> And what about hwmon, or anything else which a driver needs memory for?
+>=20
+> As far as i see it, we have two bodies of code here. There is a set of he=
+lpers
+> which implement most of the backplane functionality. And then there is an
+> example driver for your hardware. In the future we expect other drivers t=
+o be
+> added for other vendors hardware.
+>=20
+> phydev->priv is for the driver. helpers should not assume they have
+> complete control over it.
+>=20
+> Anyway, this may be a mute point. Lets first solve the problem of how a P=
+CS is
+> represented.
+>=20
+>   Andrew
 
-Where they are IEEE 802.3 standard registers, just use the standard
-definitions, do not indirect.
+Hi Andrew,
 
-> This approach is more flexible because it lets open the possibility for
-> extension on other non-standard devices (devices non-compliant with
-> clause 45) to still use this driver for backplane operation.
+Backplane driver was designed as a generic backplane driver over
+the PHY Abstraction Layer, containing standard implementations over
+which several specific devices can be added.
+(please see the diagram existent in chapter: Ethernet Backplane support
+architecture, in the Documentation/networking/backplane.rst)
+So according to this design, the backplane driver can use the priv pointer
+provided by the layer below which is the PHY to be used as extra state
+by the next upper layer which is generic backplane. On the same concept
+we can provide another priv pointer in backplane main structure which is
+equivalent to phy_device to be used by the specific backplane drivers on
+the upper layer.
+Actually for this reason, in v2 which I am currently working, I already
+renamed the structure 'backplane_phy_info' to 'backplane_device'
 
-That's an entirely false argument.  If something is going to be
-non-standard, why do you think that the only thing they'll do is
-have non-standard register offsets?  Wouldn't they also have
-non-standard register contents as well - and if they do, your
-"flexible" model will no longer work there.
-
-This seems to me to be a classic case of over-design.
-
-We have seem some PHYs with multiple different PHY blocks within the
-clause 45 space, but these are merely at offsets and follow the
-standard IEEE 802.3 register sets at various offsets.  The minimum
-that would be required in that case would be to carry a single register
-offset - but there is no point until we encounter a PHY that actually
-requires that for this support.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 10.2Mbps down 587kbps up
+Thank you,
+Florin.
