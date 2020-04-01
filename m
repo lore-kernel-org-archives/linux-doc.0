@@ -2,133 +2,140 @@ Return-Path: <SRS0=yfWO=5R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7464C43331
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 09:44:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBDFFC43331
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 10:02:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A9B6920772
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 09:44:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585734244;
-	bh=Zd05QGuWdYEmB3k5+Q5MBVsFJE7NodXcguEaNu1A40Y=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=l0vBl76vodxrgFOPWmUBGNnwRqvdt0Xupz+mM1yT02/X/sBchb1DRaQkSPGZ0Gk7J
-	 uhKi209O6cA5swmzbXUP+QYnuuPdRHLLPFdPKYkJu1F/fLGr63/+TinjIPZNJUkidg
-	 HuYhj2FSHL5isxDx8KAdSXPwzrSi4gb0To8llS58=
+	by mail.kernel.org (Postfix) with ESMTP id A99192078B
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 10:02:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=unikie-com.20150623.gappssmtp.com header.i=@unikie-com.20150623.gappssmtp.com header.b="SQ5ypJul"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732004AbgDAJoE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Apr 2020 05:44:04 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:46153 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731608AbgDAJoD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 05:44:03 -0400
-Received: by mail-oi1-f193.google.com with SMTP id q204so21580958oia.13;
-        Wed, 01 Apr 2020 02:44:03 -0700 (PDT)
+        id S1732185AbgDAKCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Apr 2020 06:02:51 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:41867 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732123AbgDAKCu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 06:02:50 -0400
+Received: by mail-lj1-f195.google.com with SMTP id n17so25108217lji.8
+        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2020 03:02:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=unikie-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=g2acQBwSdU8TClaR1PdrlLUVyKKZBvmfDgY4bZv6CmQ=;
+        b=SQ5ypJulyOsWIY3Ku0c0sdTpo8CFdwNq9pU9PKkyuH0O1H+hNSfPsW5ofyi3gGlpSg
+         TWWLl8t2kD3LGgxzaY321b3JbSeQn2nf32tTxsePH9WxrOhaQGdU2aaG5iSCn64Jhl2K
+         MrEqIqqbs31++Hhu5bjEGF73pngDZEIqv0qRNkuyLW2bxyRgHziPvbx7m82Qvfa04+il
+         f1zVa2brw7CZy7CvX+CnT38xcJSTqXa4m8pok+HYiAOr3XDowk7T4PgmiAxXZKA1Xqbd
+         hjhDyb11yKz+n2/AnaVGej0uJAnxdmlRj833TUFoQq7HNYu6bcobre1DQEqerpcJaQGZ
+         NV0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Tc/XOc5/LK1Q2z5fURAPBVNdJRpf3W6JCMUDG26GjAA=;
-        b=ppLeAwfEvUJnGL9KZATgfL72F6SWFf6GmzF2TwLZ1/r05alfHZ8ArydD2z8ryt1VKy
-         PMmxoeHjVekvT+U5bBiG6mVxfWiaPL2O4wQ5J3J55e3U8YEE1bY6nyisx7PcQW9K1chs
-         1RhSGVwJ7C0O1Bp5c9LgYAJ6Ft06x3CpBnKnN9k/SksL2etKhXQkdpTxvojZT6DkZgtn
-         dJo6y+oHWxY1/P8crUXyR+tbhBIQMs0Hf+366aaWaamB+GXs6Pm0+A0AK1PmVk2fdwC1
-         f3az4ajEWHbrT0oGTax/6VM3htyNFVP913+TbobQdH2o++7HRRy0cpH/itvjLHUs2rna
-         NXpw==
-X-Gm-Message-State: AGi0PuZGyYdO8ItbzDAtrqbFX5Z07GJdalhc3/nA1iRd2rxL92a/rgXt
-        bnOEss7hSShztx/KAwt8PwBdfy7AYo+W0/Yw3LE=
-X-Google-Smtp-Source: APiQypIx6BXDtcLC1NIBjcSQ0pUhumEFfmetRvP19HCeojek7ZuEzadWynK1exhfGc0EyDZD28JGUbNTXHpM7N81smI=
-X-Received: by 2002:aca:2209:: with SMTP id b9mr2183308oic.103.1585734243209;
- Wed, 01 Apr 2020 02:44:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200329144640.20536-1-yu.c.chen@intel.com>
-In-Reply-To: <20200329144640.20536-1-yu.c.chen@intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 1 Apr 2020 11:43:51 +0200
-Message-ID: <CAJZ5v0gV2Tn_CQoJiuR92gjJ8-xjzLPY8esAkxgy=W8YkvUNyg@mail.gmail.com>
-Subject: Re: [PATCH][v2] PM / sleep: Add pm_debug_messages boot command control
-To:     Chen Yu <yu.c.chen@intel.com>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=g2acQBwSdU8TClaR1PdrlLUVyKKZBvmfDgY4bZv6CmQ=;
+        b=ehCnHVGcExJG5pAapufXnsbmISqv/9lBEq5OaK7CpuE5GmMXMKWgUcm9NXK5l0Ps5+
+         YDCKIrrs5qgRqb9L6fmzvl4W//9URb0MP4Z0/QG9Kt5yjsspXn/3QbBSXFZWoOQtadVU
+         jr+6SijOPoVvSDxS/viiLrZbsFpEqbG5vLo/55SN7XKnpdjFS9PsymyUu2m7xuVy1XH5
+         a0DCQbZpBOTUx8fitRcV58p46dJSjnH21NGG7Hq9cGjSGoukF8LYC+gutjgYGPrBwHKn
+         MowIbGNRwsXvbF4xp4hbhqG1leqKBIESkulcOQ5tUf6b3iVQlhs7FPlnlaMg8EJXjenG
+         mKbQ==
+X-Gm-Message-State: AGi0Pua2hhTIPxyjgqa26yhtAP7LcrV3ts45HlMu4cHsoVEARDBrBMfm
+        sPgXi5136Lczx05AbEHVCntFVF2lVVGR6g==
+X-Google-Smtp-Source: APiQypIVOHoTA5JEJDVAZclyEu7xiRg0Hp96XPCiq34AJLs31TbktOyQFFcVg1/Xq9gQLD8rhGCqEg==
+X-Received: by 2002:a05:651c:404:: with SMTP id 4mr12957660lja.281.1585735368186;
+        Wed, 01 Apr 2020 03:02:48 -0700 (PDT)
+Received: from localhost.localdomain (dyvyn9m99j8s7-9xsphjt-4.rev.dnainternet.fi. [2001:14bb:440:beab:bd3f:1fbf:f66f:618f])
+        by smtp.googlemail.com with ESMTPSA id n14sm862986ljm.104.2020.04.01.03.02.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2020 03:02:47 -0700 (PDT)
+From:   John Mathew <john.mathew@unikie.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, mingo@redhat.com,
+        peterz@infradead.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, tsbogend@alpha.franken.de,
+        lukas.bulwahn@gmail.com, x86@kernel.org,
+        linux-mips@vger.kernel.org, tglx@linutronix.de,
+        mostafa.chamanara@basemark.com,
+        John Mathew <john.mathew@unikie.com>
+Subject: [RFC PATCH 0/3] Add scheduler overview documentation
+Date:   Wed,  1 Apr 2020 13:00:26 +0300
+Message-Id: <20200401100029.1445-1-john.mathew@unikie.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 29, 2020 at 4:48 PM Chen Yu <yu.c.chen@intel.com> wrote:
->
-> Debug messages from the system suspend/hibernation infrastructure
-> is disabled by default, and can only be enabled after the system
-> has boot up via /sys/power/pm_debug_messages. This makes the hibernation
-> resume hard to track as it involves system boot up across hibernation.
-> There's no chance for software_resume() to track the resume process,
-> eg.
->
-> Turning on the pm_debug_messages during boot up by appending
-> 'pm_debug_message'.
->
-> Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-> Cc: Len Brown <lenb@kernel.org>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Chen Yu <yu.c.chen@intel.com>
-> ---
-> v2: According to Randy's suggestion, add the command line
->     option to Documentation/admin-guide/kernel-parameters.txt
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 3 +++
->  kernel/power/main.c                             | 7 +++++++
->  2 files changed, 10 insertions(+)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index c07815d230bc..105ec73743d7 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3698,6 +3698,9 @@
->                         Override pmtimer IOPort with a hex value.
->                         e.g. pmtmr=0x508
->
-> +       pm_debug_message        [SUSPEND,KNL]
-> +                       Enable suspend/resume debug messages during boot up.
-> +
->         pnp.debug=1     [PNP]
->                         Enable PNP debug messages (depends on the
->                         CONFIG_PNP_DEBUG_MESSAGES option).  Change at run-time
-> diff --git a/kernel/power/main.c b/kernel/power/main.c
-> index 69b7a8aeca3b..1da3d7c15e03 100644
-> --- a/kernel/power/main.c
-> +++ b/kernel/power/main.c
-> @@ -535,6 +535,13 @@ static ssize_t pm_debug_messages_store(struct kobject *kobj,
->
->  power_attr(pm_debug_messages);
->
-> +static int __init pm_debug_message_setup(char *str)
-> +{
-> +       pm_debug_messages_on = true;
-> +       return 1;
-> +}
-> +__setup("pm_debug_message", pm_debug_message_setup);
+Hi all,
 
-I'd call this "pm_debug_messages" (just like the sysfs knob) and
-rename the rest accordingly.
+Based on our investigation in the area of the MIPS scheduler context
+switch we wish to share our learnings about the kernel scheduler in
+the form of kernel documentation. Investigations were done mostly by
+stepping through the code using GDB and code inspection. The aim of
+the patchset is to provide a brief overview of the kernel scheduler
+starting from a brief history, the overview of the kernel structs
+used by the scheduler, scheduler invocation and context switch. We
+have also added a small section on scheduler state modelling
+possibilities. In order to add these subjects we have restructured
+the existing scheduler documentation so as to put them in to suitable
+sections. We hope the new structure will enable easy extension of the
+scheduler documentation.
 
-> +
->  /**
->   * __pm_pr_dbg - Print a suspend debug message to the kernel log.
->   * @defer: Whether or not to use printk_deferred() to print the message.
-> --
+Patch 1 creates place holders and new structure for the scheduler documentation.
+The main sections are
+ - Scheduler overview: Overview of the scheduler.
+ - CFS: A section dedicated to CFS scheduler.
+ - Process context switching: Context switching overview.
+ - Scheduler features: We thought most of the existing documentation can be moved
+   here.
+ - Architecture Specific Scheduler Implementation Differences: Aimed for each
+   architecture and future updates.
+ - Scheduler Debugging Interface: For scheduler diagnostics and utilities
+ - Scheduler related functions: Scheduler API reference.
+
+Patch 2: Adds documentation for the place holders of the Scheduler overview,
+ Scheduler State Transition and CFS sections.
+
+Patch 3: Adds documentation for the place holder of the Process context switching
+ and add 2 new sections to for x86 and MIPS context switch.
+
+
+John Mathew (3):
+  docs: scheduler: Restructure scheduler documentation.
+  docs: scheduler: Add scheduler overview documentation
+  docs: scheduler: Add introduction to scheduler context-switch
+
+ Documentation/scheduler/arch-specific.rst     |  14 +
+ Documentation/scheduler/cfs-data-structs.rst  | 208 ++++++++++++++
+ Documentation/scheduler/cfs-overview.rst      |  46 ++++
+ .../scheduler/cfs-sched-overview.rst          |  17 ++
+ Documentation/scheduler/context-switching.rst |  71 +++++
+ Documentation/scheduler/index.rst             |  31 ++-
+ .../scheduler/mips-context-switch.rst         |  78 ++++++
+ Documentation/scheduler/overview.rst          | 260 ++++++++++++++++++
+ Documentation/scheduler/sched-debugging.rst   |  14 +
+ Documentation/scheduler/sched-features.rst    |  20 ++
+ Documentation/scheduler/scheduler-api.rst     |  34 +++
+ .../scheduler/x86-context-switch.rst          |  59 ++++
+ kernel/sched/core.c                           |  36 ++-
+ 13 files changed, 867 insertions(+), 21 deletions(-)
+ create mode 100644 Documentation/scheduler/arch-specific.rst
+ create mode 100644 Documentation/scheduler/cfs-data-structs.rst
+ create mode 100644 Documentation/scheduler/cfs-overview.rst
+ create mode 100644 Documentation/scheduler/cfs-sched-overview.rst
+ create mode 100644 Documentation/scheduler/context-switching.rst
+ create mode 100644 Documentation/scheduler/mips-context-switch.rst
+ create mode 100644 Documentation/scheduler/overview.rst
+ create mode 100644 Documentation/scheduler/sched-debugging.rst
+ create mode 100644 Documentation/scheduler/sched-features.rst
+ create mode 100644 Documentation/scheduler/scheduler-api.rst
+ create mode 100644 Documentation/scheduler/x86-context-switch.rst
+
+-- 
+2.17.1
+
