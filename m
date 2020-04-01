@@ -2,134 +2,108 @@ Return-Path: <SRS0=yfWO=5R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FAADC43331
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 12:20:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B685C10F26
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 12:26:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7664720714
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 12:20:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFBC320776
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 12:26:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YSiPpdaD"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ylqXajWE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732281AbgDAMUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Apr 2020 08:20:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29725 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726804AbgDAMUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 08:20:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1585743622;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WDTPFa8ZURJktfLOzCbfsD4S80g+FQC7hULNIYlAu7Y=;
-        b=YSiPpdaD2AFYP/UwgmCUWPKK59g1V9NyzHfu+50zSp2o/CheNx+h8702hRD8hppTBJO9TZ
-        4P7pM3DIHEg+aEUPd1euyhysdT7K1lDk2sTrjlPaHLLVY2lm4ThbOas3/I3RHQPLLQ143G
-        7Z8tzaCcWp6pT9aTQy0bIPSgd1ASkdQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-pelA7wv0NsS5ccnfjPCMJg-1; Wed, 01 Apr 2020 08:20:18 -0400
-X-MC-Unique: pelA7wv0NsS5ccnfjPCMJg-1
-Received: by mail-wm1-f71.google.com with SMTP id j18so1743270wmi.1
-        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2020 05:20:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WDTPFa8ZURJktfLOzCbfsD4S80g+FQC7hULNIYlAu7Y=;
-        b=XblxRkPGo16XO2JFKcvW2Rfs4T+yMkiC2XkI4WbkJda14c8Wu12/bnB/kXb5gMo5W9
-         uz10LMVF3pObbsXZS0ObkjltdmED5OjfsLzJgQVZrG27kuI+wkJvkIWmWm3c88UKr2PV
-         kar+VwXoE6O0OdO2n+/R3n4gku9ptOCht8dq0gvgXd2z8tbS7wXecegi4vbehe48ATJi
-         o0akuoouNdnzJj4KmSubnPM7R92wgqxygLli/fwOIVzUcEBrrbEiA3M4FSk3PekVrGRK
-         FRSvVU8/W3uNzyTHmH0u9S9W5G4Tg5krY9ycGA2Omil/Z0DSSXtgMSled+DrDqbL6dci
-         /Jtg==
-X-Gm-Message-State: AGi0PuYpVfXZSH6rD1RFUQMcOUA69UW+AqRqzSogEm9wcaR1vjx9IdMm
-        kfxvxtSOLXoE/X940sVg2WgJcF3FT8RexkO8f+WNMCXYrbm0k+DZ8+HXZeEbtQSBtKiA8d7DTJi
-        S6ntnYQEvR0NfQ+I1VynM
-X-Received: by 2002:a1c:7216:: with SMTP id n22mr3957780wmc.41.1585743617454;
-        Wed, 01 Apr 2020 05:20:17 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJGm9VynkGDD62kpREjFTDmdSlFXsNNAMFtPN11ojKIAP6F3bbB/QcM2CPWq2x/1zd9n90kRw==
-X-Received: by 2002:a1c:7216:: with SMTP id n22mr3957763wmc.41.1585743617216;
-        Wed, 01 Apr 2020 05:20:17 -0700 (PDT)
-Received: from localhost.localdomain ([151.29.194.179])
-        by smtp.gmail.com with ESMTPSA id s15sm2646131wrt.16.2020.04.01.05.20.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 05:20:16 -0700 (PDT)
-Date:   Wed, 1 Apr 2020 14:20:14 +0200
-From:   Juri Lelli <juri.lelli@redhat.com>
-To:     John Mathew <john.mathew@unikie.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, tsbogend@alpha.franken.de,
+        id S1732253AbgDAM0g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Apr 2020 08:26:36 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:51310 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726901AbgDAM0g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 08:26:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=bA2F3xYSXtxToYcDGgMY/bpcLo9r2/rBkw5fn89bMVc=; b=ylqXajWEGkF6Sqt0mYJLWvBd4P
+        EfrnpLHH5mnJJTenvfXH1elq4HtisN2p43CzGpYz20gO6yBTHt6Ssrq0nVta7D4C7lbLPNrVrFy8F
+        E3AQKnZsqN5RLqqk2/HGI4S/7dyl1yETbviZn/PY2dO/lAdigeI5AR1wogE81uAH0uV0MXhZxLe1V
+        S5QDsER+MfMdrdltaeQpjxn7kqeYJLw8lCGYxU162PBH2v6qqeLsefRS3EiGDSSoXHBMlLghgY4Q1
+        frR61c4vQyHRmyn2LPBk1yvva8CiIlcL1szhAcgNwnwrupUmYnkMNdXd1ZpbmoKoKkg9LcQxlbMdX
+        yVEXVdyQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jJcRd-00044m-Ry; Wed, 01 Apr 2020 12:26:10 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 01A5730610E;
+        Wed,  1 Apr 2020 14:26:07 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id DBF4D29D85C87; Wed,  1 Apr 2020 14:26:06 +0200 (CEST)
+Date:   Wed, 1 Apr 2020 14:26:06 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc:     John Mathew <john.mathew@unikie.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net, mingo@redhat.com,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, tsbogend@alpha.franken.de,
         lukas.bulwahn@gmail.com, x86@kernel.org,
         linux-mips@vger.kernel.org, tglx@linutronix.de,
         mostafa.chamanara@basemark.com
 Subject: Re: [RFC PATCH 2/3] docs: scheduler: Add scheduler overview
  documentation
-Message-ID: <20200401122014.GW14300@localhost.localdomain>
+Message-ID: <20200401122606.GF20713@hirez.programming.kicks-ass.net>
 References: <20200401100029.1445-1-john.mathew@unikie.com>
  <20200401100029.1445-3-john.mathew@unikie.com>
+ <20200401103520.GA20713@hirez.programming.kicks-ass.net>
+ <9614b346-a848-3e01-eea7-6237b759dad6@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200401100029.1445-3-john.mathew@unikie.com>
+In-Reply-To: <9614b346-a848-3e01-eea7-6237b759dad6@redhat.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On 01/04/20 13:00, John Mathew wrote:
-> Add documentation for
->  -scheduler overview
->  -scheduler state transtion
->  -CFS overview
->  -CFS data structs
+On Wed, Apr 01, 2020 at 01:47:04PM +0200, Daniel Bristot de Oliveira wrote:
+> On 4/1/20 12:35 PM, Peter Zijlstra wrote:
+> >> +Scheduler State Transition
+> >> +==========================
+> >> +
+> >> +A very high level scheduler state transition flow with a few states can be
+> >> +depicted as follows.
+> >> +
+> >> +.. kernel-render:: DOT
+> >> +   :alt: DOT digraph of Scheduler state transition
+> >> +   :caption: Scheduler state transition
+> >> +
+> >> +   digraph sched_transition {
+> >> +      node [shape = point,  label="exisiting task\n calls fork()"]; fork
+> >> +      node [shape = box, label="TASK_NEW\n(Ready to run)"] tsk_new;
+> >> +      node [shape = box, label="TASK_RUNNING\n(Ready to run)"] tsk_ready_run;
+> >> +      node [shape = box, label="TASK_RUNNING\n(Running)"] tsk_running;
+> >> +      node [shape = box, label="TASK_DEAD\nEXIT_ZOMBIE"] exit_zombie;
+> >> +      node [shape = box, label="TASK_INTERRUPTIBLE\nTASK_UNINTERRUPTIBLE\nTASK_WAKEKILL"] tsk_int;
+> >> +      fork -> tsk_new [ label = "task\nforks" ];
+> >> +      tsk_new -> tsk_ready_run;
+> >> +      tsk_ready_run -> tsk_running [ label = "schedule() calls context_switch()" ];
+> >> +      tsk_running -> tsk_ready_run [ label = "task is pre-empted" ];
+> >> +      subgraph int {
+> >> +         tsk_running -> tsk_int [ label = "task needs to wait for event" ];
+> >> +         tsk_int ->  tsk_ready_run [ label = "event occurred" ];
+> >> +      }
+> >> +      tsk_int ->  exit_zombie [ label = "task exits via do_exit()" ];
+> >> +   }
+> > And that is a prime example of why I hates RST, it pretty much mandates
+> > you view this with something other than a text editor.
 > 
-> Add rst for scheduler APIs and modify sched/core.c
-> to add kernel-doc comments.
-> 
-> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Co-developed-by: Mostafa Chamanara <mostafa.chamanara@basemark.com>
-> Signed-off-by: Mostafa Chamanara <mostafa.chamanara@basemark.com>
-> Signed-off-by: John Mathew <john.mathew@unikie.com>
-> ---
+> The good thing about the dot format is that we can convert it to many other
+> formats, including text:
 
-[...]
+Oh, I know and love dot files, I generate them occasionally. But they
+stink as end-result, which is what it is here.
 
-> +Kernel forwards the tasks to each class based on the scheduling policy assigned
-> +to each task. Tasks assigned with SCHED_NORMAL, SCHED_IDLE and SCHED_BATCH
-> +go to fair_sched_class and tasks assigned with SCHED_RR and SCHED_FIFO go to
-> +rt_sched_class
-
-I think you also need to mention that SCHED_DEADLINE goes to
-dl_sched_class.
-
-[...]
-
-> +*poicy:* Value for scheduling policy. The possible values are:
-> +
-> +* SCHED_NORMAL: Regular tasks use this policy.
-> +
-> +* SCHED_BATCH:  Tasks which need to run longer  without pre-emption use this
-> +  policy. Suitable for batch jobs.
-> +* SCHED_IDLE: Policy used by background tasks.
-> +
-> +* SCHED_FIFO & SCHED_RR: These policies for real time tasks. Handled by real
-> +  time scheduler.
-
-Here as well. Maybe add also a pointer to related documentation?
-
-Documentation/scheduler/sched-deadline.txt
-
-Thanks,
-
-Juri
-
+If you can't read a document (or worse comment) in a code editor it's
+broken (and yes, I know some subsystems have a different opinion here).
