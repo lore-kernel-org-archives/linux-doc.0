@@ -2,152 +2,119 @@ Return-Path: <SRS0=yfWO=5R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E959C43331
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 17:33:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 625E6C2D0F2
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 17:47:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E335F20787
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 17:33:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m/4SRJO9"
+	by mail.kernel.org (Postfix) with ESMTP id 3A4AF20787
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 17:47:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1585763227;
+	bh=pSIBaD4+b+O8FNdmNyWvEINRgzApDBhx/6Kuu3tMRp4=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=ML8qPVYwae8MZ3PhbEPhS3ruw5tE6Fj28kUVeZuNexc6Z3KYRBRJ52W2nQdqK3EG6
+	 A8ILPF5XjYeuYSyyQPMqFK87X/ftPTGv0rXD1UJLuT6OayMZuWdB/4dpNsj3L+TFaq
+	 rP9U5bVOSoEt2tSpyq6hwHbicX/obsttVDZBCHcA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732704AbgDARdp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Apr 2020 13:33:45 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47546 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732232AbgDARdp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 13:33:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=Bq0Gyfw2x5IJxyJEGtdKIvcglFforOsQLBnZGomQ/1I=; b=m/4SRJO9acMj8KJeU1enEHN/Ow
-        GAHdl0PqOLMU8yerdEfPjvdLO4auNcO8+a/5+kZ0VZPCvRxvCcUT+P7L5iKYDJ67MN1VokpQrE6jw
-        E16K2R99GYAbA9x/BMDAJSs/hqD23sqMcJoor9kAby3Da8ONVfI4f3Lan1gWXy4dYsU3sLFQBu8Ea
-        gZsqDO8k3+oh3AC38QNKeCgpz3YyJyzNje1qkhBAG0NWLlZ6Z46xuErqCHdEpdYjXF/BL+jPTc2Iy
-        6SNDZsP1goezsffRiIrskukYqVuxNBqG1T6qrhUVP0IQDzdAARlLiQydL1aYZon68cHWtPB49ZAyG
-        NglFDRtA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jJhFI-0004YZ-Nm; Wed, 01 Apr 2020 17:33:44 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     linux-doc@vger.kernel.org
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Michel Lespinasse <walken@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Landley <rob@landley.net>
-Subject: [PATCH] docs: Add rbtree documentation to the core-api
-Date:   Wed,  1 Apr 2020 10:33:43 -0700
-Message-Id: <20200401173343.17472-1-willy@infradead.org>
-X-Mailer: git-send-email 2.21.1
+        id S1732436AbgDARrG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Apr 2020 13:47:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40734 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732328AbgDARrG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Apr 2020 13:47:06 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95D7820784;
+        Wed,  1 Apr 2020 17:47:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585763226;
+        bh=pSIBaD4+b+O8FNdmNyWvEINRgzApDBhx/6Kuu3tMRp4=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=PX2jvi5/L/tyYNgbVT33eJrZ6Kl3dvqqGooWnn0Pffl/OUuILH++8UCg+URc3P50O
+         UNHR/jeMTYFJn+9OPnDOAcNZXKhbDQsNw0bEld7tXLJgMQVhSdgxEYbQp9tZ/tjSVo
+         hB1fZaKfpxczh/7FPOjFTftUtl8bp7BHfd9tYLvc=
+Subject: Re: [PATCH v8 kunit-next 1/4] kunit: add debugfs
+ /sys/kernel/debug/kunit/<suite>/results display
+To:     Alan Maguire <alan.maguire@oracle.com>, brendanhiggins@google.com,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        linux-kselftest@vger.kernel.org
+Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        shuah <shuah@kernel.org>
+References: <1585232710-322-1-git-send-email-alan.maguire@oracle.com>
+ <1585232710-322-2-git-send-email-alan.maguire@oracle.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <0d310181-a172-dec9-19aa-337ece9d7380@kernel.org>
+Date:   Wed, 1 Apr 2020 11:47:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1585232710-322-2-git-send-email-alan.maguire@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Hi Alan,
 
-This file is close enough to being in rst format that I didn't feel
-the need to alter it in any way.
+On 3/26/20 8:25 AM, Alan Maguire wrote:
+> add debugfs support for displaying kunit test suite results; this is
+> especially useful for module-loaded tests to allow disentangling of
+> test result display from other dmesg events.  debugfs support is
+> provided if CONFIG_KUNIT_DEBUGFS=y.
+> 
+> As well as printk()ing messages, we append them to a per-test log.
+> 
+> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> Reviewed-by: Frank Rowand <frank.rowand@sony.com>
+> ---
+>   include/kunit/test.h   |  54 +++++++++++++++---
+>   lib/kunit/Kconfig      |   8 +++
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- Documentation/core-api/index.rst                  | 1 +
- Documentation/{rbtree.txt => core-api/rbtree.rst} | 0
- include/linux/rbtree.h                            | 2 +-
- include/linux/rbtree_augmented.h                  | 2 +-
- lib/Kconfig                                       | 2 +-
- tools/include/linux/rbtree.h                      | 2 +-
- tools/include/linux/rbtree_augmented.h            | 2 +-
- 7 files changed, 6 insertions(+), 5 deletions(-)
- rename Documentation/{rbtree.txt => core-api/rbtree.rst} (100%)
+Missing defaults for config options?
 
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 0897ad12c119..9499a4c47f4a 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -34,6 +34,7 @@ Library functionality that is used throughout the kernel.
-    xarray
-    idr
-    circular-buffers
-+   rbtree
-    generic-radix-tree
-    packing
-    timekeeping
-diff --git a/Documentation/rbtree.txt b/Documentation/core-api/rbtree.rst
-similarity index 100%
-rename from Documentation/rbtree.txt
-rename to Documentation/core-api/rbtree.rst
-diff --git a/include/linux/rbtree.h b/include/linux/rbtree.h
-index 1fd61a9af45c..d7db17996322 100644
---- a/include/linux/rbtree.h
-+++ b/include/linux/rbtree.h
-@@ -11,7 +11,7 @@
-   I know it's not the cleaner way,  but in C (not in C++) to get
-   performances and genericity...
- 
--  See Documentation/rbtree.txt for documentation and samples.
-+  See Documentation/core-api/rbtree.rst for documentation and samples.
- */
- 
- #ifndef	_LINUX_RBTREE_H
-diff --git a/include/linux/rbtree_augmented.h b/include/linux/rbtree_augmented.h
-index 724b0d036b57..d1c53e9d8c75 100644
---- a/include/linux/rbtree_augmented.h
-+++ b/include/linux/rbtree_augmented.h
-@@ -21,7 +21,7 @@
-  * rb_insert_augmented() and rb_erase_augmented() are intended to be public.
-  * The rest are implementation details you are not expected to depend on.
-  *
-- * See Documentation/rbtree.txt for documentation and samples.
-+ * See Documentation/core-api/rbtree.rst for documentation and samples.
-  */
- 
- struct rb_augment_callbacks {
-diff --git a/lib/Kconfig b/lib/Kconfig
-index bc7e56370129..8653a8ab3c68 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -427,7 +427,7 @@ config INTERVAL_TREE
- 
- 	  See:
- 
--		Documentation/rbtree.txt
-+		Documentation/core-api/rbtree.rst
- 
- 	  for more information.
- 
-diff --git a/tools/include/linux/rbtree.h b/tools/include/linux/rbtree.h
-index e03b1ea23e0e..30dd21f976c3 100644
---- a/tools/include/linux/rbtree.h
-+++ b/tools/include/linux/rbtree.h
-@@ -11,7 +11,7 @@
-   I know it's not the cleaner way,  but in C (not in C++) to get
-   performances and genericity...
- 
--  See Documentation/rbtree.txt for documentation and samples.
-+  See Documentation/core-api/rbtree.rst for documentation and samples.
- */
- 
- #ifndef __TOOLS_LINUX_PERF_RBTREE_H
-diff --git a/tools/include/linux/rbtree_augmented.h b/tools/include/linux/rbtree_augmented.h
-index 381aa948610d..570bb9794421 100644
---- a/tools/include/linux/rbtree_augmented.h
-+++ b/tools/include/linux/rbtree_augmented.h
-@@ -23,7 +23,7 @@
-  * rb_insert_augmented() and rb_erase_augmented() are intended to be public.
-  * The rest are implementation details you are not expected to depend on.
-  *
-- * See Documentation/rbtree.txt for documentation and samples.
-+ * See Documentation/core-api/rbtree.rst for documentation and samples.
-  */
- 
- struct rb_augment_callbacks {
--- 
-2.25.1
+>   lib/kunit/Makefile     |   4 ++
+>   lib/kunit/debugfs.c    | 116 ++++++++++++++++++++++++++++++++++++++
+>   lib/kunit/debugfs.h    |  30 ++++++++++
+>   lib/kunit/kunit-test.c |   4 +-
+>   lib/kunit/test.c       | 147 ++++++++++++++++++++++++++++++++++++++-----------
+>   7 files changed, 322 insertions(+), 41 deletions(-)
+>   create mode 100644 lib/kunit/debugfs.c
+>   create mode 100644 lib/kunit/debugfs.h
+> 
 
+snip
+
+> diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
+> index 065aa16..95d12e3 100644
+> --- a/lib/kunit/Kconfig
+> +++ b/lib/kunit/Kconfig
+> @@ -14,6 +14,14 @@ menuconfig KUNIT
+>   
+>   if KUNIT
+>   
+> +config KUNIT_DEBUGFS
+> +	bool "KUnit - Enable /sys/kernel/debug/kunit debugfs representation"
+> +	help
+> +	  Enable debugfs representation for kunit.  Currently this consists
+> +	  of /sys/kernel/debug/kunit/<test_suite>/results files for each
+> +	  test suite, which allow users to see results of the last test suite
+> +	  run that occurred.
+> +
+
+Any reason why there is default for this option?
+
+Same for all other options. I am sending pull request for now without
+defaults. Would like to see this fixed for rc2.
+
+thanks,
+-- Shuah
