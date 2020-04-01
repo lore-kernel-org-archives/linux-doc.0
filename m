@@ -2,131 +2,117 @@ Return-Path: <SRS0=yfWO=5R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2014C43331
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 18:55:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F03B9C43331
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 19:08:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8D8C0206F5
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 18:55:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HSkwMdGj"
+	by mail.kernel.org (Postfix) with ESMTP id C9067206F6
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 19:08:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbgDASz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Apr 2020 14:55:28 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47808 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726640AbgDASz1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 14:55:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=g+zmGJ2+G9hNWUAMUsh52VSSKxFQTXVxsgcRUv3kCKw=; b=HSkwMdGjJTzeDKg6viAgg+vkYX
-        GwWikN3woD12qqHVvV7ZHlDBuSnIT1YTLhhPxnYeVhU4Yz0w22ayIAzSGGNCEEH3ESWk2Of0bsMU/
-        dG0H9jo2k7LKZZep+4GqrDqfz7gda+n57tRazqwm0NtWpHChHNHExKMuQaHVOKIjVTNZsLgekVjVB
-        ETytEzAil0LGP9C/6DiupNZY0kRjExHiViQlWPo3nNbK3R5aGeyag92MZI3KBpNK3UjeJxk/U9Ng8
-        RaPo+1ZWEAkLxis4FKl6f+lSrhmDY1a51cw8esCzD2Yt7ZzKeDLwwC0kkohK8jmUgrXJhRy6f60cJ
-        K5QabcFg==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jJiVz-0003u7-Lp; Wed, 01 Apr 2020 18:55:03 +0000
-Subject: Re: [PATCH v2 4/4] hugetlbfs: clean up command line processing
-To:     Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
+        id S1732241AbgDATIT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Apr 2020 15:08:19 -0400
+Received: from mga07.intel.com ([134.134.136.100]:29382 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726785AbgDATIT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Apr 2020 15:08:19 -0400
+IronPort-SDR: 6rPHb3i30bmshs2l1nA7fsTqzRgqpXAiWsbkxVGSA7U79LyUZg30INaqM9m7wtH10/ziDzfxV5
+ A3irZdjC5Tbw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2020 12:08:18 -0700
+IronPort-SDR: in2xdzjovyULgkguc9M6PuUxwD1BffwldF242QJfyCpxPS5pR3+7QyNM7BfJFISOePMd2m+Ifb
+ Yaqs2nxNS4bw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,332,1580803200"; 
+   d="scan'208";a="252735857"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga006.jf.intel.com with ESMTP; 01 Apr 2020 12:08:17 -0700
+Message-ID: <6f68d7af6a618c087a85d2db6ad40b346e055452.camel@intel.com>
+Subject: Re: [RFC PATCH v9 09/27] x86/mm: Introduce _PAGE_DIRTY_SW
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Mina Almasry <almasrymina@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20200401183819.20647-1-mike.kravetz@oracle.com>
- <20200401183819.20647-5-mike.kravetz@oracle.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <a80f530d-e803-3952-e714-705a8589f50a@infradead.org>
-Date:   Wed, 1 Apr 2020 11:55:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Wed, 01 Apr 2020 12:08:16 -0700
+In-Reply-To: <325d3a25-0016-ea19-c0c9-7958066fc94e@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-10-yu-cheng.yu@intel.com>
+         <325d3a25-0016-ea19-c0c9-7958066fc94e@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <20200401183819.20647-5-mike.kravetz@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/1/20 11:38 AM, Mike Kravetz wrote:
-> With all hugetlb page processing done in a single file clean up code.
-> - Make code match desired semantics
->   - Update documentation with semantics
-> - Make all warnings and errors messages start with 'HugeTLB:'.
-> - Consistently name command line parsing routines.
-> - Check for hugepages_supported() before processing parameters.
-> - Add comments to code
->   - Describe some of the subtle interactions
->   - Describe semantics of command line arguments
+On Wed, 2020-02-26 at 13:35 -0800, Dave Hansen wrote:
+> On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
+> > When Shadow Stack (SHSTK) is introduced, a R/O and Dirty PTE exists in the
+> > following cases:
+> > 
+> > (a) A modified, copy-on-write (COW) page;
+> > (b) A R/O page that has been COW'ed;
+> > (c) A SHSTK page.
+[...]
+
+> > diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+> > index e647e3c75578..826823df917f 100644
+> > --- a/arch/x86/include/asm/pgtable_types.h
+> > +++ b/arch/x86/include/asm/pgtable_types.h
+> > @@ -23,7 +23,8 @@
+> >  #define _PAGE_BIT_SOFTW2	10	/* " */
+> >  #define _PAGE_BIT_SOFTW3	11	/* " */
+> >  #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
+> > -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
+> > +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
+> > +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
+> >  #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
+> >  #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
+> >  #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
+> > @@ -35,6 +36,12 @@
+> >  #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
+> >  #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
+> >  
+> > +/*
+> > + * This bit indicates a copy-on-write page, and is different from
+> > + * _PAGE_BIT_SOFT_DIRTY, which tracks which pages a task writes to.
+> > + */
+> > +#define _PAGE_BIT_DIRTY_SW	_PAGE_BIT_SOFTW5 /* was written to */
 > 
-> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
-> ---
+> Does it *only* indicate a copy-on-write (or copy-on-access) page?  If
+> so, haven't we misnamed it?
 
-Hi Mike,
-One nit, please see below:
+It indicates either a copy-on-write page or a read-only page that has been
+cow'ed.  What about _PAGE_BIT_COW?
 
->  .../admin-guide/kernel-parameters.txt         | 35 ++++---
->  Documentation/admin-guide/mm/hugetlbpage.rst  | 44 +++++++++
->  mm/hugetlb.c                                  | 96 +++++++++++++++----
->  3 files changed, 142 insertions(+), 33 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 1bd5454b5e5f..de653cfe1726 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -832,12 +832,15 @@
->  			See also Documentation/networking/decnet.txt.
->  
->  	default_hugepagesz=
-> -			[same as hugepagesz=] The size of the default
-> -			HugeTLB page size. This is the size represented by
-> -			the legacy /proc/ hugepages APIs, used for SHM, and
-> -			default size when mounting hugetlbfs filesystems.
-> -			Defaults to the default architecture's huge page size
-> -			if not specified.
-> +			[HW] The size of the default HugeTLB page size. This
+Yu-cheng
 
-			Drop one "size" above?
-
-> +			is the size represented by the legacy /proc/ hugepages
-> +			APIs.  In addition, this is the default hugetlb size
-> +			used for shmget(), mmap() and mounting hugetlbfs
-> +			filesystems.  If not specified, defaults to the
-> +			architecture's default huge page size.  Huge page
-> +			sizes are architecture dependent.  See also
-> +			Documentation/admin-guide/mm/hugetlbpage.rst.
-> +			Format: size[KMG]
-
-
-
--- 
-~Randy
 
