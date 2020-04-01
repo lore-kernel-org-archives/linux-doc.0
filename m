@@ -1,60 +1,73 @@
-Return-Path: <SRS0=SHIp=5Q=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=yfWO=5R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE02DC43331
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 23:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E2AFC43331
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 00:04:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B2DD220842
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Mar 2020 23:08:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BFEE20786
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 00:04:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WXHxeM0n"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731340AbgCaXIo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Mar 2020 19:08:44 -0400
-Received: from ms.lwn.net ([45.79.88.28]:44738 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731331AbgCaXIo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 31 Mar 2020 19:08:44 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6531E2F3;
-        Tue, 31 Mar 2020 23:08:43 +0000 (UTC)
-Date:   Tue, 31 Mar 2020 17:08:42 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
+        id S1731597AbgDAAEl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Mar 2020 20:04:41 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37152 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731524AbgDAAEk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Mar 2020 20:04:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=5AHQT3HNoIfrpxFYcnKnT3xJDAyH56vM7k0YaLOkJVw=; b=WXHxeM0n35BJgssvOzHfB7PrVS
+        gX96MWzJMJdJqAtFWyuzP/6IVMdYm37f63ftVeAokCU66LbE3016VYkHF9XAAJ1eBev/dxbwgRJs7
+        eKChYRuBoPwOWq6s+BJO9+lV7rwoASQ82KFz+QBzDZDe626Y3w30pZVlZVZbEmsR73XYeqEAPYM0E
+        Ptwp4VN7hB3MRLPa7SxBgo93TgjhgbJxXuZDVOEpf+3ZvGWRwmkCwNd4hp76Rfps9BuBAs6G+iFKu
+        9NattIPbR5E7JQssNMR+E9s/vLQXAnsCxLs5mgiNXRMF+1a3p5H7waztpo1ty+KjCc7+oAY4PptsS
+        TI5FDsyw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jJQs3-0006SZ-Pr; Wed, 01 Apr 2020 00:04:39 +0000
+Date:   Tue, 31 Mar 2020 17:04:39 -0700
+From:   Matthew Wilcox <willy@infradead.org>
 To:     Vitor Massaru Iha <vitor@massaru.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        brendanhiggins@google.com, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH 1/2] Documentation: filesystems: Convert sysfs-pci to
- ReST
-Message-ID: <20200331170842.517ddc0a@lwn.net>
-In-Reply-To: <6db0b1a2a521386613489443053a980621c48767.camel@massaru.org>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, brendanhiggins@google.com,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/2] Documentation: filesystems: Convert sysfs-pci to ReST
+Message-ID: <20200401000439.GE21484@bombadil.infradead.org>
 References: <cover.1585693146.git.vitor@massaru.org>
-        <637c0379a76fcf4eb6cdde0de3cc727203fd942f.1585693146.git.vitor@massaru.org>
-        <20200331165707.7c708646@lwn.net>
-        <6db0b1a2a521386613489443053a980621c48767.camel@massaru.org>
-Organization: LWN.net
+ <637c0379a76fcf4eb6cdde0de3cc727203fd942f.1585693146.git.vitor@massaru.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <637c0379a76fcf4eb6cdde0de3cc727203fd942f.1585693146.git.vitor@massaru.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 31 Mar 2020 20:03:46 -0300
-Vitor Massaru Iha <vitor@massaru.org> wrote:
+On Tue, Mar 31, 2020 at 07:28:56PM -0300, Vitor Massaru Iha wrote:
+> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> ---
+>  .../{sysfs-pci.txt => sysfs-pci.rst}          | 40 ++++++++++---------
+>  1 file changed, 22 insertions(+), 18 deletions(-)
+>  rename Documentation/filesystems/{sysfs-pci.txt => sysfs-pci.rst} (82%)
+> 
+> diff --git a/Documentation/filesystems/sysfs-pci.txt b/Documentation/filesystems/sysfs-pci.rst
 
-> Thanks for the review, I will check your comments and correct themif
-> that document is still needed.
+In addition to Jon's comments, for the next version, I would suggest
+cc'ing the linux-pci@vger.kernel.org mailing list.  
 
-Oh we definitely still want the document; it's out of date but not overtly
-wrong.
+Also, maybe add:
 
-Thanks,
+F: Documentation/filesystems/sysfs-pci.rst
 
-jon
+to the 'PCI SUBSYSTEM' section of MAINTAINERS.
