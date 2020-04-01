@@ -2,96 +2,107 @@ Return-Path: <SRS0=yfWO=5R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0906C43331
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 13:45:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A01C2D0F3
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 13:51:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8C975206F5
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 13:45:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFDC420776
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Apr 2020 13:51:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="qa/VcPdr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732370AbgDANpM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Apr 2020 09:45:12 -0400
-Received: from foss.arm.com ([217.140.110.172]:52264 "EHLO foss.arm.com"
+        id S1732166AbgDANvs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Apr 2020 09:51:48 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:43064 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732205AbgDANpM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 1 Apr 2020 09:45:12 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 454D830E;
-        Wed,  1 Apr 2020 06:45:11 -0700 (PDT)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC4853F71E;
-        Wed,  1 Apr 2020 06:45:08 -0700 (PDT)
-References: <20200401100029.1445-1-john.mathew@unikie.com> <20200401100029.1445-3-john.mathew@unikie.com> <20200401103520.GA20713@hirez.programming.kicks-ass.net> <9614b346-a848-3e01-eea7-6237b759dad6@redhat.com> <20200401122606.GF20713@hirez.programming.kicks-ass.net>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Daniel Bristot de Oliveira <bristot@redhat.com>,
-        John Mathew <john.mathew@unikie.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        tsbogend@alpha.franken.de, lukas.bulwahn@gmail.com, x86@kernel.org,
-        linux-mips@vger.kernel.org, tglx@linutronix.de,
-        mostafa.chamanara@basemark.com
-Subject: Re: [RFC PATCH 2/3] docs: scheduler: Add scheduler overview documentation
-In-reply-to: <20200401122606.GF20713@hirez.programming.kicks-ass.net>
-Date:   Wed, 01 Apr 2020 14:45:06 +0100
-Message-ID: <jhjv9mjjp5p.mognet@arm.com>
+        id S1732705AbgDANvs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Apr 2020 09:51:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=BsnKKCm/0xhUX9Eh0r+sJcFsnyafS56/e7BV12MesKg=; b=qa/VcPdrBtpGUMbaqANfWFh9+W
+        TP8qKQ3TYfGL8IXRLr3FchAEU2Azq8RAv55NSYoN8MxvVE2aeVkcSYIL7z6FPBhfIfIqpImHfzGVk
+        +LF2NCoRc3+cUPjGCRZul8yh3r+BWj2M5OtAMdghdk/XxmBjQPurVS8ts1uwGAGlbblc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
+        (envelope-from <andrew@lunn.ch>)
+        id 1jJdmJ-000Qgk-52; Wed, 01 Apr 2020 15:51:35 +0200
+Date:   Wed, 1 Apr 2020 15:51:35 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Florinel Iordache <florinel.iordache@nxp.com>
+Cc:     "davem@davemloft.net" <davem@davemloft.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>,
+        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next 6/9] net: phy: add backplane kr driver support
+Message-ID: <20200401135135.GA62290@lunn.ch>
+References: <AM0PR04MB5443E8D583734C98C54C519EFBC90@AM0PR04MB5443.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM0PR04MB5443E8D583734C98C54C519EFBC90@AM0PR04MB5443.eurprd04.prod.outlook.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Apr 01, 2020 at 01:35:36PM +0000, Florinel Iordache wrote:
+> > On Thu, Mar 26, 2020 at 03:51:19PM +0200, Florinel Iordache wrote:
+> > > +static void setup_supported_linkmode(struct phy_device *bpphy) {
+> > > +     struct backplane_phy_info *bp_phy = bpphy->priv;
+> > 
+> > I'm not sure it is a good idea to completely take over phydev->priv like this, in
+> > what is just helper code. What if the PHY driver needs memory of its own? There
+> > are a few examples of this already in other PHY drivers. Could a KR PHY contain
+> > a temperature sensor? Could it contain statistics counters which need
+> > accumulating?
+> > 
+> >         Andrew
+> 
+> Backplane KR driver allocates memory for structure backplane_phy_info
+> which is saved in phydev->priv. After all this is the purpose of priv
+> according to its description in phy.h: <<private data pointer For use
+> by PHYs to maintain extra state>>. Here the priv is used to maintain
+> extra state needed for backplane. This way the backplane specific data
+> becomes available for all PHY callbacks (defined in struct phy_driver)
+> that receive a pointer to phy_device structure. This initial version
+> doesn't include accumulating statistics counters but we have in plan
+> to add these in future versions. The counters will be kept in specific
+> structures as members of the main backplane data mentioned above
+> and entire support will be integrated with ethtool.
 
-On Wed, Apr 01 2020, Peter Zijlstra wrote:
-> On Wed, Apr 01, 2020 at 01:47:04PM +0200, Daniel Bristot de Oliveira wrote:
->> On 4/1/20 12:35 PM, Peter Zijlstra wrote:
->> >> +Scheduler State Transition
->> >> +==========================
->> >> +
->> >> +A very high level scheduler state transition flow with a few states can be
->> >> +depicted as follows.
->> >> +
->> >> +.. kernel-render:: DOT
->> >> +   :alt: DOT digraph of Scheduler state transition
->> >> +   :caption: Scheduler state transition
->> >> +
->> >> +   digraph sched_transition {
->> >> +      node [shape = point,  label="exisiting task\n calls fork()"]; fork
->> >> +      node [shape = box, label="TASK_NEW\n(Ready to run)"] tsk_new;
->> >> +      node [shape = box, label="TASK_RUNNING\n(Ready to run)"] tsk_ready_run;
->> >> +      node [shape = box, label="TASK_RUNNING\n(Running)"] tsk_running;
->> >> +      node [shape = box, label="TASK_DEAD\nEXIT_ZOMBIE"] exit_zombie;
->> >> +      node [shape = box, label="TASK_INTERRUPTIBLE\nTASK_UNINTERRUPTIBLE\nTASK_WAKEKILL"] tsk_int;
->> >> +      fork -> tsk_new [ label = "task\nforks" ];
->> >> +      tsk_new -> tsk_ready_run;
->> >> +      tsk_ready_run -> tsk_running [ label = "schedule() calls context_switch()" ];
->> >> +      tsk_running -> tsk_ready_run [ label = "task is pre-empted" ];
->> >> +      subgraph int {
->> >> +         tsk_running -> tsk_int [ label = "task needs to wait for event" ];
->> >> +         tsk_int ->  tsk_ready_run [ label = "event occurred" ];
->> >> +      }
->> >> +      tsk_int ->  exit_zombie [ label = "task exits via do_exit()" ];
->> >> +   }
->> > And that is a prime example of why I hates RST, it pretty much mandates
->> > you view this with something other than a text editor.
->>
->> The good thing about the dot format is that we can convert it to many other
->> formats, including text:
->
-> Oh, I know and love dot files, I generate them occasionally. But they
-> stink as end-result, which is what it is here.
->
-> If you can't read a document (or worse comment) in a code editor it's
-> broken (and yes, I know some subsystems have a different opinion here).
+Hi Florinel
 
-Agreed. Feel free to use dot to draw stuff, but please include the textual
-version in the doc. If you really insist on having a fancier image in the
-web output, have a look at things like ditaa (or whatever equivalent is
-supported in rst).
+And what about hwmon, or anything else which a driver needs memory
+for?
+
+As far as i see it, we have two bodies of code here. There is a set of
+helpers which implement most of the backplane functionality. And then
+there is an example driver for your hardware. In the future we expect
+other drivers to be added for other vendors hardware.
+
+phydev->priv is for the driver. helpers should not assume they have
+complete control over it.
+
+Anyway, this may be a mute point. Lets first solve the problem of how
+a PCS is represented.
+
+  Andrew
+
