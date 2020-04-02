@@ -2,89 +2,143 @@ Return-Path: <SRS0=YY78=5S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05130C43331
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 18:33:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC30C43331
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 18:38:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CDD082078B
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 18:33:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lxr43cwU"
+	by mail.kernel.org (Postfix) with ESMTP id D3DBF20675
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 18:38:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1585852724;
+	bh=9Ho6bf+CA7jUz/UlmFQaiIKtvrVOsYK9BEepRPFN6bE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=p7lX3smI4AoLbhpimLxC4oTIgEOVfEogeOME8l/YaJonAngDSd5pU7cXI/pZNzr9T
+	 5pET7SdX7VmAtbgZ1Chxg2SHH85dPpRySnQJHXehdPRdyvyx3KjNTTAIgWW5geH5Dy
+	 CuI+z4MyiuTnBeN5nwyBHI9o4XQbEWfrnsjhgSVQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732331AbgDBSda (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Apr 2020 14:33:30 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45367 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729033AbgDBSda (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Apr 2020 14:33:30 -0400
-Received: by mail-lj1-f194.google.com with SMTP id t17so4289481ljc.12
-        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2020 11:33:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mQfE83Ef4+Fu/WgG4T+rIERisJha2G3eNUu7SuLONxo=;
-        b=Lxr43cwUV5qGZ3n2pSbARlupVEpiiDenDbHgo8cU270uUxmtaozmv6dy2RH0KTziFN
-         F+A5+SvZH0M706jtF3WHTJEeYjykZDcwHF5llEsE3xJ7QxShyPWt9+zQJGCFVd3wfKGy
-         RuCxkuYxot1lW2YU/wWIxdEunRyqIsLkP2UOw4yKCTxO5xI4CxoPc9Ti+LvqdM96uBe+
-         G2Cw4NhLR4kWAlnOYTEtNdEDpJyAjNcy0leMhflA7c2OepgviJfNJYkjwubEWFXnJYwr
-         Xp2YogOZ8Bpxsyy8rBrQup6OFnScfvS5sVf/g8zEd/U5j/CWmP/ZoisDLsfifoQTGOpz
-         y4yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mQfE83Ef4+Fu/WgG4T+rIERisJha2G3eNUu7SuLONxo=;
-        b=U47VFIKvGaVFahifAia8AMmk3WY/ca8KDH3jatCm73kVW1jrnvb8Z2uCoDroMGBh7M
-         a/yWrUYcMzzo+NG6OQ0tiGrnVwaNXt0npFJUQ0aFBNc3LLneduSWWWJP0NPNp+9BrZo1
-         utAonaPo6cu02+Fe0ybsr/leuYpx6h41QjsaqHKfGQ7ziHxhJbitt6P70AOFrBE6eAiq
-         NTbTwdn+pAxrlkG54jbInUs+5PC4FqhyPlJN/DT1g5uA81Lj06dVk6M0G5Hm4VtbQtPY
-         0xM9JFEO+z7b10owrHO6MfnHh7HSJOnV25U+gqS2HGwU4sOAjvyT7vfqdc0Dcuu4U3zD
-         4osQ==
-X-Gm-Message-State: AGi0PubEqu/lIAr1FowbwZbq4P9BWXmtRo04FhjnDj5SyKgp5MeCoJuz
-        A9zUPX8lpfnGII7ePKvjQVo=
-X-Google-Smtp-Source: APiQypIFSEXOvYONhRkuC4BItmBRst5CiInBHjw7Ej7A488pSAbVB4nEl1EEhuN7Vf7xw3+zBGNdkA==
-X-Received: by 2002:a2e:8958:: with SMTP id b24mr2874144ljk.211.1585852407049;
-        Thu, 02 Apr 2020 11:33:27 -0700 (PDT)
-Received: from [192.168.16.194] (h-4-68-234.A785.priv.bahnhof.se. [155.4.68.234])
-        by smtp.googlemail.com with ESMTPSA id 195sm4452041lfi.75.2020.04.02.11.33.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Apr 2020 11:33:26 -0700 (PDT)
-Subject: Re: [PATCH 1/2] docs: kernel-parameters.txt: Remove nompx
-To:     Dave Hansen <dave.hansen@intel.com>, linux-doc@vger.kernel.org
-Cc:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20200402172614.3020-1-jimmyassarsson@gmail.com>
- <259d81d2-ff98-bfe7-2dcb-68d9362e26c9@intel.com>
-From:   Jimmy Assarsson <jimmyassarsson@gmail.com>
-Message-ID: <4e70838d-bc0a-a25b-268d-e61850593f3b@gmail.com>
-Date:   Thu, 2 Apr 2020 20:33:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S2388465AbgDBSio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Apr 2020 14:38:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32810 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388260AbgDBSio (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Apr 2020 14:38:44 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0AAD62064A;
+        Thu,  2 Apr 2020 18:38:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585852723;
+        bh=9Ho6bf+CA7jUz/UlmFQaiIKtvrVOsYK9BEepRPFN6bE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jVZ/vcYcZCn2d5FTph1Va5WvoCOWcrDi0gweggQuY99ppzucgQyOzEvc4nhyA/Wtb
+         mtoDS0BYbNe5+DlNkNPUmrE3mTw0B16o0PqnM+OJPYSEJvmtqlscr4Ju4pYgh49ZRt
+         Qlt47Kr/cfelgJ8t5LTGK7zHQL761f3kUSP0EwpQ=
+Date:   Thu, 2 Apr 2020 20:38:39 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Alan Maguire <alan.maguire@oracle.com>
+Cc:     shuah <shuah@kernel.org>, brendanhiggins@google.com,
+        frowand.list@gmail.com, linux-kselftest@vger.kernel.org,
+        corbet@lwn.net, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 kunit-next 1/4] kunit: add debugfs
+ /sys/kernel/debug/kunit/<suite>/results display
+Message-ID: <20200402183839.GB3234477@kroah.com>
+References: <1585232710-322-1-git-send-email-alan.maguire@oracle.com>
+ <1585232710-322-2-git-send-email-alan.maguire@oracle.com>
+ <0d310181-a172-dec9-19aa-337ece9d7380@kernel.org>
+ <alpine.LRH.2.21.2004021624400.21551@localhost>
 MIME-Version: 1.0
-In-Reply-To: <259d81d2-ff98-bfe7-2dcb-68d9362e26c9@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.LRH.2.21.2004021624400.21551@localhost>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-04-02 19:51, Dave Hansen wrote:
-> Dang, I thought I grepped for CONFIG_X86_INTEL_MPX at some point.  Oh
-> well.  Thanks for these.  For both:
+On Thu, Apr 02, 2020 at 04:27:35PM +0100, Alan Maguire wrote:
+> On Wed, 1 Apr 2020, shuah wrote:
 > 
-> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> > Hi Alan,
+> > 
+> > On 3/26/20 8:25 AM, Alan Maguire wrote:
+> > > add debugfs support for displaying kunit test suite results; this is
+> > > especially useful for module-loaded tests to allow disentangling of
+> > > test result display from other dmesg events.  debugfs support is
+> > > provided if CONFIG_KUNIT_DEBUGFS=y.
+> > > 
+> > > As well as printk()ing messages, we append them to a per-test log.
+> > > 
+> > > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> > > Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> > > Reviewed-by: Frank Rowand <frank.rowand@sony.com>
+> > > ---
+> > >   include/kunit/test.h   |  54 +++++++++++++++---
+> > >   lib/kunit/Kconfig      |   8 +++
+> > 
+> > Missing defaults for config options?
+> > 
+> > >   lib/kunit/Makefile     |   4 ++
+> > >   lib/kunit/debugfs.c    | 116 ++++++++++++++++++++++++++++++++++++++
+> > >   lib/kunit/debugfs.h    |  30 ++++++++++
+> > >   lib/kunit/kunit-test.c |   4 +-
+> > >   lib/kunit/test.c       | 147
+> > >   ++++++++++++++++++++++++++++++++++++++-----------
+> > >   7 files changed, 322 insertions(+), 41 deletions(-)
+> > >   create mode 100644 lib/kunit/debugfs.c
+> > >   create mode 100644 lib/kunit/debugfs.h
+> > > 
+> > 
+> > snip
+> > 
+> > > diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
+> > > index 065aa16..95d12e3 100644
+> > > --- a/lib/kunit/Kconfig
+> > > +++ b/lib/kunit/Kconfig
+> > > @@ -14,6 +14,14 @@ menuconfig KUNIT
+> > >   
+> > >   if KUNIT
+> > >   
+> > > +config KUNIT_DEBUGFS
+> > > +	bool "KUnit - Enable /sys/kernel/debug/kunit debugfs representation"
+> > > +	help
+> > > +	  Enable debugfs representation for kunit.  Currently this consists
+> > > +	  of /sys/kernel/debug/kunit/<test_suite>/results files for each
+> > > +	  test suite, which allow users to see results of the last test suite
+> > > +	  run that occurred.
+> > > +
+> > 
+> > Any reason why there is default for this option?
+> > 
+> > Same for all other options. I am sending pull request for now without
+> > defaults. Would like to see this fixed for rc2.
+> >
+> 
+> Sure, I'll send a patch shortly. Just wanted to get opinions
+> on what those defaults should be; my working assumption is
+> 
+> - CONFIG_KUNIT should be default n; 
 
-Thanks! I sent this patch to linux-doc list, and the other to linux-kernel list.
-Please also respond to [PATCH] x86/mpx: remove MPX leftovers
-Sorry for the confusion.
+No default means 'n', so there's no need to say that at all.
 
-Regards,
-jimmy
+> - CONFIG_KUNIT_DEBUGFS should be default y (enabled by default
+>   if CONFIG_KUNIT is set);
+
+Why?  If it's is 'y', then don't even make it an option at all, just
+always have it :)
+
+'y' is almost always reserved for "your machine will not function
+properly without this enabled".
+
+> - CONFIG_KUNIT_TEST, CONFIG_KUNIT_EXAMPLE_TEST should be default n
+
+So no need to specify anything, 'n' is the default.
+
+thanks,
+
+greg k-h
