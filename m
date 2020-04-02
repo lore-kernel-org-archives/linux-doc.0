@@ -2,169 +2,73 @@ Return-Path: <SRS0=YY78=5S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48370C2BA12
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 03:58:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 853F4C43331
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 06:11:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0C8A220705
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 03:58:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="Pc/GApux"
+	by mail.kernel.org (Postfix) with ESMTP id 5802E208E0
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 06:11:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387440AbgDBD6V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Apr 2020 23:58:21 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:37153 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387444AbgDBD6T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Apr 2020 23:58:19 -0400
-Received: by mail-qt1-f195.google.com with SMTP id z24so2236016qtu.4
-        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2020 20:58:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=FIyZcbBeG4NXJvMIHPgjJKueNZcgIVXv/zRU7nobAb0=;
-        b=Pc/GApuxKxKJ4bznwNkN+CkN4TiVYXmSvMHqy3rRcc2gAFWoLbpnys6Er6Ql+hrGx5
-         uWA5/opZRWMsm0gpqLB6ENnw2y+J3UKL1HFFWzEO3kqeNAUHHgdpqPP23VSHgYl4JylN
-         Vh7w3QiNKuKjVsCz12A9nX5Tl3VEfmxtkYzg8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FIyZcbBeG4NXJvMIHPgjJKueNZcgIVXv/zRU7nobAb0=;
-        b=XGqsPxqdrWCV5rYVU+ZLq8ZCSZAyeWg5/EbSR+Zaw/vxba09CigRcICPAvjCjDB471
-         YUx14wVKPjDjObg6ocxK+tSZbQRWdzAY1RUHJHSBhoZAyw1GjCoaZ/72aygF7XbLYTgt
-         Z0cS3FOLWQqmb/fDhuLkZdUyODwpQyFS4qzTtOOb0bad3Udtw0OAj+hPWzi+ET1s9hon
-         jcb2+Hr2WUACEJmchb29zK791a44GM5tW25GL1Dm2YNh44cy/atQeF8v07K3bc+S+8aK
-         IEiTJ+bni9mRrn4oK3ZiDTCdNb3fESOuMnQBY8iJjVNcw1qyUhOepkIEOW+tXEHhiYR4
-         4KJA==
-X-Gm-Message-State: AGi0Pub9Bc9yFCGi2jFWwAdG1Rq9Q3VDC4g4SiQvPqmpdj5R/2uhMSBH
-        e4cHREpoWHkI3a9cP+rpuxGPpQ==
-X-Google-Smtp-Source: APiQypLI/ljsVswFPJHBN8JmhzhORetkqVNWwTsAxc6mCYlKhNGyM+vomCJUSXIada/n7ObMO2EvJw==
-X-Received: by 2002:ac8:33cd:: with SMTP id d13mr990302qtb.265.1585799897328;
-        Wed, 01 Apr 2020 20:58:17 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id x74sm2833685qkb.40.2020.04.01.20.58.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 20:58:16 -0700 (PDT)
-Date:   Wed, 1 Apr 2020 23:58:16 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1728332AbgDBGLU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Apr 2020 02:11:20 -0400
+Received: from mga17.intel.com ([192.55.52.151]:59678 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725789AbgDBGLU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Apr 2020 02:11:20 -0400
+IronPort-SDR: X7OAguWcNgc63dhsQYSMUkZ5/eGYG+nlqj0e+oVGSdqUaHlNa/WE534AeRvPsDu+cuAGfSZca4
+ yTcALrSdRXtQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2020 23:11:20 -0700
+IronPort-SDR: exkOiveDNLcOjGVtjAPqlsrbMD3aFL+4RW721fQJhvG/MIKPcC5/ny3qLp2ousnrxP/f3IAomf
+ tDmQVmGl9eEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,334,1580803200"; 
+   d="scan'208";a="396244478"
+Received: from chenyu-office.sh.intel.com ([10.239.158.173])
+  by orsmga004.jf.intel.com with ESMTP; 01 Apr 2020 23:11:16 -0700
+Date:   Thu, 2 Apr 2020 14:10:00 +0800
+From:   Chen Yu <yu.c.chen@intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Linux PM <linux-pm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] Documentation/litmus-tests: Add litmus tests for
- atomic APIs
-Message-ID: <20200402035816.GA46686@google.com>
-References: <20200326024022.7566-1-boqun.feng@gmail.com>
- <20200327221843.GA226939@google.com>
- <20200331014037.GB59159@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH][v2] PM / sleep: Add pm_debug_messages boot command
+ control
+Message-ID: <20200402061000.GA6633@chenyu-office.sh.intel.com>
+References: <20200329144640.20536-1-yu.c.chen@intel.com>
+ <CAJZ5v0gV2Tn_CQoJiuR92gjJ8-xjzLPY8esAkxgy=W8YkvUNyg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200331014037.GB59159@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+In-Reply-To: <CAJZ5v0gV2Tn_CQoJiuR92gjJ8-xjzLPY8esAkxgy=W8YkvUNyg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 31, 2020 at 09:40:37AM +0800, Boqun Feng wrote:
-> On Fri, Mar 27, 2020 at 06:18:43PM -0400, Joel Fernandes wrote:
-> > On Thu, Mar 26, 2020 at 10:40:18AM +0800, Boqun Feng wrote:
-> > > A recent discussion raises up the requirement for having test cases for
-> > > atomic APIs:
-> > > 
-> > > 	https://lore.kernel.org/lkml/20200213085849.GL14897@hirez.programming.kicks-ass.net/
-> > > 
-> > > , and since we already have a way to generate a test module from a
-> > > litmus test with klitmus[1]. It makes sense that we add more litmus
-> > > tests for atomic APIs. And based on the previous discussion, I create a
-> > > new directory Documentation/atomic-tests and put these litmus tests
-> > > here.
-> > > 
-> > > This patchset starts the work by adding the litmus tests which are
-> > > already used in atomic_t.txt, and also improve the atomic_t.txt to make
-> > > it consistent with the litmus tests.
-> > > 
-> > > Previous version:
-> > > v1: https://lore.kernel.org/linux-doc/20200214040132.91934-1-boqun.feng@gmail.com/
-> > > v2: https://lore.kernel.org/lkml/20200219062627.104736-1-boqun.feng@gmail.com/
-> > > v3: https://lore.kernel.org/linux-doc/20200227004049.6853-1-boqun.feng@gmail.com/
-> > 
-> > For full series:
-> > 
-> > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > 
-> > One question I had was in the existing atomic_set() documentation, it talks
-> > about atomic_add_unless() implementation based on locking could have issues.
-> > It says the way to fix such cases is:
-> > 
-> > Quote:
-> >     the typical solution is to then implement atomic_set{}() with
-> >     atomic_xchg().
-> > 
-> > I didn't get how using atomic_xchg() fixes it. Is the assumption there that
-> > atomic_xchg() would be implemented using locking to avoid atomic_set() having
+Hi Rafael,
+On Wed, Apr 01, 2020 at 11:43:51AM +0200, Rafael J. Wysocki wrote:
+> On Sun, Mar 29, 2020 at 4:48 PM Chen Yu <yu.c.chen@intel.com> wrote:
+> > +__setup("pm_debug_message", pm_debug_message_setup);
 > 
-> Right, I think that's the intent of the sentence.
-> 
-> > issues? If so, we could clarify that in the document.
-> > 
-> 
-> Patches are welcome ;-)
+> I'd call this "pm_debug_messages" (just like the sysfs knob) and
+> rename the rest accordingly.
+Okay, I'll do in next version.
 
-
----8<-----------------------
-
-Like this? I'll add it to my tree and send it to Paul during my next
-series, unless you disagree ;-)
-
-Subject: [PATCH] doc: atomic_t: Document better about the locking within
- atomic_xchg()
-
-It is not fully clear how the atomic_set() would not cause an issue with
-preservation of the atomicity of RMW in this example. Make it clear that
-locking within atomic_xchg() would save the day.
-
-Suggested-by: Boqun Feng <boqun.feng@gmail.com>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- Documentation/atomic_t.txt | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
-index 0f1fdedf36bbb..1d9c307c73a7c 100644
---- a/Documentation/atomic_t.txt
-+++ b/Documentation/atomic_t.txt
-@@ -129,6 +129,8 @@ with a lock:
-     unlock();
- 
- the typical solution is to then implement atomic_set{}() with atomic_xchg().
-+The locking within the atomic_xchg() in CPU1 would ensure that the value read
-+in CPU0 would not be overwritten.
- 
- 
- RMW ops:
--- 
-2.26.0.292.g33ef6b2f38-goog
-
+Thanks,
+Chenyu
