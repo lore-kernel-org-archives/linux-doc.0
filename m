@@ -2,379 +2,341 @@ Return-Path: <SRS0=YY78=5S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 839CEC43331
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 12:44:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A9DC43331
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 12:45:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5742C206F6
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 12:44:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B739220787
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 12:45:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732957AbgDBMok (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Apr 2020 08:44:40 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42598 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726252AbgDBMoj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Apr 2020 08:44:39 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: rcn)
-        with ESMTPSA id 92EB82930B3
-From:   =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org, pmladek@suse.com
-Cc:     kernel@collabora.com
-Subject: [PATCH v2] docs: pr_*() kerneldocs and basic printk docs
-Date:   Thu,  2 Apr 2020 14:44:25 +0200
-Message-Id: <20200402124425.3363-1-ricardo.canuelo@collabora.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <6e398e11-0c5b-7308-1bda-8d7178c0a42b@infradead.org>
-References: <6e398e11-0c5b-7308-1bda-8d7178c0a42b@infradead.org>
+        id S2388342AbgDBMpT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Apr 2020 08:45:19 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:53043 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726252AbgDBMpT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Apr 2020 08:45:19 -0400
+Received: from 185.80.35.16 (185.80.35.16) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.341)
+ id af8fdf6e165294e4; Thu, 2 Apr 2020 14:45:16 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH v2] Documentation: PM: sleep: Document system-wide suspend code flows
+Date:   Thu, 02 Apr 2020 14:45:16 +0200
+Message-ID: <3369636.jH2ah2cAu4@kreacher>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add kerneldocs comments to the pr_*() macros in printk.h.
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Add a new rst node in the core-api manual describing the basic usage of
-printk and the related macro aliases.
+Add a document describing high-level system-wide suspend code flows
+in Linux.
 
-Signed-off-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
-Changes in v2:
-- Clearer description of the functional differences between printk and printf
-- Grammar fixes
 
- Documentation/core-api/index.rst          |   1 +
- Documentation/core-api/printk-basics.rst  | 144 ++++++++++++++++++++++
- Documentation/core-api/printk-formats.rst |   2 +
- include/linux/printk.h                    | 102 +++++++++++++--
- 4 files changed, 237 insertions(+), 12 deletions(-)
- create mode 100644 Documentation/core-api/printk-basics.rst
+-> v2: Fix typos pointed out by Randy.
 
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 0897ad12c119..49e3da910d9e 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -18,6 +18,7 @@ it.
- 
-    kernel-api
-    workqueue
-+   printk-basics
-    printk-formats
-    symbol-namespaces
- 
-diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
-new file mode 100644
-index 000000000000..4d13db0b0da9
+---
+ Documentation/admin-guide/pm/suspend-flows.rst |  270 +++++++++++++++++++++++++
+ Documentation/admin-guide/pm/system-wide.rst   |    1 
+ 2 files changed, 271 insertions(+)
+
+Index: linux-pm/Documentation/admin-guide/pm/suspend-flows.rst
+===================================================================
 --- /dev/null
-+++ b/Documentation/core-api/printk-basics.rst
-@@ -0,0 +1,144 @@
++++ linux-pm/Documentation/admin-guide/pm/suspend-flows.rst
+@@ -0,0 +1,270 @@
 +.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
 +
-+===========================
-+Message logging with printk
-+===========================
++=========================
++System Suspend Code Flows
++=========================
 +
-+printk() is one of the most widely known functions in the Linux kernel. It's the
-+standard tool we have for printing messages and usually the most basic way of
-+tracing and debugging. If you're familiar with printf(3) you can tell printk()
-+is based on it, although it has some functional differences:
++:Copyright: |copy| 2020 Intel Corporation
 +
-+  - printk() messages can specify a log level.
++:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 +
-+  - the format string, while largely compatible with C99, doesn't follow the
-+    exact same specification. It has some extensions and a few limitations
-+    (no ``%n`` or floating point conversion specifiers). See :ref:`How to get
-+    printk format specifiers right <printk-specifiers>`.
++At least one global system-wide transition needs to be carried out for the
++system to get from the working state into one of the supported
++:doc:`sleep states <sleep-states>`.  Hibernation requires more than one
++transition to occur for this purpose, but the other sleep states, commonly
++referred to as *system-wide suspend* (or simply *system suspend*) states, need
++only one.
 +
-+All printk() messages are printed to the kernel log buffer, which is a ring
-+buffer exported to userspace through /dev/kmsg. The usual way to read it is
-+using ``dmesg``.
++For those sleep states, the transition from the working state of the system into
++the target sleep state is referred to as *system suspend* too (in the majority
++of cases, whether this means a transition or a sleep state of the system should
++be clear from the context) and the transition back from the sleep state into the
++working state is referred to as *system resume*.
 +
-+printk() is typically used like this::
++The kernel code flows associated with the suspend and resume transitions for
++different sleep states of the system are quite similar, but there are some
++significant differences between the :ref:`suspend-to-idle <s2idle>` code flows
++and the code flows related to the :ref:`suspend-to-RAM <s2ram>` and
++:ref:`standby <standby>` sleep states.
 +
-+  printk(KERN_INFO "Message: %s\n", arg);
-+
-+where ``KERN_INFO`` is the log level (note that it's concatenated to the format
-+string, the log level is not a separate argument). The available log levels are:
-+
-++----------------+--------+-----------------------------------------------+
-+| Name           | String |  Alias function                               |
-++================+========+===============================================+
-+| KERN_EMERG     | "0"    | pr_emerg()                                    |
-++----------------+--------+-----------------------------------------------+
-+| KERN_ALERT     | "1"    | pr_alert()                                    |
-++----------------+--------+-----------------------------------------------+
-+| KERN_CRIT      | "2"    | pr_crit()                                     |
-++----------------+--------+-----------------------------------------------+
-+| KERN_ERR       | "3"    | pr_err()                                      |
-++----------------+--------+-----------------------------------------------+
-+| KERN_WARNING   | "4"    | pr_warn()                                     |
-++----------------+--------+-----------------------------------------------+
-+| KERN_NOTICE    | "5"    | pr_notice()                                   |
-++----------------+--------+-----------------------------------------------+
-+| KERN_INFO      | "6"    | pr_info()                                     |
-++----------------+--------+-----------------------------------------------+
-+| KERN_DEBUG     | "7"    | pr_debug() and pr_devel() if DEBUG is defined |
-++----------------+--------+-----------------------------------------------+
-+| KERN_DEFAULT   | ""     |                                               |
-++----------------+--------+-----------------------------------------------+
-+| KERN_CONT      | "c"    | pr_cont()                                     |
-++----------------+--------+-----------------------------------------------+
++The :ref:`suspend-to-RAM <s2ram>` and :ref:`standby <standby>` sleep states
++cannot be implemented without platform support and the difference between them
++boils down to the platform-specific actions carried out by the suspend and
++resume hooks that need to be provided by the platform driver to make them
++available.  Apart from that, the suspend and resume code flows for these sleep
++states are mostly identical, so they both together will be referred to as
++*platform-dependent suspend* states in what follows.
 +
 +
-+The log level specifies the importance of a message. The kernel decides whether
-+to show the message immediately (printing it to the current console) depending
-+on its log level and the current *console_loglevel* (a kernel variable). If the
-+message priority is higher (lower log level value) than the *console_loglevel*
-+the message will be printed to the console.
++.. _s2idle_suspend:
 +
-+If the log level is omitted, the message is printed with ``KERN_DEFAULT``
-+level.
++Suspend-to-idle Suspend Code Flow
++=================================
 +
-+You can check the current *console_loglevel* with::
++The following steps are taken in order to transition the system from the working
++state to the :ref:`suspend-to-idle <s2idle>` sleep state:
 +
-+  $ cat /proc/sys/kernel/printk
-+  4        4        1        7
++ 1. Invoking system-wide suspend notifiers.
 +
-+The result shows the *current*, *default*, *minimum* and *boot-time-default* log
-+levels.
++    Kernel subsystems can register callbacks to be invoked when the suspend
++    transition is about to occur and when the resume transition has finished.
 +
-+To change the current console_loglevel simply write the the desired level to
-+``/proc/sys/kernel/printk``. For example, to print all messages to the console::
++    That allows them to prepare for the change of the system state and to clean
++    up after getting back to the working state.
 +
-+  # echo 8 > /proc/sys/kernel/printk
++ 2. Freezing tasks.
 +
-+Another way, using ``dmesg``::
++    Tasks are frozen primarily in order to avoid unchecked hardware accesses
++    from user space through MMIO regions or I/O registers exposed directly to
++    it and to prevent user space from entering the kernel while the next step
++    of the transition is in progress (which might have been problematic for
++    various reasons).
 +
-+  # dmesg -n 5
++    All user space tasks are intercepted as though they were sent a signal and
++    put into uninterruptible sleep until the end of the subsequent system resume
++    transition.
 +
-+sets the console_loglevel to print KERN_WARNING (4) or more severe messages to
-+console. See ``dmesg(1)`` for more information.
++    The kernel threads that choose to be frozen during system suspend for
++    specific reasons are frozen subsequently, but they are not intercepted.
++    Instead, they are expected to periodically check whether or not they need
++    to be frozen and to put themselves into uninterruptible sleep if so.  [Note,
++    however, that kernel threads can use locking and other concurrency controls
++    available in kernel space to synchronize themselves with system suspend and
++    resume, which can be much more precise than the freezing, so the latter is
++    not a recommended option for kernel threads.]
 +
-+As an alternative to printk() you can use the ``pr_*()`` aliases for
-+logging. This family of macros embed the log level in the macro names. For
-+example::
++ 3. Suspending devices and reconfiguring IRQs.
 +
-+  pr_info("Info message no. %d\n", msg_num);
++    Devices are suspended in four phases called *prepare*, *suspend*,
++    *late suspend* and *noirq suspend* (see :ref:`driverapi_pm_devices` for more
++    information on what exactly happens in each phase).
 +
-+prints a ``KERN_INFO`` message.
++    Every device is visited in each phase, but typically it is not physically
++    accessed in more than two of them.
 +
-+Besides being more concise than the equivalent printk() calls, they can use a
-+common definition for the format string through the pr_fmt() macro. For
-+instance, defining this at the top of a source file (before any ``#include``
-+directive)::
++    The runtime PM API is disabled for every device during the *late* suspend
++    phase and high-level ("action") interrupt handlers are prevented from being
++    invoked before the *noirq* suspend phase.
 +
-+  #define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
++    Interrupts are still handled after that, but they are only acknowledged to
++    interrupt controllers without performing any device-specific actions that
++    would be triggered in the working state of the system (those actions are
++    deferred till the subsequent system resume transition as described
++    `below <s2idle_resume_>`_).
 +
-+would prefix every pr_*() message in that file with the module and function name
-+that originated the message.
++    IRQs associated with system wakeup devices are "armed" so that the resume
++    transition of the system is started when one of them signals an event.
 +
-+For debugging purposes there are also two conditionally-compiled macros:
-+pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
-+also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
++ 4. Freezing the scheduler tick and suspending timekeeping.
++
++    When all devices have been suspended, CPUs enter the idle loop and are put
++    into the deepest available idle state.  While doing that, each of them
++    "freezes" its own scheduler tick so that the timer events associated with
++    the tick do not occur until the CPU is woken up by another interrupt source.
++
++    The last CPU to enter the idle state also stops the timekeeping which
++    (among other things) prevents high resolution timers from triggering going
++    forward until the first CPU that is woken up restarts the timekeeping.
++    That allows the CPUs to stay in the deep idle state relatively long in one
++    go.
++
++    From this point on, the CPUs can only be woken up by non-timer hardware
++    interrupts.  If that happens, they go back to the idle state unless the
++    interrupt that woke up one of them comes from an IRQ that has been armed for
++    system wakeup, in which case the system resume transition is started.
 +
 +
-+Function reference
-+==================
++.. _s2idle_resume:
 +
-+.. kernel-doc:: kernel/printk/printk.c
-+   :functions: printk
++Suspend-to-idle Resume Code Flow
++================================
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_emerg
++The following steps are taken in order to transition the system from the
++:ref:`suspend-to-idle <s2idle>` sleep state into the working state:
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_alert
++ 1. Resuming timekeeping and unfreezing the scheduler tick.
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_crit
++    When one of the CPUs is woken up (by a non-timer hardware interrupt), it
++    leaves the idle state entered in the last step of the preceding suspend
++    transition, restarts the timekeeping (unless it has been restarted already
++    by another CPU that woke up earlier) and the scheduler tick on that CPU is
++    unfrozen.
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_err
++    If the interrupt that has woken up the CPU was armed for system wakeup,
++    the system resume transition begins.
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_warn
++ 2. Resuming devices and restoring the working-state configuration of IRQs.
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_notice
++    Devices are resumed in four phases called *noirq resume*, *early resume*,
++    *resume* and *complete* (see :ref:`driverapi_pm_devices` for more
++    information on what exactly happens in each phase).
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_info
++    Every device is visited in each phase, but typically it is not physically
++    accessed in more than two of them.
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_fmt
++    The working-state configuration of IRQs is restored after the *noirq* resume
++    phase and the runtime PM API is re-enabled for every device whose driver
++    supports it during the *early* resume phase.
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_debug
++ 3. Thawing tasks.
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_devel
++    Tasks frozen in step 2 of the preceding `suspend <s2idle_suspend_>`_
++    transition are "thawed", which means that they are woken up from the
++    uninterruptible sleep that they went into at that time and user space tasks
++    are allowed to exit the kernel.
 +
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_cont
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 8ebe46b1af39..1e3838652348 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -2,6 +2,8 @@
- How to get printk format specifiers right
- =========================================
++ 4. Invoking system-wide resume notifiers.
++
++    This is analogous to step 1 of the `suspend <s2idle_suspend_>`_ transition
++    and the same set of callbacks is invoked at this point, but a different
++    "notification type" parameter value is passed to them.
++
++
++Platform-dependent Suspend Code Flow
++====================================
++
++The following steps are taken in order to transition the system from the working
++state to platform-dependent suspend state:
++
++ 1. Invoking system-wide suspend notifiers.
++
++    This step is the same as step 1 of the suspend-to-idle suspend transition
++    described `above <s2idle_suspend_>`_.
++
++ 2. Freezing tasks.
++
++    This step is the same as step 2 of the suspend-to-idle suspend transition
++    described `above <s2idle_suspend_>`_.
++
++ 3. Suspending devices and reconfiguring IRQs.
++
++    This step is analogous to step 3 of the suspend-to-idle suspend transition
++    described `above <s2idle_suspend_>`_, but the arming of IRQs for system
++    wakeup generally does not have any effect on the platform.
++
++    There are platforms that can go into a very deep low-power state internally
++    when all CPUs in them are in sufficiently deep idle states and all I/O
++    devices have been put into low-power states.  On those platforms,
++    suspend-to-idle can reduce system power very effectively.
++
++    On the other platforms, however, low-level components (like interrupt
++    controllers) need to be turned off in a platform-specific way (implemented
++    in the hooks provided by the platform driver) to achieve comparable power
++    reduction.
++
++    That usually prevents in-band hardware interrupts from waking up the system,
++    which must be done in a special platform-dependent way.  Then, the
++    configuration of system wakeup sources usually starts when system wakeup
++    devices are suspended and is finalized by the platform suspend hooks later
++    on.
++
++ 4. Disabling non-boot CPUs.
++
++    On some platforms the suspend hooks mentioned above must run in a one-CPU
++    configuration of the system (in particular, the hardware cannot be accessed
++    by any code running in parallel with the platform suspend hooks that may,
++    and often do, trap into the platform firmware in order to finalize the
++    suspend transition).
++
++    For this reason, the CPU offline/online (CPU hotplug) framework is used
++    to take all of the CPUs in the system, except for one (the boot CPU),
++    offline (typically, the CPUs that have been taken offline go into deep idle
++    states).
++
++    This means that all tasks are migrated away from those CPUs and all IRQs are
++    rerouted to the only CPU that remains online.
++
++ 5. Suspending core system components.
++
++    This prepares the core system components for (possibly) losing power going
++    forward and suspends the timekeeping.
++
++ 6. Platform-specific power removal.
++
++    This is expected to remove power from all of the system components except
++    for the memory controller and RAM (in order to preserve the contents of the
++    latter) and some devices designated for system wakeup.
++
++    In many cases control is passed to the platform firmware which is expected
++    to finalize the suspend transition as needed.
++
++
++Platform-dependent Resume Code Flow
++===================================
++
++The following steps are taken in order to transition the system from a
++platform-dependent suspend state into the working state:
++
++ 1. Platform-specific system wakeup.
++
++    The platform is woken up by a signal from one of the designated system
++    wakeup devices (which need not be an in-band hardware interrupt)  and
++    control is passed back to the kernel (the working configuration of the
++    platform may need to be restored by the platform firmware before the
++    kernel gets control again).
++
++ 2. Resuming core system components.
++
++    The suspend-time configuration of the core system components is restored and
++    the timekeeping is resumed.
++
++ 3. Re-enabling non-boot CPUs.
++
++    The CPUs disabled in step 4 of the preceding suspend transition are taken
++    back online and their suspend-time configuration is restored.
++
++ 4. Resuming devices and restoring the working-state configuration of IRQs.
++
++    This step is the same as step 2 of the suspend-to-idle suspend transition
++    described `above <s2idle_resume_>`_.
++
++ 5. Thawing tasks.
++
++    This step is the same as step 3 of the suspend-to-idle suspend transition
++    described `above <s2idle_resume_>`_.
++
++ 6. Invoking system-wide resume notifiers.
++
++    This step is the same as step 4 of the suspend-to-idle suspend transition
++    described `above <s2idle_resume_>`_.
+Index: linux-pm/Documentation/admin-guide/pm/system-wide.rst
+===================================================================
+--- linux-pm.orig/Documentation/admin-guide/pm/system-wide.rst
++++ linux-pm/Documentation/admin-guide/pm/system-wide.rst
+@@ -8,3 +8,4 @@ System-Wide Power Management
+    :maxdepth: 2
  
-+.. _printk-specifiers:
-+
- :Author: Randy Dunlap <rdunlap@infradead.org>
- :Author: Andrew Murray <amurray@mpc-data.co.uk>
- 
-diff --git a/include/linux/printk.h b/include/linux/printk.h
-index 1e6108b8d15f..7d2f27d10288 100644
---- a/include/linux/printk.h
-+++ b/include/linux/printk.h
-@@ -284,39 +284,107 @@ static inline void printk_safe_flush_on_panic(void)
- 
- extern int kptr_restrict;
- 
-+/**
-+ * pr_fmt - used by the pr_*() macros to generate the printk format string
-+ * @fmt: format string passed from a pr_*() macro
-+ *
-+ * This macro can be used to generate a unified format string for pr_*()
-+ * macros. A common use is to prefix all pr_*() messages in a file with a common
-+ * string. For example, defining this at the top of a source file:
-+ *
-+ *        #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+ *
-+ * would prefix all pr_info, pr_emerg... messages in the file with the module
-+ * name.
-+ */
- #ifndef pr_fmt
- #define pr_fmt(fmt) fmt
- #endif
- 
--/*
-- * These can be used to print at the various log levels.
-- * All of these will print unconditionally, although note that pr_debug()
-- * and other debug macros are compiled out unless either DEBUG is defined
-- * or CONFIG_DYNAMIC_DEBUG is set.
-+/**
-+ * pr_emerg - Print an emergency-level message
-+ * @fmt: format string
-+ *
-+ * This macro expands to a printk with KERN_EMERG loglevel. It uses pr_fmt() to
-+ * generate the format string.
-  */
- #define pr_emerg(fmt, ...) \
- 	printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_alert - Print an alert-level message
-+ * @fmt: format string
-+ *
-+ * This macro expands to a printk with KERN_ALERT loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_alert(fmt, ...) \
- 	printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_crit - Print a critical-level message
-+ * @fmt: format string
-+ *
-+ * This macro expands to a printk with KERN_CRIT loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_crit(fmt, ...) \
- 	printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_err - Print an error-level message
-+ * @fmt: format string
-+ *
-+ * This macro expands to a printk with KERN_ERR loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_err(fmt, ...) \
- 	printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_warn - Print a warning-level message
-+ * @fmt: format string
-+ *
-+ * This macro expands to a printk with KERN_WARNING loglevel. It uses pr_fmt()
-+ * to generate the format string.
-+ */
- #define pr_warn(fmt, ...) \
- 	printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_notice - Print a notice-level message
-+ * @fmt: format string
-+ *
-+ * This macro expands to a printk with KERN_NOTICE loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_notice(fmt, ...) \
- 	printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_info - Print an info-level message
-+ * @fmt: format string
-+ *
-+ * This macro expands to a printk with KERN_INFO loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_info(fmt, ...) \
- 	printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
--/*
-- * Like KERN_CONT, pr_cont() should only be used when continuing
-- * a line with no newline ('\n') enclosed. Otherwise it defaults
-- * back to KERN_DEFAULT.
-+
-+/**
-+ * pr_cont - Continues a previous log message in the same line.
-+ * @fmt: format string
-+ *
-+ * This macro expands to a printk with KERN_CONT loglevel. It should only be
-+ * used when continuing a log message with no newline ('\n') enclosed. Otherwise
-+ * it defaults back to KERN_DEFAULT loglevel.
-  */
- #define pr_cont(fmt, ...) \
- 	printk(KERN_CONT fmt, ##__VA_ARGS__)
- 
--/* pr_devel() should produce zero code unless DEBUG is defined */
-+/**
-+ * pr_devel - Print a debug-level message conditionally
-+ * @fmt: format string
-+ *
-+ * This macro expands to a printk with KERN_DEBUG loglevel if DEBUG is
-+ * defined. Otherwise it does nothing.
-+ *
-+ * It uses pr_fmt() to generate the format string.
-+ */
- #ifdef DEBUG
- #define pr_devel(fmt, ...) \
- 	printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-@@ -330,8 +398,18 @@ extern int kptr_restrict;
- #if defined(CONFIG_DYNAMIC_DEBUG)
- #include <linux/dynamic_debug.h>
- 
--/* dynamic_pr_debug() uses pr_fmt() internally so we don't need it here */
--#define pr_debug(fmt, ...) \
-+/**
-+ * pr_debug - Print a debug-level message conditionally
-+ * @fmt: format string
-+ *
-+ * This macro expands to dynamic_pr_debug() if CONFIG_DYNAMIC_DEBUG is
-+ * set. Otherwise, if DEBUG is defined, it's equivalent to a printk with
-+ * KERN_DEBUG loglevel. If DEBUG is not defined it does nothing.
-+ *
-+ * It uses pr_fmt() to generate the format string (dynamic_pr_debug() uses
-+ * pr_fmt() internally).
-+ */
-+#define pr_debug(fmt, ...)			\
- 	dynamic_pr_debug(fmt, ##__VA_ARGS__)
- #elif defined(DEBUG)
- #define pr_debug(fmt, ...) \
--- 
-2.18.0
+    sleep-states
++   suspend-flows
+
+
 
