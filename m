@@ -2,169 +2,239 @@ Return-Path: <SRS0=+Dmp=5T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2262AC43331
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 07:29:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09080C43331
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 08:57:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F1D1520757
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 07:29:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C24A820B1F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 08:57:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XhpBRE/w"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390028AbgDCH3p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Apr 2020 03:29:45 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:50092 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387677AbgDCH3p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Apr 2020 03:29:45 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id C97E56251D11205EFCE1;
-        Fri,  3 Apr 2020 15:29:22 +0800 (CST)
-Received: from [127.0.0.1] (10.177.131.64) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Fri, 3 Apr 2020
- 15:29:13 +0800
-Subject: Re: [PATCH v7 1/4] x86: kdump: move reserve_crashkernel_low() into
- crash_core.c
-To:     Dave Young <dyoung@redhat.com>, James Morse <james.morse@arm.com>
-References: <20191223152349.180172-1-chenzhou10@huawei.com>
- <20191223152349.180172-2-chenzhou10@huawei.com>
- <20191227055458.GA14893@dhcp-128-65.nay.redhat.com>
- <09d42854-461b-e85c-ba3f-0e1173dc95b5@huawei.com>
- <20191228093227.GA19720@dhcp-128-65.nay.redhat.com>
- <77c971a4-608f-ee35-40cb-77186a2ddbd1@arm.com>
- <20200117035804.GA16926@dhcp-128-65.nay.redhat.com>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <bhsharma@redhat.com>, <horms@verge.net.au>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <xiexiuqi@huawei.com>,
-        kbuild test robot <lkp@intel.com>
-From:   Chen Zhou <chenzhou10@huawei.com>
-Message-ID: <22a98ad8-e799-081d-7815-6c44bd18dedd@huawei.com>
-Date:   Fri, 3 Apr 2020 15:29:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S2390431AbgDCI5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Apr 2020 04:57:22 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:36613 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727856AbgDCI5V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 04:57:21 -0400
+Received: by mail-oi1-f194.google.com with SMTP id k18so5501120oib.3;
+        Fri, 03 Apr 2020 01:57:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=C4Cc3e3DiPb3eBwNbjf2uE1eQf9O0o8a3T9Uq54vf3c=;
+        b=XhpBRE/wxAJ+lesMndcQLAFLKZqy37YsCBpBI+saa/A8fbn/O6jEcTPJySE0HfwYYX
+         zGxO4AxTF8P0U/NUoztaPD9a0s870qIH5E715ynnWDsSxHP28xI7gE+orX1/5ovhNhWn
+         q5hAAEwPas8wtGnIAhs0ZCeIvXdeKNJ5u06dv3kQuXPHrMCUC16nbqjba78OCFgrBQrS
+         Dhg6uXZjPF3w1z07tMmgn1MRlJYl9vb6+HZh6PGPgPeWvansvt01gUTNmjH0cQu0GTwS
+         3R/G6oXKFiyNU5DEWsVG/1CYl94KEcWn5IZyvo+x+niwZnh1S/MOS6QKBgfcEPoO8sn/
+         67eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=C4Cc3e3DiPb3eBwNbjf2uE1eQf9O0o8a3T9Uq54vf3c=;
+        b=IlElZ4KHDrubQeMtFjdQ8dHddNVUoDy27Bm7Cy6UlPujqI9bJT1CxF7IqSmFC7yp4f
+         3G9t1vEEW3p5ZQM7ZQyOL2cDJ3uDMx3OYJ5Qw5ujJyzWYbMleFOXvWHLEEC1SELy7/ET
+         Dzy1iIJ5p8duldOJMBcoqRCG7i2htybuJLKQbbJrpt1WDYs84ITYqoRNtWRxMxs5yOFd
+         G0ZIGG5V/QLwKdVbzs4YGNzjT5ZWG33fvXaHmqWDxh6Qmo+GdEdaioqFaFvGwS1UYTnn
+         xQ3Q6qAu4/eD47MXnjACdvPDL4OS/kxjrQJVk2z5uicRCznX1wJCXOCjf6qt/sQJNJUM
+         V9sQ==
+X-Gm-Message-State: AGi0PuYHlolbuS67L9A2kREvn5okIMa80Lj5EG9VuX/Tq2c2YFQ4c5yO
+        j4azJ0kRSBKnQdFwmeuUG7A=
+X-Google-Smtp-Source: APiQypLUivYF4yk6PsrH1Gmc2ZiaD0Dp5rCnUH1vbaut+RNz2omE1RD7Itl+CmRYe+BIaZya8pkKng==
+X-Received: by 2002:aca:4e47:: with SMTP id c68mr2318714oib.16.1585904240942;
+        Fri, 03 Apr 2020 01:57:20 -0700 (PDT)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id m20sm1966298otj.37.2020.04.03.01.57.20
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 03 Apr 2020 01:57:20 -0700 (PDT)
+Date:   Fri, 3 Apr 2020 01:57:19 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to
+ Clang/LLVM
+Message-ID: <20200403085719.GA9282@ubuntu-m2-xlarge-x86>
+References: <20200403051709.22407-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200117035804.GA16926@dhcp-128-65.nay.redhat.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.177.131.64]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200403051709.22407-1-masahiroy@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dave/James,
+Hi Masahiro,
 
-On 2020/1/17 11:58, Dave Young wrote:
-> On 01/16/20 at 03:17pm, James Morse wrote:
->> Hi guys,
->>
->> On 28/12/2019 09:32, Dave Young wrote:
->>> On 12/27/19 at 07:04pm, Chen Zhou wrote:
->>>> On 2019/12/27 13:54, Dave Young wrote:
->>>>> On 12/23/19 at 11:23pm, Chen Zhou wrote:
->>>>>> In preparation for supporting reserve_crashkernel_low in arm64 as
->>>>>> x86_64 does, move reserve_crashkernel_low() into kernel/crash_core.c.
->>>>>>
->>>>>> Note, in arm64, we reserve low memory if and only if crashkernel=X,low
->>>>>> is specified. Different with x86_64, don't set low memory automatically.
->>>>>
->>>>> Do you have any reason for the difference?  I'd expect we have same
->>>>> logic if possible and remove some of the ifdefs.
->>>>
->>>> In x86_64, if we reserve crashkernel above 4G, then we call reserve_crashkernel_low()
->>>> to reserve low memory.
->>>>
->>>> In arm64, to simplify, we call reserve_crashkernel_low() at the beginning of reserve_crashkernel()
->>>> and then relax the arm64_dma32_phys_limit if reserve_crashkernel_low() allocated something.
->>>> In this case, if reserve crashkernel below 4G there will be 256M low memory set automatically
->>>> and this needs extra considerations.
->>
->>> Sorry that I did not read the old thread details and thought that is
->>> arch dependent.  But rethink about that, it would be better that we can
->>> have same semantic about crashkernel parameters across arches.  If we
->>> make them different then it causes confusion, especially for
->>> distributions.
->>
->> Surely distros also want one crashkernel* string they can use on all platforms without
->> having to detect the kernel version, platform or changeable memory layout...
->>
->>
->>> OTOH, I thought if we reserve high memory then the low memory should be
->>> needed.  There might be some exceptions, but I do not know the exact
->>> one,
->>
->>> can we make the behavior same, and special case those systems which
->>> do not need low memory reservation.
->>
->> Its tricky to work out which systems are the 'normal' ones.
->>
->> We don't have a fixed memory layout for arm64. Some systems have no memory below 4G.
->> Others have no memory above 4G.
->>
->> Chen Zhou's machine has some memory below 4G, but its too precious to reserve a large
->> chunk for kdump. Without any memory below 4G some of the drivers won't work.
->>
->> I don't see what distros can set as their default for all platforms if high/low are
->> mutually exclusive with the 'crashkernel=' in use today. How did x86 navigate this, ... or
->> was it so long ago?
+On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
+> As Documentation/kbuild/llvm.rst implies, building the kernel with a
+> full set of LLVM tools gets very verbose and unwieldy.
 > 
-> It is very rare for such machine without any low memory in X86, at least
-> from what I know,  so the current way just works fine.
+> Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
+> GCC and Binutils. You can pass LLVM=1 from the command line or as an
+> environment variable. Then, Kbuild will use LLVM toolchains in your
+> PATH environment.
 > 
-> Since arm64 is quite different, I would agree with current way
-> proposed in the patch, but a question is, for those arm64 systems how can
-> admin know if low crashkernel memory is needed or not?  and just skip the
-> low reservation for machine with high memory installed only?
+> Please note LLVM=1 does not turn on the LLVM integrated assembler.
+> You need to explicitly pass AS=clang to use it. When the upstream
+> kernel is ready for the integrated assembler, I think we can make
+> it default.
 
-Specified size low memory is for crash dump kernel devices.
-I think admin should know if there are devices needing low memory in crash dump kernel.
+I agree this should be the default but I think it should probably be
+called out somewhere in the documentation as well since users might not
+expect to have to have a cross assembler installed.
 
-James, any suggestions?
+> We discussed what we need, and we agreed to go with a simple boolean
+> switch (https://lkml.org/lkml/2020/3/28/494).
+> 
+> Some items in the discussion:
+> 
+> - LLVM_DIR
+> 
+>   When multiple versions of LLVM are installed, I just thought supporting
+>   LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
+> 
+>   CC      = $(LLVM_DIR)clang
+>   LD      = $(LLVM_DIR)ld.lld
+>     ...
+> 
+>   However, we can handle this by modifying PATH. So, we decided to not do
+>   this.
+> 
+> - LLVM_SUFFIX
+> 
+>   Some distributions (e.g. Debian) package specific versions of LLVM with
+>   naming conventions that use the version as a suffix.
+> 
+>   CC      = clang$(LLVM_SUFFIX)
+>   LD      = ld.lld(LLVM_SUFFIX)
+>     ...
+> 
+>   will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
+>   but the suffixed versions in /usr/bin/ are symlinks to binaries in
+>   /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
+> 
+> - HOSTCC, HOSTCXX, etc.
+> 
+>   We can switch the host compilers in the same way:
+> 
+>   ifneq ($(LLVM),)
+>   HOSTCC       = clang
+>   HOSTCXX      = clang++
+>   else
+>   HOSTCC       = gcc
+>   HOSTCXX      = g++
+>   endif
 
-Thanks,
-Chen Zhou
+I would personally like to see this but I do not have the strongest
+opinion.
 
+>   This may the right thing to do, but I could not make up my mind.
+>   Because we do not frequently switch the host compiler, a counter
+>   solution I had in my mind was to leave it to the default of the
+>   system.
 > 
->>
->> No one else has reported a problem with the existing placement logic, hence treating this
->> 'low' thing as the 'in addition' special case.
->>
->>
->>>> previous discusses:
->>>> 	https://lkml.org/lkml/2019/6/5/670
->>>> 	https://lkml.org/lkml/2019/6/13/229
->>>
->>> Another concern from James:
->>> "
->>> With both crashk_low_res and crashk_res, we end up with two entries in /proc/iomem called
->>> "Crash kernel". Because its sorted by address, and kexec-tools stops searching when it
->>> find "Crash kernel", you are always going to get the kernel placed in the lower portion.
->>> "
->>>
->>> The kexec-tools code is iterating all "Crash kernel" ranges and add them
->>> in an array.  In X86 code, it uses the higher range to locate memory.
->>
->> Then my hurried reading of what the user-space code does was wrong!
->>
->> If kexec-tools places the kernel in the low region, there may not be enough memory left
->> for whatever purpose it was reserved for. This was the motivation for giving it a
->> different name.
+>   HOSTCC       = cc
+>   HOSTCXX      = c++
 > 
-> Agreed,  it is still a potential problem though.  Say we have both low
-> and high reserved.  Kdump kernel boots up, the kernel and drivers,
-> applications will use memory, I'm not sure if there is a memory
-> allocation policy to let them all use high mem first..  Anyway that is
-> beyond the kexec-tools and resource name.
+>   Many distributions support update-alternatives to switch the default
+>   to GCC, Clang, or whatever, but reviewers were opposed to this
+>   approach. So, this commit does not touch the host tools.
 > 
-> Thanks
-> Dave
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 > 
+>  Documentation/kbuild/kbuild.rst |  5 +++++
+>  Documentation/kbuild/llvm.rst   |  5 +++++
+>  Makefile                        | 20 ++++++++++++++++----
+>  3 files changed, 26 insertions(+), 4 deletions(-)
 > 
-> .
+> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> index 510f38d7e78a..2d1fc03d346e 100644
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -262,3 +262,8 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
+>  These two variables allow to override the user@host string displayed during
+>  boot and in /proc/version. The default value is the output of the commands
+>  whoami and host, respectively.
+> +
+> +LLVM
+> +----
+> +If this variable is set to 1, Kbuild will use Clang and LLVM utilities instead
+> +of GCC and GNU binutils to build the kernel.
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index d6c79eb4e23e..4602369f6a4f 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -55,6 +55,11 @@ additional parameters to `make`.
+>  	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
+>  	  HOSTLD=ld.lld
+>  
+> +You can use a single switch `LLVM=1` to use LLVM utilities by default (except
+> +for building host programs).
+> +
+> +	make LLVM=1 HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+> +
+>  Getting Help
+>  ------------
+>  
+> diff --git a/Makefile b/Makefile
+> index c91342953d9e..6db89ecdd942 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -409,16 +409,28 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+>  KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+>  
+>  # Make variables (CC, etc...)
+> -LD		= $(CROSS_COMPILE)ld
+> -CC		= $(CROSS_COMPILE)gcc
+>  CPP		= $(CC) -E
+> +ifneq ($(LLVM),)
+> +CC		= clang
+> +LD		= ld.lld
+> +AR		= llvm-ar
+> +NM		= llvm-nm
+> +OBJCOPY		= llvm-objcopy
+> +OBJDUMP		= llvm-objdump
+> +READELF		= llvm-readelf
+> +OBJSIZE		= llvm-size
+> +STRIP		= llvm-strip
+> +else
+> +CC		= $(CROSS_COMPILE)gcc
+> +LD		= $(CROSS_COMPILE)ld
+>  AR		= $(CROSS_COMPILE)ar
+>  NM		= $(CROSS_COMPILE)nm
+> -STRIP		= $(CROSS_COMPILE)strip
+>  OBJCOPY		= $(CROSS_COMPILE)objcopy
+>  OBJDUMP		= $(CROSS_COMPILE)objdump
+> -OBJSIZE		= $(CROSS_COMPILE)size
+>  READELF		= $(CROSS_COMPILE)readelf
+> +OBJSIZE		= $(CROSS_COMPILE)size
+> +STRIP		= $(CROSS_COMPILE)strip
+> +endif
+>  PAHOLE		= pahole
+>  LEX		= flex
+>  YACC		= bison
+> -- 
+> 2.17.1
 > 
 
+I have verified that the variables get their correct value with LLVM=1
+and that they are still overridable.
+
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Tested-by: Nathan Chancellor <natechancellor@gmail.com> # build
