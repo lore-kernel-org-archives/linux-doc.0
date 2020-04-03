@@ -2,245 +2,200 @@ Return-Path: <SRS0=+Dmp=5T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3105AC43331
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 10:31:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 329FEC43331
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 11:08:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F1FA02077D
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 10:31:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E50CC2082F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 11:08:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="s32rDEO/"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cSZYumXS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390400AbgDCKbe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Apr 2020 06:31:34 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:62523 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727774AbgDCKbe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 06:31:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1585909894; x=1617445894;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=W+Mk9Tz3acbW2EaatLr6OxnTB4VwVERiqP6QezBJjbs=;
-  b=s32rDEO/CP0bprC4WI2TNduNskjIIw8n4rprzvgKPMlOOfr+9D5V0E2b
-   2V8IwgK0yXSVH79zVsllf5tmYL1O//RsDLoibSANciyAbU7mJe5n00L7g
-   HPDjduoygpRLCxO+tnzgg/UYcBZjcwWr7FndzoPiEYLUJotAExzan5swO
-   w=;
-IronPort-SDR: OX+31wBz9sK6p2/Fs71Q+DLcvCemPzEc6lB6NkAlEWY/kb56W2x7/DSlhoknm1iYgyaRy5ZyEK
- EoyNDm9UvYpA==
-X-IronPort-AV: E=Sophos;i="5.72,339,1580774400"; 
-   d="scan'208";a="35060697"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-22cc717f.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 03 Apr 2020 10:31:31 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2a-22cc717f.us-west-2.amazon.com (Postfix) with ESMTPS id 38310A0714;
-        Fri,  3 Apr 2020 10:31:29 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 3 Apr 2020 10:31:28 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.241) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 3 Apr 2020 10:31:14 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sj38.park@gmail.com>
-CC:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <shuah@kernel.org>, <vbabka@suse.cz>,
-        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
-        <ying.huang@intel.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: Re: [PATCH v7 04/15] mm/damon: Implement region based sampling
-Date:   Fri, 3 Apr 2020 12:30:59 +0200
-Message-ID: <20200403103059.12762-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200402180022.32671-1-sj38.park@gmail.com> (raw)
+        id S1727953AbgDCLIo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Apr 2020 07:08:44 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48267 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727792AbgDCLIo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 07:08:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585912123;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+NAmZggX3XZCWjuUW8aBncEYEOJoNqi6G9ZgkQxDzKU=;
+        b=cSZYumXS+IZtsLYC3cT46/Q0hEjSweaeS/2TM2uB3d0zPE4K2YRgkP9JCrWj2AFSBfscUG
+        xsM21ghyUUyaOHdrK18AsZckEuy6DQ+L4sndvRHpN/MT2WFXYto9f3pHJ38Eo9N5QnLh3G
+        QquNTHeiiaE4xDDXj/2s5BAOHpC5y8Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-k5sRkw49OPuXre1ZjeIV8A-1; Fri, 03 Apr 2020 07:08:41 -0400
+X-MC-Unique: k5sRkw49OPuXre1ZjeIV8A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C91F5107ACCA;
+        Fri,  3 Apr 2020 11:08:38 +0000 (UTC)
+Received: from krava (unknown [10.40.194.72])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E509B5C1DC;
+        Fri,  3 Apr 2020 11:08:32 +0000 (UTC)
+Date:   Fri, 3 Apr 2020 13:08:28 +0200
+From:   Jiri Olsa <jolsa@redhat.com>
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Serge Hallyn <serge@hallyn.com>,
+        Song Liu <songliubraving@fb.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Stephane Eranian <eranian@google.com>,
+        Igor Lubashev <ilubashe@akamai.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH v8 04/12] perf tool: extend Perf tool with CAP_PERFMON
+ capability support
+Message-ID: <20200403110828.GL2784502@krava>
+References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
+ <a66d5648-2b8e-577e-e1f2-1d56c017ab5e@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.241]
-X-ClientProxiedBy: EX13D02UWB002.ant.amazon.com (10.43.161.160) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a66d5648-2b8e-577e-e1f2-1d56c017ab5e@linux.intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  2 Apr 2020 20:00:22 +0200 SeongJae Park <sj38.park@gmail.com> wrote:
-
-> On Thu, 2 Apr 2020 18:24:01 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+On Thu, Apr 02, 2020 at 11:47:35AM +0300, Alexey Budankov wrote:
 > 
-> > On Thu, 2 Apr 2020 15:59:59 +0200
-> > SeongJae Park <sjpark@amazon.com> wrote:
-> > 
-> > > On Wed, 1 Apr 2020 10:22:22 +0200 SeongJae Park <sjpark@amazon.com> wrote:
-> > > 
-> > > > On Tue, 31 Mar 2020 17:02:33 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-> > > >   
-> > > > > On Wed, 18 Mar 2020 12:27:11 +0100
-> > > > > SeongJae Park <sjpark@amazon.com> wrote:
-> > > > >   
-> > > > > > From: SeongJae Park <sjpark@amazon.de>
-[...]
-> > > > > > +static void damon_pte_pmd_mkold(pte_t *pte, pmd_t *pmd)
-> > > > > > +{
-> > > > > > +	if (pte) {
-> > > > > > +		if (pte_young(*pte)) {
-> > > > > > +			clear_page_idle(pte_page(*pte));
-> > > > > > +			set_page_young(pte_page(*pte));
-> > > > > > +		}
-> > > > > > +		*pte = pte_mkold(*pte);
-> > > > > > +		return;
-> > > > > > +	}
-> > > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > > > > > +	if (pmd) {
-> > > > > > +		if (pmd_young(*pmd)) {
-> > > > > > +			clear_page_idle(pmd_page(*pmd));
-> > > > > > +			set_page_young(pmd_page(*pmd));
-> > > > > > +		}
-> > > > > > +		*pmd = pmd_mkold(*pmd);
-> > > > > > +	}
-> > > > > > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */  
-> > > > > 
-> > > > > No need to flush the TLBs?  
-> > > > 
-> > > > Good point!
-> > > > 
-> > > > I have intentionally skipped TLB flushing here to minimize the performance
-> > > > effect to the target workload.  I also thought this might not degrade the
-> > > > monitoring accuracy so much because we are targetting for the DRAM level
-> > > > accesses of memory-intensive workloads, which might make TLB flood frequently.
-> > > > 
-> > > > However, your comment makes me thinking differently now.  By flushing the TLB
-> > > > here, we will increase up to `number_of_regions` TLB misses for sampling
-> > > > interval.  This might be not a huge overhead.  Also, improving the monitoring
-> > > > accuracy makes no harm at all.  I even didn't measured the overhead.
-> > > > 
-> > > > I will test the overhead and if it is not significant, I will make this code to
-> > > > flush TLB, in the next spin.  
-> > > 
-> > > Hmm, it seems like 'page_idle.c' is also modifying the Accessed bit but doesn't
-> > > flush related TLB entries.  If I'm not missing something here, I would like to
-> > > leave this part as is to make the behavior consistent.
-> > 
-> > Interesting.  In that usecase, the risk is that the MMU believes
-> > the page still has the accessed bit set when we have cleared it and hence
-> > the accessed bit is not written out to the table in memory.
-> > 
-> > That will give them a wrong decision so not great and would lead to them
-> > thinking more pages are idle than are.
-> > 
-> > Here we could have a particular TLB entry for a huge page in which
-> > a region lies entirely.  Because we don't flush the TLB each time
-> > we could end with a count of 0 accesses when it should be the maximum.
-> > A very frequently accessed page might well sit in the TLB for a very
-> > long time (particularly if the TLB is running a clever eviction
-> > strategy).
-> > 
-> > I think we would want to be test this and see if we get that
-> > pathological case sometimes.  Also worth benchmarking if it actually
-> > costs us very much to do the flushes.
+> Extend error messages to mention CAP_PERFMON capability as an option
+> to substitute CAP_SYS_ADMIN capability for secure system performance
+> monitoring and observability operations. Make perf_event_paranoid_check()
+> and __cmd_ftrace() to be aware of CAP_PERFMON capability.
 > 
-> Agreed, it wouldn't be late to make a decision after measuring the real cost.
-> I will share the measurement results soon.  Meanwhile, it would be helpful if
-> anyone could confirm whether page_idle.c is skipping TLB flushing and explain
-> why such decision has made.
+> CAP_PERFMON implements the principal of least privilege for performance
+> monitoring and observability operations (POSIX IEEE 1003.1e 2.2.2.39
+> principle of least privilege: A security design principle that states
+> that a process or program be granted only those privileges (e.g.,
+> capabilities) necessary to accomplish its legitimate function, and only
+> for the time that such privileges are actually required)
+> 
+> For backward compatibility reasons access to perf_events subsystem remains
+> open for CAP_SYS_ADMIN privileged processes but CAP_SYS_ADMIN usage for
+> secure perf_events monitoring is discouraged with respect to CAP_PERFMON
+> capability.
+> 
+> Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
+> Reviewed-by: James Morris <jamorris@linux.microsoft.com>
 
-I just finished implementing TLB flushing in straightforward way (the diff for
-this change is at the bottom of this mail) on the version I applied your
-recommended changes and my one bug fix (setting 'last_accessed' false).
+Acked-by: Jiri Olsa <jolsa@redhat.com>
 
-It shows monitoring accuracy improvement as expected, though it is not so big.
-I compared the visualized access patterns of each test workload to check this.
-There is no big difference, but the visualized pattern of TLB flushing version
-seems a little bit more clear to my human eye.
+thanks,
+jirka
 
-However, the overhead is clear and significant to some workloads including
-parsec3/streamcluster, splash2x/barnes, splash2x/lu_ncb and splash2x/volrend.
-The CPU utilization of kdamond, the deamon monitoring the access pattern, never
-exceeds 2% of single CPU time for the 4 workloads before the change is applied,
-but it frequently exceeds 30% of single CPU time with the TLB flushing.  The
-runtimes of the monitoring target workloads also increased.  In case of
-parsec3/streamcluster, the TLB flushing changed its runtime from 320 seconds to
-470 seconds.
+> ---
+>  tools/perf/builtin-ftrace.c |  5 +++--
+>  tools/perf/design.txt       |  3 ++-
+>  tools/perf/util/cap.h       |  4 ++++
+>  tools/perf/util/evsel.c     | 10 +++++-----
+>  tools/perf/util/util.c      |  1 +
+>  5 files changed, 15 insertions(+), 8 deletions(-)
+> 
+> diff --git a/tools/perf/builtin-ftrace.c b/tools/perf/builtin-ftrace.c
+> index d5adc417a4ca..55eda54240fb 100644
+> --- a/tools/perf/builtin-ftrace.c
+> +++ b/tools/perf/builtin-ftrace.c
+> @@ -284,10 +284,11 @@ static int __cmd_ftrace(struct perf_ftrace *ftrace, int argc, const char **argv)
+>  		.events = POLLIN,
+>  	};
+>  
+> -	if (!perf_cap__capable(CAP_SYS_ADMIN)) {
+> +	if (!(perf_cap__capable(CAP_PERFMON) ||
+> +	      perf_cap__capable(CAP_SYS_ADMIN))) {
+>  		pr_err("ftrace only works for %s!\n",
+>  #ifdef HAVE_LIBCAP_SUPPORT
+> -		"users with the SYS_ADMIN capability"
+> +		"users with the CAP_PERFMON or CAP_SYS_ADMIN capability"
+>  #else
+>  		"root"
+>  #endif
+> diff --git a/tools/perf/design.txt b/tools/perf/design.txt
+> index 0453ba26cdbd..a42fab308ff6 100644
+> --- a/tools/perf/design.txt
+> +++ b/tools/perf/design.txt
+> @@ -258,7 +258,8 @@ gets schedule to. Per task counters can be created by any user, for
+>  their own tasks.
+>  
+>  A 'pid == -1' and 'cpu == x' counter is a per CPU counter that counts
+> -all events on CPU-x. Per CPU counters need CAP_SYS_ADMIN privilege.
+> +all events on CPU-x. Per CPU counters need CAP_PERFMON or CAP_SYS_ADMIN
+> +privilege.
+>  
+>  The 'flags' parameter is currently unused and must be zero.
+>  
+> diff --git a/tools/perf/util/cap.h b/tools/perf/util/cap.h
+> index 051dc590ceee..ae52878c0b2e 100644
+> --- a/tools/perf/util/cap.h
+> +++ b/tools/perf/util/cap.h
+> @@ -29,4 +29,8 @@ static inline bool perf_cap__capable(int cap __maybe_unused)
+>  #define CAP_SYSLOG	34
+>  #endif
+>  
+> +#ifndef CAP_PERFMON
+> +#define CAP_PERFMON	38
+> +#endif
+> +
+>  #endif /* __PERF_CAP_H */
+> diff --git a/tools/perf/util/evsel.c b/tools/perf/util/evsel.c
+> index 816d930d774e..2696922f06bc 100644
+> --- a/tools/perf/util/evsel.c
+> +++ b/tools/perf/util/evsel.c
+> @@ -2507,14 +2507,14 @@ int perf_evsel__open_strerror(struct evsel *evsel, struct target *target,
+>  		 "You may not have permission to collect %sstats.\n\n"
+>  		 "Consider tweaking /proc/sys/kernel/perf_event_paranoid,\n"
+>  		 "which controls use of the performance events system by\n"
+> -		 "unprivileged users (without CAP_SYS_ADMIN).\n\n"
+> +		 "unprivileged users (without CAP_PERFMON or CAP_SYS_ADMIN).\n\n"
+>  		 "The current value is %d:\n\n"
+>  		 "  -1: Allow use of (almost) all events by all users\n"
+>  		 "      Ignore mlock limit after perf_event_mlock_kb without CAP_IPC_LOCK\n"
+> -		 ">= 0: Disallow ftrace function tracepoint by users without CAP_SYS_ADMIN\n"
+> -		 "      Disallow raw tracepoint access by users without CAP_SYS_ADMIN\n"
+> -		 ">= 1: Disallow CPU event access by users without CAP_SYS_ADMIN\n"
+> -		 ">= 2: Disallow kernel profiling by users without CAP_SYS_ADMIN\n\n"
+> +		 ">= 0: Disallow ftrace function tracepoint by users without CAP_PERFMON or CAP_SYS_ADMIN\n"
+> +		 "      Disallow raw tracepoint access by users without CAP_SYS_PERFMON or CAP_SYS_ADMIN\n"
+> +		 ">= 1: Disallow CPU event access by users without CAP_PERFMON or CAP_SYS_ADMIN\n"
+> +		 ">= 2: Disallow kernel profiling by users without CAP_PERFMON or CAP_SYS_ADMIN\n\n"
+>  		 "To make this setting permanent, edit /etc/sysctl.conf too, e.g.:\n\n"
+>  		 "	kernel.perf_event_paranoid = -1\n" ,
+>  				 target->system_wide ? "system-wide " : "",
+> diff --git a/tools/perf/util/util.c b/tools/perf/util/util.c
+> index d707c9624dd9..37a9492edb3e 100644
+> --- a/tools/perf/util/util.c
+> +++ b/tools/perf/util/util.c
+> @@ -290,6 +290,7 @@ int perf_event_paranoid(void)
+>  bool perf_event_paranoid_check(int max_level)
+>  {
+>  	return perf_cap__capable(CAP_SYS_ADMIN) ||
+> +			perf_cap__capable(CAP_PERFMON) ||
+>  			perf_event_paranoid() <= max_level;
+>  }
+>  
+> -- 
+> 2.24.1
+> 
 
-So, it seems the benefit of TLB flushing is smaller than the cost in some
-cases.  Thus, I think enabling TLB flushes by default wouldn't be a good
-decision.  Rather than that, it could be better to allow users to manually do
-TLB flushing for their specific workloads.  This will be easily available by
-using the DAMON's sampling callback functions.  Also, I am planning to let
-users to configure DAMON with their own access check / sampling setup functions
-in future, to support not only virtual memory but also physical memory and some
-other special cases.
-
-If I'm missing something or you have other thinking, please let me know.
-
-
-Thanks,
-SeongJae Park
-
-=============================== >8 ============================================
-
-Below is the essential diff for the TLB flushing I implemented.  To double
-check the overhead is really from the TLB flushing, I also measured the
-overhead of the additional works including the vma searching by commenting out
-the 'flush_tlb_range()' call.  After commenting out it, the CPU utilization of
-kdamond and runtime of target workloads has restored back.  So, the overhead
-seems really came from the TLB flushing.
-
-@@ -408,6 +411,9 @@ static void kdamond_prepare_sampling(struct damon_ctx *ctx,
-        pte_t *pte = NULL;
-        pmd_t *pmd = NULL;
-        spinlock_t *ptl;
-+       struct vm_area_struct *vma;
-+       unsigned long tlb_start;
-+       unsigned long tlb_size = PAGE_SIZE;
-
-        r->sampling_addr = damon_rand(ctx, r->vm_start, r->vm_end);
-
-@@ -420,18 +426,29 @@ static void kdamond_prepare_sampling(struct damon_ctx *ctx,
-                        set_page_young(pte_page(*pte));
-                }
-                *pte = pte_mkold(*pte);
--               return;
-        }
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
--       if (pmd) {
-+       else if (pmd) {
-                if (pmd_young(*pmd)) {
-                        clear_page_idle(pmd_page(*pmd));
-                        set_page_young(pmd_page(*pmd));
-                }
-                *pmd = pmd_mkold(*pmd);
-+               tlb_size = ((1UL) << HPAGE_PMD_SHIFT);
-        }
- #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-        spin_unlock(ptl);
-+
-+       tlb_start = ALIGN(r->sampling_addr, tlb_size);
-+
-+       down_read(&mm->mmap_sem);
-+       vma = find_vma(mm, r->sampling_addr);
-+       if (!vma || (r->sampling_addr < vma->vm_start))
-+               goto out;
-+       flush_tlb_range(vma, tlb_start, tlb_start + tlb_size);
-+
-+out:
-+       up_read(&mm->mmap_sem);
- }
-
-
-Thanks,
-SeongJae Park
