@@ -1,144 +1,205 @@
-Return-Path: <SRS0=YY78=5S=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=+Dmp=5T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC30C43331
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 18:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AD3AC43331
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 05:18:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D3DBF20675
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Apr 2020 18:38:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D03020B1F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 05:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585852724;
-	bh=9Ho6bf+CA7jUz/UlmFQaiIKtvrVOsYK9BEepRPFN6bE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=p7lX3smI4AoLbhpimLxC4oTIgEOVfEogeOME8l/YaJonAngDSd5pU7cXI/pZNzr9T
-	 5pET7SdX7VmAtbgZ1Chxg2SHH85dPpRySnQJHXehdPRdyvyx3KjNTTAIgWW5geH5Dy
-	 CuI+z4MyiuTnBeN5nwyBHI9o4XQbEWfrnsjhgSVQ=
+	s=default; t=1585891096;
+	bh=aTgYx1I+AAWHODFIogCwOjyVyfSJ4z2ssz7C32EbCNk=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=CNqSOp4pIA6bvfx8++RF3L1FDUFM/oVbE5r2uJlKrrq62jCSSebGr5W4Gb9Qm4ydN
+	 IOy0/u7MHRvgR41wJtWuGnS4WIL/nDO2EJSUhSn/5CQQJGCJfYSBY3/aUhyo7maAoD
+	 VO/umbk2SewIGrybMOLXVnx9H+jIvLj0KpLNb9lU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388465AbgDBSio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Apr 2020 14:38:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32810 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388260AbgDBSio (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Apr 2020 14:38:44 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0AAD62064A;
-        Thu,  2 Apr 2020 18:38:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585852723;
-        bh=9Ho6bf+CA7jUz/UlmFQaiIKtvrVOsYK9BEepRPFN6bE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jVZ/vcYcZCn2d5FTph1Va5WvoCOWcrDi0gweggQuY99ppzucgQyOzEvc4nhyA/Wtb
-         mtoDS0BYbNe5+DlNkNPUmrE3mTw0B16o0PqnM+OJPYSEJvmtqlscr4Ju4pYgh49ZRt
-         Qlt47Kr/cfelgJ8t5LTGK7zHQL761f3kUSP0EwpQ=
-Date:   Thu, 2 Apr 2020 20:38:39 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     shuah <shuah@kernel.org>, brendanhiggins@google.com,
-        frowand.list@gmail.com, linux-kselftest@vger.kernel.org,
-        corbet@lwn.net, linux-kernel@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 kunit-next 1/4] kunit: add debugfs
- /sys/kernel/debug/kunit/<suite>/results display
-Message-ID: <20200402183839.GB3234477@kroah.com>
-References: <1585232710-322-1-git-send-email-alan.maguire@oracle.com>
- <1585232710-322-2-git-send-email-alan.maguire@oracle.com>
- <0d310181-a172-dec9-19aa-337ece9d7380@kernel.org>
- <alpine.LRH.2.21.2004021624400.21551@localhost>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.LRH.2.21.2004021624400.21551@localhost>
+        id S1730898AbgDCFSP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Apr 2020 01:18:15 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:59337 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726024AbgDCFSP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 01:18:15 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 0335HC86000605;
+        Fri, 3 Apr 2020 14:17:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 0335HC86000605
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1585891033;
+        bh=zl/SnHIefZViz5A4+tN74d8D6ngYjxgigdH+W+cYlb0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=b4CW45oxcja10CoKCxsuAziVBy8K7XFfOeokINUxBbIf5zYHH5D0IhLiNw3iOvdta
+         lATWn/NeoGXp9N4ekTEIoBX/TaGFr9Eh9cuqCkCXPtLwi0JsDa1iP+zi4/3jKcreL+
+         KPGq/qSILfMqTKPzzOGhUXV2/DG/R9PCvLkGoExdoJRRcgQPXATJ9oGkH7mq8GMTcB
+         hw8RnBr9nIiHG+yFtL4QgXxmnHbRPPkTPKd1Fw+S42hvhn0BUnsXHURO+DGQueK8N3
+         0T1HW27edyJGFcImOpzWahklK6TiUytSzl6mCpKIzgKFq62QnFeXDE8mbvFp1lq24W
+         14IoypWou9h3w==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux@googlegroups.com,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: support 'LLVM' to switch the default tools to Clang/LLVM
+Date:   Fri,  3 Apr 2020 14:17:09 +0900
+Message-Id: <20200403051709.22407-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 02, 2020 at 04:27:35PM +0100, Alan Maguire wrote:
-> On Wed, 1 Apr 2020, shuah wrote:
-> 
-> > Hi Alan,
-> > 
-> > On 3/26/20 8:25 AM, Alan Maguire wrote:
-> > > add debugfs support for displaying kunit test suite results; this is
-> > > especially useful for module-loaded tests to allow disentangling of
-> > > test result display from other dmesg events.  debugfs support is
-> > > provided if CONFIG_KUNIT_DEBUGFS=y.
-> > > 
-> > > As well as printk()ing messages, we append them to a per-test log.
-> > > 
-> > > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> > > Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-> > > Reviewed-by: Frank Rowand <frank.rowand@sony.com>
-> > > ---
-> > >   include/kunit/test.h   |  54 +++++++++++++++---
-> > >   lib/kunit/Kconfig      |   8 +++
-> > 
-> > Missing defaults for config options?
-> > 
-> > >   lib/kunit/Makefile     |   4 ++
-> > >   lib/kunit/debugfs.c    | 116 ++++++++++++++++++++++++++++++++++++++
-> > >   lib/kunit/debugfs.h    |  30 ++++++++++
-> > >   lib/kunit/kunit-test.c |   4 +-
-> > >   lib/kunit/test.c       | 147
-> > >   ++++++++++++++++++++++++++++++++++++++-----------
-> > >   7 files changed, 322 insertions(+), 41 deletions(-)
-> > >   create mode 100644 lib/kunit/debugfs.c
-> > >   create mode 100644 lib/kunit/debugfs.h
-> > > 
-> > 
-> > snip
-> > 
-> > > diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
-> > > index 065aa16..95d12e3 100644
-> > > --- a/lib/kunit/Kconfig
-> > > +++ b/lib/kunit/Kconfig
-> > > @@ -14,6 +14,14 @@ menuconfig KUNIT
-> > >   
-> > >   if KUNIT
-> > >   
-> > > +config KUNIT_DEBUGFS
-> > > +	bool "KUnit - Enable /sys/kernel/debug/kunit debugfs representation"
-> > > +	help
-> > > +	  Enable debugfs representation for kunit.  Currently this consists
-> > > +	  of /sys/kernel/debug/kunit/<test_suite>/results files for each
-> > > +	  test suite, which allow users to see results of the last test suite
-> > > +	  run that occurred.
-> > > +
-> > 
-> > Any reason why there is default for this option?
-> > 
-> > Same for all other options. I am sending pull request for now without
-> > defaults. Would like to see this fixed for rc2.
-> >
-> 
-> Sure, I'll send a patch shortly. Just wanted to get opinions
-> on what those defaults should be; my working assumption is
-> 
-> - CONFIG_KUNIT should be default n; 
+As Documentation/kbuild/llvm.rst implies, building the kernel with a
+full set of LLVM tools gets very verbose and unwieldy.
 
-No default means 'n', so there's no need to say that at all.
+Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
+GCC and Binutils. You can pass LLVM=1 from the command line or as an
+environment variable. Then, Kbuild will use LLVM toolchains in your
+PATH environment.
 
-> - CONFIG_KUNIT_DEBUGFS should be default y (enabled by default
->   if CONFIG_KUNIT is set);
+Please note LLVM=1 does not turn on the LLVM integrated assembler.
+You need to explicitly pass AS=clang to use it. When the upstream
+kernel is ready for the integrated assembler, I think we can make
+it default.
 
-Why?  If it's is 'y', then don't even make it an option at all, just
-always have it :)
+We discussed what we need, and we agreed to go with a simple boolean
+switch (https://lkml.org/lkml/2020/3/28/494).
 
-'y' is almost always reserved for "your machine will not function
-properly without this enabled".
+Some items in the discussion:
 
-> - CONFIG_KUNIT_TEST, CONFIG_KUNIT_EXAMPLE_TEST should be default n
+- LLVM_DIR
 
-So no need to specify anything, 'n' is the default.
+  When multiple versions of LLVM are installed, I just thought supporting
+  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
 
-thanks,
+  CC      = $(LLVM_DIR)clang
+  LD      = $(LLVM_DIR)ld.lld
+    ...
 
-greg k-h
+  However, we can handle this by modifying PATH. So, we decided to not do
+  this.
+
+- LLVM_SUFFIX
+
+  Some distributions (e.g. Debian) package specific versions of LLVM with
+  naming conventions that use the version as a suffix.
+
+  CC      = clang$(LLVM_SUFFIX)
+  LD      = ld.lld(LLVM_SUFFIX)
+    ...
+
+  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
+  but the suffixed versions in /usr/bin/ are symlinks to binaries in
+  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
+
+- HOSTCC, HOSTCXX, etc.
+
+  We can switch the host compilers in the same way:
+
+  ifneq ($(LLVM),)
+  HOSTCC       = clang
+  HOSTCXX      = clang++
+  else
+  HOSTCC       = gcc
+  HOSTCXX      = g++
+  endif
+
+  This may the right thing to do, but I could not make up my mind.
+  Because we do not frequently switch the host compiler, a counter
+  solution I had in my mind was to leave it to the default of the
+  system.
+
+  HOSTCC       = cc
+  HOSTCXX      = c++
+
+  Many distributions support update-alternatives to switch the default
+  to GCC, Clang, or whatever, but reviewers were opposed to this
+  approach. So, this commit does not touch the host tools.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Documentation/kbuild/kbuild.rst |  5 +++++
+ Documentation/kbuild/llvm.rst   |  5 +++++
+ Makefile                        | 20 ++++++++++++++++----
+ 3 files changed, 26 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 510f38d7e78a..2d1fc03d346e 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -262,3 +262,8 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
+ These two variables allow to override the user@host string displayed during
+ boot and in /proc/version. The default value is the output of the commands
+ whoami and host, respectively.
++
++LLVM
++----
++If this variable is set to 1, Kbuild will use Clang and LLVM utilities instead
++of GCC and GNU binutils to build the kernel.
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index d6c79eb4e23e..4602369f6a4f 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -55,6 +55,11 @@ additional parameters to `make`.
+ 	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
+ 	  HOSTLD=ld.lld
+ 
++You can use a single switch `LLVM=1` to use LLVM utilities by default (except
++for building host programs).
++
++	make LLVM=1 HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
++
+ Getting Help
+ ------------
+ 
+diff --git a/Makefile b/Makefile
+index c91342953d9e..6db89ecdd942 100644
+--- a/Makefile
++++ b/Makefile
+@@ -409,16 +409,28 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+ 
+ # Make variables (CC, etc...)
+-LD		= $(CROSS_COMPILE)ld
+-CC		= $(CROSS_COMPILE)gcc
+ CPP		= $(CC) -E
++ifneq ($(LLVM),)
++CC		= clang
++LD		= ld.lld
++AR		= llvm-ar
++NM		= llvm-nm
++OBJCOPY		= llvm-objcopy
++OBJDUMP		= llvm-objdump
++READELF		= llvm-readelf
++OBJSIZE		= llvm-size
++STRIP		= llvm-strip
++else
++CC		= $(CROSS_COMPILE)gcc
++LD		= $(CROSS_COMPILE)ld
+ AR		= $(CROSS_COMPILE)ar
+ NM		= $(CROSS_COMPILE)nm
+-STRIP		= $(CROSS_COMPILE)strip
+ OBJCOPY		= $(CROSS_COMPILE)objcopy
+ OBJDUMP		= $(CROSS_COMPILE)objdump
+-OBJSIZE		= $(CROSS_COMPILE)size
+ READELF		= $(CROSS_COMPILE)readelf
++OBJSIZE		= $(CROSS_COMPILE)size
++STRIP		= $(CROSS_COMPILE)strip
++endif
+ PAHOLE		= pahole
+ LEX		= flex
+ YACC		= bison
+-- 
+2.17.1
+
