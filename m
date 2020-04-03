@@ -2,185 +2,342 @@ Return-Path: <SRS0=+Dmp=5T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A3EFC2BA17
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 11:58:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0214FC43331
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 12:31:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4FA5B20BED
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 11:58:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="hW10NssB"
+	by mail.kernel.org (Postfix) with ESMTP id BB5B12077D
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 12:31:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390893AbgDCL6l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Apr 2020 07:58:41 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:47052 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390891AbgDCL6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 07:58:41 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 033BqkTx062593;
-        Fri, 3 Apr 2020 11:58:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : in-reply-to : message-id : references : mime-version :
- content-type; s=corp-2020-01-29;
- bh=EY7GLrgtSs1FHcvLOyhhBbPOTYU0IWoLz9crxErYRF4=;
- b=hW10NssBiNmiZRzAxjLDjm1HtFA8pzJyYZiZeplWQ+FW56J4Xl7T8UeKeG/1ZT98VS8s
- ZnKk3CNH4qHDGAkPY93s72v+wE1L1I5mK/91zv/iY3qs4SsQSuK7mB+/zg7hrz47FQQ3
- /5DT9ev0Zpx7arSACpo2wn331XfRm7OUS/369C/yxHsxNqxFZdDwaH8wj7RJGIQpG87j
- BTGin9mvu2e3ZD6I8q1dIcyro/jIoCrD3NkBZ4i3ncQJ8Gn+94XiMs4jpyEbWXXDJGmC
- hC76jwArUKRRCZ4RO9wtTE8HjHbXdnbsrZNn4f5mrZtvxEkhZIFHDq+FhDcl7ClHifoB Uw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 303aqj13wy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 03 Apr 2020 11:58:32 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 033BwDCJ119036;
-        Fri, 3 Apr 2020 11:58:32 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3020.oracle.com with ESMTP id 302ga4gagp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 03 Apr 2020 11:58:31 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 033BwTrc000999;
-        Fri, 3 Apr 2020 11:58:29 GMT
-Received: from localhost.localdomain (/95.45.14.174)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 03 Apr 2020 04:58:28 -0700
-Date:   Fri, 3 Apr 2020 12:58:21 +0100 (BST)
-From:   Alan Maguire <alan.maguire@oracle.com>
-X-X-Sender: alan@localhost
-To:     Greg KH <gregkh@linuxfoundation.org>
-cc:     Alan Maguire <alan.maguire@oracle.com>, shuah <shuah@kernel.org>,
-        brendanhiggins@google.com, frowand.list@gmail.com,
-        linux-kselftest@vger.kernel.org, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 kunit-next 1/4] kunit: add debugfs
- /sys/kernel/debug/kunit/<suite>/results display
-In-Reply-To: <20200402183839.GB3234477@kroah.com>
-Message-ID: <alpine.LRH.2.21.2004031255450.5001@localhost>
-References: <1585232710-322-1-git-send-email-alan.maguire@oracle.com> <1585232710-322-2-git-send-email-alan.maguire@oracle.com> <0d310181-a172-dec9-19aa-337ece9d7380@kernel.org> <alpine.LRH.2.21.2004021624400.21551@localhost>
- <20200402183839.GB3234477@kroah.com>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9579 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- mlxlogscore=999 bulkscore=0 mlxscore=0 spamscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004030105
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9579 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 clxscore=1015
- malwarescore=0 impostorscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004030104
+        id S2390758AbgDCMbb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Apr 2020 08:31:31 -0400
+Received: from foss.arm.com ([217.140.110.172]:52586 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728099AbgDCMbb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Apr 2020 08:31:31 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D4D2D7FA;
+        Fri,  3 Apr 2020 05:31:29 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 546163F68F;
+        Fri,  3 Apr 2020 05:31:27 -0700 (PDT)
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Qais Yousef <qais.yousef@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default boost value
+Date:   Fri,  3 Apr 2020 13:30:19 +0100
+Message-Id: <20200403123020.13897-1-qais.yousef@arm.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2 Apr 2020, Greg KH wrote:
+RT tasks by default run at the highest capacity/performance level. When
+uclamp is selected this default behavior is retained by enforcing the
+requested uclamp.min (p->uclamp_req[UCLAMP_MIN]) of the RT tasks to be
+uclamp_none(UCLAMP_MAX), which is SCHED_CAPACITY_SCALE; the maximum
+value.
 
-> On Thu, Apr 02, 2020 at 04:27:35PM +0100, Alan Maguire wrote:
-> > On Wed, 1 Apr 2020, shuah wrote:
-> > 
-> > > Hi Alan,
-> > > 
-> > > On 3/26/20 8:25 AM, Alan Maguire wrote:
-> > > > add debugfs support for displaying kunit test suite results; this is
-> > > > especially useful for module-loaded tests to allow disentangling of
-> > > > test result display from other dmesg events.  debugfs support is
-> > > > provided if CONFIG_KUNIT_DEBUGFS=y.
-> > > > 
-> > > > As well as printk()ing messages, we append them to a per-test log.
-> > > > 
-> > > > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> > > > Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-> > > > Reviewed-by: Frank Rowand <frank.rowand@sony.com>
-> > > > ---
-> > > >   include/kunit/test.h   |  54 +++++++++++++++---
-> > > >   lib/kunit/Kconfig      |   8 +++
-> > > 
-> > > Missing defaults for config options?
-> > > 
-> > > >   lib/kunit/Makefile     |   4 ++
-> > > >   lib/kunit/debugfs.c    | 116 ++++++++++++++++++++++++++++++++++++++
-> > > >   lib/kunit/debugfs.h    |  30 ++++++++++
-> > > >   lib/kunit/kunit-test.c |   4 +-
-> > > >   lib/kunit/test.c       | 147
-> > > >   ++++++++++++++++++++++++++++++++++++++-----------
-> > > >   7 files changed, 322 insertions(+), 41 deletions(-)
-> > > >   create mode 100644 lib/kunit/debugfs.c
-> > > >   create mode 100644 lib/kunit/debugfs.h
-> > > > 
-> > > 
-> > > snip
-> > > 
-> > > > diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
-> > > > index 065aa16..95d12e3 100644
-> > > > --- a/lib/kunit/Kconfig
-> > > > +++ b/lib/kunit/Kconfig
-> > > > @@ -14,6 +14,14 @@ menuconfig KUNIT
-> > > >   
-> > > >   if KUNIT
-> > > >   
-> > > > +config KUNIT_DEBUGFS
-> > > > +	bool "KUnit - Enable /sys/kernel/debug/kunit debugfs representation"
-> > > > +	help
-> > > > +	  Enable debugfs representation for kunit.  Currently this consists
-> > > > +	  of /sys/kernel/debug/kunit/<test_suite>/results files for each
-> > > > +	  test suite, which allow users to see results of the last test suite
-> > > > +	  run that occurred.
-> > > > +
-> > > 
-> > > Any reason why there is default for this option?
-> > > 
-> > > Same for all other options. I am sending pull request for now without
-> > > defaults. Would like to see this fixed for rc2.
-> > >
-> > 
-> > Sure, I'll send a patch shortly. Just wanted to get opinions
-> > on what those defaults should be; my working assumption is
-> > 
-> > - CONFIG_KUNIT should be default n; 
-> 
-> No default means 'n', so there's no need to say that at all.
-> 
+This is also referred to as 'the default boost value of RT tasks'.
 
-Great!
+See commit 1a00d999971c ("sched/uclamp: Set default clamps for RT tasks").
 
-> > - CONFIG_KUNIT_DEBUGFS should be default y (enabled by default
-> >   if CONFIG_KUNIT is set);
-> 
-> Why?  If it's is 'y', then don't even make it an option at all, just
-> always have it :)
-> 
-> 'y' is almost always reserved for "your machine will not function
-> properly without this enabled".
->
+On battery powered devices, it is desired to control this default
+(currently hardcoded) behavior at runtime to reduce energy consumed by
+RT tasks.
 
-Okay, so in this case not having a default makes sense I think
-(we added the option as saying 'n' avoids allocating per-test
-loggging memory which might cause problems on low-memory systems).
+For example, a mobile device manufacturer where big.LITTLE architecture
+is dominant, the performance of the little cores varies across SoCs, and
+on high end ones the big cores could be too power hungry.
 
-> > - CONFIG_KUNIT_TEST, CONFIG_KUNIT_EXAMPLE_TEST should be default n
-> 
-> So no need to specify anything, 'n' is the default.
->
+Given the diversity of SoCs, the new knob allows manufactures to tune
+the best performance/power for RT tasks for the particular hardware they
+run on.
 
-Excellent! So based on the above seems like we don't need
-to add any defaults here I think.  Shuah/Brendan, let me know
-if I'm missing anything here. Thanks!
+They could opt to further tune the value when the user selects
+a different power saving mode or when the device is actively charging.
 
-Alan
+The runtime aspect of it further helps in creating a single kernel image
+that can be run on multiple devices that require different tuning.
 
-> thanks,
-> 
-> greg k-h
-> 
+Keep in mind that a lot of RT tasks in the system are created by the
+kernel. On Android for instance I can see over 50 RT tasks, only
+a handful of which created by the Android framework.
+
+To control the default behavior globally by system admins and device
+integrators, introduce the new sysctl_sched_rt_default_uclamp_util_min
+to change the default boost value of the RT tasks.
+
+I anticipate this to be mostly in the form of modifying the init script
+of a particular device.
+
+Whenever the new default changes, it'd be applied lazily on the next
+enqueue, assuming that it still uses the system default value and not a
+user applied one.
+
+Tested on Juno-r2 in combination with the RT capacity awareness [1].
+By default an RT task will go to the highest capacity CPU and run at the
+maximum frequency, which is particularly energy inefficient on high end
+mobile devices because the biggest core[s] are 'huge' and power hungry.
+
+With this patch the RT task can be controlled to run anywhere by
+default, and doesn't cause the frequency to be maximum all the time.
+Yet any task that really needs to be boosted can easily escape this
+default behavior by modifying its requested uclamp.min value
+(p->uclamp_req[UCLAMP_MIN]) via sched_setattr() syscall.
+
+[1] 804d402fb6f6: ("sched/rt: Make RT capacity-aware")
+
+Signed-off-by: Qais Yousef <qais.yousef@arm.com>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Juri Lelli <juri.lelli@redhat.com>
+CC: Vincent Guittot <vincent.guittot@linaro.org>
+CC: Dietmar Eggemann <dietmar.eggemann@arm.com>
+CC: Steven Rostedt <rostedt@goodmis.org>
+CC: Ben Segall <bsegall@google.com>
+CC: Mel Gorman <mgorman@suse.de>
+CC: Luis Chamberlain <mcgrof@kernel.org>
+CC: Kees Cook <keescook@chromium.org>
+CC: Iurii Zaikin <yzaikin@google.com>
+CC: Quentin Perret <qperret@google.com>
+CC: Valentin Schneider <valentin.schneider@arm.com>
+CC: Patrick Bellasi <patrick.bellasi@matbug.net>
+CC: Pavan Kondeti <pkondeti@codeaurora.org>
+CC: linux-doc@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-fsdevel@vger.kernel.org
+---
+
+Changes in v2:
+	* Do the lazy update in uclamp_rq_inc() (Thanks Qeuntin)
+	* Rename to: sysctl_sched_rt_default_uclamp_util_min (Quentin)
+	* uclamp_rt_sync_default_util_min() now is a static function in core.c
+	  with no prototype export in sched.h
+	* Added docs in sysctl/kernel.rst (patch 2) (Quentin)
+
+v1 can be found here:
+
+	https://lore.kernel.org/lkml/20191220164838.31619-1-qais.yousef@arm.com/
+
+Summary of v1 discussion:
+
+Patrick has voiced a concern about the approach. AFAIU the suggestion proposed
+by Patrick instead is to split sysctl_sched_uclamp_util_min into 2, one for RT
+and another for CFS. And use the RT constraint to limit how much boost RT tasks
+get globally.
+
+If my understanding was correct, the proposed approach by Patrick doesn't work
+for what we want to achieve here. Beside it breaks ABI.
+
+The global per RT task doesn't work because if I want to disable boosting for
+all RT tasks by default but still allow a handful of critical ones to be
+boosted, the global constraint will render any request via sched_setattr()
+syscall a NOP.
+
+So IIUC, we'll still _always_ boost RT tasks to max, but introduce a new knob
+to cap and restrict this boost. Which IMHO is a convoluted way to disable the
+hardcoded max boost behavior.
+
+This approach instead gives admins a direct control over the default boost
+value for RT tasks, which is exactly what we want, without any level of
+indirection. It converts a hardcoded value into a sysctl variable that
+sysadmins can modify at runtime.
+
+
+ include/linux/sched/sysctl.h |  1 +
+ kernel/sched/core.c          | 66 +++++++++++++++++++++++++++++++++---
+ kernel/sysctl.c              |  7 ++++
+ 3 files changed, 69 insertions(+), 5 deletions(-)
+
+diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+index d4f6215ee03f..91204480fabc 100644
+--- a/include/linux/sched/sysctl.h
++++ b/include/linux/sched/sysctl.h
+@@ -59,6 +59,7 @@ extern int sysctl_sched_rt_runtime;
+ #ifdef CONFIG_UCLAMP_TASK
+ extern unsigned int sysctl_sched_uclamp_util_min;
+ extern unsigned int sysctl_sched_uclamp_util_max;
++extern unsigned int sysctl_sched_rt_default_uclamp_util_min;
+ #endif
+ 
+ #ifdef CONFIG_CFS_BANDWIDTH
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 1a9983da4408..a726b26a5056 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -797,6 +797,27 @@ unsigned int sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
+ /* Max allowed maximum utilization */
+ unsigned int sysctl_sched_uclamp_util_max = SCHED_CAPACITY_SCALE;
+ 
++/*
++ * By default RT tasks run at the maximum performance point/capacity of the
++ * system. Uclamp enforces this by always setting UCLAMP_MIN of RT tasks to
++ * SCHED_CAPACITY_SCALE.
++ *
++ * This knob allows admins to change the default behavior when uclamp is being
++ * used. In battery powered devices, particularly, running at the maximum
++ * capacity and frequency will increase energy consumption and shorten the
++ * battery life.
++ *
++ * This knob only affects the default value RT has when a new RT task is
++ * forked or has just changed policy to RT, given the user hasn't modified the
++ * uclamp.min value of the task via sched_setattr().
++ *
++ * This knob will not override the system default sched_util_clamp_min defined
++ * above.
++ *
++ * Any modification is applied lazily on the next RT task wakeup.
++ */
++unsigned int sysctl_sched_rt_default_uclamp_util_min = SCHED_CAPACITY_SCALE;
++
+ /* All clamps are required to be less or equal than these values */
+ static struct uclamp_se uclamp_default[UCLAMP_CNT];
+ 
+@@ -924,6 +945,14 @@ uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
+ 	return uc_req;
+ }
+ 
++static void uclamp_rt_sync_default_util_min(struct task_struct *p)
++{
++	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
++
++	if (!uc_se->user_defined)
++		uclamp_se_set(uc_se, sysctl_sched_rt_default_uclamp_util_min, false);
++}
++
+ unsigned long uclamp_eff_value(struct task_struct *p, enum uclamp_id clamp_id)
+ {
+ 	struct uclamp_se uc_eff;
+@@ -1030,6 +1059,12 @@ static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
+ 	if (unlikely(!p->sched_class->uclamp_enabled))
+ 		return;
+ 
++	/*
++	 * When sysctl_sched_rt_default_uclamp_util_min value is changed by the
++	 * user, we apply any new value on the next wakeup, which is here.
++	 */
++	uclamp_rt_sync_default_util_min(p);
++
+ 	for_each_clamp_id(clamp_id)
+ 		uclamp_rq_inc_id(rq, p, clamp_id);
+ 
+@@ -1121,12 +1156,13 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+ 				loff_t *ppos)
+ {
+ 	bool update_root_tg = false;
+-	int old_min, old_max;
++	int old_min, old_max, old_rt_min;
+ 	int result;
+ 
+ 	mutex_lock(&uclamp_mutex);
+ 	old_min = sysctl_sched_uclamp_util_min;
+ 	old_max = sysctl_sched_uclamp_util_max;
++	old_rt_min = sysctl_sched_rt_default_uclamp_util_min;
+ 
+ 	result = proc_dointvec(table, write, buffer, lenp, ppos);
+ 	if (result)
+@@ -1134,12 +1170,23 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+ 	if (!write)
+ 		goto done;
+ 
++	/*
++	 * The new value will be applied to all RT tasks the next time they
++	 * wakeup, assuming the task is using the system default and not a user
++	 * specified value. In the latter we shall leave the value as the user
++	 * requested.
++	 */
+ 	if (sysctl_sched_uclamp_util_min > sysctl_sched_uclamp_util_max ||
+ 	    sysctl_sched_uclamp_util_max > SCHED_CAPACITY_SCALE) {
+ 		result = -EINVAL;
+ 		goto undo;
+ 	}
+ 
++	if (sysctl_sched_rt_default_uclamp_util_min > SCHED_CAPACITY_SCALE) {
++		result = -EINVAL;
++		goto undo;
++	}
++
+ 	if (old_min != sysctl_sched_uclamp_util_min) {
+ 		uclamp_se_set(&uclamp_default[UCLAMP_MIN],
+ 			      sysctl_sched_uclamp_util_min, false);
+@@ -1165,6 +1212,7 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+ undo:
+ 	sysctl_sched_uclamp_util_min = old_min;
+ 	sysctl_sched_uclamp_util_max = old_max;
++	sysctl_sched_rt_default_uclamp_util_min = old_rt_min;
+ done:
+ 	mutex_unlock(&uclamp_mutex);
+ 
+@@ -1207,9 +1255,13 @@ static void __setscheduler_uclamp(struct task_struct *p,
+ 		if (uc_se->user_defined)
+ 			continue;
+ 
+-		/* By default, RT tasks always get 100% boost */
++		/*
++		 * By default, RT tasks always get 100% boost, which the admins
++		 * are allowed to change via
++		 * sysctl_sched_rt_default_uclamp_util_min knob.
++		 */
+ 		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+-			clamp_value = uclamp_none(UCLAMP_MAX);
++			clamp_value = sysctl_sched_rt_default_uclamp_util_min;
+ 
+ 		uclamp_se_set(uc_se, clamp_value, false);
+ 	}
+@@ -1241,9 +1293,13 @@ static void uclamp_fork(struct task_struct *p)
+ 	for_each_clamp_id(clamp_id) {
+ 		unsigned int clamp_value = uclamp_none(clamp_id);
+ 
+-		/* By default, RT tasks always get 100% boost */
++		/*
++		 * By default, RT tasks always get 100% boost, which the admins
++		 * are allowed to change via
++		 * sysctl_sched_rt_default_uclamp_util_min knob.
++		 */
+ 		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+-			clamp_value = uclamp_none(UCLAMP_MAX);
++			clamp_value = sysctl_sched_rt_default_uclamp_util_min;
+ 
+ 		uclamp_se_set(&p->uclamp_req[clamp_id], clamp_value, false);
+ 	}
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index ad5b88a53c5a..0272ae8c6147 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -465,6 +465,13 @@ static struct ctl_table kern_table[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= sysctl_sched_uclamp_handler,
+ 	},
++	{
++		.procname	= "sched_rt_default_util_clamp_min",
++		.data		= &sysctl_sched_rt_default_uclamp_util_min,
++		.maxlen		= sizeof(unsigned int),
++		.mode		= 0644,
++		.proc_handler	= sysctl_sched_uclamp_handler,
++	},
+ #endif
+ #ifdef CONFIG_SCHED_AUTOGROUP
+ 	{
+-- 
+2.17.1
+
