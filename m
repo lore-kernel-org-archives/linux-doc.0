@@ -2,107 +2,95 @@ Return-Path: <SRS0=+Dmp=5T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BBD9C43331
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 15:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB007C43331
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 15:43:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 32A5F20721
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 15:42:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C24FB20857
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 15:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1585928632;
+	bh=KSPwK+lkGBae8SkRPWn1F9ipaReloBQuldYMLUPakYg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=uCdhPRs8hC6smODCEemham5oihMj3gSYWE2iJtnRs0rDfsXl4ccUg5TlDQNIe1s3k
+	 XDw0nbpERfb6UoXx9aawOEZcb3gZWLk+Y0vrMcuGJPOoet98sLOQNQ6ZnrTNTauB+Z
+	 H2oVMUGlX4PRRfvoZHRPD2ne7HJ13RTv3m1U7C60=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404302AbgDCPmH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Apr 2020 11:42:07 -0400
-Received: from mga06.intel.com ([134.134.136.31]:63660 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727927AbgDCPmH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Apr 2020 11:42:07 -0400
-IronPort-SDR: 9bfCzudLNj7uOORwNDviIt/Hb85RFrxUOY3StacdmABTB2FeqhMa9CL30RYs4RyQTyaStR6asA
- +BlnNW5kmggA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2020 08:42:06 -0700
-IronPort-SDR: RJf5XcF3zEyRJ09/us8jp/H/8TQ45FeITNZoj6qmJvJZrpMyH+BeCLfEQNew/lqKhbG4wVGqnQ
- bEFlq2iNEhbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,340,1580803200"; 
-   d="scan'208";a="241150363"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2020 08:42:06 -0700
-Message-ID: <0ddcfb2630456324203917b78297b00cf5111c9e.camel@intel.com>
-Subject: Re: [RFC PATCH v9 11/27] drm/i915/gvt: Change _PAGE_DIRTY to
- _PAGE_DIRTY_BITS
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Cc:     Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Date:   Fri, 03 Apr 2020 08:42:06 -0700
-In-Reply-To: <34c83f97-f206-1b43-db40-7e6a7d0f6bb7@intel.com>
-References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
-         <20200205181935.3712-12-yu-cheng.yu@intel.com>
-         <34c83f97-f206-1b43-db40-7e6a7d0f6bb7@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S2390935AbgDCPns (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Apr 2020 11:43:48 -0400
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:46455 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390855AbgDCPnr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 11:43:47 -0400
+Received: by mail-qv1-f65.google.com with SMTP id bu9so3758453qvb.13;
+        Fri, 03 Apr 2020 08:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vMx0MOLe0yvwgWuw4zcBKaQIRZC+xinekU6xHhikY6Y=;
+        b=lLOBh+umo7XmD7bXXEWTjIKbErh0pNJ4W1cHP9XwA6Q/F75wkb7gFTSXpXMNV294+M
+         Vwr/9u9w4YVoFzulwd8BEeyHuQ8kMIAMYrQMPKTMpXaKlFHkDZ7Hm6YJ8zGjpJfpBeWL
+         sm2CLEazw1xhEEJ1vv6N8KbYOmwQOSaJC/xpscVDIULWN8lfy96+Lbuu1iGvXIB7CrA3
+         lpiCY9kilSUJfP2kaS6kk+z8oXKGdFjTV1CKWpCAiQA1VZhzReL4UpiC1v3jI87qOqPs
+         yrxm6+S6HCShyMOPfFjuldMpPZEjW7L+qVrB9nPI28ZkTo3OsMtNIscZjXfcVE3mJEL3
+         X3zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=vMx0MOLe0yvwgWuw4zcBKaQIRZC+xinekU6xHhikY6Y=;
+        b=qV/GUIKYVKfj7nlDuzySxHt+Fjm4ylXvdoe1iKIgSlDIwo+41/vhHZ6LZltg3MW8Hf
+         BspQENCuNlKgX4E0BnJC5R4v8BMySKf3DgMxf8ElIF1CR2+1fxi+2BIGJp4vEsYzI+vp
+         XLa/bJ9RwsrOWCTV2tCN2HfiJALfrZudTqD789TwZutKPkBsZfQi2+yXJ30kyGnF3h76
+         e57594aTv0NP9xsUF6B6gMcOxWktHURPnKuo3gnV991+GF3b8oSx2K8ridJazQ1gu3DX
+         xD9ZbBM7AjrXewostx/sLbLvkauBO1NO/Fisb8Ah2L0Khn4229ZbKhQheXwsWfDwbyKg
+         /WgA==
+X-Gm-Message-State: AGi0PuZKbbdYJ4J2ddiJVB4tUpXb4wqo1G6qHtxJKzY01S6+m0InDROp
+        UHtvXV+SVx/Y8i7i55g2LOE=
+X-Google-Smtp-Source: APiQypIeff9mC0Z8KwgZIq+VCvmh+aODX/pV4cZ2GmTHwocSkeR+JEjsvr4Xe264cWIuYEWkSFG7RA==
+X-Received: by 2002:a0c:8525:: with SMTP id n34mr8885540qva.224.1585928625897;
+        Fri, 03 Apr 2020 08:43:45 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:480::842b])
+        by smtp.gmail.com with ESMTPSA id d22sm7022682qte.93.2020.04.03.08.43.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2020 08:43:45 -0700 (PDT)
+Date:   Fri, 3 Apr 2020 11:43:43 -0400
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Sonny Rao <sonnyrao@google.com>
+Subject: Re: [PATCH v2] docs: cgroup-v1: Document the cpuset_v2_mode mount
+ option
+Message-ID: <20200403154343.GE162390@mtj.duckdns.org>
+References: <20200330140615.25549-1-longman@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200330140615.25549-1-longman@redhat.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2020-02-26 at 14:04 -0800, Dave Hansen wrote:
-> On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
-> > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
-> > index 4b04af569c05..e467ca182633 100644
-> > --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> > @@ -1201,7 +1201,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
-> >  	}
-> >  
-> >  	/* Clear dirty field. */
-> > -	se->val64 &= ~_PAGE_DIRTY;
-> > +	se->val64 &= ~_PAGE_DIRTY_BITS;
-> >  
-> >  	ops->clear_pse(se);
-> >  	ops->clear_ips(se);
+On Mon, Mar 30, 2020 at 10:06:15AM -0400, Waiman Long wrote:
+> The cpuset in cgroup v1 accepts a special "cpuset_v2_mode" mount
+> option that make cpuset.cpus and cpuset.mems behave more like those in
+> cgroup v2.  Document it to make other people more aware of this feature
+> that can be useful in some circumstances.
 > 
-> Are the i915 maintainers on cc?
-> 
-> Shouldn't this use pte_mkclean() instead of open-coding?
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-These functions look like a set of pte_* equivalent for the driver.  They all
-use the bits directly.  Add its maintainers to cc.
+Applied to cgroup/for-5.7.
 
-Yu-cheng
+Thanks.
 
+-- 
+tejun
