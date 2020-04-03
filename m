@@ -2,95 +2,87 @@ Return-Path: <SRS0=+Dmp=5T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB007C43331
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 15:43:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDA3C43331
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 16:10:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C24FB20857
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 15:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1585928632;
-	bh=KSPwK+lkGBae8SkRPWn1F9ipaReloBQuldYMLUPakYg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=uCdhPRs8hC6smODCEemham5oihMj3gSYWE2iJtnRs0rDfsXl4ccUg5TlDQNIe1s3k
-	 XDw0nbpERfb6UoXx9aawOEZcb3gZWLk+Y0vrMcuGJPOoet98sLOQNQ6ZnrTNTauB+Z
-	 H2oVMUGlX4PRRfvoZHRPD2ne7HJ13RTv3m1U7C60=
+	by mail.kernel.org (Postfix) with ESMTP id 2134E206E9
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 16:10:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fii5g44E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390935AbgDCPns (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Apr 2020 11:43:48 -0400
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:46455 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390855AbgDCPnr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 11:43:47 -0400
-Received: by mail-qv1-f65.google.com with SMTP id bu9so3758453qvb.13;
-        Fri, 03 Apr 2020 08:43:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=vMx0MOLe0yvwgWuw4zcBKaQIRZC+xinekU6xHhikY6Y=;
-        b=lLOBh+umo7XmD7bXXEWTjIKbErh0pNJ4W1cHP9XwA6Q/F75wkb7gFTSXpXMNV294+M
-         Vwr/9u9w4YVoFzulwd8BEeyHuQ8kMIAMYrQMPKTMpXaKlFHkDZ7Hm6YJ8zGjpJfpBeWL
-         sm2CLEazw1xhEEJ1vv6N8KbYOmwQOSaJC/xpscVDIULWN8lfy96+Lbuu1iGvXIB7CrA3
-         lpiCY9kilSUJfP2kaS6kk+z8oXKGdFjTV1CKWpCAiQA1VZhzReL4UpiC1v3jI87qOqPs
-         yrxm6+S6HCShyMOPfFjuldMpPZEjW7L+qVrB9nPI28ZkTo3OsMtNIscZjXfcVE3mJEL3
-         X3zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=vMx0MOLe0yvwgWuw4zcBKaQIRZC+xinekU6xHhikY6Y=;
-        b=qV/GUIKYVKfj7nlDuzySxHt+Fjm4ylXvdoe1iKIgSlDIwo+41/vhHZ6LZltg3MW8Hf
-         BspQENCuNlKgX4E0BnJC5R4v8BMySKf3DgMxf8ElIF1CR2+1fxi+2BIGJp4vEsYzI+vp
-         XLa/bJ9RwsrOWCTV2tCN2HfiJALfrZudTqD789TwZutKPkBsZfQi2+yXJ30kyGnF3h76
-         e57594aTv0NP9xsUF6B6gMcOxWktHURPnKuo3gnV991+GF3b8oSx2K8ridJazQ1gu3DX
-         xD9ZbBM7AjrXewostx/sLbLvkauBO1NO/Fisb8Ah2L0Khn4229ZbKhQheXwsWfDwbyKg
-         /WgA==
-X-Gm-Message-State: AGi0PuZKbbdYJ4J2ddiJVB4tUpXb4wqo1G6qHtxJKzY01S6+m0InDROp
-        UHtvXV+SVx/Y8i7i55g2LOE=
-X-Google-Smtp-Source: APiQypIeff9mC0Z8KwgZIq+VCvmh+aODX/pV4cZ2GmTHwocSkeR+JEjsvr4Xe264cWIuYEWkSFG7RA==
-X-Received: by 2002:a0c:8525:: with SMTP id n34mr8885540qva.224.1585928625897;
-        Fri, 03 Apr 2020 08:43:45 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:480::842b])
-        by smtp.gmail.com with ESMTPSA id d22sm7022682qte.93.2020.04.03.08.43.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2020 08:43:45 -0700 (PDT)
-Date:   Fri, 3 Apr 2020 11:43:43 -0400
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
+        id S2404042AbgDCQKd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Apr 2020 12:10:33 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23076 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728351AbgDCQKd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 12:10:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585930232;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=eP7ClUiEc6wxzyPpIfOZtYlk/BTjbvCUBAhRW9+z9Mo=;
+        b=fii5g44EnUT/l6SMjM9Qr9RXEaSKzEyr9pY9ywBsSVLzvUzs1dkwnEUTngDYTDWxhHIet2
+        NngPE4cuitvYhDVuESIiEqexc1Azcw9xfKqFut26ROMVIFeVFpDlkga6qWktIZCWQ89gDJ
+        NkckMsT1AEMh3G+5PFyO1V9bgTa6djU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-A_PBiK6jO2WX0WyHi9BemA-1; Fri, 03 Apr 2020 12:10:28 -0400
+X-MC-Unique: A_PBiK6jO2WX0WyHi9BemA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81FF313FB;
+        Fri,  3 Apr 2020 16:10:26 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-118-94.rdu2.redhat.com [10.10.118.94])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1BC3110027A8;
+        Fri,  3 Apr 2020 16:10:24 +0000 (UTC)
+Subject: Re: [PATCH v2] docs: cgroup-v1: Document the cpuset_v2_mode mount
+ option
+To:     Tejun Heo <tj@kernel.org>
 Cc:     Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         Joel Fernandes <joel@joelfernandes.org>,
         Sonny Rao <sonnyrao@google.com>
-Subject: Re: [PATCH v2] docs: cgroup-v1: Document the cpuset_v2_mode mount
- option
-Message-ID: <20200403154343.GE162390@mtj.duckdns.org>
 References: <20200330140615.25549-1-longman@redhat.com>
+ <20200403154343.GE162390@mtj.duckdns.org>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <1434c1e9-bc2d-f21e-a9a8-060c1812fc8e@redhat.com>
+Date:   Fri, 3 Apr 2020 12:10:23 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200330140615.25549-1-longman@redhat.com>
+In-Reply-To: <20200403154343.GE162390@mtj.duckdns.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 30, 2020 at 10:06:15AM -0400, Waiman Long wrote:
-> The cpuset in cgroup v1 accepts a special "cpuset_v2_mode" mount
-> option that make cpuset.cpus and cpuset.mems behave more like those in
-> cgroup v2.  Document it to make other people more aware of this feature
-> that can be useful in some circumstances.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
+On 4/3/20 11:43 AM, Tejun Heo wrote:
+> On Mon, Mar 30, 2020 at 10:06:15AM -0400, Waiman Long wrote:
+>> The cpuset in cgroup v1 accepts a special "cpuset_v2_mode" mount
+>> option that make cpuset.cpus and cpuset.mems behave more like those in
+>> cgroup v2.  Document it to make other people more aware of this feature
+>> that can be useful in some circumstances.
+>>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+> Applied to cgroup/for-5.7.
+>
+> Thanks.
+>
+Thanks,
+Longman
 
-Applied to cgroup/for-5.7.
-
-Thanks.
-
--- 
-tejun
