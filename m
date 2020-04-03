@@ -2,359 +2,245 @@ Return-Path: <SRS0=+Dmp=5T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A98C43331
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 09:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3105AC43331
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 10:31:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5851A20737
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 09:36:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1FA02077D
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Apr 2020 10:31:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="s32rDEO/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727635AbgDCJg1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Apr 2020 05:36:27 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53730 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727431AbgDCJg0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 05:36:26 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: rcn)
-        with ESMTPSA id A45FF268566
-From:   =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v3] docs: pr_*() kerneldocs and basic printk docs
-Date:   Fri,  3 Apr 2020 11:36:17 +0200
-Message-Id: <20200403093617.18003-1-ricardo.canuelo@collabora.com>
-X-Mailer: git-send-email 2.18.0
+        id S2390400AbgDCKbe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Apr 2020 06:31:34 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:62523 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727774AbgDCKbe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Apr 2020 06:31:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1585909894; x=1617445894;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=W+Mk9Tz3acbW2EaatLr6OxnTB4VwVERiqP6QezBJjbs=;
+  b=s32rDEO/CP0bprC4WI2TNduNskjIIw8n4rprzvgKPMlOOfr+9D5V0E2b
+   2V8IwgK0yXSVH79zVsllf5tmYL1O//RsDLoibSANciyAbU7mJe5n00L7g
+   HPDjduoygpRLCxO+tnzgg/UYcBZjcwWr7FndzoPiEYLUJotAExzan5swO
+   w=;
+IronPort-SDR: OX+31wBz9sK6p2/Fs71Q+DLcvCemPzEc6lB6NkAlEWY/kb56W2x7/DSlhoknm1iYgyaRy5ZyEK
+ EoyNDm9UvYpA==
+X-IronPort-AV: E=Sophos;i="5.72,339,1580774400"; 
+   d="scan'208";a="35060697"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-22cc717f.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 03 Apr 2020 10:31:31 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2a-22cc717f.us-west-2.amazon.com (Postfix) with ESMTPS id 38310A0714;
+        Fri,  3 Apr 2020 10:31:29 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 3 Apr 2020 10:31:28 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.241) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 3 Apr 2020 10:31:14 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sj38.park@gmail.com>
+CC:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+        SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
+        SeongJae Park <sjpark@amazon.de>, <aarcange@redhat.com>,
+        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
+        <amit@kernel.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <shuah@kernel.org>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
+        <ying.huang@intel.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: Re: Re: [PATCH v7 04/15] mm/damon: Implement region based sampling
+Date:   Fri, 3 Apr 2020 12:30:59 +0200
+Message-ID: <20200403103059.12762-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200402180022.32671-1-sj38.park@gmail.com> (raw)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.241]
+X-ClientProxiedBy: EX13D02UWB002.ant.amazon.com (10.43.161.160) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add kerneldocs comments to the pr_*() macros in printk.h.
+On Thu,  2 Apr 2020 20:00:22 +0200 SeongJae Park <sj38.park@gmail.com> wrote:
 
-Add a new rst node in the core-api manual describing the basic usage of
-printk and the related macro aliases.
+> On Thu, 2 Apr 2020 18:24:01 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+> 
+> > On Thu, 2 Apr 2020 15:59:59 +0200
+> > SeongJae Park <sjpark@amazon.com> wrote:
+> > 
+> > > On Wed, 1 Apr 2020 10:22:22 +0200 SeongJae Park <sjpark@amazon.com> wrote:
+> > > 
+> > > > On Tue, 31 Mar 2020 17:02:33 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+> > > >   
+> > > > > On Wed, 18 Mar 2020 12:27:11 +0100
+> > > > > SeongJae Park <sjpark@amazon.com> wrote:
+> > > > >   
+> > > > > > From: SeongJae Park <sjpark@amazon.de>
+[...]
+> > > > > > +static void damon_pte_pmd_mkold(pte_t *pte, pmd_t *pmd)
+> > > > > > +{
+> > > > > > +	if (pte) {
+> > > > > > +		if (pte_young(*pte)) {
+> > > > > > +			clear_page_idle(pte_page(*pte));
+> > > > > > +			set_page_young(pte_page(*pte));
+> > > > > > +		}
+> > > > > > +		*pte = pte_mkold(*pte);
+> > > > > > +		return;
+> > > > > > +	}
+> > > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > > > > > +	if (pmd) {
+> > > > > > +		if (pmd_young(*pmd)) {
+> > > > > > +			clear_page_idle(pmd_page(*pmd));
+> > > > > > +			set_page_young(pmd_page(*pmd));
+> > > > > > +		}
+> > > > > > +		*pmd = pmd_mkold(*pmd);
+> > > > > > +	}
+> > > > > > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */  
+> > > > > 
+> > > > > No need to flush the TLBs?  
+> > > > 
+> > > > Good point!
+> > > > 
+> > > > I have intentionally skipped TLB flushing here to minimize the performance
+> > > > effect to the target workload.  I also thought this might not degrade the
+> > > > monitoring accuracy so much because we are targetting for the DRAM level
+> > > > accesses of memory-intensive workloads, which might make TLB flood frequently.
+> > > > 
+> > > > However, your comment makes me thinking differently now.  By flushing the TLB
+> > > > here, we will increase up to `number_of_regions` TLB misses for sampling
+> > > > interval.  This might be not a huge overhead.  Also, improving the monitoring
+> > > > accuracy makes no harm at all.  I even didn't measured the overhead.
+> > > > 
+> > > > I will test the overhead and if it is not significant, I will make this code to
+> > > > flush TLB, in the next spin.  
+> > > 
+> > > Hmm, it seems like 'page_idle.c' is also modifying the Accessed bit but doesn't
+> > > flush related TLB entries.  If I'm not missing something here, I would like to
+> > > leave this part as is to make the behavior consistent.
+> > 
+> > Interesting.  In that usecase, the risk is that the MMU believes
+> > the page still has the accessed bit set when we have cleared it and hence
+> > the accessed bit is not written out to the table in memory.
+> > 
+> > That will give them a wrong decision so not great and would lead to them
+> > thinking more pages are idle than are.
+> > 
+> > Here we could have a particular TLB entry for a huge page in which
+> > a region lies entirely.  Because we don't flush the TLB each time
+> > we could end with a count of 0 accesses when it should be the maximum.
+> > A very frequently accessed page might well sit in the TLB for a very
+> > long time (particularly if the TLB is running a clever eviction
+> > strategy).
+> > 
+> > I think we would want to be test this and see if we get that
+> > pathological case sometimes.  Also worth benchmarking if it actually
+> > costs us very much to do the flushes.
+> 
+> Agreed, it wouldn't be late to make a decision after measuring the real cost.
+> I will share the measurement results soon.  Meanwhile, it would be helpful if
+> anyone could confirm whether page_idle.c is skipping TLB flushing and explain
+> why such decision has made.
 
-Signed-off-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
----
-Changes in v3:
-- @... varargs documentation in printk.h kerneldocs
-- Group all printk.h function references in a single <.. kernel-doc> ref in
-  printk-formats.rst
+I just finished implementing TLB flushing in straightforward way (the diff for
+this change is at the bottom of this mail) on the version I applied your
+recommended changes and my one bug fix (setting 'last_accessed' false).
 
- Documentation/core-api/index.rst          |   1 +
- Documentation/core-api/printk-basics.rst  | 115 ++++++++++++++++++++++
- Documentation/core-api/printk-formats.rst |   2 +
- include/linux/printk.h                    | 112 ++++++++++++++++++---
- 4 files changed, 218 insertions(+), 12 deletions(-)
- create mode 100644 Documentation/core-api/printk-basics.rst
+It shows monitoring accuracy improvement as expected, though it is not so big.
+I compared the visualized access patterns of each test workload to check this.
+There is no big difference, but the visualized pattern of TLB flushing version
+seems a little bit more clear to my human eye.
 
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 0897ad12c119..49e3da910d9e 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -18,6 +18,7 @@ it.
- 
-    kernel-api
-    workqueue
-+   printk-basics
-    printk-formats
-    symbol-namespaces
- 
-diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
-new file mode 100644
-index 000000000000..563a9ce5fe1d
---- /dev/null
-+++ b/Documentation/core-api/printk-basics.rst
-@@ -0,0 +1,115 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========================
-+Message logging with printk
-+===========================
-+
-+printk() is one of the most widely known functions in the Linux kernel. It's the
-+standard tool we have for printing messages and usually the most basic way of
-+tracing and debugging. If you're familiar with printf(3) you can tell printk()
-+is based on it, although it has some functional differences:
-+
-+  - printk() messages can specify a log level.
-+
-+  - the format string, while largely compatible with C99, doesn't follow the
-+    exact same specification. It has some extensions and a few limitations
-+    (no ``%n`` or floating point conversion specifiers). See :ref:`How to get
-+    printk format specifiers right <printk-specifiers>`.
-+
-+All printk() messages are printed to the kernel log buffer, which is a ring
-+buffer exported to userspace through /dev/kmsg. The usual way to read it is
-+using ``dmesg``.
-+
-+printk() is typically used like this::
-+
-+  printk(KERN_INFO "Message: %s\n", arg);
-+
-+where ``KERN_INFO`` is the log level (note that it's concatenated to the format
-+string, the log level is not a separate argument). The available log levels are:
-+
-++----------------+--------+-----------------------------------------------+
-+| Name           | String |  Alias function                               |
-++================+========+===============================================+
-+| KERN_EMERG     | "0"    | pr_emerg()                                    |
-++----------------+--------+-----------------------------------------------+
-+| KERN_ALERT     | "1"    | pr_alert()                                    |
-++----------------+--------+-----------------------------------------------+
-+| KERN_CRIT      | "2"    | pr_crit()                                     |
-++----------------+--------+-----------------------------------------------+
-+| KERN_ERR       | "3"    | pr_err()                                      |
-++----------------+--------+-----------------------------------------------+
-+| KERN_WARNING   | "4"    | pr_warn()                                     |
-++----------------+--------+-----------------------------------------------+
-+| KERN_NOTICE    | "5"    | pr_notice()                                   |
-++----------------+--------+-----------------------------------------------+
-+| KERN_INFO      | "6"    | pr_info()                                     |
-++----------------+--------+-----------------------------------------------+
-+| KERN_DEBUG     | "7"    | pr_debug() and pr_devel() if DEBUG is defined |
-++----------------+--------+-----------------------------------------------+
-+| KERN_DEFAULT   | ""     |                                               |
-++----------------+--------+-----------------------------------------------+
-+| KERN_CONT      | "c"    | pr_cont()                                     |
-++----------------+--------+-----------------------------------------------+
-+
-+
-+The log level specifies the importance of a message. The kernel decides whether
-+to show the message immediately (printing it to the current console) depending
-+on its log level and the current *console_loglevel* (a kernel variable). If the
-+message priority is higher (lower log level value) than the *console_loglevel*
-+the message will be printed to the console.
-+
-+If the log level is omitted, the message is printed with ``KERN_DEFAULT``
-+level.
-+
-+You can check the current *console_loglevel* with::
-+
-+  $ cat /proc/sys/kernel/printk
-+  4        4        1        7
-+
-+The result shows the *current*, *default*, *minimum* and *boot-time-default* log
-+levels.
-+
-+To change the current console_loglevel simply write the the desired level to
-+``/proc/sys/kernel/printk``. For example, to print all messages to the console::
-+
-+  # echo 8 > /proc/sys/kernel/printk
-+
-+Another way, using ``dmesg``::
-+
-+  # dmesg -n 5
-+
-+sets the console_loglevel to print KERN_WARNING (4) or more severe messages to
-+console. See ``dmesg(1)`` for more information.
-+
-+As an alternative to printk() you can use the ``pr_*()`` aliases for
-+logging. This family of macros embed the log level in the macro names. For
-+example::
-+
-+  pr_info("Info message no. %d\n", msg_num);
-+
-+prints a ``KERN_INFO`` message.
-+
-+Besides being more concise than the equivalent printk() calls, they can use a
-+common definition for the format string through the pr_fmt() macro. For
-+instance, defining this at the top of a source file (before any ``#include``
-+directive)::
-+
-+  #define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
-+
-+would prefix every pr_*() message in that file with the module and function name
-+that originated the message.
-+
-+For debugging purposes there are also two conditionally-compiled macros:
-+pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
-+also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
-+
-+
-+Function reference
-+==================
-+
-+.. kernel-doc:: kernel/printk/printk.c
-+   :functions: printk
-+
-+.. kernel-doc:: include/linux/printk.h
-+   :functions: pr_emerg pr_alert pr_crit pr_err pr_warn pr_notice pr_info
-+      pr_fmt pr_debug pr_devel pr_cont
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 8ebe46b1af39..1e3838652348 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -2,6 +2,8 @@
- How to get printk format specifiers right
- =========================================
- 
-+.. _printk-specifiers:
-+
- :Author: Randy Dunlap <rdunlap@infradead.org>
- :Author: Andrew Murray <amurray@mpc-data.co.uk>
- 
-diff --git a/include/linux/printk.h b/include/linux/printk.h
-index 1e6108b8d15f..bd33f8e1d968 100644
---- a/include/linux/printk.h
-+++ b/include/linux/printk.h
-@@ -284,39 +284,116 @@ static inline void printk_safe_flush_on_panic(void)
- 
- extern int kptr_restrict;
- 
-+/**
-+ * pr_fmt - used by the pr_*() macros to generate the printk format string
-+ * @fmt: format string passed from a pr_*() macro
-+ *
-+ * This macro can be used to generate a unified format string for pr_*()
-+ * macros. A common use is to prefix all pr_*() messages in a file with a common
-+ * string. For example, defining this at the top of a source file:
-+ *
-+ *        #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+ *
-+ * would prefix all pr_info, pr_emerg... messages in the file with the module
-+ * name.
-+ */
- #ifndef pr_fmt
- #define pr_fmt(fmt) fmt
- #endif
- 
--/*
-- * These can be used to print at the various log levels.
-- * All of these will print unconditionally, although note that pr_debug()
-- * and other debug macros are compiled out unless either DEBUG is defined
-- * or CONFIG_DYNAMIC_DEBUG is set.
-+/**
-+ * pr_emerg - Print an emergency-level message
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to a printk with KERN_EMERG loglevel. It uses pr_fmt() to
-+ * generate the format string.
-  */
- #define pr_emerg(fmt, ...) \
- 	printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_alert - Print an alert-level message
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to a printk with KERN_ALERT loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_alert(fmt, ...) \
- 	printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_crit - Print a critical-level message
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to a printk with KERN_CRIT loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_crit(fmt, ...) \
- 	printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_err - Print an error-level message
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to a printk with KERN_ERR loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_err(fmt, ...) \
- 	printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_warn - Print a warning-level message
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to a printk with KERN_WARNING loglevel. It uses pr_fmt()
-+ * to generate the format string.
-+ */
- #define pr_warn(fmt, ...) \
- 	printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_notice - Print a notice-level message
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to a printk with KERN_NOTICE loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_notice(fmt, ...) \
- 	printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
-+/**
-+ * pr_info - Print an info-level message
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to a printk with KERN_INFO loglevel. It uses pr_fmt() to
-+ * generate the format string.
-+ */
- #define pr_info(fmt, ...) \
- 	printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
--/*
-- * Like KERN_CONT, pr_cont() should only be used when continuing
-- * a line with no newline ('\n') enclosed. Otherwise it defaults
-- * back to KERN_DEFAULT.
-+
-+/**
-+ * pr_cont - Continues a previous log message in the same line.
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to a printk with KERN_CONT loglevel. It should only be
-+ * used when continuing a log message with no newline ('\n') enclosed. Otherwise
-+ * it defaults back to KERN_DEFAULT loglevel.
-  */
- #define pr_cont(fmt, ...) \
- 	printk(KERN_CONT fmt, ##__VA_ARGS__)
- 
--/* pr_devel() should produce zero code unless DEBUG is defined */
-+/**
-+ * pr_devel - Print a debug-level message conditionally
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to a printk with KERN_DEBUG loglevel if DEBUG is
-+ * defined. Otherwise it does nothing.
-+ *
-+ * It uses pr_fmt() to generate the format string.
-+ */
- #ifdef DEBUG
- #define pr_devel(fmt, ...) \
- 	printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-@@ -330,8 +407,19 @@ extern int kptr_restrict;
- #if defined(CONFIG_DYNAMIC_DEBUG)
- #include <linux/dynamic_debug.h>
- 
--/* dynamic_pr_debug() uses pr_fmt() internally so we don't need it here */
--#define pr_debug(fmt, ...) \
-+/**
-+ * pr_debug - Print a debug-level message conditionally
-+ * @fmt: format string
-+ * @...: arguments for the format string
-+ *
-+ * This macro expands to dynamic_pr_debug() if CONFIG_DYNAMIC_DEBUG is
-+ * set. Otherwise, if DEBUG is defined, it's equivalent to a printk with
-+ * KERN_DEBUG loglevel. If DEBUG is not defined it does nothing.
-+ *
-+ * It uses pr_fmt() to generate the format string (dynamic_pr_debug() uses
-+ * pr_fmt() internally).
-+ */
-+#define pr_debug(fmt, ...)			\
- 	dynamic_pr_debug(fmt, ##__VA_ARGS__)
- #elif defined(DEBUG)
- #define pr_debug(fmt, ...) \
--- 
-2.18.0
+However, the overhead is clear and significant to some workloads including
+parsec3/streamcluster, splash2x/barnes, splash2x/lu_ncb and splash2x/volrend.
+The CPU utilization of kdamond, the deamon monitoring the access pattern, never
+exceeds 2% of single CPU time for the 4 workloads before the change is applied,
+but it frequently exceeds 30% of single CPU time with the TLB flushing.  The
+runtimes of the monitoring target workloads also increased.  In case of
+parsec3/streamcluster, the TLB flushing changed its runtime from 320 seconds to
+470 seconds.
 
+So, it seems the benefit of TLB flushing is smaller than the cost in some
+cases.  Thus, I think enabling TLB flushes by default wouldn't be a good
+decision.  Rather than that, it could be better to allow users to manually do
+TLB flushing for their specific workloads.  This will be easily available by
+using the DAMON's sampling callback functions.  Also, I am planning to let
+users to configure DAMON with their own access check / sampling setup functions
+in future, to support not only virtual memory but also physical memory and some
+other special cases.
+
+If I'm missing something or you have other thinking, please let me know.
+
+
+Thanks,
+SeongJae Park
+
+=============================== >8 ============================================
+
+Below is the essential diff for the TLB flushing I implemented.  To double
+check the overhead is really from the TLB flushing, I also measured the
+overhead of the additional works including the vma searching by commenting out
+the 'flush_tlb_range()' call.  After commenting out it, the CPU utilization of
+kdamond and runtime of target workloads has restored back.  So, the overhead
+seems really came from the TLB flushing.
+
+@@ -408,6 +411,9 @@ static void kdamond_prepare_sampling(struct damon_ctx *ctx,
+        pte_t *pte = NULL;
+        pmd_t *pmd = NULL;
+        spinlock_t *ptl;
++       struct vm_area_struct *vma;
++       unsigned long tlb_start;
++       unsigned long tlb_size = PAGE_SIZE;
+
+        r->sampling_addr = damon_rand(ctx, r->vm_start, r->vm_end);
+
+@@ -420,18 +426,29 @@ static void kdamond_prepare_sampling(struct damon_ctx *ctx,
+                        set_page_young(pte_page(*pte));
+                }
+                *pte = pte_mkold(*pte);
+-               return;
+        }
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-       if (pmd) {
++       else if (pmd) {
+                if (pmd_young(*pmd)) {
+                        clear_page_idle(pmd_page(*pmd));
+                        set_page_young(pmd_page(*pmd));
+                }
+                *pmd = pmd_mkold(*pmd);
++               tlb_size = ((1UL) << HPAGE_PMD_SHIFT);
+        }
+ #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+        spin_unlock(ptl);
++
++       tlb_start = ALIGN(r->sampling_addr, tlb_size);
++
++       down_read(&mm->mmap_sem);
++       vma = find_vma(mm, r->sampling_addr);
++       if (!vma || (r->sampling_addr < vma->vm_start))
++               goto out;
++       flush_tlb_range(vma, tlb_start, tlb_start + tlb_size);
++
++out:
++       up_read(&mm->mmap_sem);
+ }
+
+
+Thanks,
+SeongJae Park
