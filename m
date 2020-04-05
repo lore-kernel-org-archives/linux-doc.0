@@ -2,99 +2,252 @@ Return-Path: <SRS0=OdRe=5V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46850C2BA1B
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 15:51:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC07EC2BA15
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 16:46:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1D370206F8
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 15:51:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAD78206C3
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 16:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586105174;
+	bh=27Qr2piCnEQkYNYMaJeV3dxv9711F1FmGXxHcTTBmu8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=FsIVCB8aeFkq/xAE1RcO+TSepro9jcAwxdVcDx5ckkLNsva7azwVVdRLf17EPhaxC
+	 tKD2R8VuuTyPah6G3X9GJknr1lWjt47czzcS7ZopYgwdlq4cnswXb65ycGN7FD9h9O
+	 FENoaVeAPm62byN4pn7EaAQYRbvJu/PaHqZgRGsA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726910AbgDEPvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Apr 2020 11:51:35 -0400
-Received: from mga01.intel.com ([192.55.52.88]:48229 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726765AbgDEPvf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 5 Apr 2020 11:51:35 -0400
-IronPort-SDR: y8Ex2z7lktRRQ6kZaK9rzACJ0DrZEg31sPoaGIdh1/F4rJqiJQO7+KCsvlCLZJpsHjaYGwZKov
- DZF0ZAwrOrpQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2020 08:51:34 -0700
-IronPort-SDR: 9H+VnNHNmgemh7OdAcgvyRmttnueGqPJX5owQ9JxCcyH7agdmWjuOTmGrPJaB/mjN5Azw8eXx/
- eZb8TElDz0eQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,348,1580803200"; 
-   d="scan'208";a="296445177"
-Received: from linux.intel.com ([10.54.29.200])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Apr 2020 08:51:34 -0700
-Received: from [10.249.231.111] (abudanko-mobl.ccr.corp.intel.com [10.249.231.111])
-        by linux.intel.com (Postfix) with ESMTP id 4251358033E;
-        Sun,  5 Apr 2020 08:51:30 -0700 (PDT)
-Subject: Re: [PATCH v8 12/12] doc/admin-guide: update kernel.rst with
- CAP_PERFMON information
-To:     Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
-        Song Liu <songliubraving@fb.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Stephane Eranian <eranian@google.com>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-man@vger.kernel.org
-References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
- <84c32383-14a2-fa35-16b6-f9e59bd37240@linux.intel.com>
- <20200405141029.GA16896@kernel.org>
- <eb7fd0bd-4043-b51c-9b19-ee0a1d1849e9@linux.intel.com>
- <966244a1-2a2d-8e47-b805-2effa46fe8cd@linux.intel.com>
- <20200405150557.GP9917@kernel.org>
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <50b54ca3-2edb-d2be-e42e-57e0de12a052@linux.intel.com>
-Date:   Sun, 5 Apr 2020 18:51:29 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1726918AbgDEQqO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Apr 2020 12:46:14 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:56167 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726669AbgDEQqO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Apr 2020 12:46:14 -0400
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 035GjvtX031028;
+        Mon, 6 Apr 2020 01:45:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 035GjvtX031028
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1586105158;
+        bh=LDPKC1ers4KTra5PaosAQKb9OtIhKkb2IRgJKJ1PucE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Y5QCnFozrWTlxaHtyTykbkZ0Ddh7rTi7pFwk4XaWcyMFcnULagcpHiEla1zY9Wmzl
+         OHmDY+LuUu8rVfFyHsB7HinrRAsqQ2JvfOOnayI3dEJ0KGU4gSbSQh/lluFfkixUQ1
+         LJw/fi8trFtq0blreMEYLNcnjKGcPcSwxN3zhNAO1OzV3UFoxEcxW7OPBJcqKQQP/U
+         wGcwKlcQoGov6w2BdQDHei0cYKQtJPsTr9LpALXRxdZ6KrAygTIetbGRiFy6Zbb3y2
+         4f5ejtXS6je98Bzd0aNSONhVddx/Swm2yhz/dYmxnNo6vCCMzGtCvN2l37XgM7Dza6
+         cWGn8ZkwFbXrQ==
+X-Nifty-SrcIP: [209.85.222.50]
+Received: by mail-ua1-f50.google.com with SMTP id m15so3852274uao.3;
+        Sun, 05 Apr 2020 09:45:57 -0700 (PDT)
+X-Gm-Message-State: AGi0Pubu2v7hgfCF+lt6QKdoEEX6gpHGGLbdNXJBgmQgXl9n4lhrw6MK
+        pwg7SDyQgTApUjR6l3fI5tZs891xkFoOwg1YVPc=
+X-Google-Smtp-Source: APiQypIJjTRv4/QIF7T7DcDr8dCRlMy7i4kMOc03WYHXZyFiwa5KFZs/MqC1iS0miqJ/J+/Jvp2NsoHJThWlwjI/jjQ=
+X-Received: by 2002:ab0:20d6:: with SMTP id z22mr12839027ual.121.1586105156303;
+ Sun, 05 Apr 2020 09:45:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200405150557.GP9917@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200403051709.22407-1-masahiroy@kernel.org> <CAKwvOdnaZ6qDVxaPY-GEH8pdUkzH6eqm16ok9_wzRSVRG-1kiQ@mail.gmail.com>
+In-Reply-To: <CAKwvOdnaZ6qDVxaPY-GEH8pdUkzH6eqm16ok9_wzRSVRG-1kiQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 6 Apr 2020 01:45:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQybfcYiosNU+ybd-Q7-Y2dbLqBVN2XA00wCRnFAoqdew@mail.gmail.com>
+Message-ID: <CAK7LNAQybfcYiosNU+ybd-Q7-Y2dbLqBVN2XA00wCRnFAoqdew@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to Clang/LLVM
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>,
+        Sandeep Patil <sspatil@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Apr 4, 2020 at 3:24 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> On Thu, Apr 2, 2020 at 10:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > As Documentation/kbuild/llvm.rst implies, building the kernel with a
+> > full set of LLVM tools gets very verbose and unwieldy.
+> >
+> > Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
+> > GCC and Binutils. You can pass LLVM=1 from the command line or as an
+> > environment variable. Then, Kbuild will use LLVM toolchains in your
+> > PATH environment.
+> >
+> > Please note LLVM=1 does not turn on the LLVM integrated assembler.
+> > You need to explicitly pass AS=clang to use it. When the upstream
+> > kernel is ready for the integrated assembler, I think we can make
+> > it default.
+>
+> Having this behavior change over time may be surprising.  I'd rather
+> that if you want to not use the integrated assembler, you explicitly
+> negate it, or just don't use the LLVM=1 syntax, ie. `make CC=clang
+> LD=ld.lld ...`.
+>
+> We could modify how `-no-integrated-as` is chosen when LLVM=1.
+>
+> make LLVM=1 LLVMIA=0 ... # add `-no-integrated-as`
+> # what the flag is doesn't really matter to me, something shorter might be nice.
+> make LLVM=1 # use all LLVM tools
+>
+> Since we got rid of $(AS), it would be appropriate to remove/change it
+> there, since no one really relies on AS=clang right now. (We do have 1
+> of our 60+ CI targets using it, but we can also change that trivially.
+> So I think we have a lot of freedom to change how `-no-integrated-as`
+> is set.
+>
+> This could even be independent of this patch.
 
-On 05.04.2020 18:05, Arnaldo Carvalho de Melo wrote:
-> Em Sun, Apr 05, 2020 at 05:54:37PM +0300, Alexey Budankov escreveu:
->>
->> On 05.04.2020 17:41, Alexey Budankov wrote:
->>>
->>> On 05.04.2020 17:10, Arnaldo Carvalho de Melo wrote:
->>>> Em Thu, Apr 02, 2020 at 11:54:39AM +0300, Alexey Budankov escreveu:
->>>>>
->>>>> Update kernel.rst documentation file with the information
->>>>> related to usage of CAP_PERFMON capability to secure performance
->>>>> monitoring and observability operations in system.
->>>>
->>>> This one is failing in my perf/core branch, please take a look. I'm
->>
->> Please try applying this:
-> 
-> Thanks, applied with the original commit log message,
 
-Thanks,
-Alexey
+I also thought a boolean flag is preferred.
+
+AS=clang will not live long anyway, and
+I hesitated to break the compatibility
+for the short-term workaround.
+
+But, if this is not a big deal, I can
+replace AS=clang with LLVMIA=1.
+
+
+
+> >
+> > We discussed what we need, and we agreed to go with a simple boolean
+> > switch (https://lkml.org/lkml/2020/3/28/494).
+> >
+> > Some items in the discussion:
+> >
+> > - LLVM_DIR
+> >
+> >   When multiple versions of LLVM are installed, I just thought supporting
+> >   LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
+> >
+> >   CC      = $(LLVM_DIR)clang
+> >   LD      = $(LLVM_DIR)ld.lld
+> >     ...
+> >
+> >   However, we can handle this by modifying PATH. So, we decided to not do
+> >   this.
+> >
+> > - LLVM_SUFFIX
+> >
+> >   Some distributions (e.g. Debian) package specific versions of LLVM with
+> >   naming conventions that use the version as a suffix.
+> >
+> >   CC      = clang$(LLVM_SUFFIX)
+> >   LD      = ld.lld(LLVM_SUFFIX)
+> >     ...
+> >
+> >   will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
+> >   but the suffixed versions in /usr/bin/ are symlinks to binaries in
+> >   /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
+> >
+> > - HOSTCC, HOSTCXX, etc.
+> >
+> >   We can switch the host compilers in the same way:
+> >
+> >   ifneq ($(LLVM),)
+> >   HOSTCC       = clang
+> >   HOSTCXX      = clang++
+> >   else
+> >   HOSTCC       = gcc
+> >   HOSTCXX      = g++
+> >   endif
+> >
+> >   This may the right thing to do, but I could not make up my mind.
+> >   Because we do not frequently switch the host compiler, a counter
+> >   solution I had in my mind was to leave it to the default of the
+> >   system.
+> >
+> >   HOSTCC       = cc
+> >   HOSTCXX      = c++
+> >
+> >   Many distributions support update-alternatives to switch the default
+> >   to GCC, Clang, or whatever, but reviewers were opposed to this
+> >   approach. So, this commit does not touch the host tools.
+>
+> update-alternatives assumes you've installed Clang via a package manager?
+> $ update-alternatives --list cc
+> /usr/bin/gcc
+> On my system even though clang and friends are in my PATH.
+>
+> And previously, there was feedback that maybe folks don't want to
+> change `cc` on their systems just for Clang kernel builds.
+> https://lkml.org/lkml/2020/3/30/836
+> https://lkml.org/lkml/2020/3/30/838
+>
+> A goal for ClangBuiltLinux is to build a kernel image with no GCC or
+> binutils installed on the host.  Let the record reflect that.  And
+> there's been multiple complaints that the existing syntax is too long
+> for specifying all of the tools.
+>
+> LLVM=1 is meant to be one flag.  Not `make LLVM=1 HOSTCC=clang
+> HOSTCXX=clang`.  If folks want fine grain flexibility, use the
+> existing command line interface, which this patch does not change.
+> LLVM=1 is opinionated, and inflexible, because it makes a strong
+> choice to enable LLVM for everything.
+>
+> Another reason why I don't want to change these over time, and why I
+> want them all to be in sync is that there are 4 different CI systems
+> for the kernel, and they are currently fragmented in terms of who is
+> using what tools:
+>
+> KernelCI: CC=clang only
+> Kbuild test robot aka 0day bot: CC=clang LD=ld.lld
+> Linaro TCWG: CC=clang only
+> our CI: a complete mix due to combinatorial explosion, but more
+> coverage of LLVM than everyone else.
+>
+> That is a mess that we must solve.  Having 1 flag that works
+> consistently across systems is one solution.  Now if those were all
+> using LLVM=1, but some were enabling Clang's integrated assembler, and
+> some weren't because we changed the default over time, then we'd be
+> right back to this mismatch between systems.  I'd much rather draw the
+> line in the sand, and say "this is how this flag will work, since day
+> 1."  Maybe it's too rigid, but it's important to me that if we create
+> something new to solve multiple objectives (1. simplifies existing
+> interface. 2. turns on everything.) that it does so.  It is a partial
+> solution, if it eliminates some of the flags while leaving others. I
+> want a full solution.
+>
+> If folks want the flexibility to mix and match tools, the existing
+> interface is capable.  But for us to track who is using what, we need
+> 1 flag that we know is not different depending on the cc of the
+> system.  Once clang's integrated assembler is good to go, we will
+> begin recommending LLVM=1 to everyone.  And we want feedback if we
+> regress building the host utilities during a kernel build, even if
+> there are not many.
+>
+> I'm on the fence about having all of the above satisfied by one patch,
+> or taking this patch as is and following up on the above two points
+> (related to disabling `-no-integrated-as` and setting HOSTCC).  I
+> trust your judgement and respect your decisions, so I'll defer to you
+> Masahiro, but I need to make explicit the design goals.  Maybe with
+> this additional context it can help inform the design.
+> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+
+
+Thanks for the comments.
+
+I'd rather want to do this incrementally,
+making sure I am doing right.
+
+
+The meaning of LLVM=1 may change over time.
+It means "the recommended settings" at the moment.
+
+If CI does not want to change the behavior across
+kernel versions, it can pass individual variables
+explicitly.
+
+--
+Best Regards
+Masahiro Yamada
