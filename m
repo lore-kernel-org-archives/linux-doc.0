@@ -2,252 +2,102 @@ Return-Path: <SRS0=OdRe=5V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC07EC2BA15
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 16:46:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC70C2BA19
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 21:04:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AAD78206C3
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 16:46:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586105174;
-	bh=27Qr2piCnEQkYNYMaJeV3dxv9711F1FmGXxHcTTBmu8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=FsIVCB8aeFkq/xAE1RcO+TSepro9jcAwxdVcDx5ckkLNsva7azwVVdRLf17EPhaxC
-	 tKD2R8VuuTyPah6G3X9GJknr1lWjt47czzcS7ZopYgwdlq4cnswXb65ycGN7FD9h9O
-	 FENoaVeAPm62byN4pn7EaAQYRbvJu/PaHqZgRGsA=
+	by mail.kernel.org (Postfix) with ESMTP id 9349B206F8
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 21:04:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="SDJrM4QB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbgDEQqO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Apr 2020 12:46:14 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:56167 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726669AbgDEQqO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Apr 2020 12:46:14 -0400
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 035GjvtX031028;
-        Mon, 6 Apr 2020 01:45:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 035GjvtX031028
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1586105158;
-        bh=LDPKC1ers4KTra5PaosAQKb9OtIhKkb2IRgJKJ1PucE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Y5QCnFozrWTlxaHtyTykbkZ0Ddh7rTi7pFwk4XaWcyMFcnULagcpHiEla1zY9Wmzl
-         OHmDY+LuUu8rVfFyHsB7HinrRAsqQ2JvfOOnayI3dEJ0KGU4gSbSQh/lluFfkixUQ1
-         LJw/fi8trFtq0blreMEYLNcnjKGcPcSwxN3zhNAO1OzV3UFoxEcxW7OPBJcqKQQP/U
-         wGcwKlcQoGov6w2BdQDHei0cYKQtJPsTr9LpALXRxdZ6KrAygTIetbGRiFy6Zbb3y2
-         4f5ejtXS6je98Bzd0aNSONhVddx/Swm2yhz/dYmxnNo6vCCMzGtCvN2l37XgM7Dza6
-         cWGn8ZkwFbXrQ==
-X-Nifty-SrcIP: [209.85.222.50]
-Received: by mail-ua1-f50.google.com with SMTP id m15so3852274uao.3;
-        Sun, 05 Apr 2020 09:45:57 -0700 (PDT)
-X-Gm-Message-State: AGi0Pubu2v7hgfCF+lt6QKdoEEX6gpHGGLbdNXJBgmQgXl9n4lhrw6MK
-        pwg7SDyQgTApUjR6l3fI5tZs891xkFoOwg1YVPc=
-X-Google-Smtp-Source: APiQypIJjTRv4/QIF7T7DcDr8dCRlMy7i4kMOc03WYHXZyFiwa5KFZs/MqC1iS0miqJ/J+/Jvp2NsoHJThWlwjI/jjQ=
-X-Received: by 2002:ab0:20d6:: with SMTP id z22mr12839027ual.121.1586105156303;
- Sun, 05 Apr 2020 09:45:56 -0700 (PDT)
+        id S1726860AbgDEVEq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Apr 2020 17:04:46 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:1414 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726772AbgDEVEp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 5 Apr 2020 17:04:45 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 159AB708;
+        Sun,  5 Apr 2020 23:04:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:mime-version:message-id:date:date
+        :subject:subject:from:from:received:received:received; s=
+        dkim20160331; t=1586120682; x=1587935083; bh=4DyJE8jaDUiNyYuqX3A
+        zu9P6orZ0CMtadRnxAX0eOZw=; b=SDJrM4QBn/GS0RKKTMcVb7y+EOa6v3Z4q0g
+        oap4H2Qkn2EOvpxDddo8SwlTJNfRPG1E5onXSJU8xdpIncJaYRtdnmejD4eUyIZZ
+        cqbpURFggZlq+aFvs1G21Y5y68Ef/jloMO0YYKBKzehf6z0HkmL3kBjEA6YO+HBB
+        Wmx2mrK69Sh/CAkmTema+gC/r0P8RSPGxE/+tSJowh08ANdxO6Ow04LsMHoq7zRr
+        f5rI/JUNkxQjbwkGskTs8vz8mr/wrWWx2gGTCz9YVD6cXgeEWVrZ63XEXgVuRJ1o
+        5iTPwBlIOw6XAMy5IVfB+sOjIrsEm9gP774G5HknWyAr/5SwwuTevKpSc1fUSQHf
+        3nqeYCg0LVmrSh1AqKMELwh4peZqwak0h70HvSXz5mkl2hKt6Z7nEx1rh0UT7BUV
+        T1f7c8jdLmNlaL+gqO2qDaqySCmChT0/dKDm/CEyEgDsxj8k7b+vAAuSLSdFXIsm
+        UHupoS9LiwhtSbDcYwFjHuXeAZ3ycmt8YvkrXjhR2Fj866jiIWPIRU1EaYBYChwG
+        sKcoM2R06paY2Sl3yXOXhMHWKhYtyRA8D/qP9AEuo4MCf4ctP+l6t9qMBr1YItIZ
+        o1kBwZCQW0B++YO1K/WkxacgGmBo/y6K+WfyyeC8Fb5YA7qnoPpmCqSkl/hH5d/f
+        isedh4q8=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id APv-grdysqV3; Sun,  5 Apr 2020 23:04:42 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 8203D364;
+        Sun,  5 Apr 2020 23:04:42 +0200 (CEST)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 2F90418E;
+        Sun,  5 Apr 2020 23:04:42 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH] doc: highlight structure fields using monospace format
+Date:   Sun,  5 Apr 2020 23:04:33 +0200
+Message-Id: <20200405210433.24791-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-References: <20200403051709.22407-1-masahiroy@kernel.org> <CAKwvOdnaZ6qDVxaPY-GEH8pdUkzH6eqm16ok9_wzRSVRG-1kiQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdnaZ6qDVxaPY-GEH8pdUkzH6eqm16ok9_wzRSVRG-1kiQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 6 Apr 2020 01:45:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQybfcYiosNU+ybd-Q7-Y2dbLqBVN2XA00wCRnFAoqdew@mail.gmail.com>
-Message-ID: <CAK7LNAQybfcYiosNU+ybd-Q7-Y2dbLqBVN2XA00wCRnFAoqdew@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to Clang/LLVM
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>,
-        Sandeep Patil <sspatil@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 4, 2020 at 3:24 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> On Thu, Apr 2, 2020 at 10:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > As Documentation/kbuild/llvm.rst implies, building the kernel with a
-> > full set of LLVM tools gets very verbose and unwieldy.
-> >
-> > Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
-> > GCC and Binutils. You can pass LLVM=1 from the command line or as an
-> > environment variable. Then, Kbuild will use LLVM toolchains in your
-> > PATH environment.
-> >
-> > Please note LLVM=1 does not turn on the LLVM integrated assembler.
-> > You need to explicitly pass AS=clang to use it. When the upstream
-> > kernel is ready for the integrated assembler, I think we can make
-> > it default.
->
-> Having this behavior change over time may be surprising.  I'd rather
-> that if you want to not use the integrated assembler, you explicitly
-> negate it, or just don't use the LLVM=1 syntax, ie. `make CC=clang
-> LD=ld.lld ...`.
->
-> We could modify how `-no-integrated-as` is chosen when LLVM=1.
->
-> make LLVM=1 LLVMIA=0 ... # add `-no-integrated-as`
-> # what the flag is doesn't really matter to me, something shorter might be nice.
-> make LLVM=1 # use all LLVM tools
->
-> Since we got rid of $(AS), it would be appropriate to remove/change it
-> there, since no one really relies on AS=clang right now. (We do have 1
-> of our 60+ CI targets using it, but we can also change that trivially.
-> So I think we have a lot of freedom to change how `-no-integrated-as`
-> is set.
->
-> This could even be independent of this patch.
+The idea is to improve readability by highlighting structure fields
+using a different format.
 
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ Documentation/locking/rt-mutex-design.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-I also thought a boolean flag is preferred.
+diff --git a/Documentation/locking/rt-mutex-design.rst b/Documentation/locking/rt-mutex-design.rst
+index 59c2a64efb21..bdd6b0013e02 100644
+--- a/Documentation/locking/rt-mutex-design.rst
++++ b/Documentation/locking/rt-mutex-design.rst
+@@ -199,7 +199,7 @@ Mutex Waiters Tree
+ Every mutex keeps track of all the waiters that are blocked on itself. The
+ mutex has a rbtree to store these waiters by priority.  This tree is protected
+ by a spin lock that is located in the struct of the mutex. This lock is called
+-wait_lock.
++``wait_lock``.
+ 
+ 
+ Task PI Tree
+@@ -216,9 +216,9 @@ inherited a priority, it will always be the priority of the task that is
+ at the top of this tree.
+ 
+ This tree is stored in the task structure of a process as a rbtree called
+-pi_waiters.  It is protected by a spin lock also in the task structure,
+-called pi_lock.  This lock may also be taken in interrupt context, so when
+-locking the pi_lock, interrupts must be disabled.
++``pi_waiters``.  It is protected by a spin lock also in the task structure,
++called ``pi_lock``.  This lock may also be taken in interrupt context, so when
++locking the ``pi_lock``, interrupts must be disabled.
+ 
+ 
+ Depth of the PI Chain
+-- 
+2.25.1
 
-AS=clang will not live long anyway, and
-I hesitated to break the compatibility
-for the short-term workaround.
-
-But, if this is not a big deal, I can
-replace AS=clang with LLVMIA=1.
-
-
-
-> >
-> > We discussed what we need, and we agreed to go with a simple boolean
-> > switch (https://lkml.org/lkml/2020/3/28/494).
-> >
-> > Some items in the discussion:
-> >
-> > - LLVM_DIR
-> >
-> >   When multiple versions of LLVM are installed, I just thought supporting
-> >   LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
-> >
-> >   CC      = $(LLVM_DIR)clang
-> >   LD      = $(LLVM_DIR)ld.lld
-> >     ...
-> >
-> >   However, we can handle this by modifying PATH. So, we decided to not do
-> >   this.
-> >
-> > - LLVM_SUFFIX
-> >
-> >   Some distributions (e.g. Debian) package specific versions of LLVM with
-> >   naming conventions that use the version as a suffix.
-> >
-> >   CC      = clang$(LLVM_SUFFIX)
-> >   LD      = ld.lld(LLVM_SUFFIX)
-> >     ...
-> >
-> >   will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
-> >   but the suffixed versions in /usr/bin/ are symlinks to binaries in
-> >   /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
-> >
-> > - HOSTCC, HOSTCXX, etc.
-> >
-> >   We can switch the host compilers in the same way:
-> >
-> >   ifneq ($(LLVM),)
-> >   HOSTCC       = clang
-> >   HOSTCXX      = clang++
-> >   else
-> >   HOSTCC       = gcc
-> >   HOSTCXX      = g++
-> >   endif
-> >
-> >   This may the right thing to do, but I could not make up my mind.
-> >   Because we do not frequently switch the host compiler, a counter
-> >   solution I had in my mind was to leave it to the default of the
-> >   system.
-> >
-> >   HOSTCC       = cc
-> >   HOSTCXX      = c++
-> >
-> >   Many distributions support update-alternatives to switch the default
-> >   to GCC, Clang, or whatever, but reviewers were opposed to this
-> >   approach. So, this commit does not touch the host tools.
->
-> update-alternatives assumes you've installed Clang via a package manager?
-> $ update-alternatives --list cc
-> /usr/bin/gcc
-> On my system even though clang and friends are in my PATH.
->
-> And previously, there was feedback that maybe folks don't want to
-> change `cc` on their systems just for Clang kernel builds.
-> https://lkml.org/lkml/2020/3/30/836
-> https://lkml.org/lkml/2020/3/30/838
->
-> A goal for ClangBuiltLinux is to build a kernel image with no GCC or
-> binutils installed on the host.  Let the record reflect that.  And
-> there's been multiple complaints that the existing syntax is too long
-> for specifying all of the tools.
->
-> LLVM=1 is meant to be one flag.  Not `make LLVM=1 HOSTCC=clang
-> HOSTCXX=clang`.  If folks want fine grain flexibility, use the
-> existing command line interface, which this patch does not change.
-> LLVM=1 is opinionated, and inflexible, because it makes a strong
-> choice to enable LLVM for everything.
->
-> Another reason why I don't want to change these over time, and why I
-> want them all to be in sync is that there are 4 different CI systems
-> for the kernel, and they are currently fragmented in terms of who is
-> using what tools:
->
-> KernelCI: CC=clang only
-> Kbuild test robot aka 0day bot: CC=clang LD=ld.lld
-> Linaro TCWG: CC=clang only
-> our CI: a complete mix due to combinatorial explosion, but more
-> coverage of LLVM than everyone else.
->
-> That is a mess that we must solve.  Having 1 flag that works
-> consistently across systems is one solution.  Now if those were all
-> using LLVM=1, but some were enabling Clang's integrated assembler, and
-> some weren't because we changed the default over time, then we'd be
-> right back to this mismatch between systems.  I'd much rather draw the
-> line in the sand, and say "this is how this flag will work, since day
-> 1."  Maybe it's too rigid, but it's important to me that if we create
-> something new to solve multiple objectives (1. simplifies existing
-> interface. 2. turns on everything.) that it does so.  It is a partial
-> solution, if it eliminates some of the flags while leaving others. I
-> want a full solution.
->
-> If folks want the flexibility to mix and match tools, the existing
-> interface is capable.  But for us to track who is using what, we need
-> 1 flag that we know is not different depending on the cc of the
-> system.  Once clang's integrated assembler is good to go, we will
-> begin recommending LLVM=1 to everyone.  And we want feedback if we
-> regress building the host utilities during a kernel build, even if
-> there are not many.
->
-> I'm on the fence about having all of the above satisfied by one patch,
-> or taking this patch as is and following up on the above two points
-> (related to disabling `-no-integrated-as` and setting HOSTCC).  I
-> trust your judgement and respect your decisions, so I'll defer to you
-> Masahiro, but I need to make explicit the design goals.  Maybe with
-> this additional context it can help inform the design.
-> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-
-
-Thanks for the comments.
-
-I'd rather want to do this incrementally,
-making sure I am doing right.
-
-
-The meaning of LLVM=1 may change over time.
-It means "the recommended settings" at the moment.
-
-If CI does not want to change the behavior across
-kernel versions, it can pass individual variables
-explicitly.
-
---
-Best Regards
-Masahiro Yamada
