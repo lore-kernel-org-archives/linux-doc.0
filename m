@@ -1,163 +1,258 @@
-Return-Path: <SRS0=lp8r=5U=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=OdRe=5V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69ECFC2BA15
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Apr 2020 19:57:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A22AC2D0F4
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 12:28:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2C2BF206F8
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Apr 2020 19:57:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="KVr7ugD1"
+	by mail.kernel.org (Postfix) with ESMTP id 5605D20672
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Apr 2020 12:28:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726294AbgDDT55 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Apr 2020 15:57:57 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:39897 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726278AbgDDT55 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Apr 2020 15:57:57 -0400
-Received: by mail-qt1-f195.google.com with SMTP id f20so9534017qtq.6
-        for <linux-doc@vger.kernel.org>; Sat, 04 Apr 2020 12:57:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9CbVDZTIMk5DedKHwOhqZguosZYkuF+efmzxSvwSHmA=;
-        b=KVr7ugD1uCChONGUAtH0ZrG1JFeu24vOGuBSUCXWE9Hd/QJ6QGr2dmamlEzvoswCpj
-         8o9wKR62qOm72sk7VVi5b8MpjFHEnicmKJh86KHMgBuj5wQLnq/P6MlDkNo8xrERB2eD
-         Xg8Y3KzC7dxU+ioN1VAr8OUON4n7JstpkEL6w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9CbVDZTIMk5DedKHwOhqZguosZYkuF+efmzxSvwSHmA=;
-        b=OwrcM9toxBxhg237dC8BfuJrlrniO9GTFThR8BLMDXsnSM3A0t8WgVnQ8ZPuVSh7RL
-         PRb/pIiS6SeDOSjrA/4pZZ2gkCElokCrx4W+BVSUuNKwP6XFUKyyWSE5ZR/1Ro4f1qJ5
-         N7QJ2DilShJgR9+VFCydg/NSKw1BgZGTy/yL1w8p1kim+auS7N4JxQTDfVGheT+Luwz/
-         1caveo/Zgx4A+09/gPVBFaeNWmtEvbbzhW+EhRHitVwb1x/p5JdJTZwugHGwuSDu/nJu
-         c1mE+/9+M4lObYjVP8Um9Pjv0ld2s7B22jXbTQUj1CA2aLkoOe/41Ryh0iGP7kpbMixY
-         pNCw==
-X-Gm-Message-State: AGi0PubfmdSSvtb/SW+R1bvSs7q53uSZY6TJWQfq7Q+VKDrt/mb9Wftn
-        Iimo/BGN4vKvTn801KLwRhv+bg==
-X-Google-Smtp-Source: APiQypLKG/hPeALBgzrGmT3BqaE9y/Jr3Gs9BPj6JbRbIsn3Qc3jFF/ApsTcSf//hZQhFM/LuuyVsg==
-X-Received: by 2002:ac8:f4a:: with SMTP id l10mr14435539qtk.146.1586030276074;
-        Sat, 04 Apr 2020 12:57:56 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id w17sm1403373qkb.11.2020.04.04.12.57.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Apr 2020 12:57:55 -0700 (PDT)
-Date:   Sat, 4 Apr 2020 15:57:55 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
+        id S1726723AbgDEM2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Apr 2020 08:28:33 -0400
+Received: from foss.arm.com ([217.140.110.172]:39040 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726636AbgDEM2d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 5 Apr 2020 08:28:33 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8481F31B;
+        Sun,  5 Apr 2020 05:28:32 -0700 (PDT)
+Received: from [192.168.0.129] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD9653F68F;
+        Sun,  5 Apr 2020 05:28:22 -0700 (PDT)
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
+To:     Gerald Schaefer <gerald.schaefer@de.ibm.com>
+Cc:     linux-mm@kvack.org, christophe.leroy@c-s.fr,
         Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] Documentation/litmus-tests: Add litmus tests for
- atomic APIs
-Message-ID: <20200404195755.GB83565@google.com>
-References: <20200326024022.7566-1-boqun.feng@gmail.com>
- <20200327221843.GA226939@google.com>
- <20200331014037.GB59159@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
- <20200402035816.GA46686@google.com>
- <20200402080358.GC59159@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-riscv@lists.infradead.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
+ <20200331143059.29fca8fa@thinkpad>
+Message-ID: <e3e35885-6852-16aa-3889-e22750a0cc87@arm.com>
+Date:   Sun, 5 Apr 2020 17:58:14 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200402080358.GC59159@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+In-Reply-To: <20200331143059.29fca8fa@thinkpad>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 02, 2020 at 04:03:58PM +0800, Boqun Feng wrote:
-> On Wed, Apr 01, 2020 at 11:58:16PM -0400, Joel Fernandes wrote:
-> > On Tue, Mar 31, 2020 at 09:40:37AM +0800, Boqun Feng wrote:
-> > > On Fri, Mar 27, 2020 at 06:18:43PM -0400, Joel Fernandes wrote:
-> > > > On Thu, Mar 26, 2020 at 10:40:18AM +0800, Boqun Feng wrote:
-> > > > > A recent discussion raises up the requirement for having test cases for
-> > > > > atomic APIs:
-> > > > > 
-> > > > > 	https://lore.kernel.org/lkml/20200213085849.GL14897@hirez.programming.kicks-ass.net/
-> > > > > 
-> > > > > , and since we already have a way to generate a test module from a
-> > > > > litmus test with klitmus[1]. It makes sense that we add more litmus
-> > > > > tests for atomic APIs. And based on the previous discussion, I create a
-> > > > > new directory Documentation/atomic-tests and put these litmus tests
-> > > > > here.
-> > > > > 
-> > > > > This patchset starts the work by adding the litmus tests which are
-> > > > > already used in atomic_t.txt, and also improve the atomic_t.txt to make
-> > > > > it consistent with the litmus tests.
-> > > > > 
-> > > > > Previous version:
-> > > > > v1: https://lore.kernel.org/linux-doc/20200214040132.91934-1-boqun.feng@gmail.com/
-> > > > > v2: https://lore.kernel.org/lkml/20200219062627.104736-1-boqun.feng@gmail.com/
-> > > > > v3: https://lore.kernel.org/linux-doc/20200227004049.6853-1-boqun.feng@gmail.com/
-> > > > 
-> > > > For full series:
-> > > > 
-> > > > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > 
-> > > > One question I had was in the existing atomic_set() documentation, it talks
-> > > > about atomic_add_unless() implementation based on locking could have issues.
-> > > > It says the way to fix such cases is:
-> > > > 
-> > > > Quote:
-> > > >     the typical solution is to then implement atomic_set{}() with
-> > > >     atomic_xchg().
-> > > > 
-> > > > I didn't get how using atomic_xchg() fixes it. Is the assumption there that
-> > > > atomic_xchg() would be implemented using locking to avoid atomic_set() having
-> > > 
-> > > Right, I think that's the intent of the sentence.
-> > > 
-> > > > issues? If so, we could clarify that in the document.
-> > > > 
-> > > 
-> > > Patches are welcome ;-)
-> > 
-> > 
-> > ---8<-----------------------
-> > 
-> > Like this? I'll add it to my tree and send it to Paul during my next
-> > series, unless you disagree ;-)
-> > 
-> > Subject: [PATCH] doc: atomic_t: Document better about the locking within
-> >  atomic_xchg()
-> > 
-> > It is not fully clear how the atomic_set() would not cause an issue with
-> > preservation of the atomicity of RMW in this example. Make it clear that
-> > locking within atomic_xchg() would save the day.
-> > 
-> > Suggested-by: Boqun Feng <boqun.feng@gmail.com>
-> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+On 03/31/2020 06:00 PM, Gerald Schaefer wrote:
+> On Tue, 24 Mar 2020 10:52:52 +0530
+> Anshuman Khandual <anshuman.khandual@arm.com> wrote:
 > 
-> Thanks!
+>> This series adds more arch page table helper tests. The new tests here are
+>> either related to core memory functions and advanced arch pgtable helpers.
+>> This also creates a documentation file enlisting all expected semantics as
+>> suggested by Mike Rapoport (https://lkml.org/lkml/2020/1/30/40).
+>>
+>> This series has been tested on arm64 and x86 platforms. There is just one
+>> expected failure on arm64 that will be fixed when we enable THP migration.
+>>
+>> [   21.741634] WARNING: CPU: 0 PID: 1 at mm/debug_vm_pgtable.c:782
+>>
+>> which corresponds to
+>>
+>> WARN_ON(!pmd_present(pmd_mknotpresent(pmd_mkhuge(pmd))))
+>>
+>> There are many TRANSPARENT_HUGEPAGE and ARCH_HAS_TRANSPARENT_HUGEPAGE_PUD
+>> ifdefs scattered across the test. But consolidating all the fallback stubs
+>> is not very straight forward because ARCH_HAS_TRANSPARENT_HUGEPAGE_PUD is
+>> not explicitly dependent on ARCH_HAS_TRANSPARENT_HUGEPAGE.
+>>
+>> This series has been build tested on many platforms including the ones that
+>> subscribe the test through ARCH_HAS_DEBUG_VM_PGTABLE.
+>>
 > 
-> Acked-by: Boqun Feng <boqun.feng@gmail.com>
+> Hi Anshuman,
+> 
+> thanks for the update. There are a couple of issues on s390, some might
+> also affect other archs.
 
-Thanks for the Ack, will send it to Paul during next series with your tag.
+Sure, thanks for taking a look and giving it a spin on s390.
 
- - Joel
+> 
+> 1) The pxd_huge_tests are using pxd_set/clear_huge, which defaults to
+> returning 0 if !CONFIG_HAVE_ARCH_HUGE_VMAP. As result, the checks for
+> !pxd_test/clear_huge in the pxd_huge_tests will always trigger the
+> warning. This should affect all archs w/o CONFIG_HAVE_ARCH_HUGE_VMAP.
+> Could be fixed like this:
+> 
+> @@ -923,8 +923,10 @@ void __init debug_vm_pgtable(void)
+>         pmd_leaf_tests(pmd_aligned, prot);
+>         pud_leaf_tests(pud_aligned, prot);
+>  
+> -       pmd_huge_tests(pmdp, pmd_aligned, prot);
+> -       pud_huge_tests(pudp, pud_aligned, prot);
+> +       if (IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMAP)) {
+> +               pmd_huge_tests(pmdp, pmd_aligned, prot);
+> +               pud_huge_tests(pudp, pud_aligned, prot);
+> +       }
 
+That is correct. It was an omission on my part and will fix it.
+
+>  
+>         pte_savedwrite_tests(pte_aligned, prot);
+>         pmd_savedwrite_tests(pmd_aligned, prot);
+> 
+> BTW, please add some comments to the various #ifdef/#else stuff, especially
+> when the different parts are far away and/or nested.
+
+Sure, will do.
+
+> 
+> 2) The hugetlb_advanced_test will fail because it directly de-references
+> huge *ptep pointers instead of using huge_ptep_get() for this. We have
+> very different pagetable entry layout for pte and (large) pmd on s390,
+> and unfortunately the whole hugetlbfs code is using pte_t instead of pmd_t
+> like THP. For this reason, huge_ptep_get() was introduced, which will
+> return a "converted" pte, because directly reading from a *ptep (pointing
+> to a large pmd) will not return a proper pte. Only ARM has also an
+> implementation of huge_ptep_get(), so they could be affected, depending
+> on what exactly they need it for.
+
+Currently, we dont support ARM (32). But as huge_ptep_get() already got a
+fallback, its better to use that than a direct READ_ONCE().
+
+> 
+> Could be fixed like this (the first de-reference is a bit special,
+> because at that point *ptep does not really point to a large (pmd) entry
+> yet, it is initially an invalid pte entry, which breaks our huge_ptep_get()
+
+There seems to be an inconsistency on s390 platform. Even though it defines
+a huge_ptep_get() override, it does not subscribe __HAVE_ARCH_HUGE_PTEP_GET
+which should have forced it fallback on generic huge_ptep_get() but it does
+not :) Then I realized that __HAVE_ARCH_HUGE_PTEP_GET only makes sense when
+an arch uses <asm-generic/hugetlb.h>. s390 does not use that and hence gets
+away with it's own huge_ptep_get() without __HAVE_ARCH_HUGE_PTEP_GET. Sounds
+confusing ? But I might not have the entire context here.
+
+> conversion logic. I also added PMD_MASK alignment for RANDOM_ORVALUE,
+> because we do have some special bits there in our large pmds. It seems
+> to also work w/o that alignment, but it feels a bit wrong):
+
+Sure, we can accommodate that.
+
+> 
+> @@ -731,26 +731,26 @@ static void __init hugetlb_advanced_test
+>                                           unsigned long vaddr, pgprot_t prot)
+>  {
+>         struct page *page = pfn_to_page(pfn);
+> -       pte_t pte = READ_ONCE(*ptep);
+> +       pte_t pte;
+> 
+> -       pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
+> +       pte = pte_mkhuge(mk_pte_phys(RANDOM_ORVALUE & PMD_MASK, prot));
+
+So that keeps the existing value in 'ptep' pointer at bay and instead
+construct a PTE from scratch. I would rather have READ_ONCE(*ptep) at
+least provide the seed that can be ORed with RANDOM_ORVALUE before
+being masked with PMD_MASK. Do you see any problem ?
+
+Some thing like this instead.
+
+pte_t pte = READ_ONCE(*ptep);
+pte = pte_mkhuge(__pte((pte_val(pte) | RANDOM_ORVALUE) & PMD_MASK));
+
+We cannot use mk_pte_phys() as it is defined only on some platforms
+without any generic fallback for others.
+
+>         set_huge_pte_at(mm, vaddr, ptep, pte);
+>         barrier();
+>         WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
+>         huge_pte_clear(mm, vaddr, ptep, PMD_SIZE);
+> -       pte = READ_ONCE(*ptep);
+> +       pte = huge_ptep_get(ptep);
+>         WARN_ON(!huge_pte_none(pte));
+>  
+>         pte = mk_huge_pte(page, prot);
+>         set_huge_pte_at(mm, vaddr, ptep, pte);
+>         huge_ptep_set_wrprotect(mm, vaddr, ptep);
+> -       pte = READ_ONCE(*ptep);
+> +       pte = huge_ptep_get(ptep);
+>         WARN_ON(huge_pte_write(pte));
+>  
+>         pte = mk_huge_pte(page, prot);
+>         set_huge_pte_at(mm, vaddr, ptep, pte);
+>         huge_ptep_get_and_clear(mm, vaddr, ptep);
+> -       pte = READ_ONCE(*ptep);
+> +       pte = huge_ptep_get(ptep);
+>         WARN_ON(!huge_pte_none(pte));
+>  
+>         pte = mk_huge_pte(page, prot);
+> @@ -759,7 +759,7 @@ static void __init hugetlb_advanced_test
+>         pte = huge_pte_mkwrite(pte);
+>         pte = huge_pte_mkdirty(pte);
+>         huge_ptep_set_access_flags(vma, vaddr, ptep, pte, 1);
+> -       pte = READ_ONCE(*ptep);
+> +       pte = huge_ptep_get(ptep);
+>         WARN_ON(!(huge_pte_write(pte) && huge_pte_dirty(pte)));
+>  }
+>  #else
+> 
+> 3) The pmd_protnone_tests() has an issue, because it passes a pmd to
+> pmd_protnone() which has not been marked as large. We check for large
+> pmd in the s390 implementation of pmd_protnone(), and will fail if a
+> pmd is not large. We had similar issues before, in other helpers, where
+> I changed the logic on s390 to not require the pmd large check, but I'm
+> not so sure in this case. Is there a valid use case for doing
+> pmd_protnone() on "normal" pmds? Or could this be changed like this:
+
+That is a valid question. IIUC, all existing callers for pmd_protnone()
+ensure that it is indeed a huge PMD. But even assuming otherwise should
+not the huge PMD requirement get checked in the caller itself rather than
+in the arch helper which is just supposed to check the existence of the
+dedicated PTE bit(s) for this purpose. Purely from a helper perspective
+pmd_protnone() should not really care about being large even though it
+might never get used without one.
+
+Also all platforms (except s390) derive the pmd_protnone() from their
+respective pte_protnone(). I wonder why should s390 be any different
+unless it is absolutely necessary.
+
+> 
+> @@ -537,7 +537,7 @@ static void __init pte_protnone_tests(un
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>  static void __init pmd_protnone_tests(unsigned long pfn, pgprot_t prot)
+>  {
+> -       pmd_t pmd = pfn_pmd(pfn, prot);
+> +       pmd_t pmd = mk_huge_pmd(pfn_to_page(pfn), prot);
+> 
+>         if (!IS_ENABLED(CONFIG_NUMA_BALANCING))
+>                 return;
+> 
+> Regards,
+> Gerald
+> 
+> 
