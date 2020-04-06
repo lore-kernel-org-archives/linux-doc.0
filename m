@@ -2,107 +2,238 @@ Return-Path: <SRS0=nUK8=5W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1421FC2BA1E
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 09:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6230AC2BA1E
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 11:22:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E25E6206F5
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 09:53:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E550206F5
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 11:22:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J0IJ9s9Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726841AbgDFJxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Apr 2020 05:53:52 -0400
-Received: from mga01.intel.com ([192.55.52.88]:43096 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726721AbgDFJxw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Apr 2020 05:53:52 -0400
-IronPort-SDR: w0e4wFoyPMioJjZrg0tdDfu3tmw9jEE9+uGjpS54iO4BcQfUS0+I2FYHqPu2e5RNQmuDxZSXtK
- n2s9GhAWn1jw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2020 02:53:47 -0700
-IronPort-SDR: pSYiNYwup2Dbn4l6x88zHtU0hG4sV0HcYYC+mcCzl6PpV+ybcezEKC5wLH8DMjahWoALGHKG1t
- 0XGmDEM9OAjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; 
-   d="scan'208";a="254067748"
-Received: from chenyu-office.sh.intel.com ([10.239.158.173])
-  by orsmga006.jf.intel.com with ESMTP; 06 Apr 2020 02:53:41 -0700
-Date:   Mon, 6 Apr 2020 17:54:15 +0800
-From:   Chen Yu <yu.c.chen@intel.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
+        id S1727125AbgDFLW0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Apr 2020 07:22:26 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:38409 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727322AbgDFLWZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Apr 2020 07:22:25 -0400
+Received: by mail-wm1-f67.google.com with SMTP id f20so6338636wmh.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2020 04:22:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=qDK5+uBeH6pLDnaoKYduIBBNRFpH/vDYlc7eibTIZjE=;
+        b=J0IJ9s9ZmVQvPhdwtoZwYkj55qLQHm43hi3wsUzL4mKjhuj2h0I+jKBHX2RdnbHRxN
+         dJN8useS/qDkKMB0Wk+58eWd7C0qCGhYU+UPtt2pIyoLqkfi6QgYkIYkmmWELE6YkPS2
+         aqH77+/arCyMiYXEk+lN+8f//BoofOfNQlNUqQqXjOQ3dftCnNfx6awdlrM+sh6TQsY5
+         0WBVVyiiGpAvgMmHZLREGmKUoH26ud/Qd7HLy/O4leLxpHdKsIxJx+MVjD135TLQPp06
+         yYBgKUliotjcF9jQgeXcok53/G4uIsqavL2+NaLYaXYjcE1pQ9s7e7vgL0LD4IGgnb0C
+         BDZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=qDK5+uBeH6pLDnaoKYduIBBNRFpH/vDYlc7eibTIZjE=;
+        b=BIP+GSKt+NNZf7/H6TgAponu7J/cwdf6ZbugTZmeplYZhoM4K4Ft9qoTlI7SmT+3oX
+         DedGzkPYWEafRX3OTlZ6m0XR19rcNE5XVc10ekQZqilN4uLxoXJqvqShKFXvl8MQ8Ab3
+         EZX3EeWptDAGDVNOTSYRnAWLxRuG7189lyLLKvqYnCj66UnpRa6rCPVcWJZJcVv+rKav
+         dhHlC568oy0MULDBBDBkdLMhU/OYuDHNe6bZu6jt9Tmj3VbeL9BmRGnfdhU3U6AWsUng
+         Y76yZyImqygXuQY7f4RfJu28qm7L9bQCzrQYoXEkiUZ/7al3h2ZD3MVGgvl4T9bVcty+
+         365g==
+X-Gm-Message-State: AGi0PuZQq5wHY5W6r+H7UAWGW5AdNpDREdq5B5v2yoYf3pCeBIm3p3NA
+        GXZusk5GeCYoiBXRtkhIbJS7Hw==
+X-Google-Smtp-Source: APiQypJqSNe+gkm9f/9SkkaI8W+1PHJH7h62962gDjMKUWiW3InWQUYz6lyWddRZOHNDDmXkj2sPCg==
+X-Received: by 2002:a1c:2d95:: with SMTP id t143mr22457582wmt.89.1586172141483;
+        Mon, 06 Apr 2020 04:22:21 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
+        by smtp.gmail.com with ESMTPSA id y80sm25959365wmc.45.2020.04.06.04.22.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 04:22:20 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 13:22:20 +0200
+From:   Matthias Maennich <maennich@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux@googlegroups.com,
         Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH][v3] PM / sleep: Add pm_debug_messages boot command
- control
-Message-ID: <20200406095415.GA21720@chenyu-office.sh.intel.com>
-References: <20200402075652.13289-1-yu.c.chen@intel.com>
- <CAJZ5v0j2W5MYJnb4hiDn0OgR1xJZwm4TxVm9o-iw+epXPTp82g@mail.gmail.com>
- <20200406091813.GG31120@duo.ucw.cz>
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to
+ Clang/LLVM
+Message-ID: <20200406112220.GB126804@google.com>
+References: <20200403051709.22407-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20200406091813.GG31120@duo.ucw.cz>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200403051709.22407-1-masahiroy@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pavel,
-thanks for review.
-On Mon, Apr 06, 2020 at 11:18:13AM +0200, Pavel Machek wrote:
-> Hi!
-> 
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index ed73df5f1369..3fb9cbee8d28 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -3720,6 +3720,9 @@
-> > >                         Override pmtimer IOPort with a hex value.
-> > >                         e.g. pmtmr=0x508
-> > >
-> > > +       pm_debug_messages       [SUSPEND,KNL]
-> > > +                       Enable suspend/resume debug messages during boot up.
-> > > +
-> > >         pnp.debug=1     [PNP]
-> > >                         Enable PNP debug messages (depends on the
-> > >                         CONFIG_PNP_DEBUG_MESSAGES option).  Change at run-time
-> 
-> > Applied (as 5.7-rc material) with modified subject and changelog,
->   thanks!
-> 
-> Please don't.
-> 
-> We have pnp.debug, i8042.debug, acpi.debug_*, lsm.debug... It makes
-> sense to do pm.debug... we want to have some consistency.
-> 
-We also have initcall_debug. It looks like the 'dot' indicates
-that it is a module(or driver) parameter, and have multiple options
-for user to choose from, but it looks like this is not the case for
-pm_debug_messages.
+On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
+>As Documentation/kbuild/llvm.rst implies, building the kernel with a
+>full set of LLVM tools gets very verbose and unwieldy.
+>
+>Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
+>GCC and Binutils. You can pass LLVM=1 from the command line or as an
+>environment variable. Then, Kbuild will use LLVM toolchains in your
+>PATH environment.
+>
+>Please note LLVM=1 does not turn on the LLVM integrated assembler.
+>You need to explicitly pass AS=clang to use it. When the upstream
+>kernel is ready for the integrated assembler, I think we can make
+>it default.
+>
+>We discussed what we need, and we agreed to go with a simple boolean
+>switch (https://lkml.org/lkml/2020/3/28/494).
+>
+>Some items in the discussion:
+>
+>- LLVM_DIR
+>
+>  When multiple versions of LLVM are installed, I just thought supporting
+>  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
+>
+>  CC      = $(LLVM_DIR)clang
+>  LD      = $(LLVM_DIR)ld.lld
+>    ...
+>
+>  However, we can handle this by modifying PATH. So, we decided to not do
+>  this.
+>
+>- LLVM_SUFFIX
+>
+>  Some distributions (e.g. Debian) package specific versions of LLVM with
+>  naming conventions that use the version as a suffix.
+>
+>  CC      = clang$(LLVM_SUFFIX)
+>  LD      = ld.lld(LLVM_SUFFIX)
+>    ...
+>
+>  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
+>  but the suffixed versions in /usr/bin/ are symlinks to binaries in
+>  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
+>
+>- HOSTCC, HOSTCXX, etc.
+>
+>  We can switch the host compilers in the same way:
+>
+>  ifneq ($(LLVM),)
+>  HOSTCC       = clang
+>  HOSTCXX      = clang++
+>  else
+>  HOSTCC       = gcc
+>  HOSTCXX      = g++
+>  endif
+>
+>  This may the right thing to do, but I could not make up my mind.
+>  Because we do not frequently switch the host compiler, a counter
+>  solution I had in my mind was to leave it to the default of the
+>  system.
+>
+>  HOSTCC       = cc
+>  HOSTCXX      = c++
 
-Thanks,
-Chenyu
-> Thanks,
-> 									Pavel
-> -- 
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+What about HOSTLD ? I saw recently, that setting HOSTLD=ld.lld is not
+yielding the expected result (some tools, like e.g. fixdep still require
+an `ld` to be in PATH to be built). I did not find the time to look into
+that yet, but I would like to consistently switch to the llvm toolchain
+(including linker and possibly more) also for hostprogs.
 
+Cheers,
+Matthias
 
+>
+>  Many distributions support update-alternatives to switch the default
+>  to GCC, Clang, or whatever, but reviewers were opposed to this
+>  approach. So, this commit does not touch the host tools.
+>
+>Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>---
+>
+> Documentation/kbuild/kbuild.rst |  5 +++++
+> Documentation/kbuild/llvm.rst   |  5 +++++
+> Makefile                        | 20 ++++++++++++++++----
+> 3 files changed, 26 insertions(+), 4 deletions(-)
+>
+>diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+>index 510f38d7e78a..2d1fc03d346e 100644
+>--- a/Documentation/kbuild/kbuild.rst
+>+++ b/Documentation/kbuild/kbuild.rst
+>@@ -262,3 +262,8 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
+> These two variables allow to override the user@host string displayed during
+> boot and in /proc/version. The default value is the output of the commands
+> whoami and host, respectively.
+>+
+>+LLVM
+>+----
+>+If this variable is set to 1, Kbuild will use Clang and LLVM utilities instead
+>+of GCC and GNU binutils to build the kernel.
+>diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+>index d6c79eb4e23e..4602369f6a4f 100644
+>--- a/Documentation/kbuild/llvm.rst
+>+++ b/Documentation/kbuild/llvm.rst
+>@@ -55,6 +55,11 @@ additional parameters to `make`.
+> 	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
+> 	  HOSTLD=ld.lld
+>
+>+You can use a single switch `LLVM=1` to use LLVM utilities by default (except
+>+for building host programs).
+>+
+>+	make LLVM=1 HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+>+
+> Getting Help
+> ------------
+>
+>diff --git a/Makefile b/Makefile
+>index c91342953d9e..6db89ecdd942 100644
+>--- a/Makefile
+>+++ b/Makefile
+>@@ -409,16 +409,28 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+> KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+>
+> # Make variables (CC, etc...)
+>-LD		= $(CROSS_COMPILE)ld
+>-CC		= $(CROSS_COMPILE)gcc
+> CPP		= $(CC) -E
+>+ifneq ($(LLVM),)
+>+CC		= clang
+>+LD		= ld.lld
+>+AR		= llvm-ar
+>+NM		= llvm-nm
+>+OBJCOPY		= llvm-objcopy
+>+OBJDUMP		= llvm-objdump
+>+READELF		= llvm-readelf
+>+OBJSIZE		= llvm-size
+>+STRIP		= llvm-strip
+>+else
+>+CC		= $(CROSS_COMPILE)gcc
+>+LD		= $(CROSS_COMPILE)ld
+> AR		= $(CROSS_COMPILE)ar
+> NM		= $(CROSS_COMPILE)nm
+>-STRIP		= $(CROSS_COMPILE)strip
+> OBJCOPY		= $(CROSS_COMPILE)objcopy
+> OBJDUMP		= $(CROSS_COMPILE)objdump
+>-OBJSIZE		= $(CROSS_COMPILE)size
+> READELF		= $(CROSS_COMPILE)readelf
+>+OBJSIZE		= $(CROSS_COMPILE)size
+>+STRIP		= $(CROSS_COMPILE)strip
+>+endif
+> PAHOLE		= pahole
+> LEX		= flex
+> YACC		= bison
+>-- 
+>2.17.1
+>
+>-- 
+>You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+>To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+>To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200403051709.22407-1-masahiroy%40kernel.org.
