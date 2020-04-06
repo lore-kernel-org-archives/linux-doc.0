@@ -2,57 +2,60 @@ Return-Path: <SRS0=nUK8=5W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF55AC2BA17
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 18:37:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 767E9C2BA1E
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 18:45:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9F9BD2072F
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 18:37:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZhH7J/98"
+	by mail.kernel.org (Postfix) with ESMTP id 57F56206B8
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 18:45:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726307AbgDFShP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Apr 2020 14:37:15 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:35156 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726254AbgDFShM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Apr 2020 14:37:12 -0400
-Received: by mail-pj1-f68.google.com with SMTP id g9so241219pjp.0
-        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2020 11:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=RPf4iEWl31iyICcKKYAUoZ6x8ZFphZAANeccq/+cSuQ=;
-        b=ZhH7J/98IP9aFb1GIbiBZDjP8zYVMEESv42tnRyH7AYdTf+r78V5lVruWjn7mB3vr1
-         Qd0HfY4jT6/b7j8XtBs57O8ruHLNxbSFjdUZj5qZ6U01MsfE4MUUL/JKi+VHxDKHd/1P
-         fRym4RH6wHkv8Qv3chNSOPmmmhl1vpCYtaIOw=
+        id S1725887AbgDFSpL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Apr 2020 14:45:11 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:44240 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbgDFSpK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Apr 2020 14:45:10 -0400
+Received: from mail-lf1-f70.google.com ([209.85.167.70])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <guilherme.piccoli@canonical.com>)
+        id 1jLWk8-0006QO-MY
+        for linux-doc@vger.kernel.org; Mon, 06 Apr 2020 18:45:08 +0000
+Received: by mail-lf1-f70.google.com with SMTP id j9so1739246lfh.22
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2020 11:45:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RPf4iEWl31iyICcKKYAUoZ6x8ZFphZAANeccq/+cSuQ=;
-        b=jf9FNA2rCIIS2uBp81818+GvxXcp/kfzm0GwkOvHO+rSj4ydeOKBn3UDqktE2RkWbO
-         3N808WC/kJvp5SgIsDgf6RhF20twi5CJEBdWibpTlmsboSsdKLi6iCe+xq/KmsmMwlkn
-         E5SMaLVDp30q7k8V7xPnLlH3iFtUhWp4FzO2coG/Jx2dclU6r8IZj0/x3iTPTBXmKV3g
-         gQqC4NUWX2iBXNHawJlyV0HfsQ7EYkonnvf6Aej2yvy2SBA1tusBzc/XrwEftVvvs55c
-         JrmVKs+dnAQdFLIpVURYFd5VvahMWVJzxk7HmvxyCHlU4A9wN88uQIjqnWos49VApEFx
-         G4KA==
-X-Gm-Message-State: AGi0PuZVBuOm/ypPnA/6m0KaijFTu4Zylh8WTA9d4DOQlQpWAGegGmUu
-        Da+z06rbqQmkGpGy7tsqsNKE1Q==
-X-Google-Smtp-Source: APiQypJkJzqyAVk93YophF2DdDXFQtQFxEQ1p7UwWuwI6Z3WRoKl15rLkyLHchyR+rCTa2HWS+biEg==
-X-Received: by 2002:a17:902:bd85:: with SMTP id q5mr22257863pls.326.1586198230653;
-        Mon, 06 Apr 2020 11:37:10 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h4sm11426186pgg.67.2020.04.06.11.37.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 11:37:09 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 11:37:08 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Guilherme Piccoli <gpiccoli@canonical.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=35u7sIzL2v+ZtiB13vYxkmAljAmMWY1VBaJPchGChPU=;
+        b=lIw2d1dEY+DL6qrXrZcrNxqzh7SBB8I2E8OyB0NPgLgIexcEfR0xiDFrKCj+YG5fqO
+         flrv2JvfPtZastdOJkRanBpoKxiKBjjeYOYldJLZMs6FH/tZyvceA9KCqHrznvkNdM7G
+         dz4djay9bsRqoE5j5IqUI2imxHouPO5mOWRfbNpOJH/S/uMkVIeCoIkIdYvae1/3Dibj
+         bPVs7AreZ1TfRng5wNzh1A7gPXaihcySL0FSTq1KbiGvcrklFuoxcdvskud+198zvxLb
+         JONu7As0RZ1M8u2n9D+iIkQii0/bX1UEI8d9WKe36v+DArH0OC3cbwEZULSBZ8cckgSB
+         q64w==
+X-Gm-Message-State: AGi0PuadpJqcYtyTMI+LqhGqmcL1cWSnv9aG2ggPUciWYsJuLqHBruwb
+        bBtXi+/qaFDNAGXRDnFpQ7hLDdmBiDrmHrkaLihlHrsEJ9QVa7DqfULYNpNqGo9zRsWFmT5nWN0
+        JorvgfzwczqODiCN04ya+C7SpfoFYT8aiC1OCBu+pxa7oZLOmWmxcZQ==
+X-Received: by 2002:a2e:85c6:: with SMTP id h6mr388506ljj.218.1586198707579;
+        Mon, 06 Apr 2020 11:45:07 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIfgUD0+Npj1fpuxcNsRprQ6GCvlWvrh7CigDE9Ba3M6ZRRFnD0WowMDyU8FhSHaePkKFsdLtJmDNIULbInyv4=
+X-Received: by 2002:a2e:85c6:: with SMTP id h6mr388490ljj.218.1586198707394;
+ Mon, 06 Apr 2020 11:45:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200327223646.20779-1-gpiccoli@canonical.com>
+ <d4888de4-5748-a1d0-4a45-d1ecebe6f2a9@canonical.com> <202004060854.22F15BDBF1@keescook>
+ <CAHD1Q_xwR4OqsF8n3VJXknZ5QgpLWPQ3YTuztTgn0GTMR0vgKA@mail.gmail.com> <202004061136.8029EF3@keescook>
+In-Reply-To: <202004061136.8029EF3@keescook>
+From:   Guilherme Piccoli <gpiccoli@canonical.com>
+Date:   Mon, 6 Apr 2020 15:44:31 -0300
+Message-ID: <CAHD1Q_y_qzn7=skyDiFnU0cKNMEjiiNSeyK-jqy8qmEdzUKmpg@mail.gmail.com>
+Subject: Re: [PATCH V3] kernel/hung_task.c: Introduce sysctl to print all
+ traces when a hung task is detected
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org,
         Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
@@ -65,31 +68,10 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Matthew Wilcox <willy@infradead.org>,
         "Guilherme G. Piccoli" <kernel@gpiccoli.net>,
         Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH V3] kernel/hung_task.c: Introduce sysctl to print all
- traces when a hung task is detected
-Message-ID: <202004061136.8029EF3@keescook>
-References: <20200327223646.20779-1-gpiccoli@canonical.com>
- <d4888de4-5748-a1d0-4a45-d1ecebe6f2a9@canonical.com>
- <202004060854.22F15BDBF1@keescook>
- <CAHD1Q_xwR4OqsF8n3VJXknZ5QgpLWPQ3YTuztTgn0GTMR0vgKA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHD1Q_xwR4OqsF8n3VJXknZ5QgpLWPQ3YTuztTgn0GTMR0vgKA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 06, 2020 at 03:32:42PM -0300, Guilherme Piccoli wrote:
-> Thanks Kees! I was expecting this could be merged in the current
-> window, but there's really no problem in waiting for the next!
-
-That's not usually how these things work, unfortunately. Stuff going
-into the merge window are those things that have been living in
-linux-next for a while (usually since before the -rc5). Once Andrew is
-done with the merge window for the -mm tree, he'll start scanning for
-new things to pull in. I expect this to be one of them. :)
-
--- 
-Kees Cook
+Awesome, no problem at all. And thanks for all the information and review =)
