@@ -3,27 +3,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 455F1C2BA19
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 09:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1421FC2BA1E
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 09:53:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0FE60206F5
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 09:18:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E25E6206F5
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 09:53:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbgDFJSQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Apr 2020 05:18:16 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:55960 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726689AbgDFJSQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Apr 2020 05:18:16 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 752A51C452C; Mon,  6 Apr 2020 11:18:14 +0200 (CEST)
-Date:   Mon, 6 Apr 2020 11:18:13 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Chen Yu <yu.c.chen@intel.com>, Linux PM <linux-pm@vger.kernel.org>,
+        id S1726841AbgDFJxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Apr 2020 05:53:52 -0400
+Received: from mga01.intel.com ([192.55.52.88]:43096 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726721AbgDFJxw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Apr 2020 05:53:52 -0400
+IronPort-SDR: w0e4wFoyPMioJjZrg0tdDfu3tmw9jEE9+uGjpS54iO4BcQfUS0+I2FYHqPu2e5RNQmuDxZSXtK
+ n2s9GhAWn1jw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2020 02:53:47 -0700
+IronPort-SDR: pSYiNYwup2Dbn4l6x88zHtU0hG4sV0HcYYC+mcCzl6PpV+ybcezEKC5wLH8DMjahWoALGHKG1t
+ 0XGmDEM9OAjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; 
+   d="scan'208";a="254067748"
+Received: from chenyu-office.sh.intel.com ([10.239.158.173])
+  by orsmga006.jf.intel.com with ESMTP; 06 Apr 2020 02:53:41 -0700
+Date:   Mon, 6 Apr 2020 17:54:15 +0800
+From:   Chen Yu <yu.c.chen@intel.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -38,69 +50,59 @@ Cc:     Chen Yu <yu.c.chen@intel.com>, Linux PM <linux-pm@vger.kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [PATCH][v3] PM / sleep: Add pm_debug_messages boot command
  control
-Message-ID: <20200406091813.GG31120@duo.ucw.cz>
+Message-ID: <20200406095415.GA21720@chenyu-office.sh.intel.com>
 References: <20200402075652.13289-1-yu.c.chen@intel.com>
  <CAJZ5v0j2W5MYJnb4hiDn0OgR1xJZwm4TxVm9o-iw+epXPTp82g@mail.gmail.com>
+ <20200406091813.GG31120@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="E69HUUNAyIJqGpVn"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0j2W5MYJnb4hiDn0OgR1xJZwm4TxVm9o-iw+epXPTp82g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200406091813.GG31120@duo.ucw.cz>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---E69HUUNAyIJqGpVn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
-ation/admin-guide/kernel-parameters.txt
-> > index ed73df5f1369..3fb9cbee8d28 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -3720,6 +3720,9 @@
-> >                         Override pmtimer IOPort with a hex value.
-> >                         e.g. pmtmr=3D0x508
-> >
-> > +       pm_debug_messages       [SUSPEND,KNL]
-> > +                       Enable suspend/resume debug messages during boo=
-t up.
-> > +
-> >         pnp.debug=3D1     [PNP]
-> >                         Enable PNP debug messages (depends on the
-> >                         CONFIG_PNP_DEBUG_MESSAGES option).  Change at r=
-un-time
-
-> Applied (as 5.7-rc material) with modified subject and changelog,
-  thanks!
-
-Please don't.
-
-We have pnp.debug, i8042.debug, acpi.debug_*, lsm.debug... It makes
-sense to do pm.debug... we want to have some consistency.
+Hi Pavel,
+thanks for review.
+On Mon, Apr 06, 2020 at 11:18:13AM +0200, Pavel Machek wrote:
+> Hi!
+> 
+> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > > index ed73df5f1369..3fb9cbee8d28 100644
+> > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > @@ -3720,6 +3720,9 @@
+> > >                         Override pmtimer IOPort with a hex value.
+> > >                         e.g. pmtmr=0x508
+> > >
+> > > +       pm_debug_messages       [SUSPEND,KNL]
+> > > +                       Enable suspend/resume debug messages during boot up.
+> > > +
+> > >         pnp.debug=1     [PNP]
+> > >                         Enable PNP debug messages (depends on the
+> > >                         CONFIG_PNP_DEBUG_MESSAGES option).  Change at run-time
+> 
+> > Applied (as 5.7-rc material) with modified subject and changelog,
+>   thanks!
+> 
+> Please don't.
+> 
+> We have pnp.debug, i8042.debug, acpi.debug_*, lsm.debug... It makes
+> sense to do pm.debug... we want to have some consistency.
+> 
+We also have initcall_debug. It looks like the 'dot' indicates
+that it is a module(or driver) parameter, and have multiple options
+for user to choose from, but it looks like this is not the case for
+pm_debug_messages.
 
 Thanks,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+Chenyu
+> Thanks,
+> 									Pavel
+> -- 
+> (english) http://www.livejournal.com/~pavelmachek
+> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
 
---E69HUUNAyIJqGpVn
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXorz1QAKCRAw5/Bqldv6
-8tirAKCUkyHPVgDiMckfb40fMCX03KTXZQCgiI3vObBYdWvXEnTyBLT4zT9uoOs=
-=9YRC
------END PGP SIGNATURE-----
-
---E69HUUNAyIJqGpVn--
