@@ -2,88 +2,117 @@ Return-Path: <SRS0=nUK8=5W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE64C2BA18
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 07:55:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93BFEC2BA19
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 08:58:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 84E8E206F5
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 07:55:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=prytznet.se header.i=@prytznet.se header.b="ME8rhdVn"
+	by mail.kernel.org (Postfix) with ESMTP id 69028206C3
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Apr 2020 08:58:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726509AbgDFHzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Apr 2020 03:55:13 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:37957 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726475AbgDFHzN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Apr 2020 03:55:13 -0400
-Received: by mail-lj1-f194.google.com with SMTP id v16so13600355ljg.5
-        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2020 00:55:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=prytznet.se; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=j2CD7PYQMoilDEnHHFG60n6KX8Uka97ohbUCjI+7rtg=;
-        b=ME8rhdVnzsWowRezZDI8BCZ+eJZy0ZPtJ5PXO2XzHqk5HmXPXHRkIQEsG/h/KslskA
-         7vdq72BXtEMT7l/j0aRM2H8jde3F+zLAsaZC7Qjnl6k6uXJsItfzp7+59Y/CQHP+SvnX
-         xsft4LkE1PA0Mq97twkXqnouAlLRtjBf4k0URAD5ZxzI6r/uxR8Z475gq6TRLNhdDEsa
-         /0o0o8dzlYeEokSOyNgPQcOyXljr/4McOclxL05gtbfjnGk0fzBPeGXo3w8pC7vdouJ/
-         nL1i7z9KNFpZ4FpkoOiZbvsz6VGOwuEotq5T4Eh1gjouB5Whavf7H50Nr+Z0q3hgnuOl
-         /efw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=j2CD7PYQMoilDEnHHFG60n6KX8Uka97ohbUCjI+7rtg=;
-        b=P6AyQrUj9qzGAgVn6XEkKBlSjNUGawZ3zlGX9/3pH2E924OzJfzjnLhjOLuzAmRvVD
-         QkFBfGr9wnTn2szfXxuTkB3i6R8SdActVoEmwZvvGyiuyqRIhg52BVqh0RU1B3JF7MRA
-         l3dVmMtxUIya6ig9GyO6+ZrKnBs4rbLUbIzkBWqHM39euvpqDox0blhTknqWT92ixsLz
-         8J+TQCVXHZbL1rJbUpm/ofeedOPJS0FiiMfYKKj/Cf1/RjjxuS7fdbybudWFz2SPs8+4
-         jx8xuLIxwXHAwhUWN6w/9fIu+Y6bnXd4ppQ1SXlH9WWYEAvxmp1hLgu2AV9tmqsvEPBj
-         qoIg==
-X-Gm-Message-State: AGi0PuYlCLJ4gcigdhYKUoHNT6cP00GXB85MKCmS68/7ZXSiYSEo4uaV
-        9LisnIQaeF6RJFkoP1m1bMIE/BDXJLKR0w==
-X-Google-Smtp-Source: APiQypJbz7JKd/JTk+qyO/1IdneHwv2Nouf3A1GfpVZZqIFv0UC8AyzqOmon5HdFAO6bc9Fu6Tsdeg==
-X-Received: by 2002:a2e:9b07:: with SMTP id u7mr11171030lji.110.1586159710311;
-        Mon, 06 Apr 2020 00:55:10 -0700 (PDT)
-Received: from localhost.localdomain ([158.174.82.32])
-        by smtp.gmail.com with ESMTPSA id e12sm11834559ljl.36.2020.04.06.00.55.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 00:55:09 -0700 (PDT)
-From:   Vilhelm Prytz <vilhelm@prytznet.se>
-To:     linux-doc@vger.kernel.org
-Cc:     Vilhelm Prytz <vilhelm@prytznet.se>
-Subject: [PATCH] docs: filesystems: fix typo in qnx6.rst
-Date:   Mon,  6 Apr 2020 09:55:02 +0200
-Message-Id: <20200406075502.9615-1-vilhelm@prytznet.se>
-X-Mailer: git-send-email 2.17.1
+        id S1726622AbgDFI6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Apr 2020 04:58:47 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54118 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726620AbgDFI6q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Apr 2020 04:58:46 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 4417F1C4519; Mon,  6 Apr 2020 10:58:44 +0200 (CEST)
+Date:   Mon, 6 Apr 2020 10:58:43 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Chen Yu <yu.c.chen@intel.com>
+Cc:     linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH][v2] PM / sleep: Add pm_debug_messages boot command
+ control
+Message-ID: <20200406085843.GE31120@duo.ucw.cz>
+References: <20200329144640.20536-1-yu.c.chen@intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="BZaMRJmqxGScZ8Mx"
+Content-Disposition: inline
+In-Reply-To: <20200329144640.20536-1-yu.c.chen@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- 'structer' replaced with 'structure'
 
-Signed-off-by: Vilhelm Prytz <vilhelm@prytznet.se>
----
- Documentation/filesystems/qnx6.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--BZaMRJmqxGScZ8Mx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/filesystems/qnx6.rst b/Documentation/filesystems/qnx6.rst
-index b71308314070..fd13433d362c 100644
---- a/Documentation/filesystems/qnx6.rst
-+++ b/Documentation/filesystems/qnx6.rst
-@@ -185,7 +185,7 @@ tree structures are treated as system blocks.
- 
- The rational behind that is that a write request can work on a new snapshot
- (system area of the inactive - resp. lower serial numbered superblock) while
--at the same time there is still a complete stable filesystem structer in the
-+at the same time there is still a complete stable filesystem structure in the
- other half of the system area.
- 
- When finished with writing (a sync write is completed, the maximum sync leap
--- 
-2.17.1
+On Sun 2020-03-29 22:46:40, Chen Yu wrote:
+> Debug messages from the system suspend/hibernation infrastructure
+> is disabled by default, and can only be enabled after the system
+> has boot up via /sys/power/pm_debug_messages. This makes the hibernation
+> resume hard to track as it involves system boot up across hibernation.
+> There's no chance for software_resume() to track the resume process,
+> eg.
+>=20
+> Turning on the pm_debug_messages during boot up by appending
+> 'pm_debug_message'.
+>=20
+> Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> Cc: Len Brown <lenb@kernel.org>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Chen Yu <yu.c.chen@intel.com>
+> ---
+> v2: According to Randy's suggestion, add the command line
+>     option to Documentation/admin-guide/kernel-parameters.txt
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 3 +++
+>  kernel/power/main.c                             | 7 +++++++
+>  2 files changed, 10 insertions(+)
+>=20
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index c07815d230bc..105ec73743d7 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3698,6 +3698,9 @@
+>  			Override pmtimer IOPort with a hex value.
+>  			e.g. pmtmr=3D0x508
+> =20
+> +	pm_debug_message	[SUSPEND,KNL]
+> +			Enable suspend/resume debug messages during boot up.
+> +
+>  	pnp.debug=3D1	[PNP]
+>  			Enable PNP debug messages (depends on the
+>  			CONFIG_PNP_DEBUG_MESSAGES option).  Change at
 
+See?
+
+So this should be pm.debug=3D1 for consistency?
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--BZaMRJmqxGScZ8Mx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXorvQwAKCRAw5/Bqldv6
+8ohfAJ0e7TkJIo8BhyMZ9/yLwGJSPzhM5gCfesbJk8F2XpXKz8Cwoa+84PO8aXY=
+=n2/g
+-----END PGP SIGNATURE-----
+
+--BZaMRJmqxGScZ8Mx--
