@@ -2,141 +2,206 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E40D7C2D0EC
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:03:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 697C7C2D0EC
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:19:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A517A2076E
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:03:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 232532076E
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:19:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Iu7XU9Q1"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fCkFOEvt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727077AbgDGTDl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 15:03:41 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:45171 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726794AbgDGTDl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 15:03:41 -0400
-Received: by mail-pg1-f196.google.com with SMTP id o26so2148794pgc.12
-        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2020 12:03:41 -0700 (PDT)
+        id S1726799AbgDGTT2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 15:19:28 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:45317 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbgDGTT2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 15:19:28 -0400
+Received: by mail-pl1-f196.google.com with SMTP id t4so1585319plq.12
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2020 12:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+9ktnBB45aXlgSe0vRhpOUgxZAxDNe5YDUe3z1UsWXQ=;
-        b=Iu7XU9Q1UurBhDGdXS/vYjiFh68jWNQ8e06hHF28IR+07VW9uNQPZ2Orsrw+Pgq9BO
-         doulhBpDbe64U+hrCXWN+604MB1kGpL7KVRePvHJDGez6gbPRuZgDDeyN30VBzawqR6M
-         5HwFaxk16hCeVhMLwDt73YD8os8sIgrniSikPkS57lMVxuI5/UV0gB1uuMSwVUANffZd
-         1T4VFWplx4Puxa7YyCVMq95NNiVzc7cVwY9U6ShahHQ6UOUr5uQEOkT7mnuF9mRVqgm4
-         RqMjYoIoqb/2PtFFXepG8yBz/GVR2+PNOEB8wXFOTqoRX0nG+M0omn2qf5lJGgzM7QWi
-         4HqQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rG3gvegGYMuy2XFIc5WCw+t7albL71jqGTx3h+oz3PU=;
+        b=fCkFOEvtzj2top7sZTwblS/ZXmLkcMYJ8BO67ogp03C115ys5kxUV0awOlROlf5Bfr
+         J+3pA/OqikQfzArrvPi7mX+qMFyC6y/hiMQZOOKeQex3CPx6s3hXodEQuJWpOP6WAFo/
+         1WiQSpoalWXTn8Zs7ab0/JgYioVxsr3U4/o0WeUk+nV7ZnCSXDaErkQ6elBolGznqrL2
+         ThBdUnTuofOAWtkxbRq8mKlK6GDlTTLm6pWrTL07YI/GYk7n6NMJdEdnaoqOi40S8BbK
+         /ri697JjwrOE3Xb8FlbNYfn4BFZsrS4ozV3KI1OR4VnZKH/uYoSHrKu4NFsS2pjZ9w6W
+         EhRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+9ktnBB45aXlgSe0vRhpOUgxZAxDNe5YDUe3z1UsWXQ=;
-        b=N6UN7AaeDmnpwnkOnPFQjl9vQZBrrdLT6V4tgRLlQ2LCQn2pmWqbekH+AkQ7hI9Y2z
-         XVSZw83PwoPTL65WHqE7BNEQStlktAR19SNq7ChpVru20nOLnMr5HuH+LUbW67hD+Q76
-         Az4+zcADg8N+z/elGjc6dIq6/uMGwUj13wimn9hbLlugzny+7D1UkhJtuBmHk4eUGBY7
-         QXylGg0EbAKN0X07kCdEAsQsxBPPs45QLEJmTVs1uW7nPMawSvmyR02mKuc3p240GhGU
-         XEgCpWdjA0NmM9RE6oWfFCfM//yqpY4UceAkxQx72H8GA5ZqQqueMAJU71d2l/1Ug7LF
-         kOgg==
-X-Gm-Message-State: AGi0PuZYmEOTQA409FuEmuDETB1YsCBCb720ISLehMq/GuoHvzmn8zM1
-        7olO6O6H6qY+0z+YHoSMWmWSNfurILPXlyhExOhEJg==
-X-Google-Smtp-Source: APiQypInHGpY7jZ4h51jJj3LKW1TA1Mq84UMe1r78naeeUH4EQq8+MTwZ3cUNL06uiOby8Imllg/eeIxoTxeqrNEbWM=
-X-Received: by 2002:aa7:919a:: with SMTP id x26mr3880195pfa.39.1586286220287;
- Tue, 07 Apr 2020 12:03:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200407184336.14612-1-masahiroy@kernel.org>
-In-Reply-To: <20200407184336.14612-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 7 Apr 2020 12:03:29 -0700
-Message-ID: <CAKwvOd=pz7yWSyZ-v3uGNpc9u4zDAiycBrdGczp5oWrY7H_rvg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kbuild: replace AS=clang with LLVM_IA=1
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rG3gvegGYMuy2XFIc5WCw+t7albL71jqGTx3h+oz3PU=;
+        b=ES4WmSxq38+AO3TvT9Itdr3PaS1C/2ZrH8UBzcUfZXbMZF948OlDIkn65fe7tfRJrf
+         I2tRycSfpHgZAxaSPQjSeYQzFxExte2LUqNlQZNqI+7Xjg1Q62v0Vj5Kv8IB/+bKFH+f
+         vHoyrLIOUrUjRVpypIWyjVzHqEALV+EqF/QwZpUQpL91FkKMm7MjZlbrgwHXFxAbwJ3k
+         xa0gfpQ3I0KZHnD9PuYW9YCjAtyIxZgHuWLq8sRp9wCJZwcEE/rE42YMmTprHr3NH6Nm
+         6K8l/yx7ZgKCBhSIss7ByAJC/l9ivrczHtwqZfhaPJTWkL1F1MgR5UeJjt73jFpJ+PNG
+         2a3w==
+X-Gm-Message-State: AGi0PuZ2nvObFA1Ku/A/PMLF5476vWSRuIGNj5i9KNCMgPZR3WoUTOjc
+        iD7gkIy6fxziQPty7Jdv8HqjKg==
+X-Google-Smtp-Source: APiQypKbtHvUTzo3LK2UvrxJ5kRZIpW0la3EnQasySh2srKIIT5Mcfjx/x+UO6stBUScVd7zM8Iirw==
+X-Received: by 2002:a17:902:598e:: with SMTP id p14mr3523199pli.276.1586287167194;
+        Tue, 07 Apr 2020 12:19:27 -0700 (PDT)
+Received: from google.com ([2620:15c:2ce:0:9efe:9f1:9267:2b27])
+        by smtp.gmail.com with ESMTPSA id 203sm320233pfw.25.2020.04.07.12.19.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 12:19:26 -0700 (PDT)
+Date:   Tue, 7 Apr 2020 12:19:23 -0700
+From:   Fangrui Song <maskray@google.com>
+To:     'Nick Desaulniers' via Clang Built Linux 
+        <clang-built-linux@googlegroups.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Matthias Maennich <maennich@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jian Cai <jiancai@google.com>,
+        Stephen Hines <srhines@google.com>,
+        Luis Lozano <llozano@google.com>
+Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to
+ Clang/LLVM
+Message-ID: <20200407191923.txaggm7ntxrinddf@google.com>
+References: <20200403051709.22407-1-masahiroy@kernel.org>
+ <20200406112220.GB126804@google.com>
+ <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
+ <CAKwvOdmHxeZ+T1OsOhW25pPygHM4D21OgZqRk141xbjP437-1w@mail.gmail.com>
+ <CAK7LNARSMvGZ6T4Ct=U4Xe1WQCgkaWE8m8BxRuYiaokKVjA_ig@mail.gmail.com>
+ <CAKwvOdkicpNMqQipZ+AMTEz7JVou3bkcKiQ3Cih20qH0hoziDg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdkicpNMqQipZ+AMTEz7JVou3bkcKiQ3Cih20qH0hoziDg@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 7, 2020 at 11:44 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> The 'AS' variable is unused for building the kernel. Only the remaining
-> usage is to turn on the integrated assembler. A boolean flag is a better
-> fit for this purpose.
->
-> AS=clang was added for experts. So, I replaced it with LLVM_IA=1,
-> breaking the backward compatibility.
->
-> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Thank you for this series!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+On 2020-04-07, 'Nick Desaulniers' via Clang Built Linux wrote:
+>On Tue, Apr 7, 2020 at 10:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>>
+>> On Wed, Apr 8, 2020 at 2:01 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>> >
+>> > On Tue, Apr 7, 2020 at 9:17 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>> > >
+>> > > On Mon, Apr 6, 2020 at 8:22 PM 'Matthias Maennich' via Clang Built
+>> > > Linux <clang-built-linux@googlegroups.com> wrote:
+>> > > >
+>> > > > On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
+>> > > > >As Documentation/kbuild/llvm.rst implies, building the kernel with a
+>> > > > >full set of LLVM tools gets very verbose and unwieldy.
+>> > > > >
+>> > > > >Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
+>> > > > >GCC and Binutils. You can pass LLVM=1 from the command line or as an
+>> > > > >environment variable. Then, Kbuild will use LLVM toolchains in your
+>> > > > >PATH environment.
+>> > > > >
+>> > > > >Please note LLVM=1 does not turn on the LLVM integrated assembler.
+>> > > > >You need to explicitly pass AS=clang to use it. When the upstream
+>> > > > >kernel is ready for the integrated assembler, I think we can make
+>> > > > >it default.
+>> > > > >
+>> > > > >We discussed what we need, and we agreed to go with a simple boolean
+>> > > > >switch (https://lkml.org/lkml/2020/3/28/494).
+>> > > > >
+>> > > > >Some items in the discussion:
+>> > > > >
+>> > > > >- LLVM_DIR
+>> > > > >
+>> > > > >  When multiple versions of LLVM are installed, I just thought supporting
+>> > > > >  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
+>> > > > >
+>> > > > >  CC      = $(LLVM_DIR)clang
+>> > > > >  LD      = $(LLVM_DIR)ld.lld
+>> > > > >    ...
+>> > > > >
+>> > > > >  However, we can handle this by modifying PATH. So, we decided to not do
+>> > > > >  this.
+>> > > > >
+>> > > > >- LLVM_SUFFIX
+>> > > > >
+>> > > > >  Some distributions (e.g. Debian) package specific versions of LLVM with
+>> > > > >  naming conventions that use the version as a suffix.
+>> > > > >
+>> > > > >  CC      = clang$(LLVM_SUFFIX)
+>> > > > >  LD      = ld.lld(LLVM_SUFFIX)
+>> > > > >    ...
+>> > > > >
+>> > > > >  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
+>> > > > >  but the suffixed versions in /usr/bin/ are symlinks to binaries in
+>> > > > >  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
+>> > > > >
+>> > > > >- HOSTCC, HOSTCXX, etc.
+>> > > > >
+>> > > > >  We can switch the host compilers in the same way:
+>> > > > >
+>> > > > >  ifneq ($(LLVM),)
+>> > > > >  HOSTCC       = clang
+>> > > > >  HOSTCXX      = clang++
+>> > > > >  else
+>> > > > >  HOSTCC       = gcc
+>> > > > >  HOSTCXX      = g++
+>> > > > >  endif
+>> > > > >
+>> > > > >  This may the right thing to do, but I could not make up my mind.
+>> > > > >  Because we do not frequently switch the host compiler, a counter
+>> > > > >  solution I had in my mind was to leave it to the default of the
+>> > > > >  system.
+>> > > > >
+>> > > > >  HOSTCC       = cc
+>> > > > >  HOSTCXX      = c++
+>> > > >
+>> > > > What about HOSTLD ? I saw recently, that setting HOSTLD=ld.lld is not
+>> > > > yielding the expected result (some tools, like e.g. fixdep still require
+>> > > > an `ld` to be in PATH to be built). I did not find the time to look into
+>> > > > that yet, but I would like to consistently switch to the llvm toolchain
+>> > > > (including linker and possibly more) also for hostprogs.
+>> > >
+>> > >
+>> > > HOSTLD=ld.lld worked for me, but HOSTCC=clang did not.
+>> > >
+>> > >
+>> > >
+>> > > HOSTCC=clang without CC=clang fails to build objtool.
+>> > >
+>> > > The build system of objtool is meh.  :(
+>> >
+>> > Let's tackle that in a follow up, with the goal of build hermiticity
+>> > in mind.  I think there's good feedback in this thread to inform the
+>> > design of a v2:
+>> > 1. CLANG_AS=0 to disable integrated as.  Hopefully we won't need this
+>> > much longer, so we don't need to spend too much time on this, Masahiro
+>> > please just choose a name for this.  llvm-as naming conventions
+>> > doesn't follow the rest of binutils.
+>>
+>> I am not so familiar with the terminology in LLVM,
+>> but I feel 'integrated' is a keyword IMHO.
+>> I prefer LLVM_IA=1.  (or  LLVM_INTEGRATED_AS=1)
+>
+>I'm happy with either, and I trust your judgement.  You choose.
+>Hopefully we will fix all our assembler bugs soon and won't need the
+>flag much longer.
 
-> ---
->
-> Changes in v2:
->   - new patch
->
->  Documentation/kbuild/llvm.rst | 5 ++++-
->  Makefile                      | 2 +-
->  2 files changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index eefbdfa3e4d9..2b40afa58049 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -50,11 +50,14 @@ LLVM Utilities
->  LLVM has substitutes for GNU binutils utilities. These can be invoked as
->  additional parameters to `make`.
->
-> -       make CC=clang AS=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
-> +       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
->           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \\
->           READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
->           HOSTLD=ld.lld
->
-> +Currently, the integrated assembler is disabled by default. You can pass
-> +LLVM_IA=1 to enable it.
-> +
->  Getting Help
->  ------------
->
-> diff --git a/Makefile b/Makefile
-> index 1b2691057cb5..f9beb696d6d3 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -538,7 +538,7 @@ endif
->  ifneq ($(GCC_TOOLCHAIN),)
->  CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
->  endif
-> -ifeq ($(if $(AS),$(shell $(AS) --version 2>&1 | head -n 1 | grep clang)),)
-> +ifneq ($(LLVM_IA),1)
->  CLANG_FLAGS    += -no-integrated-as
->  endif
->  CLANG_FLAGS    += -Werror=unknown-warning-option
-> --
-> 2.17.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200407184336.14612-1-masahiroy%40kernel.org.
+Maybe "IAS", e.g. LLVM_IAS=1 or CLANG_IAS=1
 
+IAS is referred to in a few places. IA is not a common abbreviation.
 
+I don't have strong opinion here and thank Masahiro a lot for the
+improvement!
 
--- 
-Thanks,
-~Nick Desaulniers
+>
+>-- 
+>You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+>To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+>To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOdkicpNMqQipZ%2BAMTEz7JVou3bkcKiQ3Cih20qH0hoziDg%40mail.gmail.com.
