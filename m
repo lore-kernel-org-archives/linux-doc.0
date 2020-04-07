@@ -2,166 +2,202 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58A00C2BB55
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:27:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA38C2BA1A
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:36:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2F33A20771
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586276848;
-	bh=DXfJAMkkUWsJDT/ebxAmwcGSnTaDukpCMdayhwgngH8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=sjGxwLzu4bPvREgSVZ8nvqnuWiWrWkCFqPFf7hlPxIFbs9Dqa+8ff2FUdzwK5QLrV
-	 C9tw1CDi7ULBK17R6JHDafvWMtuLkE80raj9Zs7R+2IabkshjUVjk+ARAXyNCCIjla
-	 xqwcvZDJl2dw2lcl3F1VkJE3nreZo7hLLveecE8A=
+	by mail.kernel.org (Postfix) with ESMTP id AA04B20768
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:36:59 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mzeYb/v0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727707AbgDGQ11 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 12:27:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47628 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727300AbgDGQ11 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Apr 2020 12:27:27 -0400
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0EF3F20771;
-        Tue,  7 Apr 2020 16:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586276846;
-        bh=DXfJAMkkUWsJDT/ebxAmwcGSnTaDukpCMdayhwgngH8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=HNUm6cWPlsaYj94XBDXkmRQ/ohx/biK14TzWRfjG7+QWyC3YEF2+cifZmtg1VWvMs
-         90Yfh6F+rBwI6DqQnm/DbK/+bnEOELu5r0/5brXFZ/JpTnvjWpmfp3Q46109LTFDvj
-         mws0v2r828sLFUUIv1wdS0dyfyjDeAEGLMNFtAj0=
-Received: by mail-il1-f171.google.com with SMTP id t6so3796238ilj.8;
-        Tue, 07 Apr 2020 09:27:26 -0700 (PDT)
-X-Gm-Message-State: AGi0PubUgyQcYLUifMSlyRJr+0bahjLK4SQQuOZsuIsD1BcwVSwptWDj
-        v/UzUzUaVJwGU3ULCDGC9jH1qvZ6/R0mHNsLaoI=
-X-Google-Smtp-Source: APiQypKm3VrkYe5UxgfIN5ado+NfIR/07pwBMtvzFm5MwEbxNXM8eZHqWjEZwLJS2O55c9CYj2kHDy6Syn+lbSesyP4=
-X-Received: by 2002:a05:6e02:4c:: with SMTP id i12mr3335984ilr.211.1586276845309;
- Tue, 07 Apr 2020 09:27:25 -0700 (PDT)
+        id S1727300AbgDGQg7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 12:36:59 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:37610 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726873AbgDGQg7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 12:36:59 -0400
+Received: by mail-qt1-f194.google.com with SMTP id n17so3173953qtv.4;
+        Tue, 07 Apr 2020 09:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JAlgjR4rDmY/2vZYzgj0uwk64bvcEfxMeQnJObS4WN0=;
+        b=mzeYb/v07tBo5YAQ3Db2aIxdf3vGL2Lw5AQH2f7iRrn4Kf5IwN57ZEaRMgeTWEh+Z2
+         2iFPRPjt0rybDizXAmRuJpVvYtH+3caw2QLaJcDh8KF6ofgagJCDYs6CRjXVDHFAXOfq
+         WMKEBcrAyoeJUYmBod0rh7OM3zj+GREA13Qek+8274GcBUQZEc28YaRb+/Ta/gEv0tZl
+         wJiX1sAo+ptRBloacUGgzhJteIUsPqM8s8XXsWIz+ORtYGKeIiFc1ucVfE+UMgp+9Ho8
+         D97AcxxI76U2Fo2P4ZWpBzvTjKOzjAr/MP2ZDy7+tcJ4vcaN0AMVpMRDXXR0pm9ZlVW3
+         FElA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JAlgjR4rDmY/2vZYzgj0uwk64bvcEfxMeQnJObS4WN0=;
+        b=c01PWq/hIy2EwR5O3NmxbMBcT33C3Z3mzuIMeJiezpJPzpSMdctVqY/FsBHPWUyjn9
+         T0u/VNwjelJmPF1uRL4AFcKMWsfQtm3ZCAP0G05T9yBcsBYy7eHMOIQ7UbcYdLfcQFyU
+         1LIGzRrdE1gGdjvsnq711dW0PVZqy3bThkFXKBRwRPpU1W1oIUF3dnPMCroTPjTwjgym
+         XBWC2H9qOvTRjS6iSjESKj/uIxP9ox+7pNLedbbmjTG8wrRS7U5Ql+JydKEYz3Y1vquG
+         MPFUs4VoyaTgahJUglCBasPxD0fACOT69RuOw0gFWXA0R8OaR1wtulqtEWc9uSCWby6I
+         i08w==
+X-Gm-Message-State: AGi0PubdDqOU7CLMactsdF9WVOFO6NQXP/nXNtQVdKqVthJUBFkMpRDI
+        oy/wP+CljTCosSnWW6JAOhI=
+X-Google-Smtp-Source: APiQypKskm/KL4CEIzIr5e5ePLM9bvbiEDFPYwKjt0cS+7S9OTINxM/HUxsHfDP21fQgJRCfKCqopw==
+X-Received: by 2002:aed:2e24:: with SMTP id j33mr1770721qtd.117.1586277417593;
+        Tue, 07 Apr 2020 09:36:57 -0700 (PDT)
+Received: from quaco.ghostprotocols.net ([179.97.37.151])
+        by smtp.gmail.com with ESMTPSA id 10sm16858487qtt.54.2020.04.07.09.36.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 09:36:56 -0700 (PDT)
+From:   Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
+X-Google-Original-From: Arnaldo Carvalho de Melo <acme@kernel.org>
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+        id 4E253409A3; Tue,  7 Apr 2020 13:36:54 -0300 (-03)
+Date:   Tue, 7 Apr 2020 13:36:54 -0300
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>
+Cc:     Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
+        Song Liu <songliubraving@fb.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Stephane Eranian <eranian@google.com>,
+        Igor Lubashev <ilubashe@akamai.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH v8 00/12] Introduce CAP_PERFMON to secure system
+ performance monitoring and observability
+Message-ID: <20200407163654.GB12003@kernel.org>
+References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
+ <20200407143014.GD11186@kernel.org>
+ <20200407143551.GF11186@kernel.org>
+ <10cc74ee-8587-8cdb-f85f-5724b370a2ce@linux.intel.com>
 MIME-Version: 1.0
-References: <20200407153206.17360-1-ardb@kernel.org> <20200407162017.GD9616@zn.tnic>
-In-Reply-To: <20200407162017.GD9616@zn.tnic>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 7 Apr 2020 18:27:14 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXH5-CzFC43WaV6iLqqHAhZUwMmV0sRT6D_L0iGCOP=zFg@mail.gmail.com>
-Message-ID: <CAMj1kXH5-CzFC43WaV6iLqqHAhZUwMmV0sRT6D_L0iGCOP=zFg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: efi/x86: clarify EFI handover protocol and
- its requirements
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     linux-efi <linux-efi@vger.kernel.org>, x86@kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        Arvind Sankar <nivedita@alum.mit.edu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <10cc74ee-8587-8cdb-f85f-5724b370a2ce@linux.intel.com>
+X-Url:  http://acmel.wordpress.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 7 Apr 2020 at 18:20, Borislav Petkov <bp@alien8.de> wrote:
->
-> On Tue, Apr 07, 2020 at 05:32:06PM +0200, Ard Biesheuvel wrote:
-> > The EFI handover protocol was introduced on x86 to permit the boot
-> > loader to pass a populated boot_params structure as an additional
-> > function argument to the entry point. This allows the bootloader to
-> > pass the base and size of a initrd image, which is more flexible
-> > than relying on the EFI stub's file I/O routines, which can only
-> > access the file system from which the kernel image itself was loaded
-> > from firmware.
-> >
-> > This approach requires a fair amount of internal knowledge regarding
-> > the layout of the boot_params structure on the part of the boot loader,
-> > as well as knowledge regarding the allowed placement of the initrd in
-> > memory, and so it has been deprecated in favour of a new initrd loading
-> > method that is based on existing UEFI protocols and best practices.
-> >
-> > So update the x86 boot protocol documentation to clarify that the EFI
-> > handover protocol has been deprecated, and while at it, add a note that
-> > invoking the EFI handover protocol still requires the PE/COFF image to
-> > be loader properly (as opposed to simply being copied into memory). Also,
-> > drop the code32_start header field from the list of values that need to be
-> > provided, as this is no longer required.
-> >
-> > Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> > ---
-> >  Documentation/x86/boot.rst | 17 ++++++++++++++---
-> >  1 file changed, 14 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
-> > index fa7ddc0428c8..22ac52921692 100644
-> > --- a/Documentation/x86/boot.rst
-> > +++ b/Documentation/x86/boot.rst
-> > @@ -1399,14 +1399,19 @@ must have read/write permission; CS must be __BOOT_CS and DS, ES, SS
-> >  must be __BOOT_DS; interrupt must be disabled; %rsi must hold the base
-> >  address of the struct boot_params.
-> >
-> > -EFI Handover Protocol
-> > -=====================
-> > +EFI Handover Protocol (deprecated)
-> > +==================================
-> >
-> >  This protocol allows boot loaders to defer initialisation to the EFI
-> >  boot stub. The boot loader is required to load the kernel/initrd(s)
-> >  from the boot media and jump to the EFI handover protocol entry point
-> >  which is hdr->handover_offset bytes from the beginning of
-> >  startup_{32,64}.
->
-> Perhaps a newline here.
->
+Em Tue, Apr 07, 2020 at 05:54:27PM +0300, Alexey Budankov escreveu:
+> On 07.04.2020 17:35, Arnaldo Carvalho de Melo wrote:
+> > Em Tue, Apr 07, 2020 at 11:30:14AM -0300, Arnaldo Carvalho de Melo escreveu:
+> >> [perf@five ~]$ type perf
+> >> perf is hashed (/home/perf/bin/perf)
+> >> [perf@five ~]$ getcap /home/perf/bin/perf
+> >> /home/perf/bin/perf = cap_sys_ptrace,cap_syslog,38+ep
+> >> [perf@five ~]$ groups
+> >> perf perf_users
+> >> [perf@five ~]$ id
+> >> uid=1002(perf) gid=1002(perf) groups=1002(perf),1003(perf_users) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> >> [perf@five ~]$ perf top --stdio
+> >> Error:
+> >> Failed to mmap with 1 (Operation not permitted)
+> >> [perf@five ~]$ perf record -a
+> >> ^C[ perf record: Woken up 1 times to write data ]
+> >> [ perf record: Captured and wrote 1.177 MB perf.data (1552 samples) ]
+> >>
+> >> [perf@five ~]$ perf evlist
+> >> cycles:u
+> >> [perf@five ~]$
+> > 
+> > Humm, perf record falls back to cycles:u after initially trying cycles
+> > (i.e. kernel and userspace), lemme see trying 'perf top -e cycles:u',
+> > lemme test, humm not really:
+> > 
+> > [perf@five ~]$ perf top --stdio -e cycles:u
+> > Error:
+> > Failed to mmap with 1 (Operation not permitted)
+> > [perf@five ~]$ perf record -e cycles:u -a sleep 1
+> > [ perf record: Woken up 1 times to write data ]
+> > [ perf record: Captured and wrote 1.123 MB perf.data (132 samples) ]
+> > [perf@five ~]$
+> > 
+> > Back to debugging this.
+> 
+> Could makes sense adding cap_ipc_lock to the binary to isolate from this:
+> 
+> kernel/events/core.c: 6101
+> 	if ((locked > lock_limit) && perf_is_paranoid() &&
+> 		!capable(CAP_IPC_LOCK)) {
+> 		ret = -EPERM;
+> 		goto unlock;
+> 	}
 
-OK
 
-> > +The boot loader MUST respect the kernel's PE/COFF metadata when it comes
-> > +to section alignment, the memory footprint of the executable image beyond
-> > +the size of the file itself, and any other aspect of the PE/COFF header
-> > +that may affect correct operation of the image as a PE/COFF binary in the
-> > +execution context provided by the EFI firmware.
-> >
-> >  The function prototype for the handover entry point looks like this::
-> >
-> > @@ -1419,9 +1424,15 @@ UEFI specification. 'bp' is the boot loader-allocated boot params.
-> >
-> >  The boot loader *must* fill out the following fields in bp::
-> >
-> > -  - hdr.code32_start
-> >    - hdr.cmd_line_ptr
-> >    - hdr.ramdisk_image (if applicable)
-> >    - hdr.ramdisk_size  (if applicable)
-> >
-> >  All other fields should be zero.
-> > +
-> > +NOTE: The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
-> > +      entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
-> > +      loading protocol, which removes the need for any knowledge on the part of
-> > +      the EFI bootloader regarding the internal representation of boot_params or
-> > +      any requirements/limitations regarding the placement of the command line
-> > +      and ramdisk in memory, or the placement of the kernel image itself.
->
-> Yap, nice.
->
-> I wonder if it might be even better if that would point people to
-> efi_load_initrd_dev_path() or better yet to an actual example of how to
-> do it.
->
+That did the trick, I'll update the documentation and include in my
+"Committer testing" section:
 
-I'll add a reference to [0] here, which is the u-boot implementation.
+[perf@five ~]$ groups
+perf perf_users
+[perf@five ~]$ ls -lahF bin/perf
+-rwxr-x---. 1 root perf_users 24M Apr  7 10:34 bin/perf*
+[perf@five ~]$ getcap bin/perf
+bin/perf = cap_ipc_lock,cap_sys_ptrace,cap_syslog,38+ep
+[perf@five ~]$
+[perf@five ~]$ perf top --stdio
 
-> Alternatively, the comment over initrd_dev_path almost spells it out
-> what to do so I guess you could repeat that comment here so that it is
-> perfectly clear, as in "We would like you to provide us an initrd in
-> this exact manner." :-)
->
-> In any case, thanks!
->
-> Reviewed-by: Borislav Petkov <bp@suse.de>
->
 
-Thanks
+   PerfTop:     652 irqs/sec  kernel:73.8%  exact: 99.7% lost: 0/0 drop: 0/0 [4000Hz cycles:u],  (all, 12 CPUs)
+---------------------------------------------------------------------------------------------------------------
 
-[0] https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
+    13.03%  [kernel]               [k] module_get_kallsym
+     5.25%  [kernel]               [k] kallsyms_expand_symbol.constprop.0
+     5.00%  libc-2.30.so           [.] __GI_____strtoull_l_internal
+     4.41%  [kernel]               [k] memcpy
+     3.42%  [kernel]               [k] vsnprintf
+     2.98%  perf                   [.] map__process_kallsym_symbol
+     2.86%  [kernel]               [k] format_decode
+     2.73%  [kernel]               [k] number
+     2.70%  perf                   [.] rb_next
+     2.59%  perf                   [.] maps__split_kallsyms
+     2.54%  [kernel]               [k] string_nocheck
+     1.90%  libc-2.30.so           [.] _IO_getdelim
+     1.86%  [kernel]               [k] __x86_indirect_thunk_rax
+     1.53%  libc-2.30.so           [.] _int_malloc
+     1.48%  libc-2.30.so           [.] __memmove_avx_unaligned_erms
+     1.40%  [kernel]               [k] clear_page_rep
+     1.07%  perf                   [.] rb_insert_color
+     1.01%  libc-2.30.so           [.] _IO_feof
+     0.99%  perf                   [.] __dso__load_kallsyms
+     0.98%  [kernel]               [k] s_next
+     0.96%  perf                   [.] __rblist__findnew
+     0.95%  [kernel]               [k] strlen
+     0.95%  perf                   [.] arch__symbols__fixup_end
+     0.94%  libpixman-1.so.0.38.4  [.] 0x000000000006f4af
+     0.94%  perf                   [.] symbol__new
+     0.89%  libpixman-1.so.0.38.4  [.] 0x000000000006f4a0
+     0.86%  [kernel]               [k] seq_read
+     0.81%  libpixman-1.so.0.38.4  [.] 0x000000000006f4ab
+     0.80%  perf                   [.] __symbols__insert
+     0.73%  libpixman-1.so.0.38.4  [.] 0x000000000006f4a7
+     0.67%  [kernel]               [k] s_show
+     0.66%  libc-2.30.so           [.] __libc_calloc
+     0.61%  libpixman-1.so.0.38.4  [.] 0x000000000006f4bb
+     0.59%  [kernel]               [k] get_page_from_freelist
+     0.59%  perf                   [.] memcpy@plt
+     0.58%  perf                   [.] eprintf
+exiting.
+[perf@five ~]$
+
+There is still something strange in here, the event is cycles:u (see at
+the PerfTop line, but it is getting kernel samples :-\
+
+- Arnaldo
