@@ -2,273 +2,149 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C106C2BA1A
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:17:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EE3CC2BB55
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:20:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D6E6A20730
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586276270;
-	bh=1Ii/fUZbmODAmt3UvY6LyNgYB/xr8/fw9wqMh33TMJk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=ugHxSUfwQ0Ycb07MD+q5Vg8ssucGulFfPUITNPYqaWknjiHuTzqHLSAxqyYY+wBaN
-	 pX8LblpA4hguS5iZskKWostgAcE4Q+PpjsK9KRbUDZbOysHJZ3WoSJP7fklVP2kS/X
-	 B4PhfC0fBUTdkK0HBhYZCwSIJ1Z78Qxbhr0BhELg=
+	by mail.kernel.org (Postfix) with ESMTP id 217E42075E
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:20:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="MqDa6vPL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727738AbgDGQRt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 12:17:49 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:44477 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726877AbgDGQRt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 12:17:49 -0400
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 037GHUZs032382;
-        Wed, 8 Apr 2020 01:17:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 037GHUZs032382
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1586276252;
-        bh=DV4fQlgdI60yXyAogQu5G2vroWmj19GJw8loLCiMBRg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tIcqkHoLC5M96nj3x2YzVV9UUsr/y742KxfC3UNs1GBac2JewzoFBmOxYTBtiKndB
-         0fKUAY50qcGORe5YCImxGdRuRa8tR3wIWQzDQpEkyAVLOdJM+cbFHpwolrd75zt7P4
-         X9oArUiTTwEfKgzYa46h4TpYxzB1vc9PpcQYx3h9q+5Fb5lzIIg0BTucTxMZdoBSZP
-         766dWaGeXVX2PdFEXprPqVmnz97T0SVMGkg74/vwy61+EtuaY/JnHTxmXPlM6KkMy3
-         7C7/wdy8TuAseKrHrhZabi8aschGhRkjicjWUmVpsMfB8PuJveBkVzMqNTeibJOmPA
-         rjx5BY4ZgtMPg==
-X-Nifty-SrcIP: [209.85.222.42]
-Received: by mail-ua1-f42.google.com with SMTP id y17so1444131uap.13;
-        Tue, 07 Apr 2020 09:17:31 -0700 (PDT)
-X-Gm-Message-State: AGi0Puap5sTB/c8cgnYuW05LFJiu/G08Em97wd2/OOp+4tGZvb+Gcq+P
-        29Ka5deyMu5KENxpSKCUeTO496g8bViG7FV+hbY=
-X-Google-Smtp-Source: APiQypL4774Th5H69SOlepN/aoOiTYdYrF9dl4AWXBc+K+44ia0npli6ilqGytimcT0x8H+qc/pPnnfHO64GS5LOK6M=
-X-Received: by 2002:a9f:28c5:: with SMTP id d63mr2335006uad.25.1586276250105;
- Tue, 07 Apr 2020 09:17:30 -0700 (PDT)
+        id S1726889AbgDGQUW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 12:20:22 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:51520 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726840AbgDGQUW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Apr 2020 12:20:22 -0400
+Received: from zn.tnic (p200300EC2F0B2700A94266E658FF3DDD.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:2700:a942:66e6:58ff:3ddd])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 097001EC0985;
+        Tue,  7 Apr 2020 18:20:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1586276421;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=E2v4mp+3szxabTU0vOlMHMQo2mBvOQe/yuXd6KzDob8=;
+        b=MqDa6vPLVSrMbPyL/UHC8ccTQgiu2pjvkX7MkrP1dyXrURAPJqjV/rpZPjjVkKYw6jEiIt
+        4Fizdgew4SDnnYFmJ56bkzTaU0Ap0cP7+BcCmgWDKbN1fjIKj4GUR/7hz4vRZau2K/5PXN
+        FGtnRCJ9D4G5Mpan6YePGsplZoxwTvo=
+Date:   Tue, 7 Apr 2020 18:20:17 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     linux-efi@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net, nivedita@alum.mit.edu
+Subject: Re: [PATCH] Documentation: efi/x86: clarify EFI handover protocol
+ and its requirements
+Message-ID: <20200407162017.GD9616@zn.tnic>
+References: <20200407153206.17360-1-ardb@kernel.org>
 MIME-Version: 1.0
-References: <20200403051709.22407-1-masahiroy@kernel.org> <20200406112220.GB126804@google.com>
-In-Reply-To: <20200406112220.GB126804@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 8 Apr 2020 01:16:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
-Message-ID: <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to Clang/LLVM
-To:     Matthias Maennich <maennich@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200407153206.17360-1-ardb@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 6, 2020 at 8:22 PM 'Matthias Maennich' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
->
-> On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
-> >As Documentation/kbuild/llvm.rst implies, building the kernel with a
-> >full set of LLVM tools gets very verbose and unwieldy.
-> >
-> >Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
-> >GCC and Binutils. You can pass LLVM=1 from the command line or as an
-> >environment variable. Then, Kbuild will use LLVM toolchains in your
-> >PATH environment.
-> >
-> >Please note LLVM=1 does not turn on the LLVM integrated assembler.
-> >You need to explicitly pass AS=clang to use it. When the upstream
-> >kernel is ready for the integrated assembler, I think we can make
-> >it default.
-> >
-> >We discussed what we need, and we agreed to go with a simple boolean
-> >switch (https://lkml.org/lkml/2020/3/28/494).
-> >
-> >Some items in the discussion:
-> >
-> >- LLVM_DIR
-> >
-> >  When multiple versions of LLVM are installed, I just thought supporting
-> >  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
-> >
-> >  CC      = $(LLVM_DIR)clang
-> >  LD      = $(LLVM_DIR)ld.lld
-> >    ...
-> >
-> >  However, we can handle this by modifying PATH. So, we decided to not do
-> >  this.
-> >
-> >- LLVM_SUFFIX
-> >
-> >  Some distributions (e.g. Debian) package specific versions of LLVM with
-> >  naming conventions that use the version as a suffix.
-> >
-> >  CC      = clang$(LLVM_SUFFIX)
-> >  LD      = ld.lld(LLVM_SUFFIX)
-> >    ...
-> >
-> >  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
-> >  but the suffixed versions in /usr/bin/ are symlinks to binaries in
-> >  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
-> >
-> >- HOSTCC, HOSTCXX, etc.
-> >
-> >  We can switch the host compilers in the same way:
-> >
-> >  ifneq ($(LLVM),)
-> >  HOSTCC       = clang
-> >  HOSTCXX      = clang++
-> >  else
-> >  HOSTCC       = gcc
-> >  HOSTCXX      = g++
-> >  endif
-> >
-> >  This may the right thing to do, but I could not make up my mind.
-> >  Because we do not frequently switch the host compiler, a counter
-> >  solution I had in my mind was to leave it to the default of the
-> >  system.
-> >
-> >  HOSTCC       = cc
-> >  HOSTCXX      = c++
->
-> What about HOSTLD ? I saw recently, that setting HOSTLD=ld.lld is not
-> yielding the expected result (some tools, like e.g. fixdep still require
-> an `ld` to be in PATH to be built). I did not find the time to look into
-> that yet, but I would like to consistently switch to the llvm toolchain
-> (including linker and possibly more) also for hostprogs.
+On Tue, Apr 07, 2020 at 05:32:06PM +0200, Ard Biesheuvel wrote:
+> The EFI handover protocol was introduced on x86 to permit the boot
+> loader to pass a populated boot_params structure as an additional
+> function argument to the entry point. This allows the bootloader to
+> pass the base and size of a initrd image, which is more flexible
+> than relying on the EFI stub's file I/O routines, which can only
+> access the file system from which the kernel image itself was loaded
+> from firmware.
+> 
+> This approach requires a fair amount of internal knowledge regarding
+> the layout of the boot_params structure on the part of the boot loader,
+> as well as knowledge regarding the allowed placement of the initrd in
+> memory, and so it has been deprecated in favour of a new initrd loading
+> method that is based on existing UEFI protocols and best practices.
+> 
+> So update the x86 boot protocol documentation to clarify that the EFI
+> handover protocol has been deprecated, and while at it, add a note that
+> invoking the EFI handover protocol still requires the PE/COFF image to
+> be loader properly (as opposed to simply being copied into memory). Also,
+> drop the code32_start header field from the list of values that need to be
+> provided, as this is no longer required.
+> 
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+>  Documentation/x86/boot.rst | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
+> index fa7ddc0428c8..22ac52921692 100644
+> --- a/Documentation/x86/boot.rst
+> +++ b/Documentation/x86/boot.rst
+> @@ -1399,14 +1399,19 @@ must have read/write permission; CS must be __BOOT_CS and DS, ES, SS
+>  must be __BOOT_DS; interrupt must be disabled; %rsi must hold the base
+>  address of the struct boot_params.
+>  
+> -EFI Handover Protocol
+> -=====================
+> +EFI Handover Protocol (deprecated)
+> +==================================
+>  
+>  This protocol allows boot loaders to defer initialisation to the EFI
+>  boot stub. The boot loader is required to load the kernel/initrd(s)
+>  from the boot media and jump to the EFI handover protocol entry point
+>  which is hdr->handover_offset bytes from the beginning of
+>  startup_{32,64}.
 
+Perhaps a newline here.
 
-HOSTLD=ld.lld worked for me, but HOSTCC=clang did not.
+> +The boot loader MUST respect the kernel's PE/COFF metadata when it comes
+> +to section alignment, the memory footprint of the executable image beyond
+> +the size of the file itself, and any other aspect of the PE/COFF header
+> +that may affect correct operation of the image as a PE/COFF binary in the
+> +execution context provided by the EFI firmware.
+>  
+>  The function prototype for the handover entry point looks like this::
+>  
+> @@ -1419,9 +1424,15 @@ UEFI specification. 'bp' is the boot loader-allocated boot params.
+>  
+>  The boot loader *must* fill out the following fields in bp::
+>  
+> -  - hdr.code32_start
+>    - hdr.cmd_line_ptr
+>    - hdr.ramdisk_image (if applicable)
+>    - hdr.ramdisk_size  (if applicable)
+>  
+>  All other fields should be zero.
+> +
+> +NOTE: The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+> +      entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
+> +      loading protocol, which removes the need for any knowledge on the part of
+> +      the EFI bootloader regarding the internal representation of boot_params or
+> +      any requirements/limitations regarding the placement of the command line
+> +      and ramdisk in memory, or the placement of the kernel image itself.
 
+Yap, nice.
 
+I wonder if it might be even better if that would point people to
+efi_load_initrd_dev_path() or better yet to an actual example of how to
+do it.
 
-HOSTCC=clang without CC=clang fails to build objtool.
+Alternatively, the comment over initrd_dev_path almost spells it out
+what to do so I guess you could repeat that comment here so that it is
+perfectly clear, as in "We would like you to provide us an initrd in
+this exact manner." :-)
 
-The build system of objtool is meh.  :(
+In any case, thanks!
 
-
-  HOSTCC  scripts/mod/sumversion.o
-  HOSTLD  scripts/mod/modpost
-  CALL    scripts/checksyscalls.sh
-  CALL    scripts/atomic/check-atomics.sh
-  DESCEND  objtool
-error: unknown warning option '-Wstrict-aliasing=3'; did you mean
-'-Wstring-plus-int'? [-Werror,-Wunknown-warning-option]
-  HOSTCC   /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep.o
-  HOSTLD   /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep-in.o
-  LINK     /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep
-  CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/exec-cmd.o
-  CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/help.o
-  CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/pager.o
-
-
-
-
-
-
-> Cheers,
-> Matthias
->
-> >
-> >  Many distributions support update-alternatives to switch the default
-> >  to GCC, Clang, or whatever, but reviewers were opposed to this
-> >  approach. So, this commit does not touch the host tools.
-> >
-> >Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> >---
-> >
-> > Documentation/kbuild/kbuild.rst |  5 +++++
-> > Documentation/kbuild/llvm.rst   |  5 +++++
-> > Makefile                        | 20 ++++++++++++++++----
-> > 3 files changed, 26 insertions(+), 4 deletions(-)
-> >
-> >diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> >index 510f38d7e78a..2d1fc03d346e 100644
-> >--- a/Documentation/kbuild/kbuild.rst
-> >+++ b/Documentation/kbuild/kbuild.rst
-> >@@ -262,3 +262,8 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
-> > These two variables allow to override the user@host string displayed during
-> > boot and in /proc/version. The default value is the output of the commands
-> > whoami and host, respectively.
-> >+
-> >+LLVM
-> >+----
-> >+If this variable is set to 1, Kbuild will use Clang and LLVM utilities instead
-> >+of GCC and GNU binutils to build the kernel.
-> >diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> >index d6c79eb4e23e..4602369f6a4f 100644
-> >--- a/Documentation/kbuild/llvm.rst
-> >+++ b/Documentation/kbuild/llvm.rst
-> >@@ -55,6 +55,11 @@ additional parameters to `make`.
-> >         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
-> >         HOSTLD=ld.lld
-> >
-> >+You can use a single switch `LLVM=1` to use LLVM utilities by default (except
-> >+for building host programs).
-> >+
-> >+      make LLVM=1 HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
-> >+
-> > Getting Help
-> > ------------
-> >
-> >diff --git a/Makefile b/Makefile
-> >index c91342953d9e..6db89ecdd942 100644
-> >--- a/Makefile
-> >+++ b/Makefile
-> >@@ -409,16 +409,28 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
-> > KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
-> >
-> > # Make variables (CC, etc...)
-> >-LD            = $(CROSS_COMPILE)ld
-> >-CC            = $(CROSS_COMPILE)gcc
-> > CPP           = $(CC) -E
-> >+ifneq ($(LLVM),)
-> >+CC            = clang
-> >+LD            = ld.lld
-> >+AR            = llvm-ar
-> >+NM            = llvm-nm
-> >+OBJCOPY               = llvm-objcopy
-> >+OBJDUMP               = llvm-objdump
-> >+READELF               = llvm-readelf
-> >+OBJSIZE               = llvm-size
-> >+STRIP         = llvm-strip
-> >+else
-> >+CC            = $(CROSS_COMPILE)gcc
-> >+LD            = $(CROSS_COMPILE)ld
-> > AR            = $(CROSS_COMPILE)ar
-> > NM            = $(CROSS_COMPILE)nm
-> >-STRIP         = $(CROSS_COMPILE)strip
-> > OBJCOPY               = $(CROSS_COMPILE)objcopy
-> > OBJDUMP               = $(CROSS_COMPILE)objdump
-> >-OBJSIZE               = $(CROSS_COMPILE)size
-> > READELF               = $(CROSS_COMPILE)readelf
-> >+OBJSIZE               = $(CROSS_COMPILE)size
-> >+STRIP         = $(CROSS_COMPILE)strip
-> >+endif
-> > PAHOLE                = pahole
-> > LEX           = flex
-> > YACC          = bison
-> >--
-> >2.17.1
-> >
-> >--
-> >You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> >To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> >To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200403051709.22407-1-masahiroy%40kernel.org.
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200406112220.GB126804%40google.com.
-
-
+Reviewed-by: Borislav Petkov <bp@suse.de>
 
 -- 
-Best Regards
-Masahiro Yamada
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
