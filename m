@@ -2,180 +2,103 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C41E9C2D0EC
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 22:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46862C2D0EC
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 22:36:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9647020730
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 22:22:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0823C2063A
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 22:36:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ciz2o5YZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726421AbgDGWWI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 18:22:08 -0400
-Received: from mga09.intel.com ([134.134.136.24]:30926 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726386AbgDGWWI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Apr 2020 18:22:08 -0400
-IronPort-SDR: AfsxHqqmUNBE+YXhfpW/d2+zS5UWYjbK9FW1oKxKy6Xe+Qe/juotInwiMefR4iDDoEhcegNJu4
- use7AZ5sUbJQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2020 15:22:06 -0700
-IronPort-SDR: MHqNrBVUSFnEW0SwAq44PvRuJRi2rd4NlBahYEO7RpbBCKWzXtcB0NZMVrXO6kqpzjaM3KUQy2
- cW+QrYij3Uqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,356,1580803200"; 
-   d="scan'208";a="254604510"
-Received: from chenb-mobl1.amr.corp.intel.com (HELO [10.255.231.128]) ([10.255.231.128])
-  by orsmga006.jf.intel.com with ESMTP; 07 Apr 2020 15:21:59 -0700
-Subject: Re: [RFC PATCH v9 14/27] mm: Handle Shadow Stack page fault
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
- <20200205181935.3712-15-yu-cheng.yu@intel.com>
- <4902a6ee-cb0f-2700-1f6d-9d756593183c@intel.com>
- <444d97c4a4f70ccbb12da5e8f7ff498b37a9f60d.camel@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- mQINBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABtEVEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
- LmNvbT6JAjgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
- lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
- MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
- IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
- aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
- I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
- E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
- F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
- CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
- P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
- 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lcuQINBFRjzmoBEACyAxbvUEhd
- GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
- MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
- Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
- lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
- 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
- qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
- BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
- 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
- vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
- FCRl0Bvyj1YZUql+ZkptgGjikQARAQABiQIfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
- l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
- yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
- +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
- asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
- WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
- sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
- KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
- MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
- hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
- vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-Message-ID: <e432d102-7f69-7ba3-6146-c0165eef87e1@intel.com>
-Date:   Tue, 7 Apr 2020 15:21:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726393AbgDGWgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 18:36:11 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40458 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726380AbgDGWgL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 18:36:11 -0400
+Received: by mail-wm1-f66.google.com with SMTP id a81so3483725wmf.5
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2020 15:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lIggZ3AIIJYx0Ug+IFvoSzD1JKMo6JtpcMCwZQxAPqU=;
+        b=ciz2o5YZ76OjqR6KDzbC0DNEgnSAUENrCFNTpq9uJCi08CXX4Pm5/sSAzvjmuJuVyE
+         EzedSWgaeOiYmrTcM/F1zjvjyRDUFVxt9QpfwHdRFYT31j1ybckQII3GqrpLwjjljerY
+         IDrAI7N62tXgIy1DIiTaqkdD8Q8taHHp/kVZnOF2Q3ouEUwOC+YcxWhPTypKvRuKDDWl
+         XqJ/4jlEytDz3henbkeJsbpje/70jRaA6D/ralw+S8jUqtGoEopN6Qvd2WY3xmdiXlm6
+         f0Mc+k9noSGtA0I+QqyJXk0F17avgPqZCX+5YlPVevBqOHl7uvalAUqKzLJjf/YgKXBi
+         XQsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lIggZ3AIIJYx0Ug+IFvoSzD1JKMo6JtpcMCwZQxAPqU=;
+        b=HK2EfgM0gUQ+1uTRq1S7fat2ZXhfo/8uTaG38SkjbN2ZPL0ilrg0/qnfvV9kK8H4cX
+         VWt0POTAjaGPihtrg7qdLcU/iKwX29kQmtc370QD4vbx9u9cezY2fH64xLWdqx7q5rKO
+         07mw9qwGlMaP/+n9b02ZYxKrZxEdwfuqFzDNzeLjXl3+Lt8m+BkFruETgek2sErU4/YZ
+         2cA2/VdypRH/OyVMwegkjU8sLdjH1BHY5TeQur0PH0nHQwMGdXS428SyIWD0qY4cUrJR
+         gIEfy+LiShTV1lYQAyATEpphzdxGnqJqOvicZcmQOQaWWJ11oxcvVBeEvIvXwzJ3d8W/
+         dSZA==
+X-Gm-Message-State: AGi0PuZvh1o5bVjZ+MXJ9azb9R39wOhALCzy7BBQGGqvq0cHZpbzMV/7
+        X2Fs3pztSuvILvHxe2tCbFY=
+X-Google-Smtp-Source: APiQypJ7PlxPIRhY0nX1hET2jXkQGOWMdvNUdorx6NReG6RBwoiOc9gZNQg/+PmSStzzGdjy1vgf/Q==
+X-Received: by 2002:a1c:9ecb:: with SMTP id h194mr1561700wme.49.1586298970168;
+        Tue, 07 Apr 2020 15:36:10 -0700 (PDT)
+Received: from de0709bef958.v.cablecom.net ([185.104.184.118])
+        by smtp.gmail.com with ESMTPSA id k84sm4277366wmk.2.2020.04.07.15.36.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 15:36:09 -0700 (PDT)
+From:   Lothar Rubusch <l.rubusch@gmail.com>
+To:     corbet@lwn.net, rdunlap@infradead.org
+Cc:     linux-doc@vger.kernel.org, Lothar Rubusch <l.rubusch@gmail.com>
+Subject: [PATCH v2] Documentation: memory - fix warning
+Date:   Tue,  7 Apr 2020 22:34:55 +0000
+Message-Id: <20200407223455.14027-1-l.rubusch@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <444d97c4a4f70ccbb12da5e8f7ff498b37a9f60d.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/7/20 11:14 AM, Yu-cheng Yu wrote:
-> On Wed, 2020-02-26 at 16:08 -0800, Dave Hansen wrote:
->>> diff --git a/mm/memory.c b/mm/memory.c
->>> index 45442d9a4f52..6daa28614327 100644
->>> --- a/mm/memory.c
->>> +++ b/mm/memory.c
->>> @@ -772,7 +772,8 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
->>>  	 * If it's a COW mapping, write protect it both
->>>  	 * in the parent and the child
->>>  	 */
->>> -	if (is_cow_mapping(vm_flags) && pte_write(pte)) {
->>> +	if ((is_cow_mapping(vm_flags) && pte_write(pte)) ||
->>> +	    arch_copy_pte_mapping(vm_flags)) {
->>>  		ptep_set_wrprotect(src_mm, addr, src_pte);
->>>  		pte = pte_wrprotect(pte);
->>>  	}
->>
->> You have to modify this because pte_write()==0 for shadow stack PTEs, right?
->>
->> Aren't shadow stack ptes *logically* writable, even if they don't have
->> the write bit set?  What would happen if we made pte_write()==1 for them?
-> 
-> Here the vm_flags needs to have VM_MAYWRITE, and the PTE needs to have
-> _PAGE_WRITE.  A shadow stack does not have either.
+Running Sphinx v1.8.4 the following warning can be seen.
 
-I literally mean taking pte_write(), and doing something l
+$ make htmldocs &> htmldocs.log
+(...)
+writing output... [ 16%] block/request .. crypto/api-akcipher
+./include/linux/slab.h:503: WARNING: undefined label: memory-allocation
+ (if the link has no caption the label must precede a section header)
+writing output... [ 19%] crypto/api-digest .. driver-api/dmaengine/client
+(...)
 
-static inline int pte_write(pte_t pte)
-{
-	if (pte_present(pte) && pte_is_shadow_stack(pte))
-		return 1;
+This patch fixes the above warning.
 
-        return pte_flags(pte) & _PAGE_RW;
-}
+Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+---
+ include/linux/slab.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Then if is_cow_mapping() returns true for shadow stack VMAs, the above
-code doesn't need to change.
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index 03a389358562..6d454886bcaf 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -501,7 +501,7 @@ static __always_inline void *kmalloc_large(size_t size, gfp_t flags)
+  * :ref:`Documentation/core-api/mm-api.rst <mm-api-gfp-flags>`
+  *
+  * The recommended usage of the @flags is described at
+- * :ref:`Documentation/core-api/memory-allocation.rst <memory-allocation>`
++ * :ref:`Documentation/core-api/memory-allocation.rst <memory_allocation>`
+  *
+  * Below is a brief outline of the most useful GFP flags
+  *
+-- 
+2.20.1
 
-> To fix checking vm_flags, what about adding a "arch_is_cow_mappping()" to the
-> generic is_cow_mapping()?
-
-That makes good sense to me.
-
-> For the PTE, the check actually tries to determine if the PTE is not already
-> being copy-on-write, which is:
-> 
-> 	(!_PAGE_RW && !_PAGE_DIRTY_HW)
-> 
-> So what about making it pte_cow()?
-> 
-> 	/*
-> 	 * The PTE is in copy-on-write status.
-> 	 */
-> 	static inline int pte_cow(pte_t pte)
-> 	{
-> 		return !(pte_flags(pte) & (_PAGE_WRITE | _PAGE_DIRTY_HW));
-> 	}
-
-... with appropriate comments that seems fine to me.
