@@ -2,72 +2,165 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C561C2BB54
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 13:14:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 587C1C2BA2B
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 14:30:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0CB9420719
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 13:14:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E8E32072A
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 14:30:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lditmRVv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728866AbgDGNOF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 09:14:05 -0400
-Received: from freundtech.com ([78.47.86.165]:48150 "EHLO freundtech.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728152AbgDGNOE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Apr 2020 09:14:04 -0400
-X-Greylist: delayed 514 seconds by postgrey-1.27 at vger.kernel.org; Tue, 07 Apr 2020 09:14:03 EDT
-Received: from arch-desktop.local (unknown [IPv6:2a02:8071:2bb9:5f00::120])
-        by freundtech.com (Postfix) with ESMTPSA id 7D0621E0347;
-        Tue,  7 Apr 2020 15:05:27 +0200 (CEST)
-From:   Adrian Freund <adrian@freund.io>
-To:     linux-doc@vger.kernel.org
-Cc:     corbet@lwn.net, peterz@infradead.org,
-        Adrian Freund <adrian@freund.io>
-Subject: [PATCH] Documentation: scheduler: fix outdated information on sched groups
-Date:   Tue,  7 Apr 2020 15:05:25 +0200
-Message-Id: <20200407130525.76663-1-adrian@freund.io>
-X-Mailer: git-send-email 2.26.0
+        id S1729090AbgDGOaT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 10:30:19 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:40376 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728573AbgDGOaT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 10:30:19 -0400
+Received: by mail-qt1-f193.google.com with SMTP id y25so2771046qtv.7;
+        Tue, 07 Apr 2020 07:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wAYrV6F6G+t5gtx1fZuHs6BGJWDWpkiLa+6bzhMBPMw=;
+        b=lditmRVv/LcoROMCq/bKinCSCXK7kSIPrd2WRkQgfMAG5iVrBZ7uZka/PsnKohQP4j
+         5Ig6xbokfQxWbvrqqOP7Fe0/tljFqjZ80Gbua+AN6PMXq9s4R68pYsgeD7r1Fqj3pNs/
+         IsJOdPJ5t4WGOqRjC0s5L83yp/k8PHgJatpA0ED1TX7i2eDBvs0ELJvtm9oE+S+iWZcJ
+         bcp4PUVjR/UGlyu0CDmP1DmVV6MGtCGjLpoDfAMr7gwkoH0eoRQKU/i8LwAwcoASeSjp
+         Ylh8TlsWTOmutTIIZ3KXodzQRUC7kb6ikoJSb/vTaeiBtaot8jodWWYa5xiD4kkggAO8
+         O9Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wAYrV6F6G+t5gtx1fZuHs6BGJWDWpkiLa+6bzhMBPMw=;
+        b=klGKSMdb9pok0vM8+5rEtqTOiArlmHLU+Kve4ocDwdG09FbTaV7Mc27+IeZ9ThwIwX
+         Nvqg6CBbr5FvWTQnJAJjfdq3BHO9i31dfUXKsODLOnWIARszw/rWqCW7xEVAC90C+/OV
+         z5XC40CKpbJZDBKWGkOmSVGzIPIrQHNtpvtelFCtQLofvGzGdY27NEzNTEY2Uf26eJhD
+         XjzFR7dv7MWH/MV/il/gUAU4ObyVS4RE6Ig5+fs3J6GQup3JobAkmZupi0FrZ+F3U1f4
+         99oX+pjSvCJOg8XuVxWJST7fUdtgObX/x1KPdHLEG8p6mElOM107gPlG/CQQ5F8mjWUC
+         HLjQ==
+X-Gm-Message-State: AGi0PuZT3gcd9jkFlExgCvwNttPLoWgCnQuz3z/9ObHy1r1/G6rBhkMM
+        0LDYsa0DQ3YNpp443PnEL8M=
+X-Google-Smtp-Source: APiQypIGrLW0bPlJckdtYiMlXs17H02JiQkfUDEoX+VYMNZN6nQVg3T1qcLOBfWIiE8HKabTPloJSQ==
+X-Received: by 2002:aed:29e1:: with SMTP id o88mr2530139qtd.251.1586269817494;
+        Tue, 07 Apr 2020 07:30:17 -0700 (PDT)
+Received: from quaco.ghostprotocols.net ([179.97.37.151])
+        by smtp.gmail.com with ESMTPSA id w30sm17976587qtw.21.2020.04.07.07.30.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 07:30:16 -0700 (PDT)
+From:   Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
+X-Google-Original-From: Arnaldo Carvalho de Melo <acme@kernel.org>
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+        id 67DAA409A3; Tue,  7 Apr 2020 11:30:14 -0300 (-03)
+Date:   Tue, 7 Apr 2020 11:30:14 -0300
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
+        Song Liu <songliubraving@fb.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Stephane Eranian <eranian@google.com>,
+        Igor Lubashev <ilubashe@akamai.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH v8 00/12] Introduce CAP_PERFMON to secure system
+ performance monitoring and observability
+Message-ID: <20200407143014.GD11186@kernel.org>
+References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
+X-Url:  http://acmel.wordpress.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation claims that two sched groups must not overlap. This is
-no longer true, as overlapping sched groups are used on NUMA systems.
-This change has been introduced by commit e3589f6c81e47 and was
-documented by an in-code comment in commit 35a566e6e8a18.
+Em Thu, Apr 02, 2020 at 11:42:05AM +0300, Alexey Budankov escreveu:
+> This patch set introduces CAP_PERFMON capability designed to secure
+> system performance monitoring and observability operations so that
+> CAP_PERFMON would assist CAP_SYS_ADMIN capability in its governing role
+> for performance monitoring and observability subsystems of the kernel.
 
-Signed-off-by: Adrian Freund <adrian@freund.io>
----
- Documentation/scheduler/sched-domains.rst | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+So, what am I doing wrong?
 
-diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
-index f7504226f445..5c4b7f4f0062 100644
---- a/Documentation/scheduler/sched-domains.rst
-+++ b/Documentation/scheduler/sched-domains.rst
-@@ -19,10 +19,12 @@ CPUs".
- Each scheduling domain must have one or more CPU groups (struct sched_group)
- which are organised as a circular one way linked list from the ->groups
- pointer. The union of cpumasks of these groups MUST be the same as the
--domain's span. The intersection of cpumasks from any two of these groups
--MUST be the empty set. The group pointed to by the ->groups pointer MUST
--contain the CPU to which the domain belongs. Groups may be shared among
--CPUs as they contain read only data after they have been set up.
-+domain's span. The group pointed to by the ->groups pointer MUST contain the CPU
-+to which the domain belongs. Groups may be shared among CPUs as they contain
-+read only data after they have been set up. The intersection of cpumasks from
-+any two of these groups may be non empty. If this is the case the SD_OVERLAP
-+flag is set on the corresponding scheduling domain and its groups may not be
-+shared between CPUs.
- 
- Balancing within a sched domain occurs between groups. That is, each group
- is treated as one entity. The load of a group is defined as the sum of the
--- 
-2.26.0
+[perf@five ~]$ type perf
+perf is hashed (/home/perf/bin/perf)
+[perf@five ~]$
+[perf@five ~]$ ls -lahF /home/perf/bin/perf
+-rwxr-x---. 1 root perf_users 24M Apr  7 10:34 /home/perf/bin/perf*
+[perf@five ~]$
+[perf@five ~]$ getcap /home/perf/bin/perf
+[perf@five ~]$ perf top --stdio
+Error:
+You may not have permission to collect system-wide stats.
 
+Consider tweaking /proc/sys/kernel/perf_event_paranoid,
+which controls use of the performance events system by
+unprivileged users (without CAP_PERFMON or CAP_SYS_ADMIN).
+
+The current value is 2:
+
+  -1: Allow use of (almost) all events by all users
+      Ignore mlock limit after perf_event_mlock_kb without CAP_IPC_LOCK
+>= 0: Disallow ftrace function tracepoint by users without CAP_PERFMON or CAP_SYS_ADMIN
+      Disallow raw tracepoint access by users without CAP_SYS_PERFMON or CAP_SYS_ADMIN
+>= 1: Disallow CPU event access by users without CAP_PERFMON or CAP_SYS_ADMIN
+>= 2: Disallow kernel profiling by users without CAP_PERFMON or CAP_SYS_ADMIN
+
+To make this setting permanent, edit /etc/sysctl.conf too, e.g.:
+
+	kernel.perf_event_paranoid = -1
+
+[perf@five ~]$
+
+Ok, the message says I  need to have CAP_PERFMON, lets do it, using an
+unpatched libcap that doesn't know about it but we can use 38,
+CAP_PERFMON value instead, and I tested this with a patched libcap as
+well, same results:
+
+As root:
+
+[root@five bin]# setcap "38,cap_sys_ptrace,cap_syslog=ep" perf
+[root@five bin]#
+
+Back to the 'perf' user in the 'perf_users' group, ok, so now 'perf
+record -a' works for system wide sampling of cycles:u, i.e. only
+userspace samples, but 'perf top' is failing:
+
+[perf@five ~]$ type perf
+perf is hashed (/home/perf/bin/perf)
+[perf@five ~]$ getcap /home/perf/bin/perf
+/home/perf/bin/perf = cap_sys_ptrace,cap_syslog,38+ep
+[perf@five ~]$ groups
+perf perf_users
+[perf@five ~]$ id
+uid=1002(perf) gid=1002(perf) groups=1002(perf),1003(perf_users) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+[perf@five ~]$ perf top --stdio
+Error:
+Failed to mmap with 1 (Operation not permitted)
+[perf@five ~]$ perf record -a
+^C[ perf record: Woken up 1 times to write data ]
+[ perf record: Captured and wrote 1.177 MB perf.data (1552 samples) ]
+
+[perf@five ~]$ perf evlist
+cycles:u
+[perf@five ~]$
+
+- Arnaldo
