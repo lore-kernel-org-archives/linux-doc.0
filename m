@@ -2,148 +2,286 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C469C2BB55
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 15:35:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E38C2BA1A
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 15:54:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 23AB920771
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 15:35:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lLC8DsKJ"
+	by mail.kernel.org (Postfix) with ESMTP id 1769F20768
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 15:54:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729378AbgDGPfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 11:35:39 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:46520 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728994AbgDGPfj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 11:35:39 -0400
-Received: by mail-qk1-f196.google.com with SMTP id g74so1550769qke.13;
-        Tue, 07 Apr 2020 08:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VVevqv5RlYHEcc+VsjM+owOd+nD3tCu0YjZUMtZz+2E=;
-        b=lLC8DsKJm4ae32XuTyENAFQ7tiTN+O/hWLs2IA0fs7KcgrsRV35TfQfxfZPwO0fECQ
-         gPutAwzeLbJ1IOfB0Y1rs6Xm5wK2xfwCf5BMrnKRYR9H4SMxEBiW/8gb0+UFMHRWo/ke
-         bxc7iYuoSpc5js44pnAxjKBTfFPBZsu8iBwoURTouYO2CeOCM7u7xy69JnxXdQYvhYNI
-         LX87NbojQWNDUD+CLU22hh2g0LseuKH6QCYoAhvBWmiKfs19GMEmqXPwph5veTuqkRji
-         XjGkVdxx/b0to+rBhIvaY/APqrwYQZyJQWrwoI4XB8om0p6Ogv3rYVmXC0UyEruI8/5k
-         1dkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=VVevqv5RlYHEcc+VsjM+owOd+nD3tCu0YjZUMtZz+2E=;
-        b=IMcqNQNywmjAMrZY17oiFnl9S78zV5Dy8EPAkskdRLQXNIBKha9nFPJxFxl0nh+ZzD
-         hYQxhj/8VEcPKzjMnzElqDEs4jq/aGZqcgcj8zUYPRIkSHgki7QDrRAvYjoK9dHeovB6
-         nwzHTssrja+p43A3A7QlOrU2F1oz44w/omHqbOYgzxHlkjDSpb0tFso0FkCTYZI/vV8e
-         FtTIbth05X0yKc9OWV1I80nBHcIgZMM4UKAYp8q/YzAt/FncwYKaMvoais8n4h/cbxaf
-         h0B24yLg37h638KSbAzYzX6Q9F5x1OOuyJRykNLT171P1lCGeHxLbROgNe914qxmCZ+e
-         KfQQ==
-X-Gm-Message-State: AGi0Pub8/sqsDdA6lBqOsjWHJ3RF2HQHd9dba3bfmfdBjridFnaNnoTv
-        +8sQ53VzpFIfk1a4hhkwvmw=
-X-Google-Smtp-Source: APiQypLtjpuhHon36gDSxT/FeQxQ6So32gl0ImI03OBCbpdz9zSQPJyJaFdN5IxqvqxgxhD405xb0Q==
-X-Received: by 2002:a05:620a:13ae:: with SMTP id m14mr2851662qki.214.1586273737786;
-        Tue, 07 Apr 2020 08:35:37 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id h13sm8337986qkj.21.2020.04.07.08.35.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2020 08:35:37 -0700 (PDT)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Tue, 7 Apr 2020 11:35:35 -0400
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     linux-efi@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net, nivedita@alum.mit.edu,
-        bp@alien8.de
-Subject: Re: [PATCH] Documentation: efi/x86: clarify EFI handover protocol
- and its requirements
-Message-ID: <20200407153535.GA1627475@rani.riverdale.lan>
-References: <20200407153206.17360-1-ardb@kernel.org>
+        id S1727125AbgDGPyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 11:54:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62146 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726833AbgDGPyz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 11:54:55 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 037FYr55120757
+        for <linux-doc@vger.kernel.org>; Tue, 7 Apr 2020 11:54:53 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3082hydjxn-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2020 11:54:53 -0400
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <gerald.schaefer@de.ibm.com>;
+        Tue, 7 Apr 2020 16:54:39 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 7 Apr 2020 16:54:32 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 037Fshw958654742
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 7 Apr 2020 15:54:43 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 17FFE52059;
+        Tue,  7 Apr 2020 15:54:43 +0000 (GMT)
+Received: from thinkpad (unknown [9.145.186.71])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 2847C52050;
+        Tue,  7 Apr 2020 15:54:42 +0000 (GMT)
+Date:   Tue, 7 Apr 2020 17:54:40 +0200
+From:   Gerald Schaefer <gerald.schaefer@de.ibm.com>
+To:     Anshuman Khandual <anshuman.khandual@arm.com>
+Cc:     linux-mm@kvack.org, christophe.leroy@c-s.fr,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-riscv@lists.infradead.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>
+Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
+In-Reply-To: <e3e35885-6852-16aa-3889-e22750a0cc87@arm.com>
+References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
+ <20200331143059.29fca8fa@thinkpad>
+ <e3e35885-6852-16aa-3889-e22750a0cc87@arm.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200407153206.17360-1-ardb@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 20040715-0012-0000-0000-000003A01446
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20040715-0013-0000-0000-000021DD3634
+Message-Id: <20200407175440.41cc00a5@thinkpad>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-04-07_07:2020-04-07,2020-04-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ mlxscore=0 malwarescore=0 bulkscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 clxscore=1015 suspectscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004070128
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 07, 2020 at 05:32:06PM +0200, Ard Biesheuvel wrote:
-> The EFI handover protocol was introduced on x86 to permit the boot
-> loader to pass a populated boot_params structure as an additional
-> function argument to the entry point. This allows the bootloader to
-> pass the base and size of a initrd image, which is more flexible
-> than relying on the EFI stub's file I/O routines, which can only
-> access the file system from which the kernel image itself was loaded
-> from firmware.
+On Sun, 5 Apr 2020 17:58:14 +0530
+Anshuman Khandual <anshuman.khandual@arm.com> wrote:
+
+[...]
+> > 
+> > Could be fixed like this (the first de-reference is a bit special,
+> > because at that point *ptep does not really point to a large (pmd) entry
+> > yet, it is initially an invalid pte entry, which breaks our huge_ptep_get()  
 > 
-> This approach requires a fair amount of internal knowledge regarding
-> the layout of the boot_params structure on the part of the boot loader,
-> as well as knowledge regarding the allowed placement of the initrd in
-> memory, and so it has been deprecated in favour of a new initrd loading
-> method that is based on existing UEFI protocols and best practices.
+> There seems to be an inconsistency on s390 platform. Even though it defines
+> a huge_ptep_get() override, it does not subscribe __HAVE_ARCH_HUGE_PTEP_GET
+> which should have forced it fallback on generic huge_ptep_get() but it does
+> not :) Then I realized that __HAVE_ARCH_HUGE_PTEP_GET only makes sense when
+> an arch uses <asm-generic/hugetlb.h>. s390 does not use that and hence gets
+> away with it's own huge_ptep_get() without __HAVE_ARCH_HUGE_PTEP_GET. Sounds
+> confusing ? But I might not have the entire context here.
+
+Yes, that sounds very confusing. Also a bit ironic, since huge_ptep_get()
+was initially introduced because of s390, and now we don't select
+__HAVE_ARCH_HUGE_PTEP_GET...
+
+As you realized, I guess this is because we do not use generic hugetlb.h.
+And when __HAVE_ARCH_HUGE_PTEP_GET was introduced with commit 544db7597ad
+("hugetlb: introduce generic version of huge_ptep_get"), that was probably
+the reason why we did not get our share of __HAVE_ARCH_HUGE_PTEP_GET.
+
+Nothing really wrong with that, but yes, very confusing. Maybe we could
+also select it for s390, even though it wouldn't have any functional
+impact (so far), just for less confusion. Maybe also thinking about
+using the generic hugetlb.h, not sure if the original reasons for not
+doing so would still apply. Now I only need to find the time...
+
 > 
-> So update the x86 boot protocol documentation to clarify that the EFI
-> handover protocol has been deprecated, and while at it, add a note that
-> invoking the EFI handover protocol still requires the PE/COFF image to
-> be loader properly (as opposed to simply being copied into memory). Also,
-     ^^ typo
-> drop the code32_start header field from the list of values that need to be
-> provided, as this is no longer required.
+> > conversion logic. I also added PMD_MASK alignment for RANDOM_ORVALUE,
+> > because we do have some special bits there in our large pmds. It seems
+> > to also work w/o that alignment, but it feels a bit wrong):  
 > 
-> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> ---
->  Documentation/x86/boot.rst | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
+> Sure, we can accommodate that.
 > 
-> diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
-> index fa7ddc0428c8..22ac52921692 100644
-> --- a/Documentation/x86/boot.rst
-> +++ b/Documentation/x86/boot.rst
-> @@ -1399,14 +1399,19 @@ must have read/write permission; CS must be __BOOT_CS and DS, ES, SS
->  must be __BOOT_DS; interrupt must be disabled; %rsi must hold the base
->  address of the struct boot_params.
->  
-> -EFI Handover Protocol
-> -=====================
-> +EFI Handover Protocol (deprecated)
-> +==================================
->  
->  This protocol allows boot loaders to defer initialisation to the EFI
->  boot stub. The boot loader is required to load the kernel/initrd(s)
->  from the boot media and jump to the EFI handover protocol entry point
->  which is hdr->handover_offset bytes from the beginning of
->  startup_{32,64}.
-> +The boot loader MUST respect the kernel's PE/COFF metadata when it comes
-> +to section alignment, the memory footprint of the executable image beyond
-> +the size of the file itself, and any other aspect of the PE/COFF header
-> +that may affect correct operation of the image as a PE/COFF binary in the
-> +execution context provided by the EFI firmware.
->  
->  The function prototype for the handover entry point looks like this::
->  
-> @@ -1419,9 +1424,15 @@ UEFI specification. 'bp' is the boot loader-allocated boot params.
->  
->  The boot loader *must* fill out the following fields in bp::
->  
-> -  - hdr.code32_start
->    - hdr.cmd_line_ptr
->    - hdr.ramdisk_image (if applicable)
->    - hdr.ramdisk_size  (if applicable)
->  
->  All other fields should be zero.
-> +
-> +NOTE: The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
-> +      entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
-> +      loading protocol, which removes the need for any knowledge on the part of
-> +      the EFI bootloader regarding the internal representation of boot_params or
-> +      any requirements/limitations regarding the placement of the command line
-> +      and ramdisk in memory, or the placement of the kernel image itself.
-> -- 
-> 2.17.1
+> > 
+> > @@ -731,26 +731,26 @@ static void __init hugetlb_advanced_test
+> >                                           unsigned long vaddr, pgprot_t prot)
+> >  {
+> >         struct page *page = pfn_to_page(pfn);
+> > -       pte_t pte = READ_ONCE(*ptep);
+> > +       pte_t pte;
+> > 
+> > -       pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
+> > +       pte = pte_mkhuge(mk_pte_phys(RANDOM_ORVALUE & PMD_MASK, prot));  
 > 
+> So that keeps the existing value in 'ptep' pointer at bay and instead
+> construct a PTE from scratch. I would rather have READ_ONCE(*ptep) at
+> least provide the seed that can be ORed with RANDOM_ORVALUE before
+> being masked with PMD_MASK. Do you see any problem ?
+
+Yes, unfortunately. The problem is that the resulting pte is not marked
+as present. The conversion pte -> (huge) pmd, which is done in
+set_huge_pte_at() for s390, will establish an empty pmd for non-present
+ptes, all the RANDOM_ORVALUE stuff is lost. And a subsequent
+huge_ptep_get() will not result in the same original pte value. If you
+want to preserve and check the RANDOM_ORVALUE, it has to be a present
+pte, hence the mk_pte(_phys).
+
+> 
+> Some thing like this instead.
+> 
+> pte_t pte = READ_ONCE(*ptep);
+> pte = pte_mkhuge(__pte((pte_val(pte) | RANDOM_ORVALUE) & PMD_MASK));
+> 
+> We cannot use mk_pte_phys() as it is defined only on some platforms
+> without any generic fallback for others.
+
+Oh, didn't know that, sorry. What about using mk_pte() instead, at least
+it would result in a present pte:
+
+pte = pte_mkhuge(mk_pte(phys_to_page(RANDOM_ORVALUE & PMD_MASK), prot));
+
+And if you also want to do some with the existing value, which seems
+to be an empty pte, then maybe just check if writing and reading that
+value with set_huge_pte_at() / huge_ptep_get() returns the same,
+i.e. initially w/o RANDOM_ORVALUE.
+
+So, in combination, like this (BTW, why is the barrier() needed, it
+is not used for the other set_huge_pte_at() calls later?):
+
+@@ -733,24 +733,28 @@ static void __init hugetlb_advanced_test
+        struct page *page = pfn_to_page(pfn);
+        pte_t pte = READ_ONCE(*ptep);
+ 
+-       pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
++       set_huge_pte_at(mm, vaddr, ptep, pte);
++       WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
++
++       pte = pte_mkhuge(mk_pte(phys_to_page(RANDOM_ORVALUE & PMD_MASK), prot));
+        set_huge_pte_at(mm, vaddr, ptep, pte);
+        barrier();
+        WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
+
+This would actually add a new test "write empty pte with
+set_huge_pte_at(), then verify with huge_ptep_get()", which happens
+to trigger a warning on s390 :-)
+
+That (new) warning actually points to misbehavior on s390, we do not
+write a correct empty pmd in this case, but one that is empty and also
+marked as large. huge_ptep_get() will then not correctly recognize it
+as empty and do wrong conversion. It is also not consistent with
+huge_ptep_get_and_clear(), where we write the empty pmd w/o marking
+as large. Last but not least it would also break our pmd_protnone()
+logic (see below). Another nice finding on s390 :-)
+
+I don't think this has any effect in practice (yet), but I will post a
+fix for that, just in case you will add / change this test.
+
+> 
+> >         set_huge_pte_at(mm, vaddr, ptep, pte);
+> >         barrier();
+> >         WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
+> >         huge_pte_clear(mm, vaddr, ptep, PMD_SIZE);
+> > -       pte = READ_ONCE(*ptep);
+> > +       pte = huge_ptep_get(ptep);
+> >         WARN_ON(!huge_pte_none(pte));
+> >  
+> >         pte = mk_huge_pte(page, prot);
+> >         set_huge_pte_at(mm, vaddr, ptep, pte);
+> >         huge_ptep_set_wrprotect(mm, vaddr, ptep);
+> > -       pte = READ_ONCE(*ptep);
+> > +       pte = huge_ptep_get(ptep);
+> >         WARN_ON(huge_pte_write(pte));
+> >  
+> >         pte = mk_huge_pte(page, prot);
+> >         set_huge_pte_at(mm, vaddr, ptep, pte);
+> >         huge_ptep_get_and_clear(mm, vaddr, ptep);
+> > -       pte = READ_ONCE(*ptep);
+> > +       pte = huge_ptep_get(ptep);
+> >         WARN_ON(!huge_pte_none(pte));
+> >  
+> >         pte = mk_huge_pte(page, prot);
+> > @@ -759,7 +759,7 @@ static void __init hugetlb_advanced_test
+> >         pte = huge_pte_mkwrite(pte);
+> >         pte = huge_pte_mkdirty(pte);
+> >         huge_ptep_set_access_flags(vma, vaddr, ptep, pte, 1);
+> > -       pte = READ_ONCE(*ptep);
+> > +       pte = huge_ptep_get(ptep);
+> >         WARN_ON(!(huge_pte_write(pte) && huge_pte_dirty(pte)));
+> >  }
+> >  #else
+> > 
+> > 3) The pmd_protnone_tests() has an issue, because it passes a pmd to
+> > pmd_protnone() which has not been marked as large. We check for large
+> > pmd in the s390 implementation of pmd_protnone(), and will fail if a
+> > pmd is not large. We had similar issues before, in other helpers, where
+> > I changed the logic on s390 to not require the pmd large check, but I'm
+> > not so sure in this case. Is there a valid use case for doing
+> > pmd_protnone() on "normal" pmds? Or could this be changed like this:  
+> 
+> That is a valid question. IIUC, all existing callers for pmd_protnone()
+> ensure that it is indeed a huge PMD. But even assuming otherwise should
+> not the huge PMD requirement get checked in the caller itself rather than
+> in the arch helper which is just supposed to check the existence of the
+> dedicated PTE bit(s) for this purpose. Purely from a helper perspective
+> pmd_protnone() should not really care about being large even though it
+> might never get used without one.
+> 
+> Also all platforms (except s390) derive the pmd_protnone() from their
+> respective pte_protnone(). I wonder why should s390 be any different
+> unless it is absolutely necessary.
+
+This is again because of our different page table entry layouts for
+pte/pmd and (large) pmd. The bits we check for pmd_protnone() are
+not valid for normal pmd/pte, and we would return undefined result for
+normal entries.
+
+Of course, we could rely on nobody calling pmd_protnone() on normal
+pmds, but in this case we also use pmd_large() check in pmd_protnone()
+for indication if the pmd is present. W/o that, we would return
+true for empty pmds, that doesn't sound right. Not sure if we also
+want to rely on nobody calling pmd_protnone() on empty pmds.
+
+Anyway, if in practice it is not correct to use pmd_protnone()
+on normal pmds, then I would suggest that your tests should also
+not do / test it. And I strongly assume that it is not correct, at
+least I cannot think of a valid case, and of course s390 would
+already be broken if there was such a case.
+
+Regards,
+Gerald
+
