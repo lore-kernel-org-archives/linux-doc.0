@@ -2,87 +2,141 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9883BC2D0EC
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 18:45:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E40D7C2D0EC
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:03:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5D13520768
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 18:45:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A517A2076E
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:03:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RA82pSey"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Iu7XU9Q1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726277AbgDGSph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 14:45:37 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:33294 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726332AbgDGSph (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 14:45:37 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 22so4263601otf.0;
-        Tue, 07 Apr 2020 11:45:36 -0700 (PDT)
+        id S1727077AbgDGTDl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 15:03:41 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45171 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726794AbgDGTDl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 15:03:41 -0400
+Received: by mail-pg1-f196.google.com with SMTP id o26so2148794pgc.12
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2020 12:03:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=gIwQXo30ZMAIkBOcVj8rGDbZtlax11guTXEso2ZEUsc=;
-        b=RA82pSey4Yv0H/tle8kDxmXR1Vov50OhJn5NRQbpbw1I67v8xkwHPthpd4V10HbztQ
-         Aw19NCLdMMIXdPYAThrTk+yRNTAt8tBNO8kYsYk19mqNveMh/U/ELa2zRJjehtIidXcw
-         jPN1t1Gc6kz7F8T6uDLTKdf4zrQLCJ3sqeWWyN0vbZGaJWDRn4W5eyE5Ezbn9fXQQ3Gm
-         TnbsV7wdykH4lXmT23nNjX1ymuHgmO2gQwEy8pPCw9hhnuCWFAKx6QxJG2O/Kb9Ce2J/
-         JceREjngPoabEWKMFQyPw0yHzC7iiLNox76+9P26cZsrAwgls69319SRaxyRW2hL2JYH
-         qU2w==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+9ktnBB45aXlgSe0vRhpOUgxZAxDNe5YDUe3z1UsWXQ=;
+        b=Iu7XU9Q1UurBhDGdXS/vYjiFh68jWNQ8e06hHF28IR+07VW9uNQPZ2Orsrw+Pgq9BO
+         doulhBpDbe64U+hrCXWN+604MB1kGpL7KVRePvHJDGez6gbPRuZgDDeyN30VBzawqR6M
+         5HwFaxk16hCeVhMLwDt73YD8os8sIgrniSikPkS57lMVxuI5/UV0gB1uuMSwVUANffZd
+         1T4VFWplx4Puxa7YyCVMq95NNiVzc7cVwY9U6ShahHQ6UOUr5uQEOkT7mnuF9mRVqgm4
+         RqMjYoIoqb/2PtFFXepG8yBz/GVR2+PNOEB8wXFOTqoRX0nG+M0omn2qf5lJGgzM7QWi
+         4HqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gIwQXo30ZMAIkBOcVj8rGDbZtlax11guTXEso2ZEUsc=;
-        b=SlGlQ+7YnCP73POLQhgoZPGJAlk01gOqxeV58LrnhnZKxSdwfo0I4zX31NyFkSr+bn
-         AjdjodhS02h+3/kCvgXlILu2eGP5SdPe9sTi19X3ykEloKRzsReuni38fIFCdaEF/UHh
-         /E2hSwL1+UnEl4cA8WPZSCEPVYPLpA+ZmvGdBk+h+zOXDixMuafG4KFjpmX7xxD1eMbh
-         hjzC8BV0yLJC4y6gdtcoa5Z1h0WmBvdYQEYZT3VoeBE9/6+Y68llQA9c+x0Z00ufxoFn
-         BqnYfiUn1vB1vPVdVI+LrNAoqym8/5raohDv5DVD/0Gq7/KoMUGoNc/RK+X6kUUacbj/
-         urww==
-X-Gm-Message-State: AGi0PuaQLDpoO0W8Pa0D0xQGY3tOZ5HAAxOThvzG3fTT4c8v9rYNOAMZ
-        w09hOdUuYWP6ylR7WStBWag=
-X-Google-Smtp-Source: APiQypJdxahdG65tvuwC7Cm01mkk7QWp7VED5VN28r2S+3MBIbGJmdDYHkwOCW+U36ThYHo/KTaj1g==
-X-Received: by 2002:a05:6830:1348:: with SMTP id r8mr2688095otq.57.1586285135559;
-        Tue, 07 Apr 2020 11:45:35 -0700 (PDT)
-Received: from ubuntu-s3-xlarge-x86 ([2604:1380:4111:8b00::3])
-        by smtp.gmail.com with ESMTPSA id k132sm5609593oih.9.2020.04.07.11.45.34
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 07 Apr 2020 11:45:35 -0700 (PDT)
-Date:   Tue, 7 Apr 2020 11:45:33 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+9ktnBB45aXlgSe0vRhpOUgxZAxDNe5YDUe3z1UsWXQ=;
+        b=N6UN7AaeDmnpwnkOnPFQjl9vQZBrrdLT6V4tgRLlQ2LCQn2pmWqbekH+AkQ7hI9Y2z
+         XVSZw83PwoPTL65WHqE7BNEQStlktAR19SNq7ChpVru20nOLnMr5HuH+LUbW67hD+Q76
+         Az4+zcADg8N+z/elGjc6dIq6/uMGwUj13wimn9hbLlugzny+7D1UkhJtuBmHk4eUGBY7
+         QXylGg0EbAKN0X07kCdEAsQsxBPPs45QLEJmTVs1uW7nPMawSvmyR02mKuc3p240GhGU
+         XEgCpWdjA0NmM9RE6oWfFCfM//yqpY4UceAkxQx72H8GA5ZqQqueMAJU71d2l/1Ug7LF
+         kOgg==
+X-Gm-Message-State: AGi0PuZYmEOTQA409FuEmuDETB1YsCBCb720ISLehMq/GuoHvzmn8zM1
+        7olO6O6H6qY+0z+YHoSMWmWSNfurILPXlyhExOhEJg==
+X-Google-Smtp-Source: APiQypInHGpY7jZ4h51jJj3LKW1TA1Mq84UMe1r78naeeUH4EQq8+MTwZ3cUNL06uiOby8Imllg/eeIxoTxeqrNEbWM=
+X-Received: by 2002:aa7:919a:: with SMTP id x26mr3880195pfa.39.1586286220287;
+ Tue, 07 Apr 2020 12:03:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200407184336.14612-1-masahiroy@kernel.org>
+In-Reply-To: <20200407184336.14612-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 7 Apr 2020 12:03:29 -0700
+Message-ID: <CAKwvOd=pz7yWSyZ-v3uGNpc9u4zDAiycBrdGczp5oWrY7H_rvg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: replace AS=clang with LLVM_IA=1
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] kbuild: replace AS=clang with LLVM_IA=1
-Message-ID: <20200407184533.GA48427@ubuntu-s3-xlarge-x86>
-References: <20200407184336.14612-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200407184336.14612-1-masahiroy@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 08, 2020 at 03:43:35AM +0900, Masahiro Yamada wrote:
+On Tue, Apr 7, 2020 at 11:44 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
 > The 'AS' variable is unused for building the kernel. Only the remaining
 > usage is to turn on the integrated assembler. A boolean flag is a better
 > fit for this purpose.
-> 
+>
 > AS=clang was added for experts. So, I replaced it with LLVM_IA=1,
 > breaking the backward compatibility.
-> 
+>
 > Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Thank you for this series!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+> ---
+>
+> Changes in v2:
+>   - new patch
+>
+>  Documentation/kbuild/llvm.rst | 5 ++++-
+>  Makefile                      | 2 +-
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index eefbdfa3e4d9..2b40afa58049 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -50,11 +50,14 @@ LLVM Utilities
+>  LLVM has substitutes for GNU binutils utilities. These can be invoked as
+>  additional parameters to `make`.
+>
+> -       make CC=clang AS=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
+> +       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
+>           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \\
+>           READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
+>           HOSTLD=ld.lld
+>
+> +Currently, the integrated assembler is disabled by default. You can pass
+> +LLVM_IA=1 to enable it.
+> +
+>  Getting Help
+>  ------------
+>
+> diff --git a/Makefile b/Makefile
+> index 1b2691057cb5..f9beb696d6d3 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -538,7 +538,7 @@ endif
+>  ifneq ($(GCC_TOOLCHAIN),)
+>  CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
+>  endif
+> -ifeq ($(if $(AS),$(shell $(AS) --version 2>&1 | head -n 1 | grep clang)),)
+> +ifneq ($(LLVM_IA),1)
+>  CLANG_FLAGS    += -no-integrated-as
+>  endif
+>  CLANG_FLAGS    += -Werror=unknown-warning-option
+> --
+> 2.17.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200407184336.14612-1-masahiroy%40kernel.org.
+
+
+
+-- 
+Thanks,
+~Nick Desaulniers
