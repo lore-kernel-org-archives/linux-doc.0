@@ -2,58 +2,54 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 213E4C2D0EC
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:41:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB1AC2D0EC
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:44:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E016620730
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:41:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28B1820730
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 19:44:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbgDGTlt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 15:41:49 -0400
-Received: from ms.lwn.net ([45.79.88.28]:40634 "EHLO ms.lwn.net"
+        id S1726883AbgDGToP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 15:44:15 -0400
+Received: from ms.lwn.net ([45.79.88.28]:40656 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726712AbgDGTlt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Apr 2020 15:41:49 -0400
+        id S1726339AbgDGToP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Apr 2020 15:44:15 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DA85E728;
-        Tue,  7 Apr 2020 19:41:48 +0000 (UTC)
-Date:   Tue, 7 Apr 2020 13:41:47 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 305E460C;
+        Tue,  7 Apr 2020 19:44:15 +0000 (UTC)
+Date:   Tue, 7 Apr 2020 13:44:14 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: driver-api: address duplicate label warning
-Message-ID: <20200407134147.067ba4d8@lwn.net>
-In-Reply-To: <20200330060132.7773-1-lukas.bulwahn@gmail.com>
-References: <20200330060132.7773-1-lukas.bulwahn@gmail.com>
+To:     "Joakim =?UTF-8?B?TMO2bm5lZ3Jlbg==?=" <joakimlonnegren@gmail.com>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: driver-api/usb/writing_usb_driver.rst
+ Updates documentation links
+Message-ID: <20200407134414.77b1c34b@lwn.net>
+In-Reply-To: <20200312201354.285839-1-joakimlonnegren@gmail.om>
+References: <20200312201354.285839-1-joakimlonnegren@gmail.om>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 30 Mar 2020 08:01:32 +0200
-Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On Thu, 12 Mar 2020 17:13:55 -0300
+"Joakim Lönnegren" <joakimlonnegren@gmail.com> wrote:
 
-> Delete identically named subsection to fix Documentation warning:
+> In writing_usb_driver.rst:
+> Remove link to https://www.qbik.ch/usb/devices/ since it seems to be inactive since 2013
+> Update link to linux-usb mailing list archive
 > 
->   Documentation/driver-api/w1.rst:11: \
->   WARNING: duplicate label driver-api/w1:w1 api internal to the kernel, \
->   other instance in Documentation/driver-api/w1.rst
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> One of many doc warnings...
-> Jonathan, this patch is for you.
+> Signed-off-by: Joakim Lönnegren <joakimlonnegren@gmail.com>
 
-Applied, thanks.
+Applied, thanks; sorry for the delay.
 
 jon
