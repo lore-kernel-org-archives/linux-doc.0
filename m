@@ -2,137 +2,180 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DBA2C2BA80
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 17:32:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C6B3C2BA1A
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 17:46:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7168020771
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 17:32:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DB3D2082F
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 17:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586281619;
+	bh=IEqYwD+/yTV5lpDfioBKZo+wlOnwx9M3BgoD8Cf8inI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=LWxcIuoAh89iq8gAQAHx+cxk4FkbztDOh5Lp5kyJEREc/dtVlygpEpS+rNUmKuYVk
+	 ftWiI1tQbkj47Gk850lJdDhrnjZ7sQcqGSjJ3TA9GSScZbSwjlW9GztNrBnh+P7Mil
+	 SLvs2SxDYNYg45LlAZZeCfAYZA4OFNEHNjIjn6KM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726370AbgDGRcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 13:32:55 -0400
-Received: from mga02.intel.com ([134.134.136.20]:37436 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726277AbgDGRcz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Apr 2020 13:32:55 -0400
-IronPort-SDR: SiEaPv8kCtD9RrYOm4JVh9RojFbBfpGr29qJTW9qDSpR+fyfrsMxuoNnAua+K4Lj2i28snGAjo
- mlpJaiPt8hbQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2020 10:32:06 -0700
-IronPort-SDR: 0dN2uk5PE2UgARM11tbMKg7mcMpR7+n/WA5Rh9SUwkMp2YjAgenijHApg1r0OQUVlhgA3i7Uf+
- CL6T7AxCQMpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,356,1580803200"; 
-   d="scan'208";a="250310948"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga008.jf.intel.com with ESMTP; 07 Apr 2020 10:32:06 -0700
-Received: from [10.249.224.62] (abudanko-mobl.ccr.corp.intel.com [10.249.224.62])
-        by linux.intel.com (Postfix) with ESMTP id AED7858048A;
-        Tue,  7 Apr 2020 10:32:01 -0700 (PDT)
-Subject: Re: [PATCH v8 00/12] Introduce CAP_PERFMON to secure system
- performance monitoring and observability
-To:     Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
-        Song Liu <songliubraving@fb.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Stephane Eranian <eranian@google.com>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-man@vger.kernel.org
-References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
- <20200407143014.GD11186@kernel.org> <20200407143551.GF11186@kernel.org>
- <10cc74ee-8587-8cdb-f85f-5724b370a2ce@linux.intel.com>
- <20200407163654.GB12003@kernel.org>
- <85da1e42-2cf2-98ca-1e0c-2cf3469b7d30@linux.intel.com>
- <20200407170251.GE12003@kernel.org>
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <369aaea6-3532-859e-7f1a-4df7806351c5@linux.intel.com>
-Date:   Tue, 7 Apr 2020 20:32:00 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1726365AbgDGRq6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 13:46:58 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:23040 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726332AbgDGRq6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 13:46:58 -0400
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 037Hkfi4021890;
+        Wed, 8 Apr 2020 02:46:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 037Hkfi4021890
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1586281602;
+        bh=W8JU4ZdqtphrsLfo36sdrJqKVT9peXFuSNpLzYmGRP8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KQ32CoE6vGnxANJ1vo7wjPNojKvgkZQGCpmYdUq30o1oKwsWJbevbGZX2c74akTHV
+         mG3V3aC1qBv08hEUiaAv38G2Uv5FGBt7NjwGJxSWOIQyHJaKShhMY7Hfo4ijF0seaI
+         XOOCqYQj9svPSYad/6/MrhHY6JfKFD+lqz+kHCcstWy8I0PhI1vanp7yUfC1gQOECz
+         qNj9crhukCY8Vc3QcoVMDwtMy+uY9HAj311kea9bLq129hkao6czii436ViMylWiTa
+         FRSN6hIKN0HT2HMFqUggMk0lHB0GX8iJX2Nt1FcrQGiWgIEsZOyTFbS7lJZw+SpAj6
+         Td8qjMzxfWevg==
+X-Nifty-SrcIP: [209.85.222.49]
+Received: by mail-ua1-f49.google.com with SMTP id y17so1564219uap.13;
+        Tue, 07 Apr 2020 10:46:42 -0700 (PDT)
+X-Gm-Message-State: AGi0PubiEbQijp3VAMbH7ejzMWKidelpkEX99Lrm0C5usoyImgmv/qdN
+        HrWGMQIeJAbZdCy+Tw9lxslpO1lJ84L2TPU88s8=
+X-Google-Smtp-Source: APiQypL0lGxoDy3XTsgexzG6gSdFm4/73ugftZ4GObxBOtaXUO+wEwIZgBYmG3ZinZ6BOUGFWDei5mSD9PrEhbFlitw=
+X-Received: by 2002:a9f:28c5:: with SMTP id d63mr2669722uad.25.1586281600679;
+ Tue, 07 Apr 2020 10:46:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200407170251.GE12003@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200403051709.22407-1-masahiroy@kernel.org> <20200406112220.GB126804@google.com>
+ <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com> <CAKwvOdmHxeZ+T1OsOhW25pPygHM4D21OgZqRk141xbjP437-1w@mail.gmail.com>
+In-Reply-To: <CAKwvOdmHxeZ+T1OsOhW25pPygHM4D21OgZqRk141xbjP437-1w@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 8 Apr 2020 02:46:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARSMvGZ6T4Ct=U4Xe1WQCgkaWE8m8BxRuYiaokKVjA_ig@mail.gmail.com>
+Message-ID: <CAK7LNARSMvGZ6T4Ct=U4Xe1WQCgkaWE8m8BxRuYiaokKVjA_ig@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to Clang/LLVM
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Matthias Maennich <maennich@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Apr 8, 2020 at 2:01 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> On Tue, Apr 7, 2020 at 9:17 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Mon, Apr 6, 2020 at 8:22 PM 'Matthias Maennich' via Clang Built
+> > Linux <clang-built-linux@googlegroups.com> wrote:
+> > >
+> > > On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
+> > > >As Documentation/kbuild/llvm.rst implies, building the kernel with a
+> > > >full set of LLVM tools gets very verbose and unwieldy.
+> > > >
+> > > >Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
+> > > >GCC and Binutils. You can pass LLVM=1 from the command line or as an
+> > > >environment variable. Then, Kbuild will use LLVM toolchains in your
+> > > >PATH environment.
+> > > >
+> > > >Please note LLVM=1 does not turn on the LLVM integrated assembler.
+> > > >You need to explicitly pass AS=clang to use it. When the upstream
+> > > >kernel is ready for the integrated assembler, I think we can make
+> > > >it default.
+> > > >
+> > > >We discussed what we need, and we agreed to go with a simple boolean
+> > > >switch (https://lkml.org/lkml/2020/3/28/494).
+> > > >
+> > > >Some items in the discussion:
+> > > >
+> > > >- LLVM_DIR
+> > > >
+> > > >  When multiple versions of LLVM are installed, I just thought supporting
+> > > >  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
+> > > >
+> > > >  CC      = $(LLVM_DIR)clang
+> > > >  LD      = $(LLVM_DIR)ld.lld
+> > > >    ...
+> > > >
+> > > >  However, we can handle this by modifying PATH. So, we decided to not do
+> > > >  this.
+> > > >
+> > > >- LLVM_SUFFIX
+> > > >
+> > > >  Some distributions (e.g. Debian) package specific versions of LLVM with
+> > > >  naming conventions that use the version as a suffix.
+> > > >
+> > > >  CC      = clang$(LLVM_SUFFIX)
+> > > >  LD      = ld.lld(LLVM_SUFFIX)
+> > > >    ...
+> > > >
+> > > >  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
+> > > >  but the suffixed versions in /usr/bin/ are symlinks to binaries in
+> > > >  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
+> > > >
+> > > >- HOSTCC, HOSTCXX, etc.
+> > > >
+> > > >  We can switch the host compilers in the same way:
+> > > >
+> > > >  ifneq ($(LLVM),)
+> > > >  HOSTCC       = clang
+> > > >  HOSTCXX      = clang++
+> > > >  else
+> > > >  HOSTCC       = gcc
+> > > >  HOSTCXX      = g++
+> > > >  endif
+> > > >
+> > > >  This may the right thing to do, but I could not make up my mind.
+> > > >  Because we do not frequently switch the host compiler, a counter
+> > > >  solution I had in my mind was to leave it to the default of the
+> > > >  system.
+> > > >
+> > > >  HOSTCC       = cc
+> > > >  HOSTCXX      = c++
+> > >
+> > > What about HOSTLD ? I saw recently, that setting HOSTLD=ld.lld is not
+> > > yielding the expected result (some tools, like e.g. fixdep still require
+> > > an `ld` to be in PATH to be built). I did not find the time to look into
+> > > that yet, but I would like to consistently switch to the llvm toolchain
+> > > (including linker and possibly more) also for hostprogs.
+> >
+> >
+> > HOSTLD=ld.lld worked for me, but HOSTCC=clang did not.
+> >
+> >
+> >
+> > HOSTCC=clang without CC=clang fails to build objtool.
+> >
+> > The build system of objtool is meh.  :(
+>
+> Let's tackle that in a follow up, with the goal of build hermiticity
+> in mind.  I think there's good feedback in this thread to inform the
+> design of a v2:
+> 1. CLANG_AS=0 to disable integrated as.  Hopefully we won't need this
+> much longer, so we don't need to spend too much time on this, Masahiro
+> please just choose a name for this.  llvm-as naming conventions
+> doesn't follow the rest of binutils.
 
-On 07.04.2020 20:02, Arnaldo Carvalho de Melo wrote:
-> Em Tue, Apr 07, 2020 at 07:52:56PM +0300, Alexey Budankov escreveu:
->>
->> On 07.04.2020 19:36, Arnaldo Carvalho de Melo wrote:
->>> Em Tue, Apr 07, 2020 at 05:54:27PM +0300, Alexey Budankov escreveu:
->>>> Could makes sense adding cap_ipc_lock to the binary to isolate from this:
-> 
->>>> kernel/events/core.c: 6101
->>>> 	if ((locked > lock_limit) && perf_is_paranoid() &&
->>>> 		!capable(CAP_IPC_LOCK)) {
->>>> 		ret = -EPERM;
->>>> 		goto unlock;
->>>> 	}
-> 
->>> That did the trick, I'll update the documentation and include in my
->>> "Committer testing" section:
->  
->> Looks like top mode somehow reaches perf mmap limit described here [1].
->> Using -m option solves the issue avoiding cap_ipc_lock on my 8 cores machine:
->> perf top -e cycles -m 1
-> 
-> So this would read better?
-> 
-> diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
-> index ed33682e26b0..d44dd24b0244 100644
-> --- a/Documentation/admin-guide/perf-security.rst
-> +++ b/Documentation/admin-guide/perf-security.rst
-> @@ -127,8 +127,8 @@ taken to create such groups of privileged Perf users.
->  
->  ::
->  
-> -   # setcap "cap_perfmon,cap_ipc_lock,cap_sys_ptrace,cap_syslog=ep" perf
-> -   # setcap -v "cap_perfmon,cap_ipc_lock,cap_sys_ptrace,cap_syslog=ep" perf
-> +   # setcap "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" perf
-> +   # setcap -v "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" perf
->     perf: OK
->     # getcap perf
->     perf = cap_sys_ptrace,cap_syslog,cap_perfmon+ep
-> @@ -140,6 +140,10 @@ i.e.:
->  
->     # setcap "38,cap_ipc_lock,cap_sys_ptrace,cap_syslog=ep" perf
->  
-> +Note that you may need to have 'cap_ipc_lock' in the mix for tools such as
-> +'perf top', alternatively use 'perf top -m N', to reduce the memory that
-> +it uses for the perf ring buffer, see the memory allocation section below.
-> +
+I am not so familiar with the terminology in LLVM,
+but I feel 'integrated' is a keyword IMHO.
+I prefer LLVM_IA=1.  (or  LLVM_INTEGRATED_AS=1)
 
-Let's stay with the first variant of you addition to this patch and also 
-extend the paragraph below as suggested in other mail in the thread.
 
->  As a result, members of perf_users group are capable of conducting
->  performance monitoring and observability by using functionality of the
->  configured Perf tool executable that, when executes, passes perf_events
-> 
+> 2. HOSTCC=clang HOSTLD=ld.lld set by LLVM=1 for helping with build hermiticity.
+>
 
-Thanks,
-Alexey
 
+
+
+-- 
+Best Regards
+Masahiro Yamada
