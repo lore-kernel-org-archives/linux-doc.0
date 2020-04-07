@@ -2,295 +2,299 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04E4EC2BA1A
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:56:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2811C2BA80
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 17:01:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BD4C82078C
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:56:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 715F0206C0
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 17:01:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VCu0XFbi"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ma3VTOaM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbgDGQ4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 12:56:49 -0400
-Received: from mail-qv1-f66.google.com ([209.85.219.66]:46533 "EHLO
-        mail-qv1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726545AbgDGQ4s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 12:56:48 -0400
-Received: by mail-qv1-f66.google.com with SMTP id bu9so2140012qvb.13;
-        Tue, 07 Apr 2020 09:56:46 -0700 (PDT)
+        id S1726650AbgDGRBU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 13:01:20 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:40257 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726527AbgDGRBT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 13:01:19 -0400
+Received: by mail-pl1-f196.google.com with SMTP id h11so1462401plk.7
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2020 10:01:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ttVTDWvDUE2qStBRzIO3f1EibC3mcgA/+aBRHYOyWyg=;
-        b=VCu0XFbiL/ioeMWf3d0DmcyjXbKFEcqt0Iq5E56vhpaYXy6fo6NMYPCPzMp2I6xrhl
-         2DIvqTU7gFEOe6ilXw8bv49bzJ/itrR1WKkqCk9fjCP0KfnI7UxpzhU8aL4/zBJdOpYN
-         P0AURKKI5B9rHGvyX6hznYepctg1aBomsUEdlSyxCrDsaLaxWL/pUrDQckExK+33T4IF
-         7BpNIKiSGQkUWamxRg3ViYS7JJWTpb49X5iGq+2uy2U8iKKqOKu6ElsMIdOALDBA8RTL
-         +mPSaKaOJdcL+HrFioKHVEekBaUVxondXzLLDn1TVCumBNfsHdbnvLba9W04zuRE6psP
-         qNIg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BKA4RM51A82x/5SpJbkyD9gWBCDUmnDILyC/0E/dflg=;
+        b=ma3VTOaM3ccztMgbWUch6c9Nop0cKlddfRdpAgSYy7156lYP1wdkteuId5JaVDSzgv
+         pstITV0JnBjl18ZnTE6upqD3TrTmYjV1BhYYPm/isptuMEyFwY+neCeERdoMYIA7FceE
+         xNVwlvSMjCG83B8EHkpPJnmePjhK+X4KiRdfPjVc0byiuKoVyK5E3bk9YI6Dlvga6ir7
+         cVDQCpvkxG0SJFNfsJ0E5vidb8x267+9UBHEhnGyzZW9eCxi1GQ3ezR3fHYst8oiLvLz
+         IFstetzqRlAla/WuwKTX5ClMVQozR86gOzJMPoKJLbYQRPkqoo62sEBKwhW77lGPmRfM
+         5SKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ttVTDWvDUE2qStBRzIO3f1EibC3mcgA/+aBRHYOyWyg=;
-        b=XPg5DQ0Ec34xQWg62Rt+L87NQ6FVZ5yV68Mw2N3dJMrDEIwb05bN+38oeZ/E6/vMlW
-         1l9QS0yryrpEQS8sHefMHGKFyfUJ4eUne9VgqA2jClIFRZVZ2pEpITIBFGI2D3pfdFYg
-         dbNvwpk9mwhqN92JKQWaicC4tDfFXelxr/p8JbU9+P1zh23GJIsXJG7BqjBD3CnQ0cKk
-         YxJvUSU2QakIDy8kGdLqENyhTG7ewVi4iEKM5pd3SJD2+kZ9UyKHshXRmezntiZuK/Uu
-         wKqbscPDcoY3LSeYWxM2tVvcxAYe1vAaAtAfW3Txgt7uueTSViSYkpJ8xQrjmASLhlwL
-         Kziw==
-X-Gm-Message-State: AGi0PuYG/NeHmFtjtYmhHGa0mI/h0mlhHaAcVgG7KeQWqXHQQNLP4+1q
-        9OWdCdKqViWfQO+oCrpw5hw=
-X-Google-Smtp-Source: APiQypIxOjrb0yQEzFMKAO6PcPMee5NNKWkp6L2koFL+gMEYejH9Za4s5KUD8s4DZ9GnxlZFuacI4w==
-X-Received: by 2002:a0c:a899:: with SMTP id x25mr3292954qva.232.1586278606135;
-        Tue, 07 Apr 2020 09:56:46 -0700 (PDT)
-Received: from quaco.ghostprotocols.net ([179.97.37.151])
-        by smtp.gmail.com with ESMTPSA id u26sm2981184qku.54.2020.04.07.09.56.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2020 09:56:45 -0700 (PDT)
-From:   Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
-X-Google-Original-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id 61B98409A3; Tue,  7 Apr 2020 13:56:43 -0300 (-03)
-Date:   Tue, 7 Apr 2020 13:56:43 -0300
-To:     Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
-Cc:     Alexey Budankov <alexey.budankov@linux.intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
-        Song Liu <songliubraving@fb.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Stephane Eranian <eranian@google.com>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH v8 00/12] Introduce CAP_PERFMON to secure system
- performance monitoring and observability
-Message-ID: <20200407165643.GD12003@kernel.org>
-References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
- <20200407143014.GD11186@kernel.org>
- <20200407143551.GF11186@kernel.org>
- <10cc74ee-8587-8cdb-f85f-5724b370a2ce@linux.intel.com>
- <20200407163654.GB12003@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BKA4RM51A82x/5SpJbkyD9gWBCDUmnDILyC/0E/dflg=;
+        b=pxiHcFNMJy6l/9J/8p58vSDRqIEmQe1ynNZRsoIhZLe+kM/7lnxbNn2sK9/cNXFoBO
+         ES9m7y7hfmExTpR0bbXpaGd7rri6wtZAIUF4iCrZ7bYVcD7OfKtCmAO2rqm9ET3Yka3Z
+         e/4hZTk3rmZLjp0ToeLR78XPCnAhsymydv+oCwNXc+xsvpXqsLSSQMdZkvLR+pLN8ymz
+         ZaxzwSaaxNAwWV0x+qm7x4yj14KODgS8mu3P9II7VN/Dt8mw0L3reHQjMbTwABISZC+H
+         L9yHJL1Wct3PsUQmGLq4mJn9RAi16gAlpR/OESnDrkIRer+8W996Z4HpJ/2IkkGme3C+
+         yeKQ==
+X-Gm-Message-State: AGi0PuZ0PQ63z5Ro+Ob3lTy0GWhf4GVs/PhLBmsjlBCgv61cB5XKuzr4
+        vbiuBjxw/oWsQVb06N1K2xEFefqUF2L3Cven8Lhx/g==
+X-Google-Smtp-Source: APiQypLwGulDH+WJsMgYCIEQ0C1UrzVbHqpMJvqU9FEJJ+53A81wLeMpTOTAACHxZBxyCdDBD0SwVckZrPDO4CnpsWc=
+X-Received: by 2002:a17:90a:8085:: with SMTP id c5mr276765pjn.186.1586278877201;
+ Tue, 07 Apr 2020 10:01:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200407163654.GB12003@kernel.org>
-X-Url:  http://acmel.wordpress.com
+References: <20200403051709.22407-1-masahiroy@kernel.org> <20200406112220.GB126804@google.com>
+ <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
+In-Reply-To: <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 7 Apr 2020 10:01:04 -0700
+Message-ID: <CAKwvOdmHxeZ+T1OsOhW25pPygHM4D21OgZqRk141xbjP437-1w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to Clang/LLVM
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Matthias Maennich <maennich@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, Apr 07, 2020 at 01:36:54PM -0300, Arnaldo Carvalho de Melo escreveu:
-> Em Tue, Apr 07, 2020 at 05:54:27PM +0300, Alexey Budankov escreveu:
-> > On 07.04.2020 17:35, Arnaldo Carvalho de Melo wrote:
-> > > Em Tue, Apr 07, 2020 at 11:30:14AM -0300, Arnaldo Carvalho de Melo escreveu:
-> > >> [perf@five ~]$ type perf
-> > >> perf is hashed (/home/perf/bin/perf)
-> > >> [perf@five ~]$ getcap /home/perf/bin/perf
-> > >> /home/perf/bin/perf = cap_sys_ptrace,cap_syslog,38+ep
-> > >> [perf@five ~]$ groups
-> > >> perf perf_users
-> > >> [perf@five ~]$ id
-> > >> uid=1002(perf) gid=1002(perf) groups=1002(perf),1003(perf_users) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
-> > >> [perf@five ~]$ perf top --stdio
-> > >> Error:
-> > >> Failed to mmap with 1 (Operation not permitted)
-> > >> [perf@five ~]$ perf record -a
-> > >> ^C[ perf record: Woken up 1 times to write data ]
-> > >> [ perf record: Captured and wrote 1.177 MB perf.data (1552 samples) ]
-> > >>
-> > >> [perf@five ~]$ perf evlist
-> > >> cycles:u
-> > >> [perf@five ~]$
-> > > 
-> > > Humm, perf record falls back to cycles:u after initially trying cycles
-> > > (i.e. kernel and userspace), lemme see trying 'perf top -e cycles:u',
-> > > lemme test, humm not really:
-> > > 
-> > > [perf@five ~]$ perf top --stdio -e cycles:u
-> > > Error:
-> > > Failed to mmap with 1 (Operation not permitted)
-> > > [perf@five ~]$ perf record -e cycles:u -a sleep 1
-> > > [ perf record: Woken up 1 times to write data ]
-> > > [ perf record: Captured and wrote 1.123 MB perf.data (132 samples) ]
-> > > [perf@five ~]$
-> > > 
-> > > Back to debugging this.
-> > 
-> > Could makes sense adding cap_ipc_lock to the binary to isolate from this:
-> > 
-> > kernel/events/core.c: 6101
-> > 	if ((locked > lock_limit) && perf_is_paranoid() &&
-> > 		!capable(CAP_IPC_LOCK)) {
-> > 		ret = -EPERM;
-> > 		goto unlock;
-> > 	}
-> 
-> 
-> That did the trick, I'll update the documentation and include in my
-> "Committer testing" section:
-> 
-> [perf@five ~]$ groups
-> perf perf_users
-> [perf@five ~]$ ls -lahF bin/perf
-> -rwxr-x---. 1 root perf_users 24M Apr  7 10:34 bin/perf*
-> [perf@five ~]$ getcap bin/perf
-> bin/perf = cap_ipc_lock,cap_sys_ptrace,cap_syslog,38+ep
-> [perf@five ~]$
-> [perf@five ~]$ perf top --stdio
-> 
-> 
->    PerfTop:     652 irqs/sec  kernel:73.8%  exact: 99.7% lost: 0/0 drop: 0/0 [4000Hz cycles:u],  (all, 12 CPUs)
-> ---------------------------------------------------------------------------------------------------------------
-> 
->     13.03%  [kernel]               [k] module_get_kallsym
->      5.25%  [kernel]               [k] kallsyms_expand_symbol.constprop.0
->      5.00%  libc-2.30.so           [.] __GI_____strtoull_l_internal
->      4.41%  [kernel]               [k] memcpy
->      3.42%  [kernel]               [k] vsnprintf
->      2.98%  perf                   [.] map__process_kallsym_symbol
->      2.86%  [kernel]               [k] format_decode
->      2.73%  [kernel]               [k] number
->      2.70%  perf                   [.] rb_next
->      2.59%  perf                   [.] maps__split_kallsyms
->      2.54%  [kernel]               [k] string_nocheck
->      1.90%  libc-2.30.so           [.] _IO_getdelim
->      1.86%  [kernel]               [k] __x86_indirect_thunk_rax
->      1.53%  libc-2.30.so           [.] _int_malloc
->      1.48%  libc-2.30.so           [.] __memmove_avx_unaligned_erms
->      1.40%  [kernel]               [k] clear_page_rep
->      1.07%  perf                   [.] rb_insert_color
->      1.01%  libc-2.30.so           [.] _IO_feof
->      0.99%  perf                   [.] __dso__load_kallsyms
->      0.98%  [kernel]               [k] s_next
->      0.96%  perf                   [.] __rblist__findnew
->      0.95%  [kernel]               [k] strlen
->      0.95%  perf                   [.] arch__symbols__fixup_end
->      0.94%  libpixman-1.so.0.38.4  [.] 0x000000000006f4af
->      0.94%  perf                   [.] symbol__new
->      0.89%  libpixman-1.so.0.38.4  [.] 0x000000000006f4a0
->      0.86%  [kernel]               [k] seq_read
->      0.81%  libpixman-1.so.0.38.4  [.] 0x000000000006f4ab
->      0.80%  perf                   [.] __symbols__insert
->      0.73%  libpixman-1.so.0.38.4  [.] 0x000000000006f4a7
->      0.67%  [kernel]               [k] s_show
->      0.66%  libc-2.30.so           [.] __libc_calloc
->      0.61%  libpixman-1.so.0.38.4  [.] 0x000000000006f4bb
->      0.59%  [kernel]               [k] get_page_from_freelist
->      0.59%  perf                   [.] memcpy@plt
->      0.58%  perf                   [.] eprintf
-> exiting.
-> [perf@five ~]$
-> 
-> There is still something strange in here, the event is cycles:u (see at
-> the PerfTop line, but it is getting kernel samples :-\
+On Tue, Apr 7, 2020 at 9:17 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Mon, Apr 6, 2020 at 8:22 PM 'Matthias Maennich' via Clang Built
+> Linux <clang-built-linux@googlegroups.com> wrote:
+> >
+> > On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
+> > >As Documentation/kbuild/llvm.rst implies, building the kernel with a
+> > >full set of LLVM tools gets very verbose and unwieldy.
+> > >
+> > >Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
+> > >GCC and Binutils. You can pass LLVM=1 from the command line or as an
+> > >environment variable. Then, Kbuild will use LLVM toolchains in your
+> > >PATH environment.
+> > >
+> > >Please note LLVM=1 does not turn on the LLVM integrated assembler.
+> > >You need to explicitly pass AS=clang to use it. When the upstream
+> > >kernel is ready for the integrated assembler, I think we can make
+> > >it default.
+> > >
+> > >We discussed what we need, and we agreed to go with a simple boolean
+> > >switch (https://lkml.org/lkml/2020/3/28/494).
+> > >
+> > >Some items in the discussion:
+> > >
+> > >- LLVM_DIR
+> > >
+> > >  When multiple versions of LLVM are installed, I just thought supporting
+> > >  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
+> > >
+> > >  CC      = $(LLVM_DIR)clang
+> > >  LD      = $(LLVM_DIR)ld.lld
+> > >    ...
+> > >
+> > >  However, we can handle this by modifying PATH. So, we decided to not do
+> > >  this.
+> > >
+> > >- LLVM_SUFFIX
+> > >
+> > >  Some distributions (e.g. Debian) package specific versions of LLVM with
+> > >  naming conventions that use the version as a suffix.
+> > >
+> > >  CC      = clang$(LLVM_SUFFIX)
+> > >  LD      = ld.lld(LLVM_SUFFIX)
+> > >    ...
+> > >
+> > >  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
+> > >  but the suffixed versions in /usr/bin/ are symlinks to binaries in
+> > >  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
+> > >
+> > >- HOSTCC, HOSTCXX, etc.
+> > >
+> > >  We can switch the host compilers in the same way:
+> > >
+> > >  ifneq ($(LLVM),)
+> > >  HOSTCC       = clang
+> > >  HOSTCXX      = clang++
+> > >  else
+> > >  HOSTCC       = gcc
+> > >  HOSTCXX      = g++
+> > >  endif
+> > >
+> > >  This may the right thing to do, but I could not make up my mind.
+> > >  Because we do not frequently switch the host compiler, a counter
+> > >  solution I had in my mind was to leave it to the default of the
+> > >  system.
+> > >
+> > >  HOSTCC       = cc
+> > >  HOSTCXX      = c++
+> >
+> > What about HOSTLD ? I saw recently, that setting HOSTLD=ld.lld is not
+> > yielding the expected result (some tools, like e.g. fixdep still require
+> > an `ld` to be in PATH to be built). I did not find the time to look into
+> > that yet, but I would like to consistently switch to the llvm toolchain
+> > (including linker and possibly more) also for hostprogs.
+>
+>
+> HOSTLD=ld.lld worked for me, but HOSTCC=clang did not.
+>
+>
+>
+> HOSTCC=clang without CC=clang fails to build objtool.
+>
+> The build system of objtool is meh.  :(
 
-So running with 'perf top --stdio -vv 2> /tmp/output' I see we try
-create three events, the first is some capability querying, then we try
-to determine the max precision level, but continue with
-attr.exclude_kernel=1, which shouldn't be the case, perhaps we're seeing
-that it is not the root in the tooling part, and end up setting that to
-1 as, previously, we knew it would fail, so we should switch to checking
-if we have cap_perfmon too, will check that:
+Let's tackle that in a follow up, with the goal of build hermiticity
+in mind.  I think there's good feedback in this thread to inform the
+design of a v2:
+1. CLANG_AS=0 to disable integrated as.  Hopefully we won't need this
+much longer, so we don't need to spend too much time on this, Masahiro
+please just choose a name for this.  llvm-as naming conventions
+doesn't follow the rest of binutils.
+2. HOSTCC=clang HOSTLD=ld.lld set by LLVM=1 for helping with build hermiticity.
 
-------------------------------------------------------------
-perf_event_attr:
-  type                             1
-  size                             120
-  config                           0x9
-  watermark                        1
-  sample_id_all                    1
-  bpf_event                        1
-  { wakeup_events, wakeup_watermark } 1
-------------------------------------------------------------
-------------------------------------------------------------
-perf_event_attr:
-  size                             120
-  { sample_period, sample_freq }   4000
-  sample_type                      IP|TID|TIME|CPU|PERIOD
-  read_format                      ID
-  disabled                         1
-  inherit                          1
-  exclude_kernel                   1
-  mmap                             1
-  comm                             1
-  freq                             1
-  task                             1
-  precise_ip                       3
-  sample_id_all                    1
-  exclude_guest                    1
-  mmap2                            1
-  comm_exec                        1
-  ksymbol                          1
-  bpf_event                        1
-------------------------------------------------------------
-------------------------------------------------------------
-perf_event_attr:
-  size                             120
-  { sample_period, sample_freq }   4000
-  sample_type                      IP|TID|TIME|CPU|PERIOD
-  read_format                      ID
-  disabled                         1
-  inherit                          1
-  exclude_kernel                   1
-  mmap                             1
-  comm                             1
-  freq                             1
-  task                             1
-  precise_ip                       2
-  sample_id_all                    1
-  exclude_guest                    1
-  mmap2                            1
-  comm_exec                        1
-  ksymbol                          1
-  bpf_event                        1
-------------------------------------------------------------
+>
+>
+>   HOSTCC  scripts/mod/sumversion.o
+>   HOSTLD  scripts/mod/modpost
+>   CALL    scripts/checksyscalls.sh
+>   CALL    scripts/atomic/check-atomics.sh
+>   DESCEND  objtool
+> error: unknown warning option '-Wstrict-aliasing=3'; did you mean
+> '-Wstring-plus-int'? [-Werror,-Wunknown-warning-option]
+>   HOSTCC   /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep.o
+>   HOSTLD   /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep-in.o
+>   LINK     /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep
+>   CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/exec-cmd.o
+>   CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/help.o
+>   CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/pager.o
+>
+>
+>
+>
+>
+>
+> > Cheers,
+> > Matthias
+> >
+> > >
+> > >  Many distributions support update-alternatives to switch the default
+> > >  to GCC, Clang, or whatever, but reviewers were opposed to this
+> > >  approach. So, this commit does not touch the host tools.
+> > >
+> > >Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > >---
+> > >
+> > > Documentation/kbuild/kbuild.rst |  5 +++++
+> > > Documentation/kbuild/llvm.rst   |  5 +++++
+> > > Makefile                        | 20 ++++++++++++++++----
+> > > 3 files changed, 26 insertions(+), 4 deletions(-)
+> > >
+> > >diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> > >index 510f38d7e78a..2d1fc03d346e 100644
+> > >--- a/Documentation/kbuild/kbuild.rst
+> > >+++ b/Documentation/kbuild/kbuild.rst
+> > >@@ -262,3 +262,8 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
+> > > These two variables allow to override the user@host string displayed during
+> > > boot and in /proc/version. The default value is the output of the commands
+> > > whoami and host, respectively.
+> > >+
+> > >+LLVM
+> > >+----
+> > >+If this variable is set to 1, Kbuild will use Clang and LLVM utilities instead
+> > >+of GCC and GNU binutils to build the kernel.
+> > >diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> > >index d6c79eb4e23e..4602369f6a4f 100644
+> > >--- a/Documentation/kbuild/llvm.rst
+> > >+++ b/Documentation/kbuild/llvm.rst
+> > >@@ -55,6 +55,11 @@ additional parameters to `make`.
+> > >         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
+> > >         HOSTLD=ld.lld
+> > >
+> > >+You can use a single switch `LLVM=1` to use LLVM utilities by default (except
+> > >+for building host programs).
+> > >+
+> > >+      make LLVM=1 HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+> > >+
+> > > Getting Help
+> > > ------------
+> > >
+> > >diff --git a/Makefile b/Makefile
+> > >index c91342953d9e..6db89ecdd942 100644
+> > >--- a/Makefile
+> > >+++ b/Makefile
+> > >@@ -409,16 +409,28 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+> > > KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+> > >
+> > > # Make variables (CC, etc...)
+> > >-LD            = $(CROSS_COMPILE)ld
+> > >-CC            = $(CROSS_COMPILE)gcc
+> > > CPP           = $(CC) -E
+> > >+ifneq ($(LLVM),)
+> > >+CC            = clang
+> > >+LD            = ld.lld
+> > >+AR            = llvm-ar
+> > >+NM            = llvm-nm
+> > >+OBJCOPY               = llvm-objcopy
+> > >+OBJDUMP               = llvm-objdump
+> > >+READELF               = llvm-readelf
+> > >+OBJSIZE               = llvm-size
+> > >+STRIP         = llvm-strip
+> > >+else
+> > >+CC            = $(CROSS_COMPILE)gcc
+> > >+LD            = $(CROSS_COMPILE)ld
+> > > AR            = $(CROSS_COMPILE)ar
+> > > NM            = $(CROSS_COMPILE)nm
+> > >-STRIP         = $(CROSS_COMPILE)strip
+> > > OBJCOPY               = $(CROSS_COMPILE)objcopy
+> > > OBJDUMP               = $(CROSS_COMPILE)objdump
+> > >-OBJSIZE               = $(CROSS_COMPILE)size
+> > > READELF               = $(CROSS_COMPILE)readelf
+> > >+OBJSIZE               = $(CROSS_COMPILE)size
+> > >+STRIP         = $(CROSS_COMPILE)strip
+> > >+endif
+> > > PAHOLE                = pahole
+> > > LEX           = flex
+> > > YACC          = bison
+> > >--
+> > >2.17.1
+> > >
+> > >--
+> > >You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> > >To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> > >To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200403051709.22407-1-masahiroy%40kernel.org.
+> >
+> > --
+> > You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> > To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200406112220.GB126804%40google.com.
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA%40mail.gmail.com.
 
-But then, even with that attr.exclude_kernel set to 1 we _still_ get
-kernel samples, which looks like another bug, now trying with strace,
-which leads us to another rabbit hole:
 
-[perf@five ~]$ strace -e perf_event_open -o /tmp/out.put perf top --stdio
-Error:
-You may not have permission to collect system-wide stats.
 
-Consider tweaking /proc/sys/kernel/perf_event_paranoid,
-which controls use of the performance events system by
-unprivileged users (without CAP_PERFMON or CAP_SYS_ADMIN).
-
-The current value is 2:
-
-  -1: Allow use of (almost) all events by all users
-      Ignore mlock limit after perf_event_mlock_kb without CAP_IPC_LOCK
->= 0: Disallow ftrace function tracepoint by users without CAP_PERFMON or CAP_SYS_ADMIN
-      Disallow raw tracepoint access by users without CAP_SYS_PERFMON or CAP_SYS_ADMIN
->= 1: Disallow CPU event access by users without CAP_PERFMON or CAP_SYS_ADMIN
->= 2: Disallow kernel profiling by users without CAP_PERFMON or CAP_SYS_ADMIN
-
-To make this setting permanent, edit /etc/sysctl.conf too, e.g.:
-
-	kernel.perf_event_paranoid = -1
-
-[perf@five ~]$
-
-If I remove that strace -e ... from the front, 'perf top' is back
-working as a non-cap_sys_admin user, just with cap_perfmon.
-
-- Arnaldo
+-- 
+Thanks,
+~Nick Desaulniers
