@@ -2,185 +2,163 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1D75C2BB55
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 17:53:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1291AC2BA80
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 18:15:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BC9A620771
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 17:53:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nAefzkZ2"
+	by mail.kernel.org (Postfix) with ESMTP id D80182063A
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 18:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbgDGRxW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 13:53:22 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:36437 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726332AbgDGRxV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 13:53:21 -0400
-Received: by mail-pf1-f194.google.com with SMTP id n10so1146918pff.3
-        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2020 10:53:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IZsnHknmPnzlDnnD+lsQB+SUZRKz07GU9C9BlgnfmqY=;
-        b=nAefzkZ2JinyQVrK0n8MAikkoMhgx+2j7FIdTNzirnsibGhl1/ylmS9MckoCSPcMb8
-         dRSjnFECwT2RvISJR+xYvmQ/xy6L0148d4mdHPpIsERRxpYZXRO3sKuXnMPRnGhH+gnd
-         2pQMBdjOFQKmY75VSFEhg+4Jf41epd7vMuwTcMRqlF3K/eWMUKqWffaB+6qJGL6qDweb
-         VVIv+/v6NhVSbVfgdDCnmRMXKZDhX8nbYLcdk1cwCaceANNvWGIiT3q7rYhe4zu9w4qy
-         J9x/+QmbdeIGyzQHl8tNcqFzwrUtLYmKickm7OYk9HCN7aYHpQBRZMjyclL278K7la5R
-         ys1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IZsnHknmPnzlDnnD+lsQB+SUZRKz07GU9C9BlgnfmqY=;
-        b=osR0Vgs9YaqVlDGRz057JXLDSfPbikyWQh5JDn+J4d5vxPYXsspz+fZs84Cud9wXk7
-         wnz/mr1QrLeEPBAjc1Ug7j5GBT/LZ3JaZv3HiYL5KvS5zDh7vBS/iO0WgMaB3+oQA3JE
-         FZ9d6xWjXhWPVUKR3pqR+o35sEh+R4z6XgddvZkdBCpaLLfjM1d9EtTq1LtPnJXm+t9h
-         NsbnNeZ7+1vFNEU4dDtvpWAPQbON+aF05jwCxiIjBAaB/cO7f3gL2syjZqlXXnEIsW2A
-         +tshuYZYo9ni6C8aD/sXsDtCgzFOTaHgyTdlFbR+yogWS9Howd0MORN9+iQZWVGA328V
-         Mqpg==
-X-Gm-Message-State: AGi0PubWWQAWeXrDgjJvNhF5VWjYyVjlMhD0NaihkXst86OvnotVnKB4
-        q6DehqazvmL0IMnkS8mhrLXj4vNCNqczEmJFKwvi4HR1
-X-Google-Smtp-Source: APiQypLB3JMGfjj1f8dB6FLLTXomkxBIMaJn/cb7wImwzv7yIcwXQzsSVve3/b4RHeQVbVDMWtqdmcz5Rs9M4XVTndc=
-X-Received: by 2002:a62:e415:: with SMTP id r21mr3651186pfh.169.1586281999850;
- Tue, 07 Apr 2020 10:53:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200403051709.22407-1-masahiroy@kernel.org> <20200406112220.GB126804@google.com>
- <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
- <CAKwvOdmHxeZ+T1OsOhW25pPygHM4D21OgZqRk141xbjP437-1w@mail.gmail.com> <CAK7LNARSMvGZ6T4Ct=U4Xe1WQCgkaWE8m8BxRuYiaokKVjA_ig@mail.gmail.com>
-In-Reply-To: <CAK7LNARSMvGZ6T4Ct=U4Xe1WQCgkaWE8m8BxRuYiaokKVjA_ig@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 7 Apr 2020 10:53:08 -0700
-Message-ID: <CAKwvOdkicpNMqQipZ+AMTEz7JVou3bkcKiQ3Cih20qH0hoziDg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to Clang/LLVM
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Matthias Maennich <maennich@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        id S1726651AbgDGSO7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 14:14:59 -0400
+Received: from mga11.intel.com ([192.55.52.93]:7315 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726380AbgDGSO7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Apr 2020 14:14:59 -0400
+IronPort-SDR: sWPo7ahmYzt2gzCFCyAnVLINzSO06zNZ5b2uNofdOn87uTqIp2gexTYA3840XSZ1G7MqNYIvlE
+ VoLEQeMuVftw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2020 11:14:58 -0700
+IronPort-SDR: kJCrsPjoVYdbrOIa/DsHhlgy3v2nC4JN+UUwMGWfglVpv1BJLsoVZYjqnzPZ63YyNHofXQ22Jn
+ Cr26BsaSkbgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,356,1580803200"; 
+   d="scan'208";a="451316171"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga005.fm.intel.com with ESMTP; 07 Apr 2020 11:14:58 -0700
+Message-ID: <444d97c4a4f70ccbb12da5e8f7ff498b37a9f60d.camel@intel.com>
+Subject: Re: [RFC PATCH v9 14/27] mm: Handle Shadow Stack page fault
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jian Cai <jiancai@google.com>,
-        Stephen Hines <srhines@google.com>,
-        Luis Lozano <llozano@google.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Tue, 07 Apr 2020 11:14:58 -0700
+In-Reply-To: <4902a6ee-cb0f-2700-1f6d-9d756593183c@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-15-yu-cheng.yu@intel.com>
+         <4902a6ee-cb0f-2700-1f6d-9d756593183c@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 7, 2020 at 10:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Wed, Apr 8, 2020 at 2:01 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
-> >
-> > On Tue, Apr 7, 2020 at 9:17 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > On Mon, Apr 6, 2020 at 8:22 PM 'Matthias Maennich' via Clang Built
-> > > Linux <clang-built-linux@googlegroups.com> wrote:
-> > > >
-> > > > On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
-> > > > >As Documentation/kbuild/llvm.rst implies, building the kernel with a
-> > > > >full set of LLVM tools gets very verbose and unwieldy.
-> > > > >
-> > > > >Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
-> > > > >GCC and Binutils. You can pass LLVM=1 from the command line or as an
-> > > > >environment variable. Then, Kbuild will use LLVM toolchains in your
-> > > > >PATH environment.
-> > > > >
-> > > > >Please note LLVM=1 does not turn on the LLVM integrated assembler.
-> > > > >You need to explicitly pass AS=clang to use it. When the upstream
-> > > > >kernel is ready for the integrated assembler, I think we can make
-> > > > >it default.
-> > > > >
-> > > > >We discussed what we need, and we agreed to go with a simple boolean
-> > > > >switch (https://lkml.org/lkml/2020/3/28/494).
-> > > > >
-> > > > >Some items in the discussion:
-> > > > >
-> > > > >- LLVM_DIR
-> > > > >
-> > > > >  When multiple versions of LLVM are installed, I just thought supporting
-> > > > >  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
-> > > > >
-> > > > >  CC      = $(LLVM_DIR)clang
-> > > > >  LD      = $(LLVM_DIR)ld.lld
-> > > > >    ...
-> > > > >
-> > > > >  However, we can handle this by modifying PATH. So, we decided to not do
-> > > > >  this.
-> > > > >
-> > > > >- LLVM_SUFFIX
-> > > > >
-> > > > >  Some distributions (e.g. Debian) package specific versions of LLVM with
-> > > > >  naming conventions that use the version as a suffix.
-> > > > >
-> > > > >  CC      = clang$(LLVM_SUFFIX)
-> > > > >  LD      = ld.lld(LLVM_SUFFIX)
-> > > > >    ...
-> > > > >
-> > > > >  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
-> > > > >  but the suffixed versions in /usr/bin/ are symlinks to binaries in
-> > > > >  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
-> > > > >
-> > > > >- HOSTCC, HOSTCXX, etc.
-> > > > >
-> > > > >  We can switch the host compilers in the same way:
-> > > > >
-> > > > >  ifneq ($(LLVM),)
-> > > > >  HOSTCC       = clang
-> > > > >  HOSTCXX      = clang++
-> > > > >  else
-> > > > >  HOSTCC       = gcc
-> > > > >  HOSTCXX      = g++
-> > > > >  endif
-> > > > >
-> > > > >  This may the right thing to do, but I could not make up my mind.
-> > > > >  Because we do not frequently switch the host compiler, a counter
-> > > > >  solution I had in my mind was to leave it to the default of the
-> > > > >  system.
-> > > > >
-> > > > >  HOSTCC       = cc
-> > > > >  HOSTCXX      = c++
-> > > >
-> > > > What about HOSTLD ? I saw recently, that setting HOSTLD=ld.lld is not
-> > > > yielding the expected result (some tools, like e.g. fixdep still require
-> > > > an `ld` to be in PATH to be built). I did not find the time to look into
-> > > > that yet, but I would like to consistently switch to the llvm toolchain
-> > > > (including linker and possibly more) also for hostprogs.
-> > >
-> > >
-> > > HOSTLD=ld.lld worked for me, but HOSTCC=clang did not.
-> > >
-> > >
-> > >
-> > > HOSTCC=clang without CC=clang fails to build objtool.
-> > >
-> > > The build system of objtool is meh.  :(
-> >
-> > Let's tackle that in a follow up, with the goal of build hermiticity
-> > in mind.  I think there's good feedback in this thread to inform the
-> > design of a v2:
-> > 1. CLANG_AS=0 to disable integrated as.  Hopefully we won't need this
-> > much longer, so we don't need to spend too much time on this, Masahiro
-> > please just choose a name for this.  llvm-as naming conventions
-> > doesn't follow the rest of binutils.
->
-> I am not so familiar with the terminology in LLVM,
-> but I feel 'integrated' is a keyword IMHO.
-> I prefer LLVM_IA=1.  (or  LLVM_INTEGRATED_AS=1)
+On Wed, 2020-02-26 at 16:08 -0800, Dave Hansen wrote:
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index 45442d9a4f52..6daa28614327 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
+> > @@ -772,7 +772,8 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+> >  	 * If it's a COW mapping, write protect it both
+> >  	 * in the parent and the child
+> >  	 */
+> > -	if (is_cow_mapping(vm_flags) && pte_write(pte)) {
+> > +	if ((is_cow_mapping(vm_flags) && pte_write(pte)) ||
+> > +	    arch_copy_pte_mapping(vm_flags)) {
+> >  		ptep_set_wrprotect(src_mm, addr, src_pte);
+> >  		pte = pte_wrprotect(pte);
+> >  	}
+> 
+> You have to modify this because pte_write()==0 for shadow stack PTEs, right?
+> 
+> Aren't shadow stack ptes *logically* writable, even if they don't have
+> the write bit set?  What would happen if we made pte_write()==1 for them?
 
-I'm happy with either, and I trust your judgement.  You choose.
-Hopefully we will fix all our assembler bugs soon and won't need the
-flag much longer.
+Here the vm_flags needs to have VM_MAYWRITE, and the PTE needs to have
+_PAGE_WRITE.  A shadow stack does not have either.
 
--- 
-Thanks,
-~Nick Desaulniers
+To fix checking vm_flags, what about adding a "arch_is_cow_mappping()" to the
+generic is_cow_mapping()?
+
+For the PTE, the check actually tries to determine if the PTE is not already
+being copy-on-write, which is:
+
+	(!_PAGE_RW && !_PAGE_DIRTY_HW)
+
+So what about making it pte_cow()?
+
+	/*
+	 * The PTE is in copy-on-write status.
+	 */
+	static inline int pte_cow(pte_t pte)
+	{
+		return !(pte_flags(pte) & (_PAGE_WRITE | _PAGE_DIRTY_HW));
+	}
+> 
+> > @@ -2417,6 +2418,7 @@ static inline void wp_page_reuse(struct vm_fault *vmf)
+> >  	flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
+> >  	entry = pte_mkyoung(vmf->orig_pte);
+> >  	entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> > +	entry = pte_set_vma_features(entry, vma);
+> >  	if (ptep_set_access_flags(vma, vmf->address, vmf->pte, entry, 1))
+> >  		update_mmu_cache(vma, vmf->address, vmf->pte);
+> >  	pte_unmap_unlock(vmf->pte, vmf->ptl);
+> > @@ -2504,6 +2506,7 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
+> >  		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
+> >  		entry = mk_pte(new_page, vma->vm_page_prot);
+> >  		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> > +		entry = pte_set_vma_features(entry, vma);
+> >  		/*
+> >  		 * Clear the pte entry and flush it first, before updating the
+> >  		 * pte with the new entry. This will avoid a race condition
+> > @@ -3023,6 +3026,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+> >  	pte = mk_pte(page, vma->vm_page_prot);
+> >  	if ((vmf->flags & FAULT_FLAG_WRITE) && reuse_swap_page(page, NULL)) {
+> >  		pte = maybe_mkwrite(pte_mkdirty(pte), vma);
+> > +		pte = pte_set_vma_features(pte, vma);
+> >  		vmf->flags &= ~FAULT_FLAG_WRITE;
+> >  		ret |= VM_FAULT_WRITE;
+> >  		exclusive = RMAP_EXCLUSIVE;
+> > @@ -3165,6 +3169,7 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
+> >  	entry = mk_pte(page, vma->vm_page_prot);
+> >  	if (vma->vm_flags & VM_WRITE)
+> >  		entry = pte_mkwrite(pte_mkdirty(entry));
+> > +	entry = pte_set_vma_features(entry, vma);
+> >  
+> >  	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
+> >  			&vmf->ptl);
+> > 
+> 
+> These seem wrong, or at best inconsistent with what's already done.
+> 
+> We don't need anything like pte_set_vma_features() today because we have
+> vma->vm_page_prot.  We could easily have done what you suggest here for
+> things like protection keys: ignore the pkey PTE bits until we create
+> the final PTE then shove them in there.
+> 
+> What are the bit patterns of the shadow stack bits that come out of
+> these sites?  Can they be represented in ->vm_page_prot?
+
+Yes, we can put _PAGE_DIRTY_HW in vm_page_prot.  Also set the bit in
+ptep_set_access_flags() for shadow stack PTEs.
+
