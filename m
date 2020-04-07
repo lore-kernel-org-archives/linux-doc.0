@@ -2,286 +2,273 @@ Return-Path: <SRS0=OmAX=5X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E38C2BA1A
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 15:54:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C106C2BA1A
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:17:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1769F20768
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 15:54:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D6E6A20730
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Apr 2020 16:17:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586276270;
+	bh=1Ii/fUZbmODAmt3UvY6LyNgYB/xr8/fw9wqMh33TMJk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=ugHxSUfwQ0Ycb07MD+q5Vg8ssucGulFfPUITNPYqaWknjiHuTzqHLSAxqyYY+wBaN
+	 pX8LblpA4hguS5iZskKWostgAcE4Q+PpjsK9KRbUDZbOysHJZ3WoSJP7fklVP2kS/X
+	 B4PhfC0fBUTdkK0HBhYZCwSIJ1Z78Qxbhr0BhELg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727125AbgDGPyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 11:54:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62146 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726833AbgDGPyz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 11:54:55 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 037FYr55120757
-        for <linux-doc@vger.kernel.org>; Tue, 7 Apr 2020 11:54:53 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3082hydjxn-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2020 11:54:53 -0400
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <gerald.schaefer@de.ibm.com>;
-        Tue, 7 Apr 2020 16:54:39 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 7 Apr 2020 16:54:32 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 037Fshw958654742
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 7 Apr 2020 15:54:43 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 17FFE52059;
-        Tue,  7 Apr 2020 15:54:43 +0000 (GMT)
-Received: from thinkpad (unknown [9.145.186.71])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 2847C52050;
-        Tue,  7 Apr 2020 15:54:42 +0000 (GMT)
-Date:   Tue, 7 Apr 2020 17:54:40 +0200
-From:   Gerald Schaefer <gerald.schaefer@de.ibm.com>
-To:     Anshuman Khandual <anshuman.khandual@arm.com>
-Cc:     linux-mm@kvack.org, christophe.leroy@c-s.fr,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>
-Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
-In-Reply-To: <e3e35885-6852-16aa-3889-e22750a0cc87@arm.com>
-References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
- <20200331143059.29fca8fa@thinkpad>
- <e3e35885-6852-16aa-3889-e22750a0cc87@arm.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727738AbgDGQRt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 12:17:49 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:44477 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726877AbgDGQRt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 12:17:49 -0400
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 037GHUZs032382;
+        Wed, 8 Apr 2020 01:17:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 037GHUZs032382
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1586276252;
+        bh=DV4fQlgdI60yXyAogQu5G2vroWmj19GJw8loLCiMBRg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=tIcqkHoLC5M96nj3x2YzVV9UUsr/y742KxfC3UNs1GBac2JewzoFBmOxYTBtiKndB
+         0fKUAY50qcGORe5YCImxGdRuRa8tR3wIWQzDQpEkyAVLOdJM+cbFHpwolrd75zt7P4
+         X9oArUiTTwEfKgzYa46h4TpYxzB1vc9PpcQYx3h9q+5Fb5lzIIg0BTucTxMZdoBSZP
+         766dWaGeXVX2PdFEXprPqVmnz97T0SVMGkg74/vwy61+EtuaY/JnHTxmXPlM6KkMy3
+         7C7/wdy8TuAseKrHrhZabi8aschGhRkjicjWUmVpsMfB8PuJveBkVzMqNTeibJOmPA
+         rjx5BY4ZgtMPg==
+X-Nifty-SrcIP: [209.85.222.42]
+Received: by mail-ua1-f42.google.com with SMTP id y17so1444131uap.13;
+        Tue, 07 Apr 2020 09:17:31 -0700 (PDT)
+X-Gm-Message-State: AGi0Puap5sTB/c8cgnYuW05LFJiu/G08Em97wd2/OOp+4tGZvb+Gcq+P
+        29Ka5deyMu5KENxpSKCUeTO496g8bViG7FV+hbY=
+X-Google-Smtp-Source: APiQypL4774Th5H69SOlepN/aoOiTYdYrF9dl4AWXBc+K+44ia0npli6ilqGytimcT0x8H+qc/pPnnfHO64GS5LOK6M=
+X-Received: by 2002:a9f:28c5:: with SMTP id d63mr2335006uad.25.1586276250105;
+ Tue, 07 Apr 2020 09:17:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20040715-0012-0000-0000-000003A01446
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20040715-0013-0000-0000-000021DD3634
-Message-Id: <20200407175440.41cc00a5@thinkpad>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
- definitions=2020-04-07_07:2020-04-07,2020-04-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- mlxscore=0 malwarescore=0 bulkscore=0 adultscore=0 phishscore=0
- lowpriorityscore=0 clxscore=1015 suspectscore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004070128
+References: <20200403051709.22407-1-masahiroy@kernel.org> <20200406112220.GB126804@google.com>
+In-Reply-To: <20200406112220.GB126804@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 8 Apr 2020 01:16:53 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
+Message-ID: <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to Clang/LLVM
+To:     Matthias Maennich <maennich@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 5 Apr 2020 17:58:14 +0530
-Anshuman Khandual <anshuman.khandual@arm.com> wrote:
+On Mon, Apr 6, 2020 at 8:22 PM 'Matthias Maennich' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
+>
+> On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
+> >As Documentation/kbuild/llvm.rst implies, building the kernel with a
+> >full set of LLVM tools gets very verbose and unwieldy.
+> >
+> >Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
+> >GCC and Binutils. You can pass LLVM=1 from the command line or as an
+> >environment variable. Then, Kbuild will use LLVM toolchains in your
+> >PATH environment.
+> >
+> >Please note LLVM=1 does not turn on the LLVM integrated assembler.
+> >You need to explicitly pass AS=clang to use it. When the upstream
+> >kernel is ready for the integrated assembler, I think we can make
+> >it default.
+> >
+> >We discussed what we need, and we agreed to go with a simple boolean
+> >switch (https://lkml.org/lkml/2020/3/28/494).
+> >
+> >Some items in the discussion:
+> >
+> >- LLVM_DIR
+> >
+> >  When multiple versions of LLVM are installed, I just thought supporting
+> >  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
+> >
+> >  CC      = $(LLVM_DIR)clang
+> >  LD      = $(LLVM_DIR)ld.lld
+> >    ...
+> >
+> >  However, we can handle this by modifying PATH. So, we decided to not do
+> >  this.
+> >
+> >- LLVM_SUFFIX
+> >
+> >  Some distributions (e.g. Debian) package specific versions of LLVM with
+> >  naming conventions that use the version as a suffix.
+> >
+> >  CC      = clang$(LLVM_SUFFIX)
+> >  LD      = ld.lld(LLVM_SUFFIX)
+> >    ...
+> >
+> >  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
+> >  but the suffixed versions in /usr/bin/ are symlinks to binaries in
+> >  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
+> >
+> >- HOSTCC, HOSTCXX, etc.
+> >
+> >  We can switch the host compilers in the same way:
+> >
+> >  ifneq ($(LLVM),)
+> >  HOSTCC       = clang
+> >  HOSTCXX      = clang++
+> >  else
+> >  HOSTCC       = gcc
+> >  HOSTCXX      = g++
+> >  endif
+> >
+> >  This may the right thing to do, but I could not make up my mind.
+> >  Because we do not frequently switch the host compiler, a counter
+> >  solution I had in my mind was to leave it to the default of the
+> >  system.
+> >
+> >  HOSTCC       = cc
+> >  HOSTCXX      = c++
+>
+> What about HOSTLD ? I saw recently, that setting HOSTLD=ld.lld is not
+> yielding the expected result (some tools, like e.g. fixdep still require
+> an `ld` to be in PATH to be built). I did not find the time to look into
+> that yet, but I would like to consistently switch to the llvm toolchain
+> (including linker and possibly more) also for hostprogs.
 
-[...]
-> > 
-> > Could be fixed like this (the first de-reference is a bit special,
-> > because at that point *ptep does not really point to a large (pmd) entry
-> > yet, it is initially an invalid pte entry, which breaks our huge_ptep_get()  
-> 
-> There seems to be an inconsistency on s390 platform. Even though it defines
-> a huge_ptep_get() override, it does not subscribe __HAVE_ARCH_HUGE_PTEP_GET
-> which should have forced it fallback on generic huge_ptep_get() but it does
-> not :) Then I realized that __HAVE_ARCH_HUGE_PTEP_GET only makes sense when
-> an arch uses <asm-generic/hugetlb.h>. s390 does not use that and hence gets
-> away with it's own huge_ptep_get() without __HAVE_ARCH_HUGE_PTEP_GET. Sounds
-> confusing ? But I might not have the entire context here.
 
-Yes, that sounds very confusing. Also a bit ironic, since huge_ptep_get()
-was initially introduced because of s390, and now we don't select
-__HAVE_ARCH_HUGE_PTEP_GET...
+HOSTLD=ld.lld worked for me, but HOSTCC=clang did not.
 
-As you realized, I guess this is because we do not use generic hugetlb.h.
-And when __HAVE_ARCH_HUGE_PTEP_GET was introduced with commit 544db7597ad
-("hugetlb: introduce generic version of huge_ptep_get"), that was probably
-the reason why we did not get our share of __HAVE_ARCH_HUGE_PTEP_GET.
 
-Nothing really wrong with that, but yes, very confusing. Maybe we could
-also select it for s390, even though it wouldn't have any functional
-impact (so far), just for less confusion. Maybe also thinking about
-using the generic hugetlb.h, not sure if the original reasons for not
-doing so would still apply. Now I only need to find the time...
 
-> 
-> > conversion logic. I also added PMD_MASK alignment for RANDOM_ORVALUE,
-> > because we do have some special bits there in our large pmds. It seems
-> > to also work w/o that alignment, but it feels a bit wrong):  
-> 
-> Sure, we can accommodate that.
-> 
-> > 
-> > @@ -731,26 +731,26 @@ static void __init hugetlb_advanced_test
-> >                                           unsigned long vaddr, pgprot_t prot)
-> >  {
-> >         struct page *page = pfn_to_page(pfn);
-> > -       pte_t pte = READ_ONCE(*ptep);
-> > +       pte_t pte;
-> > 
-> > -       pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
-> > +       pte = pte_mkhuge(mk_pte_phys(RANDOM_ORVALUE & PMD_MASK, prot));  
-> 
-> So that keeps the existing value in 'ptep' pointer at bay and instead
-> construct a PTE from scratch. I would rather have READ_ONCE(*ptep) at
-> least provide the seed that can be ORed with RANDOM_ORVALUE before
-> being masked with PMD_MASK. Do you see any problem ?
+HOSTCC=clang without CC=clang fails to build objtool.
 
-Yes, unfortunately. The problem is that the resulting pte is not marked
-as present. The conversion pte -> (huge) pmd, which is done in
-set_huge_pte_at() for s390, will establish an empty pmd for non-present
-ptes, all the RANDOM_ORVALUE stuff is lost. And a subsequent
-huge_ptep_get() will not result in the same original pte value. If you
-want to preserve and check the RANDOM_ORVALUE, it has to be a present
-pte, hence the mk_pte(_phys).
+The build system of objtool is meh.  :(
 
-> 
-> Some thing like this instead.
-> 
-> pte_t pte = READ_ONCE(*ptep);
-> pte = pte_mkhuge(__pte((pte_val(pte) | RANDOM_ORVALUE) & PMD_MASK));
-> 
-> We cannot use mk_pte_phys() as it is defined only on some platforms
-> without any generic fallback for others.
 
-Oh, didn't know that, sorry. What about using mk_pte() instead, at least
-it would result in a present pte:
+  HOSTCC  scripts/mod/sumversion.o
+  HOSTLD  scripts/mod/modpost
+  CALL    scripts/checksyscalls.sh
+  CALL    scripts/atomic/check-atomics.sh
+  DESCEND  objtool
+error: unknown warning option '-Wstrict-aliasing=3'; did you mean
+'-Wstring-plus-int'? [-Werror,-Wunknown-warning-option]
+  HOSTCC   /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep.o
+  HOSTLD   /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep-in.o
+  LINK     /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep
+  CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/exec-cmd.o
+  CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/help.o
+  CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/pager.o
 
-pte = pte_mkhuge(mk_pte(phys_to_page(RANDOM_ORVALUE & PMD_MASK), prot));
 
-And if you also want to do some with the existing value, which seems
-to be an empty pte, then maybe just check if writing and reading that
-value with set_huge_pte_at() / huge_ptep_get() returns the same,
-i.e. initially w/o RANDOM_ORVALUE.
 
-So, in combination, like this (BTW, why is the barrier() needed, it
-is not used for the other set_huge_pte_at() calls later?):
 
-@@ -733,24 +733,28 @@ static void __init hugetlb_advanced_test
-        struct page *page = pfn_to_page(pfn);
-        pte_t pte = READ_ONCE(*ptep);
- 
--       pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
-+       set_huge_pte_at(mm, vaddr, ptep, pte);
-+       WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
-+
-+       pte = pte_mkhuge(mk_pte(phys_to_page(RANDOM_ORVALUE & PMD_MASK), prot));
-        set_huge_pte_at(mm, vaddr, ptep, pte);
-        barrier();
-        WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
 
-This would actually add a new test "write empty pte with
-set_huge_pte_at(), then verify with huge_ptep_get()", which happens
-to trigger a warning on s390 :-)
 
-That (new) warning actually points to misbehavior on s390, we do not
-write a correct empty pmd in this case, but one that is empty and also
-marked as large. huge_ptep_get() will then not correctly recognize it
-as empty and do wrong conversion. It is also not consistent with
-huge_ptep_get_and_clear(), where we write the empty pmd w/o marking
-as large. Last but not least it would also break our pmd_protnone()
-logic (see below). Another nice finding on s390 :-)
+> Cheers,
+> Matthias
+>
+> >
+> >  Many distributions support update-alternatives to switch the default
+> >  to GCC, Clang, or whatever, but reviewers were opposed to this
+> >  approach. So, this commit does not touch the host tools.
+> >
+> >Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> >---
+> >
+> > Documentation/kbuild/kbuild.rst |  5 +++++
+> > Documentation/kbuild/llvm.rst   |  5 +++++
+> > Makefile                        | 20 ++++++++++++++++----
+> > 3 files changed, 26 insertions(+), 4 deletions(-)
+> >
+> >diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> >index 510f38d7e78a..2d1fc03d346e 100644
+> >--- a/Documentation/kbuild/kbuild.rst
+> >+++ b/Documentation/kbuild/kbuild.rst
+> >@@ -262,3 +262,8 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
+> > These two variables allow to override the user@host string displayed during
+> > boot and in /proc/version. The default value is the output of the commands
+> > whoami and host, respectively.
+> >+
+> >+LLVM
+> >+----
+> >+If this variable is set to 1, Kbuild will use Clang and LLVM utilities instead
+> >+of GCC and GNU binutils to build the kernel.
+> >diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> >index d6c79eb4e23e..4602369f6a4f 100644
+> >--- a/Documentation/kbuild/llvm.rst
+> >+++ b/Documentation/kbuild/llvm.rst
+> >@@ -55,6 +55,11 @@ additional parameters to `make`.
+> >         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
+> >         HOSTLD=ld.lld
+> >
+> >+You can use a single switch `LLVM=1` to use LLVM utilities by default (except
+> >+for building host programs).
+> >+
+> >+      make LLVM=1 HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+> >+
+> > Getting Help
+> > ------------
+> >
+> >diff --git a/Makefile b/Makefile
+> >index c91342953d9e..6db89ecdd942 100644
+> >--- a/Makefile
+> >+++ b/Makefile
+> >@@ -409,16 +409,28 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+> > KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+> >
+> > # Make variables (CC, etc...)
+> >-LD            = $(CROSS_COMPILE)ld
+> >-CC            = $(CROSS_COMPILE)gcc
+> > CPP           = $(CC) -E
+> >+ifneq ($(LLVM),)
+> >+CC            = clang
+> >+LD            = ld.lld
+> >+AR            = llvm-ar
+> >+NM            = llvm-nm
+> >+OBJCOPY               = llvm-objcopy
+> >+OBJDUMP               = llvm-objdump
+> >+READELF               = llvm-readelf
+> >+OBJSIZE               = llvm-size
+> >+STRIP         = llvm-strip
+> >+else
+> >+CC            = $(CROSS_COMPILE)gcc
+> >+LD            = $(CROSS_COMPILE)ld
+> > AR            = $(CROSS_COMPILE)ar
+> > NM            = $(CROSS_COMPILE)nm
+> >-STRIP         = $(CROSS_COMPILE)strip
+> > OBJCOPY               = $(CROSS_COMPILE)objcopy
+> > OBJDUMP               = $(CROSS_COMPILE)objdump
+> >-OBJSIZE               = $(CROSS_COMPILE)size
+> > READELF               = $(CROSS_COMPILE)readelf
+> >+OBJSIZE               = $(CROSS_COMPILE)size
+> >+STRIP         = $(CROSS_COMPILE)strip
+> >+endif
+> > PAHOLE                = pahole
+> > LEX           = flex
+> > YACC          = bison
+> >--
+> >2.17.1
+> >
+> >--
+> >You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> >To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> >To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200403051709.22407-1-masahiroy%40kernel.org.
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200406112220.GB126804%40google.com.
 
-I don't think this has any effect in practice (yet), but I will post a
-fix for that, just in case you will add / change this test.
 
-> 
-> >         set_huge_pte_at(mm, vaddr, ptep, pte);
-> >         barrier();
-> >         WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
-> >         huge_pte_clear(mm, vaddr, ptep, PMD_SIZE);
-> > -       pte = READ_ONCE(*ptep);
-> > +       pte = huge_ptep_get(ptep);
-> >         WARN_ON(!huge_pte_none(pte));
-> >  
-> >         pte = mk_huge_pte(page, prot);
-> >         set_huge_pte_at(mm, vaddr, ptep, pte);
-> >         huge_ptep_set_wrprotect(mm, vaddr, ptep);
-> > -       pte = READ_ONCE(*ptep);
-> > +       pte = huge_ptep_get(ptep);
-> >         WARN_ON(huge_pte_write(pte));
-> >  
-> >         pte = mk_huge_pte(page, prot);
-> >         set_huge_pte_at(mm, vaddr, ptep, pte);
-> >         huge_ptep_get_and_clear(mm, vaddr, ptep);
-> > -       pte = READ_ONCE(*ptep);
-> > +       pte = huge_ptep_get(ptep);
-> >         WARN_ON(!huge_pte_none(pte));
-> >  
-> >         pte = mk_huge_pte(page, prot);
-> > @@ -759,7 +759,7 @@ static void __init hugetlb_advanced_test
-> >         pte = huge_pte_mkwrite(pte);
-> >         pte = huge_pte_mkdirty(pte);
-> >         huge_ptep_set_access_flags(vma, vaddr, ptep, pte, 1);
-> > -       pte = READ_ONCE(*ptep);
-> > +       pte = huge_ptep_get(ptep);
-> >         WARN_ON(!(huge_pte_write(pte) && huge_pte_dirty(pte)));
-> >  }
-> >  #else
-> > 
-> > 3) The pmd_protnone_tests() has an issue, because it passes a pmd to
-> > pmd_protnone() which has not been marked as large. We check for large
-> > pmd in the s390 implementation of pmd_protnone(), and will fail if a
-> > pmd is not large. We had similar issues before, in other helpers, where
-> > I changed the logic on s390 to not require the pmd large check, but I'm
-> > not so sure in this case. Is there a valid use case for doing
-> > pmd_protnone() on "normal" pmds? Or could this be changed like this:  
-> 
-> That is a valid question. IIUC, all existing callers for pmd_protnone()
-> ensure that it is indeed a huge PMD. But even assuming otherwise should
-> not the huge PMD requirement get checked in the caller itself rather than
-> in the arch helper which is just supposed to check the existence of the
-> dedicated PTE bit(s) for this purpose. Purely from a helper perspective
-> pmd_protnone() should not really care about being large even though it
-> might never get used without one.
-> 
-> Also all platforms (except s390) derive the pmd_protnone() from their
-> respective pte_protnone(). I wonder why should s390 be any different
-> unless it is absolutely necessary.
 
-This is again because of our different page table entry layouts for
-pte/pmd and (large) pmd. The bits we check for pmd_protnone() are
-not valid for normal pmd/pte, and we would return undefined result for
-normal entries.
-
-Of course, we could rely on nobody calling pmd_protnone() on normal
-pmds, but in this case we also use pmd_large() check in pmd_protnone()
-for indication if the pmd is present. W/o that, we would return
-true for empty pmds, that doesn't sound right. Not sure if we also
-want to rely on nobody calling pmd_protnone() on empty pmds.
-
-Anyway, if in practice it is not correct to use pmd_protnone()
-on normal pmds, then I would suggest that your tests should also
-not do / test it. And I strongly assume that it is not correct, at
-least I cannot think of a valid case, and of course s390 would
-already be broken if there was such a case.
-
-Regards,
-Gerald
-
+-- 
+Best Regards
+Masahiro Yamada
