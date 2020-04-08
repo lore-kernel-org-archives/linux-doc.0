@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1701BC2BA2B
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A5A7C2BA1B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E57D92082D
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D65F12075E
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1586360862;
-	bh=2lkqsCAQF54Pdi9xvJJXtrh8wUQHo0cYxp077ryGpVA=;
+	bh=LQ1AB7uAXbAwFOOYknVy0Mvjy9Vm+u/u7LD9snOopLU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ZB+whzXrZncdYGyCgmO5wjPsaQHoaLvp1EW1bDTdqQ6sueQIUjZqrBDgXPFLthjMM
-	 7TivBx8IC0Id7sovIaauXiqIEaAxelypjw/TacPmnePoWnNDy+vnHURwM/XmFxcBdY
-	 O7DsbA/QyHjNjwQe2yvKFkzvt2eKzdVaN3UcAsis=
+	b=ABsiKCG3g2SlZO7b5V67hiuie0joOO72Wybzy9HBEzg072N132ZA79QUoYxuEjSWU
+	 S9ern9xHWrkVo4/7KO/45pXw6QklHh+OOhRrD1vVgHAc9F+yRsVUaftT+GiAKVYqp2
+	 BTCnEXjSkdu6aDIdHvz7ryENGYNmwdzScBWf0LM8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729703AbgDHPrN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:47:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49544 "EHLO mail.kernel.org"
+        id S1729810AbgDHPrM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 11:47:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49552 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729694AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729693AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 8 Apr 2020 11:46:33 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C272621D81;
+        by mail.kernel.org (Postfix) with ESMTPSA id C974821D90;
         Wed,  8 Apr 2020 15:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586360792;
-        bh=2lkqsCAQF54Pdi9xvJJXtrh8wUQHo0cYxp077ryGpVA=;
+        bh=LQ1AB7uAXbAwFOOYknVy0Mvjy9Vm+u/u7LD9snOopLU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2DjtbswZXsCX5J5p9U6oXJQIuMpt3+Kf5Xbp/LCUIfYNRKcFn8u6/aQnp6bS5B3xf
-         5rCnS/LhYqqgmzVq5ovt8RT+pb+MI/S1WW0o8zk67xe7NxaSvnW7AxUaBuRvvIOgE5
-         aEvSd1hI598cmwjs2qamWe4ixp657KgmZ+XNZyCQ=
+        b=Cd2++O+WPIQWFWzi8C0poVO/bZNC2rrB1Y06Qb7ZKqBsuGrywoWYrfNUziy9DE4Mv
+         H4SugkdldKynJUxyN+2f/1/fJbktC4rVzMYvybF1QMnMnNztxFl9af9mrswoyyY5EH
+         vlINSaxLC5cU0m7lL5hFizDba9y5It4XAMZKBSow=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jMCuL-000cCB-VT; Wed, 08 Apr 2020 17:46:29 +0200
+        id 1jMCuL-000cC6-UW; Wed, 08 Apr 2020 17:46:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Subject: [PATCH 24/35] docs: mm: slab.h: fix a broken cross-reference
-Date:   Wed,  8 Apr 2020 17:46:16 +0200
-Message-Id: <0aeac24235d356ebd935d11e147dcc6edbb6465c.1586359676.git.mchehab+huawei@kernel.org>
+        Sathya Prakash <sathya.prakash@broadcom.com>,
+        Chaitra P B <chaitra.basappa@broadcom.com>,
+        Suganath Prabu Subramani 
+        <suganath-prabu.subramani@broadcom.com>,
+        MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org
+Subject: [PATCH 23/35] docs: fusion: mptbase.c: get rid of a doc build warning
+Date:   Wed,  8 Apr 2020 17:46:15 +0200
+Message-Id: <9ca049c2d25689c56448afddf4f0d1e619fa87f7.1586359676.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586359676.git.mchehab+huawei@kernel.org>
 References: <cover.1586359676.git.mchehab+huawei@kernel.org>
@@ -63,28 +63,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There is a typo at the cross-reference link, causing this
-warning:
+Use a table for the enum list, to avoid this warning:
 
-	./include/linux/slab.h:11: WARNING: undefined label: memory-allocation (if the link has no caption the label must precede a section header)
+	./drivers/message/fusion/mptbase.c:5058: WARNING: Definition list ends without a blank line; unexpected unindent.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/slab.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/message/fusion/mptbase.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index 03a389358562..6d454886bcaf 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -501,7 +501,7 @@ static __always_inline void *kmalloc_large(size_t size, gfp_t flags)
-  * :ref:`Documentation/core-api/mm-api.rst <mm-api-gfp-flags>`
+diff --git a/drivers/message/fusion/mptbase.c b/drivers/message/fusion/mptbase.c
+index c2dd322691d1..2ef6506a3bc5 100644
+--- a/drivers/message/fusion/mptbase.c
++++ b/drivers/message/fusion/mptbase.c
+@@ -5052,9 +5052,11 @@ GetLanConfigPages(MPT_ADAPTER *ioc)
+  *	@ioc: Pointer to MPT_ADAPTER structure
+  *	@persist_opcode: see below
   *
-  * The recommended usage of the @flags is described at
-- * :ref:`Documentation/core-api/memory-allocation.rst <memory-allocation>`
-+ * :ref:`Documentation/core-api/memory-allocation.rst <memory_allocation>`
+- *	MPI_SAS_OP_CLEAR_NOT_PRESENT - Free all persist TargetID mappings for
+- *		devices not currently present.
+- *	MPI_SAS_OP_CLEAR_ALL_PERSISTENT - Clear al persist TargetID mappings
++ * 	===============================  ======================================
++ *	MPI_SAS_OP_CLEAR_NOT_PRESENT     Free all persist TargetID mappings for
++ *					 devices not currently present.
++ *	MPI_SAS_OP_CLEAR_ALL_PERSISTENT  Clear al persist TargetID mappings
++ * 	===============================  ======================================
   *
-  * Below is a brief outline of the most useful GFP flags
+  *	NOTE: Don't use not this function during interrupt time.
   *
 -- 
 2.25.2
