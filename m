@@ -2,130 +2,128 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49479C2BA1A
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 16:24:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5085BC2BA1B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 16:42:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 229A920784
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 16:24:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DsqtBI6q"
+	by mail.kernel.org (Postfix) with ESMTP id 2632120769
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 16:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586364136;
+	bh=dZflYwtdOE4WpeF55n3a5433aJ25TRS76smK0BBXLRc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=qBnZdJ78cHUhzbfK8VIMH4j6av3o9zTJk8oRzLqKHtl2xqh75YAEuJV/Xba3DBSBX
+	 9tQXAMGzVVnPSuv0DpMAUovyhqs++Y/S/0PNUEQRPrp23EZvVA3u9exllak4kOSpAn
+	 0lFPJttbDf/1HRWS18ErD5wvfhHRbHLq+rE8sKpE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730281AbgDHQYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 12:24:46 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40970 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729419AbgDHQYq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 12:24:46 -0400
-Received: by mail-lj1-f196.google.com with SMTP id n17so8256835lji.8
-        for <linux-doc@vger.kernel.org>; Wed, 08 Apr 2020 09:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s5aiANvhgix2N64LwK7RWDgOwJhQeHsVBzrYi29ys94=;
-        b=DsqtBI6qRFjNpPkePJmA4uX3kNk0ar1H6f+mDa9WCWCogbW1T44w59UgWS3voTEzVK
-         genV1UO4Or0H2X/qb8IDbOA88OBquO3BkpRlNYz06H9TiREZObOBBJUBZTq+Ufv9WsE4
-         +7C0iZS1MYYzD1pJn+M2c6GEdXyXvNHvkqSWB4XXDBcfiYWq+U6RNTMgvedFjt69dE17
-         14nDpSBj3rkurQYjwNYAGpRsn6UJpZ2eN0cavWpSULcVrBGXx1iDEO77FjTZcDVdSRvX
-         QkJmuqfyrMbk+hWYW2pBub6BYirXJ+pM+Mp0JbV/YyhrzUF5+jieHm0nw0AYVfNnXrxV
-         gdfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s5aiANvhgix2N64LwK7RWDgOwJhQeHsVBzrYi29ys94=;
-        b=qfFBrYK4v9iqZd+IjUFPAUI5gyWLYK4Jup4tnkBwHWPqbvxLmkQz2sBMyBH13ZkOLV
-         /AOnqVtzVhB5HAosrvH22wftUHm/WEiTQY+rtRS9Oq41UBP9ixa0pFX3WkxJ6zRb9Wlx
-         WhNi1pOmvzGetBCeTUDn4146vJCV/OBZO+HLw43xprHzNOJ9YTrm3bqJP+mvgtVbAE0i
-         54OVT4kNM3UUDVmAYa29qJZLeL7Zl6r6aghP24puo9wsVN7rC1cXaiFcNRhDeVRPbHSN
-         RBROAdoH+gw3WB8cKhvLsjYBaXUNOBzYTq7jQ3IR7SonzzcNLUsu2Aqciv5KiRW1fnbw
-         ZpIg==
-X-Gm-Message-State: AGi0PuYBSKyPi7H3uzaD/1TqCcb92i6uDZZZRsJSFZboV6OTgJ6SrWfb
-        nyegXaPZjo9A0k1Yx+YI0xDFlGk51aAZmSHrYYHN5A==
-X-Google-Smtp-Source: APiQypJwZtEyXK5GJK6816AgkQZ1Cx5TsDhHg1RPi2SPIJaChvEwYWQCWwAp1ip6qeVHQ0/Dbzy1kvzvsVWhJz83qlI=
-X-Received: by 2002:a05:651c:287:: with SMTP id b7mr400146ljo.73.1586363083460;
- Wed, 08 Apr 2020 09:24:43 -0700 (PDT)
+        id S1730371AbgDHQmP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 12:42:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44848 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730369AbgDHQmP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Apr 2020 12:42:15 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7CC9420769;
+        Wed,  8 Apr 2020 16:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586364134;
+        bh=dZflYwtdOE4WpeF55n3a5433aJ25TRS76smK0BBXLRc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pX91x5p/ex8/LllfJiIeej2SPjWU/d1wcD7IAD90y5SaEHcvFWXo85xGJ6QFBMt1u
+         ZiJGS26q3FFxWcH4/RHQQO1EgOWg5eAFYZtiHFCUXlkUkUnqv1soXL7RpTyJsVE5zd
+         k0B9JNAg2QY85+hKcn3mTGujmOGS6djP0timfAgw=
+Date:   Wed, 8 Apr 2020 18:42:10 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-spi@vger.kernel.org
+Subject: Re: [PATCH 21/35] docs: spi: spi.h: fix a doc building warning
+Message-ID: <20200408184210.43c4411b@coco.lan>
+In-Reply-To: <20200408161629.GC5177@sirena.org.uk>
+References: <cover.1586359676.git.mchehab+huawei@kernel.org>
+        <d62f3f3536c0da2062bad87524fb184ad5a9a5f2.1586359676.git.mchehab+huawei@kernel.org>
+        <20200408154925.GA5177@sirena.org.uk>
+        <20200408181154.6c290772@coco.lan>
+        <20200408161629.GC5177@sirena.org.uk>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
-In-Reply-To: <20200408152151.5780-1-christian.brauner@ubuntu.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 8 Apr 2020 18:24:16 +0200
-Message-ID: <CAG48ez0KWgLMOp1d3X1AcRNc4-eF1YiCw=PgWiGjtM6PqQqawg@mail.gmail.com>
-Subject: Re: [PATCH 0/8] loopfs
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-block@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org,
-        Network Development <netdev@vger.kernel.org>,
-        Matthew Garrett <mjg59@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 8, 2020 at 5:23 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
-> One of the use-cases for loopfs is to allow to dynamically allocate loop
-> devices in sandboxed workloads without exposing /dev or
-> /dev/loop-control to the workload in question and without having to
-> implement a complex and also racy protocol to send around file
-> descriptors for loop devices. With loopfs each mount is a new instance,
-> i.e. loop devices created in one loopfs instance are independent of any
-> loop devices created in another loopfs instance. This allows
-> sufficiently privileged tools to have their own private stash of loop
-> device instances. Dmitry has expressed his desire to use this for
-> syzkaller in a private discussion. And various parties that want to use
-> it are Cced here too.
->
-> In addition, the loopfs filesystem can be mounted by user namespace root
-> and is thus suitable for use in containers. Combined with syscall
-> interception this makes it possible to securely delegate mounting of
-> images on loop devices, i.e. when a user calls mount -o loop <image>
-> <mountpoint> it will be possible to completely setup the loop device.
-> The final mount syscall to actually perform the mount will be handled
-> through syscall interception and be performed by a sufficiently
-> privileged process. Syscall interception is already supported through a
-> new seccomp feature we implemented in [1] and extended in [2] and is
-> actively used in production workloads. The additional loopfs work will
-> be used there and in various other workloads too. You'll find a short
-> illustration how this works with syscall interception below in [4].
+Em Wed, 8 Apr 2020 17:16:29 +0100
+Mark Brown <broonie@kernel.org> escreveu:
 
-Would that privileged process then allow you to mount your filesystem
-images with things like ext4? As far as I know, the filesystem
-maintainers don't generally consider "untrusted filesystem image" to
-be a strongly enforced security boundary; and worse, if an attacker
-has access to a loop device from which something like ext4 is mounted,
-things like "struct ext4_dir_entry_2" will effectively be in shared
-memory, and an attacker can trivially bypass e.g.
-ext4_check_dir_entry(). At the moment, that's not a huge problem (for
-anything other than kernel lockdown) because only root normally has
-access to loop devices.
+> On Wed, Apr 08, 2020 at 06:11:54PM +0200, Mauro Carvalho Chehab wrote:
+> > Mark Brown <broonie@kernel.org> escreveu:  
+> 
+> > > Are you sure this is a sensible fix?  The following lines should be part
+> > > of the documentation for transfer_one, will that be the case after your
+> > > change?  
+> 
+> > Without that, Sphinx will warn and may produce something unexpected.  
+> 
+> Right, but if the warning is telling us something useful we want to
+> handle it rather than just shutting it up.
 
-Ubuntu carries an out-of-tree patch that afaik blocks the shared
-memory thing: <https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/eoan/commit?id=4bc428fdf5500b7366313f166b7c9c50ee43f2c4>
+True. Without adding the blank line, kernel-doc would output this as:
 
-But even with that patch, I'm not super excited about exposing
-filesystem image parsing attack surface to containers unless you run
-the filesystem in a sandboxed environment (at which point you don't
-need a loop device anymore either).
+``transfer_one``
+  transfer a single spi_transfer.
+  - return 0 if the transfer is finished,
+  - return 1 if the transfer is still in progress. When
+    the driver is finished with this transfer it must
+    call spi_finalize_current_transfer() so the subsystem
+    can issue the next transfer. Note: transfer_one and
+    transfer_one_message are mutually exclusive; when both
+    are set, the generic subsystem does not call your
+    transfer_one callback.
+
+This would be parsed by Sphinx (newer versions) as if the second line:
+
+	transfer a single spi_transfer.
+	
+would be a sort of subtitle that should be highlighted with a
+vertical line before that. E. g. something equivalent to:
+
+	 ============
+	|transfer_one|
+
+	 -------------------------------
+	|transfer a single spi_transfer.|
+
+	  - return 0 if the transfer is finished,
+	  - return 1 if the transfer is still in progress. When
+	    the driver is finished with this transfer it must
+	    call spi_finalize_current_transfer() so the subsystem
+	    can issue the next transfer. Note: transfer_one and
+	    transfer_one_message are mutually exclusive; when both
+	    are set, the generic subsystem does not call your
+	    transfer_one callback.
+
+Which is not the desired result.
+
+Adding a blank line after it fixes the issue, making it produce the
+expected output.
+
+> 
+> > If this patch is applied after 20/25, the output should produce the
+> > correct result:  
+> 
+> > 	https://www.infradead.org/~mchehab/kernel_docs/driver-api/spi.html#spi-master-methods  
+> 
+> OK.
+> 
+> Acked-by: Mark Brown <broonie@kernel.org>
+
+Thanks,
+Mauro
