@@ -7,50 +7,52 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2FEC2BBC7
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B655DC2BA1B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5CB4020787
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86D5020730
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586360902;
-	bh=yAOsXbL7fg020jSPFmIR1e4J97xQZcJrrPalm0wfW+M=;
+	s=default; t=1586360903;
+	bh=qbLirr5OJzkGy9BaDKpusPauYxAyPeK4aOYcI5WQ1pU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=i61mbnak5w9vaHEz72bA0UJC7hzxaj5h3uLPzJWkDVwKXctXtPGN0DUMkI2z6tx+v
-	 kyTXUtUgR7H2fVC5KduY2ca7R541+/AHhc7wHuwoJyZHM7DQtTUPDgyGSX4mPZmopV
-	 NP+WdyceVCjR4Of9NNlNwCUQXwgQCDSBOxI1PxDE=
+	b=WQSoyQ9rZe2dX/YJ4zkIDKUoexcAHP8oG/jyDepNr5AcfHJvEjllhOjT/x8xmjg5l
+	 WZSGa/mRkFtz3qYKp7GlxgVTFplzncn3ruEPq+9wSj2AuM6fw4IfGzI7J9+Xpbtv5P
+	 vz7g6QBGM8SvsgXxkhcXjrMIO6df8Pitn9Kx56so=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729939AbgDHPr7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:47:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49158 "EHLO mail.kernel.org"
+        id S1729936AbgDHPr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 11:47:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49356 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729686AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729672AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 8 Apr 2020 11:46:33 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB29F221EC;
+        by mail.kernel.org (Postfix) with ESMTPSA id 90A1321927;
         Wed,  8 Apr 2020 15:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586360792;
-        bh=yAOsXbL7fg020jSPFmIR1e4J97xQZcJrrPalm0wfW+M=;
+        s=default; t=1586360791;
+        bh=qbLirr5OJzkGy9BaDKpusPauYxAyPeK4aOYcI5WQ1pU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=r/sb8b09rd+lmNDr5/l5llwPOyWVGz0nsjaHvCrJBq0H+Vzr6lISTG+mmfGhiH4a6
-         ZrI5WCOp6tGmS0KKS5PR+k1AGSaiSGQ2L1VUxgT7EEDrOP8LzZzH+2Q9vajqYATQ2s
-         GvZwN5REBGZ5NY7NnhFS2wdKsbHQ6JlD4gCojYsU=
+        b=bMMcazz4AvVcJzJ3VI5y9jhVCwiFxY/Nihb4o/E/xiFYwgplIk6Sg4seV9oK1yQoQ
+         JqNxA4nVZ/HR2JMukK3bHaSNOUIU8dTABP6qmdDtQ7FoZP+6vtgL9XcbtQJZazynLa
+         4fkgh1PWFRs1pfFR7K/+xc8CHXA2n3pjwLcrHxfI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jMCuM-000cCa-5P; Wed, 08 Apr 2020 17:46:30 +0200
+        id 1jMCuL-000cBX-Lm; Wed, 08 Apr 2020 17:46:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Subject: [PATCH 29/35] MAINTAINERS: dt: fix pointers for ARM Integrator, Versatile and RealView
-Date:   Wed,  8 Apr 2020 17:46:21 +0200
-Message-Id: <d8b0656cb3f1eacb10ca6168babb235d59a853a1.1586359676.git.mchehab+huawei@kernel.org>
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>,
+        linux-edac@vger.kernel.org
+Subject: [PATCH 16/35] docs: ras: don't need to repeat twice the same thing
+Date:   Wed,  8 Apr 2020 17:46:08 +0200
+Message-Id: <9d3a0429368077d51a8ff1a160f89ee0f67bf8d4.1586359676.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586359676.git.mchehab+huawei@kernel.org>
 References: <cover.1586359676.git.mchehab+huawei@kernel.org>
@@ -61,39 +63,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a conversion from a plain text binding file into 4 yaml ones.
-The old file got removed, causing this new warning:
+We don't need to say twice "for the first time" at the same
+paragraph.
 
-	Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm-boards
-
-Address it by replacing the old reference by the new ones
-
-Fixes: 2d483550b6d2 ("dt-bindings: arm: Drop the non-YAML bindings")
-Fixes: 33fbfb3eaf4e ("dt-bindings: arm: Add Integrator YAML schema")
-Fixes: 4b900070d50d ("dt-bindings: arm: Add Versatile YAML schema")
-Fixes: 7db625b9fa75 ("dt-bindings: arm: Add RealView YAML schema")
-Fixes: 4fb00d9066c1 ("dt-bindings: arm: Add Versatile Express and Juno YAML schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/ras.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 67e52e9d630c..72fb84483a23 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1296,7 +1296,10 @@ ARM INTEGRATOR, VERSATILE AND REALVIEW SUPPORT
- M:	Linus Walleij <linus.walleij@linaro.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/arm/arm-boards
-+F:	Documentation/devicetree/bindings/arm/arm,integrator.yaml
-+F:	Documentation/devicetree/bindings/arm/arm,realview.yaml
-+F:	Documentation/devicetree/bindings/arm/arm,versatile.yaml
-+F:	Documentation/devicetree/bindings/arm/arm,vexpress-juno.yaml
- F:	Documentation/devicetree/bindings/auxdisplay/arm-charlcd.txt
- F:	Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
- F:	Documentation/devicetree/bindings/i2c/i2c-versatile.txt
+diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/ras.rst
+index 22b31bc7e129..6cbaab975ee5 100644
+--- a/Documentation/admin-guide/ras.rst
++++ b/Documentation/admin-guide/ras.rst
+@@ -212,7 +212,7 @@ EDAC - Error Detection And Correction
+    purposes.
+ 
+    When the subsystem was pushed upstream for the first time, on
+-   Kernel 2.6.16, for the first time, it was renamed to ``EDAC``.
++   Kernel 2.6.16, it was renamed to ``EDAC``.
+ 
+ Purpose
+ -------
 -- 
 2.25.2
 
