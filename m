@@ -2,87 +2,332 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F49C2D0EA
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 09:49:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD6C3C2D0EA
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 10:24:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C95512074F
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 09:49:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W/Ej4FlA"
+	by mail.kernel.org (Postfix) with ESMTP id 87FFA20787
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 10:24:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727070AbgDHJtJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 05:49:09 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:43390 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726730AbgDHJtJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 05:49:09 -0400
-Received: by mail-il1-f196.google.com with SMTP id g15so6107065ilj.10
-        for <linux-doc@vger.kernel.org>; Wed, 08 Apr 2020 02:49:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5Xq+OUaqt6tB19LBWnWtx+hhIOsTCIsEzqhRisFwtEQ=;
-        b=W/Ej4FlAQVJMyLx0WbI6vwLpNxBQuzM1p6z8wmzxmTsXYGQwnfmHEiQzrFn3jKdfEl
-         C3E0dIo4jMzmewXO4dwFUd8FS9H6IccPcFG3mc/xMiBOuoJGEuIfFXzJn5AKZwnRJxap
-         zLAR1/Ffbf8d94aWKDmDgL71l91j1tU4xwB8n4bYtWp7xJX5Bwa10Mhw8nueZ0Hshnvw
-         7vL76Bwd42U3EsJiGmKsRIhXN0Sl0g+pK/icQPaKrZIXlonR+1AfcAgLsKAjtcqsm2W1
-         C8Y4Qc+aCC9amMl2jqYBs9GseglcMYqALwr9uz/vpFQGCQxggJLt4dh+nQmlKeUY5Uby
-         uA+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5Xq+OUaqt6tB19LBWnWtx+hhIOsTCIsEzqhRisFwtEQ=;
-        b=Rya6I77+7Hb00ibFjMGjf3KEVSQcYK+i5W01qS6ey2k+9vzfsOtt4Sh8vbzTFchTFE
-         mJxhE5sX2aCtoIou6IGCHP+PYIpOCkM65L78PB9VdkBHGr9/h3h9jlKmeKwRAcTMAVeg
-         oRazAroXRqVXlInb1/i0btG6t6VadmLw9A76ARBxPdEyAWd2D4kEgRSarf1ZtMsChZR8
-         Gi6kXdSDHzIMoSXeKODW40MN+2JZ3J5ndQa0OO95k0arXAflAa9cg5bhgFQy/RIhzUH4
-         4uGMu22N9oL4KSrhQlXXQR8/BIgAZxEbzSGO/7COmQPBLW6r/o3Ux+hmXTLkmC1oSAOP
-         T0vQ==
-X-Gm-Message-State: AGi0PuZ8XC+wQnuON+vDfqhB9SZk2Iy03Z9ZpJojzB8lVKnjL9scpSAw
-        73CplDDh+fwPoVrUOPzhoy3KNXIkBVNzcaDPECg9fXrX
-X-Google-Smtp-Source: APiQypLp8aIAd8CfkDLKY5qUJ70G/23rR3AqdIM6yFDqxq0TLysxhfgwTV793P4Cxc6pUp8qbXvFNnGyqMxOARfOJ/k=
-X-Received: by 2002:a92:d11:: with SMTP id 17mr7015182iln.145.1586339346413;
- Wed, 08 Apr 2020 02:49:06 -0700 (PDT)
+        id S1726345AbgDHKYd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 06:24:33 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:38050 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725932AbgDHKYd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 06:24:33 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 1D60920027;
+        Wed,  8 Apr 2020 12:24:28 +0200 (CEST)
+Date:   Wed, 8 Apr 2020 12:24:26 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+        maarten.lankhorst@linux.intel.com, kraxel@redhat.com,
+        corbet@lwn.net, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] drm/vram-helpers: Merge code into a single file
+Message-ID: <20200408102426.GE20795@ravnborg.org>
+References: <20200331081238.24749-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20200312201354.285839-1-joakimlonnegren@gmail.om> <20200407134414.77b1c34b@lwn.net>
-In-Reply-To: <20200407134414.77b1c34b@lwn.net>
-From:   =?UTF-8?Q?Joakim_L=C3=B6nnegren?= <joakimlonnegren@gmail.com>
-Date:   Wed, 8 Apr 2020 06:48:53 -0300
-Message-ID: <CAN1Azk5fW62-Oc0RDQtJSYkgKAJYsK+hRgXwUFQO=rQQGpOB6Q@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: driver-api/usb/writing_usb_driver.rst
- Updates documentation links
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200331081238.24749-1-tzimmermann@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+        a=e5mUnYsNAAAA:8 a=zBz-0SZ83vfO6NPXnGgA:9 a=37LNpR1G-j1i1rS5:21
+        a=434DkKYYThrMyC3q:21 a=3pmAf5zrgIptfhJt:21 a=CjuIK1q_8ugA:10
+        a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 7 Apr. 2020 16:44 Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Thu, 12 Mar 2020 17:13:55 -0300
-> "Joakim L=C3=B6nnegren" <joakimlonnegren@gmail.com> wrote:
->
-> > In writing_usb_driver.rst:
-> > Remove link to https://www.qbik.ch/usb/devices/ since it seems to be in=
-active since 2013
-> > Update link to linux-usb mailing list archive
-> >
-> > Signed-off-by: Joakim L=C3=B6nnegren <joakimlonnegren@gmail.com>
->
-> Applied, thanks; sorry for the delay.
->
-> jon
+Hi Thomas.
 
-No problem, thanks!
 
-/Joakim
+On Tue, Mar 31, 2020 at 10:12:38AM +0200, Thomas Zimmermann wrote:
+> Most of the documentation was in an otherwise empty file, which was
+> probably just left from a previous clean-up effort. So move code and
+> documentation into a single file.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Nice clean-up
+
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+> ---
+>  Documentation/gpu/drm-mm.rst             |  9 ---
+>  drivers/gpu/drm/Makefile                 |  3 +-
+>  drivers/gpu/drm/drm_gem_vram_helper.c    | 95 ++++++++++++++++++++++--
+>  drivers/gpu/drm/drm_vram_helper_common.c | 94 -----------------------
+>  4 files changed, 91 insertions(+), 110 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/drm_vram_helper_common.c
+> 
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index c77b326012606..1839762044be1 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -373,15 +373,6 @@ GEM CMA Helper Functions Reference
+>  .. kernel-doc:: drivers/gpu/drm/drm_gem_cma_helper.c
+>     :export:
+>  
+> -VRAM Helper Function Reference
+> -==============================
+> -
+> -.. kernel-doc:: drivers/gpu/drm/drm_vram_helper_common.c
+> -   :doc: overview
+> -
+> -.. kernel-doc:: include/drm/drm_gem_vram_helper.h
+> -   :internal:
+> -
+>  GEM VRAM Helper Functions Reference
+>  -----------------------------------
+>  
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 183c600483073..f34d08c834851 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -33,8 +33,7 @@ drm-$(CONFIG_PCI) += drm_pci.o
+>  drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
+>  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
+>  
+> -drm_vram_helper-y := drm_gem_vram_helper.o \
+> -		     drm_vram_helper_common.o
+> +drm_vram_helper-y := drm_gem_vram_helper.o
+>  obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
+>  
+>  drm_ttm_helper-y := drm_gem_ttm_helper.o
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> index d4e4f80d3a6c1..d70e335f7ee3e 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -1,5 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  
+> +#include <linux/module.h>
+> +
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+> @@ -19,13 +21,93 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+>  /**
+>   * DOC: overview
+>   *
+> - * This library provides a GEM buffer object that is backed by video RAM
+> - * (VRAM). It can be used for framebuffer devices with dedicated memory.
+> + * This library provides &struct drm_gem_vram_object (GEM VRAM), a GEM
+> + * buffer object that is backed by video RAM (VRAM). It can be used for
+> + * framebuffer devices with dedicated memory.
+>   *
+>   * The data structure &struct drm_vram_mm and its helpers implement a memory
+> - * manager for simple framebuffer devices with dedicated video memory. Buffer
+> - * objects are either placed in video RAM or evicted to system memory. The rsp.
+> - * buffer object is provided by &struct drm_gem_vram_object.
+> + * manager for simple framebuffer devices with dedicated video memory. GEM
+> + * VRAM buffer objects are either placed in the video memory or remain evicted
+> + * to system memory.
+> + *
+> + * With the GEM interface userspace applications create, manage and destroy
+> + * graphics buffers, such as an on-screen framebuffer. GEM does not provide
+> + * an implementation of these interfaces. It's up to the DRM driver to
+> + * provide an implementation that suits the hardware. If the hardware device
+> + * contains dedicated video memory, the DRM driver can use the VRAM helper
+> + * library. Each active buffer object is stored in video RAM. Active
+> + * buffer are used for drawing the current frame, typically something like
+> + * the frame's scanout buffer or the cursor image. If there's no more space
+> + * left in VRAM, inactive GEM objects can be moved to system memory.
+> + *
+> + * The easiest way to use the VRAM helper library is to call
+> + * drm_vram_helper_alloc_mm(). The function allocates and initializes an
+> + * instance of &struct drm_vram_mm in &struct drm_device.vram_mm . Use
+> + * &DRM_GEM_VRAM_DRIVER to initialize &struct drm_driver and
+> + * &DRM_VRAM_MM_FILE_OPERATIONS to initialize &struct file_operations;
+> + * as illustrated below.
+> + *
+> + * .. code-block:: c
+> + *
+> + *	struct file_operations fops ={
+> + *		.owner = THIS_MODULE,
+> + *		DRM_VRAM_MM_FILE_OPERATION
+> + *	};
+> + *	struct drm_driver drv = {
+> + *		.driver_feature = DRM_ ... ,
+> + *		.fops = &fops,
+> + *		DRM_GEM_VRAM_DRIVER
+> + *	};
+> + *
+> + *	int init_drm_driver()
+> + *	{
+> + *		struct drm_device *dev;
+> + *		uint64_t vram_base;
+> + *		unsigned long vram_size;
+> + *		int ret;
+> + *
+> + *		// setup device, vram base and size
+> + *		// ...
+> + *
+> + *		ret = drm_vram_helper_alloc_mm(dev, vram_base, vram_size);
+> + *		if (ret)
+> + *			return ret;
+> + *		return 0;
+> + *	}
+> + *
+> + * This creates an instance of &struct drm_vram_mm, exports DRM userspace
+> + * interfaces for GEM buffer management and initializes file operations to
+> + * allow for accessing created GEM buffers. With this setup, the DRM driver
+> + * manages an area of video RAM with VRAM MM and provides GEM VRAM objects
+> + * to userspace.
+> + *
+> + * To clean up the VRAM memory management, call drm_vram_helper_release_mm()
+> + * in the driver's clean-up code.
+> + *
+> + * .. code-block:: c
+> + *
+> + *	void fini_drm_driver()
+> + *	{
+> + *		struct drm_device *dev = ...;
+> + *
+> + *		drm_vram_helper_release_mm(dev);
+> + *	}
+> + *
+> + * For drawing or scanout operations, buffer object have to be pinned in video
+> + * RAM. Call drm_gem_vram_pin() with &DRM_GEM_VRAM_PL_FLAG_VRAM or
+> + * &DRM_GEM_VRAM_PL_FLAG_SYSTEM to pin a buffer object in video RAM or system
+> + * memory. Call drm_gem_vram_unpin() to release the pinned object afterwards.
+> + *
+> + * A buffer object that is pinned in video RAM has a fixed address within that
+> + * memory region. Call drm_gem_vram_offset() to retrieve this value. Typically
+> + * it's used to program the hardware's scanout engine for framebuffers, set
+> + * the cursor overlay's image for a mouse cursor, or use it as input to the
+> + * hardware's draing engine.
+> + *
+> + * To access a buffer object's memory from the DRM driver, call
+> + * drm_gem_vram_kmap(). It (optionally) maps the buffer into kernel address
+> + * space and returns the memory address. Use drm_gem_vram_kunmap() to
+> + * release the mapping.
+>   */
+>  
+>  /*
+> @@ -1204,3 +1286,6 @@ drm_vram_helper_mode_valid(struct drm_device *dev,
+>  	return drm_vram_helper_mode_valid_internal(dev, mode, max_bpp);
+>  }
+>  EXPORT_SYMBOL(drm_vram_helper_mode_valid);
+> +
+> +MODULE_DESCRIPTION("DRM VRAM memory-management helpers");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/gpu/drm/drm_vram_helper_common.c b/drivers/gpu/drm/drm_vram_helper_common.c
+> deleted file mode 100644
+> index 2000d9b33fd52..0000000000000
+> --- a/drivers/gpu/drm/drm_vram_helper_common.c
+> +++ /dev/null
+> @@ -1,94 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-or-later
+> -
+> -#include <linux/module.h>
+> -
+> -/**
+> - * DOC: overview
+> - *
+> - * This library provides &struct drm_gem_vram_object (GEM VRAM), a GEM
+> - * buffer object that is backed by video RAM. It can be used for
+> - * framebuffer devices with dedicated memory. The video RAM is managed
+> - * by &struct drm_vram_mm (VRAM MM).
+> - *
+> - * With the GEM interface userspace applications create, manage and destroy
+> - * graphics buffers, such as an on-screen framebuffer. GEM does not provide
+> - * an implementation of these interfaces. It's up to the DRM driver to
+> - * provide an implementation that suits the hardware. If the hardware device
+> - * contains dedicated video memory, the DRM driver can use the VRAM helper
+> - * library. Each active buffer object is stored in video RAM. Active
+> - * buffer are used for drawing the current frame, typically something like
+> - * the frame's scanout buffer or the cursor image. If there's no more space
+> - * left in VRAM, inactive GEM objects can be moved to system memory.
+> - *
+> - * The easiest way to use the VRAM helper library is to call
+> - * drm_vram_helper_alloc_mm(). The function allocates and initializes an
+> - * instance of &struct drm_vram_mm in &struct drm_device.vram_mm . Use
+> - * &DRM_GEM_VRAM_DRIVER to initialize &struct drm_driver and
+> - * &DRM_VRAM_MM_FILE_OPERATIONS to initialize &struct file_operations;
+> - * as illustrated below.
+> - *
+> - * .. code-block:: c
+> - *
+> - *	struct file_operations fops ={
+> - *		.owner = THIS_MODULE,
+> - *		DRM_VRAM_MM_FILE_OPERATION
+> - *	};
+> - *	struct drm_driver drv = {
+> - *		.driver_feature = DRM_ ... ,
+> - *		.fops = &fops,
+> - *		DRM_GEM_VRAM_DRIVER
+> - *	};
+> - *
+> - *	int init_drm_driver()
+> - *	{
+> - *		struct drm_device *dev;
+> - *		uint64_t vram_base;
+> - *		unsigned long vram_size;
+> - *		int ret;
+> - *
+> - *		// setup device, vram base and size
+> - *		// ...
+> - *
+> - *		ret = drm_vram_helper_alloc_mm(dev, vram_base, vram_size);
+> - *		if (ret)
+> - *			return ret;
+> - *		return 0;
+> - *	}
+> - *
+> - * This creates an instance of &struct drm_vram_mm, exports DRM userspace
+> - * interfaces for GEM buffer management and initializes file operations to
+> - * allow for accessing created GEM buffers. With this setup, the DRM driver
+> - * manages an area of video RAM with VRAM MM and provides GEM VRAM objects
+> - * to userspace.
+> - *
+> - * To clean up the VRAM memory management, call drm_vram_helper_release_mm()
+> - * in the driver's clean-up code.
+> - *
+> - * .. code-block:: c
+> - *
+> - *	void fini_drm_driver()
+> - *	{
+> - *		struct drm_device *dev = ...;
+> - *
+> - *		drm_vram_helper_release_mm(dev);
+> - *	}
+> - *
+> - * For drawing or scanout operations, buffer object have to be pinned in video
+> - * RAM. Call drm_gem_vram_pin() with &DRM_GEM_VRAM_PL_FLAG_VRAM or
+> - * &DRM_GEM_VRAM_PL_FLAG_SYSTEM to pin a buffer object in video RAM or system
+> - * memory. Call drm_gem_vram_unpin() to release the pinned object afterwards.
+> - *
+> - * A buffer object that is pinned in video RAM has a fixed address within that
+> - * memory region. Call drm_gem_vram_offset() to retrieve this value. Typically
+> - * it's used to program the hardware's scanout engine for framebuffers, set
+> - * the cursor overlay's image for a mouse cursor, or use it as input to the
+> - * hardware's draing engine.
+> - *
+> - * To access a buffer object's memory from the DRM driver, call
+> - * drm_gem_vram_kmap(). It (optionally) maps the buffer into kernel address
+> - * space and returns the memory address. Use drm_gem_vram_kunmap() to
+> - * release the mapping.
+> - */
+> -
+> -MODULE_DESCRIPTION("DRM VRAM memory-management helpers");
+> -MODULE_LICENSE("GPL");
+> -- 
+> 2.26.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
