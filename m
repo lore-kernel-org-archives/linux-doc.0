@@ -2,162 +2,169 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0681BC2D0F4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA613C2BA1A
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:10:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B836B20771
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:01:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5CA520771
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:10:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=Sony.onmicrosoft.com header.i=@Sony.onmicrosoft.com header.b="VuC13j7X"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JlEGM/DO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727798AbgDHRBY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 13:01:24 -0400
-Received: from mail-eopbgr680120.outbound.protection.outlook.com ([40.107.68.120]:29060
-        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726550AbgDHRBY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Apr 2020 13:01:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N8msTDaCwqgj8/z1wTo6zTgchc9jsTwrYRevY5zmvQcYZ6G/ZFonVMKV439Qj5tIupZu4J3Der+rqdVLLDh2N6Z7tQp9cmfwsMVLZYUb19mCJPeNxO/2qP03cksORyu6h8LzWLUvG/dvGAYvOP5J/75gnlUfRpQfXAGEG9etYcml1NCraUlQ68meLQjW+reYAf4zQxhFojQxB51b9omBGmuoo0JGaJ6S5sx5J2P2qrNZAPwL/sCguTc33JHcpXE724sg8jVU1DuWfPF3VwsRUdnmBPJ7OvHUE576taqv1yBKsE9/7X5kD/Em6hnxryYWZDDn9KIqj/kWIKWa35m4fg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G0ipXFG+hsotlA1ggq0sTO2n4IpjtmKdzNbJH3lowvU=;
- b=EKx90jpJlbCQ68G6LhuFTcqB7a1/ys9DahrzEepVxGWsMU5yGE+8sUNB9JuAQS3iNhviwYO7qa3lX/3vv8AYOjfPKPBIUzvuKna533YcbVfD2WA0tI950HxRfMnouO4qJT79pYa0GN1oU8UxIO/LA8LAjrgtfK/qBMIw+oTPtSVDhs8lx7pwPtmxFy7YJhiWEsFLfPWliiYIK3DJBi7PA3E3ioNBl6y+hMRJdkTgxhvhBMEbJu4yJHwcYozO31wZwtcR8gloeCOjMziNxRQ5E5eN6HPm3CsLiNngGFQtu46WwFvnFCRivSyvaotaPZ0OZ2srvWsXAczPkpYGPLyuWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Sony.onmicrosoft.com;
- s=selector2-Sony-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G0ipXFG+hsotlA1ggq0sTO2n4IpjtmKdzNbJH3lowvU=;
- b=VuC13j7XyRjnevXHbl1zJffQqgkiGuXECJZ4YTNvM8fplf8N5bikl0vGPtHResGaReIpyv7XAomCH7Ih/xxKRJGQsgSU7SSTbNCihewoonTBZTdJwImmWvcJsTbDkXjN3EtZxwH/kS9wUq9MBhxBR4oXOop7/PiAWJr6OpPg3uY=
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com (2603:10b6:300:2::27)
- by MWHPR13MB1838.namprd13.prod.outlook.com (2603:10b6:300:132::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.12; Wed, 8 Apr
- 2020 17:01:20 +0000
-Received: from MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::7c:8ba0:7659:de57]) by MWHPR13MB0895.namprd13.prod.outlook.com
- ([fe80::7c:8ba0:7659:de57%7]) with mapi id 15.20.2900.012; Wed, 8 Apr 2020
- 17:01:20 +0000
-From:   "Bird, Tim" <Tim.Bird@sony.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Markus Heiser <markus.heiser@darmarit.de>
-Subject: RE: [PATCH 1/6] scripts: sphinx-pre-install: improve distro detection
- check
-Thread-Topic: [PATCH 1/6] scripts: sphinx-pre-install: improve distro
- detection check
-Thread-Index: AQHWDb5iIjm0kAhwrECaQ7vbPFdNK6hvcodA
-Date:   Wed, 8 Apr 2020 17:01:20 +0000
-Message-ID: <MWHPR13MB08950C5CC92A0C0FE0532AFAFDC00@MWHPR13MB0895.namprd13.prod.outlook.com>
-References: <cover.1586361086.git.mchehab+huawei@kernel.org>
- <2f22c8a80a4740176fabdee0d0cd23dbe7395b03.1586361086.git.mchehab+huawei@kernel.org>
-In-Reply-To: <2f22c8a80a4740176fabdee0d0cd23dbe7395b03.1586361086.git.mchehab+huawei@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Tim.Bird@sony.com; 
-x-originating-ip: [160.33.66.122]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 6d77e18d-3675-4ea5-5bb6-08d7dbde7623
-x-ms-traffictypediagnostic: MWHPR13MB1838:
-x-microsoft-antispam-prvs: <MWHPR13MB1838F2D0266BE78F912AF166FDC00@MWHPR13MB1838.namprd13.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1060;
-x-forefront-prvs: 0367A50BB1
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR13MB0895.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(4636009)(366004)(396003)(136003)(346002)(39860400002)(376002)(55016002)(66556008)(66476007)(66946007)(4326008)(186003)(71200400001)(64756008)(66446008)(478600001)(81156014)(5660300002)(52536014)(316002)(76116006)(7696005)(2906002)(86362001)(6506007)(54906003)(110136005)(26005)(81166007)(9686003)(8936002)(33656002)(8676002);DIR:OUT;SFP:1102;
-received-spf: None (protection.outlook.com: sony.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7A8Vo4vT1vb/9EN4B/bxwvjJL1MLU2eYiFv0ehMuzpV3k/XEXyAsZCFjIDKpZUutwTYt/rMi9Z93LMc7Y05aabI4KYjbrhHZdxG2kFDZrIBCigPu8SsErn+yweFCRZfdULUtxAzC6zU+Ocfvei1u/MbWXK380hIJuxjiMOfItKA0LaCPeRsFI5WQ2HVpKk8t6PllKcuYU0hkjqpr9o8z0vX5Q928j9AwXJfctnnv/aH2OJOBrPzI/3rFdxEPqQ3URuWLAOOOyq80ffdz0HJg3Fkt+4FSTn/K3UiKFxcOiYu5OD6fb6BIAk3Eejnqsg3VRyEpC3J7kRbV7LeDm6d6CIbN7J8v32EAbj38SkXzEMDz360oy91/mA5UKRgidD68d3YGbP/DDj2Srz+w1TBeAJ8d19owkIadlYoGAjzI1d+AQeKmmuIqleLFXFNBbUGg
-x-ms-exchange-antispam-messagedata: KNqU3ozymJkWKoMVdueqsai0dkWDbYpAPuYNI1jd0yureebe6rvlCuWjXSPoJd7lgwGpSl91ieSNWllznE+71RrigTl4T1bnDYbhTFEXf93ow950XBakWS1sJFMerhuoUinbu7tDEtXnQNIwvpVh2g==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1730530AbgDHRKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 13:10:44 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:40630 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726663AbgDHRKo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 13:10:44 -0400
+Received: by mail-io1-f67.google.com with SMTP id w1so855259iot.7
+        for <linux-doc@vger.kernel.org>; Wed, 08 Apr 2020 10:10:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EVMc1OHJHB8VvA0TWlbmWmPavYiZYAI6v/n+zzq1Wf0=;
+        b=JlEGM/DOa4q8siqwVYUAftU8gmZWjOLtOYJEE+Bp5LCO4tlR1jInMjHa136elkQI5X
+         fM45YgN4JD3Wm3RtLmMIac1umB86TBoz7VTMsdvJzqdYMKwkFn6ta31nyfuRuxYniSow
+         reddZXCDRqSsCYkcqfJA8aQ7XAHdHC0hXldCo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EVMc1OHJHB8VvA0TWlbmWmPavYiZYAI6v/n+zzq1Wf0=;
+        b=ucnmmGSbAQhuq8NLbNt6LoJmZXOwLdDnAHN9B4VsofSnOFCScnKWPL32WVu1Rd6Tcu
+         kFSkJkH53op5058Qk9fi5RCvMHXyukxif3wgYsExJF3EVELqsgBKGbMy04Ka3NWYMum0
+         dGiYFc+cnc/rnwiuvOMz2efJK0WN8xr79/Ca2kllhKscz9JTTVXqDy6FuVn4kI8BXzkI
+         biI/x7+Ei+qvwPMemMZx68s+c1VwJunOTWqOtAHQEBGUhTPXJPXprN2xIOl/buiULw6D
+         nckCs8U0pQXSYUBxb/PvD1TUHlt4BnO2yEhHKI2U45Ne80rscP6pjA7sJ2SJCYg4oPhh
+         3wkA==
+X-Gm-Message-State: AGi0PuaFx2WqNm+JhkQ8S3RTbrTP6Q5C0yqKl2AczRdwrLa0fNFJY/TD
+        zNQGOaGRRqL7i2dvzSClqnXb2YGZaEAxFClIYOuJzw==
+X-Google-Smtp-Source: APiQypJJEoOGQVIJXcXfMbzaBXaiK4IXHxoudhmAmL2UMkWJOUiQXKhncget2FEh09Lc9nSdPCYNibmpUlv56cYFUCg=
+X-Received: by 2002:a02:cac4:: with SMTP id f4mr7518997jap.51.1586365841562;
+ Wed, 08 Apr 2020 10:10:41 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d77e18d-3675-4ea5-5bb6-08d7dbde7623
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2020 17:01:20.5037
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7z3LLFwKM5aPleDHVJ4frcXBw4InjDDvWb+TgpaYQusDW6iKBiubAGEq8sc8VINekhRnEkS8gsWGGrcOb6jzmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR13MB1838
+References: <cover.1566563833.git.fabien.lahoudere@collabora.com>
+ <d985a8a811996148e8cda78b9fe47bb87b884b56.1566563833.git.fabien.lahoudere@collabora.com>
+ <20190826095612.7455cb05@archlinux> <8abbe9360938ab851d16c2c1494ba56034775823.camel@collabora.com>
+ <6b50bdff184e6af664b7a61e0a8a2cddc5718f0a.camel@collabora.com>
+ <20191110151408.GB3984@icarus> <20191111114955.00001031@huawei.com> <20191112011618.GA62259@icarus>
+In-Reply-To: <20191112011618.GA62259@icarus>
+From:   Gwendal Grignou <gwendal@chromium.org>
+Date:   Wed, 8 Apr 2020 10:10:28 -0700
+Message-ID: <CAPUE2uvDiAfE68uCzWdTN3T2L_PR3JPeyGWDrc5ToLieEpGH1A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] counter: cros_ec: Add synchronization sensor
+To:     William Breathitt Gray <vilhelm.gray@gmail.com>
+Cc:     Jonathan Cameron <jonathan.cameron@huawei.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Fabien Lahoudere <fabien.lahoudere@collabora.com>,
+        Enrico Granata <egranata@chromium.org>,
+        Collabora kernel ML <kernel@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Nick Vaccaro <nvaccaro@chromium.org>,
+        linux-iio <linux-iio@vger.kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+I resend a counter driver for the EC at
+https://patchwork.kernel.org/patch/11479437/
+
+I tried a timestamp only IIO sensor, but this is not allowed, as the
+timestamp channel is very specific: no extended parameters can be
+added.
+I did not add a COUNTER_COUNT_TALLY type, as a newer function
+COUNTER_COUNT_FUNCTION_INCREASE, fits the counter better.
+I am still using IIO_COUNT (inspired by the st counter driver) to
+gather the event in real time on the iio side.
+
+Gwendal.
 
 
-> -----Original Message-----
-> From: Mauro Carvalho Chehab <mchehab@kernel.org> On Behalf Of Mauro Carva=
-lho Chehab
->=20
-> The Arch-linux detection is hit by catting /etc/issue, whose
-> contents is (nowadays):
->=20
-> 	Arch Linux \r (\l)
->=20
-> It sounds a little ackward to print such string, so,
-> instead, let's use the /etc/os-release file, with exists
-> on lots of distributions and should provide a more reliable
-> result.
->=20
-> We'll keep the old tests before it, in order to avoid possible
-> regressions with the other distros, although the new way should
-> probably work on all the currently supported distributions.
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  scripts/sphinx-pre-install | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->=20
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index fa3fb05cd54b..c2071a1c69ea 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -780,6 +780,24 @@ $system_release =3D catcheck("/etc/system-release") =
-if !$system_release;
->  $system_release =3D catcheck("/etc/redhat-release") if !$system_release;
->  $system_release =3D catcheck("/etc/lsb-release") if !$system_release;
->  $system_release =3D catcheck("/etc/gentoo-release") if !$system_release;
-> +
-> +# This seems more common than LSB those days
-should 'those' be 'these'?
-
-> +if (!$system_release) {
-> +	my %os_var;
-> +	if (open IN, "cat /etc/os-release|") {
-> +		while (<IN>) {
-> +			if (m/^([\w\d\_]+)=3D\"?([^\"]*)\"?\n/) {
-> +				$os_var{$1}=3D$2;
-> +			}
-> +		}
-> +		$system_release =3D $os_var{"NAME"};
-> +		if (defined($os_var{"VERSION_ID"})) {
-> +			$system_release .=3D " " . $os_var{"VERSION_ID"} if (defined($os_var{=
-"VERSION_ID"}));
-> +		} else {
-> +			$system_release .=3D " " . $os_var{"VERSION"};
-> +		}
-> +	}
-> +}
->  $system_release =3D catcheck("/etc/issue") if !$system_release;
->  $system_release =3D~ s/\s+$//;
->=20
-> --
-> 2.25.2
-
+On Mon, Nov 11, 2019 at 5:16 PM William Breathitt Gray
+<vilhelm.gray@gmail.com> wrote:
+>
+> On Mon, Nov 11, 2019 at 11:49:55AM +0000, Jonathan Cameron wrote:
+> > On Sun, 10 Nov 2019 10:14:08 -0500
+> > William Breathitt Gray <vilhelm.gray@gmail.com> wrote:
+> >
+> > > On Tue, Sep 24, 2019 at 04:20:51PM +0200, Fabien Lahoudere wrote:
+> > > > Hi all,
+> > > >
+> > > > After some discussions and investigation, the timestamp is very
+> > > > important for that sync driver.
+> > > > Google team uses that timestamp to compare with gyroscope timestamp.
+> > > >
+> > > > So the important data is timestamp and counter value is useless.
+> > > > Just the event of counter increment is important to get a timestamp.
+> > > >
+> > > > In that case, my idea was to just use an IIO driver with a single
+> > > > channel with IIO_TIMESTAMP. We discuss this here and it seems
+> > > > controversial.
+> > > >
+> > > > So my question to Jonathan is if we have a timestamp coming from the EC
+> > > > itself, can we consider this timestamp as a good IIO driver?
+> > > >
+> > > > Any other idea is welcome, however Google team would like to manage
+> > > > only IIO drivers if possible.
+> > > >
+> > > > Thanks
+> > >
+> > > Jonathan,
+> > >
+> > > Should the the timestamp from the EC be introduced as an IIO driver
+> > > using IIO_TIMESTAMP?
+> >
+> > It is is a rather odd driver but I suppose it would be fine with lots
+> > of clear docs on why it is how it is...
+> >
+> > >
+> > > Since there is no corresponding EC Counter driver in the baseline right
+> > > now we don't have a conflict yet. If the EC timestamp is introduced as
+> > > an IIO driver then we should make any future EC Counter driver mutually
+> > > exclusive with the IIO driver in order to prevent any memory space
+> > > conflict. At that point we may deprecate the IIO driver and move the
+> > > timestamp functionality to the corresponding Counter driver.
+> >
+> > That route does become somewhat of a mess so I suspect we'd have to have
+> > a single driver supporting both userspace interfaces.  If you are happy
+> > that we'd be adding a bit of legacy to support for ever then we can go
+> > that way.
+>
+> Generally I'd prefer all components of a device to be supported, but
+> if this is as Fabien suggests that due to the nature of this particular
+> device the counter value is of no interest, then a Counter driver is of
+> little practical use here. In this particular case, it seems better to
+> restrict the driver support to just the timestamp functionality that
+> will be used, rather than introduce extra code to expose values that
+> will likely be ignored and risk adding code to the kernel that becomes
+> unmaintained due to lack of exposure or interest.
+>
+> William Breathitt Gray
+>
+> >
+> > >
+> > > That's assuming someone is interested in the Count component enough to
+> > > implement an EC Counter driver; otherwise, the IIO driver will serve
+> > > just fine if timestamp is the only data desired from this device.
+> > >
+> > > William Breathitt Gray
+> >
+> >
