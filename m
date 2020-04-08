@@ -2,97 +2,117 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44FEFC2BA1A
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FB4C2BA2B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:52:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 168D220769
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:49:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586360969;
-	bh=ye2CgUYCSqFysyTcMZGbUC3+b/DeIcyAgFxFOsM0mDI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=oGHmGOzuOnhGi4On3n3HLpNFtjaAuAENLOJx3C44/UR2SzrF4Kw+VVRDit+bShr2w
-	 ohC9Mh2Zh4CZW4C7Yo/wJEtbLmTqC9ob6APTaEPbD4pXjClxruioTUKrOT40R2D6gc
-	 Hqx0lgufTserqGPAZTeZPoayD+ZQGZkoBMHWA6QA=
+	by mail.kernel.org (Postfix) with ESMTP id 6615220730
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729725AbgDHPt2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:49:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52904 "EHLO mail.kernel.org"
+        id S1729176AbgDHPv5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 11:51:57 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47750 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729502AbgDHPt2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Apr 2020 11:49:28 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 52A8B206F5;
-        Wed,  8 Apr 2020 15:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586360967;
-        bh=ye2CgUYCSqFysyTcMZGbUC3+b/DeIcyAgFxFOsM0mDI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mBRoO4V7hIW80h+FrLth1k9gnfo/pigAPcZkkT5ZkTjJbS8GgTj635UeaXBKpoXkP
-         EnXOzlCBUzPJySgR4/NX0KLXzf6+30jxMlD0nH7UIdoZUM/6xk632X5drsRdaSKcFe
-         eQzK8/WJfZ6i/fXXdMjly0Kr6XblN6tODkkMxf38=
-Date:   Wed, 8 Apr 2020 16:49:25 +0100
-From:   Mark Brown <broonie@kernel.org>
+        id S1728062AbgDHPv5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Apr 2020 11:51:57 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id D9CC7AF6E;
+        Wed,  8 Apr 2020 15:51:51 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+        id 0B140DA730; Wed,  8 Apr 2020 17:51:10 +0200 (CEST)
+Date:   Wed, 8 Apr 2020 17:51:10 +0200
+From:   David Sterba <dsterba@suse.cz>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-spi@vger.kernel.org
-Subject: Re: [PATCH 21/35] docs: spi: spi.h: fix a doc building warning
-Message-ID: <20200408154925.GA5177@sirena.org.uk>
+        Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        David Sterba <dsterba@suse.com>,
+        David Howells <dhowells@redhat.com>,
+        "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Tyler Hicks <code@tyhicks.com>,
+        Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+        Anton Altaparmakov <anton@tuxera.com>,
+        Mark Fasheh <mark@fasheh.com>,
+        Joel Becker <jlbec@evilplan.org>,
+        Joseph Qi <joseph.qi@linux.alibaba.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, linux-afs@lists.infradead.org,
+        ecryptfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+        ocfs2-devel@oss.oracle.com
+Subject: Re: [PATCH 05/35] docs: filesystems: fix renamed references
+Message-ID: <20200408155110.GW5920@suse.cz>
+Reply-To: dsterba@suse.cz
+Mail-Followup-To: dsterba@suse.cz,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        David Sterba <dsterba@suse.com>,
+        David Howells <dhowells@redhat.com>,
+        "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+        Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>,
+        Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+        Anton Altaparmakov <anton@tuxera.com>,
+        Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+        Joseph Qi <joseph.qi@linux.alibaba.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, linux-afs@lists.infradead.org,
+        ecryptfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+        ocfs2-devel@oss.oracle.com
 References: <cover.1586359676.git.mchehab+huawei@kernel.org>
- <d62f3f3536c0da2062bad87524fb184ad5a9a5f2.1586359676.git.mchehab+huawei@kernel.org>
+ <bcfddf36f60d928c78473af4e6a0b29904213c44.1586359676.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d62f3f3536c0da2062bad87524fb184ad5a9a5f2.1586359676.git.mchehab+huawei@kernel.org>
-X-Cookie: Sank heaven for leetle curls.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <bcfddf36f60d928c78473af4e6a0b29904213c44.1586359676.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Apr 08, 2020 at 05:45:57PM +0200, Mauro Carvalho Chehab wrote:
+> Some filesystem references got broken by a previous patch
+> series I submitted. Address those.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For
 
-On Wed, Apr 08, 2020 at 05:46:13PM +0200, Mauro Carvalho Chehab wrote:
-> We need to add a blank line to avoid this warning:
->=20
-> 	./include/linux/spi/spi.h:401: WARNING: Unexpected indentation.
+>  fs/affs/Kconfig                                             | 2 +-
 
->   * @transfer_one: transfer a single spi_transfer.
-> + *
->   *                  - return 0 if the transfer is finished,
->   *                  - return 1 if the transfer is still in progress. When
->   *                    the driver is finished with this transfer it must
-
-Are you sure this is a sensible fix?  The following lines should be part
-of the documentation for transfer_one, will that be the case after your
-change?
-
---Nq2Wo0NMKNjxTN9z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl6N8oQACgkQJNaLcl1U
-h9ADFAf/fx8bDo5MrqjuRdoyjFCwBxM7HE0VHxtW2VKIbiMPUe21gNoyjVDF4ObX
-shR/3FATGwbGRc8dSdaAQXnV7Lmjqjdbfgkt35XgWvmRxjeSWdFd2BM2WxutVzJr
-/mOTN/gKM+8K3mgBxR+UOEoVI0WSNZGdx0pQZu1HGdsqKk3iQuWUzjonPiGpG/T8
-e+ueC+FhaC7QDMwGXXpxP0FtRzLiOP95pAy03o1dYpWnf6ORiuwjl8Dz6sDzZpSa
-N/RdEt23t/JFi1V96D5LsGh+TdjoTl8hPt1L68AbGIBSRSmhpt0+7aFQ+wpmWBSJ
-HBqe97rqeLS2mxqM8cwp8CjoKvKy0Q==
-=h6Sg
------END PGP SIGNATURE-----
-
---Nq2Wo0NMKNjxTN9z--
+Acked-by: David Sterba <dsterba@suse.com>
