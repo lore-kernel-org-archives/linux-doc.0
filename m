@@ -2,52 +2,90 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4810EC2D0EA
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 04:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63642C2D0EA
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 05:35:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 19EF22074F
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 04:20:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22BDF20730
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 05:35:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SO1uPZFW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xnn4RHbR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725879AbgDHEUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 00:20:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33530 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725763AbgDHEUi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 00:20:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=GvKjamk4sUiFDTkcqp3XAfdPqgx9QZfLYdf2cSZ1qKc=; b=SO1uPZFWq9Nmiok273flcRjei6
-        zMiNn9DgT7zswypc0bl0FaKR3j57q4haOMi/ZvDXdsDn/3OobU92p2wJlwbawnvymVX1qvpIJTXia
-        eA5VuDo+6U2R22v7+dEkLEV3Jxw2d1rNX8SdjOI0O/qcaZXaHXgE/rKUkLw9EsIHl3//62waCO7gW
-        DW9Jozfe6VY+rz3vvdupHppSqaaj5yy+pOYrwfsVweB4OzZSpoBbTJ6MIiWpvlFdbiGVS1VRWwqbe
-        yN84Q6GV05opH3H0DoKSBYsdHt/q54LqF64CWoxAwWpSxs++GDzfOuJzsIfzpXa55/oOrnR4xdOXu
-        U0+7g4ig==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jM2Ca-0004vT-R1; Wed, 08 Apr 2020 04:20:36 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH -next] dma-buf: fix documentation build warnings
-Message-ID: <7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org>
-Date:   Tue, 7 Apr 2020 21:20:34 -0700
+        id S1726469AbgDHFfl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 01:35:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39604 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726464AbgDHFfl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 01:35:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1586324140;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=DKKitWhcmQp3vV4NVp+aFS/cFmyiwETlBaGYg7qvVcg=;
+        b=Xnn4RHbRS3oZ9HSOE2kWM/gXtOcnxrSPJuzjlQumnqMYy5rKyO1WglO1LEQTQaFch3tTVO
+        lEGm1y6Jhakq2T8JqkqN0XO0OkRkP+Gd2XTk8xgLk3cGLHZ90VXUoZ7z9nP+7ETfU1Ea0i
+        H0xyfVDShZVLC5jp7i5TZKFoDPh7HOY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-yRH2P7uFPSmXl5AEzJkVuQ-1; Wed, 08 Apr 2020 01:35:38 -0400
+X-MC-Unique: yRH2P7uFPSmXl5AEzJkVuQ-1
+Received: by mail-wm1-f69.google.com with SMTP id 2so1823517wmf.1
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2020 22:35:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DKKitWhcmQp3vV4NVp+aFS/cFmyiwETlBaGYg7qvVcg=;
+        b=CCJcDdUrHQkhJful/olCpVMc43EIs6TGawxEMYA/CNN0Jo78LXNkI6Tog2GStyGjGU
+         CLzTipUVcNyaoHt1UYZe9GLP9zIn1j9jsBgC9SbdybgVGiB9H3xe2vaSS69TA34BLZls
+         H3P84e2zVe9tTUVLwUPMxgMyJAWIOEGsRfyRnqweZLmZ0E+NpfVyTLlleiN2e2ZQ3cVg
+         FkJMFFrxAN4gbX1BNOR9YcM6DhFK9RfIdy6zl1YASIu4z8j3RuxfpSj4DF1PvmUXVQfX
+         0Jh+C+tUPdPHEX4tSZOnBV9whiHPSMbiyGrmh0kiWwsWH3Hx2weOguzOu7baA7HVpmgQ
+         bImg==
+X-Gm-Message-State: AGi0PuYT9maJhq081flVASrDUsEo2T0Qah9PCrk+NYMSrieP9g64vC2M
+        cPyyRWhPDt79R7zj+lSseFlSSbDrLR2gYUBv0TsCfCsF4sMKFnyZrMrltDX7hu0MCL10iKcO/6n
+        C0r4lCp7VmqPFsDph+O+p
+X-Received: by 2002:a5d:51cf:: with SMTP id n15mr5925798wrv.195.1586324137179;
+        Tue, 07 Apr 2020 22:35:37 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKVQ6jZnquj60J3lHFYTbd2lZIBqpDJo2lkuyyEwCh61W49kQbylHv8LwYeofyA5MUiATbDSA==
+X-Received: by 2002:a5d:51cf:: with SMTP id n15mr5925770wrv.195.1586324136872;
+        Tue, 07 Apr 2020 22:35:36 -0700 (PDT)
+Received: from x1.bristot.me ([87.19.200.153])
+        by smtp.gmail.com with ESMTPSA id a12sm5179399wmj.22.2020.04.07.22.35.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Apr 2020 22:35:36 -0700 (PDT)
+Subject: Re: [RFC PATCH 2/3] docs: scheduler: Add scheduler overview
+ documentation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        John Mathew <john.mathew@unikie.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        tsbogend@alpha.franken.de, lukas.bulwahn@gmail.com, x86@kernel.org,
+        linux-mips@vger.kernel.org, tglx@linutronix.de,
+        mostafa.chamanara@basemark.com
+References: <20200401100029.1445-1-john.mathew@unikie.com>
+ <20200401100029.1445-3-john.mathew@unikie.com>
+ <20200401103520.GA20713@hirez.programming.kicks-ass.net>
+ <9614b346-a848-3e01-eea7-6237b759dad6@redhat.com>
+ <20200407134028.44d0d16a@lwn.net>
+From:   Daniel Bristot de Oliveira <bristot@redhat.com>
+Message-ID: <20358dfa-4216-9e84-79a6-b34accbc4280@redhat.com>
+Date:   Wed, 8 Apr 2020 07:35:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200407134028.44d0d16a@lwn.net>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -55,52 +93,79 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On 4/7/20 9:40 PM, Jonathan Corbet wrote:
+> On Wed, 1 Apr 2020 13:47:04 +0200
+> Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
+> 
+>>> And that is a prime example of why I hates RST, it pretty much mandates
+>>> you view this with something other than a text editor.  
+>> The good thing about the dot format is that we can convert it to many other
+>> formats, including text:
+>>
+>> [bristot@x1 ~]$ cat sched_transition.dot | graph-easy 
+>>
+>>                        *
+>>
+>>                        |
+>>                        | task
+>>                        | forks
+>>                        v
+>>                      +------------------------------------+
+>>                      |              TASK_NEW              |
+>>                      |           (Ready to run)           |
+>>                      +------------------------------------+
+>>                        |
+>>                        |
+>>                        v
+>> + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -+
+>> '                                     int                                            '
+>> '                                                                                    '
+>> '                    +------------------------------------+                          '
+>> '                    |            TASK_RUNNING            |                          '
+>> '   +--------------> |           (Ready to run)           | <--+                     '
+>> '   |                +------------------------------------+    |                     '
+>> '   |                  |                                       |                     '
+>> '   |                  | schedule() calls context_switch()     | task is pre-empted  '
+>> '   |                  v                                       |                     '
+>> '   |                +------------------------------------+    |                     '
+>> '   |                |            TASK_RUNNING            |    |                     '
+>> '   |                |             (Running)              | ---+                     '
+>> '   | event occurred +------------------------------------+                          '
+>> '   |                  |                                                             '
+>> '   |                  |                                      - - - - - - - - - - - -+
+>> '   |                  |                                    '
+>> '   |                  | task needs to wait for event       '
+>> '   |                  v                                    '
+>> '   |                +------------------------------------+ '
+>> '   |                |         TASK_INTERRUPTIBLE         | '
+>> '   |                |        TASK_UNINTERRUPTIBLE        | '
+>> '   +--------------- |           TASK_WAKEKILL            | '
+>> '                    +------------------------------------+ '
+>> '                                                           '
+>> + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+>>                        |
+>>                        | task exits via do_exit()
+>>                        v
+>>                      +------------------------------------+
+>>                      |             TASK_DEAD              |
+>>                      |            EXIT_ZOMBIE             |
+>>                      +------------------------------------+
+>>
+>>
+>> Is there a way to also add this representation, while hiding it
+>> when using a graphical reader?
+> Better, honestly, to just put the ascii art into the doc as a literal
+> block.  I don't see any real reason to embed Dot stuff unless there's
+> really no alternative.
 
-Fix documentation warnings in dma-buf.[hc]:
+I agree.
 
-../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_ops' not described in 'dma_buf_dynamic_attach'
-../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_priv' not described in 'dma_buf_dynamic_attach'
-../include/linux/dma-buf.h:339: warning: Incorrect use of kernel-doc format:          * @move_notify
+I think that their idea was focused on a media that could translate the
+"source-code in .dot" into a graphical representation, which is good. But that
+is not the case for this file and its audience.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/dma-buf.c |    4 ++--
- include/linux/dma-buf.h   |    3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
+But, maybe, it would be nice to have the .dot somewhere (not in the document, I
+agree) as a "source code" for future updates.
 
---- linux-next-20200407.orig/drivers/dma-buf/dma-buf.c
-+++ linux-next-20200407/drivers/dma-buf/dma-buf.c
-@@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
-  * calls attach() of dma_buf_ops to allow device-specific attach functionality
-  * @dmabuf:		[in]	buffer to attach device to.
-  * @dev:		[in]	device to be attached.
-- * @importer_ops	[in]	importer operations for the attachment
-- * @importer_priv	[in]	importer private pointer for the attachment
-+ * @importer_ops:	[in]	importer operations for the attachment
-+ * @importer_priv:	[in]	importer private pointer for the attachment
-  *
-  * Returns struct dma_buf_attachment pointer for this attachment. Attachments
-  * must be cleaned up by calling dma_buf_detach().
---- linux-next-20200407.orig/include/linux/dma-buf.h
-+++ linux-next-20200407/include/linux/dma-buf.h
-@@ -329,13 +329,12 @@ struct dma_buf {
- 
- /**
-  * struct dma_buf_attach_ops - importer operations for an attachment
-- * @move_notify: [optional] notification that the DMA-buf is moving
-  *
-  * Attachment operations implemented by the importer.
-  */
- struct dma_buf_attach_ops {
- 	/**
--	 * @move_notify
-+	 * @move_notify: [optional] notification that the DMA-buf is moving
- 	 *
- 	 * If this callback is provided the framework can avoid pinning the
- 	 * backing store while mappings exists.
+-- Daniel
 
