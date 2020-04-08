@@ -2,104 +2,130 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 677F6C2BB1D
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 16:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49479C2BA1A
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 16:24:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A69D208FE
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 16:16:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586362599;
-	bh=6hfSDzlNd3y1sAU9Jd6AakTZV7IxYTRVxEaxCRmGfg4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Nr+0usgSsazKUxqV8GjMc3h01MDmKMhIEvhzn1xkcspeDlI5PgGMO7wxjlvL/2DAI
-	 8jKsGJOo1sQPEltBjO3/wnvEQjqgBdWY9qQ5m9kCSmUYJ0yUicv7kfAvrpyHg1Z4Ld
-	 knbkx8sC32+DHzFdNiRP0sFesBw/6pfvZ1WE/b9E=
+	by mail.kernel.org (Postfix) with ESMTP id 229A920784
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 16:24:47 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DsqtBI6q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730203AbgDHQQf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 12:16:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35784 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729684AbgDHQQc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Apr 2020 12:16:32 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2D9AB2072F;
-        Wed,  8 Apr 2020 16:16:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586362591;
-        bh=6hfSDzlNd3y1sAU9Jd6AakTZV7IxYTRVxEaxCRmGfg4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UOyaNOTlJ2XyyzWqchJBMbWruRXC7Q/NRjmPfx7WISfQlcmaFnOeJyKRgH6RsICTS
-         IEg1yjKn4l8xZHu2G4rogmcYU9C8z8bxB2VbTFfchAh9HNf167lePH96C9wCbEIWqN
-         V/mL6nhDbH7D2EMa6yiXlSL2Yj/C+Ucsao8umDLQ=
-Date:   Wed, 8 Apr 2020 17:16:29 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-spi@vger.kernel.org
-Subject: Re: [PATCH 21/35] docs: spi: spi.h: fix a doc building warning
-Message-ID: <20200408161629.GC5177@sirena.org.uk>
-References: <cover.1586359676.git.mchehab+huawei@kernel.org>
- <d62f3f3536c0da2062bad87524fb184ad5a9a5f2.1586359676.git.mchehab+huawei@kernel.org>
- <20200408154925.GA5177@sirena.org.uk>
- <20200408181154.6c290772@coco.lan>
+        id S1730281AbgDHQYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 12:24:46 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:40970 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729419AbgDHQYq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 12:24:46 -0400
+Received: by mail-lj1-f196.google.com with SMTP id n17so8256835lji.8
+        for <linux-doc@vger.kernel.org>; Wed, 08 Apr 2020 09:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s5aiANvhgix2N64LwK7RWDgOwJhQeHsVBzrYi29ys94=;
+        b=DsqtBI6qRFjNpPkePJmA4uX3kNk0ar1H6f+mDa9WCWCogbW1T44w59UgWS3voTEzVK
+         genV1UO4Or0H2X/qb8IDbOA88OBquO3BkpRlNYz06H9TiREZObOBBJUBZTq+Ufv9WsE4
+         +7C0iZS1MYYzD1pJn+M2c6GEdXyXvNHvkqSWB4XXDBcfiYWq+U6RNTMgvedFjt69dE17
+         14nDpSBj3rkurQYjwNYAGpRsn6UJpZ2eN0cavWpSULcVrBGXx1iDEO77FjTZcDVdSRvX
+         QkJmuqfyrMbk+hWYW2pBub6BYirXJ+pM+Mp0JbV/YyhrzUF5+jieHm0nw0AYVfNnXrxV
+         gdfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s5aiANvhgix2N64LwK7RWDgOwJhQeHsVBzrYi29ys94=;
+        b=qfFBrYK4v9iqZd+IjUFPAUI5gyWLYK4Jup4tnkBwHWPqbvxLmkQz2sBMyBH13ZkOLV
+         /AOnqVtzVhB5HAosrvH22wftUHm/WEiTQY+rtRS9Oq41UBP9ixa0pFX3WkxJ6zRb9Wlx
+         WhNi1pOmvzGetBCeTUDn4146vJCV/OBZO+HLw43xprHzNOJ9YTrm3bqJP+mvgtVbAE0i
+         54OVT4kNM3UUDVmAYa29qJZLeL7Zl6r6aghP24puo9wsVN7rC1cXaiFcNRhDeVRPbHSN
+         RBROAdoH+gw3WB8cKhvLsjYBaXUNOBzYTq7jQ3IR7SonzzcNLUsu2Aqciv5KiRW1fnbw
+         ZpIg==
+X-Gm-Message-State: AGi0PuYBSKyPi7H3uzaD/1TqCcb92i6uDZZZRsJSFZboV6OTgJ6SrWfb
+        nyegXaPZjo9A0k1Yx+YI0xDFlGk51aAZmSHrYYHN5A==
+X-Google-Smtp-Source: APiQypJwZtEyXK5GJK6816AgkQZ1Cx5TsDhHg1RPi2SPIJaChvEwYWQCWwAp1ip6qeVHQ0/Dbzy1kvzvsVWhJz83qlI=
+X-Received: by 2002:a05:651c:287:: with SMTP id b7mr400146ljo.73.1586363083460;
+ Wed, 08 Apr 2020 09:24:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="bKyqfOwhbdpXa4YI"
-Content-Disposition: inline
-In-Reply-To: <20200408181154.6c290772@coco.lan>
-X-Cookie: Sank heaven for leetle curls.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
+In-Reply-To: <20200408152151.5780-1-christian.brauner@ubuntu.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 8 Apr 2020 18:24:16 +0200
+Message-ID: <CAG48ez0KWgLMOp1d3X1AcRNc4-eF1YiCw=PgWiGjtM6PqQqawg@mail.gmail.com>
+Subject: Re: [PATCH 0/8] loopfs
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-block@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Serge Hallyn <serge@hallyn.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Saravana Kannan <saravanak@google.com>,
+        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        David Rheinsberg <david.rheinsberg@gmail.com>,
+        Tom Gundersen <teg@jklm.no>,
+        Christian Kellner <ckellner@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        linux-doc@vger.kernel.org,
+        Network Development <netdev@vger.kernel.org>,
+        Matthew Garrett <mjg59@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Apr 8, 2020 at 5:23 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+> One of the use-cases for loopfs is to allow to dynamically allocate loop
+> devices in sandboxed workloads without exposing /dev or
+> /dev/loop-control to the workload in question and without having to
+> implement a complex and also racy protocol to send around file
+> descriptors for loop devices. With loopfs each mount is a new instance,
+> i.e. loop devices created in one loopfs instance are independent of any
+> loop devices created in another loopfs instance. This allows
+> sufficiently privileged tools to have their own private stash of loop
+> device instances. Dmitry has expressed his desire to use this for
+> syzkaller in a private discussion. And various parties that want to use
+> it are Cced here too.
+>
+> In addition, the loopfs filesystem can be mounted by user namespace root
+> and is thus suitable for use in containers. Combined with syscall
+> interception this makes it possible to securely delegate mounting of
+> images on loop devices, i.e. when a user calls mount -o loop <image>
+> <mountpoint> it will be possible to completely setup the loop device.
+> The final mount syscall to actually perform the mount will be handled
+> through syscall interception and be performed by a sufficiently
+> privileged process. Syscall interception is already supported through a
+> new seccomp feature we implemented in [1] and extended in [2] and is
+> actively used in production workloads. The additional loopfs work will
+> be used there and in various other workloads too. You'll find a short
+> illustration how this works with syscall interception below in [4].
 
---bKyqfOwhbdpXa4YI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Would that privileged process then allow you to mount your filesystem
+images with things like ext4? As far as I know, the filesystem
+maintainers don't generally consider "untrusted filesystem image" to
+be a strongly enforced security boundary; and worse, if an attacker
+has access to a loop device from which something like ext4 is mounted,
+things like "struct ext4_dir_entry_2" will effectively be in shared
+memory, and an attacker can trivially bypass e.g.
+ext4_check_dir_entry(). At the moment, that's not a huge problem (for
+anything other than kernel lockdown) because only root normally has
+access to loop devices.
 
-On Wed, Apr 08, 2020 at 06:11:54PM +0200, Mauro Carvalho Chehab wrote:
-> Mark Brown <broonie@kernel.org> escreveu:
+Ubuntu carries an out-of-tree patch that afaik blocks the shared
+memory thing: <https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/eoan/commit?id=4bc428fdf5500b7366313f166b7c9c50ee43f2c4>
 
-> > Are you sure this is a sensible fix?  The following lines should be part
-> > of the documentation for transfer_one, will that be the case after your
-> > change?
-
-> Without that, Sphinx will warn and may produce something unexpected.
-
-Right, but if the warning is telling us something useful we want to
-handle it rather than just shutting it up.
-
-> If this patch is applied after 20/25, the output should produce the
-> correct result:
-
-> 	https://www.infradead.org/~mchehab/kernel_docs/driver-api/spi.html#spi-master-methods
-
-OK.
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---bKyqfOwhbdpXa4YI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl6N+NwACgkQJNaLcl1U
-h9COfQf/RyWv5ouZMvEbQMIpNX5InGPPjbr0C27pLKeFq2wSUXNasDikm8a1bBEZ
-Pi0AzsJgcZv1GPxAgrbBJ2zygGAWcZZChhKTLZoGVMKjLX5DFX5uTF3deH+bfvoG
-mQHF+l96EIaAWQA1aCGb2iBnhLkTy0U902SAp8mYZgS00VNKLJMlaN/cEZVzX3Mt
-P0NFR4b/gAW+1YiS5Ra7muv9mINJUo7esIOei6SSxqeJZJMHaWE+Dr/LCmaA3EFf
-lIvp4u+uZQRGerdS8bZJVqfInf4wLwL/cPWvvaRnVBBwK1MRBAhuZniVN1TRfn8i
-clWcDXFG40bUNJt4TyqTq2hrYFZ/9A==
-=DOmV
------END PGP SIGNATURE-----
-
---bKyqfOwhbdpXa4YI--
+But even with that patch, I'm not super excited about exposing
+filesystem image parsing attack surface to containers unless you run
+the filesystem in a sandboxed environment (at which point you don't
+need a loop device anymore either).
