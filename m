@@ -7,52 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3AC1C2D0EA
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23775C2BB1D
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ACD85206F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DEED0206F5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586360833;
-	bh=4l77Yn2wW/bRDMs12FfVArUGIzMtsVYGB6DvYUarqs0=;
+	s=default; t=1586360835;
+	bh=QM0vWrqOsJsv4eZsnUj0jGPK7QIQ2t068vlV3vEIqVs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Fn61mlxaOG2DqEpG9EKLbApkHCD1i75KR+FsF0Vqebk4H+ROt5hPH1dynOWDmewxh
-	 KHD8VMDPptCjblH7X2mPOtNcavIvIULah0xSQPp4ft1eJIgXR89snHtdy5hoSwU9um
-	 jcAOknFmAet7uNSnD0nAjUdMQh7aTGyUC2yVeM6s=
+	b=fXCygWCNFShIYS0ftQptxhezX1FJtNIC/+T3AtWQXRg/u7h/Kc4/rUtK2/brcFYZD
+	 3IKPcyNGhdZmdiCYrTcfhHSgsxwKB8+uI+Qc01h3/n13v3gpAmmMMstZ5mhb1IoW1n
+	 qzb7WGb/muwWrS78/mVnElxFzLghIYTLWkCfruRw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729817AbgDHPrN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:47:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49388 "EHLO mail.kernel.org"
+        id S1729834AbgDHPrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 11:47:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49298 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729702AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729682AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 8 Apr 2020 11:46:33 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 05490221F6;
-        Wed,  8 Apr 2020 15:46:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B2FC021D7E;
+        Wed,  8 Apr 2020 15:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586360792;
-        bh=4l77Yn2wW/bRDMs12FfVArUGIzMtsVYGB6DvYUarqs0=;
+        s=default; t=1586360791;
+        bh=QM0vWrqOsJsv4eZsnUj0jGPK7QIQ2t068vlV3vEIqVs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VF6H0x7Ot7lxgI1ISZI/YaviI/NzcKJPIZRwbZ4mM/xbQrZrwEL38pg10zez1SP5E
-         xuOIgatlYINtigXbwOO+bL9qeFHD/iYMHVqtlniNhRBnLGE6sEwI9jcuhPBLVXWwWK
-         0ZtgiYvnGF9as+3xSzHcfydypiHgf9tO1mkp/qR8=
+        b=bgMG+zPCZqF8L2b5haE8F2fByYG1RelsbPsj82c1DXIfQrvSOkL+fh+qwvh0wHQ1v
+         N2mT/AY89IsGTWjPoF0u9zgZob1jZ56n7SQtob1ZBqFrlPSbIKhux7NgtolKzIYjZ0
+         xahMDL9iFmCEo1dKqLWCsYugVw0h04g1PNGZtYhU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jMCuM-000cCe-6M; Wed, 08 Apr 2020 17:46:30 +0200
+        id 1jMCuL-000cC1-Tb; Wed, 08 Apr 2020 17:46:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Matthias Brugger <mbrugger@suse.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH 30/35] docs: dt: fix a broken reference for a file converted to json
-Date:   Wed,  8 Apr 2020 17:46:22 +0200
-Message-Id: <402922bc26fe9b340dff8693bab57142820f1fc7.1586359676.git.mchehab+huawei@kernel.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH 22/35] docs: drivers: fix some warnings at base/platform.c when building docs
+Date:   Wed,  8 Apr 2020 17:46:14 +0200
+Message-Id: <b3a375af07cd1bb521254f01baf176b123839d96.1586359676.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586359676.git.mchehab+huawei@kernel.org>
 References: <cover.1586359676.git.mchehab+huawei@kernel.org>
@@ -63,31 +60,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
-moved a binding to json and updated the links. Yet, one link
-was forgotten.
+Currrently, two warnings are generated when building docs:
 
-Update this one too.
+	./drivers/base/platform.c:136: WARNING: Unexpected indentation.
+	./drivers/base/platform.c:214: WARNING: Unexpected indentation.
 
-Fixes: 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
+As examples are code blocks, they should use "::" markup. However,
+
+	Example::
+
+Is currently interpreted as a new section.
+
+While we could fix kernel-doc to accept such new syntax, it is
+easier to just replace it with:
+
+	For Example::
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/base/platform.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt b/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
-index badf597c0e58..aad2632c6443 100644
---- a/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
-+++ b/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
-@@ -30,7 +30,7 @@ Required properties for compatible string qcom,wcn399x-bt:
- 
- Optional properties for compatible string qcom,wcn399x-bt:
- 
-- - max-speed: see Documentation/devicetree/bindings/serial/slave-device.txt
-+ - max-speed: see Documentation/devicetree/bindings/serial/serial.yaml
-  - firmware-name: specify the name of nvm firmware to load
-  - clocks: clock provided to the controller
- 
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 5255550b7c34..a07e28eab7d7 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -147,7 +147,8 @@ EXPORT_SYMBOL_GPL(devm_platform_ioremap_resource_byname);
+  * request_irq() APIs. This is the same as platform_get_irq(), except that it
+  * does not print an error message if an IRQ can not be obtained.
+  *
+- * Example:
++ * For example::
++ *
+  *		int irq = platform_get_irq_optional(pdev, 0);
+  *		if (irq < 0)
+  *			return irq;
+@@ -226,7 +227,8 @@ EXPORT_SYMBOL_GPL(platform_get_irq_optional);
+  * IRQ fails. Device drivers should check the return value for errors so as to
+  * not pass a negative integer value to the request_irq() APIs.
+  *
+- * Example:
++ * For example::
++ *
+  *		int irq = platform_get_irq(pdev, 0);
+  *		if (irq < 0)
+  *			return irq;
 -- 
 2.25.2
 
