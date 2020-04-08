@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8226FC2D0F4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 03:53:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4810EC2D0EA
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 04:20:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4476D2076E
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 03:53:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 19EF22074F
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 04:20:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WYUqTBJ4"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SO1uPZFW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726464AbgDHDxe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 23:53:34 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:56560 "EHLO
+        id S1725879AbgDHEUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 00:20:38 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:33530 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726453AbgDHDxe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 23:53:34 -0400
+        with ESMTP id S1725763AbgDHEUi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 00:20:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
         Content-ID:Content-Description:In-Reply-To:References;
-        bh=VZlXPS69mqPnDD5f5q6GFfvEK1EUQzBlAkMBMX1ZF/M=; b=WYUqTBJ4IHsy3qmtIVa7HTHelQ
-        F2hR86QMdIWr+gbEsrPWmRrTXMIgCeWjNdlPWfradlM2VgFNHLZaVCbTKl3OFxLkTaxGwDM6DUthT
-        uCTcHFndqnHFhoojxxgCsKTi0vuG+mzVnZsZgjZeiaSnOgAv6JK0MImsBeFniZFmZRDJiPK8bZn3W
-        edqLNjN7erZx22FJ3yDk6knQdYoafZVzl/wmacMKv+Vv43czDRa0daFqsmeSDRWoogNh9K6x4rC1y
-        XJptPCZEtuJ4PeCdXX2lEfJ1a5W/h2VckIhCNE25OT2umGmG4Iti1W15DFzM1siFVYYeHxSbqHpM1
-        97TNZ+Yw==;
+        bh=GvKjamk4sUiFDTkcqp3XAfdPqgx9QZfLYdf2cSZ1qKc=; b=SO1uPZFWq9Nmiok273flcRjei6
+        zMiNn9DgT7zswypc0bl0FaKR3j57q4haOMi/ZvDXdsDn/3OobU92p2wJlwbawnvymVX1qvpIJTXia
+        eA5VuDo+6U2R22v7+dEkLEV3Jxw2d1rNX8SdjOI0O/qcaZXaHXgE/rKUkLw9EsIHl3//62waCO7gW
+        DW9Jozfe6VY+rz3vvdupHppSqaaj5yy+pOYrwfsVweB4OzZSpoBbTJ6MIiWpvlFdbiGVS1VRWwqbe
+        yN84Q6GV05opH3H0DoKSBYsdHt/q54LqF64CWoxAwWpSxs++GDzfOuJzsIfzpXa55/oOrnR4xdOXu
+        U0+7g4ig==;
 Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jM1mP-0003Tl-AZ; Wed, 08 Apr 2020 03:53:33 +0000
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Ionela Voinescu <ionela.voinescu@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
+        id 1jM2Ca-0004vT-R1; Wed, 08 Apr 2020 04:20:36 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH -next] Documentation: arm64: fix amu.rst doc warnings
-Message-ID: <ffbdd805-7322-1943-38cf-8bb9a2e7fe9e@infradead.org>
-Date:   Tue, 7 Apr 2020 20:53:31 -0700
+Subject: [PATCH -next] dma-buf: fix documentation build warnings
+Message-ID: <7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org>
+Date:   Tue, 7 Apr 2020 21:20:34 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
@@ -57,104 +57,50 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-Fix bullet list formatting to eliminate doc warnings:
+Fix documentation warnings in dma-buf.[hc]:
 
-Documentation/arm64/amu.rst:26: WARNING: Unexpected indentation.
-Documentation/arm64/amu.rst:60: WARNING: Unexpected indentation.
-Documentation/arm64/amu.rst:81: WARNING: Unexpected indentation.
-Documentation/arm64/amu.rst:108: WARNING: Unexpected indentation.
+../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_ops' not described in 'dma_buf_dynamic_attach'
+../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_priv' not described in 'dma_buf_dynamic_attach'
+../include/linux/dma-buf.h:339: warning: Incorrect use of kernel-doc format:          * @move_notify
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Ionela Voinescu <ionela.voinescu@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
 ---
- Documentation/arm64/amu.rst |   47 ++++++++++++++++++----------------
- 1 file changed, 26 insertions(+), 21 deletions(-)
+ drivers/dma-buf/dma-buf.c |    4 ++--
+ include/linux/dma-buf.h   |    3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
---- linux-next-20200407.orig/Documentation/arm64/amu.rst
-+++ linux-next-20200407/Documentation/arm64/amu.rst
-@@ -23,13 +23,14 @@ optional external memory-mapped interfac
+--- linux-next-20200407.orig/drivers/dma-buf/dma-buf.c
++++ linux-next-20200407/drivers/dma-buf/dma-buf.c
+@@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
+  * calls attach() of dma_buf_ops to allow device-specific attach functionality
+  * @dmabuf:		[in]	buffer to attach device to.
+  * @dev:		[in]	device to be attached.
+- * @importer_ops	[in]	importer operations for the attachment
+- * @importer_priv	[in]	importer private pointer for the attachment
++ * @importer_ops:	[in]	importer operations for the attachment
++ * @importer_priv:	[in]	importer private pointer for the attachment
+  *
+  * Returns struct dma_buf_attachment pointer for this attachment. Attachments
+  * must be cleaned up by calling dma_buf_detach().
+--- linux-next-20200407.orig/include/linux/dma-buf.h
++++ linux-next-20200407/include/linux/dma-buf.h
+@@ -329,13 +329,12 @@ struct dma_buf {
  
- Version 1 of the Activity Monitors architecture implements a counter group
- of four fixed and architecturally defined 64-bit event counters.
--  - CPU cycle counter: increments at the frequency of the CPU.
--  - Constant counter: increments at the fixed frequency of the system
--    clock.
--  - Instructions retired: increments with every architecturally executed
--    instruction.
--  - Memory stall cycles: counts instruction dispatch stall cycles caused by
--    misses in the last level cache within the clock domain.
-+
-+- CPU cycle counter: increments at the frequency of the CPU.
-+- Constant counter: increments at the fixed frequency of the system
-+  clock.
-+- Instructions retired: increments with every architecturally executed
-+  instruction.
-+- Memory stall cycles: counts instruction dispatch stall cycles caused by
-+  misses in the last level cache within the clock domain.
- 
- When in WFI or WFE these counters do not increment.
- 
-@@ -57,11 +58,12 @@ counters, only the presence of the exten
- 
- Firmware (code running at higher exception levels, e.g. arm-tf) support is
- needed to:
-- - Enable access for lower exception levels (EL2 and EL1) to the AMU
--   registers.
-- - Enable the counters. If not enabled these will read as 0.
-- - Save/restore the counters before/after the CPU is being put/brought up
--   from the 'off' power state.
-+
-+- Enable access for lower exception levels (EL2 and EL1) to the AMU
-+  registers.
-+- Enable the counters. If not enabled these will read as 0.
-+- Save/restore the counters before/after the CPU is being put/brought up
-+  from the 'off' power state.
- 
- When using kernels that have this feature enabled but boot with broken
- firmware the user may experience panics or lockups when accessing the
-@@ -78,10 +80,11 @@ are not trapped in EL2/EL3.
- 
- The fixed counters of AMUv1 are accessible though the following system
- register definitions:
-- - SYS_AMEVCNTR0_CORE_EL0
-- - SYS_AMEVCNTR0_CONST_EL0
-- - SYS_AMEVCNTR0_INST_RET_EL0
-- - SYS_AMEVCNTR0_MEM_STALL_EL0
-+
-+- SYS_AMEVCNTR0_CORE_EL0
-+- SYS_AMEVCNTR0_CONST_EL0
-+- SYS_AMEVCNTR0_INST_RET_EL0
-+- SYS_AMEVCNTR0_MEM_STALL_EL0
- 
- Auxiliary platform specific counters can be accessed using
- SYS_AMEVCNTR1_EL0(n), where n is a value between 0 and 15.
-@@ -93,9 +96,10 @@ Userspace access
- ----------------
- 
- Currently, access from userspace to the AMU registers is disabled due to:
-- - Security reasons: they might expose information about code executed in
--   secure mode.
-- - Purpose: AMU counters are intended for system management use.
-+
-+- Security reasons: they might expose information about code executed in
-+  secure mode.
-+- Purpose: AMU counters are intended for system management use.
- 
- Also, the presence of the feature is not visible to userspace.
- 
-@@ -105,8 +109,9 @@ Virtualization
- 
- Currently, access from userspace (EL0) and kernelspace (EL1) on the KVM
- guest side is disabled due to:
-- - Security reasons: they might expose information about code executed
--   by other guests or the host.
-+
-+- Security reasons: they might expose information about code executed
-+  by other guests or the host.
- 
- Any attempt to access the AMU registers will result in an UNDEFINED
- exception being injected into the guest.
+ /**
+  * struct dma_buf_attach_ops - importer operations for an attachment
+- * @move_notify: [optional] notification that the DMA-buf is moving
+  *
+  * Attachment operations implemented by the importer.
+  */
+ struct dma_buf_attach_ops {
+ 	/**
+-	 * @move_notify
++	 * @move_notify: [optional] notification that the DMA-buf is moving
+ 	 *
+ 	 * If this callback is provided the framework can avoid pinning the
+ 	 * backing store while mappings exists.
 
