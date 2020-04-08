@@ -4,53 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5642C2BB1D
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 314F7C2BA1A
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AF26120787
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B8D42076D
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586360823;
-	bh=TDBaW2fv5MluchG9f30Ep3GiWk6bRYTPMXmOqn5u5bQ=;
+	s=default; t=1586360826;
+	bh=fEH5MARuDeBm7xykHMdOvvg3KVJtsODv97Cvb7xeU/Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=mPk5YhdHIWNFio+MVC7zkoozNn4xljltHW7yjXHrMDDL8Velhdv3I1D3TVIfSnqX0
-	 nrOC4yxapFMfPy4BsGguF4sJlgRUzsk70Eryx9HurAi5wnYZtcqoT0P61MhYY7O3kT
-	 ft/v4szSEbFkaWd1OliLIieEPIZMnrz0QfXVpiJ4=
+	b=DpF6oA0DpuVGHewfjdZb5gwlGV4aTe8KWQ8S6TCcFc56taAEd8j31qbptyPLiRw62
+	 RmA9i6PpgLXXC5ebhMPGaipYAwqES6RbU7TBIht8LwKcVQIqzrTU5fUzOWO8f6KOvc
+	 QKbETA6ICW8IbDeZbhNi4BlekHN/zCrKrXWGizQg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729711AbgDHPqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:46:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49158 "EHLO mail.kernel.org"
+        id S1729700AbgDHPrD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 11:47:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49154 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729606AbgDHPqc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Apr 2020 11:46:32 -0400
+        id S1729675AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Apr 2020 11:46:33 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 28A01208FE;
+        by mail.kernel.org (Postfix) with ESMTPSA id A3A4220936;
         Wed,  8 Apr 2020 15:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586360791;
-        bh=TDBaW2fv5MluchG9f30Ep3GiWk6bRYTPMXmOqn5u5bQ=;
+        bh=fEH5MARuDeBm7xykHMdOvvg3KVJtsODv97Cvb7xeU/Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UDJfVq31ciABIS0QIxKOcq64GkxUoFgKVZD6tx5L/35W1N2l/24FLbjzA4pRTYPBA
-         HHVBgIC1/p5B+54ZF0PQAirDUn0B/RjlPhZ2vJhfrMDymDHGAobM8iIo0m+FMH0IiZ
-         /BK7CdnPI/j3Pcf3A0va2YYe5G5ev906LaSZXC/E=
+        b=ZITt0PBjJEATt9S90x8hP+JMoPOAEyhwpg6R9WZEHuXo7zP+bw0NQ/Npdx+51AXty
+         GWVn7hnrtJaOlxrEQ7UwWo56SVXy7O01WGLtyIDYYbPcBF/+FBfU9LrBtR9ASrT5DZ
+         Naxdza3tK1yYLjq7b/FymKsXGnA3YUzZyL5YC/ao=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jMCuL-000cAl-At; Wed, 08 Apr 2020 17:46:29 +0200
+        id 1jMCuL-000cBr-RF; Wed, 08 Apr 2020 17:46:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 07/35] docs: arm64: booting.rst: get rid of some warnings
-Date:   Wed,  8 Apr 2020 17:45:59 +0200
-Message-Id: <c8b258fc8e1b7c9531ac9b74a8a01a7ae505fd15.1586359676.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 20/35] docs: scripts/kernel-doc: accept blank lines on parameter description
+Date:   Wed,  8 Apr 2020 17:46:12 +0200
+Message-Id: <b7f5bf6cf16a4b7b4e1e4ab028fdcb8d5633599f.1586359676.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586359676.git.mchehab+huawei@kernel.org>
 References: <cover.1586359676.git.mchehab+huawei@kernel.org>
@@ -61,89 +58,115 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Get rid of those warnings:
+Sphinx is very pedantic with respect to blank lines. Sometimes,
+in order to make it to properly handle something, we need to
+add a blank line. However, currently, any blank line inside a
+kernel-doc comment like:
 
-    Documentation/arm64/booting.rst:253: WARNING: Unexpected indentation.
-    Documentation/arm64/booting.rst:259: WARNING: Block quote ends without a blank line; unexpected unindent.
+	/*
+	 * @foo: bar
+         *
+	 *       foobar
+	 *
+	 * some description
 
-By adding an extra blank lines where needed.
+will be considered as if "foobar" was part of the description.
 
-While here, use list markups on some places, as otherwise Sphinx
-will consider the next lines as continuation of the privious ones.
+This patch changes kernel-doc behavior. After it, foobar will
+be considered as part of the parameter text. The description
+will only be considered as such if it starts with:
+
+zero spaces after asterisk:
+
+	*foo
+
+one space after asterisk:
+	* foo
+
+or have a explicit Description section:
+
+	*   Description:
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/arm64/booting.rst | 36 ++++++++++++++++++++-------------
- 1 file changed, 22 insertions(+), 14 deletions(-)
+ scripts/kernel-doc | 35 +++++++++++++++++++++++------------
+ 1 file changed, 23 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/arm64/booting.rst b/Documentation/arm64/booting.rst
-index a3f1a47b6f1c..e50186092948 100644
---- a/Documentation/arm64/booting.rst
-+++ b/Documentation/arm64/booting.rst
-@@ -173,7 +173,9 @@ Before jumping into the kernel, the following conditions must be met:
- - Caches, MMUs
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index b019d8db6502..41ed4202f4ad 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -331,13 +331,14 @@ my $lineprefix="";
  
-   The MMU must be off.
-+
-   Instruction cache may be on or off.
-+
-   The address range corresponding to the loaded kernel image must be
-   cleaned to the PoC. In the presence of a system cache or other
-   coherent masters with caches enabled, this will typically require
-@@ -238,6 +240,7 @@ Before jumping into the kernel, the following conditions must be met:
-   - The DT or ACPI tables must describe a GICv2 interrupt controller.
+ # Parser states
+ use constant {
+-    STATE_NORMAL        => 0, # normal code
+-    STATE_NAME          => 1, # looking for function name
+-    STATE_BODY_MAYBE    => 2, # body - or maybe more description
+-    STATE_BODY          => 3, # the body of the comment
+-    STATE_PROTO         => 4, # scanning prototype
+-    STATE_DOCBLOCK      => 5, # documentation block
+-    STATE_INLINE        => 6, # gathering documentation outside main block
++    STATE_NORMAL        => 0,        # normal code
++    STATE_NAME          => 1,        # looking for function name
++    STATE_BODY_MAYBE    => 2,        # body - or maybe more description
++    STATE_BODY          => 3,        # the body of the comment
++    STATE_BODY_WITH_BLANK_LINE => 4, # the body, which has a blank line
++    STATE_PROTO         => 5,        # scanning prototype
++    STATE_DOCBLOCK      => 6,        # documentation block
++    STATE_INLINE        => 7,        # gathering doc outside main block
+ };
+ my $state;
+ my $in_doc_sect;
+@@ -1957,6 +1958,12 @@ sub process_body($$) {
+ 	}
+     }
  
-   For CPUs with pointer authentication functionality:
++    if ($state == STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
++	dump_section($file, $section, $contents);
++	$section = $section_default;
++	$contents = "";
++    }
 +
-   - If EL3 is present:
- 
-     - SCR_EL3.APK (bit 16) must be initialised to 0b1
-@@ -249,18 +252,22 @@ Before jumping into the kernel, the following conditions must be met:
-     - HCR_EL2.API (bit 41) must be initialised to 0b1
- 
-   For CPUs with Activity Monitors Unit v1 (AMUv1) extension present:
-+
-   - If EL3 is present:
--    CPTR_EL3.TAM (bit 30) must be initialised to 0b0
--    CPTR_EL2.TAM (bit 30) must be initialised to 0b0
--    AMCNTENSET0_EL0 must be initialised to 0b1111
--    AMCNTENSET1_EL0 must be initialised to a platform specific value
--    having 0b1 set for the corresponding bit for each of the auxiliary
--    counters present.
-+
-+    - CPTR_EL3.TAM (bit 30) must be initialised to 0b0
-+    - CPTR_EL2.TAM (bit 30) must be initialised to 0b0
-+    - AMCNTENSET0_EL0 must be initialised to 0b1111
-+    - AMCNTENSET1_EL0 must be initialised to a platform specific value
-+      having 0b1 set for the corresponding bit for each of the auxiliary
-+      counters present.
-+
-   - If the kernel is entered at EL1:
--    AMCNTENSET0_EL0 must be initialised to 0b1111
--    AMCNTENSET1_EL0 must be initialised to a platform specific value
--    having 0b1 set for the corresponding bit for each of the auxiliary
--    counters present.
-+
-+    - AMCNTENSET0_EL0 must be initialised to 0b1111
-+    - AMCNTENSET1_EL0 must be initialised to a platform specific value
-+      having 0b1 set for the corresponding bit for each of the auxiliary
-+      counters present.
- 
- The requirements described above for CPU mode, caches, MMUs, architected
- timers, coherency and system registers apply to all CPUs.  All CPUs must
-@@ -304,7 +311,8 @@ following manner:
-   Documentation/devicetree/bindings/arm/psci.yaml.
- 
- - Secondary CPU general-purpose register settings
--  x0 = 0 (reserved for future use)
--  x1 = 0 (reserved for future use)
--  x2 = 0 (reserved for future use)
--  x3 = 0 (reserved for future use)
-+
-+  - x0 = 0 (reserved for future use)
-+  - x1 = 0 (reserved for future use)
-+  - x2 = 0 (reserved for future use)
-+  - x3 = 0 (reserved for future use)
+     if (/$doc_sect/i) { # case insensitive for supported section names
+ 	$newsection = $1;
+ 	$newcontents = $2;
+@@ -2010,18 +2017,21 @@ sub process_body($$) {
+ 	$state = STATE_PROTO;
+ 	$brcount = 0;
+     } elsif (/$doc_content/) {
+-	# miguel-style comment kludge, look for blank lines after
+-	# @parameter line to signify start of description
+ 	if ($1 eq "") {
+-	    if ($section =~ m/^@/ || $section eq $section_context) {
++	    if ($section eq $section_context) {
+ 		dump_section($file, $section, $contents);
+ 		$section = $section_default;
+ 		$contents = "";
+ 		$new_start_line = $.;
++		$state = STATE_BODY;
+ 	    } else {
++		if ($section ne $section_default) {
++		    $state = STATE_BODY_WITH_BLANK_LINE;
++		} else {
++		    $state = STATE_BODY;
++		}
+ 		$contents .= "\n";
+ 	    }
+-	    $state = STATE_BODY;
+ 	} elsif ($state == STATE_BODY_MAYBE) {
+ 	    # Continued declaration purpose
+ 	    chomp($declaration_purpose);
+@@ -2173,7 +2183,8 @@ sub process_file($) {
+ 	    process_normal();
+ 	} elsif ($state == STATE_NAME) {
+ 	    process_name($file, $_);
+-	} elsif ($state == STATE_BODY || $state == STATE_BODY_MAYBE) {
++	} elsif ($state == STATE_BODY || $state == STATE_BODY_MAYBE ||
++		 $state == STATE_BODY_WITH_BLANK_LINE) {
+ 	    process_body($file, $_);
+ 	} elsif ($state == STATE_INLINE) { # scanning for inline parameters
+ 	    process_inline($file, $_);
 -- 
 2.25.2
 
