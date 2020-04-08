@@ -2,91 +2,138 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB154C2D0F4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:29:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A65C2BA1B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 18:18:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9B55720730
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:29:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hyeDAxIE"
+	by mail.kernel.org (Postfix) with ESMTP id DB13E2082F
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 18:18:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729494AbgDHR3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 13:29:55 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57592 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729493AbgDHR3z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 13:29:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=AIkLRB9tu9cJ1QlOgikaPxAEDOuOfsDdcUkPvhqx0SM=; b=hyeDAxIEzdJhFkIc48CSeTBtMl
-        M3LpwqPXHD096Ch/f7BZnLN3lXAIJ2c0ZAySyCKjMt7HIrSfQhJSiz7ud8lcnouY+Dj5YfyY6Fzu0
-        sk8mOdiHPwtLJ2i9fXz8kFAZQ55elCJbCgZu4/zIspouXkOyz82SKPcLDQyYuIOIhBudIFhrAI0KF
-        gT4BKnwMH2tx1UZSeVDrcRzXLalzLuxh/chK9zyWfaFMR7Wm2UfSbyjD+Ebdh4bAegWvHefspg2tE
-        at3mBAUBlZhh//ikFp7Z1ROs18fSOyfZiecGBTjbIGzVbEr4MLvAMLm8wKwkofg9tupC1TXSwQsj2
-        DTSffYeA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jMEWQ-0006om-Hi; Wed, 08 Apr 2020 17:29:54 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>
-Cc:     Hridya Valsaraju <hridya@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Brauner <christian@brauner.io>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: android: binderfs: add 'stats' mount option
-Message-ID: <baa0aa81-007d-af46-16a5-91fead0bd1b9@infradead.org>
-Date:   Wed, 8 Apr 2020 10:29:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1729740AbgDHSSm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 14:18:42 -0400
+Received: from mga02.intel.com ([134.134.136.20]:9409 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729567AbgDHSSm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Apr 2020 14:18:42 -0400
+IronPort-SDR: iBzdk4uT5hwrJAJNXwA3SKDmB6fhcVoiV9G4OKur+zJNuYnocK8Ps1WpH4RFS3fN3NtFRwg9U6
+ +vIvCd4uBFsQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2020 11:18:40 -0700
+IronPort-SDR: CNm41iviOJIvAgGIZX8BJww1bpJ5otfTDnIih7sOZvyjmkptybo793Ymrk15h0DnpBroWhaorW
+ ju876jl99enA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,359,1580803200"; 
+   d="scan'208";a="269829512"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga002.jf.intel.com with ESMTP; 08 Apr 2020 11:18:40 -0700
+Message-ID: <231585ae895a083b0d65be766c6e2e9c44e933da.camel@intel.com>
+Subject: Re: [RFC PATCH v9 14/27] mm: Handle Shadow Stack page fault
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Wed, 08 Apr 2020 11:18:40 -0700
+In-Reply-To: <e432d102-7f69-7ba3-6146-c0165eef87e1@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-15-yu-cheng.yu@intel.com>
+         <4902a6ee-cb0f-2700-1f6d-9d756593183c@intel.com>
+         <444d97c4a4f70ccbb12da5e8f7ff498b37a9f60d.camel@intel.com>
+         <e432d102-7f69-7ba3-6146-c0165eef87e1@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Tue, 2020-04-07 at 15:21 -0700, Dave Hansen wrote:
+> On 4/7/20 11:14 AM, Yu-cheng Yu wrote:
+> > On Wed, 2020-02-26 at 16:08 -0800, Dave Hansen wrote:
+> > > > diff --git a/mm/memory.c b/mm/memory.c
+> > > > index 45442d9a4f52..6daa28614327 100644
+> > > > --- a/mm/memory.c
+> > > > +++ b/mm/memory.c
+> > > > @@ -772,7 +772,8 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+> > > >  	 * If it's a COW mapping, write protect it both
+> > > >  	 * in the parent and the child
+> > > >  	 */
+> > > > -	if (is_cow_mapping(vm_flags) && pte_write(pte)) {
+> > > > +	if ((is_cow_mapping(vm_flags) && pte_write(pte)) ||
+> > > > +	    arch_copy_pte_mapping(vm_flags)) {
+> > > >  		ptep_set_wrprotect(src_mm, addr, src_pte);
+> > > >  		pte = pte_wrprotect(pte);
+> > > >  	}
+> > > 
+> > > You have to modify this because pte_write()==0 for shadow stack PTEs, right?
+> > > 
+> > > Aren't shadow stack ptes *logically* writable, even if they don't have
+> > > the write bit set?  What would happen if we made pte_write()==1 for them?
+> > 
+> > Here the vm_flags needs to have VM_MAYWRITE, and the PTE needs to have
+> > _PAGE_WRITE.  A shadow stack does not have either.
+> 
+> I literally mean taking pte_write(), and doing something l
+> 
+> static inline int pte_write(pte_t pte)
+> {
+> 	if (pte_present(pte) && pte_is_shadow_stack(pte))
+> 		return 1;
+> 
+>         return pte_flags(pte) & _PAGE_RW;
+> }
+> 
+> Then if is_cow_mapping() returns true for shadow stack VMAs, the above
+> code doesn't need to change.
 
-Add documentation of the binderfs 'stats' mount option.
+One benefit of this change is can_follow_write_pte() does not need any changes. 
+A shadow stack PTE not in copy-on-write status is pte_write().
 
-Description taken from the commit message.
+However, there are places that use pte_write() to determine if the PTE can be
+made _PAGE_RW.  One such case is in change_pte_range(), where
 
-Fixes: f00834518ed3 ("binder: add a mount option to show global stats")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Christian Brauner <christian.brauner@ubuntu.com>
-Cc: Christian Brauner <christian@brauner.io>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: devel@driverdev.osuosl.org
----
- Documentation/admin-guide/binderfs.rst |    6 ++++++
- 1 file changed, 6 insertions(+)
+	preserve_write = prot_numa && pte_write(oldpte);
 
---- linux-next-20200408.orig/Documentation/admin-guide/binderfs.rst
-+++ linux-next-20200408/Documentation/admin-guide/binderfs.rst
-@@ -33,6 +33,12 @@ max
-   a per-instance limit. If ``max=<count>`` is set then only ``<count>`` number
-   of binder devices can be allocated in this binderfs instance.
- 
-+stats
-+  Using ``stats=global`` enables global binder statistics.
-+  ``stats=global`` is only available for a binderfs instance mounted in the
-+  initial user namespace. An attempt to use the option to mount a binderfs
-+  instance in another user namespace will return a permission error.
-+
- Allocating binder Devices
- -------------------------
- 
+and later,
+
+	if (preserve_write)
+		ptent = pte_mk_savedwrite(ptent);
+
+Currently, there are other checks and shadow stack PTEs won't become _PAGE_RW. 
+I am wondering if this can be overlooked later when the code is modified.
+
+Another potential issue is, because pte_write()==1, a shadow stack PTE is made a
+write migration entry, and can later accidentally become _PAGE_RW.  I think the
+page fault handler would catch that, but still call it out in case I miss
+anything.
+
+Yu-cheng
 
