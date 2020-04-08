@@ -4,50 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C260C2BBC7
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36670C2BA1A
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 52A5520769
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 001FF20769
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586360906;
-	bh=BTPcRwxL5Vi5wneFHtqBCwfk8BpgcAIHfCgs53kcGM8=;
+	s=default; t=1586360912;
+	bh=HotOvguNSrEPHftfF9hKyBfJBsne6Ihdoy/T4tXbhYE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TCO3i4Rq4/CBbSI5WkO9sxRSqu4xClYo4za8eiPDcGFWYKAPa0BdZNmii97pXTDrl
-	 GnJWEs7SGFRdFr8qi1NSLIw9Lg5EV9Drb23bR7H5Y9bnRR+0nspIXt/clvejEDj29B
-	 Mahm+w1EbJn8Y1CEZjlEgoLW8g66YAyVN+5haYLg=
+	b=yCFRXqzS1G+Ul7A6nakuQWxh4cQ6QkaXSHqm4oo/E/mvHwfwUsvw+ZOte2buoxq7H
+	 Cbi34J3WFWatZgzd/6TnMrKysEZcPTlvfzBd4OZXJTwtztQtrNQV8gZlG8J+vhXWSC
+	 jMD39k7+3Yf22Qh++SoH43E8hEh/iqImzB/p+3yo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729546AbgDHPr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:47:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49522 "EHLO mail.kernel.org"
+        id S1729781AbgDHPsb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 11:48:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49316 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729688AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Apr 2020 11:46:33 -0400
+        id S1729656AbgDHPqc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Apr 2020 11:46:32 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8D9D920787;
+        by mail.kernel.org (Postfix) with ESMTPSA id 6826F214DB;
         Wed,  8 Apr 2020 15:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586360791;
-        bh=BTPcRwxL5Vi5wneFHtqBCwfk8BpgcAIHfCgs53kcGM8=;
+        bh=HotOvguNSrEPHftfF9hKyBfJBsne6Ihdoy/T4tXbhYE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=De3KAj7YfDooui6IYeglxOGipSe8n8+l6o1vwAcpVxrXMs1mtr8dOlfJdnJOH13sW
-         PCEpEZt5GEdmOqrfNglH61kJMhT1F/S81Dcv1iRZs/vbz3PHqtgTNYY4wHXE7P4c0Y
-         0Pv4rQ5BNzG3GfdGZjzr/B3ZxqfNpcBTI7Xde/RY=
+        b=Lt+jV6NLjjSUuzvM1eh6p/kV/VaMpuQUMZVN8yaKKRxUlpPOayhxIQDzSJ1wEy0xy
+         OzbOGzT97CWn02pDKeakWgMeP+MFRk0VTYLAjgaO8/ZEdLORAktBNo8aDkoIRwvLXW
+         Szm00x1GzRlp+bwEsJb28bfqGazCDew33krW7rvM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jMCuL-000cBh-P4; Wed, 08 Apr 2020 17:46:29 +0200
+        id 1jMCuL-000cBN-JO; Wed, 08 Apr 2020 17:46:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 18/35] scripts: kernel-doc: accept negation like !@var
-Date:   Wed,  8 Apr 2020 17:46:10 +0200
-Message-Id: <cf4f785b3b67375680a0a48a23192ea4bd5b5764.1586359676.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH 14/35] fs: inode.c: get rid of docs warnings
+Date:   Wed,  8 Apr 2020 17:46:06 +0200
+Message-Id: <6f8105480235e30fb0193f493072b97625c8d5ea.1586359676.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586359676.git.mchehab+huawei@kernel.org>
 References: <cover.1586359676.git.mchehab+huawei@kernel.org>
@@ -58,61 +60,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On a few places, it sometimes need to indicate a negation of a
-parameter, like:
+Use *foo makes the toolchain to think that this is an emphasis, causing
+those warnings:
 
-	!@fshared
+	./fs/inode.c:1609: WARNING: Inline emphasis start-string without end-string.
+	./fs/inode.c:1609: WARNING: Inline emphasis start-string without end-string.
+	./fs/inode.c:1615: WARNING: Inline emphasis start-string without end-string.
 
-This pattern happens, for example, at:
-
-	kernel/futex.c
-
-and it is perfectly valid. However, kernel-doc currently
-transforms it into:
-
-	!**fshared**
-
-This won't do what it would be expected.
-
-Fortunately, fixing the script is a simple matter of storing
-the "!" before "@" and adding it after the bold markup, like:
-
-	**!fshared**
+So, use, instead, ``*foo``, in order to mark it as a literal block.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ fs/inode.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index d15c8ea95d93..b019d8db6502 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -213,6 +213,7 @@ my $type_constant = '\b``([^\`]+)``\b';
- my $type_constant2 = '\%([-_\w]+)';
- my $type_func = '(\w+)\(\)';
- my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
-+my $type_param_ref = '([\!]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
- my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
- my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
- my $type_env = '(\$\w+)';
-@@ -237,6 +238,7 @@ my @highlights_man = (
-                       [$type_typedef, "\\\\fI\$1\\\\fP"],
-                       [$type_union, "\\\\fI\$1\\\\fP"],
-                       [$type_param, "\\\\fI\$1\\\\fP"],
-+                      [$type_param_ref, "\\\\fI\$1\$2\\\\fP"],
-                       [$type_member, "\\\\fI\$1\$2\$3\\\\fP"],
-                       [$type_fallback, "\\\\fI\$1\\\\fP"]
- 		     );
-@@ -258,7 +260,7 @@ my @highlights_rst = (
-                        [$type_union, "\\:c\\:type\\:`\$1 <\$2>`"],
-                        # in rst this can refer to any type
-                        [$type_fallback, "\\:c\\:type\\:`\$1`"],
--                       [$type_param, "**\$1**"]
-+                       [$type_param_ref, "**\$1\$2**"]
- 		      );
- my $blankline_rst = "\n";
- 
+diff --git a/fs/inode.c b/fs/inode.c
+index 93d9252a00ab..37226a9cfa4f 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -1606,14 +1606,14 @@ EXPORT_SYMBOL(iput);
+  *	@inode:  inode owning the block number being requested
+  *	@block: pointer containing the block to find
+  *
+- *	Replaces the value in *block with the block number on the device holding
++ *	Replaces the value in ``*block`` with the block number on the device holding
+  *	corresponding to the requested block number in the file.
+  *	That is, asked for block 4 of inode 1 the function will replace the
+- *	4 in *block, with disk block relative to the disk start that holds that
++ *	4 in ``*block``, with disk block relative to the disk start that holds that
+  *	block of the file.
+  *
+  *	Returns -EINVAL in case of error, 0 otherwise. If mapping falls into a
+- *	hole, returns 0 and *block is also set to 0.
++ *	hole, returns 0 and ``*block`` is also set to 0.
+  */
+ int bmap(struct inode *inode, sector_t *block)
+ {
 -- 
 2.25.2
 
