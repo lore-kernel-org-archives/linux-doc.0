@@ -2,100 +2,86 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBB1C2BA1A
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:55:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB8CBC2D0EA
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:56:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8BD5D2082D
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586361351;
-	bh=RUaryCbv17f6M0wJZuEKYC+1eCtdsCGZDFGcjpJ2bvI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=R6Ky7onpAgf/WqI/PfrKH4hw9vWgNkoOsMcK8TZKRd7dKBmUx/fOiPdshh8ZUThwi
-	 05dRoP1p0OJ3jlB6eAOtFBsSVQPxlMLYf/iOWqsx4d4G+LLUan9+7cwXQplJCrlBnj
-	 mMpgduPWEgLaiB7xOiXjcHnN5vzR/P61beUFz5XA=
+	by mail.kernel.org (Postfix) with ESMTP id A0DC72082F
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:56:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729903AbgDHPz3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:55:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54866 "EHLO mail.kernel.org"
+        id S1729826AbgDHP4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 11:56:07 -0400
+Received: from sauhun.de ([88.99.104.3]:44862 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729885AbgDHPz3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Apr 2020 11:55:29 -0400
-Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BB2AE20784;
-        Wed,  8 Apr 2020 15:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586361328;
-        bh=RUaryCbv17f6M0wJZuEKYC+1eCtdsCGZDFGcjpJ2bvI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MngAIaoQ1aGaiq4PCfX1sAsvWuDBPXpd5kULd4rVUlBz8bIGnWolNXWdTAd/e27+r
-         hS9O/4G/6lqQuNIE+Pl/rxOJ44psBsAdNVPBoerebCPb5C6zfaJAUF5/hmlQsHmluv
-         CS0sjagV+IALwitO4zFeia2Bj7fYQWAsjrLa9gUQ=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jMD31-000cGx-0q; Wed, 08 Apr 2020 17:55:27 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        id S1729804AbgDHP4H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Apr 2020 11:56:07 -0400
+Received: from localhost (p54B334FE.dip0.t-ipconnect.de [84.179.52.254])
+        by pokefinder.org (Postfix) with ESMTPSA id AFFBF2C1F39;
+        Wed,  8 Apr 2020 17:56:04 +0200 (CEST)
+Date:   Wed, 8 Apr 2020 17:56:04 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Tim Bird <Tim.Bird@sony.com>,
-        Markus Heiser <markus.heiser@darmarit.de>
-Subject: [PATCH 4/6] scripts: sphinx-pre-install: address some issues with Gentoo
-Date:   Wed,  8 Apr 2020 17:55:23 +0200
-Message-Id: <4e6d0b6f7aa15e92fc6dffdfb8cd7e30272b6408.1586361086.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <cover.1586361086.git.mchehab+huawei@kernel.org>
-References: <cover.1586361086.git.mchehab+huawei@kernel.org>
+        linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 33/35] docs: i2c: rename i2c.svg to i2c_bus.svg
+Message-ID: <20200408155604.GA22619@ninjato>
+References: <cover.1586359676.git.mchehab+huawei@kernel.org>
+ <bb72db28b4b7d867555b345a49703fdca484957e.1586359676.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="HlL+5n6rz5pIUxbD"
+Content-Disposition: inline
+In-Reply-To: <bb72db28b4b7d867555b345a49703fdca484957e.1586359676.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some small misdetections with Gentoo. While they
-don't cause too much trouble, it keeps recomending to
-install things that are already there.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/sphinx-pre-install | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+--HlL+5n6rz5pIUxbD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 7234482475a3..3ae732a028db 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -560,7 +560,8 @@ sub give_gentoo_hints()
- 			   "media-fonts/dejavu", 2) if ($pdf);
- 
- 	if ($pdf) {
--		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf"],
-+		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf",
-+				    "/usr/share/fonts/noto-cjk/NotoSerifCJK-Regular.ttc"],
- 				   "media-fonts/noto-cjk", 2);
- 	}
- 
-@@ -575,10 +576,10 @@ sub give_gentoo_hints()
- 	my $portage_imagemagick = "/etc/portage/package.use/imagemagick";
- 	my $portage_cairo = "/etc/portage/package.use/graphviz";
- 
--	if (qx(cat $portage_imagemagick) ne "$imagemagick\n") {
-+	if (qx(grep imagemagick $portage_imagemagick 2>/dev/null) eq "") {
- 		printf("\tsudo su -c 'echo \"$imagemagick\" > $portage_imagemagick'\n")
- 	}
--	if (qx(cat $portage_cairo) ne  "$cairo\n") {
-+	if (qx(grep graphviz $portage_cairo 2>/dev/null) eq  "") {
- 		printf("\tsudo su -c 'echo \"$cairo\" > $portage_cairo'\n");
- 	}
- 
--- 
-2.25.2
+On Wed, Apr 08, 2020 at 05:46:25PM +0200, Mauro Carvalho Chehab wrote:
+> When generating the PDF output, the Documentation/i2c dir
+> will generate an i2c.pdf. The same happens with i2c.svg:
+> it will also produce a file with the same name, at the same dir.
+>=20
+> This causes errors when building the PDF output. So, rename the
+> image to i2c_bus.svg.
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+Acked-by: Wolfram Sang <wsa@the-dreams.de>
+
+I assume the series goes in via the doc-tree, let me know if I should
+pick it.
+
+
+--HlL+5n6rz5pIUxbD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6N9BAACgkQFA3kzBSg
+KbZYFg//bgvPW9JkTSq9PUWDwF0mccgCgpSWBxG7ZGN3XnfeAXbrEbEx1/PyDsco
+ypFw/I6F1jOJayec54haf42fBJZIcK1jwk82lwCXt1rKLnxU9PasfDeDR4YfSnxY
+mPw3At6F7tuzQD2vbz/XBPpXviRvEA4Omimk42XZCtTt+dcrYaTgw5M+88euu8T5
+6SprM3EzpZ5eEcbTD31FV+ok0MrlkLSOhft5qxa8od4lKhes3Zhq2aIFV3qg9JIt
+UAfdBbr9IIJeZbidvZu/dp/LFibHR6FaqiyPqFrURKbiBrU01TdIJ05T/q6pjz27
+i/88c9YeMjuPg7jSXIYYNlN505iM0oNSOw1Y2V53qyyaiFq9wu/pwnKyU0Cw+g7m
+xN0TKT8ZMKLAh5gusPVfY0Z4dvYjTTx/Wi4jI/Yq6PXepHL7gxK+7tcRhQxOkQV2
+2oE/UpYNKdHDDDxUhKQGjrE0tuZGUViiVOAvTvG7n5ycY27YFs/C/ANRh0trrNi0
+/3hocl4c6CcUSwcI+9OpCN6ihmRjrgMYoaFVPevXx0ECE5WodwYBiI4Eh36k+bDr
+NjYBm+WPJ+bZc6uZc+/9l4s1buC65/K+X9OEK1pxGhAAEYMPxl5pzeMmxav9CmUM
+mP6PRsLQr6Pl9EfLJEZJI7dOddd/WTHzbbTNVL9WDYhpphFdg+U=
+=aRzN
+-----END PGP SIGNATURE-----
+
+--HlL+5n6rz5pIUxbD--
