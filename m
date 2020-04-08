@@ -4,51 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F9C4C2BA2B
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 886EFC2BB1D
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:46:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4695F2082D
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:46:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5784C2076D
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586360795;
-	bh=2dtxiXcqpLlxzQY41glPzfxzzobbNtue35byn94ocz8=;
+	s=default; t=1586360818;
+	bh=6+PaLUkdrL9YIpHZRkQExO+4pmTux8rSySZ5aPWfrTs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=aKROy9kL064GOeXbmBpY1Ga9bUK5UNDlydn99v24Acyt0NbJcVtkd06E410b1Q56X
-	 zIrES9og6Bv0rPO2dxcclC9EGSXgH58+4/pl0tBQJ7rlLPSf7pm8+XXNeN7GIkRN6j
-	 m2DlMpRvUyHc0GFDVzPjLKPpRSAZ1gYYLTlFvM5o=
+	b=rzDi7FQc8e06YsNxwHFm0WoLVVd30omhJ/d1SNh2qD5EEmE0qK5geWXDO/VEw3Z5W
+	 bPYCZck7z5wey5ZiQ34TckCqapD2qPLEResUUqyUZwciGXgkzfKzju47rIKJAtf9rx
+	 B9qqA+njHclgScNIKfcxosevlYOQ/AlZUvBJ7I7A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729722AbgDHPqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729728AbgDHPqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 8 Apr 2020 11:46:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49316 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:49356 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729684AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729701AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 8 Apr 2020 11:46:33 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A7B2B21D79;
-        Wed,  8 Apr 2020 15:46:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0C021221F8;
+        Wed,  8 Apr 2020 15:46:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586360791;
-        bh=2dtxiXcqpLlxzQY41glPzfxzzobbNtue35byn94ocz8=;
+        s=default; t=1586360792;
+        bh=6+PaLUkdrL9YIpHZRkQExO+4pmTux8rSySZ5aPWfrTs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kj8MextYAoIKsWvztzjCGcKAsGVM1/9pAq2gRfDT/NqG2fUo8IAcqV441T/vNl56C
-         9j4AscDetciOP4kRZGj/DcYvPvFhwG9zEusuROZCQJqbTf4AKV89pn+KzOJfzz6K7y
-         b33++rZUEOu+m8Yo1q1U9vVZTrdgUcaCXvab2CXo=
+        b=IXM6mVVc6zpbzCxvNECW6ftqsz+ax/CHmUvySzX9hf5iPTOv7RYMT0YdtTUEXz7xY
+         FEMwsd63okk+fEppiz2c+VBkeZKC0BShSi1jj4VWOcEDVVAIQ8hgWrsCE1MCXKNTlX
+         NU6DdwTcrVGizEZjqIFzyrkbLXlMvdot9AiSGwUE=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jMCuL-000cBv-SA; Wed, 08 Apr 2020 17:46:29 +0200
+        id 1jMCuM-000cCj-7S; Wed, 08 Apr 2020 17:46:30 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
-Subject: [PATCH 21/35] docs: spi: spi.h: fix a doc building warning
-Date:   Wed,  8 Apr 2020 17:46:13 +0200
-Message-Id: <d62f3f3536c0da2062bad87524fb184ad5a9a5f2.1586359676.git.mchehab+huawei@kernel.org>
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH 31/35] powerpc: docs: cxl.rst: mark two section titles as such
+Date:   Wed,  8 Apr 2020 17:46:23 +0200
+Message-Id: <cccd2886af9961aad2a69fce96c0cf4f06995d6d.1586359676.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586359676.git.mchehab+huawei@kernel.org>
 References: <cover.1586359676.git.mchehab+huawei@kernel.org>
@@ -59,27 +64,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We need to add a blank line to avoid this warning:
-
-	./include/linux/spi/spi.h:401: WARNING: Unexpected indentation.
+The User API chapter contains two sub-chapters. Mark them as
+such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/spi/spi.h | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/powerpc/cxl.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
-index 38286de779e3..aac57b5b7c21 100644
---- a/include/linux/spi/spi.h
-+++ b/include/linux/spi/spi.h
-@@ -394,6 +394,7 @@ static inline void spi_unregister_driver(struct spi_driver *sdrv)
-  *                   for example doing DMA mapping.  Called from threaded
-  *                   context.
-  * @transfer_one: transfer a single spi_transfer.
-+ *
-  *                  - return 0 if the transfer is finished,
-  *                  - return 1 if the transfer is still in progress. When
-  *                    the driver is finished with this transfer it must
+diff --git a/Documentation/powerpc/cxl.rst b/Documentation/powerpc/cxl.rst
+index 920546d81326..d2d77057610e 100644
+--- a/Documentation/powerpc/cxl.rst
++++ b/Documentation/powerpc/cxl.rst
+@@ -133,6 +133,7 @@ User API
+ ========
+ 
+ 1. AFU character devices
++^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+     For AFUs operating in AFU directed mode, two character device
+     files will be created. /dev/cxl/afu0.0m will correspond to a
+@@ -395,6 +396,7 @@ read
+ 
+ 
+ 2. Card character device (powerVM guest only)
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+     In a powerVM guest, an extra character device is created for the
+     card. The device is only used to write (flash) a new image on the
 -- 
 2.25.2
 
