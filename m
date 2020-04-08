@@ -2,232 +2,338 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA44C2D0EC
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 01:37:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E414BC2BA1A
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 02:15:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1425920748
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 01:37:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586309877;
-	bh=SFd1DzfM8zpudrE9h+hHUUQLEJWE5VA7mjKo0IeF9xY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=HrZ2C8Vb/mHBVilquQCI25KSZfwWV/drjJdhBidqj0SU4DFoOp3bAGPr34Zy5IMtx
-	 bsz9izpogVbZE90xd7RHMA2txFCEetdOJZxR0Q5MfgGgv9R1+Nm1qPFj+RoTfLCUQI
-	 rSEWIl/Igk9j22kFQns+umFp0P365CwQ+LXB2AG8=
+	by mail.kernel.org (Postfix) with ESMTP id AB10B206C0
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 02:15:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbgDHBh4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Apr 2020 21:37:56 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:51797 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726407AbgDHBh4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 21:37:56 -0400
-Received: from grover.flets-west.jp (softbank126125134031.bbtec.net [126.125.134.31]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 0381aPHk015816;
-        Wed, 8 Apr 2020 10:36:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0381aPHk015816
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1586309787;
-        bh=VX8um7le6Uy6ER5XPnM1U84P87XfhXDwxlFRA+5ZbG0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eUsvDlbQbvcaCGRqQfwO2U/mL1iR8lQyK/ePzFpozGB0B/NniW9h/7THVCl6N67jK
-         hnrgkoCm2u0IRC4jRVzLH9jgySj83mfKHSxwkR2lJioS1n124Ka1ZSKbX4TTUMVNij
-         BM5QfGMcxpbfU/uJHVi3yFyfKNgF8s6UplUNUcO6d2NqMypA+UPJHK+vsHiM7Vv7I5
-         PAX6n8mIZHLuyd2GH3Ru4O2n6BpK2vqJhrCc3wNNifbhK9ysICupf3eOCEWYfh7wzf
-         1XwiNaAAIbMIoh6blGUbMCW38sHOK86H+oJSSt4gXMMnena6VaydhYLL6f4gsff4oc
-         eVb8sWP4GhCmw==
-X-Nifty-SrcIP: [126.125.134.31]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     clang-built-linux@googlegroups.com,
-        Fangrui Song <maskray@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        id S1726420AbgDHCPu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Apr 2020 22:15:50 -0400
+Received: from m177134.mail.qiye.163.com ([123.58.177.134]:10775 "EHLO
+        m177134.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726416AbgDHCPt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Apr 2020 22:15:49 -0400
+Received: from lcc-VirtualBox.vivo.xyz (unknown [58.251.74.226])
+        by mail-m127101.qiye.163.com (Hmail) with ESMTPA id BEC7A481D3;
+        Wed,  8 Apr 2020 10:15:35 +0800 (CST)
+From:   Chucheng Luo <luochucheng@vivo.com>
+To:     alex.shi@linux.alibaba.com, Harry Wei <harryxiyou@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] kbuild: support LLVM=1 to switch the default tools to Clang/LLVM
-Date:   Wed,  8 Apr 2020 10:36:23 +0900
-Message-Id: <20200408013623.31974-2-masahiroy@kernel.org>
+        Chucheng Luo <luochucheng@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     opensource.kernel@vivo.com
+Subject: [PATCH v6,RESEND] Translate debugfs.txt into Chinese and link it to the index.
+Date:   Wed,  8 Apr 2020 10:15:18 +0800
+Message-Id: <20200408021528.14062-1-luochucheng@vivo.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200408013623.31974-1-masahiroy@kernel.org>
-References: <20200408013623.31974-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUlXWQgYFAkeWUFZTVVLS0JCQkJMTklLT09NQ1lXWShZQU
+        hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MT46Fyo6SDg8QxAzED5RTRIp
+        LgNPChJVSlVKTkNNSEpJSkhCSUxPVTMWGhIXVRcOFBgTDhgTHhUcOw0SDRRVGBQWRVlXWRILWUFZ
+        TkNVSU5KVUxPVUlJTVlXWQgBWUFKSE9DTTcG
+X-HM-Tid: 0a715792457e9865kuuubec7a481d3
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As Documentation/kbuild/llvm.rst implies, building the kernel with a
-full set of LLVM tools gets very verbose and unwieldy.
+Translate Documentation/filesystems/debugfs.txt into Chinese.
 
-Provide a single switch LLVM=1 to use Clang and LLVM tools instead
-of GCC and Binutils. You can pass it from the command line or as an
-environment variable.
-
-Please note LLVM=1 does not turn on the integrated assembler. You need
-to pass LLVM_IAS=1 to use it. When the upstream kernel is ready for the
-integrated assembler, I think we can make it default.
-
-We discussed what we need, and we agreed to go with a simple boolean
-flag that switches both target and host tools:
-
-  https://lkml.org/lkml/2020/3/28/494
-  https://lkml.org/lkml/2020/4/3/43
-
-Some items discussed, but not adopted:
-
-- LLVM_DIR
-
-  When multiple versions of LLVM are installed, I just thought supporting
-  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
-
-  CC      = $(LLVM_DIR)clang
-  LD      = $(LLVM_DIR)ld.lld
-    ...
-
-  However, we can handle this by modifying PATH. So, we decided to not do
-  this.
-
-- LLVM_SUFFIX
-
-  Some distributions (e.g. Debian) package specific versions of LLVM with
-  naming conventions that use the version as a suffix.
-
-  CC      = clang$(LLVM_SUFFIX)
-  LD      = ld.lld(LLVM_SUFFIX)
-    ...
-
-  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
-  but the suffixed versions in /usr/bin/ are symlinks to binaries in
-  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Tested-by: Nathan Chancellor <natechancellor@gmail.com> # build
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Chucheng Luo <luochucheng@vivo.com>
 ---
+Changelog:
+v6:
+ - keep each line less than 80 chars, but also keep each line full
+ - remove redundant '=' in caption and all other subheadings
+ - send the patch with 'charset=UTF-8'
+---
+ .../zh_CN/filesystems/debugfs.rst             | 221 ++++++++++++++++++
+ .../translations/zh_CN/filesystems/index.rst  |  21 ++
+ Documentation/translations/zh_CN/index.rst    |   2 +
+ 3 files changed, 244 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/debugfs.rst
+ create mode 100644 Documentation/translations/zh_CN/filesystems/index.rst
 
-Changes in v3: None
-Changes in v2:
-  - Switch host compilers as well, as requested by Nick and Nathan
-
- Documentation/kbuild/kbuild.rst |  5 +++++
- Documentation/kbuild/llvm.rst   |  8 ++++++--
- Makefile                        | 29 +++++++++++++++++++++++------
- tools/objtool/Makefile          |  6 ++++++
- 4 files changed, 40 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 510f38d7e78a..2d1fc03d346e 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -262,3 +262,8 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
- These two variables allow to override the user@host string displayed during
- boot and in /proc/version. The default value is the output of the commands
- whoami and host, respectively.
+diff --git a/Documentation/translations/zh_CN/filesystems/debugfs.rst b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+new file mode 100644
+index 000000000000..f8a28793c277
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+@@ -0,0 +1,221 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+LLVM
-+----
-+If this variable is set to 1, Kbuild will use Clang and LLVM utilities instead
-+of GCC and GNU binutils to build the kernel.
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index 0fefdf1737e9..c0a98c20e34c 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -47,8 +47,12 @@ example:
- LLVM Utilities
- --------------
- 
--LLVM has substitutes for GNU binutils utilities. These can be invoked as
--additional parameters to `make`.
-+LLVM has substitutes for GNU binutils utilities. Kbuild supports `LLVM=1`
-+to enable them.
++.. include:: ../disclaimer-zh_CN.rst
 +
-+	make LLVM=1
++:Original: :ref:`Documentation/filesystems/debugfs.txt <debugfs_index>`
 +
-+They can be enabled individually. The full list of the parameters:
++=======
++Debugfs
++=======
++
++译者
++::
++
++	中文版维护者： 罗楚成 Chucheng Luo <luochucheng@vivo.com>
++	中文版翻译者： 罗楚成 Chucheng Luo <luochucheng@vivo.com>
++	中文版校译者:  罗楚成 Chucheng Luo <luochucheng@vivo.com>
++
++
++
++版权所有2020 罗楚成 <luochucheng@vivo.com>
++
++
++Debugfs是内核开发人员在用户空间获取信息的简单方法。与/proc不同，proc只提供进程
++信息。也不像sysfs,具有严格的“每个文件一个值“的规则。debugfs根本没有规则,开发
++人员可以在这里放置他们想要的任何信息。debugfs文件系统也不能用作稳定的ABI接口。
++从理论上讲，debugfs导出文件的时候没有任何约束。但是[1]实际情况并不总是那么
++简单。即使是debugfs接口，也最好根据需要进行设计,并尽量保持接口不变。
++
++
++Debugfs通常使用以下命令安装::
++
++    mount -t debugfs none /sys/kernel/debug
++
++（或等效的/etc/fstab行）。
++debugfs根目录默认仅可由root用户访问。要更改对文件树的访问，请使用“ uid”，“ gid”
++和“ mode”挂载选项。请注意，debugfs API仅按照GPL协议导出到模块。
++
++使用debugfs的代码应包含<linux/debugfs.h>。然后，首先是创建至少一个目录来保存
++一组debugfs文件::
++
++    struct dentry *debugfs_create_dir(const char *name, struct dentry *parent);
++
++如果成功，此调用将在指定的父目录下创建一个名为name的目录。如果parent参数为空，
++则会在debugfs根目录中创建。创建目录成功时，返回值是一个指向dentry结构体的指针。
++该dentry结构体的指针可用于在目录中创建文件（以及最后将其清理干净）。ERR_PTR
++（-ERROR）返回值表明出错。如果返回ERR_PTR（-ENODEV），则表明内核是在没有debugfs
++支持的情况下构建的，并且下述函数都不会起作用。
++
++在debugfs目录中创建文件的最通用方法是::
++
++    struct dentry *debugfs_create_file(const char *name, umode_t mode,
++				       struct dentry *parent, void *data,
++				       const struct file_operations *fops);
++
++在这里，name是要创建的文件的名称，mode描述了访问文件应具有的权限，parent指向
++应该保存文件的目录，data将存储在产生的inode结构体的i_private字段中，而fops是
++一组文件操作函数，这些函数中实现文件操作的具体行为。至少，read（）和/或
++write（）操作应提供；其他可以根据需要包括在内。同样的，返回值将是指向创建文件
++的dentry指针，错误时返回ERR_PTR（-ERROR），系统不支持debugfs时返回值为ERR_PTR
++（-ENODEV）。创建一个初始大小的文件，可以使用以下函数代替::
++
++    struct dentry *debugfs_create_file_size(const char *name, umode_t mode,
++				struct dentry *parent, void *data,
++				const struct file_operations *fops,
++				loff_t file_size);
++
++file_size是初始文件大小。其他参数跟函数debugfs_create_file的相同。
++
++在许多情况下，没必要自己去创建一组文件操作;对于一些简单的情况,debugfs代码提供
++了许多帮助函数。包含单个整数值的文件可以使用以下任何一项创建::
++
++    void debugfs_create_u8(const char *name, umode_t mode,
++			   struct dentry *parent, u8 *value);
++    void debugfs_create_u16(const char *name, umode_t mode,
++			    struct dentry *parent, u16 *value);
++    struct dentry *debugfs_create_u32(const char *name, umode_t mode,
++				      struct dentry *parent, u32 *value);
++    void debugfs_create_u64(const char *name, umode_t mode,
++			    struct dentry *parent, u64 *value);
++
++这些文件支持读取和写入给定值。如果某个文件不支持写入，只需根据需要设置mode
++参数位。这些文件中的值以十进制表示；如果需要使用十六进制，可以使用以下函数
++替代::
++
++    void debugfs_create_x8(const char *name, umode_t mode,
++			   struct dentry *parent, u8 *value);
++    void debugfs_create_x16(const char *name, umode_t mode,
++			    struct dentry *parent, u16 *value);
++    void debugfs_create_x32(const char *name, umode_t mode,
++			    struct dentry *parent, u32 *value);
++    void debugfs_create_x64(const char *name, umode_t mode,
++			    struct dentry *parent, u64 *value);
++
++这些功能只有在开发人员知道导出值的大小的时候才有用。某些数据类型在不同的架构上
++有不同的宽度，这样会使情况变得有些复杂。在这种特殊情况下可以使用以下函数::
++
++    void debugfs_create_size_t(const char *name, umode_t mode,
++			       struct dentry *parent, size_t *value);
++
++不出所料，此函数将创建一个debugfs文件来表示类型为size_t的变量。
++
++同样地，也有导出无符号长整型变量的函数，分别以十进制和十六进制表示如下::
++
++    struct dentry *debugfs_create_ulong(const char *name, umode_t mode,
++					struct dentry *parent,
++					unsigned long *value);
++    void debugfs_create_xul(const char *name, umode_t mode,
++			    struct dentry *parent, unsigned long *value);
++
++布尔值可以通过以下方式放置在debugfs中::
++
++    struct dentry *debugfs_create_bool(const char *name, umode_t mode,
++				       struct dentry *parent, bool *value);
++
++
++读取结果文件将产生Y（对于非零值）或N，后跟换行符写入的时候，它只接受大写或小写
++值或1或0。任何其他输入将被忽略。
++
++同样，atomic_t类型的值也可以放置在debugfs中::
++
++    void debugfs_create_atomic_t(const char *name, umode_t mode,
++				 struct dentry *parent, atomic_t *value)
++
++读取此文件将获得atomic_t值，写入此文件将设置atomic_t值。
++
++另一个选择是通过以下结构体和函数导出一个任意二进制数据块::
++
++    struct debugfs_blob_wrapper {
++	void *data;
++	unsigned long size;
++    };
++
++    struct dentry *debugfs_create_blob(const char *name, umode_t mode,
++				       struct dentry *parent,
++				       struct debugfs_blob_wrapper *blob);
++
++读取此文件将返回由指针指向debugfs_blob_wrapper结构体的数据。一些驱动使用“blobs”
++作为一种返回几行（静态）格式化文本的简单方法。这个函数可用于导出二进制信息，但
++似乎在主线中没有任何代码这样做。请注意，使用debugfs_create_blob（）命令创建的
++所有文件是只读的。
++
++如果您要转储一个寄存器块（在开发过程中经常会这么做，但是这样的调试代码很少上传
++到主线中。Debugfs提供两个函数：一个用于创建仅寄存器文件，另一个把一个寄存器块
++插入一个顺序文件中::
++
++    struct debugfs_reg32 {
++	char *name;
++	unsigned long offset;
++    };
++
++    struct debugfs_regset32 {
++	struct debugfs_reg32 *regs;
++	int nregs;
++	void __iomem *base;
++    };
++
++    struct dentry *debugfs_create_regset32(const char *name, umode_t mode,
++				     struct dentry *parent,
++				     struct debugfs_regset32 *regset);
++
++    void debugfs_print_regs32(struct seq_file *s, struct debugfs_reg32 *regs,
++			 int nregs, void __iomem *base, char *prefix);
++
++“base”参数可能为0，但您可能需要使用__stringify构建reg32数组，实际上有许多寄存器
++名称（宏）是寄存器块在基址上的字节偏移量。
++
++如果要在debugfs中转储u32数组，可以使用以下函数创建文件::
++
++     void debugfs_create_u32_array(const char *name, umode_t mode,
++			struct dentry *parent,
++			u32 *array, u32 elements);
++
++“array”参数提供数据，而“elements”参数为数组中元素的数量。注意：数组创建后，数组
++大小无法更改。
++
++有一个函数来创建与设备相关的seq_file::
++
++   struct dentry *debugfs_create_devm_seqfile(struct device *dev,
++				const char *name,
++				struct dentry *parent,
++				int (*read_fn)(struct seq_file *s,
++					void *data));
++
++“dev”参数是与此debugfs文件相关的设备，并且“read_fn”是一个函数指针，这个函数在
++打印seq_file内容的时候被回调。
++
++还有一些其他的面向目录的函数::
++
++    struct dentry *debugfs_rename(struct dentry *old_dir,
++		                  struct dentry *old_dentry,
++		                  struct dentry *new_dir,
++				  const char *new_name);
++
++    struct dentry *debugfs_create_symlink(const char *name,
++                                          struct dentry *parent,
++                                          const char *target);
++
++调用debugfs_rename()将为现有的debugfs文件重命名，可能同时切换目录。 new_name
++函数调用之前不能存在；返回值为old_dentry，其中包含更新的信息。可以使用
++debugfs_create_symlink（）创建符号链接。
++
++所有debugfs用户必须考虑的一件事是：
++
++debugfs不会自动清除在其中创建的任何目录。如果一个模块在不显式删除debugfs目录的
++情况下卸载模块，结果将会遗留很多野指针，从而导致系统不稳定。因此，所有debugfs
++用户-至少是那些可以作为模块构建的用户-必须做模块卸载的时候准备删除在此创建的
++所有文件和目录。一份文件可以通过以下方式删除::
++
++    void debugfs_remove(struct dentry *dentry);
++
++dentry值可以为NULL或错误值，在这种情况下，不会有任何文件被删除。
++
++很久以前，内核开发者使用debugfs时需要记录他们创建的每个dentry指针，以便最后所有
++文件都可以被清理掉。但是，现在debugfs用户能调用以下函数递归清除之前创建的文件::
++
++    void debugfs_remove_recursive(struct dentry *dentry);
++
++如果将对应顶层目录的dentry传递给以上函数，则该目录下的整个层次结构将会被删除。
++
++注释：
++[1] http://lwn.net/Articles/309298/
+diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+new file mode 100644
+index 000000000000..c2e9e6224931
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/index.rst
+@@ -0,0 +1,21 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================
++Linux 内核中的文件系统
++======================
++
++这个不完整的指南在某一天将会提供关于Linux 虚拟文件系统(VFS)层如何工作的完整
++信息。以及VFS以下的的文件系统。目前为止，我们提供了以下信息。
++
++
++
++
++文件系统
++========
++
++关于文件系统实现的文档.
++
++.. toctree::
++   :maxdepth: 2
++
++   debugfs
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index d3165535ec9e..770f886d081c 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -1,3 +1,4 @@
++.. SPDX-License-Identifier: GPL-2.0
+ .. raw:: latex
  
- 	make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
- 	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \\
-diff --git a/Makefile b/Makefile
-index a2aadcf8a36c..d5c907c0beb8 100644
---- a/Makefile
-+++ b/Makefile
-@@ -399,8 +399,13 @@ HOST_LFS_CFLAGS := $(shell getconf LFS_CFLAGS 2>/dev/null)
- HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS 2>/dev/null)
- HOST_LFS_LIBS := $(shell getconf LFS_LIBS 2>/dev/null)
+ 	\renewcommand\thesection*
+@@ -14,6 +15,7 @@
+    :maxdepth: 2
  
--HOSTCC       = gcc
--HOSTCXX      = g++
-+ifneq ($(LLVM),)
-+HOSTCC	= clang
-+HOSTCXX	= clang++
-+else
-+HOSTCC	= gcc
-+HOSTCXX	= g++
-+endif
- KBUILD_HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 \
- 		-fomit-frame-pointer -std=gnu89 $(HOST_LFS_CFLAGS) \
- 		$(HOSTCFLAGS)
-@@ -409,16 +414,28 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
- KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+    process/index
++   filesystems/index
  
- # Make variables (CC, etc...)
--LD		= $(CROSS_COMPILE)ld
--CC		= $(CROSS_COMPILE)gcc
- CPP		= $(CC) -E
-+ifneq ($(LLVM),)
-+CC		= clang
-+LD		= ld.lld
-+AR		= llvm-ar
-+NM		= llvm-nm
-+OBJCOPY		= llvm-objcopy
-+OBJDUMP		= llvm-objdump
-+READELF		= llvm-readelf
-+OBJSIZE		= llvm-size
-+STRIP		= llvm-strip
-+else
-+CC		= $(CROSS_COMPILE)gcc
-+LD		= $(CROSS_COMPILE)ld
- AR		= $(CROSS_COMPILE)ar
- NM		= $(CROSS_COMPILE)nm
--STRIP		= $(CROSS_COMPILE)strip
- OBJCOPY		= $(CROSS_COMPILE)objcopy
- OBJDUMP		= $(CROSS_COMPILE)objdump
--OBJSIZE		= $(CROSS_COMPILE)size
- READELF		= $(CROSS_COMPILE)readelf
-+OBJSIZE		= $(CROSS_COMPILE)size
-+STRIP		= $(CROSS_COMPILE)strip
-+endif
- PAHOLE		= pahole
- LEX		= flex
- YACC		= bison
-diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
-index ee08aeff30a1..f591c4d1b6fe 100644
---- a/tools/objtool/Makefile
-+++ b/tools/objtool/Makefile
-@@ -3,9 +3,15 @@ include ../scripts/Makefile.include
- include ../scripts/Makefile.arch
- 
- # always use the host compiler
-+ifneq ($(LLVM),)
-+HOSTAR	?= llvm-ar
-+HOSTCC	?= clang
-+HOSTLD	?= ld.lld
-+else
- HOSTAR	?= ar
- HOSTCC	?= gcc
- HOSTLD	?= ld
-+endif
- AR	 = $(HOSTAR)
- CC	 = $(HOSTCC)
- LD	 = $(HOSTLD)
+ 目录和表格
+ ----------
 -- 
 2.17.1
 
