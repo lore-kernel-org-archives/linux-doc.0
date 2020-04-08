@@ -7,48 +7,62 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCFBC2BA1A
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 014B3C2BA1B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4909120730
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE75F2076D
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586360831;
-	bh=i3VqmDuLd/n3AsiTO35YTokWcu5+ERCRSqkQNYVNlZI=;
+	s=default; t=1586360832;
+	bh=p4BaOts5XwS9tdFV4i/p0/J5e6kWOeDWMFxv85StaUU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=tFJrKmXvI9aMk9yse+y7F+58dgiR+aQ7RaWUVb6X0g1/wqezV/QkAZcsmQbOa5AL8
-	 1mdFp40hPQrRd/dbDBKSKfyu6Tc1hiZGP3yx40Wz4aMxRKqn48TmYIou+Jr80Wi6G0
-	 dSUCU6/jOfjG/SV/GWKrKct6gw8FtXfbpj1aXOKk=
+	b=jQ8+x0XdT9/JR9Rl6HYZczCb2mX5Drei74oEgMk+lKUt0mY5SnRQcifx8rbZdZmDp
+	 HbBJQU6LRg295h4mAkhMCdlMCukTs9PsCwB3JE7VZFGRVAE7BQSLKKA6AJ2N+kIQqW
+	 L+Xozm1TYqgd5uGYqQjdDI9hQK/wKmvqsRvrSw+Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729801AbgDHPrH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:47:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49522 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729703AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729705AbgDHPqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 8 Apr 2020 11:46:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49016 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729589AbgDHPqc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Apr 2020 11:46:32 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 11229221F9;
-        Wed,  8 Apr 2020 15:46:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1778E20784;
+        Wed,  8 Apr 2020 15:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586360792;
-        bh=i3VqmDuLd/n3AsiTO35YTokWcu5+ERCRSqkQNYVNlZI=;
+        s=default; t=1586360791;
+        bh=p4BaOts5XwS9tdFV4i/p0/J5e6kWOeDWMFxv85StaUU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s54V+P4U6AAJxn0p6r1WqQYfUIE1T58epdBzP5oK9nRBv/+MAyHmm8dIJ69bxmJin
-         vthRrKVqPsOUGhuVaOriG7p9hYmdOaeAZS7NbxJqbayuN4MYDU/p1dXIwLueHuZoXc
-         dLudP9OXO5v3WeTrka8UJdbAdgxLP0zA9PxWinCM=
+        b=NZ21Vyx8+OMKYPn8CBKZzq75zGPoZ3DMDP8oLRTpkpecR8WAQ2+J8Fj2VAHTR5wk0
+         xDKmG5vsShl4z0Z80aO1JRL4hEypnfFvWF9tZ0gMaqVYbs4QpvzGLBsWeiPEMeQdvH
+         pR/0VVfHJVOJNvrIxlVOVb9eI6+9VNUE+/BRTi8E=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jMCuM-000cCt-9g; Wed, 08 Apr 2020 17:46:30 +0200
+        id 1jMCuL-000cAZ-6H; Wed, 08 Apr 2020 17:46:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org
-Subject: [PATCH 33/35] docs: i2c: rename i2c.svg to i2c_bus.svg
-Date:   Wed,  8 Apr 2020 17:46:25 +0200
-Message-Id: <bb72db28b4b7d867555b345a49703fdca484957e.1586359676.git.mchehab+huawei@kernel.org>
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Corentin Labbe <clabbe.montjoie@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, kvm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 04/35] docs: fix broken references for ReST files that moved around
+Date:   Wed,  8 Apr 2020 17:45:56 +0200
+Message-Id: <5beb8d40ae78e179ea5bafb38f0988c5f1a5fd18.1586359676.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586359676.git.mchehab+huawei@kernel.org>
 References: <cover.1586359676.git.mchehab+huawei@kernel.org>
@@ -59,49 +73,186 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When generating the PDF output, the Documentation/i2c dir
-will generate an i2c.pdf. The same happens with i2c.svg:
-it will also produce a file with the same name, at the same dir.
-
-This causes errors when building the PDF output. So, rename the
-image to i2c_bus.svg.
+Some broken references happened due to shifting files around
+and ReST renames. Those can't be auto-fixed by the script,
+so let's fix them manually.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/i2c/{i2c.svg => i2c_bus.svg} | 2 +-
- Documentation/i2c/summary.rst              | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename Documentation/i2c/{i2c.svg => i2c_bus.svg} (99%)
+ Documentation/doc-guide/maintainer-profile.rst      | 2 +-
+ Documentation/virt/kvm/mmu.rst                      | 2 +-
+ Documentation/virt/kvm/review-checklist.rst         | 2 +-
+ arch/x86/kvm/mmu/mmu.c                              | 2 +-
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 2 +-
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c   | 2 +-
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 2 +-
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c   | 2 +-
+ drivers/media/v4l2-core/v4l2-fwnode.c               | 2 +-
+ include/uapi/linux/kvm.h                            | 4 ++--
+ tools/include/uapi/linux/kvm.h                      | 4 ++--
+ 11 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/i2c/i2c.svg b/Documentation/i2c/i2c_bus.svg
-similarity index 99%
-rename from Documentation/i2c/i2c.svg
-rename to Documentation/i2c/i2c_bus.svg
-index 5979405ad1c3..3170de976373 100644
---- a/Documentation/i2c/i2c.svg
-+++ b/Documentation/i2c/i2c_bus.svg
-@@ -9,7 +9,7 @@
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
--   sodipodi:docname="i2c.svg"
-+   sodipodi:docname="i2c_bus.svg"
-    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-    version="1.1"
-    id="svg2"
-diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
-index ce7230025b33..136c4e333be7 100644
---- a/Documentation/i2c/summary.rst
-+++ b/Documentation/i2c/summary.rst
-@@ -34,7 +34,7 @@ Terminology
- Using the terminology from the official documentation, the I2C bus connects
- one or more *master* chips and one or more *slave* chips.
+diff --git a/Documentation/doc-guide/maintainer-profile.rst b/Documentation/doc-guide/maintainer-profile.rst
+index 5afc0ddba40a..755d39f0d407 100644
+--- a/Documentation/doc-guide/maintainer-profile.rst
++++ b/Documentation/doc-guide/maintainer-profile.rst
+@@ -6,7 +6,7 @@ Documentation subsystem maintainer entry profile
+ The documentation "subsystem" is the central coordinating point for the
+ kernel's documentation and associated infrastructure.  It covers the
+ hierarchy under Documentation/ (with the exception of
+-Documentation/device-tree), various utilities under scripts/ and, at least
++Documentation/devicetree), various utilities under scripts/ and, at least
+ some of the time, LICENSES/.
  
--.. kernel-figure::  i2c.svg
-+.. kernel-figure::  i2c_bus.svg
-    :alt:    Simple I2C bus with one master and 3 slaves
+ It's worth noting, though, that the boundaries of this subsystem are rather
+diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
+index 60981887d20b..46126ecc70f7 100644
+--- a/Documentation/virt/kvm/mmu.rst
++++ b/Documentation/virt/kvm/mmu.rst
+@@ -319,7 +319,7 @@ Handling a page fault is performed as follows:
  
-    Simple I2C bus
+  - If both P bit and R/W bit of error code are set, this could possibly
+    be handled as a "fast page fault" (fixed without taking the MMU lock).  See
+-   the description in Documentation/virt/kvm/locking.txt.
++   the description in Documentation/virt/kvm/locking.rst.
+ 
+  - if needed, walk the guest page tables to determine the guest translation
+    (gva->gpa or ngpa->gpa)
+diff --git a/Documentation/virt/kvm/review-checklist.rst b/Documentation/virt/kvm/review-checklist.rst
+index 1f86a9d3f705..dc01aea4057b 100644
+--- a/Documentation/virt/kvm/review-checklist.rst
++++ b/Documentation/virt/kvm/review-checklist.rst
+@@ -10,7 +10,7 @@ Review checklist for kvm patches
+ 2.  Patches should be against kvm.git master branch.
+ 
+ 3.  If the patch introduces or modifies a new userspace API:
+-    - the API must be documented in Documentation/virt/kvm/api.txt
++    - the API must be documented in Documentation/virt/kvm/api.rst
+     - the API must be discoverable using KVM_CHECK_EXTENSION
+ 
+ 4.  New state must include support for save/restore.
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 8071952e9cf2..fd59fee84631 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -3586,7 +3586,7 @@ static bool fast_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+ 		/*
+ 		 * Currently, fast page fault only works for direct mapping
+ 		 * since the gfn is not stable for indirect shadow page. See
+-		 * Documentation/virt/kvm/locking.txt to get more detail.
++		 * Documentation/virt/kvm/locking.rst to get more detail.
+ 		 */
+ 		fault_handled = fast_pf_fix_direct_spte(vcpu, sp,
+ 							iterator.sptep, spte,
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+index a5fd8975f3d3..a6abb701bfc6 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+@@ -8,7 +8,7 @@
+  * This file add support for AES cipher with 128,192,256 bits keysize in
+  * CBC and ECB mode.
+  *
+- * You could find a link for the datasheet in Documentation/arm/sunxi/README
++ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
+  */
+ 
+ #include <linux/crypto.h>
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+index 3e4e4bbda34c..b957061424a1 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+@@ -7,7 +7,7 @@
+  *
+  * Core file which registers crypto algorithms supported by the CryptoEngine.
+  *
+- * You could find a link for the datasheet in Documentation/arm/sunxi/README
++ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
+  */
+ #include <linux/clk.h>
+ #include <linux/crypto.h>
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+index 84d52fc3a2da..c89cb2ee2496 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+@@ -8,7 +8,7 @@
+  * This file add support for AES cipher with 128,192,256 bits keysize in
+  * CBC and ECB mode.
+  *
+- * You could find a link for the datasheet in Documentation/arm/sunxi/README
++ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
+  */
+ 
+ #include <linux/crypto.h>
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+index 6b301afffd11..8ba4f9c81dac 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+@@ -7,7 +7,7 @@
+  *
+  * Core file which registers crypto algorithms supported by the SecuritySystem
+  *
+- * You could find a link for the datasheet in Documentation/arm/sunxi/README
++ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
+  */
+ #include <linux/clk.h>
+ #include <linux/crypto.h>
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 97f0f8b23b5d..8a1e1b95b379 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -980,7 +980,7 @@ static int v4l2_fwnode_reference_parse(struct device *dev,
+  *
+  * THIS EXAMPLE EXISTS MERELY TO DOCUMENT THIS FUNCTION. DO NOT USE IT AS A
+  * REFERENCE IN HOW ACPI TABLES SHOULD BE WRITTEN!! See documentation under
+- * Documentation/acpi/dsd instead and especially graph.txt,
++ * Documentation/firmware-guide/acpi/dsd/ instead and especially graph.txt,
+  * data-node-references.txt and leds.txt .
+  *
+  *	Scope (\_SB.PCI0.I2C2)
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 428c7dde6b4b..fdd632c833b4 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -116,7 +116,7 @@ struct kvm_irq_level {
+ 	 * ACPI gsi notion of irq.
+ 	 * For IA-64 (APIC model) IOAPIC0: irq 0-23; IOAPIC1: irq 24-47..
+ 	 * For X86 (standard AT mode) PIC0/1: irq 0-15. IOAPIC0: 0-23..
+-	 * For ARM: See Documentation/virt/kvm/api.txt
++	 * For ARM: See Documentation/virt/kvm/api.rst
+ 	 */
+ 	union {
+ 		__u32 irq;
+@@ -1107,7 +1107,7 @@ struct kvm_xen_hvm_config {
+  *
+  * KVM_IRQFD_FLAG_RESAMPLE indicates resamplefd is valid and specifies
+  * the irqfd to operate in resampling mode for level triggered interrupt
+- * emulation.  See Documentation/virt/kvm/api.txt.
++ * emulation.  See Documentation/virt/kvm/api.rst.
+  */
+ #define KVM_IRQFD_FLAG_RESAMPLE (1 << 1)
+ 
+diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
+index 4b95f9a31a2f..e5f32fcec68f 100644
+--- a/tools/include/uapi/linux/kvm.h
++++ b/tools/include/uapi/linux/kvm.h
+@@ -116,7 +116,7 @@ struct kvm_irq_level {
+ 	 * ACPI gsi notion of irq.
+ 	 * For IA-64 (APIC model) IOAPIC0: irq 0-23; IOAPIC1: irq 24-47..
+ 	 * For X86 (standard AT mode) PIC0/1: irq 0-15. IOAPIC0: 0-23..
+-	 * For ARM: See Documentation/virt/kvm/api.txt
++	 * For ARM: See Documentation/virt/kvm/api.rst
+ 	 */
+ 	union {
+ 		__u32 irq;
+@@ -1100,7 +1100,7 @@ struct kvm_xen_hvm_config {
+  *
+  * KVM_IRQFD_FLAG_RESAMPLE indicates resamplefd is valid and specifies
+  * the irqfd to operate in resampling mode for level triggered interrupt
+- * emulation.  See Documentation/virt/kvm/api.txt.
++ * emulation.  See Documentation/virt/kvm/api.rst.
+  */
+ #define KVM_IRQFD_FLAG_RESAMPLE (1 << 1)
+ 
 -- 
 2.25.2
 
