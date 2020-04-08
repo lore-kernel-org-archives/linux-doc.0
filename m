@@ -2,157 +2,91 @@ Return-Path: <SRS0=WnF+=5Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FCCDC2D0F4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:24:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB154C2D0F4
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:29:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3579A2082F
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:24:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B55720730
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 17:29:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qZgDKwRB"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hyeDAxIE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730562AbgDHRY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 13:24:28 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:39394 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729416AbgDHRY2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 13:24:28 -0400
-Received: by mail-qk1-f194.google.com with SMTP id b62so1010313qkf.6;
-        Wed, 08 Apr 2020 10:24:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HsE0FdNQUdBILUMJI+9L+7PKuj3mLVujqM0DGf2eORU=;
-        b=qZgDKwRBfLCXw5QWOprk//cA37v9wTV30oJ856gkXumHgDbS0CA9aXUFZRjLsOxqDE
-         FpPNELnBxdeGU3vVQvMKXnanTwFqi8SAlJ8MYb/c3Fyjt3LrPqFY8Ald16MLHzSYCdQh
-         HYMIitiyaghI7CaWBntXQF5r5Fe8oRRlPPMJsfo2AnPAfxFZ8OXLI2esSepdvb/TpNU2
-         UYQv/snorw7LU1atbo/TvhpCvTmuf2SKJSnNWcP0wuf0n9WvCvjxKlv/VobUgcHO1E/Y
-         brcXawQT4FM/QEedqk20/E5tHBM0SmgCJKXre9QLqY5eB0fgnP6EDyjCsl0uiWvgt88Q
-         okDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HsE0FdNQUdBILUMJI+9L+7PKuj3mLVujqM0DGf2eORU=;
-        b=ZEj74XArdqlTxLWqLTg0NIdwTqaFjbdDosvYB2ziFVIBnAtl+wq1v5TMYudOp1Z3GD
-         YJmZRkhdy8joZ4CP+JSkwCv3qi+PBEaeDcqYIViOp9exFGpNk7GWQX8bYJBwWid0z1w3
-         o5Sqb4kgR1wuHj4vutEvBoD5zan6dN49g1cpq4NOmvn1J/AX/jwAniWYSzdWyz+OfUL1
-         zsL1GBTtBlvCzMuddtHQvRn0d5avljxVMpeMocYodionQbbonK7HPOzFot0T194KzSfm
-         zelikx1tWWvaKoYuh8y/Fv4Zotsw+Nzf2VH5R8QcmUi6AHLPWZbrr2LwcFksESl4W7YF
-         M36g==
-X-Gm-Message-State: AGi0PuaFE1zJaNB7pEJL7Y5dFcECBsP6qbGawan0bUK/AmYl32uSM6zA
-        W+BRWKrTYQWDfaKlxMUaHe8=
-X-Google-Smtp-Source: APiQypLq+YxX7AEQ1/fkwlscPvuOJ4NNLNsdaUItHgUIZMocOcD6myauCj+uUyQniWYzYxLSvvKVQw==
-X-Received: by 2002:a37:b702:: with SMTP id h2mr8849253qkf.491.1586366666956;
-        Wed, 08 Apr 2020 10:24:26 -0700 (PDT)
-Received: from icarus (072-189-064-225.res.spectrum.com. [72.189.64.225])
-        by smtp.gmail.com with ESMTPSA id e26sm9580792qto.90.2020.04.08.10.24.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2020 10:24:25 -0700 (PDT)
-Date:   Wed, 8 Apr 2020 13:24:05 -0400
-From:   William Breathitt Gray <vilhelm.gray@gmail.com>
-To:     Gwendal Grignou <gwendal@chromium.org>
-Cc:     Jonathan Cameron <jonathan.cameron@huawei.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Fabien Lahoudere <fabien.lahoudere@collabora.com>,
-        Enrico Granata <egranata@chromium.org>,
-        Collabora kernel ML <kernel@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
+        id S1729494AbgDHR3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 13:29:55 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57592 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729493AbgDHR3z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 13:29:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=AIkLRB9tu9cJ1QlOgikaPxAEDOuOfsDdcUkPvhqx0SM=; b=hyeDAxIEzdJhFkIc48CSeTBtMl
+        M3LpwqPXHD096Ch/f7BZnLN3lXAIJ2c0ZAySyCKjMt7HIrSfQhJSiz7ud8lcnouY+Dj5YfyY6Fzu0
+        sk8mOdiHPwtLJ2i9fXz8kFAZQ55elCJbCgZu4/zIspouXkOyz82SKPcLDQyYuIOIhBudIFhrAI0KF
+        gT4BKnwMH2tx1UZSeVDrcRzXLalzLuxh/chK9zyWfaFMR7Wm2UfSbyjD+Ebdh4bAegWvHefspg2tE
+        at3mBAUBlZhh//ikFp7Z1ROs18fSOyfZiecGBTjbIGzVbEr4MLvAMLm8wKwkofg9tupC1TXSwQsj2
+        DTSffYeA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jMEWQ-0006om-Hi; Wed, 08 Apr 2020 17:29:54 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>
+Cc:     Hridya Valsaraju <hridya@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Brauner <christian@brauner.io>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Nick Vaccaro <nvaccaro@chromium.org>,
-        linux-iio <linux-iio@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/1] counter: cros_ec: Add synchronization sensor
-Message-ID: <20200408172405.GA25871@icarus>
-References: <cover.1566563833.git.fabien.lahoudere@collabora.com>
- <d985a8a811996148e8cda78b9fe47bb87b884b56.1566563833.git.fabien.lahoudere@collabora.com>
- <20190826095612.7455cb05@archlinux>
- <8abbe9360938ab851d16c2c1494ba56034775823.camel@collabora.com>
- <6b50bdff184e6af664b7a61e0a8a2cddc5718f0a.camel@collabora.com>
- <20191110151408.GB3984@icarus>
- <20191111114955.00001031@huawei.com>
- <20191112011618.GA62259@icarus>
- <CAPUE2uvDiAfE68uCzWdTN3T2L_PR3JPeyGWDrc5ToLieEpGH1A@mail.gmail.com>
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: android: binderfs: add 'stats' mount option
+Message-ID: <baa0aa81-007d-af46-16a5-91fead0bd1b9@infradead.org>
+Date:   Wed, 8 Apr 2020 10:29:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
-Content-Disposition: inline
-In-Reply-To: <CAPUE2uvDiAfE68uCzWdTN3T2L_PR3JPeyGWDrc5ToLieEpGH1A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Randy Dunlap <rdunlap@infradead.org>
 
---yrj/dFKFPuw6o+aM
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add documentation of the binderfs 'stats' mount option.
 
-On Wed, Apr 08, 2020 at 10:10:28AM -0700, Gwendal Grignou wrote:
-> I resend a counter driver for the EC at
-> https://patchwork.kernel.org/patch/11479437/
->=20
-> I tried a timestamp only IIO sensor, but this is not allowed, as the
-> timestamp channel is very specific: no extended parameters can be
-> added.
-> I did not add a COUNTER_COUNT_TALLY type, as a newer function
-> COUNTER_COUNT_FUNCTION_INCREASE, fits the counter better.
-> I am still using IIO_COUNT (inspired by the st counter driver) to
-> gather the event in real time on the iio side.
->=20
-> Gwendal.
+Description taken from the commit message.
 
-Hi Gwendal,
+Fixes: f00834518ed3 ("binder: add a mount option to show global stats")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Christian Brauner <christian.brauner@ubuntu.com>
+Cc: Christian Brauner <christian@brauner.io>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: devel@driverdev.osuosl.org
+---
+ Documentation/admin-guide/binderfs.rst |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Despite the silence I haven't yet forgotten about this. I'm working on
-an update to the Counter subsystem code that should help develop a
-real time timestamp functionality for counter drivers. It's not yet
-complete right now, but I'm hoping to release it later this month. I'll
-CC you when the time comes to keep you updated and make sure it fits for
-use cases. :-)
+--- linux-next-20200408.orig/Documentation/admin-guide/binderfs.rst
++++ linux-next-20200408/Documentation/admin-guide/binderfs.rst
+@@ -33,6 +33,12 @@ max
+   a per-instance limit. If ``max=<count>`` is set then only ``<count>`` number
+   of binder devices can be allocated in this binderfs instance.
+ 
++stats
++  Using ``stats=global`` enables global binder statistics.
++  ``stats=global`` is only available for a binderfs instance mounted in the
++  initial user namespace. An attempt to use the option to mount a binderfs
++  instance in another user namespace will return a permission error.
++
+ Allocating binder Devices
+ -------------------------
+ 
 
-I'll review your current EC patch for a counter driver in the coming
-days -- I have some IRL work I'm taking care of this week but I should
-be able to take a look this weekend or soon after.
-
-Thanks,
-
-William Breathitt Gray
-
---yrj/dFKFPuw6o+aM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAl6OCJEACgkQhvpINdm7
-VJL7lA//bfs1FP8LBzWhR0KexQx7zXkVQiDaEWeRPjLpQPi143c0SLZx8IrJwIe1
-VdJWA7gNXvHHnCcV7oZqCUBqJXIUrWA3b0Mavz2DISd2NoikrW1q1S/auJ2+xUJQ
-mZueiLVh3SC3Jt2QU7wHxjTPbWUBQVCLvZ8AAn/JLWWADmPryawOMnPtwQpxaB2d
-KiZdvW1XCI+4Hc3oujNidgTi0hqp/LjLO/IvN+QtiKfK0adWAFOIcItP7PAkhN2o
-aIpbEwaSSfHgBqlKBAwOYDz8WJDohF2j/1CcbbsghFJ7so27Dwp4rPf6Tyy2h+kB
-89Fj5YJAy4B4zAOA0tgU01zf+m0MZxQ4QkdS3hv27Rk8k/MF2HuMgC0DGoiySuzL
-zTb/Cvn6cFoMMlXZ1HwlALzC2D7HsoLzkq/UvY0MpawuEiz8Ury0RghOaz+IluC2
-egN/v5ucLw+1Ac+nHYfkU5KOzU8XX6LALXB+0E6UjE9Cwqv6j1tw9sVJcCDXpGQB
-FXXjsyOMjsz9gZm90LDk8VhmsAbSptfEzmpwtuvdqVCVMkUvSmhqPLu8PpTmW8wC
-Tj2Lv3WlnUNCzzyMxfIV1R1sAYEL2Vxk4/HssllCwAcku7WQIo/zVdRR+qnsQVQZ
-S4gDOgC/zKN7prCcsCGSX3csv8zPwtPUh9mJdaP6zwRczc3ZY1w=
-=Whhq
------END PGP SIGNATURE-----
-
---yrj/dFKFPuw6o+aM--
