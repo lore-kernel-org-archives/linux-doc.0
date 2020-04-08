@@ -7,49 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC656C2BA1A
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6626DC2BA2B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A070720784
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A50520784
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Apr 2020 15:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586360876;
-	bh=dzEvyUMT+6iAL0bVATxxLcY08y7xtxW1DkpC2XHSTsk=;
+	s=default; t=1586360877;
+	bh=djdizYUF8P2UkZPkY2sLJI5bKLZqZSwRhGddHALE768=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=l9Rwy1IhCHp4TjjzIQjl5rypCrIKM0jZhnNjCqPkPiLOoABk7QwD6PkQ/nfeCpYNM
-	 drbSsg3gf2F7qxGPfOB6kwrmyuZKC59dS1VvFuZJ0iAlAMZJ6WSBuhhuRrpWCg9xa6
-	 AJ8vOL841Dls14vtmTOj51dhb25ftdcj755GbexQ=
+	b=ZfnuEbkpaqaqSzSM1q5UGilgfJODLqk1I2GFUrJQrbS98YnTQeIV9W3FYrieaRXGG
+	 oFFUFWkWRwKuYl5jSS8jD0FB8KqEYr6CFi/ccDGeQCCU9pCbegopmnETTeGmaV6xAy
+	 VTkSd7NoTe4zi+RAYWAM9cDK0Vj7kuZEXuPjvZZw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729899AbgDHPro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:47:44 -0400
+        id S1729670AbgDHPqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Apr 2020 11:46:33 -0400
 Received: from mail.kernel.org ([198.145.29.99]:49290 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729678AbgDHPqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Apr 2020 11:46:33 -0400
+        id S1729644AbgDHPqc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Apr 2020 11:46:32 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A06372078E;
+        by mail.kernel.org (Postfix) with ESMTPSA id 3BE4220BED;
         Wed,  8 Apr 2020 15:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586360791;
-        bh=dzEvyUMT+6iAL0bVATxxLcY08y7xtxW1DkpC2XHSTsk=;
+        bh=djdizYUF8P2UkZPkY2sLJI5bKLZqZSwRhGddHALE768=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gSAqqCvgTqXa/uXKmv6EtznA69C4V8DH+7tAiOQNLcwtHbDUgP+TAlPo8teTWKDnM
-         dC8jqt6R8V70H20R2xBLozYWzJEo+P1t5Z0t4qINbz+1i1Q9o/HBEt19GSNv210olW
-         4Dzs/4ExuoIJYGl5mAM8SIJF6Fw0DUiAD8BAIus8=
+        b=U6mJnpirWd768ymAkegEDrM0PTsqOd1rHesjskcNjn19PhahQWlauN0fUK3NlLoyg
+         KXKpGhjmquO0nRglgQIjNEYlaUM18FcykFS+IYHWiEWT8RU1RpIWTrMdrl/Jv0NZ8h
+         sbx/AmLD8xT1HLv9NXwmo4dgwkvgXnK9z4XHtV9U=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jMCuL-000cBm-QI; Wed, 08 Apr 2020 17:46:29 +0200
+        id 1jMCuL-000cB6-Fp; Wed, 08 Apr 2020 17:46:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, linux-rdma@vger.kernel.org
-Subject: [PATCH 19/35] docs: infiniband: verbs.c: fix some documentation warnings
-Date:   Wed,  8 Apr 2020 17:46:11 +0200
-Message-Id: <9f9212db13dc19e5d80e3fc94ad26f3b9798d154.1586359676.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 11/35] scripts: kernel-doc: proper handle @foo->bar()
+Date:   Wed,  8 Apr 2020 17:46:03 +0200
+Message-Id: <a388c88a1eebd4e0fb6147adb666289ef769aa51.1586359676.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586359676.git.mchehab+huawei@kernel.org>
 References: <cover.1586359676.git.mchehab+huawei@kernel.org>
@@ -60,50 +58,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Parsing this file with kernel-doc produce some warnings:
+The pattern @foo->bar() is valid, as it can be used by a
+function pointer inside a struct passed as a parameter.
 
-	./drivers/infiniband/core/verbs.c:2579: WARNING: Unexpected indentation.
-	./drivers/infiniband/core/verbs.c:2581: WARNING: Block quote ends without a blank line; unexpected unindent.
-	./drivers/infiniband/core/verbs.c:2613: WARNING: Unexpected indentation.
-	./drivers/infiniband/core/verbs.c:2579: WARNING: Unexpected indentation.
-	./drivers/infiniband/core/verbs.c:2581: WARNING: Block quote ends without a blank line; unexpected unindent.
-	./drivers/infiniband/core/verbs.c:2613: WARNING: Unexpected indentation.
+Right now, it causes a warning:
 
-Address them by adding an extra blank line and converting the
-parameters on one of the arguments to a table.
+	./drivers/firewire/core-transaction.c:606: WARNING: Inline strong start-string without end-string.
+
+In this specific case, the kernel-doc markup is:
+
+	/**
+	 * fw_core_remove_address_handler() - unregister an address handler
+	 * @handler: callback
+	 *
+	 * To be called in process context.
+	 *
+	 * When fw_core_remove_address_handler() returns, @handler->callback() is
+	 * guaranteed to not run on any CPU anymore.
+	 */
+
+With seems valid on my eyes. So, instead of trying to hack
+the kernel-doc markup, let's teach it about how to handle
+such things. This should likely remove lots of other similar
+warnings as well.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/infiniband/core/verbs.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ scripts/kernel-doc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/infiniband/core/verbs.c b/drivers/infiniband/core/verbs.c
-index 56a71337112c..3bfadd8effcc 100644
---- a/drivers/infiniband/core/verbs.c
-+++ b/drivers/infiniband/core/verbs.c
-@@ -2574,6 +2574,7 @@ EXPORT_SYMBOL(ib_map_mr_sg_pi);
-  * @page_size:     page vector desired page size
-  *
-  * Constraints:
-+ *
-  * - The first sg element is allowed to have an offset.
-  * - Each sg element must either be aligned to page_size or virtually
-  *   contiguous to the previous element. In case an sg element has a
-@@ -2607,10 +2608,12 @@ EXPORT_SYMBOL(ib_map_mr_sg);
-  * @mr:            memory region
-  * @sgl:           dma mapped scatterlist
-  * @sg_nents:      number of entries in sg
-- * @sg_offset_p:   IN:  start offset in bytes into sg
-- *                 OUT: offset in bytes for element n of the sg of the first
-+ * @sg_offset_p:   ==== =======================================================
-+ *                 IN   start offset in bytes into sg
-+ *                 OUT  offset in bytes for element n of the sg of the first
-  *                      byte that has not been processed where n is the return
-  *                      value of this function.
-+ *                 ==== =======================================================
-  * @set_page:      driver page assignment function pointer
-  *
-  * Core service helper for drivers to convert the largest
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index f2d73f04e71d..d15c8ea95d93 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -214,6 +214,7 @@ my $type_constant2 = '\%([-_\w]+)';
+ my $type_func = '(\w+)\(\)';
+ my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+ my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
++my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
+ my $type_env = '(\$\w+)';
+ my $type_enum = '\&(enum\s*([_\w]+))';
+ my $type_struct = '\&(struct\s*([_\w]+))';
+@@ -249,6 +250,7 @@ my @highlights_rst = (
+                        [$type_member_func, "\\:c\\:type\\:`\$1\$2\$3\\\\(\\\\) <\$1>`"],
+                        [$type_member, "\\:c\\:type\\:`\$1\$2\$3 <\$1>`"],
+ 		       [$type_fp_param, "**\$1\\\\(\\\\)**"],
++		       [$type_fp_param2, "**\$1\\\\(\\\\)**"],
+                        [$type_func, "\$1()"],
+                        [$type_enum, "\\:c\\:type\\:`\$1 <\$2>`"],
+                        [$type_struct, "\\:c\\:type\\:`\$1 <\$2>`"],
 -- 
 2.25.2
 
