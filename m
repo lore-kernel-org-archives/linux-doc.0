@@ -2,73 +2,149 @@ Return-Path: <SRS0=w6yw=5Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7577CC2BB86
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 08:54:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2CEFC2BB55
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 09:43:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6A3F7214DB
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 08:35:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CDC721D91
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 09:43:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="IxjUOPF2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726137AbgDIIfQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Apr 2020 04:35:16 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:40789 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726470AbgDIIfQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 04:35:16 -0400
-Received: from ip5f5bd698.dynamic.kabel-deutschland.de ([95.91.214.152] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jMSci-0007C4-7g; Thu, 09 Apr 2020 08:33:20 +0000
-Date:   Thu, 9 Apr 2020 10:33:19 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 2/8] loopfs: implement loopfs
-Message-ID: <20200409083319.nlemf6d7g33hxhiy@wittgenstein>
-References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
- <20200408152151.5780-3-christian.brauner@ubuntu.com>
- <20200409075320.GA26234@infradead.org>
+        id S1726082AbgDIJnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Apr 2020 05:43:10 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:34683 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726620AbgDIJnK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 05:43:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1586425390; x=1617961390;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=A3o7iwNYKZ7O2kghXsLkm2MqLsk9mCv8wiHQj4pLUK8=;
+  b=IxjUOPF2lOfppCOPNOeYcy83ZKs65nW/7eJ7JckTdikwYBzlHTd3lbtq
+   e0liv2uPaVFN8xT7CzNuwYDBifunJJQRvENVYdQdOpyDq0YJ8WmogQkwM
+   6q+YB69jyUcmmDDFUNUBegbumkF+XofIzHPBxu2SqCgn2EbjLORBVEhDO
+   o=;
+IronPort-SDR: v3D4vMoCWVdOhLTBHJE/sCYO8YnRcak74zexDsowtMi2dnxT5bknVRPyMtc2mZRRyW0dvlPHs7
+ /G4kT01Gsc8Q==
+X-IronPort-AV: E=Sophos;i="5.72,362,1580774400"; 
+   d="scan'208";a="27833870"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-2225282c.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 09 Apr 2020 09:43:07 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2c-2225282c.us-west-2.amazon.com (Postfix) with ESMTPS id 244A8A2426;
+        Thu,  9 Apr 2020 09:43:05 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 9 Apr 2020 09:43:04 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.115) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 9 Apr 2020 09:42:50 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
+        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
+        <dwmw@amazon.com>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH 0/4] DAMON: Make Configurable for Various Address Spaces Including Physical Memory
+Date:   Thu, 9 Apr 2020 11:42:28 +0200
+Message-ID: <20200409094232.29680-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200409075320.GA26234@infradead.org>
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.115]
+X-ClientProxiedBy: EX13D15UWB003.ant.amazon.com (10.43.161.138) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 09, 2020 at 12:53:20AM -0700, Christoph Hellwig wrote:
-> Almost 600 lines of code for a little bit of fine grained control
-> is the wrong tradeoff.  Please find a cheaper way to do this.
+From: SeongJae Park <sjpark@amazon.de>
 
-I think that's a slight misrepresentation of the patchset. Of course, I
-get reservations against adding new code but none of this code will
-exist at all if the config option is not set; and the config option is
-not selected by default. I don't want people to have to use something
-they don't care about of course.
-The patchset itself unblocks a range of use-cases we had issues with for
-quite a while and the standalone, tiny filesystem approach has served us
-well already, so this is not something new. It's not just gaining
-fine-grained control, it's a whole set of new uses and we don't just do
-it for the fun of doing it but because we do have actual users of this.
+DAMON[1] is currently supporing only virtual memory address spaces of several
+target processes.  Therefore, the user of DAMON should first select the target
+processes.  This could be cumbersome in some cases and even makes no sense if
+the user want to monitor non-virtual address spaces.  Especially, there were
+many requests and questions for support of physical memory monitoring.
 
-Christian
+There were also many questions about use of different access check mechanisms
+such as dedicated H/W features[2], idle page tracking, or perf-mem, instead of
+the PTE Accessed bit checking, which is currently used by DAMON.  Supporting
+various access check mechanisms will make DAMON to be highly tunable for
+specific cases.
+
+Fortunately, the core mechanisms of DAMON, the region-based sampling and
+adaptive regions adjustment, are not coupled with the virtual memory spaces and
+Accessed bit based access check.  As long as there is a way to 1) address every
+region in the space and 2) check access to specific address, the core
+mechanisms could be applied.  Nonetheless, current implementation of DAMON is
+highly coupled with the virtual memory address spaces.
+
+[1] https://lore.kernel.org/linux-mm/20200406130938.14066-1-sjpark@amazon.com/
+[2] https://images.anandtech.com/doci/10591/HC28.AMD.Mike%20Clark.final-page-016.jpg
+
+
+Baseline and Complete Git Trees
+===============================
+
+The patches are based on the v5.6 plus DAMON v8 patchset[1] and DAMOS RFC v6[2]
+patchset.  You can also clone the complete git tree:
+
+    $ git clone git://github.com/sjp38/linux -b cdamon/rfc/v1
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/cdamon/rfc/v1
+
+This patchset breaks the couplings and allows the target region definition and
+the access check to be configurable by users so that it can support various
+types of address spaces and use cases.  Based on this patchset, you can
+configure DAMON to monitor physical memory or other special address spaces with
+your preferred access check mechanism.
+
+[1] https://lore.kernel.org/linux-mm/20200406130938.14066-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-mm/20200407100007.3894-1-sjpark@amazon.com/
+
+
+Sequence of Patches
+===================
+
+The sequence of patches is as follow.  The first patch defines the monitoring
+region again based on pure address range abstraction so that there is no
+assumption of virtual memory in there.  The following patch cleans up code
+using the new abstraction.  The third patch allows users to configure the
+initialization and dynamic update of the target address regions, which were
+highly coupled with virtual memory area, with their own things.  Finally, the
+fourth patch further make the access check mechanism, which were based on PTE
+Accessed bit, configurable.
+
+SeongJae Park (4):
+  mm/damon: Use vm-independent address range concept
+  mm/damon: Clean up code using 'struct damon_addr_range'
+  mm/damon: Make monitoring target regions init/update configurable
+  mm/damon: Make access check configurable
+
+ include/linux/damon.h |  15 +++-
+ mm/damon-test.h       |  82 ++++++++++----------
+ mm/damon.c            | 174 ++++++++++++++++++++----------------------
+ 3 files changed, 136 insertions(+), 135 deletions(-)
+
+-- 
+2.17.1
+
