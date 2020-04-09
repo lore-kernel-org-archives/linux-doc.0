@@ -2,130 +2,270 @@ Return-Path: <SRS0=w6yw=5Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 537C5C2BB1D
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 03:59:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C7EC2D0EA
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 05:39:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 271F8206A1
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 03:59:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CA882072F
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 05:39:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WcfWA0De"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HkG56GMf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbgDID70 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Apr 2020 23:59:26 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:42480 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726552AbgDID7Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Apr 2020 23:59:25 -0400
-Received: by mail-ot1-f68.google.com with SMTP id t92so210938otb.9
-        for <linux-doc@vger.kernel.org>; Wed, 08 Apr 2020 20:59:25 -0700 (PDT)
+        id S1726082AbgDIFjb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Apr 2020 01:39:31 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:43024 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726052AbgDIFja (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 01:39:30 -0400
+Received: by mail-io1-f66.google.com with SMTP id u2so2630760iop.10;
+        Wed, 08 Apr 2020 22:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=XmvlzvuP/vnjEDUAwKX6NbPh583pohCBXmnvTfFr87o=;
-        b=WcfWA0De+txeD+3/qwDi56IMDD7hs+I4DO8x9nTO8TIxgeXl/V6E/fN2vgTJLcstLM
-         886C43uVdfSX+4NagjIP3e0rIvnsIACoAp2qqqM5tvPsuRtdRo/dBdIGz6pgvqafbnCT
-         MsXHtdqENcOPqOgGtN1jR8qa4q/4FJvT2MDhcwQmEOSaIsCkJOoq9bfK6evwJJAQf9p3
-         5uXnh52JdhZywazugrRBkXfhasgQzdTE5rD/ltu3H/cGMygWVnIGBwyE9oE35OHCFXCd
-         +7FEkU/SMbmBstyAFQ85PLXt1sHRn/iZkz4um5cIC0b0Xfayi2XLvfYGZZPAN4AdQCTi
-         4iTQ==
+        bh=ljGAHp2OjKbTOFHe8vnoaVTTxVxXbioqrcoMST1/WOo=;
+        b=HkG56GMfGJ4oOadqcLZ8K9Ajjq83Iyh59fq801QTD4zro/RN9oEeQEvooFasxrfuGz
+         BzKmFHaUGhXK5R2MqHGJXcMU0QKgkBTY9bk+Dr4xm1NO0WnnQDZcuNwAPvu7wGpOCMmk
+         t2K7/u5Y6+3RA8y1RUgDhYz8BgvFB3eBZtM1sNjmiGhfoL7OGG6x33RmyDZqQkx4dXek
+         IIwzbjuPUQU9harCVey752sogp8rmD+CdeW8CIUUtNyxJh4PdV7nhEDY21FTP4E5vBpX
+         mkrasJc8tvc6IXNJGIeutXFt6PI1hokvM0Kb4dfs4HpUBUSwID2C+0VsV/m895xuZkyj
+         Ub4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=XmvlzvuP/vnjEDUAwKX6NbPh583pohCBXmnvTfFr87o=;
-        b=l2ySuSMjhF0q4BLVDlv+u1/qZohPVjUBDn+gplVJPuYxArHrzqqbxWhItzzIDOXr8f
-         ZuxjMEMjuGtTPeHSicH5voPYD12QNtZ1pywXtZ2+rMvI4kgcC/80/IugOQyYhpSraAb6
-         wu2CUJWRZWgQZrWFeGWn5syfqGVqglfGMHVVEmNkam7Dla1gyvWnkyjqV3+V3KkIcen9
-         F2efP4hzQUEsFDOBx9rC++V2akPA2OYzFUxYE8dLmURY2U6+DgSLRl7dGPx/sm0WKP3A
-         9sR987HjLBlUpOL/Y8mJsCD+X6zn2BTEYFAGYWPqagaS+N0sByPTnM7bimfeN7nE721L
-         RnoA==
-X-Gm-Message-State: AGi0PubVz3oT5ZH5ZWaW+spJeN5ogtdEQzH7+L/Pz6XCeXL4ImSmkHY+
-        u+l4NPxjUKtqjLcOtAp4FnL2klFDiBU/Do4px0MG7csrqTzm5g==
-X-Google-Smtp-Source: APiQypIL+VSKtQqdwmZy4oiaXjGpHl/0mTLNWmmy5b0h+TbJd0NijtQXz9X0wf4utwLodwHw+mkZqIhkKaDKK9J/bMo=
-X-Received: by 2002:a05:6830:1e79:: with SMTP id m25mr8202815otr.36.1586404765365;
- Wed, 08 Apr 2020 20:59:25 -0700 (PDT)
+        bh=ljGAHp2OjKbTOFHe8vnoaVTTxVxXbioqrcoMST1/WOo=;
+        b=UjHuUOQPsMnVOw9k7TCYcsoQPfhJFSviIjZO9p0GYqkwYZKP3vXURcSvzbl6cYS0aC
+         hawMtXw5Uh/yqNMZaucNU+J/QcyKhHOhBO667EWjL/iMRuRUx/6p3yX+atVYoGn2MUeN
+         zVhie+NVB9NxIbGcR7OwuIYRia2LqYPdBAxnORoSW9V4PK9FE9ZkDaNgz6H7SHm6GUIY
+         SbuG9TUtK4AxBF5DuX3Gaueovq8hCNhqag/lrukKXz9a/c/hrsXvinUL1+GCZHkR4a8C
+         4/UgcMdnXUJwzmkqy7KM5RdN+c4+F/ADX/HyLS8mSBTixCX7jqDGGSyXCDC+3akvDKbO
+         51XA==
+X-Gm-Message-State: AGi0PuahwDRDpvxeukGixeVhGF4lNay2Ykvb+DZYWgizQ1xYQGAy+QUY
+        6gSqNjSJHtG4X4x4tJ/C9pxzhZKfsQeUnbiIz2o=
+X-Google-Smtp-Source: APiQypIL7SeYio2ZFuNp5g6MDFQufig71I9V1q4nfq+9nWJ+P9gSXGZQgEVwLHyPBwzlz+ajo1kFs5NqvWoLGRKwBuA=
+X-Received: by 2002:a05:6638:186:: with SMTP id a6mr1070872jaq.36.1586410769722;
+ Wed, 08 Apr 2020 22:39:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org>
-In-Reply-To: <7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Thu, 9 Apr 2020 09:29:13 +0530
-Message-ID: <CAO_48GHuPAMgnbPDHgZs3kd=xDXssBD+H8-xi3zR4nSgsA1hdQ@mail.gmail.com>
-Subject: Re: [PATCH -next] dma-buf: fix documentation build warnings
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20200408152151.5780-1-christian.brauner@ubuntu.com> <20200408152151.5780-3-christian.brauner@ubuntu.com>
+In-Reply-To: <20200408152151.5780-3-christian.brauner@ubuntu.com>
+From:   David Rheinsberg <david.rheinsberg@gmail.com>
+Date:   Thu, 9 Apr 2020 07:39:18 +0200
+Message-ID: <CADyDSO54-GuSUJrciSD2jbSShCYDpXCp53cr+D7u0ZQT141uTA@mail.gmail.com>
+Subject: Re: [PATCH 2/8] loopfs: implement loopfs
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        lkml <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Serge Hallyn <serge@hallyn.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Saravana Kannan <saravanak@google.com>,
+        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        Tom Gundersen <teg@jklm.no>,
+        Christian Kellner <ckellner@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Randy,
+Hi
 
-
-On Wed, 8 Apr 2020 at 09:50, Randy Dunlap <rdunlap@infradead.org> wrote:
+On Wed, Apr 8, 2020 at 5:27 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
 >
-> From: Randy Dunlap <rdunlap@infradead.org>
+> This implements loopfs, a loop device filesystem. It takes inspiration
+> from the binderfs filesystem I implemented about two years ago and with
+> which we had overally good experiences so far. Parts of it are also
+> based on [3] but it's mostly a new, imho cleaner approach.
 >
-> Fix documentation warnings in dma-buf.[hc]:
-
-Thank you for your patch; I will apply it to drm-misc tree.
+> One of the use-cases for loopfs is to allow to dynamically allocate loop
+> devices in sandboxed workloads without exposing /dev or
+> /dev/loop-control to the workload in question and without having to
+> implement a complex and also racy protocol to send around file
+> descriptors for loop devices. With loopfs each mount is a new instance,
+> i.e. loop devices created in one loopfs instance are independent of any
+> loop devices created in another loopfs instance. This allows
+> sufficiently privileged tools to have their own private stash of loop
+> device instances.
 >
-> ../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_ops' not described in 'dma_buf_dynamic_attach'
-> ../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_priv' not described in 'dma_buf_dynamic_attach'
-> ../include/linux/dma-buf.h:339: warning: Incorrect use of kernel-doc format:          * @move_notify
+> In addition, the loopfs filesystem can be mounted by user namespace root
+> and is thus suitable for use in containers. Combined with syscall
+> interception this makes it possible to securely delegate mounting of
+> images on loop devices, i.e. when a users calls mount -o loop <image>
+> <mountpoint> it will be possible to completely setup the loop device
+> (enabled in later patches) and the mount syscall to actually perform the
+> mount will be handled through syscall interception and be performed by a
+> sufficiently privileged process. Syscall interception is already
+> supported through a new seccomp feature we implemented in [1] and
+> extended in [2] and is actively used in production workloads. The
+> additional loopfs work will be used there and in various other workloads
+> too.
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
+> The number of loop devices available to a loopfs instance can be limited
+> by setting the "max" mount option to a positive integer. This e.g.
+> allows sufficiently privileged processes to dynamically enforce a limit
+> on the number of devices. This limit is dynamic in contrast to the
+> max_loop module option in that a sufficiently privileged process can
+> update it with a simple remount operation.
+>
+> The loopfs filesystem is placed under a new config option and special
+> care has been taken to not introduce any new code when users do not
+> select this config option.
+>
+> Note that in __loop_clr_fd() we now need not just check whether bdev is
+> valid but also whether bdev->bd_disk is valid. This wasn't necessary
+> before because in order to call LOOP_CLR_FD the loop device would need
+> to be open and thus bdev->bd_disk was guaranteed to be allocated. For
+> loopfs loop devices we allow callers to simply unlink them just as we do
+> for binderfs binder devices and we do also need to account for the case
+> where a loopfs superblock is shutdown while backing files might still be
+> associated with some loop devices. In such cases no bd_disk device will
+> be attached to bdev. This is not in itself noteworthy it's more about
+> documenting the "why" of the added bdev->bd_disk check for posterity.
+>
+> [1]: 6a21cc50f0c7 ("seccomp: add a return code to trap to userspace")
+> [2]: fb3c5386b382 ("seccomp: add SECCOMP_USER_NOTIF_FLAG_CONTINUE")
+> [3]: https://lore.kernel.org/lkml/1401227936-15698-1-git-send-email-seth.forshee@canonical.com
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Seth Forshee <seth.forshee@canonical.com>
+> Cc: Tom Gundersen <teg@jklm.no>
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: Christian Kellner <ckellner@redhat.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: David Rheinsberg <david.rheinsberg@gmail.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 > ---
->  drivers/dma-buf/dma-buf.c |    4 ++--
->  include/linux/dma-buf.h   |    3 +--
->  2 files changed, 3 insertions(+), 4 deletions(-)
+>  MAINTAINERS                   |   5 +
+>  drivers/block/Kconfig         |   4 +
+>  drivers/block/Makefile        |   1 +
+>  drivers/block/loop.c          | 151 +++++++++---
+>  drivers/block/loop.h          |   8 +-
+>  drivers/block/loopfs/Makefile |   3 +
+>  drivers/block/loopfs/loopfs.c | 429 ++++++++++++++++++++++++++++++++++
+>  drivers/block/loopfs/loopfs.h |  35 +++
+>  include/uapi/linux/magic.h    |   1 +
+>  9 files changed, 600 insertions(+), 37 deletions(-)
+>  create mode 100644 drivers/block/loopfs/Makefile
+>  create mode 100644 drivers/block/loopfs/loopfs.c
+>  create mode 100644 drivers/block/loopfs/loopfs.h
 >
-> --- linux-next-20200407.orig/drivers/dma-buf/dma-buf.c
-> +++ linux-next-20200407/drivers/dma-buf/dma-buf.c
-> @@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
->   * calls attach() of dma_buf_ops to allow device-specific attach functionality
->   * @dmabuf:            [in]    buffer to attach device to.
->   * @dev:               [in]    device to be attached.
-> - * @importer_ops       [in]    importer operations for the attachment
-> - * @importer_priv      [in]    importer private pointer for the attachment
-> + * @importer_ops:      [in]    importer operations for the attachment
-> + * @importer_priv:     [in]    importer private pointer for the attachment
->   *
->   * Returns struct dma_buf_attachment pointer for this attachment. Attachments
->   * must be cleaned up by calling dma_buf_detach().
-> --- linux-next-20200407.orig/include/linux/dma-buf.h
-> +++ linux-next-20200407/include/linux/dma-buf.h
-> @@ -329,13 +329,12 @@ struct dma_buf {
->
->  /**
->   * struct dma_buf_attach_ops - importer operations for an attachment
-> - * @move_notify: [optional] notification that the DMA-buf is moving
->   *
->   * Attachment operations implemented by the importer.
->   */
->  struct dma_buf_attach_ops {
->         /**
-> -        * @move_notify
-> +        * @move_notify: [optional] notification that the DMA-buf is moving
->          *
->          * If this callback is provided the framework can avoid pinning the
->          * backing store while mappings exists.
->
+[...]
+> diff --git a/drivers/block/loopfs/loopfs.c b/drivers/block/loopfs/loopfs.c
+> new file mode 100644
+> index 000000000000..ac46aa337008
+> --- /dev/null
+> +++ b/drivers/block/loopfs/loopfs.c
+> @@ -0,0 +1,429 @@
+[...]
+> +/**
+> + * loopfs_loop_device_create - allocate inode from super block of a loopfs mount
+> + * @lo:                loop device for which we are creating a new device entry
+> + * @ref_inode: inode from wich the super block will be taken
+> + * @device_nr:  device number of the associated disk device
+> + *
+> + * This function creates a new device node for @lo.
+> + * Minor numbers are limited and tracked globally. The
+> + * function will stash a struct loop_device for the specific loop
+> + * device in i_private of the inode.
+> + * It will go on to allocate a new inode from the super block of the
+> + * filesystem mount, stash a struct loop_device in its i_private field
+> + * and attach a dentry to that inode.
+> + *
+> + * Return: 0 on success, negative errno on failure
+> + */
+> +int loopfs_loop_device_create(struct loop_device *lo, struct inode *ref_inode,
+> +                             dev_t device_nr)
+> +{
+> +       char name[DISK_NAME_LEN];
+> +       struct super_block *sb;
+> +       struct loopfs_info *info;
+> +       struct dentry *root, *dentry;
+> +       struct inode *inode;
+> +
+> +       sb = loopfs_i_sb(ref_inode);
+> +       if (!sb)
+> +               return 0;
+> +
+> +       if (MAJOR(device_nr) != LOOP_MAJOR)
+> +               return -EINVAL;
+> +
+> +       info = LOOPFS_SB(sb);
+> +       if ((info->device_count + 1) > info->mount_opts.max)
+> +               return -ENOSPC;
 
-Best,
-Sumit.
+Can you elaborate what the use-case for this limit is?
+
+With loopfs in place, any process can create its own user_ns, mount
+their private loopfs and create as many loop-devices as they want.
+Hence, this limit does not serve as an effective global
+resource-control. Secondly, anyone with access to `loop-control` can
+now create loop instances until this limit is hit, thus causing anyone
+else to be unable to create more. This effectively prevents you from
+sharing a loopfs between non-trusting parties. I am unsure where that
+limit would actually be used?
+
+Thanks
+David
+
+> +
+> +       if (snprintf(name, sizeof(name), "loop%d", lo->lo_number) >= sizeof(name))
+> +               return -EINVAL;
+> +
+> +       inode = new_inode(sb);
+> +       if (!inode)
+> +               return -ENOMEM;
+> +
+> +       /*
+> +        * The i_fop field will be set to the correct fops by the device layer
+> +        * when the loop device in this loopfs instance is opened.
+> +        */
+> +       inode->i_ino = MINOR(device_nr) + INODE_OFFSET;
+> +       inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+> +       inode->i_uid = info->root_uid;
+> +       inode->i_gid = info->root_gid;
+> +       init_special_inode(inode, S_IFBLK | 0600, device_nr);
+> +
+> +       root = sb->s_root;
+> +       inode_lock(d_inode(root));
+> +       /* look it up */
+> +       dentry = lookup_one_len(name, root, strlen(name));
+> +       if (IS_ERR(dentry)) {
+> +               inode_unlock(d_inode(root));
+> +               iput(inode);
+> +               return PTR_ERR(dentry);
+> +       }
+> +
+> +       if (d_really_is_positive(dentry)) {
+> +               /* already exists */
+> +               dput(dentry);
+> +               inode_unlock(d_inode(root));
+> +               iput(inode);
+> +               return -EEXIST;
+> +       }
+> +
+> +       d_instantiate(dentry, inode);
+> +       fsnotify_create(d_inode(root), dentry);
+> +       inode_unlock(d_inode(root));
+> +
+> +       inode->i_private = lo;
+> +       lo->lo_loopfs_i = inode;
+> +       info->device_count++;
+> +
+> +       return 0;
+> +}
+[...]
