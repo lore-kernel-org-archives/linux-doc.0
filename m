@@ -2,186 +2,115 @@ Return-Path: <SRS0=w6yw=5Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 243A3C2BB1D
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 07:03:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9A65C2BB54
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 07:27:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EBCE72082D
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 07:03:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 844AE2075E
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 07:27:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nh7PHjWt"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I6pvTt6G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726579AbgDIHDJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Apr 2020 03:03:09 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:36159 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726574AbgDIHDI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 03:03:08 -0400
-Received: by mail-qt1-f195.google.com with SMTP id m33so2028280qtb.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2020 00:03:07 -0700 (PDT)
+        id S1726684AbgDIH1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Apr 2020 03:27:11 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33976 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726671AbgDIH1K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 03:27:10 -0400
+Received: by mail-pf1-f196.google.com with SMTP id v23so4382500pfm.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2020 00:27:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4T5kGWYuiWsD8ODG0rIT5wEJy5Zk5WzpdZY70XPYCsk=;
-        b=nh7PHjWteqz8nFiHSjdWnVP7s/XkAfF1ymz+SC5KOF7ff+qFavN9xWvQtCveEZumqP
-         Js0U5iOyiNiX0f5FDlsNU/xj0ioJRTCvg6fcTokSxpk7DAjMIOKJeDKLXT+qT5HauLa2
-         TxJ4oI7IdnA8l0vUXq6P86eg+pENHwdeX8GPbsjiYVxhUHFrZE2NH87nmZsThIsfDySq
-         6Ueeav8Fa2S+yIy+d31YRfW/Okz3ce8NTe6OSjELck4bUW2cYOTG3fiQl9ALKawhyAE/
-         xV36Y62LGGOK8uHb6JB+w+LBDuZKdqq6PsZG6sS1vtfczJ+vl5DyjI1bIY5y0SNmNFay
-         Uplg==
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=PW5R2urL1RcCKJMKVW/iEwooUVVj2eA41VTurDA74ms=;
+        b=I6pvTt6GHsW0D0ZVS6BI4QmKrZiYbk0HpP+vCrvTVfUgOQ5gW1gnUI71119PTVOQMZ
+         kAL6OFJGcxedpoS8niOrYl00HxS/nv0wjs94Gkyl8YhWbO00Xgvb6PwJic/tex0YXFVD
+         QV+0ZxTf7W3j24HFtTV5UV6oc6LEWemZYDViY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4T5kGWYuiWsD8ODG0rIT5wEJy5Zk5WzpdZY70XPYCsk=;
-        b=RDBL2SsjnPKYsjUkdX+VU2Rvgky4VYMIMKkXjBOG3Vri3aDNgXSLc1vyXkTOLKhtNQ
-         PvvKxOSPFleIOfLUep1vnfBDV0yf4ta8hT/b1I35cSQGHYdqD5X3xde7qNdspVuVVWOY
-         sQPM1YYgPbuD8Kg6BcWrCzDKN4jb/RG+eIHJ0g/GXVF0BFSl8RXvW+bfYw910Ugt+F4o
-         F6QgjsEdDs1MkHNZI1y+/qP7ekTPkPb0LCm8q58g4ob6++o3YxeqatXxAz/S7FedYqjt
-         bKu3c13+h0JjjnaJa2YPM/8EqgDQZUHOhBaEVWFDHIDKuhbLfmqy9Tn5I6JL1FozLZ8E
-         KwhA==
-X-Gm-Message-State: AGi0PuZYMaHBFyCVx9sRpd00/42jACN/WVTD8TD4wwglhCZQX0DzjpHt
-        ypGWjaC+lqhc4AQb+gxg+UQdwJJDFKSiXmPvz4LWog==
-X-Google-Smtp-Source: APiQypKJQ3a0N5JoQD3BUJRgBCjL9Mcwnw+lWcXfUjHl6fm5/ft1w+YZKYm17y/CnLUqFgVeQD/ed0MGFxfOHkB7mRE=
-X-Received: by 2002:ac8:6c24:: with SMTP id k4mr3078643qtu.257.1586415786173;
- Thu, 09 Apr 2020 00:03:06 -0700 (PDT)
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=PW5R2urL1RcCKJMKVW/iEwooUVVj2eA41VTurDA74ms=;
+        b=Aoj4+R/5bGrEDP9LHTDx6T7LmnpoQrc6kqMddn8+Mk4Kg+y6FnxVjHwZ9PkGVgFlnm
+         H0oCaHnIX6brkBWX5v83TyUz79R/63R3KK76KSlGK2xmjylzpBxhdtgJU5M0hPvxkZ4t
+         5zSOiYtf96mu7wJyZgeQk1NvwsUgghjXTPXsTiwCwqnF1ez7k77WaceKaSSC1FtofY3P
+         YDrG6Px7qPCfxDD9IDxRkFoyYgAmCWP8XuR3fvn7xMFQyEO1DK3foGZp2Dx4iPceydwx
+         UBm/XdzgAZqKLQVO2kRF3RHk5AAfCOHI0q+daSHQWmD8KDWySnynKynFlsj9/VAWMQpo
+         7MXg==
+X-Gm-Message-State: AGi0PuYGsSbaqUpTtGE7WvE53ZKay2E9KEG3TFVJea6cTAJmbs+RY6W3
+        OLOePjtNu5klqHV++og/c7We6g==
+X-Google-Smtp-Source: APiQypJqdncetrhZ92esLZOchlzSIwcyr3ixrVR2rf2bIw+D2kX4czue1SWYP7xdPCxoE+i4hCE8qg==
+X-Received: by 2002:aa7:9a47:: with SMTP id x7mr11708235pfj.29.1586417230218;
+        Thu, 09 Apr 2020 00:27:10 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id iq14sm1364163pjb.43.2020.04.09.00.27.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2020 00:27:09 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
- <CAG48ez0KWgLMOp1d3X1AcRNc4-eF1YiCw=PgWiGjtM6PqQqawg@mail.gmail.com> <CA+enf=uhTi1yWtOe+iuv2FvdZzo69pwsP-NNU2775jN01aDcVQ@mail.gmail.com>
-In-Reply-To: <CA+enf=uhTi1yWtOe+iuv2FvdZzo69pwsP-NNU2775jN01aDcVQ@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 9 Apr 2020 09:02:54 +0200
-Message-ID: <CACT4Y+aDeSAARG0b9FjDFyWuhjb=YVxpGtsvBmoKnHo+0TF4gA@mail.gmail.com>
-Subject: Re: [PATCH 0/8] loopfs
-To:     =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>
-Cc:     Jann Horn <jannh@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        Matthew Garrett <mjg59@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        syzkaller <syzkaller@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <24b30222392569e7aa5d61d46642a4c38a964512.1586359676.git.mchehab+huawei@kernel.org>
+References: <cover.1586359676.git.mchehab+huawei@kernel.org> <24b30222392569e7aa5d61d46642a4c38a964512.1586359676.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 28/35] docs: dt: qcom,dwc3.txt: fix cross-reference for a converted file
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Date:   Thu, 09 Apr 2020 00:27:08 -0700
+Message-ID: <158641722866.126188.5100903994140124194@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 8, 2020 at 6:41 PM St=C3=A9phane Graber <stgraber@ubuntu.com> w=
-rote:
->
-> On Wed, Apr 8, 2020 at 12:24 PM Jann Horn <jannh@google.com> wrote:
-> >
-> > On Wed, Apr 8, 2020 at 5:23 PM Christian Brauner
-> > <christian.brauner@ubuntu.com> wrote:
-> > > One of the use-cases for loopfs is to allow to dynamically allocate l=
-oop
-> > > devices in sandboxed workloads without exposing /dev or
-> > > /dev/loop-control to the workload in question and without having to
-> > > implement a complex and also racy protocol to send around file
-> > > descriptors for loop devices. With loopfs each mount is a new instanc=
-e,
-> > > i.e. loop devices created in one loopfs instance are independent of a=
-ny
-> > > loop devices created in another loopfs instance. This allows
-> > > sufficiently privileged tools to have their own private stash of loop
-> > > device instances. Dmitry has expressed his desire to use this for
-> > > syzkaller in a private discussion. And various parties that want to u=
-se
-> > > it are Cced here too.
-> > >
-> > > In addition, the loopfs filesystem can be mounted by user namespace r=
-oot
-> > > and is thus suitable for use in containers. Combined with syscall
-> > > interception this makes it possible to securely delegate mounting of
-> > > images on loop devices, i.e. when a user calls mount -o loop <image>
-> > > <mountpoint> it will be possible to completely setup the loop device.
-> > > The final mount syscall to actually perform the mount will be handled
-> > > through syscall interception and be performed by a sufficiently
-> > > privileged process. Syscall interception is already supported through=
- a
-> > > new seccomp feature we implemented in [1] and extended in [2] and is
-> > > actively used in production workloads. The additional loopfs work wil=
-l
-> > > be used there and in various other workloads too. You'll find a short
-> > > illustration how this works with syscall interception below in [4].
-> >
-> > Would that privileged process then allow you to mount your filesystem
-> > images with things like ext4? As far as I know, the filesystem
-> > maintainers don't generally consider "untrusted filesystem image" to
-> > be a strongly enforced security boundary; and worse, if an attacker
-> > has access to a loop device from which something like ext4 is mounted,
-> > things like "struct ext4_dir_entry_2" will effectively be in shared
-> > memory, and an attacker can trivially bypass e.g.
-> > ext4_check_dir_entry(). At the moment, that's not a huge problem (for
-> > anything other than kernel lockdown) because only root normally has
-> > access to loop devices.
-> >
-> > Ubuntu carries an out-of-tree patch that afaik blocks the shared
-> > memory thing: <https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/=
-linux/+git/eoan/commit?id=3D4bc428fdf5500b7366313f166b7c9c50ee43f2c4>
-> >
-> > But even with that patch, I'm not super excited about exposing
-> > filesystem image parsing attack surface to containers unless you run
-> > the filesystem in a sandboxed environment (at which point you don't
-> > need a loop device anymore either).
->
-> So in general we certainly agree that you should never expose someone
-> that you wouldn't trust with root on the host to syscall interception
-> mounting of real kernel filesystems.
->
-> But that's not all that our syscall interception logic can do. We have
-> support for rewriting a normal filesystem mount attempt to instead use
-> an available FUSE implementation. As far as the user is concerned,
-> they ran "mount /dev/sdaX /mnt" and got that ext4 filesystem mounted
-> on /mnt as requested, except that the container manager intercepted
-> the mount attempt and instead spawned fuse2fs for that mount. This
-> requires absolutely no change to the software the user is running.
->
-> loopfs, with that interception mode, will let us also handle all cases
-> where a loop would be used, similarly without needing any change to
-> the software being run. If a piece of software calls the command
-> "mount -o loop blah.img /mnt", the "mount" command will setup a loop
-> device as it normally would (doing so through loopfs) and then will
-> call the "mount" syscall, which will get intercepted and redirected to
-> a FUSE implementation if so configured, resulting in the expected
-> filesystem being mounted for the user.
->
-> LXD with syscall interception offers both straight up privileged
-> mounting using the kernel fs or using a FUSE based implementation.
-> This is configurable on a per-filesystem and per-container basis.
->
-> I hope that clarifies what we're doing here :)
->
-> St=C3=A9phane
+Quoting Mauro Carvalho Chehab (2020-04-08 08:46:20)
+> The qcom-qusb2-phy.txt file was converted and renamed to yaml.
+> Update cross-reference accordingly.
+>=20
+> Fixes: 8ce65d8d38df ("dt-bindings: phy: qcom,qusb2: Convert QUSB2 phy bin=
+dings to yaml")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
 
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 
-Hi Christian,
+>  Documentation/devicetree/bindings/usb/qcom,dwc3.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.txt b/Docume=
+ntation/devicetree/bindings/usb/qcom,dwc3.txt
+> index cb695aa3fba4..fbdd01756752 100644
+> --- a/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
+> +++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
+> @@ -52,8 +52,8 @@ A child node must exist to represent the core DWC3 IP b=
+lock. The name of
+>  the node is not important. The content of the node is defined in dwc3.tx=
+t.
+> =20
+>  Phy documentation is provided in the following places:
+> -Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt   - USB3 QMP PHY
+> -Documentation/devicetree/bindings/phy/qcom-qusb2-phy.txt - USB2 QUSB2 PHY
+> +Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt    - USB3 QMP PHY
+> +Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml - USB2 QUSB2 P=
+HY
 
-Our use case for loopfs in syzkaller would be isolation of several
-test processes from each other.
-Currently all loop devices and loop-control are global and cause test
-processes to collide, which in turn causes non-reproducible coverage
-and non-reproducible crashes. Ideally we give each test process its
-own loopfs instance.
+It should probably be bindings/phy/<blah> so that when the bindings are
+taken out of the kernel context they'll still make sense, but that can
+be done later.
