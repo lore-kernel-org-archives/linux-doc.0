@@ -2,90 +2,79 @@ Return-Path: <SRS0=w6yw=5Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC664C2BB86
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 13:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA667C2BA19
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 18:13:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BA41120A8B
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 13:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586439995;
-	bh=DouuFTChj8F6MMN7DQu4fFEfbZeGGKdPEdfcp6+GHo8=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=QYXajLN6HDd+d4ujnEqyiAQ4dACpNIBRSb4Vv9eA/oz7TLarjT8oX78dVu3d7tguL
-	 Gar7cMjbeMFfQn0J6oVbj8z1SPC8Re2RsQcdzV4A5eDrq8GeKM81+QbiH9/lmFhILD
-	 D5Qr2a5JXsg9yPa3FrnedpRH+x8D6GNBS+YuRFJs=
+	by mail.kernel.org (Postfix) with ESMTP id 92E1120757
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 18:13:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fPxjZEHJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726875AbgDINqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Apr 2020 09:46:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53648 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726621AbgDINqe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Apr 2020 09:46:34 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5505F2083E;
-        Thu,  9 Apr 2020 13:46:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586439994;
-        bh=DouuFTChj8F6MMN7DQu4fFEfbZeGGKdPEdfcp6+GHo8=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=geQkM2o5YlFrewdfKdPl3e+GRXGxT4tdw6bqWcs5T5mB4ikq9dyFMtNKDDN1tp60D
-         EVkV3azy29sW/ybENhsQQTmXHDXOFRKRfEtTCtA85pWnbEgv9+W0gkC8P/A5SDv1qw
-         SwtNoZQIHniapzwz/6q/nlU8aWCP5m+nd9kJOb6Q=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 2DC0935208E2; Thu,  9 Apr 2020 06:46:34 -0700 (PDT)
-Date:   Thu, 9 Apr 2020 06:46:34 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Wei Yang <richard.weiyang@gmail.com>
-Cc:     rcu@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/rcu: fix a typo in RTFP
-Message-ID: <20200409134634.GL17661@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200409132437.11531-1-richard.weiyang@gmail.com>
+        id S1726477AbgDISNL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Apr 2020 14:13:11 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50128 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbgDISNL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 14:13:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=VKu2GwHKdy776+Q+3ZafpPkMqFFXezhqf/z/GtNHOOo=; b=fPxjZEHJooPef0SzPRnhP1oPRV
+        nv4PSkiOgFB+lgZTQFT/9e1iVzo7GX5aCLua321EeMBoppIgDZUTH8wWRSnkdXm9wU+Ka3I8nWfYA
+        GzhFy4Bj5zIMVR1l92EloIo9878xYxSuMYKqjKy/SsRHfYr1obbIJ5KqB/v7KcreNfU6xKMZNpIKA
+        CsNJk3c4IQM+83kz3EBU7yJiy8LBIXFSSTfFI6zFNRA/P6PPGybmtAXsLw30VuC1DbDzC7HKFelBI
+        eAUKu00GJ3FQ++zKwztTyMj1CN/ZYjHWfQ6oYLtXc78DFnvLVNHPWvEdPscfso5uRa3IA6OsOniqI
+        /gqJuIdQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jMbfr-0004pk-KQ; Thu, 09 Apr 2020 18:13:11 +0000
+Date:   Thu, 9 Apr 2020 11:13:11 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Cristian Souza <cristianmsbr@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net
+Subject: Re: [PATCH v2] docs: admin-guide: Clarify sentences
+Message-ID: <20200409181311.GW21484@bombadil.infradead.org>
+References: <20200408144653.GA123268@darkstar>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200409132437.11531-1-richard.weiyang@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200408144653.GA123268@darkstar>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 09, 2020 at 01:24:37PM +0000, Wei Yang wrote:
-> If I am correct, this character should be 'u'.
+On Wed, Apr 08, 2020 at 11:46:53AM -0300, Cristian Souza wrote:
+> @@ -1,34 +1,30 @@
+> -Explaining the dreaded "No working init found." boot hang message
+> -=================================================================
+> +Explaining the "No working init found." boot hang message
+> +=========================================================
 > 
-> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+> -OK, so you have got this pretty unintuitive message (currently located
+> -in init/main.c) and are wondering what went wrong.
+> -Some high-level reasons for failure (listed roughly in order of execution)
+> -to load the init binary are:
+> +Message location: ``init/main.c``
 
-Nice!!!  ;-)
+I don't think this should be the first paragraph ;-)
 
-This is a play on words between the word you are thinking of and the
-old UNIX "fsck" (filesystem check) utility.  It stays, but rest assured
-that you did get point!
+Maybe just skip it altogether?  The sysadmin doesn't care where the
+message is located.
 
-							Thanx, Paul
+> +5) **Binary cannot be loaded**: Make sure the binary's architecture matches your hardware.
 
-> ---
->  Documentation/RCU/RTFP.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Line exceeds 80 characters (other occurrences of this)
+
+>    e.g. by providing additional error messages at affected places.
 > 
-> diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
-> index 9bccf16736f7..261eeb501ba5 100644
-> --- a/Documentation/RCU/RTFP.txt
-> +++ b/Documentation/RCU/RTFP.txt
-> @@ -1,4 +1,4 @@
-> -Read the Fscking Papers!
-> +Read the Fucking Papers!
->  
->  
->  This document describes RCU-related publications, and is followed by
-> -- 
-> 2.23.0
-> 
+>  Andreas Mohr <andi at lisas period de>
+> +Cristian Souza <cristianmsbr at gmail period com>
+
+We tend to use :Author: at the top of the file instead of signatories at the
+bottom.
