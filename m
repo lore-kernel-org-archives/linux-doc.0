@@ -2,122 +2,84 @@ Return-Path: <SRS0=w6yw=5Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD0CC2BB85
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 21:18:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A79ABC2BA19
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 21:22:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02F0E2082D
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 21:18:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/8tCi30"
+	by mail.kernel.org (Postfix) with ESMTP id 75B05208FE
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 21:22:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586467325;
+	bh=u60WH+x0e0iq4HTVQItM5Z+hGRW7Itf6Qjmd2opgtgo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=iXTuq01SIDZ1ok92lX6LTV6MZv44Al4zDbQe9EThzHG3KnSZK0vIG5n2rDciCAvRV
+	 6I1uQsW/sZ+9CjEG6ke8YcB8XGErjcmsH7+9+bgjOviLko2JHbAR0ASUbEhWZmQFwV
+	 DIrkqIUFVjFOSB0DZi970j9DRutDqMW33OxB5W7k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727522AbgDIVSy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Apr 2020 17:18:54 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:32856 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726964AbgDIVSy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 17:18:54 -0400
-Received: by mail-wr1-f67.google.com with SMTP id a25so13733901wrd.0;
-        Thu, 09 Apr 2020 14:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GrPYg+oHygD4pLQkW2MfFtRBkd4olu1YsU5G2+/EDGM=;
-        b=R/8tCi30CDpdkrtny0UnfohQ0kreT6pz5502OZwLzFU1GlWt/nB/E7ruZLG4cNGyO+
-         F6j8CXQzv1BiPFh8OxApxTNbC36PBJIJZTGWBNjTXFLnG1xrtsDfGzOJIQ5vhIutJQA2
-         kLQhQWZeViLr0rvOF3bWqdbHnoIPqr5Z3+UPe5cpRooUBKqkTMrUavRIzuP6tNxz76IL
-         WWxkrgkFWLbsIg3o86aqsg4uG3J/3BYKNr+eNipZBKUEUcyFkdTQnvlIkY9aDV+y25Bk
-         ugAVcKuQPzmUt+keUQsqf4fQZXNN/tCYzfJWtnrAukRW7eqN9QS2AKHLXG/r7wQf+n6B
-         EGPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GrPYg+oHygD4pLQkW2MfFtRBkd4olu1YsU5G2+/EDGM=;
-        b=mNmn3IU/ZC0CItCiSx5knYNEOCpfzzpujueDn3hfx7ZIvUSBKnxzWsrvDXWE4XR5D3
-         W/3WpBj9eadud+rVF6bPhYkvRlcPaMZTPJ1i6Ey/KdoWxtD94mpYQNfElyt02jYPjCiG
-         a1hivu5ibnFBjlgRZbFZ3xoFbSUvADjxsHNVBde8SOayBGQQ9OwcslPZe9K3luss9V4G
-         EuXOARlZlI4NqfgIJk/ZsSOfceFLyPv/aRsukXGXF+vzpi2yJ0+8Df7Y7NgDgQ6IaTRf
-         Isi+Z6lrzwYXmQgd1ImfaHo/IylJSr2GDKoJsj+UAtgm/abUMOhpB6hS3lOkTYkmkGQp
-         y+HA==
-X-Gm-Message-State: AGi0PuaHnV6zhnDtnjKZLXA2NnV27rgCsmLSTDIAPuk5xy4dIKwb9aZf
-        UM+WfFbQiHudz5UhZbjdThI=
-X-Google-Smtp-Source: APiQypK1SQsMj0euJTMCWn9ZOEZJKEGqAsIzCKX7PkyTL9bHnOHr19OU3MsZM0Fj9thFZiiPD/LuEA==
-X-Received: by 2002:a5d:53ce:: with SMTP id a14mr1059856wrw.129.1586467133140;
-        Thu, 09 Apr 2020 14:18:53 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id k9sm383381wrd.17.2020.04.09.14.18.52
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 09 Apr 2020 14:18:52 -0700 (PDT)
-Date:   Thu, 9 Apr 2020 21:18:51 +0000
-From:   Wei Yang <richard.weiyang@gmail.com>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Wei Yang <richard.weiyang@gmail.com>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/rcu: fix a typo in RTFP
-Message-ID: <20200409211851.ttld7nmkqmncovhe@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20200409132437.11531-1-richard.weiyang@gmail.com>
- <20200409134634.GL17661@paulmck-ThinkPad-P72>
+        id S1727421AbgDIVWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Apr 2020 17:22:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60252 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727258AbgDIVWE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Apr 2020 17:22:04 -0400
+Received: from kicinski-fedora-PC1C0HJN.thefacebook.com (unknown [163.114.132.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 249932087E;
+        Thu,  9 Apr 2020 21:22:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586467324;
+        bh=u60WH+x0e0iq4HTVQItM5Z+hGRW7Itf6Qjmd2opgtgo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=HKbY4FBsQ6Hvjh5j0D7ztzlLwb2JH9zCq0yA3DsF5yU0hjB0sbAAl/CjnWpZrhCba
+         J4OH2MFggONrL3hIVjbUoG8Aq9IuvMu+7F+wkrWG9Wa2GX5aT7PF1AA4LFvpBWvCiG
+         S1XGKXuOv3bQLAE1q7sJQ/D79COYdI3AKn38bwCM=
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        rdunlap@infradead.org, talgi@mellanox.com, leon@kernel.org,
+        jacob.e.keller@intel.com, Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net v2 2/2] docs: networking: add full DIM API
+Date:   Thu,  9 Apr 2020 14:21:59 -0700
+Message-Id: <20200409212159.322775-2-kuba@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200409212159.322775-1-kuba@kernel.org>
+References: <20200409212159.322775-1-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200409134634.GL17661@paulmck-ThinkPad-P72>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 09, 2020 at 06:46:34AM -0700, Paul E. McKenney wrote:
->On Thu, Apr 09, 2020 at 01:24:37PM +0000, Wei Yang wrote:
->> If I am correct, this character should be 'u'.
->> 
->> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
->
->Nice!!!  ;-)
->
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Hi, Paul
+Add the full net DIM API to the net_dim.rst file.
 
-Glad to hear from you.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+---
+ Documentation/networking/net_dim.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
->This is a play on words between the word you are thinking of and the
->old UNIX "fsck" (filesystem check) utility.  It stays, but rest assured
->that you did get point!
->
-
-Sorry I am confused.
-
-My change is correct or the word fsck is correct and it means "read filesystem
-check papers"?
-
->							Thanx, Paul
->
->> ---
->>  Documentation/RCU/RTFP.txt | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
->> index 9bccf16736f7..261eeb501ba5 100644
->> --- a/Documentation/RCU/RTFP.txt
->> +++ b/Documentation/RCU/RTFP.txt
->> @@ -1,4 +1,4 @@
->> -Read the Fscking Papers!
->> +Read the Fucking Papers!
->>  
->>  
->>  This document describes RCU-related publications, and is followed by
->> -- 
->> 2.23.0
->> 
-
+diff --git a/Documentation/networking/net_dim.rst b/Documentation/networking/net_dim.rst
+index 1de1e3ec774b..3bed9fd95336 100644
+--- a/Documentation/networking/net_dim.rst
++++ b/Documentation/networking/net_dim.rst
+@@ -168,3 +168,9 @@ usage is not complete but it should make the outline of the usage clear.
+ 	INIT_WORK(&my_entity->dim.work, my_driver_do_dim_work);
+ 	...
+   }
++
++Dynamic Interrupt Moderation (DIM) library API
++==============================================
++
++.. kernel-doc:: include/linux/dim.h
++    :internal:
 -- 
-Wei Yang
-Help you, Help me
+2.25.1
+
