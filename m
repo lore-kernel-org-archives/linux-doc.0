@@ -2,87 +2,216 @@ Return-Path: <SRS0=w6yw=5Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FBDFC2BB85
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 08:04:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E425EC2D0EA
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 08:27:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D6067214D8
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 07:57:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA61920784
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 08:27:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726574AbgDIH5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Apr 2020 03:57:05 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33373 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725972AbgDIH5F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 03:57:05 -0400
-Received: by mail-ot1-f68.google.com with SMTP id 103so3207676otv.0;
-        Thu, 09 Apr 2020 00:57:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0f4UuAAx4hIuJKySyghpF7OzUKmbFLmG9H4TAp0Cki8=;
-        b=PzGAaOsKoJoGE+f6Yt3GL0AjuWLFopHdb7shNN88k4QgMtvu2BChzkn5Py+BC6dW99
-         rVoNUitCrLN0pBAEJW325K4d7vmuqoI3a3OL1H4mQTawZH1UroKJSb2Tt26n/ogsnjFz
-         fOJhLFm11J9ItMM1AYNWOFIz6im8anbAQx8jg7tCtAA70IPg2uOn9N+2UWnPdnTuaaNB
-         5dOaWZMtxUvpAOMNaO26vJ00PeBuZBIBLC++fGSn2WLfuyt+wGvQvu4SCI6FhDuQ2A5f
-         rgwH888mogLMfqNg+G9hu9W3r+Pyh8ZDbOQIoRuzU8caVPJzUovMSTYTNO6F9J9hCGn5
-         UTIQ==
-X-Gm-Message-State: AGi0PuZK53ABn7ep3KHpzD/Y8Yl5zIlx/T8sg1T9TrSH9H1+E7OLnF4j
-        OClaQjwC9+v3pgJeNzGJ9G3XZZCljo03qZSPKzs=
-X-Google-Smtp-Source: APiQypKtonrSbAC4hFuRltdRVj7wsaGlVvb0sciuoyNeIcBJRyYXuZxSmXG/HQm41ZUqfxCBbhnCmk6QPP+LpIAFifw=
-X-Received: by 2002:a05:6830:1e0e:: with SMTP id s14mr1804617otr.107.1586419025363;
- Thu, 09 Apr 2020 00:57:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1586359676.git.mchehab+huawei@kernel.org> <402922bc26fe9b340dff8693bab57142820f1fc7.1586359676.git.mchehab+huawei@kernel.org>
-In-Reply-To: <402922bc26fe9b340dff8693bab57142820f1fc7.1586359676.git.mchehab+huawei@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Apr 2020 09:56:53 +0200
-Message-ID: <CAMuHMdX7b0uhXwzRByx3vtdbOEwUCQ0bYsZxu78b_ADUdwTEnA@mail.gmail.com>
-Subject: Re: [PATCH 30/35] docs: dt: fix a broken reference for a file
- converted to json
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1725970AbgDII1J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Apr 2020 04:27:09 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:40474 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725828AbgDII1I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 04:27:08 -0400
+Received: from ip5f5bd698.dynamic.kabel-deutschland.de ([95.91.214.152] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jMSWb-0006Qf-7x; Thu, 09 Apr 2020 08:27:01 +0000
+Date:   Thu, 9 Apr 2020 10:26:59 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     David Rheinsberg <david.rheinsberg@gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        lkml <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Serge Hallyn <serge@hallyn.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Matthias Brugger <mbrugger@suse.com>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Saravana Kannan <saravanak@google.com>,
+        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        Tom Gundersen <teg@jklm.no>,
+        Christian Kellner <ckellner@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 2/8] loopfs: implement loopfs
+Message-ID: <20200409082659.exequ3evhlv33csr@wittgenstein>
+References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
+ <20200408152151.5780-3-christian.brauner@ubuntu.com>
+ <CADyDSO54-GuSUJrciSD2jbSShCYDpXCp53cr+D7u0ZQT141uTA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CADyDSO54-GuSUJrciSD2jbSShCYDpXCp53cr+D7u0ZQT141uTA@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 8, 2020 at 5:46 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
-> Changeset 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
-> moved a binding to json and updated the links. Yet, one link
-> was forgotten.
->
-> Update this one too.
->
-> Fixes: 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Thu, Apr 09, 2020 at 07:39:18AM +0200, David Rheinsberg wrote:
+> Hi
+> 
+> On Wed, Apr 8, 2020 at 5:27 PM Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
+> >
+> > This implements loopfs, a loop device filesystem. It takes inspiration
+> > from the binderfs filesystem I implemented about two years ago and with
+> > which we had overally good experiences so far. Parts of it are also
+> > based on [3] but it's mostly a new, imho cleaner approach.
+> >
+> > One of the use-cases for loopfs is to allow to dynamically allocate loop
+> > devices in sandboxed workloads without exposing /dev or
+> > /dev/loop-control to the workload in question and without having to
+> > implement a complex and also racy protocol to send around file
+> > descriptors for loop devices. With loopfs each mount is a new instance,
+> > i.e. loop devices created in one loopfs instance are independent of any
+> > loop devices created in another loopfs instance. This allows
+> > sufficiently privileged tools to have their own private stash of loop
+> > device instances.
+> >
+> > In addition, the loopfs filesystem can be mounted by user namespace root
+> > and is thus suitable for use in containers. Combined with syscall
+> > interception this makes it possible to securely delegate mounting of
+> > images on loop devices, i.e. when a users calls mount -o loop <image>
+> > <mountpoint> it will be possible to completely setup the loop device
+> > (enabled in later patches) and the mount syscall to actually perform the
+> > mount will be handled through syscall interception and be performed by a
+> > sufficiently privileged process. Syscall interception is already
+> > supported through a new seccomp feature we implemented in [1] and
+> > extended in [2] and is actively used in production workloads. The
+> > additional loopfs work will be used there and in various other workloads
+> > too.
+> >
+> > The number of loop devices available to a loopfs instance can be limited
+> > by setting the "max" mount option to a positive integer. This e.g.
+> > allows sufficiently privileged processes to dynamically enforce a limit
+> > on the number of devices. This limit is dynamic in contrast to the
+> > max_loop module option in that a sufficiently privileged process can
+> > update it with a simple remount operation.
+> >
+> > The loopfs filesystem is placed under a new config option and special
+> > care has been taken to not introduce any new code when users do not
+> > select this config option.
+> >
+> > Note that in __loop_clr_fd() we now need not just check whether bdev is
+> > valid but also whether bdev->bd_disk is valid. This wasn't necessary
+> > before because in order to call LOOP_CLR_FD the loop device would need
+> > to be open and thus bdev->bd_disk was guaranteed to be allocated. For
+> > loopfs loop devices we allow callers to simply unlink them just as we do
+> > for binderfs binder devices and we do also need to account for the case
+> > where a loopfs superblock is shutdown while backing files might still be
+> > associated with some loop devices. In such cases no bd_disk device will
+> > be attached to bdev. This is not in itself noteworthy it's more about
+> > documenting the "why" of the added bdev->bd_disk check for posterity.
+> >
+> > [1]: 6a21cc50f0c7 ("seccomp: add a return code to trap to userspace")
+> > [2]: fb3c5386b382 ("seccomp: add SECCOMP_USER_NOTIF_FLAG_CONTINUE")
+> > [3]: https://lore.kernel.org/lkml/1401227936-15698-1-git-send-email-seth.forshee@canonical.com
+> > Cc: Jens Axboe <axboe@kernel.dk>
+> > Cc: Seth Forshee <seth.forshee@canonical.com>
+> > Cc: Tom Gundersen <teg@jklm.no>
+> > Cc: Tejun Heo <tj@kernel.org>
+> > Cc: Christian Kellner <ckellner@redhat.com>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: "David S. Miller" <davem@davemloft.net>
+> > Cc: David Rheinsberg <david.rheinsberg@gmail.com>
+> > Cc: Dmitry Vyukov <dvyukov@google.com>
+> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> > ---
+> >  MAINTAINERS                   |   5 +
+> >  drivers/block/Kconfig         |   4 +
+> >  drivers/block/Makefile        |   1 +
+> >  drivers/block/loop.c          | 151 +++++++++---
+> >  drivers/block/loop.h          |   8 +-
+> >  drivers/block/loopfs/Makefile |   3 +
+> >  drivers/block/loopfs/loopfs.c | 429 ++++++++++++++++++++++++++++++++++
+> >  drivers/block/loopfs/loopfs.h |  35 +++
+> >  include/uapi/linux/magic.h    |   1 +
+> >  9 files changed, 600 insertions(+), 37 deletions(-)
+> >  create mode 100644 drivers/block/loopfs/Makefile
+> >  create mode 100644 drivers/block/loopfs/loopfs.c
+> >  create mode 100644 drivers/block/loopfs/loopfs.h
+> >
+> [...]
+> > diff --git a/drivers/block/loopfs/loopfs.c b/drivers/block/loopfs/loopfs.c
+> > new file mode 100644
+> > index 000000000000..ac46aa337008
+> > --- /dev/null
+> > +++ b/drivers/block/loopfs/loopfs.c
+> > @@ -0,0 +1,429 @@
+> [...]
+> > +/**
+> > + * loopfs_loop_device_create - allocate inode from super block of a loopfs mount
+> > + * @lo:                loop device for which we are creating a new device entry
+> > + * @ref_inode: inode from wich the super block will be taken
+> > + * @device_nr:  device number of the associated disk device
+> > + *
+> > + * This function creates a new device node for @lo.
+> > + * Minor numbers are limited and tracked globally. The
+> > + * function will stash a struct loop_device for the specific loop
+> > + * device in i_private of the inode.
+> > + * It will go on to allocate a new inode from the super block of the
+> > + * filesystem mount, stash a struct loop_device in its i_private field
+> > + * and attach a dentry to that inode.
+> > + *
+> > + * Return: 0 on success, negative errno on failure
+> > + */
+> > +int loopfs_loop_device_create(struct loop_device *lo, struct inode *ref_inode,
+> > +                             dev_t device_nr)
+> > +{
+> > +       char name[DISK_NAME_LEN];
+> > +       struct super_block *sb;
+> > +       struct loopfs_info *info;
+> > +       struct dentry *root, *dentry;
+> > +       struct inode *inode;
+> > +
+> > +       sb = loopfs_i_sb(ref_inode);
+> > +       if (!sb)
+> > +               return 0;
+> > +
+> > +       if (MAJOR(device_nr) != LOOP_MAJOR)
+> > +               return -EINVAL;
+> > +
+> > +       info = LOOPFS_SB(sb);
+> > +       if ((info->device_count + 1) > info->mount_opts.max)
+> > +               return -ENOSPC;
+> 
+> Can you elaborate what the use-case for this limit is?
 
-Yeah, Rob dropped that change from my patch to avoid a merge conflict.
+Sure.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> With loopfs in place, any process can create its own user_ns, mount
+> their private loopfs and create as many loop-devices as they want.
+> Hence, this limit does not serve as an effective global
+> resource-control. Secondly, anyone with access to `loop-control` can
+> now create loop instances until this limit is hit, thus causing anyone
+> else to be unable to create more. This effectively prevents you from
+> sharing a loopfs between non-trusting parties. I am unsure where that
+> limit would actually be used?
 
-Gr{oetje,eeting}s,
+Restricting it globally indeed wasn't the intended use-case for it. This
+was more so that you can specify an instance limit, bind-mount that
+instance into several places and sufficiently locked down users cannot
+exceed the instance limit. 
+I don't think we'd be getting much out of a global limit per se I think
+the initial namespace being able to reserve a bunch of devices
+they can always rely on being able create when they need them is more
+interesting. This is similat to what devpts implements with the
+"reserved" mount option and what I initially proposed for binderfs. For
+the latter it was deemed unnecessary by others so I dropped it from
+loopfs too.
+I also expect most users to pre-create devices in the initial namespace
+instance they need (e.g. similar to what binderfs does or what loop
+devices currently have). Does that make sense to you?
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks!
+Christian
