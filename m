@@ -2,163 +2,122 @@ Return-Path: <SRS0=w6yw=5Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79AB8C2BA19
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 19:46:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD0CC2BB85
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 21:18:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 35D5A2074F
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 19:46:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 02F0E2082D
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 21:18:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e3z7QB/j"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/8tCi30"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726786AbgDITqp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Apr 2020 15:46:45 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:33968 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726663AbgDITqo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 15:46:44 -0400
-Received: by mail-qk1-f194.google.com with SMTP id i186so5378844qke.1;
-        Thu, 09 Apr 2020 12:46:43 -0700 (PDT)
+        id S1727522AbgDIVSy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Apr 2020 17:18:54 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:32856 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726964AbgDIVSy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Apr 2020 17:18:54 -0400
+Received: by mail-wr1-f67.google.com with SMTP id a25so13733901wrd.0;
+        Thu, 09 Apr 2020 14:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=vcnNkYD65cZvHPdMFn+PkHSwRz/TrLDpN2V4DWblgRE=;
-        b=e3z7QB/jwEcj721jqewkO7fb5y+Gs1Vr1HTN3GPOwIQJRcyp54MX8a/Xqj4gvEO08i
-         YpkrvIBTs3mw20tpILgmBV5i8O1lsV0NkD0vqSoJbDU1RuY5YPhPRfKHRGB+htmBRT9F
-         6GZSydJJ86nphbJIMDNZBRpzEjNEefIzfYuitxJdYXS4l103lHCrhh3fKdri8gK/LiDT
-         sOra30ylymtvld9WFiI4xF3WjKFMq0hnxOnQbBa+9O30H9GU36qSmNdRYvvjey/93UqZ
-         MVCCAiRK2s3/MMJ9oKC7fFV/ycD6EytT5xZm2yy47zHinjyjAwov5lBYoli3hUS7H8tR
-         BELQ==
+        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GrPYg+oHygD4pLQkW2MfFtRBkd4olu1YsU5G2+/EDGM=;
+        b=R/8tCi30CDpdkrtny0UnfohQ0kreT6pz5502OZwLzFU1GlWt/nB/E7ruZLG4cNGyO+
+         F6j8CXQzv1BiPFh8OxApxTNbC36PBJIJZTGWBNjTXFLnG1xrtsDfGzOJIQ5vhIutJQA2
+         kLQhQWZeViLr0rvOF3bWqdbHnoIPqr5Z3+UPe5cpRooUBKqkTMrUavRIzuP6tNxz76IL
+         WWxkrgkFWLbsIg3o86aqsg4uG3J/3BYKNr+eNipZBKUEUcyFkdTQnvlIkY9aDV+y25Bk
+         ugAVcKuQPzmUt+keUQsqf4fQZXNN/tCYzfJWtnrAukRW7eqN9QS2AKHLXG/r7wQf+n6B
+         EGPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vcnNkYD65cZvHPdMFn+PkHSwRz/TrLDpN2V4DWblgRE=;
-        b=sqUSBBrR+OiPUmU5MraaGTUjUxD3hI1OW1MTsbdWP7OMzsvzwBMxBoBOsKhSaIfd1o
-         KN8pOnuHPHhBPxoyoB/Ri19SdVa/3TfYHgDLUes0q89IwOOpC5sVeFpoRhrwBDasDqxb
-         ysLr2Qh7iDoo5KanA1O3zY/FQRbijXpgi1L9WJ5HmcIZ2wut7rzUfSiWV7ogDH0RAAHZ
-         dQO3p72jHKCNNgyhfOSn9cZby02K37+MBFGg4WRj7ETuFziuOU8cpXiv/rTLrgIp+Ehz
-         r4qeKZnEkxORajeSTvj0zF3A1xm/I7p9qdM26zma488hJu6kdDy5VRxF1qQ/rW9BbHXE
-         dETA==
-X-Gm-Message-State: AGi0PuZwdFUCR/6DnvKp3EKOEb8dHFBv5ALGyevlaZpz4+zw6C1oqxL1
-        lknTR3txds4s1wVsYc9aZbk=
-X-Google-Smtp-Source: APiQypIt6LelOTKkqavBPWscgik8cCZv/c1vfkxoes5ZNKr1W1wfqnB7S8lROVaWSbvvXF62OaReQg==
-X-Received: by 2002:a37:c246:: with SMTP id j6mr562717qkm.298.1586461602477;
-        Thu, 09 Apr 2020 12:46:42 -0700 (PDT)
-Received: from darkstar ([177.89.165.183])
-        by smtp.gmail.com with ESMTPSA id l3sm10710912qkl.85.2020.04.09.12.46.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 12:46:41 -0700 (PDT)
-Date:   Thu, 9 Apr 2020 16:46:37 -0300
-From:   Cristian Souza <cristianmsbr@gmail.com>
-To:     Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH v2] docs: admin-guide: Clarify sentences
-Message-ID: <20200409194637.GA141700@darkstar>
-References: <20200408144653.GA123268@darkstar>
- <20200409181311.GW21484@bombadil.infradead.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GrPYg+oHygD4pLQkW2MfFtRBkd4olu1YsU5G2+/EDGM=;
+        b=mNmn3IU/ZC0CItCiSx5knYNEOCpfzzpujueDn3hfx7ZIvUSBKnxzWsrvDXWE4XR5D3
+         W/3WpBj9eadud+rVF6bPhYkvRlcPaMZTPJ1i6Ey/KdoWxtD94mpYQNfElyt02jYPjCiG
+         a1hivu5ibnFBjlgRZbFZ3xoFbSUvADjxsHNVBde8SOayBGQQ9OwcslPZe9K3luss9V4G
+         EuXOARlZlI4NqfgIJk/ZsSOfceFLyPv/aRsukXGXF+vzpi2yJ0+8Df7Y7NgDgQ6IaTRf
+         Isi+Z6lrzwYXmQgd1ImfaHo/IylJSr2GDKoJsj+UAtgm/abUMOhpB6hS3lOkTYkmkGQp
+         y+HA==
+X-Gm-Message-State: AGi0PuaHnV6zhnDtnjKZLXA2NnV27rgCsmLSTDIAPuk5xy4dIKwb9aZf
+        UM+WfFbQiHudz5UhZbjdThI=
+X-Google-Smtp-Source: APiQypK1SQsMj0euJTMCWn9ZOEZJKEGqAsIzCKX7PkyTL9bHnOHr19OU3MsZM0Fj9thFZiiPD/LuEA==
+X-Received: by 2002:a5d:53ce:: with SMTP id a14mr1059856wrw.129.1586467133140;
+        Thu, 09 Apr 2020 14:18:53 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id k9sm383381wrd.17.2020.04.09.14.18.52
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 09 Apr 2020 14:18:52 -0700 (PDT)
+Date:   Thu, 9 Apr 2020 21:18:51 +0000
+From:   Wei Yang <richard.weiyang@gmail.com>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Wei Yang <richard.weiyang@gmail.com>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/rcu: fix a typo in RTFP
+Message-ID: <20200409211851.ttld7nmkqmncovhe@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20200409132437.11531-1-richard.weiyang@gmail.com>
+ <20200409134634.GL17661@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200409181311.GW21484@bombadil.infradead.org>
+In-Reply-To: <20200409134634.GL17661@paulmck-ThinkPad-P72>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Removal of unnecessary sentences, identification of authors at the top of the file,
-and correction of the number of characters per line.
+On Thu, Apr 09, 2020 at 06:46:34AM -0700, Paul E. McKenney wrote:
+>On Thu, Apr 09, 2020 at 01:24:37PM +0000, Wei Yang wrote:
+>> If I am correct, this character should be 'u'.
+>> 
+>> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+>
+>Nice!!!  ;-)
+>
 
-Signed-off-by: Cristian Souza <cristianmsbr@gmail.com>
----
- Documentation/admin-guide/init.rst | 57 +++++++++++++++---------------
- 1 file changed, 28 insertions(+), 29 deletions(-)
+Hi, Paul
 
-diff --git a/Documentation/admin-guide/init.rst b/Documentation/admin-guide/init.rst
-index 0c2c9138f268..41f06a09152e 100644
---- a/Documentation/admin-guide/init.rst
-+++ b/Documentation/admin-guide/init.rst
-@@ -1,38 +1,39 @@
- Explaining the "No working init found." boot hang message
- =========================================================
--
--Message location: ``init/main.c``
-+:Authors: Andreas Mohr <andi at lisas period de>
-+          Cristian Souza <cristianmsbr at gmail period com>
+Glad to hear from you.
 
- This document provides some high-level reasons for failure
- (listed roughly in order of execution) to load the init binary.
+>This is a play on words between the word you are thinking of and the
+>old UNIX "fsck" (filesystem check) utility.  It stays, but rest assured
+>that you did get point!
+>
 
--1) **Unable to mount root FS**: Set "debug" kernel parameter (in bootloader config file or CONFIG_CMDLINE)
--   to get more detailed kernel messages.
-+1) **Unable to mount root FS**: Set "debug" kernel parameter (in bootloader
-+   config file or CONFIG_CMDLINE) to get more detailed kernel messages.
+Sorry I am confused.
 
--2) **init binary doesn't exist on rootfs**: Make sure you have the correct root FS type
--   (and ``root=`` kernel parameter points to the correct partition),
--   required drivers such as storage hardware (such as SCSI or USB!)
--   and filesystem (ext3, jffs2, etc.) are builtin (alternatively as modules,
--   to be pre-loaded by an initrd).
-+2) **init binary doesn't exist on rootfs**: Make sure you have the correct
-+   root FS type (and ``root=`` kernel parameter points to the correct
-+   partition), required drivers such as storage hardware (such as SCSI or
-+   USB!) and filesystem (ext3, jffs2, etc.) are builtin (alternatively as
-+   modules, to be pre-loaded by an initrd).
+My change is correct or the word fsck is correct and it means "read filesystem
+check papers"?
 
--3) **Broken console device**: Possibly a conflict in ``console= setup`` --> initial console unavailable.
--   E.g. some serial consoles are unreliable due to serial IRQ issues (e.g.
--   missing interrupt-based configuration).
-+3) **Broken console device**: Possibly a conflict in ``console= setup``
-+   --> initial console unavailable. E.g. some serial consoles are unreliable
-+   due to serial IRQ issues (e.g. missing interrupt-based configuration).
-    Try using a different ``console= device`` or e.g. ``netconsole=``.
+>							Thanx, Paul
+>
+>> ---
+>>  Documentation/RCU/RTFP.txt | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
+>> index 9bccf16736f7..261eeb501ba5 100644
+>> --- a/Documentation/RCU/RTFP.txt
+>> +++ b/Documentation/RCU/RTFP.txt
+>> @@ -1,4 +1,4 @@
+>> -Read the Fscking Papers!
+>> +Read the Fucking Papers!
+>>  
+>>  
+>>  This document describes RCU-related publications, and is followed by
+>> -- 
+>> 2.23.0
+>> 
 
--4) **Binary exists but dependencies not available**: E.g. required library dependencies of the init binary such as
--   ``/lib/ld-linux.so.2`` missing or broken. Use
--   ``readelf -d <INIT>|grep NEEDED`` to find out which libraries are required.
--
--5) **Binary cannot be loaded**: Make sure the binary's architecture matches your hardware.
--   E.g. i386 vs. x86_64 mismatch, or trying to load x86 on ARM hardware.
--   In case you tried loading a non-binary file here (shell script?),
--   you should make sure that the script specifies an interpreter in its shebang
--   header line (``#!/...``) that is fully working (including its library
--   dependencies). And before tackling scripts, better first test a simple
--   non-script binary such as ``/bin/sh`` and confirm its successful execution.
--   To find out more, add code ``to init/main.c`` to display kernel_execve()s
--   return values.
-+4) **Binary exists but dependencies not available**: E.g. required library
-+   dependencies of the init binary such as ``/lib/ld-linux.so.2`` missing or
-+   broken. Use ``readelf -d <INIT>|grep NEEDED`` to find out which libraries
-+   are required.
-+
-+5) **Binary cannot be loaded**: Make sure the binary's architecture matches
-+   your hardware. E.g. i386 vs. x86_64 mismatch, or trying to load x86 on ARM
-+   hardware. In case you tried loading a non-binary file here (shell script?),
-+   you should make sure that the script specifies an interpreter in its
-+   shebang header line (``#!/...``) that is fully working (including its
-+   library dependencies). And before tackling scripts, better first test a
-+   simple non-script binary such as ``/bin/sh`` and confirm its successful
-+   execution. To find out more, add code ``to init/main.c`` to display
-+   kernel_execve()s return values.
-
- Please extend this explanation whenever you find new failure causes
- (after all loading the init binary is a CRITICAL and hard transition step
-@@ -42,8 +43,6 @@ Further TODOs:
- - Implement the various ``run_init_process()`` invocations via a struct array
-   which can then store the ``kernel_execve()`` result value and on failure
-   log it all by iterating over **all** results (very important usability fix).
--- Try to make the implementation itself more helpful in general,
--  e.g. by providing additional error messages at affected places.
-+- Try to make the implementation itself more helpful in general, e.g. by
-+  providing additional error messages at affected places.
-
--Andreas Mohr <andi at lisas period de>
--Cristian Souza <cristianmsbr at gmail period com>
---
-2.25.1
-
+-- 
+Wei Yang
+Help you, Help me
