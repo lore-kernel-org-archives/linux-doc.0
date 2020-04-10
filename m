@@ -1,141 +1,148 @@
-Return-Path: <SRS0=w6yw=5Z=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=nlb3=52=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E25C2BA19
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 23:07:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E5AC2BA2B
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 05:46:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1C4232083E
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Apr 2020 23:07:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586473622;
-	bh=bNIJSPD7Pmyz9VhhBGCfVWHHSxWOuET1XisWlfyo9KU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=kz6L9QLfjTahrV5bXs3/lmaH7iOxMSvP4nbDZpt8qurjC4i3aVhdO817upnooZQNu
-	 uSqAAyqvzMQZVnl14rqWpiX/wik9X7Ht8zx4Fq76XUwGfpAtXkjHI6WegdtFdPI7/s
-	 AOSvA8pmauwUxqLGXagS+i6eBokLbPMI3CV4K2YQ=
+	by mail.kernel.org (Postfix) with ESMTP id 5639020801
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 05:46:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="LO8g6kQA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726871AbgDIXHB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Apr 2020 19:07:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39030 "EHLO mail.kernel.org"
+        id S1726092AbgDJFqO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Apr 2020 01:46:14 -0400
+Received: from mout.web.de ([212.227.17.12]:58643 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726795AbgDIXHB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Apr 2020 19:07:01 -0400
-Received: from kicinski-fedora-PC1C0HJN (unknown [163.114.132.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5D154206C0;
-        Thu,  9 Apr 2020 23:07:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586473621;
-        bh=bNIJSPD7Pmyz9VhhBGCfVWHHSxWOuET1XisWlfyo9KU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=KNWDxLaleJQt0YpBcnMvOfbOPq8W0zKx5FnppXX7LRF7L7IwvbmMckdGPp75Hyf8O
-         Lq0ODS76RNtPjr7Ngc0fSVqbtQhmeUeJhHNRUHMCx6xsfw5ZDhSAlbt3TqJR3i3S/V
-         WqUzDIlrH8dcEHpGpBxNecfYNAfJdJRF/V1cmgVA=
-Date:   Thu, 9 Apr 2020 16:06:58 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Saeed Mahameed <saeedm@mellanox.com>
-Cc:     "davem@davemloft.net" <davem@davemloft.net>,
-        "jacob.e.keller@intel.com" <jacob.e.keller@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        Tal Gilboa <talgi@mellanox.com>,
-        "leon@kernel.org" <leon@kernel.org>
-Subject: Re: [PATCH net v2 1/2] docs: networking: convert DIM to RST
-Message-ID: <20200409160658.1b940fcf@kicinski-fedora-PC1C0HJN>
-In-Reply-To: <1210a28bfe1a67818f3f814e38f52923cbd201c0.camel@mellanox.com>
-References: <20200409212159.322775-1-kuba@kernel.org>
-        <1210a28bfe1a67818f3f814e38f52923cbd201c0.camel@mellanox.com>
+        id S1725818AbgDJFqO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 10 Apr 2020 01:46:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1586497549;
+        bh=wQZi1jYN0PwblJDRsNWeVp5mEL4bCN76eORdDMpxpKU=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=LO8g6kQAzRndI9NHzALC+pdY0tcKChLFkdo7l/Y7JZeKs3qFtzopg2i0edjgNl3pY
+         oi7AQgoY8tfyWD3800ngfjdQGiMRZK+4aLif6I8DiK0oNWn1foSFHrHh214PqYjZHL
+         /cpMtGy5ExkQc51S3d+rALZ2zlkxz6lZw4nNWXzI=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.3] ([78.48.110.107]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MCqsR-1jWRXK18fT-009j5J; Fri, 10
+ Apr 2020 07:45:49 +0200
+Subject: Re: Input: ep93xx_keypad: Checking for a failed platform_get_irq()
+ call in ep93xx_keypad_probe()
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Allison Randal <allison@lohutok.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        Olof Johansson <olof@lixom.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tang Bin <tangbin@cmss.chinamobile.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org
+References: <11aecb68-d243-2eeb-0cc8-50e1ec22bd71@web.de>
+ <20200409204819.GR75430@dtor-ws>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <279dd87a-bbc4-685d-b557-7914e4132b15@web.de>
+Date:   Fri, 10 Apr 2020 07:45:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200409204819.GR75430@dtor-ws>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Provags-ID: V03:K1:7tYjIm2pshBCa29VjlTdSvU5pYyQgsGM2gi6MjhAv42N0tkojqm
+ BMYa/bdCW6UNxeqybZ9wz16HIhMyPWnA6X7e+6zMpF8OwTwWH27oyQvxRADCY2BXT3Xv8/v
+ 9mS7l9ywnLCZ7gCUcswRszERXi1iuv9yU2T0ln9s75iNfkAU34x3ha42NPk3C8dBDxuBM2s
+ 650hkKX4HKf69vd8W/pZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KxkKTFxAaqQ=:gq0AzYy1p7GHhfFjV8fvVS
+ KuoS3bhcCAgwCgnl7BZNFrHBiqPBiLqu8onxXpiDOQZA9gGEEE1AvGuAdyNuKR5j/hG0od+xw
+ TgdbmyvQi4MET8T+/IiOAsH4C0qRzpNXAKMBsUyopc5MugXS904Hwsyt9CyRRvWRIagcw2g5Z
+ RXfmqEvXfVpAJvq5tuK/bOUFUv91nskNSleGkg4gZDJqBXWQV8wlkaIbMou6bol+bo24lcOkg
+ iJ6aU2yg0O73SHZiucgPxFt91l9lV9tYlYBOsOWixKjmrpxfDz0d/MsdgLBiqjx47uBTvPCBk
+ sfjLTUhiJ7PsCLgV3twSgbZ1DE0EsRTE4mSHY2hQ5qSMKiZJBxLuf4iimkAthMYWcYPdFHQ8P
+ NPmAdd+zDjQFKEsCIEzwpU5PwOoM1ods3Aypwj0Wca8dSeAgXstU4DPauZFsTRZ0EDlbvNdDT
+ 0WvY00xTe3SnwBxrngl8h9kLFXFNSHiC6GWBc/an7vzU3TtYT2dbyyC4NIDiOFgLuRJw96rph
+ 5y/bSwYw91cR0BfzFq/RqyOi8YYQXnKKJDTgoAVLHsGFM8SqytRF5qh5/9c694tYV6k2qUyCw
+ BfsWs12t5QRaVn/mYVag8+0GZ29Al+b1JJPs/bGTfzSYS23vkYW7efymIdu4dsVWmxiholLIB
+ WNdueioqveRIbAjAMI3H3c3Mljr1TaTJAWqb5FKwOp0TPMDDJXzDJYBndhMmSpRkPeYRO6XbC
+ WvZAQImA9xs2lfI7CNgEhLVmrJqMbLs3MnSY/RSaRAaiL4v5u/OjBVgWJLHPFVbOZhpFLNQ3c
+ Fh8iiYwITqvplM+rPDbk3Xv5XbpGxFNQBZ8IDEimiNTv+36irvL75OGa9FyLV6JOcpnFD2lcE
+ LjfPTPBvLvYdyUT/1kQDrPrggLz0JUHnrtubgNiJdauzCsO2GOUzAQe/pDIbseBTWL3KxNFAG
+ hKC5GvuUkrqUSTL8xX5EJoWdBRu/2nFoJIYwNlhji3bBr/j38zzAEHfvqLX91A92f9nAt0Xol
+ tW6Rr1VXefQqaAijU7UkA+4TqUdXvqD06yq5knvSUu5JPgOjLZ2QGXiGvdjUf1MwKB2JOfp3p
+ WqIFhW9TowY2Gff6+0U7LWOya/EZNjjO/DhGnRl8QXzfbZEf8a3F1vH/z8+VaQSfS9PSg9SIT
+ 7ZuF9oBgPe3c2oPjTC2TU+c48Ky7oznKm7RfUOKVWNz9C83Dz85C91UVpv7caaMO3T4fflRja
+ fgXcJeBSPxa+PkE6G
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 9 Apr 2020 22:46:55 +0000 Saeed Mahameed wrote:
-> On Thu, 2020-04-09 at 14:21 -0700, Jakub Kicinski wrote:
-> > Convert the Dynamic Interrupt Moderation doc to RST and
-> > use the RST features like syntax highlight, function and
-> > structure documentation, enumerations, table of contents.
-> > 
-> > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> > ---
-> > v2:
-> >  - remove the functions/type definition markup
-> >  - change the contents definition (the :local: seem to
-> >    not work too well with kdoc)
-> > ---
-> >  Documentation/networking/index.rst            |  1 +
-> >  .../networking/{net_dim.txt => net_dim.rst}   | 90 +++++++++------
-> > ----
-> >  MAINTAINERS                                   |  1 +
-> >  3 files changed, 45 insertions(+), 47 deletions(-)
-> >  rename Documentation/networking/{net_dim.txt => net_dim.rst} (79%)
-> > 
-> > diff --git a/Documentation/networking/index.rst
-> > b/Documentation/networking/index.rst
-> > index 50133d9761c9..6538ede29661 100644
-> > --- a/Documentation/networking/index.rst
-> > +++ b/Documentation/networking/index.rst
-> > @@ -22,6 +22,7 @@ Linux Networking Documentation
-> >     z8530book
-> >     msg_zerocopy
-> >     failover
-> > +   net_dim  
-> 
-> net_dim is a performance feature, i would move further down the list
-> where the perf features such as scaling and offloads are .. 
+> Platform code historically allowed creating IRQ resources with IRQ
+> number 0 to indicate "no interrupt assigned", so this driver tries to
+> filter out such conditions. The negative IRQs (errors) will be rejected
+> by request_irq() but I guess we can lose -EPROBE_DEFER.
 
-I mean.. so is msg_zerocopy just above ;-)  I spotted slight
-alphabetical ordering there, which may have not been intentional,
-that's why I put it here. Marking with # things out of order, but 
-based on just the first letter:
+Thanks for this explanation.
 
-#  netdev-FAQ
-   af_xdp
-   bareudp
-   batman-adv
-   can
-   can_ucan_protocol
-   device_drivers/index
-   dsa/index
-   devlink/index
-   ethtool-netlink
-   ieee802154
-   j1939
-   kapi
-#  z8530book
-   msg_zerocopy
-#  failover
-   net_dim
-   net_failover
-   phy
-   sfp-phylink
-#  alias
-#  bridge
-   snmp_counter
-#  checksum-offloads
-   segmentation-offloads
-   scaling
-   tls
-   tls-offload
-#  nfc
-   6lowpan
+* Should such information be better represented in the description for
+  these programming interfaces?
 
-My feeling is that we should start considering splitting kernel-only
-docs and admin-only docs for networking, which I believe is the
-direction Jon and folks want Documentation/ to go. But I wasn't brave
-enough to be the first one. Then we can impose some more structure,
-like putting all "performance" docs in one subdir..?
+* Can the software documentation become clearer anyhow?
 
-WDYT?
+
+> or, maybe we should take a look at platform_get_irq() and see if we can
+> stop it returning 0 interrupt numbers and clean up the drivers.
+
+Will further collateral evolution become interesting?
+
+Regards,
+Markus
