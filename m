@@ -2,162 +2,132 @@ Return-Path: <SRS0=nlb3=52=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C425C2D0EC
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 17:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A6FC2D0EC
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 19:16:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A4442064A
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 17:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586540366;
-	bh=lsW1XylAhRrE+2PihXFwoHlQemalYVa78vGEf+9QwmY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=GnPB2IU096Np7QtbNXX3q3eX195obOqY3W2Z6SEVD140ONG5qW627ipwarKkEKixl
-	 tfTXklyaGCjLyk/h4IIy1krOGD5iu4+oe0LnNBCKtCdEyZGbMMAc+Q74E1glx9l/xH
-	 OzCUMC/CCPzn47EZDD22i1XWFAfJZVNyebKKqN2Y=
+	by mail.kernel.org (Postfix) with ESMTP id 6003E2084D
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 19:16:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BCq9/dHD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726648AbgDJRjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Apr 2020 13:39:25 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:42505 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726595AbgDJRjZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Apr 2020 13:39:25 -0400
-Received: by mail-oi1-f195.google.com with SMTP id e4so1954361oig.9;
-        Fri, 10 Apr 2020 10:39:24 -0700 (PDT)
+        id S1726695AbgDJTQU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Apr 2020 15:16:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45924 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726648AbgDJTQU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Apr 2020 15:16:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1586546179;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mwSL4Svde7cDyREN44P4y94Qc6dx9Sv2bNY13UCrEho=;
+        b=BCq9/dHDdKFYRrAjKI63OhKa4fkohIcfoT8HZNSvzCe0wflLxY8vSHMaNUdlAogf5tK3Oa
+        iQwNjINST84PLtYN1QFJ/OQcwv53Z5iOQD98IXEetYUoiO7ISVpsdIq8AvMZ+g1HSO9jxo
+        HFWCNqzXctpI3qu0kaHN8pUHQlufudQ=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-NSWIyphgMRuHGwzwFWclVg-1; Fri, 10 Apr 2020 15:16:18 -0400
+X-MC-Unique: NSWIyphgMRuHGwzwFWclVg-1
+Received: by mail-qv1-f70.google.com with SMTP id dr8so2401004qvb.5
+        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2020 12:16:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UVlxIE0CSKdKwuyXIBQDvbaJJFV3N43f9jUNTBByOKM=;
-        b=oV6SLID4+Gi2Tugy1dlLl9zVvXhpadhUPmlPgEKPqC+Q5ihE9il4EtDc/MavWkerEI
-         3aK5pQ7zZMvzX3ovdmDRnU3z/SjNR1OWYWJ+A88l/2W+uypQ/7iJYS+No/UoQHmM84X8
-         NNIFqjgtH/PDr1tikW+DsYjuqVYxp/IjUFUezNgtiNjgq5ktZkm6mqo/6danKssxzvl0
-         +WGJ9b4zyFlNfeNqzta3zZE6veCtzQr68/7ZSU2nuJ8v6M3X4e9WgoYOqmS1J2qK4E2Q
-         JN+xp3vDqQ8oIUo4L/4iIa3oxHWajHiL1iAsw1ZFeAuYcj3TEH/nIuiTNaPSKwUt9fYQ
-         mLgA==
-X-Gm-Message-State: AGi0PuZtGcZmcqwCtMX79L4accWSNqkKSrxrvQiBCpV3yYqjF0tcNORg
-        XDQQP933XWIaXlMQjbs/rA==
-X-Google-Smtp-Source: APiQypIbEr9eAuDn8ap/2ErWe8F05Nq4R1u7xjJ+3zCkjJKKNwFWVUzijYYdI42B6WOSqS3yiJsmAw==
-X-Received: by 2002:a05:6808:1c1:: with SMTP id x1mr3845478oic.55.1586540363863;
-        Fri, 10 Apr 2020 10:39:23 -0700 (PDT)
-Received: from rob-hp-laptop (ip-99-203-29-27.pools.cgn.spcsdns.net. [99.203.29.27])
-        by smtp.gmail.com with ESMTPSA id d21sm1480776otp.39.2020.04.10.10.39.08
+         :mime-version:content-disposition:in-reply-to;
+        bh=mwSL4Svde7cDyREN44P4y94Qc6dx9Sv2bNY13UCrEho=;
+        b=Z3SxQT0Wru3++HaR0j734dNmsp6+k/WDbaTGj8aBieEJLJavQHJIiY0ReTCmpEakt3
+         bRmsWXMDrk8H3Bo6+HAe+B1RNJ6LcQoeB3AAzMHZzTiUIxMp2GBRk+IgbLoze3PckVEa
+         3wmJw/cTCcpVHUzHb/CkhItLNkNQLVwO+SJllgkueJ9zonVOE5k+Z4uYTq+o+a1HJfqr
+         5WTm8yUoiNqXlzdjPL8U8NZqTlu1K3TZpHDKGIhpRDLKJwD1/Lmh66Ah6vUgd3xe581F
+         tpszil+KFfh6/Ltg1UTCCKjlC8Jm1l3a30pKSEHtFr5qaLkRgv1esZnePQm22UPEuh2D
+         1TMg==
+X-Gm-Message-State: AGi0Puas+SkD8VVuiLg3K96HCQALtwQ0DJTipKuQwqqfAC+mXu6etCef
+        kYCux3h+UpF+fLvxoSc9LrBN45pKm+drzHSJn+9c2hVlMhIulOG+aUSOClthFXkfg0kN6jmCWJW
+        TQK8HFpvl1I6snA/etU2K
+X-Received: by 2002:a05:620a:89d:: with SMTP id b29mr5792231qka.329.1586546177443;
+        Fri, 10 Apr 2020 12:16:17 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLiuHO8rQfrWs/w6IUs43Srn34pCDFpZie/ieWUpJNT3bX04my6S/Xtwb+5j5ZmCFgzwIqbpg==
+X-Received: by 2002:a05:620a:89d:: with SMTP id b29mr5792202qka.329.1586546177111;
+        Fri, 10 Apr 2020 12:16:17 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+        by smtp.gmail.com with ESMTPSA id b13sm1590230qtp.46.2020.04.10.12.16.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2020 10:39:23 -0700 (PDT)
-Received: (nullmailer pid 6854 invoked by uid 1000);
-        Fri, 10 Apr 2020 17:33:24 -0000
-Date:   Fri, 10 Apr 2020 12:33:24 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Michal Simek <michal.simek@xilinx.com>
-Cc:     linux-kernel@vger.kernel.org, monstr@monstr.eu, git@xilinx.com,
-        sfr@canb.auug.org.au, maz@kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alexios Zavras <alexios.zavras@intel.com>,
-        Alistair Popple <alistair@popple.id.au>,
-        Allison Randal <allison@lohutok.net>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Fri, 10 Apr 2020 12:16:16 -0700 (PDT)
+Date:   Fri, 10 Apr 2020 15:16:13 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Enrico Weigelt <info@metux.net>,
-        Fabio Estevam <festevam@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
         Paul Mackerras <paulus@samba.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Wei Hu <weh@microsoft.com>, YueHaibing <yuehaibing@huawei.com>,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v2 2/2] powerpc: Remove Xilinx PPC405/PPC440 support
-Message-ID: <20200410173324.GA28512@bogus>
-References: <cover.1585575111.git.michal.simek@xilinx.com>
- <9c3e02ffa9812c6f046708b45932d40f33e8817a.1585575111.git.michal.simek@xilinx.com>
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Longpeng <longpeng2@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Mina Almasry <almasrymina@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 1/4] hugetlbfs: add arch_hugetlb_valid_size
+Message-ID: <20200410191613.GD3172@xz-x1>
+References: <20200401183819.20647-1-mike.kravetz@oracle.com>
+ <20200401183819.20647-2-mike.kravetz@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9c3e02ffa9812c6f046708b45932d40f33e8817a.1585575111.git.michal.simek@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200401183819.20647-2-mike.kravetz@oracle.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 30, 2020 at 03:32:17PM +0200, Michal Simek wrote:
-> The latest Xilinx design tools called ISE and EDK has been released in
-> October 2013. New tool doesn't support any PPC405/PPC440 new designs.
-> These platforms are no longer supported and tested.
-> 
-> PowerPC 405/440 port is orphan from 2013 by
-> commit cdeb89943bfc ("MAINTAINERS: Fix incorrect status tag") and
-> commit 19624236cce1 ("MAINTAINERS: Update Grant's email address and maintainership")
-> that's why it is time to remove the support fot these platforms.
-> 
-> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> 
-> Changes in v2:
-> - Based on my chat with Arnd I removed arch/powerpc/xmon/ changes done in
->   v1 to keep them the same as before. (kbuild reported some issues with it
->   too)
-> 
->  Documentation/devicetree/bindings/xilinx.txt | 143 ------
+On Wed, Apr 01, 2020 at 11:38:16AM -0700, Mike Kravetz wrote:
+> diff --git a/arch/arm64/include/asm/hugetlb.h b/arch/arm64/include/asm/hugetlb.h
+> index 2eb6c234d594..81606223494f 100644
+> --- a/arch/arm64/include/asm/hugetlb.h
+> +++ b/arch/arm64/include/asm/hugetlb.h
+> @@ -59,6 +59,8 @@ extern void huge_pte_clear(struct mm_struct *mm, unsigned long addr,
+>  extern void set_huge_swap_pte_at(struct mm_struct *mm, unsigned long addr,
+>  				 pte_t *ptep, pte_t pte, unsigned long sz);
+>  #define set_huge_swap_pte_at set_huge_swap_pte_at
+> +bool __init arch_hugetlb_valid_size(unsigned long size);
+> +#define arch_hugetlb_valid_size arch_hugetlb_valid_size
 
-Acked-by: Rob Herring <robh@kernel.org>
+Sorry for chimming in late.
 
->  Documentation/powerpc/bootwrapper.rst        |  28 +-
->  MAINTAINERS                                  |   6 -
->  arch/powerpc/Kconfig.debug                   |   2 +-
->  arch/powerpc/boot/Makefile                   |   7 +-
->  arch/powerpc/boot/dts/Makefile               |   1 -
->  arch/powerpc/boot/dts/virtex440-ml507.dts    | 406 ----------------
->  arch/powerpc/boot/dts/virtex440-ml510.dts    | 466 -------------------
->  arch/powerpc/boot/ops.h                      |   1 -
->  arch/powerpc/boot/serial.c                   |   5 -
->  arch/powerpc/boot/uartlite.c                 |  79 ----
->  arch/powerpc/boot/virtex.c                   |  97 ----
->  arch/powerpc/boot/virtex405-head.S           |  31 --
->  arch/powerpc/boot/wrapper                    |   8 -
->  arch/powerpc/configs/40x/virtex_defconfig    |  75 ---
->  arch/powerpc/configs/44x/virtex5_defconfig   |  74 ---
->  arch/powerpc/configs/ppc40x_defconfig        |   8 -
->  arch/powerpc/configs/ppc44x_defconfig        |   8 -
->  arch/powerpc/include/asm/xilinx_intc.h       |  16 -
->  arch/powerpc/include/asm/xilinx_pci.h        |  21 -
->  arch/powerpc/kernel/cputable.c               |  39 --
->  arch/powerpc/platforms/40x/Kconfig           |  31 --
->  arch/powerpc/platforms/40x/Makefile          |   1 -
->  arch/powerpc/platforms/40x/virtex.c          |  54 ---
->  arch/powerpc/platforms/44x/Kconfig           |  37 --
->  arch/powerpc/platforms/44x/Makefile          |   2 -
->  arch/powerpc/platforms/44x/virtex.c          |  60 ---
->  arch/powerpc/platforms/44x/virtex_ml510.c    |  30 --
->  arch/powerpc/platforms/Kconfig               |   4 -
->  arch/powerpc/sysdev/Makefile                 |   2 -
->  arch/powerpc/sysdev/xilinx_intc.c            |  88 ----
->  arch/powerpc/sysdev/xilinx_pci.c             | 132 ------
->  drivers/char/Kconfig                         |   2 +-
->  drivers/video/fbdev/Kconfig                  |   2 +-
->  34 files changed, 7 insertions(+), 1959 deletions(-)
+Since we're working on removing arch-dependent codes after all.. I'm
+thinking whether we can define arch_hugetlb_valid_size() once in the
+common header (e.g. linux/hugetlb.h), then in mm/hugetlb.c:
+
+bool __init __attribute((weak)) arch_hugetlb_valid_size(unsigned long size)
+{
+	return size == HPAGE_SIZE;
+}
+
+We can simply redefine arch_hugetlb_valid_size() in arch specific C
+files where we want to override the default.  Would that be slightly
+cleaner?
+
+Thanks,
+
+-- 
+Peter Xu
+
