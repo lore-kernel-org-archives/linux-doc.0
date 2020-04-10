@@ -2,213 +2,165 @@ Return-Path: <SRS0=nlb3=52=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24895C2D0EC
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 19:52:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF91C2D0EC
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 20:03:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ED05F2083E
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 19:52:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 599232083E
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 20:03:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIxtx7H7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MwIPwNyc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726594AbgDJTwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Apr 2020 15:52:19 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45338 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbgDJTwT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Apr 2020 15:52:19 -0400
-Received: by mail-wr1-f66.google.com with SMTP id v5so3434253wrp.12
-        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2020 12:52:18 -0700 (PDT)
+        id S1726263AbgDJUDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Apr 2020 16:03:52 -0400
+Received: from mail-qv1-f67.google.com ([209.85.219.67]:41294 "EHLO
+        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726203AbgDJUDw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Apr 2020 16:03:52 -0400
+Received: by mail-qv1-f67.google.com with SMTP id y16so1467001qvp.8;
+        Fri, 10 Apr 2020 13:03:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yRE/K0sM82C5HUk6HMKL3mTsdxv6kZ32GYxlfuDmAwE=;
-        b=GIxtx7H7RuqfEUEKVDvnbOTT6iehEkIzbz7T+t8JsHFsqgFtY194JKMPIUDRv6Rvdw
-         X/UjPd4hB+OoDMO1brRQB+C+bfl45qdfsXHmiGLDVHq1Log0KovWCJYrnqAGm+4jkX9F
-         gS5YM5uB4/zNTVmGPtgUWvGeMOFwuwG+qBosOA0UKwuyThPu3ObTDf1UKqN0glsOG/zk
-         F8wAw/IVy9TYjVyHNFK2It6yyhldCusl09MTvFuJf5adELjZCNNrcN+JV6c3YDgsIdXv
-         n9lSXa+eej+AIaXsWj8PhnuroP4cZoMFXKYmqxlVFXM97KU8Bb/ZIBb+frDz9v8cDLwR
-         wlow==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=wlB9KQoEzyw2uD6EwYgr+3SPTA1uqMIIAHShVGWPQno=;
+        b=MwIPwNycgFupo0shQhepifv9g41x8tss2kkSa11EGb1mxz0rQRWs69V5CRHOwn/GSm
+         S0C0naUkylybXgfFSJxruwWHtzoYGIm8NUVzKhbXo00WcBoofdLFNGCUrWc9DmJZOJQK
+         NCvzWZLqQbuudF5mUAlRK45ujT70DHYV62nAhwxI2GfxfIaSLC5KACVMhvputofzBck0
+         C7x0w7JFLukXQ5M2zrGIV5k11WbqzxBtx2nxlCicyHly+xwdWatkHPutgBANoI3uVUPv
+         N1N8d9XHCLeAha2n6hq5dy3sSKxSZAnVAl46puOJZ7rPibULBFqtklir+ym/IQKJRxhh
+         2C0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yRE/K0sM82C5HUk6HMKL3mTsdxv6kZ32GYxlfuDmAwE=;
-        b=jVObhOnPPD4fijZOrqf2XDs3rvCBSXazPmYuBxTneE4/63ie44MXtnfzBfVv8Ge9bV
-         Q7zhUGtPZPhQL65tSRik2uqEcmLuJy/yT51uihpcat232epeYFIBuKMYdFKr2wAvJaZ/
-         mTSdwxRQlsqDYVr7f+Q7MG6I2vbibrQnBPRJLDy/hgjeNGQChvFF2vwg4gP6n8YIw4aN
-         HuiBbVy8wq2CcbJNGAPfT4w8I8odLTZGXIEzVq9SM6t6IVt5xIU/6d4iANjnI9O9rt8y
-         J3TmduSnKJSKZn8nRBZ0VN0WyhqLyPaEacJkIuU0nfWExdC1AhOPXKOCOwbuFM0lIyJE
-         vP3Q==
-X-Gm-Message-State: AGi0PuYVzgqV/o2f9AtBMMBIz6izH3FAkqbVlKPQ5l9q+mnEhBoTLtlB
-        8OLLrShismXgf96gb9bw5YQ=
-X-Google-Smtp-Source: APiQypKa+u1pmKli4ePtq9z1OBIiD8KOYUuySmMcSJEy/lZ7o4+agQzXzTv+Y37bm8oEDLn+fa514A==
-X-Received: by 2002:a05:6000:108f:: with SMTP id y15mr6461764wrw.423.1586548337916;
-        Fri, 10 Apr 2020 12:52:17 -0700 (PDT)
-Received: from 0339e8fc5325.v.cablecom.net ([45.87.212.59])
-        by smtp.gmail.com with ESMTPSA id p190sm4065252wmp.38.2020.04.10.12.52.16
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=wlB9KQoEzyw2uD6EwYgr+3SPTA1uqMIIAHShVGWPQno=;
+        b=ElhlHF+OGJbWEuYk6TtiC7jn5AgAejF2Fh86e4UFFrBti9guYnUkROJbD3u1kaosKM
+         asSnHoNLoa7tLzH/Cmi7G7I8j2eO0xSdV94qxrl27kvMMc+ISy4m++xAogmpTA+ZjZiC
+         s6Oz0pfYMRJOcOkM2vDb/ivmGkRoPiNq0bk7nQdZaimcFfLlwzyUQL0PrOoEC3KoCLlh
+         2EtK+lYwYN0u/WfIeRdV2bU0bg7e+ISLYIVgK6XzCGbiqcIDf3tfPXM0+cGXcXKCUD6g
+         Pzi976dfYE+abByybTbnyEozMU2IBojMvACX8Hds9KVfiGrNJyU7MgIgj1Rg3P6dCc9h
+         D0JA==
+X-Gm-Message-State: AGi0PuZvNFc2UgvJj7j9nqkUdgYYNteYIz8PnIx7MUMtJcBQ0SyAY7qV
+        N/gGM4LbSuqVRxULpOj072F366t9/o6h9Q==
+X-Google-Smtp-Source: APiQypLs26QKYqNz1tAwi7/rodeGouqlPOdxJqen56m07wzSjlTgWYPy6YXd8JVi/hgk/OKkUmW5JA==
+X-Received: by 2002:ad4:498c:: with SMTP id t12mr6823037qvx.27.1586549030517;
+        Fri, 10 Apr 2020 13:03:50 -0700 (PDT)
+Received: from darkstar ([177.89.165.183])
+        by smtp.gmail.com with ESMTPSA id 206sm2361151qkn.36.2020.04.10.13.03.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2020 12:52:17 -0700 (PDT)
-From:   Lothar Rubusch <l.rubusch@gmail.com>
-To:     corbet@lwn.net, brendanhiggins@google.com
-Cc:     linux-doc@vger.kernel.org, Lothar Rubusch <l.rubusch@gmail.com>
-Subject: [PATCH] scripts: kernel-doc: naming unnamed variadics
-Date:   Fri, 10 Apr 2020 19:52:01 +0000
-Message-Id: <20200410195201.20920-1-l.rubusch@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Fri, 10 Apr 2020 13:03:50 -0700 (PDT)
+Date:   Fri, 10 Apr 2020 17:03:45 -0300
+From:   Cristian Souza <cristianmsbr@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, willy@infradead.org
+Subject: [PATCH v3] docs: admin-guide: Clarify sentences
+Message-ID: <20200410200345.GA36148@darkstar>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently the kernel-doc is able to document different types of function
-or macro parameters, respectively. Provided an annotation starting with
-'@' and the related parameter. Its explanation will appear in the API
-docs.
+Changes to make the text more formal and organized. The reasons are now cited and described at the same time.
+Minor grammatical problems have also been fixed.
 
-Source        | kernel-doc syntax  | Documentation
---------------+--------------------+--------------------------
-func(foo)     | @foo: some desc    | "foo: some desc"
-func(foo...)  | @foo...: some desc | "foo: some desc"
-func(...)     | @...: some desc    | "...: some desc:
-func(...)     | <leave empty>      | "...: variable parameter"
-
-This patch extends the kernel-doc possibilities by:
-
-func(...)     | @...foo: some desc | "foo: some desc"
-
-What is this good for?
-
-Using e.g. a macro with unnamed variadic argument ('...'), in the document
-will always show three dots. In practice it is assigned to a specific
-variable and represents some entity, not just three dots. In some cases
-the name of the entity could make thinks more understandable than using
-just the three variadic dots.
-
-Currently this is limited to the only alternative to touch the sources,
-and change the unnamed variadic i.e. "..." into a named variadic, e.g.
-"foo...".
-
-But shall we rather change the sources to work for the limitations of
-our (documentation) scripts, or was it better to improve the scripts
-directly to offer that flexibility? Please let the author know if this
-feels rather some kind of documentation chindogu, or if it could be
-useful?
-
-Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+Signed-off-by: Cristian Souza <cristianmsbr@gmail.com>
 ---
- scripts/kernel-doc | 69 ++++++++++++++++++++++++++++++++--------------
- 1 file changed, 49 insertions(+), 20 deletions(-)
+Changes in v2:
+ - Text more formal and organized
+Changes in v3:
+ - Authors at the top of the file
+ - Removal of the source file in which the message is located
+ - All lines under 80 characters
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index f2d73f04e71d..ac5db78d36e9 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -469,18 +469,29 @@ sub dump_section {
-     my $name = shift;
-     my $contents = join "\n", @_;
- 
-+	my $name_orig = $name;
-     if ($name =~ m/$type_param/) {
--	$name = $1;
--	$parameterdescs{$name} = $contents;
--	$sectcheck = $sectcheck . $name . " ";
-+		if ($name_orig =~ /^@\.\.\.\w/) {
-+			# in case of a '@...name' notation, obtain the variadic argument
-+			# from the parsed function/macro, but in the documentation set
-+			# the name, cut off the dots
-+			$name = $name_orig;
-+			$name =~ s/@//;
-+		} else {
-+			# in in case of named or unnamed variadic arguments
-+			$name = $1;
-+		}
-+		$parameterdescs{$name} = $contents;
-+		$sectcheck = $sectcheck . $name . " ";
-         $parameterdesc_start_lines{$name} = $new_start_line;
-         $new_start_line = 0;
-     } elsif ($name eq "@\.\.\.") {
--	$name = "...";
--	$parameterdescs{$name} = $contents;
--	$sectcheck = $sectcheck . $name . " ";
--        $parameterdesc_start_lines{$name} = $new_start_line;
--        $new_start_line = 0;
-+		# TODO is this condition actually ever reached?
-+		$name = "...";
-+		$parameterdescs{$name} = $contents;
-+		$sectcheck = $sectcheck . $name . " ";
-+		$parameterdesc_start_lines{$name} = $new_start_line;
-+		$new_start_line = 0;
-     } else {
- 	if (defined($sections{$name}) && ($sections{$name} ne "")) {
- 	    # Only warn on user specified duplicate section names.
-@@ -1442,21 +1453,31 @@ sub push_parameter($$$$) {
- 	}
- 
- 	$anon_struct_union = 0;
--	$param =~ s/[\[\)].*//;
- 
-+	$param =~ s/[\[\)].*//;
- 	if ($type eq "" && $param =~ /\.\.\.$/)
- 	{
--	    if (!$param =~ /\w\.\.\.$/) {
--	      # handles unnamed variable parameters
--	      $param = "...";
--	    }
--	    elsif ($param =~ /\w\.\.\.$/) {
--	      # for named variable parameters of the form `x...`, remove the dots
--	      $param =~ s/\.\.\.$//;
--	    }
--	    if (!defined $parameterdescs{$param} || $parameterdescs{$param} eq "") {
--		$parameterdescs{$param} = "variable arguments";
--	    }
-+		if ($param =~ /\w\.\.\.$/) {
-+			# for named variable parameters of the form `x...`, chop off dots
-+			$param =~ s/\.\.\.$//;
-+		}
-+		else {
-+			# has unnamed variadic '...', check with or without description naming
-+			my $param_dotprefixed = (grep { $_ =~ /^\.\.\.\w/ } keys %parameterdescs)[0];
-+			if (defined $param_dotprefixed) {
-+				# handles unnamed variable parameters, but named description
-+				$param = $param_dotprefixed;
-+				$param =~ s/^\.\.\.//;
-+				$parameterdescs{$param} = delete $parameterdescs{$param_dotprefixed};
-+			}
-+			else {
-+				# handles unnamed variable parameters
-+				$param = "...";
-+			}
-+		}
-+		if (!defined $parameterdescs{$param} || $parameterdescs{$param} eq "") {
-+			$parameterdescs{$param} = "variable arguments";
-+		}
- 	}
- 	elsif ($type eq "" && ($param eq "" or $param eq "void"))
- 	{
-@@ -1527,6 +1548,14 @@ sub check_sections($$$$$) {
- 				$err = 0;
- 				last;
- 			}
+ Documentation/admin-guide/init.rst | 57 +++++++++++++++---------------
+ 1 file changed, 28 insertions(+), 29 deletions(-)
+
+diff --git a/Documentation/admin-guide/init.rst b/Documentation/admin-guide/init.rst
+index 0c2c9138f268..41f06a09152e 100644
+--- a/Documentation/admin-guide/init.rst
++++ b/Documentation/admin-guide/init.rst
+@@ -1,38 +1,39 @@
+ Explaining the "No working init found." boot hang message
+ =========================================================
+-
+-Message location: ``init/main.c``
++:Authors: Andreas Mohr <andi at lisas period de>
++          Cristian Souza <cristianmsbr at gmail period com>
+
+ This document provides some high-level reasons for failure
+ (listed roughly in order of execution) to load the init binary.
+
+-1) **Unable to mount root FS**: Set "debug" kernel parameter (in bootloader config file or CONFIG_CMDLINE)
+-   to get more detailed kernel messages.
++1) **Unable to mount root FS**: Set "debug" kernel parameter (in bootloader
++   config file or CONFIG_CMDLINE) to get more detailed kernel messages.
+
+-2) **init binary doesn't exist on rootfs**: Make sure you have the correct root FS type
+-   (and ``root=`` kernel parameter points to the correct partition),
+-   required drivers such as storage hardware (such as SCSI or USB!)
+-   and filesystem (ext3, jffs2, etc.) are builtin (alternatively as modules,
+-   to be pre-loaded by an initrd).
++2) **init binary doesn't exist on rootfs**: Make sure you have the correct
++   root FS type (and ``root=`` kernel parameter points to the correct
++   partition), required drivers such as storage hardware (such as SCSI or
++   USB!) and filesystem (ext3, jffs2, etc.) are builtin (alternatively as
++   modules, to be pre-loaded by an initrd).
+
+-3) **Broken console device**: Possibly a conflict in ``console= setup`` --> initial console unavailable.
+-   E.g. some serial consoles are unreliable due to serial IRQ issues (e.g.
+-   missing interrupt-based configuration).
++3) **Broken console device**: Possibly a conflict in ``console= setup``
++   --> initial console unavailable. E.g. some serial consoles are unreliable
++   due to serial IRQ issues (e.g. missing interrupt-based configuration).
+    Try using a different ``console= device`` or e.g. ``netconsole=``.
+
+-4) **Binary exists but dependencies not available**: E.g. required library dependencies of the init binary such as
+-   ``/lib/ld-linux.so.2`` missing or broken. Use
+-   ``readelf -d <INIT>|grep NEEDED`` to find out which libraries are required.
+-
+-5) **Binary cannot be loaded**: Make sure the binary's architecture matches your hardware.
+-   E.g. i386 vs. x86_64 mismatch, or trying to load x86 on ARM hardware.
+-   In case you tried loading a non-binary file here (shell script?),
+-   you should make sure that the script specifies an interpreter in its shebang
+-   header line (``#!/...``) that is fully working (including its library
+-   dependencies). And before tackling scripts, better first test a simple
+-   non-script binary such as ``/bin/sh`` and confirm its successful execution.
+-   To find out more, add code ``to init/main.c`` to display kernel_execve()s
+-   return values.
++4) **Binary exists but dependencies not available**: E.g. required library
++   dependencies of the init binary such as ``/lib/ld-linux.so.2`` missing or
++   broken. Use ``readelf -d <INIT>|grep NEEDED`` to find out which libraries
++   are required.
 +
-+			my $sects_nodots = $sects[$sx];
-+			$sects_nodots =~ s/^\.\.\.//;
-+			if ($prm_clean eq $sects_nodots) {
-+				# variadic unnamed parameter, which hase a description name
-+				$err = 0;
-+				last;
-+			}
- 		}
- 		if ($err) {
- 			if ($decl_type eq "function") {
--- 
-2.20.1
++5) **Binary cannot be loaded**: Make sure the binary's architecture matches
++   your hardware. E.g. i386 vs. x86_64 mismatch, or trying to load x86 on ARM
++   hardware. In case you tried loading a non-binary file here (shell script?),
++   you should make sure that the script specifies an interpreter in its
++   shebang header line (``#!/...``) that is fully working (including its
++   library dependencies). And before tackling scripts, better first test a
++   simple non-script binary such as ``/bin/sh`` and confirm its successful
++   execution. To find out more, add code ``to init/main.c`` to display
++   kernel_execve()s return values.
 
+ Please extend this explanation whenever you find new failure causes
+ (after all loading the init binary is a CRITICAL and hard transition step
+@@ -42,8 +43,6 @@ Further TODOs:
+ - Implement the various ``run_init_process()`` invocations via a struct array
+   which can then store the ``kernel_execve()`` result value and on failure
+   log it all by iterating over **all** results (very important usability fix).
+-- Try to make the implementation itself more helpful in general,
+-  e.g. by providing additional error messages at affected places.
++- Try to make the implementation itself more helpful in general, e.g. by
++  providing additional error messages at affected places.
+
+-Andreas Mohr <andi at lisas period de>
+-Cristian Souza <cristianmsbr at gmail period com>
+--
+2.25.1
