@@ -2,165 +2,138 @@ Return-Path: <SRS0=nlb3=52=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2989C2BB86
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 22:18:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B82BFC2BB85
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 23:54:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9220A20936
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 22:18:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B62D20857
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Apr 2020 23:54:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Nyq6OxaN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nq0pktBL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbgDJWSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Apr 2020 18:18:31 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44056 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726822AbgDJWS2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Apr 2020 18:18:28 -0400
-Received: by mail-pl1-f193.google.com with SMTP id h11so1076627plr.11
-        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2020 15:18:26 -0700 (PDT)
+        id S1726687AbgDJXyN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Apr 2020 19:54:13 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43207 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726650AbgDJXyN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Apr 2020 19:54:13 -0400
+Received: by mail-wr1-f65.google.com with SMTP id i10so3997769wrv.10;
+        Fri, 10 Apr 2020 16:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JjUK3hCgG4ZVP2cWUyMCGx3upUSYjvrftcm9fZ76CII=;
-        b=Nyq6OxaN+zvvfmKkmfqed97hvOgJeuG7t2F2hgQMntVcHfYzVmfCZSA0sofUwi4fc2
-         MVFsZr6W1J2Au1LTfMzh7i4sXkhJe2l6FDr5qfSZgpI4sZhvz2oOWhjK0554O8NF1ahh
-         JmfHga1PW8S9Ow9Y6sfCb2wkM0/FrwWdqxhwk=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=uRQKQY5MLocuMcOxHg9Z2GpA34weqMmjIuGmkOK83ig=;
+        b=Nq0pktBLwnG3frM5sC99lWqRFeFASPOwc1xIuiQEGTsQfv5A1L1YVo8Y+WiHClmNn8
+         PVPY3uDcjEN4Q2Jaal3Jnn4VSZByDQdOkNWzA08nBiLrTsHO+GY2Vu4e0lj9GgdYrAK/
+         JC0YrjsO/aYsi65Cm5Wu7lk6Xrm0gnK4W6TVfXQ9s3Fq5z4WHU3sP7NAK3uFPTHLU8Th
+         YaqYgr9kWh5HHMEhREorGU7sK/G9zjlb3wsTrxFCM++s/InXY78VfV2b9NTOhu35M2Mx
+         /SVbZCXsMqvP2RZg06cNE4AJWarvOXLF+dPrCp3x9xEEGzIpTg4t76J1Ug9icEwvsZL3
+         ywtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JjUK3hCgG4ZVP2cWUyMCGx3upUSYjvrftcm9fZ76CII=;
-        b=MX0JuMuKDCPau8lARlHoJNXKKskBnX1lbo5CFxXhfUWogJTeTlCv4LERFCFu56Cgov
-         7Z8wkFdGjVB9IHNHS/kMM/Fsfhz1OXLHeE5oISeI2PnyQ2fEIYPb7LqeyWcvzyYJQ/7t
-         7bVpQKRBvW9dMR2D1Fc8xDLa+bsbuGnCX++zfjENAp10IjE8XO0gZKPtNcUw3qIEPzyx
-         4OA0+v+JA1E0/PEibW5kN7Erhc3zkKWCPRb5DUT/QSvbDMPkVsFMVduLdBMEJ/2JsGWM
-         79Wx+MPiXWIEQWE8101Cpe3XdObDy8aUmscQ2+wlUUGh1jZj0XZUlg9jomkppsL+h27F
-         mrwg==
-X-Gm-Message-State: AGi0PuZO5XMLy25+Wx50e0mxg8pDZMISGisPJ+isw6aCJhylrsg/8BN4
-        tLJsfPjIYp8QZOYRuo/khCoWJg==
-X-Google-Smtp-Source: APiQypI1k7F2ESHdo89rqD3FVQ7JzUVJ9BLRyRi3u53jOxnBFX8vHZpXSD/dycmaKpD8jRimhbe90w==
-X-Received: by 2002:a17:902:70c1:: with SMTP id l1mr6294862plt.298.1586557106006;
-        Fri, 10 Apr 2020 15:18:26 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
-        by smtp.gmail.com with ESMTPSA id x2sm2646600pfq.92.2020.04.10.15.18.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2020 15:18:25 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     jason.wessel@windriver.com, daniel.thompson@linaro.org,
-        gregkh@linuxfoundation.org
-Cc:     hpa@zytor.com, kgdb-bugreport@lists.sourceforge.net,
-        corbet@lwn.net, frowand.list@gmail.com, tglx@linutronix.de,
-        jslaby@suse.com, linux-serial@vger.kernel.org, mingo@redhat.com,
-        will@kernel.org, bjorn.andersson@linaro.org, agross@kernel.org,
-        bp@alien8.de, catalin.marinas@arm.com,
-        Douglas Anderson <dianders@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Juergen Gross <jgross@suse.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] Documentation: kgdboc: Document new earlycon_kgdboc parameter
-Date:   Fri, 10 Apr 2020 15:17:24 -0700
-Message-Id: <20200410151632.5.I7d5eb42c6180c831d47aef1af44d0b8be3fac559@changeid>
-X-Mailer: git-send-email 2.26.0.110.g2183baf09c-goog
-In-Reply-To: <20200410221726.36442-1-dianders@chromium.org>
-References: <20200410221726.36442-1-dianders@chromium.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=uRQKQY5MLocuMcOxHg9Z2GpA34weqMmjIuGmkOK83ig=;
+        b=WR//4dx4fvaOXqq7WgVkvot5TbTrx0Uhji+lOaMkU049OitIRKzL7BAVET02JcydJk
+         MWe/eau5t5z7FHViTrtW1Bq8p2HsEg4AHdQouhr9GEst5iMNvGdpQRCV76AYmHFvH8is
+         OOvMn9LczxAUevz+hcq6JEmstaYawiWXnJkdWxOoVYGj7Br3wn6uJJWX6CeBsBAP8YnH
+         VwC53kxPHDO3eFTYuoo0dmw0933e/ol45wqqwdrinXf5e694Q8ITTYqmF0qACOYfzKTz
+         RNP5kBA+sHWsaWY7/NuwR+6Nye+jHmOK0b0LbIJ6EUdiAjw9ss4Vm45L/i/HxBRuNHfs
+         9yPQ==
+X-Gm-Message-State: AGi0Pub+iDsVgOgpDlWUHLJ5gfgs2SpG3h3PkttxqpRyQp03pM3Xbhb0
+        sia2tHE23797sULAs6AM/nE=
+X-Google-Smtp-Source: APiQypJqV8NqlDHubRsMiCg1XL7wQ/RrIScPAc3rIpJVWTfJUA2ZHltSkrFIADuk7iEq1pgzJPdt5g==
+X-Received: by 2002:adf:ef51:: with SMTP id c17mr6806367wrp.130.1586562851893;
+        Fri, 10 Apr 2020 16:54:11 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id f63sm4628279wma.47.2020.04.10.16.54.10
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 10 Apr 2020 16:54:10 -0700 (PDT)
+Date:   Fri, 10 Apr 2020 23:54:09 +0000
+From:   Wei Yang <richard.weiyang@gmail.com>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Wei Yang <richard.weiyang@gmail.com>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/rcu: fix a typo in RTFP
+Message-ID: <20200410235409.szc3wyvpqevgtkil@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20200409132437.11531-1-richard.weiyang@gmail.com>
+ <20200409134634.GL17661@paulmck-ThinkPad-P72>
+ <20200409211851.ttld7nmkqmncovhe@master>
+ <20200409214034.GQ17661@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200409214034.GQ17661@paulmck-ThinkPad-P72>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The recent patch ("kgdboc: Add earlycon_kgdboc to support early kgdb
-using boot consoles") adds a new kernel command line parameter.
-Document it.
+On Thu, Apr 09, 2020 at 02:40:34PM -0700, Paul E. McKenney wrote:
+>On Thu, Apr 09, 2020 at 09:18:51PM +0000, Wei Yang wrote:
+>> On Thu, Apr 09, 2020 at 06:46:34AM -0700, Paul E. McKenney wrote:
+>> >On Thu, Apr 09, 2020 at 01:24:37PM +0000, Wei Yang wrote:
+>> >> If I am correct, this character should be 'u'.
+>> >> 
+>> >> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+>> >
+>> >Nice!!!  ;-)
+>> >
+>> 
+>> Hi, Paul
+>> 
+>> Glad to hear from you.
+>> 
+>> >This is a play on words between the word you are thinking of and the
+>> >old UNIX "fsck" (filesystem check) utility.  It stays, but rest assured
+>> >that you did get point!
+>> >
+>> 
+>> Sorry I am confused.
+>> 
+>> My change is correct or the word fsck is correct and it means "read filesystem
+>> check papers"?
+>
+>https://en.wikipedia.org/wiki/Fsck#As_an_expletive
+>
+>Interestingly enough, this section is missing from the Chinese
+>translation of this page.  ;-)
+>
 
-Note that the patch adding the feature does some comparing/contrasting
-of "earlycon_kgdboc" vs. the existing "ekgdboc".  See that patch for
-more details, but briefly "ekgdboc" can be used _instead_ of "kgdboc"
-and just makes "kgdboc" do its normal initialization early (only works
-if your tty driver is already ready).  The new "earlycon_kgdboc" works
-in combination with "kgdboc" and is backed by boot consoles.
+Oops, I see it. That's interesting. 
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+>							Thanx, Paul
+>
+>> >> ---
+>> >>  Documentation/RCU/RTFP.txt | 2 +-
+>> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >> 
+>> >> diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
+>> >> index 9bccf16736f7..261eeb501ba5 100644
+>> >> --- a/Documentation/RCU/RTFP.txt
+>> >> +++ b/Documentation/RCU/RTFP.txt
+>> >> @@ -1,4 +1,4 @@
+>> >> -Read the Fscking Papers!
+>> >> +Read the Fucking Papers!
+>> >>  
+>> >>  
+>> >>  This document describes RCU-related publications, and is followed by
+>> >> -- 
+>> >> 2.23.0
+>> >> 
+>> 
+>> -- 
+>> Wei Yang
+>> Help you, Help me
 
- .../admin-guide/kernel-parameters.txt         | 20 +++++++++++++++++++
- Documentation/dev-tools/kgdb.rst              | 14 +++++++++++++
- 2 files changed, 34 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c07815d230bc..37dc2db13743 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1124,6 +1124,22 @@
- 			address must be provided, and the serial port must
- 			already be setup and configured.
- 
-+	earlycon_kgdboc=	[KGDB,HW]
-+			If the boot console provides the ability to read
-+			characters and can work in polling mode, you can use
-+			this parameter to tell kgdb to use it as a backend
-+			until the normal console is registered. Intended to
-+			be used together with the kgdboc parameter which
-+			specifies the normal console to transition to.
-+
-+			The the name of the early console should be specified
-+			as the value of this parameter. Note that the name of
-+			the early console might be different than the tty
-+			name passed to kgdboc. If only one boot console with
-+			a read() function is enabled it's OK to leave the
-+			value blank and the first boot console that implements
-+			read() will be picked.
-+
- 	earlyprintk=	[X86,SH,ARM,M68k,S390]
- 			earlyprintk=vga
- 			earlyprintk=sclp
-@@ -1182,6 +1198,10 @@
- 			This is designed to be used in conjunction with
- 			the boot argument: earlyprintk=vga
- 
-+			This parameter works in place of the kgdboc parameter
-+			but can only be used if the backing tty is available
-+			very early in the boot process.
-+
- 	edd=		[EDD]
- 			Format: {"off" | "on" | "skip[mbr]"}
- 
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
-index d38be58f872a..c0b321403d9a 100644
---- a/Documentation/dev-tools/kgdb.rst
-+++ b/Documentation/dev-tools/kgdb.rst
-@@ -274,6 +274,20 @@ don't like this are to hack gdb to send the :kbd:`SysRq-G` for you as well as
- on the initial connect, or to use a debugger proxy that allows an
- unmodified gdb to do the debugging.
- 
-+Kernel parameter: ``earlycon_kgdboc``
-+-------------------------------------
-+
-+If you specify the kernel parameter ``earlycon_kgdboc`` and your serial
-+driver registers a boot console that supports polling (doesn't need
-+interrupts and implements a nonblocking read() function) kgdb will attempt
-+to work using the boot console until it can transition to the regular
-+tty driver specified by the ``kgdboc`` parameter.
-+
-+Normally there is only one boot console (especially that implements the
-+read() function) so just adding ``earlycon_kgdboc`` on its own is
-+sufficient to make this work.  If you have more than one boot console you
-+can add the boot console's name to differentiate.
-+
- Kernel parameter: ``kgdbwait``
- ------------------------------
- 
 -- 
-2.26.0.110.g2183baf09c-goog
-
+Wei Yang
+Help you, Help me
