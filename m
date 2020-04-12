@@ -1,180 +1,140 @@
-Return-Path: <SRS0=sG06=53=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=L0im=54=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11DF8C2BB1D
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Apr 2020 01:25:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC093C2BA19
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Apr 2020 00:33:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 99E592082D
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Apr 2020 01:25:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586568323;
-	bh=TWbyE+EqwTe+jIEChvMLFpB3MlKo1Q4FXuxiYXJdQnU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=Rg7jhbPRkXqwf7gZ5oyfND2aD/E5++w6tG1iDZ5j4cpyp2R7vW/cbzxbfi2KGVZRQ
-	 6+ou5MrsOCdKseeb7uA/TqmDCqDSO8mu0X0YSi6YUMh4sKNRekA47iYKe+HLVy62oM
-	 mcJTDssAznhT3kO+9mpoCE5EPnk65g6h4carLZi8=
+	by mail.kernel.org (Postfix) with ESMTP id B6EDC20CC7
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Apr 2020 00:33:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kV/LeCGT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbgDKBZW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Apr 2020 21:25:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40334 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726641AbgDKBZW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Apr 2020 21:25:22 -0400
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CBE8E20769;
-        Sat, 11 Apr 2020 01:25:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586568322;
-        bh=TWbyE+EqwTe+jIEChvMLFpB3MlKo1Q4FXuxiYXJdQnU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=P+nnIvAMDAugH92UEBEDkfb05UWMCSONM0ZO5vry92MOslZ5TTC9Hp/JR4RtWOguL
-         yvJxpgoQiaZPDYrysLlxP/7o1nLxJweFjtgVm+RNWzPLihBaQaQWiP/P0W/Qzs7GTq
-         TNRwR9LpVqH2l4c5ExJrvrzKAv3n+778pQXAXg80=
-Date:   Fri, 10 Apr 2020 18:25:20 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Saeed Mahameed <saeedm@mellanox.com>
-Cc:     "jacob.e.keller@intel.com" <jacob.e.keller@intel.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Tal Gilboa <talgi@mellanox.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>
-Subject: Re: [PATCH net v2 1/2] docs: networking: convert DIM to RST
-Message-ID: <20200410182520.34157620@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <4569455bbdd44f08e31d2206031f8fcc39702c9f.camel@mellanox.com>
-References: <20200409212159.322775-1-kuba@kernel.org>
-        <1210a28bfe1a67818f3f814e38f52923cbd201c0.camel@mellanox.com>
-        <20200409160658.1b940fcf@kicinski-fedora-PC1C0HJN>
-        <4569455bbdd44f08e31d2206031f8fcc39702c9f.camel@mellanox.com>
+        id S1726759AbgDLAdu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Apr 2020 20:33:50 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:36208 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726108AbgDLAdu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Apr 2020 20:33:50 -0400
+Received: by mail-lf1-f66.google.com with SMTP id w145so3956119lff.3
+        for <linux-doc@vger.kernel.org>; Sat, 11 Apr 2020 17:33:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zsyaQJSTyWtQU6SNb3d/B5KGEXk22uVClxXXTgsbd6E=;
+        b=kV/LeCGT51tDEQA6jixYwmFJMhwu+sfWPjZdgnLCFvMfPYUoeMciBwTxKz8slhIA9Q
+         QWA2SQ0DoEF4KcBJ2ugrGlY6oybNlOP3mTjUj02Wr0RrkcNl2xtc81cOXyImM4uRmfCh
+         qHFe6s3jbXCLQZHpY1gfAD4pb0z7WUFQaZtVlYfD3husYMs4QPBsa7IqM7dVgNiBcm0j
+         l+CqzwLgWhQyQ6lYBMOXmRaHGTqL3jxOCcQSriocgol9p2VvpZTL7/pWWZWy4UhhPTI8
+         w07GlQOHtAFmejubyEhftiSAWmxQa3xOjY0uZlHCLUd6DBp11BdB5BddyZZUhdfxf268
+         Yyrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zsyaQJSTyWtQU6SNb3d/B5KGEXk22uVClxXXTgsbd6E=;
+        b=e/ggIfgPPN8YcjSXKJg6oi/ECbxXPEzW1X8/OcG8QCFJky3Lazq12/9fn3YWdDVwA3
+         IW5VVX+/tRZlXOpLPgO/7XWhLb2MLsLW+zWYLRAKYHp95PBSRnlhYAGjtum4lRvfQrXc
+         NAqN/pS8T9P/iBWV9Nvm9/wJyE5qTg6s/crKw1KxoOBdzU0+Q+hSCy155cBEo0Zsj2hs
+         UFQzMYIG+0CQlBkcD8c2PGq4BEDzi4SwUj9fUmee9AdcC+1Wq4XgzYO7CKWqXwdH8uNs
+         4fV7+CYVjjJ/nEV+oz+WFmumTJNCfRdP1SM9SvcHpZCm1TZJ9ydBe/oRnnV+1venhzEu
+         LFGw==
+X-Gm-Message-State: AGi0PuZDzYZ9JxlH7gYQXCjusuLajD1MH03qV4Th3pehnAWi0neQUxcH
+        zy3MhhYbuL0sQmXRWbMxqUcqGZ4hZ1hGe3tPk+ILEQ==
+X-Google-Smtp-Source: APiQypL4dP3s3w7dYreIWE/U9Pw7ftEq+ZzcH56ILtKHt9LXITsoPKEt+dyrtZrmqSv0ag9Tqx6r+iOrde8l3AYonrY=
+X-Received: by 2002:a19:48c3:: with SMTP id v186mr6282470lfa.194.1586651629741;
+ Sat, 11 Apr 2020 17:33:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200117224839.23531-1-f.fainelli@gmail.com> <20200117224839.23531-8-f.fainelli@gmail.com>
+ <CAKv+Gu_6wWhi418=GpMjfMpE2E+XHbL-DYKT8MJ1jE3+VybrAg@mail.gmail.com>
+In-Reply-To: <CAKv+Gu_6wWhi418=GpMjfMpE2E+XHbL-DYKT8MJ1jE3+VybrAg@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 12 Apr 2020 02:33:38 +0200
+Message-ID: <CACRpkdbR2VG422X0-nhOeWtS3Mhm7M1+RKMozBZbg0Jv5c_TTQ@mail.gmail.com>
+Subject: Re: [PATCH v7 7/7] ARM: Enable KASan for ARM
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Andrey Ryabinin <ryabinin@virtuozzo.com>,
+        Abbott Liu <liuwenliang@huawei.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Vladimir Murzin <vladimir.murzin@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jinbum Park <jinb.park7@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Rob Landley <rob@landley.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Garnier <thgarnie@google.com>,
+        David Howells <dhowells@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Julien Thierry <julien.thierry@arm.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Philip Derrin <philip@cog.systems>,
+        Michal Hocko <mhocko@suse.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kvmarm <kvmarm@lists.cs.columbia.edu>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Apr 2020 21:59:56 +0000 Saeed Mahameed wrote:
-> On Thu, 2020-04-09 at 16:06 -0700, Jakub Kicinski wrote:
-> > On Thu, 9 Apr 2020 22:46:55 +0000 Saeed Mahameed wrote:  
-> > > On Thu, 2020-04-09 at 14:21 -0700, Jakub Kicinski wrote:  
-> > > > Convert the Dynamic Interrupt Moderation doc to RST and
-> > > > use the RST features like syntax highlight, function and
-> > > > structure documentation, enumerations, table of contents.
-> > > > 
-> > > > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> > > > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> > > > ---
-> > > > v2:
-> > > >  - remove the functions/type definition markup
-> > > >  - change the contents definition (the :local: seem to
-> > > >    not work too well with kdoc)
-> > > > ---
-> > > >  Documentation/networking/index.rst            |  1 +
-> > > >  .../networking/{net_dim.txt => net_dim.rst}   | 90 +++++++++--
-> > > > ----
-> > > > ----
-> > > >  MAINTAINERS                                   |  1 +
-> > > >  3 files changed, 45 insertions(+), 47 deletions(-)
-> > > >  rename Documentation/networking/{net_dim.txt => net_dim.rst}
-> > > > (79%)
-> > > > 
-> > > > diff --git a/Documentation/networking/index.rst
-> > > > b/Documentation/networking/index.rst
-> > > > index 50133d9761c9..6538ede29661 100644
-> > > > --- a/Documentation/networking/index.rst
-> > > > +++ b/Documentation/networking/index.rst
-> > > > @@ -22,6 +22,7 @@ Linux Networking Documentation
-> > > >     z8530book
-> > > >     msg_zerocopy
-> > > >     failover
-> > > > +   net_dim    
-> > > 
-> > > net_dim is a performance feature, i would move further down the
-> > > list
-> > > where the perf features such as scaling and offloads are ..   
-> > 
-> > I mean.. so is msg_zerocopy just above ;-)  I spotted slight
-> > alphabetical ordering there, which may have not been intentional,
-> > that's why I put it here. Marking with # things out of order, but 
-> > based on just the first letter:
-> >   
-> 
-> Oh i didn't see the alphabetical order :), then i guess your patch is
-> ok.
+On Fri, Apr 10, 2020 at 12:45 PM Ard Biesheuvel <ardb@kernel.org> wrote:
 
-Cool, applied.
+> > +CFLAGS_KERNEL          += -D__SANITIZE_ADDRESS__
+(...)
+> > -                                  $(call cc-option,-mno-single-pic-base)
+> > +                                  $(call cc-option,-mno-single-pic-base) \
+> > +                                  -D__SANITIZE_ADDRESS__
+>
+> I am not too crazy about this need to unconditionally 'enable' KASAN
+> on the command line like this, in order to be able to disable it again
+> when CONFIG_KASAN=y.
+>
+> Could we instead add something like this at the top of
+> arch/arm/boot/compressed/string.c?
+>
+> #ifdef CONFIG_KASAN
+> #undef memcpy
+> #undef memmove
+> #undef memset
+> void *__memcpy(void *__dest, __const void *__src, size_t __n) __alias(memcpy);
+> void *__memmove(void *__dest, __const void *__src, size_t count)
+> __alias(memmove);
+> void *__memset(void *s, int c, size_t count) __alias(memset);
+> #endif
 
-> > #  netdev-FAQ
-> >    af_xdp
-> >    bareudp
-> >    batman-adv
-> >    can
-> >    can_ucan_protocol
-> >    device_drivers/index
-> >    dsa/index
-> >    devlink/index
-> >    ethtool-netlink
-> >    ieee802154
-> >    j1939
-> >    kapi
-> > #  z8530book
-> >    msg_zerocopy
-> > #  failover
-> >    net_dim
-> >    net_failover
-> >    phy
-> >    sfp-phylink
-> > #  alias
-> > #  bridge
-> >    snmp_counter
-> > #  checksum-offloads
-> >    segmentation-offloads
-> >    scaling
-> >    tls
-> >    tls-offload
-> > #  nfc
-> >    6lowpan
-> > 
-> > My feeling is that we should start considering splitting kernel-only
-> > docs and admin-only docs for networking, which I believe is the
-> > direction Jon and folks want Documentation/ to go. But I wasn't brave
-> > enough to be the first one. Then we can impose some more structure,
-> > like putting all "performance" docs in one subdir..?
-> > 
-> > WDYT?  
-> 
-> That was my initial thought, but it seemed like a lot of work and
-> really not related to your patch.
-> 
-> But yes, categorizing is the way to go.. alphabetical order doesn't
-> really make any sense unless you know exactly what you are looking for,
-> which is never the case :),
-> For someone who want to learn about performance tuning or something
-> specific like coalescing, what should they look for ? DIM, NET DIM,
-> moderation or coalescing ? so if we categorize and keep the subdirs
-> lists short and focused, it will be very easy for people to browse the
-> networking docs..
+I obviously missed this before I sent out my new version of the series.
+It bothers me too.
 
-Fully agree.
+I will try this approach when I prepare the next iteration.
 
-> Things can grow large very fast beyond our control.. We should really
-> embrace the "Magic number 7" approach [1] :)
-> 
-> Helps keep things short, organized and focused.
-> 
-> [1] 
-> https://www.i-programmer.info/babbages-bag/621-the-magic-number-seven.html
+Thanks a lot!
 
-Here I thought the magic number was 3 :-P
-
-https://queue.acm.org/detail.cfm?id=3387947
+Yours,
+Linus Walleij
