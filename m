@@ -2,133 +2,145 @@ Return-Path: <SRS0=yL87=55=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE45C2BBC7
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Apr 2020 05:02:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A3BC2BA19
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Apr 2020 06:02:01 +0000 (UTC)
 Received: from vger.kernel.org (unknown [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 34D51206E9
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Apr 2020 05:02:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5zxFMWa"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 34D51206E9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTP id 6BCB620735
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Apr 2020 06:02:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6BCB620735
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-doc-owner@vger.kernel.org
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728797AbgDMFCu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Apr 2020 01:02:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.18]:37342 "EHLO
+        id S1726983AbgDMGCB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Apr 2020 02:02:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.18]:46164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728783AbgDMFCu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Apr 2020 01:02:50 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 176FAC0A3BE0;
-        Sun, 12 Apr 2020 22:02:49 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id n10so4042409pff.3;
-        Sun, 12 Apr 2020 22:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=r/mPo6D3puWMaFkzogYl4nqrkT1YpccdPa2j2f04i5c=;
-        b=B5zxFMWaSGyFuBKFLrN901UcpVJkvRfyEAmL0p3xp9LQVgbQx9RqlMywCtalwK8eK6
-         3ZbAUBbkI6caGcr7o5XYXisgbg/Hj/xc2QbPtWQPACWIcsvc/sT/AQm4UV/z9D8g0OVZ
-         LWuRjyI/tsHiwTY0FFCyRMHJwRJNxUFR/Hj5Rn3P38b1+3x/jI0cLXIzFzgHbwrrF+oV
-         s7MXdc9tSloxLOv6I6kt37javvd0+UtTfV7A9fQb4+w8/iM3Akm8pTBvhqx4xZ3Fxhx/
-         HvdE5eEztN7SKqrdq91Dc7YTRmEH8ZJPjSqq1cAbqgUaBip737xrvn/WgEPM9wy5N0Ao
-         Eu7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=r/mPo6D3puWMaFkzogYl4nqrkT1YpccdPa2j2f04i5c=;
-        b=tuef6Ok0AHzHVChlKWD0v6TqZLK60/V1IN2++RhEZJ1mI68irM61MYlQrIEg1yKTOl
-         1IWOQSosNTfOkubngm3OA/nWh26N05a9XTRuWsA6GdT7JBm84hHoPFrmJ1tj6sgop9cB
-         2ygjUECIWNaCpuEWoQMK6iYjNvglrJoRwnoapFeSwv13q1/BCz625wdj4sWNtYKdGHzO
-         cPGmZ7bCOA1gFqOaMqqRkDYEvre39byr+jYnzIBdpev1pYBv0s8AipkITB/YWQEfRf1Y
-         y5H9MDN2/JR7HMsOKSD+Ja4OLDZ2wa+h+9W0+Pxb6I8MZwqx7X0vafAJ17eLVoyWKUJp
-         Hgow==
-X-Gm-Message-State: AGi0PubXBy83bXlCTc6T3yoi0wkEgePuxF4xZE+syXzTOWoCKkt4Xcdw
-        cR6nkwOu7dtmzMK3uf0/LVo=
-X-Google-Smtp-Source: APiQypLA45AhZihZWtWdGB+xHKxJM4IPrx+3P1oZNE0tXc9KdF+I6jImqLw/+gU1etfxO7BHAae6jQ==
-X-Received: by 2002:a62:7c8b:: with SMTP id x133mr15869118pfc.229.1586754168622;
-        Sun, 12 Apr 2020 22:02:48 -0700 (PDT)
-Received: from lenovo ([117.18.48.82])
-        by smtp.gmail.com with ESMTPSA id x3sm7147299pfq.95.2020.04.12.22.02.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 12 Apr 2020 22:02:47 -0700 (PDT)
-Date:   Mon, 13 Apr 2020 13:02:42 +0800
-From:   Orson Zhai <orson.unisoc@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, orsonzhai@gmail.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@android.com, Orson Zhai <orson.zhai@unisoc.com>
-Subject: Re: [PATCH] dynamic_debug: Add an option to enable dynamic debug for
- modules only
-Message-ID: <20200413050241.GA5694@lenovo>
-Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, orsonzhai@gmail.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@android.com, Orson Zhai <orson.zhai@unisoc.com>
-References: <1586521984-5890-1-git-send-email-orson.unisoc@gmail.com>
- <20200410124414.GB2091460@kroah.com>
+        with ESMTP id S1726967AbgDMGCA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Apr 2020 02:02:00 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34661C0A3BE0;
+        Sun, 12 Apr 2020 23:02:00 -0700 (PDT)
+IronPort-SDR: J+h/MBje8AxqNUX6hmRuU4GVAaqWr2uoKhQKt/uhcPmiklveoPpVrJyaVGOpVr+nKwH9OXIx2f
+ HYUziwvH9OIQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2020 23:01:59 -0700
+IronPort-SDR: O5wdGuyQlc7bo5KmVytTBytv4gIaY33RmF0q8WDMiPNVI4GCYyrC5X6Yd4Ae+HQAXSFb7BKflg
+ 896Qwv3gpldQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,377,1580803200"; 
+   d="scan'208";a="453054045"
+Received: from joy-optiplex-7040.sh.intel.com ([10.239.13.16])
+  by fmsmga005.fm.intel.com with ESMTP; 12 Apr 2020 23:01:52 -0700
+From:   Yan Zhao <yan.y.zhao@intel.com>
+To:     intel-gvt-dev@lists.freedesktop.org
+Cc:     libvir-list@redhat.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        aik@ozlabs.ru, Zhengxiao.zx@alibaba-inc.com,
+        shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org,
+        eauger@redhat.com, yi.l.liu@intel.com, xin.zeng@intel.com,
+        ziye.yang@intel.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+        felipe@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com,
+        jonathan.davies@nutanix.com, shaopeng.he@intel.com,
+        alex.williamson@redhat.com, eskultet@redhat.com,
+        dgilbert@redhat.com, cohuck@redhat.com, kevin.tian@intel.com,
+        zhenyuw@linux.intel.com, zhi.a.wang@intel.com, cjia@nvidia.com,
+        kwankhede@nvidia.com, berrange@redhat.com, dinechin@redhat.com,
+        corbet@lwn.net, Yan Zhao <yan.y.zhao@intel.com>
+Subject: [PATCH v5 0/4] introduction of migration_version attribute for VFIO live migration
+Date:   Mon, 13 Apr 2020 01:52:01 -0400
+Message-Id: <20200413055201.27053-1-yan.y.zhao@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200410124414.GB2091460@kroah.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 10, 2020 at 02:44:14PM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Apr 10, 2020 at 08:33:04PM +0800, Orson Zhai wrote:
-> > From: Orson Zhai <orson.zhai@unisoc.com>
-> > 
-> > Instead of enabling dynamic debug globally with CONFIG_DYNAMIC_DEBUG,
-> > CONFIG_DYNAMIC_DEBUG_CORE will only enable core function of dynamic
-> > debug. With the DEBUG_MODULE defined for any modules, dynamic debug
-> > will be tied to them.
-> > 
-> > This is useful for people who only want to enable dynamic debug for
-> > kernel modules without worrying about kernel image size and memory
-> > consumption is increasing too much.
-> > 
-> > Signed-off-by: Orson Zhai <orson.zhai@unisoc.com>
-> > ---
-> >  Documentation/admin-guide/dynamic-debug-howto.rst |  7 +++++--
-> >  include/linux/dev_printk.h                        |  6 ++++--
-> >  include/linux/dynamic_debug.h                     |  2 +-
-> >  include/linux/printk.h                            | 14 +++++++++-----
-> >  lib/Kconfig.debug                                 | 12 ++++++++++++
-> >  lib/Makefile                                      |  2 +-
-> >  lib/dynamic_debug.c                               |  9 +++++++--
-> >  7 files changed, 39 insertions(+), 13 deletions(-)
-> 
-> Crazy idea, I like it :)
+This patchset introduces a migration_version attribute under sysfs of VFIO
+Mediated devices.
 
-Jason was highly appreciated for his suggestion to my RFC patch before this.
+This migration_version attribute is used to check migration compatibility
+between two mdev devices.
 
-> 
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Currently, it has two locations:
+(1) under mdev_type node,
+    which can be used even before device creation, but only for mdev
+    devices of the same mdev type.
+(2) under mdev device node,
+    which can only be used after the mdev devices are created, but the src
+    and target mdev devices are not necessarily be of the same mdev type
+(The second location is newly added in v5, in order to keep consistent
+with the migration_version node for migratable pass-though devices)
 
-Thank you very much.
+Patch 1 defines migration_version attribute for the first location in
+Documentation/vfio-mediated-device.txt
 
-Best,
-Orson
+Patch 2 uses GVT as an example for patch 1 to show how to expose
+migration_version attribute and check migration compatibility in vendor
+driver.
+
+Patch 3 defines migration_version attribute for the second location in
+Documentation/vfio-mediated-device.txt
+
+Patch 4 uses GVT as an example for patch 3 to show how to expose
+migration_version attribute and check migration compatibility in vendor
+driver.
+
+(The previous "Reviewed-by" and "Acked-by" for patch 1 and patch 2 are
+kept in v5, as there are only small changes to commit messages of the two
+patches.)
+
+v5:
+added patch 2 and 4 for mdev device part of migration_version attribute.
+
+v4:
+1. fixed indentation/spell errors, reworded several error messages
+2. added a missing memory free for error handling in patch 2
+
+v3:
+1. renamed version to migration_version
+2. let errno to be freely defined by vendor driver
+3. let checking mdev_type be prerequisite of migration compatibility check
+4. reworded most part of patch 1
+5. print detailed error log in patch 2 and generate migration_version
+string at init time
+
+v2:
+1. renamed patched 1
+2. made definition of device version string completely private to vendor
+driver
+3. reverted changes to sample mdev drivers
+4. described intent and usage of version attribute more clearly.
+
+
+Yan Zhao (4):
+  vfio/mdev: add migration_version attribute for mdev (under mdev_type
+    node)
+  drm/i915/gvt: export migration_version to mdev sysfs (under mdev_type
+    node)
+  vfio/mdev: add migration_version attribute for mdev (under mdev device
+    node)
+  drm/i915/gvt: export migration_version to mdev sysfs (under mdev
+    device node)
+
+ .../driver-api/vfio-mediated-device.rst       | 183 ++++++++++++++++++
+ drivers/gpu/drm/i915/gvt/Makefile             |   2 +-
+ drivers/gpu/drm/i915/gvt/gvt.c                |  39 ++++
+ drivers/gpu/drm/i915/gvt/gvt.h                |   7 +
+ drivers/gpu/drm/i915/gvt/kvmgt.c              |  55 ++++++
+ drivers/gpu/drm/i915/gvt/migration_version.c  | 170 ++++++++++++++++
+ drivers/gpu/drm/i915/gvt/vgpu.c               |  13 +-
+ 7 files changed, 466 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gvt/migration_version.c
+
+-- 
+2.17.1
+
