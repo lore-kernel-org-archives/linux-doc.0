@@ -2,130 +2,143 @@ Return-Path: <SRS0=yL87=55=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89D70C2BA19
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Apr 2020 16:55:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E64C2BA2B
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Apr 2020 17:06:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6578120780
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Apr 2020 16:55:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586796904;
-	bh=PXwArPyrCB+9UYBajG3cuzXYyMjKBkArgtx7/t80yDQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=BxuoDbnSN5UbWBFyCidsUzfz1IpepwBByc/0FwuclDQP46giEtnnKQo6FdpQZrMkI
-	 hWAR5eN04AXN7j6K3i6R5V3tnLsKhk0wqAu2BTnP2TBIOeYWzkt+V2kPxze2zXPzJq
-	 kdO8vP7cnnc1q4hGYV4Q3UWd0/xT0FIufM8LAvuo=
+	by mail.kernel.org (Postfix) with ESMTP id 4A014206E9
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Apr 2020 17:06:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="kktfuV3K"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731960AbgDMQxT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Apr 2020 12:53:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45460 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731956AbgDMQxQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Apr 2020 12:53:16 -0400
-Received: from quaco.ghostprotocols.net (unknown [179.97.37.151])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 62EF7208E0;
-        Mon, 13 Apr 2020 16:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586796795;
-        bh=PXwArPyrCB+9UYBajG3cuzXYyMjKBkArgtx7/t80yDQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0Ye3QTeaS86gUwQ6vaqghWKUPtsyPWvtMoV/T9srtDd688AuzzYOnmOfSSyvNb1NZ
-         pSnQ5WUa2265qzabJQcZ4l3PD7KRbGUKgZcmm0QHRyhkVj0NcQ8eVgFAaHIehQ83Uw
-         0LGYeTc2nhKKtj6ANWzZ4NMou+5ERcZbUKkFpZBk=
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-        Clark Williams <williams@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        Alexey Budankov <alexey.budankov@linux.intel.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Helge Deller <deller@gmx.de>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Serge Hallyn <serge@hallyn.com>,
-        Song Liu <songliubraving@fb.com>,
-        Stephane Eranian <eranian@google.com>,
-        intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
-        selinux@vger.kernel.org, Arnaldo Carvalho de Melo <acme@redhat.com>
-Subject: [PATCH 12/26] parisc/perf: open access for CAP_PERFMON privileged process
-Date:   Mon, 13 Apr 2020 13:51:49 -0300
-Message-Id: <20200413165203.1816-13-acme@kernel.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200413165203.1816-1-acme@kernel.org>
-References: <20200413165203.1816-1-acme@kernel.org>
+        id S1732493AbgDMRGX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Apr 2020 13:06:23 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:59764 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732482AbgDMRGW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Apr 2020 13:06:22 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03DH56CR151699;
+        Mon, 13 Apr 2020 17:05:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=R/QHTJEbvK5wYmg2dWl63irRcFp2irztNeFiTFWafoM=;
+ b=kktfuV3K3lSuFHBc31Ythkb5SLenATE1abhmvREP6KJho8IZK25DiUJDRqDQpY80dSlB
+ zPKH4s1foBQcVIjdX6VteTFGLWt1In4vXh6UzrVmtOnamoWJsw+sNkaoGUEteL7Wj6Id
+ TSK835Gllrv0py7zpZNvy9pWpkHJe18XhM0YR+R855Lxj/R5mtRO/U8RN0GwMx1Q8Im/
+ c9b28/VAT/sCGDL4wnkRBwLKlEoDTQEILj5wqFoG9ey6BDT5YsIgFU0yG4+FjoBk4xb/
+ nbySP3Xdz35peCoj4Mbp7NAABCO8dUFBIWIufIqDvvSWCR9DwJBRLWf5sZIItwDNTtMR qw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 30b5ukyrq1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 13 Apr 2020 17:05:05 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03DH1t0h105739;
+        Mon, 13 Apr 2020 17:05:05 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 30bqpck4ag-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 13 Apr 2020 17:05:05 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03DH4vor012212;
+        Mon, 13 Apr 2020 17:04:57 GMT
+Received: from [192.168.1.206] (/71.63.128.209)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 13 Apr 2020 10:04:56 -0700
+Subject: Re: [PATCH v2 1/4] hugetlbfs: add arch_hugetlb_valid_size
+To:     Peter Xu <peterx@redhat.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S.Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Longpeng <longpeng2@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Mina Almasry <almasrymina@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20200401183819.20647-1-mike.kravetz@oracle.com>
+ <20200401183819.20647-2-mike.kravetz@oracle.com>
+ <20200410191613.GD3172@xz-x1>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <8d2f8066-98af-4db2-8ffa-f78533a50674@oracle.com>
+Date:   Mon, 13 Apr 2020 10:04:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200410191613.GD3172@xz-x1>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9590 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ adultscore=0 bulkscore=0 spamscore=0 suspectscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004130131
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9590 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 bulkscore=0 mlxscore=0
+ mlxlogscore=999 lowpriorityscore=0 impostorscore=0 adultscore=0
+ phishscore=0 spamscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004130131
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alexey Budankov <alexey.budankov@linux.intel.com>
+On 4/10/20 12:16 PM, Peter Xu wrote:
+> On Wed, Apr 01, 2020 at 11:38:16AM -0700, Mike Kravetz wrote:
+>> diff --git a/arch/arm64/include/asm/hugetlb.h b/arch/arm64/include/asm/hugetlb.h
+>> index 2eb6c234d594..81606223494f 100644
+>> --- a/arch/arm64/include/asm/hugetlb.h
+>> +++ b/arch/arm64/include/asm/hugetlb.h
+>> @@ -59,6 +59,8 @@ extern void huge_pte_clear(struct mm_struct *mm, unsigned long addr,
+>>  extern void set_huge_swap_pte_at(struct mm_struct *mm, unsigned long addr,
+>>  				 pte_t *ptep, pte_t pte, unsigned long sz);
+>>  #define set_huge_swap_pte_at set_huge_swap_pte_at
+>> +bool __init arch_hugetlb_valid_size(unsigned long size);
+>> +#define arch_hugetlb_valid_size arch_hugetlb_valid_size
+> 
+> Sorry for chimming in late.
 
-Open access to monitoring for CAP_PERFMON privileged process.  Providing
-the access under CAP_PERFMON capability singly, without the rest of
-CAP_SYS_ADMIN credentials, excludes chances to misuse the credentials
-and makes operation more secure.
+Thank you for taking a look!
 
-CAP_PERFMON implements the principle of least privilege for performance
-monitoring and observability operations (POSIX IEEE 1003.1e 2.2.2.39
-principle of least privilege: A security design principle that states
-that a process or program be granted only those privileges (e.g.,
-capabilities) necessary to accomplish its legitimate function, and only
-for the time that such privileges are actually required)
+> Since we're working on removing arch-dependent codes after all.. I'm
+> thinking whether we can define arch_hugetlb_valid_size() once in the
+> common header (e.g. linux/hugetlb.h), then in mm/hugetlb.c:
+> 
+> bool __init __attribute((weak)) arch_hugetlb_valid_size(unsigned long size)
+> {
+> 	return size == HPAGE_SIZE;
+> }
+> 
+> We can simply redefine arch_hugetlb_valid_size() in arch specific C
+> files where we want to override the default.  Would that be slightly
+> cleaner?
 
-For backward compatibility reasons access to the monitoring remains open
-for CAP_SYS_ADMIN privileged processes but CAP_SYS_ADMIN usage for
-secure monitoring is discouraged with respect to CAP_PERFMON capability.
+I think both the #define X X and weak attribute methods are acceptable.
+I went with the #define method only because it was most familiar to me.
+Using the weak attribute method does appear to be cleaner.  I'll code it up.
 
-Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
-Reviewed-by: James Morris <jamorris@linux.microsoft.com>
-Acked-by: Helge Deller <deller@gmx.de>
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: Igor Lubashev <ilubashe@akamai.com>
-Cc: Jiri Olsa <jolsa@redhat.com>
-Cc: Namhyung Kim <namhyung@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Serge Hallyn <serge@hallyn.com>
-Cc: Song Liu <songliubraving@fb.com>
-Cc: Stephane Eranian <eranian@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-man@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
-Cc: selinux@vger.kernel.org
-Link: http://lore.kernel.org/lkml/8cc98809-d35b-de0f-de02-4cf554f3cf62@linux.intel.com
-Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
----
- arch/parisc/kernel/perf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/parisc/kernel/perf.c b/arch/parisc/kernel/perf.c
-index e1a8fee3ad49..d46b6709ec56 100644
---- a/arch/parisc/kernel/perf.c
-+++ b/arch/parisc/kernel/perf.c
-@@ -300,7 +300,7 @@ static ssize_t perf_write(struct file *file, const char __user *buf,
- 	else
- 		return -EFAULT;
- 
--	if (!capable(CAP_SYS_ADMIN))
-+	if (!perfmon_capable())
- 		return -EACCES;
- 
- 	if (count != sizeof(uint32_t))
+Anyone else have a preference?
 -- 
-2.21.1
-
+Mike Kravetz
