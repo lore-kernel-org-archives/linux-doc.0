@@ -2,410 +2,116 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3538C2BA2B
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 02:13:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 344F6C2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7112E20732
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 02:13:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 11DE6206E9
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586854273;
+	bh=t1+dr3ujTFMjvSLdLyEXD8Pe1jAE2xCvXRe2uy2VTZ4=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=jGwGZJF9uQJ1tsounO8tC/zwYapCEgXg3m0thIMnaHiVIReKVA4o/AiCpcnVJbQuj
+	 /oKPRZgzhb27r4iLBlk0ZM6Tcnn0Giv+T47q+anfAmhfQt8Kjq9OKQi1b2ckoHjc+a
+	 O6xYAzr6H1EBIJbBaFi34Qddd8/OCWoD/zqatFag=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403983AbgDNCNU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Apr 2020 22:13:20 -0400
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:54407 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2403967AbgDNCNU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Apr 2020 22:13:20 -0400
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.521171-0.000241871-0.478587;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03305;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.HGDYbyx_1586830392;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.HGDYbyx_1586830392)
-          by smtp.aliyun-inc.com(10.147.42.241);
-          Tue, 14 Apr 2020 10:13:13 +0800
-Subject: Re: [PATCH v3 05/11] pstore/blk: blkoops: support console recorder
-To:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-References: <1585126506-18635-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1585126506-18635-6-git-send-email-liaoweixiong@allwinnertech.com>
-From:   WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Message-ID: <31dd38ea-6331-2dee-34cd-7e88ee1c9036@allwinnertech.com>
-Date:   Tue, 14 Apr 2020 10:13:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S2437096AbgDNIvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 04:51:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51978 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437050AbgDNIvJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 04:51:09 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8EB17206E9;
+        Tue, 14 Apr 2020 08:51:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586854268;
+        bh=t1+dr3ujTFMjvSLdLyEXD8Pe1jAE2xCvXRe2uy2VTZ4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=d5GZMOr1q9Mrj55WMdDLvafZDlRXSyUrUMty/QIR0OJ9tl22h5ayWIdIlthBQcpUM
+         PP1RNLj299QlbVPtHm0KDCWZyg8lWdDCSWqVm9iY/faxlxky/8JSecO6wUmYf+PJC7
+         EkLDJiQO3kZ9Azhp3zKhgTHN9q6wWu9h+tPRx650=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jOHHe-002wyj-Pa; Tue, 14 Apr 2020 10:51:06 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Antoine Jacquet <royale@zerezo.com>, linux-usb@vger.kernel.org
+Subject: [PATCH 00/19] media: some documentation updates
+Date:   Tue, 14 Apr 2020 10:50:46 +0200
+Message-Id: <cover.1586854191.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-In-Reply-To: <1585126506-18635-6-git-send-email-liaoweixiong@allwinnertech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kees Cook,
+While looking at the media reorg struct, I noticed some things that
+were outdated. So, I went ahead and started updating some documentation,
+in order to make them to reflect the current state.
 
-A bad subject on patch 5 and patch 6 that "blkoops" should be "pstore/zone".
+Mauro Carvalho Chehab (19):
+  media: docs: update cardlists
+  media: docs: split avermedia.rst contents on two files
+  media: docs: dvb_intro.rst: update its contents
+  media: docs: intro.rst actually contain DVB references
+  media: docs: update avermedia.rst contents
+  media: docs: bt8xx.rst: update document info
+  media: docs: update bttv.rst information
+  media: docs: add a cardlist for cx18 boards
+  media: docs: cpia2.rst: do some cleanups
+  media: docs: update Digital TV faq.rst
+  media: docs: saa7134.rst: update the documentation
+  media: docs: zr364xx: update documentation
+  media: docs: get rid of obsoleted udev documentation
+  media: docs: Add a master topic for the index file
+  media: docs: cleanup bttv-devel.rst file
+  media: docs: fix references for vimc
+  media: docs: move copyrights to the end and update them
+  media: docs: add GPLv2 for uAPI guide
+  media: docs: add cros-references to the other media guides
 
-I will fix it in the next version.
-
-On 2020/3/25 PM 4:55, WeiXiong Liao wrote:
-> Support recorder for console. To enable console recorder, just make
-> console_size be greater than 0 and a multiple of 4096.
-> 
-> Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
-> ---
->  fs/pstore/Kconfig           | 12 ++++++++
->  fs/pstore/pstore_blk.c      | 12 +++++++-
->  fs/pstore/pstore_zone.c     | 70 +++++++++++++++++++++++++++++++++++++++++----
->  include/linux/pstore_zone.h |  4 ++-
->  4 files changed, 91 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-> index 8cead860dcfc..bf90de48ad3c 100644
-> --- a/fs/pstore/Kconfig
-> +++ b/fs/pstore/Kconfig
-> @@ -225,6 +225,18 @@ config PSTORE_BLK_PMSG_SIZE
->  	  NOTE that, both Kconfig and module parameters can configure
->  	  pstore/blk, but module parameters have priority over Kconfig.
->  
-> +config PSTORE_BLK_CONSOLE_SIZE
-> +	int "Size in Kbytes of console to store"
-> +	depends on PSTORE_BLK
-> +	depends on PSTORE_CONSOLE
-> +	default 64
-> +	help
-> +	  This just sets size of console (console_size) for pstore/blk. The
-> +	  size is in KB and must be a multiple of 4.
-> +
-> +	  NOTE that, both Kconfig and module parameters can configure
-> +	  pstore/blk, but module parameters have priority over Kconfig.
-> +
->  config PSTORE_BLK_DUMP_OOPS
->  	bool "dump oops"
->  	depends on PSTORE_BLK
-> diff --git a/fs/pstore/pstore_blk.c b/fs/pstore/pstore_blk.c
-> index 85cd9f2335be..2b513acaa18f 100644
-> --- a/fs/pstore/pstore_blk.c
-> +++ b/fs/pstore/pstore_blk.c
-> @@ -26,6 +26,14 @@
->  module_param(pmsg_size, long, 0400);
->  MODULE_PARM_DESC(pmsg_size, "pmsg size in kbytes");
->  
-> +#if IS_ENABLED(CONFIG_PSTORE_CONSOLE)
-> +static long console_size = CONFIG_PSTORE_BLK_CONSOLE_SIZE;
-> +#else
-> +static long console_size = -1;
-> +#endif
-> +module_param(console_size, long, 0400);
-> +MODULE_PARM_DESC(console_size, "console size in kbytes");
-> +
->  static int dump_oops = CONFIG_PSTORE_BLK_DUMP_OOPS;
->  module_param(dump_oops, int, 0400);
->  MODULE_PARM_DESC(total_size, "whether dump oops");
-> @@ -81,7 +89,8 @@
->   *		whole disk).
->   *		On success, the number of bytes should be returned, others
->   *		means error.
-> - * @write:	The same as @read.
-> + * @write:	The same as @read, but the following error number:
-> + *		-EBUSY means try to write again later.
->   * @panic_write:The write operation only used for panic case. It's optional
->   *		if you do not care panic log. The parameters and return value
->   *		are the same as @read.
-> @@ -131,6 +140,7 @@ static int psblk_register_do(struct psblk_device *dev)
->  
->  	verify_size(oops_size, 4096, dev->flags & PSTORE_FLAGS_DMESG);
->  	verify_size(pmsg_size, 4096, dev->flags & PSTORE_FLAGS_PMSG);
-> +	verify_size(console_size, 4096, dev->flags & PSTORE_FLAGS_CONSOLE);
->  #undef verify_size
->  	dump_oops = dump_oops <= 0 ? 0 : 1;
->  
-> diff --git a/fs/pstore/pstore_zone.c b/fs/pstore/pstore_zone.c
-> index 444bce7f9ac3..e1e84505b046 100644
-> --- a/fs/pstore/pstore_zone.c
-> +++ b/fs/pstore/pstore_zone.c
-> @@ -87,10 +87,12 @@ struct psz_zone {
->   *
->   * @opszs: oops/panic storage zones
->   * @ppsz: pmsg storage zone
-> + * @cpsz: console storage zone
->   * @oops_max_cnt: max count of @opszs
->   * @oops_read_cnt: counter to read oops zone
->   * @oops_write_cnt: counter to write
->   * @pmsg_read_cnt: counter to read pmsg zone
-> + * @console_read_cnt: counter to read console zone
->   * @oops_counter: counter to oops
->   * @panic_counter: counter to panic
->   * @recovered: whether finish recovering data from storage
-> @@ -102,10 +104,12 @@ struct psz_zone {
->  struct psz_context {
->  	struct psz_zone **opszs;
->  	struct psz_zone *ppsz;
-> +	struct psz_zone *cpsz;
->  	unsigned int oops_max_cnt;
->  	unsigned int oops_read_cnt;
->  	unsigned int oops_write_cnt;
->  	unsigned int pmsg_read_cnt;
-> +	unsigned int console_read_cnt;
->  	/*
->  	 * the counter should be recovered when recover.
->  	 * It records the oops/panic times after burning rather than booting.
-> @@ -125,6 +129,9 @@ struct psz_context {
->  };
->  static struct psz_context psz_cxt;
->  
-> +static void psz_flush_all_dirty_zones(struct work_struct *> +static DECLARE_WORK(psz_cleaner, psz_flush_all_dirty_zones);
-
-I think it's better to use delayed work.
-
-	static DECLARE_DELAYED_WORK(psz_cleaner, psz_flush_all_dirty_zones);
-
-> +
->  /**
->   * enum psz_flush_mode - flush mode for psz_zone_write()
->   *
-> @@ -235,6 +242,9 @@ static int psz_zone_write(struct psz_zone *zone,
->  	return 0;
->  dirty:
->  	atomic_set(&zone->dirty, true);
-> +	/* flush dirty zones nicely */
-> +	if (wcnt == -EBUSY && !is_on_panic())
-> +		schedule_work(&psz_cleaner);
-
-Change to:
-	
-	schedule_delayed_work(&psz_cleaner, msecs_to_jiffies(500));
-
-delay for 500ms to merge more log of console and reduce calling times.
-
->  	return -EBUSY;
->  }
->  
-> @@ -291,6 +301,15 @@ static int psz_move_zone(struct psz_zone *old, struct psz_zone *new)
->  	return 0;
->  }
->  
-> +static void psz_flush_all_dirty_zones(struct work_struct *work)
-> +{
-> +	struct psz_context *cxt = &psz_cxt;
-> +
-> +	psz_flush_dirty_zone(cxt->ppsz);
-> +	psz_flush_dirty_zone(cxt->cpsz);
-> +	psz_flush_dirty_zones(cxt->opszs, cxt->oops_max_cnt);
-> +}
-
-If flush dirty failed, I think it should try again later.
-
-	int ret = 0;
-	
-	ret |= psz_flush_dirty_zone(cxt->ppsz);
-	ret |= psz_flush_dirty_zone(cxt->cpsz);
-	ret |= psz_flush_dirty_zones(cxt->opszs, cxt->oops_max_cnt);
-	if (ret)
-		schedule_delayed_work(&psz_cleaner, msecs_to_jiffies(1000));
-
-I will fix it in the next version.
-
-> +
->  static int psz_recover_oops_data(struct psz_context *cxt)
->  {
->  	struct psz_info *info = cxt->psz_info;
-> @@ -546,6 +565,10 @@ static inline int psz_recovery(struct psz_context *cxt)
->  	if (ret)
->  		goto recover_fail;
->  
-> +	ret = psz_recover_zone(cxt, cxt->cpsz);
-> +	if (ret)
-> +		goto recover_fail;
-> +
->  	pr_debug("recover end!\n");
->  	atomic_set(&cxt->recovered, 1);
->  	return 0;
-> @@ -561,6 +584,7 @@ static int psz_pstore_open(struct pstore_info *psi)
->  
->  	cxt->oops_read_cnt = 0;
->  	cxt->pmsg_read_cnt = 0;
-> +	cxt->console_read_cnt = 0;
->  	return 0;
->  }
->  
-> @@ -625,8 +649,9 @@ static int psz_pstore_erase(struct pstore_record *record)
->  		return psz_oops_erase(cxt, cxt->opszs[record->id], record);
->  	case PSTORE_TYPE_PMSG:
->  		return psz_record_erase(cxt, cxt->ppsz);
-> -	default:
-> -		return -EINVAL;
-> +	case PSTORE_TYPE_CONSOLE:
-> +		return psz_record_erase(cxt, cxt->cpsz);
-> +	default: return -EINVAL;
->  	}
->  }
->  
-> @@ -767,9 +792,18 @@ static int notrace psz_pstore_write(struct pstore_record *record)
->  			record->reason == KMSG_DUMP_PANIC)
->  		atomic_set(&cxt->on_panic, 1);
->  
-> +	/*
-> +	 * if on panic, do not write except panic records
-> +	 * Fix case that panic_write prints log which wakes up console recorder.
-> +	 */
-> +	if (is_on_panic() && record->type != PSTORE_TYPE_DMESG)
-> +		return -EBUSY;
-> +
->  	switch (record->type) {
->  	case PSTORE_TYPE_DMESG:
->  		return psz_oops_write(cxt, record);
-> +	case PSTORE_TYPE_CONSOLE:
-> +		return psz_record_write(cxt->cpsz, record);
->  	case PSTORE_TYPE_PMSG:
->  		return psz_record_write(cxt->ppsz, record);
->  	default:
-> @@ -794,6 +828,13 @@ static struct psz_zone *psz_read_next_zone(struct psz_context *cxt)
->  			return zone;
->  	}
->  
-> +	if (cxt->console_read_cnt == 0) {
-> +		cxt->console_read_cnt++;
-> +		zone = cxt->cpsz;
-> +		if (psz_old_ok(zone))
-> +			return zone;
-> +	}
-> +
->  	return NULL;
->  }
->  
-> @@ -903,6 +944,8 @@ static ssize_t psz_pstore_read(struct pstore_record *record)
->  		readop = psz_oops_read;
->  		record->id = cxt->oops_read_cnt - 1;
->  		break;
-> +	case PSTORE_TYPE_CONSOLE:
-> +		fallthrough;
->  	case PSTORE_TYPE_PMSG:
->  		readop = psz_record_read;
->  		break;
-> @@ -1050,6 +1093,8 @@ static void psz_free_all_zones(struct psz_context *cxt)
->  		psz_free_zones(&cxt->opszs, &cxt->oops_max_cnt);
->  	if (cxt->ppsz)
->  		psz_free_zone(&cxt->ppsz);
-> +	if (cxt->cpsz)
-> +		psz_free_zone(&cxt->cpsz);
->  }
->  
->  static int psz_alloc_zones(struct psz_context *cxt)
-> @@ -1066,6 +1111,14 @@ static int psz_alloc_zones(struct psz_context *cxt)
->  		goto free_out;
->  	}
->  
-> +	off_size += info->console_size;
-> +	cxt->cpsz = psz_init_zone(PSTORE_TYPE_CONSOLE, &off,
-> +			info->console_size);
-> +	if (IS_ERR(cxt->cpsz)) {
-> +		err = PTR_ERR(cxt->cpsz);
-> +		goto free_out;
-> +	}
-> +
->  	cxt->opszs = psz_init_zones(PSTORE_TYPE_DMESG, &off,
->  			info->total_size - off_size,
->  			info->oops_size, &cxt->oops_max_cnt);
-> @@ -1100,7 +1153,7 @@ int psz_register(struct psz_info *info)
->  		return -EINVAL;
->  	}
->  
-> -	if (!info->oops_size && !info->pmsg_size) {
-> +	if (!info->oops_size && !info->pmsg_size && !info->console_size) {
->  		pr_warn("at least one of the records be non-zero\n");
->  		return -EINVAL;
->  	}
-> @@ -1128,6 +1181,7 @@ int psz_register(struct psz_info *info)
->  	check_size(total_size, 4096);
->  	check_size(oops_size, SECTOR_SIZE);
->  	check_size(pmsg_size, SECTOR_SIZE);
-> +	check_size(console_size, SECTOR_SIZE);
->  
->  #undef check_size
->  
-> @@ -1160,6 +1214,7 @@ int psz_register(struct psz_info *info)
->  	pr_debug("\ttotal size : %ld Bytes\n", info->total_size);
->  	pr_debug("\toops size : %ld Bytes\n", info->oops_size);
->  	pr_debug("\tpmsg size : %ld Bytes\n", info->pmsg_size);
-> +	pr_debug("\tconsole size : %ld Bytes\n", info->console_size);
->  
->  	err = psz_alloc_zones(cxt);
->  	if (err) {
-> @@ -1181,11 +1236,14 @@ int psz_register(struct psz_info *info)
->  		cxt->pstore.flags |= PSTORE_FLAGS_DMESG;
->  	if (info->pmsg_size)
->  		cxt->pstore.flags |= PSTORE_FLAGS_PMSG;
-> +	if (info->console_size)
-> +		cxt->pstore.flags |= PSTORE_FLAGS_CONSOLE;
->  
-> -	pr_info("Registered %s as pszone backend for%s%s%s\n", info->name,
-> +	pr_info("Registered %s as pszone backend for%s%s%s%s\n", info->name,
->  			cxt->opszs && cxt->psz_info->dump_oops ? " Oops" : "",
->  			cxt->opszs && cxt->psz_info->panic_write ? " Panic" : "",
-> -			cxt->ppsz ? " Pmsg" : "");
-> +			cxt->ppsz ? " Pmsg" : "",
-> +			cxt->cpsz ? " Console" : "");
->  
->  	err = pstore_register(&cxt->pstore);
->  	if (err) {
-> @@ -1219,6 +1277,8 @@ void psz_unregister(struct psz_info *info)
->  {
->  	struct psz_context *cxt = &psz_cxt;
->  
-> +	flush_work(&psz_cleaner);
-
-I think it should try to flush dirty zones before unregister.
-
-	psz_flush_all_dirty_zones(NULL);
-	flush_delayed_work(&psz_cleaner);
-
-> +
->  	pstore_unregister(&cxt->pstore);
->  	kfree(cxt->pstore.buf);
->  	cxt->pstore.bufsize = 0;
-> diff --git a/include/linux/pstore_zone.h b/include/linux/pstore_zone.h
-> index 85e159d8f935..8a1838633010 100644
-> --- a/include/linux/pstore_zone.h
-> +++ b/include/linux/pstore_zone.h
-> @@ -17,12 +17,13 @@
->   * @oops_size:	The size of oops/panic zone. Zero means disabled, otherwise,
->   *		it must be multiple of SECTOR_SIZE(512 Bytes).
->   * @pmsg_size:	The size of pmsg zone which is the same as @oops_size.
-> + * @console_size:The size of console zone which is the same as @oops_size.
->   * @dump_oops:	Whether to dump oops log.
->   * @read:	The general read operation. Both of the function parameters
->   *		@size and @offset are relative value to storage.
->   *		On success, the number of bytes should be returned, others
->   *		means error.
-> - * @write:	The same as @read.
-> + * @write:	The same as @read, but -EBUSY means try to write again later.
->   * @panic_write:The write operation only used for panic case. It's optional
->   *		if you do not care panic log. The parameters and return value
->   *		are the same as @read.
-> @@ -34,6 +35,7 @@ struct psz_info {
->  	unsigned long total_size;
->  	unsigned long oops_size;
->  	unsigned long pmsg_size;
-> +	unsigned long console_size;
->  	int dump_oops;
->  	psz_read_op read;
->  	psz_write_op write;
-> 
+ Documentation/admin-guide/media/avermedia.rst | 189 +-----
+ Documentation/admin-guide/media/bt8xx.rst     | 134 ++--
+ Documentation/admin-guide/media/bttv.rst      | 311 ++++-----
+ Documentation/admin-guide/media/cardlist.rst  |   1 +
+ Documentation/admin-guide/media/cpia2.rst     |  10 +-
+ .../admin-guide/media/cx18-cardlist.rst       |  17 +
+ .../admin-guide/media/cx23885-cardlist.rst    |   4 +
+ .../admin-guide/media/cx88-cardlist.rst       |   4 +
+ Documentation/admin-guide/media/dvb_intro.rst | 616 ++++++++++++++++++
+ .../admin-guide/media/dvb_references.rst      |  29 +
+ .../admin-guide/media/em28xx-cardlist.rst     |   6 +-
+ Documentation/admin-guide/media/faq.rst       | 253 ++++---
+ Documentation/admin-guide/media/index.rst     |  44 +-
+ Documentation/admin-guide/media/intro.rst     |  23 -
+ Documentation/admin-guide/media/saa7134.rst   |  57 +-
+ Documentation/admin-guide/media/udev.rst      |  63 --
+ Documentation/admin-guide/media/zr364xx.rst   |  28 +-
+ .../driver-api/media/drivers/bttv-devel.rst   |  53 +-
+ .../driver-api/media/drivers/index.rst        |  37 +-
+ .../driver-api/media/drivers/vimc-devel.rst   |   4 +-
+ Documentation/driver-api/media/index.rst      |  34 +-
+ Documentation/userspace-api/media/index.rst   |  44 +-
+ MAINTAINERS                                   |   2 +-
+ 23 files changed, 1228 insertions(+), 735 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/cx18-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb_intro.rst
+ create mode 100644 Documentation/admin-guide/media/dvb_references.rst
+ delete mode 100644 Documentation/admin-guide/media/intro.rst
+ delete mode 100644 Documentation/admin-guide/media/udev.rst
 
 -- 
-WeiXiong Liao
+2.25.2
+
+
