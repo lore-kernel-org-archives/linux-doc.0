@@ -2,279 +2,171 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE45C2BA19
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 15:28:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53528C2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B1F2206A2
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 15:28:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F21Lm0+D"
+	by mail.kernel.org (Postfix) with ESMTP id 2C6DC208FE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586882958;
+	bh=fEH5MARuDeBm7xykHMdOvvg3KVJtsODv97Cvb7xeU/Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=ij0NHeiQohtndo2R54xBf/1Z1iRovKq258PLorg55Xgz5BgvMxkXMSZlfquI5NEI+
+	 1MBEO/d8ex+F9ihSxAFjCv7Y6Vbr8VnquAO59GN5FTOPYp7o8yxABWtWnszHYKK/LW
+	 vmW9iZzSFhT5XoG8iRPYwjfRH7cPd6QjEddFW0b8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439831AbgDNP2M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 11:28:12 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34976 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2440403AbgDNP2H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Apr 2020 11:28:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586878082;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fQl7E2J5Id3WK2U6l9dHkxOAqTFLollC0wE6NW6GpKc=;
-        b=F21Lm0+DDhdl8Tl9P54z+csGOZ7Tvxf+uTYEuVw8lmpMCIIBVPVX7oAwktswN5y8jruKs7
-        cbNypBRvqbAJeVKU+5LZRkuttXG6Stj14TQtskbM6x6AF4dOZ9t/2F3QYtLHhQFyNjCQTc
-        08t87/PaaLaSwCwsgghPd8cs+yUahTE=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-C4fwpSLXO4ieK6WT0bm-zg-1; Tue, 14 Apr 2020 11:28:00 -0400
-X-MC-Unique: C4fwpSLXO4ieK6WT0bm-zg-1
-Received: by mail-qv1-f69.google.com with SMTP id v4so135886qvt.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2020 08:28:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fQl7E2J5Id3WK2U6l9dHkxOAqTFLollC0wE6NW6GpKc=;
-        b=giePa8JelWfBcmtIhoC2/ABzFejrEn3NW5OLemKlhp2mxGOw5ChO+B41Erur5HMZgj
-         4CnpKfd70wTh06ylPV4qdY14oKGN/Zd3Cf54NEe54nHqyIPI5F4JSSIX3CeyAGbSm1WY
-         2tk8SxdwtjCqBIG6vNP/uoytvz+e25b61DdlGoFATHDe+vLsbccywxKL3yz3IYUcrDTI
-         ll19yvqMXkrZvWUSaD2NVLuHlJbMl3GdwqC4K07k8iLdgDYEihC5V5LvVCvqb1D1Ktaz
-         shj5fxLH85Nkd6u7ARzGaFPDQoAEH43ReCdCIt2wA4MTuhJUrjq+jqIFxeD87dQG9e4d
-         vG8g==
-X-Gm-Message-State: AGi0PuYut7r9Tk0WV+l292YlExf1VQR+kNhq0jAhLvdpJXFvuD5VFCcU
-        PKkhCtD3Hsqcz4T72Fn049pMWqsq4YAL8n2MUbvofFoHQzj2wDC3A/pLF4NgSMxunvFu82Iqg6F
-        XBAAPrpRSUST4gWT+BM1J
-X-Received: by 2002:a05:620a:556:: with SMTP id o22mr9833528qko.166.1586878079968;
-        Tue, 14 Apr 2020 08:27:59 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKi4fEpiHK//JOd6coi6+kBQGk2tK7VvXLiOPA/Nm1mgCzbzlmc1ysUQObBrefDJRDgHB3now==
-X-Received: by 2002:a05:620a:556:: with SMTP id o22mr9833484qko.166.1586878079506;
-        Tue, 14 Apr 2020 08:27:59 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
-        by smtp.gmail.com with ESMTPSA id w2sm4660953qtv.42.2020.04.14.08.27.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 08:27:58 -0700 (PDT)
-Date:   Tue, 14 Apr 2020 11:27:56 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S.Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Mina Almasry <almasrymina@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 4/4] hugetlbfs: clean up command line processing
-Message-ID: <20200414152756.GG38470@xz-x1>
-References: <20200401183819.20647-1-mike.kravetz@oracle.com>
- <20200401183819.20647-5-mike.kravetz@oracle.com>
- <20200410203730.GG3172@xz-x1>
- <ce42fa12-023b-7ed2-a60e-7dbf9c530981@oracle.com>
+        id S2440331AbgDNQtN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:49:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54480 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2440288AbgDNQtD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:03 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 49E4F2074D;
+        Tue, 14 Apr 2020 16:49:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586882942;
+        bh=fEH5MARuDeBm7xykHMdOvvg3KVJtsODv97Cvb7xeU/Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=E3FMlTZ1yInQXMcI8jhffWX2vXo9obhbpUBT1dMjhPAO8rvQLdwijnT7XgL0KDHej
+         WGH9Pa4fbvSddfnn+JB6WKCniIfwHdHur1cOEiB1u/GP8EOMtrl+/2p0BH9FObVoej
+         5p/7Ec7+TBzMZlhTi75W+rwGQdWDGaBce7YRZnno=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jOOk8-0068l6-IG; Tue, 14 Apr 2020 18:49:00 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 03/33] scripts: kernel-doc: accept blank lines on parameter description
+Date:   Tue, 14 Apr 2020 18:48:29 +0200
+Message-Id: <c07d2862792d75a2691d69c9eceb7b89a0164cc0.1586881715.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
+In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
+References: <cover.1586881715.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ce42fa12-023b-7ed2-a60e-7dbf9c530981@oracle.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 13, 2020 at 10:59:26AM -0700, Mike Kravetz wrote:
-> On 4/10/20 1:37 PM, Peter Xu wrote:
-> > On Wed, Apr 01, 2020 at 11:38:19AM -0700, Mike Kravetz wrote:
-> >> With all hugetlb page processing done in a single file clean up code.
-> >> - Make code match desired semantics
-> >>   - Update documentation with semantics
-> >> - Make all warnings and errors messages start with 'HugeTLB:'.
-> >> - Consistently name command line parsing routines.
-> >> - Check for hugepages_supported() before processing parameters.
-> >> - Add comments to code
-> >>   - Describe some of the subtle interactions
-> >>   - Describe semantics of command line arguments
-> >>
-> >> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
-> >> ---
-> >>  .../admin-guide/kernel-parameters.txt         | 35 ++++---
-> >>  Documentation/admin-guide/mm/hugetlbpage.rst  | 44 +++++++++
-> >>  mm/hugetlb.c                                  | 96 +++++++++++++++----
-> >>  3 files changed, 142 insertions(+), 33 deletions(-)
-> >>
-> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> >> index 1bd5454b5e5f..de653cfe1726 100644
-> >> --- a/Documentation/admin-guide/kernel-parameters.txt
-> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> >> @@ -832,12 +832,15 @@
-> >>  			See also Documentation/networking/decnet.txt.
-> >>  
-> >>  	default_hugepagesz=
-> >> -			[same as hugepagesz=] The size of the default
-> >> -			HugeTLB page size. This is the size represented by
-> >> -			the legacy /proc/ hugepages APIs, used for SHM, and
-> >> -			default size when mounting hugetlbfs filesystems.
-> >> -			Defaults to the default architecture's huge page size
-> >> -			if not specified.
-> >> +			[HW] The size of the default HugeTLB page size. This
-> > 
-> > Could I ask what's "HW"?  Sorry this is not a comment at all but
-> > really a pure question I wanted to ask... :)
-> 
-> kernel-parameters.rst includes kernel-parameters.txt and included the meaning
-> for these codes.
-> 
->        HW      Appropriate hardware is enabled.
-> 
-> Previously, it listed an obsolete list of architectures.
+Sphinx is very pedantic with respect to blank lines. Sometimes,
+in order to make it to properly handle something, we need to
+add a blank line. However, currently, any blank line inside a
+kernel-doc comment like:
 
-I see. It was a bit confusing since hugepage is not a real hardware,
-"CAP (capability)" might be easier, but I get the point now, thanks!
+	/*
+	 * @foo: bar
+         *
+	 *       foobar
+	 *
+	 * some description
 
-[...]
+will be considered as if "foobar" was part of the description.
 
-> >> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
-> >> index 1cc0bc78d10e..de340c586995 100644
-> >> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
-> >> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
-> >> @@ -100,6 +100,50 @@ with a huge page size selection parameter "hugepagesz=<size>".  <size> must
-> >>  be specified in bytes with optional scale suffix [kKmMgG].  The default huge
-> >>  page size may be selected with the "default_hugepagesz=<size>" boot parameter.
-> >>  
-> >> +Hugetlb boot command line parameter semantics
-> >> +hugepagesz - Specify a huge page size.  Used in conjunction with hugepages
-> >> +	parameter to preallocate a number of huge pages of the specified
-> >> +	size.  Hence, hugepagesz and hugepages are typically specified in
-> >> +	pairs such as:
-> >> +		hugepagesz=2M hugepages=512
-> >> +	hugepagesz can only be specified once on the command line for a
-> >> +	specific huge page size.  Valid huge page sizes are architecture
-> >> +	dependent.
-> >> +hugepages - Specify the number of huge pages to preallocate.  This typically
-> >> +	follows a valid hugepagesz parameter.  However, if hugepages is the
-> >> +	first or only hugetlb command line parameter it specifies the number
-> >> +	of huge pages of default size to allocate.  The number of huge pages
-> >> +	of default size specified in this manner can be overwritten by a
-> >> +	hugepagesz,hugepages parameter pair for the default size.
-> >> +	For example, on an architecture with 2M default huge page size:
-> >> +		hugepages=256 hugepagesz=2M hugepages=512
-> >> +	will result in 512 2M huge pages being allocated.  If a hugepages
-> >> +	parameter is preceded by an invalid hugepagesz parameter, it will
-> >> +	be ignored.
-> >> +default_hugepagesz - Specify the default huge page size.  This parameter can
-> >> +	only be specified once on the command line.  No other hugetlb command
-> >> +	line parameter is associated with default_hugepagesz.  Therefore, it
-> >> +	can appear anywhere on the command line.  If hugepages= is the first
-> >> +	hugetlb command line parameter, the specified number of huge pages
-> >> +	will apply to the default huge page size specified with
-> >> +	default_hugepagesz.  For example,
-> >> +		hugepages=512 default_hugepagesz=2M
-> > 
-> > No strong opinion, but considering to the special case of gigantic
-> > huge page mentioned below, I'm thinking maybe it's easier to just ask
-> > the user to always use "hugepagesz=X hugepages=Y" pair when people
-> > want to reserve huge pages.
-> 
-> We can ask people to do this.  However, I do not think we can force it at
-> this time.  Why?  Mostly because I have seen many instances where people
-> only specify 'hugepages=X' on the command line to preallocate X huge pages
-> of default size.  So, forcing 'hugepagesz=X hugepages=Y' would break those
-> users.
-> 
-> > For example, some user might start to use this after this series
-> > legally:
-> > 
-> >     default_hugepagesz=2M hugepages=1024
-> 
-> Well, that 'works' today.  You get that silly error message:
-> 
-> HugeTLB: unsupported default_hugepagesz 2097152. Reverting to 2097152
-> 
-> But, it does preallocate 1024 huge pages of size 2M.  Because people
-> have noticed the silly error message, I suspect this usage,
-> 
-> 	default_hugepagesz=X hugepages=Y
-> 
-> is in use today and we need to support it.
+This patch changes kernel-doc behavior. After it, foobar will
+be considered as part of the parameter text. The description
+will only be considered as such if it starts with:
 
-Fair enough.
+zero spaces after asterisk:
 
-[...]
+	*foo
 
-> >> @@ -3209,19 +3209,35 @@ static int __init hugetlb_init(void)
-> >>  	if (!hugepages_supported())
-> >>  		return 0;
-> >>  
-> >> -	if (!size_to_hstate(default_hstate_size)) {
-> >> -		if (default_hstate_size != 0) {
-> >> -			pr_err("HugeTLB: unsupported default_hugepagesz %lu. Reverting to %lu\n",
-> >> -			       default_hstate_size, HPAGE_SIZE);
-> >> -		}
-> >> -
-> >> +	/*
-> >> +	 * Make sure HPAGE_SIZE (HUGETLB_PAGE_ORDER) hstate exists.  Some
-> >> +	 * architectures depend on setup being done here.
-> >> +	 *
-> >> +	 * If a valid default huge page size was specified on the command line,
-> >> +	 * add associated hstate if necessary.  If not, set default_hstate_size
-> >> +	 * to default size.  default_hstate_idx is used at runtime to identify
-> >> +	 * the default huge page size/hstate.
-> >> +	 */
-> >> +	hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
-> >> +	if (default_hstate_size)
-> >> +		hugetlb_add_hstate(ilog2(default_hstate_size) - PAGE_SHIFT);
-> >> +	else
-> >>  		default_hstate_size = HPAGE_SIZE;
-> >> -		hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
-> >> -	}
-> >>  	default_hstate_idx = hstate_index(size_to_hstate(default_hstate_size));
-> >> +
-> >> +	/*
-> >> +	 * default_hstate_max_huge_pages != 0 indicates a count (hugepages=)
-> >> +	 * specified before a size (hugepagesz=).  Use this count for the
-> >> +	 * default huge page size, unless a specific value was specified for
-> >> +	 * this size in a hugepagesz/hugepages pair.
-> >> +	 */
-> >>  	if (default_hstate_max_huge_pages) {
-> > 
-> > Since we're refactoring this - Could default_hstate_max_huge_pages be
-> > dropped directly (in hugepages= we can create the default hstate, then
-> > we set max_huge_pages of the default hstate there)?  Or did I miss
-> > anything important?
-> 
-> I do not think that works for 'hugepages=X default_hugepagesz=Y' processing?
-> It seems like there will need to be more work done on default_hugepagesz
-> processing.
+one space after asterisk:
+	* foo
 
-That was really an awkward kernel cmdline... But I guess you're right.
+or have a explicit Description section:
 
-I think it awkward because it can be also read in sequence as "reserve
-X huge pages of default huge page size, then change default value to
-Y".  So instead of awkward, maybe "ambiguous".  However I have totally
-no clue on how to make this better either - there's really quite a lot
-of freedom right now on specifying all these options right now.
+	*   Description:
 
-Thanks,
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/kernel-doc | 35 +++++++++++++++++++++++------------
+ 1 file changed, 23 insertions(+), 12 deletions(-)
 
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index b019d8db6502..41ed4202f4ad 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -331,13 +331,14 @@ my $lineprefix="";
+ 
+ # Parser states
+ use constant {
+-    STATE_NORMAL        => 0, # normal code
+-    STATE_NAME          => 1, # looking for function name
+-    STATE_BODY_MAYBE    => 2, # body - or maybe more description
+-    STATE_BODY          => 3, # the body of the comment
+-    STATE_PROTO         => 4, # scanning prototype
+-    STATE_DOCBLOCK      => 5, # documentation block
+-    STATE_INLINE        => 6, # gathering documentation outside main block
++    STATE_NORMAL        => 0,        # normal code
++    STATE_NAME          => 1,        # looking for function name
++    STATE_BODY_MAYBE    => 2,        # body - or maybe more description
++    STATE_BODY          => 3,        # the body of the comment
++    STATE_BODY_WITH_BLANK_LINE => 4, # the body, which has a blank line
++    STATE_PROTO         => 5,        # scanning prototype
++    STATE_DOCBLOCK      => 6,        # documentation block
++    STATE_INLINE        => 7,        # gathering doc outside main block
+ };
+ my $state;
+ my $in_doc_sect;
+@@ -1957,6 +1958,12 @@ sub process_body($$) {
+ 	}
+     }
+ 
++    if ($state == STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
++	dump_section($file, $section, $contents);
++	$section = $section_default;
++	$contents = "";
++    }
++
+     if (/$doc_sect/i) { # case insensitive for supported section names
+ 	$newsection = $1;
+ 	$newcontents = $2;
+@@ -2010,18 +2017,21 @@ sub process_body($$) {
+ 	$state = STATE_PROTO;
+ 	$brcount = 0;
+     } elsif (/$doc_content/) {
+-	# miguel-style comment kludge, look for blank lines after
+-	# @parameter line to signify start of description
+ 	if ($1 eq "") {
+-	    if ($section =~ m/^@/ || $section eq $section_context) {
++	    if ($section eq $section_context) {
+ 		dump_section($file, $section, $contents);
+ 		$section = $section_default;
+ 		$contents = "";
+ 		$new_start_line = $.;
++		$state = STATE_BODY;
+ 	    } else {
++		if ($section ne $section_default) {
++		    $state = STATE_BODY_WITH_BLANK_LINE;
++		} else {
++		    $state = STATE_BODY;
++		}
+ 		$contents .= "\n";
+ 	    }
+-	    $state = STATE_BODY;
+ 	} elsif ($state == STATE_BODY_MAYBE) {
+ 	    # Continued declaration purpose
+ 	    chomp($declaration_purpose);
+@@ -2173,7 +2183,8 @@ sub process_file($) {
+ 	    process_normal();
+ 	} elsif ($state == STATE_NAME) {
+ 	    process_name($file, $_);
+-	} elsif ($state == STATE_BODY || $state == STATE_BODY_MAYBE) {
++	} elsif ($state == STATE_BODY || $state == STATE_BODY_MAYBE ||
++		 $state == STATE_BODY_WITH_BLANK_LINE) {
+ 	    process_body($file, $_);
+ 	} elsif ($state == STATE_INLINE) { # scanning for inline parameters
+ 	    process_inline($file, $_);
 -- 
-Peter Xu
+2.25.2
 
