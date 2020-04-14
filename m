@@ -7,48 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C427DC2BA19
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA596C2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:53:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93816206E9
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A711620678
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586883171;
-	bh=pkQRKk4Q3BJwEsZPq9Rvl8GhUQxw4EhOBSPeWUeyTXI=;
+	s=default; t=1586883189;
+	bh=HotOvguNSrEPHftfF9hKyBfJBsne6Ihdoy/T4tXbhYE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CcvyqpneW49qC35PTeDtkM9HAGaADYNTWDSMkHaIAFWPVMHpy8ZmlrmnN+1uMmY3r
-	 x0iGihjM5PwQ7fSRWcQ/LQvZxdmPBTbIDTO4nh03k6U10EbClw2io9s+zI7VwJip1p
-	 gs07T4h3QpS0lcnNo0JGPXuYOoheSSoGk8p0n9WQ=
+	b=uYEpsDU5Bwkir+cCXPyMGSgHytxhnBHfT6Apg/4Z4so9PQa6pNRuce2/ZAt1RGqK0
+	 vIjhzDwLWkNF5vkxJMLnSVKccI0EuuaF4+iaBMaSRyPQSWHOVaF0wqvoBCSgIhmLxX
+	 KDehI7t/g5c2XEZ6Jzc1uK1iTTA8+eOFSCFATzlU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502458AbgDNQwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:52:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55568 "EHLO mail.kernel.org"
+        id S2502351AbgDNQxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:53:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55518 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440373AbgDNQtR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:49:17 -0400
+        id S2440340AbgDNQtQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:16 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3AD4C221EC;
+        by mail.kernel.org (Postfix) with ESMTPSA id 42236221F6;
         Tue, 14 Apr 2020 16:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586882943;
-        bh=pkQRKk4Q3BJwEsZPq9Rvl8GhUQxw4EhOBSPeWUeyTXI=;
+        bh=HotOvguNSrEPHftfF9hKyBfJBsne6Ihdoy/T4tXbhYE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rG5nVl1W0Rid3dG6nLfg4tMmA1DCW3FdHWe3eGgKITbBHXDH/TchxjTJtcazKc+3d
-         puylXEIwwgNpsv8d6R8mE+cNxmdX/0dkZO4ZgaMsYW1I6wEaqeDQdbKoWeP2Fh26PN
-         nnj+98DwIsnMxETSV0SYEMQjrN1HycbwkRRrcDsE=
+        b=prVWUfSoL29beoF3B8BnWxinw0hgTYZ9QutzwrR5I+mcnioelfXrouule3uEC+8r5
+         8/ZE53E7GLZhJxItuhFPRr1px26DEdXpmaj99q8plWyON67f+8mLBpAeEyl33tY5b2
+         VQAWbSypRYasYtJaQq8C3MxOFRFyK5GDv81Na4Rc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOOk9-0068nE-Fy; Tue, 14 Apr 2020 18:49:01 +0200
+        id 1jOOk9-0068nN-Hg; Tue, 14 Apr 2020 18:49:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jens Axboe <axboe@kernel.dk>, linux-ide@vger.kernel.org
-Subject: [PATCH v2 29/33] ata: libata-core: fix a doc warning
-Date:   Tue, 14 Apr 2020 18:48:55 +0200
-Message-Id: <9a21444df75c46095c4b1839d2061d19c9addcff.1586881715.git.mchehab+huawei@kernel.org>
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 31/33] fs: inode.c: get rid of docs warnings
+Date:   Tue, 14 Apr 2020 18:48:57 +0200
+Message-Id: <e8da46a0e57f2af6d63a0c53665495075698e28a.1586881715.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
 References: <cover.1586881715.git.mchehab+huawei@kernel.org>
@@ -59,37 +60,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The docs toolchain doesn't recognise this pattern:
+Use *foo makes the toolchain to think that this is an emphasis, causing
+those warnings:
 
-	@link->[hw_]sata_spd_limit
+	./fs/inode.c:1609: WARNING: Inline emphasis start-string without end-string.
+	./fs/inode.c:1609: WARNING: Inline emphasis start-string without end-string.
+	./fs/inode.c:1615: WARNING: Inline emphasis start-string without end-string.
 
-As it can't really process it. So, instead, let's mark it with
-a literal block markup:
-
-	``link->[hw_]sata_spd_limit``
-
-in order to get rid of the following warning:
-
-	./drivers/ata/libata-core.c:5974: WARNING: Unknown target name: "hw".
+So, use, instead, ``*foo``, in order to mark it as a literal block.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/ata/libata-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/inode.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index beca5f91bb4c..69361ec43db5 100644
---- a/drivers/ata/libata-core.c
-+++ b/drivers/ata/libata-core.c
-@@ -5209,7 +5209,7 @@ void ata_link_init(struct ata_port *ap, struct ata_link *link, int pmp)
-  *	sata_link_init_spd - Initialize link->sata_spd_limit
-  *	@link: Link to configure sata_spd_limit for
+diff --git a/fs/inode.c b/fs/inode.c
+index 93d9252a00ab..37226a9cfa4f 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -1606,14 +1606,14 @@ EXPORT_SYMBOL(iput);
+  *	@inode:  inode owning the block number being requested
+  *	@block: pointer containing the block to find
   *
-- *	Initialize @link->[hw_]sata_spd_limit to the currently
-+ *	Initialize ``link->[hw_]sata_spd_limit`` to the currently
-  *	configured value.
+- *	Replaces the value in *block with the block number on the device holding
++ *	Replaces the value in ``*block`` with the block number on the device holding
+  *	corresponding to the requested block number in the file.
+  *	That is, asked for block 4 of inode 1 the function will replace the
+- *	4 in *block, with disk block relative to the disk start that holds that
++ *	4 in ``*block``, with disk block relative to the disk start that holds that
+  *	block of the file.
   *
-  *	LOCKING:
+  *	Returns -EINVAL in case of error, 0 otherwise. If mapping falls into a
+- *	hole, returns 0 and *block is also set to 0.
++ *	hole, returns 0 and ``*block`` is also set to 0.
+  */
+ int bmap(struct inode *inode, sector_t *block)
+ {
 -- 
 2.25.2
 
