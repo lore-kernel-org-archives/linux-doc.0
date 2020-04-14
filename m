@@ -7,50 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7111C2BA19
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:58:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCA2C2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:59:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B21B42054F
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:58:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 08AE22074D
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586883486;
-	bh=ftdzGG92AJu0MB3OTd2YxsGzGZ2H+4UraUBv4G7jloo=;
+	s=default; t=1586883550;
+	bh=BTPcRwxL5Vi5wneFHtqBCwfk8BpgcAIHfCgs53kcGM8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=U6Ec5kK3LS03Av43oWtN64Lteyu+CH521hlS0rbZdzawNRiG+8Epw2VwMbznuQn/2
-	 lp3ERCIrVeOfMB514yuN4aHVAewUJ4vTJflXrWAwnSYEeaaWglSO5bIpqY/6PpVOjO
-	 wY2vZwE2R89U2i2GSlM345UeA369nZzEp8PSZgOg=
+	b=kmd/AK05uNVMeEyDItABeb1ztRXJlbfndXAJfNYSLZOPoPmO/WdplGdgtiOLg2n3F
+	 e6zHgU/j9a7AsuOJpKVgIIuyHPB0i/6O/pkAKpM4Cfpyy1fSBb4TM5l0m85hKE0GZK
+	 tApWDsqwnN4d8PC8IGlTfSdWeAIpSGgEKaQjKSew=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407455AbgDNQ6C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:58:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55214 "EHLO mail.kernel.org"
+        id S2407497AbgDNQ7I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:59:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54502 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404908AbgDNQtH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:49:07 -0400
+        id S2440289AbgDNQtD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:03 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 722CE2085B;
+        by mail.kernel.org (Postfix) with ESMTPSA id 571832076A;
         Tue, 14 Apr 2020 16:49:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586882942;
-        bh=ftdzGG92AJu0MB3OTd2YxsGzGZ2H+4UraUBv4G7jloo=;
+        bh=BTPcRwxL5Vi5wneFHtqBCwfk8BpgcAIHfCgs53kcGM8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=titCjmfCrIwVlM7lzs0W4BdbK0Kjuohl6gnGlyZJ1eb6sqp4Kfw9/U5C6AuM8TkG4
-         pWxnMKdkiYg9l0lfBygngiEtYvxtXGja+5nfSj06CsE64wAJ8/QScvMXmLoW6YaE6L
-         uzKFIzszhQkykcjaw6GdS7W4rEeXaypQIEbXpKW8=
+        b=SPA3Uh4kmv1fd3MaAhyaTgykoreSvt2BZMHnp9Hp26+G6y2V1rn45zs38hvTUTcQt
+         h/mm2fQW+Fg1v2/8G71BR6hkZWKvGufbL/a51oCnRyqE2jNgSKl27u4Gdj743fJnzm
+         BsMAMKFy20n7TNaGZ16JEsW1kT1mUuBMsWLZIkEY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOOk8-0068lR-Na; Tue, 14 Apr 2020 18:49:00 +0200
+        id 1jOOk8-0068l2-HS; Tue, 14 Apr 2020 18:49:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Subject: [PATCH v2 07/33] MAINTAINERS: dt: fix pointers for ARM Integrator, Versatile and RealView
-Date:   Tue, 14 Apr 2020 18:48:33 +0200
-Message-Id: <eae3440fb70c1b1666973e34fd3fd6b8ab4a3bc7.1586881715.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 02/33] scripts: kernel-doc: accept negation like !@var
+Date:   Tue, 14 Apr 2020 18:48:28 +0200
+Message-Id: <0314b47f8c3e1f9db00d5375a73dc3cddd8a21f2.1586881715.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
 References: <cover.1586881715.git.mchehab+huawei@kernel.org>
@@ -61,39 +58,61 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a conversion from a plain text binding file into 4 yaml ones.
-The old file got removed, causing this new warning:
+On a few places, it sometimes need to indicate a negation of a
+parameter, like:
 
-	Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm-boards
+	!@fshared
 
-Address it by replacing the old reference by the new ones
+This pattern happens, for example, at:
 
-Fixes: 2d483550b6d2 ("dt-bindings: arm: Drop the non-YAML bindings")
-Fixes: 33fbfb3eaf4e ("dt-bindings: arm: Add Integrator YAML schema")
-Fixes: 4b900070d50d ("dt-bindings: arm: Add Versatile YAML schema")
-Fixes: 7db625b9fa75 ("dt-bindings: arm: Add RealView YAML schema")
-Fixes: 4fb00d9066c1 ("dt-bindings: arm: Add Versatile Express and Juno YAML schema")
+	kernel/futex.c
+
+and it is perfectly valid. However, kernel-doc currently
+transforms it into:
+
+	!**fshared**
+
+This won't do what it would be expected.
+
+Fortunately, fixing the script is a simple matter of storing
+the "!" before "@" and adding it after the bold markup, like:
+
+	**!fshared**
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ scripts/kernel-doc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 86f98c3e6cfc..82e4b0a0c921 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1323,7 +1323,10 @@ ARM INTEGRATOR, VERSATILE AND REALVIEW SUPPORT
- M:	Linus Walleij <linus.walleij@linaro.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/arm/arm-boards
-+F:	Documentation/devicetree/bindings/arm/arm,integrator.yaml
-+F:	Documentation/devicetree/bindings/arm/arm,realview.yaml
-+F:	Documentation/devicetree/bindings/arm/arm,versatile.yaml
-+F:	Documentation/devicetree/bindings/arm/arm,vexpress-juno.yaml
- F:	Documentation/devicetree/bindings/auxdisplay/arm-charlcd.txt
- F:	Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
- F:	Documentation/devicetree/bindings/i2c/i2c-versatile.txt
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index d15c8ea95d93..b019d8db6502 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -213,6 +213,7 @@ my $type_constant = '\b``([^\`]+)``\b';
+ my $type_constant2 = '\%([-_\w]+)';
+ my $type_func = '(\w+)\(\)';
+ my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
++my $type_param_ref = '([\!]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+ my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
+ my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
+ my $type_env = '(\$\w+)';
+@@ -237,6 +238,7 @@ my @highlights_man = (
+                       [$type_typedef, "\\\\fI\$1\\\\fP"],
+                       [$type_union, "\\\\fI\$1\\\\fP"],
+                       [$type_param, "\\\\fI\$1\\\\fP"],
++                      [$type_param_ref, "\\\\fI\$1\$2\\\\fP"],
+                       [$type_member, "\\\\fI\$1\$2\$3\\\\fP"],
+                       [$type_fallback, "\\\\fI\$1\\\\fP"]
+ 		     );
+@@ -258,7 +260,7 @@ my @highlights_rst = (
+                        [$type_union, "\\:c\\:type\\:`\$1 <\$2>`"],
+                        # in rst this can refer to any type
+                        [$type_fallback, "\\:c\\:type\\:`\$1`"],
+-                       [$type_param, "**\$1**"]
++                       [$type_param_ref, "**\$1\$2**"]
+ 		      );
+ my $blankline_rst = "\n";
+ 
 -- 
 2.25.2
 
