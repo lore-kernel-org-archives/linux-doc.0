@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62B30C2BB85
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A5B8C3815B
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37DB52078A
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FFFE208FE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586882959;
-	bh=djdizYUF8P2UkZPkY2sLJI5bKLZqZSwRhGddHALE768=;
+	s=default; t=1586882960;
+	bh=a3JpEtgqMbhSCDXAHAnASAtVj+ma3vbopyY6WyqAmxc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=OIO4sbHPT0XXWDuUmCdDmHYVZNoanPIfx7YtmlE91u3zMol9IFGQwF0672eBpBJRk
-	 jEluzoBK7bdF3YWjvd4fTgmiBQC2PlF1ZRE3GP+BGdFjqbmnYbgGV+DxzTDcQJfQKC
-	 MS3QOxd7JrkVKT8PRGbbD2BsgoJVV1qjfApUfhDA=
+	b=yaGwUQTpQHOJILQ5OK1AR+7S5wdhteKQq+IzyXVokDx8ouvIEUBDghZXHTugchaL+
+	 /mEdqZL5YbymIs8r7R/qQ3+gPC+wuPcnoTgxOd6UZuqBHC3zWYtxgLzfLyk3mdbWG0
+	 Q5XLR0jKewg4jbybBv7yjYPNpPUKPTBHYu/Ts93c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407507AbgDNQtK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:49:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54470 "EHLO mail.kernel.org"
+        id S2440334AbgDNQtP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:49:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55192 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440039AbgDNQtD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:49:03 -0400
+        id S2440301AbgDNQtG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:06 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 44AB9206E9;
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A3B020774;
         Tue, 14 Apr 2020 16:49:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586882942;
-        bh=djdizYUF8P2UkZPkY2sLJI5bKLZqZSwRhGddHALE768=;
+        bh=a3JpEtgqMbhSCDXAHAnASAtVj+ma3vbopyY6WyqAmxc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=e4XN7WrjzpxG9AxvfJtBCH8/8FERTXOgG4DArjaXR++OXdzc+YPkwLuTMQVz4OV4G
-         Gz9LaIllvV4K9BGSq6PaQh51cUPHGGNWBEf22Yvu5f94d+NCG3cYb58MFw1iKFmko9
-         yirlOlxbKT/MKPM+iL4CiFWy7/GCKCYT60RvtjGs=
+        b=2bciHI3uu0HYt4aATccayspSX8sp4/l56AGKYuGMiWf9Q84L2c5n8cg1nakfBITzl
+         LeAWyXNqj7be4vTkfFtxHEYTD56N+XcUaI6vCuFGkR5/z2nyEt+CledG5DxJQafOD0
+         x1lqbQSA6o7T1b5pQzAwo3EQzMUOFI0xvydcCThY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOOk8-0068ky-Gi; Tue, 14 Apr 2020 18:49:00 +0200
+        id 1jOOk8-0068lA-J7; Tue, 14 Apr 2020 18:49:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 01/33] scripts: kernel-doc: proper handle @foo->bar()
-Date:   Tue, 14 Apr 2020 18:48:27 +0200
-Message-Id: <48b46426d7bf6ff7529f20e5718fbf4e9758e62c.1586881715.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 04/33] docs: update recommended Sphinx version to 2.4.4
+Date:   Tue, 14 Apr 2020 18:48:30 +0200
+Message-Id: <498f701c618f7d0cf5f0a37e5889ee926f7c8bf4.1586881715.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
 References: <cover.1586881715.git.mchehab+huawei@kernel.org>
@@ -58,55 +58,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pattern @foo->bar() is valid, as it can be used by a
-function pointer inside a struct passed as a parameter.
+There are some docs that have nested tables. While this was
+always part of the spec, only Sphinx version 2.4.x can
+translate it to LaTeX.
 
-Right now, it causes a warning:
+In other words, if someone is using a Sphinx version < 2.4,
+the LaTeX and PDF output won't work for some of the docs.
 
-	./drivers/firewire/core-transaction.c:606: WARNING: Inline strong start-string without end-string.
+So, it seems that it is time to raise the bar again
+for the recommented version.
 
-In this specific case, the kernel-doc markup is:
+The Sphinx check script is already smart enough to keep
+working, with older versions, warning the users that
+an upgrade is recommended (and explaining how):
 
-	/**
-	 * fw_core_remove_address_handler() - unregister an address handler
-	 * @handler: callback
-	 *
-	 * To be called in process context.
-	 *
-	 * When fw_core_remove_address_handler() returns, @handler->callback() is
-	 * guaranteed to not run on any CPU anymore.
-	 */
+	Sphinx version 1.7.9
+	Warning: It is recommended at least Sphinx version 2.4.4.
+	Detected OS: Fedora release 31 (Thirty One).
 
-With seems valid on my eyes. So, instead of trying to hack
-the kernel-doc markup, let's teach it about how to handle
-such things. This should likely remove lots of other similar
-warnings as well.
+	To upgrade Sphinx, use:
+
+		/usr/bin/virtualenv sphinx_2.4.4
+		. sphinx_2.4.4/bin/activate
+		pip install -r ./Documentation/sphinx/requirements.txt
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/sphinx/requirements.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index f2d73f04e71d..d15c8ea95d93 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -214,6 +214,7 @@ my $type_constant2 = '\%([-_\w]+)';
- my $type_func = '(\w+)\(\)';
- my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
- my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
-+my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
- my $type_env = '(\$\w+)';
- my $type_enum = '\&(enum\s*([_\w]+))';
- my $type_struct = '\&(struct\s*([_\w]+))';
-@@ -249,6 +250,7 @@ my @highlights_rst = (
-                        [$type_member_func, "\\:c\\:type\\:`\$1\$2\$3\\\\(\\\\) <\$1>`"],
-                        [$type_member, "\\:c\\:type\\:`\$1\$2\$3 <\$1>`"],
- 		       [$type_fp_param, "**\$1\\\\(\\\\)**"],
-+		       [$type_fp_param2, "**\$1\\\\(\\\\)**"],
-                        [$type_func, "\$1()"],
-                        [$type_enum, "\\:c\\:type\\:`\$1 <\$2>`"],
-                        [$type_struct, "\\:c\\:type\\:`\$1 <\$2>`"],
+diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
+index 14e29a0ae480..489f6626de67 100644
+--- a/Documentation/sphinx/requirements.txt
++++ b/Documentation/sphinx/requirements.txt
+@@ -1,3 +1,3 @@
+ docutils
+-Sphinx==1.7.9
++Sphinx==2.4.4
+ sphinx_rtd_theme
 -- 
 2.25.2
 
