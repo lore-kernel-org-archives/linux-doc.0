@@ -7,50 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCA2C2BA19
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:59:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B90F8C352BE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 17:25:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 08AE22074D
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:59:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 95347206A2
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 17:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586883550;
-	bh=BTPcRwxL5Vi5wneFHtqBCwfk8BpgcAIHfCgs53kcGM8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kmd/AK05uNVMeEyDItABeb1ztRXJlbfndXAJfNYSLZOPoPmO/WdplGdgtiOLg2n3F
-	 e6zHgU/j9a7AsuOJpKVgIIuyHPB0i/6O/pkAKpM4Cfpyy1fSBb4TM5l0m85hKE0GZK
-	 tApWDsqwnN4d8PC8IGlTfSdWeAIpSGgEKaQjKSew=
+	s=default; t=1586885158;
+	bh=obYyiyTbGmR44FhMsbwJlUxtDZYky71vqYd2njr6jms=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=u58H+e38uyxS1Dx2waFUDH8QBSFrTDG4xDf4e7l0D3qHowN0lnXVddgMYNmZeUflY
+	 U0t8pSh8YnRMeqXWTnGwhXlmUdAhWT+xaW+aiNYbIg0KucLhxeNzgPMI8LEjjf1w8h
+	 We7GpEgJwxTBCCMW5G8sh0Kc7pitvNym6WD4D+uU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407497AbgDNQ7I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:59:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54502 "EHLO mail.kernel.org"
+        id S2407616AbgDNRZ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 13:25:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59336 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440289AbgDNQtD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:49:03 -0400
-Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S2407592AbgDNRZx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 13:25:53 -0400
+Received: from ebiggers-linuxstation.mtv.corp.google.com (unknown [104.132.1.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 571832076A;
-        Tue, 14 Apr 2020 16:49:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D967320678;
+        Tue, 14 Apr 2020 17:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586882942;
-        bh=BTPcRwxL5Vi5wneFHtqBCwfk8BpgcAIHfCgs53kcGM8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SPA3Uh4kmv1fd3MaAhyaTgykoreSvt2BZMHnp9Hp26+G6y2V1rn45zs38hvTUTcQt
-         h/mm2fQW+Fg1v2/8G71BR6hkZWKvGufbL/a51oCnRyqE2jNgSKl27u4Gdj743fJnzm
-         BsMAMKFy20n7TNaGZ16JEsW1kT1mUuBMsWLZIkEY=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jOOk8-0068l2-HS; Tue, 14 Apr 2020 18:49:00 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 02/33] scripts: kernel-doc: accept negation like !@var
-Date:   Tue, 14 Apr 2020 18:48:28 +0200
-Message-Id: <0314b47f8c3e1f9db00d5375a73dc3cddd8a21f2.1586881715.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
-References: <cover.1586881715.git.mchehab+huawei@kernel.org>
+        s=default; t=1586885152;
+        bh=obYyiyTbGmR44FhMsbwJlUxtDZYky71vqYd2njr6jms=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Y5CtSHAXmi8FxInllehx4Q+/hbJorGr7xHnJEh8OrwXaVDRqavymXWjcCkm1uru3O
+         1GABxm1dHwFsya56CHvjHERqBhyBAbPb6kTashCxR/FbdjwIwIrK+FOWZFQFIXCr0Z
+         oWNdkiHpo0wqWoJxwya4QeXm9f+boK/NKm1jQzHs=
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        NeilBrown <neilb@suse.de>, Jessica Yu <jeyu@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH] docs: admin-guide: merge sections for the kernel.modprobe sysctl
+Date:   Tue, 14 Apr 2020 10:24:30 -0700
+Message-Id: <20200414172430.230293-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.26.0.110.g2183baf09c-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -58,61 +55,95 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On a few places, it sometimes need to indicate a negation of a
-parameter, like:
+From: Eric Biggers <ebiggers@google.com>
 
-	!@fshared
+Documentation for the kernel.modprobe sysctl was added both by
+commit 0317c5371e6a ("docs: merge debugging-modules.txt into
+sysctl/kernel.rst") and by commit 6e7158250625 ("docs: admin-guide:
+document the kernel.modprobe sysctl"), resulting in the same sysctl
+being documented in two places.  Merge these into one place.
 
-This pattern happens, for example, at:
-
-	kernel/futex.c
-
-and it is perfectly valid. However, kernel-doc currently
-transforms it into:
-
-	!**fshared**
-
-This won't do what it would be expected.
-
-Fortunately, fixing the script is a simple matter of storing
-the "!" before "@" and adding it after the bold markup, like:
-
-	**!fshared**
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Eric Biggers <ebiggers@google.com>
 ---
- scripts/kernel-doc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index d15c8ea95d93..b019d8db6502 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -213,6 +213,7 @@ my $type_constant = '\b``([^\`]+)``\b';
- my $type_constant2 = '\%([-_\w]+)';
- my $type_func = '(\w+)\(\)';
- my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
-+my $type_param_ref = '([\!]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
- my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
- my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
- my $type_env = '(\$\w+)';
-@@ -237,6 +238,7 @@ my @highlights_man = (
-                       [$type_typedef, "\\\\fI\$1\\\\fP"],
-                       [$type_union, "\\\\fI\$1\\\\fP"],
-                       [$type_param, "\\\\fI\$1\\\\fP"],
-+                      [$type_param_ref, "\\\\fI\$1\$2\\\\fP"],
-                       [$type_member, "\\\\fI\$1\$2\$3\\\\fP"],
-                       [$type_fallback, "\\\\fI\$1\\\\fP"]
- 		     );
-@@ -258,7 +260,7 @@ my @highlights_rst = (
-                        [$type_union, "\\:c\\:type\\:`\$1 <\$2>`"],
-                        # in rst this can refer to any type
-                        [$type_fallback, "\\:c\\:type\\:`\$1`"],
--                       [$type_param, "**\$1**"]
-+                       [$type_param_ref, "**\$1\$2**"]
- 		      );
- my $blankline_rst = "\n";
+Jon, could you take this through the docs tree as a fix for 5.7?
+
+ Documentation/admin-guide/sysctl/kernel.rst | 47 +++++++++------------
+ 1 file changed, 19 insertions(+), 28 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 39c95c0e13d30..0d427fd109419 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -390,9 +390,17 @@ When ``kptr_restrict`` is set to 2, kernel pointers printed using
+ modprobe
+ ========
+ 
+-This gives the full path of the modprobe command which the kernel will
+-use to load modules. This can be used to debug module loading
+-requests::
++The full path to the usermode helper for autoloading kernel modules,
++by default "/sbin/modprobe".  This binary is executed when the kernel
++requests a module.  For example, if userspace passes an unknown
++filesystem type to mount(), then the kernel will automatically request
++the corresponding filesystem module by executing this usermode helper.
++This usermode helper should insert the needed module into the kernel.
++
++This sysctl only affects module autoloading.  It has no effect on the
++ability to explicitly insert modules.
++
++This sysctl can be used to debug module loading requests::
+ 
+     echo '#! /bin/sh' > /tmp/modprobe
+     echo 'echo "$@" >> /tmp/modprobe.log' >> /tmp/modprobe
+@@ -400,10 +408,15 @@ requests::
+     chmod a+x /tmp/modprobe
+     echo /tmp/modprobe > /proc/sys/kernel/modprobe
+ 
+-This only applies when the *kernel* is requesting that the module be
+-loaded; it won't have any effect if the module is being loaded
+-explicitly using ``modprobe`` from userspace.
++Alternatively, if this sysctl is set to the empty string, then module
++autoloading is completely disabled.  The kernel will not try to
++execute a usermode helper at all, nor will it call the
++kernel_module_request LSM hook.
+ 
++If CONFIG_STATIC_USERMODEHELPER=y is set in the kernel configuration,
++then the configured static usermode helper overrides this sysctl,
++except that the empty string is still accepted to completely disable
++module autoloading as described above.
+ 
+ modules_disabled
+ ================
+@@ -446,28 +459,6 @@ Notes:
+      successful IPC object allocation. If an IPC object allocation syscall
+      fails, it is undefined if the value remains unmodified or is reset to -1.
+ 
+-modprobe:
+-=========
+-
+-The path to the usermode helper for autoloading kernel modules, by
+-default "/sbin/modprobe".  This binary is executed when the kernel
+-requests a module.  For example, if userspace passes an unknown
+-filesystem type to mount(), then the kernel will automatically request
+-the corresponding filesystem module by executing this usermode helper.
+-This usermode helper should insert the needed module into the kernel.
+-
+-This sysctl only affects module autoloading.  It has no effect on the
+-ability to explicitly insert modules.
+-
+-If this sysctl is set to the empty string, then module autoloading is
+-completely disabled.  The kernel will not try to execute a usermode
+-helper at all, nor will it call the kernel_module_request LSM hook.
+-
+-If CONFIG_STATIC_USERMODEHELPER=y is set in the kernel configuration,
+-then the configured static usermode helper overrides this sysctl,
+-except that the empty string is still accepted to completely disable
+-module autoloading as described above.
+-
+ nmi_watchdog
+ ============
  
 -- 
-2.25.2
+2.26.0.110.g2183baf09c-goog
 
