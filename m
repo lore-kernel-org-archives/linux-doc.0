@@ -7,51 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0FF9C352BE
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C427DC2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5505206E9
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93816206E9
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586883163;
-	bh=flQ66rWLqLJ9tP/xDtQuASEFxj/jeRx5dEzURVCNupI=;
+	s=default; t=1586883171;
+	bh=pkQRKk4Q3BJwEsZPq9Rvl8GhUQxw4EhOBSPeWUeyTXI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=uTfTzJi58kaJlynE6lFK3taF2+Q/X2MfmQC4slz5MFEDZM393AmBHn/vkDPw1X8Y7
-	 OKQz0O8WEd5EeLn+hOr/WCq5EHTT+v1jVgrXT0XZ89jtsFKPt/58s13R8JtiMu0cYX
-	 Tup1cceFee33Mkhb7rO7wi0W0W4rA3sk++27KxSk=
+	b=CcvyqpneW49qC35PTeDtkM9HAGaADYNTWDSMkHaIAFWPVMHpy8ZmlrmnN+1uMmY3r
+	 x0iGihjM5PwQ7fSRWcQ/LQvZxdmPBTbIDTO4nh03k6U10EbClw2io9s+zI7VwJip1p
+	 gs07T4h3QpS0lcnNo0JGPXuYOoheSSoGk8p0n9WQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502464AbgDNQwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:52:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55570 "EHLO mail.kernel.org"
+        id S2502458AbgDNQwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:52:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55568 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440372AbgDNQtR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2440373AbgDNQtR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Apr 2020 12:49:17 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 50535221F9;
+        by mail.kernel.org (Postfix) with ESMTPSA id 3AD4C221EC;
         Tue, 14 Apr 2020 16:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586882943;
-        bh=flQ66rWLqLJ9tP/xDtQuASEFxj/jeRx5dEzURVCNupI=;
+        bh=pkQRKk4Q3BJwEsZPq9Rvl8GhUQxw4EhOBSPeWUeyTXI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Q0JY4DW9t2PKzK1LpWDCW4AhW1GDqNINIMiwomqLyT1rVVNZ4kR45t6n4W80bAwV1
-         +YD8udW+6wogJ4b6qNd1fHABzBwHnKQBsXn5nvAe6ML/TXErwq6tzA/Ob2S28hRhEM
-         mGB51bHwj54EjaDIXfZtSGyY+ODXdGoe9g2mcIR8=
+        b=rG5nVl1W0Rid3dG6nLfg4tMmA1DCW3FdHWe3eGgKITbBHXDH/TchxjTJtcazKc+3d
+         puylXEIwwgNpsv8d6R8mE+cNxmdX/0dkZO4ZgaMsYW1I6wEaqeDQdbKoWeP2Fh26PN
+         nnj+98DwIsnMxETSV0SYEMQjrN1HycbwkRRrcDsE=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOOk9-0068nT-IZ; Tue, 14 Apr 2020 18:49:01 +0200
+        id 1jOOk9-0068nE-Fy; Tue, 14 Apr 2020 18:49:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>
-Subject: [PATCH v2 32/33] futex: get rid of a kernel-docs build warning
-Date:   Tue, 14 Apr 2020 18:48:58 +0200
-Message-Id: <57788af7889161483e0c97f91c079cfb3986c4b3.1586881715.git.mchehab+huawei@kernel.org>
+        Jens Axboe <axboe@kernel.dk>, linux-ide@vger.kernel.org
+Subject: [PATCH v2 29/33] ata: libata-core: fix a doc warning
+Date:   Tue, 14 Apr 2020 18:48:55 +0200
+Message-Id: <9a21444df75c46095c4b1839d2061d19c9addcff.1586881715.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
 References: <cover.1586881715.git.mchehab+huawei@kernel.org>
@@ -62,33 +59,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adjust whitespaces and blank lines in order to get rid of this:
+The docs toolchain doesn't recognise this pattern:
 
-	./kernel/futex.c:491: WARNING: Definition list ends without a blank line; unexpected unindent.
+	@link->[hw_]sata_spd_limit
+
+As it can't really process it. So, instead, let's mark it with
+a literal block markup:
+
+	``link->[hw_]sata_spd_limit``
+
+in order to get rid of the following warning:
+
+	./drivers/ata/libata-core.c:5974: WARNING: Unknown target name: "hw".
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- kernel/futex.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/ata/libata-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/futex.c b/kernel/futex.c
-index b59532862bc0..b4b9f960b610 100644
---- a/kernel/futex.c
-+++ b/kernel/futex.c
-@@ -486,10 +486,13 @@ static u64 get_inode_sequence_number(struct inode *inode)
-  * The key words are stored in @key on success.
+diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+index beca5f91bb4c..69361ec43db5 100644
+--- a/drivers/ata/libata-core.c
++++ b/drivers/ata/libata-core.c
+@@ -5209,7 +5209,7 @@ void ata_link_init(struct ata_port *ap, struct ata_link *link, int pmp)
+  *	sata_link_init_spd - Initialize link->sata_spd_limit
+  *	@link: Link to configure sata_spd_limit for
   *
-  * For shared mappings (when @fshared), the key is:
-+ *
-  *   ( inode->i_sequence, page->index, offset_within_page )
-+ *
-  * [ also see get_inode_sequence_number() ]
+- *	Initialize @link->[hw_]sata_spd_limit to the currently
++ *	Initialize ``link->[hw_]sata_spd_limit`` to the currently
+  *	configured value.
   *
-  * For private mappings (or when !@fshared), the key is:
-+ *
-  *   ( current->mm, address, 0 )
-  *
-  * This allows (cross process, where applicable) identification of the futex
+  *	LOCKING:
 -- 
 2.25.2
 
