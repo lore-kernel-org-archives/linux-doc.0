@@ -2,53 +2,52 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	URIBL_SBL,URIBL_SBL_A,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A244DC38A29
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B7EDC352B6
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E8DF206E9
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C5AA2082E
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586854295;
-	bh=LXT+f0za3eptyCW+DPyNs7MaHrWlm8zhDxhU4H6VBWU=;
+	s=default; t=1586854294;
+	bh=/nMy/VTPLC8KdPETiP+MobS13F2QeC4I/2mqQFzK7Fc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=DVZKTtAX9GHEoQY2Xg4U3NgsGVbWpmWspmKS+tx3JyBD4cy7cokNB4CwqtmBzLSjc
-	 eWocYVOs33uzI2pxgyzdFd83neiCQA0szKCz2NmRubMjYJta2LpyUDvh13lCTik5r5
-	 z2NDkXK8RaiJ4QIJR0GWuu6R9zaI1GMYqbE0MPe4=
+	b=Q+1NZRm92uabybCzMZPq7623bfm1KmvjcjndR9L1w5+8Ahk1xionY9Cj/1g/6SA9/
+	 58K9fi/L6fSyBSykh4a25ekLP3ixC4mHNglLsWEobUpD6r0m33cgPDu9TyhtdVoFkI
+	 aqpQcHovKpxGxzU9l+YQULZN664AovVIJ0Sornmc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437106AbgDNIvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2437128AbgDNIvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 14 Apr 2020 04:51:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52242 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:52230 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437101AbgDNIvO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728251AbgDNIvO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Apr 2020 04:51:14 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2F4F20CC7;
+        by mail.kernel.org (Postfix) with ESMTPSA id A4EA52076C;
         Tue, 14 Apr 2020 08:51:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586854269;
-        bh=LXT+f0za3eptyCW+DPyNs7MaHrWlm8zhDxhU4H6VBWU=;
+        bh=/nMy/VTPLC8KdPETiP+MobS13F2QeC4I/2mqQFzK7Fc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LwaefZVW5GDZpnkdcRuQ9t5+pd11EEGh5AzyIPPyWUghfgJmBg+6DA/qPc8zjJDA5
-         ctjZb14lFcAUKmbmagVvOzbOQBz7c6erkL+olo2v0fRYc8qZPImTcyDOjflSF5Zk5M
-         cCFKHfnt7965jZHTQVJFvag89ROzhLajgUe/ypu8=
+        b=mVTfi2uVXEQSidwoU+TwlBhUs6Hwj7aKd0wGXvHRMC4JBrRkLr4XZrCOk7j4sNpCk
+         DMj12715Y2CcR2H5bu1nDeXjXy+vOa8X/SCpn3rmn2uhD/R0AP1SIJvdawDpPPgdJU
+         IAzoKo8MpC618GX3aha1EtidIQxlB0QQ4WvowqN8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOHHf-002wzV-87; Tue, 14 Apr 2020 10:51:07 +0200
+        id 1jOHHe-002wyu-TX; Tue, 14 Apr 2020 10:51:06 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 10/19] media: docs: update Digital TV faq.rst
-Date:   Tue, 14 Apr 2020 10:50:56 +0200
-Message-Id: <62e6d7814f839366e9712ee680e6e9323e52eec4.1586854191.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 03/19] media: docs: dvb_intro.rst: update its contents
+Date:   Tue, 14 Apr 2020 10:50:49 +0200
+Message-Id: <f0aca05ee3427f1fac38e778504e2165ebdcdb86.1586854191.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586854191.git.mchehab+huawei@kernel.org>
 References: <cover.1586854191.git.mchehab+huawei@kernel.org>
@@ -59,335 +58,796 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file contains lots of obsoleted information. Update it
-to reflect the current status and tools used by Digital TV
-users and add pointers to the current locations and to
-LinuxTV wiki pages.
+The content there is somewhat outdated. Update to reflect
+the current status.
+
+While here, remove extra spaces, as we won't be preserving
+left margin alinment on this document.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/media/faq.rst | 253 ++++++++++++++----------
- 1 file changed, 150 insertions(+), 103 deletions(-)
+ Documentation/admin-guide/media/dvb_intro.rst | 736 ++++++++++++++----
+ 1 file changed, 575 insertions(+), 161 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/faq.rst b/Documentation/admin-guide/media/faq.rst
-index 52f153d18278..b63548b6f313 100644
---- a/Documentation/admin-guide/media/faq.rst
-+++ b/Documentation/admin-guide/media/faq.rst
-@@ -5,101 +5,143 @@ FAQ
+diff --git a/Documentation/admin-guide/media/dvb_intro.rst b/Documentation/admin-guide/media/dvb_intro.rst
+index af9516f2cb60..44eac9b3be6c 100644
+--- a/Documentation/admin-guide/media/dvb_intro.rst
++++ b/Documentation/admin-guide/media/dvb_intro.rst
+@@ -4,199 +4,613 @@
+ Using the Digital TV Framework
+ ==============================
  
- .. note::
+-February 14th 2006
+-
+ Introduction
+ ~~~~~~~~~~~~
  
+-.. note::
+-
 -   This documentation is outdated. Please check at the DVB wiki
 -   at https://linuxtv.org/wiki for more updated info.
-+     1. With Digital TV, a single physical channel may have different
-+	contents inside it. The specs call each one as a *service*.
-+	This is what a TV user would call "channel". So, in order to
-+	avoid confusion, we're calling *transponders* as the physical
-+	channel on this FAQ, and *services* for the logical channel.
-+     2. The LinuxTV community maintains some Wiki pages with contain
-+        a lot of information related to the media subsystem. If you
-+        don't find an answer for your needs here, it is likely that
-+        you'll be able to get something useful there. It is hosted
-+	at:
- 
--Some very frequently asked questions about linuxtv-dvb
-+	https://www.linuxtv.org/wiki/
-+
-+Some very frequently asked questions about Linux Digital TV support
- 
- 1. The signal seems to die a few seconds after tuning.
- 
- 	It's not a bug, it's a feature. Because the frontends have
- 	significant power requirements (and hence get very hot), they
- 	are powered down if they are unused (i.e. if the frontend device
--	is closed). The dvb-core.o module parameter "dvb_shutdown_timeout"
-+	is closed). The ``dvb-core`` module parameter ``dvb_shutdown_timeout``
- 	allow you to change the timeout (default 5 seconds). Setting the
- 	timeout to 0 disables the timeout feature.
- 
- 2. How can I watch TV?
- 
--	The driver distribution includes some simple utilities which
--	are mainly intended for testing and to demonstrate how the
--	DVB API works.
 -
--	Depending on whether you have a DVB-S, DVB-C or DVB-T card, use
--	apps/szap/szap, czap or tzap. You must supply a channel list
--	in ~/.[sct]zap/channels.conf. If you are lucky you can just copy
--	one of the supplied channel lists, or you can create a new one
--	by running apps/scan/scan. If you run scan on an unknown network
--	you might have to supply some start data in apps/scan/initial.h.
+-   There's a section there specific for Avermedia boards at:
+-   https://linuxtv.org/wiki/index.php/AVerMedia
 -
--	If you have a card with a built-in hardware MPEG-decoder the
--	drivers create a video4linux device (/dev/v4l/video0) which
--	you can use to watch TV with any v4l application. xawtv is known
--	to work. Note that you cannot change channels with xawtv, you
--	have to zap using [sct]zap. If you want a nice application for
--	TV watching and record/playback, have a look at VDR.
 -
--	If your card does not have a hardware MPEG decoder you need
--	a software MPEG decoder. Mplayer or xine are known to work.
--	Newsflash: MythTV also has DVB support now.
--	Note: Only very recent versions of Mplayer and xine can decode.
--	MPEG2 transport streams (TS) directly. Then, run
--	'[sct]zap channelname -r' in one xterm, and keep it running,
--	and start 'mplayer - < /dev/dvb/adapter0/dvr0' or
--	'xine stdin://mpeg2 < /dev/dvb/adapter0/dvr0' in a second xterm.
--	That's all far from perfect, but it seems no one has written
--	a nice DVB application which includes a builtin software MPEG
--	decoder yet.
+-Assumptions and Introduction
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -
--	Newsflash: Newest xine directly supports DVB. Just copy your
--	channels.conf to ~/.xine and start 'xine dvb://', or select
--	the DVB button in the xine GUI. Channel switching works using the
--	numpad pgup/pgdown (NP9 / NP3) keys to scroll through the channel osd
--	menu and pressing numpad-enter to switch to the selected channel.
+-It  is assumed that the reader understands the basic structure
+-of  the Linux Kernel DVB drivers and the general principles of
+-Digital TV.
 -
--	Note: Older versions of xine and mplayer understand MPEG program
--	streams (PS) only, and can be used in conjunction with the
--	ts2ps tool from the Metzler Brother's dvb-mpegtools package.
+-One  significant difference between Digital TV and Analogue TV
+-that  the  unwary  (like  myself)  should  consider  is  that,
+-although  the  component  structure  of budget DVB-T cards are
+-substantially  similar  to Analogue TV cards, they function in
+-substantially different ways.
 -
--3. Which other DVB applications exist?
+-The  purpose  of  an  Analogue TV is to receive and display an
+-Analogue  Television  signal. An Analogue TV signal (otherwise
+-known  as  composite  video)  is  an  analogue  encoding  of a
+-sequence  of  image frames (25 per second) rasterised using an
+-interlacing   technique.   Interlacing  takes  two  fields  to
+-represent  one  frame.  Computers today are at their best when
+-dealing  with  digital  signals,  not  analogue  signals and a
+-composite  video signal is about as far removed from a digital
+-data stream as you can get. Therefore, an Analogue TV card for
+-a PC has the following purpose:
++One significant difference between Digital TV and Analogue TV that the
++unwary (like myself) should consider is that, although the component
++structure of DVB-T cards are substantially similar to Analogue TV cards,
++they function in substantially different ways.
++
++The purpose of an Analogue TV is to receive and display an Analogue
++Television signal. An Analogue TV signal (otherwise known as composite
++video) is an analogue encoding of a sequence of image frames (25 frames
++per second in Europe) rasterised using an interlacing technique.
++Interlacing takes two fields to represent one frame. Therefore, an
++Analogue TV card for a PC has the following purpose:
+ 
+ * Tune the receiver to receive a broadcast signal
+ * demodulate the broadcast signal
+-* demultiplex  the  analogue video signal and analogue audio
+-  signal. **NOTE:** some countries employ a digital audio signal
+-  embedded  within the modulated composite analogue signal -
+-  NICAM.)
+-* digitize  the analogue video signal and make the resulting
+-  datastream available to the data bus.
 -
--	http://www.cadsoft.de/people/kls/vdr/
-+	Together with the Linux Kernel, the Digital TV developers support
-+	some simple utilities which are mainly intended for testing
-+	and to demonstrate how the DVB API works. This is called DVB v5
-+	tools and are grouped together with the ``v4l-utils`` git repository:
-+
-+	    https://git.linuxtv.org/v4l-utils.git/
-+
-+	You can find more information at the LinuxTV wiki:
-+
-+	    https://www.linuxtv.org/wiki/index.php/DVBv5_Tools
-+
-+	The first step is to get a list of services that are transmitted.
-+
-+	This is done by using several existing tools. You can use
-+	for example the ``dvbv5-scan`` tool. You can find more information
-+	about it at:
-+
-+	    https://www.linuxtv.org/wiki/index.php/Dvbv5-scan
-+
-+	There are some other applications like ``w_scan`` [#]_ that do a
-+	blind scan, trying hard to find all possible channels, but
-+	those consumes a large amount of time to run.
-+
-+	.. [#] https://www.linuxtv.org/wiki/index.php/W_scan
-+
-+	Also, some applications like ``kaffeine`` have their own code
-+	to scan for services. So, you don't need to use an external
-+	application to obtain such list.
-+
-+	Most of such tools need a file containing a list of channel
-+	transponders available on your area. So, LinuxTV developers
-+	maintain tables of Digital TV channel transponders, receiving
-+	patches from the community to keep them updated.
-+
-+	This list is hosted at:
-+
-+	    https://git.linuxtv.org/dtv-scan-tables.git
-+
-+	And packaged on several distributions.
-+
-+	Kaffeine has some blind scan support for some terrestrial standards.
-+	It also relies on DTV scan tables, although it contains a copy
-+	of it internally (and, if requested by the user, it will download
-+	newer versions of it).
-+
-+	If you are lucky you can just use one of the supplied channel
-+	transponders. If not, you may need to seek for such info at
-+	the Internet and create a new file. There are several sites with
-+	contains physical channel lists. For cable and satellite, usually
-+	knowing how to tune into a single channel is enough for the
-+	scanning tool to identify the other channels. On some places,
-+	this could also work for terrestrial transmissions.
-+
-+	Once you have a transponders list, you need to generate a services
-+	list with a tool like ``dvbv5-scan``.
-+
-+	Almost all modern Digital TV cards don't have built-in hardware
-+	MPEG-decoders. So, it is up to the application to get a MPEG-TS
-+	stream provided by the board, split it into audio, video and other
-+	data and decode.
-+
-+3. Which Digital TV applications exist?
-+
-+	Several media player applications are capable of tuning into
-+	digital TV channels, including Kaffeine, Vlc, mplayer and MythTV.
-+
-+	Kaffeine aims to be very user-friendly, and it is maintained
-+	by one of the Kernel driver developers.
-+
-+	A comprehensive list of those and other apps can be found at:
-+
-+	    https://www.linuxtv.org/wiki/index.php/TV_Related_Software
-+
-+	Some of the most popular ones are linked below:
-+
-+	https://kde.org/applications/multimedia/org.kde.kaffeine
-+		KDE media player, focused on Digital TV support
-+
-+	https://www.linuxtv.org/vdrwiki/index.php/Main_Page
- 		Klaus Schmidinger's Video Disk Recorder
- 
--	http://www.metzlerbros.org/dvb/
--		Metzler Bros. DVB development; alternate drivers and
--		DVB utilities, include dvb-mpegtools and tuxzap.
-+	https://linuxtv.org/downloads and https://git.linuxtv.org/
-+		Digital TV and other media-related applications and
-+		Kernel drivers. The ``v4l-utils`` package there contains
-+		several swiss knife tools for using with Digital TV.
- 
- 	http://sourceforge.net/projects/dvbtools/
- 		Dave Chapman's dvbtools package, including
- 		dvbstream and dvbtune
- 
--	http://www.linuxdvb.tv/
--		Henning Holtschneider's site with many interesting
--		links and docs
+-The  digital  datastream from an Analogue TV card is generated
+-by  circuitry on the card and is often presented uncompressed.
+-For  a PAL TV signal encoded at a resolution of 768x576 24-bit
+-color pixels over 25 frames per second - a fair amount of data
+-is  generated and must be processed by the PC before it can be
+-displayed  on the video monitor screen. Some Analogue TV cards
+-for  PCs  have  onboard  MPEG2  encoders  which permit the raw
+-digital  data  stream  to be presented to the PC in an encoded
+-and  compressed  form  -  similar  to the form that is used in
+-Digital TV.
 -
- 	http://www.dbox2.info/
- 		LinuxDVB on the dBox2
- 
--	http://www.tuxbox.org/ and http://cvs.tuxbox.org/
-+	http://www.tuxbox.org/
- 		the TuxBox CVS many interesting DVB applications and the dBox2
- 		DVB source
- 
--	https://linuxtv.org/downloads
--		DVB Swiss Army Knife library and utilities
+-The  purpose of a simple budget digital TV card (DVB-T,C or S)
+-is to simply:
 -
- 	http://www.nenie.org/misc/mpsys/
- 		MPSYS: a MPEG2 system library and tools
+-* Tune the received to receive a broadcast signal.
+-* Extract  the encoded digital datastream from the broadcast
++* demultiplex the analogue video signal and analogue audio
+   signal.
+-* Make  the  encoded digital datastream (MPEG2) available to
+-  the data bus.
+-
+-The  significant  difference between the two is that the tuner
+-on  the analogue TV card spits out an Analogue signal, whereas
+-the  tuner  on  the  digital  TV  card  spits out a compressed
+-encoded   digital   datastream.   As  the  signal  is  already
+-digitised,  it  is  trivial  to pass this datastream to the PC
+-databus  with  minimal  additional processing and then extract
+-the  digital  video  and audio datastreams passing them to the
+-appropriate software or hardware for decoding and viewing.
  
-+	https://www.videolan.org/vlc/index.pt.html
-+		Vlc
++  .. note::
 +
- 	http://mplayerhq.hu/
--		mplayer
-+		MPlayer
- 
- 	http://xine.sourceforge.net/ and http://xinehq.de/
--		xine
-+		Xine
- 
- 	http://www.mythtv.org/
--		MythTV - analog TV PVR, but now with DVB support, too
--		(with software MPEG decode)
-+		MythTV - analog TV and digital TV PVR
- 
- 	http://dvbsnoop.sourceforge.net/
- 		DVB sniffer program to monitor, analyze, debug, dump
-@@ -108,62 +150,67 @@ Some very frequently asked questions about linuxtv-dvb
- 
- 4. Can't get a signal tuned correctly
- 
--	If you are using a Technotrend/Hauppauge DVB-C card *without* analog
--	module, you might have to use module parameter adac=-1 (dvb-ttpci.o).
-+	That could be due to a lot of problems. On my personal experience,
-+	usually TV cards need stronger signals than TV sets, and are more
-+	sensitive to noise. So, perhaps you just need a better antenna or
-+	cabling. Yet, it could also be some hardware or driver issue.
++     some countries employ a digital audio signal
++     embedded within the modulated composite analogue signal -
++     using NICAM signaling.)
 +
-+	For example, if you are using a Technotrend/Hauppauge DVB-C card
-+	*without* analog module, you might have to use module parameter
-+	adac=-1 (dvb-ttpci.o).
++* digitize the analogue video signal and make the resulting datastream
++  available to the data bus.
 +
-+	Please see the FAQ page at linuxtv.org, as it could contain some
-+	valuable information:
++The digital datastream from an Analogue TV card is generated by
++circuitry on the card and is often presented uncompressed. For a PAL TV
++signal encoded at a resolution of 768x576 24-bit color pixels over 25
++frames per second - a fair amount of data is generated and must be
++processed by the PC before it can be displayed on the video monitor
++screen. Some Analogue TV cards for PCs have onboard MPEG2 encoders which
++permit the raw digital data stream to be presented to the PC in an
++encoded and compressed form - similar to the form that is used in
++Digital TV.
 +
-+	    https://www.linuxtv.org/wiki/index.php/FAQ_%26_Troubleshooting
++The purpose of a simple budget digital TV card (DVB-T,C or S) is to
++simply:
 +
-+	If that doesn't work, check at the linux-media ML archives, to
-+	see if someone else had a similar problem with your hardware
-+	and/or digital TV service provider:
++* Tune the received to receive a broadcast signal. * Extract the encoded
++  digital datastream from the broadcast signal.
++* Make the encoded digital datastream (MPEG2) available to the data bus.
 +
-+	    https://lore.kernel.org/linux-media/
++The significant difference between the two is that the tuner on the
++analogue TV card spits out an Analogue signal, whereas the tuner on the
++digital TV card spits out a compressed encoded digital datastream. As
++the signal is already digitised, it is trivial to pass this datastream
++to the PC databus with minimal additional processing and then extract
++the digital video and audio datastreams passing them to the appropriate
++software or hardware for decoding and viewing.
+ 
+ Getting the card going
+ ~~~~~~~~~~~~~~~~~~~~~~
+ 
+-In order to fire up the card, it is necessary to load a number
+-of modules from the DVB driver set. Prior to this it will have
+-been  necessary to download these drivers from the linuxtv CVS
+-server and compile them successfully.
++The Device Driver API for DVB under Linux will the following
++device nodes via the devfs filesystem:
+ 
+-Depending on the card's feature set, the Device Driver API for
+-DVB under Linux will expose some of the following device files
+-in the /dev tree:
+-
+-* /dev/dvb/adapter0/audio0
+-* /dev/dvb/adapter0/ca0
+ * /dev/dvb/adapter0/demux0
+ * /dev/dvb/adapter0/dvr0
+ * /dev/dvb/adapter0/frontend0
 +
-+	If none of this works, you can try sending an e-mail to the
-+	linux-media ML and see if someone else could shed some light.
-+	The e-mail is linux-media AT vger.kernel.org.
++The ``/dev/dvb/adapter0/dvr0`` device node is used to read the MPEG2
++Data Stream and the ``/dev/dvb/adapter0/frontend0`` device node is used
++to tune the frontend tuner module. The ``/dev/dvb/adapter0/demux0`` is
++used to control what programs will be received.
++
++Depending on the card's feature set, the Device Driver API could also
++expose other device nodes:
++
++* /dev/dvb/adapter0/ca0
++* /dev/dvb/adapter0/audio0
+ * /dev/dvb/adapter0/net0
+ * /dev/dvb/adapter0/osd0
+ * /dev/dvb/adapter0/video0
  
- 5. The dvb_net device doesn't give me any packets at all
+-The  primary  device  nodes that we are interested in (at this
+-stage) for the Avermedia DVB-T are:
++The ``/dev/dvb/adapter0/ca0`` is used to decode encrypted channels. The
++other device nodes are found only on devices that use the av7110
++driver, with is now obsoleted, together with the extra API whose such
++devices use.
  
--	Run tcpdump on the dvb0_0 interface. This sets the interface
-+	Run ``tcpdump`` on the ``dvb0_0`` interface. This sets the interface
- 	into promiscuous mode so it accepts any packets from the PID
--	you have configured with the dvbnet utility. Check if there
-+	you have configured with the ``dvbnet`` utility. Check if there
- 	are any packets with the IP addr and MAC addr you have
--	configured with ifconfig.
-+	configured with ``ifconfig`` or with ``ip addr``.
+-* /dev/dvb/adapter0/dvr0
+-* /dev/dvb/adapter0/frontend0
++Receiving a digital TV channel
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
--	If tcpdump doesn't give you any output, check the statistics
--	which ifconfig outputs. (Note: If the MAC address is wrong,
--	dvb_net won't get any input; thus you have to run tcpdump
--	before checking the statistics.) If there are no packets at
--	all then maybe the PID is wrong. If there are error packets,
-+	If ``tcpdump`` doesn't give you any output, check the statistics
-+	which ``ifconfig`` or ``netstat -ni`` outputs. (Note: If the MAC
-+	address is wrong, ``dvb_net`` won't get any input; thus you have to
-+	run ``tcpdump`` before checking the statistics.) If there are no
-+	packets at all then maybe the PID is wrong. If there are error packets,
- 	then either the PID is wrong or the stream does not conform to
- 	the MPE standard (EN 301 192, http://www.etsi.org/). You can
--	use e.g. dvbsnoop for debugging.
-+	use e.g. ``dvbsnoop`` for debugging.
+-The dvr0 device node is used to read the MPEG2 Data Stream and
+-the frontend0 node is used to tune the frontend tuner module.
++This section attempts to explain how it works and how this affects the
++configuration of a Digital TV card.
  
--6. The dvb_net device doesn't give me any multicast packets
-+6. The ``dvb_net`` device doesn't give me any multicast packets
++On this example, we're considering tuning into DVB-T channels in
++Australia, at the Melbourne region.
  
- 	Check your routes if they include the multicast address range.
- 	Additionally make sure that "source validation by reversed path
--	lookup" is disabled:
+-Receiving DVB-T in Australia
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -
--.. code-block:: none
-+	lookup" is disabled::
+-I  have  no  experience of DVB-T in other countries other than
+-Australia,  so  I will attempt to explain how it works here in
+-Melbourne  and how this affects the configuration of the DVB-T
+-card.
+-
+-The  Digital  Broadcasting  Australia  website has a Reception
+-locatortool which provides information on transponder channels
+-and  frequencies.  My  local  transmitter  happens to be Mount
+-Dandenong.
+-
+-The frequencies broadcast by Mount Dandenong are:
++The frequencies broadcast by Mount Dandenong transmitters are,
++currently:
  
- 	  $ "echo 0 > /proc/sys/net/ipv4/conf/dvb0/rp_filter"
+ Table 1. Transponder Frequencies Mount Dandenong, Vic, Aus.
  
--7. What the hell are all those modules that need to be loaded?
-+7. What are all those modules that need to be loaded?
+-=========== ======= ===========
+-Broadcaster Channel Frequency
+-=========== ======= ===========
+-ABC         VHF 12  226.5 MHz
+-TEN         VHF 11  219.5 MHz
+-NINE        VHF 8   191.625 MHz
+-SEVEN       VHF 6   177.5 MHz
+-SBS         UHF 29  536.5 MHz
+-=========== ======= ===========
++===========	===========
++Broadcaster	Frequency
++===========	===========
++Seven		177.500 Mhz
++SBS		184.500 Mhz
++Nine		191.625 Mhz
++Ten		219.500 Mhz
++ABC		226.500 Mhz
++Channel 31	557.625 Mhz
++===========	===========
  
--	For a dvb-ttpci av7110 based full-featured card the following
--	modules are loaded:
-+	In order to make it more flexible and support different hardware
-+	combinations, the media subsystem is written on a modular way.
+-The Scan utility has a set of compiled-in defaults for various
+-countries and regions, but if they do not suit, or if you have
+-a pre-compiled scan binary, you can specify a data file on the
+-command  line which contains the transponder frequencies. Here
+-is a sample file for the above channel transponders:
++The digital TV Scan utilities (like dvbv5-scan) have use a set of
++compiled-in defaults for various countries and regions. Those are
++currently provided as a separate package, called dtv-scan-tables. It's
++git tree is located at LinuxTV.org:
  
--	- videodev: Video4Linux core module. This is the base module that
--	  gives you access to the "analog" tv picture of the av7110 mpeg2
--	  decoder.
--
--	- v4l2-common: common functions for Video4Linux-2 drivers
--
--	- v4l1-compat: backward compatibility layer for Video4Linux-1 legacy
--	  applications
--
--	- dvb-core: DVB core module. This provides you with the
--	  /dev/dvb/adapter entries
--
--	- saa7146: SAA7146 core driver. This is need to access any SAA7146
--	  based card in your system.
--
--	- saa7146_vv: SAA7146 video and vbi functions. These are only needed
--	  for full-featured cards.
--
--	- videobuf-dma-sg: capture helper module for the saa7146_vv driver. This
--	  one is responsible to handle capture buffers.
--
--	- dvb-ttpci: The main driver for AV7110 based, full-featured
--	  DVB-S/C/T cards
-+	So, besides the Digital TV hardware module for the main chipset,
-+	it also needs to load a frontend driver, plus the Digital TV
-+	core. If the board also has remote controller, it will also
-+	need the remote controller core and the remote controller tables.
-+	The same happens if the board has support for analog TV: the
-+	core support for video4linux need to be loaded.
+-::
++    https://git.linuxtv.org/dtv-scan-tables.git/
++
++If none of the tables there suit, you can specify a data file on the
++command line which contains the transponder frequencies. Here is a
++sample file for the above channel transponders, in the old "channel"
++format::
  
-+	The actual module names are Linux-kernel version specific, as,
-+	from time to time, things change, in order to make the media
-+	support more flexible.
+ 	# Data file for DVB scan program
+ 	#
+ 	# C Frequency SymbolRate FEC QAM
+ 	# S Frequency Polarisation SymbolRate FEC
+ 	# T Frequency Bandwidth FEC FEC2 QAM Mode Guard Hier
+-	T 226500000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
+-	T 191625000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
+-	T 219500000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
+-	T 177500000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
+-	T 536500000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
+-
+-The   defaults   for   the  transponder  frequency  and  other
+-modulation parameters were obtained from www.dba.org.au.
+-
+-When  Scan  runs, it will output channels.conf information for
+-any  channel's transponders which the card's frontend can lock
+-onto.  (i.e.  any  whose  signal  is  strong  enough  at  your
+-antenna).
+-
+-Here's my channels.conf file for anyone who's interested:
+-
+-::
+-
+-	ABC HDTV:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:2307:0:560
+-	ABC TV Melbourne:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:561
+-	ABC TV 2:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:562
+-	ABC TV 3:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:563
+-	ABC TV 4:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:564
+-	ABC DiG Radio:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:0:2311:566
+-	TEN Digital:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1585
+-	TEN Digital 1:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1586
+-	TEN Digital 2:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1587
+-	TEN Digital 3:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1588
+-	TEN Digital:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1589
+-	TEN Digital 4:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1590
+-	TEN Digital:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1591
+-	TEN HD:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:514:0:1592
+-	TEN Digital:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1593
+-	Nine Digital:191625000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:513:660:1072
+-	Nine Digital HD:191625000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:0:1073
+-	Nine Guide:191625000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:514:670:1074
+-	7 Digital:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:769:770:1328
+-	7 Digital 1:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:769:770:1329
+-	7 Digital 2:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:769:770:1330
+-	7 Digital 3:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:769:770:1331
+-	7 HD Digital:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:833:834:1332
+-	7 Program Guide:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:865:866:1334
+-	SBS HD:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:102:103:784
+-	SBS DIGITAL 1:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:161:81:785
+-	SBS DIGITAL 2:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:162:83:786
+-	SBS EPG:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:163:85:787
+-	SBS RADIO 1:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:0:201:798
+-	SBS RADIO 2:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:0:202:799
++
++	T 177500000 7MHz AUTO AUTO QAM64 8k 1/16 NONE
++	T 184500000 7MHz AUTO AUTO QAM64 8k 1/8 NONE
++	T 191625000 7MHz AUTO AUTO QAM64 8k 1/16 NONE
++	T 219500000 7MHz AUTO AUTO QAM64 8k 1/16 NONE
++	T 226500000 7MHz AUTO AUTO QAM64 8k 1/16 NONE
++	T 557625000 7MHz AUTO AUTO QPSK 8k 1/16 NONE
++
++Nowadays, we prefer to use a newer format, with is more verbose and easier
++to understand. With the new format, the "Seven" channel transponder's
++data is represented by::
++
++	[Seven]
++		DELIVERY_SYSTEM = DVBT
++		FREQUENCY = 177500000
++		BANDWIDTH_HZ = 7000000
++		CODE_RATE_HP = AUTO
++		CODE_RATE_LP = AUTO
++		MODULATION = QAM/64
++		TRANSMISSION_MODE = 8K
++		GUARD_INTERVAL = 1/16
++		HIERARCHY = NONE
++		INVERSION = AUTO
++
++For an updated version of the complete table, please see:
++
++    https://git.linuxtv.org/dtv-scan-tables.git/tree/dvb-t/au-Melbourne
++
++When the Digital TV scanning utility runs, it will output a file
++containing the information for all the audio and video programs that
++exists into each channel's transponders which the card's frontend can
++lock onto. (i.e. any whose signal is strong enough at your antenna).
++
++Here's the output of the dvbv5 tools from a channel scan took from
++Melburne::
++
++    [ABC HDTV]
++	    SERVICE_ID = 560
++	    VIDEO_PID = 2307
++	    AUDIO_PID = 0
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 226500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 3/4
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [ABC TV Melbourne]
++	    SERVICE_ID = 561
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 226500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 3/4
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [ABC TV 2]
++	    SERVICE_ID = 562
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 226500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 3/4
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [ABC TV 3]
++	    SERVICE_ID = 563
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 226500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 3/4
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [ABC TV 4]
++	    SERVICE_ID = 564
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 226500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 3/4
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [ABC DiG Radio]
++	    SERVICE_ID = 566
++	    VIDEO_PID = 0
++	    AUDIO_PID = 2311
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 226500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 3/4
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [TEN Digital]
++	    SERVICE_ID = 1585
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 219500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [TEN Digital 1]
++	    SERVICE_ID = 1586
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 219500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [TEN Digital 2]
++	    SERVICE_ID = 1587
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 219500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [TEN Digital 3]
++	    SERVICE_ID = 1588
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 219500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [TEN Digital]
++	    SERVICE_ID = 1589
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 219500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [TEN Digital 4]
++	    SERVICE_ID = 1590
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 219500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [TEN Digital]
++	    SERVICE_ID = 1591
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 219500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [TEN HD]
++	    SERVICE_ID = 1592
++	    VIDEO_PID = 514
++	    AUDIO_PID = 0
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 219500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [TEN Digital]
++	    SERVICE_ID = 1593
++	    VIDEO_PID = 512
++	    AUDIO_PID = 650
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 219500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [Nine Digital]
++	    SERVICE_ID = 1072
++	    VIDEO_PID = 513
++	    AUDIO_PID = 660
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 191625000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [Nine Digital HD]
++	    SERVICE_ID = 1073
++	    VIDEO_PID = 512
++	    AUDIO_PID = 0
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 191625000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [Nine Guide]
++	    SERVICE_ID = 1074
++	    VIDEO_PID = 514
++	    AUDIO_PID = 670
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 191625000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 3/4
++	    CODE_RATE_LP = 1/2
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/16
++	    HIERARCHY = NONE
++
++    [7 Digital]
++	    SERVICE_ID = 1328
++	    VIDEO_PID = 769
++	    AUDIO_PID = 770
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 177500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [7 Digital 1]
++	    SERVICE_ID = 1329
++	    VIDEO_PID = 769
++	    AUDIO_PID = 770
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 177500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [7 Digital 2]
++	    SERVICE_ID = 1330
++	    VIDEO_PID = 769
++	    AUDIO_PID = 770
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 177500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [7 Digital 3]
++	    SERVICE_ID = 1331
++	    VIDEO_PID = 769
++	    AUDIO_PID = 770
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 177500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [7 HD Digital]
++	    SERVICE_ID = 1332
++	    VIDEO_PID = 833
++	    AUDIO_PID = 834
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 177500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [7 Program Guide]
++	    SERVICE_ID = 1334
++	    VIDEO_PID = 865
++	    AUDIO_PID = 866
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 177500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [SBS HD]
++	    SERVICE_ID = 784
++	    VIDEO_PID = 102
++	    AUDIO_PID = 103
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 536500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [SBS DIGITAL 1]
++	    SERVICE_ID = 785
++	    VIDEO_PID = 161
++	    AUDIO_PID = 81
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 536500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [SBS DIGITAL 2]
++	    SERVICE_ID = 786
++	    VIDEO_PID = 162
++	    AUDIO_PID = 83
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 536500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [SBS EPG]
++	    SERVICE_ID = 787
++	    VIDEO_PID = 163
++	    AUDIO_PID = 85
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 536500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [SBS RADIO 1]
++	    SERVICE_ID = 798
++	    VIDEO_PID = 0
++	    AUDIO_PID = 201
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 536500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
++
++    [SBS RADIO 2]
++	    SERVICE_ID = 799
++	    VIDEO_PID = 0
++	    AUDIO_PID = 202
++	    DELIVERY_SYSTEM = DVBT
++	    FREQUENCY = 536500000
++	    INVERSION = OFF
++	    BANDWIDTH_HZ = 7000000
++	    CODE_RATE_HP = 2/3
++	    CODE_RATE_LP = 2/3
++	    MODULATION = QAM/64
++	    TRANSMISSION_MODE = 8K
++	    GUARD_INTERVAL = 1/8
++	    HIERARCHY = NONE
 -- 
 2.25.2
 
