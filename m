@@ -4,55 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FFD0C2BB85
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBB1DC2BB85
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 57AB72076A
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:50:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF631206E9
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586883050;
-	bh=JNdzVpz9Z7yg2D0nVFa2uGzWJ8/+Wsh+62E+aydGZzQ=;
+	s=default; t=1586883133;
+	bh=jd11BH+E0kQ4lfNrsHgxWhZfvWguP7UNkigN6xgvlsM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=vcyFetqG+OYlQWAei/A0zMh1w62n7e7U6zdYq3Ht2dUO6QW9CoJOz+rZ8hqLLI3Fy
-	 vjn4gjp8zNiSUU6B8FMHyEQlSBBqybJJJEhEx4qvT2MR9K5kSvv9AGOJevE6F9GsuW
-	 jy4I2T14+tZi4rEyxndzUQLTqBmeeJuuNdWfveS8=
+	b=aWSHT9wkx4lIILxj4+GOXsT5lQjCfHmItTp+BCwRcrnJQLS6EjlWL/UgJQO3q+plc
+	 1OHQh4p91++GXYONVrvvhK5U/h0uHFaFu5dcTpu3V+gc3N/uCqZD5xlidZhcjMHs3P
+	 0dUFVRoLt71gHrCGRrA/93Grk26tdG2dpmI2dv+k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440414AbgDNQtZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:49:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55218 "EHLO mail.kernel.org"
+        id S2440701AbgDNQwL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:52:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55398 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440313AbgDNQtP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:49:15 -0400
+        id S2440386AbgDNQtT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:19 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1910221D7F;
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A8D222202;
         Tue, 14 Apr 2020 16:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586882943;
-        bh=JNdzVpz9Z7yg2D0nVFa2uGzWJ8/+Wsh+62E+aydGZzQ=;
+        bh=jd11BH+E0kQ4lfNrsHgxWhZfvWguP7UNkigN6xgvlsM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pUCG8jhe86W6kanMzas8ZHncgj+seFcThXs2JKTePr++6of8aHjZRl2WoSnQy8Zt3
-         T49S/q3HImd1aMdkf9B+4gU8kiqpaW8+FQkgnohanObJadYJhPYzLMUz+yQrHBiBfD
-         mw/wgqoqBheU4SBpIwxEWuTUdsRqfRojQSVwPhGQ=
+        b=h3BRPSdhXr2NWHwbVytJt888whMqL4XdRsAPxAnw06Ccp/8/5WpOzD2ZM96n5x6dZ
+         cdVFapXprQxXuhCY/n2SNcnDoE8RDnuGzMLof2XGViItjgjBVO4NGLCrzRjnihl0PE
+         bjuwdVqcxt0zVMi/Lyj0l7/uWN5m/+uaMpeCJYas=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOOk9-0068mp-BS; Tue, 14 Apr 2020 18:49:01 +0200
+        id 1jOOk9-0068nY-JQ; Tue, 14 Apr 2020 18:49:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Matthias Brugger <mbrugger@suse.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH v2 24/33] docs: dt: fix a broken reference for a file converted to json
-Date:   Tue, 14 Apr 2020 18:48:50 +0200
-Message-Id: <9b1603e254d39c9607bfedefeedaafd2c44aeb19.1586881715.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 33/33] lib: bitmap.c: get rid of some doc warnings
+Date:   Tue, 14 Apr 2020 18:48:59 +0200
+Message-Id: <1e2568fdfa838c1a0d8cc2a1d70dd4b6de99bfb1.1586881715.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
 References: <cover.1586881715.git.mchehab+huawei@kernel.org>
@@ -63,33 +58,70 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
-moved a binding to json and updated the links.
+There are two ascii art drawings there. Use a block markup tag there
+in order to get rid of those warnings:
 
-Yet, one link was not changed, due to a merge conflict.
+	./lib/bitmap.c:189: WARNING: Unexpected indentation.
+	./lib/bitmap.c:190: WARNING: Block quote ends without a blank line; unexpected unindent.
+	./lib/bitmap.c:190: WARNING: Unexpected indentation.
+	./lib/bitmap.c:191: WARNING: Line block ends without a blank line.
 
-Update this one too.
+It should be noticed that there's actually a syntax violation
+right now, as something like:
 
-Fixes: 32ced09d7903 ("dt-bindings: serial: Convert slave-device bindings to json-schema")
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+	/**
+	 ...
+	 @src:
+
+will be handled as a definition for @src parameter, and not as
+part of a diagram. So, we need to add something before it, in
+order for this to be processed the way it should.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ lib/bitmap.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt b/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
-index beca6466d59a..d2202791c1d4 100644
---- a/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
-+++ b/Documentation/devicetree/bindings/net/qualcomm-bluetooth.txt
-@@ -29,7 +29,7 @@ Required properties for compatible string qcom,wcn399x-bt:
- 
- Optional properties for compatible string qcom,wcn399x-bt:
- 
-- - max-speed: see Documentation/devicetree/bindings/serial/slave-device.txt
-+ - max-speed: see Documentation/devicetree/bindings/serial/serial.yaml
-  - firmware-name: specify the name of nvm firmware to load
-  - clocks: clock provided to the controller
- 
+diff --git a/lib/bitmap.c b/lib/bitmap.c
+index 89260aa342d6..21a7640c5eed 100644
+--- a/lib/bitmap.c
++++ b/lib/bitmap.c
+@@ -182,21 +182,22 @@ EXPORT_SYMBOL(__bitmap_shift_left);
+  *
+  * In pictures, example for a big-endian 32-bit architecture:
+  *
+- * @src:
+- * 31                                   63
+- * |                                    |
+- * 10000000 11000001 11110010 00010101  10000000 11000001 01110010 00010101
+- *                 |  |              |                                    |
+- *                16  14             0                                   32
++ * The @src bitmap is::
+  *
+- * if @cut is 3, and @first is 14, bits 14-16 in @src are cut and @dst is:
++ *   31                                   63
++ *   |                                    |
++ *   10000000 11000001 11110010 00010101  10000000 11000001 01110010 00010101
++ *                   |  |              |                                    |
++ *                  16  14             0                                   32
+  *
+- * 31                                   63
+- * |                                    |
+- * 10110000 00011000 00110010 00010101  00010000 00011000 00101110 01000010
+- *                    |              |                                    |
+- *                    14 (bit 17     0                                   32
+- *                        from @src)
++ * if @cut is 3, and @first is 14, bits 14-16 in @src are cut and @dst is::
++ *
++ *   31                                   63
++ *   |                                    |
++ *   10110000 00011000 00110010 00010101  00010000 00011000 00101110 01000010
++ *                      |              |                                    |
++ *                      14 (bit 17     0                                   32
++ *                          from @src)
+  *
+  * Note that @dst and @src might overlap partially or entirely.
+  *
 -- 
 2.25.2
 
