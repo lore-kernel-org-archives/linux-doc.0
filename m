@@ -2,148 +2,152 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B90F8C352BE
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 17:25:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75247C2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 18:12:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95347206A2
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 17:25:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586885158;
-	bh=obYyiyTbGmR44FhMsbwJlUxtDZYky71vqYd2njr6jms=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=u58H+e38uyxS1Dx2waFUDH8QBSFrTDG4xDf4e7l0D3qHowN0lnXVddgMYNmZeUflY
-	 U0t8pSh8YnRMeqXWTnGwhXlmUdAhWT+xaW+aiNYbIg0KucLhxeNzgPMI8LEjjf1w8h
-	 We7GpEgJwxTBCCMW5G8sh0Kc7pitvNym6WD4D+uU=
+	by mail.kernel.org (Postfix) with ESMTP id 4B4432076B
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 18:12:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b="03DbJ5dr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407616AbgDNRZ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 13:25:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59336 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407592AbgDNRZx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 13:25:53 -0400
-Received: from ebiggers-linuxstation.mtv.corp.google.com (unknown [104.132.1.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D967320678;
-        Tue, 14 Apr 2020 17:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586885152;
-        bh=obYyiyTbGmR44FhMsbwJlUxtDZYky71vqYd2njr6jms=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Y5CtSHAXmi8FxInllehx4Q+/hbJorGr7xHnJEh8OrwXaVDRqavymXWjcCkm1uru3O
-         1GABxm1dHwFsya56CHvjHERqBhyBAbPb6kTashCxR/FbdjwIwIrK+FOWZFQFIXCr0Z
-         oWNdkiHpo0wqWoJxwya4QeXm9f+boK/NKm1jQzHs=
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        NeilBrown <neilb@suse.de>, Jessica Yu <jeyu@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH] docs: admin-guide: merge sections for the kernel.modprobe sysctl
-Date:   Tue, 14 Apr 2020 10:24:30 -0700
-Message-Id: <20200414172430.230293-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.26.0.110.g2183baf09c-goog
+        id S2503544AbgDNSM1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 14:12:27 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:54626 "EHLO
+        mx0a-002c1b01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2503531AbgDNSML (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Apr 2020 14:12:11 -0400
+Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
+        by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03EI4T5K023495;
+        Tue, 14 Apr 2020 11:09:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=745c7R5noQJZyZzadl+HjR2ni9lSf396P96eRY/ZhmU=;
+ b=03DbJ5drl5HQEVbImtwuqZcW0ICY2uANBQqTHd51+nRFb3fQUFysmvRTXyHkiDBT9ODA
+ T1W3arQWw+xGTLTCua1N2RIYz8J51dvfjIHraV+5vDerqTqoHiiJsmdJ7jG1mmCdeTZD
+ SbtNbfIr7KfqHOJPFDbO53g391V0VVuDQ7gGQ+uXsbrWe1Ci2/+GXUHkW/hCdvnUmQ2h
+ drMRIO9xdvxMe1f1w0q7duViKyWFbttaiX10tmbtWGOz0vGLtK9OE9SW43mrfPXexzCE
+ Mk2cpsdjNiobU5NArSmr9iYRglG2/WR/T33gn5hT9xrT42cf/9yk1IukwXWXreZXsZkK 1g== 
+Received: from nam02-cy1-obe.outbound.protection.outlook.com (mail-cys01nam02lp2056.outbound.protection.outlook.com [104.47.37.56])
+        by mx0a-002c1b01.pphosted.com with ESMTP id 30b9t97amp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 14 Apr 2020 11:09:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JjCda54OjK+DkgSx+WhIGFMP2hptc9WbjsHJn3sPCxlMl/I5rbNjWpnsfy+KRj/dwle2TW5iznuRx9ruPt5MfDZQxj5qpAJ6dtjX1qEPK8+DmPxMaElgM13aT35pZs+rHvSIHAHYAmuJ59cyaF6Dt8lt5mcnDecgR/Y1RLMCgnEclDe8FHZiyYfPiq6Dpxu3qkoFy9OMAZYyR/2jqQG91zgetPVsCbPOzEn5fSX7j/O88narE7lSsmz9AKsbNn/Tb4qAfHFHjk9CMhKPy4h7+UBDv4csu1wU2b4vUwAc4PQTVZe2ZP5pFaRMwe6CdPx6bFEU/q/q5T0CyDUuoDQEAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=745c7R5noQJZyZzadl+HjR2ni9lSf396P96eRY/ZhmU=;
+ b=R2uHSJubfmIx2fhFsgpxBibAeHTw35wKoHiAMm/GfPA+VrNwcuWuBEyO9H8wb8PqvwYSu0GKenfePeZIbeVJ4J9cIKsOs98oCnBRxh5Y4UGcZIPVfmDWEilEfmJLZmQ4sxhvMUz/P00RW8siyl1sTGEtLFKTJ/VAf85MD4Ur7pmBQYvlLgFQy891i+BIrRMfF8rLU2FaDiZ+aeXMKW+1ZPo1IrsGe6Inlp3/q30hiDhdG4FCEaYB6ejvCa4BGaBlTaFBFBuSippu0lMTQugc157NTzCluAItmBxlnYPq3gQsafwuIFk5nP3A25WCnqznX+iGdz/AAoMZNR4+6OwoUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MN2PR02MB6303.namprd02.prod.outlook.com (2603:10b6:208:1bd::13)
+ by MN2PR02MB6989.namprd02.prod.outlook.com (2603:10b6:208:20f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25; Tue, 14 Apr
+ 2020 16:08:39 +0000
+Received: from MN2PR02MB6303.namprd02.prod.outlook.com
+ ([fe80::1dc5:77f3:3eaf:ffc8]) by MN2PR02MB6303.namprd02.prod.outlook.com
+ ([fe80::1dc5:77f3:3eaf:ffc8%4]) with mapi id 15.20.2900.028; Tue, 14 Apr 2020
+ 16:08:39 +0000
+From:   Ivan Teterevkov <ivan.teterevkov@nutanix.com>
+To:     Michal Hocko <mhocko@kernel.org>
+CC:     "rientjes@google.com" <rientjes@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vbabka@suse.cz" <vbabka@suse.cz>, "tj@kernel.org" <tj@kernel.org>,
+        "lizefan@huawei.com" <lizefan@huawei.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "vdavydov.dev@gmail.com" <vdavydov.dev@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "guro@fb.com" <guro@fb.com>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "chris@chrisdown.name" <chris@chrisdown.name>,
+        "yang.shi@linux.alibaba.com" <yang.shi@linux.alibaba.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "minchan@kernel.org" <minchan@kernel.org>,
+        "ying.huang@intel.com" <ying.huang@intel.com>,
+        "ziqian.lzq@antfin.com" <ziqian.lzq@antfin.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Jonathan Davies <jond@nutanix.com>
+Subject: RE: [RFC] memcg: fix default behaviour of non-overridden
+ memcg.swappiness
+Thread-Topic: [RFC] memcg: fix default behaviour of non-overridden
+ memcg.swappiness
+Thread-Index: AdX+Dc7TuUU65jcsTmmN9pfGvp9AeQAr94MABO48HRA=
+Date:   Tue, 14 Apr 2020 16:08:39 +0000
+Message-ID: <MN2PR02MB63033A5D2EE11A0D7DFEBE95E9DA0@MN2PR02MB6303.namprd02.prod.outlook.com>
+References: <BL0PR02MB560170CD4D4245D4B89BC22EE9F40@BL0PR02MB5601.namprd02.prod.outlook.com>
+ <20200320134428.GG24409@dhcp22.suse.cz>
+In-Reply-To: <20200320134428.GG24409@dhcp22.suse.cz>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [31.125.170.138]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5e2c41af-10e4-40dd-05a3-08d7e08e187c
+x-ms-traffictypediagnostic: MN2PR02MB6989:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR02MB6989C6F145A231B70F6BA5F6E9DA0@MN2PR02MB6989.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0373D94D15
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR02MB6303.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(136003)(396003)(39830400003)(376002)(346002)(366004)(44832011)(5660300002)(2906002)(8676002)(86362001)(478600001)(71200400001)(4744005)(33656002)(81156014)(8936002)(26005)(107886003)(54906003)(316002)(6916009)(4326008)(186003)(6506007)(66556008)(66476007)(7416002)(76116006)(52536014)(9686003)(66446008)(66946007)(64756008)(7696005)(55016002);DIR:OUT;SFP:1102;
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 81fjC7P1yUMgY4+NpwMHI7pjn64+1RSsVdFiC63I2EjZYQbX8lBwmNU7DEdyHwfIflKXfLb+a0FrJbPvp7pE60U/FMcVzmqTGAxfpBRBUPbPLYOXKkkVryPhctMY+dTsII+QL66+zXKr0LB3NEdnG88v5xDMx/jEL7pZyaA8R0dElqLncU6RVjGVJ6Kes3ugmg0q/xUR133kE9bf0dEAL2dr1zJOgPWl9nakO/WANWVw7+3POwl+rIkamaAotUH5KDyycsv61hN0EYm14kBNs5kQn+J6KUvPLS0A4bpLrUHRmqT3bZ8xfS6OtYvq2YEsFFsBYJq7E+Lf0Kp77xSjEBCh2hb25SAiIVCTWNt6CyAnrxESnO0igeMiAcC9OrtW074jirVAVZ9vW+XTqipmh/Z+TGDjek6ryaEHOJaGE0c/uoHE5N5IRKkGOHpdRKZc
+x-ms-exchange-antispam-messagedata: PrOqkpWRb9Lmx1mGa2XnylOJJ2/L1K4/mKxs21Cukmg4Wxva66c+exnxyQwDNQXu5lV/zyxZW3rn/9iha0pLf+xw5WL4w9rct+sxamv9I59p/gobmZV7Q/BzEOluJ1ye5fTYPzML0X9HH6AU3wrv1Q==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e2c41af-10e4-40dd-05a3-08d7e08e187c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2020 16:08:39.4265
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aAGl/A2ez2HORvWec3Er0IHF+Gsn+A2FgN90jguyi/fbSkLzjhQa7NfR2/Iudr+hXn9hbm8gWjdp3Eha+S1mEjv+Sx0Mm2PlpY12YIa5E+g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6989
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-04-14_09:2020-04-14,2020-04-14 signatures=0
+X-Proofpoint-Spam-Reason: safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Eric Biggers <ebiggers@google.com>
+On Fri, 20 Mar 2020, Michal Hocko wrote:
+> On Thu 19-03-20 17:38:30, Ivan Teterevkov wrote:
+> > Also, shall this magic -1 be exposed to the user? I think it's a "no",
+> > but what if the user wants to un-override the memcg.swappiness...
+>=20
+> If we are to use such a semantic then it absolutely has to be an opt-in b=
+ehavior
+> and expressed in some way to the user space (e.g. a symbolic name referri=
+ng to
+> the global setting).
 
-Documentation for the kernel.modprobe sysctl was added both by
-commit 0317c5371e6a ("docs: merge debugging-modules.txt into
-sysctl/kernel.rst") and by commit 6e7158250625 ("docs: admin-guide:
-document the kernel.modprobe sysctl"), resulting in the same sysctl
-being documented in two places.  Merge these into one place.
+A symbolic link would be a good approach but...
 
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
+> I am not convinced we need it.
 
-Jon, could you take this through the docs tree as a fix for 5.7?
+... agree and not going any further with the suggestion.
 
- Documentation/admin-guide/sysctl/kernel.rst | 47 +++++++++------------
- 1 file changed, 19 insertions(+), 28 deletions(-)
+Support of the sysctl parameters in the kernel command line is a
+better solution and would address my initially raised concern to
+tackle the configuration parameters.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 39c95c0e13d30..0d427fd109419 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -390,9 +390,17 @@ When ``kptr_restrict`` is set to 2, kernel pointers printed using
- modprobe
- ========
- 
--This gives the full path of the modprobe command which the kernel will
--use to load modules. This can be used to debug module loading
--requests::
-+The full path to the usermode helper for autoloading kernel modules,
-+by default "/sbin/modprobe".  This binary is executed when the kernel
-+requests a module.  For example, if userspace passes an unknown
-+filesystem type to mount(), then the kernel will automatically request
-+the corresponding filesystem module by executing this usermode helper.
-+This usermode helper should insert the needed module into the kernel.
-+
-+This sysctl only affects module autoloading.  It has no effect on the
-+ability to explicitly insert modules.
-+
-+This sysctl can be used to debug module loading requests::
- 
-     echo '#! /bin/sh' > /tmp/modprobe
-     echo 'echo "$@" >> /tmp/modprobe.log' >> /tmp/modprobe
-@@ -400,10 +408,15 @@ requests::
-     chmod a+x /tmp/modprobe
-     echo /tmp/modprobe > /proc/sys/kernel/modprobe
- 
--This only applies when the *kernel* is requesting that the module be
--loaded; it won't have any effect if the module is being loaded
--explicitly using ``modprobe`` from userspace.
-+Alternatively, if this sysctl is set to the empty string, then module
-+autoloading is completely disabled.  The kernel will not try to
-+execute a usermode helper at all, nor will it call the
-+kernel_module_request LSM hook.
- 
-+If CONFIG_STATIC_USERMODEHELPER=y is set in the kernel configuration,
-+then the configured static usermode helper overrides this sysctl,
-+except that the empty string is still accepted to completely disable
-+module autoloading as described above.
- 
- modules_disabled
- ================
-@@ -446,28 +459,6 @@ Notes:
-      successful IPC object allocation. If an IPC object allocation syscall
-      fails, it is undefined if the value remains unmodified or is reset to -1.
- 
--modprobe:
--=========
--
--The path to the usermode helper for autoloading kernel modules, by
--default "/sbin/modprobe".  This binary is executed when the kernel
--requests a module.  For example, if userspace passes an unknown
--filesystem type to mount(), then the kernel will automatically request
--the corresponding filesystem module by executing this usermode helper.
--This usermode helper should insert the needed module into the kernel.
--
--This sysctl only affects module autoloading.  It has no effect on the
--ability to explicitly insert modules.
--
--If this sysctl is set to the empty string, then module autoloading is
--completely disabled.  The kernel will not try to execute a usermode
--helper at all, nor will it call the kernel_module_request LSM hook.
--
--If CONFIG_STATIC_USERMODEHELPER=y is set in the kernel configuration,
--then the configured static usermode helper overrides this sysctl,
--except that the empty string is still accepted to completely disable
--module autoloading as described above.
--
- nmi_watchdog
- ============
- 
--- 
-2.26.0.110.g2183baf09c-goog
-
+Thanks
+Ivan
