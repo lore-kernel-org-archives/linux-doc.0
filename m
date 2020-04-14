@@ -2,185 +2,92 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB7B9C2BB1D
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 21:41:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47017C2BB1D
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 22:12:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FD4A20768
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 21:41:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF2C62076A
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 22:12:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="S4W+3eig"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2634019AbgDNVlv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 17:41:51 -0400
-Received: from 9.mo69.mail-out.ovh.net ([46.105.56.78]:60146 "EHLO
-        9.mo69.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2634009AbgDNVln (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Apr 2020 17:41:43 -0400
-X-Greylist: delayed 597 seconds by postgrey-1.27 at vger.kernel.org; Tue, 14 Apr 2020 17:41:41 EDT
-Received: from player714.ha.ovh.net (unknown [10.108.42.5])
-        by mo69.mail-out.ovh.net (Postfix) with ESMTP id E381A885B8
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2020 23:21:56 +0200 (CEST)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player714.ha.ovh.net (Postfix) with ESMTPSA id 8EA5A11551A57;
-        Tue, 14 Apr 2020 21:21:47 +0000 (UTC)
-Date:   Tue, 14 Apr 2020 23:21:37 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-        NeilBrown <neilb@suse.de>, Jessica Yu <jeyu@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] docs: admin-guide: merge sections for the
- kernel.modprobe sysctl
-Message-ID: <20200414232137.37301572@heffalump.sk2.org>
-In-Reply-To: <20200414172430.230293-1-ebiggers@kernel.org>
-References: <20200414172430.230293-1-ebiggers@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S2634282AbgDNWMh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 18:12:37 -0400
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:50993 "EHLO
+        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2634287AbgDNWMc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Apr 2020 18:12:32 -0400
+Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id CD6FB80237;
+        Wed, 15 Apr 2020 10:12:27 +1200 (NZST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1586902347;
+        bh=+6kc3E2+ilGoFnJMFyMnA2X2aiLhEyeMzGGPuTXvRew=;
+        h=From:To:Cc:Subject:Date;
+        b=S4W+3eigkdzrdebmXDJLW5kH0mWWG7KovQ+ODdUsueM28gRqND6Sr71eeL/JdSXUC
+         TEdTIkaUD6LfiH5fH3/gwZFWwu69f398p0pd2fv6BqHwY5Qv/wCIMFwHfxbox1biPr
+         KhAh1hFuU+XCFnZxDsZJA2rH2MqQXvqbYzxN25YlLYmRvccjJOowJd5heSgXknudFu
+         rWbySK8aZ7WprwU2dZgSXO8xqZcKzccLlFQU5FE4+21PBrFTK3YgHLvNO73tqGrkIs
+         UHrSr3fZqeW+5u9qBj/qpm580w2PAJW/CzgpAqH+kHYX6zkX4iZT1cFzhx92CG/z+5
+         LWYQb14RMS9EQ==
+Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
+        id <B5e96354b0000>; Wed, 15 Apr 2020 10:12:27 +1200
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.20])
+        by smtp (Postfix) with ESMTP id 0991113EF08;
+        Wed, 15 Apr 2020 10:12:27 +1200 (NZST)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+        id 8938C28006C; Wed, 15 Apr 2020 10:12:27 +1200 (NZST)
+From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
+To:     corbet@lwn.net, tglx@linutronix.de, Jason@zx2c4.com, arnd@arndb.de
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH] docs: timekeeping: Use correct prototype for deprecated functions
+Date:   Wed, 15 Apr 2020 10:12:22 +1200
+Message-Id: <20200414221222.23996-1-chris.packham@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/+MMOYGDEQHeD1zd57H4NBI/"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 2987012454176869791
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrfedugdduieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtsehgtdefreertddvnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjedugedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+Content-Transfer-Encoding: quoted-printable
+x-atlnz-ls: pat
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/+MMOYGDEQHeD1zd57H4NBI/
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Use the correct prototypes for do_gettimeofday(), getnstimeofday() and
+getnstimeofday64(). All of these returned void and passed the return
+value by reference. This should make the documentation of their
+deprecation and replacements easier to search for.
 
-On Tue, 14 Apr 2020 10:24:30 -0700, Eric Biggers <ebiggers@kernel.org> wrot=
-e:
-> From: Eric Biggers <ebiggers@google.com>
->=20
-> Documentation for the kernel.modprobe sysctl was added both by
-> commit 0317c5371e6a ("docs: merge debugging-modules.txt into
-> sysctl/kernel.rst") and by commit 6e7158250625 ("docs: admin-guide:
-> document the kernel.modprobe sysctl"), resulting in the same sysctl
-> being documented in two places.  Merge these into one place.
->=20
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
+Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+---
+ Documentation/core-api/timekeeping.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Reviewed-by: Stephen Kitt <steve@sk2.org>
+diff --git a/Documentation/core-api/timekeeping.rst b/Documentation/core-=
+api/timekeeping.rst
+index c0ffa30c7c37..729e24864fe7 100644
+--- a/Documentation/core-api/timekeeping.rst
++++ b/Documentation/core-api/timekeeping.rst
+@@ -154,9 +154,9 @@ architectures. These are the recommended replacements=
+:
+=20
+ 	Use ktime_get() or ktime_get_ts64() instead.
+=20
+-.. c:function:: struct timeval do_gettimeofday( void )
+-		struct timespec getnstimeofday( void )
+-		struct timespec64 getnstimeofday64( void )
++.. c:function:: void do_gettimeofday( struct timeval * )
++		void getnstimeofday( struct timespec * )
++		void getnstimeofday64( struct timespec64 * )
+ 		void ktime_get_real_ts( struct timespec * )
+=20
+ 	ktime_get_real_ts64() is a direct replacement, but consider using
+--=20
+2.25.1
 
-Thanks for taking care of this!
-
-> ---
->=20
-> Jon, could you take this through the docs tree as a fix for 5.7?
->=20
->  Documentation/admin-guide/sysctl/kernel.rst | 47 +++++++++------------
->  1 file changed, 19 insertions(+), 28 deletions(-)
->=20
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst
-> b/Documentation/admin-guide/sysctl/kernel.rst index
-> 39c95c0e13d30..0d427fd109419 100644 ---
-> a/Documentation/admin-guide/sysctl/kernel.rst +++
-> b/Documentation/admin-guide/sysctl/kernel.rst @@ -390,9 +390,17 @@ When
-> ``kptr_restrict`` is set to 2, kernel pointers printed using modprobe
->  =3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> -This gives the full path of the modprobe command which the kernel will
-> -use to load modules. This can be used to debug module loading
-> -requests::
-> +The full path to the usermode helper for autoloading kernel modules,
-> +by default "/sbin/modprobe".  This binary is executed when the kernel
-> +requests a module.  For example, if userspace passes an unknown
-> +filesystem type to mount(), then the kernel will automatically request
-> +the corresponding filesystem module by executing this usermode helper.
-> +This usermode helper should insert the needed module into the kernel.
-> +
-> +This sysctl only affects module autoloading.  It has no effect on the
-> +ability to explicitly insert modules.
-> +
-> +This sysctl can be used to debug module loading requests::
-> =20
->      echo '#! /bin/sh' > /tmp/modprobe
->      echo 'echo "$@" >> /tmp/modprobe.log' >> /tmp/modprobe
-> @@ -400,10 +408,15 @@ requests::
->      chmod a+x /tmp/modprobe
->      echo /tmp/modprobe > /proc/sys/kernel/modprobe
-> =20
-> -This only applies when the *kernel* is requesting that the module be
-> -loaded; it won't have any effect if the module is being loaded
-> -explicitly using ``modprobe`` from userspace.
-> +Alternatively, if this sysctl is set to the empty string, then module
-> +autoloading is completely disabled.  The kernel will not try to
-> +execute a usermode helper at all, nor will it call the
-> +kernel_module_request LSM hook.
-> =20
-> +If CONFIG_STATIC_USERMODEHELPER=3Dy is set in the kernel configuration,
-> +then the configured static usermode helper overrides this sysctl,
-> +except that the empty string is still accepted to completely disable
-> +module autoloading as described above.
-> =20
->  modules_disabled
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> @@ -446,28 +459,6 @@ Notes:
->       successful IPC object allocation. If an IPC object allocation sysca=
-ll
->       fails, it is undefined if the value remains unmodified or is reset =
-to
-> -1.=20
-> -modprobe:
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -The path to the usermode helper for autoloading kernel modules, by
-> -default "/sbin/modprobe".  This binary is executed when the kernel
-> -requests a module.  For example, if userspace passes an unknown
-> -filesystem type to mount(), then the kernel will automatically request
-> -the corresponding filesystem module by executing this usermode helper.
-> -This usermode helper should insert the needed module into the kernel.
-> -
-> -This sysctl only affects module autoloading.  It has no effect on the
-> -ability to explicitly insert modules.
-> -
-> -If this sysctl is set to the empty string, then module autoloading is
-> -completely disabled.  The kernel will not try to execute a usermode
-> -helper at all, nor will it call the kernel_module_request LSM hook.
-> -
-> -If CONFIG_STATIC_USERMODEHELPER=3Dy is set in the kernel configuration,
-> -then the configured static usermode helper overrides this sysctl,
-> -except that the empty string is still accepted to completely disable
-> -module autoloading as described above.
-> -
->  nmi_watchdog
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> --=20
-> 2.26.0.110.g2183baf09c-goog
->=20
-
-Regards,
-
-Stephen
-
---Sig_/+MMOYGDEQHeD1zd57H4NBI/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl6WKWEACgkQgNMC9Yht
-g5xHkQ/+PfaiRj8GZ0xTZ/vjJGIJK7CbRdxmF4Aq2UUtjdbUT4c2kHzjIrLDJnOr
-ukca2RlGdSB6k/dLeJ/kYUdYBKc82Nzg6q0ealt515lw5lDiYJ5q/yoMaMbRAIeB
-rbyKiBIFzUNmE1lTMVJfAFwn0ZlM5BKdJsjUiQb2QxaRQ8rKKe3CRASlmqR3Y+9/
-Lpu9geuKtyg7p+kLkra9HK3ay/bjn4ciupxyBvU38rfKsVjAOP0VmeSd2uf8Dfb8
-WX0OcptNzWayalS8MkbwkEJMq4n761Ye39qRhJTCtJZkpDRUZnTGIl/+DVjj9w9K
-kwvVRueNHu4ww7NE349+u4eVqElArsk1/Rua0HxBBZ7dAJ0U2km67liMmYs4rfmg
-KRUktx+vjiNobdfXqmBEl3yZve0Q3XQDFhnoK7UWsv7xIgFG937qr7r7/9wHRRmK
-C9txSRQfKJCRMfj8KOXs8ocZTMTlM3MU3SUwviHc5YxENtG66Kg4tVqF3ZQJ49C4
-EuLQpcuSMSTa7uFSKTzEbX6gFW8DQsHRVEXcEl/0zuNpu/ECmLavbk0ZK7EX1VsP
-hgxhH0MgZmQYdA7yV4d5vuVthTDTEEAG9XWa0UDo62KR1RgaSs+iyO1LXebDZiMc
-LL4A+whZYHCgN6DriItBA/GInvR2U8gyhDtcFhUNhoJY0BJwbfc=
-=1aqM
------END PGP SIGNATURE-----
-
---Sig_/+MMOYGDEQHeD1zd57H4NBI/--
