@@ -2,126 +2,101 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB4AC2BA19
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7592C2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACD94208E0
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E7EE20678
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586882962;
-	bh=usYkvESU4Pm1qI9SJ4cKzhimcRKZU8+i2x+WdqicQE4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=EqviHp/yLHcrRy15CvUUJ+iM/4tsgGJkV8pnzeRNN3d+vmfkG8v1ElV+hOlZQmi0B
-	 JF18/T3NtgFunZ1LpWGD/qc2eIwJ2ITcnKUjF/SFvxmxO4Dptzcx1CjjdsG1AYrUj0
-	 ZEBXzOeDCFqJHkgW2YoXDqdyysdVwU/7llAfQpxw=
+	s=default; t=1586882999;
+	bh=GJaIbUUUjI+OFO44/xbkZ+o3FRwbTXCmkmmjK/GceGw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=dhmTzTFAmDdjj/Jo+CNg1vi5gGWhdsz9UDaEheWNVJgSCpwuaLRYxjrRgkMDHs99H
+	 myfQvXLa833BGLu34h5kRElZiZrnJ7bkVcey5HonL+6KU9oGr3rsCMJwMq4S17+6jh
+	 +6iUS2PzFTc6dHz/i5CahYIy3Rb1+yzhjjGHWod8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440374AbgDNQtS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:49:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54510 "EHLO mail.kernel.org"
+        id S2440598AbgDNQt5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:49:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56340 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440290AbgDNQtD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:49:03 -0400
-Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        id S2440534AbgDNQt4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:56 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 589DB2076C;
-        Tue, 14 Apr 2020 16:49:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 973B020656;
+        Tue, 14 Apr 2020 16:49:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586882942;
-        bh=usYkvESU4Pm1qI9SJ4cKzhimcRKZU8+i2x+WdqicQE4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HC5tW5ZnuC53qzhLAIRkW5n/qjUuLJf5f4s0M4K20l3ZdV4d4Q2/Ub1Zq7LgkE3PV
-         pKBeexGt1tac/bdfh5FhkPliC4WIdL862E7tPRk7gIsTnw1kyH0RvBRQ3xMfTSsebR
-         /3mfkPMOG3iHqwNdWGxx1ZN2r96g0kem1ywmnV2A=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jOOk8-0068lH-K8; Tue, 14 Apr 2020 18:49:00 +0200
+        s=default; t=1586882996;
+        bh=GJaIbUUUjI+OFO44/xbkZ+o3FRwbTXCmkmmjK/GceGw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=hsyRNql75sdYjF/Of/wwowfTuxsY2gG4N8TYkOnebIM9WtohNmmXyBSkPQTOdZCMo
+         ntkHcR/kfvEotm0/4M/o+mK6GMBm8rQdlj6NCh9QIp2BktVxcKexyWd9x4ejCwrAbY
+         Ur7+Q4t9J92VCgi+DkSiK6OEK64dBJpS0GufHlk0=
+Date:   Tue, 14 Apr 2020 18:49:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 05/33] docs: LaTeX/PDF: drop list of documents
-Date:   Tue, 14 Apr 2020 18:48:31 +0200
-Message-Id: <9345dba7164497dbf28578f6ec271e479379610c.1586881715.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
-References: <cover.1586881715.git.mchehab+huawei@kernel.org>
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>
+Subject: Re: [PATCH] scripts: documentation-file-ref-check: Add line break
+ before exit
+Message-ID: <20200414184951.7f3a5564@coco.lan>
+In-Reply-To: <1586857308-2040-1-git-send-email-yangtiezhu@loongson.cn>
+References: <1586857308-2040-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The building system can auto-generate a list of documents since
-commit: 9d42afbe6bd4 ("docs: pdf: add all Documentation/*/index.rst to PDF output").
+Em Tue, 14 Apr 2020 17:41:48 +0800
+Tiezhu Yang <yangtiezhu@loongson.cn> escreveu:
 
-The added logic there allows keeping the existing list, but
-there's not real reason to keep it. Now, the media document
-has gone (it was split into tree).
+> If execute ./scripts/documentation-file-ref-check in a directory which is
+> not a git tree, it will exit without a line break, fix it.
+> 
+> Without this patch:
+> 
+> [loongson@localhost linux-5.7-rc1]$ ./scripts/documentation-file-ref-check
+> Warning: can't check if file exists, as this is not a git tree[loongson@localhost linux-5.7-rc1]$
+> 
+> With this patch:
+> 
+> [loongson@localhost linux-5.7-rc1]$ ./scripts/documentation-file-ref-check
+> Warning: can't check if file exists, as this is not a git tree
+> [loongson@localhost linux-5.7-rc1]$
+> 
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 
-So, it sounds about time to get rid of the manual entries,
-and let the script to generate it automatically instead.
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/conf.py | 38 --------------------------------------
- 1 file changed, 38 deletions(-)
+> ---
+>  scripts/documentation-file-ref-check | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+> index 9a8cc10..c71832b 100755
+> --- a/scripts/documentation-file-ref-check
+> +++ b/scripts/documentation-file-ref-check
+> @@ -25,7 +25,7 @@ my $fix = 0;
+>  my $warn = 0;
+>  
+>  if (! -d ".git") {
+> -	printf "Warning: can't check if file exists, as this is not a git tree";
+> +	printf "Warning: can't check if file exists, as this is not a git tree\n";
+>  	exit 0;
+>  }
+>  
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 9ae8e9abf846..f6a1bc07c410 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -388,44 +388,6 @@ if major == 1 and minor < 6:
- #  author, documentclass [howto, manual, or own class]).
- # Sorted in alphabetical order
- latex_documents = [
--    ('admin-guide/index', 'linux-user.tex', 'Linux Kernel User Documentation',
--     'The kernel development community', 'manual'),
--    ('core-api/index', 'core-api.tex', 'The kernel core API manual',
--     'The kernel development community', 'manual'),
--    ('crypto/index', 'crypto-api.tex', 'Linux Kernel Crypto API manual',
--     'The kernel development community', 'manual'),
--    ('dev-tools/index', 'dev-tools.tex', 'Development tools for the Kernel',
--     'The kernel development community', 'manual'),
--    ('doc-guide/index', 'kernel-doc-guide.tex', 'Linux Kernel Documentation Guide',
--     'The kernel development community', 'manual'),
--    ('driver-api/index', 'driver-api.tex', 'The kernel driver API manual',
--     'The kernel development community', 'manual'),
--    ('filesystems/index', 'filesystems.tex', 'Linux Filesystems API',
--     'The kernel development community', 'manual'),
--    ('admin-guide/ext4', 'ext4-admin-guide.tex', 'ext4 Administration Guide',
--     'ext4 Community', 'manual'),
--    ('filesystems/ext4/index', 'ext4-data-structures.tex',
--     'ext4 Data Structures and Algorithms', 'ext4 Community', 'manual'),
--    ('gpu/index', 'gpu.tex', 'Linux GPU Driver Developer\'s Guide',
--     'The kernel development community', 'manual'),
--    ('input/index', 'linux-input.tex', 'The Linux input driver subsystem',
--     'The kernel development community', 'manual'),
--    ('kernel-hacking/index', 'kernel-hacking.tex', 'Unreliable Guide To Hacking The Linux Kernel',
--     'The kernel development community', 'manual'),
--    ('media/index', 'media.tex', 'Linux Media Subsystem Documentation',
--     'The kernel development community', 'manual'),
--    ('networking/index', 'networking.tex', 'Linux Networking Documentation',
--     'The kernel development community', 'manual'),
--    ('process/index', 'development-process.tex', 'Linux Kernel Development Documentation',
--     'The kernel development community', 'manual'),
--    ('security/index', 'security.tex', 'The kernel security subsystem manual',
--     'The kernel development community', 'manual'),
--    ('sh/index', 'sh.tex', 'SuperH architecture implementation manual',
--     'The kernel development community', 'manual'),
--    ('sound/index', 'sound.tex', 'Linux Sound Subsystem Documentation',
--     'The kernel development community', 'manual'),
--    ('userspace-api/index', 'userspace-api.tex', 'The Linux kernel user-space API guide',
--     'The kernel development community', 'manual'),
- ]
- 
- # Add all other index files from Documentation/ subdirectories
--- 
-2.25.2
 
+
+Thanks,
+Mauro
