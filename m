@@ -2,105 +2,95 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C796C2BB1D
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 19:34:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90155C2BB1D
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 21:01:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A6142074D
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 19:34:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="j02DrJAJ"
+	by mail.kernel.org (Postfix) with ESMTP id 606452074D
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 21:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586898075;
+	bh=iAaI96UO9jO0nmyHDUvCt1c5ZT2a84A5TIYscM+YLpc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=qQqEHGZlM4RBURS7lC2h3T8qdTss0dxvopYK6VE9MJCtP+Hfwt2GERO6YrpQ5Z1pb
+	 M74EngY01YIvhu+DamoYfMAmzVDBCeulOd/0Pl+MR0GxK9VDK3SkRO93iXMA71Ity0
+	 um+JTmBMmPTVgvSv/B0Q8UvgcAPRyEVnQ9eEyxI0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504806AbgDNTeF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 15:34:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58158 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2504851AbgDNTdk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Apr 2020 15:33:40 -0400
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AD9EC061A41
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2020 12:33:39 -0700 (PDT)
-Received: by mail-qv1-xf42.google.com with SMTP id v38so496016qvf.6
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2020 12:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=8dnkQ9M3xI6On5BSh1/mhM6wNLNSVaCuNmJxtnHMKQk=;
-        b=j02DrJAJJMYYgQIUy1JTsUOwROPiKWFCYonh6yaIg0yjBkI7sW/ZCXWHB3l802npmp
-         bYy2/EcDTPLn0/iuzVb4x85UU2Nq/ZY9dpCCfTjXBFNaq2BW8zidhYBYt7AzkbTyHqEx
-         fKxdQ+E96b4q2cb28IOD47KEjHifg7tVjb1lW0i+y87/rHdkfki3d0DcOUJOtws4hOnI
-         6LuC08+F3VlCgq9il2WJHfDhUMyMRo6bZYUy7sUS+lWgsIe9HVl+E7zL3JuvGCTIy7CE
-         UFSJwifhn/w8dAKoeXJHnUc4V/hSx+Cy827SG0+Y5fH46DOr95sbY2ZqL45CmGPZm0XQ
-         kAlA==
+        id S2633543AbgDNVBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 17:01:12 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43223 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2633541AbgDNVBI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Apr 2020 17:01:08 -0400
+Received: by mail-oi1-f196.google.com with SMTP id j16so11700668oih.10;
+        Tue, 14 Apr 2020 14:01:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8dnkQ9M3xI6On5BSh1/mhM6wNLNSVaCuNmJxtnHMKQk=;
-        b=rW7Nd6BnUmdB+DEWK90aeSubzci5gO/EJym6Aw5oXdPTtq2rk5WhQH1/PVn0XnfDWR
-         XBi+iXNRRXZKVg5j1uDxTqUDJHqw0sG7uRP+J2NvdRATFO20qAqi/Lh7mfnMaIN6qVsU
-         1TXm4y+70vhgfsVtfsvzlL8NZtBUnK+P6NDr6XhBtURVDJQueOtfZK6x0ky3zng7ehYg
-         PVGu7LXBVmmTMg/GINEjQV7IbNMaevSwwJs+T3pPT/W99insNN1l0uvn8d944JQA+l9A
-         HWxnElE9njrTbyFGUTF6Hga1j1ifE1ojhXXjDEmMOVdEomkLYWjhpwBvahS5tQl8Xg3d
-         aYMw==
-X-Gm-Message-State: AGi0PuZMDF1XdeB0TAL2X9uk0FXwZpVf7iJaSAV9o+pmHEMia+7rhMwE
-        HBTdLOSgXY61lZ9oc08pK9fLcQ==
-X-Google-Smtp-Source: APiQypL0GLPU2qVCJsM0kf2FXn3IWzAgvpM/edl/Z91YfQTa69LDuZZfAydhjhxbF4ueX1QhOkOzNw==
-X-Received: by 2002:a0c:e092:: with SMTP id l18mr1565731qvk.116.1586892818419;
-        Tue, 14 Apr 2020 12:33:38 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id o6sm5702880qkj.126.2020.04.14.12.33.37
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 Apr 2020 12:33:37 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jORJR-0005TM-EB; Tue, 14 Apr 2020 16:33:37 -0300
-Date:   Tue, 14 Apr 2020 16:33:37 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
+        bh=2tnI9OFnswT+j7ufoqi84C+8316n65ZdA2j48i1vU10=;
+        b=uOzhGkswrjuWE4gpstlr+MZoBaKrHDK0U0WXesXuKFu6b3hpWtJi+nIufd7BrKPi7z
+         li/4h0edLbp9DQ2oXRwz03PUTEE1F/dDUZ4aY/sH/ztcz5DKRZKbt8CEUzP8sdp5xIGH
+         awyyMgZxrR2VCTU9vdYcnbWbNsJ4bUhYgbjlBmT/OpQccOdJ67QRq2x9fmYpfX7/WgsH
+         hQZhWsnME4pqerew1tnKCpSI82qjEkhMW3/v+LsfV/w26Qgg86ldr/BFWNT769tvgO7j
+         bp6YCP+YxoZX7MSQ83BiXtXHjRzV6Jmq9OL/L5AOwNdm6GNcgJjkNrQR1kfC66btbP6n
+         Xm/Q==
+X-Gm-Message-State: AGi0PuZRLHdfVWXfv29L25uwF1kf3GIqcKe9SKwPOBry2vx6Qqo7fuUE
+        PdHFxfjRoXaMhS0e9Jk3Bm2du2M=
+X-Google-Smtp-Source: APiQypI88cfV+Vx4EqdyKBvxYVVd0MKPigaGXZDKD8HyL53QwsqxG0yMTlV8exKkTgUJ2NGdCF/Omw==
+X-Received: by 2002:aca:c385:: with SMTP id t127mr16945398oif.49.1586898066938;
+        Tue, 14 Apr 2020 14:01:06 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id s10sm332886oig.56.2020.04.14.14.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2020 14:01:06 -0700 (PDT)
+Received: (nullmailer pid 2708 invoked by uid 1000);
+        Tue, 14 Apr 2020 21:01:04 -0000
+Date:   Tue, 14 Apr 2020 16:01:04 -0500
+From:   Rob Herring <robh@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v2 17/33] docs: infiniband: verbs.c: fix some
- documentation warnings
-Message-ID: <20200414193337.GA20929@ziepe.ca>
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Yuti Amonkar <yamonkar@cadence.com>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 08/33] docs: dt: fix broken reference to
+ phy-cadence-torrent.yaml
+Message-ID: <20200414210104.GA2508@bogus>
 References: <cover.1586881715.git.mchehab+huawei@kernel.org>
- <4c5466d0f450c5a9952138150c3485740b37f9c5.1586881715.git.mchehab+huawei@kernel.org>
+ <3f1cf6d74e392f3ee9f894d82cb7ee29d04c1b6d.1586881715.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4c5466d0f450c5a9952138150c3485740b37f9c5.1586881715.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <3f1cf6d74e392f3ee9f894d82cb7ee29d04c1b6d.1586881715.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 06:48:43PM +0200, Mauro Carvalho Chehab wrote:
-> Parsing this file with kernel-doc produce some warnings:
+On Tue, 14 Apr 2020 18:48:34 +0200, Mauro Carvalho Chehab wrote:
+> This file was removed, and another file was added instead of
+> it, on two separate commits.
 > 
-> 	./drivers/infiniband/core/verbs.c:2579: WARNING: Unexpected indentation.
-> 	./drivers/infiniband/core/verbs.c:2581: WARNING: Block quote ends without a blank line; unexpected unindent.
-> 	./drivers/infiniband/core/verbs.c:2613: WARNING: Unexpected indentation.
-> 	./drivers/infiniband/core/verbs.c:2579: WARNING: Unexpected indentation.
-> 	./drivers/infiniband/core/verbs.c:2581: WARNING: Block quote ends without a blank line; unexpected unindent.
-> 	./drivers/infiniband/core/verbs.c:2613: WARNING: Unexpected indentation.
+> Splitting a single logical change (doc conversion) on two
+> patches is a bad thing, as it makes harder to discover what
+> crap happened.
 > 
-> Address them by adding an extra blank line and converting the
-> parameters on one of the arguments to a table.
+> Anyway, this patch fixes the broken reference, making it
+> pointing to the new location of the file.
 > 
+> Fixes: 922003733d42 ("dt-bindings: phy: Remove Cadence MHDP PHY dt binding")
+> Fixes: c6d8eef38b7f ("dt-bindings: phy: Add Cadence MHDP PHY bindings in YAML format.")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  drivers/infiniband/core/verbs.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-As before we can take RDMA patches through the RDMA tree, so applied
-to for-next
+Applied, thanks.
 
-Thanks,
-Jason
+Rob
