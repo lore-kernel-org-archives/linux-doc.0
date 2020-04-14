@@ -7,52 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80AF1C3815B
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:54:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E14C2C2BB85
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:54:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A22D2054F
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:54:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B920B2075E
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:54:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586883267;
-	bh=qbLirr5OJzkGy9BaDKpusPauYxAyPeK4aOYcI5WQ1pU=;
+	s=default; t=1586883282;
+	bh=KYgrRzJZ+v2MtmRgRhrMiVbwLP4xnRRe17npBnjIDz0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=LtujrTaGeOnJBt5M3FS1jqgN97QtNbiuBC4HBbQBzHR3hhYx7/PnI5MHqFgC1VUQg
-	 ZltsfbDa/8RCzuA4+E3BC6PpXsA497zbAs798Fim/T8+yWH940zcbGDXGh4NnaPODP
-	 yr51N3Aeklkq+lWtD5ak6bXq80uSUT0Atwc0nDwA=
+	b=TCaWapmPxBf+JHfVwbeIZnl3gCDGx1SgeoHnlDSBvlAsGImnwRsHNBj0bI0PbE4jT
+	 6wHrfO5oytyPjkeSP8jTChA/9M4ltrvj4YYeVgZv7UdqkAhgCEDfJsTjpjHWeadmZe
+	 21+28JqDuIfECwiJL/ZpAxMrH64zf1fJxZTJIvjQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391310AbgDNQyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:54:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55192 "EHLO mail.kernel.org"
+        id S2391859AbgDNQyk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:54:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55216 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407505AbgDNQtO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2440310AbgDNQtO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Apr 2020 12:49:14 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CBD90217BA;
-        Tue, 14 Apr 2020 16:49:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0B32821D7D;
+        Tue, 14 Apr 2020 16:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586882943;
-        bh=qbLirr5OJzkGy9BaDKpusPauYxAyPeK4aOYcI5WQ1pU=;
+        bh=KYgrRzJZ+v2MtmRgRhrMiVbwLP4xnRRe17npBnjIDz0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RML0oIb+532FiifWanRBbBBqIv+j5i6BLN6eFCYjNBQLfUhmR8G9N7lGqbtDNs9MC
-         NTLde4a5YJXqn4dJfQiXPzmk0paODmzEs/QGA0mDvstdgQ1WkcfK8DUoVgFADduwx6
-         BjhcIf3EhIqu6xHFgCEY/QUoiCh7IEb2An0Dn8lk=
+        b=wrw1GkKImF+CJjoYQO64+lyjCRGbzBnAJdiZJnXz3MLlaIEai9d5D+x61La8eui84
+         Mn7afwUKcHvDhCveuOuX9GUTSPDb8de72sPmYQ48eWNMaCANeMG/8Bb9VC1LOFsTUy
+         znXe0jBKMpDaxLZQt91H0eLYd9XsbHFnJGRqMxMs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOOk9-0068m8-20; Tue, 14 Apr 2020 18:49:01 +0200
+        id 1jOOk9-0068ma-84; Tue, 14 Apr 2020 18:49:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Tony Luck <tony.luck@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>,
-        linux-edac@vger.kernel.org
-Subject: [PATCH v2 16/33] docs: ras: don't need to repeat twice the same thing
-Date:   Tue, 14 Apr 2020 18:48:42 +0200
-Message-Id: <f76dcae96de8b1bb8ee37a79781c111c825e26d6.1586881715.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 21/33] docs: mm: userfaultfd.rst: use a cross-reference for a section
+Date:   Tue, 14 Apr 2020 18:48:47 +0200
+Message-Id: <f46b45f1aaec233217f2e0b0438bbd8cc16fe17b.1586881715.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
 References: <cover.1586881715.git.mchehab+huawei@kernel.org>
@@ -63,27 +58,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We don't need to say twice "for the first time" at the same
-paragraph.
+Instead of using "foo", let's use `foo`_, with is a ReST way of
+saying that foo is a section of the document. With that, after
+building the docs, an hyperlink is generated.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/ras.rst | 2 +-
+ Documentation/admin-guide/mm/userfaultfd.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/ras.rst
-index 22b31bc7e129..6cbaab975ee5 100644
---- a/Documentation/admin-guide/ras.rst
-+++ b/Documentation/admin-guide/ras.rst
-@@ -212,7 +212,7 @@ EDAC - Error Detection And Correction
-    purposes.
+diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
+index 740d111faf1c..0bf49d7313ad 100644
+--- a/Documentation/admin-guide/mm/userfaultfd.rst
++++ b/Documentation/admin-guide/mm/userfaultfd.rst
+@@ -79,7 +79,7 @@ or shared memory need to set the corresponding flag in
+ If the userland desires to receive notifications for events other than
+ page faults, it has to verify that ``uffdio_api.features`` has appropriate
+ ``UFFD_FEATURE_EVENT_*`` bits set. These events are described in more
+-detail below in "Non-cooperative userfaultfd" section.
++detail below in `Non-cooperative userfaultfd`_ section.
  
-    When the subsystem was pushed upstream for the first time, on
--   Kernel 2.6.16, for the first time, it was renamed to ``EDAC``.
-+   Kernel 2.6.16, it was renamed to ``EDAC``.
- 
- Purpose
- -------
+ Once the ``userfaultfd`` has been enabled the ``UFFDIO_REGISTER`` ioctl should
+ be invoked (if present in the returned ``uffdio_api.ioctls`` bitmask) to
 -- 
 2.25.2
 
