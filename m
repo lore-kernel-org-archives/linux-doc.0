@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8F0C352B6
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E78DC352BE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C6BA2076C
+	by mail.kernel.org (Postfix) with ESMTP id E13D5206E9
 	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1586854287;
-	bh=/ifeaDL4BrNJknQlHPAW9qNRsoNoUa9p55HHjDYHVCI=;
+	bh=0O7EuouMBNaUibBD2/q3Xj6UeiHijaPvwbCPgphKh0Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=r6R9w3jqR+soMcZU6L6+5cjDrljBCxxA8evGrchypyca6Rk3Wd//N2tfhMbf8RPdd
-	 KFf457/cUQqnr3s34MaCFYokxCb2bFKVlHlOsMAsVdh8abV+Sn/ZrYTL3Ht4b3AMeK
-	 pS5B2jSq1CB5AJ7Y5hisJCwh8/eaVfiwI8jI3sls=
+	b=Hle1rz60Smw5HpgXjrTalILUvYctmD6EhDZgYvfNjs67WNUQf5qDqoBKmotN7jcyL
+	 uDFijl5u2cuuRR0H5GfLYBg85dgHrxSSELQgzURSJsEIHXRmIzq1b5t3vnnUyKXD96
+	 N6VO11vRRiJsb0umqtKtsUfHeq4qscvLKXMBxiiQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437120AbgDNIvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 04:51:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52238 "EHLO mail.kernel.org"
+        id S2437110AbgDNIv0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 04:51:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52236 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437109AbgDNIvR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2437111AbgDNIvR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Apr 2020 04:51:17 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 64DE021835;
+        by mail.kernel.org (Postfix) with ESMTPSA id 524F82173E;
         Tue, 14 Apr 2020 08:51:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586854269;
-        bh=/ifeaDL4BrNJknQlHPAW9qNRsoNoUa9p55HHjDYHVCI=;
+        bh=0O7EuouMBNaUibBD2/q3Xj6UeiHijaPvwbCPgphKh0Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z7PfZSgcaCQAHv/qK3qVgRu0yKS92Ny5Q0WMn7hBVsGs2LpkW5xAUR0SkWQw959jV
-         adWo9h8aOLu/RybOsNWy5FJMLp/JGNaFqn/JmwaaLYZAKM454pMl3ZinW2hkN9qFl9
-         Rk9I61Lh7pqzGurbRQJ+UfElxgScEShdWWBBA1So=
+        b=Ah1Ai1MPiFInDFVHyMDpfz3DvLf84YDUXAqZLuIlqg7d6QeePmtLe7gADuRUQUfXB
+         1tj49YKYQAY41EzIfl71FWvxBG+BlaXKwDxY9mpGj3ZCdn+0I0V6433vYL5Wj6cFzj
+         xa9Nj1tkFktnz/IMPseJBJYIrEuMrrQivjoWwNb8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOHHf-002x0E-M0; Tue, 14 Apr 2020 10:51:07 +0200
+        id 1jOHHf-002wzL-4H; Tue, 14 Apr 2020 10:51:07 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 19/19] media: docs: add cros-references to the other media guides
-Date:   Tue, 14 Apr 2020 10:51:05 +0200
-Message-Id: <47cda41623dbb81d65fc22be92266df3efc1c328.1586854191.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 08/19] media: docs: add a cardlist for cx18 boards
+Date:   Tue, 14 Apr 2020 10:50:54 +0200
+Message-Id: <06e5f2fec58c4aeed758a6a15580382ffaee6004.1586854191.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586854191.git.mchehab+huawei@kernel.org>
 References: <cover.1586854191.git.mchehab+huawei@kernel.org>
@@ -58,85 +58,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to make easier for people to navigate between the
-three media guides, add cross-references between them
+There aren't many boards supported by this driver. So, add
+a list for it manually generated.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/media/index.rst   | 12 ++++++++++++
- Documentation/driver-api/media/index.rst    |  8 ++++++++
- Documentation/userspace-api/media/index.rst | 11 +++++++++++
- 3 files changed, 31 insertions(+)
+ Documentation/admin-guide/media/cardlist.rst    |  1 +
+ .../admin-guide/media/cx18-cardlist.rst         | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/cx18-cardlist.rst
 
-diff --git a/Documentation/admin-guide/media/index.rst b/Documentation/admin-guide/media/index.rst
-index eb1d82dffcc9..6e5e6bdb6d4b 100644
---- a/Documentation/admin-guide/media/index.rst
-+++ b/Documentation/admin-guide/media/index.rst
-@@ -2,9 +2,21 @@
+diff --git a/Documentation/admin-guide/media/cardlist.rst b/Documentation/admin-guide/media/cardlist.rst
+index 14249f47fbc2..5c9c3c97bcb2 100644
+--- a/Documentation/admin-guide/media/cardlist.rst
++++ b/Documentation/admin-guide/media/cardlist.rst
+@@ -8,6 +8,7 @@ Cards List
  
- .. include:: <isonum.txt>
- 
-+============================
-+Media subsystem usage guides
-+============================
- 
-+This section contains usage information about media subsystem and
-+its supported drivers.
- 
-+Please see:
- 
-+- :doc:`/userspace-api/media/index`
-+     for the userspace APIs used on media devices.
+ 	au0828-cardlist
+ 	bttv-cardlist
++	cx18-cardlist
+ 	cx23885-cardlist
+ 	cx88-cardlist
+ 	em28xx-cardlist
+diff --git a/Documentation/admin-guide/media/cx18-cardlist.rst b/Documentation/admin-guide/media/cx18-cardlist.rst
+new file mode 100644
+index 000000000000..26f2da9aa542
+--- /dev/null
++++ b/Documentation/admin-guide/media/cx18-cardlist.rst
+@@ -0,0 +1,17 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+- :doc:`/driver-api/media/index`
-+     for driver development information and Kernel APIs used by
-+     media devices;
- 
- .. _uapi-v4l-drivers:
- 
-diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-index 5e9f67f34081..328350924853 100644
---- a/Documentation/driver-api/media/index.rst
-+++ b/Documentation/driver-api/media/index.rst
-@@ -6,8 +6,16 @@
- Media subsystem kernel internal API
- ===================================
- 
-+This section contains usage information about media subsystem and
-+its supported drivers.
- 
-+Please see:
- 
-+- :doc:`/admin-guide/media/index`
-+    for usage information about media subsystem and supported drivers;
++CX18 cards list
++===============
 +
-+- :doc:`/userspace-api/media/index`
-+     for the userspace APIs used on media devices.
- 
- 
- .. only:: html
-diff --git a/Documentation/userspace-api/media/index.rst b/Documentation/userspace-api/media/index.rst
-index b20010f414b3..70a3f3d73698 100644
---- a/Documentation/userspace-api/media/index.rst
-+++ b/Documentation/userspace-api/media/index.rst
-@@ -6,6 +6,17 @@
- Linux Media Infrastructure userspace API
- ########################################
- 
-+This section contains the  driver development information and Kernel APIs
-+used by media devices.
++Those cards are supported by cx18 driver:
 +
-+Please see:
-+
-+- :doc:`/admin-guide/media/index`
-+    for usage information about media subsystem and supported drivers;
-+
-+- :doc:`/driver-api/media/index`
-+     for driver development information and Kernel APIs used by
-+     media devices;
- 
- 
- .. only:: html
++- Hauppauge HVR-1600 (ESMT memory)
++- Hauppauge HVR-1600 (Samsung memory)
++- Compro VideoMate H900
++- Yuan MPC718 MiniPCI DVB-T/Analog
++- Conexant Raptor PAL/SECAM
++- Toshiba Qosmio DVB-T/Analog
++- Leadtek WinFast PVR2100
++- Leadtek WinFast DVR3100
++- GoTView PCI DVD3 Hybrid
++- Hauppauge HVR-1600 (s5h1411/tda18271)
 -- 
 2.25.2
 
