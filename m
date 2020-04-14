@@ -2,127 +2,88 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F390C2BA19
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 09:16:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D4A1C2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 09:42:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 854892072D
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 09:16:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 009342076C
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 09:42:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437508AbgDNJPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 05:15:54 -0400
-Received: from mga06.intel.com ([134.134.136.31]:6671 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437501AbgDNJPw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 05:15:52 -0400
-IronPort-SDR: vsAFenhHhBG8uNqmm57MCkbFvgULZIV3BdLdLZHCibLXQHxMDlClqqrBlZXzPStZ53R2DBg18X
- qHlPgU1yQXaw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2020 02:15:51 -0700
-IronPort-SDR: XaAYwih13kluB8Qgni89e9NJqmeCKNVE2sToDlr5+9vgt6ce6+duySDm202IkG2rAZDr8JHY8B
- xm/SXmfn0eag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,382,1580803200"; 
-   d="scan'208";a="241932506"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga007.jf.intel.com with ESMTP; 14 Apr 2020 02:15:46 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jOHfY-000UKW-Di; Tue, 14 Apr 2020 12:15:48 +0300
-Date:   Tue, 14 Apr 2020 12:15:48 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Ernesto Corona <ernesto.corona@intel.com>
+        id S2437710AbgDNJmC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 05:42:02 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57580 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728305AbgDNJmB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 05:42:01 -0400
+Received: from linux.localdomain (unknown [113.200.148.30])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv9xdhZVecMEnAA--.3S2;
+        Tue, 14 Apr 2020 17:41:50 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org,
-        Oleksandr Shamray <oleksandrs@mellanox.com>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Rob Herring <robh@kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Steven Filary <steven.a.filary@intel.com>,
-        Amithash Prasad <amithash@fb.com>,
-        Patrick Williams <patrickw3@fb.com>, Rgrs <rgrs@protonmail.com>
-Subject: Re: [PATCH v29 6/6] drivers: jtag: Add JTAG core driver Maintainers
-Message-ID: <20200414091548.GH34613@smile.fi.intel.com>
-References: <20200413222920.4722-1-ernesto.corona@intel.com>
- <20200413222920.4722-7-ernesto.corona@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200413222920.4722-7-ernesto.corona@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        Xuefeng Li <lixuefeng@loongson.cn>
+Subject: [PATCH] scripts: documentation-file-ref-check: Add line break before exit
+Date:   Tue, 14 Apr 2020 17:41:48 +0800
+Message-Id: <1586857308-2040-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf9Dxv9xdhZVecMEnAA--.3S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xr1DWw4xAw18KF1kGw4kWFg_yoWkZrgE9F
+        Z7tFs5Wr4xArsrCr4kJFsxXF1jgrn7Ww4ruw1rAa1DC3sIka98WFZ7A343uFW7Wry7ZryY
+        kFy8XayxZF1IyjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb2AFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+        jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8uwCF
+        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+        1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+        6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JU3cTPUUUUU=
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 13, 2020 at 03:29:20PM -0700, Ernesto Corona wrote:
-> JTAG class driver provide infrastructure to support hardware/software
-> JTAG platform drivers. It provide user layer API interface for flashing
-> and debugging external devices which equipped with JTAG interface
-> using standard transactions.
+If execute ./scripts/documentation-file-ref-check in a directory which is
+not a git tree, it will exit without a line break, fix it.
 
-Don't forget to run
-      scripts/parse-maintainers.pl --input=MAINTAINERS --output=MAINTAINERS --order
+Without this patch:
 
-> Signed-off-by: Oleksandr Shamray <oleksandrs@mellanox.com>
-> Signed-off-by: Ernesto Corona <ernesto.corona@intel.com>
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> Cc: Jiri Pirko <jiri@mellanox.com>
-> Cc: Vadim Pasternak <vadimp@mellanox.com>
-> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: David S. Miller <davem@davemloft.net>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Cc: Steven Filary <steven.a.filary@intel.com>
-> Cc: Amithash Prasad <amithash@fb.com>
-> Cc: Patrick Williams <patrickw3@fb.com>
-> Cc: Rgrs <rgrs@protonmail.com>
-> ---
->  MAINTAINERS | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e64e5db31497..96d20fbb719c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9144,6 +9144,17 @@ L:	linux-serial@vger.kernel.org
->  S:	Orphan
->  F:	drivers/tty/serial/jsm/
->  
-> +JTAG SUBSYSTEM
-> +M:	Oleksandr Shamray <oleksandrs@mellanox.com>
-> +M:	Vadim Pasternak <vadimp@mellanox.com>
-> +M	Ernesto Corona <ernesto.corona@intel.com>
-> +S:	Maintained
-> +F:	include/linux/jtag.h
-> +F:	include/uapi/linux/jtag.h
-> +F:	drivers/jtag/
-> +F:	Documentation/devicetree/bindings/jtag/
-> +F:	Documentation/ABI/testing/jtag-dev
-> +
->  K10TEMP HARDWARE MONITORING DRIVER
->  M:	Clemens Ladisch <clemens@ladisch.de>
->  L:	linux-hwmon@vger.kernel.org
-> -- 
-> 2.17.1
-> 
+[loongson@localhost linux-5.7-rc1]$ ./scripts/documentation-file-ref-check
+Warning: can't check if file exists, as this is not a git tree[loongson@localhost linux-5.7-rc1]$
 
+With this patch:
+
+[loongson@localhost linux-5.7-rc1]$ ./scripts/documentation-file-ref-check
+Warning: can't check if file exists, as this is not a git tree
+[loongson@localhost linux-5.7-rc1]$
+
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+ scripts/documentation-file-ref-check | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index 9a8cc10..c71832b 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -25,7 +25,7 @@ my $fix = 0;
+ my $warn = 0;
+ 
+ if (! -d ".git") {
+-	printf "Warning: can't check if file exists, as this is not a git tree";
++	printf "Warning: can't check if file exists, as this is not a git tree\n";
+ 	exit 0;
+ }
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.1.0
 
