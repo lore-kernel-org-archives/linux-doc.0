@@ -2,101 +2,97 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7592C2BA19
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C72C2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:50:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E7EE20678
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:49:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2F92206E9
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:50:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586882999;
-	bh=GJaIbUUUjI+OFO44/xbkZ+o3FRwbTXCmkmmjK/GceGw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=dhmTzTFAmDdjj/Jo+CNg1vi5gGWhdsz9UDaEheWNVJgSCpwuaLRYxjrRgkMDHs99H
-	 myfQvXLa833BGLu34h5kRElZiZrnJ7bkVcey5HonL+6KU9oGr3rsCMJwMq4S17+6jh
-	 +6iUS2PzFTc6dHz/i5CahYIy3Rb1+yzhjjGHWod8=
+	s=default; t=1586883036;
+	bh=ZPSVcP5kqhLVox5r53x2+oMdFzo1HtLR9szo3WYjEf4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=cY+j3UstjhuwPlXL/rcidh8l+E0poMuxPQDerlaPzKUeDgt809z6lT/80MT2oJh+g
+	 3oV5oc0ry74e1kwXoSqX0Rcf0t4KzcvlOKxspAoep6SNM1VR/G77mbo8HANSe/cKhd
+	 AVSTF4+IveouJAUVy5kZtLv5QKkggma+v1z0uOKE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440598AbgDNQt5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:49:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56340 "EHLO mail.kernel.org"
+        id S2440454AbgDNQtd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:49:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440534AbgDNQt4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:49:56 -0400
-Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        id S2440335AbgDNQtQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:16 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 973B020656;
-        Tue, 14 Apr 2020 16:49:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 29E9321D92;
+        Tue, 14 Apr 2020 16:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586882996;
-        bh=GJaIbUUUjI+OFO44/xbkZ+o3FRwbTXCmkmmjK/GceGw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=hsyRNql75sdYjF/Of/wwowfTuxsY2gG4N8TYkOnebIM9WtohNmmXyBSkPQTOdZCMo
-         ntkHcR/kfvEotm0/4M/o+mK6GMBm8rQdlj6NCh9QIp2BktVxcKexyWd9x4ejCwrAbY
-         Ur7+Q4t9J92VCgi+DkSiK6OEK64dBJpS0GufHlk0=
-Date:   Tue, 14 Apr 2020 18:49:51 +0200
+        s=default; t=1586882943;
+        bh=ZPSVcP5kqhLVox5r53x2+oMdFzo1HtLR9szo3WYjEf4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=mxxoDouEddUGCNG+T2+RJ5rLqxo4V6RdUzhonbAc6cy9pwtJJHgiikZGIHQXvUHrB
+         qXKzEaiMeDJfYJNkOZR3PLrc8+3u9Cc+d0nVO3aWAfDr8rQ/2j1W0AftIkHlxMng8M
+         DhzgW6El+XUbQu9fPGERnjDFILRD1Ycy+9SvYWzI=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jOOk9-0068mk-Ac; Tue, 14 Apr 2020 18:49:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>
-Subject: Re: [PATCH] scripts: documentation-file-ref-check: Add line break
- before exit
-Message-ID: <20200414184951.7f3a5564@coco.lan>
-In-Reply-To: <1586857308-2040-1-git-send-email-yangtiezhu@loongson.cn>
-References: <1586857308-2040-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Sandeep Maheswaram <sanm@codeaurora.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v2 23/33] docs: dt: qcom,dwc3.txt: fix cross-reference for a converted file
+Date:   Tue, 14 Apr 2020 18:48:49 +0200
+Message-Id: <a055c564f2a79aa748064329d938db8b3c8edd58.1586881715.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
+In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
+References: <cover.1586881715.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 14 Apr 2020 17:41:48 +0800
-Tiezhu Yang <yangtiezhu@loongson.cn> escreveu:
+The qcom-qusb2-phy.txt file was converted and renamed to yaml.
+Update cross-reference accordingly.
 
-> If execute ./scripts/documentation-file-ref-check in a directory which is
-> not a git tree, it will exit without a line break, fix it.
-> 
-> Without this patch:
-> 
-> [loongson@localhost linux-5.7-rc1]$ ./scripts/documentation-file-ref-check
-> Warning: can't check if file exists, as this is not a git tree[loongson@localhost linux-5.7-rc1]$
-> 
-> With this patch:
-> 
-> [loongson@localhost linux-5.7-rc1]$ ./scripts/documentation-file-ref-check
-> Warning: can't check if file exists, as this is not a git tree
-> [loongson@localhost linux-5.7-rc1]$
-> 
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+Fixes: 8ce65d8d38df ("dt-bindings: phy: qcom,qusb2: Convert QUSB2 phy bindings to yaml")
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/devicetree/bindings/usb/qcom,dwc3.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.txt b/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
+index cb695aa3fba4..fbdd01756752 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
+@@ -52,8 +52,8 @@ A child node must exist to represent the core DWC3 IP block. The name of
+ the node is not important. The content of the node is defined in dwc3.txt.
+ 
+ Phy documentation is provided in the following places:
+-Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt   - USB3 QMP PHY
+-Documentation/devicetree/bindings/phy/qcom-qusb2-phy.txt - USB2 QUSB2 PHY
++Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt    - USB3 QMP PHY
++Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml - USB2 QUSB2 PHY
+ 
+ Example device nodes:
+ 
+-- 
+2.25.2
 
-> ---
->  scripts/documentation-file-ref-check | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-> index 9a8cc10..c71832b 100755
-> --- a/scripts/documentation-file-ref-check
-> +++ b/scripts/documentation-file-ref-check
-> @@ -25,7 +25,7 @@ my $fix = 0;
->  my $warn = 0;
->  
->  if (! -d ".git") {
-> -	printf "Warning: can't check if file exists, as this is not a git tree";
-> +	printf "Warning: can't check if file exists, as this is not a git tree\n";
->  	exit 0;
->  }
->  
-
-
-
-Thanks,
-Mauro
