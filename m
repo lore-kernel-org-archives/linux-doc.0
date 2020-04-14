@@ -2,52 +2,52 @@ Return-Path: <SRS0=PpzG=56=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B7EDC352B6
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C53EC38A29
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C5AA2082E
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7446206E9
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 08:51:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586854294;
-	bh=/nMy/VTPLC8KdPETiP+MobS13F2QeC4I/2mqQFzK7Fc=;
+	s=default; t=1586854299;
+	bh=V/eIPcsSVwad8UyoYAyp58TPr9vQc6czndfCl+S34oY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Q+1NZRm92uabybCzMZPq7623bfm1KmvjcjndR9L1w5+8Ahk1xionY9Cj/1g/6SA9/
-	 58K9fi/L6fSyBSykh4a25ekLP3ixC4mHNglLsWEobUpD6r0m33cgPDu9TyhtdVoFkI
-	 aqpQcHovKpxGxzU9l+YQULZN664AovVIJ0Sornmc=
+	b=x9rP1JiMAXlb2xvW6MpNEfqYWdShYEhvCE7xft+SkZez+rXbPGFuVwUHWjQ/OwAWu
+	 7/cU/kIJG2xJE8vJv9O9LdIXjqqYoyHpwEGaFgun00sVxcaokKHJvUBSvn0Uzx48j4
+	 Dl0u4fTkcTlIpdzXatvzUeu72/g7t8sYa/7ljPWY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437128AbgDNIvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 04:51:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52230 "EHLO mail.kernel.org"
+        id S2437050AbgDNIvi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 04:51:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52234 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728251AbgDNIvO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 04:51:14 -0400
+        id S2437072AbgDNIvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 04:51:12 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A4EA52076C;
+        by mail.kernel.org (Postfix) with ESMTPSA id CE84E2085B;
         Tue, 14 Apr 2020 08:51:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586854269;
-        bh=/nMy/VTPLC8KdPETiP+MobS13F2QeC4I/2mqQFzK7Fc=;
+        bh=V/eIPcsSVwad8UyoYAyp58TPr9vQc6czndfCl+S34oY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mVTfi2uVXEQSidwoU+TwlBhUs6Hwj7aKd0wGXvHRMC4JBrRkLr4XZrCOk7j4sNpCk
-         DMj12715Y2CcR2H5bu1nDeXjXy+vOa8X/SCpn3rmn2uhD/R0AP1SIJvdawDpPPgdJU
-         IAzoKo8MpC618GX3aha1EtidIQxlB0QQ4WvowqN8=
+        b=cgqfdx5Fmm0FwLYNqZR8jTFLVNZMkJwG/70xibZoz9O41fMbfNCBd7QzUEUgawBKl
+         FTqy5Bgh73tuHFpI4vMU9mnOgQ9Vc2ovhPHHQvGUGeESJMyI4+Mjg0LvYSQFNq/DNx
+         9Ghr7WOn6s0/+JgZ75bsSOuUUFxSjTwoJO+ScDZk=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOHHe-002wyu-TX; Tue, 14 Apr 2020 10:51:06 +0200
+        id 1jOHHf-002wzG-2t; Tue, 14 Apr 2020 10:51:07 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 03/19] media: docs: dvb_intro.rst: update its contents
-Date:   Tue, 14 Apr 2020 10:50:49 +0200
-Message-Id: <f0aca05ee3427f1fac38e778504e2165ebdcdb86.1586854191.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 07/19] media: docs: update bttv.rst information
+Date:   Tue, 14 Apr 2020 10:50:53 +0200
+Message-Id: <f478267faf6eccc9fe3d80b0c6f7a63bd03621cd.1586854191.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586854191.git.mchehab+huawei@kernel.org>
 References: <cover.1586854191.git.mchehab+huawei@kernel.org>
@@ -58,796 +58,473 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The content there is somewhat outdated. Update to reflect
-the current status.
+This document is... old. The bttv driver was one of the first
+drivers at the Kernel. So, the document became a little obsoleted.
 
-While here, remove extra spaces, as we won't be preserving
-left margin alinment on this document.
+Update it to reflect some changes that happened along the time
+affecting this driver and the subsystem.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/media/dvb_intro.rst | 736 ++++++++++++++----
- 1 file changed, 575 insertions(+), 161 deletions(-)
+ Documentation/admin-guide/media/bttv.rst | 311 ++++++++++-------------
+ 1 file changed, 133 insertions(+), 178 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/dvb_intro.rst b/Documentation/admin-guide/media/dvb_intro.rst
-index af9516f2cb60..44eac9b3be6c 100644
---- a/Documentation/admin-guide/media/dvb_intro.rst
-+++ b/Documentation/admin-guide/media/dvb_intro.rst
-@@ -4,199 +4,613 @@
- Using the Digital TV Framework
- ==============================
+diff --git a/Documentation/admin-guide/media/bttv.rst b/Documentation/admin-guide/media/bttv.rst
+index 9b15a0cba283..49382377b1dc 100644
+--- a/Documentation/admin-guide/media/bttv.rst
++++ b/Documentation/admin-guide/media/bttv.rst
+@@ -1,48 +1,64 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
--February 14th 2006
--
- Introduction
- ~~~~~~~~~~~~
++===============
+ The bttv driver
+ ===============
  
--.. note::
--
--   This documentation is outdated. Please check at the DVB wiki
--   at https://linuxtv.org/wiki for more updated info.
--
--   There's a section there specific for Avermedia boards at:
--   https://linuxtv.org/wiki/index.php/AVerMedia
--
--
--Assumptions and Introduction
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--It  is assumed that the reader understands the basic structure
--of  the Linux Kernel DVB drivers and the general principles of
--Digital TV.
--
--One  significant difference between Digital TV and Analogue TV
--that  the  unwary  (like  myself)  should  consider  is  that,
--although  the  component  structure  of budget DVB-T cards are
--substantially  similar  to Analogue TV cards, they function in
--substantially different ways.
--
--The  purpose  of  an  Analogue TV is to receive and display an
--Analogue  Television  signal. An Analogue TV signal (otherwise
--known  as  composite  video)  is  an  analogue  encoding  of a
--sequence  of  image frames (25 per second) rasterised using an
--interlacing   technique.   Interlacing  takes  two  fields  to
--represent  one  frame.  Computers today are at their best when
--dealing  with  digital  signals,  not  analogue  signals and a
--composite  video signal is about as far removed from a digital
--data stream as you can get. Therefore, an Analogue TV card for
--a PC has the following purpose:
-+One significant difference between Digital TV and Analogue TV that the
-+unwary (like myself) should consider is that, although the component
-+structure of DVB-T cards are substantially similar to Analogue TV cards,
-+they function in substantially different ways.
-+
-+The purpose of an Analogue TV is to receive and display an Analogue
-+Television signal. An Analogue TV signal (otherwise known as composite
-+video) is an analogue encoding of a sequence of image frames (25 frames
-+per second in Europe) rasterised using an interlacing technique.
-+Interlacing takes two fields to represent one frame. Therefore, an
-+Analogue TV card for a PC has the following purpose:
+ Release notes for bttv
+ ----------------------
  
- * Tune the receiver to receive a broadcast signal
- * demodulate the broadcast signal
--* demultiplex  the  analogue video signal and analogue audio
--  signal. **NOTE:** some countries employ a digital audio signal
--  embedded  within the modulated composite analogue signal -
--  NICAM.)
--* digitize  the analogue video signal and make the resulting
--  datastream available to the data bus.
+-You'll need at least these config options for bttv:
++You'll need at least these config options for bttv::
+ 
+-.. code-block:: none
++    ./scripts/config -e PCI
++    ./scripts/config -m I2C
++    ./scripts/config -m INPUT
++    ./scripts/config -m MEDIA_SUPPORT
++    ./scripts/config -e MEDIA_PCI_SUPPORT
++    ./scripts/config -e MEDIA_ANALOG_TV_SUPPORT
++    ./scripts/config -e MEDIA_DIGITAL_TV_SUPPORT
++    ./scripts/config -e MEDIA_RADIO_SUPPORT
++    ./scripts/config -e RC_CORE
++    ./scripts/config -m VIDEO_BT848
+ 
+-	CONFIG_I2C=m
+-	CONFIG_I2C_ALGOBIT=m
+-	CONFIG_VIDEO_DEV=m
++If your board has digital TV, you'll also need::
+ 
+-The latest bttv version is available from http://bytesex.org/bttv/
++    ./scripts/config -m DVB_BT8XX
+ 
++In this case, please see :doc:`bt8xx` for additional notes.
+ 
+ Make bttv work with your card
+ -----------------------------
+ 
+-Just try "modprobe bttv" and see if that works.
++If you have bttv compiled and installed, just booting the Kernel
++should be enough for it to try probing it. However, depending
++on the model, the Kernel may require additional information about
++the hardware, as the device may not be able to provide such info
++directly to the Kernel.
+ 
+ If it doesn't bttv likely could not autodetect your card and needs some
+ insmod options.  The most important insmod option for bttv is "card=n"
+ to select the correct card type.  If you get video but no sound you've
+ very likely specified the wrong (or no) card type.  A list of supported
+-cards is in CARDLIST.bttv
++cards is in :doc:`bttv-cardlist`.
+ 
+ If bttv takes very long to load (happens sometimes with the cheap
+-cards which have no tuner), try adding this to your modules.conf:
 -
--The  digital  datastream from an Analogue TV card is generated
--by  circuitry on the card and is often presented uncompressed.
--For  a PAL TV signal encoded at a resolution of 768x576 24-bit
--color pixels over 25 frames per second - a fair amount of data
--is  generated and must be processed by the PC before it can be
--displayed  on the video monitor screen. Some Analogue TV cards
--for  PCs  have  onboard  MPEG2  encoders  which permit the raw
--digital  data  stream  to be presented to the PC in an encoded
--and  compressed  form  -  similar  to the form that is used in
--Digital TV.
+-.. code-block:: none
++cards which have no tuner), try adding this to your modules configuration
++file (usually, it is either ``/etc/modules.conf`` or some file at
++``/etc/modules-load.d/``, but the actual place depends on your
++distribution)::
+ 
+ 	options i2c-algo-bit bit_test=1
+ 
+-For the WinTV/PVR you need one firmware file from the driver CD:
+-hcwamc.rbf.  The file is in the pvr45xxx.exe archive (self-extracting
+-zip file, unzip can unpack it).  Put it into the /etc/pvr directory or
+-use the firm_altera=<path> insmod option to point the driver to the
+-location of the file.
++Some cards may require an extra firmware file to work. For example,
++for the WinTV/PVR you need one firmware file from its driver CD,
++called: ``hcwamc.rbf``. It is inside a self-extracting zip file
++called ``pvr45xxx.exe``.  Just placing it at the ``/etc/firmware``
++directory should be enough for it to be autoload during the driver's
++probing mode (e. g. when the Kernel boots or when the driver is
++manually loaded via ``modprobe`` command).
+ 
+-If your card isn't listed in CARDLIST.bttv or if you have trouble making
+-audio work, you should read the Sound-FAQ.
++If your card isn't listed in :doc:`bttv-cardlist` or if you have
++trouble making audio work, please read :ref:`still_doesnt_work`.
+ 
+ 
+ Autodetecting cards
+@@ -61,16 +77,19 @@ the Subsystem ID in the second line, looks like this:
+ only bt878-based cards can have a subsystem ID (which does not mean
+ that every card really has one).  bt848 cards can't have a Subsystem
+ ID and therefore can't be autodetected.  There is a list with the ID's
+-in bttv-cards.c (in case you are intrested or want to mail patches
+-with updates).
++at :doc:`bttv-cardlist` (in case you are intrested or want to mail
++patches with updates).
+ 
+ 
++.. _still_doesnt_work:
++
+ Still doesn't work?
+ -------------------
+ 
+ I do NOT have a lab with 30+ different grabber boards and a
+ PAL/NTSC/SECAM test signal generator at home, so I often can't
+ reproduce your problems.  This makes debugging very difficult for me.
++
+ If you have some knowledge and spare time, please try to fix this
+ yourself (patches very welcome of course...)  You know: The linux
+ slogan is "Do it yourself".
+@@ -92,102 +111,103 @@ at least the country you are living in).
+ Modprobe options
+ ----------------
+ 
+-Note: "modinfo <module>" prints various information about a kernel
+-module, among them a complete and up-to-date list of insmod options.
+-This list tends to be outdated because it is updated manually ...
++.. note::
+ 
+-==========================================================================
+ 
+-bttv.o
++   The following argument list can be outdated, as we might add more
++   options if ever needed. In case of doubt, please check with
++   ``modinfo <module>``.
+ 
+-.. code-block:: none
++   This command prints various information about a kernel
++   module, among them a complete and up-to-date list of insmod options.
+ 
+-	the bt848/878 (grabber chip) driver
+ 
+-	insmod args:
+-		card=n		card type, see CARDLIST for a list.
+-		tuner=n		tuner type, see CARDLIST for a list.
+-		radio=0/1	card supports radio
+-		pll=0/1/2	pll settings
+-			0: don't use PLL
+-			1: 28 MHz crystal installed
+-			2: 35 MHz crystal installed
+ 
+-		triton1=0/1     for Triton1 (+others) compatibility
+-		vsfx=0/1	yet another chipset bug compatibility bit
+-				see README.quirks for details on these two.
++bttv
++	The bt848/878 (grabber chip) driver
+ 
+-		bigendian=n	Set the endianness of the gfx framebuffer.
+-				Default is native endian.
+-		fieldnr=0/1	Count fields.  Some TV descrambling software
+-				needs this, for others it only generates
+-				50 useless IRQs/sec.  default is 0 (off).
+-		autoload=0/1	autoload helper modules (tuner, audio).
+-				default is 1 (on).
+-		bttv_verbose=0/1/2  verbose level (at insmod time, while
+-				looking at the hardware).  default is 1.
+-		bttv_debug=0/1	debug messages (for capture).
+-				default is 0 (off).
+-		irq_debug=0/1	irq handler debug messages.
+-				default is 0 (off).
+-		gbuffers=2-32	number of capture buffers for mmap'ed capture.
+-				default is 4.
+-		gbufsize=	size of capture buffers. default and
+-				maximum value is 0x208000 (~2MB)
+-		no_overlay=0	Enable overlay on broken hardware.  There
+-				are some chipsets (SIS for example) which
+-				are known to have problems with the PCI DMA
+-				push used by bttv.  bttv will disable overlay
+-				by default on this hardware to avoid crashes.
+-				With this insmod option you can override this.
+-		no_overlay=1	Disable overlay. It should be used by broken
+-				hardware that doesn't support PCI2PCI direct
+-				transfers.
+-		automute=0/1	Automatically mutes the sound if there is
+-				no TV signal, on by default.  You might try
+-				to disable this if you have bad input signal
+-				quality which leading to unwanted sound
+-				dropouts.
+-		chroma_agc=0/1	AGC of chroma signal, off by default.
+-		adc_crush=0/1	Luminance ADC crush, on by default.
+-		i2c_udelay=     Allow reduce I2C speed. Default is 5 usecs
+-				(meaning 66,67 Kbps). The default is the
+-				maximum supported speed by kernel bitbang
+-				algorithm. You may use lower numbers, if I2C
+-				messages are lost (16 is known to work on
+-				all supported cards).
++    insmod args::
+ 
+-		bttv_gpio=0/1
+-		gpiomask=
+-		audioall=
+-		audiomux=
+-				See Sound-FAQ for a detailed description.
++	    card=n		card type, see CARDLIST for a list.
++	    tuner=n		tuner type, see CARDLIST for a list.
++	    radio=0/1	card supports radio
++	    pll=0/1/2	pll settings
++
++			    0: don't use PLL
++			    1: 28 MHz crystal installed
++			    2: 35 MHz crystal installed
++
++	    triton1=0/1     for Triton1 (+others) compatibility
++	    vsfx=0/1	yet another chipset bug compatibility bit
++			    see README.quirks for details on these two.
++
++	    bigendian=n	Set the endianness of the gfx framebuffer.
++			    Default is native endian.
++	    fieldnr=0/1	Count fields.  Some TV descrambling software
++			    needs this, for others it only generates
++			    50 useless IRQs/sec.  default is 0 (off).
++	    autoload=0/1	autoload helper modules (tuner, audio).
++			    default is 1 (on).
++	    bttv_verbose=0/1/2  verbose level (at insmod time, while
++			    looking at the hardware).  default is 1.
++	    bttv_debug=0/1	debug messages (for capture).
++			    default is 0 (off).
++	    irq_debug=0/1	irq handler debug messages.
++			    default is 0 (off).
++	    gbuffers=2-32	number of capture buffers for mmap'ed capture.
++			    default is 4.
++	    gbufsize=	size of capture buffers. default and
++			    maximum value is 0x208000 (~2MB)
++	    no_overlay=0	Enable overlay on broken hardware.  There
++			    are some chipsets (SIS for example) which
++			    are known to have problems with the PCI DMA
++			    push used by bttv.  bttv will disable overlay
++			    by default on this hardware to avoid crashes.
++			    With this insmod option you can override this.
++	    no_overlay=1	Disable overlay. It should be used by broken
++			    hardware that doesn't support PCI2PCI direct
++			    transfers.
++	    automute=0/1	Automatically mutes the sound if there is
++			    no TV signal, on by default.  You might try
++			    to disable this if you have bad input signal
++			    quality which leading to unwanted sound
++			    dropouts.
++	    chroma_agc=0/1	AGC of chroma signal, off by default.
++	    adc_crush=0/1	Luminance ADC crush, on by default.
++	    i2c_udelay=     Allow reduce I2C speed. Default is 5 usecs
++			    (meaning 66,67 Kbps). The default is the
++			    maximum supported speed by kernel bitbang
++			    algorithm. You may use lower numbers, if I2C
++			    messages are lost (16 is known to work on
++			    all supported cards).
++
++	    bttv_gpio=0/1
++	    gpiomask=
++	    audioall=
++	    audiomux=
++			    See Sound-FAQ for a detailed description.
+ 
+ 	remap, card, radio and pll accept up to four comma-separated arguments
+ 	(for multiple boards).
+ 
+-tuner.o
 -
--The  purpose of a simple budget digital TV card (DVB-T,C or S)
--is to simply:
+-.. code-block:: none
 -
--* Tune the received to receive a broadcast signal.
--* Extract  the encoded digital datastream from the broadcast
-+* demultiplex the analogue video signal and analogue audio
-   signal.
--* Make  the  encoded digital datastream (MPEG2) available to
--  the data bus.
++tuner
+ 	The tuner driver.  You need this unless you want to use only
+-	with a camera or external tuner ...
++	with a camera or the board doesn't provide analog TV tuning.
++
++	insmod args::
+ 
+-	insmod args:
+ 		debug=1		print some debug info to the syslog
+ 		type=n		type of the tuner chip. n as follows:
+ 				see CARDLIST for a complete list.
+ 		pal=[bdgil]	select PAL variant (used for some tuners
+ 				only, important for the audio carrier).
+ 
+-tvaudio.o
++tvaudio
++	Provide a single driver for all simple i2c audio control
++	chips (tda/tea*).
+ 
+-.. code-block:: none
++	insmod args::
+ 
+-	new, experimental module which is supported to provide a single
+-	driver for all simple i2c audio control chips (tda/tea*).
 -
--The  significant  difference between the two is that the tuner
--on  the analogue TV card spits out an Analogue signal, whereas
--the  tuner  on  the  digital  TV  card  spits out a compressed
--encoded   digital   datastream.   As  the  signal  is  already
--digitised,  it  is  trivial  to pass this datastream to the PC
--databus  with  minimal  additional processing and then extract
--the  digital  video  and audio datastreams passing them to the
--appropriate software or hardware for decoding and viewing.
+-	insmod args:
+ 		tda8425  = 1	enable/disable the support for the
+ 		tda9840  = 1	various chips.
+ 		tda9850  = 1	The tea6300 can't be autodetected and is
+@@ -200,45 +220,12 @@ tvaudio.o
+ 				the wrong one.
+ 		debug = 1	print debug messages
  
-+  .. note::
-+
-+     some countries employ a digital audio signal
-+     embedded within the modulated composite analogue signal -
-+     using NICAM signaling.)
-+
-+* digitize the analogue video signal and make the resulting datastream
-+  available to the data bus.
-+
-+The digital datastream from an Analogue TV card is generated by
-+circuitry on the card and is often presented uncompressed. For a PAL TV
-+signal encoded at a resolution of 768x576 24-bit color pixels over 25
-+frames per second - a fair amount of data is generated and must be
-+processed by the PC before it can be displayed on the video monitor
-+screen. Some Analogue TV cards for PCs have onboard MPEG2 encoders which
-+permit the raw digital data stream to be presented to the PC in an
-+encoded and compressed form - similar to the form that is used in
-+Digital TV.
-+
-+The purpose of a simple budget digital TV card (DVB-T,C or S) is to
-+simply:
-+
-+* Tune the received to receive a broadcast signal. * Extract the encoded
-+  digital datastream from the broadcast signal.
-+* Make the encoded digital datastream (MPEG2) available to the data bus.
-+
-+The significant difference between the two is that the tuner on the
-+analogue TV card spits out an Analogue signal, whereas the tuner on the
-+digital TV card spits out a compressed encoded digital datastream. As
-+the signal is already digitised, it is trivial to pass this datastream
-+to the PC databus with minimal additional processing and then extract
-+the digital video and audio datastreams passing them to the appropriate
-+software or hardware for decoding and viewing.
- 
- Getting the card going
- ~~~~~~~~~~~~~~~~~~~~~~
- 
--In order to fire up the card, it is necessary to load a number
--of modules from the DVB driver set. Prior to this it will have
--been  necessary to download these drivers from the linuxtv CVS
--server and compile them successfully.
-+The Device Driver API for DVB under Linux will the following
-+device nodes via the devfs filesystem:
- 
--Depending on the card's feature set, the Device Driver API for
--DVB under Linux will expose some of the following device files
--in the /dev tree:
+-	insmod args for tda9874a:
+-		tda9874a_SIF=1/2	select sound IF input pin (1 or 2)
+-					(default is pin 1)
+-		tda9874a_AMSEL=0/1	auto-mute select for NICAM (default=0)
+-					Please read note 3 below!
+-		tda9874a_STD=n		select TV sound standard (0..8):
+-					0 - A2, B/G
+-					1 - A2, M (Korea)
+-					2 - A2, D/K (1)
+-					3 - A2, D/K (2)
+-					4 - A2, D/K (3)
+-					5 - NICAM, I
+-					6 - NICAM, B/G
+-					7 - NICAM, D/K (default)
+-					8 - NICAM, L
 -
--* /dev/dvb/adapter0/audio0
--* /dev/dvb/adapter0/ca0
- * /dev/dvb/adapter0/demux0
- * /dev/dvb/adapter0/dvr0
- * /dev/dvb/adapter0/frontend0
-+
-+The ``/dev/dvb/adapter0/dvr0`` device node is used to read the MPEG2
-+Data Stream and the ``/dev/dvb/adapter0/frontend0`` device node is used
-+to tune the frontend tuner module. The ``/dev/dvb/adapter0/demux0`` is
-+used to control what programs will be received.
-+
-+Depending on the card's feature set, the Device Driver API could also
-+expose other device nodes:
-+
-+* /dev/dvb/adapter0/ca0
-+* /dev/dvb/adapter0/audio0
- * /dev/dvb/adapter0/net0
- * /dev/dvb/adapter0/osd0
- * /dev/dvb/adapter0/video0
- 
--The  primary  device  nodes that we are interested in (at this
--stage) for the Avermedia DVB-T are:
-+The ``/dev/dvb/adapter0/ca0`` is used to decode encrypted channels. The
-+other device nodes are found only on devices that use the av7110
-+driver, with is now obsoleted, together with the extra API whose such
-+devices use.
- 
--* /dev/dvb/adapter0/dvr0
--* /dev/dvb/adapter0/frontend0
-+Receiving a digital TV channel
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--The dvr0 device node is used to read the MPEG2 Data Stream and
--the frontend0 node is used to tune the frontend tuner module.
-+This section attempts to explain how it works and how this affects the
-+configuration of a Digital TV card.
- 
-+On this example, we're considering tuning into DVB-T channels in
-+Australia, at the Melbourne region.
- 
--Receiving DVB-T in Australia
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-	Note 1: tda9874a supports both tda9874h (old) and tda9874a (new) chips.
+-	Note 2: tda9874h/a and tda9875 (which is supported separately by
+-	tda9875.o) use the same i2c address so both modules should not be
+-	used at the same time.
+-	Note 3: Using tda9874a_AMSEL option depends on your TV card design!
+-		AMSEL=0: auto-mute will switch between NICAM sound
+-			 and the sound on 1st carrier (i.e. FM mono or AM).
+-		AMSEL=1: auto-mute will switch between NICAM sound
+-			 and the analog mono input (MONOIN pin).
+-	If tda9874a decoder on your card has MONOIN pin not connected, then
+-	use only tda9874_AMSEL=0 or don't specify this option at all.
+-	For example:
+-	  card=65 (FlyVideo 2000S) - set AMSEL=1 or AMSEL=0
+-	  card=72 (Prolink PV-BT878P rev.9B) - set AMSEL=0 only
 -
--I  have  no  experience of DVB-T in other countries other than
--Australia,  so  I will attempt to explain how it works here in
--Melbourne  and how this affects the configuration of the DVB-T
--card.
+-msp3400.o
 -
--The  Digital  Broadcasting  Australia  website has a Reception
--locatortool which provides information on transponder channels
--and  frequencies.  My  local  transmitter  happens to be Mount
--Dandenong.
+-.. code-block:: none
 -
--The frequencies broadcast by Mount Dandenong are:
-+The frequencies broadcast by Mount Dandenong transmitters are,
-+currently:
++msp3400
+ 	The driver for the msp34xx sound processor chips. If you have a
+ 	stereo card, you probably want to insmod this one.
  
- Table 1. Transponder Frequencies Mount Dandenong, Vic, Aus.
+-	insmod args:
++	insmod args::
++
+ 		debug=1/2	print some debug info to the syslog,
+ 				2 is more verbose.
+ 		simple=1	Use the "short programming" method.  Newer
+@@ -252,40 +239,6 @@ msp3400.o
+ 				should improve things for french people, the
+ 				carrier autoscan seems to work with FM only...
  
--=========== ======= ===========
--Broadcaster Channel Frequency
--=========== ======= ===========
--ABC         VHF 12  226.5 MHz
--TEN         VHF 11  219.5 MHz
--NINE        VHF 8   191.625 MHz
--SEVEN       VHF 6   177.5 MHz
--SBS         UHF 29  536.5 MHz
--=========== ======= ===========
-+===========	===========
-+Broadcaster	Frequency
-+===========	===========
-+Seven		177.500 Mhz
-+SBS		184.500 Mhz
-+Nine		191.625 Mhz
-+Ten		219.500 Mhz
-+ABC		226.500 Mhz
-+Channel 31	557.625 Mhz
-+===========	===========
+-tea6300.o - OBSOLETE (use tvaudio instead)
+-
+-.. code-block:: none
+-
+-	The driver for the tea6300 fader chip.  If you have a stereo
+-	card and the msp3400.o doesn't work, you might want to try this
+-	one.  This chip is seen on most STB TV/FM cards (usually from
+-	Gateway OEM sold surplus on auction sites).
+-
+-	insmod args:
+-		debug=1		print some debug info to the syslog.
+-
+-tda8425.o - OBSOLETE (use tvaudio instead)
+-
+-.. code-block:: none
+-
+-	The driver for the tda8425 fader chip.  This driver used to be
+-	part of bttv.c, so if your sound used to work but does not
+-	anymore, try loading this module.
+-
+-	insmod args:
+-		debug=1		print some debug info to the syslog.
+-
+-tda985x.o - OBSOLETE (use tvaudio instead)
+-
+-.. code-block:: none
+-
+-	The driver for the tda9850/55 audio chips.
+-
+-	insmod args:
+-		debug=1		print some debug info to the syslog.
+-		chip=9850/9855	set the chip type.
+-
+-
+ If the box freezes hard with bttv
+ ---------------------------------
  
--The Scan utility has a set of compiled-in defaults for various
--countries and regions, but if they do not suit, or if you have
--a pre-compiled scan binary, you can specify a data file on the
--command  line which contains the transponder frequencies. Here
--is a sample file for the above channel transponders:
-+The digital TV Scan utilities (like dvbv5-scan) have use a set of
-+compiled-in defaults for various countries and regions. Those are
-+currently provided as a separate package, called dtv-scan-tables. It's
-+git tree is located at LinuxTV.org:
+@@ -306,15 +259,15 @@ bug.  It is very helpful if you can tell where exactly it broke
+ With a hard freeze you probably doesn't find anything in the logfiles.
+ The only way to capture any kernel messages is to hook up a serial
+ console and let some terminal application log the messages.  /me uses
+-screen.  See Documentation/admin-guide/serial-console.rst for details on setting
++screen.  See :doc:`/admin-guide/serial-console` for details on setting
+ up a serial console.
  
--::
-+    https://git.linuxtv.org/dtv-scan-tables.git/
-+
-+If none of the tables there suit, you can specify a data file on the
-+command line which contains the transponder frequencies. Here is a
-+sample file for the above channel transponders, in the old "channel"
-+format::
+-Read Documentation/admin-guide/bug-hunting.rst to learn how to get any useful
++Read :doc:`/admin-guide/bug-hunting` to learn how to get any useful
+ information out of a register+stack dump printed by the kernel on
+ protection faults (so-called "kernel oops").
  
- 	# Data file for DVB scan program
- 	#
- 	# C Frequency SymbolRate FEC QAM
- 	# S Frequency Polarisation SymbolRate FEC
- 	# T Frequency Bandwidth FEC FEC2 QAM Mode Guard Hier
--	T 226500000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
--	T 191625000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
--	T 219500000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
--	T 177500000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
--	T 536500000 7MHz 2/3 NONE QAM64 8k 1/8 NONE
+ If you run into some kind of deadlock, you can try to dump a call trace
+-for each process using sysrq-t (see Documentation/admin-guide/sysrq.rst).
++for each process using sysrq-t (see :doc:`/admin-guide/sysrq`).
+ This way it is possible to figure where *exactly* some process in "D"
+ state is stuck.
+ 
+@@ -443,9 +396,7 @@ Other elements of the tvcards array
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ If you are trying to make a new card work you might find it useful to
+-know what the other elements in the tvcards array are good for:
 -
--The   defaults   for   the  transponder  frequency  and  other
--modulation parameters were obtained from www.dba.org.au.
--
--When  Scan  runs, it will output channels.conf information for
--any  channel's transponders which the card's frontend can lock
--onto.  (i.e.  any  whose  signal  is  strong  enough  at  your
--antenna).
--
--Here's my channels.conf file for anyone who's interested:
--
--::
--
--	ABC HDTV:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:2307:0:560
--	ABC TV Melbourne:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:561
--	ABC TV 2:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:562
--	ABC TV 3:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:563
--	ABC TV 4:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:564
--	ABC DiG Radio:226500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_3_4:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:0:2311:566
--	TEN Digital:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1585
--	TEN Digital 1:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1586
--	TEN Digital 2:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1587
--	TEN Digital 3:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1588
--	TEN Digital:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1589
--	TEN Digital 4:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1590
--	TEN Digital:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1591
--	TEN HD:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:514:0:1592
--	TEN Digital:219500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:650:1593
--	Nine Digital:191625000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:513:660:1072
--	Nine Digital HD:191625000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:512:0:1073
--	Nine Guide:191625000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_3_4:FEC_1_2:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_16:HIERARCHY_NONE:514:670:1074
--	7 Digital:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:769:770:1328
--	7 Digital 1:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:769:770:1329
--	7 Digital 2:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:769:770:1330
--	7 Digital 3:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:769:770:1331
--	7 HD Digital:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:833:834:1332
--	7 Program Guide:177500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:865:866:1334
--	SBS HD:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:102:103:784
--	SBS DIGITAL 1:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:161:81:785
--	SBS DIGITAL 2:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:162:83:786
--	SBS EPG:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:163:85:787
--	SBS RADIO 1:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:0:201:798
--	SBS RADIO 2:536500000:INVERSION_OFF:BANDWIDTH_7_MHZ:FEC_2_3:FEC_2_3:QAM_64:TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE:0:202:799
+-.. code-block:: none
++know what the other elements in the tvcards array are good for::
+ 
+ 	video_inputs    - # of video inputs the card has
+ 	audio_inputs    - historical cruft, not used any more.
+@@ -678,7 +629,9 @@ Typhoon TV card series:
+ ~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ These can be CPH, Flyvideo, Pixelview or KNC1 series.
 +
-+	T 177500000 7MHz AUTO AUTO QAM64 8k 1/16 NONE
-+	T 184500000 7MHz AUTO AUTO QAM64 8k 1/8 NONE
-+	T 191625000 7MHz AUTO AUTO QAM64 8k 1/16 NONE
-+	T 219500000 7MHz AUTO AUTO QAM64 8k 1/16 NONE
-+	T 226500000 7MHz AUTO AUTO QAM64 8k 1/16 NONE
-+	T 557625000 7MHz AUTO AUTO QPSK 8k 1/16 NONE
+ Typhoon is the brand of Anubis.
 +
-+Nowadays, we prefer to use a newer format, with is more verbose and easier
-+to understand. With the new format, the "Seven" channel transponder's
-+data is represented by::
+ Model 50680 got re-used, some model no. had different contents over time.
+ 
+ Models:
+@@ -830,12 +783,13 @@ is wrong. If it doesn't work, send me email.
+   on their server are the full data-sheets, but don't ask how I found it.
+ 
+ To use the driver I use the following options, the tuner and pll settings might
+-be different in your country
++be different in your country. You can force it via modprobe parameters.
++For example::
+ 
+-insmod videodev
+-insmod i2c scan=1 i2c_debug=0 verbose=0
+-insmod tuner type=1 debug=0
+-insmod bttv  pll=1 radio=1 card=17
++    modprobe bttv  tuner=1 pll=28 radio=1 card=17
 +
-+	[Seven]
-+		DELIVERY_SYSTEM = DVBT
-+		FREQUENCY = 177500000
-+		BANDWIDTH_HZ = 7000000
-+		CODE_RATE_HP = AUTO
-+		CODE_RATE_LP = AUTO
-+		MODULATION = QAM/64
-+		TRANSMISSION_MODE = 8K
-+		GUARD_INTERVAL = 1/16
-+		HIERARCHY = NONE
-+		INVERSION = AUTO
-+
-+For an updated version of the complete table, please see:
-+
-+    https://git.linuxtv.org/dtv-scan-tables.git/tree/dvb-t/au-Melbourne
-+
-+When the Digital TV scanning utility runs, it will output a file
-+containing the information for all the audio and video programs that
-+exists into each channel's transponders which the card's frontend can
-+lock onto. (i.e. any whose signal is strong enough at your antenna).
-+
-+Here's the output of the dvbv5 tools from a channel scan took from
-+Melburne::
-+
-+    [ABC HDTV]
-+	    SERVICE_ID = 560
-+	    VIDEO_PID = 2307
-+	    AUDIO_PID = 0
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 226500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 3/4
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [ABC TV Melbourne]
-+	    SERVICE_ID = 561
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 226500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 3/4
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [ABC TV 2]
-+	    SERVICE_ID = 562
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 226500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 3/4
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [ABC TV 3]
-+	    SERVICE_ID = 563
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 226500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 3/4
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [ABC TV 4]
-+	    SERVICE_ID = 564
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 226500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 3/4
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [ABC DiG Radio]
-+	    SERVICE_ID = 566
-+	    VIDEO_PID = 0
-+	    AUDIO_PID = 2311
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 226500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 3/4
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [TEN Digital]
-+	    SERVICE_ID = 1585
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 219500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [TEN Digital 1]
-+	    SERVICE_ID = 1586
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 219500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [TEN Digital 2]
-+	    SERVICE_ID = 1587
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 219500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [TEN Digital 3]
-+	    SERVICE_ID = 1588
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 219500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [TEN Digital]
-+	    SERVICE_ID = 1589
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 219500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [TEN Digital 4]
-+	    SERVICE_ID = 1590
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 219500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [TEN Digital]
-+	    SERVICE_ID = 1591
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 219500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [TEN HD]
-+	    SERVICE_ID = 1592
-+	    VIDEO_PID = 514
-+	    AUDIO_PID = 0
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 219500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [TEN Digital]
-+	    SERVICE_ID = 1593
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 650
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 219500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [Nine Digital]
-+	    SERVICE_ID = 1072
-+	    VIDEO_PID = 513
-+	    AUDIO_PID = 660
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 191625000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [Nine Digital HD]
-+	    SERVICE_ID = 1073
-+	    VIDEO_PID = 512
-+	    AUDIO_PID = 0
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 191625000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [Nine Guide]
-+	    SERVICE_ID = 1074
-+	    VIDEO_PID = 514
-+	    AUDIO_PID = 670
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 191625000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 3/4
-+	    CODE_RATE_LP = 1/2
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/16
-+	    HIERARCHY = NONE
-+
-+    [7 Digital]
-+	    SERVICE_ID = 1328
-+	    VIDEO_PID = 769
-+	    AUDIO_PID = 770
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 177500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [7 Digital 1]
-+	    SERVICE_ID = 1329
-+	    VIDEO_PID = 769
-+	    AUDIO_PID = 770
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 177500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [7 Digital 2]
-+	    SERVICE_ID = 1330
-+	    VIDEO_PID = 769
-+	    AUDIO_PID = 770
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 177500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [7 Digital 3]
-+	    SERVICE_ID = 1331
-+	    VIDEO_PID = 769
-+	    AUDIO_PID = 770
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 177500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [7 HD Digital]
-+	    SERVICE_ID = 1332
-+	    VIDEO_PID = 833
-+	    AUDIO_PID = 834
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 177500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [7 Program Guide]
-+	    SERVICE_ID = 1334
-+	    VIDEO_PID = 865
-+	    AUDIO_PID = 866
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 177500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [SBS HD]
-+	    SERVICE_ID = 784
-+	    VIDEO_PID = 102
-+	    AUDIO_PID = 103
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 536500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [SBS DIGITAL 1]
-+	    SERVICE_ID = 785
-+	    VIDEO_PID = 161
-+	    AUDIO_PID = 81
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 536500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [SBS DIGITAL 2]
-+	    SERVICE_ID = 786
-+	    VIDEO_PID = 162
-+	    AUDIO_PID = 83
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 536500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [SBS EPG]
-+	    SERVICE_ID = 787
-+	    VIDEO_PID = 163
-+	    AUDIO_PID = 85
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 536500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [SBS RADIO 1]
-+	    SERVICE_ID = 798
-+	    VIDEO_PID = 0
-+	    AUDIO_PID = 201
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 536500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
-+
-+    [SBS RADIO 2]
-+	    SERVICE_ID = 799
-+	    VIDEO_PID = 0
-+	    AUDIO_PID = 202
-+	    DELIVERY_SYSTEM = DVBT
-+	    FREQUENCY = 536500000
-+	    INVERSION = OFF
-+	    BANDWIDTH_HZ = 7000000
-+	    CODE_RATE_HP = 2/3
-+	    CODE_RATE_LP = 2/3
-+	    MODULATION = QAM/64
-+	    TRANSMISSION_MODE = 8K
-+	    GUARD_INTERVAL = 1/8
-+	    HIERARCHY = NONE
++Sets tuner type 1 (Philips PAL_I), PLL with a 28 MHz crystal, enables
++FM radio and selects bttv card ID 17 (Leadtek WinView 601).
+ 
+ 
+ KNC One
+@@ -854,15 +808,16 @@ KNC One
+ Provideo
+ ~~~~~~~~
+ 
+-- PV951 or PV-951 (also are sold as:
++-  PV951 or PV-951, now named PV-951T
++   (also are sold as:
+    Boeder TV-FM Video Capture Card,
+    Titanmedia Supervision TV-2400,
+    Provideo PV951 TF,
+    3DeMon PV951,
+    MediaForte TV-Vision PV951,
+    Yoko PV951,
+-   Vivanco Tuner Card PCI Art.-Nr.: 68404,
+-   ) now named PV-951T
++   Vivanco Tuner Card PCI Art.-Nr.: 68404
++   )
+ 
+ - Surveillance Series:
+ 
 -- 
 2.25.2
 
