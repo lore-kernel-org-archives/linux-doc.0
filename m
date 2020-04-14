@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBB1DC2BB85
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0750CC2BB85
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF631206E9
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC030206E9
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:52:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586883133;
-	bh=jd11BH+E0kQ4lfNrsHgxWhZfvWguP7UNkigN6xgvlsM=;
+	s=default; t=1586883145;
+	bh=wsFZ0dq0htlamdDYAFNWLSa+EU5LvOOu2mo8l16eQAI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=aWSHT9wkx4lIILxj4+GOXsT5lQjCfHmItTp+BCwRcrnJQLS6EjlWL/UgJQO3q+plc
-	 1OHQh4p91++GXYONVrvvhK5U/h0uHFaFu5dcTpu3V+gc3N/uCqZD5xlidZhcjMHs3P
-	 0dUFVRoLt71gHrCGRrA/93Grk26tdG2dpmI2dv+k=
+	b=p8ctF1e1eZQbtTl6kP/dOVbkqZgXoTzcX0AwyLzf+CMzio4HLKxvK/TMwLtdHipnY
+	 X5NUi6dggEKdLBVNSAyXGqzgtqBEhtkvt09V18WdTAV56kz6a5t4Y/5hl9etsvE09N
+	 uadKGlVbm1sTgJoBybwsV8cosvFqEw0ZJIKbFrxs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440701AbgDNQwL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:52:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55398 "EHLO mail.kernel.org"
+        id S2440712AbgDNQwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:52:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55258 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440386AbgDNQtT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:49:19 -0400
+        id S2440353AbgDNQtR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:17 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5A8D222202;
+        by mail.kernel.org (Postfix) with ESMTPSA id 3DF4F221F5;
         Tue, 14 Apr 2020 16:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586882943;
-        bh=jd11BH+E0kQ4lfNrsHgxWhZfvWguP7UNkigN6xgvlsM=;
+        bh=wsFZ0dq0htlamdDYAFNWLSa+EU5LvOOu2mo8l16eQAI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=h3BRPSdhXr2NWHwbVytJt888whMqL4XdRsAPxAnw06Ccp/8/5WpOzD2ZM96n5x6dZ
-         cdVFapXprQxXuhCY/n2SNcnDoE8RDnuGzMLof2XGViItjgjBVO4NGLCrzRjnihl0PE
-         bjuwdVqcxt0zVMi/Lyj0l7/uWN5m/+uaMpeCJYas=
+        b=00QR/v378l2mpUnh0nK73LuCv/8q/0eesk/z3uzf0VgvoSwSqOOcDCwX8S2njiOs0
+         3hy4iTymKnKAiS5/E+7U2OBC4ZcSvlXF28iVV76b0vfnEuK5hWEw7o2WQbVEBaXbYu
+         XckvIBStzCWMNh7g4sks/dzawmUMNBPOteB9rSAY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOOk9-0068nY-JQ; Tue, 14 Apr 2020 18:49:01 +0200
+        id 1jOOk9-0068n3-Dn; Tue, 14 Apr 2020 18:49:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 33/33] lib: bitmap.c: get rid of some doc warnings
-Date:   Tue, 14 Apr 2020 18:48:59 +0200
-Message-Id: <1e2568fdfa838c1a0d8cc2a1d70dd4b6de99bfb1.1586881715.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 27/33] docs: Makefile: place final pdf docs on a separate dir
+Date:   Tue, 14 Apr 2020 18:48:53 +0200
+Message-Id: <832752cbc9678a6e8d3d634bc3356d655d44684f.1586881715.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
 References: <cover.1586881715.git.mchehab+huawei@kernel.org>
@@ -58,70 +58,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are two ascii art drawings there. Use a block markup tag there
-in order to get rid of those warnings:
+The Sphinx build system for PDF is too complex and generate
+lots of ancillary files, including one PDF file for each
+image.
 
-	./lib/bitmap.c:189: WARNING: Unexpected indentation.
-	./lib/bitmap.c:190: WARNING: Block quote ends without a blank line; unexpected unindent.
-	./lib/bitmap.c:190: WARNING: Unexpected indentation.
-	./lib/bitmap.c:191: WARNING: Line block ends without a blank line.
+So, at the end, the main latex dir has 156 pdf files, instead
+of the 71 ones that would match each generated book. That's
+confusing and it makes harder to identify when something didn't
+work.
 
-It should be noticed that there's actually a syntax violation
-right now, as something like:
-
-	/**
-	 ...
-	 @src:
-
-will be handled as a definition for @src parameter, and not as
-part of a diagram. So, we need to add something before it, in
-order for this to be processed the way it should.
+So, instead, let's move the final PDF output(s) to a separate
+dir. This way, the latex/ dir will have the temporary and the
+final *.tex files, while the final pdf files that built ok
+will be under the pdf/ directory.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- lib/bitmap.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ Documentation/Makefile | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/lib/bitmap.c b/lib/bitmap.c
-index 89260aa342d6..21a7640c5eed 100644
---- a/lib/bitmap.c
-+++ b/lib/bitmap.c
-@@ -182,21 +182,22 @@ EXPORT_SYMBOL(__bitmap_shift_left);
-  *
-  * In pictures, example for a big-endian 32-bit architecture:
-  *
-- * @src:
-- * 31                                   63
-- * |                                    |
-- * 10000000 11000001 11110010 00010101  10000000 11000001 01110010 00010101
-- *                 |  |              |                                    |
-- *                16  14             0                                   32
-+ * The @src bitmap is::
-  *
-- * if @cut is 3, and @first is 14, bits 14-16 in @src are cut and @dst is:
-+ *   31                                   63
-+ *   |                                    |
-+ *   10000000 11000001 11110010 00010101  10000000 11000001 01110010 00010101
-+ *                   |  |              |                                    |
-+ *                  16  14             0                                   32
-  *
-- * 31                                   63
-- * |                                    |
-- * 10110000 00011000 00110010 00010101  00010000 00011000 00101110 01000010
-- *                    |              |                                    |
-- *                    14 (bit 17     0                                   32
-- *                        from @src)
-+ * if @cut is 3, and @first is 14, bits 14-16 in @src are cut and @dst is::
-+ *
-+ *   31                                   63
-+ *   |                                    |
-+ *   10110000 00011000 00110010 00010101  00010000 00011000 00101110 01000010
-+ *                      |              |                                    |
-+ *                      14 (bit 17     0                                   32
-+ *                          from @src)
-  *
-  * Note that @dst and @src might overlap partially or entirely.
-  *
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index cc786d11a028..db1fc35ded50 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -98,7 +98,11 @@ else # HAVE_PDFLATEX
+ 
+ pdfdocs: latexdocs
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+-	$(foreach var,$(SPHINXDIRS), $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit;)
++	$(foreach var,$(SPHINXDIRS), \
++	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit; \
++	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
++	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
++	)
+ 
+ endif # HAVE_PDFLATEX
+ 
 -- 
 2.25.2
 
