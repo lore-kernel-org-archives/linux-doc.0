@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C586CC2BA19
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:56:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26624C2BB85
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:56:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A10512054F
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:56:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0763D2054F
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:56:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586883362;
-	bh=ooW89rST4GmeQXzLWvXim86Mk5Dn0bBASsKnbkuiJgo=;
+	s=default; t=1586883364;
+	bh=eBOZxoYZIMRnDM3jqbg57vKJcreJqVFOz+37SNmuNs4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dWSVRN4KxPoxF6ENWqjIN+Pxrg8M36o5569f0z64ShbBWlZq7oaOudQ9NnbPqxz0W
-	 bE3epDxq61DXlJoMsqqnMuNOee8VOAMqEI3uitN6ht2v0YsKTv10ikbbdnG9QP+13t
-	 IHIUHmAgDD1s3T5SsFDTk3pCghtGdDYPTrKvZqZM=
+	b=fCsLsedmrhN/N8pJ+Mg+Fotxk5ERboqx9LiNTM/Jt9N0vZ0JtGzOByEHNGNYw1tzk
+	 GQ7GDuFRHSHb7hzgmmsEs9/lAHKwmwG7Bj4+eRoDri8G9x2OIUqy9Fn+QFOlOv8YLD
+	 BEx3pThb10Rt49zq53tD1vK0oLEbbAYRJYm78vBI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391369AbgDNQ4B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:56:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55216 "EHLO mail.kernel.org"
+        id S2391926AbgDNQ4C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:56:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55224 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407441AbgDNQtH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2407497AbgDNQtH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Apr 2020 12:49:07 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 814A3208E0;
+        by mail.kernel.org (Postfix) with ESMTPSA id A70F721582;
         Tue, 14 Apr 2020 16:49:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586882942;
-        bh=ooW89rST4GmeQXzLWvXim86Mk5Dn0bBASsKnbkuiJgo=;
+        bh=eBOZxoYZIMRnDM3jqbg57vKJcreJqVFOz+37SNmuNs4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a/h4bzHwGxyqczskNEQfRZpxxAgfBmmh2Z3GMM8x/8X1Xd+/yfC5/zQGgvxpGG4+v
-         LRxocrqPTpJpT4s5UHBKgNUhIV/tZ+HZAgQeITtYXLCo1IBFHi6mf+j6rNlj+lPvkX
-         mydsV7t/6s1kBhxL4eV7TdNqdJ3HaIyvrmzgKHfs=
+        b=f/wXJl1SXv8hFUd9Me+oFyz3s5kMsFviA8o+ubvlkRZvVhVoMJ7bZdzUmSykTg6nL
+         yCoh/0UuTEXAb3cF5Zv3W9cVjuoou+GBrmeK2KYwnTAQu0uYLBaEocjCGJN6UgT79i
+         TBuL0ozWjmq6US7ZfYW+/46IVF6L7DxOOBAR9rL0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOOk8-0068lX-Of; Tue, 14 Apr 2020 18:49:00 +0200
+        id 1jOOk8-0068lp-Tr; Tue, 14 Apr 2020 18:49:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yuti Amonkar <yamonkar@cadence.com>, devicetree@vger.kernel.org
-Subject: [PATCH v2 08/33] docs: dt: fix broken reference to phy-cadence-torrent.yaml
-Date:   Tue, 14 Apr 2020 18:48:34 +0200
-Message-Id: <3f1cf6d74e392f3ee9f894d82cb7ee29d04c1b6d.1586881715.git.mchehab+huawei@kernel.org>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 12/33] docs: amu: supress some Sphinx warnings
+Date:   Tue, 14 Apr 2020 18:48:38 +0200
+Message-Id: <ab0881638fc41ed790b3307a8e022ec84b7cce7e.1586881715.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
 References: <cover.1586881715.git.mchehab+huawei@kernel.org>
@@ -61,36 +61,63 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file was removed, and another file was added instead of
-it, on two separate commits.
+Add extra blank lines on some places, in order to avoid those
+warnings when building the docs:
 
-Splitting a single logical change (doc conversion) on two
-patches is a bad thing, as it makes harder to discover what
-crap happened.
+    Documentation/arm64/amu.rst:26: WARNING: Unexpected indentation.
+    Documentation/arm64/amu.rst:60: WARNING: Unexpected indentation.
+    Documentation/arm64/amu.rst:81: WARNING: Unexpected indentation.
+    Documentation/arm64/amu.rst:108: WARNING: Unexpected indentation.
 
-Anyway, this patch fixes the broken reference, making it
-pointing to the new location of the file.
-
-Fixes: 922003733d42 ("dt-bindings: phy: Remove Cadence MHDP PHY dt binding")
-Fixes: c6d8eef38b7f ("dt-bindings: phy: Add Cadence MHDP PHY bindings in YAML format.")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/arm64/amu.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml b/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml
-index fd1982c56104..3f913d6d1c3d 100644
---- a/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml
-+++ b/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml
-@@ -146,7 +146,7 @@ patternProperties:
-       bindings specified in
-       Documentation/devicetree/bindings/phy/phy-cadence-sierra.txt
-       Torrent SERDES should follow the bindings specified in
--      Documentation/devicetree/bindings/phy/phy-cadence-dp.txt
-+      Documentation/devicetree/bindings/phy/phy-cadence-torrent.yaml
+diff --git a/Documentation/arm64/amu.rst b/Documentation/arm64/amu.rst
+index 5057b11100ed..452ec8b115c2 100644
+--- a/Documentation/arm64/amu.rst
++++ b/Documentation/arm64/amu.rst
+@@ -23,6 +23,7 @@ optional external memory-mapped interface.
  
- required:
-   - compatible
+ Version 1 of the Activity Monitors architecture implements a counter group
+ of four fixed and architecturally defined 64-bit event counters.
++
+   - CPU cycle counter: increments at the frequency of the CPU.
+   - Constant counter: increments at the fixed frequency of the system
+     clock.
+@@ -57,6 +58,7 @@ counters, only the presence of the extension.
+ 
+ Firmware (code running at higher exception levels, e.g. arm-tf) support is
+ needed to:
++
+  - Enable access for lower exception levels (EL2 and EL1) to the AMU
+    registers.
+  - Enable the counters. If not enabled these will read as 0.
+@@ -78,6 +80,7 @@ are not trapped in EL2/EL3.
+ 
+ The fixed counters of AMUv1 are accessible though the following system
+ register definitions:
++
+  - SYS_AMEVCNTR0_CORE_EL0
+  - SYS_AMEVCNTR0_CONST_EL0
+  - SYS_AMEVCNTR0_INST_RET_EL0
+@@ -93,6 +96,7 @@ Userspace access
+ ----------------
+ 
+ Currently, access from userspace to the AMU registers is disabled due to:
++
+  - Security reasons: they might expose information about code executed in
+    secure mode.
+  - Purpose: AMU counters are intended for system management use.
+@@ -105,6 +109,7 @@ Virtualization
+ 
+ Currently, access from userspace (EL0) and kernelspace (EL1) on the KVM
+ guest side is disabled due to:
++
+  - Security reasons: they might expose information about code executed
+    by other guests or the host.
+ 
 -- 
 2.25.2
 
