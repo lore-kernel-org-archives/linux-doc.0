@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F0BC3815B
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:56:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2756C2BA19
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:57:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E8502074D
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:56:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83F8E2054F
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Apr 2020 16:57:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586883399;
-	bh=eTRORk/5dw45Vrop63iOVFOaPnzFTb2+02aghgSWZc4=;
+	s=default; t=1586883420;
+	bh=6WDdQBN3UPxBWUZoZR6M7r2R0XIrA/7H7diQUsc+NuE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=KSRl2dV4A2735HP98gmAm6FgxtYXpXk3vA8treYtm6PK/lDiHL7Q7CRf0+xvxfjFN
-	 oNzrHvrPHJkAVWRW0BA9J3Rvj6gGx+kH+iJQ7OXYhFh75N6OwD14ORRkJpa8vSXi7d
-	 BDmcAo3WuCTCO/deg4jVBo006bNjNbihsP9V17Yw=
+	b=xRJkJn0bwzbd06C2qRTP07VMnIDNj3ZZCYTepn6dTl2q16wM8/U5+HW0z2bY3hAL7
+	 8qtDC3RkrW9TX1VkFUoUdu6GHQwjKHmS9CmrlI1iBKXvT1yOxZexXWs4tMsleHX5x7
+	 1SGOlF6kWygwXXo/MrbD/2yocHjxwBk8m5juY6MQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391487AbgDNQ4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 12:56:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38814 "EHLO mail.kernel.org"
+        id S2391429AbgDNQ4y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:56:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38480 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391093AbgDNQ4a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:56:30 -0400
+        id S2391940AbgDNQ4R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:56:17 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DDC1F20787;
+        by mail.kernel.org (Postfix) with ESMTPSA id B8A302075E;
         Tue, 14 Apr 2020 16:56:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586883377;
-        bh=eTRORk/5dw45Vrop63iOVFOaPnzFTb2+02aghgSWZc4=;
+        s=default; t=1586883376;
+        bh=6WDdQBN3UPxBWUZoZR6M7r2R0XIrA/7H7diQUsc+NuE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fx3aQKCG85n9h6bNivFZpifDrZgRUxcyhIJigG/JYuVJH2Vyp5cvMq5XkO8JEObOJ
-         n2NAtoYIPTchsxid7ZpkL4zm5N67bDxPGUE5PuiO/J9H06wblGGKI4e+aMiXQDyO5k
-         gV9kuntIaT55zymrgTc0E0tJEqm+8TFJ4AKayG1Q=
+        b=L38ChqGg6C8Z15Ww7cdr24cTYo367cpRCjoqLS9o/400vrBC9QkEEzInrrYHzUUhT
+         yIIjwx7Cc2cuZPi09gKRnJ6bI1K+EUG6IPEf7wTBmIvFS5DjMtD+WfuB06c4Pj2nMM
+         /cWzbNyxVVpVNVJ8zrjxxbCNji+MW4v7ufXkRvwk=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOOr9-0068yo-5M; Tue, 14 Apr 2020 18:56:15 +0200
+        id 1jOOr9-0068yY-0e; Tue, 14 Apr 2020 18:56:15 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Tim Bird <Tim.Bird@sony.com>
-Subject: [PATCH v2 5/6] scripts: sphinx-pre-install: add support for OpenMandriva
-Date:   Tue, 14 Apr 2020 18:56:12 +0200
-Message-Id: <692809729c6818a0b0f75513da15970c53d5565c.1586883286.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 2/6] scripts: sphinx-pre-install: improve openSuse Tumbleweed check
+Date:   Tue, 14 Apr 2020 18:56:09 +0200
+Message-Id: <c3774f72ac36c5e5b5f446ae5db5b795d1f274f4.1586883286.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586883286.git.mchehab+huawei@kernel.org>
 References: <cover.1586883286.git.mchehab+huawei@kernel.org>
@@ -59,76 +59,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It seems that Mageia and OpenMandriva will reunite on a single
-distribution. In any case, both came from Mandriva. So, it is
-close enough to use the same logic.
+Currently, with openSUSE Tumbleweed 20200303, it keeps
+recommending this forever:
 
-So, add support for it.
+	sudo zypper install --no-recommends rsvg-view
 
-Tested with OpenMandriva 4.1 and with Mageia 7.1.
+This dependency will never be fulfilled there, as the package
+now is named as on other distros: rsvg-convert.
+
+So, improve the detection to avoid such issue.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
+ scripts/sphinx-pre-install | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 86e14b9fd537..89b033285caf 100755
+index ea941c6e0647..6d6d2849fbb1 100755
 --- a/scripts/sphinx-pre-install
 +++ b/scripts/sphinx-pre-install
-@@ -494,7 +494,7 @@ sub give_mageia_hints()
+@@ -446,9 +446,11 @@ sub give_opensuse_hints()
  		"convert"		=> "ImageMagick",
  		"Pod::Usage"		=> "perl-Pod-Usage",
- 		"xelatex"		=> "texlive",
--		"rsvg-convert"		=> "librsvg2-tools",
-+		"rsvg-convert"		=> "librsvg2",
+ 		"xelatex"		=> "texlive-xetex-bin",
+-		"rsvg-convert"		=> "rsvg-view",
  	);
  
- 	my @tex_pkgs = (
-@@ -503,16 +503,29 @@ sub give_mageia_hints()
- 
- 	$map{"latexmk"} = "texlive-collection-basic";
- 
-+	my $packager_cmd;
-+	my $noto_sans;
-+	if ($system_release =~ /OpenMandriva/) {
-+		$packager_cmd = "dnf install";
-+		$noto_sans = "noto-sans-cjk-fonts";
-+		@tex_pkgs = ( "texlive-collection-fontsextra" );
-+	} else {
-+		$packager_cmd = "urpmi";
-+		$noto_sans = "google-noto-sans-cjk-ttc-fonts";
-+	}
++	# On Tumbleweed, this package is also named rsvg-convert
++	$map{"rsvg-convert"} = "rsvg-view" if (!($system_release =~ /Tumbleweed/));
 +
-+
- 	if ($pdf) {
--		check_missing_file(["/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc"],
--				   "google-noto-sans-cjk-ttc-fonts", 2);
-+		check_missing_file(["/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc",
-+				    "/usr/share/fonts/TTF/NotoSans-Regular.ttf"],
-+				   $noto_sans, 2);
- 	}
- 
- 	check_rpm_missing(\@tex_pkgs, 2) if ($pdf);
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
--	printf("You should run:\n\n\tsudo urpmi $install\n");
-+	printf("You should run:\n\n\tsudo $packager_cmd $install\n");
- }
- 
- sub give_arch_linux_hints()
-@@ -626,6 +639,10 @@ sub check_distros()
- 		give_mageia_hints;
- 		return;
- 	}
-+	if ($system_release =~ /OpenMandriva/) {
-+		give_mageia_hints;
-+		return;
-+	}
- 	if ($system_release =~ /Arch Linux/) {
- 		give_arch_linux_hints;
- 		return;
+ 	my @suse_tex_pkgs = (
+ 		"texlive-babel-english",
+ 		"texlive-caption",
 -- 
 2.25.2
 
