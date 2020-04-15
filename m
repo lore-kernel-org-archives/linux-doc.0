@@ -7,51 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F71C2BB55
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57296C2BB55
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EDBB92076D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DA0F2076D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586961502;
-	bh=J2VLKHFfGYVorzlk/8UwKCJP0drKzZlIAdlBq85Rcx8=;
+	s=default; t=1586961519;
+	bh=4wJdmAjlV4DSVYf34Z6Qv6j9VbuxAj8qGiPDjuUgp8s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=O0UJbO26Oh6QlmbwyZdlq3EkSSw83LC3XceX9J8lPg+6LCysCTqhdnn+1CxVqCWDE
-	 4ifoLrQE+5tzjeRCNX+CJpXu8GGzXMFcS+xpTje6hXnJ2r+YDUW9T33lkvAKKVhjS3
-	 eFcqQg/7HZo08Q0vhrDP4/8FXCxVrLLSCqFmMfns=
+	b=TeWBxq3qq4AAd9nuq/YYH5Z31j8JTaEui+l6JY5waTMSDBnGwhhZHBju+c9+M7tsG
+	 5aT6O3+eWNxyCv+MjnB3uXDTZr9O1CE1TJH5bsPAe9j2ScPiqtFwwSMiZa9/4do3eq
+	 eKGHZKxAL1a+xstNLrf5XoxojSzf9GNbwandcNE0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2636669AbgDOOiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 10:38:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45410 "EHLO mail.kernel.org"
+        id S2636683AbgDOOie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:38:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45778 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394078AbgDOOdD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2394083AbgDOOdD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 15 Apr 2020 10:33:03 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 764D221D7A;
+        by mail.kernel.org (Postfix) with ESMTPSA id A1E8F21D90;
         Wed, 15 Apr 2020 14:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586961171;
-        bh=J2VLKHFfGYVorzlk/8UwKCJP0drKzZlIAdlBq85Rcx8=;
+        bh=4wJdmAjlV4DSVYf34Z6Qv6j9VbuxAj8qGiPDjuUgp8s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kEXCq8egdQ1CKEBOz9gAN5XiwALqK5M3P3qyK3Vgogo/eS3VUMtSqMKvcNX1rTSq7
-         Us9SbcQnW5+nYHNUZiaW2Dkrm0D/zkkRszoRs6VnpqecvPm5YRGpEdBvkrQzKgPoqi
-         RTaYAjUpVWw69LM7W3NYM2vtqMNB6RMo+4V5Bwu0=
+        b=Usx1ej+CdC9hn1i/mZYp2buvTm6pVVBCQnk71Owr8Yzc+ITRSE6Y/5muujy3NC88N
+         K1OHmAOjUmjRMP1zuKx9hv9l3VlyE22GQdXj4asI9DreSg0JGhlBki2zW845LBdnr+
+         lMReab5NDvueMB/V/DqOx2kBjK63viMsruBh4pr0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOj5t-006kPH-NH; Wed, 15 Apr 2020 16:32:49 +0200
+        id 1jOj5t-006kPb-TB; Wed, 15 Apr 2020 16:32:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH 20/34] docs: filesystems: convert mandatory-locking.txt to ReST
-Date:   Wed, 15 Apr 2020 16:32:33 +0200
-Message-Id: <289e82f172907dedabc67f3a5124840544f87b22.1586960617.git.mchehab+huawei@kernel.org>
+        Jan Kara <jack@suse.com>
+Subject: [PATCH 24/34] docs: filesystems: convert quota.txt to ReST
+Date:   Wed, 15 Apr 2020 16:32:37 +0200
+Message-Id: <36dc2cc02b525893ab66dca7ada2090236fb1879.1586960617.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586960617.git.mchehab+huawei@kernel.org>
 References: <cover.1586960617.git.mchehab+huawei@kernel.org>
@@ -65,104 +62,110 @@ X-Mailing-List: linux-doc@vger.kernel.org
 - Add a SPDX header;
 - Adjust document title;
 - Some whitespace fixes and new line breaks;
-- Use notes markups;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/filesystems/index.rst           |  1 +
- Documentation/filesystems/locks.rst           |  2 +-
- ...tory-locking.txt => mandatory-locking.rst} | 25 ++++++++++++-------
- fs/locks.c                                    |  2 +-
- 4 files changed, 19 insertions(+), 11 deletions(-)
- rename Documentation/filesystems/{mandatory-locking.txt => mandatory-locking.rst} (91%)
+ .../filesystems/{quota.txt => quota.rst}      | 41 +++++++++++++------
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 31 insertions(+), 13 deletions(-)
+ rename Documentation/filesystems/{quota.txt => quota.rst} (81%)
 
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 40cdc4ce2ffc..32759666a0be 100644
+index a35b7d6ee5bc..8a17f8234b86 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -30,6 +30,7 @@ algorithms work.
-    fiemap
-    files
+@@ -33,6 +33,7 @@ algorithms work.
     locks
-+   mandatory-locking
+    mandatory-locking
+    mount_api
++   quota
  
     automount-support
  
-diff --git a/Documentation/filesystems/locks.rst b/Documentation/filesystems/locks.rst
-index 10f67fb9ce07..c5ae858b1aac 100644
---- a/Documentation/filesystems/locks.rst
-+++ b/Documentation/filesystems/locks.rst
-@@ -58,7 +58,7 @@ fcntl(), with all the problems that implies.
- ---------------------------------------
- 
- Mandatory locking, as described in
--'Documentation/filesystems/mandatory-locking.txt' was prior to this release a
-+'Documentation/filesystems/mandatory-locking.rst' was prior to this release a
- general configuration option that was valid for all mounted filesystems.  This
- had a number of inherent dangers, not the least of which was the ability to
- freeze an NFS server by asking it to read a file for which a mandatory lock
-diff --git a/Documentation/filesystems/mandatory-locking.txt b/Documentation/filesystems/mandatory-locking.rst
-similarity index 91%
-rename from Documentation/filesystems/mandatory-locking.txt
-rename to Documentation/filesystems/mandatory-locking.rst
-index a251ca33164a..9ce73544a8f0 100644
---- a/Documentation/filesystems/mandatory-locking.txt
-+++ b/Documentation/filesystems/mandatory-locking.rst
-@@ -1,8 +1,13 @@
--	Mandatory File Locking For The Linux Operating System
+diff --git a/Documentation/filesystems/quota.txt b/Documentation/filesystems/quota.rst
+similarity index 81%
+rename from Documentation/filesystems/quota.txt
+rename to Documentation/filesystems/quota.rst
+index 32874b06ebe9..a30cdd47c652 100644
+--- a/Documentation/filesystems/quota.txt
++++ b/Documentation/filesystems/quota.rst
+@@ -1,4 +1,6 @@
 +.. SPDX-License-Identifier: GPL-2.0
+ 
++===============
+ Quota subsystem
+ ===============
+ 
+@@ -39,6 +41,7 @@ Currently, the interface supports only one message type QUOTA_NL_C_WARNING.
+ This command is used to send a notification about any of the above mentioned
+ events. Each message has six attributes. These are (type of the argument is
+ in parentheses):
 +
-+=====================================================
-+Mandatory File Locking For The Linux Operating System
-+=====================================================
- 
- 		Andy Walker <andy@lysaker.kvaerner.no>
- 
- 			   15 April 1996
+         QUOTA_NL_A_QTYPE (u32)
+ 	  - type of quota being exceeded (one of USRQUOTA, GRPQUOTA)
+         QUOTA_NL_A_EXCESS_ID (u64)
+@@ -48,20 +51,34 @@ in parentheses):
+ 	  - UID of a user who caused the event
+         QUOTA_NL_A_WARNING (u32)
+ 	  - what kind of limit is exceeded:
+-		QUOTA_NL_IHARDWARN - inode hardlimit
+-		QUOTA_NL_ISOFTLONGWARN - inode softlimit is exceeded longer
+-		  than given grace period
+-		QUOTA_NL_ISOFTWARN - inode softlimit
+-		QUOTA_NL_BHARDWARN - space (block) hardlimit
+-		QUOTA_NL_BSOFTLONGWARN - space (block) softlimit is exceeded
+-		  longer than given grace period.
+-		QUOTA_NL_BSOFTWARN - space (block) softlimit
 +
- 		     (Updated September 2007)
- 
- 0. Why you should avoid mandatory locking
-@@ -53,15 +58,17 @@ possible on existing user code. The scheme is based on marking individual files
- as candidates for mandatory locking, and using the existing fcntl()/lockf()
- interface for applying locks just as if they were normal, advisory locks.
- 
--Note 1: In saying "file" in the paragraphs above I am actually not telling
--the whole truth. System V locking is based on fcntl(). The granularity of
--fcntl() is such that it allows the locking of byte ranges in files, in addition
--to entire files, so the mandatory locking rules also have byte level
--granularity.
-+.. Note::
- 
--Note 2: POSIX.1 does not specify any scheme for mandatory locking, despite
--borrowing the fcntl() locking scheme from System V. The mandatory locking
--scheme is defined by the System V Interface Definition (SVID) Version 3.
-+   1. In saying "file" in the paragraphs above I am actually not telling
-+      the whole truth. System V locking is based on fcntl(). The granularity of
-+      fcntl() is such that it allows the locking of byte ranges in files, in
-+      addition to entire files, so the mandatory locking rules also have byte
-+      level granularity.
++		QUOTA_NL_IHARDWARN
++		    inode hardlimit
++		QUOTA_NL_ISOFTLONGWARN
++		    inode softlimit is exceeded longer
++		    than given grace period
++		QUOTA_NL_ISOFTWARN
++		    inode softlimit
++		QUOTA_NL_BHARDWARN
++		    space (block) hardlimit
++		QUOTA_NL_BSOFTLONGWARN
++		    space (block) softlimit is exceeded
++		    longer than given grace period.
++		QUOTA_NL_BSOFTWARN
++		    space (block) softlimit
 +
-+   2. POSIX.1 does not specify any scheme for mandatory locking, despite
-+      borrowing the fcntl() locking scheme from System V. The mandatory locking
-+      scheme is defined by the System V Interface Definition (SVID) Version 3.
- 
- 2. Marking a file for mandatory locking
- ---------------------------------------
-diff --git a/fs/locks.c b/fs/locks.c
-index b8a31c1c4fff..1d4f4d5da704 100644
---- a/fs/locks.c
-+++ b/fs/locks.c
-@@ -61,7 +61,7 @@
-  *
-  *  Initial implementation of mandatory locks. SunOS turned out to be
-  *  a rotten model, so I implemented the "obvious" semantics.
-- *  See 'Documentation/filesystems/mandatory-locking.txt' for details.
-+ *  See 'Documentation/filesystems/mandatory-locking.rst' for details.
-  *  Andy Walker (andy@lysaker.kvaerner.no), April 06, 1996.
-  *
-  *  Don't allow mandatory locks on mmap()'ed files. Added simple functions to
+ 	  - four warnings are also defined for the event when user stops
+ 	    exceeding some limit:
+-		QUOTA_NL_IHARDBELOW - inode hardlimit
+-		QUOTA_NL_ISOFTBELOW - inode softlimit
+-		QUOTA_NL_BHARDBELOW - space (block) hardlimit
+-		QUOTA_NL_BSOFTBELOW - space (block) softlimit
++
++		QUOTA_NL_IHARDBELOW
++		    inode hardlimit
++		QUOTA_NL_ISOFTBELOW
++		    inode softlimit
++		QUOTA_NL_BHARDBELOW
++		    space (block) hardlimit
++		QUOTA_NL_BSOFTBELOW
++		    space (block) softlimit
++
+         QUOTA_NL_A_DEV_MAJOR (u32)
+ 	  - major number of a device with the affected filesystem
+         QUOTA_NL_A_DEV_MINOR (u32)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 470389ef0135..519f5d84adca 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5009,7 +5009,7 @@ W:	http://www.win.tue.nl/~aeb/partitions/partition_types-1.html
+ DISKQUOTA
+ M:	Jan Kara <jack@suse.com>
+ S:	Maintained
+-F:	Documentation/filesystems/quota.txt
++F:	Documentation/filesystems/quota.rst
+ F:	fs/quota/
+ F:	include/linux/quota*.h
+ F:	include/uapi/linux/quota*.h
 -- 
 2.25.2
 
