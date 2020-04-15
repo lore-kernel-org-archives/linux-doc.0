@@ -2,100 +2,80 @@ Return-Path: <SRS0=AYPK=57=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E23C2BB1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 00:16:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 894FAC2BA2B
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 03:55:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B91D42072D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 00:16:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 51E562078B
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 03:55:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RAfqyGIO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392317AbgDOAQ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Apr 2020 20:16:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45534 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2392299AbgDOAQZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Apr 2020 20:16:25 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03F02wdN117129
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2020 20:16:21 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 30dnmu2u96-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2020 20:16:21 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ajd@linux.ibm.com>;
-        Wed, 15 Apr 2020 01:15:52 +0100
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 15 Apr 2020 01:15:48 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 03F0GEPG36241724
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 15 Apr 2020 00:16:14 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 65D8F52057;
-        Wed, 15 Apr 2020 00:16:14 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 1253D5204E;
-        Wed, 15 Apr 2020 00:16:14 +0000 (GMT)
-Received: from [9.81.221.202] (unknown [9.81.221.202])
-        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-        (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 2D7D8A00A5;
-        Wed, 15 Apr 2020 10:16:08 +1000 (AEST)
-Subject: Re: [PATCH v2 25/33] docs: powerpc: cxl.rst: mark two section titles
- as such
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org
-References: <cover.1586881715.git.mchehab+huawei@kernel.org>
- <190d67397cd63e419de8d85b92e8018d48e8c345.1586881715.git.mchehab+huawei@kernel.org>
-From:   Andrew Donnellan <ajd@linux.ibm.com>
-Date:   Wed, 15 Apr 2020 10:16:07 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S2388433AbgDODzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Apr 2020 23:55:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53254 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1733225AbgDODzO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Apr 2020 23:55:14 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B019C061A0C;
+        Tue, 14 Apr 2020 20:55:14 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id x2so12221126qtr.0;
+        Tue, 14 Apr 2020 20:55:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=4k8kfX6jIEgDhdAPsrHcln1Ddwi4D7YyK+0yUrDlqSg=;
+        b=RAfqyGIOObyvOPi3F4NT32FtHzHYlWzY/aqw7ooP/b65kZSkZU8Db+XlmbpQ1+wixo
+         znKhltePa+CqaSMni4OgcdV1iESyIoA4OoRmZf8ZJdKkQmcNcbb1/kXukLBKxRU4snuz
+         ZiAKh+Poyyf6Q1LsaC4a78ZaOC0+Tb7+q6OFqOVTBPo9yqZMz+6HBcbJI1QpE4ukR1wd
+         UwUlI3AxMx6cNTnDP9WNT96npeqF+MpGxaAqF4Trvg42Y4KtmP0vn2lICuQNF9ZdRmVB
+         R6bim1DomCYqoibTgJEhU736pMc1PqEtUwNpJons1XfsjzolG0VQwkuHj5KHem532+KG
+         wiUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=4k8kfX6jIEgDhdAPsrHcln1Ddwi4D7YyK+0yUrDlqSg=;
+        b=LWKnuocMnnVxHrlIZ/WTSIZCAIc/szjfQwN6T1eCCPQfDQGDRt1CMHHeji6TI/KE0P
+         zWo50yueIYQDZPyQLcGLR/aw/b+Kg2jxvg3kqAiNGySlb2W6ZZiso9SrS3mPTu/9gkDY
+         lu1cWuZY6jrBbUV4JtKgCRZhOwgXFcqdUoP4gWmioiH/v5vC1raeydCpo4cBS5Gtv2CA
+         QlawObwF3SJCbqJv6x96BW/s2RBsrLOvHKGRActgHi1KzJzk7DGIgT602NUcC4xc2aIi
+         fscTmjFEe2KkZbspu71dx34Pip3NbaJ2Yr4nIoAQV2bqMmbhD1TtnZp6DOpH9cbmKuCE
+         GSaQ==
+X-Gm-Message-State: AGi0PubW/W9qyqLrqYojQzIpWOlohjAZBBUPrD6YaciggSChRI54ZDhX
+        YsprcyLutDdCaROuFbWODhpyf+k6sszYRA+L1EHS5jPV
+X-Google-Smtp-Source: APiQypKVUr53Ap6X1FAFbvhxyuOhMjonhg5K2CaIS54M/pn4KBL5/M5iMESMu3/e4Tlp1RZatobKR+o+1gzvEI3MX/8=
+X-Received: by 2002:ac8:4e45:: with SMTP id e5mr19662711qtw.101.1586922913095;
+ Tue, 14 Apr 2020 20:55:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <190d67397cd63e419de8d85b92e8018d48e8c345.1586881715.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20041500-0008-0000-0000-00000370CD2B
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20041500-0009-0000-0000-00004A927F0E
-Message-Id: <3af6b07a-842b-a39d-8fa9-f34e7222a0b2@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
- definitions=2020-04-14_11:2020-04-14,2020-04-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 impostorscore=0 suspectscore=0 bulkscore=0 malwarescore=0
- phishscore=0 lowpriorityscore=0 mlxlogscore=991 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004140173
+From:   rishi gupta <gupt21@gmail.com>
+Date:   Wed, 15 Apr 2020 09:25:02 +0530
+Message-ID: <CALUj-gsRgkEyRe3vubEeWx8ENwEyE+Fzv4bKKDZ+iq3urRG0BA@mail.gmail.com>
+Subject: Correct place to put the new doc for "How to use this driver"
+To:     linux-doc@vger.kernel.org, corbet@lwn.net
+Cc:     lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15/4/20 2:48 am, Mauro Carvalho Chehab wrote:
-> The User API chapter contains two sub-chapters. Mark them as
-> such.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Hi Team,
 
-Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
+I need to add a documentation file to let users know "how to use this driver".
+Specifically this one (tty-ttyvs.rst): https://lkml.org/lkml/2020/2/15/153
 
+(1) I am unable to find any directory where it will fit. This driver
+belongs to Virtual TTY device category.
+Any suggestions where to put it?
 
--- 
-Andrew Donnellan              OzLabs, ADL Canberra
-ajd@linux.ibm.com             IBM Australia Limited
+(2) After putting it is it mandatory to link it to
+Documentation/index.rst as suggested here
+https://www.kernel.org/doc/html/latest/doc-guide/index.html
 
+Regards,
+Rishi
