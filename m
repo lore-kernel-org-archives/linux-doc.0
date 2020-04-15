@@ -2,53 +2,55 @@ Return-Path: <SRS0=AYPK=57=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D407C2BB55
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF70DC3815B
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26ABD208E4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 873CE208E4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586961530;
-	bh=tnnJpVmnbVuJ6k+jQRIZ9yUNqaXuvO9AT5XcHy6DOVg=;
+	s=default; t=1586961534;
+	bh=QGVn4IRf8anQWWnfQmgTWJmXE6uS1MaTIhGEQA/UNy4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RHSpq/uec5d50DDBkB+uz6dDz5GKhpgakD/q6GFWg5iGqJ5eUnfi0YL9cokvWqSBk
-	 i/6B2HJ/5e5yy7pTfSo/jsjJiLkd6fwqfXf8ytFRkRhUl7OsAN6PlxSEot23Yz3QRs
-	 4jmm/CrezorWVh9k0Q8NPoipeWedNwIZOX4fmiu4=
+	b=TC6JNpdO6clLASamWYwFg7kufLQXnTi3BpZdMqYCM235USMv85r0pLR6jDrt4dgKG
+	 pf8PLpcP8LqQpoXzXpaukhTtI5bethjasZUo4N//gxgMzvKWT1xN7pOxoojyWPI7fm
+	 o7/JgHveKCZl4sfTXpAwnqpoWT1vNAQfYeHlU/ZI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394075AbgDOOdB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 10:33:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44650 "EHLO mail.kernel.org"
+        id S2897028AbgDOOit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:38:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45458 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394034AbgDOOcw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Apr 2020 10:32:52 -0400
+        id S2394051AbgDOOdB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Apr 2020 10:33:01 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C759E2137B;
-        Wed, 15 Apr 2020 14:32:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5DA3521927;
+        Wed, 15 Apr 2020 14:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586961171;
-        bh=tnnJpVmnbVuJ6k+jQRIZ9yUNqaXuvO9AT5XcHy6DOVg=;
+        bh=QGVn4IRf8anQWWnfQmgTWJmXE6uS1MaTIhGEQA/UNy4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UFfFcxcUtSqL8VLIaHeiLYto6vE/cKHVPRQgcqCO7Ah8QHCu+XcJMXpRJN85Fe57g
-         WsfN5oGdA0lLFpROxGyNGJ44Ux+MCFMhOajE2Zu8QOj9s5hcaCv8HXEkJSdhtNAm0g
-         +66PK3O6L8NBuyKiQbxRSe+CIezMcUuFX79mdsl0=
+        b=iFapklMoqt1yOQfpNxcKqAvNl4M0MMa86S5lgtEBnlQtfoIRuEntQc5CYOGBA9o+h
+         0bVrHODX3rFYWZuzu/eBzZsFcxmvWE6tNZqQYDb0ioXd752gZfn4Oa5OWQeuZmAbg4
+         /WFaZWMnd9Sl2nmnUAXpBTxuC70Kmq/Pf+swGRE0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOj5t-006kO4-2g; Wed, 15 Apr 2020 16:32:49 +0200
+        id 1jOj5t-006kP7-Kn; Wed, 15 Apr 2020 16:32:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com
-Subject: [PATCH 05/34] docs: filesystems: caching/operations.txt: convert it to ReST
-Date:   Wed, 15 Apr 2020 16:32:18 +0200
-Message-Id: <c3c380b7b33ae2a3f7194c27421da18eba22c9bb.1586960617.git.mchehab+huawei@kernel.org>
+        Bob Peterson <rpeterso@redhat.com>,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        cluster-devel@redhat.com
+Subject: [PATCH 18/34] docs: filesystems: convert gfs2-glocks.txt to ReST
+Date:   Wed, 15 Apr 2020 16:32:31 +0200
+Message-Id: <e146506222bf13e8ef7008ac8b4547172c2faad8.1586960617.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586960617.git.mchehab+huawei@kernel.org>
 References: <cover.1586960617.git.mchehab+huawei@kernel.org>
@@ -61,193 +63,272 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
 - Adjust document and section titles;
-- Comment out text ToC for html/pdf output;
-- Mark literal blocks as such;
-- Add it to filesystems/caching/index.rst.
+- Some whitespace fixes and new line breaks;
+- Add table markups;
+- Use notes markups;
+- Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/caching/index.rst   |  1 +
- .../{operations.txt => operations.rst}        | 45 +++++++++----------
- fs/fscache/operation.c                        |  2 +-
- 3 files changed, 23 insertions(+), 25 deletions(-)
- rename Documentation/filesystems/caching/{operations.txt => operations.rst} (90%)
+ .../{gfs2-glocks.txt => gfs2-glocks.rst}      | 147 ++++++++++--------
+ Documentation/filesystems/index.rst           |   1 +
+ MAINTAINERS                                   |   2 +-
+ 3 files changed, 86 insertions(+), 64 deletions(-)
+ rename Documentation/filesystems/{gfs2-glocks.txt => gfs2-glocks.rst} (63%)
 
-diff --git a/Documentation/filesystems/caching/index.rst b/Documentation/filesystems/caching/index.rst
-index d0651db450fb..75492b7c8ea0 100644
---- a/Documentation/filesystems/caching/index.rst
-+++ b/Documentation/filesystems/caching/index.rst
-@@ -9,3 +9,4 @@ Filesystem Caching
-    fscache
-    object
-    netfs-api
-+   operations
-diff --git a/Documentation/filesystems/caching/operations.txt b/Documentation/filesystems/caching/operations.rst
-similarity index 90%
-rename from Documentation/filesystems/caching/operations.txt
-rename to Documentation/filesystems/caching/operations.rst
-index d8976c434718..f7ddcc028939 100644
---- a/Documentation/filesystems/caching/operations.txt
-+++ b/Documentation/filesystems/caching/operations.rst
-@@ -1,10 +1,12 @@
--		       ================================
--		       ASYNCHRONOUS OPERATIONS HANDLING
--		       ================================
+diff --git a/Documentation/filesystems/gfs2-glocks.txt b/Documentation/filesystems/gfs2-glocks.rst
+similarity index 63%
+rename from Documentation/filesystems/gfs2-glocks.txt
+rename to Documentation/filesystems/gfs2-glocks.rst
+index 7059623635b2..d14f230f0b12 100644
+--- a/Documentation/filesystems/gfs2-glocks.txt
++++ b/Documentation/filesystems/gfs2-glocks.rst
+@@ -1,5 +1,8 @@
+-                   Glock internal locking rules
+-                  ------------------------------
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+================================
-+Asynchronous Operations Handling
-+================================
++============================
++Glock internal locking rules
++============================
  
- By: David Howells <dhowells@redhat.com>
+ This documents the basic principles of the glock state machine
+ internals. Each glock (struct gfs2_glock in fs/gfs2/incore.h)
+@@ -24,24 +27,28 @@ There are three lock states that users of the glock layer can request,
+ namely shared (SH), deferred (DF) and exclusive (EX). Those translate
+ to the following DLM lock modes:
  
--Contents:
-+.. Contents:
+-Glock mode    | DLM lock mode
+-------------------------------
+-    UN        |    IV/NL  Unlocked (no DLM lock associated with glock) or NL
+-    SH        |    PR     (Protected read)
+-    DF        |    CW     (Concurrent write)
+-    EX        |    EX     (Exclusive)
++==========	====== =====================================================
++Glock mode      DLM    lock mode
++==========	====== =====================================================
++    UN          IV/NL  Unlocked (no DLM lock associated with glock) or NL
++    SH          PR     (Protected read)
++    DF          CW     (Concurrent write)
++    EX          EX     (Exclusive)
++==========	====== =====================================================
  
-  (*) Overview.
+ Thus DF is basically a shared mode which is incompatible with the "normal"
+ shared lock mode, SH. In GFS2 the DF mode is used exclusively for direct I/O
+ operations. The glocks are basically a lock plus some routines which deal
+ with cache management. The following rules apply for the cache:
  
-@@ -17,8 +19,7 @@ Contents:
-  (*) Asynchronous callback.
+-Glock mode   |  Cache data | Cache Metadata | Dirty Data | Dirty Metadata
+---------------------------------------------------------------------------
+-    UN       |     No      |       No       |     No     |      No
+-    SH       |     Yes     |       Yes      |     No     |      No
+-    DF       |     No      |       Yes      |     No     |      No
+-    EX       |     Yes     |       Yes      |     Yes    |      Yes
++==========      ==========   ==============   ==========   ==============
++Glock mode      Cache data   Cache Metadata   Dirty Data   Dirty Metadata
++==========      ==========   ==============   ==========   ==============
++    UN             No              No             No            No
++    SH             Yes             Yes            No            No
++    DF             No              Yes            No            No
++    EX             Yes             Yes            Yes           Yes
++==========      ==========   ==============   ==========   ==============
+ 
+ These rules are implemented using the various glock operations which
+ are defined for each type of glock. Not all types of glocks use
+@@ -49,21 +56,23 @@ all the modes. Only inode glocks use the DF mode for example.
+ 
+ Table of glock operations and per type constants:
+ 
+-Field            | Purpose
+-----------------------------------------------------------------------------
+-go_xmote_th      | Called before remote state change (e.g. to sync dirty data)
+-go_xmote_bh      | Called after remote state change (e.g. to refill cache)
+-go_inval         | Called if remote state change requires invalidating the cache
+-go_demote_ok     | Returns boolean value of whether its ok to demote a glock
+-                 | (e.g. checks timeout, and that there is no cached data)
+-go_lock          | Called for the first local holder of a lock
+-go_unlock        | Called on the final local unlock of a lock
+-go_dump          | Called to print content of object for debugfs file, or on
+-                 | error to dump glock to the log.
+-go_type          | The type of the glock, LM_TYPE_.....
+-go_callback	 | Called if the DLM sends a callback to drop this lock
+-go_flags	 | GLOF_ASPACE is set, if the glock has an address space
+-                 | associated with it
++=============      =============================================================
++Field              Purpose
++=============      =============================================================
++go_xmote_th        Called before remote state change (e.g. to sync dirty data)
++go_xmote_bh        Called after remote state change (e.g. to refill cache)
++go_inval           Called if remote state change requires invalidating the cache
++go_demote_ok       Returns boolean value of whether its ok to demote a glock
++                   (e.g. checks timeout, and that there is no cached data)
++go_lock            Called for the first local holder of a lock
++go_unlock          Called on the final local unlock of a lock
++go_dump            Called to print content of object for debugfs file, or on
++                   error to dump glock to the log.
++go_type            The type of the glock, ``LM_TYPE_*``
++go_callback	   Called if the DLM sends a callback to drop this lock
++go_flags	   GLOF_ASPACE is set, if the glock has an address space
++                   associated with it
++=============      =============================================================
+ 
+ The minimum hold time for each lock is the time after a remote lock
+ grant for which we ignore remote demote requests. This is in order to
+@@ -82,21 +91,25 @@ rather than via the glock.
+ 
+ Locking rules for glock operations:
+ 
+-Operation     |  GLF_LOCK bit lock held |  gl_lockref.lock spinlock held
+--------------------------------------------------------------------------
+-go_xmote_th   |       Yes               |       No
+-go_xmote_bh   |       Yes               |       No
+-go_inval      |       Yes               |       No
+-go_demote_ok  |       Sometimes         |       Yes
+-go_lock       |       Yes               |       No
+-go_unlock     |       Yes               |       No
+-go_dump       |       Sometimes         |       Yes
+-go_callback   |       Sometimes (N/A)   |       Yes
++=============    ======================    =============================
++Operation        GLF_LOCK bit lock held    gl_lockref.lock spinlock held
++=============    ======================    =============================
++go_xmote_th           Yes                       No
++go_xmote_bh           Yes                       No
++go_inval              Yes                       No
++go_demote_ok          Sometimes                 Yes
++go_lock               Yes                       No
++go_unlock             Yes                       No
++go_dump               Sometimes                 Yes
++go_callback           Sometimes (N/A)           Yes
++=============    ======================    =============================
+ 
+-N.B. Operations must not drop either the bit lock or the spinlock
+-if its held on entry. go_dump and do_demote_ok must never block.
+-Note that go_dump will only be called if the glock's state
+-indicates that it is caching uptodate data.
++.. Note::
++
++   Operations must not drop either the bit lock or the spinlock
++   if its held on entry. go_dump and do_demote_ok must never block.
++   Note that go_dump will only be called if the glock's state
++   indicates that it is caching uptodate data.
+ 
+ Glock locking order within GFS2:
+ 
+@@ -104,7 +117,7 @@ Glock locking order within GFS2:
+  2. Rename glock (for rename only)
+  3. Inode glock(s)
+     (Parents before children, inodes at "same level" with same parent in
+-     lock number order)
++    lock number order)
+  4. Rgrp glock(s) (for (de)allocation operations)
+  5. Transaction glock (via gfs2_trans_begin) for non-read operations
+  6. i_rw_mutex (if required)
+@@ -117,8 +130,8 @@ determine the lifetime of the inode in question. Locking of inodes
+ is on a per-inode basis. Locking of rgrps is on a per rgrp basis.
+ In general we prefer to lock local locks prior to cluster locks.
+ 
+-                            Glock Statistics
+-                           ------------------
++Glock Statistics
++----------------
+ 
+ The stats are divided into two sets: those relating to the
+ super block and those relating to an individual glock. The
+@@ -173,8 +186,8 @@ we'd like to get a better idea of these timings:
+ 1. To be able to better set the glock "min hold time"
+ 2. To spot performance issues more easily
+ 3. To improve the algorithm for selecting resource groups for
+-allocation (to base it on lock wait time, rather than blindly
+-using a "try lock")
++   allocation (to base it on lock wait time, rather than blindly
++   using a "try lock")
+ 
+ Due to the smoothing action of the updates, a step change in
+ some input quantity being sampled will only fully be taken
+@@ -195,10 +208,13 @@ as possible. There are always inaccuracies in any
+ measuring system, but I hope this is as accurate as we
+ can reasonably make it.
+ 
+-Per sb stats can be found here:
+-/sys/kernel/debug/gfs2/<fsname>/sbstats
+-Per glock stats can be found here:
+-/sys/kernel/debug/gfs2/<fsname>/glstats
++Per sb stats can be found here::
++
++    /sys/kernel/debug/gfs2/<fsname>/sbstats
++
++Per glock stats can be found here::
++
++    /sys/kernel/debug/gfs2/<fsname>/glstats
+ 
+ Assuming that debugfs is mounted on /sys/kernel/debug and also
+ that <fsname> is replaced with the name of the gfs2 filesystem
+@@ -206,14 +222,16 @@ in question.
+ 
+ The abbreviations used in the output as are follows:
+ 
+-srtt     - Smoothed round trip time for non-blocking dlm requests
+-srttvar  - Variance estimate for srtt
+-srttb    - Smoothed round trip time for (potentially) blocking dlm requests
+-srttvarb - Variance estimate for srttb
+-sirt     - Smoothed inter-request time (for dlm requests)
+-sirtvar  - Variance estimate for sirt
+-dlm      - Number of dlm requests made (dcnt in glstats file)
+-queue    - Number of glock requests queued (qcnt in glstats file)
++=========  ================================================================
++srtt       Smoothed round trip time for non blocking dlm requests
++srttvar    Variance estimate for srtt
++srttb      Smoothed round trip time for (potentially) blocking dlm requests
++srttvarb   Variance estimate for srttb
++sirt       Smoothed inter request time (for dlm requests)
++sirtvar    Variance estimate for sirt
++dlm        Number of dlm requests made (dcnt in glstats file)
++queue      Number of glock requests queued (qcnt in glstats file)
++=========  ================================================================
+ 
+ The sbstats file contains a set of these stats for each glock type (so 8 lines
+ for each type) and for each cpu (one column per cpu). The glstats file contains
+@@ -224,9 +242,12 @@ The gfs2_glock_lock_time tracepoint prints out the current values of the stats
+ for the glock in question, along with some addition information on each dlm
+ reply that is received:
+ 
+-status - The status of the dlm request
+-flags  - The dlm request flags
+-tdiff  - The time taken by this specific request
++======   =======================================
++status   The status of the dlm request
++flags    The dlm request flags
++tdiff    The time taken by this specific request
++======   =======================================
++
+ (remaining fields as per above list)
  
  
--========
--OVERVIEW
-+Overview
- ========
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 300e12569f54..6a34d1b578a9 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -81,6 +81,7 @@ Documentation for filesystem implementations.
+    f2fs
+    gfs2
+    gfs2-uevents
++   gfs2-glocks
+    hfs
+    hfsplus
+    hpfs
+diff --git a/MAINTAINERS b/MAINTAINERS
+index eebb55517709..470389ef0135 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7181,7 +7181,7 @@ L:	cluster-devel@redhat.com
+ S:	Supported
+ W:	http://sources.redhat.com/cluster/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git
+-F:	Documentation/filesystems/gfs2*.txt
++F:	Documentation/filesystems/gfs2*
+ F:	fs/gfs2/
+ F:	include/uapi/linux/gfs2_ondisk.h
  
- FS-Cache has an asynchronous operations handling facility that it uses for its
-@@ -33,11 +34,10 @@ backend for completion.
- To make use of this facility, <linux/fscache-cache.h> should be #included.
- 
- 
--===============================
--OPERATION RECORD INITIALISATION
-+Operation Record Initialisation
- ===============================
- 
--An operation is recorded in an fscache_operation struct:
-+An operation is recorded in an fscache_operation struct::
- 
- 	struct fscache_operation {
- 		union {
-@@ -50,7 +50,7 @@ An operation is recorded in an fscache_operation struct:
- 	};
- 
- Someone wanting to issue an operation should allocate something with this
--struct embedded in it.  They should initialise it by calling:
-+struct embedded in it.  They should initialise it by calling::
- 
- 	void fscache_operation_init(struct fscache_operation *op,
- 				    fscache_operation_release_t release);
-@@ -67,8 +67,7 @@ FSCACHE_OP_WAITING may be set in op->flags prior to each submission of the
- operation and waited for afterwards.
- 
- 
--==========
--PARAMETERS
-+Parameters
- ==========
- 
- There are a number of parameters that can be set in the operation record's flag
-@@ -87,7 +86,7 @@ operations:
- 
-      If this option is to be used, FSCACHE_OP_WAITING must be set in op->flags
-      before submitting the operation, and the operating thread must wait for it
--     to be cleared before proceeding:
-+     to be cleared before proceeding::
- 
- 		wait_on_bit(&op->flags, FSCACHE_OP_WAITING,
- 			    TASK_UNINTERRUPTIBLE);
-@@ -101,7 +100,7 @@ operations:
-      page to a netfs page after the backing fs has read the page in.
- 
-      If this option is used, op->fast_work and op->processor must be
--     initialised before submitting the operation:
-+     initialised before submitting the operation::
- 
- 		INIT_WORK(&op->fast_work, do_some_work);
- 
-@@ -114,7 +113,7 @@ operations:
-      pages that have just been fetched from a remote server.
- 
-      If this option is used, op->slow_work and op->processor must be
--     initialised before submitting the operation:
-+     initialised before submitting the operation::
- 
- 		fscache_operation_init_slow(op, processor)
- 
-@@ -132,8 +131,7 @@ Furthermore, operations may be one of two types:
-      operations running at the same time.
- 
- 
--=========
--PROCEDURE
-+Procedure
- =========
- 
- Operations are used through the following procedure:
-@@ -143,7 +141,7 @@ Operations are used through the following procedure:
-      generic op embedded within.
- 
-  (2) The submitting thread must then submit the operation for processing using
--     one of the following two functions:
-+     one of the following two functions::
- 
- 	int fscache_submit_op(struct fscache_object *object,
- 			      struct fscache_operation *op);
-@@ -164,7 +162,7 @@ Operations are used through the following procedure:
-      operation of conflicting exclusivity is in progress on the object.
- 
-      If the operation is asynchronous, the manager will retain a reference to
--     it, so the caller should put their reference to it by passing it to:
-+     it, so the caller should put their reference to it by passing it to::
- 
- 	void fscache_put_operation(struct fscache_operation *op);
- 
-@@ -179,12 +177,12 @@ Operations are used through the following procedure:
-  (4) The operation holds an effective lock upon the object, preventing other
-      exclusive ops conflicting until it is released.  The operation can be
-      enqueued for further immediate asynchronous processing by adjusting the
--     CPU time provisioning option if necessary, eg:
-+     CPU time provisioning option if necessary, eg::
- 
- 	op->flags &= ~FSCACHE_OP_TYPE;
- 	op->flags |= ~FSCACHE_OP_FAST;
- 
--     and calling:
-+     and calling::
- 
- 	void fscache_enqueue_operation(struct fscache_operation *op)
- 
-@@ -192,13 +190,12 @@ Operations are used through the following procedure:
-      pools.
- 
- 
--=====================
--ASYNCHRONOUS CALLBACK
-+Asynchronous Callback
- =====================
- 
- When used in asynchronous mode, the worker thread pool will invoke the
- processor method with a pointer to the operation.  This should then get at the
--container struct by using container_of():
-+container struct by using container_of()::
- 
- 	static void fscache_write_op(struct fscache_operation *_op)
- 	{
-diff --git a/fs/fscache/operation.c b/fs/fscache/operation.c
-index 1a22a55f75a0..4a5651d4904e 100644
---- a/fs/fscache/operation.c
-+++ b/fs/fscache/operation.c
-@@ -4,7 +4,7 @@
-  * Copyright (C) 2008 Red Hat, Inc. All Rights Reserved.
-  * Written by David Howells (dhowells@redhat.com)
-  *
-- * See Documentation/filesystems/caching/operations.txt
-+ * See Documentation/filesystems/caching/operations.rst
-  */
- 
- #define FSCACHE_DEBUG_LEVEL OPERATION
 -- 
 2.25.2
 
