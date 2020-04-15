@@ -4,51 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57296C2BB55
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81207C2BA19
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DA0F2076D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AF152076D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586961519;
-	bh=4wJdmAjlV4DSVYf34Z6Qv6j9VbuxAj8qGiPDjuUgp8s=;
+	s=default; t=1586961522;
+	bh=23W1yG2qd23ktTEijZVV4o1Pn9RiSi+sd+ontuQcaUo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TeWBxq3qq4AAd9nuq/YYH5Z31j8JTaEui+l6JY5waTMSDBnGwhhZHBju+c9+M7tsG
-	 5aT6O3+eWNxyCv+MjnB3uXDTZr9O1CE1TJH5bsPAe9j2ScPiqtFwwSMiZa9/4do3eq
-	 eKGHZKxAL1a+xstNLrf5XoxojSzf9GNbwandcNE0=
+	b=eYs11NJXfb8J+KUnSnnkrD2NIU+wR/iSC/SVfM+i8X2JkYi/g1qlpilWoZ93FL9VN
+	 Siqnc1nd1JqRK+MzvFWA2bZJj0UpZsv2Fl/ZiIrV+4FziLH4DNR+aqEGHF8YMHQXXZ
+	 gLk5eT9PKWvIfpDw8hbBE/FzYsK2N9q6JNoTSLBE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2636683AbgDOOie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 10:38:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45778 "EHLO mail.kernel.org"
+        id S2636680AbgDOOib (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:38:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45448 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394083AbgDOOdD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2394081AbgDOOdD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 15 Apr 2020 10:33:03 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A1E8F21D90;
+        by mail.kernel.org (Postfix) with ESMTPSA id 989B821D7F;
         Wed, 15 Apr 2020 14:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586961171;
-        bh=4wJdmAjlV4DSVYf34Z6Qv6j9VbuxAj8qGiPDjuUgp8s=;
+        bh=23W1yG2qd23ktTEijZVV4o1Pn9RiSi+sd+ontuQcaUo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Usx1ej+CdC9hn1i/mZYp2buvTm6pVVBCQnk71Owr8Yzc+ITRSE6Y/5muujy3NC88N
-         K1OHmAOjUmjRMP1zuKx9hv9l3VlyE22GQdXj4asI9DreSg0JGhlBki2zW845LBdnr+
-         lMReab5NDvueMB/V/DqOx2kBjK63viMsruBh4pr0=
+        b=d/6Ky7ulpaMQzAvg6L1uWqpqwxH1ebX+25NRicM8wfSkZivdFaRd3rqI4zkp7pxtN
+         eUUGumB8pAiNPQoY9tOGNR+gaL41mvffwk3TH4RiGaRce/zuapmqpGag+vQmmAcG/Z
+         dONKFtid4G8rVbhAe5CGmG6IBZsqeVlNjttMakXc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOj5t-006kPb-TB; Wed, 15 Apr 2020 16:32:49 +0200
+        id 1jOj5t-006kPR-QP; Wed, 15 Apr 2020 16:32:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jan Kara <jack@suse.com>
-Subject: [PATCH 24/34] docs: filesystems: convert quota.txt to ReST
-Date:   Wed, 15 Apr 2020 16:32:37 +0200
-Message-Id: <36dc2cc02b525893ab66dca7ada2090236fb1879.1586960617.git.mchehab+huawei@kernel.org>
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH 22/34] docs: filesystems: rename path-lookup.txt file
+Date:   Wed, 15 Apr 2020 16:32:35 +0200
+Message-Id: <ddee231f968fcf8a9558ff39f251fdd7b2357ff2.1586960617.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586960617.git.mchehab+huawei@kernel.org>
 References: <cover.1586960617.git.mchehab+huawei@kernel.org>
@@ -59,113 +60,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Adjust document title;
-- Some whitespace fixes and new line breaks;
-- Add it to filesystems/index.rst.
+There are two files called "patch-lookup", with different contents:
+one is a ReST file, the other one is the text.
+
+As we'll be finishing the conversion of filesystem documents,
+let's fist rename the text one, in order to avoid messing with
+the existing ReST file.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/index.rst           |  1 +
- .../filesystems/{quota.txt => quota.rst}      | 41 +++++++++++++------
- MAINTAINERS                                   |  2 +-
- 3 files changed, 31 insertions(+), 13 deletions(-)
- rename Documentation/filesystems/{quota.txt => quota.rst} (81%)
+ .../filesystems/{path-lookup.txt => path-walking.txt}       | 0
+ Documentation/filesystems/porting.rst                       | 2 +-
+ fs/dcache.c                                                 | 6 +++---
+ fs/namei.c                                                  | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename Documentation/filesystems/{path-lookup.txt => path-walking.txt} (100%)
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index a35b7d6ee5bc..8a17f8234b86 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -33,6 +33,7 @@ algorithms work.
-    locks
-    mandatory-locking
-    mount_api
-+   quota
+diff --git a/Documentation/filesystems/path-lookup.txt b/Documentation/filesystems/path-walking.txt
+similarity index 100%
+rename from Documentation/filesystems/path-lookup.txt
+rename to Documentation/filesystems/path-walking.txt
+diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
+index 26c093969573..8f7d25acf326 100644
+--- a/Documentation/filesystems/porting.rst
++++ b/Documentation/filesystems/porting.rst
+@@ -404,7 +404,7 @@ the callback.  It used to be necessary to clean it there, but not anymore
  
-    automount-support
+ vfs now tries to do path walking in "rcu-walk mode", which avoids
+ atomic operations and scalability hazards on dentries and inodes (see
+-Documentation/filesystems/path-lookup.txt). d_hash and d_compare changes
++Documentation/filesystems/path-walking.txt). d_hash and d_compare changes
+ (above) are examples of the changes required to support this. For more complex
+ filesystem callbacks, the vfs drops out of rcu-walk mode before the fs call, so
+ no changes are required to the filesystem. However, this is costly and loses
+diff --git a/fs/dcache.c b/fs/dcache.c
+index b280e07e162b..cf8d5893bd0e 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -2191,7 +2191,7 @@ static inline bool d_same_name(const struct dentry *dentry,
+  *
+  * __d_lookup_rcu is the dcache lookup function for rcu-walk name
+  * resolution (store-free path walking) design described in
+- * Documentation/filesystems/path-lookup.txt.
++ * Documentation/filesystems/path-walking.txt.
+  *
+  * This is not to be used outside core vfs.
+  *
+@@ -2239,7 +2239,7 @@ struct dentry *__d_lookup_rcu(const struct dentry *parent,
+ 	 * false-negative result. d_lookup() protects against concurrent
+ 	 * renames using rename_lock seqlock.
+ 	 *
+-	 * See Documentation/filesystems/path-lookup.txt for more details.
++	 * See Documentation/filesystems/path-walking.txt for more details.
+ 	 */
+ 	hlist_bl_for_each_entry_rcu(dentry, node, b, d_hash) {
+ 		unsigned seq;
+@@ -2362,7 +2362,7 @@ struct dentry *__d_lookup(const struct dentry *parent, const struct qstr *name)
+ 	 * false-negative result. d_lookup() protects against concurrent
+ 	 * renames using rename_lock seqlock.
+ 	 *
+-	 * See Documentation/filesystems/path-lookup.txt for more details.
++	 * See Documentation/filesystems/path-walking.txt for more details.
+ 	 */
+ 	rcu_read_lock();
+ 	
+diff --git a/fs/namei.c b/fs/namei.c
+index a320371899cf..d1b53fea83d8 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -645,7 +645,7 @@ static bool legitimize_root(struct nameidata *nd)
  
-diff --git a/Documentation/filesystems/quota.txt b/Documentation/filesystems/quota.rst
-similarity index 81%
-rename from Documentation/filesystems/quota.txt
-rename to Documentation/filesystems/quota.rst
-index 32874b06ebe9..a30cdd47c652 100644
---- a/Documentation/filesystems/quota.txt
-+++ b/Documentation/filesystems/quota.rst
-@@ -1,4 +1,6 @@
-+.. SPDX-License-Identifier: GPL-2.0
- 
-+===============
- Quota subsystem
- ===============
- 
-@@ -39,6 +41,7 @@ Currently, the interface supports only one message type QUOTA_NL_C_WARNING.
- This command is used to send a notification about any of the above mentioned
- events. Each message has six attributes. These are (type of the argument is
- in parentheses):
-+
-         QUOTA_NL_A_QTYPE (u32)
- 	  - type of quota being exceeded (one of USRQUOTA, GRPQUOTA)
-         QUOTA_NL_A_EXCESS_ID (u64)
-@@ -48,20 +51,34 @@ in parentheses):
- 	  - UID of a user who caused the event
-         QUOTA_NL_A_WARNING (u32)
- 	  - what kind of limit is exceeded:
--		QUOTA_NL_IHARDWARN - inode hardlimit
--		QUOTA_NL_ISOFTLONGWARN - inode softlimit is exceeded longer
--		  than given grace period
--		QUOTA_NL_ISOFTWARN - inode softlimit
--		QUOTA_NL_BHARDWARN - space (block) hardlimit
--		QUOTA_NL_BSOFTLONGWARN - space (block) softlimit is exceeded
--		  longer than given grace period.
--		QUOTA_NL_BSOFTWARN - space (block) softlimit
-+
-+		QUOTA_NL_IHARDWARN
-+		    inode hardlimit
-+		QUOTA_NL_ISOFTLONGWARN
-+		    inode softlimit is exceeded longer
-+		    than given grace period
-+		QUOTA_NL_ISOFTWARN
-+		    inode softlimit
-+		QUOTA_NL_BHARDWARN
-+		    space (block) hardlimit
-+		QUOTA_NL_BSOFTLONGWARN
-+		    space (block) softlimit is exceeded
-+		    longer than given grace period.
-+		QUOTA_NL_BSOFTWARN
-+		    space (block) softlimit
-+
- 	  - four warnings are also defined for the event when user stops
- 	    exceeding some limit:
--		QUOTA_NL_IHARDBELOW - inode hardlimit
--		QUOTA_NL_ISOFTBELOW - inode softlimit
--		QUOTA_NL_BHARDBELOW - space (block) hardlimit
--		QUOTA_NL_BSOFTBELOW - space (block) softlimit
-+
-+		QUOTA_NL_IHARDBELOW
-+		    inode hardlimit
-+		QUOTA_NL_ISOFTBELOW
-+		    inode softlimit
-+		QUOTA_NL_BHARDBELOW
-+		    space (block) hardlimit
-+		QUOTA_NL_BSOFTBELOW
-+		    space (block) softlimit
-+
-         QUOTA_NL_A_DEV_MAJOR (u32)
- 	  - major number of a device with the affected filesystem
-         QUOTA_NL_A_DEV_MINOR (u32)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 470389ef0135..519f5d84adca 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5009,7 +5009,7 @@ W:	http://www.win.tue.nl/~aeb/partitions/partition_types-1.html
- DISKQUOTA
- M:	Jan Kara <jack@suse.com>
- S:	Maintained
--F:	Documentation/filesystems/quota.txt
-+F:	Documentation/filesystems/quota.rst
- F:	fs/quota/
- F:	include/linux/quota*.h
- F:	include/uapi/linux/quota*.h
+ /*
+  * Path walking has 2 modes, rcu-walk and ref-walk (see
+- * Documentation/filesystems/path-lookup.txt).  In situations when we can't
++ * Documentation/filesystems/path-walking.txt).  In situations when we can't
+  * continue in RCU mode, we attempt to drop out of rcu-walk mode and grab
+  * normal reference counts on dentries and vfsmounts to transition to ref-walk
+  * mode.  Refcounts are grabbed at the last known good point before rcu-walk
 -- 
 2.25.2
 
