@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 216C4C2BB55
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:33:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7046C2BA19
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:33:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD6C02137B
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:33:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76A55208E4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:33:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586961180;
-	bh=keC3oeMrcSnH2waKHArc3YabYgrn90H59L0DAFUCsIY=;
+	s=default; t=1586961200;
+	bh=9Zz8M1MIjA+5RpaQ9/sXfDtVatFa96x0ZrFlhcdAIqY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=brCb07PdrFbJxpzSU2F1VXuHfKOp+o1cXSu2yjwbd4Q1fq3lENX2BqrqsjUY6N5ar
-	 Mcfgxz+GcW7yck48WCJSs0daPyMQ6zyPBYuW6w35OAaHB7un96KBe0XB0x6oyVnIVR
-	 0WkY/Bys+BuH++H2U20uPdCbXI/fQdkVafAAEny0=
+	b=v29ZwwD//VCZTkFLQ5BhuxOMwlqWPh8ppCFL0+ryhe/niBf66t6LAKPhLLFs0mXK+
+	 PeJJJch54k5AU0UYi34+jjrgc+7PGKVGZLNR5ZfQml6QJH80FK7KHBw3v6KCCtEl44
+	 aQZPn5m3oCToTB7zYOMm4uJsZGJzEl8IyKJ9OD9o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394043AbgDOOc5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 10:32:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44666 "EHLO mail.kernel.org"
+        id S2394092AbgDOOdE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:33:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45458 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394035AbgDOOcw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Apr 2020 10:32:52 -0400
+        id S2394041AbgDOOc5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Apr 2020 10:32:57 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E18DA21556;
-        Wed, 15 Apr 2020 14:32:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4DAA5218AC;
+        Wed, 15 Apr 2020 14:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586961171;
-        bh=keC3oeMrcSnH2waKHArc3YabYgrn90H59L0DAFUCsIY=;
+        bh=9Zz8M1MIjA+5RpaQ9/sXfDtVatFa96x0ZrFlhcdAIqY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LVbZ0I0S6b08mK3fFP8UhvrofpuMP8EtI6gh515livaswy0xYYaRtOZorAgmgmbxS
-         vGBDfH1Ilxg0BrnYT3sflatTWgzXBR7CvmHDCq3qlwbhn9Outy4K0jM37WPhOy+hrQ
-         Fb5DswJTk7rw/DiWt26Pr40+UTG7PZP+pAl/1m00=
+        b=n8GxPM/VdYSVfl0DhxdavS/FmgjV8ZH8ovWSuDiKUV1b23WKzeB2gt2vgEcj3cBXt
+         oRGAaordgJlamgmxDg4TL+AtaxPyMk6lmoBnMz+wuNI/v1NaFfwXAYd54P0hSdfYaV
+         S5p4yDRVOp/lWvzW+ONjJCjBtLcYbW7+Z5cwiHUc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOj5t-006kOK-7O; Wed, 15 Apr 2020 16:32:49 +0200
+        id 1jOj5t-006kP3-JQ; Wed, 15 Apr 2020 16:32:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 08/34] docs: filesystems: convert cifs/cifsroot.rst to ReST
-Date:   Wed, 15 Apr 2020 16:32:21 +0200
-Message-Id: <74bf0300a2a3dd2d5f005a85099acb3138a8895c.1586960617.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 17/34] docs: filesystems: convert fuse-io.txt to ReST
+Date:   Wed, 15 Apr 2020 16:32:30 +0200
+Message-Id: <b266b01b333e2e9fda16ba5b4ae63284966032c6.1586960617.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586960617.git.mchehab+huawei@kernel.org>
 References: <cover.1586960617.git.mchehab+huawei@kernel.org>
@@ -59,132 +59,45 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
-- Adjust document title;
-- Some whitespace fixes and new line breaks;
-- Mark literal blocks as such;
+- Add a document title;
 - Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../cifs/{cifsroot.txt => cifsroot.rst}       | 56 +++++++++++--------
- Documentation/filesystems/index.rst           |  1 +
- 2 files changed, 33 insertions(+), 24 deletions(-)
- rename Documentation/filesystems/cifs/{cifsroot.txt => cifsroot.rst} (72%)
+ Documentation/filesystems/{fuse-io.txt => fuse-io.rst} | 6 ++++++
+ Documentation/filesystems/index.rst                    | 1 +
+ 2 files changed, 7 insertions(+)
+ rename Documentation/filesystems/{fuse-io.txt => fuse-io.rst} (95%)
 
-diff --git a/Documentation/filesystems/cifs/cifsroot.txt b/Documentation/filesystems/cifs/cifsroot.rst
-similarity index 72%
-rename from Documentation/filesystems/cifs/cifsroot.txt
-rename to Documentation/filesystems/cifs/cifsroot.rst
-index 947b7ec6ce9e..4930bb443134 100644
---- a/Documentation/filesystems/cifs/cifsroot.txt
-+++ b/Documentation/filesystems/cifs/cifsroot.rst
-@@ -1,7 +1,11 @@
+diff --git a/Documentation/filesystems/fuse-io.txt b/Documentation/filesystems/fuse-io.rst
+similarity index 95%
+rename from Documentation/filesystems/fuse-io.txt
+rename to Documentation/filesystems/fuse-io.rst
+index 07b8f73f100f..255a368fe534 100644
+--- a/Documentation/filesystems/fuse-io.txt
++++ b/Documentation/filesystems/fuse-io.rst
+@@ -1,3 +1,9 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===========================================
- Mounting root file system via SMB (cifs.ko)
- ===========================================
- 
- Written 2019 by Paulo Alcantara <palcantara@suse.de>
++==============
++Fuse I/O Modes
++==============
 +
- Written 2019 by Aurelien Aptel <aaptel@suse.com>
+ Fuse supports the following I/O modes:
  
- The CONFIG_CIFS_ROOT option enables experimental root file system
-@@ -32,7 +36,7 @@ Server configuration
- ====================
- 
- To enable SMB1+UNIX extensions you will need to set these global
--settings in Samba smb.conf:
-+settings in Samba smb.conf::
- 
-     [global]
-     server min protocol = NT1
-@@ -41,12 +45,16 @@ settings in Samba smb.conf:
- Kernel command line
- ===================
- 
--root=/dev/cifs
-+::
-+
-+    root=/dev/cifs
- 
- This is just a virtual device that basically tells the kernel to mount
- the root file system via SMB protocol.
- 
--cifsroot=//<server-ip>/<share>[,options]
-+::
-+
-+    cifsroot=//<server-ip>/<share>[,options]
- 
- Enables the kernel to mount the root file system via SMB that are
- located in the <server-ip> and <share> specified in this option.
-@@ -65,33 +73,33 @@ options
- Examples
- ========
- 
--Export root file system as a Samba share in smb.conf file.
-+Export root file system as a Samba share in smb.conf file::
- 
--...
--[linux]
--	path = /path/to/rootfs
--	read only = no
--	guest ok = yes
--	force user = root
--	force group = root
--	browseable = yes
--	writeable = yes
--	admin users = root
--	public = yes
--	create mask = 0777
--	directory mask = 0777
--...
-+    ...
-+    [linux]
-+	    path = /path/to/rootfs
-+	    read only = no
-+	    guest ok = yes
-+	    force user = root
-+	    force group = root
-+	    browseable = yes
-+	    writeable = yes
-+	    admin users = root
-+	    public = yes
-+	    create mask = 0777
-+	    directory mask = 0777
-+    ...
- 
--Restart smb service.
-+Restart smb service::
- 
--# systemctl restart smb
-+    # systemctl restart smb
- 
- Test it under QEMU on a kernel built with CONFIG_CIFS_ROOT and
--CONFIG_IP_PNP options enabled.
-+CONFIG_IP_PNP options enabled::
- 
--# qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
--  -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
--  -append "root=/dev/cifs rw ip=dhcp cifsroot=//10.0.2.2/linux,username=foo,password=bar console=ttyS0 3"
-+    # qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
-+    -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
-+    -append "root=/dev/cifs rw ip=dhcp cifsroot=//10.0.2.2/linux,username=foo,password=bar console=ttyS0 3"
- 
- 
- 1: https://wiki.samba.org/index.php/UNIX_Extensions
+ - direct-io
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 773af390c5e5..d993b33a48c4 100644
+index c947df7b2a47..300e12569f54 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -59,6 +59,7 @@ Documentation for filesystem implementations.
-    befs
-    bfs
-    btrfs
-+   cifs/cifsroot
-    ceph
-    cramfs
-    debugfs
+@@ -85,6 +85,7 @@ Documentation for filesystem implementations.
+    hfsplus
+    hpfs
+    fuse
++   fuse-io
+    inotify
+    isofs
+    nilfs2
 -- 
 2.25.2
 
