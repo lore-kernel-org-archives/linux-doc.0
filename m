@@ -7,49 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81207C2BA19
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D407C2BB55
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AF152076D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26ABD208E4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586961522;
-	bh=23W1yG2qd23ktTEijZVV4o1Pn9RiSi+sd+ontuQcaUo=;
+	s=default; t=1586961530;
+	bh=tnnJpVmnbVuJ6k+jQRIZ9yUNqaXuvO9AT5XcHy6DOVg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=eYs11NJXfb8J+KUnSnnkrD2NIU+wR/iSC/SVfM+i8X2JkYi/g1qlpilWoZ93FL9VN
-	 Siqnc1nd1JqRK+MzvFWA2bZJj0UpZsv2Fl/ZiIrV+4FziLH4DNR+aqEGHF8YMHQXXZ
-	 gLk5eT9PKWvIfpDw8hbBE/FzYsK2N9q6JNoTSLBE=
+	b=RHSpq/uec5d50DDBkB+uz6dDz5GKhpgakD/q6GFWg5iGqJ5eUnfi0YL9cokvWqSBk
+	 i/6B2HJ/5e5yy7pTfSo/jsjJiLkd6fwqfXf8ytFRkRhUl7OsAN6PlxSEot23Yz3QRs
+	 4jmm/CrezorWVh9k0Q8NPoipeWedNwIZOX4fmiu4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2636680AbgDOOib (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 10:38:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45448 "EHLO mail.kernel.org"
+        id S2394075AbgDOOdB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:33:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44650 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394081AbgDOOdD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Apr 2020 10:33:03 -0400
+        id S2394034AbgDOOcw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Apr 2020 10:32:52 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 989B821D7F;
-        Wed, 15 Apr 2020 14:32:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C759E2137B;
+        Wed, 15 Apr 2020 14:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586961171;
-        bh=23W1yG2qd23ktTEijZVV4o1Pn9RiSi+sd+ontuQcaUo=;
+        bh=tnnJpVmnbVuJ6k+jQRIZ9yUNqaXuvO9AT5XcHy6DOVg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=d/6Ky7ulpaMQzAvg6L1uWqpqwxH1ebX+25NRicM8wfSkZivdFaRd3rqI4zkp7pxtN
-         eUUGumB8pAiNPQoY9tOGNR+gaL41mvffwk3TH4RiGaRce/zuapmqpGag+vQmmAcG/Z
-         dONKFtid4G8rVbhAe5CGmG6IBZsqeVlNjttMakXc=
+        b=UFfFcxcUtSqL8VLIaHeiLYto6vE/cKHVPRQgcqCO7Ah8QHCu+XcJMXpRJN85Fe57g
+         WsfN5oGdA0lLFpROxGyNGJ44Ux+MCFMhOajE2Zu8QOj9s5hcaCv8HXEkJSdhtNAm0g
+         +66PK3O6L8NBuyKiQbxRSe+CIezMcUuFX79mdsl0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOj5t-006kPR-QP; Wed, 15 Apr 2020 16:32:49 +0200
+        id 1jOj5t-006kO4-2g; Wed, 15 Apr 2020 16:32:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH 22/34] docs: filesystems: rename path-lookup.txt file
-Date:   Wed, 15 Apr 2020 16:32:35 +0200
-Message-Id: <ddee231f968fcf8a9558ff39f251fdd7b2357ff2.1586960617.git.mchehab+huawei@kernel.org>
+        David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com
+Subject: [PATCH 05/34] docs: filesystems: caching/operations.txt: convert it to ReST
+Date:   Wed, 15 Apr 2020 16:32:18 +0200
+Message-Id: <c3c380b7b33ae2a3f7194c27421da18eba22c9bb.1586960617.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586960617.git.mchehab+huawei@kernel.org>
 References: <cover.1586960617.git.mchehab+huawei@kernel.org>
@@ -60,83 +59,195 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are two files called "patch-lookup", with different contents:
-one is a ReST file, the other one is the text.
-
-As we'll be finishing the conversion of filesystem documents,
-let's fist rename the text one, in order to avoid messing with
-the existing ReST file.
+- Add a SPDX header;
+- Adjust document and section titles;
+- Comment out text ToC for html/pdf output;
+- Mark literal blocks as such;
+- Add it to filesystems/caching/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../filesystems/{path-lookup.txt => path-walking.txt}       | 0
- Documentation/filesystems/porting.rst                       | 2 +-
- fs/dcache.c                                                 | 6 +++---
- fs/namei.c                                                  | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
- rename Documentation/filesystems/{path-lookup.txt => path-walking.txt} (100%)
+ Documentation/filesystems/caching/index.rst   |  1 +
+ .../{operations.txt => operations.rst}        | 45 +++++++++----------
+ fs/fscache/operation.c                        |  2 +-
+ 3 files changed, 23 insertions(+), 25 deletions(-)
+ rename Documentation/filesystems/caching/{operations.txt => operations.rst} (90%)
 
-diff --git a/Documentation/filesystems/path-lookup.txt b/Documentation/filesystems/path-walking.txt
-similarity index 100%
-rename from Documentation/filesystems/path-lookup.txt
-rename to Documentation/filesystems/path-walking.txt
-diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-index 26c093969573..8f7d25acf326 100644
---- a/Documentation/filesystems/porting.rst
-+++ b/Documentation/filesystems/porting.rst
-@@ -404,7 +404,7 @@ the callback.  It used to be necessary to clean it there, but not anymore
+diff --git a/Documentation/filesystems/caching/index.rst b/Documentation/filesystems/caching/index.rst
+index d0651db450fb..75492b7c8ea0 100644
+--- a/Documentation/filesystems/caching/index.rst
++++ b/Documentation/filesystems/caching/index.rst
+@@ -9,3 +9,4 @@ Filesystem Caching
+    fscache
+    object
+    netfs-api
++   operations
+diff --git a/Documentation/filesystems/caching/operations.txt b/Documentation/filesystems/caching/operations.rst
+similarity index 90%
+rename from Documentation/filesystems/caching/operations.txt
+rename to Documentation/filesystems/caching/operations.rst
+index d8976c434718..f7ddcc028939 100644
+--- a/Documentation/filesystems/caching/operations.txt
++++ b/Documentation/filesystems/caching/operations.rst
+@@ -1,10 +1,12 @@
+-		       ================================
+-		       ASYNCHRONOUS OPERATIONS HANDLING
+-		       ================================
++.. SPDX-License-Identifier: GPL-2.0
++
++================================
++Asynchronous Operations Handling
++================================
  
- vfs now tries to do path walking in "rcu-walk mode", which avoids
- atomic operations and scalability hazards on dentries and inodes (see
--Documentation/filesystems/path-lookup.txt). d_hash and d_compare changes
-+Documentation/filesystems/path-walking.txt). d_hash and d_compare changes
- (above) are examples of the changes required to support this. For more complex
- filesystem callbacks, the vfs drops out of rcu-walk mode before the fs call, so
- no changes are required to the filesystem. However, this is costly and loses
-diff --git a/fs/dcache.c b/fs/dcache.c
-index b280e07e162b..cf8d5893bd0e 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -2191,7 +2191,7 @@ static inline bool d_same_name(const struct dentry *dentry,
-  *
-  * __d_lookup_rcu is the dcache lookup function for rcu-walk name
-  * resolution (store-free path walking) design described in
-- * Documentation/filesystems/path-lookup.txt.
-+ * Documentation/filesystems/path-walking.txt.
-  *
-  * This is not to be used outside core vfs.
-  *
-@@ -2239,7 +2239,7 @@ struct dentry *__d_lookup_rcu(const struct dentry *parent,
- 	 * false-negative result. d_lookup() protects against concurrent
- 	 * renames using rename_lock seqlock.
- 	 *
--	 * See Documentation/filesystems/path-lookup.txt for more details.
-+	 * See Documentation/filesystems/path-walking.txt for more details.
- 	 */
- 	hlist_bl_for_each_entry_rcu(dentry, node, b, d_hash) {
- 		unsigned seq;
-@@ -2362,7 +2362,7 @@ struct dentry *__d_lookup(const struct dentry *parent, const struct qstr *name)
- 	 * false-negative result. d_lookup() protects against concurrent
- 	 * renames using rename_lock seqlock.
- 	 *
--	 * See Documentation/filesystems/path-lookup.txt for more details.
-+	 * See Documentation/filesystems/path-walking.txt for more details.
- 	 */
- 	rcu_read_lock();
- 	
-diff --git a/fs/namei.c b/fs/namei.c
-index a320371899cf..d1b53fea83d8 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -645,7 +645,7 @@ static bool legitimize_root(struct nameidata *nd)
+ By: David Howells <dhowells@redhat.com>
  
- /*
-  * Path walking has 2 modes, rcu-walk and ref-walk (see
-- * Documentation/filesystems/path-lookup.txt).  In situations when we can't
-+ * Documentation/filesystems/path-walking.txt).  In situations when we can't
-  * continue in RCU mode, we attempt to drop out of rcu-walk mode and grab
-  * normal reference counts on dentries and vfsmounts to transition to ref-walk
-  * mode.  Refcounts are grabbed at the last known good point before rcu-walk
+-Contents:
++.. Contents:
+ 
+  (*) Overview.
+ 
+@@ -17,8 +19,7 @@ Contents:
+  (*) Asynchronous callback.
+ 
+ 
+-========
+-OVERVIEW
++Overview
+ ========
+ 
+ FS-Cache has an asynchronous operations handling facility that it uses for its
+@@ -33,11 +34,10 @@ backend for completion.
+ To make use of this facility, <linux/fscache-cache.h> should be #included.
+ 
+ 
+-===============================
+-OPERATION RECORD INITIALISATION
++Operation Record Initialisation
+ ===============================
+ 
+-An operation is recorded in an fscache_operation struct:
++An operation is recorded in an fscache_operation struct::
+ 
+ 	struct fscache_operation {
+ 		union {
+@@ -50,7 +50,7 @@ An operation is recorded in an fscache_operation struct:
+ 	};
+ 
+ Someone wanting to issue an operation should allocate something with this
+-struct embedded in it.  They should initialise it by calling:
++struct embedded in it.  They should initialise it by calling::
+ 
+ 	void fscache_operation_init(struct fscache_operation *op,
+ 				    fscache_operation_release_t release);
+@@ -67,8 +67,7 @@ FSCACHE_OP_WAITING may be set in op->flags prior to each submission of the
+ operation and waited for afterwards.
+ 
+ 
+-==========
+-PARAMETERS
++Parameters
+ ==========
+ 
+ There are a number of parameters that can be set in the operation record's flag
+@@ -87,7 +86,7 @@ operations:
+ 
+      If this option is to be used, FSCACHE_OP_WAITING must be set in op->flags
+      before submitting the operation, and the operating thread must wait for it
+-     to be cleared before proceeding:
++     to be cleared before proceeding::
+ 
+ 		wait_on_bit(&op->flags, FSCACHE_OP_WAITING,
+ 			    TASK_UNINTERRUPTIBLE);
+@@ -101,7 +100,7 @@ operations:
+      page to a netfs page after the backing fs has read the page in.
+ 
+      If this option is used, op->fast_work and op->processor must be
+-     initialised before submitting the operation:
++     initialised before submitting the operation::
+ 
+ 		INIT_WORK(&op->fast_work, do_some_work);
+ 
+@@ -114,7 +113,7 @@ operations:
+      pages that have just been fetched from a remote server.
+ 
+      If this option is used, op->slow_work and op->processor must be
+-     initialised before submitting the operation:
++     initialised before submitting the operation::
+ 
+ 		fscache_operation_init_slow(op, processor)
+ 
+@@ -132,8 +131,7 @@ Furthermore, operations may be one of two types:
+      operations running at the same time.
+ 
+ 
+-=========
+-PROCEDURE
++Procedure
+ =========
+ 
+ Operations are used through the following procedure:
+@@ -143,7 +141,7 @@ Operations are used through the following procedure:
+      generic op embedded within.
+ 
+  (2) The submitting thread must then submit the operation for processing using
+-     one of the following two functions:
++     one of the following two functions::
+ 
+ 	int fscache_submit_op(struct fscache_object *object,
+ 			      struct fscache_operation *op);
+@@ -164,7 +162,7 @@ Operations are used through the following procedure:
+      operation of conflicting exclusivity is in progress on the object.
+ 
+      If the operation is asynchronous, the manager will retain a reference to
+-     it, so the caller should put their reference to it by passing it to:
++     it, so the caller should put their reference to it by passing it to::
+ 
+ 	void fscache_put_operation(struct fscache_operation *op);
+ 
+@@ -179,12 +177,12 @@ Operations are used through the following procedure:
+  (4) The operation holds an effective lock upon the object, preventing other
+      exclusive ops conflicting until it is released.  The operation can be
+      enqueued for further immediate asynchronous processing by adjusting the
+-     CPU time provisioning option if necessary, eg:
++     CPU time provisioning option if necessary, eg::
+ 
+ 	op->flags &= ~FSCACHE_OP_TYPE;
+ 	op->flags |= ~FSCACHE_OP_FAST;
+ 
+-     and calling:
++     and calling::
+ 
+ 	void fscache_enqueue_operation(struct fscache_operation *op)
+ 
+@@ -192,13 +190,12 @@ Operations are used through the following procedure:
+      pools.
+ 
+ 
+-=====================
+-ASYNCHRONOUS CALLBACK
++Asynchronous Callback
+ =====================
+ 
+ When used in asynchronous mode, the worker thread pool will invoke the
+ processor method with a pointer to the operation.  This should then get at the
+-container struct by using container_of():
++container struct by using container_of()::
+ 
+ 	static void fscache_write_op(struct fscache_operation *_op)
+ 	{
+diff --git a/fs/fscache/operation.c b/fs/fscache/operation.c
+index 1a22a55f75a0..4a5651d4904e 100644
+--- a/fs/fscache/operation.c
++++ b/fs/fscache/operation.c
+@@ -4,7 +4,7 @@
+  * Copyright (C) 2008 Red Hat, Inc. All Rights Reserved.
+  * Written by David Howells (dhowells@redhat.com)
+  *
+- * See Documentation/filesystems/caching/operations.txt
++ * See Documentation/filesystems/caching/operations.rst
+  */
+ 
+ #define FSCACHE_DEBUG_LEVEL OPERATION
 -- 
 2.25.2
 
