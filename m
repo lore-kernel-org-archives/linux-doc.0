@@ -2,287 +2,343 @@ Return-Path: <SRS0=AYPK=57=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93025C2BA19
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 07:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDCEC2BA19
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 07:46:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BD4320771
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 07:43:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IkfxvNbu"
+	by mail.kernel.org (Postfix) with ESMTP id D089020768
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 07:46:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2635243AbgDOHn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 03:43:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56765 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2635175AbgDOHnU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Apr 2020 03:43:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586936599;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=1OHfgn9pPaDAsC+K8et0tvkSEtEL5Qfqe8kjye9uA/o=;
-        b=IkfxvNbulS1k86F0O3saMwtUsHr+nbaasCbWs4evk2Ms4caJbhgEJ0p4N8jnYtGWlx7HGC
-        d6QHg0r/0TRW2s+cF0Xy10lS+9/tpJCAHLsyG4UQpjprXZN5P2NwJ9Ujfo8svoC/Zlfyqu
-        dHN1e/906+GRQF84NIz3AbbTYH8XXp8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-XK4FppVTPWSD-eyzXPObBg-1; Wed, 15 Apr 2020 03:43:17 -0400
-X-MC-Unique: XK4FppVTPWSD-eyzXPObBg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D3DD8017F5;
-        Wed, 15 Apr 2020 07:43:14 +0000 (UTC)
-Received: from sturgeon (unknown [10.40.192.200])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A0F761000337;
-        Wed, 15 Apr 2020 07:43:00 +0000 (UTC)
-Date:   Wed, 15 Apr 2020 09:42:58 +0200
-From:   Erik Skultety <eskultet@redhat.com>
-To:     Yan Zhao <yan.y.zhao@intel.com>
-Cc:     intel-gvt-dev@lists.freedesktop.org, cjia@nvidia.com,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        libvir-list@redhat.com, Zhengxiao.zx@alibaba-inc.com,
-        shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org,
-        kwankhede@nvidia.com, eauger@redhat.com, corbet@lwn.net,
-        yi.l.liu@intel.com, ziye.yang@intel.com, mlevitsk@redhat.com,
-        pasic@linux.ibm.com, aik@ozlabs.ru, felipe@nutanix.com,
-        Ken.Xue@amd.com, kevin.tian@intel.com, xin.zeng@intel.com,
-        dgilbert@redhat.com, zhenyuw@linux.intel.com, dinechin@redhat.com,
-        changpeng.liu@intel.com, cohuck@redhat.com,
-        linux-kernel@vger.kernel.org, zhi.a.wang@intel.com,
-        jonathan.davies@nutanix.com, shaopeng.he@intel.com
-Subject: Re: [PATCH v5 3/4] vfio/mdev: add migration_version attribute for
- mdev (under mdev device node)
-Message-ID: <20200415074258.GK269314@sturgeon>
-References: <20200413055201.27053-1-yan.y.zhao@intel.com>
- <20200413055504.27311-1-yan.y.zhao@intel.com>
+        id S2635300AbgDOHqO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 03:46:14 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41982 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2635297AbgDOHqH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Apr 2020 03:46:07 -0400
+Received: by mail-wr1-f67.google.com with SMTP id h9so17883040wrc.8;
+        Wed, 15 Apr 2020 00:46:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=70RoicXZ/eY1XFEiBVyjiV4GvnURO5ZqIfVmQBlofXE=;
+        b=VrUTJ/g3PUbloG+UeHuWDUdZXuWB3CGHbaj160UCGvB2zzJSG8UOKezzNAVVZIwQdT
+         lkL8s2G3KS8e32mIGan11jzAA0pXF+wGxzpHblpTyr+U48M3/w+ZXSZrC8t97uL3FXGJ
+         h9HG5JcE8NCGpKj0KaptiT8jXKq5NKf7jD/6UTYPlbY6BL7TmtkLv/qckNdUef44u0Cv
+         aLDEI45YCOpcR/5bH0a4VTVyr1ZnhxDCIFHc4eZOkq9JBasXsb/wIJfysmE2HaqHqxAs
+         8GnWu7w+3iW3NT3jH/TepfrFsCvoB0zpoUaWpGLyAY2y7kTre2mdxQ3mLSZfiME0svII
+         FPAA==
+X-Gm-Message-State: AGi0PuYUliTq6r0/tTu5DONhNgMyg7vuqh/ABbg6Qa+Fb5RH5J9CzZ8K
+        TIC9vuFQVk+jVD82pMbhTLM=
+X-Google-Smtp-Source: APiQypL9OHD8HGM5jysFKhcrci72ZSDDzy43/jEhV0zLTIDErn8i6b3rr5GYG8JaOr12aixx2Zt69w==
+X-Received: by 2002:adf:a406:: with SMTP id d6mr27060342wra.79.1586936763378;
+        Wed, 15 Apr 2020 00:46:03 -0700 (PDT)
+Received: from darkstar ([51.154.17.58])
+        by smtp.gmail.com with ESMTPSA id y7sm23001625wmb.43.2020.04.15.00.46.01
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 15 Apr 2020 00:46:02 -0700 (PDT)
+Date:   Wed, 15 Apr 2020 09:46:00 +0200
+From:   Patrick Bellasi <patrick.bellasi@matbug.net>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200415074600.GA26984@darkstar>
+References: <20200403123020.13897-1-qais.yousef@arm.com>
+ <20200414182152.GB20442@darkstar>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200413055504.27311-1-yan.y.zhao@intel.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200414182152.GB20442@darkstar>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 13, 2020 at 01:55:04AM -0400, Yan Zhao wrote:
-> migration_version attribute is used to check migration compatibility
-> between two mdev devices of the same mdev type.
-> The key is that it's rw and its data is opaque to userspace.
->
-> Userspace reads migration_version of mdev device at source side and
-> writes the value to migration_version attribute of mdev device at targe=
-t
-> side. It judges migration compatibility according to whether the read
-> and write operations succeed or fail.
->
-> Currently, it is able to read/write migration_version attribute under t=
-wo
-> places:
->
-> (1) under mdev_type node
-> userspace is able to know whether two mdev devices are compatible befor=
-e
-> a mdev device is created.
->
-> userspace also needs to check whether the two mdev devices are of the s=
-ame
-> mdev type before checking the migration_version attribute. It also need=
-s
-> to check device creation parameters if aggregation is supported in futu=
-re.
->
-> (2) under mdev device node
-> userspace is able to know whether two mdev devices are compatible after
-> they are all created. But it does not need to check mdev type and devic=
-e
-> creation parameter for aggregation as device vendor driver would have
-> incorporated those information into the migration_version attribute.
->
->              __    userspace
->               /\              \
->              /                 \write
->             / read              \
->    ________/__________       ___\|/_____________
->   | migration_version |     | migration_version |-->check migration
->   ---------------------     ---------------------   compatibility
->     mdev device A               mdev device B
->
-> This patch is for mdev documentation about the second place (under
-> mdev device node)
->
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Erik Skultety <eskultet@redhat.com>
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: "Tian, Kevin" <kevin.tian@intel.com>
-> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> Cc: "Wang, Zhi A" <zhi.a.wang@intel.com>
-> Cc: Neo Jia <cjia@nvidia.com>
-> Cc: Kirti Wankhede <kwankhede@nvidia.com>
-> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Cc: Christophe de Dinechin <dinechin@redhat.com>
->
-> Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-> ---
->  .../driver-api/vfio-mediated-device.rst       | 70 +++++++++++++++++++
->  1 file changed, 70 insertions(+)
->
-> diff --git a/Documentation/driver-api/vfio-mediated-device.rst b/Docume=
-ntation/driver-api/vfio-mediated-device.rst
-> index 2d1f3c0f3c8f..efbadfd51b7e 100644
-> --- a/Documentation/driver-api/vfio-mediated-device.rst
-> +++ b/Documentation/driver-api/vfio-mediated-device.rst
-> @@ -383,6 +383,7 @@ Directories and Files Under the sysfs for Each mdev=
- Device
->           |--- remove
->           |--- mdev_type {link to its type}
->           |--- vendor-specific-attributes [optional]
-> +         |--- migration_verion [optional]
->
->  * remove (write only)
->
-> @@ -394,6 +395,75 @@ Example::
->
->  	# echo 1 > /sys/bus/mdev/devices/$mdev_UUID/remove
->
-> +* migration_version (rw, optional)
+On 14-Apr 20:21, Patrick Bellasi wrote:
+> Hi Qais!
 
-Hmm, ^this is not consistent with how patch 1/5 reports this information,=
- but
-looking at the existing docs we're not doing very well in terms of consis=
-tency
-there either.
+Hello againa!
 
-I suggest we go with "(read-write)" in both patch 1/5 and here and then s=
-tart
-the paragraph with "This is an optional attribute."
+> On 03-Apr 13:30, Qais Yousef wrote:
+> 
+> [...]
+> 
+> > diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+> > index d4f6215ee03f..91204480fabc 100644
+> > --- a/include/linux/sched/sysctl.h
+> > +++ b/include/linux/sched/sysctl.h
+> > @@ -59,6 +59,7 @@ extern int sysctl_sched_rt_runtime;
+> >  #ifdef CONFIG_UCLAMP_TASK
+> >  extern unsigned int sysctl_sched_uclamp_util_min;
+> >  extern unsigned int sysctl_sched_uclamp_util_max;
+> > +extern unsigned int sysctl_sched_rt_default_uclamp_util_min;
+> 
+> nit-pick: I would prefer to keep the same prefix of the already
+> exising knobs, i.e. sysctl_sched_uclamp_util_min_rt
+> 
+> The same change for consistency should be applied to all the following
+> symbols related to "uclamp_util_min_rt".
+> 
+> NOTE: I would not use "default" as I think that what we are doing is
+> exactly force setting a user_defined value for all RT tasks. More on
+> that later...
 
-> +  It is used to check migration compatibility between two mdev devices=
-.
-> +  Absence of this attribute means the mdev device does not support mig=
-ration.
-> +
-> +  This attribute provides a way to check migration compatibility betwe=
-en two
-> +  mdev devices from userspace after device created. The intended usage=
- is
+Had a second tought on that...
 
-after the target device has been created.
+> 
+> >  #endif
+> >  
+> >  #ifdef CONFIG_CFS_BANDWIDTH
+> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> > index 1a9983da4408..a726b26a5056 100644
+> > --- a/kernel/sched/core.c
+> > +++ b/kernel/sched/core.c
+> > @@ -797,6 +797,27 @@ unsigned int sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
+> >  /* Max allowed maximum utilization */
+> >  unsigned int sysctl_sched_uclamp_util_max = SCHED_CAPACITY_SCALE;
+> >  
+> > +/*
+> > + * By default RT tasks run at the maximum performance point/capacity of the
+> > + * system. Uclamp enforces this by always setting UCLAMP_MIN of RT tasks to
+> > + * SCHED_CAPACITY_SCALE.
+> > + *
+> > + * This knob allows admins to change the default behavior when uclamp is being
+> > + * used. In battery powered devices, particularly, running at the maximum
+> > + * capacity and frequency will increase energy consumption and shorten the
+> > + * battery life.
+> > + *
+> > + * This knob only affects the default value RT has when a new RT task is
+> > + * forked or has just changed policy to RT, given the user hasn't modified the
+> > + * uclamp.min value of the task via sched_setattr().
+> > + *
+> > + * This knob will not override the system default sched_util_clamp_min defined
+> > + * above.
+> > + *
+> > + * Any modification is applied lazily on the next RT task wakeup.
+> > + */
+> > +unsigned int sysctl_sched_rt_default_uclamp_util_min = SCHED_CAPACITY_SCALE;
+> > +
+> >  /* All clamps are required to be less or equal than these values */
+> >  static struct uclamp_se uclamp_default[UCLAMP_CNT];
+> >  
+> > @@ -924,6 +945,14 @@ uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
+> >  	return uc_req;
+> >  }
+> >  
+> > +static void uclamp_rt_sync_default_util_min(struct task_struct *p)
+> > +{
+> > +	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> 
+> Don't we have to filter for RT tasks only here?
 
-side note: maybe add something like "(see the migration_version attribute=
- of
-the device node if the target device already exists)" in the same section=
- in
-patch 1/5.
+I think this is still a valid point.
 
-> +  for userspace to read the migration_version attribute from one mdev =
-device and
-> +  then writing that value to the migration_version attribute of the ot=
-her mdev
-> +  device. The second mdev device indicates compatibility via the retur=
-n code of
-> +  the write operation. This makes compatibility between mdev devices c=
-ompletely
-> +  vendor-defined and opaque to userspace. Userspace should do nothing =
-more
-> +  than use the migration_version attribute to confirm source to target
-> +  compatibility.
+> > +
+> > +	if (!uc_se->user_defined)
+> > +		uclamp_se_set(uc_se, sysctl_sched_rt_default_uclamp_util_min, false);
+> 
+> Here you are actually setting a user-requested value, why not marking
+> it as that, i.e. by using true for the last parameter?
 
-...
+I think you don't want to set user_defined to ensure we keep updating
+the value every time the task is enqueued, in case the "default"
+should be updated at run-time.
 
-> +
-> +  Reading/Writing Attribute Data:
-> +  read(2) will fail if a mdev device does not support migration and ot=
-herwise
-> +        succeed and return migration_version string of the mdev device=
-.
-> +
-> +        This migration_version string is vendor defined and opaque to =
-the
-> +        userspace. Vendor is free to include whatever they feel is rel=
-evant.
-> +        e.g. <pciid of parent device>-<software version>.
-> +
-> +        Restrictions on this migration_version string:
-> +            1. It should only contain ascii characters
-> +            2. MAX Length is PATH_MAX (4096)
-> +
-> +  write(2) expects migration_version string of source mdev device, and=
- will
-> +         succeed if it is determined to be compatible and otherwise fa=
-il with
-> +         vendor specific errno.
-> +
-> +  Errno:
-> +  -An errno on read(2) indicates the mdev devicedoes not support migra=
-tion;
+> Moreover, by keeping user_defined=false I think you are not getting
+> what you want for RT tasks running in a nested cgroup.
+> 
+> Let say a subgroup is still with the util_min=1024 inherited from the
+> system defaults, in uclamp_tg_restrict() we will still return the max
+> value and not what you requested for. Isn't it?
 
-s/devicedoes/device does/
+This is also not completely true since perhaps you assume that if an
+RT task is running in a nested group with a non tuned uclamp_max then
+that's probably what we want.
 
-> +  -An errno on write(2) indicates the mdev devices are incompatible or=
- the
-> +   target doesn't support migration.
-> +  Vendor driver is free to define specific errno and is suggested to
-> +  print detailed error in syslog for diagnose purpose.
-> +
-> +  Userspace should treat ANY of below conditions as two mdev devices n=
-ot
-> +  compatible:
-> +  (1) any one of the two mdev devices does not have a migration_versio=
-n
-> +  attribute
-> +  (2) error when reading from migration_version attribute of one mdev =
-device
-> +  (3) error when writing migration_version string of one mdev device t=
-o
-> +  migration_version attribute of the other mdev device
-> +
-> +  Userspace should regard two mdev devices compatible when ALL of belo=
-w
-> +  conditions are met:
-> +  (1) success when reading from migration_version attribute of one mde=
-v device.
-> +  (2) success when writing migration_version string of one mdev device=
- to
-> +  migration_version attribute of the other mdev device.
-> +
-> +  Example Usage:
-> +  (1) Retrieve the mdev source migration_version:
-> +
-> +  # cat /sys/bus/mdev/devices/$mdev_UUID1/migration_version
-> +
-> +  If reading the source migration_version generates an error, migratio=
-n is not
-> +  possible.
-> +
-> +  (2) Test source migration_version at target:
-> +
-> +  Given a migration_version as outlined above, its compatibility to an
-> +  instantiated device of the same mdev type can be tested as:
-> +  # echo $VERSION > /sys/bus/mdev/devices/$mdev_UUID2/migration_versio=
-n
-> +
-> +  If this write fails, the source and target migration versions are no=
-t
-> +  compatible or the target does not support migration.
-> +
-> +
->  Mediated device Hot plug
->  ------------------------
+There is still a small concern due to the fact we don't distinguish
+CFS and RT tasks when it comes to cgroup clamp values, which
+potentially could still generate the same issue. Let say for example
+you wanna allow CFS tasks to be boosted to max (util_min=1024) but
+still want to run RT tasks only at lower OPPs.
+Not sure if that could be a use case tho.
+ 
+> IOW, what about:
+> 
+> ---8<---
+> static void uclamp_sync_util_min_rt(struct task_struct *p)
+> {
+> 	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> 
+>   if (likely(uc_se->user_defined || !rt_task(p)))
+>     return;
+> 
+>   uclamp_se_set(uc_se, sysctl_sched_uclamp_util_min_rt, true);
+                                                          ^^^^
+                     This should remain false as in your patch.
+> }
+> ---8<---
 
-Overall, the same comments as in 1/5 apply text-wise.
+Still, I was thinking that perhaps it would be better to massage the
+code above into the generation of the effective value, in uclamp_eff_get().
 
-Regards,
---
-Erik Skultety
+Since you wanna (possibly) update the value at each enqueue time,
+that's what conceptually is represented by the "effective clamp
+value": a value that is computed by definition at enqueue time by
+aggregating all the requests and constraints.
 
+Poking with the effective value instead of the requested value will
+fix also the ambiguity above, where we set a "requested values" with
+user-defined=false.
+
+> > +}
+> > +
+> >  unsigned long uclamp_eff_value(struct task_struct *p, enum uclamp_id clamp_id)
+> >  {
+> >  	struct uclamp_se uc_eff;
+> > @@ -1030,6 +1059,12 @@ static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
+> >  	if (unlikely(!p->sched_class->uclamp_enabled))
+> >  		return;
+> >  
+> > +	/*
+> > +	 * When sysctl_sched_rt_default_uclamp_util_min value is changed by the
+> > +	 * user, we apply any new value on the next wakeup, which is here.
+> > +	 */
+> > +	uclamp_rt_sync_default_util_min(p);
+> > +
+> >  	for_each_clamp_id(clamp_id)
+> >  		uclamp_rq_inc_id(rq, p, clamp_id);
+> >  
+> > @@ -1121,12 +1156,13 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+> >  				loff_t *ppos)
+> >  {
+> >  	bool update_root_tg = false;
+> > -	int old_min, old_max;
+> > +	int old_min, old_max, old_rt_min;
+> >  	int result;
+> >  
+> >  	mutex_lock(&uclamp_mutex);
+> >  	old_min = sysctl_sched_uclamp_util_min;
+> >  	old_max = sysctl_sched_uclamp_util_max;
+> > +	old_rt_min = sysctl_sched_rt_default_uclamp_util_min;
+> 
+> Perpahs it's just my OCD but, is not "old_min_rt" reading better?
+> 
+> >  
+> >  	result = proc_dointvec(table, write, buffer, lenp, ppos);
+> >  	if (result)
+> > @@ -1134,12 +1170,23 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+> >  	if (!write)
+> >  		goto done;
+> >  
+> > +	/*
+> > +	 * The new value will be applied to all RT tasks the next time they
+> > +	 * wakeup, assuming the task is using the system default and not a user
+> > +	 * specified value. In the latter we shall leave the value as the user
+> > +	 * requested.
+> > +	 */
+> 
+> Should not this comment go before the next block?
+> 
+> >  	if (sysctl_sched_uclamp_util_min > sysctl_sched_uclamp_util_max ||
+> >  	    sysctl_sched_uclamp_util_max > SCHED_CAPACITY_SCALE) {
+> >  		result = -EINVAL;
+> >  		goto undo;
+> >  	}
+> >  
+> > +	if (sysctl_sched_rt_default_uclamp_util_min > SCHED_CAPACITY_SCALE) {
+> > +		result = -EINVAL;
+> > +		goto undo;
+> > +	}
+> > +
+> >  	if (old_min != sysctl_sched_uclamp_util_min) {
+> >  		uclamp_se_set(&uclamp_default[UCLAMP_MIN],
+> >  			      sysctl_sched_uclamp_util_min, false);
+> > @@ -1165,6 +1212,7 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+> >  undo:
+> >  	sysctl_sched_uclamp_util_min = old_min;
+> >  	sysctl_sched_uclamp_util_max = old_max;
+> > +	sysctl_sched_rt_default_uclamp_util_min = old_rt_min;
+> >  done:
+> >  	mutex_unlock(&uclamp_mutex);
+> >  
+> > @@ -1207,9 +1255,13 @@ static void __setscheduler_uclamp(struct task_struct *p,
+> >  		if (uc_se->user_defined)
+> >  			continue;
+> >  
+> > -		/* By default, RT tasks always get 100% boost */
+> > +		/*
+> > +		 * By default, RT tasks always get 100% boost, which the admins
+> > +		 * are allowed to change via
+> > +		 * sysctl_sched_rt_default_uclamp_util_min knob.
+> > +		 */
+> >  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+> > -			clamp_value = uclamp_none(UCLAMP_MAX);
+> > +			clamp_value = sysctl_sched_rt_default_uclamp_util_min;
+> >
+> >  		uclamp_se_set(uc_se, clamp_value, false);
+> >  	}
+> > @@ -1241,9 +1293,13 @@ static void uclamp_fork(struct task_struct *p)
+> >  	for_each_clamp_id(clamp_id) {
+> >  		unsigned int clamp_value = uclamp_none(clamp_id);
+> >  
+> > -		/* By default, RT tasks always get 100% boost */
+> > +		/*
+> > +		 * By default, RT tasks always get 100% boost, which the admins
+> > +		 * are allowed to change via
+> > +		 * sysctl_sched_rt_default_uclamp_util_min knob.
+> > +		 */
+> >  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+> > -			clamp_value = uclamp_none(UCLAMP_MAX);
+> > +			clamp_value = sysctl_sched_rt_default_uclamp_util_min;
+> >  
+> 
+> This is not required, look at this Quentin's patch:
+> 
+>    Message-ID: <20200414161320.251897-1-qperret@google.com>
+>    https://lore.kernel.org/lkml/20200414161320.251897-1-qperret@google.com/
+> 
+> >  		uclamp_se_set(&p->uclamp_req[clamp_id], clamp_value, false);
+> >  	}
+> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> > index ad5b88a53c5a..0272ae8c6147 100644
+> > --- a/kernel/sysctl.c
+> > +++ b/kernel/sysctl.c
+> > @@ -465,6 +465,13 @@ static struct ctl_table kern_table[] = {
+> >  		.mode		= 0644,
+> >  		.proc_handler	= sysctl_sched_uclamp_handler,
+> >  	},
+> > +	{
+> > +		.procname	= "sched_rt_default_util_clamp_min",
+> > +		.data		= &sysctl_sched_rt_default_uclamp_util_min,
+> > +		.maxlen		= sizeof(unsigned int),
+> > +		.mode		= 0644,
+> > +		.proc_handler	= sysctl_sched_uclamp_handler,
+> > +	},
+> >  #endif
+> >  #ifdef CONFIG_SCHED_AUTOGROUP
+> >  	{
+
+-- 
+#include <best/regards.h>
+
+Patrick Bellasi
