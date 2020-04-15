@@ -2,190 +2,280 @@ Return-Path: <SRS0=AYPK=57=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1155DC2BA19
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 15:44:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2355BC2BA19
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 16:31:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB5E6214AF
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 15:44:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7CEB206F9
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 16:31:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="K6STKOh9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIMMgUiR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1414850AbgDOPoE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 11:44:04 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:41032 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1414848AbgDOPn6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Apr 2020 11:43:58 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03FFcMEl136260;
-        Wed, 15 Apr 2020 15:43:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=T2qh9cOheluulo7hvfZ4YsBJ5GAxA8MUkn2Kv6ICqh0=;
- b=K6STKOh98tcKA/zfe9qGKIyx+GIXBZPYNyeod78ba0bL6IqYHG4MihBrfFr9Rhx3vobm
- ynIcebD3EW834stQFtgNZtRK2lsI4rJ6PNuVbsV5kQsFFF9ZUEhKP46A3vd3OPv2Xd2r
- nrNSgEWYWlN4DI5HkGuLqAaO0cqs9soc8/X5duA0zaumKPnOVIKy4i4vjbpmW7Tn7ndO
- sT6GSSww9Z7q/oc1jgVmdToxPZdR29R1E0Lm+THSyHI8F7whxaxaPuPcaF5YYgP6s24p
- hg0xrmrwwBQTPjSlhpmpJDHNZaua1M/l0uYr7248KJLvbX0Nji7qQ97rBhmsuuNVmZVq mw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 30dn95m6ng-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 15 Apr 2020 15:43:49 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03FFdBhU076039;
-        Wed, 15 Apr 2020 15:41:49 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 30dyvf1sp5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 15 Apr 2020 15:41:49 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 03FFfjx8015209;
-        Wed, 15 Apr 2020 15:41:46 GMT
-Received: from localhost (/67.169.218.210)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 15 Apr 2020 08:41:45 -0700
-Date:   Wed, 15 Apr 2020 08:41:44 -0700
-From:   "Darrick J. Wong" <darrick.wong@oracle.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jan Kara <jack@suse.com>, linux-ext4@vger.kernel.org,
-        ira.weiny@intel.com
-Subject: Re: [PATCH 12/34] docs: filesystems: convert dax.txt to ReST
-Message-ID: <20200415154144.GA6733@magnolia>
-References: <cover.1586960617.git.mchehab+huawei@kernel.org>
- <71b1f910b2c3569a9fdaa8778378dd734f4f0091.1586960617.git.mchehab+huawei@kernel.org>
+        id S1416085AbgDOQbj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 12:31:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57950 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1416090AbgDOQbh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Apr 2020 12:31:37 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B14C061A0C;
+        Wed, 15 Apr 2020 09:31:37 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id u15so4409340ljd.3;
+        Wed, 15 Apr 2020 09:31:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=biHfX7TxS2hrvsT9EkKm+1lGlRvqJ7rczB0q5SleTWQ=;
+        b=EIMMgUiRVPldnHv6wMoU2kJK7GOMXnX6c10K+uNYLsE9NjTVLjFIxIP4y3SaEysC84
+         5ednjSwjFDBjXmwORcR1cTu0UK0BOUyHqWQYFDrg/IC9W/+TyDKyBw/lyrBraEJr0quL
+         IC1QlIsymRx83Qfc5M/HKUbKGpWQsZJldZZXB7PfocUbGua+bbPH/ODCr3ZKFgao2Hk6
+         cE1lqUg1eaPHvFrNM/IB9SNi7Px7LWeVkJSRcyqNKdMUneQWH/NGsgcuX6peb4iBAwaq
+         ugRwh0bRKcnVIlbltScyVD5xiCislpbMQt1dsB0QICZu5G5wdWRaga+N5lS60/8ZDp5+
+         gVRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=biHfX7TxS2hrvsT9EkKm+1lGlRvqJ7rczB0q5SleTWQ=;
+        b=MSBjh9o6lCjKGvUQQxC/d9Ofjl989yfe4qK9tiV3QUG5HyC4PgI7zQzrqNQR4RbOMU
+         OHOLzVKgK5tF9sTTfAU0kTUvdE1VYrnAvk5w3hEesXOOIH559gMAdnZiBhE3FbNn1YcI
+         P/4+oZcv12ddYF5Axiuz36RzmblYhhmnw/byoYlXkryCBAwi+gO7hpY2KDnKQHoWFAOl
+         IGI02x17S77abwzrP7sbT8uVoPBlZLG0fin7y6ZntQ6yikYu4pWY9rYAQ61x9HyzqJ2p
+         W+fVH3TH41cPKzAHIVLeJfvbF0bG6IR0TYpCoV2YuFDx7+qaqe7gBwunLmi84/3WCCce
+         2FFQ==
+X-Gm-Message-State: AGi0PuZRLvs1+CQJDiqiRf3ltjMYT6E1K7r+fj9tB0JvCtzGJxgs6l6z
+        3DbDkXHIswKvNzDJH/4wwAn35JpD0/iaucqP5JU=
+X-Google-Smtp-Source: APiQypIgJN8yNlYln75HND4ry9FlXmCJYwvhO3dcPcv6YMkNil3W3z3GW/QMglZSYyv0ilSdIyuKVj9txv2THaiExaU=
+X-Received: by 2002:a2e:9605:: with SMTP id v5mr3667624ljh.258.1586968294453;
+ Wed, 15 Apr 2020 09:31:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <71b1f910b2c3569a9fdaa8778378dd734f4f0091.1586960617.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9592 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 bulkscore=0
- mlxscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004150115
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9592 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 clxscore=1011
- malwarescore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
- mlxscore=0 phishscore=0 spamscore=0 impostorscore=0 suspectscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004150115
+References: <1586521984-5890-1-git-send-email-orson.unisoc@gmail.com>
+In-Reply-To: <1586521984-5890-1-git-send-email-orson.unisoc@gmail.com>
+From:   Orson Zhai <orsonzhai@gmail.com>
+Date:   Thu, 16 Apr 2020 00:31:22 +0800
+Message-ID: <CA+H2tpH4+cLN0z7v50UdKCXOqZDt2rSYF5Lvm9-WBYJ3YWtJVg@mail.gmail.com>
+Subject: Re: [PATCH] dynamic_debug: Add an option to enable dynamic debug for
+ modules only
+To:     Orson Zhai <orson.unisoc@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Android Kernel Team <kernel-team@android.com>,
+        Orson Zhai <orson.zhai@unisoc.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[add ira weiny to cc]
+Hi Jason,
 
-On Wed, Apr 15, 2020 at 04:32:25PM +0200, Mauro Carvalho Chehab wrote:
-> - Add a SPDX header;
-> - Adjust document title;
-> - Some whitespace fixes and new line breaks;
-> - Add it to filesystems/index.rst.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Fri, Apr 10, 2020 at 8:33 PM Orson Zhai <orson.unisoc@gmail.com> wrote:
+>
+> From: Orson Zhai <orson.zhai@unisoc.com>
+>
+> Instead of enabling dynamic debug globally with CONFIG_DYNAMIC_DEBUG,
+> CONFIG_DYNAMIC_DEBUG_CORE will only enable core function of dynamic
+> debug. With the DEBUG_MODULE defined for any modules, dynamic debug
+> will be tied to them.
+>
+> This is useful for people who only want to enable dynamic debug for
+> kernel modules without worrying about kernel image size and memory
+> consumption is increasing too much.
+>
+
+Do you have any comments for this patch?
+
+Best Regards,
+Orson
+
+> Signed-off-by: Orson Zhai <orson.zhai@unisoc.com>
 > ---
->  Documentation/admin-guide/ext4.rst             | 2 +-
->  Documentation/filesystems/{dax.txt => dax.rst} | 9 +++++++--
->  Documentation/filesystems/ext2.rst             | 2 +-
->  Documentation/filesystems/index.rst            | 1 +
->  4 files changed, 10 insertions(+), 4 deletions(-)
->  rename Documentation/filesystems/{dax.txt => dax.rst} (97%)
-> 
-> diff --git a/Documentation/admin-guide/ext4.rst b/Documentation/admin-guide/ext4.rst
-> index 9443fcef1876..103bcc345bad 100644
-> --- a/Documentation/admin-guide/ext4.rst
-> +++ b/Documentation/admin-guide/ext4.rst
-> @@ -392,7 +392,7 @@ When mounting an ext4 filesystem, the following option are accepted:
->  
->    dax
->          Use direct access (no page cache).  See
-> -        Documentation/filesystems/dax.txt.  Note that this option is
-> +        Documentation/filesystems/dax.rst.  Note that this option is
->          incompatible with data=journal.
->  
->  Data Mode
-> diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.rst
-> similarity index 97%
-> rename from Documentation/filesystems/dax.txt
-> rename to Documentation/filesystems/dax.rst
-> index 735f3859b19f..5838144f80f0 100644
-> --- a/Documentation/filesystems/dax.txt
-> +++ b/Documentation/filesystems/dax.rst
-
-Err, this will collide with the work that Ira's doing on DAX for 5.8[1].
-Can the dax.txt conversion wait?
-
---D
-
-[1] https://lore.kernel.org/linux-xfs/20200415152942.GS6742@magnolia/T/#m804562299416d865d8829caa82589a522b2080a5
-
-> @@ -1,5 +1,8 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+>  Documentation/admin-guide/dynamic-debug-howto.rst |  7 +++++--
+>  include/linux/dev_printk.h                        |  6 ++++--
+>  include/linux/dynamic_debug.h                     |  2 +-
+>  include/linux/printk.h                            | 14 +++++++++-----
+>  lib/Kconfig.debug                                 | 12 ++++++++++++
+>  lib/Makefile                                      |  2 +-
+>  lib/dynamic_debug.c                               |  9 +++++++--
+>  7 files changed, 39 insertions(+), 13 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+> index 0dc2eb8..fa5b8d4 100644
+> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> @@ -13,8 +13,11 @@ kernel code to obtain additional kernel information.  Currently, if
+>  ``print_hex_dump_debug()``/``print_hex_dump_bytes()`` calls can be dynamically
+>  enabled per-callsite.
+>
+> -If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is just
+> -shortcut for ``print_hex_dump(KERN_DEBUG)``.
+> +If ``CONFIG_DYNAMIC_DEBUG_CORE`` is set, only the modules with ``DEBUG_MODULE``
+> +defined will be tied into dynamic debug.
 > +
-> +=======================
->  Direct Access for files
-> ------------------------
-> +=======================
->  
->  Motivation
->  ----------
-> @@ -46,6 +49,7 @@ stall the CPU for an extended period, you should also not attempt to
->  implement direct_access.
->  
->  These block devices may be used for inspiration:
+> +If ``CONFIG_DYNAMIC_DEBUG`` or ``CONFIG_DYNAMIC_DEBUG_CORE`` is not set,
+> +``print_hex_dump_debug()`` is just shortcut for ``print_hex_dump(KERN_DEBUG)``.
+>
+>  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
+>  its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+> diff --git a/include/linux/dev_printk.h b/include/linux/dev_printk.h
+> index 5aad06b..2fb0671 100644
+> --- a/include/linux/dev_printk.h
+> +++ b/include/linux/dev_printk.h
+> @@ -109,7 +109,8 @@ void _dev_info(const struct device *dev, const char *fmt, ...)
+>  #define dev_info(dev, fmt, ...)                                                \
+>         _dev_info(dev, dev_fmt(fmt), ##__VA_ARGS__)
+>
+> -#if defined(CONFIG_DYNAMIC_DEBUG)
+> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
+> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
+>  #define dev_dbg(dev, fmt, ...)                                         \
+>         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+>  #elif defined(DEBUG)
+> @@ -181,7 +182,8 @@ do {                                                                        \
+>         dev_level_ratelimited(dev_notice, dev, fmt, ##__VA_ARGS__)
+>  #define dev_info_ratelimited(dev, fmt, ...)                            \
+>         dev_level_ratelimited(dev_info, dev, fmt, ##__VA_ARGS__)
+> -#if defined(CONFIG_DYNAMIC_DEBUG)
+> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
+> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
+>  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
+>  #define dev_dbg_ratelimited(dev, fmt, ...)                             \
+>  do {                                                                   \
+> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+> index 4cf02ec..abcd5fd 100644
+> --- a/include/linux/dynamic_debug.h
+> +++ b/include/linux/dynamic_debug.h
+> @@ -48,7 +48,7 @@ struct _ddebug {
+>
+>
+>
+> -#if defined(CONFIG_DYNAMIC_DEBUG)
+> +#if defined(CONFIG_DYNAMIC_DEBUG_CORE)
+>  int ddebug_add_module(struct _ddebug *tab, unsigned int n,
+>                                 const char *modname);
+>  extern int ddebug_remove_module(const char *mod_name);
+> diff --git a/include/linux/printk.h b/include/linux/printk.h
+> index 1e6108b..77fab5b 100644
+> --- a/include/linux/printk.h
+> +++ b/include/linux/printk.h
+> @@ -291,8 +291,9 @@ extern int kptr_restrict;
+>  /*
+>   * These can be used to print at the various log levels.
+>   * All of these will print unconditionally, although note that pr_debug()
+> - * and other debug macros are compiled out unless either DEBUG is defined
+> - * or CONFIG_DYNAMIC_DEBUG is set.
+> + * and other debug macros are compiled out unless either DEBUG is defined,
+> + * CONFIG_DYNAMIC_DEBUG is set, or CONFIG_DYNAMIC_DEBUG_CORE is set when
+> + * DEBUG_MODULE being defined for any modules.
+>   */
+>  #define pr_emerg(fmt, ...) \
+>         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+> @@ -327,7 +328,8 @@ extern int kptr_restrict;
+>
+>
+>  /* If you are writing a driver, please use dev_dbg instead */
+> -#if defined(CONFIG_DYNAMIC_DEBUG)
+> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
+> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
+>  #include <linux/dynamic_debug.h>
+>
+>  /* dynamic_pr_debug() uses pr_fmt() internally so we don't need it here */
+> @@ -453,7 +455,8 @@ extern int kptr_restrict;
+>  #endif
+>
+>  /* If you are writing a driver, please use dev_dbg instead */
+> -#if defined(CONFIG_DYNAMIC_DEBUG)
+> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
+> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
+>  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
+>  #define pr_debug_ratelimited(fmt, ...)                                 \
+>  do {                                                                   \
+> @@ -500,7 +503,8 @@ static inline void print_hex_dump_bytes(const char *prefix_str, int prefix_type,
+>
+>  #endif
+>
+> -#if defined(CONFIG_DYNAMIC_DEBUG)
+> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
+> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
+>  #define print_hex_dump_debug(prefix_str, prefix_type, rowsize, \
+>                              groupsize, buf, len, ascii)        \
+>         dynamic_hex_dump(prefix_str, prefix_type, rowsize,      \
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 50c1f5f..25a1b9de 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -99,6 +99,7 @@ config DYNAMIC_DEBUG
+>         default n
+>         depends on PRINTK
+>         depends on (DEBUG_FS || PROC_FS)
+> +       select DYNAMIC_DEBUG_CORE
+>         help
+>
+>           Compiles debug level messages into the kernel, which would not
+> @@ -165,6 +166,17 @@ config DYNAMIC_DEBUG
+>           See Documentation/admin-guide/dynamic-debug-howto.rst for additional
+>           information.
+>
+> +config DYNAMIC_DEBUG_CORE
+> +       bool "Enable core function of dynamic debug support"
+> +       depends on PRINTK
+> +       depends on (DEBUG_FS || PROC_FS)
+> +       help
+> +         Enable core functional support of dynamic debug. It is useful
+> +         when you want to tie dynamic debug to your kernel modules with
+> +         DEBUG_MODULE defined for each of them, especially for the case
+> +         of embedded system where the kernel image size is sensitive for
+> +         people.
 > +
->  - brd: RAM backed block device driver
->  - dcssblk: s390 dcss block device driver
->  - pmem: NVDIMM persistent memory driver
-> @@ -55,6 +59,7 @@ Implementation Tips for Filesystem Writers
->  ------------------------------------------
->  
->  Filesystem support consists of
-> +
->  - adding support to mark inodes as being DAX by setting the S_DAX flag in
->    i_flags
->  - implementing ->read_iter and ->write_iter operations which use dax_iomap_rw()
-> @@ -127,6 +132,6 @@ by adding optional struct page support for pages under the control of
->  the driver (see CONFIG_NVDIMM_PFN in drivers/nvdimm for an example of
->  how to do this). In the non struct page cases O_DIRECT reads/writes to
->  those memory ranges from a non-DAX file will fail (note that O_DIRECT
-> -reads/writes _of a DAX file_ do work, it is the memory that is being
-> +reads/writes _of a DAX ``file_`` do work, it is the memory that is being
->  accessed that is key here).  Other things that will not work in the
->  non struct page case include RDMA, sendfile() and splice().
-> diff --git a/Documentation/filesystems/ext2.rst b/Documentation/filesystems/ext2.rst
-> index d83dbbb162e2..fa416b7a5802 100644
-> --- a/Documentation/filesystems/ext2.rst
-> +++ b/Documentation/filesystems/ext2.rst
-> @@ -24,7 +24,7 @@ check=none, nocheck	(*)	Don't do extra checking of bitmaps on mount
->  				(check=normal and check=strict options removed)
->  
->  dax				Use direct access (no page cache).  See
-> -				Documentation/filesystems/dax.txt.
-> +				Documentation/filesystems/dax.rst.
->  
->  debug				Extra debugging information is sent to the
->  				kernel syslog.  Useful for developers.
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index c4f95f76ba6a..8e3ccb4ed483 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -24,6 +24,7 @@ algorithms work.
->     splice
->     locking
->     directory-locking
-> +   dax
->  
->     automount-support
->  
-> -- 
-> 2.25.2
-> 
+>  config SYMBOLIC_ERRNAME
+>         bool "Support symbolic error names in printf"
+>         default y if PRINTK
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 685aee6..8952772 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -186,7 +186,7 @@ lib-$(CONFIG_GENERIC_BUG) += bug.o
+>
+>  obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
+>
+> -obj-$(CONFIG_DYNAMIC_DEBUG) += dynamic_debug.o
+> +obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
+>  obj-$(CONFIG_SYMBOLIC_ERRNAME) += errname.o
+>
+>  obj-$(CONFIG_NLATTR) += nlattr.o
+> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> index 8f199f4..321437b 100644
+> --- a/lib/dynamic_debug.c
+> +++ b/lib/dynamic_debug.c
+> @@ -1032,8 +1032,13 @@ static int __init dynamic_debug_init(void)
+>         int verbose_bytes = 0;
+>
+>         if (&__start___verbose == &__stop___verbose) {
+> -               pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
+> -               return 1;
+> +               if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG)) {
+> +                       pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
+> +                       return 1;
+> +               }
+> +               pr_info("Ignore empty _ddebug table in a CONFIG_DYNAMIC_DEBUG_CORE build\n");
+> +               ddebug_init_success = 1;
+> +               return 0;
+>         }
+>         iter = __start___verbose;
+>         modname = iter->modname;
+> --
+> 2.7.4
+>
