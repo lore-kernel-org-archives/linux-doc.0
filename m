@@ -2,267 +2,124 @@ Return-Path: <SRS0=AYPK=57=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB76DC3815B
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 09:12:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7230C38A2D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 09:24:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A0FC020768
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 09:12:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8810420768
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 09:24:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MZISFk0+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408376AbgDOJMY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 05:12:24 -0400
-Received: from mga14.intel.com ([192.55.52.115]:57775 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2408371AbgDOJMV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Apr 2020 05:12:21 -0400
-IronPort-SDR: +tnYFqayJ9FGNcp77jB0GuCcQO6yFDfGY4ZXyM817O+9AQtDKrjmZqPeIqWE4Xw7Ts8RikZJUr
- 4hRiZR/EuZfw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 02:12:20 -0700
-IronPort-SDR: 6DZfSWbji33ZBRzjz6OV60+zabtDaKUmsqS6CmrO5jvPhgTksdHX4hTo959D8/TW+pnYu1H5Jz
- UD9fHbnsn6Hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; 
-   d="scan'208";a="245644372"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040) ([10.239.13.16])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Apr 2020 02:12:14 -0700
-Date:   Wed, 15 Apr 2020 05:02:36 -0400
-From:   Yan Zhao <yan.y.zhao@intel.com>
-To:     Erik Skultety <eskultet@redhat.com>
-Cc:     "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        "cjia@nvidia.com" <cjia@nvidia.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "libvir-list@redhat.com" <libvir-list@redhat.com>,
-        "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
-        "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "eauger@redhat.com" <eauger@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "Yang, Ziye" <ziye.yang@intel.com>,
-        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "aik@ozlabs.ru" <aik@ozlabs.ru>,
-        "felipe@nutanix.com" <felipe@nutanix.com>,
-        "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "Zeng, Xin" <xin.zeng@intel.com>,
-        "dgilbert@redhat.com" <dgilbert@redhat.com>,
-        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "Liu, Changpeng" <changpeng.liu@intel.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Wang, Zhi A" <zhi.a.wang@intel.com>,
-        "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
-        "He, Shaopeng" <shaopeng.he@intel.com>
-Subject: Re: [PATCH v5 3/4] vfio/mdev: add migration_version attribute for
- mdev (under mdev device node)
-Message-ID: <20200415090236.GK10586@joy-OptiPlex-7040>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-References: <20200413055201.27053-1-yan.y.zhao@intel.com>
- <20200413055504.27311-1-yan.y.zhao@intel.com>
- <20200415074258.GK269314@sturgeon>
+        id S2895443AbgDOJYW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 05:24:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47930 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2895385AbgDOJYT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Apr 2020 05:24:19 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47235C061A10
+        for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2020 02:24:19 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id a201so17708270wme.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2020 02:24:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=25hsR70J4xkR7QjWib9TX4C/RIJl6X5HgsLKdDMfcIM=;
+        b=MZISFk0+SGdYrIGleUjYyNyFlKlBZtpvcsFKyJMVxKBrgMGYtPYkcBrS4bRdkEp/7t
+         IW0OdNkkEzJjOHq32c8nyyFfVBOA0CWrvJjsIloNh7+9VO5CUroLlbNB3EdfC+VubzHW
+         RKiPdet4ElIC56WiuMenvtixe2coFc0mPjdD569+2OT9S+0GbYhuHmAMDdAJ2/wquaHH
+         afuwBSmcYlb9MymeQAxl6jMcXisGmnphb0nXiXzgHpPoKvx7ynmkS1jh5aDHDA3xUcag
+         t1mwgvkRTAPwn/Ml63NOIpJfKAurHTPzOMenfettsfMf8meyF+86UE6hMxa9KMhNgPe7
+         /dqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=25hsR70J4xkR7QjWib9TX4C/RIJl6X5HgsLKdDMfcIM=;
+        b=J9eDBVzVYaBkeGx8DT/knbyHJdbi6vtn7Hk0s4ZJrCEGeE7Vt/2jpUsy9pzduaaO1M
+         Dk0+eOnIu/zOGPNf2B+c/4Ou0JpTcFicQ7lRw2cJ5b1wr/nX/HO2YWOD/rZytOxWsuqT
+         UgvWfAtsttKQvv5hfbQhzKWvsoSz3c5t7iyxCMXKMgtfkWz5PyL67da3MSnXhCF3nRSn
+         avTh6AQAaBBCK1su3WJYacEq1c09qMB9Fl1SpXpgBUInP+MjACeprpFCwE1vHyu42UFV
+         v/sovujnc+MucIZMazLZYNhmN1CGd0VWFt1gaz/5Rqn2GmHU3JWkv1E3MNWGJ038hHGk
+         hVaw==
+X-Gm-Message-State: AGi0PuabLaMtE6nvO8NjGu+jFVwhCyxWr0ZZNy+I9jgCaRMLFVjeUgXu
+        Pxfw4VL3BZOldvAIQXpMqSx++Q==
+X-Google-Smtp-Source: APiQypI1L9Xj03pMeY/s2kTnKETE0bYjImrIZAgEBCHLd+qOzGsuktY5U9KyEtfeFWAbhU8Q4g0UeA==
+X-Received: by 2002:a7b:c10d:: with SMTP id w13mr4131241wmi.78.1586942657950;
+        Wed, 15 Apr 2020 02:24:17 -0700 (PDT)
+Received: from dell ([95.149.164.124])
+        by smtp.gmail.com with ESMTPSA id e1sm12258399wrc.12.2020.04.15.02.24.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 02:24:17 -0700 (PDT)
+Date:   Wed, 15 Apr 2020 10:25:17 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 3/8] mfd: sm501: Use GPIO_LOOKUP_IDX() helper macro
+Message-ID: <20200415092517.GF2167633@dell>
+References: <20200324135328.5796-1-geert+renesas@glider.be>
+ <20200324135653.6676-1-geert+renesas@glider.be>
+ <20200324135653.6676-3-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200415074258.GK269314@sturgeon>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200324135653.6676-3-geert+renesas@glider.be>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 03:42:58PM +0800, Erik Skultety wrote:
-> On Mon, Apr 13, 2020 at 01:55:04AM -0400, Yan Zhao wrote:
-> > migration_version attribute is used to check migration compatibility
-> > between two mdev devices of the same mdev type.
-> > The key is that it's rw and its data is opaque to userspace.
-> >
-> > Userspace reads migration_version of mdev device at source side and
-> > writes the value to migration_version attribute of mdev device at target
-> > side. It judges migration compatibility according to whether the read
-> > and write operations succeed or fail.
-> >
-> > Currently, it is able to read/write migration_version attribute under two
-> > places:
-> >
-> > (1) under mdev_type node
-> > userspace is able to know whether two mdev devices are compatible before
-> > a mdev device is created.
-> >
-> > userspace also needs to check whether the two mdev devices are of the same
-> > mdev type before checking the migration_version attribute. It also needs
-> > to check device creation parameters if aggregation is supported in future.
-> >
-> > (2) under mdev device node
-> > userspace is able to know whether two mdev devices are compatible after
-> > they are all created. But it does not need to check mdev type and device
-> > creation parameter for aggregation as device vendor driver would have
-> > incorporated those information into the migration_version attribute.
-> >
-> >              __    userspace
-> >               /\              \
-> >              /                 \write
-> >             / read              \
-> >    ________/__________       ___\|/_____________
-> >   | migration_version |     | migration_version |-->check migration
-> >   ---------------------     ---------------------   compatibility
-> >     mdev device A               mdev device B
-> >
-> > This patch is for mdev documentation about the second place (under
-> > mdev device node)
-> >
-> > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > Cc: Erik Skultety <eskultet@redhat.com>
-> > Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > Cc: Cornelia Huck <cohuck@redhat.com>
-> > Cc: "Tian, Kevin" <kevin.tian@intel.com>
-> > Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> > Cc: "Wang, Zhi A" <zhi.a.wang@intel.com>
-> > Cc: Neo Jia <cjia@nvidia.com>
-> > Cc: Kirti Wankhede <kwankhede@nvidia.com>
-> > Cc: Daniel P. Berrang� <berrange@redhat.com>
-> > Cc: Christophe de Dinechin <dinechin@redhat.com>
-> >
-> > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-> > ---
-> >  .../driver-api/vfio-mediated-device.rst       | 70 +++++++++++++++++++
-> >  1 file changed, 70 insertions(+)
-> >
-> > diff --git a/Documentation/driver-api/vfio-mediated-device.rst b/Documentation/driver-api/vfio-mediated-device.rst
-> > index 2d1f3c0f3c8f..efbadfd51b7e 100644
-> > --- a/Documentation/driver-api/vfio-mediated-device.rst
-> > +++ b/Documentation/driver-api/vfio-mediated-device.rst
-> > @@ -383,6 +383,7 @@ Directories and Files Under the sysfs for Each mdev Device
-> >           |--- remove
-> >           |--- mdev_type {link to its type}
-> >           |--- vendor-specific-attributes [optional]
-> > +         |--- migration_verion [optional]
-> >
-> >  * remove (write only)
-> >
-> > @@ -394,6 +395,75 @@ Example::
-> >
-> >  	# echo 1 > /sys/bus/mdev/devices/$mdev_UUID/remove
-> >
-> > +* migration_version (rw, optional)
-> 
-> Hmm, ^this is not consistent with how patch 1/5 reports this information, but
-> looking at the existing docs we're not doing very well in terms of consistency
-> there either.
-> 
-> I suggest we go with "(read-write)" in both patch 1/5 and here and then start
-> the paragraph with "This is an optional attribute."
->
-ok. got it.
+On Tue, 24 Mar 2020, Geert Uytterhoeven wrote:
 
-> > +  It is used to check migration compatibility between two mdev devices.
-> > +  Absence of this attribute means the mdev device does not support migration.
-> > +
-> > +  This attribute provides a way to check migration compatibility between two
-> > +  mdev devices from userspace after device created. The intended usage is
+> i801_add_mux() fills in the GPIO lookup table by manually populating an
+> array of gpiod_lookup structures.  Use the existing GPIO_LOOKUP_IDX()
+> helper macro instead, to relax a dependency on the gpiod_lookup
+> structure's member names.
 > 
-> after the target device has been created.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> ---
+> While this patch is a dependency for "[PATCH v6 4/8] gpiolib: Add
+> support for GPIO lookup by line name", it can be applied independently.
+> But an Acked-by would be nice, too.
 > 
-> side note: maybe add something like "(see the migration_version attribute of
-> the device node if the target device already exists)" in the same section in
-> patch 1/5.
+> Cover letter and full series at
+> https://lore.kernel.org/r/20200324135328.5796-1-geert+renesas@glider.be/
+> 
+> v6:
+>   - New.
+> ---
+>  drivers/mfd/sm501.c | 24 ++++++++----------------
+>  1 file changed, 8 insertions(+), 16 deletions(-)
 
-ok. good idea.
-> 
-> > +  for userspace to read the migration_version attribute from one mdev device and
-> > +  then writing that value to the migration_version attribute of the other mdev
-> > +  device. The second mdev device indicates compatibility via the return code of
-> > +  the write operation. This makes compatibility between mdev devices completely
-> > +  vendor-defined and opaque to userspace. Userspace should do nothing more
-> > +  than use the migration_version attribute to confirm source to target
-> > +  compatibility.
-> 
-> ...
-> 
-> > +
-> > +  Reading/Writing Attribute Data:
-> > +  read(2) will fail if a mdev device does not support migration and otherwise
-> > +        succeed and return migration_version string of the mdev device.
-> > +
-> > +        This migration_version string is vendor defined and opaque to the
-> > +        userspace. Vendor is free to include whatever they feel is relevant.
-> > +        e.g. <pciid of parent device>-<software version>.
-> > +
-> > +        Restrictions on this migration_version string:
-> > +            1. It should only contain ascii characters
-> > +            2. MAX Length is PATH_MAX (4096)
-> > +
-> > +  write(2) expects migration_version string of source mdev device, and will
-> > +         succeed if it is determined to be compatible and otherwise fail with
-> > +         vendor specific errno.
-> > +
-> > +  Errno:
-> > +  -An errno on read(2) indicates the mdev devicedoes not support migration;
-> 
-> s/devicedoes/device does/
-> 
-sorry for such kind of errors.
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
-> > +  -An errno on write(2) indicates the mdev devices are incompatible or the
-> > +   target doesn't support migration.
-> > +  Vendor driver is free to define specific errno and is suggested to
-> > +  print detailed error in syslog for diagnose purpose.
-> > +
-> > +  Userspace should treat ANY of below conditions as two mdev devices not
-> > +  compatible:
-> > +  (1) any one of the two mdev devices does not have a migration_version
-> > +  attribute
-> > +  (2) error when reading from migration_version attribute of one mdev device
-> > +  (3) error when writing migration_version string of one mdev device to
-> > +  migration_version attribute of the other mdev device
-> > +
-> > +  Userspace should regard two mdev devices compatible when ALL of below
-> > +  conditions are met:
-> > +  (1) success when reading from migration_version attribute of one mdev device.
-> > +  (2) success when writing migration_version string of one mdev device to
-> > +  migration_version attribute of the other mdev device.
-> > +
-> > +  Example Usage:
-> > +  (1) Retrieve the mdev source migration_version:
-> > +
-> > +  # cat /sys/bus/mdev/devices/$mdev_UUID1/migration_version
-> > +
-> > +  If reading the source migration_version generates an error, migration is not
-> > +  possible.
-> > +
-> > +  (2) Test source migration_version at target:
-> > +
-> > +  Given a migration_version as outlined above, its compatibility to an
-> > +  instantiated device of the same mdev type can be tested as:
-> > +  # echo $VERSION > /sys/bus/mdev/devices/$mdev_UUID2/migration_version
-> > +
-> > +  If this write fails, the source and target migration versions are not
-> > +  compatible or the target does not support migration.
-> > +
-> > +
-> >  Mediated device Hot plug
-> >  ------------------------
-> 
-> Overall, the same comments as in 1/5 apply text-wise.
-> 
-
-got it. will align it with the first patch.
-
-Thanks
-Yan
-
-> Regards,
-> --
-> Erik Skultety
-> 
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
