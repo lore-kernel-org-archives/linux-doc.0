@@ -2,61 +2,56 @@ Return-Path: <SRS0=AYPK=57=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3397C3815B
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:44:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F0DFC3815B
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:44:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A77A4208E4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:44:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4827A206E9
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:44:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586961847;
-	bh=KiqG+YaH9TfLHMU7kAk5iZVq2iZm2vOE/nCgWZIaKyc=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=KlRp5NQJ+U2nQ9uvXiZ01mEPY6cgkBgptCytbEwmEBZvT65ttjfAT6mMQci7vInB0
-	 I/xBn25+v5ezHpJuVEWxLp6as3uflssIPilbi3hHRImjo5d20XGWCGGHedgNMHJEk4
-	 PKKPKgMRa+HTQGegV0+x4c7PQkgP/gX051RKB7Nk=
+	s=default; t=1586961864;
+	bh=n4BmXd8N8vutOAdpVhWLKUoBRF2Vet4WcaVXRIJWT+Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=puLPHngCy9G7DXDU7Z9aslroPvovMQGn9SbmthPGLfCnx3MuQxDVljdmrrNDOc80J
+	 cYOgnuwUD9t2X7kRK0fzvxTVHde2nYYDlm7YVOx70dDtKOa7H0EnTP/9S3n4dWH7x6
+	 rX0jHBzP/jYEW5/Bt2O9a130Hv+aIEgqFA8K9ltU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394047AbgDOOc6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 10:32:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44616 "EHLO mail.kernel.org"
+        id S2392215AbgDOOoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:44:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44598 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394033AbgDOOcw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2392132AbgDOOcw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 15 Apr 2020 10:32:52 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AE72520857;
+        by mail.kernel.org (Postfix) with ESMTPSA id A08D32076D;
         Wed, 15 Apr 2020 14:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586961170;
-        bh=KiqG+YaH9TfLHMU7kAk5iZVq2iZm2vOE/nCgWZIaKyc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=zmtkQ2yvb4lMCW7VyZbrY08AHuA6jaNelMxk+XjbrMt6hLetgzFtmSoM/epsya/Qn
-         SEsnxu9G/tLR8lcHUuNuNcTbKgVyOplhVgI6xMcESplhJZCdGjqpBiZ/9grkpTlftr
-         a1iGFMi+kSC7G4SOvfHDNZD5/3QnrIy5wZXFM5Y4=
+        bh=n4BmXd8N8vutOAdpVhWLKUoBRF2Vet4WcaVXRIJWT+Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=PMLJPImWSOOgoIAAXR2PGXYTpW6V3S2ROiKLK86ST/VJKQtUXRgNa8JqL4uSOl13L
+         qcc2/X8nXjQY5o9C5PrL+pAjxUmSZ6kmwJ0RxX+d6Ffe0bd6Fx32pyUfVsoqe1kNPX
+         MEW/sGi0ZHuY/AVmYAZH4qbQYNwnUKqScQ4rExN0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOj5s-006kNi-SJ; Wed, 15 Apr 2020 16:32:48 +0200
+        id 1jOj5s-006kNp-Uh; Wed, 15 Apr 2020 16:32:48 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linuxppc-dev@lists.ozlabs.org, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
-        ecryptfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-        ocfs2-devel@oss.oracle.com, linux-unionfs@vger.kernel.org,
-        linux-cachefs@redhat.com, linux-usb@vger.kernel.org,
-        codalist@coda.cs.cmu.edu, linux-ext4@vger.kernel.org,
-        cluster-devel@redhat.com, linux-xfs@vger.kernel.org
-Subject: [PATCH 00/34] fs: convert remaining docs to ReST file format
-Date:   Wed, 15 Apr 2020 16:32:13 +0200
-Message-Id: <cover.1586960617.git.mchehab+huawei@kernel.org>
+        David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com
+Subject: [PATCH 02/34] docs: filesystems: convert caching/object.txt to ReST
+Date:   Wed, 15 Apr 2020 16:32:15 +0200
+Message-Id: <65a83e92dcf7461361052ca2d2cfb8c3f27f7fd6.1586960617.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
+In-Reply-To: <cover.1586960617.git.mchehab+huawei@kernel.org>
+References: <cover.1586960617.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -64,197 +59,206 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch series convert the remaining files under Documentation/filesystems
-to the ReST file format. It is based on linux-next (next-20200414).
+- Add a SPDX header;
+- Adjust document and section titles;
+- Comment out text ToC for html/pdf output;
+- Some whitespace fixes and new line breaks;
+- Adjust the events list to make them look better for html output;
+- Add it to filesystems/index.rst.
 
-PS.: I opted to add mainly ML from the output of get_maintainers.pl to the c/c
-list of patch 00/34, because  otherwise the number of c/c would be too many,
-with would very likely cause ML servers to reject it.
-
-The results of those changes (together with other changes from my pending
-doc patches) are available at:
-
-   https://www.infradead.org/~mchehab/kernel_docs/filesystems/index.html
-
-Mauro Carvalho Chehab (34):
-  docs: filesystems: fix references for doc files there
-  docs: filesystems: convert caching/object.txt to ReST
-  docs: filesystems: convert caching/fscache.txt to ReST format
-  docs: filesystems: caching/netfs-api.txt: convert it to ReST
-  docs: filesystems: caching/operations.txt: convert it to ReST
-  docs: filesystems: caching/cachefiles.txt: convert to ReST
-  docs: filesystems: caching/backend-api.txt: convert it to ReST
-  docs: filesystems: convert cifs/cifsroot.rst to ReST
-  docs: filesystems: convert configfs.txt to ReST
-  docs: filesystems: convert automount-support.txt to ReST
-  docs: filesystems: convert coda.txt to ReST
-  docs: filesystems: convert dax.txt to ReST
-  docs: filesystems: convert devpts.txt to ReST
-  docs: filesystems: convert dnotify.txt to ReST
-  docs: filesystems: convert fiemap.txt to ReST
-  docs: filesystems: convert files.txt to ReST
-  docs: filesystems: convert fuse-io.txt to ReST
-  docs: filesystems: convert gfs2-glocks.txt to ReST
-  docs: filesystems: convert locks.txt to ReST
-  docs: filesystems: convert mandatory-locking.txt to ReST
-  docs: filesystems: convert mount_api.txt to ReST
-  docs: filesystems: rename path-lookup.txt file
-  docs: filesystems: convert path-walking.txt to ReST
-  docs: filesystems: convert quota.txt to ReST
-  docs: filesystems: convert seq_file.txt to ReST
-  docs: filesystems: convert sharedsubtree.txt to ReST
-  docs: filesystems: split spufs.txt into 3 separate files
-  docs: filesystems: convert spufs/spu_create.txt to ReST
-  docs: filesystems: convert spufs/spufs.txt to ReST
-  docs: filesystems: convert spufs/spu_run.txt to ReST
-  docs: filesystems: convert sysfs-pci.txt to ReST
-  docs: filesystems: convert sysfs-tagging.txt to ReST
-  docs: filesystems: convert xfs-delayed-logging-design.txt to ReST
-  docs: filesystems: convert xfs-self-describing-metadata.txt to ReST
-
- Documentation/ABI/stable/sysfs-devices-node   |    2 +-
- Documentation/ABI/testing/procfs-smaps_rollup |    2 +-
- Documentation/admin-guide/cpu-load.rst        |    2 +-
- Documentation/admin-guide/ext4.rst            |    2 +-
- Documentation/admin-guide/nfs/nfsroot.rst     |    2 +-
- Documentation/admin-guide/sysctl/kernel.rst   |    2 +-
- .../driver-api/driver-model/device.rst        |    2 +-
- .../driver-api/driver-model/overview.rst      |    2 +-
- ...ount-support.txt => automount-support.rst} |   23 +-
- .../{backend-api.txt => backend-api.rst}      |  165 +-
- .../{cachefiles.txt => cachefiles.rst}        |  139 +-
- Documentation/filesystems/caching/fscache.rst |  565 ++++++
- Documentation/filesystems/caching/fscache.txt |  448 -----
- Documentation/filesystems/caching/index.rst   |   14 +
- .../caching/{netfs-api.txt => netfs-api.rst}  |  172 +-
- .../caching/{object.txt => object.rst}        |   43 +-
- .../{operations.txt => operations.rst}        |   45 +-
- .../cifs/{cifsroot.txt => cifsroot.rst}       |   56 +-
- Documentation/filesystems/coda.rst            | 1670 ++++++++++++++++
- Documentation/filesystems/coda.txt            | 1676 -----------------
- .../{configfs/configfs.txt => configfs.rst}   |  129 +-
- .../filesystems/{dax.txt => dax.rst}          |   11 +-
- Documentation/filesystems/devpts.rst          |   36 +
- Documentation/filesystems/devpts.txt          |   26 -
- .../filesystems/{dnotify.txt => dnotify.rst}  |   13 +-
- Documentation/filesystems/ext2.rst            |    2 +-
- .../filesystems/{fiemap.txt => fiemap.rst}    |  133 +-
- .../filesystems/{files.txt => files.rst}      |   15 +-
- .../filesystems/{fuse-io.txt => fuse-io.rst}  |    6 +
- .../{gfs2-glocks.txt => gfs2-glocks.rst}      |  147 +-
- Documentation/filesystems/index.rst           |   26 +
- .../filesystems/{locks.txt => locks.rst}      |   14 +-
- ...tory-locking.txt => mandatory-locking.rst} |   25 +-
- .../{mount_api.txt => mount_api.rst}          |  329 ++--
- .../{path-lookup.txt => path-walking.rst}     |   88 +-
- Documentation/filesystems/porting.rst         |    2 +-
- Documentation/filesystems/proc.rst            |    2 +-
- .../filesystems/{quota.txt => quota.rst}      |   41 +-
- .../filesystems/ramfs-rootfs-initramfs.rst    |    2 +-
- .../{seq_file.txt => seq_file.rst}            |   61 +-
- .../{sharedsubtree.txt => sharedsubtree.rst}  |  394 ++--
- Documentation/filesystems/spufs/index.rst     |   13 +
- .../filesystems/spufs/spu_create.rst          |  131 ++
- Documentation/filesystems/spufs/spu_run.rst   |  138 ++
- .../{spufs.txt => spufs/spufs.rst}            |  304 +--
- .../{sysfs-pci.txt => sysfs-pci.rst}          |   23 +-
- .../{sysfs-tagging.txt => sysfs-tagging.rst}  |   22 +-
- ...ign.txt => xfs-delayed-logging-design.rst} |   65 +-
- ...a.txt => xfs-self-describing-metadata.rst} |  182 +-
- Documentation/iio/iio_configfs.rst            |    2 +-
- .../powerpc/firmware-assisted-dump.rst        |    2 +-
- Documentation/process/adding-syscalls.rst     |    2 +-
- .../it_IT/process/adding-syscalls.rst         |    2 +-
- .../translations/zh_CN/filesystems/sysfs.txt  |    6 +-
- Documentation/usb/gadget_configfs.rst         |    4 +-
- MAINTAINERS                                   |   16 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |    2 +-
- fs/Kconfig                                    |    2 +-
- fs/Kconfig.binfmt                             |    2 +-
- fs/adfs/Kconfig                               |    2 +-
- fs/affs/Kconfig                               |    2 +-
- fs/afs/Kconfig                                |    6 +-
- fs/bfs/Kconfig                                |    2 +-
- fs/cachefiles/Kconfig                         |    4 +-
- fs/coda/Kconfig                               |    2 +-
- fs/configfs/inode.c                           |    2 +-
- fs/configfs/item.c                            |    2 +-
- fs/cramfs/Kconfig                             |    2 +-
- fs/dcache.c                                   |    6 +-
- fs/ecryptfs/Kconfig                           |    2 +-
- fs/fat/Kconfig                                |    8 +-
- fs/fscache/Kconfig                            |    8 +-
- fs/fscache/cache.c                            |    8 +-
- fs/fscache/cookie.c                           |    2 +-
- fs/fscache/object.c                           |    4 +-
- fs/fscache/operation.c                        |    2 +-
- fs/fuse/Kconfig                               |    2 +-
- fs/fuse/dev.c                                 |    2 +-
- fs/hfs/Kconfig                                |    2 +-
- fs/hpfs/Kconfig                               |    2 +-
- fs/isofs/Kconfig                              |    2 +-
- fs/locks.c                                    |    2 +-
- fs/namei.c                                    |    2 +-
- fs/namespace.c                                |    2 +-
- fs/notify/inotify/Kconfig                     |    2 +-
- fs/ntfs/Kconfig                               |    2 +-
- fs/ocfs2/Kconfig                              |    2 +-
- fs/overlayfs/Kconfig                          |    6 +-
- fs/proc/Kconfig                               |    4 +-
- fs/romfs/Kconfig                              |    2 +-
- fs/sysfs/dir.c                                |    2 +-
- fs/sysfs/file.c                               |    2 +-
- fs/sysfs/mount.c                              |    2 +-
- fs/sysfs/symlink.c                            |    2 +-
- fs/sysv/Kconfig                               |    2 +-
- fs/udf/Kconfig                                |    2 +-
- include/linux/configfs.h                      |    2 +-
- include/linux/fs_context.h                    |    2 +-
- include/linux/fscache-cache.h                 |    4 +-
- include/linux/fscache.h                       |   42 +-
- include/linux/lsm_hooks.h                     |    2 +-
- include/linux/relay.h                         |    2 +-
- include/linux/sysfs.h                         |    2 +-
- kernel/relay.c                                |    2 +-
- 104 files changed, 4048 insertions(+), 3572 deletions(-)
- rename Documentation/filesystems/{automount-support.txt => automount-support.rst} (92%)
- rename Documentation/filesystems/caching/{backend-api.txt => backend-api.rst} (87%)
- rename Documentation/filesystems/caching/{cachefiles.txt => cachefiles.rst} (90%)
- create mode 100644 Documentation/filesystems/caching/fscache.rst
- delete mode 100644 Documentation/filesystems/caching/fscache.txt
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/filesystems/caching/fscache.txt |  2 +-
+ Documentation/filesystems/caching/index.rst   |  9 ++++
+ .../caching/{object.txt => object.rst}        | 43 ++++++++-----------
+ Documentation/filesystems/index.rst           |  2 +
+ fs/fscache/object.c                           |  2 +-
+ 5 files changed, 31 insertions(+), 27 deletions(-)
  create mode 100644 Documentation/filesystems/caching/index.rst
- rename Documentation/filesystems/caching/{netfs-api.txt => netfs-api.rst} (91%)
  rename Documentation/filesystems/caching/{object.txt => object.rst} (95%)
- rename Documentation/filesystems/caching/{operations.txt => operations.rst} (90%)
- rename Documentation/filesystems/cifs/{cifsroot.txt => cifsroot.rst} (72%)
- create mode 100644 Documentation/filesystems/coda.rst
- delete mode 100644 Documentation/filesystems/coda.txt
- rename Documentation/filesystems/{configfs/configfs.txt => configfs.rst} (87%)
- rename Documentation/filesystems/{dax.txt => dax.rst} (96%)
- create mode 100644 Documentation/filesystems/devpts.rst
- delete mode 100644 Documentation/filesystems/devpts.txt
- rename Documentation/filesystems/{dnotify.txt => dnotify.rst} (88%)
- rename Documentation/filesystems/{fiemap.txt => fiemap.rst} (70%)
- rename Documentation/filesystems/{files.txt => files.rst} (95%)
- rename Documentation/filesystems/{fuse-io.txt => fuse-io.rst} (95%)
- rename Documentation/filesystems/{gfs2-glocks.txt => gfs2-glocks.rst} (63%)
- rename Documentation/filesystems/{locks.txt => locks.rst} (91%)
- rename Documentation/filesystems/{mandatory-locking.txt => mandatory-locking.rst} (91%)
- rename Documentation/filesystems/{mount_api.txt => mount_api.rst} (79%)
- rename Documentation/filesystems/{path-lookup.txt => path-walking.rst} (91%)
- rename Documentation/filesystems/{quota.txt => quota.rst} (81%)
- rename Documentation/filesystems/{seq_file.txt => seq_file.rst} (92%)
- rename Documentation/filesystems/{sharedsubtree.txt => sharedsubtree.rst} (72%)
- create mode 100644 Documentation/filesystems/spufs/index.rst
- create mode 100644 Documentation/filesystems/spufs/spu_create.rst
- create mode 100644 Documentation/filesystems/spufs/spu_run.rst
- rename Documentation/filesystems/{spufs.txt => spufs/spufs.rst} (57%)
- rename Documentation/filesystems/{sysfs-pci.txt => sysfs-pci.rst} (92%)
- rename Documentation/filesystems/{sysfs-tagging.txt => sysfs-tagging.rst} (72%)
- rename Documentation/filesystems/{xfs-delayed-logging-design.txt => xfs-delayed-logging-design.rst} (97%)
- rename Documentation/filesystems/{xfs-self-describing-metadata.txt => xfs-self-describing-metadata.rst} (83%)
 
+diff --git a/Documentation/filesystems/caching/fscache.txt b/Documentation/filesystems/caching/fscache.txt
+index 50f0a5757f48..071ff50a774d 100644
+--- a/Documentation/filesystems/caching/fscache.txt
++++ b/Documentation/filesystems/caching/fscache.txt
+@@ -191,7 +191,7 @@ The cache backend API to FS-Cache can be found in:
+ A description of the internal representations and object state machine can be
+ found in:
+ 
+-	Documentation/filesystems/caching/object.txt
++	Documentation/filesystems/caching/object.rst
+ 
+ 
+ =======================
+diff --git a/Documentation/filesystems/caching/index.rst b/Documentation/filesystems/caching/index.rst
+new file mode 100644
+index 000000000000..e5ec95ff0be2
+--- /dev/null
++++ b/Documentation/filesystems/caching/index.rst
+@@ -0,0 +1,9 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Filesystem Caching
++==================
++
++.. toctree::
++   :maxdepth: 2
++
++   object
+diff --git a/Documentation/filesystems/caching/object.txt b/Documentation/filesystems/caching/object.rst
+similarity index 95%
+rename from Documentation/filesystems/caching/object.txt
+rename to Documentation/filesystems/caching/object.rst
+index 100ff41127e4..ce0e043ccd33 100644
+--- a/Documentation/filesystems/caching/object.txt
++++ b/Documentation/filesystems/caching/object.rst
+@@ -1,10 +1,12 @@
+-	     ====================================================
+-	     IN-KERNEL CACHE OBJECT REPRESENTATION AND MANAGEMENT
+-	     ====================================================
++.. SPDX-License-Identifier: GPL-2.0
++
++====================================================
++In-Kernel Cache Object Representation and Management
++====================================================
+ 
+ By: David Howells <dhowells@redhat.com>
+ 
+-Contents:
++.. Contents:
+ 
+  (*) Representation
+ 
+@@ -18,8 +20,7 @@ Contents:
+  (*) The set of events.
+ 
+ 
+-==============
+-REPRESENTATION
++Representation
+ ==============
+ 
+ FS-Cache maintains an in-kernel representation of each object that a netfs is
+@@ -38,7 +39,7 @@ or even by no objects (it may not be cached).
+ 
+ Furthermore, both cookies and objects are hierarchical.  The two hierarchies
+ correspond, but the cookies tree is a superset of the union of the object trees
+-of multiple caches:
++of multiple caches::
+ 
+ 	    NETFS INDEX TREE               :      CACHE 1     :      CACHE 2
+ 	                                   :                  :
+@@ -89,8 +90,7 @@ pointers to the cookies.  The cookies themselves and any objects attached to
+ those cookies are hidden from it.
+ 
+ 
+-===============================
+-OBJECT MANAGEMENT STATE MACHINE
++Object Management State Machine
+ ===============================
+ 
+ Within FS-Cache, each active object is managed by its own individual state
+@@ -124,7 +124,7 @@ is not masked, the object will be queued for processing (by calling
+ fscache_enqueue_object()).
+ 
+ 
+-PROVISION OF CPU TIME
++Provision of CPU Time
+ ---------------------
+ 
+ The work to be done by the various states was given CPU time by the threads of
+@@ -141,7 +141,7 @@ because:
+      workqueues don't necessarily have the right numbers of threads.
+ 
+ 
+-LOCKING SIMPLIFICATION
++Locking Simplification
+ ----------------------
+ 
+ Because only one worker thread may be operating on any particular object's
+@@ -151,8 +151,7 @@ from the cache backend's representation (fscache_object) - which may be
+ requested from either end.
+ 
+ 
+-=================
+-THE SET OF STATES
++The Set of States
+ =================
+ 
+ The object state machine has a set of states that it can be in.  There are
+@@ -275,19 +274,17 @@ memory and potentially deletes stuff from disk:
+      this state.
+ 
+ 
+-THE SET OF EVENTS
++The Set of Events
+ -----------------
+ 
+ There are a number of events that can be raised to an object state machine:
+ 
+- (*) FSCACHE_OBJECT_EV_UPDATE
+-
++ FSCACHE_OBJECT_EV_UPDATE
+      The netfs requested that an object be updated.  The state machine will ask
+      the cache backend to update the object, and the cache backend will ask the
+      netfs for details of the change through its cookie definition ops.
+ 
+- (*) FSCACHE_OBJECT_EV_CLEARED
+-
++ FSCACHE_OBJECT_EV_CLEARED
+      This is signalled in two circumstances:
+ 
+      (a) when an object's last child object is dropped and
+@@ -296,20 +293,16 @@ There are a number of events that can be raised to an object state machine:
+ 
+      This is used to proceed from the dying state.
+ 
+- (*) FSCACHE_OBJECT_EV_ERROR
+-
++ FSCACHE_OBJECT_EV_ERROR
+      This is signalled when an I/O error occurs during the processing of some
+      object.
+ 
+- (*) FSCACHE_OBJECT_EV_RELEASE
+- (*) FSCACHE_OBJECT_EV_RETIRE
+-
++ FSCACHE_OBJECT_EV_RELEASE, FSCACHE_OBJECT_EV_RETIRE
+      These are signalled when the netfs relinquishes a cookie it was using.
+      The event selected depends on whether the netfs asks for the backing
+      object to be retired (deleted) or retained.
+ 
+- (*) FSCACHE_OBJECT_EV_WITHDRAW
+-
++ FSCACHE_OBJECT_EV_WITHDRAW
+      This is signalled when the cache backend wants to withdraw an object.
+      This means that the object will have to be detached from the netfs's
+      cookie.
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index e7b46dac7079..773af390c5e5 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -25,6 +25,8 @@ algorithms work.
+    locking
+    directory-locking
+ 
++   caching/index
++
+    porting
+ 
+ Filesystem support layers
+diff --git a/fs/fscache/object.c b/fs/fscache/object.c
+index cfeba839a0f2..efaa003b8323 100644
+--- a/fs/fscache/object.c
++++ b/fs/fscache/object.c
+@@ -4,7 +4,7 @@
+  * Copyright (C) 2007 Red Hat, Inc. All Rights Reserved.
+  * Written by David Howells (dhowells@redhat.com)
+  *
+- * See Documentation/filesystems/caching/object.txt for a description of the
++ * See Documentation/filesystems/caching/object.rst for a description of the
+  * object state machine and the in-kernel representations.
+  */
+ 
 -- 
 2.25.2
-
 
