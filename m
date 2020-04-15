@@ -2,156 +2,85 @@ Return-Path: <SRS0=AYPK=57=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCDF0C2BB55
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4469C2BA19
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:39:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 867032076D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:38:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EC9A2076D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:39:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586961539;
-	bh=8XWaSPQEn2foEpJeuRzmwtKfRSy0jcH1jiL1DK6qlto=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nb+WYoCNCMTdrqGD/5Xi2U9EhDewEU5gC0zj7yOBcz4C1N9FEy72wB8V94jfmlOb+
-	 puiESAzG9intX57LYp+RpNeAMNvCfmTxktY/iEjZg9ET+fdomPQrp5UkTmR++/2GE4
-	 AwYVRsinHwV7ZJ+nkD2Stju8SSR+u3g8kKJ+VNhA=
+	s=default; t=1586961543;
+	bh=ZAn4fVnJ4h8lZBxjSOeAHVxgiPImQxaKF8vbfwxbuBU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=mwjlkzc7kz4XGuteuVDgxyTIS+0iQ9e7sMtgrO5g9C7MmPyFU8NjF4bNPZv1+L9Cf
+	 tlTJxtcF7Cbq3IVTmlLoETeA5rbvDD/8PQA5MERxhDBcQjxnAdMEbNy4Q+BEn7K73x
+	 VGM/GXXUHILGsttjRRNa9Kuu9zeGc/txFr+OJqGk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2636691AbgDOOir (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 10:38:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45454 "EHLO mail.kernel.org"
+        id S2636697AbgDOOi6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:38:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55370 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394080AbgDOOdD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Apr 2020 10:33:03 -0400
-Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        id S2636694AbgDOOi4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Apr 2020 10:38:56 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9150121D7E;
-        Wed, 15 Apr 2020 14:32:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A0355208FE;
+        Wed, 15 Apr 2020 14:38:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586961171;
-        bh=8XWaSPQEn2foEpJeuRzmwtKfRSy0jcH1jiL1DK6qlto=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AP+f0GmvQ6G0JBFmdKJqZshPjHodSus0vbl5J9sBS9owW+n7b0zrdxk8xFyNAesV5
-         h+xIAakhmIVrieT1xjBycxZzwICap5J9XK9ksadIen6XF85K70JTbLtXmKazT593He
-         r7jVCWLjqIEsinUQiPR5uZO5srTuMjowi/fCqq0A=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jOj5t-006kOe-DB; Wed, 15 Apr 2020 16:32:49 +0200
+        s=default; t=1586961535;
+        bh=ZAn4fVnJ4h8lZBxjSOeAHVxgiPImQxaKF8vbfwxbuBU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tY9DqELbHXMpCmMz7SI/RXBBslV4N4wsou2WI3/3UnO+r12JlS/Hw5tBYAhh8CBYa
+         VOJeIo9y1326Vwm+Ljt/F8EfjAgXoiV380QX1+aANgr5WJWJ4Ky2OORGjt0IW4Qa6b
+         sWpxqqs2ekudjFMLk89UTtCnUiJrPxx8b/tKGReg=
+Date:   Wed, 15 Apr 2020 16:38:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jan Kara <jack@suse.com>, linux-ext4@vger.kernel.org
-Subject: [PATCH 12/34] docs: filesystems: convert dax.txt to ReST
-Date:   Wed, 15 Apr 2020 16:32:25 +0200
-Message-Id: <71b1f910b2c3569a9fdaa8778378dd734f4f0091.1586960617.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <cover.1586960617.git.mchehab+huawei@kernel.org>
-References: <cover.1586960617.git.mchehab+huawei@kernel.org>
+To:     rishi gupta <gupt21@gmail.com>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: Correct place to put the new doc for "How to use this driver"
+Message-ID: <20200415163851.2e5f96f8@coco.lan>
+In-Reply-To: <CALUj-gsRgkEyRe3vubEeWx8ENwEyE+Fzv4bKKDZ+iq3urRG0BA@mail.gmail.com>
+References: <CALUj-gsRgkEyRe3vubEeWx8ENwEyE+Fzv4bKKDZ+iq3urRG0BA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Adjust document title;
-- Some whitespace fixes and new line breaks;
-- Add it to filesystems/index.rst.
+Em Wed, 15 Apr 2020 09:25:02 +0530
+rishi gupta <gupt21@gmail.com> escreveu:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/admin-guide/ext4.rst             | 2 +-
- Documentation/filesystems/{dax.txt => dax.rst} | 9 +++++++--
- Documentation/filesystems/ext2.rst             | 2 +-
- Documentation/filesystems/index.rst            | 1 +
- 4 files changed, 10 insertions(+), 4 deletions(-)
- rename Documentation/filesystems/{dax.txt => dax.rst} (97%)
+> Hi Team,
+> 
+> I need to add a documentation file to let users know "how to use this driver".
+> Specifically this one (tty-ttyvs.rst): https://lkml.org/lkml/2020/2/15/153
+> 
+> (1) I am unable to find any directory where it will fit. This driver
+> belongs to Virtual TTY device category.
+> Any suggestions where to put it?
 
-diff --git a/Documentation/admin-guide/ext4.rst b/Documentation/admin-guide/ext4.rst
-index 9443fcef1876..103bcc345bad 100644
---- a/Documentation/admin-guide/ext4.rst
-+++ b/Documentation/admin-guide/ext4.rst
-@@ -392,7 +392,7 @@ When mounting an ext4 filesystem, the following option are accepted:
- 
-   dax
-         Use direct access (no page cache).  See
--        Documentation/filesystems/dax.txt.  Note that this option is
-+        Documentation/filesystems/dax.rst.  Note that this option is
-         incompatible with data=journal.
- 
- Data Mode
-diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.rst
-similarity index 97%
-rename from Documentation/filesystems/dax.txt
-rename to Documentation/filesystems/dax.rst
-index 735f3859b19f..5838144f80f0 100644
---- a/Documentation/filesystems/dax.txt
-+++ b/Documentation/filesystems/dax.rst
-@@ -1,5 +1,8 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================
- Direct Access for files
-------------------------
-+=======================
- 
- Motivation
- ----------
-@@ -46,6 +49,7 @@ stall the CPU for an extended period, you should also not attempt to
- implement direct_access.
- 
- These block devices may be used for inspiration:
-+
- - brd: RAM backed block device driver
- - dcssblk: s390 dcss block device driver
- - pmem: NVDIMM persistent memory driver
-@@ -55,6 +59,7 @@ Implementation Tips for Filesystem Writers
- ------------------------------------------
- 
- Filesystem support consists of
-+
- - adding support to mark inodes as being DAX by setting the S_DAX flag in
-   i_flags
- - implementing ->read_iter and ->write_iter operations which use dax_iomap_rw()
-@@ -127,6 +132,6 @@ by adding optional struct page support for pages under the control of
- the driver (see CONFIG_NVDIMM_PFN in drivers/nvdimm for an example of
- how to do this). In the non struct page cases O_DIRECT reads/writes to
- those memory ranges from a non-DAX file will fail (note that O_DIRECT
--reads/writes _of a DAX file_ do work, it is the memory that is being
-+reads/writes _of a DAX ``file_`` do work, it is the memory that is being
- accessed that is key here).  Other things that will not work in the
- non struct page case include RDMA, sendfile() and splice().
-diff --git a/Documentation/filesystems/ext2.rst b/Documentation/filesystems/ext2.rst
-index d83dbbb162e2..fa416b7a5802 100644
---- a/Documentation/filesystems/ext2.rst
-+++ b/Documentation/filesystems/ext2.rst
-@@ -24,7 +24,7 @@ check=none, nocheck	(*)	Don't do extra checking of bitmaps on mount
- 				(check=normal and check=strict options removed)
- 
- dax				Use direct access (no page cache).  See
--				Documentation/filesystems/dax.txt.
-+				Documentation/filesystems/dax.rst.
- 
- debug				Extra debugging information is sent to the
- 				kernel syslog.  Useful for developers.
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index c4f95f76ba6a..8e3ccb4ed483 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -24,6 +24,7 @@ algorithms work.
-    splice
-    locking
-    directory-locking
-+   dax
- 
-    automount-support
- 
--- 
-2.25.2
+Docs focused on driver usage belongs to the admin-guide.
 
+> 
+> (2) After putting it is it mandatory to link it to
+> Documentation/index.rst as suggested here
+> https://www.kernel.org/doc/html/latest/doc-guide/index.html
+
+You should actually add it to Documentation/admin-guide/index.rst.
+
+> 
+> Regards,
+> Rishi
+
+
+
+Thanks,
+Mauro
