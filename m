@@ -2,99 +2,189 @@ Return-Path: <SRS0=AYPK=57=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D326AC2BB55
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 10:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 216C4C2BB55
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:33:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B323120737
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 10:57:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD6C02137B
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:33:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586961180;
+	bh=keC3oeMrcSnH2waKHArc3YabYgrn90H59L0DAFUCsIY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=brCb07PdrFbJxpzSU2F1VXuHfKOp+o1cXSu2yjwbd4Q1fq3lENX2BqrqsjUY6N5ar
+	 Mcfgxz+GcW7yck48WCJSs0daPyMQ6zyPBYuW6w35OAaHB7un96KBe0XB0x6oyVnIVR
+	 0WkY/Bys+BuH++H2U20uPdCbXI/fQdkVafAAEny0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896668AbgDOK5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 06:57:31 -0400
-Received: from sauhun.de ([88.99.104.3]:52374 "EHLO pokefinder.org"
+        id S2394043AbgDOOc5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:32:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44666 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896419AbgDOK53 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Apr 2020 06:57:29 -0400
-Received: from localhost (p54B33507.dip0.t-ipconnect.de [84.179.53.7])
-        by pokefinder.org (Postfix) with ESMTPSA id 073202C1FF1;
-        Wed, 15 Apr 2020 12:57:27 +0200 (CEST)
-Date:   Wed, 15 Apr 2020 12:57:26 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        qemu-devel@nongnu.org, Jean Delvare <jdelvare@suse.com>,
-        linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v6 2/8] i2c: i801: Use GPIO_LOOKUP() helper macro
-Message-ID: <20200415105726.GL1141@ninjato>
-References: <20200324135328.5796-1-geert+renesas@glider.be>
- <20200324135653.6676-1-geert+renesas@glider.be>
- <20200324135653.6676-2-geert+renesas@glider.be>
+        id S2394035AbgDOOcw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Apr 2020 10:32:52 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E18DA21556;
+        Wed, 15 Apr 2020 14:32:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586961171;
+        bh=keC3oeMrcSnH2waKHArc3YabYgrn90H59L0DAFUCsIY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=LVbZ0I0S6b08mK3fFP8UhvrofpuMP8EtI6gh515livaswy0xYYaRtOZorAgmgmbxS
+         vGBDfH1Ilxg0BrnYT3sflatTWgzXBR7CvmHDCq3qlwbhn9Outy4K0jM37WPhOy+hrQ
+         Fb5DswJTk7rw/DiWt26Pr40+UTG7PZP+pAl/1m00=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jOj5t-006kOK-7O; Wed, 15 Apr 2020 16:32:49 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 08/34] docs: filesystems: convert cifs/cifsroot.rst to ReST
+Date:   Wed, 15 Apr 2020 16:32:21 +0200
+Message-Id: <74bf0300a2a3dd2d5f005a85099acb3138a8895c.1586960617.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
+In-Reply-To: <cover.1586960617.git.mchehab+huawei@kernel.org>
+References: <cover.1586960617.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5VuzLDXibKSJvVYD"
-Content-Disposition: inline
-In-Reply-To: <20200324135653.6676-2-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+- Add a SPDX header;
+- Adjust document title;
+- Some whitespace fixes and new line breaks;
+- Mark literal blocks as such;
+- Add it to filesystems/index.rst.
 
---5VuzLDXibKSJvVYD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../cifs/{cifsroot.txt => cifsroot.rst}       | 56 +++++++++++--------
+ Documentation/filesystems/index.rst           |  1 +
+ 2 files changed, 33 insertions(+), 24 deletions(-)
+ rename Documentation/filesystems/cifs/{cifsroot.txt => cifsroot.rst} (72%)
 
-On Tue, Mar 24, 2020 at 02:56:47PM +0100, Geert Uytterhoeven wrote:
-> i801_add_mux() fills in the GPIO lookup table by manually populating an
-> array of gpiod_lookup structures.  Use the existing GPIO_LOOKUP() helper
-> macro instead, to relax a dependency on the gpiod_lookup structure's
-> member names.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Jean Delvare <jdelvare@suse.com>
-> Cc: linux-i2c@vger.kernel.org
+diff --git a/Documentation/filesystems/cifs/cifsroot.txt b/Documentation/filesystems/cifs/cifsroot.rst
+similarity index 72%
+rename from Documentation/filesystems/cifs/cifsroot.txt
+rename to Documentation/filesystems/cifs/cifsroot.rst
+index 947b7ec6ce9e..4930bb443134 100644
+--- a/Documentation/filesystems/cifs/cifsroot.txt
++++ b/Documentation/filesystems/cifs/cifsroot.rst
+@@ -1,7 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========================================
+ Mounting root file system via SMB (cifs.ko)
+ ===========================================
+ 
+ Written 2019 by Paulo Alcantara <palcantara@suse.de>
++
+ Written 2019 by Aurelien Aptel <aaptel@suse.com>
+ 
+ The CONFIG_CIFS_ROOT option enables experimental root file system
+@@ -32,7 +36,7 @@ Server configuration
+ ====================
+ 
+ To enable SMB1+UNIX extensions you will need to set these global
+-settings in Samba smb.conf:
++settings in Samba smb.conf::
+ 
+     [global]
+     server min protocol = NT1
+@@ -41,12 +45,16 @@ settings in Samba smb.conf:
+ Kernel command line
+ ===================
+ 
+-root=/dev/cifs
++::
++
++    root=/dev/cifs
+ 
+ This is just a virtual device that basically tells the kernel to mount
+ the root file system via SMB protocol.
+ 
+-cifsroot=//<server-ip>/<share>[,options]
++::
++
++    cifsroot=//<server-ip>/<share>[,options]
+ 
+ Enables the kernel to mount the root file system via SMB that are
+ located in the <server-ip> and <share> specified in this option.
+@@ -65,33 +73,33 @@ options
+ Examples
+ ========
+ 
+-Export root file system as a Samba share in smb.conf file.
++Export root file system as a Samba share in smb.conf file::
+ 
+-...
+-[linux]
+-	path = /path/to/rootfs
+-	read only = no
+-	guest ok = yes
+-	force user = root
+-	force group = root
+-	browseable = yes
+-	writeable = yes
+-	admin users = root
+-	public = yes
+-	create mask = 0777
+-	directory mask = 0777
+-...
++    ...
++    [linux]
++	    path = /path/to/rootfs
++	    read only = no
++	    guest ok = yes
++	    force user = root
++	    force group = root
++	    browseable = yes
++	    writeable = yes
++	    admin users = root
++	    public = yes
++	    create mask = 0777
++	    directory mask = 0777
++    ...
+ 
+-Restart smb service.
++Restart smb service::
+ 
+-# systemctl restart smb
++    # systemctl restart smb
+ 
+ Test it under QEMU on a kernel built with CONFIG_CIFS_ROOT and
+-CONFIG_IP_PNP options enabled.
++CONFIG_IP_PNP options enabled::
+ 
+-# qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
+-  -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
+-  -append "root=/dev/cifs rw ip=dhcp cifsroot=//10.0.2.2/linux,username=foo,password=bar console=ttyS0 3"
++    # qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
++    -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
++    -append "root=/dev/cifs rw ip=dhcp cifsroot=//10.0.2.2/linux,username=foo,password=bar console=ttyS0 3"
+ 
+ 
+ 1: https://wiki.samba.org/index.php/UNIX_Extensions
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 773af390c5e5..d993b33a48c4 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -59,6 +59,7 @@ Documentation for filesystem implementations.
+    befs
+    bfs
+    btrfs
++   cifs/cifsroot
+    ceph
+    cramfs
+    debugfs
+-- 
+2.25.2
 
-Applied to for-next, thanks!
-
-
---5VuzLDXibKSJvVYD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6W6JYACgkQFA3kzBSg
-KbZydg/8DULg8EIKkSzuh9yI6MGrXGUqwwvyIQHaC4oNjuLWC+cZPSPccmfkU9uQ
-o6AiQrnaN8DZR3q8QmuGEM1u8lWVsa41SjYPxIoqdYanYHCHb0SkajUh0nSCKpxF
-l5o/rcx0eoQq0cfS3D+Zx5tSrFXvruFSDCvcRRTkpkrjSN+k3Xu9Ax3WN3tj4+6q
-n2h254Z2JkFSDU5lLY/anLWJ8T9rw+o7TtuswdLV+whub9bZJqY9CMAMqAzJJyaG
-wK7HKn5WHLLEYGLDboN93jsTUFSn+HFQHNaDX0VKxGe+SvuWBQuMNC3gXQ0d4m7D
-tZtcW/6d4fVQ7GN5J+qgumLfjrWRpGgBSj5OSQtQhhlg1odDZEKediQXODLQe0Fl
-Zhcc1eh+IG4gBmfQ6DS00DMbeOBxTbQhKIfMvM8kLkQii6aLRuGr3GXD56Ssuo3v
-0U0h/L27isgQ/+EW1Bpncb03xpwkkF/x95sEFf2OsJDKmZwFKkI2vdlMYT78OLZc
-w5R954iVPIi1MgZoxULGz8DJ7TYLBYjLJQsgH4rADEJ9qh057/uo2pdGJsaBp4tH
-WDcpnmNMGjE96EhcdwgUWQ+jxhJJoaFofTDV8wdXIVApVW7h1mABRMk6Lnjfp+c9
-O+TDbzFWsbskBkXKpgp8wuDujmh8FLz2CRkeVDkuvan7iy6oUh0=
-=f8zu
------END PGP SIGNATURE-----
-
---5VuzLDXibKSJvVYD--
