@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 877D5C2BB55
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:35:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F7D4C2BA19
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:35:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 644A620936
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:35:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 18BB52076D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Apr 2020 14:35:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586961329;
-	bh=RbyX6clEe1Kk8Vn80HHEN4SUoKWE9yfaoFqHwqbb8tI=;
+	s=default; t=1586961346;
+	bh=S+Euk9oHhmfilRY+lsBzopI5g3W+nxnpkfKBSclUXC4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=QUwN+h0DYfL7sr6Y8yTjSI6ZynuAdWSWZMhUO8G2HRiWcwp+qh9wuNY3N5q8SKiv/
-	 w8jNTTmLwZ5SGwCdLk8sHLGdAeu0g9y8lSMVj8HpQAs4IQQFfyhpyN1kl3QpYrOJnH
-	 m8sTvIHYdvsku5TNPbrtea2g4FntM8wYX/NFVWo8=
+	b=yVrnK0Cr9kepo/CgYvHLiVVYT1MlIvli2JVSwX0J9nyiDhhVEMIkyypdLmtslhCnT
+	 oKWfL1ccDBEBeQGYcWAyFzy25CZGUWEOPahaDl+ixEt/Ljn+4Ewq5CFB7F4vrw0fFk
+	 zO4MLd8v7763kzaLx+Wd7z5IUd+aihl88YScsF6o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394171AbgDOOfX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 10:35:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45890 "EHLO mail.kernel.org"
+        id S2394174AbgDOOfh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Apr 2020 10:35:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45450 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394091AbgDOOdF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2394089AbgDOOdF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 15 Apr 2020 10:33:05 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E7E55221F5;
+        by mail.kernel.org (Postfix) with ESMTPSA id D1117221EA;
         Wed, 15 Apr 2020 14:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586961172;
-        bh=RbyX6clEe1Kk8Vn80HHEN4SUoKWE9yfaoFqHwqbb8tI=;
+        bh=S+Euk9oHhmfilRY+lsBzopI5g3W+nxnpkfKBSclUXC4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wqm64SBNcgWvyPSOxDG7TujVEwLrOOcP7/4iw2H7CFPUwAn/31WThuh8/6OIlqhmp
-         qSqoJKj9fZ8AlrjdBOX89+iLSpctC9H1EAqUo2+F2lFVmhjx8aiQHYRTI80hRxGzSt
-         nz0N5Ye78DRnYNzm68+c09w/rzA/kCYQjuD1UzCU=
+        b=0Yj8RCF6MCTBaqPooIEsJpaHO5HUVpcjXi+keyMTNr2EACIqBPhgg+sixBLZre1Xv
+         pl+tPGHlkJQD7ArSHEYIO8/4u4xj3f4bIpRzqhGyHZsoeoVVlfieJOszcJnAVOduTd
+         MWKjYWWTareblHtQCnXqACjyWWCklIDvDEG0tJPQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOj5u-006kQF-6f; Wed, 15 Apr 2020 16:32:50 +0200
+        id 1jOj5u-006kQ5-3w; Wed, 15 Apr 2020 16:32:50 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 32/34] docs: filesystems: convert sysfs-tagging.txt to ReST
-Date:   Wed, 15 Apr 2020 16:32:45 +0200
-Message-Id: <73189273bad97f990d0cc08de81f8b7530e961a6.1586960617.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 30/34] docs: filesystems: convert spufs/spu_run.txt to ReST
+Date:   Wed, 15 Apr 2020 16:32:43 +0200
+Message-Id: <2a6a774ce0d3c2a71391235a80a9d9f0db6242aa.1586960617.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586960617.git.mchehab+huawei@kernel.org>
 References: <cover.1586960617.git.mchehab+huawei@kernel.org>
@@ -58,84 +58,154 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Adjust document title;
-- Some whitespace fixes and new line breaks;
-- Mark literal blocks as such;
-- Add it to filesystems/index.rst.
+This file is at groff output format. Manually convert it to
+ReST format, trying to preserve a similar output after parsed.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/index.rst           |  1 +
- .../{sysfs-tagging.txt => sysfs-tagging.rst}  | 22 ++++++++++++-------
- 2 files changed, 15 insertions(+), 8 deletions(-)
- rename Documentation/filesystems/{sysfs-tagging.txt => sysfs-tagging.rst} (72%)
+ Documentation/filesystems/spufs/index.rst     |  1 +
+ .../spufs/{spu_run.txt => spu_run.rst}        | 65 ++++++++++++-------
+ 2 files changed, 42 insertions(+), 24 deletions(-)
+ rename Documentation/filesystems/spufs/{spu_run.txt => spu_run.rst} (84%)
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 34d5f53931e7..687fe64d8b5c 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -37,6 +37,7 @@ algorithms work.
-    seq_file
-    sharedsubtree
-    sysfs-pci
-+   sysfs-tagging
+diff --git a/Documentation/filesystems/spufs/index.rst b/Documentation/filesystems/spufs/index.rst
+index 939cf59a7d9e..5ed4a8494967 100644
+--- a/Documentation/filesystems/spufs/index.rst
++++ b/Documentation/filesystems/spufs/index.rst
+@@ -10,3 +10,4 @@ SPU Filesystem
  
-    automount-support
- 
-diff --git a/Documentation/filesystems/sysfs-tagging.txt b/Documentation/filesystems/sysfs-tagging.rst
-similarity index 72%
-rename from Documentation/filesystems/sysfs-tagging.txt
-rename to Documentation/filesystems/sysfs-tagging.rst
-index c7c8e6438958..8888a05c398e 100644
---- a/Documentation/filesystems/sysfs-tagging.txt
-+++ b/Documentation/filesystems/sysfs-tagging.rst
-@@ -1,5 +1,8 @@
+    spufs
+    spu_create
++   spu_run
+diff --git a/Documentation/filesystems/spufs/spu_run.txt b/Documentation/filesystems/spufs/spu_run.rst
+similarity index 84%
+rename from Documentation/filesystems/spufs/spu_run.txt
+rename to Documentation/filesystems/spufs/spu_run.rst
+index d5c6a00d0f97..7fdb1c31cb91 100644
+--- a/Documentation/filesystems/spufs/spu_run.txt
++++ b/Documentation/filesystems/spufs/spu_run.rst
+@@ -1,17 +1,26 @@
+-SPU_RUN(2)                 Linux Programmer's Manual                SPU_RUN(2)
 +.. SPDX-License-Identifier: GPL-2.0
+ 
++=======
++spu_run
++=======
+ 
+ 
+-NAME
++Name
++====
+        spu_run - execute an spu context
+ 
+ 
+-SYNOPSIS
+-       #include <sys/spu.h>
++Synopsis
++========
+ 
+-       int spu_run(int fd, unsigned int *npc, unsigned int *event);
++       ::
+ 
+-DESCRIPTION
++	    #include <sys/spu.h>
 +
++	    int spu_run(int fd, unsigned int *npc, unsigned int *event);
++
++Description
++===========
+        The  spu_run system call is used on PowerPC machines that implement the
+        Cell Broadband Engine Architecture in order to access Synergistic  Pro-
+        cessor  Units  (SPUs).  It  uses the fd that was returned from spu_cre-
+@@ -45,24 +54,31 @@ DESCRIPTION
+        If NULL is passed as the event argument, these errors will result in  a
+        signal delivered to the calling process.
+ 
+-RETURN VALUE
++Return Value
++============
+        spu_run  returns the value of the spu_status register or -1 to indicate
+        an error and set errno to one of the error  codes  listed  below.   The
+        spu_status  register  value  contains  a  bit  mask of status codes and
+        optionally a 14 bit code returned from the stop-and-signal  instruction
+        on the SPU. The bit masks for the status codes are:
+ 
+-       0x02   SPU was stopped by stop-and-signal.
++       0x02
++	      SPU was stopped by stop-and-signal.
+ 
+-       0x04   SPU was stopped by halt.
++       0x04
++	      SPU was stopped by halt.
+ 
+-       0x08   SPU is waiting for a channel.
++       0x08
++	      SPU is waiting for a channel.
+ 
+-       0x10   SPU is in single-step mode.
++       0x10
++	      SPU is in single-step mode.
+ 
+-       0x20   SPU has tried to execute an invalid instruction.
++       0x20
++	      SPU has tried to execute an invalid instruction.
+ 
+-       0x40   SPU has tried to access an invalid channel.
++       0x40
++	      SPU has tried to access an invalid channel.
+ 
+        0x3fff0000
+               The  bits  masked with this value contain the code returned from
+@@ -71,7 +87,8 @@ RETURN VALUE
+        There are always one or more of the lower eight bits set  or  an  error
+        code is returned from spu_run.
+ 
+-ERRORS
++Errors
++======
+        EAGAIN or EWOULDBLOCK
+               fd is in non-blocking mode and spu_run would block.
+ 
+@@ -93,29 +110,29 @@ ERRORS
+               not loaded.
+ 
+ 
+-NOTES
++Notes
++=====
+        spu_run  is  meant  to  be  used  from  libraries that implement a more
+        abstract interface to SPUs, not to be used from  regular  applications.
+        See  http://www.bsc.es/projects/deepcomputing/linuxoncell/ for the rec-
+        ommended libraries.
+ 
+ 
+-CONFORMING TO
++Conforming to
 +=============
- Sysfs tagging
---------------
-+=============
+        This call is Linux specific and only implemented by the ppc64 architec-
+        ture. Programs using this system call are not portable.
  
- (Taken almost verbatim from Eric Biederman's netns tagging patch
- commit msg)
-@@ -18,25 +21,28 @@ in the directories and applications only see a limited set of
- the network devices.
  
- Each sysfs directory entry may be tagged with a namespace via the
--void *ns member of its kernfs_node.  If a directory entry is tagged,
--then kernfs_node->flags will have a flag between KOBJ_NS_TYPE_NONE
-+``void *ns member`` of its ``kernfs_node``.  If a directory entry is tagged,
-+then ``kernfs_node->flags`` will have a flag between KOBJ_NS_TYPE_NONE
- and KOBJ_NS_TYPES, and ns will point to the namespace to which it
- belongs.
+-BUGS
++Bugs
++====
+        The code does not yet fully implement all features lined out here.
  
--Each sysfs superblock's kernfs_super_info contains an array void
--*ns[KOBJ_NS_TYPES].  When a task in a tagging namespace
-+Each sysfs superblock's kernfs_super_info contains an array
-+``void *ns[KOBJ_NS_TYPES]``.  When a task in a tagging namespace
- kobj_nstype first mounts sysfs, a new superblock is created.  It
- will be differentiated from other sysfs mounts by having its
--s_fs_info->ns[kobj_nstype] set to the new namespace.  Note that
-+``s_fs_info->ns[kobj_nstype]`` set to the new namespace.  Note that
- through bind mounting and mounts propagation, a task can easily view
- the contents of other namespaces' sysfs mounts.  Therefore, when a
- namespace exits, it will call kobj_ns_exit() to invalidate any
- kernfs_node->ns pointers pointing to it.
  
- Users of this interface:
--- define a type in the kobj_ns_type enumeration.
--- call kobj_ns_type_register() with its kobj_ns_type_operations which has
-+
-+- define a type in the ``kobj_ns_type`` enumeration.
-+- call kobj_ns_type_register() with its ``kobj_ns_type_operations`` which has
-+
-   - current_ns() which returns current's namespace
-   - netlink_ns() which returns a socket's namespace
-   - initial_ns() which returns the initial namesapce
-+
- - call kobj_ns_exit() when an individual tag is no longer valid
+-AUTHOR
++Author
++======
+        Arnd Bergmann <arndb@de.ibm.com>
+ 
+-SEE ALSO
++See Also
++========
+        capabilities(7), close(2), spu_create(2), spufs(7)
+-
+-
+-
+-
+-Linux                             2005-09-28                        SPU_RUN(2)
 -- 
 2.25.2
 
