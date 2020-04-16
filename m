@@ -2,311 +2,262 @@ Return-Path: <SRS0=GBzO=6A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F3EC2BA19
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 02:01:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69D4AC2BA2B
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 04:56:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96E9120737
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 02:01:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4543220767
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 04:56:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BJ08i6nx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l9ukk57M"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730851AbgDPCBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Apr 2020 22:01:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729464AbgDPCBp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Apr 2020 22:01:45 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFF44C061A0C;
-        Wed, 15 Apr 2020 19:01:41 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id u10so4341882lfo.8;
-        Wed, 15 Apr 2020 19:01:41 -0700 (PDT)
+        id S2404780AbgDPE4b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Apr 2020 00:56:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60586 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404729AbgDPE4a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Apr 2020 00:56:30 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25DD7C061A0C;
+        Wed, 15 Apr 2020 21:56:30 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id u65so1131858pfb.4;
+        Wed, 15 Apr 2020 21:56:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FOqIc/TOVs6L09OcBTbR6ZTsfXk3SzvVBeRG5EOHvT8=;
-        b=BJ08i6nxi096nOw2iLrhhmUn/XkX8+p282HCVpqdDuxmxEjiHVA4m9L9WqBsrU01su
-         vQQqKaHdJjqBuOIR2+xwzc55iZ/eednW8iOFat7f2jdSwoqxMyj2TokuTUqUhGWoxR2c
-         DbpimohrbpNeXHhtp+4FIn1DZrKHWxXCWM/JAXvr0FEiyHMpFLHkd+8j/kCT+V/DCsfF
-         a4AUXxSfrg39quw4seJy69WkbMXPgHCI73bI/OmMFzTZsv3Uyj80ryX0t4XNBWfRJEC2
-         Exp5GAzsVi5f3M/CFmhvJyidpMqD3uXPvUR5XUGn0okZ9edvD7MvDnsryEnUitwylpB8
-         zm0g==
+        h=from:to:cc:subject:date:message-id;
+        bh=SzP7bHD5Hc4jVvputS81h7AwLyVMTVzgcy2Av2iBbno=;
+        b=l9ukk57MXClJMRH+oZYY1IMPAWfCKffwTD/MRHif0/vKJsYekb3MIVZgfvcgkEHoYa
+         4sMiA4FxoPD/1hgm9NXfi3Lluo/tYMsdUiul3pPyUeQxLQ7v9ntrttcNADiP4u9rARgB
+         HZWncVdEYBU8T3Jyq9egkIVT7SJ3kaBznGu2t0k1Uh9ZBcXJY/OQrFdM18Z2Yausafrq
+         qB67/H1wyWEqeasZs6jHiBnly5SGVtnKvHxyD+Uu+xU+lAhmt7y+s89mzhMeXxL3Dla8
+         SBSxEV8WYkh8j93pGCSUvcDMtS6NJyBO/FQZ0Nl0JsIoSYxDBAdfxG4pGFkEcp12Mky+
+         9jqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FOqIc/TOVs6L09OcBTbR6ZTsfXk3SzvVBeRG5EOHvT8=;
-        b=cPmJWYPKujNDJH7ufgvnNLYEH6h4fCd8eB0z+ClAu/QRRce4MRZ6CodsLQ7SnUMSRu
-         nnkaAwjwPZ7ScEX0QeLWVyIZNERiJsE8pyGkcbVb8zTudC7C84YzeKQshh6JxpUffJ3z
-         etxmlC5yeqzwlm3KSSGddkPUb3luyQhgq5RToPj+o1YSMDUi4XKPSOCqxB3ydGu8byO3
-         GMAd2ebkkclRbTyHqqTPtru/9W8qvuX0T44In9Gb6e7K9ecrpq89k4YtreR/yeKh4dMR
-         4uk8DOrX/pKtaUY0CXlAlYmkzM1Tsvauca7AgYs+rH4jhD571mV+RS4uxkj5v1qcaZCF
-         qP/A==
-X-Gm-Message-State: AGi0PuZYUviyYTDJnEyKLPS8Ax9uunBoDG1PMiC2zySQkQjHG6pAUUVa
-        RsPrncdw0FCiS66tBiE3w3dXJykgwHreGv4R02Y=
-X-Google-Smtp-Source: APiQypL1MKE1uoflFbDDZHj6SDB3nJCYOPEtW1SaLCCzW9NjU3rmqFbT4wb9Vx75XqGVUC4u6fBYWnbtBrUV6ATL8h4=
-X-Received: by 2002:a05:6512:259:: with SMTP id b25mr4594523lfo.16.1587002500226;
- Wed, 15 Apr 2020 19:01:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <1586521984-5890-1-git-send-email-orson.unisoc@gmail.com>
- <CA+H2tpH4+cLN0z7v50UdKCXOqZDt2rSYF5Lvm9-WBYJ3YWtJVg@mail.gmail.com> <c50deb5a-e3c1-a3c7-1467-fb78b13ceea8@akamai.com>
-In-Reply-To: <c50deb5a-e3c1-a3c7-1467-fb78b13ceea8@akamai.com>
-From:   Orson Zhai <orsonzhai@gmail.com>
-Date:   Thu, 16 Apr 2020 10:01:28 +0800
-Message-ID: <CA+H2tpELUK_ZFjDz79ydp3d4uG+5c_SsG5100NeC4WAj_vZPHQ@mail.gmail.com>
-Subject: Re: [PATCH] dynamic_debug: Add an option to enable dynamic debug for
- modules only
-To:     Jason Baron <jbaron@akamai.com>
-Cc:     Orson Zhai <orson.unisoc@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Android Kernel Team <kernel-team@android.com>,
-        Orson Zhai <orson.zhai@unisoc.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=SzP7bHD5Hc4jVvputS81h7AwLyVMTVzgcy2Av2iBbno=;
+        b=FolfxKY8xP183t8qmeVu2ZSBHrntfq/TwUNfW8GvNnmYEzkSgs1Xf6C342IjGshWlg
+         FAgsq3Ev3jV9HUyt74B+Z73eS5tF9yfd965hZUf8FTBBJGpHKa+6rv02DrugoJe9ec7S
+         gBImCiYHzsvZBGMKiYOBhdOCjZYm9S4npYClDGR5mA8/WbJG0lNzPZA6p86Txxvdr1eK
+         v0rOCyFqaR6sApOkRqvtFpP2EiOOWql8+3YABiK08zYiHumz2HyQD/xrjg4EAq/L0WFg
+         m9Vs5UAkLUoAwaf66kykOUsfYGf3v1OOYKV37pVspeb5q1pDQIyM20rS7ZbybP8qsAjY
+         CJ3w==
+X-Gm-Message-State: AGi0PuaewoDe47H60DQm8QYZW1EiQOG+zPrM/cL5VPUQvVTMtkrJ5as+
+        nHlVEpbXyeC1nvGMH/i2S6h592aTiNY=
+X-Google-Smtp-Source: APiQypJa7VvdT4JFQmvU9sh/Orly6zGOEZqw9Ndxdm2WZL5BeFtsHXB+ih3k/RAX44DLyazVdVVF4Q==
+X-Received: by 2002:a63:c149:: with SMTP id p9mr29292799pgi.389.1587012989254;
+        Wed, 15 Apr 2020 21:56:29 -0700 (PDT)
+Received: from localhost.localdomain ([183.82.182.213])
+        by smtp.gmail.com with ESMTPSA id 3sm4749198pgh.75.2020.04.15.21.56.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 Apr 2020 21:56:28 -0700 (PDT)
+From:   Rishi Gupta <gupt21@gmail.com>
+To:     gregkh@linuxfoundation.org, jslaby@suse.com, robh+dt@kernel.org,
+        corbet@lwn.net, andriy.shevchenko@linux.intel.com
+Cc:     devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Rishi Gupta <gupt21@gmail.com>
+Subject: [PATCH v3 1/4] dt-bindings: ttyvs: document serial null modem driver bindings
+Date:   Thu, 16 Apr 2020 10:26:11 +0530
+Message-Id: <1587012974-21219-1-git-send-email-gupt21@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 16, 2020 at 2:48 AM Jason Baron <jbaron@akamai.com> wrote:
->
->
->
-> On 4/15/20 12:31 PM, Orson Zhai wrote:
-> > Hi Jason,
-> >
-> > On Fri, Apr 10, 2020 at 8:33 PM Orson Zhai <orson.unisoc@gmail.com> wrote:
-> >>
-> >> From: Orson Zhai <orson.zhai@unisoc.com>
-> >>
-> >> Instead of enabling dynamic debug globally with CONFIG_DYNAMIC_DEBUG,
-> >> CONFIG_DYNAMIC_DEBUG_CORE will only enable core function of dynamic
-> >> debug. With the DEBUG_MODULE defined for any modules, dynamic debug
-> >> will be tied to them.
-> >>
-> >> This is useful for people who only want to enable dynamic debug for
-> >> kernel modules without worrying about kernel image size and memory
-> >> consumption is increasing too much.
-> >>
-> >
-> > Do you have any comments for this patch?
-> >
->
-> So I like that you added the 'DEBUG_MODULE', but I'm wondering if the
-> naming is too generic? Maybe DYNAMIC_DEBUG_MODULE?
+The ttyvs driver creates virtual tty devices. These devices can
+also be created through device tree. This commit document this.
 
-OK, I think it is more precise than before.
+Signed-off-by: Rishi Gupta <gupt21@gmail.com>
+---
+Changes in v3:
+- Rebased on top of v5.7-rc1
 
->
-> There may also be other places where you want to have the per-module
-> dependency, for example netdev_dbg()? But perhaps further expansion
-> could wait for a user...
+Changes in v2:
+- Made dev-num property mandatory
+- Removed descriptions not needed due to driver changes
 
-Yes.
-I find more in netdevice.h, net.h and ib_verbs.h.
-I will change all of them in V2.
-But acpi.h seems different which I'd like to ignore.
+ .../devicetree/bindings/serial/ttyvs.yaml          | 165 +++++++++++++++++++++
+ 1 file changed, 165 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/serial/ttyvs.yaml
 
-Best,
-Orson
+diff --git a/Documentation/devicetree/bindings/serial/ttyvs.yaml b/Documentation/devicetree/bindings/serial/ttyvs.yaml
+new file mode 100644
+index 0000000..c919424
+--- /dev/null
++++ b/Documentation/devicetree/bindings/serial/ttyvs.yaml
+@@ -0,0 +1,165 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/serial/ttyvs.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Virtual multi-port serial card DT bindings
++
++maintainers:
++  - Rishi Gupta <gupt21@gmail.com>
++
++description: |
++  The ttyvs driver creates a virtual card which can have 0 to 65535
++  virtual tty devices. The card is modelled as a node with zero or more
++  child nodes each representing a virtual tty device. These devices
++  can be configured to be a loop-back type device or it can be part of
++  a null-modem pair.
++
++  Devices can be created by defining properties required to instantiate
++  a device (see examples Ex1/2/3 at the end). More information about
++  how to use this driver is here Documentation/virtual/tty-ttyvs.rst
++
++properties:
++  compatible:
++    const: ttyvs,virtual-uart-card
++
++  max-num-vs-devs:
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - minimum: 0
++      - maximum: 0xffff
++    maxItems: 1
++    description:
++      By default, the driver can create upto 64 devices. This number can
++      be changed by passing 'max_num_vs_devs' module parameter to the driver
++      or by defining 'max-num-vs-devs' DT property. If both are used then
++      driver updates itself to support total number of devices as defined
++      by max-num-vs-devs property.
++
++patternProperties:
++  "^ttyvs@[0-9]+$":
++    type: object
++    description:
++      Node representing one virtual tty device. This describes, device
++      number and its configuration.
++
++    properties:
++      dev-num:
++        allOf:
++          - $ref: /schemas/types.yaml#/definitions/uint32
++          - minimum: 0
++          - maximum: 65534
++        maxItems: 1
++        description:
++          Specifies index (N in /dev/ttyvsN) to use for creating device.
++          Valid value for dev-num is from 0 to 65534.
++
++      rtsmap:
++        allOf:
++          - $ref: /schemas/types.yaml#/definitions/uint32-array
++        items:
++          - enum: [1, 6, 8, 9]
++        maxItems: 1
++        description:
++          Specifies to which pin(s) RTS pin of this device should be
++          connected. Valid values are pin 1 (DCD), pin 6 (DSR), pin 8
++          (CTS) and pin 9 (RI). If this is not used then RTS pin is
++          left unconnected.
++
++      dtrmap:
++        allOf:
++          - $ref: /schemas/types.yaml#/definitions/uint32-array
++        items:
++          - enum: [1, 6, 8, 9]
++        maxItems: 1
++        description:
++          Specifies to which pin(s) DTR pin of this device should be
++          connected. Valid values are pin 1 (DCD), pin 6 (DSR), pin 8
++          (CTS) and pin 9 (RI). If this is not used then DTR pin is
++          left unconnected.
++
++      set-dtr-at-open:
++        type: boolean
++        description:
++          If used, DTR signal will be asserted by driver when device
++          node is opened by user space application.
++
++      peer-dev:
++        $ref: /schemas/types.yaml#definitions/phandle
++        description:
++          Phandle to the peer DT node if this node is part of a null
++          modem pair.
++
++required:
++  - compatible
++  - dev-num
++
++examples:
++  - |
++    # Ex1; Null-modem pair only TX/RX connected
++    # /dev/ttvs0  <---> /dev/ttyvs1
++    #      TX (3) ----> (2) RX
++    #      RX (2) <---- (3) TX
++
++    ttyvs-card@0 {
++        compatible = "ttyvs,virtual-uart-card";
++
++        ttyvs0: ttyvs0 {
++            dev-num = <0>;
++            peer-dev = <&ttyvs1>;
++        };
++
++        ttyvs1: ttyvs1 {
++            dev-num = <1>;
++            peer-dev = <&ttyvs0>;
++        };
++    };
++
++  - |
++    # Ex2; Standard loop-back device
++    # TX (3) -->|
++    # RX (2) <--|
++
++    ttyvs-card@0 {
++        compatible = "ttyvs,virtual-uart-card";
++        ttyvs2 {
++            dev-num = <2>;
++            rtsmap = <8>;
++            dtrmap = <1 6>;
++            set-dtr-at-open;
++        };
++    };
++
++  - |
++    # Ex3; Standard null-modem pair for hardware flow control
++    # TX  (3) ----> (2) RX
++    # RX  (2) <---- (3) TX
++    # RTS (7) ----> (8) CTS
++    # DTR (4) --+-> (1) DCD
++    #           +-> (6) DSR
++    # CTS (8) <---- (7) RTS
++    # DCD (1) <-+-- (4) DTR
++    # DSR (6) <-+
++
++    ttyvs-card@0 {
++        compatible = "ttyvs,virtual-uart-card";
++        max-num-vs-devs = <128>;
++
++        ttyvs3: ttyvs3 {
++            dev-num = <3>;
++            rtsmap = <8>;
++            dtrmap = <1 6>;
++            set-dtr-at-open;
++            peer-dev = <&ttyvs4>;
++        };
++
++        ttyvs4: ttyvs4 {
++            dev-num = <4>;
++            rtsmap = <8>;
++            dtrmap = <1 6>;
++            set-dtr-at-open;
++            peer-dev = <&ttyvs3>;
++        };
++    };
++...
+-- 
+2.7.4
 
->
-> Thanks,
->
-> -Jason
->
->
-> > Best Regards,
-> > Orson
-> >
-> >> Signed-off-by: Orson Zhai <orson.zhai@unisoc.com>
-> >> ---
-> >>  Documentation/admin-guide/dynamic-debug-howto.rst |  7 +++++--
-> >>  include/linux/dev_printk.h                        |  6 ++++--
-> >>  include/linux/dynamic_debug.h                     |  2 +-
-> >>  include/linux/printk.h                            | 14 +++++++++-----
-> >>  lib/Kconfig.debug                                 | 12 ++++++++++++
-> >>  lib/Makefile                                      |  2 +-
-> >>  lib/dynamic_debug.c                               |  9 +++++++--
-> >>  7 files changed, 39 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> >> index 0dc2eb8..fa5b8d4 100644
-> >> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> >> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> >> @@ -13,8 +13,11 @@ kernel code to obtain additional kernel information.  Currently, if
-> >>  ``print_hex_dump_debug()``/``print_hex_dump_bytes()`` calls can be dynamically
-> >>  enabled per-callsite.
-> >>
-> >> -If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is just
-> >> -shortcut for ``print_hex_dump(KERN_DEBUG)``.
-> >> +If ``CONFIG_DYNAMIC_DEBUG_CORE`` is set, only the modules with ``DEBUG_MODULE``
-> >> +defined will be tied into dynamic debug.
-> >> +
-> >> +If ``CONFIG_DYNAMIC_DEBUG`` or ``CONFIG_DYNAMIC_DEBUG_CORE`` is not set,
-> >> +``print_hex_dump_debug()`` is just shortcut for ``print_hex_dump(KERN_DEBUG)``.
-> >>
-> >>  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
-> >>  its ``prefix_str`` argument, if it is constant string; or ``hexdump``
-> >> diff --git a/include/linux/dev_printk.h b/include/linux/dev_printk.h
-> >> index 5aad06b..2fb0671 100644
-> >> --- a/include/linux/dev_printk.h
-> >> +++ b/include/linux/dev_printk.h
-> >> @@ -109,7 +109,8 @@ void _dev_info(const struct device *dev, const char *fmt, ...)
-> >>  #define dev_info(dev, fmt, ...)                                                \
-> >>         _dev_info(dev, dev_fmt(fmt), ##__VA_ARGS__)
-> >>
-> >> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> >> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> >> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
-> >>  #define dev_dbg(dev, fmt, ...)                                         \
-> >>         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-> >>  #elif defined(DEBUG)
-> >> @@ -181,7 +182,8 @@ do {                                                                        \
-> >>         dev_level_ratelimited(dev_notice, dev, fmt, ##__VA_ARGS__)
-> >>  #define dev_info_ratelimited(dev, fmt, ...)                            \
-> >>         dev_level_ratelimited(dev_info, dev, fmt, ##__VA_ARGS__)
-> >> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> >> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> >> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
-> >>  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
-> >>  #define dev_dbg_ratelimited(dev, fmt, ...)                             \
-> >>  do {                                                                   \
-> >> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-> >> index 4cf02ec..abcd5fd 100644
-> >> --- a/include/linux/dynamic_debug.h
-> >> +++ b/include/linux/dynamic_debug.h
-> >> @@ -48,7 +48,7 @@ struct _ddebug {
-> >>
-> >>
-> >>
-> >> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> >> +#if defined(CONFIG_DYNAMIC_DEBUG_CORE)
-> >>  int ddebug_add_module(struct _ddebug *tab, unsigned int n,
-> >>                                 const char *modname);
-> >>  extern int ddebug_remove_module(const char *mod_name);
-> >> diff --git a/include/linux/printk.h b/include/linux/printk.h
-> >> index 1e6108b..77fab5b 100644
-> >> --- a/include/linux/printk.h
-> >> +++ b/include/linux/printk.h
-> >> @@ -291,8 +291,9 @@ extern int kptr_restrict;
-> >>  /*
-> >>   * These can be used to print at the various log levels.
-> >>   * All of these will print unconditionally, although note that pr_debug()
-> >> - * and other debug macros are compiled out unless either DEBUG is defined
-> >> - * or CONFIG_DYNAMIC_DEBUG is set.
-> >> + * and other debug macros are compiled out unless either DEBUG is defined,
-> >> + * CONFIG_DYNAMIC_DEBUG is set, or CONFIG_DYNAMIC_DEBUG_CORE is set when
-> >> + * DEBUG_MODULE being defined for any modules.
-> >>   */
-> >>  #define pr_emerg(fmt, ...) \
-> >>         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-> >> @@ -327,7 +328,8 @@ extern int kptr_restrict;
-> >>
-> >>
-> >>  /* If you are writing a driver, please use dev_dbg instead */
-> >> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> >> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> >> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
-> >>  #include <linux/dynamic_debug.h>
-> >>
-> >>  /* dynamic_pr_debug() uses pr_fmt() internally so we don't need it here */
-> >> @@ -453,7 +455,8 @@ extern int kptr_restrict;
-> >>  #endif
-> >>
-> >>  /* If you are writing a driver, please use dev_dbg instead */
-> >> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> >> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> >> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
-> >>  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
-> >>  #define pr_debug_ratelimited(fmt, ...)                                 \
-> >>  do {                                                                   \
-> >> @@ -500,7 +503,8 @@ static inline void print_hex_dump_bytes(const char *prefix_str, int prefix_type,
-> >>
-> >>  #endif
-> >>
-> >> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> >> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> >> +       (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DEBUG_MODULE))
-> >>  #define print_hex_dump_debug(prefix_str, prefix_type, rowsize, \
-> >>                              groupsize, buf, len, ascii)        \
-> >>         dynamic_hex_dump(prefix_str, prefix_type, rowsize,      \
-> >> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> >> index 50c1f5f..25a1b9de 100644
-> >> --- a/lib/Kconfig.debug
-> >> +++ b/lib/Kconfig.debug
-> >> @@ -99,6 +99,7 @@ config DYNAMIC_DEBUG
-> >>         default n
-> >>         depends on PRINTK
-> >>         depends on (DEBUG_FS || PROC_FS)
-> >> +       select DYNAMIC_DEBUG_CORE
-> >>         help
-> >>
-> >>           Compiles debug level messages into the kernel, which would not
-> >> @@ -165,6 +166,17 @@ config DYNAMIC_DEBUG
-> >>           See Documentation/admin-guide/dynamic-debug-howto.rst for additional
-> >>           information.
-> >>
-> >> +config DYNAMIC_DEBUG_CORE
-> >> +       bool "Enable core function of dynamic debug support"
-> >> +       depends on PRINTK
-> >> +       depends on (DEBUG_FS || PROC_FS)
-> >> +       help
-> >> +         Enable core functional support of dynamic debug. It is useful
-> >> +         when you want to tie dynamic debug to your kernel modules with
-> >> +         DEBUG_MODULE defined for each of them, especially for the case
-> >> +         of embedded system where the kernel image size is sensitive for
-> >> +         people.
-> >> +
-> >>  config SYMBOLIC_ERRNAME
-> >>         bool "Support symbolic error names in printf"
-> >>         default y if PRINTK
-> >> diff --git a/lib/Makefile b/lib/Makefile
-> >> index 685aee6..8952772 100644
-> >> --- a/lib/Makefile
-> >> +++ b/lib/Makefile
-> >> @@ -186,7 +186,7 @@ lib-$(CONFIG_GENERIC_BUG) += bug.o
-> >>
-> >>  obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
-> >>
-> >> -obj-$(CONFIG_DYNAMIC_DEBUG) += dynamic_debug.o
-> >> +obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
-> >>  obj-$(CONFIG_SYMBOLIC_ERRNAME) += errname.o
-> >>
-> >>  obj-$(CONFIG_NLATTR) += nlattr.o
-> >> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> >> index 8f199f4..321437b 100644
-> >> --- a/lib/dynamic_debug.c
-> >> +++ b/lib/dynamic_debug.c
-> >> @@ -1032,8 +1032,13 @@ static int __init dynamic_debug_init(void)
-> >>         int verbose_bytes = 0;
-> >>
-> >>         if (&__start___verbose == &__stop___verbose) {
-> >> -               pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
-> >> -               return 1;
-> >> +               if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG)) {
-> >> +                       pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
-> >> +                       return 1;
-> >> +               }
-> >> +               pr_info("Ignore empty _ddebug table in a CONFIG_DYNAMIC_DEBUG_CORE build\n");
-> >> +               ddebug_init_success = 1;
-> >> +               return 0;
-> >>         }
-> >>         iter = __start___verbose;
-> >>         modname = iter->modname;
-> >> --
-> >> 2.7.4
-> >>
