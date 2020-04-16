@@ -2,166 +2,92 @@ Return-Path: <SRS0=GBzO=6A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DCBFC2D0EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A8EC2BB85
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:56:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8824820784
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:48:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46B572078B
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:56:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZB0SB3T3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502919AbgDPIsA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Apr 2020 04:48:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:35550 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2502885AbgDPIru (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Apr 2020 04:47:50 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id ED75AACD8;
-        Thu, 16 Apr 2020 08:47:47 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 1D3711E1250; Thu, 16 Apr 2020 10:47:48 +0200 (CEST)
-Date:   Thu, 16 Apr 2020 10:47:48 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jan Kara <jack@suse.com>
-Subject: Re: [PATCH 24/34] docs: filesystems: convert quota.txt to ReST
-Message-ID: <20200416084748.GB23739@quack2.suse.cz>
-References: <cover.1586960617.git.mchehab+huawei@kernel.org>
- <36dc2cc02b525893ab66dca7ada2090236fb1879.1586960617.git.mchehab+huawei@kernel.org>
+        id S2502985AbgDPI4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Apr 2020 04:56:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41484 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2503037AbgDPI4D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Apr 2020 04:56:03 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03571C061A10
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2020 01:56:00 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id g14so2424112otg.10
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2020 01:56:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aCt/25bZqDvJVBbS2T/nSkaf4i35Ayu5fc8C9w+DSHs=;
+        b=ZB0SB3T3b/D2aou2Jlt1WAGRUEG6DPFL8ORrU5aJDGvS4RRldCBtGq2u7ipF43i5+e
+         m/n8V+goLmrO0pw+8cjm6JNzoJXnwPETMIFcZ+HOgQKONpKf2OP/Px6JmiJdtlW6Sikt
+         E3E3/GJMs9fYI7obYF+mrWBKiHyFnQ20T5a6caWaCncQ5gNuRPc+kBFKK/F10B5w47KA
+         XAe6XDI71mypF0rmtCrEAH5exDprf+LakqHYHxw/kMhdR3F1XHquGELfQY2VnTq3M5x/
+         f0+zXtyA5UD23Mhql3kdSSsqXZ4unrLQGx8xVdKvGxAjOycZ13qziMAOsaemXu4l2ASR
+         QbiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aCt/25bZqDvJVBbS2T/nSkaf4i35Ayu5fc8C9w+DSHs=;
+        b=uVomFmkI9dJEHMwYwSZ9JEFwe87Wq3vGeGYuLC1LT689zzcWyNE4iuc0HAqjsSoTQh
+         ZqdaaKNKK6tb2v8XtIwW3VntvgFQsCd768Io447XOoo2MwYVpiL7fcOh0AnBK7vPDwWP
+         SIMqYcjPi3ccHBnBZHwA+FG/KkIaThXqw2JWy8ESjCmZgsyQroXMlSZWBQc+xJcEr4Ik
+         OSrwBrpk/qLjXM+ycWF2VYPFIU8ow0hYD4Ey/9d8JD44Bn/ByNKr48HE8HOSmW9AfWFu
+         YV+IHRyM69wXG5XKf+XLQDCCvZP7Y45hhQNTSuMhMuTsO+0QbJCiR2YpmUyhzrIveHAC
+         zYsQ==
+X-Gm-Message-State: AGi0PubMfzXempU5y2LERDJFFwYwEhS3hHZfgacdmNbdlIr4DVmkp0qG
+        4L/WdSTn9mmdeVIaYeIvUA9kgovKjCLlSIsppeD3dA==
+X-Google-Smtp-Source: APiQypL2lhwIWiAZBB0Q4t1XxMP5gwqrnEPMEO5qsx7kwPdeLMRsCyvcU6J1wF1QmqGUwY3+rdRxCitBqx9DG5FCrOM=
+X-Received: by 2002:a05:6830:1f39:: with SMTP id e25mr26276595oth.135.1587027360244;
+ Thu, 16 Apr 2020 01:56:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <36dc2cc02b525893ab66dca7ada2090236fb1879.1586960617.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200414143743.32677-1-peter.maydell@linaro.org> <20200415151132.03cad507@lwn.net>
+In-Reply-To: <20200415151132.03cad507@lwn.net>
+From:   Peter Maydell <peter.maydell@linaro.org>
+Date:   Thu, 16 Apr 2020 09:55:49 +0100
+Message-ID: <CAFEAcA8igL7L8D16shd6KoVH8Yvu0SwyxcShKoGFgLmDhnSrNA@mail.gmail.com>
+Subject: Re: [PATCH] scripts/kernel-doc: Add missing close-paren in c:function directives
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 15-04-20 16:32:37, Mauro Carvalho Chehab wrote:
-> - Add a SPDX header;
-> - Adjust document title;
-> - Some whitespace fixes and new line breaks;
-> - Add it to filesystems/index.rst.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Wed, 15 Apr 2020 at 22:11, Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Tue, 14 Apr 2020 15:37:43 +0100
+> Peter Maydell <peter.maydell@linaro.org> wrote:
+> > When kernel-doc generates a 'c:function' directive for a function
+> > one of whose arguments is a function pointer, it fails to print
+> > the close-paren after the argument list of the function pointer
+> > argument. For instance:
+> >
+> >  long work_on_cpu(int cpu, long (*fn) (void *, void * arg)
 
-Looks good to me. You can add:
+> Interesting.  This appears to have affected well over 100 function
+> definitions in the docs, and nobody ever noticed.  Good to know we're all
+> reading it closely :)
 
-Acked-by: Jan Kara <jack@suse.cz>
+Heh; I think my conclusion is "function signatures for APIs which
+don't provide and use a typedef for function-pointer-arguments are
+sufficiently hard to read that people don't notice simple errors
+in them", but then I prefer the with-typedef style to start with :-)
 
-								Honza
-
-> ---
->  Documentation/filesystems/index.rst           |  1 +
->  .../filesystems/{quota.txt => quota.rst}      | 41 +++++++++++++------
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 31 insertions(+), 13 deletions(-)
->  rename Documentation/filesystems/{quota.txt => quota.rst} (81%)
-> 
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index a35b7d6ee5bc..8a17f8234b86 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -33,6 +33,7 @@ algorithms work.
->     locks
->     mandatory-locking
->     mount_api
-> +   quota
->  
->     automount-support
->  
-> diff --git a/Documentation/filesystems/quota.txt b/Documentation/filesystems/quota.rst
-> similarity index 81%
-> rename from Documentation/filesystems/quota.txt
-> rename to Documentation/filesystems/quota.rst
-> index 32874b06ebe9..a30cdd47c652 100644
-> --- a/Documentation/filesystems/quota.txt
-> +++ b/Documentation/filesystems/quota.rst
-> @@ -1,4 +1,6 @@
-> +.. SPDX-License-Identifier: GPL-2.0
->  
-> +===============
->  Quota subsystem
->  ===============
->  
-> @@ -39,6 +41,7 @@ Currently, the interface supports only one message type QUOTA_NL_C_WARNING.
->  This command is used to send a notification about any of the above mentioned
->  events. Each message has six attributes. These are (type of the argument is
->  in parentheses):
-> +
->          QUOTA_NL_A_QTYPE (u32)
->  	  - type of quota being exceeded (one of USRQUOTA, GRPQUOTA)
->          QUOTA_NL_A_EXCESS_ID (u64)
-> @@ -48,20 +51,34 @@ in parentheses):
->  	  - UID of a user who caused the event
->          QUOTA_NL_A_WARNING (u32)
->  	  - what kind of limit is exceeded:
-> -		QUOTA_NL_IHARDWARN - inode hardlimit
-> -		QUOTA_NL_ISOFTLONGWARN - inode softlimit is exceeded longer
-> -		  than given grace period
-> -		QUOTA_NL_ISOFTWARN - inode softlimit
-> -		QUOTA_NL_BHARDWARN - space (block) hardlimit
-> -		QUOTA_NL_BSOFTLONGWARN - space (block) softlimit is exceeded
-> -		  longer than given grace period.
-> -		QUOTA_NL_BSOFTWARN - space (block) softlimit
-> +
-> +		QUOTA_NL_IHARDWARN
-> +		    inode hardlimit
-> +		QUOTA_NL_ISOFTLONGWARN
-> +		    inode softlimit is exceeded longer
-> +		    than given grace period
-> +		QUOTA_NL_ISOFTWARN
-> +		    inode softlimit
-> +		QUOTA_NL_BHARDWARN
-> +		    space (block) hardlimit
-> +		QUOTA_NL_BSOFTLONGWARN
-> +		    space (block) softlimit is exceeded
-> +		    longer than given grace period.
-> +		QUOTA_NL_BSOFTWARN
-> +		    space (block) softlimit
-> +
->  	  - four warnings are also defined for the event when user stops
->  	    exceeding some limit:
-> -		QUOTA_NL_IHARDBELOW - inode hardlimit
-> -		QUOTA_NL_ISOFTBELOW - inode softlimit
-> -		QUOTA_NL_BHARDBELOW - space (block) hardlimit
-> -		QUOTA_NL_BSOFTBELOW - space (block) softlimit
-> +
-> +		QUOTA_NL_IHARDBELOW
-> +		    inode hardlimit
-> +		QUOTA_NL_ISOFTBELOW
-> +		    inode softlimit
-> +		QUOTA_NL_BHARDBELOW
-> +		    space (block) hardlimit
-> +		QUOTA_NL_BSOFTBELOW
-> +		    space (block) softlimit
-> +
->          QUOTA_NL_A_DEV_MAJOR (u32)
->  	  - major number of a device with the affected filesystem
->          QUOTA_NL_A_DEV_MINOR (u32)
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 470389ef0135..519f5d84adca 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5009,7 +5009,7 @@ W:	http://www.win.tue.nl/~aeb/partitions/partition_types-1.html
->  DISKQUOTA
->  M:	Jan Kara <jack@suse.com>
->  S:	Maintained
-> -F:	Documentation/filesystems/quota.txt
-> +F:	Documentation/filesystems/quota.rst
->  F:	fs/quota/
->  F:	include/linux/quota*.h
->  F:	include/uapi/linux/quota*.h
-> -- 
-> 2.25.2
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+thanks
+-- PMM
