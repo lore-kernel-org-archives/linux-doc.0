@@ -6,138 +6,159 @@ X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7D2CC2BB85
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DCBFC2D0EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:48:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CAAE72076A
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:46:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8824820784
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:48:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441254AbgDPIqr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Apr 2020 04:46:47 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34646 "EHLO mx2.suse.de"
+        id S2502919AbgDPIsA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Apr 2020 04:48:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35550 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2502817AbgDPIqf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Apr 2020 04:46:35 -0400
+        id S2502885AbgDPIru (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Apr 2020 04:47:50 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 4A2BDAF40;
-        Thu, 16 Apr 2020 08:45:38 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id ED75AACD8;
+        Thu, 16 Apr 2020 08:47:47 +0000 (UTC)
 Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id F2ED81E1250; Thu, 16 Apr 2020 10:45:37 +0200 (CEST)
-Date:   Thu, 16 Apr 2020 10:45:37 +0200
+        id 1D3711E1250; Thu, 16 Apr 2020 10:47:48 +0200 (CEST)
+Date:   Thu, 16 Apr 2020 10:47:48 +0200
 From:   Jan Kara <jack@suse.cz>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 14/34] docs: filesystems: convert dnotify.txt to ReST
-Message-ID: <20200416084537.GA23739@quack2.suse.cz>
+        Jan Kara <jack@suse.com>
+Subject: Re: [PATCH 24/34] docs: filesystems: convert quota.txt to ReST
+Message-ID: <20200416084748.GB23739@quack2.suse.cz>
 References: <cover.1586960617.git.mchehab+huawei@kernel.org>
- <ed628af6cc9fc157c617825c74d6084eb42c7800.1586960617.git.mchehab+huawei@kernel.org>
+ <36dc2cc02b525893ab66dca7ada2090236fb1879.1586960617.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ed628af6cc9fc157c617825c74d6084eb42c7800.1586960617.git.mchehab+huawei@kernel.org>
+In-Reply-To: <36dc2cc02b525893ab66dca7ada2090236fb1879.1586960617.git.mchehab+huawei@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 15-04-20 16:32:27, Mauro Carvalho Chehab wrote:
+On Wed 15-04-20 16:32:37, Mauro Carvalho Chehab wrote:
 > - Add a SPDX header;
-> - Add a document title;
+> - Adjust document title;
 > - Some whitespace fixes and new line breaks;
-> - Add table markups;
-> - Add it to filesystems/index.rst
+> - Add it to filesystems/index.rst.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Looks good to me. I expect you merge this through documentation tree so you
-can add:
+Looks good to me. You can add:
 
 Acked-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
-
-
 > ---
->  .../filesystems/{dnotify.txt => dnotify.rst}          | 11 ++++++++---
->  Documentation/filesystems/index.rst                   |  1 +
->  MAINTAINERS                                           |  2 +-
->  3 files changed, 10 insertions(+), 4 deletions(-)
->  rename Documentation/filesystems/{dnotify.txt => dnotify.rst} (90%)
+>  Documentation/filesystems/index.rst           |  1 +
+>  .../filesystems/{quota.txt => quota.rst}      | 41 +++++++++++++------
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 31 insertions(+), 13 deletions(-)
+>  rename Documentation/filesystems/{quota.txt => quota.rst} (81%)
 > 
-> diff --git a/Documentation/filesystems/dnotify.txt b/Documentation/filesystems/dnotify.rst
-> similarity index 90%
-> rename from Documentation/filesystems/dnotify.txt
-> rename to Documentation/filesystems/dnotify.rst
-> index 08d575ece45d..a28a1f9ef79c 100644
-> --- a/Documentation/filesystems/dnotify.txt
-> +++ b/Documentation/filesystems/dnotify.rst
-> @@ -1,5 +1,8 @@
-> -		Linux Directory Notification
-> -		============================
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +============================
-> +Linux Directory Notification
-> +============================
->  
->  	   Stephen Rothwell <sfr@canb.auug.org.au>
->  
-> @@ -12,6 +15,7 @@ being delivered using signals.
->  The application decides which "events" it wants to be notified about.
->  The currently defined events are:
->  
-> +	=========	=====================================================
->  	DN_ACCESS	A file in the directory was accessed (read)
->  	DN_MODIFY	A file in the directory was modified (write,truncate)
->  	DN_CREATE	A file was created in the directory
-> @@ -19,6 +23,7 @@ The currently defined events are:
->  	DN_RENAME	A file in the directory was renamed
->  	DN_ATTRIB	A file in the directory had its attributes
->  			changed (chmod,chown)
-> +	=========	=====================================================
->  
->  Usually, the application must reregister after each notification, but
->  if DN_MULTISHOT is or'ed with the event mask, then the registration will
-> @@ -36,7 +41,7 @@ especially important if DN_MULTISHOT is specified.  Note that SIGRTMIN
->  is often blocked, so it is better to use (at least) SIGRTMIN + 1.
->  
->  Implementation expectations (features and bugs :-))
-> ----------------------------
-> +---------------------------------------------------
->  
->  The notification should work for any local access to files even if the
->  actual file system is on a remote server.  This implies that remote
 > diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 470b2da2b7b1..960e0cc29491 100644
+> index a35b7d6ee5bc..8a17f8234b86 100644
 > --- a/Documentation/filesystems/index.rst
 > +++ b/Documentation/filesystems/index.rst
-> @@ -26,6 +26,7 @@ algorithms work.
->     directory-locking
->     dax
->     devpts
-> +   dnotify
+> @@ -33,6 +33,7 @@ algorithms work.
+>     locks
+>     mandatory-locking
+>     mount_api
+> +   quota
 >  
 >     automount-support
 >  
+> diff --git a/Documentation/filesystems/quota.txt b/Documentation/filesystems/quota.rst
+> similarity index 81%
+> rename from Documentation/filesystems/quota.txt
+> rename to Documentation/filesystems/quota.rst
+> index 32874b06ebe9..a30cdd47c652 100644
+> --- a/Documentation/filesystems/quota.txt
+> +++ b/Documentation/filesystems/quota.rst
+> @@ -1,4 +1,6 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+>  
+> +===============
+>  Quota subsystem
+>  ===============
+>  
+> @@ -39,6 +41,7 @@ Currently, the interface supports only one message type QUOTA_NL_C_WARNING.
+>  This command is used to send a notification about any of the above mentioned
+>  events. Each message has six attributes. These are (type of the argument is
+>  in parentheses):
+> +
+>          QUOTA_NL_A_QTYPE (u32)
+>  	  - type of quota being exceeded (one of USRQUOTA, GRPQUOTA)
+>          QUOTA_NL_A_EXCESS_ID (u64)
+> @@ -48,20 +51,34 @@ in parentheses):
+>  	  - UID of a user who caused the event
+>          QUOTA_NL_A_WARNING (u32)
+>  	  - what kind of limit is exceeded:
+> -		QUOTA_NL_IHARDWARN - inode hardlimit
+> -		QUOTA_NL_ISOFTLONGWARN - inode softlimit is exceeded longer
+> -		  than given grace period
+> -		QUOTA_NL_ISOFTWARN - inode softlimit
+> -		QUOTA_NL_BHARDWARN - space (block) hardlimit
+> -		QUOTA_NL_BSOFTLONGWARN - space (block) softlimit is exceeded
+> -		  longer than given grace period.
+> -		QUOTA_NL_BSOFTWARN - space (block) softlimit
+> +
+> +		QUOTA_NL_IHARDWARN
+> +		    inode hardlimit
+> +		QUOTA_NL_ISOFTLONGWARN
+> +		    inode softlimit is exceeded longer
+> +		    than given grace period
+> +		QUOTA_NL_ISOFTWARN
+> +		    inode softlimit
+> +		QUOTA_NL_BHARDWARN
+> +		    space (block) hardlimit
+> +		QUOTA_NL_BSOFTLONGWARN
+> +		    space (block) softlimit is exceeded
+> +		    longer than given grace period.
+> +		QUOTA_NL_BSOFTWARN
+> +		    space (block) softlimit
+> +
+>  	  - four warnings are also defined for the event when user stops
+>  	    exceeding some limit:
+> -		QUOTA_NL_IHARDBELOW - inode hardlimit
+> -		QUOTA_NL_ISOFTBELOW - inode softlimit
+> -		QUOTA_NL_BHARDBELOW - space (block) hardlimit
+> -		QUOTA_NL_BSOFTBELOW - space (block) softlimit
+> +
+> +		QUOTA_NL_IHARDBELOW
+> +		    inode hardlimit
+> +		QUOTA_NL_ISOFTBELOW
+> +		    inode softlimit
+> +		QUOTA_NL_BHARDBELOW
+> +		    space (block) hardlimit
+> +		QUOTA_NL_BSOFTBELOW
+> +		    space (block) softlimit
+> +
+>          QUOTA_NL_A_DEV_MAJOR (u32)
+>  	  - major number of a device with the affected filesystem
+>          QUOTA_NL_A_DEV_MINOR (u32)
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 511d19bcfa1e..eebb55517709 100644
+> index 470389ef0135..519f5d84adca 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -4995,7 +4995,7 @@ M:	Jan Kara <jack@suse.cz>
->  R:	Amir Goldstein <amir73il@gmail.com>
->  L:	linux-fsdevel@vger.kernel.org
+> @@ -5009,7 +5009,7 @@ W:	http://www.win.tue.nl/~aeb/partitions/partition_types-1.html
+>  DISKQUOTA
+>  M:	Jan Kara <jack@suse.com>
 >  S:	Maintained
-> -F:	Documentation/filesystems/dnotify.txt
-> +F:	Documentation/filesystems/dnotify.rst
->  F:	fs/notify/dnotify/
->  F:	include/linux/dnotify.h
->  
+> -F:	Documentation/filesystems/quota.txt
+> +F:	Documentation/filesystems/quota.rst
+>  F:	fs/quota/
+>  F:	include/linux/quota*.h
+>  F:	include/uapi/linux/quota*.h
 > -- 
 > 2.25.2
 > 
