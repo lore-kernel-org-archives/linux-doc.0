@@ -2,104 +2,276 @@ Return-Path: <SRS0=GBzO=6A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7FD7C2D0EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 10:06:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE243C2BB85
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 10:42:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EC102051A
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 10:06:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 903AD21D95
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 10:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504652AbgDPKGA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Apr 2020 06:06:00 -0400
-Received: from mga02.intel.com ([134.134.136.20]:38870 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2504378AbgDPKFy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Apr 2020 06:05:54 -0400
-IronPort-SDR: bzu0HXqmTP3+zqUhauTmrfsa9nt1lFXliZt+g1E3dCLfiV+ZCxJSjA1epdpmxEtxuxmnwjidTC
- +xbK+Vpcje3w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2020 03:05:53 -0700
-IronPort-SDR: RjBv+uX+qdBSawkGTFreimgV4amAPsx7yEe1IJ3aQIXgdP4x219JR8hl3o9eqO/hwoAVeQq9M9
- UXTLT5nwMsgA==
-X-IronPort-AV: E=Sophos;i="5.72,390,1580803200"; 
-   d="scan'208";a="427781153"
-Received: from ellenfax-mobl2.ger.corp.intel.com (HELO localhost) ([10.249.44.122])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2020 03:05:42 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Ricardo Ribalda Delgado <ribalda@kernel.org>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        dmaengine@vger.kernel.org, Matthias Maennich <maennich@google.com>,
-        Harry Wei <harryxiyou@gmail.com>, x86@kernel.org,
-        ecryptfs@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        target-devel@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Tyler Hicks <code@tyhicks.com>, Vinod Koul <vkoul@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-scsi@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>, netdev@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linuxppc-dev@lists.ozlabs.org, Borislav Petkov <bp@alien8.de>
-Subject: Re: [PATCH v2 0/2] Don't generate thousands of new warnings when building docs
-In-Reply-To: <20200320171020.78f045c5@lwn.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1584716446.git.mchehab+huawei@kernel.org> <20200320171020.78f045c5@lwn.net>
-Date:   Thu, 16 Apr 2020 13:05:39 +0300
-Message-ID: <87a73b4ufg.fsf@intel.com>
+        id S2505463AbgDPKlw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Apr 2020 06:41:52 -0400
+Received: from smtp-190d.mail.infomaniak.ch ([185.125.25.13]:57493 "EHLO
+        smtp-190d.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2505437AbgDPKlZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Apr 2020 06:41:25 -0400
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 492wjP4SGFzlhth3;
+        Thu, 16 Apr 2020 12:40:25 +0200 (CEST)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 492wjP1scszlhhhp;
+        Thu, 16 Apr 2020 12:40:25 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v16 04/10] landlock: Add ptrace restrictions
+Date:   Thu, 16 Apr 2020 12:39:49 +0200
+Message-Id: <20200416103955.145757-5-mic@digikod.net>
+X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20200416103955.145757-1-mic@digikod.net>
+References: <20200416103955.145757-1-mic@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 20 Mar 2020, Jonathan Corbet <corbet@lwn.net> wrote:
-> On Fri, 20 Mar 2020 16:11:01 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
->
->> This small series address a regression caused by a new patch at
->> docs-next (and at linux-next).
->
-> I don't know how I missed that mess, sorry.  I plead distracting times or
-> something like that.  Heck, I think I'll blame everything on the plague
-> for at least the next few weeks.
->
-> Anyway, I've applied this, thanks for cleaning it up.
+Using ptrace(2) and related debug features on a target process can lead
+to a privilege escalation.  Indeed, ptrace(2) can be used by an attacker
+to impersonate another task and to remain undetected while performing
+malicious activities.  Thanks to  ptrace_may_access(), various part of
+the kernel can check if a tracer is more privileged than a tracee.
 
-There's still more fallout from the autosectionlabel extension
-introduced in 58ad30cf91f0 ("docs: fix reference to
-core-api/namespaces.rst"), e.g. in i915.rst.
+A landlocked process has fewer privileges than a non-landlocked process
+and must then be subject to additional restrictions when manipulating
+processes. To be allowed to use ptrace(2) and related syscalls on a
+target process, a landlocked process must have a subset of the target
+process' rules (i.e. the tracee must be in a sub-domain of the tracer).
 
-The biggest trouble is, if you have headings in kernel-doc comments,
-Sphinx is unable pinpoint where the dupes are. For example:
+Signed-off-by: Mickaël Salaün <mic@digikod.net>
+Cc: James Morris <jmorris@namei.org>
+Cc: Jann Horn <jannh@google.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Serge E. Hallyn <serge@hallyn.com>
+---
 
- Documentation/gpu/i915.rst:610: WARNING: duplicate label gpu/i915:layout, other instance in
- Documentation/gpu/i915.rst
+Changes since v14:
+* Constify variables.
 
-However there is no "layout" label in i915.rst. The one being warned
-about I can dig into based on the line number, but not the second
-one. You have to resort to grepping the source. And avoiding duplicate
-subsection headings in completely isolated places is a minefield.
+Changes since v13:
+* Make the ptrace restriction mandatory, like in the v10.
+* Remove the eBPF dependency.
 
-BR,
-Jani.
+Previous changes:
+https://lore.kernel.org/lkml/20191104172146.30797-5-mic@digikod.net/
+---
+ security/landlock/Makefile |   2 +-
+ security/landlock/ptrace.c | 120 +++++++++++++++++++++++++++++++++++++
+ security/landlock/ptrace.h |  14 +++++
+ security/landlock/setup.c  |   2 +
+ 4 files changed, 137 insertions(+), 1 deletion(-)
+ create mode 100644 security/landlock/ptrace.c
+ create mode 100644 security/landlock/ptrace.h
 
-
+diff --git a/security/landlock/Makefile b/security/landlock/Makefile
+index 041ea242e627..f1d1eb72fa76 100644
+--- a/security/landlock/Makefile
++++ b/security/landlock/Makefile
+@@ -1,4 +1,4 @@
+ obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
+ 
+ landlock-y := setup.o object.o ruleset.o \
+-	cred.o
++	cred.o ptrace.o
+diff --git a/security/landlock/ptrace.c b/security/landlock/ptrace.c
+new file mode 100644
+index 000000000000..61df38b13f5c
+--- /dev/null
++++ b/security/landlock/ptrace.c
+@@ -0,0 +1,120 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Landlock LSM - Ptrace hooks
++ *
++ * Copyright © 2017-2020 Mickaël Salaün <mic@digikod.net>
++ * Copyright © 2020 ANSSI
++ */
++
++#include <asm/current.h>
++#include <linux/cred.h>
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/lsm_hooks.h>
++#include <linux/rcupdate.h>
++#include <linux/sched.h>
++
++#include "common.h"
++#include "cred.h"
++#include "ptrace.h"
++#include "ruleset.h"
++#include "setup.h"
++
++/**
++ * domain_scope_le - Checks domain ordering for scoped ptrace
++ *
++ * @parent: Parent domain.
++ * @child: Potential child of @parent.
++ *
++ * Checks if the @parent domain is less or equal to (i.e. an ancestor, which
++ * means a subset of) the @child domain.
++ */
++static bool domain_scope_le(const struct landlock_ruleset *const parent,
++		const struct landlock_ruleset *const child)
++{
++	const struct landlock_hierarchy *walker;
++
++	if (!parent)
++		return true;
++	if (!child)
++		return false;
++	for (walker = child->hierarchy; walker; walker = walker->parent) {
++		if (walker == parent->hierarchy)
++			/* @parent is in the scoped hierarchy of @child. */
++			return true;
++	}
++	/* There is no relationship between @parent and @child. */
++	return false;
++}
++
++static bool task_is_scoped(const struct task_struct *const parent,
++		const struct task_struct *const child)
++{
++	bool is_scoped;
++	const struct landlock_ruleset *dom_parent, *dom_child;
++
++	rcu_read_lock();
++	dom_parent = landlock_get_task_domain(parent);
++	dom_child = landlock_get_task_domain(child);
++	is_scoped = domain_scope_le(dom_parent, dom_child);
++	rcu_read_unlock();
++	return is_scoped;
++}
++
++static int task_ptrace(const struct task_struct *const parent,
++		const struct task_struct *const child)
++{
++	/* Quick return for non-landlocked tasks. */
++	if (!landlocked(parent))
++		return 0;
++	if (task_is_scoped(parent, child))
++		return 0;
++	return -EPERM;
++}
++
++/**
++ * hook_ptrace_access_check - Determines whether the current process may access
++ *			      another
++ *
++ * @child: Process to be accessed.
++ * @mode: Mode of attachment.
++ *
++ * If the current task has Landlock rules, then the child must have at least
++ * the same rules.  Else denied.
++ *
++ * Determines whether a process may access another, returning 0 if permission
++ * granted, -errno if denied.
++ */
++static int hook_ptrace_access_check(struct task_struct *const child,
++		const unsigned int mode)
++{
++	return task_ptrace(current, child);
++}
++
++/**
++ * hook_ptrace_traceme - Determines whether another process may trace the
++ *			 current one
++ *
++ * @parent: Task proposed to be the tracer.
++ *
++ * If the parent has Landlock rules, then the current task must have the same
++ * or more rules.  Else denied.
++ *
++ * Determines whether the nominated task is permitted to trace the current
++ * process, returning 0 if permission is granted, -errno if denied.
++ */
++static int hook_ptrace_traceme(struct task_struct *const parent)
++{
++	return task_ptrace(parent, current);
++}
++
++static struct security_hook_list landlock_hooks[] __lsm_ro_after_init = {
++	LSM_HOOK_INIT(ptrace_access_check, hook_ptrace_access_check),
++	LSM_HOOK_INIT(ptrace_traceme, hook_ptrace_traceme),
++};
++
++__init void landlock_add_hooks_ptrace(void)
++{
++	security_add_hooks(landlock_hooks, ARRAY_SIZE(landlock_hooks),
++			LANDLOCK_NAME);
++}
+diff --git a/security/landlock/ptrace.h b/security/landlock/ptrace.h
+new file mode 100644
+index 000000000000..6740c6a723de
+--- /dev/null
++++ b/security/landlock/ptrace.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Landlock LSM - Ptrace hooks
++ *
++ * Copyright © 2017-2019 Mickaël Salaün <mic@digikod.net>
++ * Copyright © 2019 ANSSI
++ */
++
++#ifndef _SECURITY_LANDLOCK_PTRACE_H
++#define _SECURITY_LANDLOCK_PTRACE_H
++
++__init void landlock_add_hooks_ptrace(void);
++
++#endif /* _SECURITY_LANDLOCK_PTRACE_H */
+diff --git a/security/landlock/setup.c b/security/landlock/setup.c
+index 39ee1766f175..5e7540fdeefa 100644
+--- a/security/landlock/setup.c
++++ b/security/landlock/setup.c
+@@ -11,6 +11,7 @@
+ 
+ #include "common.h"
+ #include "cred.h"
++#include "ptrace.h"
+ #include "setup.h"
+ 
+ struct lsm_blob_sizes landlock_blob_sizes __lsm_ro_after_init = {
+@@ -20,6 +21,7 @@ struct lsm_blob_sizes landlock_blob_sizes __lsm_ro_after_init = {
+ static int __init landlock_init(void)
+ {
+ 	landlock_add_hooks_cred();
++	landlock_add_hooks_ptrace();
+ 	pr_info("Up and running.\n");
+ 	return 0;
+ }
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.26.1
+
