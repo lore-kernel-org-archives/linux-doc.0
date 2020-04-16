@@ -2,92 +2,116 @@ Return-Path: <SRS0=GBzO=6A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A8EC2BB85
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:56:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0416C2BB85
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 09:12:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46B572078B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 08:56:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AC1420771
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 09:12:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZB0SB3T3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CFbFjllO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502985AbgDPI4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Apr 2020 04:56:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41484 "EHLO
+        id S2501946AbgDPIbx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Apr 2020 04:31:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2503037AbgDPI4D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Apr 2020 04:56:03 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03571C061A10
-        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2020 01:56:00 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id g14so2424112otg.10
-        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2020 01:56:00 -0700 (PDT)
+        with ESMTP id S2502242AbgDPIbY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Apr 2020 04:31:24 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355CAC03C1AB;
+        Thu, 16 Apr 2020 01:31:08 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id a81so3813139wmf.5;
+        Thu, 16 Apr 2020 01:31:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aCt/25bZqDvJVBbS2T/nSkaf4i35Ayu5fc8C9w+DSHs=;
-        b=ZB0SB3T3b/D2aou2Jlt1WAGRUEG6DPFL8ORrU5aJDGvS4RRldCBtGq2u7ipF43i5+e
-         m/n8V+goLmrO0pw+8cjm6JNzoJXnwPETMIFcZ+HOgQKONpKf2OP/Px6JmiJdtlW6Sikt
-         E3E3/GJMs9fYI7obYF+mrWBKiHyFnQ20T5a6caWaCncQ5gNuRPc+kBFKK/F10B5w47KA
-         XAe6XDI71mypF0rmtCrEAH5exDprf+LakqHYHxw/kMhdR3F1XHquGELfQY2VnTq3M5x/
-         f0+zXtyA5UD23Mhql3kdSSsqXZ4unrLQGx8xVdKvGxAjOycZ13qziMAOsaemXu4l2ASR
-         QbiQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jfrt17q5M4S5SAVVkdakw83Rj5cTfkomq3bpc03Lu9E=;
+        b=CFbFjllOBhKoFmAVsXkBQzBuRQAfDrmhFAfVIGB11rbD3zAjEQppK74PC9fnxFnMrl
+         sp2/EeMkEMZEPkJaKAPezTCzWxvNVCQxytUa+QkC+1t59d7i5I3Ft4/ciYIUyoPgOMmx
+         UiPK1SyxvMiF5/fQuHdgpj6dJ/kxBF7pqlJnwenUbEeoXzoXQDDOkD79QMrnqwADC91X
+         mAbhAkAD8NXfaYxauQUMXrLjqT8CjpZdwFVOxMjLk33tqqc1vixpmPBfeaEJadSe1cYi
+         RAtQlg/x50nnmchxxtr0K+qNEsQkfkEUxgrnt/DkUknFzWr3iZARx7zlhyFNK0Y/EZyB
+         KDIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aCt/25bZqDvJVBbS2T/nSkaf4i35Ayu5fc8C9w+DSHs=;
-        b=uVomFmkI9dJEHMwYwSZ9JEFwe87Wq3vGeGYuLC1LT689zzcWyNE4iuc0HAqjsSoTQh
-         ZqdaaKNKK6tb2v8XtIwW3VntvgFQsCd768Io447XOoo2MwYVpiL7fcOh0AnBK7vPDwWP
-         SIMqYcjPi3ccHBnBZHwA+FG/KkIaThXqw2JWy8ESjCmZgsyQroXMlSZWBQc+xJcEr4Ik
-         OSrwBrpk/qLjXM+ycWF2VYPFIU8ow0hYD4Ey/9d8JD44Bn/ByNKr48HE8HOSmW9AfWFu
-         YV+IHRyM69wXG5XKf+XLQDCCvZP7Y45hhQNTSuMhMuTsO+0QbJCiR2YpmUyhzrIveHAC
-         zYsQ==
-X-Gm-Message-State: AGi0PubMfzXempU5y2LERDJFFwYwEhS3hHZfgacdmNbdlIr4DVmkp0qG
-        4L/WdSTn9mmdeVIaYeIvUA9kgovKjCLlSIsppeD3dA==
-X-Google-Smtp-Source: APiQypL2lhwIWiAZBB0Q4t1XxMP5gwqrnEPMEO5qsx7kwPdeLMRsCyvcU6J1wF1QmqGUwY3+rdRxCitBqx9DG5FCrOM=
-X-Received: by 2002:a05:6830:1f39:: with SMTP id e25mr26276595oth.135.1587027360244;
- Thu, 16 Apr 2020 01:56:00 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jfrt17q5M4S5SAVVkdakw83Rj5cTfkomq3bpc03Lu9E=;
+        b=TMKknxl0MUt8yAzI4Yj7SWsQOBt2760gCbZx3zime8sxteJ7ta+PVKDfFXgC6SSx0A
+         ihRY+rw5SrL7dtp7j7oLMhqDE6ZXQGTRExcXpXdBp/Zp6vh4LMZ4GAO3MgIqyVco8EhV
+         a0RpMrhAU0oQEzQ5pc/HPT4HXsuBP9sJF+tOWc36jQxyw8NRSfAclqG2IP+IskWyGgNk
+         kt+//SgoMkqpo9en2dxKjN35woWRIwRSS3IYx1tMQyYJZ3MzfHch+NYQKWezOCpY53tj
+         KKBFlzdH5Br8j4zTKbXH12h0BZQIMD+b+TMebzZB8UIPvJ1wj+CQX3y7GUxG8FS68gRm
+         JAIw==
+X-Gm-Message-State: AGi0PubsfTdJN36ve3YLYFf9dh7Enk0Sw4z3zitBVPpXHzCYG4+nYyFE
+        cdyFgvrKGj8kYeBdlZgw+4o=
+X-Google-Smtp-Source: APiQypKSKsq45oAa/3mvfDvpWfY2V+jAcrUeSZODmwOpRthGJy4sv8r2h7IKlE30zB7Jtv03++ti6Q==
+X-Received: by 2002:a05:600c:24cf:: with SMTP id 15mr3541839wmu.94.1587025866950;
+        Thu, 16 Apr 2020 01:31:06 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:2e56:dcff:fed2:c6d6])
+        by smtp.googlemail.com with ESMTPSA id a9sm2611917wmm.38.2020.04.16.01.31.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2020 01:31:06 -0700 (PDT)
+Date:   Thu, 16 Apr 2020 10:31:04 +0200
+From:   Corentin Labbe <clabbe.montjoie@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, kvm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 10/33] docs: fix broken references for ReST files that
+ moved around
+Message-ID: <20200416083104.GA29148@Red>
+References: <cover.1586881715.git.mchehab+huawei@kernel.org>
+ <64773a12b4410aaf3e3be89e3ec7e34de2484eea.1586881715.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20200414143743.32677-1-peter.maydell@linaro.org> <20200415151132.03cad507@lwn.net>
-In-Reply-To: <20200415151132.03cad507@lwn.net>
-From:   Peter Maydell <peter.maydell@linaro.org>
-Date:   Thu, 16 Apr 2020 09:55:49 +0100
-Message-ID: <CAFEAcA8igL7L8D16shd6KoVH8Yvu0SwyxcShKoGFgLmDhnSrNA@mail.gmail.com>
-Subject: Re: [PATCH] scripts/kernel-doc: Add missing close-paren in c:function directives
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64773a12b4410aaf3e3be89e3ec7e34de2484eea.1586881715.git.mchehab+huawei@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 15 Apr 2020 at 22:11, Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Tue, 14 Apr 2020 15:37:43 +0100
-> Peter Maydell <peter.maydell@linaro.org> wrote:
-> > When kernel-doc generates a 'c:function' directive for a function
-> > one of whose arguments is a function pointer, it fails to print
-> > the close-paren after the argument list of the function pointer
-> > argument. For instance:
-> >
-> >  long work_on_cpu(int cpu, long (*fn) (void *, void * arg)
+On Tue, Apr 14, 2020 at 06:48:36PM +0200, Mauro Carvalho Chehab wrote:
+> Some broken references happened due to shifting files around
+> and ReST renames. Those can't be auto-fixed by the script,
+> so let's fix them manually.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/doc-guide/maintainer-profile.rst      | 2 +-
+>  Documentation/virt/kvm/mmu.rst                      | 2 +-
+>  Documentation/virt/kvm/review-checklist.rst         | 2 +-
+>  arch/x86/kvm/mmu/mmu.c                              | 2 +-
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 2 +-
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c   | 2 +-
+>  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 2 +-
+>  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c   | 2 +-
+>  drivers/media/v4l2-core/v4l2-fwnode.c               | 2 +-
+>  include/uapi/linux/kvm.h                            | 4 ++--
+>  tools/include/uapi/linux/kvm.h                      | 4 ++--
+>  11 files changed, 13 insertions(+), 13 deletions(-)
+> 
 
-> Interesting.  This appears to have affected well over 100 function
-> definitions in the docs, and nobody ever noticed.  Good to know we're all
-> reading it closely :)
+For sun8i-ce
+Acked-by: Corentin Labbe <clabbe.montjoie@gmail.com>
 
-Heh; I think my conclusion is "function signatures for APIs which
-don't provide and use a typedef for function-pointer-arguments are
-sufficiently hard to read that people don't notice simple errors
-in them", but then I prefer the with-typedef style to start with :-)
-
-thanks
--- PMM
+Thanks
