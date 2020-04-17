@@ -2,116 +2,276 @@ Return-Path: <SRS0=8Wvz=6B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCD84C352BE
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 14:31:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18A40C3815B
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 18:52:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C7B22087E
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 14:31:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587133896;
-	bh=pT6+doLxhDBboeLR9o8Dpw1tvc89tREvWl1biQA46lM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=JaEYy634rM+zHc3Rjo1RuK75bkyIMKAaY80RhyvB+KKSz8a1jLHAdpMbHSnCLFmKb
-	 dzZs5XqI8L2/2oV+Zj/kBPWXmNiMSjyvrav9dvEqoj5VaW7CrKteOvuidyVP3PlRjf
-	 wWqlw4BFdNtUnertAdM/UiCtFNRFht0NnB3lTMqY=
+	by mail.kernel.org (Postfix) with ESMTP id EE08320936
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 18:52:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TPxUta0d"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727823AbgDQObd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Apr 2020 10:31:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53196 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726065AbgDQObc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Apr 2020 10:31:32 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E0ABF2223C;
-        Fri, 17 Apr 2020 14:31:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587133892;
-        bh=pT6+doLxhDBboeLR9o8Dpw1tvc89tREvWl1biQA46lM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gkh6DENAZFbDzJIf3gFlleyZJHAgpIxRXuIbcQaYJRwCKVr5jxuSl5wprhsHK8NQv
-         d70cg4H/hlDv7pzVdq0X9RSmWonyibSgmMLQVrRgpQCNjkdh7j9FH4xNyqYZgK+ya1
-         BlDA5SWyRdDvV/b1wK2lwC9TpR2q0Mgy4dAk/xCs=
-Received: by mail-qt1-f177.google.com with SMTP id x8so870257qtp.13;
-        Fri, 17 Apr 2020 07:31:31 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZrs86WVckx3vkSdLOF8oUK8m+P+M8JjcMNG1xcO1yqCXswpky/
-        b6jyV/LRHGHCwqXMMjwts1BjjR/UzYNwFpbxfw==
-X-Google-Smtp-Source: APiQypIyrumUQTKQyuwVJdKoY42ZUrD4HU0jijHUYuJE36Rvv09bfA43tUGFPkwi5wV/2LSEiXno09uVRo0AKF6NNfE=
-X-Received: by 2002:ac8:6695:: with SMTP id d21mr3248533qtp.110.1587133890922;
- Fri, 17 Apr 2020 07:31:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1586359676.git.mchehab+huawei@kernel.org>
- <24b30222392569e7aa5d61d46642a4c38a964512.1586359676.git.mchehab+huawei@kernel.org>
- <87h7xicvht.fsf@kernel.org>
-In-Reply-To: <87h7xicvht.fsf@kernel.org>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 17 Apr 2020 09:31:17 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLrKYTJTiPrzJAR7M-uCVa-S8sLMWUL4Xcy9x=XsY8mcg@mail.gmail.com>
-Message-ID: <CAL_JsqLrKYTJTiPrzJAR7M-uCVa-S8sLMWUL4Xcy9x=XsY8mcg@mail.gmail.com>
-Subject: Re: [PATCH 28/35] docs: dt: qcom,dwc3.txt: fix cross-reference for a
- converted file
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        id S1728735AbgDQSwW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Apr 2020 14:52:22 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:53006 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726750AbgDQSwV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Apr 2020 14:52:21 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03HIoxVc151261;
+        Fri, 17 Apr 2020 18:51:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=DYHHp6weBkuFwIRXVbnbA+At0BLq1KaDyQt4hlEOPJI=;
+ b=TPxUta0dcPsBcdrhJ9RrurAhXENLoeNndDsVeU5oTICOmbuUWadhjYtvEJPIAZx/an8R
+ Eai+T6zQ+CYpw7ggw9EjbbRO3Y1SrxuFiBNhWOad1lsSSrEW2csaQPA+tJf8jCqVkAOe
+ pDDwk4nITBwmNqs9y/+NyhBRasF//1b/5hzu1byD9YpZt0saMV7DU4Uairql37vULHmz
+ orMTcfZc4Jwz1/pPAR+ztkqH1I6n7CGgJNf1XgDc3PRBoCKIz5ENBB+VpG/wPEF1pZC1
+ 8thbKzyWL3L39L7WKibbclOP1S0hW2jgrFInpZ+WWZVWgvunyfVRP0Ao0Q44FgEMLbZm TA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 30dn960r7w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 17 Apr 2020 18:51:23 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03HIpMe7024298;
+        Fri, 17 Apr 2020 18:51:22 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 30dn921b15-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 17 Apr 2020 18:51:22 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 03HIp7Ev029062;
+        Fri, 17 Apr 2020 18:51:07 GMT
+Received: from monkey.oracle.com (/71.63.128.209)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 17 Apr 2020 11:51:07 -0700
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sandeep Maheswaram <sanm@codeaurora.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Longpeng <longpeng2@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mina Almasry <almasrymina@google.com>,
+        Peter Xu <peterx@redhat.com>,
+        Nitesh Narayan Lal <nitesh@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Subject: [PATCH v3 3/4] hugetlbfs: remove hugetlb_add_hstate() warning for existing hstate
+Date:   Fri, 17 Apr 2020 11:50:48 -0700
+Message-Id: <20200417185049.275845-4-mike.kravetz@oracle.com>
+X-Mailer: git-send-email 2.25.2
+In-Reply-To: <20200417185049.275845-1-mike.kravetz@oracle.com>
+References: <20200417185049.275845-1-mike.kravetz@oracle.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9594 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999
+ suspectscore=0 malwarescore=0 spamscore=0 phishscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004170143
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9594 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 clxscore=1015
+ malwarescore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
+ mlxscore=0 phishscore=0 spamscore=0 impostorscore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004170142
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 17, 2020 at 4:27 AM Felipe Balbi <balbi@kernel.org> wrote:
->
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->
-> > The qcom-qusb2-phy.txt file was converted and renamed to yaml.
-> > Update cross-reference accordingly.
-> >
-> > Fixes: 8ce65d8d38df ("dt-bindings: phy: qcom,qusb2: Convert QUSB2 phy bindings to yaml")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/devicetree/bindings/usb/qcom,dwc3.txt | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.txt b/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
-> > index cb695aa3fba4..fbdd01756752 100644
-> > --- a/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
-> > +++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.txt
-> > @@ -52,8 +52,8 @@ A child node must exist to represent the core DWC3 IP block. The name of
-> >  the node is not important. The content of the node is defined in dwc3.txt.
-> >
-> >  Phy documentation is provided in the following places:
-> > -Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt   - USB3 QMP PHY
-> > -Documentation/devicetree/bindings/phy/qcom-qusb2-phy.txt - USB2 QUSB2 PHY
-> > +Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt    - USB3 QMP PHY
-> > +Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml - USB2 QUSB2 PHY
-> >
-> >  Example device nodes:
->
-> Should I take this or will it go via e.g. trivial?
+The routine hugetlb_add_hstate prints a warning if the hstate already
+exists.  This was originally done as part of kernel command line
+parsing.  If 'hugepagesz=' was specified more than once, the warning
+	pr_warn("hugepagesz= specified twice, ignoring\n");
+would be printed.
 
-I already queued up v2 of this.
+Some architectures want to enable all huge page sizes.  They would
+call hugetlb_add_hstate for all supported sizes.  However, this was
+done after command line processing and as a result hstates could have
+already been created for some sizes.  To make sure no warning were
+printed, there would often be code like:
+	if (!size_to_hstate(size)
+		hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT)
 
->
-> In any case:
->
-> Acked-by: Felipe Balbi <balbi@kernel.org>
->
-> --
-> balbi
+The only time we want to print the warning is as the result of command
+line processing.  So, remove the warning from hugetlb_add_hstate and
+add it to the single arch independent routine processing "hugepagesz=".
+After this, calls to size_to_hstate() in arch specific code can be
+removed and hugetlb_add_hstate can be called without worrying about
+warning messages.
+
+Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
+Acked-by: Mina Almasry <almasrymina@google.com>
+---
+ arch/arm64/mm/hugetlbpage.c   | 16 ++++------------
+ arch/powerpc/mm/hugetlbpage.c |  3 +--
+ arch/riscv/mm/hugetlbpage.c   |  2 +-
+ arch/sparc/mm/init_64.c       | 19 ++++---------------
+ arch/x86/mm/hugetlbpage.c     |  2 +-
+ mm/hugetlb.c                  |  9 ++++++---
+ 6 files changed, 17 insertions(+), 34 deletions(-)
+
+diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
+index f706b821aba6..21fa98b51e00 100644
+--- a/arch/arm64/mm/hugetlbpage.c
++++ b/arch/arm64/mm/hugetlbpage.c
+@@ -441,22 +441,14 @@ void huge_ptep_clear_flush(struct vm_area_struct *vma,
+ 	clear_flush(vma->vm_mm, addr, ptep, pgsize, ncontig);
+ }
+ 
+-static void __init add_huge_page_size(unsigned long size)
+-{
+-	if (size_to_hstate(size))
+-		return;
+-
+-	hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT);
+-}
+-
+ static int __init hugetlbpage_init(void)
+ {
+ #ifdef CONFIG_ARM64_4K_PAGES
+-	add_huge_page_size(PUD_SIZE);
++	hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
+ #endif
+-	add_huge_page_size(CONT_PMD_SIZE);
+-	add_huge_page_size(PMD_SIZE);
+-	add_huge_page_size(CONT_PTE_SIZE);
++	hugetlb_add_hstate(CONT_PMD_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(PMD_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(CONT_PTE_SHIFT - PAGE_SHIFT);
+ 
+ 	return 0;
+ }
+diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpage.c
+index 2c3fa0a7787b..4d5ed1093615 100644
+--- a/arch/powerpc/mm/hugetlbpage.c
++++ b/arch/powerpc/mm/hugetlbpage.c
+@@ -584,8 +584,7 @@ static int __init add_huge_page_size(unsigned long long size)
+ 	if (!arch_hugetlb_valid_size((unsigned long)size))
+ 		return -EINVAL;
+ 
+-	if (!size_to_hstate(size))
+-		hugetlb_add_hstate(shift - PAGE_SHIFT);
++	hugetlb_add_hstate(shift - PAGE_SHIFT);
+ 	return 0;
+ }
+ 
+diff --git a/arch/riscv/mm/hugetlbpage.c b/arch/riscv/mm/hugetlbpage.c
+index 4e5d7e9f0eef..932dadfdca54 100644
+--- a/arch/riscv/mm/hugetlbpage.c
++++ b/arch/riscv/mm/hugetlbpage.c
+@@ -26,7 +26,7 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
+ static __init int gigantic_pages_init(void)
+ {
+ 	/* With CONTIG_ALLOC, we can allocate gigantic pages at runtime */
+-	if (IS_ENABLED(CONFIG_64BIT) && !size_to_hstate(1UL << PUD_SHIFT))
++	if (IS_ENABLED(CONFIG_64BIT))
+ 		hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
+ 	return 0;
+ }
+diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
+index 4618f96fd30f..ae819a16d07a 100644
+--- a/arch/sparc/mm/init_64.c
++++ b/arch/sparc/mm/init_64.c
+@@ -325,23 +325,12 @@ static void __update_mmu_tsb_insert(struct mm_struct *mm, unsigned long tsb_inde
+ }
+ 
+ #ifdef CONFIG_HUGETLB_PAGE
+-static void __init add_huge_page_size(unsigned long size)
+-{
+-	unsigned int order;
+-
+-	if (size_to_hstate(size))
+-		return;
+-
+-	order = ilog2(size) - PAGE_SHIFT;
+-	hugetlb_add_hstate(order);
+-}
+-
+ static int __init hugetlbpage_init(void)
+ {
+-	add_huge_page_size(1UL << HPAGE_64K_SHIFT);
+-	add_huge_page_size(1UL << HPAGE_SHIFT);
+-	add_huge_page_size(1UL << HPAGE_256MB_SHIFT);
+-	add_huge_page_size(1UL << HPAGE_2GB_SHIFT);
++	hugetlb_add_hstate(HPAGE_64K_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(HPAGE_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(HPAGE_256MB_SHIFT - PAGE_SHIFT);
++	hugetlb_add_hstate(HPAGE_2GB_SHIFT - PAGE_SHIFT);
+ 
+ 	return 0;
+ }
+diff --git a/arch/x86/mm/hugetlbpage.c b/arch/x86/mm/hugetlbpage.c
+index 937d640a89e3..cf5781142716 100644
+--- a/arch/x86/mm/hugetlbpage.c
++++ b/arch/x86/mm/hugetlbpage.c
+@@ -195,7 +195,7 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
+ static __init int gigantic_pages_init(void)
+ {
+ 	/* With compaction or CMA we can allocate gigantic pages at runtime */
+-	if (boot_cpu_has(X86_FEATURE_GBPAGES) && !size_to_hstate(1UL << PUD_SHIFT))
++	if (boot_cpu_has(X86_FEATURE_GBPAGES))
+ 		hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
+ 	return 0;
+ }
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index b2d276408cec..0e6eb755ae94 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -3222,8 +3222,7 @@ static int __init hugetlb_init(void)
+ 		}
+ 
+ 		default_hstate_size = HPAGE_SIZE;
+-		if (!size_to_hstate(default_hstate_size))
+-			hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
++		hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
+ 	}
+ 	default_hstate_idx = hstate_index(size_to_hstate(default_hstate_size));
+ 	if (default_hstate_max_huge_pages) {
+@@ -3268,7 +3267,6 @@ void __init hugetlb_add_hstate(unsigned int order)
+ 	unsigned long i;
+ 
+ 	if (size_to_hstate(PAGE_SIZE << order)) {
+-		pr_warn("hugepagesz= specified twice, ignoring\n");
+ 		return;
+ 	}
+ 	BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
+@@ -3343,6 +3341,11 @@ static int __init hugepagesz_setup(char *s)
+ 		return 0;
+ 	}
+ 
++	if (size_to_hstate(size)) {
++		pr_warn("HugeTLB: hugepagesz %s specified twice, ignoring\n", s);
++		return 0;
++	}
++
+ 	hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT);
+ 	return 1;
+ }
+-- 
+2.25.2
+
