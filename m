@@ -1,88 +1,106 @@
-Return-Path: <SRS0=GBzO=6A=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=8Wvz=6B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4667C2BA2B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 21:15:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 978E3C2BB1D
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 04:57:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF28B221F4
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Apr 2020 21:15:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587071703;
-	bh=pwlojzThIlriGeCUfJaLf5mvrPaDWEUEJHg0HJ5LSWs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=PrNWZGSE0wbf7h/f+2CyOvcJsYxvPFKuLfEswGvYYdyj6c3Of9OOqYcxzdm+O9yFl
-	 BKiZUlV8tFJQy0MUhYwXxJAEZXOnhsmBGfViEW9AquDBj4PHuJS/LU93TLHS3jMiMj
-	 wPAlZV5bQFYC7WSHPGrxTZkwSJPGHYgDnGpjX2u0=
+	by mail.kernel.org (Postfix) with ESMTP id 7617D21D91
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 04:57:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="omvUtMOb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726381AbgDPVPD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Apr 2020 17:15:03 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:41164 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725849AbgDPVPC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Apr 2020 17:15:02 -0400
-Received: by mail-ot1-f67.google.com with SMTP id c3so233198otp.8;
-        Thu, 16 Apr 2020 14:15:01 -0700 (PDT)
+        id S1726604AbgDQE5P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Apr 2020 00:57:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59222 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726465AbgDQE5O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Apr 2020 00:57:14 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BEF6C061A10
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2020 21:57:14 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id u10so740215lfo.8
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2020 21:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RAXLh21D1H+VdzVaEm6UUMdNn6pp4CFR+JZITSbC43A=;
+        b=omvUtMObZ4ytZy4ga07liDJn7z889vwFl09t5zHlrYCBSU49S9IkMFuqiBa9d39etu
+         KsKWpvl2Cki8Uu9FJKXae1I2yYCBUCOx3AyCTHGEeoS1ix4CgHBdno3vZaqUAXNA0R2B
+         AGO/9LMYemZFLFg/pxQGFrL7TJz2koP+sVQBzb9UzeV3F+Etcqqu7tVjIFBPhPmW7d/Z
+         N05JLYgt+palNlhbjz4Wf9+lQ78ol/d6WZ5eos9IdYe0iecp28/MsKfb0/lJAwUQZoTP
+         HXyeky6W5Flv/7ss9Inw39okRWqUUCnUfmLr5iNWoZ3U6z31XtvM1XlmyLiQAC/OvFeo
+         6n9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wF9LFb2WnHM43N9nJRd+Efvlf61P3hQp0pRx0O6S0UQ=;
-        b=CZDz5nyA4RFolXbDXRaztkFfY5Be3lGYZ+UKKt/HJ18JAaEJvnNnkxv1CaKnSMSaE2
-         3NLD7M/EjeZlbCO0uYb0lKCnjri82qhoO7mZQ8d5ZVnGY385i+74KyqyF1uMFZQNIP2I
-         jx5xYLxmGYxblatajMCD0x//tMFMmNT+PVly4Mx3NUP8MHx7oeGwsYZh23TiHQCNFthE
-         J6yFyrHwrmuxuqYMT9wG5dfkg7GhFf/oQDEI5P8TRUDPmCXR1ou28JegSfgI4SOaR2Io
-         TitRVEJ6A2H5gm9xMrMJVmN3W51TF2bkQtgIDsBd8/SLoRa0KFqTWWr8bwGutr8T0IAp
-         fnVg==
-X-Gm-Message-State: AGi0PuZaDP+JdiDQtqzcZHftiEWAYbtusDpoAa/MNqr3VS51CghstCJx
-        H3bmCE3jvyEbuyIFRxxKow==
-X-Google-Smtp-Source: APiQypLNORYZDO+F1VLMjJmt2/9iac3R/DMHwg1QdBzGGqSksptwHI3MIDXgyNp1yA7oo3jm5xgM+g==
-X-Received: by 2002:a9d:6a02:: with SMTP id g2mr93227otn.196.1587071701067;
-        Thu, 16 Apr 2020 14:15:01 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id s73sm3007660oih.14.2020.04.16.14.15.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2020 14:15:00 -0700 (PDT)
-Received: (nullmailer pid 9062 invoked by uid 1000);
-        Thu, 16 Apr 2020 21:14:59 -0000
-Date:   Thu, 16 Apr 2020 16:14:59 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 06/33] MAINTAINERS: dt: update display/allwinner file
- entry
-Message-ID: <20200416211459.GA8681@bogus>
-References: <cover.1586881715.git.mchehab+huawei@kernel.org>
- <1be758765272ba4c2acbc3904bdf71c863a90186.1586881715.git.mchehab+huawei@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RAXLh21D1H+VdzVaEm6UUMdNn6pp4CFR+JZITSbC43A=;
+        b=SdOQh1UwhWNPEFqi4+0FlMdx7j6u2VpldOTrEVoEjXtzIBohuciyLVzwW2M81ji95B
+         wijP9HHrBaZZeJul419dHvgifOlU7kccN+X6+AgEu0IhXOQlgr5gawU7zdgJvtgYoxBv
+         bl7jB3CfCNKo+srBsuirrm9MBG00EnGjik4Lys/vH/K2AKh9BZHvOignxc3ka3AuD8p1
+         DUjsa+wcgpMo9qlgDpDEffqnCY5/OR9xKrksUFxxlW1/4Dxh7D9r2SUzvABU47O/3RBj
+         OVi6gPTgF1qb15VXeKujGaK20W3cSLPPBCyYd+O/seQBkDnpMxsNK8XgbgMHFZJQNBle
+         yU+A==
+X-Gm-Message-State: AGi0PuZpWNLl/r7qY8A7RG3vtsDxDTuo1AlF481EsITyyb6MdDnWCFBO
+        zF6Rfez+x2cuPO5qqNSnu83gGs/6Cjd/7vwCR2alfA==
+X-Google-Smtp-Source: APiQypLUdzsG2tylnYP/76UWnLr0a8aCftlJOk0jhGyINMlUAKjyl7H4IKqA4OZZlwWqjW74t1URhYwOm29xZbRW2S4=
+X-Received: by 2002:ac2:5c07:: with SMTP id r7mr840725lfp.160.1587099432900;
+ Thu, 16 Apr 2020 21:57:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1be758765272ba4c2acbc3904bdf71c863a90186.1586881715.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1585636165-22481-1-git-send-email-sumit.garg@linaro.org> <20200416174617.GI199110@linux.intel.com>
+In-Reply-To: <20200416174617.GI199110@linux.intel.com>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Fri, 17 Apr 2020 10:27:01 +0530
+Message-ID: <CAFA6WYNJuxGToM1R02RsrZ_xK6Rfi1SndY1oVYaAbizMpeGPbg@mail.gmail.com>
+Subject: Re: [PATCH] doc: trusted-encrypted: updates with TEE as a new trust source
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>, kgoldman@us.ibm.com,
+        "Safford, David (GE Global Research, US)" <david.safford@ge.com>,
+        monty.wiseman@ge.com, Daniel Thompson <daniel.thompson@linaro.org>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 06:48:32PM +0200, Mauro Carvalho Chehab wrote:
-> Changeset f5a98bfe7b37 ("dt-bindings: display: Convert Allwinner display pipeline to schemas")
-> split Documentation/devicetree/bindings/display/sunxi/sun4i-drm.txt
-> into several files. Yet, it kept the old place at MAINTAINERS.
-> 
-> Update it to point to the new place.
-> 
-> Fixes: f5a98bfe7b37 ("dt-bindings: display: Convert Allwinner display pipeline to schemas")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 16 Apr 2020 at 23:16, Jarkko Sakkinen
+<jarkko.sakkinen@linux.intel.com> wrote:
+>
+> On Tue, Mar 31, 2020 at 11:59:25AM +0530, Sumit Garg wrote:
+> > Update documentation for Trusted and Encrypted Keys with TEE as a new
+> > trust source. Following is brief description of updates:
+> >
+> > - Add a section to demostrate a list of supported devices along with
+> >   their security properties/guarantees.
+> > - Add a key generation section.
+> > - Updates for usage section including differences specific to a trust
+> >   source.
+> >
+> > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+>
+> Overally this works for me. Can you bundle this with the code
+> changes. Maybe some details needs to be fine tuned but easier
+> to look into them in the context of rest of the patches.
+>
 
-Applied.
+Sure, I will send next version of complete patch-set.
 
-Rob
+-Sumit
+
+> /Jarkko
