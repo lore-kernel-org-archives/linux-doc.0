@@ -2,66 +2,92 @@ Return-Path: <SRS0=8Wvz=6B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F509C2D0EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 20:15:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95F0CC38A2B
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 23:57:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 54107206D9
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 20:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587154522;
-	bh=qsVuuk9kanx5zbog7dG3WKhD02KJipXuuiB2NHImjNw=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=EJEHxrh624teu96+mhAbcDc7bGedHG63Y7YQ4WRwbwZ+SoXOFTKHnrajU0DbqpH2v
-	 ERC4Kf0+jRCTxXqjFC2KWVsWq7N9bSHm+3IGp07ny1sIqpe7H2ijG8KSBwvEiTqqmt
-	 Lu3bvsSm4qy1dng4Az2HPmjrBuyyj6OI8VH7CIuU=
+	by mail.kernel.org (Postfix) with ESMTP id 768112223C
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 23:57:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730902AbgDQUPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Apr 2020 16:15:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39416 "EHLO mail.kernel.org"
+        id S1726748AbgDQX4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Apr 2020 19:56:50 -0400
+Received: from mga12.intel.com ([192.55.52.136]:60765 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730573AbgDQUPV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Apr 2020 16:15:21 -0400
-Subject: Re: [GIT PULL] Some documentation fixes
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587154521;
-        bh=qsVuuk9kanx5zbog7dG3WKhD02KJipXuuiB2NHImjNw=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=wrNnzBYVcBX4pqgdGiGKnd2vuRDQ2fC9WqlM21wKOSvBffwZ3Oz1hmojy05u2vy2i
-         MfBhovpqzRvv6EG76xhFDOAJBAdYBLrT0rTsC63sGH2KCX/bZyq2RgDwarRyu/M1g/
-         uiUhDjIfABqDO+PpYKmFgzOyBv8jTstauDtVtIgE=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200417135411.3730b17c@lwn.net>
-References: <20200417135411.3730b17c@lwn.net>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200417135411.3730b17c@lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-fixes
-X-PR-Tracked-Commit-Id: d98dbbe0d331b1a6dc1ca0b948c99d58cdba580c
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 90280eaa88ac1a9140dc759941123530d5545bb6
-Message-Id: <158715452123.10628.11076374558903392938.pr-tracker-bot@kernel.org>
-Date:   Fri, 17 Apr 2020 20:15:21 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+        id S1725985AbgDQX4V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Apr 2020 19:56:21 -0400
+IronPort-SDR: 9TWtQHfiLQMfgVFssZp9QxAyhD7yImG+Ob11/EqJ1bVITu7wWh/pKXJY0Pb9tIqILBpVklKKMb
+ bLr0T/rwRbFA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2020 16:56:20 -0700
+IronPort-SDR: vNzogAsnRVwFrSPcqZfg1Yme60KK5X01STa3ojGfmp/1x3RLoqqUM+FS6KlGNhkgUg0tvz5Oxb
+ F+RjmSNIL5tA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,395,1580803200"; 
+   d="scan'208";a="272581075"
+Received: from zhiwang1-mobl5.ger.corp.intel.com (HELO localhost) ([10.252.42.90])
+  by orsmga002.jf.intel.com with ESMTP; 17 Apr 2020 16:56:16 -0700
+Date:   Sat, 18 Apr 2020 02:56:16 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>, kgoldman@us.ibm.com,
+        "Safford, David (GE Global Research, US)" <david.safford@ge.com>,
+        monty.wiseman@ge.com, Daniel Thompson <daniel.thompson@linaro.org>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Subject: Re: [PATCH] doc: trusted-encrypted: updates with TEE as a new trust
+ source
+Message-ID: <20200417235616.GC85230@linux.intel.com>
+References: <1585636165-22481-1-git-send-email-sumit.garg@linaro.org>
+ <20200416174617.GI199110@linux.intel.com>
+ <CAFA6WYNJuxGToM1R02RsrZ_xK6Rfi1SndY1oVYaAbizMpeGPbg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYNJuxGToM1R02RsrZ_xK6Rfi1SndY1oVYaAbizMpeGPbg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Fri, 17 Apr 2020 13:54:11 -0600:
+On Fri, Apr 17, 2020 at 10:27:01AM +0530, Sumit Garg wrote:
+> On Thu, 16 Apr 2020 at 23:16, Jarkko Sakkinen
+> <jarkko.sakkinen@linux.intel.com> wrote:
+> >
+> > On Tue, Mar 31, 2020 at 11:59:25AM +0530, Sumit Garg wrote:
+> > > Update documentation for Trusted and Encrypted Keys with TEE as a new
+> > > trust source. Following is brief description of updates:
+> > >
+> > > - Add a section to demostrate a list of supported devices along with
+> > >   their security properties/guarantees.
+> > > - Add a key generation section.
+> > > - Updates for usage section including differences specific to a trust
+> > >   source.
+> > >
+> > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> >
+> > Overally this works for me. Can you bundle this with the code
+> > changes. Maybe some details needs to be fine tuned but easier
+> > to look into them in the context of rest of the patches.
+> >
+> 
+> Sure, I will send next version of complete patch-set.
 
-> git://git.lwn.net/linux.git tags/docs-fixes
+Thanks.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/90280eaa88ac1a9140dc759941123530d5545bb6
+I think I just have forgot to process this before. I'm sorry about
+that.
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+/Jarkko
