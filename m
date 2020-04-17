@@ -2,72 +2,98 @@ Return-Path: <SRS0=8Wvz=6B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06461C2D0EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 12:53:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1503FC2D0EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 13:23:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE9BB2083E
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 12:53:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D98A420724
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Apr 2020 13:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1587129785;
+	bh=ibA2rFMmnIgq8C4ss7cZI9qOp+zQGjoWhmj6CGUWqAg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=E8sD0Ywsrtv0OJ+QQ2CtSsSIj+kgtqd0kfPdMSWqvu+ZLLELe1FBebLj9OypLxhaG
+	 2whuvvuspxL8irSYy2BHL7F717y8wWbqSRMhvFm9QsRgsNHXvDMa0BKVdsElQSgD3K
+	 507xdTHPCv7jLBNfskmEDL4h285Qc+/50gN/vYQY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729623AbgDQMxz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Apr 2020 08:53:55 -0400
-Received: from mga04.intel.com ([192.55.52.120]:51413 "EHLO mga04.intel.com"
+        id S1730358AbgDQNXF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Apr 2020 09:23:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59272 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729034AbgDQMxx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Apr 2020 08:53:53 -0400
-IronPort-SDR: Y/UTyZzJekMNpK4B9aEkLXm8r6MrNc+tolooeNYnMMbMY+n7Hvcol9ZZ/iMIOjx/rIO+246SEe
- 7oZaIw0HIqCQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2020 05:53:50 -0700
-IronPort-SDR: IF9FvVYYRsALomR7JBJYD4OrD7z1TD+jkZkjtMbWkbL2Y+K9fLy7iBbf/C7fbLqZdQ4wR8Ku3+
- Jv1Nnuhi9vNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,395,1580803200"; 
-   d="scan'208";a="257569830"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga006.jf.intel.com with ESMTP; 17 Apr 2020 05:53:47 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jPQVC-001VLK-J5; Fri, 17 Apr 2020 15:53:50 +0300
-Date:   Fri, 17 Apr 2020 15:53:50 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     rishi gupta <gupt21@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>, jslaby@suse.com,
-        robh+dt@kernel.org, corbet@lwn.net, devicetree@vger.kernel.org,
-        linux-serial@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] tty: documentation: document how to use ttyvs
- driver
-Message-ID: <20200417125350.GW185537@smile.fi.intel.com>
-References: <1587012974-21219-1-git-send-email-gupt21@gmail.com>
- <1587012974-21219-4-git-send-email-gupt21@gmail.com>
- <20200416092441.4216ffe3@coco.lan>
- <CALUj-gtwKiV_CQYLkncX0v2fNNAyfTfzut+BgXmgzKLW7tMLOw@mail.gmail.com>
+        id S1730059AbgDQNXF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Apr 2020 09:23:05 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6724E2087E;
+        Fri, 17 Apr 2020 13:23:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587129784;
+        bh=ibA2rFMmnIgq8C4ss7cZI9qOp+zQGjoWhmj6CGUWqAg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=pvPiMKv7ntfk8qZOizcPdx7MlEsmGycUZQCRnRz4+G33Qnrb37pOO/AkBi/nBjNGz
+         JGawS9KGQmeiK+KZ4CVHbiAykxm7qsStvYfaITLAWWvZ9vb3WTdPNYPHKZCsaMrHnM
+         /cSjDsDb8DkSjBk3ViQf2w2ZFSt60p7OA7aLRC48=
+Received: by mail-qk1-f174.google.com with SMTP id v7so2337747qkc.0;
+        Fri, 17 Apr 2020 06:23:04 -0700 (PDT)
+X-Gm-Message-State: AGi0Pub7VXXzN9GufKJILZdYdC6P1muKOdyDbHiGXDl4QG+m5uIedbQW
+        t9DLXnu5p/RPSKHuke0tmdSbh9PaNM9o+J6D9g==
+X-Google-Smtp-Source: APiQypIIPofmnn66BHXTWvxdCOKv9Ze/AyzaJMMc0phMuil4lY+bjO9YsYMgACjlOuTWT0n/sVIjD7KyQSkUmsGI8g4=
+X-Received: by 2002:a37:7dc6:: with SMTP id y189mr3324472qkc.223.1587129783565;
+ Fri, 17 Apr 2020 06:23:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALUj-gtwKiV_CQYLkncX0v2fNNAyfTfzut+BgXmgzKLW7tMLOw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <1587012974-21219-1-git-send-email-gupt21@gmail.com>
+ <CAL_JsqLWMTpHG=bOmWgy1kg6d7vxRGbCda+febq=FnqbuRbPyQ@mail.gmail.com> <CALUj-gsuUFQbRLKX=nTbA+y6oTyEAnX7OaxkAX375rBBgNc44g@mail.gmail.com>
+In-Reply-To: <CALUj-gsuUFQbRLKX=nTbA+y6oTyEAnX7OaxkAX375rBBgNc44g@mail.gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 17 Apr 2020 08:22:52 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqL1_3ZZW1F=J6J0J1rhsKu4psc-OF6OUqJ9+-H+Jpb8WQ@mail.gmail.com>
+Message-ID: <CAL_JsqL1_3ZZW1F=J6J0J1rhsKu4psc-OF6OUqJ9+-H+Jpb8WQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: ttyvs: document serial null modem
+ driver bindings
+To:     rishi gupta <gupt21@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        devicetree@vger.kernel.org,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 17, 2020 at 10:46:40AM +0530, rishi gupta wrote:
-> Thanks Mauro and Randy, I will spin v4 with above suggestions soon.
+On Fri, Apr 17, 2020 at 12:14 AM rishi gupta <gupt21@gmail.com> wrote:
+>
 
-Give some more time to review actual code. It's 1000 LOCs!
-I suggest wait at least few days.
+Please don't top post.
 
+> Initially there was no DT support but later it was added as CONFIGFS
+> is optional.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Make configfs required.
 
+> DT is giving flexibility to use the driver.
 
+The DT belongs in the firmware for a platform like BIOS/EFI on your
+PC. Would you want to configure your driver in the BIOS?
+
+Rob
+
+>
+> On Fri, Apr 17, 2020 at 2:08 AM Rob Herring <robh+dt@kernel.org> wrote:
+> >
+> > On Wed, Apr 15, 2020 at 11:56 PM Rishi Gupta <gupt21@gmail.com> wrote:
+> > >
+> > > The ttyvs driver creates virtual tty devices. These devices can
+> > > also be created through device tree. This commit document this.
+> >
+> > Device tree is for real h/w devices. You have a configfs interface to
+> > set these up. I don't think we need both.
+> >
+> > Rob
