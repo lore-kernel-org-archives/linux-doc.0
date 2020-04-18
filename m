@@ -2,103 +2,256 @@ Return-Path: <SRS0=7loh=6C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEBA2C2BB1D
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Apr 2020 00:46:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88051C3A5A9
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Apr 2020 13:45:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A6591221EA
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Apr 2020 00:46:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587170818;
-	bh=14qSYdrLemwVEC2uAz97e2xRaw+5yWSJoO7bWCN/K+M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=KnRPtgodEDjl0vMAyxih5dPeqk8s59FCEGKwm/itr6keC5j6qG13UhK4+kVTcMaun
-	 ArtcJ+cvGNOqHha5xdt8ea/vUCfh8qatO7RFTuUaQw38bVs8eAsB0QK6T+ApXcgP2Y
-	 KWQHkmzCd99MRDOmRO+cxfGqvGuPbR3YnSLjNvf4=
+	by mail.kernel.org (Postfix) with ESMTP id 6D79322240
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Apr 2020 13:45:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725873AbgDRAq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Apr 2020 20:46:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53136 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725867AbgDRAq4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Apr 2020 20:46:56 -0400
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2E767214D8;
-        Sat, 18 Apr 2020 00:46:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587170815;
-        bh=14qSYdrLemwVEC2uAz97e2xRaw+5yWSJoO7bWCN/K+M=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=yxkA8fcXsZ3kHBWGVChkWfhLXCziPW7a3jxL/C2RqnxvOCRPknlE3ur4ow8QKyd1C
-         KRYzLVsbvXBu5n4P5eslol7AvQWnzw0Lxwn2EEBNGYbRtXL0EHdnqPh9H05MLVrh4w
-         FNWiKKtyNJWl/oZBQwCLwS+px7QRgKEm1hk2sSi8=
-Date:   Fri, 17 Apr 2020 17:46:54 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     "Guilherme G. Piccoli" <gpiccoli@canonical.com>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, tglx@linutronix.de,
-        vbabka@suse.cz, rdunlap@infradead.org, willy@infradead.org,
-        kernel@gpiccoli.net
-Subject: Re: [PATCH V3] panic: Add sysctl to dump all CPUs backtraces on
- oops event
-Message-Id: <20200417174654.9af0c51afb5d9e35e5519113@linux-foundation.org>
-In-Reply-To: <20200327224116.21030-1-gpiccoli@canonical.com>
-References: <20200327224116.21030-1-gpiccoli@canonical.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726067AbgDRNpz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Apr 2020 09:45:55 -0400
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:51532 "EHLO
+        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726025AbgDRNpz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Apr 2020 09:45:55 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01355;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TvvMGTV_1587217545;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TvvMGTV_1587217545)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sat, 18 Apr 2020 21:45:46 +0800
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v2 2/2] mm/memcg: remove swapaccount kernel parameter
+Date:   Sat, 18 Apr 2020 21:33:09 +0800
+Message-Id: <1587216789-42342-3-git-send-email-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1587216789-42342-1-git-send-email-alex.shi@linux.alibaba.com>
+References: <1587216789-42342-1-git-send-email-alex.shi@linux.alibaba.com>
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 27 Mar 2020 19:41:16 -0300 "Guilherme G. Piccoli" <gpiccoli@canonical.com> wrote:
+After merge the CONFIG_MEMCG_SWAP into kernel as default feature. This
+patch removes the kernel parameter interface swapaccount= to keep this
+feature from user disable in boot.
 
-> Usually when kernel reach an oops condition, it's a point of no return;
-> in case not enough debug information is available in the kernel splat,
-> one of the last resorts would be to collect a kernel crash dump and
-> analyze it. The problem with this approach is that in order to collect
-> the dump, a panic is required (to kexec-load the crash kernel). When
-> in an environment of multiple virtual machines, users may prefer to
-> try living with the oops, at least until being able to properly
-> shutdown their VMs / finish their important tasks.
-> 
-> This patch implements a way to collect a bit more debug details when an
-> oops event is reached, by printing all the CPUs backtraces through the
-> usage of NMIs (on architectures that support that). The sysctl added
-> (and documented) here was called "oops_all_cpu_backtrace", and when
-> set will (as the name suggests) dump all CPUs backtraces.
-> 
-> Far from ideal, this may be the last option though for users that for
-> some reason cannot panic on oops. Most of times oopses are clear enough
-> to indicate the kernel portion that must be investigated, but in virtual
-> environments it's possible to observe hypervisor/KVM issues that could
-> lead to oopses shown in other guests CPUs (like virtual APIC crashes).
-> This patch hence aims to help debug such complex issues without
-> resorting to kdump.
-> 
-> ...
->
-> --- a/include/linux/kernel.h
-> +++ b/include/linux/kernel.h
-> @@ -513,6 +513,12 @@ static inline u32 int_sqrt64(u64 x)
->  }
->  #endif
->  
-> +#ifdef CONFIG_SMP
-> +extern unsigned int sysctl_oops_all_cpu_backtrace;
-> +#else
-> +#define sysctl_oops_all_cpu_backtrace 0
-> +#endif /* CONFIG_SMP */
-> +
+Now, all swapped memcg page record it's id permanently.
 
-hm, we have a ton of junk in kernel.h just to communicate between
-sysctl.c and a handful of other files.  Perhaps one day someone can
-move all that into a new sysctl-externs.h.
+Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Michal Hocko <mhocko@kernel.org>
+Cc: Vladimir Davydov <vdavydov.dev@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: cgroups@vger.kernel.org
+Cc: linux-mm@kvack.org
+---
+ Documentation/admin-guide/kernel-parameters.txt |  5 ---
+ include/linux/memcontrol.h                      |  2 -
+ mm/memcontrol.c                                 | 50 ++++++++-----------------
+ mm/swap_cgroup.c                                |  7 ----
+ 4 files changed, 15 insertions(+), 49 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index f2a93c8679e8..f8532dfc4f17 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4877,11 +4877,6 @@
+ 			This parameter controls use of the Protected
+ 			Execution Facility on pSeries.
+ 
+-	swapaccount=[0|1]
+-			[KNL] Enable accounting of swap in memory resource
+-			controller if no parameter or 1 is given or disable
+-			it if 0 is given (See Documentation/admin-guide/cgroup-v1/memory.rst)
+-
+ 	swiotlb=	[ARM,IA-64,PPC,MIPS,X86]
+ 			Format: { <int> | force | noforce }
+ 			<int> -- Number of I/O TLB slabs
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 45842ed8ba53..9d6330ef5a13 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -569,8 +569,6 @@ struct mem_cgroup *mem_cgroup_get_oom_group(struct task_struct *victim,
+ 					    struct mem_cgroup *oom_domain);
+ void mem_cgroup_print_oom_group(struct mem_cgroup *memcg);
+ 
+-extern int do_swap_account;
+-
+ struct mem_cgroup *lock_page_memcg(struct page *page);
+ void __unlock_page_memcg(struct mem_cgroup *memcg);
+ void unlock_page_memcg(struct page *page);
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 446141b6597a..ba3ac7c7644b 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -81,9 +81,6 @@
+ /* Kernel memory accounting disabled? */
+ static bool cgroup_memory_nokmem;
+ 
+-/* Whether the swap controller is active */
+-int do_swap_account __read_mostly;
+-
+ #ifdef CONFIG_CGROUP_WRITEBACK
+ static DECLARE_WAIT_QUEUE_HEAD(memcg_cgwb_frn_waitq);
+ #endif
+@@ -91,7 +88,7 @@
+ /* Whether legacy memory+swap accounting is active */
+ static bool do_memsw_account(void)
+ {
+-	return !cgroup_subsys_on_dfl(memory_cgrp_subsys) && do_swap_account;
++	return !cgroup_subsys_on_dfl(memory_cgrp_subsys);
+ }
+ 
+ #define THRESHOLDS_EVENTS_TARGET 128
+@@ -6444,6 +6441,9 @@ int mem_cgroup_try_charge(struct page *page, struct mm_struct *mm,
+ 		goto out;
+ 
+ 	if (PageSwapCache(page)) {
++		swp_entry_t ent;
++		unsigned short id;
++
+ 		/*
+ 		 * Every swap fault against a single page tries to charge the
+ 		 * page, bail as early as possible.  shmem_unuse() encounters
+@@ -6455,16 +6455,13 @@ int mem_cgroup_try_charge(struct page *page, struct mm_struct *mm,
+ 		if (compound_head(page)->mem_cgroup)
+ 			goto out;
+ 
+-		if (do_swap_account) {
+-			swp_entry_t ent = { .val = page_private(page), };
+-			unsigned short id = lookup_swap_cgroup_id(ent);
+-
+-			rcu_read_lock();
+-			memcg = mem_cgroup_from_id(id);
+-			if (memcg && !css_tryget_online(&memcg->css))
+-				memcg = NULL;
+-			rcu_read_unlock();
+-		}
++		ent.val = page_private(page);
++		id = lookup_swap_cgroup_id(ent);
++		rcu_read_lock();
++		memcg = mem_cgroup_from_id(id);
++		if (memcg && !css_tryget_online(&memcg->css))
++			memcg = NULL;
++		rcu_read_unlock();
+ 	}
+ 
+ 	if (!memcg)
+@@ -7024,7 +7021,7 @@ int mem_cgroup_try_charge_swap(struct page *page, swp_entry_t entry)
+ 	struct mem_cgroup *memcg;
+ 	unsigned short oldid;
+ 
+-	if (!cgroup_subsys_on_dfl(memory_cgrp_subsys) || !do_swap_account)
++	if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
+ 		return 0;
+ 
+ 	memcg = page->mem_cgroup;
+@@ -7068,9 +7065,6 @@ void mem_cgroup_uncharge_swap(swp_entry_t entry, unsigned int nr_pages)
+ 	struct mem_cgroup *memcg;
+ 	unsigned short id;
+ 
+-	if (!do_swap_account)
+-		return;
+-
+ 	id = swap_cgroup_record(entry, 0, nr_pages);
+ 	rcu_read_lock();
+ 	memcg = mem_cgroup_from_id(id);
+@@ -7091,7 +7085,7 @@ long mem_cgroup_get_nr_swap_pages(struct mem_cgroup *memcg)
+ {
+ 	long nr_swap_pages = get_nr_swap_pages();
+ 
+-	if (!do_swap_account || !cgroup_subsys_on_dfl(memory_cgrp_subsys))
++	if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
+ 		return nr_swap_pages;
+ 	for (; memcg != root_mem_cgroup; memcg = parent_mem_cgroup(memcg))
+ 		nr_swap_pages = min_t(long, nr_swap_pages,
+@@ -7108,7 +7102,7 @@ bool mem_cgroup_swap_full(struct page *page)
+ 
+ 	if (vm_swap_full())
+ 		return true;
+-	if (!do_swap_account || !cgroup_subsys_on_dfl(memory_cgrp_subsys))
++	if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
+ 		return false;
+ 
+ 	memcg = page->mem_cgroup;
+@@ -7123,19 +7117,6 @@ bool mem_cgroup_swap_full(struct page *page)
+ 	return false;
+ }
+ 
+-/* for remember boot option*/
+-static int really_do_swap_account __initdata = 1;
+-
+-static int __init enable_swap_account(char *s)
+-{
+-	if (!strcmp(s, "1"))
+-		really_do_swap_account = 1;
+-	else if (!strcmp(s, "0"))
+-		really_do_swap_account = 0;
+-	return 1;
+-}
+-__setup("swapaccount=", enable_swap_account);
+-
+ static u64 swap_current_read(struct cgroup_subsys_state *css,
+ 			     struct cftype *cft)
+ {
+@@ -7229,8 +7210,7 @@ static int swap_events_show(struct seq_file *m, void *v)
+ 
+ static int __init mem_cgroup_swap_init(void)
+ {
+-	if (!mem_cgroup_disabled() && really_do_swap_account) {
+-		do_swap_account = 1;
++	if (!mem_cgroup_disabled()) {
+ 		WARN_ON(cgroup_add_dfl_cftypes(&memory_cgrp_subsys,
+ 					       swap_files));
+ 		WARN_ON(cgroup_add_legacy_cftypes(&memory_cgrp_subsys,
+diff --git a/mm/swap_cgroup.c b/mm/swap_cgroup.c
+index 45affaef3bc6..3cb015179d29 100644
+--- a/mm/swap_cgroup.c
++++ b/mm/swap_cgroup.c
+@@ -171,9 +171,6 @@ int swap_cgroup_swapon(int type, unsigned long max_pages)
+ 	unsigned long length;
+ 	struct swap_cgroup_ctrl *ctrl;
+ 
+-	if (!do_swap_account)
+-		return 0;
+-
+ 	length = DIV_ROUND_UP(max_pages, SC_PER_PAGE);
+ 	array_size = length * sizeof(void *);
+ 
+@@ -199,7 +196,6 @@ int swap_cgroup_swapon(int type, unsigned long max_pages)
+ 	return 0;
+ nomem:
+ 	pr_info("couldn't allocate enough memory for swap_cgroup\n");
+-	pr_info("swap_cgroup can be disabled by swapaccount=0 boot option\n");
+ 	return -ENOMEM;
+ }
+ 
+@@ -209,9 +205,6 @@ void swap_cgroup_swapoff(int type)
+ 	unsigned long i, length;
+ 	struct swap_cgroup_ctrl *ctrl;
+ 
+-	if (!do_swap_account)
+-		return;
+-
+ 	mutex_lock(&swap_cgroup_mutex);
+ 	ctrl = &swap_cgroup_ctrl[type];
+ 	map = ctrl->map;
+-- 
+1.8.3.1
+
