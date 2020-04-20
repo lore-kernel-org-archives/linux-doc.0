@@ -2,293 +2,350 @@ Return-Path: <SRS0=VSGv=6E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 996A8C3815B
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 11:58:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07BB2C3A5A0
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 14:50:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 708962071C
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 11:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587383888;
-	bh=svwfgxzDf5lHzQLtGzuG7pZIp4RfU3t8qP+aoqULD/c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=a0nGioYD8Ym629bq21E0+HBilOJ4dKLHH5IzL1WDzegtOT/b5+Oy8Naexrinjj7cb
-	 uX14GUNJM7/ZCQGZ/CIarjWYvScp87jaS7CjbRSVImvVGJWgXStzKCfCJScQ0FkFUQ
-	 lEA+uSvoKGdGUIp1wrQJqk7j+fi0ywBken28mBZo=
+	by mail.kernel.org (Postfix) with ESMTP id D6671206F4
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 14:50:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbgDTLyr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Apr 2020 07:54:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38504 "EHLO mail.kernel.org"
+        id S1726744AbgDTOuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Apr 2020 10:50:23 -0400
+Received: from foss.arm.com ([217.140.110.172]:50220 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725886AbgDTLyq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Apr 2020 07:54:46 -0400
-Received: from quaco.ghostprotocols.net (unknown [179.97.37.151])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA3F820857;
-        Mon, 20 Apr 2020 11:54:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587383685;
-        bh=svwfgxzDf5lHzQLtGzuG7pZIp4RfU3t8qP+aoqULD/c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pfF5W/f+AIIshpsrYdWaj7TwM4eC+WR38wEyS0e0GloJFBv7kAL3vQvdbenjSRfK4
-         +AnfHq0ElD0cxdfvkZUP9uqMQcP6D2k5bk05gXOd2S+4pt1Y7MWdhK3LSiTLQb8CKH
-         Z+2DDh5Xl7Ya2iAZ3CNi+Fu9lQucv2Nn+GlCHpSc=
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-        Clark Williams <williams@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        Alexey Budankov <alexey.budankov@linux.intel.com>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@redhat.com>,
+        id S1726102AbgDTOuX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Apr 2020 10:50:23 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3665531B;
+        Mon, 20 Apr 2020 07:50:22 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB6943F73D;
+        Mon, 20 Apr 2020 07:50:19 -0700 (PDT)
+Date:   Mon, 20 Apr 2020 15:50:17 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Patrick Bellasi <patrick.bellasi@matbug.net>
+Cc:     Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Serge Hallyn <serge@hallyn.com>,
-        Song Liu <songliubraving@fb.com>,
-        Stephane Eranian <eranian@google.com>,
-        intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
-        selinux@vger.kernel.org
-Subject: [PATCH 15/60] doc/admin-guide: Update perf-security.rst with CAP_PERFMON information
-Date:   Mon, 20 Apr 2020 08:52:31 -0300
-Message-Id: <20200420115316.18781-16-acme@kernel.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200420115316.18781-1-acme@kernel.org>
-References: <20200420115316.18781-1-acme@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200420145016.lqznren75ua27cl3@e107158-lin.cambridge.arm.com>
+References: <20200403123020.13897-1-qais.yousef@arm.com>
+ <20200414182152.GB20442@darkstar>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200414182152.GB20442@darkstar>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alexey Budankov <alexey.budankov@linux.intel.com>
+Hi Patrick!
 
-Update perf-security.rst documentation file with the information
-related to usage of CAP_PERFMON capability to secure performance
-monitoring and observability operations in system.
+On 04/14/20 20:21, Patrick Bellasi wrote:
+> Hi Qais!
+> 
+> On 03-Apr 13:30, Qais Yousef wrote:
+> 
+> [...]
+> 
+> > diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+> > index d4f6215ee03f..91204480fabc 100644
+> > --- a/include/linux/sched/sysctl.h
+> > +++ b/include/linux/sched/sysctl.h
+> > @@ -59,6 +59,7 @@ extern int sysctl_sched_rt_runtime;
+> >  #ifdef CONFIG_UCLAMP_TASK
+> >  extern unsigned int sysctl_sched_uclamp_util_min;
+> >  extern unsigned int sysctl_sched_uclamp_util_max;
+> > +extern unsigned int sysctl_sched_rt_default_uclamp_util_min;
+> 
+> nit-pick: I would prefer to keep the same prefix of the already
+> exising knobs, i.e. sysctl_sched_uclamp_util_min_rt
+> 
+> The same change for consistency should be applied to all the following
+> symbols related to "uclamp_util_min_rt".
 
-Committer notes:
+All rt sysctl knobs are prefixed with 'sched_rt', so I used this for
+consistency.
 
-While testing 'perf top' under cap_perfmon I noticed that it needs
-some more capability and Alexey pointed out cap_ipc_lock, as needed by
-this kernel chunk:
+> 
+> NOTE: I would not use "default" as I think that what we are doing is
 
-  kernel/events/core.c: 6101
-       if ((locked > lock_limit) && perf_is_paranoid() &&
-               !capable(CAP_IPC_LOCK)) {
-               ret = -EPERM;
-               goto unlock;
-       }
+The 'default' was suggested by Quentin as it felt more descriptive to him. I
+took his 'user' point of view.
 
-So I added it to the documentation, and also mentioned that if the
-libcap version doesn't yet supports 'cap_perfmon', its numeric value can
-be used instead, i.e. if:
+I don't mind or care about the name ultimately. This symbol is internal and not
+exported to userspace.
 
-	# setcap "cap_perfmon,cap_ipc_lock,cap_sys_ptrace,cap_syslog=ep" perf
+I just think sticking to sched_rt for consistency is better. What follows I'm
+happy to put whatever reviewers agree on. I think Dietmar has another
+suggestion for this too.
 
-Fails, try:
+> exactly force setting a user_defined value for all RT tasks. More on
+> that later...
 
-	# setcap "38,cap_ipc_lock,cap_sys_ptrace,cap_syslog=ep" perf
+We are NOT force setting the user_defined value. The whole point is to have
+a variable default behavior while still allow the user to override this
+default. Exactly like it currently works, except that the __hardcoded__ value
+is no longer hardcoded and can be modifyied by sys admins at runtime.
 
-I also added a paragraph stating that using an unpatched libcap will
-fail the check for CAP_PERFMON, as it checks the cap number against a
-maximum to see if it is valid, which makes it use as the default the
-'cycles:u' event, even tho a cap_perfmon capable perf binary can get
-kernel samples, to workaround that just use, e.g.:
+> 
+> >  #endif
+> >  
+> >  #ifdef CONFIG_CFS_BANDWIDTH
+> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> > index 1a9983da4408..a726b26a5056 100644
+> > --- a/kernel/sched/core.c
+> > +++ b/kernel/sched/core.c
+> > @@ -797,6 +797,27 @@ unsigned int sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
+> >  /* Max allowed maximum utilization */
+> >  unsigned int sysctl_sched_uclamp_util_max = SCHED_CAPACITY_SCALE;
+> >  
+> > +/*
+> > + * By default RT tasks run at the maximum performance point/capacity of the
+> > + * system. Uclamp enforces this by always setting UCLAMP_MIN of RT tasks to
+> > + * SCHED_CAPACITY_SCALE.
+> > + *
+> > + * This knob allows admins to change the default behavior when uclamp is being
+> > + * used. In battery powered devices, particularly, running at the maximum
+> > + * capacity and frequency will increase energy consumption and shorten the
+> > + * battery life.
+> > + *
+> > + * This knob only affects the default value RT has when a new RT task is
+> > + * forked or has just changed policy to RT, given the user hasn't modified the
+> > + * uclamp.min value of the task via sched_setattr().
+> > + *
+> > + * This knob will not override the system default sched_util_clamp_min defined
+> > + * above.
+> > + *
+> > + * Any modification is applied lazily on the next RT task wakeup.
+> > + */
+> > +unsigned int sysctl_sched_rt_default_uclamp_util_min = SCHED_CAPACITY_SCALE;
+> > +
+> >  /* All clamps are required to be less or equal than these values */
+> >  static struct uclamp_se uclamp_default[UCLAMP_CNT];
+> >  
+> > @@ -924,6 +945,14 @@ uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
+> >  	return uc_req;
+> >  }
+> >  
+> > +static void uclamp_rt_sync_default_util_min(struct task_struct *p)
+> > +{
+> > +	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> 
+> Don't we have to filter for RT tasks only here?
 
-  # perf top -e cycles
-  # perf record -e cycles
+Indeed!
 
-And it will sample kernel and user modes.
+> 
+> > +
+> > +	if (!uc_se->user_defined)
+> > +		uclamp_se_set(uc_se, sysctl_sched_rt_default_uclamp_util_min, false);
+> 
+> Here you are actually setting a user-requested value, why not marking
+> it as that, i.e. by using true for the last parameter?
 
-Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
-Tested-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: Igor Lubashev <ilubashe@akamai.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: Jiri Olsa <jolsa@redhat.com>
-Cc: Namhyung Kim <namhyung@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Serge Hallyn <serge@hallyn.com>
-Cc: Song Liu <songliubraving@fb.com>
-Cc: Stephane Eranian <eranian@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-man@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
-Cc: selinux@vger.kernel.org
-Link: http://lore.kernel.org/lkml/17278551-9399-9ebe-d665-8827016a217d@linux.intel.com
-Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
----
- Documentation/admin-guide/perf-security.rst | 86 +++++++++++++++------
- 1 file changed, 61 insertions(+), 25 deletions(-)
+I will have to bounce the question back. The original code passed false.
+So why didn't you pass true then? The fact that the value is no longer
+hardcoded with this patch doesn't mean the purpose of this code has changed.
 
-diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
-index 72effa7c23b9..1307b5274a0f 100644
---- a/Documentation/admin-guide/perf-security.rst
-+++ b/Documentation/admin-guide/perf-security.rst
-@@ -1,6 +1,6 @@
- .. _perf_security:
- 
--Perf Events and tool security
-+Perf events and tool security
- =============================
- 
- Overview
-@@ -42,11 +42,11 @@ categories:
- Data that belong to the fourth category can potentially contain
- sensitive process data. If PMUs in some monitoring modes capture values
- of execution context registers or data from process memory then access
--to such monitoring capabilities requires to be ordered and secured
--properly. So, perf_events/Perf performance monitoring is the subject for
--security access control management [5]_ .
-+to such monitoring modes requires to be ordered and secured properly.
-+So, perf_events performance monitoring and observability operations are
-+the subject for security access control management [5]_ .
- 
--perf_events/Perf access control
-+perf_events access control
- -------------------------------
- 
- To perform security checks, the Linux implementation splits processes
-@@ -66,11 +66,25 @@ into distinct units, known as capabilities [6]_ , which can be
- independently enabled and disabled on per-thread basis for processes and
- files of unprivileged users.
- 
--Unprivileged processes with enabled CAP_SYS_ADMIN capability are treated
-+Unprivileged processes with enabled CAP_PERFMON capability are treated
- as privileged processes with respect to perf_events performance
--monitoring and bypass *scope* permissions checks in the kernel.
--
--Unprivileged processes using perf_events system call API is also subject
-+monitoring and observability operations, thus, bypass *scope* permissions
-+checks in the kernel. CAP_PERFMON implements the principle of least
-+privilege [13]_ (POSIX 1003.1e: 2.2.2.39) for performance monitoring and
-+observability operations in the kernel and provides a secure approach to
-+perfomance monitoring and observability in the system.
-+
-+For backward compatibility reasons the access to perf_events monitoring and
-+observability operations is also open for CAP_SYS_ADMIN privileged
-+processes but CAP_SYS_ADMIN usage for secure monitoring and observability
-+use cases is discouraged with respect to the CAP_PERFMON capability.
-+If system audit records [14]_ for a process using perf_events system call
-+API contain denial records of acquiring both CAP_PERFMON and CAP_SYS_ADMIN
-+capabilities then providing the process with CAP_PERFMON capability singly
-+is recommended as the preferred secure approach to resolve double access
-+denial logging related to usage of performance monitoring and observability.
-+
-+Unprivileged processes using perf_events system call are also subject
- for PTRACE_MODE_READ_REALCREDS ptrace access mode check [7]_ , whose
- outcome determines whether monitoring is permitted. So unprivileged
- processes provided with CAP_SYS_PTRACE capability are effectively
-@@ -82,14 +96,14 @@ performance analysis of monitored processes or a system. For example,
- CAP_SYSLOG capability permits reading kernel space memory addresses from
- /proc/kallsyms file.
- 
--perf_events/Perf privileged users
-+Privileged Perf users groups
- ---------------------------------
- 
- Mechanisms of capabilities, privileged capability-dumb files [6]_ and
--file system ACLs [10]_ can be used to create a dedicated group of
--perf_events/Perf privileged users who are permitted to execute
--performance monitoring without scope limits. The following steps can be
--taken to create such a group of privileged Perf users.
-+file system ACLs [10]_ can be used to create dedicated groups of
-+privileged Perf users who are permitted to execute performance monitoring
-+and observability without scope limits. The following steps can be
-+taken to create such groups of privileged Perf users.
- 
- 1. Create perf_users group of privileged Perf users, assign perf_users
-    group to Perf tool executable and limit access to the executable for
-@@ -108,30 +122,51 @@ taken to create such a group of privileged Perf users.
-    -rwxr-x---  2 root perf_users  11M Oct 19 15:12 perf
- 
- 2. Assign the required capabilities to the Perf tool executable file and
--   enable members of perf_users group with performance monitoring
-+   enable members of perf_users group with monitoring and observability
-    privileges [6]_ :
- 
- ::
- 
--   # setcap "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
--   # setcap -v "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
-+   # setcap "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" perf
-+   # setcap -v "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" perf
-    perf: OK
-    # getcap perf
--   perf = cap_sys_ptrace,cap_sys_admin,cap_syslog+ep
-+   perf = cap_sys_ptrace,cap_syslog,cap_perfmon+ep
-+
-+If the libcap installed doesn't yet support "cap_perfmon", use "38" instead,
-+i.e.:
-+
-+::
-+
-+   # setcap "38,cap_ipc_lock,cap_sys_ptrace,cap_syslog=ep" perf
-+
-+Note that you may need to have 'cap_ipc_lock' in the mix for tools such as
-+'perf top', alternatively use 'perf top -m N', to reduce the memory that
-+it uses for the perf ring buffer, see the memory allocation section below.
-+
-+Using a libcap without support for CAP_PERFMON will make cap_get_flag(caps, 38,
-+CAP_EFFECTIVE, &val) fail, which will lead the default event to be 'cycles:u',
-+so as a workaround explicitly ask for the 'cycles' event, i.e.:
-+
-+::
-+
-+  # perf top -e cycles
-+
-+To get kernel and user samples with a perf binary with just CAP_PERFMON.
- 
- As a result, members of perf_users group are capable of conducting
--performance monitoring by using functionality of the configured Perf
--tool executable that, when executes, passes perf_events subsystem scope
--checks.
-+performance monitoring and observability by using functionality of the
-+configured Perf tool executable that, when executes, passes perf_events
-+subsystem scope checks.
- 
- This specific access control management is only available to superuser
- or root running processes with CAP_SETPCAP, CAP_SETFCAP [6]_
- capabilities.
- 
--perf_events/Perf unprivileged users
-+Unprivileged users
- -----------------------------------
- 
--perf_events/Perf *scope* and *access* control for unprivileged processes
-+perf_events *scope* and *access* control for unprivileged processes
- is governed by perf_event_paranoid [2]_ setting:
- 
- -1:
-@@ -166,7 +201,7 @@ is governed by perf_event_paranoid [2]_ setting:
-      perf_event_mlock_kb locking limit is imposed but ignored for
-      unprivileged processes with CAP_IPC_LOCK capability.
- 
--perf_events/Perf resource control
-+Resource control
- ---------------------------------
- 
- Open file descriptors
-@@ -227,4 +262,5 @@ Bibliography
- .. [10] `<http://man7.org/linux/man-pages/man5/acl.5.html>`_
- .. [11] `<http://man7.org/linux/man-pages/man2/getrlimit.2.html>`_
- .. [12] `<http://man7.org/linux/man-pages/man5/limits.conf.5.html>`_
--
-+.. [13] `<https://sites.google.com/site/fullycapable>`_
-+.. [14] `<http://man7.org/linux/man-pages/man8/auditd.8.html>`_
--- 
-2.21.1
+> 
+> Moreover, by keeping user_defined=false I think you are not getting
+> what you want for RT tasks running in a nested cgroup.
+> 
+> Let say a subgroup is still with the util_min=1024 inherited from the
+> system defaults, in uclamp_tg_restrict() we will still return the max
+> value and not what you requested for. Isn't it?
 
+With the current code (without my patch) where RT tasks util_min is 1024 by
+default and user_defined=false. How is it behaving then? My patch should
+retain this behavior. I can't see how it breaks it.. :-/
+
+> 
+> IOW, what about:
+> 
+> ---8<---
+> static void uclamp_sync_util_min_rt(struct task_struct *p)
+> {
+> 	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> 
+>   if (likely(uc_se->user_defined || !rt_task(p)))
+>     return;
+> 
+>   uclamp_se_set(uc_se, sysctl_sched_uclamp_util_min_rt, true);
+> }
+> ---8<---
+
+See above.
+
+> 
+> 
+> > +}
+> > +
+> >  unsigned long uclamp_eff_value(struct task_struct *p, enum uclamp_id clamp_id)
+> >  {
+> >  	struct uclamp_se uc_eff;
+> > @@ -1030,6 +1059,12 @@ static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
+> >  	if (unlikely(!p->sched_class->uclamp_enabled))
+> >  		return;
+> >  
+> > +	/*
+> > +	 * When sysctl_sched_rt_default_uclamp_util_min value is changed by the
+> > +	 * user, we apply any new value on the next wakeup, which is here.
+> > +	 */
+> > +	uclamp_rt_sync_default_util_min(p);
+> > +
+> >  	for_each_clamp_id(clamp_id)
+> >  		uclamp_rq_inc_id(rq, p, clamp_id);
+> >  
+> > @@ -1121,12 +1156,13 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+> >  				loff_t *ppos)
+> >  {
+> >  	bool update_root_tg = false;
+> > -	int old_min, old_max;
+> > +	int old_min, old_max, old_rt_min;
+> >  	int result;
+> >  
+> >  	mutex_lock(&uclamp_mutex);
+> >  	old_min = sysctl_sched_uclamp_util_min;
+> >  	old_max = sysctl_sched_uclamp_util_max;
+> > +	old_rt_min = sysctl_sched_rt_default_uclamp_util_min;
+> 
+> Perpahs it's just my OCD but, is not "old_min_rt" reading better?
+
+:D
+
+> 
+> >  
+> >  	result = proc_dointvec(table, write, buffer, lenp, ppos);
+> >  	if (result)
+> > @@ -1134,12 +1170,23 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+> >  	if (!write)
+> >  		goto done;
+> >  
+> > +	/*
+> > +	 * The new value will be applied to all RT tasks the next time they
+> > +	 * wakeup, assuming the task is using the system default and not a user
+> > +	 * specified value. In the latter we shall leave the value as the user
+> > +	 * requested.
+> > +	 */
+> 
+> Should not this comment go before the next block?
+
++1
+
+> 
+> >  	if (sysctl_sched_uclamp_util_min > sysctl_sched_uclamp_util_max ||
+> >  	    sysctl_sched_uclamp_util_max > SCHED_CAPACITY_SCALE) {
+> >  		result = -EINVAL;
+> >  		goto undo;
+> >  	}
+> >  
+> > +	if (sysctl_sched_rt_default_uclamp_util_min > SCHED_CAPACITY_SCALE) {
+> > +		result = -EINVAL;
+> > +		goto undo;
+> > +	}
+> > +
+> >  	if (old_min != sysctl_sched_uclamp_util_min) {
+> >  		uclamp_se_set(&uclamp_default[UCLAMP_MIN],
+> >  			      sysctl_sched_uclamp_util_min, false);
+> > @@ -1165,6 +1212,7 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+> >  undo:
+> >  	sysctl_sched_uclamp_util_min = old_min;
+> >  	sysctl_sched_uclamp_util_max = old_max;
+> > +	sysctl_sched_rt_default_uclamp_util_min = old_rt_min;
+> >  done:
+> >  	mutex_unlock(&uclamp_mutex);
+> >  
+> > @@ -1207,9 +1255,13 @@ static void __setscheduler_uclamp(struct task_struct *p,
+> >  		if (uc_se->user_defined)
+> >  			continue;
+> >  
+> > -		/* By default, RT tasks always get 100% boost */
+> > +		/*
+> > +		 * By default, RT tasks always get 100% boost, which the admins
+> > +		 * are allowed to change via
+> > +		 * sysctl_sched_rt_default_uclamp_util_min knob.
+> > +		 */
+> >  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+> > -			clamp_value = uclamp_none(UCLAMP_MAX);
+> > +			clamp_value = sysctl_sched_rt_default_uclamp_util_min;
+> >
+> >  		uclamp_se_set(uc_se, clamp_value, false);
+> >  	}
+> > @@ -1241,9 +1293,13 @@ static void uclamp_fork(struct task_struct *p)
+> >  	for_each_clamp_id(clamp_id) {
+> >  		unsigned int clamp_value = uclamp_none(clamp_id);
+> >  
+> > -		/* By default, RT tasks always get 100% boost */
+> > +		/*
+> > +		 * By default, RT tasks always get 100% boost, which the admins
+> > +		 * are allowed to change via
+> > +		 * sysctl_sched_rt_default_uclamp_util_min knob.
+> > +		 */
+> >  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+> > -			clamp_value = uclamp_none(UCLAMP_MAX);
+> > +			clamp_value = sysctl_sched_rt_default_uclamp_util_min;
+> >  
+> 
+> This is not required, look at this Quentin's patch:
+> 
+>    Message-ID: <20200414161320.251897-1-qperret@google.com>
+>    https://lore.kernel.org/lkml/20200414161320.251897-1-qperret@google.com/
+
+Yep saw it.
+
+Thanks for taking the time to review!
+
+Cheers
+
+--
+Qais Yousef
+
+> 
+> >  		uclamp_se_set(&p->uclamp_req[clamp_id], clamp_value, false);
+> >  	}
+> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> > index ad5b88a53c5a..0272ae8c6147 100644
+> > --- a/kernel/sysctl.c
+> > +++ b/kernel/sysctl.c
+> > @@ -465,6 +465,13 @@ static struct ctl_table kern_table[] = {
+> >  		.mode		= 0644,
+> >  		.proc_handler	= sysctl_sched_uclamp_handler,
+> >  	},
+> > +	{
+> > +		.procname	= "sched_rt_default_util_clamp_min",
+> > +		.data		= &sysctl_sched_rt_default_uclamp_util_min,
+> > +		.maxlen		= sizeof(unsigned int),
+> > +		.mode		= 0644,
+> > +		.proc_handler	= sysctl_sched_uclamp_handler,
+> > +	},
+> >  #endif
+> >  #ifdef CONFIG_SCHED_AUTOGROUP
+> >  	{
+> 
+> Best,
+> Patrick
+> 
+> -- 
+> #include <best/regards.h>
+> 
+> Patrick Bellasi
