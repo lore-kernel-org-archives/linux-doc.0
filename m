@@ -2,341 +2,359 @@ Return-Path: <SRS0=VSGv=6E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C70CBC3815B
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 19:10:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CBF0C3815B
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 19:41:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1A9E208FE
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 19:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587409827;
-	bh=IexWOI5I5CG7102LcuWYed0E/giwR7KYNkORRZtjMiM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Y9JgIL1bg24N51r2g7Ov649uOnH7iXeSi0pp0kRv4/h5qDbH9xVdoikliWM8MlQFB
-	 eghi8yrUiIqf0SHfrWZHjV9oLic5E9zOf6qqijL8e5o0sHkGJuNLFJfF9dsj7gCAR6
-	 glk4x5EiEk8RWSceg1pk//ugxEr2YM6UZOiI5ouo=
+	by mail.kernel.org (Postfix) with ESMTP id 5587520782
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 19:41:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SGUjdIGc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727854AbgDTTKV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Apr 2020 15:10:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59438 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725897AbgDTTKV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Apr 2020 15:10:21 -0400
-Received: from localhost (unknown [213.57.247.131])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AB75720736;
-        Mon, 20 Apr 2020 19:10:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587409819;
-        bh=IexWOI5I5CG7102LcuWYed0E/giwR7KYNkORRZtjMiM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oS4fP3v9ke7mNJ2hlv7waKirwvffo4z+h2OVSlYvsItnHJKUb7OSQqxjfwTgR4FzZ
-         /t154dKi7wdyn8H075cEKvP0hhNE5h7zyfA7Axy7wEDUZMekzHiHzGsCkWKVmj/AcP
-         pE76fgJgGyvfHpE4jca5Ja+DXpkO69Btd+SOA4l4=
-Date:   Mon, 20 Apr 2020 22:10:14 +0300
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Orson Zhai <orson.unisoc@gmail.com>
-Cc:     Jason Baron <jbaron@akamai.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>, orsonzhai@gmail.com,
-        kernel-team@android.com, Orson Zhai <orson.zhai@unisoc.com>
-Subject: Re: [PATCH V2] dynamic_debug: Add an option to enable dynamic debug
- for modules only
-Message-ID: <20200420191014.GE121146@unreal>
-References: <1587408228-10861-1-git-send-email-orson.unisoc@gmail.com>
+        id S1726599AbgDTTlR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Apr 2020 15:41:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726161AbgDTTlR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Apr 2020 15:41:17 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C33C3C061A0F
+        for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2020 12:41:16 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id q19so11371818ljp.9
+        for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2020 12:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2l71BXESRMVZaog60N632QcNtn1RLZhkN10c7KV873A=;
+        b=SGUjdIGc0NzdTIccHzsf7n7fl2lCU8m0WmuBQvva6nXnCETcqGsNI8UGF3WQCa5QPP
+         46a6qbi4W2A/3pf+uHmYD+pqX60/53YJwMs5wSkkCjHIHnhUv/OcrOdjYjVwFrqHrsGI
+         LbEhEP+vVxT1hxgGbOjfp5sV7UwWSTCSz7CzC7PbgIOdqfZ4D4sjVxIfSBQat6ZUli+a
+         qa9REduBLytNHJOTAEcI9W6Zhuy01qusIKY6Vjvv7J2yQyLd4e9iPDoDeGVK/w7/16b/
+         3IE+Rr5FLIPzkimLAJDyV+qSELQgKYryzNsV/kvfdvKCQftVMco0jSQgQ0fnwm0YApnQ
+         Qg3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2l71BXESRMVZaog60N632QcNtn1RLZhkN10c7KV873A=;
+        b=nC7UwUzOVt7rmzmOB4cF5ro2vp8Cuo1oKV5bcWkNDGDfrvcyNvKa1H6mFFM8wxNW56
+         2y4xw3Zc0Ao5PXDP/HJht1TOzk5pUIEnXWVAKpjL2R5YY7YwkHfhOBVrMloQBSLQ85kJ
+         GooDGgJYQ0oxUSnTow8FFBbly3cjjEmeOLiGbTwtsgoz6IuIqgTOEjlE/lecfJQm/JRv
+         tWQj74rnUOOaMJ4/UQsQpvL3XugVq2FDIxYzl27bvLyoT/OeEX4VkTAo48ughlZvnLLz
+         2Y7tRxwD1mF5SKi3piIpu2xK08Rnf/vL83MfLOaE6tXSJw6sInKiOTlyIS4c/QbXXZ6U
+         xe2Q==
+X-Gm-Message-State: AGi0Puad5jDJ1PJ5XT6rmUgJhV2IZWyo3uCPvjqc2Nf1WHlMllc5cLOU
+        VvF+IVNwXCYWmssp0C54cYJ9np3sDfKvqoGr8lYMoQ==
+X-Google-Smtp-Source: APiQypI2gK//YEp6YVbgwTm4k+wnVZZ/iGHVGrqFsiNhRq6u3vM+M+1e1iwmrTKmDRc1k1kiyjmzBeruQcOKYL6X1kk=
+X-Received: by 2002:a05:651c:30b:: with SMTP id a11mr10981389ljp.164.1587411674963;
+ Mon, 20 Apr 2020 12:41:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1587408228-10861-1-git-send-email-orson.unisoc@gmail.com>
+References: <20200417185049.275845-1-mike.kravetz@oracle.com> <20200417185049.275845-4-mike.kravetz@oracle.com>
+In-Reply-To: <20200417185049.275845-4-mike.kravetz@oracle.com>
+From:   Anders Roxell <anders.roxell@linaro.org>
+Date:   Mon, 20 Apr 2020 21:41:04 +0200
+Message-ID: <CADYN=9Koefrq9H1Y82Q8nMNbeyN4tzhEfvDu5u=sVFjFZCYorA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] hugetlbfs: remove hugetlb_add_hstate() warning for
+ existing hstate
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     linux-mm@kvack.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Longpeng <longpeng2@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mina Almasry <almasrymina@google.com>,
+        Peter Xu <peterx@redhat.com>,
+        Nitesh Narayan Lal <nitesh@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 21, 2020 at 02:43:48AM +0800, Orson Zhai wrote:
-> From: Orson Zhai <orson.zhai@unisoc.com>
+On Fri, 17 Apr 2020 at 20:52, Mike Kravetz <mike.kravetz@oracle.com> wrote:
 >
-> Instead of enabling dynamic debug globally with CONFIG_DYNAMIC_DEBUG,
-> CONFIG_DYNAMIC_DEBUG_CORE will only enable core function of dynamic
-> debug. With the DYNAMIC_DEBUG_MODULE defined for any modules, dynamic
-> debug will be tied to them.
+> The routine hugetlb_add_hstate prints a warning if the hstate already
+> exists.  This was originally done as part of kernel command line
+> parsing.  If 'hugepagesz=' was specified more than once, the warning
+>         pr_warn("hugepagesz= specified twice, ignoring\n");
+> would be printed.
 >
-> This is useful for people who only want to enable dynamic debug for
-> kernel modules without worrying about kernel image size and memory
-> consumption is increasing too much.
-
-Let's talk about extreme case, what is the output of bloat-o-meter
-for allyesconfig build with and without dynamic debug?
-
-I imagine that people who are interested in decreasing memory
-footprint will use minimal config anyway, so it is very interesting
-to see who is the target audience for this change?
-
-Thanks
-
+> Some architectures want to enable all huge page sizes.  They would
+> call hugetlb_add_hstate for all supported sizes.  However, this was
+> done after command line processing and as a result hstates could have
+> already been created for some sizes.  To make sure no warning were
+> printed, there would often be code like:
+>         if (!size_to_hstate(size)
+>                 hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT)
 >
-> Signed-off-by: Orson Zhai <orson.zhai@unisoc.com>
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> The only time we want to print the warning is as the result of command
+> line processing.  So, remove the warning from hugetlb_add_hstate and
+> add it to the single arch independent routine processing "hugepagesz=".
+> After this, calls to size_to_hstate() in arch specific code can be
+> removed and hugetlb_add_hstate can be called without worrying about
+> warning messages.
+>
+> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
+> Acked-by: Mina Almasry <almasrymina@google.com>
+
+When I build an arm64 kernel on today's next-20200420 and ran that in
+qemu I got the following output [1]:
+
+...
+[  311.326817][    T1] kobject: 'drivers' ((____ptrval____)):
+kobject_add_internal: parent: 'coresight', set: '<NULL>'
+[  311.331513][    T1] kobject: 'drivers' ((____ptrval____)): kobject_uevent_env
+[  311.334514][    T1] kobject: 'drivers' ((____ptrval____)):
+kobject_uevent_env: filter function caused the event to drop!
+[  311.340127][    T1] bus: 'coresight': registered
+[  311.342228][    T1] initcall coresight_init+0x0/0x64 returned 0
+after 27343 usecs
+[  311.349740][    T1] calling  debug_traps_init+0x0/0xa4 @ 1
+[  311.352138][    T1] initcall debug_traps_init+0x0/0xa4 returned 0
+after 0 usecs
+[  311.355550][    T1] calling  reserve_memblock_reserved_regions+0x0/0x374 @ 1
+[  311.364913][    T1] initcall
+reserve_memblock_reserved_regions+0x0/0x374 returned 0 after 7812
+usecs
+[  311.368937][    T1] calling  aarch32_alloc_vdso_pages+0x0/0x1d0 @ 1
+[  311.371819][    T1] initcall aarch32_alloc_vdso_pages+0x0/0x1d0
+returned 0 after 0 usecs
+[  311.375608][    T1] calling  vdso_init+0x0/0x52c @ 1
+[  311.378092][    T1] initcall vdso_init+0x0/0x52c returned 0 after 0 usecs
+[  311.381386][    T1] calling  arch_hw_breakpoint_init+0x0/0x178 @ 1
+[  311.384007][    T1] hw-breakpoint: found 6 breakpoint and 4
+watchpoint registers.
+[  311.388120][    T1] initcall arch_hw_breakpoint_init+0x0/0x178
+returned 0 after 3906 usecs
+[  311.391924][    T1] calling  asids_update_limit+0x0/0x110 @ 1
+[  311.394390][    T1] ASID allocator initialised with 65536 entries
+[  311.397427][    T1] initcall asids_update_limit+0x0/0x110 returned
+0 after 3906 usecs
+[  311.400749][    T1] calling  hugetlbpage_init+0x0/0x7c @ 1
+[  311.403581][    T1] Unexpected kernel BRK exception at EL1
+[  311.405771][    T1] Internal error: ptrace BRK handler: f20003e8
+[#1] PREEMPT SMP
+[  311.408759][    T1] Modules linked in:
+[  311.410514][    T1] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G
+        T 5.7.0-rc2-next-20200420-03722-ge4ba9b47e4ed #1
+[  311.415175][    T1] Hardware name: linux,dummy-virt (DT)
+[  311.417466][    T1] pstate: 80400005 (Nzcv daif +PAN -UAO)
+[  311.419887][    T1] pc : hugetlb_add_hstate+0x68/0x4f0
+[  311.422171][    T1] lr : hugetlb_add_hstate+0x68/0x4f0
+[  311.424354][    T1] sp : ffff000069c07c60
+[  311.426124][    T1] x29: ffff000069c07c60 x28: ffff00006a7f8058
+[  311.428754][    T1] x27: 0000000000000000 x26: ffffa00013f56950
+[  311.431376][    T1] x25: ffffa000141b8000 x24: ffff00006a7f8040
+[  311.433987][    T1] x23: 1fffe0000d380fae x22: 00000000fffffff8
+[  311.436574][    T1] x21: 0000000100000000 x20: ffffa000141b8000
+[  311.439167][    T1] x19: ec632d51be3d2507 x18: 0000000000001a68
+[  311.441763][    T1] x17: 00000000000013e0 x16: 0000000000001a94
+[  311.444386][    T1] x15: 0000000000001a68 x14: 6573752036303933
+[  311.447034][    T1] x13: 2072657466612030 x12: 00000000000025b0
+[  311.449639][    T1] x11: 00000000f1f1f1f1 x10: 0000000041b58ab3
+[  311.452238][    T1] x9 : ffffa000139a833c x8 : 1ffff40002bf2c23
+[  311.454849][    T1] x7 : ffff940002bf2c23 x6 : ffffa00015f9611b
+[  311.457480][    T1] x5 : ffff00006a7f8040 x4 : 0000000000000000
+[  311.460124][    T1] x3 : ffffa000139fd98c x2 : 00000000fffffff8
+[  311.462737][    T1] x1 : ffff00006a7f8040 x0 : 0000000000000000
+[  311.465322][    T1] Call trace:
+[  311.466818][    T1]  hugetlb_add_hstate+0x68/0x4f0
+[  311.468934][    T1]  hugetlbpage_init+0x34/0x7c
+[  311.470934][    T1]  do_one_initcall+0x480/0xa40
+[  311.472996][    T1]  kernel_init_freeable+0x7a0/0x968
+[  311.475224][    T1]  kernel_init+0x20/0x1f8
+[  311.477078][    T1]  ret_from_fork+0x10/0x18
+[  311.479053][    T1] Code: 972762be 7100fedf 54000069 97276197 (d4207d00)
+[  311.482106][    T1] _warn_unseeded_randomness: 18 callbacks suppressed
+[  311.482255][    T1] random: get_random_bytes called from
+print_oops_end_marker+0x48/0x80 with crng_init=0
+[  311.482321][    T1] ---[ end trace 60df362baad50718 ]---
+[  311.491423][    T1] Kernel panic - not syncing: Fatal exception
+[  311.494038][    T1] ---[ end Kernel panic - not syncing: Fatal exception ]---
+
+If I revert this patch I can't see the problem anymore...
+
+Any idea what happens?
+
+This is the kernel.config [1] I'm using, its from an allmodconfig kernel build
+
+Cheers,
+Anders
+[1] https://people.linaro.org/~anders.roxell/output-next-20200420.log
+[2] https://builds.tuxbuild.com/U7ufblLydTsSvle27GSPAA/kernel.config
+
+
 > ---
-> Changes to V2:
-> 1) Change DEBUG_MODULE to DYNAMIC_DEBUG_MODULE.
-> 2) Change more #if defined(DYNAMIC_DEBUG) condition (in net.h, netdevice.h
->    and ib_verbs.h).
-> 3) Rewrite description in howto document.
-> 4) Add acked-by from Greg.
+>  arch/arm64/mm/hugetlbpage.c   | 16 ++++------------
+>  arch/powerpc/mm/hugetlbpage.c |  3 +--
+>  arch/riscv/mm/hugetlbpage.c   |  2 +-
+>  arch/sparc/mm/init_64.c       | 19 ++++---------------
+>  arch/x86/mm/hugetlbpage.c     |  2 +-
+>  mm/hugetlb.c                  |  9 ++++++---
+>  6 files changed, 17 insertions(+), 34 deletions(-)
 >
+> diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
+> index f706b821aba6..21fa98b51e00 100644
+> --- a/arch/arm64/mm/hugetlbpage.c
+> +++ b/arch/arm64/mm/hugetlbpage.c
+> @@ -441,22 +441,14 @@ void huge_ptep_clear_flush(struct vm_area_struct *vma,
+>         clear_flush(vma->vm_mm, addr, ptep, pgsize, ncontig);
+>  }
 >
->  Documentation/admin-guide/dynamic-debug-howto.rst |  5 +++++
->  include/linux/dev_printk.h                        |  6 ++++--
->  include/linux/dynamic_debug.h                     |  2 +-
->  include/linux/net.h                               |  3 ++-
->  include/linux/netdevice.h                         |  6 ++++--
->  include/linux/printk.h                            | 14 +++++++++-----
->  include/rdma/ib_verbs.h                           |  6 ++++--
->  lib/Kconfig.debug                                 | 12 ++++++++++++
->  lib/Makefile                                      |  2 +-
->  lib/dynamic_debug.c                               |  9 +++++++--
->  10 files changed, 49 insertions(+), 16 deletions(-)
->
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index 0dc2eb8..1012bd9 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -13,6 +13,11 @@ kernel code to obtain additional kernel information.  Currently, if
->  ``print_hex_dump_debug()``/``print_hex_dump_bytes()`` calls can be dynamically
->  enabled per-callsite.
->
-> +If you do not want to enable dynamic debug globally (i.e. in some embedded
-> +system), you may set ``CONFIG_DYNAMIC_DEBUG_CORE`` as basic support of dynamic
-> +debug and add ``ccflags := -DDYNAMIC_DEBUG_MODULE`` into the Makefile of any
-> +modules which you'd like to dynamically debug later.
-> +
->  If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is just
->  shortcut for ``print_hex_dump(KERN_DEBUG)``.
->
-> diff --git a/include/linux/dev_printk.h b/include/linux/dev_printk.h
-> index 5aad06b..3028b64 100644
-> --- a/include/linux/dev_printk.h
-> +++ b/include/linux/dev_printk.h
-> @@ -109,7 +109,8 @@ void _dev_info(const struct device *dev, const char *fmt, ...)
->  #define dev_info(dev, fmt, ...)						\
->  	_dev_info(dev, dev_fmt(fmt), ##__VA_ARGS__)
->
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  #define dev_dbg(dev, fmt, ...)						\
->  	dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
->  #elif defined(DEBUG)
-> @@ -181,7 +182,8 @@ do {									\
->  	dev_level_ratelimited(dev_notice, dev, fmt, ##__VA_ARGS__)
->  #define dev_info_ratelimited(dev, fmt, ...)				\
->  	dev_level_ratelimited(dev_info, dev, fmt, ##__VA_ARGS__)
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
->  #define dev_dbg_ratelimited(dev, fmt, ...)				\
->  do {									\
-> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-> index 4cf02ec..abcd5fd 100644
-> --- a/include/linux/dynamic_debug.h
-> +++ b/include/linux/dynamic_debug.h
-> @@ -48,7 +48,7 @@ struct _ddebug {
->
->
->
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG_CORE)
->  int ddebug_add_module(struct _ddebug *tab, unsigned int n,
->  				const char *modname);
->  extern int ddebug_remove_module(const char *mod_name);
-> diff --git a/include/linux/net.h b/include/linux/net.h
-> index 6451425..7b7b21a 100644
-> --- a/include/linux/net.h
-> +++ b/include/linux/net.h
-> @@ -264,7 +264,8 @@ do {								\
->  	net_ratelimited_function(pr_warn, fmt, ##__VA_ARGS__)
->  #define net_info_ratelimited(fmt, ...)				\
->  	net_ratelimited_function(pr_info, fmt, ##__VA_ARGS__)
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  #define net_dbg_ratelimited(fmt, ...)					\
->  do {									\
->  	DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, fmt);			\
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index 130a668..e874643 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -4868,7 +4868,8 @@ do {								\
->  #define MODULE_ALIAS_NETDEV(device) \
->  	MODULE_ALIAS("netdev-" device)
->
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  #define netdev_dbg(__dev, format, args...)			\
->  do {								\
->  	dynamic_netdev_dbg(__dev, format, ##args);		\
-> @@ -4938,7 +4939,8 @@ do {								\
->  #define netif_info(priv, type, dev, fmt, args...)		\
->  	netif_level(info, priv, type, dev, fmt, ##args)
->
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  #define netif_dbg(priv, type, netdev, format, args...)		\
->  do {								\
->  	if (netif_msg_##type(priv))				\
-> diff --git a/include/linux/printk.h b/include/linux/printk.h
-> index e061635..b64c39c 100644
-> --- a/include/linux/printk.h
-> +++ b/include/linux/printk.h
-> @@ -286,8 +286,9 @@ extern int kptr_restrict;
->  /*
->   * These can be used to print at the various log levels.
->   * All of these will print unconditionally, although note that pr_debug()
-> - * and other debug macros are compiled out unless either DEBUG is defined
-> - * or CONFIG_DYNAMIC_DEBUG is set.
-> + * and other debug macros are compiled out unless either DEBUG is defined,
-> + * CONFIG_DYNAMIC_DEBUG is set, or CONFIG_DYNAMIC_DEBUG_CORE is set when
-> + * DYNAMIC_DEBUG_MODULE being defined for any modules.
->   */
->  #define pr_emerg(fmt, ...) \
->  	printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-> @@ -322,7 +323,8 @@ extern int kptr_restrict;
->
->
->  /* If you are writing a driver, please use dev_dbg instead */
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  #include <linux/dynamic_debug.h>
->
->  /* dynamic_pr_debug() uses pr_fmt() internally so we don't need it here */
-> @@ -448,7 +450,8 @@ extern int kptr_restrict;
+> -static void __init add_huge_page_size(unsigned long size)
+> -{
+> -       if (size_to_hstate(size))
+> -               return;
+> -
+> -       hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT);
+> -}
+> -
+>  static int __init hugetlbpage_init(void)
+>  {
+>  #ifdef CONFIG_ARM64_4K_PAGES
+> -       add_huge_page_size(PUD_SIZE);
+> +       hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
 >  #endif
+> -       add_huge_page_size(CONT_PMD_SIZE);
+> -       add_huge_page_size(PMD_SIZE);
+> -       add_huge_page_size(CONT_PTE_SIZE);
+> +       hugetlb_add_hstate(CONT_PMD_SHIFT - PAGE_SHIFT);
+> +       hugetlb_add_hstate(PMD_SHIFT - PAGE_SHIFT);
+> +       hugetlb_add_hstate(CONT_PTE_SHIFT - PAGE_SHIFT);
 >
->  /* If you are writing a driver, please use dev_dbg instead */
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
->  #define pr_debug_ratelimited(fmt, ...)					\
->  do {									\
-> @@ -495,7 +498,8 @@ static inline void print_hex_dump_bytes(const char *prefix_str, int prefix_type,
+>         return 0;
+>  }
+> diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpage.c
+> index 2c3fa0a7787b..4d5ed1093615 100644
+> --- a/arch/powerpc/mm/hugetlbpage.c
+> +++ b/arch/powerpc/mm/hugetlbpage.c
+> @@ -584,8 +584,7 @@ static int __init add_huge_page_size(unsigned long long size)
+>         if (!arch_hugetlb_valid_size((unsigned long)size))
+>                 return -EINVAL;
 >
->  #endif
+> -       if (!size_to_hstate(size))
+> -               hugetlb_add_hstate(shift - PAGE_SHIFT);
+> +       hugetlb_add_hstate(shift - PAGE_SHIFT);
+>         return 0;
+>  }
 >
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  #define print_hex_dump_debug(prefix_str, prefix_type, rowsize,	\
->  			     groupsize, buf, len, ascii)	\
->  	dynamic_hex_dump(prefix_str, prefix_type, rowsize,	\
-> diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
-> index bbc5cfb..e072ef6 100644
-> --- a/include/rdma/ib_verbs.h
-> +++ b/include/rdma/ib_verbs.h
-> @@ -100,7 +100,8 @@ void ibdev_notice(const struct ib_device *ibdev, const char *format, ...);
->  __printf(2, 3) __cold
->  void ibdev_info(const struct ib_device *ibdev, const char *format, ...);
+> diff --git a/arch/riscv/mm/hugetlbpage.c b/arch/riscv/mm/hugetlbpage.c
+> index 4e5d7e9f0eef..932dadfdca54 100644
+> --- a/arch/riscv/mm/hugetlbpage.c
+> +++ b/arch/riscv/mm/hugetlbpage.c
+> @@ -26,7 +26,7 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
+>  static __init int gigantic_pages_init(void)
+>  {
+>         /* With CONTIG_ALLOC, we can allocate gigantic pages at runtime */
+> -       if (IS_ENABLED(CONFIG_64BIT) && !size_to_hstate(1UL << PUD_SHIFT))
+> +       if (IS_ENABLED(CONFIG_64BIT))
+>                 hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
+>         return 0;
+>  }
+> diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
+> index 4618f96fd30f..ae819a16d07a 100644
+> --- a/arch/sparc/mm/init_64.c
+> +++ b/arch/sparc/mm/init_64.c
+> @@ -325,23 +325,12 @@ static void __update_mmu_tsb_insert(struct mm_struct *mm, unsigned long tsb_inde
+>  }
 >
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  #define ibdev_dbg(__dev, format, args...)                       \
->  	dynamic_ibdev_dbg(__dev, format, ##args)
->  #else
-> @@ -133,7 +134,8 @@ do {                                                                    \
->  #define ibdev_info_ratelimited(ibdev, fmt, ...) \
->  	ibdev_level_ratelimited(ibdev_info, ibdev, fmt, ##__VA_ARGS__)
+>  #ifdef CONFIG_HUGETLB_PAGE
+> -static void __init add_huge_page_size(unsigned long size)
+> -{
+> -       unsigned int order;
+> -
+> -       if (size_to_hstate(size))
+> -               return;
+> -
+> -       order = ilog2(size) - PAGE_SHIFT;
+> -       hugetlb_add_hstate(order);
+> -}
+> -
+>  static int __init hugetlbpage_init(void)
+>  {
+> -       add_huge_page_size(1UL << HPAGE_64K_SHIFT);
+> -       add_huge_page_size(1UL << HPAGE_SHIFT);
+> -       add_huge_page_size(1UL << HPAGE_256MB_SHIFT);
+> -       add_huge_page_size(1UL << HPAGE_2GB_SHIFT);
+> +       hugetlb_add_hstate(HPAGE_64K_SHIFT - PAGE_SHIFT);
+> +       hugetlb_add_hstate(HPAGE_SHIFT - PAGE_SHIFT);
+> +       hugetlb_add_hstate(HPAGE_256MB_SHIFT - PAGE_SHIFT);
+> +       hugetlb_add_hstate(HPAGE_2GB_SHIFT - PAGE_SHIFT);
 >
-> -#if defined(CONFIG_DYNAMIC_DEBUG)
-> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
->  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
->  #define ibdev_dbg_ratelimited(ibdev, fmt, ...)                          \
->  do {                                                                    \
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 21d9c5f..9ab791b 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -99,6 +99,7 @@ config DYNAMIC_DEBUG
->  	default n
->  	depends on PRINTK
->  	depends on (DEBUG_FS || PROC_FS)
-> +	select DYNAMIC_DEBUG_CORE
->  	help
+>         return 0;
+>  }
+> diff --git a/arch/x86/mm/hugetlbpage.c b/arch/x86/mm/hugetlbpage.c
+> index 937d640a89e3..cf5781142716 100644
+> --- a/arch/x86/mm/hugetlbpage.c
+> +++ b/arch/x86/mm/hugetlbpage.c
+> @@ -195,7 +195,7 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
+>  static __init int gigantic_pages_init(void)
+>  {
+>         /* With compaction or CMA we can allocate gigantic pages at runtime */
+> -       if (boot_cpu_has(X86_FEATURE_GBPAGES) && !size_to_hstate(1UL << PUD_SHIFT))
+> +       if (boot_cpu_has(X86_FEATURE_GBPAGES))
+>                 hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
+>         return 0;
+>  }
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index b2d276408cec..0e6eb755ae94 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -3222,8 +3222,7 @@ static int __init hugetlb_init(void)
+>                 }
 >
->  	  Compiles debug level messages into the kernel, which would not
-> @@ -165,6 +166,17 @@ config DYNAMIC_DEBUG
->  	  See Documentation/admin-guide/dynamic-debug-howto.rst for additional
->  	  information.
+>                 default_hstate_size = HPAGE_SIZE;
+> -               if (!size_to_hstate(default_hstate_size))
+> -                       hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
+> +               hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
+>         }
+>         default_hstate_idx = hstate_index(size_to_hstate(default_hstate_size));
+>         if (default_hstate_max_huge_pages) {
+> @@ -3268,7 +3267,6 @@ void __init hugetlb_add_hstate(unsigned int order)
+>         unsigned long i;
 >
-> +config DYNAMIC_DEBUG_CORE
-> +	bool "Enable core function of dynamic debug support"
-> +	depends on PRINTK
-> +	depends on (DEBUG_FS || PROC_FS)
-> +	help
-> +	  Enable core functional support of dynamic debug. It is useful
-> +	  when you want to tie dynamic debug to your kernel modules with
-> +	  DYNAMIC_DEBUG_MODULE defined for each of them, especially for
-> +	  the case of embedded system where the kernel image size is
-> +	  sensitive for people.
+>         if (size_to_hstate(PAGE_SIZE << order)) {
+> -               pr_warn("hugepagesz= specified twice, ignoring\n");
+>                 return;
+>         }
+>         BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
+> @@ -3343,6 +3341,11 @@ static int __init hugepagesz_setup(char *s)
+>                 return 0;
+>         }
+>
+> +       if (size_to_hstate(size)) {
+> +               pr_warn("HugeTLB: hugepagesz %s specified twice, ignoring\n", s);
+> +               return 0;
+> +       }
 > +
->  config SYMBOLIC_ERRNAME
->  	bool "Support symbolic error names in printf"
->  	default y if PRINTK
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 685aee6..8952772 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -186,7 +186,7 @@ lib-$(CONFIG_GENERIC_BUG) += bug.o
->
->  obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
->
-> -obj-$(CONFIG_DYNAMIC_DEBUG) += dynamic_debug.o
-> +obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
->  obj-$(CONFIG_SYMBOLIC_ERRNAME) += errname.o
->
->  obj-$(CONFIG_NLATTR) += nlattr.o
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 8f199f4..321437b 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -1032,8 +1032,13 @@ static int __init dynamic_debug_init(void)
->  	int verbose_bytes = 0;
->
->  	if (&__start___verbose == &__stop___verbose) {
-> -		pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
-> -		return 1;
-> +		if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG)) {
-> +			pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
-> +			return 1;
-> +		}
-> +		pr_info("Ignore empty _ddebug table in a CONFIG_DYNAMIC_DEBUG_CORE build\n");
-> +		ddebug_init_success = 1;
-> +		return 0;
->  	}
->  	iter = __start___verbose;
->  	modname = iter->modname;
+>         hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT);
+>         return 1;
+>  }
 > --
-> 2.7.4
+> 2.25.2
 >
