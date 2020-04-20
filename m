@@ -2,194 +2,234 @@ Return-Path: <SRS0=VSGv=6E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87965C54FCC
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 22:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BECE4C55181
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 22:56:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63D6F218AC
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 22:53:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 943A7218AC
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 22:56:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YmH7uDuq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dtcP6ZU7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726628AbgDTWxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Apr 2020 18:53:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44584 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726006AbgDTWxj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Apr 2020 18:53:39 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196BEC061A0E
-        for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2020 15:53:39 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id 131so9437989lfh.11
-        for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2020 15:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RNk2/s+798PoKv3JnJ/hhJNPDgeiscbjwcrK7uyEZbg=;
-        b=YmH7uDuqtUjh8BP0z9BmAxjyrM//1+xCH8CFdpc6VTVXdhnlBzHI9Gi4MjPqeBpVjj
-         mqMqXslZ390z3xe+WjoXruazSkm2A7fhvcwxJILSerUwh57i/v20zmQ3G1rqkIRX35I5
-         kVZx/Cyb2sXvDCl5gopY5/n+K6zvvOsrxU5033mk9qdCTDWLU4GJevyhL5NPtDWdZvEi
-         SdovFleLu6drNliJrSEEksJ9b9EL7q7qkLDAkcVRzC3yxcc95IFS5h2dnJcSFAKZU5rv
-         c58AaKgSKeFmuL93FK26irrPTr22IC9ONJiZXnuID0v+tqe5F2F9LFZz/LAOgsYh3NoY
-         ANNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RNk2/s+798PoKv3JnJ/hhJNPDgeiscbjwcrK7uyEZbg=;
-        b=nmFBXqkTyBQwYktywxvmWyD22rowZO48+Jj2pkJzgI5QKxRcqvpWCN5E06VvNeestt
-         3qyF1OGV2WTR/AF7UlwWPknoiKFutM3cUg2hfB75AzhEmlydTldYG0mfO2wqd/C9ZSuF
-         hhnJgFgSsdKSDMrUSxg+akVEdyn3vS0rfFnDLhPYvjlawbDG7pgkgvPCCZGc82XAHg9H
-         vrMUeymRYu+blaNBbra5+Uqee9qyEwc7NrrHp/g0qsM8Vby1/p2MxAsZEWnmk2m1VGAb
-         V1qJLW50etOl5+MuB9JOj4jiVhZBGyWsraD6XU56l1oEoK5m6mM/LJp77TEcYwrJWcK8
-         VGng==
-X-Gm-Message-State: AGi0PuaVZJUgZHAgpZnwzS27EJrJM2CnTx640BpR4tiSjofE8v6u02Xc
-        mSN6ZELRnUUU8ejCBvl5m39QAZHDUwvA7K1htmz+lQ==
-X-Google-Smtp-Source: APiQypKXyvohoz9hAFVdAiOa8F7voUy3e/GT1SGuDeVrZQD1XPKHc8CL09oKY7XVjUOx5xFWTNgrgWZPn+CxnBqFFH8=
-X-Received: by 2002:a19:c1d3:: with SMTP id r202mr11708833lff.216.1587423217517;
- Mon, 20 Apr 2020 15:53:37 -0700 (PDT)
+        id S1726006AbgDTW4Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Apr 2020 18:56:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21158 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726319AbgDTW4Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Apr 2020 18:56:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1587423383;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+6rx/b7kvEOxDoffPYjKOUpjUAof+LX7RGvD23w8b8o=;
+        b=dtcP6ZU7PmBX51pp4HjfZ2a31Ku3eORhOTmlpBCs7P7w3MsJaPgCoSITiaCwdsgb5wUPdb
+        QXBbskuBrj3gL7YNuPRiviXFexHNNOvL/eyXvsFLIuqFLZVcy6lGl+Coy+LyrC0smCeEvi
+        s8dyT95Cm9ai/asprb63qRuglOk79Hw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-vJCMrAUjOA-zQBEbwS3yOQ-1; Mon, 20 Apr 2020 18:56:19 -0400
+X-MC-Unique: vJCMrAUjOA-zQBEbwS3yOQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A529C8017F5;
+        Mon, 20 Apr 2020 22:56:14 +0000 (UTC)
+Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7990818A85;
+        Mon, 20 Apr 2020 22:56:01 +0000 (UTC)
+Date:   Mon, 20 Apr 2020 16:56:00 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Yan Zhao <yan.y.zhao@intel.com>
+Cc:     Cornelia Huck <cohuck@redhat.com>,
+        "intel-gvt-dev@lists.freedesktop.org" 
+        <intel-gvt-dev@lists.freedesktop.org>,
+        "libvir-list@redhat.com" <libvir-list@redhat.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "aik@ozlabs.ru" <aik@ozlabs.ru>,
+        "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+        "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "eauger@redhat.com" <eauger@redhat.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>, "Zeng, Xin" <xin.zeng@intel.com>,
+        "Yang, Ziye" <ziye.yang@intel.com>,
+        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+        "felipe@nutanix.com" <felipe@nutanix.com>,
+        "Liu, Changpeng" <changpeng.liu@intel.com>,
+        "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+        "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+        "He, Shaopeng" <shaopeng.he@intel.com>,
+        "eskultet@redhat.com" <eskultet@redhat.com>,
+        "dgilbert@redhat.com" <dgilbert@redhat.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+        "Wang, Zhi A" <zhi.a.wang@intel.com>,
+        "cjia@nvidia.com" <cjia@nvidia.com>,
+        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+        "berrange@redhat.com" <berrange@redhat.com>,
+        "dinechin@redhat.com" <dinechin@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>
+Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
+ VFIO live migration
+Message-ID: <20200420165600.4951ae82@w520.home>
+In-Reply-To: <20200420012457.GE16688@joy-OptiPlex-7040>
+References: <20200413055201.27053-1-yan.y.zhao@intel.com>
+        <20200417104450.2d2f2fa9.cohuck@redhat.com>
+        <20200417095202.GD16688@joy-OptiPlex-7040>
+        <20200417132457.45d91fe3.cohuck@redhat.com>
+        <20200420012457.GE16688@joy-OptiPlex-7040>
 MIME-Version: 1.0
-References: <20200417185049.275845-1-mike.kravetz@oracle.com>
- <5E312000-05D8-4C5D-A7C0-DDDE1842CB0E@lca.pw> <4c36c6ce-3774-78fa-abc4-b7346bf24348@oracle.com>
- <CADYN=9+=tCDmddTYGY44onvrzbg7yrbacMDSxd4hhD+=b=Yeiw@mail.gmail.com> <86333853-0648-393f-db96-d581ee114d2b@oracle.com>
-In-Reply-To: <86333853-0648-393f-db96-d581ee114d2b@oracle.com>
-From:   Anders Roxell <anders.roxell@linaro.org>
-Date:   Tue, 21 Apr 2020 00:53:26 +0200
-Message-ID: <CADYN=9JbXi=rvBAvhwPh8aFu2ne4Hbu4T+PW3NP3Rv2is+x77w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Clean up hugetlb boot command line processing
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Will Deacon <will@kernel.org>, Qian Cai <cai@lca.pw>,
-        Linux-MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S.Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mina Almasry <almasrymina@google.com>,
-        Peter Xu <peterx@redhat.com>,
-        Nitesh Narayan Lal <nitesh@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 20 Apr 2020 at 23:43, Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 4/20/20 1:29 PM, Anders Roxell wrote:
-> > On Mon, 20 Apr 2020 at 20:23, Mike Kravetz <mike.kravetz@oracle.com> wrote:
-> >> On 4/20/20 8:34 AM, Qian Cai wrote:
-> >>>
-> >>> Reverted this series fixed many undefined behaviors on arm64 with the config,
-> >> While rearranging the code (patch 3 in series), I made the incorrect
-> >> assumption that CONT_XXX_SIZE == (1UL << CONT_XXX_SHIFT).  However,
-> >> this is not the case.  Does the following patch fix these issues?
-> >>
-> >> From b75cb4a0852e208bee8c4eb347dc076fcaa88859 Mon Sep 17 00:00:00 2001
-> >> From: Mike Kravetz <mike.kravetz@oracle.com>
-> >> Date: Mon, 20 Apr 2020 10:41:18 -0700
-> >> Subject: [PATCH] arm64/hugetlb: fix hugetlb initialization
-> >>
-> >> When calling hugetlb_add_hstate() to initialize a new hugetlb size,
-> >> be sure to use correct huge pages size order.
-> >>
-> >> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
-> >> ---
-> >>  arch/arm64/mm/hugetlbpage.c | 8 ++++----
-> >>  1 file changed, 4 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
-> >> index 9ca840527296..a02411a1f19a 100644
-> >> --- a/arch/arm64/mm/hugetlbpage.c
-> >> +++ b/arch/arm64/mm/hugetlbpage.c
-> >> @@ -453,11 +453,11 @@ void huge_ptep_clear_flush(struct vm_area_struct *vma,
-> >>  static int __init hugetlbpage_init(void)
-> >>  {
-> >>  #ifdef CONFIG_ARM64_4K_PAGES
-> >> -       hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
-> >> +       hugetlb_add_hstate(ilog2(PUD_SIZE) - PAGE_SHIFT);
-> >>  #endif
-> >> -       hugetlb_add_hstate(CONT_PMD_SHIFT - PAGE_SHIFT);
-> >> -       hugetlb_add_hstate(PMD_SHIFT - PAGE_SHIFT);
-> >> -       hugetlb_add_hstate(CONT_PTE_SHIFT - PAGE_SHIFT);
-> >> +       hugetlb_add_hstate(ilog2(CONT_PMD_SIZE) - PAGE_SHIFT);
-> >> +       hugetlb_add_hstate(ilog2(PMD_SIZE) - PAGE_SHIFT);
-> >> +       hugetlb_add_hstate(ilog2(CONT_PTE_SIZE) - PAGE_SHIFT);
-> >>
-> >>         return 0;
-> >>  }
-> >
-> > I build this for an arm64 kernel and ran it in qemu and it worked.
->
-> Thanks for testing Anders!
->
-> Will, here is an updated version of the patch based on your suggestion.
-> I added the () for emphasis but that may just be noise for some.  Also,
-> the naming differences and values for CONT_PTE may make some people
-> look twice.  Not sure if being consistent here helps?
->
-> I have only built this.  No testing.
->
-> From daf833ab6b806ecc0816d84d45dcbacc052a7eec Mon Sep 17 00:00:00 2001
-> From: Mike Kravetz <mike.kravetz@oracle.com>
-> Date: Mon, 20 Apr 2020 13:56:15 -0700
-> Subject: [PATCH] arm64/hugetlb: fix hugetlb initialization
->
-> When calling hugetlb_add_hstate() to initialize a new hugetlb size,
-> be sure to use correct huge pages size order.
->
-> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
+On Sun, 19 Apr 2020 21:24:57 -0400
+Yan Zhao <yan.y.zhao@intel.com> wrote:
 
-Tested-by: Anders Roxell <anders.roxell@linaro.org>
+> On Fri, Apr 17, 2020 at 07:24:57PM +0800, Cornelia Huck wrote:
+> > On Fri, 17 Apr 2020 05:52:02 -0400
+> > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> >   
+> > > On Fri, Apr 17, 2020 at 04:44:50PM +0800, Cornelia Huck wrote:  
+> > > > On Mon, 13 Apr 2020 01:52:01 -0400
+> > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > > >     
+> > > > > This patchset introduces a migration_version attribute under sysfs of VFIO
+> > > > > Mediated devices.
+> > > > > 
+> > > > > This migration_version attribute is used to check migration compatibility
+> > > > > between two mdev devices.
+> > > > > 
+> > > > > Currently, it has two locations:
+> > > > > (1) under mdev_type node,
+> > > > >     which can be used even before device creation, but only for mdev
+> > > > >     devices of the same mdev type.
+> > > > > (2) under mdev device node,
+> > > > >     which can only be used after the mdev devices are created, but the src
+> > > > >     and target mdev devices are not necessarily be of the same mdev type
+> > > > > (The second location is newly added in v5, in order to keep consistent
+> > > > > with the migration_version node for migratable pass-though devices)    
+> > > > 
+> > > > What is the relationship between those two attributes?
+> > > >     
+> > > (1) is for mdev devices specifically, and (2) is provided to keep the same
+> > > sysfs interface as with non-mdev cases. so (2) is for both mdev devices and
+> > > non-mdev devices.
+> > > 
+> > > in future, if we enable vfio-pci vendor ops, (i.e. a non-mdev device
+> > > is binding to vfio-pci, but is able to register migration region and do
+> > > migration transactions from a vendor provided affiliate driver),
+> > > the vendor driver would export (2) directly, under device node.
+> > > It is not able to provide (1) as there're no mdev devices involved.  
+> > 
+> > Ok, creating an alternate attribute for non-mdev devices makes sense.
+> > However, wouldn't that rather be a case (3)? The change here only
+> > refers to mdev devices.
+> >  
+> as you pointed below, (3) and (2) serve the same purpose. 
+> and I think a possible usage is to migrate between a non-mdev device and
+> an mdev device. so I think it's better for them both to use (2) rather
+> than creating (3).
 
-I tested this patch on qemu-aarch64.
+An mdev type is meant to define a software compatible interface, so in
+the case of mdev->mdev migration, doesn't migrating to a different type
+fail the most basic of compatibility tests that we expect userspace to
+perform?  IOW, if two mdev types are migration compatible, it seems a
+prerequisite to that is that they provide the same software interface,
+which means they should be the same mdev type.
 
-Cheers,
-Anders
+In the hybrid cases of mdev->phys or phys->mdev, how does a management
+tool begin to even guess what might be compatible?  Are we expecting
+libvirt to probe ever device with this attribute in the system?  Is
+there going to be a new class hierarchy created to enumerate all
+possible migrate-able devices?
 
-> ---
->  arch/arm64/mm/hugetlbpage.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
-> index 9ca840527296..bed6dc7c4276 100644
-> --- a/arch/arm64/mm/hugetlbpage.c
-> +++ b/arch/arm64/mm/hugetlbpage.c
-> @@ -455,9 +455,9 @@ static int __init hugetlbpage_init(void)
->  #ifdef CONFIG_ARM64_4K_PAGES
->         hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
->  #endif
-> -       hugetlb_add_hstate(CONT_PMD_SHIFT - PAGE_SHIFT);
-> +       hugetlb_add_hstate((CONT_PMD_SHIFT + PMD_SHIFT) - PAGE_SHIFT);
->         hugetlb_add_hstate(PMD_SHIFT - PAGE_SHIFT);
-> -       hugetlb_add_hstate(CONT_PTE_SHIFT - PAGE_SHIFT);
-> +       hugetlb_add_hstate((CONT_PTE_SHIFT + PAGE_SHIFT) - PAGE_SHIFT);
->
->         return 0;
->  }
-> --
-> 2.25.2
->
+I agree that there was a gap in the previous proposal for non-mdev
+devices, but I think this bring a lot of questions that we need to
+puzzle through and libvirt will need to re-evaluate how they might
+decide to pick a migration target device.  For example, I'm sure
+libvirt would reject any policy decisions regarding picking a physical
+device versus an mdev device.  Had we previously left it that only a
+layer above libvirt would select a target device and libvirt only tests
+compatibility to that target device?
+
+We also need to consider that this expands the namespace.  If we no
+longer require matching types as the first level of comparison, then
+vendor migration strings can theoretically collide.  How do we
+coordinate that can't happen?  Thanks,
+
+Alex
+
+> > > > Is existence (and compatibility) of (1) a pre-req for possible
+> > > > existence (and compatibility) of (2)?
+> > > >    
+> > > no. (2) does not reply on (1).  
+> > 
+> > Hm. Non-existence of (1) seems to imply "this type does not support
+> > migration". If an mdev created for such a type suddenly does support
+> > migration, it feels a bit odd.
+> >   
+> yes. but I think if the condition happens, it should be reported a bug
+> to vendor driver.
+> should I add a line in the doc like "vendor driver should ensure that the
+> migration compatibility from migration_version under mdev_type should be
+> consistent with that from migration_version under device node" ?
+> 
+> > (It obviously cannot be a prereq for what I called (3) above.)
+> >   
+> > >   
+> > > > Does userspace need to check (1) or can it completely rely on (2), if
+> > > > it so chooses?
+> > > >    
+> > > I think it can completely reply on (2) if compatibility check before
+> > > mdev creation is not required.
+> > >   
+> > > > If devices with a different mdev type are indeed compatible, it seems
+> > > > userspace can only find out after the devices have actually been
+> > > > created, as (1) does not apply?    
+> > > yes, I think so.   
+> > 
+> > How useful would it be for userspace to even look at (1) in that case?
+> > It only knows if things have a chance of working if it actually goes
+> > ahead and creates devices.
+> >  
+> hmm, is it useful for userspace to test the migration_version under mdev
+> type before it knows what mdev device to generate ?
+> like when the userspace wants to migrate an mdev device in src vm,
+> but it has not created target vm and the target mdev device.
+> 
+> > >   
+> > > > One of my worries is that the existence of an attribute with the same
+> > > > name in two similar locations might lead to confusion. But maybe it
+> > > > isn't a problem.
+> > > >    
+> > > Yes, I have the same feeling. but as (2) is for sysfs interface
+> > > consistency, to make it transparent to userspace tools like libvirt,
+> > > I guess the same name is necessary?  
+> > 
+> > What do we actually need here, I wonder? (1) and (2) seem to serve
+> > slightly different purposes, while (2) and what I called (3) have the
+> > same purpose. Is it important to userspace that (1) and (2) have the
+> > same name?  
+> so change (1) to migration_type_version and (2) to
+> migration_instance_version?
+> But as they are under different locations, could that location imply
+> enough information?
+> 
+> 
+> Thanks
+> Yan
+> 
+> 
+
