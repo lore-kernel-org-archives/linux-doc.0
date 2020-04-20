@@ -6,40 +6,33 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62827C54FCC
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 22:59:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 692DBC55181
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 23:01:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45EC220BED
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 22:59:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 49AEF206DD
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 23:01:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726648AbgDTW7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Apr 2020 18:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726055AbgDTW7u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Apr 2020 18:59:50 -0400
-X-Greylist: delayed 6009 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 20 Apr 2020 15:59:50 PDT
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAA15C061A0E;
-        Mon, 20 Apr 2020 15:59:50 -0700 (PDT)
+        id S1726364AbgDTXBB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Apr 2020 19:01:01 -0400
+Received: from ms.lwn.net ([45.79.88.28]:54210 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726055AbgDTXBA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Apr 2020 19:01:00 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 30928823;
-        Mon, 20 Apr 2020 22:59:50 +0000 (UTC)
-Date:   Mon, 20 Apr 2020 16:59:49 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 803D9823;
+        Mon, 20 Apr 2020 23:01:00 +0000 (UTC)
+Date:   Mon, 20 Apr 2020 17:00:59 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Stephen Kitt <steve@sk2.org>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>, linux-doc@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] docs: sysctl/kernel: document BPF entries
-Message-ID: <20200420165949.14dc0752@lwn.net>
-In-Reply-To: <20200315122648.20558-1-steve@sk2.org>
-References: <20200315122648.20558-1-steve@sk2.org>
+To:     Gal Pressman <galpress@amazon.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] dma-buf: Couple of documentation typo fixes
+Message-ID: <20200420170059.5a42693e@lwn.net>
+In-Reply-To: <20200420074115.23931-1-galpress@amazon.com>
+References: <20200420074115.23931-1-galpress@amazon.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -49,23 +42,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 15 Mar 2020 13:26:48 +0100
-Stephen Kitt <steve@sk2.org> wrote:
+On Mon, 20 Apr 2020 10:41:15 +0300
+Gal Pressman <galpress@amazon.com> wrote:
 
-> Based on the implementation in kernel/bpf/syscall.c,
-> kernel/bpf/trampoline.c, include/linux/filter.h, and the documentation
-> in bpftool-prog.rst.
+> Fix a couple of typos: "as" -> "has" and "int" -> "in".
 > 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> ---
-> 
-> Notes:
->     This patch is intended for docs-next, but I'd appreciate reviews from
->     BPF developers.
+> Signed-off-by: Gal Pressman <galpress@amazon.com>
 
-Haven't seen a whole lot of those...it's been a month, so I'll ahead and
-apply this; it can be fixed up later if need be.
-
-Thanks,
+Applied, thanks.
 
 jon
