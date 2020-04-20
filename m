@@ -6,25 +6,25 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07BB2C3A5A0
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 14:50:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1935C3815B
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 15:04:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6671206F4
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 14:50:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5D1B206F6
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 15:04:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726744AbgDTOuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Apr 2020 10:50:23 -0400
-Received: from foss.arm.com ([217.140.110.172]:50220 "EHLO foss.arm.com"
+        id S1726756AbgDTPEe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Apr 2020 11:04:34 -0400
+Received: from foss.arm.com ([217.140.110.172]:50442 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726102AbgDTOuX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Apr 2020 10:50:23 -0400
+        id S1726105AbgDTPEe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Apr 2020 11:04:34 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3665531B;
-        Mon, 20 Apr 2020 07:50:22 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4562531B;
+        Mon, 20 Apr 2020 08:04:33 -0700 (PDT)
 Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB6943F73D;
-        Mon, 20 Apr 2020 07:50:19 -0700 (PDT)
-Date:   Mon, 20 Apr 2020 15:50:17 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA6C83F73D;
+        Mon, 20 Apr 2020 08:04:30 -0700 (PDT)
+Date:   Mon, 20 Apr 2020 16:04:28 +0100
 From:   Qais Yousef <qais.yousef@arm.com>
 To:     Patrick Bellasi <patrick.bellasi@matbug.net>
 Cc:     Ingo Molnar <mingo@redhat.com>,
@@ -45,307 +45,136 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
  boost value
-Message-ID: <20200420145016.lqznren75ua27cl3@e107158-lin.cambridge.arm.com>
+Message-ID: <20200420150427.acz4nqyhlbgywi3h@e107158-lin.cambridge.arm.com>
 References: <20200403123020.13897-1-qais.yousef@arm.com>
  <20200414182152.GB20442@darkstar>
+ <20200415074600.GA26984@darkstar>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200414182152.GB20442@darkstar>
+In-Reply-To: <20200415074600.GA26984@darkstar>
 User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Patrick!
+On 04/15/20 09:46, Patrick Bellasi wrote:
 
-On 04/14/20 20:21, Patrick Bellasi wrote:
-> Hi Qais!
+[...]
+
+> > > diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+> > > index d4f6215ee03f..91204480fabc 100644
+> > > --- a/include/linux/sched/sysctl.h
+> > > +++ b/include/linux/sched/sysctl.h
+> > > @@ -59,6 +59,7 @@ extern int sysctl_sched_rt_runtime;
+> > >  #ifdef CONFIG_UCLAMP_TASK
+> > >  extern unsigned int sysctl_sched_uclamp_util_min;
+> > >  extern unsigned int sysctl_sched_uclamp_util_max;
+> > > +extern unsigned int sysctl_sched_rt_default_uclamp_util_min;
+> > 
+> > nit-pick: I would prefer to keep the same prefix of the already
+> > exising knobs, i.e. sysctl_sched_uclamp_util_min_rt
+> > 
+> > The same change for consistency should be applied to all the following
+> > symbols related to "uclamp_util_min_rt".
+> > 
+> > NOTE: I would not use "default" as I think that what we are doing is
+> > exactly force setting a user_defined value for all RT tasks. More on
+> > that later...
 > 
-> On 03-Apr 13:30, Qais Yousef wrote:
+> Had a second tought on that...
+
+Sorry just noticed that you had a second reply to this. I just saw the first
+initially.
+
+Still catching up after holiday..
+
+[...]
+
+> > > +static void uclamp_rt_sync_default_util_min(struct task_struct *p)
+> > > +{
+> > > +	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> > 
+> > Don't we have to filter for RT tasks only here?
 > 
-> [...]
-> 
-> > diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
-> > index d4f6215ee03f..91204480fabc 100644
-> > --- a/include/linux/sched/sysctl.h
-> > +++ b/include/linux/sched/sysctl.h
-> > @@ -59,6 +59,7 @@ extern int sysctl_sched_rt_runtime;
-> >  #ifdef CONFIG_UCLAMP_TASK
-> >  extern unsigned int sysctl_sched_uclamp_util_min;
-> >  extern unsigned int sysctl_sched_uclamp_util_max;
-> > +extern unsigned int sysctl_sched_rt_default_uclamp_util_min;
-> 
-> nit-pick: I would prefer to keep the same prefix of the already
-> exising knobs, i.e. sysctl_sched_uclamp_util_min_rt
-> 
-> The same change for consistency should be applied to all the following
-> symbols related to "uclamp_util_min_rt".
+> I think this is still a valid point.
 
-All rt sysctl knobs are prefixed with 'sched_rt', so I used this for
-consistency.
-
-> 
-> NOTE: I would not use "default" as I think that what we are doing is
-
-The 'default' was suggested by Quentin as it felt more descriptive to him. I
-took his 'user' point of view.
-
-I don't mind or care about the name ultimately. This symbol is internal and not
-exported to userspace.
-
-I just think sticking to sched_rt for consistency is better. What follows I'm
-happy to put whatever reviewers agree on. I think Dietmar has another
-suggestion for this too.
-
-> exactly force setting a user_defined value for all RT tasks. More on
-> that later...
-
-We are NOT force setting the user_defined value. The whole point is to have
-a variable default behavior while still allow the user to override this
-default. Exactly like it currently works, except that the __hardcoded__ value
-is no longer hardcoded and can be modifyied by sys admins at runtime.
+Yep it is.
 
 > 
-> >  #endif
-> >  
-> >  #ifdef CONFIG_CFS_BANDWIDTH
-> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> > index 1a9983da4408..a726b26a5056 100644
-> > --- a/kernel/sched/core.c
-> > +++ b/kernel/sched/core.c
-> > @@ -797,6 +797,27 @@ unsigned int sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
-> >  /* Max allowed maximum utilization */
-> >  unsigned int sysctl_sched_uclamp_util_max = SCHED_CAPACITY_SCALE;
-> >  
-> > +/*
-> > + * By default RT tasks run at the maximum performance point/capacity of the
-> > + * system. Uclamp enforces this by always setting UCLAMP_MIN of RT tasks to
-> > + * SCHED_CAPACITY_SCALE.
-> > + *
-> > + * This knob allows admins to change the default behavior when uclamp is being
-> > + * used. In battery powered devices, particularly, running at the maximum
-> > + * capacity and frequency will increase energy consumption and shorten the
-> > + * battery life.
-> > + *
-> > + * This knob only affects the default value RT has when a new RT task is
-> > + * forked or has just changed policy to RT, given the user hasn't modified the
-> > + * uclamp.min value of the task via sched_setattr().
-> > + *
-> > + * This knob will not override the system default sched_util_clamp_min defined
-> > + * above.
-> > + *
-> > + * Any modification is applied lazily on the next RT task wakeup.
-> > + */
-> > +unsigned int sysctl_sched_rt_default_uclamp_util_min = SCHED_CAPACITY_SCALE;
-> > +
-> >  /* All clamps are required to be less or equal than these values */
-> >  static struct uclamp_se uclamp_default[UCLAMP_CNT];
-> >  
-> > @@ -924,6 +945,14 @@ uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
-> >  	return uc_req;
-> >  }
-> >  
-> > +static void uclamp_rt_sync_default_util_min(struct task_struct *p)
-> > +{
-> > +	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> > > +
+> > > +	if (!uc_se->user_defined)
+> > > +		uclamp_se_set(uc_se, sysctl_sched_rt_default_uclamp_util_min, false);
+> > 
+> > Here you are actually setting a user-requested value, why not marking
+> > it as that, i.e. by using true for the last parameter?
 > 
-> Don't we have to filter for RT tasks only here?
+> I think you don't want to set user_defined to ensure we keep updating
+> the value every time the task is enqueued, in case the "default"
+> should be updated at run-time.
 
-Indeed!
+Yes. I'm glad we're finally on agreement about this :-)
 
 > 
-> > +
-> > +	if (!uc_se->user_defined)
-> > +		uclamp_se_set(uc_se, sysctl_sched_rt_default_uclamp_util_min, false);
+> > Moreover, by keeping user_defined=false I think you are not getting
+> > what you want for RT tasks running in a nested cgroup.
+> > 
+> > Let say a subgroup is still with the util_min=1024 inherited from the
+> > system defaults, in uclamp_tg_restrict() we will still return the max
+> > value and not what you requested for. Isn't it?
 > 
-> Here you are actually setting a user-requested value, why not marking
-> it as that, i.e. by using true for the last parameter?
+> This is also not completely true since perhaps you assume that if an
+> RT task is running in a nested group with a non tuned uclamp_max then
+> that's probably what we want.
+> 
+> There is still a small concern due to the fact we don't distinguish
+> CFS and RT tasks when it comes to cgroup clamp values, which
+> potentially could still generate the same issue. Let say for example
+> you wanna allow CFS tasks to be boosted to max (util_min=1024) but
+> still want to run RT tasks only at lower OPPs.
+> Not sure if that could be a use case tho.
 
-I will have to bounce the question back. The original code passed false.
-So why didn't you pass true then? The fact that the value is no longer
-hardcoded with this patch doesn't mean the purpose of this code has changed.
+No we can't within the same cgroup. But sys admins can potentially create
+different cgroups to enforce the different policies.
 
-> 
-> Moreover, by keeping user_defined=false I think you are not getting
-> what you want for RT tasks running in a nested cgroup.
-> 
-> Let say a subgroup is still with the util_min=1024 inherited from the
-> system defaults, in uclamp_tg_restrict() we will still return the max
-> value and not what you requested for. Isn't it?
+A per sched-class uclamp control could simplify userspace if they end up with
+this scenario. But given where we are now, I'm not sure how easy it would be to
+stage the change.
 
-With the current code (without my patch) where RT tasks util_min is 1024 by
-default and user_defined=false. How is it behaving then? My patch should
-retain this behavior. I can't see how it breaks it.. :-/
+>  
+> > IOW, what about:
+> > 
+> > ---8<---
+> > static void uclamp_sync_util_min_rt(struct task_struct *p)
+> > {
+> > 	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> > 
+> >   if (likely(uc_se->user_defined || !rt_task(p)))
+> >     return;
+> > 
+> >   uclamp_se_set(uc_se, sysctl_sched_uclamp_util_min_rt, true);
+>                                                           ^^^^
+>                      This should remain false as in your patch.
+> > }
+> > ---8<---
+> 
+> Still, I was thinking that perhaps it would be better to massage the
+> code above into the generation of the effective value, in uclamp_eff_get().
+> 
+> Since you wanna (possibly) update the value at each enqueue time,
+> that's what conceptually is represented by the "effective clamp
+> value": a value that is computed by definition at enqueue time by
+> aggregating all the requests and constraints.
+> 
+> Poking with the effective value instead of the requested value will
+> fix also the ambiguity above, where we set a "requested values" with
+> user-defined=false.
 
-> 
-> IOW, what about:
-> 
-> ---8<---
-> static void uclamp_sync_util_min_rt(struct task_struct *p)
-> {
-> 	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
-> 
->   if (likely(uc_se->user_defined || !rt_task(p)))
->     return;
-> 
->   uclamp_se_set(uc_se, sysctl_sched_uclamp_util_min_rt, true);
-> }
-> ---8<---
+Okay, let me have a second look at this. I just took what we had and improved
+on it. But what you say could work too. Let me try it out.
 
-See above.
-
-> 
-> 
-> > +}
-> > +
-> >  unsigned long uclamp_eff_value(struct task_struct *p, enum uclamp_id clamp_id)
-> >  {
-> >  	struct uclamp_se uc_eff;
-> > @@ -1030,6 +1059,12 @@ static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
-> >  	if (unlikely(!p->sched_class->uclamp_enabled))
-> >  		return;
-> >  
-> > +	/*
-> > +	 * When sysctl_sched_rt_default_uclamp_util_min value is changed by the
-> > +	 * user, we apply any new value on the next wakeup, which is here.
-> > +	 */
-> > +	uclamp_rt_sync_default_util_min(p);
-> > +
-> >  	for_each_clamp_id(clamp_id)
-> >  		uclamp_rq_inc_id(rq, p, clamp_id);
-> >  
-> > @@ -1121,12 +1156,13 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
-> >  				loff_t *ppos)
-> >  {
-> >  	bool update_root_tg = false;
-> > -	int old_min, old_max;
-> > +	int old_min, old_max, old_rt_min;
-> >  	int result;
-> >  
-> >  	mutex_lock(&uclamp_mutex);
-> >  	old_min = sysctl_sched_uclamp_util_min;
-> >  	old_max = sysctl_sched_uclamp_util_max;
-> > +	old_rt_min = sysctl_sched_rt_default_uclamp_util_min;
-> 
-> Perpahs it's just my OCD but, is not "old_min_rt" reading better?
-
-:D
-
-> 
-> >  
-> >  	result = proc_dointvec(table, write, buffer, lenp, ppos);
-> >  	if (result)
-> > @@ -1134,12 +1170,23 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
-> >  	if (!write)
-> >  		goto done;
-> >  
-> > +	/*
-> > +	 * The new value will be applied to all RT tasks the next time they
-> > +	 * wakeup, assuming the task is using the system default and not a user
-> > +	 * specified value. In the latter we shall leave the value as the user
-> > +	 * requested.
-> > +	 */
-> 
-> Should not this comment go before the next block?
-
-+1
-
-> 
-> >  	if (sysctl_sched_uclamp_util_min > sysctl_sched_uclamp_util_max ||
-> >  	    sysctl_sched_uclamp_util_max > SCHED_CAPACITY_SCALE) {
-> >  		result = -EINVAL;
-> >  		goto undo;
-> >  	}
-> >  
-> > +	if (sysctl_sched_rt_default_uclamp_util_min > SCHED_CAPACITY_SCALE) {
-> > +		result = -EINVAL;
-> > +		goto undo;
-> > +	}
-> > +
-> >  	if (old_min != sysctl_sched_uclamp_util_min) {
-> >  		uclamp_se_set(&uclamp_default[UCLAMP_MIN],
-> >  			      sysctl_sched_uclamp_util_min, false);
-> > @@ -1165,6 +1212,7 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
-> >  undo:
-> >  	sysctl_sched_uclamp_util_min = old_min;
-> >  	sysctl_sched_uclamp_util_max = old_max;
-> > +	sysctl_sched_rt_default_uclamp_util_min = old_rt_min;
-> >  done:
-> >  	mutex_unlock(&uclamp_mutex);
-> >  
-> > @@ -1207,9 +1255,13 @@ static void __setscheduler_uclamp(struct task_struct *p,
-> >  		if (uc_se->user_defined)
-> >  			continue;
-> >  
-> > -		/* By default, RT tasks always get 100% boost */
-> > +		/*
-> > +		 * By default, RT tasks always get 100% boost, which the admins
-> > +		 * are allowed to change via
-> > +		 * sysctl_sched_rt_default_uclamp_util_min knob.
-> > +		 */
-> >  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
-> > -			clamp_value = uclamp_none(UCLAMP_MAX);
-> > +			clamp_value = sysctl_sched_rt_default_uclamp_util_min;
-> >
-> >  		uclamp_se_set(uc_se, clamp_value, false);
-> >  	}
-> > @@ -1241,9 +1293,13 @@ static void uclamp_fork(struct task_struct *p)
-> >  	for_each_clamp_id(clamp_id) {
-> >  		unsigned int clamp_value = uclamp_none(clamp_id);
-> >  
-> > -		/* By default, RT tasks always get 100% boost */
-> > +		/*
-> > +		 * By default, RT tasks always get 100% boost, which the admins
-> > +		 * are allowed to change via
-> > +		 * sysctl_sched_rt_default_uclamp_util_min knob.
-> > +		 */
-> >  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
-> > -			clamp_value = uclamp_none(UCLAMP_MAX);
-> > +			clamp_value = sysctl_sched_rt_default_uclamp_util_min;
-> >  
-> 
-> This is not required, look at this Quentin's patch:
-> 
->    Message-ID: <20200414161320.251897-1-qperret@google.com>
->    https://lore.kernel.org/lkml/20200414161320.251897-1-qperret@google.com/
-
-Yep saw it.
-
-Thanks for taking the time to review!
-
-Cheers
+Thanks
 
 --
 Qais Yousef
-
-> 
-> >  		uclamp_se_set(&p->uclamp_req[clamp_id], clamp_value, false);
-> >  	}
-> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> > index ad5b88a53c5a..0272ae8c6147 100644
-> > --- a/kernel/sysctl.c
-> > +++ b/kernel/sysctl.c
-> > @@ -465,6 +465,13 @@ static struct ctl_table kern_table[] = {
-> >  		.mode		= 0644,
-> >  		.proc_handler	= sysctl_sched_uclamp_handler,
-> >  	},
-> > +	{
-> > +		.procname	= "sched_rt_default_util_clamp_min",
-> > +		.data		= &sysctl_sched_rt_default_uclamp_util_min,
-> > +		.maxlen		= sizeof(unsigned int),
-> > +		.mode		= 0644,
-> > +		.proc_handler	= sysctl_sched_uclamp_handler,
-> > +	},
-> >  #endif
-> >  #ifdef CONFIG_SCHED_AUTOGROUP
-> >  	{
-> 
-> Best,
-> Patrick
-> 
-> -- 
-> #include <best/regards.h>
-> 
-> Patrick Bellasi
