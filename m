@@ -2,101 +2,103 @@ Return-Path: <SRS0=VSGv=6E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D11A3C3815B
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 07:42:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C70C3815B
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 08:25:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9A10206B8
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 07:42:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="k8HhJk73"
+	by mail.kernel.org (Postfix) with ESMTP id 652362078E
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Apr 2020 08:25:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbgDTHmB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Apr 2020 03:42:01 -0400
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:1129 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725886AbgDTHmB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Apr 2020 03:42:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1587368520; x=1618904520;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=diXxeA7g1XTByahSm1bZcJHQIm4bVeBMr5YsbeKB+8g=;
-  b=k8HhJk73yPzsd2uHAVrH7x6M4JrT5AHw9Tstv9h20jTnYLbb3ZY+60vE
-   WxoKjun8aDk1ZpZ+FKZWc51T4s2/QjQgaEbUlSdJ0x17/0wAv7wX/1wmn
-   qBE+4LKXB+Vl/bAn3RmldeH8G15A7jHpr/lFW5Xe9a+Cjsh15sd8AOOLy
-   k=;
-IronPort-SDR: AmsFB0BwD4OAWhfXLlxjCwyJV9epkON3aQtMBQZbecXGslCYlS6V1+aA3Q1QJU/BdPndTjo4D5
- 0YNf69AdKzVQ==
-X-IronPort-AV: E=Sophos;i="5.72,406,1580774400"; 
-   d="scan'208";a="27648254"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 20 Apr 2020 07:41:46 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com (Postfix) with ESMTPS id EE8A2A0716;
-        Mon, 20 Apr 2020 07:41:45 +0000 (UTC)
-Received: from EX13D19EUB001.ant.amazon.com (10.43.166.229) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 20 Apr 2020 07:41:45 +0000
-Received: from EX13MTAUWA001.ant.amazon.com (10.43.160.58) by
- EX13D19EUB001.ant.amazon.com (10.43.166.229) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 20 Apr 2020 07:41:44 +0000
-Received: from 8c85908914bf.ant.amazon.com (10.1.212.20) by
- mail-relay.amazon.com (10.43.160.118) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Mon, 20 Apr 2020 07:41:40 +0000
-From:   Gal Pressman <galpress@amazon.com>
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-doc@vger.kernel.org>, Gal Pressman <galpress@amazon.com>
-Subject: [PATCH] dma-buf: Couple of documentation typo fixes
-Date:   Mon, 20 Apr 2020 10:41:15 +0300
-Message-ID: <20200420074115.23931-1-galpress@amazon.com>
-X-Mailer: git-send-email 2.26.1
+        id S1725886AbgDTIZc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Apr 2020 04:25:32 -0400
+Received: from foss.arm.com ([217.140.110.172]:44962 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725773AbgDTIZb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Apr 2020 04:25:31 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 291FA30E;
+        Mon, 20 Apr 2020 01:25:31 -0700 (PDT)
+Received: from [192.168.0.7] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C41153F6CF;
+        Mon, 20 Apr 2020 01:25:25 -0700 (PDT)
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+To:     Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Qais Yousef <qais.yousef@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20200403123020.13897-1-qais.yousef@arm.com>
+ <20200414182152.GB20442@darkstar>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <54ac2709-54e5-7a33-a6af-0a07e272365c@arm.com>
+Date:   Mon, 20 Apr 2020 10:24:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <20200414182152.GB20442@darkstar>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix a couple of typos: "as" -> "has" and "int" -> "in".
+On 14/04/2020 20:21, Patrick Bellasi wrote:
+> Hi Qais!
+> 
+> On 03-Apr 13:30, Qais Yousef wrote:
 
-Signed-off-by: Gal Pressman <galpress@amazon.com>
----
- Documentation/driver-api/dma-buf.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[...]
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index c78db28519f7..63dec76d1d8d 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -11,7 +11,7 @@ course not limited to GPU use cases.
- The three main components of this are: (1) dma-buf, representing a
- sg_table and exposed to userspace as a file descriptor to allow passing
- between devices, (2) fence, which provides a mechanism to signal when
--one device as finished access, and (3) reservation, which manages the
-+one device has finished access, and (3) reservation, which manages the
- shared or exclusive fence(s) associated with the buffer.
- 
- Shared DMA Buffers
-@@ -31,7 +31,7 @@ The exporter
-  - implements and manages operations in :c:type:`struct dma_buf_ops
-    <dma_buf_ops>` for the buffer,
-  - allows other users to share the buffer by using dma_buf sharing APIs,
-- - manages the details of buffer allocation, wrapped int a :c:type:`struct
-+ - manages the details of buffer allocation, wrapped in a :c:type:`struct
-    dma_buf <dma_buf>`,
-  - decides about the actual backing storage where this allocation happens,
-  - and takes care of any migration of scatterlist - for all (shared) users of
+>> @@ -924,6 +945,14 @@ uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
+>>  	return uc_req;
+>>  }
+>>  
+>> +static void uclamp_rt_sync_default_util_min(struct task_struct *p)
+>> +{
+>> +	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> 
+> Don't we have to filter for RT tasks only here?
 
-base-commit: 8f3d9f354286745c751374f5f1fcafee6b3f3136
--- 
-2.26.1
+I think so. It's probably because it got moved from rt.c to core.c.
 
+[...]
+
+>> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+>> index ad5b88a53c5a..0272ae8c6147 100644
+>> --- a/kernel/sysctl.c
+>> +++ b/kernel/sysctl.c
+>> @@ -465,6 +465,13 @@ static struct ctl_table kern_table[] = {
+>>  		.mode		= 0644,
+>>  		.proc_handler	= sysctl_sched_uclamp_handler,
+>>  	},
+>> +	{
+>> +		.procname	= "sched_rt_default_util_clamp_min",
+
+root@h960:~# find / -name "*util_clamp*"
+/proc/sys/kernel/sched_rt_default_util_clamp_min
+/proc/sys/kernel/sched_util_clamp_max
+/proc/sys/kernel/sched_util_clamp_min
+
+IMHO, keeping the common 'sched_util_clamp_' would be helpful here, e.g.
+
+/proc/sys/kernel/sched_util_clamp_rt_default_min
+
+[...]
