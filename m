@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66458C54FC9
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:05:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2385EC54FD0
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:05:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46C1C20738
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:05:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0311D206F4
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:05:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587488712;
-	bh=A/gl9GiSINDqJ4PJGJrHlgv4JPVRUB394Q+IiwjdxOw=;
+	s=default; t=1587488713;
+	bh=CxnQgYfmQMbfwv1N4rTe+ZDNd9dR0rBI+32iF1QViMs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Oktzm7EYDq+fWsWaCCBdLhVlc43cMuANmm8RKhgrMrxJ6jPK9s/AIYmr/mZUKKijk
-	 XnQ9cJnn8erWVlQP4xCCZxxJEQTAHO5X0p/OeGekOWgiqvWobNu5A5KXAhGt8+bYGC
-	 h9r26Izus/7MTRPuU6EtXsT8U0I0JkrJ/Lt1XXAc=
+	b=2c4zDhFjz/pR1hJFfZkzaIP4yw4I+npaqiH37bYJVlQHSFIHmaEER1di0duVKCoTS
+	 3Lix8+DOBh0GbpIpjUiWpvNjOjG4hNxcNkPRsQQlKqi0/Ex/VVV9YOK8Wuo7pboCOR
+	 JPi/pMGxGzFHHURoklarpg9rwKvtSrXL8Kb04Xlk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729092AbgDUREP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 13:04:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33560 "EHLO mail.kernel.org"
+        id S1728957AbgDUREO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 13:04:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33524 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726530AbgDUREO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726018AbgDUREO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 21 Apr 2020 13:04:14 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA0812070B;
+        by mail.kernel.org (Postfix) with ESMTPSA id CE3EE206E9;
         Tue, 21 Apr 2020 17:04:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587488654;
-        bh=A/gl9GiSINDqJ4PJGJrHlgv4JPVRUB394Q+IiwjdxOw=;
+        bh=CxnQgYfmQMbfwv1N4rTe+ZDNd9dR0rBI+32iF1QViMs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=phBRWglMXtPcapPsj8eK7SRF7NlC1RIOXhbVo/a/GezVoyXq/28PllUsa3njugwmv
-         jUKsJIXiNdjfeVBAT5kVHzJ9lSg5I56PjcVy0qwHCFLRCzFUU6xoigXfiDBXvzW1AW
-         FMNRqUxuJIZEkxb3w66+CZ7kisqQgKipjbnZQem4=
+        b=PVHJ73MlSx2cAaQU3Mf4LugojmeeBE6nmyuM9FrvgbHAq/RC5cjHkc7iZocO+L7uN
+         Jh74ZuOTvQICo6yRdxKQFBShPVn5mbIudOUQ6VMxc841jh3lUcdfr0BSXxec95kKY5
+         6Tdq63GKe7MNCYFgFSP8neZXMKt1w2ZBeDndCV40=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jQwJg-00CmLe-42; Tue, 21 Apr 2020 19:04:12 +0200
+        id 1jQwJg-00CmLW-2R; Tue, 21 Apr 2020 19:04:12 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -51,9 +51,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org
-Subject: [PATCH 03/10] docs: RCU: convert lockdep.txt to ReST
-Date:   Tue, 21 Apr 2020 19:04:04 +0200
-Message-Id: <1ebc0a13f0710a080c2b6f59f546e3c8b60f17b3.1587488137.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 01/10] docs: RCU: convert checklist.txt to ReST
+Date:   Tue, 21 Apr 2020 19:04:02 +0200
+Message-Id: <d289ae5cfaa2ff556a1b18e9ed009cb7063275c1.1587488137.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587488137.git.mchehab+huawei@kernel.org>
 References: <cover.1587488137.git.mchehab+huawei@kernel.org>
@@ -66,80 +66,87 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
 - Adjust document title;
-- Mark literal blocks as such;
+- Some whitespace fixes and new line breaks;
+- Use the right list markups;
 - Add it to RCU/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/RCU/index.rst                    |  1 +
- Documentation/RCU/{lockdep.txt => lockdep.rst} | 12 ++++++++----
- 2 files changed, 9 insertions(+), 4 deletions(-)
- rename Documentation/RCU/{lockdep.txt => lockdep.rst} (96%)
+ .../RCU/{checklist.txt => checklist.rst}        | 17 ++++++++++++-----
+ Documentation/RCU/index.rst                     |  3 +++
+ 2 files changed, 15 insertions(+), 5 deletions(-)
+ rename Documentation/RCU/{checklist.txt => checklist.rst} (98%)
 
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 430a37132b2c..fa7a2a8949b7 100644
---- a/Documentation/RCU/index.rst
-+++ b/Documentation/RCU/index.rst
-@@ -11,6 +11,7 @@ RCU concepts
- 
-    arrayRCU
-    checklist
-+   lockdep
-    lockdep-splat
-    rcubarrier
-    rcu_dereference
-diff --git a/Documentation/RCU/lockdep.txt b/Documentation/RCU/lockdep.rst
-similarity index 96%
-rename from Documentation/RCU/lockdep.txt
-rename to Documentation/RCU/lockdep.rst
-index 89db949eeca0..f1fc8ae3846a 100644
---- a/Documentation/RCU/lockdep.txt
-+++ b/Documentation/RCU/lockdep.rst
+diff --git a/Documentation/RCU/checklist.txt b/Documentation/RCU/checklist.rst
+similarity index 98%
+rename from Documentation/RCU/checklist.txt
+rename to Documentation/RCU/checklist.rst
+index e98ff261a438..2efed9926c3f 100644
+--- a/Documentation/RCU/checklist.txt
++++ b/Documentation/RCU/checklist.rst
 @@ -1,4 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+========================
- RCU and lockdep checking
-+========================
++================================
+ Review Checklist for RCU Patches
++================================
  
- All flavors of RCU have lockdep checking available, so that lockdep is
- aware of when each task enters and leaves any flavor of RCU read-side
-@@ -8,7 +12,7 @@ tracking to include RCU state, which can sometimes help when debugging
- deadlocks and the like.
  
- In addition, RCU provides the following primitives that check lockdep's
--state:
-+state::
+ This document contains a checklist for producing and reviewing patches
+@@ -411,18 +415,21 @@ over a rather long period of time, but improvements are always welcome!
+ 	__rcu sparse checks to validate your RCU code.	These can help
+ 	find problems as follows:
  
- 	rcu_read_lock_held() for normal RCU.
- 	rcu_read_lock_bh_held() for RCU-bh.
-@@ -63,7 +67,7 @@ checking of rcu_dereference() primitives:
- The rcu_dereference_check() check expression can be any boolean
- expression, but would normally include a lockdep expression.  However,
- any boolean expression can be used.  For a moderately ornate example,
--consider the following:
-+consider the following::
+-	CONFIG_PROVE_LOCKING: check that accesses to RCU-protected data
++	CONFIG_PROVE_LOCKING:
++		check that accesses to RCU-protected data
+ 		structures are carried out under the proper RCU
+ 		read-side critical section, while holding the right
+ 		combination of locks, or whatever other conditions
+ 		are appropriate.
  
- 	file = rcu_dereference_check(fdt->fd[fd],
- 				     lockdep_is_held(&files->file_lock) ||
-@@ -82,7 +86,7 @@ RCU read-side critical sections, in case (2) the ->file_lock prevents
- any change from taking place, and finally, in case (3) the current task
- is the only task accessing the file_struct, again preventing any change
- from taking place.  If the above statement was invoked only from updater
--code, it could instead be written as follows:
-+code, it could instead be written as follows::
+-	CONFIG_DEBUG_OBJECTS_RCU_HEAD: check that you don't pass the
++	CONFIG_DEBUG_OBJECTS_RCU_HEAD:
++		check that you don't pass the
+ 		same object to call_rcu() (or friends) before an RCU
+ 		grace period has elapsed since the last time that you
+ 		passed that same object to call_rcu() (or friends).
  
- 	file = rcu_dereference_protected(fdt->fd[fd],
- 					 lockdep_is_held(&files->file_lock) ||
-@@ -105,7 +109,7 @@ false and they are called from outside any RCU read-side critical section.
+-	__rcu sparse checks: tag the pointer to the RCU-protected data
++	__rcu sparse checks:
++		tag the pointer to the RCU-protected data
+ 		structure with __rcu, and sparse will warn you if you
+ 		access that pointer without the services of one of the
+ 		variants of rcu_dereference().
+@@ -442,8 +449,8 @@ over a rather long period of time, but improvements are always welcome!
  
- For example, the workqueue for_each_pwq() macro is intended to be used
- either within an RCU read-side critical section or with wq->mutex held.
--It is thus implemented as follows:
-+It is thus implemented as follows::
+ 	You instead need to use one of the barrier functions:
  
- 	#define for_each_pwq(pwq, wq)
- 		list_for_each_entry_rcu((pwq), &(wq)->pwqs, pwqs_node,
+-	o	call_rcu() -> rcu_barrier()
+-	o	call_srcu() -> srcu_barrier()
++	-	call_rcu() -> rcu_barrier()
++	-	call_srcu() -> srcu_barrier()
+ 
+ 	However, these barrier functions are absolutely -not- guaranteed
+ 	to wait for a grace period.  In fact, if there are no call_rcu()
+diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+index 81a0a1e5f767..c1ba4d130bb0 100644
+--- a/Documentation/RCU/index.rst
++++ b/Documentation/RCU/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ .. _rcu_concepts:
+ 
+ ============
+@@ -8,6 +10,7 @@ RCU concepts
+    :maxdepth: 3
+ 
+    arrayRCU
++   checklist
+    rcubarrier
+    rcu_dereference
+    whatisRCU
 -- 
 2.25.2
 
