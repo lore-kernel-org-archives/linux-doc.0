@@ -4,52 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9BF8C55184
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:55:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA54C54FCC
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:55:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7C372071E
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:55:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE82D206F4
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587488115;
-	bh=eeWPZWBHhAnJtXqAApzvLw2FDsZwgYaBrsTGYJoAiCE=;
+	s=default; t=1587488123;
+	bh=/px724oLbVhzjmXikP+qzAsBDN0UZBumjO87fRFni9M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=2Ym2+QJFFJoxyc+nCUa9AnZCKNxU6dObHnfGY6Zjx6ZwozY6omoeLm/i5c0But9xo
-	 2y4OCw6Gw+hZ7ABtwuVwVqT4Jnxm1kWiBE03OQKcuJht2VAoEVhlIS+N9OadRQQoCy
-	 KY6j9oO6FhEfbumapSKhnZQXs6XK2WAfrEsinF8Q=
+	b=YPQzMsVCDCA9Dfu+8C3yfK8fiqNP//wN26UZOlStahvQQDlk1XjM3LQwv5RTJcmLB
+	 KtNfYDl+g1XZ1G1wSo+4JF5ceDKNxX0Gwzo7xvHvAD8k0QOSXv8wg5kEYY5nLKpLom
+	 qtKOldcsTBXwH3snbqVbimO/YFTC7B1kkpcpR/78=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729258AbgDUQzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 12:55:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57382 "EHLO mail.kernel.org"
+        id S1726335AbgDUQzW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 12:55:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57336 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729174AbgDUQyu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Apr 2020 12:54:50 -0400
+        id S1729155AbgDUQyt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 12:54:49 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8D0D621655;
+        by mail.kernel.org (Postfix) with ESMTPSA id 76CB121473;
         Tue, 21 Apr 2020 16:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587488084;
-        bh=eeWPZWBHhAnJtXqAApzvLw2FDsZwgYaBrsTGYJoAiCE=;
+        bh=/px724oLbVhzjmXikP+qzAsBDN0UZBumjO87fRFni9M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SCD6Z8ercv+wlhnSBS1IdfRvVk/rS0zRsE3xkYS8LWwkZp0u08LKOjEC+zbjDXJdU
-         P5CSI6AVi/38MOl7AsjFRLpL5yfVgGxZiwTVIarHmwuMUjUQXua2yR+e6SG72A2QRw
-         v1nwLam5EQ0kHwyHGFyz4JtA+iz5tuz8P/cw3yrM=
+        b=TrQ5PDF3b0LEYMrmk1IZwid6NvpPEj0KyI3ny5T/EuwdXSldPB1wcX6JDJVNva72P
+         Yhar9gS3XxGwfYe66w+OqBNNLO021c3gBCXXOgUqvmPfrb9Zhh8+RHUsqBdA7YlRZO
+         WoKJlPs9PFZiGwB6xh80g/0a2xMQzKiyCiki66IY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jQwAU-00CmF0-OT; Tue, 21 Apr 2020 18:54:42 +0200
+        id 1jQwAU-00CmEl-L3; Tue, 21 Apr 2020 18:54:42 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 21/29] docs: filesystems: convert sharedsubtree.txt to ReST
-Date:   Tue, 21 Apr 2020 18:54:32 +0200
-Message-Id: <95189fdf64e74a5ebaf365ead262f6b3ea22ce60.1587487612.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 18/29] docs: filesystems: convert mount_api.txt to ReST
+Date:   Tue, 21 Apr 2020 18:54:29 +0200
+Message-Id: <5df8ac4199f4eb9829beb9455c423561685fdb9f.1587487612.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587487612.git.mchehab+huawei@kernel.org>
 References: <cover.1587487612.git.mchehab+huawei@kernel.org>
@@ -65,829 +63,801 @@ X-Mailing-List: linux-doc@vger.kernel.org
 - Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
 - Add table markups;
-- Add it to filesystems/index.rst
+- Add lists markups;
+- Add it to filesystems/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/filesystems/index.rst           |   1 +
- Documentation/filesystems/proc.rst            |   2 +-
- .../{sharedsubtree.txt => sharedsubtree.rst}  | 394 ++++++++++--------
- 3 files changed, 227 insertions(+), 170 deletions(-)
- rename Documentation/filesystems/{sharedsubtree.txt => sharedsubtree.rst} (72%)
+ .../{mount_api.txt => mount_api.rst}          | 329 ++++++++++++------
+ include/linux/fs_context.h                    |   2 +-
+ include/linux/lsm_hooks.h                     |   2 +-
+ 4 files changed, 218 insertions(+), 116 deletions(-)
+ rename Documentation/filesystems/{mount_api.txt => mount_api.rst} (79%)
 
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 3d35317b0c46..56fd515af5ef 100644
+index 02d52b536baf..abfc143434a2 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -33,6 +33,7 @@ algorithms work.
-    mount_api
-    quota
-    seq_file
-+   sharedsubtree
+@@ -30,6 +30,7 @@ algorithms work.
+    files
+    locks
+    mandatory-locking
++   mount_api
  
     automount-support
  
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 38b606991065..a567bcccbb02 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1870,7 +1870,7 @@ unbindable        mount is unbindable
- 
- For more information on mount propagation see:
- 
--  Documentation/filesystems/sharedsubtree.txt
-+  Documentation/filesystems/sharedsubtree.rst
- 
- 
- 3.6	/proc/<pid>/comm  & /proc/<pid>/task/<tid>/comm
-diff --git a/Documentation/filesystems/sharedsubtree.txt b/Documentation/filesystems/sharedsubtree.rst
-similarity index 72%
-rename from Documentation/filesystems/sharedsubtree.txt
-rename to Documentation/filesystems/sharedsubtree.rst
-index 8ccfbd55244b..d83395354250 100644
---- a/Documentation/filesystems/sharedsubtree.txt
-+++ b/Documentation/filesystems/sharedsubtree.rst
-@@ -1,7 +1,10 @@
+diff --git a/Documentation/filesystems/mount_api.txt b/Documentation/filesystems/mount_api.rst
+similarity index 79%
+rename from Documentation/filesystems/mount_api.txt
+rename to Documentation/filesystems/mount_api.rst
+index 87c14bbb2b35..dea22d64f060 100644
+--- a/Documentation/filesystems/mount_api.txt
++++ b/Documentation/filesystems/mount_api.rst
+@@ -1,8 +1,10 @@
+-			     ====================
+-			     FILESYSTEM MOUNT API
+-			     ====================
 +.. SPDX-License-Identifier: GPL-2.0
+ 
+-CONTENTS
++====================
++fILESYSTEM Mount API
++====================
 +
-+===============
- Shared Subtrees
-----------------
-+===============
++.. CONTENTS
  
--Contents:
-+.. Contents:
- 	1) Overview
- 	2) Features
- 	3) Setting mount states
-@@ -41,31 +44,38 @@ replicas continue to be exactly same.
+  (1) Overview.
  
- 	Here is an example:
+@@ -21,8 +23,7 @@ CONTENTS
+  (8) Parameter helper functions.
  
--	Let's say /mnt has a mount that is shared.
--	mount --make-shared /mnt
-+	Let's say /mnt has a mount that is shared::
+ 
+-========
+-OVERVIEW
++Overview
+ ========
+ 
+ The creation of new mounts is now to be done in a multistep process:
+@@ -43,7 +44,7 @@ The creation of new mounts is now to be done in a multistep process:
+ 
+  (7) Destroy the context.
+ 
+-To support this, the file_system_type struct gains two new fields:
++To support this, the file_system_type struct gains two new fields::
+ 
+ 	int (*init_fs_context)(struct fs_context *fc);
+ 	const struct fs_parameter_description *parameters;
+@@ -57,12 +58,11 @@ Note that security initialisation is done *after* the filesystem is called so
+ that the namespaces may be adjusted first.
+ 
+ 
+-======================
+-THE FILESYSTEM CONTEXT
++The Filesystem context
+ ======================
+ 
+ The creation and reconfiguration of a superblock is governed by a filesystem
+-context.  This is represented by the fs_context structure:
++context.  This is represented by the fs_context structure::
+ 
+ 	struct fs_context {
+ 		const struct fs_context_operations *ops;
+@@ -86,78 +86,106 @@ context.  This is represented by the fs_context structure:
+ 
+ The fs_context fields are as follows:
+ 
+- (*) const struct fs_context_operations *ops
++   * ::
 +
-+	    mount --make-shared /mnt
++       const struct fs_context_operations *ops
  
- 	Note: mount(8) command now supports the --make-shared flag,
- 	so the sample 'smount' program is no longer needed and has been
- 	removed.
+      These are operations that can be done on a filesystem context (see
+      below).  This must be set by the ->init_fs_context() file_system_type
+      operation.
  
--	# mount --bind /mnt /tmp
-+	::
+- (*) struct file_system_type *fs_type
++   * ::
 +
-+	    # mount --bind /mnt /tmp
++       struct file_system_type *fs_type
+ 
+      A pointer to the file_system_type of the filesystem that is being
+      constructed or reconfigured.  This retains a reference on the type owner.
+ 
+- (*) void *fs_private
++   * ::
 +
- 	The above command replicates the mount at /mnt to the mountpoint /tmp
- 	and the contents of both the mounts remain identical.
++       void *fs_private
  
--	#ls /mnt
--	a b c
-+	::
+      A pointer to the file system's private data.  This is where the filesystem
+      will need to store any options it parses.
  
--	#ls /tmp
--	a b c
-+	    #ls /mnt
-+	    a b c
- 
--	Now let's say we mount a device at /tmp/a
--	# mount /dev/sd0  /tmp/a
-+	    #ls /tmp
-+	    a b c
- 
--	#ls /tmp/a
--	t1 t2 t3
-+	Now let's say we mount a device at /tmp/a::
- 
--	#ls /mnt/a
--	t1 t2 t3
-+	    # mount /dev/sd0  /tmp/a
+- (*) struct dentry *root
++   * ::
 +
-+	    #ls /tmp/a
-+	    t1 t2 t3
++       struct dentry *root
+ 
+      A pointer to the root of the mountable tree (and indirectly, the
+      superblock thereof).  This is filled in by the ->get_tree() op.  If this
+      is set, an active reference on root->d_sb must also be held.
+ 
+- (*) struct user_namespace *user_ns
+- (*) struct net *net_ns
++   * ::
 +
-+	    #ls /mnt/a
-+	    t1 t2 t3
++       struct user_namespace *user_ns
++       struct net *net_ns
  
- 	Note that the mount has propagated to the mount at /mnt as well.
+      There are a subset of the namespaces in use by the invoking process.  They
+      retain references on each namespace.  The subscribed namespaces may be
+      replaced by the filesystem to reflect other sources, such as the parent
+      mount superblock on an automount.
  
-@@ -123,14 +133,15 @@ replicas continue to be exactly same.
- 
- 2d) A unbindable mount is a unbindable private mount
- 
--	let's say we have a mount at /mnt and we make it unbindable
-+	let's say we have a mount at /mnt and we make it unbindable::
- 
--	# mount --make-unbindable /mnt
-+	    # mount --make-unbindable /mnt
- 
--	 Let's try to bind mount this mount somewhere else.
--	 # mount --bind /mnt /tmp
--	 mount: wrong fs type, bad option, bad superblock on /mnt,
--	        or too many mounted file systems
-+	 Let's try to bind mount this mount somewhere else::
+- (*) const struct cred *cred
++   * ::
 +
-+	    # mount --bind /mnt /tmp
-+	    mount: wrong fs type, bad option, bad superblock on /mnt,
-+		    or too many mounted file systems
++       const struct cred *cred
  
- 	Binding a unbindable mount is a invalid operation.
+      The mounter's credentials.  This retains a reference on the credentials.
  
-@@ -138,12 +149,12 @@ replicas continue to be exactly same.
- 3) Setting mount states
- 
- 	The mount command (util-linux package) can be used to set mount
--	states:
-+	states::
- 
--	mount --make-shared mountpoint
--	mount --make-slave mountpoint
--	mount --make-private mountpoint
--	mount --make-unbindable mountpoint
-+	    mount --make-shared mountpoint
-+	    mount --make-slave mountpoint
-+	    mount --make-private mountpoint
-+	    mount --make-unbindable mountpoint
- 
- 
- 4) Use cases
-@@ -154,9 +165,10 @@ replicas continue to be exactly same.
- 
- 	   Solution:
- 
--		The system administrator can make the mount at /cdrom shared
--		mount --bind /cdrom /cdrom
--		mount --make-shared /cdrom
-+		The system administrator can make the mount at /cdrom shared::
+- (*) char *source
++   * ::
 +
-+		    mount --bind /cdrom /cdrom
-+		    mount --make-shared /cdrom
++       char *source
  
- 		Now any process that clones off a new namespace will have a
- 		mount at /cdrom which is a replica of the same mount in the
-@@ -172,14 +184,14 @@ replicas continue to be exactly same.
- 	   Solution:
+      This specifies the source.  It may be a block device (e.g. /dev/sda1) or
+      something more exotic, such as the "host:/path" that NFS desires.
  
- 		To begin with, the administrator can mark the entire mount tree
--		as shareable.
-+		as shareable::
- 
--		mount --make-rshared /
-+		    mount --make-rshared /
- 
- 		A new process can clone off a new namespace. And mark some part
--		of its namespace as slave
-+		of its namespace as slave::
- 
--		mount --make-rslave /myprivatetree
-+		    mount --make-rslave /myprivatetree
- 
- 		Hence forth any mounts within the /myprivatetree done by the
- 		process will not show up in any other namespace. However mounts
-@@ -206,13 +218,13 @@ replicas continue to be exactly same.
- 		versions of the file depending on the path used to access that
- 		file.
- 
--		An example is:
-+		An example is::
- 
--		mount --make-shared /
--		mount --rbind / /view/v1
--		mount --rbind / /view/v2
--		mount --rbind / /view/v3
--		mount --rbind / /view/v4
-+		    mount --make-shared /
-+		    mount --rbind / /view/v1
-+		    mount --rbind / /view/v2
-+		    mount --rbind / /view/v3
-+		    mount --rbind / /view/v4
- 
- 		and if /usr has a versioning filesystem mounted, then that
- 		mount appears at /view/v1/usr, /view/v2/usr, /view/v3/usr and
-@@ -224,8 +236,8 @@ replicas continue to be exactly same.
- 		filesystem is being requested and return the corresponding
- 		inode.
- 
--5) Detailed semantics:
---------------------
-+5) Detailed semantics
-+---------------------
- 	The section below explains the detailed semantics of
- 	bind, rbind, move, mount, umount and clone-namespace operations.
- 
-@@ -235,6 +247,7 @@ replicas continue to be exactly same.
- 5a) Mount states
- 
- 	A given mount can be in one of the following states
+- (*) char *subtype
++   * ::
 +
- 	1) shared
- 	2) slave
- 	3) shared and slave
-@@ -252,7 +265,8 @@ replicas continue to be exactly same.
- 		A 'shared mount' is defined as a vfsmount that belongs to a
- 		'peer group'.
++       char *subtype
  
--		For example:
-+		For example::
+      This is a string to be added to the type displayed in /proc/mounts to
+      qualify it (used by FUSE).  This is available for the filesystem to set if
+      desired.
+ 
+- (*) void *security
++   * ::
 +
- 			mount --make-shared /mnt
- 			mount --bind /mnt /tmp
++       void *security
  
-@@ -270,7 +284,7 @@ replicas continue to be exactly same.
- 		A slave mount as the name implies has a master mount from which
- 		mount/unmount events are received. Events do not propagate from
- 		the slave mount to the master.  Only a shared mount can be made
--		a slave by executing the following command
-+		a slave by executing the following command::
+      A place for the LSMs to hang their security data for the superblock.  The
+      relevant security operations are described below.
  
- 			mount --make-slave mount
- 
-@@ -290,8 +304,10 @@ replicas continue to be exactly same.
- 		peer group.
- 
- 		Only a slave vfsmount can be made as 'shared and slave' by
--		either executing the following command
-+		either executing the following command::
+- (*) void *s_fs_info
++   * ::
 +
- 			mount --make-shared mount
++       void *s_fs_info
+ 
+      The proposed s_fs_info for a new superblock, set in the superblock by
+      sget_fc().  This can be used to distinguish superblocks.
+ 
+- (*) unsigned int sb_flags
+- (*) unsigned int sb_flags_mask
++   * ::
 +
- 		or by moving the slave vfsmount under a shared vfsmount.
++       unsigned int sb_flags
++       unsigned int sb_flags_mask
  
- 	(4) Private mount
-@@ -307,30 +323,32 @@ replicas continue to be exactly same.
+      Which bits SB_* flags are to be set/cleared in super_block::s_flags.
  
- 
-    	State diagram:
+- (*) unsigned int s_iflags
++   * ::
 +
-    	The state diagram below explains the state transition of a mount,
--	in response to various commands.
--	------------------------------------------------------------------------
--	|             |make-shared |  make-slave  | make-private |make-unbindab|
--	--------------|------------|--------------|--------------|-------------|
--	|shared	      |shared	   |*slave/private|   private	 | unbindable  |
--	|             |            |              |              |             |
--	|-------------|------------|--------------|--------------|-------------|
--	|slave	      |shared      |	**slave	  |    private   | unbindable  |
--	|             |and slave   |              |              |             |
--	|-------------|------------|--------------|--------------|-------------|
--	|shared	      |shared      |    slave	  |    private   | unbindable  |
--	|and slave    |and slave   |              |              |             |
--	|-------------|------------|--------------|--------------|-------------|
--	|private      |shared	   |  **private	  |    private   | unbindable  |
--	|-------------|------------|--------------|--------------|-------------|
--	|unbindable   |shared	   |**unbindable  |    private   | unbindable  |
--	------------------------------------------------------------------------
-+	in response to various commands::
++       unsigned int s_iflags
  
--	* if the shared mount is the only mount in its peer group, making it
--	slave, makes it private automatically. Note that there is no master to
--	which it can be slaved to.
-+	    -----------------------------------------------------------------------
-+	    |             |make-shared |  make-slave  | make-private |make-unbindab|
-+	    --------------|------------|--------------|--------------|-------------|
-+	    |shared	  |shared      |*slave/private|   private    | unbindable  |
-+	    |             |            |              |              |             |
-+	    |-------------|------------|--------------|--------------|-------------|
-+	    |slave	  |shared      | **slave      |    private   | unbindable  |
-+	    |             |and slave   |              |              |             |
-+	    |-------------|------------|--------------|--------------|-------------|
-+	    |shared       |shared      | slave        |    private   | unbindable  |
-+	    |and slave    |and slave   |              |              |             |
-+	    |-------------|------------|--------------|--------------|-------------|
-+	    |private      |shared      |  **private   |    private   | unbindable  |
-+	    |-------------|------------|--------------|--------------|-------------|
-+	    |unbindable   |shared      |**unbindable  |    private   | unbindable  |
-+	    ------------------------------------------------------------------------
+      These will be bitwise-OR'd with s->s_iflags when a superblock is created.
  
--	** slaving a non-shared mount has no effect on the mount.
-+	    * if the shared mount is the only mount in its peer group, making it
-+	    slave, makes it private automatically. Note that there is no master to
-+	    which it can be slaved to.
+- (*) enum fs_context_purpose
++   * ::
 +
-+	    ** slaving a non-shared mount has no effect on the mount.
++       enum fs_context_purpose
  
- 	Apart from the commands listed below, the 'move' operation also changes
- 	the state of a mount depending on type of the destination mount. Its
-@@ -338,31 +356,32 @@ replicas continue to be exactly same.
+      This indicates the purpose for which the context is intended.  The
+      available values are:
  
- 5b) Bind semantics
+-	FS_CONTEXT_FOR_MOUNT,		-- New superblock for explicit mount
+-	FS_CONTEXT_FOR_SUBMOUNT		-- New automatic submount of extant mount
+-	FS_CONTEXT_FOR_RECONFIGURE	-- Change an existing mount
++	==========================	======================================
++	FS_CONTEXT_FOR_MOUNT,		New superblock for explicit mount
++	FS_CONTEXT_FOR_SUBMOUNT		New automatic submount of extant mount
++	FS_CONTEXT_FOR_RECONFIGURE	Change an existing mount
++	==========================	======================================
  
--	Consider the following command
-+	Consider the following command::
+ The mount context is created by calling vfs_new_fs_context() or
+ vfs_dup_fs_context() and is destroyed with put_fs_context().  Note that the
+@@ -176,11 +204,10 @@ mount context.  For instance, NFS might pin the appropriate protocol version
+ module.
  
--	mount --bind A/a  B/b
-+	    mount --bind A/a  B/b
  
- 	where 'A' is the source mount, 'a' is the dentry in the mount 'A', 'B'
- 	is the destination mount and 'b' is the dentry in the destination mount.
+-=================================
+-THE FILESYSTEM CONTEXT OPERATIONS
++The Filesystem Context Operations
+ =================================
  
- 	The outcome depends on the type of mount of 'A' and 'B'. The table
--	below contains quick reference.
--   ---------------------------------------------------------------------------
--   |         BIND MOUNT OPERATION                                            |
--   |**************************************************************************
--   |source(A)->| shared       |       private  |       slave    | unbindable |
--   | dest(B)  |               |                |                |            |
--   |   |      |               |                |                |            |
--   |   v      |               |                |                |            |
--   |**************************************************************************
--   |  shared  | shared        |     shared     | shared & slave |  invalid   |
--   |          |               |                |                |            |
--   |non-shared| shared        |      private   |      slave     |  invalid   |
--   ***************************************************************************
-+	below contains quick reference::
+-The filesystem context points to a table of operations:
++The filesystem context points to a table of operations::
+ 
+ 	struct fs_context_operations {
+ 		void (*free)(struct fs_context *fc);
+@@ -195,24 +222,32 @@ The filesystem context points to a table of operations:
+ These operations are invoked by the various stages of the mount procedure to
+ manage the filesystem context.  They are as follows:
+ 
+- (*) void (*free)(struct fs_context *fc);
++   * ::
 +
-+	    --------------------------------------------------------------------------
-+	    |         BIND MOUNT OPERATION                                           |
-+	    |************************************************************************|
-+	    |source(A)->| shared      |       private  |       slave    | unbindable |
-+	    | dest(B)  |              |                |                |            |
-+	    |   |      |              |                |                |            |
-+	    |   v      |              |                |                |            |
-+	    |************************************************************************|
-+	    |  shared  | shared       |     shared     | shared & slave |  invalid   |
-+	    |          |              |                |                |            |
-+	    |non-shared| shared       |      private   |      slave     |  invalid   |
-+	    **************************************************************************
++	void (*free)(struct fs_context *fc);
  
-      	Details:
+      Called to clean up the filesystem-specific part of the filesystem context
+      when the context is destroyed.  It should be aware that parts of the
+      context may have been removed and NULL'd out by ->get_tree().
  
--	1. 'A' is a shared mount and 'B' is a shared mount. A new mount 'C'
-+    1. 'A' is a shared mount and 'B' is a shared mount. A new mount 'C'
- 	which is clone of 'A', is created. Its root dentry is 'a' . 'C' is
- 	mounted on mount 'B' at dentry 'b'. Also new mount 'C1', 'C2', 'C3' ...
- 	are created and mounted at the dentry 'b' on all mounts where 'B'
-@@ -371,7 +390,7 @@ replicas continue to be exactly same.
- 	'B'.  And finally the peer-group of 'C' is merged with the peer group
- 	of 'A'.
- 
--	2. 'A' is a private mount and 'B' is a shared mount. A new mount 'C'
-+    2. 'A' is a private mount and 'B' is a shared mount. A new mount 'C'
- 	which is clone of 'A', is created. Its root dentry is 'a'. 'C' is
- 	mounted on mount 'B' at dentry 'b'. Also new mount 'C1', 'C2', 'C3' ...
- 	are created and mounted at the dentry 'b' on all mounts where 'B'
-@@ -379,7 +398,7 @@ replicas continue to be exactly same.
- 	'C', 'C1', .., 'Cn' with exactly the same configuration as the
- 	propagation tree for 'B'.
- 
--	3. 'A' is a slave mount of mount 'Z' and 'B' is a shared mount. A new
-+    3. 'A' is a slave mount of mount 'Z' and 'B' is a shared mount. A new
- 	mount 'C' which is clone of 'A', is created. Its root dentry is 'a' .
- 	'C' is mounted on mount 'B' at dentry 'b'. Also new mounts 'C1', 'C2',
- 	'C3' ... are created and mounted at the dentry 'b' on all mounts where
-@@ -389,19 +408,19 @@ replicas continue to be exactly same.
- 	is made the slave of mount 'Z'.  In other words, mount 'C' is in the
- 	state 'slave and shared'.
- 
--	4. 'A' is a unbindable mount and 'B' is a shared mount. This is a
-+    4. 'A' is a unbindable mount and 'B' is a shared mount. This is a
- 	invalid operation.
- 
--	5. 'A' is a private mount and 'B' is a non-shared(private or slave or
-+    5. 'A' is a private mount and 'B' is a non-shared(private or slave or
- 	unbindable) mount. A new mount 'C' which is clone of 'A', is created.
- 	Its root dentry is 'a'. 'C' is mounted on mount 'B' at dentry 'b'.
- 
--	6. 'A' is a shared mount and 'B' is a non-shared mount. A new mount 'C'
-+    6. 'A' is a shared mount and 'B' is a non-shared mount. A new mount 'C'
- 	which is a clone of 'A' is created. Its root dentry is 'a'. 'C' is
- 	mounted on mount 'B' at dentry 'b'.  'C' is made a member of the
- 	peer-group of 'A'.
- 
--	7. 'A' is a slave mount of mount 'Z' and 'B' is a non-shared mount. A
-+    7. 'A' is a slave mount of mount 'Z' and 'B' is a non-shared mount. A
- 	new mount 'C' which is a clone of 'A' is created. Its root dentry is
- 	'a'.  'C' is mounted on mount 'B' at dentry 'b'. Also 'C' is set as a
- 	slave mount of 'Z'. In other words 'A' and 'C' are both slave mounts of
-@@ -409,7 +428,7 @@ replicas continue to be exactly same.
- 	mount/unmount on 'A' do not propagate anywhere else. Similarly
- 	mount/unmount on 'C' do not propagate anywhere else.
- 
--	8. 'A' is a unbindable mount and 'B' is a non-shared mount. This is a
-+    8. 'A' is a unbindable mount and 'B' is a non-shared mount. This is a
- 	invalid operation. A unbindable mount cannot be bind mounted.
- 
- 5c) Rbind semantics
-@@ -422,7 +441,9 @@ replicas continue to be exactly same.
- 	then the subtree under the unbindable mount is pruned in the new
- 	location.
- 
--	eg: let's say we have the following mount tree.
-+	eg:
+- (*) int (*dup)(struct fs_context *fc, struct fs_context *src_fc);
++   * ::
 +
-+	  let's say we have the following mount tree::
++	int (*dup)(struct fs_context *fc, struct fs_context *src_fc);
  
- 		A
- 	      /   \
-@@ -430,12 +451,12 @@ replicas continue to be exactly same.
- 	     / \ / \
- 	     D E F G
+      Called when a filesystem context has been duplicated to duplicate the
+      filesystem-private data.  An error may be returned to indicate failure to
+      do this.
  
--	     Let's say all the mount except the mount C in the tree are
--	     of a type other than unbindable.
-+	  Let's say all the mount except the mount C in the tree are
-+	  of a type other than unbindable.
- 
--	     If this tree is rbound to say Z
-+	  If this tree is rbound to say Z
- 
--	     We will have the following tree at the new location.
-+	  We will have the following tree at the new location::
- 
- 		Z
- 		|
-@@ -457,24 +478,26 @@ replicas continue to be exactly same.
- 	the dentry in the destination mount.
- 
- 	The outcome depends on the type of the mount of 'A' and 'B'. The table
--	below is a quick reference.
--   ---------------------------------------------------------------------------
--   |         		MOVE MOUNT OPERATION                                 |
--   |**************************************************************************
--   | source(A)->| shared      |       private  |       slave    | unbindable |
--   | dest(B)  |               |                |                |            |
--   |   |      |               |                |                |            |
--   |   v      |               |                |                |            |
--   |**************************************************************************
--   |  shared  | shared        |     shared     |shared and slave|  invalid   |
--   |          |               |                |                |            |
--   |non-shared| shared        |      private   |    slave       | unbindable |
--   ***************************************************************************
--	NOTE: moving a mount residing under a shared mount is invalid.
-+	below is a quick reference::
+-     [!] Note that even if this fails, put_fs_context() will be called
++     .. Warning::
 +
-+	    ---------------------------------------------------------------------------
-+	    |         		MOVE MOUNT OPERATION                                 |
-+	    |**************************************************************************
-+	    | source(A)->| shared      |       private  |       slave    | unbindable |
-+	    | dest(B)  |               |                |                |            |
-+	    |   |      |               |                |                |            |
-+	    |   v      |               |                |                |            |
-+	    |**************************************************************************
-+	    |  shared  | shared        |     shared     |shared and slave|  invalid   |
-+	    |          |               |                |                |            |
-+	    |non-shared| shared        |      private   |    slave       | unbindable |
-+	    ***************************************************************************
++         Note that even if this fails, put_fs_context() will be called
+ 	 immediately thereafter, so ->dup() *must* make the
+ 	 filesystem-private data safe for ->free().
+ 
+- (*) int (*parse_param)(struct fs_context *fc,
+-			struct struct fs_parameter *param);
++   * ::
 +
-+	.. Note:: moving a mount residing under a shared mount is invalid.
++	int (*parse_param)(struct fs_context *fc,
++			   struct struct fs_parameter *param);
  
-       Details follow:
+      Called when a parameter is being added to the filesystem context.  param
+      points to the key name and maybe a value object.  VFS-specific options
+@@ -224,7 +259,9 @@ manage the filesystem context.  They are as follows:
  
--	1. 'A' is a shared mount and 'B' is a shared mount.  The mount 'A' is
-+    1. 'A' is a shared mount and 'B' is a shared mount.  The mount 'A' is
- 	mounted on mount 'B' at dentry 'b'.  Also new mounts 'A1', 'A2'...'An'
- 	are created and mounted at dentry 'b' on all mounts that receive
- 	propagation from mount 'B'. A new propagation tree is created in the
-@@ -483,7 +506,7 @@ replicas continue to be exactly same.
- 	propagation tree is appended to the already existing propagation tree
- 	of 'A'.
+      If successful, 0 should be returned or a negative error code otherwise.
  
--	2. 'A' is a private mount and 'B' is a shared mount. The mount 'A' is
-+    2. 'A' is a private mount and 'B' is a shared mount. The mount 'A' is
- 	mounted on mount 'B' at dentry 'b'. Also new mount 'A1', 'A2'... 'An'
- 	are created and mounted at dentry 'b' on all mounts that receive
- 	propagation from mount 'B'. The mount 'A' becomes a shared mount and a
-@@ -491,7 +514,7 @@ replicas continue to be exactly same.
- 	'B'. This new propagation tree contains all the new mounts 'A1',
- 	'A2'...  'An'.
- 
--	3. 'A' is a slave mount of mount 'Z' and 'B' is a shared mount.  The
-+    3. 'A' is a slave mount of mount 'Z' and 'B' is a shared mount.  The
- 	mount 'A' is mounted on mount 'B' at dentry 'b'.  Also new mounts 'A1',
- 	'A2'... 'An' are created and mounted at dentry 'b' on all mounts that
- 	receive propagation from mount 'B'. A new propagation tree is created
-@@ -501,32 +524,32 @@ replicas continue to be exactly same.
- 	'A'.  Mount 'A' continues to be the slave mount of 'Z' but it also
- 	becomes 'shared'.
- 
--	4. 'A' is a unbindable mount and 'B' is a shared mount. The operation
-+    4. 'A' is a unbindable mount and 'B' is a shared mount. The operation
- 	is invalid. Because mounting anything on the shared mount 'B' can
- 	create new mounts that get mounted on the mounts that receive
- 	propagation from 'B'.  And since the mount 'A' is unbindable, cloning
- 	it to mount at other mountpoints is not possible.
- 
--	5. 'A' is a private mount and 'B' is a non-shared(private or slave or
-+    5. 'A' is a private mount and 'B' is a non-shared(private or slave or
- 	unbindable) mount. The mount 'A' is mounted on mount 'B' at dentry 'b'.
- 
--	6. 'A' is a shared mount and 'B' is a non-shared mount.  The mount 'A'
-+    6. 'A' is a shared mount and 'B' is a non-shared mount.  The mount 'A'
- 	is mounted on mount 'B' at dentry 'b'.  Mount 'A' continues to be a
- 	shared mount.
- 
--	7. 'A' is a slave mount of mount 'Z' and 'B' is a non-shared mount.
-+    7. 'A' is a slave mount of mount 'Z' and 'B' is a non-shared mount.
- 	The mount 'A' is mounted on mount 'B' at dentry 'b'.  Mount 'A'
- 	continues to be a slave mount of mount 'Z'.
- 
--	8. 'A' is a unbindable mount and 'B' is a non-shared mount. The mount
-+    8. 'A' is a unbindable mount and 'B' is a non-shared mount. The mount
- 	'A' is mounted on mount 'B' at dentry 'b'. Mount 'A' continues to be a
- 	unbindable mount.
- 
- 5e) Mount semantics
- 
--	Consider the following command
-+	Consider the following command::
- 
--	mount device  B/b
-+	    mount device  B/b
- 
- 	'B' is the destination mount and 'b' is the dentry in the destination
- 	mount.
-@@ -537,9 +560,9 @@ replicas continue to be exactly same.
- 
- 5f) Unmount semantics
- 
--	Consider the following command
-+	Consider the following command::
- 
--	umount A
-+	    umount A
- 
- 	where 'A' is a mount mounted on mount 'B' at dentry 'b'.
- 
-@@ -592,10 +615,12 @@ replicas continue to be exactly same.
- 
- 	A. What is the result of the following command sequence?
- 
--		mount --bind /mnt /mnt
--		mount --make-shared /mnt
--		mount --bind /mnt /tmp
--		mount --move /tmp /mnt/1
-+		::
+- (*) int (*parse_monolithic)(struct fs_context *fc, void *data);
++   * ::
 +
-+		    mount --bind /mnt /mnt
-+		    mount --make-shared /mnt
-+		    mount --bind /mnt /tmp
-+		    mount --move /tmp /mnt/1
++	int (*parse_monolithic)(struct fs_context *fc, void *data);
  
- 		what should be the contents of /mnt /mnt/1 /mnt/1/1 should be?
- 		Should they all be identical? or should /mnt and /mnt/1 be
-@@ -604,23 +629,27 @@ replicas continue to be exactly same.
+      Called when the mount(2) system call is invoked to pass the entire data
+      page in one go.  If this is expected to be just a list of "key[=val]"
+@@ -236,7 +273,9 @@ manage the filesystem context.  They are as follows:
+      finds it's the standard key-val list then it may pass it off to
+      generic_parse_monolithic().
  
- 	B. What is the result of the following command sequence?
- 
--		mount --make-rshared /
--		mkdir -p /v/1
--		mount --rbind / /v/1
-+		::
+- (*) int (*get_tree)(struct fs_context *fc);
++   * ::
 +
-+		    mount --make-rshared /
-+		    mkdir -p /v/1
-+		    mount --rbind / /v/1
++	int (*get_tree)(struct fs_context *fc);
  
- 		what should be the content of /v/1/v/1 be?
+      Called to get or create the mountable root and superblock, using the
+      information stored in the filesystem context (reconfiguration goes via a
+@@ -249,7 +288,9 @@ manage the filesystem context.  They are as follows:
+      The phase on a userspace-driven context will be set to only allow this to
+      be called once on any particular context.
  
- 
- 	C. What is the result of the following command sequence?
- 
--		mount --bind /mnt /mnt
--		mount --make-shared /mnt
--		mkdir -p /mnt/1/2/3 /mnt/1/test
--		mount --bind /mnt/1 /tmp
--		mount --make-slave /mnt
--		mount --make-shared /mnt
--		mount --bind /mnt/1/2 /tmp1
--		mount --make-slave /mnt
-+		::
+- (*) int (*reconfigure)(struct fs_context *fc);
++   * ::
 +
-+		    mount --bind /mnt /mnt
-+		    mount --make-shared /mnt
-+		    mkdir -p /mnt/1/2/3 /mnt/1/test
-+		    mount --bind /mnt/1 /tmp
-+		    mount --make-slave /mnt
-+		    mount --make-shared /mnt
-+		    mount --bind /mnt/1/2 /tmp1
-+		    mount --make-slave /mnt
++	int (*reconfigure)(struct fs_context *fc);
  
- 		At this point we have the first mount at /tmp and
- 		its root dentry is 1. Let's call this mount 'A'
-@@ -668,7 +697,8 @@ replicas continue to be exactly same.
+      Called to effect reconfiguration of a superblock using information stored
+      in the filesystem context.  It may detach any resources it desires from
+@@ -259,19 +300,20 @@ manage the filesystem context.  They are as follows:
+      On success it should return 0.  In the case of an error, it should return
+      a negative error code.
  
- 		step 1:
- 		   let's say the root tree has just two directories with
--		   one vfsmount.
-+		   one vfsmount::
+-     [NOTE] reconfigure is intended as a replacement for remount_fs.
++     .. Note:: reconfigure is intended as a replacement for remount_fs.
+ 
+ 
+-===========================
+-FILESYSTEM CONTEXT SECURITY
++Filesystem context Security
+ ===========================
+ 
+ The filesystem context contains a security pointer that the LSMs can use for
+ building up a security context for the superblock to be mounted.  There are a
+ number of operations used by the new mount code for this purpose:
+ 
+- (*) int security_fs_context_alloc(struct fs_context *fc,
+-				   struct dentry *reference);
++   * ::
 +
- 				    root
- 				   /    \
- 				  tmp    usr
-@@ -676,14 +706,17 @@ replicas continue to be exactly same.
- 		    And we want to replicate the tree at multiple
- 		    mountpoints under /root/tmp
++	int security_fs_context_alloc(struct fs_context *fc,
++				      struct dentry *reference);
  
--		step2:
--		      mount --make-shared /root
-+		step 2:
-+		      ::
+      Called to initialise fc->security (which is preset to NULL) and allocate
+      any resources needed.  It should return 0 on success or a negative error
+@@ -283,22 +325,28 @@ number of operations used by the new mount code for this purpose:
+      non-NULL in the case of a submount (FS_CONTEXT_FOR_SUBMOUNT) in which case
+      it indicates the automount point.
  
--		      mkdir -p /tmp/m1
- 
--		      mount --rbind /root /tmp/m1
-+			mount --make-shared /root
- 
--		      the new tree now looks like this:
-+			mkdir -p /tmp/m1
+- (*) int security_fs_context_dup(struct fs_context *fc,
+-				 struct fs_context *src_fc);
++   * ::
 +
-+			mount --rbind /root /tmp/m1
++	int security_fs_context_dup(struct fs_context *fc,
++				    struct fs_context *src_fc);
+ 
+      Called to initialise fc->security (which is preset to NULL) and allocate
+      any resources needed.  The original filesystem context is pointed to by
+      src_fc and may be used for reference.  It should return 0 on success or a
+      negative error code on failure.
+ 
+- (*) void security_fs_context_free(struct fs_context *fc);
++   * ::
 +
-+		      the new tree now looks like this::
++	void security_fs_context_free(struct fs_context *fc);
  
- 				    root
- 				   /    \
-@@ -697,11 +730,13 @@ replicas continue to be exactly same.
+      Called to clean up anything attached to fc->security.  Note that the
+      contents may have been transferred to a superblock and the pointer cleared
+      during get_tree.
  
- 			  it has two vfsmounts
- 
--		step3:
-+		step 3:
-+		    ::
+- (*) int security_fs_context_parse_param(struct fs_context *fc,
+-					 struct fs_parameter *param);
++   * ::
 +
- 			    mkdir -p /tmp/m2
- 			    mount --rbind /root /tmp/m2
++	int security_fs_context_parse_param(struct fs_context *fc,
++					    struct fs_parameter *param);
  
--			the new tree now looks like this:
-+			the new tree now looks like this::
+      Called for each mount parameter, including the source.  The arguments are
+      as for the ->parse_param() method.  It should return 0 to indicate that
+@@ -310,7 +358,9 @@ number of operations used by the new mount code for this purpose:
+      (provided the value pointer is NULL'd out).  If it is stolen, 1 must be
+      returned to prevent it being passed to the filesystem.
  
- 				      root
- 				     /    \
-@@ -724,6 +759,7 @@ replicas continue to be exactly same.
- 		       it has 6 vfsmounts
- 
- 		step 4:
-+		      ::
- 			  mkdir -p /tmp/m3
- 			  mount --rbind /root /tmp/m3
- 
-@@ -740,7 +776,8 @@ replicas continue to be exactly same.
- 
- 		step 1:
- 		   let's say the root tree has just two directories with
--		   one vfsmount.
-+		   one vfsmount::
+- (*) int security_fs_context_validate(struct fs_context *fc);
++   * ::
 +
- 				    root
- 				   /    \
- 				  tmp    usr
-@@ -748,17 +785,20 @@ replicas continue to be exactly same.
- 		    How do we set up the same tree at multiple locations under
- 		    /root/tmp
++	int security_fs_context_validate(struct fs_context *fc);
  
--		step2:
--		      mount --bind /root/tmp /root/tmp
-+		step 2:
-+		      ::
+      Called after all the options have been parsed to validate the collection
+      as a whole and to do any necessary allocation so that
+@@ -320,36 +370,43 @@ number of operations used by the new mount code for this purpose:
+      In the case of reconfiguration, the target superblock will be accessible
+      via fc->root.
  
--		      mount --make-rshared /root
--		      mount --make-unbindable /root/tmp
- 
--		      mkdir -p /tmp/m1
-+			mount --bind /root/tmp /root/tmp
- 
--		      mount --rbind /root /tmp/m1
-+			mount --make-rshared /root
-+			mount --make-unbindable /root/tmp
- 
--		      the new tree now looks like this:
-+			mkdir -p /tmp/m1
+- (*) int security_sb_get_tree(struct fs_context *fc);
++   * ::
 +
-+			mount --rbind /root /tmp/m1
++	int security_sb_get_tree(struct fs_context *fc);
+ 
+      Called during the mount procedure to verify that the specified superblock
+      is allowed to be mounted and to transfer the security data there.  It
+      should return 0 or a negative error code.
+ 
+- (*) void security_sb_reconfigure(struct fs_context *fc);
++   * ::
 +
-+		      the new tree now looks like this::
++	void security_sb_reconfigure(struct fs_context *fc);
  
- 				    root
- 				   /    \
-@@ -768,11 +808,13 @@ replicas continue to be exactly same.
- 			      /  \
- 			     tmp  usr
+      Called to apply any reconfiguration to an LSM's context.  It must not
+      fail.  Error checking and resource allocation must be done in advance by
+      the parameter parsing and validation hooks.
  
--		step3:
-+		step 3:
-+		      ::
+- (*) int security_sb_mountpoint(struct fs_context *fc, struct path *mountpoint,
+-				unsigned int mnt_flags);
++   * ::
 +
- 			    mkdir -p /tmp/m2
- 			    mount --rbind /root /tmp/m2
++	int security_sb_mountpoint(struct fs_context *fc,
++			           struct path *mountpoint,
++				   unsigned int mnt_flags);
  
--		      the new tree now looks like this:
-+		      the new tree now looks like this::
+      Called during the mount procedure to verify that the root dentry attached
+      to the context is permitted to be attached to the specified mountpoint.
+      It should return 0 on success or a negative error code on failure.
  
- 				    root
- 				   /    \
-@@ -782,12 +824,13 @@ replicas continue to be exactly same.
- 			      /  \     / \
- 			     tmp  usr tmp usr
  
--		step4:
-+		step 4:
-+		      ::
+-==========================
+-VFS FILESYSTEM CONTEXT API
++VFS Filesystem context API
+ ==========================
  
- 			    mkdir -p /tmp/m3
- 			    mount --rbind /root /tmp/m3
+ There are four operations for creating a filesystem context and one for
+ destroying a context:
  
--		      the new tree now looks like this:
-+		      the new tree now looks like this::
- 
- 				    	  root
- 				      /    	  \
-@@ -801,25 +844,31 @@ replicas continue to be exactly same.
- 
- 8A) Datastructure
- 
--	4 new fields are introduced to struct vfsmount
-+	4 new fields are introduced to struct vfsmount:
+- (*) struct fs_context *fs_context_for_mount(
+-		struct file_system_type *fs_type,
+-		unsigned int sb_flags);
++   * ::
 +
-+	*   ->mnt_share
-+	*   ->mnt_slave_list
-+	*   ->mnt_slave
-+	*   ->mnt_master
++       struct fs_context *fs_context_for_mount(struct file_system_type *fs_type,
++					       unsigned int sb_flags);
+ 
+      Allocate a filesystem context for the purpose of setting up a new mount,
+      whether that be with a new superblock or sharing an existing one.  This
+@@ -359,7 +416,9 @@ destroying a context:
+      fs_type specifies the filesystem type that will manage the context and
+      sb_flags presets the superblock flags stored therein.
+ 
+- (*) struct fs_context *fs_context_for_reconfigure(
++   * ::
 +
- 	->mnt_share
--	->mnt_slave_list
--	->mnt_slave
--	->mnt_master
--
--	->mnt_share links together all the mount to/from which this vfsmount
-+		links together all the mount to/from which this vfsmount
- 		send/receives propagation events.
++       struct fs_context *fs_context_for_reconfigure(
+ 		struct dentry *dentry,
+ 		unsigned int sb_flags,
+ 		unsigned int sb_flags_mask);
+@@ -369,7 +428,9 @@ destroying a context:
+      configured.  sb_flags and sb_flags_mask indicate which superblock flags
+      need changing and to what.
  
--	->mnt_slave_list links all the mounts to which this vfsmount propagates
-+	->mnt_slave_list
-+		links all the mounts to which this vfsmount propagates
- 		to.
- 
--	->mnt_slave links together all the slaves that its master vfsmount
-+	->mnt_slave
-+		links together all the slaves that its master vfsmount
- 		propagates to.
- 
--	->mnt_master points to the master vfsmount from which this vfsmount
-+	->mnt_master
-+		points to the master vfsmount from which this vfsmount
- 		receives propagation.
- 
--	->mnt_flags takes two more flags to indicate the propagation status of
-+	->mnt_flags
-+		takes two more flags to indicate the propagation status of
- 		the vfsmount.  MNT_SHARE indicates that the vfsmount is a shared
- 		vfsmount.  MNT_UNCLONABLE indicates that the vfsmount cannot be
- 		replicated.
-@@ -842,7 +891,7 @@ replicas continue to be exactly same.
- 
- 	A example propagation tree looks as shown in the figure below.
- 	[ NOTE: Though it looks like a forest, if we consider all the shared
--	mounts as a conceptual entity called 'pnode', it becomes a tree]
-+	mounts as a conceptual entity called 'pnode', it becomes a tree]::
- 
- 
- 		        A <--> B <--> C <---> D
-@@ -864,14 +913,19 @@ replicas continue to be exactly same.
- 	A's ->mnt_slave_list links with ->mnt_slave of 'E', 'K', 'F' and 'G'
- 
- 	E's ->mnt_share links with ->mnt_share of K
--	'E', 'K', 'F', 'G' have their ->mnt_master point to struct
--				vfsmount of 'A'
+- (*) struct fs_context *fs_context_for_submount(
++   * ::
 +
-+	'E', 'K', 'F', 'G' have their ->mnt_master point to struct vfsmount of 'A'
++       struct fs_context *fs_context_for_submount(
+ 		struct file_system_type *fs_type,
+ 		struct dentry *reference);
+ 
+@@ -382,7 +443,9 @@ destroying a context:
+      Note that it's not a requirement that the reference dentry be of the same
+      filesystem type as fs_type.
+ 
+- (*) struct fs_context *vfs_dup_fs_context(struct fs_context *src_fc);
++   * ::
 +
- 	'M', 'L', 'N' have their ->mnt_master point to struct vfsmount of 'K'
++        struct fs_context *vfs_dup_fs_context(struct fs_context *src_fc);
+ 
+      Duplicate a filesystem context, copying any options noted and duplicating
+      or additionally referencing any resources held therein.  This is available
+@@ -392,14 +455,18 @@ destroying a context:
+ 
+      The purpose in the new context is inherited from the old one.
+ 
+- (*) void put_fs_context(struct fs_context *fc);
++   * ::
 +
- 	K's ->mnt_slave_list links with ->mnt_slave of 'M', 'L' and 'N'
++       void put_fs_context(struct fs_context *fc);
  
- 	C's ->mnt_slave_list links with ->mnt_slave of 'J' and 'K'
+      Destroy a filesystem context, releasing any resources it holds.  This
+      calls the ->free() operation.  This is intended to be called by anyone who
+      created a filesystem context.
+ 
+-     [!] filesystem contexts are not refcounted, so this causes unconditional
+-	 destruction.
++     .. Warning::
 +
- 	J and K's ->mnt_master points to struct vfsmount of C
++        filesystem contexts are not refcounted, so this causes unconditional
++	destruction.
+ 
+ In all the above operations, apart from the put op, the return is a mount
+ context pointer or a negative error code.
+@@ -407,8 +474,10 @@ context pointer or a negative error code.
+ For the remaining operations, if an error occurs, a negative error code will be
+ returned.
+ 
+- (*) int vfs_parse_fs_param(struct fs_context *fc,
+-			    struct fs_parameter *param);
++   * ::
 +
- 	and finally D's ->mnt_slave_list links with ->mnt_slave of 'H' and 'I'
++        int vfs_parse_fs_param(struct fs_context *fc,
++			       struct fs_parameter *param);
+ 
+      Supply a single mount parameter to the filesystem context.  This include
+      the specification of the source/device which is specified as the "source"
+@@ -423,53 +492,64 @@ returned.
+ 
+      The parameter value is typed and can be one of:
+ 
+-	fs_value_is_flag,		Parameter not given a value.
+-	fs_value_is_string,		Value is a string
+-	fs_value_is_blob,		Value is a binary blob
+-	fs_value_is_filename,		Value is a filename* + dirfd
+-	fs_value_is_file,		Value is an open file (file*)
++	====================		=============================
++	fs_value_is_flag		Parameter not given a value
++	fs_value_is_string		Value is a string
++	fs_value_is_blob		Value is a binary blob
++	fs_value_is_filename		Value is a filename* + dirfd
++	fs_value_is_file		Value is an open file (file*)
++	====================		=============================
+ 
+      If there is a value, that value is stored in a union in the struct in one
+      of param->{string,blob,name,file}.  Note that the function may steal and
+      clear the pointer, but then becomes responsible for disposing of the
+      object.
+ 
+- (*) int vfs_parse_fs_string(struct fs_context *fc, const char *key,
+-			     const char *value, size_t v_size);
++   * ::
 +
- 	'H' and 'I' have their ->mnt_master pointing to struct vfsmount of 'D'.
++       int vfs_parse_fs_string(struct fs_context *fc, const char *key,
++			       const char *value, size_t v_size);
  
+      A wrapper around vfs_parse_fs_param() that copies the value string it is
+      passed.
  
-@@ -903,6 +957,7 @@ replicas continue to be exactly same.
- 	Prepare phase:
- 
- 	for each mount in the source tree:
+- (*) int generic_parse_monolithic(struct fs_context *fc, void *data);
++   * ::
 +
- 		   a) Create the necessary number of mount trees to
- 		   	be attached to each of the mounts that receive
- 			propagation from the destination mount.
-@@ -929,11 +984,12 @@ replicas continue to be exactly same.
- 	Abort phase
- 		delete all the newly created trees.
++       int generic_parse_monolithic(struct fs_context *fc, void *data);
  
--	NOTE: all the propagation related functionality resides in the file
--	pnode.c
-+	.. Note::
-+	   all the propagation related functionality resides in the file pnode.c
+      Parse a sys_mount() data page, assuming the form to be a text list
+      consisting of key[=val] options separated by commas.  Each item in the
+      list is passed to vfs_mount_option().  This is the default when the
+      ->parse_monolithic() method is NULL.
  
- 
- ------------------------------------------------------------------------
- 
- version 0.1  (created the initial document, Ram Pai linuxram@us.ibm.com)
+- (*) int vfs_get_tree(struct fs_context *fc);
++   * ::
 +
- version 0.2  (Incorporated comments from Al Viro)
++       int vfs_get_tree(struct fs_context *fc);
+ 
+      Get or create the mountable root and superblock, using the parameters in
+      the filesystem context to select/configure the superblock.  This invokes
+      the ->get_tree() method.
+ 
+- (*) struct vfsmount *vfs_create_mount(struct fs_context *fc);
++   * ::
++
++       struct vfsmount *vfs_create_mount(struct fs_context *fc);
+ 
+      Create a mount given the parameters in the specified filesystem context.
+      Note that this does not attach the mount to anything.
+ 
+ 
+-===========================
+-SUPERBLOCK CREATION HELPERS
++Superblock Creation Helpers
+ ===========================
+ 
+ A number of VFS helpers are available for use by filesystems for the creation
+ or looking up of superblocks.
+ 
+- (*) struct super_block *
+-     sget_fc(struct fs_context *fc,
+-	     int (*test)(struct super_block *sb, struct fs_context *fc),
+-	     int (*set)(struct super_block *sb, struct fs_context *fc));
++   * ::
++
++       struct super_block *
++       sget_fc(struct fs_context *fc,
++	       int (*test)(struct super_block *sb, struct fs_context *fc),
++	       int (*set)(struct super_block *sb, struct fs_context *fc));
+ 
+      This is the core routine.  If test is non-NULL, it searches for an
+      existing superblock matching the criteria held in the fs_context, using
+@@ -482,10 +562,12 @@ or looking up of superblocks.
+ 
+ The following helpers all wrap sget_fc():
+ 
+- (*) int vfs_get_super(struct fs_context *fc,
+-		       enum vfs_get_super_keying keying,
+-		       int (*fill_super)(struct super_block *sb,
+-					 struct fs_context *fc))
++   * ::
++
++       int vfs_get_super(struct fs_context *fc,
++		         enum vfs_get_super_keying keying,
++		         int (*fill_super)(struct super_block *sb,
++					   struct fs_context *fc))
+ 
+      This creates/looks up a deviceless superblock.  The keying indicates how
+      many superblocks of this type may exist and in what manner they may be
+@@ -515,14 +597,14 @@ PARAMETER DESCRIPTION
+ =====================
+ 
+ Parameters are described using structures defined in linux/fs_parser.h.
+-There's a core description struct that links everything together:
++There's a core description struct that links everything together::
+ 
+ 	struct fs_parameter_description {
+ 		const struct fs_parameter_spec *specs;
+ 		const struct fs_parameter_enum *enums;
+ 	};
+ 
+-For example:
++For example::
+ 
+ 	enum {
+ 		Opt_autocell,
+@@ -539,10 +621,12 @@ For example:
+ 
+ The members are as follows:
+ 
+- (1) const struct fs_parameter_specification *specs;
++ (1) ::
++
++       const struct fs_parameter_specification *specs;
+ 
+      Table of parameter specifications, terminated with a null entry, where the
+-     entries are of type:
++     entries are of type::
+ 
+ 	struct fs_parameter_spec {
+ 		const char		*name;
+@@ -558,6 +642,7 @@ The members are as follows:
+ 
+      The 'type' field indicates the desired value type and must be one of:
+ 
++	=======================	=======================	=====================
+ 	TYPE NAME		EXPECTED VALUE		RESULT IN
+ 	=======================	=======================	=====================
+ 	fs_param_is_flag	No value		n/a
+@@ -573,19 +658,23 @@ The members are as follows:
+ 	fs_param_is_blockdev	Blockdev path		* Needs lookup
+ 	fs_param_is_path	Path			* Needs lookup
+ 	fs_param_is_fd		File descriptor		result->int_32
++	=======================	=======================	=====================
+ 
+      Note that if the value is of fs_param_is_bool type, fs_parse() will try
+      to match any string value against "0", "1", "no", "yes", "false", "true".
+ 
+      Each parameter can also be qualified with 'flags':
+ 
++	=======================	================================================
+ 	fs_param_v_optional	The value is optional
+ 	fs_param_neg_with_no	result->negated set if key is prefixed with "no"
+ 	fs_param_neg_with_empty	result->negated set if value is ""
+ 	fs_param_deprecated	The parameter is deprecated.
++	=======================	================================================
+ 
+      These are wrapped with a number of convenience wrappers:
+ 
++	=======================	===============================================
+ 	MACRO			SPECIFIES
+ 	=======================	===============================================
+ 	fsparam_flag()		fs_param_is_flag
+@@ -602,9 +691,10 @@ The members are as follows:
+ 	fsparam_bdev()		fs_param_is_blockdev
+ 	fsparam_path()		fs_param_is_path
+ 	fsparam_fd()		fs_param_is_fd
++	=======================	===============================================
+ 
+      all of which take two arguments, name string and option number - for
+-     example:
++     example::
+ 
+ 	static const struct fs_parameter_spec afs_param_specs[] = {
+ 		fsparam_flag	("autocell",	Opt_autocell),
+@@ -618,10 +708,12 @@ The members are as follows:
+      of arguments to specify the type and the flags for anything that doesn't
+      match one of the above macros.
+ 
+- (2) const struct fs_parameter_enum *enums;
++ (2) ::
++
++       const struct fs_parameter_enum *enums;
+ 
+      Table of enum value names to integer mappings, terminated with a null
+-     entry.  This is of type:
++     entry.  This is of type::
+ 
+ 	struct fs_parameter_enum {
+ 		u8		opt;
+@@ -630,7 +722,7 @@ The members are as follows:
+ 	};
+ 
+      Where the array is an unsorted list of { parameter ID, name }-keyed
+-     elements that indicate the value to map to, e.g.:
++     elements that indicate the value to map to, e.g.::
+ 
+ 	static const struct fs_parameter_enum afs_param_enums[] = {
+ 		{ Opt_bar,   "x",      1},
+@@ -648,18 +740,19 @@ CONFIG_VALIDATE_FS_PARSER=y) and will allow the description to be queried from
+ userspace using the fsinfo() syscall.
+ 
+ 
+-==========================
+-PARAMETER HELPER FUNCTIONS
++Parameter Helper Functions
+ ==========================
+ 
+ A number of helper functions are provided to help a filesystem or an LSM
+ process the parameters it is given.
+ 
+- (*) int lookup_constant(const struct constant_table tbl[],
+-			 const char *name, int not_found);
++   * ::
++
++       int lookup_constant(const struct constant_table tbl[],
++			   const char *name, int not_found);
+ 
+      Look up a constant by name in a table of name -> integer mappings.  The
+-     table is an array of elements of the following type:
++     table is an array of elements of the following type::
+ 
+ 	struct constant_table {
+ 		const char	*name;
+@@ -669,9 +762,11 @@ process the parameters it is given.
+      If a match is found, the corresponding value is returned.  If a match
+      isn't found, the not_found value is returned instead.
+ 
+- (*) bool validate_constant_table(const struct constant_table *tbl,
+-				  size_t tbl_size,
+-				  int low, int high, int special);
++   * ::
++
++       bool validate_constant_table(const struct constant_table *tbl,
++				    size_t tbl_size,
++				    int low, int high, int special);
+ 
+      Validate a constant table.  Checks that all the elements are appropriately
+      ordered, that there are no duplicates and that the values are between low
+@@ -682,16 +777,20 @@ process the parameters it is given.
+      If all is good, true is returned.  If the table is invalid, errors are
+      logged to dmesg and false is returned.
+ 
+- (*) bool fs_validate_description(const struct fs_parameter_description *desc);
++   * ::
++
++       bool fs_validate_description(const struct fs_parameter_description *desc);
+ 
+      This performs some validation checks on a parameter description.  It
+      returns true if the description is good and false if it is not.  It will
+      log errors to dmesg if validation fails.
+ 
+- (*) int fs_parse(struct fs_context *fc,
+-		  const struct fs_parameter_description *desc,
+-		  struct fs_parameter *param,
+-		  struct fs_parse_result *result);
++   * ::
++
++        int fs_parse(struct fs_context *fc,
++		     const struct fs_parameter_description *desc,
++		     struct fs_parameter *param,
++		     struct fs_parse_result *result);
+ 
+      This is the main interpreter of parameters.  It uses the parameter
+      description to look up a parameter by key name and to convert that to an
+@@ -711,14 +810,16 @@ process the parameters it is given.
+      parameter is matched, but the value is erroneous, -EINVAL will be
+      returned; otherwise the parameter's option number will be returned.
+ 
+- (*) int fs_lookup_param(struct fs_context *fc,
+-			 struct fs_parameter *value,
+-			 bool want_bdev,
+-			 struct path *_path);
++   * ::
++
++       int fs_lookup_param(struct fs_context *fc,
++			   struct fs_parameter *value,
++			   bool want_bdev,
++			   struct path *_path);
+ 
+      This takes a parameter that carries a string or filename type and attempts
+      to do a path lookup on it.  If the parameter expects a blockdev, a check
+      is made that the inode actually represents one.
+ 
+-     Returns 0 if successful and *_path will be set; returns a negative error
+-     code if not.
++     Returns 0 if successful and ``*_path`` will be set; returns a negative
++     error code if not.
+diff --git a/include/linux/fs_context.h b/include/linux/fs_context.h
+index e6c3e4c61dad..5f24fcbfbfb4 100644
+--- a/include/linux/fs_context.h
++++ b/include/linux/fs_context.h
+@@ -85,7 +85,7 @@ struct p_log {
+  * Superblock creation fills in ->root whereas reconfiguration begins with this
+  * already set.
+  *
+- * See Documentation/filesystems/mount_api.txt
++ * See Documentation/filesystems/mount_api.rst
+  */
+ struct fs_context {
+ 	const struct fs_context_operations *ops;
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index 23bd89a3d369..c638e5de672f 100644
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -77,7 +77,7 @@
+  *	state.  This is called immediately after commit_creds().
+  *
+  * Security hooks for mount using fs_context.
+- *	[See also Documentation/filesystems/mount_api.txt]
++ *	[See also Documentation/filesystems/mount_api.rst]
+  *
+  * @fs_context_dup:
+  *	Allocate and attach a security structure to sc->security.  This pointer
 -- 
 2.25.2
 
