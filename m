@@ -2,92 +2,225 @@ Return-Path: <SRS0=87kO=6F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73EC8C54FD0
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 12:38:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CFEC54FC9
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 12:42:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48FE1206B8
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 12:38:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="CBU1r5Bh"
+	by mail.kernel.org (Postfix) with ESMTP id 0F5CC2075E
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 12:42:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728316AbgDUMil (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 08:38:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59642 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728285AbgDUMil (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 08:38:41 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B27C061A41
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 05:38:41 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id k11so16311172wrp.5
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 05:38:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dEtMSnugQ0Yz8dEGP0UAZ0gmicmpiHlS1EX56QRmSxU=;
-        b=CBU1r5Bh/z0btpExs9JQcV1xmQKPX8pt2qs5S2PKDBCXn+8oq/3Zit1BDOlY7ZtHVB
-         ZCt35gvpxp/b8ZMio6jsNpYxm9V49VDog66VLWJzup6N0BP23SIeZGpN1PNnbePNh3t/
-         9wA20fyU9sIL6UZfl+s7XPNkO7+Nuxq4JbL00=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dEtMSnugQ0Yz8dEGP0UAZ0gmicmpiHlS1EX56QRmSxU=;
-        b=AT04V6K7LwRkVv19l8rAl8vf4QaqSVYS7nWNYqXOjR1sbcSibIGgxkZwUN3h1BRKdN
-         61zzv4oZDpNKEOesa+cQRDee1VP6rybGHZwqM54olz+EPV2A+BCKvdAviTsV/bIozb2I
-         rrrZKW/BqmURnYXXyORx59QHcAjQ4EUh1x7fU4gLrGEtU9RLLygyAy3bm8P9GIfKAmyZ
-         JjZLSeEpGWuYMF2dqmA27PnKwj/bK1YkkM8QazDiPY+vbNtHv7oSd5YOOtL526Ra0vhG
-         0ILPX8/eY5PlV4tljiksUn18CihjY7DAZ47yKpgnXqFp728eqIDdt5sWckbRhps8EX+3
-         Np0w==
-X-Gm-Message-State: AGi0Pua/BfKd7WD3oTenMTHmxrB3IMNtEFqAdorW9h10emwSf6WQ+/0a
-        Sc9nWmk+egGRw32gyeK58kgXuA==
-X-Google-Smtp-Source: APiQypIzvmkA09MwByYqroH0B7xqF5CSvHdVyYFGv6atnXmAXLQdkPPxOvWpKImiQh189bdrvWfWOA==
-X-Received: by 2002:a05:6000:10c4:: with SMTP id b4mr3232873wrx.203.1587472719979;
-        Tue, 21 Apr 2020 05:38:39 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id k3sm4000288wru.90.2020.04.21.05.38.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 05:38:39 -0700 (PDT)
-Date:   Tue, 21 Apr 2020 14:38:37 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Gal Pressman <galpress@amazon.com>, linux-doc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] dma-buf: Couple of documentation typo fixes
-Message-ID: <20200421123837.GZ3456981@phenom.ffwll.local>
-References: <20200420074115.23931-1-galpress@amazon.com>
- <20200420170059.5a42693e@lwn.net>
+        id S1728645AbgDUMm4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 08:42:56 -0400
+Received: from smtp1-2.goneo.de ([85.220.129.31]:44823 "EHLO smtp1-2.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727120AbgDUMm4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 08:42:56 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id 68C6423F790;
+        Tue, 21 Apr 2020 14:42:54 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id kHTOZHjIKS6B; Tue, 21 Apr 2020 14:42:52 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-091-096-138-038.ewe-ip-backbone.de [91.96.138.38])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id D0D6723F66B;
+        Tue, 21 Apr 2020 14:42:52 +0200 (CEST)
+Subject: Re: Path troubles when using SPHINXDIRS option
+From:   Markus Heiser <markus.heiser@darmarit.de>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20200421103814.4e0fa4c3@coco.lan>
+ <dbc22720-79fe-e7a8-b88c-46108ba5ccf9@darmarit.de>
+Message-ID: <50bd9124-9bea-95e2-84c6-ecd8ae61e7d5@darmarit.de>
+Date:   Tue, 21 Apr 2020 14:42:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200420170059.5a42693e@lwn.net>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <dbc22720-79fe-e7a8-b88c-46108ba5ccf9@darmarit.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 20, 2020 at 05:00:59PM -0600, Jonathan Corbet wrote:
-> On Mon, 20 Apr 2020 10:41:15 +0300
-> Gal Pressman <galpress@amazon.com> wrote:
-> 
-> > Fix a couple of typos: "as" -> "has" and "int" -> "in".
-> > 
-> > Signed-off-by: Gal Pressman <galpress@amazon.com>
-> 
-> Applied, thanks.
+Hi Mauro,
 
-Also applied to drm-misc-next, the dma-buf stuff is maintained as part of
-drm. And maybe I actually get around to doing the doc polish for all
-things dma-buf that I've been promised to do since months :-)
+one more addition: in patch
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+  9fc3a18a94 docs: remove extra conf.py files
+
+the conf.py from SPHINXDIRS has been removed since some latex
+stuff was no longer needed.  IMO this is not a really good idea,
+this patch also remove the individual project titles like:
+
+   project = "Core-API Documentation"
+
+and it also removes the:
+
+  tags.add("subproject")
+
+which is widly used, e.g.:
+
+  .. only::  subproject and html
+
+     Indices
+     =======
+
+     * :ref:`genindex`
+
+Anyway: if we do so we can also remove such directives and we can
+also remove the 'loadConfig' which was added in
+
+  606b9ac81a doc-rst: generic way to build only sphinx sub-folders
+
+Sorry, that I do not have time to prepare a well formed patch.
+But I maintain my opinion that we'd better not do that.
+
+  -- Markus --
+
+
+Am 21.04.20 um 12:52 schrieb Markus Heiser:
+> Hi Mauro,
+> 
+> Am 21.04.20 um 10:38 schrieb Mauro Carvalho Chehab:
+>>
+>> Hi,
+>>
+>> While building from v5.7-rc2 + media, I noticed that SPHINXDIRS option
+>> stopped working.
+>>
+>> What happens is that, if we don't pass this option, Sphinx assumes that
+>> the "absolute" path is "Documentation/". So, include options like this:
+>>
+>> 	.. include:: /ABI/stable/firewire-cdev
+>> 	    :literal:
+>>
+>>
+>> would be evaluated as Documentation/ABI/stable/firewire-cdev if built
+>> without SPHINXDIRS. However, if we do SPHINXDIRS=driver-api, then
+>> the "absolute" patch would be "Documentation/driver-api", causing this
+>> error:
+>>
+>> 	Sphinx parallel build error:
+>> 	docutils.utils.SystemMessage: /devel/v4l/patchwork/Documentation/driver-api/firewire.rst:22: (SEVERE/4) Problems with "include" directive path:
+>>
+>> This is specially bad for build jobs (like one we have on jenkins that
+>> is meant to test media patches), as, due to some Sphinx bug, prevents
+>> sphinx-build to stop, making the toolset to run forever.
+>>
+>> I suspect that some change at conf.py could address the path issue.
+>>
+>> I'll try to investigate further.
+>>
+>> Just to be 100% sure that this is not some version-specific bad
+>> behavior, I tested (using the latest patch version) Sphinx from
+>> version 1.7.9 up to 2.4.4. The same two errors happen on all
+>> versions.
+>>
+>> Markus,
+>>
+>> Maybe you may have some idea about how to fix those issues.
+>>
+>> The parallel build error would likely require fixing something
+>> inside Sphinx code, making it abort if it gets a "SEVERE" error.
+>>
+>> Regards,
+>> Mauro
+>>
+> 
+> I fixed it with the patch shown below.  Some words about: The use
+> of the :doc: rule should be replaced by a :ref:.  The path names
+> of include directives should always relative to the .rst file.
+> 
+> To go further ... with patch below:
+> 
+>      $ make SPHINXDIRS="driver-api" htmldocs
+> 
+> shows some " WARNING: undefined label: ..." messages.  To close
+> such links (addressing objects outside of the SPHINXDIR) we need
+> to activate intersphinx [1].
+> 
+> If we activate intersphinx we have to wait one release cycle to
+> get a objects.inv file at:
+> 
+>      https://www.kernel.org/doc/html/latest/
+> 
+> When the objects.inv file is available, the warnings are
+> disappear.
+> 
+> If the process of intersphinx is unclear, please ask.
+> 
+> 
+> -- Markus --
+> 
+> [1] https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
+> 
+> ----
+> 
+> diff --git a/Documentation/driver-api/firewire.rst b/Documentation/driver-api/firewire.rst
+> index 94a2d7f01d99..67741aeae5e8 100644
+> --- a/Documentation/driver-api/firewire.rst
+> +++ b/Documentation/driver-api/firewire.rst
+> @@ -19,16 +19,16 @@ of kernel interfaces is available via exported symbols in `firewire-core` module
+>   Firewire char device data structures
+>   ====================================
+>   
+> -.. include:: /ABI/stable/firewire-cdev
+> +.. include:: ../ABI/stable/firewire-cdev
+>       :literal:
+>   
+> -.. kernel-doc:: include/uapi/linux/firewire-cdev.h
+> +.. kernel-doc:: /include/uapi/linux/firewire-cdev.h
+>       :internal:
+>   
+>   Firewire device probing and sysfs interfaces
+>   ============================================
+>   
+> -.. include:: /ABI/stable/sysfs-bus-firewire
+> +.. include:: ../ABI/stable/sysfs-bus-firewire
+>       :literal:
+>   
+>   .. kernel-doc:: drivers/firewire/core-device.c
+> diff --git a/Documentation/driver-api/gpio/using-gpio.rst b/Documentation/driver-api/gpio/using-gpio.rst
+> index dda069444032..f2bd1e72af4e 100644
+> --- a/Documentation/driver-api/gpio/using-gpio.rst
+> +++ b/Documentation/driver-api/gpio/using-gpio.rst
+> @@ -15,7 +15,7 @@ For any kind of mass produced system you want to support, such as servers,
+>   laptops, phones, tablets, routers, and any consumer or office or business goods
+>   using appropriate kernel drivers is paramount. Submit your code for inclusion
+>   in the upstream Linux kernel when you feel it is mature enough and you will get
+> -help to refine it, see :doc:`../../process/submitting-patches`.
+> +help to refine it, see :ref:`submittingpatches`.
+>   
+>   In Linux GPIO lines also have a userspace ABI.
+>   
+> diff --git a/Documentation/driver-api/ioctl.rst b/Documentation/driver-api/ioctl.rst
+> index c455db0e1627..ad91db68ba89 100644
+> --- a/Documentation/driver-api/ioctl.rst
+> +++ b/Documentation/driver-api/ioctl.rst
+> @@ -34,7 +34,7 @@ _IO/_IOR/_IOW/_IOWR
+>   
+>   type
+>      An 8-bit number, often a character literal, specific to a subsystem
+> -   or driver, and listed in :doc:`../userspace-api/ioctl/ioctl-number`
+> +   or driver, and listed in :ref:`ioctl numbers`
+>   
+>   nr
+>     An 8-bit number identifying the specific command, unique for a give
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 52bf58417653..09647516ca52 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -1,3 +1,5 @@
+> +.. _ioctl numbers:
+> +
+>   =============
+>   Ioctl Numbers
+>   =============
+> 
