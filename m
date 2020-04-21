@@ -4,50 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE2B1C54FCC
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:56:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D62C54FD0
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:56:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BB982070B
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:56:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 603712070B
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:56:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587488175;
-	bh=kp5nplx63fBCtRMlxFYjJTVu+BQYNBrjo167uQPR67o=;
+	s=default; t=1587488176;
+	bh=li9M5Mt1eWOEw3qJYSXZWdFD0JuizqN8a+ReSeFY7Ew=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RfQtM6VDUqqFiywlc+qjbu9Bm+8BEtUhvC7SzZh9BX/4RE/DJi9f4+qRqbiqwMzVv
-	 sCTVad5fql+0fKL26+o9JBhzcwrrTSMVVvbwQs6gvzSHoOxq6w4UIxVR0EdOneg35/
-	 vH2YHND6DVBT5Rovu0p5paJIiP+YL3qFQBJ92HvA=
+	b=W1I8EFdnpjS5qorXWLRhPFWqDvIIW/rQa/chNoUz0usKLsg54/ji9Q2P9afjTsaDK
+	 e5BGarjeO/xjNorz/ezC4wuLlBW6nCLTLVV/BKGhHmi6T+pcHOH/7ZObOUw/Iq6aMA
+	 T5Pm4cvNAnMpOOr7hCnEt12FRDmkZsVX2HxAl5d4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729092AbgDUQ4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 12:56:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57318 "EHLO mail.kernel.org"
+        id S1728974AbgDUQ4P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 12:56:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57286 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729107AbgDUQyr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Apr 2020 12:54:47 -0400
+        id S1729040AbgDUQyq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 12:54:46 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5C5EB20784;
+        by mail.kernel.org (Postfix) with ESMTPSA id 3FFFA2076C;
         Tue, 21 Apr 2020 16:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587488084;
-        bh=kp5nplx63fBCtRMlxFYjJTVu+BQYNBrjo167uQPR67o=;
+        bh=li9M5Mt1eWOEw3qJYSXZWdFD0JuizqN8a+ReSeFY7Ew=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O5xMph39ozROnyaGTCDuAG1E0IEn6+Fz6S0LSXkq5WdjrAgUD5JEcBi1BZA+WiMJc
-         lNoRH3KDsZxHBXZUTCEZB5jGvGrw4SmrJX2Sl0A31ED9zKmzd/O6HU5ooOJNRsFstx
-         4yAGUkMDl8PQdayaG9oWVOcMcBlMx3lwYDxfq9v8=
+        b=sLx3NN1ULklZfupIlZtXm/xGMzj8EqmK9OxVXVNEV8k8T1xQGyomo5ux+Rqhe5vyv
+         FWiipv6g/lseb76qiDs/fbIDzv90yhjswiDFbQmevPGfucT4MBXVhO8TC01LbBLSfC
+         7nrssqASQrtkqmmXlZ3x3G1km7RUgAYNuXMjM0b8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jQwAU-00CmEb-Iq; Tue, 21 Apr 2020 18:54:42 +0200
+        id 1jQwAU-00CmEH-Ek; Tue, 21 Apr 2020 18:54:42 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 16/29] docs: filesystems: convert locks.txt to ReST
-Date:   Tue, 21 Apr 2020 18:54:27 +0200
-Message-Id: <5af169bc55394e88adaf46b149ddcf43817fb8bd.1587487612.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 12/29] docs: filesystems: convert dnotify.txt to ReST
+Date:   Tue, 21 Apr 2020 18:54:23 +0200
+Message-Id: <63bf7009a782fccc0faf45f786550cb1d171a100.1587487612.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587487612.git.mchehab+huawei@kernel.org>
 References: <cover.1587487612.git.mchehab+huawei@kernel.org>
@@ -59,72 +61,88 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
-- Adjust document and section titles;
-- Add it to filesystems/index.rst.
+- Add a document title;
+- Some whitespace fixes and new line breaks;
+- Add table markups;
+- Add it to filesystems/index.rst
 
+Acked-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/index.rst                |  1 +
- Documentation/filesystems/{locks.txt => locks.rst} | 12 ++++++++----
- 2 files changed, 9 insertions(+), 4 deletions(-)
- rename Documentation/filesystems/{locks.txt => locks.rst} (93%)
+ .../filesystems/{dnotify.txt => dnotify.rst}          | 11 ++++++++---
+ Documentation/filesystems/index.rst                   |  1 +
+ MAINTAINERS                                           |  2 +-
+ 3 files changed, 10 insertions(+), 4 deletions(-)
+ rename Documentation/filesystems/{dnotify.txt => dnotify.rst} (90%)
 
+diff --git a/Documentation/filesystems/dnotify.txt b/Documentation/filesystems/dnotify.rst
+similarity index 90%
+rename from Documentation/filesystems/dnotify.txt
+rename to Documentation/filesystems/dnotify.rst
+index 08d575ece45d..a28a1f9ef79c 100644
+--- a/Documentation/filesystems/dnotify.txt
++++ b/Documentation/filesystems/dnotify.rst
+@@ -1,5 +1,8 @@
+-		Linux Directory Notification
+-		============================
++.. SPDX-License-Identifier: GPL-2.0
++
++============================
++Linux Directory Notification
++============================
+ 
+ 	   Stephen Rothwell <sfr@canb.auug.org.au>
+ 
+@@ -12,6 +15,7 @@ being delivered using signals.
+ The application decides which "events" it wants to be notified about.
+ The currently defined events are:
+ 
++	=========	=====================================================
+ 	DN_ACCESS	A file in the directory was accessed (read)
+ 	DN_MODIFY	A file in the directory was modified (write,truncate)
+ 	DN_CREATE	A file was created in the directory
+@@ -19,6 +23,7 @@ The currently defined events are:
+ 	DN_RENAME	A file in the directory was renamed
+ 	DN_ATTRIB	A file in the directory had its attributes
+ 			changed (chmod,chown)
++	=========	=====================================================
+ 
+ Usually, the application must reregister after each notification, but
+ if DN_MULTISHOT is or'ed with the event mask, then the registration will
+@@ -36,7 +41,7 @@ especially important if DN_MULTISHOT is specified.  Note that SIGRTMIN
+ is often blocked, so it is better to use (at least) SIGRTMIN + 1.
+ 
+ Implementation expectations (features and bugs :-))
+----------------------------
++---------------------------------------------------
+ 
+ The notification should work for any local access to files even if the
+ actual file system is on a remote server.  This implies that remote
 diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 844e8065ac82..96190e268c11 100644
+index 14179987bd4b..be47953cce00 100644
 --- a/Documentation/filesystems/index.rst
 +++ b/Documentation/filesystems/index.rst
-@@ -28,6 +28,7 @@ algorithms work.
-    dnotify
-    fiemap
-    files
-+   locks
+@@ -25,6 +25,7 @@ algorithms work.
+    locking
+    directory-locking
+    devpts
++   dnotify
  
     automount-support
  
-diff --git a/Documentation/filesystems/locks.txt b/Documentation/filesystems/locks.rst
-similarity index 93%
-rename from Documentation/filesystems/locks.txt
-rename to Documentation/filesystems/locks.rst
-index 5368690f412e..10f67fb9ce07 100644
---- a/Documentation/filesystems/locks.txt
-+++ b/Documentation/filesystems/locks.rst
-@@ -1,4 +1,8 @@
--		      File Locking Release Notes
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================
-+File Locking Release Notes
-+==========================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d7b40cce090b..4c8fc51d3955 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5006,7 +5006,7 @@ M:	Jan Kara <jack@suse.cz>
+ R:	Amir Goldstein <amir73il@gmail.com>
+ L:	linux-fsdevel@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/filesystems/dnotify.txt
++F:	Documentation/filesystems/dnotify.rst
+ F:	fs/notify/dnotify/
+ F:	include/linux/dnotify.h
  
- 		Andy Walker <andy@lysaker.kvaerner.no>
- 
-@@ -6,7 +10,7 @@
- 
- 
- 1. What's New?
----------------
-+==============
- 
- 1.1 Broken Flock Emulation
- --------------------------
-@@ -25,7 +29,7 @@ anyway (see the file "Documentation/process/changes.rst".)
- ---------------------------
- 
- 1.2.1 Typical Problems - Sendmail
-----------------------------------
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- Because sendmail was unable to use the old flock() emulation, many sendmail
- installations use fcntl() instead of flock(). This is true of Slackware 3.0
- for example. This gave rise to some other subtle problems if sendmail was
-@@ -37,7 +41,7 @@ to lock solid with deadlocked processes.
- 
- 
- 1.2.2 The Solution
--------------------
-+^^^^^^^^^^^^^^^^^^
- The solution I have chosen, after much experimentation and discussion,
- is to make flock() and fcntl() locks oblivious to each other. Both can
- exists, and neither will have any effect on the other.
 -- 
 2.25.2
 
