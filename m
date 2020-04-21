@@ -2,169 +2,156 @@ Return-Path: <SRS0=87kO=6F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F214C54FD0
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 14:02:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA4EC54FC9
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 14:31:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E61BC2071C
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 14:02:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA34E206D4
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 14:31:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1587479473;
+	bh=2hhaL3b04GTa9hGkzgDtd8Jti5DfwEcuKgZiFOrKA4o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=I0rcIqcNVijf2d6QyoIyQ849V0xO4z/XcXPHWRzzIdqJgCTcIfx3bPr2eIyK8NTnu
+	 8iw7nnMJEtvwP/QCQpoUG9EoooYT1pcg+RY59DJv5rC0+yf0rkOw05NFg22jahfHkK
+	 cDqaMa6t9Ry4QzKefjXIi6A5fGJvV/vXXFJ2wQSQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbgDUOC1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 10:02:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15779 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726018AbgDUOC1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 10:02:27 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03LE1rHX027812
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 10:02:22 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 30gmuagtcd-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 10:02:19 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <gerald.schaefer@de.ibm.com>;
-        Tue, 21 Apr 2020 15:01:30 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 21 Apr 2020 15:01:21 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 03LE24dv53608476
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 21 Apr 2020 14:02:04 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0AFD5A4057;
-        Tue, 21 Apr 2020 14:02:04 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2FEB3A405B;
-        Tue, 21 Apr 2020 14:02:03 +0000 (GMT)
-Received: from thinkpad (unknown [9.145.65.41])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 21 Apr 2020 14:02:03 +0000 (GMT)
-Date:   Tue, 21 Apr 2020 16:02:01 +0200
-From:   Gerald Schaefer <gerald.schaefer@de.ibm.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mina Almasry <almasrymina@google.com>,
-        Peter Xu <peterx@redhat.com>,
-        Nitesh Narayan Lal <nitesh@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>
-Subject: Re: [PATCH v3 0/4] Clean up hugetlb boot command line processing
-In-Reply-To: <20200417185049.275845-1-mike.kravetz@oracle.com>
-References: <20200417185049.275845-1-mike.kravetz@oracle.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729208AbgDUObN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 10:31:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43666 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729204AbgDUObM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 10:31:12 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5019F206D4;
+        Tue, 21 Apr 2020 14:31:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587479472;
+        bh=2hhaL3b04GTa9hGkzgDtd8Jti5DfwEcuKgZiFOrKA4o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=sZgCunWSTEpCKIDm+O41UNN6tUk+WQOXMM5rvDiW/0R/lDdQquI8kDIRdAbZJ92UH
+         Z+F0iqQngMOhJ8NMs6h67aYAV/LGs2fAbk/TVB/Z19IVhW8AIK2IxE/9PB3ddLHlBs
+         quL3b8zpJprxVm8Ev5e3jt/nHZg1hPew+eJJJthE=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jQtva-00BkqM-Gm; Tue, 21 Apr 2020 16:31:10 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 2/5] scripts: sphinx-pre-install: change the warning for version < 2.4.4
+Date:   Tue, 21 Apr 2020 16:31:06 +0200
+Message-Id: <79584d317ba16f5d4f37801c5ee57cf04085f962.1587478901.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
+In-Reply-To: <cover.1587478901.git.mchehab+huawei@kernel.org>
+References: <cover.1587478901.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20042114-4275-0000-0000-000003C3FB90
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20042114-4276-0000-0000-000038D9805D
-Message-Id: <20200421160201.0ddb9763@thinkpad>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
- definitions=2020-04-21_05:2020-04-20,2020-04-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- spamscore=0 phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004210108
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 17 Apr 2020 11:50:45 -0700
-Mike Kravetz <mike.kravetz@oracle.com> wrote:
+As requested by Jon, change the version check, in order to not
+emit a warning if version is >= 1.7.9, but below 2.4.4.
 
-> v3 -
->    Used weak attribute method of defining arch_hugetlb_valid_size.
->      This eliminates changes to arch specific hugetlb.h files (Peter)
->    Updated documentation (Peter, Randy)
->    Fixed handling of implicitly specified gigantic page preallocation
->      in existing code and removed documentation of such.  There is now
->      no difference between handling of gigantic and non-gigantic pages.
->      (Peter, Nitesh).
->      This requires the most review as there is a small change to
->      undocumented behavior.  See patch 4 commit message for details.
->    Added Acks and Reviews (Mina, Peter)
-> 
-> v2 -
->    Fix build errors with patch 1 (Will)
->    Change arch_hugetlb_valid_size arg to unsigned long and remove
->      irrelevant 'extern' keyword (Christophe)
->    Documentation and other misc changes (Randy, Christophe, Mina)
->    Do not process command line options if !hugepages_supported()
->      (Dave, but it sounds like we may want to additional changes to
->       hugepages_supported() for x86?  If that is needed I would prefer
->       a separate patch.)
-> 
-> Longpeng(Mike) reported a weird message from hugetlb command line processing
-> and proposed a solution [1].  While the proposed patch does address the
-> specific issue, there are other related issues in command line processing.
-> As hugetlbfs evolved, updates to command line processing have been made to
-> meet immediate needs and not necessarily in a coordinated manner.  The result
-> is that some processing is done in arch specific code, some is done in arch
-> independent code and coordination is problematic.  Semantics can vary between
-> architectures.
-> 
-> The patch series does the following:
-> - Define arch specific arch_hugetlb_valid_size routine used to validate
->   passed huge page sizes.
-> - Move hugepagesz= command line parsing out of arch specific code and into
->   an arch independent routine.
-> - Clean up command line processing to follow desired semantics and
->   document those semantics.
-> 
-> [1] https://lore.kernel.org/linux-mm/20200305033014.1152-1-longpeng2@huawei.com
-> 
-> Mike Kravetz (4):
->   hugetlbfs: add arch_hugetlb_valid_size
->   hugetlbfs: move hugepagesz= parsing to arch independent code
->   hugetlbfs: remove hugetlb_add_hstate() warning for existing hstate
->   hugetlbfs: clean up command line processing
-> 
->  .../admin-guide/kernel-parameters.txt         |  40 ++--
->  Documentation/admin-guide/mm/hugetlbpage.rst  |  35 ++++
->  arch/arm64/mm/hugetlbpage.c                   |  30 +--
->  arch/powerpc/mm/hugetlbpage.c                 |  30 +--
->  arch/riscv/mm/hugetlbpage.c                   |  24 +--
->  arch/s390/mm/hugetlbpage.c                    |  24 +--
->  arch/sparc/mm/init_64.c                       |  43 +---
->  arch/x86/mm/hugetlbpage.c                     |  23 +--
->  include/linux/hugetlb.h                       |   2 +-
->  mm/hugetlb.c                                  | 190 +++++++++++++++---
->  10 files changed, 271 insertions(+), 170 deletions(-)
-> 
+After this patch, if someone used an older version, it will
+say:
 
-Looks good and works fine for s390, thanks for cleaning up!
+	./scripts/sphinx-pre-install
+	Sphinx version 1.7.9
+	Note: It is recommended at least Sphinx version 2.4.4 if you need PDF support.
+	Detected OS: Fedora release 31 (Thirty One).
 
-Acked-by: Gerald Schaefer <gerald.schaefer@de.ibm.com> # s390
+	To upgrade Sphinx, use:
+
+		/devel/v4l/docs/sphinx_1.7.9/bin/python3 -m venv sphinx_2.4.4
+		. sphinx_2.4.4/bin/activate
+		pip install -r ./Documentation/sphinx/requirements.txt
+
+	If you want to exit the virtualenv, you can use:
+		deactivate
+
+	All optional dependencies are met.
+	Needed package dependencies are met.
+
+If Sphinx is not detected at all, it
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/sphinx-pre-install | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 249edb3932af..0d5684c08bbc 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -29,6 +29,8 @@ my $install = "";
+ my $virtenv_dir = "";
+ my $python_cmd = "";
+ my $min_version;
++my $rec_version = "1.7.9";	# PDF won't build here
++my $min_pdf_version = "2.4.4";	# Min version where pdf builds
+ 
+ #
+ # Command line arguments
+@@ -254,7 +256,7 @@ sub get_sphinx_version($)
+ 
+ sub check_sphinx()
+ {
+-	my $rec_version;
++	my $default_version;
+ 	my $cur_version;
+ 
+ 	open IN, $conf or die "Can't open $conf";
+@@ -271,15 +273,15 @@ sub check_sphinx()
+ 	open IN, $requirement_file or die "Can't open $requirement_file";
+ 	while (<IN>) {
+ 		if (m/^\s*Sphinx\s*==\s*([\d\.]+)$/) {
+-			$rec_version=$1;
++			$default_version=$1;
+ 			last;
+ 		}
+ 	}
+ 	close IN;
+ 
+-	die "Can't get recommended sphinx version from $requirement_file" if (!$min_version);
++	die "Can't get default sphinx version from $requirement_file" if (!$default_version);
+ 
+-	$virtenv_dir = $virtenv_prefix . $rec_version;
++	$virtenv_dir = $virtenv_prefix . $default_version;
+ 
+ 	my $sphinx = get_sphinx_fname();
+ 	if ($sphinx eq "") {
+@@ -294,7 +296,7 @@ sub check_sphinx()
+ 
+ 	if ($cur_version lt $min_version) {
+ 		printf "ERROR: Sphinx version is %s. It should be >= %s (recommended >= %s)\n",
+-		       $cur_version, $min_version, $rec_version;;
++		       $cur_version, $min_version, $default_version;
+ 		$need_sphinx = 1;
+ 		return;
+ 	}
+@@ -302,6 +304,13 @@ sub check_sphinx()
+ 	if ($cur_version lt $rec_version) {
+ 		printf "Sphinx version %s\n", $cur_version;
+ 		print "Warning: It is recommended at least Sphinx version $rec_version.\n";
++		print "         If you want pdf, you need at least $min_pdf_version.\n";
++		$rec_sphinx_upgrade = 1;
++		return;
++	}
++	if ($cur_version lt $min_pdf_version) {
++		printf "Sphinx version %s\n", $cur_version;
++		print "Note: It is recommended at least Sphinx version $min_pdf_version if you need PDF support.\n";
+ 		$rec_sphinx_upgrade = 1;
+ 		return;
+ 	}
+-- 
+2.25.2
 
