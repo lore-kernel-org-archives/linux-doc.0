@@ -2,107 +2,103 @@ Return-Path: <SRS0=87kO=6F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E2CCC54FCC
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 20:02:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E59DC54FCC
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 20:34:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61ED0206B8
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 20:02:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 68D382072D
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 20:34:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="juAWy4UL"
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20150623.gappssmtp.com header.i=@networkplumber-org.20150623.gappssmtp.com header.b="o6oWKjpb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726327AbgDUUCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 16:02:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43912 "EHLO
+        id S1726067AbgDUUe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 16:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726012AbgDUUCm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 16:02:42 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFEA4C0610D5;
-        Tue, 21 Apr 2020 13:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=spA0yht61SX/nlft9ZjTifopY+knPCrtbt6HVKbDaj0=; b=juAWy4ULyiTHIGDhaOz70MnkO2
-        BT6z0CYCa5cdd84BF+WeivLQiDsLhiGLr9tDzFuLEQAhjC9reHf9SDRsXIWUNXl+MQ7Xa2fNXPW3X
-        rEa0o0OuLpk/zwwZ1n177BTwj50DadzLUJAtZFGQLgIfCM7vHANnuhBwkSYecbXCyZEqTBw9pKdKZ
-        bgdFcNgy+UZcMQu1y9Iri6a9uLxqZ0qpSprU4MRrNCFCrUj+PXbI8ixpDBOHTy/QhM0rhkxDeaLFS
-        M3jFi//gvDzqcHBMTiZwqV+vPKYuopQtZHhAedzTYxwoTNm5TS8st1O8bTjEPx04V8aYV1TwrevyU
-        FYol1LbA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jQz6P-0004R8-Nf; Tue, 21 Apr 2020 20:02:41 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH -next] Documentation: admin-guide: sysctl/kernel.h: fix
- underlines and headings
-Message-ID: <83eef4ae-8a31-aef6-038e-1d1de51a5c00@infradead.org>
-Date:   Tue, 21 Apr 2020 13:02:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        with ESMTP id S1725850AbgDUUe5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 16:34:57 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9C3C0610D5
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 13:34:57 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id n16so7321994pgb.7
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 13:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zwuJuvskhxZ4Rrv0tr0IjFWkC6EB4CBrNAqM37bcwjM=;
+        b=o6oWKjpbAQEbd9QhLij6Ofb69hT0fG352NXleflgAvTaWJxNqXigp0Ow3KhjDi8c3h
+         l3jY6nkDndnAVPeqexd+AKMNlq8YZA6xZMNQmC6Blv+5BgjWlMAvych0CSN0rRfkjkW0
+         vcjC0tVyyG1yjy6EDajwKtSQ8S++lw2FV3jz+fCnax8z4jmBYFGnK32tn2IUZ5vM8juV
+         L5JWrN4ZWLu78UpdnHsIyxXJnLg1JOmrzEu4vSe21ygsAOi7yVFvmOT2i+1aLboIPVJh
+         iAhpf80xkSyu3LuQ2vSROe/nvps1H1eVOzFUFcOQKIPwgxX9bJIwHEE99NU3fVRlMztn
+         fmeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zwuJuvskhxZ4Rrv0tr0IjFWkC6EB4CBrNAqM37bcwjM=;
+        b=rfjm/67hLpctQU/1PEo0dcGbDmA9jry5AHlbZQAq19ieaHhPDN3HWEjLZo7FhqkLpI
+         9GoMkwhA7XHurS3fz4bF4LptgUZHs80Fcx4a5VCpdp1YVNqqLI8fIRV/1m9SQrjZ4X99
+         kWQhfOuC3nYjvgYB6PsnCtNBhcYQu1Ak7yEYuyA+IdMyvuIHra/cAbUfp+iN7RaPBVMJ
+         P9nBP1+MqCeF15G1qvidIGu1o4xVwD9AEk0DoOEMYEc+xlY3EvIImGo8NVZ7Ly5yoi9O
+         42NX3fpToCAWS9jAnXj3o45htTXUHTBqSB6+jHLftSrCGaqRdy6ymnHJETMZOw+CmP/5
+         OHnA==
+X-Gm-Message-State: AGi0PuYd9j1lpdXruAvb3kYE3uwLsLU9KM1PTeRo+MHh/eSHZ4jVamRG
+        22qZFUBLNmEw5aaRflTZxFO3hNdOXcxGCQ==
+X-Google-Smtp-Source: APiQypJE0Avw/ejGkERla6nINzpim7anwERK5Mm3FT0gc+8wPqbAAObpkPUfSvN9oTn3UReXXVHTuw==
+X-Received: by 2002:a63:1c25:: with SMTP id c37mr23660716pgc.320.1587501297106;
+        Tue, 21 Apr 2020 13:34:57 -0700 (PDT)
+Received: from hermes.lan (204-195-22-127.wavecable.com. [204.195.22.127])
+        by smtp.gmail.com with ESMTPSA id l30sm3073901pgu.29.2020.04.21.13.34.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2020 13:34:55 -0700 (PDT)
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     netdev@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org,
+        Stephen Hemminger <stephen@networkplumber.org>
+Subject: [PATCH] Documentation: add documentation of ping_group_range
+Date:   Tue, 21 Apr 2020 13:34:48 -0700
+Message-Id: <20200421203448.17937-1-stephen@networkplumber.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Support for non-root users to send ICMP ECHO requests was added
+back in Linux 3.0 kernel, but the documentation for the sysctl
+to enable it has been missing.
 
-Fix underline length warnings and drop the ending semi-colon from the
-title so that they match other title lines.
-
-linux-next-20200420/Documentation/admin-guide/sysctl/kernel.rst:281: WARNING: Title underline too short.
-
-hung_task_all_cpu_backtrace:
-================
-
-linux-next-20200420/Documentation/admin-guide/sysctl/kernel.rst:564: WARNING: Title underline too short.
-
-oops_all_cpu_backtrace:
-================
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
 ---
+ Documentation/networking/ip-sysctl.txt | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-@Andrew: Jonathan says that this needs to go via you since it fixes something
-that went via your tree. ("introduced by patch 93a0fba3de9a")
-
-
- Documentation/admin-guide/sysctl/kernel.rst |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
---- linux-next-20200420.orig/Documentation/admin-guide/sysctl/kernel.rst
-+++ linux-next-20200420/Documentation/admin-guide/sysctl/kernel.rst
-@@ -277,8 +277,8 @@ Path for the hotplug policy agent.
- Default value is "``/sbin/hotplug``".
+diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
+index 6fcfd313dbe4..9375324aa8e1 100644
+--- a/Documentation/networking/ip-sysctl.txt
++++ b/Documentation/networking/ip-sysctl.txt
+@@ -983,6 +983,13 @@ ip_early_demux - BOOLEAN
+ 	reduces overall throughput, in such case you should disable it.
+ 	Default: 1
  
- 
--hung_task_all_cpu_backtrace:
--================
-+hung_task_all_cpu_backtrace
-+===========================
- 
- If this option is set, the kernel will send an NMI to all CPUs to dump
- their backtraces when a hung task is detected. This file shows up if
-@@ -560,8 +560,8 @@ rate for each task.
- scanned for a given scan.
- 
- 
--oops_all_cpu_backtrace:
--================
-+oops_all_cpu_backtrace
-+======================
- 
- If this option is set, the kernel will send an NMI to all CPUs to dump
- their backtraces when an oops event occurs. It should be used as a last
++ping_group_range - 2 INTEGERS
++	Restrict ICMP_PROTO datagram sockets to users in the group range.
++	The default is "1 0", meaning, that nobody (not even root) may
++	create ping sockets.  Setting it to "100 100" would grant permissions
++	to the single group. "0 4294967295" would enable it for the world, "100
++	4294967295" would enable it for the users, but not daemons.
++
+ tcp_early_demux - BOOLEAN
+ 	Enable early demux for established TCP sockets.
+ 	Default: 1
+-- 
+2.20.1
 
