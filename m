@@ -2,69 +2,93 @@ Return-Path: <SRS0=87kO=6F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E59DC54FCC
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 20:34:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04FCFC55186
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 21:15:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68D382072D
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 20:34:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4DD620736
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 21:15:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=networkplumber-org.20150623.gappssmtp.com header.i=@networkplumber-org.20150623.gappssmtp.com header.b="o6oWKjpb"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EhGKndkN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726067AbgDUUe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 16:34:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48926 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725850AbgDUUe5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 16:34:57 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9C3C0610D5
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 13:34:57 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id n16so7321994pgb.7
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 13:34:57 -0700 (PDT)
+        id S1726168AbgDUVPU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 17:15:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55122 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725987AbgDUVPS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 17:15:18 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEA35C0610D5
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 14:15:18 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id np7so86794pjb.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 14:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
+        d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zwuJuvskhxZ4Rrv0tr0IjFWkC6EB4CBrNAqM37bcwjM=;
-        b=o6oWKjpbAQEbd9QhLij6Ofb69hT0fG352NXleflgAvTaWJxNqXigp0Ow3KhjDi8c3h
-         l3jY6nkDndnAVPeqexd+AKMNlq8YZA6xZMNQmC6Blv+5BgjWlMAvych0CSN0rRfkjkW0
-         vcjC0tVyyG1yjy6EDajwKtSQ8S++lw2FV3jz+fCnax8z4jmBYFGnK32tn2IUZ5vM8juV
-         L5JWrN4ZWLu78UpdnHsIyxXJnLg1JOmrzEu4vSe21ygsAOi7yVFvmOT2i+1aLboIPVJh
-         iAhpf80xkSyu3LuQ2vSROe/nvps1H1eVOzFUFcOQKIPwgxX9bJIwHEE99NU3fVRlMztn
-         fmeg==
+        bh=ZVMZ4A2aUpVGf4Oc1yQl1xwOhbFiOotMi5P6czDpQa4=;
+        b=EhGKndkNNLMd8oIUr2bAwR6mWJIp8ph7ENARvnw3cdMbIf1ajkrFCKAv2OQAMTvbPR
+         kM8mHKCTnFzszTypxEH9ebQxkkMxL0VSHTY2whgFNuG/iXXcLYXDnthD2HacK9CXzYYL
+         FQsDuC9RLpIJg1u9xIWL7HeFAx+uq9dnNah1c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zwuJuvskhxZ4Rrv0tr0IjFWkC6EB4CBrNAqM37bcwjM=;
-        b=rfjm/67hLpctQU/1PEo0dcGbDmA9jry5AHlbZQAq19ieaHhPDN3HWEjLZo7FhqkLpI
-         9GoMkwhA7XHurS3fz4bF4LptgUZHs80Fcx4a5VCpdp1YVNqqLI8fIRV/1m9SQrjZ4X99
-         kWQhfOuC3nYjvgYB6PsnCtNBhcYQu1Ak7yEYuyA+IdMyvuIHra/cAbUfp+iN7RaPBVMJ
-         P9nBP1+MqCeF15G1qvidIGu1o4xVwD9AEk0DoOEMYEc+xlY3EvIImGo8NVZ7Ly5yoi9O
-         42NX3fpToCAWS9jAnXj3o45htTXUHTBqSB6+jHLftSrCGaqRdy6ymnHJETMZOw+CmP/5
-         OHnA==
-X-Gm-Message-State: AGi0PuYd9j1lpdXruAvb3kYE3uwLsLU9KM1PTeRo+MHh/eSHZ4jVamRG
-        22qZFUBLNmEw5aaRflTZxFO3hNdOXcxGCQ==
-X-Google-Smtp-Source: APiQypJE0Avw/ejGkERla6nINzpim7anwERK5Mm3FT0gc+8wPqbAAObpkPUfSvN9oTn3UReXXVHTuw==
-X-Received: by 2002:a63:1c25:: with SMTP id c37mr23660716pgc.320.1587501297106;
-        Tue, 21 Apr 2020 13:34:57 -0700 (PDT)
-Received: from hermes.lan (204-195-22-127.wavecable.com. [204.195.22.127])
-        by smtp.gmail.com with ESMTPSA id l30sm3073901pgu.29.2020.04.21.13.34.55
+        bh=ZVMZ4A2aUpVGf4Oc1yQl1xwOhbFiOotMi5P6czDpQa4=;
+        b=dC+hlhnddW1ec3zFz2gqTzwfss23IF18c4ItxIgp7qIlz6OAngZX7Xtxl336FTQDrj
+         FZIqDVh+LX3Dn143IDbnrtBa91LDm6wnXfC4BNy/DybTZKlWTc1fL9tqG6iaMsQDYKC9
+         NKEkipJ8HZb2dKNV71rVAuckWq5ct3yTf9hJeLZK9ch5PQNsMEyxFfsrQJq13NEW6xN1
+         Qdb4tWCb5Ji7EGR9ldDNmUTWKLW1G8k3fgpZPMsejB+UKhtWFsz4/8uj0e8eo4X5tBeA
+         bt4yGdha98nsJe91J6zywKwU9reJvOr9bHNnVT32Fv9jITWijHEYui+v+cjXjZxh9PFM
+         bCyg==
+X-Gm-Message-State: AGi0PuZDFtjJ1BQnLCeCYUUaqgemmyGOHcpBQJqKyjkhJAlv2ORUPL4f
+        oAjCrqjFwC8Yfab7YqNiUAv0tA==
+X-Google-Smtp-Source: APiQypL/w37lt59/d7Bk0r82TDa4H/b8TqQLgMzL4SnVuX0nsHFVIhTdSVQrHB/00H7CAlZFO9jN9g==
+X-Received: by 2002:a17:902:ab90:: with SMTP id f16mr22835817plr.291.1587503718068;
+        Tue, 21 Apr 2020 14:15:18 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+        by smtp.gmail.com with ESMTPSA id c1sm3287880pfo.152.2020.04.21.14.15.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 13:34:55 -0700 (PDT)
-From:   Stephen Hemminger <stephen@networkplumber.org>
-To:     netdev@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org,
-        Stephen Hemminger <stephen@networkplumber.org>
-Subject: [PATCH] Documentation: add documentation of ping_group_range
-Date:   Tue, 21 Apr 2020 13:34:48 -0700
-Message-Id: <20200421203448.17937-1-stephen@networkplumber.org>
-X-Mailer: git-send-email 2.20.1
+        Tue, 21 Apr 2020 14:15:17 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     jason.wessel@windriver.com, daniel.thompson@linaro.org,
+        gregkh@linuxfoundation.org
+Cc:     kgdb-bugreport@lists.sourceforge.net, mingo@redhat.com,
+        hpa@zytor.com, bp@alien8.de, linux-serial@vger.kernel.org,
+        agross@kernel.org, tglx@linutronix.de, frowand.list@gmail.com,
+        bjorn.andersson@linaro.org, jslaby@suse.com,
+        catalin.marinas@arm.com, corbet@lwn.net, will@kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@suse.de>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Enrico Weigelt <info@metux.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        James Morse <james.morse@arm.com>,
+        Juergen Gross <jgross@suse.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Matt Mullins <mmullins@fb.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Nadav Amit <namit@vmware.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        jinho lim <jordan.lim@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        x86@kernel.org
+Subject: [PATCH v2 0/9] kgdb: Support late serial drivers; enable early debug w/ boot consoles
+Date:   Tue, 21 Apr 2020 14:14:38 -0700
+Message-Id: <20200421211447.193860-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.26.1.301.g55bc3eb7cb9-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -72,33 +96,126 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Support for non-root users to send ICMP ECHO requests was added
-back in Linux 3.0 kernel, but the documentation for the sysctl
-to enable it has been missing.
+This whole pile of patches was motivated by me trying to get kgdb to
+work properly on a platform where my serial driver ended up being hit
+by the -EPROBE_DEFER virus (it wasn't practicing social distancing
+from other drivers).  Specifically my serial driver's parent device
+depended on a resource that wasn't available when its probe was first
+called.  It returned -EPROBE_DEFER which meant that when "kgdboc"
+tried to run its setup the serial driver wasn't there.  Unfortunately
+"kgdboc" never tried again, so that meant that kgdb was disabled until
+I manually enalbed it via sysfs.
 
-Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
----
- Documentation/networking/ip-sysctl.txt | 7 +++++++
- 1 file changed, 7 insertions(+)
+While I could try to figure out how to get around the -EPROBE_DEFER
+somehow, the above problems could happen to anyone and -EPROBE_DEFER
+is generally considered something you just have to live with.  In any
+case the current "kgdboc" setup is a bit of a race waiting to happen.
+I _think_ I saw during early testing that even adding a msleep() in
+the typical serial driver's probe() is enough to trigger similar
+issues.
 
-diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
-index 6fcfd313dbe4..9375324aa8e1 100644
---- a/Documentation/networking/ip-sysctl.txt
-+++ b/Documentation/networking/ip-sysctl.txt
-@@ -983,6 +983,13 @@ ip_early_demux - BOOLEAN
- 	reduces overall throughput, in such case you should disable it.
- 	Default: 1
- 
-+ping_group_range - 2 INTEGERS
-+	Restrict ICMP_PROTO datagram sockets to users in the group range.
-+	The default is "1 0", meaning, that nobody (not even root) may
-+	create ping sockets.  Setting it to "100 100" would grant permissions
-+	to the single group. "0 4294967295" would enable it for the world, "100
-+	4294967295" would enable it for the users, but not daemons.
-+
- tcp_early_demux - BOOLEAN
- 	Enable early demux for established TCP sockets.
- 	Default: 1
+I decided that for the above race the best attitude to get kgdb to
+register at boot was probably "if you can't beat 'em, join 'em".
+Thus, "kgdboc" now jumps on the -EPROBE_DEFER bandwagon (now that my
+driver uses it it's no longer a virus).  It does so a little awkwardly
+because "kgdboc" hasn't normally had a "struct device" associated with
+it, but it's really not _that_ ugly to make a platform device and
+seems less ugly than alternatives.
+
+Unfortunately now on my system the debugger is one of the last things
+to register at boot.  That's OK for debugging problems that show up
+significantly after boot, but isn't so hot for all the boot problems
+that I end up debugging.  This motivated me to try to get something
+working a little earlier.
+
+My first attempt was to try to get the existing "ekgdboc" to work
+earlier.  I tried that for a bit until I realized that it needed to
+work at the tty layer and I couldn't find any serial drivers that
+managed to register themselves to the tty layer super early at boot.
+The only documented use of "ekgdboc" is "ekgdboc=kbd" and that's a bit
+of a special snowflake.  Trying to get my serial driver and all its
+dependencies to probe normally and register the tty driver super early
+at boot seemed like a bad way to go.  In fact, all the complexity
+needed to do something like this is why the system already has a
+special concept of a "boot console" that lives only long enough to
+transition to the normal console.
+
+Leveraging the boot console seemed like a good way to go and that's
+what this series does.  I found that consoles could have a read()
+function, though I couldn't find anyone who implemented it.  I
+implemented it for two serial drivers for the devices I had easy
+access to, making the assumption that for boot consoles that we could
+assume read() and write() were polling-compatible (seems sane I
+think).
+
+Now anyone who makes a small change to their serial driver can easily
+enable early kgdb debugging!
+
+The devices I had for testing were:
+- arm32: rk3288-veyron-jerry
+- arm64: rk3399-gru-kevin
+- arm64: qcom-sc7180-trogdor (not mainline yet)
+
+These are the devices I tested this series on.  I tried to test
+various combinations of enabling/disabling various options and I
+hopefully caught the corner cases, but I'd appreciate any extra
+testing people can do.  Notably I didn't test on x86, but (I think) I
+didn't touch much there so I shouldn't have broken anything.
+
+When testing I found a few problems with actually dropping into the
+debugger super early on arm and arm64 devices.  Patches in this series
+should help with this.  For arm I just avoid dropping into the
+debugger until a little later and for arm64 I actually enable
+debugging super early.
+
+I realize that bits of this series might feel a little hacky, though
+I've tried to do things in the cleanest way I could without overly
+interferring with the rest of the kernel.  If you hate the way I
+solved a problem I would love it if you could provide guidance on how
+you think I could solve the problem better.
+
+This series (and my comments / documentation / commit messages) are
+now long enough that my eyes glaze over when I try to read it all over
+to double-check.  I've nontheless tried to double-check it, but I'm
+pretty sure I did something stupid.  Thank you ahead of time for
+pointing it out to me so I can fix it in v3.  If somehow I managed to
+not do anything stupid (really?) then thank you for double-checking me
+anyway.
+
+Changes in v2:
+- ("kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb") new for v2.
+- ("Revert "kgdboc: disable the console lock when in kgdb"") new for v2.
+- Assumes we have ("kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb")
+- Fix kgdbts, tty/mips_ejtag_fdc, and usb/early/ehci-dbgp
+
+Douglas Anderson (9):
+  kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb
+  Revert "kgdboc: disable the console lock when in kgdb"
+  kgdboc: Use a platform device to handle tty drivers showing up late
+  kgdb: Delay "kgdbwait" to dbg_late_init() by default
+  arm64: Add call_break_hook() to early_brk64() for early kgdb
+  kgdboc: Add earlycon_kgdboc to support early kgdb using boot consoles
+  Documentation: kgdboc: Document new earlycon_kgdboc parameter
+  serial: qcom_geni_serial: Support earlycon_kgdboc
+  serial: 8250_early: Support earlycon_kgdboc
+
+ .../admin-guide/kernel-parameters.txt         |  20 ++
+ Documentation/dev-tools/kgdb.rst              |  14 +
+ arch/arm64/include/asm/debug-monitors.h       |   2 +
+ arch/arm64/kernel/debug-monitors.c            |   2 +-
+ arch/arm64/kernel/kgdb.c                      |   5 +
+ arch/arm64/kernel/traps.c                     |   3 +
+ arch/x86/kernel/kgdb.c                        |   5 +
+ drivers/misc/kgdbts.c                         |   2 +-
+ drivers/tty/mips_ejtag_fdc.c                  |   2 +-
+ drivers/tty/serial/8250/8250_early.c          |  23 ++
+ drivers/tty/serial/kgdboc.c                   | 262 ++++++++++++++++--
+ drivers/tty/serial/qcom_geni_serial.c         |  32 +++
+ drivers/usb/early/ehci-dbgp.c                 |   2 +-
+ include/linux/kgdb.h                          |  25 +-
+ kernel/debug/debug_core.c                     |  48 +++-
+ 15 files changed, 400 insertions(+), 47 deletions(-)
+
 -- 
-2.20.1
+2.26.1.301.g55bc3eb7cb9-goog
 
