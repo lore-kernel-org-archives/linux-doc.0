@@ -4,50 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8903C54FC9
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0830DC55183
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:57:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A68B0206B8
+	by mail.kernel.org (Postfix) with ESMTP id DC7A9206B8
 	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:57:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1587488252;
-	bh=1kWPdkZlddjo2q8OT55/S/qBNHNKq4K06TlfPFwAU7o=;
+	bh=tnnJpVmnbVuJ6k+jQRIZ9yUNqaXuvO9AT5XcHy6DOVg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Z0dHk0oCPOs91uq+h2nY7WH7Txv32ef9c4isBMimICIDEDd51px6BCjyS/2T+Ten2
-	 cB8Efat8lgs21rVPtKerCUKoYvjQ7JvXF9T6Yi4rTsAmosTRhbTz1WjnQxmq86zPXm
-	 IQhIn+TWeyE2ik17Qebnjd91Zgxdnd37oY0dY/XE=
+	b=kiqLw2J2PdBYYX4L/mJYnzxVF8VGuoyOywTOb0RF2JEq4O+ECQnz2XIKLzUZLkEdZ
+	 F5Qmvg3RLEJRImlfDdC2e4W8f8yjEMcc2JQFGSr1Bm/L8Sx/LWiZ4JSqAo9EkUK/ZO
+	 g69hayA9S/FpCrgacqY04yY0pkyTIhb6wWKtizpU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728686AbgDUQyp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 12:54:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56944 "EHLO mail.kernel.org"
+        id S1726245AbgDUQ5c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 12:57:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56914 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725990AbgDUQyo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Apr 2020 12:54:44 -0400
+        id S1725930AbgDUQyp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 12:54:45 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EFC8920735;
+        by mail.kernel.org (Postfix) with ESMTPSA id E28622070B;
         Tue, 21 Apr 2020 16:54:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587488084;
-        bh=1kWPdkZlddjo2q8OT55/S/qBNHNKq4K06TlfPFwAU7o=;
+        bh=tnnJpVmnbVuJ6k+jQRIZ9yUNqaXuvO9AT5XcHy6DOVg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zbzEmAD0tmuMF7hOffBapQE8lLQNX2Q/RpSNxsZMnvI3guRp9QzyliutZPRN9DR8p
-         bKeOOOf88ob419T5EkjDUmdyODUjPQjMAhnAIg9QF1RDo19MkbO+xVpDgsBHX/OmE2
-         nNZ8hzo73JbtfOEbsSdR20YTbyFTxvHzltMu6o/I=
+        b=nt+I18Ol3f6v/j4is59jrTlP/pOz/38HhiCnJJPsxUyk5vNy8HPTMUvkIamH327Ot
+         qGHarIJeHjSQJRqJJZqU5z7FSW/+MiR8KtRCpiOMoNlMG6jauQJDe7Y7cspNjwCra9
+         6oGxv/IUezuvapJQp2WdgJXPXV6m4/Rl332rjDng=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jQwAU-00CmDq-7T; Tue, 21 Apr 2020 18:54:42 +0200
+        id 1jQwAU-00CmDZ-4b; Tue, 21 Apr 2020 18:54:42 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 07/29] docs: filesystems: convert cifs/cifsroot.txt to ReST
-Date:   Tue, 21 Apr 2020 18:54:18 +0200
-Message-Id: <9e2f27e899f69bd49fb1c94482b039bda11f7bdf.1587487612.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com
+Subject: [PATCH v2 04/29] docs: filesystems: caching/operations.txt: convert it to ReST
+Date:   Tue, 21 Apr 2020 18:54:15 +0200
+Message-Id: <e2ee5ee7cc5fb0e2b4f4277123ce7ccaf5dddb35.1587487612.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587487612.git.mchehab+huawei@kernel.org>
 References: <cover.1587487612.git.mchehab+huawei@kernel.org>
@@ -59,132 +60,194 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
-- Adjust document title;
-- Some whitespace fixes and new line breaks;
+- Adjust document and section titles;
+- Comment out text ToC for html/pdf output;
 - Mark literal blocks as such;
-- Add it to filesystems/index.rst.
+- Add it to filesystems/caching/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../cifs/{cifsroot.txt => cifsroot.rst}       | 56 +++++++++++--------
- Documentation/filesystems/index.rst           |  1 +
- 2 files changed, 33 insertions(+), 24 deletions(-)
- rename Documentation/filesystems/cifs/{cifsroot.txt => cifsroot.rst} (72%)
+ Documentation/filesystems/caching/index.rst   |  1 +
+ .../{operations.txt => operations.rst}        | 45 +++++++++----------
+ fs/fscache/operation.c                        |  2 +-
+ 3 files changed, 23 insertions(+), 25 deletions(-)
+ rename Documentation/filesystems/caching/{operations.txt => operations.rst} (90%)
 
-diff --git a/Documentation/filesystems/cifs/cifsroot.txt b/Documentation/filesystems/cifs/cifsroot.rst
-similarity index 72%
-rename from Documentation/filesystems/cifs/cifsroot.txt
-rename to Documentation/filesystems/cifs/cifsroot.rst
-index 947b7ec6ce9e..4930bb443134 100644
---- a/Documentation/filesystems/cifs/cifsroot.txt
-+++ b/Documentation/filesystems/cifs/cifsroot.rst
-@@ -1,7 +1,11 @@
+diff --git a/Documentation/filesystems/caching/index.rst b/Documentation/filesystems/caching/index.rst
+index d0651db450fb..75492b7c8ea0 100644
+--- a/Documentation/filesystems/caching/index.rst
++++ b/Documentation/filesystems/caching/index.rst
+@@ -9,3 +9,4 @@ Filesystem Caching
+    fscache
+    object
+    netfs-api
++   operations
+diff --git a/Documentation/filesystems/caching/operations.txt b/Documentation/filesystems/caching/operations.rst
+similarity index 90%
+rename from Documentation/filesystems/caching/operations.txt
+rename to Documentation/filesystems/caching/operations.rst
+index d8976c434718..f7ddcc028939 100644
+--- a/Documentation/filesystems/caching/operations.txt
++++ b/Documentation/filesystems/caching/operations.rst
+@@ -1,10 +1,12 @@
+-		       ================================
+-		       ASYNCHRONOUS OPERATIONS HANDLING
+-		       ================================
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===========================================
- Mounting root file system via SMB (cifs.ko)
- ===========================================
++================================
++Asynchronous Operations Handling
++================================
  
- Written 2019 by Paulo Alcantara <palcantara@suse.de>
-+
- Written 2019 by Aurelien Aptel <aaptel@suse.com>
+ By: David Howells <dhowells@redhat.com>
  
- The CONFIG_CIFS_ROOT option enables experimental root file system
-@@ -32,7 +36,7 @@ Server configuration
- ====================
+-Contents:
++.. Contents:
  
- To enable SMB1+UNIX extensions you will need to set these global
--settings in Samba smb.conf:
-+settings in Samba smb.conf::
+  (*) Overview.
  
-     [global]
-     server min protocol = NT1
-@@ -41,12 +45,16 @@ settings in Samba smb.conf:
- Kernel command line
- ===================
+@@ -17,8 +19,7 @@ Contents:
+  (*) Asynchronous callback.
  
--root=/dev/cifs
-+::
-+
-+    root=/dev/cifs
  
- This is just a virtual device that basically tells the kernel to mount
- the root file system via SMB protocol.
- 
--cifsroot=//<server-ip>/<share>[,options]
-+::
-+
-+    cifsroot=//<server-ip>/<share>[,options]
- 
- Enables the kernel to mount the root file system via SMB that are
- located in the <server-ip> and <share> specified in this option.
-@@ -65,33 +73,33 @@ options
- Examples
+-========
+-OVERVIEW
++Overview
  ========
  
--Export root file system as a Samba share in smb.conf file.
-+Export root file system as a Samba share in smb.conf file::
- 
--...
--[linux]
--	path = /path/to/rootfs
--	read only = no
--	guest ok = yes
--	force user = root
--	force group = root
--	browseable = yes
--	writeable = yes
--	admin users = root
--	public = yes
--	create mask = 0777
--	directory mask = 0777
--...
-+    ...
-+    [linux]
-+	    path = /path/to/rootfs
-+	    read only = no
-+	    guest ok = yes
-+	    force user = root
-+	    force group = root
-+	    browseable = yes
-+	    writeable = yes
-+	    admin users = root
-+	    public = yes
-+	    create mask = 0777
-+	    directory mask = 0777
-+    ...
- 
--Restart smb service.
-+Restart smb service::
- 
--# systemctl restart smb
-+    # systemctl restart smb
- 
- Test it under QEMU on a kernel built with CONFIG_CIFS_ROOT and
--CONFIG_IP_PNP options enabled.
-+CONFIG_IP_PNP options enabled::
- 
--# qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
--  -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
--  -append "root=/dev/cifs rw ip=dhcp cifsroot=//10.0.2.2/linux,username=foo,password=bar console=ttyS0 3"
-+    # qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
-+    -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
-+    -append "root=/dev/cifs rw ip=dhcp cifsroot=//10.0.2.2/linux,username=foo,password=bar console=ttyS0 3"
+ FS-Cache has an asynchronous operations handling facility that it uses for its
+@@ -33,11 +34,10 @@ backend for completion.
+ To make use of this facility, <linux/fscache-cache.h> should be #included.
  
  
- 1: https://wiki.samba.org/index.php/UNIX_Extensions
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index f8781c13aee3..2ad8a207523e 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -59,6 +59,7 @@ Documentation for filesystem implementations.
-    befs
-    bfs
-    btrfs
-+   cifs/cifsroot
-    ceph
-    cramfs
-    debugfs
+-===============================
+-OPERATION RECORD INITIALISATION
++Operation Record Initialisation
+ ===============================
+ 
+-An operation is recorded in an fscache_operation struct:
++An operation is recorded in an fscache_operation struct::
+ 
+ 	struct fscache_operation {
+ 		union {
+@@ -50,7 +50,7 @@ An operation is recorded in an fscache_operation struct:
+ 	};
+ 
+ Someone wanting to issue an operation should allocate something with this
+-struct embedded in it.  They should initialise it by calling:
++struct embedded in it.  They should initialise it by calling::
+ 
+ 	void fscache_operation_init(struct fscache_operation *op,
+ 				    fscache_operation_release_t release);
+@@ -67,8 +67,7 @@ FSCACHE_OP_WAITING may be set in op->flags prior to each submission of the
+ operation and waited for afterwards.
+ 
+ 
+-==========
+-PARAMETERS
++Parameters
+ ==========
+ 
+ There are a number of parameters that can be set in the operation record's flag
+@@ -87,7 +86,7 @@ operations:
+ 
+      If this option is to be used, FSCACHE_OP_WAITING must be set in op->flags
+      before submitting the operation, and the operating thread must wait for it
+-     to be cleared before proceeding:
++     to be cleared before proceeding::
+ 
+ 		wait_on_bit(&op->flags, FSCACHE_OP_WAITING,
+ 			    TASK_UNINTERRUPTIBLE);
+@@ -101,7 +100,7 @@ operations:
+      page to a netfs page after the backing fs has read the page in.
+ 
+      If this option is used, op->fast_work and op->processor must be
+-     initialised before submitting the operation:
++     initialised before submitting the operation::
+ 
+ 		INIT_WORK(&op->fast_work, do_some_work);
+ 
+@@ -114,7 +113,7 @@ operations:
+      pages that have just been fetched from a remote server.
+ 
+      If this option is used, op->slow_work and op->processor must be
+-     initialised before submitting the operation:
++     initialised before submitting the operation::
+ 
+ 		fscache_operation_init_slow(op, processor)
+ 
+@@ -132,8 +131,7 @@ Furthermore, operations may be one of two types:
+      operations running at the same time.
+ 
+ 
+-=========
+-PROCEDURE
++Procedure
+ =========
+ 
+ Operations are used through the following procedure:
+@@ -143,7 +141,7 @@ Operations are used through the following procedure:
+      generic op embedded within.
+ 
+  (2) The submitting thread must then submit the operation for processing using
+-     one of the following two functions:
++     one of the following two functions::
+ 
+ 	int fscache_submit_op(struct fscache_object *object,
+ 			      struct fscache_operation *op);
+@@ -164,7 +162,7 @@ Operations are used through the following procedure:
+      operation of conflicting exclusivity is in progress on the object.
+ 
+      If the operation is asynchronous, the manager will retain a reference to
+-     it, so the caller should put their reference to it by passing it to:
++     it, so the caller should put their reference to it by passing it to::
+ 
+ 	void fscache_put_operation(struct fscache_operation *op);
+ 
+@@ -179,12 +177,12 @@ Operations are used through the following procedure:
+  (4) The operation holds an effective lock upon the object, preventing other
+      exclusive ops conflicting until it is released.  The operation can be
+      enqueued for further immediate asynchronous processing by adjusting the
+-     CPU time provisioning option if necessary, eg:
++     CPU time provisioning option if necessary, eg::
+ 
+ 	op->flags &= ~FSCACHE_OP_TYPE;
+ 	op->flags |= ~FSCACHE_OP_FAST;
+ 
+-     and calling:
++     and calling::
+ 
+ 	void fscache_enqueue_operation(struct fscache_operation *op)
+ 
+@@ -192,13 +190,12 @@ Operations are used through the following procedure:
+      pools.
+ 
+ 
+-=====================
+-ASYNCHRONOUS CALLBACK
++Asynchronous Callback
+ =====================
+ 
+ When used in asynchronous mode, the worker thread pool will invoke the
+ processor method with a pointer to the operation.  This should then get at the
+-container struct by using container_of():
++container struct by using container_of()::
+ 
+ 	static void fscache_write_op(struct fscache_operation *_op)
+ 	{
+diff --git a/fs/fscache/operation.c b/fs/fscache/operation.c
+index 1a22a55f75a0..4a5651d4904e 100644
+--- a/fs/fscache/operation.c
++++ b/fs/fscache/operation.c
+@@ -4,7 +4,7 @@
+  * Copyright (C) 2008 Red Hat, Inc. All Rights Reserved.
+  * Written by David Howells (dhowells@redhat.com)
+  *
+- * See Documentation/filesystems/caching/operations.txt
++ * See Documentation/filesystems/caching/operations.rst
+  */
+ 
+ #define FSCACHE_DEBUG_LEVEL OPERATION
 -- 
 2.25.2
 
