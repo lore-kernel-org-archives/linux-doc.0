@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A785C55186
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:05:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA25C5518A
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:05:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 246E2206F4
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:05:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65723206F4
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:05:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587488712;
-	bh=rCwvywM9NdgtX+BiEtrMRfDJkENBWyzLWJSvTejcs4Y=;
+	s=default; t=1587488713;
+	bh=1As9f+rTORK6WncX9ih6bCgWTLp08ODthYTGLly3wzk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=NA3YWm8yHMaTt/xkKz1OCH6pgIMUCzx5gb5z3Vg9n9qamV0VDNHCuSpXYqGwaxWDS
-	 NiCatJKIMX0SW4eFYkQ3rthTWRKSEoA7FrAbvYyMlvo44kPATmwp0tr3alZyd8kw9V
-	 I57CuD93YXYLmBc3ws1okzb2XBrWl4jCXIB0Lyvo=
+	b=gtS/6L2FIRJzz6k3k+/ZwGAfVaNs5EdTrkke0OPnCI59dTBiMEOVjR4mIDyi/E6nh
+	 xyNz0Rbt828ejdS9+uY7ca5EJ52B5tp6pBjIb1wth1wulyh80Z5qZzsNv+VOQl2VVX
+	 uFK6yN6ftGUWODXWwcasqy461TsOQDZZG6j90rXo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726628AbgDURFC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 13:05:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33642 "EHLO mail.kernel.org"
+        id S1729417AbgDURFM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 13:05:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33552 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728955AbgDUREP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Apr 2020 13:04:15 -0400
+        id S1726245AbgDUREO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 13:04:14 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 112842072D;
-        Tue, 21 Apr 2020 17:04:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D7982206F4;
+        Tue, 21 Apr 2020 17:04:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587488654;
-        bh=rCwvywM9NdgtX+BiEtrMRfDJkENBWyzLWJSvTejcs4Y=;
+        bh=1As9f+rTORK6WncX9ih6bCgWTLp08ODthYTGLly3wzk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ohq/MsQtGmhWRQclCfQ/yPBFHmiPm7/JdbrgcjSii+c+B8Psv61N2mxR8bAL/Hwhi
-         EF2W+gOlEAODVf9CsX7qDeQThfCr0TZ7r/3qW2R0scmwIZzjqqz3HDk/+0G6R9fOIn
-         3GhbIQ5owxyriUslMTR4IMI8XYY3i9V/oyagOm3k=
+        b=ZhAuPtRy4LLDBuHvp5pC8/g4HVJSwKMEFBNEgYArsEdB46Wtj63qrI6Pg6kcGRLCc
+         47M34bGAYRJbVXjZo5yvyQzvma61cBdX5LafrZi97gKP2eUBCUnVzamyxpIblzA/1G
+         K+yorZztYuTC3apB3WHeXcb140SyF35/5vcbsLt0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jQwJg-00CmM5-9M; Tue, 21 Apr 2020 19:04:12 +0200
+        id 1jQwJg-00CmLa-3F; Tue, 21 Apr 2020 19:04:12 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -51,9 +51,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org
-Subject: [PATCH 09/10] docs: RCU: stallwarn.txt: convert it to ReST
-Date:   Tue, 21 Apr 2020 19:04:10 +0200
-Message-Id: <df8af9bee4ce2c22b2ea413cd5903e741d1e396f.1587488137.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 02/10] docs: RCU: convert lockdep-splat.txt to ReST
+Date:   Tue, 21 Apr 2020 19:04:03 +0200
+Message-Id: <902213c34af14105930e6bc1caae8f34f2df0ef5.1587488137.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587488137.git.mchehab+huawei@kernel.org>
 References: <cover.1587488137.git.mchehab+huawei@kernel.org>
@@ -65,8 +65,7 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - Add a SPDX header;
-- Adjust document and section titles;
-- Fix list markups;
+- Add a document title;
 - Some whitespace fixes and new line breaks;
 - Mark literal blocks as such;
 - Add it to RCU/index.rst.
@@ -74,262 +73,165 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/RCU/index.rst                   |  1 +
- .../RCU/{stallwarn.txt => stallwarn.rst}      | 55 ++++++++++++-------
- kernel/rcu/tree_stall.h                       |  4 +-
- 3 files changed, 37 insertions(+), 23 deletions(-)
- rename Documentation/RCU/{stallwarn.txt => stallwarn.rst} (90%)
+ .../{lockdep-splat.txt => lockdep-splat.rst}  | 99 ++++++++++---------
+ 2 files changed, 53 insertions(+), 47 deletions(-)
+ rename Documentation/RCU/{lockdep-splat.txt => lockdep-splat.rst} (54%)
 
 diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 9a99db701e5d..7b8a8b6bc94b 100644
+index c1ba4d130bb0..430a37132b2c 100644
 --- a/Documentation/RCU/index.rst
 +++ b/Documentation/RCU/index.rst
-@@ -20,6 +20,7 @@ RCU concepts
-    rculist_nulls
-    rcuref
-    torture
-+   stallwarn
-    listRCU
-    NMI-RCU
-    UP
-diff --git a/Documentation/RCU/stallwarn.txt b/Documentation/RCU/stallwarn.rst
-similarity index 90%
-rename from Documentation/RCU/stallwarn.txt
-rename to Documentation/RCU/stallwarn.rst
-index a360a8796710..08bc9aec4606 100644
---- a/Documentation/RCU/stallwarn.txt
-+++ b/Documentation/RCU/stallwarn.rst
-@@ -1,4 +1,8 @@
+@@ -11,6 +11,7 @@ RCU concepts
+ 
+    arrayRCU
+    checklist
++   lockdep-splat
+    rcubarrier
+    rcu_dereference
+    whatisRCU
+diff --git a/Documentation/RCU/lockdep-splat.txt b/Documentation/RCU/lockdep-splat.rst
+similarity index 54%
+rename from Documentation/RCU/lockdep-splat.txt
+rename to Documentation/RCU/lockdep-splat.rst
+index b8096316fd11..2a5c79db57dc 100644
+--- a/Documentation/RCU/lockdep-splat.txt
++++ b/Documentation/RCU/lockdep-splat.rst
+@@ -1,3 +1,9 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+==============================
- Using RCU's CPU Stall Detector
-+==============================
++=================
++Lockdep-RCU Splat
++=================
++
+ Lockdep-RCU was added to the Linux kernel in early 2010
+ (http://lwn.net/Articles/371986/).  This facility checks for some common
+ misuses of the RCU API, most notably using one of the rcu_dereference()
+@@ -12,55 +18,54 @@ overwriting or worse.  There can of course be false positives, this
+ being the real world and all that.
  
- This document first discusses what sorts of issues RCU's CPU stall
- detector can locate, and then discusses kernel parameters and Kconfig
-@@ -7,39 +11,40 @@ this document explains the stall detector's "splat" format.
+ So let's look at an example RCU lockdep splat from 3.0-rc5, one that
+-has long since been fixed:
++has long since been fixed::
  
+-=============================
+-WARNING: suspicious RCU usage
+------------------------------
+-block/cfq-iosched.c:2776 suspicious rcu_dereference_protected() usage!
++    =============================
++    WARNING: suspicious RCU usage
++    -----------------------------
++    block/cfq-iosched.c:2776 suspicious rcu_dereference_protected() usage!
  
- What Causes RCU CPU Stall Warnings?
-+===================================
+-other info that might help us debug this:
++other info that might help us debug this::
  
- So your kernel printed an RCU CPU stall warning.  The next question is
- "What caused it?"  The following problems can result in RCU CPU stall
- warnings:
++    rcu_scheduler_active = 1, debug_locks = 0
++    3 locks held by scsi_scan_6/1552:
++    #0:  (&shost->scan_mutex){+.+.}, at: [<ffffffff8145efca>]
++    scsi_scan_host_selected+0x5a/0x150
++    #1:  (&eq->sysfs_lock){+.+.}, at: [<ffffffff812a5032>]
++    elevator_exit+0x22/0x60
++    #2:  (&(&q->__queue_lock)->rlock){-.-.}, at: [<ffffffff812b6233>]
++    cfq_exit_queue+0x43/0x190
  
--o	A CPU looping in an RCU read-side critical section.
-+-	A CPU looping in an RCU read-side critical section.
+-rcu_scheduler_active = 1, debug_locks = 0
+-3 locks held by scsi_scan_6/1552:
+- #0:  (&shost->scan_mutex){+.+.}, at: [<ffffffff8145efca>]
+-scsi_scan_host_selected+0x5a/0x150
+- #1:  (&eq->sysfs_lock){+.+.}, at: [<ffffffff812a5032>]
+-elevator_exit+0x22/0x60
+- #2:  (&(&q->__queue_lock)->rlock){-.-.}, at: [<ffffffff812b6233>]
+-cfq_exit_queue+0x43/0x190
++    stack backtrace:
++    Pid: 1552, comm: scsi_scan_6 Not tainted 3.0.0-rc5 #17
++    Call Trace:
++    [<ffffffff810abb9b>] lockdep_rcu_dereference+0xbb/0xc0
++    [<ffffffff812b6139>] __cfq_exit_single_io_context+0xe9/0x120
++    [<ffffffff812b626c>] cfq_exit_queue+0x7c/0x190
++    [<ffffffff812a5046>] elevator_exit+0x36/0x60
++    [<ffffffff812a802a>] blk_cleanup_queue+0x4a/0x60
++    [<ffffffff8145cc09>] scsi_free_queue+0x9/0x10
++    [<ffffffff81460944>] __scsi_remove_device+0x84/0xd0
++    [<ffffffff8145dca3>] scsi_probe_and_add_lun+0x353/0xb10
++    [<ffffffff817da069>] ? error_exit+0x29/0xb0
++    [<ffffffff817d98ed>] ? _raw_spin_unlock_irqrestore+0x3d/0x80
++    [<ffffffff8145e722>] __scsi_scan_target+0x112/0x680
++    [<ffffffff812c690d>] ? trace_hardirqs_off_thunk+0x3a/0x3c
++    [<ffffffff817da069>] ? error_exit+0x29/0xb0
++    [<ffffffff812bcc60>] ? kobject_del+0x40/0x40
++    [<ffffffff8145ed16>] scsi_scan_channel+0x86/0xb0
++    [<ffffffff8145f0b0>] scsi_scan_host_selected+0x140/0x150
++    [<ffffffff8145f149>] do_scsi_scan_host+0x89/0x90
++    [<ffffffff8145f170>] do_scan_async+0x20/0x160
++    [<ffffffff8145f150>] ? do_scsi_scan_host+0x90/0x90
++    [<ffffffff810975b6>] kthread+0xa6/0xb0
++    [<ffffffff817db154>] kernel_thread_helper+0x4/0x10
++    [<ffffffff81066430>] ? finish_task_switch+0x80/0x110
++    [<ffffffff817d9c04>] ? retint_restore_args+0xe/0xe
++    [<ffffffff81097510>] ? __kthread_init_worker+0x70/0x70
++    [<ffffffff817db150>] ? gs_change+0xb/0xb
  
--o	A CPU looping with interrupts disabled.
-+-	A CPU looping with interrupts disabled.
+-stack backtrace:
+-Pid: 1552, comm: scsi_scan_6 Not tainted 3.0.0-rc5 #17
+-Call Trace:
+- [<ffffffff810abb9b>] lockdep_rcu_dereference+0xbb/0xc0
+- [<ffffffff812b6139>] __cfq_exit_single_io_context+0xe9/0x120
+- [<ffffffff812b626c>] cfq_exit_queue+0x7c/0x190
+- [<ffffffff812a5046>] elevator_exit+0x36/0x60
+- [<ffffffff812a802a>] blk_cleanup_queue+0x4a/0x60
+- [<ffffffff8145cc09>] scsi_free_queue+0x9/0x10
+- [<ffffffff81460944>] __scsi_remove_device+0x84/0xd0
+- [<ffffffff8145dca3>] scsi_probe_and_add_lun+0x353/0xb10
+- [<ffffffff817da069>] ? error_exit+0x29/0xb0
+- [<ffffffff817d98ed>] ? _raw_spin_unlock_irqrestore+0x3d/0x80
+- [<ffffffff8145e722>] __scsi_scan_target+0x112/0x680
+- [<ffffffff812c690d>] ? trace_hardirqs_off_thunk+0x3a/0x3c
+- [<ffffffff817da069>] ? error_exit+0x29/0xb0
+- [<ffffffff812bcc60>] ? kobject_del+0x40/0x40
+- [<ffffffff8145ed16>] scsi_scan_channel+0x86/0xb0
+- [<ffffffff8145f0b0>] scsi_scan_host_selected+0x140/0x150
+- [<ffffffff8145f149>] do_scsi_scan_host+0x89/0x90
+- [<ffffffff8145f170>] do_scan_async+0x20/0x160
+- [<ffffffff8145f150>] ? do_scsi_scan_host+0x90/0x90
+- [<ffffffff810975b6>] kthread+0xa6/0xb0
+- [<ffffffff817db154>] kernel_thread_helper+0x4/0x10
+- [<ffffffff81066430>] ? finish_task_switch+0x80/0x110
+- [<ffffffff817d9c04>] ? retint_restore_args+0xe/0xe
+- [<ffffffff81097510>] ? __kthread_init_worker+0x70/0x70
+- [<ffffffff817db150>] ? gs_change+0xb/0xb
+-
+-Line 2776 of block/cfq-iosched.c in v3.0-rc5 is as follows:
++Line 2776 of block/cfq-iosched.c in v3.0-rc5 is as follows::
  
--o	A CPU looping with preemption disabled.
-+-	A CPU looping with preemption disabled.
+ 	if (rcu_dereference(ioc->ioc_data) == cic) {
  
--o	A CPU looping with bottom halves disabled.
-+-	A CPU looping with bottom halves disabled.
+@@ -70,7 +75,7 @@ case.  Instead, we hold three locks, one of which might be RCU related.
+ And maybe that lock really does protect this reference.  If so, the fix
+ is to inform RCU, perhaps by changing __cfq_exit_single_io_context() to
+ take the struct request_queue "q" from cfq_exit_queue() as an argument,
+-which would permit us to invoke rcu_dereference_protected as follows:
++which would permit us to invoke rcu_dereference_protected as follows::
  
--o	For !CONFIG_PREEMPT kernels, a CPU looping anywhere in the kernel
-+-	For !CONFIG_PREEMPT kernels, a CPU looping anywhere in the kernel
- 	without invoking schedule().  If the looping in the kernel is
- 	really expected and desirable behavior, you might need to add
- 	some calls to cond_resched().
+ 	if (rcu_dereference_protected(ioc->ioc_data,
+ 				      lockdep_is_held(&q->queue_lock)) == cic) {
+@@ -85,7 +90,7 @@ On the other hand, perhaps we really do need an RCU read-side critical
+ section.  In this case, the critical section must span the use of the
+ return value from rcu_dereference(), or at least until there is some
+ reference count incremented or some such.  One way to handle this is to
+-add rcu_read_lock() and rcu_read_unlock() as follows:
++add rcu_read_lock() and rcu_read_unlock() as follows::
  
--o	Booting Linux using a console connection that is too slow to
-+-	Booting Linux using a console connection that is too slow to
- 	keep up with the boot-time console-message rate.  For example,
- 	a 115Kbaud serial console can be -way- too slow to keep up
- 	with boot-time message rates, and will frequently result in
- 	RCU CPU stall warning messages.  Especially if you have added
- 	debug printk()s.
+ 	rcu_read_lock();
+ 	if (rcu_dereference(ioc->ioc_data) == cic) {
+@@ -102,7 +107,7 @@ above lockdep-RCU splat.
+ But in this particular case, we don't actually dereference the pointer
+ returned from rcu_dereference().  Instead, that pointer is just compared
+ to the cic pointer, which means that the rcu_dereference() can be replaced
+-by rcu_access_pointer() as follows:
++by rcu_access_pointer() as follows::
  
--o	Anything that prevents RCU's grace-period kthreads from running.
-+-	Anything that prevents RCU's grace-period kthreads from running.
- 	This can result in the "All QSes seen" console-log message.
- 	This message will include information on when the kthread last
- 	ran and how often it should be expected to run.  It can also
--	result in the "rcu_.*kthread starved for" console-log message,
-+	result in the ``rcu_.*kthread starved for`` console-log message,
- 	which will include additional debugging information.
+ 	if (rcu_access_pointer(ioc->ioc_data) == cic) {
  
--o	A CPU-bound real-time task in a CONFIG_PREEMPT kernel, which might
-+-	A CPU-bound real-time task in a CONFIG_PREEMPT kernel, which might
- 	happen to preempt a low-priority task in the middle of an RCU
- 	read-side critical section.   This is especially damaging if
- 	that low-priority task is not permitted to run on any other CPU,
-@@ -48,7 +53,7 @@ o	A CPU-bound real-time task in a CONFIG_PREEMPT kernel, which might
- 	While the system is in the process of running itself out of
- 	memory, you might see stall-warning messages.
- 
--o	A CPU-bound real-time task in a CONFIG_PREEMPT_RT kernel that
-+-	A CPU-bound real-time task in a CONFIG_PREEMPT_RT kernel that
- 	is running at a higher priority than the RCU softirq threads.
- 	This will prevent RCU callbacks from ever being invoked,
- 	and in a CONFIG_PREEMPT_RCU kernel will further prevent
-@@ -63,7 +68,7 @@ o	A CPU-bound real-time task in a CONFIG_PREEMPT_RT kernel that
- 	can increase your system's context-switch rate and thus degrade
- 	performance.
- 
--o	A periodic interrupt whose handler takes longer than the time
-+-	A periodic interrupt whose handler takes longer than the time
- 	interval between successive pairs of interrupts.  This can
- 	prevent RCU's kthreads and softirq handlers from running.
- 	Note that certain high-overhead debugging options, for example
-@@ -71,20 +76,20 @@ o	A periodic interrupt whose handler takes longer than the time
- 	considerably longer than normal, which can in turn result in
- 	RCU CPU stall warnings.
- 
--o	Testing a workload on a fast system, tuning the stall-warning
-+-	Testing a workload on a fast system, tuning the stall-warning
- 	timeout down to just barely avoid RCU CPU stall warnings, and then
- 	running the same workload with the same stall-warning timeout on a
- 	slow system.  Note that thermal throttling and on-demand governors
- 	can cause a single system to be sometimes fast and sometimes slow!
- 
--o	A hardware or software issue shuts off the scheduler-clock
-+-	A hardware or software issue shuts off the scheduler-clock
- 	interrupt on a CPU that is not in dyntick-idle mode.  This
- 	problem really has happened, and seems to be most likely to
- 	result in RCU CPU stall warnings for CONFIG_NO_HZ_COMMON=n kernels.
- 
--o	A bug in the RCU implementation.
-+-	A bug in the RCU implementation.
- 
--o	A hardware failure.  This is quite unlikely, but has occurred
-+-	A hardware failure.  This is quite unlikely, but has occurred
- 	at least once in real life.  A CPU failed in a running system,
- 	becoming unresponsive, but not causing an immediate crash.
- 	This resulted in a series of RCU CPU stall warnings, eventually
-@@ -109,6 +114,7 @@ see include/trace/events/rcu.h.
- 
- 
- Fine-Tuning the RCU CPU Stall Detector
-+======================================
- 
- The rcuupdate.rcu_cpu_stall_suppress module parameter disables RCU's
- CPU stall detector, which detects conditions that unduly delay RCU grace
-@@ -118,6 +124,7 @@ The stall detector's idea of what constitutes "unduly delayed" is
- controlled by a set of kernel configuration variables and cpp macros:
- 
- CONFIG_RCU_CPU_STALL_TIMEOUT
-+----------------------------
- 
- 	This kernel configuration parameter defines the period of time
- 	that RCU will wait from the beginning of a grace period until it
-@@ -137,6 +144,7 @@ CONFIG_RCU_CPU_STALL_TIMEOUT
- 	/sys/module/rcupdate/parameters/rcu_cpu_stall_suppress.
- 
- RCU_STALL_DELAY_DELTA
-+---------------------
- 
- 	Although the lockdep facility is extremely useful, it does add
- 	some overhead.  Therefore, under CONFIG_PROVE_RCU, the
-@@ -145,6 +153,7 @@ RCU_STALL_DELAY_DELTA
- 	macro, not a kernel configuration parameter.)
- 
- RCU_STALL_RAT_DELAY
-+-------------------
- 
- 	The CPU stall detector tries to make the offending CPU print its
- 	own warnings, as this often gives better-quality stack traces.
-@@ -155,6 +164,7 @@ RCU_STALL_RAT_DELAY
- 	parameter.)
- 
- rcupdate.rcu_task_stall_timeout
-+-------------------------------
- 
- 	This boot/sysfs parameter controls the RCU-tasks stall warning
- 	interval.  A value of zero or less suppresses RCU-tasks stall
-@@ -168,9 +178,10 @@ rcupdate.rcu_task_stall_timeout
- 
- 
- Interpreting RCU's CPU Stall-Detector "Splats"
-+==============================================
- 
- For non-RCU-tasks flavors of RCU, when a CPU detects that it is stalling,
--it will print a message similar to the following:
-+it will print a message similar to the following::
- 
- 	INFO: rcu_sched detected stalls on CPUs/tasks:
- 	2-...: (3 GPs behind) idle=06c/0/0 softirq=1453/1455 fqs=0
-@@ -223,7 +234,7 @@ an estimate of the total number of RCU callbacks queued across all CPUs
- (625 in this case).
- 
- In kernels with CONFIG_RCU_FAST_NO_HZ, more information is printed
--for each CPU:
-+for each CPU::
- 
- 	0: (64628 ticks this GP) idle=dd5/3fffffffffffffff/0 softirq=82/543 last_accelerate: a345/d342 dyntick_enabled: 1
- 
-@@ -235,7 +246,7 @@ processing is enabled.
- 
- If the grace period ends just as the stall warning starts printing,
- there will be a spurious stall-warning message, which will include
--the following:
-+the following::
- 
- 	INFO: Stall ended before state dump start
- 
-@@ -248,7 +259,7 @@ which is overkill for this sort of problem.
- 
- If all CPUs and tasks have passed through quiescent states, but the
- grace period has nevertheless failed to end, the stall-warning splat
--will include something like the following:
-+will include something like the following::
- 
- 	All QSes seen, last rcu_preempt kthread activity 23807 (4297905177-4297881370), jiffies_till_next_fqs=3, root ->qsmask 0x0
- 
-@@ -261,7 +272,7 @@ which is way less than 23807.  Finally, the root rcu_node structure's
- 
- If the relevant grace-period kthread has been unable to run prior to
- the stall warning, as was the case in the "All QSes seen" line above,
--the following additional line is printed:
-+the following additional line is printed::
- 
- 	kthread starved for 23807 jiffies! g7075 f0x0 RCU_GP_WAIT_FQS(3) ->state=0x1 ->cpu=5
- 
-@@ -276,6 +287,7 @@ kthread last ran on CPU 5.
- 
- 
- Multiple Warnings From One Stall
-+================================
- 
- If a stall lasts long enough, multiple stall-warning messages will be
- printed for it.  The second and subsequent messages are printed at
-@@ -285,9 +297,10 @@ of the stall and the first message.
- 
- 
- Stall Warnings for Expedited Grace Periods
-+==========================================
- 
- If an expedited grace period detects a stall, it will place a message
--like the following in dmesg:
-+like the following in dmesg::
- 
- 	INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 7-... } 21119 jiffies s: 73 root: 0x2/.
- 
-diff --git a/kernel/rcu/tree_stall.h b/kernel/rcu/tree_stall.h
-index ae76bd329582..b899883a4247 100644
---- a/kernel/rcu/tree_stall.h
-+++ b/kernel/rcu/tree_stall.h
-@@ -468,7 +468,7 @@ static void print_other_cpu_stall(unsigned long gp_seq, unsigned long gps)
- 
- 	/*
- 	 * OK, time to rat on our buddy...
--	 * See Documentation/RCU/stallwarn.txt for info on how to debug
-+	 * See Documentation/RCU/stallwarn.rst for info on how to debug
- 	 * RCU CPU stall warnings.
- 	 */
- 	pr_err("INFO: %s detected stalls on CPUs/tasks:\n", rcu_state.name);
-@@ -535,7 +535,7 @@ static void print_cpu_stall(unsigned long gps)
- 
- 	/*
- 	 * OK, time to rat on ourselves...
--	 * See Documentation/RCU/stallwarn.txt for info on how to debug
-+	 * See Documentation/RCU/stallwarn.rst for info on how to debug
- 	 * RCU CPU stall warnings.
- 	 */
- 	pr_err("INFO: %s self-detected stall on CPU\n", rcu_state.name);
 -- 
 2.25.2
 
