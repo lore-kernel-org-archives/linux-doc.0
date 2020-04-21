@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FEFBC55184
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:55:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 089DBC55186
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:55:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0779920738
+	by mail.kernel.org (Postfix) with ESMTP id DC7162071E
 	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:55:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1587488137;
-	bh=UycoVC/aKHKLY7s11Voo/zCdmO3jMEWmlgVykQShZqc=;
+	bh=S+Euk9oHhmfilRY+lsBzopI5g3W+nxnpkfKBSclUXC4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ccYHolokQdOFnpGv3g+2i7cPCAQDcpH8PFcPa0zUqFk8WX1yQN+U/h2Y8/qcia/JF
-	 ObJ8jaqTClV1Bl6cps7hU5xXswmAySmZwxXkB8AG1F0V+vVTIdSAWBpCfgeoVPhdDf
-	 WaTiMiVd7DaVrO5L7JgC1ukPu4ieHWPIRftK8Ytw=
+	b=ADB34DMyN3TWiBZfVoEHhLrYNOK6jQIH8XTmmjk+C9wM9bj0/L+04679tJw1znVq5
+	 sicYV2ytT1JH0FGWmpQMQkM720JIfJeJs8Rav3GwA5oVZzDo3290JaxLYW/nZ2lNQo
+	 148ylS9hezZTBD0t60vd+Po6BCH85EN7A2GvAOgg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729329AbgDUQzW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 12:55:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57280 "EHLO mail.kernel.org"
+        id S1729382AbgDUQzh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 12:55:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57334 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729169AbgDUQyt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Apr 2020 12:54:49 -0400
+        id S1729153AbgDUQys (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 12:54:48 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B48C4218AC;
+        by mail.kernel.org (Postfix) with ESMTPSA id 9DC54216FD;
         Tue, 21 Apr 2020 16:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587488084;
-        bh=UycoVC/aKHKLY7s11Voo/zCdmO3jMEWmlgVykQShZqc=;
+        bh=S+Euk9oHhmfilRY+lsBzopI5g3W+nxnpkfKBSclUXC4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a8WZKNSbjSeewOt7yp6GDDhG8GvLcb154/XvYFiJmh3xuCsnePx2minbpEnxYc/mO
-         gdIN1Iu7iDwn8h2zKNR4XEv3IkZ5QPzJPQgn+XCeKUFV0qo61zP+/eH6opnQikqFZj
-         f3kJXXDWAkIoiMFjDT3xHusZIoOOGrgbc/IX6I+g=
+        b=iTNMcGVr+qdXCspXHeUOb4qlqN9nsY5mZhCQNurrfHOENdmD/4T+NCwU0AloU2iNJ
+         Tzrvg7HB8Mdb2e/GPGvfwRtXDuQrdz91Mz4g0uIbE1v1O6DuMvlG8hssB8zY+ys/Ea
+         FKhD7h5oZ6qQ8lzhEbaXH0IsDkFrwwtRrZhGe7lQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jQwAU-00CmFP-U4; Tue, 21 Apr 2020 18:54:42 +0200
+        id 1jQwAU-00CmFK-T1; Tue, 21 Apr 2020 18:54:42 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 26/29] docs: filesystems: convert sysfs-pci.txt to ReST
-Date:   Tue, 21 Apr 2020 18:54:37 +0200
-Message-Id: <466c3bbacb9fc899435d5b282c01d062fd8607b8.1587487612.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 25/29] docs: filesystems: convert spufs/spu_run.txt to ReST
+Date:   Tue, 21 Apr 2020 18:54:36 +0200
+Message-Id: <a1f9e2f268eb4e55fe4c5dbb8f9b3bd740b6d367.1587487612.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587487612.git.mchehab+huawei@kernel.org>
 References: <cover.1587487612.git.mchehab+huawei@kernel.org>
@@ -58,114 +58,154 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Adjust document title;
-- Some whitespace fixes and new line breaks;
-- Mark literal blocks as such;
-- Add table markups;
-- Add it to filesystems/index.rst.
+This file is at groff output format. Manually convert it to
+ReST format, trying to preserve a similar output after parsed.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/index.rst           |  1 +
- .../{sysfs-pci.txt => sysfs-pci.rst}          | 23 ++++++++++++-------
- 2 files changed, 16 insertions(+), 8 deletions(-)
- rename Documentation/filesystems/{sysfs-pci.txt => sysfs-pci.rst} (92%)
+ Documentation/filesystems/spufs/index.rst     |  1 +
+ .../spufs/{spu_run.txt => spu_run.rst}        | 65 ++++++++++++-------
+ 2 files changed, 42 insertions(+), 24 deletions(-)
+ rename Documentation/filesystems/spufs/{spu_run.txt => spu_run.rst} (84%)
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 74b1e18af37e..65719684295e 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -34,6 +34,7 @@ algorithms work.
-    quota
-    seq_file
-    sharedsubtree
-+   sysfs-pci
+diff --git a/Documentation/filesystems/spufs/index.rst b/Documentation/filesystems/spufs/index.rst
+index 939cf59a7d9e..5ed4a8494967 100644
+--- a/Documentation/filesystems/spufs/index.rst
++++ b/Documentation/filesystems/spufs/index.rst
+@@ -10,3 +10,4 @@ SPU Filesystem
  
-    automount-support
- 
-diff --git a/Documentation/filesystems/sysfs-pci.txt b/Documentation/filesystems/sysfs-pci.rst
-similarity index 92%
-rename from Documentation/filesystems/sysfs-pci.txt
-rename to Documentation/filesystems/sysfs-pci.rst
-index 06f1d64c6f70..a265f3e2cc80 100644
---- a/Documentation/filesystems/sysfs-pci.txt
-+++ b/Documentation/filesystems/sysfs-pci.rst
-@@ -1,8 +1,11 @@
+    spufs
+    spu_create
++   spu_run
+diff --git a/Documentation/filesystems/spufs/spu_run.txt b/Documentation/filesystems/spufs/spu_run.rst
+similarity index 84%
+rename from Documentation/filesystems/spufs/spu_run.txt
+rename to Documentation/filesystems/spufs/spu_run.rst
+index d5c6a00d0f97..7fdb1c31cb91 100644
+--- a/Documentation/filesystems/spufs/spu_run.txt
++++ b/Documentation/filesystems/spufs/spu_run.rst
+@@ -1,17 +1,26 @@
+-SPU_RUN(2)                 Linux Programmer's Manual                SPU_RUN(2)
 +.. SPDX-License-Identifier: GPL-2.0
+ 
++=======
++spu_run
++=======
+ 
+ 
+-NAME
++Name
++====
+        spu_run - execute an spu context
+ 
+ 
+-SYNOPSIS
+-       #include <sys/spu.h>
++Synopsis
++========
+ 
+-       int spu_run(int fd, unsigned int *npc, unsigned int *event);
++       ::
+ 
+-DESCRIPTION
++	    #include <sys/spu.h>
 +
-+============================================
- Accessing PCI device resources through sysfs
----------------------------------------------
-+============================================
- 
- sysfs, usually mounted at /sys, provides access to PCI resources on platforms
--that support it.  For example, a given bus might look like this:
-+that support it.  For example, a given bus might look like this::
- 
-      /sys/devices/pci0000:17
-      |-- 0000:17:00.0
-@@ -30,8 +33,9 @@ This bus contains a single function device in slot 0.  The domain and bus
- numbers are reproduced for convenience.  Under the device directory are several
- files, each with their own function.
- 
-+       =================== =====================================================
-        file		   function
--       ----		   --------
-+       =================== =====================================================
-        class		   PCI class (ascii, ro)
-        config		   PCI config space (binary, rw)
-        device		   PCI device (ascii, ro)
-@@ -40,13 +44,16 @@ files, each with their own function.
-        local_cpus	   nearby CPU mask (cpumask, ro)
-        remove		   remove device from kernel's list (ascii, wo)
-        resource		   PCI resource host addresses (ascii, ro)
--       resource0..N	   PCI resource N, if present (binary, mmap, rw[1])
-+       resource0..N	   PCI resource N, if present (binary, mmap, rw\ [1]_)
-        resource0_wc..N_wc  PCI WC map resource N, if prefetchable (binary, mmap)
-        revision		   PCI revision (ascii, ro)
-        rom		   PCI ROM resource, if present (binary, ro)
-        subsystem_device	   PCI subsystem device (ascii, ro)
-        subsystem_vendor	   PCI subsystem vendor (ascii, ro)
-        vendor		   PCI vendor (ascii, ro)
-+       =================== =====================================================
++	    int spu_run(int fd, unsigned int *npc, unsigned int *event);
 +
-+::
++Description
++===========
+        The  spu_run system call is used on PowerPC machines that implement the
+        Cell Broadband Engine Architecture in order to access Synergistic  Pro-
+        cessor  Units  (SPUs).  It  uses the fd that was returned from spu_cre-
+@@ -45,24 +54,31 @@ DESCRIPTION
+        If NULL is passed as the event argument, these errors will result in  a
+        signal delivered to the calling process.
  
-   ro - read only file
-   rw - file is readable and writable
-@@ -56,7 +63,7 @@ files, each with their own function.
-   binary - file contains binary data
-   cpumask - file contains a cpumask type
+-RETURN VALUE
++Return Value
++============
+        spu_run  returns the value of the spu_status register or -1 to indicate
+        an error and set errno to one of the error  codes  listed  below.   The
+        spu_status  register  value  contains  a  bit  mask of status codes and
+        optionally a 14 bit code returned from the stop-and-signal  instruction
+        on the SPU. The bit masks for the status codes are:
  
--[1] rw for RESOURCE_IO (I/O port) regions only
-+.. [1] rw for RESOURCE_IO (I/O port) regions only
+-       0x02   SPU was stopped by stop-and-signal.
++       0x02
++	      SPU was stopped by stop-and-signal.
  
- The read only files are informational, writes to them will be ignored, with
- the exception of the 'rom' file.  Writable files can be used to perform
-@@ -67,11 +74,11 @@ don't support mmapping of certain resources, so be sure to check the return
- value from any attempted mmap.  The most notable of these are I/O port
- resources, which also provide read/write access.
+-       0x04   SPU was stopped by halt.
++       0x04
++	      SPU was stopped by halt.
  
--The 'enable' file provides a counter that indicates how many times the device 
-+The 'enable' file provides a counter that indicates how many times the device
- has been enabled.  If the 'enable' file currently returns '4', and a '1' is
- echoed into it, it will then return '5'.  Echoing a '0' into it will decrease
- the count.  Even when it returns to 0, though, some of the initialisation
--may not be reversed.  
-+may not be reversed.
+-       0x08   SPU is waiting for a channel.
++       0x08
++	      SPU is waiting for a channel.
  
- The 'rom' file is special in that it provides read-only access to the device's
- ROM file, if available.  It's disabled by default, however, so applications
-@@ -93,7 +100,7 @@ Accessing legacy resources through sysfs
+-       0x10   SPU is in single-step mode.
++       0x10
++	      SPU is in single-step mode.
  
- Legacy I/O port and ISA memory resources are also provided in sysfs if the
- underlying platform supports them.  They're located in the PCI class hierarchy,
--e.g.
-+e.g.::
+-       0x20   SPU has tried to execute an invalid instruction.
++       0x20
++	      SPU has tried to execute an invalid instruction.
  
- 	/sys/class/pci_bus/0000:17/
- 	|-- bridge -> ../../../devices/pci0000:17
+-       0x40   SPU has tried to access an invalid channel.
++       0x40
++	      SPU has tried to access an invalid channel.
+ 
+        0x3fff0000
+               The  bits  masked with this value contain the code returned from
+@@ -71,7 +87,8 @@ RETURN VALUE
+        There are always one or more of the lower eight bits set  or  an  error
+        code is returned from spu_run.
+ 
+-ERRORS
++Errors
++======
+        EAGAIN or EWOULDBLOCK
+               fd is in non-blocking mode and spu_run would block.
+ 
+@@ -93,29 +110,29 @@ ERRORS
+               not loaded.
+ 
+ 
+-NOTES
++Notes
++=====
+        spu_run  is  meant  to  be  used  from  libraries that implement a more
+        abstract interface to SPUs, not to be used from  regular  applications.
+        See  http://www.bsc.es/projects/deepcomputing/linuxoncell/ for the rec-
+        ommended libraries.
+ 
+ 
+-CONFORMING TO
++Conforming to
++=============
+        This call is Linux specific and only implemented by the ppc64 architec-
+        ture. Programs using this system call are not portable.
+ 
+ 
+-BUGS
++Bugs
++====
+        The code does not yet fully implement all features lined out here.
+ 
+ 
+-AUTHOR
++Author
++======
+        Arnd Bergmann <arndb@de.ibm.com>
+ 
+-SEE ALSO
++See Also
++========
+        capabilities(7), close(2), spu_create(2), spufs(7)
+-
+-
+-
+-
+-Linux                             2005-09-28                        SPU_RUN(2)
 -- 
 2.25.2
 
