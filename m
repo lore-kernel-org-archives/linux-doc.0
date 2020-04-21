@@ -2,65 +2,40 @@ Return-Path: <SRS0=87kO=6F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA493C54FCC
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 15:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B65FC54FCC
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 15:17:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93917206D6
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 15:02:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 543DA206D9
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 15:17:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728864AbgDUPCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 11:02:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53726 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726628AbgDUPCu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 11:02:50 -0400
-X-Greylist: delayed 370 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 21 Apr 2020 08:02:50 PDT
-Received: from omr1.cc.vt.edu (omr1.cc.ipv6.vt.edu [IPv6:2607:b400:92:8300:0:c6:2117:b0e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33AD4C061A10
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 08:02:50 -0700 (PDT)
-Received: from mr4.cc.vt.edu (inbound.smtp.ipv6.vt.edu [IPv6:2607:b400:92:9:0:9d:8fcb:4116])
-        by omr1.cc.vt.edu (8.14.4/8.14.4) with ESMTP id 03LEubjL031108
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 10:56:37 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
-        by mr4.cc.vt.edu (8.14.7/8.14.7) with ESMTP id 03LEuV2p008610
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 10:56:36 -0400
-Received: by mail-wr1-f71.google.com with SMTP id d17so7577823wrr.17
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 07:56:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jFr+l/9NrRUnuu1XyMEc4CbumNQfH4WoE3fGU6r6v68=;
-        b=k2OLn8NiozsmspC5ea9Uq31yd2Qsvfd+IeTbBYQbuD86Zv1CkeFQ8AkFK7v8YMCqnT
-         ObI6/gOMembpalHguUuA/LwDp7euF/YHuv3+a97Zqm4n4ndVbswfY5vdE6O2QYKsXT7B
-         cfhSry1WCiEIh5QOkmZx9CX53+V2BbX5kpAv78bPE1HxHxRmjwWMQsDxVBvrFiVtYdcl
-         0T0nftXtFU5/rZbdym4HU1cVktgrtUnHsjqG6JquPGvndIustOUFZE+fphnVIIapdcy8
-         taLooZE2RU793HMmyhEq44CiChC9Y1sd4zP09yKQqT9Hq7Ah1UwrUeKf5frsb/ewgQ3G
-         AaXw==
-X-Gm-Message-State: AGi0PuaeNEo0NZOn+5U8Q1iXgaLHy6O4cd4egE4pemX3ecOcGYnLdMGG
-        l23gcmvgC3ewvVWjH0v0Y7rYngGdvjireFTGaWVLa38e+Ph/vvNu0utATXgYAFDjVlN2hCeHhQ1
-        rr64h7PfZDqufkNE3WMwlJG1fBbYXHQs=
-X-Received: by 2002:adf:aa8e:: with SMTP id h14mr23431851wrc.371.1587480991390;
-        Tue, 21 Apr 2020 07:56:31 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKNlYRKMvZZnWWabDg53tb4Xc5YOD+62vwyQnIJmhPMcPgdojeM5loR8SqItscHjX1ocxI4DA==
-X-Received: by 2002:adf:aa8e:: with SMTP id h14mr23431836wrc.371.1587480991130;
-        Tue, 21 Apr 2020 07:56:31 -0700 (PDT)
-Received: from localhost.localdomain (36.red-79-155-141.dynamicip.rima-tde.net. [79.155.141.36])
-        by smtp.gmail.com with ESMTPSA id w18sm3912915wrn.55.2020.04.21.07.56.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 07:56:30 -0700 (PDT)
-From:   Carlos Bilbao <bilbao@vt.edu>
-To:     tglx@linutronix.de
-Cc:     mingo@redhat.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, bilbao@vt.edu, Zildj1an <cbilbao@ucm.es>
-Subject: [PATCH] Documentation: Fixed typo in Documentation/x86/x86_64/5level-paging.rst
-Date:   Tue, 21 Apr 2020 16:56:25 +0200
-Message-Id: <20200421145625.8575-1-bilbao@vt.edu>
-X-Mailer: git-send-email 2.17.1
+        id S1726012AbgDUPRv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 11:17:51 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57374 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725870AbgDUPRu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 11:17:50 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 389B2823;
+        Tue, 21 Apr 2020 15:17:50 +0000 (UTC)
+Date:   Tue, 21 Apr 2020 09:17:49 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     Linux Security Module list 
+        <linux-security-module@vger.kernel.org>, linux-doc@vger.kernel.org,
+        James Morris <jmorris@namei.org>
+Subject: Re: [PATCH RFC] Documentation: LSM: Correct the basic LSM
+ description
+Message-ID: <20200421091749.20594692@lwn.net>
+In-Reply-To: <3d5970b8-f95a-2f15-851a-472cbceb94d4@schaufler-ca.com>
+References: <3d5970b8-f95a-2f15-851a-472cbceb94d4.ref@schaufler-ca.com>
+        <3d5970b8-f95a-2f15-851a-472cbceb94d4@schaufler-ca.com>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -69,28 +44,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Zildj1an <cbilbao@ucm.es>
+On Mon, 20 Apr 2020 17:02:41 -0700
+Casey Schaufler <casey@schaufler-ca.com> wrote:
 
-Mispelled word "paging" corrected.
+> This is a first pass at updating the basic documentation on
+> Linux Security Modules (LSM), which is frighteningly out of date.
+> Remove untrue statements about the LSM framework. Replace them
+> with true statements where it is convenient to do so. This is
+> the beginning of a larger effort to bring the LSM documentation
+> up to date.
 
-Signed-off-by: Carlos Bilbao Muñoz <bilbao@vt.edu>
----
- Documentation/x86/x86_64/5level-paging.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Seems like a good set of changes overall.  One small nit...
 
-diff --git a/Documentation/x86/x86_64/5level-paging.rst b/Documentation/x86/x86_64/5level-paging.rst
-index 44856417e6a5..8d7a45a582a7 100644
---- a/Documentation/x86/x86_64/5level-paging.rst
-+++ b/Documentation/x86/x86_64/5level-paging.rst
-@@ -6,7 +6,7 @@
- 
- Overview
- ========
--Original x86-64 was limited by 4-level paing to 256 TiB of virtual address
-+Original x86-64 was limited by 4-level paging to 256 TiB of virtual address
- space and 64 TiB of physical address space. We are already bumping into
- this limit: some vendors offers servers with 64 TiB of memory today.
- 
--- 
-2.17.1
+> +The LSM framework provides for a close approximation of
+> +general security module stacking. It defines
+> +:c:func:`security_add_hooks()` to which each security module passes a
+> +:c:type:`struct security_hooks_list <security_hooks_list>`,
+> +which are added to the lists.
+> +The LSM framework does not provide a mechanism for removing hooks that
+> +have been registered. An individual security module chose to implement
+> +such a mechanism, but the safety of such a mechanism is in no way
+> +guaranteed by the framework.
 
+There is no need for :c:func: anymore; just say security_add_hooks() and
+the Right Thing™ will happen.  It would be good to take all of those out
+while you're thrashing up the file.
+
+I really need to get back and do the same thing for :c:type: ...
+
+Thanks,
+
+jon
