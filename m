@@ -2,83 +2,69 @@ Return-Path: <SRS0=87kO=6F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E15BFC5518B
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 21:55:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB9FEC54FCC
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 22:39:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B739D2072D
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 21:55:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hNYvvefz"
+	by mail.kernel.org (Postfix) with ESMTP id 91DCA20724
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 22:39:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbgDUVzX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 17:55:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33110 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726699AbgDUVzW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 17:55:22 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28271C0610D5;
-        Tue, 21 Apr 2020 14:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=WSRDHHqIxHFinzbpcekxPnOsUzINv8MxhhG+hklCXVQ=; b=hNYvvefzVJVOtgakBK02bMYcr6
-        dEOzwyCcvFOcj6Div94z6uopHknDn3pTnxgJ82WtV2nDqcnKi/TGvPiV+aTB1v9Y/3UplFjO+1b05
-        71ssXKuHjUM6HySjoQYYdBnhmbJXSTqQtN2RUp+hk7Gs0lMkP7kWw5/f81OWAIalGi6GHkW0hcbjl
-        fv+fnslfUuDZsWbAecOpo3RZJI0Hjj03YtdMmnrB4e7JDQyodUvHhdmIiA1KfLWB+YvNP7Ym4O/OT
-        ePc/IQn7pvIO8k4rBLbVqh2vNriJJ7ZJ1qGLFSbNivvvwHh9Ipb8jP0ELBFUHNJl/TbYi4rI+nHaA
-        qRZ43J6Q==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jR0rK-0000qF-Ul; Tue, 21 Apr 2020 21:55:15 +0000
-Subject: Re: [PATCH] Documentation: LSM: Correct the basic LSM description
-To:     Casey Schaufler <casey@schaufler-ca.com>,
-        Linux Security Summit Program Committee 
-        <lss-pc@lists.linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     James Morris <jmorris@namei.org>
-References: <4c053d72-2d58-612f-6d6b-f04226d0181e.ref@schaufler-ca.com>
- <4c053d72-2d58-612f-6d6b-f04226d0181e@schaufler-ca.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <0efe8670-cbd7-9633-dbd3-ad04272e6806@infradead.org>
-Date:   Tue, 21 Apr 2020 14:55:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726316AbgDUWjs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 18:39:48 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:51534 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726061AbgDUWjr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 18:39:47 -0400
+Received: from callcc.thunk.org (pool-100-0-195-244.bstnma.fios.verizon.net [100.0.195.244])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 03LMdGMJ026666
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 21 Apr 2020 18:39:16 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id D771542030C; Tue, 21 Apr 2020 18:39:15 -0400 (EDT)
+Date:   Tue, 21 Apr 2020 18:39:15 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joel Becker <jlbec@evilplan.org>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 08/29] docs: filesystems: convert configfs.txt to ReST
+Message-ID: <20200421223915.GA4278@mit.edu>
+References: <cover.1587487612.git.mchehab+huawei@kernel.org>
+ <278a9befc98b49ea866c9b687d070c70cde20628.1587487612.git.mchehab+huawei@kernel.org>
+ <20200421165534.GA16511@lst.de>
+ <20200421170223.GP5820@bombadil.infradead.org>
+ <20200421172337.GA18305@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <4c053d72-2d58-612f-6d6b-f04226d0181e@schaufler-ca.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200421172337.GA18305@lst.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/21/20 2:48 PM, Casey Schaufler wrote:
-> This is a first pass at updating the basic documentation on
-> Linux Security Modules (LSM), which is frighteningly out of date.
-> Remove untrue statements about the LSM framework. Replace them
-> with true statements where it is convenient to do so. This is
-> the beginnig of a larger effort to bring the LSM documentation
-> up to date.
+On Tue, Apr 21, 2020 at 07:23:37PM +0200, Christoph Hellwig wrote:
+> On Tue, Apr 21, 2020 at 10:02:23AM -0700, Matthew Wilcox wrote:
+> > On Tue, Apr 21, 2020 at 06:55:34PM +0200, Christoph Hellwig wrote:
+> > > NAK, this makes the document significantly harder to read.
+> > 
+> > Really?  It reads more easily to me in the new format.  Enclosing
+> > section headers in [] is really weird.
 > 
-> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> It wasn't entirely uncommon, but that's not really the point.  The
+> Problem is all the weird ".." or "::" annotations that really kill
+> the flow, or things like "|copy|" that have no reason to exist.
 
-LGTM. Thanks.
+FWIW, I consider the rst transformations to be an improvement, even
+when reading them as a text mode.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+				- Ted
 
-> ---
->  Documentation/security/lsm.rst | 202 ++++++++++++++---------------------------
->  1 file changed, 66 insertions(+), 136 deletions(-)
-
-
--- 
-~Randy
