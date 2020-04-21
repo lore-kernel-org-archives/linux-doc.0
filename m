@@ -2,45 +2,45 @@ Return-Path: <SRS0=87kO=6F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 519CEC54FC9
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:04:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDC6C54FC9
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:04:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28B6320736
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:04:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4EA0B2071E
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 17:04:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587488679;
-	bh=HtfviJYMWAUQnn76H1unLVtLVRpa61DyXl/UOqSeNI4=;
+	s=default; t=1587488699;
+	bh=rC2JBpb/hIW4mOQqSFBmTya+Rci4vyWyJfGs+Tk/U2M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=cpWm3DZhYBC/iagTbCaPZGdr1aUIJnWvdp6G/3fMTX+dYNE5uhG1Bbu1GpAm9p3+R
-	 yZfkHeT0uVwg/FbdvZDkdkgPuwM3vljHj8tzML4l6wWUst7bpHTNk6EjtCHEyV7mZ3
-	 cisRm14nwhUdZVsvS2iflQ6C5Q94uti5LxbniIBw=
+	b=J3sOagtCbEfQxYxk2IJ9iPqvioH8oO7cqThB/3mFnPMSyVrpiCFUfshjiC+Mv/pB5
+	 Y56SG14l4fsUr+GHf65g9NLqFhl9Dq7VWM7Zh1nNoHMduop1SYsa4wn1y56zUJvzSg
+	 a1oHCUYVsTyT2UguD/49ViVtFzlBat7FUZ+Jy8Kk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbgDUREh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 13:04:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33742 "EHLO mail.kernel.org"
+        id S1729320AbgDUREm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 13:04:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729040AbgDUREQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729057AbgDUREQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 21 Apr 2020 13:04:16 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0B0E120724;
+        by mail.kernel.org (Postfix) with ESMTPSA id 1EBEE20747;
         Tue, 21 Apr 2020 17:04:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587488654;
-        bh=HtfviJYMWAUQnn76H1unLVtLVRpa61DyXl/UOqSeNI4=;
+        bh=rC2JBpb/hIW4mOQqSFBmTya+Rci4vyWyJfGs+Tk/U2M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nawnjWrLCE6gDIp4spQFTrPgqLCIyt5E7SNBTI4AQXBGbVHF2feViMCSxStLkq860
-         5EsSpmC/92tXoUY7LJ8uDsNgbUO/+yMdLaeduGEsUbrPKgPaU+8jjmUGDJCKG+ovSV
-         2tJ7/oPPw5vxHlmvVzMmru5PcXkvvLUUf88nI9gU=
+        b=1wkqvCp3liLAYErzSkakJ5v72MT6EIGV2VCo+q6gp278ywdNiO6/2G/qpIDxTYKON
+         9jCMFPl3SbFCx0vWbNJkBb+A5upTgmuhz8SYrUkZ7jHugEzzjvczh9dODZFk03cV9X
+         poKLe5au5b7M2JoUkZTYO9OCE0WuMNDA7W2yDCGw=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jQwJg-00CmLn-5p; Tue, 21 Apr 2020 19:04:12 +0200
+        id 1jQwJg-00CmLw-7U; Tue, 21 Apr 2020 19:04:12 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -50,17 +50,10 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rcu@vger.kernel.org
-Subject: [PATCH 05/10] docs: RCU: convert torture.txt to ReST
-Date:   Tue, 21 Apr 2020 19:04:06 +0200
-Message-Id: <3f30d40cbef9919cb9f47e3b0bc8012c003e0089.1587488137.git.mchehab+huawei@kernel.org>
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org
+Subject: [PATCH 07/10] docs: RCU: RTFP: fix bibtex entries
+Date:   Tue, 21 Apr 2020 19:04:08 +0200
+Message-Id: <3cc10823634f12c3d3c44ee03f73b7aaa347df63.1587488137.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587488137.git.mchehab+huawei@kernel.org>
 References: <cover.1587488137.git.mchehab+huawei@kernel.org>
@@ -71,347 +64,372 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Adjust document and section titles;
-- Some whitespace fixes and new line breaks;
-- Mark literal blocks as such;
-- Add it to RCU/index.rst.
+There are several troubles at the bibtex entries with
+prevent them to be processed by LaTeX:
+
+- On LaTeX, comment lines start with '%', but here, comments
+  are starting with "#";
+- Underlines should be escaped.
+- While the best would be to use \url{} for all URL entries,
+  let's do it at least for a couple that would otherwise
+  produce errors on LaTeX.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/RCU/index.rst                   |   1 +
- .../RCU/{torture.txt => torture.rst}          | 115 ++++++++++--------
- Documentation/locking/locktorture.rst         |   2 +-
- MAINTAINERS                                   |   4 +-
- kernel/rcu/rcutorture.c                       |   2 +-
- 5 files changed, 68 insertions(+), 56 deletions(-)
- rename Documentation/RCU/{torture.txt => torture.rst} (76%)
+ Documentation/RCU/RTFP.txt | 98 +++++++++++++++++++-------------------
+ 1 file changed, 49 insertions(+), 49 deletions(-)
 
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 577a47e27f5d..5d5f9a1ab8f9 100644
---- a/Documentation/RCU/index.rst
-+++ b/Documentation/RCU/index.rst
-@@ -18,6 +18,7 @@ RCU concepts
-    whatisRCU
-    rcu
-    rculist_nulls
-+   torture
-    listRCU
-    NMI-RCU
-    UP
-diff --git a/Documentation/RCU/torture.txt b/Documentation/RCU/torture.rst
-similarity index 76%
-rename from Documentation/RCU/torture.txt
-rename to Documentation/RCU/torture.rst
-index af712a3c5b6a..a90147713062 100644
---- a/Documentation/RCU/torture.txt
-+++ b/Documentation/RCU/torture.rst
-@@ -1,7 +1,12 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================
- RCU Torture Test Operation
-+==========================
+diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
+index 9bccf16736f7..6b93fbbfad19 100644
+--- a/Documentation/RCU/RTFP.txt
++++ b/Documentation/RCU/RTFP.txt
+@@ -231,7 +231,7 @@ Bibtex Entries
+ 	Use garbage collector to clean up data after everyone is done with it.
+ 	.
+ 	Oldest use of something vaguely resembling RCU that I have found.
+-	http://portal.acm.org/citation.cfm?id=320619&dl=GUIDE,
++	\url{http://portal.acm.org/citation.cfm?id=320619&dl=GUIDE},
+ 	[Viewed December 3, 2007]
+ }
+ }
+@@ -379,7 +379,7 @@ for Programming Languages and Operating Systems}"
+ }
+ }
+ 
+-# Was Adams91, see also syncrefs.bib.
++% Was Adams91, see also syncrefs.bib.
+ @Book{Andrews91textbook
+ ,Author="Gregory R. Andrews"
+ ,title="Concurrent Programming, Principles, and Practices"
+@@ -566,7 +566,7 @@ Operating System Design and Implementation}"
+ 	Use of RCU-like facility in K42/Tornado.  Another independent
+ 	invention of RCU.
+ 	See especially pages 7-9 (Section 5).
+-	http://www.usenix.org/events/osdi99/full_papers/gamsa/gamsa.pdf
++	\url{http://www.usenix.org/events/osdi99/full_papers/gamsa/gamsa.pdf}
+ 	[Viewed August 30, 2006]
+ }
+ }
+@@ -1037,10 +1037,10 @@ Add per-cpu batch counter"
+ 	RCU runs reasonably on a 512-CPU SGI using Manfred Spraul's patches,
+ 	which may be found at:
+ 	https://lkml.org/lkml/2004/5/20/49 (split vars into cachelines)
+-	https://lkml.org/lkml/2004/5/22/114 (cpu_quiet() patch)
++	https://lkml.org/lkml/2004/5/22/114 (cpu\_quiet() patch)
+ 	https://lkml.org/lkml/2004/5/25/24 (0/5)
+ 	https://lkml.org/lkml/2004/5/25/23 (1/5)
+-		https://lkml.org/lkml/2004/5/25/265 (works for Jack)
++	https://lkml.org/lkml/2004/5/25/265 (works for Jack)
+ 	https://lkml.org/lkml/2004/5/25/20 (2/5)
+ 	https://lkml.org/lkml/2004/5/25/22 (3/5)
+ 	https://lkml.org/lkml/2004/5/25/19 (4/5)
+@@ -1109,7 +1109,7 @@ Oregon Health and Sciences University"
+ \url{http://lkml.org/lkml/2004/8/6/237}
+ [Viewed June 8, 2010]"
+ ,annotation={
+-	Introduce rcu_dereference().
++	Introduce rcu\_dereference().
+ }
+ }
+ 
+@@ -1122,7 +1122,7 @@ Oregon Health and Sciences University"
+ \url{http://lkml.org/lkml/2004/8/30/87}
+ [Viewed February 17, 2005]"
+ ,annotation={
+-	Uses active code in rcu_read_lock() and rcu_read_unlock() to
++	Uses active code in rcu\_read\_lock() and rcu\_read\_unlock() to
+ 	make RCU happen, allowing RCU to function on CPUs that do not
+ 	receive a scheduling-clock interrupt.
+ }
+@@ -1134,7 +1134,7 @@ Oregon Health and Sciences University"
+ ,month="October"
+ ,year="2004"
+ ,note="Available:
+-\url{http://www.cs.toronto.edu/~tomhart/masters_thesis.html}
++\url{http://www.cs.toronto.edu/~tomhart/masters\_thesis.html}
+ [Viewed October 15, 2004]"
+ ,annotation={
+ 	Proposes comparing RCU to lock-free methods for the Linux kernel.
+@@ -1150,7 +1150,7 @@ Oregon Health and Sciences University"
+ \url{http://marc.theaimsgroup.com/?t=109395731700004&r=1&w=2}
+ [Viewed October 18, 2004]"
+ ,annotation={
+-	Srivatsa's RCU patch for tcp_ehash lookup.
++	Srivatsa's RCU patch for tcp\_ehash lookup.
+ }
+ }
+ 
+@@ -1182,14 +1182,14 @@ Oregon Health and Sciences University"
+ 
+ @unpublished{PaulEMcKenney2004rcu:assign:pointer
+ ,Author="Paul E. McKenney"
+-,Title="{[PATCH 1/3] RCU: \url{rcu_assign_pointer()} removal of memory barriers}"
++,Title="{[PATCH 1/3] RCU: \url{rcu\_assign\_pointer()} removal of memory barriers}"
+ ,month="October"
+ ,year="2004"
+ ,note="Available:
+ \url{http://lkml.org/lkml/2004/10/23/241}
+ [Viewed June 8, 2010]"
+ ,annotation={
+-	Introduce rcu_assign_pointer().
++	Introduce rcu\_assign\_pointer().
+ }
+ }
+ 
+@@ -1283,7 +1283,7 @@ Data Structures"
+ 
+ @unpublished{JonCorbet2005DeprecateSyncKernel
+ ,Author="Jonathan Corbet"
+-,Title="API change: synchronize_kernel() deprecated"
++,Title="API change: synchronize\_kernel() deprecated"
+ ,month="May"
+ ,day="3"
+ ,year="2005"
+@@ -1291,8 +1291,8 @@ Data Structures"
+ \url{http://lwn.net/Articles/134484/}
+ [Viewed May 3, 2005]"
+ ,annotation={
+-	Jon Corbet describes deprecation of synchronize_kernel()
+-	in favor of synchronize_rcu() and synchronize_sched().
++	Jon Corbet describes deprecation of synchronize\_kernel()
++	in favor of synchronize\_rcu() and synchronize\_sched().
+ }
+ }
+ 
+@@ -1306,7 +1306,7 @@ Data Structures"
+ [Viewed May 13, 2005]"
+ ,annotation={
+ 	First publication of working lock-based deferred free patches
+-	for the CONFIG_PREEMPT_RT environment.
++	for the CONFIG\_PREEMPT\_RT environment.
+ }
+ }
+ 
+@@ -1511,7 +1511,7 @@ Canis Rufus and Zoicon5 and Anome and Hal Eisen"
+ ,Year="2006"
+ ,pages="v2 249-254"
+ ,note="Available:
+-\url{http://www.linuxsymposium.org/2006/view_abstract.php?content_key=184}
++\url{http://www.linuxsymposium.org/2006/view\_abstract.php?content\_key=184}
+ [Viewed January 11, 2009]"
+ ,annotation={
+ 	Uses RCU-protected radix tree for a lockless page cache.
+@@ -1606,8 +1606,8 @@ Revised:
+ 
+ @unpublished{JensAxboe2006SlowSRCU
+ ,Author="Jens Axboe"
+-,Title="Re: [patch] cpufreq: mark \url{cpufreq_tsc()} as
+-\url{core_initcall_sync}"
++,Title="Re: [patch] cpufreq: mark \url{cpufreq\_tsc()} as
++\url{core\_initcall\_sync}"
+ ,month="November"
+ ,year="2006"
+ ,day=17
+@@ -1701,7 +1701,7 @@ Revised:
+ }
+ }
+ 
+-# CoreyMinyard2007list_splice_rcu
++% CoreyMinyard2007list_splice_rcu
+ @unpublished{CoreyMinyard2007list:splice:rcu
+ ,Author="Corey Minyard and Paul E. McKenney"
+ ,Title="{[PATCH]} add an {RCU} version of list splicing"
+@@ -1712,7 +1712,7 @@ Revised:
+ \url{http://lkml.org/lkml/2007/1/3/112}
+ [Viewed May 28, 2007]"
+ ,annotation={
+-	Patch for list_splice_rcu().
++	Patch for list\_splice\_rcu().
+ }
+ }
+ 
+@@ -1726,7 +1726,7 @@ Revised:
+ \url{http://lwn.net/Articles/217484/}
+ [Viewed November 22, 2007]"
+ ,annotation={
+-	LWN article introducing the rcu_barrier() primitive.
++	LWN article introducing the rcu\_barrier() primitive.
+ }
+ }
+ 
+@@ -1925,7 +1925,7 @@ Revised:
+ }
+ }
+ 
+-# MathieuDesnoyers2007call_rcu_schedNeeded
++% MathieuDesnoyers2007call_rcu_schedNeeded
+ @unpublished{MathieuDesnoyers2007call:rcu:schedNeeded
+ ,Author="Mathieu Desnoyers"
+ ,Title="Re: [patch 1/2] {Linux} Kernel Markers - Support Multiple Probes"
+@@ -1936,18 +1936,18 @@ Revised:
+ \url{http://lkml.org/lkml/2007/12/20/244}
+ [Viewed March 27, 2008]"
+ ,annotation={
+-	Request for call_rcu_sched() and rcu_barrier_sched().
++	Request for call\_rcu\_sched() and rcu\_barrier\_sched().
+ }
+ }
  
  
- CONFIG_RCU_TORTURE_TEST
-+=======================
+-########################################################################
+-#
+-#	"What is RCU?" LWN series.
+-#
+-#	http://lwn.net/Articles/262464/ (What is RCU, Fundamentally?)
+-#	http://lwn.net/Articles/263130/ (What is RCU's Usage?)
+-#	http://lwn.net/Articles/264090/ (What is RCU's API?)
++%#######################################################################
++%
++%	"What is RCU?" LWN series.
++%
++%	http://lwn.net/Articles/262464/ (What is RCU, Fundamentally?)
++%	http://lwn.net/Articles/263130/ (What is RCU's Usage?)
++%	http://lwn.net/Articles/264090/ (What is RCU's API?)
  
- The CONFIG_RCU_TORTURE_TEST config option is available for all RCU
- implementations.  It creates an rcutorture kernel module that can
-@@ -13,9 +18,10 @@ when the module is loaded, and stops when the module is unloaded.
- Module parameters are prefixed by "rcutorture." in
- Documentation/admin-guide/kernel-parameters.txt.
+ @unpublished{PaulEMcKenney2007WhatIsRCUFundamentally
+ ,Author="Paul E. McKenney and Jonathan Walpole"
+@@ -2000,10 +2000,10 @@ Revised:
+ }
+ }
  
--OUTPUT
-+Output
-+======
- 
--The statistics output is as follows:
-+The statistics output is as follows::
- 
- 	rcu-torture:--- Start of test: nreaders=16 nfakewriters=4 stat_interval=30 verbose=0 test_no_idle_hz=1 shuffle_interval=3 stutter=5 irqreader=1 fqs_duration=0 fqs_holdoff=0 fqs_stutter=3 test_boost=1/0 test_boost_interval=7 test_boost_duration=4
- 	rcu-torture: rtc:           (null) ver: 155441 tfle: 0 rta: 155441 rtaf: 8884 rtf: 155440 rtmbe: 0 rtbe: 0 rtbke: 0 rtbre: 0 rtbf: 0 rtb: 0 nt: 3055767
-@@ -36,53 +42,53 @@ automatic determination as to whether RCU operated correctly.
- 
- The entries are as follows:
- 
--o	"rtc": The hexadecimal address of the structure currently visible
-+*	"rtc": The hexadecimal address of the structure currently visible
- 	to readers.
- 
--o	"ver": The number of times since boot that the RCU writer task
-+*	"ver": The number of times since boot that the RCU writer task
- 	has changed the structure visible to readers.
- 
--o	"tfle": If non-zero, indicates that the "torture freelist"
-+*	"tfle": If non-zero, indicates that the "torture freelist"
- 	containing structures to be placed into the "rtc" area is empty.
- 	This condition is important, since it can fool you into thinking
- 	that RCU is working when it is not.  :-/
- 
--o	"rta": Number of structures allocated from the torture freelist.
-+*	"rta": Number of structures allocated from the torture freelist.
- 
--o	"rtaf": Number of allocations from the torture freelist that have
-+*	"rtaf": Number of allocations from the torture freelist that have
- 	failed due to the list being empty.  It is not unusual for this
- 	to be non-zero, but it is bad for it to be a large fraction of
- 	the value indicated by "rta".
- 
--o	"rtf": Number of frees into the torture freelist.
-+*	"rtf": Number of frees into the torture freelist.
- 
--o	"rtmbe": A non-zero value indicates that rcutorture believes that
-+*	"rtmbe": A non-zero value indicates that rcutorture believes that
- 	rcu_assign_pointer() and rcu_dereference() are not working
- 	correctly.  This value should be zero.
- 
--o	"rtbe": A non-zero value indicates that one of the rcu_barrier()
-+*	"rtbe": A non-zero value indicates that one of the rcu_barrier()
- 	family of functions is not working correctly.
- 
--o	"rtbke": rcutorture was unable to create the real-time kthreads
-+*	"rtbke": rcutorture was unable to create the real-time kthreads
- 	used to force RCU priority inversion.  This value should be zero.
- 
--o	"rtbre": Although rcutorture successfully created the kthreads
-+*	"rtbre": Although rcutorture successfully created the kthreads
- 	used to force RCU priority inversion, it was unable to set them
- 	to the real-time priority level of 1.  This value should be zero.
- 
--o	"rtbf": The number of times that RCU priority boosting failed
-+*	"rtbf": The number of times that RCU priority boosting failed
- 	to resolve RCU priority inversion.
- 
--o	"rtb": The number of times that rcutorture attempted to force
-+*	"rtb": The number of times that rcutorture attempted to force
- 	an RCU priority inversion condition.  If you are testing RCU
- 	priority boosting via the "test_boost" module parameter, this
- 	value should be non-zero.
- 
--o	"nt": The number of times rcutorture ran RCU read-side code from
-+*	"nt": The number of times rcutorture ran RCU read-side code from
- 	within a timer handler.  This value should be non-zero only
- 	if you specified the "irqreader" module parameter.
- 
--o	"Reader Pipe": Histogram of "ages" of structures seen by readers.
-+*	"Reader Pipe": Histogram of "ages" of structures seen by readers.
- 	If any entries past the first two are non-zero, RCU is broken.
- 	And rcutorture prints the error flag string "!!!" to make sure
- 	you notice.  The age of a newly allocated structure is zero,
-@@ -94,14 +100,14 @@ o	"Reader Pipe": Histogram of "ages" of structures seen by readers.
- 	RCU.  If you want to see what it looks like when broken, break
- 	it yourself.  ;-)
- 
--o	"Reader Batch": Another histogram of "ages" of structures seen
-+*	"Reader Batch": Another histogram of "ages" of structures seen
- 	by readers, but in terms of counter flips (or batches) rather
- 	than in terms of grace periods.  The legal number of non-zero
- 	entries is again two.  The reason for this separate view is that
- 	it is sometimes easier to get the third entry to show up in the
- 	"Reader Batch" list than in the "Reader Pipe" list.
- 
--o	"Free-Block Circulation": Shows the number of torture structures
-+*	"Free-Block Circulation": Shows the number of torture structures
- 	that have reached a given point in the pipeline.  The first element
- 	should closely correspond to the number of structures allocated,
- 	the second to the number that have been removed from reader view,
-@@ -112,7 +118,7 @@ o	"Free-Block Circulation": Shows the number of torture structures
- 
- Different implementations of RCU can provide implementation-specific
- additional information.  For example, Tree SRCU provides the following
--additional line:
-+additional line::
- 
- 	srcud-torture: Tree SRCU per-CPU(idx=0): 0(35,-21) 1(-4,24) 2(1,1) 3(-26,20) 4(28,-47) 5(-9,4) 6(-10,14) 7(-14,11) T(1,6)
- 
-@@ -123,15 +129,15 @@ using a dynamically allocated srcu_struct (hence "srcud-" rather than
- "old" and "current" values to the underlying array, and is useful for
- debugging.  The final "T" entry contains the totals of the counters.
- 
--
--USAGE ON SPECIFIC KERNEL BUILDS
-+Usage on Specific Kernel Builds
-+===============================
- 
- It is sometimes desirable to torture RCU on a specific kernel build,
- for example, when preparing to put that kernel build into production.
- In that case, the kernel should be built with CONFIG_RCU_TORTURE_TEST=m
- so that the test can be started using modprobe and terminated using rmmod.
- 
--For example, the following script may be used to torture RCU:
-+For example, the following script may be used to torture RCU::
- 
- 	#!/bin/sh
- 
-@@ -148,7 +154,8 @@ two are self-explanatory, while the last indicates that while there
- were no RCU failures, CPU-hotplug problems were detected.
+-#
+-#	"What is RCU?" LWN series.
+-#
+-########################################################################
++%
++%	"What is RCU?" LWN series.
++%
++%#######################################################################
  
  
--USAGE ON MAINLINE KERNELS
-+Usage on Mainline Kernels
-+=========================
+ @unpublished{SteveRostedt2008dyntickRCUpatch
+@@ -2093,7 +2093,7 @@ lot of {Linux} into your technology!!!"
+ ,annotation={
+ 	Updated RCU classic algorithm.  Introduced multi-tailed list
+ 	for RCU callbacks and also pulling common code into
+-	__call_rcu().
++	\_\_call\_rcu().
+ }
+ }
  
- When using rcutorture to test changes to RCU itself, it is often
- necessary to build a number of kernels in order to test that change
-@@ -180,16 +187,16 @@ to Tree SRCU might run only the SRCU-N and SRCU-P scenarios using the
- --configs argument to kvm.sh as follows:  "--configs 'SRCU-N SRCU-P'".
- Large systems can run multiple copies of of the full set of scenarios,
- for example, a system with 448 hardware threads can run five instances
--of the full set concurrently.  To make this happen:
-+of the full set concurrently.  To make this happen::
+@@ -2145,7 +2145,7 @@ lot of {Linux} into your technology!!!"
+ }
+ }
  
- 	kvm.sh --cpus 448 --configs '5*CFLIST'
+-# Was PaulEMcKenney2011cyclicRCU
++% Was PaulEMcKenney2011cyclicRCU
+ @techreport{PaulEMcKenney2008cyclicRCU
+ ,author="Paul E. McKenney"
+ ,title="Efficient Support of Consistent Cyclic Search With Read-Copy Update"
+@@ -2353,7 +2353,7 @@ lot of {Linux} into your technology!!!"
+ \url{http://lkml.org/lkml/2009/10/18/129}
+ [Viewed December 29, 2009]"
+ ,annotation={
+-	Mathieu proposed defer_rcu() with fixed-size per-thread pool
++	Mathieu proposed defer\_rcu() with fixed-size per-thread pool
+ 	of RCU callbacks.
+ }
+ }
+@@ -2413,8 +2413,8 @@ lot of {Linux} into your technology!!!"
+ \url{http://www.rdrop.com/users/paulmck/RCU/SimplicityThruOptimization.2010.01.21f.pdf}
+ [Viewed October 10, 2010]"
+ ,annotation={
+-	TREE_PREEMPT_RCU optimizations greatly simplified the old
+-	PREEMPT_RCU implementation.
++	TREE\_PREEMPT\_RCU optimizations greatly simplified the old
++	PREEMPT\_RCU implementation.
+ }
+ }
  
- Alternatively, such a system can run 56 concurrent instances of a single
--eight-CPU scenario:
-+eight-CPU scenario::
+@@ -2426,7 +2426,7 @@ lot of {Linux} into your technology!!!"
+ ,day="1"
+ ,note="\url{https://lwn.net/Articles/371986/}"
+ ,annotation={
+-	CONFIG_PROVE_RCU, or at least an early version.
++	CONFIG\_PROVE\_RCU, or at least an early version.
+ 	[Viewed June 4, 2010]
+ }
+ }
+@@ -2454,7 +2454,7 @@ lot of {Linux} into your technology!!!"
+ \url{http://thread.gmane.org/gmane.linux.network/153338}
+ [Viewed June 9, 2014]"
+ ,annotation={
+-	Use a pair of list_head structures to support RCU-protected
++	Use a pair of list\_head structures to support RCU-protected
+ 	resizable hash tables.
+ }
+ }
+@@ -2466,7 +2466,7 @@ lot of {Linux} into your technology!!!"
+ ,year="2010"
+ ,annotation={
+ 	Data-race detector incorporating RCU.
+-	http://www.filesystems.org/docs/abhinav-thesis/abhinav_thesis.pdf
++	\url{http://www.filesystems.org/docs/abhinav-thesis/abhinav_thesis.pdf}
+ }
+ }
  
- 	kvm.sh --cpus 448 --configs '56*TREE04'
+@@ -2528,7 +2528,7 @@ lot of {Linux} into your technology!!!"
+ 	nice about it is that it actually improves performance a lot even for
+ 	single-threaded loads (on an SMP kernel), because it gets rid of some
+ 	of the most expensive parts of path component lookup, which was the
+-	d_lock on every component lookup. So I'm seeing improvements of 30-50%
++	d\_lock on every component lookup. So I'm seeing improvements of 30-50%
+ 	on some seriously pathname-lookup intensive loads."
+ }
+ }
+@@ -2551,7 +2551,7 @@ lot of {Linux} into your technology!!!"
+ ,location = {Berkeley, CA}
+ ,pages = {1--6}
+ ,numpages = {6}
+-,url = {http://www.usenix.org/event/hotpar11/tech/final_files/Howard.pdf}
++,url = {http://www.usenix.org/event/hotpar11/tech/final\_files/Howard.pdf}
+ ,publisher = {USENIX Association}
+ ,address = {Berkeley, CA, USA}
+ }
+@@ -2581,7 +2581,7 @@ lot of {Linux} into your technology!!!"
+ ,year = {2011}
+ ,pages = {145--158}
+ ,numpages = {14}
+-,url={http://www.usenix.org/event/atc11/tech/final_files/Triplett.pdf}
++,url={http://www.usenix.org/event/atc11/tech/final\_files/Triplett.pdf}
+ ,publisher = {The USENIX Association}
+ ,address = {Portland, OR USA}
+ }
+@@ -2690,7 +2690,7 @@ lot of {Linux} into your technology!!!"
+ \url{http://www.rdrop.com/users/paulmck/RCU/RCUdynticks.2012.02.15b.pdf}
+ [Viewed March 1, 2012]"
+ ,annotation={
+-	RCU_FAST_NO_HZ, round 2.
++	RCU\_FAST\_NO\_HZ, round 2.
+ }
+ }
  
--Or 28 concurrent instances of each of two eight-CPU scenarios:
-+Or 28 concurrent instances of each of two eight-CPU scenarios::
+@@ -2719,7 +2719,7 @@ lot of {Linux} into your technology!!!"
+ ,note="\url{http://lwn.net/Articles/508991/}"
+ ,annotation={
+ 	A couple of simple specific compiler optimizations that motivate
+-	ACCESS_ONCE().
++	ACCESS\_ONCE().
+ }
+ }
  
- 	kvm.sh --cpus 448 --configs '28*TREE03 28*TREE04'
- 
-@@ -199,14 +206,14 @@ values for memory may require disabling the callback-flooding tests
- using the --bootargs parameter discussed below.
- 
- Sometimes additional debugging is useful, and in such cases the --kconfig
--parameter to kvm.sh may be used, for example, "--kconfig 'CONFIG_KASAN=y'".
-+parameter to kvm.sh may be used, for example, ``--kconfig 'CONFIG_KASAN=y'``.
- 
- Kernel boot arguments can also be supplied, for example, to control
- rcutorture's module parameters.  For example, to test a change to RCU's
- CPU stall-warning code, use "--bootargs 'rcutorture.stall_cpu=30'".
- This will of course result in the scripting reporting a failure, namely
- the resuling RCU CPU stall warning.  As noted above, reducing memory may
--require disabling rcutorture's callback-flooding tests:
-+require disabling rcutorture's callback-flooding tests::
- 
- 	kvm.sh --cpus 448 --configs '56*TREE04' --memory 128M \
- 		--bootargs 'rcutorture.fwd_progress=0'
-@@ -225,7 +232,7 @@ is listed at the end of the kvm.sh output, which you really should redirect
- to a file.  The build products and console output of each run is kept in
- tools/testing/selftests/rcutorture/res in timestamped directories.  A
- given directory can be supplied to kvm-find-errors.sh in order to have
--it cycle you through summaries of errors and full error logs.  For example:
-+it cycle you through summaries of errors and full error logs.  For example::
- 
- 	tools/testing/selftests/rcutorture/bin/kvm-find-errors.sh \
- 		tools/testing/selftests/rcutorture/res/2020.01.20-15.54.23
-@@ -245,38 +252,42 @@ that was tested and any uncommitted changes in diff format.
- 
- The most frequently used files in each per-scenario-run directory are:
- 
--.config: This file contains the Kconfig options.
-+.config:
-+	This file contains the Kconfig options.
- 
--Make.out: This contains build output for a specific scenario.
-+Make.out:
-+	This contains build output for a specific scenario.
- 
--console.log: This contains the console output for a specific scenario.
-+console.log:
-+	This contains the console output for a specific scenario.
- 	This file may be examined once the kernel has booted, but
- 	it might not exist if the build failed.
- 
--vmlinux: This contains the kernel, which can be useful with tools like
-+vmlinux:
-+	This contains the kernel, which can be useful with tools like
- 	objdump and gdb.
- 
- A number of additional files are available, but are less frequently used.
- Many are intended for debugging of rcutorture itself or of its scripting.
- 
- As of v5.4, a successful run with the default set of scenarios produces
--the following summary at the end of the run on a 12-CPU system:
-+the following summary at the end of the run on a 12-CPU system::
- 
--SRCU-N ------- 804233 GPs (148.932/s) [srcu: g10008272 f0x0 ]
--SRCU-P ------- 202320 GPs (37.4667/s) [srcud: g1809476 f0x0 ]
--SRCU-t ------- 1122086 GPs (207.794/s) [srcu: g0 f0x0 ]
--SRCU-u ------- 1111285 GPs (205.794/s) [srcud: g1 f0x0 ]
--TASKS01 ------- 19666 GPs (3.64185/s) [tasks: g0 f0x0 ]
--TASKS02 ------- 20541 GPs (3.80389/s) [tasks: g0 f0x0 ]
--TASKS03 ------- 19416 GPs (3.59556/s) [tasks: g0 f0x0 ]
--TINY01 ------- 836134 GPs (154.84/s) [rcu: g0 f0x0 ] n_max_cbs: 34198
--TINY02 ------- 850371 GPs (157.476/s) [rcu: g0 f0x0 ] n_max_cbs: 2631
--TREE01 ------- 162625 GPs (30.1157/s) [rcu: g1124169 f0x0 ]
--TREE02 ------- 333003 GPs (61.6672/s) [rcu: g2647753 f0x0 ] n_max_cbs: 35844
--TREE03 ------- 306623 GPs (56.782/s) [rcu: g2975325 f0x0 ] n_max_cbs: 1496497
--CPU count limited from 16 to 12
--TREE04 ------- 246149 GPs (45.5831/s) [rcu: g1695737 f0x0 ] n_max_cbs: 434961
--TREE05 ------- 314603 GPs (58.2598/s) [rcu: g2257741 f0x2 ] n_max_cbs: 193997
--TREE07 ------- 167347 GPs (30.9902/s) [rcu: g1079021 f0x0 ] n_max_cbs: 478732
--CPU count limited from 16 to 12
--TREE09 ------- 752238 GPs (139.303/s) [rcu: g13075057 f0x0 ] n_max_cbs: 99011
-+    SRCU-N ------- 804233 GPs (148.932/s) [srcu: g10008272 f0x0 ]
-+    SRCU-P ------- 202320 GPs (37.4667/s) [srcud: g1809476 f0x0 ]
-+    SRCU-t ------- 1122086 GPs (207.794/s) [srcu: g0 f0x0 ]
-+    SRCU-u ------- 1111285 GPs (205.794/s) [srcud: g1 f0x0 ]
-+    TASKS01 ------- 19666 GPs (3.64185/s) [tasks: g0 f0x0 ]
-+    TASKS02 ------- 20541 GPs (3.80389/s) [tasks: g0 f0x0 ]
-+    TASKS03 ------- 19416 GPs (3.59556/s) [tasks: g0 f0x0 ]
-+    TINY01 ------- 836134 GPs (154.84/s) [rcu: g0 f0x0 ] n_max_cbs: 34198
-+    TINY02 ------- 850371 GPs (157.476/s) [rcu: g0 f0x0 ] n_max_cbs: 2631
-+    TREE01 ------- 162625 GPs (30.1157/s) [rcu: g1124169 f0x0 ]
-+    TREE02 ------- 333003 GPs (61.6672/s) [rcu: g2647753 f0x0 ] n_max_cbs: 35844
-+    TREE03 ------- 306623 GPs (56.782/s) [rcu: g2975325 f0x0 ] n_max_cbs: 1496497
-+    CPU count limited from 16 to 12
-+    TREE04 ------- 246149 GPs (45.5831/s) [rcu: g1695737 f0x0 ] n_max_cbs: 434961
-+    TREE05 ------- 314603 GPs (58.2598/s) [rcu: g2257741 f0x2 ] n_max_cbs: 193997
-+    TREE07 ------- 167347 GPs (30.9902/s) [rcu: g1079021 f0x0 ] n_max_cbs: 478732
-+    CPU count limited from 16 to 12
-+    TREE09 ------- 752238 GPs (139.303/s) [rcu: g13075057 f0x0 ] n_max_cbs: 99011
-diff --git a/Documentation/locking/locktorture.rst b/Documentation/locking/locktorture.rst
-index 5bcb99ba7bd9..0b4bbe378bf1 100644
---- a/Documentation/locking/locktorture.rst
-+++ b/Documentation/locking/locktorture.rst
-@@ -166,4 +166,4 @@ checked for such errors.  The "rmmod" command forces a "SUCCESS",
- two are self-explanatory, while the last indicates that while there
- were no locking failures, CPU-hotplug problems were detected.
- 
--Also see: Documentation/RCU/torture.txt
-+Also see: Documentation/RCU/torture.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ecf38ddd8962..ca534da466db 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14309,7 +14309,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
- F:	Documentation/RCU/
- F:	include/linux/rcu*
- F:	kernel/rcu/
--X:	Documentation/RCU/torture.txt
-+X:	Documentation/RCU/torture.rst
- X:	include/linux/srcu*.h
- X:	kernel/rcu/srcu*.c
- 
-@@ -17101,7 +17101,7 @@ M:	Josh Triplett <josh@joshtriplett.org>
- L:	linux-kernel@vger.kernel.org
- S:	Supported
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
--F:	Documentation/RCU/torture.txt
-+F:	Documentation/RCU/torture.rst
- F:	kernel/locking/locktorture.c
- F:	kernel/rcu/rcuperf.c
- F:	kernel/rcu/rcutorture.c
-diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
-index efb792e13fca..8205295fc33e 100644
---- a/kernel/rcu/rcutorture.c
-+++ b/kernel/rcu/rcutorture.c
-@@ -7,7 +7,7 @@
-  * Authors: Paul E. McKenney <paulmck@linux.ibm.com>
-  *	  Josh Triplett <josh@joshtriplett.org>
-  *
-- * See also:  Documentation/RCU/torture.txt
-+ * See also:  Documentation/RCU/torture.rst
-  */
- 
- #define pr_fmt(fmt) fmt
+@@ -2741,7 +2741,7 @@ lot of {Linux} into your technology!!!"
+ ,month="September"
+ ,day="17"
+ ,year="2012"
+-,url=http://rdrop.com/users/paulmck/techreports/survey.2012.09.17a.pdf
++,url={http://rdrop.com/users/paulmck/techreports/survey.2012.09.17a.pdf}
+ ,note="Technical report paulmck.2012.09.17"
+ ,annotation={
+ 	Overview of the first variant of no-CBs CPUs for RCU.
+@@ -2807,6 +2807,6 @@ lot of {Linux} into your technology!!!"
+ ,year="2013"
+ ,note="\url{http://lwn.net/Articles/541037/}"
+ ,annotation={
+-	Getting rid of TINY_PREEMPT_RCU.
++	Getting rid of TINY\_PREEMPT\_RCU.
+ }
+ }
 -- 
 2.25.2
 
