@@ -7,47 +7,50 @@ X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E136CC54FCC
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE5E6C54FCC
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:31:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C29D7206E9
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:28:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB167206F4
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 16:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587486483;
-	bh=KpEi4KqsRoYZmLYN9uEHbqvwZI0iVXAOFwlpf7D714U=;
+	s=default; t=1587486683;
+	bh=SCVgdX26l33hUoJQ6kp4XZf+T8BrHO9Vz5zKXmnwi4I=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=RQhuQlGrykQFiOuH4ODTbkcr+kHG6Xj4zULQF4CkgM9FcGkyVKk580djTCe7H/RcU
-	 MRzPxGPEElgr5qPAmVHW3IiAlhEL0jVdvq+bfbGxj9lMykopUOegtdOZJr+4p8a9SK
-	 acHCDpWbnoTa6kJ5BqRwHbhyxzg6ffPkM9cY1hPg=
+	b=Bjy7KmWYg6LHvK3sktRstDHpXKd8W1C2k0AM+xYXNkx8l9XTV9CYBJ8C4zsF5w6Uf
+	 ySbCWuGnH21hi5cKWs3c5+1y0vTHa+NfwGJIs8Pwp+P/nJTAJy2ocrdDTVdHMfIUX3
+	 dQ/Y6YitB9Ctr+su2SG+oq18deuL3f9Q5DFIcTZE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725930AbgDUQ2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 12:28:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48514 "EHLO mail.kernel.org"
+        id S1725990AbgDUQbX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 12:31:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49278 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725870AbgDUQ2D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Apr 2020 12:28:03 -0400
+        id S1725930AbgDUQbX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 12:31:23 -0400
 Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EAE78206E9;
-        Tue, 21 Apr 2020 16:28:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CA765206E9;
+        Tue, 21 Apr 2020 16:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587486482;
-        bh=KpEi4KqsRoYZmLYN9uEHbqvwZI0iVXAOFwlpf7D714U=;
+        s=default; t=1587486682;
+        bh=SCVgdX26l33hUoJQ6kp4XZf+T8BrHO9Vz5zKXmnwi4I=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tNjW+pTpWWnvHd9gTc5hrnFWebJXzQ5dLIS+7Sxk34YOUoOB8hjz+9f5jLKvQ8OW4
-         2+CcjzqDFeCxlKzVGRGzC/hQwZie6Hx7mssgp0lGJFYgrwUO/wquJkYAPKkc7R4i2l
-         pySdlLGiWXxM1OptvlFHk++hOHj8Vr7otT7hBq60=
-Date:   Tue, 21 Apr 2020 18:27:58 +0200
+        b=nItIfrKXBsg0FzDMxu9fmm/dDQn+Qz067+HVRj7sDJskNhl43qcOKmPbdp5ViiowE
+         oiaFFI/fXonW8O9hK88MvqEKajo7xvBs5ep8cypTnxP3g7Kz8Kqgn683dTDhohTWFQ
+         ZyqvWhHNItxhDeRqXgPCkmfa0UzuUg3QXtur0JcY=
+Date:   Tue, 21 Apr 2020 18:31:17 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1.1 5/5] scripts: sphinx-pre-install: change the output
- order
-Message-ID: <20200421182758.04e0a53e@coco.lan>
-In-Reply-To: <36cecf7fe19d165db8e93f8a0f6fc88ec705d131.1587478901.git.mchehab+huawei@kernel.org>
-References: <cover.1587478901.git.mchehab+huawei@kernel.org>
-        <36cecf7fe19d165db8e93f8a0f6fc88ec705d131.1587478901.git.mchehab+huawei@kernel.org>
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jan Kara <jack@suse.com>, linux-ext4@vger.kernel.org,
+        ira.weiny@intel.com
+Subject: Re: [PATCH 12/34] docs: filesystems: convert dax.txt to ReST
+Message-ID: <20200421183117.2bf2b716@coco.lan>
+In-Reply-To: <20200415154144.GA6733@magnolia>
+References: <cover.1586960617.git.mchehab+huawei@kernel.org>
+        <71b1f910b2c3569a9fdaa8778378dd734f4f0091.1586960617.git.mchehab+huawei@kernel.org>
+        <20200415154144.GA6733@magnolia>
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -57,89 +60,122 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When the script detects the need for an upgrade, it will
-print either a warning or a note.
+Em Wed, 15 Apr 2020 08:41:44 -0700
+"Darrick J. Wong" <darrick.wong@oracle.com> escreveu:
 
-Let's change a little bit the order where messages will be
-displayed, in order to make easier for the user to identify
-the more important messages.
+> [add ira weiny to cc]
+> 
+> On Wed, Apr 15, 2020 at 04:32:25PM +0200, Mauro Carvalho Chehab wrote:
+> > - Add a SPDX header;
+> > - Adjust document title;
+> > - Some whitespace fixes and new line breaks;
+> > - Add it to filesystems/index.rst.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/admin-guide/ext4.rst             | 2 +-
+> >  Documentation/filesystems/{dax.txt => dax.rst} | 9 +++++++--
+> >  Documentation/filesystems/ext2.rst             | 2 +-
+> >  Documentation/filesystems/index.rst            | 1 +
+> >  4 files changed, 10 insertions(+), 4 deletions(-)
+> >  rename Documentation/filesystems/{dax.txt => dax.rst} (97%)
+> > 
+> > diff --git a/Documentation/admin-guide/ext4.rst b/Documentation/admin-guide/ext4.rst
+> > index 9443fcef1876..103bcc345bad 100644
+> > --- a/Documentation/admin-guide/ext4.rst
+> > +++ b/Documentation/admin-guide/ext4.rst
+> > @@ -392,7 +392,7 @@ When mounting an ext4 filesystem, the following option are accepted:
+> >  
+> >    dax
+> >          Use direct access (no page cache).  See
+> > -        Documentation/filesystems/dax.txt.  Note that this option is
+> > +        Documentation/filesystems/dax.rst.  Note that this option is
+> >          incompatible with data=journal.
+> >  
+> >  Data Mode
+> > diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.rst
+> > similarity index 97%
+> > rename from Documentation/filesystems/dax.txt
+> > rename to Documentation/filesystems/dax.rst
+> > index 735f3859b19f..5838144f80f0 100644
+> > --- a/Documentation/filesystems/dax.txt
+> > +++ b/Documentation/filesystems/dax.rst  
+> 
+> Err, this will collide with the work that Ira's doing on DAX for 5.8[1].
+> Can the dax.txt conversion wait?
 
-It should now be like this:
+Well, I can re-schedule it to 5.9. Or, if you merge the dax changes
+at linux-next, I can rebase my patch on the top of it.
 
-	Detected OS: Fedora release 31 (Thirty One).
-	Sphinx version: 1.7.9
-
-	Note: It is recommended at least Sphinx version 2.4.4 if you need PDF support.
-	To upgrade Sphinx, use:
-
-		/usr/bin/python3 -m venv sphinx_2.4.4
-		. sphinx_2.4.4/bin/activate
-		pip install -r ./Documentation/sphinx/requirements.txt
-
-	If you want to exit the virtualenv, you can use:
-		deactivate
-
-All optional dependencies are met.
-Needed package dependencies are met.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
-
-v 1.1: I forgot to commit some minor changes to the patch
-
- scripts/sphinx-pre-install | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
-
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 987aebf7e3a0..c680c3efb176 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -320,15 +320,10 @@ sub check_sphinx()
- 	}
- 
- 	if ($cur_version lt $rec_version) {
--		printf "Sphinx version %s\n", $cur_version;
--		print "Warning: It is recommended at least Sphinx version $rec_version.\n";
--		print "         If you want pdf, you need at least $min_pdf_version.\n";
- 		$rec_sphinx_upgrade = 1;
- 		return;
- 	}
- 	if ($cur_version lt $min_pdf_version) {
--		printf "Sphinx version %s\n", $cur_version;
--		print "Note: It is recommended at least Sphinx version $min_pdf_version if you need PDF support.\n";
- 		$rec_sphinx_upgrade = 1;
- 		return;
- 	}
-@@ -716,10 +711,11 @@ sub check_needs()
- 	check_sphinx();
- 
- 	if ($system_release) {
--		print "Detected OS: $system_release.\n\n";
-+		print "Detected OS: $system_release.\n";
- 	} else {
--		print "Unknown OS\n\n";
-+		print "Unknown OS\n";
- 	}
-+	printf "Sphinx version: %s\n\n", $cur_version if ($cur_version);
- 
- 	# Check python command line, trying first python3
- 	$python_cmd = findprog("python3");
-@@ -799,6 +795,13 @@ sub check_needs()
- 		my $min_activate = "$ENV{'PWD'}/${virtenv_prefix}${min_version}/bin/activate";
- 		my @activates = glob "$ENV{'PWD'}/${virtenv_prefix}*/bin/activate";
- 
-+		if ($cur_version lt $rec_version) {
-+			print "Warning: It is recommended at least Sphinx version $rec_version.\n";
-+			print "         If you want pdf, you need at least $min_pdf_version.\n";
-+		}
-+		if ($cur_version lt $min_pdf_version) {
-+			print "Note: It is recommended at least Sphinx version $min_pdf_version if you need PDF support.\n";
-+		}
- 		@activates = sort {$b cmp $a} @activates;
- 		my ($activate, $ver);
- 		foreach my $f (@activates) {
--- 
-2.25.2
+> 
+> --D
+> 
+> [1] https://lore.kernel.org/linux-xfs/20200415152942.GS6742@magnolia/T/#m804562299416d865d8829caa82589a522b2080a5
+> 
+> > @@ -1,5 +1,8 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=======================
+> >  Direct Access for files
+> > ------------------------
+> > +=======================
+> >  
+> >  Motivation
+> >  ----------
+> > @@ -46,6 +49,7 @@ stall the CPU for an extended period, you should also not attempt to
+> >  implement direct_access.
+> >  
+> >  These block devices may be used for inspiration:
+> > +
+> >  - brd: RAM backed block device driver
+> >  - dcssblk: s390 dcss block device driver
+> >  - pmem: NVDIMM persistent memory driver
+> > @@ -55,6 +59,7 @@ Implementation Tips for Filesystem Writers
+> >  ------------------------------------------
+> >  
+> >  Filesystem support consists of
+> > +
+> >  - adding support to mark inodes as being DAX by setting the S_DAX flag in
+> >    i_flags
+> >  - implementing ->read_iter and ->write_iter operations which use dax_iomap_rw()
+> > @@ -127,6 +132,6 @@ by adding optional struct page support for pages under the control of
+> >  the driver (see CONFIG_NVDIMM_PFN in drivers/nvdimm for an example of
+> >  how to do this). In the non struct page cases O_DIRECT reads/writes to
+> >  those memory ranges from a non-DAX file will fail (note that O_DIRECT
+> > -reads/writes _of a DAX file_ do work, it is the memory that is being
+> > +reads/writes _of a DAX ``file_`` do work, it is the memory that is being
+> >  accessed that is key here).  Other things that will not work in the
+> >  non struct page case include RDMA, sendfile() and splice().
+> > diff --git a/Documentation/filesystems/ext2.rst b/Documentation/filesystems/ext2.rst
+> > index d83dbbb162e2..fa416b7a5802 100644
+> > --- a/Documentation/filesystems/ext2.rst
+> > +++ b/Documentation/filesystems/ext2.rst
+> > @@ -24,7 +24,7 @@ check=none, nocheck	(*)	Don't do extra checking of bitmaps on mount
+> >  				(check=normal and check=strict options removed)
+> >  
+> >  dax				Use direct access (no page cache).  See
+> > -				Documentation/filesystems/dax.txt.
+> > +				Documentation/filesystems/dax.rst.
+> >  
+> >  debug				Extra debugging information is sent to the
+> >  				kernel syslog.  Useful for developers.
+> > diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> > index c4f95f76ba6a..8e3ccb4ed483 100644
+> > --- a/Documentation/filesystems/index.rst
+> > +++ b/Documentation/filesystems/index.rst
+> > @@ -24,6 +24,7 @@ algorithms work.
+> >     splice
+> >     locking
+> >     directory-locking
+> > +   dax
+> >  
+> >     automount-support
+> >  
+> > -- 
+> > 2.25.2
+> >   
 
 
 
+Thanks,
+Mauro
