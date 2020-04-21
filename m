@@ -2,225 +2,169 @@ Return-Path: <SRS0=87kO=6F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CFEC54FC9
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 12:42:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F214C54FD0
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 14:02:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F5CC2075E
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 12:42:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E61BC2071C
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 14:02:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728645AbgDUMm4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 08:42:56 -0400
-Received: from smtp1-2.goneo.de ([85.220.129.31]:44823 "EHLO smtp1-2.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727120AbgDUMm4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Apr 2020 08:42:56 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp1.goneo.de (Postfix) with ESMTP id 68C6423F790;
-        Tue, 21 Apr 2020 14:42:54 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp1.goneo.de ([127.0.0.1])
-        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id kHTOZHjIKS6B; Tue, 21 Apr 2020 14:42:52 +0200 (CEST)
-Received: from [192.168.1.127] (dyndsl-091-096-138-038.ewe-ip-backbone.de [91.96.138.38])
-        by smtp1.goneo.de (Postfix) with ESMTPSA id D0D6723F66B;
-        Tue, 21 Apr 2020 14:42:52 +0200 (CEST)
-Subject: Re: Path troubles when using SPHINXDIRS option
-From:   Markus Heiser <markus.heiser@darmarit.de>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20200421103814.4e0fa4c3@coco.lan>
- <dbc22720-79fe-e7a8-b88c-46108ba5ccf9@darmarit.de>
-Message-ID: <50bd9124-9bea-95e2-84c6-ecd8ae61e7d5@darmarit.de>
-Date:   Tue, 21 Apr 2020 14:42:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726780AbgDUOC1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 10:02:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15779 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726018AbgDUOC1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 10:02:27 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03LE1rHX027812
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 10:02:22 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 30gmuagtcd-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2020 10:02:19 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <gerald.schaefer@de.ibm.com>;
+        Tue, 21 Apr 2020 15:01:30 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 21 Apr 2020 15:01:21 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 03LE24dv53608476
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 21 Apr 2020 14:02:04 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0AFD5A4057;
+        Tue, 21 Apr 2020 14:02:04 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2FEB3A405B;
+        Tue, 21 Apr 2020 14:02:03 +0000 (GMT)
+Received: from thinkpad (unknown [9.145.65.41])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue, 21 Apr 2020 14:02:03 +0000 (GMT)
+Date:   Tue, 21 Apr 2020 16:02:01 +0200
+From:   Gerald Schaefer <gerald.schaefer@de.ibm.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Longpeng <longpeng2@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mina Almasry <almasrymina@google.com>,
+        Peter Xu <peterx@redhat.com>,
+        Nitesh Narayan Lal <nitesh@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>
+Subject: Re: [PATCH v3 0/4] Clean up hugetlb boot command line processing
+In-Reply-To: <20200417185049.275845-1-mike.kravetz@oracle.com>
+References: <20200417185049.275845-1-mike.kravetz@oracle.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <dbc22720-79fe-e7a8-b88c-46108ba5ccf9@darmarit.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 20042114-4275-0000-0000-000003C3FB90
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20042114-4276-0000-0000-000038D9805D
+Message-Id: <20200421160201.0ddb9763@thinkpad>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-04-21_05:2020-04-20,2020-04-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ spamscore=0 phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 mlxlogscore=999 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004210108
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+On Fri, 17 Apr 2020 11:50:45 -0700
+Mike Kravetz <mike.kravetz@oracle.com> wrote:
 
-one more addition: in patch
-
-  9fc3a18a94 docs: remove extra conf.py files
-
-the conf.py from SPHINXDIRS has been removed since some latex
-stuff was no longer needed.  IMO this is not a really good idea,
-this patch also remove the individual project titles like:
-
-   project = "Core-API Documentation"
-
-and it also removes the:
-
-  tags.add("subproject")
-
-which is widly used, e.g.:
-
-  .. only::  subproject and html
-
-     Indices
-     =======
-
-     * :ref:`genindex`
-
-Anyway: if we do so we can also remove such directives and we can
-also remove the 'loadConfig' which was added in
-
-  606b9ac81a doc-rst: generic way to build only sphinx sub-folders
-
-Sorry, that I do not have time to prepare a well formed patch.
-But I maintain my opinion that we'd better not do that.
-
-  -- Markus --
-
-
-Am 21.04.20 um 12:52 schrieb Markus Heiser:
-> Hi Mauro,
+> v3 -
+>    Used weak attribute method of defining arch_hugetlb_valid_size.
+>      This eliminates changes to arch specific hugetlb.h files (Peter)
+>    Updated documentation (Peter, Randy)
+>    Fixed handling of implicitly specified gigantic page preallocation
+>      in existing code and removed documentation of such.  There is now
+>      no difference between handling of gigantic and non-gigantic pages.
+>      (Peter, Nitesh).
+>      This requires the most review as there is a small change to
+>      undocumented behavior.  See patch 4 commit message for details.
+>    Added Acks and Reviews (Mina, Peter)
 > 
-> Am 21.04.20 um 10:38 schrieb Mauro Carvalho Chehab:
->>
->> Hi,
->>
->> While building from v5.7-rc2 + media, I noticed that SPHINXDIRS option
->> stopped working.
->>
->> What happens is that, if we don't pass this option, Sphinx assumes that
->> the "absolute" path is "Documentation/". So, include options like this:
->>
->> 	.. include:: /ABI/stable/firewire-cdev
->> 	    :literal:
->>
->>
->> would be evaluated as Documentation/ABI/stable/firewire-cdev if built
->> without SPHINXDIRS. However, if we do SPHINXDIRS=driver-api, then
->> the "absolute" patch would be "Documentation/driver-api", causing this
->> error:
->>
->> 	Sphinx parallel build error:
->> 	docutils.utils.SystemMessage: /devel/v4l/patchwork/Documentation/driver-api/firewire.rst:22: (SEVERE/4) Problems with "include" directive path:
->>
->> This is specially bad for build jobs (like one we have on jenkins that
->> is meant to test media patches), as, due to some Sphinx bug, prevents
->> sphinx-build to stop, making the toolset to run forever.
->>
->> I suspect that some change at conf.py could address the path issue.
->>
->> I'll try to investigate further.
->>
->> Just to be 100% sure that this is not some version-specific bad
->> behavior, I tested (using the latest patch version) Sphinx from
->> version 1.7.9 up to 2.4.4. The same two errors happen on all
->> versions.
->>
->> Markus,
->>
->> Maybe you may have some idea about how to fix those issues.
->>
->> The parallel build error would likely require fixing something
->> inside Sphinx code, making it abort if it gets a "SEVERE" error.
->>
->> Regards,
->> Mauro
->>
+> v2 -
+>    Fix build errors with patch 1 (Will)
+>    Change arch_hugetlb_valid_size arg to unsigned long and remove
+>      irrelevant 'extern' keyword (Christophe)
+>    Documentation and other misc changes (Randy, Christophe, Mina)
+>    Do not process command line options if !hugepages_supported()
+>      (Dave, but it sounds like we may want to additional changes to
+>       hugepages_supported() for x86?  If that is needed I would prefer
+>       a separate patch.)
 > 
-> I fixed it with the patch shown below.  Some words about: The use
-> of the :doc: rule should be replaced by a :ref:.  The path names
-> of include directives should always relative to the .rst file.
+> Longpeng(Mike) reported a weird message from hugetlb command line processing
+> and proposed a solution [1].  While the proposed patch does address the
+> specific issue, there are other related issues in command line processing.
+> As hugetlbfs evolved, updates to command line processing have been made to
+> meet immediate needs and not necessarily in a coordinated manner.  The result
+> is that some processing is done in arch specific code, some is done in arch
+> independent code and coordination is problematic.  Semantics can vary between
+> architectures.
 > 
-> To go further ... with patch below:
+> The patch series does the following:
+> - Define arch specific arch_hugetlb_valid_size routine used to validate
+>   passed huge page sizes.
+> - Move hugepagesz= command line parsing out of arch specific code and into
+>   an arch independent routine.
+> - Clean up command line processing to follow desired semantics and
+>   document those semantics.
 > 
->      $ make SPHINXDIRS="driver-api" htmldocs
+> [1] https://lore.kernel.org/linux-mm/20200305033014.1152-1-longpeng2@huawei.com
 > 
-> shows some " WARNING: undefined label: ..." messages.  To close
-> such links (addressing objects outside of the SPHINXDIR) we need
-> to activate intersphinx [1].
+> Mike Kravetz (4):
+>   hugetlbfs: add arch_hugetlb_valid_size
+>   hugetlbfs: move hugepagesz= parsing to arch independent code
+>   hugetlbfs: remove hugetlb_add_hstate() warning for existing hstate
+>   hugetlbfs: clean up command line processing
 > 
-> If we activate intersphinx we have to wait one release cycle to
-> get a objects.inv file at:
+>  .../admin-guide/kernel-parameters.txt         |  40 ++--
+>  Documentation/admin-guide/mm/hugetlbpage.rst  |  35 ++++
+>  arch/arm64/mm/hugetlbpage.c                   |  30 +--
+>  arch/powerpc/mm/hugetlbpage.c                 |  30 +--
+>  arch/riscv/mm/hugetlbpage.c                   |  24 +--
+>  arch/s390/mm/hugetlbpage.c                    |  24 +--
+>  arch/sparc/mm/init_64.c                       |  43 +---
+>  arch/x86/mm/hugetlbpage.c                     |  23 +--
+>  include/linux/hugetlb.h                       |   2 +-
+>  mm/hugetlb.c                                  | 190 +++++++++++++++---
+>  10 files changed, 271 insertions(+), 170 deletions(-)
 > 
->      https://www.kernel.org/doc/html/latest/
-> 
-> When the objects.inv file is available, the warnings are
-> disappear.
-> 
-> If the process of intersphinx is unclear, please ask.
-> 
-> 
-> -- Markus --
-> 
-> [1] https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
-> 
-> ----
-> 
-> diff --git a/Documentation/driver-api/firewire.rst b/Documentation/driver-api/firewire.rst
-> index 94a2d7f01d99..67741aeae5e8 100644
-> --- a/Documentation/driver-api/firewire.rst
-> +++ b/Documentation/driver-api/firewire.rst
-> @@ -19,16 +19,16 @@ of kernel interfaces is available via exported symbols in `firewire-core` module
->   Firewire char device data structures
->   ====================================
->   
-> -.. include:: /ABI/stable/firewire-cdev
-> +.. include:: ../ABI/stable/firewire-cdev
->       :literal:
->   
-> -.. kernel-doc:: include/uapi/linux/firewire-cdev.h
-> +.. kernel-doc:: /include/uapi/linux/firewire-cdev.h
->       :internal:
->   
->   Firewire device probing and sysfs interfaces
->   ============================================
->   
-> -.. include:: /ABI/stable/sysfs-bus-firewire
-> +.. include:: ../ABI/stable/sysfs-bus-firewire
->       :literal:
->   
->   .. kernel-doc:: drivers/firewire/core-device.c
-> diff --git a/Documentation/driver-api/gpio/using-gpio.rst b/Documentation/driver-api/gpio/using-gpio.rst
-> index dda069444032..f2bd1e72af4e 100644
-> --- a/Documentation/driver-api/gpio/using-gpio.rst
-> +++ b/Documentation/driver-api/gpio/using-gpio.rst
-> @@ -15,7 +15,7 @@ For any kind of mass produced system you want to support, such as servers,
->   laptops, phones, tablets, routers, and any consumer or office or business goods
->   using appropriate kernel drivers is paramount. Submit your code for inclusion
->   in the upstream Linux kernel when you feel it is mature enough and you will get
-> -help to refine it, see :doc:`../../process/submitting-patches`.
-> +help to refine it, see :ref:`submittingpatches`.
->   
->   In Linux GPIO lines also have a userspace ABI.
->   
-> diff --git a/Documentation/driver-api/ioctl.rst b/Documentation/driver-api/ioctl.rst
-> index c455db0e1627..ad91db68ba89 100644
-> --- a/Documentation/driver-api/ioctl.rst
-> +++ b/Documentation/driver-api/ioctl.rst
-> @@ -34,7 +34,7 @@ _IO/_IOR/_IOW/_IOWR
->   
->   type
->      An 8-bit number, often a character literal, specific to a subsystem
-> -   or driver, and listed in :doc:`../userspace-api/ioctl/ioctl-number`
-> +   or driver, and listed in :ref:`ioctl numbers`
->   
->   nr
->     An 8-bit number identifying the specific command, unique for a give
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 52bf58417653..09647516ca52 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -1,3 +1,5 @@
-> +.. _ioctl numbers:
-> +
->   =============
->   Ioctl Numbers
->   =============
-> 
+
+Looks good and works fine for s390, thanks for cleaning up!
+
+Acked-by: Gerald Schaefer <gerald.schaefer@de.ibm.com> # s390
+
