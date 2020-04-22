@@ -2,385 +2,220 @@ Return-Path: <SRS0=zh9o=6G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC59C55185
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 13:06:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E2DC55189
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 13:13:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59B5A206EC
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 13:06:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lklcTYiF"
+	by mail.kernel.org (Postfix) with ESMTP id 9303F20706
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 13:13:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726030AbgDVNGY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Apr 2020 09:06:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32776 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725810AbgDVNGY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 09:06:24 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5AD5C03C1A8;
-        Wed, 22 Apr 2020 06:06:22 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id g10so1563079lfj.13;
-        Wed, 22 Apr 2020 06:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ojFhq7nroU+dGS6e//VxW5PxtAN8FMNVNveMU5+a0xg=;
-        b=lklcTYiF2WWhafTaUU7Jx2SbJGwgn2WXxCnSbaboL8NO9yVCaRWAnaBhdT7fktrv90
-         8trJPs9XonSBOCbSHoextAMJH4Kau9DI1dWTeCGc9uiPki+gwV63q7pC6p+jllwTu8Ic
-         IMVYQIOoKnTkzLbXbq83PDM7arn3C0gSb+Jq5Vkuvb1WvyBnTsVWdCN4QPEQeAaSzYfn
-         E7Eaf/5rmssXMJKMV+WdZJXeQF1TXwW3B7IgwrRhjhttWriy6RVIrd89X5H1JzNIxm1j
-         kQZkTxIq/Z6nvrlurEtIyJ+Y7tQc7iwtSm93aAMlweMYUlVbjS++jYa43LwKgFPnTDiE
-         ZN7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ojFhq7nroU+dGS6e//VxW5PxtAN8FMNVNveMU5+a0xg=;
-        b=j3CtRFi6bdjE+T2iGU3MTRG3p8jSz3bQpXMCwX7DK3FkHWufH5HS4UvD3WY1XcOrRw
-         TeR9vGm+4B0HFwqi/7p8o9arYBQlEy0GtcejyNrsHeFO5k6E8UMv6Gxagvi1qyYx42b7
-         COrThNADgjUAphb3MpisPuKIyoyXp8nFuF6vdrbXfcN8mHTGfPqVlQoZ1ES3brNk3Rur
-         zqn/XvfoibgcibsAbAJ7IbivQcEa5TBDaSPxa/hpE2ZKhGKam/hKK8gkhDR8dpbmijWH
-         7n1zuRAFlJcM2llnNYdmObKAboj/c4zdikJzwn14YFwP6J1fOE5zHLPFuAr12wvLzKKd
-         23vQ==
-X-Gm-Message-State: AGi0PuYCL4NdAA6D1ohUUEQkoXlcIQ8aiE2Qpb/WY33gauW8plA0V2GT
-        M5nePdHf4qYbLvkcgr5wRLjAPmaQNS7/MO8YB9o=
-X-Google-Smtp-Source: APiQypLnDyG4R5oHaDtErZEkxe/id69MuonwNabqfhJ6PMFrhCL/GMAUZcbMAxb1FTZ+aY5FGUqR/2J1ztMPe9MCmgA=
-X-Received: by 2002:a05:6512:74:: with SMTP id i20mr16921331lfo.104.1587560780851;
- Wed, 22 Apr 2020 06:06:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <1587408228-10861-1-git-send-email-orson.unisoc@gmail.com> <20200420191014.GE121146@unreal>
-In-Reply-To: <20200420191014.GE121146@unreal>
-From:   Orson Zhai <orsonzhai@gmail.com>
-Date:   Wed, 22 Apr 2020 21:06:08 +0800
-Message-ID: <CA+H2tpGgGtW_8Z8fV9to39JwA_KrcfAeBC+KN87v0xKnZHt2_w@mail.gmail.com>
-Subject: Re: [PATCH V2] dynamic_debug: Add an option to enable dynamic debug
- for modules only
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     Orson Zhai <orson.unisoc@gmail.com>,
-        Jason Baron <jbaron@akamai.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rdma@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        id S1726596AbgDVNNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Apr 2020 09:13:53 -0400
+Received: from foss.arm.com ([217.140.110.172]:49866 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726468AbgDVNNx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Apr 2020 09:13:53 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DBD7031B;
+        Wed, 22 Apr 2020 06:13:51 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EFAD3F6CF;
+        Wed, 22 Apr 2020 06:13:49 -0700 (PDT)
+Date:   Wed, 22 Apr 2020 14:13:47 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Orson Zhai <orson.zhai@unisoc.com>
-Content-Type: text/plain; charset="UTF-8"
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200422131346.sfjntmurigv6uajb@e107158-lin.cambridge.arm.com>
+References: <20200403123020.13897-1-qais.yousef@arm.com>
+ <292dbd54-e590-dc4f-41e6-5f86e478c0ee@arm.com>
+ <20200420151341.7zni3bwroso2kpdc@e107158-lin.cambridge.arm.com>
+ <de020088-3b06-3674-dab9-244ae577cc54@arm.com>
+ <20200421112733.4jbguidgbqwzhv23@e107158-lin.cambridge.arm.com>
+ <45236ccd-24d2-3b99-cd9b-bac13cfaceab@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <45236ccd-24d2-3b99-cd9b-bac13cfaceab@arm.com>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 21, 2020 at 3:10 AM Leon Romanovsky <leon@kernel.org> wrote:
->
-> On Tue, Apr 21, 2020 at 02:43:48AM +0800, Orson Zhai wrote:
-> > From: Orson Zhai <orson.zhai@unisoc.com>
-> >
-> > Instead of enabling dynamic debug globally with CONFIG_DYNAMIC_DEBUG,
-> > CONFIG_DYNAMIC_DEBUG_CORE will only enable core function of dynamic
-> > debug. With the DYNAMIC_DEBUG_MODULE defined for any modules, dynamic
-> > debug will be tied to them.
-> >
-> > This is useful for people who only want to enable dynamic debug for
-> > kernel modules without worrying about kernel image size and memory
-> > consumption is increasing too much.
->
-> Let's talk about extreme case, what is the output of bloat-o-meter
-> for allyesconfig build with and without dynamic debug?
+On 04/22/20 12:59, Dietmar Eggemann wrote:
+> On 21/04/2020 13:27, Qais Yousef wrote:
+> > On 04/21/20 13:18, Dietmar Eggemann wrote:
+> >> On 20/04/2020 17:13, Qais Yousef wrote:
+> >>> On 04/20/20 10:29, Dietmar Eggemann wrote:
+> >>>> On 03.04.20 14:30, Qais Yousef wrote:
+> >>>>
+> >>>> [...]
+> >>>>
+> >>>>> @@ -924,6 +945,14 @@ uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
+> >>>>>  	return uc_req;
+> >>>>>  }
+> >>>>>  
+> >>>>> +static void uclamp_rt_sync_default_util_min(struct task_struct *p)
+> >>>>> +{
+> >>>>> +	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> >>>>> +
+> >>>>> +	if (!uc_se->user_defined)
+> >>>>> +		uclamp_se_set(uc_se, sysctl_sched_rt_default_uclamp_util_min, false);
+> >>>>> +}
+> >>>>> +
+> >>>>>  unsigned long uclamp_eff_value(struct task_struct *p, enum uclamp_id clamp_id)
+> >>>>>  {
+> >>>>>  	struct uclamp_se uc_eff;
+> >>>>> @@ -1030,6 +1059,12 @@ static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
+> >>>>>  	if (unlikely(!p->sched_class->uclamp_enabled))
+> >>>>>  		return;
+> >>>>>  
+> >>>>> +	/*
+> >>>>> +	 * When sysctl_sched_rt_default_uclamp_util_min value is changed by the
+> >>>>> +	 * user, we apply any new value on the next wakeup, which is here.
+> >>>>> +	 */
+> >>>>> +	uclamp_rt_sync_default_util_min(p);
+> >>>>> +
+> >>>>
+> >>>> Does this have to be an extra function? Can we not reuse
+> >>>> uclamp_tg_restrict() by slightly rename it to uclamp_restrict()?
+> 
+> Btw, there was an issue in my little snippet. I used uc_req.user_defined
+> uninitialized in uclamp_restrict().
+> 
+> 
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index f3706dad32ce..7e6b2b7cd1e5 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -903,12 +903,11 @@ uclamp_restrict(struct task_struct *p, enum uclamp_id clamp_id)
+>  {
+>  	struct uclamp_se uc_req, __maybe_unused uc_max;
+>  
+> -	if (unlikely(rt_task(p)) && clamp_id == UCLAMP_MIN &&
+> -	    !uc_req.user_defined) {
+> +	if (unlikely(rt_task(p)) && clamp_id == UCLAMP_MIN) {
+>  		struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+>  		int rt_min = sysctl_sched_rt_default_uclamp_util_min;
+>  
+> -		if (uc_se->value != rt_min) {
+> +		if (!uc_se->user_defined && uc_se->value != rt_min) {
+>  			uclamp_se_set(uc_se, rt_min, false);
+>  			printk("uclamp_restrict() [%s %d] p->uclamp_req[%d].value=%d\n",
+>  			       p->comm, p->pid, clamp_id, uc_se->value);
+> 
+> >>> Hmm the thing is that we're not restricting here. In contrary we're boosting,
+> >>> so the name would be misleading.
+> >>
+> >> I always thought that we're restricting p->uclamp_req[UCLAMP_MIN].value (default 1024) to
+> >> sysctl_sched_rt_default_uclamp_util_min (0-1024)?
+> > 
+> > The way I look at it is that we're *setting* it to
+> > sysctl_sched_rt_default_uclamp_util_min if !user_defined.
+> > 
+> > The restriction mechanism that ensures this set value doesn't escape
+> > cgroup/global restrictions setup.
+> 
+> I guess we overall agree here. 
+> 
+> I see 3 restriction levels: (!user_defined) task -> taskgroup -> system
+> 
+> I see sysctl_sched_rt_default_uclamp_util_min (min_rt_default) as a
+> restriction on task level.
 
-It is a good question.
-I have done exactly what you ask for x86 build yesterday. Here is the result:
-Total: Before=306735842, After=312600260, chg +1.91%
+Hmm from code perspective it is a request. One that is applied by default if
+the user didn't make any request.
 
-In my case of a mobile phone, the difference is about 2MiB on 14MiB kernel image
-(not compressed).
-The reduced size is often critical sometimes, especially for low-end phones, say
-a system with 512MB DDR memory.
+Since restriction has a different meaning from code point of view, I think
+interchanging both could be confusing.
 
-Another smaller arm system in my hand, kernel size reduced about
-600KiB to the zImage
-of 4.2MiB.
+A restriction from the code view is that you can request 1024, but if cgroup or
+global settings doesn't allow you, the system will automatically crop it.
 
->
-> I imagine that people who are interested in decreasing memory
-> footprint will use minimal config anyway, so it is very interesting
-> to see who is the target audience for this change?
+The new sysctl doesn't result in any cropping. It is equivalent to a user
+making a sched_setattr() call to change UCLAMP_MIN value of a task. It's just
+this request is applied automatically by default, if !user_defined.
 
-My motivation came from the concept of GKI (Generic Kernel Image) in Android.
-Google will release a common kernel image (binary) to all of the Android system
-vendors in the world instead of letting them to build their owns as before.
-Every SoC vendor's device drivers will be provided in kernel modules only.
-By my patch, the driver owners could debug their modules in field (say
-production releases)
-without having to enable dynamic debug for the whole GKI.
+But if you meant your high level view of how it works you think of it as
+a restriction, then yeah, it could be abstracted in this way. The terminology
+just conflicts with the code.
 
--Orson
+> 
+> It's true that the task level restriction is setting the value at the same time.
+> 
+> For CFS (id=UCLAMP_[MIN\|MAX]) and RT (id=UCLAMP_MAX) we use
+> uclamp_none(id) and those values (0, 1024) are fixed so these task level
+> values don't need to be further restricted.
 
->
-> Thanks
->
-> >
-> > Signed-off-by: Orson Zhai <orson.zhai@unisoc.com>
-> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> > Changes to V2:
-> > 1) Change DEBUG_MODULE to DYNAMIC_DEBUG_MODULE.
-> > 2) Change more #if defined(DYNAMIC_DEBUG) condition (in net.h, netdevice.h
-> >    and ib_verbs.h).
-> > 3) Rewrite description in howto document.
-> > 4) Add acked-by from Greg.
-> >
-> >
-> >  Documentation/admin-guide/dynamic-debug-howto.rst |  5 +++++
-> >  include/linux/dev_printk.h                        |  6 ++++--
-> >  include/linux/dynamic_debug.h                     |  2 +-
-> >  include/linux/net.h                               |  3 ++-
-> >  include/linux/netdevice.h                         |  6 ++++--
-> >  include/linux/printk.h                            | 14 +++++++++-----
-> >  include/rdma/ib_verbs.h                           |  6 ++++--
-> >  lib/Kconfig.debug                                 | 12 ++++++++++++
-> >  lib/Makefile                                      |  2 +-
-> >  lib/dynamic_debug.c                               |  9 +++++++--
-> >  10 files changed, 49 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> > index 0dc2eb8..1012bd9 100644
-> > --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> > +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> > @@ -13,6 +13,11 @@ kernel code to obtain additional kernel information.  Currently, if
-> >  ``print_hex_dump_debug()``/``print_hex_dump_bytes()`` calls can be dynamically
-> >  enabled per-callsite.
-> >
-> > +If you do not want to enable dynamic debug globally (i.e. in some embedded
-> > +system), you may set ``CONFIG_DYNAMIC_DEBUG_CORE`` as basic support of dynamic
-> > +debug and add ``ccflags := -DDYNAMIC_DEBUG_MODULE`` into the Makefile of any
-> > +modules which you'd like to dynamically debug later.
-> > +
-> >  If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is just
-> >  shortcut for ``print_hex_dump(KERN_DEBUG)``.
-> >
-> > diff --git a/include/linux/dev_printk.h b/include/linux/dev_printk.h
-> > index 5aad06b..3028b64 100644
-> > --- a/include/linux/dev_printk.h
-> > +++ b/include/linux/dev_printk.h
-> > @@ -109,7 +109,8 @@ void _dev_info(const struct device *dev, const char *fmt, ...)
-> >  #define dev_info(dev, fmt, ...)                                              \
-> >       _dev_info(dev, dev_fmt(fmt), ##__VA_ARGS__)
-> >
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  #define dev_dbg(dev, fmt, ...)                                               \
-> >       dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-> >  #elif defined(DEBUG)
-> > @@ -181,7 +182,8 @@ do {                                                                      \
-> >       dev_level_ratelimited(dev_notice, dev, fmt, ##__VA_ARGS__)
-> >  #define dev_info_ratelimited(dev, fmt, ...)                          \
-> >       dev_level_ratelimited(dev_info, dev, fmt, ##__VA_ARGS__)
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
-> >  #define dev_dbg_ratelimited(dev, fmt, ...)                           \
-> >  do {                                                                 \
-> > diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-> > index 4cf02ec..abcd5fd 100644
-> > --- a/include/linux/dynamic_debug.h
-> > +++ b/include/linux/dynamic_debug.h
-> > @@ -48,7 +48,7 @@ struct _ddebug {
-> >
-> >
-> >
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG_CORE)
-> >  int ddebug_add_module(struct _ddebug *tab, unsigned int n,
-> >                               const char *modname);
-> >  extern int ddebug_remove_module(const char *mod_name);
-> > diff --git a/include/linux/net.h b/include/linux/net.h
-> > index 6451425..7b7b21a 100644
-> > --- a/include/linux/net.h
-> > +++ b/include/linux/net.h
-> > @@ -264,7 +264,8 @@ do {                                                              \
-> >       net_ratelimited_function(pr_warn, fmt, ##__VA_ARGS__)
-> >  #define net_info_ratelimited(fmt, ...)                               \
-> >       net_ratelimited_function(pr_info, fmt, ##__VA_ARGS__)
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  #define net_dbg_ratelimited(fmt, ...)                                        \
-> >  do {                                                                 \
-> >       DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, fmt);                 \
-> > diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> > index 130a668..e874643 100644
-> > --- a/include/linux/netdevice.h
-> > +++ b/include/linux/netdevice.h
-> > @@ -4868,7 +4868,8 @@ do {                                                            \
-> >  #define MODULE_ALIAS_NETDEV(device) \
-> >       MODULE_ALIAS("netdev-" device)
-> >
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  #define netdev_dbg(__dev, format, args...)                   \
-> >  do {                                                         \
-> >       dynamic_netdev_dbg(__dev, format, ##args);              \
-> > @@ -4938,7 +4939,8 @@ do {                                                            \
-> >  #define netif_info(priv, type, dev, fmt, args...)            \
-> >       netif_level(info, priv, type, dev, fmt, ##args)
-> >
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  #define netif_dbg(priv, type, netdev, format, args...)               \
-> >  do {                                                         \
-> >       if (netif_msg_##type(priv))                             \
-> > diff --git a/include/linux/printk.h b/include/linux/printk.h
-> > index e061635..b64c39c 100644
-> > --- a/include/linux/printk.h
-> > +++ b/include/linux/printk.h
-> > @@ -286,8 +286,9 @@ extern int kptr_restrict;
-> >  /*
-> >   * These can be used to print at the various log levels.
-> >   * All of these will print unconditionally, although note that pr_debug()
-> > - * and other debug macros are compiled out unless either DEBUG is defined
-> > - * or CONFIG_DYNAMIC_DEBUG is set.
-> > + * and other debug macros are compiled out unless either DEBUG is defined,
-> > + * CONFIG_DYNAMIC_DEBUG is set, or CONFIG_DYNAMIC_DEBUG_CORE is set when
-> > + * DYNAMIC_DEBUG_MODULE being defined for any modules.
-> >   */
-> >  #define pr_emerg(fmt, ...) \
-> >       printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-> > @@ -322,7 +323,8 @@ extern int kptr_restrict;
-> >
-> >
-> >  /* If you are writing a driver, please use dev_dbg instead */
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  #include <linux/dynamic_debug.h>
-> >
-> >  /* dynamic_pr_debug() uses pr_fmt() internally so we don't need it here */
-> > @@ -448,7 +450,8 @@ extern int kptr_restrict;
-> >  #endif
-> >
-> >  /* If you are writing a driver, please use dev_dbg instead */
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
-> >  #define pr_debug_ratelimited(fmt, ...)                                       \
-> >  do {                                                                 \
-> > @@ -495,7 +498,8 @@ static inline void print_hex_dump_bytes(const char *prefix_str, int prefix_type,
-> >
-> >  #endif
-> >
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  #define print_hex_dump_debug(prefix_str, prefix_type, rowsize,       \
-> >                            groupsize, buf, len, ascii)        \
-> >       dynamic_hex_dump(prefix_str, prefix_type, rowsize,      \
-> > diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
-> > index bbc5cfb..e072ef6 100644
-> > --- a/include/rdma/ib_verbs.h
-> > +++ b/include/rdma/ib_verbs.h
-> > @@ -100,7 +100,8 @@ void ibdev_notice(const struct ib_device *ibdev, const char *format, ...);
-> >  __printf(2, 3) __cold
-> >  void ibdev_info(const struct ib_device *ibdev, const char *format, ...);
-> >
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  #define ibdev_dbg(__dev, format, args...)                       \
-> >       dynamic_ibdev_dbg(__dev, format, ##args)
-> >  #else
-> > @@ -133,7 +134,8 @@ do {                                                                    \
-> >  #define ibdev_info_ratelimited(ibdev, fmt, ...) \
-> >       ibdev_level_ratelimited(ibdev_info, ibdev, fmt, ##__VA_ARGS__)
-> >
-> > -#if defined(CONFIG_DYNAMIC_DEBUG)
-> > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > +     (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> >  /* descriptor check is first to prevent flooding with "callbacks suppressed" */
-> >  #define ibdev_dbg_ratelimited(ibdev, fmt, ...)                          \
-> >  do {                                                                    \
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index 21d9c5f..9ab791b 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -99,6 +99,7 @@ config DYNAMIC_DEBUG
-> >       default n
-> >       depends on PRINTK
-> >       depends on (DEBUG_FS || PROC_FS)
-> > +     select DYNAMIC_DEBUG_CORE
-> >       help
-> >
-> >         Compiles debug level messages into the kernel, which would not
-> > @@ -165,6 +166,17 @@ config DYNAMIC_DEBUG
-> >         See Documentation/admin-guide/dynamic-debug-howto.rst for additional
-> >         information.
-> >
-> > +config DYNAMIC_DEBUG_CORE
-> > +     bool "Enable core function of dynamic debug support"
-> > +     depends on PRINTK
-> > +     depends on (DEBUG_FS || PROC_FS)
-> > +     help
-> > +       Enable core functional support of dynamic debug. It is useful
-> > +       when you want to tie dynamic debug to your kernel modules with
-> > +       DYNAMIC_DEBUG_MODULE defined for each of them, especially for
-> > +       the case of embedded system where the kernel image size is
-> > +       sensitive for people.
-> > +
-> >  config SYMBOLIC_ERRNAME
-> >       bool "Support symbolic error names in printf"
-> >       default y if PRINTK
-> > diff --git a/lib/Makefile b/lib/Makefile
-> > index 685aee6..8952772 100644
-> > --- a/lib/Makefile
-> > +++ b/lib/Makefile
-> > @@ -186,7 +186,7 @@ lib-$(CONFIG_GENERIC_BUG) += bug.o
-> >
-> >  obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
-> >
-> > -obj-$(CONFIG_DYNAMIC_DEBUG) += dynamic_debug.o
-> > +obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
-> >  obj-$(CONFIG_SYMBOLIC_ERRNAME) += errname.o
-> >
-> >  obj-$(CONFIG_NLATTR) += nlattr.o
-> > diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> > index 8f199f4..321437b 100644
-> > --- a/lib/dynamic_debug.c
-> > +++ b/lib/dynamic_debug.c
-> > @@ -1032,8 +1032,13 @@ static int __init dynamic_debug_init(void)
-> >       int verbose_bytes = 0;
-> >
-> >       if (&__start___verbose == &__stop___verbose) {
-> > -             pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
-> > -             return 1;
-> > +             if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG)) {
-> > +                     pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
-> > +                     return 1;
-> > +             }
-> > +             pr_info("Ignore empty _ddebug table in a CONFIG_DYNAMIC_DEBUG_CORE build\n");
-> > +             ddebug_init_success = 1;
-> > +             return 0;
-> >       }
-> >       iter = __start___verbose;
-> >       modname = iter->modname;
-> > --
-> > 2.7.4
-> >
+I wouldn't think of these as restriction. They're default requests, if
+I understood what you're saying correctly, by default:
+
+	cfs_task->util_min = 0
+	cfs_task->util_max = 1024
+
+	rt_task->util_min = 1024
+	rt_task->util_max = 1024
+
+Which are the requested value.
+
+sysctl_util_clamp_{min,max} are the default restriction which by default would
+allow the tasks to request any value within the full range.
+
+The root taskgroup will inherit this value by default. And new cgroups will
+inherit from the root taskgroup.
+
+> 
+> For RT (id=UCLAMP_MIN) we use 'min_rt_default' and since it can change
+> we have to check the task level restriction in 'uclamp_eff_get() ->
+> uclamp_(tg)_restrict()'.
+
+Yes. If we take the approach to apply the default request in uclamp_eff_get(),
+then this must be applied before uclamp_tg_restrict() call.
+
+> 
+> root@h960:~# echo 999 > /proc/sys/kernel/sched_rt_default_util_clamp_min
+> 
+> [ 2540.507236] uclamp_eff_get() [rtkit-daemon 419] tag=0 uclamp_id=0 uc_req.value=1024
+> [ 2540.514947] uclamp_eff_get() [rtkit-daemon 419] tag=1 uclamp_id=0 uc_req.value=1024
+> [ 2548.015208] uclamp_restrict() [rtkit-daemon 419] p->uclamp_req[0].value=999
+> 
+> root@h960:~# echo 666 > /proc/sys/kernel/sched_util_clamp_min
+> 
+> [ 2548.022219] uclamp_eff_get() [rtkit-daemon 419] tag=0 uclamp_id=0 uc_req.value=999
+> [ 2548.029825] uclamp_eff_get() [rtkit-daemon 419] tag=1 uclamp_id=0 uc_req.value=999
+> [ 2553.479509] uclamp_eff_get() [rtkit-daemon 419] tag=0 uclamp_id=0 uc_max.value=666
+> [ 2553.487131] uclamp_eff_get() [rtkit-daemon 419] tag=1 uclamp_id=0 uc_max.value=666
+> 
+> Haven't tried to put an rt task into a taskgroup other than root.
+
+I do run a test that Patrick had which checks for cgroup values. One of the
+tests checks if RT are boosted to max, and it fails when I change the default
+RT max-boost value :)
+
+I think we're in agreement, but the terminology is probably making things a bit
+confusing.
+
+Thanks
+
+--
+Qais Yousef
