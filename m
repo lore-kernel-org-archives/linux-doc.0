@@ -2,220 +2,104 @@ Return-Path: <SRS0=zh9o=6G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E2DC55189
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 13:13:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71FB8C55185
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 14:04:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9303F20706
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 13:13:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 513C32077D
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 14:04:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726596AbgDVNNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Apr 2020 09:13:53 -0400
-Received: from foss.arm.com ([217.140.110.172]:49866 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726468AbgDVNNx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Apr 2020 09:13:53 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DBD7031B;
-        Wed, 22 Apr 2020 06:13:51 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EFAD3F6CF;
-        Wed, 22 Apr 2020 06:13:49 -0700 (PDT)
-Date:   Wed, 22 Apr 2020 14:13:47 +0100
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-Message-ID: <20200422131346.sfjntmurigv6uajb@e107158-lin.cambridge.arm.com>
-References: <20200403123020.13897-1-qais.yousef@arm.com>
- <292dbd54-e590-dc4f-41e6-5f86e478c0ee@arm.com>
- <20200420151341.7zni3bwroso2kpdc@e107158-lin.cambridge.arm.com>
- <de020088-3b06-3674-dab9-244ae577cc54@arm.com>
- <20200421112733.4jbguidgbqwzhv23@e107158-lin.cambridge.arm.com>
- <45236ccd-24d2-3b99-cd9b-bac13cfaceab@arm.com>
+        id S1726389AbgDVOEG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Apr 2020 10:04:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41764 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726160AbgDVOEG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 10:04:06 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70941C03C1A9
+        for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2020 07:04:06 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: rcn)
+        with ESMTPSA id 2FA982A1BE4
+From:   =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To:     linux-doc@vger.kernel.org, corbet@lwn.net, pmladek@suse.com
+Cc:     kernel@collabora.com
+Subject: [PATCH] docs: printk-basics: update the pr_debug() kerneldoc
+Date:   Wed, 22 Apr 2020 16:03:34 +0200
+Message-Id: <20200422140334.23595-1-ricardo.canuelo@collabora.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <45236ccd-24d2-3b99-cd9b-bac13cfaceab@arm.com>
-User-Agent: NeoMutt/20171215
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/22/20 12:59, Dietmar Eggemann wrote:
-> On 21/04/2020 13:27, Qais Yousef wrote:
-> > On 04/21/20 13:18, Dietmar Eggemann wrote:
-> >> On 20/04/2020 17:13, Qais Yousef wrote:
-> >>> On 04/20/20 10:29, Dietmar Eggemann wrote:
-> >>>> On 03.04.20 14:30, Qais Yousef wrote:
-> >>>>
-> >>>> [...]
-> >>>>
-> >>>>> @@ -924,6 +945,14 @@ uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
-> >>>>>  	return uc_req;
-> >>>>>  }
-> >>>>>  
-> >>>>> +static void uclamp_rt_sync_default_util_min(struct task_struct *p)
-> >>>>> +{
-> >>>>> +	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
-> >>>>> +
-> >>>>> +	if (!uc_se->user_defined)
-> >>>>> +		uclamp_se_set(uc_se, sysctl_sched_rt_default_uclamp_util_min, false);
-> >>>>> +}
-> >>>>> +
-> >>>>>  unsigned long uclamp_eff_value(struct task_struct *p, enum uclamp_id clamp_id)
-> >>>>>  {
-> >>>>>  	struct uclamp_se uc_eff;
-> >>>>> @@ -1030,6 +1059,12 @@ static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
-> >>>>>  	if (unlikely(!p->sched_class->uclamp_enabled))
-> >>>>>  		return;
-> >>>>>  
-> >>>>> +	/*
-> >>>>> +	 * When sysctl_sched_rt_default_uclamp_util_min value is changed by the
-> >>>>> +	 * user, we apply any new value on the next wakeup, which is here.
-> >>>>> +	 */
-> >>>>> +	uclamp_rt_sync_default_util_min(p);
-> >>>>> +
-> >>>>
-> >>>> Does this have to be an extra function? Can we not reuse
-> >>>> uclamp_tg_restrict() by slightly rename it to uclamp_restrict()?
-> 
-> Btw, there was an issue in my little snippet. I used uc_req.user_defined
-> uninitialized in uclamp_restrict().
-> 
-> 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index f3706dad32ce..7e6b2b7cd1e5 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -903,12 +903,11 @@ uclamp_restrict(struct task_struct *p, enum uclamp_id clamp_id)
->  {
->  	struct uclamp_se uc_req, __maybe_unused uc_max;
->  
-> -	if (unlikely(rt_task(p)) && clamp_id == UCLAMP_MIN &&
-> -	    !uc_req.user_defined) {
-> +	if (unlikely(rt_task(p)) && clamp_id == UCLAMP_MIN) {
->  		struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
->  		int rt_min = sysctl_sched_rt_default_uclamp_util_min;
->  
-> -		if (uc_se->value != rt_min) {
-> +		if (!uc_se->user_defined && uc_se->value != rt_min) {
->  			uclamp_se_set(uc_se, rt_min, false);
->  			printk("uclamp_restrict() [%s %d] p->uclamp_req[%d].value=%d\n",
->  			       p->comm, p->pid, clamp_id, uc_se->value);
-> 
-> >>> Hmm the thing is that we're not restricting here. In contrary we're boosting,
-> >>> so the name would be misleading.
-> >>
-> >> I always thought that we're restricting p->uclamp_req[UCLAMP_MIN].value (default 1024) to
-> >> sysctl_sched_rt_default_uclamp_util_min (0-1024)?
-> > 
-> > The way I look at it is that we're *setting* it to
-> > sysctl_sched_rt_default_uclamp_util_min if !user_defined.
-> > 
-> > The restriction mechanism that ensures this set value doesn't escape
-> > cgroup/global restrictions setup.
-> 
-> I guess we overall agree here. 
-> 
-> I see 3 restriction levels: (!user_defined) task -> taskgroup -> system
-> 
-> I see sysctl_sched_rt_default_uclamp_util_min (min_rt_default) as a
-> restriction on task level.
+This updates the kerneldoc comment for the pr_debug() macro to describe
+the new set of kernel config options it's affected by.
 
-Hmm from code perspective it is a request. One that is applied by default if
-the user didn't make any request.
+It also simplifies the description of the pr_debug() and pr_devel()
+macros in printk-basics.rst, forwarding the reader to the function
+reference.
 
-Since restriction has a different meaning from code point of view, I think
-interchanging both could be confusing.
+Signed-off-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
+---
+Some background:
 
-A restriction from the code view is that you can request 1024, but if cgroup or
-global settings doesn't allow you, the system will automatically crop it.
+The previous patch I sent to add kerneldocs to printk.h:
+https://lore.kernel.org/linux-doc/20200420171544.3c443e36@lwn.net/
 
-The new sysctl doesn't result in any cropping. It is equivalent to a user
-making a sched_setattr() call to change UCLAMP_MIN value of a task. It's just
-this request is applied automatically by default, if !user_defined.
+conflicted with this other patch:
+https://lkml.org/lkml/2020/4/20/1320
 
-But if you meant your high level view of how it works you think of it as
-a restriction, then yeah, it could be abstracted in this way. The terminology
-just conflicts with the code.
+during the manual linux-next merge. Stephen Rothwell fixed the conflict
+but the description of what pr_debug() does needed to be updated to
+reflect the changes introduced in the patch by Orson Zhai.
 
-> 
-> It's true that the task level restriction is setting the value at the same time.
-> 
-> For CFS (id=UCLAMP_[MIN\|MAX]) and RT (id=UCLAMP_MAX) we use
-> uclamp_none(id) and those values (0, 1024) are fixed so these task level
-> values don't need to be further restricted.
+Tested on linux-next with make htmldocs and make pdfdocs.
 
-I wouldn't think of these as restriction. They're default requests, if
-I understood what you're saying correctly, by default:
+ Documentation/core-api/printk-basics.rst | 4 ++--
+ include/linux/printk.h                   | 7 ++++---
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-	cfs_task->util_min = 0
-	cfs_task->util_max = 1024
+diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
+index 563a9ce5fe1d..84c853e17200 100644
+--- a/Documentation/core-api/printk-basics.rst
++++ b/Documentation/core-api/printk-basics.rst
+@@ -100,8 +100,8 @@ would prefix every pr_*() message in that file with the module and function name
+ that originated the message.
+ 
+ For debugging purposes there are also two conditionally-compiled macros:
+-pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
+-also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
++pr_debug() and pr_devel(), which are compiled-out depending on the kernel
++configuration options (See the function reference below for more info).
+ 
+ 
+ Function reference
+diff --git a/include/linux/printk.h b/include/linux/printk.h
+index 768ac6bc637d..dab23bcbdeb0 100644
+--- a/include/linux/printk.h
++++ b/include/linux/printk.h
+@@ -408,9 +408,10 @@ extern int kptr_restrict;
+  * @fmt: format string
+  * @...: arguments for the format string
+  *
+- * This macro expands to dynamic_pr_debug() if CONFIG_DYNAMIC_DEBUG is
+- * set. Otherwise, if DEBUG is defined, it's equivalent to a printk with
+- * KERN_DEBUG loglevel. If DEBUG is not defined it does nothing.
++ * This macro expands to dynamic_pr_debug() if CONFIG_DYNAMIC_DEBUG is set or if
++ * CONFIG_DYNAMIC_DEBUG_CORE and DYNAMIC_DEBUG_MODULE are both set.  Otherwise,
++ * if DEBUG is defined, it's equivalent to a printk with KERN_DEBUG loglevel.
++ * If none of the above is defined it does nothing.
+  *
+  * It uses pr_fmt() to generate the format string (dynamic_pr_debug() uses
+  * pr_fmt() internally).
+-- 
+2.18.0
 
-	rt_task->util_min = 1024
-	rt_task->util_max = 1024
-
-Which are the requested value.
-
-sysctl_util_clamp_{min,max} are the default restriction which by default would
-allow the tasks to request any value within the full range.
-
-The root taskgroup will inherit this value by default. And new cgroups will
-inherit from the root taskgroup.
-
-> 
-> For RT (id=UCLAMP_MIN) we use 'min_rt_default' and since it can change
-> we have to check the task level restriction in 'uclamp_eff_get() ->
-> uclamp_(tg)_restrict()'.
-
-Yes. If we take the approach to apply the default request in uclamp_eff_get(),
-then this must be applied before uclamp_tg_restrict() call.
-
-> 
-> root@h960:~# echo 999 > /proc/sys/kernel/sched_rt_default_util_clamp_min
-> 
-> [ 2540.507236] uclamp_eff_get() [rtkit-daemon 419] tag=0 uclamp_id=0 uc_req.value=1024
-> [ 2540.514947] uclamp_eff_get() [rtkit-daemon 419] tag=1 uclamp_id=0 uc_req.value=1024
-> [ 2548.015208] uclamp_restrict() [rtkit-daemon 419] p->uclamp_req[0].value=999
-> 
-> root@h960:~# echo 666 > /proc/sys/kernel/sched_util_clamp_min
-> 
-> [ 2548.022219] uclamp_eff_get() [rtkit-daemon 419] tag=0 uclamp_id=0 uc_req.value=999
-> [ 2548.029825] uclamp_eff_get() [rtkit-daemon 419] tag=1 uclamp_id=0 uc_req.value=999
-> [ 2553.479509] uclamp_eff_get() [rtkit-daemon 419] tag=0 uclamp_id=0 uc_max.value=666
-> [ 2553.487131] uclamp_eff_get() [rtkit-daemon 419] tag=1 uclamp_id=0 uc_max.value=666
-> 
-> Haven't tried to put an rt task into a taskgroup other than root.
-
-I do run a test that Patrick had which checks for cgroup values. One of the
-tests checks if RT are boosted to max, and it fails when I change the default
-RT max-boost value :)
-
-I think we're in agreement, but the terminology is probably making things a bit
-confusing.
-
-Thanks
-
---
-Qais Yousef
