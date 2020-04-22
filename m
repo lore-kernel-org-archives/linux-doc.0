@@ -2,100 +2,137 @@ Return-Path: <SRS0=zh9o=6G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98FD7C5518C
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 10:31:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 795A7C55189
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 10:44:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76EE52087E
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 10:31:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60C652076E
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 10:44:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730697AbgDVK0P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Apr 2020 06:26:15 -0400
-Received: from smtp1-2.goneo.de ([85.220.129.31]:54699 "EHLO smtp1-2.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730686AbgDVK0O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Apr 2020 06:26:14 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp1.goneo.de (Postfix) with ESMTP id 9ED7923F014;
-        Wed, 22 Apr 2020 12:26:11 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp1.goneo.de ([127.0.0.1])
-        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id rNSSx5_nzDPe; Wed, 22 Apr 2020 12:26:10 +0200 (CEST)
-Received: from [192.168.1.127] (dyndsl-085-016-042-144.ewe-ip-backbone.de [85.16.42.144])
-        by smtp1.goneo.de (Postfix) with ESMTPSA id 9317F23F0E4;
-        Wed, 22 Apr 2020 12:26:10 +0200 (CEST)
-Subject: Re: Path troubles when using SPHINXDIRS option
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20200421103814.4e0fa4c3@coco.lan>
- <dbc22720-79fe-e7a8-b88c-46108ba5ccf9@darmarit.de>
- <20200422105750.4fed3717@coco.lan>
- <428db3a0-4762-5ff4-1d31-2d64d81e2f65@darmarit.de>
- <20200422120520.70054224@coco.lan>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <7afd7ef6-8763-23eb-34d6-00b8a699bdda@darmarit.de>
-Date:   Wed, 22 Apr 2020 12:26:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1731609AbgDVKoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Apr 2020 06:44:09 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36152 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731500AbgDVKoF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 06:44:05 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03MAYWdd060141;
+        Wed, 22 Apr 2020 06:43:02 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 30jh8xp4ea-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Apr 2020 06:43:02 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03MAdcXn070893;
+        Wed, 22 Apr 2020 06:43:01 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 30jh8xp4dj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Apr 2020 06:43:01 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03MAeZbo005876;
+        Wed, 22 Apr 2020 10:42:59 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+        by ppma01dal.us.ibm.com with ESMTP id 30fs670rje-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Apr 2020 10:42:59 +0000
+Received: from b03ledav001.gho.boulder.ibm.com (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 03MAgumL56820100
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Apr 2020 10:42:56 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 99EC96E050;
+        Wed, 22 Apr 2020 10:42:56 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DCFE26E04C;
+        Wed, 22 Apr 2020 10:42:31 +0000 (GMT)
+Received: from skywalker.linux.ibm.com (unknown [9.79.185.239])
+        by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Wed, 22 Apr 2020 10:42:30 +0000 (GMT)
+X-Mailer: emacs 27.0.91 (via feedmail 11-beta-1 I)
+From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Longpeng <longpeng2@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mina Almasry <almasrymina@google.com>,
+        Peter Xu <peterx@redhat.com>,
+        Nitesh Narayan Lal <nitesh@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Subject: Re: [PATCH v3 3/4] hugetlbfs: remove hugetlb_add_hstate() warning
+ for existing hstate
+In-Reply-To: <20200417185049.275845-4-mike.kravetz@oracle.com>
+References: <20200417185049.275845-1-mike.kravetz@oracle.com>
+ <20200417185049.275845-4-mike.kravetz@oracle.com>
+Date:   Wed, 22 Apr 2020 16:12:26 +0530
+Message-ID: <87blnj4x9p.fsf@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200422120520.70054224@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-04-22_03:2020-04-22,2020-04-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxlogscore=935 spamscore=0
+ mlxscore=0 priorityscore=1501 impostorscore=0 malwarescore=0 clxscore=1011
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004220083
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 22.04.20 um 12:05 schrieb Mauro Carvalho Chehab:
-[...]
->> The opposite of pointing to a file is, that we can only point the
->> file not a content in the file and we lost the flexibility of
->> dynamical referencing by target's name: If the target is moved,
->> the refs has to be changed also.
-> 
-> True, but we have a script that tracks those problems and even
-> auto-correct most of such broken references.
+Mike Kravetz <mike.kravetz@oracle.com> writes:
 
-[...]
+> The routine hugetlb_add_hstate prints a warning if the hstate already
+> exists.  This was originally done as part of kernel command line
+> parsing.  If 'hugepagesz=' was specified more than once, the warning
+> 	pr_warn("hugepagesz= specified twice, ignoring\n");
+> would be printed.
+>
+> Some architectures want to enable all huge page sizes.  They would
+> call hugetlb_add_hstate for all supported sizes.  However, this was
+> done after command line processing and as a result hstates could have
+> already been created for some sizes.  To make sure no warning were
+> printed, there would often be code like:
+> 	if (!size_to_hstate(size)
+> 		hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT)
+>
+> The only time we want to print the warning is as the result of command
+> line processing.
 
-> An extension like Documentation/sphinx/automarkup.py could
-> easily replace them by :doc:`Documentation/foo`, creating
-> links on all those places at no cost.
-
-[...]
-
-> Adding explicit :ref: would require manual work, and I bet some
-> maintainers will reject adding extra markups on some files.
-
-[...]
-
-> In any case, maybe one day intersphinx will have support for :doc:
-> types added there as well.
-> 
-> Without looking into the dirty details, it doesn't sound too hard to add
-> support for it: intersphinx could simply create a :ref: type of reference
-> for all files (like, __doc_driver_api__media__drivers__tuners). Then,
-> any place with a :doc:`/driver-api/media/drivers/tuner` would be
-> dynamically replaced by a :ref:`__doc_driver_api__media__drivers__tuners`
-> at runtime.
-
-Yes, hack over hack .. sometimes I feel back in the "DocBook century".
-
-We now have a very confusing build process and I have to admit that
-I am also to blame.
-
-I also believe that everyone has good reasons.  For one solution or
-for the other solution.  _Hack_ or _standard_, it is always a compromise
-that the Kernel community has to find. 
-
-  I cannot rate that.
-
--- Markus --
+Does this patch break hugepages=x command line? I haven't tested this
+yet. But one of the details w.r.t. skipping that hugetlb_add_hstate is
+to make sure we can configure the max_huge_pages. 
 
 
+>So, remove the warning from hugetlb_add_hstate and
+> add it to the single arch independent routine processing "hugepagesz=".
+> After this, calls to size_to_hstate() in arch specific code can be
+> removed and hugetlb_add_hstate can be called without worrying about
+> warning messages.
+>
+
+-aneesh
