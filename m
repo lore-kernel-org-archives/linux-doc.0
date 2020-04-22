@@ -2,182 +2,160 @@ Return-Path: <SRS0=zh9o=6G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93844C55185
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 14:56:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F31C5518C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 15:22:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A7DA2084D
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 14:56:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4269C20774
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 15:22:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="U4iDnYZn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbgDVOzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Apr 2020 10:55:12 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:49605 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726819AbgDVOzL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 10:55:11 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jRGmK-0006CM-57; Wed, 22 Apr 2020 14:55:08 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        Steve Barber <smbarber@google.com>,
-        Dylan Reid <dgreid@google.com>,
-        Filipe Brandenburger <filbranden@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Benjamin Elder <bentheelder@google.com>,
-        Akihiro Suda <suda.kyoto@gmail.com>
-Subject: [PATCH v2 1/7] kobject_uevent: remove unneeded netlink_ns check
-Date:   Wed, 22 Apr 2020 16:54:31 +0200
-Message-Id: <20200422145437.176057-2-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200422145437.176057-1-christian.brauner@ubuntu.com>
-References: <20200422145437.176057-1-christian.brauner@ubuntu.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726296AbgDVPWY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Apr 2020 11:22:24 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:32884 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725980AbgDVPWX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 11:22:23 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03MFJ070049163;
+        Wed, 22 Apr 2020 15:22:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=URGddE/rla++MvolJEfSZrKgtDDP+qOWMmeR82gZX2A=;
+ b=U4iDnYZn5mArrrPDO/jPJ5tpWfk04o1vdsyNldlo4hs3VJA2YgKf/AhTSnr5T7zh8ROK
+ TRWnI4KDJc4Z0KZlxbVd+u73ZzAZtgV+HRdFYEtweQFCXnUaWkXGOENSZAGcpa3+azUZ
+ ciP1Zu1J/+6bFTOw+z3Cfj4cPmvy24nJ16rS0k7VbkFtUvrvfCJCmT9RvE2xQ23Rc0Af
+ U6qUdoxnLHs9s6MPxdTo3E57S8vpiVO63AS2/cV5B0l1m9qTzEPMoIyk2wWwrCFeoTcj
+ K+cMRp4Ry5BvhGtVZ89eSiZc3vdlDu4ErCavlBB5u84UJPwsuEeQu5smP7KXZpX4Qagt kA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 30grpgqyss-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Apr 2020 15:22:00 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03MFIJLQ180656;
+        Wed, 22 Apr 2020 15:21:59 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3030.oracle.com with ESMTP id 30gb1jt2f4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Apr 2020 15:21:59 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03MFLtvK001754;
+        Wed, 22 Apr 2020 15:21:55 GMT
+Received: from [10.175.186.214] (/10.175.186.214)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 22 Apr 2020 08:21:54 -0700
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH 1/1] x86/fpu: Allow clearcpuid= to clear several bits
+From:   John Haxby <john.haxby@oracle.com>
+In-Reply-To: <20200422143554.GI608746@tassilo.jf.intel.com>
+Date:   Wed, 22 Apr 2020 16:21:51 +0100
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <96EA2DF4-7490-4FF0-BB3E-EC9157517918@oracle.com>
+References: <cover.1587555769.git.john.haxby@oracle.com>
+ <03a3a4d135b17115db9ad91413e21af73e244500.1587555769.git.john.haxby@oracle.com>
+ <20200422143554.GI608746@tassilo.jf.intel.com>
+To:     Andi Kleen <ak@linux.intel.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9599 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0 spamscore=0
+ mlxlogscore=999 mlxscore=0 malwarescore=0 bulkscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004220119
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9599 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 adultscore=0 suspectscore=0 bulkscore=0 clxscore=1015
+ malwarescore=0 phishscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004220119
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Back when I rewrote large chunks of uevent sending I should have removed
-the .netlink_ns method completely after having removed it's last user in
-[1]. Let's remove it now and also remove the helper associated with it
-that is unused too.
 
-Fixes: a3498436b3a0 ("netns: restrict uevents") /* No backport needed. */
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
-/* v2 */
-unchanged
----
- Documentation/filesystems/sysfs-tagging.txt |  1 -
- include/linux/kobject_ns.h                  |  3 ---
- lib/kobject.c                               | 13 -------------
- lib/kobject_uevent.c                        |  2 +-
- net/core/net-sysfs.c                        |  6 ------
- 5 files changed, 1 insertion(+), 24 deletions(-)
 
-diff --git a/Documentation/filesystems/sysfs-tagging.txt b/Documentation/filesystems/sysfs-tagging.txt
-index c7c8e6438958..51d28dd8b84f 100644
---- a/Documentation/filesystems/sysfs-tagging.txt
-+++ b/Documentation/filesystems/sysfs-tagging.txt
-@@ -37,6 +37,5 @@ Users of this interface:
- - define a type in the kobj_ns_type enumeration.
- - call kobj_ns_type_register() with its kobj_ns_type_operations which has
-   - current_ns() which returns current's namespace
--  - netlink_ns() which returns a socket's namespace
-   - initial_ns() which returns the initial namesapce
- - call kobj_ns_exit() when an individual tag is no longer valid
-diff --git a/include/linux/kobject_ns.h b/include/linux/kobject_ns.h
-index 069aa2ebef90..991a9286bcea 100644
---- a/include/linux/kobject_ns.h
-+++ b/include/linux/kobject_ns.h
-@@ -32,7 +32,6 @@ enum kobj_ns_type {
- /*
-  * Callbacks so sysfs can determine namespaces
-  *   @grab_current_ns: return a new reference to calling task's namespace
-- *   @netlink_ns: return namespace to which a sock belongs (right?)
-  *   @initial_ns: return the initial namespace (i.e. init_net_ns)
-  *   @drop_ns: drops a reference to namespace
-  */
-@@ -40,7 +39,6 @@ struct kobj_ns_type_operations {
- 	enum kobj_ns_type type;
- 	bool (*current_may_mount)(void);
- 	void *(*grab_current_ns)(void);
--	const void *(*netlink_ns)(struct sock *sk);
- 	const void *(*initial_ns)(void);
- 	void (*drop_ns)(void *);
- };
-@@ -52,7 +50,6 @@ const struct kobj_ns_type_operations *kobj_ns_ops(struct kobject *kobj);
- 
- bool kobj_ns_current_may_mount(enum kobj_ns_type type);
- void *kobj_ns_grab_current(enum kobj_ns_type type);
--const void *kobj_ns_netlink(enum kobj_ns_type type, struct sock *sk);
- const void *kobj_ns_initial(enum kobj_ns_type type);
- void kobj_ns_drop(enum kobj_ns_type type, void *ns);
- 
-diff --git a/lib/kobject.c b/lib/kobject.c
-index 83198cb37d8d..6f07083cc111 100644
---- a/lib/kobject.c
-+++ b/lib/kobject.c
-@@ -1092,19 +1092,6 @@ void *kobj_ns_grab_current(enum kobj_ns_type type)
- }
- EXPORT_SYMBOL_GPL(kobj_ns_grab_current);
- 
--const void *kobj_ns_netlink(enum kobj_ns_type type, struct sock *sk)
--{
--	const void *ns = NULL;
--
--	spin_lock(&kobj_ns_type_lock);
--	if ((type > KOBJ_NS_TYPE_NONE) && (type < KOBJ_NS_TYPES) &&
--	    kobj_ns_ops_tbl[type])
--		ns = kobj_ns_ops_tbl[type]->netlink_ns(sk);
--	spin_unlock(&kobj_ns_type_lock);
--
--	return ns;
--}
--
- const void *kobj_ns_initial(enum kobj_ns_type type)
- {
- 	const void *ns = NULL;
-diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
-index 7998affa45d4..a45b3eeaa2b9 100644
---- a/lib/kobject_uevent.c
-+++ b/lib/kobject_uevent.c
-@@ -400,7 +400,7 @@ static int kobject_uevent_net_broadcast(struct kobject *kobj,
- 	 * are the only tag relevant here since we want to decide which
- 	 * network namespaces to broadcast the uevent into.
- 	 */
--	if (ops && ops->netlink_ns && kobj->ktype->namespace)
-+	if (ops && kobj->ktype->namespace)
- 		if (ops->type == KOBJ_NS_TYPE_NET)
- 			net = kobj->ktype->namespace(kobj);
- 
-diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
-index 4773ad6ec111..3fa35a3c843a 100644
---- a/net/core/net-sysfs.c
-+++ b/net/core/net-sysfs.c
-@@ -1694,16 +1694,10 @@ static const void *net_initial_ns(void)
- 	return &init_net;
- }
- 
--static const void *net_netlink_ns(struct sock *sk)
--{
--	return sock_net(sk);
--}
--
- const struct kobj_ns_type_operations net_ns_type_operations = {
- 	.type = KOBJ_NS_TYPE_NET,
- 	.current_may_mount = net_current_may_mount,
- 	.grab_current_ns = net_grab_current_ns,
--	.netlink_ns = net_netlink_ns,
- 	.initial_ns = net_initial_ns,
- 	.drop_ns = net_drop_ns,
- };
--- 
-2.26.1
+> On 22 Apr 2020, at 15:35, Andi Kleen <ak@linux.intel.com> wrote:
+>=20
+>=20
+> Thanks good catch.
+>=20
+>> 	if (cmdline_find_option(boot_command_line, "clearcpuid", arg,
+>> -				sizeof(arg)) &&
+>> -	    get_option(&argptr, &bit) &&
+>> -	    bit >=3D 0 &&
+>> -	    bit < NCAPINTS * 32)
+>> -		setup_clear_cpu_cap(bit);
+>> +				sizeof(arg))) {
+>> +		/* cpuid bit numbers are mostly three digits */
+>> +		enum  { nints =3D sizeof(arg)/(3+1) + 1 };
+>=20
+> Not sure what the digits have to do with the stack space of an int =
+array.
+>=20
+> We should have enough stack to afford some more than 8.
+
+sizeof(arg) =3D=3D 32; room enough for eight three-digit with their =
+trailing commas.   If sizeof(arg) =3D=3D 1024 instead then there'd be =
+more than enough room to remove every single feature.   TBH, 512 is more =
+than enough for the 89 flags I have listed on this machine I'm looking =
+at here.   I'll grow sizeof(arg) and nints accordingly.
+
+>=20
+> Would be good to have a warning if the arguments are longer.
+>=20
+
+Yes, I should definitely do that -- coming to a V2 soon.
+
+
+> Maybe it would be simpler to fix the early arg parser
+> to allow multiple instances again? That would also avoid the limit,
+> and keep everything compatible.
+>=20
+
+I did wonder about that.   However, cmdline_find_option() is =
+specifically documented as=20
+
+ * Find a non-boolean option (i.e. option=3Dargument). In accordance =
+with
+ * standard Linux practice, if this option is repeated, this returns the
+ * last instance on the command line.
+
+And since that appeared in 2017 I decided to stick with the new-fangled =
+interface :)   This is a little-used feature; I'm not sure it's worth =
+the effort of parsing the command line for the old style.  What do you =
+think?
+
+jch
+
+
+> -Andi
+>=20
+>=20
+>> +		int i, bits[nints];
+>> +
+>> +		get_options(arg, nints, bits);
+>> +		for (i =3D 1; i <=3D bits[0]; i++) {
+>> +			if (bits[i] >=3D 0 && bits[i] < NCAPINTS * 32)
+>> +				setup_clear_cpu_cap(bits[i]);
+>> +		}
+>> +	}
+>> }
+>>=20
+>> /*
+>> --=20
+>> 2.25.3
+>>=20
 
