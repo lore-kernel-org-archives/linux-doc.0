@@ -2,88 +2,174 @@ Return-Path: <SRS0=zh9o=6G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C57DCC55185
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 16:35:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BCD0C54FCB
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 16:57:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 985F821473
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 16:35:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587573300;
-	bh=w4JN5T5oaZgQeBhYVqmXSSTzkWYLzuJOyQMklh0w+mc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=oVPLi2N6u+3P15UWRfihg5y3R3HjCDkzRiF2g63c6OOMKexi0r+pTpHYzOhqlqp6f
-	 VF1UDw0mwmed7rjTVhi3Sut50l4cEPmUjPUUl2yvIXtM3/ASlecHv/UYNx89tSj+N4
-	 sVWPYNIThlPceA6g5LU1bS5oi2EFs4IwlWoYsTJU=
+	by mail.kernel.org (Postfix) with ESMTP id 43E7420706
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 16:57:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="MYqyVkvM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726381AbgDVQe4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Apr 2020 12:34:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45550 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725808AbgDVQez (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Apr 2020 12:34:55 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EC2C42082E;
-        Wed, 22 Apr 2020 16:34:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587573295;
-        bh=w4JN5T5oaZgQeBhYVqmXSSTzkWYLzuJOyQMklh0w+mc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aZf1+a1hml5uJnZaaGENlJlwC+gD2DiStpvw9MbJN79Of1MS4pCvEtSRkFH8HgEAs
-         7fOVd35T+0Gzr+lcs/fPBzcOfZwgU1mtNIXUpTpq/zVTT1FP1lqMBaln4BIhmCMnnX
-         BYRK3509URKr1fwMf23OLyAXB9dtNLLPLUEV5wns=
-Date:   Wed, 22 Apr 2020 18:34:53 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-api@vger.kernel.org,
+        id S1726732AbgDVQ5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Apr 2020 12:57:47 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:41474 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbgDVQ5r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 12:57:47 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03MGmbre004744;
+        Wed, 22 Apr 2020 16:56:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=LFL7+e4rirW/BkUxDvX7Q/JJpL0GDaD2BXrkYZ/Jcqw=;
+ b=MYqyVkvMM2l3bcO0sT1OP4Def5zhIfw/QdGlifi1bpsPSISeIps2HlN6swempAZOHxXU
+ Xuwr7UsHf04EjB4t+Bx9Iryi2BwAf30Z4vB0a0cmU9iZJLT2BhOnDAlxqqp8uH5BLXmm
+ yLz0SYoMr3BnkdKC1onkAb1OOYCfyVsD6yoveKI8U5apJsHviWgi1LC2od6TwBZfhW1s
+ 8mVD64RprsPOCCsEabcXnkybmZn0gbNZlHNE3QhzDHsievUxgYz9ZV/pJVdke7G4VMta
+ Pr6NAwDyxeSmgA9PCwLd2+I+VrpMva1Va6GkzI8Go+hHrYfD6lzFVPuAQgtNlWxdAUD9 1w== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 30grpgrh3f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Apr 2020 16:56:25 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03MGmInv111640;
+        Wed, 22 Apr 2020 16:56:24 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3030.oracle.com with ESMTP id 30gb1jxhcr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Apr 2020 16:56:24 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 03MGu7au024097;
+        Wed, 22 Apr 2020 16:56:07 GMT
+Received: from [192.168.2.157] (/71.63.128.209)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 22 Apr 2020 09:56:07 -0700
+Subject: Re: [PATCH v3 3/4] hugetlbfs: remove hugetlb_add_hstate() warning for
+ existing hstate
+To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S.Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        Steve Barber <smbarber@google.com>,
-        Dylan Reid <dgreid@google.com>,
-        Filipe Brandenburger <filbranden@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Benjamin Elder <bentheelder@google.com>,
-        Akihiro Suda <suda.kyoto@gmail.com>
-Subject: Re: [PATCH v2 1/7] kobject_uevent: remove unneeded netlink_ns check
-Message-ID: <20200422163453.GA3438121@kroah.com>
-References: <20200422145437.176057-1-christian.brauner@ubuntu.com>
- <20200422145437.176057-2-christian.brauner@ubuntu.com>
+        Longpeng <longpeng2@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mina Almasry <almasrymina@google.com>,
+        Peter Xu <peterx@redhat.com>,
+        Nitesh Narayan Lal <nitesh@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20200417185049.275845-1-mike.kravetz@oracle.com>
+ <20200417185049.275845-4-mike.kravetz@oracle.com>
+ <87blnj4x9p.fsf@linux.ibm.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <d39a33da-6095-c616-6bff-6af8795922d1@oracle.com>
+Date:   Wed, 22 Apr 2020 09:56:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200422145437.176057-2-christian.brauner@ubuntu.com>
+In-Reply-To: <87blnj4x9p.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9599 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0 spamscore=0
+ mlxlogscore=999 mlxscore=0 malwarescore=0 bulkscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004220126
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9599 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 adultscore=0 suspectscore=0 bulkscore=0 clxscore=1011
+ malwarescore=0 phishscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004220126
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 22, 2020 at 04:54:31PM +0200, Christian Brauner wrote:
-> Back when I rewrote large chunks of uevent sending I should have removed
-> the .netlink_ns method completely after having removed it's last user in
-> [1]. Let's remove it now and also remove the helper associated with it
-> that is unused too.
+On 4/22/20 3:42 AM, Aneesh Kumar K.V wrote:
+> Mike Kravetz <mike.kravetz@oracle.com> writes:
 > 
-> Fixes: a3498436b3a0 ("netns: restrict uevents") /* No backport needed. */
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+>> The routine hugetlb_add_hstate prints a warning if the hstate already
+>> exists.  This was originally done as part of kernel command line
+>> parsing.  If 'hugepagesz=' was specified more than once, the warning
+>> 	pr_warn("hugepagesz= specified twice, ignoring\n");
+>> would be printed.
+>>
+>> Some architectures want to enable all huge page sizes.  They would
+>> call hugetlb_add_hstate for all supported sizes.  However, this was
+>> done after command line processing and as a result hstates could have
+>> already been created for some sizes.  To make sure no warning were
+>> printed, there would often be code like:
+>> 	if (!size_to_hstate(size)
+>> 		hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT)
+>>
+>> The only time we want to print the warning is as the result of command
+>> line processing.
+> 
+> Does this patch break hugepages=x command line? I haven't tested this
+> yet. But one of the details w.r.t. skipping that hugetlb_add_hstate is
+> to make sure we can configure the max_huge_pages. 
+> 
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Are you asking about hugepages=x being the only option on the command line?
+If so, then the behavior is not changed.  This will result in x pages of
+default huge page size being allocated.  Where default huge page size is of
+course architecture dependent.  On an x86 VM,
+
+[    0.040474] Kernel command line: BOOT_IMAGE=/vmlinuz-5.6.0-mm1+ root=/dev/mapper/fedora_new--host-root ro rd.lvm.lv=fedora_new-host/root rd.lvm.lv=fedora_new-host/swap console=tty0 console=ttyS0,115200 audit=0 transparent_hugepage=always hugepages=128
+[    0.332618] HugeTLB registered 1.00 GiB page size, pre-allocated 0 pages
+[    0.333245] HugeTLB registered 2.00 MiB page size, pre-allocated 128 pages
+
+BTW - Here are the command line options I tested on x86 with this series.
+
+No errors or warnings
+---------------------
+hugepages=128
+hugepagesz=2M hugepages=128
+default_hugepagesz=2M hugepages=128
+hugepages=128 default_hugepagesz=2M
+hugepagesz=1G hugepages=2
+hugepages=2 default_hugepagesz=1G
+default_hugepagesz=1G hugepages=2
+hugepages=128 hugepagesz=1G hugepages=2
+hugepagesz=1G hugepages=2 hugepagesz=2M hugepages=128
+default_hugepagesz=2M hugepages=128 hugepagesz=1G hugepages=2
+hugepages=128 default_hugepagesz=2M hugepagesz=1G hugepages=2
+hugepages=2 default_hugepagesz=1G hugepagesz=2M hugepages=128
+default_hugepagesz=1G hugepages=2 hugepagesz=2M hugepages=128
+default_hugepagesz=2M hugepagesz=2M hugepages=128
+default_hugepagesz=2M hugepagesz=1G hugepages=2 hugepagesz=2M hugepages=128
+
+Error or warning
+----------------
+hugepages=128 hugepagesz=2M hugepages=256
+hugepagesz=2M hugepages=128 hugepagesz=2M hugepages=256
+default_hugepagesz=2M hugepages=128 hugepagesz=2M hugepages=256
+hugepages=128 hugepages=256
+hugepagesz=2M hugepages=128 hugepages=2 default_hugepagesz=1G
+
+-- 
+Mike Kravetz
