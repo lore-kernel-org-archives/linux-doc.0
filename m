@@ -1,87 +1,140 @@
-Return-Path: <SRS0=87kO=6F=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=zh9o=6G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-10.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A8F0C2BA19
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 22:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20FA6C2BA19
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 00:42:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35CAB20736
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Apr 2020 22:53:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFFF22071C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 00:42:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1587516130;
+	bh=mb/GeZW/pAYs7/zVVEqQgr7aut2LB00bzCH+XTKrOxM=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=EXLwfrg1T39MzrVLHItuOAbW0AT8NkGiaJ9NPva+MgAm5GkcB0T4aJGnkJTySTe+u
+	 UztDN0F+BiisjzwFxKahikK7pAH//PgoS7D1vNm7UEYP3bLgVeBAnIBkOEsfk1o6IR
+	 q5Nw4FY8G7TZyp4e0Ywcqu8dVh+1GOYkmVmh8MQA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726296AbgDUWxT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Apr 2020 18:53:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42042 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725850AbgDUWxT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Apr 2020 18:53:19 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81917C0610D5;
-        Tue, 21 Apr 2020 15:53:19 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1726173AbgDVAmJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Apr 2020 20:42:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39554 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726012AbgDVAmJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Apr 2020 20:42:09 -0400
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CB82D378;
-        Tue, 21 Apr 2020 22:53:18 +0000 (UTC)
-Date:   Tue, 21 Apr 2020 16:53:17 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Becker <jlbec@evilplan.org>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 08/29] docs: filesystems: convert configfs.txt to
- ReST
-Message-ID: <20200421165317.277f52ee@lwn.net>
-In-Reply-To: <20200421172337.GA18305@lst.de>
-References: <cover.1587487612.git.mchehab+huawei@kernel.org>
-        <278a9befc98b49ea866c9b687d070c70cde20628.1587487612.git.mchehab+huawei@kernel.org>
-        <20200421165534.GA16511@lst.de>
-        <20200421170223.GP5820@bombadil.infradead.org>
-        <20200421172337.GA18305@lst.de>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id 56794206D5;
+        Wed, 22 Apr 2020 00:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587516128;
+        bh=mb/GeZW/pAYs7/zVVEqQgr7aut2LB00bzCH+XTKrOxM=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=lBmz6kuvve++2V17AS+4aruOhzyO/0F7bgvOQlmrqP1kQvvdMSvbmPW8wlr4CQZbJ
+         143a7nxcEWz50OxhJc/tJyHzQU+cQRg1zmobxv5rR79T3TUQ/ZFiWIcY2Wo0vqFQkQ
+         rbtBbKDXLKms+ilT1Mf6FjfB3ZIB+j7nPA+uhWMY=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 2D7843523039; Tue, 21 Apr 2020 17:42:08 -0700 (PDT)
+Date:   Tue, 21 Apr 2020 17:42:08 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org
+Subject: Re: [PATCH 07/10] docs: RCU: RTFP: fix bibtex entries
+Message-ID: <20200422004208.GI17661@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <cover.1587488137.git.mchehab+huawei@kernel.org>
+ <3cc10823634f12c3d3c44ee03f73b7aaa347df63.1587488137.git.mchehab+huawei@kernel.org>
+ <20200421174329.GR17661@paulmck-ThinkPad-P72>
+ <20200421175225.GA32083@paulmck-ThinkPad-P72>
+ <20200421212850.616db8b0@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200421212850.616db8b0@coco.lan>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 21 Apr 2020 19:23:37 +0200
-Christoph Hellwig <hch@lst.de> wrote:
-
-> On Tue, Apr 21, 2020 at 10:02:23AM -0700, Matthew Wilcox wrote:
-> > On Tue, Apr 21, 2020 at 06:55:34PM +0200, Christoph Hellwig wrote:  
-> > > NAK, this makes the document significantly harder to read.  
-> > 
-> > Really?  It reads more easily to me in the new format.  Enclosing
-> > section headers in [] is really weird.  
+On Tue, Apr 21, 2020 at 09:29:06PM +0200, Mauro Carvalho Chehab wrote:
+> Em Tue, 21 Apr 2020 10:52:25 -0700
+> "Paul E. McKenney" <paulmck@kernel.org> escreveu:
 > 
-> It wasn't entirely uncommon, but that's not really the point.  The
-> Problem is all the weird ".." or "::" annotations that really kill
-> the flow, or things like "|copy|" that have no reason to exist.
+> > On Tue, Apr 21, 2020 at 10:43:29AM -0700, Paul E. McKenney wrote:
+> > > On Tue, Apr 21, 2020 at 07:04:08PM +0200, Mauro Carvalho Chehab wrote:  
+> > > > There are several troubles at the bibtex entries with
+> > > > prevent them to be processed by LaTeX:
+> > > > 
+> > > > - On LaTeX, comment lines start with '%', but here, comments
+> > > >   are starting with "#";
+> > > > - Underlines should be escaped.
+> > > > - While the best would be to use \url{} for all URL entries,
+> > > >   let's do it at least for a couple that would otherwise
+> > > >   produce errors on LaTeX.
+> > > > 
+> > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> > > 
+> > > Another approach might be just to link to a public repo containing
+> > > cleaned-up versions of these bibliography entries:
+> > > 
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/perfbook.git/tree/bib/RCU.bib
+> > > 
+> > > That would have the advantage of keeping this information in only one
+> > > place, and reducing the number of updates required.
+> 
+> Yeah. I didn't know you had it somewhere else.
+> 
+> > > 
+> > > Thoughts?  
+> > 
+> > OK, I should have read the next patch in the series, where you convert
+> > into a Sphinx-compatible bibliography.  Except that you had to convert
+> > the bibtex entries by hand to produce the Sphinx-compatible entries?
+> 
+> No, but it still required a lot of manual work.
+> 
+> I manually converted the file to ReST. That was the easiest part.
+> 
+> Then, I used sphinx-build to convert it into a LaTeX file and changed
+> the produced .tex for it to use the .bib file. 
+> 
+> The last step was the hardest one. I'm not familiar with LaTeX. I did
+> several attempts to produce an output with the same kind of captions
+> as the original file, but I was unable to generate it.
+> 
+> So, I ended doing the final step the hard way: I used XeLaTeX to produce
+> a PDF file. Then, I manually copied the entries from the output back into 
+> the ReST file, carefully adjusting the captions, in order for them to
+> point to the right places. 
+> 
+> Before that, I tried to use a few Sphinx BibTeX extensions, but they
+> are not complete: they were unable to parse some types of entries.
+> If I'm not mistaken (I did it some time ago, on another computer),
+> the ones I tested crashed when trying to parse some entries, like 
+> '@Conference'.
 
-This sounds sort of like "my markup is good, yours is bad", honestly.  If
-somebody were trying to add bracketed headings to a new document, I
-suspect we'd get similar complaints.
+OK, that sounds decidedly non-trivial.  :-(
 
-The markup can certainly be toned down.  If you don't like |copy|, it can
-just as easily remain "(c)" or become ©, or just go away entirely.  That
-would get rid of the ".. include:: <isonum.txt>" line too.  I would
-happily make a rule that we don't bother with markup like |copy|
-anywhere in the kernel docs.
+> > That will get a bit ugly when it comes time to add more entries.
+> > 
+> > Or was the conversion of bibliography entries automated?
+> 
+> I suspect it should be possible to automate it, but, as I said,
+> I'm not too familiar with LaTeX. 
 
-The SPDX line is supposed to exist in all files, of course.
+In the meantime, would it work to just reference the RCU.bib URL above?
 
-If Mauro does that, can you live with "::" to mark a literal block?  It
-doesn't seem like a whole lot of noise...?
-
-Thanks,
-
-jon
+						Thanx, Paul
