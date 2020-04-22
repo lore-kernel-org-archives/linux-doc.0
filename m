@@ -2,168 +2,175 @@ Return-Path: <SRS0=zh9o=6G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F5BAC55185
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 11:00:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 110D7C55185
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 12:04:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 797222076E
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 11:00:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD82A20780
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Apr 2020 12:04:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="q8E9NsMQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729129AbgDVLAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Apr 2020 07:00:08 -0400
-Received: from foss.arm.com ([217.140.110.172]:47506 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726976AbgDVK7y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Apr 2020 06:59:54 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3768931B;
-        Wed, 22 Apr 2020 03:59:53 -0700 (PDT)
-Received: from [192.168.0.7] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8DDE83F6CF;
-        Wed, 22 Apr 2020 03:59:49 -0700 (PDT)
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200403123020.13897-1-qais.yousef@arm.com>
- <292dbd54-e590-dc4f-41e6-5f86e478c0ee@arm.com>
- <20200420151341.7zni3bwroso2kpdc@e107158-lin.cambridge.arm.com>
- <de020088-3b06-3674-dab9-244ae577cc54@arm.com>
- <20200421112733.4jbguidgbqwzhv23@e107158-lin.cambridge.arm.com>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-Message-ID: <45236ccd-24d2-3b99-cd9b-bac13cfaceab@arm.com>
-Date:   Wed, 22 Apr 2020 12:59:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726644AbgDVMET (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Apr 2020 08:04:19 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:39074 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726539AbgDVMET (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 08:04:19 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03MBwRhm108352;
+        Wed, 22 Apr 2020 12:03:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=0sge0UWysT17PtNdI9Z8VmS+FyRtHkKG1FJsSBeTKNA=;
+ b=q8E9NsMQYqPf81xi+Pj3nn7wwTbBI4A7B6ZN76ZesHwwJewdpvI0NRlhCk0Z4MChwaIc
+ jh5NQF/myFzldo5XHp0D01AUDK1i4UlYIIYLZyFQVykC6j2X0AWpUUurG7xCkIZPyIcM
+ 8mwrZriF6xakPDsblTfDUv15MZaB/NktaCGS1UELzd7ml7vpTniV4w7kI0iYaZOcgxry
+ iruKvnXcuokumvlrYEXBGOZ6VnRBL9S9AleADM6c84fJj6JagQryQQ5EPxneQfC+vxvl
+ P87wM+0hNuP/oZQCI+bP7HKWt5QKO1SB72bYwuMacO+/1IB/JQ0mwX0ES2rjQ70Fod6I Hg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 30grpgptbc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Apr 2020 12:03:51 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03MC2aHW176872;
+        Wed, 22 Apr 2020 12:03:50 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3020.oracle.com with ESMTP id 30gbbgr0ya-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 22 Apr 2020 12:03:50 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03MC3nu4180211;
+        Wed, 22 Apr 2020 12:03:49 GMT
+Received: from control-surface.uk.oracle.com (dhcp-10-175-178-214.vpn.oracle.com [10.175.178.214])
+        by aserp3020.oracle.com with ESMTP id 30gbbgr0ve-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Wed, 22 Apr 2020 12:03:49 +0000
+Received: from control-surface.uk.oracle.com (localhost [127.0.0.1])
+        by control-surface.uk.oracle.com (8.15.2/8.15.2) with ESMTPS id 03MC3ltD080679
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Wed, 22 Apr 2020 13:03:47 +0100
+Received: (from jch@localhost)
+        by control-surface.uk.oracle.com (8.15.2/8.15.2/Submit) id 03MC3lhA080678;
+        Wed, 22 Apr 2020 13:03:47 +0100
+X-Authentication-Warning: control-surface.uk.oracle.com: jch set sender to john.haxby@oracle.com using -f
+From:   John Haxby <john.haxby@oracle.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, John Haxby <john.haxby@oracle.com>,
+        stable@vger.kernel.org
+Subject: [PATCH 1/1] x86/fpu: Allow clearcpuid= to clear several bits
+Date:   Wed, 22 Apr 2020 13:03:19 +0100
+Message-Id: <03a3a4d135b17115db9ad91413e21af73e244500.1587555769.git.john.haxby@oracle.com>
+X-Mailer: git-send-email 2.25.3
+In-Reply-To: <cover.1587555769.git.john.haxby@oracle.com>
+References: <cover.1587555769.git.john.haxby@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200421112733.4jbguidgbqwzhv23@e107158-lin.cambridge.arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9598 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 adultscore=0 suspectscore=0 bulkscore=0 clxscore=1011
+ malwarescore=0 phishscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004220096
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21/04/2020 13:27, Qais Yousef wrote:
-> On 04/21/20 13:18, Dietmar Eggemann wrote:
->> On 20/04/2020 17:13, Qais Yousef wrote:
->>> On 04/20/20 10:29, Dietmar Eggemann wrote:
->>>> On 03.04.20 14:30, Qais Yousef wrote:
->>>>
->>>> [...]
->>>>
->>>>> @@ -924,6 +945,14 @@ uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
->>>>>  	return uc_req;
->>>>>  }
->>>>>  
->>>>> +static void uclamp_rt_sync_default_util_min(struct task_struct *p)
->>>>> +{
->>>>> +	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
->>>>> +
->>>>> +	if (!uc_se->user_defined)
->>>>> +		uclamp_se_set(uc_se, sysctl_sched_rt_default_uclamp_util_min, false);
->>>>> +}
->>>>> +
->>>>>  unsigned long uclamp_eff_value(struct task_struct *p, enum uclamp_id clamp_id)
->>>>>  {
->>>>>  	struct uclamp_se uc_eff;
->>>>> @@ -1030,6 +1059,12 @@ static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
->>>>>  	if (unlikely(!p->sched_class->uclamp_enabled))
->>>>>  		return;
->>>>>  
->>>>> +	/*
->>>>> +	 * When sysctl_sched_rt_default_uclamp_util_min value is changed by the
->>>>> +	 * user, we apply any new value on the next wakeup, which is here.
->>>>> +	 */
->>>>> +	uclamp_rt_sync_default_util_min(p);
->>>>> +
->>>>
->>>> Does this have to be an extra function? Can we not reuse
->>>> uclamp_tg_restrict() by slightly rename it to uclamp_restrict()?
+Prior to 0c2a3913d6f5, clearcpuid= could be specified several times on
+the command line to clear several bits. The old multiple option is a
+little anachronistic so change clearcpuid to accept a comma-separated
+list of numbers. Up to about eight bits can be cleared.
 
-Btw, there was an issue in my little snippet. I used uc_req.user_defined
-uninitialized in uclamp_restrict().
+Fixes: 0c2a3913d6f5 ("x86/fpu: Parse clearcpuid= as early XSAVE argument")
+Signed-off-by: John Haxby <john.haxby@oracle.com>
+Cc: stable@vger.kernel.org
+---
+ .../admin-guide/kernel-parameters.txt         | 24 ++++++++++---------
+ arch/x86/kernel/fpu/init.c                    | 18 ++++++++------
+ 2 files changed, 24 insertions(+), 18 deletions(-)
 
-
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index f3706dad32ce..7e6b2b7cd1e5 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -903,12 +903,11 @@ uclamp_restrict(struct task_struct *p, enum uclamp_id clamp_id)
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index f2a93c8679e8..f380781be9e0 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -577,18 +577,20 @@
+ 			loops can be debugged more effectively on production
+ 			systems.
+ 
+-	clearcpuid=BITNUM [X86]
+-			Disable CPUID feature X for the kernel. See
++	clearcpuid=BITNUM[,BITNUM,...] [X86]
++			Disable CPUID features for the kernel. See
+ 			arch/x86/include/asm/cpufeatures.h for the valid bit
+-			numbers. Note the Linux specific bits are not necessarily
+-			stable over kernel options, but the vendor specific
+-			ones should be.
+-			Also note that user programs calling CPUID directly
+-			or using the feature without checking anything
+-			will still see it. This just prevents it from
+-			being used by the kernel or shown in /proc/cpuinfo.
+-			Also note the kernel might malfunction if you disable
+-			some critical bits.
++			numbers. Up to about eight bits can be cleared. Note the
++			Linux specific bits are not necessarily stable over
++			kernel options, but the vendor specific ones should be.
++			Also note that user programs calling CPUID directly or
++			using the feature without checking anything will still
++			see it. This just prevents it from being used by the
++			kernel or shown in /proc/cpuinfo.  Also note the kernel
++			might malfunction if you disable some critical bits.
++			Consider using a virtual machine emulating an older CPU
++			type for clearing many bits or for making the cleared
++			bits visible to user programs.
+ 
+ 	cma=nn[MG]@[start[MG][-end[MG]]]
+ 			[ARM,X86,KNL]
+diff --git a/arch/x86/kernel/fpu/init.c b/arch/x86/kernel/fpu/init.c
+index 6ce7e0a23268..8d826505c22e 100644
+--- a/arch/x86/kernel/fpu/init.c
++++ b/arch/x86/kernel/fpu/init.c
+@@ -243,8 +243,6 @@ static void __init fpu__init_system_ctx_switch(void)
+ static void __init fpu__init_parse_early_param(void)
  {
- 	struct uclamp_se uc_req, __maybe_unused uc_max;
+ 	char arg[32];
+-	char *argptr = arg;
+-	int bit;
  
--	if (unlikely(rt_task(p)) && clamp_id == UCLAMP_MIN &&
--	    !uc_req.user_defined) {
-+	if (unlikely(rt_task(p)) && clamp_id == UCLAMP_MIN) {
- 		struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
- 		int rt_min = sysctl_sched_rt_default_uclamp_util_min;
+ #ifdef CONFIG_X86_32
+ 	if (cmdline_find_option_bool(boot_command_line, "no387"))
+@@ -268,11 +266,17 @@ static void __init fpu__init_parse_early_param(void)
+ 		setup_clear_cpu_cap(X86_FEATURE_XSAVES);
  
--		if (uc_se->value != rt_min) {
-+		if (!uc_se->user_defined && uc_se->value != rt_min) {
- 			uclamp_se_set(uc_se, rt_min, false);
- 			printk("uclamp_restrict() [%s %d] p->uclamp_req[%d].value=%d\n",
- 			       p->comm, p->pid, clamp_id, uc_se->value);
+ 	if (cmdline_find_option(boot_command_line, "clearcpuid", arg,
+-				sizeof(arg)) &&
+-	    get_option(&argptr, &bit) &&
+-	    bit >= 0 &&
+-	    bit < NCAPINTS * 32)
+-		setup_clear_cpu_cap(bit);
++				sizeof(arg))) {
++		/* cpuid bit numbers are mostly three digits */
++		enum  { nints = sizeof(arg)/(3+1) + 1 };
++		int i, bits[nints];
++
++		get_options(arg, nints, bits);
++		for (i = 1; i <= bits[0]; i++) {
++			if (bits[i] >= 0 && bits[i] < NCAPINTS * 32)
++				setup_clear_cpu_cap(bits[i]);
++		}
++	}
+ }
+ 
+ /*
+-- 
+2.25.3
 
->>> Hmm the thing is that we're not restricting here. In contrary we're boosting,
->>> so the name would be misleading.
->>
->> I always thought that we're restricting p->uclamp_req[UCLAMP_MIN].value (default 1024) to
->> sysctl_sched_rt_default_uclamp_util_min (0-1024)?
-> 
-> The way I look at it is that we're *setting* it to
-> sysctl_sched_rt_default_uclamp_util_min if !user_defined.
-> 
-> The restriction mechanism that ensures this set value doesn't escape
-> cgroup/global restrictions setup.
-
-I guess we overall agree here. 
-
-I see 3 restriction levels: (!user_defined) task -> taskgroup -> system
-
-I see sysctl_sched_rt_default_uclamp_util_min (min_rt_default) as a
-restriction on task level.
-
-It's true that the task level restriction is setting the value at the same time.
-
-For CFS (id=UCLAMP_[MIN\|MAX]) and RT (id=UCLAMP_MAX) we use
-uclamp_none(id) and those values (0, 1024) are fixed so these task level
-values don't need to be further restricted.
-
-For RT (id=UCLAMP_MIN) we use 'min_rt_default' and since it can change
-we have to check the task level restriction in 'uclamp_eff_get() ->
-uclamp_(tg)_restrict()'.
-
-root@h960:~# echo 999 > /proc/sys/kernel/sched_rt_default_util_clamp_min
-
-[ 2540.507236] uclamp_eff_get() [rtkit-daemon 419] tag=0 uclamp_id=0 uc_req.value=1024
-[ 2540.514947] uclamp_eff_get() [rtkit-daemon 419] tag=1 uclamp_id=0 uc_req.value=1024
-[ 2548.015208] uclamp_restrict() [rtkit-daemon 419] p->uclamp_req[0].value=999
-
-root@h960:~# echo 666 > /proc/sys/kernel/sched_util_clamp_min
-
-[ 2548.022219] uclamp_eff_get() [rtkit-daemon 419] tag=0 uclamp_id=0 uc_req.value=999
-[ 2548.029825] uclamp_eff_get() [rtkit-daemon 419] tag=1 uclamp_id=0 uc_req.value=999
-[ 2553.479509] uclamp_eff_get() [rtkit-daemon 419] tag=0 uclamp_id=0 uc_max.value=666
-[ 2553.487131] uclamp_eff_get() [rtkit-daemon 419] tag=1 uclamp_id=0 uc_max.value=666
-
-Haven't tried to put an rt task into a taskgroup other than root.
