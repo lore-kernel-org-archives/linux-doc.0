@@ -2,103 +2,56 @@ Return-Path: <SRS0=PsPG=6H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86013C55189
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 02:01:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98B3FC55185
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 02:29:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 58FF92075A
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 02:01:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587607278;
-	bh=rPCd1og6nfhkKfcWYDRZ6FarHvOP8abCxpVvyMguys4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=TX0ur/I/sXl7OR0pJUb1nBW5mpue6KY3VKyIF32p1o6jC/Hdngza6UVaOS6faEekx
-	 FYmc+C13E+/3AopSxmRnesp7rxvnRkDzpoXzXVVeIr7tmV8Jkh84jqNBdYiuGyCeEa
-	 kuS/C72KJb/1jFxw7kChE8xsrQ06Y4SMcrwgfGYM=
+	by mail.kernel.org (Postfix) with ESMTP id 7ECF720747
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 02:29:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbgDWCBS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Apr 2020 22:01:18 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:55269 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726002AbgDWCBR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 22:01:17 -0400
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 03N20sDr027698;
-        Thu, 23 Apr 2020 11:00:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 03N20sDr027698
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587607255;
-        bh=ISn1zcDbqD2LVlnbauksd8MruLENNun6WMcR58P2qcI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LZ2hy/m3kyAspFf0n8gbMqzG8q4/ENsAcC6y5X0tdE4JTA71wFtqCu14vIQPS6koh
-         bqA4kNA/0drF4SSyQBZDo5r7chGkgod2Cft6VW2XTgFMxwqXCLkUcrku7IxZxBzNTm
-         o2stTctbF5u/gzU/8GW8SHhbxyXdksJEysZB+f2g70znIIYxnCepCovSLn0WTO7fIM
-         2io+52tVX+/On4MmDF/H1/qhJxD+COeuDYqtV+lhWUbjAQ1B+qMaKBle42WIeaQPdV
-         e+9bPOi4SciFKMyjpEJqzQ7Ut4OqASVeOJr/YBtnKXQvW+M7Ah5bo78GESV28fND8O
-         0Fh5Q4H/Ik5Rw==
-X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id t8so4149226uap.3;
-        Wed, 22 Apr 2020 19:00:55 -0700 (PDT)
-X-Gm-Message-State: AGi0PubpXU8+nChOB5qI0KFcE6ZqAxyf8G2Hr2WLIglNjvkITKoOkY4y
-        5KMX9L01kZQ/ZIT4A8AOeR5HZ22fNLY3vy468/k=
-X-Google-Smtp-Source: APiQypKRgU7oPWeRAT900AuP/QQ6Sr147jDjr+iq+LfPL1juv5V1gaXnJ4FqIKsaY6bSqjdDXnBMPKQ5GXKMoNZv7lQ=
-X-Received: by 2002:a67:6542:: with SMTP id z63mr1467003vsb.179.1587607254226;
- Wed, 22 Apr 2020 19:00:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200423014919.31713-1-masahiroy@kernel.org>
-In-Reply-To: <20200423014919.31713-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 23 Apr 2020 11:00:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ-5aKSn0J81NMey5+nTis8LZT_mv+bYbndx99SBf_w6w@mail.gmail.com>
-Message-ID: <CAK7LNAQ-5aKSn0J81NMey5+nTis8LZT_mv+bYbndx99SBf_w6w@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kbuild: fix the section title format
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726495AbgDWC3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Apr 2020 22:29:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726271AbgDWC3l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 22:29:41 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0412C03C1AA;
+        Wed, 22 Apr 2020 19:29:40 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id B3DC4127AA060;
+        Wed, 22 Apr 2020 19:29:40 -0700 (PDT)
+Date:   Wed, 22 Apr 2020 19:29:40 -0700 (PDT)
+Message-Id: <20200422.192940.1685473383760448858.davem@davemloft.net>
+To:     stephen@networkplumber.org
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: add documentation of ping_group_range
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200421203448.17937-1-stephen@networkplumber.org>
+References: <20200421203448.17937-1-stephen@networkplumber.org>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Wed, 22 Apr 2020 19:29:40 -0700 (PDT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 10:49 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Make it consistent with the other sections.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+From: Stephen Hemminger <stephen@networkplumber.org>
+Date: Tue, 21 Apr 2020 13:34:48 -0700
 
-Applied to linux/fixes.
+> Support for non-root users to send ICMP ECHO requests was added
+> back in Linux 3.0 kernel, but the documentation for the sysctl
+> to enable it has been missing.
+> 
+> Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
 
-
-
->  Documentation/kbuild/makefiles.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 04d5c01a2e99..b80257a03830 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -1241,7 +1241,8 @@ When kbuild executes, the following steps are followed (roughly):
->         will be displayed with "make KBUILD_VERBOSE=0".
->
->
-> ---- 6.9 Preprocessing linker scripts
-> +6.9 Preprocessing linker scripts
-> +--------------------------------
->
->         When the vmlinux image is built, the linker script
->         arch/$(ARCH)/kernel/vmlinux.lds is used.
-> --
-> 2.25.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Applied, thanks.
