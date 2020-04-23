@@ -2,115 +2,122 @@ Return-Path: <SRS0=PsPG=6H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 131E6C55186
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 11:46:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77758C55186
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 12:45:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DBA7820857
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 11:46:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 574CC2077D
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 12:45:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="NXx4YPgv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SEH1jWKV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728139AbgDWLqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Apr 2020 07:46:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46612 "EHLO
+        id S1728235AbgDWMpq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Apr 2020 08:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727088AbgDWLqs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Apr 2020 07:46:48 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB046C035494
-        for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2020 04:46:46 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id j26so5496132ots.0
-        for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2020 04:46:46 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1726435AbgDWMpq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Apr 2020 08:45:46 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E27C08E934;
+        Thu, 23 Apr 2020 05:45:44 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id d17so6662037wrg.11;
+        Thu, 23 Apr 2020 05:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=soBENWxtv1Jx6Q4M8NjC2VsgjFKXOfQejEBroBd8f4g=;
-        b=NXx4YPgvtOlyiKjB650mQVqamk7mwKi2f5oD1cAMtY5EWRnaThyz0h+QPOfwI1jQ9w
-         6Nx1NeQyKFKmVdgwiYV71tS6SUDsNJ+4BS5yWOt41z7u06V3K9qAR9zAsV0eciBZ82NB
-         MVwTigSQtl3NWsR6OlpVgGl3p8JXDydOI5XDQ=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=out4PF7f/PmTIeJMMNg9xrpl67X2+hDnaDGBvd5Qh6I=;
+        b=SEH1jWKV903FaLqMz8aHHnCbdx0XE+eaEso7o5J4JGZkkKyMYT2FZX6gmDu5io9L4O
+         XhmCAmk+9ygDNmWYQboRZwlEUxJCWVZlzNzb1DNJAtm/JaG7KBA6SvbmLkAt8a0sH4GA
+         P5rsgyQZJbVZ8xU3mf+pD5AF/guqDgQiOE1WBvaCLqoc6+8Xc3FcZlqZSlPC3cIXFKTh
+         rlAIgReQKVFuDTSEgklm/rYQp3INflYJLLVmRR2OHBwjaOk3r+wjw5n84VPBcQeJIlix
+         uhaRCsjKui/yJF4394LZt6kykocczgiBPim6P8jprY4kcp2LMGrSFXX6/zQKp5Xxvw0R
+         qFRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=soBENWxtv1Jx6Q4M8NjC2VsgjFKXOfQejEBroBd8f4g=;
-        b=jlJDsZld+59hj5nrJejN3PRPl/+5jmnvA4IIkyKSZGptaCkJbiCbGx0112CqRLvZ1m
-         9EzihfLc9xiImAIzEd4WQs92Q/cV7SnilmERjN7sP2CzYStmhZF0hjvD5rqQDUQ9AhRo
-         qfqXdnApaYCu+PKv10Jt8TyC9iNQZKh4MOQPrSWcx17p+ZYLShiTHiti56bhy+JuKlvb
-         ohjRRTxCAJ5gghVlO9fOrxiBVeIRC/UhDMtF8p3OFV8iS1gHBtFqLtYmX2rsmfEYukKY
-         kQ4vty2PR/RzMXcCoNuXVIx/6LOrdmlr+vEaU94s4x4hl5CBgqVIM3etpRwkB0KDdDU6
-         bYKQ==
-X-Gm-Message-State: AGi0PuZN9xlKfWMY5eN740LRcdl51bOg7g0h1eWRmszN1TcKLLdvp+ao
-        GN1EiLPCsAhysG5yKNnjJ2Q9+GsvuC5N5n/7fHypbQ==
-X-Google-Smtp-Source: APiQypKhOGBw+yldUeb3d73cJTyCIRTooxDShKtfsXpDubxWoQUNatT4V7/wpGHO6fgRNhipZQ5IOE3srpPVZe4TbtA=
-X-Received: by 2002:a9d:2056:: with SMTP id n80mr3147281ota.281.1587642406180;
- Thu, 23 Apr 2020 04:46:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200420074115.23931-1-galpress@amazon.com> <20200420170059.5a42693e@lwn.net>
- <20200421123837.GZ3456981@phenom.ffwll.local> <20200421103236.4b64155c@lwn.net>
-In-Reply-To: <20200421103236.4b64155c@lwn.net>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Thu, 23 Apr 2020 13:46:35 +0200
-Message-ID: <CAKMK7uGTP93tbpsZhc1On2ka+YiVhwHk32cWHEdvS5O5DGODTg@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Couple of documentation typo fixes
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Gal Pressman <galpress@amazon.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=out4PF7f/PmTIeJMMNg9xrpl67X2+hDnaDGBvd5Qh6I=;
+        b=ch24rzIoit+KoUnt1QV0tauG/PjHVNa1yAH1kqy5fuhJwrr94wrv5p8Isgjy+lg08R
+         v8xn2KV+C5KdoAFT0WIj3Kao0sPFzGsO3sGSaqoghaSh2bqLuWZDlvDW11KAk6LdLYIc
+         NpyySItQgWwqLI/RclwLJS7CSNsc/FGSEj49Ot1Ze1yZKawEefri6CUQpAtdywibB4ks
+         xCposkzU4RmnrksiZzi11UdQZrHlei401dediDbwJXRb+Lh1CR6o4XAgQQ+Oq3c+OH12
+         0eokmaEUoI5lwpo2TPhq4L775HxqK6gygDrl369WQcLmL5wsFcHfk22rb5YHeBLuT6QZ
+         85Wg==
+X-Gm-Message-State: AGi0PuZpadPl8y0yyMMGt/Rxh3c70e5jYgjZSa1jvM4yBukzsrZ9F7Kw
+        ACYM389nm6HcbWG23rhScv8=
+X-Google-Smtp-Source: APiQypJLoMPD4aEjRb8mZV8whi87DgBvI13poaPpbJYRJq+2N/ZzLCza99R+9lQnGYTDapul28+r4w==
+X-Received: by 2002:adf:ec46:: with SMTP id w6mr2785258wrn.262.1587645943224;
+        Thu, 23 Apr 2020 05:45:43 -0700 (PDT)
+Received: from net.saheed (563BD1A4.dsl.pool.telekom.hu. [86.59.209.164])
+        by smtp.gmail.com with ESMTPSA id s18sm3771640wra.94.2020.04.23.05.45.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2020 05:45:42 -0700 (PDT)
+From:   Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+X-Google-Original-From: Bolarinwa Olayemi Saheed <refactormyself@users.noreply.github.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andriin@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>, Stephen Kitt <steve@sk2.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Kees Cook <keescook@chromium.org>,
+        Masanari Iida <standby24x7@gmail.com>,
+        Eric Biggers <ebiggers@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Subject: [PATCH] docs: Fix WARNING - Title underline too short
+Date:   Thu, 23 Apr 2020 13:45:17 +0200
+Message-Id: <20200423114517.18074-1-refactormyself@users.noreply.github.com>
+X-Mailer: git-send-email 2.18.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 21, 2020 at 6:32 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Tue, 21 Apr 2020 14:38:37 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> > On Mon, Apr 20, 2020 at 05:00:59PM -0600, Jonathan Corbet wrote:
-> > > On Mon, 20 Apr 2020 10:41:15 +0300
-> > > Gal Pressman <galpress@amazon.com> wrote:
-> > >
-> > > > Fix a couple of typos: "as" -> "has" and "int" -> "in".
-> > > >
-> > > > Signed-off-by: Gal Pressman <galpress@amazon.com>
-> > >
-> > > Applied, thanks.
-> >
-> > Also applied to drm-misc-next, the dma-buf stuff is maintained as part of
-> > drm. And maybe I actually get around to doing the doc polish for all
-> > things dma-buf that I've been promised to do since months :-)
->
-> I actually looked for it in linux-next before applying, but didn't (and
-> don't) see it there...?
+From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 
-I only spotted the patch after I've seen your notification, so it was
-indeed not there back then. But now it should be there:
+There were two instances of "Title underline too short" and they were
+increased to match the title text.
 
-commit 776d58823a60c689816972b51100cb322a0834ce (HEAD ->
-drm-misc-next, drm-misc/for-linux-next, drm-misc/drm-misc-next)
-Author: Gal Pressman <galpress@amazon.com>
-Date:   Mon Apr 20 10:41:15 2020 +0300
+Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-    dma-buf: Couple of documentation typo fixes
-
-drm-misc/for-linux-next is included in linux-next (we have some
-special branches for linux-next because of some different rules than
-usual for our committers). Latest linux-next also seems to have it by
-now.
--Daniel
-
-
-
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 3e68da9fc066..6f7f01b1180c 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -292,7 +292,7 @@ Default value is "``/sbin/hotplug``".
+ 
+ 
+ hung_task_all_cpu_backtrace:
+-================
++============================
+ 
+ If this option is set, the kernel will send an NMI to all CPUs to dump
+ their backtraces when a hung task is detected. This file shows up if
+@@ -575,7 +575,7 @@ scanned for a given scan.
+ 
+ 
+ oops_all_cpu_backtrace:
+-================
++=======================
+ 
+ If this option is set, the kernel will send an NMI to all CPUs to dump
+ their backtraces when an oops event occurs. It should be used as a last
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+2.18.2
+
