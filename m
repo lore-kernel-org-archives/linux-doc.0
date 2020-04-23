@@ -2,56 +2,87 @@ Return-Path: <SRS0=PsPG=6H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98B3FC55185
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 02:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B8DBC55191
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 07:40:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7ECF720747
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 02:29:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D3FC215A4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 07:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1587627655;
+	bh=RCj0gKu3XvIpSQCzLyiZJ8nln5p+yJ+rZXqi6Ggqjyc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=hQkKtG/8Vul/gXXRLDBE0BLrWEA53s9gezlEW2t6Eafj8HIOaoaDpvxozgnY24aMe
+	 63DR64QjaBAtJuOLzmaUgBay6iU2TDWzPYVLPvilVjLqHSO80rP/o1FM8QtY0nObBk
+	 S9wN/uJUywGe7kHni95g9yvbu3jD+bOKJrySU3l0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbgDWC3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Apr 2020 22:29:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726271AbgDWC3l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Apr 2020 22:29:41 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0412C03C1AA;
-        Wed, 22 Apr 2020 19:29:40 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id B3DC4127AA060;
-        Wed, 22 Apr 2020 19:29:40 -0700 (PDT)
-Date:   Wed, 22 Apr 2020 19:29:40 -0700 (PDT)
-Message-Id: <20200422.192940.1685473383760448858.davem@davemloft.net>
-To:     stephen@networkplumber.org
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: add documentation of ping_group_range
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20200421203448.17937-1-stephen@networkplumber.org>
-References: <20200421203448.17937-1-stephen@networkplumber.org>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Wed, 22 Apr 2020 19:29:40 -0700 (PDT)
+        id S1726996AbgDWHku (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Apr 2020 03:40:50 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:32267 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726989AbgDWHkt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Apr 2020 03:40:49 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 03N7dV9M000368;
+        Thu, 23 Apr 2020 16:39:33 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 03N7dV9M000368
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1587627574;
+        bh=etjXsdFQORx4gLL7yHfpFDxgLm5eIEPJc35auHNsBS8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=OdG1U0mvDU6Qg+Q8reUgMxjQsLczKGy3gDu4zS7XBoirXDmmxluhW75bZldtxGt7k
+         /syvDaNTqoK9lFdDISe7PNckoqZgaxz7VY+HZzXULU/lWOtp0o83sKPtIkRJqEf1et
+         /YgAye82oOT2JJeqVBoApqqB4JB7SleqV8rjo2QBl8xy5q3f2ht+J/vPYx7irwD1Xp
+         4wHrQTkcYKTN9P1Jcmj7eMWYpMs4kGuA3AVP26rMjAx1GLeAH8IvsMXN+7njpFEGLg
+         6zx4FM+MTczpSfBw9pJGfuVj7rreHECcgqYPk+8pM3CWPvdR285WM5uCZUWlF1CrYM
+         dWo7XwdI0iNIw==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     bpf@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 01/16] Documentation: kbuild: fix the section title format
+Date:   Thu, 23 Apr 2020 16:39:14 +0900
+Message-Id: <20200423073929.127521-2-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200423073929.127521-1-masahiroy@kernel.org>
+References: <20200423073929.127521-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Stephen Hemminger <stephen@networkplumber.org>
-Date: Tue, 21 Apr 2020 13:34:48 -0700
+Make it consistent with the other sections.
 
-> Support for non-root users to send ICMP ECHO requests was added
-> back in Linux 3.0 kernel, but the documentation for the sysctl
-> to enable it has been missing.
-> 
-> Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Applied, thanks.
+ Documentation/kbuild/makefiles.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 04d5c01a2e99..b80257a03830 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -1241,7 +1241,8 @@ When kbuild executes, the following steps are followed (roughly):
+ 	will be displayed with "make KBUILD_VERBOSE=0".
+ 
+ 
+---- 6.9 Preprocessing linker scripts
++6.9 Preprocessing linker scripts
++--------------------------------
+ 
+ 	When the vmlinux image is built, the linker script
+ 	arch/$(ARCH)/kernel/vmlinux.lds is used.
+-- 
+2.25.1
+
