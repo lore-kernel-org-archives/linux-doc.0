@@ -2,204 +2,124 @@ Return-Path: <SRS0=PsPG=6H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE5D7C55194
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 13:50:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F7D3C54FCB
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 14:35:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE9222098B
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 13:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587649839;
-	bh=Zl7NuDjGvPHVLfMVDJIvKZWGpQWblUX8qdNJAHq1Tr8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=x84fUSpcPJJenDi+j0CeO1aqtf2fMdUnO22Quw1jmqp3skQm3Dff45r+XOUdbbtZw
-	 xttYvT/ALxeduWzutQDDm+xhYmbsIreEJpWbE+pLQt2nUW9TSYCsShePzNfzBmBgFQ
-	 UXv1GWPm/PajYWmBZx5iSmEmBmN9GvGM1vk1joL8=
+	by mail.kernel.org (Postfix) with ESMTP id 3DDDC20728
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Apr 2020 14:35:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vf8Ep7dr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728431AbgDWNuf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Apr 2020 09:50:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39132 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726926AbgDWNue (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Apr 2020 09:50:34 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3BFEB20728;
-        Thu, 23 Apr 2020 13:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587649833;
-        bh=Zl7NuDjGvPHVLfMVDJIvKZWGpQWblUX8qdNJAHq1Tr8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rtRmKMGa59ZzrLxzNTg+TXuM9mxHpLgKLQhjZLLNvtfpddzm7hI1VwnniqsV6bwDM
-         8N2/eCvUHDcmPP+1YOGNEgVBevpeEo4iTDASVgWq5AsAVxMYnUxdtxKHJBHn4Zn5Y9
-         oqFsLK6AoMDPqJDKJaVwDNwTkxQhVsA5qPT2HBuE=
-Date:   Thu, 23 Apr 2020 15:50:31 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Douglas Anderson <dianders@chromium.org>
-Cc:     jason.wessel@windriver.com, daniel.thompson@linaro.org,
-        kgdb-bugreport@lists.sourceforge.net, mingo@redhat.com,
-        hpa@zytor.com, bp@alien8.de, linux-serial@vger.kernel.org,
-        agross@kernel.org, tglx@linutronix.de, frowand.list@gmail.com,
-        bjorn.andersson@linaro.org, jslaby@suse.com,
-        catalin.marinas@arm.com, corbet@lwn.net, will@kernel.org,
-        Alexios Zavras <alexios.zavras@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@suse.de>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Enrico Weigelt <info@metux.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        James Morse <james.morse@arm.com>,
-        Juergen Gross <jgross@suse.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Matt Mullins <mmullins@fb.com>,
+        id S1727827AbgDWOfr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Apr 2020 10:35:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726458AbgDWOfr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Apr 2020 10:35:47 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF2CC08ED7D;
+        Thu, 23 Apr 2020 07:35:46 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id x17so6379125wrt.5;
+        Thu, 23 Apr 2020 07:35:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=x6IGIVHimLN6wXXRyErAIS+MRNtXI4hH2CwyG6Xff30=;
+        b=vf8Ep7drlVFpFPiDnXCutY0TNWGrNo8Xncv2udOcbey1cXFppOGy4CONEDFgH3iI/j
+         cPG+bOr+DeXb9D5cEFTkQ/ApdoEGgKqnH0Mfdj3rMaYdt3PTzrGkZrqpN9M0jfx2jxK7
+         +JtJBwVUMmkszV9SZkHhv/V3keBtmCQt6INjSdmLaGrUaF71Dfw3ph0q02qvZDqa7xjG
+         sDXh9fdNg/3xYeeQ04KaI9+jlD5B2UVwz9eDT4sQKg4gQrQe+CDLnuHIi6e0iploviqL
+         CWzqSckSWzdDxZ7qCmtwoLGia8OJL2fNk/KGo7+B6nJnlch+YdQNE9a0nlwCv7DfSFvO
+         hMaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=x6IGIVHimLN6wXXRyErAIS+MRNtXI4hH2CwyG6Xff30=;
+        b=VJKUBldEpK7IztpBN9wQt9kMjggaRpf8ru5RlxCEUfm9z3hGzp7vTyAvfxiS+ya0tD
+         4TjqcagQiWsBopD0tuv+4117VOz6bNqIfrvgKL5y3B/lA6Ah+zgNueb35YOtgjZ0pGLq
+         gaBNf5Ewo5d8blwGkS5xNt+oT2niUQd8TzfB50fUfiKnT76BDAAiJTrNBr6E3aSMbGOj
+         7F9arKNjQQpjKz86QJ/EmpAlK3vnrWoZfJstComeZJKGBcYQP+EhWro/Slnout22bdgE
+         0CCTsYqtqcoR3niUelLzmUAsPz5xpXsRPyTXECL2Xyct2+YkFAX/1lHWt77JNISOsiMp
+         nqEA==
+X-Gm-Message-State: AGi0PuarU7ABaCOFnfIPPd6AhoQ4PYiO0U5kQxq6jDHlPjGHr27HMCl+
+        WSHV3gyUq6xWP9ifiEJZvxxOoUCufgOGbQ==
+X-Google-Smtp-Source: APiQypLIUH9cLSTf94KBbNXeLc8HmzzTpjl+Y2L4JZrTFpsXOzsPlyUs45ikzIJWhNEC7Yfw6+4rqg==
+X-Received: by 2002:adf:eecc:: with SMTP id a12mr5225266wrp.112.1587652544894;
+        Thu, 23 Apr 2020 07:35:44 -0700 (PDT)
+Received: from net.saheed (563BD1A4.dsl.pool.telekom.hu. [86.59.209.164])
+        by smtp.gmail.com with ESMTPSA id c20sm4420321wmd.36.2020.04.23.07.35.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Apr 2020 07:35:44 -0700 (PDT)
+Subject: Re: [PATCH] docs: Fix WARNING - Title underline too short
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andriin@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>, Stephen Kitt <steve@sk2.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Nadav Amit <namit@vmware.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        jinho lim <jordan.lim@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v2 0/9] kgdb: Support late serial drivers; enable early
- debug w/ boot consoles
-Message-ID: <20200423135031.GA4091353@kroah.com>
-References: <20200421211447.193860-1-dianders@chromium.org>
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Kees Cook <keescook@chromium.org>,
+        Masanari Iida <standby24x7@gmail.com>,
+        Eric Biggers <ebiggers@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+References: <20200423114517.18074-1-refactormyself@users.noreply.github.com>
+ <20200423070230.3fd863ba@lwn.net>
+From:   Saheed Bolarinwa <refactormyself@gmail.com>
+Message-ID: <41072c85-7157-a3b8-17b5-9b4ab38f14ca@gmail.com>
+Date:   Thu, 23 Apr 2020 15:35:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200421211447.193860-1-dianders@chromium.org>
+In-Reply-To: <20200423070230.3fd863ba@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 21, 2020 at 02:14:38PM -0700, Douglas Anderson wrote:
-> This whole pile of patches was motivated by me trying to get kgdb to
-> work properly on a platform where my serial driver ended up being hit
-> by the -EPROBE_DEFER virus (it wasn't practicing social distancing
-> from other drivers).  Specifically my serial driver's parent device
-> depended on a resource that wasn't available when its probe was first
-> called.  It returned -EPROBE_DEFER which meant that when "kgdboc"
-> tried to run its setup the serial driver wasn't there.  Unfortunately
-> "kgdboc" never tried again, so that meant that kgdb was disabled until
-> I manually enalbed it via sysfs.
-> 
-> While I could try to figure out how to get around the -EPROBE_DEFER
-> somehow, the above problems could happen to anyone and -EPROBE_DEFER
-> is generally considered something you just have to live with.  In any
-> case the current "kgdboc" setup is a bit of a race waiting to happen.
-> I _think_ I saw during early testing that even adding a msleep() in
-> the typical serial driver's probe() is enough to trigger similar
-> issues.
-> 
-> I decided that for the above race the best attitude to get kgdb to
-> register at boot was probably "if you can't beat 'em, join 'em".
-> Thus, "kgdboc" now jumps on the -EPROBE_DEFER bandwagon (now that my
-> driver uses it it's no longer a virus).  It does so a little awkwardly
-> because "kgdboc" hasn't normally had a "struct device" associated with
-> it, but it's really not _that_ ugly to make a platform device and
-> seems less ugly than alternatives.
-> 
-> Unfortunately now on my system the debugger is one of the last things
-> to register at boot.  That's OK for debugging problems that show up
-> significantly after boot, but isn't so hot for all the boot problems
-> that I end up debugging.  This motivated me to try to get something
-> working a little earlier.
-> 
-> My first attempt was to try to get the existing "ekgdboc" to work
-> earlier.  I tried that for a bit until I realized that it needed to
-> work at the tty layer and I couldn't find any serial drivers that
-> managed to register themselves to the tty layer super early at boot.
-> The only documented use of "ekgdboc" is "ekgdboc=kbd" and that's a bit
-> of a special snowflake.  Trying to get my serial driver and all its
-> dependencies to probe normally and register the tty driver super early
-> at boot seemed like a bad way to go.  In fact, all the complexity
-> needed to do something like this is why the system already has a
-> special concept of a "boot console" that lives only long enough to
-> transition to the normal console.
-> 
-> Leveraging the boot console seemed like a good way to go and that's
-> what this series does.  I found that consoles could have a read()
-> function, though I couldn't find anyone who implemented it.  I
-> implemented it for two serial drivers for the devices I had easy
-> access to, making the assumption that for boot consoles that we could
-> assume read() and write() were polling-compatible (seems sane I
-> think).
-> 
-> Now anyone who makes a small change to their serial driver can easily
-> enable early kgdb debugging!
-> 
-> The devices I had for testing were:
-> - arm32: rk3288-veyron-jerry
-> - arm64: rk3399-gru-kevin
-> - arm64: qcom-sc7180-trogdor (not mainline yet)
-> 
-> These are the devices I tested this series on.  I tried to test
-> various combinations of enabling/disabling various options and I
-> hopefully caught the corner cases, but I'd appreciate any extra
-> testing people can do.  Notably I didn't test on x86, but (I think) I
-> didn't touch much there so I shouldn't have broken anything.
-> 
-> When testing I found a few problems with actually dropping into the
-> debugger super early on arm and arm64 devices.  Patches in this series
-> should help with this.  For arm I just avoid dropping into the
-> debugger until a little later and for arm64 I actually enable
-> debugging super early.
-> 
-> I realize that bits of this series might feel a little hacky, though
-> I've tried to do things in the cleanest way I could without overly
-> interferring with the rest of the kernel.  If you hate the way I
-> solved a problem I would love it if you could provide guidance on how
-> you think I could solve the problem better.
-> 
-> This series (and my comments / documentation / commit messages) are
-> now long enough that my eyes glaze over when I try to read it all over
-> to double-check.  I've nontheless tried to double-check it, but I'm
-> pretty sure I did something stupid.  Thank you ahead of time for
-> pointing it out to me so I can fix it in v3.  If somehow I managed to
-> not do anything stupid (really?) then thank you for double-checking me
-> anyway.
-> 
-> Changes in v2:
-> - ("kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb") new for v2.
-> - ("Revert "kgdboc: disable the console lock when in kgdb"") new for v2.
-> - Assumes we have ("kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb")
-> - Fix kgdbts, tty/mips_ejtag_fdc, and usb/early/ehci-dbgp
-> 
-> Douglas Anderson (9):
->   kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb
->   Revert "kgdboc: disable the console lock when in kgdb"
->   kgdboc: Use a platform device to handle tty drivers showing up late
->   kgdb: Delay "kgdbwait" to dbg_late_init() by default
->   arm64: Add call_break_hook() to early_brk64() for early kgdb
->   kgdboc: Add earlycon_kgdboc to support early kgdb using boot consoles
->   Documentation: kgdboc: Document new earlycon_kgdboc parameter
->   serial: qcom_geni_serial: Support earlycon_kgdboc
->   serial: 8250_early: Support earlycon_kgdboc
-> 
->  .../admin-guide/kernel-parameters.txt         |  20 ++
->  Documentation/dev-tools/kgdb.rst              |  14 +
->  arch/arm64/include/asm/debug-monitors.h       |   2 +
->  arch/arm64/kernel/debug-monitors.c            |   2 +-
->  arch/arm64/kernel/kgdb.c                      |   5 +
->  arch/arm64/kernel/traps.c                     |   3 +
->  arch/x86/kernel/kgdb.c                        |   5 +
->  drivers/misc/kgdbts.c                         |   2 +-
->  drivers/tty/mips_ejtag_fdc.c                  |   2 +-
->  drivers/tty/serial/8250/8250_early.c          |  23 ++
->  drivers/tty/serial/kgdboc.c                   | 262 ++++++++++++++++--
->  drivers/tty/serial/qcom_geni_serial.c         |  32 +++
->  drivers/usb/early/ehci-dbgp.c                 |   2 +-
->  include/linux/kgdb.h                          |  25 +-
->  kernel/debug/debug_core.c                     |  48 +++-
->  15 files changed, 400 insertions(+), 47 deletions(-)
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On 4/23/20 3:02 PM, Jonathan Corbet wrote:
+> On Thu, 23 Apr 2020 13:45:17 +0200
+> Bolarinwa Olayemi Saheed <refactormyself@gmail.com> wrote:
+>
+>> From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+>>
+>> There were two instances of "Title underline too short" and they were
+>> increased to match the title text.
+>>
+>> Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+>> ---
+>>   Documentation/admin-guide/sysctl/kernel.rst | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+> These warnings are caused by a patch entering linux-next via the -mm tree;
+> Randy has already sent a patch to fix them.
+>
+> [Next time you might want to examine the recipient list a bit; this patch
+> was broadcast a bit more widely than was really necessary.]
+>
+>
+
+Noted, sorry about that.
+
+Thank you.
+
+Saheed
+
