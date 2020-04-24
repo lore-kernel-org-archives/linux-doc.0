@@ -5,66 +5,66 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1EA5C54FCB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E91B1C55196
 	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 20:02:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80A2A2166E
+	by mail.kernel.org (Postfix) with ESMTP id C5F9E214AF
 	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 20:02:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RvBfnECV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h89uziQx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729423AbgDXUBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Apr 2020 16:01:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39270 "EHLO
+        id S1729574AbgDXUC3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Apr 2020 16:02:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729425AbgDXUBp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Apr 2020 16:01:45 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D65BC09B04D
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 13:01:44 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id w3so4133119plz.5
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 13:01:44 -0700 (PDT)
+        with ESMTP id S1729444AbgDXUBr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Apr 2020 16:01:47 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE233C09B051
+        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 13:01:45 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id y6so4304859pjc.4
+        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 13:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=I3pq49DfqQ/ckFGrpIA0ri6MxM3SY7oSpR206BKLReM=;
-        b=RvBfnECVGRBFpGe7Ml1Sb2DYgUm31X/1Kjs0QSoP53VSoyWHlDvTjMyAdwfQtgb1oB
-         SIP7ucvumIlGe4Y8w4/v3uT0T+RmsjazOXm8eGhHN0k6RqG4V9Y12YJh1rMYAFjZOaOr
-         yEoXM9t068vePXtUfnFdQnYlomkH4HvyckiRCRWDdT4ZebgMerXokHQM+EIKuDannvo/
-         tlo7GCM6f+jdWZySjce0E3R/1+8QLDtDhMg3mPNo514RtgaxIFzjcr1hRSONYkAfQEky
-         0UGT8WfuhaoNOwKAWAt09wqGaKCpSc/TlJl8uI+7x608sAA2ZrhtlF3AajBQyyWTWSpv
-         HQWw==
+        bh=UgVYOEmLZR8T9VFdpsNRc2Uupq9jBoUolgKHoUHryRE=;
+        b=h89uziQxnhqYDcmCgJtLSGdwCmHn0rC3Bu6mCDpOZ1qvYGWQlY3Z/6z+q6XrQXUluw
+         nBTa+n77E8ofbTHybs+f9luqWuEGK2sawnmbePJGXfy0Oc0mXGNd4b8etpYU09LVnKpa
+         MTlPo9c+GaghCNR8InPWnE9jvvacc0i224AGTD5P+PxgUr1eaHcNoYS4mSvrOgKyMmAl
+         3na+xIhktKRyb3SSIQVjk1ypUZxjl0/3pGUtbgGKS8NWqEW0twKZzV1lRfw2OuRBYGZq
+         +moyE4C56HRvW/psOtJRhtJCti2DhCRmKO8k55+XHzf0FvEMYgBsdZDUX0eV3AxvaRPz
+         N7Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=I3pq49DfqQ/ckFGrpIA0ri6MxM3SY7oSpR206BKLReM=;
-        b=boB4fq7pxUaczX00FiiyVxGPFt+ABiSyjlu7JIESwl/lcq0xkzMZTW5U8M0rEHqqga
-         SVOiYTFq5LwI3JePRDqwCjMG8U4Y1RoUVdDgrfihkLf4Ctm6eO3W7wMFaAGuwIZnWOPS
-         Ldg8myCOFsC/0qWxql7vYsj8PMmDa/CLK2vif5bCGVgSik5w/wp1Zne8hw7QsO86ITaG
-         MziK9WkC6je91L/DkhYRLLRw9R4NdDdbHtohX3I7fUJ9COUyZbF1DjNcWO+nvhW5pGiP
-         cXI0hS3qu02Am2S53HuvEm7ApqSaN1wCCnsch8zNPRoQtB/vn3FMSljZI/6z7+iiLhoi
-         8NMg==
-X-Gm-Message-State: AGi0PuaiUOVNGIDcvYYZpnVTW0Sriu4IdJ1LkM6yKQT9BlmYv8+zdXKk
-        lkW4+15e/8o8+7+4+pGhIn2lxA==
-X-Google-Smtp-Source: APiQypI4vcIlb92FluKaP2+RUFEleVp9k5T2KYJQcvG3Ppxjwx90KAeEDkP8AdnSbiXOHlPI5IJZBA==
-X-Received: by 2002:a17:90a:d3cc:: with SMTP id d12mr8187396pjw.158.1587758503926;
-        Fri, 24 Apr 2020 13:01:43 -0700 (PDT)
+        bh=UgVYOEmLZR8T9VFdpsNRc2Uupq9jBoUolgKHoUHryRE=;
+        b=GKyvpB+mFlN08pAFX5z9H8hFV8xj83vx6nR9j2LKtV6KsWm5H6ALDuyRRLdVE6Kazr
+         aVHeDdxqg6NbsSRseqbaGNZNsAVwDqAeM+ZpvUwkSVXcpUBW9t+HU7Nz9TNrTL9tIaDl
+         z9nkaP8lmCghaF/hchcAsvVrezdFa5BjiA0G0oo6gyiD10AONPpQySngl71XnX9AK6lP
+         e6QIx1VeoLYaEbFwu+tS3Dmt4ibHaWNQSiAFNbeUPZbpqFk9AtF3izpSlFgv78LK1Ycl
+         pNwpeRhhvLtFkVVhP5iXnv3/X/uJmq5GJ2gCeaWGdWuku87GGxX1EeGe3vueSQXvJXDF
+         h81A==
+X-Gm-Message-State: AGi0PubdRUtDWQTnd82Byuj/Uh7xhQJ0eNSe6qhku3fCslCqhJXSaqmF
+        jH2JAq26ziNI8a5jo+nLn7Qiow==
+X-Google-Smtp-Source: APiQypJ83gbDmQF4KfzVXB98/GgtBjTuNiayG+21Qtkv8hHGZIq9fXWsjiw9IoOg1wXRMARx3iDpOw==
+X-Received: by 2002:a17:90a:e608:: with SMTP id j8mr8415911pjy.44.1587758505366;
+        Fri, 24 Apr 2020 13:01:45 -0700 (PDT)
 Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id o11sm5532224pgd.58.2020.04.24.13.01.42
+        by smtp.gmail.com with ESMTPSA id o11sm5532224pgd.58.2020.04.24.13.01.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 13:01:43 -0700 (PDT)
+        Fri, 24 Apr 2020 13:01:44 -0700 (PDT)
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     bjorn.andersson@linaro.org, ohad@wizery.com
 Cc:     loic.pallardy@st.com, arnaud.pouliquen@st.com, s-anna@ti.com,
         linux-remoteproc@vger.kernel.org, corbet@lwn.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 05/14] remoteproc: Refactor function rproc_fw_boot()
-Date:   Fri, 24 Apr 2020 14:01:26 -0600
-Message-Id: <20200424200135.28825-6-mathieu.poirier@linaro.org>
+Subject: [PATCH v3 06/14] remoteproc: Refactor function rproc_trigger_auto_boot()
+Date:   Fri, 24 Apr 2020 14:01:27 -0600
+Message-Id: <20200424200135.28825-7-mathieu.poirier@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200424200135.28825-1-mathieu.poirier@linaro.org>
 References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
@@ -75,51 +75,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Refactor function rproc_fw_boot() in order to better reflect the work
-that is done when supporting scenarios where the remoteproc core is
-synchronising with a remote processor.
+Refactor function rproc_trigger_auto_boot() so that it can deal with
+scenarios where the remote processor is already running.  As such give
+it a new name to better represent the capabilities and add a call to
+rproc_boot() if instructed by the platform code to synchronise with the
+remote processor rather than boot it from scratch.
 
 Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 ---
- drivers/remoteproc/remoteproc_core.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/remoteproc/remoteproc_core.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-index a02593b75bec..e90a21de9de1 100644
+index e90a21de9de1..9de0e2b7ca2b 100644
 --- a/drivers/remoteproc/remoteproc_core.c
 +++ b/drivers/remoteproc/remoteproc_core.c
-@@ -1370,9 +1370,9 @@ static int rproc_start(struct rproc *rproc, const struct firmware *fw)
+@@ -1457,10 +1457,17 @@ static void rproc_auto_boot_callback(const struct firmware *fw, void *context)
+ 	release_firmware(fw);
  }
  
- /*
-- * take a firmware and boot a remote processor with it.
-+ * boot or synchronise with a remote processor.
-  */
--static int rproc_fw_boot(struct rproc *rproc, const struct firmware *fw)
-+static int rproc_actuate_device(struct rproc *rproc, const struct firmware *fw)
+-static int rproc_trigger_auto_boot(struct rproc *rproc)
++static int rproc_trigger_auto_initiate(struct rproc *rproc)
  {
- 	struct device *dev = &rproc->dev;
- 	const char *name = rproc->firmware;
-@@ -1382,7 +1382,9 @@ static int rproc_fw_boot(struct rproc *rproc, const struct firmware *fw)
- 	if (ret)
- 		return ret;
+ 	int ret;
  
--	dev_info(dev, "Booting fw image %s, size %zd\n", name, fw->size);
-+	if (!rproc_needs_syncing(rproc))
-+		dev_info(dev, "Booting fw image %s, size %zd\n",
-+			 name, fw->size);
- 
++	/*
++	 * If the remote processor is already booted, all we need to do is
++	 * synchronise it it.  No point in dealing with a firmware image.
++	 */
++	if (rproc_needs_syncing(rproc))
++		return rproc_boot(rproc);
++
  	/*
- 	 * if enabling an IOMMU isn't relevant for this rproc, this is
-@@ -1818,7 +1820,7 @@ int rproc_boot(struct rproc *rproc)
- 		}
+ 	 * We're initiating an asynchronous firmware loading, so we can
+ 	 * be built-in kernel code, without hanging the boot process.
+@@ -1971,9 +1978,12 @@ int rproc_add(struct rproc *rproc)
+ 	/* create debugfs entries */
+ 	rproc_create_debug_dir(rproc);
+ 
+-	/* if rproc is marked always-on, request it to boot */
++	/*
++	 * If the auto boot flag is set, request to boot the remote
++	 * processor or synchronise with it.
++	 */
+ 	if (rproc->auto_boot) {
+-		ret = rproc_trigger_auto_boot(rproc);
++		ret = rproc_trigger_auto_initiate(rproc);
+ 		if (ret < 0)
+ 			return ret;
  	}
- 
--	ret = rproc_fw_boot(rproc, firmware_p);
-+	ret = rproc_actuate_device(rproc, firmware_p);
- 
- 	release_firmware(firmware_p);
- 
 -- 
 2.20.1
 
