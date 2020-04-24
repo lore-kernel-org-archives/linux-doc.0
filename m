@@ -7,64 +7,64 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 823DBC55196
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 20:02:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 882E9C54FD0
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 20:02:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E70B214AF
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 20:02:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6313D214AF
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 20:02:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HmiyDdp1"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nQ2U1b8k"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729500AbgDXUCI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729508AbgDXUCI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 24 Apr 2020 16:02:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39314 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729501AbgDXUB4 (ORCPT
+        with ESMTP id S1729500AbgDXUB4 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Apr 2020 16:01:56 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693FDC09B04D
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 13:01:56 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id n16so5112873pgb.7
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 13:01:56 -0700 (PDT)
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E612C09B049
+        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 13:01:55 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id fu13so3715823pjb.5
+        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 13:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=eewTcbuSLQRCFeSiAoYYX0+XB7BDJvlp2EU0H6eGjY4=;
-        b=HmiyDdp1jKoJRJ08HAwnGFrLp2BqyTXeVlxNgf+lTmmyTS8yOuVzEJl6XmSBvWkAS/
-         v/JwQlGdlmMeH1Xd2BZ21I5FEC/BV6wHAGRCVgAcB1lwzZxKnZIpNlLZKOWVsyGJbyoC
-         KtPcO3HbrrJWEEOr6guTSb+qPCw8jozVoSA/MrrMeuM6iNlHvF1jx3hXzlHEcdZn6hpj
-         5NatL9qSFglUvtASP78GysB2bsqBosJIQfd3d0g1fkisR7rgNut1AfGdF+fffrUNEz71
-         r6AvQvD/tP1ZkkRjfAX8kAyamS0lQCLChUKc9kr/vLDxhkPNWR10WS1BDEXYXm6d3zVP
-         kBBQ==
+        bh=Rb70E/sjGdouOLoWnX7vl3Ag+u7wzfoBCVwZVo3HJd8=;
+        b=nQ2U1b8khZFfIfjOuvs7xqMrSwowogjemD4mPQXzUxFybJtnqqu0wz83C9Xy9WzxjK
+         BR5SM0fkeuVtP00aV10s31vFYUrPfKfroOSGtQ+x6c7zp9iEYrg9LYxy2nQo6XVNJK9o
+         tA1hkmNN3wXKGrpFuueUK2WquyplBhHywJqkjiteGWj/SpancKa4wHsaBVd3r+ITQLt5
+         nZYDGLys/6olCPsbJAs2TYqvlArstuJvbBTyyWSo1tvYu1Yfjaa8t/JPfuKttZwiLnGS
+         kmn3KZKlGNFMPu+I4r7/7/mGV+j+taV3mOtBzqEvITyaCXnXG+PF4q1J1AJATywYH+TO
+         AAhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eewTcbuSLQRCFeSiAoYYX0+XB7BDJvlp2EU0H6eGjY4=;
-        b=medv4eCUoEXx1FYgLC9Auhgot+JWs1YfMgEoByv7R2plhr5T0qQOxglYphxRQfdvWo
-         BfLr047Kdz6EjN5la1d0trXXKu/6RegS5J293Jd5LkTaPnhe20F36/yP2uHm0bPQv3a+
-         JkHjtzJjRPxTHhLwplpZsYdq5fVjEgsS3PMttMrk+y4xFNGx9GvDOyTxO6C59avv/slj
-         ZngSp9mO1zbFCn77fb4J6sw4Ekon99cu03GY6jSughefA25bFV6EZ12fbFTP6eJYg+lL
-         lYr7CEUOBAICUY9bXw6LaGqmbFoNzv9esLcF7acuGvtu9k6A6BFqDo6xBDg2Dt6YQ6MW
-         be2g==
-X-Gm-Message-State: AGi0PuYGHg1/BG4+eJz4qk+ZM7IXQwd3fuLTvndOjwoxdPdKT9nlBAMQ
-        HvtN1FpG6UNi1OzOMdjP/4wCvQ==
-X-Google-Smtp-Source: APiQypKrHJCG5PxycsdeNY28g4yilDbLzXrizVM7n33WA5yRahh5tr3biAmtw3GGMoaVwRFNakd1jA==
-X-Received: by 2002:a62:2b06:: with SMTP id r6mr11126923pfr.249.1587758515825;
-        Fri, 24 Apr 2020 13:01:55 -0700 (PDT)
+        bh=Rb70E/sjGdouOLoWnX7vl3Ag+u7wzfoBCVwZVo3HJd8=;
+        b=DQIaLcdQejy+TbyPeHb7bXxf2FmNMv/HSLZI8VlUdAvoHaRduK6WV0PqEICaVxxAyE
+         omQKEYDzEoGd/RJwWuv6Vc+oOij2RBGqgn57Al61mc7DMiv26u5tQCMsrQ+IyO2366mc
+         VvIJUnF/nYDiXN7MoLmUB57WTq2XAx2QqmMyKfU6tQ1GGDe3Jr0wwze++r2rRe3SMkff
+         f9mtxqeTuA5hct++NBrytebWhi8YDmyqpVhAsHWUOZiyo2TISwVT/bKZ67PnZlD1pnsy
+         8Vul6vYKvwZCNh6L7woGlz/8lafwJIbF7dWzLB3SsZli5L/HefHQBwrUBKLqdQlf6mrb
+         /keQ==
+X-Gm-Message-State: AGi0PuYUhcdR+bB+JOYBcUMz07a+1SnxYb0NkjMsaAx6gCNYr6q3Kaey
+        wfghu5msxbTH03ti4QovQiQ/gw==
+X-Google-Smtp-Source: APiQypK4C28yh0PLdX0/fSmEWnxbUJ2uF1f02JWzlTKDSyT3ZBXAedHvxEuxZren5njEVG7AHjvb4A==
+X-Received: by 2002:a17:90a:1b67:: with SMTP id q94mr8348667pjq.84.1587758514536;
+        Fri, 24 Apr 2020 13:01:54 -0700 (PDT)
 Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id o11sm5532224pgd.58.2020.04.24.13.01.54
+        by smtp.gmail.com with ESMTPSA id o11sm5532224pgd.58.2020.04.24.13.01.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 13:01:55 -0700 (PDT)
+        Fri, 24 Apr 2020 13:01:53 -0700 (PDT)
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     bjorn.andersson@linaro.org, ohad@wizery.com
 Cc:     loic.pallardy@st.com, arnaud.pouliquen@st.com, s-anna@ti.com,
         linux-remoteproc@vger.kernel.org, corbet@lwn.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 14/14] remoteproc: Expose synchronisation flags via debugfs
-Date:   Fri, 24 Apr 2020 14:01:35 -0600
-Message-Id: <20200424200135.28825-15-mathieu.poirier@linaro.org>
+Subject: [PATCH v3 13/14] remoteproc: Document function rproc_set_state_machine()
+Date:   Fri, 24 Apr 2020 14:01:34 -0600
+Message-Id: <20200424200135.28825-14-mathieu.poirier@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200424200135.28825-1-mathieu.poirier@linaro.org>
 References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
@@ -75,53 +75,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a debugfs entry that reflects the value of the current
-synchronisation flags used by the remoteproc core.
+Add a few words on the newly added rproc_set_state_machine()
+in order to adversite the new API and help put people into
+context.
 
 Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 ---
- drivers/remoteproc/remoteproc_debugfs.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ Documentation/remoteproc.txt | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/remoteproc/remoteproc_debugfs.c b/drivers/remoteproc/remoteproc_debugfs.c
-index 732770e92b99..3dde24e62cd8 100644
---- a/drivers/remoteproc/remoteproc_debugfs.c
-+++ b/drivers/remoteproc/remoteproc_debugfs.c
-@@ -291,6 +291,25 @@ static int rproc_carveouts_show(struct seq_file *seq, void *p)
+diff --git a/Documentation/remoteproc.txt b/Documentation/remoteproc.txt
+index 2be1147256e0..550ed9a06a27 100644
+--- a/Documentation/remoteproc.txt
++++ b/Documentation/remoteproc.txt
+@@ -132,6 +132,23 @@ On success, the new rproc is returned, and on failure, NULL.
+   **never** directly deallocate @rproc, even if it was not registered
+   yet. Instead, when you need to unroll rproc_alloc(), use rproc_free().
  
- DEFINE_SHOW_ATTRIBUTE(rproc_carveouts);
++::
++
++  int rproc_set_state_machine(struct rproc *rproc,
++			      const struct rproc_ops *sync_ops,
++			      struct rproc_sync_flags sync_flags)
++
++This function should be called for cases where the remote processor has
++been started by another entity, be it a boot loader or trusted environment,
++and the remoteproc core is to synchronise with the remote processor rather
++then boot it.  The synchronisation flags @sync_flags tell the core whether
++it should synchronise with a remote processor when the core initialises, after
++a remote processor has crashed and after it was voluntarily stopped.  Operations
++provided in the @sync_ops should reflect the reality of the use case.  For
++example if the remoteproc core is to synchronise with a remote processor at
++initialisation time, sync_ops::find_loaded_rsc_table should provide a pointer to
++the resource table in memory rather than fetch it from the firmware image.
++
+ ::
  
-+ /* Expose synchronisation states via debugfs */
-+static int rproc_sync_flags_show(struct seq_file *seq, void *p)
-+{
-+	struct rproc *rproc = seq->private;
-+
-+	seq_printf(seq, "Sync with rproc: %s\n",
-+		   rproc->sync_with_rproc ? "true" : "false");
-+	seq_printf(seq, "On init: %s\n",
-+		   rproc->sync_flags.on_init ? "true" : "false");
-+	seq_printf(seq, "After stop: %s\n",
-+		   rproc->sync_flags.after_stop ? "true" : "false");
-+	seq_printf(seq, "After crash: %s\n",
-+		   rproc->sync_flags.after_crash ? "true" : "false");
-+
-+	return 0;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(rproc_sync_flags);
-+
- void rproc_remove_trace_file(struct dentry *tfile)
- {
- 	debugfs_remove(tfile);
-@@ -337,6 +356,8 @@ void rproc_create_debug_dir(struct rproc *rproc)
- 			    rproc, &rproc_rsc_table_fops);
- 	debugfs_create_file("carveout_memories", 0400, rproc->dbg_dir,
- 			    rproc, &rproc_carveouts_fops);
-+	debugfs_create_file("sync_flags", 0400, rproc->dbg_dir,
-+			    rproc, &rproc_sync_flags_fops);
- }
- 
- void __init rproc_init_debugfs(void)
+   void rproc_free(struct rproc *rproc)
 -- 
 2.20.1
 
