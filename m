@@ -4,258 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D75C6C55199
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 10:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06C3AC54FCB
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 12:14:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B25F820776
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 10:13:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C585320700
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 12:14:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nJpiIDKi"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="d6r7V0dY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726726AbgDXKNe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Apr 2020 06:13:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726938AbgDXKNa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Apr 2020 06:13:30 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 927E4C09B045
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 03:13:30 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id x25so9821563wmc.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2020 03:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ZjzQSYK/IyLxZafwcBa3oQLq8j0LeJ0VAvQG1IbtSsk=;
-        b=nJpiIDKisp4o81gcE2OE3PWQ4HjSno7DC9r80HSP9jRZj7oSRNnoOqH+Fm9xb8UYCZ
-         Wmk1qocpOudxfgvO6KHvAnun/O4FaekVyRFA2z4In3z8cONLN+unHmUCW4XzxSaZJBjc
-         +6nOwtx6/o9v5JDmPnVyB9wx3tTUVvEqtHY4VhETf7Q7p2WrPKPYwjoSm0HnbkpnKS0V
-         WlWv8hpgzzbNGD/Za+R2jBW1j1YYhNEZ9yPLMN8qpAlkQY1vxu0nnDP5J3vDm5YQiC6G
-         QsT6iU0KSCintcgbl2xU2k28mHQyJTVm0QOh4Ny3Hmse36LKBFp249aHQ116xAA8h2qb
-         dVbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZjzQSYK/IyLxZafwcBa3oQLq8j0LeJ0VAvQG1IbtSsk=;
-        b=hETH5csW0+L+a1hM4z2EYAibcm11Q9aXg5b8fbf1JO59L9AZKLDoPEo2tJGi6BxaZr
-         z3tQ8YiRQA7OFbpIVp9QdeponVAaDVDiXl8B1k0rm9IH5Sti+WclGz4HTDcEv0uur3iA
-         AIujwx39h82Bf+vcNojQetog/vQsW8Vw5tmyQJBOpIu1GzaQFXhcwLplGsBpY6XiMHAy
-         4eHPKgGs7kvj3DU/i7/ol0Y5ipegumJT2hPS6pnZThm4Cc2qszZ4ezyXPILFGCo5lgR2
-         l2dg23d15LyqNxlQrgM7do1sK4O3n6uWXRhueJ7qJcpbtBE7Vi+1dVAGCepVEpJm/xMU
-         QKow==
-X-Gm-Message-State: AGi0PubbyC5GbhoGVFlYyjmojiQ0ap3Rv2Y8NLefIXYMGdKqeOFm1ZQG
-        TeD/B+wqAEz7uQVXk78vwWcx2w==
-X-Google-Smtp-Source: APiQypJmFjG4xy1vgukyzOLL9UKSnSxqlFFMRbBsEa55Csbnd6hXWKh0+ZCj1PsyDDNVFrTioNOM4Q==
-X-Received: by 2002:a1c:66d5:: with SMTP id a204mr9365795wmc.69.1587723209114;
-        Fri, 24 Apr 2020 03:13:29 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
-        by smtp.gmail.com with ESMTPSA id f8sm7617423wrm.14.2020.04.24.03.13.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 03:13:28 -0700 (PDT)
-Date:   Fri, 24 Apr 2020 11:13:25 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        jason.wessel@windriver.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, catalin.marinas@arm.com,
-        bjorn.andersson@linaro.org, Nadav Amit <namit@vmware.com>,
-        hpa@zytor.com, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        will@kernel.org, Matt Mullins <mmullins@fb.com>,
-        Jonathan Corbet <corbet@lwn.net>, frowand.list@gmail.com,
-        x86@kernel.org, jinho lim <jordan.lim@samsung.com>,
-        agross@kernel.org, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-serial@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
-        Borislav Petkov <bp@suse.de>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-arm-msm@vger.kernel.org,
-        jslaby@suse.com, Alexios Zavras <alexios.zavras@intel.com>,
-        bp@alien8.de, tglx@linutronix.de, mingo@redhat.com,
-        Allison Randal <allison@lohutok.net>,
-        Juergen Gross <jgross@suse.com>, linux-usb@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        James Morse <james.morse@arm.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Enrico Weigelt <info@metux.net>
-Subject: Re: [PATCH v2 0/9] kgdb: Support late serial drivers; enable early
- debug w/ boot consoles
-Message-ID: <20200424101325.fvsxn32qzfocz7hb@holly.lan>
-References: <20200421211447.193860-1-dianders@chromium.org>
- <CAFA6WYMsN1Ep0WE2ngR4jzLuOHz7aDYP7ZL1Pmome2W9A9qKig@mail.gmail.com>
+        id S1726698AbgDXMOJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Apr 2020 08:14:09 -0400
+Received: from mail-db8eur05on2043.outbound.protection.outlook.com ([40.107.20.43]:17857
+        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726668AbgDXMOI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 24 Apr 2020 08:14:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bfiHPKxa1IHBBXNbchWXTfijEt10fTsmzFuRjW182govdvJzWLSuOQID8wJVCmQu4rsXNbTk4RyIlWUwkImuQXsuZNZi5SepPZ3qUQt7umMLC1Npr7EUQZVL8Jadqf+QP5xh3nG1dOPq+fMSGJ8Z6C23eSbkEWj5E//SI1fT3I3KFx6QfMHSWZOHzi6HKgRyEoWV97iqGUsZNhR15wrY9zu3geYBdypIS70a3ShZ2khSTt7p5Az3iGOrc2vaUBiWF2mgxMpz77GUPV4JlKuwNkx5jXzeKmhL3yUEc3auqxyDI+OrPG8M59O51iCjSWSkKTlP9saGz1RJLC835W3jkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0N2ovQwEi1U3BCXEi0kL1IvyFOLJ17/LkzbpQ9Oit5w=;
+ b=OQ0SOA6DRFkEtqihgEaa86/agMk+AC6rwWbHPhgTxShptlooeSKJqUxuR3hhpijEceEuVHKemkrNlNzLiN5Om1VNtmcKZZC+eq7/VOalE9UDVgYkgqLlzVOT7/cBoexL0wDui9Erek83ODDIY7rkRltlLFN13Ue8gsDgKviwIEhPZRZWZu1wSlA8Byb5PWHEcm7YhjToGXYPq38p9irGmLfD6Kn0B2XUEo+MXIaX7DpqsUj5bAiQVEHmZ9M7txRdLsUbr1hUNiA1kDMjcVqrTDA2+N5LWcvskCVBODfP8JmVG6xEdvFqN8tgJk0ncJ/JTLiXK8DWBlIIHmxSgA9r8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0N2ovQwEi1U3BCXEi0kL1IvyFOLJ17/LkzbpQ9Oit5w=;
+ b=d6r7V0dYWIrEhhuCKza/YyQ4ruwhQy8k3nNcNruxfL0/J8tnyNjKFRCDhndeRBVkgDmaaho3oDE/DOPsHcwYG76IDfvnpEQhGzQBpQXshUIVkKgVrUORdloDgEKKaqPeqoEq7drLOqdea9YBHTbU0qmcMyRXfr9w/dIFE6cCJV8=
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com (2603:10a6:208:119::33)
+ by AM0PR04MB5314.eurprd04.prod.outlook.com (2603:10a6:208:cd::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Fri, 24 Apr
+ 2020 12:14:05 +0000
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::8cc9:252:1c77:5860]) by AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::8cc9:252:1c77:5860%2]) with mapi id 15.20.2937.012; Fri, 24 Apr 2020
+ 12:14:05 +0000
+From:   Florinel Iordache <florinel.iordache@nxp.com>
+To:     Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>
+CC:     "davem@davemloft.net" <davem@davemloft.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>,
+        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next 6/9] net: phy: add backplane kr driver support
+Thread-Topic: [PATCH net-next 6/9] net: phy: add backplane kr driver support
+Thread-Index: AdYaMARbyR37uWIvRc+0I7pINBGoWw==
+Date:   Fri, 24 Apr 2020 12:14:05 +0000
+Message-ID: <AM0PR04MB5443C8E4C6765250CF3361C0FBD00@AM0PR04MB5443.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=florinel.iordache@nxp.com; 
+x-originating-ip: [89.136.167.85]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9c966410-c3d1-445b-4d36-08d7e848fbb7
+x-ms-traffictypediagnostic: AM0PR04MB5314:|AM0PR04MB5314:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR04MB53144C49415944600D2FBC6AFBD00@AM0PR04MB5314.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3826;
+x-forefront-prvs: 03838E948C
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5443.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(366004)(136003)(39860400002)(346002)(396003)(9686003)(55016002)(53546011)(6506007)(8676002)(8936002)(7696005)(81156014)(54906003)(110136005)(33656002)(2906002)(7416002)(316002)(5660300002)(86362001)(44832011)(71200400001)(66556008)(26005)(478600001)(76116006)(66446008)(4326008)(64756008)(186003)(52536014)(66476007)(66946007);DIR:OUT;SFP:1101;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WxM6CcyzWdKK5db+Pw5V2yfOTYmOAUF9wT+c44Xy+bP4mSusZsB5RjW8jxSkRe+gl6EozKApRe++mwKTnyZeI1oT21uUnEnZH6yOkLP2HcvT7v5/pL7++FEtnM1+F0seWP+a8b2cdxrJZ+0gHMkFiOn9+jxziS0qay8UtzCgtOa6J7DiEiIYljIrNq66/hF+l7jaIGlh3zajxTRVE07epk+fQk66M1Y9RoqEU3ZtfUM+LGLAXLWPKjju7b7cj22kwPdC/fjADBzTdMxdCgXFyrGPdiVXSARc603/dGL5cE1OeP3sS3AtFu7Qqf/SLrM4yGcwry4lvPs4I8967RV/zfkLKMyZZHIaSk143kxwNpYHGdqmu/MPVj7FPLH7f1n7OLf9Sil/TF5aoTuGowb8cEJnyKHslhxpR2kIT4/kQDrXkJZ8avAoy8pBEJkP3fIs
+x-ms-exchange-antispam-messagedata: Qco8mfGBpVSnQh894OXTkA92U/G/6zVwKkrlDRm/HnQBaz+sKeP0QtkunPlFQAv2qWHZimsu8b3SD7qI525Bi/Wp5jxtaYd5pdJPEiGLltEwsgTI0PPJyVtuw0SjzqOE/4rUAYacYk0+MeVr1aarHg==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFA6WYMsN1Ep0WE2ngR4jzLuOHz7aDYP7ZL1Pmome2W9A9qKig@mail.gmail.com>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c966410-c3d1-445b-4d36-08d7e848fbb7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2020 12:14:05.3328
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RMxF2ShRQA56ElcyI6rmq/n3vTXyArDDSL1KcaTEm4CQvWLD50SgNjBJF5Asz6U85oMh5sI0fIDsnhbdFAoIMfkOL6j0W8Ec+SbGsK88AiM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB5314
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 02:02:51PM +0530, Sumit Garg wrote:
-> Hi Doug,
-> 
-> On Wed, 22 Apr 2020 at 02:45, Douglas Anderson <dianders@chromium.org> wrote:
-> >
-> > This whole pile of patches was motivated by me trying to get kgdb to
-> > work properly on a platform where my serial driver ended up being hit
-> > by the -EPROBE_DEFER virus (it wasn't practicing social distancing
-> > from other drivers).  Specifically my serial driver's parent device
-> > depended on a resource that wasn't available when its probe was first
-> > called.  It returned -EPROBE_DEFER which meant that when "kgdboc"
-> > tried to run its setup the serial driver wasn't there.  Unfortunately
-> > "kgdboc" never tried again, so that meant that kgdb was disabled until
-> > I manually enalbed it via sysfs.
-> >
-> > While I could try to figure out how to get around the -EPROBE_DEFER
-> > somehow, the above problems could happen to anyone and -EPROBE_DEFER
-> > is generally considered something you just have to live with.  In any
-> > case the current "kgdboc" setup is a bit of a race waiting to happen.
-> > I _think_ I saw during early testing that even adding a msleep() in
-> > the typical serial driver's probe() is enough to trigger similar
-> > issues.
-> >
-> > I decided that for the above race the best attitude to get kgdb to
-> > register at boot was probably "if you can't beat 'em, join 'em".
-> > Thus, "kgdboc" now jumps on the -EPROBE_DEFER bandwagon (now that my
-> > driver uses it it's no longer a virus).  It does so a little awkwardly
-> > because "kgdboc" hasn't normally had a "struct device" associated with
-> > it, but it's really not _that_ ugly to make a platform device and
-> > seems less ugly than alternatives.
-> >
-> > Unfortunately now on my system the debugger is one of the last things
-> > to register at boot.  That's OK for debugging problems that show up
-> > significantly after boot, but isn't so hot for all the boot problems
-> > that I end up debugging.  This motivated me to try to get something
-> > working a little earlier.
-> >
-> > My first attempt was to try to get the existing "ekgdboc" to work
-> > earlier.  I tried that for a bit until I realized that it needed to
-> > work at the tty layer and I couldn't find any serial drivers that
-> > managed to register themselves to the tty layer super early at boot.
-> > The only documented use of "ekgdboc" is "ekgdboc=kbd" and that's a bit
-> > of a special snowflake.  Trying to get my serial driver and all its
-> > dependencies to probe normally and register the tty driver super early
-> > at boot seemed like a bad way to go.  In fact, all the complexity
-> > needed to do something like this is why the system already has a
-> > special concept of a "boot console" that lives only long enough to
-> > transition to the normal console.
-> >
-> > Leveraging the boot console seemed like a good way to go and that's
-> > what this series does.  I found that consoles could have a read()
-> > function, though I couldn't find anyone who implemented it.  I
-> > implemented it for two serial drivers for the devices I had easy
-> > access to, making the assumption that for boot consoles that we could
-> > assume read() and write() were polling-compatible (seems sane I
-> > think).
-> >
-> > Now anyone who makes a small change to their serial driver can easily
-> > enable early kgdb debugging!
-> >
-> > The devices I had for testing were:
-> > - arm32: rk3288-veyron-jerry
-> > - arm64: rk3399-gru-kevin
-> > - arm64: qcom-sc7180-trogdor (not mainline yet)
-> >
-> > These are the devices I tested this series on.  I tried to test
-> > various combinations of enabling/disabling various options and I
-> > hopefully caught the corner cases, but I'd appreciate any extra
-> > testing people can do.
-> 
-> earlycon_kgdboc sounds like a really cool feature. So I gave it a try
-> on my arm64 machine (Developerbox) and it works like a charm. So for
-> patch 6/9 you can add:
-> 
-> Tested-by: Sumit Garg <sumit.garg@linaro.org>
-> 
-> Plus, in order to enable earlycon_kgdboc on Developerbox I had to
-> implement the read() function in the early console driver for
-> amba-pl011 (see patch [1]). It would be great if you could pick that
-> patch [1] too as part of this series.
-> 
-> [1] https://lkml.org/lkml/2020/4/24/173
-
-I think PL011 support is also useful for getting this feature integrated
-into the test suite too!
-
-
-Daniel.
-
-
-> 
-> -Sumit
-> 
-> >  Notably I didn't test on x86, but (I think) I
-> > didn't touch much there so I shouldn't have broken anything.
-> >
-> > When testing I found a few problems with actually dropping into the
-> > debugger super early on arm and arm64 devices.  Patches in this series
-> > should help with this.  For arm I just avoid dropping into the
-> > debugger until a little later and for arm64 I actually enable
-> > debugging super early.
-> >
-> > I realize that bits of this series might feel a little hacky, though
-> > I've tried to do things in the cleanest way I could without overly
-> > interferring with the rest of the kernel.  If you hate the way I
-> > solved a problem I would love it if you could provide guidance on how
-> > you think I could solve the problem better.
-> >
-> > This series (and my comments / documentation / commit messages) are
-> > now long enough that my eyes glaze over when I try to read it all over
-> > to double-check.  I've nontheless tried to double-check it, but I'm
-> > pretty sure I did something stupid.  Thank you ahead of time for
-> > pointing it out to me so I can fix it in v3.  If somehow I managed to
-> > not do anything stupid (really?) then thank you for double-checking me
-> > anyway.
-> >
-> > Changes in v2:
-> > - ("kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb") new for v2.
-> > - ("Revert "kgdboc: disable the console lock when in kgdb"") new for v2.
-> > - Assumes we have ("kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb")
-> > - Fix kgdbts, tty/mips_ejtag_fdc, and usb/early/ehci-dbgp
-> >
-> > Douglas Anderson (9):
-> >   kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb
-> >   Revert "kgdboc: disable the console lock when in kgdb"
-> >   kgdboc: Use a platform device to handle tty drivers showing up late
-> >   kgdb: Delay "kgdbwait" to dbg_late_init() by default
-> >   arm64: Add call_break_hook() to early_brk64() for early kgdb
-> >   kgdboc: Add earlycon_kgdboc to support early kgdb using boot consoles
-> >   Documentation: kgdboc: Document new earlycon_kgdboc parameter
-> >   serial: qcom_geni_serial: Support earlycon_kgdboc
-> >   serial: 8250_early: Support earlycon_kgdboc
-> >
-> >  .../admin-guide/kernel-parameters.txt         |  20 ++
-> >  Documentation/dev-tools/kgdb.rst              |  14 +
-> >  arch/arm64/include/asm/debug-monitors.h       |   2 +
-> >  arch/arm64/kernel/debug-monitors.c            |   2 +-
-> >  arch/arm64/kernel/kgdb.c                      |   5 +
-> >  arch/arm64/kernel/traps.c                     |   3 +
-> >  arch/x86/kernel/kgdb.c                        |   5 +
-> >  drivers/misc/kgdbts.c                         |   2 +-
-> >  drivers/tty/mips_ejtag_fdc.c                  |   2 +-
-> >  drivers/tty/serial/8250/8250_early.c          |  23 ++
-> >  drivers/tty/serial/kgdboc.c                   | 262 ++++++++++++++++--
-> >  drivers/tty/serial/qcom_geni_serial.c         |  32 +++
-> >  drivers/usb/early/ehci-dbgp.c                 |   2 +-
-> >  include/linux/kgdb.h                          |  25 +-
-> >  kernel/debug/debug_core.c                     |  48 +++-
-> >  15 files changed, 400 insertions(+), 47 deletions(-)
-> >
-> > --
-> > 2.26.1.301.g55bc3eb7cb9-goog
-> >
-> >
-> > _______________________________________________
-> > linux-arm-kernel mailing list
-> > linux-arm-kernel@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+PiBPbiAzLzI2LzIwMjAgNjowNyBQTSwgQW5kcmV3IEx1bm4gd3JvdGU6DQo+ID4+ICtzdGF0aWMg
+dTMyIGxlX2lvcmVhZDMyKHZvaWQgX19pb21lbSAqcmVnKSB7DQo+ID4+ICsgICAgcmV0dXJuIGlv
+cmVhZDMyKHJlZyk7DQo+ID4+ICt9DQo+ID4+ICsNCj4gPj4gK3N0YXRpYyB2b2lkIGxlX2lvd3Jp
+dGUzMih1MzIgdmFsdWUsIHZvaWQgX19pb21lbSAqcmVnKSB7DQo+ID4+ICsgICAgaW93cml0ZTMy
+KHZhbHVlLCByZWcpOw0KPiA+PiArfQ0KPiA+PiArDQo+ID4+ICtzdGF0aWMgdTMyIGJlX2lvcmVh
+ZDMyKHZvaWQgX19pb21lbSAqcmVnKSB7DQo+ID4+ICsgICAgcmV0dXJuIGlvcmVhZDMyYmUocmVn
+KTsNCj4gPj4gK30NCj4gPj4gKw0KPiA+PiArc3RhdGljIHZvaWQgYmVfaW93cml0ZTMyKHUzMiB2
+YWx1ZSwgdm9pZCBfX2lvbWVtICpyZWcpIHsNCj4gPj4gKyAgICBpb3dyaXRlMzJiZSh2YWx1ZSwg
+cmVnKTsNCj4gPj4gK30NCj4gPg0KPiA+IFRoaXMgaXMgdmVyeSBzdXJwcmlzaW5nIHRvIG1lLiBJ
+J3ZlIG5vdCBnb3QgbXkgaGVhZCBhcm91bmQgdGhlDQo+ID4gc3RydWN0dXJlIG9mIHRoaXMgY29k
+ZSB5ZXQsIGJ1dCBpJ20gc3VycHJpc2VkIHRvIHNlZSBtZW1vcnkgbWFwcGVkDQo+ID4gYWNjZXNz
+IGZ1bmN0aW9ucyBpbiBnZW5lcmljIGNvZGUuDQo+IA0KPiBUaGlzIGFic3RyYWN0aW9uIG1ha2Vz
+IG5vIHNlbnNlIHdoYXRzb2V2ZXIsIHlvdSBhbHJlYWR5IGhhdmUNCj4gaW97cmVhZCx3cml0ZX0z
+MntiZSx9IHRvIGRlYWwgd2l0aCB0aGUgY29ycmVjdCBlbmRpYW4sIGFuZCB5b3UgY2FuIHVzZSB0
+aGUNCj4gc3RhbmRhcmQgRGV2aWNlIFRyZWUgcHJvcGVydGllcyAnYmlnLWVuZGlhbicsICdsaXR0
+bGUtZW5kaWFuJywgJ25hdGl2ZS1lbmRpYW4nIHRvDQo+IGRlY2lkZSB3aGljaCBvZiB0aG9zZSBv
+ZiB0byB1c2UuIElmIHlvdSBuZWVkIHRvIGludHJvZHVjZSBhIHdyYXBwZXIgb3IgaW5kaXJlY3QN
+Cj4gZnVuY3Rpb24gY2FsbHMgdG8gc2VsZWN0IHRoZSBjb3JyZWN0IEkvTyBhY2Nlc3NvciwgdGhh
+dCBpcyBmaW5lIG9mIGNvdXJzZS4NCj4gLS0NCj4gRmxvcmlhbg0KDQpIaSBGbG9yaWFuLA0KSSBu
+ZWVkIHRoZXNlIHdyYXBwZXJzIGluIGdlbmVyaWMgY29kZSBpbiBvcmRlciB0byBhdXRvbWF0aWNh
+bGx5IGFzc2lnbiB0aGUgcHJvcGVyDQpJL08gYWNjZXNzb3IgaW4gdGhlIGZvbGxvd2luZyBzdHJ1
+Y3R1cmUgYWNjb3JkaW5nIHRvIGVuZGlhbm5lc3Mgc3BlY2lmaWVkIGluIERULg0KDQovKiBFbmRp
+YW5uZXNzIHNwZWNpZmljIG1lbW9yeSBJL08gKi8NCnN0cnVjdCBtZW1faW8gew0KCXUzMiAoKnJl
+YWQzMikodm9pZCBfX2lvbWVtICphZGRyKTsNCgl2b2lkICgqd3JpdGUzMikodTMyIHZhbHVlLCB2
+b2lkIF9faW9tZW0gKmFkZHIpOw0KfTsNCg0KQW5kIHRoZW4gdGhlIHVzYWdlIGlzIHN0cmFpZ2h0
+Zm9yd2FyZCBpbiBkZXZpY2Ugc3BlY2lmaWMgY29kZToNCmlvLnJlYWQzMigmcmVnX2Jhc2UtPnRj
+c3IzKSAuLi4NCmlvLndyaXRlMzIoKGlvLnJlYWQzMigmcmVnX2Jhc2UtPnRjc3IxKSAuLi4gDQoN
+CndpdGhvdXQgdGhlIG5lZWQgdG8gY2hlY2sgZW5kaWFubmVzcyBhdCBlYWNoIGNhbGwgYW5kIHNl
+bGVjdCB3aGljaCByZWFkL3dyaXRlIGZ1bmN0aW9uIHRvIHVzZS4NClRoaXMgaXMgZG9uZSBpbiBv
+cmRlciB0byByZWR1Y2UgdGhlIG92ZXJhbGwgbnVtYmVyIG9mIExPQyAobGluZXMgb2YgY29kZSku
+DQoNCkZsb3Jpbi4NCg==
