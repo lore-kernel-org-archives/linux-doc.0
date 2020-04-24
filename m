@@ -2,222 +2,68 @@ Return-Path: <SRS0=MbD/=6I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 729E8C55197
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 16:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 295A9C54FCB
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 17:29:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 529A320700
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 16:22:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1395320736
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Apr 2020 17:29:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726908AbgDXQWA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Apr 2020 12:22:00 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:58599 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728132AbgDXQV7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Apr 2020 12:21:59 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jS15M-0004dV-Jr; Fri, 24 Apr 2020 16:21:52 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jens Axboe <axboe@kernel.dk>,
+        id S1728961AbgDXR3h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Apr 2020 13:29:37 -0400
+Received: from balrog.mythic-beasts.com ([46.235.227.24]:34849 "EHLO
+        balrog.mythic-beasts.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727022AbgDXR3h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Apr 2020 13:29:37 -0400
+Received: from [87.115.41.34] (port=58078 helo=slartibartfast.quignogs.org.uk)
+        by balrog.mythic-beasts.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92.3)
+        (envelope-from <peter@bikeshed.quignogs.org.uk>)
+        id 1jS28m-0006fu-JF; Fri, 24 Apr 2020 18:29:32 +0100
+From:   Peter Lister <peter@bikeshed.quignogs.org.uk>
+Subject: Re: [PATCH v2 08/29] docs: filesystems: convert configfs.txt to ReST
+To:     Christoph Hellwig <hch@lst.de>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        Steve Barber <smbarber@google.com>,
-        Dylan Reid <dgreid@google.com>,
-        Filipe Brandenburger <filbranden@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Benjamin Elder <bentheelder@google.com>,
-        Akihiro Suda <suda.kyoto@gmail.com>
-Subject: [PATCH v3 0/7] loopfs
-Date:   Fri, 24 Apr 2020 18:20:45 +0200
-Message-Id: <20200424162052.441452-1-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.26.2
+        Joel Becker <jlbec@evilplan.org>, linux-usb@vger.kernel.org
+References: <cover.1587487612.git.mchehab+huawei@kernel.org>
+ <278a9befc98b49ea866c9b687d070c70cde20628.1587487612.git.mchehab+huawei@kernel.org>
+ <20200421165534.GA16511@lst.de>
+ <20200421170223.GP5820@bombadil.infradead.org>
+ <20200421172337.GA18305@lst.de>
+Message-ID: <894438a6-cd91-1728-a313-4bf4f8d5074d@bikeshed.quignogs.org.uk>
+Date:   Fri, 24 Apr 2020 18:28:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200421172337.GA18305@lst.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-BlackCat-Spam-Score: 14
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hey everyone,
+On 21/04/2020 18:23, Christoph Hellwig wrote:
+> It wasn't entirely uncommon, but that's not really the point.  The
+> Problem is all the weird ".." or "::" annotations that really kill
+> the flow, or things like "|copy|" that have no reason to exist.
 
-This is v3 of loopfs.
+You aren't supposed to read REST documentation files - as opposed to 
+kerneldoc comments in the C source - any more than you read HTML.
 
-The branch is available in three locations:
-https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=loopfs
-https://gitlab.com/brauner/linux/-/commits/loopfs
-https://github.com/brauner/linux/tree/loopfs
+[ Exactly what should or should not be in C source kerneldoc is another 
+matter. ]
 
-I've added a few more people to the Cc that want to make use of this and
-I've added the missing ucount part that David pointed out and expanded a
-little more on how this is used so this is used. I also removed the
-"max" mount option which people argued wasn't very useful, bringing down
-the loc count quite a bit actually.
+Developers are used to reading plain ol' text files for quick reference. 
+But there is no make target to generate the text files.
 
-This implements loopfs, a loop device filesystem. It takes inspiration
-from the binderfs filesystem I implemented about two years ago and with
-which we had overall good experiences so far. Parts of it are also
-based on [3] but it's mostly a new, imho cleaner approach.
-
-Loopfs allows to create private loop devices instances to applications
-for various use-cases. It covers the use-case that was expressed on-list
-and in-person to get programmatic access to private loop devices for
-image building in sandboxes. An illustration for this is provided in
-[4].
-
-Also loopfs is intended to provide loop devices to privileged and
-unprivileged containers which has been a frequent request from various
-major tools (Chromium, Kubernetes, LXD, Moby/Docker, systemd). I'm
-providing a non-exhaustive list of issues and requests (cf. [5]) around
-this feature mainly to illustrate that I'm not making the use-cases up.
-Currently none of this can be done safely since handing a loop device
-from the host into a container means that the container can see anything
-that the host is doing with that loop device and what other containers
-are doing with that device too. And (bind-)mounting devtmpfs inside of
-containers is not secure at all so also not an option (though sometimes
-done out of despair apparently).
-
-The workloads people run in containers are supposed to be indiscernible
-from workloads run on the host and the tools inside of the container are
-supposed to not be required to be aware that they are running inside a
-container apart from containerization tools themselves. This is
-especially true when running older distros in containers that did exist
-before containers were as ubiquitous as they are today. With loopfs user
-can call mount -o loop and in a correctly setup container things work
-the same way they would on the host. The filesystem representation
-allows us to do this in a very simple way. At container setup, a
-container manager can mount a private instance of loopfs somehwere, e.g.
-at /dev/loopfs and then bind-mount or symlink /dev/loopfs/loop-control
-to /dev/loop-control, pre allocate and symlink the number of standard
-devices into their standard location and have a service file or rules in
-place that symlink additionally allocated loop devices through losetup
-into place as well.
-With the new syscall interception logic this is also possible for
-unprivileged containers. In these cases when a user calls mount -o loop
-<image> <mountpoint> it will be possible to completely setup the loop
-device in the container. The final mount syscall is handled through
-syscall interception which we already implemented and released in
-earlier kernels (see [1] and [2]) and is actively used in production
-workloads. The mount is often rewritten to a fuse binary to provide safe
-access for unprivileged containers.
-
-Loopfs also allows the creation of hidden/detached dynamic loop devices
-and associated mounts which also was a often issued request. With the
-old mount api this can be achieved by creating a temporary loopfs and
-stashing a file descriptor to the mount point and the loop-control
-device and immediately unmounting the loopfs instance.  With the new
-mount api a detached mount can be created directly (i.e. a mount not
-visible anywhere in the filesystem). New loop devices can then be
-allocated and configured. They can be mounted through
-/proc/self/<fd>/<nr> with the old mount api or by using the fd directly
-with the new mount api. Combined with a mount namespace this allows for
-fully auto-cleaned up loop devices on program crash. This ties back to
-various use-cases and is illustrated in [4].
-
-The filesystem representation requires the standard boilerplate
-filesystem code we know from other tiny filesystems. And all of
-the loopfs code is hidden under a config option that defaults to false.
-This specifically means, that none of the code even exists when users do
-not have any use-case for loopfs.
-In addition, the loopfs code does not alter how loop devices behave at
-all, i.e. there are no changes to any existing workloads and I've taken
-care to ifdef all loopfs specific things out.
-
-Each loopfs mount is a separate instance. As such loop devices created
-in one instance are independent of loop devices created in another
-instance. This specifically entails that loop devices are only visible
-in the loopfs instance they belong to.
-
-The number of loop devices available in loopfs instances are
-hierarchically limited through /proc/sys/user/max_loop_devices via the
-ucount infrastructure (Thanks to David Rheinsberg for pointing out that
-missing piece.). An administrator could e.g. set
-echo 3 > /proc/sys/user/max_loop_devices at which point any loopfs
-instance mounted by uid x can only create 3 loop devices no matter how
-many loopfs instances they mount. This limit applies hierarchically to
-all user namespaces.
-
-Thanks!
-Christian
-
-[1]: 6a21cc50f0c7 ("seccomp: add a return code to trap to userspace")
-[2]: fb3c5386b382 ("seccomp: add SECCOMP_USER_NOTIF_FLAG_CONTINUE")
-[3]: https://lore.kernel.org/lkml/1401227936-15698-1-git-send-email-seth.forshee@canonical.com
-[4]: https://gist.github.com/brauner/dcaf15e6977cc1bfadfb3965f126c02f
-[5]: https://github.com/kubernetes-sigs/kind/issues/1333
-     https://github.com/kubernetes-sigs/kind/issues/1248
-     https://lists.freedesktop.org/archives/systemd-devel/2017-August/039453.html
-     https://chromium.googlesource.com/chromiumos/docs/+/master/containers_and_vms.md#loop-mount
-     https://gitlab.com/gitlab-com/support-forum/issues/3732
-     https://github.com/moby/moby/issues/27886
-     https://twitter.com/_AkihiroSuda_/status/1249664478267854848
-     https://serverfault.com/questions/701384/loop-device-in-a-linux-container
-     https://discuss.linuxcontainers.org/t/providing-access-to-loop-and-other-devices-in-containers/1352
-     https://discuss.concourse-ci.org/t/exposing-dev-loop-devices-in-privileged-mode/813
-
-Christian Brauner (7):
-  kobject_uevent: remove unneeded netlink_ns check
-  loopfs: implement loopfs
-  loop: use ns_capable for some loop operations
-  kernfs: handle multiple namespace tags
-  loop: preserve sysfs backwards compatibility
-  loopfs: start attaching correct namespace during loop_add()
-  loopfs: only show devices in their correct instance
-
- Documentation/filesystems/sysfs-tagging.txt |   1 -
- MAINTAINERS                                 |   5 +
- block/genhd.c                               |  85 ++++
- block/partitions/core.c                     |   1 +
- drivers/base/devtmpfs.c                     |   4 +-
- drivers/block/Kconfig                       |   4 +
- drivers/block/Makefile                      |   1 +
- drivers/block/loop.c                        | 205 +++++++--
- drivers/block/loop.h                        |   7 +
- drivers/block/loopfs/Makefile               |   3 +
- drivers/block/loopfs/loopfs.c               | 439 ++++++++++++++++++++
- drivers/block/loopfs/loopfs.h               |  38 ++
- fs/kernfs/dir.c                             |  38 +-
- fs/kernfs/kernfs-internal.h                 |  33 +-
- fs/kernfs/mount.c                           |  11 +-
- fs/sysfs/mount.c                            |  14 +-
- include/linux/device.h                      |   3 +
- include/linux/genhd.h                       |   3 +
- include/linux/kernfs.h                      |  44 +-
- include/linux/kobject_ns.h                  |   7 +-
- include/linux/sysfs.h                       |   8 +-
- include/linux/user_namespace.h              |   3 +
- include/uapi/linux/magic.h                  |   1 +
- kernel/ucount.c                             |   3 +
- lib/kobject.c                               |  17 +-
- lib/kobject_uevent.c                        |   2 +-
- net/core/net-sysfs.c                        |   6 -
- 27 files changed, 891 insertions(+), 95 deletions(-)
- create mode 100644 drivers/block/loopfs/Makefile
- create mode 100644 drivers/block/loopfs/loopfs.c
- create mode 100644 drivers/block/loopfs/loopfs.h
-
-
-base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
--- 
-2.26.2
-
+Can we create a method to build text *output* files?
