@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AEC8C82A00
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65261C82A01
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:04:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C8B820575
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:04:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 436472087E
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:04:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588025094;
-	bh=xBkzNBy2YhJi/8RK1Om5eioEswOWWQFUH8yKwJvvfgI=;
+	s=default; t=1588025096;
+	bh=hcDugR9Ei2kcALB6m15r0N7fV4ifciWFKj04gGXvBuE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TKYJSS1vwyYLTPh4efTDz3gQ+IRrYkA5Ocdd3gPQjTnnct3taGVRLig70yIavZj2I
-	 XcXFuXy+gmS9fqCMR5mD7/b99qqxZrVmSfrl0r3Z4sb6zksDYECBzcLUfhyfDLm6Ov
-	 crZPXTKUTbZS3bCOEtZy4/N5cTB9HS5dDXMGh9x8=
+	b=d89M7h1ooX+dUIccBbrEdKzRSdMBhsagRtC77vXPYH3swWo+x37XF+29C3AZmuvQT
+	 560WSQKIYdN+z2BJ+Z+J9ysXhNK3SheL9tjhWqCfKQBQrcaxaOQ5g0d9ChTZwDrbXK
+	 iWoR1dLpmlvOF06e03BsyUycYAWOcVWE84ghhB5I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726863AbgD0WET (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726856AbgD0WET (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 27 Apr 2020 18:04:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48134 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:48116 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726194AbgD0WCA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726364AbgD0WCA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Apr 2020 18:02:00 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D99282223C;
+        by mail.kernel.org (Postfix) with ESMTPSA id A9592221EB;
         Mon, 27 Apr 2020 22:01:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588024917;
-        bh=xBkzNBy2YhJi/8RK1Om5eioEswOWWQFUH8yKwJvvfgI=;
+        s=default; t=1588024916;
+        bh=hcDugR9Ei2kcALB6m15r0N7fV4ifciWFKj04gGXvBuE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HfwAVJgU5xU8hFba4Fet0WG5uwzHpKjNy+G/Q25LQwj2hZUVA+6KsS/oqUZIck34i
-         NDF9MuK088cyhYRJHoOPU8d2T4m9FB63KZjzgS+t+MbQntQGI7tUIZwKXgo3G4qZ+w
-         1gKY389t7znH0SKWVaiRj758Lc0d/ILVCIOErS48=
+        b=GT+gPG34hk517db2YxFh+lLtciGEjV4Brm67oo557BBaUwujTGGRlz3qC7HSuPKc0
+         zr8AArJQGboc0B9fbIvvTbjBN7oXaKYVnGUCvTqnQ1V/VLTZBrIiIHkG4kHpuxj8Kt
+         Qh2ohmupTnfCLj3v9UQaFTTpQaZBDtUIJBoXXXFg=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jTBp5-000Ipd-52; Tue, 28 Apr 2020 00:01:55 +0200
+        id 1jTBp4-000Ip4-Ve; Tue, 28 Apr 2020 00:01:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 25/38] docs: networking: convert generic_netlink.txt to ReST
-Date:   Tue, 28 Apr 2020 00:01:40 +0200
-Message-Id: <8ed7ad58fc10c5343722f7bcda07e712e41f7d0e.1588024424.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 18/38] docs: networking: convert driver.txt to ReST
+Date:   Tue, 28 Apr 2020 00:01:33 +0200
+Message-Id: <830fa106e7fa2584038838973e71fe63ff73cac7.1588024424.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588024424.git.mchehab+huawei@kernel.org>
 References: <cover.1588024424.git.mchehab+huawei@kernel.org>
@@ -60,44 +60,95 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Not much to be done here:
 - add SPDX header;
 - add a document title;
+- mark code blocks and literals as such;
+- adjust identation, whitespaces and blank lines;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../networking/{generic_netlink.txt => generic_netlink.rst} | 6 ++++++
- Documentation/networking/index.rst                          | 1 +
- 2 files changed, 7 insertions(+)
- rename Documentation/networking/{generic_netlink.txt => generic_netlink.rst} (64%)
+ .../networking/{driver.txt => driver.rst}     | 22 +++++++++++--------
+ Documentation/networking/index.rst            |  1 +
+ 2 files changed, 14 insertions(+), 9 deletions(-)
+ rename Documentation/networking/{driver.txt => driver.rst} (85%)
 
-diff --git a/Documentation/networking/generic_netlink.txt b/Documentation/networking/generic_netlink.rst
-similarity index 64%
-rename from Documentation/networking/generic_netlink.txt
-rename to Documentation/networking/generic_netlink.rst
-index 3e071115ca90..59e04ccf80c1 100644
---- a/Documentation/networking/generic_netlink.txt
-+++ b/Documentation/networking/generic_netlink.rst
-@@ -1,3 +1,9 @@
+diff --git a/Documentation/networking/driver.txt b/Documentation/networking/driver.rst
+similarity index 85%
+rename from Documentation/networking/driver.txt
+rename to Documentation/networking/driver.rst
+index da59e2884130..c8f59dbda46f 100644
+--- a/Documentation/networking/driver.txt
++++ b/Documentation/networking/driver.rst
+@@ -1,4 +1,8 @@
+-Document about softnet driver issues
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===============
-+Generic Netlink
-+===============
-+
- A wiki document on how to use Generic Netlink can be found here:
++=====================
++Softnet Driver Issues
++=====================
  
-  * http://www.linuxfoundation.org/collaborate/workgroups/networking/generic_netlink_howto
+ Transmit path guidelines:
+ 
+@@ -8,7 +12,7 @@ Transmit path guidelines:
+    transmit function will become busy.
+ 
+    Instead it must maintain the queue properly.  For example,
+-   for a driver implementing scatter-gather this means:
++   for a driver implementing scatter-gather this means::
+ 
+ 	static netdev_tx_t drv_hard_start_xmit(struct sk_buff *skb,
+ 					       struct net_device *dev)
+@@ -38,25 +42,25 @@ Transmit path guidelines:
+ 		return NETDEV_TX_OK;
+ 	}
+ 
+-   And then at the end of your TX reclamation event handling:
++   And then at the end of your TX reclamation event handling::
+ 
+ 	if (netif_queue_stopped(dp->dev) &&
+-            TX_BUFFS_AVAIL(dp) > (MAX_SKB_FRAGS + 1))
++	    TX_BUFFS_AVAIL(dp) > (MAX_SKB_FRAGS + 1))
+ 		netif_wake_queue(dp->dev);
+ 
+-   For a non-scatter-gather supporting card, the three tests simply become:
++   For a non-scatter-gather supporting card, the three tests simply become::
+ 
+ 		/* This is a hard error log it. */
+ 		if (TX_BUFFS_AVAIL(dp) <= 0)
+ 
+-   and:
++   and::
+ 
+ 		if (TX_BUFFS_AVAIL(dp) == 0)
+ 
+-   and:
++   and::
+ 
+ 	if (netif_queue_stopped(dp->dev) &&
+-            TX_BUFFS_AVAIL(dp) > 0)
++	    TX_BUFFS_AVAIL(dp) > 0)
+ 		netif_wake_queue(dp->dev);
+ 
+ 2) An ndo_start_xmit method must not modify the shared parts of a
+@@ -86,7 +90,7 @@ Close/stop guidelines:
+ 
+ 1) After the ndo_stop routine has been called, the hardware must
+    not receive or transmit any data.  All in flight packets must
+-   be aborted. If necessary, poll or wait for completion of 
++   be aborted. If necessary, poll or wait for completion of
+    any reset commands.
+ 
+ 2) The ndo_stop routine will be called by unregister_netdevice
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index d34824b27264..42e556509e22 100644
+index 55746038a7e9..313f66900bce 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -60,6 +60,7 @@ Contents:
-    fore200e
-    framerelay
-    generic-hdlc
-+   generic_netlink
+@@ -53,6 +53,7 @@ Contents:
+    decnet
+    defza
+    dns_resolver
++   driver
  
  .. only::  subproject and html
  
