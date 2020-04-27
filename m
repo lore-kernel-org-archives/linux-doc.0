@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 894B5C81C40
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00AEAC81C48
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:18:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 639D62064C
+	by mail.kernel.org (Postfix) with ESMTP id CE6CD2082E
 	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:18:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1588022311;
-	bh=vMioJZQNRzdU895ownr2ttGsi4sARkzJFY2LWiam4wI=;
+	bh=N8bgzSaxaSPsvZKSTzHZfDpMlxQCMfS1JI2Jy6c2/m0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=0cPjJ40bzjaTrpAKPghOCFclwJMb6ARrVvhAenH/1zgaJeMSkPnxT1Bdw6WPGNXZf
-	 FgExWr/SX1fEAS1YqxPbLkyQCMqG1kRLh/KWAdxxLgmoNHZ5Yebt+6K5UFgaS/1cSQ
-	 vo/xkydAWuHx+nDZNL/EBr5dTxSlgZWnQa/LtW4I=
+	b=I/yzQiTmJJpaWdZgh8Rp3UOXLL7IDVFkJRcdAZ19FO/95tb2W+6uUIYTIxzeogu2b
+	 R0CYQzcSeaOLW/ye8hslf+ui9qagFgNGy6FzROHjRa7j+eLRBpMZ2fuLSh9/FCQpq/
+	 hj2FjmZK2n3QvHCCm00arJaFtNGGpSqAvW16hpGc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726398AbgD0VSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Apr 2020 17:18:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34032 "EHLO mail.kernel.org"
+        id S1726685AbgD0VSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Apr 2020 17:18:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34202 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726386AbgD0VR1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726399AbgD0VR1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Apr 2020 17:17:27 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BE41C221EC;
+        by mail.kernel.org (Postfix) with ESMTPSA id F0AE922205;
         Mon, 27 Apr 2020 21:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588022244;
-        bh=vMioJZQNRzdU895ownr2ttGsi4sARkzJFY2LWiam4wI=;
+        s=default; t=1588022245;
+        bh=N8bgzSaxaSPsvZKSTzHZfDpMlxQCMfS1JI2Jy6c2/m0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2R8cyga2VLGJvUww2x1av0sQ7jOVq3AW8un7ZwA6Qe5mNMAxgTKv7/BDyUKJ9xzAa
-         I6ja2BVyRCgKasnjAPlhgTVj1cUrWeis57PZ/kdF8l/+9efe5rztyyMxjMDvNcEvS3
-         MR79YtxIb6P6b/cwNH16o6d61x0xGGQPSYPQ9wDA=
+        b=fxkNb+E7KjrZ7oUihDpHGpW6eJJtZOe5QrGQGDAC4YHEo3NbcOFinPRiVk/DhOmq7
+         MPLCkzV/Hv513uB1ZIO1VjUxlLD0mGP5rGPCTT3DFBWYOZEZ1sPdamRQf37yW1xPK3
+         ZhlQk70aCfBMyodSIf3eO8zABHaCTbU7Vp1D6JAE=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jTB7z-000Hl7-1V; Mon, 27 Apr 2020 23:17:23 +0200
+        id 1jTB7z-000HlW-9L; Mon, 27 Apr 2020 23:17:23 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3 19/29] docs: filesystems: convert seq_file.txt to ReST
-Date:   Mon, 27 Apr 2020 23:17:11 +0200
-Message-Id: <f950a0a56178ee05872ae2a2711a04d7af8ebb24.1588021877.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 24/29] docs: filesystems: convert spufs/spu_run.txt to ReST
+Date:   Mon, 27 Apr 2020 23:17:16 +0200
+Message-Id: <7d8ee1edf5ef0137009bc65ff0441826ce555895.1588021877.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588021877.git.mchehab+huawei@kernel.org>
 References: <cover.1588021877.git.mchehab+huawei@kernel.org>
@@ -58,256 +58,154 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Add a document title;
-- Adjust section titles;
-- Some whitespace fixes and new line breaks;
-- Mark literal blocks as such;
-- Add it to filesystems/index.rst.
+This file is at groff output format. Manually convert it to
+ReST format, trying to preserve a similar output after parsed.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/index.rst           |  1 +
- .../{seq_file.txt => seq_file.rst}            | 61 +++++++++++--------
- 2 files changed, 38 insertions(+), 24 deletions(-)
- rename Documentation/filesystems/{seq_file.txt => seq_file.rst} (92%)
+ Documentation/filesystems/spufs/index.rst     |  1 +
+ .../spufs/{spu_run.txt => spu_run.rst}        | 65 ++++++++++++-------
+ 2 files changed, 42 insertions(+), 24 deletions(-)
+ rename Documentation/filesystems/spufs/{spu_run.txt => spu_run.rst} (84%)
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 00739ce4ef1b..1a99767f39e5 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -32,6 +32,7 @@ algorithms work.
-    mandatory-locking
-    mount_api
-    quota
-+   seq_file
+diff --git a/Documentation/filesystems/spufs/index.rst b/Documentation/filesystems/spufs/index.rst
+index 939cf59a7d9e..5ed4a8494967 100644
+--- a/Documentation/filesystems/spufs/index.rst
++++ b/Documentation/filesystems/spufs/index.rst
+@@ -10,3 +10,4 @@ SPU Filesystem
  
-    automount-support
- 
-diff --git a/Documentation/filesystems/seq_file.txt b/Documentation/filesystems/seq_file.rst
-similarity index 92%
-rename from Documentation/filesystems/seq_file.txt
-rename to Documentation/filesystems/seq_file.rst
-index d412b236a9d6..fab302046b13 100644
---- a/Documentation/filesystems/seq_file.txt
-+++ b/Documentation/filesystems/seq_file.rst
-@@ -1,6 +1,11 @@
--The seq_file interface
+    spufs
+    spu_create
++   spu_run
+diff --git a/Documentation/filesystems/spufs/spu_run.txt b/Documentation/filesystems/spufs/spu_run.rst
+similarity index 84%
+rename from Documentation/filesystems/spufs/spu_run.txt
+rename to Documentation/filesystems/spufs/spu_run.rst
+index d5c6a00d0f97..7fdb1c31cb91 100644
+--- a/Documentation/filesystems/spufs/spu_run.txt
++++ b/Documentation/filesystems/spufs/spu_run.rst
+@@ -1,17 +1,26 @@
+-SPU_RUN(2)                 Linux Programmer's Manual                SPU_RUN(2)
 +.. SPDX-License-Identifier: GPL-2.0
-+
-+======================
-+The seq_file Interface
-+======================
  
- 	Copyright 2003 Jonathan Corbet <corbet@lwn.net>
-+
- 	This file is originally from the LWN.net Driver Porting series at
- 	http://lwn.net/Articles/driver-porting/
- 
-@@ -43,7 +48,7 @@ loadable module which creates a file called /proc/sequence. The file, when
- read, simply produces a set of increasing integer values, one per line. The
- sequence will continue until the user loses patience and finds something
- better to do. The file is seekable, in that one can do something like the
--following:
-+following::
- 
-     dd if=/proc/sequence of=out1 count=1
-     dd if=/proc/sequence skip=1 of=out2 count=1
-@@ -55,16 +60,18 @@ wanting to see the full source for this module can find it at
- http://lwn.net/Articles/22359/).
- 
- Deprecated create_proc_entry
-+============================
- 
- Note that the above article uses create_proc_entry which was removed in
--kernel 3.10. Current versions require the following update
-+kernel 3.10. Current versions require the following update::
- 
---	entry = create_proc_entry("sequence", 0, NULL);
---	if (entry)
---		entry->proc_fops = &ct_file_ops;
--+	entry = proc_create("sequence", 0, NULL, &ct_file_ops);
-+    -	entry = create_proc_entry("sequence", 0, NULL);
-+    -	if (entry)
-+    -		entry->proc_fops = &ct_file_ops;
-+    +	entry = proc_create("sequence", 0, NULL, &ct_file_ops);
- 
- The iterator interface
-+======================
- 
- Modules implementing a virtual file with seq_file must implement an
- iterator object that allows stepping through the data of interest
-@@ -99,7 +106,7 @@ position.  The pos passed to start() will always be either zero, or
- the most recent pos used in the previous session.
- 
- For our simple sequence example,
--the start() function looks like:
-+the start() function looks like::
- 
- 	static void *ct_seq_start(struct seq_file *s, loff_t *pos)
- 	{
-@@ -129,7 +136,7 @@ move the iterator forward to the next position in the sequence.  The
- example module can simply increment the position by one; more useful
- modules will do what is needed to step through some data structure. The
- next() function returns a new iterator, or NULL if the sequence is
--complete. Here's the example version:
-+complete. Here's the example version::
- 
- 	static void *ct_seq_next(struct seq_file *s, void *v, loff_t *pos)
- 	{
-@@ -141,10 +148,10 @@ complete. Here's the example version:
- The stop() function closes a session; its job, of course, is to clean
- up. If dynamic memory is allocated for the iterator, stop() is the
- place to free it; if a lock was taken by start(), stop() must release
--that lock.  The value that *pos was set to by the last next() call
-+that lock.  The value that ``*pos`` was set to by the last next() call
- before stop() is remembered, and used for the first start() call of
- the next session unless lseek() has been called on the file; in that
--case next start() will be asked to start at position zero.
-+case next start() will be asked to start at position zero::
- 
- 	static void ct_seq_stop(struct seq_file *s, void *v)
- 	{
-@@ -152,7 +159,7 @@ case next start() will be asked to start at position zero.
- 	}
- 
- Finally, the show() function should format the object currently pointed to
--by the iterator for output.  The example module's show() function is:
-+by the iterator for output.  The example module's show() function is::
- 
- 	static int ct_seq_show(struct seq_file *s, void *v)
- 	{
-@@ -169,7 +176,7 @@ generated output before returning SEQ_SKIP, that output will be dropped.
- 
- We will look at seq_printf() in a moment. But first, the definition of the
- seq_file iterator is finished by creating a seq_operations structure with
--the four functions we have just defined:
-+the four functions we have just defined::
- 
- 	static const struct seq_operations ct_seq_ops = {
- 	        .start = ct_seq_start,
-@@ -194,6 +201,7 @@ other locks while the iterator is active.
++=======
++spu_run
++=======
  
  
- Formatted output
-+================
- 
- The seq_file code manages positioning within the output created by the
- iterator and getting it into the user's buffer. But, for that to work, that
-@@ -203,7 +211,7 @@ been defined which make this task easy.
- Most code will simply use seq_printf(), which works pretty much like
- printk(), but which requires the seq_file pointer as an argument.
- 
--For straight character output, the following functions may be used:
-+For straight character output, the following functions may be used::
- 
- 	seq_putc(struct seq_file *m, char c);
- 	seq_puts(struct seq_file *m, const char *s);
-@@ -213,7 +221,7 @@ The first two output a single character and a string, just like one would
- expect. seq_escape() is like seq_puts(), except that any character in s
- which is in the string esc will be represented in octal form in the output.
- 
--There are also a pair of functions for printing filenames:
-+There are also a pair of functions for printing filenames::
- 
- 	int seq_path(struct seq_file *m, const struct path *path,
- 		     const char *esc);
-@@ -226,8 +234,10 @@ the path relative to the current process's filesystem root.  If a different
- root is desired, it can be used with seq_path_root().  If it turns out that
- path cannot be reached from root, seq_path_root() returns SEQ_SKIP.
- 
--A function producing complicated output may want to check
-+A function producing complicated output may want to check::
-+
- 	bool seq_has_overflowed(struct seq_file *m);
-+
- and avoid further seq_<output> calls if true is returned.
- 
- A true return from seq_has_overflowed means that the seq_file buffer will
-@@ -236,6 +246,7 @@ buffer and retry printing.
+-NAME
++Name
++====
+        spu_run - execute an spu context
  
  
- Making it all work
-+==================
- 
- So far, we have a nice set of functions which can produce output within the
- seq_file system, but we have not yet turned them into a file that a user
-@@ -244,7 +255,7 @@ creation of a set of file_operations which implement the operations on that
- file. The seq_file interface provides a set of canned operations which do
- most of the work. The virtual file author still must implement the open()
- method, however, to hook everything up. The open function is often a single
--line, as in the example module:
-+line, as in the example module::
- 
- 	static int ct_open(struct inode *inode, struct file *file)
- 	{
-@@ -263,7 +274,7 @@ by the iterator functions.
- There is also a wrapper function to seq_open() called seq_open_private(). It
- kmallocs a zero filled block of memory and stores a pointer to it in the
- private field of the seq_file structure, returning 0 on success. The
--block size is specified in a third parameter to the function, e.g.:
-+block size is specified in a third parameter to the function, e.g.::
- 
- 	static int ct_open(struct inode *inode, struct file *file)
- 	{
-@@ -273,7 +284,7 @@ block size is specified in a third parameter to the function, e.g.:
- 
- There is also a variant function, __seq_open_private(), which is functionally
- identical except that, if successful, it returns the pointer to the allocated
--memory block, allowing further initialisation e.g.:
-+memory block, allowing further initialisation e.g.::
- 
- 	static int ct_open(struct inode *inode, struct file *file)
- 	{
-@@ -295,7 +306,7 @@ frees the memory allocated in the corresponding open.
- 
- The other operations of interest - read(), llseek(), and release() - are
- all implemented by the seq_file code itself. So a virtual file's
--file_operations structure will look like:
-+file_operations structure will look like::
- 
- 	static const struct file_operations ct_file_ops = {
- 	        .owner   = THIS_MODULE,
-@@ -309,7 +320,7 @@ There is also a seq_release_private() which passes the contents of the
- seq_file private field to kfree() before releasing the structure.
- 
- The final step is the creation of the /proc file itself. In the example
--code, that is done in the initialization code in the usual way:
-+code, that is done in the initialization code in the usual way::
- 
- 	static int ct_init(void)
- 	{
-@@ -325,9 +336,10 @@ And that is pretty much it.
- 
- 
- seq_list
+-SYNOPSIS
+-       #include <sys/spu.h>
++Synopsis
 +========
  
- If your file will be iterating through a linked list, you may find these
--routines useful:
-+routines useful::
+-       int spu_run(int fd, unsigned int *npc, unsigned int *event);
++       ::
  
- 	struct list_head *seq_list_start(struct list_head *head,
- 	       		 		 loff_t pos);
-@@ -338,15 +350,16 @@ routines useful:
+-DESCRIPTION
++	    #include <sys/spu.h>
++
++	    int spu_run(int fd, unsigned int *npc, unsigned int *event);
++
++Description
++===========
+        The  spu_run system call is used on PowerPC machines that implement the
+        Cell Broadband Engine Architecture in order to access Synergistic  Pro-
+        cessor  Units  (SPUs).  It  uses the fd that was returned from spu_cre-
+@@ -45,24 +54,31 @@ DESCRIPTION
+        If NULL is passed as the event argument, these errors will result in  a
+        signal delivered to the calling process.
  
- These helpers will interpret pos as a position within the list and iterate
- accordingly.  Your start() and next() functions need only invoke the
--seq_list_* helpers with a pointer to the appropriate list_head structure.
-+``seq_list_*`` helpers with a pointer to the appropriate list_head structure.
+-RETURN VALUE
++Return Value
++============
+        spu_run  returns the value of the spu_status register or -1 to indicate
+        an error and set errno to one of the error  codes  listed  below.   The
+        spu_status  register  value  contains  a  bit  mask of status codes and
+        optionally a 14 bit code returned from the stop-and-signal  instruction
+        on the SPU. The bit masks for the status codes are:
+ 
+-       0x02   SPU was stopped by stop-and-signal.
++       0x02
++	      SPU was stopped by stop-and-signal.
+ 
+-       0x04   SPU was stopped by halt.
++       0x04
++	      SPU was stopped by halt.
+ 
+-       0x08   SPU is waiting for a channel.
++       0x08
++	      SPU is waiting for a channel.
+ 
+-       0x10   SPU is in single-step mode.
++       0x10
++	      SPU is in single-step mode.
+ 
+-       0x20   SPU has tried to execute an invalid instruction.
++       0x20
++	      SPU has tried to execute an invalid instruction.
+ 
+-       0x40   SPU has tried to access an invalid channel.
++       0x40
++	      SPU has tried to access an invalid channel.
+ 
+        0x3fff0000
+               The  bits  masked with this value contain the code returned from
+@@ -71,7 +87,8 @@ RETURN VALUE
+        There are always one or more of the lower eight bits set  or  an  error
+        code is returned from spu_run.
+ 
+-ERRORS
++Errors
++======
+        EAGAIN or EWOULDBLOCK
+               fd is in non-blocking mode and spu_run would block.
+ 
+@@ -93,29 +110,29 @@ ERRORS
+               not loaded.
  
  
- The extra-simple version
-+========================
+-NOTES
++Notes
++=====
+        spu_run  is  meant  to  be  used  from  libraries that implement a more
+        abstract interface to SPUs, not to be used from  regular  applications.
+        See  http://www.bsc.es/projects/deepcomputing/linuxoncell/ for the rec-
+        ommended libraries.
  
- For extremely simple virtual files, there is an even easier interface.  A
- module can define only the show() function, which should create all the
- output that the virtual file will contain. The file's open() method then
--calls:
-+calls::
  
- 	int single_open(struct file *file,
- 	                int (*show)(struct seq_file *m, void *p),
+-CONFORMING TO
++Conforming to
++=============
+        This call is Linux specific and only implemented by the ppc64 architec-
+        ture. Programs using this system call are not portable.
+ 
+ 
+-BUGS
++Bugs
++====
+        The code does not yet fully implement all features lined out here.
+ 
+ 
+-AUTHOR
++Author
++======
+        Arnd Bergmann <arndb@de.ibm.com>
+ 
+-SEE ALSO
++See Also
++========
+        capabilities(7), close(2), spu_create(2), spufs(7)
+-
+-
+-
+-
+-Linux                             2005-09-28                        SPU_RUN(2)
 -- 
 2.25.4
 
