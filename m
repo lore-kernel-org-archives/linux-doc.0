@@ -2,55 +2,56 @@ Return-Path: <SRS0=Z3a9=6L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 480D8C81C84
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:19:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4F24C81C83
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:19:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A7E52072D
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:19:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C76412072D
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:19:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588022356;
-	bh=+ieEmoJoXhOnArmJeGUFVxajW87wrXdn+E+vuFCpxGI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CmminAhWVA4MV2sGxRvR8NUydbp5EVr3teddkOIbvWqvyjL2i7LzJLGIR3qoYITAE
-	 p3SXS7IcuoEQuKYxGZTAwPRx0p2TBAAFKu4jTsV4Fs+EAc0jhRNzpEk0pRijnnAHJT
-	 CI/dyH9nwiZnqkRQGU4gOGW0R6Z2g6je60LYfX6U=
+	s=default; t=1588022355;
+	bh=diHIQNdW9tXwNaigHoaDIpMGH+WAB2UEy0sdibZm2Fc=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=IDNura6iyBgwuRCBkJAHpPDvXjfXU60+NEnVkNd5DzMDDYzjR5DcBeevZmM6GrrgL
+	 oCaSoEdDRd9A1NgPGm9cSZqcsYdkm2ksxuavPE5SkwDtVwVb462uGHyoV5U73Il0f5
+	 NK+qVulP6ufHJ9dXBZ5jE9AYDvkP8C6TukiCVdc4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726344AbgD0VTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Apr 2020 17:19:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34030 "EHLO mail.kernel.org"
+        id S1726355AbgD0VRZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Apr 2020 17:17:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33754 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726312AbgD0VRZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726030AbgD0VRZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Apr 2020 17:17:25 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2AD5E218AC;
-        Mon, 27 Apr 2020 21:17:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C5F552075E;
+        Mon, 27 Apr 2020 21:17:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588022244;
-        bh=+ieEmoJoXhOnArmJeGUFVxajW87wrXdn+E+vuFCpxGI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QJ2u3R4STvxIg5cL337/EbIQ7o/8H7scS6k+Y6AA5dvI2bBUtXhbfbhAQu1CzfRlh
-         swVBcdR2sMs/3mU5Wrbopc3URsF2niZjWnbx1h3wcXsAaWMe5D8ZDudpVThu8r+oee
-         9aBDyVgpG9fW5ad5KR5VgAtwKmnAtTJ+sUOT4rCY=
+        s=default; t=1588022243;
+        bh=diHIQNdW9tXwNaigHoaDIpMGH+WAB2UEy0sdibZm2Fc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=P4ErDB3UqWrQeqbLqijoEa8kkqGyrk6Qu0y5yI2MKzjqNm6ch/xu4WEb6bki8G/bw
+         w+R3JWBW/0iVAtsV2f2EZCbEipIeFB47JUs0l47yQSuVBVgGt6XiHW+EvIw5b5nHYD
+         JW8gpsqNwh6fZ1haUh2NStOV0V/kj5diMisolXXs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jTB7y-000HkE-D7; Mon, 27 Apr 2020 23:17:22 +0200
+        id 1jTB7y-000Hjc-03; Mon, 27 Apr 2020 23:17:22 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3 08/29] docs: filesystems: convert automount-support.txt to ReST
-Date:   Mon, 27 Apr 2020 23:17:00 +0200
-Message-Id: <ba7e2f2bf9aa2c7096772f5e7e8e609cb5fce07c.1588021877.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-cachefs@redhat.com, codalist@coda.cs.cmu.edu,
+        linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH v3 00/29] Convert files to ReST - part 2
+Date:   Mon, 27 Apr 2020 23:16:52 +0200
+Message-Id: <cover.1588021877.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
-In-Reply-To: <cover.1588021877.git.mchehab+huawei@kernel.org>
-References: <cover.1588021877.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -58,105 +59,181 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Add a document title;
-- Adjust section titles;
-- Mark literal blocks as such;
-- Add it to filesystems/index.rst.
+This is the second part of a series I wrote sometime ago where I manually
+convert lots of files to be properly parsed by Sphinx as ReST files.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+As it touches on lot of stuff, this series is based on today's linux-next, 
+at tag next-20190617.
+
+The first version of this series had 57 patches. The first part with 28 patches
+were already merged. Right now, there are still ~76  patches pending applying
+(including this series), and that's because I opted to do ~1 patch per converted
+ directory.
+
+That sounds too much to be send on a single round. So, I'm opting to split
+it on 3 parts for the conversion, plus a final patch adding orphaned books
+to existing ones. 
+
+Those patches should probably be good to be merged either by subsystem
+maintainers or via the docs tree.
+
+I opted to mark new files not included yet to the main index.rst (directly or
+indirectly) with the :orphan: tag, in order to avoid adding warnings to the
+build system. This should be removed after we find a "home" for all
+the converted files within the new document tree arrangement, after I
+submit the third part.
+
+Both this series and  the other parts of this work are on my devel git tree,
+at:
+
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=convert_rst_renames_v5.1
+
+The final output in html (after all patches I currently have, including 
+the upcoming series) can be seen at:
+
+	https://www.infradead.org/~mchehab/rst_conversion/
+
+It contains all pending work from my side related to the conversion, plus
+the patches I finished a first version today with contains the renaming 
+patches and de-orphan changes.
+
 ---
- ...ount-support.txt => automount-support.rst} | 23 +++++++++++--------
- Documentation/filesystems/index.rst           |  2 ++
- 2 files changed, 16 insertions(+), 9 deletions(-)
- rename Documentation/filesystems/{automount-support.txt => automount-support.rst} (92%)
 
-diff --git a/Documentation/filesystems/automount-support.txt b/Documentation/filesystems/automount-support.rst
-similarity index 92%
-rename from Documentation/filesystems/automount-support.txt
-rename to Documentation/filesystems/automount-support.rst
-index 7d9f82607562..430f0b40796b 100644
---- a/Documentation/filesystems/automount-support.txt
-+++ b/Documentation/filesystems/automount-support.rst
-@@ -1,3 +1,10 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================
-+Automount Support
-+=================
-+
-+
- Support is available for filesystems that wish to do automounting
- support (such as kAFS which can be found in fs/afs/ and NFS in
- fs/nfs/). This facility includes allowing in-kernel mounts to be
-@@ -5,13 +12,12 @@ performed and mountpoint degradation to be requested. The latter can
- also be requested by userspace.
- 
- 
--======================
--IN-KERNEL AUTOMOUNTING
-+In-Kernel Automounting
- ======================
- 
- See section "Mount Traps" of  Documentation/filesystems/autofs.rst
- 
--Then from userspace, you can just do something like:
-+Then from userspace, you can just do something like::
- 
- 	[root@andromeda root]# mount -t afs \#root.afs. /afs
- 	[root@andromeda root]# ls /afs
-@@ -21,7 +27,7 @@ Then from userspace, you can just do something like:
- 	[root@andromeda root]# ls /afs/cambridge/afsdoc/
- 	ChangeLog  html  LICENSE  pdf  RELNOTES-1.2.2
- 
--And then if you look in the mountpoint catalogue, you'll see something like:
-+And then if you look in the mountpoint catalogue, you'll see something like::
- 
- 	[root@andromeda root]# cat /proc/mounts
- 	...
-@@ -30,8 +36,7 @@ And then if you look in the mountpoint catalogue, you'll see something like:
- 	#afsdoc. /afs/cambridge.redhat.com/afsdoc afs rw 0 0
- 
- 
--===========================
--AUTOMATIC MOUNTPOINT EXPIRY
-+Automatic Mountpoint Expiry
- ===========================
- 
- Automatic expiration of mountpoints is easy, provided you've mounted the
-@@ -43,7 +48,8 @@ To do expiration, you need to follow these steps:
-      hung.
- 
-  (2) When a new mountpoint is created in the ->d_automount method, add
--     the mnt to the list using mnt_set_expiry()
-+     the mnt to the list using mnt_set_expiry()::
-+
-              mnt_set_expiry(newmnt, &afs_vfsmounts);
- 
-  (3) When you want mountpoints to be expired, call mark_mounts_for_expiry()
-@@ -70,8 +76,7 @@ and the copies of those that are on an expiration list will be added to the
- same expiration list.
- 
- 
--=======================
--USERSPACE DRIVEN EXPIRY
-+Userspace Driven Expiry
- =======================
- 
- As an alternative, it is possible for userspace to request expiry of any
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 2ad8a207523e..71aba402aa2c 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -25,6 +25,8 @@ algorithms work.
-    locking
-    directory-locking
- 
-+   automount-support
-+
-    caching/index
- 
-    porting
+Version 3:
+
+- Rebased on the top of next-20200424
+- configfs.rst conversion moved to the end of the series;
+- avoided almost all markups at configfs.rst while still preserving
+  a reasonable output and not generating build warnings.
+
+Version 2:
+
+- Removed patches merged via other trees;
+- rebased on the top of today's linux-next (next-20190617);
+- Fix a typo on one patch's description;
+- Added received acks.
+
+Mauro Carvalho Chehab (29):
+  docs: filesystems: convert caching/object.txt to ReST
+  docs: filesystems: convert caching/fscache.txt to ReST format
+  docs: filesystems: caching/netfs-api.txt: convert it to ReST
+  docs: filesystems: caching/operations.txt: convert it to ReST
+  docs: filesystems: caching/cachefiles.txt: convert to ReST
+  docs: filesystems: caching/backend-api.txt: convert it to ReST
+  docs: filesystems: convert cifs/cifsroot.txt to ReST
+  docs: filesystems: convert automount-support.txt to ReST
+  docs: filesystems: convert coda.txt to ReST
+  docs: filesystems: convert devpts.txt to ReST
+  docs: filesystems: convert dnotify.txt to ReST
+  docs: filesystems: convert fiemap.txt to ReST
+  docs: filesystems: convert files.txt to ReST
+  docs: filesystems: convert fuse-io.txt to ReST
+  docs: filesystems: convert locks.txt to ReST
+  docs: filesystems: convert mandatory-locking.txt to ReST
+  docs: filesystems: convert mount_api.txt to ReST
+  docs: filesystems: convert quota.txt to ReST
+  docs: filesystems: convert seq_file.txt to ReST
+  docs: filesystems: convert sharedsubtree.txt to ReST
+  docs: filesystems: split spufs.txt into 3 separate files
+  docs: filesystems: convert spufs/spu_create.txt to ReST
+  docs: filesystems: convert spufs/spufs.txt to ReST
+  docs: filesystems: convert spufs/spu_run.txt to ReST
+  docs: filesystems: convert sysfs-pci.txt to ReST
+  docs: filesystems: convert sysfs-tagging.txt to ReST
+  docs: filesystems: convert xfs-delayed-logging-design.txt to ReST
+  docs: filesystems: convert xfs-self-describing-metadata.txt to ReST
+  docs: filesystems: convert configfs.txt to ReST
+
+ Documentation/admin-guide/sysctl/kernel.rst   |    2 +-
+ ...ount-support.txt => automount-support.rst} |   23 +-
+ .../{backend-api.txt => backend-api.rst}      |  165 +-
+ .../{cachefiles.txt => cachefiles.rst}        |  139 +-
+ Documentation/filesystems/caching/fscache.rst |  565 ++++++
+ Documentation/filesystems/caching/fscache.txt |  448 -----
+ Documentation/filesystems/caching/index.rst   |   14 +
+ .../caching/{netfs-api.txt => netfs-api.rst}  |  172 +-
+ .../caching/{object.txt => object.rst}        |   43 +-
+ .../{operations.txt => operations.rst}        |   45 +-
+ .../cifs/{cifsroot.txt => cifsroot.rst}       |   56 +-
+ Documentation/filesystems/coda.rst            | 1670 ++++++++++++++++
+ Documentation/filesystems/coda.txt            | 1676 -----------------
+ .../{configfs/configfs.txt => configfs.rst}   |  131 +-
+ Documentation/filesystems/devpts.rst          |   36 +
+ Documentation/filesystems/devpts.txt          |   26 -
+ .../filesystems/{dnotify.txt => dnotify.rst}  |   11 +-
+ .../filesystems/{fiemap.txt => fiemap.rst}    |  133 +-
+ .../filesystems/{files.txt => files.rst}      |   15 +-
+ .../filesystems/{fuse-io.txt => fuse-io.rst}  |    6 +
+ Documentation/filesystems/index.rst           |   23 +
+ .../filesystems/{locks.txt => locks.rst}      |   14 +-
+ ...tory-locking.txt => mandatory-locking.rst} |   25 +-
+ .../{mount_api.txt => mount_api.rst}          |  329 ++--
+ Documentation/filesystems/proc.rst            |    2 +-
+ .../filesystems/{quota.txt => quota.rst}      |   41 +-
+ .../{seq_file.txt => seq_file.rst}            |   61 +-
+ .../{sharedsubtree.txt => sharedsubtree.rst}  |  394 ++--
+ Documentation/filesystems/spufs/index.rst     |   13 +
+ .../filesystems/spufs/spu_create.rst          |  131 ++
+ Documentation/filesystems/spufs/spu_run.rst   |  138 ++
+ .../{spufs.txt => spufs/spufs.rst}            |  304 +--
+ .../{sysfs-pci.txt => sysfs-pci.rst}          |   23 +-
+ .../{sysfs-tagging.txt => sysfs-tagging.rst}  |   22 +-
+ ...ign.txt => xfs-delayed-logging-design.rst} |   65 +-
+ ...a.txt => xfs-self-describing-metadata.rst} |  182 +-
+ Documentation/iio/iio_configfs.rst            |    2 +-
+ Documentation/usb/gadget_configfs.rst         |    4 +-
+ MAINTAINERS                                   |   14 +-
+ fs/cachefiles/Kconfig                         |    4 +-
+ fs/coda/Kconfig                               |    2 +-
+ fs/configfs/inode.c                           |    2 +-
+ fs/configfs/item.c                            |    2 +-
+ fs/fscache/Kconfig                            |    8 +-
+ fs/fscache/cache.c                            |    8 +-
+ fs/fscache/cookie.c                           |    2 +-
+ fs/fscache/object.c                           |    4 +-
+ fs/fscache/operation.c                        |    2 +-
+ fs/locks.c                                    |    2 +-
+ include/linux/configfs.h                      |    2 +-
+ include/linux/fs_context.h                    |    2 +-
+ include/linux/fscache-cache.h                 |    4 +-
+ include/linux/fscache.h                       |   42 +-
+ include/linux/lsm_hooks.h                     |    2 +-
+ 54 files changed, 3843 insertions(+), 3408 deletions(-)
+ rename Documentation/filesystems/{automount-support.txt => automount-support.rst} (92%)
+ rename Documentation/filesystems/caching/{backend-api.txt => backend-api.rst} (87%)
+ rename Documentation/filesystems/caching/{cachefiles.txt => cachefiles.rst} (90%)
+ create mode 100644 Documentation/filesystems/caching/fscache.rst
+ delete mode 100644 Documentation/filesystems/caching/fscache.txt
+ create mode 100644 Documentation/filesystems/caching/index.rst
+ rename Documentation/filesystems/caching/{netfs-api.txt => netfs-api.rst} (91%)
+ rename Documentation/filesystems/caching/{object.txt => object.rst} (95%)
+ rename Documentation/filesystems/caching/{operations.txt => operations.rst} (90%)
+ rename Documentation/filesystems/cifs/{cifsroot.txt => cifsroot.rst} (72%)
+ create mode 100644 Documentation/filesystems/coda.rst
+ delete mode 100644 Documentation/filesystems/coda.txt
+ rename Documentation/filesystems/{configfs/configfs.txt => configfs.rst} (87%)
+ create mode 100644 Documentation/filesystems/devpts.rst
+ delete mode 100644 Documentation/filesystems/devpts.txt
+ rename Documentation/filesystems/{dnotify.txt => dnotify.rst} (90%)
+ rename Documentation/filesystems/{fiemap.txt => fiemap.rst} (70%)
+ rename Documentation/filesystems/{files.txt => files.rst} (95%)
+ rename Documentation/filesystems/{fuse-io.txt => fuse-io.rst} (95%)
+ rename Documentation/filesystems/{locks.txt => locks.rst} (91%)
+ rename Documentation/filesystems/{mandatory-locking.txt => mandatory-locking.rst} (91%)
+ rename Documentation/filesystems/{mount_api.txt => mount_api.rst} (79%)
+ rename Documentation/filesystems/{quota.txt => quota.rst} (81%)
+ rename Documentation/filesystems/{seq_file.txt => seq_file.rst} (92%)
+ rename Documentation/filesystems/{sharedsubtree.txt => sharedsubtree.rst} (72%)
+ create mode 100644 Documentation/filesystems/spufs/index.rst
+ create mode 100644 Documentation/filesystems/spufs/spu_create.rst
+ create mode 100644 Documentation/filesystems/spufs/spu_run.rst
+ rename Documentation/filesystems/{spufs.txt => spufs/spufs.rst} (57%)
+ rename Documentation/filesystems/{sysfs-pci.txt => sysfs-pci.rst} (92%)
+ rename Documentation/filesystems/{sysfs-tagging.txt => sysfs-tagging.rst} (72%)
+ rename Documentation/filesystems/{xfs-delayed-logging-design.txt => xfs-delayed-logging-design.rst} (97%)
+ rename Documentation/filesystems/{xfs-self-describing-metadata.txt => xfs-self-describing-metadata.rst} (83%)
+
 -- 
 2.25.4
+
 
