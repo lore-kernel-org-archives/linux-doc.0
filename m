@@ -2,80 +2,293 @@ Return-Path: <SRS0=Z3a9=6L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C49D2C4CECC
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:46:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB30C82A05
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:02:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A5902074F
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:46:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D660D21775
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:02:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588024955;
+	bh=XWSRuvHlX2fDgbkytqilwkTrzeheEmYKB9PQNJEdzhs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=le1OkpeenVlNLvWQD6iHk3i22f9F2Gq7rjO1Gt/ImrXJYK+0bXPNvZ3f6M7LuLvmi
+	 OeRF0Cuxfizo+OhD/Wom2AKeBkfnfOd/OKnhOL9/okK3/3jT9GMsbTVbAfN3wvd2xn
+	 PBH442B8rYy1K6oMqKoZ5HnA1Td59dmF7Su45CdA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbgD0Vqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Apr 2020 17:46:34 -0400
-Received: from smtprelay0169.hostedemail.com ([216.40.44.169]:52642 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726182AbgD0Vqe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Apr 2020 17:46:34 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id DEC1752AD;
-        Mon, 27 Apr 2020 21:46:32 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: anger90_903895eead545
-X-Filterd-Recvd-Size: 2218
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf14.hostedemail.com (Postfix) with ESMTPA;
-        Mon, 27 Apr 2020 21:46:30 +0000 (UTC)
-Message-ID: <e9f534ef6c90d98d9cae0cbf133c8d83ecdce790.camel@perches.com>
-Subject: Re: [PATCH v3.1] docs: filesystems: convert configfs.txt to ReST
-From:   Joe Perches <joe@perches.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-usb@vger.kernel.org
-Date:   Mon, 27 Apr 2020 14:46:29 -0700
-In-Reply-To: <5f005c5a846b3fd4382a24166a1ba736ff697b86.1588022310.git.mchehab+huawei@kernel.org>
-References: <c2424ec2ad4d735751434ff7f52144c44aa02d5a.1588021877.git.mchehab+huawei@kernel.org>
-         <5f005c5a846b3fd4382a24166a1ba736ff697b86.1588022310.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.1-2 
+        id S1726450AbgD0WCD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Apr 2020 18:02:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48162 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726406AbgD0WCC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Apr 2020 18:02:02 -0400
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 423C122314;
+        Mon, 27 Apr 2020 22:01:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588024917;
+        bh=XWSRuvHlX2fDgbkytqilwkTrzeheEmYKB9PQNJEdzhs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=c5Egj1akShGt9xE8DPZxFqyn3yA2/dE1bGjgLKzuQIae/FgRLt78xuWGvYdwchGW3
+         EipQ/bR0CxnYKPhBfil3GakiuaLJpa+w1xQhAGybbAwyIbVA0kih9F3d2ts8k8vOn5
+         ikrsusiRxDPgXOkDBpp4hL2SDZ6pWFRhionKsQ0U=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jTBp5-000Iqg-G5; Tue, 28 Apr 2020 00:01:55 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andriin@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Subject: [PATCH 38/38] docs: networking: convert kcm.txt to ReST
+Date:   Tue, 28 Apr 2020 00:01:53 +0200
+Message-Id: <2658edf4e16bc11fb9b3d7bc25ab8cda2f24f88a.1588024424.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.4
+In-Reply-To: <cover.1588024424.git.mchehab+huawei@kernel.org>
+References: <cover.1588024424.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2020-04-27 at 23:43 +0200, Mauro Carvalho Chehab wrote:
-> - Add a SPDX header;
-> - Adjust document and section titles;
-> - Use copyright symbol;
-> - Some whitespace fixes and new line breaks;
-> - Mark literal blocks as such;
-> - Add it to filesystems/index.rst.
-> 
-> Also, as this file is alone on its own dir, and it doesn't
-> seem too likely that other documents will follow it, let's
-> move it to the filesystems/ root documentation dir.
-[]
-> diff --git a/Documentation/filesystems/configfs/configfs.txt b/Documentation/filesystems/configfs.rst
-[]
-> +++ b/Documentation/filesystems/configfs.rst
-> @@ -1,5 +1,6 @@
-> -
-> -configfs - Userspace-driven kernel object configuration.
-> +=======================================================
-> +Configfs - Userspace-driven Kernel Object Configuration
+- add SPDX header;
+- adjust titles and chapters, adding proper markups;
+- mark code blocks and literals as such;
+- adjust identation, whitespaces and blank lines;
+- add to networking/index.rst.
 
-trivia: likely this "Configfs" shouldn't be capitalized.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/networking/index.rst            |  1 +
+ Documentation/networking/{kcm.txt => kcm.rst} | 83 ++++++++++---------
+ 2 files changed, 45 insertions(+), 39 deletions(-)
+ rename Documentation/networking/{kcm.txt => kcm.rst} (84%)
 
-
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index bbd4e0041457..e1ff08b94d90 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -73,6 +73,7 @@ Contents:
+    ipv6
+    ipvlan
+    ipvs-sysctl
++   kcm
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/networking/kcm.txt b/Documentation/networking/kcm.rst
+similarity index 84%
+rename from Documentation/networking/kcm.txt
+rename to Documentation/networking/kcm.rst
+index b773a5278ac4..db0f5560ac1c 100644
+--- a/Documentation/networking/kcm.txt
++++ b/Documentation/networking/kcm.rst
+@@ -1,35 +1,38 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=============================
+ Kernel Connection Multiplexor
+------------------------------
++=============================
+ 
+ Kernel Connection Multiplexor (KCM) is a mechanism that provides a message based
+ interface over TCP for generic application protocols. With KCM an application
+ can efficiently send and receive application protocol messages over TCP using
+ datagram sockets.
+ 
+-KCM implements an NxM multiplexor in the kernel as diagrammed below:
++KCM implements an NxM multiplexor in the kernel as diagrammed below::
+ 
+-+------------+   +------------+   +------------+   +------------+
+-| KCM socket |   | KCM socket |   | KCM socket |   | KCM socket |
+-+------------+   +------------+   +------------+   +------------+
+-      |                 |               |                |
+-      +-----------+     |               |     +----------+
+-                  |     |               |     |
+-               +----------------------------------+
+-               |           Multiplexor            |
+-               +----------------------------------+
+-                 |   |           |           |  |
+-       +---------+   |           |           |  ------------+
+-       |             |           |           |              |
+-+----------+  +----------+  +----------+  +----------+ +----------+
+-|  Psock   |  |  Psock   |  |  Psock   |  |  Psock   | |  Psock   |
+-+----------+  +----------+  +----------+  +----------+ +----------+
+-      |              |           |            |             |
+-+----------+  +----------+  +----------+  +----------+ +----------+
+-| TCP sock |  | TCP sock |  | TCP sock |  | TCP sock | | TCP sock |
+-+----------+  +----------+  +----------+  +----------+ +----------+
++    +------------+   +------------+   +------------+   +------------+
++    | KCM socket |   | KCM socket |   | KCM socket |   | KCM socket |
++    +------------+   +------------+   +------------+   +------------+
++	|                 |               |                |
++	+-----------+     |               |     +----------+
++		    |     |               |     |
++		+----------------------------------+
++		|           Multiplexor            |
++		+----------------------------------+
++		    |   |           |           |  |
++	+---------+   |           |           |  ------------+
++	|             |           |           |              |
++    +----------+  +----------+  +----------+  +----------+ +----------+
++    |  Psock   |  |  Psock   |  |  Psock   |  |  Psock   | |  Psock   |
++    +----------+  +----------+  +----------+  +----------+ +----------+
++	|              |           |            |             |
++    +----------+  +----------+  +----------+  +----------+ +----------+
++    | TCP sock |  | TCP sock |  | TCP sock |  | TCP sock | | TCP sock |
++    +----------+  +----------+  +----------+  +----------+ +----------+
+ 
+ KCM sockets
+------------
++===========
+ 
+ The KCM sockets provide the user interface to the multiplexor. All the KCM sockets
+ bound to a multiplexor are considered to have equivalent function, and I/O
+@@ -37,7 +40,7 @@ operations in different sockets may be done in parallel without the need for
+ synchronization between threads in userspace.
+ 
+ Multiplexor
+------------
++===========
+ 
+ The multiplexor provides the message steering. In the transmit path, messages
+ written on a KCM socket are sent atomically on an appropriate TCP socket.
+@@ -45,14 +48,14 @@ Similarly, in the receive path, messages are constructed on each TCP socket
+ (Psock) and complete messages are steered to a KCM socket.
+ 
+ TCP sockets & Psocks
+---------------------
++====================
+ 
+ TCP sockets may be bound to a KCM multiplexor. A Psock structure is allocated
+ for each bound TCP socket, this structure holds the state for constructing
+ messages on receive as well as other connection specific information for KCM.
+ 
+ Connected mode semantics
+-------------------------
++========================
+ 
+ Each multiplexor assumes that all attached TCP connections are to the same
+ destination and can use the different connections for load balancing when
+@@ -60,7 +63,7 @@ transmitting. The normal send and recv calls (include sendmmsg and recvmmsg)
+ can be used to send and receive messages from the KCM socket.
+ 
+ Socket types
+-------------
++============
+ 
+ KCM supports SOCK_DGRAM and SOCK_SEQPACKET socket types.
+ 
+@@ -110,23 +113,23 @@ User interface
+ Creating a multiplexor
+ ----------------------
+ 
+-A new multiplexor and initial KCM socket is created by a socket call:
++A new multiplexor and initial KCM socket is created by a socket call::
+ 
+   socket(AF_KCM, type, protocol)
+ 
+-  - type is either SOCK_DGRAM or SOCK_SEQPACKET
+-  - protocol is KCMPROTO_CONNECTED
++- type is either SOCK_DGRAM or SOCK_SEQPACKET
++- protocol is KCMPROTO_CONNECTED
+ 
+ Cloning KCM sockets
+ -------------------
+ 
+ After the first KCM socket is created using the socket call as described
+ above, additional sockets for the multiplexor can be created by cloning
+-a KCM socket. This is accomplished by an ioctl on a KCM socket:
++a KCM socket. This is accomplished by an ioctl on a KCM socket::
+ 
+   /* From linux/kcm.h */
+   struct kcm_clone {
+-        int fd;
++	int fd;
+   };
+ 
+   struct kcm_clone info;
+@@ -142,11 +145,11 @@ Attach transport sockets
+ ------------------------
+ 
+ Attaching of transport sockets to a multiplexor is performed by calling an
+-ioctl on a KCM socket for the multiplexor. e.g.:
++ioctl on a KCM socket for the multiplexor. e.g.::
+ 
+   /* From linux/kcm.h */
+   struct kcm_attach {
+-        int fd;
++	int fd;
+ 	int bpf_fd;
+   };
+ 
+@@ -160,18 +163,19 @@ ioctl on a KCM socket for the multiplexor. e.g.:
+   ioctl(kcmfd, SIOCKCMATTACH, &info);
+ 
+ The kcm_attach structure contains:
+-  fd: file descriptor for TCP socket being attached
+-  bpf_prog_fd: file descriptor for compiled BPF program downloaded
++
++  - fd: file descriptor for TCP socket being attached
++  - bpf_prog_fd: file descriptor for compiled BPF program downloaded
+ 
+ Unattach transport sockets
+ --------------------------
+ 
+ Unattaching a transport socket from a multiplexor is straightforward. An
+-"unattach" ioctl is done with the kcm_unattach structure as the argument:
++"unattach" ioctl is done with the kcm_unattach structure as the argument::
+ 
+   /* From linux/kcm.h */
+   struct kcm_unattach {
+-        int fd;
++	int fd;
+   };
+ 
+   struct kcm_unattach info;
+@@ -190,7 +194,7 @@ When receive is disabled, any pending messages in the socket's
+ receive buffer are moved to other sockets. This feature is useful
+ if an application thread knows that it will be doing a lot of
+ work on a request and won't be able to service new messages for a
+-while. Example use:
++while. Example use::
+ 
+   int val = 1;
+ 
+@@ -200,7 +204,7 @@ BFP programs for message delineation
+ ------------------------------------
+ 
+ BPF programs can be compiled using the BPF LLVM backend. For example,
+-the BPF program for parsing Thrift is:
++the BPF program for parsing Thrift is::
+ 
+   #include "bpf.h" /* for __sk_buff */
+   #include "bpf_helpers.h" /* for load_word intrinsic */
+@@ -250,6 +254,7 @@ based on groups, or batches of messages, can be beneficial for performance.
+ 
+ On transmit, there are three ways an application can batch (pipeline)
+ messages on a KCM socket.
++
+   1) Send multiple messages in a single sendmmsg.
+   2) Send a group of messages each with a sendmsg call, where all messages
+      except the last have MSG_BATCH in the flags of sendmsg call.
+-- 
+2.25.4
 
