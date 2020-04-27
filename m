@@ -2,141 +2,113 @@ Return-Path: <SRS0=Z3a9=6L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8A45C4CECC
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 20:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A97C54FCB
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:03:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7BDD2072D
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 20:32:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HKzbYVZx"
+	by mail.kernel.org (Postfix) with ESMTP id 3B46F21973
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 21:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588021402;
+	bh=QS/Ws0tcWAQM2ZkiRv7X5brt2YRcz7Xl1zO1Ihaw5ak=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=iy4p9Vczd+kupDO919wG4OvExNapyd1stiwCcA/es/9kMjm2u6/zJ7+9FYGYvZFg1
+	 72/c9+d6ESMlIJv0Q181oc5DOK9S7UcQlwZ7m0hlre+kkW3kZWLjtOiGny8FGxrh1N
+	 QlBHTL+XD+mln4DEWEqlKUTUj3hK04+a1lKiaYGs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbgD0Ucr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Apr 2020 16:32:47 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:37984 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726285AbgD0Ucr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Apr 2020 16:32:47 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03RKSxCl029276;
-        Mon, 27 Apr 2020 20:31:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=pOSG25qvqUqJ+z4S02r79fZiwo4gUeQybxg3JDBq6Zg=;
- b=HKzbYVZxairCzE7vdE2FUh+lRMalt1IgLwG62EZZLOrMDDiweMek4V/UQKTaD29jB+C3
- HhaguVAewckdZLwW+JeHsLxuqK7OFCyqGT+eNZPRqE8MoeyZG6xifNaVeevVI8zPyTph
- ecCkoVkAHGETiAylhjR5pXlAj6mQud8KB6cpUlp/3MArilZtrPgR8MPcKO0Qb8Lz7CC8
- qvVF13zrUX6sIfBnQhl9touKGipc7jilcG/GzjtjNfH6zyFs5dGhUwjoqsGGawh/jxvj
- rMXwCVFCCNaS5tC7N5Om8J27L1gCUE+1yL1IG9QLgGAFv8Yp3z4fnrNipQSt7lbsVwlC Xw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 30nucfuxfs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Apr 2020 20:31:14 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03RKRqKn111291;
-        Mon, 27 Apr 2020 20:31:14 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3020.oracle.com with ESMTP id 30mxwwwt96-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Apr 2020 20:31:13 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03RKV9QE002577;
-        Mon, 27 Apr 2020 20:31:09 GMT
-Received: from [192.168.2.157] (/71.63.128.209)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 27 Apr 2020 13:31:09 -0700
-Subject: Re: [PATCH v3 2/4] hugetlbfs: move hugepagesz= parsing to arch
- independent code
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Sandipan Das <sandipan.osd@gmail.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S.Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mina Almasry <almasrymina@google.com>,
-        Peter Xu <peterx@redhat.com>,
-        Nitesh Narayan Lal <nitesh@redhat.com>
-References: <20200417185049.275845-1-mike.kravetz@oracle.com>
- <20200417185049.275845-3-mike.kravetz@oracle.com>
- <7583dfcc-62d8-2a54-6eef-bcb4e01129b3@gmail.com>
- <5a380060-38db-b690-1003-678ca0f28f07@oracle.com>
- <b1f04f9f-fa46-c2a0-7693-4a0679d2a1ee@oracle.com>
- <20200427131802.3d132055a59535a0e6780e9f@linux-foundation.org>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <b34270b7-fa9b-ce2c-20bc-84279ce6ea59@oracle.com>
-Date:   Mon, 27 Apr 2020 13:31:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726501AbgD0VDE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Apr 2020 17:03:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56992 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726285AbgD0VDE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Apr 2020 17:03:04 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D4CEC206E2;
+        Mon, 27 Apr 2020 21:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588021383;
+        bh=QS/Ws0tcWAQM2ZkiRv7X5brt2YRcz7Xl1zO1Ihaw5ak=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=EaQ/aOuYRpyZxVjpy0mYaR17gkB6Qks3k8Es7a63FM3/DBkMq27/LnMmxV1mNcDiP
+         eXRqq+uChKse7fsyH/vEXyNLzRY+gIt5UL1/7wlkdB5bAOvpTESRIsFZjAbT8FgMUv
+         gVY3foIecwO3fNk3mw5qttjURpHk7Jdg8z+jbdsg=
+Date:   Mon, 27 Apr 2020 23:02:58 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Peter Lister <peter@bikeshed.quignogs.org.uk>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joel Becker <jlbec@evilplan.org>,
+        Christoph Hellwig <hch@lst.de>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 08/29] docs: filesystems: convert configfs.txt to
+ ReST
+Message-ID: <20200427230258.5f1cd909@coco.lan>
+In-Reply-To: <31da15f2-7755-3e56-d05c-1e3f388e0933@bikeshed.quignogs.org.uk>
+References: <cover.1587487612.git.mchehab+huawei@kernel.org>
+        <278a9befc98b49ea866c9b687d070c70cde20628.1587487612.git.mchehab+huawei@kernel.org>
+        <31da15f2-7755-3e56-d05c-1e3f388e0933@bikeshed.quignogs.org.uk>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200427131802.3d132055a59535a0e6780e9f@linux-foundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9604 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 bulkscore=0
- suspectscore=0 mlxlogscore=999 phishscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004270166
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9604 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 priorityscore=1501
- mlxlogscore=999 impostorscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 mlxscore=0 spamscore=0 adultscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004270166
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/27/20 1:18 PM, Andrew Morton wrote:
-> On Mon, 27 Apr 2020 12:09:47 -0700 Mike Kravetz <mike.kravetz@oracle.com> wrote:
+Em Fri, 24 Apr 2020 18:34:17 +0100
+Peter Lister <peter@bikeshed.quignogs.org.uk> escreveu:
+
+> > -configfs - Userspace-driven kernel object configuration.
+> > +=======================================================
+> > +Configfs - Userspace-driven Kernel oOject Configuration
+> > +=======================================================  
 > 
->> Previously, a check for hugepages_supported was added before processing
->> hugetlb command line parameters.  On some architectures such as powerpc,
->> hugepages_supported() is not set to true until after command line
->> processing.  Therefore, no hugetlb command line parameters would be
->> accepted.
->>
->> Remove the additional checks for hugepages_supported.  In hugetlb_init,
->> print a warning if !hugepages_supported and command line parameters were
->> specified.
+> Typo, presumably intended to be Object, not oOject?
+
+Yeah, sorry for the typo.
+
+> Why amend capitalisation as part of converting to REST? Normal 
+> Linux/Unix convention is lower case for things like filesystems.
+
+This is to make things more uniform. The thing is: before the
+ReST conversion, there were a mess of capitalization on titles.
+Some documents all caps, others just the first letter, others
+camel case and there were even some documents whose titles
+were all lower case. Now, almost all documents are using the
+same capitalization for titles.
+
 > 
-> This applies to [4/4] instead of fixing [2/4].  I guess you'll
-> straighten that out in v4?
+> > -IMPORTANT: drop_item() is void, and as such cannot fail.  When rmdir(2)
+> > -is called, configfs WILL remove the item from the filesystem tree
+> > -(assuming that it has no children to keep it busy).  The subsystem is
+> > -responsible for responding to this.  If the subsystem has references to
+> > -the item in other threads, the memory is safe.  It may take some time
+> > -for the item to actually disappear from the subsystem's usage.  But it
+> > -is gone from configfs.
+> > +.. Important::
+> > +
+> > +   drop_item() is void, and as such cannot fail.  When rmdir(2)
+> > +   is called, configfs WILL remove the item from the filesystem tree
+> > +   (assuming that it has no children to keep it busy).  The subsystem is
+> > +   responsible for responding to this.  If the subsystem has references to
+> > +   the item in other threads, the memory is safe.  It may take some time
+> > +   for the item to actually disappear from the subsystem's usage.  But it
+> > +   is gone from configfs.  
+> 
+> Using a  REST admonition is probably OK but, again, why change case?
+> 
+> The original author used shouting caps for IMPORTANT. A change can be 
+> argued for consistency or if there is an established preference for 
+> style. But, if so, that's a style patch, not a conversion.
 
-Yes.
+It is for consistency reasons. On all converted docs I touched, I used
+the same convention for such markups: "Notes", "Important", "Warning"...
 
-> btw, was
-> http://lkml.kernel.org/r/CADYN=9Koefrq9H1Y82Q8nMNbeyN4tzhEfvDu5u=sVFjFZCYorA@mail.gmail.com
-> addressed?
-
-Yes, you pulled a patch into your tree to address this.
-hugetlbfs-remove-hugetlb_add_hstate-warning-for-existing-hstate-fix.patch
-
-I'll send out a v4 with both these issues addressed.  Would like to wait
-until receiving confirmation from someone who can test on powerpc.
--- 
-Mike Kravetz
+Thanks,
+Mauro
