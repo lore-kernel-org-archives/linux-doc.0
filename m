@@ -2,188 +2,208 @@ Return-Path: <SRS0=Z3a9=6L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A46FC54FCB
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 16:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97893C54FCB
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 17:26:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43CE22098B
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 16:46:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A8D92076A
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 17:26:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h89b6fSs"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="xTCYIbf7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726282AbgD0QqY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Apr 2020 12:46:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726309AbgD0QqY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Apr 2020 12:46:24 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9355C09B050
-        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2020 09:46:23 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id j1so21382482wrt.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2020 09:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=AFi2Ya3qM5IG+jnvqV1yuZyqNjUjwvEPZevqNfZVj0Y=;
-        b=h89b6fSsTBUeL/XipyElSwPh022ivI7iy5S/qxb+B/YEFMXucgbgOPMaB5I8zHmo3G
-         LRWpG0yPHRoPm6hWulcNTa8EZpmSU1ehlxrUGamES39kPwX8I0j/A+0KZg7hPbEs+0ks
-         HANPmqjxSzMVM627SPxh1zTvoq9vHdnqsYVlJLIsHlzUsz3AmLrZdNJaY2bMEyz4RN+E
-         NUpREb4sDwp8b2vh1zjq7PTy4S4t+pYLtsg99Q5g3VduUeMbXnv7Nu100uduQeC6sixW
-         KMe2/BjTYwmqPbUi0wUvp7QccKp6gT4ao065bGV2099c9BJ1ORrE1ANzXHHED1u/7sCf
-         qvnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AFi2Ya3qM5IG+jnvqV1yuZyqNjUjwvEPZevqNfZVj0Y=;
-        b=m9SOJJ35ZkJ3jzQYaEf0yCmZnoOueu9q60sLrJXUKC64AXXLZy7hE+vouRjMHXlU12
-         phqPggGqiQ3lwP72jvUm9OuPklJ1I/pYAYdLny/hyuaI/S3mnAcDrDb5GI1SnuHfQT7a
-         AJWnmp2S6boz+xDExXF7/HTH4UxEsv3uaiCdqFykulEhlo6RwcD8ECTj/VvGHj/7UXhq
-         ZUIMGnJM6fyL0Bc5cWngDMVrC4bvNREZ+zVfNy/8vQ+DAqTcY0d9dBll+VIft6oRvJVr
-         u/QJS02H5wumVxWH36xWIdVJUHz27r5ddJj3mXqfkzFA1Kal5liFWBTbKm1S/FRfP+fL
-         XNQA==
-X-Gm-Message-State: AGi0PuZ/fE+4T9pdFcZCzQslMtKCSX4yKyDbJjBU941IbxeCuanBsfkR
-        VNcxWpbJLorBZwI2kEFNJVIKqw==
-X-Google-Smtp-Source: APiQypJ51FxUeaZo6yUU8t+LqTak9jj4U50akJER7m2MFUmNuUtXtokVlL35B4R3u3x89HQbdmY3Ng==
-X-Received: by 2002:adf:e944:: with SMTP id m4mr27910229wrn.366.1588005982418;
-        Mon, 27 Apr 2020 09:46:22 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
-        by smtp.gmail.com with ESMTPSA id x18sm21079430wrs.11.2020.04.27.09.46.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 09:46:21 -0700 (PDT)
-Date:   Mon, 27 Apr 2020 17:46:19 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Douglas Anderson <dianders@chromium.org>
-Cc:     jason.wessel@windriver.com, gregkh@linuxfoundation.org,
-        kgdb-bugreport@lists.sourceforge.net, mingo@redhat.com,
-        hpa@zytor.com, bp@alien8.de, linux-serial@vger.kernel.org,
-        agross@kernel.org, tglx@linutronix.de, frowand.list@gmail.com,
-        bjorn.andersson@linaro.org, jslaby@suse.com,
-        catalin.marinas@arm.com, corbet@lwn.net, will@kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@suse.de>, Juergen Gross <jgross@suse.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 7/9] Documentation: kgdboc: Document new
- earlycon_kgdboc parameter
-Message-ID: <20200427164619.kw4mihmoxmxzjk66@holly.lan>
-References: <20200421211447.193860-1-dianders@chromium.org>
- <20200421141234.v2.7.I7d5eb42c6180c831d47aef1af44d0b8be3fac559@changeid>
+        id S1726482AbgD0R0m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Apr 2020 13:26:42 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:39610 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726262AbgD0R0m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Apr 2020 13:26:42 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03RHNNun032176;
+        Mon, 27 Apr 2020 17:25:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=2uE+mNBlryTX8hj4mQm6UWx/K31ONdvabCMIKOLtOyU=;
+ b=xTCYIbf7r5dai610kYmRfslwcsdHMEa6nYuPYmpMy+7WUkM9840zuWRmT2v1MiaH6Cad
+ +fYWXCh8PyDfm6g+dIyG7BXcw3P9PeZXXougO6mlOLOylsBzYtMAlZzBzlRJJatu4I9N
+ /AveFv2IyJQslCKqyCxuN+21YY9yrbN47PRg98fdwJ2kPrlLeXvj0DTMFDZB9ZWRvRM7
+ Ed+D9rxwrxjP3D1PFlRuVFcuOx+bDZYZm4iIaDJw0NmlAZ9XtPZO6joC0Rr+di/qtUTo
+ oTv+6hlYH5+uyVoe6FV6yxjUAbpvIRv9bN/idQ6mOzjti7KgZTFrdQJIrHma1+l6CzbV yA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 30p2p00ddv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 27 Apr 2020 17:25:18 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03RHMbqg085782;
+        Mon, 27 Apr 2020 17:25:18 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3030.oracle.com with ESMTP id 30mxpdrdfm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 27 Apr 2020 17:25:18 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03RHP5vx008462;
+        Mon, 27 Apr 2020 17:25:05 GMT
+Received: from [192.168.2.157] (/71.63.128.209)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 27 Apr 2020 10:25:05 -0700
+Subject: Re: [PATCH v3 2/4] hugetlbfs: move hugepagesz= parsing to arch
+ independent code
+To:     Sandipan Das <sandipan.osd@gmail.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S.Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Longpeng <longpeng2@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mina Almasry <almasrymina@google.com>,
+        Peter Xu <peterx@redhat.com>,
+        Nitesh Narayan Lal <nitesh@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20200417185049.275845-1-mike.kravetz@oracle.com>
+ <20200417185049.275845-3-mike.kravetz@oracle.com>
+ <7583dfcc-62d8-2a54-6eef-bcb4e01129b3@gmail.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <5a380060-38db-b690-1003-678ca0f28f07@oracle.com>
+Date:   Mon, 27 Apr 2020 10:25:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200421141234.v2.7.I7d5eb42c6180c831d47aef1af44d0b8be3fac559@changeid>
+In-Reply-To: <7583dfcc-62d8-2a54-6eef-bcb4e01129b3@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9604 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ mlxscore=0 bulkscore=0 adultscore=0 phishscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004270142
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9604 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 clxscore=1011
+ bulkscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
+ mlxscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004270142
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 21, 2020 at 02:14:45PM -0700, Douglas Anderson wrote:
-> The recent patch ("kgdboc: Add earlycon_kgdboc to support early kgdb
-> using boot consoles") adds a new kernel command line parameter.
-> Document it.
+On 4/26/20 10:04 PM, Sandipan Das wrote:
+> Hi Mike,
 > 
-> Note that the patch adding the feature does some comparing/contrasting
-> of "earlycon_kgdboc" vs. the existing "ekgdboc".  See that patch for
-> more details, but briefly "ekgdboc" can be used _instead_ of "kgdboc"
-> and just makes "kgdboc" do its normal initialization early (only works
-> if your tty driver is already ready).  The new "earlycon_kgdboc" works
-> in combination with "kgdboc" and is backed by boot consoles.
+> On 18/04/20 12:20 am, Mike Kravetz wrote:
+>> Now that architectures provide arch_hugetlb_valid_size(), parsing
+>> of "hugepagesz=" can be done in architecture independent code.
+>> Create a single routine to handle hugepagesz= parsing and remove
+>> all arch specific routines.  We can also remove the interface
+>> hugetlb_bad_size() as this is no longer used outside arch independent
+>> code.
+>>
+>> This also provides consistent behavior of hugetlbfs command line
+>> options.  The hugepagesz= option should only be specified once for
+>> a specific size, but some architectures allow multiple instances.
+>> This appears to be more of an oversight when code was added by some
+>> architectures to set up ALL huge pages sizes.
+>>
+>> [...]
+>>
+>> diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpage.c
+>> index de54d2a37830..2c3fa0a7787b 100644
+>> --- a/arch/powerpc/mm/hugetlbpage.c
+>> +++ b/arch/powerpc/mm/hugetlbpage.c
+>> @@ -589,21 +589,6 @@ static int __init add_huge_page_size(unsigned long long size)
+>>  	return 0;
+>>  }
+>>  
+>> -static int __init hugepage_setup_sz(char *str)
+>> -{
+>> -	unsigned long long size;
+>> -
+>> -	size = memparse(str, &str);
+>> -
+>> -	if (add_huge_page_size(size) != 0) {
+>> -		hugetlb_bad_size();
+>> -		pr_err("Invalid huge page size specified(%llu)\n", size);
+>> -	}
+>> -
+>> -	return 1;
+>> -}
+>> -__setup("hugepagesz=", hugepage_setup_sz);
+>> -
+>> [...]
 > 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
+> This isn't working as expected on powerpc64.
 > 
-> Changes in v2: None
+>   [    0.000000] Kernel command line: root=UUID=dc7b49cf-95a2-4996-8e7d-7c64ddc7a6ff hugepagesz=16G hugepages=2 
+>   [    0.000000] HugeTLB: huge pages not supported, ignoring hugepagesz = 16G
+>   [    0.000000] HugeTLB: huge pages not supported, ignoring hugepages = 2
+>   [    0.284177] HugeTLB registered 16.0 MiB page size, pre-allocated 0 pages
+>   [    0.284182] HugeTLB registered 16.0 GiB page size, pre-allocated 0 pages
+>   [    2.585062]     hugepagesz=16G
+>   [    2.585063]     hugepages=2
 > 
->  .../admin-guide/kernel-parameters.txt         | 20 +++++++++++++++++++
->  Documentation/dev-tools/kgdb.rst              | 14 +++++++++++++
->  2 files changed, 34 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index f2a93c8679e8..588625ec2993 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1132,6 +1132,22 @@
->  			address must be provided, and the serial port must
->  			already be setup and configured.
+> The "huge pages not supported" messages are under a !hugepages_supported()
+> condition which checks if HPAGE_SHIFT is non-zero. On powerpc64, HPAGE_SHIFT
+> comes from the hpage_shift variable. At this point, it is still zero and yet
+> to be set. Hence the check fails. The reason being hugetlbpage_init_default(),
+> which sets hpage_shift, it now called after hugepage_setup_sz().
+
+Thanks for catching this Sandipan.
+
+In the new arch independent version of hugepages_setup, I added the following
+code in patch 4 off this series:
+
+> +static int __init hugepages_setup(char *s)
+>  {
+>  	unsigned long *mhp;
+>  	static unsigned long *last_mhp;
 >  
-> +	earlycon_kgdboc=	[KGDB,HW]
-> +			If the boot console provides the ability to read
-> +			characters and can work in polling mode, you can use
-> +			this parameter to tell kgdb to use it as a backend
-> +			until the normal console is registered. Intended to
-> +			be used together with the kgdboc parameter which
-> +			specifies the normal console to transition to.
+> +	if (!hugepages_supported()) {
+> +		pr_warn("HugeTLB: huge pages not supported, ignoring hugepages = %s\n", s);
+> +		return 0;
+> +	}
 > +
-> +			The the name of the early console should be specified
-> +			as the value of this parameter. Note that the name of
-> +			the early console might be different than the tty
-> +			name passed to kgdboc. If only one boot console with
-> +			a read() function is enabled it's OK to leave the
-> +			value blank and the first boot console that implements
-> +			read() will be picked.
+>  	if (!parsed_valid_hugepagesz) {
 
-There's no need for the "If only one boot console with a read()
-funcuiton is enabled" here,
+In fact, I added it to the beginning of all the hugetlb command line parsing
+routines.  My 'thought' was to warn early if hugetlb pages were not supported.
+Previously, the first check for hugepages_supported() was in hugetlb_init()
+which ran after hugetlbpage_init_default().
 
-Seeing this in alphabetic order in this patch it also crosses my mind
-that kgdboc_earlycon might be a better name so that is sorts closer
-to the other kgdb options. This is a kgdboc feature that uses earlycon
-not an earlycon feature that uses kgdboc.
+The easy solution is to remove all the hugepages_supported() checks from
+command line parsing routines and rely on the later check in hugetlb_init().
 
+Another reason for adding those early checks was to possibly prevent the
+preallocation of gigantic pages at command line parsing time.   Gigantic
+pages are allocated at command line parsing time as they need to be allocated
+with the bootmem allocator.  My concern is that there could be some strange
+configuration where !hugepages_supported(), yet we allocate gigantic pages
+from bootmem that can not be used or freeed later.
 
-> +
->  	earlyprintk=	[X86,SH,ARM,M68k,S390]
->  			earlyprintk=vga
->  			earlyprintk=sclp
-> @@ -1190,6 +1206,10 @@
->  			This is designed to be used in conjunction with
->  			the boot argument: earlyprintk=vga
->  
-> +			This parameter works in place of the kgdboc parameter
-> +			but can only be used if the backing tty is available
-> +			very early in the boot process.
-> +
+powerpc is the only architecture which has it's own alloc_bootmem_huge_page
+routine.  So, it handles this potential issue.
 
-I wonder if pragmatic advice is more useful:
-
-  For early debugging via a serial port see earlycon_kgdboc instead.
-
->  	edd=		[EDD]
->  			Format: {"off" | "on" | "skip[mbr]"}
->  
-> diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
-> index d38be58f872a..c0b321403d9a 100644
-> --- a/Documentation/dev-tools/kgdb.rst
-> +++ b/Documentation/dev-tools/kgdb.rst
-> @@ -274,6 +274,20 @@ don't like this are to hack gdb to send the :kbd:`SysRq-G` for you as well as
->  on the initial connect, or to use a debugger proxy that allows an
->  unmodified gdb to do the debugging.
->  
-> +Kernel parameter: ``earlycon_kgdboc``
-> +-------------------------------------
-> +
-> +If you specify the kernel parameter ``earlycon_kgdboc`` and your serial
-> +driver registers a boot console that supports polling (doesn't need
-> +interrupts and implements a nonblocking read() function) kgdb will attempt
-> +to work using the boot console until it can transition to the regular
-> +tty driver specified by the ``kgdboc`` parameter.
-> +
-> +Normally there is only one boot console (especially that implements the
-> +read() function) so just adding ``earlycon_kgdboc`` on its own is
-> +sufficient to make this work.  If you have more than one boot console you
-> +can add the boot console's name to differentiate.
-> +
-
-I think we need an example here. The example in the patch header for
-the previous patch was useful (at least for me).
-
-
-Daniel.
+I'll send out a fix shortly.
+-- 
+Mike Kravetz
