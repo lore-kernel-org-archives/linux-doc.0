@@ -2,147 +2,161 @@ Return-Path: <SRS0=Z3a9=6L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDF0CC55199
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 08:10:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 940B6C54FD0
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 12:05:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C56822063A
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 08:10:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B63720656
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 12:05:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="IVeRpo0m"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="bOqdEXVo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726790AbgD0IKn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Apr 2020 04:10:43 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:58904 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726003AbgD0IKn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Apr 2020 04:10:43 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03R896uw078562;
-        Mon, 27 Apr 2020 08:10:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id; s=corp-2020-01-29;
- bh=V3dV4HI5/iBpkFy0uWsc3l23+oYkKV87jXoYnULnNi8=;
- b=IVeRpo0myI/VzgHl/s1tcU8crZNOCsO3OPPm0GXeGOggql2mDJKyACe/6nSoewt9mKoa
- 3zSSX3PghqlC3dCi018qHus8qkrXH7zuPuY1ADaqJFoAYx10c+LRsEQCf/aSDEQbaE8e
- CVW29U3bmDPH6Jpid0z5Bvxk1l+aLaeAA8xBrNYlZr+7pVjcWijEYSi42eFiodWGn4tR
- oZ3EW+b5EAMzBt86YxtAn+E5Oc4i9qst9366IXipYC2MJZMksvYc6mhxLqUQVxX1970U
- xVzOerfo7hVE1+U7OtYVUUKf+mMJR8qKU0rIX0j5uyUtnrBWTpn3CVwd5fb7A/3o7aTD Qw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 30mcmqw2eh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Apr 2020 08:10:29 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03R871Lu172217;
-        Mon, 27 Apr 2020 08:08:28 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 30my08nbq5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Apr 2020 08:08:28 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03R88Ie3018689;
-        Mon, 27 Apr 2020 08:08:18 GMT
-Received: from mihai.localdomain (/10.153.73.25)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 27 Apr 2020 01:08:18 -0700
-From:   Mihai Carabas <mihai.carabas@oracle.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Mihai Carabas <mihai.carabas@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH RFC] Microcode late loading feature identification
-Date:   Mon, 27 Apr 2020 10:27:56 +0300
-Message-Id: <1587972479-10971-1-git-send-email-mihai.carabas@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9603 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0
- suspectscore=0 adultscore=0 mlxlogscore=999 bulkscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004270072
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9603 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 clxscore=1015
- priorityscore=1501 suspectscore=0 impostorscore=0 adultscore=0
- malwarescore=0 bulkscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004270072
+        id S1726769AbgD0MF5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Apr 2020 08:05:57 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:42431 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726260AbgD0MF4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Apr 2020 08:05:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1587989156; x=1619525156;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=iUKxsyy8EDqa4LYd6lWomJlLTmy2039pJ+ilYaUf9pk=;
+  b=bOqdEXVoGg2QwA6uAIWXC380nCOI8zNaL5fx4lMd5YjfltRqqnbmqRzs
+   mai7uaAnjd/UupL2DplcWCgheKdZTb4co7ifm7kkwE57uUH4G1SgM/r4u
+   v9XA/8y1Qy3YJBJcFCGWdGQoCVd48c9mkgwbT7CdFjaIt4JYJhAAajhdJ
+   4=;
+IronPort-SDR: QRtBKSDVsFWhZ45sI0INdhGVOKu8YX6L76dBFjYXfHjNuQ9CEPb78QvjdZ6TMvpAO6/zZVcedf
+ Qtj48nU0ij0w==
+X-IronPort-AV: E=Sophos;i="5.73,324,1583193600"; 
+   d="scan'208";a="31356237"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-c5104f52.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 27 Apr 2020 12:05:53 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2a-c5104f52.us-west-2.amazon.com (Postfix) with ESMTPS id 76C18A1805;
+        Mon, 27 Apr 2020 12:05:51 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 27 Apr 2020 12:05:51 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.53) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 27 Apr 2020 12:05:35 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <irogers@google.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
+        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
+        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v9 01/15] scripts/spelling: Add a few more typos
+Date:   Mon, 27 Apr 2020 14:04:28 +0200
+Message-ID: <20200427120442.24179-2-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200427120442.24179-1-sjpark@amazon.com>
+References: <20200427120442.24179-1-sjpark@amazon.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.53]
+X-ClientProxiedBy: EX13D34UWC004.ant.amazon.com (10.43.162.155) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This RFC patch set aims to provide a way to identify the modifications
-brought in by the new microcode updated at runtime (aka microcode late
-loading). This was debated last year and this patch set implements
-point #1 from Thomas Gleixner's idea:
-https://lore.kernel.org/lkml/alpine.DEB.2.21.1909062237580.1902@nanos.tec.linutronix.de/
+From: SeongJae Park <sjpark@amazon.de>
 
-This patch set has the following patches:
+This commit adds typos found from DAMON patchset.
 
-- patch 1 is introducing a new metadata file that comes with the microcode
-(provided by the CPU manufacture) that describes what modifications are
-done by loading the new microcode
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ scripts/spelling.txt | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-- patch 2 parses the metadata file and is verifying it against kernel
-policy. In this patch, as an RFC, as a kernel policy, it was imposed
-the rule of not allowing to remove any feature. If so, it won't be
-loaded a new microcode. The policy can be further extended and describe
-in different ways
-
-- patch 3 adds the documentation of the metadata file format
-
-
-How to test:
-
-- place metadata file in /lib/firmware/intel-ucode/ together with the
-microcode blob:
-
-[root@ovs108 ~]# ls -l /lib/firmware/intel-ucode
-total 96
--rw-r--r--.   1 root root 34816 Mar 11 00:27 06-55-04
--rw-r--r--.   1 root root    84 Mar 25 03:13 06-55-04.metadata
-
-The microcode blob can be taken from the microcode_ctl package.
-
-- after installing the kernel and rebooting the machine run "dracut -f
---no-early-microcode" to create an initramfs without the microcode (and
-avoid early loading)
-
-- reboot
-
-- after rebooting issue: echo 1 > /sys/devices/system/cpu/microcode/reload
-
-[root@ovs108 ~]# cat /lib/firmware/intel-ucode/06-55-04.metadata
-m - 0x00000122
-c + 0x00000007 0x00 0x00000000 0x021cbfbb 0x00000000 0x00000000
-
-[root@ovs108 ~]# echo 1 > /sys/devices/system/cpu/microcode/reload
-[root@ovs108 ~]# dmesg | tail -2
-[ 1285.729841] microcode: Kernel policy does not allow to remove MSR: 122
-[ 1285.737144] microcode: kernel does not support the new microcode: intel-ucode/06-55-04
-
-[root@ovs108 ~]# cat /lib/firmware/intel-ucode/06-55-04.metadata
-m + 0x00000122
-c + 0x00000007 0x00 0x00000000 0x021cbfbb 0x00000000 0x00000000
-[root@ovs108 ~]# echo 1 > /sys/devices/system/cpu/microcode/reload
-[root@ovs108 ~]# dmesg | tail -10
-[ 1220.212415] microcode: updated to revision 0x2000065, date = 2019-09-05
-[ 1220.212645] microcode: Reload completed, microcode revision: 0x2000065
-
-Mihai Carabas (3):
-  x86: microcode: intel: read microcode metadata file
-  x86: microcode: intel: process microcode metadata
-  Documentation: x86: microcode: add description for metadata file
-
- Documentation/x86/microcode.rst       | 36 +++++++++++++
- arch/x86/kernel/cpu/microcode/intel.c | 97 +++++++++++++++++++++++++++++++++++
- 2 files changed, 133 insertions(+)
-
+diff --git a/scripts/spelling.txt b/scripts/spelling.txt
+index ffa838f3a2b5..a8214d8e8e4b 100644
+--- a/scripts/spelling.txt
++++ b/scripts/spelling.txt
+@@ -59,6 +59,7 @@ actualy||actually
+ acumulating||accumulating
+ acumulative||accumulative
+ acumulator||accumulator
++acutally||actually
+ adapater||adapter
+ addional||additional
+ additionaly||additionally
+@@ -245,6 +246,7 @@ calescing||coalescing
+ calle||called
+ callibration||calibration
+ callled||called
++callser||caller
+ calucate||calculate
+ calulate||calculate
+ cancelation||cancellation
+@@ -664,6 +666,7 @@ hanlde||handle
+ hanled||handled
+ happend||happened
+ harware||hardware
++havind||having
+ heirarchically||hierarchically
+ helpfull||helpful
+ hexdecimal||hexadecimal
+@@ -835,6 +838,7 @@ logile||logfile
+ loobpack||loopback
+ loosing||losing
+ losted||lost
++maangement||management
+ machinary||machinery
+ maibox||mailbox
+ maintainance||maintenance
+@@ -999,6 +1003,7 @@ partiton||partition
+ pased||passed
+ passin||passing
+ pathes||paths
++pattrns||patterns
+ pecularities||peculiarities
+ peformance||performance
+ peforming||performing
+@@ -1238,6 +1243,7 @@ shoule||should
+ shrinked||shrunk
+ siginificantly||significantly
+ signabl||signal
++significanly||significantly
+ similary||similarly
+ similiar||similar
+ simlar||similar
+@@ -1352,6 +1358,7 @@ thead||thread
+ therfore||therefore
+ thier||their
+ threds||threads
++threee||three
+ threshhold||threshold
+ thresold||threshold
+ throught||through
+@@ -1391,6 +1398,7 @@ tyep||type
+ udpate||update
+ uesd||used
+ uknown||unknown
++usccess||success
+ usupported||unsupported
+ uncommited||uncommitted
+ unconditionaly||unconditionally
 -- 
-1.8.3.1
+2.17.1
 
