@@ -7,49 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE2CC82A03
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:03:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50B2DC82A08
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:03:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28F762087E
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:03:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 247972082E
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Apr 2020 22:03:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588025000;
-	bh=5GyocPN1j5lv+FlYwDsdmatxNKvxZCH0LYtt/TFNhhU=;
+	s=default; t=1588025001;
+	bh=kJ7nuAYrQepxscJcqa5SQk6Dcd37HnIqGWIDAJTKfpw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=f3/BoXG1099eoD+uWhYaQ1Dam2Myrjr0C1/eXULnmtmpvTh5ls9kTTDJJkij/9XRm
-	 9Zn++iXDxVlBD7gausKrLyq/qR+u71A1e37AuBFmr/qFbN36oMWglU6w8SQcGB9EdL
-	 6nXY74dpMbkSTFuPa2k+B0pyKsscG7rYD20D+CvA=
+	b=mkxXvtohc+Hr7u5EO3a9pTsyRsFI9PBDwXlpUne5MFBtPWCXR+VSV89ibxXrsPbi1
+	 LF1GBnfn1d1rw7EPjAdGipDJRHMhT7o6hyGLaGZyvD9d4z2aXmaZJ12Xdd5Ztnvb/G
+	 vhPJ1/sUIk7fsqyZpg9xtNxL1Jd49zSKbg5gasl4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726580AbgD0WC5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726576AbgD0WC5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 27 Apr 2020 18:02:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48024 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:48008 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726403AbgD0WCB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726402AbgD0WCB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Apr 2020 18:02:01 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 28F9222280;
+        by mail.kernel.org (Postfix) with ESMTPSA id 0C36422260;
         Mon, 27 Apr 2020 22:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588024917;
-        bh=5GyocPN1j5lv+FlYwDsdmatxNKvxZCH0LYtt/TFNhhU=;
+        bh=kJ7nuAYrQepxscJcqa5SQk6Dcd37HnIqGWIDAJTKfpw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oh2ate4wURDvTDDXt26LKpbjvn01L/GWdFZX11gJcr8y3xr2LxEdDQiWU1ay+P/+o
-         rn+JXzbV26AJIbxtH1WyN3uckUliFSdpPN8UHwNnXbxW6HaHsqquDcn1Hk1coxUQV1
-         yG4PFHHdmiZL8gQ55wx1ZjO5OxbYx+DbJfjNErZ0=
+        b=gH4dZdqP4JH8eN/EKaY5mayoBo96wRGMENIur4REBUcoqPNCJ62mkllreq2pgGP+q
+         O2FCjUFjvTkUvQG1qe/IrZ3FPPuB+ecsUlptPV/gG6sGqTBv5MVDRxyl/RVPzokQ1X
+         7xhURxSj6DMGUTWRjQtWtwLcfoY8dWjCWaSm77Kk=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jTBp5-000IqW-ES; Tue, 28 Apr 2020 00:01:55 +0200
+        id 1jTBp5-000IqC-BA; Tue, 28 Apr 2020 00:01:55 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 36/38] docs: networking: convert ipvlan.txt to ReST
-Date:   Tue, 28 Apr 2020 00:01:51 +0200
-Message-Id: <bb7662049e543c61fd0ab53af50ee5c6a2acaccd.1588024424.git.mchehab+huawei@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>,
+        Chas Williams <3chas3@gmail.com>, netdev@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net
+Subject: [PATCH 32/38] docs: networking: convert iphase.txt to ReST
+Date:   Tue, 28 Apr 2020 00:01:47 +0200
+Message-Id: <76e3297787c9b642d8ffe54f98eb2a6d36ff6207.1588024424.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588024424.git.mchehab+huawei@kernel.org>
 References: <cover.1588024424.git.mchehab+huawei@kernel.org>
@@ -61,275 +63,320 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
-- adjust titles and chapters, adding proper markups;
+- adjust title using the proper markup;
 - mark code blocks and literals as such;
+- mark tables as such;
+- mark lists as such;
 - adjust identation, whitespaces and blank lines;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/networking/index.rst            |   1 +
- .../networking/{ipvlan.txt => ipvlan.rst}     | 159 +++++++++++-------
- 2 files changed, 102 insertions(+), 58 deletions(-)
- rename Documentation/networking/{ipvlan.txt => ipvlan.rst} (54%)
+ .../networking/{iphase.txt => iphase.rst}     | 185 +++++++++++-------
+ drivers/atm/Kconfig                           |   2 +-
+ 3 files changed, 112 insertions(+), 76 deletions(-)
+ rename Documentation/networking/{iphase.txt => iphase.rst} (50%)
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 709675464e51..54dee1575b54 100644
+index f81aeb87aa28..505eaa41ca2b 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -71,6 +71,7 @@ Contents:
-    ipsec
-    ip-sysctl
-    ipv6
-+   ipvlan
+@@ -67,6 +67,7 @@ Contents:
+    ila
+    ipddp
+    ip_dynaddr
++   iphase
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/ipvlan.txt b/Documentation/networking/ipvlan.rst
-similarity index 54%
-rename from Documentation/networking/ipvlan.txt
-rename to Documentation/networking/ipvlan.rst
-index 27a38e50c287..694adcba36b0 100644
---- a/Documentation/networking/ipvlan.txt
-+++ b/Documentation/networking/ipvlan.rst
-@@ -1,11 +1,15 @@
+diff --git a/Documentation/networking/iphase.txt b/Documentation/networking/iphase.rst
+similarity index 50%
+rename from Documentation/networking/iphase.txt
+rename to Documentation/networking/iphase.rst
+index 670b72f16585..92d9b757d75a 100644
+--- a/Documentation/networking/iphase.txt
++++ b/Documentation/networking/iphase.rst
+@@ -1,27 +1,35 @@
 +.. SPDX-License-Identifier: GPL-2.0
++
++==================================
++ATM (i)Chip IA Linux Driver Source
++==================================
++
++			      READ ME FISRT
  
--                            IPVLAN Driver HOWTO
-+===================
-+IPVLAN Driver HOWTO
-+===================
+-                              READ ME FISRT
+-		  ATM (i)Chip IA Linux Driver Source
+ --------------------------------------------------------------------------------
+-                     Read This Before You Begin!
++
++		     Read This Before You Begin!
++
+ --------------------------------------------------------------------------------
  
- Initial Release:
- 	Mahesh Bandewar <maheshb AT google.com>
+ Description
+------------
++===========
  
- 1. Introduction:
--	This is conceptually very similar to the macvlan driver with one major
+-This is the README file for the Interphase PCI ATM (i)Chip IA Linux driver 
++This is the README file for the Interphase PCI ATM (i)Chip IA Linux driver
+ source release.
+ 
+ The features and limitations of this driver are as follows:
++
+     - A single VPI (VPI value of 0) is supported.
+-    - Supports 4K VCs for the server board (with 512K control memory) and 1K 
++    - Supports 4K VCs for the server board (with 512K control memory) and 1K
+       VCs for the client board (with 128K control memory).
+     - UBR, ABR and CBR service categories are supported.
+-    - Only AAL5 is supported. 
+-    - Supports setting of PCR on the VCs. 
++    - Only AAL5 is supported.
++    - Supports setting of PCR on the VCs.
+     - Multiple adapters in a system are supported.
+-    - All variants of Interphase ATM PCI (i)Chip adapter cards are supported, 
+-      including x575 (OC3, control memory 128K , 512K and packet memory 128K, 
+-      512K and 1M), x525 (UTP25) and x531 (DS3 and E3). See 
++    - All variants of Interphase ATM PCI (i)Chip adapter cards are supported,
++      including x575 (OC3, control memory 128K , 512K and packet memory 128K,
++      512K and 1M), x525 (UTP25) and x531 (DS3 and E3). See
+       http://www.iphase.com/
+       for details.
+     - Only x86 platforms are supported.
+@@ -29,128 +37,155 @@ The features and limitations of this driver are as follows:
+ 
+ 
+ Before You Start
+----------------- 
 +================
-+This is conceptually very similar to the macvlan driver with one major
- exception of using L3 for mux-ing /demux-ing among slaves. This property makes
- the master device share the L2 with it's slave devices. I have developed this
- driver in conjunction with network namespaces and not sure if there is use case
-@@ -13,34 +17,48 @@ outside of it.
  
  
- 2. Building and Installation:
--	In order to build the driver, please select the config item CONFIG_IPVLAN.
-+=============================
+ Installation
+ ------------
+ 
+ 1. Installing the adapters in the system
 +
-+In order to build the driver, please select the config item CONFIG_IPVLAN.
- The driver can be built into the kernel (CONFIG_IPVLAN=y) or as a module
- (CONFIG_IPVLAN=m).
- 
- 
- 3. Configuration:
--	There are no module parameters for this driver and it can be configured
-+=================
+    To install the ATM adapters in the system, follow the steps below.
 +
-+There are no module parameters for this driver and it can be configured
- using IProute2/ip utility.
+        a. Login as root.
+        b. Shut down the system and power off the system.
+        c. Install one or more ATM adapters in the system.
+-       d. Connect each adapter to a port on an ATM switch. The green 'Link' 
+-          LED on the front panel of the adapter will be on if the adapter is 
+-          connected to the switch properly when the system is powered up.
++       d. Connect each adapter to a port on an ATM switch. The green 'Link'
++	  LED on the front panel of the adapter will be on if the adapter is
++	  connected to the switch properly when the system is powered up.
+        e. Power on and boot the system.
+ 
+ 2. [ Removed ]
+ 
+ 3. Rebuild kernel with ABR support
++
+    [ a. and b. removed ]
+-    c. Reconfigure the kernel, choose the Interphase ia driver through "make 
++
++    c. Reconfigure the kernel, choose the Interphase ia driver through "make
+        menuconfig" or "make xconfig".
+-    d. Rebuild the kernel, loadable modules and the atm tools. 
++    d. Rebuild the kernel, loadable modules and the atm tools.
+     e. Install the new built kernel and modules and reboot.
+ 
+ 4. Load the adapter hardware driver (ia driver) if it is built as a module
++
+        a. Login as root.
+        b. Change directory to /lib/modules/<kernel-version>/atm.
+        c. Run "insmod suni.o;insmod iphase.o"
+-	  The yellow 'status' LED on the front panel of the adapter will blink 
+-          while the driver is loaded in the system.
+-       d. To verify that the 'ia' driver is loaded successfully, run the 
+-          following command:
++	  The yellow 'status' LED on the front panel of the adapter will blink
++	  while the driver is loaded in the system.
++       d. To verify that the 'ia' driver is loaded successfully, run the
++	  following command::
+ 
+-              cat /proc/atm/devices
++	      cat /proc/atm/devices
+ 
+-          If the driver is loaded successfully, the output of the command will 
+-          be similar to the following lines:
++	  If the driver is loaded successfully, the output of the command will
++	  be similar to the following lines::
+ 
+-              Itf Type    ESI/"MAC"addr AAL(TX,err,RX,err,drop) ...
+-              0   ia      xxxxxxxxx  0 ( 0 0 0 0 0 )  5 ( 0 0 0 0 0 )
++	      Itf Type    ESI/"MAC"addr AAL(TX,err,RX,err,drop) ...
++	      0   ia      xxxxxxxxx  0 ( 0 0 0 0 0 )  5 ( 0 0 0 0 0 )
+ 
+-          You can also check the system log file /var/log/messages for messages
+-          related to the ATM driver.
++	  You can also check the system log file /var/log/messages for messages
++	  related to the ATM driver.
+ 
+-5. Ia Driver Configuration 
++5. Ia Driver Configuration
+ 
+ 5.1 Configuration of adapter buffers
+     The (i)Chip boards have 3 different packet RAM size variants: 128K, 512K and
+-    1M. The RAM size decides the number of buffers and buffer size. The default 
+-    size and number of buffers are set as following: 
++    1M. The RAM size decides the number of buffers and buffer size. The default
++    size and number of buffers are set as following:
+ 
+-          Total    Rx RAM   Tx RAM   Rx Buf   Tx Buf   Rx buf   Tx buf
+-         RAM size   size     size     size     size      cnt      cnt
+-         --------  ------   ------   ------   ------   ------   ------
+-           128K      64K      64K      10K      10K       6        6
+-           512K     256K     256K      10K      10K      25       25
+-             1M     512K     512K      10K      10K      51       51
++	=========  =======  ======   ======   ======   ======   ======
++	 Total     Rx RAM   Tx RAM   Rx Buf   Tx Buf   Rx buf   Tx buf
++	 RAM size  size     size     size     size     cnt      cnt
++	=========  =======  ======   ======   ======   ======   ======
++	   128K      64K      64K      10K      10K       6        6
++	   512K     256K     256K      10K      10K      25       25
++	     1M     512K     512K      10K      10K      51       51
++	=========  =======  ======   ======   ======   ======   ======
+ 
+        These setting should work well in most environments, but can be
+-       changed by typing the following command: 
+- 
+-           insmod <IA_DIR>/ia.o IA_RX_BUF=<RX_CNT> IA_RX_BUF_SZ=<RX_SIZE> \
+-                   IA_TX_BUF=<TX_CNT> IA_TX_BUF_SZ=<TX_SIZE> 
++       changed by typing the following command::
++
++	   insmod <IA_DIR>/ia.o IA_RX_BUF=<RX_CNT> IA_RX_BUF_SZ=<RX_SIZE> \
++		   IA_TX_BUF=<TX_CNT> IA_TX_BUF_SZ=<TX_SIZE>
++
+        Where:
+-            RX_CNT = number of receive buffers in the range (1-128)
+-            RX_SIZE = size of receive buffers in the range (48-64K)
+-            TX_CNT = number of transmit buffers in the range (1-128)
+-            TX_SIZE = size of transmit buffers in the range (48-64K)
+ 
+-            1. Transmit and receive buffer size must be a multiple of 4.
+-            2. Care should be taken so that the memory required for the
+-               transmit and receive buffers is less than or equal to the
+-               total adapter packet memory.   
++	    - RX_CNT = number of receive buffers in the range (1-128)
++	    - RX_SIZE = size of receive buffers in the range (48-64K)
++	    - TX_CNT = number of transmit buffers in the range (1-128)
++	    - TX_SIZE = size of transmit buffers in the range (48-64K)
++
++	    1. Transmit and receive buffer size must be a multiple of 4.
++	    2. Care should be taken so that the memory required for the
++	       transmit and receive buffers is less than or equal to the
++	       total adapter packet memory.
+ 
+ 5.2 Turn on ia debug trace
+ 
+-    When the ia driver is built with the CONFIG_ATM_IA_DEBUG flag, the driver 
+-    can provide more debug trace if needed. There is a bit mask variable, 
+-    IADebugFlag, which controls the output of the traces. You can find the bit 
+-    map of the IADebugFlag in iphase.h. 
+-    The debug trace can be turn on through the insmod command line option, for 
+-    example, "insmod iphase.o IADebugFlag=0xffffffff" can turn on all the debug 
++    When the ia driver is built with the CONFIG_ATM_IA_DEBUG flag, the driver
++    can provide more debug trace if needed. There is a bit mask variable,
++    IADebugFlag, which controls the output of the traces. You can find the bit
++    map of the IADebugFlag in iphase.h.
++    The debug trace can be turn on through the insmod command line option, for
++    example, "insmod iphase.o IADebugFlag=0xffffffff" can turn on all the debug
+     traces together with loading the driver.
+ 
+ 6. Ia Driver Test Using ttcp_atm and PVC
+ 
+-   For the PVC setup, the test machines can either be connected back-to-back or 
+-   through a switch. If connected through the switch, the switch must be 
++   For the PVC setup, the test machines can either be connected back-to-back or
++   through a switch. If connected through the switch, the switch must be
+    configured for the PVC(s).
+ 
+    a. For UBR test:
+-      At the test machine intended to receive data, type:
+-         ttcp_atm -r -a -s 0.100 
+-      At the other test machine, type:
+-         ttcp_atm -t -a -s 0.100 -n 10000
++
++      At the test machine intended to receive data, type::
++
++	 ttcp_atm -r -a -s 0.100
++
++      At the other test machine, type::
++
++	 ttcp_atm -t -a -s 0.100 -n 10000
++
+       Run "ttcp_atm -h" to display more options of the ttcp_atm tool.
+    b. For ABR test:
+-      It is the same as the UBR testing, but with an extra command option:
+-         -Pabr:max_pcr=<xxx>
+-         where:
+-             xxx = the maximum peak cell rate, from 170 - 353207.
+-         This option must be set on both the machines.
++
++      It is the same as the UBR testing, but with an extra command option::
++
++	 -Pabr:max_pcr=<xxx>
++
++      where:
++
++	     xxx = the maximum peak cell rate, from 170 - 353207.
++
++      This option must be set on both the machines.
++
+    c. For CBR test:
+-      It is the same as the UBR testing, but with an extra command option:
+-         -Pcbr:max_pcr=<xxx>
+-         where:
+-             xxx = the maximum peak cell rate, from 170 - 353207.
+-         This option may only be set on the transmit machine.
+ 
++      It is the same as the UBR testing, but with an extra command option::
+ 
+-OUTSTANDING ISSUES
+-------------------
++	 -Pcbr:max_pcr=<xxx>
++
++      where:
++
++	     xxx = the maximum peak cell rate, from 170 - 353207.
++
++      This option may only be set on the transmit machine.
++
++
++Outstanding Issues
++==================
+ 
+ 
+ 
+ Contact Information
+ -------------------
+ 
 +::
++
+      Customer Support:
+-         United States:	Telephone:	(214) 654-5555
+-     			Fax:		(214) 654-5500
++	 United States:	Telephone:	(214) 654-5555
++			Fax:		(214) 654-5500
+ 			E-Mail:		intouch@iphase.com
+ 	 Europe:	Telephone:	33 (0)1 41 15 44 00
+ 			Fax:		33 (0)1 41 15 12 13
+diff --git a/drivers/atm/Kconfig b/drivers/atm/Kconfig
+index 4af7cbdcc349..cfb0d16b60ad 100644
+--- a/drivers/atm/Kconfig
++++ b/drivers/atm/Kconfig
+@@ -306,7 +306,7 @@ config ATM_IA
+ 	  for more info about the cards. Say Y (or M to compile as a module
+ 	  named iphase) here if you have one of these cards.
  
-     ip link add link <master> name <slave> type ipvlan [ mode MODE ] [ FLAGS ]
-        where
--         MODE: l3 (default) | l3s | l2
--         FLAGS: bridge (default) | private | vepa
-+	 MODE: l3 (default) | l3s | l2
-+	 FLAGS: bridge (default) | private | vepa
-+
-+e.g.
+-	  See the file <file:Documentation/networking/iphase.txt> for further
++	  See the file <file:Documentation/networking/iphase.rst> for further
+ 	  details.
  
--    e.g.
-     (a) Following will create IPvlan link with eth0 as master in
--        L3 bridge mode
--          bash# ip link add link eth0 name ipvl0 type ipvlan
--    (b) This command will create IPvlan link in L2 bridge mode.
--          bash# ip link add link eth0 name ipvl0 type ipvlan mode l2 bridge
--    (c) This command will create an IPvlan device in L2 private mode.
--          bash# ip link add link eth0 name ipvlan type ipvlan mode l2 private
--    (d) This command will create an IPvlan device in L2 vepa mode.
--          bash# ip link add link eth0 name ipvlan type ipvlan mode l2 vepa
-+	L3 bridge mode::
-+
-+	  bash# ip link add link eth0 name ipvl0 type ipvlan
-+    (b) This command will create IPvlan link in L2 bridge mode::
-+
-+	  bash# ip link add link eth0 name ipvl0 type ipvlan mode l2 bridge
-+
-+    (c) This command will create an IPvlan device in L2 private mode::
-+
-+	  bash# ip link add link eth0 name ipvlan type ipvlan mode l2 private
-+
-+    (d) This command will create an IPvlan device in L2 vepa mode::
-+
-+	  bash# ip link add link eth0 name ipvlan type ipvlan mode l2 vepa
- 
- 
- 4. Operating modes:
--	IPvlan has two modes of operation - L2 and L3. For a given master device,
-+===================
-+
-+IPvlan has two modes of operation - L2 and L3. For a given master device,
- you can select one of these two modes and all slaves on that master will
- operate in the same (selected) mode. The RX mode is almost identical except
- that in L3 mode the slaves wont receive any multicast / broadcast traffic.
-@@ -48,39 +66,50 @@ L3 mode is more restrictive since routing is controlled from the other (mostly)
- default namespace.
- 
- 4.1 L2 mode:
--	In this mode TX processing happens on the stack instance attached to the
-+------------
-+
-+In this mode TX processing happens on the stack instance attached to the
- slave device and packets are switched and queued to the master device to send
- out. In this mode the slaves will RX/TX multicast and broadcast (if applicable)
- as well.
- 
- 4.2 L3 mode:
--	In this mode TX processing up to L3 happens on the stack instance attached
-+------------
-+
-+In this mode TX processing up to L3 happens on the stack instance attached
- to the slave device and packets are switched to the stack instance of the
- master device for the L2 processing and routing from that instance will be
- used before packets are queued on the outbound device. In this mode the slaves
- will not receive nor can send multicast / broadcast traffic.
- 
- 4.3 L3S mode:
--	This is very similar to the L3 mode except that iptables (conn-tracking)
-+-------------
-+
-+This is very similar to the L3 mode except that iptables (conn-tracking)
- works in this mode and hence it is L3-symmetric (L3s). This will have slightly less
- performance but that shouldn't matter since you are choosing this mode over plain-L3
- mode to make conn-tracking work.
- 
- 5. Mode flags:
--	At this time following mode flags are available
-+==============
-+
-+At this time following mode flags are available
- 
- 5.1 bridge:
--	This is the default option. To configure the IPvlan port in this mode,
-+-----------
-+This is the default option. To configure the IPvlan port in this mode,
- user can choose to either add this option on the command-line or don't specify
- anything. This is the traditional mode where slaves can cross-talk among
- themselves apart from talking through the master device.
- 
- 5.2 private:
--	If this option is added to the command-line, the port is set in private
-+------------
-+If this option is added to the command-line, the port is set in private
- mode. i.e. port won't allow cross communication between slaves.
- 
- 5.3 vepa:
--	If this is added to the command-line, the port is set in VEPA mode.
-+---------
-+If this is added to the command-line, the port is set in VEPA mode.
- i.e. port will offload switching functionality to the external entity as
- described in 802.1Qbg
- Note: VEPA mode in IPvlan has limitations. IPvlan uses the mac-address of the
-@@ -89,18 +118,25 @@ neighbor will have source and destination mac same. This will make the switch /
- router send the redirect message.
- 
- 6. What to choose (macvlan vs. ipvlan)?
--	These two devices are very similar in many regards and the specific use
-+=======================================
-+
-+These two devices are very similar in many regards and the specific use
- case could very well define which device to choose. if one of the following
--situations defines your use case then you can choose to use ipvlan -
--	(a) The Linux host that is connected to the external switch / router has
--policy configured that allows only one mac per port.
--	(b) No of virtual devices created on a master exceed the mac capacity and
--puts the NIC in promiscuous mode and degraded performance is a concern.
--	(c) If the slave device is to be put into the hostile / untrusted network
--namespace where L2 on the slave could be changed / misused.
-+situations defines your use case then you can choose to use ipvlan:
-+
-+
-+(a) The Linux host that is connected to the external switch / router has
-+    policy configured that allows only one mac per port.
-+(b) No of virtual devices created on a master exceed the mac capacity and
-+    puts the NIC in promiscuous mode and degraded performance is a concern.
-+(c) If the slave device is to be put into the hostile / untrusted network
-+    namespace where L2 on the slave could be changed / misused.
- 
- 
- 6. Example configuration:
-+=========================
-+
-+::
- 
-   +=============================================================+
-   |  Host: host1                                                |
-@@ -117,30 +153,37 @@ namespace where L2 on the slave could be changed / misused.
-   +==============================#==============================+
- 
- 
--	(a) Create two network namespaces - ns0, ns1
--		ip netns add ns0
--		ip netns add ns1
--
--	(b) Create two ipvlan slaves on eth0 (master device)
--		ip link add link eth0 ipvl0 type ipvlan mode l2
--		ip link add link eth0 ipvl1 type ipvlan mode l2
--
--	(c) Assign slaves to the respective network namespaces
--		ip link set dev ipvl0 netns ns0
--		ip link set dev ipvl1 netns ns1
--
--	(d) Now switch to the namespace (ns0 or ns1) to configure the slave devices
--		- For ns0
--			(1) ip netns exec ns0 bash
--			(2) ip link set dev ipvl0 up
--			(3) ip link set dev lo up
--			(4) ip -4 addr add 127.0.0.1 dev lo
--			(5) ip -4 addr add $IPADDR dev ipvl0
--			(6) ip -4 route add default via $ROUTER dev ipvl0
--		- For ns1
--			(1) ip netns exec ns1 bash
--			(2) ip link set dev ipvl1 up
--			(3) ip link set dev lo up
--			(4) ip -4 addr add 127.0.0.1 dev lo
--			(5) ip -4 addr add $IPADDR dev ipvl1
--			(6) ip -4 route add default via $ROUTER dev ipvl1
-+(a) Create two network namespaces - ns0, ns1::
-+
-+	ip netns add ns0
-+	ip netns add ns1
-+
-+(b) Create two ipvlan slaves on eth0 (master device)::
-+
-+	ip link add link eth0 ipvl0 type ipvlan mode l2
-+	ip link add link eth0 ipvl1 type ipvlan mode l2
-+
-+(c) Assign slaves to the respective network namespaces::
-+
-+	ip link set dev ipvl0 netns ns0
-+	ip link set dev ipvl1 netns ns1
-+
-+(d) Now switch to the namespace (ns0 or ns1) to configure the slave devices
-+
-+	- For ns0::
-+
-+		(1) ip netns exec ns0 bash
-+		(2) ip link set dev ipvl0 up
-+		(3) ip link set dev lo up
-+		(4) ip -4 addr add 127.0.0.1 dev lo
-+		(5) ip -4 addr add $IPADDR dev ipvl0
-+		(6) ip -4 route add default via $ROUTER dev ipvl0
-+
-+	- For ns1::
-+
-+		(1) ip netns exec ns1 bash
-+		(2) ip link set dev ipvl1 up
-+		(3) ip link set dev lo up
-+		(4) ip -4 addr add 127.0.0.1 dev lo
-+		(5) ip -4 addr add $IPADDR dev ipvl1
-+		(6) ip -4 route add default via $ROUTER dev ipvl1
+ config ATM_IA_DEBUG
 -- 
 2.25.4
 
