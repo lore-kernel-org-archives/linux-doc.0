@@ -2,228 +2,128 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 255C3C83006
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 04:20:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71328C83007
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 04:44:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05A6F206B8
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 04:20:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 589D5206C0
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 04:44:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbgD1EUI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 00:20:08 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29364 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725803AbgD1EUH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 00:20:07 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03S44aiX124128;
-        Tue, 28 Apr 2020 00:17:28 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 30pd53g8rh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 28 Apr 2020 00:17:28 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03S47gjm130005;
-        Tue, 28 Apr 2020 00:17:27 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 30pd53g8pd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 28 Apr 2020 00:17:26 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03S45tWP018939;
-        Tue, 28 Apr 2020 04:17:24 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma04fra.de.ibm.com with ESMTP id 30mcu58gsm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 28 Apr 2020 04:17:24 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 03S4HLNp41943218
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 28 Apr 2020 04:17:21 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 79F1911C052;
-        Tue, 28 Apr 2020 04:17:21 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6834611C04A;
-        Tue, 28 Apr 2020 04:17:14 +0000 (GMT)
-Received: from [9.199.43.234] (unknown [9.199.43.234])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 28 Apr 2020 04:17:14 +0000 (GMT)
-Subject: Re: [PATCH v3 2/4] hugetlbfs: move hugepagesz= parsing to arch
- independent code
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S.Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mina Almasry <almasrymina@google.com>,
-        Peter Xu <peterx@redhat.com>,
-        Nitesh Narayan Lal <nitesh@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20200417185049.275845-1-mike.kravetz@oracle.com>
- <20200417185049.275845-3-mike.kravetz@oracle.com>
- <7583dfcc-62d8-2a54-6eef-bcb4e01129b3@gmail.com>
- <5a380060-38db-b690-1003-678ca0f28f07@oracle.com>
- <b1f04f9f-fa46-c2a0-7693-4a0679d2a1ee@oracle.com>
-From:   Sandipan Das <sandipan@linux.ibm.com>
-Message-ID: <9c82a0b1-db0e-9b34-88a1-bc810d6b5eec@linux.ibm.com>
-Date:   Tue, 28 Apr 2020 09:47:13 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726042AbgD1Eot (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 00:44:49 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:55723 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725917AbgD1Eot (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 00:44:49 -0400
+Received: from methusalix.internal.home.lespocky.de ([109.250.101.169]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MfYDO-1j0XvY2as4-00fwEP; Tue, 28 Apr 2020 06:44:44 +0200
+Received: from falbala.internal.home.lespocky.de ([192.168.243.94])
+        by methusalix.internal.home.lespocky.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.92.3)
+        (envelope-from <post@lespocky.de>)
+        id 1jTI6r-000482-VZ; Tue, 28 Apr 2020 06:44:43 +0200
+Date:   Tue, 28 Apr 2020 06:44:40 +0200
+From:   Alexander Dahl <post@lespocky.de>
+To:     webmaster@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: New Wiki URLs?
+Message-ID: <20200428044440.kd2rf3cxa5rffewm@falbala.internal.home.lespocky.de>
+Mail-Followup-To: webmaster@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
 MIME-Version: 1.0
-In-Reply-To: <b1f04f9f-fa46-c2a0-7693-4a0679d2a1ee@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
- definitions=2020-04-27_17:2020-04-27,2020-04-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=999
- bulkscore=0 lowpriorityscore=0 clxscore=1011 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004280027
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6rmhozldre3ci2et"
+Content-Disposition: inline
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Scan-Signature: 43227bb1a0d9095ae2bb1ca1fd71373a
+X-Provags-ID: V03:K1:zZsd+o4iLKjEyP5P+XBhwrWENVcApqAdfolg81YTjc/dzkddyIH
+ Mfd/MDEOxT3XgiKLP8hUnx5xQr9nL40UcJE9HF1ccN6kkahv07stAfJ0Ssyj1o6wwxtCH5i
+ caKKjRzdHyf64/yLlTq/sIAvxu70JHWlqz0vNLttoZrzfEQan2hgIJ8l8iWtsaCjnzOklAK
+ uC79reoTriX+4tTyDGV2g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7UorH9nhJFM=:0Tj2F8RM368aOSQNNuX8Rg
+ WRZFE8yXcxIj1q94UxiQvxcCMQ3iiQNpqm4VXnfw0PPJGmXnlpz8yUw/+K9zSO0uQ/c03Ll3d
+ /y80alGFtnQEra6vTAY8Pkc6jQll7shOAtOmSUK+a3DiYVpOxaiJgijOOkczJh0+6ZAL0nWrX
+ 83eb3D8qI6d+tCiMeOTd6DGxxZuk4KRK6ATeaWK6woG8krsa4vCJzXcQqzw7mFMyScAarYWzb
+ bWOitRi4tGFV7ve+bLWTtkQyHVxK0Aiqh4S1BPbaIaKSJAEAJIzlMCyGHcwtyMmF6drWy6hbs
+ vA6rvvdmgH/U+VvhjRKYad4kmhEN/OZ9mkRLqLhxaasWkAh2ebXxsIFcBUomSHdRIG23nUirV
+ c2M3IhFFafx4JmqfuFbwqqSTxIZF7dnWixRw+zzx5rTXp/KPz7UfxSVjbwOGqxE5fEROvsX4L
+ M1uTdppEgCvIYKAcfst4BsKRxyrBxXz4XYEtj269WfGYaT2k6pNTqOXqz5i+0vLRu6T/M/vdh
+ FsvJyhdNxKf1oilagmUADdhx9/SkCoIUnYXB0IKVLF8r2MYmAqmhv+1ZdvnKVbvPfRZ5DBzYF
+ pnfuylhWE3DDDuBvw3hx9O+hraj+nlnw1fVIHdT2ZkILiZ22qMumRX6TH7vZPKx6EbhzKx3SN
+ 39P8g4+REgzbqJgDxho+BbTS3ALNuSwHi29AtyE9XoMXoVPUHftt65IR28jUqVCj8A5sKptGf
+ SYORdw61qCg3IkB9eFOZYxhirG0d/3Kaszzj1XH1i7cxuFCxhOCfGXgNM7lyVOfyveffTEh7Y
+ S/1eL6+phwQHmt2/3rnmUNAXHw/9yvbNWsw/kv8Mnw9HGnK6V78XTbxXPwwT5y7K/jdm+Ci
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
 
-On 28/04/20 12:39 am, Mike Kravetz wrote:
-> On 4/27/20 10:25 AM, Mike Kravetz wrote:
->> On 4/26/20 10:04 PM, Sandipan Das wrote:
->>> On 18/04/20 12:20 am, Mike Kravetz wrote:
->>>> Now that architectures provide arch_hugetlb_valid_size(), parsing
->>>> of "hugepagesz=" can be done in architecture independent code.
->>>
->>> This isn't working as expected on powerpc64.
->>>
->>>   [    0.000000] Kernel command line: root=UUID=dc7b49cf-95a2-4996-8e7d-7c64ddc7a6ff hugepagesz=16G hugepages=2 
->>>   [    0.000000] HugeTLB: huge pages not supported, ignoring hugepagesz = 16G
->>>   [    0.000000] HugeTLB: huge pages not supported, ignoring hugepages = 2
->>>   [    0.284177] HugeTLB registered 16.0 MiB page size, pre-allocated 0 pages
->>>   [    0.284182] HugeTLB registered 16.0 GiB page size, pre-allocated 0 pages
->>>   [    2.585062]     hugepagesz=16G
->>>   [    2.585063]     hugepages=2
->>>
->>
->> In the new arch independent version of hugepages_setup, I added the following
->> code in patch 4 off this series:
->>
->>> +	if (!hugepages_supported()) {
->>> +		pr_warn("HugeTLB: huge pages not supported, ignoring hugepages = %s\n", s);
->>> +		return 0;
->>> +	}
->>> +
->>
->> The easy solution is to remove all the hugepages_supported() checks from
->> command line parsing routines and rely on the later check in hugetlb_init().
-> 
-> Here is a patch to address the issue.  Sorry, as my series breaks all hugetlb
-> command line processing on powerpc.
-> 
-> Sandipan, can you test the following patch?
-> 
+--6rmhozldre3ci2et
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The following patch does fix the issue. Thanks.
+Hello,
 
-Tested-by: Sandipan Das <sandipan@linux.ibm.com>
+I noticed the kernel wiki URLs might have changed. The URLs now are
+like this:
 
+https://wireless.wiki.kernel.org/en/users/drivers/b43
 
-> From 480fe2847361e2a85aeec1fb39fe643bb7100a07 Mon Sep 17 00:00:00 2001
-> From: Mike Kravetz <mike.kravetz@oracle.com>
-> Date: Mon, 27 Apr 2020 11:37:30 -0700
-> Subject: [PATCH] hugetlbfs: fix changes to command line processing
-> 
-> Previously, a check for hugepages_supported was added before processing
-> hugetlb command line parameters.  On some architectures such as powerpc,
-> hugepages_supported() is not set to true until after command line
-> processing.  Therefore, no hugetlb command line parameters would be
-> accepted.
-> 
-> Remove the additional checks for hugepages_supported.  In hugetlb_init,
-> print a warning if !hugepages_supported and command line parameters were
-> specified.
-> 
-> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
-> ---
->  mm/hugetlb.c | 20 ++++----------------
->  1 file changed, 4 insertions(+), 16 deletions(-)
-> 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 1075abdb5717..5548e8851b93 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -3212,8 +3212,11 @@ static int __init hugetlb_init(void)
->  {
->  	int i;
->  
-> -	if (!hugepages_supported())
-> +	if (!hugepages_supported()) {
-> +		if (hugetlb_max_hstate || default_hstate_max_huge_pages)
-> +			pr_warn("HugeTLB: huge pages not supported, ignoring associated command-line parameters\n");
->  		return 0;
-> +	}
->  
->  	/*
->  	 * Make sure HPAGE_SIZE (HUGETLB_PAGE_ORDER) hstate exists.  Some
-> @@ -3315,11 +3318,6 @@ static int __init hugepages_setup(char *s)
->  	unsigned long *mhp;
->  	static unsigned long *last_mhp;
->  
-> -	if (!hugepages_supported()) {
-> -		pr_warn("HugeTLB: huge pages not supported, ignoring hugepages = %s\n", s);
-> -		return 0;
-> -	}
-> -
->  	if (!parsed_valid_hugepagesz) {
->  		pr_warn("HugeTLB: hugepages=%s does not follow a valid hugepagesz, ignoring\n", s);
->  		parsed_valid_hugepagesz = true;
-> @@ -3372,11 +3370,6 @@ static int __init hugepagesz_setup(char *s)
->  	struct hstate *h;
->  
->  	parsed_valid_hugepagesz = false;
-> -	if (!hugepages_supported()) {
-> -		pr_warn("HugeTLB: huge pages not supported, ignoring hugepagesz = %s\n", s);
-> -		return 0;
-> -	}
-> -
->  	size = (unsigned long)memparse(s, NULL);
->  
->  	if (!arch_hugetlb_valid_size(size)) {
-> @@ -3424,11 +3417,6 @@ static int __init default_hugepagesz_setup(char *s)
->  	unsigned long size;
->  
->  	parsed_valid_hugepagesz = false;
-> -	if (!hugepages_supported()) {
-> -		pr_warn("HugeTLB: huge pages not supported, ignoring default_hugepagesz = %s\n", s);
-> -		return 0;
-> -	}
-> -
->  	if (parsed_default_hugepagesz) {
->  		pr_err("HugeTLB: default_hugepagesz previously specified, ignoring %s\n", s);
->  		return 0;
-> 
+However in the kernel source code and in the kernel log output you
+find something like this:
+
+    b43-phy1 ERROR: You must go to http://wireless.kernel.org/en/users/Driv=
+ers/b43#devicefirmware and do
+    wnload the correct firmware for this driver version. Please carefully r=
+ead all instructions on this=20
+    website.
+
+(Notice the additional subdomain and the case change in the resource
+path.)
+
+Some websites seem to link on those old URLs, see
+https://packages.debian.org/source/buster/b43-fwcutter for example.
+
+Could the webmasters of kernel.org please configure some kind of
+redirects so people don't get 404 errors when looking for docs?
+
+Bonus question: would it make sense to change all those URLs in the
+source (as in: send patches for that)? Then what URLs are supposed to
+be the right ones now?
+
+Kind regards
+Alex
+
+--=20
+/"\ ASCII RIBBON | =BBWith the first link, the chain is forged. The first
+\ / CAMPAIGN     | speech censured, the first thought forbidden, the
+ X  AGAINST      | first freedom denied, chains us all irrevocably.=AB
+/ \ HTML MAIL    | (Jean-Luc Picard, quoting Judge Aaron Satie)
+
+--6rmhozldre3ci2et
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEwo7muQJjlc+Prwj6NK3NAHIhXMYFAl6ntLQACgkQNK3NAHIh
+XMbeAhAAyRPtVq5b/B1fRdh/FkSS2r/auAWSB+DoukfvUZADasr5JWDaEDISPJb3
+vWnVFt493cuGo05LV569Qj37aNKu6g9EUguFmWMShunSU6Vguojlag6J7+rinOMR
+8feiEnec4bQWAmSONzxyXxwC66vsKMTD+smOPhS8MEIAX+iHKxYLFLVBPqIcAEzr
+AqVHNWOaOODk7IOsCo7wKr8exjRXrWQe4erzZNWb+/4feHsygBuzfVgvEiDKQDVq
+pDQDgOodqCWsOZC0y2mWrUamry97g3vGNM1nKZPSkMe1wi5tNKe5aFJgeABf8FY6
+sqnFrw1kEL0fOuht0Bsx4ry9XLnt3rXRMw7ArY2Epgyjj7yb8pWo+4oe7Gx+PXUY
+PBUMU1016XOLOeoxkwFQtLGJ1a0iRnfkcEJznx8zQ2gA9ebZ1LfTzaQ4Xhr1qtQC
+QDTINb6ToeMozwYTZrPqc5g8HJwKRGrAGZlBRRRTzK03trBQ/aydpTKqJltQQBgv
+1GNUFQfauysdDaL/n/mIg1d4bjHSNs/ETi6AovgCAmTTrnueKtGTdhXUS4BezjlE
+Z8eA7UUuktkuzX7th8T71u+RVptjnFGZeQ7T1nQIDvrNH3ii30qqqzqq+nGC7EW9
+l40I+hK8dg61biL2dRnLd3upz81IuelnqQXIwoFCAVVWkV6ECP0=
+=+NxB
+-----END PGP SIGNATURE-----
+
+--6rmhozldre3ci2et--
