@@ -6,35 +6,34 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B28CC83004
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B62C83000
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:52:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E615820575
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:49:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88F5420575
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:52:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730839AbgD1Sjx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 14:39:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45180 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730125AbgD1Sjw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 14:39:52 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54581C03C1AB;
-        Tue, 28 Apr 2020 11:39:52 -0700 (PDT)
+        id S1729709AbgD1SgF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 14:36:05 -0400
+Received: from ms.lwn.net ([45.79.88.28]:41378 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730333AbgD1SgC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Apr 2020 14:36:02 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D8F4D2D6;
-        Tue, 28 Apr 2020 18:39:51 +0000 (UTC)
-Date:   Tue, 28 Apr 2020 12:39:50 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id D03822D6;
+        Tue, 28 Apr 2020 18:36:01 +0000 (UTC)
+Date:   Tue, 28 Apr 2020 12:36:00 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Stephen Kitt <steve@sk2.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] docs: sysctl/kernel: document cad_pid
-Message-ID: <20200428123950.16a4c494@lwn.net>
-In-Reply-To: <20200423183651.15365-1-steve@sk2.org>
-References: <20200423183651.15365-1-steve@sk2.org>
+Cc:     Mike Marshall <hubcap@omnibond.com>,
+        Martin Brandenburg <martin@omnibond.com>,
+        devel@lists.orangefs.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: orangefs: fix pvfs2tab literal block
+Message-ID: <20200428123600.2f0f908f@lwn.net>
+In-Reply-To: <20200424153515.134500-1-steve@sk2.org>
+References: <20200424153515.134500-1-steve@sk2.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,16 +43,15 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 23 Apr 2020 20:36:49 +0200
+On Fri, 24 Apr 2020 17:35:15 +0200
 Stephen Kitt <steve@sk2.org> wrote:
 
-> Based on the implementation in kernel/sysctl.c (the proc_do_cad_pid()
-> function), kernel/reboot.c, and include/linux/sched/signal.h.
+> Following a merge fix-up, the literal block is introduced too early;
+> this patch merges the localhost mention with the introduction, fixing
+> 
+> 	Documentation/filesystems/orangefs.rst:124: WARNING: Literal block expected; none found.
 > 
 > Signed-off-by: Stephen Kitt <steve@sk2.org>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
 
 Applied, thanks.
 
