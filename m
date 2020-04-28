@@ -2,94 +2,133 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C6BC83000
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:01:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16AFBC83007
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:08:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF1D8206A1
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:01:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA1C0206D9
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:08:04 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E4/lGb36"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729219AbgD1TBc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 15:01:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48574 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728625AbgD1TBb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 15:01:31 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F8DDC03C1AB;
-        Tue, 28 Apr 2020 12:01:31 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728823AbgD1TIE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 15:08:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32133 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728581AbgD1TIE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 15:08:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588100882;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vO4Cm8UdLpQ7CoyazjBPlfiZT+UDKaWc4FxUCYgXU0w=;
+        b=E4/lGb36j6Tz2eo4j0XZipXSPU/PHYjBX21E1Ssr32iSAlN2+gIY//WOgb/kUli19WI4I8
+        8MCQ6FS7x1FZ+aRGY9wMy/oDq2pgKVW4DLtyyRt3M/NqywWlt7tY8jTJWzeaZTkhRVsRho
+        7KK0KnRA74SL9wB2lgRV6cTVHYNThtE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-jYGlPKQCNoOI6Dqqt4M9zQ-1; Tue, 28 Apr 2020 15:07:58 -0400
+X-MC-Unique: jYGlPKQCNoOI6Dqqt4M9zQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9121944A;
-        Tue, 28 Apr 2020 19:01:29 +0000 (UTC)
-Date:   Tue, 28 Apr 2020 13:01:28 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, linux-cachefs@redhat.com,
-        codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-xfs@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 00/29] Convert files to ReST - part 2
-Message-ID: <20200428130128.22c4b973@lwn.net>
-In-Reply-To: <cover.1588021877.git.mchehab+huawei@kernel.org>
-References: <cover.1588021877.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CFCC18FE861;
+        Tue, 28 Apr 2020 19:07:55 +0000 (UTC)
+Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 759FE5D71E;
+        Tue, 28 Apr 2020 19:07:53 +0000 (UTC)
+Date:   Tue, 28 Apr 2020 13:07:52 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-mm@kvack.org,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [regression?] Re: [PATCH v6 06/12] mm/gup: track FOLL_PIN pages
+Message-ID: <20200428130752.75c153bd@w520.home>
+In-Reply-To: <20200428174957.GV26002@ziepe.ca>
+References: <20200211001536.1027652-1-jhubbard@nvidia.com>
+        <20200211001536.1027652-7-jhubbard@nvidia.com>
+        <20200424121846.5ee2685f@w520.home>
+        <5b901542-d949-8d7e-89c7-f8d5ee20f6e9@nvidia.com>
+        <20200424141548.5afdd2bb@w520.home>
+        <665ffb48-d498-90f4-f945-997a922fc370@nvidia.com>
+        <20200428105455.30343fb4@w520.home>
+        <20200428174957.GV26002@ziepe.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 27 Apr 2020 23:16:52 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Tue, 28 Apr 2020 14:49:57 -0300
+Jason Gunthorpe <jgg@ziepe.ca> wrote:
 
-> This is the second part of a series I wrote sometime ago where I manually
-> convert lots of files to be properly parsed by Sphinx as ReST files.
+> On Tue, Apr 28, 2020 at 10:54:55AM -0600, Alex Williamson wrote:
+> >  static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
+> >  {
+> >  	struct vfio_pci_device *vdev = device_data;
+> > @@ -1253,8 +1323,14 @@ static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
+> >  	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+> >  	vma->vm_pgoff = (pci_resource_start(pdev, index) >> PAGE_SHIFT) + pgoff;
+> >  
+> > +	vma->vm_ops = &vfio_pci_mmap_ops;
+> > +
+> > +#if 1
+> > +	return 0;
+> > +#else
+> >  	return remap_pfn_range(vma, vma->vm_start, vma->vm_pgoff,
+> > -			       req_len, vma->vm_page_prot);
+> > +			       vma->vm_end - vma->vm_start, vma->vm_page_prot);  
 > 
-> As it touches on lot of stuff, this series is based on today's linux-next, 
-> at tag next-20190617.
+> The remap_pfn_range here is what tells get_user_pages this is a
+> non-struct page mapping:
 > 
-> The first version of this series had 57 patches. The first part with 28 patches
-> were already merged. Right now, there are still ~76  patches pending applying
-> (including this series), and that's because I opted to do ~1 patch per converted
->  directory.
+> 	vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
 > 
-> That sounds too much to be send on a single round. So, I'm opting to split
-> it on 3 parts for the conversion, plus a final patch adding orphaned books
-> to existing ones. 
-> 
-> Those patches should probably be good to be merged either by subsystem
-> maintainers or via the docs tree.
+> Which has to be set when the VMA is created, they shouldn't be
+> modified during fault.
 
-So I'm happy to merge this set, but there is one thing that worries me a
-bit... 
+Aha, thanks Jason!  So fundamentally, pin_user_pages_remote() should
+never have been faulting in this vma since the pages are non-struct
+page backed.  Maybe I was just getting lucky before this commit.  For a
+VM_PFNMAP, vaddr_get_pfn() only needs pin_user_pages_remote() to return
+error and the vma information that we setup in vfio_pci_mmap().  We
+only need the fault handler to trigger for user access, which is what I
+see with this change.  That should work for me.
 
->  fs/cachefiles/Kconfig                         |    4 +-
->  fs/coda/Kconfig                               |    2 +-
->  fs/configfs/inode.c                           |    2 +-
->  fs/configfs/item.c                            |    2 +-
->  fs/fscache/Kconfig                            |    8 +-
->  fs/fscache/cache.c                            |    8 +-
->  fs/fscache/cookie.c                           |    2 +-
->  fs/fscache/object.c                           |    4 +-
->  fs/fscache/operation.c                        |    2 +-
->  fs/locks.c                                    |    2 +-
->  include/linux/configfs.h                      |    2 +-
->  include/linux/fs_context.h                    |    2 +-
->  include/linux/fscache-cache.h                 |    4 +-
->  include/linux/fscache.h                       |   42 +-
->  include/linux/lsm_hooks.h                     |    2 +-
+> Also the vma code above looked a little strange to me, if you do send
+> something like this cc me and I can look at it. I did some work like
+> this for rdma a while ago..
 
-I'd feel a bit better if I could get an ack or two from filesystem folks
-before I venture that far out of my own yard...what say you all?
+Cool, I'll do that.  I'd like to be able to zap the vmas from user
+access at a later point and I have doubts that I'm holding the
+refs/locks that I need to for that.  Thanks,
 
-Thanks,
+Alex
 
-jon
