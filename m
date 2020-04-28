@@ -2,93 +2,95 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BECCC83004
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 05:05:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 549A1C83006
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 05:53:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 19A59206D8
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 05:05:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26A3E206D6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 05:53:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aCpdTrXL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726256AbgD1FF1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 01:05:27 -0400
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:53195 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726042AbgD1FF1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 01:05:27 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R691e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01358;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0TwvHWrt_1588050323;
-Received: from localhost(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0TwvHWrt_1588050323)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 28 Apr 2020 13:05:24 +0800
-From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-To:     jeyu@kernel.org, corbet@lwn.net, rdunlap@infradead.org,
-        mchehab+samsung@kernel.org, tglx@linutronix.de,
+        id S1726377AbgD1FxB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 01:53:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726258AbgD1FxB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 01:53:01 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95F1EC03C1A9;
+        Mon, 27 Apr 2020 22:53:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=9XovULq8rJCuWXmFB4aDWCVuT48qS2yZ0ltStjBj4hM=; b=aCpdTrXL5xBMuDBIgagmp2g9ZQ
+        9aord42KwraiUSaEVoMLiPpaH6zjsWyRuEDa2eNLtNNtFecX9lc9xnoKg/elNnxSmtyjht7evkfqp
+        5jhC9NxXS4u/e94nSa87KnXf7J/TlD6xFel1PGwXXqepI6XDXwQ5dNJrsJhMVSdMD7JyV1x5La7P3
+        fv6FJMXX2dWE/kk3Zs1Intp9acSgOVu4GpSw+HZcRpNqs1DFT+3WF0Oh9KPJYcFjkFmPdt2b/XkGf
+        NaRhjRbDUCsfOfLmFkrgUapwKQvl12tG7ca329qjaeptall/qjs0VlzIFEOiI2c8bJLII0FEIUuZ0
+        f9FJAP/g==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jTJAw-0001r9-SN; Tue, 28 Apr 2020 05:52:58 +0000
+Subject: Re: [PATCH v2] module: Allow to disable modsign in kernel cmdline
+To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>, jeyu@kernel.org,
+        corbet@lwn.net, mchehab+samsung@kernel.org, tglx@linutronix.de,
         akpm@linux-foundation.org, gregkh@linuxfoundation.org,
         pawan.kumar.gupta@linux.intel.com, jgross@suse.com
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        tianjia.zhang@linux.alibaba.com
-Subject: [PATCH v2] module: Allow to disable modsign in kernel cmdline
-Date:   Tue, 28 Apr 2020 13:05:23 +0800
-Message-Id: <20200428050523.47253-1-tianjia.zhang@linux.alibaba.com>
-X-Mailer: git-send-email 2.17.1
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20200428050523.47253-1-tianjia.zhang@linux.alibaba.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <aff03dbb-a1a3-c95e-1c24-60279b14970a@infradead.org>
+Date:   Mon, 27 Apr 2020 22:52:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20200428050523.47253-1-tianjia.zhang@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This option allows to disable modsign completely at the beginning,
-and turn off by set the kernel cmdline `no_modsig_enforce` when
-`CONFIG_MODULE_SIG_FORCE` is enabled.
+Hi,
 
-Yet another change allows to always show the current status of
-modsign through `/sys/module/module/parameters/sig_enforce`.
+On 4/27/20 10:05 PM, Tianjia Zhang wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 7bc83f3d9bdf..00ed7566959f 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3190,6 +3190,12 @@
+>  	noirqdebug	[X86-32] Disables the code which attempts to detect and
+>  			disable unhandled interrupt sources.
+>  
+> +	no_modsig_enforce
+> +			[KNL] When CONFIG_MODULE_SIG_FORCE is set, this option
+> +			allows to disable modsign completely at the beginning.
+> +			This means that modules without (valid) signatures will
+> +			success to load.
 
-Signed-off-by: Jia Zhang <zhang.jia@linux.alibaba.com>
-Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
- kernel/module.c                                 | 8 ++++++++
- 2 files changed, 14 insertions(+)
+			succeed to load.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 7bc83f3d9bdf..00ed7566959f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3190,6 +3190,12 @@
- 	noirqdebug	[X86-32] Disables the code which attempts to detect and
- 			disable unhandled interrupt sources.
- 
-+	no_modsig_enforce
-+			[KNL] When CONFIG_MODULE_SIG_FORCE is set, this option
-+			allows to disable modsign completely at the beginning.
-+			This means that modules without (valid) signatures will
-+			success to load.
-+
- 	no_timer_check	[X86,APIC] Disables the code which tests for
- 			broken timer IRQ sources.
- 
-diff --git a/kernel/module.c b/kernel/module.c
-index 646f1e2330d2..0e68e1286377 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -269,6 +269,14 @@ static void module_assert_mutex_or_preempt(void)
- 
- static bool sig_enforce = IS_ENABLED(CONFIG_MODULE_SIG_FORCE);
- module_param(sig_enforce, bool_enable_only, 0644);
-+#ifdef CONFIG_MODULE_SIG_FORCE
-+static int __init set_no_modsig_enforce(char *str)
-+{
-+	sig_enforce = false;
-+	return 1;
-+}
-+__setup("no_modsig_enforce", set_no_modsig_enforce);
-+#endif /* !CONFIG_MODULE_SIG_FORCE */
- 
- /*
-  * Export sig_enforce kernel cmdline parameter to allow other subsystems rely
+			succeed in loading.
+
+			load successfully.
+I prefer this one.....  ^^^^^^^^^^^^^^^^^^^^^
+
+			be loaded successfully.
+
+
+> +
+>  	no_timer_check	[X86,APIC] Disables the code which tests for
+>  			broken timer IRQ sources.
+>  
+
+thanks.
 -- 
-2.17.1
+~Randy
 
