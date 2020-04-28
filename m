@@ -2,78 +2,67 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C02C83008
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 864F6C8300A
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:53:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF931206A1
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:53:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E552206A1
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:53:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730081AbgD1SxO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 14:53:14 -0400
-Received: from ms.lwn.net ([45.79.88.28]:41470 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729503AbgD1SxN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Apr 2020 14:53:13 -0400
+        id S1730484AbgD1Sxg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 14:53:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730175AbgD1Se4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 14:34:56 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4566DC03C1AB;
+        Tue, 28 Apr 2020 11:34:56 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6E7352D6;
-        Tue, 28 Apr 2020 18:53:13 +0000 (UTC)
-Date:   Tue, 28 Apr 2020 12:53:12 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id E139C44A;
+        Tue, 28 Apr 2020 18:34:55 +0000 (UTC)
+Date:   Tue, 28 Apr 2020 12:34:54 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-doc@vger.kernel.org, Harry Wei <harryxiyou@gmail.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] More changes for sphinx-pre-install script
-Message-ID: <20200428125312.1bfb20f4@lwn.net>
-In-Reply-To: <cover.1587478901.git.mchehab+huawei@kernel.org>
-References: <cover.1587478901.git.mchehab+huawei@kernel.org>
+Subject: Re: [RFC] Documentation: zh_CN: convert to use
+ i2c_new_client_device()
+Message-ID: <20200428123454.4ccbaf6c@lwn.net>
+In-Reply-To: <cb2d1373-5bb3-93c2-f5af-40a04b21651b@linux.alibaba.com>
+References: <20200425100616.3363-1-wsa+renesas@sang-engineering.com>
+        <cb2d1373-5bb3-93c2-f5af-40a04b21651b@linux.alibaba.com>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 21 Apr 2020 16:31:04 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Sat, 25 Apr 2020 22:26:57 +0800
+Alex Shi <alex.shi@linux.alibaba.com> wrote:
 
-> As asked, I changed the sphinx-pre-install script to print a different message
-> for the PDF minimal recommended version. This change itself was easy,
-> but, while testing the patch, I noticed some new weird behaviors when python
-> venv is used.
+> 在 2020/4/25 下午6:06, Wolfram Sang 写道:
+> > Move away from the deprecated API and advertise the new one.
+> > 
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > ---
+> > 
+> > I can't read Chinese. But given the context, I think just updating to
+> > the new function name is enough. Please let me know if not. Thanks!  
 > 
-> Basically, when using python venv, the venv environment will contain python
-> itself. So, an attempt to create a new virtual environment to upgrade a version
-> fails (at least here with Fedora 31). As I didn't notice this behavior before,
-> maybe the problem was due to some Fedora upgrade.
+> It looks good. Thanks!
 > 
-> In any case, the approach I took should be generic enough to work past eventual
-> distro packaging differences.
-> 
-> -
-> 
-> At the end,  instead of a single patch, I ended needing to fix some other stuff, 
-> for this to work better. Oh well...
-> 
-> The good news is that, at the cost of a slicely more complex logic, the script
-> should now detect if a virtual environment works and to recommend activating
-> a newer environment if it exists (instead of recommending to reinstall a
-> venv using the name of an already-existing directory).
-> 
-> Mauro Carvalho Chehab (5):
->   scripts: sphinx-pre-install: only ask to activate valid venvs
->   scripts: sphinx-pre-install: change the warning for version < 2.4.4
->   scripts: sphinx-pre-install: change recommendation text if venv exists
->   scripts: sphinx-pre-install: fix a bug when using with venv
->   scripts: sphinx-pre-install: change the output order
+> Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
 
-Series applied, thanks.
+Applied, thanks.
 
 jon
