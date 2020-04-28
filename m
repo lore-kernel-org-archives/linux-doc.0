@@ -2,282 +2,236 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 419ADC83004
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 21:00:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9DE0C83007
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 21:14:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B463206F0
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 21:00:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6E0720787
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 21:14:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JgEAb8a1"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UNNXZ0gc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbgD1U7b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 16:59:31 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:49238 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726284AbgD1U7a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 16:59:30 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03SKrEXY127565;
-        Tue, 28 Apr 2020 20:56:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=3akuBY5peJ32hdSL7z2JVTSyubH1r3MFILK0dNcY4uM=;
- b=JgEAb8a1D3CblzJDsr6u8uxuSHmWUlG8jOSiPjtPGJhtajkS2gMeVm40YBUyfNqBk49P
- enIfnkVJL1vk7wzZRMLUxnX+QxaCqBLRZWSmFuB9mxmWXq12hgMkxrDk4M11ra6/SZ+R
- /m7hNnpSFimfkT/gTkJXoc2p5UXNf4zrCrYPzQJDnyPOeXY8KFuLGoTrUTaSviKpl2w9
- NDupo9xOUMhIxp9pGq1JrQf6utTc0ivWUR/4G4/p1roJDr36toKPpJM+HnoYZrrqbAN9
- RPm9UcT/MycBeZ+uz9VUMwFKdHC/n7MaTJ8f64WwFxkNdBHuwOu/ogVFvHU2+EexFTkK kg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2130.oracle.com with ESMTP id 30p01nrvqu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 28 Apr 2020 20:56:33 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03SKqghN195568;
-        Tue, 28 Apr 2020 20:56:32 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 30mxpgypu1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 28 Apr 2020 20:56:32 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 03SKuTNH015099;
-        Tue, 28 Apr 2020 20:56:30 GMT
-Received: from monkey.oracle.com (/71.63.128.209)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 28 Apr 2020 13:56:29 -0700
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Longpeng <longpeng2@huawei.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mina Almasry <almasrymina@google.com>,
-        Peter Xu <peterx@redhat.com>,
-        Nitesh Narayan Lal <nitesh@redhat.com>,
+        id S1726274AbgD1VOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 17:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41072 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726685AbgD1VOT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 17:14:19 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBB2C03C1AD
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 14:14:18 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id c21so8194628plz.4
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 14:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=blBX9PWhrLwlRC4CxObQ1qK+sOW74s4G2bfD1JGu8J0=;
+        b=UNNXZ0gcnR3k6hJj/LbVp66fJcTUI1AFvWnj3RHMoXFYmyCcp6PtCAYQY6fvgKQeJD
+         MNV2wxAxPwLdM2hLs+qKupu4j9AUnqtqg77PSykw/jl+HCbCHt+4x9VIpHELo/PYeprO
+         ilL6JtVgwda3tXbtK2W1ejaJ71UjYuT29uXvM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=blBX9PWhrLwlRC4CxObQ1qK+sOW74s4G2bfD1JGu8J0=;
+        b=fuiYPnhy7o7A5cZA2S60rEiyB25E4BELra55CoJieFZDj6gSi+hbDO4KHgv9IOxqTS
+         vAXaEFmVTFXyt4I+irxsejQQUDtM0aT/1N2EkKrixFC6JXuV+1M759uPY+JlLuQIlo3q
+         hmmEACn+nCoRmeARGd7MC+0JGn73sK/b7DN5RIR+LRpbCkRGYd3DRtbfC3gimAYlzVNO
+         P4GJrzKeXi8ROCGIWzXjE19/01pOI3QCx/Zsk8bi0PwevuQhrjVtbPgUgVqJp/FNlh5s
+         Xc0B0YLuyu72rXc1EsnC4FNF9AY76KWz5N5kmUqznNwxXlAHpy2hFxHQbBN5V1jvvNGB
+         1nUw==
+X-Gm-Message-State: AGi0PuY0LO0Ig0lxwOXuNsNpJ+y0BVQkfzwChPH1dakdUqbErZIhHYJq
+        kyJL1APqTPJROX1XAFAJR+K4ug==
+X-Google-Smtp-Source: APiQypLBYIwFGtYJq3pkWPIKkLwZi7SFfBVlMgfwE6B5z2rF+bbbLHTii8gKjfoQdnIZvUKuTl6BCA==
+X-Received: by 2002:a17:90a:718c:: with SMTP id i12mr7485056pjk.58.1588108458221;
+        Tue, 28 Apr 2020 14:14:18 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+        by smtp.gmail.com with ESMTPSA id 18sm2988202pjf.30.2020.04.28.14.14.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2020 14:14:17 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     jason.wessel@windriver.com, daniel.thompson@linaro.org,
+        gregkh@linuxfoundation.org
+Cc:     agross@kernel.org, kgdb-bugreport@lists.sourceforge.net,
+        catalin.marinas@arm.com, linux-serial@vger.kernel.org,
+        sumit.garg@linaro.org, corbet@lwn.net, mingo@redhat.com,
+        will@kernel.org, hpa@zytor.com, tglx@linutronix.de,
+        frowand.list@gmail.com, bp@alien8.de, bjorn.andersson@linaro.org,
+        jslaby@suse.com, Douglas Anderson <dianders@chromium.org>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Allison Randal <allison@lohutok.net>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH v4 3/4] hugetlbfs: remove hugetlb_add_hstate() warning for existing hstate
-Date:   Tue, 28 Apr 2020 13:56:13 -0700
-Message-Id: <20200428205614.246260-4-mike.kravetz@oracle.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20200428205614.246260-1-mike.kravetz@oracle.com>
-References: <20200428205614.246260-1-mike.kravetz@oracle.com>
+        Dave Martin <Dave.Martin@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        James Morse <james.morse@arm.com>,
+        Juergen Gross <jgross@suse.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Russell King <linux@armlinux.org.uk>,
+        jinho lim <jordan.lim@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v3 00/11] kgdb: Support late serial drivers; enable early debug w/ boot consoles
+Date:   Tue, 28 Apr 2020 14:13:40 -0700
+Message-Id: <20200428211351.85055-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.26.2.303.gf8c07b1a785-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
- mlxscore=0 bulkscore=0 adultscore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004280163
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 clxscore=1015
- phishscore=0 mlxlogscore=999 adultscore=0 priorityscore=1501 mlxscore=0
- suspectscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004280163
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The routine hugetlb_add_hstate prints a warning if the hstate already
-exists.  This was originally done as part of kernel command line
-parsing.  If 'hugepagesz=' was specified more than once, the warning
-	pr_warn("hugepagesz= specified twice, ignoring\n");
-would be printed.
+This whole pile of patches was motivated by me trying to get kgdb to
+work properly on a platform where my serial driver ended up being hit
+by the -EPROBE_DEFER virus (it wasn't practicing social distancing
+from other drivers).  Specifically my serial driver's parent device
+depended on a resource that wasn't available when its probe was first
+called.  It returned -EPROBE_DEFER which meant that when "kgdboc"
+tried to run its setup the serial driver wasn't there.  Unfortunately
+"kgdboc" never tried again, so that meant that kgdb was disabled until
+I manually enalbed it via sysfs.
 
-Some architectures want to enable all huge page sizes.  They would
-call hugetlb_add_hstate for all supported sizes.  However, this was
-done after command line processing and as a result hstates could have
-already been created for some sizes.  To make sure no warning were
-printed, there would often be code like:
-	if (!size_to_hstate(size)
-		hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT)
+While I could try to figure out how to get around the -EPROBE_DEFER
+somehow, the above problems could happen to anyone and -EPROBE_DEFER
+is generally considered something you just have to live with.  In any
+case the current "kgdboc" setup is a bit of a race waiting to happen.
+I _think_ I saw during early testing that even adding a msleep() in
+the typical serial driver's probe() is enough to trigger similar
+issues.
 
-The only time we want to print the warning is as the result of command
-line processing.  So, remove the warning from hugetlb_add_hstate and
-add it to the single arch independent routine processing "hugepagesz=".
-After this, calls to size_to_hstate() in arch specific code can be
-removed and hugetlb_add_hstate can be called without worrying about
-warning messages.
+I decided that for the above race the best attitude to get kgdb to
+register at boot was probably "if you can't beat 'em, join 'em".
+Thus, "kgdboc" now jumps on the -EPROBE_DEFER bandwagon (now that my
+driver uses it it's no longer a virus).  It does so a little awkwardly
+because "kgdboc" hasn't normally had a "struct device" associated with
+it, but it's really not _that_ ugly to make a platform device and
+seems less ugly than alternatives.
 
-Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
-Acked-by: Mina Almasry <almasrymina@google.com>
-Acked-by: Gerald Schaefer <gerald.schaefer@de.ibm.com>  [s390]
-Acked-by: Will Deacon <will@kernel.org>
-Tested-by: Anders Roxell <anders.roxell@linaro.org>
----
- arch/arm64/mm/hugetlbpage.c   | 16 ++++------------
- arch/powerpc/mm/hugetlbpage.c |  3 +--
- arch/riscv/mm/hugetlbpage.c   |  2 +-
- arch/sparc/mm/init_64.c       | 19 ++++---------------
- arch/x86/mm/hugetlbpage.c     |  2 +-
- mm/hugetlb.c                  |  9 ++++++---
- 6 files changed, 17 insertions(+), 34 deletions(-)
+Unfortunately now on my system the debugger is one of the last things
+to register at boot.  That's OK for debugging problems that show up
+significantly after boot, but isn't so hot for all the boot problems
+that I end up debugging.  This motivated me to try to get something
+working a little earlier.
 
-diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
-index f706b821aba6..14bed8f4674a 100644
---- a/arch/arm64/mm/hugetlbpage.c
-+++ b/arch/arm64/mm/hugetlbpage.c
-@@ -441,22 +441,14 @@ void huge_ptep_clear_flush(struct vm_area_struct *vma,
- 	clear_flush(vma->vm_mm, addr, ptep, pgsize, ncontig);
- }
- 
--static void __init add_huge_page_size(unsigned long size)
--{
--	if (size_to_hstate(size))
--		return;
--
--	hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT);
--}
--
- static int __init hugetlbpage_init(void)
- {
- #ifdef CONFIG_ARM64_4K_PAGES
--	add_huge_page_size(PUD_SIZE);
-+	hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
- #endif
--	add_huge_page_size(CONT_PMD_SIZE);
--	add_huge_page_size(PMD_SIZE);
--	add_huge_page_size(CONT_PTE_SIZE);
-+	hugetlb_add_hstate((CONT_PMD_SHIFT + PMD_SHIFT) - PAGE_SHIFT);
-+	hugetlb_add_hstate(PMD_SHIFT - PAGE_SHIFT);
-+	hugetlb_add_hstate((CONT_PTE_SHIFT + PAGE_SHIFT) - PAGE_SHIFT);
- 
- 	return 0;
- }
-diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpage.c
-index 2c3fa0a7787b..4d5ed1093615 100644
---- a/arch/powerpc/mm/hugetlbpage.c
-+++ b/arch/powerpc/mm/hugetlbpage.c
-@@ -584,8 +584,7 @@ static int __init add_huge_page_size(unsigned long long size)
- 	if (!arch_hugetlb_valid_size((unsigned long)size))
- 		return -EINVAL;
- 
--	if (!size_to_hstate(size))
--		hugetlb_add_hstate(shift - PAGE_SHIFT);
-+	hugetlb_add_hstate(shift - PAGE_SHIFT);
- 	return 0;
- }
- 
-diff --git a/arch/riscv/mm/hugetlbpage.c b/arch/riscv/mm/hugetlbpage.c
-index 4e5d7e9f0eef..932dadfdca54 100644
---- a/arch/riscv/mm/hugetlbpage.c
-+++ b/arch/riscv/mm/hugetlbpage.c
-@@ -26,7 +26,7 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
- static __init int gigantic_pages_init(void)
- {
- 	/* With CONTIG_ALLOC, we can allocate gigantic pages at runtime */
--	if (IS_ENABLED(CONFIG_64BIT) && !size_to_hstate(1UL << PUD_SHIFT))
-+	if (IS_ENABLED(CONFIG_64BIT))
- 		hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
- 	return 0;
- }
-diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
-index 4618f96fd30f..ae819a16d07a 100644
---- a/arch/sparc/mm/init_64.c
-+++ b/arch/sparc/mm/init_64.c
-@@ -325,23 +325,12 @@ static void __update_mmu_tsb_insert(struct mm_struct *mm, unsigned long tsb_inde
- }
- 
- #ifdef CONFIG_HUGETLB_PAGE
--static void __init add_huge_page_size(unsigned long size)
--{
--	unsigned int order;
--
--	if (size_to_hstate(size))
--		return;
--
--	order = ilog2(size) - PAGE_SHIFT;
--	hugetlb_add_hstate(order);
--}
--
- static int __init hugetlbpage_init(void)
- {
--	add_huge_page_size(1UL << HPAGE_64K_SHIFT);
--	add_huge_page_size(1UL << HPAGE_SHIFT);
--	add_huge_page_size(1UL << HPAGE_256MB_SHIFT);
--	add_huge_page_size(1UL << HPAGE_2GB_SHIFT);
-+	hugetlb_add_hstate(HPAGE_64K_SHIFT - PAGE_SHIFT);
-+	hugetlb_add_hstate(HPAGE_SHIFT - PAGE_SHIFT);
-+	hugetlb_add_hstate(HPAGE_256MB_SHIFT - PAGE_SHIFT);
-+	hugetlb_add_hstate(HPAGE_2GB_SHIFT - PAGE_SHIFT);
- 
- 	return 0;
- }
-diff --git a/arch/x86/mm/hugetlbpage.c b/arch/x86/mm/hugetlbpage.c
-index 937d640a89e3..cf5781142716 100644
---- a/arch/x86/mm/hugetlbpage.c
-+++ b/arch/x86/mm/hugetlbpage.c
-@@ -195,7 +195,7 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
- static __init int gigantic_pages_init(void)
- {
- 	/* With compaction or CMA we can allocate gigantic pages at runtime */
--	if (boot_cpu_has(X86_FEATURE_GBPAGES) && !size_to_hstate(1UL << PUD_SHIFT))
-+	if (boot_cpu_has(X86_FEATURE_GBPAGES))
- 		hugetlb_add_hstate(PUD_SHIFT - PAGE_SHIFT);
- 	return 0;
- }
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 6a8454bc2917..2ae0e506cfc7 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -3222,8 +3222,7 @@ static int __init hugetlb_init(void)
- 		}
- 
- 		default_hstate_size = HPAGE_SIZE;
--		if (!size_to_hstate(default_hstate_size))
--			hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
-+		hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
- 	}
- 	default_hstate_idx = hstate_index(size_to_hstate(default_hstate_size));
- 	if (default_hstate_max_huge_pages) {
-@@ -3268,7 +3267,6 @@ void __init hugetlb_add_hstate(unsigned int order)
- 	unsigned long i;
- 
- 	if (size_to_hstate(PAGE_SIZE << order)) {
--		pr_warn("hugepagesz= specified twice, ignoring\n");
- 		return;
- 	}
- 	BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
-@@ -3343,6 +3341,11 @@ static int __init hugepagesz_setup(char *s)
- 		return 0;
- 	}
- 
-+	if (size_to_hstate(size)) {
-+		pr_warn("HugeTLB: hugepagesz %s specified twice, ignoring\n", s);
-+		return 0;
-+	}
-+
- 	hugetlb_add_hstate(ilog2(size) - PAGE_SHIFT);
- 	return 1;
- }
+My first attempt was to try to get the existing "ekgdboc" to work
+earlier.  I tried that for a bit until I realized that it needed to
+work at the tty layer and I couldn't find any serial drivers that
+managed to register themselves to the tty layer super early at boot.
+The only documented use of "ekgdboc" is "ekgdboc=kbd" and that's a bit
+of a special snowflake.  Trying to get my serial driver and all its
+dependencies to probe normally and register the tty driver super early
+at boot seemed like a bad way to go.  In fact, all the complexity
+needed to do something like this is why the system already has a
+special concept of a "boot console" that lives only long enough to
+transition to the normal console.
+
+Leveraging the boot console seemed like a good way to go and that's
+what this series does.  I found that consoles could have a read()
+function, though I couldn't find anyone who implemented it.  I
+implemented it for two serial drivers for the devices I had easy
+access to, making the assumption that for boot consoles that we could
+assume read() and write() were polling-compatible (seems sane I
+think).
+
+Now anyone who makes a small change to their serial driver can easily
+enable early kgdb debugging!
+
+The devices I had for testing were:
+- arm32: rk3288-veyron-jerry
+- arm64: rk3399-gru-kevin
+- arm64: qcom-sc7180-trogdor (not mainline yet)
+
+These are the devices I tested this series on.  I tried to test
+various combinations of enabling/disabling various options and I
+hopefully caught the corner cases, but I'd appreciate any extra
+testing people can do.  Notably I didn't test on x86, but (I think) I
+didn't touch much there so I shouldn't have broken anything.
+
+When testing I found a few problems with actually dropping into the
+debugger super early on arm and arm64 devices.  Patches in this series
+should help with this.  For arm I just avoid dropping into the
+debugger until a little later and for arm64 I actually enable
+debugging super early.
+
+I realize that bits of this series might feel a little hacky, though
+I've tried to do things in the cleanest way I could without overly
+interferring with the rest of the kernel.  If you hate the way I
+solved a problem I would love it if you could provide guidance on how
+you think I could solve the problem better.
+
+This series (and my comments / documentation / commit messages) are
+now long enough that my eyes glaze over when I try to read it all over
+to double-check.  I've nontheless tried to double-check it, but I'm
+pretty sure I did something stupid.  Thank you ahead of time for
+pointing it out to me so I can fix it in v4.  If somehow I managed to
+not do anything stupid (really?) then thank you for double-checking me
+anyway.
+
+NOTE: v3 of the patch series tacks on support for an extra serial
+driver from Sumit Garg.  I've piled it onto the end of my series at
+his request just to keep everything together.
+
+Changes in v3:
+- ("kgdb: Prevent infinite recursive entries to the debugger") new for v3.
+- ("serial: amba-pl011: Support kgdboc_earlycon") pulled into my v3.
+- Add deinit() to I/O ops to know a driver can be replaced.
+- Added example in kgdb.rst
+- Change boolean weak function to KConfig.
+- Don't just neuter input, panic if earlycon vanishes.
+- No extra param to kgdb_register_io_module().
+- Removed unneeded sentence in kerenel-parameters doc.
+- Renamed earlycon_kgdboc to kgdboc_earlycon.
+- Simplify earlycon_kgdb deinit by using the deinit() function.
+- Suggest people use kgdboc_earlycon instead of ekgdboc.
+- { ; } ==> { }
+
+Changes in v2:
+- ("Revert "kgdboc: disable the console lock when in kgdb"") new for v2.
+- ("kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb") new for v2.
+- Assumes we have ("kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb")
+- Fix kgdbts, tty/mips_ejtag_fdc, and usb/early/ehci-dbgp
+
+Douglas Anderson (10):
+  kgdb: Disable WARN_CONSOLE_UNLOCKED for all kgdb
+  Revert "kgdboc: disable the console lock when in kgdb"
+  kgdboc: Use a platform device to handle tty drivers showing up late
+  kgdb: Delay "kgdbwait" to dbg_late_init() by default
+  arm64: Add call_break_hook() to early_brk64() for early kgdb
+  kgdb: Prevent infinite recursive entries to the debugger
+  kgdboc: Add kgdboc_earlycon to support early kgdb using boot consoles
+  Documentation: kgdboc: Document new kgdboc_earlycon parameter
+  serial: qcom_geni_serial: Support kgdboc_earlycon
+  serial: 8250_early: Support kgdboc_earlycon
+
+Sumit Garg (1):
+  serial: amba-pl011: Support kgdboc_earlycon
+
+ .../admin-guide/kernel-parameters.txt         |  20 ++
+ Documentation/dev-tools/kgdb.rst              |  24 ++
+ arch/arm64/Kconfig                            |   1 +
+ arch/arm64/include/asm/debug-monitors.h       |   2 +
+ arch/arm64/kernel/debug-monitors.c            |   2 +-
+ arch/arm64/kernel/traps.c                     |   3 +
+ arch/x86/Kconfig                              |   1 +
+ drivers/tty/serial/8250/8250_early.c          |  23 ++
+ drivers/tty/serial/amba-pl011.c               |  32 +++
+ drivers/tty/serial/kgdboc.c                   | 266 ++++++++++++++++--
+ drivers/tty/serial/qcom_geni_serial.c         |  32 +++
+ include/linux/kgdb.h                          |   4 +
+ kernel/debug/debug_core.c                     |  53 +++-
+ lib/Kconfig.kgdb                              |  18 ++
+ 14 files changed, 437 insertions(+), 44 deletions(-)
+
 -- 
-2.25.4
+2.26.2.303.gf8c07b1a785-goog
 
