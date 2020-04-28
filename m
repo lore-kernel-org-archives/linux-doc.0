@@ -2,44 +2,42 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B527C8300A
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C6BC83000
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:01:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35A6E2085B
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:00:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF1D8206A1
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:01:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729018AbgD1S1i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 14:27:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43230 "EHLO
+        id S1729219AbgD1TBc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 15:01:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729012AbgD1S1h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 14:27:37 -0400
+        by vger.kernel.org with ESMTP id S1728625AbgD1TBb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 15:01:31 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5016C03C1AB;
-        Tue, 28 Apr 2020 11:27:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F8DDC03C1AB;
+        Tue, 28 Apr 2020 12:01:31 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1D61B4B7;
-        Tue, 28 Apr 2020 18:27:37 +0000 (UTC)
-Date:   Tue, 28 Apr 2020 12:27:36 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 9121944A;
+        Tue, 28 Apr 2020 19:01:29 +0000 (UTC)
+Date:   Tue, 28 Apr 2020 13:01:28 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Flavio Suligoi <f.suligoi@asem.it>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Changbin Du <changbin.du@intel.com>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: x86: fix space instead of tab in uefi
- doc
-Message-ID: <20200428122736.219e21ba@lwn.net>
-In-Reply-To: <1588080745-21999-1-git-send-email-f.suligoi@asem.it>
-References: <1588080745-21999-1-git-send-email-f.suligoi@asem.it>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-cachefs@redhat.com,
+        codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-xfs@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 00/29] Convert files to ReST - part 2
+Message-ID: <20200428130128.22c4b973@lwn.net>
+In-Reply-To: <cover.1588021877.git.mchehab+huawei@kernel.org>
+References: <cover.1588021877.git.mchehab+huawei@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -49,26 +47,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 28 Apr 2020 15:32:25 +0200
-Flavio Suligoi <f.suligoi@asem.it> wrote:
+On Mon, 27 Apr 2020 23:16:52 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> ---
->  Documentation/x86/x86_64/uefi.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This is the second part of a series I wrote sometime ago where I manually
+> convert lots of files to be properly parsed by Sphinx as ReST files.
 > 
-> diff --git a/Documentation/x86/x86_64/uefi.rst b/Documentation/x86/x86_64/uefi.rst
-> index 88c3ba3..3b89410 100644
-> --- a/Documentation/x86/x86_64/uefi.rst
-> +++ b/Documentation/x86/x86_64/uefi.rst
-> @@ -36,7 +36,7 @@ Mechanics
->  
->  	elilo bootloader with x86_64 support, elilo configuration file,
->  	kernel image built in first step and corresponding
-> -	initrd. Instructions on building elilo	and its dependencies
-> +	initrd. Instructions on building elilo and its dependencies
->  	can be found in the elilo sourceforge project.
+> As it touches on lot of stuff, this series is based on today's linux-next, 
+> at tag next-20190617.
+> 
+> The first version of this series had 57 patches. The first part with 28 patches
+> were already merged. Right now, there are still ~76  patches pending applying
+> (including this series), and that's because I opted to do ~1 patch per converted
+>  directory.
+> 
+> That sounds too much to be send on a single round. So, I'm opting to split
+> it on 3 parts for the conversion, plus a final patch adding orphaned books
+> to existing ones. 
+> 
+> Those patches should probably be good to be merged either by subsystem
+> maintainers or via the docs tree.
 
-Applied, thanks.
+So I'm happy to merge this set, but there is one thing that worries me a
+bit... 
+
+>  fs/cachefiles/Kconfig                         |    4 +-
+>  fs/coda/Kconfig                               |    2 +-
+>  fs/configfs/inode.c                           |    2 +-
+>  fs/configfs/item.c                            |    2 +-
+>  fs/fscache/Kconfig                            |    8 +-
+>  fs/fscache/cache.c                            |    8 +-
+>  fs/fscache/cookie.c                           |    2 +-
+>  fs/fscache/object.c                           |    4 +-
+>  fs/fscache/operation.c                        |    2 +-
+>  fs/locks.c                                    |    2 +-
+>  include/linux/configfs.h                      |    2 +-
+>  include/linux/fs_context.h                    |    2 +-
+>  include/linux/fscache-cache.h                 |    4 +-
+>  include/linux/fscache.h                       |   42 +-
+>  include/linux/lsm_hooks.h                     |    2 +-
+
+I'd feel a bit better if I could get an ack or two from filesystem folks
+before I venture that far out of my own yard...what say you all?
+
+Thanks,
 
 jon
