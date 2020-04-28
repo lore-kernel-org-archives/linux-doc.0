@@ -2,165 +2,99 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB11C83007
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:22:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5679BC83000
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:25:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA008208E0
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:22:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34A6C2070B
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 19:25:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="IaqMz7fb"
+	dkim=pass (2048-bit key) header.d=cs-cmu-edu.20150623.gappssmtp.com header.i=@cs-cmu-edu.20150623.gappssmtp.com header.b="OX9cephv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728808AbgD1TWz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 15:22:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51908 "EHLO
+        id S1728749AbgD1TZN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 15:25:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728608AbgD1TWy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 15:22:54 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A26C03C1AE
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 12:22:53 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id b1so14647913qtt.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 12:22:53 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1728574AbgD1TZM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 15:25:12 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EFC1C03C1AE
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 12:25:12 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id t20so6265212qtq.13
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 12:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=PYh9xmPfS312gCXfdzhUhHbtCQqRUOprLrWe8CN4KOQ=;
-        b=IaqMz7fb472+OlDu/UtAPP5H+bEwqwBkv7FKc1L94GjxtlTO3HofyKc3+k1PZRn2CE
-         u5u0gaOk6CTvlgtWoV7WkcLyMMWDDByJBX4+NBa/Ai+qIDx7ptplcsoNv6n0RXW5cKHJ
-         BpT/G6Ytr6MOwdAqTxCSknBOIuGx2K1nQzIu/26RuQIn2q2CixGKNAQWHO9HC+kIJ6en
-         DjH++ipC58RYznVw+z6+Qeo6pojXT67RWJXt/q/mlHe+2BYA+Hgz5SAqDwMVQW6yvgmw
-         1EZWfWjkNAHYJpyVl8SMlzBYUVyidDpy+cz9e/t0fQiAVMVH+LsFkfRWZ/6+W/TPuCGL
-         mdNg==
+        d=cs-cmu-edu.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vip41qUVMKBqTzEGULB2fq8TW2WA+09ehaEg4M6b7gA=;
+        b=OX9cephvVUT6NSDLm2aPp0wg7GbJRFkTlOE6HtLl4AbVbrBiWitjfdPqKFn2uTTlo6
+         RZZdVY5cYJ+X7nFP4U5wwIm17XpQi5lJMGdnsrRRWdXhllecGup4mn011MRDxqd3PaX1
+         pXXo7vzr8OqmVOdwIAIy9lxu/ZmUvfEliPItaLNfxjqDftU0dYHi4Rqi6laIoRZoWuq6
+         QUwdoT7Qegg/09sur7Wia9CP4DHAidc5klwQee/5ecVGpPPKoPvyQ94BuQk8ERNSDOBw
+         I9n2PPZxuM4t/KRY1hbRe5t/i6EWjpMK7w0MzwXDgyzGwrJciJy1oRw5ZNA/A4Ib1xiv
+         Z8wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=PYh9xmPfS312gCXfdzhUhHbtCQqRUOprLrWe8CN4KOQ=;
-        b=WES/kQr2cfYKgW8N8BoD8o4OYDC9YZHOpWzY+21On7Yr4GQB9ifDgru6ZsMIFcvMrT
-         AP5FlHPOZlipYqyJm1QTQ5QbD6j8k9VWnoIBDF8Ue4NmHb1Yvcdp4LHUjNQbnrbY3gUJ
-         A1SFnnvTdXE8B1hDyR3YSkNgGFvZx5r3u2aFGQ313Ser3jNqla1YIqjb22378TsFMRSY
-         Nfc+ACdJOJs8JAyfYBfoz+ce4Sgl6x33KYAIysg+/XmWfKvQW6eIKKdSh5XFCwqmF0oI
-         x97Q/l0fAqlAxrLW8i4AdCx/sNLAdDEWuvL/4SYdwBlzUtW0lmG2i3mq+puZkgijQSRn
-         +xBA==
-X-Gm-Message-State: AGi0PuYbjVEJLdJu8tEyzyCTDwKByGBrZLoGBqSDi4eFL1b0UKI9aTzg
-        Ov53Oud6rs2t1/AvRzXqPRCh0w==
-X-Google-Smtp-Source: APiQypIm2iy0fehpUXGvgzCJ3YVuZRDehWEKh6i0g/stChUO8xvKnvqB7LdZZZ9J+nCT5SrC5sQ09A==
-X-Received: by 2002:ac8:2fda:: with SMTP id m26mr29942561qta.80.1588101773137;
-        Tue, 28 Apr 2020 12:22:53 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id j92sm14236451qtd.58.2020.04.28.12.22.52
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 28 Apr 2020 12:22:52 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jTVoh-00070x-RA; Tue, 28 Apr 2020 16:22:51 -0300
-Date:   Tue, 28 Apr 2020 16:22:51 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     John Hubbard <jhubbard@nvidia.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-mm@kvack.org,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [regression?] Re: [PATCH v6 06/12] mm/gup: track FOLL_PIN pages
-Message-ID: <20200428192251.GW26002@ziepe.ca>
-References: <20200211001536.1027652-1-jhubbard@nvidia.com>
- <20200211001536.1027652-7-jhubbard@nvidia.com>
- <20200424121846.5ee2685f@w520.home>
- <5b901542-d949-8d7e-89c7-f8d5ee20f6e9@nvidia.com>
- <20200424141548.5afdd2bb@w520.home>
- <665ffb48-d498-90f4-f945-997a922fc370@nvidia.com>
- <20200428105455.30343fb4@w520.home>
- <20200428174957.GV26002@ziepe.ca>
- <20200428130752.75c153bd@w520.home>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=vip41qUVMKBqTzEGULB2fq8TW2WA+09ehaEg4M6b7gA=;
+        b=OZzcitNotFaaz+EPQMZ8GTTiWUcmJsgonivxGXaS8pORiwY8kT3pS0T5Memrex1+Hk
+         KW4tITZoYDDug3ZpI/TAR/LOHdikVPjx9mFXynZn3+uuArDFOYkYjMgDsqD8gAN0SmJW
+         sVLNxLQkOl23JQ24SZ7X4v6iZK563jucugAi70B78uJ3dpcleep2tiKv6wDCYvIv1UPE
+         7G3KAorNIWou4aT/x4ZDYvDkM24rsz9KNLT2bD6ujI7+8KIs8cmBp9R43vu2bVaMVfpQ
+         rh0oKtKGCkNNxTczjiOzEHGw8k3svEZ75q3tAxHbspG3vdNeRn8rzY7by4iB29GN0A7E
+         LEHQ==
+X-Gm-Message-State: AGi0PuZi+g2UBiX5Xdf7tmw00TZivxU8km7H3fJUoaiOj2KcDF4xpl5T
+        wkZ+5K0AN6stJmvSoyPKeELPsA==
+X-Google-Smtp-Source: APiQypIhJhTV5HGwJH/cgQxWAhYS/uXm9mZJikUijUM58zV+qHDsER/fp3y62V6/MA+IjGf4ymv/JQ==
+X-Received: by 2002:ac8:1a2b:: with SMTP id v40mr30279995qtj.170.1588101910910;
+        Tue, 28 Apr 2020 12:25:10 -0700 (PDT)
+Received: from cs.cmu.edu (tunnel29655-pt.tunnel.tserv13.ash1.ipv6.he.net. [2001:470:7:582::2])
+        by smtp.gmail.com with ESMTPSA id y9sm14261631qkb.41.2020.04.28.12.25.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2020 12:25:10 -0700 (PDT)
+Date:   Tue, 28 Apr 2020 15:25:07 -0400
+From:   Jan Harkes <jaharkes@cs.cmu.edu>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-cachefs@redhat.com,
+        linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 00/29] Convert files to ReST - part 2
+Message-ID: <20200428192317.7h5d2wiqmy7y473r@cs.cmu.edu>
+Mail-Followup-To: Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-cachefs@redhat.com,
+        linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org
+References: <cover.1588021877.git.mchehab+huawei@kernel.org>
+ <20200428130128.22c4b973@lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200428130752.75c153bd@w520.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200428130128.22c4b973@lwn.net>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 28, 2020 at 01:07:52PM -0600, Alex Williamson wrote:
-> On Tue, 28 Apr 2020 14:49:57 -0300
-> Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Tue, Apr 28, 2020 at 03:09:51PM -0400, Jonathan Corbet wrote:
+> So I'm happy to merge this set, but there is one thing that worries me a
+> bit... 
 > 
-> > On Tue, Apr 28, 2020 at 10:54:55AM -0600, Alex Williamson wrote:
-> > >  static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
-> > >  {
-> > >  	struct vfio_pci_device *vdev = device_data;
-> > > @@ -1253,8 +1323,14 @@ static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
-> > >  	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-> > >  	vma->vm_pgoff = (pci_resource_start(pdev, index) >> PAGE_SHIFT) + pgoff;
-> > >  
-> > > +	vma->vm_ops = &vfio_pci_mmap_ops;
-> > > +
-> > > +#if 1
-> > > +	return 0;
-> > > +#else
-> > >  	return remap_pfn_range(vma, vma->vm_start, vma->vm_pgoff,
-> > > -			       req_len, vma->vm_page_prot);
-> > > +			       vma->vm_end - vma->vm_start, vma->vm_page_prot);  
-> > 
-> > The remap_pfn_range here is what tells get_user_pages this is a
-> > non-struct page mapping:
-> > 
-> > 	vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
-> > 
-> > Which has to be set when the VMA is created, they shouldn't be
-> > modified during fault.
+> >  fs/coda/Kconfig                               |    2 +-
 > 
-> Aha, thanks Jason!  So fundamentally, pin_user_pages_remote() should
-> never have been faulting in this vma since the pages are non-struct
-> page backed. 
+> I'd feel a bit better if I could get an ack or two from filesystem folks
+> before I venture that far out of my own yard...what say you all?
 
-gup should not try to pin them.. I think the VM will still call fault
-though, not sure from memory?
+I acked the Coda parts on the first iteration of this patch. I have no
+problem with you merging them.
 
-> Maybe I was just getting lucky before this commit.  For a
-> VM_PFNMAP, vaddr_get_pfn() only needs pin_user_pages_remote() to return
-> error and the vma information that we setup in vfio_pci_mmap().
-
-I've written on this before, vfio should not be passing pages to the
-iommu that it cannot pin eg it should not touch VM_PFNMAP vma's in the
-first place.
-
-It is a use-after-free security issue the way it is..
-
-> only need the fault handler to trigger for user access, which is what I
-> see with this change.  That should work for me.
-> 
-> > Also the vma code above looked a little strange to me, if you do send
-> > something like this cc me and I can look at it. I did some work like
-> > this for rdma a while ago..
-> 
-> Cool, I'll do that.  I'd like to be able to zap the vmas from user
-> access at a later point and I have doubts that I'm holding the
-> refs/locks that I need to for that.  Thanks,
-
-Check rdma_umap_ops, it does what you described (actually it replaces
-them with 0 page, but along the way it zaps too).
-
-Jason
+Jan
