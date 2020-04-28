@@ -2,39 +2,43 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31306C83004
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C73C83004
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:44:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10D3E20730
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:37:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FD13206D6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 18:44:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730464AbgD1ShS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 14:37:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44762 "EHLO
+        id S1731423AbgD1Soi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 14:44:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730451AbgD1ShR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 14:37:17 -0400
+        by vger.kernel.org with ESMTP id S1731383AbgD1Soh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 14:44:37 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8231EC03C1AB;
-        Tue, 28 Apr 2020 11:37:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF9B2C03C1AB;
+        Tue, 28 Apr 2020 11:44:37 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2D83D2D6;
-        Tue, 28 Apr 2020 18:37:17 +0000 (UTC)
-Date:   Tue, 28 Apr 2020 12:37:16 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 468FE44A;
+        Tue, 28 Apr 2020 18:44:37 +0000 (UTC)
+Date:   Tue, 28 Apr 2020 12:44:36 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Stephen Kitt <steve@sk2.org>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: virt/kvm: close inline string literal
-Message-ID: <20200428123716.5f9948ab@lwn.net>
-In-Reply-To: <20200424152637.120876-1-steve@sk2.org>
-References: <20200424152637.120876-1-steve@sk2.org>
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     Linux Security Summit Program Committee 
+        <lss-pc@lists.linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        James Morris <jmorris@namei.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] Documentation: LSM: Correct the basic LSM description
+Message-ID: <20200428124436.1c7463ee@lwn.net>
+In-Reply-To: <4c053d72-2d58-612f-6d6b-f04226d0181e@schaufler-ca.com>
+References: <4c053d72-2d58-612f-6d6b-f04226d0181e.ref@schaufler-ca.com>
+        <4c053d72-2d58-612f-6d6b-f04226d0181e@schaufler-ca.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,30 +48,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Apr 2020 17:26:37 +0200
-Stephen Kitt <steve@sk2.org> wrote:
+On Tue, 21 Apr 2020 14:48:34 -0700
+Casey Schaufler <casey@schaufler-ca.com> wrote:
 
-> This fixes
+> This is a first pass at updating the basic documentation on
+> Linux Security Modules (LSM), which is frighteningly out of date.
+> Remove untrue statements about the LSM framework. Replace them
+> with true statements where it is convenient to do so. This is
+> the beginnig of a larger effort to bring the LSM documentation
+> up to date.
 > 
-> 	Documentation/virt/kvm/amd-memory-encryption.rst:76: WARNING: Inline literal start-string without end-string.
-> 
-> Fixes: 2da1ed62d55c ("KVM: SVM: document KVM_MEM_ENCRYPT_OP, let userspace detect if SEV is available")
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 > ---
->  Documentation/virt/kvm/amd-memory-encryption.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/amd-memory-encryption.rst b/Documentation/virt/kvm/amd-memory-encryption.rst
-> index c3129b9ba5cb..57c01f531e61 100644
-> --- a/Documentation/virt/kvm/amd-memory-encryption.rst
-> +++ b/Documentation/virt/kvm/amd-memory-encryption.rst
-> @@ -74,7 +74,7 @@ should point to a file descriptor that is opened on the ``/dev/sev``
->  device, if needed (see individual commands).
->  
->  On output, ``error`` is zero on success, or an error code.  Error codes
-> -are defined in ``<linux/psp-dev.h>`.
-> +are defined in ``<linux/psp-dev.h>``.
+>  Documentation/security/lsm.rst | 202 ++++++++++++++---------------------------
+>  1 file changed, 66 insertions(+), 136 deletions(-)
 
-Applied, thanks.
+James, are you planning to pick this up, or should I grab it?
+
+Thanks,
 
 jon
