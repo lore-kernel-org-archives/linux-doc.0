@@ -2,186 +2,132 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09EFDC83008
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 17:43:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF96BC83000
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 17:50:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC60120B1F
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 17:43:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 917E020757
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 17:50:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="naNiCbki"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="kNl2UNVa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728426AbgD1Rnh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 13:43:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36334 "EHLO
+        id S1728449AbgD1RuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 13:50:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728313AbgD1Rng (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 13:43:36 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9C66C03C1AB;
-        Tue, 28 Apr 2020 10:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=E3tpxsfqlJ97OhshENU/bqkOyW+k00vUERJl57WfGXE=; b=naNiCbki4HJTsh6kFqJ+IsEM9p
-        /uJSiyc/o80OXP4HiVcr+4nkUkieBrZoqwb3OJNOotj9nCfogjq9T5I9syeUCllx4L6ZkeIcKc1cc
-        qxajHmi78bYbEIFQK1rOtZOShvijGVMr98kVlJevomZa623+sJt7Ir1zYjwdqVoG+jQoZOaAU3vnE
-        /DIrZRn/UMt8YfR080vEGgPx2gB5zLrRAE29fLNsK0gckGHir21jNeXNQHBkD5nKXFX41S0zyvLtg
-        DKLjM5mbV7nHglbVu6DJrDBLThyf1aR25AgqxJ+sfe2pgkr2LNJ601lURnn5qiIgklYuq5vzozs1D
-        ZCMFlpTA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jTUGY-0002fJ-QK; Tue, 28 Apr 2020 17:43:30 +0000
-Subject: Re: [PATCH v3 2/2] Documentation/sysctl: Document uclamp sysctl knobs
-To:     Qais Yousef <qais.yousef@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200428164134.5588-1-qais.yousef@arm.com>
- <20200428164134.5588-2-qais.yousef@arm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e16e222b-f61b-a54a-38b2-5a63a9537333@infradead.org>
-Date:   Tue, 28 Apr 2020 10:43:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        with ESMTP id S1728422AbgD1RuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 13:50:00 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E27C03C1AB
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 10:49:59 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id b188so21103532qkd.9
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 10:49:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=117ikuQsO0l+zcrA4+37n61daQN/3p1Uz7Uan2I+kn4=;
+        b=kNl2UNVaxcoXnt9gWxrro80A9T4X/JO1AQ66AqCSX9d5sfFzrpFidHQHKOXhGIXkJp
+         4fn4iqPtKJt1pJH3Cy2T9aSlNOnWH4rRnhXw1wrB4xPTniA4QRMfX5Lr/Zw5TfJN4jYd
+         o2AfZb+vlZCSLlLIErP8VoLQ8HMkWz1J0JqlZ7sWYDCjJtwr7CaaASz2pHEPoh9nBOf7
+         l5/Lj89TxW3w+CtdglWxNbEXn54NnyOVY0wu8O9Asq2djOcRWGtckk5YeCtNm7nMNW/R
+         FgSZ8C6GNduG9O8U82PzHx3GKsRwejfp1HI+UNTircLMVJYgCF2DMzb4amArbvWknS2G
+         SO6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=117ikuQsO0l+zcrA4+37n61daQN/3p1Uz7Uan2I+kn4=;
+        b=HM0KHbs24XnJTPgQQJV8Ilyibw0iVAg71tT1mjLuL8YKUzIxlkipfKXnrAq9tMPHtf
+         SrYyR1VJmWmp2Q/XgOcns8AG3RjXyOe4hkPDMfUyv8paZdH1GZ8O51wGLA9VPLkHL7V6
+         hX1AFcGOjCmJ7SCfnJZ3wpwU5yrXCwy6GY1IgCkKxDcbn4Qx1yubckg/Hu4nDmCxRHfZ
+         C+etDHV5ppFWBFLvZ/6D7TAv/2HEGf+4YmC6Xk+75+LdSprOzakc1HmoWpjcfJcO33/t
+         Y6rsy2hpPqcgLaf6o5k541t+v1b/zch9DvqVmnDlI1mjMrHFE0rVH7/WbN+PL7smEbOE
+         v7rw==
+X-Gm-Message-State: AGi0Puat2CpMjiNJTH08+/Tm7HzIIHXf+S4Esp2QQ5ms2KqxDvX85EY0
+        x5n3V0cJ6DWv+UK2KL0rhHnHmQ==
+X-Google-Smtp-Source: APiQypLmcOhZ8RlXZShNdMqTfkf1hcU2wDgMielFeRa2mTSd3Lz0Eg/u2LrPavky3IqJhKoc+AEVBQ==
+X-Received: by 2002:ae9:eb8c:: with SMTP id b134mr29218346qkg.39.1588096199087;
+        Tue, 28 Apr 2020 10:49:59 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id c33sm14866702qtb.76.2020.04.28.10.49.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 28 Apr 2020 10:49:58 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jTUMn-00059R-Mr; Tue, 28 Apr 2020 14:49:57 -0300
+Date:   Tue, 28 Apr 2020 14:49:57 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Alex Williamson <alex.williamson@redhat.com>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-mm@kvack.org,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [regression?] Re: [PATCH v6 06/12] mm/gup: track FOLL_PIN pages
+Message-ID: <20200428174957.GV26002@ziepe.ca>
+References: <20200211001536.1027652-1-jhubbard@nvidia.com>
+ <20200211001536.1027652-7-jhubbard@nvidia.com>
+ <20200424121846.5ee2685f@w520.home>
+ <5b901542-d949-8d7e-89c7-f8d5ee20f6e9@nvidia.com>
+ <20200424141548.5afdd2bb@w520.home>
+ <665ffb48-d498-90f4-f945-997a922fc370@nvidia.com>
+ <20200428105455.30343fb4@w520.home>
 MIME-Version: 1.0
-In-Reply-To: <20200428164134.5588-2-qais.yousef@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200428105455.30343fb4@w520.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
-I have a few corrections for you below:
-
-On 4/28/20 9:41 AM, Qais Yousef wrote:
-> Uclamp exposes 3 sysctl knobs:
-> 
-> 	* sched_util_clamp_min
-> 	* sched_util_clamp_max
-> 	* sched_util_clamp_min_rt_default
-> 
-> Document them in sysctl/kernel.rst.
-> 
-> Signed-off-by: Qais Yousef <qais.yousef@arm.com>
-> CC: Jonathan Corbet <corbet@lwn.net>
-> CC: Juri Lelli <juri.lelli@redhat.com>
-> CC: Vincent Guittot <vincent.guittot@linaro.org>
-> CC: Dietmar Eggemann <dietmar.eggemann@arm.com>
-> CC: Steven Rostedt <rostedt@goodmis.org>
-> CC: Ben Segall <bsegall@google.com>
-> CC: Mel Gorman <mgorman@suse.de>
-> CC: Luis Chamberlain <mcgrof@kernel.org>
-> CC: Kees Cook <keescook@chromium.org>
-> CC: Iurii Zaikin <yzaikin@google.com>
-> CC: Quentin Perret <qperret@google.com>
-> CC: Valentin Schneider <valentin.schneider@arm.com>
-> CC: Patrick Bellasi <patrick.bellasi@matbug.net>
-> CC: Pavan Kondeti <pkondeti@codeaurora.org>
-> CC: linux-doc@vger.kernel.org
-> CC: linux-kernel@vger.kernel.org
-> CC: linux-fsdevel@vger.kernel.org
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 48 +++++++++++++++++++++
->  1 file changed, 48 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 0d427fd10941..e7255f71493c 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -940,6 +940,54 @@ Enables/disables scheduler statistics. Enabling this feature
->  incurs a small amount of overhead in the scheduler but is
->  useful for debugging and performance tuning.
+On Tue, Apr 28, 2020 at 10:54:55AM -0600, Alex Williamson wrote:
+>  static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
+>  {
+>  	struct vfio_pci_device *vdev = device_data;
+> @@ -1253,8 +1323,14 @@ static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
+>  	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+>  	vma->vm_pgoff = (pci_resource_start(pdev, index) >> PAGE_SHIFT) + pgoff;
 >  
-> +sched_util_clamp_min:
-> +=====================
+> +	vma->vm_ops = &vfio_pci_mmap_ops;
 > +
-> +Max allowed *minimum* utilization.
-> +
-> +Default value is SCHED_CAPACITY_SCALE (1024), which is the maximum possible
-> +value.
-> +
-> +It means that any requested uclamp.min value cannot be greater than
-> +sched_util_clamp_min, ie: it is restricted to the range
+> +#if 1
+> +	return 0;
+> +#else
+>  	return remap_pfn_range(vma, vma->vm_start, vma->vm_pgoff,
+> -			       req_len, vma->vm_page_prot);
+> +			       vma->vm_end - vma->vm_start, vma->vm_page_prot);
 
-                         i.e., it is
+The remap_pfn_range here is what tells get_user_pages this is a
+non-struct page mapping:
 
-> +[0:sched_util_clamp_min].
-> +
-> +sched_util_clamp_max:
-> +=====================
-> +
-> +Max allowed *maximum* utilization.
-> +
-> +Default value is SCHED_CAPACITY_SCALE (1024), which is the maximum possible
-> +value.
-> +
-> +It means that any requested uclamp.max value cannot be greater than
-> +sched_util_clamp_max, ie: it is restricted to the range
+	vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
 
-                         i.e., it is
+Which has to be set when the VMA is created, they shouldn't be
+modified during fault.
 
-> +[0:sched_util_clamp_max].
-> +
-> +sched_util_clamp_min_rt_default:
-> +================================
-> +
-> +By default Linux is tuned for performance. Which means that RT tasks always run
-> +at the highest frequency and most capable (highest capacity) CPU (in
-> +heterogeneous systems).
-> +
-> +Uclamp achieves this by setting the requested uclamp.min of all RT tasks to
-> +SCHED_CAPACITY_SCALE (1024) by default. Which effectively boosts the tasks to
+Also the vma code above looked a little strange to me, if you do send
+something like this cc me and I can look at it. I did some work like
+this for rdma a while ago..
 
-                               by default, which
-
-> +run at the highest frequency and bias them to run on the biggest CPU.
-
-                                    biases them
-
-> +
-> +This knob allows admins to change the default behavior when uclamp is being
-> +used. In battery powered devices particularly, running at the maximum
-> +capacity and frequency will increase energy consumption and shorten the battery
-> +life.
-> +
-> +This knob is only effective for RT tasks which the user hasn't modified their
-> +requested uclamp.min value via sched_setattr() syscall.
-> +
-> +This knob will not escape the constraint imposed by sched_util_clamp_min
-> +defined above.
-> +
-> +Any modification is applied lazily on the next opportunity the scheduler needs
-> +to calculate the effective value of uclamp.min of the task.
->  
->  seccomp
->  =======
-> 
-
-thanks.
--- 
-~Randy
-
+Jason
