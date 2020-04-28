@@ -2,405 +2,448 @@ Return-Path: <SRS0=FEXm=6M=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3208C83000
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 14:15:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41EB5C83000
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 16:17:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7671F206D9
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 14:15:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DNh6GYLp"
+	by mail.kernel.org (Postfix) with ESMTP id 1869420746
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Apr 2020 16:17:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727887AbgD1OPI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 10:15:08 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37251 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727104AbgD1OPH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 10:15:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588083304;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7V56u7jxFyOxfsaEoa7tkfIZ6iDbz4a8/3Jm3jguz00=;
-        b=DNh6GYLpppUe/0yhOWYuMgtf/nzYfGmgQABSqokvOMOEhUHgKLCLF2ElrVhOzmCHoLtZ25
-        DzIevf7b28VOHrHBP47zkp0GI4BOjYgPiv6lQJAoMJy448uzhfpTZMj/Bns+bb0dQzSwJO
-        zVxhdnmz04bUB8HmfA4E2qehiAMfjek=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-7k3qKm7tORSS5oxCTBCozQ-1; Tue, 28 Apr 2020 10:14:59 -0400
-X-MC-Unique: 7k3qKm7tORSS5oxCTBCozQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16388107ACF3;
-        Tue, 28 Apr 2020 14:14:55 +0000 (UTC)
-Received: from work-vm (ovpn-113-77.ams2.redhat.com [10.36.113.77])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A3FE1614C0;
-        Tue, 28 Apr 2020 14:14:39 +0000 (UTC)
-Date:   Tue, 28 Apr 2020 15:14:37 +0100
-From:   "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To:     Yan Zhao <yan.y.zhao@intel.com>
-Cc:     "Tian, Kevin" <kevin.tian@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        "cjia@nvidia.com" <cjia@nvidia.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "libvir-list@redhat.com" <libvir-list@redhat.com>,
-        "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
-        "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "eauger@redhat.com" <eauger@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "eskultet@redhat.com" <eskultet@redhat.com>,
-        "Yang, Ziye" <ziye.yang@intel.com>,
-        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "aik@ozlabs.ru" <aik@ozlabs.ru>,
-        "felipe@nutanix.com" <felipe@nutanix.com>,
-        "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
-        "Zeng, Xin" <xin.zeng@intel.com>,
-        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        "Liu, Changpeng" <changpeng.liu@intel.com>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Wang, Zhi A" <zhi.a.wang@intel.com>,
-        "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
-        "He, Shaopeng" <shaopeng.he@intel.com>
-Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-Message-ID: <20200428141437.GG2794@work-vm>
-References: <20200417132457.45d91fe3.cohuck@redhat.com>
- <20200420012457.GE16688@joy-OptiPlex-7040>
- <20200420165600.4951ae82@w520.home>
- <20200421023718.GA12111@joy-OptiPlex-7040>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D86DF06@SHSMSX104.ccr.corp.intel.com>
- <20200422073628.GA12879@joy-OptiPlex-7040>
- <20200424191049.GU3106@work-vm>
- <20200426013628.GC12879@joy-OptiPlex-7040>
- <20200427153743.GK2923@work-vm>
- <20200428005429.GJ12879@joy-OptiPlex-7040>
+        id S1728084AbgD1QRe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 12:17:34 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2123 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728156AbgD1QRe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Apr 2020 12:17:34 -0400
+Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.107])
+        by Forcepoint Email with ESMTP id 19F358BA2D5985A388FE;
+        Tue, 28 Apr 2020 17:17:32 +0100 (IST)
+Received: from localhost (10.47.94.202) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 28 Apr
+ 2020 17:17:30 +0100
+Date:   Tue, 28 Apr 2020 17:17:13 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <irogers@google.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
+        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
+        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v9 00/15] Introduce Data Access MONitor (DAMON)
+Message-ID: <20200428171713.000028df@Huawei.com>
+In-Reply-To: <20200428132342.21745-1-sjpark@amazon.com>
+References: <20200428132704.00003f79@Huawei.com>
+        <20200428132342.21745-1-sjpark@amazon.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200428005429.GJ12879@joy-OptiPlex-7040>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.94.202]
+X-ClientProxiedBy: lhreml718-chm.china.huawei.com (10.201.108.69) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Yan Zhao (yan.y.zhao@intel.com) wrote:
-> On Mon, Apr 27, 2020 at 11:37:43PM +0800, Dr. David Alan Gilbert wrote:
-> > * Yan Zhao (yan.y.zhao@intel.com) wrote:
-> > > On Sat, Apr 25, 2020 at 03:10:49AM +0800, Dr. David Alan Gilbert wrote:
-> > > > * Yan Zhao (yan.y.zhao@intel.com) wrote:
-> > > > > On Tue, Apr 21, 2020 at 08:08:49PM +0800, Tian, Kevin wrote:
-> > > > > > > From: Yan Zhao
-> > > > > > > Sent: Tuesday, April 21, 2020 10:37 AM
-> > > > > > > 
-> > > > > > > On Tue, Apr 21, 2020 at 06:56:00AM +0800, Alex Williamson wrote:
-> > > > > > > > On Sun, 19 Apr 2020 21:24:57 -0400
-> > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > > >
-> > > > > > > > > On Fri, Apr 17, 2020 at 07:24:57PM +0800, Cornelia Huck wrote:
-> > > > > > > > > > On Fri, 17 Apr 2020 05:52:02 -0400
-> > > > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > > > > >
-> > > > > > > > > > > On Fri, Apr 17, 2020 at 04:44:50PM +0800, Cornelia Huck wrote:
-> > > > > > > > > > > > On Mon, 13 Apr 2020 01:52:01 -0400
-> > > > > > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > > > > > > >
-> > > > > > > > > > > > > This patchset introduces a migration_version attribute under sysfs
-> > > > > > > of VFIO
-> > > > > > > > > > > > > Mediated devices.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > This migration_version attribute is used to check migration
-> > > > > > > compatibility
-> > > > > > > > > > > > > between two mdev devices.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Currently, it has two locations:
-> > > > > > > > > > > > > (1) under mdev_type node,
-> > > > > > > > > > > > >     which can be used even before device creation, but only for
-> > > > > > > mdev
-> > > > > > > > > > > > >     devices of the same mdev type.
-> > > > > > > > > > > > > (2) under mdev device node,
-> > > > > > > > > > > > >     which can only be used after the mdev devices are created, but
-> > > > > > > the src
-> > > > > > > > > > > > >     and target mdev devices are not necessarily be of the same
-> > > > > > > mdev type
-> > > > > > > > > > > > > (The second location is newly added in v5, in order to keep
-> > > > > > > consistent
-> > > > > > > > > > > > > with the migration_version node for migratable pass-though
-> > > > > > > devices)
-> > > > > > > > > > > >
-> > > > > > > > > > > > What is the relationship between those two attributes?
-> > > > > > > > > > > >
-> > > > > > > > > > > (1) is for mdev devices specifically, and (2) is provided to keep the
-> > > > > > > same
-> > > > > > > > > > > sysfs interface as with non-mdev cases. so (2) is for both mdev
-> > > > > > > devices and
-> > > > > > > > > > > non-mdev devices.
-> > > > > > > > > > >
-> > > > > > > > > > > in future, if we enable vfio-pci vendor ops, (i.e. a non-mdev device
-> > > > > > > > > > > is binding to vfio-pci, but is able to register migration region and do
-> > > > > > > > > > > migration transactions from a vendor provided affiliate driver),
-> > > > > > > > > > > the vendor driver would export (2) directly, under device node.
-> > > > > > > > > > > It is not able to provide (1) as there're no mdev devices involved.
-> > > > > > > > > >
-> > > > > > > > > > Ok, creating an alternate attribute for non-mdev devices makes sense.
-> > > > > > > > > > However, wouldn't that rather be a case (3)? The change here only
-> > > > > > > > > > refers to mdev devices.
-> > > > > > > > > >
-> > > > > > > > > as you pointed below, (3) and (2) serve the same purpose.
-> > > > > > > > > and I think a possible usage is to migrate between a non-mdev device and
-> > > > > > > > > an mdev device. so I think it's better for them both to use (2) rather
-> > > > > > > > > than creating (3).
-> > > > > > > >
-> > > > > > > > An mdev type is meant to define a software compatible interface, so in
-> > > > > > > > the case of mdev->mdev migration, doesn't migrating to a different type
-> > > > > > > > fail the most basic of compatibility tests that we expect userspace to
-> > > > > > > > perform?  IOW, if two mdev types are migration compatible, it seems a
-> > > > > > > > prerequisite to that is that they provide the same software interface,
-> > > > > > > > which means they should be the same mdev type.
-> > > > > > > >
-> > > > > > > > In the hybrid cases of mdev->phys or phys->mdev, how does a
-> > > > > > > management
-> > > > > > > > tool begin to even guess what might be compatible?  Are we expecting
-> > > > > > > > libvirt to probe ever device with this attribute in the system?  Is
-> > > > > > > > there going to be a new class hierarchy created to enumerate all
-> > > > > > > > possible migrate-able devices?
-> > > > > > > >
-> > > > > > > yes, management tool needs to guess and test migration compatible
-> > > > > > > between two devices. But I think it's not the problem only for
-> > > > > > > mdev->phys or phys->mdev. even for mdev->mdev, management tool needs
-> > > > > > > to
-> > > > > > > first assume that the two mdevs have the same type of parent devices
-> > > > > > > (e.g.their pciids are equal). otherwise, it's still enumerating
-> > > > > > > possibilities.
-> > > > > > > 
-> > > > > > > on the other hand, for two mdevs,
-> > > > > > > mdev1 from pdev1, its mdev_type is 1/2 of pdev1;
-> > > > > > > mdev2 from pdev2, its mdev_type is 1/4 of pdev2;
-> > > > > > > if pdev2 is exactly 2 times of pdev1, why not allow migration between
-> > > > > > > mdev1 <-> mdev2.
-> > > > > > 
-> > > > > > How could the manage tool figure out that 1/2 of pdev1 is equivalent 
-> > > > > > to 1/4 of pdev2? If we really want to allow such thing happen, the best
-> > > > > > choice is to report the same mdev type on both pdev1 and pdev2.
-> > > > > I think that's exactly the value of this migration_version interface.
-> > > > > the management tool can take advantage of this interface to know if two
-> > > > > devices are migration compatible, no matter they are mdevs, non-mdevs,
-> > > > > or mix.
-> > > > > 
-> > > > > as I know, (please correct me if not right), current libvirt still
-> > > > > requires manually generating mdev devices, and it just duplicates src vm
-> > > > > configuration to the target vm.
-> > > > > for libvirt, currently it's always phys->phys and mdev->mdev (and of the
-> > > > > same mdev type).
-> > > > > But it does not justify that hybrid cases should not be allowed. otherwise,
-> > > > > why do we need to introduce this migration_version interface and leave
-> > > > > the judgement of migration compatibility to vendor driver? why not simply
-> > > > > set the criteria to something like "pciids of parent devices are equal,
-> > > > > and mdev types are equal" ?
-> > > > > 
-> > > > > 
-> > > > > > btw mdev<->phys just brings trouble to upper stack as Alex pointed out. 
-> > > > > could you help me understand why it will bring trouble to upper stack?
-> > > > > 
-> > > > > I think it just needs to read src migration_version under src dev node,
-> > > > > and test it in target migration version under target dev node. 
-> > > > > 
-> > > > > after all, through this interface we just help the upper layer
-> > > > > knowing available options through reading and testing, and they decide
-> > > > > to use it or not.
-> > > > > 
-> > > > > > Can we simplify the requirement by allowing only mdev<->mdev and 
-> > > > > > phys<->phys migration? If an customer does want to migrate between a 
-> > > > > > mdev and phys, he could wrap physical device into a wrapped mdev 
-> > > > > > instance (with the same type as the source mdev) instead of using vendor 
-> > > > > > ops. Doing so does add some burden but if mdev<->phys is not dominant 
-> > > > > > usage then such tradeoff might be worthywhile...
-> > > > > >
-> > > > > If the interfaces for phys<->phys and mdev<->mdev are consistent, it makes no
-> > > > > difference to phys<->mdev, right?
-> > > > > I think the vendor string for a mdev device is something like:
-> > > > > "Parent PCIID + mdev type + software version", and
-> > > > > that for a phys device is something like:
-> > > > > "PCIID + software version".
-> > > > > as long as we don't migrate between devices from different vendors, it's
-> > > > > easy for vendor driver to tell if a phys device is migration compatible
-> > > > > to a mdev device according it supports it or not.
-> > > > 
-> > > > It surprises me that the PCIID matching is a requirement; I'd assumed
-> > > > with this clever mdev name setup that you could migrate between two
-> > > > different models in a series, or to a newer model, as long as they
-> > > > both supported the same mdev view.
-> > > > 
-> > > hi Dave
-> > > the migration_version string is transparent to userspace, and is
-> > > completely defined by vendor driver.
-> > > I put it there just as an example of how vendor driver may implement it.
-> > > e.g.
-> > > the src migration_version string is "src PCIID + src software version", 
-> > > then when this string is write to target migration_version node,
-> > > the vendor driver in the target device will compare it with its own
-> > > device info and software version.
-> > > If different models are allowed, the write just succeeds even
-> > > PCIIDs in src and target are different.
+On Tue, 28 Apr 2020 15:23:42 +0200
+SeongJae Park <sjpark@amazon.com> wrote:
+
+> On Tue, 28 Apr 2020 13:27:04 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+> 
+> > On Mon, 27 Apr 2020 14:04:27 +0200
+> > SeongJae Park <sjpark@amazon.com> wrote:
+> >   
+> > > From: SeongJae Park <sjpark@amazon.de>
 > > > 
-> > > so, it is the vendor driver to define whether two devices are able to
-> > > migrate, no matter their PCIIDs, mdev types, software versions..., which
-> > > provides vendor driver full flexibility.
+> > > Introduction
+> > > ============
 > > > 
-> > > do you think it's good?
+> > > Memory management decisions can be improved if finer data access information is
+> > > available.  However, because such finer information usually comes with higher
+> > > overhead, most systems including Linux forgives the potential benefit and rely
+> > > on only coarse information or some light-weight heuristics.  The pseudo-LRU and
+> > > the aggressive THP promotions are such examples.
+> > > 
+> > > A number of data access pattern awared memory management optimizations (refer
+> > > to 'Appendix A' for more details) consistently say the potential benefit is not
+> > > small.  However, none of those has successfully merged to the mainline Linux
+> > > kernel mainly due to the absence of a scalable and efficient data access
+> > > monitoring mechanism.  Refer to 'Appendix B' to see the limitations of existing
+> > > memory monitoring mechanisms.
+> > > 
+> > > DAMON is a data access monitoring subsystem for the problem.  It is 1) accurate
+> > > enough to be used for the DRAM level memory management (a straightforward
+> > > DAMON-based optimization achieved up to 2.55x speedup), 2) light-weight enough
+> > > to be applied online (compared to a straightforward access monitoring scheme,
+> > > DAMON is up to 94,242.42x lighter) and 3) keeps predefined upper-bound overhead
+> > > regardless of the size of target workloads (thus scalable).  Refer to 'Appendix
+> > > C' if you interested in how it is possible, and 'Appendix F' to know how the
+> > > numbers collected.
+> > > 
+> > > DAMON has mainly designed for the kernel's memory management mechanisms.
+> > > However, because it is implemented as a standalone kernel module and provides
+> > > several interfaces, it can be used by a wide range of users including kernel
+> > > space programs, user space programs, programmers, and administrators.  DAMON
+> > > is now supporting the monitoring only, but it will also provide simple and
+> > > convenient data access pattern awared memory managements by itself.  Refer to
+> > > 'Appendix D' for more detailed expected usages of DAMON.
+> > >   
+> [...]
+> > > 
+> > > Future Plans
+> > > ============
+> > > 
+> > > This patchset is only for the first stage of DAMON.  As soon as this patchset
+> > > is merged, official patchsets for below future plans will be posted.
+> > >   
+> [...]
+> > > 
+> > > Support Various Address Spaces
+> > > ------------------------------
+> > > 
+> > > Currently, DAMON supports virtual memory address spaces using PTE Accessed bits
+> > > as its access checking primitive.  However, the core design of DAMON is not
+> > > dependent to such implementation details.  In a future, DAMON will decouple
+> > > those and support various address spaces including physical memory.  It will
+> > > further allow users to configure and even implement the primitives by
+> > > themselves for their special usecase.  Monitoring of page cache, NUMA nodes,
+> > > specific files, or block devices would be examples of such usecases.
+> > > 
+> > > An RFC patchset for this plan is already available
+> > > (https://lore.kernel.org/linux-mm/20200409094232.29680-1-sjpark@amazon.com/).
+> > >   
+> [...]
+> > > 
+> > > Patch History
+> > > =============
+> > > 
+> > > The most biggest change in this version is support of minimal region size,
+> > > which defaults to 'PAGE_SIZE'.  This change will reduce unnecessary region
+> > > splits and thus improve the quality of the output.  In a future, we will be
+> > > able to make this configurable for support of various access check primitives
+> > > such as PMUs.  
 > > 
-> > Yeh that's OK; I guess it's going to need to have a big table in their
-> > with all the PCIIDs in.
-> > The alternative would be to abstract it a little; e.g. to say it's
-> > an Intel-gpu-core-v4  and then it would be less worried about the exact
-> > clock speed etc - but yes you might be right htat PCIIDs might be best
-> > for checking for quirks.
-> >
-> glad that you are agreed with it:)
-> I think the vendor driver still can choose a way to abstract a little
-> (e.g. Intel-gpu-core-v4...) if they think it's better. In that case, the
-> migration_string would be something like "Intel-gpu-core-v4 + instance
-> number + software version".
-> IOW, they can choose anything they think appropriate to identify migration
-> compatibility of a device.
-> But Alex is right, we have to prevent namespace overlapping. So I think
-> we need to ensure src and target devices are from the same vendors.
-> or, any other ideas?
-
-That's why I kept the 'Intel' in that example; or PCI vendor ID; I was
-only really trying to say that within one vendors range there are often
-a lot of PCI-IDs that have really minor variations.
-
-Dave
-
-> Thanks
-> Yan
+> > That is a good improvement.  Might be interesting to consider taking
+> > hugepages into account as well.  
 > 
+> Thanks!  Kudos to Stefan and you for giving me the comments for the change.
 > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > > I agree that there was a gap in the previous proposal for non-mdev
-> > > > > > > > devices, but I think this bring a lot of questions that we need to
-> > > > > > > > puzzle through and libvirt will need to re-evaluate how they might
-> > > > > > > > decide to pick a migration target device.  For example, I'm sure
-> > > > > > > > libvirt would reject any policy decisions regarding picking a physical
-> > > > > > > > device versus an mdev device.  Had we previously left it that only a
-> > > > > > > > layer above libvirt would select a target device and libvirt only tests
-> > > > > > > > compatibility to that target device?
-> > > > > > > I'm not sure if there's a layer above libvirt would select a target
-> > > > > > > device. but if there is such a layer (even it's human), we need to
-> > > > > > > provide an interface for them to know whether their decision is suitable
-> > > > > > > for migration. The migration_version interface provides a potential to
-> > > > > > > allow mdev->phys migration, even libvirt may currently reject it.
-> > > > > > > 
-> > > > > > > 
-> > > > > > > > We also need to consider that this expands the namespace.  If we no
-> > > > > > > > longer require matching types as the first level of comparison, then
-> > > > > > > > vendor migration strings can theoretically collide.  How do we
-> > > > > > > > coordinate that can't happen?  Thanks,
-> > > > > > > yes, it's indeed a problem.
-> > > > > > > could only allowing migration beteen devices from the same vendor be a
-> > > > > > > good
-> > > > > > > prerequisite?
-> > > > > > > 
-> > > > > > > Thanks
-> > > > > > > Yan
-> > > > > > > >
-> > > > > > > > > > > > Is existence (and compatibility) of (1) a pre-req for possible
-> > > > > > > > > > > > existence (and compatibility) of (2)?
-> > > > > > > > > > > >
-> > > > > > > > > > > no. (2) does not reply on (1).
-> > > > > > > > > >
-> > > > > > > > > > Hm. Non-existence of (1) seems to imply "this type does not support
-> > > > > > > > > > migration". If an mdev created for such a type suddenly does support
-> > > > > > > > > > migration, it feels a bit odd.
-> > > > > > > > > >
-> > > > > > > > > yes. but I think if the condition happens, it should be reported a bug
-> > > > > > > > > to vendor driver.
-> > > > > > > > > should I add a line in the doc like "vendor driver should ensure that the
-> > > > > > > > > migration compatibility from migration_version under mdev_type should
-> > > > > > > be
-> > > > > > > > > consistent with that from migration_version under device node" ?
-> > > > > > > > >
-> > > > > > > > > > (It obviously cannot be a prereq for what I called (3) above.)
-> > > > > > > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > > Does userspace need to check (1) or can it completely rely on (2), if
-> > > > > > > > > > > > it so chooses?
-> > > > > > > > > > > >
-> > > > > > > > > > > I think it can completely reply on (2) if compatibility check before
-> > > > > > > > > > > mdev creation is not required.
-> > > > > > > > > > >
-> > > > > > > > > > > > If devices with a different mdev type are indeed compatible, it
-> > > > > > > seems
-> > > > > > > > > > > > userspace can only find out after the devices have actually been
-> > > > > > > > > > > > created, as (1) does not apply?
-> > > > > > > > > > > yes, I think so.
-> > > > > > > > > >
-> > > > > > > > > > How useful would it be for userspace to even look at (1) in that case?
-> > > > > > > > > > It only knows if things have a chance of working if it actually goes
-> > > > > > > > > > ahead and creates devices.
-> > > > > > > > > >
-> > > > > > > > > hmm, is it useful for userspace to test the migration_version under mdev
-> > > > > > > > > type before it knows what mdev device to generate ?
-> > > > > > > > > like when the userspace wants to migrate an mdev device in src vm,
-> > > > > > > > > but it has not created target vm and the target mdev device.
-> > > > > > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > > One of my worries is that the existence of an attribute with the
-> > > > > > > same
-> > > > > > > > > > > > name in two similar locations might lead to confusion. But maybe it
-> > > > > > > > > > > > isn't a problem.
-> > > > > > > > > > > >
-> > > > > > > > > > > Yes, I have the same feeling. but as (2) is for sysfs interface
-> > > > > > > > > > > consistency, to make it transparent to userspace tools like libvirt,
-> > > > > > > > > > > I guess the same name is necessary?
-> > > > > > > > > >
-> > > > > > > > > > What do we actually need here, I wonder? (1) and (2) seem to serve
-> > > > > > > > > > slightly different purposes, while (2) and what I called (3) have the
-> > > > > > > > > > same purpose. Is it important to userspace that (1) and (2) have the
-> > > > > > > > > > same name?
-> > > > > > > > > so change (1) to migration_type_version and (2) to
-> > > > > > > > > migration_instance_version?
-> > > > > > > > > But as they are under different locations, could that location imply
-> > > > > > > > > enough information?
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > Thanks
-> > > > > > > > > Yan
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > _______________________________________________
-> > > > > > > intel-gvt-dev mailing list
-> > > > > > > intel-gvt-dev@lists.freedesktop.org
-> > > > > > > https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
-> > > > > 
-> > > > --
-> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > > > 
-> > > 
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> As abovely mentioned in 'Future Plans' section, DAMON will be highly
+> configurable.  You can see the plan in more detail via the RFC patchset[1].
+> Thus, the minimal region size will also be able to configured as users want,
+> including the size of the hugepage.
+> 
+> [1] https://lore.kernel.org/linux-mm/20200409094232.29680-1-sjpark@amazon.com/
+> 
 > > 
+> > One issue I've noted is that we have a degeneracy problem with the current
+> > region merging and splitting that perhaps could do with a small tweak.
+> > 
+> > Currently we can end with a very small number of regions because there
+> > is no limit on how many regions can be merged in a give pass for merging.
+> > However, splitting only doubles the number of regions.
+> > 
+> > I've been experimenting with a few loops of the splitting algorithm to ensure
+> > we don't end up stuck with limited regions.  I think the problem we are working
+> > around can be roughly described as:
+> > 
+> > 1) Program allocates a lot of memory - not really touching much of it.
+> > 2) Damon fuses the large memory allocations in to one region because the
+> >    access counts are always near 0. 
+> > 3) Program finishes setup.
+> > 4) Program accesses a few pages in the huge reason a lot, but not that much
+> >    for most of the rest.  Taking an extreme option, the page in the middle
+> >    gets all the accesses and the other 1G on either side gets none.
+> > 5) As a split always breaks the page in two, the chances of significantly
+> >    different values for the two resulting regions is low (as we only sample
+> >    the hot page occasionally).
+> > 
+> > If we just run the splits twice if the number of regions < max regions / 4
+> > then over time we should eventually get a region with the single hot page in it.
+> > We will get there faster if we split more (keeping below max regions).
+> > 
+> > As we always remain below max regions, we are still obeying the fixed
+> > maximum overhead and actually monitoring at closer to the desired granularity.  
 > 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Good point.  However, as you also mentioned, DAMON will slowly, but eventually
+> adjust the regions appropriately.
+> 
+> And yes, your suggested solution will work pretty well.  Indeed, my one
+> previous colleague found this problem on a few of special workloads and tried
+> the solution you suggested.  The improvement was clear.
+> 
+> However, I didn't adopt the solution due to below reasons.
+> 
+> First, IMHO, this is an accuracy improvement, rather than bug fix.  But the
+> extent of the enhancement didn't seem very critical to me.  Most of other
+> workloads didn't show such problem (and thus improvement).  Even with the
+> workloads showing the problem, the problem was not seem so critical.
+> 
+> Second, if the low accuracy is problem, users could get higher accuracy by
+> simply adjusting the sampling interval and/or aggregation interval to lower
+> value.  This is the supposed way to trade the accuracy with the overhead.
+
+I disagree.  There is very little chance of getting out of this situation with the
+current splitting.  Changing sampling and aggregation intervals doesn't actually help.
+
+Let's draw out an example to discuss.
+
+Toy state - taking just one block of memory.
+
+0 = not accessed page (very cold)
+X = accessed page (extremely hot)
+
+First few cycles - no accesses
+
+in X.Regions list average value estimated by damon.
+
+Region C is needed to set the max and will never be aggregated.
+
+aggregation cycle then state.
+0.start
+0.accessed          0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 X X X
+0.regions (percent)|  A (0)          |   B (0)                         | C(1)|
+0.merge            |   A                                               | C   |
+0.split            |  A                                |     B         | C   |
+
+After a few cycles, hot page
+1.start
+1.accessed          0 0 0 0 0 0 0 0 0 0 0 X 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+1.regions (acc_cnt)|  A (1/18)                         |   B (0)       | C(1)|
+1.merge            |             A                                     | C   |
+1.split            |  A                    |                 B         | C   |
+2.start
+2.accessed          0 0 0 0 0 0 0 0 0 0 0 X 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+2.regions (acc_cnt)|  A (1/12)             |               B (0)       | C(1)|
+2.merge            |             A                                     | C   |
+2.split            |  A      |                               B         | C   |
+3.start
+3.accessed          0 0 0 0 0 0 0 0 0 0 0 X 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+3.regions (acc_cnt)|  A (0)  |               B (1/21)                  | C(1)|
+3.merge            |             A                                     | C   |
+3.split            |  A                |                     B         | C   |
+
+Now make that 1000 pages long with the hot page at page 500.
+So the average best case we will ever get is a 1/500 * number of sample period
+between aggregations.
+
+So what are the chances of failing to aggregate on the sample after we split
+at that optimal point? We need to successfully sample that one page enough that
+we get it 10% of the time.
+
+I 'think' this a case of where the 10% point is on the CDF of a binomial
+f(1/N, M) where N is number of bins and Mis number of samples.
+
+Using matlab online I think the best chance you ever get is when you take 10 samples
+and need just one of them to be in the region.
+
+p = 1 - binocdf(0,10,1/N)
+For N = 500, p = 0.0198
+For N = 1000, p = 0.0099
+
+Someone with better maths than me can check.
+
+Now this just got us to the point where we won't aggregate the region for one
+round of aggregation.  We may split it again and if the resulting region is small
+enough might not merge it the next aggregation cycle.
+
+So I'd argue that allowing at least 2 repeats of splitting is well worth while.
+It is just a couple of additional lines of code.
+
+> 
+> Finally, I would like to keep code as simple as it can.
+> 
+> For same reasons, I would like to keep the code as currently is until real user
+> problem is reported.  If you have different opinions, please feel free to yell
+> at me.
+
+:) 
+
+> 
+> 
+> Thanks,
+> SeongJae Park
+> 
+> > 
+> > Jonathan
+> >   
+> > > 
+> > > Changes from v8
+> > > (https://lore.kernel.org/linux-mm/20200406130938.14066-1-sjpark@amazon.com/)
+> > >  - Make regions always aligned by minimal region size that can be changed
+> > >    (Stefan Nuernberger)
+> > >  - Store binary format version in the recording file (Stefan Nuernberger)
+> > >  - Use 'int' for pid instead of 'unsigned long' (Stefan Nuernberger)
+> > >  - Fix a race condition in damon thread termination (Stefan Nuernberger)
+> > >  - Optimize random value generation and recording (Stefan Nuernberger)
+> > >  - Clean up commit messages and comments (Stefan Nuernberger)
+> > >  - Clean up code (Stefan Nuernberger)
+> > >  - Use explicit signalling and 'do_exit()' for damon thread termination 
+> > >  - Add more typos to spelling.txt
+> > >  - Update the performance evaluation results
+> > >  - Describe future plans in the cover letter
+> > > 
+> > > Changes from v7
+> > > (https://lore.kernel.org/linux-mm/20200318112722.30143-1-sjpark@amazon.com/)
+> > >  - Cleanup variable names (Jonathan Cameron)
+> > >  - Split sampling address setup from access_check() (Jonathan Cameron)
+> > >  - Make sampling address to always locate in the region (Jonathan Cameron)
+> > >  - Make initial region's sampling addr to be old (Jonathan Cameron)
+> > >  - Split kdamond on/off function to seperate functions (Jonathan Cameron)
+> > >  - Fix wrong kernel doc comments (Jonathan Cameron)
+> > >  - Reset 'last_accessed' to false in kdamond_check_access() if necessary
+> > >  - Rebase on v5.6
+> > > 
+> > > Changes from v6
+> > > (https://lore.kernel.org/linux-mm/20200224123047.32506-1-sjpark@amazon.com/)
+> > >  - Wordsmith cover letter (Shakeel Butt)
+> > >  - Cleanup code and commit messages (Jonathan Cameron)
+> > >  - Avoid kthread_run() under spinlock critical section (Jonathan Cameron)
+> > >  - Use kthread_stop() (Jonathan Cameron)
+> > >  - Change tracepoint to trace regions (Jonathan Cameron)
+> > >  - Implement API from the beginning (Jonathan Cameron)
+> > >  - Fix typos (Jonathan Cameron)
+> > >  - Fix access checking to properly handle regions smaller than single page
+> > >    (Jonathan Cameron)
+> > >  - Add found typos to 'scripts/spelling.txt'
+> > >  - Add recent evaluation results including DAMON-based Operation Schemes
+> > > 
+> > > Changes from v5
+> > > (https://lore.kernel.org/linux-mm/20200217103110.30817-1-sjpark@amazon.com/)
+> > >  - Fix minor bugs (sampling, record attributes, debugfs and user space tool)
+> > >  - selftests: Add debugfs interface tests for the bugs
+> > >  - Modify the user space tool to use its self default values for parameters
+> > >  - Fix pmg huge page access check
+> > > 
+> > > Changes from v4
+> > > (https://lore.kernel.org/linux-mm/20200210144812.26845-1-sjpark@amazon.com/)
+> > >  - Add 'Reviewed-by' for the kunit tests patch (Brendan Higgins)
+> > >  - Make the unit test to depedns on 'DAMON=y' (Randy Dunlap and kbuild bot)
+> > >    Reported-by: kbuild test robot <lkp@intel.com>
+> > >  - Fix m68k module build issue
+> > >    Reported-by: kbuild test robot <lkp@intel.com>
+> > >  - Add selftests
+> > >  - Seperate patches for low level users from core logics for better reading
+> > >  - Clean up debugfs interface
+> > >  - Trivial nitpicks
+> > > 
+> > > Changes from v3
+> > > (https://lore.kernel.org/linux-mm/20200204062312.19913-1-sj38.park@gmail.com/)
+> > >  - Fix i386 build issue
+> > >    Reported-by: kbuild test robot <lkp@intel.com>
+> > >  - Increase the default size of the monitoring result buffer to 1 MiB
+> > >  - Fix misc bugs in debugfs interface
+> > > 
+> > > Changes from v2
+> > > (https://lore.kernel.org/linux-mm/20200128085742.14566-1-sjpark@amazon.com/)
+> > >  - Move MAINTAINERS changes to last commit (Brendan Higgins)
+> > >  - Add descriptions for kunittest: why not only entire mappings and what the 4
+> > >    input sets are trying to test (Brendan Higgins)
+> > >  - Remove 'kdamond_need_stop()' test (Brendan Higgins)
+> > >  - Discuss about the 'perf mem' and DAMON (Peter Zijlstra)
+> > >  - Make CV clearly say what it actually does (Peter Zijlstra)
+> > >  - Answer why new module (Qian Cai)
+> > >  - Diable DAMON by default (Randy Dunlap)
+> > >  - Change the interface: Seperate recording attributes
+> > >    (attrs, record, rules) and allow multiple kdamond instances
+> > >  - Implement kernel API interface
+> > > 
+> > > Changes from v1
+> > > (https://lore.kernel.org/linux-mm/20200120162757.32375-1-sjpark@amazon.com/)
+> > >  - Rebase on v5.5
+> > >  - Add a tracepoint for integration with other tracers (Kirill A. Shutemov)
+> > >  - document: Add more description for the user space tool (Brendan Higgins)
+> > >  - unittest: Improve readability (Brendan Higgins)
+> > >  - unittest: Use consistent name and helpers function (Brendan Higgins)
+> > >  - Update PG_Young to avoid reclaim logic interference (Yunjae Lee)
+> > > 
+> > > Changes from RFC
+> > > (https://lore.kernel.org/linux-mm/20200110131522.29964-1-sjpark@amazon.com/)
+> > >  - Specify an ambiguous plan of access pattern based mm optimizations
+> > >  - Support loadable module build
+> > >  - Cleanup code
+> > > 
+> > > SeongJae Park (15):
+> > >   scripts/spelling: Add a few more typos
+> > >   mm/page_ext: Export lookup_page_ext() to GPL modules
+> > >   mm: Introduce Data Access MONitor (DAMON)
+> > >   mm/damon: Implement region based sampling
+> > >   mm/damon: Adaptively adjust regions
+> > >   mm/damon: Apply dynamic memory mapping changes
+> > >   mm/damon: Implement callbacks
+> > >   mm/damon: Implement access pattern recording
+> > >   mm/damon: Add debugfs interface
+> > >   mm/damon: Add tracepoints
+> > >   tools: Add a minimal user-space tool for DAMON
+> > >   Documentation/admin-guide/mm: Add a document for DAMON
+> > >   mm/damon: Add kunit tests
+> > >   mm/damon: Add user space selftests
+> > >   MAINTAINERS: Update for DAMON
+> > > 
+> > >  .../admin-guide/mm/data_access_monitor.rst    |  428 +++++
+> > >  Documentation/admin-guide/mm/index.rst        |    1 +
+> > >  MAINTAINERS                                   |   12 +
+> > >  include/linux/damon.h                         |   78 +
+> > >  include/trace/events/damon.h                  |   43 +
+> > >  mm/Kconfig                                    |   23 +
+> > >  mm/Makefile                                   |    1 +
+> > >  mm/damon-test.h                               |  615 +++++++
+> > >  mm/damon.c                                    | 1494 +++++++++++++++++
+> > >  mm/page_ext.c                                 |    1 +
+> > >  scripts/spelling.txt                          |    8 +
+> > >  tools/damon/.gitignore                        |    1 +
+> > >  tools/damon/_dist.py                          |   36 +
+> > >  tools/damon/_recfile.py                       |   23 +
+> > >  tools/damon/bin2txt.py                        |   67 +
+> > >  tools/damon/damo                              |   37 +
+> > >  tools/damon/heats.py                          |  362 ++++
+> > >  tools/damon/nr_regions.py                     |   91 +
+> > >  tools/damon/record.py                         |  212 +++
+> > >  tools/damon/report.py                         |   45 +
+> > >  tools/damon/wss.py                            |   97 ++
+> > >  tools/testing/selftests/damon/Makefile        |    7 +
+> > >  .../selftests/damon/_chk_dependency.sh        |   28 +
+> > >  tools/testing/selftests/damon/_chk_record.py  |  108 ++
+> > >  .../testing/selftests/damon/debugfs_attrs.sh  |  139 ++
+> > >  .../testing/selftests/damon/debugfs_record.sh |   50 +
+> > >  26 files changed, 4007 insertions(+)
+> > >  create mode 100644 Documentation/admin-guide/mm/data_access_monitor.rst
+> > >  create mode 100644 include/linux/damon.h
+> > >  create mode 100644 include/trace/events/damon.h
+> > >  create mode 100644 mm/damon-test.h
+> > >  create mode 100644 mm/damon.c
+> > >  create mode 100644 tools/damon/.gitignore
+> > >  create mode 100644 tools/damon/_dist.py
+> > >  create mode 100644 tools/damon/_recfile.py
+> > >  create mode 100644 tools/damon/bin2txt.py
+> > >  create mode 100755 tools/damon/damo
+> > >  create mode 100644 tools/damon/heats.py
+> > >  create mode 100644 tools/damon/nr_regions.py
+> > >  create mode 100644 tools/damon/record.py
+> > >  create mode 100644 tools/damon/report.py
+> > >  create mode 100644 tools/damon/wss.py
+> > >  create mode 100644 tools/testing/selftests/damon/Makefile
+> > >  create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
+> > >  create mode 100644 tools/testing/selftests/damon/_chk_record.py
+> > >  create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
+> > >  create mode 100755 tools/testing/selftests/damon/debugfs_record.sh  
+
 
