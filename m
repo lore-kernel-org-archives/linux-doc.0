@@ -2,75 +2,151 @@ Return-Path: <SRS0=8MBO=6N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5164BC83004
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 15:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD537C83000
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 19:56:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C8CF206B8
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 15:41:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9901E206D9
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 19:56:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D1S0Ba1q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726971AbgD2PlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Apr 2020 11:41:04 -0400
-Received: from foss.arm.com ([217.140.110.172]:41282 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726519AbgD2PlD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Apr 2020 11:41:03 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82FFF1045;
-        Wed, 29 Apr 2020 08:41:02 -0700 (PDT)
-Received: from e107158-lin (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3649F3F68F;
-        Wed, 29 Apr 2020 08:41:00 -0700 (PDT)
-Date:   Wed, 29 Apr 2020 16:40:57 +0100
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Pavan Kondeti <pkondeti@codeaurora.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
+        id S1726800AbgD2T4m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Apr 2020 15:56:42 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39751 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726456AbgD2T4m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 15:56:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588190200;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=X6rk25Tv2imwj4OrlKEUTzABdfyr8dyAJgvrX//k5fs=;
+        b=D1S0Ba1qaQQe6L/411Vh8WBHUHWaZ0mIyejkNERPzR1DZvwRPzs2h1RG4OiNz0ociyqy1l
+        a7Su5UMGHALKfY5SBS28UpovBcowFSjjUbf+s2so/fg057U3c6J/F2CM6TbeouE20Ytf6C
+        HPmCTY1hZIYpNREXrTRUaoNtI6+EkGE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-Jn-7UCXpM_6y8Jb0umYfuw-1; Wed, 29 Apr 2020 15:56:38 -0400
+X-MC-Unique: Jn-7UCXpM_6y8Jb0umYfuw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D5CC107ACCA;
+        Wed, 29 Apr 2020 19:56:35 +0000 (UTC)
+Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9425366062;
+        Wed, 29 Apr 2020 19:56:33 +0000 (UTC)
+Date:   Wed, 29 Apr 2020 13:56:33 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     linux-doc@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
         Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] sched/uclamp: Add a new sysctl to control RT
- default boost value
-Message-ID: <20200429154056.bznhs6wc2iyxzevy@e107158-lin>
-References: <20200428164134.5588-1-qais.yousef@arm.com>
- <20200429113255.GA19464@codeaurora.org>
- <20200429123056.otyedhljlugyf5we@e107158-lin>
- <20200429152106.GB19464@codeaurora.org>
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [regression?] Re: [PATCH v6 06/12] mm/gup: track FOLL_PIN pages
+Message-ID: <20200429135633.626a8411@w520.home>
+In-Reply-To: <20200429002903.GZ26002@ziepe.ca>
+References: <20200211001536.1027652-7-jhubbard@nvidia.com>
+        <20200424121846.5ee2685f@w520.home>
+        <5b901542-d949-8d7e-89c7-f8d5ee20f6e9@nvidia.com>
+        <20200424141548.5afdd2bb@w520.home>
+        <665ffb48-d498-90f4-f945-997a922fc370@nvidia.com>
+        <20200428105455.30343fb4@w520.home>
+        <20200428174957.GV26002@ziepe.ca>
+        <20200428130752.75c153bd@w520.home>
+        <20200428192251.GW26002@ziepe.ca>
+        <20200428141223.5b1653db@w520.home>
+        <20200429002903.GZ26002@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200429152106.GB19464@codeaurora.org>
-User-Agent: NeoMutt/20171215
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/29/20 20:51, Pavan Kondeti wrote:
-> As we are copying the sysctl_sched_uclamp_util_min_rt_default value into
-> p->uclamp_req[UCLAMP_MIN], user gets it when sched_getattr() is called though
-> sched_setattr() was not called before. I guess that is expected behavior with
-> your definition of this new tunable. Thanks for answering the question in
-> detail.
+On Tue, 28 Apr 2020 21:29:03 -0300
+Jason Gunthorpe <jgg@ziepe.ca> wrote:
 
-Yes. That's the original design without this patch actually. Though before it
-was always set to 1024.
+> On Tue, Apr 28, 2020 at 02:12:23PM -0600, Alex Williamson wrote:
+> 
+> > > > Maybe I was just getting lucky before this commit.  For a
+> > > > VM_PFNMAP, vaddr_get_pfn() only needs pin_user_pages_remote() to return
+> > > > error and the vma information that we setup in vfio_pci_mmap().    
+> > > 
+> > > I've written on this before, vfio should not be passing pages to the
+> > > iommu that it cannot pin eg it should not touch VM_PFNMAP vma's in the
+> > > first place.
+> > > 
+> > > It is a use-after-free security issue the way it is..  
+> > 
+> > Where is the user after free?  Here I'm trying to map device mmio space
+> > through the iommu, which we need to enable p2p when the user owns
+> > multiple devices.  
+> 
+> Yes, I gathered what the intent was..
+> 
+> > The device is owned by the user, bound to vfio-pci, and can't be
+> > unbound while the user has it open.  The iommu mappings are torn
+> > down on release.  I guess I don't understand the problem.  
+> 
+> For PFNMAP VMAs the lifecycle rule is basically that the PFN inside
+> the VMA can only be used inside the mmap_sem that read it. Ie you
+> cannot take a PFN outside the mmap_sem and continue to use it.
+> 
+> This is because the owner of the VMA owns the lifetime of that PFN,
+> and under the write side of the mmap_sem it can zap the PFN, or close
+> the VMA. Afterwards the VMA owner knows that there are no active
+> reference to the PFN in the system and can reclaim the PFN
+> 
+> ie the PFNMAP has no per-page pin counter. All lifetime revolves around
+> the mmap_sem and the vma.
+> 
+> What vfio does is take the PFN out of the mmap_sem and program it into
+> the iommu.
+> 
+> So when the VMA owner decides the PFN has no references, it actually
+> doesn't: vfio continues to access it beyond its permitted lifetime.
+> 
+> HW like mlx5 and GPUs have BAR pages which have security
+> properties. Once the PFN is returned to the driver the security
+> context of the PFN can be reset and re-assigned to another
+> process. Using VFIO a hostile user space can retain access to the BAR
+> page and upon its reassignment access a security context they were not
+> permitted to access.
+> 
+> This is why GUP does not return PFNMAP pages and vfio should not carry
+> a reference outside the mmap_sem. It breaks all the lifetime rules.
 
-Thanks for having a look!
+Thanks for the explanation.  I'm inferring that there is no solution to
+this, but why can't we use mmu notifiers to invalidate the iommu on zap
+or close?  I know that at least QEMU won't consider these sorts of
+mapping fatal, so we could possibly change the default and make support
+for such mappings opt-in, but I don't know if I'd break DPDK, or
+potentially users within QEMU that make use of p2p between devices.
+Thanks,
 
---
-Qais Yousef
+Alex
+
