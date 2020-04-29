@@ -2,155 +2,149 @@ Return-Path: <SRS0=8MBO=6N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 097B1C8300A
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 00:29:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95181C83001
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 02:14:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DAC9F20737
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 00:29:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="gBF0juzP"
+	by mail.kernel.org (Postfix) with ESMTP id 7828320730
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 02:14:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726457AbgD2A3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Apr 2020 20:29:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43318 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726348AbgD2A3H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 20:29:07 -0400
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6973C03C1AD
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 17:29:05 -0700 (PDT)
-Received: by mail-qv1-xf41.google.com with SMTP id 59so305246qva.13
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2020 17:29:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=sum6zvnI9uuuHONOiogQ9HloeE5QbhDG16IxplXpyKw=;
-        b=gBF0juzP6lNNN9CsauhPBhO02OANPJ2mLHyQLraLJuxmTXzYX3a/IrHNLRunWWLgiG
-         YQVRsmq/CQUxnSlv750R4HNOe+f4kPwaWyk0MtrKXzmwYnqUFpOJ5CXJFPShUc+SQm/P
-         4qBERO3b+TESmrHgaop2a4RXN2SQvRu7y9GSisP3W+GLS3SS3+L73GmaaALGOymT7K0K
-         nIIR4A0TZGwRH9dThz9J/IhinJXc+OLdMJaRrWSTTSghWuweWS/w5EJSyzxLOzHuLQl0
-         5dL0b3ddwCB3mIe+/kUSVtBffiLucojHhM3/PGLUAMEKHbSw9EZAapDnMT57NkF8ZjD5
-         LVHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=sum6zvnI9uuuHONOiogQ9HloeE5QbhDG16IxplXpyKw=;
-        b=m+UDHoxWycXZjYBKqVJXESQGY8tN1hPqEvjvcYdePjXrYcjb/yJhw8DNXFKZmNTkJt
-         QfHj2pH8QLwGEahV45Jlp2UrXghTZqnhtTHdgLYfkJq/QhQLzJyqsHcaTcI2lAfUjAms
-         cCEFPrQ1sZ2VuyS07i5MkezWojpNk1DdU+tYAw7n7/6Do/RqPLUCWaZinp6OcOWfQsi7
-         5CEbOKkgdBYbveGZJJPzTuFBFEAvTHXg1I0k0Vgj6p3uutnfYMvZ+fRrV2P1ZyJ14I/O
-         uYjXmA3N6I4E2XSPzb/gswakNJXtpXS9oCRWOaT4QIy1KeT9thuwpi2iHQJRIH4JMGQk
-         iobQ==
-X-Gm-Message-State: AGi0PuYW9JKPIRnE96BrEahKKS3xXe2/2WNjvdJ17VzSFmPD35q4qac2
-        XBY0kOrdrC7LpIwCFxIdlYd1bNbprhFd4g==
-X-Google-Smtp-Source: APiQypKpF7REJXdifsNrbjdxjECMvWqO7VD/BFBVFuZ0JXzB0iNDmPtTStSILhzusynqtgGAwoi6Fw==
-X-Received: by 2002:a0c:b651:: with SMTP id q17mr2047236qvf.135.1588120144906;
-        Tue, 28 Apr 2020 17:29:04 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id 134sm14193711qki.16.2020.04.28.17.29.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 28 Apr 2020 17:29:04 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jTab1-0001tN-Gx; Tue, 28 Apr 2020 21:29:03 -0300
-Date:   Tue, 28 Apr 2020 21:29:03 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     linux-doc@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [regression?] Re: [PATCH v6 06/12] mm/gup: track FOLL_PIN pages
-Message-ID: <20200429002903.GZ26002@ziepe.ca>
-References: <20200211001536.1027652-7-jhubbard@nvidia.com>
- <20200424121846.5ee2685f@w520.home>
- <5b901542-d949-8d7e-89c7-f8d5ee20f6e9@nvidia.com>
- <20200424141548.5afdd2bb@w520.home>
- <665ffb48-d498-90f4-f945-997a922fc370@nvidia.com>
- <20200428105455.30343fb4@w520.home>
- <20200428174957.GV26002@ziepe.ca>
- <20200428130752.75c153bd@w520.home>
- <20200428192251.GW26002@ziepe.ca>
- <20200428141223.5b1653db@w520.home>
+        id S1726484AbgD2COa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Apr 2020 22:14:30 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:39847 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726158AbgD2COa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Apr 2020 22:14:30 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TwzrnyG_1588126423;
+Received: from 30.27.118.60(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0TwzrnyG_1588126423)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 29 Apr 2020 10:13:44 +0800
+Subject: Re: [PATCH v3] module: Allow to disable modsign in kernel cmdline
+To:     Jessica Yu <jeyu@kernel.org>, Greg KH <gregkh@linuxfoundation.org>
+Cc:     corbet@lwn.net, rdunlap@infradead.org, mchehab+samsung@kernel.org,
+        tglx@linutronix.de, akpm@linux-foundation.org,
+        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20200428060008.50417-1-tianjia.zhang@linux.alibaba.com>
+ <20200428063522.GA990431@kroah.com>
+ <8a0c0ef3-4881-1b9c-6e42-ab379542bc16@linux.alibaba.com>
+ <20200428072944.GA994208@kroah.com> <20200428100222.GA15037@linux-8ccs>
+From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Message-ID: <65d753c0-20c0-6530-71ff-2c121c478a36@linux.alibaba.com>
+Date:   Wed, 29 Apr 2020 10:13:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200428141223.5b1653db@w520.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200428100222.GA15037@linux-8ccs>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 28, 2020 at 02:12:23PM -0600, Alex Williamson wrote:
 
-> > > Maybe I was just getting lucky before this commit.  For a
-> > > VM_PFNMAP, vaddr_get_pfn() only needs pin_user_pages_remote() to return
-> > > error and the vma information that we setup in vfio_pci_mmap().  
-> > 
-> > I've written on this before, vfio should not be passing pages to the
-> > iommu that it cannot pin eg it should not touch VM_PFNMAP vma's in the
-> > first place.
-> > 
-> > It is a use-after-free security issue the way it is..
+
+On 2020/4/28 18:02, Jessica Yu wrote:
+> +++ Greg KH [28/04/20 09:29 +0200]:
+>> On Tue, Apr 28, 2020 at 03:07:10PM +0800, Tianjia Zhang wrote:
+>>>
+>>>
+>>> On 2020/4/28 14:35, Greg KH wrote:
+>>> > On Tue, Apr 28, 2020 at 02:00:08PM +0800, Tianjia Zhang wrote:
+>>> > > This option allows to disable modsign completely at the beginning,
+>>> > > and turn off by set the kernel cmdline `no_modsig_enforce` when
+>>> > > `CONFIG_MODULE_SIG_FORCE` is enabled.
+>>> > >
+>>> > > Yet another change allows to always show the current status of
+>>> > > modsign through `/sys/module/module/parameters/sig_enforce`.
+>>> > >
+>>> > > Signed-off-by: Jia Zhang <zhang.jia@linux.alibaba.com>
+>>> > > Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+>>> > > ---
+>>> > >
+>>> > > v3 change:
+>>> > >    Beautify the document description according to the 
+>>> recommendation.
+>>> > >
+>>> > > v2 change:
+>>> > >    document this new option.
+>>> > >
+>>> > >   Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
+>>> > >   kernel/module.c                                 | 8 ++++++++
+>>> > >   2 files changed, 14 insertions(+)
+>>> > >
+>>> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt 
+>>> b/Documentation/admin-guide/kernel-parameters.txt
+>>> > > index 7bc83f3d9bdf..b30f013fb8c5 100644
+>>> > > --- a/Documentation/admin-guide/kernel-parameters.txt
+>>> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>> > > @@ -3190,6 +3190,12 @@
+>>> > >       noirqdebug    [X86-32] Disables the code which attempts to 
+>>> detect and
+>>> > >               disable unhandled interrupt sources.
+>>> > > +    no_modsig_enforce
+>>> > > +            [KNL] When CONFIG_MODULE_SIG_FORCE is set, this option
+>>> > > +            allows to disable modsign completely at the beginning.
+>>> > > +            This means that modules without (valid) signatures will
+>>> > > +            be loaded successfully.
+>>> > > +
+>>> >
+>>> > So now we have module.sig_enforce and this one?  That feels really
+>>> > confusing, why can't you just use the existing option?
+>>> >
+>>> > And why would you want to allow the bootloader to override a kernel
+>>> > build option like this?  That feels risky.
+>>> >
+>>> > thanks,
+>>> >
+>>> > greg k-h
+>>> >
+>>>
+>>> If CONFIG_MODULE_SIG_FORCE is set, `module.sig_enforce` is always 
+>>> true and
+>>> read-only. There is indeed a risk in doing this, but it will allow the
+>>> system to boot normally in some emergency situations, such as 
+>>> certificate
+>>> expiration.
+>>>
+>>> On the other hand, would it be a good solution to make 
+>>> `module.sig_enforce`
+>>> readable and writable?
+>>
+>> Readable is fine :)
+>>
+>> And you really can't modify the existing option to change how it works,
+>> but my question is, why would you want to override
+>> CONFIG_MODULE_SIG_FORCE at all?  I wouldn't want my bootloader to have
+>> the ability to change the kernel's protection model, that's a huge
+>> security hole you are adding to the kernel that it can not protect
+>> itself from at all.
 > 
-> Where is the user after free?  Here I'm trying to map device mmio space
-> through the iommu, which we need to enable p2p when the user owns
-> multiple devices.
+> I agree with Greg's reasoning here. We had an almost identical thread
+> about this two years ago:
+> 
+>   http://lore.kernel.org/r/20180312132823.dixp7gkjypjlgymt@redbean.localdomain
+> 
+> I generally view module signature enforcement as a one way street. You
+> can go from unenforced to enforced, but not the other way around. If
+> you are anticipating the need to load unsigned modules or undo this
+> protection in general, then why are you building the kernel with
+> CONFIG_MODULE_SIG_FORCE? It seems to defeat the purpose of enabling
+> this option. You could achieve the same behavior by building without
+> it and toggling module.sig_enforce on boot, no?
+> 
+> Thanks,
+> 
+> Jessica
 
-Yes, I gathered what the intent was..
+I'm sorry I didn't pay attention to the previous email, your information 
+helped me a lot, I think this scenario can be solved by toggling 
+module.sig_enforce, thank you very much.
 
-> The device is owned by the user, bound to vfio-pci, and can't be
-> unbound while the user has it open.  The iommu mappings are torn
-> down on release.  I guess I don't understand the problem.
-
-For PFNMAP VMAs the lifecycle rule is basically that the PFN inside
-the VMA can only be used inside the mmap_sem that read it. Ie you
-cannot take a PFN outside the mmap_sem and continue to use it.
-
-This is because the owner of the VMA owns the lifetime of that PFN,
-and under the write side of the mmap_sem it can zap the PFN, or close
-the VMA. Afterwards the VMA owner knows that there are no active
-reference to the PFN in the system and can reclaim the PFN
-
-ie the PFNMAP has no per-page pin counter. All lifetime revolves around
-the mmap_sem and the vma.
-
-What vfio does is take the PFN out of the mmap_sem and program it into
-the iommu.
-
-So when the VMA owner decides the PFN has no references, it actually
-doesn't: vfio continues to access it beyond its permitted lifetime.
-
-HW like mlx5 and GPUs have BAR pages which have security
-properties. Once the PFN is returned to the driver the security
-context of the PFN can be reset and re-assigned to another
-process. Using VFIO a hostile user space can retain access to the BAR
-page and upon its reassignment access a security context they were not
-permitted to access.
-
-This is why GUP does not return PFNMAP pages and vfio should not carry
-a reference outside the mmap_sem. It breaks all the lifetime rules.
-
-Jason
+Thanks and best,
+Tianjia
