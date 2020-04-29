@@ -2,187 +2,224 @@ Return-Path: <SRS0=8MBO=6N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD9C5C8300B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:03:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A615C83000
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:04:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8814E206D9
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:03:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44A7620BED
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:04:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Lf9PP9+p"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="CdmBNX7N"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727943AbgD2XDF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Apr 2020 19:03:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57494 "EHLO
+        id S1726481AbgD2XEI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Apr 2020 19:04:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727114AbgD2XDE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 19:03:04 -0400
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AABFC08E934
-        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2020 16:03:04 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id m67so3862480qke.12
-        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2020 16:03:04 -0700 (PDT)
+        with ESMTP id S1727789AbgD2XEH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 19:04:07 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84898C035494
+        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2020 16:04:07 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id w65so1844996pfc.12
+        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2020 16:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=UyDw5QOX4WfyUC8G627O7ysI5MXH2/kRIYRidhm+34A=;
-        b=Lf9PP9+pAmFpHpj/QA/vAUx6tPP+SMmy9otSkTHgBufep+WZtwcfRYFXHUYzeNOZY0
-         SSSAR5BfKXwu+JpXHmhJr/JUUF9F5hoGfhF6zI6lutQMd9Gy8+ZrIUYooreCLbeZdRSc
-         A0tS3wmiYn5H/hE8vNDkLWe9KcZ9XxaAC14AzAByukRe7mwS8No33u3J0IZlCXxvO6Ph
-         T0mxIgWGenP6PReTGK9OG7LFtVW/sn/EUUbm4WEIwCHNzRpfNw3inm8gqhw/QKNkHvdf
-         0S5BwcySsi/C4sLiJ/A9nsBPJGLQoB/ie9s3uFiuMVtheZVMWRuv7ke7ViClk89F4oDY
-         e4DQ==
+        d=broadcom.com; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=pTsAs2CDlbVr46p0BUoXzORZ7PJqz3PIVNdyQM5hvA4=;
+        b=CdmBNX7N3jvCxhnclyKjAisrCfjyJw95MD3shTrp1r6CmwGIN7H1/Pe2hnfly4p4PO
+         0fzH1jsEO3VwWjfzTAlMTeXo1sP8SzpQEvZpEEAk7t/sUBLMMCH1yx3D/tl4Xy4G5z72
+         AC7iaQy3XJAbuU0T+mYFO3vRkqx4GL0oQiEQw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UyDw5QOX4WfyUC8G627O7ysI5MXH2/kRIYRidhm+34A=;
-        b=qdtEkA7cDae6yMQHNpZD8bpVenqIicQnEEeb122+chC8Z6+PoW1j4dVSwrcpzYsP5+
-         AvSdjy5rle+vqvLPI7eDirLgEUevzkYXEeACxQV9Iq82ClskCxeYJ/tL5FMgHMiFUxuO
-         owiO0kT2qDAEGbrViHQOTwtF97+RGnZRrb3yAgriOY/QTSanxV8QQuxopvmAuAh/BLmh
-         VoAPgRtrgXtfobcWKG5a+PxoaMYRMDxWJdBtRbUm93gof07uB6K38KSZuDBnHSRlt3gx
-         EjVfB7TG8trk3l4T+R6aBva/JRbkn6Zoy0dHhxy1VXtg7JenjkIHI0xGq9+szoAGWiHa
-         Wfug==
-X-Gm-Message-State: AGi0PuaDPf5bzCOj32zP/nPKR88ULdh7a3VJkooBdEBRRkHDbgeoil1e
-        JuQe8bQ9hxE3KLq6KHfTdUZlWw==
-X-Google-Smtp-Source: APiQypIMM3qPwE29FFUjHN0D+hYMHptYMFkDQiz7DJhIoeMIpRIpI7WoZIuhGnKXuL/3vQ+au4ADbA==
-X-Received: by 2002:a05:620a:166d:: with SMTP id d13mr787657qko.448.1588201383344;
-        Wed, 29 Apr 2020 16:03:03 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id i2sm446118qki.54.2020.04.29.16.03.02
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 29 Apr 2020 16:03:02 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jTvjJ-0000sP-V0; Wed, 29 Apr 2020 20:03:01 -0300
-Date:   Wed, 29 Apr 2020 20:03:01 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     linux-doc@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-mm@kvack.org,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [regression?] Re: [PATCH v6 06/12] mm/gup: track FOLL_PIN pages
-Message-ID: <20200429230301.GL26002@ziepe.ca>
-References: <5b901542-d949-8d7e-89c7-f8d5ee20f6e9@nvidia.com>
- <20200424141548.5afdd2bb@w520.home>
- <665ffb48-d498-90f4-f945-997a922fc370@nvidia.com>
- <20200428105455.30343fb4@w520.home>
- <20200428174957.GV26002@ziepe.ca>
- <20200428130752.75c153bd@w520.home>
- <20200428192251.GW26002@ziepe.ca>
- <20200428141223.5b1653db@w520.home>
- <20200429002903.GZ26002@ziepe.ca>
- <20200429135633.626a8411@w520.home>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=pTsAs2CDlbVr46p0BUoXzORZ7PJqz3PIVNdyQM5hvA4=;
+        b=ICVqBCTyZDa5IGt22CYGp7EW0H1MnFcUvlIb3P4ruV75tWjUjNdFW7trp/e2sX2B9J
+         6aDLD0slzw/rzifoz3Ml33hLGITxTUdit812aGnh6G/VBmW2UZHa8mUdnm644LuIUJyW
+         7FQkAVulrH3AJkcz5+nU1+RBa8uaX0jpjGaSypEH2gl+XXeZ+eiqPb3wFSStPCWXGt+h
+         j3gEbQGOPXZwRHEkiFh+UC/x0/nDj/5/XUUoHW+hoPCS83StInoBk9UYHTAb2vSPI2rR
+         P0fxWzzNUljLhKPwC7mn+DkoDh8O6SHs5S+8O0Cfezu7noDytG9AVn/By/5fwpQ27Rpz
+         XR2g==
+X-Gm-Message-State: AGi0PuZ7/AbRVXyVzRT7oORy2DNzMxIlLYmbBjRAkXxYvpe6geyvaiQr
+        h9dMfQzr3yAxEUtomOeEb5/Zrw==
+X-Google-Smtp-Source: APiQypKUxErsH+JxyFE5+lXNYp86SmB717RFqVubaZnyDLfFMUyyoUO8X3/GyvAYk7iDD2eJBJY2tQ==
+X-Received: by 2002:aa7:8042:: with SMTP id y2mr504718pfm.94.1588201446938;
+        Wed, 29 Apr 2020 16:04:06 -0700 (PDT)
+Received: from [10.136.13.65] ([192.19.228.250])
+        by smtp.gmail.com with ESMTPSA id l37sm255572pje.12.2020.04.29.16.04.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2020 16:04:06 -0700 (PDT)
+Subject: Re: Re: [RESEND PATCH v5 2/5] arm64/crash_core: Export TCR_EL1.T1SZ
+ in vmcoreinfo
+To:     Bhupesh Sharma <bhsharma@redhat.com>,
+        Amit Kachhap <amit.kachhap@arm.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>, x86@kernel.org,
+        Will Deacon <will@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
+        James Morse <james.morse@arm.com>,
+        Dave Anderson <anderson@redhat.com>,
+        bhupesh linux <bhupesh.linux@gmail.com>,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Steve Capper <steve.capper@arm.com>,
+        Ray Jui <ray.jui@broadcom.com>,
+        Bharat Gooty <bharat.gooty@broadcom.com>
+References: <1575057559-25496-1-git-send-email-bhsharma@redhat.com>
+ <1575057559-25496-3-git-send-email-bhsharma@redhat.com>
+ <63d6e63c-7218-d2dd-8767-4464be83603f@arm.com>
+ <af0fd2b0-99db-9d58-bc8d-0dd9d640b1eb@redhat.com>
+ <f791e777-781c-86ce-7619-1de3fe3e7b90@arm.com>
+ <351975548.1986001.1578682810951.JavaMail.zimbra@redhat.com>
+ <04287d60-e99e-631b-c134-d6dc39e6a193@redhat.com>
+ <974f3601-25f8-f4e6-43a8-ff4275e9c174@arm.com>
+ <CACi5LpOK6Q3ud3M3zakexLJNOtHy9TODHyYSHVwE3JHVakKzqA@mail.gmail.com>
+From:   Scott Branden <scott.branden@broadcom.com>
+Message-ID: <d401b003-af3e-c525-ba00-0de48486b7a0@broadcom.com>
+Date:   Wed, 29 Apr 2020 16:04:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200429135633.626a8411@w520.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <CACi5LpOK6Q3ud3M3zakexLJNOtHy9TODHyYSHVwE3JHVakKzqA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 29, 2020 at 01:56:33PM -0600, Alex Williamson wrote:
-> On Tue, 28 Apr 2020 21:29:03 -0300
-> Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> 
-> > On Tue, Apr 28, 2020 at 02:12:23PM -0600, Alex Williamson wrote:
-> > 
-> > > > > Maybe I was just getting lucky before this commit.  For a
-> > > > > VM_PFNMAP, vaddr_get_pfn() only needs pin_user_pages_remote() to return
-> > > > > error and the vma information that we setup in vfio_pci_mmap().    
-> > > > 
-> > > > I've written on this before, vfio should not be passing pages to the
-> > > > iommu that it cannot pin eg it should not touch VM_PFNMAP vma's in the
-> > > > first place.
-> > > > 
-> > > > It is a use-after-free security issue the way it is..  
-> > > 
-> > > Where is the user after free?  Here I'm trying to map device mmio space
-> > > through the iommu, which we need to enable p2p when the user owns
-> > > multiple devices.  
-> > 
-> > Yes, I gathered what the intent was..
-> > 
-> > > The device is owned by the user, bound to vfio-pci, and can't be
-> > > unbound while the user has it open.  The iommu mappings are torn
-> > > down on release.  I guess I don't understand the problem.  
-> > 
-> > For PFNMAP VMAs the lifecycle rule is basically that the PFN inside
-> > the VMA can only be used inside the mmap_sem that read it. Ie you
-> > cannot take a PFN outside the mmap_sem and continue to use it.
-> > 
-> > This is because the owner of the VMA owns the lifetime of that PFN,
-> > and under the write side of the mmap_sem it can zap the PFN, or close
-> > the VMA. Afterwards the VMA owner knows that there are no active
-> > reference to the PFN in the system and can reclaim the PFN
-> > 
-> > ie the PFNMAP has no per-page pin counter. All lifetime revolves around
-> > the mmap_sem and the vma.
-> > 
-> > What vfio does is take the PFN out of the mmap_sem and program it into
-> > the iommu.
-> > 
-> > So when the VMA owner decides the PFN has no references, it actually
-> > doesn't: vfio continues to access it beyond its permitted lifetime.
-> > 
-> > HW like mlx5 and GPUs have BAR pages which have security
-> > properties. Once the PFN is returned to the driver the security
-> > context of the PFN can be reset and re-assigned to another
-> > process. Using VFIO a hostile user space can retain access to the BAR
-> > page and upon its reassignment access a security context they were not
-> > permitted to access.
-> > 
-> > This is why GUP does not return PFNMAP pages and vfio should not carry
-> > a reference outside the mmap_sem. It breaks all the lifetime rules.
-> 
-> Thanks for the explanation.  I'm inferring that there is no solution to
-> this, 
+Hi Bhupesh,
 
-Not a particularly good one unfortunately. I've been wanting to use
-P2P_DMA pages to solve these kinds of things but they are kind of
-expensive.
+On 2020-02-23 10:25 p.m., Bhupesh Sharma wrote:
+> Hi Amit,
+>
+> On Fri, Feb 21, 2020 at 2:36 PM Amit Kachhap <amit.kachhap@arm.com> wrote:
+>> Hi Bhupesh,
+>>
+>> On 1/13/20 5:44 PM, Bhupesh Sharma wrote:
+>>> Hi James,
+>>>
+>>> On 01/11/2020 12:30 AM, Dave Anderson wrote:
+>>>> ----- Original Message -----
+>>>>> Hi Bhupesh,
+>>>>>
+>>>>> On 25/12/2019 19:01, Bhupesh Sharma wrote:
+>>>>>> On 12/12/2019 04:02 PM, James Morse wrote:
+>>>>>>> On 29/11/2019 19:59, Bhupesh Sharma wrote:
+>>>>>>>> vabits_actual variable on arm64 indicates the actual VA space size,
+>>>>>>>> and allows a single binary to support both 48-bit and 52-bit VA
+>>>>>>>> spaces.
+>>>>>>>>
+>>>>>>>> If the ARMv8.2-LVA optional feature is present, and we are running
+>>>>>>>> with a 64KB page size; then it is possible to use 52-bits of address
+>>>>>>>> space for both userspace and kernel addresses. However, any kernel
+>>>>>>>> binary that supports 52-bit must also be able to fall back to 48-bit
+>>>>>>>> at early boot time if the hardware feature is not present.
+>>>>>>>>
+>>>>>>>> Since TCR_EL1.T1SZ indicates the size offset of the memory region
+>>>>>>>> addressed by TTBR1_EL1 (and hence can be used for determining the
+>>>>>>>> vabits_actual value) it makes more sense to export the same in
+>>>>>>>> vmcoreinfo rather than vabits_actual variable, as the name of the
+>>>>>>>> variable can change in future kernel versions, but the architectural
+>>>>>>>> constructs like TCR_EL1.T1SZ can be used better to indicate intended
+>>>>>>>> specific fields to user-space.
+>>>>>>>>
+>>>>>>>> User-space utilities like makedumpfile and crash-utility, need to
+>>>>>>>> read/write this value from/to vmcoreinfo
+>>>>>>> (write?)
+>>>>>> Yes, also write so that the vmcoreinfo from an (crashing) arm64
+>>>>>> system can
+>>>>>> be used for
+>>>>>> analysis of the root-cause of panic/crash on say an x86_64 host using
+>>>>>> utilities like
+>>>>>> crash-utility/gdb.
+>>>>> I read this as as "User-space [...] needs to write to vmcoreinfo".
+>>> That's correct. But for writing to vmcore dump in the kdump kernel, we
+>>> need to read the symbols from the vmcoreinfo in the primary kernel.
+>>>
+>>>>>>>> for determining if a virtual address lies in the linear map range.
+>>>>>>> I think this is a fragile example. The debugger shouldn't need to know
+>>>>>>> this.
+>>>>>> Well that the current user-space utility design, so I am not sure we
+>>>>>> can
+>>>>>> tweak that too much.
+>>>>>>
+>>>>>>>> The user-space computation for determining whether an address lies in
+>>>>>>>> the linear map range is the same as we have in kernel-space:
+>>>>>>>>
+>>>>>>>>      #define __is_lm_address(addr)    (!(((u64)addr) &
+>>>>>>>> BIT(vabits_actual -
+>>>>>>>>      1)))
+>>>>>>> This was changed with 14c127c957c1 ("arm64: mm: Flip kernel VA
+>>>>>>> space"). If
+>>>>>>> user-space
+>>>>>>> tools rely on 'knowing' the kernel memory layout, they must have to
+>>>>>>> constantly be fixed
+>>>>>>> and updated. This is a poor argument for adding this to something that
+>>>>>>> ends up as ABI.
+>>>>>> See above. The user-space has to rely on some ABI/guaranteed
+>>>>>> hardware-symbols which can be
+>>>>>> used for 'determining' the kernel memory layout.
+>>>>> I disagree. Everything and anything in the kernel will change. The
+>>>>> ABI rules apply to
+>>>>> stuff exposed via syscalls and kernel filesystems. It does not apply
+>>>>> to kernel internals,
+>>>>> like the memory layout we used yesterday. 14c127c957c1 is a case in
+>>>>> point.
+>>>>>
+>>>>> A debugger trying to rely on this sort of thing would have to play
+>>>>> catchup whenever it
+>>>>> changes.
+>>>> Exactly.  That's the whole point.
+>>>>
+>>>> The crash utility and makedumpfile are not in the same league as other
+>>>> user-space tools.
+>>>> They have always had to "play catchup" precisely because they depend
+>>>> upon kernel internals,
+>>>> which constantly change.
+>>> I agree with you and DaveA here. Software user-space debuggers are
+>>> dependent on kernel internals (which can change from time-to-time) and
+>>> will have to play catch-up (which has been the case since the very start).
+>>>
+>>> Unfortunately we don't have any clear ABI for software debugging tools -
+>>> may be something to look for in future.
+>>>
+>>> A case in point is gdb/kgdb, which still needs to run with KASLR
+>>> turned-off (nokaslr) for debugging, as it confuses gdb which resolve
+>>> kernel symbol address from symbol table of vmlinux. But we can
+>>> work-around the same in makedumpfile/crash by reading the 'kaslr_offset'
+>>> value. And I have several users telling me now they cannot use gdb on
+>>> KASLR enabled kernel to debug panics, but can makedumpfile + crash
+>>> combination to achieve the same.
+>>>
+>>> So, we should be looking to fix these utilities which are broken since
+>>> the 52-bit changes for arm64. Accordingly, I will try to send the v6
+>>> soon while incorporating the comments posted on the v5.
+>> Any update on the next v6 version. Since this patch series is fixing the
+>> current broken kdump so need this series to add some more fields in
+>> vmcoreinfo for Pointer Authentication work.
+> Sorry for the delay. I was caught up in some other urgent arm64
+> user-space issues.
+> I am preparing the v6 now and hopefully will be able to post it out
+> for review later today.
 
-I have a copy of some draft patches trying to do this
+Did v6 get sent out?
 
-> but why can't we use mmu notifiers to invalidate the iommu on zap or
-> close?
-
-Hum.. I think with the new mmu interval notifiers vfio might be able
-to manage that without a huge amount of trouble. But the iommu
-invalidation needs to be synchronous from a mmu notifier callback - is
-that feasible?
-
-But even so, we have all this stuff now for authorizing PCI P2P which
-this design completely ignores as well. :(
-
-> I know that at least QEMU won't consider these sorts of mapping
-> fatal, so we could possibly change the default and make support for
-> such mappings opt-in, but I don't know if I'd break DPDK, or
-> potentially users within QEMU that make use of p2p between devices.
-
-I'd heard this was mostly for GPU device assignment? I'd be surprised
-if DPDK used this..
-
-Jason
+>
+> Thanks,
+> Bhupesh
+>
+>
+Regards,
+Scott
