@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F23CC8300C
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 22:08:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF9E6C8300C
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 22:08:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3192521707
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 22:08:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DB4420757
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 22:08:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727835AbgD2WIm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Apr 2020 18:08:42 -0400
-Received: from mga09.intel.com ([134.134.136.24]:61292 "EHLO mga09.intel.com"
+        id S1727882AbgD2WIs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Apr 2020 18:08:48 -0400
+Received: from mga09.intel.com ([134.134.136.24]:61300 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726481AbgD2WIl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Apr 2020 18:08:41 -0400
-IronPort-SDR: w6fYvC6L5pQpjp94xywDKQcb+7fYUMEY5eGwhcXor1mOlQsCuT6U0Olut9b8EAS5RbQH3GJ7Qt
- 71XnGrDBJ8sQ==
+        id S1727895AbgD2WIr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Apr 2020 18:08:47 -0400
+IronPort-SDR: yE4E7PT1KM54djDX+prWENxlNv/zAkkNKAUdN/ykFytFfttxMG7D5psmliGn9bwEMiXDeA1IUo
+ b+RGD4evGE2w==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 15:08:39 -0700
-IronPort-SDR: ChfrdpQWrpU8X+qfaUKe8IadfYQhMwaRia8og3fqG0CbWVjLD3TQk2aTNMU+XYxYAF53C21LX8
- vTvB6mzKsd+g==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 15:08:45 -0700
+IronPort-SDR: CaqjPX1qzs7BbH8+SLFhLcHm0AhHj/rcZS5oJa0YWPuOWPnXZzL3ZCEFKUhjJ1irn2OZDCAQ9V
+ WmPjC6K/5SqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,333,1583222400"; 
-   d="scan'208";a="276308838"
+   d="scan'208";a="276308886"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga002.jf.intel.com with ESMTP; 29 Apr 2020 15:08:38 -0700
+  by orsmga002.jf.intel.com with ESMTP; 29 Apr 2020 15:08:45 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -58,9 +58,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v10 01/26] Documentation/x86: Add CET description
-Date:   Wed, 29 Apr 2020 15:07:07 -0700
-Message-Id: <20200429220732.31602-2-yu-cheng.yu@intel.com>
+Subject: [PATCH v10 11/26] x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for transition from _PAGE_DIRTY_HW to _PAGE_COW
+Date:   Wed, 29 Apr 2020 15:07:17 -0700
+Message-Id: <20200429220732.31602-12-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200429220732.31602-1-yu-cheng.yu@intel.com>
 References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
@@ -71,192 +71,114 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Explain no_user_shstk/no_user_ibt kernel parameters, and introduce a new
-document on Control-flow Enforcement Technology (CET).
+When shadow stack is introduced, [R/O + _PAGE_DIRTY_HW] PTE is reserved
+for shadow stack.  Copy-on-write PTEs have [R/O + _PAGE_COW].
+
+When a PTE goes from [R/W + _PAGE_DIRTY_HW] to [R/O + _PAGE_COW], it could
+become a transient shadow stack PTE in two cases:
+
+The first case is that some processors can start a write but end up seeing
+a read-only PTE by the time they get to the Dirty bit, creating a transient
+shadow stack PTE.  However, this will not occur on processors supporting
+shadow stack, therefore we don't need a TLB flush here.
+
+The second case is that when the software, without atomic, tests & replaces
+_PAGE_DIRTY_HW with _PAGE_COW, a transient shadow stack PTE can exist.
+This is prevented with cmpxchg.
+
+Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
+insights to the issue.  Jann Horn provided the cmpxchg solution.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
 v10:
-- Change no_cet_shstk and no_cet_ibt to no_user_shstk and no_user_ibt.
-- Remove the opcode section, as it is already in the Intel SDM.
-- Remove sections related to GLIBC implementation.
-- Remove shadow stack memory management section, as it is already in the
-  code comments.
-- Remove legacy bitmap related information, as it is not supported now.
-- Fix arch_ioctl() related text.
-- Change SHSTK, IBT to plain English.
+- Replace bit shift with pte_wrprotect()/pmd_wrprotect(), which use bit
+  test & shift.
+- Move READ_ONCE of old_pte into try_cmpxchg() loop.
+- Change static_cpu_has() to cpu_feature_enabled().
 
- .../admin-guide/kernel-parameters.txt         |   6 +
- Documentation/x86/index.rst                   |   1 +
- Documentation/x86/intel_cet.rst               | 129 ++++++++++++++++++
- 3 files changed, 136 insertions(+)
- create mode 100644 Documentation/x86/intel_cet.rst
+v9:
+- Change compile-time conditionals to runtime checks.
+- Fix parameters of try_cmpxchg(): change pte_t/pmd_t to
+  pte_t.pte/pmd_t.pmd.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 7bc83f3d9bdf..be715675df6d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3093,6 +3093,12 @@
- 			noexec=on: enable non-executable mappings (default)
- 			noexec=off: disable non-executable mappings
+v4:
+- Implement try_cmpxchg().
+
+ arch/x86/include/asm/pgtable.h | 52 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index f4870cd040de..eaa38adb1038 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -1316,6 +1316,32 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
+ static inline void ptep_set_wrprotect(struct mm_struct *mm,
+ 				      unsigned long addr, pte_t *ptep)
+ {
++	/*
++	 * Some processors can start a write, but end up seeing a read-only
++	 * PTE by the time they get to the Dirty bit.  In this case, they
++	 * will set the Dirty bit, leaving a read-only, Dirty PTE which
++	 * looks like a shadow stack PTE.
++	 *
++	 * However, this behavior has been improved and will not occur on
++	 * processors supporting shadow stack.  Without this guarantee, a
++	 * transition to a non-present PTE and flush the TLB would be
++	 * needed.
++	 *
++	 * When changing a writable PTE to read-only and if the PTE has
++	 * _PAGE_DIRTY_HW set, move that bit to _PAGE_COW so that the
++	 * PTE is not a shadow stack PTE.
++	 */
++	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
++		pte_t old_pte, new_pte;
++
++		do {
++			old_pte = READ_ONCE(*ptep);
++			new_pte = pte_wrprotect(old_pte);
++
++		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
++
++		return;
++	}
+ 	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
+ }
  
-+	no_user_shstk	[X86-64] Disable Shadow Stack for user-mode
-+			applications
+@@ -1372,6 +1398,32 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
+ static inline void pmdp_set_wrprotect(struct mm_struct *mm,
+ 				      unsigned long addr, pmd_t *pmdp)
+ {
++	/*
++	 * Some processors can start a write, but end up seeing a read-only
++	 * PMD by the time they get to the Dirty bit.  In this case, they
++	 * will set the Dirty bit, leaving a read-only, Dirty PMD which
++	 * looks like a Shadow Stack PMD.
++	 *
++	 * However, this behavior has been improved and will not occur on
++	 * processors supporting Shadow Stack.  Without this guarantee, a
++	 * transition to a non-present PMD and flush the TLB would be
++	 * needed.
++	 *
++	 * When changing a writable PMD to read-only and if the PMD has
++	 * _PAGE_DIRTY_HW set, we move that bit to _PAGE_COW so that the
++	 * PMD is not a shadow stack PMD.
++	 */
++	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
++		pmd_t old_pmd, new_pmd;
 +
-+	no_user_ibt	[X86-64] Disable Indirect Branch Tracking for user-mode
-+			applications
++		do {
++			old_pmd = READ_ONCE(*pmdp);
++			new_pmd = pmd_wrprotect(old_pmd);
 +
- 	nosmap		[X86,PPC]
- 			Disable SMAP (Supervisor Mode Access Prevention)
- 			even if it is supported by processor.
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index 265d9e9a093b..2aef972a868d 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -19,6 +19,7 @@ x86-specific Documentation
-    tlb
-    mtrr
-    pat
-+   intel_cet
-    intel-iommu
-    intel_txt
-    amd-memory-encryption
-diff --git a/Documentation/x86/intel_cet.rst b/Documentation/x86/intel_cet.rst
-new file mode 100644
-index 000000000000..746eda8c82f3
---- /dev/null
-+++ b/Documentation/x86/intel_cet.rst
-@@ -0,0 +1,129 @@
-+.. SPDX-License-Identifier: GPL-2.0
++		} while (!try_cmpxchg((pmdval_t *)pmdp, (pmdval_t *)&old_pmd, pmd_val(new_pmd)));
 +
-+=========================================
-+Control-flow Enforcement Technology (CET)
-+=========================================
-+
-+[1] Overview
-+============
-+
-+Control-flow Enforcement Technology (CET) is an Intel processor feature
-+that provides protection against return/jump-oriented programming (ROP)
-+attacks.  It can be set up to protect both applications and the kernel.
-+Only user-mode protection is implemented in the 64-bit kernel, including
-+support for running legacy 32-bit applications.
-+
-+CET introduces Shadow Stack and Indirect Branch Tracking.  Shadow stack is
-+a secondary stack allocated from memory and cannot be directly modified by
-+applications.  When executing a CALL, the processor pushes the return
-+address to both the normal stack and the shadow stack.  Upon function
-+return, the processor pops the shadow stack copy and compares it to the
-+normal stack copy.  If the two differ, the processor raises a control-
-+protection fault.  Indirect branch tracking verifies indirect CALL/JMP
-+targets are intended as marked by the compiler with 'ENDBR' opcodes.
-+
-+There are two kernel configuration options:
-+
-+    X86_INTEL_SHADOW_STACK_USER, and
-+    X86_INTEL_BRANCH_TRACKING_USER.
-+
-+These need to be enabled to build a CET-enabled kernel, and Binutils v2.31
-+and GCC v8.1 or later are required to build a CET kernel.  To build a CET-
-+enabled application, GLIBC v2.28 or later is also required.
-+
-+There are two command-line options for disabling CET features::
-+
-+    no_user_shstk - disables user shadow stack, and
-+    no_user_ibt   - disables user indirect branch tracking.
-+
-+At run time, /proc/cpuinfo shows CET features if the processor supports
-+CET.
-+
-+[2] Application Enabling
-+========================
-+
-+An application's CET capability is marked in its ELF header and can be
-+verified from the following command output, in the NT_GNU_PROPERTY_TYPE_0
-+field:
-+
-+    readelf -n <application>
-+
-+If an application supports CET and is statically linked, it will run with
-+CET protection.  If the application needs any shared libraries, the loader
-+checks all dependencies and enables CET when all requirements are met.
-+
-+[3] CET arch_prctl()'s
-+======================
-+
-+Several arch_prctl()'s have been added for CET:
-+
-+arch_prctl(ARCH_X86_CET_STATUS, u64 *addr)
-+    Return CET feature status.
-+
-+    The parameter 'addr' is a pointer to a user buffer.
-+    On returning to the caller, the kernel fills the following
-+    information::
-+
-+        *addr       = shadow stack/indirect branch tracking status
-+        *(addr + 1) = shadow stack base address
-+        *(addr + 2) = shadow stack size
-+
-+arch_prctl(ARCH_X86_CET_DISABLE, u64 features)
-+    Disable shadow stack and/or indirect branch tracking as specified in
-+    'features'.  Return -EPERM if CET is locked.
-+
-+arch_prctl(ARCH_X86_CET_LOCK)
-+    Lock in all CET features.  They cannot be turned off afterwards.
-+
-+arch_prctl(ARCH_X86_CET_ALLOC_SHSTK, u64 *addr)
-+    Allocate a new shadow stack and put a restore token at top.
-+
-+    The parameter 'addr' is a pointer to a user buffer and indicates the
-+    shadow stack size to allocate.  On returning to the caller, the kernel
-+    fills '*addr' with the base address of the new shadow stack.
-+
-+    User-level threads that need a new stack are expected to allocate a
-+    new shadow stack.
-+
-+Note:
-+  There is no CET-enabling arch_prctl function.  By design, CET is enabled
-+  automatically if the binary and the system can support it.
-+
-+[4] The implementation of the Shadow Stack
-+==========================================
-+
-+Shadow Stack size
-+-----------------
-+
-+A task's shadow stack is allocated from memory to a fixed size of
-+MIN(RLIMIT_STACK, 4 GB).  In other words, the shadow stack is allocated to
-+the maximum size of the normal stack, but capped to 4 GB.  However,
-+a compat-mode application's address space is smaller, each of its thread's
-+shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
-+
-+Signal
-+------
-+
-+The main program and its signal handlers use the same shadow stack.
-+Because the shadow stack stores only return addresses, a large shadow
-+stack covers the condition that both the program stack and the signal
-+alternate stack run out.
-+
-+The kernel creates a restore token for the shadow stack restoring address
-+and verifies that token when restoring from the signal handler.
-+
-+Fork
-+----
-+
-+The shadow stack's vma has VM_SHSTK flag set; its PTEs are required to be
-+read-only and dirty.  When a shadow stack PTE is not RO and dirty, a
-+shadow access triggers a page fault with the shadow stack access bit set
-+in the page fault error code.
-+
-+When a task forks a child, its shadow stack PTEs are copied and both the
-+parent's and the child's shadow stack PTEs are cleared of the dirty bit.
-+Upon the next shadow stack access, the resulting shadow stack page fault
-+is handled by page copy/re-use.
-+
-+When a pthread child is created, the kernel allocates a new shadow stack
-+for the new thread.
++		return;
++	}
+ 	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
+ }
+ 
 -- 
 2.21.0
 
