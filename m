@@ -2,135 +2,211 @@ Return-Path: <SRS0=8MBO=6N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4497DC83004
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 10:11:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20170C83004
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 11:33:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 224442082E
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 10:11:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECBC12087E
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 11:33:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="dT3bog8F"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="oFJdzz2O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726596AbgD2KLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Apr 2020 06:11:11 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:20961 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726345AbgD2KLL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 06:11:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1588155071; x=1619691071;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=9CQS42kGK5ZNYWUV4gu/AjvQxaOsf0urRIP1lzCXhDQ=;
-  b=dT3bog8FqsnfZ4ouplOerh4c/HrtB8Z9Tldm3fNlaBGDSjepRbnS5eyu
-   TH8OMFhJOp0elWNZmTgdCSbeEn1OAT5WQeby00MJU3/dTW3QxMjdRR4wk
-   jfMjzplySOAxVnEauxeNh8efmHQgtsfxRfgaeaC8B32X3kh9V9Bajhymn
-   I=;
-IronPort-SDR: K8AboDQXsW8YZoXYONZzkIizxiyiNkRHbVOEogmdF86aRc06DTu2amOAD3i/LB4jfRbhjfsz1z
- 5Mv3iajYFj2Q==
-X-IronPort-AV: E=Sophos;i="5.73,331,1583193600"; 
-   d="scan'208";a="41592898"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 29 Apr 2020 10:11:07 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS id 6A24FA1E7F;
-        Wed, 29 Apr 2020 10:10:55 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 29 Apr 2020 10:10:54 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.65) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 29 Apr 2020 10:10:38 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
-        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
-        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
-        <ying.huang@intel.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v9 00/15] Introduce Data Access MONitor (DAMON)
-Date:   Wed, 29 Apr 2020 12:10:19 +0200
-Message-ID: <20200429101019.26299-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200429101806.000002f4@Huawei.com> (raw)
+        id S1726620AbgD2LdK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Apr 2020 07:33:10 -0400
+Received: from mail26.static.mailgun.info ([104.130.122.26]:18274 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726516AbgD2LdJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 07:33:09 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1588159988; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=+mKHoOni6HAqTybwiMJ3iqfd2RYtnOIL2dRkZG20+4c=; b=oFJdzz2OkJj75rIuDa69n3pgy+TJTj6lhKDtbHahQTEqzRQmZ7ICr07oKoaenTfwseUW/OIO
+ 48WPogw47NJpU02j4E9/0VwueTcYksVAmqgOWJ26CUbrSJLeV7ioLRW+iHXwWN2a51X6MLZN
+ 4kRIp/8wnPj8rPNlaCglCrvyeKY=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5ea965f3.7f04b82dd880-smtp-out-n04;
+ Wed, 29 Apr 2020 11:33:07 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 608FAC4478F; Wed, 29 Apr 2020 11:33:05 +0000 (UTC)
+Received: from codeaurora.org (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: pkondeti)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id ABF1CC433D2;
+        Wed, 29 Apr 2020 11:32:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org ABF1CC433D2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=pkondeti@codeaurora.org
+Date:   Wed, 29 Apr 2020 17:02:55 +0530
+From:   Pavan Kondeti <pkondeti@codeaurora.org>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] sched/uclamp: Add a new sysctl to control RT
+ default boost value
+Message-ID: <20200429113255.GA19464@codeaurora.org>
+References: <20200428164134.5588-1-qais.yousef@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.65]
-X-ClientProxiedBy: EX13D28UWC001.ant.amazon.com (10.43.162.166) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200428164134.5588-1-qais.yousef@arm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 29 Apr 2020 10:18:06 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+Hi Qais,
 
-> On Wed, 29 Apr 2020 09:49:54 +0200
-> SeongJae Park <sjpark@amazon.com> wrote:
-> 
-> > On Tue, 28 Apr 2020 17:17:13 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-> > 
-> > > On Tue, 28 Apr 2020 15:23:42 +0200
-> > > SeongJae Park <sjpark@amazon.com> wrote:
-> > >   
-> > > > On Tue, 28 Apr 2020 13:27:04 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-> > > >   
-> > > > > On Mon, 27 Apr 2020 14:04:27 +0200
-> > > > > SeongJae Park <sjpark@amazon.com> wrote:
-> > > > >     
-> > > > > > From: SeongJae Park <sjpark@amazon.de>
-> > > > > > 
-> > > > > > Introduction
-> > > > > > ============
-> > > > > > 
+On Tue, Apr 28, 2020 at 05:41:33PM +0100, Qais Yousef wrote:
+
 [...]
-> > 
-> > Appreciate your explanations and suggestions.
+
+>  
+> +static void uclamp_sync_util_min_rt_default(struct task_struct *p)
+> +{
+> +	struct uclamp_se *uc_se = &p->uclamp_req[UCLAMP_MIN];
+> +
+> +	if (unlikely(rt_task(p)) && !uc_se->user_defined)
+> +		uclamp_se_set(uc_se, sysctl_sched_uclamp_util_min_rt_default, false);
+> +}
+
+Unlike system default clamp values, RT default value is written to
+p->uclamp_req[UCLAMP_MIN]. A user may not be able to set the uclamp.max to a
+lower value than sysctl_sched_uclamp_util_min_rt_default. This is not a
+big deal. Just sharing my observation. Is this how you expected it to work?
+
+> +
+>  static inline struct uclamp_se
+>  uclamp_tg_restrict(struct task_struct *p, enum uclamp_id clamp_id)
+>  {
+> @@ -907,8 +935,15 @@ uclamp_tg_restrict(struct task_struct *p, enum uclamp_id clamp_id)
+>  static inline struct uclamp_se
+>  uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
+>  {
+> -	struct uclamp_se uc_req = uclamp_tg_restrict(p, clamp_id);
+> -	struct uclamp_se uc_max = uclamp_default[clamp_id];
+> +	struct uclamp_se uc_req, uc_max;
+> +
+> +	/*
+> +	 * Sync up any change to sysctl_sched_uclamp_util_min_rt_default value.
+> +	 */
+> +	uclamp_sync_util_min_rt_default(p);
+> +
+> +	uc_req = uclamp_tg_restrict(p, clamp_id);
+> +	uc_max = uclamp_default[clamp_id];
+
+We are calling uclamp_sync_util_min_rt_default() unnecessarily for
+clamp_id == UCLAMP_MAX case. Would it be better to have a separate
+uclamp_default for RT like uclamp_default_rt and select uc_max based
+on task policy? Since all tunables are handled in sysctl_sched_uclamp_handler
+we can cover the case of uclamp_util_min < uclamp_util_min_rt.
+
+>  
+>  	/* System default restrictions always apply */
+>  	if (unlikely(uc_req.value > uc_max.value))
+> @@ -1114,12 +1149,13 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+>  				loff_t *ppos)
+>  {
+>  	bool update_root_tg = false;
+> -	int old_min, old_max;
+> +	int old_min, old_max, old_min_rt;
+>  	int result;
+>  
+>  	mutex_lock(&uclamp_mutex);
+>  	old_min = sysctl_sched_uclamp_util_min;
+>  	old_max = sysctl_sched_uclamp_util_max;
+> +	old_min_rt = sysctl_sched_uclamp_util_min_rt_default;
+>  
+>  	result = proc_dointvec(table, write, buffer, lenp, ppos);
+>  	if (result)
+> @@ -1133,6 +1169,18 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+>  		goto undo;
+>  	}
+>  
+> +	/*
+> +	 * The new value will be applied to RT tasks the next time the
+> +	 * scheduler needs to calculate the effective uclamp.min for that task,
+> +	 * assuming the task is using the system default and not a user
+> +	 * specified value. In the latter we shall leave the value as the user
+> +	 * requested.
+> +	 */
+> +	if (sysctl_sched_uclamp_util_min_rt_default > SCHED_CAPACITY_SCALE) {
+> +		result = -EINVAL;
+> +		goto undo;
+> +	}
+> +
+>  	if (old_min != sysctl_sched_uclamp_util_min) {
+>  		uclamp_se_set(&uclamp_default[UCLAMP_MIN],
+>  			      sysctl_sched_uclamp_util_min, false);
+> @@ -1158,6 +1206,7 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+>  undo:
+>  	sysctl_sched_uclamp_util_min = old_min;
+>  	sysctl_sched_uclamp_util_max = old_max;
+> +	sysctl_sched_uclamp_util_min_rt_default = old_min_rt;
+>  done:
+>  	mutex_unlock(&uclamp_mutex);
+>  
+> @@ -1200,9 +1249,13 @@ static void __setscheduler_uclamp(struct task_struct *p,
+>  		if (uc_se->user_defined)
+>  			continue;
+>  
+> -		/* By default, RT tasks always get 100% boost */
+> +		/*
+> +		 * By default, RT tasks always get 100% boost, which the admins
+> +		 * are allowed to change via
+> +		 * sysctl_sched_uclamp_util_min_rt_default knob.
+> +		 */
+>  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+> -			clamp_value = uclamp_none(UCLAMP_MAX);
+> +			clamp_value = sysctl_sched_uclamp_util_min_rt_default;
+>  
+>  		uclamp_se_set(uc_se, clamp_value, false);
+>  	}
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index 8a176d8727a3..64117363c502 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -453,6 +453,13 @@ static struct ctl_table kern_table[] = {
+>  		.mode		= 0644,
+>  		.proc_handler	= sysctl_sched_uclamp_handler,
+>  	},
+> +	{
+> +		.procname	= "sched_util_clamp_min_rt_default",
+> +		.data		= &sysctl_sched_uclamp_util_min_rt_default,
+> +		.maxlen		= sizeof(unsigned int),
+> +		.mode		= 0644,
+> +		.proc_handler	= sysctl_sched_uclamp_handler,
+> +	},
+>  #endif
+>  #ifdef CONFIG_SCHED_AUTOGROUP
+>  	{
+> -- 
+> 2.17.1
 > 
-> You are welcome.
-> 
-> Out of interest, do you have any comparative data on how 'accurate' the resulting
-> estimates are vs a more precise heatmap from a memory trace?
-
-No, I don't have such data.
-
-I'm only comparing the big trends of heatmap, working set sizes analyzed from
-the recorded access pattern and the DAMOS performance results for each version
-using my human eye, to check regression.
-
-> 
-> I'm looking at gathering such data but much happier to leverage your work if
-> you've already done it!
-
-That would be great.  If I get such data later, I will let you know.  I will be
-also very happy if you could get it first and share with me.
-
-Maybe we could make and use another variant of DAMON, which uses page-size
-regions only and disable the adaptive regions adjustment.  It will be also
-useful for overhead comparison.  Actually, I heard that my previous colleague
-made this variant for the comparison based on a prototype of DAMON.  I will
-also consider extending DAMON to support such variant.
-
-Also, if you need the heatmaps, analyzed working set size distribution, and/or
-the record file itself for each version of the patchsets, please let me know.
-
 
 Thanks,
-SeongJae Park
+Pavan
+
+-- 
+Qualcomm India Private Limited, on behalf of Qualcomm Innovation Center, Inc.
+Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
