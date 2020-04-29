@@ -2,130 +2,107 @@ Return-Path: <SRS0=8MBO=6N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11A46C83000
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E56C83004
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:27:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EAC6C2082E
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:24:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B64D2082E
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:27:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726935AbgD2XYi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Apr 2020 19:24:38 -0400
-Received: from 8.mo7.mail-out.ovh.net ([46.105.77.114]:56326 "EHLO
-        8.mo7.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbgD2XYi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 19:24:38 -0400
-X-Greylist: delayed 8401 seconds by postgrey-1.27 at vger.kernel.org; Wed, 29 Apr 2020 19:24:38 EDT
-Received: from player693.ha.ovh.net (unknown [10.110.115.113])
-        by mo7.mail-out.ovh.net (Postfix) with ESMTP id C92DC16096E
-        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2020 22:58:25 +0200 (CEST)
+        id S1726775AbgD2X1C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Apr 2020 19:27:02 -0400
+Received: from 4.mo5.mail-out.ovh.net ([178.33.111.247]:48093 "EHLO
+        4.mo5.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726511AbgD2X1C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 19:27:02 -0400
+Received: from player787.ha.ovh.net (unknown [10.108.35.95])
+        by mo5.mail-out.ovh.net (Postfix) with ESMTP id D7351277CF2
+        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2020 22:57:08 +0200 (CEST)
 Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
         (Authenticated sender: steve@sk2.org)
-        by player693.ha.ovh.net (Postfix) with ESMTPSA id 025B411DB2FC6;
-        Wed, 29 Apr 2020 20:58:15 +0000 (UTC)
+        by player787.ha.ovh.net (Postfix) with ESMTPSA id C950B12118E6D;
+        Wed, 29 Apr 2020 20:56:57 +0000 (UTC)
+Date:   Wed, 29 Apr 2020 22:56:56 +0200
 From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Stephen Kitt <steve@sk2.org>
-Subject: [PATCH v2 1/2] docs: sysctl/kernel: document ftrace entries
-Date:   Wed, 29 Apr 2020 22:57:56 +0200
-Message-Id: <20200429205757.8677-1-steve@sk2.org>
-X-Mailer: git-send-email 2.20.1
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH 2/3] docs: sysctl/kernel: document ftrace entries
+Message-ID: <20200429225656.43aed6f9@heffalump.sk2.org>
+In-Reply-To: <20200428124133.0fbaf7c5@lwn.net>
+References: <20200423183651.15365-1-steve@sk2.org>
+        <20200423183651.15365-2-steve@sk2.org>
+        <20200428124133.0fbaf7c5@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 16893283679029906821
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/FW_R1QjDCvmBdAlezO_Ci08"; protocol="application/pgp-signature"
+X-Ovh-Tracer-Id: 16871610105530371461
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrieefgdduheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeetgedugfelkeeikeetgeegteevfeeufeetuefgudeiiedthfehtdeffeekvdeffeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelfedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrieefgdduheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtsehgtderreertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeevledvueefvdeivefftdeugeekveethefftdffteelheejkeejjeduffeiudetkeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeekjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Based on the ftrace documentation, the tp_printk boot parameter
-documentation, and the implementation in kernel/trace/trace.c.
+--Sig_/FW_R1QjDCvmBdAlezO_Ci08
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
-Changes since v2:
-  - spelling and grammar fixes in ftrace_dump_on_oops ("outputing it"
-    -> "outputting them")
-  - "and::" in a single line in tracepoint_printk
+On Tue, 28 Apr 2020 12:41:33 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
+> On Thu, 23 Apr 2020 20:36:50 +0200
+> Stephen Kitt <steve@sk2.org> wrote:
+> > Based on the ftrace documentation, the tp_printk boot parameter
+> > documentation, and the implementation in kernel/trace/trace.c.
+> >=20
+> > Signed-off-by: Stephen Kitt <steve@sk2.org> =20
+>=20
+> This one could benefit from an ack from Steve (CC'd).  Also one other
+> little nit below:
 
-Documentation/admin-guide/sysctl/kernel.rst | 48 +++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+Thanks (and thanks for the review Steve). I=E2=80=99ll follow up with v2 sh=
+ortly,
+fixing the spelling and grammar here:
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 82bfd5892663..b1ad4c86274d 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -265,6 +265,27 @@ domain names are in general different. For a detailed discussion
- see the ``hostname(1)`` man page.
- 
- 
-+ftrace_dump_on_oops
-+===================
-+
-+Determines whether ``ftrace_dump()`` should be called on an oops (or
-+kernel panic). This will output the contents of the ftrace buffers to
-+the console.  This is very useful for capturing traces that lead to
-+crashes and outputting them to a serial console.
-+
-+= ===================================================
-+0 Disabled (default).
-+1 Dump buffers of all CPUs.
-+2 Dump the buffer of the CPU that triggered the oops.
-+= ===================================================
-+
-+
-+ftrace_enabled, stack_tracer_enabled
-+====================================
-+
-+See :doc:`/trace/ftrace`.
-+
-+
- hardlockup_all_cpu_backtrace
- ============================
- 
-@@ -1191,6 +1212,33 @@ If a value outside of this range is written to ``threads-max`` an
- ``EINVAL`` error occurs.
- 
- 
-+traceoff_on_warning
-+===================
-+
-+When set, disables tracing (see :doc:`/trace/ftrace`) when a
-+``WARN()`` is hit.
-+
-+
-+tracepoint_printk
-+=================
-+
-+When tracepoints are sent to printk() (enabled by the ``tp_printk``
-+boot parameter), this entry provides runtime control::
-+
-+    echo 0 > /proc/sys/kernel/tracepoint_printk
-+
-+will stop tracepoints from being sent to printk(), and::
-+
-+    echo 1 > /proc/sys/kernel/tracepoint_printk
-+
-+will send them to printk() again.
-+
-+This only works if the kernel was booted with ``tp_printk`` enabled.
-+
-+See :doc:`/admin-guide/kernel-parameters` and
-+:doc:`/trace/boottime-trace`.
-+
-+
- unknown_nmi_panic
- =================
- 
--- 
-2.20.1
+> > +the console.  This is very useful for capturing traces that lead to
+> > +crashes and outputing it to a serial console.
 
+in addition to this:
+
+> > +will stop tracepoints from being sent to printk(), and
+> > +
+> > +:: =20
+>=20
+> I would just make that ", and::" and avoid the separate line.
+
+Regards,
+
+Stephen
+
+--Sig_/FW_R1QjDCvmBdAlezO_Ci08
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl6p6hgACgkQgNMC9Yht
+g5z7Mw/9HsTuQXsity9hRkNzrwr4hTozShBtlUDgcUSictJoPGuhOGChizQsCQUU
+6yOvLYAEEqj9ywVInKXWG30lne3dQGdVTSlUj3rRLBt96aVbr0JfzksS8Ea6aFkU
+0YHZrdOBcdScpAy8W6Fx3bwEdue4Tv1/vihE6nS10SAIq6YaJOPMmTC9oNCPmxx3
+3url0e6O753LM8PNoPngonA5SA6KBLfDEuTTPrmokE6Pte6nJbo0fkL0naCOJ/t7
+yD21WuNtvc2Jep62foDoyFkTzIleek2Vl+ALxqNhCXAJ/bNktrl87gBU1UMaRkXk
+AP6MD3WRBwQ8VQaqMB7Af91vH7zVyVbbAyZ7bJ3+XBy2A5n34x7CdMreTV8EOH7j
+kLidI9NrHJCJgc3W08TF1ZF6MW79YmOT+knyvDFmtk/a7RgBTPeqLu/3qAvxz5xN
+Jl5lXwkxcDAshHbpGSPcfiOXATC6IjdaWe93jiIZy47YEcNgNKVDwef8/wEXWSyq
+SpVSCDj1fAFV78CAhUdKjlP7WqKEv1kqHeWEJoz4LFRU6OP+Efpj7Sb/ftzYFQ1H
+cKE0DUGK0bxFRHqXR2r68tNbHlzUq6jNxiRAuCueTYZSVR1fjKp+TsVuSuJ6+nKX
+GLrXsyTPhD+1I6NTVXkJJi6Zw1PKP68UFONxGKYAxDF4LsTmegY=
+=JIW3
+-----END PGP SIGNATURE-----
+
+--Sig_/FW_R1QjDCvmBdAlezO_Ci08--
