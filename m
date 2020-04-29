@@ -2,82 +2,130 @@ Return-Path: <SRS0=8MBO=6N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38656C83003
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 13:17:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AA06C83006
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 14:13:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 15DEF21775
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 13:17:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48DBB2083B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 14:13:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Sq3MZodR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbgD2NRH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Apr 2020 09:17:07 -0400
-Received: from m17616.mail.qiye.163.com ([59.111.176.16]:42768 "EHLO
-        m17616.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726516AbgD2NRH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 09:17:07 -0400
-X-Greylist: delayed 333 seconds by postgrey-1.27 at vger.kernel.org; Wed, 29 Apr 2020 09:17:06 EDT
-Received: from ubuntu.localdomain (unknown [58.251.74.227])
-        by m17616.mail.qiye.163.com (Hmail) with ESMTPA id E621A108DC2;
-        Wed, 29 Apr 2020 21:11:24 +0800 (CST)
-From:   Wang Wenhu <wenhu.wang@vivo.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@vivo.com, Wang Wenhu <wenhu.wang@vivo.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Subject: [PATCH] doc: thermal: add cpu-idle-cooling to index tree
-Date:   Wed, 29 Apr 2020 06:11:09 -0700
-Message-Id: <20200429131109.80891-1-wenhu.wang@vivo.com>
-X-Mailer: git-send-email 2.17.1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZTlVKQ01CQkJMQkxDSUpLT1lXWShZQU
-        hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NRw6Cyo4EDg#T004Ckg6NU89
-        FzUwClZVSlVKTkNDSk1OQ0JLSU1KVTMWGhIXVQweFRMOVQwaFRw7DRINFFUYFBZFWVdZEgtZQVlO
-        Q1VJTkpVTE9VSUlMWVdZCAFZQUlLSUw3Bg++
-X-HM-Tid: 0a71c6103cda9374kuwse621a108dc2
+        id S1726811AbgD2ONo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Apr 2020 10:13:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43257 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726883AbgD2ONn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 10:13:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588169622;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=z5KJj0/IEeIDfSeMUgMfCAULVkkEU1Ysj/D3ASB/G5k=;
+        b=Sq3MZodRNISnNB2PHTFTY1l39qdCfKv6JGWS6ouOUrlLv4b3i4Vyw3EbaIhSvgL4ju6WbA
+        h2RBpT5WNmPxVuWMnQCMDjjYfloeq90d+abCdFVK6rA5T03qovjz+o0/YJjijujk4hHNfq
+        Wpd0ULbZ0eHpdui8kYFxNS8hxyQqMP4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-eJjW36AfMLWIeaVqCQ_XUQ-1; Wed, 29 Apr 2020 10:13:23 -0400
+X-MC-Unique: eJjW36AfMLWIeaVqCQ_XUQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C31EF108BD0F;
+        Wed, 29 Apr 2020 14:13:19 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 998945D9E5;
+        Wed, 29 Apr 2020 14:13:02 +0000 (UTC)
+Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
+ VFIO live migration
+To:     Yan Zhao <yan.y.zhao@intel.com>,
+        "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc:     Cornelia Huck <cohuck@redhat.com>,
+        "cjia@nvidia.com" <cjia@nvidia.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "libvir-list@redhat.com" <libvir-list@redhat.com>,
+        "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+        "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+        "eauger@redhat.com" <eauger@redhat.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Yang, Ziye" <ziye.yang@intel.com>,
+        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+        "aik@ozlabs.ru" <aik@ozlabs.ru>,
+        "felipe@nutanix.com" <felipe@nutanix.com>,
+        "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "Zeng, Xin" <xin.zeng@intel.com>,
+        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+        "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        "intel-gvt-dev@lists.freedesktop.org" 
+        <intel-gvt-dev@lists.freedesktop.org>,
+        "Liu, Changpeng" <changpeng.liu@intel.com>,
+        "berrange@redhat.com" <berrange@redhat.com>,
+        "eskultet@redhat.com" <eskultet@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Wang, Zhi A" <zhi.a.wang@intel.com>,
+        "dinechin@redhat.com" <dinechin@redhat.com>,
+        "He, Shaopeng" <shaopeng.he@intel.com>
+References: <20200421023718.GA12111@joy-OptiPlex-7040>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D86DF06@SHSMSX104.ccr.corp.intel.com>
+ <20200422073628.GA12879@joy-OptiPlex-7040> <20200424191049.GU3106@work-vm>
+ <20200426013628.GC12879@joy-OptiPlex-7040> <20200427153743.GK2923@work-vm>
+ <20200428005429.GJ12879@joy-OptiPlex-7040> <20200428141437.GG2794@work-vm>
+ <20200429072616.GL12879@joy-OptiPlex-7040> <20200429082201.GA2834@work-vm>
+ <20200429093555.GM12879@joy-OptiPlex-7040>
+From:   Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <94cd58d2-0580-53cd-6ca2-2c33146e0f2c@redhat.com>
+Date:   Wed, 29 Apr 2020 09:13:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20200429093555.GM12879@joy-OptiPlex-7040>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add cpu-idle-cooling.rst to the index list for user reference through
-self-compiled htmldocs or online documentation tree of kernel.
+[meta-comment]
 
-Like: https://www.kernel.org/doc/html/latest/driver-api/thermal/index.html
+On 4/29/20 4:35 AM, Yan Zhao wrote:
+> On Wed, Apr 29, 2020 at 04:22:01PM +0800, Dr. David Alan Gilbert wrote:
+[...]
+>>>>>>>>>>>>>>>>> This patchset introduces a migration_version attribute under sysfs
+>>>>>>>>>>> of VFIO
+>>>>>>>>>>>>>>>>> Mediated devices.
 
-Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
----
- Documentation/driver-api/thermal/cpu-idle-cooling.rst | 3 +++
- Documentation/driver-api/thermal/index.rst            | 1 +
- 2 files changed, 4 insertions(+)
+Hmm, several pages with up to 16 levels of quoting, with editors making 
+the lines ragged, all before I get to the real meat of the email. 
+Remember, it's okay to trim content,...
 
-diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-index a1c3edecae00..b9f34ceb2a38 100644
---- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-+++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-@@ -1,3 +1,6 @@
-+================
-+CPU Idle Cooling
-+================
- 
- Situation:
- ----------
-diff --git a/Documentation/driver-api/thermal/index.rst b/Documentation/driver-api/thermal/index.rst
-index 5ba61d19c6ae..4cb0b9b6bfb8 100644
---- a/Documentation/driver-api/thermal/index.rst
-+++ b/Documentation/driver-api/thermal/index.rst
-@@ -8,6 +8,7 @@ Thermal
-    :maxdepth: 1
- 
-    cpu-cooling-api
-+   cpu-idle-cooling
-    sysfs-api
-    power_allocator
- 
+>> So why don't we split the difference; lets say that it should start with
+>> the hex PCI Vendor ID.
+>>
+> The problem is for mdev devices, if the parent devices are not PCI devices,
+> they don't have PCI vendor IDs.
+
+...to just what you are replying to.
+
 -- 
-2.17.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
