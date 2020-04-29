@@ -2,130 +2,233 @@ Return-Path: <SRS0=8MBO=6N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AA06C83006
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 14:13:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4D60C83006
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 14:39:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48DBB2083B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 14:13:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE0162073E
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 14:39:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Sq3MZodR"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="Q3cXQ8bV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726811AbgD2ONo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Apr 2020 10:13:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43257 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726883AbgD2ONn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 10:13:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588169622;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=z5KJj0/IEeIDfSeMUgMfCAULVkkEU1Ysj/D3ASB/G5k=;
-        b=Sq3MZodRNISnNB2PHTFTY1l39qdCfKv6JGWS6ouOUrlLv4b3i4Vyw3EbaIhSvgL4ju6WbA
-        h2RBpT5WNmPxVuWMnQCMDjjYfloeq90d+abCdFVK6rA5T03qovjz+o0/YJjijujk4hHNfq
-        Wpd0ULbZ0eHpdui8kYFxNS8hxyQqMP4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-eJjW36AfMLWIeaVqCQ_XUQ-1; Wed, 29 Apr 2020 10:13:23 -0400
-X-MC-Unique: eJjW36AfMLWIeaVqCQ_XUQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C31EF108BD0F;
-        Wed, 29 Apr 2020 14:13:19 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 998945D9E5;
-        Wed, 29 Apr 2020 14:13:02 +0000 (UTC)
-Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-To:     Yan Zhao <yan.y.zhao@intel.com>,
-        "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc:     Cornelia Huck <cohuck@redhat.com>,
-        "cjia@nvidia.com" <cjia@nvidia.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "libvir-list@redhat.com" <libvir-list@redhat.com>,
-        "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
-        "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "eauger@redhat.com" <eauger@redhat.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Yang, Ziye" <ziye.yang@intel.com>,
-        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "aik@ozlabs.ru" <aik@ozlabs.ru>,
-        "felipe@nutanix.com" <felipe@nutanix.com>,
-        "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "Zeng, Xin" <xin.zeng@intel.com>,
-        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-        "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        "Liu, Changpeng" <changpeng.liu@intel.com>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        "eskultet@redhat.com" <eskultet@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Wang, Zhi A" <zhi.a.wang@intel.com>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "He, Shaopeng" <shaopeng.he@intel.com>
-References: <20200421023718.GA12111@joy-OptiPlex-7040>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D86DF06@SHSMSX104.ccr.corp.intel.com>
- <20200422073628.GA12879@joy-OptiPlex-7040> <20200424191049.GU3106@work-vm>
- <20200426013628.GC12879@joy-OptiPlex-7040> <20200427153743.GK2923@work-vm>
- <20200428005429.GJ12879@joy-OptiPlex-7040> <20200428141437.GG2794@work-vm>
- <20200429072616.GL12879@joy-OptiPlex-7040> <20200429082201.GA2834@work-vm>
- <20200429093555.GM12879@joy-OptiPlex-7040>
-From:   Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <94cd58d2-0580-53cd-6ca2-2c33146e0f2c@redhat.com>
-Date:   Wed, 29 Apr 2020 09:13:01 -0500
+        id S1726800AbgD2OjF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Apr 2020 10:39:05 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:50379 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726451AbgD2OjE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 10:39:04 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 03TEcUx7020853;
+        Wed, 29 Apr 2020 16:38:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : from : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=EYGBSDm1wv06sHxoVMD8B6GSZnWRBOWdfk0lRWRXmPU=;
+ b=Q3cXQ8bVyNKrHQy/+NQw8/d4OHm1jnHAJMe7H+BuH2WkxcjWcD+b7b1495MqG//c9Jib
+ LwnNGzPTdv98EPQYrUpKjGK1TBmpcJYMGUwrFnOI8j8bWNyqL7YiBlW49l3XwrjLYXmQ
+ eweMF+Fkli/LzmJHtK2zWRiopY9lvTuE2+qvAbwOzhNLN6wx1cxuPSe36nkyX9cX9XN4
+ FcghqJpH5sNYllnm5zArZvfgkJIx7uKXv1pB9VkrmszQ7XdFLeMkelS2cO/dng7fbXIt
+ Og/GVY76QJfVX6hQHxxHFUElgT/nc4W6NMPHbCXooWIvwK92mAhr+A6b2sAricxKNv8d GQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 30mhcc6xak-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 29 Apr 2020 16:38:57 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AE4D810002A;
+        Wed, 29 Apr 2020 16:38:56 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 97ABF222CEF;
+        Wed, 29 Apr 2020 16:38:56 +0200 (CEST)
+Received: from lmecxl0889.tpe.st.com (10.75.127.44) by SFHDAG3NODE1.st.com
+ (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Apr
+ 2020 16:38:55 +0200
+Subject: Re: [PATCH v3 12/14] remoteproc: Introducing function
+ rproc_set_state_machine()
+From:   Arnaud POULIQUEN <arnaud.pouliquen@st.com>
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        <bjorn.andersson@linaro.org>, <ohad@wizery.com>
+CC:     <loic.pallardy@st.com>, <s-anna@ti.com>,
+        <linux-remoteproc@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
+ <20200424200135.28825-13-mathieu.poirier@linaro.org>
+ <d297aeab-4f7e-95e0-04c0-266e0f08b2d0@st.com>
+Message-ID: <1438e3f6-3d8a-7edd-f552-b01f84316ec7@st.com>
+Date:   Wed, 29 Apr 2020 16:38:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200429093555.GM12879@joy-OptiPlex-7040>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <d297aeab-4f7e-95e0-04c0-266e0f08b2d0@st.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG7NODE1.st.com (10.75.127.19) To SFHDAG3NODE1.st.com
+ (10.75.127.7)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-04-29_07:2020-04-29,2020-04-29 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[meta-comment]
 
-On 4/29/20 4:35 AM, Yan Zhao wrote:
-> On Wed, Apr 29, 2020 at 04:22:01PM +0800, Dr. David Alan Gilbert wrote:
-[...]
->>>>>>>>>>>>>>>>> This patchset introduces a migration_version attribute under sysfs
->>>>>>>>>>> of VFIO
->>>>>>>>>>>>>>>>> Mediated devices.
 
-Hmm, several pages with up to 16 levels of quoting, with editors making 
-the lines ragged, all before I get to the real meat of the email. 
-Remember, it's okay to trim content,...
-
->> So why don't we split the difference; lets say that it should start with
->> the hex PCI Vendor ID.
+On 4/29/20 11:22 AM, Arnaud POULIQUEN wrote:
+> 
+> 
+> On 4/24/20 10:01 PM, Mathieu Poirier wrote:
+>> Introducting function rproc_set_state_machine() to add
+>> operations and a set of flags to use when synchronising with
+>> a remote processor.
 >>
-> The problem is for mdev devices, if the parent devices are not PCI devices,
-> they don't have PCI vendor IDs.
+>> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+>> ---
+>>  drivers/remoteproc/remoteproc_core.c     | 54 ++++++++++++++++++++++++
+>>  drivers/remoteproc/remoteproc_internal.h |  6 +++
+>>  include/linux/remoteproc.h               |  3 ++
+>>  3 files changed, 63 insertions(+)
+>>
+>> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+>> index 48afa1f80a8f..5c48714e8702 100644
+>> --- a/drivers/remoteproc/remoteproc_core.c
+>> +++ b/drivers/remoteproc/remoteproc_core.c
+>> @@ -2065,6 +2065,59 @@ int devm_rproc_add(struct device *dev, struct rproc *rproc)
+>>  }
+>>  EXPORT_SYMBOL(devm_rproc_add);
+>>  
+>> +/**
+>> + * rproc_set_state_machine() - Set a synchronisation ops and set of flags
+>> + *			       to use with a remote processor
+>> + * @rproc:	The remote processor to work with
+>> + * @sync_ops:	The operations to use when synchronising with a remote
+>> + *		processor
+>> + * @sync_flags:	The flags to use when deciding if the remoteproc core
+>> + *		should be synchronising with a remote processor
+>> + *
+>> + * Returns 0 on success, an error code otherwise.
+>> + */
+>> +int rproc_set_state_machine(struct rproc *rproc,
+>> +			    const struct rproc_ops *sync_ops,
+>> +			    struct rproc_sync_flags sync_flags)
+> 
+> So this API should be called by platform driver only in case of synchronization
+> support, right?
+> In this case i would rename it as there is also a state machine in "normal" boot
+> proposal: rproc_set_sync_machine or rproc_set_sync_state_machine
+> 
 
-...to just what you are replying to.
+Reviewing the stm32 series, i wonder if sync_flags should be a pointer to a const structure
+as the platform driver should not update it during the rproc live cycle.
+Then IMO, using a pointer to the structure instead of the structure seems more 
+in line with the rest of the remoteproc API.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+>> +{
+>> +	if (!rproc || !sync_ops)
+>> +		return -EINVAL;
+>> +
+>> +	/*
+>> +	 * No point in going further if we never have to synchronise with
+>> +	 * the remote processor.
+>> +	 */
+>> +	if (!sync_flags.on_init &&
+>> +	    !sync_flags.after_stop && !sync_flags.after_crash)
+>> +		return 0;
+>> +
+>> +	/*
+>> +	 * Refuse to go further if remoteproc operations have been allocated
+>> +	 * but they will never be used.
+>> +	 */
+>> +	if (rproc->ops && sync_flags.on_init &&
+>> +	    sync_flags.after_stop && sync_flags.after_crash)
+>> +		return -EINVAL;
+>> +
+>> +	/*
+>> +	 * Don't allow users to set this more than once to avoid situations
+>> +	 * where the remote processor can't be recovered.
+>> +	 */
+>> +	if (rproc->sync_ops)
+>> +		return -EINVAL;
+>> +
+>> +	rproc->sync_ops = kmemdup(sync_ops, sizeof(*sync_ops), GFP_KERNEL);
+>> +	if (!rproc->sync_ops)
+>> +		return -ENOMEM;
+>> +
+>> +	rproc->sync_flags = sync_flags;
+>> +	/* Tell the core what to do when initialising */
+>> +	rproc_set_sync_flag(rproc, RPROC_SYNC_STATE_INIT);
+> 
+> Is there a use case where sync_flags.on_init is false and other flags are true?
+> 
+> Look like on_init is useless and should not be exposed to the platform driver.
+> Or comments are missing to explain the usage of it vs the other flags.
+> 
+> Regards,
+> Arnaud
+>  
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL(rproc_set_state_machine);
+>> +
+>>  /**
+>>   * rproc_type_release() - release a remote processor instance
+>>   * @dev: the rproc's device
+>> @@ -2088,6 +2141,7 @@ static void rproc_type_release(struct device *dev)
+>>  	kfree_const(rproc->firmware);
+>>  	kfree_const(rproc->name);
+>>  	kfree(rproc->ops);
+>> +	kfree(rproc->sync_ops);
+>>  	kfree(rproc);
+>>  }
+>>  
+>> diff --git a/drivers/remoteproc/remoteproc_internal.h b/drivers/remoteproc/remoteproc_internal.h
+>> index 7dcc0a26892b..c1a293a37c78 100644
+>> --- a/drivers/remoteproc/remoteproc_internal.h
+>> +++ b/drivers/remoteproc/remoteproc_internal.h
+>> @@ -27,6 +27,8 @@ struct rproc_debug_trace {
+>>  /*
+>>   * enum rproc_sync_states - remote processsor sync states
+>>   *
+>> + * @RPROC_SYNC_STATE_INIT	state to use when the remoteproc core
+>> + *				is initialising.
+>>   * @RPROC_SYNC_STATE_SHUTDOWN	state to use after the remoteproc core
+>>   *				has shutdown (rproc_shutdown()) the
+>>   *				remote processor.
+>> @@ -39,6 +41,7 @@ struct rproc_debug_trace {
+>>   * operation to use.
+>>   */
+>>  enum rproc_sync_states {
+>> +	RPROC_SYNC_STATE_INIT,
+>>  	RPROC_SYNC_STATE_SHUTDOWN,
+>>  	RPROC_SYNC_STATE_CRASHED,
+>>  };
+>> @@ -47,6 +50,9 @@ static inline void rproc_set_sync_flag(struct rproc *rproc,
+>>  				       enum rproc_sync_states state)
+>>  {
+>>  	switch (state) {
+>> +	case RPROC_SYNC_STATE_INIT:
+>> +		rproc->sync_with_rproc = rproc->sync_flags.on_init;
+>> +		break;
+>>  	case RPROC_SYNC_STATE_SHUTDOWN:
+>>  		rproc->sync_with_rproc = rproc->sync_flags.after_stop;
+>>  		break;
+>> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+>> index ceb3b2bba824..a75ed92b3de6 100644
+>> --- a/include/linux/remoteproc.h
+>> +++ b/include/linux/remoteproc.h
+>> @@ -619,6 +619,9 @@ struct rproc *rproc_get_by_child(struct device *dev);
+>>  struct rproc *rproc_alloc(struct device *dev, const char *name,
+>>  			  const struct rproc_ops *ops,
+>>  			  const char *firmware, int len);
+>> +int rproc_set_state_machine(struct rproc *rproc,
+>> +			    const struct rproc_ops *sync_ops,
+>> +			    struct rproc_sync_flags sync_flags);
+>>  void rproc_put(struct rproc *rproc);
+>>  int rproc_add(struct rproc *rproc);
+>>  int rproc_del(struct rproc *rproc);
+>>
