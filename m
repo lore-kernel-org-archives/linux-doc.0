@@ -4,82 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8627C83000
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:23:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11A46C83000
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:24:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C564B206D6
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:23:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EAC6C2082E
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Apr 2020 23:24:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726871AbgD2XXp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Apr 2020 19:23:45 -0400
-Received: from 14.mo1.mail-out.ovh.net ([178.32.97.215]:42241 "EHLO
-        14.mo1.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726164AbgD2XXp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 19:23:45 -0400
-X-Greylist: delayed 8399 seconds by postgrey-1.27 at vger.kernel.org; Wed, 29 Apr 2020 19:23:44 EDT
-Received: from player693.ha.ovh.net (unknown [10.110.103.112])
-        by mo1.mail-out.ovh.net (Postfix) with ESMTP id 2E4A41BD7E2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2020 22:58:36 +0200 (CEST)
+        id S1726935AbgD2XYi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Apr 2020 19:24:38 -0400
+Received: from 8.mo7.mail-out.ovh.net ([46.105.77.114]:56326 "EHLO
+        8.mo7.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726511AbgD2XYi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Apr 2020 19:24:38 -0400
+X-Greylist: delayed 8401 seconds by postgrey-1.27 at vger.kernel.org; Wed, 29 Apr 2020 19:24:38 EDT
+Received: from player693.ha.ovh.net (unknown [10.110.115.113])
+        by mo7.mail-out.ovh.net (Postfix) with ESMTP id C92DC16096E
+        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2020 22:58:25 +0200 (CEST)
 Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
         (Authenticated sender: steve@sk2.org)
-        by player693.ha.ovh.net (Postfix) with ESMTPSA id AF9A011DB2FEA;
-        Wed, 29 Apr 2020 20:58:25 +0000 (UTC)
+        by player693.ha.ovh.net (Postfix) with ESMTPSA id 025B411DB2FC6;
+        Wed, 29 Apr 2020 20:58:15 +0000 (UTC)
 From:   Stephen Kitt <steve@sk2.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
         Stephen Kitt <steve@sk2.org>
-Subject: [PATCH v2 2/2] docs: sysctl/kernel: document firmware_config
-Date:   Wed, 29 Apr 2020 22:57:57 +0200
-Message-Id: <20200429205757.8677-2-steve@sk2.org>
+Subject: [PATCH v2 1/2] docs: sysctl/kernel: document ftrace entries
+Date:   Wed, 29 Apr 2020 22:57:56 +0200
+Message-Id: <20200429205757.8677-1-steve@sk2.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200429205757.8677-1-steve@sk2.org>
-References: <20200429205757.8677-1-steve@sk2.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 16896098430082108805
+X-Ovh-Tracer-Id: 16893283679029906821
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrieefgdduheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeejleelvdefieeiuddtfeevkeegueehkeekvdffgedvhedugeekgfejjeekgfeugeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelfedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrieefgdduheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeetgedugfelkeeikeetgeegteevfeeufeetuefgudeiiedthfehtdeffeekvdeffeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelfedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Based on the firmware fallback mechanisms documentation and the
-implementation in drivers/base/firmware_loader/fallback.c.
+Based on the ftrace documentation, the tp_printk boot parameter
+documentation, and the implementation in kernel/trace/trace.c.
 
 Signed-off-by: Stephen Kitt <steve@sk2.org>
 ---
- Documentation/admin-guide/sysctl/kernel.rst | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Changes since v2:
+  - spelling and grammar fixes in ftrace_dump_on_oops ("outputing it"
+    -> "outputting them")
+  - "and::" in a single line in tracepoint_printk
+
+Documentation/admin-guide/sysctl/kernel.rst | 48 +++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
 diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index b1ad4c86274d..1779455fb2c5 100644
+index 82bfd5892663..b1ad4c86274d 100644
 --- a/Documentation/admin-guide/sysctl/kernel.rst
 +++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -265,6 +265,19 @@ domain names are in general different. For a detailed discussion
+@@ -265,6 +265,27 @@ domain names are in general different. For a detailed discussion
  see the ``hostname(1)`` man page.
  
  
-+firmware_config
-+===============
++ftrace_dump_on_oops
++===================
 +
-+See :doc:`/driver-api/firmware/fallback-mechanisms`.
++Determines whether ``ftrace_dump()`` should be called on an oops (or
++kernel panic). This will output the contents of the ftrace buffers to
++the console.  This is very useful for capturing traces that lead to
++crashes and outputting them to a serial console.
 +
-+The entries in this directory allow the firmware loader helper
-+fallback to be controlled:
++= ===================================================
++0 Disabled (default).
++1 Dump buffers of all CPUs.
++2 Dump the buffer of the CPU that triggered the oops.
++= ===================================================
 +
-+* ``force_sysfs_fallback``, when set to 1, forces the use of the
-+  fallback;
-+* ``ignore_sysfs_fallback``, when set to 1, ignores any fallback.
++
++ftrace_enabled, stack_tracer_enabled
++====================================
++
++See :doc:`/trace/ftrace`.
 +
 +
- ftrace_dump_on_oops
- ===================
+ hardlockup_all_cpu_backtrace
+ ============================
+ 
+@@ -1191,6 +1212,33 @@ If a value outside of this range is written to ``threads-max`` an
+ ``EINVAL`` error occurs.
+ 
+ 
++traceoff_on_warning
++===================
++
++When set, disables tracing (see :doc:`/trace/ftrace`) when a
++``WARN()`` is hit.
++
++
++tracepoint_printk
++=================
++
++When tracepoints are sent to printk() (enabled by the ``tp_printk``
++boot parameter), this entry provides runtime control::
++
++    echo 0 > /proc/sys/kernel/tracepoint_printk
++
++will stop tracepoints from being sent to printk(), and::
++
++    echo 1 > /proc/sys/kernel/tracepoint_printk
++
++will send them to printk() again.
++
++This only works if the kernel was booted with ``tp_printk`` enabled.
++
++See :doc:`/admin-guide/kernel-parameters` and
++:doc:`/trace/boottime-trace`.
++
++
+ unknown_nmi_panic
+ =================
  
 -- 
 2.20.1
