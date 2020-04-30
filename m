@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB73C4725A
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28E1C47247
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33C4C20873
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A14620873
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588262805;
-	bh=9C1dMa3Ehy9gAHQ6OEEAo6fXYVOEg1MVQjKTqt6Kfh8=;
+	s=default; t=1588262812;
+	bh=mwXQTjF7850lNOTbqQXXAQp2gqoDNDy9E2jrpxLqrgg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=uuupR0iWedtQaU/RVNlZFWpr224mOXGva9WEYmybE5SuNQO8HkpQkpi1nxXdr/ybx
-	 S2j2dUorm0Wm6IOAWx7Dlo3tWdPOkqwUWCIwshMJVxkiIJjXLlHMsENIjNG0IPvj6W
-	 /+jENXtFrdLcmXMH5QB6Os6FPtxAewMz+J4NkG9U=
+	b=yKMpVOQpP9spEj2xYqpU1DZprmFUAY35lKBW+AHSXzs4kO5qyqkdTYkf+9SgtfR7i
+	 jXfMN77zFf6076Wo/R/osJHa9YiEjX/6fWTC7rnbUS5iXqPqoLr/E9JQgLhTraSdUx
+	 pdVlI6IithWCIWknkNJSTl86PIMoOtx/Dviblc20=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728327AbgD3QGT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:06:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50842 "EHLO mail.kernel.org"
+        id S1728419AbgD3QGq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 12:06:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50840 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726961AbgD3QEj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727781AbgD3QEj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:04:39 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3ABBF24971;
+        by mail.kernel.org (Postfix) with ESMTPSA id 828CB2498C;
         Thu, 30 Apr 2020 16:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588262676;
-        bh=9C1dMa3Ehy9gAHQ6OEEAo6fXYVOEg1MVQjKTqt6Kfh8=;
+        bh=mwXQTjF7850lNOTbqQXXAQp2gqoDNDy9E2jrpxLqrgg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CPwloxsInEjj07RqZI+aYO6sQcQA7HiRfy96ApyEWWHqNYeOn1a0Z0TJzD28aMJFc
-         Zp0IZfrCa0J49qQgdradEgVmd84mnx0BDE27s/2QEWXAUr1JfYZSrvPRzpIRjKlsjA
-         1A7ewi7pHZ6afw8jPiXLam0MuZrPnhCYDC7pdMvg=
+        b=yB8ol5IgG7UroXTG2SVA7rWHMrtG995xZoXka+QB8+UxaIP/9uI6F6nToa51TzyYd
+         878WdFKxDgov9pvpNZTtd90JsrriVTFj7+3v1L/P26S3jnpqNS9oy2x7oDeFOmhF8/
+         SHgYgm5NCCOM1n9b42ArrtjVuV6p2M+WL4eKeVN8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxFh-Gc; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxGb-Qq; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 20/37] docs: networking: convert ppp_generic.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:15 +0200
-Message-Id: <e711e7e6de04025ff21e893b7c008fab677c55ac.1588261997.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 31/37] docs: networking: convert strparser.txt to ReST
+Date:   Thu, 30 Apr 2020 18:04:26 +0200
+Message-Id: <ebd753137781aa0d28d6eda54d31d8072d56daea.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
@@ -70,184 +70,217 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/networking/index.rst            |  1 +
- .../{ppp_generic.txt => ppp_generic.rst}      | 52 ++++++++++++-------
- 2 files changed, 33 insertions(+), 20 deletions(-)
- rename Documentation/networking/{ppp_generic.txt => ppp_generic.rst} (91%)
+ .../{strparser.txt => strparser.rst}          | 85 +++++++++++++------
+ 2 files changed, 60 insertions(+), 26 deletions(-)
+ rename Documentation/networking/{strparser.txt => strparser.rst} (80%)
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 18bb10239cad..f89535871481 100644
+index d19ddcbe66e5..e5a705024c6a 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -93,6 +93,7 @@ Contents:
-    phonet
-    pktgen
-    plip
-+   ppp_generic
+@@ -104,6 +104,7 @@ Contents:
+    secid
+    seg6-sysctl
+    skfp
++   strparser
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/ppp_generic.txt b/Documentation/networking/ppp_generic.rst
-similarity index 91%
-rename from Documentation/networking/ppp_generic.txt
-rename to Documentation/networking/ppp_generic.rst
-index fd563aff5fc9..e60504377900 100644
---- a/Documentation/networking/ppp_generic.txt
-+++ b/Documentation/networking/ppp_generic.rst
-@@ -1,8 +1,12 @@
--		PPP Generic Driver and Channel Interface
--		----------------------------------------
+diff --git a/Documentation/networking/strparser.txt b/Documentation/networking/strparser.rst
+similarity index 80%
+rename from Documentation/networking/strparser.txt
+rename to Documentation/networking/strparser.rst
+index a7d354ddda7b..6cab1f74ae05 100644
+--- a/Documentation/networking/strparser.txt
++++ b/Documentation/networking/strparser.rst
+@@ -1,4 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
- 
--			    Paul Mackerras
-+========================================
-+PPP Generic Driver and Channel Interface
-+========================================
 +
-+			   Paul Mackerras
- 			   paulus@samba.org
++=========================
+ Stream Parser (strparser)
++=========================
+ 
+ Introduction
+ ============
+@@ -34,8 +38,10 @@ that is called when a full message has been completed.
+ Functions
+ =========
+ 
+-strp_init(struct strparser *strp, struct sock *sk,
+-	  const struct strp_callbacks *cb)
++     ::
 +
- 			      7 Feb 2002
++	strp_init(struct strparser *strp, struct sock *sk,
++		const struct strp_callbacks *cb)
  
- The generic PPP driver in linux-2.4 provides an implementation of the
-@@ -19,7 +23,7 @@ functionality which is of use in any PPP implementation, including:
- * simple packet filtering
+      Called to initialize a stream parser. strp is a struct of type
+      strparser that is allocated by the upper layer. sk is the TCP
+@@ -43,31 +49,41 @@ strp_init(struct strparser *strp, struct sock *sk,
+      callback mode; in general mode this is set to NULL. Callbacks
+      are called by the stream parser (the callbacks are listed below).
  
- For sending and receiving PPP frames, the generic PPP driver calls on
--the services of PPP `channels'.  A PPP channel encapsulates a
-+the services of PPP ``channels``.  A PPP channel encapsulates a
- mechanism for transporting PPP frames from one machine to another.  A
- PPP channel implementation can be arbitrarily complex internally but
- has a very simple interface with the generic PPP code: it merely has
-@@ -102,7 +106,7 @@ communications medium and prepare it to do PPP.  For example, with an
- async tty, this can involve setting the tty speed and modes, issuing
- modem commands, and then going through some sort of dialog with the
- remote system to invoke PPP service there.  We refer to this process
--as `discovery'.  Then the user-level process tells the medium to
-+as ``discovery``.  Then the user-level process tells the medium to
- become a PPP channel and register itself with the generic PPP layer.
- The channel then has to report the channel number assigned to it back
- to the user-level process.  From that point, the PPP negotiation code
-@@ -111,8 +115,8 @@ negotiation, accessing the channel through the /dev/ppp interface.
- 
- At the interface to the PPP generic layer, PPP frames are stored in
- skbuff structures and start with the two-byte PPP protocol number.
--The frame does *not* include the 0xff `address' byte or the 0x03
--`control' byte that are optionally used in async PPP.  Nor is there
-+The frame does *not* include the 0xff ``address`` byte or the 0x03
-+``control`` byte that are optionally used in async PPP.  Nor is there
- any escaping of control characters, nor are there any FCS or framing
- characters included.  That is all the responsibility of the channel
- code, if it is needed for the particular medium.  That is, the skbuffs
-@@ -121,16 +125,16 @@ protocol number and the data, and the skbuffs presented to ppp_input()
- must be in the same format.
- 
- The channel must provide an instance of a ppp_channel struct to
--represent the channel.  The channel is free to use the `private' field
--however it wishes.  The channel should initialize the `mtu' and
--`hdrlen' fields before calling ppp_register_channel() and not change
--them until after ppp_unregister_channel() returns.  The `mtu' field
-+represent the channel.  The channel is free to use the ``private`` field
-+however it wishes.  The channel should initialize the ``mtu`` and
-+``hdrlen`` fields before calling ppp_register_channel() and not change
-+them until after ppp_unregister_channel() returns.  The ``mtu`` field
- represents the maximum size of the data part of the PPP frames, that
- is, it does not include the 2-byte protocol number.
- 
- If the channel needs some headroom in the skbuffs presented to it for
- transmission (i.e., some space free in the skbuff data area before the
--start of the PPP frame), it should set the `hdrlen' field of the
-+start of the PPP frame), it should set the ``hdrlen`` field of the
- ppp_channel struct to the amount of headroom required.  The generic
- PPP layer will attempt to provide that much headroom but the channel
- should still check if there is sufficient headroom and copy the skbuff
-@@ -322,6 +326,8 @@ an interface unit are:
-   interface.  The argument should be a pointer to an int containing
-   the new flags value.  The bits in the flags value that can be set
-   are:
+-void strp_pause(struct strparser *strp)
++     ::
 +
-+	================	========================================
- 	SC_COMP_TCP		enable transmit TCP header compression
- 	SC_NO_TCP_CCID		disable connection-id compression for
- 				TCP header compression
-@@ -335,6 +341,7 @@ an interface unit are:
- 	SC_MP_SHORTSEQ		expect short multilink sequence
- 				numbers on received multilink fragments
- 	SC_MP_XSHORTSEQ		transmit short multilink sequence nos.
-+	================	========================================
++	void strp_pause(struct strparser *strp)
  
-   The values of these flags are defined in <linux/ppp-ioctl.h>.  Note
-   that the values of the SC_MULTILINK, SC_MP_SHORTSEQ and
-@@ -345,17 +352,20 @@ an interface unit are:
-   interface unit.  The argument should point to an int where the ioctl
-   will store the flags value.  As well as the values listed above for
-   PPPIOCSFLAGS, the following bits may be set in the returned value:
+      Temporarily pause a stream parser. Message parsing is suspended
+      and no new messages are delivered to the upper layer.
+ 
+-void strp_unpause(struct strparser *strp)
++     ::
 +
-+	================	=========================================
- 	SC_COMP_RUN		CCP compressor is running
- 	SC_DECOMP_RUN		CCP decompressor is running
- 	SC_DC_ERROR		CCP decompressor detected non-fatal error
- 	SC_DC_FERROR		CCP decompressor detected fatal error
-+	================	=========================================
++	void strp_unpause(struct strparser *strp)
  
- * PPPIOCSCOMPRESS sets the parameters for packet compression or
-   decompression.  The argument should point to a ppp_option_data
-   structure (defined in <linux/ppp-ioctl.h>), which contains a
-   pointer/length pair which should describe a block of memory
-   containing a CCP option specifying a compression method and its
--  parameters.  The ppp_option_data struct also contains a `transmit'
-+  parameters.  The ppp_option_data struct also contains a ``transmit``
-   field.  If this is 0, the ioctl will affect the receive path,
-   otherwise the transmit path.
+      Unpause a paused stream parser.
  
-@@ -377,7 +387,7 @@ an interface unit are:
-   ppp_idle structure (defined in <linux/ppp_defs.h>).  If the
-   CONFIG_PPP_FILTER option is enabled, the set of packets which reset
-   the transmit and receive idle timers is restricted to those which
--  pass the `active' packet filter.
-+  pass the ``active`` packet filter.
-   Two versions of this command exist, to deal with user space
-   expecting times as either 32-bit or 64-bit time_t seconds.
+-void strp_stop(struct strparser *strp);
++     ::
++
++	void strp_stop(struct strparser *strp);
  
-@@ -391,31 +401,33 @@ an interface unit are:
+      strp_stop is called to completely stop stream parser operations.
+      This is called internally when the stream parser encounters an
+      error, and it is called from the upper layer to stop parsing
+      operations.
  
- * PPPIOCSNPMODE sets the network-protocol mode for a given network
-   protocol.  The argument should point to an npioctl struct (defined
--  in <linux/ppp-ioctl.h>).  The `protocol' field gives the PPP protocol
--  number for the protocol to be affected, and the `mode' field
-+  in <linux/ppp-ioctl.h>).  The ``protocol`` field gives the PPP protocol
-+  number for the protocol to be affected, and the ``mode`` field
-   specifies what to do with packets for that protocol:
+-void strp_done(struct strparser *strp);
++     ::
++
++	void strp_done(struct strparser *strp);
  
-+	=============	==============================================
- 	NPMODE_PASS	normal operation, transmit and receive packets
- 	NPMODE_DROP	silently drop packets for this protocol
- 	NPMODE_ERROR	drop packets and return an error on transmit
- 	NPMODE_QUEUE	queue up packets for transmit, drop received
- 			packets
-+	=============	==============================================
+      strp_done is called to release any resources held by the stream
+      parser instance. This must be called after the stream processor
+      has been stopped.
  
-   At present NPMODE_ERROR and NPMODE_QUEUE have the same effect as
-   NPMODE_DROP.
+-int strp_process(struct strparser *strp, struct sk_buff *orig_skb,
+-		 unsigned int orig_offset, size_t orig_len,
+-		 size_t max_msg_size, long timeo)
++     ::
++
++	int strp_process(struct strparser *strp, struct sk_buff *orig_skb,
++			 unsigned int orig_offset, size_t orig_len,
++			 size_t max_msg_size, long timeo)
  
- * PPPIOCGNPMODE returns the network-protocol mode for a given
-   protocol.  The argument should point to an npioctl struct with the
--  `protocol' field set to the PPP protocol number for the protocol of
--  interest.  On return the `mode' field will be set to the network-
-+  ``protocol`` field set to the PPP protocol number for the protocol of
-+  interest.  On return the ``mode`` field will be set to the network-
-   protocol mode for that protocol.
+     strp_process is called in general mode for a stream parser to
+     parse an sk_buff. The number of bytes processed or a negative
+@@ -75,7 +91,9 @@ int strp_process(struct strparser *strp, struct sk_buff *orig_skb,
+     consume the sk_buff. max_msg_size is maximum size the stream
+     parser will parse. timeo is timeout for completing a message.
  
--* PPPIOCSPASS and PPPIOCSACTIVE set the `pass' and `active' packet
-+* PPPIOCSPASS and PPPIOCSACTIVE set the ``pass`` and ``active`` packet
-   filters.  These ioctls are only available if the CONFIG_PPP_FILTER
-   option is selected.  The argument should point to a sock_fprog
-   structure (defined in <linux/filter.h>) containing the compiled BPF
-   instructions for the filter.  Packets are dropped if they fail the
--  `pass' filter; otherwise, if they fail the `active' filter they are
-+  ``pass`` filter; otherwise, if they fail the ``active`` filter they are
-   passed but they do not reset the transmit or receive idle timer.
+-void strp_data_ready(struct strparser *strp);
++    ::
++
++	void strp_data_ready(struct strparser *strp);
  
- * PPPIOCSMRRU enables or disables multilink processing for received
+     The upper layer calls strp_tcp_data_ready when data is ready on
+     the lower socket for strparser to process. This should be called
+@@ -83,7 +101,9 @@ void strp_data_ready(struct strparser *strp);
+     maximum messages size is the limit of the receive socket
+     buffer and message timeout is the receive timeout for the socket.
+ 
+-void strp_check_rcv(struct strparser *strp);
++    ::
++
++	void strp_check_rcv(struct strparser *strp);
+ 
+     strp_check_rcv is called to check for new messages on the socket.
+     This is normally called at initialization of a stream parser
+@@ -94,7 +114,9 @@ Callbacks
+ 
+ There are six callbacks:
+ 
+-int (*parse_msg)(struct strparser *strp, struct sk_buff *skb);
++    ::
++
++	int (*parse_msg)(struct strparser *strp, struct sk_buff *skb);
+ 
+     parse_msg is called to determine the length of the next message
+     in the stream. The upper layer must implement this function. It
+@@ -107,14 +129,16 @@ int (*parse_msg)(struct strparser *strp, struct sk_buff *skb);
+ 
+     The return values of this function are:
+ 
+-    >0 : indicates length of successfully parsed message
+-    0  : indicates more data must be received to parse the message
+-    -ESTRPIPE : current message should not be processed by the
+-          kernel, return control of the socket to userspace which
+-          can proceed to read the messages itself
+-    other < 0 : Error in parsing, give control back to userspace
+-          assuming that synchronization is lost and the stream
+-          is unrecoverable (application expected to close TCP socket)
++    =========    ===========================================================
++    >0           indicates length of successfully parsed message
++    0            indicates more data must be received to parse the message
++    -ESTRPIPE    current message should not be processed by the
++		 kernel, return control of the socket to userspace which
++		 can proceed to read the messages itself
++    other < 0    Error in parsing, give control back to userspace
++		 assuming that synchronization is lost and the stream
++		 is unrecoverable (application expected to close TCP socket)
++    =========    ===========================================================
+ 
+     In the case that an error is returned (return value is less than
+     zero) and the parser is in receive callback mode, then it will set
+@@ -123,7 +147,9 @@ int (*parse_msg)(struct strparser *strp, struct sk_buff *skb);
+     the current message, then the error set on the attached socket is
+     ENODATA since the stream is unrecoverable in that case.
+ 
+-void (*lock)(struct strparser *strp)
++    ::
++
++	void (*lock)(struct strparser *strp)
+ 
+     The lock callback is called to lock the strp structure when
+     the strparser is performing an asynchronous operation (such as
+@@ -131,14 +157,18 @@ void (*lock)(struct strparser *strp)
+     function is to lock_sock for the associated socket. In general
+     mode the callback must be set appropriately.
+ 
+-void (*unlock)(struct strparser *strp)
++    ::
++
++	void (*unlock)(struct strparser *strp)
+ 
+     The unlock callback is called to release the lock obtained
+     by the lock callback. In receive callback mode the default
+     function is release_sock for the associated socket. In general
+     mode the callback must be set appropriately.
+ 
+-void (*rcv_msg)(struct strparser *strp, struct sk_buff *skb);
++    ::
++
++	void (*rcv_msg)(struct strparser *strp, struct sk_buff *skb);
+ 
+     rcv_msg is called when a full message has been received and
+     is queued. The callee must consume the sk_buff; it can
+@@ -152,7 +182,9 @@ void (*rcv_msg)(struct strparser *strp, struct sk_buff *skb);
+     the length of the message. skb->len - offset may be greater
+     then full_len since strparser does not trim the skb.
+ 
+-int (*read_sock_done)(struct strparser *strp, int err);
++    ::
++
++	int (*read_sock_done)(struct strparser *strp, int err);
+ 
+      read_sock_done is called when the stream parser is done reading
+      the TCP socket in receive callback mode. The stream parser may
+@@ -160,7 +192,9 @@ int (*read_sock_done)(struct strparser *strp, int err);
+      to occur when exiting the loop. If the callback is not set (NULL
+      in strp_init) a default function is used.
+ 
+-void (*abort_parser)(struct strparser *strp, int err);
++     ::
++
++	void (*abort_parser)(struct strparser *strp, int err);
+ 
+      This function is called when stream parser encounters an error
+      in parsing. The default function stops the stream parser and
+@@ -204,4 +238,3 @@ Author
+ ======
+ 
+ Tom Herbert (tom@quantonium.net)
+-
 -- 
 2.25.4
 
