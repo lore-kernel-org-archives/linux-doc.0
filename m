@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2B9DC47254
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E86EC47258
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 92E5C2076D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B4BA2082E
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588262844;
-	bh=hk3yJGCIoqdz1qoglNsbEPKNyxiVbJmRAddO2RhD+jM=;
+	s=default; t=1588262846;
+	bh=AKLSRgDRMriBe2VoqmymF5TgViMK8zitSGO+zOckj4Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=z2pdj8UWI9/xpxqi+8qRBID3borj3dSCZAqfBR6ynvaM9uNPEuwv2UJ1dD1DNRU6f
-	 DuUnZF8Vf213jRjRTR8Y4smmsAs4hlMnzkQ77j3rKjQkBSKWQWuM+P4cjkmwhMDEgm
-	 1Pk0IfLS/7s+ZxeqMCDzmpU5Eh8Phk09hJrqYn+U=
+	b=cOft13qGSo7zdxj69FAfaHi5HHcFh1Mpw8WbJBMp+aqPOuDS2uwCH1DiFAhaeFd++
+	 zLHGefk7G4ffF6s5fLtRY0r/jGR9L6ZvThPS16MVaqNN4A8vFdQJlnmRJDstL19i9w
+	 Q5s1gBnC7EINLrrC5jbt6i3LGqx8JPqmxCBu8x1A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727781AbgD3QGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:06:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50894 "EHLO mail.kernel.org"
+        id S1726782AbgD3QHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 12:07:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50840 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727094AbgD3QEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726907AbgD3QEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:04:38 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3E19024972;
+        by mail.kernel.org (Postfix) with ESMTPSA id 1ECD424960;
         Thu, 30 Apr 2020 16:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588262676;
-        bh=hk3yJGCIoqdz1qoglNsbEPKNyxiVbJmRAddO2RhD+jM=;
+        bh=AKLSRgDRMriBe2VoqmymF5TgViMK8zitSGO+zOckj4Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ncQxzJ/1gi9OxLSNVmcXW0rNCJ1WppLY+3NVQ+kTXgOk63MLMqTDWS5NuuO+J/U+w
-         SKagRP9Qrj1tz5BCA9rQF3O11dSiSt7aDLHKNO+rX0F9oo+tcih8HXwNwZgjUgTHkI
-         pFxYyJWVoAl5CyY8ajusv6MkQHZ3gzXU8bqAqu0g=
+        b=gmz2JniklUmBdPRbKa2AoCq051T0Mmlq6iC1/X2xhwrCFRLKwyuDwgMbn58tU1E3O
+         H9Fzrae1h+3NJ3h1TRtpKdoGgRXO0knnexhH6niXDR9202ah23t1yFNgpIHGChaSG+
+         v8JUvHp7ECphYKGa1/MlifkBkLyBs8MF5kmRhRYc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxFn-Ha; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxF3-9x; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 21/37] docs: networking: convert proc_net_tcp.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:16 +0200
-Message-Id: <9d38ccde3b8d3de2479fcdfa8e6e0d317f72934d.1588261997.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 12/37] docs: networking: convert nf_conntrack-sysctl.txt to ReST
+Date:   Thu, 30 Apr 2020 18:04:07 +0200
+Message-Id: <4ce89bb56e2bf138c78dbf9ad9d654051b786be1.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
@@ -62,95 +62,140 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
 - add a document title;
-- mark code blocks and literals as such;
-- mark tables as such;
-- adjust identation, whitespaces and blank lines where needed;
+- mark lists as such;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/networking/index.rst            |  1 +
- .../{proc_net_tcp.txt => proc_net_tcp.rst}    | 23 +++++++++++++------
- 2 files changed, 17 insertions(+), 7 deletions(-)
- rename Documentation/networking/{proc_net_tcp.txt => proc_net_tcp.rst} (83%)
+ ...ack-sysctl.txt => nf_conntrack-sysctl.rst} | 51 +++++++++++--------
+ 2 files changed, 30 insertions(+), 22 deletions(-)
+ rename Documentation/networking/{nf_conntrack-sysctl.txt => nf_conntrack-sysctl.rst} (85%)
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index f89535871481..0da7eb0ec85a 100644
+index d98509f15363..e5128bb7e7df 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -94,6 +94,7 @@ Contents:
-    pktgen
-    plip
-    ppp_generic
-+   proc_net_tcp
+@@ -85,6 +85,7 @@ Contents:
+    netdevices
+    netfilter-sysctl
+    netif-msg
++   nf_conntrack-sysctl
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/proc_net_tcp.txt b/Documentation/networking/proc_net_tcp.rst
-similarity index 83%
-rename from Documentation/networking/proc_net_tcp.txt
-rename to Documentation/networking/proc_net_tcp.rst
-index 4a79209e77a7..7d9dfe36af45 100644
---- a/Documentation/networking/proc_net_tcp.txt
-+++ b/Documentation/networking/proc_net_tcp.rst
-@@ -1,15 +1,21 @@
+diff --git a/Documentation/networking/nf_conntrack-sysctl.txt b/Documentation/networking/nf_conntrack-sysctl.rst
+similarity index 85%
+rename from Documentation/networking/nf_conntrack-sysctl.txt
+rename to Documentation/networking/nf_conntrack-sysctl.rst
+index f75c2ce6e136..11a9b76786cb 100644
+--- a/Documentation/networking/nf_conntrack-sysctl.txt
++++ b/Documentation/networking/nf_conntrack-sysctl.rst
+@@ -1,8 +1,15 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+============================================
-+The proc/net/tcp and proc/net/tcp6 variables
-+============================================
++===================================
++Netfilter Conntrack Sysfs variables
++===================================
 +
- This document describes the interfaces /proc/net/tcp and /proc/net/tcp6.
- Note that these interfaces are deprecated in favor of tcp_diag.
+ /proc/sys/net/netfilter/nf_conntrack_* Variables:
++=================================================
  
--These /proc interfaces provide information about currently active TCP 
-+These /proc interfaces provide information about currently active TCP
- connections, and are implemented by tcp4_seq_show() in net/ipv4/tcp_ipv4.c
- and tcp6_seq_show() in net/ipv6/tcp_ipv6.c, respectively.
+ nf_conntrack_acct - BOOLEAN
+-	0 - disabled (default)
+-	not 0 - enabled
++	- 0 - disabled (default)
++	- not 0 - enabled
  
- It will first list all listening TCP sockets, and next list all established
--TCP connections. A typical entry of /proc/net/tcp would look like this (split 
--up into 3 parts because of the length of the line):
-+TCP connections. A typical entry of /proc/net/tcp would look like this (split
-+up into 3 parts because of the length of the line)::
+ 	Enable connection tracking flow accounting. 64-bit byte and packet
+ 	counters per flow are added.
+@@ -16,8 +23,8 @@ nf_conntrack_buckets - INTEGER
+ 	This sysctl is only writeable in the initial net namespace.
  
--   46: 010310AC:9C4C 030310AC:1770 01 
-+   46: 010310AC:9C4C 030310AC:1770 01
-    |      |      |      |      |   |--> connection state
-    |      |      |      |      |------> remote TCP port number
-    |      |      |      |-------------> remote IPv4 address
-@@ -17,7 +23,7 @@ up into 3 parts because of the length of the line):
-    |      |---------------------------> local IPv4 address
-    |----------------------------------> number of entry
+ nf_conntrack_checksum - BOOLEAN
+-	0 - disabled
+-	not 0 - enabled (default)
++	- 0 - disabled
++	- not 0 - enabled (default)
  
--   00000150:00000000 01:00000019 00000000  
-+   00000150:00000000 01:00000019 00000000
-       |        |     |     |       |--> number of unrecovered RTO timeouts
-       |        |     |     |----------> number of jiffies until timer expires
-       |        |     |----------------> timer_active (see below)
-@@ -25,7 +31,7 @@ up into 3 parts because of the length of the line):
-       |-------------------------------> transmit-queue
+ 	Verify checksum of incoming packets. Packets with bad checksums are
+ 	in INVALID state. If this is enabled, such packets will not be
+@@ -27,8 +34,8 @@ nf_conntrack_count - INTEGER (read-only)
+ 	Number of currently allocated flow entries.
  
-    1000        0 54165785 4 cd1e6040 25 4 27 3 -1
--    |          |    |     |    |     |  | |  | |--> slow start size threshold, 
-+    |          |    |     |    |     |  | |  | |--> slow start size threshold,
-     |          |    |     |    |     |  | |  |      or -1 if the threshold
-     |          |    |     |    |     |  | |  |      is >= 0xFFFF
-     |          |    |     |    |     |  | |  |----> sending congestion window
-@@ -40,9 +46,12 @@ up into 3 parts because of the length of the line):
-     |---------------------------------------------> uid
+ nf_conntrack_events - BOOLEAN
+-	0 - disabled
+-	not 0 - enabled (default)
++	- 0 - disabled
++	- not 0 - enabled (default)
  
- timer_active:
-+
-+ ==  ================================================================
-   0  no timer is pending
-   1  retransmit-timer is pending
-   2  another timer (e.g. delayed ack or keepalive) is pending
--  3  this is a socket in TIME_WAIT state. Not all fields will contain 
-+  3  this is a socket in TIME_WAIT state. Not all fields will contain
-      data (or even exist)
-   4  zero window probe timer is pending
-+ ==  ================================================================
+ 	If this option is enabled, the connection tracking code will
+ 	provide userspace with connection tracking events via ctnetlink.
+@@ -62,8 +69,8 @@ nf_conntrack_generic_timeout - INTEGER (seconds)
+ 	protocols.
+ 
+ nf_conntrack_helper - BOOLEAN
+-	0 - disabled (default)
+-	not 0 - enabled
++	- 0 - disabled (default)
++	- not 0 - enabled
+ 
+ 	Enable automatic conntrack helper assignment.
+ 	If disabled it is required to set up iptables rules to assign
+@@ -81,14 +88,14 @@ nf_conntrack_icmpv6_timeout - INTEGER (seconds)
+ 	Default for ICMP6 timeout.
+ 
+ nf_conntrack_log_invalid - INTEGER
+-	0   - disable (default)
+-	1   - log ICMP packets
+-	6   - log TCP packets
+-	17  - log UDP packets
+-	33  - log DCCP packets
+-	41  - log ICMPv6 packets
+-	136 - log UDPLITE packets
+-	255 - log packets of any protocol
++	- 0   - disable (default)
++	- 1   - log ICMP packets
++	- 6   - log TCP packets
++	- 17  - log UDP packets
++	- 33  - log DCCP packets
++	- 41  - log ICMPv6 packets
++	- 136 - log UDPLITE packets
++	- 255 - log packets of any protocol
+ 
+ 	Log invalid packets of a type specified by value.
+ 
+@@ -97,15 +104,15 @@ nf_conntrack_max - INTEGER
+ 	nf_conntrack_buckets value * 4.
+ 
+ nf_conntrack_tcp_be_liberal - BOOLEAN
+-	0 - disabled (default)
+-	not 0 - enabled
++	- 0 - disabled (default)
++	- not 0 - enabled
+ 
+ 	Be conservative in what you do, be liberal in what you accept from others.
+ 	If it's non-zero, we mark only out of window RST segments as INVALID.
+ 
+ nf_conntrack_tcp_loose - BOOLEAN
+-	0 - disabled
+-	not 0 - enabled (default)
++	- 0 - disabled
++	- not 0 - enabled (default)
+ 
+ 	If it is set to zero, we disable picking up already established
+ 	connections.
+@@ -148,8 +155,8 @@ nf_conntrack_tcp_timeout_unacknowledged - INTEGER (seconds)
+ 	default 300
+ 
+ nf_conntrack_timestamp - BOOLEAN
+-	0 - disabled (default)
+-	not 0 - enabled
++	- 0 - disabled (default)
++	- not 0 - enabled
+ 
+ 	Enable connection tracking flow timestamping.
+ 
 -- 
 2.25.4
 
