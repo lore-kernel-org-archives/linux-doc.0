@@ -4,56 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E86EC47258
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 350A9C47253
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B4BA2082E
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C91C2076D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588262846;
-	bh=AKLSRgDRMriBe2VoqmymF5TgViMK8zitSGO+zOckj4Y=;
+	s=default; t=1588262843;
+	bh=aYPeW3IqG9lVg2I9kmZNk4mbS6HsxCxvZcoR6oz+QKo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=cOft13qGSo7zdxj69FAfaHi5HHcFh1Mpw8WbJBMp+aqPOuDS2uwCH1DiFAhaeFd++
-	 zLHGefk7G4ffF6s5fLtRY0r/jGR9L6ZvThPS16MVaqNN4A8vFdQJlnmRJDstL19i9w
-	 Q5s1gBnC7EINLrrC5jbt6i3LGqx8JPqmxCBu8x1A=
+	b=qYq6z1qwSDneejGuLZUi1kt1qWmGxMHcYMySE8rITLAYEKkBZx3ZiXwedoVbTCYCg
+	 jARUbj6F7HcNA9JHzFLHiciYHCDla3z5Eei0W/zibMOsz0M6Fp7tSJ+RUjyRq6l879
+	 rDiPst3jcLbEbn1uPDzNfwDEUbDbS0X8APjYSqxU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726782AbgD3QHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:07:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50840 "EHLO mail.kernel.org"
+        id S1728437AbgD3QGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 12:06:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726907AbgD3QEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727058AbgD3QEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:04:38 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1ECD424960;
+        by mail.kernel.org (Postfix) with ESMTPSA id 289DE24964;
         Thu, 30 Apr 2020 16:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588262676;
-        bh=AKLSRgDRMriBe2VoqmymF5TgViMK8zitSGO+zOckj4Y=;
+        bh=aYPeW3IqG9lVg2I9kmZNk4mbS6HsxCxvZcoR6oz+QKo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gmz2JniklUmBdPRbKa2AoCq051T0Mmlq6iC1/X2xhwrCFRLKwyuDwgMbn58tU1E3O
-         H9Fzrae1h+3NJ3h1TRtpKdoGgRXO0knnexhH6niXDR9202ah23t1yFNgpIHGChaSG+
-         v8JUvHp7ECphYKGa1/MlifkBkLyBs8MF5kmRhRYc=
+        b=ZwE5aS2k2cfrMPA6I5wlEh4Ce/YUcKtv8lsyqqm+ZvKnlGpMSZl0WNtV1gd6nLBSt
+         Z/IPRbGmtgADNIXX6sQDymcVp/w0OEQRxcqxHhqEM0+CCMiBMokeAgMQgZwKik9ElI
+         ocGvbRQ6U794fdm9Xgt0pXXaqhzc8sjxtw4qyXys=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxF3-9x; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxFT-EE; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 12/37] docs: networking: convert nf_conntrack-sysctl.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:07 +0200
-Message-Id: <4ce89bb56e2bf138c78dbf9ad9d654051b786be1.1588261997.git.mchehab+huawei@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>,
+        Remi Denis-Courmont <courmisch@gmail.com>,
+        netdev@vger.kernel.org
+Subject: [PATCH 17/37] docs: networking: convert phonet.txt to ReST
+Date:   Thu, 30 Apr 2020 18:04:12 +0200
+Message-Id: <423e28fd2a70f7128a99bc52231fdc6e2a244f65.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -61,141 +64,207 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
-- add a document title;
-- mark lists as such;
+- adjust title markup;
+- use copyright symbol;
+- add notes markups;
+- mark code blocks and literals as such;
+- adjust identation, whitespaces and blank lines where needed;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/networking/index.rst            |  1 +
- ...ack-sysctl.txt => nf_conntrack-sysctl.rst} | 51 +++++++++++--------
- 2 files changed, 30 insertions(+), 22 deletions(-)
- rename Documentation/networking/{nf_conntrack-sysctl.txt => nf_conntrack-sysctl.rst} (85%)
+ Documentation/networking/packet_mmap.rst      |  2 +-
+ .../networking/{phonet.txt => phonet.rst}     | 56 ++++++++++++-------
+ MAINTAINERS                                   |  2 +-
+ 4 files changed, 39 insertions(+), 22 deletions(-)
+ rename Documentation/networking/{phonet.txt => phonet.rst} (82%)
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index d98509f15363..e5128bb7e7df 100644
+index 8262b535a83e..e460026331c6 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -85,6 +85,7 @@ Contents:
-    netdevices
-    netfilter-sysctl
-    netif-msg
-+   nf_conntrack-sysctl
+@@ -90,6 +90,7 @@ Contents:
+    openvswitch
+    operstates
+    packet_mmap
++   phonet
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/nf_conntrack-sysctl.txt b/Documentation/networking/nf_conntrack-sysctl.rst
-similarity index 85%
-rename from Documentation/networking/nf_conntrack-sysctl.txt
-rename to Documentation/networking/nf_conntrack-sysctl.rst
-index f75c2ce6e136..11a9b76786cb 100644
---- a/Documentation/networking/nf_conntrack-sysctl.txt
-+++ b/Documentation/networking/nf_conntrack-sysctl.rst
-@@ -1,8 +1,15 @@
+diff --git a/Documentation/networking/packet_mmap.rst b/Documentation/networking/packet_mmap.rst
+index 5f213d17652f..884c7222b9e9 100644
+--- a/Documentation/networking/packet_mmap.rst
++++ b/Documentation/networking/packet_mmap.rst
+@@ -1076,7 +1076,7 @@ Miscellaneous bits
+ ==================
+ 
+ - Packet sockets work well together with Linux socket filters, thus you also
+-  might want to have a look at Documentation/networking/filter.txt
++  might want to have a look at Documentation/networking/filter.rst
+ 
+ THANKS
+ ======
+diff --git a/Documentation/networking/phonet.txt b/Documentation/networking/phonet.rst
+similarity index 82%
+rename from Documentation/networking/phonet.txt
+rename to Documentation/networking/phonet.rst
+index 81003581f47a..8668dcbc5e6a 100644
+--- a/Documentation/networking/phonet.txt
++++ b/Documentation/networking/phonet.rst
+@@ -1,3 +1,7 @@
 +.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
 +
-+===================================
-+Netfilter Conntrack Sysfs variables
-+===================================
++============================
+ Linux Phonet protocol family
+ ============================
+ 
+@@ -11,6 +15,7 @@ device attached to the modem. The modem takes care of routing.
+ 
+ Phonet packets can be exchanged through various hardware connections
+ depending on the device, such as:
 +
- /proc/sys/net/netfilter/nf_conntrack_* Variables:
-+=================================================
+   - USB with the CDC Phonet interface,
+   - infrared,
+   - Bluetooth,
+@@ -21,7 +26,7 @@ depending on the device, such as:
+ Packets format
+ --------------
  
- nf_conntrack_acct - BOOLEAN
--	0 - disabled (default)
--	not 0 - enabled
-+	- 0 - disabled (default)
-+	- not 0 - enabled
+-Phonet packets have a common header as follows:
++Phonet packets have a common header as follows::
  
- 	Enable connection tracking flow accounting. 64-bit byte and packet
- 	counters per flow are added.
-@@ -16,8 +23,8 @@ nf_conntrack_buckets - INTEGER
- 	This sysctl is only writeable in the initial net namespace.
+   struct phonethdr {
+     uint8_t  pn_media;  /* Media type (link-layer identifier) */
+@@ -72,7 +77,7 @@ only the (default) Linux FIFO qdisc should be used with them.
+ Network layer
+ -------------
  
- nf_conntrack_checksum - BOOLEAN
--	0 - disabled
--	not 0 - enabled (default)
-+	- 0 - disabled
-+	- not 0 - enabled (default)
+-The Phonet socket address family maps the Phonet packet header:
++The Phonet socket address family maps the Phonet packet header::
  
- 	Verify checksum of incoming packets. Packets with bad checksums are
- 	in INVALID state. If this is enabled, such packets will not be
-@@ -27,8 +34,8 @@ nf_conntrack_count - INTEGER (read-only)
- 	Number of currently allocated flow entries.
+   struct sockaddr_pn {
+     sa_family_t spn_family;    /* AF_PHONET */
+@@ -94,6 +99,8 @@ protocol from the PF_PHONET family. Each socket is bound to one of the
+ 2^10 object IDs available, and can send and receive packets with any
+ other peer.
  
- nf_conntrack_events - BOOLEAN
--	0 - disabled
--	not 0 - enabled (default)
-+	- 0 - disabled
-+	- not 0 - enabled (default)
++::
++
+   struct sockaddr_pn addr = { .spn_family = AF_PHONET, };
+   ssize_t len;
+   socklen_t addrlen = sizeof(addr);
+@@ -105,7 +112,7 @@ other peer.
  
- 	If this option is enabled, the connection tracking code will
- 	provide userspace with connection tracking events via ctnetlink.
-@@ -62,8 +69,8 @@ nf_conntrack_generic_timeout - INTEGER (seconds)
- 	protocols.
+   sendto(fd, msg, msglen, 0, (struct sockaddr *)&addr, sizeof(addr));
+   len = recvfrom(fd, buf, sizeof(buf), 0,
+-                 (struct sockaddr *)&addr, &addrlen);
++		 (struct sockaddr *)&addr, &addrlen);
  
- nf_conntrack_helper - BOOLEAN
--	0 - disabled (default)
--	not 0 - enabled
-+	- 0 - disabled (default)
-+	- not 0 - enabled
+ This protocol follows the SOCK_DGRAM connection-less semantics.
+ However, connect() and getpeername() are not supported, as they did
+@@ -116,7 +123,7 @@ Resource subscription
+ ---------------------
  
- 	Enable automatic conntrack helper assignment.
- 	If disabled it is required to set up iptables rules to assign
-@@ -81,14 +88,14 @@ nf_conntrack_icmpv6_timeout - INTEGER (seconds)
- 	Default for ICMP6 timeout.
+ A Phonet datagram socket can be subscribed to any number of 8-bits
+-Phonet resources, as follow:
++Phonet resources, as follow::
  
- nf_conntrack_log_invalid - INTEGER
--	0   - disable (default)
--	1   - log ICMP packets
--	6   - log TCP packets
--	17  - log UDP packets
--	33  - log DCCP packets
--	41  - log ICMPv6 packets
--	136 - log UDPLITE packets
--	255 - log packets of any protocol
-+	- 0   - disable (default)
-+	- 1   - log ICMP packets
-+	- 6   - log TCP packets
-+	- 17  - log UDP packets
-+	- 33  - log DCCP packets
-+	- 41  - log ICMPv6 packets
-+	- 136 - log UDPLITE packets
-+	- 255 - log packets of any protocol
+   uint32_t res = 0xXX;
+   ioctl(fd, SIOCPNADDRESOURCE, &res);
+@@ -137,6 +144,8 @@ socket paradigm. The listening socket is bound to an unique free object
+ ID. Each listening socket can handle up to 255 simultaneous
+ connections, one per accept()'d socket.
  
- 	Log invalid packets of a type specified by value.
++::
++
+   int lfd, cfd;
  
-@@ -97,15 +104,15 @@ nf_conntrack_max - INTEGER
- 	nf_conntrack_buckets value * 4.
+   lfd = socket(PF_PHONET, SOCK_SEQPACKET, PN_PROTO_PIPE);
+@@ -161,7 +170,7 @@ Connections are traditionally established between two endpoints by a
+ As of Linux kernel version 2.6.39, it is also possible to connect
+ two endpoints directly, using connect() on the active side. This is
+ intended to support the newer Nokia Wireless Modem API, as found in
+-e.g. the Nokia Slim Modem in the ST-Ericsson U8500 platform:
++e.g. the Nokia Slim Modem in the ST-Ericsson U8500 platform::
  
- nf_conntrack_tcp_be_liberal - BOOLEAN
--	0 - disabled (default)
--	not 0 - enabled
-+	- 0 - disabled (default)
-+	- not 0 - enabled
+   struct sockaddr_spn spn;
+   int fd;
+@@ -177,38 +186,45 @@ e.g. the Nokia Slim Modem in the ST-Ericsson U8500 platform:
+   close(fd);
  
- 	Be conservative in what you do, be liberal in what you accept from others.
- 	If it's non-zero, we mark only out of window RST segments as INVALID.
  
- nf_conntrack_tcp_loose - BOOLEAN
--	0 - disabled
--	not 0 - enabled (default)
-+	- 0 - disabled
-+	- not 0 - enabled (default)
+-WARNING:
+-When polling a connected pipe socket for writability, there is an
+-intrinsic race condition whereby writability might be lost between the
+-polling and the writing system calls. In this case, the socket will
+-block until write becomes possible again, unless non-blocking mode
+-is enabled.
++.. Warning:
++
++   When polling a connected pipe socket for writability, there is an
++   intrinsic race condition whereby writability might be lost between the
++   polling and the writing system calls. In this case, the socket will
++   block until write becomes possible again, unless non-blocking mode
++   is enabled.
  
- 	If it is set to zero, we disable picking up already established
- 	connections.
-@@ -148,8 +155,8 @@ nf_conntrack_tcp_timeout_unacknowledged - INTEGER (seconds)
- 	default 300
  
- nf_conntrack_timestamp - BOOLEAN
--	0 - disabled (default)
--	not 0 - enabled
-+	- 0 - disabled (default)
-+	- not 0 - enabled
+ The pipe protocol provides two socket options at the SOL_PNPIPE level:
  
- 	Enable connection tracking flow timestamping.
+   PNPIPE_ENCAP accepts one integer value (int) of:
  
+-    PNPIPE_ENCAP_NONE: The socket operates normally (default).
++    PNPIPE_ENCAP_NONE:
++      The socket operates normally (default).
+ 
+-    PNPIPE_ENCAP_IP: The socket is used as a backend for a virtual IP
++    PNPIPE_ENCAP_IP:
++      The socket is used as a backend for a virtual IP
+       interface. This requires CAP_NET_ADMIN capability. GPRS data
+       support on Nokia modems can use this. Note that the socket cannot
+       be reliably poll()'d or read() from while in this mode.
+ 
+-  PNPIPE_IFINDEX is a read-only integer value. It contains the
+-    interface index of the network interface created by PNPIPE_ENCAP,
+-    or zero if encapsulation is off.
++  PNPIPE_IFINDEX
++      is a read-only integer value. It contains the
++      interface index of the network interface created by PNPIPE_ENCAP,
++      or zero if encapsulation is off.
+ 
+-  PNPIPE_HANDLE is a read-only integer value. It contains the underlying
+-    identifier ("pipe handle") of the pipe. This is only defined for
+-    socket descriptors that are already connected or being connected.
++  PNPIPE_HANDLE
++      is a read-only integer value. It contains the underlying
++      identifier ("pipe handle") of the pipe. This is only defined for
++      socket descriptors that are already connected or being connected.
+ 
+ 
+ Authors
+ -------
+ 
+ Linux Phonet was initially written by Sakari Ailus.
++
+ Other contributors include Mikä Liljeberg, Andras Domokos,
+ Carlos Chinea and Rémi Denis-Courmont.
+-Copyright (C) 2008 Nokia Corporation.
++
++Copyright |copy| 2008 Nokia Corporation.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1546ecb855b5..0d2005e8380e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13297,7 +13297,7 @@ F:	drivers/input/joystick/pxrc.c
+ PHONET PROTOCOL
+ M:	Remi Denis-Courmont <courmisch@gmail.com>
+ S:	Supported
+-F:	Documentation/networking/phonet.txt
++F:	Documentation/networking/phonet.rst
+ F:	include/linux/phonet.h
+ F:	include/net/phonet/
+ F:	include/uapi/linux/phonet.h
 -- 
 2.25.4
 
