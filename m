@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F0AC47253
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A44A5C4725C
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2CA72076D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83A072076D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588262768;
-	bh=2swBC8r+6DylYJS2HK2nzZ/1FoxLj3zxrPtfpoRAFVw=;
+	s=default; t=1588262774;
+	bh=HmyB3mSvSoBZPTU9c0iLb35gC8/ETJP1f64nm3K/i1o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ubglJNJt0gFzcKsEgMZ+3RW0D5tWtInAprLn/gRrvracTCWj/ANmWJ583YYyM1Afn
-	 llFrbNmcJsHKS1UYlUlZIGhCuAk/f22QR2OeDCEhrYQgQcvieLZTcF5Fug1EhD0UvO
-	 AW1Jj6Ymk3Iz6TW8OAW9AvBYCgkow6uJPfIJYOOw=
+	b=agklECm63FW/fhc9S6UZU9zyeFX/t5IuKk9EyJ6jku8gct1Mx5ugwDQ9pl7kjsUu3
+	 CP6gFuVCXwrbmemzK4zucfWTrU1QtJtGpPgMUweIVZ8OXeDUeHjK9jrIt1bEqfLu9p
+	 ucDLjqSs4afK58rR6ylq39+i4OCwv17NUesMjDdI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728209AbgD3QFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1728205AbgD3QFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 30 Apr 2020 12:05:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50876 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:50936 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727813AbgD3QEj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727797AbgD3QEj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:04:39 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9A39024995;
+        by mail.kernel.org (Postfix) with ESMTPSA id 841782498E;
         Thu, 30 Apr 2020 16:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588262676;
-        bh=2swBC8r+6DylYJS2HK2nzZ/1FoxLj3zxrPtfpoRAFVw=;
+        bh=HmyB3mSvSoBZPTU9c0iLb35gC8/ETJP1f64nm3K/i1o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ok9ZinEe1ctZCFADH2tEs/hUj+qvCbP71fEhwL5gKyOyork/CvCHVF0g3V5W+QhBg
-         f05pc27u5ieV54rR1ZLXVWUIFcD7XuRgrxqR4iP4DfeWiUoA8/MuG8ovBQjbykjpo1
-         6uWXUqh3Ds3UPKhS7/IB8DuLC0Mhef05A25cf/Us=
+        b=vex0vRLfRaPVrDWeUZX5D7AZbuVYx+maDsfpkaQR2lYLrvz6Y/IEFw6KhhR4aTzUT
+         YZ5CMzEjin0mg2YFFcoKaYFttoivJ+bX/6XlfhS+2eyvb0OB4QTaMHC88/EYyKLktd
+         ZVV42aeM5mxj86iSlDx4aBMxMFdBj21z2/XxQi9U=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxGl-SV; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxGQ-P1; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 33/37] docs: networking: convert tc-actions-env-rules.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:28 +0200
-Message-Id: <88a50c11478412a67595b1b93d2e79ebe5ba150a.1588261997.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 29/37] docs: networking: convert seg6-sysctl.txt to ReST
+Date:   Thu, 30 Apr 2020 18:04:24 +0200
+Message-Id: <3d8b7e996ad24578d9dcc72de4e0d4bc1479ddd2.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
@@ -61,97 +61,89 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
+- mark code blocks and literals as such;
 - add a document title;
-- use the right numbered list markup;
-- adjust identation, whitespaces and blank lines where needed;
+- adjust chapters, adding proper markups;
+- mark lists as such;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/index.rst            |  1 +
- .../networking/tc-actions-env-rules.rst       | 29 +++++++++++++++++++
- .../networking/tc-actions-env-rules.txt       | 24 ---------------
- 3 files changed, 30 insertions(+), 24 deletions(-)
- create mode 100644 Documentation/networking/tc-actions-env-rules.rst
- delete mode 100644 Documentation/networking/tc-actions-env-rules.txt
+ Documentation/networking/index.rst       |  1 +
+ Documentation/networking/seg6-sysctl.rst | 26 ++++++++++++++++++++++++
+ Documentation/networking/seg6-sysctl.txt | 18 ----------------
+ 3 files changed, 27 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/networking/seg6-sysctl.rst
+ delete mode 100644 Documentation/networking/seg6-sysctl.txt
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 5e495804f96f..f53d89b5679a 100644
+index 8b672f252f67..716744c568b7 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -106,6 +106,7 @@ Contents:
-    skfp
-    strparser
-    switchdev
-+   tc-actions-env-rules
+@@ -102,6 +102,7 @@ Contents:
+    rxrpc
+    sctp
+    secid
++   seg6-sysctl
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/tc-actions-env-rules.rst b/Documentation/networking/tc-actions-env-rules.rst
+diff --git a/Documentation/networking/seg6-sysctl.rst b/Documentation/networking/seg6-sysctl.rst
 new file mode 100644
-index 000000000000..86884b8fb4e0
+index 000000000000..ec73e1445030
 --- /dev/null
-+++ b/Documentation/networking/tc-actions-env-rules.rst
-@@ -0,0 +1,29 @@
++++ b/Documentation/networking/seg6-sysctl.rst
+@@ -0,0 +1,26 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+================================
-+TC Actions - Environmental Rules
-+================================
++====================
++Seg6 Sysfs variables
++====================
 +
 +
-+The "environmental" rules for authors of any new tc actions are:
++/proc/sys/net/conf/<iface>/seg6_* variables:
++============================================
 +
-+1) If you stealeth or borroweth any packet thou shalt be branching
-+   from the righteous path and thou shalt cloneth.
++seg6_enabled - BOOL
++	Accept or drop SR-enabled IPv6 packets on this interface.
 +
-+   For example if your action queues a packet to be processed later,
-+   or intentionally branches by redirecting a packet, then you need to
-+   clone the packet.
++	Relevant packets are those with SRH present and DA = local.
 +
-+2) If you munge any packet thou shalt call pskb_expand_head in the case
-+   someone else is referencing the skb. After that you "own" the skb.
++	* 0 - disabled (default)
++	* not 0 - enabled
 +
-+3) Dropping packets you don't own is a no-no. You simply return
-+   TC_ACT_SHOT to the caller and they will drop it.
++seg6_require_hmac - INTEGER
++	Define HMAC policy for ingress SR-enabled packets on this interface.
 +
-+The "environmental" rules for callers of actions (qdiscs etc) are:
++	* -1 - Ignore HMAC field
++	* 0 - Accept SR packets without HMAC, validate SR packets with HMAC
++	* 1 - Drop SR packets without HMAC, validate SR packets with HMAC
 +
-+#) Thou art responsible for freeing anything returned as being
-+   TC_ACT_SHOT/STOLEN/QUEUED. If none of TC_ACT_SHOT/STOLEN/QUEUED is
-+   returned, then all is great and you don't need to do anything.
-+
-+Post on netdev if something is unclear.
-diff --git a/Documentation/networking/tc-actions-env-rules.txt b/Documentation/networking/tc-actions-env-rules.txt
++	Default is 0.
+diff --git a/Documentation/networking/seg6-sysctl.txt b/Documentation/networking/seg6-sysctl.txt
 deleted file mode 100644
-index f37814693ad3..000000000000
---- a/Documentation/networking/tc-actions-env-rules.txt
+index bdbde23b19cb..000000000000
+--- a/Documentation/networking/seg6-sysctl.txt
 +++ /dev/null
-@@ -1,24 +0,0 @@
+@@ -1,18 +0,0 @@
+-/proc/sys/net/conf/<iface>/seg6_* variables:
 -
--The "environmental" rules for authors of any new tc actions are:
+-seg6_enabled - BOOL
+-	Accept or drop SR-enabled IPv6 packets on this interface.
 -
--1) If you stealeth or borroweth any packet thou shalt be branching
--from the righteous path and thou shalt cloneth.
+-	Relevant packets are those with SRH present and DA = local.
 -
--For example if your action queues a packet to be processed later,
--or intentionally branches by redirecting a packet, then you need to
--clone the packet.
+-	0 - disabled (default)
+-	not 0 - enabled
 -
--2) If you munge any packet thou shalt call pskb_expand_head in the case
--someone else is referencing the skb. After that you "own" the skb.
+-seg6_require_hmac - INTEGER
+-	Define HMAC policy for ingress SR-enabled packets on this interface.
 -
--3) Dropping packets you don't own is a no-no. You simply return
--TC_ACT_SHOT to the caller and they will drop it.
+-	-1 - Ignore HMAC field
+-	0 - Accept SR packets without HMAC, validate SR packets with HMAC
+-	1 - Drop SR packets without HMAC, validate SR packets with HMAC
 -
--The "environmental" rules for callers of actions (qdiscs etc) are:
--
--*) Thou art responsible for freeing anything returned as being
--TC_ACT_SHOT/STOLEN/QUEUED. If none of TC_ACT_SHOT/STOLEN/QUEUED is
--returned, then all is great and you don't need to do anything.
--
--Post on netdev if something is unclear.
--
+-	Default is 0.
 -- 
 2.25.4
 
