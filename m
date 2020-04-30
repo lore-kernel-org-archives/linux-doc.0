@@ -2,135 +2,181 @@ Return-Path: <SRS0=/7E3=6O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BEEC83000
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 00:58:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 790B9C8300B
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 10:03:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 299582083B
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 00:58:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FAFA20838
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 10:03:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726309AbgD3A6D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Apr 2020 20:58:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58822 "EHLO mail.kernel.org"
+        id S1726783AbgD3KDT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 06:03:19 -0400
+Received: from foss.arm.com ([217.140.110.172]:51728 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726279AbgD3A6D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Apr 2020 20:58:03 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CF92E20787;
-        Thu, 30 Apr 2020 00:58:02 +0000 (UTC)
-Date:   Wed, 29 Apr 2020 20:58:01 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Stephen Kitt <steve@sk2.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] docs: sysctl/kernel: document ftrace entries
-Message-ID: <20200429205801.5ce95ab3@oasis.local.home>
-In-Reply-To: <20200429205757.8677-1-steve@sk2.org>
-References: <20200429205757.8677-1-steve@sk2.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726378AbgD3KDS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Apr 2020 06:03:18 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A0311063;
+        Thu, 30 Apr 2020 03:03:18 -0700 (PDT)
+Received: from e107158-lin (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B787D3F68F;
+        Thu, 30 Apr 2020 03:03:15 -0700 (PDT)
+Date:   Thu, 30 Apr 2020 11:03:13 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Tao Zhou <ouwen210@hotmail.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] Documentation/sysctl: Document uclamp sysctl knobs
+Message-ID: <20200430100311.hcamfff363hl4bjk@e107158-lin>
+References: <20200428164134.5588-1-qais.yousef@arm.com>
+ <20200428164134.5588-2-qais.yousef@arm.com>
+ <BL0PR14MB377949FBF2B798EEC425EE719AAA0@BL0PR14MB3779.namprd14.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <BL0PR14MB377949FBF2B798EEC425EE719AAA0@BL0PR14MB3779.namprd14.prod.outlook.com>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 29 Apr 2020 22:57:56 +0200
-Stephen Kitt <steve@sk2.org> wrote:
-
-> Based on the ftrace documentation, the tp_printk boot parameter
-> documentation, and the implementation in kernel/trace/trace.c.
+On 04/30/20 13:06, Tao Zhou wrote:
+> Hi,
 > 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> ---
-> Changes since v2:
->   - spelling and grammar fixes in ftrace_dump_on_oops ("outputing it"
->     -> "outputting them")  
->   - "and::" in a single line in tracepoint_printk
+> On Tue, Apr 28, 2020 at 05:41:34PM +0100, Qais Yousef wrote:
+> > Uclamp exposes 3 sysctl knobs:
+> > 
+> > 	* sched_util_clamp_min
+> > 	* sched_util_clamp_max
+> > 	* sched_util_clamp_min_rt_default
+>  
+> > Document them in sysctl/kernel.rst.
+> > 
+> > Signed-off-by: Qais Yousef <qais.yousef@arm.com>
+> > CC: Jonathan Corbet <corbet@lwn.net>
+> > CC: Juri Lelli <juri.lelli@redhat.com>
+> > CC: Vincent Guittot <vincent.guittot@linaro.org>
+> > CC: Dietmar Eggemann <dietmar.eggemann@arm.com>
+> > CC: Steven Rostedt <rostedt@goodmis.org>
+> > CC: Ben Segall <bsegall@google.com>
+> > CC: Mel Gorman <mgorman@suse.de>
+> > CC: Luis Chamberlain <mcgrof@kernel.org>
+> > CC: Kees Cook <keescook@chromium.org>
+> > CC: Iurii Zaikin <yzaikin@google.com>
+> > CC: Quentin Perret <qperret@google.com>
+> > CC: Valentin Schneider <valentin.schneider@arm.com>
+> > CC: Patrick Bellasi <patrick.bellasi@matbug.net>
+> > CC: Pavan Kondeti <pkondeti@codeaurora.org>
+> > CC: linux-doc@vger.kernel.org
+> > CC: linux-kernel@vger.kernel.org
+> > CC: linux-fsdevel@vger.kernel.org
+> > ---
+> >  Documentation/admin-guide/sysctl/kernel.rst | 48 +++++++++++++++++++++
+> >  1 file changed, 48 insertions(+)
+> > 
+> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> > index 0d427fd10941..e7255f71493c 100644
+> > --- a/Documentation/admin-guide/sysctl/kernel.rst
+> > +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> > @@ -940,6 +940,54 @@ Enables/disables scheduler statistics. Enabling this feature
+> >  incurs a small amount of overhead in the scheduler but is
+> >  useful for debugging and performance tuning.
+> >  
+> > +sched_util_clamp_min:
+> > +=====================
+> > +
+> > +Max allowed *minimum* utilization.
+> > +
+> > +Default value is SCHED_CAPACITY_SCALE (1024), which is the maximum possible
+> > +value.
+> > +
+> > +It means that any requested uclamp.min value cannot be greater than
+>                                                           ^^^^^^^
+> 
+> Seems that 'greater' should be 'smaller'.
+> And the range is [sched_util_clamp_min:SCHED_CAPACITY_SCALE]
+> Uclamp request should not below this system value.
+> Or I am totally wrong for memory leak.
 
-I didn't re-read or compare this patch with v1, but if the only changes
-were the above:
+No the range is [0:sched_util_clamp_min].
 
-Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+It is what it is implemented by this condition:
 
--- Steve
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/sched/core.c?h=v5.7-rc3#n913
 
+So if the requested uclamp.min value is greater than sched_util_clamp_min, we
+return sched_util_clamp_min.
+
+Thanks
+
+--
+Qais Yousef
 
 > 
-> Documentation/admin-guide/sysctl/kernel.rst | 48 +++++++++++++++++++++
->  1 file changed, 48 insertions(+)
+> Thank you
 > 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 82bfd5892663..b1ad4c86274d 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -265,6 +265,27 @@ domain names are in general different. For a detailed discussion
->  see the ``hostname(1)`` man page.
->  
->  
-> +ftrace_dump_on_oops
-> +===================
-> +
-> +Determines whether ``ftrace_dump()`` should be called on an oops (or
-> +kernel panic). This will output the contents of the ftrace buffers to
-> +the console.  This is very useful for capturing traces that lead to
-> +crashes and outputting them to a serial console.
-> +
-> += ===================================================
-> +0 Disabled (default).
-> +1 Dump buffers of all CPUs.
-> +2 Dump the buffer of the CPU that triggered the oops.
-> += ===================================================
-> +
-> +
-> +ftrace_enabled, stack_tracer_enabled
-> +====================================
-> +
-> +See :doc:`/trace/ftrace`.
-> +
-> +
->  hardlockup_all_cpu_backtrace
->  ============================
->  
-> @@ -1191,6 +1212,33 @@ If a value outside of this range is written to ``threads-max`` an
->  ``EINVAL`` error occurs.
->  
->  
-> +traceoff_on_warning
-> +===================
-> +
-> +When set, disables tracing (see :doc:`/trace/ftrace`) when a
-> +``WARN()`` is hit.
-> +
-> +
-> +tracepoint_printk
-> +=================
-> +
-> +When tracepoints are sent to printk() (enabled by the ``tp_printk``
-> +boot parameter), this entry provides runtime control::
-> +
-> +    echo 0 > /proc/sys/kernel/tracepoint_printk
-> +
-> +will stop tracepoints from being sent to printk(), and::
-> +
-> +    echo 1 > /proc/sys/kernel/tracepoint_printk
-> +
-> +will send them to printk() again.
-> +
-> +This only works if the kernel was booted with ``tp_printk`` enabled.
-> +
-> +See :doc:`/admin-guide/kernel-parameters` and
-> +:doc:`/trace/boottime-trace`.
-> +
-> +
->  unknown_nmi_panic
->  =================
->  
-
+> > +sched_util_clamp_min, ie: it is restricted to the range
+> > +[0:sched_util_clamp_min].
+> > +
+> > +sched_util_clamp_max:
+> > +=====================
+> > +
+> > +Max allowed *maximum* utilization.
+> > +
+> > +Default value is SCHED_CAPACITY_SCALE (1024), which is the maximum possible
+> > +value.
+> > +
+> > +It means that any requested uclamp.max value cannot be greater than
+> > +sched_util_clamp_max, ie: it is restricted to the range
+> > +[0:sched_util_clamp_max].
+> > +
+> > +sched_util_clamp_min_rt_default:
+> > +================================
+> > +
+> > +By default Linux is tuned for performance. Which means that RT tasks always run
+> > +at the highest frequency and most capable (highest capacity) CPU (in
+> > +heterogeneous systems).
+> > +
+> > +Uclamp achieves this by setting the requested uclamp.min of all RT tasks to
+> > +SCHED_CAPACITY_SCALE (1024) by default. Which effectively boosts the tasks to
+> > +run at the highest frequency and bias them to run on the biggest CPU.
+> > +
+> > +This knob allows admins to change the default behavior when uclamp is being
+> > +used. In battery powered devices particularly, running at the maximum
+> > +capacity and frequency will increase energy consumption and shorten the battery
+> > +life.
+> > +
+> > +This knob is only effective for RT tasks which the user hasn't modified their
+> > +requested uclamp.min value via sched_setattr() syscall.
+> > +
+> > +This knob will not escape the constraint imposed by sched_util_clamp_min
+> > +defined above.
+> > +
+> > +Any modification is applied lazily on the next opportunity the scheduler needs
+> > +to calculate the effective value of uclamp.min of the task.
+> >  
+> >  seccomp
+> >  =======
+> > -- 
+> > 2.17.1
+> > 
