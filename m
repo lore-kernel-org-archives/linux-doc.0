@@ -2,181 +2,81 @@ Return-Path: <SRS0=/7E3=6O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E714DC4724C
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 19:49:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C7BC47247
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 19:56:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C468D20774
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 19:49:35 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x/LUbAAM"
+	by mail.kernel.org (Postfix) with ESMTP id 1420620836
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 19:56:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726790AbgD3Ttf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 15:49:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54934 "EHLO
+        id S1726437AbgD3T46 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 15:56:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726685AbgD3Ttf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Apr 2020 15:49:35 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E23C1C035494
-        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2020 12:49:34 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id r4so3373960pgg.4
-        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2020 12:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=eVgbuol89Iq0veE3I85Gk84NyFRa8gOBSOw6m+GRCSg=;
-        b=x/LUbAAMBI9EjfhEunVYObFNi0ilObBdHfFK9/9Y5x8kQ72e+7rk4hmGcWo23uxalQ
-         oR+hheCz7Y9fkffCw8PJeHEjjQknHmVO0oeQlyBcP0esveORtxk/8mlHR5f9WUh+9dfH
-         wl0CWP60y7fvrr5frOrebzPRYj8vOrbw85QPcl4mYo6l7Lp2ucpGmNVuPAqzotP8FZ4J
-         MUpoIva+US8Kpxx3SNED8vA9DHbg8o4/JpjjD1wXT5x9MLzYfrEer/m3wC/ajwJXQIrU
-         ocFIMjfD+eDvyvTdKsjCkAuUCLQgjgMJkCS8tUPC7vh5bI6kPnSLgkuXUx3FQTnyEJ8/
-         TZvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=eVgbuol89Iq0veE3I85Gk84NyFRa8gOBSOw6m+GRCSg=;
-        b=O+jjvd0K0ORCTEs/bLgfl53odUldQWtKA15ux7Ba69dT3JKkcKH7REKfwzf2nAsxL+
-         KoTClekUs2Sssb7ZADVIGkYFSfZrJuAL5uJrwY1kKd6JI3tj4qNe9hjYcK7QfnCQaARo
-         n15qHP3jNWSr1j4xH9jIg4zTpdPsY9q6hvFkjTLbaF3RYu1NoJY2eeqKd2VPLBVA00oY
-         fLudUVD3q3fHPTjg736fgR19Z1cj6JT2oDu7HV3azt64KJ0/m5McVa8vpbskcw6arQdt
-         UZw+2H4nkPvJddwug4fW2Ntt1mcGfrfwGtdI1Mna09ZN6vv3JtC8/DiUlOxXSIuuZn4M
-         BAkw==
-X-Gm-Message-State: AGi0PuZK44R1Cvprln4TXY/GeuDsBal1qn2ZaGqOW2/FslOusQNIZoDV
-        U/gcr+sQSiM9KGcjlaN9aiTkXA==
-X-Google-Smtp-Source: APiQypI9zanAp40tlGa9iIJ5KTbKbr2YTHaLxGZRYxFJQ1lE4/d/8jwLCZytJiPDVXLWJjC8Nhu0tA==
-X-Received: by 2002:a63:1d46:: with SMTP id d6mr624552pgm.236.1588276174377;
-        Thu, 30 Apr 2020 12:49:34 -0700 (PDT)
-Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id a15sm517061pju.3.2020.04.30.12.49.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 12:49:33 -0700 (PDT)
-Date:   Thu, 30 Apr 2020 13:49:31 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Arnaud POULIQUEN <arnaud.pouliquen@st.com>
-Cc:     bjorn.andersson@linaro.org, ohad@wizery.com, loic.pallardy@st.com,
-        s-anna@ti.com, linux-remoteproc@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 03/14] remoteproc: Add new operation and flags for
- synchronistation
-Message-ID: <20200430194931.GB17031@xps15>
-References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
- <20200424200135.28825-4-mathieu.poirier@linaro.org>
- <7c5c8d5e-feb7-74ad-a2eb-1ccb8192b0ae@st.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7c5c8d5e-feb7-74ad-a2eb-1ccb8192b0ae@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        with ESMTP id S1726338AbgD3T46 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Apr 2020 15:56:58 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4006CC035495;
+        Thu, 30 Apr 2020 12:56:58 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 4DE7A1289CE3F;
+        Thu, 30 Apr 2020 12:56:55 -0700 (PDT)
+Date:   Thu, 30 Apr 2020 12:56:54 -0700 (PDT)
+Message-Id: <20200430.125654.335144341485365161.davem@davemloft.net>
+To:     mchehab+huawei@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, devel@driverdev.osuosl.org, coreteam@netfilter.org,
+        netfilter-devel@vger.kernel.org, kou.ishizaki@toshiba.co.jp,
+        netdev@vger.kernel.org, paulus@samba.org,
+        linuxppc-dev@lists.ozlabs.org, marcelo.leitner@gmail.com,
+        kadlec@netfilter.org, johannes@sipsolutions.net, fw@strlen.de,
+        gregkh@linuxfoundation.org, kuba@kernel.org,
+        benh@kernel.crashing.org, linux-wireless@vger.kernel.org,
+        geoff@infradead.org, mpe@ellerman.id.au, linux-can@vger.kernel.org,
+        ioana.ciornei@nxp.com, linux-sctp@vger.kernel.org,
+        vyasevich@gmail.com, rds-devel@oss.oracle.com,
+        ruxandra.radulescu@nxp.com, dhowells@redhat.com,
+        pablo@netfilter.org, kvalo@codeaurora.org,
+        santosh.shilimkar@oracle.com, socketcan@hartkopp.net,
+        nhorman@tuxdriver.com, courmisch@gmail.com,
+        linux-rdma@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-x25@vger.kernel.org, mkl@pengutronix.de
+Subject: Re: [PATCH 00/37] net: manually convert files to ReST format -
+ part 2
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
+References: <cover.1588261997.git.mchehab+huawei@kernel.org>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 30 Apr 2020 12:56:56 -0700 (PDT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 28, 2020 at 06:38:41PM +0200, Arnaud POULIQUEN wrote:
-> 
-> 
-> On 4/24/20 10:01 PM, Mathieu Poirier wrote:
-> > Add a new sync_ops to support use cases where the remoteproc
-> > core is synchronising with the remote processor.  Exactly when to use
-> > the synchronisation operations is directed by the flags in structure
-> > rproc_sync_flags.
-> > 
-> > Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > ---
-> >  include/linux/remoteproc.h | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> > 
-> > diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
-> > index ac4082f12e8b..ceb3b2bba824 100644
-> > --- a/include/linux/remoteproc.h
-> > +++ b/include/linux/remoteproc.h
-> > @@ -353,6 +353,23 @@ enum rsc_handling_status {
-> >  	RSC_IGNORED	= 1,
-> >  };
-> >  
-> > +/**
-> > + * struct rproc_sync_flags - platform specific flags indicating which
-> > + *			      rproc_ops to use at specific times during
-> > + *			      the rproc lifecycle.
-> > + * @on_init: true if synchronising with the remote processor at
-> > + *	     initialisation time
-> > + * @after_stop: true if synchronising with the remote processor after it was
-> > + *		stopped from the cmmand line
-> typo command
-> > + * @after_crash: true if synchronising with the remote processor after
-> > + *		 it has crashed
-> > + */
-> > +struct rproc_sync_flags {
-> > +	bool on_init;
-> > +	bool after_stop;
-> > +	bool after_crash;
-> > +};
-> > +
-> how about a bit field instead (just a proposition)?
-> Platform driver would set the sync flag and rproc_set_sync_flag could be a 
-> simple mask instead of a switch case.
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Date: Thu, 30 Apr 2020 18:03:55 +0200
 
-I opted for a structure over bit fields because I thought it would be easier to
-read/understand.  Both approaches are valid and I have to particular preference
-other than, in my own view, a structure is easier to understand.  
-
-I'll wait a little to see what other people think.  If nobody objects the next
-revision will have bit fields.
-
+> That's the second part of my work to convert the networking
+> text files into ReST. it is based on today's linux-next (next-20200430).
 > 
-> Is it possible to split this patch in a different ways because difficult to understand as
-> rproc_sync_flags seems not used before 
-> [PATCH v3 09/14] remoteproc: Deal with synchronisation when crashing
-
-Certainly
-
+> The full series (including those ones) are at:
 > 
-> Thanks
-> Arnaud  
+> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=net-docs
 > 
-> >  /**
-> >   * struct rproc_ops - platform-specific device handlers
-> >   * @start:	power on the device and boot it
-> > @@ -459,6 +476,9 @@ struct rproc_dump_segment {
-> >   * @firmware: name of firmware file to be loaded
-> >   * @priv: private data which belongs to the platform-specific rproc module
-> >   * @ops: platform-specific start/stop rproc handlers
-> > + * @sync_ops: platform-specific start/stop rproc handlers when
-> > + *	      synchronising with a remote processor.
-> > + * @sync_flags: Determine the rproc_ops to choose in specific states.
-> >   * @dev: virtual device for refcounting and common remoteproc behavior
-> >   * @power: refcount of users who need this rproc powered up
-> >   * @state: state of the device
-> > @@ -482,6 +502,7 @@ struct rproc_dump_segment {
-> >   * @table_sz: size of @cached_table
-> >   * @has_iommu: flag to indicate if remote processor is behind an MMU
-> >   * @auto_boot: flag to indicate if remote processor should be auto-started
-> > + * @sync_with_rproc: true if currently synchronising with the rproc
-> >   * @dump_segments: list of segments in the firmware
-> >   * @nb_vdev: number of vdev currently handled by rproc
-> >   */
-> > @@ -492,6 +513,8 @@ struct rproc {
-> >  	const char *firmware;
-> >  	void *priv;
-> >  	struct rproc_ops *ops;
-> > +	struct rproc_ops *sync_ops;
-> > +	struct rproc_sync_flags sync_flags;
-> >  	struct device dev;
-> >  	atomic_t power;
-> >  	unsigned int state;
-> > @@ -515,6 +538,7 @@ struct rproc {
-> >  	size_t table_sz;
-> >  	bool has_iommu;
-> >  	bool auto_boot;
-> > +	bool sync_with_rproc;
-> >  	struct list_head dump_segments;
-> >  	int nb_vdev;
-> >  	u8 elf_class;
-> > 
+> I should be sending the remaining patches (another /38 series)
+> after getting those merged at -next.
+> 
+> The documents, converted to HTML via the building system are at:
+> 
+> 	https://www.infradead.org/~mchehab/kernel_docs/networking/
+
+Series applied to net-next, thank you.
