@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0547C47253
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1CDC47257
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C107220873
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87012208D5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588262813;
-	bh=Y41GO6rEfa6gMe2ZRrhdf69OnsyEGPVtS8H/VZVw4d0=;
+	s=default; t=1588262815;
+	bh=+k2ZI+83OqAv8SgP/rHh8+y4ELKKcvrshRN7zFngHYY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=WUzsZ8bh9rAxsQmz7Dh3fsBLePgDiWDuipI7QVU5jo64Fd55wp25uAaGfmzofxf1h
-	 TZ82EQ2K/CbGxynZmbQ6povo6pCHbvVlWeoMlr6mKfOsjT9EG7dnrxbsPp2+NHA0FU
-	 rE/apZl6+QgOqGIPLaaczxdRgY1QU7h3Ii3Yqflg=
+	b=Tc0mJVVDYhKBgM045dGQlo4dxeHsttXQ5n2dQounjPYur0gmuU/wcqJ9V9jtYjpMa
+	 TPtQvA/k1QAJZZRuJvoKIZLEFmqGwW7aiA171DnEJmm10e3IbxMQKuAfCI13A513Xy
+	 M9XthK0UyojZBWGE9qPdnMBtD16XL3MKQjjvCSVw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727824AbgD3QEj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:04:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50872 "EHLO mail.kernel.org"
+        id S1728441AbgD3QGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 12:06:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50886 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726863AbgD3QEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727082AbgD3QEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:04:38 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 09AC524955;
+        by mail.kernel.org (Postfix) with ESMTPSA id 27BFD24963;
         Thu, 30 Apr 2020 16:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588262676;
-        bh=Y41GO6rEfa6gMe2ZRrhdf69OnsyEGPVtS8H/VZVw4d0=;
+        bh=+k2ZI+83OqAv8SgP/rHh8+y4ELKKcvrshRN7zFngHYY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b7G34SC9Xglb7EOCw5U+SKqgsW4DsYt3HJ7LNSwR4XKixsmgQ1D8d4YpYwd4T9edJ
-         uczCo0AzNicdSodlz8v1lcY9fAZfeLCztT3OrxNZcrGpwiP1udVu5oMsdlpzIgmg6g
-         Skf8p2Yk/Ungr3uWBbcHlf0A2kCfFB/9zXBXaR9E=
+        b=f/BEeEmpqRnOcvdGABiLIRLxrXFqnPlXXZG/MFY+kDtHENeg5rFQseDf8nDz9A1wX
+         inWAWNLAzBhizetP8QtoWMzNejg8HjlpRkfRj071V1NBVxIQnFHBX/fYTEC1w0v78I
+         LBCblgg48z61suaBtuHuuObh/6tYt9vhW9xClUm0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxF8-Al; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxFI-CT; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 13/37] docs: networking: convert nf_flowtable.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:08 +0200
-Message-Id: <082c505f4ad07906cc427c1046e64629bd612c47.1588261997.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 15/37] docs: networking: convert operstates.txt to ReST
+Date:   Thu, 30 Apr 2020 18:04:10 +0200
+Message-Id: <aca46c2bc16a33b9da2f1943edf520baf72c508b.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
@@ -61,128 +61,161 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
-- adjust title markup;
-- mark code blocks and literals as such;
-- add notes markups;
-- adjust identation, whitespaces and blank lines;
+- add a document title;
+- adjust chapters, adding proper markups;
+- mark lists as such;
+- adjust identation, whitespaces and blank lines where needed;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/networking/index.rst            |  1 +
- .../{nf_flowtable.txt => nf_flowtable.rst}    | 55 ++++++++++---------
- 2 files changed, 31 insertions(+), 25 deletions(-)
- rename Documentation/networking/{nf_flowtable.txt => nf_flowtable.rst} (76%)
+ .../{operstates.txt => operstates.rst}        | 45 ++++++++++++++-----
+ 2 files changed, 34 insertions(+), 12 deletions(-)
+ rename Documentation/networking/{operstates.txt => operstates.rst} (87%)
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index e5128bb7e7df..c4e8a43741be 100644
+index b7f558480aca..028a36821b9a 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -86,6 +86,7 @@ Contents:
-    netfilter-sysctl
-    netif-msg
+@@ -88,6 +88,7 @@ Contents:
     nf_conntrack-sysctl
-+   nf_flowtable
+    nf_flowtable
+    openvswitch
++   operstates
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/nf_flowtable.txt b/Documentation/networking/nf_flowtable.rst
-similarity index 76%
-rename from Documentation/networking/nf_flowtable.txt
-rename to Documentation/networking/nf_flowtable.rst
-index 0bf32d1121be..b6e1fa141aae 100644
---- a/Documentation/networking/nf_flowtable.txt
-+++ b/Documentation/networking/nf_flowtable.rst
-@@ -1,3 +1,6 @@
+diff --git a/Documentation/networking/operstates.txt b/Documentation/networking/operstates.rst
+similarity index 87%
+rename from Documentation/networking/operstates.txt
+rename to Documentation/networking/operstates.rst
+index b203d1334822..9c918f7cb0e8 100644
+--- a/Documentation/networking/operstates.txt
++++ b/Documentation/networking/operstates.rst
+@@ -1,5 +1,12 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+====================================
- Netfilter's flowtable infrastructure
- ====================================
- 
-@@ -31,15 +34,17 @@ to use this new alternative forwarding path via nftables policy.
- This is represented in Fig.1, which describes the classic forwarding path
- including the Netfilter hooks and the flowtable fastpath bypass.
- 
--                                         userspace process
--                                          ^              |
--                                          |              |
--                                     _____|____     ____\/___
--                                    /          \   /         \
--                                    |   input   |  |  output  |
--                                    \__________/   \_________/
--                                         ^               |
--                                         |               |
-+::
++==================
++Operational States
++==================
 +
-+					 userspace process
-+					  ^              |
-+					  |              |
-+				     _____|____     ____\/___
-+				    /          \   /         \
-+				    |   input   |  |  output  |
-+				    \__________/   \_________/
-+					 ^               |
-+					 |               |
-       _________      __________      ---------     _____\/_____
-      /         \    /          \     |Routing |   /            \
-   -->  ingress  ---> prerouting ---> |decision|   | postrouting |--> neigh_xmit
-@@ -59,7 +64,7 @@ including the Netfilter hooks and the flowtable fastpath bypass.
-       \ /                                                                 |
-        |__yes_________________fastpath bypass ____________________________|
  
--               Fig.1 Netfilter hooks and flowtable interactions
-+	       Fig.1 Netfilter hooks and flowtable interactions
+ 1. Introduction
++===============
  
- The flowtable entry also stores the NAT configuration, so all packets are
- mangled according to the NAT policy that matches the initial packets that went
-@@ -72,18 +77,18 @@ Example configuration
- ---------------------
+ Linux distinguishes between administrative and operational state of an
+ interface. Administrative state is the result of "ip link set dev
+@@ -20,6 +27,7 @@ and changeable from userspace under certain rules.
  
- Enabling the flowtable bypass is relatively easy, you only need to create a
--flowtable and add one rule to your forward chain.
-+flowtable and add one rule to your forward chain::
  
--        table inet x {
-+	table inet x {
- 		flowtable f {
- 			hook ingress priority 0; devices = { eth0, eth1 };
- 		}
--                chain y {
--                        type filter hook forward priority 0; policy accept;
--                        ip protocol tcp flow offload @f
--                        counter packets 0 bytes 0
--                }
--        }
-+		chain y {
-+			type filter hook forward priority 0; policy accept;
-+			ip protocol tcp flow offload @f
-+			counter packets 0 bytes 0
-+		}
-+	}
+ 2. Querying from userspace
++==========================
  
- This example adds the flowtable 'f' to the ingress hook of the eth0 and eth1
- netdevices. You can create as many flowtables as you want in case you need to
-@@ -101,12 +106,12 @@ forwarding bypass.
- More reading
- ------------
+ Both admin and operational state can be queried via the netlink
+ operation RTM_GETLINK. It is also possible to subscribe to RTNLGRP_LINK
+@@ -30,16 +38,20 @@ These values contain interface state:
  
--This documentation is based on the LWN.net articles [1][2]. Rafal Milecki also
--made a very complete and comprehensive summary called "A state of network
-+This documentation is based on the LWN.net articles [1]_\ [2]_. Rafal Milecki
-+also made a very complete and comprehensive summary called "A state of network
- acceleration" that describes how things were before this infrastructure was
--mailined [3] and it also makes a rough summary of this work [4].
-+mailined [3]_ and it also makes a rough summary of this work [4]_.
+ ifinfomsg::if_flags & IFF_UP:
+  Interface is admin up
++
+ ifinfomsg::if_flags & IFF_RUNNING:
+  Interface is in RFC2863 operational state UP or UNKNOWN. This is for
+  backward compatibility, routing daemons, dhcp clients can use this
+  flag to determine whether they should use the interface.
++
+ ifinfomsg::if_flags & IFF_LOWER_UP:
+  Driver has signaled netif_carrier_on()
++
+ ifinfomsg::if_flags & IFF_DORMANT:
+  Driver has signaled netif_dormant_on()
  
--[1] https://lwn.net/Articles/738214/
--[2] https://lwn.net/Articles/742164/
--[3] http://lists.infradead.org/pipermail/lede-dev/2018-January/010830.html
--[4] http://lists.infradead.org/pipermail/lede-dev/2018-January/010829.html
-+.. [1] https://lwn.net/Articles/738214/
-+.. [2] https://lwn.net/Articles/742164/
-+.. [3] http://lists.infradead.org/pipermail/lede-dev/2018-January/010830.html
-+.. [4] http://lists.infradead.org/pipermail/lede-dev/2018-January/010829.html
+ TLV IFLA_OPERSTATE
++------------------
+ 
+ contains RFC2863 state of the interface in numeric representation:
+ 
+@@ -47,26 +59,33 @@ IF_OPER_UNKNOWN (0):
+  Interface is in unknown state, neither driver nor userspace has set
+  operational state. Interface must be considered for user data as
+  setting operational state has not been implemented in every driver.
++
+ IF_OPER_NOTPRESENT (1):
+  Unused in current kernel (notpresent interfaces normally disappear),
+  just a numerical placeholder.
++
+ IF_OPER_DOWN (2):
+  Interface is unable to transfer data on L1, f.e. ethernet is not
+  plugged or interface is ADMIN down.
++
+ IF_OPER_LOWERLAYERDOWN (3):
+  Interfaces stacked on an interface that is IF_OPER_DOWN show this
+  state (f.e. VLAN).
++
+ IF_OPER_TESTING (4):
+  Unused in current kernel.
++
+ IF_OPER_DORMANT (5):
+  Interface is L1 up, but waiting for an external event, f.e. for a
+  protocol to establish. (802.1X)
++
+ IF_OPER_UP (6):
+  Interface is operational up and can be used.
+ 
+ This TLV can also be queried via sysfs.
+ 
+ TLV IFLA_LINKMODE
++-----------------
+ 
+ contains link policy. This is needed for userspace interaction
+ described below.
+@@ -75,6 +94,7 @@ This TLV can also be queried via sysfs.
+ 
+ 
+ 3. Kernel driver API
++====================
+ 
+ Kernel drivers have access to two flags that map to IFF_LOWER_UP and
+ IFF_DORMANT. These flags can be set from everywhere, even from
+@@ -126,6 +146,7 @@ netif_carrier_ok() && !netif_dormant():
+ 
+ 
+ 4. Setting from userspace
++=========================
+ 
+ Applications have to use the netlink interface to influence the
+ RFC2863 operational state of an interface. Setting IFLA_LINKMODE to 1
+@@ -139,18 +160,18 @@ are multicasted on the netlink group RTNLGRP_LINK.
+ 
+ So basically a 802.1X supplicant interacts with the kernel like this:
+ 
+--subscribe to RTNLGRP_LINK
+--set IFLA_LINKMODE to 1 via RTM_SETLINK
+--query RTM_GETLINK once to get initial state
+--if initial flags are not (IFF_LOWER_UP && !IFF_DORMANT), wait until
+- netlink multicast signals this state
+--do 802.1X, eventually abort if flags go down again
+--send RTM_SETLINK to set operstate to IF_OPER_UP if authentication
+- succeeds, IF_OPER_DORMANT otherwise
+--see how operstate and IFF_RUNNING is echoed via netlink multicast
+--set interface back to IF_OPER_DORMANT if 802.1X reauthentication
+- fails
+--restart if kernel changes IFF_LOWER_UP or IFF_DORMANT flag
++- subscribe to RTNLGRP_LINK
++- set IFLA_LINKMODE to 1 via RTM_SETLINK
++- query RTM_GETLINK once to get initial state
++- if initial flags are not (IFF_LOWER_UP && !IFF_DORMANT), wait until
++  netlink multicast signals this state
++- do 802.1X, eventually abort if flags go down again
++- send RTM_SETLINK to set operstate to IF_OPER_UP if authentication
++  succeeds, IF_OPER_DORMANT otherwise
++- see how operstate and IFF_RUNNING is echoed via netlink multicast
++- set interface back to IF_OPER_DORMANT if 802.1X reauthentication
++  fails
++- restart if kernel changes IFF_LOWER_UP or IFF_DORMANT flag
+ 
+ if supplicant goes down, bring back IFLA_LINKMODE to 0 and
+ IFLA_OPERSTATE to a sane value.
 -- 
 2.25.4
 
