@@ -2,108 +2,56 @@ Return-Path: <SRS0=/7E3=6O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E95C4724C
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 18:21:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4133C4724C
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 18:54:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8526E20836
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 18:21:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BC542073E
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 18:54:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726450AbgD3SVh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 14:21:37 -0400
-Received: from foss.arm.com ([217.140.110.172]:60060 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725844AbgD3SVg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Apr 2020 14:21:36 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C649C101E;
-        Thu, 30 Apr 2020 11:21:35 -0700 (PDT)
-Received: from [192.168.0.7] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E45CC3F73D;
-        Thu, 30 Apr 2020 11:21:32 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] sched/uclamp: Add a new sysctl to control RT
- default boost value
-To:     Qais Yousef <qais.yousef@arm.com>,
-        Pavan Kondeti <pkondeti@codeaurora.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200428164134.5588-1-qais.yousef@arm.com>
- <20200429113255.GA19464@codeaurora.org>
- <20200429123056.otyedhljlugyf5we@e107158-lin>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-Message-ID: <d3916860-6ee8-4d17-55ea-be5cada1302a@arm.com>
-Date:   Thu, 30 Apr 2020 20:21:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726318AbgD3Syd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 14:54:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726272AbgD3Syd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Apr 2020 14:54:33 -0400
+X-Greylist: delayed 473 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 30 Apr 2020 11:54:33 PDT
+Received: from ns207790.ip-94-23-215.eu (poy.remlab.net [IPv6:2001:41d0:2:5a1a::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 91CCDC035494
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2020 11:54:33 -0700 (PDT)
+Received: from basile.remlab.net (dtdnw6ykx5nrcvwch9lyt-3.rev.dnainternet.fi [IPv6:2001:14ba:80d7:2d01:13ca:dc28:c846:ea41])
+        (Authenticated sender: remi)
+        by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id 9AED85FC66;
+        Thu, 30 Apr 2020 20:46:38 +0200 (CEST)
+From:   =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi@remlab.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Remi Denis-Courmont <courmisch@gmail.com>,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 17/37] docs: networking: convert phonet.txt to ReST
+Date:   Thu, 30 Apr 2020 21:46:36 +0300
+Message-ID: <2077214.7nr7m29gvK@basile.remlab.net>
+Organization: Remlab
+In-Reply-To: <423e28fd2a70f7128a99bc52231fdc6e2a244f65.1588261997.git.mchehab+huawei@kernel.org>
+References: <cover.1588261997.git.mchehab+huawei@kernel.org> <423e28fd2a70f7128a99bc52231fdc6e2a244f65.1588261997.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200429123056.otyedhljlugyf5we@e107158-lin>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/04/2020 14:30, Qais Yousef wrote:
-> Hi Pavan
-> 
-> On 04/29/20 17:02, Pavan Kondeti wrote:
->> Hi Qais,
->>
->> On Tue, Apr 28, 2020 at 05:41:33PM +0100, Qais Yousef wrote:
+QWNrZWQtYnk6IFLDqW1pIERlbmlzLUNvdXJtb250IDxjb3VybWlzY2hAZ21haWwuY29tPgoKSHl2
+w6TDpCBWYXBwdWEuCgotLSAK0KDQtdC80Lgg0JTRkdC90Lgt0JrRg9GA0LzQvtC9Cmh0dHA6Ly93
+d3cucmVtbGFiLm5ldC8K
 
-[...]
 
->>> @@ -907,8 +935,15 @@ uclamp_tg_restrict(struct task_struct *p, enum uclamp_id clamp_id)
->>>  static inline struct uclamp_se
->>>  uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
->>>  {
->>> -	struct uclamp_se uc_req = uclamp_tg_restrict(p, clamp_id);
->>> -	struct uclamp_se uc_max = uclamp_default[clamp_id];
->>> +	struct uclamp_se uc_req, uc_max;
->>> +
->>> +	/*
->>> +	 * Sync up any change to sysctl_sched_uclamp_util_min_rt_default value.
->>> +	 */
->>> +	uclamp_sync_util_min_rt_default(p);
->>> +
->>> +	uc_req = uclamp_tg_restrict(p, clamp_id);
->>> +	uc_max = uclamp_default[clamp_id];
->>
->> We are calling uclamp_sync_util_min_rt_default() unnecessarily for
->> clamp_id == UCLAMP_MAX case. Would it be better to have a separate
-> 
-> It was actually intentional to make sure we update the value ASAP. I didn't
-> think it's a lot of overhead. I can further protect with a check to verify
-> whether the value has changed if it seems heavy handed.
 
-Users of uclamp_eff_value()->uclamp_eff_get() ((like
-rt_task_fits_capacity())) always call both ids.
 
-So calling uclamp_sync_util_min_rt_default() only for UCLAMP_MIN would
-make sense. It's overhead in the fast path for rt tasks.
-
-Since changes to sched_util_clamp_min_rt_default will be fairly rare,
-you might even want to consider only doing the uclamp_se_set(...,
-min_rt_default, ...) in case
-
-  uc_se->value != sysctl_sched_uclamp_util_min_rt_default
-
-[...]
