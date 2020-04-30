@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56228C47247
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 22:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D674BC47247
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 23:00:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1AC8C20873
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 22:57:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA985208CA
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 23:00:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="j/cqKE2I"
+	dkim=pass (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="YGZmQ8GW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727948AbgD3W5K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 18:57:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56098 "EHLO
+        id S1727972AbgD3W6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 18:58:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727799AbgD3W5K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Apr 2020 18:57:10 -0400
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE940C035495
-        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2020 15:57:09 -0700 (PDT)
-Received: by mail-qv1-xf44.google.com with SMTP id v18so3960247qvx.9
-        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2020 15:57:09 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1727092AbgD3W6f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Apr 2020 18:58:35 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F552C035495
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2020 15:58:34 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id s9so4950413qkm.6
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2020 15:58:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=massaru-org.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=JwaXAKuRd0apGvpDhNCHAFUyDcZ/LeyJTl3LHyQWiwI=;
-        b=j/cqKE2I9ySEFXVhi1aXMr5JuwvMm7JmEKZQt9D1LKparoBCiIz9P+hclLYO3dpOK6
-         wEnlqwAeq1CjQyzGb7mYaSuxL1S5DmlqXLKRy9DU9YesLL6oQFLCHrGATgtWl0lZjuHA
-         8f9Pu+RFSIvkBO1IzH+dfKLlUDQf0/f33yIRIep/p4XsfICyiHk5vYhzM/NZ77znJjeD
-         M7aDOETzdkccWELfAyjE1Y2SnynbI0ZnmBaOoUDGuop4Ziv9AVMSsXOxlWn6e+QbQhHm
-         S8XwlhdU7DYpNR04zkVp8pzbtjtBKFN1AhOSlbH98Xeua0/yvQ3JaFsRNB2cqLYmokso
-         E4VQ==
+        b=YGZmQ8GWP6O2iWZDHWeYV+qL8FMiaRmtsxbz69scygNhquADfQVsbpoVBYM3QC0dTU
+         t5BMZa9/cc51xVx9QZvTbTJKFYFMfHriP4veaT5UB1//NnNg7+0XPqI0B8qA/YQO6Trs
+         ODWlwi/Z2xJ4g4HRNN3Netfxfe+l11nBgKK667Wd1jhRlghv5U0KJyh72j8quYtLvJZx
+         0S39woQfT0AwekP+ecAruBhm6CQ6qE30TOGK5VA9fla/qOS9SJIQLCq2k3OVPxwNTv/m
+         eYrZ+OE+SPFO4cOZPNgCwAYmgE4M6ypCY8+z1qT9xJv4CKfUdR8JecebIhlyL8KRHsYu
+         85Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=JwaXAKuRd0apGvpDhNCHAFUyDcZ/LeyJTl3LHyQWiwI=;
-        b=AqI0CPnxfvIDn7tU1Y7GuQpPrc25N2HHhz8JI3ZZW3mWrHfxfUmsm+unpNyaXygqWx
-         nxePlx1v9DI8Uuc4UNNITyAxStPu/VCNFjhGG+x6JD7059q64cNlObaiYZ2p+vDnPNs0
-         mvkThxKxwgX/pyKOEkD1shzWhZWkhv+/8r2XKhEjB1CH/fBuoDBSAb9TSvz4W2daFFZI
-         JF/eSRD73Z13JGraqCAVU7PuP5G2B16Xw5csZFO4ra/N4YmNK5Nt/M/gsCLnRZvQcyuo
-         4HNNI+p50Zic/8JNhoENVtovHCelZgojRt0YN6lqJvoKXLU0a++rkb4d9xg9kAoz2wd1
-         9TZg==
-X-Gm-Message-State: AGi0PuYDEIWNAg4ntXyjW9Bs+UHNV8CL/im9x6wH0k/amIoVC27vDTaP
-        rlXrHvkCel7DTbSJn1A5eABSc4dHZqLr3A==
-X-Google-Smtp-Source: APiQypLmKZaE8wkTc6wcMU+OIG30tDXPV6fy6mEI5P2ZFUFQRWrRo5Vo6qL0nK17U8rkzEV1qNLerw==
-X-Received: by 2002:a0c:fd8c:: with SMTP id p12mr1343371qvr.163.1588287428897;
-        Thu, 30 Apr 2020 15:57:08 -0700 (PDT)
+        b=hLCKaNSeIh2hjr0vGH4+hgY0yA9oC/Rtqocq3Kf7awNtVMCkLjvLVYoMi+sfIEj6zd
+         TKHWoOJimuCS3C4x7ZrL+njzaWe1kxe14DROpTv3a67rRqw7h23Z6GbKFGHb2AGqo0M0
+         hWZG1rMSJdQ+GBvKspWWX82ChCGz1tH+OG+XrDl6VqgZ5TUl8X+3cCDtxk09oId9D6LR
+         sSaIkxez5FXJ0EDd4UKVXqANHcT3KuCJ4fWrQd75zSIuXllSGB0nm5rg15tZRw+ujlQx
+         KL4JTXOgoq7KgPk+2rpH6DbnlShY5LLd29162IHOPVPhozprlrFm4joGroybR++LZbUO
+         EzQg==
+X-Gm-Message-State: AGi0PubNO/y0OlypsoCBwAKq/wApGlFgjsJTVl263TJ44OnnZUg6WfhR
+        mXUsG//ourDxgheZSUYSEpDyB59EeOdPnw==
+X-Google-Smtp-Source: APiQypLfhmjyRVuRf2Lt6npZZiun6EfqTX4lxs32lNtxWW7GfoDXIAI1rIkPsqMKP/JogVM2TtNnpg==
+X-Received: by 2002:ae9:e10b:: with SMTP id g11mr926581qkm.449.1588287513228;
+        Thu, 30 Apr 2020 15:58:33 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
-        by smtp.gmail.com with ESMTPSA id x194sm1258439qkb.131.2020.04.30.15.57.06
+        by smtp.gmail.com with ESMTPSA id s50sm1165641qtj.1.2020.04.30.15.58.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 15:57:08 -0700 (PDT)
+        Thu, 30 Apr 2020 15:58:32 -0700 (PDT)
 From:   Vitor Massaru Iha <vitor@massaru.org>
 To:     linux-doc@vger.kernel.org
 Cc:     mchehab@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
         brendanhiggins@google.com, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] doc: misc-device: add uaccee to toctree(index)
-Date:   Thu, 30 Apr 2020 19:57:03 -0300
-Message-Id: <20200430225703.113909-1-vitor@massaru.org>
+Subject: [RESEND] doc: misc-device: add uacce to toctree(index)
+Date:   Thu, 30 Apr 2020 19:58:28 -0300
+Message-Id: <20200430225828.114033-1-vitor@massaru.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
