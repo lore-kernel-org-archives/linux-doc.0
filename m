@@ -4,50 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5903C47255
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:19:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A8AC47256
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:19:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4D16208C3
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:19:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A680208C3
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588263581;
-	bh=fDDw8CUiWiLSO3QdJj2xM8TflOXwJKfxuSuTRCHZmLI=;
+	s=default; t=1588263582;
+	bh=vXe/HdnbSuZfJl9OidYv3Q/hs+GyVRE+klxJQ69rx54=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=VO3diGGBFcfixtphoGIDNntvy/3AgvJX/rxuhsDiFouwH/l56IJUxjT34OB9dM4CT
-	 zM8wA/mJe/5Gp3cKi5ZSxHiaadW4+DPoNW0MXyOKdMmWmol7jiuS7yDSVQ8QCIYMHi
-	 Y5uRqUpkB6saHx1JMTj/adkKEqEHVX6bKd7DVC4E=
+	b=vKdrR0VRnNGZWuFQVxQwyyDd0tpGRbJOzXKfjnm7cZgBuPHt286ezVEpVF3QS8ikU
+	 d3iktRhC8+5dG/vTBc/2tmi4haREX5/9K8jCyHMM10995iMWYxc/KrEL/4g9RHeI8r
+	 qqTGtPu1P2xb1/gJrj+6DJ3jpefP/OBVvTjBIIO0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728133AbgD3QSj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:18:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58610 "EHLO mail.kernel.org"
+        id S1728392AbgD3QTl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 12:19:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58738 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726790AbgD3QSi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Apr 2020 12:18:38 -0400
+        id S1728130AbgD3QSj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Apr 2020 12:18:39 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C4E4424953;
-        Thu, 30 Apr 2020 16:18:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 261532495C;
+        Thu, 30 Apr 2020 16:18:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588263517;
-        bh=fDDw8CUiWiLSO3QdJj2xM8TflOXwJKfxuSuTRCHZmLI=;
+        s=default; t=1588263518;
+        bh=vXe/HdnbSuZfJl9OidYv3Q/hs+GyVRE+klxJQ69rx54=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hW8jITZN6VrKvdZ+oI070r43Rh2yWj68X3GMYffFDZBZmwMAlQai98wgclos6ywbQ
-         9ghSwzy/4xHcRjW7lx5njvgv6A77g/U3AIon97i0GwYHouULVO29XrYMhig1KYzFr7
-         OgSFVoRYnYdi55HGEqbUVSruL1+MqgfJ4vmUQsz0=
+        b=wtx3SnHRHrNTNhfhf/04l0NCxiEXknPK2Y0GvSr1HfNNbhpY9CHlVFIBFPRDW91zJ
+         gjEjLrax6+FHaoCaZe0LF7DPDdhp5+rLZAvuL0dnYmprsIpMz/DZQ+tuz/GUo1HQ7b
+         8ceo1n9nyAthKiPwlMWed6E+M04fImfODWeHXCZ8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBtU-00AxhD-2Z; Thu, 30 Apr 2020 18:18:36 +0200
+        id 1jUBtU-00Axi1-Dy; Thu, 30 Apr 2020 18:18:36 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v4 08/19] docs: misc-devices/pci-endpoint-test.txt: convert to ReST
-Date:   Thu, 30 Apr 2020 18:18:22 +0200
-Message-Id: <6e0cbd6f37cfb6a21afdd1dcb0ed3ec3f14e64f9.1588263270.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Subject: [PATCH v4 18/19] docs: kvm: get read of devices/README
+Date:   Thu, 30 Apr 2020 18:18:32 +0200
+Message-Id: <83e4aa5a0574babcbce0a3ed8b4242cf1c8faa3b.1588263270.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588263270.git.mchehab+huawei@kernel.org>
 References: <cover.1588263270.git.mchehab+huawei@kernel.org>
@@ -58,140 +59,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Use titles markups;
-- Adjust identation;
-- use literal markup;
-- Use the proper notation for footnotes.
+Add the information there inside devices/index.rst
 
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/misc-devices/index.rst          |  1 +
- .../misc-devices/pci-endpoint-test.rst        | 56 +++++++++++++++++++
- .../misc-devices/pci-endpoint-test.txt        | 41 --------------
- 3 files changed, 57 insertions(+), 41 deletions(-)
- create mode 100644 Documentation/misc-devices/pci-endpoint-test.rst
- delete mode 100644 Documentation/misc-devices/pci-endpoint-test.txt
+ Documentation/virt/kvm/devices/README    | 1 -
+ Documentation/virt/kvm/devices/index.rst | 3 +++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+ delete mode 100644 Documentation/virt/kvm/devices/README
 
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index a72ab89e7d1a..17e77b6aa27c 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -22,5 +22,6 @@ fit into other categories.
-    lis3lv02d
-    max6875
-    mic/index
-+   pci-endpoint-test
-    spear-pcie-gadget
-    xilinx_sdfec
-diff --git a/Documentation/misc-devices/pci-endpoint-test.rst b/Documentation/misc-devices/pci-endpoint-test.rst
-new file mode 100644
-index 000000000000..26e5d9ba146b
---- /dev/null
-+++ b/Documentation/misc-devices/pci-endpoint-test.rst
-@@ -0,0 +1,56 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================================
-+Driver for PCI Endpoint Test Function
-+=====================================
-+
-+This driver should be used as a host side driver if the root complex is
-+connected to a configurable PCI endpoint running ``pci_epf_test`` function
-+driver configured according to [1]_.
-+
-+The "pci_endpoint_test" driver can be used to perform the following tests.
-+
-+The PCI driver for the test device performs the following tests:
-+
-+	#) verifying addresses programmed in BAR
-+	#) raise legacy IRQ
-+	#) raise MSI IRQ
-+	#) raise MSI-X IRQ
-+	#) read data
-+	#) write data
-+	#) copy data
-+
-+This misc driver creates /dev/pci-endpoint-test.<num> for every
-+``pci_epf_test`` function connected to the root complex and "ioctls"
-+should be used to perform the above tests.
-+
-+ioctl
-+-----
-+
-+ PCITEST_BAR:
-+	      Tests the BAR. The number of the BAR to be tested
-+	      should be passed as argument.
-+ PCITEST_LEGACY_IRQ:
-+	      Tests legacy IRQ
-+ PCITEST_MSI:
-+	      Tests message signalled interrupts. The MSI number
-+	      to be tested should be passed as argument.
-+ PCITEST_MSIX:
-+	      Tests message signalled interrupts. The MSI-X number
-+	      to be tested should be passed as argument.
-+ PCITEST_SET_IRQTYPE:
-+	      Changes driver IRQ type configuration. The IRQ type
-+	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
-+ PCITEST_GET_IRQTYPE:
-+	      Gets driver IRQ type configuration.
-+ PCITEST_WRITE:
-+	      Perform write tests. The size of the buffer should be passed
-+	      as argument.
-+ PCITEST_READ:
-+	      Perform read tests. The size of the buffer should be passed
-+	      as argument.
-+ PCITEST_COPY:
-+	      Perform read tests. The size of the buffer should be passed
-+	      as argument.
-+
-+.. [1] Documentation/PCI/endpoint/function/binding/pci-test.txt
-diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
+diff --git a/Documentation/virt/kvm/devices/README b/Documentation/virt/kvm/devices/README
 deleted file mode 100644
-index 58ccca4416b1..000000000000
---- a/Documentation/misc-devices/pci-endpoint-test.txt
+index 34a69834124a..000000000000
+--- a/Documentation/virt/kvm/devices/README
 +++ /dev/null
-@@ -1,41 +0,0 @@
--Driver for PCI Endpoint Test Function
--
--This driver should be used as a host side driver if the root complex is
--connected to a configurable PCI endpoint running *pci_epf_test* function
--driver configured according to [1].
--
--The "pci_endpoint_test" driver can be used to perform the following tests.
--
--The PCI driver for the test device performs the following tests
--	*) verifying addresses programmed in BAR
--	*) raise legacy IRQ
--	*) raise MSI IRQ
--	*) raise MSI-X IRQ
--	*) read data
--	*) write data
--	*) copy data
--
--This misc driver creates /dev/pci-endpoint-test.<num> for every
--*pci_epf_test* function connected to the root complex and "ioctls"
--should be used to perform the above tests.
--
--ioctl
-------
-- PCITEST_BAR: Tests the BAR. The number of the BAR to be tested
--	      should be passed as argument.
-- PCITEST_LEGACY_IRQ: Tests legacy IRQ
-- PCITEST_MSI: Tests message signalled interrupts. The MSI number
--	      to be tested should be passed as argument.
-- PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
--	      to be tested should be passed as argument.
-- PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
--	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
-- PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
-- PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
--		as argument.
-- PCITEST_READ: Perform read tests. The size of the buffer should be passed
--	       as argument.
-- PCITEST_COPY: Perform read tests. The size of the buffer should be passed
--	       as argument.
--
--[1] -> Documentation/PCI/endpoint/function/binding/pci-test.txt
+@@ -1 +0,0 @@
+-This directory contains specific device bindings for KVM_CAP_DEVICE_CTRL.
+diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
+index 192cda7405c8..cbadafc0e36e 100644
+--- a/Documentation/virt/kvm/devices/index.rst
++++ b/Documentation/virt/kvm/devices/index.rst
+@@ -4,6 +4,9 @@
+ Devices
+ =======
+ 
++The following documentation contains specific device bindings
++for KVM_CAP_DEVICE_CTRL.
++
+ .. toctree::
+    :maxdepth: 2
+ 
 -- 
 2.25.4
 
