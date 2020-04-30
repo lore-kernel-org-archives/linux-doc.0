@@ -2,193 +2,108 @@ Return-Path: <SRS0=/7E3=6O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE3B2C4724C
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E95C4724C
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 18:21:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C46392070B
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:46:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rQq7H6v2"
+	by mail.kernel.org (Postfix) with ESMTP id 8526E20836
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 18:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726475AbgD3Qqy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:46:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726309AbgD3Qqx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Apr 2020 12:46:53 -0400
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05E0C035494;
-        Thu, 30 Apr 2020 09:46:53 -0700 (PDT)
-Received: by mail-qv1-xf44.google.com with SMTP id di6so3327249qvb.10;
-        Thu, 30 Apr 2020 09:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Knn2ggUc17IHYXiTAXE/FUGKOLLexAqmCT7AElneZgY=;
-        b=rQq7H6v2V3koy12H4McM2FmuEflGIKjFaYM/JhDn5EXpLUsYu1rUwTlXLQRWC+rXRm
-         A2nWxzHL0P1txufo4mZ+9KEaeHscFmpkRFhZeC7+v5oxUGarhW8Hvcd6kGJSh+49a0hh
-         hFB3zjqLPoDgXs2q/Dq8cF9+OTb61FCHfPHrcX3zbZ/a0Bs0XC2KrXzZPN8sC+486I5K
-         oOKmKCqen2VjNyWUjfXIulB9lEpAv6sMKhXGBP8M1byQ6ddhj0jnyX81IUDZXreJtDim
-         ta8UUW5cYrqll2pYbU8UTQE9PfI8mtarNtxPUQIYzPtvjn0wuzuNQ558wysX2x76s5Q+
-         qKSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Knn2ggUc17IHYXiTAXE/FUGKOLLexAqmCT7AElneZgY=;
-        b=rT9apzGRUaWLKWB1iXfmHzIOmLCUya+ldFkY0a5J7zR8XUfpiDzLKyvbCyZKWbAP3C
-         Vk1B1m0Suksho4heFkCqU7ZK7PwIvI4pjWQ34xqmNVkGjmaEq3qkp8KZemyCiAYBUHwI
-         A8nMALRD5Na2NBj9vZ+APkqmFnnYFbn+O/xDa4KVCUCKVIOdb46DHiKasHsCk91IXgfg
-         YQHrY46W/Lhk/VPsQJzOIqEKAUYGOCNh5sUql0ZSQtOw9pVMLKEpHY+Xn9HVK9NNdMWV
-         xuUSEPQpHCyg3L9wW1YlSrJZAdcs/xOflJPZmxLD6NLrD254/0zBOF9kERvUQs/l3ehY
-         mOZg==
-X-Gm-Message-State: AGi0PuYqPurtElvV04rt1aOBL7UGZ7+XyzI6+FgKJ72LHSq/T1Bv7A0r
-        Md0SLcvAVErjp0wT6Z0kha9EgGzuCV4=
-X-Google-Smtp-Source: APiQypKh6PAiSvPGAaBxlrnC7B3xhMTlshp4LV/F1JdH8jGjPjjaDR3QhytvY2ITC4vcPlMSFvS6HA==
-X-Received: by 2002:a05:6214:1462:: with SMTP id c2mr3885692qvy.202.1588265212361;
-        Thu, 30 Apr 2020 09:46:52 -0700 (PDT)
-Received: from localhost.localdomain ([138.204.25.205])
-        by smtp.gmail.com with ESMTPSA id x18sm388211qkn.107.2020.04.30.09.46.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 09:46:51 -0700 (PDT)
-Received: by localhost.localdomain (Postfix, from userid 1000)
-        id 2BB0EC4BC6; Thu, 30 Apr 2020 13:46:49 -0300 (-03)
-Date:   Thu, 30 Apr 2020 13:46:49 -0300
-From:   Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Vlad Yasevich <vyasevich@gmail.com>,
-        Neil Horman <nhorman@tuxdriver.com>, netdev@vger.kernel.org,
-        linux-sctp@vger.kernel.org
-Subject: Re: [PATCH 27/37] docs: networking: convert sctp.txt to ReST
-Message-ID: <20200430164649.GB2470@localhost.localdomain>
-References: <cover.1588261997.git.mchehab+huawei@kernel.org>
- <5bbbf00c3aba45253e9d6ba0efeaf34bf2a8450f.1588261997.git.mchehab+huawei@kernel.org>
+        id S1726450AbgD3SVh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 14:21:37 -0400
+Received: from foss.arm.com ([217.140.110.172]:60060 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725844AbgD3SVg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Apr 2020 14:21:36 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C649C101E;
+        Thu, 30 Apr 2020 11:21:35 -0700 (PDT)
+Received: from [192.168.0.7] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E45CC3F73D;
+        Thu, 30 Apr 2020 11:21:32 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] sched/uclamp: Add a new sysctl to control RT
+ default boost value
+To:     Qais Yousef <qais.yousef@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20200428164134.5588-1-qais.yousef@arm.com>
+ <20200429113255.GA19464@codeaurora.org>
+ <20200429123056.otyedhljlugyf5we@e107158-lin>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <d3916860-6ee8-4d17-55ea-be5cada1302a@arm.com>
+Date:   Thu, 30 Apr 2020 20:21:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5bbbf00c3aba45253e9d6ba0efeaf34bf2a8450f.1588261997.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20200429123056.otyedhljlugyf5we@e107158-lin>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 30, 2020 at 06:04:22PM +0200, Mauro Carvalho Chehab wrote:
-> - add SPDX header;
-> - add a document title;
-> - adjust identation, whitespaces and blank lines where needed;
-> - add to networking/index.rst.
+On 29/04/2020 14:30, Qais Yousef wrote:
+> Hi Pavan
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> On 04/29/20 17:02, Pavan Kondeti wrote:
+>> Hi Qais,
+>>
+>> On Tue, Apr 28, 2020 at 05:41:33PM +0100, Qais Yousef wrote:
 
-Acked-by: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
+[...]
 
-> ---
->  Documentation/networking/index.rst            |  1 +
->  .../networking/{sctp.txt => sctp.rst}         | 37 +++++++++++--------
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 24 insertions(+), 16 deletions(-)
->  rename Documentation/networking/{sctp.txt => sctp.rst} (64%)
+>>> @@ -907,8 +935,15 @@ uclamp_tg_restrict(struct task_struct *p, enum uclamp_id clamp_id)
+>>>  static inline struct uclamp_se
+>>>  uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
+>>>  {
+>>> -	struct uclamp_se uc_req = uclamp_tg_restrict(p, clamp_id);
+>>> -	struct uclamp_se uc_max = uclamp_default[clamp_id];
+>>> +	struct uclamp_se uc_req, uc_max;
+>>> +
+>>> +	/*
+>>> +	 * Sync up any change to sysctl_sched_uclamp_util_min_rt_default value.
+>>> +	 */
+>>> +	uclamp_sync_util_min_rt_default(p);
+>>> +
+>>> +	uc_req = uclamp_tg_restrict(p, clamp_id);
+>>> +	uc_max = uclamp_default[clamp_id];
+>>
+>> We are calling uclamp_sync_util_min_rt_default() unnecessarily for
+>> clamp_id == UCLAMP_MAX case. Would it be better to have a separate
 > 
-> diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-> index cd307b9601fa..1761eb715061 100644
-> --- a/Documentation/networking/index.rst
-> +++ b/Documentation/networking/index.rst
-> @@ -100,6 +100,7 @@ Contents:
->     rds
->     regulatory
->     rxrpc
-> +   sctp
->  
->  .. only::  subproject and html
->  
-> diff --git a/Documentation/networking/sctp.txt b/Documentation/networking/sctp.rst
-> similarity index 64%
-> rename from Documentation/networking/sctp.txt
-> rename to Documentation/networking/sctp.rst
-> index 97b810ca9082..9f4d9c8a925b 100644
-> --- a/Documentation/networking/sctp.txt
-> +++ b/Documentation/networking/sctp.rst
-> @@ -1,35 +1,42 @@
-> -Linux Kernel SCTP 
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=================
-> +Linux Kernel SCTP
-> +=================
->  
->  This is the current BETA release of the Linux Kernel SCTP reference
-> -implementation.  
-> +implementation.
->  
->  SCTP (Stream Control Transmission Protocol) is a IP based, message oriented,
->  reliable transport protocol, with congestion control, support for
->  transparent multi-homing, and multiple ordered streams of messages.
->  RFC2960 defines the core protocol.  The IETF SIGTRAN working group originally
-> -developed the SCTP protocol and later handed the protocol over to the 
-> -Transport Area (TSVWG) working group for the continued evolvement of SCTP as a 
-> -general purpose transport.  
-> +developed the SCTP protocol and later handed the protocol over to the
-> +Transport Area (TSVWG) working group for the continued evolvement of SCTP as a
-> +general purpose transport.
->  
-> -See the IETF website (http://www.ietf.org) for further documents on SCTP. 
-> -See http://www.ietf.org/rfc/rfc2960.txt 
-> +See the IETF website (http://www.ietf.org) for further documents on SCTP.
-> +See http://www.ietf.org/rfc/rfc2960.txt
->  
->  The initial project goal is to create an Linux kernel reference implementation
-> -of SCTP that is RFC 2960 compliant and provides an programming interface 
-> -referred to as the  UDP-style API of the Sockets Extensions for SCTP, as 
-> -proposed in IETF Internet-Drafts.    
-> +of SCTP that is RFC 2960 compliant and provides an programming interface
-> +referred to as the  UDP-style API of the Sockets Extensions for SCTP, as
-> +proposed in IETF Internet-Drafts.
->  
-> -Caveats:  
-> +Caveats
-> +=======
->  
-> --lksctp can be built as statically or as a module.  However, be aware that 
-> -module removal of lksctp is not yet a safe activity.   
-> +- lksctp can be built as statically or as a module.  However, be aware that
-> +  module removal of lksctp is not yet a safe activity.
->  
-> --There is tentative support for IPv6, but most work has gone towards 
-> -implementation and testing lksctp on IPv4.   
-> +- There is tentative support for IPv6, but most work has gone towards
-> +  implementation and testing lksctp on IPv4.
->  
->  
->  For more information, please visit the lksctp project website:
-> +
->     http://www.sf.net/projects/lksctp
->  
->  Or contact the lksctp developers through the mailing list:
-> +
->     <linux-sctp@vger.kernel.org>
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 93e1b253ae51..64789b29c085 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15044,7 +15044,7 @@ M:	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
->  L:	linux-sctp@vger.kernel.org
->  S:	Maintained
->  W:	http://lksctp.sourceforge.net
-> -F:	Documentation/networking/sctp.txt
-> +F:	Documentation/networking/sctp.rst
->  F:	include/linux/sctp.h
->  F:	include/net/sctp/
->  F:	include/uapi/linux/sctp.h
-> -- 
-> 2.25.4
-> 
+> It was actually intentional to make sure we update the value ASAP. I didn't
+> think it's a lot of overhead. I can further protect with a check to verify
+> whether the value has changed if it seems heavy handed.
+
+Users of uclamp_eff_value()->uclamp_eff_get() ((like
+rt_task_fits_capacity())) always call both ids.
+
+So calling uclamp_sync_util_min_rt_default() only for UCLAMP_MIN would
+make sense. It's overhead in the fast path for rt tasks.
+
+Since changes to sched_util_clamp_min_rt_default will be fairly rare,
+you might even want to consider only doing the uclamp_se_set(...,
+min_rt_default, ...) in case
+
+  uc_se->value != sysctl_sched_uclamp_util_min_rt_default
+
+[...]
