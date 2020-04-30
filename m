@@ -4,2254 +4,1106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D75B8C47247
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:05:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54267C47259
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:05:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96B7F20775
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:05:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CB6920775
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:05:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588262706;
-	bh=z+U3O0IMp08JisTEz8Tl/tfeMSH0BLqCsciDHmyYzUs=;
+	s=default; t=1588262712;
+	bh=rrNYgRcpWkdSep/WQY2hFQorzKqx1bD3JKZOdAGsSbA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=F6Rc7eib9vuVCmyeZ+IOCIlq6u2uZ+wb8J450RJtYcwzsoy57I7eiPrRAxwXl0Cu1
-	 y8jvGoo2XO6uUC55cXpNq6F1Cx+0eEhuPoe8cHcnU7eQKW31bd2Nr/Qhmt6jflYHNR
-	 FYwNQZKXCQomydDWHf2aMV+Bm3/4RooxbXODS/6o=
+	b=fip+tUlJ7xOWsc6x0GPcyJux6E0J0ok5OO2HenzL83LnX+EUQWiItAg9VWsyQbYE2
+	 OaT/8TtzNHIqo22/N//3mFiUEug3eamOsQ+VyIU37fWEqm3/h3h9nL5HFymEuZmQYW
+	 3kwvTrNr9bKJmahMA51JTxGYoT/vTIhvQMultkbc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728096AbgD3QE7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:04:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50934 "EHLO mail.kernel.org"
+        id S1728111AbgD3QFL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 12:05:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727791AbgD3QEn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Apr 2020 12:04:43 -0400
+        id S1727881AbgD3QEl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Apr 2020 12:04:41 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 24F8924961;
+        by mail.kernel.org (Postfix) with ESMTPSA id 744C924986;
         Thu, 30 Apr 2020 16:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588262676;
-        bh=z+U3O0IMp08JisTEz8Tl/tfeMSH0BLqCsciDHmyYzUs=;
+        s=default; t=1588262677;
+        bh=rrNYgRcpWkdSep/WQY2hFQorzKqx1bD3JKZOdAGsSbA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QfWJDOSu5vkjqtELVy1/J952JZUBi1OilvEJ6Uw/nNp3SYm5hIXYY78YP4X7OjMCz
-         C7T7Darnd491e0vyZa34aqC45X6ob1kinHozikc0dO/8cUv1NhQ7u5enfsuZLPkfP1
-         qu684etRPt9fz3nMHxYXyAJDQYsdUwu6SL+KtGPg=
+        b=QrGIZRYkno4mmN5yPzkGYtTza+sR9W50g+bp0HGYuDJ/IKCrnxi0SHpEbKx+NEwtv
+         CsZ6xHFtcfEsg2ICS6lUhxnnqXVaJYrxb4T5RwMv9GiHQbfuYTWcAGpwYvgeuZVaGS
+         PGkqyQDa1WcvWn2phrxcGEPZR3p15nd8NbpB0PaI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxFO-DR; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxGC-MH; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 16/37] docs: networking: convert packet_mmap.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:11 +0200
-Message-Id: <633df9ca9552b25bf0dbec94ca344a6314364308.1588261997.git.mchehab+huawei@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>,
+        linux-afs@lists.infradead.org, netdev@vger.kernel.org
+Subject: [PATCH 26/37] docs: networking: convert rxrpc.txt to ReST
+Date:   Thu, 30 Apr 2020 18:04:21 +0200
+Message-Id: <ee69f21bd6340b53453760f3c08bfb203277e24c.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch has a big diff, but most are due to whitespaces.
-
-Yet, the conversion is similar to other files under networking:
-
 - add SPDX header;
-- add a document title;
-- adjust titles and chapters, adding proper markups;
-- mark lists as such;
-- mark tables as such;
+- adjust title markup;
+- use autonumbered list markups;
 - mark code blocks and literals as such;
+- mark tables as such;
 - adjust identation, whitespaces and blank lines where needed;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/index.rst       |    1 +
- Documentation/networking/packet_mmap.rst | 1084 ++++++++++++++++++++++
- Documentation/networking/packet_mmap.txt | 1061 ---------------------
- 3 files changed, 1085 insertions(+), 1061 deletions(-)
- create mode 100644 Documentation/networking/packet_mmap.rst
- delete mode 100644 Documentation/networking/packet_mmap.txt
+ Documentation/filesystems/afs.rst             |   2 +-
+ Documentation/networking/index.rst            |   1 +
+ .../networking/{rxrpc.txt => rxrpc.rst}       | 306 +++++++++---------
+ MAINTAINERS                                   |   2 +-
+ net/rxrpc/Kconfig                             |   6 +-
+ net/rxrpc/sysctl.c                            |   2 +-
+ 6 files changed, 167 insertions(+), 152 deletions(-)
+ rename Documentation/networking/{rxrpc.txt => rxrpc.rst} (85%)
 
+diff --git a/Documentation/filesystems/afs.rst b/Documentation/filesystems/afs.rst
+index c4ec39a5966e..cada9464d6bd 100644
+--- a/Documentation/filesystems/afs.rst
++++ b/Documentation/filesystems/afs.rst
+@@ -70,7 +70,7 @@ list of volume location server IP addresses::
+ The first module is the AF_RXRPC network protocol driver.  This provides the
+ RxRPC remote operation protocol and may also be accessed from userspace.  See:
+ 
+-	Documentation/networking/rxrpc.txt
++	Documentation/networking/rxrpc.rst
+ 
+ The second module is the kerberos RxRPC security driver, and the third module
+ is the actual filesystem driver for the AFS filesystem.
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 028a36821b9a..8262b535a83e 100644
+index bc3b04a2edde..cd307b9601fa 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -89,6 +89,7 @@ Contents:
-    nf_flowtable
-    openvswitch
-    operstates
-+   packet_mmap
+@@ -99,6 +99,7 @@ Contents:
+    ray_cs
+    rds
+    regulatory
++   rxrpc
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/packet_mmap.rst b/Documentation/networking/packet_mmap.rst
-new file mode 100644
-index 000000000000..5f213d17652f
---- /dev/null
-+++ b/Documentation/networking/packet_mmap.rst
-@@ -0,0 +1,1084 @@
+diff --git a/Documentation/networking/rxrpc.txt b/Documentation/networking/rxrpc.rst
+similarity index 85%
+rename from Documentation/networking/rxrpc.txt
+rename to Documentation/networking/rxrpc.rst
+index 180e07d956a7..5ad35113d0f4 100644
+--- a/Documentation/networking/rxrpc.txt
++++ b/Documentation/networking/rxrpc.rst
+@@ -1,6 +1,8 @@
+-			    ======================
+-			    RxRPC NETWORK PROTOCOL
+-			    ======================
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===========
-+Packet MMAP
-+===========
-+
-+Abstract
-+========
-+
-+This file documents the mmap() facility available with the PACKET
-+socket interface on 2.4/2.6/3.x kernels. This type of sockets is used for
-+
-+i) capture network traffic with utilities like tcpdump,
-+ii) transmit network traffic, or any other that needs raw
-+    access to network interface.
-+
-+Howto can be found at:
-+
-+    https://sites.google.com/site/packetmmap/
-+
-+Please send your comments to
-+    - Ulisses Alonso Camaró <uaca@i.hate.spam.alumni.uv.es>
-+    - Johann Baudy
-+
-+Why use PACKET_MMAP
-+===================
-+
-+In Linux 2.4/2.6/3.x if PACKET_MMAP is not enabled, the capture process is very
-+inefficient. It uses very limited buffers and requires one system call to
-+capture each packet, it requires two if you want to get packet's timestamp
-+(like libpcap always does).
-+
-+In the other hand PACKET_MMAP is very efficient. PACKET_MMAP provides a size
-+configurable circular buffer mapped in user space that can be used to either
-+send or receive packets. This way reading packets just needs to wait for them,
-+most of the time there is no need to issue a single system call. Concerning
-+transmission, multiple packets can be sent through one system call to get the
-+highest bandwidth. By using a shared buffer between the kernel and the user
-+also has the benefit of minimizing packet copies.
-+
-+It's fine to use PACKET_MMAP to improve the performance of the capture and
-+transmission process, but it isn't everything. At least, if you are capturing
-+at high speeds (this is relative to the cpu speed), you should check if the
-+device driver of your network interface card supports some sort of interrupt
-+load mitigation or (even better) if it supports NAPI, also make sure it is
-+enabled. For transmission, check the MTU (Maximum Transmission Unit) used and
-+supported by devices of your network. CPU IRQ pinning of your network interface
-+card can also be an advantage.
-+
-+How to use mmap() to improve capture process
-+============================================
-+
-+From the user standpoint, you should use the higher level libpcap library, which
-+is a de facto standard, portable across nearly all operating systems
-+including Win32.
-+
-+Packet MMAP support was integrated into libpcap around the time of version 1.3.0;
-+TPACKET_V3 support was added in version 1.5.0
-+
-+How to use mmap() directly to improve capture process
-+=====================================================
-+
-+From the system calls stand point, the use of PACKET_MMAP involves
-+the following process::
-+
-+
-+    [setup]     socket() -------> creation of the capture socket
-+		setsockopt() ---> allocation of the circular buffer (ring)
-+				  option: PACKET_RX_RING
-+		mmap() ---------> mapping of the allocated buffer to the
-+				  user process
-+
-+    [capture]   poll() ---------> to wait for incoming packets
-+
-+    [shutdown]  close() --------> destruction of the capture socket and
-+				  deallocation of all associated
-+				  resources.
-+
-+
-+socket creation and destruction is straight forward, and is done
-+the same way with or without PACKET_MMAP::
-+
-+ int fd = socket(PF_PACKET, mode, htons(ETH_P_ALL));
-+
-+where mode is SOCK_RAW for the raw interface were link level
-+information can be captured or SOCK_DGRAM for the cooked
-+interface where link level information capture is not
-+supported and a link level pseudo-header is provided
-+by the kernel.
-+
-+The destruction of the socket and all associated resources
-+is done by a simple call to close(fd).
-+
-+Similarly as without PACKET_MMAP, it is possible to use one socket
-+for capture and transmission. This can be done by mapping the
-+allocated RX and TX buffer ring with a single mmap() call.
-+See "Mapping and use of the circular buffer (ring)".
-+
-+Next I will describe PACKET_MMAP settings and its constraints,
-+also the mapping of the circular buffer in the user process and
-+the use of this buffer.
-+
-+How to use mmap() directly to improve transmission process
-+==========================================================
-+Transmission process is similar to capture as shown below::
-+
-+    [setup]         socket() -------> creation of the transmission socket
-+		    setsockopt() ---> allocation of the circular buffer (ring)
-+				      option: PACKET_TX_RING
-+		    bind() ---------> bind transmission socket with a network interface
-+		    mmap() ---------> mapping of the allocated buffer to the
-+				      user process
-+
-+    [transmission]  poll() ---------> wait for free packets (optional)
-+		    send() ---------> send all packets that are set as ready in
-+				      the ring
-+				      The flag MSG_DONTWAIT can be used to return
-+				      before end of transfer.
-+
-+    [shutdown]      close() --------> destruction of the transmission socket and
-+				      deallocation of all associated resources.
-+
-+Socket creation and destruction is also straight forward, and is done
-+the same way as in capturing described in the previous paragraph::
-+
-+ int fd = socket(PF_PACKET, mode, 0);
-+
-+The protocol can optionally be 0 in case we only want to transmit
-+via this socket, which avoids an expensive call to packet_rcv().
-+In this case, you also need to bind(2) the TX_RING with sll_protocol = 0
-+set. Otherwise, htons(ETH_P_ALL) or any other protocol, for example.
-+
-+Binding the socket to your network interface is mandatory (with zero copy) to
-+know the header size of frames used in the circular buffer.
-+
-+As capture, each frame contains two parts::
-+
-+    --------------------
-+    | struct tpacket_hdr | Header. It contains the status of
-+    |                    | of this frame
-+    |--------------------|
-+    | data buffer        |
-+    .                    .  Data that will be sent over the network interface.
-+    .                    .
-+    --------------------
-+
-+ bind() associates the socket to your network interface thanks to
-+ sll_ifindex parameter of struct sockaddr_ll.
-+
-+ Initialization example::
-+
-+    struct sockaddr_ll my_addr;
-+    struct ifreq s_ifr;
-+    ...
-+
-+    strncpy (s_ifr.ifr_name, "eth0", sizeof(s_ifr.ifr_name));
-+
-+    /* get interface index of eth0 */
-+    ioctl(this->socket, SIOCGIFINDEX, &s_ifr);
-+
-+    /* fill sockaddr_ll struct to prepare binding */
-+    my_addr.sll_family = AF_PACKET;
-+    my_addr.sll_protocol = htons(ETH_P_ALL);
-+    my_addr.sll_ifindex =  s_ifr.ifr_ifindex;
-+
-+    /* bind socket to eth0 */
-+    bind(this->socket, (struct sockaddr *)&my_addr, sizeof(struct sockaddr_ll));
-+
-+ A complete tutorial is available at: https://sites.google.com/site/packetmmap/
-+
-+By default, the user should put data at::
-+
-+ frame base + TPACKET_HDRLEN - sizeof(struct sockaddr_ll)
-+
-+So, whatever you choose for the socket mode (SOCK_DGRAM or SOCK_RAW),
-+the beginning of the user data will be at::
-+
-+ frame base + TPACKET_ALIGN(sizeof(struct tpacket_hdr))
-+
-+If you wish to put user data at a custom offset from the beginning of
-+the frame (for payload alignment with SOCK_RAW mode for instance) you
-+can set tp_net (with SOCK_DGRAM) or tp_mac (with SOCK_RAW). In order
-+to make this work it must be enabled previously with setsockopt()
-+and the PACKET_TX_HAS_OFF option.
-+
-+PACKET_MMAP settings
-+====================
-+
-+To setup PACKET_MMAP from user level code is done with a call like
-+
-+ - Capture process::
-+
-+     setsockopt(fd, SOL_PACKET, PACKET_RX_RING, (void *) &req, sizeof(req))
-+
-+ - Transmission process::
-+
-+     setsockopt(fd, SOL_PACKET, PACKET_TX_RING, (void *) &req, sizeof(req))
-+
-+The most significant argument in the previous call is the req parameter,
-+this parameter must to have the following structure::
-+
-+    struct tpacket_req
-+    {
-+	unsigned int    tp_block_size;  /* Minimal size of contiguous block */
-+	unsigned int    tp_block_nr;    /* Number of blocks */
-+	unsigned int    tp_frame_size;  /* Size of frame */
-+	unsigned int    tp_frame_nr;    /* Total number of frames */
-+    };
-+
-+This structure is defined in /usr/include/linux/if_packet.h and establishes a
-+circular buffer (ring) of unswappable memory.
-+Being mapped in the capture process allows reading the captured frames and
-+related meta-information like timestamps without requiring a system call.
-+
-+Frames are grouped in blocks. Each block is a physically contiguous
-+region of memory and holds tp_block_size/tp_frame_size frames. The total number
-+of blocks is tp_block_nr. Note that tp_frame_nr is a redundant parameter because::
-+
-+    frames_per_block = tp_block_size/tp_frame_size
-+
-+indeed, packet_set_ring checks that the following condition is true::
-+
-+    frames_per_block * tp_block_nr == tp_frame_nr
-+
-+Lets see an example, with the following values::
-+
-+     tp_block_size= 4096
-+     tp_frame_size= 2048
-+     tp_block_nr  = 4
-+     tp_frame_nr  = 8
-+
-+we will get the following buffer structure::
-+
-+	    block #1                 block #2
-+    +---------+---------+    +---------+---------+
-+    | frame 1 | frame 2 |    | frame 3 | frame 4 |
-+    +---------+---------+    +---------+---------+
-+
-+	    block #3                 block #4
-+    +---------+---------+    +---------+---------+
-+    | frame 5 | frame 6 |    | frame 7 | frame 8 |
-+    +---------+---------+    +---------+---------+
-+
-+A frame can be of any size with the only condition it can fit in a block. A block
-+can only hold an integer number of frames, or in other words, a frame cannot
-+be spawned across two blocks, so there are some details you have to take into
-+account when choosing the frame_size. See "Mapping and use of the circular
-+buffer (ring)".
-+
-+PACKET_MMAP setting constraints
-+===============================
-+
-+In kernel versions prior to 2.4.26 (for the 2.4 branch) and 2.6.5 (2.6 branch),
-+the PACKET_MMAP buffer could hold only 32768 frames in a 32 bit architecture or
-+16384 in a 64 bit architecture. For information on these kernel versions
-+see http://pusa.uv.es/~ulisses/packet_mmap/packet_mmap.pre-2.4.26_2.6.5.txt
-+
-+Block size limit
-+----------------
-+
-+As stated earlier, each block is a contiguous physical region of memory. These
-+memory regions are allocated with calls to the __get_free_pages() function. As
-+the name indicates, this function allocates pages of memory, and the second
-+argument is "order" or a power of two number of pages, that is
-+(for PAGE_SIZE == 4096) order=0 ==> 4096 bytes, order=1 ==> 8192 bytes,
-+order=2 ==> 16384 bytes, etc. The maximum size of a
-+region allocated by __get_free_pages is determined by the MAX_ORDER macro. More
-+precisely the limit can be calculated as::
-+
-+   PAGE_SIZE << MAX_ORDER
-+
-+   In a i386 architecture PAGE_SIZE is 4096 bytes
-+   In a 2.4/i386 kernel MAX_ORDER is 10
-+   In a 2.6/i386 kernel MAX_ORDER is 11
-+
-+So get_free_pages can allocate as much as 4MB or 8MB in a 2.4/2.6 kernel
-+respectively, with an i386 architecture.
-+
-+User space programs can include /usr/include/sys/user.h and
-+/usr/include/linux/mmzone.h to get PAGE_SIZE MAX_ORDER declarations.
-+
-+The pagesize can also be determined dynamically with the getpagesize (2)
-+system call.
-+
-+Block number limit
-+------------------
-+
-+To understand the constraints of PACKET_MMAP, we have to see the structure
-+used to hold the pointers to each block.
-+
-+Currently, this structure is a dynamically allocated vector with kmalloc
-+called pg_vec, its size limits the number of blocks that can be allocated::
-+
-+    +---+---+---+---+
-+    | x | x | x | x |
-+    +---+---+---+---+
-+      |   |   |   |
-+      |   |   |   v
-+      |   |   v  block #4
-+      |   v  block #3
-+      v  block #2
-+     block #1
-+
-+kmalloc allocates any number of bytes of physically contiguous memory from
-+a pool of pre-determined sizes. This pool of memory is maintained by the slab
-+allocator which is at the end the responsible for doing the allocation and
-+hence which imposes the maximum memory that kmalloc can allocate.
-+
-+In a 2.4/2.6 kernel and the i386 architecture, the limit is 131072 bytes. The
-+predetermined sizes that kmalloc uses can be checked in the "size-<bytes>"
-+entries of /proc/slabinfo
-+
-+In a 32 bit architecture, pointers are 4 bytes long, so the total number of
-+pointers to blocks is::
-+
-+     131072/4 = 32768 blocks
-+
-+PACKET_MMAP buffer size calculator
-+==================================
-+
-+Definitions:
-+
-+==============  ================================================================
-+<size-max>      is the maximum size of allocable with kmalloc
-+		(see /proc/slabinfo)
-+<pointer size>  depends on the architecture -- ``sizeof(void *)``
-+<page size>     depends on the architecture -- PAGE_SIZE or getpagesize (2)
-+<max-order>     is the value defined with MAX_ORDER
-+<frame size>    it's an upper bound of frame's capture size (more on this later)
-+==============  ================================================================
-+
-+from these definitions we will derive::
-+
-+	<block number> = <size-max>/<pointer size>
-+	<block size> = <pagesize> << <max-order>
-+
-+so, the max buffer size is::
-+
-+	<block number> * <block size>
-+
-+and, the number of frames be::
-+
-+	<block number> * <block size> / <frame size>
-+
-+Suppose the following parameters, which apply for 2.6 kernel and an
-+i386 architecture::
-+
-+	<size-max> = 131072 bytes
-+	<pointer size> = 4 bytes
-+	<pagesize> = 4096 bytes
-+	<max-order> = 11
-+
-+and a value for <frame size> of 2048 bytes. These parameters will yield::
-+
-+	<block number> = 131072/4 = 32768 blocks
-+	<block size> = 4096 << 11 = 8 MiB.
-+
-+and hence the buffer will have a 262144 MiB size. So it can hold
-+262144 MiB / 2048 bytes = 134217728 frames
-+
-+Actually, this buffer size is not possible with an i386 architecture.
-+Remember that the memory is allocated in kernel space, in the case of
-+an i386 kernel's memory size is limited to 1GiB.
-+
-+All memory allocations are not freed until the socket is closed. The memory
-+allocations are done with GFP_KERNEL priority, this basically means that
-+the allocation can wait and swap other process' memory in order to allocate
-+the necessary memory, so normally limits can be reached.
-+
-+Other constraints
-+-----------------
-+
-+If you check the source code you will see that what I draw here as a frame
-+is not only the link level frame. At the beginning of each frame there is a
-+header called struct tpacket_hdr used in PACKET_MMAP to hold link level's frame
-+meta information like timestamp. So what we draw here a frame it's really
-+the following (from include/linux/if_packet.h)::
-+
-+ /*
-+   Frame structure:
-+
-+   - Start. Frame must be aligned to TPACKET_ALIGNMENT=16
-+   - struct tpacket_hdr
-+   - pad to TPACKET_ALIGNMENT=16
-+   - struct sockaddr_ll
-+   - Gap, chosen so that packet data (Start+tp_net) aligns to
-+     TPACKET_ALIGNMENT=16
-+   - Start+tp_mac: [ Optional MAC header ]
-+   - Start+tp_net: Packet data, aligned to TPACKET_ALIGNMENT=16.
-+   - Pad to align to TPACKET_ALIGNMENT=16
-+ */
-+
-+The following are conditions that are checked in packet_set_ring
-+
-+   - tp_block_size must be a multiple of PAGE_SIZE (1)
-+   - tp_frame_size must be greater than TPACKET_HDRLEN (obvious)
-+   - tp_frame_size must be a multiple of TPACKET_ALIGNMENT
-+   - tp_frame_nr   must be exactly frames_per_block*tp_block_nr
-+
-+Note that tp_block_size should be chosen to be a power of two or there will
-+be a waste of memory.
-+
-+Mapping and use of the circular buffer (ring)
-+---------------------------------------------
-+
-+The mapping of the buffer in the user process is done with the conventional
-+mmap function. Even the circular buffer is compound of several physically
-+discontiguous blocks of memory, they are contiguous to the user space, hence
-+just one call to mmap is needed::
-+
-+    mmap(0, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-+
-+If tp_frame_size is a divisor of tp_block_size frames will be
-+contiguously spaced by tp_frame_size bytes. If not, each
-+tp_block_size/tp_frame_size frames there will be a gap between
-+the frames. This is because a frame cannot be spawn across two
-+blocks.
-+
-+To use one socket for capture and transmission, the mapping of both the
-+RX and TX buffer ring has to be done with one call to mmap::
-+
-+    ...
-+    setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &foo, sizeof(foo));
-+    setsockopt(fd, SOL_PACKET, PACKET_TX_RING, &bar, sizeof(bar));
-+    ...
-+    rx_ring = mmap(0, size * 2, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-+    tx_ring = rx_ring + size;
-+
-+RX must be the first as the kernel maps the TX ring memory right
-+after the RX one.
-+
-+At the beginning of each frame there is an status field (see
-+struct tpacket_hdr). If this field is 0 means that the frame is ready
-+to be used for the kernel, If not, there is a frame the user can read
-+and the following flags apply:
-+
-+Capture process
-+^^^^^^^^^^^^^^^
-+
-+     from include/linux/if_packet.h
-+
-+     #define TP_STATUS_COPY          (1 << 1)
-+     #define TP_STATUS_LOSING        (1 << 2)
-+     #define TP_STATUS_CSUMNOTREADY  (1 << 3)
-+     #define TP_STATUS_CSUM_VALID    (1 << 7)
-+
-+======================  =======================================================
-+TP_STATUS_COPY		This flag indicates that the frame (and associated
-+			meta information) has been truncated because it's
-+			larger than tp_frame_size. This packet can be
-+			read entirely with recvfrom().
-+
-+			In order to make this work it must to be
-+			enabled previously with setsockopt() and
-+			the PACKET_COPY_THRESH option.
-+
-+			The number of frames that can be buffered to
-+			be read with recvfrom is limited like a normal socket.
-+			See the SO_RCVBUF option in the socket (7) man page.
-+
-+TP_STATUS_LOSING	indicates there were packet drops from last time
-+			statistics where checked with getsockopt() and
-+			the PACKET_STATISTICS option.
-+
-+TP_STATUS_CSUMNOTREADY	currently it's used for outgoing IP packets which
-+			its checksum will be done in hardware. So while
-+			reading the packet we should not try to check the
-+			checksum.
-+
-+TP_STATUS_CSUM_VALID	This flag indicates that at least the transport
-+			header checksum of the packet has been already
-+			validated on the kernel side. If the flag is not set
-+			then we are free to check the checksum by ourselves
-+			provided that TP_STATUS_CSUMNOTREADY is also not set.
-+======================  =======================================================
-+
-+for convenience there are also the following defines::
-+
-+     #define TP_STATUS_KERNEL        0
-+     #define TP_STATUS_USER          1
-+
-+The kernel initializes all frames to TP_STATUS_KERNEL, when the kernel
-+receives a packet it puts in the buffer and updates the status with
-+at least the TP_STATUS_USER flag. Then the user can read the packet,
-+once the packet is read the user must zero the status field, so the kernel
-+can use again that frame buffer.
-+
-+The user can use poll (any other variant should apply too) to check if new
-+packets are in the ring::
-+
-+    struct pollfd pfd;
-+
-+    pfd.fd = fd;
-+    pfd.revents = 0;
-+    pfd.events = POLLIN|POLLRDNORM|POLLERR;
-+
-+    if (status == TP_STATUS_KERNEL)
-+	retval = poll(&pfd, 1, timeout);
-+
-+It doesn't incur in a race condition to first check the status value and
-+then poll for frames.
-+
-+Transmission process
-+^^^^^^^^^^^^^^^^^^^^
-+
-+Those defines are also used for transmission::
-+
-+     #define TP_STATUS_AVAILABLE        0 // Frame is available
-+     #define TP_STATUS_SEND_REQUEST     1 // Frame will be sent on next send()
-+     #define TP_STATUS_SENDING          2 // Frame is currently in transmission
-+     #define TP_STATUS_WRONG_FORMAT     4 // Frame format is not correct
-+
-+First, the kernel initializes all frames to TP_STATUS_AVAILABLE. To send a
-+packet, the user fills a data buffer of an available frame, sets tp_len to
-+current data buffer size and sets its status field to TP_STATUS_SEND_REQUEST.
-+This can be done on multiple frames. Once the user is ready to transmit, it
-+calls send(). Then all buffers with status equal to TP_STATUS_SEND_REQUEST are
-+forwarded to the network device. The kernel updates each status of sent
-+frames with TP_STATUS_SENDING until the end of transfer.
-+
-+At the end of each transfer, buffer status returns to TP_STATUS_AVAILABLE.
-+
-+::
-+
-+    header->tp_len = in_i_size;
-+    header->tp_status = TP_STATUS_SEND_REQUEST;
-+    retval = send(this->socket, NULL, 0, 0);
-+
-+The user can also use poll() to check if a buffer is available:
-+
-+(status == TP_STATUS_SENDING)
-+
-+::
-+
-+    struct pollfd pfd;
-+    pfd.fd = fd;
-+    pfd.revents = 0;
-+    pfd.events = POLLOUT;
-+    retval = poll(&pfd, 1, timeout);
-+
-+What TPACKET versions are available and when to use them?
-+=========================================================
-+
-+::
-+
-+ int val = tpacket_version;
-+ setsockopt(fd, SOL_PACKET, PACKET_VERSION, &val, sizeof(val));
-+ getsockopt(fd, SOL_PACKET, PACKET_VERSION, &val, sizeof(val));
-+
-+where 'tpacket_version' can be TPACKET_V1 (default), TPACKET_V2, TPACKET_V3.
-+
-+TPACKET_V1:
-+	- Default if not otherwise specified by setsockopt(2)
-+	- RX_RING, TX_RING available
-+
-+TPACKET_V1 --> TPACKET_V2:
-+	- Made 64 bit clean due to unsigned long usage in TPACKET_V1
-+	  structures, thus this also works on 64 bit kernel with 32 bit
-+	  userspace and the like
-+	- Timestamp resolution in nanoseconds instead of microseconds
-+	- RX_RING, TX_RING available
-+	- VLAN metadata information available for packets
-+	  (TP_STATUS_VLAN_VALID, TP_STATUS_VLAN_TPID_VALID),
-+	  in the tpacket2_hdr structure:
-+
-+		- TP_STATUS_VLAN_VALID bit being set into the tp_status field indicates
-+		  that the tp_vlan_tci field has valid VLAN TCI value
-+		- TP_STATUS_VLAN_TPID_VALID bit being set into the tp_status field
-+		  indicates that the tp_vlan_tpid field has valid VLAN TPID value
-+
-+	- How to switch to TPACKET_V2:
-+
-+		1. Replace struct tpacket_hdr by struct tpacket2_hdr
-+		2. Query header len and save
-+		3. Set protocol version to 2, set up ring as usual
-+		4. For getting the sockaddr_ll,
-+		   use ``(void *)hdr + TPACKET_ALIGN(hdrlen)`` instead of
-+		   ``(void *)hdr + TPACKET_ALIGN(sizeof(struct tpacket_hdr))``
-+
-+TPACKET_V2 --> TPACKET_V3:
-+	- Flexible buffer implementation for RX_RING:
-+		1. Blocks can be configured with non-static frame-size
-+		2. Read/poll is at a block-level (as opposed to packet-level)
-+		3. Added poll timeout to avoid indefinite user-space wait
-+		   on idle links
-+		4. Added user-configurable knobs:
-+
-+			4.1 block::timeout
-+			4.2 tpkt_hdr::sk_rxhash
-+
-+	- RX Hash data available in user space
-+	- TX_RING semantics are conceptually similar to TPACKET_V2;
-+	  use tpacket3_hdr instead of tpacket2_hdr, and TPACKET3_HDRLEN
-+	  instead of TPACKET2_HDRLEN. In the current implementation,
-+	  the tp_next_offset field in the tpacket3_hdr MUST be set to
-+	  zero, indicating that the ring does not hold variable sized frames.
-+	  Packets with non-zero values of tp_next_offset will be dropped.
-+
-+AF_PACKET fanout mode
-+=====================
-+
-+In the AF_PACKET fanout mode, packet reception can be load balanced among
-+processes. This also works in combination with mmap(2) on packet sockets.
-+
-+Currently implemented fanout policies are:
-+
-+  - PACKET_FANOUT_HASH: schedule to socket by skb's packet hash
-+  - PACKET_FANOUT_LB: schedule to socket by round-robin
-+  - PACKET_FANOUT_CPU: schedule to socket by CPU packet arrives on
-+  - PACKET_FANOUT_RND: schedule to socket by random selection
-+  - PACKET_FANOUT_ROLLOVER: if one socket is full, rollover to another
-+  - PACKET_FANOUT_QM: schedule to socket by skbs recorded queue_mapping
-+
-+Minimal example code by David S. Miller (try things like "./test eth0 hash",
-+"./test eth0 lb", etc.)::
-+
-+    #include <stddef.h>
-+    #include <stdlib.h>
-+    #include <stdio.h>
-+    #include <string.h>
-+
-+    #include <sys/types.h>
-+    #include <sys/wait.h>
-+    #include <sys/socket.h>
-+    #include <sys/ioctl.h>
-+
-+    #include <unistd.h>
-+
-+    #include <linux/if_ether.h>
-+    #include <linux/if_packet.h>
-+
-+    #include <net/if.h>
-+
-+    static const char *device_name;
-+    static int fanout_type;
-+    static int fanout_id;
-+
-+    #ifndef PACKET_FANOUT
-+    # define PACKET_FANOUT			18
-+    # define PACKET_FANOUT_HASH		0
-+    # define PACKET_FANOUT_LB		1
-+    #endif
-+
-+    static int setup_socket(void)
-+    {
-+	    int err, fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_IP));
-+	    struct sockaddr_ll ll;
-+	    struct ifreq ifr;
-+	    int fanout_arg;
-+
-+	    if (fd < 0) {
-+		    perror("socket");
-+		    return EXIT_FAILURE;
-+	    }
-+
-+	    memset(&ifr, 0, sizeof(ifr));
-+	    strcpy(ifr.ifr_name, device_name);
-+	    err = ioctl(fd, SIOCGIFINDEX, &ifr);
-+	    if (err < 0) {
-+		    perror("SIOCGIFINDEX");
-+		    return EXIT_FAILURE;
-+	    }
-+
-+	    memset(&ll, 0, sizeof(ll));
-+	    ll.sll_family = AF_PACKET;
-+	    ll.sll_ifindex = ifr.ifr_ifindex;
-+	    err = bind(fd, (struct sockaddr *) &ll, sizeof(ll));
-+	    if (err < 0) {
-+		    perror("bind");
-+		    return EXIT_FAILURE;
-+	    }
-+
-+	    fanout_arg = (fanout_id | (fanout_type << 16));
-+	    err = setsockopt(fd, SOL_PACKET, PACKET_FANOUT,
-+			    &fanout_arg, sizeof(fanout_arg));
-+	    if (err) {
-+		    perror("setsockopt");
-+		    return EXIT_FAILURE;
-+	    }
-+
-+	    return fd;
-+    }
-+
-+    static void fanout_thread(void)
-+    {
-+	    int fd = setup_socket();
-+	    int limit = 10000;
-+
-+	    if (fd < 0)
-+		    exit(fd);
-+
-+	    while (limit-- > 0) {
-+		    char buf[1600];
-+		    int err;
-+
-+		    err = read(fd, buf, sizeof(buf));
-+		    if (err < 0) {
-+			    perror("read");
-+			    exit(EXIT_FAILURE);
-+		    }
-+		    if ((limit % 10) == 0)
-+			    fprintf(stdout, "(%d) \n", getpid());
-+	    }
-+
-+	    fprintf(stdout, "%d: Received 10000 packets\n", getpid());
-+
-+	    close(fd);
-+	    exit(0);
-+    }
-+
-+    int main(int argc, char **argp)
-+    {
-+	    int fd, err;
-+	    int i;
-+
-+	    if (argc != 3) {
-+		    fprintf(stderr, "Usage: %s INTERFACE {hash|lb}\n", argp[0]);
-+		    return EXIT_FAILURE;
-+	    }
-+
-+	    if (!strcmp(argp[2], "hash"))
-+		    fanout_type = PACKET_FANOUT_HASH;
-+	    else if (!strcmp(argp[2], "lb"))
-+		    fanout_type = PACKET_FANOUT_LB;
-+	    else {
-+		    fprintf(stderr, "Unknown fanout type [%s]\n", argp[2]);
-+		    exit(EXIT_FAILURE);
-+	    }
-+
-+	    device_name = argp[1];
-+	    fanout_id = getpid() & 0xffff;
-+
-+	    for (i = 0; i < 4; i++) {
-+		    pid_t pid = fork();
-+
-+		    switch (pid) {
-+		    case 0:
-+			    fanout_thread();
-+
-+		    case -1:
-+			    perror("fork");
-+			    exit(EXIT_FAILURE);
-+		    }
-+	    }
-+
-+	    for (i = 0; i < 4; i++) {
-+		    int status;
-+
-+		    wait(&status);
-+	    }
-+
-+	    return 0;
-+    }
-+
-+AF_PACKET TPACKET_V3 example
-+============================
-+
-+AF_PACKET's TPACKET_V3 ring buffer can be configured to use non-static frame
-+sizes by doing it's own memory management. It is based on blocks where polling
-+works on a per block basis instead of per ring as in TPACKET_V2 and predecessor.
-+
-+It is said that TPACKET_V3 brings the following benefits:
-+
-+ * ~15% - 20% reduction in CPU-usage
-+ * ~20% increase in packet capture rate
-+ * ~2x increase in packet density
-+ * Port aggregation analysis
-+ * Non static frame size to capture entire packet payload
-+
-+So it seems to be a good candidate to be used with packet fanout.
-+
-+Minimal example code by Daniel Borkmann based on Chetan Loke's lolpcap (compile
-+it with gcc -Wall -O2 blob.c, and try things like "./a.out eth0", etc.)::
-+
-+    /* Written from scratch, but kernel-to-user space API usage
-+    * dissected from lolpcap:
-+    *  Copyright 2011, Chetan Loke <loke.chetan@gmail.com>
-+    *  License: GPL, version 2.0
-+    */
-+
-+    #include <stdio.h>
-+    #include <stdlib.h>
-+    #include <stdint.h>
-+    #include <string.h>
-+    #include <assert.h>
-+    #include <net/if.h>
-+    #include <arpa/inet.h>
-+    #include <netdb.h>
-+    #include <poll.h>
-+    #include <unistd.h>
-+    #include <signal.h>
-+    #include <inttypes.h>
-+    #include <sys/socket.h>
-+    #include <sys/mman.h>
-+    #include <linux/if_packet.h>
-+    #include <linux/if_ether.h>
-+    #include <linux/ip.h>
-+
-+    #ifndef likely
-+    # define likely(x)		__builtin_expect(!!(x), 1)
-+    #endif
-+    #ifndef unlikely
-+    # define unlikely(x)		__builtin_expect(!!(x), 0)
-+    #endif
-+
-+    struct block_desc {
-+	    uint32_t version;
-+	    uint32_t offset_to_priv;
-+	    struct tpacket_hdr_v1 h1;
-+    };
-+
-+    struct ring {
-+	    struct iovec *rd;
-+	    uint8_t *map;
-+	    struct tpacket_req3 req;
-+    };
-+
-+    static unsigned long packets_total = 0, bytes_total = 0;
-+    static sig_atomic_t sigint = 0;
-+
-+    static void sighandler(int num)
-+    {
-+	    sigint = 1;
-+    }
-+
-+    static int setup_socket(struct ring *ring, char *netdev)
-+    {
-+	    int err, i, fd, v = TPACKET_V3;
-+	    struct sockaddr_ll ll;
-+	    unsigned int blocksiz = 1 << 22, framesiz = 1 << 11;
-+	    unsigned int blocknum = 64;
-+
-+	    fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
-+	    if (fd < 0) {
-+		    perror("socket");
-+		    exit(1);
-+	    }
-+
-+	    err = setsockopt(fd, SOL_PACKET, PACKET_VERSION, &v, sizeof(v));
-+	    if (err < 0) {
-+		    perror("setsockopt");
-+		    exit(1);
-+	    }
-+
-+	    memset(&ring->req, 0, sizeof(ring->req));
-+	    ring->req.tp_block_size = blocksiz;
-+	    ring->req.tp_frame_size = framesiz;
-+	    ring->req.tp_block_nr = blocknum;
-+	    ring->req.tp_frame_nr = (blocksiz * blocknum) / framesiz;
-+	    ring->req.tp_retire_blk_tov = 60;
-+	    ring->req.tp_feature_req_word = TP_FT_REQ_FILL_RXHASH;
-+
-+	    err = setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &ring->req,
-+			    sizeof(ring->req));
-+	    if (err < 0) {
-+		    perror("setsockopt");
-+		    exit(1);
-+	    }
-+
-+	    ring->map = mmap(NULL, ring->req.tp_block_size * ring->req.tp_block_nr,
-+			    PROT_READ | PROT_WRITE, MAP_SHARED | MAP_LOCKED, fd, 0);
-+	    if (ring->map == MAP_FAILED) {
-+		    perror("mmap");
-+		    exit(1);
-+	    }
-+
-+	    ring->rd = malloc(ring->req.tp_block_nr * sizeof(*ring->rd));
-+	    assert(ring->rd);
-+	    for (i = 0; i < ring->req.tp_block_nr; ++i) {
-+		    ring->rd[i].iov_base = ring->map + (i * ring->req.tp_block_size);
-+		    ring->rd[i].iov_len = ring->req.tp_block_size;
-+	    }
-+
-+	    memset(&ll, 0, sizeof(ll));
-+	    ll.sll_family = PF_PACKET;
-+	    ll.sll_protocol = htons(ETH_P_ALL);
-+	    ll.sll_ifindex = if_nametoindex(netdev);
-+	    ll.sll_hatype = 0;
-+	    ll.sll_pkttype = 0;
-+	    ll.sll_halen = 0;
-+
-+	    err = bind(fd, (struct sockaddr *) &ll, sizeof(ll));
-+	    if (err < 0) {
-+		    perror("bind");
-+		    exit(1);
-+	    }
-+
-+	    return fd;
-+    }
-+
-+    static void display(struct tpacket3_hdr *ppd)
-+    {
-+	    struct ethhdr *eth = (struct ethhdr *) ((uint8_t *) ppd + ppd->tp_mac);
-+	    struct iphdr *ip = (struct iphdr *) ((uint8_t *) eth + ETH_HLEN);
-+
-+	    if (eth->h_proto == htons(ETH_P_IP)) {
-+		    struct sockaddr_in ss, sd;
-+		    char sbuff[NI_MAXHOST], dbuff[NI_MAXHOST];
-+
-+		    memset(&ss, 0, sizeof(ss));
-+		    ss.sin_family = PF_INET;
-+		    ss.sin_addr.s_addr = ip->saddr;
-+		    getnameinfo((struct sockaddr *) &ss, sizeof(ss),
-+				sbuff, sizeof(sbuff), NULL, 0, NI_NUMERICHOST);
-+
-+		    memset(&sd, 0, sizeof(sd));
-+		    sd.sin_family = PF_INET;
-+		    sd.sin_addr.s_addr = ip->daddr;
-+		    getnameinfo((struct sockaddr *) &sd, sizeof(sd),
-+				dbuff, sizeof(dbuff), NULL, 0, NI_NUMERICHOST);
-+
-+		    printf("%s -> %s, ", sbuff, dbuff);
-+	    }
-+
-+	    printf("rxhash: 0x%x\n", ppd->hv1.tp_rxhash);
-+    }
-+
-+    static void walk_block(struct block_desc *pbd, const int block_num)
-+    {
-+	    int num_pkts = pbd->h1.num_pkts, i;
-+	    unsigned long bytes = 0;
-+	    struct tpacket3_hdr *ppd;
-+
-+	    ppd = (struct tpacket3_hdr *) ((uint8_t *) pbd +
-+					pbd->h1.offset_to_first_pkt);
-+	    for (i = 0; i < num_pkts; ++i) {
-+		    bytes += ppd->tp_snaplen;
-+		    display(ppd);
-+
-+		    ppd = (struct tpacket3_hdr *) ((uint8_t *) ppd +
-+						ppd->tp_next_offset);
-+	    }
-+
-+	    packets_total += num_pkts;
-+	    bytes_total += bytes;
-+    }
-+
-+    static void flush_block(struct block_desc *pbd)
-+    {
-+	    pbd->h1.block_status = TP_STATUS_KERNEL;
-+    }
-+
-+    static void teardown_socket(struct ring *ring, int fd)
-+    {
-+	    munmap(ring->map, ring->req.tp_block_size * ring->req.tp_block_nr);
-+	    free(ring->rd);
-+	    close(fd);
-+    }
-+
-+    int main(int argc, char **argp)
-+    {
-+	    int fd, err;
-+	    socklen_t len;
-+	    struct ring ring;
-+	    struct pollfd pfd;
-+	    unsigned int block_num = 0, blocks = 64;
-+	    struct block_desc *pbd;
-+	    struct tpacket_stats_v3 stats;
-+
-+	    if (argc != 2) {
-+		    fprintf(stderr, "Usage: %s INTERFACE\n", argp[0]);
-+		    return EXIT_FAILURE;
-+	    }
-+
-+	    signal(SIGINT, sighandler);
-+
-+	    memset(&ring, 0, sizeof(ring));
-+	    fd = setup_socket(&ring, argp[argc - 1]);
-+	    assert(fd > 0);
-+
-+	    memset(&pfd, 0, sizeof(pfd));
-+	    pfd.fd = fd;
-+	    pfd.events = POLLIN | POLLERR;
-+	    pfd.revents = 0;
-+
-+	    while (likely(!sigint)) {
-+		    pbd = (struct block_desc *) ring.rd[block_num].iov_base;
-+
-+		    if ((pbd->h1.block_status & TP_STATUS_USER) == 0) {
-+			    poll(&pfd, 1, -1);
-+			    continue;
-+		    }
-+
-+		    walk_block(pbd, block_num);
-+		    flush_block(pbd);
-+		    block_num = (block_num + 1) % blocks;
-+	    }
-+
-+	    len = sizeof(stats);
-+	    err = getsockopt(fd, SOL_PACKET, PACKET_STATISTICS, &stats, &len);
-+	    if (err < 0) {
-+		    perror("getsockopt");
-+		    exit(1);
-+	    }
-+
-+	    fflush(stdout);
-+	    printf("\nReceived %u packets, %lu bytes, %u dropped, freeze_q_cnt: %u\n",
-+		stats.tp_packets, bytes_total, stats.tp_drops,
-+		stats.tp_freeze_q_cnt);
-+
-+	    teardown_socket(&ring, fd);
-+	    return 0;
-+    }
-+
-+PACKET_QDISC_BYPASS
-+===================
-+
-+If there is a requirement to load the network with many packets in a similar
-+fashion as pktgen does, you might set the following option after socket
-+creation::
-+
-+    int one = 1;
-+    setsockopt(fd, SOL_PACKET, PACKET_QDISC_BYPASS, &one, sizeof(one));
-+
-+This has the side-effect, that packets sent through PF_PACKET will bypass the
-+kernel's qdisc layer and are forcedly pushed to the driver directly. Meaning,
-+packet are not buffered, tc disciplines are ignored, increased loss can occur
-+and such packets are also not visible to other PF_PACKET sockets anymore. So,
-+you have been warned; generally, this can be useful for stress testing various
-+components of a system.
-+
-+On default, PACKET_QDISC_BYPASS is disabled and needs to be explicitly enabled
-+on PF_PACKET sockets.
-+
-+PACKET_TIMESTAMP
-+================
-+
-+The PACKET_TIMESTAMP setting determines the source of the timestamp in
-+the packet meta information for mmap(2)ed RX_RING and TX_RINGs.  If your
-+NIC is capable of timestamping packets in hardware, you can request those
-+hardware timestamps to be used. Note: you may need to enable the generation
-+of hardware timestamps with SIOCSHWTSTAMP (see related information from
-+Documentation/networking/timestamping.txt).
-+
-+PACKET_TIMESTAMP accepts the same integer bit field as SO_TIMESTAMPING::
-+
-+    int req = SOF_TIMESTAMPING_RAW_HARDWARE;
-+    setsockopt(fd, SOL_PACKET, PACKET_TIMESTAMP, (void *) &req, sizeof(req))
-+
-+For the mmap(2)ed ring buffers, such timestamps are stored in the
-+``tpacket{,2,3}_hdr`` structure's tp_sec and ``tp_{n,u}sec`` members.
-+To determine what kind of timestamp has been reported, the tp_status field
-+is binary or'ed with the following possible bits ...
-+
-+::
-+
-+    TP_STATUS_TS_RAW_HARDWARE
-+    TP_STATUS_TS_SOFTWARE
-+
-+... that are equivalent to its ``SOF_TIMESTAMPING_*`` counterparts. For the
-+RX_RING, if neither is set (i.e. PACKET_TIMESTAMP is not set), then a
-+software fallback was invoked *within* PF_PACKET's processing code (less
-+precise).
-+
-+Getting timestamps for the TX_RING works as follows: i) fill the ring frames,
-+ii) call sendto() e.g. in blocking mode, iii) wait for status of relevant
-+frames to be updated resp. the frame handed over to the application, iv) walk
-+through the frames to pick up the individual hw/sw timestamps.
-+
-+Only (!) if transmit timestamping is enabled, then these bits are combined
-+with binary | with TP_STATUS_AVAILABLE, so you must check for that in your
-+application (e.g. !(tp_status & (TP_STATUS_SEND_REQUEST | TP_STATUS_SENDING))
-+in a first step to see if the frame belongs to the application, and then
-+one can extract the type of timestamp in a second step from tp_status)!
-+
-+If you don't care about them, thus having it disabled, checking for
-+TP_STATUS_AVAILABLE resp. TP_STATUS_WRONG_FORMAT is sufficient. If in the
-+TX_RING part only TP_STATUS_AVAILABLE is set, then the tp_sec and tp_{n,u}sec
-+members do not contain a valid value. For TX_RINGs, by default no timestamp
-+is generated!
-+
-+See include/linux/net_tstamp.h and Documentation/networking/timestamping.txt
-+for more information on hardware timestamps.
-+
-+Miscellaneous bits
-+==================
-+
-+- Packet sockets work well together with Linux socket filters, thus you also
-+  might want to have a look at Documentation/networking/filter.txt
-+
-+THANKS
-+======
-+
-+   Jesse Brandeburg, for fixing my grammathical/spelling errors
-diff --git a/Documentation/networking/packet_mmap.txt b/Documentation/networking/packet_mmap.txt
-deleted file mode 100644
-index 494614573c67..000000000000
---- a/Documentation/networking/packet_mmap.txt
-+++ /dev/null
-@@ -1,1061 +0,0 @@
----------------------------------------------------------------------------------
--+ ABSTRACT
----------------------------------------------------------------------------------
--
--This file documents the mmap() facility available with the PACKET
--socket interface on 2.4/2.6/3.x kernels. This type of sockets is used for
--i) capture network traffic with utilities like tcpdump, ii) transmit network
--traffic, or any other that needs raw access to network interface.
--
--Howto can be found at:
--    https://sites.google.com/site/packetmmap/
--
--Please send your comments to
--    Ulisses Alonso Camaró <uaca@i.hate.spam.alumni.uv.es>
--    Johann Baudy
--
---------------------------------------------------------------------------------
--+ Why use PACKET_MMAP
----------------------------------------------------------------------------------
--
--In Linux 2.4/2.6/3.x if PACKET_MMAP is not enabled, the capture process is very
--inefficient. It uses very limited buffers and requires one system call to
--capture each packet, it requires two if you want to get packet's timestamp
--(like libpcap always does).
--
--In the other hand PACKET_MMAP is very efficient. PACKET_MMAP provides a size 
--configurable circular buffer mapped in user space that can be used to either
--send or receive packets. This way reading packets just needs to wait for them,
--most of the time there is no need to issue a single system call. Concerning
--transmission, multiple packets can be sent through one system call to get the
--highest bandwidth. By using a shared buffer between the kernel and the user
--also has the benefit of minimizing packet copies.
--
--It's fine to use PACKET_MMAP to improve the performance of the capture and
--transmission process, but it isn't everything. At least, if you are capturing
--at high speeds (this is relative to the cpu speed), you should check if the
--device driver of your network interface card supports some sort of interrupt
--load mitigation or (even better) if it supports NAPI, also make sure it is
--enabled. For transmission, check the MTU (Maximum Transmission Unit) used and
--supported by devices of your network. CPU IRQ pinning of your network interface
--card can also be an advantage.
--
----------------------------------------------------------------------------------
--+ How to use mmap() to improve capture process
----------------------------------------------------------------------------------
--
--From the user standpoint, you should use the higher level libpcap library, which
--is a de facto standard, portable across nearly all operating systems
--including Win32. 
--
--Packet MMAP support was integrated into libpcap around the time of version 1.3.0;
--TPACKET_V3 support was added in version 1.5.0
--
----------------------------------------------------------------------------------
--+ How to use mmap() directly to improve capture process
----------------------------------------------------------------------------------
--
--From the system calls stand point, the use of PACKET_MMAP involves
--the following process:
--
--
--[setup]     socket() -------> creation of the capture socket
--            setsockopt() ---> allocation of the circular buffer (ring)
--                              option: PACKET_RX_RING
--            mmap() ---------> mapping of the allocated buffer to the
--                              user process
--
--[capture]   poll() ---------> to wait for incoming packets
--
--[shutdown]  close() --------> destruction of the capture socket and
--                              deallocation of all associated 
--                              resources.
--
--
--socket creation and destruction is straight forward, and is done 
--the same way with or without PACKET_MMAP:
--
-- int fd = socket(PF_PACKET, mode, htons(ETH_P_ALL));
--
--where mode is SOCK_RAW for the raw interface were link level
--information can be captured or SOCK_DGRAM for the cooked
--interface where link level information capture is not 
--supported and a link level pseudo-header is provided 
--by the kernel.
--
--The destruction of the socket and all associated resources
--is done by a simple call to close(fd).
--
--Similarly as without PACKET_MMAP, it is possible to use one socket
--for capture and transmission. This can be done by mapping the
--allocated RX and TX buffer ring with a single mmap() call.
--See "Mapping and use of the circular buffer (ring)".
--
--Next I will describe PACKET_MMAP settings and its constraints,
--also the mapping of the circular buffer in the user process and 
--the use of this buffer.
--
----------------------------------------------------------------------------------
--+ How to use mmap() directly to improve transmission process
----------------------------------------------------------------------------------
--Transmission process is similar to capture as shown below.
--
--[setup]          socket() -------> creation of the transmission socket
--                 setsockopt() ---> allocation of the circular buffer (ring)
--                                   option: PACKET_TX_RING
--                 bind() ---------> bind transmission socket with a network interface
--                 mmap() ---------> mapping of the allocated buffer to the
--                                   user process
--
--[transmission]   poll() ---------> wait for free packets (optional)
--                 send() ---------> send all packets that are set as ready in
--                                   the ring
--                                   The flag MSG_DONTWAIT can be used to return
--                                   before end of transfer.
--
--[shutdown]  close() --------> destruction of the transmission socket and
--                              deallocation of all associated resources.
--
--Socket creation and destruction is also straight forward, and is done
--the same way as in capturing described in the previous paragraph:
--
-- int fd = socket(PF_PACKET, mode, 0);
--
--The protocol can optionally be 0 in case we only want to transmit
--via this socket, which avoids an expensive call to packet_rcv().
--In this case, you also need to bind(2) the TX_RING with sll_protocol = 0
--set. Otherwise, htons(ETH_P_ALL) or any other protocol, for example.
--
--Binding the socket to your network interface is mandatory (with zero copy) to
--know the header size of frames used in the circular buffer.
--
--As capture, each frame contains two parts:
--
-- --------------------
--| struct tpacket_hdr | Header. It contains the status of
--|                    | of this frame
--|--------------------|
--| data buffer        |
--.                    .  Data that will be sent over the network interface.
--.                    .
-- --------------------
--
-- bind() associates the socket to your network interface thanks to
-- sll_ifindex parameter of struct sockaddr_ll.
--
-- Initialization example:
--
-- struct sockaddr_ll my_addr;
-- struct ifreq s_ifr;
-- ...
--
-- strncpy (s_ifr.ifr_name, "eth0", sizeof(s_ifr.ifr_name));
--
-- /* get interface index of eth0 */
-- ioctl(this->socket, SIOCGIFINDEX, &s_ifr);
--
-- /* fill sockaddr_ll struct to prepare binding */
-- my_addr.sll_family = AF_PACKET;
-- my_addr.sll_protocol = htons(ETH_P_ALL);
-- my_addr.sll_ifindex =  s_ifr.ifr_ifindex;
--
-- /* bind socket to eth0 */
-- bind(this->socket, (struct sockaddr *)&my_addr, sizeof(struct sockaddr_ll));
--
-- A complete tutorial is available at: https://sites.google.com/site/packetmmap/
--
--By default, the user should put data at :
-- frame base + TPACKET_HDRLEN - sizeof(struct sockaddr_ll)
--
--So, whatever you choose for the socket mode (SOCK_DGRAM or SOCK_RAW),
--the beginning of the user data will be at :
-- frame base + TPACKET_ALIGN(sizeof(struct tpacket_hdr))
--
--If you wish to put user data at a custom offset from the beginning of
--the frame (for payload alignment with SOCK_RAW mode for instance) you
--can set tp_net (with SOCK_DGRAM) or tp_mac (with SOCK_RAW). In order
--to make this work it must be enabled previously with setsockopt()
--and the PACKET_TX_HAS_OFF option.
--
----------------------------------------------------------------------------------
--+ PACKET_MMAP settings
----------------------------------------------------------------------------------
--
--To setup PACKET_MMAP from user level code is done with a call like
--
-- - Capture process
--     setsockopt(fd, SOL_PACKET, PACKET_RX_RING, (void *) &req, sizeof(req))
-- - Transmission process
--     setsockopt(fd, SOL_PACKET, PACKET_TX_RING, (void *) &req, sizeof(req))
--
--The most significant argument in the previous call is the req parameter, 
--this parameter must to have the following structure:
--
--    struct tpacket_req
--    {
--        unsigned int    tp_block_size;  /* Minimal size of contiguous block */
--        unsigned int    tp_block_nr;    /* Number of blocks */
--        unsigned int    tp_frame_size;  /* Size of frame */
--        unsigned int    tp_frame_nr;    /* Total number of frames */
--    };
--
--This structure is defined in /usr/include/linux/if_packet.h and establishes a 
--circular buffer (ring) of unswappable memory.
--Being mapped in the capture process allows reading the captured frames and 
--related meta-information like timestamps without requiring a system call.
--
--Frames are grouped in blocks. Each block is a physically contiguous
--region of memory and holds tp_block_size/tp_frame_size frames. The total number 
--of blocks is tp_block_nr. Note that tp_frame_nr is a redundant parameter because
--
--    frames_per_block = tp_block_size/tp_frame_size
--
--indeed, packet_set_ring checks that the following condition is true
--
--    frames_per_block * tp_block_nr == tp_frame_nr
--
--Lets see an example, with the following values:
--
--     tp_block_size= 4096
--     tp_frame_size= 2048
--     tp_block_nr  = 4
--     tp_frame_nr  = 8
--
--we will get the following buffer structure:
--
--        block #1                 block #2         
--+---------+---------+    +---------+---------+    
--| frame 1 | frame 2 |    | frame 3 | frame 4 |    
--+---------+---------+    +---------+---------+    
--
--        block #3                 block #4
--+---------+---------+    +---------+---------+
--| frame 5 | frame 6 |    | frame 7 | frame 8 |
--+---------+---------+    +---------+---------+
--
--A frame can be of any size with the only condition it can fit in a block. A block
--can only hold an integer number of frames, or in other words, a frame cannot 
--be spawned across two blocks, so there are some details you have to take into 
--account when choosing the frame_size. See "Mapping and use of the circular 
--buffer (ring)".
--
----------------------------------------------------------------------------------
--+ PACKET_MMAP setting constraints
----------------------------------------------------------------------------------
--
--In kernel versions prior to 2.4.26 (for the 2.4 branch) and 2.6.5 (2.6 branch),
--the PACKET_MMAP buffer could hold only 32768 frames in a 32 bit architecture or
--16384 in a 64 bit architecture. For information on these kernel versions
--see http://pusa.uv.es/~ulisses/packet_mmap/packet_mmap.pre-2.4.26_2.6.5.txt
--
-- Block size limit
--------------------
--
--As stated earlier, each block is a contiguous physical region of memory. These 
--memory regions are allocated with calls to the __get_free_pages() function. As 
--the name indicates, this function allocates pages of memory, and the second
--argument is "order" or a power of two number of pages, that is 
--(for PAGE_SIZE == 4096) order=0 ==> 4096 bytes, order=1 ==> 8192 bytes, 
--order=2 ==> 16384 bytes, etc. The maximum size of a 
--region allocated by __get_free_pages is determined by the MAX_ORDER macro. More 
--precisely the limit can be calculated as:
--
--   PAGE_SIZE << MAX_ORDER
--
--   In a i386 architecture PAGE_SIZE is 4096 bytes 
--   In a 2.4/i386 kernel MAX_ORDER is 10
--   In a 2.6/i386 kernel MAX_ORDER is 11
--
--So get_free_pages can allocate as much as 4MB or 8MB in a 2.4/2.6 kernel 
--respectively, with an i386 architecture.
--
--User space programs can include /usr/include/sys/user.h and 
--/usr/include/linux/mmzone.h to get PAGE_SIZE MAX_ORDER declarations.
--
--The pagesize can also be determined dynamically with the getpagesize (2) 
--system call. 
--
-- Block number limit
----------------------
--
--To understand the constraints of PACKET_MMAP, we have to see the structure 
--used to hold the pointers to each block.
--
--Currently, this structure is a dynamically allocated vector with kmalloc 
--called pg_vec, its size limits the number of blocks that can be allocated.
--
--    +---+---+---+---+
--    | x | x | x | x |
--    +---+---+---+---+
--      |   |   |   |
--      |   |   |   v
--      |   |   v  block #4
--      |   v  block #3
--      v  block #2
--     block #1
--
--kmalloc allocates any number of bytes of physically contiguous memory from 
--a pool of pre-determined sizes. This pool of memory is maintained by the slab 
--allocator which is at the end the responsible for doing the allocation and 
--hence which imposes the maximum memory that kmalloc can allocate. 
--
--In a 2.4/2.6 kernel and the i386 architecture, the limit is 131072 bytes. The 
--predetermined sizes that kmalloc uses can be checked in the "size-<bytes>" 
--entries of /proc/slabinfo
--
--In a 32 bit architecture, pointers are 4 bytes long, so the total number of 
--pointers to blocks is
--
--     131072/4 = 32768 blocks
--
-- PACKET_MMAP buffer size calculator
--------------------------------------
--
--Definitions:
--
--<size-max>    : is the maximum size of allocable with kmalloc (see /proc/slabinfo)
--<pointer size>: depends on the architecture -- sizeof(void *)
--<page size>   : depends on the architecture -- PAGE_SIZE or getpagesize (2)
--<max-order>   : is the value defined with MAX_ORDER
--<frame size>  : it's an upper bound of frame's capture size (more on this later)
--
--from these definitions we will derive 
--
--	<block number> = <size-max>/<pointer size>
--	<block size> = <pagesize> << <max-order>
--
--so, the max buffer size is
--
--	<block number> * <block size>
--
--and, the number of frames be
--
--	<block number> * <block size> / <frame size>
--
--Suppose the following parameters, which apply for 2.6 kernel and an
--i386 architecture:
--
--	<size-max> = 131072 bytes
--	<pointer size> = 4 bytes
--	<pagesize> = 4096 bytes
--	<max-order> = 11
--
--and a value for <frame size> of 2048 bytes. These parameters will yield
--
--	<block number> = 131072/4 = 32768 blocks
--	<block size> = 4096 << 11 = 8 MiB.
--
--and hence the buffer will have a 262144 MiB size. So it can hold 
--262144 MiB / 2048 bytes = 134217728 frames
--
--Actually, this buffer size is not possible with an i386 architecture. 
--Remember that the memory is allocated in kernel space, in the case of 
--an i386 kernel's memory size is limited to 1GiB.
--
--All memory allocations are not freed until the socket is closed. The memory 
--allocations are done with GFP_KERNEL priority, this basically means that 
--the allocation can wait and swap other process' memory in order to allocate 
--the necessary memory, so normally limits can be reached.
--
-- Other constraints
---------------------
--
--If you check the source code you will see that what I draw here as a frame
--is not only the link level frame. At the beginning of each frame there is a 
--header called struct tpacket_hdr used in PACKET_MMAP to hold link level's frame
--meta information like timestamp. So what we draw here a frame it's really 
--the following (from include/linux/if_packet.h):
--
--/*
--   Frame structure:
--
--   - Start. Frame must be aligned to TPACKET_ALIGNMENT=16
--   - struct tpacket_hdr
--   - pad to TPACKET_ALIGNMENT=16
--   - struct sockaddr_ll
--   - Gap, chosen so that packet data (Start+tp_net) aligns to 
--     TPACKET_ALIGNMENT=16
--   - Start+tp_mac: [ Optional MAC header ]
--   - Start+tp_net: Packet data, aligned to TPACKET_ALIGNMENT=16.
--   - Pad to align to TPACKET_ALIGNMENT=16
-- */
-- 
-- The following are conditions that are checked in packet_set_ring
--
--   tp_block_size must be a multiple of PAGE_SIZE (1)
--   tp_frame_size must be greater than TPACKET_HDRLEN (obvious)
--   tp_frame_size must be a multiple of TPACKET_ALIGNMENT
--   tp_frame_nr   must be exactly frames_per_block*tp_block_nr
--
--Note that tp_block_size should be chosen to be a power of two or there will
--be a waste of memory.
--
----------------------------------------------------------------------------------
--+ Mapping and use of the circular buffer (ring)
----------------------------------------------------------------------------------
--
--The mapping of the buffer in the user process is done with the conventional 
--mmap function. Even the circular buffer is compound of several physically
--discontiguous blocks of memory, they are contiguous to the user space, hence
--just one call to mmap is needed:
--
--    mmap(0, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
--
--If tp_frame_size is a divisor of tp_block_size frames will be 
--contiguously spaced by tp_frame_size bytes. If not, each
--tp_block_size/tp_frame_size frames there will be a gap between 
--the frames. This is because a frame cannot be spawn across two
--blocks. 
--
--To use one socket for capture and transmission, the mapping of both the
--RX and TX buffer ring has to be done with one call to mmap:
--
--    ...
--    setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &foo, sizeof(foo));
--    setsockopt(fd, SOL_PACKET, PACKET_TX_RING, &bar, sizeof(bar));
--    ...
--    rx_ring = mmap(0, size * 2, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
--    tx_ring = rx_ring + size;
--
--RX must be the first as the kernel maps the TX ring memory right
--after the RX one.
--
--At the beginning of each frame there is an status field (see 
--struct tpacket_hdr). If this field is 0 means that the frame is ready
--to be used for the kernel, If not, there is a frame the user can read 
--and the following flags apply:
--
--+++ Capture process:
--     from include/linux/if_packet.h
--
--     #define TP_STATUS_COPY          (1 << 1)
--     #define TP_STATUS_LOSING        (1 << 2)
--     #define TP_STATUS_CSUMNOTREADY  (1 << 3)
--     #define TP_STATUS_CSUM_VALID    (1 << 7)
--
--TP_STATUS_COPY        : This flag indicates that the frame (and associated
--                        meta information) has been truncated because it's 
--                        larger than tp_frame_size. This packet can be 
--                        read entirely with recvfrom().
--                        
--                        In order to make this work it must to be
--                        enabled previously with setsockopt() and 
--                        the PACKET_COPY_THRESH option. 
--
--                        The number of frames that can be buffered to
--                        be read with recvfrom is limited like a normal socket.
--                        See the SO_RCVBUF option in the socket (7) man page.
--
--TP_STATUS_LOSING      : indicates there were packet drops from last time 
--                        statistics where checked with getsockopt() and
--                        the PACKET_STATISTICS option.
--
--TP_STATUS_CSUMNOTREADY: currently it's used for outgoing IP packets which 
--                        its checksum will be done in hardware. So while
--                        reading the packet we should not try to check the 
--                        checksum. 
--
--TP_STATUS_CSUM_VALID  : This flag indicates that at least the transport
--                        header checksum of the packet has been already
--                        validated on the kernel side. If the flag is not set
--                        then we are free to check the checksum by ourselves
--                        provided that TP_STATUS_CSUMNOTREADY is also not set.
--
--for convenience there are also the following defines:
--
--     #define TP_STATUS_KERNEL        0
--     #define TP_STATUS_USER          1
--
--The kernel initializes all frames to TP_STATUS_KERNEL, when the kernel
--receives a packet it puts in the buffer and updates the status with
--at least the TP_STATUS_USER flag. Then the user can read the packet,
--once the packet is read the user must zero the status field, so the kernel 
--can use again that frame buffer.
--
--The user can use poll (any other variant should apply too) to check if new
--packets are in the ring:
--
--    struct pollfd pfd;
--
--    pfd.fd = fd;
--    pfd.revents = 0;
--    pfd.events = POLLIN|POLLRDNORM|POLLERR;
--
--    if (status == TP_STATUS_KERNEL)
--        retval = poll(&pfd, 1, timeout);
--
--It doesn't incur in a race condition to first check the status value and 
--then poll for frames.
--
--++ Transmission process
--Those defines are also used for transmission:
--
--     #define TP_STATUS_AVAILABLE        0 // Frame is available
--     #define TP_STATUS_SEND_REQUEST     1 // Frame will be sent on next send()
--     #define TP_STATUS_SENDING          2 // Frame is currently in transmission
--     #define TP_STATUS_WRONG_FORMAT     4 // Frame format is not correct
--
--First, the kernel initializes all frames to TP_STATUS_AVAILABLE. To send a
--packet, the user fills a data buffer of an available frame, sets tp_len to
--current data buffer size and sets its status field to TP_STATUS_SEND_REQUEST.
--This can be done on multiple frames. Once the user is ready to transmit, it
--calls send(). Then all buffers with status equal to TP_STATUS_SEND_REQUEST are
--forwarded to the network device. The kernel updates each status of sent
--frames with TP_STATUS_SENDING until the end of transfer.
--At the end of each transfer, buffer status returns to TP_STATUS_AVAILABLE.
--
--    header->tp_len = in_i_size;
--    header->tp_status = TP_STATUS_SEND_REQUEST;
--    retval = send(this->socket, NULL, 0, 0);
--
--The user can also use poll() to check if a buffer is available:
--(status == TP_STATUS_SENDING)
--
--    struct pollfd pfd;
--    pfd.fd = fd;
--    pfd.revents = 0;
--    pfd.events = POLLOUT;
--    retval = poll(&pfd, 1, timeout);
--
---------------------------------------------------------------------------------
--+ What TPACKET versions are available and when to use them?
---------------------------------------------------------------------------------
--
-- int val = tpacket_version;
-- setsockopt(fd, SOL_PACKET, PACKET_VERSION, &val, sizeof(val));
-- getsockopt(fd, SOL_PACKET, PACKET_VERSION, &val, sizeof(val));
--
--where 'tpacket_version' can be TPACKET_V1 (default), TPACKET_V2, TPACKET_V3.
--
--TPACKET_V1:
--	- Default if not otherwise specified by setsockopt(2)
--	- RX_RING, TX_RING available
--
--TPACKET_V1 --> TPACKET_V2:
--	- Made 64 bit clean due to unsigned long usage in TPACKET_V1
--	  structures, thus this also works on 64 bit kernel with 32 bit
--	  userspace and the like
--	- Timestamp resolution in nanoseconds instead of microseconds
--	- RX_RING, TX_RING available
--	- VLAN metadata information available for packets
--	  (TP_STATUS_VLAN_VALID, TP_STATUS_VLAN_TPID_VALID),
--	  in the tpacket2_hdr structure:
--		- TP_STATUS_VLAN_VALID bit being set into the tp_status field indicates
--		  that the tp_vlan_tci field has valid VLAN TCI value
--		- TP_STATUS_VLAN_TPID_VALID bit being set into the tp_status field
--		  indicates that the tp_vlan_tpid field has valid VLAN TPID value
--	- How to switch to TPACKET_V2:
--		1. Replace struct tpacket_hdr by struct tpacket2_hdr
--		2. Query header len and save
--		3. Set protocol version to 2, set up ring as usual
--		4. For getting the sockaddr_ll,
--		   use (void *)hdr + TPACKET_ALIGN(hdrlen) instead of
--		   (void *)hdr + TPACKET_ALIGN(sizeof(struct tpacket_hdr))
--
--TPACKET_V2 --> TPACKET_V3:
--	- Flexible buffer implementation for RX_RING:
--		1. Blocks can be configured with non-static frame-size
--		2. Read/poll is at a block-level (as opposed to packet-level)
--		3. Added poll timeout to avoid indefinite user-space wait
--		   on idle links
--		4. Added user-configurable knobs:
--			4.1 block::timeout
--			4.2 tpkt_hdr::sk_rxhash
--	- RX Hash data available in user space
--	- TX_RING semantics are conceptually similar to TPACKET_V2;
--	  use tpacket3_hdr instead of tpacket2_hdr, and TPACKET3_HDRLEN
--	  instead of TPACKET2_HDRLEN. In the current implementation,
--	  the tp_next_offset field in the tpacket3_hdr MUST be set to
--	  zero, indicating that the ring does not hold variable sized frames.
--	  Packets with non-zero values of tp_next_offset will be dropped.
--
---------------------------------------------------------------------------------
--+ AF_PACKET fanout mode
---------------------------------------------------------------------------------
--
--In the AF_PACKET fanout mode, packet reception can be load balanced among
--processes. This also works in combination with mmap(2) on packet sockets.
--
--Currently implemented fanout policies are:
--
--  - PACKET_FANOUT_HASH: schedule to socket by skb's packet hash
--  - PACKET_FANOUT_LB: schedule to socket by round-robin
--  - PACKET_FANOUT_CPU: schedule to socket by CPU packet arrives on
--  - PACKET_FANOUT_RND: schedule to socket by random selection
--  - PACKET_FANOUT_ROLLOVER: if one socket is full, rollover to another
--  - PACKET_FANOUT_QM: schedule to socket by skbs recorded queue_mapping
--
--Minimal example code by David S. Miller (try things like "./test eth0 hash",
--"./test eth0 lb", etc.):
--
--#include <stddef.h>
--#include <stdlib.h>
--#include <stdio.h>
--#include <string.h>
--
--#include <sys/types.h>
--#include <sys/wait.h>
--#include <sys/socket.h>
--#include <sys/ioctl.h>
--
--#include <unistd.h>
--
--#include <linux/if_ether.h>
--#include <linux/if_packet.h>
--
--#include <net/if.h>
--
--static const char *device_name;
--static int fanout_type;
--static int fanout_id;
--
--#ifndef PACKET_FANOUT
--# define PACKET_FANOUT			18
--# define PACKET_FANOUT_HASH		0
--# define PACKET_FANOUT_LB		1
--#endif
--
--static int setup_socket(void)
--{
--	int err, fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_IP));
--	struct sockaddr_ll ll;
--	struct ifreq ifr;
--	int fanout_arg;
--
--	if (fd < 0) {
--		perror("socket");
--		return EXIT_FAILURE;
--	}
--
--	memset(&ifr, 0, sizeof(ifr));
--	strcpy(ifr.ifr_name, device_name);
--	err = ioctl(fd, SIOCGIFINDEX, &ifr);
--	if (err < 0) {
--		perror("SIOCGIFINDEX");
--		return EXIT_FAILURE;
--	}
--
--	memset(&ll, 0, sizeof(ll));
--	ll.sll_family = AF_PACKET;
--	ll.sll_ifindex = ifr.ifr_ifindex;
--	err = bind(fd, (struct sockaddr *) &ll, sizeof(ll));
--	if (err < 0) {
--		perror("bind");
--		return EXIT_FAILURE;
--	}
--
--	fanout_arg = (fanout_id | (fanout_type << 16));
--	err = setsockopt(fd, SOL_PACKET, PACKET_FANOUT,
--			 &fanout_arg, sizeof(fanout_arg));
--	if (err) {
--		perror("setsockopt");
--		return EXIT_FAILURE;
--	}
--
--	return fd;
--}
--
--static void fanout_thread(void)
--{
--	int fd = setup_socket();
--	int limit = 10000;
--
--	if (fd < 0)
--		exit(fd);
--
--	while (limit-- > 0) {
--		char buf[1600];
--		int err;
--
--		err = read(fd, buf, sizeof(buf));
--		if (err < 0) {
--			perror("read");
--			exit(EXIT_FAILURE);
--		}
--		if ((limit % 10) == 0)
--			fprintf(stdout, "(%d) \n", getpid());
--	}
--
--	fprintf(stdout, "%d: Received 10000 packets\n", getpid());
--
--	close(fd);
--	exit(0);
--}
--
--int main(int argc, char **argp)
--{
--	int fd, err;
--	int i;
--
--	if (argc != 3) {
--		fprintf(stderr, "Usage: %s INTERFACE {hash|lb}\n", argp[0]);
--		return EXIT_FAILURE;
--	}
--
--	if (!strcmp(argp[2], "hash"))
--		fanout_type = PACKET_FANOUT_HASH;
--	else if (!strcmp(argp[2], "lb"))
--		fanout_type = PACKET_FANOUT_LB;
--	else {
--		fprintf(stderr, "Unknown fanout type [%s]\n", argp[2]);
--		exit(EXIT_FAILURE);
--	}
--
--	device_name = argp[1];
--	fanout_id = getpid() & 0xffff;
--
--	for (i = 0; i < 4; i++) {
--		pid_t pid = fork();
--
--		switch (pid) {
--		case 0:
--			fanout_thread();
--
--		case -1:
--			perror("fork");
--			exit(EXIT_FAILURE);
--		}
--	}
--
--	for (i = 0; i < 4; i++) {
--		int status;
--
--		wait(&status);
--	}
--
--	return 0;
--}
--
---------------------------------------------------------------------------------
--+ AF_PACKET TPACKET_V3 example
---------------------------------------------------------------------------------
--
--AF_PACKET's TPACKET_V3 ring buffer can be configured to use non-static frame
--sizes by doing it's own memory management. It is based on blocks where polling
--works on a per block basis instead of per ring as in TPACKET_V2 and predecessor.
--
--It is said that TPACKET_V3 brings the following benefits:
-- *) ~15 - 20% reduction in CPU-usage
-- *) ~20% increase in packet capture rate
-- *) ~2x increase in packet density
-- *) Port aggregation analysis
-- *) Non static frame size to capture entire packet payload
--
--So it seems to be a good candidate to be used with packet fanout.
--
--Minimal example code by Daniel Borkmann based on Chetan Loke's lolpcap (compile
--it with gcc -Wall -O2 blob.c, and try things like "./a.out eth0", etc.):
--
--/* Written from scratch, but kernel-to-user space API usage
-- * dissected from lolpcap:
-- *  Copyright 2011, Chetan Loke <loke.chetan@gmail.com>
-- *  License: GPL, version 2.0
-- */
--
--#include <stdio.h>
--#include <stdlib.h>
--#include <stdint.h>
--#include <string.h>
--#include <assert.h>
--#include <net/if.h>
--#include <arpa/inet.h>
--#include <netdb.h>
--#include <poll.h>
--#include <unistd.h>
--#include <signal.h>
--#include <inttypes.h>
--#include <sys/socket.h>
--#include <sys/mman.h>
--#include <linux/if_packet.h>
--#include <linux/if_ether.h>
--#include <linux/ip.h>
--
--#ifndef likely
--# define likely(x)		__builtin_expect(!!(x), 1)
--#endif
--#ifndef unlikely
--# define unlikely(x)		__builtin_expect(!!(x), 0)
--#endif
--
--struct block_desc {
--	uint32_t version;
--	uint32_t offset_to_priv;
--	struct tpacket_hdr_v1 h1;
--};
--
--struct ring {
--	struct iovec *rd;
--	uint8_t *map;
--	struct tpacket_req3 req;
--};
--
--static unsigned long packets_total = 0, bytes_total = 0;
--static sig_atomic_t sigint = 0;
--
--static void sighandler(int num)
--{
--	sigint = 1;
--}
--
--static int setup_socket(struct ring *ring, char *netdev)
--{
--	int err, i, fd, v = TPACKET_V3;
--	struct sockaddr_ll ll;
--	unsigned int blocksiz = 1 << 22, framesiz = 1 << 11;
--	unsigned int blocknum = 64;
--
--	fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
--	if (fd < 0) {
--		perror("socket");
--		exit(1);
--	}
--
--	err = setsockopt(fd, SOL_PACKET, PACKET_VERSION, &v, sizeof(v));
--	if (err < 0) {
--		perror("setsockopt");
--		exit(1);
--	}
--
--	memset(&ring->req, 0, sizeof(ring->req));
--	ring->req.tp_block_size = blocksiz;
--	ring->req.tp_frame_size = framesiz;
--	ring->req.tp_block_nr = blocknum;
--	ring->req.tp_frame_nr = (blocksiz * blocknum) / framesiz;
--	ring->req.tp_retire_blk_tov = 60;
--	ring->req.tp_feature_req_word = TP_FT_REQ_FILL_RXHASH;
--
--	err = setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &ring->req,
--			 sizeof(ring->req));
--	if (err < 0) {
--		perror("setsockopt");
--		exit(1);
--	}
--
--	ring->map = mmap(NULL, ring->req.tp_block_size * ring->req.tp_block_nr,
--			 PROT_READ | PROT_WRITE, MAP_SHARED | MAP_LOCKED, fd, 0);
--	if (ring->map == MAP_FAILED) {
--		perror("mmap");
--		exit(1);
--	}
--
--	ring->rd = malloc(ring->req.tp_block_nr * sizeof(*ring->rd));
--	assert(ring->rd);
--	for (i = 0; i < ring->req.tp_block_nr; ++i) {
--		ring->rd[i].iov_base = ring->map + (i * ring->req.tp_block_size);
--		ring->rd[i].iov_len = ring->req.tp_block_size;
--	}
--
--	memset(&ll, 0, sizeof(ll));
--	ll.sll_family = PF_PACKET;
--	ll.sll_protocol = htons(ETH_P_ALL);
--	ll.sll_ifindex = if_nametoindex(netdev);
--	ll.sll_hatype = 0;
--	ll.sll_pkttype = 0;
--	ll.sll_halen = 0;
--
--	err = bind(fd, (struct sockaddr *) &ll, sizeof(ll));
--	if (err < 0) {
--		perror("bind");
--		exit(1);
--	}
--
--	return fd;
--}
--
--static void display(struct tpacket3_hdr *ppd)
--{
--	struct ethhdr *eth = (struct ethhdr *) ((uint8_t *) ppd + ppd->tp_mac);
--	struct iphdr *ip = (struct iphdr *) ((uint8_t *) eth + ETH_HLEN);
--
--	if (eth->h_proto == htons(ETH_P_IP)) {
--		struct sockaddr_in ss, sd;
--		char sbuff[NI_MAXHOST], dbuff[NI_MAXHOST];
--
--		memset(&ss, 0, sizeof(ss));
--		ss.sin_family = PF_INET;
--		ss.sin_addr.s_addr = ip->saddr;
--		getnameinfo((struct sockaddr *) &ss, sizeof(ss),
--			    sbuff, sizeof(sbuff), NULL, 0, NI_NUMERICHOST);
--
--		memset(&sd, 0, sizeof(sd));
--		sd.sin_family = PF_INET;
--		sd.sin_addr.s_addr = ip->daddr;
--		getnameinfo((struct sockaddr *) &sd, sizeof(sd),
--			    dbuff, sizeof(dbuff), NULL, 0, NI_NUMERICHOST);
--
--		printf("%s -> %s, ", sbuff, dbuff);
--	}
--
--	printf("rxhash: 0x%x\n", ppd->hv1.tp_rxhash);
--}
--
--static void walk_block(struct block_desc *pbd, const int block_num)
--{
--	int num_pkts = pbd->h1.num_pkts, i;
--	unsigned long bytes = 0;
--	struct tpacket3_hdr *ppd;
--
--	ppd = (struct tpacket3_hdr *) ((uint8_t *) pbd +
--				       pbd->h1.offset_to_first_pkt);
--	for (i = 0; i < num_pkts; ++i) {
--		bytes += ppd->tp_snaplen;
--		display(ppd);
--
--		ppd = (struct tpacket3_hdr *) ((uint8_t *) ppd +
--					       ppd->tp_next_offset);
--	}
--
--	packets_total += num_pkts;
--	bytes_total += bytes;
--}
--
--static void flush_block(struct block_desc *pbd)
--{
--	pbd->h1.block_status = TP_STATUS_KERNEL;
--}
--
--static void teardown_socket(struct ring *ring, int fd)
--{
--	munmap(ring->map, ring->req.tp_block_size * ring->req.tp_block_nr);
--	free(ring->rd);
--	close(fd);
--}
--
--int main(int argc, char **argp)
--{
--	int fd, err;
--	socklen_t len;
--	struct ring ring;
--	struct pollfd pfd;
--	unsigned int block_num = 0, blocks = 64;
--	struct block_desc *pbd;
--	struct tpacket_stats_v3 stats;
--
--	if (argc != 2) {
--		fprintf(stderr, "Usage: %s INTERFACE\n", argp[0]);
--		return EXIT_FAILURE;
--	}
--
--	signal(SIGINT, sighandler);
--
--	memset(&ring, 0, sizeof(ring));
--	fd = setup_socket(&ring, argp[argc - 1]);
--	assert(fd > 0);
--
--	memset(&pfd, 0, sizeof(pfd));
--	pfd.fd = fd;
--	pfd.events = POLLIN | POLLERR;
--	pfd.revents = 0;
--
--	while (likely(!sigint)) {
--		pbd = (struct block_desc *) ring.rd[block_num].iov_base;
--
--		if ((pbd->h1.block_status & TP_STATUS_USER) == 0) {
--			poll(&pfd, 1, -1);
--			continue;
--		}
--
--		walk_block(pbd, block_num);
--		flush_block(pbd);
--		block_num = (block_num + 1) % blocks;
--	}
--
--	len = sizeof(stats);
--	err = getsockopt(fd, SOL_PACKET, PACKET_STATISTICS, &stats, &len);
--	if (err < 0) {
--		perror("getsockopt");
--		exit(1);
--	}
--
--	fflush(stdout);
--	printf("\nReceived %u packets, %lu bytes, %u dropped, freeze_q_cnt: %u\n",
--	       stats.tp_packets, bytes_total, stats.tp_drops,
--	       stats.tp_freeze_q_cnt);
--
--	teardown_socket(&ring, fd);
--	return 0;
--}
--
---------------------------------------------------------------------------------
--+ PACKET_QDISC_BYPASS
---------------------------------------------------------------------------------
--
--If there is a requirement to load the network with many packets in a similar
--fashion as pktgen does, you might set the following option after socket
--creation:
--
--    int one = 1;
--    setsockopt(fd, SOL_PACKET, PACKET_QDISC_BYPASS, &one, sizeof(one));
--
--This has the side-effect, that packets sent through PF_PACKET will bypass the
--kernel's qdisc layer and are forcedly pushed to the driver directly. Meaning,
--packet are not buffered, tc disciplines are ignored, increased loss can occur
--and such packets are also not visible to other PF_PACKET sockets anymore. So,
--you have been warned; generally, this can be useful for stress testing various
--components of a system.
--
--On default, PACKET_QDISC_BYPASS is disabled and needs to be explicitly enabled
--on PF_PACKET sockets.
--
---------------------------------------------------------------------------------
--+ PACKET_TIMESTAMP
---------------------------------------------------------------------------------
--
--The PACKET_TIMESTAMP setting determines the source of the timestamp in
--the packet meta information for mmap(2)ed RX_RING and TX_RINGs.  If your
--NIC is capable of timestamping packets in hardware, you can request those
--hardware timestamps to be used. Note: you may need to enable the generation
--of hardware timestamps with SIOCSHWTSTAMP (see related information from
--Documentation/networking/timestamping.txt).
--
--PACKET_TIMESTAMP accepts the same integer bit field as SO_TIMESTAMPING:
--
--    int req = SOF_TIMESTAMPING_RAW_HARDWARE;
--    setsockopt(fd, SOL_PACKET, PACKET_TIMESTAMP, (void *) &req, sizeof(req))
--
--For the mmap(2)ed ring buffers, such timestamps are stored in the
--tpacket{,2,3}_hdr structure's tp_sec and tp_{n,u}sec members. To determine
--what kind of timestamp has been reported, the tp_status field is binary |'ed
--with the following possible bits ...
--
--    TP_STATUS_TS_RAW_HARDWARE
--    TP_STATUS_TS_SOFTWARE
--
--... that are equivalent to its SOF_TIMESTAMPING_* counterparts. For the
--RX_RING, if neither is set (i.e. PACKET_TIMESTAMP is not set), then a
--software fallback was invoked *within* PF_PACKET's processing code (less
--precise).
--
--Getting timestamps for the TX_RING works as follows: i) fill the ring frames,
--ii) call sendto() e.g. in blocking mode, iii) wait for status of relevant
--frames to be updated resp. the frame handed over to the application, iv) walk
--through the frames to pick up the individual hw/sw timestamps.
--
--Only (!) if transmit timestamping is enabled, then these bits are combined
--with binary | with TP_STATUS_AVAILABLE, so you must check for that in your
--application (e.g. !(tp_status & (TP_STATUS_SEND_REQUEST | TP_STATUS_SENDING))
--in a first step to see if the frame belongs to the application, and then
--one can extract the type of timestamp in a second step from tp_status)!
--
--If you don't care about them, thus having it disabled, checking for
--TP_STATUS_AVAILABLE resp. TP_STATUS_WRONG_FORMAT is sufficient. If in the
--TX_RING part only TP_STATUS_AVAILABLE is set, then the tp_sec and tp_{n,u}sec
--members do not contain a valid value. For TX_RINGs, by default no timestamp
--is generated!
--
--See include/linux/net_tstamp.h and Documentation/networking/timestamping.txt
--for more information on hardware timestamps.
--
---------------------------------------------------------------------------------
--+ Miscellaneous bits
---------------------------------------------------------------------------------
--
--- Packet sockets work well together with Linux socket filters, thus you also
--  might want to have a look at Documentation/networking/filter.rst
--
----------------------------------------------------------------------------------
--+ THANKS
----------------------------------------------------------------------------------
--   
--   Jesse Brandeburg, for fixing my grammathical/spelling errors
--
++======================
++RxRPC Network Protocol
++======================
+ 
+ The RxRPC protocol driver provides a reliable two-phase transport on top of UDP
+ that can be used to perform RxRPC remote operations.  This is done over sockets
+@@ -9,36 +11,35 @@ receive data, aborts and errors.
+ 
+ Contents of this document:
+ 
+- (*) Overview.
++ (#) Overview.
+ 
+- (*) RxRPC protocol summary.
++ (#) RxRPC protocol summary.
+ 
+- (*) AF_RXRPC driver model.
++ (#) AF_RXRPC driver model.
+ 
+- (*) Control messages.
++ (#) Control messages.
+ 
+- (*) Socket options.
++ (#) Socket options.
+ 
+- (*) Security.
++ (#) Security.
+ 
+- (*) Example client usage.
++ (#) Example client usage.
+ 
+- (*) Example server usage.
++ (#) Example server usage.
+ 
+- (*) AF_RXRPC kernel interface.
++ (#) AF_RXRPC kernel interface.
+ 
+- (*) Configurable parameters.
++ (#) Configurable parameters.
+ 
+ 
+-========
+-OVERVIEW
++Overview
+ ========
+ 
+ RxRPC is a two-layer protocol.  There is a session layer which provides
+ reliable virtual connections using UDP over IPv4 (or IPv6) as the transport
+ layer, but implements a real network protocol; and there's the presentation
+ layer which renders structured data to binary blobs and back again using XDR
+-(as does SunRPC):
++(as does SunRPC)::
+ 
+ 		+-------------+
+ 		| Application |
+@@ -85,31 +86,30 @@ The Andrew File System (AFS) is an example of an application that uses this and
+ that has both kernel (filesystem) and userspace (utility) components.
+ 
+ 
+-======================
+-RXRPC PROTOCOL SUMMARY
++RxRPC Protocol Summary
+ ======================
+ 
+ An overview of the RxRPC protocol:
+ 
+- (*) RxRPC sits on top of another networking protocol (UDP is the only option
++ (#) RxRPC sits on top of another networking protocol (UDP is the only option
+      currently), and uses this to provide network transport.  UDP ports, for
+      example, provide transport endpoints.
+ 
+- (*) RxRPC supports multiple virtual "connections" from any given transport
++ (#) RxRPC supports multiple virtual "connections" from any given transport
+      endpoint, thus allowing the endpoints to be shared, even to the same
+      remote endpoint.
+ 
+- (*) Each connection goes to a particular "service".  A connection may not go
++ (#) Each connection goes to a particular "service".  A connection may not go
+      to multiple services.  A service may be considered the RxRPC equivalent of
+      a port number.  AF_RXRPC permits multiple services to share an endpoint.
+ 
+- (*) Client-originating packets are marked, thus a transport endpoint can be
++ (#) Client-originating packets are marked, thus a transport endpoint can be
+      shared between client and server connections (connections have a
+      direction).
+ 
+- (*) Up to a billion connections may be supported concurrently between one
++ (#) Up to a billion connections may be supported concurrently between one
+      local transport endpoint and one service on one remote endpoint.  An RxRPC
+-     connection is described by seven numbers:
++     connection is described by seven numbers::
+ 
+ 	Local address	}
+ 	Local port	} Transport (UDP) address
+@@ -119,22 +119,22 @@ An overview of the RxRPC protocol:
+ 	Connection ID
+ 	Service ID
+ 
+- (*) Each RxRPC operation is a "call".  A connection may make up to four
++ (#) Each RxRPC operation is a "call".  A connection may make up to four
+      billion calls, but only up to four calls may be in progress on a
+      connection at any one time.
+ 
+- (*) Calls are two-phase and asymmetric: the client sends its request data,
++ (#) Calls are two-phase and asymmetric: the client sends its request data,
+      which the service receives; then the service transmits the reply data
+      which the client receives.
+ 
+- (*) The data blobs are of indefinite size, the end of a phase is marked with a
++ (#) The data blobs are of indefinite size, the end of a phase is marked with a
+      flag in the packet.  The number of packets of data making up one blob may
+      not exceed 4 billion, however, as this would cause the sequence number to
+      wrap.
+ 
+- (*) The first four bytes of the request data are the service operation ID.
++ (#) The first four bytes of the request data are the service operation ID.
+ 
+- (*) Security is negotiated on a per-connection basis.  The connection is
++ (#) Security is negotiated on a per-connection basis.  The connection is
+      initiated by the first data packet on it arriving.  If security is
+      requested, the server then issues a "challenge" and then the client
+      replies with a "response".  If the response is successful, the security is
+@@ -143,146 +143,145 @@ An overview of the RxRPC protocol:
+      connection lapse before the client, the security will be renegotiated if
+      the client uses the connection again.
+ 
+- (*) Calls use ACK packets to handle reliability.  Data packets are also
++ (#) Calls use ACK packets to handle reliability.  Data packets are also
+      explicitly sequenced per call.
+ 
+- (*) There are two types of positive acknowledgment: hard-ACKs and soft-ACKs.
++ (#) There are two types of positive acknowledgment: hard-ACKs and soft-ACKs.
+      A hard-ACK indicates to the far side that all the data received to a point
+      has been received and processed; a soft-ACK indicates that the data has
+      been received but may yet be discarded and re-requested.  The sender may
+      not discard any transmittable packets until they've been hard-ACK'd.
+ 
+- (*) Reception of a reply data packet implicitly hard-ACK's all the data
++ (#) Reception of a reply data packet implicitly hard-ACK's all the data
+      packets that make up the request.
+ 
+- (*) An call is complete when the request has been sent, the reply has been
++ (#) An call is complete when the request has been sent, the reply has been
+      received and the final hard-ACK on the last packet of the reply has
+      reached the server.
+ 
+- (*) An call may be aborted by either end at any time up to its completion.
++ (#) An call may be aborted by either end at any time up to its completion.
+ 
+ 
+-=====================
+-AF_RXRPC DRIVER MODEL
++AF_RXRPC Driver Model
+ =====================
+ 
+ About the AF_RXRPC driver:
+ 
+- (*) The AF_RXRPC protocol transparently uses internal sockets of the transport
++ (#) The AF_RXRPC protocol transparently uses internal sockets of the transport
+      protocol to represent transport endpoints.
+ 
+- (*) AF_RXRPC sockets map onto RxRPC connection bundles.  Actual RxRPC
++ (#) AF_RXRPC sockets map onto RxRPC connection bundles.  Actual RxRPC
+      connections are handled transparently.  One client socket may be used to
+      make multiple simultaneous calls to the same service.  One server socket
+      may handle calls from many clients.
+ 
+- (*) Additional parallel client connections will be initiated to support extra
++ (#) Additional parallel client connections will be initiated to support extra
+      concurrent calls, up to a tunable limit.
+ 
+- (*) Each connection is retained for a certain amount of time [tunable] after
++ (#) Each connection is retained for a certain amount of time [tunable] after
+      the last call currently using it has completed in case a new call is made
+      that could reuse it.
+ 
+- (*) Each internal UDP socket is retained [tunable] for a certain amount of
++ (#) Each internal UDP socket is retained [tunable] for a certain amount of
+      time [tunable] after the last connection using it discarded, in case a new
+      connection is made that could use it.
+ 
+- (*) A client-side connection is only shared between calls if they have have
++ (#) A client-side connection is only shared between calls if they have have
+      the same key struct describing their security (and assuming the calls
+      would otherwise share the connection).  Non-secured calls would also be
+      able to share connections with each other.
+ 
+- (*) A server-side connection is shared if the client says it is.
++ (#) A server-side connection is shared if the client says it is.
+ 
+- (*) ACK'ing is handled by the protocol driver automatically, including ping
++ (#) ACK'ing is handled by the protocol driver automatically, including ping
+      replying.
+ 
+- (*) SO_KEEPALIVE automatically pings the other side to keep the connection
++ (#) SO_KEEPALIVE automatically pings the other side to keep the connection
+      alive [TODO].
+ 
+- (*) If an ICMP error is received, all calls affected by that error will be
++ (#) If an ICMP error is received, all calls affected by that error will be
+      aborted with an appropriate network error passed through recvmsg().
+ 
+ 
+ Interaction with the user of the RxRPC socket:
+ 
+- (*) A socket is made into a server socket by binding an address with a
++ (#) A socket is made into a server socket by binding an address with a
+      non-zero service ID.
+ 
+- (*) In the client, sending a request is achieved with one or more sendmsgs,
++ (#) In the client, sending a request is achieved with one or more sendmsgs,
+      followed by the reply being received with one or more recvmsgs.
+ 
+- (*) The first sendmsg for a request to be sent from a client contains a tag to
++ (#) The first sendmsg for a request to be sent from a client contains a tag to
+      be used in all other sendmsgs or recvmsgs associated with that call.  The
+      tag is carried in the control data.
+ 
+- (*) connect() is used to supply a default destination address for a client
++ (#) connect() is used to supply a default destination address for a client
+      socket.  This may be overridden by supplying an alternate address to the
+      first sendmsg() of a call (struct msghdr::msg_name).
+ 
+- (*) If connect() is called on an unbound client, a random local port will
++ (#) If connect() is called on an unbound client, a random local port will
+      bound before the operation takes place.
+ 
+- (*) A server socket may also be used to make client calls.  To do this, the
++ (#) A server socket may also be used to make client calls.  To do this, the
+      first sendmsg() of the call must specify the target address.  The server's
+      transport endpoint is used to send the packets.
+ 
+- (*) Once the application has received the last message associated with a call,
++ (#) Once the application has received the last message associated with a call,
+      the tag is guaranteed not to be seen again, and so it can be used to pin
+      client resources.  A new call can then be initiated with the same tag
+      without fear of interference.
+ 
+- (*) In the server, a request is received with one or more recvmsgs, then the
++ (#) In the server, a request is received with one or more recvmsgs, then the
+      the reply is transmitted with one or more sendmsgs, and then the final ACK
+      is received with a last recvmsg.
+ 
+- (*) When sending data for a call, sendmsg is given MSG_MORE if there's more
++ (#) When sending data for a call, sendmsg is given MSG_MORE if there's more
+      data to come on that call.
+ 
+- (*) When receiving data for a call, recvmsg flags MSG_MORE if there's more
++ (#) When receiving data for a call, recvmsg flags MSG_MORE if there's more
+      data to come for that call.
+ 
+- (*) When receiving data or messages for a call, MSG_EOR is flagged by recvmsg
++ (#) When receiving data or messages for a call, MSG_EOR is flagged by recvmsg
+      to indicate the terminal message for that call.
+ 
+- (*) A call may be aborted by adding an abort control message to the control
++ (#) A call may be aborted by adding an abort control message to the control
+      data.  Issuing an abort terminates the kernel's use of that call's tag.
+      Any messages waiting in the receive queue for that call will be discarded.
+ 
+- (*) Aborts, busy notifications and challenge packets are delivered by recvmsg,
++ (#) Aborts, busy notifications and challenge packets are delivered by recvmsg,
+      and control data messages will be set to indicate the context.  Receiving
+      an abort or a busy message terminates the kernel's use of that call's tag.
+ 
+- (*) The control data part of the msghdr struct is used for a number of things:
++ (#) The control data part of the msghdr struct is used for a number of things:
+ 
+-     (*) The tag of the intended or affected call.
++     (#) The tag of the intended or affected call.
+ 
+-     (*) Sending or receiving errors, aborts and busy notifications.
++     (#) Sending or receiving errors, aborts and busy notifications.
+ 
+-     (*) Notifications of incoming calls.
++     (#) Notifications of incoming calls.
+ 
+-     (*) Sending debug requests and receiving debug replies [TODO].
++     (#) Sending debug requests and receiving debug replies [TODO].
+ 
+- (*) When the kernel has received and set up an incoming call, it sends a
++ (#) When the kernel has received and set up an incoming call, it sends a
+      message to server application to let it know there's a new call awaiting
+      its acceptance [recvmsg reports a special control message].  The server
+      application then uses sendmsg to assign a tag to the new call.  Once that
+      is done, the first part of the request data will be delivered by recvmsg.
+ 
+- (*) The server application has to provide the server socket with a keyring of
++ (#) The server application has to provide the server socket with a keyring of
+      secret keys corresponding to the security types it permits.  When a secure
+      connection is being set up, the kernel looks up the appropriate secret key
+      in the keyring and then sends a challenge packet to the client and
+      receives a response packet.  The kernel then checks the authorisation of
+      the packet and either aborts the connection or sets up the security.
+ 
+- (*) The name of the key a client will use to secure its communications is
++ (#) The name of the key a client will use to secure its communications is
+      nominated by a socket option.
+ 
+ 
+ Notes on sendmsg:
+ 
+- (*) MSG_WAITALL can be set to tell sendmsg to ignore signals if the peer is
++ (#) MSG_WAITALL can be set to tell sendmsg to ignore signals if the peer is
+      making progress at accepting packets within a reasonable time such that we
+      manage to queue up all the data for transmission.  This requires the
+      client to accept at least one packet per 2*RTT time period.
+@@ -294,7 +293,7 @@ Notes on sendmsg:
+ 
+ Notes on recvmsg:
+ 
+- (*) If there's a sequence of data messages belonging to a particular call on
++ (#) If there's a sequence of data messages belonging to a particular call on
+      the receive queue, then recvmsg will keep working through them until:
+ 
+      (a) it meets the end of that call's received data,
+@@ -320,13 +319,13 @@ Notes on recvmsg:
+      flagged.
+ 
+ 
+-================
+-CONTROL MESSAGES
++Control Messages
+ ================
+ 
+ AF_RXRPC makes use of control messages in sendmsg() and recvmsg() to multiplex
+ calls, to invoke certain actions and to report certain conditions.  These are:
+ 
++	=======================	=== ===========	===============================
+ 	MESSAGE ID		SRT DATA	MEANING
+ 	=======================	=== ===========	===============================
+ 	RXRPC_USER_CALL_ID	sr- User ID	App's call specifier
+@@ -340,10 +339,11 @@ calls, to invoke certain actions and to report certain conditions.  These are:
+ 	RXRPC_EXCLUSIVE_CALL	s-- n/a		Make an exclusive client call
+ 	RXRPC_UPGRADE_SERVICE	s-- n/a		Client call can be upgraded
+ 	RXRPC_TX_LENGTH		s-- data len	Total length of Tx data
++	=======================	=== ===========	===============================
+ 
+ 	(SRT = usable in Sendmsg / delivered by Recvmsg / Terminal message)
+ 
+- (*) RXRPC_USER_CALL_ID
++ (#) RXRPC_USER_CALL_ID
+ 
+      This is used to indicate the application's call ID.  It's an unsigned long
+      that the app specifies in the client by attaching it to the first data
+@@ -351,7 +351,7 @@ calls, to invoke certain actions and to report certain conditions.  These are:
+      message.  recvmsg() passes it in conjunction with all messages except
+      those of the RXRPC_NEW_CALL message.
+ 
+- (*) RXRPC_ABORT
++ (#) RXRPC_ABORT
+ 
+      This is can be used by an application to abort a call by passing it to
+      sendmsg, or it can be delivered by recvmsg to indicate a remote abort was
+@@ -359,13 +359,13 @@ calls, to invoke certain actions and to report certain conditions.  These are:
+      specify the call affected.  If an abort is being sent, then error EBADSLT
+      will be returned if there is no call with that user ID.
+ 
+- (*) RXRPC_ACK
++ (#) RXRPC_ACK
+ 
+      This is delivered to a server application to indicate that the final ACK
+      of a call was received from the client.  It will be associated with an
+      RXRPC_USER_CALL_ID to indicate the call that's now complete.
+ 
+- (*) RXRPC_NET_ERROR
++ (#) RXRPC_NET_ERROR
+ 
+      This is delivered to an application to indicate that an ICMP error message
+      was encountered in the process of trying to talk to the peer.  An
+@@ -373,13 +373,13 @@ calls, to invoke certain actions and to report certain conditions.  These are:
+      indicating the problem, and an RXRPC_USER_CALL_ID will indicate the call
+      affected.
+ 
+- (*) RXRPC_BUSY
++ (#) RXRPC_BUSY
+ 
+      This is delivered to a client application to indicate that a call was
+      rejected by the server due to the server being busy.  It will be
+      associated with an RXRPC_USER_CALL_ID to indicate the rejected call.
+ 
+- (*) RXRPC_LOCAL_ERROR
++ (#) RXRPC_LOCAL_ERROR
+ 
+      This is delivered to an application to indicate that a local error was
+      encountered and that a call has been aborted because of it.  An
+@@ -387,13 +387,13 @@ calls, to invoke certain actions and to report certain conditions.  These are:
+      indicating the problem, and an RXRPC_USER_CALL_ID will indicate the call
+      affected.
+ 
+- (*) RXRPC_NEW_CALL
++ (#) RXRPC_NEW_CALL
+ 
+      This is delivered to indicate to a server application that a new call has
+      arrived and is awaiting acceptance.  No user ID is associated with this,
+      as a user ID must subsequently be assigned by doing an RXRPC_ACCEPT.
+ 
+- (*) RXRPC_ACCEPT
++ (#) RXRPC_ACCEPT
+ 
+      This is used by a server application to attempt to accept a call and
+      assign it a user ID.  It should be associated with an RXRPC_USER_CALL_ID
+@@ -402,12 +402,12 @@ calls, to invoke certain actions and to report certain conditions.  These are:
+      return error ENODATA.  If the user ID is already in use by another call,
+      then error EBADSLT will be returned.
+ 
+- (*) RXRPC_EXCLUSIVE_CALL
++ (#) RXRPC_EXCLUSIVE_CALL
+ 
+      This is used to indicate that a client call should be made on a one-off
+      connection.  The connection is discarded once the call has terminated.
+ 
+- (*) RXRPC_UPGRADE_SERVICE
++ (#) RXRPC_UPGRADE_SERVICE
+ 
+      This is used to make a client call to probe if the specified service ID
+      may be upgraded by the server.  The caller must check msg_name returned to
+@@ -419,7 +419,7 @@ calls, to invoke certain actions and to report certain conditions.  These are:
+      future communication to that server and RXRPC_UPGRADE_SERVICE should no
+      longer be set.
+ 
+- (*) RXRPC_TX_LENGTH
++ (#) RXRPC_TX_LENGTH
+ 
+      This is used to inform the kernel of the total amount of data that is
+      going to be transmitted by a call (whether in a client request or a
+@@ -443,7 +443,7 @@ SOCKET OPTIONS
+ 
+ AF_RXRPC sockets support a few socket options at the SOL_RXRPC level:
+ 
+- (*) RXRPC_SECURITY_KEY
++ (#) RXRPC_SECURITY_KEY
+ 
+      This is used to specify the description of the key to be used.  The key is
+      extracted from the calling process's keyrings with request_key() and
+@@ -452,17 +452,17 @@ AF_RXRPC sockets support a few socket options at the SOL_RXRPC level:
+      The optval pointer points to the description string, and optlen indicates
+      how long the string is, without the NUL terminator.
+ 
+- (*) RXRPC_SECURITY_KEYRING
++ (#) RXRPC_SECURITY_KEYRING
+ 
+      Similar to above but specifies a keyring of server secret keys to use (key
+      type "keyring").  See the "Security" section.
+ 
+- (*) RXRPC_EXCLUSIVE_CONNECTION
++ (#) RXRPC_EXCLUSIVE_CONNECTION
+ 
+      This is used to request that new connections should be used for each call
+      made subsequently on this socket.  optval should be NULL and optlen 0.
+ 
+- (*) RXRPC_MIN_SECURITY_LEVEL
++ (#) RXRPC_MIN_SECURITY_LEVEL
+ 
+      This is used to specify the minimum security level required for calls on
+      this socket.  optval must point to an int containing one of the following
+@@ -482,14 +482,14 @@ AF_RXRPC sockets support a few socket options at the SOL_RXRPC level:
+ 	 Encrypted checksum plus entire packet padded and encrypted, including
+ 	 actual packet length.
+ 
+- (*) RXRPC_UPGRADEABLE_SERVICE
++ (#) RXRPC_UPGRADEABLE_SERVICE
+ 
+      This is used to indicate that a service socket with two bindings may
+      upgrade one bound service to the other if requested by the client.  optval
+      must point to an array of two unsigned short ints.  The first is the
+      service ID to upgrade from and the second the service ID to upgrade to.
+ 
+- (*) RXRPC_SUPPORTED_CMSG
++ (#) RXRPC_SUPPORTED_CMSG
+ 
+      This is a read-only option that writes an int into the buffer indicating
+      the highest control message type supported.
+@@ -509,7 +509,7 @@ found at:
+ 	http://people.redhat.com/~dhowells/rxrpc/klog.c
+ 
+ The payload provided to add_key() on the client should be of the following
+-form:
++form::
+ 
+ 	struct rxrpc_key_sec2_v1 {
+ 		uint16_t	security_index;	/* 2 */
+@@ -546,14 +546,14 @@ EXAMPLE CLIENT USAGE
+ 
+ A client would issue an operation by:
+ 
+- (1) An RxRPC socket is set up by:
++ (1) An RxRPC socket is set up by::
+ 
+ 	client = socket(AF_RXRPC, SOCK_DGRAM, PF_INET);
+ 
+      Where the third parameter indicates the protocol family of the transport
+      socket used - usually IPv4 but it can also be IPv6 [TODO].
+ 
+- (2) A local address can optionally be bound:
++ (2) A local address can optionally be bound::
+ 
+ 	struct sockaddr_rxrpc srx = {
+ 		.srx_family	= AF_RXRPC,
+@@ -570,20 +570,20 @@ A client would issue an operation by:
+      several unrelated RxRPC sockets.  Security is handled on a basis of
+      per-RxRPC virtual connection.
+ 
+- (3) The security is set:
++ (3) The security is set::
+ 
+ 	const char *key = "AFS:cambridge.redhat.com";
+ 	setsockopt(client, SOL_RXRPC, RXRPC_SECURITY_KEY, key, strlen(key));
+ 
+      This issues a request_key() to get the key representing the security
+-     context.  The minimum security level can be set:
++     context.  The minimum security level can be set::
+ 
+ 	unsigned int sec = RXRPC_SECURITY_ENCRYPTED;
+ 	setsockopt(client, SOL_RXRPC, RXRPC_MIN_SECURITY_LEVEL,
+ 		   &sec, sizeof(sec));
+ 
+  (4) The server to be contacted can then be specified (alternatively this can
+-     be done through sendmsg):
++     be done through sendmsg)::
+ 
+ 	struct sockaddr_rxrpc srx = {
+ 		.srx_family	= AF_RXRPC,
+@@ -598,7 +598,9 @@ A client would issue an operation by:
+  (5) The request data should then be posted to the server socket using a series
+      of sendmsg() calls, each with the following control message attached:
+ 
+-	RXRPC_USER_CALL_ID	- specifies the user ID for this call
++	==================	===================================
++	RXRPC_USER_CALL_ID	specifies the user ID for this call
++	==================	===================================
+ 
+      MSG_MORE should be set in msghdr::msg_flags on all but the last part of
+      the request.  Multiple requests may be made simultaneously.
+@@ -635,13 +637,12 @@ any more calls (further calls to the same destination will be blocked until the
+ probe is concluded).
+ 
+ 
+-====================
+-EXAMPLE SERVER USAGE
++Example Server Usage
+ ====================
+ 
+ A server would be set up to accept operations in the following manner:
+ 
+- (1) An RxRPC socket is created by:
++ (1) An RxRPC socket is created by::
+ 
+ 	server = socket(AF_RXRPC, SOCK_DGRAM, PF_INET);
+ 
+@@ -649,7 +650,7 @@ A server would be set up to accept operations in the following manner:
+      socket used - usually IPv4.
+ 
+  (2) Security is set up if desired by giving the socket a keyring with server
+-     secret keys in it:
++     secret keys in it::
+ 
+ 	keyring = add_key("keyring", "AFSkeys", NULL, 0,
+ 			  KEY_SPEC_PROCESS_KEYRING);
+@@ -663,7 +664,7 @@ A server would be set up to accept operations in the following manner:
+      The keyring can be manipulated after it has been given to the socket. This
+      permits the server to add more keys, replace keys, etc. while it is live.
+ 
+- (3) A local address must then be bound:
++ (3) A local address must then be bound::
+ 
+ 	struct sockaddr_rxrpc srx = {
+ 		.srx_family	= AF_RXRPC,
+@@ -680,7 +681,7 @@ A server would be set up to accept operations in the following manner:
+      should be called twice.
+ 
+  (4) If service upgrading is required, first two service IDs must have been
+-     bound and then the following option must be set:
++     bound and then the following option must be set::
+ 
+ 	unsigned short service_ids[2] = { from_ID, to_ID };
+ 	setsockopt(server, SOL_RXRPC, RXRPC_UPGRADEABLE_SERVICE,
+@@ -690,14 +691,14 @@ A server would be set up to accept operations in the following manner:
+      to_ID if they request it.  This will be reflected in msg_name obtained
+      through recvmsg() when the request data is delivered to userspace.
+ 
+- (5) The server is then set to listen out for incoming calls:
++ (5) The server is then set to listen out for incoming calls::
+ 
+ 	listen(server, 100);
+ 
+  (6) The kernel notifies the server of pending incoming connections by sending
+      it a message for each.  This is received with recvmsg() on the server
+      socket.  It has no data, and has a single dataless control message
+-     attached:
++     attached::
+ 
+ 	RXRPC_NEW_CALL
+ 
+@@ -709,8 +710,10 @@ A server would be set up to accept operations in the following manner:
+  (7) The server then accepts the new call by issuing a sendmsg() with two
+      pieces of control data and no actual data:
+ 
+-	RXRPC_ACCEPT		- indicate connection acceptance
+-	RXRPC_USER_CALL_ID	- specify user ID for this call
++	==================	==============================
++	RXRPC_ACCEPT		indicate connection acceptance
++	RXRPC_USER_CALL_ID	specify user ID for this call
++	==================	==============================
+ 
+  (8) The first request data packet will then be posted to the server socket for
+      recvmsg() to pick up.  At that point, the RxRPC address for the call can
+@@ -722,12 +725,17 @@ A server would be set up to accept operations in the following manner:
+ 
+      All data will be delivered with the following control message attached:
+ 
+-	RXRPC_USER_CALL_ID	- specifies the user ID for this call
++
++	==================	===================================
++	RXRPC_USER_CALL_ID	specifies the user ID for this call
++	==================	===================================
+ 
+  (9) The reply data should then be posted to the server socket using a series
+      of sendmsg() calls, each with the following control messages attached:
+ 
+-	RXRPC_USER_CALL_ID	- specifies the user ID for this call
++	==================	===================================
++	RXRPC_USER_CALL_ID	specifies the user ID for this call
++	==================	===================================
+ 
+      MSG_MORE should be set in msghdr::msg_flags on all but the last message
+      for a particular call.
+@@ -736,8 +744,10 @@ A server would be set up to accept operations in the following manner:
+      when it is received.  It will take the form of a dataless message with two
+      control messages attached:
+ 
+-	RXRPC_USER_CALL_ID	- specifies the user ID for this call
+-	RXRPC_ACK		- indicates final ACK (no data)
++	==================	===================================
++	RXRPC_USER_CALL_ID	specifies the user ID for this call
++	RXRPC_ACK		indicates final ACK (no data)
++	==================	===================================
+ 
+      MSG_EOR will be flagged to indicate that this is the final message for
+      this call.
+@@ -746,8 +756,10 @@ A server would be set up to accept operations in the following manner:
+      aborted by calling sendmsg() with a dataless message with the following
+      control messages attached:
+ 
+-	RXRPC_USER_CALL_ID	- specifies the user ID for this call
+-	RXRPC_ABORT		- indicates abort code (4 byte data)
++	==================	===================================
++	RXRPC_USER_CALL_ID	specifies the user ID for this call
++	RXRPC_ABORT		indicates abort code (4 byte data)
++	==================	===================================
+ 
+      Any packets waiting in the socket's receive queue will be discarded if
+      this is issued.
+@@ -757,8 +769,7 @@ the one server socket, using control messages on sendmsg() and recvmsg() to
+ determine the call affected.
+ 
+ 
+-=========================
+-AF_RXRPC KERNEL INTERFACE
++AF_RXRPC Kernel Interface
+ =========================
+ 
+ The AF_RXRPC module also provides an interface for use by in-kernel utilities
+@@ -786,7 +797,7 @@ then it passes this to the kernel interface functions.
+ 
+ The kernel interface functions are as follows:
+ 
+- (*) Begin a new client call.
++ (#) Begin a new client call::
+ 
+ 	struct rxrpc_call *
+ 	rxrpc_kernel_begin_call(struct socket *sock,
+@@ -837,7 +848,7 @@ The kernel interface functions are as follows:
+      returned.  The caller now holds a reference on this and it must be
+      properly ended.
+ 
+- (*) End a client call.
++ (#) End a client call::
+ 
+ 	void rxrpc_kernel_end_call(struct socket *sock,
+ 				   struct rxrpc_call *call);
+@@ -846,7 +857,7 @@ The kernel interface functions are as follows:
+      from AF_RXRPC's knowledge and will not be seen again in association with
+      the specified call.
+ 
+- (*) Send data through a call.
++ (#) Send data through a call::
+ 
+ 	typedef void (*rxrpc_notify_end_tx_t)(struct sock *sk,
+ 					      unsigned long user_call_ID,
+@@ -872,7 +883,7 @@ The kernel interface functions are as follows:
+      called with the call-state spinlock held to prevent any reply or final ACK
+      from being delivered first.
+ 
+- (*) Receive data from a call.
++ (#) Receive data from a call::
+ 
+ 	int rxrpc_kernel_recv_data(struct socket *sock,
+ 				   struct rxrpc_call *call,
+@@ -902,12 +913,14 @@ The kernel interface functions are as follows:
+       more data was available, EMSGSIZE is returned.
+ 
+       If a remote ABORT is detected, the abort code received will be stored in
+-      *_abort and ECONNABORTED will be returned.
++      ``*_abort`` and ECONNABORTED will be returned.
+ 
+       The service ID that the call ended up with is returned into *_service.
+       This can be used to see if a call got a service upgrade.
+ 
+- (*) Abort a call.
++ (#) Abort a call??
++
++     ::
+ 
+ 	void rxrpc_kernel_abort_call(struct socket *sock,
+ 				     struct rxrpc_call *call,
+@@ -916,7 +929,7 @@ The kernel interface functions are as follows:
+      This is used to abort a call if it's still in an abortable state.  The
+      abort code specified will be placed in the ABORT message sent.
+ 
+- (*) Intercept received RxRPC messages.
++ (#) Intercept received RxRPC messages::
+ 
+ 	typedef void (*rxrpc_interceptor_t)(struct sock *sk,
+ 					    unsigned long user_call_ID,
+@@ -937,7 +950,8 @@ The kernel interface functions are as follows:
+ 
+      The skb->mark field indicates the type of message:
+ 
+-	MARK				MEANING
++	===============================	=======================================
++	Mark				Meaning
+ 	===============================	=======================================
+ 	RXRPC_SKB_MARK_DATA		Data message
+ 	RXRPC_SKB_MARK_FINAL_ACK	Final ACK received for an incoming call
+@@ -946,6 +960,7 @@ The kernel interface functions are as follows:
+ 	RXRPC_SKB_MARK_NET_ERROR	Network error detected
+ 	RXRPC_SKB_MARK_LOCAL_ERROR	Local error encountered
+ 	RXRPC_SKB_MARK_NEW_CALL		New incoming call awaiting acceptance
++	===============================	=======================================
+ 
+      The remote abort message can be probed with rxrpc_kernel_get_abort_code().
+      The two error messages can be probed with rxrpc_kernel_get_error_number().
+@@ -961,7 +976,7 @@ The kernel interface functions are as follows:
+      is possible to get extra refs on all types of message for later freeing,
+      but this may pin the state of a call until the message is finally freed.
+ 
+- (*) Accept an incoming call.
++ (#) Accept an incoming call::
+ 
+ 	struct rxrpc_call *
+ 	rxrpc_kernel_accept_call(struct socket *sock,
+@@ -975,7 +990,7 @@ The kernel interface functions are as follows:
+      returned.  The caller now holds a reference on this and it must be
+      properly ended.
+ 
+- (*) Reject an incoming call.
++ (#) Reject an incoming call::
+ 
+ 	int rxrpc_kernel_reject_call(struct socket *sock);
+ 
+@@ -984,21 +999,21 @@ The kernel interface functions are as follows:
+      Other errors may be returned if the call had been aborted (-ECONNABORTED)
+      or had timed out (-ETIME).
+ 
+- (*) Allocate a null key for doing anonymous security.
++ (#) Allocate a null key for doing anonymous security::
+ 
+ 	struct key *rxrpc_get_null_key(const char *keyname);
+ 
+      This is used to allocate a null RxRPC key that can be used to indicate
+      anonymous security for a particular domain.
+ 
+- (*) Get the peer address of a call.
++ (#) Get the peer address of a call::
+ 
+ 	void rxrpc_kernel_get_peer(struct socket *sock, struct rxrpc_call *call,
+ 				   struct sockaddr_rxrpc *_srx);
+ 
+      This is used to find the remote peer address of a call.
+ 
+- (*) Set the total transmit data size on a call.
++ (#) Set the total transmit data size on a call::
+ 
+ 	void rxrpc_kernel_set_tx_length(struct socket *sock,
+ 					struct rxrpc_call *call,
+@@ -1009,14 +1024,14 @@ The kernel interface functions are as follows:
+      size should be set when the call is begun.  tx_total_len may not be less
+      than zero.
+ 
+- (*) Get call RTT.
++ (#) Get call RTT::
+ 
+ 	u64 rxrpc_kernel_get_rtt(struct socket *sock, struct rxrpc_call *call);
+ 
+      Get the RTT time to the peer in use by a call.  The value returned is in
+      nanoseconds.
+ 
+- (*) Check call still alive.
++ (#) Check call still alive::
+ 
+ 	bool rxrpc_kernel_check_life(struct socket *sock,
+ 				     struct rxrpc_call *call,
+@@ -1024,7 +1039,7 @@ The kernel interface functions are as follows:
+ 	void rxrpc_kernel_probe_life(struct socket *sock,
+ 				     struct rxrpc_call *call);
+ 
+-     The first function passes back in *_life a number that is updated when
++     The first function passes back in ``*_life`` a number that is updated when
+      ACKs are received from the peer (notably including PING RESPONSE ACKs
+      which we can elicit by sending PING ACKs to see if the call still exists
+      on the server).  The caller should compare the numbers of two calls to see
+@@ -1040,7 +1055,7 @@ The kernel interface functions are as follows:
+      first function to change.  Note that this must be called in TASK_RUNNING
+      state.
+ 
+- (*) Get reply timestamp.
++ (#) Get reply timestamp::
+ 
+ 	bool rxrpc_kernel_get_reply_time(struct socket *sock,
+ 					 struct rxrpc_call *call,
+@@ -1048,10 +1063,10 @@ The kernel interface functions are as follows:
+ 
+      This allows the timestamp on the first DATA packet of the reply of a
+      client call to be queried, provided that it is still in the Rx ring.  If
+-     successful, the timestamp will be stored into *_ts and true will be
++     successful, the timestamp will be stored into ``*_ts`` and true will be
+      returned; false will be returned otherwise.
+ 
+- (*) Get remote client epoch.
++ (#) Get remote client epoch::
+ 
+ 	u32 rxrpc_kernel_get_epoch(struct socket *sock,
+ 				   struct rxrpc_call *call)
+@@ -1065,7 +1080,7 @@ The kernel interface functions are as follows:
+      This value can be used to determine if the remote client has been
+      restarted as it shouldn't change otherwise.
+ 
+- (*) Set the maxmimum lifespan on a call.
++ (#) Set the maxmimum lifespan on a call::
+ 
+ 	void rxrpc_kernel_set_max_life(struct socket *sock,
+ 				       struct rxrpc_call *call,
+@@ -1076,14 +1091,13 @@ The kernel interface functions are as follows:
+      aborted and -ETIME or -ETIMEDOUT will be returned.
+ 
+ 
+-=======================
+-CONFIGURABLE PARAMETERS
++Configurable Parameters
+ =======================
+ 
+ The RxRPC protocol driver has a number of configurable parameters that can be
+ adjusted through sysctls in /proc/net/rxrpc/:
+ 
+- (*) req_ack_delay
++ (#) req_ack_delay
+ 
+      The amount of time in milliseconds after receiving a packet with the
+      request-ack flag set before we honour the flag and actually send the
+@@ -1093,60 +1107,60 @@ adjusted through sysctls in /proc/net/rxrpc/:
+      reception window is full (to a maximum of 255 packets), so delaying the
+      ACK permits several packets to be ACK'd in one go.
+ 
+- (*) soft_ack_delay
++ (#) soft_ack_delay
+ 
+      The amount of time in milliseconds after receiving a new packet before we
+      generate a soft-ACK to tell the sender that it doesn't need to resend.
+ 
+- (*) idle_ack_delay
++ (#) idle_ack_delay
+ 
+      The amount of time in milliseconds after all the packets currently in the
+      received queue have been consumed before we generate a hard-ACK to tell
+      the sender it can free its buffers, assuming no other reason occurs that
+      we would send an ACK.
+ 
+- (*) resend_timeout
++ (#) resend_timeout
+ 
+      The amount of time in milliseconds after transmitting a packet before we
+      transmit it again, assuming no ACK is received from the receiver telling
+      us they got it.
+ 
+- (*) max_call_lifetime
++ (#) max_call_lifetime
+ 
+      The maximum amount of time in seconds that a call may be in progress
+      before we preemptively kill it.
+ 
+- (*) dead_call_expiry
++ (#) dead_call_expiry
+ 
+      The amount of time in seconds before we remove a dead call from the call
+      list.  Dead calls are kept around for a little while for the purpose of
+      repeating ACK and ABORT packets.
+ 
+- (*) connection_expiry
++ (#) connection_expiry
+ 
+      The amount of time in seconds after a connection was last used before we
+      remove it from the connection list.  While a connection is in existence,
+      it serves as a placeholder for negotiated security; when it is deleted,
+      the security must be renegotiated.
+ 
+- (*) transport_expiry
++ (#) transport_expiry
+ 
+      The amount of time in seconds after a transport was last used before we
+      remove it from the transport list.  While a transport is in existence, it
+      serves to anchor the peer data and keeps the connection ID counter.
+ 
+- (*) rxrpc_rx_window_size
++ (#) rxrpc_rx_window_size
+ 
+      The size of the receive window in packets.  This is the maximum number of
+      unconsumed received packets we're willing to hold in memory for any
+      particular call.
+ 
+- (*) rxrpc_rx_mtu
++ (#) rxrpc_rx_mtu
+ 
+      The maximum packet MTU size that we're willing to receive in bytes.  This
+      indicates to the peer whether we're willing to accept jumbo packets.
+ 
+- (*) rxrpc_rx_jumbo_max
++ (#) rxrpc_rx_jumbo_max
+ 
+      The maximum number of packets that we're willing to accept in a jumbo
+      packet.  Non-terminal packets in a jumbo packet must contain a four byte
+diff --git a/MAINTAINERS b/MAINTAINERS
+index caab14c5c12b..93e1b253ae51 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14637,7 +14637,7 @@ M:	David Howells <dhowells@redhat.com>
+ L:	linux-afs@lists.infradead.org
+ S:	Supported
+ W:	https://www.infradead.org/~dhowells/kafs/
+-F:	Documentation/networking/rxrpc.txt
++F:	Documentation/networking/rxrpc.rst
+ F:	include/keys/rxrpc-type.h
+ F:	include/net/af_rxrpc.h
+ F:	include/trace/events/rxrpc.h
+diff --git a/net/rxrpc/Kconfig b/net/rxrpc/Kconfig
+index 57ebb29c26ad..d706bb408365 100644
+--- a/net/rxrpc/Kconfig
++++ b/net/rxrpc/Kconfig
+@@ -18,7 +18,7 @@ config AF_RXRPC
+ 	  This module at the moment only supports client operations and is
+ 	  currently incomplete.
+ 
+-	  See Documentation/networking/rxrpc.txt.
++	  See Documentation/networking/rxrpc.rst.
+ 
+ config AF_RXRPC_IPV6
+ 	bool "IPv6 support for RxRPC"
+@@ -41,7 +41,7 @@ config AF_RXRPC_DEBUG
+ 	help
+ 	  Say Y here to make runtime controllable debugging messages appear.
+ 
+-	  See Documentation/networking/rxrpc.txt.
++	  See Documentation/networking/rxrpc.rst.
+ 
+ 
+ config RXKAD
+@@ -56,4 +56,4 @@ config RXKAD
+ 	  Provide kerberos 4 and AFS kaserver security handling for AF_RXRPC
+ 	  through the use of the key retention service.
+ 
+-	  See Documentation/networking/rxrpc.txt.
++	  See Documentation/networking/rxrpc.rst.
+diff --git a/net/rxrpc/sysctl.c b/net/rxrpc/sysctl.c
+index 2bbb38161851..174e903e18de 100644
+--- a/net/rxrpc/sysctl.c
++++ b/net/rxrpc/sysctl.c
+@@ -21,7 +21,7 @@ static const unsigned long max_jiffies = MAX_JIFFY_OFFSET;
+ /*
+  * RxRPC operating parameters.
+  *
+- * See Documentation/networking/rxrpc.txt and the variable definitions for more
++ * See Documentation/networking/rxrpc.rst and the variable definitions for more
+  * information on the individual parameters.
+  */
+ static struct ctl_table rxrpc_sysctl_table[] = {
 -- 
 2.25.4
 
