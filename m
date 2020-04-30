@@ -4,50 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C6E6C47254
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C592AC47253
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:20:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EAF2620873
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:19:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A353520873
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588263600;
-	bh=vUQJK6iUb1DSHmuLcT8V2zKM9fkwWsWsXbhGEZFJdNU=;
+	s=default; t=1588263601;
+	bh=ZBq13Jcm44mbBQFwt73lg+FwJeqOBomSiYK/tB11xow=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=mfnfw23/BV3+U3SmC5BNdQoNBrNP71RI9XTXpzBrbtI+V6U+cVGteOzRVZ5pCKsY1
-	 V0ZWMOwcM8bdebjWnYWZiuflaOjsa61X04blqYNPj5jB9LNRP9Okxu1MVDmdt9LTQA
-	 huiXR9Mhdzdbg9lFFk2evWroVlblvpJlV8lgEplE=
+	b=laiexDxY32aoV0W5sNRAP7rYSB865Ccp95mza6Xiwxc5PgsOveh85WFYbaIyALd0V
+	 eiBNksn5TRHH83rj32wKCnmcSNDmKLComI0zWfyW3Y/ynGuS2+Aj7iLJljtb6CIk7p
+	 deMuuDjIAN/qwV/+Be8dvcyANzFBT84g3VX1Fh1E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728385AbgD3QTl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1728078AbgD3QTl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 30 Apr 2020 12:19:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58752 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:58756 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728118AbgD3QSj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728121AbgD3QSj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:18:39 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E525424958;
+        by mail.kernel.org (Postfix) with ESMTPSA id 0053B2495E;
         Thu, 30 Apr 2020 16:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588263518;
-        bh=vUQJK6iUb1DSHmuLcT8V2zKM9fkwWsWsXbhGEZFJdNU=;
+        bh=ZBq13Jcm44mbBQFwt73lg+FwJeqOBomSiYK/tB11xow=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ILgmivu4xQs3dGo9SH0b0gTkpmemnKFtds1UebIAhkIkQExXQydry1RXgDZzZt1ns
-         nx8iZSA62AXTHe3HyvjKu1O9bB1pE2s7udYhBegRUMtU/efFtvJvvK9DrpReKOg4uM
-         o7cIfqDvgZDtfvtxYkZcQdhGwiGSDFP3XnyznTgE=
+        b=B0M+zAZvp4pFYj3QaAa4+WpzJNksSoQcGWcMhyOfXVIjcX5w5eDBiLXPE0YNoqOtK
+         17kYO/2NTzPSUP8b4e/NrLZfr5Xpw3h1q7SFP8DcLMmKW3UiKFfn/d2u0Smi1O4F+D
+         kMciKyt9S+csWHmdc11BGIR2SForSbkQg22WyofQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBtU-00AxhS-5I; Thu, 30 Apr 2020 18:18:36 +0200
+        id 1jUBtU-00Axhh-89; Thu, 30 Apr 2020 18:18:36 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v4 11/19] docs: misc-devices/apds990x.txt: convert to ReST format
-Date:   Thu, 30 Apr 2020 18:18:25 +0200
-Message-Id: <9b02b1e2b42e9f6b4e911802ada9b63722090398.1588263270.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v4 14/19] docs: powerpc: convert vcpudispatch_stats.txt to ReST
+Date:   Thu, 30 Apr 2020 18:18:28 +0200
+Message-Id: <ca3e8c71845b81df0814c018da5c6c9386f47070.1588263270.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588263270.git.mchehab+huawei@kernel.org>
 References: <cover.1588263270.git.mchehab+huawei@kernel.org>
@@ -58,115 +62,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Adjust title markup;
-- Adjust identation.
+- Add a SPDX header;
+- Use standard markup for document title;
+- Adjust identation on lists and add blank lines where
+  needed;
+- Add it to the powerpc index.rst file.
 
+Acked-by: Michael Ellerman <mpe@ellerman.id.au> # powerpc
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../{apds990x.txt => apds990x.rst}            | 31 ++++++++++++++-----
- Documentation/misc-devices/index.rst          |  1 +
- 2 files changed, 25 insertions(+), 7 deletions(-)
- rename Documentation/misc-devices/{apds990x.txt => apds990x.rst} (86%)
+ Documentation/powerpc/index.rst                 |  1 +
+ ...ispatch_stats.txt => vcpudispatch_stats.rst} | 17 ++++++++++++-----
+ 2 files changed, 13 insertions(+), 5 deletions(-)
+ rename Documentation/powerpc/{vcpudispatch_stats.txt => vcpudispatch_stats.rst} (94%)
 
-diff --git a/Documentation/misc-devices/apds990x.txt b/Documentation/misc-devices/apds990x.rst
-similarity index 86%
-rename from Documentation/misc-devices/apds990x.txt
-rename to Documentation/misc-devices/apds990x.rst
-index 454d95d623b3..e2f75577f731 100644
---- a/Documentation/misc-devices/apds990x.txt
-+++ b/Documentation/misc-devices/apds990x.rst
-@@ -1,3 +1,6 @@
+diff --git a/Documentation/powerpc/index.rst b/Documentation/powerpc/index.rst
+index afe2d5e54db6..748bf483b1c2 100644
+--- a/Documentation/powerpc/index.rst
++++ b/Documentation/powerpc/index.rst
+@@ -31,6 +31,7 @@ powerpc
+     transactional_memory
+     ultravisor
+     vas-api
++    vcpudispatch_stats
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/powerpc/vcpudispatch_stats.txt b/Documentation/powerpc/vcpudispatch_stats.rst
+similarity index 94%
+rename from Documentation/powerpc/vcpudispatch_stats.txt
+rename to Documentation/powerpc/vcpudispatch_stats.rst
+index e21476bfd78c..5704657a5987 100644
+--- a/Documentation/powerpc/vcpudispatch_stats.txt
++++ b/Documentation/powerpc/vcpudispatch_stats.rst
+@@ -1,5 +1,8 @@
+-VCPU Dispatch Statistics:
+-=========================
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+======================
- Kernel driver apds990x
- ======================
++========================
++VCPU Dispatch Statistics
++========================
  
-@@ -50,14 +53,18 @@ chip_id
+ For Shared Processor LPARs, the POWER Hypervisor maintains a relatively
+ static mapping of the LPAR processors (vcpus) to physical processor
+@@ -20,25 +23,29 @@ The statistics themselves are available by reading the procfs file
+ a vcpu as represented by the first field, followed by 8 numbers.
  
- power_state
- 	RW - enable / disable chip. Uses counting logic
+ The first number corresponds to:
 +
- 	     1 enables the chip
- 	     0 disables the chip
- lux0_input
- 	RO - measured lux value
+ 1. total vcpu dispatches since the beginning of statistics collection
+ 
+ The next 4 numbers represent vcpu dispatch dispersions:
 +
- 	     sysfs_notify called when threshold interrupt occurs
+ 2. number of times this vcpu was dispatched on the same processor as last
+    time
+ 3. number of times this vcpu was dispatched on a different processor core
+    as last time, but within the same chip
+ 4. number of times this vcpu was dispatched on a different chip
+ 5. number of times this vcpu was dispatches on a different socket/drawer
+-(next numa boundary)
++   (next numa boundary)
  
- lux0_sensor_range
--	RO - lux0_input max value. Actually never reaches since sensor tends
-+	RO - lux0_input max value.
+ The final 3 numbers represent statistics in relation to the home node of
+ the vcpu:
 +
-+	     Actually never reaches since sensor tends
- 	     to saturate much before that. Real max value varies depending
- 	     on the light spectrum etc.
- 
-@@ -68,7 +75,9 @@ lux0_rate_avail
- 	RO - supported measurement rates
- 
- lux0_calibscale
--	RW - calibration value. Set to neutral value by default.
-+	RW - calibration value.
+ 6. number of times this vcpu was dispatched in its home node (chip)
+ 7. number of times this vcpu was dispatched in a different node
+ 8. number of times this vcpu was dispatched in a node further away (numa
+-distance)
++   distance)
 +
-+	     Set to neutral value by default.
- 	     Output results are multiplied with calibscale / calibscale_default
- 	     value.
++An example output::
  
-@@ -76,16 +85,21 @@ lux0_calibscale_default
- 	RO - neutral calibration value
- 
- lux0_thresh_above_value
--	RW - HI level threshold value. All results above the value
-+	RW - HI level threshold value.
-+
-+	     All results above the value
- 	     trigs an interrupt. 65535 (i.e. sensor_range) disables the above
- 	     interrupt.
- 
- lux0_thresh_below_value
--	RW - LO level threshold value. All results below the value
-+	RW - LO level threshold value.
-+
-+	     All results below the value
- 	     trigs an interrupt. 0 disables the below interrupt.
- 
- prox0_raw
- 	RO - measured proximity value
-+
- 	     sysfs_notify called when threshold interrupt occurs
- 
- prox0_sensor_range
-@@ -93,11 +107,14 @@ prox0_sensor_range
- 
- prox0_raw_en
- 	RW - enable / disable proximity - uses counting logic
--	     1 enables the proximity
--	     0 disables the proximity
-+
-+	     - 1 enables the proximity
-+	     - 0 disables the proximity
- 
- prox0_reporting_mode
--	RW - trigger / periodic. In "trigger" mode the driver tells two possible
-+	RW - trigger / periodic.
-+
-+	     In "trigger" mode the driver tells two possible
- 	     values: 0 or prox0_sensor_range value. 0 means no proximity,
- 	     1023 means proximity. This causes minimal number of interrupts.
- 	     In "periodic" mode the driver reports all values above
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index d28e755a1595..a31c2ab8151f 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -15,6 +15,7 @@ fit into other categories.
-    :maxdepth: 2
- 
-    ad525x_dpot
-+   apds990x
-    bh1770glc
-    eeprom
-    c2port
+-An example output:
+     $ sudo cat /proc/powerpc/vcpudispatch_stats
+     cpu0 6839 4126 2683 30 0 6821 18 0
+     cpu1 2515 1274 1229 12 0 2509 6 0
 -- 
 2.25.4
 
