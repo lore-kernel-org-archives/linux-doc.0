@@ -2,75 +2,181 @@ Return-Path: <SRS0=/7E3=6O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 865C1C47254
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 19:47:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E714DC4724C
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 19:49:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D8D420731
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 19:47:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C468D20774
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 19:49:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x/LUbAAM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726519AbgD3TrG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 15:47:06 -0400
-Received: from ms.lwn.net ([45.79.88.28]:57848 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726436AbgD3TrG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Apr 2020 15:47:06 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B33096E3;
-        Thu, 30 Apr 2020 19:47:05 +0000 (UTC)
-Date:   Thu, 30 Apr 2020 13:47:04 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Vitor Massaru Iha <vitor@massaru.org>
-Cc:     linux-doc@vger.kernel.org, hubcap@omnibond.com,
-        martin@omnibond.com, devel@lists.orangefs.org,
-        linux-kernel@vger.kernel.org, brendanhiggins@google.com,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] docs: filesystems: fix `make htmldocs` warning
-Message-ID: <20200430134704.236c612b@lwn.net>
-In-Reply-To: <20200430190737.80950-1-vitor@massaru.org>
-References: <20200430190737.80950-1-vitor@massaru.org>
-Organization: LWN.net
+        id S1726790AbgD3Ttf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 15:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54934 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726685AbgD3Ttf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Apr 2020 15:49:35 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E23C1C035494
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2020 12:49:34 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id r4so3373960pgg.4
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2020 12:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=eVgbuol89Iq0veE3I85Gk84NyFRa8gOBSOw6m+GRCSg=;
+        b=x/LUbAAMBI9EjfhEunVYObFNi0ilObBdHfFK9/9Y5x8kQ72e+7rk4hmGcWo23uxalQ
+         oR+hheCz7Y9fkffCw8PJeHEjjQknHmVO0oeQlyBcP0esveORtxk/8mlHR5f9WUh+9dfH
+         wl0CWP60y7fvrr5frOrebzPRYj8vOrbw85QPcl4mYo6l7Lp2ucpGmNVuPAqzotP8FZ4J
+         MUpoIva+US8Kpxx3SNED8vA9DHbg8o4/JpjjD1wXT5x9MLzYfrEer/m3wC/ajwJXQIrU
+         ocFIMjfD+eDvyvTdKsjCkAuUCLQgjgMJkCS8tUPC7vh5bI6kPnSLgkuXUx3FQTnyEJ8/
+         TZvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=eVgbuol89Iq0veE3I85Gk84NyFRa8gOBSOw6m+GRCSg=;
+        b=O+jjvd0K0ORCTEs/bLgfl53odUldQWtKA15ux7Ba69dT3JKkcKH7REKfwzf2nAsxL+
+         KoTClekUs2Sssb7ZADVIGkYFSfZrJuAL5uJrwY1kKd6JI3tj4qNe9hjYcK7QfnCQaARo
+         n15qHP3jNWSr1j4xH9jIg4zTpdPsY9q6hvFkjTLbaF3RYu1NoJY2eeqKd2VPLBVA00oY
+         fLudUVD3q3fHPTjg736fgR19Z1cj6JT2oDu7HV3azt64KJ0/m5McVa8vpbskcw6arQdt
+         UZw+2H4nkPvJddwug4fW2Ntt1mcGfrfwGtdI1Mna09ZN6vv3JtC8/DiUlOxXSIuuZn4M
+         BAkw==
+X-Gm-Message-State: AGi0PuZK44R1Cvprln4TXY/GeuDsBal1qn2ZaGqOW2/FslOusQNIZoDV
+        U/gcr+sQSiM9KGcjlaN9aiTkXA==
+X-Google-Smtp-Source: APiQypI9zanAp40tlGa9iIJ5KTbKbr2YTHaLxGZRYxFJQ1lE4/d/8jwLCZytJiPDVXLWJjC8Nhu0tA==
+X-Received: by 2002:a63:1d46:: with SMTP id d6mr624552pgm.236.1588276174377;
+        Thu, 30 Apr 2020 12:49:34 -0700 (PDT)
+Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id a15sm517061pju.3.2020.04.30.12.49.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2020 12:49:33 -0700 (PDT)
+Date:   Thu, 30 Apr 2020 13:49:31 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Arnaud POULIQUEN <arnaud.pouliquen@st.com>
+Cc:     bjorn.andersson@linaro.org, ohad@wizery.com, loic.pallardy@st.com,
+        s-anna@ti.com, linux-remoteproc@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 03/14] remoteproc: Add new operation and flags for
+ synchronistation
+Message-ID: <20200430194931.GB17031@xps15>
+References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
+ <20200424200135.28825-4-mathieu.poirier@linaro.org>
+ <7c5c8d5e-feb7-74ad-a2eb-1ccb8192b0ae@st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7c5c8d5e-feb7-74ad-a2eb-1ccb8192b0ae@st.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 Apr 2020 16:07:37 -0300
-Vitor Massaru Iha <vitor@massaru.org> wrote:
-
-> make htmldocs
-> Documentation/filesystems/orangefs.rst:124: WARNING: Literal block expected; none found.
+On Tue, Apr 28, 2020 at 06:38:41PM +0200, Arnaud POULIQUEN wrote:
 > 
-> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> ---
->  Documentation/filesystems/orangefs.rst | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/filesystems/orangefs.rst b/Documentation/filesystems/orangefs.rst
-> index e41369709c5b..628dc220567e 100644
-> --- a/Documentation/filesystems/orangefs.rst
-> +++ b/Documentation/filesystems/orangefs.rst
-> @@ -119,9 +119,7 @@ it comes to that question::
->  
->      /opt/ofs/bin/pvfs2-genconfig /etc/pvfs2.conf
->  
-> -Create an /etc/pvfs2tab file::
-> -
-> -Localhost is fine for your pvfs2tab file:
-> +Create an /etc/pvfs2tab file. Localhost is fine for your pvfs2tab file::
->  
->      echo tcp://localhost:3334/orangefs /pvfsmnt pvfs2 defaults,noauto 0 0 > \
->  	/etc/pvfs2tab
+> On 4/24/20 10:01 PM, Mathieu Poirier wrote:
+> > Add a new sync_ops to support use cases where the remoteproc
+> > core is synchronising with the remote processor.  Exactly when to use
+> > the synchronisation operations is directed by the flags in structure
+> > rproc_sync_flags.
+> > 
+> > Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > ---
+> >  include/linux/remoteproc.h | 24 ++++++++++++++++++++++++
+> >  1 file changed, 24 insertions(+)
+> > 
+> > diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+> > index ac4082f12e8b..ceb3b2bba824 100644
+> > --- a/include/linux/remoteproc.h
+> > +++ b/include/linux/remoteproc.h
+> > @@ -353,6 +353,23 @@ enum rsc_handling_status {
+> >  	RSC_IGNORED	= 1,
+> >  };
+> >  
+> > +/**
+> > + * struct rproc_sync_flags - platform specific flags indicating which
+> > + *			      rproc_ops to use at specific times during
+> > + *			      the rproc lifecycle.
+> > + * @on_init: true if synchronising with the remote processor at
+> > + *	     initialisation time
+> > + * @after_stop: true if synchronising with the remote processor after it was
+> > + *		stopped from the cmmand line
+> typo command
+> > + * @after_crash: true if synchronising with the remote processor after
+> > + *		 it has crashed
+> > + */
+> > +struct rproc_sync_flags {
+> > +	bool on_init;
+> > +	bool after_stop;
+> > +	bool after_crash;
+> > +};
+> > +
+> how about a bit field instead (just a proposition)?
+> Platform driver would set the sync flag and rproc_set_sync_flag could be a 
+> simple mask instead of a switch case.
 
-Thanks, but this has already been fixed in docs-next.
+I opted for a structure over bit fields because I thought it would be easier to
+read/understand.  Both approaches are valid and I have to particular preference
+other than, in my own view, a structure is easier to understand.  
 
-jon
+I'll wait a little to see what other people think.  If nobody objects the next
+revision will have bit fields.
+
+> 
+> Is it possible to split this patch in a different ways because difficult to understand as
+> rproc_sync_flags seems not used before 
+> [PATCH v3 09/14] remoteproc: Deal with synchronisation when crashing
+
+Certainly
+
+> 
+> Thanks
+> Arnaud  
+> 
+> >  /**
+> >   * struct rproc_ops - platform-specific device handlers
+> >   * @start:	power on the device and boot it
+> > @@ -459,6 +476,9 @@ struct rproc_dump_segment {
+> >   * @firmware: name of firmware file to be loaded
+> >   * @priv: private data which belongs to the platform-specific rproc module
+> >   * @ops: platform-specific start/stop rproc handlers
+> > + * @sync_ops: platform-specific start/stop rproc handlers when
+> > + *	      synchronising with a remote processor.
+> > + * @sync_flags: Determine the rproc_ops to choose in specific states.
+> >   * @dev: virtual device for refcounting and common remoteproc behavior
+> >   * @power: refcount of users who need this rproc powered up
+> >   * @state: state of the device
+> > @@ -482,6 +502,7 @@ struct rproc_dump_segment {
+> >   * @table_sz: size of @cached_table
+> >   * @has_iommu: flag to indicate if remote processor is behind an MMU
+> >   * @auto_boot: flag to indicate if remote processor should be auto-started
+> > + * @sync_with_rproc: true if currently synchronising with the rproc
+> >   * @dump_segments: list of segments in the firmware
+> >   * @nb_vdev: number of vdev currently handled by rproc
+> >   */
+> > @@ -492,6 +513,8 @@ struct rproc {
+> >  	const char *firmware;
+> >  	void *priv;
+> >  	struct rproc_ops *ops;
+> > +	struct rproc_ops *sync_ops;
+> > +	struct rproc_sync_flags sync_flags;
+> >  	struct device dev;
+> >  	atomic_t power;
+> >  	unsigned int state;
+> > @@ -515,6 +538,7 @@ struct rproc {
+> >  	size_t table_sz;
+> >  	bool has_iommu;
+> >  	bool auto_boot;
+> > +	bool sync_with_rproc;
+> >  	struct list_head dump_segments;
+> >  	int nb_vdev;
+> >  	u8 elf_class;
+> > 
