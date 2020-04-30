@@ -7,159 +7,172 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D379C47247
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:19:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CC9C47254
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:19:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A121208C3
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:19:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15FBC208C3
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588263580;
-	bh=lW4zzFS0G9Wi4Z0P+nqG08m6PRjTTMBcjkMLSKAEx/k=;
+	s=default; t=1588263581;
+	bh=1HSEtM//mtsWijKO6s3LsrrY5g4LGqp0ULlRYJzv8go=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=gzZBSOJvGBomx0XgGp//e2VedDY7ANF36iItl2tsJDmtkZF50iuac81fVnReTXgc8
-	 b7cQPDRq5vX/koGtsNxy0EmYAA4PppodAP6WKKYGeI7LBP20X+JseFr7rne1dA2eIy
-	 nE7hfQhoPTWxFnh9WfltXjj5+lpX3fG04JQfcVi8=
+	b=X8edfCJxdTwTgPgyeDfsowvnAQcPp1QpPbfAnVSKdZfjUAqxYBYhrR90DQv0fU0t8
+	 L0PKTTz/a7ZyOln4ZVlC0WlKJB5JvxYvEGhRFGk5ZLd+xdtTbQyYdkXx+in8Cp0FNN
+	 paAfLS06rspnrxjZPePTgs4wLUFY+vMxfOiItVxo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728174AbgD3QSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1728155AbgD3QSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 30 Apr 2020 12:18:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58578 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:58618 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726420AbgD3QSi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727049AbgD3QSi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:18:38 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A560320873;
+        by mail.kernel.org (Postfix) with ESMTPSA id C272E2173E;
         Thu, 30 Apr 2020 16:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588263517;
-        bh=lW4zzFS0G9Wi4Z0P+nqG08m6PRjTTMBcjkMLSKAEx/k=;
+        bh=1HSEtM//mtsWijKO6s3LsrrY5g4LGqp0ULlRYJzv8go=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=t615eT3Q9pNpfUIrouBfac8mgll8VUS4jr3Ag7enyIc+LVo6TA9j3lMsuJE9cQQfz
-         sf9wlQhSNxFOavyUaeU7+062U1oEI3YBwpstTJ/7fZTx03yIZqvRcaMolvo/ohpyig
-         cmqXaXddzzJQ9zOGjwxL1N0Mwus6QNxjBg+E8ROc=
+        b=ZIEkWaxruoI8rsJBH/VsKhH81CfBr1pX/uYW/ta2Pj4pE70cPG45WjjB5FDkbzM79
+         RkjX4fa8QqnVjXL0DOJpsSzoiksLGXUGI2/shW4AjSSyJH/ZnkumklOlrTo8bYQ8YQ
+         CEXZ9hmPzXDLi47/TRyn/TVFRQ9zu5MtYiMY2D1Y=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBtT-00Axge-S6; Thu, 30 Apr 2020 18:18:35 +0200
+        id 1jUBtU-00Axh8-1g; Thu, 30 Apr 2020 18:18:36 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Javi Merino <javi.merino@kernel.org>, linux-pm@vger.kernel.org
-Subject: [PATCH v4 01/19] docs: thermal: convert cpu-idle-cooling.rst to ReST
-Date:   Thu, 30 Apr 2020 18:18:15 +0200
-Message-Id: <617873f33407a764671be95d4ee15afa6027c924.1588263270.git.mchehab+huawei@kernel.org>
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michael Hennerich <michael.hennerich@analog.com>
+Subject: [PATCH v4 07/19] docs: misc-devices/pci-endpoint-test.txt: convert to ReST
+Date:   Thu, 30 Apr 2020 18:18:21 +0200
+Message-Id: <5e6389e49965a39d5ea5face113848671409bb7e.1588263270.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588263270.git.mchehab+huawei@kernel.org>
 References: <cover.1588263270.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Despite being named with .rst extension, this file doesn't
-match the ReST standard. It actually causes a crash at
-Sphinx:
-
-	Sphinx parallel build error:
-	docutils.utils.SystemMessage: /devel/v4l/docs/Documentation/driver-api/thermal/cpu-idle-cooling.rst:69: (SEVERE/4) Unexpected section title.
-
-Add needed markups for it to be properly parsed.
-
-While here, add it to the thermal index.rst.
+- use title markups;
+- mark literal blocks.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../driver-api/thermal/cpu-idle-cooling.rst    | 18 ++++++++++++------
- Documentation/driver-api/thermal/index.rst     |  1 +
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ .../{ad525x_dpot.txt => ad525x_dpot.rst}      | 24 +++++++++----------
+ Documentation/misc-devices/index.rst          |  1 +
+ drivers/misc/Kconfig                          |  2 +-
+ drivers/misc/ad525x_dpot.c                    |  2 +-
+ 4 files changed, 15 insertions(+), 14 deletions(-)
+ rename Documentation/misc-devices/{ad525x_dpot.txt => ad525x_dpot.rst} (85%)
 
-diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-index a1c3edecae00..b5a4544af004 100644
---- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-+++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-@@ -1,3 +1,9 @@
+diff --git a/Documentation/misc-devices/ad525x_dpot.txt b/Documentation/misc-devices/ad525x_dpot.rst
+similarity index 85%
+rename from Documentation/misc-devices/ad525x_dpot.txt
+rename to Documentation/misc-devices/ad525x_dpot.rst
+index 0c9413b1cbf3..6483ec254520 100644
+--- a/Documentation/misc-devices/ad525x_dpot.txt
++++ b/Documentation/misc-devices/ad525x_dpot.rst
+@@ -1,6 +1,8 @@
+----------------------------------
+-  AD525x Digital Potentiometers
+----------------------------------
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+================
-+CPU Idle Cooling
-+================
-+
++=============================
++AD525x Digital Potentiometers
++=============================
  
- Situation:
- ----------
-@@ -45,7 +51,7 @@ idle state target residency, we lead to dropping the static and the
- dynamic leakage for this period (modulo the energy needed to enter
- this state). So the sustainable power with idle cycles has a linear
- relation with the OPP’s sustainable power and can be computed with a
--coefficient similar to:
-+coefficient similar to::
+ The ad525x_dpot driver exports a simple sysfs interface.  This allows you to
+ work with the immediate resistance settings as well as update the saved startup
+@@ -8,9 +10,8 @@ settings.  Access to the factory programmed tolerance is also provided, but
+ interpretation of this settings is required by the end application according to
+ the specific part in use.
  
- 	    Power(IdleCycle) = Coef x Power(OPP)
+----------
+-  Files
+----------
++Files
++=====
  
-@@ -136,7 +142,7 @@ Power considerations
- --------------------
+ Each dpot device will have a set of eeprom, rdac, and tolerance files.  How
+ many depends on the actual part you have, as will the range of allowed values.
+@@ -24,23 +25,22 @@ and may vary greatly on a part-by-part basis.  For exact interpretation of
+ this field, please consult the datasheet for your part.  This is presented
+ as a hex file for easier parsing.
  
- When we reach the thermal trip point, we have to sustain a specified
--power for a specific temperature but at this time we consume:
-+power for a specific temperature but at this time we consume::
+------------
+-  Example
+------------
++Example
++=======
  
-  Power = Capacitance x Voltage^2 x Frequency x Utilisation
+ Locate the device in your sysfs tree.  This is probably easiest by going into
+-the common i2c directory and locating the device by the i2c slave address.
++the common i2c directory and locating the device by the i2c slave address::
  
-@@ -145,7 +151,7 @@ wrong in the system setup). The ‘Capacitance’ and ‘Utilisation’ are a
- fixed value, ‘Voltage’ and the ‘Frequency’ are fixed artificially
- because we don’t want to change the OPP. We can group the
- ‘Capacitance’ and the ‘Utilisation’ into a single term which is the
--‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have:
-+‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have::
+ 	# ls /sys/bus/i2c/devices/
+ 	0-0022  0-0027  0-002f
  
-  Pdyn = Cdyn x Voltage^2 x Frequency
+ So assuming the device in question is on the first i2c bus and has the slave
+-address of 0x2f, we descend (unrelated sysfs entries have been trimmed).
++address of 0x2f, we descend (unrelated sysfs entries have been trimmed)::
  
-@@ -154,7 +160,7 @@ in order to target the sustainable power defined in the device
- tree. So with the idle injection mechanism, we want an average power
- (Ptarget) resulting in an amount of time running at full power on a
- specific OPP and idle another amount of time. That could be put in a
--equation:
-+equation::
+ 	# ls /sys/bus/i2c/devices/0-002f/
+ 	eeprom0 rdac0 tolerance0
  
-  P(opp)target = ((Trunning x (P(opp)running) + (Tidle x P(opp)idle)) /
- 			(Trunning + Tidle)
-@@ -165,7 +171,7 @@ equation:
+-You can use simple reads/writes to access these files:
++You can use simple reads/writes to access these files::
  
- At this point if we know the running period for the CPU, that gives us
- the idle injection we need. Alternatively if we have the idle
--injection duration, we can compute the running duration with:
-+injection duration, we can compute the running duration with::
+ 	# cd /sys/bus/i2c/devices/0-002f/
  
-  Trunning = Tidle / ((P(opp)running / P(opp)target) - 1)
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+index 68b43e140641..a72ab89e7d1a 100644
+--- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -14,6 +14,7 @@ fit into other categories.
+ .. toctree::
+    :maxdepth: 2
  
-@@ -188,7 +194,7 @@ However, in this demonstration we ignore three aspects:
-    target residency, otherwise we end up consuming more energy and
-    potentially invert the mitigation effect
++   ad525x_dpot
+    eeprom
+    ibmvmc
+    ics932s401
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 99e151475d8f..9388743d78e3 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -24,7 +24,7 @@ config AD525X_DPOT
+ 	  AD5271, AD5272, AD5274
+ 	  digital potentiometer chips.
  
--So the final equation is:
-+So the final equation is::
+-	  See Documentation/misc-devices/ad525x_dpot.txt for the
++	  See Documentation/misc-devices/ad525x_dpot.rst for the
+ 	  userspace interface.
  
-  Trunning = (Tidle - Twakeup ) x
- 		(((P(opp)dyn + P(opp)static ) - P(opp)target) / P(opp)target )
-diff --git a/Documentation/driver-api/thermal/index.rst b/Documentation/driver-api/thermal/index.rst
-index 5ba61d19c6ae..4cb0b9b6bfb8 100644
---- a/Documentation/driver-api/thermal/index.rst
-+++ b/Documentation/driver-api/thermal/index.rst
-@@ -8,6 +8,7 @@ Thermal
-    :maxdepth: 1
- 
-    cpu-cooling-api
-+   cpu-idle-cooling
-    sysfs-api
-    power_allocator
- 
+ 	  This driver can also be built as a module.  If so, the module
+diff --git a/drivers/misc/ad525x_dpot.c b/drivers/misc/ad525x_dpot.c
+index ccce3226a571..6f164522b028 100644
+--- a/drivers/misc/ad525x_dpot.c
++++ b/drivers/misc/ad525x_dpot.c
+@@ -58,7 +58,7 @@
+  * AD5272		1		1024		20, 50, 100 (50-TP)
+  * AD5274		1		256		20, 50, 100 (50-TP)
+  *
+- * See Documentation/misc-devices/ad525x_dpot.txt for more info.
++ * See Documentation/misc-devices/ad525x_dpot.rst for more info.
+  *
+  * derived from ad5258.c
+  * Copyright (c) 2009 Cyber Switching, Inc.
 -- 
 2.25.4
 
