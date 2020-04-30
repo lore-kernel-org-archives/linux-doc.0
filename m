@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66555C47247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9897C4724C
 	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:08:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B91F20775
+	by mail.kernel.org (Postfix) with ESMTP id 8836620775
 	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1588262885;
-	bh=yFi98m0dMb+zcVAw2IGTkDdl9KK+Ps1SAKk7Nkf6Fwg=;
+	bh=10NXVI6k21QO/0mR47Pop0ytwYQUr4HLp8yZ0e5xQis=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=aKYLdw1y8vdF7C/RhzH9NvjXnUoQKqnaGYaIhIUUfNmErL941RQL5yUzHDMVOe8bO
-	 xqTMSPrYYWvEIlkb67P+XToWf+PYqnnMfGdghYX9PlDgXE3N3F7iTAIhogr7IViSIF
-	 ai58DjQ6B4I2HQVZFzLHQqtti9FBulUQ73KoI3/I=
+	b=TnKNWA9uJbZJc/Cu1cgklWLEdXAT2MgdTme9VxJB/0lSud7LtrnqN7yXwsgNSL9tc
+	 hZEF/imS3zMGqEFNHg+hm6yUGLEKxokM178mo/JDvenK0sflJ6hjOZeEJ3hR209r70
+	 MROanZoI7EHgI4haTHFhfGm2pt4AUvqjNhpe9osY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726859AbgD3QH5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:07:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50864 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726835AbgD3QEh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726860AbgD3QEh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 30 Apr 2020 12:04:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50482 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726768AbgD3QEg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Apr 2020 12:04:36 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EC6C124953;
+        by mail.kernel.org (Postfix) with ESMTPSA id D8FBA208D6;
         Thu, 30 Apr 2020 16:04:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588262676;
-        bh=yFi98m0dMb+zcVAw2IGTkDdl9KK+Ps1SAKk7Nkf6Fwg=;
+        bh=10NXVI6k21QO/0mR47Pop0ytwYQUr4HLp8yZ0e5xQis=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1SVqXcieMewTFeMAntOPvpidXTy5lXp7EMl/8ayfKMojHuwESUkG9XscmShiHFbVk
-         /0PIShBLnclxg1Clp4W+xd5TVFMRUgrW9V37gCrdfljiPkHIbOpfpo82av6k6uxA7K
-         lbuYLggRuZg6LkOqbeCm09ff7Z1L60nBWOMMFnWI=
+        b=CcXV1IdTRBwNQSU0YNGxktEIfyGvVdz3mIZxNd6wAkwDUrPL16Sq/NmZ8iutL86KU
+         5u9m5HU/aQTt96Vk41sek/rZQc45kUbJbU1wzDPChnc8DivNh6HjD/HjIDa7tfUthd
+         xuAUBw3f24qh/XKYSz100fEnab9oHvKrcaUgtIc4=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxEu-8O; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxET-3p; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 10/37] docs: networking: convert netfilter-sysctl.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:05 +0200
-Message-Id: <5e9c77b49925c2154cc30b7c18f89d9db29ce9ed.1588261997.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 05/37] docs: networking: convert mpls-sysctl.txt to ReST
+Date:   Thu, 30 Apr 2020 18:04:00 +0200
+Message-Id: <26abaaa0035964683c3031a30e174ee147b87dfa.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
@@ -60,58 +60,85 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Not much to be done here:
-
 - add SPDX header;
 - add a document title;
-- add a chapter markup;
-- mark tables as such;
+- mark lists as such;
+- adjust identation, whitespaces and blank lines;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/index.rst                    |  1 +
- .../{netfilter-sysctl.txt => netfilter-sysctl.rst}    | 11 +++++++++--
- 2 files changed, 10 insertions(+), 2 deletions(-)
- rename Documentation/networking/{netfilter-sysctl.txt => netfilter-sysctl.rst} (62%)
+ Documentation/networking/index.rst              |  1 +
+ .../{mpls-sysctl.txt => mpls-sysctl.rst}        | 17 +++++++++++++----
+ 2 files changed, 14 insertions(+), 4 deletions(-)
+ rename Documentation/networking/{mpls-sysctl.txt => mpls-sysctl.rst} (82%)
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 5a320553ffba..1ae0cbef8c04 100644
+index 81c1834bfb57..a751cda83c3d 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -83,6 +83,7 @@ Contents:
-    netconsole
-    netdev-features
-    netdevices
-+   netfilter-sysctl
+@@ -78,6 +78,7 @@ Contents:
+    lapb-module
+    ltpc
+    mac80211-injection
++   mpls-sysctl
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/netfilter-sysctl.txt b/Documentation/networking/netfilter-sysctl.rst
-similarity index 62%
-rename from Documentation/networking/netfilter-sysctl.txt
-rename to Documentation/networking/netfilter-sysctl.rst
-index 55791e50e169..beb6d7b275d4 100644
---- a/Documentation/networking/netfilter-sysctl.txt
-+++ b/Documentation/networking/netfilter-sysctl.rst
-@@ -1,8 +1,15 @@
+diff --git a/Documentation/networking/mpls-sysctl.txt b/Documentation/networking/mpls-sysctl.rst
+similarity index 82%
+rename from Documentation/networking/mpls-sysctl.txt
+rename to Documentation/networking/mpls-sysctl.rst
+index 025cc9b96992..0a2ac88404d7 100644
+--- a/Documentation/networking/mpls-sysctl.txt
++++ b/Documentation/networking/mpls-sysctl.rst
+@@ -1,4 +1,11 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=========================
-+Netfilter Sysfs variables
-+=========================
++====================
++MPLS Sysfs variables
++====================
 +
- /proc/sys/net/netfilter/* Variables:
-+====================================
+ /proc/sys/net/mpls/* Variables:
++===============================
  
- nf_log_all_netns - BOOLEAN
+ platform_labels - INTEGER
+ 	Number of entries in the platform label table.  It is not
+@@ -17,6 +24,7 @@ platform_labels - INTEGER
+ 	no longer fit in the table.
+ 
+ 	Possible values: 0 - 1048575
++
+ 	Default: 0
+ 
+ ip_ttl_propagate - BOOL
+@@ -27,8 +35,8 @@ ip_ttl_propagate - BOOL
+ 	If disabled, the MPLS transport network will appear as a
+ 	single hop to transit traffic.
+ 
+-	0 - disabled / RFC 3443 [Short] Pipe Model
+-	1 - enabled / RFC 3443 Uniform Model (default)
++	* 0 - disabled / RFC 3443 [Short] Pipe Model
++	* 1 - enabled / RFC 3443 Uniform Model (default)
+ 
+ default_ttl - INTEGER
+ 	Default TTL value to use for MPLS packets where it cannot be
+@@ -36,6 +44,7 @@ default_ttl - INTEGER
+ 	or ip_ttl_propagate has been disabled.
+ 
+ 	Possible values: 1 - 255
++
+ 	Default: 255
+ 
+ conf/<interface>/input - BOOL
+@@ -44,5 +53,5 @@ conf/<interface>/input - BOOL
+ 	If disabled, packets will be discarded without further
+ 	processing.
+ 
 -	0 - disabled (default)
 -	not 0 - enabled
-+	- 0 - disabled (default)
-+	- not 0 - enabled
- 
- 	By default, only init_net namespace can log packets into kernel log
- 	with LOG target; this aims to prevent containers from flooding host
++	* 0 - disabled (default)
++	* not 0 - enabled
 -- 
 2.25.4
 
