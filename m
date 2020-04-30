@@ -4,408 +4,396 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2ABCC47247
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:20:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7912C47254
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:20:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E28120873
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:20:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0F5720873
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:20:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588263611;
-	bh=ORjljVOjhf/2+iwPRot8U36ehoPt3y93WEknPAl6A+o=;
+	s=default; t=1588263612;
+	bh=hGIfUAM0DukQdr6E21uHwrZpshmACG8txi5mDasWENM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=hAwVJaR5i+GqQrsWVGGUn4CUUyVWtiMyK4kBDFAnlJlA5cSKeHz5Af1fuv7i/jSC1
-	 jW47Ntteq/N6HzDIxkL2DzMzyqhUm8D++JtKY6AywYH9VipKhaS+Mn1wI0fhmhf4D/
-	 MMQz0Zt3DJf4qkz5Wg3OwazBzQ+wRDerxByHy9Ns=
+	b=tQXBkumg15/EpHCXLTgSzFhSHa4G+nG4P9AUZfqripxxnmUCnqGk9ItP0M6LUiYiS
+	 2iKI659CXTfH3ozewTWgy2uf6ojH4zJC8B6QZlQpSgz48l8ZEOS4edmeTN0w1UJ6Hs
+	 q8EprNoVstmHNraGDAgE2RVXp+8Aow5QGWBD2qBw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728111AbgD3QSj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:18:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58534 "EHLO mail.kernel.org"
+        id S1728122AbgD3QUM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 12:20:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58736 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726309AbgD3QSi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726768AbgD3QSi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:18:38 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A6EE3208C3;
+        by mail.kernel.org (Postfix) with ESMTPSA id C379521775;
         Thu, 30 Apr 2020 16:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588263517;
-        bh=ORjljVOjhf/2+iwPRot8U36ehoPt3y93WEknPAl6A+o=;
+        bh=hGIfUAM0DukQdr6E21uHwrZpshmACG8txi5mDasWENM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E8HOAePBXi6WI+jzMe8alh7NPftqSNmZllGrIna0V9+8gVsCkxSEctza4NQfjYFrg
-         PDc92ajWS6VHX3K0N7wiY/mDUQxz68+dHpsPWN3xy4mlhU/tKzi/370OrediB6aX/a
-         fv51/qsAaKLzJhFChZ7+yl+EXRhaRhPPYkU7l5bo=
+        b=UEirtLiQ4WQo4HGE+BDv/E62gxx1KC638mxAljAuTgxMf3/KENk+oqymInAMpEDto
+         oGdBG1aH3O1ay8YMAbcZwltXkPUcrcOH5ZA7H8fyP80ck3z3slDn2yxmVAtnispOdY
+         ejQOk64tDNIEhXg2tjFP0t9yxvBOdUufny8eFXGI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBtT-00Axgm-U6; Thu, 30 Apr 2020 18:18:35 +0200
+        id 1jUBtU-00Axh2-0i; Thu, 30 Apr 2020 18:18:36 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-crypto@vger.kernel.org
-Subject: [PATCH v4 03/19] docs: crypto: convert api-intro.txt to ReST format
-Date:   Thu, 30 Apr 2020 18:18:17 +0200
-Message-Id: <112b12acb7b6c7ea339171c88c3cf93a183b11ac.1588263270.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v4 06/19] docs: misc-devices/spear-pcie-gadget.txt: convert to ReST
+Date:   Thu, 30 Apr 2020 18:18:20 +0200
+Message-Id: <ea8d491f94c421497e7232cb1cb79ec30e9cea8f.1588263270.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588263270.git.mchehab+huawei@kernel.org>
 References: <cover.1588263270.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Change title markups;
-- Mark literal blocks;
-- Use list markups at authors/credits;
-- Add blank lines when needed;
-- Remove trailing whitespaces.
+- Use title/chapter markups;
+- Use table markups;
+- Mark literal blocks as such;
+- Adjust indentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../crypto/{api-intro.txt => api-intro.rst}   | 186 ++++++++++--------
- Documentation/crypto/index.rst                |   1 +
- 2 files changed, 100 insertions(+), 87 deletions(-)
- rename Documentation/crypto/{api-intro.txt => api-intro.rst} (70%)
+ Documentation/misc-devices/index.rst          |   1 +
+ .../misc-devices/spear-pcie-gadget.rst        | 170 ++++++++++++++++++
+ .../misc-devices/spear-pcie-gadget.txt        | 130 --------------
+ 3 files changed, 171 insertions(+), 130 deletions(-)
+ create mode 100644 Documentation/misc-devices/spear-pcie-gadget.rst
+ delete mode 100644 Documentation/misc-devices/spear-pcie-gadget.txt
 
-diff --git a/Documentation/crypto/api-intro.txt b/Documentation/crypto/api-intro.rst
-similarity index 70%
-rename from Documentation/crypto/api-intro.txt
-rename to Documentation/crypto/api-intro.rst
-index 45d943fcae5b..bcff47d42189 100644
---- a/Documentation/crypto/api-intro.txt
-+++ b/Documentation/crypto/api-intro.rst
-@@ -1,7 +1,11 @@
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+index c1dcd2628911..68b43e140641 100644
+--- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -21,4 +21,5 @@ fit into other categories.
+    lis3lv02d
+    max6875
+    mic/index
++   spear-pcie-gadget
+    xilinx_sdfec
+diff --git a/Documentation/misc-devices/spear-pcie-gadget.rst b/Documentation/misc-devices/spear-pcie-gadget.rst
+new file mode 100644
+index 000000000000..09b9d6c7ac15
+--- /dev/null
++++ b/Documentation/misc-devices/spear-pcie-gadget.rst
+@@ -0,0 +1,170 @@
 +.. SPDX-License-Identifier: GPL-2.0
- 
--                    Scatterlist Cryptographic API
--                   
--INTRODUCTION
-+=============================
-+Scatterlist Cryptographic API
-+=============================
 +
-+Introduction
-+============
- 
- The Scatterlist Crypto API takes page vectors (scatterlists) as
- arguments, and works directly on pages.  In some cases (e.g. ECB
-@@ -13,22 +17,23 @@ so that processing can be applied to paged skb's without the need
- for linearization.
- 
- 
--DETAILS
-+Details
-+=======
- 
- At the lowest level are algorithms, which register dynamically with the
- API.
- 
- 'Transforms' are user-instantiated objects, which maintain state, handle all
--of the implementation logic (e.g. manipulating page vectors) and provide an 
--abstraction to the underlying algorithms.  However, at the user 
-+of the implementation logic (e.g. manipulating page vectors) and provide an
-+abstraction to the underlying algorithms.  However, at the user
- level they are very simple.
- 
--Conceptually, the API layering looks like this:
-+Conceptually, the API layering looks like this::
- 
-   [transform api]  (user interface)
-   [transform ops]  (per-type logic glue e.g. cipher.c, compress.c)
-   [algorithm api]  (for registering algorithms)
--  
++========================
++Spear PCIe Gadget Driver
++========================
 +
- The idea is to make the user interface and algorithm registration API
- very simple, while hiding the core logic from both.  Many good ideas
- from existing APIs such as Cryptoapi and Nettle have been adapted for this.
-@@ -44,21 +49,21 @@ one block while the former can operate on an arbitrary amount of data,
- subject to block size requirements (i.e., non-stream ciphers can only
- process multiples of blocks).
- 
--Here's an example of how to use the API:
-+Here's an example of how to use the API::
- 
- 	#include <crypto/hash.h>
- 	#include <linux/err.h>
- 	#include <linux/scatterlist.h>
--	
++Author
++======
++Pratyush Anand (pratyush.anand@gmail.com)
 +
- 	struct scatterlist sg[2];
- 	char result[128];
- 	struct crypto_ahash *tfm;
- 	struct ahash_request *req;
--	
++Location
++========
++driver/misc/spear13xx_pcie_gadget.c
 +
- 	tfm = crypto_alloc_ahash("md5", 0, CRYPTO_ALG_ASYNC);
- 	if (IS_ERR(tfm))
- 		fail();
--		
-+
- 	/* ... set up the scatterlists ... */
- 
- 	req = ahash_request_alloc(tfm, GFP_ATOMIC);
-@@ -67,18 +72,19 @@ Here's an example of how to use the API:
- 
- 	ahash_request_set_callback(req, 0, NULL, NULL);
- 	ahash_request_set_crypt(req, sg, result, 2);
--	
-+
- 	if (crypto_ahash_digest(req))
- 		fail();
- 
- 	ahash_request_free(req);
- 	crypto_free_ahash(tfm);
- 
--    
-+
- Many real examples are available in the regression test module (tcrypt.c).
- 
- 
--DEVELOPER NOTES
-+Developer Notes
++Supported Chip:
 +===============
- 
- Transforms may only be allocated in user context, and cryptographic
- methods may only be called from softirq and user contexts.  For
-@@ -91,7 +97,8 @@ size (typically 8 bytes).  This prevents having to do any copying
- across non-aligned page fragment boundaries.
- 
- 
--ADDING NEW ALGORITHMS
-+Adding New Algorithms
-+=====================
- 
- When submitting a new algorithm for inclusion, a mandatory requirement
- is that at least a few test vectors from known sources (preferably
-@@ -119,132 +126,137 @@ Also check the TODO list at the web site listed below to see what people
- might already be working on.
- 
- 
--BUGS
-+Bugs
-+====
- 
- Send bug reports to:
--linux-crypto@vger.kernel.org
--Cc: Herbert Xu <herbert@gondor.apana.org.au>,
-+    linux-crypto@vger.kernel.org
++SPEAr1300
++SPEAr1310
 +
-+Cc:
-+    Herbert Xu <herbert@gondor.apana.org.au>,
-     David S. Miller <davem@redhat.com>
- 
- 
--FURTHER INFORMATION
-+Further Information
-+===================
- 
- For further patches and various updates, including the current TODO
- list, see:
- http://gondor.apana.org.au/~herbert/crypto/
- 
- 
--AUTHORS
-+Authors
++Menuconfig option:
++==================
++Device Drivers
++	Misc devices
++		PCIe gadget support for SPEAr13XX platform
++
++purpose
 +=======
- 
--James Morris
--David S. Miller
--Herbert Xu
-+- James Morris
-+- David S. Miller
-+- Herbert Xu
- 
- 
--CREDITS
-+Credits
-+=======
- 
- The following people provided invaluable feedback during the development
- of the API:
- 
--  Alexey Kuznetzov
--  Rusty Russell
--  Herbert Valerio Riedel
--  Jeff Garzik
--  Michael Richardson
--  Andrew Morton
--  Ingo Oeser
--  Christoph Hellwig
-+  - Alexey Kuznetzov
-+  - Rusty Russell
-+  - Herbert Valerio Riedel
-+  - Jeff Garzik
-+  - Michael Richardson
-+  - Andrew Morton
-+  - Ingo Oeser
-+  - Christoph Hellwig
- 
- Portions of this API were derived from the following projects:
--  
++This driver has several nodes which can be read/written by configfs interface.
++Its main purpose is to configure selected dual mode PCIe controller as device
++and then program its various registers to configure it as a particular device
++type. This driver can be used to show spear's PCIe device capability.
 +
-   Kerneli Cryptoapi (http://www.kerneli.org/)
--    Alexander Kjeldaas
--    Herbert Valerio Riedel
--    Kyle McMartin
--    Jean-Luc Cooke
--    David Bryson
--    Clemens Fruhwirth
--    Tobias Ringstrom
--    Harald Welte
-+   - Alexander Kjeldaas
-+   - Herbert Valerio Riedel
-+   - Kyle McMartin
-+   - Jean-Luc Cooke
-+   - David Bryson
-+   - Clemens Fruhwirth
-+   - Tobias Ringstrom
-+   - Harald Welte
- 
- and;
--  
++Description of different nodes:
++===============================
 +
-   Nettle (http://www.lysator.liu.se/~nisse/nettle/)
--    Niels Möller
-+   - Niels Möller
- 
- Original developers of the crypto algorithms:
- 
--  Dana L. How (DES)
--  Andrew Tridgell and Steve French (MD4)
--  Colin Plumb (MD5)
--  Steve Reid (SHA1)
--  Jean-Luc Cooke (SHA256, SHA384, SHA512)
--  Kazunori Miyazawa / USAGI (HMAC)
--  Matthew Skala (Twofish)
--  Dag Arne Osvik (Serpent)
--  Brian Gladman (AES)
--  Kartikey Mahendra Bhatt (CAST6)
--  Jon Oberheide (ARC4)
--  Jouni Malinen (Michael MIC)
--  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
-+  - Dana L. How (DES)
-+  - Andrew Tridgell and Steve French (MD4)
-+  - Colin Plumb (MD5)
-+  - Steve Reid (SHA1)
-+  - Jean-Luc Cooke (SHA256, SHA384, SHA512)
-+  - Kazunori Miyazawa / USAGI (HMAC)
-+  - Matthew Skala (Twofish)
-+  - Dag Arne Osvik (Serpent)
-+  - Brian Gladman (AES)
-+  - Kartikey Mahendra Bhatt (CAST6)
-+  - Jon Oberheide (ARC4)
-+  - Jouni Malinen (Michael MIC)
-+  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
- 
- SHA1 algorithm contributors:
--  Jean-Francois Dive
--  
-+  - Jean-Francois Dive
++read behavior of nodes:
++-----------------------
 +
- DES algorithm contributors:
--  Raimar Falke
--  Gisle Sælensminde
--  Niels Möller
-+  - Raimar Falke
-+  - Gisle Sælensminde
-+  - Niels Möller
- 
- Blowfish algorithm contributors:
--  Herbert Valerio Riedel
--  Kyle McMartin
-+  - Herbert Valerio Riedel
-+  - Kyle McMartin
- 
- Twofish algorithm contributors:
--  Werner Koch
--  Marc Mutz
-+  - Werner Koch
-+  - Marc Mutz
- 
- SHA256/384/512 algorithm contributors:
--  Andrew McDonald
--  Kyle McMartin
--  Herbert Valerio Riedel
--  
-+  - Andrew McDonald
-+  - Kyle McMartin
-+  - Herbert Valerio Riedel
++=============== ==============================================================
++link 		gives ltssm status.
++int_type 	type of supported interrupt
++no_of_msi 	zero if MSI is not enabled by host. A positive value is the
++		number of MSI vector granted.
++vendor_id	returns programmed vendor id (hex)
++device_id	returns programmed device id(hex)
++bar0_size:	returns size of bar0 in hex.
++bar0_address	returns address of bar0 mapped area in hex.
++bar0_rw_offset	returns offset of bar0 for which bar0_data will return value.
++bar0_data	returns data at bar0_rw_offset.
++=============== ==============================================================
 +
- AES algorithm contributors:
--  Alexander Kjeldaas
--  Herbert Valerio Riedel
--  Kyle McMartin
--  Adam J. Richter
--  Fruhwirth Clemens (i586)
--  Linus Torvalds (i586)
-+  - Alexander Kjeldaas
-+  - Herbert Valerio Riedel
-+  - Kyle McMartin
-+  - Adam J. Richter
-+  - Fruhwirth Clemens (i586)
-+  - Linus Torvalds (i586)
- 
- CAST5 algorithm contributors:
--  Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
-+  - Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
- 
- TEA/XTEA algorithm contributors:
--  Aaron Grothe
--  Michael Ringe
-+  - Aaron Grothe
-+  - Michael Ringe
- 
- Khazad algorithm contributors:
--  Aaron Grothe
-+  - Aaron Grothe
- 
- Whirlpool algorithm contributors:
--  Aaron Grothe
--  Jean-Luc Cooke
-+  - Aaron Grothe
-+  - Jean-Luc Cooke
- 
- Anubis algorithm contributors:
--  Aaron Grothe
-+  - Aaron Grothe
- 
- Tiger algorithm contributors:
--  Aaron Grothe
-+  - Aaron Grothe
- 
- VIA PadLock contributors:
--  Michal Ludvig
-+  - Michal Ludvig
- 
- Camellia algorithm contributors:
--  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
-+  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
- 
- Generic scatterwalk code by Adam J. Richter <adam@yggdrasil.com>
- 
- Please send any credits updates or corrections to:
- Herbert Xu <herbert@gondor.apana.org.au>
++write behavior of nodes:
++------------------------
++
++=============== ================================================================
++link 		write UP to enable ltsmm DOWN to disable
++int_type	write interrupt type to be configured and (int_type could be
++		INTA, MSI or NO_INT). Select MSI only when you have programmed
++		no_of_msi node.
++no_of_msi	number of MSI vector needed.
++inta		write 1 to assert INTA and 0 to de-assert.
++send_msi	write MSI vector to be sent.
++vendor_id	write vendor id(hex) to be programmed.
++device_id	write device id(hex) to be programmed.
++bar0_size	write size of bar0 in hex. default bar0 size is 1000 (hex)
++		bytes.
++bar0_address	write	address of bar0 mapped area in hex. (default mapping of
++		bar0 is SYSRAM1(E0800000). Always program bar size before bar
++		address. Kernel might modify bar size and address for alignment,
++		so read back bar size and address after writing to cross check.
++bar0_rw_offset	write offset of bar0 for which	bar0_data will write value.
++bar0_data	write data to be written at bar0_rw_offset.
++=============== ================================================================
++
++Node programming example
++========================
++
++Program all PCIe registers in such a way that when this device is connected
++to the PCIe host, then host sees this device as 1MB RAM.
++
++::
++
++    #mount -t configfs none /Config
++
++For nth PCIe Device Controller::
++
++    # cd /config/pcie_gadget.n/
++
++Now you have all the nodes in this directory.
++program vendor id as 0x104a::
++
++    # echo 104A >> vendor_id
++
++program device id as 0xCD80::
++
++    # echo CD80 >> device_id
++
++program BAR0 size as 1MB::
++
++    # echo 100000 >> bar0_size
++
++check for programmed bar0 size::
++
++    # cat bar0_size
++
++Program BAR0 Address as DDR (0x2100000). This is the physical address of
++memory, which is to be made visible to PCIe host. Similarly any other peripheral
++can also be made visible to PCIe host. E.g., if you program base address of UART
++as BAR0 address then when this device will be connected to a host, it will be
++visible as UART.
++
++::
++
++    # echo 2100000 >> bar0_address
++
++program interrupt type : INTA::
++
++    # echo INTA >> int_type
++
++go for link up now::
++
++    # echo UP >> link
++
++It will have to be insured that, once link up is done on gadget, then only host
++is initialized and start to search PCIe devices on its port.
++
++::
++
++    /*wait till link is up*/
++    # cat link
++
++Wait till it returns UP.
++
++To assert INTA::
++
++    # echo 1 >> inta
++
++To de-assert INTA::
++
++    # echo 0 >> inta
++
++if MSI is to be used as interrupt, program no of msi vector needed (say4)::
++
++    # echo 4 >> no_of_msi
++
++select MSI as interrupt type::
++
++    # echo MSI >> int_type
++
++go for link up now::
++
++    # echo UP >> link
++
++wait till link is up::
++
++    # cat link
++
++An application can repetitively read this node till link is found UP. It can
++sleep between two read.
++
++wait till msi is enabled::
++
++    # cat no_of_msi
++
++Should return 4 (number of requested MSI vector)
++
++to send msi vector 2::
++
++    # echo 2 >> send_msi
++    # cd -
+diff --git a/Documentation/misc-devices/spear-pcie-gadget.txt b/Documentation/misc-devices/spear-pcie-gadget.txt
+deleted file mode 100644
+index 89b88dee4143..000000000000
+--- a/Documentation/misc-devices/spear-pcie-gadget.txt
++++ /dev/null
+@@ -1,130 +0,0 @@
+-Spear PCIe Gadget Driver:
 -
-diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-index 2bcaf422731e..b2eeab3c8631 100644
---- a/Documentation/crypto/index.rst
-+++ b/Documentation/crypto/index.rst
-@@ -17,6 +17,7 @@ for cryptographic use cases, as well as programming examples.
-    :maxdepth: 2
- 
-    intro
-+   api-intro
-    architecture
-    asymmetric-keys
-    devel-algos
+-Author
+-=============
+-Pratyush Anand (pratyush.anand@gmail.com)
+-
+-Location
+-============
+-driver/misc/spear13xx_pcie_gadget.c
+-
+-Supported Chip:
+-===================
+-SPEAr1300
+-SPEAr1310
+-
+-Menuconfig option:
+-==========================
+-Device Drivers
+-	Misc devices
+-		PCIe gadget support for SPEAr13XX platform
+-purpose
+-===========
+-This driver has several nodes which can be read/written by configfs interface.
+-Its main purpose is to configure selected dual mode PCIe controller as device
+-and then program its various registers to configure it as a particular device
+-type. This driver can be used to show spear's PCIe device capability.
+-
+-Description of different nodes:
+-=================================
+-
+-read behavior of nodes:
+-------------------------------
+-link 		:gives ltssm status.
+-int_type 	:type of supported interrupt
+-no_of_msi 	:zero if MSI is not enabled by host. A positive value is the
+-		number of MSI vector granted.
+-vendor_id	:returns programmed vendor id (hex)
+-device_id	:returns programmed device id(hex)
+-bar0_size:	:returns size of bar0 in hex.
+-bar0_address	:returns address of bar0 mapped area in hex.
+-bar0_rw_offset	:returns offset of bar0 for which bar0_data will return value.
+-bar0_data	:returns data at bar0_rw_offset.
+-
+-write behavior of nodes:
+-------------------------------
+-link 		:write UP to enable ltsmm DOWN to disable
+-int_type	:write interrupt type to be configured and (int_type could be
+-		INTA, MSI or NO_INT). Select MSI only when you have programmed
+-		no_of_msi node.
+-no_of_msi	:number of MSI vector needed.
+-inta		:write 1 to assert INTA and 0 to de-assert.
+-send_msi	:write MSI vector to be sent.
+-vendor_id	:write vendor id(hex) to be programmed.
+-device_id	:write device id(hex) to be programmed.
+-bar0_size	:write size of bar0 in hex. default bar0 size is 1000 (hex)
+-		bytes.
+-bar0_address	:write	address of bar0 mapped area in hex. (default mapping of
+-		bar0 is SYSRAM1(E0800000). Always program bar size before bar
+-		address. Kernel might modify bar size and address for alignment, so
+-		read back bar size and address after writing to cross check.
+-bar0_rw_offset	:write offset of bar0 for which	bar0_data will write value.
+-bar0_data	:write data to be written at bar0_rw_offset.
+-
+-Node programming example
+-===========================
+-Program all PCIe registers in such a way that when this device is connected
+-to the PCIe host, then host sees this device as 1MB RAM.
+-#mount -t configfs none /Config
+-For nth PCIe Device Controller
+-# cd /config/pcie_gadget.n/
+-Now you have all the nodes in this directory.
+-program vendor id as 0x104a
+-# echo 104A >> vendor_id
+-
+-program device id as 0xCD80
+-# echo CD80 >> device_id
+-
+-program BAR0 size as 1MB
+-# echo 100000 >> bar0_size
+-
+-check for programmed bar0 size
+-# cat bar0_size
+-
+-Program BAR0 Address as DDR (0x2100000). This is the physical address of
+-memory, which is to be made visible to PCIe host. Similarly any other peripheral
+-can also be made visible to PCIe host. E.g., if you program base address of UART
+-as BAR0 address then when this device will be connected to a host, it will be
+-visible as UART.
+-# echo 2100000 >> bar0_address
+-
+-program interrupt type : INTA
+-# echo INTA >> int_type
+-
+-go for link up now.
+-# echo UP >> link
+-
+-It will have to be insured that, once link up is done on gadget, then only host
+-is initialized and start to search PCIe devices on its port.
+-
+-/*wait till link is up*/
+-# cat link
+-wait till it returns UP.
+-
+-To assert INTA
+-# echo 1 >> inta
+-
+-To de-assert INTA
+-# echo 0 >> inta
+-
+-if MSI is to be used as interrupt, program no of msi vector needed (say4)
+-# echo 4 >> no_of_msi
+-
+-select MSI as interrupt type
+-# echo MSI >> int_type
+-
+-go for link up now
+-# echo UP >> link
+-
+-wait till link is up
+-# cat link
+-An application can repetitively read this node till link is found UP. It can
+-sleep between two read.
+-
+-wait till msi is enabled
+-# cat no_of_msi
+-Should return 4 (number of requested MSI vector)
+-
+-to send msi vector 2
+-# echo 2 >> send_msi
+-#cd -
 -- 
 2.25.4
 
