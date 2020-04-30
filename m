@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B28E1C47247
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0547C47253
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A14620873
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C107220873
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:06:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588262812;
-	bh=mwXQTjF7850lNOTbqQXXAQp2gqoDNDy9E2jrpxLqrgg=;
+	s=default; t=1588262813;
+	bh=Y41GO6rEfa6gMe2ZRrhdf69OnsyEGPVtS8H/VZVw4d0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=yKMpVOQpP9spEj2xYqpU1DZprmFUAY35lKBW+AHSXzs4kO5qyqkdTYkf+9SgtfR7i
-	 jXfMN77zFf6076Wo/R/osJHa9YiEjX/6fWTC7rnbUS5iXqPqoLr/E9JQgLhTraSdUx
-	 pdVlI6IithWCIWknkNJSTl86PIMoOtx/Dviblc20=
+	b=WUzsZ8bh9rAxsQmz7Dh3fsBLePgDiWDuipI7QVU5jo64Fd55wp25uAaGfmzofxf1h
+	 TZ82EQ2K/CbGxynZmbQ6povo6pCHbvVlWeoMlr6mKfOsjT9EG7dnrxbsPp2+NHA0FU
+	 rE/apZl6+QgOqGIPLaaczxdRgY1QU7h3Ii3Yqflg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728419AbgD3QGq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:06:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50840 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727781AbgD3QEj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727824AbgD3QEj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 30 Apr 2020 12:04:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50872 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726863AbgD3QEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Apr 2020 12:04:38 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 828CB2498C;
+        by mail.kernel.org (Postfix) with ESMTPSA id 09AC524955;
         Thu, 30 Apr 2020 16:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588262676;
-        bh=mwXQTjF7850lNOTbqQXXAQp2gqoDNDy9E2jrpxLqrgg=;
+        bh=Y41GO6rEfa6gMe2ZRrhdf69OnsyEGPVtS8H/VZVw4d0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yB8ol5IgG7UroXTG2SVA7rWHMrtG995xZoXka+QB8+UxaIP/9uI6F6nToa51TzyYd
-         878WdFKxDgov9pvpNZTtd90JsrriVTFj7+3v1L/P26S3jnpqNS9oy2x7oDeFOmhF8/
-         SHgYgm5NCCOM1n9b42ArrtjVuV6p2M+WL4eKeVN8=
+        b=b7G34SC9Xglb7EOCw5U+SKqgsW4DsYt3HJ7LNSwR4XKixsmgQ1D8d4YpYwd4T9edJ
+         uczCo0AzNicdSodlz8v1lcY9fAZfeLCztT3OrxNZcrGpwiP1udVu5oMsdlpzIgmg6g
+         Skf8p2Yk/Ungr3uWBbcHlf0A2kCfFB/9zXBXaR9E=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxGb-Qq; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxF8-Al; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 31/37] docs: networking: convert strparser.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:26 +0200
-Message-Id: <ebd753137781aa0d28d6eda54d31d8072d56daea.1588261997.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 13/37] docs: networking: convert nf_flowtable.txt to ReST
+Date:   Thu, 30 Apr 2020 18:04:08 +0200
+Message-Id: <082c505f4ad07906cc427c1046e64629bd612c47.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
@@ -63,224 +63,126 @@ X-Mailing-List: linux-doc@vger.kernel.org
 - add SPDX header;
 - adjust title markup;
 - mark code blocks and literals as such;
-- mark tables as such;
-- adjust identation, whitespaces and blank lines where needed;
+- add notes markups;
+- adjust identation, whitespaces and blank lines;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/networking/index.rst            |  1 +
- .../{strparser.txt => strparser.rst}          | 85 +++++++++++++------
- 2 files changed, 60 insertions(+), 26 deletions(-)
- rename Documentation/networking/{strparser.txt => strparser.rst} (80%)
+ .../{nf_flowtable.txt => nf_flowtable.rst}    | 55 ++++++++++---------
+ 2 files changed, 31 insertions(+), 25 deletions(-)
+ rename Documentation/networking/{nf_flowtable.txt => nf_flowtable.rst} (76%)
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index d19ddcbe66e5..e5a705024c6a 100644
+index e5128bb7e7df..c4e8a43741be 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -104,6 +104,7 @@ Contents:
-    secid
-    seg6-sysctl
-    skfp
-+   strparser
+@@ -86,6 +86,7 @@ Contents:
+    netfilter-sysctl
+    netif-msg
+    nf_conntrack-sysctl
++   nf_flowtable
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/strparser.txt b/Documentation/networking/strparser.rst
-similarity index 80%
-rename from Documentation/networking/strparser.txt
-rename to Documentation/networking/strparser.rst
-index a7d354ddda7b..6cab1f74ae05 100644
---- a/Documentation/networking/strparser.txt
-+++ b/Documentation/networking/strparser.rst
-@@ -1,4 +1,8 @@
+diff --git a/Documentation/networking/nf_flowtable.txt b/Documentation/networking/nf_flowtable.rst
+similarity index 76%
+rename from Documentation/networking/nf_flowtable.txt
+rename to Documentation/networking/nf_flowtable.rst
+index 0bf32d1121be..b6e1fa141aae 100644
+--- a/Documentation/networking/nf_flowtable.txt
++++ b/Documentation/networking/nf_flowtable.rst
+@@ -1,3 +1,6 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=========================
- Stream Parser (strparser)
-+=========================
++====================================
+ Netfilter's flowtable infrastructure
+ ====================================
  
- Introduction
- ============
-@@ -34,8 +38,10 @@ that is called when a full message has been completed.
- Functions
- =========
+@@ -31,15 +34,17 @@ to use this new alternative forwarding path via nftables policy.
+ This is represented in Fig.1, which describes the classic forwarding path
+ including the Netfilter hooks and the flowtable fastpath bypass.
  
--strp_init(struct strparser *strp, struct sock *sk,
--	  const struct strp_callbacks *cb)
-+     ::
+-                                         userspace process
+-                                          ^              |
+-                                          |              |
+-                                     _____|____     ____\/___
+-                                    /          \   /         \
+-                                    |   input   |  |  output  |
+-                                    \__________/   \_________/
+-                                         ^               |
+-                                         |               |
++::
 +
-+	strp_init(struct strparser *strp, struct sock *sk,
-+		const struct strp_callbacks *cb)
++					 userspace process
++					  ^              |
++					  |              |
++				     _____|____     ____\/___
++				    /          \   /         \
++				    |   input   |  |  output  |
++				    \__________/   \_________/
++					 ^               |
++					 |               |
+       _________      __________      ---------     _____\/_____
+      /         \    /          \     |Routing |   /            \
+   -->  ingress  ---> prerouting ---> |decision|   | postrouting |--> neigh_xmit
+@@ -59,7 +64,7 @@ including the Netfilter hooks and the flowtable fastpath bypass.
+       \ /                                                                 |
+        |__yes_________________fastpath bypass ____________________________|
  
-      Called to initialize a stream parser. strp is a struct of type
-      strparser that is allocated by the upper layer. sk is the TCP
-@@ -43,31 +49,41 @@ strp_init(struct strparser *strp, struct sock *sk,
-      callback mode; in general mode this is set to NULL. Callbacks
-      are called by the stream parser (the callbacks are listed below).
+-               Fig.1 Netfilter hooks and flowtable interactions
++	       Fig.1 Netfilter hooks and flowtable interactions
  
--void strp_pause(struct strparser *strp)
-+     ::
-+
-+	void strp_pause(struct strparser *strp)
+ The flowtable entry also stores the NAT configuration, so all packets are
+ mangled according to the NAT policy that matches the initial packets that went
+@@ -72,18 +77,18 @@ Example configuration
+ ---------------------
  
-      Temporarily pause a stream parser. Message parsing is suspended
-      and no new messages are delivered to the upper layer.
+ Enabling the flowtable bypass is relatively easy, you only need to create a
+-flowtable and add one rule to your forward chain.
++flowtable and add one rule to your forward chain::
  
--void strp_unpause(struct strparser *strp)
-+     ::
-+
-+	void strp_unpause(struct strparser *strp)
+-        table inet x {
++	table inet x {
+ 		flowtable f {
+ 			hook ingress priority 0; devices = { eth0, eth1 };
+ 		}
+-                chain y {
+-                        type filter hook forward priority 0; policy accept;
+-                        ip protocol tcp flow offload @f
+-                        counter packets 0 bytes 0
+-                }
+-        }
++		chain y {
++			type filter hook forward priority 0; policy accept;
++			ip protocol tcp flow offload @f
++			counter packets 0 bytes 0
++		}
++	}
  
-      Unpause a paused stream parser.
+ This example adds the flowtable 'f' to the ingress hook of the eth0 and eth1
+ netdevices. You can create as many flowtables as you want in case you need to
+@@ -101,12 +106,12 @@ forwarding bypass.
+ More reading
+ ------------
  
--void strp_stop(struct strparser *strp);
-+     ::
-+
-+	void strp_stop(struct strparser *strp);
+-This documentation is based on the LWN.net articles [1][2]. Rafal Milecki also
+-made a very complete and comprehensive summary called "A state of network
++This documentation is based on the LWN.net articles [1]_\ [2]_. Rafal Milecki
++also made a very complete and comprehensive summary called "A state of network
+ acceleration" that describes how things were before this infrastructure was
+-mailined [3] and it also makes a rough summary of this work [4].
++mailined [3]_ and it also makes a rough summary of this work [4]_.
  
-      strp_stop is called to completely stop stream parser operations.
-      This is called internally when the stream parser encounters an
-      error, and it is called from the upper layer to stop parsing
-      operations.
- 
--void strp_done(struct strparser *strp);
-+     ::
-+
-+	void strp_done(struct strparser *strp);
- 
-      strp_done is called to release any resources held by the stream
-      parser instance. This must be called after the stream processor
-      has been stopped.
- 
--int strp_process(struct strparser *strp, struct sk_buff *orig_skb,
--		 unsigned int orig_offset, size_t orig_len,
--		 size_t max_msg_size, long timeo)
-+     ::
-+
-+	int strp_process(struct strparser *strp, struct sk_buff *orig_skb,
-+			 unsigned int orig_offset, size_t orig_len,
-+			 size_t max_msg_size, long timeo)
- 
-     strp_process is called in general mode for a stream parser to
-     parse an sk_buff. The number of bytes processed or a negative
-@@ -75,7 +91,9 @@ int strp_process(struct strparser *strp, struct sk_buff *orig_skb,
-     consume the sk_buff. max_msg_size is maximum size the stream
-     parser will parse. timeo is timeout for completing a message.
- 
--void strp_data_ready(struct strparser *strp);
-+    ::
-+
-+	void strp_data_ready(struct strparser *strp);
- 
-     The upper layer calls strp_tcp_data_ready when data is ready on
-     the lower socket for strparser to process. This should be called
-@@ -83,7 +101,9 @@ void strp_data_ready(struct strparser *strp);
-     maximum messages size is the limit of the receive socket
-     buffer and message timeout is the receive timeout for the socket.
- 
--void strp_check_rcv(struct strparser *strp);
-+    ::
-+
-+	void strp_check_rcv(struct strparser *strp);
- 
-     strp_check_rcv is called to check for new messages on the socket.
-     This is normally called at initialization of a stream parser
-@@ -94,7 +114,9 @@ Callbacks
- 
- There are six callbacks:
- 
--int (*parse_msg)(struct strparser *strp, struct sk_buff *skb);
-+    ::
-+
-+	int (*parse_msg)(struct strparser *strp, struct sk_buff *skb);
- 
-     parse_msg is called to determine the length of the next message
-     in the stream. The upper layer must implement this function. It
-@@ -107,14 +129,16 @@ int (*parse_msg)(struct strparser *strp, struct sk_buff *skb);
- 
-     The return values of this function are:
- 
--    >0 : indicates length of successfully parsed message
--    0  : indicates more data must be received to parse the message
--    -ESTRPIPE : current message should not be processed by the
--          kernel, return control of the socket to userspace which
--          can proceed to read the messages itself
--    other < 0 : Error in parsing, give control back to userspace
--          assuming that synchronization is lost and the stream
--          is unrecoverable (application expected to close TCP socket)
-+    =========    ===========================================================
-+    >0           indicates length of successfully parsed message
-+    0            indicates more data must be received to parse the message
-+    -ESTRPIPE    current message should not be processed by the
-+		 kernel, return control of the socket to userspace which
-+		 can proceed to read the messages itself
-+    other < 0    Error in parsing, give control back to userspace
-+		 assuming that synchronization is lost and the stream
-+		 is unrecoverable (application expected to close TCP socket)
-+    =========    ===========================================================
- 
-     In the case that an error is returned (return value is less than
-     zero) and the parser is in receive callback mode, then it will set
-@@ -123,7 +147,9 @@ int (*parse_msg)(struct strparser *strp, struct sk_buff *skb);
-     the current message, then the error set on the attached socket is
-     ENODATA since the stream is unrecoverable in that case.
- 
--void (*lock)(struct strparser *strp)
-+    ::
-+
-+	void (*lock)(struct strparser *strp)
- 
-     The lock callback is called to lock the strp structure when
-     the strparser is performing an asynchronous operation (such as
-@@ -131,14 +157,18 @@ void (*lock)(struct strparser *strp)
-     function is to lock_sock for the associated socket. In general
-     mode the callback must be set appropriately.
- 
--void (*unlock)(struct strparser *strp)
-+    ::
-+
-+	void (*unlock)(struct strparser *strp)
- 
-     The unlock callback is called to release the lock obtained
-     by the lock callback. In receive callback mode the default
-     function is release_sock for the associated socket. In general
-     mode the callback must be set appropriately.
- 
--void (*rcv_msg)(struct strparser *strp, struct sk_buff *skb);
-+    ::
-+
-+	void (*rcv_msg)(struct strparser *strp, struct sk_buff *skb);
- 
-     rcv_msg is called when a full message has been received and
-     is queued. The callee must consume the sk_buff; it can
-@@ -152,7 +182,9 @@ void (*rcv_msg)(struct strparser *strp, struct sk_buff *skb);
-     the length of the message. skb->len - offset may be greater
-     then full_len since strparser does not trim the skb.
- 
--int (*read_sock_done)(struct strparser *strp, int err);
-+    ::
-+
-+	int (*read_sock_done)(struct strparser *strp, int err);
- 
-      read_sock_done is called when the stream parser is done reading
-      the TCP socket in receive callback mode. The stream parser may
-@@ -160,7 +192,9 @@ int (*read_sock_done)(struct strparser *strp, int err);
-      to occur when exiting the loop. If the callback is not set (NULL
-      in strp_init) a default function is used.
- 
--void (*abort_parser)(struct strparser *strp, int err);
-+     ::
-+
-+	void (*abort_parser)(struct strparser *strp, int err);
- 
-      This function is called when stream parser encounters an error
-      in parsing. The default function stops the stream parser and
-@@ -204,4 +238,3 @@ Author
- ======
- 
- Tom Herbert (tom@quantonium.net)
--
+-[1] https://lwn.net/Articles/738214/
+-[2] https://lwn.net/Articles/742164/
+-[3] http://lists.infradead.org/pipermail/lede-dev/2018-January/010830.html
+-[4] http://lists.infradead.org/pipermail/lede-dev/2018-January/010829.html
++.. [1] https://lwn.net/Articles/738214/
++.. [2] https://lwn.net/Articles/742164/
++.. [3] http://lists.infradead.org/pipermail/lede-dev/2018-January/010830.html
++.. [4] http://lists.infradead.org/pipermail/lede-dev/2018-January/010829.html
 -- 
 2.25.4
 
