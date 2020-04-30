@@ -4,55 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69FDAC47247
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:08:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA91DC47247
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:08:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4557220757
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:08:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AD9420757
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588262915;
-	bh=qd7kn84OagFUysKXIXX2kLbZbPYWdZY7QoCvFH7ExWY=;
+	s=default; t=1588262917;
+	bh=kwLf545ZLLKl4cDNQVW1Q3oZtALV8Rc5ZHCSwPCR5Ng=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=L/aTA7Jm7Lx6iQaY3mCkcrMmiFKfh52Mu9Z+hVsz+VlcNmdPJd8HrdeU4K8PhlHtU
-	 CDcJVaRRetyivjYTssGHjpcxRWkk7natKqG4EiHga0nFX+AnHGRYTZa4gX8Smm8FXF
-	 ojkoCdB9YoX4Bpi4OBaNf5GtOmhAU3qg4mhvOMy4=
+	b=2vSAx2zUltpeh5ttgQe+bi48SuKsaHP1syoUugIjjXGEC9iOTtMtu0nS/riIdiSw9
+	 P5bozlXdHI2lRzBg9lUfQfbKDJfpvtiter3y3r11KRIU5UqACqmf+JNwXpFMmEJg8e
+	 sf6FIDol5PgZDup7koOdOday4r3F9g4EjxtB7Iqg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728119AbgD3QIF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:08:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50840 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726827AbgD3QEh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726829AbgD3QEh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 30 Apr 2020 12:04:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50378 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726350AbgD3QEg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Apr 2020 12:04:36 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E360021775;
+        by mail.kernel.org (Postfix) with ESMTPSA id BEF3420775;
         Thu, 30 Apr 2020 16:04:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588262676;
-        bh=qd7kn84OagFUysKXIXX2kLbZbPYWdZY7QoCvFH7ExWY=;
+        s=default; t=1588262675;
+        bh=kwLf545ZLLKl4cDNQVW1Q3oZtALV8Rc5ZHCSwPCR5Ng=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zewLwoR5gpbg89jj3RBoyAkOKlKbBwaG78zDZhml4NmCTEad7J+eJD7if6juXweYC
-         N5dIZO62A0PUXSOMPrR7EIRUS6aXDqrFJzt376vFrVybtHem9J2yi7RqO9xZPThPcD
-         EuxIEz7n0UdctdfrFxfavc2DyKxoSfIQMaEngU1s=
+        b=F9ovvL+5dz7imvEp73G2FjBuKbniXBnBMIKtI4d9elsbHrE1UUt+FzZpOrn37PSO+
+         nBWW4Ee5nxtZ9iU0NIL+oRH8wC7P1d0G55vIa3LWdDlXuEynayk6+qNL8oqvTIchaC
+         HvaP/bdqo+axBzq/a/8HQ/laEsPCtjA5OuBycePk=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxEn-7O; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxEJ-1p; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Oliver Hartkopp <socketcan@hartkopp.net>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH 09/37] docs: networking: convert netdevices.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:04 +0200
-Message-Id: <bd505d26902d26d2a06601867cb576b27f47bff3.1588261997.git.mchehab+huawei@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
+Subject: [PATCH 03/37] docs: networking: convert ltpc.txt to ReST
+Date:   Thu, 30 Apr 2020 18:03:58 +0200
+Message-Id: <6e495bae2c1b7804fd7ff0d3462c1d15b5c0dc3d.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
@@ -64,94 +61,179 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
-- adjust title markup;
-- mark lists as such;
+- add a document title;
+- mark code blocks and literals as such;
+- mark tables as such;
 - adjust identation, whitespaces and blank lines;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/can.rst              |  2 +-
  Documentation/networking/index.rst            |  1 +
- .../{netdevices.txt => netdevices.rst}        | 21 ++++++++++++-------
- 3 files changed, 16 insertions(+), 8 deletions(-)
- rename Documentation/networking/{netdevices.txt => netdevices.rst} (89%)
+ .../networking/{ltpc.txt => ltpc.rst}         | 45 ++++++++++++-------
+ drivers/net/appletalk/Kconfig                 |  2 +-
+ 3 files changed, 31 insertions(+), 17 deletions(-)
+ rename Documentation/networking/{ltpc.txt => ltpc.rst} (86%)
 
-diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
-index 2fd0b51a8c52..ff05cbd05e0d 100644
---- a/Documentation/networking/can.rst
-+++ b/Documentation/networking/can.rst
-@@ -1058,7 +1058,7 @@ drivers you mainly have to deal with:
- - TX: Put the CAN frame from the socket buffer to the CAN controller.
- - RX: Put the CAN frame from the CAN controller to the socket buffer.
- 
--See e.g. at Documentation/networking/netdevices.txt . The differences
-+See e.g. at Documentation/networking/netdevices.rst . The differences
- for writing CAN network device driver are described below:
- 
- 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 4c6aa3db97d4..5a320553ffba 100644
+index acd2567cf0d4..b3608b177a8b 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -82,6 +82,7 @@ Contents:
-    multiqueue
-    netconsole
-    netdev-features
-+   netdevices
+@@ -76,6 +76,7 @@ Contents:
+    kcm
+    l2tp
+    lapb-module
++   ltpc
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/netdevices.txt b/Documentation/networking/netdevices.rst
-similarity index 89%
-rename from Documentation/networking/netdevices.txt
-rename to Documentation/networking/netdevices.rst
-index 7fec2061a334..5a85fcc80c76 100644
---- a/Documentation/networking/netdevices.txt
-+++ b/Documentation/networking/netdevices.rst
-@@ -1,5 +1,8 @@
+diff --git a/Documentation/networking/ltpc.txt b/Documentation/networking/ltpc.rst
+similarity index 86%
+rename from Documentation/networking/ltpc.txt
+rename to Documentation/networking/ltpc.rst
+index a005a73b76d0..0ad197fd17ce 100644
+--- a/Documentation/networking/ltpc.txt
++++ b/Documentation/networking/ltpc.rst
+@@ -1,3 +1,9 @@
 +.. SPDX-License-Identifier: GPL-2.0
- 
-+=====================================
- Network Devices, the Kernel, and You!
-+=====================================
- 
- 
- Introduction
-@@ -75,11 +78,12 @@ ndo_start_xmit:
- 	Don't use it for new drivers.
- 
- 	Context: Process with BHs disabled or BH (timer),
--	         will be called with interrupts disabled by netconsole.
-+		 will be called with interrupts disabled by netconsole.
- 
--	Return codes: 
--	o NETDEV_TX_OK everything ok. 
--	o NETDEV_TX_BUSY Cannot transmit packet, try later 
-+	Return codes:
 +
-+	* NETDEV_TX_OK everything ok.
-+	* NETDEV_TX_BUSY Cannot transmit packet, try later
- 	  Usually a bug, means queue start/stop flow control is broken in
- 	  the driver. Note: the driver must NOT put the skb in its DMA ring.
- 
-@@ -95,10 +99,13 @@ ndo_set_rx_mode:
- struct napi_struct synchronization rules
- ========================================
- napi->poll:
--	Synchronization: NAPI_STATE_SCHED bit in napi->state.  Device
-+	Synchronization:
-+		NAPI_STATE_SCHED bit in napi->state.  Device
- 		driver's ndo_stop method will invoke napi_disable() on
- 		all NAPI instances which will do a sleeping poll on the
- 		NAPI_STATE_SCHED napi->state bit, waiting for all pending
- 		NAPI activity to cease.
--	Context: softirq
--	         will be called with interrupts disabled by netconsole.
++===========
++LTPC Driver
++===========
 +
-+	Context:
-+		 softirq
-+		 will be called with interrupts disabled by netconsole.
+ This is the ALPHA version of the ltpc driver.
+ 
+ In order to use it, you will need at least version 1.3.3 of the
+@@ -15,7 +21,7 @@ yourself.  (see "Card Configuration" below for how to determine or
+ change the settings on your card)
+ 
+ When the driver is compiled into the kernel, you can add a line such
+-as the following to your /etc/lilo.conf:
++as the following to your /etc/lilo.conf::
+ 
+  append="ltpc=0x240,9,1"
+ 
+@@ -25,13 +31,13 @@ the driver will try to determine them itself.
+ 
+ If you load the driver as a module, you can pass the parameters "io=",
+ "irq=", and "dma=" on the command line with insmod or modprobe, or add
+-them as options in a configuration file in /etc/modprobe.d/ directory:
++them as options in a configuration file in /etc/modprobe.d/ directory::
+ 
+  alias lt0 ltpc # autoload the module when the interface is configured
+  options ltpc io=0x240 irq=9 dma=1
+ 
+ Before starting up the netatalk demons (perhaps in rc.local), you
+-need to add a line such as:
++need to add a line such as::
+ 
+  /sbin/ifconfig lt0 127.0.0.42
+ 
+@@ -42,7 +48,7 @@ The appropriate netatalk configuration depends on whether you are
+ attached to a network that includes AppleTalk routers or not.  If,
+ like me, you are simply connecting to your home Macintoshes and
+ printers, you need to set up netatalk to "seed".  The way I do this
+-is to have the lines
++is to have the lines::
+ 
+  dummy -seed -phase 2 -net 2000 -addr 2000.26 -zone "1033"
+  lt0 -seed -phase 1 -net 1033 -addr 1033.27 -zone "1033"
+@@ -57,13 +63,13 @@ such.
+ 
+ If you are attached to an extended AppleTalk network, with routers on
+ it, then you don't need to fool around with this -- the appropriate
+-line in atalkd.conf is
++line in atalkd.conf is::
+ 
+  lt0 -phase 1
+ 
+---------------------------------------
+ 
+-Card Configuration:
++Card Configuration
++==================
+ 
+ The interrupts and so forth are configured via the dipswitch on the
+ board.  Set the switches so as not to conflict with other hardware.
+@@ -73,26 +79,32 @@ board.  Set the switches so as not to conflict with other hardware.
+        original documentation refers to IRQ2.  Since you'll be running
+        this on an AT (or later) class machine, that really means IRQ9.
+ 
++       ===     ===========================================================
+        SW1     IRQ 4
+        SW2     IRQ 3
+        SW3     IRQ 9 (2 in original card documentation only applies to XT)
++       ===     ===========================================================
+ 
+ 
+        DMA -- choose DMA 1 or 3, and set both corresponding switches.
+ 
++       ===     =====
+        SW4     DMA 3
+        SW5     DMA 1
+        SW6     DMA 3
+        SW7     DMA 1
++       ===     =====
+ 
+ 
+        I/O address -- choose one.
+ 
++       ===     =========
+        SW8     220 / 240
++       ===     =========
+ 
+---------------------------------------
+ 
+-IP:
++IP
++==
+ 
+ Yes, it is possible to do IP over LocalTalk.  However, you can't just
+ treat the LocalTalk device like an ordinary Ethernet device, even if
+@@ -102,9 +114,9 @@ Instead, you follow the same procedure as for doing IP in EtherTalk.
+ See Documentation/networking/ipddp.rst for more information about the
+ kernel driver and userspace tools needed.
+ 
+---------------------------------------
+ 
+-BUGS:
++Bugs
++====
+ 
+ IRQ autoprobing often doesn't work on a cold boot.  To get around
+ this, either compile the driver as a module, or pass the parameters
+@@ -120,12 +132,13 @@ It may theoretically be possible to use two LTPC cards in the same
+ machine, but this is unsupported, so if you really want to do this,
+ you'll probably have to hack the initialization code a bit.
+ 
+-______________________________________
+ 
+-THANKS:
+-	Thanks to Alan Cox for helpful discussions early on in this
++Thanks
++======
++
++Thanks to Alan Cox for helpful discussions early on in this
+ work, and to Denis Hainsworth for doing the bleeding-edge testing.
+ 
+--- Bradford Johnson <bradford@math.umn.edu>
++Bradford Johnson <bradford@math.umn.edu>
+ 
+--- Updated 11/09/1998 by David Huggins-Daines <dhd@debian.org>
++Updated 11/09/1998 by David Huggins-Daines <dhd@debian.org>
+diff --git a/drivers/net/appletalk/Kconfig b/drivers/net/appletalk/Kconfig
+index ccde6479050c..10589a82263b 100644
+--- a/drivers/net/appletalk/Kconfig
++++ b/drivers/net/appletalk/Kconfig
+@@ -48,7 +48,7 @@ config LTPC
+ 	  If you are in doubt, this card is the one with the 65C02 chip on it.
+ 	  You also need version 1.3.3 or later of the netatalk package.
+ 	  This driver is experimental, which means that it may not work.
+-	  See the file <file:Documentation/networking/ltpc.txt>.
++	  See the file <file:Documentation/networking/ltpc.rst>.
+ 
+ config COPS
+ 	tristate "COPS LocalTalk PC support"
 -- 
 2.25.4
 
