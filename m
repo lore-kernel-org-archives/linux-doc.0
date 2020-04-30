@@ -7,50 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE517C47247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EABC47254
 	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:20:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D60020873
+	by mail.kernel.org (Postfix) with ESMTP id 60E7920873
 	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:20:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1588263603;
-	bh=UpE+dTlKuyikMljGlNf1UxWAD7Ndhw2XMb6I2Wi6qoE=;
+	bh=E2W+Pp9D1/Ag9kxnKEgTpnr6s13MrdK3Hx82R//8IyQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CPn3hZ2EON8p6LbwPGTGPFXJLrFdFgu/7h02OhJYyLeCTtAh3JVIVOH+2HV8+wJJF
-	 QFGrXLtBa0cjRx0YTuAuIKpCr4Yb/YU9LtBhBgddu/5AwkgcLdnYGEFmNzXMTxue12
-	 I1wp18gDehWWdSOowkWrD3nQiyBRdwu+KoTloVM4=
+	b=QajAjKYOAyyy5p4Xvpx/F8ihEJxiZz4LRGwU8YGbIEK8vBeeTJOmH6H/wXFzOnvMp
+	 /jWTa4WCeqkkkt9YUAbwXnmYWbGW8IoEVWsn8ocV76SAORNWVDJDi6lgswJUcyHojJ
+	 iwJcVDefOR/9xSFA+6pmDSwfON0Z5q3PWdwGM/qQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727786AbgD3QUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727044AbgD3QUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 30 Apr 2020 12:20:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58758 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:58740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728122AbgD3QSj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727108AbgD3QSj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:18:39 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 00A312495F;
+        by mail.kernel.org (Postfix) with ESMTPSA id D1F4224956;
         Thu, 30 Apr 2020 16:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588263518;
-        bh=UpE+dTlKuyikMljGlNf1UxWAD7Ndhw2XMb6I2Wi6qoE=;
+        bh=E2W+Pp9D1/Ag9kxnKEgTpnr6s13MrdK3Hx82R//8IyQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T7utN7vZwCW5xwUsZz0sn5YVysSacu6/KBk5tPG2P8St6gezMIk8BjvS11mxMKZld
-         KnvVk/WouHMQedTao6KKA5jZCE7QbAbmT2oh71ntk7HXc1YspWZ+EV+AoFwE+St0kd
-         fjDZEu3pMFRxZgSpUBoqZ/LbdqNzyQ5JMjPmeTgw=
+        b=RI72qE74qq8DRf2eNEeVqVVN3J3AsfpRNkLolqnnMt1UB+xXG53sXXUOhtryaQxWQ
+         d4sxs7io0tLSLVN6ydVgQqmfpRN/HzyviegkS1PGjEm87RQTdEtt41iEBibjjU4G74
+         0RawY5uPG2KfZwz/dllOCbsAgNvbX3os2ytmLVcU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBtU-00Axhc-7E; Thu, 30 Apr 2020 18:18:36 +0200
+        id 1jUBtU-00AxhH-3S; Thu, 30 Apr 2020 18:18:36 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 13/19] docs: arm64: convert perf.txt to ReST format
-Date:   Thu, 30 Apr 2020 18:18:27 +0200
-Message-Id: <635734c88d06cafc73828aefb9619fe8de61fd5c.1588263270.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v4 09/19] docs: misc-devices/c2port.txt: convert to ReST format
+Date:   Thu, 30 Apr 2020 18:18:23 +0200
+Message-Id: <1d175df3e43b2606b892a2bfed387cd5c1b6e3cd.1588263270.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588263270.git.mchehab+huawei@kernel.org>
 References: <cover.1588263270.git.mchehab+huawei@kernel.org>
@@ -61,53 +58,132 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file is almost in ReST. All it needs is a rename and
-adding a :field: for the two fields at the beginning
-(author and date).
-
-While here, add a proper SPDX header, and use the standard
-markup for document titles, just for consistency.
+- Use copyright symbol;
+- use title markups;
+- adjust indentation;
+- mark literal blocks as such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/arm64/index.rst              | 1 +
- Documentation/arm64/{perf.txt => perf.rst} | 7 +++++--
- 2 files changed, 6 insertions(+), 2 deletions(-)
- rename Documentation/arm64/{perf.txt => perf.rst} (95%)
+ .../misc-devices/{c2port.txt => c2port.rst}   | 58 ++++++++++---------
+ Documentation/misc-devices/index.rst          |  1 +
+ 2 files changed, 32 insertions(+), 27 deletions(-)
+ rename Documentation/misc-devices/{c2port.txt => c2port.rst} (59%)
 
-diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
-index 09cbb4ed2237..d9665d83c53a 100644
---- a/Documentation/arm64/index.rst
-+++ b/Documentation/arm64/index.rst
-@@ -14,6 +14,7 @@ ARM64 Architecture
-     hugetlbpage
-     legacy_instructions
-     memory
-+    perf
-     pointer-authentication
-     silicon-errata
-     sve
-diff --git a/Documentation/arm64/perf.txt b/Documentation/arm64/perf.rst
-similarity index 95%
-rename from Documentation/arm64/perf.txt
-rename to Documentation/arm64/perf.rst
-index 0d6a7d87d49e..9c76a97baf28 100644
---- a/Documentation/arm64/perf.txt
-+++ b/Documentation/arm64/perf.rst
-@@ -1,8 +1,11 @@
+diff --git a/Documentation/misc-devices/c2port.txt b/Documentation/misc-devices/c2port.rst
+similarity index 59%
+rename from Documentation/misc-devices/c2port.txt
+rename to Documentation/misc-devices/c2port.rst
+index ea7344465610..258e1c1d43c7 100644
+--- a/Documentation/misc-devices/c2port.txt
++++ b/Documentation/misc-devices/c2port.rst
+@@ -1,7 +1,11 @@
+-			C2 port support
+-			---------------
 +.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
+ 
+-(C) Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
++===============
++C2 port support
++===============
 +
-+=====================
- Perf Event Attributes
- =====================
++|copy| Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
  
--Author: Andrew Murray <andrew.murray@arm.com>
--Date: 2019-03-06
-+:Author: Andrew Murray <andrew.murray@arm.com>
-+:Date: 2019-03-06
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+@@ -32,10 +36,10 @@ The C2 Interface main references are at (http://www.silabs.com)
+ Silicon Laboratories site], see:
  
- exclude_user
- ------------
+ - AN127: FLASH Programming via the C2 Interface at
+-http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf 
++  http://www.silabs.com/Support Documents/TechnicalDocs/an127.pdf
+ 
+ - C2 Specification at
+-http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
++  http://www.silabs.com/pages/DownloadDoc.aspx?FILEURL=Support%20Documents/TechnicalDocs/an127.pdf&src=SearchResults
+ 
+ however it implements a two wire serial communication protocol (bit
+ banging) designed to enable in-system programming, debugging, and
+@@ -47,44 +51,44 @@ Using the driver
+ ----------------
+ 
+ Once the driver is loaded you can use sysfs support to get C2port's
+-info or read/write in-system flash.
++info or read/write in-system flash::
+ 
+-# ls /sys/class/c2port/c2port0/
+-access            flash_block_size  flash_erase       rev_id
+-dev_id            flash_blocks_num  flash_size        subsystem/
+-flash_access      flash_data        reset             uevent
++  # ls /sys/class/c2port/c2port0/
++  access            flash_block_size  flash_erase       rev_id
++  dev_id            flash_blocks_num  flash_size        subsystem/
++  flash_access      flash_data        reset             uevent
+ 
+ Initially the C2port access is disabled since you hardware may have
+ such lines multiplexed with other devices so, to get access to the
+-C2port, you need the command:
++C2port, you need the command::
+ 
+-# echo 1 > /sys/class/c2port/c2port0/access
++  # echo 1 > /sys/class/c2port/c2port0/access
+ 
+ after that you should read the device ID and revision ID of the
+-connected micro controller:
++connected micro controller::
+ 
+-# cat /sys/class/c2port/c2port0/dev_id
+-8
+-# cat /sys/class/c2port/c2port0/rev_id
+-1
++  # cat /sys/class/c2port/c2port0/dev_id
++  8
++  # cat /sys/class/c2port/c2port0/rev_id
++  1
+ 
+ However, for security reasons, the in-system flash access in not
+-enabled yet, to do so you need the command:
++enabled yet, to do so you need the command::
+ 
+-# echo 1 > /sys/class/c2port/c2port0/flash_access
++  # echo 1 > /sys/class/c2port/c2port0/flash_access
+ 
+-After that you can read the whole flash:
++After that you can read the whole flash::
+ 
+-# cat /sys/class/c2port/c2port0/flash_data > image
++  # cat /sys/class/c2port/c2port0/flash_data > image
+ 
+-erase it:
++erase it::
+ 
+-# echo 1 > /sys/class/c2port/c2port0/flash_erase
++  # echo 1 > /sys/class/c2port/c2port0/flash_erase
+ 
+-and write it:
++and write it::
+ 
+-# cat image > /sys/class/c2port/c2port0/flash_data
++  # cat image > /sys/class/c2port/c2port0/flash_data
+ 
+-after writing you have to reset the device to execute the new code:
++after writing you have to reset the device to execute the new code::
+ 
+-# echo 1 > /sys/class/c2port/c2port0/reset
++  # echo 1 > /sys/class/c2port/c2port0/reset
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+index 17e77b6aa27c..f4ecafad6678 100644
+--- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -16,6 +16,7 @@ fit into other categories.
+ 
+    ad525x_dpot
+    eeprom
++   c2port
+    ibmvmc
+    ics932s401
+    isl29003
 -- 
 2.25.4
 
