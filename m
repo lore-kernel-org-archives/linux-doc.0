@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92530C47254
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1321C47254
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BF2C20775
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D117820775
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Apr 2020 16:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588262854;
-	bh=+oepTwi2d1+xgVCEplDCO3Ur/xrWZBrtr5WgvtZvPeg=;
+	s=default; t=1588262873;
+	bh=VskrOSds+k6lATCBRxSNU8FwGkjkFNi0RCLoQYUzeio=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=EF7O0Xj8B3oc+lrDW7iKuD25lwBTMqXIBcTxQE73lJpjHNbE+C8egQHpqeeS7P6mJ
-	 kpJW5XT3Sax5h4uy7EOH5udJ8jAhj8ddToSP6NzyC47cSN1HvXs+wOrYRODWhyaenP
-	 7jZn9mk3DI3ylhH+d/VPJSdbiiVwdbl2Q6NygUNY=
+	b=gng3N7nIpcKhHOWMHQr2/8oUooxEAMBD+A6umc05p/XU799T/hue9Uv+KUlsnPCh7
+	 PPz6EIu5FYZWmITeLpKlrkVxagnM4v9ZGUwNzxZOCDYJCbPiAZ9TbYwxcTBzRgnlLD
+	 6oWx379pPVvoFoyYEQMzI7L8I9Cq+6cwrj1JGkVs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727986AbgD3QH0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:07:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50868 "EHLO mail.kernel.org"
+        id S1728520AbgD3QHi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Apr 2020 12:07:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50866 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726861AbgD3QEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726859AbgD3QEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Apr 2020 12:04:38 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 014C324954;
+        by mail.kernel.org (Postfix) with ESMTPSA id EA6F3217BA;
         Thu, 30 Apr 2020 16:04:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588262676;
-        bh=+oepTwi2d1+xgVCEplDCO3Ur/xrWZBrtr5WgvtZvPeg=;
+        bh=VskrOSds+k6lATCBRxSNU8FwGkjkFNi0RCLoQYUzeio=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CF4qXlD5D79lPozQgx2afoIOFLphfXHFM48RzwlkrIcM6Tt+0qggu5OBstzuG0pde
-         zvFBnaLWJSoyAtiesqaAbMaK1p7DAkv7PwpKchA1gb7S9EdmZS/RGdTzAIAETxGmTN
-         Y6mgJ9ZE25e8qx1EL8M+nboD7QVDH/o74KfrDiZE=
+        b=w96YBFQL43JPBzEzOIR2cQc1RJ1EREU8munTIHlc6DD2iW/w2zeeoTWGmN4q7IP9v
+         /Vd7qXRQzofKcwb3CwxqsUeayJzgBMhkogOEWKx6gHc3/551p5K2eSZKWyAq3h5DUH
+         Wi/MHtE9M2Qdtm2ZEGG2+AhB82t+i1tnsCZgEIEA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUBfu-00AxEy-9A; Thu, 30 Apr 2020 18:04:34 +0200
+        id 1jUBfu-00AxEi-6Z; Thu, 30 Apr 2020 18:04:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 11/37] docs: networking: convert netif-msg.txt to ReST
-Date:   Thu, 30 Apr 2020 18:04:06 +0200
-Message-Id: <72289384e0cf00824ed80b819ef9720665eabccf.1588261997.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 08/37] docs: networking: convert netdev-features.txt to ReST
+Date:   Thu, 30 Apr 2020 18:04:03 +0200
+Message-Id: <6990088c4a50c1da5a563649189e5fd0c114ddf3.1588261997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588261997.git.mchehab+huawei@kernel.org>
 References: <cover.1588261997.git.mchehab+huawei@kernel.org>
@@ -60,220 +60,117 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Not much to be done here:
+
 - add SPDX header;
-- adjust title and chapter markups;
-- mark lists as such;
-- mark code blocks and literals as such;
-- adjust identation, whitespaces and blank lines;
+- adjust titles and chapters, adding proper markups;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/index.rst     |  1 +
- Documentation/networking/netif-msg.rst | 95 ++++++++++++++++++++++++++
- Documentation/networking/netif-msg.txt | 79 ---------------------
- 3 files changed, 96 insertions(+), 79 deletions(-)
- create mode 100644 Documentation/networking/netif-msg.rst
- delete mode 100644 Documentation/networking/netif-msg.txt
+ .../networking/checksum-offloads.rst          |  2 +-
+ Documentation/networking/index.rst            |  1 +
+ ...etdev-features.txt => netdev-features.rst} | 19 +++++++++++--------
+ include/linux/netdev_features.h               |  2 +-
+ 4 files changed, 14 insertions(+), 10 deletions(-)
+ rename Documentation/networking/{netdev-features.txt => netdev-features.rst} (95%)
 
+diff --git a/Documentation/networking/checksum-offloads.rst b/Documentation/networking/checksum-offloads.rst
+index 905c8a84b103..69b23cf6879e 100644
+--- a/Documentation/networking/checksum-offloads.rst
++++ b/Documentation/networking/checksum-offloads.rst
+@@ -59,7 +59,7 @@ recomputed for each resulting segment.  See the skbuff.h comment (section 'E')
+ for more details.
+ 
+ A driver declares its offload capabilities in netdev->hw_features; see
+-Documentation/networking/netdev-features.txt for more.  Note that a device
++Documentation/networking/netdev-features.rst for more.  Note that a device
+ which only advertises NETIF_F_IP[V6]_CSUM must still obey the csum_start and
+ csum_offset given in the SKB; if it tries to deduce these itself in hardware
+ (as some NICs do) the driver should check that the values in the SKB match
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 1ae0cbef8c04..d98509f15363 100644
+index e58f872d401d..4c6aa3db97d4 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -84,6 +84,7 @@ Contents:
-    netdev-features
-    netdevices
-    netfilter-sysctl
-+   netif-msg
+@@ -81,6 +81,7 @@ Contents:
+    mpls-sysctl
+    multiqueue
+    netconsole
++   netdev-features
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/netif-msg.rst b/Documentation/networking/netif-msg.rst
-new file mode 100644
-index 000000000000..b20d265a734d
---- /dev/null
-+++ b/Documentation/networking/netif-msg.rst
-@@ -0,0 +1,95 @@
+diff --git a/Documentation/networking/netdev-features.txt b/Documentation/networking/netdev-features.rst
+similarity index 95%
+rename from Documentation/networking/netdev-features.txt
+rename to Documentation/networking/netdev-features.rst
+index 58dd1c1e3c65..a2d7d7160e39 100644
+--- a/Documentation/networking/netdev-features.txt
++++ b/Documentation/networking/netdev-features.rst
+@@ -1,3 +1,6 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===============
-+NETIF Msg Level
-+===============
-+
-+The design of the network interface message level setting.
-+
-+History
-+-------
-+
-+ The design of the debugging message interface was guided and
-+ constrained by backwards compatibility previous practice.  It is useful
-+ to understand the history and evolution in order to understand current
-+ practice and relate it to older driver source code.
-+
-+ From the beginning of Linux, each network device driver has had a local
-+ integer variable that controls the debug message level.  The message
-+ level ranged from 0 to 7, and monotonically increased in verbosity.
-+
-+ The message level was not precisely defined past level 3, but were
-+ always implemented within +-1 of the specified level.  Drivers tended
-+ to shed the more verbose level messages as they matured.
-+
-+   - 0  Minimal messages, only essential information on fatal errors.
-+   - 1  Standard messages, initialization status.  No run-time messages
-+   - 2  Special media selection messages, generally timer-driver.
-+   - 3  Interface starts and stops, including normal status messages
-+   - 4  Tx and Rx frame error messages, and abnormal driver operation
-+   - 5  Tx packet queue information, interrupt events.
-+   - 6  Status on each completed Tx packet and received Rx packets
-+   - 7  Initial contents of Tx and Rx packets
-+
-+ Initially this message level variable was uniquely named in each driver
-+ e.g. "lance_debug", so that a kernel symbolic debugger could locate and
-+ modify the setting.  When kernel modules became common, the variables
-+ were consistently renamed to "debug" and allowed to be set as a module
-+ parameter.
-+
-+ This approach worked well.  However there is always a demand for
-+ additional features.  Over the years the following emerged as
-+ reasonable and easily implemented enhancements
-+
-+   - Using an ioctl() call to modify the level.
-+   - Per-interface rather than per-driver message level setting.
-+   - More selective control over the type of messages emitted.
-+
-+ The netif_msg recommendation adds these features with only a minor
-+ complexity and code size increase.
-+
-+ The recommendation is the following points
-+
-+  - Retaining the per-driver integer variable "debug" as a module
-+    parameter with a default level of '1'.
-+
-+  - Adding a per-interface private variable named "msg_enable".  The
-+    variable is a bit map rather than a level, and is initialized as::
-+
-+       1 << debug
-+
-+    Or more precisely::
-+
-+	debug < 0 ? 0 : 1 << min(sizeof(int)-1, debug)
-+
-+    Messages should changes from::
-+
-+      if (debug > 1)
-+	   printk(MSG_DEBUG "%s: ...
-+
-+    to::
-+
-+      if (np->msg_enable & NETIF_MSG_LINK)
-+	   printk(MSG_DEBUG "%s: ...
-+
-+
-+The set of message levels is named
-+
-+
-+  =========   ===================	============
-+  Old level   Name			Bit position
-+  =========   ===================	============
-+    0         NETIF_MSG_DRV		0x0001
-+    1         NETIF_MSG_PROBE		0x0002
-+    2         NETIF_MSG_LINK		0x0004
-+    2         NETIF_MSG_TIMER		0x0004
-+    3         NETIF_MSG_IFDOWN		0x0008
-+    3         NETIF_MSG_IFUP		0x0008
-+    4         NETIF_MSG_RX_ERR		0x0010
-+    4         NETIF_MSG_TX_ERR		0x0010
-+    5         NETIF_MSG_TX_QUEUED	0x0020
-+    5         NETIF_MSG_INTR		0x0020
-+    6         NETIF_MSG_TX_DONE		0x0040
-+    6         NETIF_MSG_RX_STATUS	0x0040
-+    7         NETIF_MSG_PKTDATA		0x0080
-+  =========   ===================	============
-diff --git a/Documentation/networking/netif-msg.txt b/Documentation/networking/netif-msg.txt
-deleted file mode 100644
-index c967ddb90d0b..000000000000
---- a/Documentation/networking/netif-msg.txt
-+++ /dev/null
-@@ -1,79 +0,0 @@
--
--________________
--NETIF Msg Level
--
--The design of the network interface message level setting.
--
--History
--
-- The design of the debugging message interface was guided and
-- constrained by backwards compatibility previous practice.  It is useful
-- to understand the history and evolution in order to understand current
-- practice and relate it to older driver source code.
--
-- From the beginning of Linux, each network device driver has had a local
-- integer variable that controls the debug message level.  The message
-- level ranged from 0 to 7, and monotonically increased in verbosity.
--
-- The message level was not precisely defined past level 3, but were
-- always implemented within +-1 of the specified level.  Drivers tended
-- to shed the more verbose level messages as they matured.
--    0  Minimal messages, only essential information on fatal errors.
--    1  Standard messages, initialization status.  No run-time messages
--    2  Special media selection messages, generally timer-driver.
--    3  Interface starts and stops, including normal status messages
--    4  Tx and Rx frame error messages, and abnormal driver operation
--    5  Tx packet queue information, interrupt events.
--    6  Status on each completed Tx packet and received Rx packets
--    7  Initial contents of Tx and Rx packets
--
-- Initially this message level variable was uniquely named in each driver
-- e.g. "lance_debug", so that a kernel symbolic debugger could locate and
-- modify the setting.  When kernel modules became common, the variables
-- were consistently renamed to "debug" and allowed to be set as a module
-- parameter.
--
-- This approach worked well.  However there is always a demand for
-- additional features.  Over the years the following emerged as
-- reasonable and easily implemented enhancements
--   Using an ioctl() call to modify the level.
--   Per-interface rather than per-driver message level setting.
--   More selective control over the type of messages emitted.
--
-- The netif_msg recommendation adds these features with only a minor
-- complexity and code size increase.
--
-- The recommendation is the following points
--    Retaining the per-driver integer variable "debug" as a module
--    parameter with a default level of '1'.
--
--    Adding a per-interface private variable named "msg_enable".  The
--    variable is a bit map rather than a level, and is initialized as
--       1 << debug
--    Or more precisely
--        debug < 0 ? 0 : 1 << min(sizeof(int)-1, debug)
--
--    Messages should changes from
--      if (debug > 1)
--           printk(MSG_DEBUG "%s: ...
--    to
--      if (np->msg_enable & NETIF_MSG_LINK)
--           printk(MSG_DEBUG "%s: ...
--
--
--The set of message levels is named
--  Old level   Name   Bit position
--    0    NETIF_MSG_DRV		0x0001
--    1    NETIF_MSG_PROBE	0x0002
--    2    NETIF_MSG_LINK		0x0004
--    2    NETIF_MSG_TIMER	0x0004
--    3    NETIF_MSG_IFDOWN	0x0008
--    3    NETIF_MSG_IFUP		0x0008
--    4    NETIF_MSG_RX_ERR	0x0010
--    4    NETIF_MSG_TX_ERR	0x0010
--    5    NETIF_MSG_TX_QUEUED	0x0020
--    5    NETIF_MSG_INTR		0x0020
--    6    NETIF_MSG_TX_DONE	0x0040
--    6    NETIF_MSG_RX_STATUS	0x0040
--    7    NETIF_MSG_PKTDATA	0x0080
--
++=====================================================
+ Netdev features mess and how to get out from it alive
+ =====================================================
+ 
+@@ -6,8 +9,8 @@ Author:
+ 
+ 
+ 
+- Part I: Feature sets
+-======================
++Part I: Feature sets
++====================
+ 
+ Long gone are the days when a network card would just take and give packets
+ verbatim.  Today's devices add multiple features and bugs (read: offloads)
+@@ -39,8 +42,8 @@ one used internally by network core:
+ 
+ 
+ 
+- Part II: Controlling enabled features
+-=======================================
++Part II: Controlling enabled features
++=====================================
+ 
+ When current feature set (netdev->features) is to be changed, new set
+ is calculated and filtered by calling ndo_fix_features callback
+@@ -65,8 +68,8 @@ driver except by means of ndo_fix_features callback.
+ 
+ 
+ 
+- Part III: Implementation hints
+-================================
++Part III: Implementation hints
++==============================
+ 
+  * ndo_fix_features:
+ 
+@@ -94,8 +97,8 @@ Errors returned are not (and cannot be) propagated anywhere except dmesg.
+ 
+ 
+ 
+- Part IV: Features
+-===================
++Part IV: Features
++=================
+ 
+ For current list of features, see include/linux/netdev_features.h.
+ This section describes semantics of some of them.
+diff --git a/include/linux/netdev_features.h b/include/linux/netdev_features.h
+index 9d53c5ad272c..2cc3cf80b49a 100644
+--- a/include/linux/netdev_features.h
++++ b/include/linux/netdev_features.h
+@@ -89,7 +89,7 @@ enum {
+ 	 * Add your fresh new feature above and remember to update
+ 	 * netdev_features_strings[] in net/core/ethtool.c and maybe
+ 	 * some feature mask #defines below. Please also describe it
+-	 * in Documentation/networking/netdev-features.txt.
++	 * in Documentation/networking/netdev-features.rst.
+ 	 */
+ 
+ 	/**/NETDEV_FEATURE_COUNT
 -- 
 2.25.4
 
