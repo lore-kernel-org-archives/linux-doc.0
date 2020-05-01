@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C952AC4724C
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 825C9C47253
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A756820857
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6035C208DB
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588344554;
-	bh=wya6wRqdMSvqt8leut7SPom5osO64wxCrIIXhcHwnN8=;
+	s=default; t=1588344555;
+	bh=hboY7LvkSkG+z9pZ1T82TwKQFJjcn1LXM91doMsst3M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=gZsfyFEDLVmCq3+fAXgotwnzNXsfktp1L5EX3j+5ZExFku7jQvXG7TPdzy+/zf4UB
-	 xHM5dhQG0VxfOOcSAoiwGGdv/77/yYdV1SmwRQWRMsVSKx+LzFAk9ey5L1oGwChE6T
-	 uFwCe+LC9zOBF8b/W4/pfWcOhYmppQRMaeGRGJwI=
+	b=HSnDwf0/ok3OmcrIpk/dbnOG43Sr8VOUoc8MqC1szLahgpLygUN4zb4P5nX+Xwvt8
+	 iOxZq14C5w6uXVtw9FoN0loFuKEUfBjHwQpTcrSKt/acWzkGso+h47iIxoPPVGeHCf
+	 enYUAOYsCqMFdXh5T6kBzS62r0REYByEQlnL88O8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729334AbgEAOtC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 10:49:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52652 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729360AbgEAOpH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729348AbgEAOpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 1 May 2020 10:45:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52206 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728914AbgEAOpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 May 2020 10:45:05 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 225ED2495D;
-        Fri,  1 May 2020 14:45:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EE090208DB;
+        Fri,  1 May 2020 14:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588344305;
-        bh=wya6wRqdMSvqt8leut7SPom5osO64wxCrIIXhcHwnN8=;
+        bh=hboY7LvkSkG+z9pZ1T82TwKQFJjcn1LXM91doMsst3M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OkAO8/EWVJ8Glf3QWOgQdRNz2gP5YEWxviYMcKaML4ns315KdJ14hvpe4yuyzHKzE
-         jMiMRBVg6JNHxyDNvGVpxZ2S7M67y/buNCpmmLp2YfGxmbJLL2TSy+tTVLlsfNO9Hk
-         qNpEeur7RAKdI2EjdzXH6/+lGCIAJkrSjIQY3JxM=
+        b=rsPMDGoEYR9sGgftuvVNtqmzF35W8IbmSE422+UronlGfOib3qMp1x43IQZP5kdp3
+         ufwypaCJTzjls/26N5M1YHZ9fipdY0NxMAkT5hi88M/aidtscdJ28NbZPpPBvbjhbe
+         FpkRdUvezN2TaSInntJZpA85VQs4mdERYz/wpq28=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUWuT-00FCeN-Qh; Fri, 01 May 2020 16:45:01 +0200
+        id 1jUWuT-00FCd2-Dt; Fri, 01 May 2020 16:45:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 23/37] docs: networking: device drivers: convert freescale/gianfar.txt to ReST
-Date:   Fri,  1 May 2020 16:44:45 +0200
-Message-Id: <692a90829ddf549be95150976cd91e7ce26231ff.1588344146.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 08/37] docs: networking: convert xfrm_proc.txt to ReST
+Date:   Fri,  1 May 2020 16:44:30 +0200
+Message-Id: <b888b39a925d0c8385b9a3fa338edb762cf78a7d.1588344146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588344146.git.mchehab+huawei@kernel.org>
 References: <cover.1588344146.git.mchehab+huawei@kernel.org>
@@ -61,90 +61,143 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
-- adjust titles and chapters, adding proper markups;
-- use :field: markup;
+- adjust title markup;
+- adjust identation, whitespaces and blank lines where needed;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../freescale/{gianfar.txt => gianfar.rst}    | 21 +++++++++++++------
- .../networking/device_drivers/index.rst       |  1 +
- 2 files changed, 16 insertions(+), 6 deletions(-)
- rename Documentation/networking/device_drivers/freescale/{gianfar.txt => gianfar.rst} (82%)
+ Documentation/networking/index.rst            |  1 +
+ .../{xfrm_proc.txt => xfrm_proc.rst}          | 31 +++++++++++++++++++
+ 2 files changed, 32 insertions(+)
+ rename Documentation/networking/{xfrm_proc.txt => xfrm_proc.rst} (95%)
 
-diff --git a/Documentation/networking/device_drivers/freescale/gianfar.txt b/Documentation/networking/device_drivers/freescale/gianfar.rst
-similarity index 82%
-rename from Documentation/networking/device_drivers/freescale/gianfar.txt
-rename to Documentation/networking/device_drivers/freescale/gianfar.rst
-index ba1daea7f2e4..9c4a91d3824b 100644
---- a/Documentation/networking/device_drivers/freescale/gianfar.txt
-+++ b/Documentation/networking/device_drivers/freescale/gianfar.rst
-@@ -1,10 +1,15 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========================
- The Gianfar Ethernet Driver
-+===========================
- 
--Author: Andy Fleming <afleming@freescale.com>
--Updated: 2005-07-28
-+:Author: Andy Fleming <afleming@freescale.com>
-+:Updated: 2005-07-28
- 
- 
--CHECKSUM OFFLOADING
-+Checksum Offloading
-+===================
- 
- The eTSEC controller (first included in parts from late 2005 like
- the 8548) has the ability to perform TCP, UDP, and IP checksums
-@@ -15,13 +20,15 @@ packets.  Use ethtool to enable or disable this feature for RX
- and TX.
- 
- VLAN
-+====
- 
- In order to use VLAN, please consult Linux documentation on
- configuring VLANs.  The gianfar driver supports hardware insertion and
- extraction of VLAN headers, but not filtering.  Filtering will be
- done by the kernel.
- 
--MULTICASTING
-+Multicasting
-+============
- 
- The gianfar driver supports using the group hash table on the
- TSEC (and the extended hash table on the eTSEC) for multicast
-@@ -29,13 +36,15 @@ filtering.  On the eTSEC, the exact-match MAC registers are used
- before the hash tables.  See Linux documentation on how to join
- multicast groups.
- 
--PADDING
-+Padding
-+=======
- 
- The gianfar driver supports padding received frames with 2 bytes
- to align the IP header to a 16-byte boundary, when supported by
- hardware.
- 
--ETHTOOL
-+Ethtool
-+=======
- 
- The gianfar driver supports the use of ethtool for many
- configuration options.  You must run ethtool only on currently
-diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
-index 7e59ee43c030..cec3415ee459 100644
---- a/Documentation/networking/device_drivers/index.rst
-+++ b/Documentation/networking/device_drivers/index.rst
-@@ -38,6 +38,7 @@ Contents:
-    dec/dmfe
-    dlink/dl2k
-    freescale/dpaa
-+   freescale/gianfar
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index e31f6cb564b4..3fe70efb632e 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -118,6 +118,7 @@ Contents:
+    x25-iface
+    x25
+    xfrm_device
++   xfrm_proc
  
  .. only::  subproject and html
  
+diff --git a/Documentation/networking/xfrm_proc.txt b/Documentation/networking/xfrm_proc.rst
+similarity index 95%
+rename from Documentation/networking/xfrm_proc.txt
+rename to Documentation/networking/xfrm_proc.rst
+index 2eae619ab67b..0a771c5a7399 100644
+--- a/Documentation/networking/xfrm_proc.txt
++++ b/Documentation/networking/xfrm_proc.rst
+@@ -1,5 +1,9 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==================================
+ XFRM proc - /proc/net/xfrm_* files
+ ==================================
++
+ Masahide NAKAMURA <nakam@linux-ipv6.org>
+ 
+ 
+@@ -14,42 +18,58 @@ as part of the linux private MIB.  These counters can be viewed in
+ 
+ Inbound errors
+ ~~~~~~~~~~~~~~
++
+ XfrmInError:
+ 	All errors which is not matched others
++
+ XfrmInBufferError:
+ 	No buffer is left
++
+ XfrmInHdrError:
+ 	Header error
++
+ XfrmInNoStates:
+ 	No state is found
+ 	i.e. Either inbound SPI, address, or IPsec protocol at SA is wrong
++
+ XfrmInStateProtoError:
+ 	Transformation protocol specific error
+ 	e.g. SA key is wrong
++
+ XfrmInStateModeError:
+ 	Transformation mode specific error
++
+ XfrmInStateSeqError:
+ 	Sequence error
+ 	i.e. Sequence number is out of window
++
+ XfrmInStateExpired:
+ 	State is expired
++
+ XfrmInStateMismatch:
+ 	State has mismatch option
+ 	e.g. UDP encapsulation type is mismatch
++
+ XfrmInStateInvalid:
+ 	State is invalid
++
+ XfrmInTmplMismatch:
+ 	No matching template for states
+ 	e.g. Inbound SAs are correct but SP rule is wrong
++
+ XfrmInNoPols:
+ 	No policy is found for states
+ 	e.g. Inbound SAs are correct but no SP is found
++
+ XfrmInPolBlock:
+ 	Policy discards
++
+ XfrmInPolError:
+ 	Policy error
++
+ XfrmAcquireError:
+ 	State hasn't been fully acquired before use
++
+ XfrmFwdHdrError:
+ 	Forward routing of a packet is not allowed
+ 
+@@ -57,26 +77,37 @@ Outbound errors
+ ~~~~~~~~~~~~~~~
+ XfrmOutError:
+ 	All errors which is not matched others
++
+ XfrmOutBundleGenError:
+ 	Bundle generation error
++
+ XfrmOutBundleCheckError:
+ 	Bundle check error
++
+ XfrmOutNoStates:
+ 	No state is found
++
+ XfrmOutStateProtoError:
+ 	Transformation protocol specific error
++
+ XfrmOutStateModeError:
+ 	Transformation mode specific error
++
+ XfrmOutStateSeqError:
+ 	Sequence error
+ 	i.e. Sequence number overflow
++
+ XfrmOutStateExpired:
+ 	State is expired
++
+ XfrmOutPolBlock:
+ 	Policy discards
++
+ XfrmOutPolDead:
+ 	Policy is dead
++
+ XfrmOutPolError:
+ 	Policy error
++
+ XfrmOutStateInvalid:
+ 	State is invalid, perhaps expired
 -- 
 2.25.4
 
