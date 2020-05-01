@@ -2,151 +2,107 @@ Return-Path: <SRS0=ZV4e=6P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA746C47257
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F11C47257
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:51:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B714D20857
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588344555;
-	bh=cbS/UvPxXHd/6qKkogBfad5uTRh7vyKuBBi1oajHudE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=O3oeuL4yA2cHp6ip6wmY3XStCOvBVbNeTGqfPH5I/EjGF4h0N9z4RXDY7tTt5X8TS
-	 /UF9dtjirBsmsXqQ8JtQ3yWDSgOWJDRQocS3L+wW8pmLnuCGqBHFjzxsoDNZr7zcVs
-	 Hr0itHpCgBjSwhtMly2BSbwxqPJm4DDpGActv7vw=
+	by mail.kernel.org (Postfix) with ESMTP id 39611208DB
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:51:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBwfdaI5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730024AbgEAOtP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 10:49:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52484 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729319AbgEAOpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 May 2020 10:45:06 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EBC6320857;
-        Fri,  1 May 2020 14:45:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588344305;
-        bh=cbS/UvPxXHd/6qKkogBfad5uTRh7vyKuBBi1oajHudE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=c6s/cBheaWlXqvUtDzVeyOK6L+94HL+MiawJoaISJJbMvOsoWeBr+CDwlkVjiW3zA
-         ArYWytIDe71h2CT5HI+91e8/iy+4KkkTb2+I0SGIJI4yl/dVV0wgJRHL3c3/tK1iaf
-         WSAJC+wUgAiSWLfIIJ+wtpBoicf82h3PFc8Lt5z4=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jUWuT-00FCch-Ak; Fri, 01 May 2020 16:45:01 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        id S1728873AbgEAOvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 10:51:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728737AbgEAOvb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 10:51:31 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1AAAC061A0C;
+        Fri,  1 May 2020 07:51:31 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id q7so9450583qkf.3;
+        Fri, 01 May 2020 07:51:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iSF8qkyzOWCTJWVtIv/KwIUFYxZnWd76ArT3iSBhPAs=;
+        b=aBwfdaI5kzqFOE6foEl5YSlIVohmWNm0VSsIsIyw4DoiMSb3trTNF6MW5I/8i38nBr
+         7o+sjRUrSMrqPTvIszk/NBk8VotsDFZEVWbCiifR1tjPOyo/m2+yvRcU5Op9+yISUm4O
+         1CLZuOpLy5YmuwieyEqX6DA9nnC5t4Cu4G+NtqYdW+k+m9tyPhkabzK2Lic6avfSwS/+
+         LMQBUFFVgOGppTRBj5i4IBwBh3Bdz8WycXWW26g5Zi8n1M9vK05NzB1f/Jd4QqUF8qLu
+         rz8HnO5ev46glsYThvSyfInERjfIS4ANRphIDFSyerbzu1KHQvTORObBZOa97jgf1TKD
+         7fdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iSF8qkyzOWCTJWVtIv/KwIUFYxZnWd76ArT3iSBhPAs=;
+        b=jtiN3ntbh1vqUGkrSkktC3jeRD3Sn0Ds5PPq5cRTygL74nWUdg1PrGAnF63Dl0mjcg
+         K9h+6yTAqkfKFNAr2Z6kAzPNLLxOtiIp0IAE6PV57j1j8lfFmilEtN9roBm7gI292H6Q
+         n2AAddEmzn9xvRnkkFZIt87pF7Ebs8lWGSj3D7UQ+JXje+0dqUAE5Ia7EufmBle8k160
+         MCELoKilg9jckB1AZeiWjhbl4tkGTTS1dbxCbIIFnTTh4fMPkzUm6uCSD++x80io6424
+         5IB/vAutjHAzQkatFcz4EL/4BibrpvPC1o6ZtXt+hCBeW6w3sE/X2Tgb25Yub8pNcRTf
+         TrrQ==
+X-Gm-Message-State: AGi0PuYAB5h9QeXz3Ue3qmxREPboQNoOPpm/J0qHdNxTGS3UNza8m8+N
+        pKoMaLuO16SCBUWUpG+YBVTJkWiy
+X-Google-Smtp-Source: APiQypJIa6cdu+IKsx/LXE513SnU1kaYCk/ynYtFDjRz9LKo3QE4dI5s32VnrTFjrTGNvTQVBn7okw==
+X-Received: by 2002:a37:b185:: with SMTP id a127mr3829339qkf.87.1588344690768;
+        Fri, 01 May 2020 07:51:30 -0700 (PDT)
+Received: from ?IPv6:2601:282:803:7700:b01c:ec8e:d8ff:35b1? ([2601:282:803:7700:b01c:ec8e:d8ff:35b1])
+        by smtp.googlemail.com with ESMTPSA id i2sm2791303qki.54.2020.05.01.07.51.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 May 2020 07:51:30 -0700 (PDT)
+Subject: Re: [PATCH 03/37] docs: networking: convert vrf.txt to ReST
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 04/37] docs: networking: convert vxlan.txt to ReST
-Date:   Fri,  1 May 2020 16:44:26 +0200
-Message-Id: <f2a0c9b723a92b697e3161d2b93f5ae87cb3801b.1588344146.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <cover.1588344146.git.mchehab+huawei@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>,
+        David Ahern <dsahern@kernel.org>,
+        Shrijeet Mukherjee <shrijeet@gmail.com>, netdev@vger.kernel.org
 References: <cover.1588344146.git.mchehab+huawei@kernel.org>
+ <af2ba2c29e8dfa9fb66dda16311a28a9f7c8cf43.1588344146.git.mchehab+huawei@kernel.org>
+From:   David Ahern <dsahern@gmail.com>
+Message-ID: <5e6de21b-c26d-8d76-901d-f588575c3b0d@gmail.com>
+Date:   Fri, 1 May 2020 08:51:27 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <af2ba2c29e8dfa9fb66dda16311a28a9f7c8cf43.1588344146.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- add SPDX header;
-- adjust title markup;
-- mark code blocks and literals as such;
-- adjust identation, whitespaces and blank lines where needed;
-- add to networking/index.rst.
+On 5/1/20 8:44 AM, Mauro Carvalho Chehab wrote:
+> - add SPDX header;
+> - adjust title markup;
+> - Add a subtitle for the first section;
+> - mark code blocks and literals as such;
+> - adjust identation, whitespaces and blank lines;
+> - add to networking/index.rst.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/networking/index.rst |   1 +
+>  Documentation/networking/vrf.rst   | 451 +++++++++++++++++++++++++++++
+>  Documentation/networking/vrf.txt   | 418 --------------------------
+>  MAINTAINERS                        |   2 +-
+>  4 files changed, 453 insertions(+), 419 deletions(-)
+>  create mode 100644 Documentation/networking/vrf.rst
+>  delete mode 100644 Documentation/networking/vrf.txt
+> 
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/networking/index.rst            |  1 +
- .../networking/{vxlan.txt => vxlan.rst}       | 33 ++++++++++++-------
- 2 files changed, 22 insertions(+), 12 deletions(-)
- rename Documentation/networking/{vxlan.txt => vxlan.rst} (73%)
+Acked-by: David Ahern <dsahern@gmail.com>
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 2227b9f4509d..a72fdfb391b6 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -114,6 +114,7 @@ Contents:
-    tuntap
-    udplite
-    vrf
-+   vxlan
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/networking/vxlan.txt b/Documentation/networking/vxlan.rst
-similarity index 73%
-rename from Documentation/networking/vxlan.txt
-rename to Documentation/networking/vxlan.rst
-index c28f4989c3f0..ce239fa01848 100644
---- a/Documentation/networking/vxlan.txt
-+++ b/Documentation/networking/vxlan.rst
-@@ -1,3 +1,6 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================================
- Virtual eXtensible Local Area Networking documentation
- ======================================================
- 
-@@ -21,8 +24,9 @@ neighbors GRE and VLAN. Configuring VXLAN requires the version of
- iproute2 that matches the kernel release where VXLAN was first merged
- upstream.
- 
--1. Create vxlan device
-- # ip link add vxlan0 type vxlan id 42 group 239.1.1.1 dev eth1 dstport 4789
-+1. Create vxlan device::
-+
-+    # ip link add vxlan0 type vxlan id 42 group 239.1.1.1 dev eth1 dstport 4789
- 
- This creates a new device named vxlan0.  The device uses the multicast
- group 239.1.1.1 over eth1 to handle traffic for which there is no
-@@ -32,20 +36,25 @@ pre-dates the IANA's selection of a standard destination port number
- and uses the Linux-selected value by default to maintain backwards
- compatibility.
- 
--2. Delete vxlan device
--  # ip link delete vxlan0
-+2. Delete vxlan device::
- 
--3. Show vxlan info
--  # ip -d link show vxlan0
-+    # ip link delete vxlan0
-+
-+3. Show vxlan info::
-+
-+    # ip -d link show vxlan0
- 
- It is possible to create, destroy and display the vxlan
- forwarding table using the new bridge command.
- 
--1. Create forwarding table entry
--  # bridge fdb add to 00:17:42:8a:b4:05 dst 192.19.0.2 dev vxlan0
-+1. Create forwarding table entry::
- 
--2. Delete forwarding table entry
--  # bridge fdb delete 00:17:42:8a:b4:05 dev vxlan0
-+    # bridge fdb add to 00:17:42:8a:b4:05 dst 192.19.0.2 dev vxlan0
- 
--3. Show forwarding table
--  # bridge fdb show dev vxlan0
-+2. Delete forwarding table entry::
-+
-+    # bridge fdb delete 00:17:42:8a:b4:05 dev vxlan0
-+
-+3. Show forwarding table::
-+
-+    # bridge fdb show dev vxlan0
--- 
-2.25.4
 
