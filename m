@@ -7,94 +7,105 @@ X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2489EC35280
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 21:10:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13BC3C35280
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 21:26:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EAAE021835
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 21:10:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E134520857
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 21:26:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fCAAf2+V"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SGFMB9zh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbgEAVKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 17:10:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38538 "EHLO
+        id S1726318AbgEAV0c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 17:26:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726045AbgEAVKq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 17:10:46 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8EAFC061A0C;
-        Fri,  1 May 2020 14:10:44 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id h124so10520366qke.11;
-        Fri, 01 May 2020 14:10:44 -0700 (PDT)
+        with ESMTP id S1726045AbgEAV0c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 17:26:32 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAD16C061A0C;
+        Fri,  1 May 2020 14:26:31 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id i10so13082246wrv.10;
+        Fri, 01 May 2020 14:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=4raYYwlZeCPb51zzK5P1JX3NYA3M/dL6M9ecAXSbJTM=;
-        b=fCAAf2+VOINsY/rRVDMrPybsp9nJTjGZbWjH11kd20m6TV+q7W4IY9T+Bcai3OPD9w
-         eFTWq9JcrR8LgWFc8ahCeVJNB9sd2CpWHX5l8LYc2FL3XoDBjwxE3WNISnaRM2U6IVxk
-         S3dKP7JMTDgz50CDNmhKJzXojxqk/TQWnlB+wQjBQdRswTXt3goPpdglsuIzVpsDUfx8
-         Rgb10kxj5yDzdBn2PE5KWltRRzFVHOs98HU64W1bl694KilSVPVbsQj260l/1IAqVYhL
-         nZkSCJVn0HYCir/CipAhFBRbCNHNKWa5yg7Ma/tnKEd/MRx5DsN+8rSCdYEvF2mZrJpW
-         eq9w==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=JOH0fItTITIs39+numeUrXseWQMyJbcgZrHAP+cimTE=;
+        b=SGFMB9zhhFAaqlWEjTYajAyach4csZy/ytVyPW3zHe2r3kZQUR13WN8vusEwKFG6MA
+         BwLobj60xhZLlb9iRUZsXxyQWW1nV2nMQ73TEEx5rihpzV10YmTG996Y5llN4XgDf9/6
+         G0ToBT2JWuQL/YEpThEEQphErRD3LcdR5gBmYm7SP9TJ0Lj5siCIRwDAQur0kYj35709
+         xRJu/HktNa0Exy7wN9af8/EarEAAm9lkra8KN2M1IBeBYQZ8ZjsSK0VWI1mcv2t2EwNB
+         geLGmqrBFWxbSthxh+Rc2SpnSUC3gvsulp9J5qvH3tGtv1GOEsQLrUEQKQiIfe0LYPU+
+         PRuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4raYYwlZeCPb51zzK5P1JX3NYA3M/dL6M9ecAXSbJTM=;
-        b=smdLkJjdHARod5ezHFr7OA90+b1+bnR7jczwWOt9BnIIjwWHSv8nJYeBKh/LLZA392
-         fKI6/eWJQpNqvBZ8tyqHY82WhjZBao+D1iwaJMp1Ul+xt3XHgov7ox2IJIOKautDH/dy
-         FGxWjduc2mMCQdE78ZYXmcL0B4kuty+AooVGTkJVYFR0Dp5k9q8JD1fuL04QWDPZTRLM
-         hfW4DPvHLH6an+Lrfe3vRct6nguMJrwUdJOAP+E5c2W2tweK6yXpg3roReIOUsBmujbV
-         Bh3zcPpAkM4uoOycobGfb9ABtKkXRx79uf3CZ3LGsnJrk3izNvw2lOPTYHz9fXUkGU1x
-         XHSg==
-X-Gm-Message-State: AGi0PuYFF4GsCZnmn+3wAHnvMHzD3gekPqXf9tp/qcv2vPmssrlybMyx
-        PwZK3lRqwRRHspr5Dz+I3P4=
-X-Google-Smtp-Source: APiQypJS2xBXb/Rw2v0s2jy7FIpC/aX9vUBA0gBSKfTqmuleXydYboe8ODoXXXvx6K9nQWFa/oV17Q==
-X-Received: by 2002:a37:9ccb:: with SMTP id f194mr5457334qke.151.1588367443753;
-        Fri, 01 May 2020 14:10:43 -0700 (PDT)
-Received: from josh-ZenBook ([70.32.0.110])
-        by smtp.gmail.com with ESMTPSA id m12sm3528461qtu.42.2020.05.01.14.10.42
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 01 May 2020 14:10:43 -0700 (PDT)
-Date:   Fri, 1 May 2020 17:10:40 -0400
-From:   Joshua Abraham <j.abraham1776@gmail.com>
-To:     Sean Christopherson <sean.j.christopherson@intel.com>
-Cc:     pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        j.abraham1776@gmail.com
-Subject: Re: [PATCH] docs: kvm: Fix KVM_KVMCLOCK_CTRL API doc
-Message-ID: <20200501211040.GA22118@josh-ZenBook>
-References: <20200501193404.GA19745@josh-ZenBook>
- <20200501201836.GB4760@linux.intel.com>
- <20200501203234.GA20693@josh-ZenBook>
- <20200501205106.GE4760@linux.intel.com>
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=JOH0fItTITIs39+numeUrXseWQMyJbcgZrHAP+cimTE=;
+        b=GLBSkNFN1/5FrJ4Mcr07t+8G8GM5UsbZ7mYLXKOoDqC6ln8h6G3EmmhJOu/QKlcLML
+         qZEi9CJqCzmoj6lXDyzIdwOO9C/YBK20XTn2UTpYMZ3YSrYXuxqZPyPz1kjiWSyD3zrc
+         p3ywrBlnP6dgphdg3lSZgHTENTI9+B3MvMwmz89ui1ELltVRkhP7GF12iihexcm0ku8I
+         fH7NYPq6QGPm5d/0yNCkOez+UQnNLgbc7naKR+OV8xpXKtieXawONotXfKvnuKBj459M
+         6IUDQxYDu65mdd2z3P8DwD11R5Pxr1d/SaWGTF7z0eVRyFjQcBDcF+I3nvX59qOaRmuO
+         ZOiA==
+X-Gm-Message-State: AGi0Pube6N8OBQSmhnoEJDArjEYSHrjWUYxmaI0OQDhNs6gQ7Q1JLTXZ
+        +SN2Bz1tPCDJs14vrQwtnIO/USiN
+X-Google-Smtp-Source: APiQypL23UwaAkxJFtARnSDV0JtYcxhhSH4y4yep71Eo+dDIu5o9qFVvB5kZYfZuS0GcMgkJe+Yt5w==
+X-Received: by 2002:adf:e943:: with SMTP id m3mr5850885wrn.248.1588368389448;
+        Fri, 01 May 2020 14:26:29 -0700 (PDT)
+Received: from ?IPv6:2003:ea:8f06:ee00:bcdf:534e:d44f:409? (p200300EA8F06EE00BCDF534ED44F0409.dip0.t-ipconnect.de. [2003:ea:8f06:ee00:bcdf:534e:d44f:409])
+        by smtp.googlemail.com with ESMTPSA id t2sm1157947wmt.15.2020.05.01.14.26.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 May 2020 14:26:29 -0700 (PDT)
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Realtek linux nic maintainers <nic_swsd@realtek.com>,
+        David Miller <davem@davemloft.net>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+From:   Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH net-next 0/2] timer: add fsleep for flexible sleeping
+Message-ID: <8e3c56ca-b43f-3877-0104-a1a279d5a6c5@gmail.com>
+Date:   Fri, 1 May 2020 23:26:21 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200501205106.GE4760@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 01, 2020 at 01:51:06PM -0700, Sean Christopherson wrote:
-> I don't disagree, but simply doing s/host/guest yields a misleading
-> sentence and inconsistencies with the rest of the paragraph.
+Sleeping for a certain amount of time requires use of different
+functions, depending on the time period.
+Documentation/timers/timers-howto.rst explains when to use which
+function, and also checkpatch checks for some potentially
+problematic cases.
 
-I see your point. Would this wording be clearer:
+So let's create a helper that automatically chooses the appropriate
+sleep function -> fsleep(), for flexible sleeping
+Not sure why such a helper doesn't exist yet, or where the pitfall is,
+because it's a quite obvious idea.
 
-"This ioctl sets a flag accessible to the guest indicating that it has been
-paused from the host userspace.
+If the delay is a constant, then the compiler should be able to ensure
+that the new helper doesn't create overhead. If the delay is not
+constant, then the new helper can save some code.
 
-The host will set a flag in the pvclock structure that is checked
-from the soft lockup watchdog.  The flag is part of the pvclock structure that
-is shared between guest and host, specifically the second bit of the flags
-field of the pvclock_vcpu_time_info structure.  It will be set exclusively by
-the host and read/cleared exclusively by the guest.  The guest operation of
-checking and clearing the flag must be an atomic operation so
-load-link/store-conditional, or equivalent must be used.  There are two cases
-where the guest will clear the flag: when the soft lockup watchdog timer resets
-itself or when a soft lockup is detected.  This ioctl can be called any time
-after pausing the vcpu, but before it is resumed."
+First user is the r8169 network driver. If nothing speaks against it,
+then this series could go through the netdev tree.
+
+Heiner Kallweit (2):
+  timer: add fsleep for flexible sleeping
+  r8169: use fsleep in polling functions
+
+ Documentation/timers/timers-howto.rst     |   3 +
+ drivers/net/ethernet/realtek/r8169_main.c | 108 +++++++++-------------
+ include/linux/delay.h                     |  11 +++
+ 3 files changed, 58 insertions(+), 64 deletions(-)
+
+-- 
+2.26.2
+
