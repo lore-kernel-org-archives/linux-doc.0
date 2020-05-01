@@ -7,49 +7,50 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D34C47258
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:45:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D036C47257
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:45:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26EAB2495C
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:45:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 097E924953
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:45:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588344310;
-	bh=qq2zKoYdCyEqjqt0U3RX9qvpvrnb6fBfrYVGRgOwH4E=;
+	s=default; t=1588344323;
+	bh=i+lrJtK79ZaXiQi7kH81Bt50ZwWqRguIb+LxCqpjH30=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Ov4I5jWCcqwP8PitlkbAV8uTYykmSjdF/C/gJKYR2Qr8G7kuMakeuoxxSeHwHYDZ5
-	 mM5uMv1ItpVP8yT5PQJT8bEXvRTvvi7r/rl3amTjgC0W602sCsZE5cK8t6Ah1gYoG/
-	 3yrsgQXkqewvzVTMGk/jJVV+xFg0VM4dDRyCAhA8=
+	b=rnQZj1r4reeqqCDPxP83mgqP7ur3B0q8l2VXwZplAE1TPcmvinnsxTeMd9kmu8Snw
+	 lXEHTRRyy1d6xW6ueLNrWLDdJYloQfo6B9JKqFEeZ1Xsv8xc5d/PSZXpiRaykTWUzV
+	 wlxgEb/WRhYequIB8UeU84mlQl/ZxW5cadBXxSZo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729545AbgEAOpJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 10:45:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52268 "EHLO mail.kernel.org"
+        id S1729733AbgEAOpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 10:45:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52490 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729282AbgEAOpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 May 2020 10:45:06 -0400
+        id S1729281AbgEAOpM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 May 2020 10:45:12 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F158724956;
-        Fri,  1 May 2020 14:45:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0A6B524964;
+        Fri,  1 May 2020 14:45:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588344305;
-        bh=qq2zKoYdCyEqjqt0U3RX9qvpvrnb6fBfrYVGRgOwH4E=;
+        s=default; t=1588344308;
+        bh=i+lrJtK79ZaXiQi7kH81Bt50ZwWqRguIb+LxCqpjH30=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Lbh0Vp46Y2jWH8lEr92N3b6ussd/33EaiPdihekY3jO3xEPEh64AmQt3OChsJgFlj
-         zMu1Cgs68HCgzFHcGeL9WsJQRkGto8EsI5Kqau9iNF6FC5jXTarImOfE41hB90xQg0
-         AY3xzBCL8+oU/SvEKf0B+VT7HXW+eCozkcQmmf4c=
+        b=jZU0K1QgxxAI9rLf9ttqocELdAPAOPi1PYgrKlo5LvO9QT5Qu4VXVD/6T/htKaEYq
+         b5V6HMhTiqWP4YiSQZBJd+0+QxYtjxtuCpb63Ic5YozlvxtQsS6SjVuaJe+QkwbcQY
+         fvjkz3VgmBohjPXpt3e73AVW52YmpJITS1txCslY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUWuT-00FCd8-Ej; Fri, 01 May 2020 16:45:01 +0200
+        id 1jUWuU-00FCfG-40; Fri, 01 May 2020 16:45:02 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 09/37] docs: networking: convert xfrm_sync.txt to ReST
-Date:   Fri,  1 May 2020 16:44:31 +0200
-Message-Id: <ffea07769fc84dfdf950390d756ecd881c7d0b8f.1588344146.git.mchehab+huawei@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>,
+        Samuel Chessman <chessman@tux.org>, netdev@vger.kernel.org
+Subject: [PATCH 34/37] docs: networking: device drivers: convert ti/tlan.txt to ReST
+Date:   Fri,  1 May 2020 16:44:56 +0200
+Message-Id: <7964e7144500da480550be3b1b1edfaaab131744.1588344146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588344146.git.mchehab+huawei@kernel.org>
 References: <cover.1588344146.git.mchehab+huawei@kernel.org>
@@ -61,185 +62,233 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
-- add a document title;
 - adjust titles and chapters, adding proper markups;
+- mark tables as such;
 - mark code blocks and literals as such;
 - adjust identation, whitespaces and blank lines where needed;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/index.rst            |  1 +
- .../{xfrm_sync.txt => xfrm_sync.rst}          | 66 ++++++++++++-------
- 2 files changed, 44 insertions(+), 23 deletions(-)
- rename Documentation/networking/{xfrm_sync.txt => xfrm_sync.rst} (82%)
+ .../networking/device_drivers/index.rst       |  1 +
+ .../device_drivers/ti/{tlan.txt => tlan.rst}  | 73 ++++++++++++-------
+ MAINTAINERS                                   |  2 +-
+ drivers/net/ethernet/ti/Kconfig               |  2 +-
+ drivers/net/ethernet/ti/tlan.c                |  2 +-
+ 5 files changed, 52 insertions(+), 28 deletions(-)
+ rename Documentation/networking/device_drivers/ti/{tlan.txt => tlan.rst} (73%)
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 3fe70efb632e..ec83bd95e4e9 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -119,6 +119,7 @@ Contents:
-    x25
-    xfrm_device
-    xfrm_proc
-+   xfrm_sync
+diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
+index 1d3b664e6921..adc0bf65fb02 100644
+--- a/Documentation/networking/device_drivers/index.rst
++++ b/Documentation/networking/device_drivers/index.rst
+@@ -49,6 +49,7 @@ Contents:
+    smsc/smc9
+    ti/cpsw_switchdev
+    ti/cpsw
++   ti/tlan
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/xfrm_sync.txt b/Documentation/networking/xfrm_sync.rst
-similarity index 82%
-rename from Documentation/networking/xfrm_sync.txt
-rename to Documentation/networking/xfrm_sync.rst
-index 8d88e0f2ec49..6246503ceab2 100644
---- a/Documentation/networking/xfrm_sync.txt
-+++ b/Documentation/networking/xfrm_sync.rst
-@@ -1,3 +1,8 @@
+diff --git a/Documentation/networking/device_drivers/ti/tlan.txt b/Documentation/networking/device_drivers/ti/tlan.rst
+similarity index 73%
+rename from Documentation/networking/device_drivers/ti/tlan.txt
+rename to Documentation/networking/device_drivers/ti/tlan.rst
+index 34550dfcef74..4fdc0907f4fc 100644
+--- a/Documentation/networking/device_drivers/ti/tlan.txt
++++ b/Documentation/networking/device_drivers/ti/tlan.rst
+@@ -1,20 +1,33 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+====
-+XFRM
-+====
- 
- The sync patches work is based on initial patches from
- Krisztian <hidden@balabit.hu> and others and additional patches
-@@ -40,30 +45,32 @@ The netlink message types are:
- XFRM_MSG_NEWAE and XFRM_MSG_GETAE.
- 
- A XFRM_MSG_GETAE does not have TLVs.
++=====================
++TLAN driver for Linux
++=====================
 +
- A XFRM_MSG_NEWAE will have at least two TLVs (as is
- discussed further below).
- 
--aevent_id structure looks like:
-+aevent_id structure looks like::
- 
-    struct xfrm_aevent_id {
--             struct xfrm_usersa_id           sa_id;
--             xfrm_address_t                  saddr;
--             __u32                           flags;
--             __u32                           reqid;
-+	     struct xfrm_usersa_id           sa_id;
-+	     xfrm_address_t                  saddr;
-+	     __u32                           flags;
-+	     __u32                           reqid;
-    };
- 
- The unique SA is identified by the combination of xfrm_usersa_id,
- reqid and saddr.
- 
- flags are used to indicate different things. The possible
--flags are:
--        XFRM_AE_RTHR=1, /* replay threshold*/
--        XFRM_AE_RVAL=2, /* replay value */
--        XFRM_AE_LVAL=4, /* lifetime value */
--        XFRM_AE_ETHR=8, /* expiry timer threshold */
--        XFRM_AE_CR=16, /* Event cause is replay update */
--        XFRM_AE_CE=32, /* Event cause is timer expiry */
--        XFRM_AE_CU=64, /* Event cause is policy update */
-+flags are::
++:Version: 1.14a
 +
-+	XFRM_AE_RTHR=1, /* replay threshold*/
-+	XFRM_AE_RVAL=2, /* replay value */
-+	XFRM_AE_LVAL=4, /* lifetime value */
-+	XFRM_AE_ETHR=8, /* expiry timer threshold */
-+	XFRM_AE_CR=16, /* Event cause is replay update */
-+	XFRM_AE_CE=32, /* Event cause is timer expiry */
-+	XFRM_AE_CU=64, /* Event cause is policy update */
- 
- How these flags are used is dependent on the direction of the
- message (kernel<->user) as well the cause (config, query or event).
-@@ -80,23 +87,27 @@ to get notified of these events.
- -----------------------------------------
- 
- a) byte value (XFRMA_LTIME_VAL)
+ (C) 1997-1998 Caldera, Inc.
 +
- This TLV carries the running/current counter for byte lifetime since
- last event.
- 
- b)replay value (XFRMA_REPLAY_VAL)
+ (C) 1998 James Banks
 +
- This TLV carries the running/current counter for replay sequence since
- last event.
+ (C) 1999-2001 Torben Mathiasen <tmm@image.dk, torben.mathiasen@compaq.com>
  
- c)replay threshold (XFRMA_REPLAY_THRESH)
-+
- This TLV carries the threshold being used by the kernel to trigger events
- when the replay sequence is exceeded.
+ For driver information/updates visit http://www.compaq.com
  
- d) expiry timer (XFRMA_ETIMER_THRESH)
-+
- This is a timer value in milliseconds which is used as the nagle
- value to rate limit the events.
  
- 3) Default configurations for the parameters:
------------------------------------------------
-+---------------------------------------------
+-TLAN driver for Linux, version 1.14a
+-README
  
- By default these events should be turned off unless there is
- at least one listener registered to listen to the multicast
-@@ -108,6 +119,7 @@ we also provide default threshold values for these different parameters
- in case they are not specified.
  
- the two sysctls/proc entries are:
+-I.  Supported Devices.
 +
- a) /proc/sys/net/core/sysctl_xfrm_aevent_etime
- used to provide default values for the XFRMA_ETIMER_THRESH in incremental
- units of time of 100ms. The default is 10 (1 second)
-@@ -120,37 +132,45 @@ in incremental packet count. The default is two packets.
- ----------------
++I. Supported Devices
++====================
  
- a) XFRM_MSG_GETAE issued by user-->kernel.
--XFRM_MSG_GETAE does not carry any TLVs.
-+   XFRM_MSG_GETAE does not carry any TLVs.
-+
- The response is a XFRM_MSG_NEWAE which is formatted based on what
- XFRM_MSG_GETAE queried for.
-+
- The response will always have XFRMA_LTIME_VAL and XFRMA_REPLAY_VAL TLVs.
--*if XFRM_AE_RTHR flag is set, then XFRMA_REPLAY_THRESH is also retrieved
--*if XFRM_AE_ETHR flag is set, then XFRMA_ETIMER_THRESH is also retrieved
-+* if XFRM_AE_RTHR flag is set, then XFRMA_REPLAY_THRESH is also retrieved
-+* if XFRM_AE_ETHR flag is set, then XFRMA_ETIMER_THRESH is also retrieved
+     Only PCI devices will work with this driver.
  
- b) XFRM_MSG_NEWAE is issued by either user space to configure
--or kernel to announce events or respond to a XFRM_MSG_GETAE.
-+   or kernel to announce events or respond to a XFRM_MSG_GETAE.
+     Supported:
++
++    =========	=========	===========================================
+     Vendor ID	Device ID	Name
++    =========	=========	===========================================
+     0e11	ae32		Compaq Netelligent 10/100 TX PCI UTP
+     0e11	ae34		Compaq Netelligent 10 T PCI UTP
+     0e11	ae35		Compaq Integrated NetFlex 3/P
+@@ -25,13 +38,14 @@ I.  Supported Devices.
+     0e11	b030		Compaq Netelligent 10/100 TX UTP
+     0e11	f130		Compaq NetFlex 3/P
+     0e11	f150		Compaq NetFlex 3/P
+-    108d	0012		Olicom OC-2325	
++    108d	0012		Olicom OC-2325
+     108d	0013		Olicom OC-2183
+-    108d	0014		Olicom OC-2326	
++    108d	0014		Olicom OC-2326
++    =========	=========	===========================================
  
- i) user --> kernel to configure a specific SA.
-+
- any of the values or threshold parameters can be updated by passing the
- appropriate TLV.
-+
- A response is issued back to the sender in user space to indicate success
- or failure.
-+
- In the case of success, additionally an event with
- XFRM_MSG_NEWAE is also issued to any listeners as described in iii).
  
- ii) kernel->user direction as a response to XFRM_MSG_GETAE
+     Caveats:
+-    
 +
- The response will always have XFRMA_LTIME_VAL and XFRMA_REPLAY_VAL TLVs.
-+
- The threshold TLVs will be included if explicitly requested in
- the XFRM_MSG_GETAE message.
+     I am not sure if 100BaseTX daughterboards (for those cards which
+     support such things) will work.  I haven't had any solid evidence
+     either way.
+@@ -41,21 +55,25 @@ I.  Supported Devices.
  
- iii) kernel->user to report as event if someone sets any values or
--thresholds for an SA using XFRM_MSG_NEWAE (as described in #i above).
--In such a case XFRM_AE_CU flag is set to inform the user that
--the change happened as a result of an update.
--The message will always have XFRMA_LTIME_VAL and XFRMA_REPLAY_VAL TLVs.
-+     thresholds for an SA using XFRM_MSG_NEWAE (as described in #i above).
-+     In such a case XFRM_AE_CU flag is set to inform the user that
-+     the change happened as a result of an update.
-+     The message will always have XFRMA_LTIME_VAL and XFRMA_REPLAY_VAL TLVs.
+     The "Netelligent 10 T/2 PCI UTP/Coax" (b012) device is untested,
+     but I do not expect any problems.
+-    
  
- iv) kernel->user to report event when replay threshold or a timeout
--is exceeded.
-+    is exceeded.
+-II.   Driver Options
 +
- In such a case either XFRM_AE_CR (replay exceeded) or XFRM_AE_CE (timeout
- happened) is set to inform the user what happened.
- Note the two flags are mutually exclusive.
++II. Driver Options
++==================
++
+ 	1. You can append debug=x to the end of the insmod line to get
+-           debug messages, where x is a bit field where the bits mean
++	   debug messages, where x is a bit field where the bits mean
+ 	   the following:
+-	   
++
++	   ====		=====================================
+ 	   0x01		Turn on general debugging messages.
+ 	   0x02		Turn on receive debugging messages.
+ 	   0x04		Turn on transmit debugging messages.
+ 	   0x08		Turn on list debugging messages.
++	   ====		=====================================
+ 
+ 	2. You can append aui=1 to the end of the insmod line to cause
+-           the adapter to use the AUI interface instead of the 10 Base T
+-           interface.  This is also what to do if you want to use the BNC
++	   the adapter to use the AUI interface instead of the 10 Base T
++	   interface.  This is also what to do if you want to use the BNC
+ 	   connector on a TLAN based device.  (Setting this option on a
+ 	   device that does not have an AUI/BNC connector will probably
+ 	   cause it to not function correctly.)
+@@ -70,41 +88,45 @@ II.   Driver Options
+ 
+ 	5. You have to use speed=X duplex=Y together now. If you just
+ 	   do "insmod tlan.o speed=100" the driver will do Auto-Neg.
+-	   To force a 10Mbps Half-Duplex link do "insmod tlan.o speed=10 
++	   To force a 10Mbps Half-Duplex link do "insmod tlan.o speed=10
+ 	   duplex=1".
+ 
+ 	6. If the driver is built into the kernel, you can use the 3rd
+ 	   and 4th parameters to set aui and debug respectively.  For
+-	   example:
++	   example::
+ 
+-	   ether=0,0,0x1,0x7,eth0
++		ether=0,0,0x1,0x7,eth0
+ 
+ 	   This sets aui to 0x1 and debug to 0x7, assuming eth0 is a
+ 	   supported TLAN device.
+ 
+ 	   The bits in the third byte are assigned as follows:
+ 
+-		0x01 = aui
+-		0x02 = use half duplex
+-		0x04 = use full duplex
+-		0x08 = use 10BaseT
+-		0x10 = use 100BaseTx
++		====   ===============
++		0x01   aui
++		0x02   use half duplex
++		0x04   use full duplex
++		0x08   use 10BaseT
++		0x10   use 100BaseTx
++		====   ===============
+ 
+ 	   You also need to set both speed and duplex settings when forcing
+-	   speeds with kernel-parameters. 
++	   speeds with kernel-parameters.
+ 	   ether=0,0,0x12,0,eth0 will force link to 100Mbps Half-Duplex.
+ 
+ 	7. If you have more than one tlan adapter in your system, you can
+ 	   use the above options on a per adapter basis. To force a 100Mbit/HD
+-	   link with your eth1 adapter use:
+-	   
+-	   insmod tlan speed=0,100 duplex=0,1
++	   link with your eth1 adapter use::
++
++		insmod tlan speed=0,100 duplex=0,1
+ 
+ 	   Now eth0 will use auto-neg and eth1 will be forced to 100Mbit/HD.
+ 	   Note that the tlan driver supports a maximum of 8 adapters.
+ 
+ 
+-III.  Things to try if you have problems.
++III. Things to try if you have problems
++=======================================
++
+ 	1. Make sure your card's PCI id is among those listed in
+ 	   section I, above.
+ 	2. Make sure routing is correct.
+@@ -113,5 +135,6 @@ III.  Things to try if you have problems.
+ 
+ There is also a tlan mailing list which you can join by sending "subscribe tlan"
+ in the body of an email to majordomo@vuser.vu.union.edu.
++
+ There is also a tlan website at http://www.compaq.com
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0054a0a87d5f..b0b352389d14 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17017,7 +17017,7 @@ M:	Samuel Chessman <chessman@tux.org>
+ L:	tlan-devel@lists.sourceforge.net (subscribers-only)
+ S:	Maintained
+ W:	http://sourceforge.net/projects/tlan/
+-F:	Documentation/networking/device_drivers/ti/tlan.txt
++F:	Documentation/networking/device_drivers/ti/tlan.rst
+ F:	drivers/net/ethernet/ti/tlan.*
+ 
+ TM6000 VIDEO4LINUX DRIVER
+diff --git a/drivers/net/ethernet/ti/Kconfig b/drivers/net/ethernet/ti/Kconfig
+index 89cec778cf2d..7b0ad777828d 100644
+--- a/drivers/net/ethernet/ti/Kconfig
++++ b/drivers/net/ethernet/ti/Kconfig
+@@ -138,7 +138,7 @@ config TLAN
+ 
+ 	  Devices currently supported by this driver are Compaq Netelligent,
+ 	  Compaq NetFlex and Olicom cards.  Please read the file
+-	  <file:Documentation/networking/device_drivers/ti/tlan.txt>
++	  <file:Documentation/networking/device_drivers/ti/tlan.rst>
+ 	  for more details.
+ 
+ 	  To compile this driver as a module, choose M here. The module
+diff --git a/drivers/net/ethernet/ti/tlan.c b/drivers/net/ethernet/ti/tlan.c
+index ad465202980a..857709828058 100644
+--- a/drivers/net/ethernet/ti/tlan.c
++++ b/drivers/net/ethernet/ti/tlan.c
+@@ -70,7 +70,7 @@ MODULE_DESCRIPTION("Driver for TI ThunderLAN based ethernet PCI adapters");
+ MODULE_LICENSE("GPL");
+ 
+ /* Turn on debugging.
+- * See Documentation/networking/device_drivers/ti/tlan.txt for details
++ * See Documentation/networking/device_drivers/ti/tlan.rst for details
+  */
+ static  int		debug;
+ module_param(debug, int, 0);
 -- 
 2.25.4
 
