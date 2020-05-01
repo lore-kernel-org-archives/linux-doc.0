@@ -2,74 +2,101 @@ Return-Path: <SRS0=ZV4e=6P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09860C47257
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 19:33:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC05AC47253
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 19:34:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC9032137B
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 19:33:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F3AF21835
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 19:34:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l+M6ffx8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbgEATdL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 15:33:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51486 "EHLO
+        id S1726871AbgEATeL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 15:34:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726377AbgEATdL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 15:33:11 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E5C9C061A0C;
-        Fri,  1 May 2020 12:33:11 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 1F6D414BE8274;
-        Fri,  1 May 2020 12:33:09 -0700 (PDT)
-Date:   Fri, 01 May 2020 12:33:08 -0700 (PDT)
-Message-Id: <20200501.123308.956105770476039545.davem@davemloft.net>
-To:     mchehab+huawei@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, chessman@tux.org, netdev@vger.kernel.org,
-        andrew.hendry@gmail.com, zorik@amazon.com, stranche@codeaurora.org,
-        irusskikh@marvell.com, jdmason@kudzu.us, haiyangz@microsoft.com,
-        linux-x25@vger.kernel.org, wei.liu@kernel.org,
-        linux-hyperv@vger.kernel.org, kvalo@codeaurora.org,
-        kuba@kernel.org, subashab@codeaurora.org, dsahern@kernel.org,
-        kys@microsoft.com, kou.ishizaki@toshiba.co.jp, jreuter@yaina.de,
-        saeedb@amazon.com, shrijeet@gmail.com, netanel@amazon.com,
-        stas.yakovlev@gmail.com, gtzalik@amazon.com, maxk@qti.qualcomm.com,
-        akiyano@amazon.com, linux-wireless@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-parisc@vger.kernel.org,
-        klassert@kernel.org, sthemmin@microsoft.com
-Subject: Re: [PATCH 00/37]net: manually convert files to ReST format - part
- 3 (final)
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <cover.1588344146.git.mchehab+huawei@kernel.org>
-References: <cover.1588344146.git.mchehab+huawei@kernel.org>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Fri, 01 May 2020 12:33:10 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1726475AbgEATeK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 15:34:10 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8A4C061A0C;
+        Fri,  1 May 2020 12:34:10 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id i7so1916422qkl.12;
+        Fri, 01 May 2020 12:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=kfVrPN6y9lsLFf6FqSXZapvj2RnD4kAcpEoqz9NVXVA=;
+        b=l+M6ffx8Kub9ieJ5klTStggW2FMVS0kYfyOWyBXasFLngqRD92GB65VNCbXOh9HInw
+         N55Re0WbtaIF7p2xBP/aunGnncfJ5xuyVUnDSuA0BKbZZk1FFgjLLeDiwUU/iRvSKrML
+         EVVPH1W/I7tFsiclreaRCVEz+6rsvPjLKIarZ/HiGcXv6ilvX9bz3tZW7glktxoNU49g
+         xA6U+500y+XE8Q1NEpvWOFA0tIRepTIgbMVezuv+ncVPzOJlI+43OdbHKkM8VM7mEtQD
+         1EmQQ+e+rfj398T+qSu4Vyh3pco/q/GOn47Pc1Fa1SGKcutwsrVXAxmjTcY60eZEPfi7
+         6PPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=kfVrPN6y9lsLFf6FqSXZapvj2RnD4kAcpEoqz9NVXVA=;
+        b=RiR9Bd/sY271g5N3kEvSWp6fHh5+Wc5l/uL9mdsHB25sT6kgIDoBH9p+wL79DN5r+v
+         acRlkEMkdgm6ESs9Ptkyy/g3rsO57uRxTDSlWNfksLvWkVt4Do+9omrTS6Msqp3F7Sa7
+         JtU9Xjw96sLhym3Ymv6ez/4Cfu9p7L9AdYY/j2JovFcWdQINLVZgw1DmjPjW2REOO8v6
+         NbiWx8Wv97bj2v6cUrzShmtEpgeACQLTJRBbp+9sc3poNA8+YF8YpOHW6qBkrWNqV2z3
+         KhZqMwrGztY38SPLJxz1o8/AFnC1oxMGnPpx3hbvggIRnqUbNHuKMTEKa64QAJmaq1Ec
+         zcCQ==
+X-Gm-Message-State: AGi0PuZ8zMmRuow+chfy/I/DbOIOQD1k5IV5pTLQSumxNJRUdANCy5M+
+        AGVtD43pWxLujsTDtKBnoovH1Vc5/Gtczw==
+X-Google-Smtp-Source: APiQypJZPCbu5MQXz1ynhnhYrfqdUD4mueLaxvwiSauDlRPwu+3OvCoXPzjHW1cMBypPaUjLvyck1w==
+X-Received: by 2002:a05:620a:2199:: with SMTP id g25mr648855qka.147.1588361649910;
+        Fri, 01 May 2020 12:34:09 -0700 (PDT)
+Received: from josh-ZenBook ([70.32.0.110])
+        by smtp.gmail.com with ESMTPSA id u7sm3334136qkc.1.2020.05.01.12.34.08
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 01 May 2020 12:34:09 -0700 (PDT)
+From:   Joshua Abraham <j.abraham1776@gmail.com>
+X-Google-Original-From: Joshua Abraham <sinisterpatrician@gmail.com>
+Date:   Fri, 1 May 2020 15:34:06 -0400
+To:     pbonzini@redhat.com
+Cc:     corbet@lwn.net, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, j.abraham1776@gmail.com
+Subject: [PATCH] docs: kvm: Fix KVM_KVMCLOCK_CTRL API doc
+Message-ID: <20200501193404.GA19745@josh-ZenBook>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Date: Fri,  1 May 2020 16:44:22 +0200
+The KVM_KVMCLOCK_CTRL ioctl signals to supported KVM guests
+that the hypervisor has paused it. This updates the documentation 
+to reflect that the guest, not the host is notified by this API.
 
-> That's the third part (and the final one) of my work to convert the networking
-> text files into ReST. it is based on linux-next next-20200430 branch.
-> 
-> The full series (including those ones) are at:
-> 
-> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=net-docs
-> 
-> The  built output documents, on html format is at:
-> 
-> 	https://www.infradead.org/~mchehab/kernel_docs/networking/
+Signed-off-by: Joshua Abraham <j.abraham1776@gmail.com>
+---
+ Documentation/virt/kvm/api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Series applied, thanks for doing all of this work.
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index efbbe570aa9b..06a4d9bfc6e5 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -2572,7 +2572,7 @@ list in 4.68.
+ :Parameters: None
+ :Returns: 0 on success, -1 on error
+ 
+-This signals to the host kernel that the specified guest is being paused by
++This signals to the guest kernel that the specified guest is being paused by
+ userspace.  The host will set a flag in the pvclock structure that is checked
+ from the soft lockup watchdog.  The flag is part of the pvclock structure that
+ is shared between guest and host, specifically the second bit of the flags
+-- 
+2.17.1
+
