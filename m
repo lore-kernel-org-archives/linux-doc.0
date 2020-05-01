@@ -4,55 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F5B2C47259
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 15:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42482C47253
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 15:38:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 50B7924964
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 15:38:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 19DF12495B
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 15:38:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588347520;
-	bh=mr9BujB/0oWLVW8A8/50Ti1fIWRy7AxgBrcsaWb66j4=;
+	s=default; t=1588347521;
+	bh=Wxx2oZbffutV8kZPE3MJgAW1A6mvkVwLXA6qbKHYI+k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=i7WV5bTf7daf53kXlIvdGUDmrNLSOVPIKxm27Yy2TH7Et/AjiLKX0P3nBgQbRn6JP
-	 mdPvm/QopoA/5qrq8lDo9itezPWsiE4i66a7HCCDoxKgj8BW5KFj2UOJ7SJQgxWRKw
-	 cFbmj3ueXXJCGbG6rhqoWglxpz6sRsiF1xZJ01wQ=
+	b=q+iOD5gXG0NgVyc1yeUA4NdT7J5AAPHDU6SbMLkTtvxZGTnCkN+Ogi1wzhoSehvq4
+	 8X1WEcjVqow4XtfJc8LQDlGpcYjYrSZiTiScMN2cdtdtS8ufca5A2KuW25EmbQxpJk
+	 IVWJzSg+NiGWLyDFWEjiVc0Jef1ZuDqkDC3TBnbo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729863AbgEAPiE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 11:38:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52252 "EHLO mail.kernel.org"
+        id S1728865AbgEAPik (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 11:38:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52416 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729396AbgEAPiD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 May 2020 11:38:03 -0400
+        id S1729695AbgEAPiE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 May 2020 11:38:04 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DF4E92495B;
+        by mail.kernel.org (Postfix) with ESMTPSA id EDC402495F;
         Fri,  1 May 2020 15:38:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588347483;
-        bh=mr9BujB/0oWLVW8A8/50Ti1fIWRy7AxgBrcsaWb66j4=;
+        bh=Wxx2oZbffutV8kZPE3MJgAW1A6mvkVwLXA6qbKHYI+k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qd5S61WIWGRVdD2IBwMHwX8RewcB5eIAdJSBcLz8rFQMQ4Mm1vbwOnG0MZSQq+iOx
-         mrWz37A+2chs0aWJ0ma4pBbk0+21yFHeRlKVT/eVscX8A5vX7lPddXEJeh/S3GR2/8
-         TTOpqV1XDQ/QNYABHzO0qmFkOPeMEbCR4ZPCLvkY=
+        b=rfM8V6Z4PW8OsyUOKTiP1boqw/qb2pGyw9a/n5oSNBoMicxJILMs0dg5b48RThhuE
+         f8qpHXy21M+N77Z18ZVQLlBtFXJpsOZtU6bs758LQyNpMhLpfsY6aeOAPZY0yncal1
+         nTObY1IwE1yllaBMKBfwUFE5AfEWGEMsmRiNM8KM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUXjl-00FE4i-2o; Fri, 01 May 2020 17:38:01 +0200
+        id 1jUXjl-00FE4v-5Q; Fri, 01 May 2020 17:38:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        openipmi-developer@lists.sourceforge.net
-Subject: [PATCH 05/14] docs: fix references for ipmi.rst file
-Date:   Fri,  1 May 2020 17:37:49 +0200
-Message-Id: <b6c1ded590f27198de15b16237509128e55fa810.1588345503.git.mchehab+huawei@kernel.org>
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 08/14] docs: move kobject and kref docs into the core-api book
+Date:   Fri,  1 May 2020 17:37:52 +0200
+Message-Id: <f385af13b4a6d3ff8c89beedd4506900e79ca72e.1588345503.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588345503.git.mchehab+huawei@kernel.org>
 References: <cover.1588345503.git.mchehab+huawei@kernel.org>
@@ -63,68 +64,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As this file got moved, fix references for it.
+Both documents are documenting Kernel core objects. So, add
+them into the core-api book.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS                        | 2 +-
- drivers/char/ipmi/Kconfig          | 2 +-
- drivers/char/ipmi/ipmi_si_hotmod.c | 2 +-
- drivers/char/ipmi/ipmi_si_intf.c   | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/core-api/index.rst              | 1 +
+ Documentation/core-api/kobject.rst            | 2 +-
+ Documentation/{kref.txt => core-api/kref.rst} | 0
+ 3 files changed, 2 insertions(+), 1 deletion(-)
+ rename Documentation/{kref.txt => core-api/kref.rst} (100%)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b0cf6c358136..a1d7af532950 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8932,7 +8932,7 @@ M:	Corey Minyard <minyard@acm.org>
- L:	openipmi-developer@lists.sourceforge.net (moderated for non-subscribers)
- S:	Supported
- W:	http://openipmi.sourceforge.net/
--F:	Documentation/IPMI.txt
-+F:	Documentation/driver-api/ipmi.rst
- F:	Documentation/devicetree/bindings/ipmi/
- F:	drivers/char/ipmi/
- F:	include/linux/ipmi*
-diff --git a/drivers/char/ipmi/Kconfig b/drivers/char/ipmi/Kconfig
-index 7dc2c3ec4051..07847d9a459a 100644
---- a/drivers/char/ipmi/Kconfig
-+++ b/drivers/char/ipmi/Kconfig
-@@ -14,7 +14,7 @@ menuconfig IPMI_HANDLER
- 	  IPMI is a standard for managing sensors (temperature,
- 	  voltage, etc.) in a system.
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index 49a885e83a55..eeac63ba17c3 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -31,6 +31,7 @@ Library functionality that is used throughout the kernel.
+    :maxdepth: 1
  
--	  See <file:Documentation/IPMI.txt> for more details on the driver.
-+	  See <file:Documentation/driver-api/ipmi.rst> for more details on the driver.
+    kobject
++   kref
+    assoc_array
+    xarray
+    idr
+diff --git a/Documentation/core-api/kobject.rst b/Documentation/core-api/kobject.rst
+index 1f62d4d7d966..44c02be65475 100644
+--- a/Documentation/core-api/kobject.rst
++++ b/Documentation/core-api/kobject.rst
+@@ -210,7 +210,7 @@ statically and will warn the developer of this improper usage.
+ If all that you want to use a kobject for is to provide a reference counter
+ for your structure, please use the struct kref instead; a kobject would be
+ overkill.  For more information on how to use struct kref, please see the
+-file Documentation/kref.txt in the Linux kernel source tree.
++file Documentation/core-api/kref.rst in the Linux kernel source tree.
  
- 	  If unsure, say N.
  
-diff --git a/drivers/char/ipmi/ipmi_si_hotmod.c b/drivers/char/ipmi/ipmi_si_hotmod.c
-index 42a925f8cf69..4fbb4e18bae2 100644
---- a/drivers/char/ipmi/ipmi_si_hotmod.c
-+++ b/drivers/char/ipmi/ipmi_si_hotmod.c
-@@ -18,7 +18,7 @@ static int hotmod_handler(const char *val, const struct kernel_param *kp);
- 
- module_param_call(hotmod, hotmod_handler, NULL, NULL, 0200);
- MODULE_PARM_DESC(hotmod, "Add and remove interfaces.  See"
--		 " Documentation/IPMI.txt in the kernel sources for the"
-+		 " Documentation/driver-api/ipmi.rst in the kernel sources for the"
- 		 " gory details.");
- 
- /*
-diff --git a/drivers/char/ipmi/ipmi_si_intf.c b/drivers/char/ipmi/ipmi_si_intf.c
-index c7cc8538b84a..77b8d551ae7f 100644
---- a/drivers/char/ipmi/ipmi_si_intf.c
-+++ b/drivers/char/ipmi/ipmi_si_intf.c
-@@ -968,7 +968,7 @@ static inline bool ipmi_thread_busy_wait(enum si_sm_result smi_result,
-  * that are not BT and do not have interrupts.  It starts spinning
-  * when an operation is complete or until max_busy tells it to stop
-  * (if that is enabled).  See the paragraph on kimid_max_busy_us in
-- * Documentation/IPMI.txt for details.
-+ * Documentation/driver-api/ipmi.rst for details.
-  */
- static int ipmi_thread(void *data)
- {
+ Creating "simple" kobjects
+diff --git a/Documentation/kref.txt b/Documentation/core-api/kref.rst
+similarity index 100%
+rename from Documentation/kref.txt
+rename to Documentation/core-api/kref.rst
 -- 
 2.25.4
 
