@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 825C9C47253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA746C47257
 	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6035C208DB
+	by mail.kernel.org (Postfix) with ESMTP id B714D20857
 	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1588344555;
-	bh=hboY7LvkSkG+z9pZ1T82TwKQFJjcn1LXM91doMsst3M=;
+	bh=cbS/UvPxXHd/6qKkogBfad5uTRh7vyKuBBi1oajHudE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=HSnDwf0/ok3OmcrIpk/dbnOG43Sr8VOUoc8MqC1szLahgpLygUN4zb4P5nX+Xwvt8
-	 iOxZq14C5w6uXVtw9FoN0loFuKEUfBjHwQpTcrSKt/acWzkGso+h47iIxoPPVGeHCf
-	 enYUAOYsCqMFdXh5T6kBzS62r0REYByEQlnL88O8=
+	b=O3oeuL4yA2cHp6ip6wmY3XStCOvBVbNeTGqfPH5I/EjGF4h0N9z4RXDY7tTt5X8TS
+	 /UF9dtjirBsmsXqQ8JtQ3yWDSgOWJDRQocS3L+wW8pmLnuCGqBHFjzxsoDNZr7zcVs
+	 Hr0itHpCgBjSwhtMly2BSbwxqPJm4DDpGActv7vw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729348AbgEAOpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 10:45:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52206 "EHLO mail.kernel.org"
+        id S1730024AbgEAOtP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 10:49:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52484 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728914AbgEAOpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 May 2020 10:45:05 -0400
+        id S1729319AbgEAOpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 May 2020 10:45:06 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EE090208DB;
+        by mail.kernel.org (Postfix) with ESMTPSA id EBC6320857;
         Fri,  1 May 2020 14:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588344305;
-        bh=hboY7LvkSkG+z9pZ1T82TwKQFJjcn1LXM91doMsst3M=;
+        bh=cbS/UvPxXHd/6qKkogBfad5uTRh7vyKuBBi1oajHudE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rsPMDGoEYR9sGgftuvVNtqmzF35W8IbmSE422+UronlGfOib3qMp1x43IQZP5kdp3
-         ufwypaCJTzjls/26N5M1YHZ9fipdY0NxMAkT5hi88M/aidtscdJ28NbZPpPBvbjhbe
-         FpkRdUvezN2TaSInntJZpA85VQs4mdERYz/wpq28=
+        b=c6s/cBheaWlXqvUtDzVeyOK6L+94HL+MiawJoaISJJbMvOsoWeBr+CDwlkVjiW3zA
+         ArYWytIDe71h2CT5HI+91e8/iy+4KkkTb2+I0SGIJI4yl/dVV0wgJRHL3c3/tK1iaf
+         WSAJC+wUgAiSWLfIIJ+wtpBoicf82h3PFc8Lt5z4=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUWuT-00FCd2-Dt; Fri, 01 May 2020 16:45:01 +0200
+        id 1jUWuT-00FCch-Ak; Fri, 01 May 2020 16:45:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 08/37] docs: networking: convert xfrm_proc.txt to ReST
-Date:   Fri,  1 May 2020 16:44:30 +0200
-Message-Id: <b888b39a925d0c8385b9a3fa338edb762cf78a7d.1588344146.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 04/37] docs: networking: convert vxlan.txt to ReST
+Date:   Fri,  1 May 2020 16:44:26 +0200
+Message-Id: <f2a0c9b723a92b697e3161d2b93f5ae87cb3801b.1588344146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588344146.git.mchehab+huawei@kernel.org>
 References: <cover.1588344146.git.mchehab+huawei@kernel.org>
@@ -62,142 +62,91 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 - add SPDX header;
 - adjust title markup;
+- mark code blocks and literals as such;
 - adjust identation, whitespaces and blank lines where needed;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  Documentation/networking/index.rst            |  1 +
- .../{xfrm_proc.txt => xfrm_proc.rst}          | 31 +++++++++++++++++++
- 2 files changed, 32 insertions(+)
- rename Documentation/networking/{xfrm_proc.txt => xfrm_proc.rst} (95%)
+ .../networking/{vxlan.txt => vxlan.rst}       | 33 ++++++++++++-------
+ 2 files changed, 22 insertions(+), 12 deletions(-)
+ rename Documentation/networking/{vxlan.txt => vxlan.rst} (73%)
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index e31f6cb564b4..3fe70efb632e 100644
+index 2227b9f4509d..a72fdfb391b6 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -118,6 +118,7 @@ Contents:
-    x25-iface
-    x25
-    xfrm_device
-+   xfrm_proc
+@@ -114,6 +114,7 @@ Contents:
+    tuntap
+    udplite
+    vrf
++   vxlan
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/xfrm_proc.txt b/Documentation/networking/xfrm_proc.rst
-similarity index 95%
-rename from Documentation/networking/xfrm_proc.txt
-rename to Documentation/networking/xfrm_proc.rst
-index 2eae619ab67b..0a771c5a7399 100644
---- a/Documentation/networking/xfrm_proc.txt
-+++ b/Documentation/networking/xfrm_proc.rst
-@@ -1,5 +1,9 @@
+diff --git a/Documentation/networking/vxlan.txt b/Documentation/networking/vxlan.rst
+similarity index 73%
+rename from Documentation/networking/vxlan.txt
+rename to Documentation/networking/vxlan.rst
+index c28f4989c3f0..ce239fa01848 100644
+--- a/Documentation/networking/vxlan.txt
++++ b/Documentation/networking/vxlan.rst
+@@ -1,3 +1,6 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+==================================
- XFRM proc - /proc/net/xfrm_* files
- ==================================
-+
- Masahide NAKAMURA <nakam@linux-ipv6.org>
++======================================================
+ Virtual eXtensible Local Area Networking documentation
+ ======================================================
  
+@@ -21,8 +24,9 @@ neighbors GRE and VLAN. Configuring VXLAN requires the version of
+ iproute2 that matches the kernel release where VXLAN was first merged
+ upstream.
  
-@@ -14,42 +18,58 @@ as part of the linux private MIB.  These counters can be viewed in
+-1. Create vxlan device
+- # ip link add vxlan0 type vxlan id 42 group 239.1.1.1 dev eth1 dstport 4789
++1. Create vxlan device::
++
++    # ip link add vxlan0 type vxlan id 42 group 239.1.1.1 dev eth1 dstport 4789
  
- Inbound errors
- ~~~~~~~~~~~~~~
-+
- XfrmInError:
- 	All errors which is not matched others
-+
- XfrmInBufferError:
- 	No buffer is left
-+
- XfrmInHdrError:
- 	Header error
-+
- XfrmInNoStates:
- 	No state is found
- 	i.e. Either inbound SPI, address, or IPsec protocol at SA is wrong
-+
- XfrmInStateProtoError:
- 	Transformation protocol specific error
- 	e.g. SA key is wrong
-+
- XfrmInStateModeError:
- 	Transformation mode specific error
-+
- XfrmInStateSeqError:
- 	Sequence error
- 	i.e. Sequence number is out of window
-+
- XfrmInStateExpired:
- 	State is expired
-+
- XfrmInStateMismatch:
- 	State has mismatch option
- 	e.g. UDP encapsulation type is mismatch
-+
- XfrmInStateInvalid:
- 	State is invalid
-+
- XfrmInTmplMismatch:
- 	No matching template for states
- 	e.g. Inbound SAs are correct but SP rule is wrong
-+
- XfrmInNoPols:
- 	No policy is found for states
- 	e.g. Inbound SAs are correct but no SP is found
-+
- XfrmInPolBlock:
- 	Policy discards
-+
- XfrmInPolError:
- 	Policy error
-+
- XfrmAcquireError:
- 	State hasn't been fully acquired before use
-+
- XfrmFwdHdrError:
- 	Forward routing of a packet is not allowed
+ This creates a new device named vxlan0.  The device uses the multicast
+ group 239.1.1.1 over eth1 to handle traffic for which there is no
+@@ -32,20 +36,25 @@ pre-dates the IANA's selection of a standard destination port number
+ and uses the Linux-selected value by default to maintain backwards
+ compatibility.
  
-@@ -57,26 +77,37 @@ Outbound errors
- ~~~~~~~~~~~~~~~
- XfrmOutError:
- 	All errors which is not matched others
+-2. Delete vxlan device
+-  # ip link delete vxlan0
++2. Delete vxlan device::
+ 
+-3. Show vxlan info
+-  # ip -d link show vxlan0
++    # ip link delete vxlan0
 +
- XfrmOutBundleGenError:
- 	Bundle generation error
++3. Show vxlan info::
 +
- XfrmOutBundleCheckError:
- 	Bundle check error
++    # ip -d link show vxlan0
+ 
+ It is possible to create, destroy and display the vxlan
+ forwarding table using the new bridge command.
+ 
+-1. Create forwarding table entry
+-  # bridge fdb add to 00:17:42:8a:b4:05 dst 192.19.0.2 dev vxlan0
++1. Create forwarding table entry::
+ 
+-2. Delete forwarding table entry
+-  # bridge fdb delete 00:17:42:8a:b4:05 dev vxlan0
++    # bridge fdb add to 00:17:42:8a:b4:05 dst 192.19.0.2 dev vxlan0
+ 
+-3. Show forwarding table
+-  # bridge fdb show dev vxlan0
++2. Delete forwarding table entry::
 +
- XfrmOutNoStates:
- 	No state is found
++    # bridge fdb delete 00:17:42:8a:b4:05 dev vxlan0
 +
- XfrmOutStateProtoError:
- 	Transformation protocol specific error
++3. Show forwarding table::
 +
- XfrmOutStateModeError:
- 	Transformation mode specific error
-+
- XfrmOutStateSeqError:
- 	Sequence error
- 	i.e. Sequence number overflow
-+
- XfrmOutStateExpired:
- 	State is expired
-+
- XfrmOutPolBlock:
- 	Policy discards
-+
- XfrmOutPolDead:
- 	Policy is dead
-+
- XfrmOutPolError:
- 	Policy error
-+
- XfrmOutStateInvalid:
- 	State is invalid, perhaps expired
++    # bridge fdb show dev vxlan0
 -- 
 2.25.4
 
