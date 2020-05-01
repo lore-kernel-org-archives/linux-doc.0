@@ -4,64 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF68AC47259
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 15:38:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F5B2C47259
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 15:38:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99BC420731
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 15:38:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50B7924964
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 15:38:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588347516;
-	bh=1nePazr9W/llI1NGHsxrrs6qk9ujVqJY+Ur5A8bZUNk=;
+	s=default; t=1588347520;
+	bh=mr9BujB/0oWLVW8A8/50Ti1fIWRy7AxgBrcsaWb66j4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CyLi2m8wYPuhOaypx21N1UPgA87fQLi/oNErJsnGbuepiP/g4SFvlLgMW9ygmLDgR
-	 qGIUfOx/ytEoL/6q7hCkJOAzxIosKD5w9JJSlD5ISIlrU330jK2HPIwXdC/86hWKM7
-	 OcqRlGwIzylhEKOmhjT9i7CbL0U25jv6jTJI7hI8=
+	b=i7WV5bTf7daf53kXlIvdGUDmrNLSOVPIKxm27Yy2TH7Et/AjiLKX0P3nBgQbRn6JP
+	 mdPvm/QopoA/5qrq8lDo9itezPWsiE4i66a7HCCDoxKgj8BW5KFj2UOJ7SJQgxWRKw
+	 cFbmj3ueXXJCGbG6rhqoWglxpz6sRsiF1xZJ01wQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730015AbgEAPig (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 11:38:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52404 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729509AbgEAPiE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729863AbgEAPiE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 1 May 2020 11:38:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52252 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729396AbgEAPiD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 May 2020 11:38:03 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EDBB02495E;
+        by mail.kernel.org (Postfix) with ESMTPSA id DF4E92495B;
         Fri,  1 May 2020 15:38:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588347483;
-        bh=1nePazr9W/llI1NGHsxrrs6qk9ujVqJY+Ur5A8bZUNk=;
+        bh=mr9BujB/0oWLVW8A8/50Ti1fIWRy7AxgBrcsaWb66j4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qeNtbPq2ipYzIu4K94XhjuEo1JzSpuv6KAHMgo5sfyze2BYjEUNM0Cg5dJ6Fium2J
-         z7JKyqbYnARgH12PDe8zGNJX0tELgvBXEi81EhmtOKBFx2Fn/wmLe4UrqNoJOyJHV6
-         RMw8nbSU8EfHFAct1biE9mvFvlkgCLD8wvTy3U2s=
+        b=qd5S61WIWGRVdD2IBwMHwX8RewcB5eIAdJSBcLz8rFQMQ4Mm1vbwOnG0MZSQq+iOx
+         mrWz37A+2chs0aWJ0ma4pBbk0+21yFHeRlKVT/eVscX8A5vX7lPddXEJeh/S3GR2/8
+         TTOpqV1XDQ/QNYABHzO0qmFkOPeMEbCR4ZPCLvkY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUXjl-00FE4m-3f; Fri, 01 May 2020 17:38:01 +0200
+        id 1jUXjl-00FE4i-2o; Fri, 01 May 2020 17:38:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Juergen Gross <jgross@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Changbin Du <changbin.du@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 06/14] docs: debugging-via-ohci1394.txt: add it to the core-api book
-Date:   Fri,  1 May 2020 17:37:50 +0200
-Message-Id: <9b489d36d08ad89d3ad5aefef1f52a0715b29716.1588345503.git.mchehab+huawei@kernel.org>
+        Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        openipmi-developer@lists.sourceforge.net
+Subject: [PATCH 05/14] docs: fix references for ipmi.rst file
+Date:   Fri,  1 May 2020 17:37:49 +0200
+Message-Id: <b6c1ded590f27198de15b16237509128e55fa810.1588345503.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588345503.git.mchehab+huawei@kernel.org>
 References: <cover.1588345503.git.mchehab+huawei@kernel.org>
@@ -72,64 +63,68 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There is an special chapter inside the core-api book about
-some debug infrastructure like tracepoints and debug objects.
-
-It sounded to me that this is the best place to add a chapter
-explaining how to use a FireWire controller to do remote
-kernel debugging, as explained on this document.
+As this file got moved, fix references for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/kernel-parameters.txt                 | 2 +-
- .../debugging-via-ohci1394.rst}                                 | 0
- Documentation/core-api/index.rst                                | 1 +
- lib/Kconfig.debug                                               | 2 +-
- 4 files changed, 3 insertions(+), 2 deletions(-)
- rename Documentation/{debugging-via-ohci1394.txt => core-api/debugging-via-ohci1394.rst} (100%)
+ MAINTAINERS                        | 2 +-
+ drivers/char/ipmi/Kconfig          | 2 +-
+ drivers/char/ipmi/ipmi_si_hotmod.c | 2 +-
+ drivers/char/ipmi/ipmi_si_intf.c   | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 25644daa36ea..d9b61da7809d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3350,7 +3350,7 @@
- 			See Documentation/admin-guide/sysctl/vm.rst for details.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b0cf6c358136..a1d7af532950 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8932,7 +8932,7 @@ M:	Corey Minyard <minyard@acm.org>
+ L:	openipmi-developer@lists.sourceforge.net (moderated for non-subscribers)
+ S:	Supported
+ W:	http://openipmi.sourceforge.net/
+-F:	Documentation/IPMI.txt
++F:	Documentation/driver-api/ipmi.rst
+ F:	Documentation/devicetree/bindings/ipmi/
+ F:	drivers/char/ipmi/
+ F:	include/linux/ipmi*
+diff --git a/drivers/char/ipmi/Kconfig b/drivers/char/ipmi/Kconfig
+index 7dc2c3ec4051..07847d9a459a 100644
+--- a/drivers/char/ipmi/Kconfig
++++ b/drivers/char/ipmi/Kconfig
+@@ -14,7 +14,7 @@ menuconfig IPMI_HANDLER
+ 	  IPMI is a standard for managing sensors (temperature,
+ 	  voltage, etc.) in a system.
  
- 	ohci1394_dma=early	[HW] enable debugging via the ohci1394 driver.
--			See Documentation/debugging-via-ohci1394.txt for more
-+			See Documentation/core-api/debugging-via-ohci1394.rst for more
- 			info.
+-	  See <file:Documentation/IPMI.txt> for more details on the driver.
++	  See <file:Documentation/driver-api/ipmi.rst> for more details on the driver.
  
- 	olpc_ec_timeout= [OLPC] ms delay when issuing EC commands
-diff --git a/Documentation/debugging-via-ohci1394.txt b/Documentation/core-api/debugging-via-ohci1394.rst
-similarity index 100%
-rename from Documentation/debugging-via-ohci1394.txt
-rename to Documentation/core-api/debugging-via-ohci1394.rst
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index b70039d458a7..ab056b3626f4 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -99,6 +99,7 @@ Interfaces for kernel debugging
+ 	  If unsure, say N.
  
-    debug-objects
-    tracepoint
-+   debugging-via-ohci1394
+diff --git a/drivers/char/ipmi/ipmi_si_hotmod.c b/drivers/char/ipmi/ipmi_si_hotmod.c
+index 42a925f8cf69..4fbb4e18bae2 100644
+--- a/drivers/char/ipmi/ipmi_si_hotmod.c
++++ b/drivers/char/ipmi/ipmi_si_hotmod.c
+@@ -18,7 +18,7 @@ static int hotmod_handler(const char *val, const struct kernel_param *kp);
  
- Everything else
- ===============
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 8e4aded46281..4e631f294737 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1552,7 +1552,7 @@ config PROVIDE_OHCI1394_DMA_INIT
- 	  This code (~1k) is freed after boot. By then, the firewire stack
- 	  in charge of the OHCI-1394 controllers should be used instead.
+ module_param_call(hotmod, hotmod_handler, NULL, NULL, 0200);
+ MODULE_PARM_DESC(hotmod, "Add and remove interfaces.  See"
+-		 " Documentation/IPMI.txt in the kernel sources for the"
++		 " Documentation/driver-api/ipmi.rst in the kernel sources for the"
+ 		 " gory details.");
  
--	  See Documentation/debugging-via-ohci1394.txt for more information.
-+	  See Documentation/core-api/debugging-via-ohci1394.rst for more information.
- 
- source "samples/Kconfig"
- 
+ /*
+diff --git a/drivers/char/ipmi/ipmi_si_intf.c b/drivers/char/ipmi/ipmi_si_intf.c
+index c7cc8538b84a..77b8d551ae7f 100644
+--- a/drivers/char/ipmi/ipmi_si_intf.c
++++ b/drivers/char/ipmi/ipmi_si_intf.c
+@@ -968,7 +968,7 @@ static inline bool ipmi_thread_busy_wait(enum si_sm_result smi_result,
+  * that are not BT and do not have interrupts.  It starts spinning
+  * when an operation is complete or until max_busy tells it to stop
+  * (if that is enabled).  See the paragraph on kimid_max_busy_us in
+- * Documentation/IPMI.txt for details.
++ * Documentation/driver-api/ipmi.rst for details.
+  */
+ static int ipmi_thread(void *data)
+ {
 -- 
 2.25.4
 
