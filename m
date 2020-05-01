@@ -7,49 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B042C47259
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:48:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4147DC4724C
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C036208DB
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:48:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22954208DB
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588344528;
-	bh=BbJSuVHr+5IYyFuJdvZiLliVMl8TXc8u3OKr+XoJgqM=;
+	s=default; t=1588344540;
+	bh=qnf8XB2sEvNbUjilUQrtdoc9qtKZcKErFRomPjC8WmU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=pLbBYsdMUPswY2awh4nQZDu3qTbP3DLKfzi9Rc8FZZLhfeNnc8l2YAl7Ge1v6qcx0
-	 URcv5CvOWXk2YqFOI8gleRMnsOX4U1Kp/nBztnVJnB5k6shXqkaCRNlVxgiechqTyr
-	 GcyJeCJina91+ZNvuUUsI1wjl82gdrWBi4A886e8=
+	b=vUmxDEVpJY2XIjzIU0uOr7dYgSxHOxkV7mXvGf/jtZ/mVw2eCzHcpy1c/iqLOCRPZ
+	 d7hbhHq2TFKM2UhkGtPQ0PSKRrcHOUunUJactFzyWIJJ0truDhD2m9Gg7cGQEnq29L
+	 E4SY9KlZya56/kmIfdDAF3PvqhlNlCDJn5nUHaNY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729509AbgEAOpI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 10:45:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52210 "EHLO mail.kernel.org"
+        id S1730425AbgEAOsu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 10:48:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52552 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729185AbgEAOpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 May 2020 10:45:06 -0400
+        id S1729334AbgEAOpH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 May 2020 10:45:07 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EF5962173E;
+        by mail.kernel.org (Postfix) with ESMTPSA id 162D32495A;
         Fri,  1 May 2020 14:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588344305;
-        bh=BbJSuVHr+5IYyFuJdvZiLliVMl8TXc8u3OKr+XoJgqM=;
+        bh=qnf8XB2sEvNbUjilUQrtdoc9qtKZcKErFRomPjC8WmU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ek4Fs5EnMWY9KkNiiDgeipm6HTU2HAI16If947ALxxpfJXokfVVs7rV7eRn0tRPdf
-         oQ4R6M18YVWCsPxSda4EXXZSJFR6Tykdmv1+vIwTThnplL9eCCZfL2SzSyYLhFZv5x
-         WXAiSuegzPKkTKwT9vLXtoV6mEnoULa82hIa/jMQ=
+        b=XS/5CnfNpKA3CcZvL9fHS7jl56bXpsuK5ZmPcFI79Cvhyh0XsfkprkBD7DQyOIXJi
+         6TWwHNH3pZ+dMZ6kc+yTYEO0KYySfMN39aUEnqzs38y9oK02PVdb9iyM67Aqousl3t
+         tJPcMS55MA789/A1mlJ9aF/2Y1/uCfMIZVsIf0y8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUWuT-00FCcx-D7; Fri, 01 May 2020 16:45:01 +0200
+        id 1jUWuT-00FCcm-BV; Fri, 01 May 2020 16:45:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 07/37] docs: networking: convert xfrm_device.txt to ReST
-Date:   Fri,  1 May 2020 16:44:29 +0200
-Message-Id: <0977c0a0683059dabe314ceb543d3e8f0abbc506.1588344146.git.mchehab+huawei@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>,
+        Andrew Hendry <andrew.hendry@gmail.com>,
+        netdev@vger.kernel.org, linux-x25@vger.kernel.org
+Subject: [PATCH 05/37] docs: networking: convert x25-iface.txt to ReST
+Date:   Fri,  1 May 2020 16:44:27 +0200
+Message-Id: <747ea578cab7a4329ad7eca89581ade529d445c0.1588344146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588344146.git.mchehab+huawei@kernel.org>
 References: <cover.1588344146.git.mchehab+huawei@kernel.org>
@@ -60,149 +62,88 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Not much to be done here:
+
 - add SPDX header;
-- mark code blocks and literals as such;
-- mark tables as such;
-- adjust identation, whitespaces and blank lines where needed;
+- adjust title markup;
+- remove a tail whitespace;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/index.rst            |  1 +
- .../{xfrm_device.txt => xfrm_device.rst}      | 33 ++++++++++++-------
- 2 files changed, 23 insertions(+), 11 deletions(-)
- rename Documentation/networking/{xfrm_device.txt => xfrm_device.rst} (92%)
+ Documentation/networking/index.rst                     |  1 +
+ .../networking/{x25-iface.txt => x25-iface.rst}        | 10 ++++++++--
+ include/uapi/linux/if_x25.h                            |  2 +-
+ net/x25/Kconfig                                        |  2 +-
+ 4 files changed, 11 insertions(+), 4 deletions(-)
+ rename Documentation/networking/{x25-iface.txt => x25-iface.rst} (96%)
 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 75521e6c473b..e31f6cb564b4 100644
+index a72fdfb391b6..7a4bdbc111b0 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -117,6 +117,7 @@ Contents:
+@@ -115,6 +115,7 @@ Contents:
+    udplite
+    vrf
     vxlan
-    x25-iface
-    x25
-+   xfrm_device
++   x25-iface
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/xfrm_device.txt b/Documentation/networking/xfrm_device.rst
-similarity index 92%
-rename from Documentation/networking/xfrm_device.txt
-rename to Documentation/networking/xfrm_device.rst
-index a1c904dc70dc..da1073acda96 100644
---- a/Documentation/networking/xfrm_device.txt
-+++ b/Documentation/networking/xfrm_device.rst
-@@ -1,7 +1,9 @@
+diff --git a/Documentation/networking/x25-iface.txt b/Documentation/networking/x25-iface.rst
+similarity index 96%
+rename from Documentation/networking/x25-iface.txt
+rename to Documentation/networking/x25-iface.rst
+index 7f213b556e85..df401891dce6 100644
+--- a/Documentation/networking/x25-iface.txt
++++ b/Documentation/networking/x25-iface.rst
+@@ -1,4 +1,10 @@
+-			X.25 Device Driver Interface 1.1
 +.. SPDX-License-Identifier: GPL-2.0
- 
- ===============================================
- XFRM device - offloading the IPsec computations
- ===============================================
 +
- Shannon Nelson <shannon.nelson@oracle.com>
- 
- 
-@@ -19,7 +21,7 @@ hardware offload.
- Userland access to the offload is typically through a system such as
- libreswan or KAME/raccoon, but the iproute2 'ip xfrm' command set can
- be handy when experimenting.  An example command might look something
--like this:
-+like this::
- 
-   ip x s add proto esp dst 14.0.0.70 src 14.0.0.52 spi 0x07 mode transport \
-      reqid 0x07 replay-window 32 \
-@@ -34,15 +36,17 @@ Yes, that's ugly, but that's what shell scripts and/or libreswan are for.
- Callbacks to implement
- ======================
- 
--/* from include/linux/netdevice.h */
--struct xfrmdev_ops {
-+::
++============================-
++X.25 Device Driver Interface
++============================-
 +
-+  /* from include/linux/netdevice.h */
-+  struct xfrmdev_ops {
- 	int	(*xdo_dev_state_add) (struct xfrm_state *x);
- 	void	(*xdo_dev_state_delete) (struct xfrm_state *x);
- 	void	(*xdo_dev_state_free) (struct xfrm_state *x);
- 	bool	(*xdo_dev_offload_ok) (struct sk_buff *skb,
- 				       struct xfrm_state *x);
- 	void    (*xdo_dev_state_advance_esn) (struct xfrm_state *x);
--};
-+  };
++Version 1.1
  
- The NIC driver offering ipsec offload will need to implement these
- callbacks to make the offload available to the network stack's
-@@ -58,6 +62,8 @@ At probe time and before the call to register_netdev(), the driver should
- set up local data structures and XFRM callbacks, and set the feature bits.
- The XFRM code's listener will finish the setup on NETDEV_REGISTER.
+ 			   Jonathan Naylor 26.12.96
  
-+::
-+
- 		adapter->netdev->xfrmdev_ops = &ixgbe_xfrmdev_ops;
- 		adapter->netdev->features |= NETIF_F_HW_ESP;
- 		adapter->netdev->hw_enc_features |= NETIF_F_HW_ESP;
-@@ -65,16 +71,20 @@ The XFRM code's listener will finish the setup on NETDEV_REGISTER.
- When new SAs are set up with a request for "offload" feature, the
- driver's xdo_dev_state_add() will be given the new SA to be offloaded
- and an indication of whether it is for Rx or Tx.  The driver should
-+
- 	- verify the algorithm is supported for offloads
- 	- store the SA information (key, salt, target-ip, protocol, etc)
- 	- enable the HW offload of the SA
- 	- return status value:
-+
-+		===========   ===================================
- 		0             success
- 		-EOPNETSUPP   offload not supported, try SW IPsec
- 		other         fail the request
-+		===========   ===================================
+@@ -99,7 +105,7 @@ reduced by the following measures or a combination thereof:
+ (1) Drivers for kernel versions 2.4.x and above should always check the
+     return value of netif_rx(). If it returns NET_RX_DROP, the
+     driver's LAPB protocol must not confirm reception of the frame
+-    to the peer. 
++    to the peer.
+     This will reliably suppress packet loss. The LAPB protocol will
+     automatically cause the peer to re-transmit the dropped packet
+     later.
+diff --git a/include/uapi/linux/if_x25.h b/include/uapi/linux/if_x25.h
+index 5d962448345f..3a5938e38370 100644
+--- a/include/uapi/linux/if_x25.h
++++ b/include/uapi/linux/if_x25.h
+@@ -18,7 +18,7 @@
  
- The driver can also set an offload_handle in the SA, an opaque void pointer
--that can be used to convey context into the fast-path offload requests.
-+that can be used to convey context into the fast-path offload requests::
+ #include <linux/types.h>
  
- 		xs->xso.offload_handle = context;
+-/* Documentation/networking/x25-iface.txt */
++/* Documentation/networking/x25-iface.rst */
+ #define X25_IFACE_DATA		0x00
+ #define X25_IFACE_CONNECT	0x01
+ #define X25_IFACE_DISCONNECT	0x02
+diff --git a/net/x25/Kconfig b/net/x25/Kconfig
+index 2ecb2e5e241e..a328f79885d1 100644
+--- a/net/x25/Kconfig
++++ b/net/x25/Kconfig
+@@ -21,7 +21,7 @@ config X25
+ 	  <http://docwiki.cisco.com/wiki/X.25>.
+ 	  Information about X.25 for Linux is contained in the files
+ 	  <file:Documentation/networking/x25.txt> and
+-	  <file:Documentation/networking/x25-iface.txt>.
++	  <file:Documentation/networking/x25-iface.rst>.
  
-@@ -88,7 +98,7 @@ return true of false to signify its support.
- 
- When ready to send, the driver needs to inspect the Tx packet for the
- offload information, including the opaque context, and set up the packet
--send accordingly.
-+send accordingly::
- 
- 		xs = xfrm_input_state(skb);
- 		context = xs->xso.offload_handle;
-@@ -105,18 +115,21 @@ the packet's skb.  At this point the data should be decrypted but the
- IPsec headers are still in the packet data; they are removed later up
- the stack in xfrm_input().
- 
--	find and hold the SA that was used to the Rx skb
-+	find and hold the SA that was used to the Rx skb::
-+
- 		get spi, protocol, and destination IP from packet headers
- 		xs = find xs from (spi, protocol, dest_IP)
- 		xfrm_state_hold(xs);
- 
--	store the state information into the skb
-+	store the state information into the skb::
-+
- 		sp = secpath_set(skb);
- 		if (!sp) return;
- 		sp->xvec[sp->len++] = xs;
- 		sp->olen++;
- 
--	indicate the success and/or error status of the offload
-+	indicate the success and/or error status of the offload::
-+
- 		xo = xfrm_offload(skb);
- 		xo->flags = CRYPTO_DONE;
- 		xo->status = crypto_status;
-@@ -136,5 +149,3 @@ hardware needs.
- As a netdev is set to DOWN the XFRM stack's netdev listener will call
- xdo_dev_state_delete() and xdo_dev_state_free() on any remaining offloaded
- states.
--
--
+ 	  One connects to an X.25 network either with a dedicated network card
+ 	  using the X.21 protocol (not yet supported by Linux) or one can do
 -- 
 2.25.4
 
