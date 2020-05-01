@@ -4,122 +4,161 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D93CC4724C
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 16:16:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EF4C4724C
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 16:51:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 285BB216FD
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 16:16:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8416F24954
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 16:51:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Br4NUGVA"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p87mHAf/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728979AbgEAQQm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 12:16:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728896AbgEAQQm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 12:16:42 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21AACC061A0C;
-        Fri,  1 May 2020 09:16:42 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id t199so175352oif.7;
-        Fri, 01 May 2020 09:16:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=lgmELjhtwvQPrX77vnoSnk11mljHderl9HxceIw1oe8=;
-        b=Br4NUGVAtZWvUXQfy8/75cj/z8IaziKZ8/JMhKNe6IuHC1GGQUXcfYw+cnkh9PBJcS
-         vL/LH2WUOOD6MG3Z8PFpVaGInS33IhM7qrlOL9QqRl6VHUxmYS1kLg6qR2iulfHVu/qS
-         1dxP/1DKcOsjmiRkHuh2fVwM0l+OtK+shWYfSX4+RNLfqmZAoWBx5ZeIaIZLqyg3IhmT
-         YwCKuwLfNm/Fw+u7KTF1qRbPblQGZQibDjnRoaMPxywwlCx5FkAg2NYpPDTx2sXbxHZN
-         ktEe8X1QkpVLwTHlW64fiDINZMgDGcGUpI06AqvV3urVhwyv5nf3s9oOBpQc/pA6Wr1s
-         0gcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent;
-        bh=lgmELjhtwvQPrX77vnoSnk11mljHderl9HxceIw1oe8=;
-        b=dQyx+10YGWY2l/xWmG4ZKjfpaJfq7jTO8yhg6b1yc7jwM01jhdztj3BtBpxuxcqCJ8
-         Z/kxhNVE4cwqeV6b+4vTgCvi3V9v9PMzGYsHkWIimiACpKCTJq61uViV6IRilQbDNMuF
-         XeEbGl+ct7MK6n7kyIT898Bet9fMLqtplugCDGC2HRzrSs3+ehMrCvuNoTD8Mr5GhZZL
-         IoxOjN+uG7SaZj3U1Ql+IwifgD6xe0xJIy9PEc7EPYcBZszEDSiKPKEhqe9vAWfqShaV
-         eycCHYVW0nsDNfnFYrTbmmOjB57I1c8EdH+NajspdkcDiHhYPZCOR/9I6YjiimrBEqAm
-         CbLg==
-X-Gm-Message-State: AGi0PuZpTer1sWRkxEDaCS5IyYRKhZsnMMeW9aybG/tHuOHntLgTc5rc
-        VR0Up3cLPV4Zu6Kg2J2uxg==
-X-Google-Smtp-Source: APiQypImnju0D2j2tlQZOp+12Lxz5mLbARJyu7bikZIcG8ES9reYr4QopOQc75af6+xNAl7K9Viu+g==
-X-Received: by 2002:a05:6808:49:: with SMTP id v9mr244950oic.41.1588349801353;
-        Fri, 01 May 2020 09:16:41 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.149.130])
-        by smtp.gmail.com with ESMTPSA id g24sm938859oos.20.2020.05.01.09.16.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2020 09:16:40 -0700 (PDT)
-Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:8b39:c3f3:f502:5c4e])
-        by serve.minyard.net (Postfix) with ESMTPSA id D712418000D;
-        Fri,  1 May 2020 16:16:39 +0000 (UTC)
-Date:   Fri, 1 May 2020 11:16:38 -0500
-From:   Corey Minyard <minyard@acm.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Pragat Pandya <pragat.pandya@gmail.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Harald Seiler <hws@denx.de>,
-        openipmi-developer@lists.sourceforge.net
-Subject: Re: [PATCH 04/14] docs: move IPMI.txt to the driver API book
-Message-ID: <20200501161638.GF9902@minyard.net>
-Reply-To: minyard@acm.org
-References: <cover.1588345503.git.mchehab+huawei@kernel.org>
- <ae4edbc6753dc522cb93de36800978e3b58e0cfb.1588345503.git.mchehab+huawei@kernel.org>
+        id S1729089AbgEAQv0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 12:51:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54092 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729037AbgEAQv0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 12:51:26 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30E45C061A0C;
+        Fri,  1 May 2020 09:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=n9haxtTdPsM3vis4cWiRkPW5G3zM3/2eGW7TPtvZcg0=; b=p87mHAf/eQIlGRTsID1xTYHySL
+        J/rH6ksVY6LA5439Bej9XhV0gjyBcM5Dy1mOK/YsWR3TnpcrRtcIVEdj1IQs7UvD/cteEll0QPEYU
+        0M9x0qdYj2pksoPOoyS931xv+Fg0z1n10akc39gnNyLO2lqKVLrNRuVU9DMZujTYSNYlolFaPnJAM
+        6gj8/rADpagmQ0wTj3Wy3yQ6lf+G/9CcgxOvoEOKBny4E4p/293UyvisK4C7tYItpctAiEmP28+Wz
+        JgcssccVpeDPcNQ7Z7TV5FkW87ABLjT7Z9wvh8YCKv2fGKYXUUXIah8DQBxc1r02zuVLuQCXmuTpo
+        fWrEaLhA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jUYsg-0007Ss-CO; Fri, 01 May 2020 16:51:18 +0000
+Subject: Re: [PATCH] streamline_config.pl: add LOCALMODCONFIG_PRESERVE to
+ preserve some kconfigs
+To:     Changbin Du <changbin.du@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20200501023708.108830-1-changbin.du@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <07f3fe15-ae8d-c11a-c29f-ed9c51c2addc@infradead.org>
+Date:   Fri, 1 May 2020 09:51:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ae4edbc6753dc522cb93de36800978e3b58e0cfb.1588345503.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200501023708.108830-1-changbin.du@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 01, 2020 at 05:37:48PM +0200, Mauro Carvalho Chehab wrote:
-> The IPMI is under drivers/char. This doc describes the kAPI
-> part of the IPMI (mainly).
+On 4/30/20 7:37 PM, Changbin Du wrote:
+> Sometimes it is useful to preserve batches of configs when making
+> localmodconfig. For example, I usually don't want any usb and fs
+> modules to be disabled. Now we can do it by:
 > 
-> So, move it to the driver-api directory and add it to the
-> corresponding index.rst file.
+>  $ make LOCALMODCONFIG_PRESERVE="drivers/usb;fs" localmodconfig
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-This is fine with me.
-
-Acked-by: Corey Minyard <cminyard@mvista.com>
-
+> Signed-off-by: Changbin Du <changbin.du@gmail.com>
 > ---
->  Documentation/driver-api/index.rst              | 1 +
->  Documentation/{IPMI.txt => driver-api/ipmi.rst} | 0
->  2 files changed, 1 insertion(+)
->  rename Documentation/{IPMI.txt => driver-api/ipmi.rst} (100%)
+>  Documentation/admin-guide/README.rst |  8 +++++++-
+>  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
+>  2 files changed, 30 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-> index dcc47c029f8e..6567187e7687 100644
-> --- a/Documentation/driver-api/index.rst
-> +++ b/Documentation/driver-api/index.rst
-> @@ -39,6 +39,7 @@ available subsections can be seen below.
->     spi
->     i2c
->     ipmb
-> +   ipmi
->     i3c/index
->     interconnect
->     devfreq
-> diff --git a/Documentation/IPMI.txt b/Documentation/driver-api/ipmi.rst
-> similarity index 100%
-> rename from Documentation/IPMI.txt
-> rename to Documentation/driver-api/ipmi.rst
-> -- 
-> 2.25.4
+> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> index cc6151fc0845..6deff95362f8 100644
+> --- a/Documentation/admin-guide/README.rst
+> +++ b/Documentation/admin-guide/README.rst
+> @@ -209,10 +209,16 @@ Configuring the kernel
+>                             store the lsmod of that machine into a file
+>                             and pass it in as a LSMOD parameter.
+>  
+> +                           Also, you can preserve modules in certen folders
+
+typo:                                                           certain
+
+> +                           or kconfig files by spcifying there paths in
+
+again:                                            specifying their
+
+> +                           parameter LOCALMODCONFIG_PRESERVE.
+> +
+>                     target$ lsmod > /tmp/mylsmod
+>                     target$ scp /tmp/mylsmod host:/tmp
+>  
+> -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
+> +                   host$ make LSMOD=/tmp/mylsmod \
+> +                           LOCALMODCONFIG_PRESERVE="drivers/usb;drivers/gpu;fs" \
+> +                           localmodconfig
+>  
+>                             The above also works when cross compiling.
+>  
+> diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+> index e2f8504f5a2d..ab5d1e10a5d0 100755
+> --- a/scripts/kconfig/streamline_config.pl
+> +++ b/scripts/kconfig/streamline_config.pl
+> @@ -143,6 +143,7 @@ my %depends;
+>  my %selects;
+>  my %prompts;
+>  my %objects;
+> +my %config2kfile;
+>  my $var;
+>  my $iflevel = 0;
+>  my @ifdeps;
+> @@ -201,6 +202,7 @@ sub read_kconfig {
+>  	if (/^\s*(menu)?config\s+(\S+)\s*$/) {
+>  	    $state = "NEW";
+>  	    $config = $2;
+> +	    $config2kfile{"CONFIG_$config"} = $kconfig;
+>  
+>  	    # Add depends for 'if' nesting
+>  	    for (my $i = 0; $i < $iflevel; $i++) {
+> @@ -592,6 +594,22 @@ while ($repeat) {
+>  
+>  my %setconfigs;
+>  
+> +my @presevered_kconfigs;
+> +@presevered_kconfigs = split(/;/,$ENV{LOCALMODCONFIG_PRESERVE}) if (defined($ENV{LOCALMODCONFIG_PRESERVE}));
+> +
+> +sub in_presevered_kconfigs {
+> +    my $kconfig = $config2kfile{$_[0]};
+> +    if (!defined($kconfig)) {
+> +        return 0;
+> +    }
+> +    foreach my $excl (@presevered_kconfigs) {
+> +        if($kconfig =~ /^$excl/) {
+> +            return 1;
+> +        }
+> +    }
+> +    return 0;
+> +}
+> +
+>  # Finally, read the .config file and turn off any module enabled that
+>  # we could not find a reason to keep enabled.
+>  foreach my $line (@config_file) {
+> @@ -644,6 +662,11 @@ foreach my $line (@config_file) {
+>      }
+>  
+>      if (/^(CONFIG.*)=(m|y)/) {
+> +        if (in_presevered_kconfigs($1)) {
+> +            dprint "Preserve config $1";
+> +            print;
+> +            next;
+> +        }
+>  	if (defined($configs{$1})) {
+>  	    if ($localyesconfig) {
+>  	        $setconfigs{$1} = 'y';
 > 
+
+
+-- 
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
