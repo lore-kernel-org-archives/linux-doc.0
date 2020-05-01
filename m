@@ -4,54 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 476CCC47253
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CC3CC47257
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:45:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2442F24965
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:45:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5982320857
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:45:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588344308;
-	bh=IOVRqp8dN/LRKfokaK8zYd4K1YaI4tINbkY6jxbkZ/w=;
+	s=default; t=1588344309;
+	bh=CDa6UpW7/RGJVktJniWzFL5SPPJXC3PdL3ikarRe5hM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=lvpSGxEjWHmYEUN4N/juReZVL07+KHaWUGmkMJyWiPXHE4YueNAqKyoyKI+UAUN3A
-	 OuVunbL/S2EWpmPVhQqJZ1fTMHIF/CjyH8rBlGTWKPZn8UvgAw4E7so6CSLqnU8cxa
-	 ZFWArtBx9X0vrFJmrUVbsOZDPvzUMStcDbpkB6Ao=
+	b=M1ctX70z16QSe7iM9Me0fuxvIkoyTuzhMV/67ZfBYJMiplkTFNUEdJmal5cwQOavZ
+	 7PHEFM9W1PcTsoDC/m4qygK7CeJVZ/zp6WmY15S1agZVtIC7ClhbM1PvTanEDpqoY8
+	 xjuLK9a/Fl5C7qbJ2NXL4OSDqHrqrURm2h/tbTQw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729403AbgEAOpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729442AbgEAOpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 1 May 2020 10:45:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52224 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:52274 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729281AbgEAOpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729292AbgEAOpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 1 May 2020 10:45:06 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ECD10208D6;
+        by mail.kernel.org (Postfix) with ESMTPSA id 0863224958;
         Fri,  1 May 2020 14:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588344305;
-        bh=IOVRqp8dN/LRKfokaK8zYd4K1YaI4tINbkY6jxbkZ/w=;
+        bh=CDa6UpW7/RGJVktJniWzFL5SPPJXC3PdL3ikarRe5hM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WJuoGW1bEJYpq0KlcwjYh4gCtqZfktqTkNFCzjvgy140WddSeVbzKmL1HrgMhCtgz
-         6DyH0yZEyaqy8nRwfeg5OAZxj/rZbXr8uNUnVeXR9N4ems2epvPx7dALCxLQbi3DiU
-         G45fMhdA4MPq7sggHTq1PplWOH8uqGDQsTqtJil0=
+        b=KzTdahS/PrJiGnxqv7C3Le46BJYDHNRcbR3uR0sicVk/9txPJb8iaFZ9z2KOlyMOD
+         Xx9JRf9ePmvur3+sKCtgA9yE/PvUUUoVkOblkDkxuiJE/UBWp1XSt1U08wnhOD/wzN
+         JZfWfmfUaHdRAZA400+81Bv6oAZMmFYnMo0/24ao=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUWuT-00FCcs-CH; Fri, 01 May 2020 16:45:01 +0200
+        id 1jUWuT-00FCe8-O9; Fri, 01 May 2020 16:45:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Andrew Hendry <andrew.hendry@gmail.com>,
-        netdev@vger.kernel.org, linux-x25@vger.kernel.org
-Subject: [PATCH 06/37] docs: networking: convert x25.txt to ReST
-Date:   Fri,  1 May 2020 16:44:28 +0200
-Message-Id: <577bc9abec90b75e85e2df602ee5d918345183eb.1588344146.git.mchehab+huawei@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-parisc@vger.kernel.org
+Subject: [PATCH 20/37] docs: networking: device drivers: convert dec/dmfe.txt to ReST
+Date:   Fri,  1 May 2020 16:44:42 +0200
+Message-Id: <e05cabf197a58952ad1610adfe60c9f400465f5d.1588344146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588344146.git.mchehab+huawei@kernel.org>
 References: <cover.1588344146.git.mchehab+huawei@kernel.org>
@@ -62,60 +61,144 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Not much to be done here:
 - add SPDX header;
-- add a document title;
+- adjust titles and chapters, adding proper markups;
+- comment out text-only TOC from html/pdf output;
+- mark code blocks and literals as such;
+- mark tables as such;
+- adjust identation, whitespaces and blank lines where needed;
 - add to networking/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/index.rst            | 1 +
- Documentation/networking/{x25.txt => x25.rst} | 4 ++++
- net/x25/Kconfig                               | 2 +-
- 3 files changed, 6 insertions(+), 1 deletion(-)
- rename Documentation/networking/{x25.txt => x25.rst} (96%)
+ .../device_drivers/dec/{dmfe.txt => dmfe.rst} | 35 +++++++++++--------
+ .../networking/device_drivers/index.rst       |  1 +
+ MAINTAINERS                                   |  2 +-
+ drivers/net/ethernet/dec/tulip/Kconfig        |  2 +-
+ 4 files changed, 23 insertions(+), 17 deletions(-)
+ rename Documentation/networking/device_drivers/dec/{dmfe.txt => dmfe.rst} (68%)
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 7a4bdbc111b0..75521e6c473b 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -116,6 +116,7 @@ Contents:
-    vrf
-    vxlan
-    x25-iface
-+   x25
+diff --git a/Documentation/networking/device_drivers/dec/dmfe.txt b/Documentation/networking/device_drivers/dec/dmfe.rst
+similarity index 68%
+rename from Documentation/networking/device_drivers/dec/dmfe.txt
+rename to Documentation/networking/device_drivers/dec/dmfe.rst
+index 25320bf19c86..c4cf809cad84 100644
+--- a/Documentation/networking/device_drivers/dec/dmfe.txt
++++ b/Documentation/networking/device_drivers/dec/dmfe.rst
+@@ -1,6 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==============================================================
++Davicom DM9102(A)/DM9132/DM9801 fast ethernet driver for Linux
++==============================================================
++
+ Note: This driver doesn't have a maintainer.
+ 
+-Davicom DM9102(A)/DM9132/DM9801 fast ethernet driver for Linux.
+ 
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General   Public License
+@@ -16,29 +21,29 @@ GNU General Public License for more details.
+ This driver provides kernel support for Davicom DM9102(A)/DM9132/DM9801 ethernet cards ( CNET
+ 10/100 ethernet cards uses Davicom chipset too, so this driver supports CNET cards too ).If you
+ didn't compile this driver as a module, it will automatically load itself on boot and print a
+-line similar to :
++line similar to::
+ 
+ 	dmfe: Davicom DM9xxx net driver, version 1.36.4 (2002-01-17)
+ 
+-If you compiled this driver as a module, you have to load it on boot.You can load it with command :
++If you compiled this driver as a module, you have to load it on boot.You can load it with command::
+ 
+ 	insmod dmfe
+ 
+ This way it will autodetect the device mode.This is the suggested way to load the module.Or you can pass
+-a mode= setting to module while loading, like :
++a mode= setting to module while loading, like::
+ 
+ 	insmod dmfe mode=0 # Force 10M Half Duplex
+ 	insmod dmfe mode=1 # Force 100M Half Duplex
+ 	insmod dmfe mode=4 # Force 10M Full Duplex
+ 	insmod dmfe mode=5 # Force 100M Full Duplex
+ 
+-Next you should configure your network interface with a command similar to :
++Next you should configure your network interface with a command similar to::
+ 
+ 	ifconfig eth0 172.22.3.18
+-                      ^^^^^^^^^^^
++		      ^^^^^^^^^^^
+ 		     Your IP Address
+ 
+-Then you may have to modify the default routing table with command :
++Then you may have to modify the default routing table with command::
+ 
+ 	route add default eth0
+ 
+@@ -48,10 +53,10 @@ Now your ethernet card should be up and running.
+ 
+ TODO:
+ 
+-Implement pci_driver::suspend() and pci_driver::resume() power management methods.
+-Check on 64 bit boxes.
+-Check and fix on big endian boxes.
+-Test and make sure PCI latency is now correct for all cases.
++- Implement pci_driver::suspend() and pci_driver::resume() power management methods.
++- Check on 64 bit boxes.
++- Check and fix on big endian boxes.
++- Test and make sure PCI latency is now correct for all cases.
+ 
+ 
+ Authors:
+@@ -60,7 +65,7 @@ Sten Wang <sten_wang@davicom.com.tw >   : Original Author
+ 
+ Contributors:
+ 
+-Marcelo Tosatti <marcelo@conectiva.com.br>
+-Alan Cox <alan@lxorguk.ukuu.org.uk>
+-Jeff Garzik <jgarzik@pobox.com>
+-Vojtech Pavlik <vojtech@suse.cz>
++- Marcelo Tosatti <marcelo@conectiva.com.br>
++- Alan Cox <alan@lxorguk.ukuu.org.uk>
++- Jeff Garzik <jgarzik@pobox.com>
++- Vojtech Pavlik <vojtech@suse.cz>
+diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
+index 4ad13ffb5800..09728e964ce1 100644
+--- a/Documentation/networking/device_drivers/index.rst
++++ b/Documentation/networking/device_drivers/index.rst
+@@ -35,6 +35,7 @@ Contents:
+    cirrus/cs89x0
+    davicom/dm9000
+    dec/de4x5
++   dec/dmfe
  
  .. only::  subproject and html
  
-diff --git a/Documentation/networking/x25.txt b/Documentation/networking/x25.rst
-similarity index 96%
-rename from Documentation/networking/x25.txt
-rename to Documentation/networking/x25.rst
-index c91c6d7159ff..00e45d384ba0 100644
---- a/Documentation/networking/x25.txt
-+++ b/Documentation/networking/x25.rst
-@@ -1,4 +1,8 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================
- Linux X.25 Project
-+==================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 91098b704635..b92568479a71 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4710,7 +4710,7 @@ F:	net/ax25/sysctl_net_ax25.c
+ DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
+ L:	netdev@vger.kernel.org
+ S:	Orphan
+-F:	Documentation/networking/device_drivers/dec/dmfe.txt
++F:	Documentation/networking/device_drivers/dec/dmfe.rst
+ F:	drivers/net/ethernet/dec/tulip/dmfe.c
  
- As my third year dissertation at University I have taken it upon myself to
- write an X.25 implementation for Linux. My aim is to provide a complete X.25
-diff --git a/net/x25/Kconfig b/net/x25/Kconfig
-index a328f79885d1..9f0d58b0b90b 100644
---- a/net/x25/Kconfig
-+++ b/net/x25/Kconfig
-@@ -20,7 +20,7 @@ config X25
- 	  You can read more about X.25 at <http://www.sangoma.com/tutorials/x25/> and
- 	  <http://docwiki.cisco.com/wiki/X.25>.
- 	  Information about X.25 for Linux is contained in the files
--	  <file:Documentation/networking/x25.txt> and
-+	  <file:Documentation/networking/x25.rst> and
- 	  <file:Documentation/networking/x25-iface.rst>.
+ DC390/AM53C974 SCSI driver
+diff --git a/drivers/net/ethernet/dec/tulip/Kconfig b/drivers/net/ethernet/dec/tulip/Kconfig
+index 8c4245d94bb2..177f36f4b89d 100644
+--- a/drivers/net/ethernet/dec/tulip/Kconfig
++++ b/drivers/net/ethernet/dec/tulip/Kconfig
+@@ -138,7 +138,7 @@ config DM9102
+ 	  This driver is for DM9102(A)/DM9132/DM9801 compatible PCI cards from
+ 	  Davicom (<http://www.davicom.com.tw/>).  If you have such a network
+ 	  (Ethernet) card, say Y.  Some information is contained in the file
+-	  <file:Documentation/networking/device_drivers/dec/dmfe.txt>.
++	  <file:Documentation/networking/device_drivers/dec/dmfe.rst>.
  
- 	  One connects to an X.25 network either with a dedicated network card
+ 	  To compile this driver as a module, choose M here. The module will
+ 	  be called dmfe.
 -- 
 2.25.4
 
