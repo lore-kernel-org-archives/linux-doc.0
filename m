@@ -2,144 +2,155 @@ Return-Path: <SRS0=ZV4e=6P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B830C4724C
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 17:07:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D85F0C4724C
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 17:10:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6845120836
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 17:07:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2A03208D6
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 17:10:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588353016;
+	bh=AZtGupY3KVT174f6mc/9Z29DqA2plgz5WC6ENyZ6TPE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
+	b=ZRp/5e/aUcoimPeLlk+HRPnEv23NAhLYmIV1KmWNgT5deE+aQb7KTHxFNrZMXM3RL
+	 S6wSmPf7oAq6dNcDmpNmQYMafFrpQUIdHQvJz2/a/qn4mXTmBeB+JrORnObDr1ZT14
+	 5kBF9WC+xBXwBHgdTEQflZmBt61vn56Oi8FHqaao=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729155AbgEARHc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 13:07:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50890 "EHLO mail.kernel.org"
+        id S1729312AbgEARKN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 13:10:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51860 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728925AbgEARHb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 May 2020 13:07:31 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S1728495AbgEARKN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 May 2020 13:10:13 -0400
+Received: from localhost (mobile-166-175-184-168.mycingular.net [166.175.184.168])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AB90120836;
-        Fri,  1 May 2020 17:07:30 +0000 (UTC)
-Date:   Fri, 1 May 2020 13:07:29 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] streamline_config.pl: add LOCALMODCONFIG_PRESERVE to
- preserve some kconfigs
-Message-ID: <20200501130729.3a3e4994@gandalf.local.home>
-In-Reply-To: <20200501023708.108830-1-changbin.du@gmail.com>
-References: <20200501023708.108830-1-changbin.du@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        by mail.kernel.org (Postfix) with ESMTPSA id B1C6C2137B;
+        Fri,  1 May 2020 17:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588353013;
+        bh=AZtGupY3KVT174f6mc/9Z29DqA2plgz5WC6ENyZ6TPE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=PBt0yxaZV/zHBhSkjLZbx2e68r1SeWS0rIaOCYIyY1T/juir9wkfAEotoNf0Pv7UG
+         YFlTN1FA2MgY60VvWQWC71/qkgHXC1qnlNlFjaZyxujhRhRp++Suc5WqQQlYztBHIl
+         HT1CeSIrQedVZhkaX1SyQLwHwRRv+9ec8VC8Vo1c=
+Date:   Fri, 1 May 2020 12:10:11 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v4 12/19] docs: pci:
+ endpoint/function/binding/pci-test.txt convert to ReST
+Message-ID: <20200501171011.GA116051@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fa73d1a7fb6c4691899a110a732216bcdac75f2b.1588263270.git.mchehab+huawei@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  1 May 2020 10:37:08 +0800
-Changbin Du <changbin.du@gmail.com> wrote:
-
-> Sometimes it is useful to preserve batches of configs when making
-> localmodconfig. For example, I usually don't want any usb and fs
-> modules to be disabled. Now we can do it by:
+On Thu, Apr 30, 2020 at 06:18:26PM +0200, Mauro Carvalho Chehab wrote:
+> Convert this file to ReST by adding a proper title to it and
+> use the right markups for a table.
 > 
->  $ make LOCALMODCONFIG_PRESERVE="drivers/usb;fs" localmodconfig
-
-That's too much typing ;-) What about just "KEEP='drivers/usb;fs'"?
-
-
+> While here, add a SPDX header.
 > 
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
 > ---
->  Documentation/admin-guide/README.rst |  8 +++++++-
->  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
->  2 files changed, 30 insertions(+), 1 deletion(-)
+>  .../endpoint/function/binding/pci-test.rst    | 26 +++++++++++++++++++
+>  .../endpoint/function/binding/pci-test.txt    | 19 --------------
+>  Documentation/PCI/endpoint/index.rst          |  2 ++
+>  .../misc-devices/pci-endpoint-test.rst        |  2 +-
+>  4 files changed, 29 insertions(+), 20 deletions(-)
+>  create mode 100644 Documentation/PCI/endpoint/function/binding/pci-test.rst
+>  delete mode 100644 Documentation/PCI/endpoint/function/binding/pci-test.txt
 > 
-> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-> index cc6151fc0845..6deff95362f8 100644
-> --- a/Documentation/admin-guide/README.rst
-> +++ b/Documentation/admin-guide/README.rst
-> @@ -209,10 +209,16 @@ Configuring the kernel
->                             store the lsmod of that machine into a file
->                             and pass it in as a LSMOD parameter.
->  
-> +                           Also, you can preserve modules in certen folders
-> +                           or kconfig files by spcifying there paths in
-> +                           parameter LOCALMODCONFIG_PRESERVE.
+> diff --git a/Documentation/PCI/endpoint/function/binding/pci-test.rst b/Documentation/PCI/endpoint/function/binding/pci-test.rst
+> new file mode 100644
+> index 000000000000..57ee866fb165
+> --- /dev/null
+> +++ b/Documentation/PCI/endpoint/function/binding/pci-test.rst
+> @@ -0,0 +1,26 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
->                     target$ lsmod > /tmp/mylsmod
->                     target$ scp /tmp/mylsmod host:/tmp
->  
-> -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
-> +                   host$ make LSMOD=/tmp/mylsmod \
-> +                           LOCALMODCONFIG_PRESERVE="drivers/usb;drivers/gpu;fs" \
-> +                           localmodconfig
->  
->                             The above also works when cross compiling.
->  
-> diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
-> index e2f8504f5a2d..ab5d1e10a5d0 100755
-> --- a/scripts/kconfig/streamline_config.pl
-> +++ b/scripts/kconfig/streamline_config.pl
-> @@ -143,6 +143,7 @@ my %depends;
->  my %selects;
->  my %prompts;
->  my %objects;
-> +my %config2kfile;
->  my $var;
->  my $iflevel = 0;
->  my @ifdeps;
-> @@ -201,6 +202,7 @@ sub read_kconfig {
->  	if (/^\s*(menu)?config\s+(\S+)\s*$/) {
->  	    $state = "NEW";
->  	    $config = $2;
-> +	    $config2kfile{"CONFIG_$config"} = $kconfig;
->  
->  	    # Add depends for 'if' nesting
->  	    for (my $i = 0; $i < $iflevel; $i++) {
-> @@ -592,6 +594,22 @@ while ($repeat) {
->  
->  my %setconfigs;
->  
-> +my @presevered_kconfigs;
-> +@presevered_kconfigs = split(/;/,$ENV{LOCALMODCONFIG_PRESERVE}) if (defined($ENV{LOCALMODCONFIG_PRESERVE}));
+> +==========================
+> +PCI Test Endpoint Function
+> +==========================
 > +
-> +sub in_presevered_kconfigs {
-> +    my $kconfig = $config2kfile{$_[0]};
-> +    if (!defined($kconfig)) {
-> +        return 0;
-> +    }
-> +    foreach my $excl (@presevered_kconfigs) {
-> +        if($kconfig =~ /^$excl/) {
-> +            return 1;
-> +        }
-> +    }
-> +    return 0;
-> +}
+> +name: Should be "pci_epf_test" to bind to the pci_epf_test driver.
 > +
->  # Finally, read the .config file and turn off any module enabled that
->  # we could not find a reason to keep enabled.
->  foreach my $line (@config_file) {
-> @@ -644,6 +662,11 @@ foreach my $line (@config_file) {
->      }
+> +Configurable Fields:
+> +
+> +================   ===========================================================
+> +vendorid	   should be 0x104c
+> +deviceid	   should be 0xb500 for DRA74x and 0xb501 for DRA72x
+> +revid		   don't care
+> +progif_code	   don't care
+> +subclass_code	   don't care
+> +baseclass_code	   should be 0xff
+> +cache_line_size	   don't care
+> +subsys_vendor_id   don't care
+> +subsys_id	   don't care
+> +interrupt_pin	   Should be 1 - INTA, 2 - INTB, 3 - INTC, 4 -INTD
+> +msi_interrupts	   Should be 1 to 32 depending on the number of MSI interrupts
+> +		   to test
+> +msix_interrupts	   Should be 1 to 2048 depending on the number of MSI-X
+> +		   interrupts to test
+> +================   ===========================================================
+> diff --git a/Documentation/PCI/endpoint/function/binding/pci-test.txt b/Documentation/PCI/endpoint/function/binding/pci-test.txt
+> deleted file mode 100644
+> index cd76ba47394b..000000000000
+> --- a/Documentation/PCI/endpoint/function/binding/pci-test.txt
+> +++ /dev/null
+> @@ -1,19 +0,0 @@
+> -PCI TEST ENDPOINT FUNCTION
+> -
+> -name: Should be "pci_epf_test" to bind to the pci_epf_test driver.
+> -
+> -Configurable Fields:
+> -vendorid	 : should be 0x104c
+> -deviceid	 : should be 0xb500 for DRA74x and 0xb501 for DRA72x
+> -revid		 : don't care
+> -progif_code	 : don't care
+> -subclass_code	 : don't care
+> -baseclass_code	 : should be 0xff
+> -cache_line_size	 : don't care
+> -subsys_vendor_id : don't care
+> -subsys_id	 : don't care
+> -interrupt_pin	 : Should be 1 - INTA, 2 - INTB, 3 - INTC, 4 -INTD
+> -msi_interrupts	 : Should be 1 to 32 depending on the number of MSI interrupts
+> -		   to test
+> -msix_interrupts	 : Should be 1 to 2048 depending on the number of MSI-X
+> -		   interrupts to test
+> diff --git a/Documentation/PCI/endpoint/index.rst b/Documentation/PCI/endpoint/index.rst
+> index d114ea74b444..4ca7439fbfc9 100644
+> --- a/Documentation/PCI/endpoint/index.rst
+> +++ b/Documentation/PCI/endpoint/index.rst
+> @@ -11,3 +11,5 @@ PCI Endpoint Framework
+>     pci-endpoint-cfs
+>     pci-test-function
+>     pci-test-howto
+> +
+> +   function/binding/pci-test
+> diff --git a/Documentation/misc-devices/pci-endpoint-test.rst b/Documentation/misc-devices/pci-endpoint-test.rst
+> index 26e5d9ba146b..4cf3f4433be7 100644
+> --- a/Documentation/misc-devices/pci-endpoint-test.rst
+> +++ b/Documentation/misc-devices/pci-endpoint-test.rst
+> @@ -53,4 +53,4 @@ ioctl
+>  	      Perform read tests. The size of the buffer should be passed
+>  	      as argument.
 >  
->      if (/^(CONFIG.*)=(m|y)/) {
-> +        if (in_presevered_kconfigs($1)) {
-> +            dprint "Preserve config $1";
-> +            print;
-> +            next;
-> +        }
->  	if (defined($configs{$1})) {
->  	    if ($localyesconfig) {
->  	        $setconfigs{$1} = 'y';
-
-I'll have to test it out, but I like the idea!
-
--- Steve
+> -.. [1] Documentation/PCI/endpoint/function/binding/pci-test.txt
+> +.. [1] Documentation/PCI/endpoint/function/binding/pci-test.rst
+> -- 
+> 2.25.4
+> 
