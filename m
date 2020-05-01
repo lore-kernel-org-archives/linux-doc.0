@@ -2,57 +2,80 @@ Return-Path: <SRS0=ZV4e=6P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD18CC47258
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:47:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 770F5C47253
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:48:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A68D9208D6
-	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:47:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F50E20857
+	for <linux-doc@archiver.kernel.org>; Fri,  1 May 2020 14:48:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588344474;
-	bh=0GqCfM9Pak+Kvtv7JmtzSFjTvzefUCQusYq9G06vvZY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=tlKkWLwh2YH3qew/PRA0fGUr2VsfwOkrwuL4KQPrjIyZiXUVYSIvtTjsgiXDCf7Rx
-	 s/MU071MHU4CS9WDwOMKe20+ed0p8jjItOIgS5FrqEsfgdO2sIE2EOARp1jQ6dsgbN
-	 nz/f/W4DpVWVCCmWoLAnXowONfGjQ1NgR92RBqpk=
+	s=default; t=1588344493;
+	bh=pgEeloihUJtDW9NEkL6jmFDK/ZInSPDNQO7niKknL3E=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=mbRS/P14bnFQMwlh/FOpSOkVwhmK6CNyyo+A7/4YDCMhVlWcMxkcueFFZkksSIMsd
+	 etV/s4Bel48SoRT24RFqWCiqbN6G7pkdV555nH2eBvRXjjzpJo5AdF66ysv5Z1DJ0q
+	 3jQquYTMcD7J/EAEaRu9XA6p216vIgvoZb1zjJfA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730350AbgEAOrx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 10:47:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52674 "EHLO mail.kernel.org"
+        id S1729374AbgEAOsM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 10:48:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52646 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729374AbgEAOpI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729352AbgEAOpI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 1 May 2020 10:45:08 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F07A124954;
+        by mail.kernel.org (Postfix) with ESMTPSA id 13CC324959;
         Fri,  1 May 2020 14:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588344305;
-        bh=0GqCfM9Pak+Kvtv7JmtzSFjTvzefUCQusYq9G06vvZY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ywMs4KS6M+ktZVwpYfW7vv+LCTix+aqywjwC1X/9VYCwwM9AMRESb3mcUE1Z8IcU2
-         lZTD17RTwZ0+qP5/+wK1rLf6jG1ROjmsmK4cFfSVAA0P/dNW+HiAsxkmWP09g5//Nt
-         FOCB23It2r0iwMAgoYFFUOWm4OyesWQD6Bq/w67s=
+        bh=pgEeloihUJtDW9NEkL6jmFDK/ZInSPDNQO7niKknL3E=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SVEs1VMhjyuHELBkXcF4/1fWlbsaS7MgiAohJ3ePux485XSRhFIw+LT9CMyjWvZFi
+         ihz7fPrKmb/CyIscv5iZo1ghZ6L6por1RndA5qbcxiN/hqpCEtOv80OoyKzd7LfsEg
+         e5L/qaobT9VXcglAQbs4CKkx5QoFsFVnzoG5mfmc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jUWuT-00FCcZ-8z; Fri, 01 May 2020 16:45:01 +0200
+        id 1jUWuT-00FCcS-77; Fri, 01 May 2020 16:45:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Samuel Chessman <chessman@tux.org>, netdev@vger.kernel.org,
+        Andrew Hendry <andrew.hendry@gmail.com>,
+        Zorik Machulsky <zorik@amazon.com>,
+        Sean Tranchetti <stranche@codeaurora.org>,
+        Igor Russkikh <irusskikh@marvell.com>,
+        Jon Mason <jdmason@kudzu.us>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        linux-x25@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
+        linux-hyperv@vger.kernel.org, Kalle Valo <kvalo@codeaurora.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Subash Abhinov Kasiviswanathan <subashab@codeaurora.org>,
+        David Ahern <dsahern@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Ishizaki Kou <kou.ishizaki@toshiba.co.jp>,
+        Joerg Reuter <jreuter@yaina.de>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Shrijeet Mukherjee <shrijeet@gmail.com>,
+        Netanel Belgazal <netanel@amazon.com>,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Guy Tzalik <gtzalik@amazon.com>,
+        Maxim Krasnyansky <maxk@qti.qualcomm.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        linux-wireless@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-parisc@vger.kernel.org,
+        Steffen Klassert <klassert@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 02/37] docs: networking: convert udplite.txt to ReST
-Date:   Fri,  1 May 2020 16:44:24 +0200
-Message-Id: <1fda335aa18ec8348b99f40dde71a405764f82a3.1588344146.git.mchehab+huawei@kernel.org>
+        Stephen Hemminger <sthemmin@microsoft.com>
+Subject: [PATCH 00/37]net: manually convert files to ReST format - part 3 (final)
+Date:   Fri,  1 May 2020 16:44:22 +0200
+Message-Id: <cover.1588344146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.4
-In-Reply-To: <cover.1588344146.git.mchehab+huawei@kernel.org>
-References: <cover.1588344146.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -60,345 +83,165 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- add SPDX header;
-- adjust titles and chapters, adding proper markups;
-- mark lists as such;
-- mark tables as such;
-- mark code blocks and literals as such;
-- adjust identation, whitespaces and blank lines where needed;
-- add to networking/index.rst.
+That's the third part (and the final one) of my work to convert the networking
+text files into ReST. it is based on linux-next next-20200430 branch.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/networking/index.rst            |   1 +
- .../networking/{udplite.txt => udplite.rst}   | 175 ++++++++++--------
- 2 files changed, 95 insertions(+), 81 deletions(-)
+The full series (including those ones) are at:
+
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=net-docs
+
+The  built output documents, on html format is at:
+
+	https://www.infradead.org/~mchehab/kernel_docs/networking/
+
+
+Mauro Carvalho Chehab (37):
+  docs: networking: convert tuntap.txt to ReST
+  docs: networking: convert udplite.txt to ReST
+  docs: networking: convert vrf.txt to ReST
+  docs: networking: convert vxlan.txt to ReST
+  docs: networking: convert x25-iface.txt to ReST
+  docs: networking: convert x25.txt to ReST
+  docs: networking: convert xfrm_device.txt to ReST
+  docs: networking: convert xfrm_proc.txt to ReST
+  docs: networking: convert xfrm_sync.txt to ReST
+  docs: networking: convert xfrm_sysctl.txt to ReST
+  docs: networking: convert z8530drv.txt to ReST
+  docs: networking: device drivers: convert 3com/3c509.txt to ReST
+  docs: networking: device drivers: convert 3com/vortex.txt to ReST
+  docs: networking: device drivers: convert amazon/ena.txt to ReST
+  docs: networking: device drivers: convert aquantia/atlantic.txt to
+    ReST
+  docs: networking: device drivers: convert chelsio/cxgb.txt to ReST
+  docs: networking: device drivers: convert cirrus/cs89x0.txt to ReST
+  docs: networking: device drivers: convert davicom/dm9000.txt to ReST
+  docs: networking: device drivers: convert dec/de4x5.txt to ReST
+  docs: networking: device drivers: convert dec/dmfe.txt to ReST
+  docs: networking: device drivers: convert dlink/dl2k.txt to ReST
+  docs: networking: device drivers: convert freescale/dpaa.txt to ReST
+  docs: networking: device drivers: convert freescale/gianfar.txt to
+    ReST
+  docs: networking: device drivers: convert intel/ipw2100.txt to ReST
+  docs: networking: device drivers: convert intel/ipw2200.txt to ReST
+  docs: networking: device drivers: convert microsoft/netvsc.txt to ReST
+  docs: networking: device drivers: convert neterion/s2io.txt to ReST
+  docs: networking: device drivers: convert neterion/vxge.txt to ReST
+  docs: networking: device drivers: convert qualcomm/rmnet.txt to ReST
+  docs: networking: device drivers: convert sb1000.txt to ReST
+  docs: networking: device drivers: convert smsc/smc9.txt to ReST
+  docs: networking: device drivers: convert ti/cpsw_switchdev.txt to
+    ReST
+  docs: networking: device drivers: convert ti/cpsw.txt to ReST
+  docs: networking: device drivers: convert ti/tlan.txt to ReST
+  docs: networking: device drivers: convert toshiba/spider_net.txt to
+    ReST
+  net: docs: add page_pool.rst to index.rst
+  docs: networking: arcnet-hardware.rst: don't duplicate chapter names
+
+ Documentation/networking/arcnet-hardware.rst  |   8 +-
+ .../3com/{3c509.txt => 3c509.rst}             | 158 +++--
+ .../3com/{vortex.txt => vortex.rst}           | 223 ++++---
+ .../amazon/{ena.txt => ena.rst}               | 142 ++--
+ .../aquantia/{atlantic.txt => atlantic.rst}   | 373 ++++++-----
+ .../chelsio/{cxgb.txt => cxgb.rst}            | 183 ++++--
+ .../cirrus/{cs89x0.txt => cs89x0.rst}         | 557 ++++++++--------
+ .../davicom/{dm9000.txt => dm9000.rst}        |  24 +-
+ .../dec/{de4x5.txt => de4x5.rst}              | 105 +--
+ .../device_drivers/dec/{dmfe.txt => dmfe.rst} |  35 +-
+ .../dlink/{dl2k.txt => dl2k.rst}              | 228 ++++---
+ .../freescale/{dpaa.txt => dpaa.rst}          | 139 ++--
+ .../freescale/{gianfar.txt => gianfar.rst}    |  21 +-
+ .../networking/device_drivers/index.rst       |  24 +
+ .../intel/{ipw2100.txt => ipw2100.rst}        | 242 ++++---
+ .../intel/{ipw2200.txt => ipw2200.rst}        | 410 +++++++-----
+ .../microsoft/{netvsc.txt => netvsc.rst}      |  57 +-
+ .../device_drivers/neterion/s2io.rst          | 196 ++++++
+ .../device_drivers/neterion/s2io.txt          | 141 ----
+ .../neterion/{vxge.txt => vxge.rst}           |  60 +-
+ .../qualcomm/{rmnet.txt => rmnet.rst}         |  43 +-
+ .../networking/device_drivers/sb1000.rst      | 222 +++++++
+ .../networking/device_drivers/sb1000.txt      | 207 ------
+ .../networking/device_drivers/smsc/smc9.rst   |  49 ++
+ .../networking/device_drivers/smsc/smc9.txt   |  42 --
+ .../networking/device_drivers/ti/cpsw.rst     | 587 +++++++++++++++++
+ .../networking/device_drivers/ti/cpsw.txt     | 541 ----------------
+ ...{cpsw_switchdev.txt => cpsw_switchdev.rst} | 239 ++++---
+ .../device_drivers/ti/{tlan.txt => tlan.rst}  |  73 ++-
+ .../{spider_net.txt => spider_net.rst}        |  58 +-
+ Documentation/networking/index.rst            |  12 +
+ .../networking/{tuntap.txt => tuntap.rst}     | 200 +++---
+ .../networking/{udplite.txt => udplite.rst}   | 175 ++---
+ Documentation/networking/vrf.rst              | 451 +++++++++++++
+ Documentation/networking/vrf.txt              | 418 ------------
+ .../networking/{vxlan.txt => vxlan.rst}       |  33 +-
+ .../{x25-iface.txt => x25-iface.rst}          |  10 +-
+ Documentation/networking/{x25.txt => x25.rst} |   4 +
+ .../{xfrm_device.txt => xfrm_device.rst}      |  33 +-
+ .../{xfrm_proc.txt => xfrm_proc.rst}          |  31 +
+ .../{xfrm_sync.txt => xfrm_sync.rst}          |  66 +-
+ .../{xfrm_sysctl.txt => xfrm_sysctl.rst}      |   7 +
+ .../networking/{z8530drv.txt => z8530drv.rst} | 609 +++++++++---------
+ MAINTAINERS                                   |  30 +-
+ drivers/net/Kconfig                           |   4 +-
+ drivers/net/ethernet/3com/3c59x.c             |   4 +-
+ drivers/net/ethernet/3com/Kconfig             |   2 +-
+ drivers/net/ethernet/chelsio/Kconfig          |   2 +-
+ drivers/net/ethernet/cirrus/Kconfig           |   2 +-
+ drivers/net/ethernet/dec/tulip/Kconfig        |   4 +-
+ drivers/net/ethernet/dlink/dl2k.c             |   2 +-
+ drivers/net/ethernet/neterion/Kconfig         |   4 +-
+ drivers/net/ethernet/smsc/Kconfig             |   4 +-
+ drivers/net/ethernet/ti/Kconfig               |   2 +-
+ drivers/net/ethernet/ti/tlan.c                |   2 +-
+ drivers/net/hamradio/Kconfig                  |   4 +-
+ drivers/net/hamradio/scc.c                    |   2 +-
+ drivers/net/wireless/intel/ipw2x00/Kconfig    |   4 +-
+ drivers/net/wireless/intel/ipw2x00/ipw2100.c  |   2 +-
+ include/uapi/linux/if_x25.h                   |   2 +-
+ net/x25/Kconfig                               |   4 +-
+ 61 files changed, 4175 insertions(+), 3341 deletions(-)
+ rename Documentation/networking/device_drivers/3com/{3c509.txt => 3c509.rst} (68%)
+ rename Documentation/networking/device_drivers/3com/{vortex.txt => vortex.rst} (72%)
+ rename Documentation/networking/device_drivers/amazon/{ena.txt => ena.rst} (86%)
+ rename Documentation/networking/device_drivers/aquantia/{atlantic.txt => atlantic.rst} (63%)
+ rename Documentation/networking/device_drivers/chelsio/{cxgb.txt => cxgb.rst} (81%)
+ rename Documentation/networking/device_drivers/cirrus/{cs89x0.txt => cs89x0.rst} (61%)
+ rename Documentation/networking/device_drivers/davicom/{dm9000.txt => dm9000.rst} (92%)
+ rename Documentation/networking/device_drivers/dec/{de4x5.txt => de4x5.rst} (78%)
+ rename Documentation/networking/device_drivers/dec/{dmfe.txt => dmfe.rst} (68%)
+ rename Documentation/networking/device_drivers/dlink/{dl2k.txt => dl2k.rst} (59%)
+ rename Documentation/networking/device_drivers/freescale/{dpaa.txt => dpaa.rst} (79%)
+ rename Documentation/networking/device_drivers/freescale/{gianfar.txt => gianfar.rst} (82%)
+ rename Documentation/networking/device_drivers/intel/{ipw2100.txt => ipw2100.rst} (70%)
+ rename Documentation/networking/device_drivers/intel/{ipw2200.txt => ipw2200.rst} (64%)
+ rename Documentation/networking/device_drivers/microsoft/{netvsc.txt => netvsc.rst} (83%)
+ create mode 100644 Documentation/networking/device_drivers/neterion/s2io.rst
+ delete mode 100644 Documentation/networking/device_drivers/neterion/s2io.txt
+ rename Documentation/networking/device_drivers/neterion/{vxge.txt => vxge.rst} (80%)
+ rename Documentation/networking/device_drivers/qualcomm/{rmnet.txt => rmnet.rst} (73%)
+ create mode 100644 Documentation/networking/device_drivers/sb1000.rst
+ delete mode 100644 Documentation/networking/device_drivers/sb1000.txt
+ create mode 100644 Documentation/networking/device_drivers/smsc/smc9.rst
+ delete mode 100644 Documentation/networking/device_drivers/smsc/smc9.txt
+ create mode 100644 Documentation/networking/device_drivers/ti/cpsw.rst
+ delete mode 100644 Documentation/networking/device_drivers/ti/cpsw.txt
+ rename Documentation/networking/device_drivers/ti/{cpsw_switchdev.txt => cpsw_switchdev.rst} (51%)
+ rename Documentation/networking/device_drivers/ti/{tlan.txt => tlan.rst} (73%)
+ rename Documentation/networking/device_drivers/toshiba/{spider_net.txt => spider_net.rst} (88%)
+ rename Documentation/networking/{tuntap.txt => tuntap.rst} (58%)
  rename Documentation/networking/{udplite.txt => udplite.rst} (65%)
+ create mode 100644 Documentation/networking/vrf.rst
+ delete mode 100644 Documentation/networking/vrf.txt
+ rename Documentation/networking/{vxlan.txt => vxlan.rst} (73%)
+ rename Documentation/networking/{x25-iface.txt => x25-iface.rst} (96%)
+ rename Documentation/networking/{x25.txt => x25.rst} (96%)
+ rename Documentation/networking/{xfrm_device.txt => xfrm_device.rst} (92%)
+ rename Documentation/networking/{xfrm_proc.txt => xfrm_proc.rst} (95%)
+ rename Documentation/networking/{xfrm_sync.txt => xfrm_sync.rst} (82%)
+ rename Documentation/networking/{xfrm_sysctl.txt => xfrm_sysctl.rst} (52%)
+ rename Documentation/networking/{z8530drv.txt => z8530drv.rst} (57%)
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index e7a683f0528d..ca0b0dbfd9ad 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -112,6 +112,7 @@ Contents:
-    timestamping
-    tproxy
-    tuntap
-+   udplite
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/networking/udplite.txt b/Documentation/networking/udplite.rst
-similarity index 65%
-rename from Documentation/networking/udplite.txt
-rename to Documentation/networking/udplite.rst
-index 53a726855e49..2c225f28b7b2 100644
---- a/Documentation/networking/udplite.txt
-+++ b/Documentation/networking/udplite.rst
-@@ -1,6 +1,8 @@
--  ===========================================================================
--                      The UDP-Lite protocol (RFC 3828)
--  ===========================================================================
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================================
-+The UDP-Lite protocol (RFC 3828)
-+================================
- 
- 
-   UDP-Lite is a Standards-Track IETF transport protocol whose characteristic
-@@ -11,39 +13,43 @@
-   This file briefly describes the existing kernel support and the socket API.
-   For in-depth information, you can consult:
- 
--   o The UDP-Lite Homepage:
--	http://web.archive.org/web/*/http://www.erg.abdn.ac.uk/users/gerrit/udp-lite/ 
--       From here you can also download some example application source code.
-+   - The UDP-Lite Homepage:
-+     http://web.archive.org/web/%2E/http://www.erg.abdn.ac.uk/users/gerrit/udp-lite/
- 
--   o The UDP-Lite HOWTO on
--       http://web.archive.org/web/*/http://www.erg.abdn.ac.uk/users/gerrit/udp-lite/
--	files/UDP-Lite-HOWTO.txt
-+     From here you can also download some example application source code.
- 
--   o The Wireshark UDP-Lite WiKi (with capture files):
--       https://wiki.wireshark.org/Lightweight_User_Datagram_Protocol
-+   - The UDP-Lite HOWTO on
-+     http://web.archive.org/web/%2E/http://www.erg.abdn.ac.uk/users/gerrit/udp-lite/files/UDP-Lite-HOWTO.txt
- 
--   o The Protocol Spec, RFC 3828, http://www.ietf.org/rfc/rfc3828.txt
-+   - The Wireshark UDP-Lite WiKi (with capture files):
-+     https://wiki.wireshark.org/Lightweight_User_Datagram_Protocol
- 
-+   - The Protocol Spec, RFC 3828, http://www.ietf.org/rfc/rfc3828.txt
- 
--  I) APPLICATIONS
-+
-+1. Applications
-+===============
- 
-   Several applications have been ported successfully to UDP-Lite. Ethereal
--  (now called wireshark) has UDP-Litev4/v6 support by default. 
-+  (now called wireshark) has UDP-Litev4/v6 support by default.
-+
-   Porting applications to UDP-Lite is straightforward: only socket level and
-   IPPROTO need to be changed; senders additionally set the checksum coverage
-   length (default = header length = 8). Details are in the next section.
- 
--
--  II) PROGRAMMING API
-+2. Programming API
-+==================
- 
-   UDP-Lite provides a connectionless, unreliable datagram service and hence
-   uses the same socket type as UDP. In fact, porting from UDP to UDP-Lite is
--  very easy: simply add `IPPROTO_UDPLITE' as the last argument of the socket(2)
--  call so that the statement looks like:
-+  very easy: simply add ``IPPROTO_UDPLITE`` as the last argument of the
-+  socket(2) call so that the statement looks like::
- 
-       s = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDPLITE);
- 
--                      or, respectively,
-+  or, respectively,
-+
-+  ::
- 
-       s = socket(PF_INET6, SOCK_DGRAM, IPPROTO_UDPLITE);
- 
-@@ -56,10 +62,10 @@
- 
-     * Sender checksum coverage: UDPLITE_SEND_CSCOV
- 
--      For example,
-+      For example::
- 
--        int val = 20;
--        setsockopt(s, SOL_UDPLITE, UDPLITE_SEND_CSCOV, &val, sizeof(int));
-+	int val = 20;
-+	setsockopt(s, SOL_UDPLITE, UDPLITE_SEND_CSCOV, &val, sizeof(int));
- 
-       sets the checksum coverage length to 20 bytes (12b data + 8b header).
-       Of each packet only the first 20 bytes (plus the pseudo-header) will be
-@@ -74,10 +80,10 @@
-       that of a traffic filter: when enabled, it instructs the kernel to drop
-       all packets which have a coverage _less_ than this value. For example, if
-       RTP and UDP headers are to be protected, a receiver can enforce that only
--      packets with a minimum coverage of 20 are admitted:
-+      packets with a minimum coverage of 20 are admitted::
- 
--        int min = 20;
--        setsockopt(s, SOL_UDPLITE, UDPLITE_RECV_CSCOV, &min, sizeof(int));
-+	int min = 20;
-+	setsockopt(s, SOL_UDPLITE, UDPLITE_RECV_CSCOV, &min, sizeof(int));
- 
-   The calls to getsockopt(2) are analogous. Being an extension and not a stand-
-   alone protocol, all socket options known from UDP can be used in exactly the
-@@ -85,18 +91,18 @@
- 
-   A detailed discussion of UDP-Lite checksum coverage options is in section IV.
- 
--
--  III) HEADER FILES
-+3. Header Files
-+===============
- 
-   The socket API requires support through header files in /usr/include:
- 
-     * /usr/include/netinet/in.h
--        to define IPPROTO_UDPLITE
-+      to define IPPROTO_UDPLITE
- 
-     * /usr/include/netinet/udplite.h
--        for UDP-Lite header fields and protocol constants
-+      for UDP-Lite header fields and protocol constants
- 
--  For testing purposes, the following can serve as a `mini' header file:
-+  For testing purposes, the following can serve as a ``mini`` header file::
- 
-     #define IPPROTO_UDPLITE       136
-     #define SOL_UDPLITE           136
-@@ -105,8 +111,9 @@
- 
-   Ready-made header files for various distros are in the UDP-Lite tarball.
- 
-+4. Kernel Behaviour with Regards to the Various Socket Options
-+==============================================================
- 
--  IV) KERNEL BEHAVIOUR WITH REGARD TO THE VARIOUS SOCKET OPTIONS
- 
-   To enable debugging messages, the log level need to be set to 8, as most
-   messages use the KERN_DEBUG level (7).
-@@ -136,13 +143,13 @@
-   3) Disabling the Checksum Computation
- 
-   On both sender and receiver, checksumming will always be performed
--  and cannot be disabled using SO_NO_CHECK. Thus
-+  and cannot be disabled using SO_NO_CHECK. Thus::
- 
--        setsockopt(sockfd, SOL_SOCKET, SO_NO_CHECK,  ... );
-+	setsockopt(sockfd, SOL_SOCKET, SO_NO_CHECK,  ... );
- 
--  will always will be ignored, while the value of
-+  will always will be ignored, while the value of::
- 
--        getsockopt(sockfd, SOL_SOCKET, SO_NO_CHECK, &value, ...);
-+	getsockopt(sockfd, SOL_SOCKET, SO_NO_CHECK, &value, ...);
- 
-   is meaningless (as in TCP). Packets with a zero checksum field are
-   illegal (cf. RFC 3828, sec. 3.1) and will be silently discarded.
-@@ -167,15 +174,15 @@
-   first one contains the L4 header.
- 
-   The send buffer size has implications on the checksum coverage length.
--  Consider the following example:
-+  Consider the following example::
- 
--  Payload: 1536 bytes          Send Buffer:     1024 bytes
--  MTU:     1500 bytes          Coverage Length:  856 bytes
-+    Payload: 1536 bytes          Send Buffer:     1024 bytes
-+    MTU:     1500 bytes          Coverage Length:  856 bytes
- 
--  UDP-Lite will ship the 1536 bytes in two separate packets:
-+  UDP-Lite will ship the 1536 bytes in two separate packets::
- 
--  Packet 1: 1024 payload + 8 byte header + 20 byte IP header = 1052 bytes
--  Packet 2:  512 payload + 8 byte header + 20 byte IP header =  540 bytes
-+    Packet 1: 1024 payload + 8 byte header + 20 byte IP header = 1052 bytes
-+    Packet 2:  512 payload + 8 byte header + 20 byte IP header =  540 bytes
- 
-   The coverage packet covers the UDP-Lite header and 848 bytes of the
-   payload in the first packet, the second packet is fully covered. Note
-@@ -184,17 +191,17 @@
-   length in such cases.
- 
-   As an example of what happens when one UDP-Lite packet is split into
--  several tiny fragments, consider the following example.
-+  several tiny fragments, consider the following example::
- 
--  Payload: 1024 bytes            Send buffer size: 1024 bytes
--  MTU:      300 bytes            Coverage length:   575 bytes
-+    Payload: 1024 bytes            Send buffer size: 1024 bytes
-+    MTU:      300 bytes            Coverage length:   575 bytes
- 
--  +-+-----------+--------------+--------------+--------------+
--  |8|    272    |      280     |     280      |     280      |
--  +-+-----------+--------------+--------------+--------------+
--               280            560            840           1032
--                                    ^
--  *****checksum coverage*************
-+    +-+-----------+--------------+--------------+--------------+
-+    |8|    272    |      280     |     280      |     280      |
-+    +-+-----------+--------------+--------------+--------------+
-+		280            560            840           1032
-+					^
-+    *****checksum coverage*************
- 
-   The UDP-Lite module generates one 1032 byte packet (1024 + 8 byte
-   header). According to the interface MTU, these are split into 4 IP
-@@ -208,7 +215,7 @@
-   lengths), only the first fragment needs to be considered. When using
-   larger checksum coverage lengths, each eligible fragment needs to be
-   checksummed. Suppose we have a checksum coverage of 3062. The buffer
--  of 3356 bytes will be split into the following fragments:
-+  of 3356 bytes will be split into the following fragments::
- 
-     Fragment 1: 1280 bytes carrying  1232 bytes of UDP-Lite data
-     Fragment 2: 1280 bytes carrying  1232 bytes of UDP-Lite data
-@@ -222,57 +229,63 @@
-   performance over wireless (or generally noisy) links and thus smaller
-   coverage lengths are likely to be expected.
- 
--
--  V) UDP-LITE RUNTIME STATISTICS AND THEIR MEANING
-+5. UDP-Lite Runtime Statistics and their Meaning
-+================================================
- 
-   Exceptional and error conditions are logged to syslog at the KERN_DEBUG
-   level.  Live statistics about UDP-Lite are available in /proc/net/snmp
--  and can (with newer versions of netstat) be viewed using
-+  and can (with newer versions of netstat) be viewed using::
- 
--                            netstat -svu
-+			    netstat -svu
- 
-   This displays UDP-Lite statistics variables, whose meaning is as follows.
- 
--   InDatagrams:     The total number of datagrams delivered to users.
-+   ============     =====================================================
-+   InDatagrams      The total number of datagrams delivered to users.
- 
--   NoPorts:         Number of packets received to an unknown port.
--                    These cases are counted separately (not as InErrors).
-+   NoPorts          Number of packets received to an unknown port.
-+		    These cases are counted separately (not as InErrors).
- 
--   InErrors:        Number of erroneous UDP-Lite packets. Errors include:
--                      * internal socket queue receive errors
--                      * packet too short (less than 8 bytes or stated
--                        coverage length exceeds received length)
--                      * xfrm4_policy_check() returned with error
--                      * application has specified larger min. coverage
--                        length than that of incoming packet
--                      * checksum coverage violated
--                      * bad checksum
-+   InErrors         Number of erroneous UDP-Lite packets. Errors include:
- 
--   OutDatagrams:    Total number of sent datagrams.
-+		      * internal socket queue receive errors
-+		      * packet too short (less than 8 bytes or stated
-+			coverage length exceeds received length)
-+		      * xfrm4_policy_check() returned with error
-+		      * application has specified larger min. coverage
-+			length than that of incoming packet
-+		      * checksum coverage violated
-+		      * bad checksum
-+
-+   OutDatagrams     Total number of sent datagrams.
-+   ============     =====================================================
- 
-    These statistics derive from the UDP MIB (RFC 2013).
- 
--
--  VI) IPTABLES
-+6. IPtables
-+===========
- 
-   There is packet match support for UDP-Lite as well as support for the LOG target.
--  If you copy and paste the following line into /etc/protocols,
-+  If you copy and paste the following line into /etc/protocols::
- 
--  udplite 136     UDP-Lite        # UDP-Lite [RFC 3828]
-+    udplite 136     UDP-Lite        # UDP-Lite [RFC 3828]
- 
--  then
--              iptables -A INPUT -p udplite -j LOG
-+  then::
-+
-+	      iptables -A INPUT -p udplite -j LOG
- 
-   will produce logging output to syslog. Dropping and rejecting packets also works.
- 
--
--  VII) MAINTAINER ADDRESS
-+7. Maintainer Address
-+=====================
- 
-   The UDP-Lite patch was developed at
--                    University of Aberdeen
--                    Electronics Research Group
--                    Department of Engineering
--                    Fraser Noble Building
--                    Aberdeen AB24 3UE; UK
-+
-+		    University of Aberdeen
-+		    Electronics Research Group
-+		    Department of Engineering
-+		    Fraser Noble Building
-+		    Aberdeen AB24 3UE; UK
-+
-   The current maintainer is Gerrit Renker, <gerrit@erg.abdn.ac.uk>. Initial
-   code was developed by William  Stanislaus, <william@erg.abdn.ac.uk>.
 -- 
 2.25.4
+
 
