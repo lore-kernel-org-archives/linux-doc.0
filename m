@@ -2,104 +2,290 @@ Return-Path: <SRS0=XB8P=6Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB3B1C47254
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 02:42:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC72C3A5A9
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 07:42:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3D8B2184D
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 02:42:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DQXBgoP9"
+	by mail.kernel.org (Postfix) with ESMTP id DCD132173E
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 07:42:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726473AbgEBCmw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 22:42:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33786 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbgEBCmv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 22:42:51 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF6F6C061A0C;
-        Fri,  1 May 2020 19:42:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=syLJ6ShJVBap9F3cLcnuX8tEVEJu08QjLeEfNy3ZQo0=; b=DQXBgoP9T5cDTv3kytUC3iiCiH
-        9s0rBK4RRgU8VfHIxc8ptcCklB8Ub9LuzVxTlP3x/NFuITAl3Ow6NC7zu4m9BDG299rWrZvyCGiRW
-        bRNMLtIb3ljR/bjlDOIAIHxWbLq3JcwPeKd/sipj/a16dheOzxCMnvhyf21z1Tb2MXVPb0hXnWuKq
-        /BwCOhneUhbjVZgvQGvyEFGgTvAisuAyjjjmNo82ToBb3AYrtXRdhuuTH1NE1NcFE3KLMl3kx++Ll
-        D8IxIfXkkWi2h4XWBw7tcEQZAh4BGpt/TrxFy6kATgY5tFtHn38nhZOcPXKY7M3ffiENq03JMLZtI
-        W9d8vvIQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jUi74-00049G-KN; Sat, 02 May 2020 02:42:46 +0000
-Subject: Re: New Wiki URLs?
-To:     webmaster@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-wireless <linux-wireless@vger.kernel.org>
-References: <20200428044440.kd2rf3cxa5rffewm@falbala.internal.home.lespocky.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c12c7fbe-d0e0-9a75-8e31-3a06e156f29d@infradead.org>
-Date:   Fri, 1 May 2020 19:42:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726503AbgEBHm1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 May 2020 03:42:27 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30132 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726486AbgEBHm1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 May 2020 03:42:27 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0427WhUk029695;
+        Sat, 2 May 2020 03:41:43 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 30s38n9ncv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 02 May 2020 03:41:42 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0427YiZt033464;
+        Sat, 2 May 2020 03:41:42 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 30s38n9nce-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 02 May 2020 03:41:42 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 0427eHrf019578;
+        Sat, 2 May 2020 07:41:39 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma03ams.nl.ibm.com with ESMTP id 30s0g5gd34-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 02 May 2020 07:41:39 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0427eSsQ59965934
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 2 May 2020 07:40:28 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9E744A4054;
+        Sat,  2 May 2020 07:41:37 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7EADCA405F;
+        Sat,  2 May 2020 07:41:35 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.148.204.17])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sat,  2 May 2020 07:41:35 +0000 (GMT)
+Date:   Sat, 2 May 2020 10:41:33 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>, Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Tejun Heo <tj@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Marcos Paulo de Souza <marcos.souza.org@gmail.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-ia64@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 07/14] docs: add IRQ documentation at the core-api book
+Message-ID: <20200502074133.GC342687@linux.ibm.com>
+References: <cover.1588345503.git.mchehab+huawei@kernel.org>
+ <2da7485c3718e1442e6b4c2dd66857b776e8899b.1588345503.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200428044440.kd2rf3cxa5rffewm@falbala.internal.home.lespocky.de>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2da7485c3718e1442e6b4c2dd66857b776e8899b.1588345503.git.mchehab+huawei@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-05-02_04:2020-05-01,2020-05-02 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 clxscore=1011 adultscore=0 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 phishscore=0 mlxscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005020066
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[adding people + linux-wireless@ ]
+Hello Mauro,
 
-Should we assume that the current wireless wiki URLs are more or less
-permanent and so update lots of outdated references to them?
+On Fri, May 01, 2020 at 05:37:51PM +0200, Mauro Carvalho Chehab wrote:
+> There are 4 IRQ documentation files under Documentation/*.txt.
+> 
+> Move them into a new directory (core-api/irq) and add a new
+> index file for it.
 
-I see that the MAINTAINERS file is already updated.
+Just curious, why IRQ docs got their subdirectory and DMA didn't :)
 
-Plus there is a request for redirects @kernel.org.
-
-
-On 4/27/20 9:44 PM, Alexander Dahl wrote:
-> Hello,
+> While here, use a title markup for the Debugging section of the
+> irq-domain.rst file.
 > 
-> I noticed the kernel wiki URLs might have changed. The URLs now are
-> like this:
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/admin-guide/hw-vuln/l1tf.rst            |  2 +-
+>  Documentation/admin-guide/kernel-per-CPU-kthreads.rst |  2 +-
+>  Documentation/core-api/index.rst                      |  1 +
+>  Documentation/{IRQ.txt => core-api/irq/concepts.rst}  |  0
+>  Documentation/core-api/irq/index.rst                  | 11 +++++++++++
+>  .../irq/irq-affinity.rst}                             |  0
+>  .../{IRQ-domain.txt => core-api/irq/irq-domain.rst}   |  3 ++-
+>  .../irq/irqflags-tracing.rst}                         |  0
+>  Documentation/ia64/irq-redir.rst                      |  2 +-
+>  Documentation/networking/scaling.rst                  |  4 ++--
+>  Documentation/translations/zh_CN/IRQ.txt              |  4 ++--
+>  MAINTAINERS                                           |  2 +-
+>  12 files changed, 22 insertions(+), 9 deletions(-)
+>  rename Documentation/{IRQ.txt => core-api/irq/concepts.rst} (100%)
+>  create mode 100644 Documentation/core-api/irq/index.rst
+>  rename Documentation/{IRQ-affinity.txt => core-api/irq/irq-affinity.rst} (100%)
+>  rename Documentation/{IRQ-domain.txt => core-api/irq/irq-domain.rst} (99%)
+>  rename Documentation/{irqflags-tracing.txt => core-api/irq/irqflags-tracing.rst} (100%)
 > 
-> https://wireless.wiki.kernel.org/en/users/drivers/b43
+> diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
+> index f83212fae4d5..3eeeb488d955 100644
+> --- a/Documentation/admin-guide/hw-vuln/l1tf.rst
+> +++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
+> @@ -268,7 +268,7 @@ Guest mitigation mechanisms
+>     /proc/irq/$NR/smp_affinity[_list] files. Limited documentation is
+>     available at:
+>  
+> -   https://www.kernel.org/doc/Documentation/IRQ-affinity.txt
+> +   https://www.kernel.org/doc/Documentation/core-api/irq/irq-affinity.rst
+>  
+>  .. _smt_control:
+>  
+> diff --git a/Documentation/admin-guide/kernel-per-CPU-kthreads.rst b/Documentation/admin-guide/kernel-per-CPU-kthreads.rst
+> index 21818aca4708..dc36aeb65d0a 100644
+> --- a/Documentation/admin-guide/kernel-per-CPU-kthreads.rst
+> +++ b/Documentation/admin-guide/kernel-per-CPU-kthreads.rst
+> @@ -10,7 +10,7 @@ them to a "housekeeping" CPU dedicated to such work.
+>  References
+>  ==========
+>  
+> --	Documentation/IRQ-affinity.txt:  Binding interrupts to sets of CPUs.
+> +-	Documentation/core-api/irq/irq-affinity.rst:  Binding interrupts to sets of CPUs.
+>  
+>  -	Documentation/admin-guide/cgroup-v1:  Using cgroups to bind tasks to sets of CPUs.
+>  
+> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+> index ab056b3626f4..49a885e83a55 100644
+> --- a/Documentation/core-api/index.rst
+> +++ b/Documentation/core-api/index.rst
+> @@ -52,6 +52,7 @@ How Linux keeps everything from happening at the same time.  See
+>  
+>     atomic_ops
+>     refcount-vs-atomic
+> +   irq/index
+>     local_ops
+>     padata
+>     ../RCU/index
+> diff --git a/Documentation/IRQ.txt b/Documentation/core-api/irq/concepts.rst
+> similarity index 100%
+> rename from Documentation/IRQ.txt
+> rename to Documentation/core-api/irq/concepts.rst
+> diff --git a/Documentation/core-api/irq/index.rst b/Documentation/core-api/irq/index.rst
+> new file mode 100644
+> index 000000000000..0d65d11e5420
+> --- /dev/null
+> +++ b/Documentation/core-api/irq/index.rst
+> @@ -0,0 +1,11 @@
+> +====
+> +IRQs
+> +====
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   concepts
+> +   irq-affinity
+> +   irq-domain
+> +   irqflags-tracing
+> diff --git a/Documentation/IRQ-affinity.txt b/Documentation/core-api/irq/irq-affinity.rst
+> similarity index 100%
+> rename from Documentation/IRQ-affinity.txt
+> rename to Documentation/core-api/irq/irq-affinity.rst
+> diff --git a/Documentation/IRQ-domain.txt b/Documentation/core-api/irq/irq-domain.rst
+> similarity index 99%
+> rename from Documentation/IRQ-domain.txt
+> rename to Documentation/core-api/irq/irq-domain.rst
+> index 507775cce753..096db12f32d5 100644
+> --- a/Documentation/IRQ-domain.txt
+> +++ b/Documentation/core-api/irq/irq-domain.rst
+> @@ -263,7 +263,8 @@ needs to:
+>  Hierarchy irq_domain is in no way x86 specific, and is heavily used to
+>  support other architectures, such as ARM, ARM64 etc.
+>  
+> -=== Debugging ===
+> +Debugging
+> +=========
+>  
+>  Most of the internals of the IRQ subsystem are exposed in debugfs by
+>  turning CONFIG_GENERIC_IRQ_DEBUGFS on.
+> diff --git a/Documentation/irqflags-tracing.txt b/Documentation/core-api/irq/irqflags-tracing.rst
+> similarity index 100%
+> rename from Documentation/irqflags-tracing.txt
+> rename to Documentation/core-api/irq/irqflags-tracing.rst
+> diff --git a/Documentation/ia64/irq-redir.rst b/Documentation/ia64/irq-redir.rst
+> index 39bf94484a15..6bbbbe4f73ef 100644
+> --- a/Documentation/ia64/irq-redir.rst
+> +++ b/Documentation/ia64/irq-redir.rst
+> @@ -7,7 +7,7 @@ IRQ affinity on IA64 platforms
+>  
+>  By writing to /proc/irq/IRQ#/smp_affinity the interrupt routing can be
+>  controlled. The behavior on IA64 platforms is slightly different from
+> -that described in Documentation/IRQ-affinity.txt for i386 systems.
+> +that described in Documentation/core-api/irq/irq-affinity.rst for i386 systems.
+>  
+>  Because of the usage of SAPIC mode and physical destination mode the
+>  IRQ target is one particular CPU and cannot be a mask of several
+> diff --git a/Documentation/networking/scaling.rst b/Documentation/networking/scaling.rst
+> index f78d7bf27ff5..8f0347b9fb3d 100644
+> --- a/Documentation/networking/scaling.rst
+> +++ b/Documentation/networking/scaling.rst
+> @@ -81,7 +81,7 @@ of queues to IRQs can be determined from /proc/interrupts. By default,
+>  an IRQ may be handled on any CPU. Because a non-negligible part of packet
+>  processing takes place in receive interrupt handling, it is advantageous
+>  to spread receive interrupts between CPUs. To manually adjust the IRQ
+> -affinity of each interrupt see Documentation/IRQ-affinity.txt. Some systems
+> +affinity of each interrupt see Documentation/core-api/irq/irq-affinity.rst. Some systems
+>  will be running irqbalance, a daemon that dynamically optimizes IRQ
+>  assignments and as a result may override any manual settings.
+>  
+> @@ -160,7 +160,7 @@ can be configured for each receive queue using a sysfs file entry::
+>  
+>  This file implements a bitmap of CPUs. RPS is disabled when it is zero
+>  (the default), in which case packets are processed on the interrupting
+> -CPU. Documentation/IRQ-affinity.txt explains how CPUs are assigned to
+> +CPU. Documentation/core-api/irq/irq-affinity.rst explains how CPUs are assigned to
+>  the bitmap.
+>  
+>  
+> diff --git a/Documentation/translations/zh_CN/IRQ.txt b/Documentation/translations/zh_CN/IRQ.txt
+> index 956026d5cf82..9aec8dca4fcf 100644
+> --- a/Documentation/translations/zh_CN/IRQ.txt
+> +++ b/Documentation/translations/zh_CN/IRQ.txt
+> @@ -1,4 +1,4 @@
+> -Chinese translated version of Documentation/IRQ.txt
+> +Chinese translated version of Documentation/core-api/irq/index.rst
+>  
+>  If you have any comment or update to the content, please contact the
+>  original document maintainer directly.  However, if you have a problem
+> @@ -9,7 +9,7 @@ or if there is a problem with the translation.
+>  Maintainer: Eric W. Biederman <ebiederman@xmission.com>
+>  Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
+>  ---------------------------------------------------------------------
+> -Documentation/IRQ.txt 的中文翻译
+> +Documentation/core-api/irq/index.rst 的中文翻译
+>  
+>  如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+>  交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a1d7af532950..6eb3d85a646f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8974,7 +8974,7 @@ IRQ DOMAINS (IRQ NUMBER MAPPING LIBRARY)
+>  M:	Marc Zyngier <maz@kernel.org>
+>  S:	Maintained
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
+> -F:	Documentation/IRQ-domain.txt
+> +F:	Documentation/core-api/irq/irq-domain.rst
+>  F:	include/linux/irqdomain.h
+>  F:	kernel/irq/irqdomain.c
+>  F:	kernel/irq/msi.c
+> -- 
+> 2.25.4
 > 
-> However in the kernel source code and in the kernel log output you
-> find something like this:
-> 
->     b43-phy1 ERROR: You must go to http://wireless.kernel.org/en/users/Drivers/b43#devicefirmware and do
->     wnload the correct firmware for this driver version. Please carefully read all instructions on this 
->     website.
-> 
-> (Notice the additional subdomain and the case change in the resource
-> path.)
-> 
-> Some websites seem to link on those old URLs, see
-> https://packages.debian.org/source/buster/b43-fwcutter for example.
-> 
-> Could the webmasters of kernel.org please configure some kind of
-> redirects so people don't get 404 errors when looking for docs?
-> 
-> Bonus question: would it make sense to change all those URLs in the
-> source (as in: send patches for that)? Then what URLs are supposed to
-> be the right ones now?
-> 
-> Kind regards
-> Alex
-
 
 -- 
-~Randy
-
+Sincerely yours,
+Mike.
