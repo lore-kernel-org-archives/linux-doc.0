@@ -2,118 +2,109 @@ Return-Path: <SRS0=XB8P=6Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F646C3A5A9
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 14:31:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97793C47254
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 14:59:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59D6224954
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 14:31:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7699124953
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 14:59:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KqOsiBJp"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQ0TexyD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728178AbgEBObM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 May 2020 10:31:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58630 "EHLO
+        id S1728107AbgEBO7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 May 2020 10:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728020AbgEBObL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 May 2020 10:31:11 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F884C061A0C;
-        Sat,  2 May 2020 07:31:11 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id s18so6010362pgl.12;
-        Sat, 02 May 2020 07:31:11 -0700 (PDT)
+        with ESMTP id S1728035AbgEBO7S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 May 2020 10:59:18 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83A85C061A0C;
+        Sat,  2 May 2020 07:59:18 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id x15so3078430pfa.1;
+        Sat, 02 May 2020 07:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Vhi2tvdPkQONRnK1IeM1tHo7lHmp8jdJZUoTTd6D+Ag=;
-        b=KqOsiBJpLDVTukQX0u2+4+6PR5r/Wn8QsUF74GKgAgL/ianIkHjTcjdnkRlujFZNOf
-         WvRDCZyaYgIErtPkQHJVMF5/7MChkji3RYu2N6cAjxaf2Yz1dU/uW7WDUOntMOy1LT/7
-         vlkg1ehGLs1/nS77pMu8ElfVplyocf5qR0NtSEuAK+zZgY4CZ0C3qEBZbhl92BDMll7D
-         YdvvSmiy14FrNr57+IjTS7czhgGgZH/Ex7mS8KDOzH9D8P+t6FjhYhYh3yVBngYfda42
-         o/9P6QnGZmg+JREoVDoznHYmY1S20a09pzyBQvSwney/u/TiDjctWAG9tqsxKt0KnL89
-         i4qw==
+        bh=PvNspPh6XnwIJVtk7dVIO6YRm27tK9b7y5sCOvhwH2U=;
+        b=lQ0TexyDqSRKuQPR7qikbPUqO6267sDUhkfvkHgS8i71jHr+TXpfJwYsUa26ZmNziK
+         hTZEmUHMYFyIbTnsOZSd+7PBTjmkVXGRjadlgelJUhbKjT4Qzdt6dvbNj+XviCaVp7qn
+         Bz+3AzmOpf5ZwUar03PkFTaV/7Yr8y1ukzwwip2QP+iqz2fVtyGV4n+kT6TMn9N3HMaC
+         +5my2urqkdzrX75VMzzNr1yBC35zIKYUB1O1aWLPfb7N8wITJjZ+lcqrxApyG9XoMRzw
+         GbbQAIh0m8XnRDB7P3P2tExsoqeCBO+BAUWGoLdczwOvvHoDasr0DBLqaZXMWsg7dFBM
+         J3OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Vhi2tvdPkQONRnK1IeM1tHo7lHmp8jdJZUoTTd6D+Ag=;
-        b=Ic0cnceuQoREPicwpydK1Nu07kG25PkxGnZm9NJCoLkHAe5KfxEDw4CQWDox1/Na98
-         +pw2TB7vTaMC/+oGcepzD3o7MAfYNqHWsM11m2pTpqGcyU9w5X+JYNVc+INmjOKw2hWE
-         ZU9w6P61iXfeWdgp5wov5t1nxG/XRqo+Qs6Q5YnYuFBOiIm571CSInJ9Be8Elps3Vp0s
-         vQmH2w6AmB9Ha0dZDiQFdBpmOYzs8WnJd8QHEsAephgDFZ/PtzgJ39iwR59as/tb6YrR
-         pNkdhEXHVD0vP8RW3HIV91HENrt/VzCrrAF2rN1Z74XrsMdAuVsagWJo3QN0nvImnKc8
-         Vslg==
-X-Gm-Message-State: AGi0Pubz9mHxs3DN5i4mLizlMoJ4UHJrNF78ef+uIz0/LJUPgVDM2bl4
-        9zvmln6qAvvo13hbz6XBvWs=
-X-Google-Smtp-Source: APiQypIGB/651r3FlV11uzBvQ+F44rjU0ixNxQkSmV2X7LIlXcSlhStwSkHbmYKJJEixkpom3jOgwQ==
-X-Received: by 2002:a65:6882:: with SMTP id e2mr8672696pgt.170.1588429870711;
-        Sat, 02 May 2020 07:31:10 -0700 (PDT)
-Received: from mail.google.com ([149.248.10.52])
-        by smtp.gmail.com with ESMTPSA id c80sm4587098pfb.82.2020.05.02.07.31.09
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PvNspPh6XnwIJVtk7dVIO6YRm27tK9b7y5sCOvhwH2U=;
+        b=Vo02WMbpBA8489WfWAqdi7/yU57txSE9aN3MuS1Vi0A0aGv8tky7ZBI2ksIhxA6Bav
+         jQJswbxAnrHgYLO+9iC/TNYuQ5Dh3tc3xgFfg52Ja15oK2EcRSBWWZsG1qxhnTVJmQBP
+         +wlKnMkrF2J+PVpEPkZKA1XMrfAA5XsKBqqlBMg699UIgKOjakUA6GS+7TR2h3xwT6kJ
+         wVYtVHUDYhfmAysz1CJPLCMtJRHQCHTWS2wKPnQtwLuLEqszJMjPM4nVeJmqjSOLv4tI
+         QwzvJHsgyqdmtqnk1D1MElzd3cXsBL8tdNre8k7p/oe2ZLz4bglurcSsIBthd3a/yipn
+         SygQ==
+X-Gm-Message-State: AGi0Pubs+IBXp3+tYZMilHCNfER16x8+DgfiYgQCy5X0bBgztFyR9Pip
+        aDl08GNZbr6khnxK4v3KlWDLUrLM
+X-Google-Smtp-Source: APiQypKBlGGjCcFAlU6pAR0pMd9yE7ZWR4UtjSulAKcWGP53/K91VPE97U8lSZTYaBigyqYcnT9WtQ==
+X-Received: by 2002:a65:4b86:: with SMTP id t6mr8574464pgq.177.1588431558111;
+        Sat, 02 May 2020 07:59:18 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id a99sm2432025pje.35.2020.05.02.07.59.17
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 02 May 2020 07:31:09 -0700 (PDT)
-Date:   Sat, 2 May 2020 14:31:08 +0000
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Changbin Du <changbin.du@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] streamline_config.pl: add LOCALMODCONFIG_PRESERVE to
- preserve some kconfigs
-Message-ID: <20200502143106.7cpbots6oriib26v@mail.google.com>
-References: <20200501023708.108830-1-changbin.du@gmail.com>
- <20200501130729.3a3e4994@gandalf.local.home>
- <20200502133054.gx77eoas7u7gnxxm@mail.google.com>
- <20200502094024.6142a04e@oasis.local.home>
+        Sat, 02 May 2020 07:59:17 -0700 (PDT)
+Date:   Sat, 2 May 2020 07:59:16 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Wolfram Sang <wsa@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] watchdog: update email address in conversion doc
+Message-ID: <20200502145916.GF189389@roeck-us.net>
+References: <20200502143103.19473-1-wsa@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200502094024.6142a04e@oasis.local.home>
-User-Agent: NeoMutt/20180716-508-7c9a6d
+In-Reply-To: <20200502143103.19473-1-wsa@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Steven,
-On Sat, May 02, 2020 at 09:40:24AM -0400, Steven Rostedt wrote:
-> On Sat, 2 May 2020 21:30:54 +0800
-> Changbin Du <changbin.du@gmail.com> wrote:
+On Sat, May 02, 2020 at 04:30:58PM +0200, Wolfram Sang wrote:
+> The old one is defunct. However, I think it makes sense that I am still
+> the primary contact person for updates here.
 > 
-> > > > Sometimes it is useful to preserve batches of configs when making
-> > > > localmodconfig. For example, I usually don't want any usb and fs
-> > > > modules to be disabled. Now we can do it by:
-> > > > 
-> > > >  $ make LOCALMODCONFIG_PRESERVE="drivers/usb;fs" localmodconfig  
-> > > 
-> > > That's too much typing ;-) What about just "KEEP='drivers/usb;fs'"?
-> > >  
-> > I think we'd better use a long name since it will be passed to the entire kbuild.
-> > And we alreay have one named LOCALMODCONFIG_DEBUG. The prefix LOCALMODCONFIG_
-> > can help to avoid namespace pollution.
-> 
-> I politely disagree. Build options is not common. The
-> LOCALMODCONFIG_DEBUG is an environment variable, which I couldn't just
-> use DEBUG.
-> 
-This is what I am worried about since LOCALMODCONFIG_PRESERVE also is an
-environment variable. A short name possibly overwrite internal kbuild
-variables.
+> Signed-off-by: Wolfram Sang <wsa@kernel.org>
 
-> If you absolutely require a prefix, shorten it to LMC_ or something. I
-> already hate typing 'localmodconfig' once ;-)
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+> ---
 > 
-I undstand your pain. This why I never type 'localmodconfig' but copy it
-from 'make help' :). Maybe we can get more inputs from others.
-
-> -- Steve
-
--- 
-Cheers,
-Changbin Du
+> ... if there will be any. Let me know if you agree.
+> 
+>  Documentation/watchdog/convert_drivers_to_kernel_api.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/watchdog/convert_drivers_to_kernel_api.rst b/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+> index dd934cc08e40..b972ef4c7cff 100644
+> --- a/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+> +++ b/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+> @@ -2,7 +2,7 @@
+>  Converting old watchdog drivers to the watchdog framework
+>  =========================================================
+>  
+> -by Wolfram Sang <w.sang@pengutronix.de>
+> +by Wolfram Sang <wsa@kernel.org>
+>  
+>  Before the watchdog framework came into the kernel, every driver had to
+>  implement the API on its own. Now, as the framework factored out the common
+> -- 
+> 2.20.1
+> 
