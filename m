@@ -2,128 +2,190 @@ Return-Path: <SRS0=XB8P=6Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF922C3A5A9
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 11:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFEA6C3A5A9
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 13:26:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 943A920836
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 11:22:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9A4321974
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 13:26:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g4HmuNOh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726846AbgEBLW2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 May 2020 07:22:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46588 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726654AbgEBLW1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 May 2020 07:22:27 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 042B2Xh3184724;
-        Sat, 2 May 2020 07:21:51 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 30s50wucma-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 02 May 2020 07:21:51 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 042BJ3Ks021250;
-        Sat, 2 May 2020 07:21:51 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 30s50wuckr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 02 May 2020 07:21:50 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-        by ppma05fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 042BKSVA012967;
-        Sat, 2 May 2020 11:21:48 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma05fra.de.ibm.com with ESMTP id 30s0g5g8wa-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 02 May 2020 11:21:48 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 042BLkKJ53674396
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 2 May 2020 11:21:46 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EB76411C050;
-        Sat,  2 May 2020 11:21:45 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EA28A11C04C;
-        Sat,  2 May 2020 11:21:43 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.148.204.17])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sat,  2 May 2020 11:21:43 +0000 (GMT)
-Date:   Sat, 2 May 2020 14:21:41 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>, Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Tejun Heo <tj@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Marcos Paulo de Souza <marcos.souza.org@gmail.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-ia64@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 07/14] docs: add IRQ documentation at the core-api book
-Message-ID: <20200502112141.GE342687@linux.ibm.com>
-References: <cover.1588345503.git.mchehab+huawei@kernel.org>
- <2da7485c3718e1442e6b4c2dd66857b776e8899b.1588345503.git.mchehab+huawei@kernel.org>
- <20200502074133.GC342687@linux.ibm.com>
- <20200502110438.1aad7d86@coco.lan>
+        id S1727963AbgEBN0a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 May 2020 09:26:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727902AbgEBN0a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 May 2020 09:26:30 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC18C061A0C;
+        Sat,  2 May 2020 06:26:30 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id n11so5958056pgl.9;
+        Sat, 02 May 2020 06:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pZ+ozzzn+Egb6aGFcqAOiguMXsTNTlDmjm5HqIzLcsA=;
+        b=g4HmuNOhsaQs3d39Vn888/dZ6cgAXzauTfIu/g1cW7Lkujg+hlh75Sn+UfvZ+VdWhc
+         z4D+exyjrg+sf3C8Q3I17AmTJks3Lmqr+SSGgakGnmNfKY3whTXmKkAv1aQ0MudynjKZ
+         qSUOQ1s1HYDIL0FABhwre1j7PztF+zjdYY+01lPWreJR/BDQScJzZSnyCf25Y6dCJQz0
+         ZpKYRsra/DY2CTSnIxX7DPJ/TtoQ0zN6ZLdk1W8kP/k/5sWlNRvXGEruQVCJNNX4pRT2
+         foTaxqzF/ucwdPce9aJueilon2uxoQB6pAFGbPFzTVwNuqzojx4buoS6Zq+6/JCIW7om
+         LZNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pZ+ozzzn+Egb6aGFcqAOiguMXsTNTlDmjm5HqIzLcsA=;
+        b=lQf738aMh1QRE4S83AK2DalWDMIA9s5SiJw/wsjwZE0yPv4K/hghWlK11s0GQuF+gW
+         3bPU6L5Io2GKV/fpvNnvFYvpDXLPxFzvWuOonWiH47AjaPY51znCMFhQ1Eufcfmder/I
+         +xG8O7xzb/iGPGo84dR4D/lfWh6W/WuoLUSGz8PCG0JYRR9cM2i0oDg9WxoKkBdf+Jbi
+         +cbulXIiIIL7lZw7RcwLfu3ir+wb+D1BvctJoQUx5ZkjeLKjBVA7rIwyiNpnafuJoS+k
+         gBg+ktDbechNsdDPlOsah1r+ENaZQOfOkxcosAd8WsAR+DeKMuYZr/HYrDqz8FMDH+Bu
+         k29w==
+X-Gm-Message-State: AGi0PuZTYwTmcbeFoYWSnzStdgDP3wk++u+Sb3/ijE0FKDiOhSF23RbX
+        8suCR0lRFRzAGcZc908Jl9g=
+X-Google-Smtp-Source: APiQypJa6q64s3+DGsJtgyv3Fd5GkoriDaNjiRyVlN7mHw+JZhrGzIo2KYcd2ME1vt+TSpAnLb9d2g==
+X-Received: by 2002:a63:7e1b:: with SMTP id z27mr8389676pgc.19.1588425989343;
+        Sat, 02 May 2020 06:26:29 -0700 (PDT)
+Received: from mail.google.com ([149.248.10.52])
+        by smtp.gmail.com with ESMTPSA id v64sm4535192pfb.20.2020.05.02.06.26.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 May 2020 06:26:28 -0700 (PDT)
+Date:   Sat, 2 May 2020 21:26:20 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] streamline_config.pl: add LOCALMODCONFIG_PRESERVE to
+ preserve some kconfigs
+Message-ID: <20200502132620.z6bo66ypc65eukge@mail.google.com>
+References: <20200501023708.108830-1-changbin.du@gmail.com>
+ <07f3fe15-ae8d-c11a-c29f-ed9c51c2addc@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200502110438.1aad7d86@coco.lan>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
- definitions=2020-05-02_06:2020-05-01,2020-05-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
- clxscore=1015 suspectscore=1 mlxlogscore=999 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005020095
+In-Reply-To: <07f3fe15-ae8d-c11a-c29f-ed9c51c2addc@infradead.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 02, 2020 at 12:16:41PM +0200, Mauro Carvalho Chehab wrote:
-> Em Sat, 2 May 2020 10:41:33 +0300
-> Mike Rapoport <rppt@linux.ibm.com> escreveu:
-> 
-> > Hello Mauro,
+On Fri, May 01, 2020 at 09:51:17AM -0700, Randy Dunlap wrote:
+> On 4/30/20 7:37 PM, Changbin Du wrote:
+> > Sometimes it is useful to preserve batches of configs when making
+> > localmodconfig. For example, I usually don't want any usb and fs
+> > modules to be disabled. Now we can do it by:
 > > 
-> > On Fri, May 01, 2020 at 05:37:51PM +0200, Mauro Carvalho Chehab wrote:
-> > > There are 4 IRQ documentation files under Documentation/*.txt.
-> > > 
-> > > Move them into a new directory (core-api/irq) and add a new
-> > > index file for it.  
+> >  $ make LOCALMODCONFIG_PRESERVE="drivers/usb;fs" localmodconfig
 > > 
-> > Just curious, why IRQ docs got their subdirectory and DMA didn't :)
+> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > ---
+> >  Documentation/admin-guide/README.rst |  8 +++++++-
+> >  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
+> >  2 files changed, 30 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> > index cc6151fc0845..6deff95362f8 100644
+> > --- a/Documentation/admin-guide/README.rst
+> > +++ b/Documentation/admin-guide/README.rst
+> > @@ -209,10 +209,16 @@ Configuring the kernel
+> >                             store the lsmod of that machine into a file
+> >                             and pass it in as a LSMOD parameter.
+> >  
+> > +                           Also, you can preserve modules in certen folders
 > 
-> Heh, you got me... :-)
+> typo:                                                           certain
 > 
-> The rationale I used is that DMA fits nicely being close to other 
-> memory related documents.  As those currently don't have a subdir,
-> I opted to not create a DMA-specific dir. I admit that his is a
-> weak reason. I wouldn't mind placing them on a separate subdir,
-> if you think it would be worth.
+> > +                           or kconfig files by spcifying there paths in
+> 
+> again:                                            specifying their
+> 
+Thank you, I will fix them.
 
-I'm Ok without a dir as well :)
-
-> Thanks,
-> Mauro
+> > +                           parameter LOCALMODCONFIG_PRESERVE.
+> > +
+> >                     target$ lsmod > /tmp/mylsmod
+> >                     target$ scp /tmp/mylsmod host:/tmp
+> >  
+> > -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
+> > +                   host$ make LSMOD=/tmp/mylsmod \
+> > +                           LOCALMODCONFIG_PRESERVE="drivers/usb;drivers/gpu;fs" \
+> > +                           localmodconfig
+> >  
+> >                             The above also works when cross compiling.
+> >  
+> > diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+> > index e2f8504f5a2d..ab5d1e10a5d0 100755
+> > --- a/scripts/kconfig/streamline_config.pl
+> > +++ b/scripts/kconfig/streamline_config.pl
+> > @@ -143,6 +143,7 @@ my %depends;
+> >  my %selects;
+> >  my %prompts;
+> >  my %objects;
+> > +my %config2kfile;
+> >  my $var;
+> >  my $iflevel = 0;
+> >  my @ifdeps;
+> > @@ -201,6 +202,7 @@ sub read_kconfig {
+> >  	if (/^\s*(menu)?config\s+(\S+)\s*$/) {
+> >  	    $state = "NEW";
+> >  	    $config = $2;
+> > +	    $config2kfile{"CONFIG_$config"} = $kconfig;
+> >  
+> >  	    # Add depends for 'if' nesting
+> >  	    for (my $i = 0; $i < $iflevel; $i++) {
+> > @@ -592,6 +594,22 @@ while ($repeat) {
+> >  
+> >  my %setconfigs;
+> >  
+> > +my @presevered_kconfigs;
+> > +@presevered_kconfigs = split(/;/,$ENV{LOCALMODCONFIG_PRESERVE}) if (defined($ENV{LOCALMODCONFIG_PRESERVE}));
+> > +
+> > +sub in_presevered_kconfigs {
+> > +    my $kconfig = $config2kfile{$_[0]};
+> > +    if (!defined($kconfig)) {
+> > +        return 0;
+> > +    }
+> > +    foreach my $excl (@presevered_kconfigs) {
+> > +        if($kconfig =~ /^$excl/) {
+> > +            return 1;
+> > +        }
+> > +    }
+> > +    return 0;
+> > +}
+> > +
+> >  # Finally, read the .config file and turn off any module enabled that
+> >  # we could not find a reason to keep enabled.
+> >  foreach my $line (@config_file) {
+> > @@ -644,6 +662,11 @@ foreach my $line (@config_file) {
+> >      }
+> >  
+> >      if (/^(CONFIG.*)=(m|y)/) {
+> > +        if (in_presevered_kconfigs($1)) {
+> > +            dprint "Preserve config $1";
+> > +            print;
+> > +            next;
+> > +        }
+> >  	if (defined($configs{$1})) {
+> >  	    if ($localyesconfig) {
+> >  	        $setconfigs{$1} = 'y';
+> > 
+> 
+> 
+> -- 
+> ~Randy
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
 
 -- 
-Sincerely yours,
-Mike.
+Cheers,
+Changbin Du
