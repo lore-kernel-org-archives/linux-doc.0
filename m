@@ -2,69 +2,84 @@ Return-Path: <SRS0=XB8P=6Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D62C3A5A9
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 13:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A7ADC47254
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 14:31:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5871921835
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 13:40:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70BCD2495E
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 14:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588429870;
+	bh=ZrAFb3EFm0aBHGZPXOEtp+VMMdo/srHm617ZzF2qCjY=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=XOrYaEiLmnsfnebHNObVd2QmAFZnLo4IPBFKLOQ2lPpwQs7SfUEthlnYENYMPCnI8
+	 AZ6Ivif6Wg5prNXEwU5vgJRnOOerLN6axHDdiF9GlNLVuapTQMoHQjzbpXWPZygaC0
+	 eyA1jWiW0sPDocuR5jvpnh9pZ6zaZ28RAkAtoTzQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727908AbgEBNk2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 May 2020 09:40:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39256 "EHLO mail.kernel.org"
+        id S1728052AbgEBObK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 May 2020 10:31:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727862AbgEBNk1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 2 May 2020 09:40:27 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S1728020AbgEBObJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 2 May 2020 10:31:09 -0400
+Received: from localhost (p5486C608.dip0.t-ipconnect.de [84.134.198.8])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DDE6621835;
-        Sat,  2 May 2020 13:40:26 +0000 (UTC)
-Date:   Sat, 2 May 2020 09:40:24 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] streamline_config.pl: add LOCALMODCONFIG_PRESERVE to
- preserve some kconfigs
-Message-ID: <20200502094024.6142a04e@oasis.local.home>
-In-Reply-To: <20200502133054.gx77eoas7u7gnxxm@mail.google.com>
-References: <20200501023708.108830-1-changbin.du@gmail.com>
-        <20200501130729.3a3e4994@gandalf.local.home>
-        <20200502133054.gx77eoas7u7gnxxm@mail.google.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        by mail.kernel.org (Postfix) with ESMTPSA id 298E221974;
+        Sat,  2 May 2020 14:31:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588429868;
+        bh=ZrAFb3EFm0aBHGZPXOEtp+VMMdo/srHm617ZzF2qCjY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TN08eYGsV4XhBJia3jlvzpKbzAid1zvmHD0hojXcMjmcNNVHy94RFdrbjWr9QA9qR
+         GpcX3kLFa6rVmCCECC5+/REzQxoKjeJL1BuLWPHIy84FnYxdpP+lsGmVsoLGoVe9eP
+         CEa4fIDZMoCyfaAFWzFQIOzNRQIBTbgiXHNzgB0Y=
+From:   Wolfram Sang <wsa@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Wolfram Sang <wsa@kernel.org>, kernel@pengutronix.de,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] watchdog: update email address in conversion doc
+Date:   Sat,  2 May 2020 16:30:58 +0200
+Message-Id: <20200502143103.19473-1-wsa@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2 May 2020 21:30:54 +0800
-Changbin Du <changbin.du@gmail.com> wrote:
+The old one is defunct. However, I think it makes sense that I am still
+the primary contact person for updates here.
 
-> > > Sometimes it is useful to preserve batches of configs when making
-> > > localmodconfig. For example, I usually don't want any usb and fs
-> > > modules to be disabled. Now we can do it by:
-> > > 
-> > >  $ make LOCALMODCONFIG_PRESERVE="drivers/usb;fs" localmodconfig  
-> > 
-> > That's too much typing ;-) What about just "KEEP='drivers/usb;fs'"?
-> >  
-> I think we'd better use a long name since it will be passed to the entire kbuild.
-> And we alreay have one named LOCALMODCONFIG_DEBUG. The prefix LOCALMODCONFIG_
-> can help to avoid namespace pollution.
+Signed-off-by: Wolfram Sang <wsa@kernel.org>
+---
 
-I politely disagree. Build options is not common. The
-LOCALMODCONFIG_DEBUG is an environment variable, which I couldn't just
-use DEBUG.
+... if there will be any. Let me know if you agree.
 
-If you absolutely require a prefix, shorten it to LMC_ or something. I
-already hate typing 'localmodconfig' once ;-)
+ Documentation/watchdog/convert_drivers_to_kernel_api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- Steve
+diff --git a/Documentation/watchdog/convert_drivers_to_kernel_api.rst b/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+index dd934cc08e40..b972ef4c7cff 100644
+--- a/Documentation/watchdog/convert_drivers_to_kernel_api.rst
++++ b/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+@@ -2,7 +2,7 @@
+ Converting old watchdog drivers to the watchdog framework
+ =========================================================
+ 
+-by Wolfram Sang <w.sang@pengutronix.de>
++by Wolfram Sang <wsa@kernel.org>
+ 
+ Before the watchdog framework came into the kernel, every driver had to
+ implement the API on its own. Now, as the framework factored out the common
+-- 
+2.20.1
+
