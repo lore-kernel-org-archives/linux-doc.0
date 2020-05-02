@@ -2,103 +2,104 @@ Return-Path: <SRS0=XB8P=6Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 150BDC47254
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 00:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB3B1C47254
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 02:42:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E17582072E
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 00:10:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3D8B2184D
+	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 02:42:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DQXBgoP9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726455AbgEBAKD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 May 2020 20:10:03 -0400
-Received: from smtprelay0250.hostedemail.com ([216.40.44.250]:58482 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726437AbgEBAKD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 20:10:03 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 4F02718224D76;
-        Sat,  2 May 2020 00:10:02 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: desk86_1d52530fcbd4e
-X-Filterd-Recvd-Size: 2008
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf11.hostedemail.com (Postfix) with ESMTPA;
-        Sat,  2 May 2020 00:10:01 +0000 (UTC)
-Message-ID: <3aac8d7e3f11d7df5b8155c93beee447cf8f064b.camel@perches.com>
-Subject: Re: [PATCH 14/14] docs: staging: use small font for literal includes
-From:   Joe Perches <joe@perches.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Date:   Fri, 01 May 2020 17:10:00 -0700
-In-Reply-To: <f0dd118559a49c1a8c1e248382f48d5a07c0751d.1588345503.git.mchehab+huawei@kernel.org>
-References: <cover.1588345503.git.mchehab+huawei@kernel.org>
-         <f0dd118559a49c1a8c1e248382f48d5a07c0751d.1588345503.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.1-2 
+        id S1726473AbgEBCmw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 May 2020 22:42:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33786 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726463AbgEBCmv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 May 2020 22:42:51 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF6F6C061A0C;
+        Fri,  1 May 2020 19:42:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
+        bh=syLJ6ShJVBap9F3cLcnuX8tEVEJu08QjLeEfNy3ZQo0=; b=DQXBgoP9T5cDTv3kytUC3iiCiH
+        9s0rBK4RRgU8VfHIxc8ptcCklB8Ub9LuzVxTlP3x/NFuITAl3Ow6NC7zu4m9BDG299rWrZvyCGiRW
+        bRNMLtIb3ljR/bjlDOIAIHxWbLq3JcwPeKd/sipj/a16dheOzxCMnvhyf21z1Tb2MXVPb0hXnWuKq
+        /BwCOhneUhbjVZgvQGvyEFGgTvAisuAyjjjmNo82ToBb3AYrtXRdhuuTH1NE1NcFE3KLMl3kx++Ll
+        D8IxIfXkkWi2h4XWBw7tcEQZAh4BGpt/TrxFy6kATgY5tFtHn38nhZOcPXKY7M3ffiENq03JMLZtI
+        W9d8vvIQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jUi74-00049G-KN; Sat, 02 May 2020 02:42:46 +0000
+Subject: Re: New Wiki URLs?
+To:     webmaster@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-wireless <linux-wireless@vger.kernel.org>
+References: <20200428044440.kd2rf3cxa5rffewm@falbala.internal.home.lespocky.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <c12c7fbe-d0e0-9a75-8e31-3a06e156f29d@infradead.org>
+Date:   Fri, 1 May 2020 19:42:44 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200428044440.kd2rf3cxa5rffewm@falbala.internal.home.lespocky.de>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2020-05-01 at 17:37 +0200, Mauro Carvalho Chehab wrote:
-> The normal font is too big to display 80 columns, causing extra
-> breaks to be added at weird places.
+[adding people + linux-wireless@ ]
+
+Should we assume that the current wireless wiki URLs are more or less
+permanent and so update lots of outdated references to them?
+
+I see that the MAINTAINERS file is already updated.
+
+Plus there is a request for redirects @kernel.org.
+
+
+On 4/27/20 9:44 PM, Alexander Dahl wrote:
+> Hello,
 > 
-> change to the footnotesize, as this would fit a little bit
-> better.
-[]
-> diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-[]
-> @@ -19,17 +19,41 @@ Unsorted Documentation
->  Atomic Types
->  ============
->  
-> +.. raw:: latex
-> +
-> +    \footnotesize
+> I noticed the kernel wiki URLs might have changed. The URLs now are
+> like this:
+> 
+> https://wireless.wiki.kernel.org/en/users/drivers/b43
+> 
+> However in the kernel source code and in the kernel log output you
+> find something like this:
+> 
+>     b43-phy1 ERROR: You must go to http://wireless.kernel.org/en/users/Drivers/b43#devicefirmware and do
+>     wnload the correct firmware for this driver version. Please carefully read all instructions on this 
+>     website.
+> 
+> (Notice the additional subdomain and the case change in the resource
+> path.)
+> 
+> Some websites seem to link on those old URLs, see
+> https://packages.debian.org/source/buster/b43-fwcutter for example.
+> 
+> Could the webmasters of kernel.org please configure some kind of
+> redirects so people don't get 404 errors when looking for docs?
+> 
+> Bonus question: would it make sense to change all those URLs in the
+> source (as in: send patches for that)? Then what URLs are supposed to
+> be the right ones now?
+> 
+> Kind regards
+> Alex
 
-Please don't make the markup too invasive.
 
-> +
->  .. include:: ../atomic_t.txt
->     :literal:
->  
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
->  Atomic bitops
->  =============
->  
-> +.. raw:: latex
-> +
-> +    \footnotesize
-> +
->  .. include:: ../atomic_bitops.txt
->     :literal:
->  
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
->  Memory Barriers
->  ===============
->  
-> +.. raw:: latex
-> +
-> +    \footnotesize
-> +
->  .. include:: ../memory-barriers.txt
->     :literal:
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
+-- 
+~Randy
 
