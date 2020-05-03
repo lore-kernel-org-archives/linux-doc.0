@@ -2,140 +2,327 @@ Return-Path: <SRS0=h+Mg=6R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EACEDC28CBC
-	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 14:54:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3507C28CBC
+	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 17:37:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B575320757
-	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 14:54:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA3B3206EB
+	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 17:37:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="CRjtQYTN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htNXykB1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728718AbgECOyy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 May 2020 10:54:54 -0400
-Received: from mout.web.de ([212.227.15.4]:37493 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728002AbgECOyx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 3 May 2020 10:54:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1588517686;
-        bh=Mvq7drscwWZHpHChF/heRq0J0YJsoApkaamEhxE0ThE=;
-        h=X-UI-Sender-Class:Subject:To:References:From:Cc:Date:In-Reply-To;
-        b=CRjtQYTNpzLA9RwEdp/hDo9FLGlfhOqF1L2dcPm3oBLZtJUUP+ICHNc0emZUeAXDb
-         kFWUnMZ2o/ETA27kc1lVZ4KiTzPHXFpSpeMRUzpHY/XUXYR9DihaO3WYm+x+CQOUNM
-         OcXBWu+W2q069hXLnPFrFSmaHw1H+HXZDLYVDQ7g=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.26.31]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MYZ8c-1jhqwG1dr8-00VTf2; Sun, 03
- May 2020 16:54:46 +0200
-Subject: Re: [PATCH v5] checkpatch: add support to check 'Fixes:' tag format
-To:     Wang YanQing <udknight@gmail.com>, Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20200503122938.GC10332@udknight>
- <2d13b5c1-6745-23da-e22d-d56f0644edb2@web.de>
- <20200503143700.GA12276@udknight>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Cc:     linux-kernel@vger.kernel.org,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Matteo Croce <mcroce@redhat.com>
-Message-ID: <1abe0267-7c2a-53a1-bda2-469ef681d469@web.de>
-Date:   Sun, 3 May 2020 16:54:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1728888AbgECRhN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 May 2020 13:37:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728831AbgECRhL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 May 2020 13:37:11 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B46C061A0E;
+        Sun,  3 May 2020 10:37:10 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id g13so18110682wrb.8;
+        Sun, 03 May 2020 10:37:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:references:user-agent:to:cc:subject:in-reply-to:message-id
+         :date:mime-version;
+        bh=CcNNW48DMJd5dqECUPVDtpDVz5NkbZaOubZZLlBCd0E=;
+        b=htNXykB1FiMsSJ0PjO31O5n3kJzWC9OAb66zDvjZSL8yc1LELM11IhNP2TjIcPb8Jv
+         k3u0UHgkv5cqT6JMmKT5z/muaDpz67l2NMTfLSJgQgzEgD9btLxxA1NhXAUQRijOIrJE
+         10BMErUd5OThZOFhY9aF2yE+Ghttpi1nFBuRNZylXeGC/jwRbi9C2CTg/eonjhcLbU2L
+         2Pjp7ARKgD63y6hOrQAbdIj/aSaEiSgcsBocf0SRbbVVHQugjrcSgy0nP7E0sBgda4NR
+         3uqj9bC8w5JQ+SUNO2hRmsuhuYkQeb/U8tMJz8dfVrDZtpFQBRl0Xo8w1OsnAxioudfv
+         pxjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:references:user-agent:to:cc:subject
+         :in-reply-to:message-id:date:mime-version;
+        bh=CcNNW48DMJd5dqECUPVDtpDVz5NkbZaOubZZLlBCd0E=;
+        b=rWptewSvnAH9jNlS0SZ33Ja/zyAEW2vEP5o5pp/ux5hcnqqr3Se5QakMzXM5Qvge4C
+         cBqWrZDdIXynHccJHuiNsLU3g6O7tqasCZ+52NNifSn2d6h0GQ9QD1n4LOklg3n/dZ3A
+         3H/iRmXcsQ/Xuy7BRo/Jat1LGN/xtDHItL+Qyf2ExkPGD/9u0XGCOQEnvYF3csCkjLKw
+         /5d5J+Cy8d7nMdZphsvk1g91zAHgCY5laNEdJZ4MwTikxz2lTIOarYGYFPaRf0V9bTjH
+         +dei221OW9uW6sVWtYlKiZh5y5L/n1M90sq5xaWYj25n9GDOLHxnxtoY1goMWc2mKam9
+         IwMQ==
+X-Gm-Message-State: AGi0PubSF3Ia4wKwXt20LRhQ59S1OsAA0EG/L+RoHV8Pv+gkMuXo81cc
+        M+mEDtC+m5GmuCf3FolfJXCGuReMlC0zSA==
+X-Google-Smtp-Source: APiQypLBDx2IX/SbA45FnI0MuVve6ubbCLv8YvZOIy2HSAlJcJLQenicxRVMscHSSry4mWXZgSi/8A==
+X-Received: by 2002:a5d:428a:: with SMTP id k10mr14856219wrq.59.1588527428281;
+        Sun, 03 May 2020 10:37:08 -0700 (PDT)
+Received: from darkstar ([51.154.17.58])
+        by smtp.gmail.com with ESMTPSA id n9sm14788939wrx.61.2020.05.03.10.37.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 03 May 2020 10:37:07 -0700 (PDT)
+From:   Patrick Bellasi <derkling@gmail.com>
+X-Google-Original-From: Patrick Bellasi <patrick.bellasi@matbug.com>
+References: <20200501114927.15248-1-qais.yousef@arm.com>
+User-agent: mu4e 1.4.3; emacs 26.3
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] sched/uclamp: Add a new sysctl to control RT default boost value
+In-reply-to: <20200501114927.15248-1-qais.yousef@arm.com>
+Message-ID: <87h7wwrkcd.derkling@matbug.com>
+Date:   Sun, 03 May 2020 19:37:06 +0200
 MIME-Version: 1.0
-In-Reply-To: <20200503143700.GA12276@udknight>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-X-Provags-ID: V03:K1:PrqiPfxqrfclCLS0boIecg9L1Na+wuOf2PdvQeSXifhFtq0TUu1
- FRplUzjwFhFChp3kiQVhyhtUyfHXrQudJGP0CueV4G/Byw230jl3hRjR7D/6gmo5I9MCelJ
- e7BcuR3H5X5MiEIEd+gqv+csZTxDBHzk3d1Jpa7/JLWF8uELBDWRRZajp+0nAzy/DgRExJw
- ct81dInzs19BTaGE4l/3g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LtxRitodLRc=:pSoMHQgoL5ZKxeDQp9P366
- Fq9LhsIKlacIJgzCy3e4GwjEtfLOJAyvCzEAhEvafCtg94/z7wBjiDUN29YZuWajwdF0kKqYz
- ICmwJEbMxS3cvc6F9aH3GGlHod7h0h85WDWfGSQ2lfqVlX8RZXTVRqXrgcmVWDOeZf3IUigeT
- rb9OPDpo4CXoTHvLI9Gw10qBEnnon+ZIy7OoMy7DYJwuYVpPXEvdeOlo8bFTsyB0EGFk0mqSN
- 3VDtMvIZrlArIMt3ac9SqzPUD7OMsYlEGb7R7qMJdjVISGj7RMhsFEnWiapzU+6jKNllZjJRj
- 1//+F9BOFlaL7o94eqzLNgRjUeDWlWgLjKUwEsJvmG4SpKcN4rvCcD/tk3svZTD+Xm6MHrxYZ
- IE3Lp3eVc+Cnz5gsE7rZLZfDA0fGm6Yf608sDveniR/fqmkb5paoSJ4o8ETncWfUsyio56LGo
- pgD7rHe3G7rR9cZ/ok2PKFSXLjsVg7HozI1ToqBVjkontbLnFzN0DGUQtiO73i17udJ/MO6Rq
- Ie52b8VE0HElx7sANmydAW9IAAAz4+cwrodbbtFcSFHnqBg+AcEs+sVhV6ijPJ+0YsUKrsrsv
- iKKekRTx9g9bFQpVt6mkj+/B5DAr3eSfPIqWmxEvQhIy3eA7cIlaHm5CgKYtPU0n89jPOU6Ih
- Ct/Q7CNW1E8/wHg6y/GOEjJ5aQpC8Ow67CNBeSX0Nrno3EWWkenZJmNaxchOa6JMXt7sqEj7V
- kbzQ36v5IFoY0CEHo2jgtrYDIxDI717IjmnJXD58EwX7TizJjSvAVW/50Fu6TSy96dG52HmGU
- p3tEq9VvCaenzvNwBfKlPsKmNDJB3uqV6bIEeGqp08ityhJ1WdVzk27UUjkfigzx0n1no9njb
- ImGWVEnfJrdCdqOaM/r6ioFGhXW7NkOVzyihqiT5aXsaPhIWWe23lhBCgS+li/cQa8VwmJNeP
- iKq1foo+j8rR3aDBMyJt92sb+JZvC6fYOlqNYewz0K+Tbqhrv7scrq8YEv6OyntADOL00ivjg
- Ac9zrppZBXJ+I1Vzjm9pC02MeEFSBgyQW/jx9N/vX0dGoLnUH3ysYgpuNv0v571Sj5lafRVZQ
- NvThNWgSjzd6OmNOVTNsqIjQmw+agSMKij5mZ94kLz7AuB3iDIKs6AZXfRrjhM4m1rGhd5Vzq
- kaNt1rMT96Y3mniaG5s1OJeGMVtdnAJEC4HrLGAEvYMlz2ZsFGVrINMSI83sQZXm8Nwcvegsa
- Ip03TUi0A3GftGWmz
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->>> +				      "Please use git commit description style '$prefix <$sha1_length_min+ chars of sha1> (\"<$title>\")' - ie: '${init_char}" . substr($prefix, 1) .
->>> +				      " $id (\"$description\")'\n" . $diagnostics . $herecurr);
->>
->> Can error diagnostics become multi-line?
-> The length of "$description" is unknown, it is difficult to
-> cook the error message into pretty format with any length of
-> "$description", so let's keep it in current way.
 
-How do you think about a message variant like the following?
+Hi Qais,
 
-+				      "Please use git commit description style:\n$prefix <$sha1_length_min+ chars of sha1> (\"<$title>\")\n" . substr($prefix, 1)
-+				      . "i. e.: '${init_char} $id (\"$description\")\n"
-+				      . $diagnostics . $herecurr);
+few notes follows, but in general I like the way code is now organised.
 
+On Fri, May 01, 2020 at 13:49:26 +0200, Qais Yousef <qais.yousef@arm.com> wrote...
 
-Regards,
-Markus
+[...]
+
+> diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+> index d4f6215ee03f..e62cef019094 100644
+> --- a/include/linux/sched/sysctl.h
+> +++ b/include/linux/sched/sysctl.h
+> @@ -59,6 +59,7 @@ extern int sysctl_sched_rt_runtime;
+>  #ifdef CONFIG_UCLAMP_TASK
+>  extern unsigned int sysctl_sched_uclamp_util_min;
+>  extern unsigned int sysctl_sched_uclamp_util_max;
+> +extern unsigned int sysctl_sched_uclamp_util_min_rt_default;
+>  #endif
+>  
+>  #ifdef CONFIG_CFS_BANDWIDTH
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 9a2fbf98fd6f..15d2978e1869 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -790,6 +790,26 @@ unsigned int sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
+>  /* Max allowed maximum utilization */
+>  unsigned int sysctl_sched_uclamp_util_max = SCHED_CAPACITY_SCALE;
+>  
+> +/*
+> + * By default RT tasks run at the maximum performance point/capacity of the
+> + * system. Uclamp enforces this by always setting UCLAMP_MIN of RT tasks to
+> + * SCHED_CAPACITY_SCALE.
+> + *
+> + * This knob allows admins to change the default behavior when uclamp is being
+> + * used. In battery powered devices, particularly, running at the maximum
+> + * capacity and frequency will increase energy consumption and shorten the
+> + * battery life.
+> + *
+> + * This knob only affects RT tasks that their uclamp_se->user_defined == false.
+> + *
+> + * This knob will not override the system default sched_util_clamp_min defined
+> + * above.
+> + *
+> + * Any modification is applied lazily on the next attempt to calculate the
+> + * effective value of the task.
+> + */
+> +unsigned int sysctl_sched_uclamp_util_min_rt_default = SCHED_CAPACITY_SCALE;
+> +
+>  /* All clamps are required to be less or equal than these values */
+>  static struct uclamp_se uclamp_default[UCLAMP_CNT];
+>  
+> @@ -872,6 +892,28 @@ unsigned int uclamp_rq_max_value(struct rq *rq, enum uclamp_id clamp_id,
+>  	return uclamp_idle_value(rq, clamp_id, clamp_value);
+>  }
+>  
+> +static inline void uclamp_sync_util_min_rt_default(struct task_struct *p,
+> +						   enum uclamp_id clamp_id)
+> +{
+> +	struct uclamp_se *uc_se;
+> +
+> +	/* Only sync for UCLAMP_MIN and RT tasks */
+> +	if (clamp_id != UCLAMP_MIN || likely(!rt_task(p)))
+                                      ^^^^^^
+Are we sure that likely makes any difference when used like that?
+
+I believe you should either use:
+
+	if (likely(clamp_id != UCLAMP_MIN || !rt_task(p)))
+
+or completely drop it.
+
+> +		return;
+> +
+> +	uc_se = &p->uclamp_req[UCLAMP_MIN];
+
+nit-pick: you can probably move this at declaration time.
+
+The compiler will be smart enough to either post-pone the init or, given
+the likely() above, "pre-fetch" the value.
+
+Anyway, the compiler is likely smarter then us. :)
+
+> +
+> +	/*
+> +	 * Only sync if user didn't override the default request and the sysctl
+> +	 * knob has changed.
+> +	 */
+> +	if (unlikely(uc_se->user_defined) ||
+> +	    likely(uc_se->value == sysctl_sched_uclamp_util_min_rt_default))
+> +		return;
+
+Same here, I believe likely/unlikely work only if wrapping a full if()
+condition. Thus, you should probably better split the above in two
+separate checks, which also makes for a better inline doc.
+
+> +
+> +	uclamp_se_set(uc_se, sysctl_sched_uclamp_util_min_rt_default, false);
+
+Nit-pick: perhaps we can also improve a bit readability by defining at
+the beginning an alias variable with a shorter name, e.g.
+
+       unsigned int uclamp_min =  sysctl_sched_uclamp_util_min_rt_default;
+
+?
+
+> +}
+> +
+>  static inline struct uclamp_se
+>  uclamp_tg_restrict(struct task_struct *p, enum uclamp_id clamp_id)
+>  {
+> @@ -907,8 +949,15 @@ uclamp_tg_restrict(struct task_struct *p, enum uclamp_id clamp_id)
+>  static inline struct uclamp_se
+>  uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
+>  {
+> -	struct uclamp_se uc_req = uclamp_tg_restrict(p, clamp_id);
+> -	struct uclamp_se uc_max = uclamp_default[clamp_id];
+> +	struct uclamp_se uc_req, uc_max;
+> +
+> +	/*
+> +	 * Sync up any change to sysctl_sched_uclamp_util_min_rt_default value.
+                                                                         ^^^^^
+> +	 */
+
+nit-pick: we can use a single line comment if you drop the (useless)
+'value' at the end.
+
+> +	uclamp_sync_util_min_rt_default(p, clamp_id);
+> +
+> +	uc_req = uclamp_tg_restrict(p, clamp_id);
+> +	uc_max = uclamp_default[clamp_id];
+>  
+>  	/* System default restrictions always apply */
+>  	if (unlikely(uc_req.value > uc_max.value))
+> @@ -1114,12 +1163,13 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+>  				loff_t *ppos)
+>  {
+>  	bool update_root_tg = false;
+> -	int old_min, old_max;
+> +	int old_min, old_max, old_min_rt;
+>  	int result;
+>  
+>  	mutex_lock(&uclamp_mutex);
+>  	old_min = sysctl_sched_uclamp_util_min;
+>  	old_max = sysctl_sched_uclamp_util_max;
+> +	old_min_rt = sysctl_sched_uclamp_util_min_rt_default;
+>  
+>  	result = proc_dointvec(table, write, buffer, lenp, ppos);
+>  	if (result)
+> @@ -1133,6 +1183,18 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+>  		goto undo;
+>  	}
+>  
+> +	/*
+> +	 * The new value will be applied to RT tasks the next time the
+> +	 * scheduler needs to calculate the effective uclamp.min for that task,
+> +	 * assuming the task is using the system default and not a user
+> +	 * specified value. In the latter we shall leave the value as the user
+> +	 * requested.
+
+IMO it does not make sense to explain here what you will do with this
+value. This will make even more complicated to maintain the comment
+above if the code using it should change in the future.
+
+So, if the code where we use the knob is not clear enough, maybe we can
+move this comment to the description of:
+   uclamp_sync_util_min_rt_default()
+or to be part of the documentation of:
+  sysctl_sched_uclamp_util_min_rt_default
+
+By doing that you can also just add this if condition with the previous ones.
+
+> +	 */
+> +	if (sysctl_sched_uclamp_util_min_rt_default > SCHED_CAPACITY_SCALE) {
+> +		result = -EINVAL;
+> +		goto undo;
+> +	}
+> +
+>  	if (old_min != sysctl_sched_uclamp_util_min) {
+>  		uclamp_se_set(&uclamp_default[UCLAMP_MIN],
+>  			      sysctl_sched_uclamp_util_min, false);
+> @@ -1158,6 +1220,7 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+>  undo:
+>  	sysctl_sched_uclamp_util_min = old_min;
+>  	sysctl_sched_uclamp_util_max = old_max;
+> +	sysctl_sched_uclamp_util_min_rt_default = old_min_rt;
+>  done:
+>  	mutex_unlock(&uclamp_mutex);
+>  
+> @@ -1200,9 +1263,13 @@ static void __setscheduler_uclamp(struct task_struct *p,
+>  		if (uc_se->user_defined)
+>  			continue;
+>  
+> -		/* By default, RT tasks always get 100% boost */
+> +		/*
+> +		 * By default, RT tasks always get 100% boost, which the admins
+> +		 * are allowed to change via
+> +		 * sysctl_sched_uclamp_util_min_rt_default knob.
+> +		 */
+>  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+> -			clamp_value = uclamp_none(UCLAMP_MAX);
+> +			clamp_value = sysctl_sched_uclamp_util_min_rt_default;
+
+Mmm... I suspect we don't need this anymore.
+
+If the task has a user_defined value, we skip this anyway.
+If the task has not a user_defined value, we will do set this anyway at
+each enqueue time.
+
+No?
+
+>  
+>  		uclamp_se_set(uc_se, clamp_value, false);
+>  	}
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index 8a176d8727a3..64117363c502 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -453,6 +453,13 @@ static struct ctl_table kern_table[] = {
+>  		.mode		= 0644,
+>  		.proc_handler	= sysctl_sched_uclamp_handler,
+>  	},
+> +	{
+> +		.procname	= "sched_util_clamp_min_rt_default",
+> +		.data		= &sysctl_sched_uclamp_util_min_rt_default,
+> +		.maxlen		= sizeof(unsigned int),
+> +		.mode		= 0644,
+> +		.proc_handler	= sysctl_sched_uclamp_handler,
+> +	},
+>  #endif
+>  #ifdef CONFIG_SCHED_AUTOGROUP
+>  	{
+
+Best,
+Patrick
+
