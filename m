@@ -7,38 +7,36 @@ X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D750C28CBC
-	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 12:32:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB5D3C28CBC
+	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 13:51:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1540D2084D
-	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 12:32:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B0612073E
+	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 13:51:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="aDSI/zho"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="JdjgEj4z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728067AbgECMci (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 May 2020 08:32:38 -0400
-Received: from mout.web.de ([212.227.15.14]:35345 "EHLO mout.web.de"
+        id S1728542AbgECNvt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 May 2020 09:51:49 -0400
+Received: from mout.web.de ([212.227.15.14]:57839 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728122AbgECMcg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 3 May 2020 08:32:36 -0400
+        id S1728522AbgECNvs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 3 May 2020 09:51:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1588509147;
-        bh=CESW9uzXd86XV2AIcjWhiGbs6GMfhTN1+g5Sybprzq8=;
+        s=dbaedf251592; t=1588513901;
+        bh=QDo14EAcszfHq4qC8tvl1KUO8MM5m6uWXSqEEsohp7k=;
         h=X-UI-Sender-Class:Subject:To:References:From:Cc:Date:In-Reply-To;
-        b=aDSI/zhonE9VOWZ3tVDyW832AxhJoqbVnCCA+osZx3l02c51v2Mkce1X/XAn08nDE
-         ebcK9Eyi+e32IO/pFloeaD+cDdkW5TzDpzJ1hxMAaCw6dDkXC4Wrg17L9x2Dr3ayyx
-         ySZlyZXwN3AqDpzggGAgPMPMmMDr8hESQ9a0zQlM=
+        b=JdjgEj4zM0bWfSb43tBGj4pODUJcMz9QUK9CBEMquYWnusRerTC745uuZgMUTuN7V
+         0HLGKQZKD5lu0IQElMWoT/RaeL5umcdjncRFrJ1Gx8los8lnGtS1x+FI5srlA6A26w
+         ZS3EQ6eQ9XWMNykBm/7rDxTdfZc/0qdt2NcEg04o=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.26.31]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MNcHy-1jWqcD1MaI-007Fer; Sun, 03
- May 2020 14:32:27 +0200
-Subject: Re: [v4] checkpatch: add support to check 'Fixes:' tag format
+Received: from [192.168.1.2] ([93.131.26.31]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LoLKj-1iyOJx3K1Z-00gEH5; Sun, 03
+ May 2020 15:51:40 +0200
+Subject: Re: [PATCH v5] checkpatch: add support to check 'Fixes:' tag format
 To:     Wang YanQing <udknight@gmail.com>, Joe Perches <joe@perches.com>,
         Andy Whitcroft <apw@canonical.com>,
         kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20200502185421.GB9082@udknight>
- <6a3a6f8d-e8be-0002-780d-1991f6152c8f@web.de>
- <20200503114557.GA10332@udknight>
+References: <20200503122938.GC10332@udknight>
 From:   Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -86,87 +84,131 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
 Cc:     linux-kernel@vger.kernel.org,
         Alexei Starovoitov <alexei.starovoitov@gmail.com>,
         Matteo Croce <mcroce@redhat.com>
-Message-ID: <975e6172-b333-37ab-ccc7-9e9a85986dfe@web.de>
-Date:   Sun, 3 May 2020 14:32:26 +0200
+Message-ID: <2d13b5c1-6745-23da-e22d-d56f0644edb2@web.de>
+Date:   Sun, 3 May 2020 15:51:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200503114557.GA10332@udknight>
+In-Reply-To: <20200503122938.GC10332@udknight>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mPEkw1o0ozQn9s8Xl478J6S/giYtPx8RmnsSAo8BqmU9Pa/GNHv
- YZjCb++9zurPhqKT7eMXugs77h9EYl8SDeWhssPPxB7hqJN/N1Qz0gc3q8MjyFHJgZlb1Te
- EdXHJg4gCpxXvKiQJfGt52aIf25RII2cPKsamPhiruK05uubTSNgbUdE8kkOgVmWJTzRIxT
- hWJQzbXYg6IDgB7Co3Lsg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bck9WKT1DCE=:qsAIpURQeJYzaf3jdXdYb1
- hAGHwLHsI/tgd9cFctV7lry2eZS5D2CWSJtsVnHc/k3sckZIX7tzLdeB4sGebeVjZ6sLZ+1JS
- ARgYVVkc5qSd3AFe52q0PNKre2uLdjSpAYXb0qgx8r1GroPxkKfJc7DvhSkAOrgaatvhlL+cb
- 3sa7gHjbadnB9OdjGJGypPlzdFqWlP/Z8TBkAQ4sjvXkh9Jiol0qnkoS09NMzH3e82GKZYD4R
- UPp7uvWHC+U0C/5aXZCTxtn/QCNajK48Sg/19rYB6vWEQAOfZyp3XLc3X0tjvKVBqtcaOllLO
- v7toI6LkLSOMj0ZS1+3HnVtaZPv2qfVgsV3bEup/cwKPLdw4Na0lOygziwhuxaJPiH3oTld21
- RO6gUhYwcISQ/yKcFMcRXd7Xxe0oAoIl4OFYoJFs/icgLDQd6T36qs7M5ta2XdAk6BH+Y1Joc
- tb0yYakjJ/wCjtIXG804F8SXenUnZEEGYymZvtmaIXqrdecLjTn2IqXuB4SzUTfJEC8AKGXRm
- W/uE0jb3JIMeWKcqxzuwRJx7SaLZkoN4dpmVxMAp86heactBKakdIwQ65KvrWCA/47ibAIlpU
- U4lZIDcpOB7yGgEpYLZjJ9w1cIvPYgd0kRzpyiLpFWSiG6BKLcIViaZt63PaG1pEWgsWhg+Js
- tx8KHPKI+11UEJB0aY1a4EAsJudX+xhl76DftDrnFKnK/RBAkXsvLh4UwClDLlEXS/1vSd2aL
- llSVVTp2cnnuLBbYplRS6ZQkdJifDG1uw3cpmAGB3NgkFR7w+C3Erz1KfDMnvlcaH+/KT8z/b
- oOklfv9bRI+j46KZ0Sou+HcOCo/XQcrxCJd2Izo0SXjhcmfe84C5uEywwYFOY4gsulVAA1TB7
- +2rp41Zp1BVNL/vdtDXge1JvbxlKelyS4b3XPteLD41KAJQrS1SKSUR/mYiwRuu8vZBO7a82M
- d7QJXQsJoV6/Ln4fTjdzxvL+xgf974Bu4zT8+CcSo6uHCCnrO3VmSsnpk0Huwe5N6vvhHhVuV
- G+kB/NCtkyFS/YUU2vlpHCoW0ojsp64xUzyW+HcwPWq57JjA6F+yio/BCIX6+cqqN5jqooUrQ
- pNrGz+IqfcyX+B9EaE671gkdRqjjRHN0PTzrm4iP4uyAC/LdazJ77SEQpP1+iZwOb/h+MQM2u
- g8ElYpolTz0VdK54p5NpEDahKyewrNknmsgOoAXyEmxMS66VyHMAJKGpvm2/XFHIzlwLyOkPc
- u5hYdni6FHRSCzLCq
+X-Provags-ID: V03:K1:mXyOL/BhJxe3g/a88pBBLWgfZNq7uWEbiPsK7vEJHpp5ON74/Ke
+ w1CMmMjEzQSiZLuHxY7UWwBwWIS8+vNTPfRXSa7VQBU5Zsh1zwalUU1b9cIRymAsZL6OjPI
+ Q/ke2nCUur0NF3BFenU3C0rB54EtmC/c0VrQl6bQjC0nQVKFe4Kh6kWvKsJocZ2CRSEQ+ZJ
+ 9ScMtJka99VFHscQkOgHA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hXMNh1nUJ1A=:QR7rXnqUX4q+OUI7ie77iE
+ rbu1buULCUtuCxDMGzY6qtzcp62gRL5DhUzMNGWr5UO/bd+NER1Y31wHV6CuKS+/rneTAE/gZ
+ HzfeC+Dt34Ff3lAZ28IIdUEYki5l7WT3gRUoAlsISSDqt6OuUxph1x7MCeBphU04joYZABexp
+ AH2gNP02VNKaWFG570TSJd5mgFgt7mi9bliltd30GbT9he3uVE4HM907jNIu+AiCTltZdx1o4
+ 8S6LCrmGW5KbYkJ2Y73OaDusCN3R1lIUzaxaQZ8NXyMwSz7znjgNb6JNEIpYRw1NIzgny7jHH
+ MQwNdGPHqaPe2YYOA409JhwiRYV3PDFyKvhMgvQ+/jgKuoEZJuGrTzFpzHL90NlLxeZb3d4cU
+ W7iC/ao9mG2qWXhnzsfdzY4X+lgGNsKh+cD5tW87Ns6RiJVtLQNj12TrwvUPolu0Loz0B36oB
+ J9M00vBdbNLHVlu8hIhPZNEZ1fVqFYKmT4XCpa7MNsG/rXfXaIRRZYmnRURFX0oR1sRdUKefI
+ xuELhTrnPshg0S3hJHeu0cJfNdVJoRMjwvP/ylS2ALObZhCc8EyD5y0ZOKOdIQNg5vvCQ9PVm
+ Nm7ZIDlEKZwJOy4xtf03RtUb9mbKNCoLRHudVEUWAtnDXl3zwMAfjqDx5TrzoRCJXrKZTUrLV
+ S+cQewzKaioieyDiF0gSE8DoMbOWyH/DjKqbGAgeoQEh/EOUFpQewp0BM/oOuZoWnY0+sg0qN
+ K7u6oDUgB0CYAHfF7MbIjlbTYt2TaFXIiIrDTwOu9XFWJGZUh+/6ug+PJXsMnRWmpLLW840Ub
+ otU3gNqZbDcg2Ez9drI3bG5FKD40WurlYfFw3w3i22O2hu7dErbVChqN00spvQVwVQc2d8WDN
+ RqJoKnnwEM77yYgAV0PCO3+tGA/pGrXv9CApghMDePXIWq3L8+9EQ5+rbtw/jXvBhk3wpHmBy
+ AAIgGFZBZwnm6EF506aGiHefTF3idMFloJ1Ph3RoBrTxJGnj6nLjeThAvSIU/tczJw5Y9O0CI
+ bfK0hcI17ukYeDnpJiTulvVZLdqzoJyITsHRl+bwZXDF6lFW1LRgDeoQcmXB7LJcxPuciUGal
+ zwO3+szVFg2MLkEMeXtiCCyJGyvZ20rpIFXQpbzcz6ZQ7XKc/HwRBYP3r6Yed1ZewlBjbYT+S
+ 1dQ1WKeP5O3AuaP5rCDsjnNehJkM809yr3Zj5CIAVtYrO6qaeMxSyI9BMxupynkL3EmkYA1Ns
+ qovB0I4QXsXYr0HMb
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->>> +				$diagnostics .=3D "Missing a pair of parentheses '()' or a pair o=
-f double quotation marks (\"\").\n";
->>
->> Can such a message trigger any more thoughts and development ideas?
->
-> No, I don't think so. '(" ... ")' is the minimum interface between analy=
-ser
-> (checkpatch) and commit id description (normal commit id and 'Fixes:' ta=
-g)
+> =E2=80=9C...
 
-* I am proposing to recheck the influence of quotation character alternati=
-ves
-  also at this place.
-
-* How do you think about to provide an information without the word =E2=80=
-=9Cor=E2=80=9D
-  in error messages?
+Can the character =E2=80=9CHorizontal ellipsis=E2=80=9D (U+2026) be occasi=
+onally nicer
+instead of three separate dots?
 
 
-> about the title, it is very difficult if not impossible to guess the tit=
-le
-> boundary and whether it is the *REAL* title that folllow the SHA1 withou=
-t
-> this precondition,
+> The check supports below formats:
 
-I find this concern reasonable.
-
-
-> and it is more difficult to do it when we need to support
-> title which across lines in the normal commit id description.
-
-I imagine that further software design options can be considered.
+I would prefer the explicit wording for the support of (Unicode) ellipses
+also in the shown commit titles.
+Will the document =E2=80=9Csubmitting-patches.rst=E2=80=9D need correspond=
+ing adjustments?
 
 
-> At last I really doubt the benefit it brings deserves the complexity and=
- the
-> current diagnostics info is enough clear for most situation.
+> Because after GIT_COMMIT_ID supports 'Fixes:' tag format check, it could=
+ do
+> the same check as the UNKNOWN_COMMIT_ID, so we don't need UNKNOWN_COMMIT=
+_ID
+> anymore and I decide to delete it.
 
-* Will a safer data format description trigger corresponding efforts?
+Would you like to propose related software adjustments?
 
-* Will the structure of the commit title matter?
 
-* Would you like to improve checks (and program organisation) besides
-  the application of regular expressions?
+> Note: this patch also fixes double quotation mark issue for normal git
+>       commit description, and now it supports double quotation mark in
+>       title line, for example:
+>       Commit e33e2241e272 ("Revert "cfg80211: Use 5MHz bandwidth by defa=
+ult
+>       when checking usable channels"")
+
+Do you care to achieve a safer data format description also for this use c=
+ase?
+
+
+>  This is the v5 version, and I have tested it with below command:
+
+How do you think about to reuse the analysis approach outside
+the script =E2=80=9Ccheckpatch.pl=E2=80=9D?
+
+
+>  v5:
+>  1: Rebased on '[PATCH v2] checkpatch: fix can't check for too long inva=
+lid commit id'.
+
+Are the software dependencies (and corresponding development challenges) g=
+rowing?
+
+
+=E2=80=A6
+> +++ b/scripts/checkpatch.pl
+> @@ -2818,51 +2818,101 @@ sub process {
+=E2=80=A6
+> +		     $line =3D~ /\bfixes:\s+[0-9a-f]{5,}\b/i ||
+
+Would you like to reconsider the program organisation according to
+the application of regular expressions?
+
+
+=E2=80=A6
+> +			if (defined($id) && $has_parens_and_dqm && ($orig_desc ne $descripti=
+on)) {
+> +			    # Allow short description without too short!
+
+Will another wording adjustment become relevant here?
+
+
+> +			    if ($prefix eq "Fixes:") {
+> +				if (length($orig_desc) >=3D length($description)/2) {
+
+Will the structure of the commit title matter any more?
+
+
+=E2=80=A6
+> +					$diagnostics .=3D "The title is too abbreviated, at least half of =
+orignial commit title is necessary.\n";
+
+Will the word =E2=80=9Coriginal=E2=80=9D be more appropriate here?
+(Why did you not integrate my previous patch review comment?)
+
+
+=E2=80=A6
+> +				      "Please use git commit description style '$prefix <$sha1_leng=
+th_min+ chars of sha1> (\"<$title>\")' - ie: '${init_char}" . substr($pref=
+ix, 1) .
+> +				      " $id (\"$description\")'\n" . $diagnostics . $herecurr);
+
+Can error diagnostics become multi-line?
 
 Regards,
 Markus
