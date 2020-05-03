@@ -1,141 +1,210 @@
-Return-Path: <SRS0=XB8P=6Q=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=h+Mg=6R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F79C3A5A9
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 20:07:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E4E1C3A5A9
+	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 00:10:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C294206F1
-	for <linux-doc@archiver.kernel.org>; Sat,  2 May 2020 20:07:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF31721582
+	for <linux-doc@archiver.kernel.org>; Sun,  3 May 2020 00:10:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="HwxX2oaN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CikoTH8R"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728473AbgEBUHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 May 2020 16:07:20 -0400
-Received: from mout.web.de ([212.227.15.4]:56729 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728107AbgEBUHT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 2 May 2020 16:07:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1588450032;
-        bh=rlt8/kWHK9TLXgG4CFIAAN8BAjjjp01YCOsPy+4XtaQ=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=HwxX2oaNwrnqabHIy0xteoHjnl6UoP6zVPlC3xDVSnRK2dPuC43Grr/51FQjzAzKl
-         EpDugiuVfHUo2TrJP9bf43bSisqEA0bSKBRLd/LSDYPqIUmpwwhFLablsactgtv83I
-         9Z+kfVhvaRxSCP8W73/KePgukH+ofuD802DrFUl4=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([2.244.93.244]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0Mbydi-1jlxIs0InW-00JGGz; Sat, 02
- May 2020 22:07:12 +0200
-Subject: Re: [v4] checkpatch: add support to check 'Fixes:' tag format
-To:     Joe Perches <joe@perches.com>, Wang YanQing <udknight@gmail.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Matteo Croce <mcroce@redhat.com>
-References: <20200502185421.GB9082@udknight>
- <6a3a6f8d-e8be-0002-780d-1991f6152c8f@web.de>
- <57b725f495e422e80c062d2edd90abe99f40fd51.camel@perches.com>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <9e10afa6-937c-1fc1-7ef5-904d7d9165ea@web.de>
-Date:   Sat, 2 May 2020 22:07:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726634AbgECAKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 May 2020 20:10:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725798AbgECAKX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 May 2020 20:10:23 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB43DC061A0C;
+        Sat,  2 May 2020 17:10:22 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id r4so6658160pgg.4;
+        Sat, 02 May 2020 17:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=j0I6jYWaKY4+V4FMpcS76pI7d2z/G1zMDmPX9h3fut8=;
+        b=CikoTH8R+IrjHXImCPhE51UyBre5MwyLY+w5YSoZHMaeftwCZu+1Df34EVyXWiD9Sg
+         IbdSMGUJj5yvN6bYFwU93JzzQdycjfLCGSPtjGfbsKgrc/BP9e1UROWxo+OSb31jZvzk
+         8QAcV9Q1qPbSrc4zEr+Obf1D/axbN+UJ1XMf82lBQFx5wOox6HXgYdRIVVm1Lngv62ub
+         GwYBYFqNyOqOPP25bb9x/pniUaH/2VhNolnLK/lFlAnR+yxrx4fABXaNc4zDJFEuj1ee
+         9UshZEtCgcugafRPAHFP4P+8zQVD9C5q2Wvt4hBFnX48xvwNzXi4qiqq6fWtSShBhb9d
+         ddLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=j0I6jYWaKY4+V4FMpcS76pI7d2z/G1zMDmPX9h3fut8=;
+        b=EXkNkLr+ZRxY8647MQQur3nEvu7eh55L70rsHVeXgqdM2pICfyYwU4+XWi6SdJsSBZ
+         62urFGknVkNmfo55XKLsnLiX34vCcVEgbvsGypwbRpA1hDxjaNNXt9W5YyQ6HGCkCJbP
+         NXXIR90Azubz/xd1KuKbdKKVU18q1kacdwCIrELCvqiWd/zI3sneSESWQyDRp+9okyJP
+         F4epO0QX193NwMF37YUd8tlUEapBcK4sG7Y/bhx7MGatVIbXyvpkZ8VTv/NJLyQnspoG
+         kkOl7wGAXxMEORi4vFRk5CZRrx6yRRGhnGIt2kg+H695Gvx6kVfVbLl16A7jo3s7/MbJ
+         au/g==
+X-Gm-Message-State: AGi0PuYvtrWHyc1unxAaSYsJ8w3W0LSnbmHc9e/YpwgWX/N2to26PkYU
+        OiSVXc6sS4ZVINcaW3xrWzo=
+X-Google-Smtp-Source: APiQypKnVsQsDZ4ldItm0kvZ+IyDjuj3mJh4QKU7S2CoeEAm0FsB6Az9waUAWcdGvE3HzdSegHQSXQ==
+X-Received: by 2002:a63:d60a:: with SMTP id q10mr11099642pgg.37.1588464622384;
+        Sat, 02 May 2020 17:10:22 -0700 (PDT)
+Received: from mail.google.com ([149.248.10.52])
+        by smtp.gmail.com with ESMTPSA id o190sm5319704pfb.178.2020.05.02.17.10.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 May 2020 17:10:21 -0700 (PDT)
+Date:   Sun, 3 May 2020 08:10:15 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3] streamline_config.pl: add LMC_KEEP to preserve some
+ kconfigs
+Message-ID: <20200503001015.e2rjecyq46ykp3dm@mail.google.com>
+References: <20200502153052.5461-1-changbin.du@gmail.com>
+ <6a0c13c6-148d-74b3-4ddc-7252b8b112bf@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <57b725f495e422e80c062d2edd90abe99f40fd51.camel@perches.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6cN3K46okL094FlN4h/zD5tHaS3/hIlii6ZqocveGBOPOXrsdhd
- d6CjlJd0GF11+YqisxSYG0dQRFCV0s0gQTGJTfovU6KXmaY5CTgA/M60mCK5lyWwF3Ngq+6
- FCCeVOt4Zjgk09AjR/14QD+51MMXG2lSSvDQkYYpurpvz41YT/f6qbltZ+CS61jcxnvamWy
- C1hmVVwbbIoq2obqIMD8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:R9k0pFse74U=:LVytkgU8Q2M9P8KjOGaBwk
- uDlCvNOGTUAGX2UuPIusPVllVxS2o1foen6JqL4XWh+S5SdDFzyCuPrdqsfmKu9dX4Y3+kdo0
- sSAQjirtyxguSFHTRHwkpcgNDzCOH1pKYzQ7XhdS2XDSB+HjOjaSNs1sRH58FcOR9duI9klZK
- Cj4o+LKlu+p+wRmiUK284hK+5y5VsNWvfoOvVgdymagN0FheOn3pzbsXIFXV2Wt0qbYRuGRNs
- XhZrZxO0tyRJ79TDI8ozkhCIJW4vqAWOYyTm7aCoBcml+Euf07+r1LAKR+9cZbI8unOXSg2Az
- tv6WcZ0xvITDb1yAs8HNQa+hMWPpFOioI3JewPJ8EerGibBzuYBR4l10qnhn4xHIzDfhl4iaz
- UU/STLekCuGLFuGixvt9t9Z9/SriqQURvZo2tom9orhuIZym9ky0B8Kdf49krymMSo5FomY1N
- N4hto6IKLVpQlwlz/Heu0t5CQiaDwLqEhLz+klnXLd+cQto6iLsvmC+GBTkatZQOxJpG38z75
- 6LHB/JNqmDfIoaJR3TdKmOHSv7kJI1EJLXl4CrD98k/odYllNncsckeVmOtk2x3WVkC1Tdpc4
- w7P9ULW9A7rCaSthPFvBcEgOXPQOaZqLyJtvSlCh5RemOWU/WyoKG3Pvz8lRIEEp+1m5TQ4ef
- D2+Bm5OL6gEAtWVPEW/9qpiN9asOOan5iQurBt6fHlipMqxRyZXAAQlGWqiVlF72SNt5XPhFh
- Bsw7RqWmnYfLKEE9GYQ2rhI6LugxvmsNRaV3Jx05MnUDBzKdfcoZcki0IZlB1qu7USWm6rauk
- Oz2Hr1fCVGEw80Kksyl9PlM84rvU9buQxoDY2Tha0jf4MV8OXAvrMu6YG3C9FGU8b0iaAAmfF
- eb6FlJYOkF4srQmE9uO3mF55q+y2C/6X/K3PHk9LtnAIt1bXFWd3urpoNf2AkbbnmplwPDykk
- N5d30dFqAvMLu+pMyYFXZJWY0aKq6SEu2vrkgDRtI1LWZ9xXhxZoeBC+v4Zp50gSc8jX0Atdt
- TXLRtr7dEeSiGI6EPY8NM063q/4/ogGZEpwuHCexXBc8LvMDarmh9FO6sxoKrwgQDsmQlW7Rz
- kNkllbqWWCa/pDAo5FCSnvpE8pqRXEEeomDYBSfLqR/w3fWIShcXZEcmxy2ZGeMiNUdSb87CK
- pyrFtSgTN1vv1iRCRWcA/lefvfvBFQwt/rj2xxVOHn5NEmI61HxPbSWfzF4yNuIQumD/X6S0w
- LUhQ7zLAboGgGjaXV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a0c13c6-148d-74b3-4ddc-7252b8b112bf@infradead.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> Will the tolerance (and support) grow for such quotation character alte=
-rnatives?
+On Sat, May 02, 2020 at 08:50:22AM -0700, Randy Dunlap wrote:
+> On 5/2/20 8:30 AM, Changbin Du wrote:
+> > Sometimes it is useful to preserve batches of configs when making
+> > localmodconfig. For example, I usually don't want any usb and fs
+> > modules to be disabled. Now we can do it by:
+> > 
+> >  $ make LMC_KEEP="drivers/usb;fs" localmodconfig
+> > 
+> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > 
+> > ---
+> > v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
+> > v2: fix typo in documentation. (Randy Dunlap)
+> > ---
+> >  Documentation/admin-guide/README.rst |  8 +++++++-
+> >  scripts/kconfig/Makefile             |  1 +
+> >  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
+> >  3 files changed, 31 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> > index cc6151fc0845..f7b02ce61ea7 100644
+> > --- a/Documentation/admin-guide/README.rst
+> > +++ b/Documentation/admin-guide/README.rst
+> > @@ -209,10 +209,16 @@ Configuring the kernel
+> >                             store the lsmod of that machine into a file
+> >                             and pass it in as a LSMOD parameter.
+> >  
+> > +                           Also, you can preserve modules in certain folders
+> > +                           or kconfig files by spcifying their paths in
+> 
+>                                                   specifying
+> 
+> More below.
 >
-> No.
+Will fix them, thank you!
 
-Would you prefer to achieve a restrictive data format description?
+> 
+> > +                           parameter LMC_KEEP.
+> > +
+> >                     target$ lsmod > /tmp/mylsmod
+> >                     target$ scp /tmp/mylsmod host:/tmp
+> >  
+> > -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
+> > +                   host$ make LSMOD=/tmp/mylsmod \
+> > +                           LMC_KEEP="drivers/usb;drivers/gpu;fs" \
+> > +                           localmodconfig
+> >  
+> >                             The above also works when cross compiling.
+> >  
+> > diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> > index c9d0a4a8efb3..e0abbf5805f5 100644
+> > --- a/scripts/kconfig/Makefile
+> > +++ b/scripts/kconfig/Makefile
+> > @@ -123,6 +123,7 @@ help:
+> >  	@echo  '  gconfig	  - Update current config utilising a GTK+ based front-end'
+> >  	@echo  '  oldconfig	  - Update current config utilising a provided .config as base'
+> >  	@echo  '  localmodconfig  - Update current config disabling modules not loaded'
+> > +	@echo  '                    except those preserved by LMC_KEEP environment variable'
+> >  	@echo  '  localyesconfig  - Update current config converting local mods to core'
+> >  	@echo  '  defconfig	  - New config with default from ARCH supplied defconfig'
+> >  	@echo  '  savedefconfig   - Save current config as ./defconfig (minimal config)'
+> > diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+> > index e2f8504f5a2d..f3a2ceed1e82 100755
+> > --- a/scripts/kconfig/streamline_config.pl
+> > +++ b/scripts/kconfig/streamline_config.pl
+> > @@ -143,6 +143,7 @@ my %depends;
+> >  my %selects;
+> >  my %prompts;
+> >  my %objects;
+> > +my %config2kfile;
+> >  my $var;
+> >  my $iflevel = 0;
+> >  my @ifdeps;
+> > @@ -201,6 +202,7 @@ sub read_kconfig {
+> >  	if (/^\s*(menu)?config\s+(\S+)\s*$/) {
+> >  	    $state = "NEW";
+> >  	    $config = $2;
+> > +	    $config2kfile{"CONFIG_$config"} = $kconfig;
+> >  
+> >  	    # Add depends for 'if' nesting
+> >  	    for (my $i = 0; $i < $iflevel; $i++) {
+> > @@ -592,6 +594,22 @@ while ($repeat) {
+> >  
+> >  my %setconfigs;
+> >  
+> > +my @presevered_kconfigs;
+> 
+> s/presevered/preserved/g  (g means globally, throughout this script)
+> 
+> > +@presevered_kconfigs = split(/;/,$ENV{LMC_KEEP}) if (defined($ENV{LMC_KEEP}));
+> > +
+> > +sub in_presevered_kconfigs {
+> > +    my $kconfig = $config2kfile{$_[0]};
+> > +    if (!defined($kconfig)) {
+> > +        return 0;
+> > +    }
+> > +    foreach my $excl (@presevered_kconfigs) {
+> > +        if($kconfig =~ /^$excl/) {
+> > +            return 1;
+> > +        }
+> > +    }
+> > +    return 0;
+> > +}
+> > +
+> >  # Finally, read the .config file and turn off any module enabled that
+> >  # we could not find a reason to keep enabled.
+> >  foreach my $line (@config_file) {
+> > @@ -644,6 +662,11 @@ foreach my $line (@config_file) {
+> >      }
+> >  
+> >      if (/^(CONFIG.*)=(m|y)/) {
+> > +        if (in_presevered_kconfigs($1)) {
+> > +            dprint "Preserve config $1";
+> > +            print;
+> > +            next;
+> > +        }
+> >  	if (defined($configs{$1})) {
+> >  	    if ($localyesconfig) {
+> >  	        $setconfigs{$1} = 'y';
+> > 
+> 
+> thanks.
+> -- 
+> ~Randy
+> 
 
-
->> * Which formula do you propose for the length calculation?
->
-> None.
-
-I imagine that such a view can increase the probability for confusion.
-
-Regards,
-Markus
+-- 
+Cheers,
+Changbin Du
