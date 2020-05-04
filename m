@@ -2,114 +2,108 @@ Return-Path: <SRS0=VNB8=6S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2275C47258
-	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 12:35:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC9D3C47254
+	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 14:09:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CC37206D9
-	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 12:35:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588595707;
-	bh=dDLEOvyKoHOMHIcBER4xV+RELHodXwc/B7OQkeROsgM=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=tqIlyFlJpr4B+RIkKgfRVCcWnUiEQW/csTyiVLSdG8lw3n2gNbEew3qPgkI2fbrqo
-	 GRyKiLDx4nojq+cPTeRV9T7aHs8uhkOvIMe0P6tYSmNqU7XLR0pr879U/zsXTSWUCy
-	 +qJFpCBesHmybjcA1jXkxZYPHj+pUczZ2/Kx8zsY=
+	by mail.kernel.org (Postfix) with ESMTP id 9D1722075A
+	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 14:09:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="CV2JK5Xt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgEDMfH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 May 2020 08:35:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49712 "EHLO mail.kernel.org"
+        id S1728786AbgEDOJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 May 2020 10:09:49 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:33770 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726404AbgEDMfH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 May 2020 08:35:07 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        id S1726404AbgEDOJt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 May 2020 10:09:49 -0400
+Received: from zn.tnic (p200300EC2F08AF0065867C3890225131.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:af00:6586:7c38:9022:5131])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 56FEF206B9;
-        Mon,  4 May 2020 12:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588595706;
-        bh=dDLEOvyKoHOMHIcBER4xV+RELHodXwc/B7OQkeROsgM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=RA5N5IcKqaYe2FZFJs0zjb1HzvIaZwmutxdcg7iHrh0ymNptZWn7xvjjpSDnjDxKD
-         YL8KoJdfGKsu7JNO1i0muQLc148zpytAZgWcPzWAhjshyHnkbP/056h8lgQS3LDgBq
-         6/r8brPpVBmxB1c4UUAJ2IRAJYsV+5VF5oqFF3tQ=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jVaJM-000Mvh-96; Mon, 04 May 2020 14:35:04 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org
-Subject: [PATCH] rcu: fix some kernel-doc warnings
-Date:   Mon,  4 May 2020 14:35:00 +0200
-Message-Id: <de9528975d99606936d4c5f7d1ab29ded03e8ade.1588595698.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.4
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 11AC31EC02D7;
+        Mon,  4 May 2020 16:09:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1588601385;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=lZ4aqziNyvYw3GSKD0XU2YhwX5XuP4rjgq7LEC+3Iqg=;
+        b=CV2JK5XtORlHCkNTYou9kVw9zJqbNvImcy+Ef0Lg9WYr+0d/WUYKm7Q+v8dQkTqVWm5tOr
+        jQLH0vU2yAhM8X+zNEiv85x88vP3kdT5T4p9oMaPu4Z5uuYILNoSMCZlIjeUu68p93DlJs
+        ke4Z5HXJpAcd1VM5kSGynvIClmH/dpk=
+Date:   Mon, 4 May 2020 16:09:40 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Mihai Carabas <mihai.carabas@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 3/3] Documentation: x86: microcode: add description
+ for metadata file
+Message-ID: <20200504140940.GF15046@zn.tnic>
+References: <1587972479-10971-1-git-send-email-mihai.carabas@oracle.com>
+ <1587972479-10971-4-git-send-email-mihai.carabas@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1587972479-10971-4-git-send-email-mihai.carabas@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some kernel-doc warnings:
+On Mon, Apr 27, 2020 at 10:27:59AM +0300, Mihai Carabas wrote:
+> +Here is an example of content for the metadata file::
+> +   m + 0x00000122
+> +   m - 0x00000120
 
-	./kernel/rcu/tree.c:2915: warning: Function parameter or member 'count' not described in 'kfree_rcu_cpu'
-	./include/linux/rculist.h:517: warning: bad line:                           [@right ][node2 ... ]
-	./include/linux/rculist.h:2: WARNING: Unexpected indentation.
+That's not enough. Imagine a blob adds the MSR and a subsequent blob
+adds *another* bit in that MSR. You need to be able express that.
 
-Move the comment for "count" to the kernel-doc markup and add
-a missing "*" on one kernel-doc continuation line.
+IOW, I think it would be easier if each line describes exactly *one*
+software-visible change brought by the microcode.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- include/linux/rculist.h | 2 +-
- kernel/rcu/tree.c       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Also, what is the use case to say that you're adding a new MSR?
 
-diff --git a/include/linux/rculist.h b/include/linux/rculist.h
-index 2ebd112f86f7..7a6fc9956510 100644
---- a/include/linux/rculist.h
-+++ b/include/linux/rculist.h
-@@ -514,7 +514,7 @@ static inline void hlist_replace_rcu(struct hlist_node *old,
-  * @right: The hlist head on the right
-  *
-  * The lists start out as [@left  ][node1 ... ] and
--                          [@right ][node2 ... ]
-+ *                        [@right ][node2 ... ]
-  * The lists end up as    [@left  ][node2 ... ]
-  *                        [@right ][node1 ... ]
-  */
-diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-index 8ed0fe57d5fb..ada4f914fa60 100644
---- a/kernel/rcu/tree.c
-+++ b/kernel/rcu/tree.c
-@@ -2895,6 +2895,7 @@ struct kfree_rcu_cpu_work {
-  * @monitor_work: Promote @head to @head_free after KFREE_DRAIN_JIFFIES
-  * @monitor_todo: Tracks whether a @monitor_work delayed work is pending
-  * @initialized: The @lock and @rcu_work fields have been initialized
-+ * @count: Number of objects for which GP not started
-  *
-  * This is a per-CPU structure.  The reason that it is not included in
-  * the rcu_data structure is to permit this code to be extracted from
-@@ -2910,7 +2911,6 @@ struct kfree_rcu_cpu {
- 	struct delayed_work monitor_work;
- 	bool monitor_todo;
- 	bool initialized;
--	// Number of objects for which GP not started
- 	int count;
- };
- 
+This would require to patch all the code that *potentially* might use
+that MSR, to be able to handle a *change* in that MSR or it appearing
+all of a sudden. Yuck.
+
+I mean, an easy way to handle it is to say, "Hmm, nope, won't load that
+ucode."
+
+> +   c + 0x00000007 0x00 0x00000000 0x021cbfbb 0x00000000 0x00000000
+> +   c - 0x00000007 0x00 0x00000000 0x021cbfbb 0x00000000 0x00000000
+
+I don't think this'll work with the vendors as depending on the
+configuration, CPUID on the different platforms could be different.
+
+And then you might gonna have to specify CPUID for this particular
+{family,model,stepping, ... } tuple which identifies the platform
+uniquely so the c-line is insufficient.
+
+IOW, I think it would be easier to be able to specify one CPUID bit per
+line of being added/removed so that the post-load callback can handle
+this properly. And this specification needs to be complete: i.e.
+
+"I'm adding this CPUID bit for this family,model,stepping configurations
+under this and that conditions".
+
+And that needs to be describable by the "language" of the metadata.
+
+So think of actual examples and then try to represent them with this
+format.
+
+But all of this is moot if you don't get a vendor buy-in into this. IOW,
+microcode vendors need to agree to this format and adhere to the format
+when allowing microcode to late-load.
+
 -- 
-2.25.4
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
