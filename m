@@ -2,101 +2,124 @@ Return-Path: <SRS0=VNB8=6S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C27EC47257
-	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 09:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE373C3A5A9
+	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 09:50:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 338432073E
-	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 09:44:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7DE12073B
+	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 09:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588585498;
-	bh=p1TvFFk+CFSzztc7y+DlnQLt3T/P7TNPd3wObNHjD2I=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=kCq4qtYFALLKATxMMkP0V3AZieiRAkWx03BloGuBKg52+u8Lq0Wt2EzQ6u2KGsWjh
-	 0A2eLXXQBpVnO9HSx5oKDrXL2rksxjZzNS8lQ952oy33MP6uJUthArSDKFcfA/rOkX
-	 VWy1qvQ2i0eIDa8BB21i/7lKE8Gc7egWIlBrlxOg=
+	s=default; t=1588585831;
+	bh=Bh0hYmUAkybjdtHios46zxKUR1jzmBVcRcfTV9uaIxQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=2SmLIBHk5E8Ntq0RQV8m2X8X4wfjZu2oxDleoTQS3wIpc0yMueCUVf/Mqh5PfEOiu
+	 LiUc4bwXzjPRxxTch/0rxqfoCBkUD2MQg65pCgcJ5/mdUdSmrF9S4Q3FtAGzIvLsvz
+	 aa/HA+Ktt2VL3iv2aIb70YWe82KlRLNiEH4+sBig=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727824AbgEDJo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 May 2020 05:44:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52056 "EHLO mail.kernel.org"
+        id S1728411AbgEDJub (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 May 2020 05:50:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727781AbgEDJo5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 May 2020 05:44:57 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        id S1728338AbgEDJub (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 May 2020 05:50:31 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9240320658;
-        Mon,  4 May 2020 09:44:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CDC1A20658;
+        Mon,  4 May 2020 09:50:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588585496;
-        bh=p1TvFFk+CFSzztc7y+DlnQLt3T/P7TNPd3wObNHjD2I=;
-        h=From:To:Cc:Subject:Date:From;
-        b=wAAqCQLQ7jsLtYVmcioCSNyttgEwRpVhEVx+KRwb/Of4w07z89tMVv8gUGsUxTs6t
-         V7kM4av7AFlKZ035ogI9rBMNBXIkjfYeH/r/98K4otzBCSExVqUmhnNZ4yedd+jdGw
-         K3pvK2XFfce3x0eazUgS6+CoVZjdf8/+Is7h5Hxk=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jVXeg-000KKo-9E; Mon, 04 May 2020 11:44:54 +0200
+        s=default; t=1588585830;
+        bh=Bh0hYmUAkybjdtHios46zxKUR1jzmBVcRcfTV9uaIxQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=1Yvexcu060UzPkysOQn8KkvaiuhPTx3OlDDJ4n7iR6qLFGSIFLNhoP0zlt6K4fNfb
+         lkVQEKQyK6XJAPHc039ExjCvW7rir/ItmQLdKWTYhfnd4DNEA9/fohdB20M83PkwVZ
+         FzkhEJVzf8oPabT0zCTq78jAS4v2x9g7xPo1nEaQ=
+Date:   Mon, 4 May 2020 11:50:23 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Sandipan Das <sandipan@linux.ibm.com>,
-        Ram Pai <linuxram@us.ibm.com>,
-        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH] selftests/vm/keys: fix a broken reference at protection_keys.c
-Date:   Mon,  4 May 2020 11:44:50 +0200
-Message-Id: <d478a2fc5d204691d0cac6e2b416f0e07a26d3d9.1588585390.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.4
+        Nicholas Piggin <npiggin@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        linux-arch@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        David Howells <dhowells@redhat.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Will Deacon <will@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Joe Perches <joe@perches.com>
+Subject: Re: [PATCH 00/14] Move the ReST files from Documentation/*.txt
+Message-ID: <20200504115023.2ead040f@coco.lan>
+In-Reply-To: <9f79e15a-4e36-3747-51fc-ca2d8ab616b7@gmail.com>
+References: <cover.1588345503.git.mchehab+huawei@kernel.org>
+        <9f79e15a-4e36-3747-51fc-ca2d8ab616b7@gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 1eecbcdca2bd ("docs: move protection-keys.rst to the core-api book")
-from Jun 7, 2019 converted protection-keys.txt file to ReST.
+Em Mon, 4 May 2020 18:25:51 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-A recent change at protection_keys.c partially reverted such
-changeset, causing it to point to a non-existing file:
+> (CC to documentation, get_maintainer, and LKMM maintainers)
+> 
+> Hi Mauro,
+> 
+> As I didn't receive "[PATCH 12/14] docs: move remaining stuff under
+> Documentation/*.txt to Documentation/staging", I'm replying to
+> [PATCH 00/14].
+>
+> diff stat above shows you are not moving Documentation/atomic_bitops.txt in
+> this series. However, PATCH 12/14 contains the following hunks:
+> 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 1aa6e89e7424..8aa8f7c0db93 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS  
+> [...]
+> > @@ -9855,7 +9855,7 @@ L:	linux-kernel@vger.kernel.org
+> >  L:	linux-arch@vger.kernel.org
+> >  S:	Supported
+> >  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
+> > -F:	Documentation/atomic_bitops.txt
+> > +F:	Documentation/staging/atomic_bitops.txt
+> >  F:	Documentation/atomic_t.txt
+> >  F:	Documentation/core-api/atomic_ops.rst
+> >  F:	Documentation/core-api/refcount-vs-atomic.rst  
+> 
+> [...]
+> 
+> > diff --git a/include/asm-generic/bitops/atomic.h b/include/asm-generic/bitops/atomic.h
+> > index dd90c9792909..edeeb8375006 100644
+> > --- a/include/asm-generic/bitops/atomic.h
+> > +++ b/include/asm-generic/bitops/atomic.h
+> > @@ -8,7 +8,7 @@
+> >  
+> >  /*
+> >   * Implementation of atomic bitops using atomic-fetch ops.
+> > - * See Documentation/atomic_bitops.txt for details.
+> > + * See Documentation/staging/atomic_bitops.txt for details.
+> >   */
+> >  
+> >  static inline void set_bit(unsigned int nr, volatile unsigned long *p)  
+> 
+> Please drop them.
 
-	- * Tests x86 Memory Protection Keys (see Documentation/core-api/protection-keys.rst)
-	+ * Tests Memory Protection Keys (see Documentation/vm/protection-keys.txt)
+Thanks for pointing! Yeah, I noticed that too from Joe's review.
+Already dropped locally. I'll post a new version without such change.
 
-It sounds to me that the changeset that introduced such change
-4645e3563673 ("selftests/vm/pkeys: rename all references to pkru to a generic name")
-could also have other side effects, as it sounds that it was not
-generated against uptream code, but, instead, against a version
-older than Jun 7, 2019.
 
-Fixes: 4645e3563673 ("selftests/vm/pkeys: rename all references to pkru to a generic name")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/testing/selftests/vm/protection_keys.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/vm/protection_keys.c b/tools/testing/selftests/vm/protection_keys.c
-index fc19addcb5c8..fdbb602ecf32 100644
---- a/tools/testing/selftests/vm/protection_keys.c
-+++ b/tools/testing/selftests/vm/protection_keys.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Tests Memory Protection Keys (see Documentation/vm/protection-keys.txt)
-+ * Tests Memory Protection Keys (see Documentation/core-api/protection-keys.rst)
-  *
-  * There are examples in here of:
-  *  * how to set protection keys on memory
--- 
-2.25.4
-
+Thanks,
+Mauro
