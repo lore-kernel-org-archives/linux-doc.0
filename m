@@ -2,108 +2,127 @@ Return-Path: <SRS0=VNB8=6S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC9D3C47254
-	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 14:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3486AC3A5A9
+	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 14:10:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D1722075A
-	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 14:09:50 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="CV2JK5Xt"
+	by mail.kernel.org (Postfix) with ESMTP id 1A99720705
+	for <linux-doc@archiver.kernel.org>; Mon,  4 May 2020 14:10:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728786AbgEDOJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 May 2020 10:09:49 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:33770 "EHLO mail.skyhub.de"
+        id S1728357AbgEDOKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 May 2020 10:10:54 -0400
+Received: from mga07.intel.com ([134.134.136.100]:52024 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726404AbgEDOJt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 May 2020 10:09:49 -0400
-Received: from zn.tnic (p200300EC2F08AF0065867C3890225131.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:af00:6586:7c38:9022:5131])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 11AC31EC02D7;
-        Mon,  4 May 2020 16:09:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1588601385;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=lZ4aqziNyvYw3GSKD0XU2YhwX5XuP4rjgq7LEC+3Iqg=;
-        b=CV2JK5XtORlHCkNTYou9kVw9zJqbNvImcy+Ef0Lg9WYr+0d/WUYKm7Q+v8dQkTqVWm5tOr
-        jQLH0vU2yAhM8X+zNEiv85x88vP3kdT5T4p9oMaPu4Z5uuYILNoSMCZlIjeUu68p93DlJs
-        ke4Z5HXJpAcd1VM5kSGynvIClmH/dpk=
-Date:   Mon, 4 May 2020 16:09:40 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Mihai Carabas <mihai.carabas@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 3/3] Documentation: x86: microcode: add description
- for metadata file
-Message-ID: <20200504140940.GF15046@zn.tnic>
-References: <1587972479-10971-1-git-send-email-mihai.carabas@oracle.com>
- <1587972479-10971-4-git-send-email-mihai.carabas@oracle.com>
+        id S1726404AbgEDOKx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 May 2020 10:10:53 -0400
+IronPort-SDR: FnjQlJtew1ULL8NanbcLVmCWaMBgkT4jMOQ5z+dtgb0LPSLDW/yZin95YWL9xgHA9g06MEJBz5
+ uP3YYX++dK1Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 07:10:53 -0700
+IronPort-SDR: M1u1YSU8rla24ATntvB5kKSFZaHH+mPOXbGrfF2vYxiupehh1k8L9qq0dl3lyCYri4N+dbpFkd
+ gz06U246+3Pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,352,1583222400"; 
+   d="scan'208";a="262831961"
+Received: from fmerchan-mobl.amr.corp.intel.com (HELO [10.255.229.65]) ([10.255.229.65])
+  by orsmga006.jf.intel.com with ESMTP; 04 May 2020 07:10:53 -0700
+Subject: Re: [PATCH] selftests/vm/keys: fix a broken reference at
+ protection_keys.c
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Sandipan Das <sandipan@linux.ibm.com>,
+        Ram Pai <linuxram@us.ibm.com>,
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        linux-kselftest@vger.kernel.org
+References: <d478a2fc5d204691d0cac6e2b416f0e07a26d3d9.1588585390.git.mchehab+huawei@kernel.org>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <bd55a74d-1305-9e23-94cd-37e59c11dfcd@intel.com>
+Date:   Mon, 4 May 2020 07:10:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <d478a2fc5d204691d0cac6e2b416f0e07a26d3d9.1588585390.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1587972479-10971-4-git-send-email-mihai.carabas@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 27, 2020 at 10:27:59AM +0300, Mihai Carabas wrote:
-> +Here is an example of content for the metadata file::
-> +   m + 0x00000122
-> +   m - 0x00000120
+On 5/4/20 2:44 AM, Mauro Carvalho Chehab wrote:
+> Changeset 1eecbcdca2bd ("docs: move protection-keys.rst to the core-api book")
+> from Jun 7, 2019 converted protection-keys.txt file to ReST.
+> 
+> A recent change at protection_keys.c partially reverted such
+> changeset, causing it to point to a non-existing file:
+> 
+> 	- * Tests x86 Memory Protection Keys (see Documentation/core-api/protection-keys.rst)
+> 	+ * Tests Memory Protection Keys (see Documentation/vm/protection-keys.txt)
+> 
+> It sounds to me that the changeset that introduced such change
+> 4645e3563673 ("selftests/vm/pkeys: rename all references to pkru to a generic name")
+> could also have other side effects, as it sounds that it was not
+> generated against uptream code, but, instead, against a version
+> older than Jun 7, 2019.
+> 
+> Fixes: 4645e3563673 ("selftests/vm/pkeys: rename all references to pkru to a generic name")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-That's not enough. Imagine a blob adds the MSR and a subsequent blob
-adds *another* bit in that MSR. You need to be able express that.
+Thanks for finding this!  The patch set which moved protection-keys.txt
+out of x86 code probably just missed this when it got rebased.  It
+originated well before June 2019, iirc.
 
-IOW, I think it would be easier if each line describes exactly *one*
-software-visible change brought by the microcode.
-
-Also, what is the use case to say that you're adding a new MSR?
-
-This would require to patch all the code that *potentially* might use
-that MSR, to be able to handle a *change* in that MSR or it appearing
-all of a sudden. Yuck.
-
-I mean, an easy way to handle it is to say, "Hmm, nope, won't load that
-ucode."
-
-> +   c + 0x00000007 0x00 0x00000000 0x021cbfbb 0x00000000 0x00000000
-> +   c - 0x00000007 0x00 0x00000000 0x021cbfbb 0x00000000 0x00000000
-
-I don't think this'll work with the vendors as depending on the
-configuration, CPUID on the different platforms could be different.
-
-And then you might gonna have to specify CPUID for this particular
-{family,model,stepping, ... } tuple which identifies the platform
-uniquely so the c-line is insufficient.
-
-IOW, I think it would be easier to be able to specify one CPUID bit per
-line of being added/removed so that the post-load callback can handle
-this properly. And this specification needs to be complete: i.e.
-
-"I'm adding this CPUID bit for this family,model,stepping configurations
-under this and that conditions".
-
-And that needs to be describable by the "language" of the metadata.
-
-So think of actual examples and then try to represent them with this
-format.
-
-But all of this is moot if you don't get a vendor buy-in into this. IOW,
-microcode vendors need to agree to this format and adhere to the format
-when allowing microcode to late-load.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Acked-by: Dave Hansen <dave.hansen@intel.com>
