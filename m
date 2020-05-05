@@ -2,180 +2,87 @@ Return-Path: <SRS0=+qdo=6T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31ED1C47247
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 14:56:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D683C47257
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:11:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 19171206B9
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 14:56:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4160E2078D
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:11:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OlVBEYtT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729237AbgEEO4n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 10:56:43 -0400
-Received: from foss.arm.com ([217.140.110.172]:42444 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729123AbgEEO4n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 May 2020 10:56:43 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C7AA1FB;
-        Tue,  5 May 2020 07:56:42 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB0CE3F68F;
-        Tue,  5 May 2020 07:56:39 -0700 (PDT)
-Date:   Tue, 5 May 2020 15:56:37 +0100
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Patrick Bellasi <derkling@gmail.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] Documentation/sysctl: Document uclamp sysctl knobs
-Message-ID: <20200505145637.5daqhatsm5bjsok7@e107158-lin.cambridge.arm.com>
-References: <20200501114927.15248-1-qais.yousef@arm.com>
- <20200501114927.15248-2-qais.yousef@arm.com>
- <87d07krjyk.derkling@matbug.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87d07krjyk.derkling@matbug.com>
-User-Agent: NeoMutt/20171215
+        id S1729521AbgEEPLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 11:11:11 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27872 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729261AbgEEPLK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 11:11:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588691469;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=QDdz0u1MDabvWLnuf8Me9gjoJIrk3ictomM8OSd7hgE=;
+        b=OlVBEYtTN5ju6swVnEj8N3Mo0sNqYeeSjK3FbLpo99ZEGX5dSBbn4807ddMhtxBzB3DtCp
+        NjOws0wnePq8QLplGLOutfJ5sZg1jo1GuxGwK1I520i/tyzKloCk51HeeH4qXlETMfCO5G
+        BvDolbQy3t2NN9BnMrn61oL4BuQa1To=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-UqbHH1zxM6yBvkxPJMqzEA-1; Tue, 05 May 2020 11:11:05 -0400
+X-MC-Unique: UqbHH1zxM6yBvkxPJMqzEA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E690A872FEA;
+        Tue,  5 May 2020 15:11:03 +0000 (UTC)
+Received: from llong.com (ovpn-114-81.rdu2.redhat.com [10.10.114.81])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C4D295D9D5;
+        Tue,  5 May 2020 15:10:59 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>
+Cc:     linux-edac@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Waiman Long <longman@redhat.com>
+Subject: [PATCH] doc: Fix some typo errors in ras.rst
+Date:   Tue,  5 May 2020 11:10:49 -0400
+Message-Id: <20200505151049.11134-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Patrick
+Fix typo errors.
 
-On 05/03/20 19:45, Patrick Bellasi wrote:
-> > +sched_util_clamp_min:
-> > +=====================
-> > +
-> > +Max allowed *minimum* utilization.
-> > +
-> > +Default value is SCHED_CAPACITY_SCALE (1024), which is the maximum possible
->                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> Mmm... I feel one of the two is an implementation detail which should
-> probably not be exposed?
-> 
-> The user perhaps needs to know the value (1024) but we don't need to
-> expose the internal representation.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/admin-guide/ras.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Okay.
+diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/ras.rst
+index 0310db624964..8b1803b2606f 100644
+--- a/Documentation/admin-guide/ras.rst
++++ b/Documentation/admin-guide/ras.rst
+@@ -156,10 +156,10 @@ the labels provided by the BIOS won't match the real ones.
+ ECC memory
+ ----------
+ 
+-As mentioned on the previous section, ECC memory has extra bits to be
+-used for error correction. So, on 64 bit systems, a memory module
+-has 64 bits of *data width*, and 74 bits of *total width*. So, there are
+-8 bits extra bits to be used for the error detection and correction
++As mentioned on the previous section, ECC memory has extra bits to
++be used for error correction. So, on 64 bit systems, a memory module
++has 64 bits of *data width*, and 72 bits of *total width*. So, there
++are 8 extra bits to be used for the error detection and correction
+ mechanisms. Those extra bits are called *syndrome*\ [#f1]_\ [#f2]_.
+ 
+ So, when the cpu requests the memory controller to write a word with
+-- 
+2.18.1
 
-> 
-> 
-> > +value.
-> > +
-> > +It means that any requested uclamp.min value cannot be greater than
-> > +sched_util_clamp_min, i.e., it is restricted to the range
-> > +[0:sched_util_clamp_min].
-> > +
-> > +sched_util_clamp_max:
-> > +=====================
-> > +
-> > +Max allowed *maximum* utilization.
-> > +
-> > +Default value is SCHED_CAPACITY_SCALE (1024), which is the maximum possible
-> > +value.
-> > +
-> > +It means that any requested uclamp.max value cannot be greater than
-> > +sched_util_clamp_max, i.e., it is restricted to the range
-> > +[0:sched_util_clamp_max].
-> > +
-> > +sched_util_clamp_min_rt_default:
-> > +================================
-> > +
-> > +By default Linux is tuned for performance. Which means that RT tasks always run
-> > +at the highest frequency and most capable (highest capacity) CPU (in
-> > +heterogeneous systems).
-> > +
-> > +Uclamp achieves this by setting the requested uclamp.min of all RT tasks to
-> > +SCHED_CAPACITY_SCALE (1024) by default, which effectively boosts the tasks to
-> > +run at the highest frequency and biases them to run on the biggest CPU.
-> > +
-> > +This knob allows admins to change the default behavior when uclamp is being
-> > +used. In battery powered devices particularly, running at the maximum
-> > +capacity and frequency will increase energy consumption and shorten the battery
-> > +life.
-> > +
-> > +This knob is only effective for RT tasks which the user hasn't modified their
-> > +requested uclamp.min value via sched_setattr() syscall.
-> > +
-> > +This knob will not escape the constraint imposed by sched_util_clamp_min
-> > +defined above.
-> 
-> Perhaps it's worth to specify that this value is going to be clamped by
-> the values above? Otherwise it's a bit ambiguous to know what happen
-> when it's bigger than schedu_util_clamp_min.
-
-Hmm for me that sentence says exactly what you're asking for.
-
-So what you want is
-
-	s/will not escape the constraint imposed by/will be clamped by/
-
-?
-
-I'm not sure if this will help if the above is already ambiguous. Maybe if
-I explicitly say
-
-	..will not escape the *range* constrained imposed by..
-
-sched_util_clamp_min is already defined as a range constraint, so hopefully it
-should hit the mark better now?
-
-> 
-> > +Any modification is applied lazily on the next opportunity the scheduler needs
-> > +to calculate the effective value of uclamp.min of the task.
->                     ^^^^^^^^^
-> 
-> This is also an implementation detail, I would remove it.
-
-The idea is that this value is not updated 'immediately'/synchronously. So
-currently RUNNING tasks will not see the effect, which could generate confusion
-when users trip over it. IMO giving an idea of how it's updated will help with
-expectation of the users. I doubt any will care, but I think it's an important
-behavior element that is worth conveying and documenting. I'd be happy to
-reword it if necessary.
-
-I have this now
-
-"""
- 984 This knob will not escape the range constraint imposed by sched_util_clamp_min
- 985 defined above.
- 986
- 987 For example if
- 988
- 989         sched_util_clamp_min_rt_default = 800
- 990         sched_util_clamp_min = 600
- 991
- 992 Then the boost will be clamped to 600 because 800 is outside of the permissible
- 993 range of [0:600]. This could happen for instance if a powersave mode will
- 994 restrict all boosts temporarily by modifying sched_util_clamp_min. As soon as
- 995 this restriction is lifted, the requested sched_util_clamp_min_rt_default
- 996 will take effect.
- 997
- 998 Any modification is applied lazily to currently running tasks and should be
- 999 visible by the next wakeup.
-"""
-
-Thanks
-
---
-Qais Yousef
