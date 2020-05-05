@@ -2,117 +2,241 @@ Return-Path: <SRS0=+qdo=6T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92112C47247
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 11:15:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D070C47257
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 14:28:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 709E2206B9
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 11:15:29 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="RGkX2pJy"
+	by mail.kernel.org (Postfix) with ESMTP id EBCDB20675
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 14:28:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728627AbgEELP2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 07:15:28 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:4397 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728422AbgEELP2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 07:15:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1588677328; x=1620213328;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=+0kzseOEO2Wgx77lNa15u7+p1olXeh9q9Qu05DxPffM=;
-  b=RGkX2pJyG2AXbJl+r4rqUOIqM+0a6/cj2x5RWLZwUmaWwY02GDR9Y3cg
-   RtqSlfMoV0NXnNv6Ox3oM8yYhGRIt6WzOncgo9o4uHjxLyXSC/uyrpSL4
-   kSLkw/MerEji4KREZuPH4EWY6r968sy+1JYR7LIQRg4BfXLD4t+KMXCFv
-   A=;
-IronPort-SDR: No0CUbMedha5eif+Nmx5eqxMxA+noc6CUfqJsg+ucwieIbQTBQ8bS3d3+NKYQ5qrT8m4BoISCV
- NjM5YkjtCWeg==
-X-IronPort-AV: E=Sophos;i="5.73,354,1583193600"; 
-   d="scan'208";a="28932520"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 05 May 2020 11:15:24 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com (Postfix) with ESMTPS id DD425A182A;
-        Tue,  5 May 2020 11:15:21 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 5 May 2020 11:15:21 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.92) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 5 May 2020 11:15:05 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <irogers@google.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v10 16/16] MAINTAINERS: Update for DAMON
-Date:   Tue, 5 May 2020 13:08:15 +0200
-Message-ID: <20200505110815.10532-17-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200505110815.10532-1-sjpark@amazon.com>
-References: <20200505110815.10532-1-sjpark@amazon.com>
+        id S1729322AbgEEO2F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 10:28:05 -0400
+Received: from foss.arm.com ([217.140.110.172]:41792 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729308AbgEEO2D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 May 2020 10:28:03 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EBF3D1FB;
+        Tue,  5 May 2020 07:28:02 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 840BD3F68F;
+        Tue,  5 May 2020 07:28:00 -0700 (PDT)
+Date:   Tue, 5 May 2020 15:27:58 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Patrick Bellasi <derkling@gmail.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] sched/uclamp: Add a new sysctl to control RT
+ default boost value
+Message-ID: <20200505142757.rturrjok4uklf2ea@e107158-lin.cambridge.arm.com>
+References: <20200501114927.15248-1-qais.yousef@arm.com>
+ <87h7wwrkcd.derkling@matbug.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.92]
-X-ClientProxiedBy: EX13D35UWB004.ant.amazon.com (10.43.161.230) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87h7wwrkcd.derkling@matbug.com>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+On 05/03/20 19:37, Patrick Bellasi wrote:
 
-This commit updates MAINTAINERS file for DAMON related files.
+[...]
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> > +static inline void uclamp_sync_util_min_rt_default(struct task_struct *p,
+> > +						   enum uclamp_id clamp_id)
+> > +{
+> > +	struct uclamp_se *uc_se;
+> > +
+> > +	/* Only sync for UCLAMP_MIN and RT tasks */
+> > +	if (clamp_id != UCLAMP_MIN || likely(!rt_task(p)))
+>                                       ^^^^^^
+> Are we sure that likely makes any difference when used like that?
+> 
+> I believe you should either use:
+> 
+> 	if (likely(clamp_id != UCLAMP_MIN || !rt_task(p)))
+> 
+> or completely drop it.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5a5332b3591d..cb4a7fa3cdfe 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4661,6 +4661,18 @@ F:	net/ax25/ax25_out.c
- F:	net/ax25/ax25_timer.c
- F:	net/ax25/sysctl_net_ax25.c
- 
-+DATA ACCESS MONITOR
-+M:	SeongJae Park <sjpark@amazon.de>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	Documentation/admin-guide/mm/data_access_monitor.rst
-+F:	include/linux/damon.h
-+F:	include/trace/events/damon.h
-+F:	mm/damon-test.h
-+F:	mm/damon.c
-+F:	tools/damon/*
-+F:	tools/testing/selftests/damon/*
-+
- DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
- L:	netdev@vger.kernel.org
- S:	Orphan
--- 
-2.17.1
+I agree all these likely/unlikely better dropped.
 
+> 
+> > +		return;
+> > +
+> > +	uc_se = &p->uclamp_req[UCLAMP_MIN];
+> 
+> nit-pick: you can probably move this at declaration time.
+> 
+> The compiler will be smart enough to either post-pone the init or, given
+> the likely() above, "pre-fetch" the value.
+> 
+> Anyway, the compiler is likely smarter then us. :)
+
+I'll fling this question to the reviewers who voiced concerns about the
+overhead. Personally I see the v3 implementation is the best fit :)
+
+> 
+> > +
+> > +	/*
+> > +	 * Only sync if user didn't override the default request and the sysctl
+> > +	 * knob has changed.
+> > +	 */
+> > +	if (unlikely(uc_se->user_defined) ||
+> > +	    likely(uc_se->value == sysctl_sched_uclamp_util_min_rt_default))
+> > +		return;
+> 
+> Same here, I believe likely/unlikely work only if wrapping a full if()
+> condition. Thus, you should probably better split the above in two
+> separate checks, which also makes for a better inline doc.
+> 
+> > +
+> > +	uclamp_se_set(uc_se, sysctl_sched_uclamp_util_min_rt_default, false);
+> 
+> Nit-pick: perhaps we can also improve a bit readability by defining at
+> the beginning an alias variable with a shorter name, e.g.
+> 
+>        unsigned int uclamp_min =  sysctl_sched_uclamp_util_min_rt_default;
+> 
+> ?
+
+Could do. I used default_util_min as a name though.
+
+> 
+> > +}
+> > +
+> >  static inline struct uclamp_se
+> >  uclamp_tg_restrict(struct task_struct *p, enum uclamp_id clamp_id)
+> >  {
+> > @@ -907,8 +949,15 @@ uclamp_tg_restrict(struct task_struct *p, enum uclamp_id clamp_id)
+> >  static inline struct uclamp_se
+> >  uclamp_eff_get(struct task_struct *p, enum uclamp_id clamp_id)
+> >  {
+> > -	struct uclamp_se uc_req = uclamp_tg_restrict(p, clamp_id);
+> > -	struct uclamp_se uc_max = uclamp_default[clamp_id];
+> > +	struct uclamp_se uc_req, uc_max;
+> > +
+> > +	/*
+> > +	 * Sync up any change to sysctl_sched_uclamp_util_min_rt_default value.
+>                                                                          ^^^^^
+> > +	 */
+> 
+> nit-pick: we can use a single line comment if you drop the (useless)
+> 'value' at the end.
+
+Okay.
+
+> 
+> > +	uclamp_sync_util_min_rt_default(p, clamp_id);
+> > +
+> > +	uc_req = uclamp_tg_restrict(p, clamp_id);
+> > +	uc_max = uclamp_default[clamp_id];
+> >  
+> >  	/* System default restrictions always apply */
+> >  	if (unlikely(uc_req.value > uc_max.value))
+> > @@ -1114,12 +1163,13 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+> >  				loff_t *ppos)
+> >  {
+> >  	bool update_root_tg = false;
+> > -	int old_min, old_max;
+> > +	int old_min, old_max, old_min_rt;
+> >  	int result;
+> >  
+> >  	mutex_lock(&uclamp_mutex);
+> >  	old_min = sysctl_sched_uclamp_util_min;
+> >  	old_max = sysctl_sched_uclamp_util_max;
+> > +	old_min_rt = sysctl_sched_uclamp_util_min_rt_default;
+> >  
+> >  	result = proc_dointvec(table, write, buffer, lenp, ppos);
+> >  	if (result)
+> > @@ -1133,6 +1183,18 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+> >  		goto undo;
+> >  	}
+> >  
+> > +	/*
+> > +	 * The new value will be applied to RT tasks the next time the
+> > +	 * scheduler needs to calculate the effective uclamp.min for that task,
+> > +	 * assuming the task is using the system default and not a user
+> > +	 * specified value. In the latter we shall leave the value as the user
+> > +	 * requested.
+> 
+> IMO it does not make sense to explain here what you will do with this
+> value. This will make even more complicated to maintain the comment
+> above if the code using it should change in the future.
+> 
+> So, if the code where we use the knob is not clear enough, maybe we can
+> move this comment to the description of:
+>    uclamp_sync_util_min_rt_default()
+> or to be part of the documentation of:
+>   sysctl_sched_uclamp_util_min_rt_default
+> 
+> By doing that you can also just add this if condition with the previous ones.
+
+Okay.
+
+> 
+> > +	 */
+> > +	if (sysctl_sched_uclamp_util_min_rt_default > SCHED_CAPACITY_SCALE) {
+> > +		result = -EINVAL;
+> > +		goto undo;
+> > +	}
+> > +
+> >  	if (old_min != sysctl_sched_uclamp_util_min) {
+> >  		uclamp_se_set(&uclamp_default[UCLAMP_MIN],
+> >  			      sysctl_sched_uclamp_util_min, false);
+> > @@ -1158,6 +1220,7 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+> >  undo:
+> >  	sysctl_sched_uclamp_util_min = old_min;
+> >  	sysctl_sched_uclamp_util_max = old_max;
+> > +	sysctl_sched_uclamp_util_min_rt_default = old_min_rt;
+> >  done:
+> >  	mutex_unlock(&uclamp_mutex);
+> >  
+> > @@ -1200,9 +1263,13 @@ static void __setscheduler_uclamp(struct task_struct *p,
+> >  		if (uc_se->user_defined)
+> >  			continue;
+> >  
+> > -		/* By default, RT tasks always get 100% boost */
+> > +		/*
+> > +		 * By default, RT tasks always get 100% boost, which the admins
+> > +		 * are allowed to change via
+> > +		 * sysctl_sched_uclamp_util_min_rt_default knob.
+> > +		 */
+> >  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+> > -			clamp_value = uclamp_none(UCLAMP_MAX);
+> > +			clamp_value = sysctl_sched_uclamp_util_min_rt_default;
+> 
+> Mmm... I suspect we don't need this anymore.
+> 
+> If the task has a user_defined value, we skip this anyway.
+> If the task has not a user_defined value, we will do set this anyway at
+> each enqueue time.
+> 
+> No?
+
+Indeed.
+
+Thanks
+
+--
+Qais Yousef
