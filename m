@@ -2,87 +2,80 @@ Return-Path: <SRS0=+qdo=6T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D683C47257
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:11:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4E74C47254
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:28:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4160E2078D
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:11:11 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OlVBEYtT"
+	by mail.kernel.org (Postfix) with ESMTP id 8B113206A4
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:28:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729521AbgEEPLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 11:11:11 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27872 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729261AbgEEPLK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 11:11:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588691469;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc; bh=QDdz0u1MDabvWLnuf8Me9gjoJIrk3ictomM8OSd7hgE=;
-        b=OlVBEYtTN5ju6swVnEj8N3Mo0sNqYeeSjK3FbLpo99ZEGX5dSBbn4807ddMhtxBzB3DtCp
-        NjOws0wnePq8QLplGLOutfJ5sZg1jo1GuxGwK1I520i/tyzKloCk51HeeH4qXlETMfCO5G
-        BvDolbQy3t2NN9BnMrn61oL4BuQa1To=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-UqbHH1zxM6yBvkxPJMqzEA-1; Tue, 05 May 2020 11:11:05 -0400
-X-MC-Unique: UqbHH1zxM6yBvkxPJMqzEA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1729427AbgEEP2l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 11:28:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60554 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729365AbgEEP2l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 11:28:41 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8F21C061A0F;
+        Tue,  5 May 2020 08:28:40 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E690A872FEA;
-        Tue,  5 May 2020 15:11:03 +0000 (UTC)
-Received: from llong.com (ovpn-114-81.rdu2.redhat.com [10.10.114.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C4D295D9D5;
-        Tue,  5 May 2020 15:10:59 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Tony Luck <tony.luck@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>
-Cc:     linux-edac@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Waiman Long <longman@redhat.com>
-Subject: [PATCH] doc: Fix some typo errors in ras.rst
-Date:   Tue,  5 May 2020 11:10:49 -0400
-Message-Id: <20200505151049.11134-1-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+        by ms.lwn.net (Postfix) with ESMTPSA id E0CF5737;
+        Tue,  5 May 2020 15:28:39 +0000 (UTC)
+Date:   Tue, 5 May 2020 09:28:38 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-cachefs@redhat.com,
+        codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-xfs@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 00/29] Convert files to ReST - part 2
+Message-ID: <20200505092838.4b1ff075@lwn.net>
+In-Reply-To: <20200428130128.22c4b973@lwn.net>
+References: <cover.1588021877.git.mchehab+huawei@kernel.org>
+        <20200428130128.22c4b973@lwn.net>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix typo errors.
+On Tue, 28 Apr 2020 13:01:28 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/admin-guide/ras.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> So I'm happy to merge this set, but there is one thing that worries me a
+> bit... 
+> 
+> >  fs/cachefiles/Kconfig                         |    4 +-
+> >  fs/coda/Kconfig                               |    2 +-
+> >  fs/configfs/inode.c                           |    2 +-
+> >  fs/configfs/item.c                            |    2 +-
+> >  fs/fscache/Kconfig                            |    8 +-
+> >  fs/fscache/cache.c                            |    8 +-
+> >  fs/fscache/cookie.c                           |    2 +-
+> >  fs/fscache/object.c                           |    4 +-
+> >  fs/fscache/operation.c                        |    2 +-
+> >  fs/locks.c                                    |    2 +-
+> >  include/linux/configfs.h                      |    2 +-
+> >  include/linux/fs_context.h                    |    2 +-
+> >  include/linux/fscache-cache.h                 |    4 +-
+> >  include/linux/fscache.h                       |   42 +-
+> >  include/linux/lsm_hooks.h                     |    2 +-  
+> 
+> I'd feel a bit better if I could get an ack or two from filesystem folks
+> before I venture that far out of my own yard...what say you all?
 
-diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/ras.rst
-index 0310db624964..8b1803b2606f 100644
---- a/Documentation/admin-guide/ras.rst
-+++ b/Documentation/admin-guide/ras.rst
-@@ -156,10 +156,10 @@ the labels provided by the BIOS won't match the real ones.
- ECC memory
- ----------
- 
--As mentioned on the previous section, ECC memory has extra bits to be
--used for error correction. So, on 64 bit systems, a memory module
--has 64 bits of *data width*, and 74 bits of *total width*. So, there are
--8 bits extra bits to be used for the error detection and correction
-+As mentioned on the previous section, ECC memory has extra bits to
-+be used for error correction. So, on 64 bit systems, a memory module
-+has 64 bits of *data width*, and 72 bits of *total width*. So, there
-+are 8 extra bits to be used for the error detection and correction
- mechanisms. Those extra bits are called *syndrome*\ [#f1]_\ [#f2]_.
- 
- So, when the cpu requests the memory controller to write a word with
--- 
-2.18.1
+It's been another week and nobody has complained, so I'm taking that as
+assent; the series has been applied.
 
+Thanks,
+
+jon
