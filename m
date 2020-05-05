@@ -6,119 +6,112 @@ X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A47C47258
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 03:38:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B628C47258
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 04:08:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7732206B9
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 03:38:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64C9220737
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 04:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588649933;
-	bh=WleWfKBPa+MkRl/FG3wti/YoY+kMD9A34Q+HR1DP3rQ=;
+	s=default; t=1588651698;
+	bh=uzzMCgqE/O5IIYjUlJGPkxkNrxePxpFGbx62v87B1yk=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=hF00uaJEDi36yP+fJ8Fg4PSAYEFVrKNf2CH7x31roxycQZQ6Hz2PERSR7gSx1vOJb
-	 IUMtnMT+L2mfd/fxp/DfZwWBKmL4A0bgh9jG3wySVCDNyXcgLu3TYkEiQiQleJUiz5
-	 I9KFuATQYnQIFG5+59hXJdphE6NrCFuN1qOoj+54=
+	b=qakXqGmV6MMOD516kQDf4uJPl1Io6OWLxgERpBu0MFkBysHeSwWmZv3zj5vERyrN5
+	 xJVCVrMCY50s2KUdkhGGVehSsUHcdgkUO/LGL2lnbJcMqyz1sW8MQOeuJ54+pe+Y+4
+	 uHGYwpqsQzsJXlm+pCwYuQ/rFEZIiXp33V6JO2vk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727931AbgEEDit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 May 2020 23:38:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33694 "EHLO mail.kernel.org"
+        id S1725320AbgEEEIL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 00:08:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45308 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726516AbgEEDit (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 May 2020 23:38:49 -0400
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+        id S1725272AbgEEEIL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 May 2020 00:08:11 -0400
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C9A85206C0;
-        Tue,  5 May 2020 03:38:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 319202087E;
+        Tue,  5 May 2020 04:08:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588649928;
-        bh=WleWfKBPa+MkRl/FG3wti/YoY+kMD9A34Q+HR1DP3rQ=;
+        s=default; t=1588651690;
+        bh=uzzMCgqE/O5IIYjUlJGPkxkNrxePxpFGbx62v87B1yk=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=K5ON/HlTRAOgZfICZStefBx9lSbbPAA/K41KBb6cQhnqBrxIfWS7RgsgoLd6bRp+4
-         es1t31rnYIc8wSXooFrN8rt79VrEE1IpY1XLMVTIFVQ12GUx8lwZ1abK3Am/jr0ury
-         Nn6dtP0nMtx/Xa8qTkaFw2Xz15Rp+vdVKYrlf6fc=
-Received: by mail-oi1-f180.google.com with SMTP id i13so653912oie.9;
-        Mon, 04 May 2020 20:38:48 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZBTWSIQYC9UVa7TzpcrqKtA0PPuM2Gclr6xCG9b1fLumxBMnvv
-        uOKRh0ubUzO/dJiTYM9M1GPSXeZSGGrmjhBwnQ==
-X-Google-Smtp-Source: APiQypJX/QBWcGSuKqJEYGbDCnCt9bfCz9J9QX5Sgmjocbi6uqgC3ZjAszhb1FEmMEDJgFCqouxVRe7nnk6bhzFmOxk=
-X-Received: by 2002:a05:6808:356:: with SMTP id j22mr1180434oie.147.1588649928152;
- Mon, 04 May 2020 20:38:48 -0700 (PDT)
+        b=BN6Cy/3HpCwbAGqGdvC+qqnnmWcpBeTMOV+avy7c5MqADF8o2RkgcRkJzIQXdsCsk
+         1Afk3jIt/KQM3TnQcStiKfqzuLsewX65wxQohWJds/+9oXyCCJshgXhqgUpXBb3dvp
+         Pj9E/11iNOGPIQykmHB/KEKg0M4b5I2GMOZkNt/o=
+Received: by mail-ot1-f54.google.com with SMTP id m13so561394otf.6;
+        Mon, 04 May 2020 21:08:10 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYCc8W08LyWksuW5sQZqz/19WrYFFaUhJea7EHP7Nd0bFUJ8bMP
+        TH24vvr7k6O4ssDpVm8Cn3ceMFQOC52xr3mHaw==
+X-Google-Smtp-Source: APiQypKr0Hhrl0+e44U31hazXs0o4bScaIuGYf4nCgkUWwDdJ4zYt2nRLPemlwjIE7S1TGeNHXWRAj+I7RpOjlh+8dk=
+X-Received: by 2002:a9d:7d85:: with SMTP id j5mr690540otn.107.1588651689440;
+ Mon, 04 May 2020 21:08:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1586961793.git.mchehab+huawei@kernel.org>
-In-Reply-To: <cover.1586961793.git.mchehab+huawei@kernel.org>
+References: <967df5c3303b478b76199d4379fe40f5094f3f9b.1588584538.git.mchehab+huawei@kernel.org>
+ <20200504174522.GA3383@ravnborg.org> <20200504175553.jdm7a7aabloevxba@pengutronix.de>
+In-Reply-To: <20200504175553.jdm7a7aabloevxba@pengutronix.de>
 From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 4 May 2020 22:38:37 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJxKoe0rk_JT1KO38gAcgw6nLVqQM65urc_aOYjXEb55g@mail.gmail.com>
-Message-ID: <CAL_JsqJxKoe0rk_JT1KO38gAcgw6nLVqQM65urc_aOYjXEb55g@mail.gmail.com>
-Subject: Re: [PATCH v3 00/12] Convert some DT documentation files to ReST
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Date:   Mon, 4 May 2020 23:07:57 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJuRrhEtt5uxaQ=7WvDKiF_2v025GiYUvrrFE5jxBr-Xg@mail.gmail.com>
+Message-ID: <CAL_JsqJuRrhEtt5uxaQ=7WvDKiF_2v025GiYUvrrFE5jxBr-Xg@mail.gmail.com>
+Subject: Re: [PATCH] docs: dt: fix broken links due to txt->yaml renames
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc:     Linux-ALSA <alsa-devel@alsa-project.org>,
+        Olivier Moysan <olivier.moysan@st.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:MIPS" <linux-mips@vger.kernel.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Joe Perches <joe@perches.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jianxin Pan <jianxin.pan@amlogic.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        devicetree@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>, Jyri Sarha <jsarha@ti.com>,
+        Mark Brown <broonie@kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Christian Hewitt <christianshewitt@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Andy Whitcroft <apw@canonical.com>, devicetree@vger.kernel.org,
-        Harry Wei <harryxiyou@gmail.com>,
-        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
-        Frank Rowand <frowand.list@gmail.com>
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 9:45 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Mon, May 4, 2020 at 12:56 PM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
 >
-> While most of the devicetree stuff has its own format (with is now being
-> converted to YAML format), some documents there are actually
-> describing the DT concepts and how to contribute to it.
+> Hi Sam,
 >
-> IMHO, those documents would fit perfectly as part of the documentation
-> body, as part of the firmare documents set.
->
-> This patch series manually converts some DT documents that, on my
-> opinion, would belong to it.
->
-> If you want to see how this would show at the documentation body,
-> a sneak peak of this series (together with the other pending
-> doc patches from me) is available at:
->
->         https://www.infradead.org/~mchehab/kernel_docs/devicetree/index.html
->
-> -
->
-> v3:
->    - rebased on the top of next-20200414
->
-> Mauro Carvalho Chehab (12):
->   docs: dt: add an index.rst file for devicetree
->   docs: dt: convert usage-model.txt to ReST
->   docs: dt: usage_model.rst: fix link for DT usage
->   docs: dt: convert booting-without-of.txt to ReST format
->   docs: dt: convert changesets to ReST
->   docs: dt: convert dynamic-resolution-notes.txt to ReST
->   docs: dt: convert of_unittest.txt to ReST
->   docs: dt: convert overlay-notes.txt to ReST format
->   docs: dt: minor adjustments at writing-schema.rst
->   docs: dt: convert ABI.txt to ReST format
->   docs: dt: convert submitting-patches.txt to ReST format
->   docs: dt: convert writing-bindings.txt to ReST
+> On Mon, May 04, 2020 at 07:45:22PM +0200, Sam Ravnborg wrote:
+> > On Mon, May 04, 2020 at 11:30:20AM +0200, Mauro Carvalho Chehab wrote:
+> > > There are some new broken doc links due to yaml renames
+> > > at DT. Developers should really run:
+> > >
+> > >     ./scripts/documentation-file-ref-check
+> > >
+> > > in order to solve those issues while submitting patches.
+> > Would love if some bot could do this for me on any patches that creates
+> > .yaml files or so.
+> > I know I will forget this and it can be automated.
+> > If I get a bot mail that my patch would broke a link I would
+> > have it fixed before it hits any tree.
 
-I've applied all but patch 4 as I'm working on just removing it.
+I can probably add this to what I'm already checking. Not completely
+automated though as it depends on me to review before sending.
+
+> What about adding a check to check_patch?
+
+That would be the best way to get submitters to do this.
 
 Rob
