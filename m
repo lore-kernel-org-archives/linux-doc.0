@@ -6,37 +6,36 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 161F2C47257
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:44:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CFB8C47254
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:46:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 013622073B
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:44:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBBA9206B9
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:46:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730504AbgEEPor (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 11:44:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34918 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729510AbgEEPor (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 11:44:47 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73655C061A0F;
-        Tue,  5 May 2020 08:44:47 -0700 (PDT)
+        id S1730448AbgEEPqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 11:46:34 -0400
+Received: from ms.lwn.net ([45.79.88.28]:50200 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729666AbgEEPqe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 May 2020 11:46:34 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E518A31A;
-        Tue,  5 May 2020 15:44:46 +0000 (UTC)
-Date:   Tue, 5 May 2020 09:44:45 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id A864E31A;
+        Tue,  5 May 2020 15:46:33 +0000 (UTC)
+Date:   Tue, 5 May 2020 09:46:32 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Vitor Massaru Iha <vitor@massaru.org>
-Cc:     linux-doc@vger.kernel.org, mchehab@kernel.org,
-        linux-kernel@vger.kernel.org, brendanhiggins@google.com,
-        skhan@linuxfoundation.org,
+Cc:     linux-doc@vger.kernel.org, akrowiak@linux.ibm.com,
+        pmorel@linux.ibm.com, pasic@linux.ibm.com,
+        heiko.carstens@de.ibm.com, gor@linux.ibm.com,
+        borntraeger@de.ibm.com, linux-kernel@vger.kernel.org,
+        brendanhiggins@google.com, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] docs: coresight: fix `make htmldocs` warning
-Message-ID: <20200505094445.77248c5c@lwn.net>
-In-Reply-To: <20200430203612.90404-1-vitor@massaru.org>
-References: <20200430203612.90404-1-vitor@massaru.org>
+Subject: Re: [PATCH] docs: s390: Fix wrong label Guest2 instead of Guest3
+Message-ID: <20200505094632.0d34f72b@lwn.net>
+In-Reply-To: <20200430221238.101838-1-vitor@massaru.org>
+References: <20200430221238.101838-1-vitor@massaru.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,29 +45,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 Apr 2020 17:36:12 -0300
+On Thu, 30 Apr 2020 19:12:38 -0300
 Vitor Massaru Iha <vitor@massaru.org> wrote:
 
-> Fix `make htmldocs` warning:
+> This fixes:
 > 
-> Documentation/trace/coresight/coresight-ect.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> Documentation/s390/vfio-ap.rst:488: WARNING: duplicate label s390/vfio-ap:guest2, other instance in /home/iha/sdb/opensource/lkmp/linux_doc/Documentation/s390/vfio-ap.rst
 > 
 > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
 > ---
->  Documentation/trace/coresight/coresight-ect.rst | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/s390/vfio-ap.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/trace/coresight/coresight-ect.rst b/Documentation/trace/coresight/coresight-ect.rst
-> index ecc1e57012ef..a93e52abcf46 100644
-> --- a/Documentation/trace/coresight/coresight-ect.rst
-> +++ b/Documentation/trace/coresight/coresight-ect.rst
-> @@ -1,4 +1,5 @@
->  .. SPDX-License-Identifier: GPL-2.0
-> +
->  =============================================
->  CoreSight Embedded Cross Trigger (CTI & CTM).
->  =============================================
+> diff --git a/Documentation/s390/vfio-ap.rst b/Documentation/s390/vfio-ap.rst
+> index b5c51f7c748d..367e27ec3c50 100644
+> --- a/Documentation/s390/vfio-ap.rst
+> +++ b/Documentation/s390/vfio-ap.rst
+> @@ -484,7 +484,7 @@ CARD.DOMAIN TYPE  MODE
+>  05.00ff     CEX5A Accelerator
+>  =========== ===== ============
+>  
+> -Guest2
+> +Guest3
+>  ------
+>  =========== ===== ============
+>  CARD.DOMAIN TYPE  MODE
 
 Applied, thanks.
+
+Note, though, that while the patch does "fix" the warning, what it really
+fixes is (as suggested in the subject) an incorrect heading; the warning
+was just a symptom.
 
 jon
