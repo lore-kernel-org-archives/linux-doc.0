@@ -2,37 +2,38 @@ Return-Path: <SRS0=+qdo=6T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B0AC47247
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:38:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A50BC47247
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:40:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3F63206B9
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:38:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45CF6206FA
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:40:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729561AbgEEPiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 11:38:06 -0400
-Received: from ms.lwn.net ([45.79.88.28]:50146 "EHLO ms.lwn.net"
+        id S1729663AbgEEPkI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 11:40:08 -0400
+Received: from ms.lwn.net ([45.79.88.28]:50152 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729380AbgEEPiG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 May 2020 11:38:06 -0400
+        id S1729317AbgEEPkI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 May 2020 11:40:08 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0C98A31A;
-        Tue,  5 May 2020 15:38:06 +0000 (UTC)
-Date:   Tue, 5 May 2020 09:38:04 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 45E12737;
+        Tue,  5 May 2020 15:40:08 +0000 (UTC)
+Date:   Tue, 5 May 2020 09:40:07 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Qi Zheng <arch0.zheng@gmail.com>
-Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kobject: documentation: Fix erroneous function example
- in kobject doc.
-Message-ID: <20200505093804.6d39abef@lwn.net>
-In-Reply-To: <20200505061828.42952-1-arch0.zheng@gmail.com>
-References: <20200505061828.42952-1-arch0.zheng@gmail.com>
+To:     Wolfram Sang <wsa@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] watchdog: update email address in conversion doc
+Message-ID: <20200505094007.5449d2d2@lwn.net>
+In-Reply-To: <20200502143103.19473-1-wsa@kernel.org>
+References: <20200502143103.19473-1-wsa@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,19 +43,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  5 May 2020 14:18:28 +0800
-Qi Zheng <arch0.zheng@gmail.com> wrote:
+On Sat,  2 May 2020 16:30:58 +0200
+Wolfram Sang <wsa@kernel.org> wrote:
 
-> Update the definitions of some functions listed in the kobject
-> document, since they have been changed.
+> The old one is defunct. However, I think it makes sense that I am still
+> the primary contact person for updates here.
 > 
-> Signed-off-by: Qi Zheng <arch0.zheng@gmail.com>
+> Signed-off-by: Wolfram Sang <wsa@kernel.org>
+> ---
+> 
+> ... if there will be any. Let me know if you agree.
+> 
+>  Documentation/watchdog/convert_drivers_to_kernel_api.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/watchdog/convert_drivers_to_kernel_api.rst b/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+> index dd934cc08e40..b972ef4c7cff 100644
+> --- a/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+> +++ b/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+> @@ -2,7 +2,7 @@
+>  Converting old watchdog drivers to the watchdog framework
+>  =========================================================
+>  
+> -by Wolfram Sang <w.sang@pengutronix.de>
+> +by Wolfram Sang <wsa@kernel.org>
 
-I've applied this since it's an improvement on the original.  The proper
-fix, though, is to bring in the nice kerneldoc comments that those
-functions have rather than trying to maintain another copy of that
-information.
-
-Thanks,
+Applied, thanks.
 
 jon
