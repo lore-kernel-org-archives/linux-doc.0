@@ -2,164 +2,124 @@ Return-Path: <SRS0=+qdo=6T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D18C47247
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 22:31:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B539BC47259
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 22:44:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D1F6B206FA
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 22:31:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 943BD2073B
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 22:44:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YOLnVZG2"
+	dkim=pass (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="oiObcX6j"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729229AbgEEWbO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 18:31:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42178 "EHLO
+        id S1729170AbgEEWoI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 18:44:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728875AbgEEWbO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 18:31:14 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D7DCC061A0F
-        for <linux-doc@vger.kernel.org>; Tue,  5 May 2020 15:31:14 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id f8so161399plt.2
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2020 15:31:14 -0700 (PDT)
+        with ESMTP id S1727989AbgEEWoH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 18:44:07 -0400
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8217EC061A10
+        for <linux-doc@vger.kernel.org>; Tue,  5 May 2020 15:44:07 -0700 (PDT)
+Received: by mail-qv1-xf44.google.com with SMTP id fb4so118317qvb.7
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2020 15:44:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2xxVztmNYqOGfjjdgr4754NPPqPnQ38+rwBroaQlUMI=;
-        b=YOLnVZG2/hq4lTk59fWo+fRGNhnSnVIsi7eSgGm1NIlRpfElJK1gZjV2pzJjHSLTMx
-         DSQZSG5Kz2uif3xFuLyv4H8KeOE6KVw5+9paaylOxI9dSf3IOYfaEFJGtJHrHGefxTBt
-         4CtdqD3u+ZAW6E9+5UoxrSeSbjj6Os2TNffLe60CNTwbzNqfAEKQ9yL/6SmC29ap7X4a
-         6DWKkcMRxznVf4f9wIDD8/IHorxf6vUJYWzejerjtAXSqym783ByP6sxQLA1UHj8+7kW
-         JPvE9NmZuZwlgif3BRDodLj/A9/cAyJJxT2/1xobZ3B8vBqPwKfvfu2l5C6bhSjH1gck
-         sDIQ==
+        d=massaru-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=C76LIzi+5JEntbZy/qpJ0FbBUCkVF2NVl+l3fJXGdsQ=;
+        b=oiObcX6jBSeqxuVh18DxaP4VKpyAStp5GGdizA7cYt7WmM6dWbuGQxBEL+VVoIUoDS
+         ku8zmELuSS6v2qq/ewa5IGUmKfU1iJyBxNXu5tieOc9Fg7O/h6ARn4CbxdSx3sngwN7P
+         EEXC+owDs1Gi0O0EncsKBljKwVT4X2TuPXsU1rFQgyxcqNF9LjhT02wYkxMfR8aUXww7
+         p6+++CupbZ6LKHySeJgjAwRgwXZbB1Kin250GH4Raw+JGTZMtxqoUDIWW18Zst6JPlnq
+         xpCTHnxhduEM9lWP+uY1GPfZ458TP3yzoWOnG3LUPTIbN+CX5FTJVLp25HD2Jh/Ebus7
+         KYjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2xxVztmNYqOGfjjdgr4754NPPqPnQ38+rwBroaQlUMI=;
-        b=D22AwTlgVOuMpaJBh336PfZGoFp6vzXYyoDV9oQVeCSyteOEcjkKqM4fnYkoTGHntN
-         bZZnn6ncDwgnAxV9kIu04UeB2P2pueR5iKlnRcvBliQpd1k5wF5JdrdvFHKadOVC6LHe
-         WaE4BXDNQfr+S1GKsENCFt5n8X7C20503ev0SDXqdG5jEIliotcMaCZ2PmGUxH3A55YF
-         U+MOWUc3Gft160TCmShTODSc3E5v5bRTkpp9xgsLE5BgEb1cwieUsoWvQXgSsLEqms/t
-         vSJzIcc6D9oucr1aLiHuNbWaivmq1j+V+CnCaswp6ANouDx6ryQfR+Ym+pZoT20YZBOd
-         oQkQ==
-X-Gm-Message-State: AGi0PuZpDakmLRoTW9GS1ocZR9dfqJ/HjUUbQyrjLkdxe8S/kd0WbC2m
-        cxpSWzNA68AuvUQashUqL9UdHQ==
-X-Google-Smtp-Source: APiQypJHrrWRceS8FL3Aju2CNIXlXPSdxYOC4I/MK875YORMTPVfM/fqE6Z6Jsxub4yjtZa2sGwkLA==
-X-Received: by 2002:a17:90b:957:: with SMTP id dw23mr5793353pjb.101.1588717873532;
-        Tue, 05 May 2020 15:31:13 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id g16sm20985pfq.203.2020.05.05.15.31.12
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=C76LIzi+5JEntbZy/qpJ0FbBUCkVF2NVl+l3fJXGdsQ=;
+        b=TWgH+aYv568m79Ic44zXAOWA2qWHnrKbyrstpcKDqG2DYyb37NdZxmKOge7p9NvyJ5
+         JIESfTyvL5MO9FI6u/qJZLR2dYgSBdji5O9YDvRDmySyH5/nXqZghNIwuqGHfFrBgCgK
+         4sNh+Krt4Qab9XJtdDjGalH0mHsN2O9QcfxmZR/jQa/yTz75hEcxa2RQBJWedIw8Gi1m
+         oSXZoKhOkdTlZyQAIFJjKtVj5dxGzftZbieaCceYSo5uU5qRS/QSWy9X+gQfjY+/ctQe
+         TiaMjvChD9/9nIIinXpdvnjyjjI6omE+I2Y1zSqT6CIdfwFTzNSf3KknnXmLgKhXRQcL
+         yxXQ==
+X-Gm-Message-State: AGi0PuaLWaFHnPhOVVkN9y5NK9IwpqTFa+bHmJ2Xtb7MeZ2o8MPslM31
+        Z3qTweCJcmQ7GbYqnOyhRK5h0w==
+X-Google-Smtp-Source: APiQypLneX5+0+lcyzB0u8ws0ZzKSXPK5claKysblIbIb96NIdVrq1gVior7r/FubUDA45y7URkDvw==
+X-Received: by 2002:ad4:55a5:: with SMTP id f5mr5000177qvx.133.1588718646066;
+        Tue, 05 May 2020 15:44:06 -0700 (PDT)
+Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
+        by smtp.gmail.com with ESMTPSA id u11sm3058126qtj.10.2020.05.05.15.44.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 15:31:12 -0700 (PDT)
-Date:   Tue, 5 May 2020 15:31:58 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     ohad@wizery.com, loic.pallardy@st.com, arnaud.pouliquen@st.com,
-        s-anna@ti.com, linux-remoteproc@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 02/14] remoteproc: Introduce function
- rproc_alloc_internals()
-Message-ID: <20200505223158.GB2329931@builder.lan>
-References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
- <20200424200135.28825-3-mathieu.poirier@linaro.org>
+        Tue, 05 May 2020 15:44:05 -0700 (PDT)
+Message-ID: <c092c2f7659d344744bd4400bccc2bb6f774b998.camel@massaru.org>
+Subject: Re: [PATCH] docs: s390: Fix wrong label Guest2 instead of Guest3
+From:   Vitor Massaru Iha <vitor@massaru.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, akrowiak@linux.ibm.com,
+        pmorel@linux.ibm.com, pasic@linux.ibm.com,
+        heiko.carstens@de.ibm.com, gor@linux.ibm.com,
+        borntraeger@de.ibm.com, linux-kernel@vger.kernel.org,
+        brendanhiggins@google.com, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Date:   Tue, 05 May 2020 19:44:01 -0300
+In-Reply-To: <20200505094632.0d34f72b@lwn.net>
+References: <20200430221238.101838-1-vitor@massaru.org>
+         <20200505094632.0d34f72b@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200424200135.28825-3-mathieu.poirier@linaro.org>
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 24 Apr 13:01 PDT 2020, Mathieu Poirier wrote:
-
-> In scenarios where the remote processor's lifecycle is entirely
-> managed by another entity there is no point in allocating memory for
-> a firmware name since it will never be used.  The same goes for a core
-> set of operations.
+On Tue, 2020-05-05 at 09:46 -0600, Jonathan Corbet wrote:
+> On Thu, 30 Apr 2020 19:12:38 -0300
+> Vitor Massaru Iha <vitor@massaru.org> wrote:
 > 
-> As such introduce function rproc_alloc_internals() to decide if the
-> allocation of a firmware name and the core operations need to be done.
-> That way rproc_alloc() can be kept as clean as possible.
+> > This fixes:
+> > 
+> > Documentation/s390/vfio-ap.rst:488: WARNING: duplicate label
+> > s390/vfio-ap:guest2, other instance in
+> > /home/iha/sdb/opensource/lkmp/linux_doc/Documentation/s390/vfio-
+> > ap.rst
+> > 
+> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> > ---
+> >  Documentation/s390/vfio-ap.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/s390/vfio-ap.rst
+> > b/Documentation/s390/vfio-ap.rst
+> > index b5c51f7c748d..367e27ec3c50 100644
+> > --- a/Documentation/s390/vfio-ap.rst
+> > +++ b/Documentation/s390/vfio-ap.rst
+> > @@ -484,7 +484,7 @@ CARD.DOMAIN TYPE  MODE
+> >  05.00ff     CEX5A Accelerator
+> >  =========== ===== ============
+> >  
+> > -Guest2
+> > +Guest3
+> >  ------
+> >  =========== ===== ============
+> >  CARD.DOMAIN TYPE  MODE
 > 
-> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> ---
->  drivers/remoteproc/remoteproc_core.c | 31 +++++++++++++++++++++++-----
->  1 file changed, 26 insertions(+), 5 deletions(-)
+> Applied, thanks.
 > 
-> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-> index 448262470fc7..1b4756909584 100644
-> --- a/drivers/remoteproc/remoteproc_core.c
-> +++ b/drivers/remoteproc/remoteproc_core.c
-> @@ -2076,6 +2076,30 @@ static int rproc_alloc_ops(struct rproc *rproc, const struct rproc_ops *ops)
->  	return 0;
->  }
->  
-> +static int rproc_alloc_internals(struct rproc *rproc,
-> +				 const struct rproc_ops *ops,
-> +				 const char *name, const char *firmware)
-> +{
-> +	int ret;
-> +
-> +	/*
-> +	 * In scenarios where the remote processor's lifecycle is entirely
-> +	 * managed by another entity there is no point in carrying a set
-> +	 * of operations that will never be used.
-> +	 *
-> +	 * And since no firmware will ever be loaded, there is no point in
-> +	 * allocating memory for it either.
+> Note, though, that while the patch does "fix" the warning, what it
+> really
+> fixes is (as suggested in the subject) an incorrect heading; the
+> warning
+> was just a symptom.
 
-While this is true, I would expect that there are cases where the
-remoteproc has ops but no firmware.
-
-How about splitting this decision already now; i.e. moving the if(!ops)
-to rproc_alloc_ops() and perhaps only allocate firmware if ops->load is
-specified?
-
-Regards,
-Bjorn
-
-> +	 */
-> +	if (!ops)
-> +		return 0;
-> +
-> +	ret = rproc_alloc_firmware(rproc, name, firmware);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return rproc_alloc_ops(rproc, ops);
-> +}
-> +
->  /**
->   * rproc_alloc() - allocate a remote processor handle
->   * @dev: the underlying device
-> @@ -2105,7 +2129,7 @@ struct rproc *rproc_alloc(struct device *dev, const char *name,
->  {
->  	struct rproc *rproc;
->  
-> -	if (!dev || !name || !ops)
-> +	if (!dev || !name)
->  		return NULL;
->  
->  	rproc = kzalloc(sizeof(struct rproc) + len, GFP_KERNEL);
-> @@ -2128,10 +2152,7 @@ struct rproc *rproc_alloc(struct device *dev, const char *name,
->  	if (!rproc->name)
->  		goto put_device;
->  
-> -	if (rproc_alloc_firmware(rproc, name, firmware))
-> -		goto put_device;
-> -
-> -	if (rproc_alloc_ops(rproc, ops))
-> +	if (rproc_alloc_internals(rproc, ops, name, firmware))
->  		goto put_device;
->  
->  	/* Assign a unique device index and name */
-> -- 
-> 2.20.1
+Thanks Jon, I will be careful about that.
 > 
+> jon
+
