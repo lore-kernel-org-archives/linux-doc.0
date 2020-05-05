@@ -2,79 +2,91 @@ Return-Path: <SRS0=+qdo=6T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CFB8C47254
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8094BC47254
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:48:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBBA9206B9
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:46:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5131820838
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:48:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pexb9f2U"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730448AbgEEPqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 11:46:34 -0400
-Received: from ms.lwn.net ([45.79.88.28]:50200 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729666AbgEEPqe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 May 2020 11:46:34 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A864E31A;
-        Tue,  5 May 2020 15:46:33 +0000 (UTC)
-Date:   Tue, 5 May 2020 09:46:32 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Vitor Massaru Iha <vitor@massaru.org>
-Cc:     linux-doc@vger.kernel.org, akrowiak@linux.ibm.com,
-        pmorel@linux.ibm.com, pasic@linux.ibm.com,
-        heiko.carstens@de.ibm.com, gor@linux.ibm.com,
-        borntraeger@de.ibm.com, linux-kernel@vger.kernel.org,
-        brendanhiggins@google.com, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] docs: s390: Fix wrong label Guest2 instead of Guest3
-Message-ID: <20200505094632.0d34f72b@lwn.net>
-In-Reply-To: <20200430221238.101838-1-vitor@massaru.org>
-References: <20200430221238.101838-1-vitor@massaru.org>
-Organization: LWN.net
+        id S1729729AbgEEPsX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 11:48:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35534 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729510AbgEEPsX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 11:48:23 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F1EC061A0F;
+        Tue,  5 May 2020 08:48:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=OusNCOqemtoO4geSkrjF3iyDZazZu9c7fA42HGUJsLA=; b=pexb9f2UBa1sTSKB+3uC1VGFed
+        ccq0bPqD/XU4okEaJLLyeYAXzZf1T4lyxVGzb8NBxRvfKga8SVd1emR4PGIh2xelx+5K1leFfqvCg
+        WyZAIUxkeJrdI5PbCOU0qpviOJsx7v8IHFP57w2gk78YAPtBeoOFm1UJj3NnWfZJLEuwMiCz3zQVp
+        iS+t/ZSU+DX1cdPtLB2ZbqAnergroRMXA6//1AqzAH9qki0MuobmApf2rOMpc9Kz7j9euh7NncnUI
+        PZy/KEbdOeW90aCrkwGl/nnt0fORL9AOpe8moBrixx80s1m36DOdaAGwuQeDqsDc7tUDosDBJiVsG
+        mEgLoGEA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jVzns-0000ON-QN; Tue, 05 May 2020 15:48:17 +0000
+Date:   Tue, 5 May 2020 08:48:16 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>,
+        linux-edac@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc: Fix some typo errors in ras.rst
+Message-ID: <20200505154816.GH16070@bombadil.infradead.org>
+References: <20200505151049.11134-1-longman@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200505151049.11134-1-longman@redhat.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 Apr 2020 19:12:38 -0300
-Vitor Massaru Iha <vitor@massaru.org> wrote:
+On Tue, May 05, 2020 at 11:10:49AM -0400, Waiman Long wrote:
+> Fix typo errors.
 
-> This fixes:
-> 
-> Documentation/s390/vfio-ap.rst:488: WARNING: duplicate label s390/vfio-ap:guest2, other instance in /home/iha/sdb/opensource/lkmp/linux_doc/Documentation/s390/vfio-ap.rst
-> 
-> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> ---
->  Documentation/s390/vfio-ap.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/s390/vfio-ap.rst b/Documentation/s390/vfio-ap.rst
-> index b5c51f7c748d..367e27ec3c50 100644
-> --- a/Documentation/s390/vfio-ap.rst
-> +++ b/Documentation/s390/vfio-ap.rst
-> @@ -484,7 +484,7 @@ CARD.DOMAIN TYPE  MODE
->  05.00ff     CEX5A Accelerator
->  =========== ===== ============
+By reformatting it, you've successfully obscured what typos you've fixed.
+As a result I read the whole paragraph, and ...
+
+>  ECC memory
+>  ----------
 >  
-> -Guest2
-> +Guest3
->  ------
->  =========== ===== ============
->  CARD.DOMAIN TYPE  MODE
+> -As mentioned on the previous section, ECC memory has extra bits to be
+> -used for error correction. So, on 64 bit systems, a memory module
+> -has 64 bits of *data width*, and 74 bits of *total width*. So, there are
+> -8 bits extra bits to be used for the error detection and correction
+> +As mentioned on the previous section, ECC memory has extra bits to
 
-Applied, thanks.
+s/on/in/
 
-Note, though, that while the patch does "fix" the warning, what it really
-fixes is (as suggested in the subject) an incorrect heading; the warning
-was just a symptom.
+> +be used for error correction. So, on 64 bit systems, a memory module
+> +has 64 bits of *data width*, and 72 bits of *total width*.
 
-jon
+Usually a 64-bit system refers to the width of a pointer.  Here, it's
+referring to the width of the memory system, which is rather confusing.
+How about "In the above example" instead of "So, on 64 bit systems".
+
+> So, there
+> +are 8 extra bits to be used for the error detection and correction
+>  mechanisms. Those extra bits are called *syndrome*\ [#f1]_\ [#f2]_.
+
+This would read better as:
+
+The extra 8 bits which are used for error detection and correction
+are referred to as the *syndrome*\ [#f1]_\ [#f2]_.
+
