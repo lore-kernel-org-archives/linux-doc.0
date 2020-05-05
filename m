@@ -2,40 +2,37 @@ Return-Path: <SRS0=+qdo=6T=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52451C4725C
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:33:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B0AC47247
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:38:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3398721655
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:33:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3F63206B9
+	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 15:38:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730312AbgEEPdF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 11:33:05 -0400
-Received: from ms.lwn.net ([45.79.88.28]:50126 "EHLO ms.lwn.net"
+        id S1729561AbgEEPiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 11:38:06 -0400
+Received: from ms.lwn.net ([45.79.88.28]:50146 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730294AbgEEPdA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 May 2020 11:33:00 -0400
+        id S1729380AbgEEPiG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 May 2020 11:38:06 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D6C1331A;
-        Tue,  5 May 2020 15:32:59 +0000 (UTC)
-Date:   Tue, 5 May 2020 09:32:58 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 0C98A31A;
+        Tue,  5 May 2020 15:38:06 +0000 (UTC)
+Date:   Tue, 5 May 2020 09:38:04 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>,
-        linux-edac@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: Fix some typo errors in ras.rst
-Message-ID: <20200505093258.77d052f5@lwn.net>
-In-Reply-To: <20200505151049.11134-1-longman@redhat.com>
-References: <20200505151049.11134-1-longman@redhat.com>
+To:     Qi Zheng <arch0.zheng@gmail.com>
+Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kobject: documentation: Fix erroneous function example
+ in kobject doc.
+Message-ID: <20200505093804.6d39abef@lwn.net>
+In-Reply-To: <20200505061828.42952-1-arch0.zheng@gmail.com>
+References: <20200505061828.42952-1-arch0.zheng@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,39 +42,18 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  5 May 2020 11:10:49 -0400
-Waiman Long <longman@redhat.com> wrote:
+On Tue,  5 May 2020 14:18:28 +0800
+Qi Zheng <arch0.zheng@gmail.com> wrote:
 
-> Fix typo errors.
+> Update the definitions of some functions listed in the kobject
+> document, since they have been changed.
 > 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  Documentation/admin-guide/ras.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/ras.rst
-> index 0310db624964..8b1803b2606f 100644
-> --- a/Documentation/admin-guide/ras.rst
-> +++ b/Documentation/admin-guide/ras.rst
-> @@ -156,10 +156,10 @@ the labels provided by the BIOS won't match the real ones.
->  ECC memory
->  ----------
->  
-> -As mentioned on the previous section, ECC memory has extra bits to be
-> -used for error correction. So, on 64 bit systems, a memory module
-> -has 64 bits of *data width*, and 74 bits of *total width*. So, there are
-> -8 bits extra bits to be used for the error detection and correction
-> +As mentioned on the previous section, ECC memory has extra bits to
-> +be used for error correction. So, on 64 bit systems, a memory module
-> +has 64 bits of *data width*, and 72 bits of *total width*. So, there
-> +are 8 extra bits to be used for the error detection and correction
->  mechanisms. Those extra bits are called *syndrome*\ [#f1]_\ [#f2]_.
+> Signed-off-by: Qi Zheng <arch0.zheng@gmail.com>
 
-So I had to work to figure out what the change was, since you didn't say
-in the changelog and you refilled the paragraph.  But this looks like a
-*factual* error, giving the wrong number of bits, right?  It seems like
-the changelog should say that.  Do the people who know about this stuff
-agree that the change is correct?
+I've applied this since it's an improvement on the original.  The proper
+fix, though, is to bring in the nice kerneldoc comments that those
+functions have rather than trying to maintain another copy of that
+information.
 
 Thanks,
 
