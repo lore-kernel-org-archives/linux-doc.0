@@ -1,125 +1,188 @@
-Return-Path: <SRS0=+qdo=6T=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=EZYx=6U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B539BC47259
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 22:44:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA05C47247
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 00:22:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 943BD2073B
-	for <linux-doc@archiver.kernel.org>; Tue,  5 May 2020 22:44:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09C69206B8
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 00:22:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="oiObcX6j"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Zdz3xM+E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729170AbgEEWoI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 18:44:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44166 "EHLO
+        id S1729170AbgEFAWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 20:22:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727989AbgEEWoH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 18:44:07 -0400
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8217EC061A10
-        for <linux-doc@vger.kernel.org>; Tue,  5 May 2020 15:44:07 -0700 (PDT)
-Received: by mail-qv1-xf44.google.com with SMTP id fb4so118317qvb.7
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2020 15:44:07 -0700 (PDT)
+        with ESMTP id S1728642AbgEFAWJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 20:22:09 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F58C061A10
+        for <linux-doc@vger.kernel.org>; Tue,  5 May 2020 17:22:09 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id m7so256718plt.5
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2020 17:22:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=massaru-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=C76LIzi+5JEntbZy/qpJ0FbBUCkVF2NVl+l3fJXGdsQ=;
-        b=oiObcX6jBSeqxuVh18DxaP4VKpyAStp5GGdizA7cYt7WmM6dWbuGQxBEL+VVoIUoDS
-         ku8zmELuSS6v2qq/ewa5IGUmKfU1iJyBxNXu5tieOc9Fg7O/h6ARn4CbxdSx3sngwN7P
-         EEXC+owDs1Gi0O0EncsKBljKwVT4X2TuPXsU1rFQgyxcqNF9LjhT02wYkxMfR8aUXww7
-         p6+++CupbZ6LKHySeJgjAwRgwXZbB1Kin250GH4Raw+JGTZMtxqoUDIWW18Zst6JPlnq
-         xpCTHnxhduEM9lWP+uY1GPfZ458TP3yzoWOnG3LUPTIbN+CX5FTJVLp25HD2Jh/Ebus7
-         KYjQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ZvtFEnMi2NJUvYOA1hwzrk2/9S5POTyl8kbWV2Gm77s=;
+        b=Zdz3xM+ELRXpwtak30Fv1xijJe4qxJHC2SV4aWG7BDk+yT4JmAW1WWkgyZwupaSQxp
+         4gY9CuZXwkSbCLt47HLwSHMRm9z6EA/zuvXpth2ltBtV1JcsbdvUNtF4lnxzs21aZxmj
+         qxtNLQurjkXFLAiIuOYlVEYA5Ez13CEKfKk3PSTZKLeE+MPBnAecfB5cGfO5hjxWBNNi
+         yoAZKsMBB+4mBdk3ciERe8OUrLaSU8l+yL1flVMMmkwmbTdKg5ewjuJ0cmfFcZhszfSi
+         oXcZHIvrLeQ9/5acB/GUdxk+cdniuX0BTm+jWKPTWokDGWvz7d2p3veNfdUVMGbtgmwq
+         QaSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=C76LIzi+5JEntbZy/qpJ0FbBUCkVF2NVl+l3fJXGdsQ=;
-        b=TWgH+aYv568m79Ic44zXAOWA2qWHnrKbyrstpcKDqG2DYyb37NdZxmKOge7p9NvyJ5
-         JIESfTyvL5MO9FI6u/qJZLR2dYgSBdji5O9YDvRDmySyH5/nXqZghNIwuqGHfFrBgCgK
-         4sNh+Krt4Qab9XJtdDjGalH0mHsN2O9QcfxmZR/jQa/yTz75hEcxa2RQBJWedIw8Gi1m
-         oSXZoKhOkdTlZyQAIFJjKtVj5dxGzftZbieaCceYSo5uU5qRS/QSWy9X+gQfjY+/ctQe
-         TiaMjvChD9/9nIIinXpdvnjyjjI6omE+I2Y1zSqT6CIdfwFTzNSf3KknnXmLgKhXRQcL
-         yxXQ==
-X-Gm-Message-State: AGi0PuaLWaFHnPhOVVkN9y5NK9IwpqTFa+bHmJ2Xtb7MeZ2o8MPslM31
-        Z3qTweCJcmQ7GbYqnOyhRK5h0w==
-X-Google-Smtp-Source: APiQypLneX5+0+lcyzB0u8ws0ZzKSXPK5claKysblIbIb96NIdVrq1gVior7r/FubUDA45y7URkDvw==
-X-Received: by 2002:ad4:55a5:: with SMTP id f5mr5000177qvx.133.1588718646066;
-        Tue, 05 May 2020 15:44:06 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
-        by smtp.gmail.com with ESMTPSA id u11sm3058126qtj.10.2020.05.05.15.44.02
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZvtFEnMi2NJUvYOA1hwzrk2/9S5POTyl8kbWV2Gm77s=;
+        b=Q/yWG8zVSt5lPneZzBfPzMfTM4t96g5aXyQvKnyUmkO8cZ6T4ZqPXuknANGXehSGV4
+         ero5AsEd9bQQtnwT6AK3NE8XxVZNzrVdMCR0n9+p3KGPr2vtmO+rEUbXkIMzRf905H8b
+         Jd9RjeWM+SOYdlWvUhBSKvnr9tF5waWqPLzwxZO97HXfLLlZ4vipnfu12/cPIZcbgbmt
+         0Mgwt5gIW3xpcsaxIkZL/vQ7yyriNS7LFbMIwUXUiUhE9uXEcZ4P5sX9loiUw8oG8ZCu
+         N5+mvLgWPFcp5fihN8inMhTP3psaXhOsmcym/RY9tnHE4KidAvQ9GzKWvm8cUUkZgfzN
+         vt8A==
+X-Gm-Message-State: AGi0PuYbMIOg/+QYEwztWoStBut7+/VHKxx4ifZfyUd2mqKPGLG9GH1+
+        w0ECKyeBF/mHSErrgj3fdgMZEG45Uzc=
+X-Google-Smtp-Source: APiQypKrpyWM/cE9eGe5PqG/T8X+yvyTi490sZ35cs6fo0Qm93IrH4omnzbdzSKt4dzFh7cLSNaoYg==
+X-Received: by 2002:a17:90a:f404:: with SMTP id ch4mr6078272pjb.123.1588724528573;
+        Tue, 05 May 2020 17:22:08 -0700 (PDT)
+Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id x18sm21139pfi.22.2020.05.05.17.22.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 15:44:05 -0700 (PDT)
-Message-ID: <c092c2f7659d344744bd4400bccc2bb6f774b998.camel@massaru.org>
-Subject: Re: [PATCH] docs: s390: Fix wrong label Guest2 instead of Guest3
-From:   Vitor Massaru Iha <vitor@massaru.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, akrowiak@linux.ibm.com,
-        pmorel@linux.ibm.com, pasic@linux.ibm.com,
-        heiko.carstens@de.ibm.com, gor@linux.ibm.com,
-        borntraeger@de.ibm.com, linux-kernel@vger.kernel.org,
-        brendanhiggins@google.com, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Date:   Tue, 05 May 2020 19:44:01 -0300
-In-Reply-To: <20200505094632.0d34f72b@lwn.net>
-References: <20200430221238.101838-1-vitor@massaru.org>
-         <20200505094632.0d34f72b@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        Tue, 05 May 2020 17:22:07 -0700 (PDT)
+Date:   Tue, 5 May 2020 17:22:53 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc:     ohad@wizery.com, loic.pallardy@st.com, arnaud.pouliquen@st.com,
+        s-anna@ti.com, linux-remoteproc@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 03/14] remoteproc: Add new operation and flags for
+ synchronistation
+Message-ID: <20200506002253.GC2329931@builder.lan>
+References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
+ <20200424200135.28825-4-mathieu.poirier@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200424200135.28825-4-mathieu.poirier@linaro.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2020-05-05 at 09:46 -0600, Jonathan Corbet wrote:
-> On Thu, 30 Apr 2020 19:12:38 -0300
-> Vitor Massaru Iha <vitor@massaru.org> wrote:
-> 
-> > This fixes:
-> > 
-> > Documentation/s390/vfio-ap.rst:488: WARNING: duplicate label
-> > s390/vfio-ap:guest2, other instance in
-> > /home/iha/sdb/opensource/lkmp/linux_doc/Documentation/s390/vfio-
-> > ap.rst
-> > 
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > ---
-> >  Documentation/s390/vfio-ap.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/s390/vfio-ap.rst
-> > b/Documentation/s390/vfio-ap.rst
-> > index b5c51f7c748d..367e27ec3c50 100644
-> > --- a/Documentation/s390/vfio-ap.rst
-> > +++ b/Documentation/s390/vfio-ap.rst
-> > @@ -484,7 +484,7 @@ CARD.DOMAIN TYPE  MODE
-> >  05.00ff     CEX5A Accelerator
-> >  =========== ===== ============
-> >  
-> > -Guest2
-> > +Guest3
-> >  ------
-> >  =========== ===== ============
-> >  CARD.DOMAIN TYPE  MODE
-> 
-> Applied, thanks.
-> 
-> Note, though, that while the patch does "fix" the warning, what it
-> really
-> fixes is (as suggested in the subject) an incorrect heading; the
-> warning
-> was just a symptom.
+On Fri 24 Apr 13:01 PDT 2020, Mathieu Poirier wrote:
 
-Thanks Jon, I will be careful about that.
+> Add a new sync_ops to support use cases where the remoteproc
+> core is synchronising with the remote processor.  Exactly when to use
+> the synchronisation operations is directed by the flags in structure
+> rproc_sync_flags.
 > 
-> jon
 
+I'm sorry, but no matter how many times I read these patches I have to
+translate "synchronising" to "remote controlled", and given the number
+of comments clarifying this makes me feel that we could perhaps come up
+with a better name?
+
+> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> ---
+>  include/linux/remoteproc.h | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+> index ac4082f12e8b..ceb3b2bba824 100644
+> --- a/include/linux/remoteproc.h
+> +++ b/include/linux/remoteproc.h
+> @@ -353,6 +353,23 @@ enum rsc_handling_status {
+>  	RSC_IGNORED	= 1,
+>  };
+>  
+> +/**
+> + * struct rproc_sync_flags - platform specific flags indicating which
+> + *			      rproc_ops to use at specific times during
+> + *			      the rproc lifecycle.
+> + * @on_init: true if synchronising with the remote processor at
+> + *	     initialisation time
+> + * @after_stop: true if synchronising with the remote processor after it was
+> + *		stopped from the cmmand line
+> + * @after_crash: true if synchronising with the remote processor after
+> + *		 it has crashed
+> + */
+> +struct rproc_sync_flags {
+> +	bool on_init;
+
+This indirectly splits the RPROC_OFFLINE state in an "offline" and
+"already-booted" state. Wouldn't it be clearer to represent this with a
+new RPROC_ALREADY_BOOTED state?
+
+> +	bool after_stop;
+
+What does it mean when this is true? That Linux can shut the remote core
+down, but someone else will start it?
+
+> +	bool after_crash;
+
+Similarly what is the expected steps to be taken by the core when this
+is true? Should rproc_report_crash() simply stop/start the subdevices
+and upon one of the ops somehow tell the remote controller that it can
+proceed with the recovery?
+
+> +};
+> +
+>  /**
+>   * struct rproc_ops - platform-specific device handlers
+>   * @start:	power on the device and boot it
+> @@ -459,6 +476,9 @@ struct rproc_dump_segment {
+>   * @firmware: name of firmware file to be loaded
+>   * @priv: private data which belongs to the platform-specific rproc module
+>   * @ops: platform-specific start/stop rproc handlers
+> + * @sync_ops: platform-specific start/stop rproc handlers when
+> + *	      synchronising with a remote processor.
+> + * @sync_flags: Determine the rproc_ops to choose in specific states.
+>   * @dev: virtual device for refcounting and common remoteproc behavior
+>   * @power: refcount of users who need this rproc powered up
+>   * @state: state of the device
+> @@ -482,6 +502,7 @@ struct rproc_dump_segment {
+>   * @table_sz: size of @cached_table
+>   * @has_iommu: flag to indicate if remote processor is behind an MMU
+>   * @auto_boot: flag to indicate if remote processor should be auto-started
+> + * @sync_with_rproc: true if currently synchronising with the rproc
+>   * @dump_segments: list of segments in the firmware
+>   * @nb_vdev: number of vdev currently handled by rproc
+>   */
+> @@ -492,6 +513,8 @@ struct rproc {
+>  	const char *firmware;
+>  	void *priv;
+>  	struct rproc_ops *ops;
+> +	struct rproc_ops *sync_ops;
+
+Do we really need two rproc_ops, given that both are coming from the
+platform driver and the sync_flags will define which one to look at?
+
+Can't the platform driver just provide an ops table that works with the
+flags it passes?
+
+Regards,
+Bjorn
+
+> +	struct rproc_sync_flags sync_flags;
+>  	struct device dev;
+>  	atomic_t power;
+>  	unsigned int state;
+> @@ -515,6 +538,7 @@ struct rproc {
+>  	size_t table_sz;
+>  	bool has_iommu;
+>  	bool auto_boot;
+> +	bool sync_with_rproc;
+>  	struct list_head dump_segments;
+>  	int nb_vdev;
+>  	u8 elf_class;
+> -- 
+> 2.20.1
+> 
