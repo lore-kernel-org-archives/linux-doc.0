@@ -2,153 +2,250 @@ Return-Path: <SRS0=EZYx=6U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40E12C47247
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 01:27:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6B1EC4724C
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 07:51:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2101520721
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 01:27:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 990B6206D5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 07:51:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fEeDB7Zt"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="TmPt9OdW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728356AbgEFB1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 21:27:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729621AbgEFB1E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 21:27:04 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34F46C061A10
-        for <linux-doc@vger.kernel.org>; Tue,  5 May 2020 18:27:04 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id t7so2475plr.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2020 18:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xPLZJsayQjCGQwY1s3pIHaRye61Spu3GPa2g53Bgbks=;
-        b=fEeDB7ZtkjwraZ9jqNqbxrp7Cectj/LniyG/WVDfQNq5mosFEZjdmr1kmgJXXf7gS7
-         YrOsB8SvewJ12YN9j8EeYsTeXkf2jy0QY3xtTWr8zhWljmjTm5WPRdeMuVgMp75XZimU
-         7ziiQemGDg6TRHGHElVK9iHo8KxOxqUfkxAY1BUfFaRAYUzySKqtlhu8Xl/7PBBLSdMy
-         ZVO9y7q/g7hz/bEA1epVZ4L/vpmlB4LkfhTqm1WuhY11A0UQTl6+Nv7WJ7PdROMka9KA
-         fNsryR1MYk5rtPLfoFUFzXBHAhmO5RlCCYU/lBWfxTP80j6Ul/WIQys3RFyl/zydXvaQ
-         pS6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xPLZJsayQjCGQwY1s3pIHaRye61Spu3GPa2g53Bgbks=;
-        b=MeqdiTrb2n7zUmO3/nw+wklBFmcwWtY5Jd517OErbhAT1sFB/4WQok6LCnZ2GRy/Bm
-         2JIvHxwgl3X5zrBn/Vjqi0Mqoep6lDCap1sPKveTtOZ0mZP8eYeVJpz2Greh3e8Dsxrn
-         LTasFovV/DkZxLzoSQ1CQoXLWfFHtDr/hlbCZeZ47CRCWcH0zZfe5VwjYzv17rKUgB1h
-         p2K73oQBojv9QXt88IY/J4f0P1nmTFOztuFEz6jZv3XW/2t8Cu2g8FpYOAcNXkulgWtL
-         3i5fZVVBmpshgTG+ChnA0CKOCHSHGB0LqViCoFoLCHPb6/8yqr2eGwI5ypCML1ZzinZ3
-         t99g==
-X-Gm-Message-State: AGi0Pub484JfdhQzWEQ6Cmnv97rD5liIGAkQbXQHd6oXUpeJQ0G1Y+Q1
-        hCwHp/NT3SSUyZWx5EDmv/RS2w==
-X-Google-Smtp-Source: APiQypKMMlkzNjpv5d0j02REz81TfCnytVATHuXPJbjlnGrYHmHErVvmMGUWN25gsFd796v7EFTpgQ==
-X-Received: by 2002:a17:90a:df88:: with SMTP id p8mr6494662pjv.119.1588728423310;
-        Tue, 05 May 2020 18:27:03 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id y2sm106442pfq.16.2020.05.05.18.27.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 18:27:02 -0700 (PDT)
-Date:   Tue, 5 May 2020 18:27:48 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+        id S1728464AbgEFHve (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 03:51:34 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:16096 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728280AbgEFHvd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 03:51:33 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0467lFIq007704;
+        Wed, 6 May 2020 09:51:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=EbDaiplmg1Q7XCQNBmWnN701UTyThBLfH9pJeg2q7Xw=;
+ b=TmPt9OdWjeDx2Qy8hrSQ8t8yMu9/hqJ6WGYk47/V6GVLv/itHMS7cEqt27Tirk6ry9mc
+ dTMKumNGAGA6utdhiSGSrVlshNekl3Qavw2cssPaec5ujaLVGMjGz7/6BOkDzw/xqRZM
+ 9SEcNJ+n8qPoFxYt0Fk4bcQ8xmIz4RuwW8tNbvJZY9mh9NcpCaK29ZYc/WeLZcXebFZp
+ NbkG0hF53LniJlvELWcscLjLgKr3YF1/s7OTuOmwBYmkxZD4HAjwY/bdmYHMMATaGAGi
+ TwVMPQVAYTI/6u8B7H/mDHJvPNIb+0PKipw4al9BJdznWq2is7rya5q+Zk2wR9losiQd 6w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 30rxb24mwf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 06 May 2020 09:51:23 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 09EED10002A;
+        Wed,  6 May 2020 09:51:23 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id ED5FE2A6CD9;
+        Wed,  6 May 2020 09:51:22 +0200 (CEST)
+Received: from lmecxl0889.tpe.st.com (10.75.127.49) by SFHDAG3NODE1.st.com
+ (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 6 May
+ 2020 09:51:21 +0200
+Subject: Re: [PATCH v3 10/14] remoteproc: Deal with synchronisation when
+ shutting down
 To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     ohad@wizery.com, loic.pallardy@st.com, arnaud.pouliquen@st.com,
-        s-anna@ti.com, linux-remoteproc@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 11/14] remoteproc: Deal with synchronisation when
- changing FW image
-Message-ID: <20200506012748.GH2329931@builder.lan>
+CC:     <bjorn.andersson@linaro.org>, <ohad@wizery.com>,
+        <loic.pallardy@st.com>, <s-anna@ti.com>,
+        <linux-remoteproc@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
- <20200424200135.28825-12-mathieu.poirier@linaro.org>
+ <20200424200135.28825-11-mathieu.poirier@linaro.org>
+ <d2eeb480-6ba1-de12-53ba-cdf9c61b94b0@st.com> <20200430202312.GE17031@xps15>
+ <04b8f860-2b01-7e4f-cdea-08a3cf8af26c@st.com> <20200505220327.GB18333@xps15>
+From:   Arnaud POULIQUEN <arnaud.pouliquen@st.com>
+Message-ID: <2aac2d9e-bd2f-d60a-a0ac-3b8541a9cde2@st.com>
+Date:   Wed, 6 May 2020 09:51:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200424200135.28825-12-mathieu.poirier@linaro.org>
+In-Reply-To: <20200505220327.GB18333@xps15>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG3NODE2.st.com (10.75.127.8) To SFHDAG3NODE1.st.com
+ (10.75.127.7)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-05-06_02:2020-05-04,2020-05-06 signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 24 Apr 13:01 PDT 2020, Mathieu Poirier wrote:
 
-> This patch prevents the firmware image from being displayed or changed
-> when the remoteproc core is synchronising with a remote processor. This
-> is needed since there is no guarantee about the nature of the firmware
-> image that is loaded by the external entity.
+
+On 5/6/20 12:03 AM, Mathieu Poirier wrote:
+> On Mon, May 04, 2020 at 01:34:43PM +0200, Arnaud POULIQUEN wrote:
+>>
+>>
+>> On 4/30/20 10:23 PM, Mathieu Poirier wrote:
+>>> On Wed, Apr 29, 2020 at 10:19:49AM +0200, Arnaud POULIQUEN wrote:
+>>>>
+>>>>
+>>>> On 4/24/20 10:01 PM, Mathieu Poirier wrote:
+>>>>> The remoteproc core must not allow function rproc_shutdown() to
+>>>>> proceed if currently synchronising with a remote processor and
+>>>>> the synchronisation operations of that remote processor does not
+>>>>> support it.  Also part of the process is to set the synchronisation
+>>>>> flag so that the remoteproc core can make the right decisions when
+>>>>> restarting the system.
+>>>>>
+>>>>> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+>>>>> ---
+>>>>>  drivers/remoteproc/remoteproc_core.c     | 32 ++++++++++++++++++++++++
+>>>>>  drivers/remoteproc/remoteproc_internal.h |  7 ++++++
+>>>>>  2 files changed, 39 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+>>>>> index 3a84a38ba37b..48afa1f80a8f 100644
+>>>>> --- a/drivers/remoteproc/remoteproc_core.c
+>>>>> +++ b/drivers/remoteproc/remoteproc_core.c
+>>>>> @@ -1849,6 +1849,27 @@ int rproc_boot(struct rproc *rproc)
+>>>>>  }
+>>>>>  EXPORT_SYMBOL(rproc_boot);
+>>>>>  
+>>>>> +static bool rproc_can_shutdown(struct rproc *rproc)
+>>>>> +{
+>>>>> +	/*
+>>>>> +	 * The remoteproc core is the lifecycle manager, no problem
+>>>>> +	 * calling for a shutdown.
+>>>>> +	 */
+>>>>> +	if (!rproc_needs_syncing(rproc))
+>>>>> +		return true;
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * The remoteproc has been loaded by another entity (as per above
+>>>>> +	 * condition) and the platform code has given us the capability
+>>>>> +	 * of stopping it.
+>>>>> +	 */
+>>>>> +	if (rproc->sync_ops->stop)
+>>>>> +		return true;
+>>>>
+>>>> This means that if rproc->sync_ops->stop is null rproc_stop_subdevices will not
+>>>> be called? seems not symmetric with the start sequence.
+>>>
+>>> If rproc->sync_ops->stop is not provided then the remoteproc core can't stop the
+>>> remote processor at all after it has synchronised with it.  If a usecase
+>>> requires some kind of soft reset then a stop() function that uses a mailbox
+>>> notification or some other mechanism can be provided to tell the remote
+>>> processor to put itself back in startup mode again.
+>>>
+>>> Is this fine with you or there is still something I don't get?
+>>
+>> My point here is more around the subdevices. But perhaps i missed something...
+>>
+>> In rproc_start rproc_start_subdevices is called, even if sync_start is null.
 > 
-> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> ---
->  drivers/remoteproc/remoteproc_sysfs.c | 24 +++++++++++++++++++++++-
->  1 file changed, 23 insertions(+), 1 deletion(-)
+> Here I'll take that you mean sync_ops::start()
 > 
-> diff --git a/drivers/remoteproc/remoteproc_sysfs.c b/drivers/remoteproc/remoteproc_sysfs.c
-> index 7f8536b73295..cdd322a6ecfa 100644
-> --- a/drivers/remoteproc/remoteproc_sysfs.c
-> +++ b/drivers/remoteproc/remoteproc_sysfs.c
-> @@ -13,9 +13,20 @@
->  static ssize_t firmware_show(struct device *dev, struct device_attribute *attr,
->  			  char *buf)
->  {
-> +	ssize_t ret;
->  	struct rproc *rproc = to_rproc(dev);
->  
-> -	return sprintf(buf, "%s\n", rproc->firmware);
-> +	/*
-> +	 * In most instances there is no guarantee about the firmware
-> +	 * that was loaded by the external entity.  As such simply don't
-> +	 * print anything.
+>> But in rproc_shutdown rproc_stop is not called, if sync_ops->stop is null.
+>> So rproc_stop_subdevices is not called in this case.
+> 
+> Correct.  I am pretty sure some people don't want the remoteproc core to be able
+> to do anything other than synchronise with a remote processor, be it at boot
+> time or when the remote processor has crashed.
+> 
+> I can also see scenarios where people want to be able to start and stop
+> subdevices from the remoteproc core, but _not_ power cycle the remote processor.
+> In such cases the sync_ops::stop() should be some kind of notification telling
+> the remote processor to put itself back in initialisation mode and
+> sync_flags.after_stop should be set to true.
+> 
+>> Then if sync_flags.after_stop is false, it looks like that something will go wrong
+>> at next start.
+> 
+> If sync_ops::stop is NULL then the value of sync_flags.after_stop becomes
+> irrelevant because that state can't be reached. Let me know if you found a
+> condition where this isn't the case and I will correct it. 
 
-Not only "in most instances", we have no idea what firmware is running,
-so this can be shortened.
+The only condition i have in mind is that the sync_ops::stop() can not implemented
+in platform driver, just because nothing to do. But i don't know if it is a realistic
+use case and having a dummy stop function looks to me acceptable in this particular
+use case.
 
-However, this does implicate that on_init = true, after_crash = false,
-this will read blank, but a future rproc_report_crash() will indeed load
-and boot rproc->firmware.
-
-> +	 */
-> +	if (rproc_needs_syncing(rproc))
-> +		ret = sprintf(buf, "\n");
-> +	else
-> +		ret = sprintf(buf, "%s\n", rproc->firmware);
-> +
-> +	return ret;
->  }
->  
->  /* Change firmware name via sysfs */
-> @@ -39,6 +50,17 @@ static ssize_t firmware_store(struct device *dev,
->  		goto out;
->  	}
->  
-> +	/*
-> +	 * There is no point in trying to change the firmware if loading the
-> +	 * image of the remote processor is done by another entity.
-> +	 */
-> +	if (rproc_needs_syncing(rproc)) {
-> +		dev_err(dev,
-> +			"can't change firmware while synchronising with MCU\n");
-
-The conditional checks for a future event, but the error message
-indicates an ongoing event. How about "can't change firmware on remote
-controlled remote processor"? "externally controlled"?
+This triggers me another comment :)
+the rproc_ops struct description is relevant for the "normal" ops but not adapted
+for the sync_ops. For instance the start & stop are mandatory for ops, optional for sync_ops
+As this description is a reference (at least for me) to determine optional and mandatory ops
+would be useful to update  it.
 
 Regards,
-Bjorn
-
-> +		err = -EBUSY;
-> +		goto out;
-> +	}
-> +
->  	len = strcspn(buf, "\n");
->  	if (!len) {
->  		dev_err(dev, "can't provide a NULL firmware\n");
-> -- 
-> 2.20.1
+Arnaud
 > 
+>>
+>>>
+>>>> Probably not useful to test it here as condition is already handled in rproc_stop_device...
+>>>>
+>>>> Regards
+>>>> Arnaud
+>>>>> +
+>>>>> +	/* Any other condition should not be allowed */
+>>>>> +	return false;
+>>>>> +}
+>>>>> +
+>>>>>  /**
+>>>>>   * rproc_shutdown() - power off the remote processor
+>>>>>   * @rproc: the remote processor
+>>>>> @@ -1879,6 +1900,9 @@ void rproc_shutdown(struct rproc *rproc)
+>>>>>  		return;
+>>>>>  	}
+>>>>>  
+>>>>> +	if (!rproc_can_shutdown(rproc))
+>>>>> +		goto out;
+>>>>> +
+>>>>>  	/* if the remote proc is still needed, bail out */
+>>>>>  	if (!atomic_dec_and_test(&rproc->power))
+>>>>>  		goto out;
+>>>>> @@ -1898,6 +1922,14 @@ void rproc_shutdown(struct rproc *rproc)
+>>>>>  	kfree(rproc->cached_table);
+>>>>>  	rproc->cached_table = NULL;
+>>>>>  	rproc->table_ptr = NULL;
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * The remote processor has been switched off - tell the core what
+>>>>> +	 * operation to use from hereon, i.e whether an external entity will
+>>>>> +	 * reboot the remote processor or it is now the remoteproc core's
+>>>>> +	 * responsability.
+>>>>> +	 */
+>>>>> +	rproc_set_sync_flag(rproc, RPROC_SYNC_STATE_SHUTDOWN);
+>>>>>  out:
+>>>>>  	mutex_unlock(&rproc->lock);
+>>>>>  }
+>>>>> diff --git a/drivers/remoteproc/remoteproc_internal.h b/drivers/remoteproc/remoteproc_internal.h
+>>>>> index 61500981155c..7dcc0a26892b 100644
+>>>>> --- a/drivers/remoteproc/remoteproc_internal.h
+>>>>> +++ b/drivers/remoteproc/remoteproc_internal.h
+>>>>> @@ -27,6 +27,9 @@ struct rproc_debug_trace {
+>>>>>  /*
+>>>>>   * enum rproc_sync_states - remote processsor sync states
+>>>>>   *
+>>>>> + * @RPROC_SYNC_STATE_SHUTDOWN	state to use after the remoteproc core
+>>>>> + *				has shutdown (rproc_shutdown()) the
+>>>>> + *				remote processor.
+>>>>>   * @RPROC_SYNC_STATE_CRASHED	state to use after the remote processor
+>>>>>   *				has crashed but has not been recovered by
+>>>>>   *				the remoteproc core yet.
+>>>>> @@ -36,6 +39,7 @@ struct rproc_debug_trace {
+>>>>>   * operation to use.
+>>>>>   */
+>>>>>  enum rproc_sync_states {
+>>>>> +	RPROC_SYNC_STATE_SHUTDOWN,
+>>>>>  	RPROC_SYNC_STATE_CRASHED,
+>>>>>  };
+>>>>>  
+>>>>> @@ -43,6 +47,9 @@ static inline void rproc_set_sync_flag(struct rproc *rproc,
+>>>>>  				       enum rproc_sync_states state)
+>>>>>  {
+>>>>>  	switch (state) {
+>>>>> +	case RPROC_SYNC_STATE_SHUTDOWN:
+>>>>> +		rproc->sync_with_rproc = rproc->sync_flags.after_stop;
+>>>>> +		break;
+>>>>>  	case RPROC_SYNC_STATE_CRASHED:
+>>>>>  		rproc->sync_with_rproc = rproc->sync_flags.after_crash;
+>>>>>  		break;
+>>>>>
