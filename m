@@ -4,74 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA05C47247
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 00:22:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8216CC47254
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 00:32:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09C69206B8
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 00:22:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 534ED20659
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 00:32:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Zdz3xM+E"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cuQ2w4hF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729170AbgEFAWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 May 2020 20:22:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59436 "EHLO
+        id S1729474AbgEFAc6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 May 2020 20:32:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728642AbgEFAWJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 20:22:09 -0400
+        with ESMTP id S1729178AbgEFAc5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 May 2020 20:32:57 -0400
 Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F58C061A10
-        for <linux-doc@vger.kernel.org>; Tue,  5 May 2020 17:22:09 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id m7so256718plt.5
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2020 17:22:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D794C061A41
+        for <linux-doc@vger.kernel.org>; Tue,  5 May 2020 17:32:57 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id z6so1561544plk.10
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2020 17:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=ZvtFEnMi2NJUvYOA1hwzrk2/9S5POTyl8kbWV2Gm77s=;
-        b=Zdz3xM+ELRXpwtak30Fv1xijJe4qxJHC2SV4aWG7BDk+yT4JmAW1WWkgyZwupaSQxp
-         4gY9CuZXwkSbCLt47HLwSHMRm9z6EA/zuvXpth2ltBtV1JcsbdvUNtF4lnxzs21aZxmj
-         qxtNLQurjkXFLAiIuOYlVEYA5Ez13CEKfKk3PSTZKLeE+MPBnAecfB5cGfO5hjxWBNNi
-         yoAZKsMBB+4mBdk3ciERe8OUrLaSU8l+yL1flVMMmkwmbTdKg5ewjuJ0cmfFcZhszfSi
-         oXcZHIvrLeQ9/5acB/GUdxk+cdniuX0BTm+jWKPTWokDGWvz7d2p3veNfdUVMGbtgmwq
-         QaSw==
+        bh=Y9zuKvlUePaRKCcBUvJhmjYkDpj49I67K3FTRShwtUw=;
+        b=cuQ2w4hFuOAp5SPmwkXQA3d7zpA3nOpK+tpMpaUccVfEdFhAYLkOSZKmoq70Mmb/G8
+         jJf7rPIEOW2i5o+RUZaKyAfT0DGXUi2QTXN1XdKB3Bny6hvpfblXDMcc8ZpyT0NkG5yo
+         eiaOpfwqLoLG0Zv5VKd8HK/OkL8Dc8aooZaXfkC/pw7/SG6TbLW1GvU4Az+5FyvSXNHN
+         OYjZBwnkNOUglIXk3w/SRhkw8hSAUbz0GBpxIy2eutHb6qZ1czfTeBiHlgIRYJOLYmBn
+         eD1DSZbBFZ2YNJt1aUuBv0yXd5TRhMuO6fxhGmNaNrciRaIvZEM4iv0a/EOLILxygP+T
+         z9Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=ZvtFEnMi2NJUvYOA1hwzrk2/9S5POTyl8kbWV2Gm77s=;
-        b=Q/yWG8zVSt5lPneZzBfPzMfTM4t96g5aXyQvKnyUmkO8cZ6T4ZqPXuknANGXehSGV4
-         ero5AsEd9bQQtnwT6AK3NE8XxVZNzrVdMCR0n9+p3KGPr2vtmO+rEUbXkIMzRf905H8b
-         Jd9RjeWM+SOYdlWvUhBSKvnr9tF5waWqPLzwxZO97HXfLLlZ4vipnfu12/cPIZcbgbmt
-         0Mgwt5gIW3xpcsaxIkZL/vQ7yyriNS7LFbMIwUXUiUhE9uXEcZ4P5sX9loiUw8oG8ZCu
-         N5+mvLgWPFcp5fihN8inMhTP3psaXhOsmcym/RY9tnHE4KidAvQ9GzKWvm8cUUkZgfzN
-         vt8A==
-X-Gm-Message-State: AGi0PuYbMIOg/+QYEwztWoStBut7+/VHKxx4ifZfyUd2mqKPGLG9GH1+
-        w0ECKyeBF/mHSErrgj3fdgMZEG45Uzc=
-X-Google-Smtp-Source: APiQypKrpyWM/cE9eGe5PqG/T8X+yvyTi490sZ35cs6fo0Qm93IrH4omnzbdzSKt4dzFh7cLSNaoYg==
-X-Received: by 2002:a17:90a:f404:: with SMTP id ch4mr6078272pjb.123.1588724528573;
-        Tue, 05 May 2020 17:22:08 -0700 (PDT)
+        bh=Y9zuKvlUePaRKCcBUvJhmjYkDpj49I67K3FTRShwtUw=;
+        b=stkcJo/k9658Chq7EynkQ/ZcoXWvK0qcyRRT4VGZtzi8cdbuIBIXy4Y/wfcCBWnLKy
+         wslY19w+1ff7P/bp1LY3qrGih6coZhXuy3jgIetNQblYkmSyJ8+Q4Uzxj80pknnnhl6t
+         1xdIzdBBIifVIKaAxkb6FCKYYIZ6zUE+YikqX4CT+ir4ku+XkzfWyCdaFz9WVOTJhlOC
+         DX+4KjqJ83GEhO/oIJKOCuD2J/cAV1OdE0RAAdOvUr/6mvUy2ipRK0Thy64zufmwi41C
+         Gw9Sd4FP3FDQMnW9VKnWQMx3gWxDKfvHBPV0bK4unG8YxSy7ZPTEYG8O1lWoLV5Lsf6u
+         DgGA==
+X-Gm-Message-State: AGi0PubHvCT89uBGPZYs8twVd/D3daUIjvNJ2CdHcYZHXFFcJrbQiPPZ
+        2cYT6dK8MGPtr2Ot/yUVgzuYqMyiofk=
+X-Google-Smtp-Source: APiQypKmfqHYDq43uE5ZHs0fFzHfdRm9ymJuzwc4d1Km5l72JwpMpLECHMUpOF1jGLvA3LLYYiGasg==
+X-Received: by 2002:a17:902:56d:: with SMTP id 100mr5853353plf.123.1588725176491;
+        Tue, 05 May 2020 17:32:56 -0700 (PDT)
 Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id x18sm21139pfi.22.2020.05.05.17.22.07
+        by smtp.gmail.com with ESMTPSA id y21sm10907pfm.219.2020.05.05.17.32.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 17:22:07 -0700 (PDT)
-Date:   Tue, 5 May 2020 17:22:53 -0700
+        Tue, 05 May 2020 17:32:55 -0700 (PDT)
+Date:   Tue, 5 May 2020 17:33:41 -0700
 From:   Bjorn Andersson <bjorn.andersson@linaro.org>
 To:     Mathieu Poirier <mathieu.poirier@linaro.org>
 Cc:     ohad@wizery.com, loic.pallardy@st.com, arnaud.pouliquen@st.com,
         s-anna@ti.com, linux-remoteproc@vger.kernel.org, corbet@lwn.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 03/14] remoteproc: Add new operation and flags for
- synchronistation
-Message-ID: <20200506002253.GC2329931@builder.lan>
+Subject: Re: [PATCH v3 05/14] remoteproc: Refactor function rproc_fw_boot()
+Message-ID: <20200506003341.GD2329931@builder.lan>
 References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
- <20200424200135.28825-4-mathieu.poirier@linaro.org>
+ <20200424200135.28825-6-mathieu.poirier@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200424200135.28825-4-mathieu.poirier@linaro.org>
+In-Reply-To: <20200424200135.28825-6-mathieu.poirier@linaro.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -79,110 +78,63 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Fri 24 Apr 13:01 PDT 2020, Mathieu Poirier wrote:
 
-> Add a new sync_ops to support use cases where the remoteproc
-> core is synchronising with the remote processor.  Exactly when to use
-> the synchronisation operations is directed by the flags in structure
-> rproc_sync_flags.
+> Refactor function rproc_fw_boot() in order to better reflect the work
+> that is done when supporting scenarios where the remoteproc core is
+> synchronising with a remote processor.
 > 
-
-I'm sorry, but no matter how many times I read these patches I have to
-translate "synchronising" to "remote controlled", and given the number
-of comments clarifying this makes me feel that we could perhaps come up
-with a better name?
-
 > Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 > ---
->  include/linux/remoteproc.h | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+>  drivers/remoteproc/remoteproc_core.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
-> index ac4082f12e8b..ceb3b2bba824 100644
-> --- a/include/linux/remoteproc.h
-> +++ b/include/linux/remoteproc.h
-> @@ -353,6 +353,23 @@ enum rsc_handling_status {
->  	RSC_IGNORED	= 1,
->  };
+> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+> index a02593b75bec..e90a21de9de1 100644
+> --- a/drivers/remoteproc/remoteproc_core.c
+> +++ b/drivers/remoteproc/remoteproc_core.c
+> @@ -1370,9 +1370,9 @@ static int rproc_start(struct rproc *rproc, const struct firmware *fw)
+>  }
 >  
-> +/**
-> + * struct rproc_sync_flags - platform specific flags indicating which
-> + *			      rproc_ops to use at specific times during
-> + *			      the rproc lifecycle.
-> + * @on_init: true if synchronising with the remote processor at
-> + *	     initialisation time
-> + * @after_stop: true if synchronising with the remote processor after it was
-> + *		stopped from the cmmand line
-> + * @after_crash: true if synchronising with the remote processor after
-> + *		 it has crashed
-> + */
-> +struct rproc_sync_flags {
-> +	bool on_init;
-
-This indirectly splits the RPROC_OFFLINE state in an "offline" and
-"already-booted" state. Wouldn't it be clearer to represent this with a
-new RPROC_ALREADY_BOOTED state?
-
-> +	bool after_stop;
-
-What does it mean when this is true? That Linux can shut the remote core
-down, but someone else will start it?
-
-> +	bool after_crash;
-
-Similarly what is the expected steps to be taken by the core when this
-is true? Should rproc_report_crash() simply stop/start the subdevices
-and upon one of the ops somehow tell the remote controller that it can
-proceed with the recovery?
-
-> +};
-> +
->  /**
->   * struct rproc_ops - platform-specific device handlers
->   * @start:	power on the device and boot it
-> @@ -459,6 +476,9 @@ struct rproc_dump_segment {
->   * @firmware: name of firmware file to be loaded
->   * @priv: private data which belongs to the platform-specific rproc module
->   * @ops: platform-specific start/stop rproc handlers
-> + * @sync_ops: platform-specific start/stop rproc handlers when
-> + *	      synchronising with a remote processor.
-> + * @sync_flags: Determine the rproc_ops to choose in specific states.
->   * @dev: virtual device for refcounting and common remoteproc behavior
->   * @power: refcount of users who need this rproc powered up
->   * @state: state of the device
-> @@ -482,6 +502,7 @@ struct rproc_dump_segment {
->   * @table_sz: size of @cached_table
->   * @has_iommu: flag to indicate if remote processor is behind an MMU
->   * @auto_boot: flag to indicate if remote processor should be auto-started
-> + * @sync_with_rproc: true if currently synchronising with the rproc
->   * @dump_segments: list of segments in the firmware
->   * @nb_vdev: number of vdev currently handled by rproc
+>  /*
+> - * take a firmware and boot a remote processor with it.
+> + * boot or synchronise with a remote processor.
 >   */
-> @@ -492,6 +513,8 @@ struct rproc {
->  	const char *firmware;
->  	void *priv;
->  	struct rproc_ops *ops;
-> +	struct rproc_ops *sync_ops;
+> -static int rproc_fw_boot(struct rproc *rproc, const struct firmware *fw)
+> +static int rproc_actuate_device(struct rproc *rproc, const struct firmware *fw)
 
-Do we really need two rproc_ops, given that both are coming from the
-platform driver and the sync_flags will define which one to look at?
+Per patch 4 this function will if rproc_needs_syncing() be called with
+fw == NULL, it's not obvious to me that the various operations on "fw"
+in this function are valid anymore.
 
-Can't the platform driver just provide an ops table that works with the
-flags it passes?
+>  {
+>  	struct device *dev = &rproc->dev;
+>  	const char *name = rproc->firmware;
+> @@ -1382,7 +1382,9 @@ static int rproc_fw_boot(struct rproc *rproc, const struct firmware *fw)
+>  	if (ret)
+>  		return ret;
+>  
+> -	dev_info(dev, "Booting fw image %s, size %zd\n", name, fw->size);
+> +	if (!rproc_needs_syncing(rproc))
+
+Can't we make this check on fw, to make the relationship "if we where
+passed a firmware object, we're going to load and boot that firmware"?
 
 Regards,
 Bjorn
 
-> +	struct rproc_sync_flags sync_flags;
->  	struct device dev;
->  	atomic_t power;
->  	unsigned int state;
-> @@ -515,6 +538,7 @@ struct rproc {
->  	size_t table_sz;
->  	bool has_iommu;
->  	bool auto_boot;
-> +	bool sync_with_rproc;
->  	struct list_head dump_segments;
->  	int nb_vdev;
->  	u8 elf_class;
+> +		dev_info(dev, "Booting fw image %s, size %zd\n",
+> +			 name, fw->size);
+>  
+>  	/*
+>  	 * if enabling an IOMMU isn't relevant for this rproc, this is
+> @@ -1818,7 +1820,7 @@ int rproc_boot(struct rproc *rproc)
+>  		}
+>  	}
+>  
+> -	ret = rproc_fw_boot(rproc, firmware_p);
+> +	ret = rproc_actuate_device(rproc, firmware_p);
+>  
+>  	release_firmware(firmware_p);
+>  
 > -- 
 > 2.20.1
 > 
