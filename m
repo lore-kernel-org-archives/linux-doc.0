@@ -2,84 +2,132 @@ Return-Path: <SRS0=EZYx=6U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11208C28CBC
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 21:25:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CBFDC47257
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 21:41:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E8E162075A
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 21:25:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7801920936
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 21:41:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588801318;
+	bh=hIXvI2c1b1nXaKYGCPmnNib4tAE0InuTDY3Z91LsdGo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
+	b=ZU66cJe/3LGv+YwImWU+VFbWLKaAilLLa7UEK7BTWw1LDWNO2B9okyFmd8fC2vqv1
+	 QseyduRhlg+RZIF58B+0aBdzHtQOGjphfOcQWVAyOptciPQLaIDB+B+g64q1hIKsF1
+	 1s1wgvJ3z06d9df81DcN+kiRqwbPYr/m0CAiLzwQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729615AbgEFVZq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 17:25:46 -0400
-Received: from smtprelay0034.hostedemail.com ([216.40.44.34]:54658 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729152AbgEFVZq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 17:25:46 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 264B918025396;
-        Wed,  6 May 2020 21:25:45 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: ice18_31e3e67744b3e
-X-Filterd-Recvd-Size: 2298
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf04.hostedemail.com (Postfix) with ESMTPA;
-        Wed,  6 May 2020 21:25:42 +0000 (UTC)
-Message-ID: <4cdeaa2af2fe0d6cc2ca8ce3a37608340799df8a.camel@perches.com>
-Subject: Re: [PATCH v3 2/6] pstore/platform: Pass max_reason to kmesg dump
-From:   Joe Perches <joe@perches.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>, jmorris@namei.org,
-        sashal@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Date:   Wed, 06 May 2020 14:25:41 -0700
-In-Reply-To: <20200506211523.15077-3-keescook@chromium.org>
-References: <20200506211523.15077-1-keescook@chromium.org>
-         <20200506211523.15077-3-keescook@chromium.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.1-2 
+        id S1730317AbgEFVl5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 17:41:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33866 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730307AbgEFVl4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 May 2020 17:41:56 -0400
+Received: from localhost (mobile-166-175-190-200.mycingular.net [166.175.190.200])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 872D02078C;
+        Wed,  6 May 2020 21:41:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588801315;
+        bh=hIXvI2c1b1nXaKYGCPmnNib4tAE0InuTDY3Z91LsdGo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=d0/Xa402U/z6EWAhW42wFq4bziSEcX3F9e+jL2DylN/Xh10llEClo0hr8wWUB5Mvs
+         Sqq58juRQBt2RR+JFshuMqpdvhDnwDDvsrIzpwF395LbLdoDhD15GIQm24JAcv4U3R
+         WIQd8Ua8fuFJQ1duRIS4cxSgca3ropmfKd40x4bg=
+Date:   Wed, 6 May 2020 16:41:54 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Bryce Willey <bryce.steven.willey@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH] Documentation: PCI: gave unique labels to sections
+Message-ID: <20200506214154.GA456677@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200503214926.23748-1-bryce.steven.willey@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2020-05-06 at 14:15 -0700, Kees Cook wrote:
-> From: Pavel Tatashin <pasha.tatashin@soleen.com>
+s/gave/Give/ (in subject)
+
+On Sun, May 03, 2020 at 05:49:26PM -0400, Bryce Willey wrote:
+> From: Bryce Willey <Bryce.Steven.Willey@gmail.com>
 > 
-> Add a new member to struct pstore_info for passing information about
-> kmesg dump maximum reason. This allows a finer control of what kmesg
-> dumps are sent to pstore storage backends.
+> Made subsection label more specific to avoid sphinx warnings
 
-trivia:
+s/Made/Make/
+s/label/labels/
+s/warnings/warnings./
 
-> diff --git a/include/linux/pstore.h b/include/linux/pstore.h
-[]
-> @@ -96,6 +96,12 @@ struct pstore_record {
->   *
->   * @read_mutex:	serializes @open, @read, @close, and @erase callbacks
->   * @flags:	bitfield of frontends the backend can accept writes for
-> + * @max_reason:	Used when PSTORE_FLAGS_DMESG is set. Contains the
-> + *		kmsg_dump_reason enum value. KMSG_DUMP_UNDEF means
-> + *		"use existing kmsg_dump() filtering, based on the
-> + *		printk.always_kmsg_dump boot param" (which is either
-> + *		KMSG_DUMP_OOPS when false, or KMSG_DUMP_MAX when
-> + *		tree); see printk.always_kmsg_dump for more details.
+> Exact warning:
+>  Documentation/PCI/endpoint/pci-endpoint.rst:208: WARNING: duplicate label
+> pci/endpoint/pci-endpoint:other apis, other instance in Documentation/PCI/endpoint/pci-endpoint.rst
+> 
+> Signed-off-by: Bryce Willey <Bryce.Steven.Willey@gmail.com>
 
-s/tree/true/
+I assume Lorenzo will pick this up, since he's merged most of the
+recent Documentation/PCI/endpoint changes, and he'll likely fix the
+nits above.  FWIW,
 
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
+> ---
+>  Documentation/PCI/endpoint/pci-endpoint.rst | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
+> index 0e2311b5617b..7536be445db8 100644
+> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
+> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
+> @@ -78,8 +78,8 @@ by the PCI controller driver.
+>     Cleanup the pci_epc_mem structure allocated during pci_epc_mem_init().
+>  
+>  
+> -APIs for the PCI Endpoint Function Driver
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +EPC APIs for the PCI Endpoint Function Driver
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+>  This section lists the APIs that the PCI Endpoint core provides to be used
+>  by the PCI endpoint function driver.
+> @@ -117,8 +117,8 @@ by the PCI endpoint function driver.
+>     The PCI endpoint function driver should use pci_epc_mem_free_addr() to
+>     free the memory space allocated using pci_epc_mem_alloc_addr().
+>  
+> -Other APIs
+> -~~~~~~~~~~
+> +Other EPC APIs
+> +~~~~~~~~~~~~~~
+>  
+>  There are other APIs provided by the EPC library. These are used for binding
+>  the EPF device with EPC device. pci-ep-cfs.c can be used as reference for
+> @@ -160,8 +160,8 @@ PCI Endpoint Function(EPF) Library
+>  The EPF library provides APIs to be used by the function driver and the EPC
+>  library to provide endpoint mode functionality.
+>  
+> -APIs for the PCI Endpoint Function Driver
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +EPF APIs for the PCI Endpoint Function Driver
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+>  This section lists the APIs that the PCI Endpoint core provides to be used
+>  by the PCI endpoint function driver.
+> @@ -204,8 +204,8 @@ by the PCI endpoint controller library.
+>     The PCI endpoint controller library invokes pci_epf_linkup() when the
+>     EPC device has established the connection to the host.
+>  
+> -Other APIs
+> -~~~~~~~~~~
+> +Other EPF APIs
+> +~~~~~~~~~~~~~~
+>  
+>  There are other APIs provided by the EPF library. These are used to notify
+>  the function driver when the EPF device is bound to the EPC device.
+> -- 
+> 2.17.1
+> 
