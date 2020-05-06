@@ -2,132 +2,146 @@ Return-Path: <SRS0=EZYx=6U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CBFDC47257
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 21:41:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F541C54E49
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 22:02:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7801920936
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 21:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588801318;
-	bh=hIXvI2c1b1nXaKYGCPmnNib4tAE0InuTDY3Z91LsdGo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
-	b=ZU66cJe/3LGv+YwImWU+VFbWLKaAilLLa7UEK7BTWw1LDWNO2B9okyFmd8fC2vqv1
-	 QseyduRhlg+RZIF58B+0aBdzHtQOGjphfOcQWVAyOptciPQLaIDB+B+g64q1hIKsF1
-	 1s1wgvJ3z06d9df81DcN+kiRqwbPYr/m0CAiLzwQ=
+	by mail.kernel.org (Postfix) with ESMTP id 5A3E12076D
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 22:02:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="kXoLUz3I"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730317AbgEFVl5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 17:41:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33866 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730307AbgEFVl4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 May 2020 17:41:56 -0400
-Received: from localhost (mobile-166-175-190-200.mycingular.net [166.175.190.200])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 872D02078C;
-        Wed,  6 May 2020 21:41:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588801315;
-        bh=hIXvI2c1b1nXaKYGCPmnNib4tAE0InuTDY3Z91LsdGo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=d0/Xa402U/z6EWAhW42wFq4bziSEcX3F9e+jL2DylN/Xh10llEClo0hr8wWUB5Mvs
-         Sqq58juRQBt2RR+JFshuMqpdvhDnwDDvsrIzpwF395LbLdoDhD15GIQm24JAcv4U3R
-         WIQd8Ua8fuFJQ1duRIS4cxSgca3ropmfKd40x4bg=
-Date:   Wed, 6 May 2020 16:41:54 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Bryce Willey <bryce.steven.willey@gmail.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: Re: [PATCH] Documentation: PCI: gave unique labels to sections
-Message-ID: <20200506214154.GA456677@bjorn-Precision-5520>
+        id S1729898AbgEFWCQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 18:02:16 -0400
+Received: from mail-dm6nam10on2082.outbound.protection.outlook.com ([40.107.93.82]:62529
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728621AbgEFWCP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 May 2020 18:02:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eg2M+zlp9ix77kwB/sp1kgkxtPp5vNUtwen/FWRs3nk+Fqbxh4waIRkVC2+nSH1Fu7t4/75pUnpTfmzIi+GvH/Xzvw6/OW8gYBV5FMYUAMv9/k1FG06g2vptBZcjtUKaZnXPCWSBM2E+iqsYWX46LPwOHNqljEmPB9lk6xM5v2GR9RrXZwVO6AHLe6PzIvlYjqqfvWRT9F5oi48obJ4H0xLq216/s7Tq2pTkZ5wrCwUpi0LRWbnj8t3SwpSkG9pejgfr0pXT8aE+oQ3tQcOZWU6axR50C023ViBGayVYzF12KaiUZYfNH4qOvH3pjOYE7mS6SrgEBVDj3p1QNP3y5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n0B0d4zYiuLCdvai489BpPWKD9qYym4cwE9fIj18bmo=;
+ b=KMPnDei8nPe9PXVAQrFjyQY+Wqhxknkp3fuBemtLDV3TWuNroXaHj5cGo6VcslwlfChYzxHpthe1Q6aJgTHz2OYZApnryYgRRLFwsGzEi3hZZ8iiskj2unvHB5TQv6L2MRH6bDvtGETKxscq5nM3uz6uCfEspHiGTeKpA4+Tsn2Nd4OGh5T4PEbBSAcmlTNxPayaEP94NAevQFlOUMRipl8FXi1SvGqJrkj6lVLU9kUjoRXZV5W06fUh+Zxeq7ZDZTqVbx8/P4ednEijIS0mAnycgUwxiP6Qq5q06Jfj0rC/HxDxxeOrAuCaoem4eQzpL+iKzaUPTMIipPJW6xEhFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n0B0d4zYiuLCdvai489BpPWKD9qYym4cwE9fIj18bmo=;
+ b=kXoLUz3ItNmKa627DKuZkdRO8zBjUJI9+FqLCTQq2nItbQGxpzGvOBsKo+28xdndcreZNOALlolpc4sfzgfkl+RkS8X8ykJ1sc8du9dcRla/gCNdkPpE3tUbqyykPYqBVKx2WvB4+OOPxkqTWHfcVhwLbwtqofIV4qDoLPyEFLM=
+Authentication-Results: tencent.com; dkim=none (message not signed)
+ header.d=none;tencent.com; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SN1PR12MB2512.namprd12.prod.outlook.com (2603:10b6:802:31::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Wed, 6 May
+ 2020 22:02:08 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d%7]) with mapi id 15.20.2979.028; Wed, 6 May 2020
+ 22:02:08 +0000
+Subject: [PATCH 0/2] arch/x86: Enable MPK feature on AMD
+From:   Babu Moger <babu.moger@amd.com>
+To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        hpa@zytor.com, pbonzini@redhat.com, sean.j.christopherson@intel.com
+Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
+        luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
+        babu.moger@amd.com, changbin.du@intel.com, namit@vmware.com,
+        bigeasy@linutronix.de, yang.shi@linux.alibaba.com,
+        asteinhauser@google.com, anshuman.khandual@arm.com,
+        jan.kiszka@siemens.com, akpm@linux-foundation.org,
+        steven.price@arm.com, rppt@linux.vnet.ibm.com, peterx@redhat.com,
+        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
+        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
+        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
+        jgross@suse.com, andrew.cooper3@citrix.com,
+        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
+        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
+        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Date:   Wed, 06 May 2020 17:02:05 -0500
+Message-ID: <158880240546.11615.2219410169137148044.stgit@naples-babu.amd.com>
+User-Agent: StGit/unknown-version
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN4PR0501CA0049.namprd05.prod.outlook.com
+ (2603:10b6:803:41::26) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200503214926.23748-1-bryce.steven.willey@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from naples-babu.amd.com (165.204.78.2) by SN4PR0501CA0049.namprd05.prod.outlook.com (2603:10b6:803:41::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.16 via Frontend Transport; Wed, 6 May 2020 22:02:06 +0000
+X-Originating-IP: [165.204.78.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 0d58689f-ab94-4574-d1d4-08d7f2091e9c
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2512:|SN1PR12MB2512:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN1PR12MB251213DBF887E0BCC0D386FF95A40@SN1PR12MB2512.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 03950F25EC
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FgTxiOq1gkmanrhkn5E3a6lNsx5TyOmSlRBgs15HXd++JNtfea/IRHoCAKt7Iy+DQG+Bhj1dXeQk3pktRU29eAiomH13THHsqkSL6rGR2IL862c4mQTAUytHNJUyzxHCIlvuboaCL4LO5iomKhqfTp7iukobiGdSisMZK3f8Fvku+/XgKQ8NRFJQzyqcxh5lruypiTKuvKpcLpM687bU7FhwO7URG45OAm0Sv2v7gwHS8pJUY7PCe/FTJ580c7UagZ5w4WN4M5x2gbLWwTg7/wQAU3jC6l2IO1bm+lBQCSodSdsIk6+mQhJ7Ijn+6ypM89oljFfYJLjq8/USjxOyQJSblE2SxXkVkdJNv/ChOQY+kyTaFseRJqv1Yb34OD0WqnzQ05UeFauZBO1xNB6r+5eMHif3ahOjf/MGB7fxGdpMEWQDhWyw/C1REeaoy+O6/pyha1n64NPEBqb+Q9QYiHuNbp0efZMAbC5UIlgNf7Y3kb3OOplK2xF3usNkIzToA2a5oaLarKH4WhcYYTKdPpzWKxJI4xVuw16AWQRVm/r/fbg2EDSySksWJxfD20cdfInBAeTHKGTfbvYSHtdVcwZjq+e2UJLM3RA8o/s/SNQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(376002)(136003)(39860400002)(396003)(366004)(33430700001)(26005)(52116002)(7696005)(4326008)(2906002)(8936002)(33440700001)(66476007)(66556008)(8676002)(16526019)(478600001)(55016002)(186003)(103116003)(966005)(316002)(86362001)(956004)(66946007)(7416002)(7406005)(5660300002)(44832011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: ef5KWZ+BtRCMXIB2ah/x7gGLXVgnvCRYH3/8lzFygbrzy6twyzyjCZeOgVwvRRPQcoFV3rreu2XiUhU0knjWlRg3ejq1xoi/iL3oKMBWJayfUwXhLGXItRYNXBHTbgcZsZwUsm77Q/wsFgAnvUPZX8mRVvKeDzmKuQOz6skqXUB1KuV/RKsF3UuvsVjhN1BheXkEDWQfanUT3SuXpg2Xwyc5yoEe+jM4aTmhxxV5AasDbAeuwVVYpG9MI9WYmKQbe0pyoX9XmJFBiqs2Ze87WCAr3gncV9vmvf9WpOUk7bfzFIJZuEhQTS58rPspwoPgajWGNoqz0GMC/HqKDFXEZ1KaQh73m6pGeMqVnuc2v5DA/ELXjSyow0sQFrTcpN4LCsbJ4GcAZZ1vjZQFvhkfPzXnj9lPnr+vWKbnFyBy5srcu0JnGf0a9aRTPYO1gX578vySo1SHQI72UhBjCntrl31yvl3+WjwipuyaxeI5cAiKAS9UqJR6tjOdD8BCkKZR0UKycqVl9HwPKJEnFPwTtfPFXyhZa8QpRRbPRx3tUuM6WgWHF7iKLyHC+1tyQl69/pDTXJZz2FfM1Cxn4xhS0irEhXqIsBVVHZR9QmkLSQsNsP0UdXO84SHO0OPd3VCsas7604RG2jG5BJWnXB6kxlT0yTg6f8V3IQlzPAsjbXkU/mxfQwJ9aMrioP9o8qKfsqxfHUQCLWwLAJaVKj4vZYlgFe+A93qsbFKQcMl0+1oiQPlDBWDRtqpBIiYtt40rcBLv4JN/wflw2nYImo4WE+GmkCyYgRqcbfeYRxNoZ5E=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d58689f-ab94-4574-d1d4-08d7f2091e9c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2020 22:02:08.2083
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aEBHNVI3o71Ue51uDAAzU3zx3lqyqJqdb04/JrzgU9EmSsSLTcB6tqEUHYNpT6Fy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2512
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-s/gave/Give/ (in subject)
+AMD's next generation of EPYC processors support the MPK (Memory
+Protection Keys) feature.
 
-On Sun, May 03, 2020 at 05:49:26PM -0400, Bryce Willey wrote:
-> From: Bryce Willey <Bryce.Steven.Willey@gmail.com>
-> 
-> Made subsection label more specific to avoid sphinx warnings
+AMD documentation for MPK feature is available at "AMD64 Architecture
+Programmer’s Manual Volume 2: System Programming, Pub. 24593 Rev. 3.34,
+Section 5.6.6 Memory Protection Keys (MPK) Bit".
 
-s/Made/Make/
-s/label/labels/
-s/warnings/warnings./
+The documentation can be obtained at the link below:
+https://bugzilla.kernel.org/show_bug.cgi?id=206537
 
-> Exact warning:
->  Documentation/PCI/endpoint/pci-endpoint.rst:208: WARNING: duplicate label
-> pci/endpoint/pci-endpoint:other apis, other instance in Documentation/PCI/endpoint/pci-endpoint.rst
-> 
-> Signed-off-by: Bryce Willey <Bryce.Steven.Willey@gmail.com>
+This series enables the feature on AMD and updates config parameters
+to reflect the MPK support on generic x86 platforms.
 
-I assume Lorenzo will pick this up, since he's merged most of the
-recent Documentation/PCI/endpoint changes, and he'll likely fix the
-nits above.  FWIW,
+---
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Babu Moger (2):
+      arch/x86: Rename config X86_INTEL_MEMORY_PROTECTION_KEYS to generic x86
+      KVM: SVM: Add support for MPK feature on AMD
 
-> ---
->  Documentation/PCI/endpoint/pci-endpoint.rst | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
-> index 0e2311b5617b..7536be445db8 100644
-> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
-> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
-> @@ -78,8 +78,8 @@ by the PCI controller driver.
->     Cleanup the pci_epc_mem structure allocated during pci_epc_mem_init().
->  
->  
-> -APIs for the PCI Endpoint Function Driver
-> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +EPC APIs for the PCI Endpoint Function Driver
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->  This section lists the APIs that the PCI Endpoint core provides to be used
->  by the PCI endpoint function driver.
-> @@ -117,8 +117,8 @@ by the PCI endpoint function driver.
->     The PCI endpoint function driver should use pci_epc_mem_free_addr() to
->     free the memory space allocated using pci_epc_mem_alloc_addr().
->  
-> -Other APIs
-> -~~~~~~~~~~
-> +Other EPC APIs
-> +~~~~~~~~~~~~~~
->  
->  There are other APIs provided by the EPC library. These are used for binding
->  the EPF device with EPC device. pci-ep-cfs.c can be used as reference for
-> @@ -160,8 +160,8 @@ PCI Endpoint Function(EPF) Library
->  The EPF library provides APIs to be used by the function driver and the EPC
->  library to provide endpoint mode functionality.
->  
-> -APIs for the PCI Endpoint Function Driver
-> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +EPF APIs for the PCI Endpoint Function Driver
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->  This section lists the APIs that the PCI Endpoint core provides to be used
->  by the PCI endpoint function driver.
-> @@ -204,8 +204,8 @@ by the PCI endpoint controller library.
->     The PCI endpoint controller library invokes pci_epf_linkup() when the
->     EPC device has established the connection to the host.
->  
-> -Other APIs
-> -~~~~~~~~~~
-> +Other EPF APIs
-> +~~~~~~~~~~~~~~
->  
->  There are other APIs provided by the EPF library. These are used to notify
->  the function driver when the EPF device is bound to the EPC device.
-> -- 
-> 2.17.1
-> 
+
+ Documentation/core-api/protection-keys.rst     |    3 ++-
+ arch/x86/Kconfig                               |    6 +++---
+ arch/x86/include/asm/disabled-features.h       |    4 ++--
+ arch/x86/include/asm/mmu.h                     |    2 +-
+ arch/x86/include/asm/mmu_context.h             |    4 ++--
+ arch/x86/include/asm/pgtable.h                 |    4 ++--
+ arch/x86/include/asm/pgtable_types.h           |    2 +-
+ arch/x86/include/asm/special_insns.h           |    2 +-
+ arch/x86/include/uapi/asm/mman.h               |    2 +-
+ arch/x86/kernel/cpu/common.c                   |    2 +-
+ arch/x86/kvm/svm/svm.c                         |   20 ++++++++++++++++++++
+ arch/x86/kvm/svm/svm.h                         |    2 ++
+ arch/x86/mm/Makefile                           |    2 +-
+ arch/x86/mm/pkeys.c                            |    2 +-
+ scripts/headers_install.sh                     |    2 +-
+ tools/arch/x86/include/asm/disabled-features.h |    4 ++--
+ 16 files changed, 43 insertions(+), 20 deletions(-)
+
+--
