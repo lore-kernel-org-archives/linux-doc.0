@@ -2,124 +2,130 @@ Return-Path: <SRS0=EZYx=6U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA71BC28CBC
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 19:38:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F590C38A2A
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 21:15:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B644320747
-	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 19:38:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3C052076D
+	for <linux-doc@archiver.kernel.org>; Wed,  6 May 2020 21:15:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bJBtLCbp"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Txy06LIk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729320AbgEFTiX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 15:38:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37184 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729279AbgEFTiW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 15:38:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588793901;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4yGP/vMyHodm9DIXtqpc9Y5085eYUUAufi7jwsRMqFY=;
-        b=bJBtLCbpiYSfHeOTzpKfxlnfTdkiWiffsuNOi8hZY/kUUDYAgDYF4H+1DYaUuUdnO1cYPx
-        g+LFd4QUn8FTapE7XEndlCuW8mPDfovnDjEveKLgzgHm/QJkQbnugEyy2P+HykxUDJ98Li
-        pwG3EDYCKx2GHvMna8U9W8VkfxAEMDc=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-igwSq4QOPW2ClWPUgnsuYA-1; Wed, 06 May 2020 15:38:19 -0400
-X-MC-Unique: igwSq4QOPW2ClWPUgnsuYA-1
-Received: by mail-qk1-f197.google.com with SMTP id d187so2941634qkc.18
-        for <linux-doc@vger.kernel.org>; Wed, 06 May 2020 12:38:19 -0700 (PDT)
+        id S1729653AbgEFVPt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 17:15:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57382 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729918AbgEFVPh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 17:15:37 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA55C061A41
+        for <linux-doc@vger.kernel.org>; Wed,  6 May 2020 14:15:36 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id x15so1768100pfa.1
+        for <linux-doc@vger.kernel.org>; Wed, 06 May 2020 14:15:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=TpLLG3pWKEaOPKHac5Nkwz9KtMblvoPDFiZ/SitIX00=;
+        b=Txy06LIk/ydKHtmNLAtvcMT48XfUpahkLBKCHntkIXGcYuuitksn6Ujhgb0yRJXnrE
+         028IK5cQeQd3o5b9yievHYq1s04heCzgGC56pigiaNf9pjyFzwe+T497rhY5w823fpkV
+         M99c7WWZZZten6T8yf8iEf0eyLGS/aZGltqBQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4yGP/vMyHodm9DIXtqpc9Y5085eYUUAufi7jwsRMqFY=;
-        b=DwIKUI2zb0oGfJ9BoOi8emifT9H1R98ewy+9MAFErrQuiKGmDQivRhmoUuRUAsqUDJ
-         CESzGQe/GyfaRFC9hWkImNf1IesyrTVoFTIbeG6zSV15Rzuo/LTsw+MH1vrYCRGA8U06
-         yzNPUNlSEKvtWnuPnsjQBi2EujCUz7Gsw2/FmzQLkcaEaRfIk1S60XyVWzAAD63zfXiI
-         SnKxT3ua8XiatlazsS/6lr3PCoK4qHtudi81ksdkhYZ1FcI9H3L8wOlQ7f2EQ9s0xQHt
-         KWSy3rsO17EAx3ov+C3jdQ/o6+37WDPu/N8RG2BYcnnIUpzf4OTDqS18zeNEtmtHJoc6
-         Q8UA==
-X-Gm-Message-State: AGi0PuYiUWMD8mUdG6e7enrRy8X1MHdwryP2Zb7vlYoABXKrcQUDVXR5
-        330QcG4tPqJhpXcIMwEIvzfH+Jw099axUvudhZY0G7yvx+b9OFmMukxaDpga5AqHmmgaS0k4DP2
-        Oe5duNZ4jkiSEI2ExBjXm
-X-Received: by 2002:ac8:6cf:: with SMTP id j15mr10289653qth.143.1588793899434;
-        Wed, 06 May 2020 12:38:19 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJgeGRbgQoROxq+NzNkpj9p1DQBrBYEowm2aG2YpEWn4T7EEcbZzi+caA0aMstz/KZmNOVVMA==
-X-Received: by 2002:ac8:6cf:: with SMTP id j15mr10289631qth.143.1588793899217;
-        Wed, 06 May 2020 12:38:19 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
-        by smtp.gmail.com with ESMTPSA id h188sm2445057qke.82.2020.05.06.12.38.17
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=TpLLG3pWKEaOPKHac5Nkwz9KtMblvoPDFiZ/SitIX00=;
+        b=unnrZUUl8ADDOmjwH0Km7ouAsD5OzhrT1UQGFUIz/mQ+eMPYrn+OOAF6/1bFDEbeU4
+         GAOz/rHlejYV6hiX/zLEcd24WjOGafs3OPZJO5ZzUu/AphyoKAlpnvmUFHeg3lonnrUv
+         foyKQ9adchV1aj1BUA4jKr18jqP2Z7kRZmrHT+XtHgR3C2nh8+cT3VGVcn5jgFeFpr+4
+         7s1X/ZAfwgQs3lMEE9HAh/lWyUyT3gf547w1bhsYpqCh980vLRnbOXn3VuAo8sG8V7x+
+         suxqhZRW4m/HtDZJANrkHHqDJWFSgRX8nUU48EJlWFsR0KjdJpxlfqxVKOyoQZv8P8ZY
+         BwMQ==
+X-Gm-Message-State: AGi0PubRBJjDQ9X/H1XLcwrsWVouZhVUfnyUrOzQBifxze2YYwjBYMPv
+        R4bUv/p2Zk6gA9MiYzsBftj4Hg==
+X-Google-Smtp-Source: APiQypK8UdDkIoIIO+IC1Ly/YfpTzLO1dFuZ9+vKGj8L8fRa2h/L7QWdnMlATD9BYmUl6aJoPv9b3w==
+X-Received: by 2002:a63:150:: with SMTP id 77mr8334289pgb.136.1588799735729;
+        Wed, 06 May 2020 14:15:35 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id s22sm2721551pfd.51.2020.05.06.14.15.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 12:38:18 -0700 (PDT)
-Date:   Wed, 6 May 2020 15:38:16 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, timmurray@google.com,
-        minchan@google.com, sspatil@google.com, lokeshgidra@google.com
-Subject: Re: [PATCH 2/2] Add a new sysctl knob:
- unprivileged_userfaultfd_user_mode_only
-Message-ID: <20200506193816.GB228260@xz-x1>
-References: <20200423002632.224776-1-dancol@google.com>
- <20200423002632.224776-3-dancol@google.com>
+        Wed, 06 May 2020 14:15:33 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>, jmorris@namei.org,
+        sashal@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v3 5/6] ramoops: Add max_reason optional field to ramoops DT node
+Date:   Wed,  6 May 2020 14:15:22 -0700
+Message-Id: <20200506211523.15077-6-keescook@chromium.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200506211523.15077-1-keescook@chromium.org>
+References: <20200506211523.15077-1-keescook@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200423002632.224776-3-dancol@google.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 22, 2020 at 05:26:32PM -0700, Daniel Colascione wrote:
-> +unprivileged_userfaultfd_user_mode_only
-> +========================================
-> +
-> +This flag controls whether unprivileged users can use the userfaultfd
-> +system calls to handle page faults in kernel mode.  If set to zero,
-> +userfaultfd works with or without UFFD_USER_MODE_ONLY, modulo
-> +unprivileged_userfaultfd above.  If set to one, users without
-> +SYS_CAP_PTRACE must pass UFFD_USER_MODE_ONLY in order for userfaultfd
-> +to succeed.  Prohibiting use of userfaultfd for handling faults from
-> +kernel mode may make certain vulnerabilities more difficult
-> +to exploit.
-> +
-> +The default value is 0.
+From: Pavel Tatashin <pasha.tatashin@soleen.com>
 
-If this is going to be added... I am thinking whether it should be easier to
-add another value for unprivileged_userfaultfd, rather than a new sysctl. E.g.:
+Currently, it is possible to dump kmsges for panic, or oops.
+With max_reason it is possible to dump messages for other
+kmesg_dump events, for example reboot, halt, shutdown, kexec.
 
-  "0": unprivileged userfaultfd forbidden
-  "1": unprivileged userfaultfd allowed (both user/kernel faults)
-  "2": unprivileged userfaultfd allowed (only user faults)
+Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+Link: https://lore.kernel.org/r/20200505154510.93506-6-pasha.tatashin@soleen.com
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ .../devicetree/bindings/reserved-memory/ramoops.txt | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-Because after all unprivileged_userfaultfd_user_mode_only will be meaningless
-(iiuc) if unprivileged_userfaultfd=0.  The default value will also be the same
-as before ("1") then.
-
-Thanks,
-
+diff --git a/Documentation/devicetree/bindings/reserved-memory/ramoops.txt b/Documentation/devicetree/bindings/reserved-memory/ramoops.txt
+index 0eba562fe5c6..b7886fea368c 100644
+--- a/Documentation/devicetree/bindings/reserved-memory/ramoops.txt
++++ b/Documentation/devicetree/bindings/reserved-memory/ramoops.txt
+@@ -30,7 +30,7 @@ Optional properties:
+ - ecc-size: enables ECC support and specifies ECC buffer size in bytes
+   (defaults to 0: no ECC)
+ 
+-- record-size: maximum size in bytes of each dump done on oops/panic
++- record-size: maximum size in bytes of each kmsg dump.
+   (defaults to 0: disabled)
+ 
+ - console-size: size in bytes of log buffer reserved for kernel messages
+@@ -45,7 +45,16 @@ Optional properties:
+ - unbuffered: if present, use unbuffered mappings to map the reserved region
+   (defaults to buffered mappings)
+ 
+-- no-dump-oops: if present, only dump panics (defaults to panics and oops)
++- max-reason: if present, sets maximum type of kmsg dump reasons to store
++  (defaults to 2: log Oopses and Panics). This can be set to INT_MAX to
++  store all kmsg dumps. See include/linux/kmsg_dump.h KMSG_DUMP_* for other
++  kmsg dump reason values. Setting this to 0 (KMSG_DUMP_UNDEF), means the
++  reason filtering will be controlled by the printk.always_kmsg_dump boot
++  param: if unset, it will be KMSG_DUMP_OOPS, otherwise KMSG_DUMP_MAX.
++
++- no-dump-oops: deprecated, use max_reason instead. If present, and
++  max_reason is not specified, it is equivalent to max_reason = 1
++  (KMSG_DUMP_PANIC).
+ 
+ - flags: if present, pass ramoops behavioral flags (defaults to 0,
+   see include/linux/pstore_ram.h RAMOOPS_FLAG_* for flag values).
 -- 
-Peter Xu
+2.20.1
 
