@@ -2,104 +2,107 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2B45C35280
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 22:22:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF85CC35280
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 22:26:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAD9A2082E
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 22:22:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P0eiat9R"
+	by mail.kernel.org (Postfix) with ESMTP id 8891220870
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 22:26:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588890362;
+	bh=QtYWifQxruRicMYlWxBFETeDcMT2YeYKexFYi3DgWKA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Bi/CYNG8MyYfD0KBJ+oPGADu6/qRFgWVV5LAx1sasLvDcTScRKjWU4UwzAPLObVQS
+	 ugsoBJ8Jml+EznDSK+SU5hlGO+xnlwyysEL6FUIrZGwmfmo+jMe/509xz1UoUaSvVu
+	 9wZ72Eipsyk/BSzdQeYscoBzWeozI2TZIgupGyG4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbgEGWWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 18:22:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28793 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726518AbgEGWWF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 18:22:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588890124;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=H1fE5P6+fvPAXaUqAeYEo8nNr2ZmJz9U6Sff/jvrkLc=;
-        b=P0eiat9R3lzKpbyCjv7SppU5qAtFkFO7M6k+7MGNPid6ZNX231Nxyo5mBUXmD6hKJqTm2p
-        0gy7FUS0IzmtlK4KjUAR0EY6PSFqSfB7pMB2qo4+Jf3AyOj/uLaAnAtaKZb2sUz/IOI9DS
-        PyHrRZy+Uv5DChPIAMduB85MHz4Mwso=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-hlU1JeMCM2mh6kooH-rKBg-1; Thu, 07 May 2020 18:15:13 -0400
-X-MC-Unique: hlU1JeMCM2mh6kooH-rKBg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6808107ACCA;
-        Thu,  7 May 2020 22:15:11 +0000 (UTC)
-Received: from optiplex-lnx (unknown [10.3.128.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 70153649B1;
-        Thu,  7 May 2020 22:15:06 +0000 (UTC)
-Date:   Thu, 7 May 2020 18:15:03 -0400
-From:   Rafael Aquini <aquini@redhat.com>
-To:     Qian Cai <cai@lca.pw>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        id S1726580AbgEGW0C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 18:26:02 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:35098 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726579AbgEGW0C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 18:26:02 -0400
+Received: by mail-pl1-f195.google.com with SMTP id f8so2666913plt.2;
+        Thu, 07 May 2020 15:26:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DZd2V6aZzC95wLlSgPEBXlyeRSaAQc/BSqmBsSSCJnY=;
+        b=Mn907trl+04MmBXU84WKRAQT1FD7GWoxusIl9dCBVbp/AahOB7DwgnAQ/kpNIPh4OY
+         s9ICGmGWRFlrgtjzDWo6CRQnq+IxgHaPJdeMr4+iB78w88SgyfklLk8uQ9Z8KYY4ZP4b
+         XfNjUjCayU/bN5L0x2hxqOC6dMNjgZT10UnctORR4Q4kAyOln2mAkKW8tCrg9JHQJlZf
+         eaFg2Bx+/4c2eVqrr/7N/YLbvSVlsyZTB2ruuYTvlibqF18vSI4vQJjjCWLQ7EJJTGaO
+         bqO58PCHIMfSEdHo3TGGdqqzQ3ar+uOnqnlAvVcU8+18JrkVqJDU4jH2p0USaiaR+ivh
+         K7qQ==
+X-Gm-Message-State: AGi0PuYEDYBPA05+Z+kZr6A1Lk+Sw1zfO8QqtPA7+WmN7BXOAzawfMHd
+        0yjOSRQ2sCbkbWEmSC1+zDU=
+X-Google-Smtp-Source: APiQypIPwdzfOMX951uSbn33ONVVuG6n8WfUdh7gFNW66WEA5AQCyAZiEcEcEVoNy/HcIubnSplBmw==
+X-Received: by 2002:a17:90a:d3cc:: with SMTP id d12mr2582928pjw.158.1588890360942;
+        Thu, 07 May 2020 15:26:00 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id h5sm769234pjv.4.2020.05.07.15.25.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2020 15:25:59 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 04A1C403EA; Thu,  7 May 2020 22:25:58 +0000 (UTC)
+Date:   Thu, 7 May 2020 22:25:58 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Rafael Aquini <aquini@redhat.com>
+Cc:     Tso Ted <tytso@mit.edu>, Adrian Bunk <bunk@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Jeff Mahoney <jeffm@suse.com>, Jiri Kosina <jikos@kernel.org>,
+        Jessica Yu <jeyu@suse.de>, Takashi Iwai <tiwai@suse.de>,
+        Ann Davis <AnDavis@suse.com>,
+        Richard Palethorpe <rpalethorpe@suse.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        dyoung@redhat.com, Baoquan He <bhe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH] kernel: add panic_on_taint
-Message-ID: <20200507221503.GL205881@optiplex-lnx>
-References: <20200506222815.274570-1-aquini@redhat.com>
- <C5E11731-5503-45CC-9F72-41E8863ACD27@lca.pw>
- <20200507204219.GJ205881@optiplex-lnx>
- <27AA744E-930A-492A-BE87-05A119FE1549@lca.pw>
+        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
+        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org
+Subject: Re: [PATCH v2] kernel: add panic_on_taint
+Message-ID: <20200507222558.GA11244@42.do-not-panic.com>
+References: <20200507180631.308441-1-aquini@redhat.com>
+ <20200507182257.GX11244@42.do-not-panic.com>
+ <20200507184307.GF205881@optiplex-lnx>
+ <20200507184705.GG205881@optiplex-lnx>
+ <20200507203340.GZ11244@42.do-not-panic.com>
+ <20200507220606.GK205881@optiplex-lnx>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <27AA744E-930A-492A-BE87-05A119FE1549@lca.pw>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200507220606.GK205881@optiplex-lnx>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 07, 2020 at 06:05:27PM -0400, Qian Cai wrote:
+On Thu, May 07, 2020 at 06:06:06PM -0400, Rafael Aquini wrote:
+> On Thu, May 07, 2020 at 08:33:40PM +0000, Luis Chamberlain wrote:
+> > I *think* that a cmdline route to enable this would likely remove the
+> > need for the kernel config for this. But even with Vlastimil's work
+> > merged, I think we'd want yet-another value to enable / disable this
+> > feature. Do we need yet-another-taint flag to tell us that this feature
+> > was enabled?
+> >
 > 
-> 
-> > On May 7, 2020, at 4:42 PM, Rafael Aquini <aquini@redhat.com> wrote:
-> > 
-> > On Wed, May 06, 2020 at 10:50:19PM -0400, Qian Cai wrote:
-> >> 
-> >> 
-> >>> On May 6, 2020, at 6:28 PM, Rafael Aquini <aquini@redhat.com> wrote:
-> >>> 
-> >>> Analogously to the introduction of panic_on_warn, this patch
-> >>> introduces a kernel option named panic_on_taint in order to
-> >>> provide a simple and generic way to stop execution and catch
-> >>> a coredump when the kernel gets tainted by any given taint flag.
-> >>> 
-> >>> This is useful for debugging sessions as it avoids rebuilding
-> >>> the kernel to explicitly add calls to panic() or BUG() into
-> >>> code sites that introduce the taint flags of interest.
-> >>> Another, perhaps less frequent, use for this option would be
-> >>> as a mean for assuring a security policy (in paranoid mode)
-> >>> case where no single taint is allowed for the running system.
-> >> 
-> >> Andrew, you can drop the patch below from -mm now because that one is now obsolete,
-> >> 
-> >> mm-slub-add-panic_on_error-to-the-debug-facilities.patch
-> >> 
-> > Please, don't drop it yet. I'll send a patch to get rid of the bits,
-> > once this one gets accepted, if it gets accepted.
-> 
-> Why do you ever want that obsolete patch even show up in linux-next to potentailly waste other people/bots time to test it and develop things on top of it?
->
+> I guess it makes sense to get rid of the sysctl interface for
+> proc_on_taint, and only keep it as a cmdline option. 
 
-It's a reasonable and self-contained feature that we have a valid use for. 
-I honestly fail to see it causing that amount of annoyance as you are 
-suggesting here.
+That would be easier to support and k3eps this simple.
 
+> But the real issue seems to be, regardless we go with a cmdline-only option
+> or not, the ability of proc_taint() to set any arbitrary taint flag 
+> other than just marking the kernel with TAINT_USER. 
+
+I think we would have no other option but to add a new TAINT flag so
+that we know that the taint flag was modified by a user. Perhaps just
+re-using TAINT_USER when proc_taint() would suffice.
+
+  Luis
