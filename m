@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 541CCC47257
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4054EC38A2A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:44:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E13D20736
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:44:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DE0E20736
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:44:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="mjtxeEvE"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Lv++/U9G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727852AbgEGAok (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 20:44:40 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:48166 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727991AbgEGAoj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:44:39 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bnDA064643;
-        Thu, 7 May 2020 00:43:43 GMT
+        id S1728492AbgEGAon (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 20:44:43 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:37548 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728482AbgEGAom (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:44:42 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470dCV4097456;
+        Thu, 7 May 2020 00:43:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=6P9Ea8+L0/6u0LKsSX8nQ7X+dyBEkyzViml0EHL0W1M=;
- b=mjtxeEvEOhg5lneS/5F9CvlrhzEJXQnhCL4+ghi6GcQtqHvLoy5bJniVXhVRDmOrXxHs
- kKVwq0uMi8fK6/FFsb2MHVKg81uXx+5nh04u01P7mjdV7uqPCWWujCy+mj3FCeIq+ucH
- 52pLV0hf1v8wyeKtWsCu4WWyZNL0rXtShMHwHGDsxSLkdolpfb4eqRdTwpMbKMV4O/86
- E+R/ncLrRQbIwhzLJAQLPlxylXk5f+XI4PxRfz71rqrKSIW8517arkugBDGvJXfo9yvu
- KhJ65ZnOlGziT5I261OAmKbMIMP9/sqPQgoOfhQKMdeHtwls33J3ROcVRl5RTYU20H7a ng== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2130.oracle.com with ESMTP id 30s09rdf9m-1
+ bh=w6gOhqdHP7hbtdLBjCjLiDcomUNMD9tvJtFBbgdcHPI=;
+ b=Lv++/U9G1thp1Jx477m45dEIdSTTpOl/IZTc1/2RMGCUioiWeeoVm7oSSB6ITBLuLy3E
+ hb4PEu9jOPp5h43qH3/TWELHqYV83F6pWkutzNXpCvrrUAGx6RKuzZoitB9sZME1+Dpn
+ yxpBGXG0EmRLkPCfwp52kSGt+cSAm6nJscyd6ST/1t9CehBtFlDtztZ/e6QJPuixX++d
+ yTrGU6b11vzjTeFJyjloX0w+wJrLi0Tph93RVY2loNtSnbBGClJBO2D8eqPCitU1WyS2
+ qMfxR55riNPEtqH+5Lszl9DKwQAyK/+tbaauixpximYhHRrI5FXZfvC0GwvWPe4vWRWU bw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 30usgq4gyy-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:43:43 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bm9F131707;
-        Thu, 7 May 2020 00:43:43 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 30t1r95a8f-1
+        Thu, 07 May 2020 00:43:47 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470an8G136067;
+        Thu, 7 May 2020 00:43:47 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 30sjdwrr7b-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:43:43 +0000
+        Thu, 07 May 2020 00:43:47 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470hd2R025819;
-        Thu, 7 May 2020 00:43:40 GMT
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0470hkb0029778;
+        Thu, 7 May 2020 00:43:46 GMT
 Received: from ayz-linux.localdomain (/68.7.158.207)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 06 May 2020 17:43:39 -0700
+        with ESMTP ; Wed, 06 May 2020 17:43:46 -0700
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -69,79 +69,73 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, paul.c.lai@intel.com, ashok.raj@intel.com,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org
-Subject: [RFC 18/43] kexec: PKRAM: avoid clobbering already preserved pages
-Date:   Wed,  6 May 2020 17:41:44 -0700
-Message-Id: <1588812129-8596-19-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC 20/43] PKRAM: disable feature when running the kdump kernel
+Date:   Wed,  6 May 2020 17:41:46 -0700
+Message-Id: <1588812129-8596-21-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=0
- spamscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 mlxscore=0
+ bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2005070001
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015 suspectscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=999 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2005070001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ensure destination ranges of the kexec segments do not overlap
-with any kernel pages marked to be preserved across kexec.
-
-For kexec_load, return EADDRNOTAVAIL if overlap is detected.
-
-For kexec_file_load, skip ranges containing preserved pages when
-seaching for available ranges to use.
+The kdump kernel should not preserve or restore pages.
 
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- kernel/kexec_core.c | 3 +++
- kernel/kexec_file.c | 5 +++++
- 2 files changed, 8 insertions(+)
+ mm/pkram.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-index c19c0dad1ebe..8c24b546352e 100644
---- a/kernel/kexec_core.c
-+++ b/kernel/kexec_core.c
-@@ -37,6 +37,7 @@
- #include <linux/compiler.h>
- #include <linux/hugetlb.h>
- #include <linux/frame.h>
-+#include <linux/pkram.h>
+diff --git a/mm/pkram.c b/mm/pkram.c
+index 95e691382721..4d4d836fea53 100644
+--- a/mm/pkram.c
++++ b/mm/pkram.c
+@@ -1,4 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
++#include <linux/crash_dump.h>
+ #include <linux/err.h>
+ #include <linux/gfp.h>
+ #include <linux/highmem.h>
+@@ -193,7 +194,7 @@ void __init pkram_reserve(void)
+ {
+ 	int err = 0;
  
- #include <asm/page.h>
- #include <asm/sections.h>
-@@ -176,6 +177,8 @@ int sanity_check_segment_list(struct kimage *image)
- 			return -EADDRNOTAVAIL;
- 		if (mend >= KEXEC_DESTINATION_MEMORY_LIMIT)
- 			return -EADDRNOTAVAIL;
-+		if (pkram_has_preserved_pages(mstart, mend))
-+			return -EADDRNOTAVAIL;
- 	}
+-	if (!pkram_sb_pfn)
++	if (!pkram_sb_pfn || is_kdump_kernel())
+ 		return;
  
- 	/* Verify our destination addresses do not overlap.
-diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
-index f57f72237859..7b14e1b1a178 100644
---- a/kernel/kexec_file.c
-+++ b/kernel/kexec_file.c
-@@ -498,6 +498,11 @@ static int locate_mem_hole_top_down(unsigned long start, unsigned long end,
- 			continue;
- 		}
+ 	pr_info("PKRAM: Examining preserved memory...\n");
+@@ -305,6 +306,9 @@ static void pkram_show_banned(void)
+ 	int i;
+ 	unsigned long n, total = 0;
  
-+		if (pkram_has_preserved_pages(temp_start, temp_end + 1)) {
-+			temp_start = temp_start - PAGE_SIZE;
-+			continue;
-+		}
++	if (is_kdump_kernel())
++		return;
 +
- 		/* We found a suitable memory range */
- 		break;
- 	} while (1);
+ 	pr_info("PKRAM: banned regions:\n");
+ 	for (i = 0; i < nr_banned; i++) {
+ 		n = banned[i].end - banned[i].start + 1;
+@@ -1223,7 +1227,7 @@ static int __init pkram_init_sb(void)
+ 
+ static int __init pkram_init(void)
+ {
+-	if (pkram_init_sb()) {
++	if (!is_kdump_kernel() && pkram_init_sb()) {
+ 		register_reboot_notifier(&pkram_reboot_notifier);
+ 		register_shrinker(&banned_pages_shrinker);
+ 		sysfs_update_group(kernel_kobj, &pkram_attr_group);
 -- 
 2.13.3
 
