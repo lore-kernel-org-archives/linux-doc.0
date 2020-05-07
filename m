@@ -2,114 +2,94 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B90C38A2A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 12:02:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9356C38A2A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 12:15:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 733AB20CC7
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 12:02:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B291208E4
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 12:15:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbgEGMCe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 08:02:34 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45016 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726807AbgEGMCe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 May 2020 08:02:34 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 7FD70ADC8;
-        Thu,  7 May 2020 12:02:34 +0000 (UTC)
-From:   Vlastimil Babka <vbabka@suse.cz>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Michal Hocko <mhocko@kernel.org>,
-        Sandipan Das <sandipan@linux.ibm.com>,
-        Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH] Documentation: update numastat explanation
-Date:   Thu,  7 May 2020 14:02:17 +0200
-Message-Id: <20200507120217.12313-1-vbabka@suse.cz>
-X-Mailer: git-send-email 2.26.2
+        id S1726616AbgEGMPE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 08:15:04 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22266 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726134AbgEGMPD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 08:15:03 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 047C2nPp110477;
+        Thu, 7 May 2020 08:14:53 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 30u8ssj215-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 07 May 2020 08:14:53 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 047CCvgQ017993;
+        Thu, 7 May 2020 12:14:48 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma03ams.nl.ibm.com with ESMTP id 30s0g5ub1d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 07 May 2020 12:14:48 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 047CEkLj655816
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 7 May 2020 12:14:46 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 298A211C04A;
+        Thu,  7 May 2020 12:14:46 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 13C2A11C04C;
+        Thu,  7 May 2020 12:14:44 +0000 (GMT)
+Received: from [9.199.34.251] (unknown [9.199.34.251])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu,  7 May 2020 12:14:43 +0000 (GMT)
+Subject: Re: [PATCH] Documentation: update numastat explanation
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Michal Hocko <mhocko@kernel.org>
+References: <20200507120217.12313-1-vbabka@suse.cz>
+From:   Sandipan Das <sandipan@linux.ibm.com>
+Message-ID: <4bc07af8-d07f-77d5-36b7-ba4be9e07ee7@linux.ibm.com>
+Date:   Thu, 7 May 2020 17:44:42 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200507120217.12313-1-vbabka@suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
+ definitions=2020-05-07_06:2020-05-07,2020-05-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=832 impostorscore=0 adultscore=0 suspectscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005070099
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-During recent patch discussion [1] it became apparent that the "other_node"
-definition in the numastat documentation has always been different from actual
-implementation. It was also noted that the stats can be innacurate on systems
-with memoryless nodes.
 
-This patch corrects the other_node definition (with minor tweaks to two more
-definitions), adds a note about memoryless nodes and also two introductory
-paragraphs to the numastat documentation.
+On 07/05/20 5:32 pm, Vlastimil Babka wrote:
+> During recent patch discussion [1] it became apparent that the "other_node"
+> definition in the numastat documentation has always been different from actual
+> implementation. It was also noted that the stats can be innacurate on systems
+> with memoryless nodes.
+> 
+> This patch corrects the other_node definition (with minor tweaks to two more
+> definitions), adds a note about memoryless nodes and also two introductory
+> paragraphs to the numastat documentation.
+> 
+> [1] https://lore.kernel.org/linux-mm/20200504070304.127361-1-sandipan@linux.ibm.com/T/#u
+> 
+> [...]
+> 
 
-[1] https://lore.kernel.org/linux-mm/20200504070304.127361-1-sandipan@linux.ibm.com/T/#u
+Thanks again.
 
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
----
- Documentation/admin-guide/numastat.rst | 31 +++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/admin-guide/numastat.rst b/Documentation/admin-guide/numastat.rst
-index aaf1667489f8..08ec2c2bdce3 100644
---- a/Documentation/admin-guide/numastat.rst
-+++ b/Documentation/admin-guide/numastat.rst
-@@ -6,6 +6,21 @@ Numa policy hit/miss statistics
- 
- All units are pages. Hugepages have separate counters.
- 
-+The numa_hit, numa_miss and numa_foreign counters reflect how well processes
-+are able to allocate memory from nodes they prefer. If they succeed, numa_hit
-+is incremented on the preferred node, otherwise numa_foreign is incremented on
-+the preferred node and numa_miss on the node where allocation succeeded.
-+
-+Usually preferred node is the one local to the CPU where the process executes,
-+but restrictions such as mempolicies can change that, so there are also two
-+counters based on CPU local node. local_node is similar to numa_hit and is
-+incremented on allocation from a node by CPU on the same node. other_node is
-+similar to numa_miss and is incremented on the node where allocation succeeds
-+from a CPU from a different node. Note there is no counter analogical to
-+numa_foreign.
-+
-+In more detail:
-+
- =============== ============================================================
- numa_hit	A process wanted to allocate memory from this node,
- 		and succeeded.
-@@ -14,11 +29,13 @@ numa_miss	A process wanted to allocate memory from another node,
- 		but ended up with memory from this node.
- 
- numa_foreign	A process wanted to allocate on this node,
--		but ended up with memory from another one.
-+		but ended up with memory from another node.
- 
--local_node	A process ran on this node and got memory from it.
-+local_node	A process ran on this node's CPU,
-+		and got memory from this node.
- 
--other_node	A process ran on this node and got memory from another node.
-+other_node	A process ran on a different node's CPU
-+		and got memory from this node.
- 
- interleave_hit 	Interleaving wanted to allocate from this node
- 		and succeeded.
-@@ -28,3 +45,11 @@ For easier reading you can use the numastat utility from the numactl package
- (http://oss.sgi.com/projects/libnuma/). Note that it only works
- well right now on machines with a small number of CPUs.
- 
-+Note that on systems with memoryless nodes (where a node has CPUs but no
-+memory) the numa_hit, numa_miss and numa_foreign statistics can be skewed
-+heavily. In the current kernel implementation, if a process prefers a
-+memoryless node (i.e.  because it is running on one of its local CPU), the
-+implementation actually treats one of the nearest nodes with memory as the
-+preferred node. As a result, such allocation will not increase the numa_foreign
-+counter on the memoryless node, and will skew the numa_hit, numa_miss and
-+numa_foreign statistics of the nearest node.
--- 
-2.26.2
-
+Acked-by: Sandipan Das <sandipan@linux.ibm.com>
