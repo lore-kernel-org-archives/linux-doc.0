@@ -2,477 +2,188 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8756C54E49
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 21:15:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A07D3C54E49
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 21:21:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CEDC208CA
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 21:15:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D396208CA
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 21:21:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="k9JIG1cS";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="wpbDXjza"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbgEGVPi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 17:15:38 -0400
-Received: from foss.arm.com ([217.140.110.172]:39464 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726382AbgEGVPh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 May 2020 17:15:37 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A3BA1FB;
-        Thu,  7 May 2020 14:15:36 -0700 (PDT)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7162F3F68F;
-        Thu,  7 May 2020 14:15:33 -0700 (PDT)
-References: <20200507180553.9993-1-john.mathew@unikie.com> <20200507180553.9993-3-john.mathew@unikie.com>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     John Mathew <john.mathew@unikie.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, tsbogend@alpha.franken.de,
-        lukas.bulwahn@gmail.com, x86@kernel.org,
-        linux-mips@vger.kernel.org, tglx@linutronix.de,
-        mostafa.chamanara@basemark.com, rdunlap@infradead.org,
-        Oleg Tsymbal <oleg.tsymbal@unikie.com>
-Subject: Re: [RFC PATCH v3 2/3] docs: scheduler: Add scheduler overview documentation
-In-reply-to: <20200507180553.9993-3-john.mathew@unikie.com>
-Date:   Thu, 07 May 2020 22:15:27 +0100
-Message-ID: <jhjh7wrtpjk.mognet@arm.com>
+        id S1726519AbgEGVVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 17:21:16 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:52422 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726218AbgEGVVP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 17:21:15 -0400
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8ABE8C1439;
+        Thu,  7 May 2020 21:21:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1588886474; bh=z5B5mtoBxMQ4qTQXgNlM0Iz3rCk1YQQhrIPVEAhawio=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=k9JIG1cSnNf6Woa7G9yPiHtQrQJQIddDlUR5uprgmYrScHDDORazASlQsSB8wSwEA
+         KgfzCxv+rOeo89eQDsoBzDXW8LCj1+AKyEMmSdEhOJHq5spzW2v4AcaalAHfvcxax6
+         YTI0eqCqgYzvlicRoY2YDIsxD6aDXNZ5Ax3Eoh/RVT4MsP3j77HZ/IMKitoN9tndra
+         bzPmLuTT2urO4V80ltviQ40oK9C6lMP9G/McePZ8aH5hecRbJDViuPgxns2OARXl8a
+         C+0kK3sElcTp4/WVOmUR2R90OPktn0rTWhENFRiensl6zpfJuwkkgMlQDMUxYwZx6q
+         tSFqZWuqTgZbA==
+Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 1C8C6A0070;
+        Thu,  7 May 2020 21:21:07 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 7 May 2020 14:21:04 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.487.0; Thu, 7 May 2020 14:21:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eseJKZ9W4zP+M6IKytX/YgxC3XeHB2LVvHyJJbOaZTExaEB0Hxhaz8IOq4hEvhVFZOA2Vo7FRw4S8u1JzH97x2Pow1jUqRWbpG4/i022epdRPGfy5gSDf7NKwiJxCKc1u4HGoajGqJNrBTP/JrYvmu8FigU+jfPCOt/4xoTn9WG1u0Kk+MTVk7mL9w1Cg1002Jgqv5QQ+OWSVHuWxbU1y+2663jcagX2wk9I0wZUPlFJ34s2PmgqnFTo2Amb3zENyH1UoRDLB3RulXHzKBe+ISfSXV3mDVfTpxBExYOsxjy55rP7ga66Q5872uVx0HXzQksULcJhaLIocjnSu6lc5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z5B5mtoBxMQ4qTQXgNlM0Iz3rCk1YQQhrIPVEAhawio=;
+ b=RFV4aNrzzKothItRWa3f0QAktXIF/IWcvvj9bo3mWMf/5ahAWCnq45eQtYBaZqHaVXhRIb6Jsy0zuzfF+R0+2Luuz/RS5HK0nuiXKkpZlhcvNpBYdsMQnUheFbyMstcOaxWbLen7HtEeUOcx3ZyDyvV0qXum8ZJVFAEABDi9O0tqpTYRE1WDQSkXtlB9Zky55a4VwJk2LHPwW+VUdKmsddIEDWqFG5efX4R19vXu8iAG+coD+cQPN39lFbMKhV4fGdAGuru5Hfy7nDui2k2BnlKBgCkAMd6b7HUzT+i8D7Y8QPDLDHAlfgFi9xoMkU2RXBY72kZOfOxJNq9P/sZ2yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z5B5mtoBxMQ4qTQXgNlM0Iz3rCk1YQQhrIPVEAhawio=;
+ b=wpbDXjzaR3qr178KsNcDTT5hr/droCau0aS+iqrS0XN9SOnoSIcaB8UcMvCRkQ4N6VCvH9CfaFkii+Szso2qNsNaEczkjQXvtt1XqvCVHHR9daUBkqSyRm5J4Pho+QVob/3BmvY8FY0UGxMQnMR2Wlccwd6xB3PeD2j59yLpUhg=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BYAPR12MB3000.namprd12.prod.outlook.com (2603:10b6:a03:d7::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.27; Thu, 7 May
+ 2020 21:21:03 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::a43a:7392:6fa:c6af]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::a43a:7392:6fa:c6af%6]) with mapi id 15.20.2979.028; Thu, 7 May 2020
+ 21:21:03 +0000
+From:   Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To:     Mike Rapoport <rppt@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+CC:     Rich Felker <dalias@libc.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
+        "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "linux-c6x-dev@linux-c6x.org" <linux-c6x-dev@linux-c6x.org>,
+        Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
+        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH v2 17/20] mm: free_area_init: allow defining max_zone_pfn
+ in descending order
+Thread-Topic: [PATCH v2 17/20] mm: free_area_init: allow defining max_zone_pfn
+ in descending order
+Thread-Index: AQHWHiAFM1CeaVL9XUmgz0SxoJ1XgqiWp/EAgAARJQCAAV7ugIAA9yYAgAAxOACAAJOFgIAAI6gAgAMw2gCAAAYoAA==
+Date:   Thu, 7 May 2020 21:21:03 +0000
+Message-ID: <80b0c001-ea48-f5a2-e0de-19b2cc6ec2ce@synopsys.com>
+References: <20200429121126.17989-1-rppt@kernel.org>
+ <20200429121126.17989-18-rppt@kernel.org>
+ <20200503174138.GA114085@roeck-us.net> <20200503184300.GA154219@roeck-us.net>
+ <20200504153901.GM14260@kernel.org>
+ <a0b20e15-fddb-aa9c-fd67-f1c8e735b4a4@synopsys.com>
+ <20200505091946.GG342687@linux.ibm.com>
+ <88b9465b-6e6d-86ca-3776-ccb7a5b60b7f@synopsys.com>
+ <20200505201522.GA683243@linux.ibm.com>
+ <20200507205900.GH683243@linux.ibm.com>
+In-Reply-To: <20200507205900.GH683243@linux.ibm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+authentication-results: linux.ibm.com; dkim=none (message not signed)
+ header.d=none;linux.ibm.com; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [2601:641:c100:83a0:fee2:8ed0:e900:96d1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: def9d429-d858-4cfd-4d72-08d7f2cc8c17
+x-ms-traffictypediagnostic: BYAPR12MB3000:
+x-microsoft-antispam-prvs: <BYAPR12MB30007E2BC5A57E6510077007B6A50@BYAPR12MB3000.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 03965EFC76
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 7piWYgDy+LOQAHw0I153zwqrgCuXR+lfcC6kQZa2CadYS/WIp2Q4+OO4BATOuevERZpW5TMtJPBAZGygBbv9KIfvEWeEIrR6CyC7kI556hsTRQPBxqvHnl1m01aSgghvkghQvF5uWZF9VEkkMz+xrnaR9LAD4ZphRS7Bp4vioWFJyRS6wS6C9lXj7+b1dn1EFYD5g9PzZ728xAxl96s7EBkVjMO5iY4VQZYW3XCizHGnxuXaE8iqUGSCs7SvYzqqgdoxKNX3zKi7s/p2CMpwrSgnhxNW0/F2u1PeR0l9twY4GCJ3eIdEZXazBxat++sCFdT9EmSo7JHA7PpzVm/DSk3Gfg+MvhiwLqOK/XQjWpDQxlK1dFxbCImPvoRyeQmIUDqu9JEs6Sc8sf3T3CiW7+KB206f+SxlwME74IpFEHnGMtQWf2PJ8sDAd8uchk3UK3LvCdw7ZF8MSVwwkdFy3j3GMH+aS7mlqk/nvPTZkCU8QHQxQmx0JUBK0z5yZtH+wKWmMNQlaaoaJm8OCHBf/N+fgIQmiodpb/SqQyU6tiiJJ6SSZpT34V4VxkhsO5PE
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3479.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(366004)(346002)(39860400002)(376002)(396003)(33430700001)(186003)(66946007)(66446008)(76116006)(6486002)(66556008)(8676002)(478600001)(71200400001)(8936002)(64756008)(66476007)(6512007)(36756003)(7416002)(4326008)(2906002)(5660300002)(86362001)(6506007)(31696002)(2616005)(54906003)(83280400001)(110136005)(83320400001)(83290400001)(83310400001)(31686004)(83300400001)(53546011)(316002)(33440700001)(43740500002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: 5hwzGxNPiqGfBXZcNHT7EuwU45HJ/rXB9Cdss5tpnNdPC8OyVv1vWa43e8G+jL4WXmBWpkL5V56N7eudwO9/3fG/Fvopd1fbOHuwkcI7XrEA0usUtL5OYQ1iLLi6gBVhCcB6kcWSns83iC9XyfGwr8Iv8r39rHsHTL36GpFNnm8ns3qx0wBFMPVk8rva6xaFTDWT2CCU3u1rbgHJZIR95+ZZ6kskNVKcZoBZBKn9hLWrANYwaqj+gxCwFwA8+3QXViMQYJCYInmjaWVS/zBqY40Y9KpztolYJ+MXebR+a7kGms0Qy4KO/Bfdn9MPH+jEU0eTQWF+qX5vND8hIMNvFEdeaWoTaaG3+4jpv24InxysydzJM6kWm+NqWCiyS6DH9NXz36FoxfjDyRm9rwSWOGEHZ2I92h3oHE3FoTRcMYcgBvNQXSTR7hiZH7P7oOzeSmwGWBdkx87FYcdOJYyuDIhgPLr+a+tpEDAyOeASlbPvLEcWwhZ2zcoVBhGOOq8oKyxyRpM3D8yokHpkuqPCr6A+lStKYA0ebt4EgnjnaApEXM8jXsabTZ24989Ktr/1NewZW9lBE4DAKecFFu0v74xsxPqnutV+J0Ug8R87gpESATHvAT9oiwjapH2U96nUIz+UnrQodaeQ/XxSxKO84FPLrxZuNaoGd5W6jbEcz+s+ZEbcgxEU49VDNU14cINkuymnrFM7eXuReYbycM6jKTcyBP/wYFF7MT1LLgMyFm4rCona1mdlGrk8ez7Sc8vx+Bq1qpWyaaBdViXp1reJHZ5B+6pobS+HziVUS5KnMMqVIg9KMGGQb8iSpafuo8QuP4YXseWeZfBIJqpAfBAzUQsZ+vbTAuHbOYNlGEpVZ1Y=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D2A13E4A32E60C448B6A7689E04CDA5C@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-Network-Message-Id: def9d429-d858-4cfd-4d72-08d7f2cc8c17
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2020 21:21:03.1653
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gUNwip59pWubcMuoWMAAXW6lNDRI8xGqDBLqblWbRCw9dlftPeBwZtvWC1Woma/PGbbRFvkKSIH1v5Onlmc7VA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3000
+X-OriginatorOrg: synopsys.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 07/05/20 19:05, John Mathew wrote:
-> Add documentation for
->  -scheduler overview
->  -scheduler state transtion
->  -CFS overview
->  -scheduler data structs
->
-> Add rst for scheduler APIs and modify sched/core.c
-> to add kernel-doc comments.
->
-> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Co-developed-by: Mostafa Chamanara <mostafa.chamanara@basemark.com>
-> Signed-off-by: Mostafa Chamanara <mostafa.chamanara@basemark.com>
-> Co-developed-by: Oleg Tsymbal <oleg.tsymbal@unikie.com>
-> Signed-off-by: Oleg Tsymbal <oleg.tsymbal@unikie.com>
-> Signed-off-by: John Mathew <john.mathew@unikie.com>
-> ---
->  Documentation/scheduler/cfs-overview.rst      | 113 ++++++++
->  Documentation/scheduler/index.rst             |   7 +-
->  Documentation/scheduler/overview.rst          | 266 ++++++++++++++++++
->  .../scheduler/sched-data-structs.rst          | 253 +++++++++++++++++
->  Documentation/scheduler/scheduler-api.rst     |  31 ++
->  kernel/sched/core.c                           |  28 +-
->  kernel/sched/sched.h                          | 169 ++++++++++-
->  7 files changed, 858 insertions(+), 9 deletions(-)
->  create mode 100644 Documentation/scheduler/cfs-overview.rst
->  create mode 100644 Documentation/scheduler/sched-data-structs.rst
->  create mode 100644 Documentation/scheduler/scheduler-api.rst
->
-> diff --git a/Documentation/scheduler/cfs-overview.rst b/Documentation/scheduler/cfs-overview.rst
-> new file mode 100644
-> index 000000000000..b717f2d3e340
-> --- /dev/null
-> +++ b/Documentation/scheduler/cfs-overview.rst
-> @@ -0,0 +1,113 @@
-> +.. SPDX-License-Identifier: GPL-2.0+
-> +
-> +=============
-> +CFS Overview
-> +=============
-> +
-> +Linux 2.6.23 introduced a modular scheduler core and a Completely Fair
-> +Scheduler (CFS) implemented as a scheduling module. A brief overview of the
-> +CFS design is provided in :doc:`sched-design-CFS`
-> +
-> +In addition there have been many improvements to the CFS, a few of which are
-
-<snip>
-
-> +**Consider misfit tasks when load-balancing**:
-> +On asymmetric CPU capacity systems load intensive tasks can end up on
-> +CPUs that don't suit their compute demand. In this scenario 'misfit'
-> +tasks are migrated to CPUs with higher compute capacity to ensure better
-> +throughput. A new group_type: group_misfit_task is added and indicates this
-> +scenario. Tweaks to the load-balance code are done to make the migrations
-> +happen. Misfit balancing is done between a source group of lower per-CPU
-> +capacity and destination group of higher compute capacity. Otherwise, misfit
-> +balancing is ignored.
-> +
-
-I'm not sure how useful this cherry-picked git history is, but that's
-making me think we may want to have an asymmetric CPU capacity scheduling
-section somewhere - I've had to explain what we do here a few times
-already, and it's true that unless you look at the git history or at the
-code it isn't laid out for you (with the exception of EAS that was blessed
-with Quentin's writings).
-
-It would also be an opportunity to have one place to (at least briefly)
-describe what the different sched classes do wrt capacity asymmetry - CFS
-does one thing, RT now does one thing (see Qais' work), and DL will
-hopefully soon follow (see Dietmar's work).
-
-I'd be happy to contribute (some of) that, if it can be deemed useful (I
-personally think it might).
-
-> +=========================
-> +Scheduler Data Structures
-> +=========================
-> +
-> +The main parts of the Linux scheduler are:
-> +
-> +Runqueue
-> +~~~~~~~~
-> +
-> +:c:type:`struct rq <rq>` is the central data structure of process
-> +scheduling. It keeps track of tasks that are in a runnable state assigned
-> +for a particular processor. Each CPU has its own run queue and stored in a
-> +per CPU array::
-> +
-> +    DEFINE_PER_CPU(struct rq, runqueues);
-> +
-> +Access to the queue requires locking and lock acquire operations must be
-> +ordered by ascending runqueue. Macros for accessing and locking the runqueue
-> +are provided in::
-> +
-> +    kernel/sched/sched.h
-> +
-> +The runqueue contains scheduling class specific queues and several scheduling
-> +statistics.
-> +
-> +Scheduling entity
-> +~~~~~~~~~~~~~~~~~
-> +Scheduler uses scheduling entities which contain sufficient information to
-> +actually accomplish the scheduling job of a task or a task-group. The
-> +scheduling entity may be a group of tasks or a single task. Every task is
-> +associated with a sched_entity structure. CFS adds support for nesting of
-> +tasks and task groups. Each scheduling entity may be run from its parents
-> +runqueue. The scheduler traverses the sched_entity hierarchy to pick the
-> +next task to run on the CPU. The entity gets picked up from the cfs_rq on
-> +which it is queued and its time slice is divided among all the tasks on its my_q.
-> +
-> +Virtual Runtime
-> +~~~~~~~~~~~~~~~~~
-
-That probably should be under CFS specific stuff.
-
-> +Virtual Run Time or vruntime is the amount of time a task has spent running
-> +on the CPU. It is updated periodically by scheduler_tick(). Tasks are stored
-> +in the CFS scheduling class rbtree sorted by vruntime. scheduler_tick() calls
-> +corresponding hook of CFS which first updates the runtime statistics of the
-> +currently running task and checks if the current task needs to be preempted.
-> +vruntime of the task based on the formula ::
-> +
-> +    vruntime += delta_exec * (NICE_0_LOAD/curr->load.weight);
-> +
-> +where:
-> +
-> +* delta_exec is the time in nanoseconds spent by the task since the last time
-> +  vruntime was updated.
-
-There's the whole task_clock() shenanigans there, i.e. depending on your
-config knobs that delta may not include IRQ or paravirt time; though that
-doesn't necessarily help in understanding vruntime, so it might be best to
-leave it at that.
-
-> +* NICE_0_LOAD is the load of a task with normal priority.
-
-s/normal/default/
-
-> +* curr is the shed_entity instance of the cfs_rq struct of the currently
-> +  running task.
-> +* load.weight: sched_entity load_weight. load_weight is the encoding of
-> +  the tasks priority and vruntime. The load of a task is the metric
-> +  indicating the number of CPUs needed to make satisfactory progress on its
-> +  job. Load of a task influences the time a task spends on the CPU and also
-> +  helps to estimate the overall CPU load which is needed for load balancing.
-
-Careful not to mix up se.load and se.avg.load_avg. Load balancing decisions
-are based (amongst other things) on (sums of) se.avg.load_avg, i.e. the
-'load' signal generated via PELT. It is indeed weighted by priority, but
-se.load is *not* that load signal.
-
-It's also the first time I see that bit about load being ~how many CPUs
-that task needs. That's peculiar; you can't really split a task up to
-schedule it on other CPUs, so how would that help? And, again, the load
-signal being weighted by priority makes this even weirder.
-
-> +  Priority of the task is not enough for the scheduler to estimate the
-> +  vruntime of a process. So priority value must be mapped to the capacity of
-> +  the standard CPU which is done in the array :c:type:`sched_prio_to_weight[]`.
-> +  The array contains mappings for the nice values from -20 to 19. Nice value
-> +  0 is mapped to 1024. Each entry advances by approximately 1.25 which means
-> +  for every increment in nice value the task gets 10% less CPU and vice versa.
-> +
-> +Scheduler classes
-> +~~~~~~~~~~~~~~~~~
-> +It is an extensible hierarchy of scheduler modules. The modules encapsulate
-> +scheduling policy details. They are called from the core code which is
-> +independent. Scheduling classes are implemented through the sched_class
-> +structure. dl_sched_class for deadline scheduler, fair_sched_class for CFS
-> +and rt_sched_class for RT are implementations of this class.
-
-There's stop (at the top) and idle (at the bottom), but admittedly they
-are somewhat special.
-
-> +
-> +The important methods of scheduler class are:
-> +
-> +enqueue_task and dequeue_task
-> +    These functions are used to put and remove tasks from the runqueue
-> +    respectively. The function takes the runqueue, the task which needs to
-> +    be enqueued/dequeued and a bit mask of flags. The main purpose of the
-> +    flags is to describe why the enqueue or dequeue is being called.
-> +    The different flags used are described in ::
-> +
-> +        kernel/sched/sched.h
-> +
-> +    enqueue_task and dequeue_task are called for following purposes.
-> +
-> +    - When waking a newly created task for the first time. Called with
-> +      ENQUEUE_NOCLOCK
-> +    - When migrating a task from one CPU's runqueue to another. Task will be
-> +      first dequeued from its old runqueue, new CPU will be added to the
-> +      task struct,  runqueue of the new CPU will be retrieved and task is
-> +      then enqueued on this new runqueue.
-
-
-> +    - When do_set_cpus_allowed() is called to change a tasks CPU affinity. If
-> +      the task is queued on a runqueue, it is first dequeued with the
-> +      DEQUEUE_SAVE and DEQUEUE_NOCLOCK flags set. The set_cpus_allowed()
-> +      function of the corresponding scheduling class will be called.
-> +      enqueue_task() is then called with ENQUEUE_RESTORE and ENQUEUE_NOCLOCK
-> +      flags set.
-> +    - When changing the priority of a task using rt_mutex_setprio(). This
-> +      function implements the priority inheritance logic of the RT mutex
-> +      code. This function changes the effective priority of a task which may
-> +      in turn change the scheduling class of the task. If so enqueue_task is
-> +      called with flags corresponding to each class.
-> +    - When user changes the nice value of the task. If the task is queued on
-> +      a runqueue, it first needs to be dequeued, then its load weight and
-> +      effective priority needs to be set. Following which the task is
-> +      enqueued with ENQUEUE_RESTORE and ENQUEUE_NOCLOCK flags set.
-> +    - When __sched_setscheduler() is called. This function enables changing
-> +      the scheduling policy and/or RT priority of a thread. If the task is
-> +      on a runqueue, it will be first dequeued, changes will be made and
-> +      then enqueued.
-> +    - When moving tasks between scheduling groups. The runqueue of the tasks
-> +      is changed when moving between groups. For this purpose if the task
-> +      is running on a queue, it is first dequeued with DEQUEUE_SAVE, DEQUEUE_MOVE
-> +      and DEQUEUE_NOCLOCK flags set, followed by which scheduler function to
-> +      change the tsk->se.cfs_rq and tsk->se.parent and then task is enqueued
-> +      on the runqueue with the same flags used in dequeue.
-> +
-
-Those are all what Peter dubs the "change pattern", you may want to just
-explain the principle (we need to dequeue tasks to do some operations; and
-ofc we need to put them back as they were once that's done) & pick just one
-rather than exhaustively list them all.
-
-This still applies to a lot of other places IMO - I think you need less
-exhaustive listings and more "what's the gist of that".
-
-> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-> index db3a57675ccf..21f2953b72c7 100644
-> --- a/kernel/sched/sched.h
-> +++ b/kernel/sched/sched.h
-> @@ -865,12 +865,175 @@ struct uclamp_rq {
->  };
->  #endif /* CONFIG_UCLAMP_TASK */
->
-> -/*
-> - * This is the main, per-CPU runqueue data structure.
-> +/**
-> + * struct rq - This is the main, per-CPU runqueue data structure.
->   *
->   * Locking rule: those places that want to lock multiple runqueues
->   * (such as the load balancing or the thread migration code), lock
->   * acquire operations must be ordered by ascending &runqueue.
-> + *
-> + * @lock:
-> + *	lock to be acquired while modifying the runqueue
-> + * @nr_running:
-> + *	number of runnable tasks on this queue
-> + * @nr_numa_running:
-> + *	number of tasks running that care about their placement
-> + * @nr_preferred_running:
-> + *	number of tasks that are optimally NUMA placed
-> + * @numa_migrate_on:
-> + *	per run-queue variable to check if NUMA-balance is
-> + *	active on the run-queue
-> + * @last_blocked_load_update_tick:
-> + *	tick stamp for decay of blocked load
-> + * @has_blocked_load:
-> + *	idle CPU has blocked load
-> + * @nohz_tick_stopped:
-> + *	CPU is going idle with tick stopped
-> + * @nohz_flags:
-> + *	flags indicating NOHZ idle balancer actions
-> + * @nr_load_updates:
-> + *	unused
-> + * @nr_switches:
-> + *	number of context switches
-> + * @uclamp:
-> + *	utilization clamp values based on CPU's RUNNABLE tasks
-> + * @uclamp_flags:
-> + *	flags for uclamp actions, currently one flag for idle.
-> + * @cfs:
-> + *	fair scheduling class runqueue
-> + * @rt:
-> + *	rt scheduling class runqueue
-> + * @dl:
-> + *	dl scheduing class runqueue
-> + * @leaf_cfs_rq_list:
-> + *	list of leaf cfs_rq on this CPU
-> + * @tmp_alone_branch:
-> + *	reference to add child before its parent in leaf_cfs_rq_list
-> + * @nr_uninterruptible:
-> + *	global counter where the total sum over all CPUs matters. A task
-> + *      can increase this counter on one CPU and if it got migrated
-> + *	afterwards it may decrease it on another CPU. Always updated under
-> + *	the runqueue lock
-> + * @curr:
-> + *	points to the currently running task of this rq.
-> + * @idle:
-> + *	points to the idle task of this rq
-> + * @stop:
-> + *	points to the stop task of this rq
-> + * @next_balance:
-> + *	shortest next balance before updating nohz.next_balance
-> + * @prev_mm:
-> + *	real address space of the previous task
-> + * @clock_update_flags:
-> + *	RQCF clock_update_flags bits
-> + * @clock:
-> + *	sched_clock() value for the queue
-> + * @clock_task:
-> + *	clock value minus irq handling time
-> + * @clock_pelt:
-> + *	clock which scales with current capacity when something is
-> + *	running on rq and synchronizes with clock_task when rq is idle
-> + * @lost_idle_time:
-> + *	idle time lost when utilization of a rq has reached the
-> + *	maximum value
-> + * @nr_iowait:
-> + *	account the idle time that we could have spend running if it
-> + *	were not for IO
-> + * @membarrier_state:
-> + *	copy of membarrier_state from the mm_struct
-> + * @rd:
-> + *	root domain, each exclusive cpuset essentially defines an island
-> + *	domain by fully partitioning the member CPUs from any other cpuset
-> + * @sd:
-> + *	a domain heirarchy of CPU groups to balance process load among them
-> + * @cpu_capacity:
-> + *	information about CPUs heterogeneity used for CPU performance
-> + *	scaling
-> + * @cpu_capacity_orig:
-> + *	original capacity of a CPU before being altered by
-> + *	rt tasks and/or IRQ
-> + * @balance_callback:
-> + *	queue to hold load balancing push and pull operations
-> + * @idle_balance:
-> + *	flag to do the nohz idle load balance
-> + * @misfit_task_load:
-> + *	set whenever the current running task has a utilization
-> + *	greater than 80% of rq->cpu_capacity. A non-zero value
-> + *	in this field enables misfit load balancing
-> + * @active_balance:
-> + *	synchronizes accesses to ->active_balance_work
-> + * @push_cpu:
-> + *	idle cpu to push the running task on to during active load
-> + *	balancing.
-> + * @active_balance_work:
-> + *	callback scheduled to run on one or multiple cpus
-> + *	with maximum priority monopolozing those cpus.
-> + * @cpu:
-> + *	CPU of this runqueue
-> + * @online:
-> + *	Used by scheduling classes to support CPU hotplug
-> + * @cfs_tasks:
-> + *	an MRU list used for load balancing, sorted (except
-> + *	woken tasks) starting from recently given CPU time tasks
-> + *	toward tasks with max wait time in a run-queue
-> + * @avg_rt:
-> + *	track the utilization of RT tasks for a  more accurate
-> + *	view of the utilization of the CPU when overloaded by CFS and
-> + *	RT tasks
-> + * @avg_dl:
-> + *	track the utilization of DL tasks as CFS tasks can be preempted
-> + *	by DL tasks and the CFS's utilization might no longer describe
-> + *	the real utilization level
-> + * @avg_irq:
-> + *	track the the utilization of interrupt to give a more accurate
-> + *	level of utilization of CPU taking into account the time spent
-> + *	under interrupt context when rqs' clock is updated
-> + * @avg_thermal:
-> + *	tracks thermal pressure which is the reduction in maximum
-> + *	possible capacity due to thermal events
-> + * @idle_stamp:
-> + *	time stamp at which idle load balance started for this rq.
-> + *	Used to find the idlest CPU, when multiple idle CPUs are in
-> + *	the same state
-> + * @avg_idle:
-> + *	average idle time for this rq
-> + * @max_idle_balance_cost:
-> + *	used to determine avg_idle's max value
-> + * @prev_irq_time:
-> + *	updated to account time consumed when a previous
-> + *	update_rq_clock() happened inside a {soft,}irq region
-> + * @prev_steal_time:
-> + *	to account how much elapsed time was spent in steal
-> + * @prev_steal_time_rq:
-> + *	for fine granularity task steal time accounting by
-> + *	making update_rq_clock() aware of steal time
-> + * @calc_load_update:
-> + *	sample window for global load-average calculations
-> + * @calc_load_active:
-> + *	fold any nr_active delta into a global accumulate
-> + * @hrtick_csd:
-> + *	call_single_data used to set hrtick timer state on a specific CPU
-> + * @hrtick_timer:
-> + *	HR-timer to deliver an accurate preemption tick
-> + * @rq_sched_info:
-> + *	runqueue specific latency stats
-> + * @rq_cpu_time:
-> + *	runqueue specific accumulated per-task cpu runtime
-> + * @yld_count:
-> + *	runqueue specific sys_sched_yield() stats
-> + * @sched_count:
-> + *	runqueue specific __schedule() stats
-> + * @sched_goidle:
-> + *	runqueue specific idle scheduling class stats
-> + * @ttwu_count:
-> + *	runqueue specific idle ttwu stats , both remote and local
-> + * @ttwu_local:
-> + *	ttwu count for the CPU of the rq
-> + * @wake_list:
-> + *	list which stores tasks being woken up remotely by ttwu
-> + * @idle_state:
-> + *	cpuidle state pointer of the CPU of this rq used to make a
-> + *	better decision when balancing tasks
-
-Holy moly! I appreciate the effort, but I'm thinking the targeted audience
-might prefer this under the form of comments within the struct definition...
-
->   */
->  struct rq {
->       /* runqueue lock: */
-> @@ -1136,7 +1299,7 @@ static inline u64 rq_clock_task(struct rq *rq)
->       return rq->clock_task;
->  }
->
-> -/**
-> +/*
->   * By default the decay is the default pelt decay period.
->   * The decay shift can change the decay period in
->   * multiples of 32.
+T24gNS83LzIwIDE6NTkgUE0sIE1pa2UgUmFwb3BvcnQgd3JvdGU6DQo+IE9uIFR1ZSwgTWF5IDA1
+LCAyMDIwIGF0IDExOjE1OjIyUE0gKzAzMDAsIE1pa2UgUmFwb3BvcnQgd3JvdGU6DQo+PiBPbiBU
+dWUsIE1heSAwNSwgMjAyMCBhdCAwNjowNzo0NlBNICswMDAwLCBWaW5lZXQgR3VwdGEgd3JvdGU6
+DQo+Pj4gT24gNS81LzIwIDI6MTkgQU0sIE1pa2UgUmFwb3BvcnQgd3JvdGU6DQo+Pj4gwqAtIElz
+IGl0IG5vdCBiZXR0ZXIgdG8gaGF2ZSB0aGUgY29yZSByZXRhaW4gdGhlIGZsZXhpYmlsaXR5IGp1
+c3QgaW4gY2FzZQ0KPj4gSWYgdGhlIHJlcXVpcmVtZW50IHRvIGhhdmUgc3VwcG9ydCBmb3IgMy1i
+YW5rcyBpcyBhIHRoZW9yZXRpY2FsDQo+PiBwb3NzaWJpbGl0eSwgSSB3b3VsZCBwcmVmZXIgdG8g
+YWRqdXN0IEFSQydzIHZlcnNpb24gb2YNCj4+IGFyY2hfaGFzX2Rlc2NlbmRpbmdfbWF4X3pvbmVf
+cGZucygpIHRvIGNvcGUgd2l0aCBlaXRoZXIgb2YgMi1iYW5rcw0KPj4gY29uZmlndXJhdGlvbiAo
+UEFFNDAgYW5kIG5vbi1QQUU0MCkgYW5kIGRlYWwgd2l0aCB0aGUgdGhpcmQgYmFuayB3aGVuL2lm
+DQo+PiBpdCBhY3R1YWxseSBtYXRlcmlhbGl6ZXMuDQoNCkZhaXIgZW5vdWdoLg0KDQo+IFRoZSBm
+aXggYmVsb3cgc2hvdWxkIHRha2UgY2FyZSBvZiBhbnkgMi1iYW5rIGNvbmZpZ3VyYXRpb25zLiAN
+Cj4gVGhpcyBpcyB2cy4gY3VycmVudCBtbW90bS4NCj4NCj4gRnJvbSBlYjgxMjRmYjM1ODQ2MDdk
+MTAzNmI3YWUwMGM4MDkyYWU0M2U0ODBkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiBGcm9t
+OiBNaWtlIFJhcG9wb3J0IDxycHB0QGxpbnV4LmlibS5jb20+DQo+IERhdGU6IFRodSwgNyBNYXkg
+MjAyMCAyMzo0NDoxNSArMDMwMA0KPiBTdWJqZWN0OiBbUEFUQ0hdIGFyYzogZnJlZV9hcmVhX2lu
+aXQoKTogdGFrZSBpbnRvIGFjY291bnQgUEFFNDAgbW9kZQ0KPg0KPiBUaGUgYXJjaF9oYXNfZGVz
+Y2VuZGluZ19tYXhfem9uZV9wZm5zKCkgZG9lcyBub3QgdGFrZSBpbnRvIGFjY291bnQgcGh5c2lj
+YWwNCj4gbWVtb3J5IGxheW91dCBmb3IgUEFFNDAgY29uZmlndXJhdGlvbi4NCj4gV2l0aCBQQUU0
+MCBlbmFibGVkLCB0aGUgSElHSE1FTSBpcyBhY3R1YWxseSBoaWdoZXIgdGhhbiBOT1JNQUwgYW5k
+DQo+IGFyY2hfaGFzX2Rlc2NlbmRpbmdfbWF4X3pvbmVfcGZucygpIHNob3VsZCByZXR1cm4gZmFs
+c2UgaW4gdGhpcyBjYXNlLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBNaWtlIFJhcG9wb3J0IDxycHB0
+QGxpbnV4LmlibS5jb20+DQoNCkxHVE0uDQoNCkFja2VkLWJ5OiBWaW5lZXQgR3VwdGEgPHZndXB0
+YUBzeW5vcHN5cy5jb20+DQoNClRoeCwNCg0KPiAtLS0NCj4gIGFyY2gvYXJjL21tL2luaXQuYyB8
+IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0K
+Pg0KPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcmMvbW0vaW5pdC5jIGIvYXJjaC9hcmMvbW0vaW5pdC5j
+DQo+IGluZGV4IDM4Njk1OWJhYzNkMi4uZTdiZGMyYWMxYzg3IDEwMDY0NA0KPiAtLS0gYS9hcmNo
+L2FyYy9tbS9pbml0LmMNCj4gKysrIGIvYXJjaC9hcmMvbW0vaW5pdC5jDQo+IEBAIC03OSw3ICs3
+OSw3IEBAIHZvaWQgX19pbml0IGVhcmx5X2luaXRfZHRfYWRkX21lbW9yeV9hcmNoKHU2NCBiYXNl
+LCB1NjQgc2l6ZSkNCj4gIA0KPiAgYm9vbCBhcmNoX2hhc19kZXNjZW5kaW5nX21heF96b25lX3Bm
+bnModm9pZCkNCj4gIHsNCj4gLQlyZXR1cm4gdHJ1ZTsNCj4gKwlyZXR1cm4gIUlTX0VOQUJMRUQo
+Q09ORklHX0FSQ19IQVNfUEFFNDApOw0KPiAgfQ0KPiAgDQo+ICAvKg0KDQo=
