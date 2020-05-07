@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD6FC28CBC
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:47:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D92C28CBC
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:47:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 983D72064A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:47:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C0762064A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:47:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="C4+OVNvv"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="dPlMIKVt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728659AbgEGApc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 20:45:32 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:39682 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727109AbgEGApb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:45:31 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470cFcS093150;
-        Thu, 7 May 2020 00:44:21 GMT
+        id S1728512AbgEGArs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 20:47:48 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:40174 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728301AbgEGArr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:47:47 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470dorh097717;
+        Thu, 7 May 2020 00:46:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=DoQrZzU/UMsJZ2IxoUJb14SQbVfDKKaxGdtOnUPWmyk=;
- b=C4+OVNvvwb1kwbmns15EmlXY9rzfDHIB9UetOGbMnxHIDD72iydl9DK8TyWHsrV7hoON
- NlGymJDXMCb7mQYs5tvh0xbxx0IXo4j2n+4Qmtnparvw1yWqiDvgBC87b9arOKz2nX8z
- +N0U/G7DJFx0rfYkFpXKeyDP8lAXVViydT8IbMhZf/8QECxh91r0DRWrkb+oO+N5S4gI
- Te2L4bVGCgMM+hYZTvmkRd43auwozy6qVNCxC4L8nmQrOnPXoEh0+PfFPiCSQCpfeZFZ
- 8/h7m8B9MtugkDRYI9OOxt/s0X5ccXnLzXwGbYy1cbl0Lg0MkIH9L7LJDe2+nrsl662C GQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 30s1gnd8q2-1
+ bh=arcq8/HROQoIUiARdJysmZeubuzb+nFutvXELT9aDds=;
+ b=dPlMIKVtPrIjyIeR1b5KRXUxKZhC1X1XWLgImAWpPKmV8IpsamzyGSJ0TKX2RV0704gq
+ CTahxA4HfhdRGEAhkqYGa4Dkj25GdkzZcwii0mXdm5sNq2jYqLOsXcFkYCt4RFACBoov
+ O7P9uIY02ZTKBv48yX3ToBUW8nvJzf1VAdYxx+goAyMFnoLU+rSCL3PfIvieghDUr6yn
+ X7LGaV6szLjIDh4YyXKsDdRakFOjC8SB8RSMbJwe/y/x0wH9hJ46S5qJdeUpMKPzm7p8
+ LbdnzdD6dVGHtIgd2lh83oLwfkmZ2KTumssABEf4D3rt0iSfGpPB4aUY8kRR8rFxlkMr ow== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 30usgq4h6x-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:21 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bonI131815;
-        Thu, 7 May 2020 00:44:21 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 30t1r95c43-1
+        Thu, 07 May 2020 00:46:54 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470at2K136306;
+        Thu, 7 May 2020 00:44:53 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3030.oracle.com with ESMTP id 30sjdwrt78-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:21 +0000
+        Thu, 07 May 2020 00:44:53 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470iJvK020415;
-        Thu, 7 May 2020 00:44:19 GMT
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0470ioUE024931;
+        Thu, 7 May 2020 00:44:50 GMT
 Received: from ayz-linux.localdomain (/68.7.158.207)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 06 May 2020 17:44:19 -0700
+        with ESMTP ; Wed, 06 May 2020 17:44:49 -0700
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -69,135 +69,174 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, paul.c.lai@intel.com, ashok.raj@intel.com,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org
-Subject: [RFC 30/43] memblock: add for_each_reserved_mem_range()
-Date:   Wed,  6 May 2020 17:41:56 -0700
-Message-Id: <1588812129-8596-31-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC 38/43] mm: implement splicing a list of pages to the LRU
+Date:   Wed,  6 May 2020 17:42:04 -0700
+Message-Id: <1588812129-8596-39-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=2
- spamscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 mlxscore=0
+ bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2005070001
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=2 mlxscore=0
- spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
- impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005070001
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005070001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To support deferred initialization of page structs for preserved
-pages, add an iterator of the memblock reserved list that can select or
-exclude ranges based on memblock flags.
+Considerable contention on the LRU lock happens when multiple threads
+are used to insert pages into a shmem file in parallel. To alleviate this
+provide a way for pages to be added to the same LRU to be staged so that
+they can be added by splicing lists and updating stats once with the lock
+held. For now only unevictable pages are supported.
 
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- include/linux/memblock.h | 10 ++++++++++
- mm/memblock.c            | 51 +++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 60 insertions(+), 1 deletion(-)
+ include/linux/swap.h |  11 ++++++
+ mm/swap.c            | 101 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 112 insertions(+)
 
-diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-index 27ab2b30ae1d..f348ebb750c9 100644
---- a/include/linux/memblock.h
-+++ b/include/linux/memblock.h
-@@ -145,6 +145,11 @@ void __next_mem_range_rev(u64 *idx, int nid, enum memblock_flags flags,
- void __next_reserved_mem_region(u64 *idx, phys_addr_t *out_start,
- 				phys_addr_t *out_end);
+diff --git a/include/linux/swap.h b/include/linux/swap.h
+index e1bbf7a16b27..462045f536a8 100644
+--- a/include/linux/swap.h
++++ b/include/linux/swap.h
+@@ -346,6 +346,17 @@ extern void swap_setup(void);
  
-+void __next_reserved_mem_range(u64 *idx, enum memblock_flags flags,
-+			       enum memblock_flags exclflags,
-+			       phys_addr_t *out_start, phys_addr_t *out_end,
-+			       int *out_nid);
-+
- void __memblock_free_late(phys_addr_t base, phys_addr_t size);
+ extern void lru_cache_add_active_or_unevictable(struct page *page,
+ 						struct vm_area_struct *vma);
++struct lru_splice {
++	struct list_head	splice;
++	struct list_head	*lru_head;
++	struct pglist_data	*pgdat;
++	struct lruvec		*lruvec;
++	enum lru_list		lru;
++	unsigned long		nr_pages[MAX_NR_ZONES];
++	unsigned long		pgculled;
++};
++extern void lru_splice_add_anon(struct page *page, struct lru_splice *splice);
++extern void add_splice_to_lru_list(struct lru_splice *splice);
  
- /**
-@@ -202,6 +207,11 @@ void __memblock_free_late(phys_addr_t base, phys_addr_t size);
- 	     i != (u64)ULLONG_MAX;					\
- 	     __next_reserved_mem_region(&i, p_start, p_end))
- 
-+#define for_each_reserved_mem_range(i, flags, exclflags, p_start, p_end, p_nid)\
-+	for (i = 0UL, __next_reserved_mem_range(&i, flags, exclflags, p_start, p_end, p_nid);	\
-+	     i != (u64)ULLONG_MAX;					\
-+	     __next_reserved_mem_range(&i, flags, exclflags, p_start, p_end, p_nid))
-+
- static inline bool memblock_is_hotpluggable(struct memblock_region *m)
- {
- 	return m->flags & MEMBLOCK_HOTPLUG;
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 1a9a2055ed11..33597f352dc0 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -987,6 +987,55 @@ void __init_memblock __next_reserved_mem_region(u64 *idx,
- 	*idx = ULLONG_MAX;
+ /* linux/mm/vmscan.c */
+ extern unsigned long zone_reclaimable_pages(struct zone *zone);
+diff --git a/mm/swap.c b/mm/swap.c
+index bf9a79fed62d..848f8b516471 100644
+--- a/mm/swap.c
++++ b/mm/swap.c
+@@ -187,6 +187,107 @@ int get_kernel_page(unsigned long start, int write, struct page **pages)
  }
+ EXPORT_SYMBOL_GPL(get_kernel_page);
  
-+/**
-+ * __next_reserved_mem_range - next function for for_each_reserved_range()
-+ * @idx: pointer to u64 loop variable
-+ * @flags: pick blocks based on memory attributes
-+ * @exclflags: exclude blocks based on memory attributes
-+ * @out_start: ptr to phys_addr_t for start address of the range, can be %NULL
-+ * @out_end: ptr to phys_addr_t for end address of the range, can be %NULL
-+ * @out_nid: ptr to int for nid of the range, can be %NULL
-+ *
-+ * Iterate over all reserved memory ranges.
++/*
++ * Update stats and move accumulated pages from an lru_splice to the lru.
 + */
-+void __init_memblock __next_reserved_mem_range(u64 *idx,
-+					   enum memblock_flags flags,
-+					   enum memblock_flags exclflags,
-+					   phys_addr_t *out_start,
-+					   phys_addr_t *out_end, int *out_nid)
++void add_splice_to_lru_list(struct lru_splice *splice)
 +{
-+	struct memblock_type *type = &memblock.reserved;
-+	int _idx = *idx;
++	struct pglist_data *pgdat = splice->pgdat;
++	struct lruvec *lruvec = splice->lruvec;
++	enum lru_list lru = splice->lru;
++	unsigned long flags = 0;
++	int zid;
 +
-+	for (; _idx < type->cnt; _idx++) {
-+		struct memblock_region *r = &type->regions[_idx];
-+		phys_addr_t base = r->base;
-+		phys_addr_t size = r->size;
++	spin_lock_irqsave(&pgdat->lru_lock, flags);
++	for (zid = 0; zid < MAX_NR_ZONES; zid++) {
++		if (splice->nr_pages[zid])
++			update_lru_size(lruvec, lru, zid, splice->nr_pages[zid]);
++	}
++	count_vm_events(UNEVICTABLE_PGCULLED, splice->pgculled);
++	list_splice(&splice->splice, splice->lru_head);
++	spin_unlock_irqrestore(&pgdat->lru_lock, flags);
 +
-+		/* skip preserved pages */
-+		if ((exclflags & MEMBLOCK_PRESERVED) && memblock_is_preserved(r))
-+			continue;
++	splice->lru_head = NULL;
++	splice->pgculled = 0;
++}
 +
-+		/* skip non-preserved pages */
-+		if ((flags & MEMBLOCK_PRESERVED) && !memblock_is_preserved(r))
-+			continue;
++static void add_page_to_lru_splice(struct page *page,
++				   struct lru_splice *splice,
++				   struct lruvec *lruvec, enum lru_list lru)
++{
++	int zid;
 +
-+		if (out_start)
-+			*out_start = base;
-+		if (out_end)
-+			*out_end = base + size - 1;
-+		if (out_nid)
-+			*out_nid = r->nid;
-+
-+		_idx++;
-+		*idx = (u64)_idx;
++	if (splice->lru_head == &lruvec->lists[lru]) {
++		list_add(&page->lru, &splice->splice);
++		splice->nr_pages[page_zonenum(page)] += hpage_nr_pages(page);
 +		return;
 +	}
 +
-+	/* signal end of iteration */
-+	*idx = ULLONG_MAX;
++	INIT_LIST_HEAD(&splice->splice);
++	splice->lruvec = lruvec;
++	splice->lru_head = &lruvec->lists[lru];
++	splice->lru = lru;
++	list_add(&page->lru, &splice->splice);
++	for (zid = 0; zid < MAX_NR_ZONES; zid++)
++		splice->nr_pages[zid] = 0;
++	splice->nr_pages[page_zonenum(page)] = hpage_nr_pages(page);
++
 +}
 +
- static bool should_skip_region(struct memblock_region *m, int nid, int flags)
- {
- 	int m_nid = memblock_get_region_node(m);
-@@ -1011,7 +1060,7 @@ static bool should_skip_region(struct memblock_region *m, int nid, int flags)
- }
- 
- /**
-- * __next_mem_range - next function for for_each_free_mem_range() etc.
-+ * __next__mem_range - next function for for_each_free_mem_range() etc.
-  * @idx: pointer to u64 loop variable
-  * @nid: node selector, %NUMA_NO_NODE for all nodes
-  * @flags: pick from blocks based on memory attributes
++/*
++ * Similar in functionality to __pagevec_lru_add_fn() but here the page is
++ * being added to an lru_splice and the LRU lock is not held.
++ */
++static void page_lru_splice_add(struct page *page, struct lruvec *lruvec, struct lru_splice *splice)
++{
++	enum lru_list lru;
++	int was_unevictable = TestClearPageUnevictable(page);
++
++	VM_BUG_ON_PAGE(PageLRU(page), page);
++	/* XXX only supports unevictable pages at the moment */
++	VM_BUG_ON_PAGE(was_unevictable, page);
++
++	SetPageLRU(page);
++	smp_mb();
++
++	lru = LRU_UNEVICTABLE;
++	ClearPageActive(page);
++	SetPageUnevictable(page);
++	if (!was_unevictable)
++		splice->pgculled++;
++
++	add_page_to_lru_splice(page, splice, lruvec, lru);
++	trace_mm_lru_insertion(page, lru);
++}
++
++static void lru_splice_add(struct page *page, struct lru_splice *splice)
++{
++	struct pglist_data *pagepgdat, *pgdat = splice->pgdat;
++	struct lruvec *lruvec;
++
++	pagepgdat = page_pgdat(page);
++
++	if (pagepgdat != pgdat) {
++		if (pgdat)
++			add_splice_to_lru_list(splice);
++		splice->pgdat = pagepgdat;
++	}
++
++	lruvec = mem_cgroup_page_lruvec(page, pagepgdat);
++	page_lru_splice_add(page, lruvec, splice);
++}
++
++void lru_splice_add_anon(struct page *page, struct lru_splice *splice)
++{
++	if (PageActive(page))
++		ClearPageActive(page);
++	get_page(page);
++
++	lru_splice_add(page, splice);
++
++	put_page(page);
++}
++
+ static void pagevec_lru_move_fn(struct pagevec *pvec,
+ 	void (*move_fn)(struct page *page, struct lruvec *lruvec, void *arg),
+ 	void *arg)
 -- 
 2.13.3
 
