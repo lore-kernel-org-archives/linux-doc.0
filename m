@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75FAFC38A2A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8AA3C38A2A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42A5F20736
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A42C2064A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="R133pfJP"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="J02jXttg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728828AbgEGAp6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 20:45:58 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:38772 "EHLO
+        id S1728943AbgEGAqS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 20:46:18 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:38988 "EHLO
         aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728011AbgEGAp5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:45:57 -0400
+        with ESMTP id S1728927AbgEGAqN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:46:13 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470eGfM098246;
-        Thu, 7 May 2020 00:42:39 GMT
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470df6v097703;
+        Thu, 7 May 2020 00:45:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=rwgijllW6M4XeYhmgrj3fFunHwUOc+7hS8CUFmbdL+Y=;
- b=R133pfJPycmJwf2nkOwOYFHZc44QZzHbHBW+GOTn/ard0CwPxFr1B5n0o2GLQy9oM38i
- HZE8RpmIPtKkvpdd5MKkyYJhpzkhaF3dJcsXnWRKGChHTCZNIUWkvV+5PjaK4cUQun9t
- Y56I+jDYIJcdEE8u1OnTCbSuRbZnSYOhcJQA3d/t0x1aiUlpWnvz2Ek1PEQyTT50cFnR
- QIrrys3PpUBpnz6QcXuClvEAQ/0styrGCrveOGqL2sc2a7+VJ3zrrnYu7Z80jADYzIb7
- tyUfLzsFfZA88gGJjIe6f7HTeRRJO909+XwIkCu1/FQlDhfbzDB7Vj/RIM/XxLdmflX6 Ug== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 30usgq4gw0-1
+ bh=rlQi5rxYCHxqA5qKb9P4QkKEJHfUxot3+XWhWAfqKME=;
+ b=J02jXttgdJsysTmwPlOH9qcFyn2Xdj2uzmEI9wYoaoGNBVVioCcduz4kKweVJwWKtIqe
+ iTX/Sv7u1tTl9c0B0Skgy6tSoIjBpwFhgcW/fklhutm6C4tTTfx1cMD9qGmZVwEuoLVW
+ yzv8ogAuvdxbGp1sVDkNtIhXpRgxGPKCnP4yV5WLbr3/KiNXtEB7OFDENr7L8IFQI2YG
+ EUgy94b5O3v3Io7vnBQCBDnde/DLFRhq3pWS6QwWr4VZfllWZWZCo0d13OG8o8B23tyn
+ HWW4n9OmhmDHk07IeECWwO+yn8FIvdVlNmR/jdEHWhT0klhZzQNyHsNntBoEwzGiJhDR Cw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 30usgq4h3y-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:42:39 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bmCE131715;
-        Thu, 7 May 2020 00:42:38 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 30t1r957v3-1
+        Thu, 07 May 2020 00:45:12 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470alr9170682;
+        Thu, 7 May 2020 00:43:11 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 30us7p2m8e-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:42:38 +0000
+        Thu, 07 May 2020 00:43:11 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470gZvx025355;
-        Thu, 7 May 2020 00:42:35 GMT
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0470h8ph024282;
+        Thu, 7 May 2020 00:43:08 GMT
 Received: from ayz-linux.localdomain (/68.7.158.207)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 06 May 2020 17:42:35 -0700
+        with ESMTP ; Wed, 06 May 2020 17:43:08 -0700
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -69,15 +69,15 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, paul.c.lai@intel.com, ashok.raj@intel.com,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org
-Subject: [RFC 05/43] mm: PKRAM: support preserving transparent hugepages
-Date:   Wed,  6 May 2020 17:41:31 -0700
-Message-Id: <1588812129-8596-6-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC 15/43] PKRAM: provide a way to ban pages from use by PKRAM
+Date:   Wed,  6 May 2020 17:41:41 -0700
+Message-Id: <1588812129-8596-16-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=2
- spamscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0
+ mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2005070001
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
@@ -91,105 +91,311 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Support preserving a transparent hugepage by recording the page order and
-a flag indicating it is a THP.  Use these values when the page is
-restored to reconstruct the THP.
+Not all memory ranges can be used for saving preserved over-kexec data.
+For example, a kexec kernel may be loaded before pages are preserved.
+The memory regions where the kexec segments will be copied to on kexec
+must not contain preserved pages or else they will be clobbered.
 
+Originally-by: Vladimir Davydov <vdavydov.dev@gmail.com>
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- include/linux/pkram.h |  2 ++
- mm/pkram.c            | 20 ++++++++++++++++----
- 2 files changed, 18 insertions(+), 4 deletions(-)
+ include/linux/pkram.h |   2 +
+ mm/pkram.c            | 210 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 212 insertions(+)
 
 diff --git a/include/linux/pkram.h b/include/linux/pkram.h
-index f338d1c2aeb6..584cadb662b4 100644
+index 409022e1472f..1ba48442ef8e 100644
 --- a/include/linux/pkram.h
 +++ b/include/linux/pkram.h
-@@ -33,6 +33,8 @@ int pkram_prepare_load_obj(struct pkram_stream *ps);
- void pkram_finish_load(struct pkram_stream *ps);
- void pkram_finish_load_obj(struct pkram_stream *ps);
+@@ -69,10 +69,12 @@ phys_addr_t pkram_memblock_find_in_range(phys_addr_t start, phys_addr_t end,
+ extern unsigned long pkram_reserved_pages;
+ void pkram_reserve(void);
+ void pkram_free_pgt(void);
++void pkram_ban_region(unsigned long start, unsigned long end);
+ #else
+ #define pkram_reserved_pages 0UL
+ static inline void pkram_reserve(void) { }
+ static inline void pkram_free_pgt(void) { }
++static inline void pkram_ban_region(unsigned long start, unsigned long end) { }
+ #endif
  
-+#define PKRAM_PAGE_TRANS_HUGE	0x1	/* page is a transparent hugepage */
-+
- int pkram_save_page(struct pkram_stream *ps, struct page *page, short flags);
- struct page *pkram_load_page(struct pkram_stream *ps, unsigned long *index,
- 			     short *flags);
+ #endif /* _LINUX_PKRAM_H */
 diff --git a/mm/pkram.c b/mm/pkram.c
-index ab3053ca3539..9164060e36f5 100644
+index e49c9bcd3854..60863c8ecbab 100644
 --- a/mm/pkram.c
 +++ b/mm/pkram.c
-@@ -21,6 +21,7 @@ typedef __u64 pkram_entry_t;
- 
- #define PKRAM_ENTRY_FLAGS_SHIFT	0x5
- #define PKRAM_ENTRY_FLAGS_MASK	0x7f
-+#define PKRAM_ENTRY_ORDER_MASK	0x1f
+@@ -119,6 +119,28 @@ unsigned long __initdata pkram_reserved_pages;
+ static bool pkram_reservation_in_progress;
  
  /*
-  * Keeps references to data pages saved to PKRAM.
-@@ -434,6 +435,7 @@ static int __pkram_save_page(struct pkram_stream *ps,
- 	struct pkram_link *link = ps->link;
- 	struct pkram_obj *obj = ps->obj;
- 	pkram_entry_t p;
-+	int order;
- 
- 	if (!link || ps->entry_idx >= PKRAM_LINK_ENTRIES_MAX ||
- 	    index != ps->next_index) {
-@@ -452,10 +454,15 @@ static int __pkram_save_page(struct pkram_stream *ps,
- 		ps->next_index = link->index = index;
- 	}
- 
--	ps->next_index++;
-+	if (PageTransHuge(page))
-+		flags |= PKRAM_PAGE_TRANS_HUGE;
++ * For tracking a region of memory that PKRAM is not allowed to use.
++ */
++struct banned_region {
++	unsigned long start, end;		/* pfn, inclusive */
++};
 +
-+	order = compound_order(page);
-+	ps->next_index += (1 << order);
++#define MAX_NR_BANNED		(32 + MAX_NUMNODES * 2)
++
++static unsigned int nr_banned;			/* number of banned regions */
++
++/* banned regions; arranged in ascending order, do not overlap */
++static struct banned_region banned[MAX_NR_BANNED];
++/*
++ * If a page allocated for PKRAM turns out to belong to a banned region,
++ * it is placed on the banned_pages list so subsequent allocation attempts
++ * do not encounter it again. The list is shrunk when system memory is low.
++ */
++static LIST_HEAD(banned_pages);			/* linked through page::lru */
++static DEFINE_SPINLOCK(banned_pages_lock);
++static unsigned long nr_banned_pages;
++
++/*
+  * The PKRAM super block pfn, see above.
+  */
+ static int __init parse_pkram_sb_pfn(char *arg)
+@@ -223,12 +245,120 @@ void __init pkram_reserve(void)
+ 	pr_info("PKRAM: %lu pages reserved\n", pkram_reserved_pages);
+ }
  
- 	get_page(page);
- 	p = page_to_phys(page);
-+	p |= order;
- 	p |= ((flags & PKRAM_ENTRY_FLAGS_MASK) << PKRAM_ENTRY_FLAGS_SHIFT);
- 	link->entry[ps->entry_idx] = p;
- 	ps->entry_idx++;
-@@ -485,8 +492,6 @@ int pkram_save_page(struct pkram_stream *ps, struct page *page, short flags)
++/*
++ * Ban pfn range [start..end] (inclusive) from use in PKRAM.
++ */
++void pkram_ban_region(unsigned long start, unsigned long end)
++{
++	int i, merged = -1;
++
++	if (pkram_reservation_in_progress)
++		return;
++
++	/* first try to merge the region with an existing one */
++	for (i = nr_banned - 1; i >= 0 && start <= banned[i].end + 1; i--) {
++		if (end + 1 >= banned[i].start) {
++			start = min(banned[i].start, start);
++			end = max(banned[i].end, end);
++			if (merged < 0)
++				merged = i;
++		} else
++			/*
++			 * Regions are arranged in ascending order and do not
++			 * intersect so the merged region cannot jump over its
++			 * predecessors.
++			 */
++			BUG_ON(merged >= 0);
++	}
++
++	i++;
++
++	if (merged >= 0) {
++		banned[i].start = start;
++		banned[i].end = end;
++		/* shift if merged with more than one region */
++		memmove(banned + i + 1, banned + merged + 1,
++			sizeof(*banned) * (nr_banned - merged - 1));
++		nr_banned -= merged - i;
++		return;
++	}
++
++	/*
++	 * The region does not intersect with an existing one;
++	 * try to create a new one.
++	 */
++	if (nr_banned == MAX_NR_BANNED) {
++		pr_err("PKRAM: Failed to ban %lu-%lu: "
++		       "Too many banned regions\n", start, end);
++		return;
++	}
++
++	memmove(banned + i + 1, banned + i,
++		sizeof(*banned) * (nr_banned - i));
++	banned[i].start = start;
++	banned[i].end = end;
++	nr_banned++;
++}
++
++static void pkram_show_banned(void)
++{
++	int i;
++	unsigned long n, total = 0;
++
++	pr_info("PKRAM: banned regions:\n");
++	for (i = 0; i < nr_banned; i++) {
++		n = banned[i].end - banned[i].start + 1;
++		pr_info("%4d: [%08lx - %08lx] %ld pages\n",
++			i, banned[i].start, banned[i].end, n);
++		total += n;
++	}
++	pr_info("Total banned: %ld pages in %d regions\n",
++		total, nr_banned);
++}
++
++/*
++ * Returns true if the page may not be used for storing preserved data.
++ */
++static bool pkram_page_banned(struct page *page)
++{
++	unsigned long epfn, pfn = page_to_pfn(page);
++	int l = 0, r = nr_banned - 1, m;
++
++	epfn = pfn + compound_nr(page) - 1;
++
++	/* do binary search */
++	while (l <= r) {
++		m = (l + r) / 2;
++		if (epfn < banned[m].start)
++			r = m - 1;
++		else if (pfn > banned[m].end)
++			l = m + 1;
++		else
++			return true;
++	}
++	return false;
++}
++
+ static inline struct page *__pkram_alloc_page(gfp_t gfp_mask, bool add_to_map)
+ {
+ 	struct page *page;
++	LIST_HEAD(list);
++	unsigned long len = 0;
+ 	int err;
+ 
+ 	page = alloc_page(gfp_mask);
++	while (page && pkram_page_banned(page)) {
++		len++;
++		list_add(&page->lru, &list);
++		page = alloc_page(gfp_mask);
++	}
++	if (len > 0) {
++		spin_lock(&banned_pages_lock);
++		nr_banned_pages += len;
++		list_splice(&list, &banned_pages);
++		spin_unlock(&banned_pages_lock);
++	}
++
+ 	if (page && add_to_map) {
+ 		err = pkram_add_identity_map(page);
+ 		if (err) {
+@@ -256,6 +386,53 @@ static inline void pkram_free_page(void *addr)
+ 	free_page((unsigned long)addr);
+ }
+ 
++static void __banned_pages_shrink(unsigned long nr_to_scan)
++{
++	struct page *page;
++
++	if (nr_to_scan <= 0)
++		return;
++
++	while (nr_banned_pages > 0) {
++		BUG_ON(list_empty(&banned_pages));
++		page = list_first_entry(&banned_pages, struct page, lru);
++		list_del(&page->lru);
++		__free_page(page);
++		nr_banned_pages--;
++		nr_to_scan--;
++		if (!nr_to_scan)
++			break;
++	}
++}
++
++static unsigned long
++banned_pages_count(struct shrinker *shrink, struct shrink_control *sc)
++{
++	return nr_banned_pages;
++}
++
++static unsigned long
++banned_pages_scan(struct shrinker *shrink, struct shrink_control *sc)
++{
++	int nr_left = nr_banned_pages;
++
++	if (!sc->nr_to_scan || !nr_left)
++		return nr_left;
++
++	spin_lock(&banned_pages_lock);
++	__banned_pages_shrink(sc->nr_to_scan);
++	nr_left = nr_banned_pages;
++	spin_unlock(&banned_pages_lock);
++
++	return nr_left;
++}
++
++static struct shrinker banned_pages_shrinker = {
++	.count_objects = banned_pages_count,
++	.scan_objects = banned_pages_scan,
++	.seeks = DEFAULT_SEEKS,
++};
++
+ static inline void pkram_insert_node(struct pkram_node *node)
+ {
+ 	list_add(&virt_to_page(node)->lru, &pkram_nodes);
+@@ -665,6 +842,32 @@ static int __pkram_save_page(struct pkram_stream *ps,
+ 	return 0;
+ }
+ 
++static int __pkram_save_page_copy(struct pkram_stream *ps, struct page *page,
++				short flags)
++{
++	int nr_pages = compound_nr(page);
++	pgoff_t index = page->index;
++	int i, err;
++
++	for (i = 0; i < nr_pages; i++, index++) {
++		struct page *p = page + i;
++		struct page *new;
++
++		new = pkram_alloc_page(ps->gfp_mask);
++		if (!new)
++			return -ENOMEM;
++
++		copy_highpage(new, p);
++		err = __pkram_save_page(ps, new, flags, index);
++		put_page(new);
++
++		if (err)
++			return err;
++	}
++
++	return 0;
++}
++
+ /**
+  * Save page @page to the preserved memory node and object associated with
+  * stream @ps. The stream must have been initialized with pkram_prepare_save()
+@@ -688,6 +891,10 @@ int pkram_save_page(struct pkram_stream *ps, struct page *page, short flags)
  
  	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
  
--	BUG_ON(PageCompound(page));
--
- 	return __pkram_save_page(ps, page, flags, page->index);
- }
- 
-@@ -499,6 +504,7 @@ static struct page *__pkram_load_page(struct pkram_stream *ps, unsigned long *in
- 	struct pkram_link *link = ps->link;
- 	struct page *page;
- 	pkram_entry_t p;
-+	int order;
- 	short flgs;
- 
- 	if (!link) {
-@@ -517,14 +523,20 @@ static struct page *__pkram_load_page(struct pkram_stream *ps, unsigned long *in
- 	BUG_ON(!p);
- 
- 	flgs = (p >> PKRAM_ENTRY_FLAGS_SHIFT) & PKRAM_ENTRY_FLAGS_MASK;
-+	order = p & PKRAM_ENTRY_ORDER_MASK;
- 	page = pfn_to_page(PHYS_PFN(p));
- 
-+	if (flgs & PKRAM_PAGE_TRANS_HUGE) {
-+		prep_compound_page(page, order);
-+		prep_transhuge_page(page);
-+	}
++	/* if page is banned, relocate it */
++	if (pkram_page_banned(page))
++		return __pkram_save_page_copy(ps, page, flags);
 +
- 	if (flags)
- 		*flags = flgs;
- 	if (index)
- 		*index = ps->next_index;
+ 	err = __pkram_save_page(ps, page, flags, page->index);
+ 	if (!err)
+ 		err = pkram_add_identity_map(page);
+@@ -891,6 +1098,7 @@ static void __pkram_reboot(void)
+ 	unsigned long pgd_pfn = 0;
  
--	ps->next_index++;
-+	ps->next_index += (1 << order);
- 
- 	/* clear to avoid double free (see pkram_truncate_link()) */
- 	link->entry[ps->entry_idx] = 0;
+ 	if (pkram_pgd) {
++		pkram_show_banned();
+ 		list_for_each_entry_reverse(page, &pkram_nodes, lru) {
+ 			node = page_address(page);
+ 			if (WARN_ON(node->flags & PKRAM_ACCMODE_MASK))
+@@ -957,6 +1165,7 @@ static int __init pkram_init_sb(void)
+ 		page = __pkram_alloc_page(GFP_KERNEL | __GFP_ZERO, false);
+ 		if (!page) {
+ 			pr_err("PKRAM: Failed to allocate super block\n");
++			__banned_pages_shrink(ULONG_MAX);
+ 			return 0;
+ 		}
+ 		pkram_sb = page_address(page);
+@@ -979,6 +1188,7 @@ static int __init pkram_init(void)
+ {
+ 	if (pkram_init_sb()) {
+ 		register_reboot_notifier(&pkram_reboot_notifier);
++		register_shrinker(&banned_pages_shrinker);
+ 		sysfs_update_group(kernel_kobj, &pkram_attr_group);
+ 	}
+ 	return 0;
 -- 
 2.13.3
 
