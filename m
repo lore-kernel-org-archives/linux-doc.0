@@ -2,105 +2,103 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B62C38A24
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 16:59:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B017BC47257
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 17:51:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6008624954
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 16:59:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 91C5F21835
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 17:51:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RrVQQPSN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726908AbgEGQ7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 12:59:00 -0400
-Received: from mga14.intel.com ([192.55.52.115]:26106 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726320AbgEGQ7A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 May 2020 12:59:00 -0400
-IronPort-SDR: D/gE71r4FfI1AEosNKpprj+SH70Jt/XTyS8VfucL33gKXCK2CTpOafqcXVZQmLr6e+m/i7R8WR
- Yo3rPR2FbsLw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2020 09:58:59 -0700
-IronPort-SDR: 4Xav02TGuF5KC6i/HlotdeCsEttQc+IxzROcQP0j4Tq6KHlbIN5CNm7pPTv7WRs0kZz3ZBJG+C
- TPHvQlt7iSEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,364,1583222400"; 
-   d="scan'208";a="305171312"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 May 2020 09:58:59 -0700
-Message-ID: <e0bb75f71ccc7fdf5cd5012441536918a09a9322.camel@intel.com>
-Subject: Re: [PATCH v10 05/26] x86/cet/shstk: Add Kconfig option for
- user-mode Shadow Stack
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Date:   Thu, 07 May 2020 09:59:02 -0700
-In-Reply-To: <f4329e8c-0b3a-2c52-2145-08ea4dcab26e@intel.com>
-References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
-         <20200429220732.31602-6-yu-cheng.yu@intel.com>
-         <f4329e8c-0b3a-2c52-2145-08ea4dcab26e@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1727993AbgEGRvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 13:51:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52602 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726514AbgEGRvf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 13:51:35 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04477C05BD0A
+        for <linux-doc@vger.kernel.org>; Thu,  7 May 2020 10:51:35 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id y25so3353325pfn.5
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2020 10:51:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6nsicqHKSLR08n1R+IXV8HH61Ez1sWv3K0CdRq6A4rw=;
+        b=RrVQQPSNEjwXxIpxHMpeXgb/6SFvXrlHUGtWgKRpooc/AMiY7CyxeneurgMVsZo8T4
+         rLft7rAMLxvk81jduk4p1OvVy7Ds+6FdlCoFjF4obUTG7NUio/81dR/EkXL7urAWPtiF
+         OM+VRspJQyc+7FPnIWrzi3cHthVRonjBAFiOY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6nsicqHKSLR08n1R+IXV8HH61Ez1sWv3K0CdRq6A4rw=;
+        b=gOVzsGUhZCWKqxhNAGanLDXcRNbm8m3uBboqIgt0w7VyvDyrxNcDWpNJGSW6s8r2KR
+         3udLRlVml7WWzb7sJBSTLXHs05EjbcSt+N3SVm+pZHloTv5a5mn5pbBo6JbsfbIeCr1s
+         KSexyxyl0M7qekHbUuylAKP83GMpgFmX7gStwIPM6I1NsFlf21tE8OIVKpNOwBGstEMR
+         kEb93snwdJa94gk3yw/Tc2FKhSKUiST+HTyVCgaTrKK/DnNHY8p6sHYMV+uojSkwkcgZ
+         Oiijyq8vabPP1sm/nW02wKVwby6bSaLNE+2G1NaqXDdyDuZW+f6x2jJiPR1wPrEppIv1
+         wPBw==
+X-Gm-Message-State: AGi0Pua612xWx068KCN7JQRJjoQ293z1sJITHof4fG6g/ELQLH8AlAy8
+        24G2AVwmzfrwVVLrL2lC6aGCJg==
+X-Google-Smtp-Source: APiQypJrg795r4p3dlKKs5p5tJSGEr5TXh4b/RDvjDLBZG4ZsffQBKKTjPJNE6l8z2s2P5ajyKYDOw==
+X-Received: by 2002:aa7:9dc7:: with SMTP id g7mr15195629pfq.291.1588873894492;
+        Thu, 07 May 2020 10:51:34 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g25sm5314837pfo.150.2020.05.07.10.51.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2020 10:51:33 -0700 (PDT)
+Date:   Thu, 7 May 2020 10:51:32 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Anthony Yznaga <anthony.yznaga@oracle.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        rppt@linux.ibm.com, akpm@linux-foundation.org, hughd@google.com,
+        ebiederm@xmission.com, masahiroy@kernel.org, ardb@kernel.org,
+        ndesaulniers@google.com, dima@golovin.in, daniel.kiper@oracle.com,
+        nivedita@alum.mit.edu, rafael.j.wysocki@intel.com,
+        dan.j.williams@intel.com, zhenzhong.duan@oracle.com,
+        jroedel@suse.de, bhe@redhat.com, guro@fb.com,
+        Thomas.Lendacky@amd.com, andriy.shevchenko@linux.intel.com,
+        hannes@cmpxchg.org, minchan@kernel.org, mhocko@kernel.org,
+        ying.huang@intel.com, yang.shi@linux.alibaba.com,
+        gustavo@embeddedor.com, ziqian.lzq@antfin.com,
+        vdavydov.dev@gmail.com, jason.zeng@intel.com, kevin.tian@intel.com,
+        zhiyuan.lv@intel.com, lei.l.li@intel.com, paul.c.lai@intel.com,
+        ashok.raj@intel.com, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kexec@lists.infradead.org
+Subject: Re: [RFC 21/43] x86/KASLR: PKRAM: support physical kaslr
+Message-ID: <202005071049.2D0939137D@keescook>
+References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
+ <1588812129-8596-22-git-send-email-anthony.yznaga@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1588812129-8596-22-git-send-email-anthony.yznaga@oracle.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2020-05-07 at 08:55 -0700, Dave Hansen wrote:
-> On 4/29/20 3:07 PM, Yu-cheng Yu wrote:
-> > +config X86_INTEL_SHADOW_STACK_USER
-> > +	prompt "Intel Shadow Stacks for user-mode"
-> > +	def_bool n
-> > +	depends on CPU_SUP_INTEL && X86_64
-> > +	depends on AS_HAS_SHADOW_STACK
-> > +	select ARCH_USES_HIGH_VMA_FLAGS
-> > +	select X86_INTEL_CET
-> > +	select ARCH_HAS_SHADOW_STACK
-> 
-> I called protection keys: X86_INTEL_MEMORY_PROTECTION_KEYS
-> 
-> AMD recently posted documentation which shows them implementing it as
-> well.  The "INTEL_" is feeling now like a mistake.
-> 
-> Going forward, we should probably avoid sticking the company name on
-> them, if for no other reason than avoiding confusion and/or churn in the
-> future.
-> 
-> Shadow stacks, for instance, seem like something that another vendor
-> might implement one day.  So, let's at least remove the "INTEL_" from
-> the config option names themselves.  Mentioning Intel in the changelog
-> and the Kconfig help text is fine.
+On Wed, May 06, 2020 at 05:41:47PM -0700, Anthony Yznaga wrote:
+> Avoid regions of memory that contain preserved pages when computing
+> slots used to select where to put the decompressed kernel.
 
-Yes, sure.
+This is changing the slot-walking code instead of updating
+mem_avoid_overlap() -- that's where the check for a "reserved" memory
+area should live.
 
-Yu-cheng
+For example, this is how both mem_avoid_memmap() and the setup_data
+memory areas are handled.
 
+Is there a reason mem_avoid_overlap() can't be used here?
+
+-- 
+Kees Cook
