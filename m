@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA2DC54E4A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46451C47257
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38ABD20736
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22C632082E
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fknRxePL"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="QTLMQYBV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728732AbgEGAp7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 20:45:59 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:38788 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728823AbgEGAp6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:45:58 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470dDks097472;
-        Thu, 7 May 2020 00:45:00 GMT
+        id S1728986AbgEGAqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 20:46:48 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:40810 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728176AbgEGAqr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:46:47 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bkGp092899;
+        Thu, 7 May 2020 00:45:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=7K77j/6mtxQ9j5vDJ+M7D2bl3GjRuKy3se3PRu5nsHg=;
- b=fknRxePLvSCA2rgFxv17tFilEvUcB8Sm1qixpcq8htEL5+jMu9HgoK4AmSWmU5S+ZkSA
- nDAhgsc9si0wjbVnFvNv/8X2KeIYxyingZ+wv8jvbeRn+nVmTFly4CU0yNcKBvY2+jVu
- c2D85RuZlAHnVFY0HdVTQEdHGa7aiJPbG99wIg4XJyPEW+jT33EouxaTBIY1nMaIv0lV
- CbQYJXCcHIp4hPBwSJR28UisseHnsGqGQwpfd6W5LjvXz7KtxddPjhifE9TJ6cNYG2Ae
- zzaUH0VA/so04hfFmVi7z0tTREp0xKaYemyw2Yl7K60g3PKDQvkRdYChSgUY6vCl9+rG 4Q== 
+ bh=DO62vjvZePhp7wYXZdhX/gUz6VFY4InjbCQaC+l5MmI=;
+ b=QTLMQYBVlf732m4qafoDJtBSR4qykUyLHnFro/p7XnvylnJPd8Jc4j1qWmXFSPSx1R/G
+ Vw8aYkCpDZiNN0DhG2fShGOBDYqfWq4BTMKXSgagCCiHi8SBEWK2xQSDRFmLpY4Ju0lA
+ 0FAXG7XhxY5FD6M1VNO5WE1vAjT+EdhE8f5E5VJ3rjoJE5lESCvB6WwAxP/hVilBA0k/
+ CfMoBs0UcylgpewtUqXlvcvdhSNcxp0kkEUmKNeJxmCcOkrb68VTRbyVkBYOQ4RRrvmx
+ s/gHtt6NFPuupKIZUgeOiVzuGotf2mzcA4Cfpgf/hJAiGLEE76ON3fDFbBYMT5Bfp/h6 hg== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 30usgq4h3c-1
+        by userp2120.oracle.com with ESMTP id 30s1gnd8te-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:45:00 +0000
+        Thu, 07 May 2020 00:45:39 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470alm0170700;
-        Thu, 7 May 2020 00:44:59 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 30us7p2prs-1
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470am3g170760;
+        Thu, 7 May 2020 00:43:38 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3020.oracle.com with ESMTP id 30us7p2mtv-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:59 +0000
+        Thu, 07 May 2020 00:43:38 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470iv2E020654;
-        Thu, 7 May 2020 00:44:57 GMT
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0470hak6029744;
+        Thu, 7 May 2020 00:43:36 GMT
 Received: from ayz-linux.localdomain (/68.7.158.207)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 06 May 2020 17:44:57 -0700
+        with ESMTP ; Wed, 06 May 2020 17:43:14 -0700
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -69,162 +69,90 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, paul.c.lai@intel.com, ashok.raj@intel.com,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org
-Subject: [RFC 40/43] shmem: initial support for adding multiple pages to pagecache
-Date:   Wed,  6 May 2020 17:42:06 -0700
-Message-Id: <1588812129-8596-41-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC 17/43] PKRAM: provide a way to check if a memory range has preserved pages
+Date:   Wed,  6 May 2020 17:41:43 -0700
+Message-Id: <1588812129-8596-18-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=2
  mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2005070001
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1015
- mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005070001
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=2 mlxscore=0
+ spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005070001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-shmem_insert_pages() currently loops over the array of pages passed
-to it and calls shmem_add_to_page_cache() for each one. Prepare
-for adding pages to the pagecache in bulk by adding and using a
-shmem_add_pages_to_cache() call.  For now it just iterates over
-an array and adds pages individually, but improvements in performance
-when multiple threads are adding to the same pagecache are achieved
-by calling a new shmem_add_to_page_cache_fast() function that does
-not check for conflicts and drops the xarray lock before updating stats.
+When a kernel is loaded for kexec the address ranges where the kexec
+segments will be copied to may conflict with pages already set to be
+preserved. Provide a way to determine if preserved pages exist in a
+specified range.
 
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- mm/shmem.c | 95 ++++++++++++++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 84 insertions(+), 11 deletions(-)
+ include/linux/pkram.h |  2 ++
+ mm/pkram.c            | 25 +++++++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 678a396ba8d3..f621d863e362 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -660,6 +660,57 @@ static int shmem_add_to_page_cache(struct page *page,
- 	return 0;
- }
+diff --git a/include/linux/pkram.h b/include/linux/pkram.h
+index 1ba48442ef8e..1cd518843d7a 100644
+--- a/include/linux/pkram.h
++++ b/include/linux/pkram.h
+@@ -70,11 +70,13 @@ extern unsigned long pkram_reserved_pages;
+ void pkram_reserve(void);
+ void pkram_free_pgt(void);
+ void pkram_ban_region(unsigned long start, unsigned long end);
++int pkram_has_preserved_pages(unsigned long start, unsigned long end);
+ #else
+ #define pkram_reserved_pages 0UL
+ static inline void pkram_reserve(void) { }
+ static inline void pkram_free_pgt(void) { }
+ static inline void pkram_ban_region(unsigned long start, unsigned long end) { }
++static inline int pkram_has_preserved_pages(unsigned long start, unsigned long end) { return 0; }
+ #endif
  
-+static int shmem_add_to_page_cache_fast(struct page *page,
-+				   struct address_space *mapping,
-+				   pgoff_t index, gfp_t gfp)
+ #endif /* _LINUX_PKRAM_H */
+diff --git a/mm/pkram.c b/mm/pkram.c
+index 60863c8ecbab..0aaaf9b79682 100644
+--- a/mm/pkram.c
++++ b/mm/pkram.c
+@@ -1499,3 +1499,28 @@ phys_addr_t __init_memblock pkram_memblock_find_in_range(phys_addr_t start,
+ 
+ 	return st.retval;
+ }
++
++static int pkram_has_preserved_pages_cb(struct pkram_pg_state *st, unsigned long base, unsigned long size)
 +{
-+	XA_STATE_ORDER(xas, &mapping->i_pages, index, compound_order(page));
-+	unsigned long nr = compound_nr(page);
-+	unsigned long i = 0;
-+
-+	VM_BUG_ON_PAGE(PageTail(page), page);
-+	VM_BUG_ON_PAGE(index != round_down(index, nr), page);
-+	VM_BUG_ON_PAGE(!PageLocked(page), page);
-+	VM_BUG_ON_PAGE(!PageSwapBacked(page), page);
-+
-+	page_ref_add(page, nr);
-+	page->mapping = mapping;
-+	page->index = index;
-+
-+	do {
-+		xas_lock_irq(&xas);
-+		xas_create_range(&xas);
-+		if (xas_error(&xas))
-+			goto unlock;
-+next:
-+		xas_store(&xas, page);
-+		if (++i < nr) {
-+			xas_next(&xas);
-+			goto next;
-+		}
-+		mapping->nrpages += nr;
-+		xas_unlock(&xas);
-+		if (PageTransHuge(page)) {
-+			count_vm_event(THP_FILE_ALLOC);
-+			__inc_node_page_state(page, NR_SHMEM_THPS);
-+		}
-+		__mod_node_page_state(page_pgdat(page), NR_FILE_PAGES, nr);
-+		__mod_node_page_state(page_pgdat(page), NR_SHMEM, nr);
-+		local_irq_enable();
-+		break;
-+unlock:
-+		xas_unlock_irq(&xas);
-+	} while (xas_nomem(&xas, gfp));
-+
-+	if (xas_error(&xas)) {
-+		page->mapping = NULL;
-+		page_ref_sub(page, nr);
-+		return xas_error(&xas);
-+	}
-+
-+	return 0;
++	st->retval = 1;
++	return 1;
 +}
 +
- /*
-  * Like delete_from_page_cache, but substitutes swap for page.
-  */
-@@ -681,6 +732,35 @@ static void shmem_delete_from_page_cache(struct page *page, void *radswap)
- 	BUG_ON(error);
- }
- 
-+static int shmem_add_pages_to_cache(struct page *pages[], int npages,
-+				struct address_space *mapping,
-+				pgoff_t start, gfp_t gfp)
++/*
++ * Check whether the memory range [start, end) contains preserved pages.
++ */
++int pkram_has_preserved_pages(unsigned long start, unsigned long end)
 +{
-+	pgoff_t index = start;
-+	int err = 0;
-+	int i;
++	struct pkram_pg_state st = {
++		.range_cb = pkram_has_preserved_pages_cb,
++		.min_addr = start,
++		.max_addr = end,
++	};
 +
-+	i = 0;
-+	while (i < npages) {
-+		if (PageTransHuge(pages[i])) {
-+			err = shmem_add_to_page_cache_fast(pages[i], mapping, index, gfp);
-+			if (err)
-+				break;
-+			index += HPAGE_PMD_NR;
-+			i++;
-+			continue;
-+		}
++	if (!pkram_pgd)
++		return 0;
 +
-+		err = shmem_add_to_page_cache_fast(pages[i], mapping, index, gfp);
-+		if (err)
-+			break;
-+		index++;
-+		i++;
-+	}
++	pkram_walk_pgt_rev(&st, pkram_pgd);
 +
-+	return err;
++	return st.retval;
 +}
-+
- int shmem_insert_page(struct mm_struct *mm, struct inode *inode, pgoff_t index,
- 		      struct page *page)
- {
-@@ -844,17 +924,10 @@ int shmem_insert_pages(struct mm_struct *mm, struct inode *inode, pgoff_t index,
- 
- 	}
- 
--	for (i = 0; i < npages; i++) {
--		err = shmem_add_to_page_cache(pages[i], mapping, index,
--					NULL, gfp & GFP_RECLAIM_MASK);
--		if (err)
--			goto out_truncate;
--
--		if (PageTransHuge(pages[i]))
--			index += HPAGE_PMD_NR;
--		else
--			index++;
--	}
-+	err = shmem_add_pages_to_cache(pages, npages, mapping, index,
-+					gfp & GFP_RECLAIM_MASK);
-+	if (err)
-+		goto out_truncate;
- 
- 	spin_lock(&info->lock);
- 	info->alloced += nr;
 -- 
 2.13.3
 
