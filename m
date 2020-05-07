@@ -2,85 +2,83 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA97FC38A2A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 18:53:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB9FC38A2A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 19:15:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 745192495F
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 18:53:29 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BXlVtRcW"
+	by mail.kernel.org (Postfix) with ESMTP id 19467208E4
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 19:15:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728309AbgEGSx3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 14:53:29 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26078 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbgEGSx2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 14:53:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588877608;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3EhH1A9gQMpfXypIl8DH4medFGIIF5ti8TqIyHhZSE0=;
-        b=BXlVtRcWij/ctbsmQytQsH6uUE6s99R0al+ovXxaSeCRu3D7fmCF9xSBGBgZB0qOmPprWR
-        c6Vho2jXVdP6Gjkqnk2xEIBGX60Zk+u9A8jxNyP0YZ/v4Ha/ct+X18z9iQ/T0CsNTq8+2W
-        3tyIXSqyGsLCHw+YFk+4WPS1oJUz1aA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-Y-p7Je82PyWfiDY1P6m7tw-1; Thu, 07 May 2020 14:53:26 -0400
-X-MC-Unique: Y-p7Je82PyWfiDY1P6m7tw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1728507AbgEGTPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 15:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37408 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728328AbgEGTPG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 15:15:06 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81663C05BD43;
+        Thu,  7 May 2020 12:15:06 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E09E107ACCD;
-        Thu,  7 May 2020 18:53:24 +0000 (UTC)
-Received: from optiplex-lnx (unknown [10.3.128.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E7A721001B07;
-        Thu,  7 May 2020 18:53:18 +0000 (UTC)
-Date:   Thu, 7 May 2020 14:53:15 -0400
-From:   Rafael Aquini <aquini@redhat.com>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
-        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v2] kernel: add panic_on_taint
-Message-ID: <20200507185315.GH205881@optiplex-lnx>
-References: <20200507180631.308441-1-aquini@redhat.com>
- <20200507185046.GY11244@42.do-not-panic.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id CFFE6453;
+        Thu,  7 May 2020 19:15:04 +0000 (UTC)
+Date:   Thu, 7 May 2020 13:15:03 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Daniel Colascione <dancol@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, timmurray@google.com,
+        minchan@google.com, sspatil@google.com, lokeshgidra@google.com
+Subject: Re: [PATCH 2/2] Add a new sysctl knob:
+ unprivileged_userfaultfd_user_mode_only
+Message-ID: <20200507131503.02aba5a6@lwn.net>
+In-Reply-To: <20200506193816.GB228260@xz-x1>
+References: <20200423002632.224776-1-dancol@google.com>
+        <20200423002632.224776-3-dancol@google.com>
+        <20200506193816.GB228260@xz-x1>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200507185046.GY11244@42.do-not-panic.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 07, 2020 at 06:50:46PM +0000, Luis Chamberlain wrote:
-> On Thu, May 07, 2020 at 02:06:31PM -0400, Rafael Aquini wrote:
-> > Another, perhaps less frequent, use for this option would be
-> > as a mean for assuring a security policy (in paranoid mode)
-> > case where no single taint is allowed for the running system.
-> 
-> If used for this purpose then we must add a new TAINT flag for
-> proc_taint() was used, otherwise we can cheat to show a taint
-> *did* happen, where in fact it never happened, some punk just
-> echo'd a value into the kernel's /proc/sys/kernel/tainted.
->
+On Wed, 6 May 2020 15:38:16 -0400
+Peter Xu <peterx@redhat.com> wrote:
 
-To accomplish that, the punk would need to be root, though, in which 
-case everything else is doomed, already.
- 
-> Forunately proc_taint() only allows to *increment* the taint, not
-> reduce.
+> If this is going to be added... I am thinking whether it should be easier to
+> add another value for unprivileged_userfaultfd, rather than a new sysctl. E.g.:
 > 
->   Luis
+>   "0": unprivileged userfaultfd forbidden
+>   "1": unprivileged userfaultfd allowed (both user/kernel faults)
+>   "2": unprivileged userfaultfd allowed (only user faults)
 > 
+> Because after all unprivileged_userfaultfd_user_mode_only will be meaningless
+> (iiuc) if unprivileged_userfaultfd=0.  The default value will also be the same
+> as before ("1") then.
 
+It occurs to me to wonder whether this interface should also let an admin
+block *privileged* user from handling kernel-space faults?  In a
+secure-boot/lockdown setting, this could be a hardening measure that keeps
+a (somewhat) restricted root user from expanding their privilege...?
+
+jon
