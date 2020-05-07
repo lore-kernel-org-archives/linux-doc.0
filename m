@@ -5,50 +5,50 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0B7C38A2A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F37C54E4A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7C722082E
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D171C20936
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="F258v4CU"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lBRYYVji"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727827AbgEGAp2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 20:45:28 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:49036 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727109AbgEGAp2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:45:28 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470c16X064684;
-        Thu, 7 May 2020 00:44:14 GMT
+        id S1728751AbgEGApm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 20:45:42 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:38572 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728011AbgEGApl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:45:41 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470dEUJ097500;
+        Thu, 7 May 2020 00:44:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=o4VeZakxk7q/YukxMsyh8pVT0eR9oJkktza+0HTryhw=;
- b=F258v4CUKrVK7T6Q6EY2mRI9P9FAoQwDZIKnDCnu7ShoFjdjhIj3PVgoaI8w7b9nGTfD
- lsGI5U37QGPAW6648U/DlMs/4F0V+w18oLcSdcdJoLSxjlG1IPYnd+w0fwscwvhQxBIE
- LLv6ILBDZYp2qCb5JeNRfBA2J9mONHUseYdPwtJXgRxzkymZYNWzAXgd8qtTcTe+3p0d
- FIwoPNTiAAseFe5DM1z52GJKzVVP0qA0zuu7NIzSR+jImjxIUypqBj2xvd5tjd4aW7V5
- gGsYVMmFxFiqqvyJBiBh7PupIgVskESG+K/go7bQWgc9UsKPJzDHFrSlO8pNUHee6Equ 0Q== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 30s09rdfbc-1
+ bh=tOzDN5QRiW0NbdfQAY9h5DJPaKglehgjEjrdEdmx1f4=;
+ b=lBRYYVjiwnboBLdsbCnfuIKuUvyV4Tb1PrnqIJzVMBtICdZ9jaFnmAsVtSqdufLw8Lkj
+ R/rLVnwt21p57My0cE/rC/CpuNQ4Mzukt/dxNwn87fyXSXioV/8VV0X4ro8aZ60ZGB7x
+ CS07279N98Ai7FAC4KfEWCksHQTXacRnj6rWSwdiGHc/dZ8N+XKy+sYelKE4Cy8d/1to
+ FMWAPMfC1fvp/xhjRmQylo2gn9PzBstNHezUodSJte6uzxyt2tjCSrKc/4DPgyG6py+N
+ qH/XacX69hs+noVnHM24ROyLnA8wJFKZcLGbbMgSIA76DkT9aK5lV+sxssGBjrJ03+js nQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 30usgq4h2f-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:14 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bhYE098923;
-        Thu, 7 May 2020 00:44:14 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 30sjnma4vr-1
+        Thu, 07 May 2020 00:44:50 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470am50170751;
+        Thu, 7 May 2020 00:44:50 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 30us7p2pjm-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:13 +0000
+        Thu, 07 May 2020 00:44:49 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0470iCZR029965;
-        Thu, 7 May 2020 00:44:12 GMT
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470iksR026299;
+        Thu, 7 May 2020 00:44:46 GMT
 Received: from ayz-linux.localdomain (/68.7.158.207)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 06 May 2020 17:44:12 -0700
+        with ESMTP ; Wed, 06 May 2020 17:44:46 -0700
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -69,65 +69,76 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, paul.c.lai@intel.com, ashok.raj@intel.com,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org
-Subject: [RFC 28/43] PKRAM: ensure memblocks with preserved pages init'd for numa
-Date:   Wed,  6 May 2020 17:41:54 -0700
-Message-Id: <1588812129-8596-29-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC 37/43] shmem: PKRAM: enable bulk loading of preserved pages into shmem
+Date:   Wed,  6 May 2020 17:42:03 -0700
+Message-Id: <1588812129-8596-38-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=0
+ mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2005070001
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015 suspectscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=999 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2005070001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to facilitate fast initialization of page structs for
-preserved pages, memblocks with preserved pages must not cross
-numa node boundaries and must have a node id assigned to them.
+Make use of new interfaces for loading and inserting preserved pages
+into a shmem file in bulk.
 
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- mm/pkram.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ mm/shmem_pkram.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/mm/pkram.c b/mm/pkram.c
-index a5e539052af6..97a7dd0a5b7d 100644
---- a/mm/pkram.c
-+++ b/mm/pkram.c
-@@ -21,6 +21,7 @@
- #include <linux/sysfs.h>
- #include <linux/types.h>
- 
-+#include <asm/numa.h>
- #include "internal.h"
- 
- 
-@@ -242,6 +243,15 @@ void __init pkram_reserve(void)
- 		return;
- 	}
- 
-+	/*
-+	 * Fix up the reserved memblock list to ensure the
-+	 * memblock regions are split along node boundaries
-+	 * and have a node ID set.  This will allow the page
-+	 * structs for the preserved pages to be initialized
-+	 * more efficiently.
-+	 */
-+	numa_isolate_memblocks();
+diff --git a/mm/shmem_pkram.c b/mm/shmem_pkram.c
+index 4992b6c3e54e..435488368104 100644
+--- a/mm/shmem_pkram.c
++++ b/mm/shmem_pkram.c
+@@ -315,18 +315,29 @@ static inline void pkram_load_report_one_done(void)
+ static int do_load_file_content(struct pkram_stream *ps)
+ {
+ 	unsigned long index;
+-	struct page *page;
+-	int err = 0;
++	int i, err;
 +
- done:
- 	pr_info("PKRAM: %lu pages reserved\n", pkram_reserved_pages);
++	err = pkram_prepare_load_pages(ps);
++	if (err)
++		return err;
+ 
+ 	do {
+-		page = pkram_load_page(ps, &index, NULL);
+-		if (!page)
++		err = pkram_load_pages(ps, &index);
++		if (err) {
++			if (err == -ENODATA)
++				err = 0;
+ 			break;
++		}
+ 
+-		err = shmem_insert_page(ps->mm, ps->mapping->host, index, page);
+-		put_page(page);
++		err = shmem_insert_pages(ps->mm, ps->mapping->host, index,
++					 ps->pages, ps->nr_pages);
++
++		for (i = 0; i < ps->nr_pages; i++)
++			put_page(ps->pages[i]);
+ 	} while (!err);
+ 
++	pkram_finish_load_pages(ps);
++
+ 	return err;
  }
+ 
 -- 
 2.13.3
 
