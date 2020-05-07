@@ -2,53 +2,54 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 659A1C38A2A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9D54C47257
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 445242082E
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A793E20736
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:45:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="WcY7ARry"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="R7/5c2I5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728531AbgEGApH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 20:45:07 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:39276 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728632AbgEGApF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:45:05 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470c5BP093096;
-        Thu, 7 May 2020 00:44:06 GMT
+        id S1728546AbgEGAoz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 20:44:55 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:48290 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728466AbgEGAoq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:44:46 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bhgt064591;
+        Thu, 7 May 2020 00:42:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=ALhXxW63LGZoM6V1NGaT+SnLTVsGEByBjEn2ykRFtnU=;
- b=WcY7ARrycjOtSErtWFAU7jEvJCDzYLSMBBQdEfiSz+VYmm+P1vsiQipFRaHJUKefDQGP
- 6SpWpJBVSg9v6poZtOhM+2hrCsnxl4pzn6zYo4RjyJ4+qFdAymPEnFqh+BblrFOCjNA0
- XyKWvLvG7vKezc7rF7JYRpliViNaHZR8KW1i1GGsXAXequif8VvZ+tkVIKDcugDuYbBH
- YuryJoR0X2xYHmHfLo+CWApOuQEpt2LzEmBRNoO7V72Rr1m6OLrd+fh37MBvbvhCdP1e
- kocUdOrK1sim2WztAHrtjy2lA9VQ/tMfFjN2zEdc7hlmRCU+CQRP/xvQDIkwglOkuSz6 pQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 30s1gnd8pb-1
+ bh=psiEr0BjUwGfJSVN/B86fSYWhjKbmypK5l+ecN1OxxM=;
+ b=R7/5c2I5iJXHOrpMqsRsPsUY3YR1Eb6PigW5wVdcEPriZiQNIRJI1YTZNLf05qgQqxdw
+ /jGJDui8JsJ3E6FWQZxyQXQrAgzs5Gv2peYa8o6sGC3CtC5lKgbwxuH+aJK7y0HbSfDO
+ YbaDIfLoLf+l0vFOtbz/jTTbnpXsU3FGCR9WgA9o9kp3PGvMP2748pfjDk5YB0ExGYVh
+ EP8mXMfE6+YSKEyCW2Mfh0YKMduDSjyMP0xdJovzXnL87s+k8+YteZjPDFH7pdmDstAM
+ qsHU+6liXhnaHJN9iKnpLHjUDIUMqDCoywiB/0X6ZW4JUVKeqjOiHzYSmIQTxQ4PU9Zw aw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 30s09rdf5d-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:05 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470alNS170704;
-        Thu, 7 May 2020 00:44:05 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 30us7p2nm1-1
+        Thu, 07 May 2020 00:42:29 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470aoVc136163;
+        Thu, 7 May 2020 00:42:28 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 30sjdwrpvd-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:05 +0000
+        Thu, 07 May 2020 00:42:28 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470i20o025972;
-        Thu, 7 May 2020 00:44:02 GMT
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470gQlv019614;
+        Thu, 7 May 2020 00:42:26 GMT
 Received: from ayz-linux.localdomain (/68.7.158.207)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 06 May 2020 17:44:02 -0700
+        with ESMTP ; Wed, 06 May 2020 17:42:26 -0700
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -69,77 +70,274 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, paul.c.lai@intel.com, ashok.raj@intel.com,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org
-Subject: [RFC 25/43] mm: shmem: specify the mm to use when inserting pages
-Date:   Wed,  6 May 2020 17:41:51 -0700
-Message-Id: <1588812129-8596-26-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC 02/43] mm: PKRAM: implement node load and save functions
+Date:   Wed,  6 May 2020 17:41:28 -0700
+Message-Id: <1588812129-8596-3-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0 spamscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=2 mlxscore=0
+ bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2005070001
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0 mlxscore=0
- spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
- impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005070001
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1011 suspectscore=2
+ priorityscore=1501 malwarescore=0 mlxlogscore=999 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005070001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Explicitly specify the mm to pass to shmem_insert_page() when
-the pkram_stream is initialized rather than use the mm of the
-current thread.  This will allow for multiple kernel threads to
-target the same mm when inserting pages in parallel.
+Preserved memory is divided into nodes which can be saved and loaded
+independently of each other. PKRAM nodes are kept on a list and
+identified by unique names. Whenever a save operation is initiated by
+calling pkram_prepare_save(), a new node is created and linked to the
+list. When the save operation has been committed by calling
+pkram_finish_save(), the node becomes loadable. A load operation can be
+then initiated by calling pkram_prepare_load() which deletes the node
+from the list and prepares the corresponding stream for loading data
+from it. After the load has been finished, the pkram_finish_load()
+function must be called to free the node. Nodes are also deleted when a
+save operation is discarded, i.e. pkram_discard_save() is called instead
+of pkram_finish_save().
 
+Originally-by: Vladimir Davydov <vdavydov.dev@gmail.com>
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- include/linux/pkram.h | 1 +
- mm/pkram.c            | 1 +
- mm/shmem_pkram.c      | 2 +-
- 3 files changed, 3 insertions(+), 1 deletion(-)
+ include/linux/pkram.h |   7 ++-
+ mm/pkram.c            | 148 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 149 insertions(+), 6 deletions(-)
 
 diff --git a/include/linux/pkram.h b/include/linux/pkram.h
-index b47b3aef16e3..cbb79d2803c0 100644
+index 4c4e13311ec8..83a0579e4c1c 100644
 --- a/include/linux/pkram.h
 +++ b/include/linux/pkram.h
-@@ -18,6 +18,7 @@ struct pkram_stream {
+@@ -6,7 +6,12 @@
+ #include <linux/types.h>
+ #include <linux/mm_types.h>
  
- 	unsigned long next_index;
- 	struct address_space *mapping;
-+	struct mm_struct *mm;
+-struct pkram_stream;
++struct pkram_node;
++
++struct pkram_stream {
++	gfp_t gfp_mask;
++	struct pkram_node *node;
++};
  
- 	/* byte data */
- 	struct page *data_page;
+ #define PKRAM_NAME_MAX		256	/* including nul */
+ 
 diff --git a/mm/pkram.c b/mm/pkram.c
-index 4d4d836fea53..a5e539052af6 100644
+index d6f2f79d4852..5c57126353ff 100644
 --- a/mm/pkram.c
 +++ b/mm/pkram.c
-@@ -565,6 +565,7 @@ static void pkram_stream_init(struct pkram_stream *ps,
- 	memset(ps, 0, sizeof(*ps));
- 	ps->gfp_mask = gfp_mask;
- 	ps->node = node;
-+	ps->mm = current->mm;
+@@ -2,16 +2,85 @@
+ #include <linux/err.h>
+ #include <linux/gfp.h>
+ #include <linux/kernel.h>
++#include <linux/list.h>
+ #include <linux/mm.h>
++#include <linux/mutex.h>
+ #include <linux/pkram.h>
++#include <linux/string.h>
+ #include <linux/types.h>
+ 
++/*
++ * Preserved memory is divided into nodes that can be saved or loaded
++ * independently of each other. The nodes are identified by unique name
++ * strings.
++ *
++ * The structure occupies a memory page.
++ */
++struct pkram_node {
++	__u32	flags;
++
++	__u8	name[PKRAM_NAME_MAX];
++};
++
++#define PKRAM_SAVE		1
++#define PKRAM_LOAD		2
++#define PKRAM_ACCMODE_MASK	3
++
++static LIST_HEAD(pkram_nodes);			/* linked through page::lru */
++static DEFINE_MUTEX(pkram_mutex);		/* serializes open/close */
++
++static inline struct page *pkram_alloc_page(gfp_t gfp_mask)
++{
++	return alloc_page(gfp_mask);
++}
++
++static inline void pkram_free_page(void *addr)
++{
++	free_page((unsigned long)addr);
++}
++
++static inline void pkram_insert_node(struct pkram_node *node)
++{
++	list_add(&virt_to_page(node)->lru, &pkram_nodes);
++}
++
++static inline void pkram_delete_node(struct pkram_node *node)
++{
++	list_del(&virt_to_page(node)->lru);
++}
++
++static struct pkram_node *pkram_find_node(const char *name)
++{
++	struct page *page;
++	struct pkram_node *node;
++
++	list_for_each_entry(page, &pkram_nodes, lru) {
++		node = page_address(page);
++		if (strcmp(node->name, name) == 0)
++			return node;
++	}
++	return NULL;
++}
++
++static void pkram_stream_init(struct pkram_stream *ps,
++			     struct pkram_node *node, gfp_t gfp_mask)
++{
++	memset(ps, 0, sizeof(*ps));
++	ps->gfp_mask = gfp_mask;
++	ps->node = node;
++}
++
+ /**
+  * Create a preserved memory node with name @name and initialize stream @ps
+  * for saving data to it.
+  *
+  * @gfp_mask specifies the memory allocation mask to be used when saving data.
+  *
++ * Error values:
++ *	%ENAMETOOLONG: name len >= PKRAM_NAME_MAX
++ *	%ENOMEM: insufficient memory available
++ *	%EEXIST: node with specified name already exists
++ *
+  * Returns 0 on success, -errno on failure.
+  *
+  * After the save has finished, pkram_finish_save() (or pkram_discard_save() in
+@@ -19,7 +88,34 @@
+  */
+ int pkram_prepare_save(struct pkram_stream *ps, const char *name, gfp_t gfp_mask)
+ {
+-	return -ENOSYS;
++	struct page *page;
++	struct pkram_node *node;
++	int err = 0;
++
++	if (strlen(name) >= PKRAM_NAME_MAX)
++		return -ENAMETOOLONG;
++
++	page = pkram_alloc_page(GFP_KERNEL | __GFP_ZERO);
++	if (!page)
++		return -ENOMEM;
++	node = page_address(page);
++
++	node->flags = PKRAM_SAVE;
++	strcpy(node->name, name);
++
++	mutex_lock(&pkram_mutex);
++	if (!pkram_find_node(name))
++		pkram_insert_node(node);
++	else
++		err = -EEXIST;
++	mutex_unlock(&pkram_mutex);
++	if (err) {
++		__free_page(page);
++		return err;
++	}
++
++	pkram_stream_init(ps, node, gfp_mask);
++	return 0;
  }
  
- static void pkram_stream_init_obj(struct pkram_stream *ps, struct pkram_obj *obj)
-diff --git a/mm/shmem_pkram.c b/mm/shmem_pkram.c
-index 3fa9cfbe0003..c97d64393822 100644
---- a/mm/shmem_pkram.c
-+++ b/mm/shmem_pkram.c
-@@ -236,7 +236,7 @@ static int load_file_content(struct pkram_stream *ps)
- 		if (!page)
- 			break;
+ /**
+@@ -50,7 +146,12 @@ void pkram_finish_save_obj(struct pkram_stream *ps)
+  */
+ void pkram_finish_save(struct pkram_stream *ps)
+ {
+-	BUG();
++	struct pkram_node *node = ps->node;
++
++	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
++
++	smp_wmb();
++	node->flags &= ~PKRAM_ACCMODE_MASK;
+ }
  
--		err = shmem_insert_page(current->mm, ps->mapping->host, index, page);
-+		err = shmem_insert_page(ps->mm, ps->mapping->host, index, page);
- 		put_page(page);
- 	} while (!err);
+ /**
+@@ -60,7 +161,15 @@ void pkram_finish_save(struct pkram_stream *ps)
+  */
+ void pkram_discard_save(struct pkram_stream *ps)
+ {
+-	BUG();
++	struct pkram_node *node = ps->node;
++
++	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
++
++	mutex_lock(&pkram_mutex);
++	pkram_delete_node(node);
++	mutex_unlock(&pkram_mutex);
++
++	pkram_free_page(node);
+ }
  
+ /**
+@@ -69,11 +178,36 @@ void pkram_discard_save(struct pkram_stream *ps)
+  *
+  * Returns 0 on success, -errno on failure.
+  *
++ * Error values:
++ *	%ENOENT: node with specified name does not exist
++ *	%EBUSY: save to required node has not finished yet
++ *
+  * After the load has finished, pkram_finish_load() is to be called.
+  */
+ int pkram_prepare_load(struct pkram_stream *ps, const char *name)
+ {
+-	return -ENOSYS;
++	struct pkram_node *node;
++	int err = 0;
++
++	mutex_lock(&pkram_mutex);
++	node = pkram_find_node(name);
++	if (!node) {
++		err = -ENOENT;
++		goto out_unlock;
++	}
++	if (node->flags & PKRAM_ACCMODE_MASK) {
++		err = -EBUSY;
++		goto out_unlock;
++	}
++	pkram_delete_node(node);
++out_unlock:
++	mutex_unlock(&pkram_mutex);
++	if (err)
++		return err;
++
++	node->flags |= PKRAM_LOAD;
++	pkram_stream_init(ps, node, 0);
++	return 0;
+ }
+ 
+ /**
+@@ -106,7 +240,11 @@ void pkram_finish_load_obj(struct pkram_stream *ps)
+  */
+ void pkram_finish_load(struct pkram_stream *ps)
+ {
+-	BUG();
++	struct pkram_node *node = ps->node;
++
++	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
++
++	pkram_free_page(node);
+ }
+ 
+ /**
 -- 
 2.13.3
 
