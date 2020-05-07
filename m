@@ -2,104 +2,105 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF23C38A2A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 16:31:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B62C38A24
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 16:59:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97CF820838
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 16:31:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qI+OiMJG"
+	by mail.kernel.org (Postfix) with ESMTP id 6008624954
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 16:59:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727870AbgEGQbB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 12:31:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40086 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726222AbgEGQbB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 12:31:01 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49A7C05BD43;
-        Thu,  7 May 2020 09:31:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=3gVdJM0Xac05/DiybGJ/iKfbblmg8k1slb7wrkVhFUM=; b=qI+OiMJGTT/r2plFsf+28wiPCI
-        2xuIGAdK5DgYeC9KRbpiSZGpcscy3znvULgRQl4/ouzMBqIIKlcHAjVgi5TIlJ5h1RAb/XaaKf4Hh
-        sx9Ab1+0i9/rCgwZtdxmK4sMm0guanzI6yHXKGcGlhzXmDMgLemdTXQm4vstJrMlnY8ML0UcrYf1P
-        GST/iKWJScGCRYQKZk4G2cN1h1y6WVAFy2xPBq/KaTS9Q6Q+KP2UT4BNTCzPi89nTUUfidkVCquYO
-        6T55jp+vxkDkvvKZL1iWyJEuCc7rMRgdM7ze8AtbgmtGnQAArI8a07xIIhiI40EjUqtcOa4z/dU30
-        yHYpQt7Q==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jWjQH-0008QS-Do; Thu, 07 May 2020 16:30:57 +0000
-Subject: Re: [RFC 34/43] shmem: PKRAM: multithread preserving and restoring
- shmem pages
-To:     Anthony Yznaga <anthony.yznaga@oracle.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        rppt@linux.ibm.com, akpm@linux-foundation.org, hughd@google.com,
-        ebiederm@xmission.com, masahiroy@kernel.org, ardb@kernel.org,
-        ndesaulniers@google.com, dima@golovin.in, daniel.kiper@oracle.com,
-        nivedita@alum.mit.edu, rafael.j.wysocki@intel.com,
-        dan.j.williams@intel.com, zhenzhong.duan@oracle.com,
-        jroedel@suse.de, bhe@redhat.com, guro@fb.com,
-        Thomas.Lendacky@amd.com, andriy.shevchenko@linux.intel.com,
-        keescook@chromium.org, hannes@cmpxchg.org, minchan@kernel.org,
-        mhocko@kernel.org, ying.huang@intel.com,
-        yang.shi@linux.alibaba.com, gustavo@embeddedor.com,
-        ziqian.lzq@antfin.com, vdavydov.dev@gmail.com,
-        jason.zeng@intel.com, kevin.tian@intel.com, zhiyuan.lv@intel.com,
-        lei.l.li@intel.com, paul.c.lai@intel.com, ashok.raj@intel.com,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org
-References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
- <1588812129-8596-35-git-send-email-anthony.yznaga@oracle.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <4e44858d-a416-696e-0d65-0b5ca8836b7d@infradead.org>
-Date:   Thu, 7 May 2020 09:30:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726908AbgEGQ7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 12:59:00 -0400
+Received: from mga14.intel.com ([192.55.52.115]:26106 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726320AbgEGQ7A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 May 2020 12:59:00 -0400
+IronPort-SDR: D/gE71r4FfI1AEosNKpprj+SH70Jt/XTyS8VfucL33gKXCK2CTpOafqcXVZQmLr6e+m/i7R8WR
+ Yo3rPR2FbsLw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2020 09:58:59 -0700
+IronPort-SDR: 4Xav02TGuF5KC6i/HlotdeCsEttQc+IxzROcQP0j4Tq6KHlbIN5CNm7pPTv7WRs0kZz3ZBJG+C
+ TPHvQlt7iSEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,364,1583222400"; 
+   d="scan'208";a="305171312"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by FMSMGA003.fm.intel.com with ESMTP; 07 May 2020 09:58:59 -0700
+Message-ID: <e0bb75f71ccc7fdf5cd5012441536918a09a9322.camel@intel.com>
+Subject: Re: [PATCH v10 05/26] x86/cet/shstk: Add Kconfig option for
+ user-mode Shadow Stack
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Date:   Thu, 07 May 2020 09:59:02 -0700
+In-Reply-To: <f4329e8c-0b3a-2c52-2145-08ea4dcab26e@intel.com>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+         <20200429220732.31602-6-yu-cheng.yu@intel.com>
+         <f4329e8c-0b3a-2c52-2145-08ea4dcab26e@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <1588812129-8596-35-git-send-email-anthony.yznaga@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/6/20 5:42 PM, Anthony Yznaga wrote:
-> Improve performance by multithreading the work to preserve and restore
-> shmem pages.
+On Thu, 2020-05-07 at 08:55 -0700, Dave Hansen wrote:
+> On 4/29/20 3:07 PM, Yu-cheng Yu wrote:
+> > +config X86_INTEL_SHADOW_STACK_USER
+> > +	prompt "Intel Shadow Stacks for user-mode"
+> > +	def_bool n
+> > +	depends on CPU_SUP_INTEL && X86_64
+> > +	depends on AS_HAS_SHADOW_STACK
+> > +	select ARCH_USES_HIGH_VMA_FLAGS
+> > +	select X86_INTEL_CET
+> > +	select ARCH_HAS_SHADOW_STACK
 > 
-> Add 'pkram_max_threads=' kernel option to specify the maximum number
-> of threads to use to preserve or restore the pages of a shmem file.
-> The default is 16.
-
-Hi,
-Please document kernel boot options in Documentation/admin-guide/kernel-parameters.txt.
-
-> When preserving pages each thread saves chunks of a file to a pkram_obj
-> until no more no more chunks are available.
+> I called protection keys: X86_INTEL_MEMORY_PROTECTION_KEYS
 > 
-> When restoring pages each thread loads pages using a copy of a
-> pkram_stream initialized by pkram_prepare_load_obj(). Under the hood
-> each thread ends up fetching and operating on pkram_link pages.
+> AMD recently posted documentation which shows them implementing it as
+> well.  The "INTEL_" is feeling now like a mistake.
 > 
-> Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
-> ---
->  include/linux/pkram.h |   2 +
->  mm/shmem_pkram.c      | 101 +++++++++++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 101 insertions(+), 2 deletions(-)
+> Going forward, we should probably avoid sticking the company name on
+> them, if for no other reason than avoiding confusion and/or churn in the
+> future.
+> 
+> Shadow stacks, for instance, seem like something that another vendor
+> might implement one day.  So, let's at least remove the "INTEL_" from
+> the config option names themselves.  Mentioning Intel in the changelog
+> and the Kconfig help text is fine.
 
-thanks.
--- 
-~Randy
+Yes, sure.
+
+Yu-cheng
 
