@@ -2,85 +2,85 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8445EC38A2A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 18:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA97FC38A2A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 18:53:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 500EC24957
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 18:50:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588877450;
-	bh=jRqp7Whidt2bn+KPfzhaiR0bYWm4WyDB+t+5GsshtYM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Ctr8VKKDoAUCEXoWesvX+PMvXYnmsXOdEZkvkIhxOWfVg29YI3nhpak66eFjQ7nIS
-	 dzkfYGT6J5IMNPK5kOer4AduTe2vFylD6NMi4ZFqcA2OHvPOY/LlXdyd0lotQfGu3g
-	 gq53ZRfJ4AfwKwhDJVcBy5GRMM0pTGYsL+fjF9Ys=
+	by mail.kernel.org (Postfix) with ESMTP id 745192495F
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 18:53:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BXlVtRcW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726514AbgEGSuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 14:50:50 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:35879 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbgEGSut (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 14:50:49 -0400
-Received: by mail-pl1-f194.google.com with SMTP id f15so2430640plr.3;
-        Thu, 07 May 2020 11:50:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NVtq4LDDtvm7cyqcZmZ6iVyVFqaMEGZyo2ntIU6mBx8=;
-        b=MkU6SofPX1nSol8g32toQunda+QRsJDgV6ECkIfwTDWlj0tRgdBWeEYxJ+rVJ9Q53L
-         UHFoQPNDDFnzrCxHsTKJVf1Sn2w0MpWMzfX9ea9l7s1jd8EdongQZU4jSFjR7A7DBYsG
-         4u6usbp92htw/LZpUYq/2oom4r1v5Ee5wFv47+3kV93FunQz2S6saDM4CDv3DrB3F8TQ
-         ka/C2DN/ISVM+5iN8MdRtT9dS5MiUZT6eWxQkJBUwdl4DQhOBBFOOsfnOl+v+luBnQf2
-         5u/bLVWUOIQXP0Q0uqi8mLkGaHlTCMIfhEgs7xI7R5behg7f64bPlidCjP5vbtVrHj6N
-         wYEg==
-X-Gm-Message-State: AGi0PuZ01BqftuvErG1l1PAtoKe3ZxhCJNgk0DUbCf1f+ik/Ti7ZxZQl
-        QPV7leXsEnSsGBgIePqLoLk=
-X-Google-Smtp-Source: APiQypL/T4pokMBN3BjyJTmEhzQ6U4iO/Je8syJeCy3/7O5YcCFMehZ+kLkFe9ehfbZ5CmV/DTUJmw==
-X-Received: by 2002:a17:90a:d808:: with SMTP id a8mr1614734pjv.6.1588877448984;
-        Thu, 07 May 2020 11:50:48 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id ft14sm474731pjb.46.2020.05.07.11.50.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 11:50:47 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 92589403EA; Thu,  7 May 2020 18:50:46 +0000 (UTC)
-Date:   Thu, 7 May 2020 18:50:46 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Rafael Aquini <aquini@redhat.com>
+        id S1728309AbgEGSx3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 14:53:29 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26078 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726491AbgEGSx2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 14:53:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588877608;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3EhH1A9gQMpfXypIl8DH4medFGIIF5ti8TqIyHhZSE0=;
+        b=BXlVtRcWij/ctbsmQytQsH6uUE6s99R0al+ovXxaSeCRu3D7fmCF9xSBGBgZB0qOmPprWR
+        c6Vho2jXVdP6Gjkqnk2xEIBGX60Zk+u9A8jxNyP0YZ/v4Ha/ct+X18z9iQ/T0CsNTq8+2W
+        3tyIXSqyGsLCHw+YFk+4WPS1oJUz1aA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-Y-p7Je82PyWfiDY1P6m7tw-1; Thu, 07 May 2020 14:53:26 -0400
+X-MC-Unique: Y-p7Je82PyWfiDY1P6m7tw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E09E107ACCD;
+        Thu,  7 May 2020 18:53:24 +0000 (UTC)
+Received: from optiplex-lnx (unknown [10.3.128.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E7A721001B07;
+        Thu,  7 May 2020 18:53:18 +0000 (UTC)
+Date:   Thu, 7 May 2020 14:53:15 -0400
+From:   Rafael Aquini <aquini@redhat.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
         dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
         keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
         rdunlap@infradead.org
 Subject: Re: [PATCH v2] kernel: add panic_on_taint
-Message-ID: <20200507185046.GY11244@42.do-not-panic.com>
+Message-ID: <20200507185315.GH205881@optiplex-lnx>
 References: <20200507180631.308441-1-aquini@redhat.com>
+ <20200507185046.GY11244@42.do-not-panic.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200507180631.308441-1-aquini@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200507185046.GY11244@42.do-not-panic.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 07, 2020 at 02:06:31PM -0400, Rafael Aquini wrote:
-> Another, perhaps less frequent, use for this option would be
-> as a mean for assuring a security policy (in paranoid mode)
-> case where no single taint is allowed for the running system.
+On Thu, May 07, 2020 at 06:50:46PM +0000, Luis Chamberlain wrote:
+> On Thu, May 07, 2020 at 02:06:31PM -0400, Rafael Aquini wrote:
+> > Another, perhaps less frequent, use for this option would be
+> > as a mean for assuring a security policy (in paranoid mode)
+> > case where no single taint is allowed for the running system.
+> 
+> If used for this purpose then we must add a new TAINT flag for
+> proc_taint() was used, otherwise we can cheat to show a taint
+> *did* happen, where in fact it never happened, some punk just
+> echo'd a value into the kernel's /proc/sys/kernel/tainted.
+>
 
-If used for this purpose then we must add a new TAINT flag for
-proc_taint() was used, otherwise we can cheat to show a taint
-*did* happen, where in fact it never happened, some punk just
-echo'd a value into the kernel's /proc/sys/kernel/tainted.
+To accomplish that, the punk would need to be root, though, in which 
+case everything else is doomed, already.
+ 
+> Forunately proc_taint() only allows to *increment* the taint, not
+> reduce.
+> 
+>   Luis
+> 
 
-Forunately proc_taint() only allows to *increment* the taint, not
-reduce.
-
-  Luis
