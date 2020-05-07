@@ -2,107 +2,99 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF85CC35280
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 22:26:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C38FFC35280
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 23:07:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8891220870
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 22:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588890362;
-	bh=QtYWifQxruRicMYlWxBFETeDcMT2YeYKexFYi3DgWKA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Bi/CYNG8MyYfD0KBJ+oPGADu6/qRFgWVV5LAx1sasLvDcTScRKjWU4UwzAPLObVQS
-	 ugsoBJ8Jml+EznDSK+SU5hlGO+xnlwyysEL6FUIrZGwmfmo+jMe/509xz1UoUaSvVu
-	 9wZ72Eipsyk/BSzdQeYscoBzWeozI2TZIgupGyG4=
+	by mail.kernel.org (Postfix) with ESMTP id 98DE8208D6
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 23:07:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="irn2+fcr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726580AbgEGW0C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 18:26:02 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:35098 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726579AbgEGW0C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 18:26:02 -0400
-Received: by mail-pl1-f195.google.com with SMTP id f8so2666913plt.2;
-        Thu, 07 May 2020 15:26:01 -0700 (PDT)
+        id S1727840AbgEGXHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 19:07:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45248 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727828AbgEGXHW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 19:07:22 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2ABCC05BD0A
+        for <linux-doc@vger.kernel.org>; Thu,  7 May 2020 16:07:22 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id j2so193407qtr.12
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2020 16:07:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=lca.pw; s=google;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=cDgv5RBBNmmZoeVkSdRHbb+p5n1j6gbGkVNuskYknK8=;
+        b=irn2+fcrxp6NonlZzAmEkP+IcmaZPlVzbzxmfCG6lVabw4/G0dFt3sq6PNTCVMGxGG
+         mHrxFYOqL919h6uaxEl0JW7dIaw8NB10ABm7DPmqf/EhfuWGsilf0Zdh4cihFDxim+Mo
+         2oiV63mSEiHMYHoenvD/gjwZA2LAweN8EWw+tYVdcFwe7a8XKwwE9AkeASQmt+OrM6Ud
+         66rqMK51DOb0gUzTcrOl8r0cDm0oT8FMB5ERjpMlkKlVh00sAuv1oGi7o++rQCXNEyy3
+         NK/+1D+NyYl6NPUHDAAe/3i2dWdBxPkf5biMBOG9YHzAaT3acw0lJR7KTsOkpXlpkwHt
+         Jr4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DZd2V6aZzC95wLlSgPEBXlyeRSaAQc/BSqmBsSSCJnY=;
-        b=Mn907trl+04MmBXU84WKRAQT1FD7GWoxusIl9dCBVbp/AahOB7DwgnAQ/kpNIPh4OY
-         s9ICGmGWRFlrgtjzDWo6CRQnq+IxgHaPJdeMr4+iB78w88SgyfklLk8uQ9Z8KYY4ZP4b
-         XfNjUjCayU/bN5L0x2hxqOC6dMNjgZT10UnctORR4Q4kAyOln2mAkKW8tCrg9JHQJlZf
-         eaFg2Bx+/4c2eVqrr/7N/YLbvSVlsyZTB2ruuYTvlibqF18vSI4vQJjjCWLQ7EJJTGaO
-         bqO58PCHIMfSEdHo3TGGdqqzQ3ar+uOnqnlAvVcU8+18JrkVqJDU4jH2p0USaiaR+ivh
-         K7qQ==
-X-Gm-Message-State: AGi0PuYEDYBPA05+Z+kZr6A1Lk+Sw1zfO8QqtPA7+WmN7BXOAzawfMHd
-        0yjOSRQ2sCbkbWEmSC1+zDU=
-X-Google-Smtp-Source: APiQypIPwdzfOMX951uSbn33ONVVuG6n8WfUdh7gFNW66WEA5AQCyAZiEcEcEVoNy/HcIubnSplBmw==
-X-Received: by 2002:a17:90a:d3cc:: with SMTP id d12mr2582928pjw.158.1588890360942;
-        Thu, 07 May 2020 15:26:00 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id h5sm769234pjv.4.2020.05.07.15.25.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 15:25:59 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 04A1C403EA; Thu,  7 May 2020 22:25:58 +0000 (UTC)
-Date:   Thu, 7 May 2020 22:25:58 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Rafael Aquini <aquini@redhat.com>
-Cc:     Tso Ted <tytso@mit.edu>, Adrian Bunk <bunk@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Jeff Mahoney <jeffm@suse.com>, Jiri Kosina <jikos@kernel.org>,
-        Jessica Yu <jeyu@suse.de>, Takashi Iwai <tiwai@suse.de>,
-        Ann Davis <AnDavis@suse.com>,
-        Richard Palethorpe <rpalethorpe@suse.de>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=cDgv5RBBNmmZoeVkSdRHbb+p5n1j6gbGkVNuskYknK8=;
+        b=YKFP8LwaSYztXcEC50Q4vAXqQ2fuVrhx2JCha//n4I+NmTtZADVJlAlbc/Tf38Fk8e
+         RPxllzFuCkMa8HZLGpnUmXlZwOHIOHo2DEog7HIJJFfdN+3kKonzQvVn3dBER2q47cNL
+         UJZTAHI2qGJBasgEBkNADUwBiR5QwnTNE+ukjl8j+1MyNaUsZJykzXsJlbNUVGkHN1Ph
+         ywG0eFFORCHzHPR9C8ONWUaQSKruXyG5ECd1qzlH0vmEPrmi2G2mRoMIu8cAW6+gq9ju
+         6lPgumsn2WnXio2nDc+N1rrAOON1UY579reDa5ovnnF9JoVJP5pc4BwF1v65a1UZA4Fy
+         0WGA==
+X-Gm-Message-State: AGi0PuZIftiqZyUjmI570gUf1n8fEJeTQ1d0yfxHZM3rhAx4uxxHgMaP
+        9H5p9MBNu9bs0aBKTGpzrIEIrg==
+X-Google-Smtp-Source: APiQypJ8nv0rS/6ipD0+tlnjwjtkoEW9gBSgFlE4m3C077d6wO4jOE6P+FabQVeufE8QHwU+D1XMog==
+X-Received: by 2002:ac8:46c9:: with SMTP id h9mr16757891qto.128.1588892841789;
+        Thu, 07 May 2020 16:07:21 -0700 (PDT)
+Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
+        by smtp.gmail.com with ESMTPSA id b126sm5170080qkc.119.2020.05.07.16.07.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 May 2020 16:07:21 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Qian Cai <cai@lca.pw>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] kernel: add panic_on_taint
+Date:   Thu, 7 May 2020 19:07:20 -0400
+Message-Id: <6B423101-ACF4-49A3-AD53-ACBF87F1ABE0@lca.pw>
+References: <20200507221503.GL205881@optiplex-lnx>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
-        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v2] kernel: add panic_on_taint
-Message-ID: <20200507222558.GA11244@42.do-not-panic.com>
-References: <20200507180631.308441-1-aquini@redhat.com>
- <20200507182257.GX11244@42.do-not-panic.com>
- <20200507184307.GF205881@optiplex-lnx>
- <20200507184705.GG205881@optiplex-lnx>
- <20200507203340.GZ11244@42.do-not-panic.com>
- <20200507220606.GK205881@optiplex-lnx>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200507220606.GK205881@optiplex-lnx>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        dyoung@redhat.com, Baoquan He <bhe@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>
+In-Reply-To: <20200507221503.GL205881@optiplex-lnx>
+To:     Rafael Aquini <aquini@redhat.com>
+X-Mailer: iPhone Mail (17D50)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 07, 2020 at 06:06:06PM -0400, Rafael Aquini wrote:
-> On Thu, May 07, 2020 at 08:33:40PM +0000, Luis Chamberlain wrote:
-> > I *think* that a cmdline route to enable this would likely remove the
-> > need for the kernel config for this. But even with Vlastimil's work
-> > merged, I think we'd want yet-another value to enable / disable this
-> > feature. Do we need yet-another-taint flag to tell us that this feature
-> > was enabled?
-> >
-> 
-> I guess it makes sense to get rid of the sysctl interface for
-> proc_on_taint, and only keep it as a cmdline option. 
 
-That would be easier to support and k3eps this simple.
 
-> But the real issue seems to be, regardless we go with a cmdline-only option
-> or not, the ability of proc_taint() to set any arbitrary taint flag 
-> other than just marking the kernel with TAINT_USER. 
+> On May 7, 2020, at 6:15 PM, Rafael Aquini <aquini@redhat.com> wrote:
+>=20
+> It's a reasonable and self-contained feature that we have a valid use for.=
+=20
+> I honestly fail to see it causing that amount of annoyance as you are=20
+> suggesting here.
 
-I think we would have no other option but to add a new TAINT flag so
-that we know that the taint flag was modified by a user. Perhaps just
-re-using TAINT_USER when proc_taint() would suffice.
+It is not a big trouble yet, but keeping an obsolete patch that not very str=
+aightforward to figure out that it will be superseded by the panic_on_taint p=
+atch will only cause more confusion the longer it has stayed in linux-next.
 
-  Luis
+The thing is that even if you can=E2=80=99t get this panic_on_taint (the sup=
+erior solution) patch accepted for some reasons, someone else could still wo=
+rk on it until it get merged.
+
+Thus, I failed to see any possibility we will go back to the inferior soluti=
+on (mm-slub-add-panic_on_error-to-the-debug-facilities.patch) by all means.=
