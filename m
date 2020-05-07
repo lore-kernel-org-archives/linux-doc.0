@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A487C38A2A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:47:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D23E5C47257
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:47:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA0CF2087E
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:47:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0EEE2064A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:47:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="eDBZ91s7"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZbRXCCwD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729051AbgEGArV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 20:47:21 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:50620 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728010AbgEGArT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:47:19 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bff3064527;
-        Thu, 7 May 2020 00:46:20 GMT
+        id S1728359AbgEGArN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 20:47:13 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:41162 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729038AbgEGArL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:47:11 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470c5BT093096;
+        Thu, 7 May 2020 00:46:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=lgTPbgWuooIASoan6azS78lSy4rZcz4p1fF1/JwE5D8=;
- b=eDBZ91s7uE20PGEknQieoApNYK/X77uRpkvgWH4Ntib2svHdQgiuVmaJOv/DQs9lsO5n
- Twu1RFkZRs4PyGgLJQAG5PbOyCndVv6DYU3uXRbClF2JqmHgmO3VXeOGA9djveUI7PRF
- zWqffMx29K81BhOHkusXw6BhLtvyWnbGl3cqATmwXxDdiiV0w8G+DMJWe2IeW7RRRhSZ
- t87VaSvZf3/XtFgn3AATvs0EzrZwQa3MGceKqVcDL/6MzWCdRvPsW9EJwqks/OlsamJG
- GO6ldoFj7hHx9C2S6ZgaXzJ0HpHph4rTLbT/IQjT/xY7kkJOLnQKfwtNX6bhlYU+vAYU hg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2130.oracle.com with ESMTP id 30s09rdfh3-1
+ bh=xGbfAvtj4sdRqUcckGpXoks3Z0mla/qk9EywXv5xu4U=;
+ b=ZbRXCCwD3zJvBSBtHjKnv3vKD/s9Qh7+x7uXjU+8pHxhQY/Sl+24VJ/XFTNx/s+Fx2UB
+ Ixyz374M5ijuqSxj59zlH7kueEtpWqdvI9M/gcgjekxtAX75lAYkYnoqRS9TdHJavfKM
+ 1SHz3fPIA+JwP4nxyYOFp9gC4mslfLfsGeMNtghQMnwhqT2K6s6h1fr0G528Yj5+NXLp
+ VIIVwUXjKRB4fgVXtBSeX8n89zutroqtjC8vVH6Csgt1fIHLY8S8bCCuOTCKfChAu5bF
+ GSKHMacUI76DMGWYW30lTPhXj0kBzBh9hsGqqQHGejk6kRr7kTcf0FlJRlkLh9R3do1h lw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 30s1gnd8uk-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:46:20 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470ausi170938;
-        Thu, 7 May 2020 00:44:19 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 30us7p2p25-1
+        Thu, 07 May 2020 00:46:11 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bUPP098663;
+        Thu, 7 May 2020 00:44:10 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 30sjnma4qs-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:19 +0000
+        Thu, 07 May 2020 00:44:10 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470iGkU026090;
-        Thu, 7 May 2020 00:44:16 GMT
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470i9tL020333;
+        Thu, 7 May 2020 00:44:09 GMT
 Received: from ayz-linux.localdomain (/68.7.158.207)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 06 May 2020 17:44:16 -0700
+        with ESMTP ; Wed, 06 May 2020 17:44:09 -0700
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -69,119 +69,113 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, paul.c.lai@intel.com, ashok.raj@intel.com,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org
-Subject: [RFC 29/43] memblock: PKRAM: mark memblocks that contain preserved pages
-Date:   Wed,  6 May 2020 17:41:55 -0700
-Message-Id: <1588812129-8596-30-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC 27/43] x86/mm/numa: add numa_isolate_memblocks()
+Date:   Wed,  6 May 2020 17:41:53 -0700
+Message-Id: <1588812129-8596-28-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=2
- mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0 spamscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2005070001
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015 suspectscore=2
- priorityscore=1501 malwarescore=0 mlxlogscore=999 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005070001
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0 mlxscore=0
+ spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005070001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To support deferred initialization of page structs for preserved pages,
-separate memblocks containing preserved pages by setting a new flag
-when adding them to the memblock reserved list.
+Provide a way for a caller external to numa to ensure memblocks in the
+memblock reserved list do not cross node boundaries and have a node id
+assigned to them.  This will be used by PKRAM to ensure initialization of
+page structs for preserved pages can be deferred and multithreaded
+efficiently.
 
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- include/linux/memblock.h | 7 +++++++
- mm/memblock.c            | 8 +++++++-
- mm/pkram.c               | 4 ++--
- 3 files changed, 16 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/numa.h |  4 ++++
+ arch/x86/mm/numa.c          | 32 ++++++++++++++++++++------------
+ 2 files changed, 24 insertions(+), 12 deletions(-)
 
-diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-index 6bc37a731d27..27ab2b30ae1d 100644
---- a/include/linux/memblock.h
-+++ b/include/linux/memblock.h
-@@ -37,6 +37,7 @@ enum memblock_flags {
- 	MEMBLOCK_HOTPLUG	= 0x1,	/* hotpluggable region */
- 	MEMBLOCK_MIRROR		= 0x2,	/* mirrored region */
- 	MEMBLOCK_NOMAP		= 0x4,	/* don't add to kernel direct mapping */
-+	MEMBLOCK_PRESERVED	= 0x8,	/* preserved pages region */
- };
- 
- /**
-@@ -111,6 +112,7 @@ void memblock_allow_resize(void);
- int memblock_add_node(phys_addr_t base, phys_addr_t size, int nid);
- int memblock_add(phys_addr_t base, phys_addr_t size);
- int memblock_remove(phys_addr_t base, phys_addr_t size);
-+int __memblock_reserve(phys_addr_t base, phys_addr_t size, enum memblock_flags flags);
- int memblock_free(phys_addr_t base, phys_addr_t size);
- int memblock_reserve(phys_addr_t base, phys_addr_t size);
- #ifdef CONFIG_HAVE_MEMBLOCK_PHYS_MAP
-@@ -215,6 +217,11 @@ static inline bool memblock_is_nomap(struct memblock_region *m)
- 	return m->flags & MEMBLOCK_NOMAP;
+diff --git a/arch/x86/include/asm/numa.h b/arch/x86/include/asm/numa.h
+index bbfde3d2662f..f9e05f4eb1c6 100644
+--- a/arch/x86/include/asm/numa.h
++++ b/arch/x86/include/asm/numa.h
+@@ -40,6 +40,7 @@ static inline void set_apicid_to_node(int apicid, s16 node)
  }
  
-+static inline bool memblock_is_preserved(struct memblock_region *m)
+ extern int numa_cpu_node(int cpu);
++extern void __init numa_isolate_memblocks(void);
+ 
+ #else	/* CONFIG_NUMA */
+ static inline void set_apicid_to_node(int apicid, s16 node)
+@@ -50,6 +51,9 @@ static inline int numa_cpu_node(int cpu)
+ {
+ 	return NUMA_NO_NODE;
+ }
++static inline void numa_isolate_memblocks(void)
 +{
-+	return m->flags & MEMBLOCK_PRESERVED;
++}
+ #endif	/* CONFIG_NUMA */
+ 
+ #ifdef CONFIG_X86_32
+diff --git a/arch/x86/mm/numa.c b/arch/x86/mm/numa.c
+index 59ba008504dc..df0065e24ea5 100644
+--- a/arch/x86/mm/numa.c
++++ b/arch/x86/mm/numa.c
+@@ -475,6 +475,25 @@ static bool __init numa_meminfo_cover_memory(const struct numa_meminfo *mi)
+ 	return true;
+ }
+ 
++void __init numa_isolate_memblocks(void)
++{
++	int i;
++
++	/*
++	 * Iterate over all memory known to the x86 architecture,
++	 * and use those ranges to set the nid in memblock.reserved.
++	 * This will split up the memblock regions along node
++	 * boundaries and will set the node IDs as well.
++	 */
++	for (i = 0; i < numa_meminfo.nr_blks; i++) {
++		struct numa_memblk *mb = numa_meminfo.blk + i;
++		int ret;
++
++		ret = memblock_set_node(mb->start, mb->end - mb->start, &memblock.reserved, mb->nid);
++		WARN_ON_ONCE(ret);
++	}
 +}
 +
- #ifdef CONFIG_HAVE_MEMBLOCK_NODE_MAP
- int memblock_search_pfn_nid(unsigned long pfn, unsigned long *start_pfn,
- 			    unsigned long  *end_pfn);
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 69ae883b8d21..1a9a2055ed11 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -831,6 +831,12 @@ int __init_memblock memblock_free(phys_addr_t base, phys_addr_t size)
- 	return memblock_remove_range(&memblock.reserved, base, size);
- }
+ /*
+  * Mark all currently memblock-reserved physical memory (which covers the
+  * kernel's own memory ranges) as hot-unswappable.
+@@ -493,19 +512,8 @@ static void __init numa_clear_kernel_node_hotplug(void)
+ 	 * used by the kernel, but those regions are not split up
+ 	 * along node boundaries yet, and don't necessarily have their
+ 	 * node ID set yet either.
+-	 *
+-	 * So iterate over all memory known to the x86 architecture,
+-	 * and use those ranges to set the nid in memblock.reserved.
+-	 * This will split up the memblock regions along node
+-	 * boundaries and will set the node IDs as well.
+ 	 */
+-	for (i = 0; i < numa_meminfo.nr_blks; i++) {
+-		struct numa_memblk *mb = numa_meminfo.blk + i;
+-		int ret;
+-
+-		ret = memblock_set_node(mb->start, mb->end - mb->start, &memblock.reserved, mb->nid);
+-		WARN_ON_ONCE(ret);
+-	}
++	numa_isolate_memblocks();
  
-+int __init_memblock __memblock_reserve(phys_addr_t base, phys_addr_t size,
-+					enum memblock_flags flags)
-+{
-+	return memblock_add_range(&memblock.reserved, base, size, MAX_NUMNODES, flags);
-+}
-+
- int __init_memblock memblock_reserve(phys_addr_t base, phys_addr_t size)
- {
- 	phys_addr_t end = base + size - 1;
-@@ -838,7 +844,7 @@ int __init_memblock memblock_reserve(phys_addr_t base, phys_addr_t size)
- 	memblock_dbg("%s: [%pa-%pa] %pS\n", __func__,
- 		     &base, &end, (void *)_RET_IP_);
- 
--	return memblock_add_range(&memblock.reserved, base, size, MAX_NUMNODES, 0);
-+	return __memblock_reserve(base, size, 0);
- }
- 
- #ifdef CONFIG_HAVE_MEMBLOCK_PHYS_MAP
-diff --git a/mm/pkram.c b/mm/pkram.c
-index 97a7dd0a5b7d..b83d31740619 100644
---- a/mm/pkram.c
-+++ b/mm/pkram.c
-@@ -170,7 +170,7 @@ static int __init pkram_reserve_page(unsigned long pfn)
- 	size = PAGE_SIZE;
- 
- 	if (memblock_is_region_reserved(base, size) ||
--	    memblock_reserve(base, size) < 0)
-+	    __memblock_reserve(base, size, MEMBLOCK_PRESERVED) < 0)
- 		err = -EBUSY;
- 
- 	if (!err)
-@@ -1446,7 +1446,7 @@ static void pkram_remove_identity_map(struct page *page)
- static int __init pkram_reserve_range_cb(struct pkram_pg_state *st, unsigned long base, unsigned long size)
- {
- 	if (memblock_is_region_reserved(base, size) ||
--	    memblock_reserve(base, size) < 0) {
-+	    __memblock_reserve(base, size, MEMBLOCK_PRESERVED) < 0) {
- 		pr_warn("PKRAM: reservations exist in [0x%lx,0x%lx]\n", base, base + size - 1);
- 		/*
- 		 * Set a lower bound so another walk can undo the earlier,
+ 	/*
+ 	 * Now go over all reserved memblock regions, to construct a
 -- 
 2.13.3
 
