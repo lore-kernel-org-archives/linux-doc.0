@@ -2,166 +2,477 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50840C38A2A
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 20:59:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8756C54E49
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 21:15:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2512720661
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 20:59:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CEDC208CA
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 21:15:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbgEGU7x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 16:59:53 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49278 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726218AbgEGU7x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 16:59:53 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 047KXEPA092959;
-        Thu, 7 May 2020 16:59:10 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 30ux6fbgv5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 May 2020 16:59:10 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 047KcG9Q103121;
-        Thu, 7 May 2020 16:59:09 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 30ux6fbgu5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 May 2020 16:59:09 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
-        by ppma01fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 047KpZWI004436;
-        Thu, 7 May 2020 20:59:06 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
-        by ppma01fra.de.ibm.com with ESMTP id 30s0g5cxas-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 May 2020 20:59:06 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 047Kx4uI50593830
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 7 May 2020 20:59:04 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8698C4C04A;
-        Thu,  7 May 2020 20:59:04 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 01C9A4C040;
-        Thu,  7 May 2020 20:59:02 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.148.201.211])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu,  7 May 2020 20:59:01 +0000 (GMT)
-Date:   Thu, 7 May 2020 23:59:00 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Vineet Gupta <Vineet.Gupta1@synopsys.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Rich Felker <dalias@libc.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
-        "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-c6x-dev@linux-c6x.org" <linux-c6x-dev@linux-c6x.org>,
-        Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Ley Foon Tan <ley.foon.tan@intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH v2 17/20] mm: free_area_init: allow defining max_zone_pfn
- in descending order
-Message-ID: <20200507205900.GH683243@linux.ibm.com>
-References: <20200429121126.17989-1-rppt@kernel.org>
- <20200429121126.17989-18-rppt@kernel.org>
- <20200503174138.GA114085@roeck-us.net>
- <20200503184300.GA154219@roeck-us.net>
- <20200504153901.GM14260@kernel.org>
- <a0b20e15-fddb-aa9c-fd67-f1c8e735b4a4@synopsys.com>
- <20200505091946.GG342687@linux.ibm.com>
- <88b9465b-6e6d-86ca-3776-ccb7a5b60b7f@synopsys.com>
- <20200505201522.GA683243@linux.ibm.com>
+        id S1726761AbgEGVPi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 17:15:38 -0400
+Received: from foss.arm.com ([217.140.110.172]:39464 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726382AbgEGVPh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 May 2020 17:15:37 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A3BA1FB;
+        Thu,  7 May 2020 14:15:36 -0700 (PDT)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7162F3F68F;
+        Thu,  7 May 2020 14:15:33 -0700 (PDT)
+References: <20200507180553.9993-1-john.mathew@unikie.com> <20200507180553.9993-3-john.mathew@unikie.com>
+User-agent: mu4e 0.9.17; emacs 26.3
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     John Mathew <john.mathew@unikie.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, tsbogend@alpha.franken.de,
+        lukas.bulwahn@gmail.com, x86@kernel.org,
+        linux-mips@vger.kernel.org, tglx@linutronix.de,
+        mostafa.chamanara@basemark.com, rdunlap@infradead.org,
+        Oleg Tsymbal <oleg.tsymbal@unikie.com>
+Subject: Re: [RFC PATCH v3 2/3] docs: scheduler: Add scheduler overview documentation
+In-reply-to: <20200507180553.9993-3-john.mathew@unikie.com>
+Date:   Thu, 07 May 2020 22:15:27 +0100
+Message-ID: <jhjh7wrtpjk.mognet@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200505201522.GA683243@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
- definitions=2020-05-07_14:2020-05-07,2020-05-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- spamscore=0 suspectscore=5 phishscore=0 priorityscore=1501 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005070163
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 05, 2020 at 11:15:22PM +0300, Mike Rapoport wrote:
-> On Tue, May 05, 2020 at 06:07:46PM +0000, Vineet Gupta wrote:
-> > On 5/5/20 2:19 AM, Mike Rapoport wrote:
-> 
-> >  - Is it not better to have the core retain the flexibility just in case
-> 
-> If the requirement to have support for 3-banks is a theoretical
-> possibility, I would prefer to adjust ARC's version of
-> arch_has_descending_max_zone_pfns() to cope with either of 2-banks
-> configuration (PAE40 and non-PAE40) and deal with the third bank when/if
-> it actually materializes.
-> 
-> > Thx,
-> > -Vineet
-> 
 
-The fix below should take care of any 2-bank configurations. 
-This is vs. current mmotm.
+On 07/05/20 19:05, John Mathew wrote:
+> Add documentation for
+>  -scheduler overview
+>  -scheduler state transtion
+>  -CFS overview
+>  -scheduler data structs
+>
+> Add rst for scheduler APIs and modify sched/core.c
+> to add kernel-doc comments.
+>
+> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Co-developed-by: Mostafa Chamanara <mostafa.chamanara@basemark.com>
+> Signed-off-by: Mostafa Chamanara <mostafa.chamanara@basemark.com>
+> Co-developed-by: Oleg Tsymbal <oleg.tsymbal@unikie.com>
+> Signed-off-by: Oleg Tsymbal <oleg.tsymbal@unikie.com>
+> Signed-off-by: John Mathew <john.mathew@unikie.com>
+> ---
+>  Documentation/scheduler/cfs-overview.rst      | 113 ++++++++
+>  Documentation/scheduler/index.rst             |   7 +-
+>  Documentation/scheduler/overview.rst          | 266 ++++++++++++++++++
+>  .../scheduler/sched-data-structs.rst          | 253 +++++++++++++++++
+>  Documentation/scheduler/scheduler-api.rst     |  31 ++
+>  kernel/sched/core.c                           |  28 +-
+>  kernel/sched/sched.h                          | 169 ++++++++++-
+>  7 files changed, 858 insertions(+), 9 deletions(-)
+>  create mode 100644 Documentation/scheduler/cfs-overview.rst
+>  create mode 100644 Documentation/scheduler/sched-data-structs.rst
+>  create mode 100644 Documentation/scheduler/scheduler-api.rst
+>
+> diff --git a/Documentation/scheduler/cfs-overview.rst b/Documentation/scheduler/cfs-overview.rst
+> new file mode 100644
+> index 000000000000..b717f2d3e340
+> --- /dev/null
+> +++ b/Documentation/scheduler/cfs-overview.rst
+> @@ -0,0 +1,113 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +
+> +=============
+> +CFS Overview
+> +=============
+> +
+> +Linux 2.6.23 introduced a modular scheduler core and a Completely Fair
+> +Scheduler (CFS) implemented as a scheduling module. A brief overview of the
+> +CFS design is provided in :doc:`sched-design-CFS`
+> +
+> +In addition there have been many improvements to the CFS, a few of which are
 
-From eb8124fb3584607d1036b7ae00c8092ae43e480d Mon Sep 17 00:00:00 2001
-From: Mike Rapoport <rppt@linux.ibm.com>
-Date: Thu, 7 May 2020 23:44:15 +0300
-Subject: [PATCH] arc: free_area_init(): take into account PAE40 mode
+<snip>
 
-The arch_has_descending_max_zone_pfns() does not take into account physical
-memory layout for PAE40 configuration.
-With PAE40 enabled, the HIGHMEM is actually higher than NORMAL and
-arch_has_descending_max_zone_pfns() should return false in this case.
+> +**Consider misfit tasks when load-balancing**:
+> +On asymmetric CPU capacity systems load intensive tasks can end up on
+> +CPUs that don't suit their compute demand. In this scenario 'misfit'
+> +tasks are migrated to CPUs with higher compute capacity to ensure better
+> +throughput. A new group_type: group_misfit_task is added and indicates this
+> +scenario. Tweaks to the load-balance code are done to make the migrations
+> +happen. Misfit balancing is done between a source group of lower per-CPU
+> +capacity and destination group of higher compute capacity. Otherwise, misfit
+> +balancing is ignored.
+> +
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- arch/arc/mm/init.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm not sure how useful this cherry-picked git history is, but that's
+making me think we may want to have an asymmetric CPU capacity scheduling
+section somewhere - I've had to explain what we do here a few times
+already, and it's true that unless you look at the git history or at the
+code it isn't laid out for you (with the exception of EAS that was blessed
+with Quentin's writings).
 
-diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-index 386959bac3d2..e7bdc2ac1c87 100644
---- a/arch/arc/mm/init.c
-+++ b/arch/arc/mm/init.c
-@@ -79,7 +79,7 @@ void __init early_init_dt_add_memory_arch(u64 base, u64 size)
- 
- bool arch_has_descending_max_zone_pfns(void)
- {
--	return true;
-+	return !IS_ENABLED(CONFIG_ARC_HAS_PAE40);
- }
- 
- /*
--- 
-2.26.1
+It would also be an opportunity to have one place to (at least briefly)
+describe what the different sched classes do wrt capacity asymmetry - CFS
+does one thing, RT now does one thing (see Qais' work), and DL will
+hopefully soon follow (see Dietmar's work).
+
+I'd be happy to contribute (some of) that, if it can be deemed useful (I
+personally think it might).
+
+> +=========================
+> +Scheduler Data Structures
+> +=========================
+> +
+> +The main parts of the Linux scheduler are:
+> +
+> +Runqueue
+> +~~~~~~~~
+> +
+> +:c:type:`struct rq <rq>` is the central data structure of process
+> +scheduling. It keeps track of tasks that are in a runnable state assigned
+> +for a particular processor. Each CPU has its own run queue and stored in a
+> +per CPU array::
+> +
+> +    DEFINE_PER_CPU(struct rq, runqueues);
+> +
+> +Access to the queue requires locking and lock acquire operations must be
+> +ordered by ascending runqueue. Macros for accessing and locking the runqueue
+> +are provided in::
+> +
+> +    kernel/sched/sched.h
+> +
+> +The runqueue contains scheduling class specific queues and several scheduling
+> +statistics.
+> +
+> +Scheduling entity
+> +~~~~~~~~~~~~~~~~~
+> +Scheduler uses scheduling entities which contain sufficient information to
+> +actually accomplish the scheduling job of a task or a task-group. The
+> +scheduling entity may be a group of tasks or a single task. Every task is
+> +associated with a sched_entity structure. CFS adds support for nesting of
+> +tasks and task groups. Each scheduling entity may be run from its parents
+> +runqueue. The scheduler traverses the sched_entity hierarchy to pick the
+> +next task to run on the CPU. The entity gets picked up from the cfs_rq on
+> +which it is queued and its time slice is divided among all the tasks on its my_q.
+> +
+> +Virtual Runtime
+> +~~~~~~~~~~~~~~~~~
+
+That probably should be under CFS specific stuff.
+
+> +Virtual Run Time or vruntime is the amount of time a task has spent running
+> +on the CPU. It is updated periodically by scheduler_tick(). Tasks are stored
+> +in the CFS scheduling class rbtree sorted by vruntime. scheduler_tick() calls
+> +corresponding hook of CFS which first updates the runtime statistics of the
+> +currently running task and checks if the current task needs to be preempted.
+> +vruntime of the task based on the formula ::
+> +
+> +    vruntime += delta_exec * (NICE_0_LOAD/curr->load.weight);
+> +
+> +where:
+> +
+> +* delta_exec is the time in nanoseconds spent by the task since the last time
+> +  vruntime was updated.
+
+There's the whole task_clock() shenanigans there, i.e. depending on your
+config knobs that delta may not include IRQ or paravirt time; though that
+doesn't necessarily help in understanding vruntime, so it might be best to
+leave it at that.
+
+> +* NICE_0_LOAD is the load of a task with normal priority.
+
+s/normal/default/
+
+> +* curr is the shed_entity instance of the cfs_rq struct of the currently
+> +  running task.
+> +* load.weight: sched_entity load_weight. load_weight is the encoding of
+> +  the tasks priority and vruntime. The load of a task is the metric
+> +  indicating the number of CPUs needed to make satisfactory progress on its
+> +  job. Load of a task influences the time a task spends on the CPU and also
+> +  helps to estimate the overall CPU load which is needed for load balancing.
+
+Careful not to mix up se.load and se.avg.load_avg. Load balancing decisions
+are based (amongst other things) on (sums of) se.avg.load_avg, i.e. the
+'load' signal generated via PELT. It is indeed weighted by priority, but
+se.load is *not* that load signal.
+
+It's also the first time I see that bit about load being ~how many CPUs
+that task needs. That's peculiar; you can't really split a task up to
+schedule it on other CPUs, so how would that help? And, again, the load
+signal being weighted by priority makes this even weirder.
+
+> +  Priority of the task is not enough for the scheduler to estimate the
+> +  vruntime of a process. So priority value must be mapped to the capacity of
+> +  the standard CPU which is done in the array :c:type:`sched_prio_to_weight[]`.
+> +  The array contains mappings for the nice values from -20 to 19. Nice value
+> +  0 is mapped to 1024. Each entry advances by approximately 1.25 which means
+> +  for every increment in nice value the task gets 10% less CPU and vice versa.
+> +
+> +Scheduler classes
+> +~~~~~~~~~~~~~~~~~
+> +It is an extensible hierarchy of scheduler modules. The modules encapsulate
+> +scheduling policy details. They are called from the core code which is
+> +independent. Scheduling classes are implemented through the sched_class
+> +structure. dl_sched_class for deadline scheduler, fair_sched_class for CFS
+> +and rt_sched_class for RT are implementations of this class.
+
+There's stop (at the top) and idle (at the bottom), but admittedly they
+are somewhat special.
+
+> +
+> +The important methods of scheduler class are:
+> +
+> +enqueue_task and dequeue_task
+> +    These functions are used to put and remove tasks from the runqueue
+> +    respectively. The function takes the runqueue, the task which needs to
+> +    be enqueued/dequeued and a bit mask of flags. The main purpose of the
+> +    flags is to describe why the enqueue or dequeue is being called.
+> +    The different flags used are described in ::
+> +
+> +        kernel/sched/sched.h
+> +
+> +    enqueue_task and dequeue_task are called for following purposes.
+> +
+> +    - When waking a newly created task for the first time. Called with
+> +      ENQUEUE_NOCLOCK
+> +    - When migrating a task from one CPU's runqueue to another. Task will be
+> +      first dequeued from its old runqueue, new CPU will be added to the
+> +      task struct,  runqueue of the new CPU will be retrieved and task is
+> +      then enqueued on this new runqueue.
 
 
--- 
-Sincerely yours,
-Mike.
+> +    - When do_set_cpus_allowed() is called to change a tasks CPU affinity. If
+> +      the task is queued on a runqueue, it is first dequeued with the
+> +      DEQUEUE_SAVE and DEQUEUE_NOCLOCK flags set. The set_cpus_allowed()
+> +      function of the corresponding scheduling class will be called.
+> +      enqueue_task() is then called with ENQUEUE_RESTORE and ENQUEUE_NOCLOCK
+> +      flags set.
+> +    - When changing the priority of a task using rt_mutex_setprio(). This
+> +      function implements the priority inheritance logic of the RT mutex
+> +      code. This function changes the effective priority of a task which may
+> +      in turn change the scheduling class of the task. If so enqueue_task is
+> +      called with flags corresponding to each class.
+> +    - When user changes the nice value of the task. If the task is queued on
+> +      a runqueue, it first needs to be dequeued, then its load weight and
+> +      effective priority needs to be set. Following which the task is
+> +      enqueued with ENQUEUE_RESTORE and ENQUEUE_NOCLOCK flags set.
+> +    - When __sched_setscheduler() is called. This function enables changing
+> +      the scheduling policy and/or RT priority of a thread. If the task is
+> +      on a runqueue, it will be first dequeued, changes will be made and
+> +      then enqueued.
+> +    - When moving tasks between scheduling groups. The runqueue of the tasks
+> +      is changed when moving between groups. For this purpose if the task
+> +      is running on a queue, it is first dequeued with DEQUEUE_SAVE, DEQUEUE_MOVE
+> +      and DEQUEUE_NOCLOCK flags set, followed by which scheduler function to
+> +      change the tsk->se.cfs_rq and tsk->se.parent and then task is enqueued
+> +      on the runqueue with the same flags used in dequeue.
+> +
+
+Those are all what Peter dubs the "change pattern", you may want to just
+explain the principle (we need to dequeue tasks to do some operations; and
+ofc we need to put them back as they were once that's done) & pick just one
+rather than exhaustively list them all.
+
+This still applies to a lot of other places IMO - I think you need less
+exhaustive listings and more "what's the gist of that".
+
+> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+> index db3a57675ccf..21f2953b72c7 100644
+> --- a/kernel/sched/sched.h
+> +++ b/kernel/sched/sched.h
+> @@ -865,12 +865,175 @@ struct uclamp_rq {
+>  };
+>  #endif /* CONFIG_UCLAMP_TASK */
+>
+> -/*
+> - * This is the main, per-CPU runqueue data structure.
+> +/**
+> + * struct rq - This is the main, per-CPU runqueue data structure.
+>   *
+>   * Locking rule: those places that want to lock multiple runqueues
+>   * (such as the load balancing or the thread migration code), lock
+>   * acquire operations must be ordered by ascending &runqueue.
+> + *
+> + * @lock:
+> + *	lock to be acquired while modifying the runqueue
+> + * @nr_running:
+> + *	number of runnable tasks on this queue
+> + * @nr_numa_running:
+> + *	number of tasks running that care about their placement
+> + * @nr_preferred_running:
+> + *	number of tasks that are optimally NUMA placed
+> + * @numa_migrate_on:
+> + *	per run-queue variable to check if NUMA-balance is
+> + *	active on the run-queue
+> + * @last_blocked_load_update_tick:
+> + *	tick stamp for decay of blocked load
+> + * @has_blocked_load:
+> + *	idle CPU has blocked load
+> + * @nohz_tick_stopped:
+> + *	CPU is going idle with tick stopped
+> + * @nohz_flags:
+> + *	flags indicating NOHZ idle balancer actions
+> + * @nr_load_updates:
+> + *	unused
+> + * @nr_switches:
+> + *	number of context switches
+> + * @uclamp:
+> + *	utilization clamp values based on CPU's RUNNABLE tasks
+> + * @uclamp_flags:
+> + *	flags for uclamp actions, currently one flag for idle.
+> + * @cfs:
+> + *	fair scheduling class runqueue
+> + * @rt:
+> + *	rt scheduling class runqueue
+> + * @dl:
+> + *	dl scheduing class runqueue
+> + * @leaf_cfs_rq_list:
+> + *	list of leaf cfs_rq on this CPU
+> + * @tmp_alone_branch:
+> + *	reference to add child before its parent in leaf_cfs_rq_list
+> + * @nr_uninterruptible:
+> + *	global counter where the total sum over all CPUs matters. A task
+> + *      can increase this counter on one CPU and if it got migrated
+> + *	afterwards it may decrease it on another CPU. Always updated under
+> + *	the runqueue lock
+> + * @curr:
+> + *	points to the currently running task of this rq.
+> + * @idle:
+> + *	points to the idle task of this rq
+> + * @stop:
+> + *	points to the stop task of this rq
+> + * @next_balance:
+> + *	shortest next balance before updating nohz.next_balance
+> + * @prev_mm:
+> + *	real address space of the previous task
+> + * @clock_update_flags:
+> + *	RQCF clock_update_flags bits
+> + * @clock:
+> + *	sched_clock() value for the queue
+> + * @clock_task:
+> + *	clock value minus irq handling time
+> + * @clock_pelt:
+> + *	clock which scales with current capacity when something is
+> + *	running on rq and synchronizes with clock_task when rq is idle
+> + * @lost_idle_time:
+> + *	idle time lost when utilization of a rq has reached the
+> + *	maximum value
+> + * @nr_iowait:
+> + *	account the idle time that we could have spend running if it
+> + *	were not for IO
+> + * @membarrier_state:
+> + *	copy of membarrier_state from the mm_struct
+> + * @rd:
+> + *	root domain, each exclusive cpuset essentially defines an island
+> + *	domain by fully partitioning the member CPUs from any other cpuset
+> + * @sd:
+> + *	a domain heirarchy of CPU groups to balance process load among them
+> + * @cpu_capacity:
+> + *	information about CPUs heterogeneity used for CPU performance
+> + *	scaling
+> + * @cpu_capacity_orig:
+> + *	original capacity of a CPU before being altered by
+> + *	rt tasks and/or IRQ
+> + * @balance_callback:
+> + *	queue to hold load balancing push and pull operations
+> + * @idle_balance:
+> + *	flag to do the nohz idle load balance
+> + * @misfit_task_load:
+> + *	set whenever the current running task has a utilization
+> + *	greater than 80% of rq->cpu_capacity. A non-zero value
+> + *	in this field enables misfit load balancing
+> + * @active_balance:
+> + *	synchronizes accesses to ->active_balance_work
+> + * @push_cpu:
+> + *	idle cpu to push the running task on to during active load
+> + *	balancing.
+> + * @active_balance_work:
+> + *	callback scheduled to run on one or multiple cpus
+> + *	with maximum priority monopolozing those cpus.
+> + * @cpu:
+> + *	CPU of this runqueue
+> + * @online:
+> + *	Used by scheduling classes to support CPU hotplug
+> + * @cfs_tasks:
+> + *	an MRU list used for load balancing, sorted (except
+> + *	woken tasks) starting from recently given CPU time tasks
+> + *	toward tasks with max wait time in a run-queue
+> + * @avg_rt:
+> + *	track the utilization of RT tasks for a  more accurate
+> + *	view of the utilization of the CPU when overloaded by CFS and
+> + *	RT tasks
+> + * @avg_dl:
+> + *	track the utilization of DL tasks as CFS tasks can be preempted
+> + *	by DL tasks and the CFS's utilization might no longer describe
+> + *	the real utilization level
+> + * @avg_irq:
+> + *	track the the utilization of interrupt to give a more accurate
+> + *	level of utilization of CPU taking into account the time spent
+> + *	under interrupt context when rqs' clock is updated
+> + * @avg_thermal:
+> + *	tracks thermal pressure which is the reduction in maximum
+> + *	possible capacity due to thermal events
+> + * @idle_stamp:
+> + *	time stamp at which idle load balance started for this rq.
+> + *	Used to find the idlest CPU, when multiple idle CPUs are in
+> + *	the same state
+> + * @avg_idle:
+> + *	average idle time for this rq
+> + * @max_idle_balance_cost:
+> + *	used to determine avg_idle's max value
+> + * @prev_irq_time:
+> + *	updated to account time consumed when a previous
+> + *	update_rq_clock() happened inside a {soft,}irq region
+> + * @prev_steal_time:
+> + *	to account how much elapsed time was spent in steal
+> + * @prev_steal_time_rq:
+> + *	for fine granularity task steal time accounting by
+> + *	making update_rq_clock() aware of steal time
+> + * @calc_load_update:
+> + *	sample window for global load-average calculations
+> + * @calc_load_active:
+> + *	fold any nr_active delta into a global accumulate
+> + * @hrtick_csd:
+> + *	call_single_data used to set hrtick timer state on a specific CPU
+> + * @hrtick_timer:
+> + *	HR-timer to deliver an accurate preemption tick
+> + * @rq_sched_info:
+> + *	runqueue specific latency stats
+> + * @rq_cpu_time:
+> + *	runqueue specific accumulated per-task cpu runtime
+> + * @yld_count:
+> + *	runqueue specific sys_sched_yield() stats
+> + * @sched_count:
+> + *	runqueue specific __schedule() stats
+> + * @sched_goidle:
+> + *	runqueue specific idle scheduling class stats
+> + * @ttwu_count:
+> + *	runqueue specific idle ttwu stats , both remote and local
+> + * @ttwu_local:
+> + *	ttwu count for the CPU of the rq
+> + * @wake_list:
+> + *	list which stores tasks being woken up remotely by ttwu
+> + * @idle_state:
+> + *	cpuidle state pointer of the CPU of this rq used to make a
+> + *	better decision when balancing tasks
+
+Holy moly! I appreciate the effort, but I'm thinking the targeted audience
+might prefer this under the form of comments within the struct definition...
+
+>   */
+>  struct rq {
+>       /* runqueue lock: */
+> @@ -1136,7 +1299,7 @@ static inline u64 rq_clock_task(struct rq *rq)
+>       return rq->clock_task;
+>  }
+>
+> -/**
+> +/*
+>   * By default the decay is the default pelt decay period.
+>   * The decay shift can change the decay period in
+>   * multiples of 32.
