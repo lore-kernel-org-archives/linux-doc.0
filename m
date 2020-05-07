@@ -2,189 +2,209 @@ Return-Path: <SRS0=NPh6=6V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E68F3C4724C
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 20:09:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CF16C54E49
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 20:33:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C165321655
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 20:09:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="m5ylYMv8"
+	by mail.kernel.org (Postfix) with ESMTP id 1046F208E4
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 20:33:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588883630;
+	bh=vM63ZalLmNql6zazFeDJfxt9vlKKGyuEMDpXGpDg3E0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=1jkz2fHnMdDp6LjahJGLkdiX4uundrrVOwFC5KEAiB6MohiUtaRJ529xvfLH1hwD2
+	 EfhIRI0lwYmvtdnXeETrj2mYOa/BQ48K8wS1/dtpvTKk64yU0u9exBmHmWAWhhrNzX
+	 iNw2JbTITUiLeaLtsfS8Lu9ituia9g0ukfZqERKs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728634AbgEGUJO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 May 2020 16:09:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45812 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728609AbgEGUJN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 16:09:13 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAEC0C05BD43
-        for <linux-doc@vger.kernel.org>; Thu,  7 May 2020 13:09:12 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id z6so2509985plk.10
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2020 13:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JZVfMDRlaZxQ6qpzAMsiTzN4YCAYznWKH75NGk0mLe0=;
-        b=m5ylYMv87Zesz+z8ZAznR4kWc9TIjqXmxiLRRY8QyOpCZOwt00FTXHCWaihQzLwGTB
-         /kjZ0p7FzdVuwoHXJtcPF3yVROz9sUTpYmZCbApuKUmPUpqHuEyGNlO3TyZwioK9zYWZ
-         M773j7obrswcIlQPjJ858TSOKYbtG52zYMVnA=
+        id S1726445AbgEGUdn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 May 2020 16:33:43 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:41346 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726367AbgEGUdn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 May 2020 16:33:43 -0400
+Received: by mail-pl1-f195.google.com with SMTP id u10so2538987pls.8;
+        Thu, 07 May 2020 13:33:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JZVfMDRlaZxQ6qpzAMsiTzN4YCAYznWKH75NGk0mLe0=;
-        b=e/Hdiq2QbUVmIIiyNL9dnDbYZTM5KEOjqdCpVClqi+FiuxkEqvGuT6t+hI6aMC7pmq
-         TX3bTq6WxeKgRbh1BU6mPA42zDr948epGYw6o283uAaKMcBjXH9tsrToKRjArh7Rqrnx
-         Y2KsJq8ar9On1Z12XOGwaGBu36LMy3dAs/BnhNLUP4yzOHDlg2zDpB2/wCdjlWS6lCOL
-         zc+GHIAVStYMIrND47J/cdVL3GXRz20Pgk68IM8AgF8b8xM8jsCVE/vTqjxyZRjxMb9p
-         jDrgUiCNC/04c+IcakTW5untKPQscCvDJaBntc6ECAWK2004/1NgG9rtDm4jT4LWsnyT
-         etFQ==
-X-Gm-Message-State: AGi0PuYBswuvqeqj297qt+6k54YMSnaqv6OPt+Ewonsw7KITOVe9mcNc
-        O7BmNer/tmB7PtS1mtLj85A+wg==
-X-Google-Smtp-Source: APiQypJWVjHYI0dqkVdBU1DEnnSramGm6bwNGEmhZQc/6xZdlZXzI9QuauPG2Tcya5C3/lJNRD27RQ==
-X-Received: by 2002:a17:902:c193:: with SMTP id d19mr15373854pld.60.1588882152281;
-        Thu, 07 May 2020 13:09:12 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
-        by smtp.gmail.com with ESMTPSA id d203sm5547601pfd.79.2020.05.07.13.09.10
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=MoMjwxwKEdXavhFslG5lFIMwK7mcqNgr2NAM0IYCo+k=;
+        b=ckTDDHaH3Aynu08VgrCmfgszHwqWSVElPfZ8mXAjcU4fnHiXvrOH7iqI7/4WB4et1A
+         X63XvHhl+VY0/2Sg1wrifnA8oWCw8sQqaddzlJaClciYr2grvMm8REik8gkbq/vlh3SD
+         KqkoNf5f5WiGl12NSQnqIPV6sJSxmbb1vlXSIE1QEh971vty5QW/+m1NXzMeRUzFSTEw
+         JeCEhc2y88rjxcvwK86DO0Cew0d2FPx5cN8eLh6S1rT6clFI6G+Ps97DEN9IVedRL9Tl
+         rghbiY+P4IBgGhLR3BumUk9h0+4DIVkufkCBWP/fmLOCfEjorxzMXd/CgKNF1L8v28/w
+         PVhg==
+X-Gm-Message-State: AGi0PuY/03iHl5AulhyPrVUzEKHOqRCuNLjBiK7cxJ+EfsOYRoJaEhKB
+        XONPNNwST8Nf1qdOY42tlx8=
+X-Google-Smtp-Source: APiQypKzOvsOb6uSbzYE/OPlbOBeyhXMRjRDiozG0ygWaqabRTDqfi9zOl/zJSiRsBKGN2PJSdrMRw==
+X-Received: by 2002:a17:902:7281:: with SMTP id d1mr15673761pll.78.1588883623569;
+        Thu, 07 May 2020 13:33:43 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id e12sm4414343pgv.16.2020.05.07.13.33.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 13:09:11 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     jason.wessel@windriver.com, daniel.thompson@linaro.org,
-        gregkh@linuxfoundation.org
-Cc:     corbet@lwn.net, frowand.list@gmail.com, bjorn.andersson@linaro.org,
-        linux-serial@vger.kernel.org, mingo@redhat.com, hpa@zytor.com,
-        jslaby@suse.com, kgdb-bugreport@lists.sourceforge.net,
-        sumit.garg@linaro.org, will@kernel.org, tglx@linutronix.de,
-        agross@kernel.org, catalin.marinas@arm.com, bp@alien8.de,
-        Douglas Anderson <dianders@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 09/12] Documentation: kgdboc: Document new kgdboc_earlycon parameter
-Date:   Thu,  7 May 2020 13:08:47 -0700
-Message-Id: <20200507130644.v4.9.I7d5eb42c6180c831d47aef1af44d0b8be3fac559@changeid>
-X-Mailer: git-send-email 2.26.2.645.ge9eca65c58-goog
-In-Reply-To: <20200507200850.60646-1-dianders@chromium.org>
-References: <20200507200850.60646-1-dianders@chromium.org>
+        Thu, 07 May 2020 13:33:41 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id B7609403EA; Thu,  7 May 2020 20:33:40 +0000 (UTC)
+Date:   Thu, 7 May 2020 20:33:40 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Rafael Aquini <aquini@redhat.com>, Tso Ted <tytso@mit.edu>,
+        Adrian Bunk <bunk@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Jeff Mahoney <jeffm@suse.com>, Jiri Kosina <jikos@kernel.org>,
+        Jessica Yu <jeyu@suse.de>, Takashi Iwai <tiwai@suse.de>,
+        Ann Davis <AnDavis@suse.com>,
+        Richard Palethorpe <rpalethorpe@suse.de>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
+        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org
+Subject: Re: [PATCH v2] kernel: add panic_on_taint
+Message-ID: <20200507203340.GZ11244@42.do-not-panic.com>
+References: <20200507180631.308441-1-aquini@redhat.com>
+ <20200507182257.GX11244@42.do-not-panic.com>
+ <20200507184307.GF205881@optiplex-lnx>
+ <20200507184705.GG205881@optiplex-lnx>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200507184705.GG205881@optiplex-lnx>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The recent patch ("kgdboc: Add kgdboc_earlycon to support early kgdb
-using boot consoles") adds a new kernel command line parameter.
-Document it.
+On Thu, May 07, 2020 at 02:47:05PM -0400, Rafael Aquini wrote:
+> On Thu, May 07, 2020 at 02:43:16PM -0400, Rafael Aquini wrote:
+> > On Thu, May 07, 2020 at 06:22:57PM +0000, Luis Chamberlain wrote:
+> > > On Thu, May 07, 2020 at 02:06:31PM -0400, Rafael Aquini wrote:
+> > > > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> > > > index 8a176d8727a3..b80ab660d727 100644
+> > > > --- a/kernel/sysctl.c
+> > > > +++ b/kernel/sysctl.c
+> > > > @@ -1217,6 +1217,13 @@ static struct ctl_table kern_table[] = {
+> > > >  		.extra1		= SYSCTL_ZERO,
+> > > >  		.extra2		= SYSCTL_ONE,
+> > > >  	},
+> > > > +	{
+> > > > +		.procname	= "panic_on_taint",
+> > > > +		.data		= &panic_on_taint,
+> > > > +		.maxlen		= sizeof(unsigned long),
+> > > > +		.mode		= 0644,
+> > > > +		.proc_handler	= proc_doulongvec_minmax,
+> > > > +	},
+> > > 
+> > > You sent this out before I could reply to the other thread on v1.
+> > > My thoughts on the min / max values, or lack here:
+> > >                                                                                 
+> > > Valid range doesn't mean "currently allowed defined" masks.                     
+> > > 
+> > > For example, if you expect to panic due to a taint, but a new taint type
+> > > you want was not added on an older kernel you would be under a very
+> > > *false* sense of security that your kernel may not have hit such a
+> > > taint, but the reality of the situation was that the kernel didn't
+> > > support that taint flag only added in future kernels.                           
+> > > 
+> > > You may need to define a new flag (MAX_TAINT) which should be the last
+> > > value + 1, the allowed max values would be                                      
+> > > 
+> > > (2^MAX_TAINT)-1                                                                 
+> > > 
+> > > or                                                                              
+> > > 
+> > > (1<<MAX_TAINT)-1  
+> > > 
+> > > Since this is to *PANIC* I think we do want to test ranges and ensure
+> > > only valid ones are allowed.
+> > >
+> > 
+> > Ok. I'm thinking in:
+> > 
+> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> > index 8a176d8727a3..ee492431e7b0 100644
+> > --- a/kernel/sysctl.c
+> > +++ b/kernel/sysctl.c
+> > @@ -1217,6 +1217,15 @@ static struct ctl_table kern_table[] = {
+> >                 .extra1         = SYSCTL_ZERO,
+> >                 .extra2         = SYSCTL_ONE,
+> >         },
+> > +       {
+> > +               .procname       = "panic_on_taint",
+> > +               .data           = &panic_on_taint,
+> > +               .maxlen         = sizeof(unsigned long),
+> > +               .mode           = 0644,
+> > +               .proc_handler   = proc_doulongvec_minmax,
+> > +               .extra1         = SYSCTL_ZERO,
+> > +               .extra2         = (1 << TAINT_FLAGS_COUNT << 1) - 1,
+> 							^^^^^^^^
+> Without that crap, obviously. Sorry. That was a screw up on my side,
+> when copyin' and pasting.
 
-Note that the patch adding the feature does some comparing/contrasting
-of "kgdboc_earlycon" vs. the existing "ekgdboc".  See that patch for
-more details, but briefly "ekgdboc" can be used _instead_ of "kgdboc"
-and just makes "kgdboc" do its normal initialization early (only works
-if your tty driver is already ready).  The new "kgdboc_earlycon" works
-in combination with "kgdboc" and is backed by boot consoles.
+I really think that the implications of this needs a bit further review,
+hence the wider CCs.
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
----
+Since this can trivially crash a system, I think we need to be careful
+about this value. First, proc_doulongvec_minmax() will not suffice alone,
+we'll *at least* want to check for capable(CAP_SYS_ADMIN)) as in
+proc_taint().  Second first note that we *always* build proc_taint(), if
+just CONFIG_PROC_SYSCTL is enabled. That has been the way since it got
+merged via commit 34f5a39899f3f ("Add TAINT_USER and ability to set
+taint flags from userspace") since v2.6.21. We need to evaluate if this
+little *new* knob you are introducing merits its own kconfig tucked away
+under debugging first. The ship has already sailed for proc_taint().
+Anyone with CAP_SYS_ADMIN can taint.
 
-Changes in v4:
-- s/The the/The/
+The good thing is that proc_taint() added its own TAINT_USER, *but*, hey
+it didn't use it. A panic-on-taint system would be able to tell if a
+panic was caused by proc_taint() throught the stack trace only. 
+If panic-on-taint proc was used *later* after a custom taint was set
+or happened naturally, no panic would trigger since your panic-on-taint
+check on your patch only happens on add_taint(). This means that for
+those thinking about using this for QA or security purposes, the only
+sensible *reliable* way to use panic-on-taint would be through cmdline,
+from boot. Post-boot means to enable this would either need to check
+existing taint flags, or we'd want to a way to check if this was not
+added post boot. Also, a post-booteed system with panic-on-taint could
+easily allow for reductions of the intended goal, thereby allowing one
+to cheat.
 
-Changes in v3:
-- Added example in kgdb.rst
-- Removed unneeded sentence in kerenel-parameters doc.
-- Renamed earlycon_kgdboc to kgdboc_earlycon.
-- Suggest people use kgdboc_earlycon instead of ekgdboc.
+I think a new TAINT_MODIFIED for use when proc_taint() is used is worth
+considering. Ted? Even though 'M' is taken -- I think its silly to rely
+on the character to be anything of meaning, once we run out of the
+alphabet letters that will be the way anyway, unless we-redo this a bit.
+Note we use value for when this is on and off, typically an empty space
+when a taint is not seen.
 
-Changes in v2: None
+The good thing is that proc_taint() only *increments* taint, it doesn't
+remove taints.
 
- .../admin-guide/kernel-parameters.txt         | 20 ++++++++++++++++
- Documentation/dev-tools/kgdb.rst              | 24 +++++++++++++++++++
- 2 files changed, 44 insertions(+)
+Are we OK with panic-on-taint only with CAP_SYS_ADMIN?
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 7bc83f3d9bdf..2cbde9ea476d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1190,6 +1190,11 @@
- 			This is designed to be used in conjunction with
- 			the boot argument: earlyprintk=vga
- 
-+			This parameter works in place of the kgdboc parameter
-+			but can only be used if the backing tty is available
-+			very early in the boot process. For early debugging
-+			via a serial port see kgdboc_earlycon instead.
-+
- 	edd=		[EDD]
- 			Format: {"off" | "on" | "skip[mbr]"}
- 
-@@ -2105,6 +2110,21 @@
- 			 kms, kbd format: kms,kbd
- 			 kms, kbd and serial format: kms,kbd,<ser_dev>[,baud]
- 
-+	kgdboc_earlycon=	[KGDB,HW]
-+			If the boot console provides the ability to read
-+			characters and can work in polling mode, you can use
-+			this parameter to tell kgdb to use it as a backend
-+			until the normal console is registered. Intended to
-+			be used together with the kgdboc parameter which
-+			specifies the normal console to transition to.
-+
-+			The name of the early console should be specified
-+			as the value of this parameter. Note that the name of
-+			the early console might be different than the tty
-+			name passed to kgdboc. It's OK to leave the value
-+			blank and the first boot console that implements
-+			read() will be picked.
-+
- 	kgdbwait	[KGDB] Stop kernel execution and enter the
- 			kernel debugger at the earliest opportunity.
- 
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
-index d38be58f872a..61293f40bc6e 100644
---- a/Documentation/dev-tools/kgdb.rst
-+++ b/Documentation/dev-tools/kgdb.rst
-@@ -274,6 +274,30 @@ don't like this are to hack gdb to send the :kbd:`SysRq-G` for you as well as
- on the initial connect, or to use a debugger proxy that allows an
- unmodified gdb to do the debugging.
- 
-+Kernel parameter: ``kgdboc_earlycon``
-+-------------------------------------
-+
-+If you specify the kernel parameter ``kgdboc_earlycon`` and your serial
-+driver registers a boot console that supports polling (doesn't need
-+interrupts and implements a nonblocking read() function) kgdb will attempt
-+to work using the boot console until it can transition to the regular
-+tty driver specified by the ``kgdboc`` parameter.
-+
-+Normally there is only one boot console (especially that implements the
-+read() function) so just adding ``kgdboc_earlycon`` on its own is
-+sufficient to make this work. If you have more than one boot console you
-+can add the boot console's name to differentiate. Note that names that
-+are registered through the boot console layer and the tty layer are not
-+the same for the same port.
-+
-+For instance, on one board to be explicit you might do::
-+
-+   kgdboc_earlycon=qcom_geni kgdboc=ttyMSM0
-+
-+If the only boot console on the device was "qcom_geni", you could simplify::
-+
-+   kgdboc_earlycon kgdboc=ttyMSM0
-+
- Kernel parameter: ``kgdbwait``
- ------------------------------
- 
--- 
-2.26.2.645.ge9eca65c58-goog
+I can see this building up to a "testing" solution to ensure / gaurantee
+no bugs have happened during QA, but since QA would want the same binary
+for production it is hard to see this enabled for QA but not production.
+To resolve that last concern, if we do go with moving this under a
+kconfig value, a simple cmdline append would address the concerns. Ie,
+even if you enabled this mechanism through its kconfig you would not be
+able to modify the panic-on-tain unless you passed a cmdline option.
 
+Note that Vlastimil has some patches which are visible on linux-next,
+but not yet merged on Linus' tree, which enable these params to be set
+on the cmdline too now, so perhaps yet-another cmdline param is not
+needed anymore.
+
+I *think* that a cmdline route to enable this would likely remove the
+need for the kernel config for this. But even with Vlastimil's work
+merged, I think we'd want yet-another value to enable / disable this
+feature. Do we need yet-another-taint flag to tell us that this feature
+was enabled?
+
+  Luis
