@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A657CC28CBC
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8830EC54E4A
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C5E920736
-	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C6C620736
+	for <linux-doc@archiver.kernel.org>; Thu,  7 May 2020 00:46:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nR0OSEw/"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NaEwX/P0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728742AbgEGApl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 May 2020 20:45:41 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:38542 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728711AbgEGApk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:45:40 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470dEUI097500;
-        Thu, 7 May 2020 00:44:47 GMT
+        id S1728420AbgEGAqz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 May 2020 20:46:55 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:50194 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728176AbgEGAqx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 May 2020 20:46:53 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470dTvg076311;
+        Thu, 7 May 2020 00:44:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=ERMI4X4SzsQD4gAyYFAitYboRjs4H+C7qGOMU4P5U5w=;
- b=nR0OSEw/DvPNl9VYaj/Ak5biC59GnYGNIl5WQf5hnttYGpCE+hCzH04GgFFOJHLe9304
- l2dCwTZ2mUP8uX8uE6MIkQ5nz1AtnTIop8y59PSxkfzRYXKpyzttiW96qTCEEqXI5pPg
- nHnl4Ayfbaxsf8xyp2mvb0z544E6ealj8rS+aBok46UoclSSA7PuVpeeic97ivg2PFpZ
- 5+3rdAEyLoyYz/tMD1ikokxl+2tXKO9md3r3n/Jp8WjctISXJqa3VJGNot17BlcADz4W
- ZUI1CXRETSuC63ayWY7FC9nD+BrycaicYQ2Lp8Nuo4lrwYimTkkods9kTa2WACEx7uIt LQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 30usgq4h2b-1
+ bh=J/IiCj+3kST83E/VcM8iyZaL98ROPYAwK19raHrmTZw=;
+ b=NaEwX/P0ZZI39WJCV8xbxOOGMpPaIk3KdKPqmf8xqw4W7aDYRJW8HFEbpNiMORAFOvdg
+ Pw0JMz+eZIw1ILS1MUToUdL98fMRvPTPn5RInXZTH3CXNINmo4dd871gbwXTMtprIi5c
+ OY/w/M9UUV003jvnhTMeGaLUnH/GW8q+W3Ps1wOZYgvxGqADYIXsF1ml9k2aP35nIE65
+ AJqv83Hztpww5XQcAIl/iTQk4+71FS6FE5+fB/xoAxqaagg+rcsnPUwprV29UckCzZ3Z
+ 29bXAE5twy3CU1lwfYpHznoWgzK+Pd7y9lXfIJChI/rgDlTz1AoTZKiuLeSxgkiiZcSB Hw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 30s09rdfcg-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:47 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470at2I136306;
-        Thu, 7 May 2020 00:44:47 GMT
+        Thu, 07 May 2020 00:44:42 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0470bTQT098629;
+        Thu, 7 May 2020 00:44:41 GMT
 Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3030.oracle.com with ESMTP id 30sjdwrt4e-1
+        by aserp3020.oracle.com with ESMTP id 30sjnma5t8-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 00:44:47 +0000
+        Thu, 07 May 2020 00:44:41 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470ih14026275;
-        Thu, 7 May 2020 00:44:43 GMT
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0470ibRQ026192;
+        Thu, 7 May 2020 00:44:37 GMT
 Received: from ayz-linux.localdomain (/68.7.158.207)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 06 May 2020 17:44:43 -0700
+        with ESMTP ; Wed, 06 May 2020 17:44:36 -0700
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -69,204 +69,198 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, paul.c.lai@intel.com, ashok.raj@intel.com,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org
-Subject: [RFC 36/43] PKRAM: add support for loading pages in bulk
-Date:   Wed,  6 May 2020 17:42:02 -0700
-Message-Id: <1588812129-8596-37-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC 34/43] shmem: PKRAM: multithread preserving and restoring shmem pages
+Date:   Wed,  6 May 2020 17:42:00 -0700
+Message-Id: <1588812129-8596-35-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=2 mlxscore=0
- bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2005070001
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1015
- mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
- suspectscore=2 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 malwarescore=0 mlxlogscore=999 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2005070001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds three functions:
+Improve performance by multithreading the work to preserve and restore
+shmem pages.
 
-pkram_prepare_load_pages()
-  Called after calling pkram_prepare_load_obj()
+Add 'pkram_max_threads=' kernel option to specify the maximum number
+of threads to use to preserve or restore the pages of a shmem file.
+The default is 16.
 
-pkram_load_pages()
-  Loads some number of pages that are contiguous by their original
-  file index values.  The index of the first page, an array of the
-  page pointers, and the number of pages in the array are provided
-  to the caller.
+When preserving pages each thread saves chunks of a file to a pkram_obj
+until no more no more chunks are available.
 
-pkram_finish_load_pages()
-  Called when no more pages will be loaded from the pkram_obj.
+When restoring pages each thread loads pages using a copy of a
+pkram_stream initialized by pkram_prepare_load_obj(). Under the hood
+each thread ends up fetching and operating on pkram_link pages.
 
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- include/linux/pkram.h |   6 +++
- mm/pkram.c            | 106 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 112 insertions(+)
+ include/linux/pkram.h |   2 +
+ mm/shmem_pkram.c      | 101 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 101 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/pkram.h b/include/linux/pkram.h
-index bf2e138b044e..3f059791f88c 100644
+index e71ccb91d6a6..bf2e138b044e 100644
 --- a/include/linux/pkram.h
 +++ b/include/linux/pkram.h
-@@ -18,6 +18,9 @@ struct pkram_stream {
+@@ -13,6 +13,8 @@ struct pkram_stream {
+ 	struct pkram_node *node;
+ 	struct pkram_obj *obj;
+ 
++	int error;
++
  	struct pkram_link *link;		/* current link */
  	unsigned int entry_idx;		/* next entry in link */
  
-+	struct page **pages;
-+	unsigned int nr_pages;
-+
- 	unsigned long next_index;
- 	struct address_space *mapping;
- 	struct mm_struct *mm;
-@@ -60,14 +63,17 @@ void pkram_discard_save(struct pkram_stream *ps);
- 
- int pkram_prepare_load(struct pkram_stream *ps, const char *name);
- int pkram_prepare_load_obj(struct pkram_stream *ps);
-+int pkram_prepare_load_pages(struct pkram_stream *ps);
- void pkram_finish_load(struct pkram_stream *ps);
- void pkram_finish_load_obj(struct pkram_stream *ps);
-+void pkram_finish_load_pages(struct pkram_stream *ps);
- 
- #define PKRAM_PAGE_TRANS_HUGE	0x1	/* page is a transparent hugepage */
- 
- int pkram_save_page(struct pkram_stream *ps, struct page *page, short flags);
- struct page *pkram_load_page(struct pkram_stream *ps, unsigned long *index,
- 			     short *flags);
-+int pkram_load_pages(struct pkram_stream *ps, unsigned long *index);
- 
- ssize_t pkram_write(struct pkram_stream *ps, const void *buf, size_t count);
- size_t pkram_read(struct pkram_stream *ps, void *buf, size_t count);
-diff --git a/mm/pkram.c b/mm/pkram.c
-index 042c14dedc25..ef092aa5ce7a 100644
---- a/mm/pkram.c
-+++ b/mm/pkram.c
-@@ -820,6 +820,37 @@ int pkram_prepare_load_obj(struct pkram_stream *ps)
+diff --git a/mm/shmem_pkram.c b/mm/shmem_pkram.c
+index 2f4d0bdf3e05..4992b6c3e54e 100644
+--- a/mm/shmem_pkram.c
++++ b/mm/shmem_pkram.c
+@@ -126,6 +126,16 @@ static int save_file_content_range(struct address_space *mapping,
+ 	return err;
  }
  
- /**
-+ * Initialize stream @ps for loading preserved pages from it.
-+ *
-+ * Returns 0 on success, -errno on failure.
-+ *
-+ * Error values:
-+ *	%ENOMEM: insufficient memory available
-+ *
-+ * After the load has finished, pkram_finish_load_pages() is to be called.
-+ */
-+int pkram_prepare_load_pages(struct pkram_stream *ps)
++/* Completion tracking for do_save_file_content_thr() threads */
++static atomic_t pkram_save_n_undone;
++static DECLARE_COMPLETION(pkram_save_all_done_comp);
++
++static inline void pkram_save_report_one_done(void)
 +{
-+	BUG_ON((ps->node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
++	if (atomic_dec_and_test(&pkram_save_n_undone))
++		complete(&pkram_save_all_done_comp);
++}
 +
-+	ps->pages = kzalloc(PAGE_SIZE, GFP_KERNEL);
-+	if (!ps->pages)
-+		return -ENOMEM;
+ static int do_save_file_content(struct pkram_stream *ps)
+ {
+ 	int ret;
+@@ -142,11 +152,55 @@ static int do_save_file_content(struct pkram_stream *ps)
+ 	return ret;
+ }
+ 
++static int do_save_file_content_thr(void *data)
++{
++	struct pkram_stream *ps = data;
++	struct pkram_stream pslocal = *ps;
++	int ret;
 +
++	ret = do_save_file_content(&pslocal);
++	if (ret && !ps->error)
++		ps->error = ret;
++
++	pkram_save_report_one_done();
++	return 0;
++}
++#define PKRAM_DEFAULT_MAX_THREADS	16
++
++static int pkram_max_threads = PKRAM_DEFAULT_MAX_THREADS;
++
++static int __init set_pkram_max_threads(char *str)
++{
++	unsigned int val;
++
++	if (kstrtouint(str, 0, &val))
++		return 1;
++
++	pkram_max_threads = val;
++
++	return 1;
++}
++__setup("pkram_max_threads=", set_pkram_max_threads);
++
+ static int save_file_content(struct pkram_stream *ps)
+ {
++	unsigned int thr, nr_threads;
++
++	nr_threads = num_online_cpus() - 1;
++	nr_threads = clamp_val(pkram_max_threads, 1, nr_threads);
++
+ 	ps->max_idx = DIV_ROUND_UP(i_size_read(ps->mapping->host), PAGE_SIZE);
+ 
+-	return do_save_file_content(ps);
++	if (nr_threads == 1)
++		return do_save_file_content(ps);
++
++	atomic_set(&pkram_save_n_undone, nr_threads);
++	for (thr = 0; thr < nr_threads; thr++)
++		kthread_run(do_save_file_content_thr, ps, "pkram_save%d", thr);
++
++	wait_for_completion(&pkram_save_all_done_comp);
++
++	return ps->error;
+ }
+ 
+ static int save_file(struct dentry *dentry, struct pkram_stream *ps)
+@@ -248,7 +302,17 @@ int shmem_save_pkram(struct super_block *sb)
+ 	return err;
+ }
+ 
+-static int load_file_content(struct pkram_stream *ps)
++/* Completion tracking for do_load_file_content_thr() threads */
++static atomic_t pkram_load_n_undone;
++static DECLARE_COMPLETION(pkram_load_all_done_comp);
++
++static inline void pkram_load_report_one_done(void)
++{
++	if (atomic_dec_and_test(&pkram_load_n_undone))
++		complete(&pkram_load_all_done_comp);
++}
++
++static int do_load_file_content(struct pkram_stream *ps)
+ {
+ 	unsigned long index;
+ 	struct page *page;
+@@ -266,6 +330,39 @@ static int load_file_content(struct pkram_stream *ps)
+ 	return err;
+ }
+ 
++static int do_load_file_content_thr(void *data)
++{
++	struct pkram_stream *ps = data;
++	struct pkram_stream pslocal = *ps;
++	int ret;
++
++	ret = do_load_file_content(&pslocal);
++	if (ret && !ps->error)
++		ps->error = ret;
++
++	pkram_load_report_one_done();
 +	return 0;
 +}
 +
-+/**
-+ * Finish the load of preserved pages started with pkram_prepare_load_pages()
-+ */
-+void pkram_finish_load_pages(struct pkram_stream *ps)
++static int load_file_content(struct pkram_stream *ps)
 +{
-+	BUG_ON((ps->node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
++	unsigned int thr, nr_threads;
 +
-+	kfree(ps->pages);
++	nr_threads = num_online_cpus() - 1;
++	nr_threads = clamp_val(pkram_max_threads, 1, nr_threads);
++
++	if (nr_threads == 1)
++		return do_load_file_content(ps);
++
++	atomic_set(&pkram_load_n_undone, nr_threads);
++	for (thr = 0; thr < nr_threads; thr++)
++		kthread_run(do_load_file_content_thr, ps, "pkram_load%d", thr);
++
++	wait_for_completion(&pkram_load_all_done_comp);
++
++	return ps->error;
 +}
 +
-+/**
-  * Finish the load of a preserved memory object started with
-  * pkram_prepare_load_obj() freeing the object and any data that has not
-  * been loaded from it.
-@@ -1066,6 +1097,81 @@ struct page *pkram_load_page(struct pkram_stream *ps, unsigned long *index, shor
- }
- 
- /**
-+ * Load pages from the preserved memory object associated with stream
-+ * @ps. The stream must have been initialized with pkram_prepare_load(),
-+ * pkram_prepare_load_obj(), and pkram_prepare_load_pages().
-+ * The page entries of a single pkram_link are processed, and the stream
-+ * 'pages' buffer is populated with the page pointers.
-+ *
-+ * Returns 0 if one or more pages are loaded or -ENODATA if there are no
-+ * pages to load.
-+ *
-+ * The pages loaded have an incremented refcount either because the page
-+ * was initialized with a refcount of 1 at boot or because the page was
-+ * subsequently preserved which increased the refcount.
-+ */
-+int pkram_load_pages(struct pkram_stream *ps, unsigned long *index)
-+{
-+	struct pkram_link *link = ps->link;
-+	int nr_entries = 0;
-+	int i;
-+
-+	if (!link) {
-+		link = pkram_remove_link(ps->obj);
-+		if (!link)
-+			return -ENODATA;
-+	}
-+
-+	*index = link->index;
-+
-+	for (i = 0; i < PKRAM_LINK_ENTRIES_MAX; i++) {
-+		unsigned long p = link->entry[i];
-+		struct page *page;
-+		short flags;
-+
-+		if (!p)
-+			break;
-+
-+		flags = (p >> PKRAM_ENTRY_FLAGS_SHIFT) & PKRAM_ENTRY_FLAGS_MASK;
-+		nr_entries++;
-+
-+		page = pfn_to_page(PHYS_PFN(p));
-+		ps->pages[i] = page;
-+
-+		if (flags & PKRAM_PAGE_TRANS_HUGE) {
-+			int order = p & PKRAM_ENTRY_ORDER_MASK;
-+			int nr_pages = 1 << order;
-+			int j;
-+
-+			for (j = 0; j < nr_pages; j++) {
-+				struct page *p = page + j;
-+
-+				ClearPageReserved(p);
-+			}
-+
-+			prep_compound_page(page, order);
-+			prep_transhuge_page(page);
-+		} else {
-+			ClearPageReserved(page);
-+		}
-+
-+		pkram_remove_identity_map(page);
-+	}
-+
-+	ps->nr_pages = nr_entries;
-+
-+	/* Advance to next pkram_link page and free this one */
-+	if (link->link_pfn)
-+		ps->link = pfn_to_kaddr(link->link_pfn);
-+	else
-+		ps->link = NULL;
-+
-+	pkram_free_page(link);
-+
-+	return 0;
-+}
-+
-+/**
-  * Copy @count bytes from @buf to the preserved memory node and object
-  * associated with stream @ps. The stream must have been initialized with
-  * pkram_prepare_save() and pkram_prepare_save_obj().
+ static int load_file(struct dentry *parent, struct pkram_stream *ps,
+ 		     char *buf, size_t bufsize)
+ {
 -- 
 2.13.3
 
