@@ -2,220 +2,109 @@ Return-Path: <SRS0=HYMc=6W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAC02C47254
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 21:48:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B072C38A2A
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 21:55:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4D6621974
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 21:48:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G301ru16"
+	by mail.kernel.org (Postfix) with ESMTP id E70FD21655
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 21:55:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727816AbgEHVsA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 May 2020 17:48:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60090 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726811AbgEHVr7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 17:47:59 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4898C05BD43
-        for <linux-doc@vger.kernel.org>; Fri,  8 May 2020 14:47:59 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id a7so4879990pju.2
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2020 14:47:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZkMTx13F4hIF1qNybgiGr2txJ9/x+zBH1FUGTT5jwF0=;
-        b=G301ru16dOfCFPwFgX0Krap9rtJBkkplj86z4oKLh+d2AmtfoA+UmB1oV1XZ5RkQDQ
-         2NxLGuc70CqGObP2Wyn4il9b5tODijHLzH+6i+DoU7tzCU9F3v7zn0ibVrc4Aebje1Cq
-         fSHT8BQbhW8YlXcHJHE39pS7BvzCgxQFkCWfcaAKyt29h7kx6TVC8lO7WJF2cuqFSjaZ
-         uf9CwgDLXg0AgH1dSLYHrGbvAibuOJh92Ay869ErIY40S4+SspWSp6a5oHV5P1NHcavO
-         NRTCWHUmwPh7rI0hhtISBO8ksRXF0rmaK82WnVZmxJo3mn8gUYZd3IiWuUUIA90LoCRj
-         CTtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZkMTx13F4hIF1qNybgiGr2txJ9/x+zBH1FUGTT5jwF0=;
-        b=mNGexNCICRlT48YEWfRoZg6DRhnnhFaPaDpWb8ubpk722ytPJeFBneMHN71tjL9XgE
-         9agzMPL3wl9cVJvPfvUiK+dkUoBaJaPZrbr6IrHyoD13ra44MLVih7F9hp3LGB2xU7kR
-         jXGq2CjjtLAUsDjG5aou3O70gs9sr/3G6glBH0IYiFJmMSPIn49758p3qHh3M4X7ygZg
-         Do4x0rZkQIi2giF0vM+p0CJUgl32y0VuAiimF8S1cggkxF3jCWJ9rP82EZfBr5XDy5AY
-         F/pAR/FIwFU17TK6bkYdE1yTSM/q6NSISINcCVsSxQMwVGlkWiLBKlhINQG/bB/Thv99
-         QMkg==
-X-Gm-Message-State: AGi0PuYJiMZWDCo5Wk2r26mlhQB28BcOM7msRpXCelr30wURY5TiSHb2
-        xIeZOrYBBx3+zc167sn52tCJAw==
-X-Google-Smtp-Source: APiQypKstUyarrMJRtnmqBU4RLPFnVpRjeCCxfzxo1bGVBEVoWMzTN48glevlSUjNL+NC8sM37cJWg==
-X-Received: by 2002:a17:90a:a893:: with SMTP id h19mr8131513pjq.138.1588974479011;
-        Fri, 08 May 2020 14:47:59 -0700 (PDT)
-Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id m4sm2663564pfm.26.2020.05.08.14.47.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 14:47:58 -0700 (PDT)
-Date:   Fri, 8 May 2020 15:47:56 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     ohad@wizery.com, loic.pallardy@st.com, arnaud.pouliquen@st.com,
-        s-anna@ti.com, linux-remoteproc@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/14] remoteproc: Deal with synchronisation when
- crashing
-Message-ID: <20200508214756.GC5650@xps15>
-References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
- <20200424200135.28825-10-mathieu.poirier@linaro.org>
- <20200506010156.GF2329931@builder.lan>
+        id S1727095AbgEHVzz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 May 2020 17:55:55 -0400
+Received: from mga01.intel.com ([192.55.52.88]:19627 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726811AbgEHVzz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 May 2020 17:55:55 -0400
+IronPort-SDR: ddxPC0XhQ8ng1SaWPZeAJR2MaYq0BvirMJu5H4phmP6rNmFAV5p+noA+0SXkhV7LwH9vfI+VnB
+ fCrnwYRy0k6w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2020 14:55:55 -0700
+IronPort-SDR: faDwe0qsW+1ukx6gtqf2FNdfZID/PdXiS9P2RNbqybxyERk/hVALIpsh97hopEwKN2iPWIbwaE
+ Ydz+t3Kon7yQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,369,1583222400"; 
+   d="scan'208";a="408247630"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.152])
+  by orsmga004.jf.intel.com with ESMTP; 08 May 2020 14:55:54 -0700
+Date:   Fri, 8 May 2020 14:55:54 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Babu Moger <babu.moger@amd.com>
+Cc:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        hpa@zytor.com, pbonzini@redhat.com, x86@kernel.org,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, mchehab+samsung@kernel.org,
+        changbin.du@intel.com, namit@vmware.com, bigeasy@linutronix.de,
+        yang.shi@linux.alibaba.com, asteinhauser@google.com,
+        anshuman.khandual@arm.com, jan.kiszka@siemens.com,
+        akpm@linux-foundation.org, steven.price@arm.com,
+        rppt@linux.vnet.ibm.com, peterx@redhat.com,
+        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
+        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
+        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
+        jgross@suse.com, andrew.cooper3@citrix.com,
+        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
+        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
+        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] KVM: SVM: Add support for MPK feature on AMD
+Message-ID: <20200508215554.GT27052@linux.intel.com>
+References: <158897190718.22378.3974700869904223395.stgit@naples-babu.amd.com>
+ <158897220354.22378.8514752740721214658.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200506010156.GF2329931@builder.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <158897220354.22378.8514752740721214658.stgit@naples-babu.amd.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 05, 2020 at 06:01:56PM -0700, Bjorn Andersson wrote:
-> On Fri 24 Apr 13:01 PDT 2020, Mathieu Poirier wrote:
+On Fri, May 08, 2020 at 04:10:03PM -0500, Babu Moger wrote:
+> The Memory Protection Key (MPK) feature provides a way for applications
+> to impose page-based data access protections (read/write, read-only or
+> no access), without requiring modification of page tables and subsequent
+> TLB invalidations when the application changes protection domains.
 > 
-> > Refactor function rproc_trigger_recovery() in order to avoid
-> > reloading the firmware image when synchronising with a remote
-> > processor rather than booting it.  Also part of the process,
-> > properly set the synchronisation flag in order to properly
-> > recover the system.
-> > 
-> > Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > ---
-> >  drivers/remoteproc/remoteproc_core.c     | 23 ++++++++++++++------
-> >  drivers/remoteproc/remoteproc_internal.h | 27 ++++++++++++++++++++++++
-> >  2 files changed, 43 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-> > index ef88d3e84bfb..3a84a38ba37b 100644
-> > --- a/drivers/remoteproc/remoteproc_core.c
-> > +++ b/drivers/remoteproc/remoteproc_core.c
-> > @@ -1697,7 +1697,7 @@ static void rproc_coredump(struct rproc *rproc)
-> >   */
-> >  int rproc_trigger_recovery(struct rproc *rproc)
-> >  {
-> > -	const struct firmware *firmware_p;
-> > +	const struct firmware *firmware_p = NULL;
-> >  	struct device *dev = &rproc->dev;
-> >  	int ret;
-> >  
-> > @@ -1718,14 +1718,16 @@ int rproc_trigger_recovery(struct rproc *rproc)
-> >  	/* generate coredump */
-> >  	rproc_coredump(rproc);
-> >  
-> > -	/* load firmware */
-> > -	ret = request_firmware(&firmware_p, rproc->firmware, dev);
-> > -	if (ret < 0) {
-> > -		dev_err(dev, "request_firmware failed: %d\n", ret);
-> > -		goto unlock_mutex;
-> > +	/* load firmware if need be */
-> > +	if (!rproc_needs_syncing(rproc)) {
-> > +		ret = request_firmware(&firmware_p, rproc->firmware, dev);
-> > +		if (ret < 0) {
-> > +			dev_err(dev, "request_firmware failed: %d\n", ret);
-> > +			goto unlock_mutex;
-> > +		}
-> >  	}
-> >  
-> > -	/* boot the remote processor up again */
-> > +	/* boot up or synchronise with the remote processor again */
-> >  	ret = rproc_start(rproc, firmware_p);
-> >  
-> >  	release_firmware(firmware_p);
-> > @@ -1761,6 +1763,13 @@ static void rproc_crash_handler_work(struct work_struct *work)
-> >  	dev_err(dev, "handling crash #%u in %s\n", ++rproc->crash_cnt,
-> >  		rproc->name);
-> >  
-> > +	/*
-> > +	 * The remote processor has crashed - tell the core what operation
-> > +	 * to use from hereon, i.e whether an external entity will reboot
-> > +	 * the MCU or it is now the remoteproc core's responsability.
-> > +	 */
-> > +	rproc_set_sync_flag(rproc, RPROC_SYNC_STATE_CRASHED);
+> This feature is already available in Intel platforms. Now enable the
+> feature on AMD platforms.
 > 
-> If I follow the logic correctly, you're essentially using
-> rproc->sync_with_rproc to pass an additional parameter down through
-> rproc_trigger_recovery() to tell everyone below to "load firmware and
-> boot the core or not".
+> AMD documentation for MPK feature is available at "AMD64 Architecture
+> Programmer’s Manual Volume 2: System Programming, Pub. 24593 Rev. 3.34,
+> Section 5.6.6 Memory Protection Keys (MPK) Bit". Documentation can be
+> obtained at the link below.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  arch/x86/kvm/svm/svm.c |    4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+> index 2f379bacbb26..37fb41ad9149 100644
+> --- a/arch/x86/kvm/svm/svm.c
+> +++ b/arch/x86/kvm/svm/svm.c
+> @@ -818,6 +818,10 @@ static __init void svm_set_cpu_caps(void)
+>  	if (boot_cpu_has(X86_FEATURE_LS_CFG_SSBD) ||
+>  	    boot_cpu_has(X86_FEATURE_AMD_SSBD))
+>  		kvm_cpu_cap_set(X86_FEATURE_VIRT_SSBD);
+> +
+> +	/* PKU is not yet implemented for shadow paging. */
+> +	if (npt_enabled && boot_cpu_has(X86_FEATURE_OSPKE))
+> +		kvm_cpu_cap_check_and_set(X86_FEATURE_PKU);
 
-I am using the value of rproc::sync_flags::after_crash to set
-rproc->sync_with_rproc.  That way the core can know whether it should boot the
-remote processor or synchronise with it.
+This can actually be done in common code as well since both VMX and SVM
+call kvm_set_cpu_caps() after kvm_configure_mmu(), i.e. key off of
+tdp_enabled.
 
+>  }
+>  
+>  static __init int svm_hardware_setup(void)
 > 
-> And given that the comment alludes to some unknown logic determining the
-> continuation I think it would be much preferable to essentially just
-> pass rproc->sync_flags.after_crash down through these functions.
->
-
-The only thing we need to do is set the value of rproc->sync_with_rproc
-properly, which rproc_set_sync_flag() does.  I have decided to use a wrapper
-function to allow us to change how the rproc->sync_with_rproc is handled without
-touching anything else in the code.
- 
-> 
-> And per my comment on a previous patch, is there any synchronization
-> with the remote controller when this happens?
-
-I can't seem to find that comment - can you indicate which patch that was?  As
-it is today the core doesn't provide synchronisation, it is up to the platform
-driver to probe the remote processor to make sure it is up.  I suppose
-sync_ops::start() would be a perfect candidate for that.   
-
-> 
-> Regards,
-> Bjorn
-> 
-> > +
-> >  	mutex_unlock(&rproc->lock);
-> >  
-> >  	if (!rproc->recovery_disabled)
-> > diff --git a/drivers/remoteproc/remoteproc_internal.h b/drivers/remoteproc/remoteproc_internal.h
-> > index 3985c084b184..61500981155c 100644
-> > --- a/drivers/remoteproc/remoteproc_internal.h
-> > +++ b/drivers/remoteproc/remoteproc_internal.h
-> > @@ -24,6 +24,33 @@ struct rproc_debug_trace {
-> >  	struct rproc_mem_entry trace_mem;
-> >  };
-> >  
-> > +/*
-> > + * enum rproc_sync_states - remote processsor sync states
-> > + *
-> > + * @RPROC_SYNC_STATE_CRASHED	state to use after the remote processor
-> > + *				has crashed but has not been recovered by
-> > + *				the remoteproc core yet.
-> > + *
-> > + * Keeping these separate from the enum rproc_state in order to avoid
-> > + * introducing coupling between the state of the MCU and the synchronisation
-> > + * operation to use.
-> > + */
-> > +enum rproc_sync_states {
-> > +	RPROC_SYNC_STATE_CRASHED,
-> > +};
-> > +
-> > +static inline void rproc_set_sync_flag(struct rproc *rproc,
-> > +				       enum rproc_sync_states state)
-> > +{
-> > +	switch (state) {
-> > +	case RPROC_SYNC_STATE_CRASHED:
-> > +		rproc->sync_with_rproc = rproc->sync_flags.after_crash;
-> > +		break;
-> > +	default:
-> > +		break;
-> > +	}
-> > +}
-> > +
-> >  /* from remoteproc_core.c */
-> >  void rproc_release(struct kref *kref);
-> >  irqreturn_t rproc_vq_interrupt(struct rproc *rproc, int vq_id);
-> > -- 
-> > 2.20.1
-> > 
