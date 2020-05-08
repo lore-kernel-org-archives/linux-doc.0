@@ -2,179 +2,109 @@ Return-Path: <SRS0=HYMc=6W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D54C38A2A
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 19:37:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 762A2C38A2A
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 20:28:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0FD82184D
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 19:37:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WwYKQExG"
+	by mail.kernel.org (Postfix) with ESMTP id 4F5162184D
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 20:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588969689;
+	bh=yOarqGZ6EnoTymo8WqocMUJc/ZvwqBRa/vUsSMDQx8k=;
+	h=Date:From:To:Subject:References:In-Reply-To:List-ID:From;
+	b=FWg1o4XUX8Z/A+IIiHKsBhaMccYob3eJ2rSwwnLK2L+2AoGE7137/gIc73ajY7+f8
+	 4mI0b66Ul2ZaB6/KWkNj4mldSZLYPmGXPBqRndXNEr3JD2NvYUV5TDWai2lIO/2R9W
+	 QGC/LOu0pZR8+KI1PVvy3GKo9v37iHFrGLKy11vg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbgEHTh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 May 2020 15:37:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39686 "EHLO
+        id S1727071AbgEHU2J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 May 2020 16:28:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726811AbgEHTh1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 15:37:27 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436D6C05BD09
-        for <linux-doc@vger.kernel.org>; Fri,  8 May 2020 12:37:27 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id f8so1177843plt.2
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2020 12:37:27 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1726811AbgEHU2I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 16:28:08 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 913C1C061A0C
+        for <linux-doc@vger.kernel.org>; Fri,  8 May 2020 13:28:08 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id t8so972457qvw.5
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2020 13:28:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=MM+EfAjkHc8LoqfMvtzvccHII1WH38gRuXMGYiBBnFE=;
-        b=WwYKQExGgTsrssSscMFy2ZBRu0gm/Ws61srkCzbPrdobD6SIqhjBoo9/qTYuJmsrSd
-         mzp77tIMnN9Y4WcLsFL1cGbN3P/qcSC58VVgYrhsZMI16iyUVJfP/cH7l30NpcsNt4Aj
-         Yj6AN4YQBscNlDxlEEO/OuUdkQUyXSV7mRPaVaK9PY5iHNMBELaz8lWHDvxbr0/5wO7+
-         cQjYwqhhRuB6P8Q3bJTgkqGhQEKiBcRWN/ip7offgtTJBRrCuMv34z0K/JDztIhsFqmS
-         5qXsvrIg7mHwVghYDxZIPyKWmc/bZ63YwLd1R54Hjc8f7ZsVaijK9hUa7P7yufVdpLEV
-         WV1w==
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yOarqGZ6EnoTymo8WqocMUJc/ZvwqBRa/vUsSMDQx8k=;
+        b=OQZoCfheERUX2DtkmSqCvmJTdkZ5GnadHCDZ+KCbqY9bsa5S86FPUElvzTcUEQfeBy
+         jYtXgLVHA2+iBs6X+pWwKnMIr8Bti0BzignC7Dk3fhVWmntdaXnSaXtVrxU9AuIi3493
+         8d2aw6wAeePItIEMBZPZSSj+VwNUmOWKZR/ts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=MM+EfAjkHc8LoqfMvtzvccHII1WH38gRuXMGYiBBnFE=;
-        b=Y0mpZsdATCexbkiR100A0kPykV4cUeSa6G44RRcnFRNc5lwuW85JY4o2ABpC1eAv+n
-         iG8ptp4vyG9OxzXBnttaXqbqNtM3wAdTj5H7xcBMfb90Am3ShGdy7ImL5qN7Cd18CudP
-         XMSgYQ3KydmpHIzvmB2l1I81tmIIaIRYkrYk07x1BtUrwQDLgqt8/feNWNX0Qum6qZ9l
-         w4d2LwzoIxC+WvPkeuQoarex13BuswwhmCnwuOfCO7XFGnPXqGKsUb9MvoqKwX7NJ/ZD
-         LlwNabPzoY8lZiRqeNs17hQCsbN64FCLR6enaf1wvLkf5Y1J0Ks7R/bSkED5AWmid79B
-         KnQg==
-X-Gm-Message-State: AGi0PuYluqmwES09C5tvDBbalGeoGlRS52QrqFnZFso1cE60QecOmnV7
-        uvvidKPA+0RpZHayzLmR2xuLFw==
-X-Google-Smtp-Source: APiQypJ/pPShgC/v2Z2yC+NlljFPbzhnP6tzi/R7vtfhvEgY5MefS6gGP8gHf6NSz2hIbbZOuEEIhA==
-X-Received: by 2002:a17:902:bcc4:: with SMTP id o4mr3594492pls.275.1588966646505;
-        Fri, 08 May 2020 12:37:26 -0700 (PDT)
-Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id c84sm2640455pfb.153.2020.05.08.12.37.24
+        h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=yOarqGZ6EnoTymo8WqocMUJc/ZvwqBRa/vUsSMDQx8k=;
+        b=jIjRDUHNVYAzCOirOVS6HB2/lSRQXulpnQAtLfFMsz5xFkIWb2FTpX27KcWT8iNtVe
+         bbKOziT1XKRv5PqqBge8k/PoCLT1dV0IxQPPBc2Dc2/YphvTLIvz5MDtNJm3WGgPvaaE
+         BSGbv+zNYSz92AgNs+9z3FVUVtI9dMWeNX4Snm+6CvRPYhHeLAD4liDfZ7bG+pb38TK2
+         EQg1p7fGe7xmmO8+G18kayyX4f4SSMR9CKfvmjjndwc2ib9dEw3urp8gyEGLCic53fO4
+         F5GKcGDpYvB6XDp1xFpoiBdYaD0fNC4V2D2UXJZitVZQnLSSrTkmtB0UdXDtmTJWfJUi
+         ioaw==
+X-Gm-Message-State: AGi0PubwuDjMaPODSAQozbIF4GMlnerovJWeF9IW9NgTODBcmotslS6q
+        qzZ+kqrQ6QBqh+sxCPSxCmXMrP6V5P8=
+X-Google-Smtp-Source: APiQypKc6TNsMOecJ6omgxiAaKe1l2+kixkHfrAI/5noGGHdVzQ5EtUdd30fnGRPngi7spZX+DNZxw==
+X-Received: by 2002:a05:6214:188a:: with SMTP id cx10mr4557487qvb.119.1588969687732;
+        Fri, 08 May 2020 13:28:07 -0700 (PDT)
+Received: from i7.mricon.com (107-179-243-71.cpe.teksavvy.com. [107.179.243.71])
+        by smtp.gmail.com with ESMTPSA id o68sm1950028qka.110.2020.05.08.13.28.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 12:37:25 -0700 (PDT)
-Date:   Fri, 8 May 2020 13:37:23 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     ohad@wizery.com, loic.pallardy@st.com, arnaud.pouliquen@st.com,
-        s-anna@ti.com, linux-remoteproc@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 02/14] remoteproc: Introduce function
- rproc_alloc_internals()
-Message-ID: <20200508193723.GB4526@xps15>
-References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
- <20200424200135.28825-3-mathieu.poirier@linaro.org>
- <20200505223158.GB2329931@builder.lan>
+        Fri, 08 May 2020 13:28:06 -0700 (PDT)
+Received: by i7.mricon.com (sSMTP sendmail emulation); Fri, 08 May 2020 16:28:04 -0400
+Date:   Fri, 8 May 2020 16:28:04 -0400
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     webmaster@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [sysadmin] New Wiki URLs?
+Message-ID: <20200508202804.tiqcdgpamq4sbhw2@chatter.i7.local>
+Mail-Followup-To: webmaster@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20200428044440.kd2rf3cxa5rffewm@falbala.internal.home.lespocky.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="q3wvykdlcinmtkcu"
 Content-Disposition: inline
-In-Reply-To: <20200505223158.GB2329931@builder.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200428044440.kd2rf3cxa5rffewm@falbala.internal.home.lespocky.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 05, 2020 at 03:31:58PM -0700, Bjorn Andersson wrote:
-> On Fri 24 Apr 13:01 PDT 2020, Mathieu Poirier wrote:
-> 
-> > In scenarios where the remote processor's lifecycle is entirely
-> > managed by another entity there is no point in allocating memory for
-> > a firmware name since it will never be used.  The same goes for a core
-> > set of operations.
-> > 
-> > As such introduce function rproc_alloc_internals() to decide if the
-> > allocation of a firmware name and the core operations need to be done.
-> > That way rproc_alloc() can be kept as clean as possible.
-> > 
-> > Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > ---
-> >  drivers/remoteproc/remoteproc_core.c | 31 +++++++++++++++++++++++-----
-> >  1 file changed, 26 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-> > index 448262470fc7..1b4756909584 100644
-> > --- a/drivers/remoteproc/remoteproc_core.c
-> > +++ b/drivers/remoteproc/remoteproc_core.c
-> > @@ -2076,6 +2076,30 @@ static int rproc_alloc_ops(struct rproc *rproc, const struct rproc_ops *ops)
-> >  	return 0;
-> >  }
-> >  
-> > +static int rproc_alloc_internals(struct rproc *rproc,
-> > +				 const struct rproc_ops *ops,
-> > +				 const char *name, const char *firmware)
-> > +{
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * In scenarios where the remote processor's lifecycle is entirely
-> > +	 * managed by another entity there is no point in carrying a set
-> > +	 * of operations that will never be used.
-> > +	 *
-> > +	 * And since no firmware will ever be loaded, there is no point in
-> > +	 * allocating memory for it either.
-> 
-> While this is true, I would expect that there are cases where the
-> remoteproc has ops but no firmware.
-> 
 
-That is a scenario I did not envisioned, but I agree, the remote processor could
-be fetching from a private ROM memory and still required handling from the
-remoteproc core.
+--q3wvykdlcinmtkcu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> How about splitting this decision already now; i.e. moving the if(!ops)
-> to rproc_alloc_ops() and perhaps only allocate firmware if ops->load is
-> specified?
-> 
+On Tue, Apr 28, 2020 at 06:44:40AM +0200, Alexander Dahl wrote:
+> Could the webmasters of kernel.org please configure some kind of
+> redirects so people don't get 404 errors when looking for docs?
 
-Or just add "if (ops->load)" before calling rproc_alloc_firmware()...  Otherwise
-we need to change the calling order of rproc_alloc_firmware() and
-rproc_alloc_ops() in order to make sure 'ops' is valid when calling the former.
-Either way I'll add a comment with the rationale you have detailed above.
+If someone goes through the trouble of compiling a list of such=20
+redirects, then perhaps. The previous site (wireless.kernel.org) was not=20
+maintained by the Linux Foundation, so we don't have any kind of=20
+definitive mapping of old URLs to new URLs.
 
+Regards,
+-K
 
-> Regards,
-> Bjorn
-> 
-> > +	 */
-> > +	if (!ops)
-> > +		return 0;
-> > +
-> > +	ret = rproc_alloc_firmware(rproc, name, firmware);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return rproc_alloc_ops(rproc, ops);
-> > +}
-> > +
-> >  /**
-> >   * rproc_alloc() - allocate a remote processor handle
-> >   * @dev: the underlying device
-> > @@ -2105,7 +2129,7 @@ struct rproc *rproc_alloc(struct device *dev, const char *name,
-> >  {
-> >  	struct rproc *rproc;
-> >  
-> > -	if (!dev || !name || !ops)
-> > +	if (!dev || !name)
-> >  		return NULL;
-> >  
-> >  	rproc = kzalloc(sizeof(struct rproc) + len, GFP_KERNEL);
-> > @@ -2128,10 +2152,7 @@ struct rproc *rproc_alloc(struct device *dev, const char *name,
-> >  	if (!rproc->name)
-> >  		goto put_device;
-> >  
-> > -	if (rproc_alloc_firmware(rproc, name, firmware))
-> > -		goto put_device;
-> > -
-> > -	if (rproc_alloc_ops(rproc, ops))
-> > +	if (rproc_alloc_internals(rproc, ops, name, firmware))
-> >  		goto put_device;
-> >  
-> >  	/* Assign a unique device index and name */
-> > -- 
-> > 2.20.1
-> > 
+--q3wvykdlcinmtkcu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQR2vl2yUnHhSB5njDW2xBzjVmSZbAUCXrXA0gAKCRC2xBzjVmSZ
+bIg2AQCK85jhipcysZcwpd4q6layN3GUb3iuQLwv0ELLjBjyAgD/b64rAt/TUSCN
+/NKNyCTD+eGCYA+680rXiY6l1zrpBAk=
+=ze7e
+-----END PGP SIGNATURE-----
+
+--q3wvykdlcinmtkcu--
