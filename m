@@ -2,219 +2,165 @@ Return-Path: <SRS0=HYMc=6W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B30C38A2A
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 16:54:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2557C47255
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 19:09:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3DBE02192A
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 16:54:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98A1624955
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 19:09:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rv4cAFT6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OLu8LUoF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbgEHQyN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 May 2020 12:54:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38458 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726756AbgEHQyN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 12:54:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588956851;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7cPGMHYLt8uRkzqsxvlnSsppGjQWalvX1CXcsJ2sNtI=;
-        b=Rv4cAFT6vjfVSVeM/d1Q88OrHx9YF1YcBTqGds/SDWa69tqMBiWx3ZADdWxLQN0oNYVSYp
-        cFludcg0YtCEKiK9mWE8YyakRzNoLKFLUqO9qcqelH15eb+fbobH2wmmmmSgRHxQd76Xmr
-        90NmQjfyC+G4S1sEoUzml29M3KIUWiw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-i1pd51yYM2C-K7zGgEuLwA-1; Fri, 08 May 2020 12:54:09 -0400
-X-MC-Unique: i1pd51yYM2C-K7zGgEuLwA-1
-Received: by mail-wr1-f69.google.com with SMTP id r14so866878wrw.8
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2020 09:54:09 -0700 (PDT)
+        id S1726877AbgEHTJQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 May 2020 15:09:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35334 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726797AbgEHTJP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 15:09:15 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF4EC05BD0A
+        for <linux-doc@vger.kernel.org>; Fri,  8 May 2020 12:09:15 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id r14so1433277pfg.2
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2020 12:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZrRyPpzm1Wr0bdkc0wF86Fld8NZLrNeACvycZ1kw4os=;
+        b=OLu8LUoFVM4oyCO5AtdtrepqMY8xQbLSJpJJcQlFFZNX9jHCjTCYsLjYxZcFFHRw1h
+         jnxD+/nCldbnNrvNS2uXXQ9cf1cy/nnZzmPmiVZqBrW7i0WAqkI2OZsshLDogZMFwNZw
+         QTkG7bLpXZVdUAg7aEXHdJRvhLTqkKcKg4GbCeXt9QP/uQbXNz8VWBWvJFOksrqfmg1U
+         SisWOlad75CG2Vlm0b2CibuOOnvPDF23pQTQdJkCcI7nLBMu1/hXtYoPYkhkKkCZhLL2
+         +3sn/BMyYSNDPBPu6y15ZJELAa5l5fFG0j48OtT/ZmvHXn5fo98ji78NTABy74yI3TPD
+         ugcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7cPGMHYLt8uRkzqsxvlnSsppGjQWalvX1CXcsJ2sNtI=;
-        b=PewLaZ7ATDlQF1RdrYSLYgmkOXLnrJ53+XPrJyZiu/c6E8/+6l0d7fbthKhnZMVIx1
-         SsmqZ+5QpJNOEDl3yaIxsXovwTYWOljO9qvbvNY7NJVtkODTWDR8jvSfjZIsQSnLK0zb
-         LBa7Zh4ECqSptQjHeOydEGtEHgHZcCnax64+opCnBzxP0Q/zNq/TMlAVLvS1aOAEJgjH
-         I1/rtBzdkK7TZ/W7wiwmrpyW6hM+B116NG60nn/wiw+FJcaQ2ZI+oPQL8c1FYUsjtP+3
-         bpn+ZH2z+jWI7DlPqQ8Rj/dG4PC0zxi1KGSJO24bysN7khw5nDZWvx8pP6SzyfueZRSX
-         0BKw==
-X-Gm-Message-State: AGi0PuZkIpOmt27Fr1vN7SI+Wtkke3UZ/TO9+9dqLiruA73wfsTUrRI3
-        Rw+4HAerAq6K1QrzCs9CHQHtBC9el5Q5tHyy0ACuQUnEqhLH631EPtKjXU+PdYM8GbyaDyu13zZ
-        5fz6PnGLDWzXQrgXddR/o
-X-Received: by 2002:a05:600c:40d:: with SMTP id q13mr6806846wmb.69.1588956848258;
-        Fri, 08 May 2020 09:54:08 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJd9FRP9YT1M7aB0uzWK+C9xMb9GqqT6RIht/vZ5FbjXT3flOjsmdBTVZwd+LU0m743YVoEkQ==
-X-Received: by 2002:a05:600c:40d:: with SMTP id q13mr6806805wmb.69.1588956847989;
-        Fri, 08 May 2020 09:54:07 -0700 (PDT)
-Received: from redhat.com (bzq-79-179-68-225.red.bezeqint.net. [79.179.68.225])
-        by smtp.gmail.com with ESMTPSA id r11sm2628353wrv.14.2020.05.08.09.54.05
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZrRyPpzm1Wr0bdkc0wF86Fld8NZLrNeACvycZ1kw4os=;
+        b=NlSlm1hRser8ZRh49jMXjUeaFaedHFK1oYJ9rQbp6AJNg2qhIK0PzRTRoQ7WSa73Nt
+         t8lGClS3gpj5tjNCRUDi6TBBky/6XXateSb3FTvqfmc+r5n43LSsCKkw/DrW6a66Vjhi
+         SD0Ib0+MLW6umY2Rdoan2CvIPNBw0MH/SY+vXXL+mrW/5YQp/TCNCgAKEMEyt/mHuYWb
+         TWV9euPePnARBaTyCOwLIxmSMiUwcoumfoXBW/4qhGShrIYnA5uKoWADpSIi65dw4fL7
+         G4MuPd88leh8eXVIUMIVsQcOzunQKER7UdErOeXY8IFklB5WFs5MK6cElJFSfF8iJPe8
+         ZV/g==
+X-Gm-Message-State: AGi0PuYyX/NtxqC/kdDNYb/pSyJnlc4dtmzYG2AEnrORTkWlrfBvxCkX
+        Y/WM6QSQNg7BzIGNwyM0KjE7wA==
+X-Google-Smtp-Source: APiQypK300/hKC35oHTBAMQmgp/mTdcuz3tlQk4JcQD3R2+iSFiayTznCchz0upseoQJpTyBhNQ2vQ==
+X-Received: by 2002:a63:dd11:: with SMTP id t17mr2785704pgg.348.1588964954846;
+        Fri, 08 May 2020 12:09:14 -0700 (PDT)
+Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id h11sm2407257pfo.120.2020.05.08.12.09.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 09:54:07 -0700 (PDT)
-Date:   Fri, 8 May 2020 12:54:03 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, timmurray@google.com,
-        minchan@google.com, sspatil@google.com, lokeshgidra@google.com
-Subject: Re: [PATCH 2/2] Add a new sysctl knob:
- unprivileged_userfaultfd_user_mode_only
-Message-ID: <20200508125314-mutt-send-email-mst@kernel.org>
-References: <20200423002632.224776-1-dancol@google.com>
- <20200423002632.224776-3-dancol@google.com>
- <20200508125054-mutt-send-email-mst@kernel.org>
+        Fri, 08 May 2020 12:09:13 -0700 (PDT)
+Date:   Fri, 8 May 2020 13:09:11 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     ohad@wizery.com, loic.pallardy@st.com, arnaud.pouliquen@st.com,
+        s-anna@ti.com, linux-remoteproc@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 01/14] remoteproc: Make core operations optional
+Message-ID: <20200508190911.GA4526@xps15>
+References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
+ <20200424200135.28825-2-mathieu.poirier@linaro.org>
+ <20200505221608.GA2329931@builder.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200508125054-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200505221608.GA2329931@builder.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 08, 2020 at 12:52:34PM -0400, Michael S. Tsirkin wrote:
-> On Wed, Apr 22, 2020 at 05:26:32PM -0700, Daniel Colascione wrote:
-> > This sysctl can be set to either zero or one. When zero (the default)
-> > the system lets all users call userfaultfd with or without
-> > UFFD_USER_MODE_ONLY, modulo other access controls. When
-> > unprivileged_userfaultfd_user_mode_only is set to one, users without
-> > CAP_SYS_PTRACE must pass UFFD_USER_MODE_ONLY to userfaultfd or the API
-> > will fail with EPERM. This facility allows administrators to reduce
-> > the likelihood that an attacker with access to userfaultfd can delay
-> > faulting kernel code to widen timing windows for other exploits.
+Hi Bjorn,
+
+On Tue, May 05, 2020 at 03:16:08PM -0700, Bjorn Andersson wrote:
+> On Fri 24 Apr 13:01 PDT 2020, Mathieu Poirier wrote:
+> 
+> > When synchronizing with a remote processor, it is entirely possible that
+> > the remoteproc core is not the life cycle manager.  In such a case core
+> > operations don't exist and should not be called.
 > > 
-> > Signed-off-by: Daniel Colascione <dancol@google.com>
 > 
-> The approach taken looks like a hard-coded security policy.
-> For example, it won't be possible to set the sysctl knob
-> in question on any sytem running kvm. So this is
-> no good for any general purpose system.
-> 
-> What's wrong with using a security policy for this instead?
+> Why would the core call these functions if it knows the remote is in a
+> state where it doesn't need these?
 
-In fact I see the original thread already mentions selinux,
-so it's just a question of making this controllable by
-selinux.
+This is the reasoning that came out of a conversation Arnaud and I had.  We are
+all on the same page.
 
 > 
+> Regards,
+> Bjorn
 > 
+> > Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 > > ---
-> >  Documentation/admin-guide/sysctl/vm.rst | 13 +++++++++++++
-> >  fs/userfaultfd.c                        | 11 ++++++++++-
-> >  include/linux/userfaultfd_k.h           |  1 +
-> >  kernel/sysctl.c                         |  9 +++++++++
-> >  4 files changed, 33 insertions(+), 1 deletion(-)
+> >  drivers/remoteproc/remoteproc_internal.h | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
 > > 
-> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> > index 0329a4d3fa9e..4296b508ab74 100644
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > @@ -850,6 +850,19 @@ privileged users (with SYS_CAP_PTRACE capability).
+> > diff --git a/drivers/remoteproc/remoteproc_internal.h b/drivers/remoteproc/remoteproc_internal.h
+> > index b389dc79da81..59fc871743c7 100644
+> > --- a/drivers/remoteproc/remoteproc_internal.h
+> > +++ b/drivers/remoteproc/remoteproc_internal.h
+> > @@ -67,7 +67,7 @@ rproc_find_carveout_by_name(struct rproc *rproc, const char *name, ...);
+> >  static inline
+> >  int rproc_fw_sanity_check(struct rproc *rproc, const struct firmware *fw)
+> >  {
+> > -	if (rproc->ops->sanity_check)
+> > +	if (rproc->ops && rproc->ops->sanity_check)
+> >  		return rproc->ops->sanity_check(rproc, fw);
 > >  
-> >  The default value is 1.
+> >  	return 0;
+> > @@ -76,7 +76,7 @@ int rproc_fw_sanity_check(struct rproc *rproc, const struct firmware *fw)
+> >  static inline
+> >  u64 rproc_get_boot_addr(struct rproc *rproc, const struct firmware *fw)
+> >  {
+> > -	if (rproc->ops->get_boot_addr)
+> > +	if (rproc->ops && rproc->ops->get_boot_addr)
+> >  		return rproc->ops->get_boot_addr(rproc, fw);
 > >  
-> > +unprivileged_userfaultfd_user_mode_only
-> > +========================================
-> > +
-> > +This flag controls whether unprivileged users can use the userfaultfd
-> > +system calls to handle page faults in kernel mode.  If set to zero,
-> > +userfaultfd works with or without UFFD_USER_MODE_ONLY, modulo
-> > +unprivileged_userfaultfd above.  If set to one, users without
-> > +SYS_CAP_PTRACE must pass UFFD_USER_MODE_ONLY in order for userfaultfd
-> > +to succeed.  Prohibiting use of userfaultfd for handling faults from
-> > +kernel mode may make certain vulnerabilities more difficult
-> > +to exploit.
-> > +
-> > +The default value is 0.
+> >  	return 0;
+> > @@ -85,7 +85,7 @@ u64 rproc_get_boot_addr(struct rproc *rproc, const struct firmware *fw)
+> >  static inline
+> >  int rproc_load_segments(struct rproc *rproc, const struct firmware *fw)
+> >  {
+> > -	if (rproc->ops->load)
+> > +	if (rproc->ops && rproc->ops->load)
+> >  		return rproc->ops->load(rproc, fw);
 > >  
-> >  user_reserve_kbytes
-> >  ===================
-> > diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-> > index 21378abe8f7b..85cc1ab74361 100644
-> > --- a/fs/userfaultfd.c
-> > +++ b/fs/userfaultfd.c
-> > @@ -29,6 +29,7 @@
-> >  #include <linux/hugetlb.h>
+> >  	return -EINVAL;
+> > @@ -93,7 +93,7 @@ int rproc_load_segments(struct rproc *rproc, const struct firmware *fw)
 > >  
-> >  int sysctl_unprivileged_userfaultfd __read_mostly = 1;
-> > +int sysctl_unprivileged_userfaultfd_user_mode_only __read_mostly = 0;
+> >  static inline int rproc_parse_fw(struct rproc *rproc, const struct firmware *fw)
+> >  {
+> > -	if (rproc->ops->parse_fw)
+> > +	if (rproc->ops && rproc->ops->parse_fw)
+> >  		return rproc->ops->parse_fw(rproc, fw);
 > >  
-> >  static struct kmem_cache *userfaultfd_ctx_cachep __read_mostly;
+> >  	return 0;
+> > @@ -103,7 +103,7 @@ static inline
+> >  int rproc_handle_rsc(struct rproc *rproc, u32 rsc_type, void *rsc, int offset,
+> >  		     int avail)
+> >  {
+> > -	if (rproc->ops->handle_rsc)
+> > +	if (rproc->ops && rproc->ops->handle_rsc)
+> >  		return rproc->ops->handle_rsc(rproc, rsc_type, rsc, offset,
+> >  					      avail);
 > >  
-> > @@ -2009,8 +2010,16 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
-> >  	static const int uffd_flags = UFFD_USER_MODE_ONLY;
-> >  	struct userfaultfd_ctx *ctx;
-> >  	int fd;
-> > +	bool need_cap_check = false;
+> > @@ -114,7 +114,7 @@ static inline
+> >  struct resource_table *rproc_find_loaded_rsc_table(struct rproc *rproc,
+> >  						   const struct firmware *fw)
+> >  {
+> > -	if (rproc->ops->find_loaded_rsc_table)
+> > +	if (rproc->ops && rproc->ops->find_loaded_rsc_table)
+> >  		return rproc->ops->find_loaded_rsc_table(rproc, fw);
 > >  
-> > -	if (!sysctl_unprivileged_userfaultfd && !capable(CAP_SYS_PTRACE))
-> > +	if (!sysctl_unprivileged_userfaultfd)
-> > +		need_cap_check = true;
-> > +
-> > +	if (sysctl_unprivileged_userfaultfd_user_mode_only &&
-> > +	    (flags & UFFD_USER_MODE_ONLY) == 0)
-> > +		need_cap_check = true;
-> > +
-> > +	if (need_cap_check && !capable(CAP_SYS_PTRACE))
-> >  		return -EPERM;
-> >  
-> >  	BUG_ON(!current->mm);
-> > diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> > index a8e5f3ea9bb2..d81e30074bf5 100644
-> > --- a/include/linux/userfaultfd_k.h
-> > +++ b/include/linux/userfaultfd_k.h
-> > @@ -31,6 +31,7 @@
-> >  #define UFFD_FLAGS_SET (EFD_SHARED_FCNTL_FLAGS)
-> >  
-> >  extern int sysctl_unprivileged_userfaultfd;
-> > +extern int sysctl_unprivileged_userfaultfd_user_mode_only;
-> >  
-> >  extern vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason);
-> >  
-> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> > index 8a176d8727a3..9cbdf4483961 100644
-> > --- a/kernel/sysctl.c
-> > +++ b/kernel/sysctl.c
-> > @@ -1719,6 +1719,15 @@ static struct ctl_table vm_table[] = {
-> >  		.extra1		= SYSCTL_ZERO,
-> >  		.extra2		= SYSCTL_ONE,
-> >  	},
-> > +	{
-> > +		.procname	= "unprivileged_userfaultfd_user_mode_only",
-> > +		.data		= &sysctl_unprivileged_userfaultfd_user_mode_only,
-> > +		.maxlen		= sizeof(sysctl_unprivileged_userfaultfd_user_mode_only),
-> > +		.mode		= 0644,
-> > +		.proc_handler	= proc_dointvec_minmax,
-> > +		.extra1		= SYSCTL_ZERO,
-> > +		.extra2		= SYSCTL_ONE,
-> > +	},
-> >  #endif
-> >  	{ }
-> >  };
+> >  	return NULL;
 > > -- 
-> > 2.26.2.303.gf8c07b1a785-goog
+> > 2.20.1
 > > 
-
