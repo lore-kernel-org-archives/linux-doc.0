@@ -2,162 +2,258 @@ Return-Path: <SRS0=HYMc=6W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55A7CC47247
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 07:27:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C12EFC47247
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 10:19:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37630208D6
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 07:27:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="m2YIKgPM"
+	by mail.kernel.org (Postfix) with ESMTP id 9792F208D6
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 10:19:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726009AbgEHH1v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 May 2020 03:27:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38750 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726365AbgEHH1t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 03:27:49 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11474C05BD43
-        for <linux-doc@vger.kernel.org>; Fri,  8 May 2020 00:27:49 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id o18so478188pgg.8
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2020 00:27:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=0eDRJhDdXEyJ4k8o9rxXKO4qTxW18novqGE2BWki1LE=;
-        b=m2YIKgPM0b2WmcYJPsYM2wGs0xjLHunZK0VunuEeSoQune0sz1ruZb22SQNpjPcpWK
-         U+GQrn7cbNuuFYowJ8Ky4I3qVEMfhvzDlohxmO1O6yucgZHCqSOKBnYainUr7MhEv3xO
-         z1G8FK6AMWz1Uz7ISpHL/KL2FbaBmVFLDg5LI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0eDRJhDdXEyJ4k8o9rxXKO4qTxW18novqGE2BWki1LE=;
-        b=lVjJovo10v+ES0CYilVlX9Wv4SPMy9BBd6OCo0rNf0cbLQioJkAbd1xnaijjaO5fpg
-         v8o8oOaD7lTdprXkkInknrYs8asY4GK0hFxiDML5cpZdyLPn1amDOq0pjA2JDYPJu09n
-         nHupOrp/Ylyk1LEtszDDbYZJJoXDBI10EVw9Kd/5aMB/ath1fUWuNZxHntCMoHwqVN/1
-         CquY5b1yinSYNjJ6r6i13SBIStvtmqRr8gRUtlDjNl2T8Rsbiclu4rIHqDZ3xqEIKIso
-         z/y0NPsCrprHfvCehcJopPvhg3YtfFPdVIrKfDbjl0zKeMKrLgxAC29t3lQMoCXBtGR/
-         8Zng==
-X-Gm-Message-State: AGi0PuY2Z6uqP9Bg5QSqtrp12WIrTPl8NfqdyYnVz2T7+zctUG2Z3XQo
-        2xEAytS7rHAru+qwWvxpaKqpAA==
-X-Google-Smtp-Source: APiQypK9+XDNQjZa9i5WiAs7yehEj+1TLNclficOKaL6MtjPkOpW00BQpAPrSOWcWyipV1AhdWYbhg==
-X-Received: by 2002:a62:14a:: with SMTP id 71mr1372603pfb.33.1588922868472;
-        Fri, 08 May 2020 00:27:48 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c15sm841519pfo.188.2020.05.08.00.27.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 00:27:47 -0700 (PDT)
-Date:   Fri, 8 May 2020 00:27:46 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Cc:     Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-doc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 00/12] pstore: mtd: support crash log to block and mtd
- device
-Message-ID: <202005080020.41C33738@keescook>
-References: <20200508064004.57898-1-keescook@chromium.org>
+        id S1726627AbgEHKTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 May 2020 06:19:49 -0400
+Received: from foss.arm.com ([217.140.110.172]:46210 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725825AbgEHKTt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 May 2020 06:19:49 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 56DD130E;
+        Fri,  8 May 2020 03:19:47 -0700 (PDT)
+Received: from [192.168.0.7] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 591CC3F71F;
+        Fri,  8 May 2020 03:19:44 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 2/3] docs: scheduler: Add scheduler overview
+ documentation
+To:     John Mathew <john.mathew@unikie.com>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, mingo@redhat.com,
+        peterz@infradead.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, rostedt@goodmis.org,
+        bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+        tsbogend@alpha.franken.de, lukas.bulwahn@gmail.com, x86@kernel.org,
+        linux-mips@vger.kernel.org, tglx@linutronix.de,
+        mostafa.chamanara@basemark.com, rdunlap@infradead.org,
+        Oleg Tsymbal <oleg.tsymbal@unikie.com>
+References: <20200507180553.9993-1-john.mathew@unikie.com>
+ <20200507180553.9993-3-john.mathew@unikie.com>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <9a41369c-8617-e80e-61e5-c659c51d631b@arm.com>
+Date:   Fri, 8 May 2020 12:19:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200508064004.57898-1-keescook@chromium.org>
+In-Reply-To: <20200507180553.9993-3-john.mathew@unikie.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 07, 2020 at 11:39:52PM -0700, Kees Cook wrote:
-> So far, I've identified the following stuff left to do:
-> [...]
->         - implement ramoops-like probe feature for pstore/blk
+On 07/05/2020 20:05, John Mathew wrote:
 
-With the following hack, I'm able to start testing the series:
+[...]
 
-diff --git a/fs/pstore/blk.c b/fs/pstore/blk.c
-index a736555e1ed3..7145da079267 100644
---- a/fs/pstore/blk.c
-+++ b/fs/pstore/blk.c
-@@ -373,12 +373,14 @@ int psblk_register_blkdev(unsigned int major, unsigned int flags,
- 	if (IS_ERR(binfo))
- 		return PTR_ERR(binfo);
- 
-+#if 0
- 	/* only allow driver matching the @blkdev */
- 	if (!binfo->devt || MAJOR(binfo->devt) != major) {
- 		pr_debug("invalid major %u (expect %u)\n",
- 				major, MAJOR(binfo->devt));
- 		return -ENODEV;
- 	}
-+#endif
- 
- 	/* hold bdev exclusively */
- 	bdev = psblk_get_bdev(holder);
-@@ -423,7 +425,7 @@ void psblk_unregister_blkdev(unsigned int major)
- 	struct psblk_device dev = {.read = psblk_generic_blk_read};
- 	void *holder = blkdev;
- 
--	if (psblk_bdev && MAJOR(psblk_bdev->bd_dev) == major) {
-+	if (psblk_bdev/* && MAJOR(psblk_bdev->bd_dev) == major*/) {
- 		psblk_unregister_device(&dev);
- 		psblk_put_bdev(psblk_bdev, holder);
- 		blkdev_panic_write = NULL;
-@@ -476,6 +478,24 @@ int pstore_blk_usr_info(struct pstore_blk_info *info)
- }
- EXPORT_SYMBOL_GPL(pstore_blk_usr_info);
- 
-+static int __init pstore_blk_init(void)
-+{
-+	int ret = 0;
-+
-+	if (blkdev[0])
-+		ret = psblk_register_blkdev(0, 0, NULL);
-+
-+	return ret;
-+}
-+postcore_initcall(pstore_blk_init);
-+
-+static void __exit pstore_blk_exit(void)
-+{
-+	psblk_unregister_blkdev(0);
-+}
-+module_exit(pstore_blk_exit);
-+
-+
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("WeiXiong Liao <liaoweixiong@allwinnertech.com>");
- MODULE_DESCRIPTION("pstore backend for block devices");
+> diff --git a/Documentation/scheduler/cfs-overview.rst b/Documentation/scheduler/cfs-overview.rst
+> new file mode 100644
+> index 000000000000..b717f2d3e340
+> --- /dev/null
+> +++ b/Documentation/scheduler/cfs-overview.rst
+> @@ -0,0 +1,113 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +
+> +=============
+> +CFS Overview
+> +=============
+> +
+> +Linux 2.6.23 introduced a modular scheduler core and a Completely Fair
+> +Scheduler (CFS) implemented as a scheduling module. A brief overview of the
+> +CFS design is provided in :doc:`sched-design-CFS`
+> +
+> +In addition there have been many improvements to the CFS, a few of which are
+> +
+> +**Thermal Pressure**:
+> +cpu_capacity initially reflects the maximum possible capacity of a CPU.
+> +Thermal pressure on a CPU means this maximum possible capacity is
+> +unavailable due to thermal events. Average thermal pressure for a CPU
+> +is now subtracted from its maximum possible capacity so that cpu_capacity
+> +reflects the remaining maximum capacity.
+> +
 
+I agree with what Valentin mentioned already. Instead of describing
+recent patch-sets, the functionality which was added (or enhanced) by
+them) should be depicted instead.
 
-Then I can get things up and running with:
+E.g. in case of 'Thermal Pressure' this would be the "scale CPU
+capacity" mechanism for CFS so it knows how much CPU capacity is left
+for its use after higher priority sched classes (RT, DL), IRQs and
+'Thermal Pressure' have reduced the 'original' CPU capacity.
 
-# insmod pstore.ko compress=off
-# insmod pstore_zone.ko
-# truncate pstore-blk.raw --size 100M
-# losetup -f --show pstore-blk.raw
-/dev/loop0
-# insmod pstore_blk.ko blkdev=/dev/loop0 kmsg_size=16 console_size=64
+[...]
 
-So far, I've hit a few bugs. The most obvious is that "rmmod" causes a
-fault, so I think locking and other things need to be fixed up further.
-After that, it looked like all the compressed files were failing to
-decompress, which implies some kind of buffer offset problem. When I
-loaded with pstore.compress=off I got readable logs, but there is a span
-of garbage between the header and the body in
-/sys/fs/pstore/dmesg-pstore-zone-1 etc.
+> +**Load balancing algorithm Reworked**:
+> +The load balancing algorithm contained some heuristics which became
+> +meaningless since the rework of the scheduler's metrics like the
+> +introduction of PELT. The new load balancing algorithm fixes several
+> +pending wrong tasks placement
+> +
+> + * the 1 task per CPU case with asymmetric system
+> + * the case of CFS task preempted by other class
+> + * the case of tasks not evenly spread on groups with spare capacity
+> +
+> +Also the load balance decisions have been consolidated in the 3 separate
+> +functions.
 
-Cool so far! It just needs a bit more testing a polish. :)
+What are those 3 separate functions? I guess you refer to the 3
+(actually 4) migration types (migrate_task, migrate_util, migrate_load,
+(migrate_misfit)).
 
--- 
-Kees Cook
+[...]
+
+> diff --git a/Documentation/scheduler/overview.rst b/Documentation/scheduler/overview.rst
+> index aee16feefc61..f2cb0c901208 100644
+> --- a/Documentation/scheduler/overview.rst
+> +++ b/Documentation/scheduler/overview.rst
+> @@ -3,3 +3,269 @@
+>  ====================
+>  Scheduler overview
+>  ====================
+> +
+> +Linux kernel implements priority-based scheduling. More than one process are
+> +allowed to run at any given time and each process is allowed to run as if it
+> +were the only process on the system. The process scheduler coordinates which
+> +process runs when. In that context, it has the following tasks:
+> +
+> +* share CPU cores equally among all currently running processes.
+> +* pick appropriate process to run next if required, considering scheduling
+> +  class/policy and process priorities.
+> +* balance processes between multiple cores in SMP systems.
+> +
+> +The scheduler attempts to be responsive for I/O bound processes and efficient
+> +for CPU bound processes. The scheduler also applies different scheduling
+> +policies for real time and normal processes based on their respective
+> +priorities. Higher priorities in the kernel have a numerical smaller
+> +value. Real time priorities range from 1 (highest) – 99 whereas normal
+> +priorities range from 100 – 139 (lowest). SCHED_DEADLINE tasks have negative
+> +priorities, reflecting the fact that any of them has higher priority than
+> +RT and NORMAL/BATCH tasks.
+
+s/RT/SCHED_FIFO, SCHED_RR
+s/NORMAL/SCHED_NORMAL
+s/BATCH/SCHED_BATCH
+
+SCHED_IDLE tasks can be set in the 100 – 139 range too but IMHO are
+treated as 139 (nice 20). Their priority doesn't matter since they get
+minimal weight WEIGHT_IDLEPRI=3 anyway.
+
+And then there are the maintenance sched classes, idle sched class and
+its idle tasks 'swapper/X' with priority 120 (was MAX_PRIO) as well as
+the stop sched class and its stopper tasks 'migration/X' who disguise as
+SCHED_FIFO with priority 139.
+Might be that people might find this too detailed though but it helps
+when you try to understand how it all works.
+
+[...]
+
+> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+> index ede1a30a6894..f311abe5b711 100644
+> --- a/Documentation/scheduler/index.rst
+> +++ b/Documentation/scheduler/index.rst
+> @@ -17,10 +17,13 @@ specific implementation differences.
+>      :maxdepth: 2
+>  
+>      overview
+> +    sched-data-structs
+> +    cfs-overview
+>      sched-design-CFS
+>      sched-features
+> -    arch-specific.rst
+> -    sched-debugging.rst
+> +    arch-specific
+> +    sched-debugging
+> +    scheduler-api
+>  
+>  .. only::  subproject and html
+>  
+> +                     +------------------------------------+
+> +                     |            TASK_RUNNING            |
+> +   +---------------> |           (Ready to run)           | <--+
+> +   |                 +------------------------------------+    |
+> +   |                   |                                       |
+> +   |                   | schedule() calls context_switch()     | task is preempted
+> +   |                   v                                       |
+> +   |                 +------------------------------------+    |
+> +   |                 |            TASK_RUNNING            |    |
+> +   |                 |             (Running)              | ---+
+> +   | event occurred  +------------------------------------+
+> +   |                   |
+> +   |                   | task needs to wait for event
+> +   |                   v
+> +   |                 +------------------------------------+
+> +   |                 |         TASK_INTERRUPTIBLE         |
+> +   |                 |        TASK_UNINTERRUPTIBLE        |
+> +   +-----------------|           TASK_WAKEKILL            |
+> +                     +------------------------------------+
+> +                                       |
+> +                                       | task exits via do_exit()
+> +                                       v
+> +                        +------------------------------+
+> +                        |          TASK_DEAD           |
+> +                        |         EXIT_ZOMBIE          |
+> +                        +------------------------------+
+> +
+> +
+> +Scheduler provides tracepoints tracing all major events of the scheduler.
+> +The tracepoints are defined in ::
+> +
+> +  include/trace/events/sched.h
+> +
+> +Using these tracepoints it is possible to model the scheduler state transition
+
+I would refer to them as trace events.
+
+The scheduler started to export (bare) trace points for PELT and
+overutilization (e.g. pelt_cfs_tp) (commit ba19f51fcb54 "sched/debug:
+Add new tracepoints to track PELT at rq level"). They are not bound to a
+trace event and so they don't expose any internal data structures.
+
+[...]
+
+> +Virtual Runtime
+> +~~~~~~~~~~~~~~~~~
+> +Virtual Run Time or vruntime is the amount of time a task has spent running
+> +on the CPU. It is updated periodically by scheduler_tick(). Tasks are stored
+> +in the CFS scheduling class rbtree sorted by vruntime. scheduler_tick() calls
+> +corresponding hook of CFS which first updates the runtime statistics of the
+> +currently running task and checks if the current task needs to be preempted.
+> +vruntime of the task based on the formula ::
+> +
+> +    vruntime += delta_exec * (NICE_0_LOAD/curr->load.weight);
+> +
+> +where:
+> +
+> +* delta_exec is the time in nanoseconds spent by the task since the last time
+> +  vruntime was updated.
+> +* NICE_0_LOAD is the load of a task with normal priority.
+> +* curr is the shed_entity instance of the cfs_rq struct of the currently
+> +  running task.
+> +* load.weight: sched_entity load_weight. load_weight is the encoding of
+> +  the tasks priority and vruntime. The load of a task is the metric
+> +  indicating the number of CPUs needed to make satisfactory progress on its
+> +  job. Load of a task influences the time a task spends on the CPU and also
+> +  helps to estimate the overall CPU load which is needed for load balancing.
+
+load.weight is replaced by PELT in load balancing.
+
+> +  Priority of the task is not enough for the scheduler to estimate the
+> +  vruntime of a process. So priority value must be mapped to the capacity of
+> +  the standard CPU which is done in the array :c:type:`sched_prio_to_weight[]`.
+> +  The array contains mappings for the nice values from -20 to 19. Nice value
+> +  0 is mapped to 1024. Each entry advances by approximately 1.25 which means
+> +  for every increment in nice value the task gets 10% less CPU and vice versa.
+
+SCHED_IDLE get minimal weight (WEIGHT_IDLEPRIO=3)
+
+[...]
