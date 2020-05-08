@@ -2,156 +2,221 @@ Return-Path: <SRS0=HYMc=6W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E12C38A2A
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 13:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8DE6C38A2A
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 14:00:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E3C0206B8
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 13:14:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7EBF6208CA
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 14:00:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfSvnW/M"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729494AbgEHMq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 May 2020 08:46:56 -0400
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:39588 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729485AbgEHMqz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 08:46:55 -0400
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07441439|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.221532-0.00382694-0.774641;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03293;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.HVGJWfr_1588942007;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.HVGJWfr_1588942007)
-          by smtp.aliyun-inc.com(10.147.41.121);
-          Fri, 08 May 2020 20:46:48 +0800
-Subject: Re: [PATCH v3 02/11] pstore/blk: new support logger for block devices
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
+        id S1727841AbgEHOA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 May 2020 10:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726767AbgEHOA5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 10:00:57 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA87BC05BD43;
+        Fri,  8 May 2020 07:00:57 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id x15so386508pfa.1;
+        Fri, 08 May 2020 07:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BrhHlE2Zmb8qG7aodLCCwPMutnU0QeSrvMETJzhMIzo=;
+        b=GfSvnW/M6U6IuLYoHa4fNyMJj8DlRFSRdgmYXkgG/AK82dCbbFbgtZRWEZkQOxCGVp
+         K3Tu2JeYqM/XkqHDIlF/fZxXxI45eWiY5Q0FI+WZxikJ6zb5FXldONUG0MxrWjd2/zJ9
+         qjXDBPfotNh5uahFaI3EwJUHDgzuu31YAj7U46CRTE46zs95JLFmEyNWSYkcpbFUNmc2
+         wgz7esvtbU3/TW1zTYt+YOJh61m3ZYL9OmRI1zbvP5lIoaYq7xeAeYe1UO0+U/BPJGBK
+         icdGGF1vQcd84o7e+57Zf+BdF1qfrxjMBHRTUmLM4xLBHeMpysSsa64Jbo9kDCy5Z2gp
+         wJjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BrhHlE2Zmb8qG7aodLCCwPMutnU0QeSrvMETJzhMIzo=;
+        b=Cemh5Fvr8fjdeAyQr2NC++xASPJEX2ezPJKUjphYv0lZn0yjUbnMDa1F1zPGmH6H20
+         DsjDbfyr0+FnpzBwZbKa6KMgYqHrK3kpZNxgrOr2xxz8RF3OCUvZUuDq+7Hw8XTnmM7y
+         Rn3wqauormmZrNzJ68HHhHzvDZX6rgqjEK7N51OMtFt9NbI/e2NvdHAYdx8xcYGv5ctx
+         oIxCb37Bettz3OzBrnR/X7bkW+JMBp6aj5Hk9CiOSkofG1V+EBt8boMkxnabu4F14VLA
+         wx6SWyKNXWExfJYDkJNTuzPImp+JjQqvnYUCTxrRJXSl/E1JazfcZfNcZA5lWlBbNcM4
+         gOEw==
+X-Gm-Message-State: AGi0PuZ1rXmEd3n0ilSWDyc4MPD9GrFVtNQy1EB3qF/t/y55oZ0gRAWS
+        Ys3FRY6pOckp4Q1HHqyi1fgY0g72rH4=
+X-Google-Smtp-Source: APiQypK4DubtHwM1Vu8C8FpSXFjuCvRo/r5RQVxEQi5FWF3UHohrmabVSVe8bPGqMapjaOjvGqe4Zw==
+X-Received: by 2002:a62:7982:: with SMTP id u124mr800006pfc.298.1588946457081;
+        Fri, 08 May 2020 07:00:57 -0700 (PDT)
+Received: from mail.google.com ([149.248.10.52])
+        by smtp.gmail.com with ESMTPSA id 207sm1458329pgh.34.2020.05.08.07.00.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2020 07:00:55 -0700 (PDT)
+Date:   Fri, 8 May 2020 22:00:47 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Changbin Du <changbin.du@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-References: <1585126506-18635-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1585126506-18635-3-git-send-email-liaoweixiong@allwinnertech.com>
- <202005072301.57F73B61CC@keescook>
-From:   WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Message-ID: <6dcadbb0-8720-7973-8b33-747ae0579567@allwinnertech.com>
-Date:   Fri, 8 May 2020 20:46:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v4] streamline_config.pl: add LMC_KEEP to preserve some
+ kconfigs
+Message-ID: <20200508140047.rln4iogroxw7esxa@mail.google.com>
+References: <20200503001141.9647-1-changbin.du@gmail.com>
+ <CAK7LNATBt1NxRSWiv8Ab-pKBRemp43WUs96KWELTf+vFq_VPTA@mail.gmail.com>
+ <20200507091807.0a789fbd@gandalf.local.home>
 MIME-Version: 1.0
-In-Reply-To: <202005072301.57F73B61CC@keescook>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200507091807.0a789fbd@gandalf.local.home>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-hi Kees Cook,
-
-On 2020/5/8 PM 2:07, Kees Cook wrote:
-> On Wed, Mar 25, 2020 at 04:54:57PM +0800, WeiXiong Liao wrote:
->> pstore/blk is similar to pstore/ram, but dump log to block device
->> rather than persistent ram.
->> [...]
->> +int psblk_register_blkdev(unsigned int major, psblk_panic_write_op panic_write)
->> +{
->> +	struct block_device *bdev;
->> +	struct psblk_device dev = {0};
->> +	struct bdev_info *binfo;
->> +	int ret = -ENODEV;
->> +	void *holder = blkdev;
->> +
->> +	binfo = psblk_get_bdev_info();
->> +	if (IS_ERR(binfo))
->> +		return PTR_ERR(binfo);
->> +
->> +	/* only allow driver matching the @blkdev */
->> +	if (!binfo->devt || MAJOR(binfo->devt) != major) {
->> +		pr_debug("invalid major %u (expect %u)\n",
->> +				major, MAJOR(binfo->devt));
->> +		return -ENODEV;
->> +	}
->> +
->> +	/* hold bdev exclusively */
->> +	bdev = psblk_get_bdev(holder);
->> +	if (IS_ERR(bdev)) {
->> +		pr_err("failed to open '%s'!\n", blkdev);
->> +		return PTR_ERR(bdev);
->> +	}
->> +
->> +	/* psblk_bdev must be assigned before register to pstore/blk */
->> +	psblk_bdev = bdev;
->> +	blkdev_panic_write = panic_write;
->> +
->> +	dev.total_size = psblk_bdev_size(bdev);
->> +	dev.panic_write = panic_write ? psblk_blk_panic_write : NULL;
->> +	dev.read = psblk_generic_blk_read;
->> +	dev.write = psblk_generic_blk_write;
->> +
->> +	ret = psblk_register_do(&dev);
->> +	if (ret)
->> +		goto err_put_bdev;
->> +
->> +	pr_info("using '%s'\n", blkdev);
->> +	return 0;
->> +
->> +err_put_bdev:
->> +	psblk_bdev = NULL;
->> +	blkdev_panic_write = NULL;
->> +	psblk_put_bdev(bdev, holder);
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(psblk_register_blkdev);
+On Thu, May 07, 2020 at 09:18:07AM -0400, Steven Rostedt wrote:
+> On Thu, 7 May 2020 12:19:57 +0900
+> Masahiro Yamada <masahiroy@kernel.org> wrote:
 > 
-> I've gotten this series refactored on top of current pstore, and I've
-> been making various bikeshed changes to names, etc, and as I went to go
-> start testing, I realized that nothing actually uses
-> psblk_register_blkdev().
+> > On Sun, May 3, 2020 at 9:11 AM Changbin Du <changbin.du@gmail.com> wrote:
+> > >
+> > > Sometimes it is useful to preserve batches of configs when making
+> > > localmodconfig. For example, I usually don't want any usb and fs
+> > > modules to be disabled. Now we can do it by:
+> > >
+> > >  $ make LMC_KEEP="drivers/usb;fs" localmodconfig
+> > >
+> > > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > >
+> > > ---
+> > > v4: fix typo.
+> > > v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
+> > > v2: fix typo in documentation. (Randy Dunlap)
+> > > ---  
+> > 
+> > 
+> > Personally, I do not mind the long LOCALMODCONFIG_PRESERVE,
 > 
-> It seems like it should be possible to just start using this on any
-> block device of the user's choosing. I assume the idea is to allow for
-> drivers to register panic_write handlers, but even without that, it'd be
-> nice to just be able to test this with something like /dev/loop0.
+> Perhasp we allow both? ;-)
 > 
-
-Yes. psblk_register_blkdev() is there for block drivers to register
-panic_write()
-handlers. The panic_wrire() is used only when panic occurs. Not only the
-panic
-log, but also all data on dirty zones. I implement the panic_write() of mmc
-and nand on the platform of Allwinner, but I think it is not ready to
-submit to
-community.
-
-All other front-ends but dmesg for panic are available since pstore/blk
-provides
-the general write/read through IO stack. That's why /dev/loop0 seemed to
-works well.
-
-> What's your thinking on how this would happen? It seems like if
-> pstore/blk uses pstore/zone, and mtdpstore uses pstore/blk, there should
-> be a blkoops that uses pstore/blk too?  I guess I need to learn a bit> more about how block device probing works so pstore/blk can notice
-> devices as they're brought online, etc.
+> And just have one set to the other.
 > 
+> > but this tends to be bike-sheding.
+> > I do not have a strong opinion.
+> > 
+> > 
+> > >  Documentation/admin-guide/README.rst |  8 +++++++-
+> > >  scripts/kconfig/Makefile             |  1 +
+> > >  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
+> > >  3 files changed, 31 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> > > index cc6151fc0845..1371deab8bc7 100644
+> > > --- a/Documentation/admin-guide/README.rst
+> > > +++ b/Documentation/admin-guide/README.rst
+> > > @@ -209,10 +209,16 @@ Configuring the kernel
+> > >                             store the lsmod of that machine into a file
+> > >                             and pass it in as a LSMOD parameter.
+> > >
+> > > +                           Also, you can preserve modules in certain folders
+> > > +                           or kconfig files by specifying their paths in
+> > > +                           parameter LMC_KEEP.
+> > > +
+> > >                     target$ lsmod > /tmp/mylsmod
+> > >                     target$ scp /tmp/mylsmod host:/tmp
+> > >
+> > > -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
+> > > +                   host$ make LSMOD=/tmp/mylsmod \
+> > > +                           LMC_KEEP="drivers/usb;drivers/gpu;fs" \  
+> > 
+> > 
+> > This might be another bike-sheding item, but
+> > can you use a space for the delimiter?
+> > 
+> > 
+> > LMC_KEEP="drivers/usb drivers/gpu fs"
+> > 
+> > If you pass multiple directories,
+> > you will need to surround them with double-quotes.
+> 
+> I agree that spaces look better.
+>
+I am okay with space. But what about ":" which is used by shell PATH and many
+others?
 
-pstore/blk provides all  user options and register function for device
-drivers.
-The mtdpstore is the implementation case using pstore/blk. How about
-'mmc_pstore' for mmc and *_pstore for others block device?
+> > 
+> > 
+> > 
+> > 
+> > > +                           localmodconfig
+> > >
+> > >                             The above also works when cross compiling.
+> > >
+> > > diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> > > index c9d0a4a8efb3..e0abbf5805f5 100644
+> > > --- a/scripts/kconfig/Makefile
+> > > +++ b/scripts/kconfig/Makefile
+> > > @@ -123,6 +123,7 @@ help:
+> > >         @echo  '  gconfig         - Update current config utilising a GTK+ based front-end'
+> > >         @echo  '  oldconfig       - Update current config utilising a provided .config as base'
+> > >         @echo  '  localmodconfig  - Update current config disabling modules not loaded'
+> > > +       @echo  '                    except those preserved by LMC_KEEP environment variable'
+> > >         @echo  '  localyesconfig  - Update current config converting local mods to core'
+> > >         @echo  '  defconfig       - New config with default from ARCH supplied defconfig'
+> > >         @echo  '  savedefconfig   - Save current config as ./defconfig (minimal config)'
+> > > diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+> > > index e2f8504f5a2d..d26543a807c9 100755
+> > > --- a/scripts/kconfig/streamline_config.pl
+> > > +++ b/scripts/kconfig/streamline_config.pl
+> > > @@ -143,6 +143,7 @@ my %depends;
+> > >  my %selects;
+> > >  my %prompts;
+> > >  my %objects;
+> > > +my %config2kfile;
+> > >  my $var;
+> > >  my $iflevel = 0;
+> > >  my @ifdeps;
+> > > @@ -201,6 +202,7 @@ sub read_kconfig {
+> > >         if (/^\s*(menu)?config\s+(\S+)\s*$/) {
+> > >             $state = "NEW";
+> > >             $config = $2;
+> > > +           $config2kfile{"CONFIG_$config"} = $kconfig;
+> > >
+> > >             # Add depends for 'if' nesting
+> > >             for (my $i = 0; $i < $iflevel; $i++) {
+> > > @@ -592,6 +594,22 @@ while ($repeat) {
+> > >
+> > >  my %setconfigs;
+> > >
+> > > +my @preserved_kconfigs;
+> > > +@preserved_kconfigs = split(/;/,$ENV{LMC_KEEP}) if (defined($ENV{LMC_KEEP}));  
+> > 
+> > Maybe, you can do 'my' declaration and the assignment
+> > in a single line?
+> > 
+> > Can you drop the 'if ...' conditional?
+> > 
+> > 
+> > Does this work for you?
+> > 
+> > my @preserved_kconfigs = split(/;/,$ENV{LMC_KEEP});
+> > 
+> > 
+> 
+> Will an undefined warning happen if LMC_KEEP isn't defined?
+> 
+I just verifed there is no warning raised.
 
-I guess I need to learn more about how pstore/blk can notice devices too.
-I think pstore/blk can be better if block device can do like mtd device that
-not only notifies but also provides generic panic_write().
+> -- Steve
 
 -- 
-WeiXiong Liao
+Cheers,
+Changbin Du
