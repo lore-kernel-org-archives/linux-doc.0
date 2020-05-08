@@ -2,91 +2,109 @@ Return-Path: <SRS0=HYMc=6W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45563C47247
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 10:58:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40395C47254
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 12:47:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 252CF21473
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 10:58:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 225F624969
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 12:47:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BTX3qZbT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbgEHK6l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 May 2020 06:58:41 -0400
-Received: from foss.arm.com ([217.140.110.172]:46518 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726091AbgEHK6l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 May 2020 06:58:41 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6C3A30E;
-        Fri,  8 May 2020 03:58:40 -0700 (PDT)
-Received: from [192.168.0.7] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D040A3F71F;
-        Fri,  8 May 2020 03:58:37 -0700 (PDT)
-Subject: Re: [RFC PATCH v3 2/3] docs: scheduler: Add scheduler overview
- documentation
-To:     Valentin Schneider <valentin.schneider@arm.com>,
-        John Mathew <john.mathew@unikie.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, tsbogend@alpha.franken.de,
-        lukas.bulwahn@gmail.com, x86@kernel.org,
-        linux-mips@vger.kernel.org, tglx@linutronix.de,
-        mostafa.chamanara@basemark.com, rdunlap@infradead.org,
-        Oleg Tsymbal <oleg.tsymbal@unikie.com>
-References: <20200507180553.9993-1-john.mathew@unikie.com>
- <20200507180553.9993-3-john.mathew@unikie.com> <jhjh7wrtpjk.mognet@arm.com>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-Message-ID: <b974b959-7b9a-2874-dca6-674b74ad5b42@arm.com>
-Date:   Fri, 8 May 2020 12:58:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1728272AbgEHMrn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 May 2020 08:47:43 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42897 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729579AbgEHMrl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 08:47:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588942061;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=scLEqBSEllA/rWbrO6NS8p6P9loIqw6BnJNugdMi+eA=;
+        b=BTX3qZbTH+QtFr8upuhFr+MjiTJREQX+CkuYleZ4No22mzMYGuygzfxqSApugan3fAWVPn
+        elsZrAKG1e9W9C+ntLXqh9H9ipq00hyM1Jdz1FXRZ00n1XHnHVym9J7MGgxaYH1szynJjP
+        OZVfpJOcG3xqSIei/WpOSvYulKHxeJ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-amwZP0r1MEyVfmBB0iyacA-1; Fri, 08 May 2020 08:47:36 -0400
+X-MC-Unique: amwZP0r1MEyVfmBB0iyacA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4516080183C;
+        Fri,  8 May 2020 12:47:34 +0000 (UTC)
+Received: from optiplex-lnx (unknown [10.3.128.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 21623707A6;
+        Fri,  8 May 2020 12:47:22 +0000 (UTC)
+Date:   Fri, 8 May 2020 08:47:19 -0400
+From:   Rafael Aquini <aquini@redhat.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Tso Ted <tytso@mit.edu>, Adrian Bunk <bunk@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Jeff Mahoney <jeffm@suse.com>, Jiri Kosina <jikos@kernel.org>,
+        Jessica Yu <jeyu@suse.de>, Takashi Iwai <tiwai@suse.de>,
+        Ann Davis <AnDavis@suse.com>,
+        Richard Palethorpe <rpalethorpe@suse.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
+        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org
+Subject: Re: [PATCH v2] kernel: add panic_on_taint
+Message-ID: <20200508124719.GB367616@optiplex-lnx>
+References: <20200507180631.308441-1-aquini@redhat.com>
+ <20200507182257.GX11244@42.do-not-panic.com>
+ <20200507184307.GF205881@optiplex-lnx>
+ <20200507184705.GG205881@optiplex-lnx>
+ <20200507203340.GZ11244@42.do-not-panic.com>
+ <20200507220606.GK205881@optiplex-lnx>
+ <20200507222558.GA11244@42.do-not-panic.com>
 MIME-Version: 1.0
-In-Reply-To: <jhjh7wrtpjk.mognet@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200507222558.GA11244@42.do-not-panic.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/05/2020 23:15, Valentin Schneider wrote:
+On Thu, May 07, 2020 at 10:25:58PM +0000, Luis Chamberlain wrote:
+> On Thu, May 07, 2020 at 06:06:06PM -0400, Rafael Aquini wrote:
+> > On Thu, May 07, 2020 at 08:33:40PM +0000, Luis Chamberlain wrote:
+> > > I *think* that a cmdline route to enable this would likely remove the
+> > > need for the kernel config for this. But even with Vlastimil's work
+> > > merged, I think we'd want yet-another value to enable / disable this
+> > > feature. Do we need yet-another-taint flag to tell us that this feature
+> > > was enabled?
+> > >
+> > 
+> > I guess it makes sense to get rid of the sysctl interface for
+> > proc_on_taint, and only keep it as a cmdline option. 
 > 
-> On 07/05/20 19:05, John Mathew wrote:
-
-[...]
-
-> It would also be an opportunity to have one place to (at least briefly)
-> describe what the different sched classes do wrt capacity asymmetry - CFS
-> does one thing, RT now does one thing (see Qais' work), and DL will
-> hopefully soon follow (see Dietmar's work).
+> That would be easier to support and k3eps this simple.
 > 
-> I'd be happy to contribute (some of) that, if it can be deemed useful (I
-> personally think it might).
+> > But the real issue seems to be, regardless we go with a cmdline-only option
+> > or not, the ability of proc_taint() to set any arbitrary taint flag 
+> > other than just marking the kernel with TAINT_USER. 
+> 
+> I think we would have no other option but to add a new TAINT flag so
+> that we know that the taint flag was modified by a user. Perhaps just
+> re-using TAINT_USER when proc_taint() would suffice.
+>
 
-I like the idea.
+We might not need an extra taint flag if, perhaps, we could make these
+two features mutually exclusive. The idea here is that bitmasks added 
+via panic_on_taint get filtered out in proc_taint(), so a malicious 
+user couldn't exploit the latter interface to easily panic the system,
+when the first one is also in use. 
+ 
+-- Rafael
 
-Essentially all the code which is guarded by the 'if
-(static_branch_unlikely(&sched_asym_cpucapacity)' condition or which
-sets it during bring-up.
-
-* 'Cpu capacity < SCHED_LOAD_SCALE for non-big' CPUs setting during
-   bringup (necessary dt binding, CPUfreq influence)
-
-* CFS capacity awareness:
-
-  * wakeup - select_idle_capacity() (replaced wake_cap() & slow path to
-             cover DynamIQ and classical big.LITTLE)
-
-  * load_balance - misfit handling
-
-* RT & DL capacity awareness
-
-* ... & the relation to EAS (Documentation/scheduler/sched-energy.rst)
-
-This is what we referred to (at least internally) as CAS (Capacity-Aware
-Scheduling).
