@@ -2,221 +2,98 @@ Return-Path: <SRS0=HYMc=6W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8DE6C38A2A
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 14:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 525B6C47254
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 14:10:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EBF6208CA
-	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 14:00:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2971524955
+	for <linux-doc@archiver.kernel.org>; Fri,  8 May 2020 14:10:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfSvnW/M"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RMlbQike"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727841AbgEHOA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 May 2020 10:00:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43424 "EHLO
+        id S1728031AbgEHOKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 May 2020 10:10:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726767AbgEHOA5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 10:00:57 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA87BC05BD43;
-        Fri,  8 May 2020 07:00:57 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id x15so386508pfa.1;
-        Fri, 08 May 2020 07:00:57 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1726792AbgEHOKq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 May 2020 10:10:46 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38D28C05BD43
+        for <linux-doc@vger.kernel.org>; Fri,  8 May 2020 07:10:46 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id b6so764733plz.13
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2020 07:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BrhHlE2Zmb8qG7aodLCCwPMutnU0QeSrvMETJzhMIzo=;
-        b=GfSvnW/M6U6IuLYoHa4fNyMJj8DlRFSRdgmYXkgG/AK82dCbbFbgtZRWEZkQOxCGVp
-         K3Tu2JeYqM/XkqHDIlF/fZxXxI45eWiY5Q0FI+WZxikJ6zb5FXldONUG0MxrWjd2/zJ9
-         qjXDBPfotNh5uahFaI3EwJUHDgzuu31YAj7U46CRTE46zs95JLFmEyNWSYkcpbFUNmc2
-         wgz7esvtbU3/TW1zTYt+YOJh61m3ZYL9OmRI1zbvP5lIoaYq7xeAeYe1UO0+U/BPJGBK
-         icdGGF1vQcd84o7e+57Zf+BdF1qfrxjMBHRTUmLM4xLBHeMpysSsa64Jbo9kDCy5Z2gp
-         wJjQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZaKF6mC6f1LY/5yUoo/zMTdyx0PJPmP8np6E4nPHHJM=;
+        b=RMlbQikeABV2b9Cp4V/M9+HEH/fuSMnaC3lPXK/mMu+OYdv6R5bF5z9mHEvUOeNuOX
+         9Nt8Jq73Bpl9HdlSWI5MLYXOECu08QsFSuYCkJa0HgMMBus0BUE2pHmGmXaqtKkxRDcp
+         fdNNSkJzkBF3LH4LWYk81fkibmqVhJKE9ggZC/Q8HEnm05ELUgxJk2dIUzdJryOntUgm
+         1TZAIHMMa4/qM2a3AZDHBPQ5kaA/7v4xiRKgkKNQisPcSyawoaxmds7LJSodLUZ+9qNj
+         Lyin3bGZ4fJ9vvv8qoMXpg3r3gqPdoR94+s3PUFFKbr6jErT5ND0pidGOz47a/zm2qHQ
+         Yo/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BrhHlE2Zmb8qG7aodLCCwPMutnU0QeSrvMETJzhMIzo=;
-        b=Cemh5Fvr8fjdeAyQr2NC++xASPJEX2ezPJKUjphYv0lZn0yjUbnMDa1F1zPGmH6H20
-         DsjDbfyr0+FnpzBwZbKa6KMgYqHrK3kpZNxgrOr2xxz8RF3OCUvZUuDq+7Hw8XTnmM7y
-         Rn3wqauormmZrNzJ68HHhHzvDZX6rgqjEK7N51OMtFt9NbI/e2NvdHAYdx8xcYGv5ctx
-         oIxCb37Bettz3OzBrnR/X7bkW+JMBp6aj5Hk9CiOSkofG1V+EBt8boMkxnabu4F14VLA
-         wx6SWyKNXWExfJYDkJNTuzPImp+JjQqvnYUCTxrRJXSl/E1JazfcZfNcZA5lWlBbNcM4
-         gOEw==
-X-Gm-Message-State: AGi0PuZ1rXmEd3n0ilSWDyc4MPD9GrFVtNQy1EB3qF/t/y55oZ0gRAWS
-        Ys3FRY6pOckp4Q1HHqyi1fgY0g72rH4=
-X-Google-Smtp-Source: APiQypK4DubtHwM1Vu8C8FpSXFjuCvRo/r5RQVxEQi5FWF3UHohrmabVSVe8bPGqMapjaOjvGqe4Zw==
-X-Received: by 2002:a62:7982:: with SMTP id u124mr800006pfc.298.1588946457081;
-        Fri, 08 May 2020 07:00:57 -0700 (PDT)
-Received: from mail.google.com ([149.248.10.52])
-        by smtp.gmail.com with ESMTPSA id 207sm1458329pgh.34.2020.05.08.07.00.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 07:00:55 -0700 (PDT)
-Date:   Fri, 8 May 2020 22:00:47 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Changbin Du <changbin.du@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v4] streamline_config.pl: add LMC_KEEP to preserve some
- kconfigs
-Message-ID: <20200508140047.rln4iogroxw7esxa@mail.google.com>
-References: <20200503001141.9647-1-changbin.du@gmail.com>
- <CAK7LNATBt1NxRSWiv8Ab-pKBRemp43WUs96KWELTf+vFq_VPTA@mail.gmail.com>
- <20200507091807.0a789fbd@gandalf.local.home>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZaKF6mC6f1LY/5yUoo/zMTdyx0PJPmP8np6E4nPHHJM=;
+        b=Cpmpncy2aQDcc4D/dyHa57d1rucJaBHt58GONncK53GV5fYh8KYGT5ksBEunh9AErA
+         IjWk4Z9WUML/t1Z6MRuAmIIB7tn2eBECeb0d/9O7yrODARzkHqmocUnpIhiZRGDE3w4A
+         pbXMJmAOnAmulZ41R47Ym0Wmp6Ie57U7nK4O0DKTmw+OoJWXuhsJuXKsRtR4VW4TBvsL
+         m8ilSonf2q4q4XW++h4bA1Jy/kVv7Q+iLrzinh0RHhxgUzr5zCNjITNdUempaN2hblOu
+         uFK3P87NyKc/S81cn9McVn7DFWh9kQjOPEA4nB97UkrCj0F+jcOgM2uSP3cyoIRvopah
+         C7mA==
+X-Gm-Message-State: AGi0PuZ12t1g3PFu4eZvXDHjOsBXZiImiRsF0N4PxOaMwfRswPs3X7ad
+        7effjGGpIa7kAXlepQNl+xjU/kAJxVk=
+X-Google-Smtp-Source: APiQypI6NVxA+BGbFjRFLdnd/D2ejBSYcZAVQvsi/OCtnZ5ziYqYUwDfeZd6Fqjxp7PdkVtUzNIetQ==
+X-Received: by 2002:a17:902:70c6:: with SMTP id l6mr2709003plt.260.1588947045503;
+        Fri, 08 May 2020 07:10:45 -0700 (PDT)
+Received: from pek-lpggp6.wrs.com (unknown-105-123.windriver.com. [147.11.105.123])
+        by smtp.gmail.com with ESMTPSA id c14sm1472775pgi.54.2020.05.08.07.10.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 08 May 2020 07:10:45 -0700 (PDT)
+From:   Kevin Hao <haokexin@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] docs: vm: page_frags.rst: Fix the reference of stale function
+Date:   Fri,  8 May 2020 22:09:24 +0800
+Message-Id: <20200508140924.18220-1-haokexin@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200507091807.0a789fbd@gandalf.local.home>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 07, 2020 at 09:18:07AM -0400, Steven Rostedt wrote:
-> On Thu, 7 May 2020 12:19:57 +0900
-> Masahiro Yamada <masahiroy@kernel.org> wrote:
-> 
-> > On Sun, May 3, 2020 at 9:11 AM Changbin Du <changbin.du@gmail.com> wrote:
-> > >
-> > > Sometimes it is useful to preserve batches of configs when making
-> > > localmodconfig. For example, I usually don't want any usb and fs
-> > > modules to be disabled. Now we can do it by:
-> > >
-> > >  $ make LMC_KEEP="drivers/usb;fs" localmodconfig
-> > >
-> > > Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> > >
-> > > ---
-> > > v4: fix typo.
-> > > v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
-> > > v2: fix typo in documentation. (Randy Dunlap)
-> > > ---  
-> > 
-> > 
-> > Personally, I do not mind the long LOCALMODCONFIG_PRESERVE,
-> 
-> Perhasp we allow both? ;-)
-> 
-> And just have one set to the other.
-> 
-> > but this tends to be bike-sheding.
-> > I do not have a strong opinion.
-> > 
-> > 
-> > >  Documentation/admin-guide/README.rst |  8 +++++++-
-> > >  scripts/kconfig/Makefile             |  1 +
-> > >  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
-> > >  3 files changed, 31 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-> > > index cc6151fc0845..1371deab8bc7 100644
-> > > --- a/Documentation/admin-guide/README.rst
-> > > +++ b/Documentation/admin-guide/README.rst
-> > > @@ -209,10 +209,16 @@ Configuring the kernel
-> > >                             store the lsmod of that machine into a file
-> > >                             and pass it in as a LSMOD parameter.
-> > >
-> > > +                           Also, you can preserve modules in certain folders
-> > > +                           or kconfig files by specifying their paths in
-> > > +                           parameter LMC_KEEP.
-> > > +
-> > >                     target$ lsmod > /tmp/mylsmod
-> > >                     target$ scp /tmp/mylsmod host:/tmp
-> > >
-> > > -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
-> > > +                   host$ make LSMOD=/tmp/mylsmod \
-> > > +                           LMC_KEEP="drivers/usb;drivers/gpu;fs" \  
-> > 
-> > 
-> > This might be another bike-sheding item, but
-> > can you use a space for the delimiter?
-> > 
-> > 
-> > LMC_KEEP="drivers/usb drivers/gpu fs"
-> > 
-> > If you pass multiple directories,
-> > you will need to surround them with double-quotes.
-> 
-> I agree that spaces look better.
->
-I am okay with space. But what about ":" which is used by shell PATH and many
-others?
+The __netdev_alloc_frag() has been dropped by commit 7ba7aeabbaba ("net:
+Don't disable interrupts in napi_alloc_frag()"). So replace it with
+netdev_alloc_frag().
 
-> > 
-> > 
-> > 
-> > 
-> > > +                           localmodconfig
-> > >
-> > >                             The above also works when cross compiling.
-> > >
-> > > diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> > > index c9d0a4a8efb3..e0abbf5805f5 100644
-> > > --- a/scripts/kconfig/Makefile
-> > > +++ b/scripts/kconfig/Makefile
-> > > @@ -123,6 +123,7 @@ help:
-> > >         @echo  '  gconfig         - Update current config utilising a GTK+ based front-end'
-> > >         @echo  '  oldconfig       - Update current config utilising a provided .config as base'
-> > >         @echo  '  localmodconfig  - Update current config disabling modules not loaded'
-> > > +       @echo  '                    except those preserved by LMC_KEEP environment variable'
-> > >         @echo  '  localyesconfig  - Update current config converting local mods to core'
-> > >         @echo  '  defconfig       - New config with default from ARCH supplied defconfig'
-> > >         @echo  '  savedefconfig   - Save current config as ./defconfig (minimal config)'
-> > > diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
-> > > index e2f8504f5a2d..d26543a807c9 100755
-> > > --- a/scripts/kconfig/streamline_config.pl
-> > > +++ b/scripts/kconfig/streamline_config.pl
-> > > @@ -143,6 +143,7 @@ my %depends;
-> > >  my %selects;
-> > >  my %prompts;
-> > >  my %objects;
-> > > +my %config2kfile;
-> > >  my $var;
-> > >  my $iflevel = 0;
-> > >  my @ifdeps;
-> > > @@ -201,6 +202,7 @@ sub read_kconfig {
-> > >         if (/^\s*(menu)?config\s+(\S+)\s*$/) {
-> > >             $state = "NEW";
-> > >             $config = $2;
-> > > +           $config2kfile{"CONFIG_$config"} = $kconfig;
-> > >
-> > >             # Add depends for 'if' nesting
-> > >             for (my $i = 0; $i < $iflevel; $i++) {
-> > > @@ -592,6 +594,22 @@ while ($repeat) {
-> > >
-> > >  my %setconfigs;
-> > >
-> > > +my @preserved_kconfigs;
-> > > +@preserved_kconfigs = split(/;/,$ENV{LMC_KEEP}) if (defined($ENV{LMC_KEEP}));  
-> > 
-> > Maybe, you can do 'my' declaration and the assignment
-> > in a single line?
-> > 
-> > Can you drop the 'if ...' conditional?
-> > 
-> > 
-> > Does this work for you?
-> > 
-> > my @preserved_kconfigs = split(/;/,$ENV{LMC_KEEP});
-> > 
-> > 
-> 
-> Will an undefined warning happen if LMC_KEEP isn't defined?
-> 
-I just verifed there is no warning raised.
+Signed-off-by: Kevin Hao <haokexin@gmail.com>
+---
+ Documentation/vm/page_frags.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -- Steve
-
+diff --git a/Documentation/vm/page_frags.rst b/Documentation/vm/page_frags.rst
+index 637cc49d1b2f..7d6f9385d129 100644
+--- a/Documentation/vm/page_frags.rst
++++ b/Documentation/vm/page_frags.rst
+@@ -26,7 +26,7 @@ to be disabled when executing the fragment allocation.
+ 
+ The network stack uses two separate caches per CPU to handle fragment
+ allocation.  The netdev_alloc_cache is used by callers making use of the
+-__netdev_alloc_frag and __netdev_alloc_skb calls.  The napi_alloc_cache is
++netdev_alloc_frag and __netdev_alloc_skb calls.  The napi_alloc_cache is
+ used by callers of the __napi_alloc_frag and __napi_alloc_skb calls.  The
+ main difference between these two calls is the context in which they may be
+ called.  The "netdev" prefixed functions are usable in any context as these
 -- 
-Cheers,
-Changbin Du
+2.26.0
+
