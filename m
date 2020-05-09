@@ -3,165 +3,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08FDEC28CBC
-	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 14:56:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0D70C28CBC
+	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 18:59:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4573208E4
-	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 14:56:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92E29208E4
+	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 18:59:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ix6qR2sP"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WpMlExT/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728179AbgEIO4i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 May 2020 10:56:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30602 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728110AbgEIO4i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 May 2020 10:56:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589036196;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=biBEh2xyG7QOz0vWY4fM+UdTv5nwnU3LRB3gcCSBxrI=;
-        b=Ix6qR2sPtCcFcyzRvtTh50vlUGA8puaT9k9Xn7Opv4WQc8jA6/aIXEP9OMr2j3BRpdMBS+
-        7/d85EqKErBCxuTVbUAfL4+UpzzanLLGt2l+865PEfknnHJ85zGuY1tHRHnIw18DLeUakM
-        lRMy9s3+8P1uq0FvZDJzN7irbhwtFdE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-MPQ1STaMOfSNwr8bvkqY-A-1; Sat, 09 May 2020 10:56:32 -0400
-X-MC-Unique: MPQ1STaMOfSNwr8bvkqY-A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08901800D24;
-        Sat,  9 May 2020 14:56:30 +0000 (UTC)
-Received: from x1-fbsd (unknown [10.3.128.4])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CA879323;
-        Sat,  9 May 2020 14:56:16 +0000 (UTC)
-Date:   Sat, 9 May 2020 10:56:14 -0400
-From:   Rafael Aquini <aquini@redhat.com>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Tso Ted <tytso@mit.edu>, Adrian Bunk <bunk@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Jeff Mahoney <jeffm@suse.com>, Jiri Kosina <jikos@kernel.org>,
-        Jessica Yu <jeyu@suse.de>, Takashi Iwai <tiwai@suse.de>,
-        Ann Davis <AnDavis@suse.com>,
-        Richard Palethorpe <rpalethorpe@suse.de>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S1728058AbgEIS7O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 May 2020 14:59:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728005AbgEIS7N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 May 2020 14:59:13 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67EF1C05BD09
+        for <linux-doc@vger.kernel.org>; Sat,  9 May 2020 11:59:13 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id mq3so5775187pjb.1
+        for <linux-doc@vger.kernel.org>; Sat, 09 May 2020 11:59:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uk9SlQz0CEzsa9L5BG2dNiuhefw99CVH+DuavxyjFwA=;
+        b=WpMlExT/LVZeacy+KQ32hrpYo3R8XLnZFgCb869aNV+iiJ4EApUMjwk4xusqybUsck
+         IQsuT29KxtXyciI21GTLSAOx5ucTEuI1DNlfzz+U1uA4nl/ZYLB37ks3l7sCuyFgfsb7
+         C39XCT5j6YqMLMPgPmiFNCU6Ambyi9SwoV1Zk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uk9SlQz0CEzsa9L5BG2dNiuhefw99CVH+DuavxyjFwA=;
+        b=MAeiCsC94FiJBpfYGjBMUtuotZj5Iw3P7/5TG/Xv5C04nViblixLSBLbBlhP7ryehf
+         /GI8S/etKkw+tgfoplnW/U31ngs74WfR1zByA6uMqh3qMPcqPOuHOz8B72Z4v28KxUob
+         lpYM4jjx2Xq+yQyq0rFpPP4wbDagoA11kjobnph9tyQBayj0829ahLYnQOVhQg9trXQQ
+         JWXfhXC1L20B68HpPdNVWIQ17Uxq4AR5ONSXAiyRZ5iGUyl9fLivmMcXQvBi907XSL8I
+         b/taQWlHX8c3IOfr6UZRuZ/D0eVxdHmTPqi7ruWBdX00+n/sjShu1+hRUxo461X6uC4E
+         3lmg==
+X-Gm-Message-State: AGi0PuYLNjYOsMOf0s/WbS030FOaoXWuqHZOdnfxOBxnozIaGauSt2Yw
+        agKSZJQOK8k/3l1ZIvxnwd4Vzw==
+X-Google-Smtp-Source: APiQypKBNQXLzuVMARkaYrebfFtrKeGEowsUVjfCgRHf5JpipmwnEaSx8EB4o1ubtEkZ1ly+hXTS1A==
+X-Received: by 2002:a17:90a:db0a:: with SMTP id g10mr13107736pjv.54.1589050752729;
+        Sat, 09 May 2020 11:59:12 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id j26sm5139846pfr.215.2020.05.09.11.59.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 May 2020 11:59:11 -0700 (PDT)
+Date:   Sat, 9 May 2020 11:59:10 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Rafael Aquini <aquini@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
         dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
-        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v2] kernel: add panic_on_taint
-Message-ID: <20200509145614.GA6704@x1-fbsd>
-References: <20200507180631.308441-1-aquini@redhat.com>
- <20200507182257.GX11244@42.do-not-panic.com>
- <20200507184307.GF205881@optiplex-lnx>
- <20200507184705.GG205881@optiplex-lnx>
- <20200507203340.GZ11244@42.do-not-panic.com>
- <20200507220606.GK205881@optiplex-lnx>
- <20200507222558.GA11244@42.do-not-panic.com>
- <20200508124719.GB367616@optiplex-lnx>
- <20200509034854.GI11244@42.do-not-panic.com>
+        mcgrof@kernel.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
+        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
+        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
+        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
+Subject: Re: [PATCH v3] kernel: add panic_on_taint
+Message-ID: <202005091159.A317BEFF@keescook>
+References: <20200509135737.622299-1-aquini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200509034854.GI11244@42.do-not-panic.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200509135737.622299-1-aquini@redhat.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 09, 2020 at 03:48:54AM +0000, Luis Chamberlain wrote:
-> On Fri, May 08, 2020 at 08:47:19AM -0400, Rafael Aquini wrote:
-> > On Thu, May 07, 2020 at 10:25:58PM +0000, Luis Chamberlain wrote:
-> > > On Thu, May 07, 2020 at 06:06:06PM -0400, Rafael Aquini wrote:
-> > > > On Thu, May 07, 2020 at 08:33:40PM +0000, Luis Chamberlain wrote:
-> > > > > I *think* that a cmdline route to enable this would likely remove the
-> > > > > need for the kernel config for this. But even with Vlastimil's work
-> > > > > merged, I think we'd want yet-another value to enable / disable this
-> > > > > feature. Do we need yet-another-taint flag to tell us that this feature
-> > > > > was enabled?
-> > > > >
-> > > > 
-> > > > I guess it makes sense to get rid of the sysctl interface for
-> > > > proc_on_taint, and only keep it as a cmdline option. 
-> > > 
-> > > That would be easier to support and k3eps this simple.
-> > > 
-> > > > But the real issue seems to be, regardless we go with a cmdline-only option
-> > > > or not, the ability of proc_taint() to set any arbitrary taint flag 
-> > > > other than just marking the kernel with TAINT_USER. 
-> > > 
-> > > I think we would have no other option but to add a new TAINT flag so
-> > > that we know that the taint flag was modified by a user. Perhaps just
-> > > re-using TAINT_USER when proc_taint() would suffice.
-> > >
-> > 
-> > We might not need an extra taint flag if, perhaps, we could make these
-> > two features mutually exclusive. The idea here is that bitmasks added 
-> > via panic_on_taint get filtered out in proc_taint(), so a malicious 
-> > user couldn't exploit the latter interface to easily panic the system,
-> > when the first one is also in use. 
+On Sat, May 09, 2020 at 09:57:37AM -0400, Rafael Aquini wrote:
+> Analogously to the introduction of panic_on_warn, this patch
+> introduces a kernel option named panic_on_taint in order to
+> provide a simple and generic way to stop execution and catch
+> a coredump when the kernel gets tainted by any given taint flag.
 > 
-> I get it, however I I can still see the person who enables enabling
-> panic-on-tain wanting to know if proc_taint() was used. So even if
-> it was not on their mask, if it was modified that seems like important
-> information for a bug report analysis.
->
+> This is useful for debugging sessions as it avoids rebuilding
+> the kernel to explicitly add calls to panic() or BUG() into
+> code sites that introduce the taint flags of interest.
+> Another, perhaps less frequent, use for this option would be
+> as a mean for assuring a security policy (in paranoid mode)
+> case where no single taint is allowed for the running system.
+> 
+> Suggested-by: Qian Cai <cai@lca.pw>
+> Signed-off-by: Rafael Aquini <aquini@redhat.com>
 
-For that purpose (tracking user taints) I think sth between these lines
-would work:
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 8a176d8727a3..651a82c13621 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -2602,6 +2602,9 @@ int proc_douintvec(struct ctl_table *table, int write,
-                                 do_proc_douintvec_conv, NULL);
- }
-
-+/* track which taint bits were set by the user */
-+static unsigned long user_tainted;
-+
- /*
-  * Taint values can only be increased
-  * This means we can safely use a temporary.
-@@ -2629,11 +2632,20 @@ static int proc_taint(struct ctl_table *table, int write,
-                 */
-                int i;
-                for (i = 0; i < BITS_PER_LONG && tmptaint >> i; i++) {
--                       if ((tmptaint >> i) & 1)
-+                       if ((tmptaint >> i) & 1) {
-+                               set_bit(i, &user_tainted);
-                                add_taint(i, LOCKDEP_STILL_OK);
-+                       }
-                }
-        }
-
-+       /*
-+        * Users with SYS_ADMIN capability can fiddle with any arbitrary
-+        * taint flag through this interface.
-+        * If that's the case, we also need to mark the kernel "tainted by user"
-+        */
-+       add_taint(TAINT_USER, LOCKDEP_STILL_OK);
-+
-        return err;
- }
-
-
-I don't think, though, it's panic_on_taint work to track that. I posted a v3 for
-this feature with a way to select if one wants to avoid user forced taints
-triggering panic() for flags also set for panic_on_taint.
-
-Cheers,
-
--- Rafael
-
+-- 
+Kees Cook
