@@ -2,153 +2,167 @@ Return-Path: <SRS0=LvDp=6X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20854C28CBC
-	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 11:09:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60B10C28CBC
+	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 11:14:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA59220644
-	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 11:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589022541;
-	bh=HXuz8ZMVZDl8Y+vHXxyX3R8hI8IxiYazDXF3IQj5F7M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=La9nlEwaAV/MbLk34egGY0mldPTyxaOXDiIajKhCaeL/rnurQkxwMTGookm85VBMF
-	 vWWiYRXcEHaIi1sfHOrgUf69G6miHxT65BFKWCYZ4QaypJqf8yNvrW4k93rf+Zyxq9
-	 wqXZLElrj5kRJ5MBzMoH5yHdsgz7if0jOp1httUU=
+	by mail.kernel.org (Postfix) with ESMTP id 45100214D8
+	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 11:14:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727980AbgEILJB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 May 2020 07:09:01 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:52554 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725920AbgEILJA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 May 2020 07:09:00 -0400
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 049B8TGB019771;
-        Sat, 9 May 2020 20:08:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 049B8TGB019771
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1589022510;
-        bh=T9AGnaI49ilVpVFvPCs2mRRQGAPg1sYG/5bfmVNCeKs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=iGJMWAvpVbbomUe6H94322ZC42OtmM12LwlmFxH0yVgqwoI6UXfML+/4Y33WGQRjH
-         nTiCQeQHtLxPQ6laDjoA4j+eecj0NevKTAEYOnOPUMfyglahk9qwu/57KaCAnAJXmk
-         nJZFcRovp+/nENMICarDOzAtk+dzDDsh8yYZmzCZA3bIkMDo66RhWTw4U2awIyWzny
-         zZq93cuxXQpyrfYvJXfs1GmVpnrh58Nct+9tiLk4Uu+p5zJrFdZXabvxZoTzMgLiTL
-         TClOHl9f1q3PIeX+Mv+MZav1ZhXi7IzywsszQLdmmY6Nvv8DIV8q7I7cwD87ESLgEy
-         uQZeqx2SaGN7A==
-X-Nifty-SrcIP: [209.85.217.42]
-Received: by mail-vs1-f42.google.com with SMTP id e10so2668890vsp.12;
-        Sat, 09 May 2020 04:08:30 -0700 (PDT)
-X-Gm-Message-State: AGi0PuaAEOR7J663FS9aTqsDlq1FklASaTQjaG+EBU/CgnlrBbb4gcbh
-        F8Y/ZjI8kh6IrMRTjE58kql2FJZjybkhaSNjuAI=
-X-Google-Smtp-Source: APiQypJJNwRWO3ga/F8SM/zTZXyOwULYR5luFTgX4WluozXetan8cuFLhrppaB6XnCQ7WCZ7mjsqBkaafkwI2PA3+3A=
-X-Received: by 2002:a67:6e07:: with SMTP id j7mr5262295vsc.181.1589022508905;
- Sat, 09 May 2020 04:08:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200503001141.9647-1-changbin.du@gmail.com> <CAK7LNATBt1NxRSWiv8Ab-pKBRemp43WUs96KWELTf+vFq_VPTA@mail.gmail.com>
- <20200507091807.0a789fbd@gandalf.local.home> <20200508140047.rln4iogroxw7esxa@mail.google.com>
-In-Reply-To: <20200508140047.rln4iogroxw7esxa@mail.google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 9 May 2020 20:07:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARt3k47OSJYFTcc6z6MWb2oSLmQZwRwecsxu6j9r9dnVw@mail.gmail.com>
-Message-ID: <CAK7LNARt3k47OSJYFTcc6z6MWb2oSLmQZwRwecsxu6j9r9dnVw@mail.gmail.com>
-Subject: Re: [PATCH v4] streamline_config.pl: add LMC_KEEP to preserve some kconfigs
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        id S1727093AbgEILOr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 May 2020 07:14:47 -0400
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:34579 "EHLO
+        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725920AbgEILOr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 May 2020 07:14:47 -0400
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436316|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0620642-0.00271633-0.935219;FP=0|0|0|0|0|-1|-1|-1;HT=e01a16367;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=19;RT=19;SR=0;TI=SMTPD_---.HVopGr-_1589022874;
+Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.HVopGr-_1589022874)
+          by smtp.aliyun-inc.com(10.147.44.129);
+          Sat, 09 May 2020 19:14:40 +0800
+From:   WeiXiong Liao <liaoweixiong@allwinnertech.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mtd@lists.infradead.org
+Subject: [PATCH v5 01/12] printk: pstore: Introduce kmsg_dump_reason_str()
+Date:   Sat,  9 May 2020 19:14:03 +0800
+Message-Id: <1589022854-19821-2-git-send-email-liaoweixiong@allwinnertech.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1589022854-19821-1-git-send-email-liaoweixiong@allwinnertech.com>
+References: <1589022854-19821-1-git-send-email-liaoweixiong@allwinnertech.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 8, 2020 at 11:00 PM Changbin Du <changbin.du@gmail.com> wrote:
->
-> On Thu, May 07, 2020 at 09:18:07AM -0400, Steven Rostedt wrote:
-> > On Thu, 7 May 2020 12:19:57 +0900
-> > Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > > On Sun, May 3, 2020 at 9:11 AM Changbin Du <changbin.du@gmail.com> wrote:
-> > > >
-> > > > Sometimes it is useful to preserve batches of configs when making
-> > > > localmodconfig. For example, I usually don't want any usb and fs
-> > > > modules to be disabled. Now we can do it by:
-> > > >
-> > > >  $ make LMC_KEEP="drivers/usb;fs" localmodconfig
-> > > >
-> > > > Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> > > >
-> > > > ---
-> > > > v4: fix typo.
-> > > > v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
-> > > > v2: fix typo in documentation. (Randy Dunlap)
-> > > > ---
-> > >
-> > >
-> > > Personally, I do not mind the long LOCALMODCONFIG_PRESERVE,
-> >
-> > Perhasp we allow both? ;-)
-> >
-> > And just have one set to the other.
-> >
-> > > but this tends to be bike-sheding.
-> > > I do not have a strong opinion.
-> > >
-> > >
-> > > >  Documentation/admin-guide/README.rst |  8 +++++++-
-> > > >  scripts/kconfig/Makefile             |  1 +
-> > > >  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
-> > > >  3 files changed, 31 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-> > > > index cc6151fc0845..1371deab8bc7 100644
-> > > > --- a/Documentation/admin-guide/README.rst
-> > > > +++ b/Documentation/admin-guide/README.rst
-> > > > @@ -209,10 +209,16 @@ Configuring the kernel
-> > > >                             store the lsmod of that machine into a file
-> > > >                             and pass it in as a LSMOD parameter.
-> > > >
-> > > > +                           Also, you can preserve modules in certain folders
-> > > > +                           or kconfig files by specifying their paths in
-> > > > +                           parameter LMC_KEEP.
-> > > > +
-> > > >                     target$ lsmod > /tmp/mylsmod
-> > > >                     target$ scp /tmp/mylsmod host:/tmp
-> > > >
-> > > > -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
-> > > > +                   host$ make LSMOD=/tmp/mylsmod \
-> > > > +                           LMC_KEEP="drivers/usb;drivers/gpu;fs" \
-> > >
-> > >
-> > > This might be another bike-sheding item, but
-> > > can you use a space for the delimiter?
-> > >
-> > >
-> > > LMC_KEEP="drivers/usb drivers/gpu fs"
-> > >
-> > > If you pass multiple directories,
-> > > you will need to surround them with double-quotes.
-> >
-> > I agree that spaces look better.
-> >
-> I am okay with space. But what about ":" which is used by shell PATH and many
-> others?
+From: Kees Cook <keescook@chromium.org>
 
+The pstore subsystem already had a private version of this function.
+With the coming addition of the pstore/zone driver, this needs to be
+shared. As it really should live with printk, move it there instead.
 
-I am not sure 'many others',
-but you can pick what you like.
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ fs/pstore/platform.c      | 22 +---------------------
+ include/linux/kmsg_dump.h |  7 +++++++
+ kernel/printk/printk.c    | 21 +++++++++++++++++++++
+ 3 files changed, 29 insertions(+), 21 deletions(-)
 
-
-
-
-
+diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
+index b882919b8784..4fb8ec9f3a1c 100644
+--- a/fs/pstore/platform.c
++++ b/fs/pstore/platform.c
+@@ -130,26 +130,6 @@ enum pstore_type_id pstore_name_to_type(const char *name)
+ }
+ EXPORT_SYMBOL_GPL(pstore_name_to_type);
+ 
+-static const char *get_reason_str(enum kmsg_dump_reason reason)
+-{
+-	switch (reason) {
+-	case KMSG_DUMP_PANIC:
+-		return "Panic";
+-	case KMSG_DUMP_OOPS:
+-		return "Oops";
+-	case KMSG_DUMP_EMERG:
+-		return "Emergency";
+-	case KMSG_DUMP_RESTART:
+-		return "Restart";
+-	case KMSG_DUMP_HALT:
+-		return "Halt";
+-	case KMSG_DUMP_POWEROFF:
+-		return "Poweroff";
+-	default:
+-		return "Unknown";
+-	}
+-}
+-
+ static void pstore_timer_kick(void)
+ {
+ 	if (pstore_update_ms < 0)
+@@ -402,7 +382,7 @@ static void pstore_dump(struct kmsg_dumper *dumper,
+ 	unsigned int	part = 1;
+ 	int		ret;
+ 
+-	why = get_reason_str(reason);
++	why = kmsg_dump_reason_str(reason);
+ 
+ 	if (down_trylock(&psinfo->buf_lock)) {
+ 		/* Failed to acquire lock: give up if we cannot wait. */
+diff --git a/include/linux/kmsg_dump.h b/include/linux/kmsg_dump.h
+index cfc042066be7..b3ddb0b2ee40 100644
+--- a/include/linux/kmsg_dump.h
++++ b/include/linux/kmsg_dump.h
+@@ -72,6 +72,8 @@ bool kmsg_dump_get_buffer(struct kmsg_dumper *dumper, bool syslog,
+ int kmsg_dump_register(struct kmsg_dumper *dumper);
+ 
+ int kmsg_dump_unregister(struct kmsg_dumper *dumper);
++
++const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason);
+ #else
+ static inline void kmsg_dump(enum kmsg_dump_reason reason)
+ {
+@@ -113,6 +115,11 @@ static inline int kmsg_dump_unregister(struct kmsg_dumper *dumper)
+ {
+ 	return -EINVAL;
+ }
++
++static inline const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
++{
++	return "Disabled";
++}
+ #endif
+ 
+ #endif /* _LINUX_KMSG_DUMP_H */
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 1aab69a8a2bf..67a284830d74 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -3144,6 +3144,27 @@ int kmsg_dump_unregister(struct kmsg_dumper *dumper)
+ static bool always_kmsg_dump;
+ module_param_named(always_kmsg_dump, always_kmsg_dump, bool, S_IRUGO | S_IWUSR);
+ 
++const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
++{
++	switch (reason) {
++	case KMSG_DUMP_PANIC:
++		return "Panic";
++	case KMSG_DUMP_OOPS:
++		return "Oops";
++	case KMSG_DUMP_EMERG:
++		return "Emergency";
++	case KMSG_DUMP_RESTART:
++		return "Restart";
++	case KMSG_DUMP_HALT:
++		return "Halt";
++	case KMSG_DUMP_POWEROFF:
++		return "Poweroff";
++	default:
++		return "Unknown";
++	}
++}
++EXPORT_SYMBOL_GPL(kmsg_dump_reason_str);
++
+ /**
+  * kmsg_dump - dump kernel log to kernel message dumpers.
+  * @reason: the reason (oops, panic etc) for dumping
 -- 
-Best Regards
-Masahiro Yamada
+1.9.1
+
