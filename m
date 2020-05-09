@@ -2,148 +2,247 @@ Return-Path: <SRS0=LvDp=6X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C74C28CBC
-	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 12:59:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8A53C28CBC
+	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 13:58:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 825F72184D
-	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 12:59:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9800218AC
+	for <linux-doc@archiver.kernel.org>; Sat,  9 May 2020 13:58:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J5sy+26B"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CCTfK62/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727834AbgEIM70 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 May 2020 08:59:26 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51074 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727820AbgEIM7Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 May 2020 08:59:25 -0400
+        id S1727820AbgEIN6b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 May 2020 09:58:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32352 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727834AbgEIN63 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 May 2020 09:58:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589029163;
+        s=mimecast20190719; t=1589032708;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pQw8wIihcr8z9SG9JkhXrUc3pHs+9HPhqleZu+dS0tc=;
-        b=J5sy+26BKRGGq9QC2SIQZUWh6KGsA9VzUVxbKjzX7FXtdr8XKvTGTCyl5o6TbsJMMjAAOJ
-        VjZJIXaQ88K6ZgY3r2vGpyLSKEDWdowoaA5E2Wn6O+q5yqz+SMG128MAWXKMB4IyuIcBrN
-        mPM+EKRJO8QGWeeyiNZDwYNxTzaH+Y0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-4DfAVg3bNlOtorsM7hEVLg-1; Sat, 09 May 2020 08:59:22 -0400
-X-MC-Unique: 4DfAVg3bNlOtorsM7hEVLg-1
-Received: by mail-wr1-f69.google.com with SMTP id z8so2346927wrp.7
-        for <linux-doc@vger.kernel.org>; Sat, 09 May 2020 05:59:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pQw8wIihcr8z9SG9JkhXrUc3pHs+9HPhqleZu+dS0tc=;
-        b=EwYaQG/Q6kKnM9cvM02LfftbBXbD3RH+TrQGtBGnWuhYY5kpgL7Q5qa5SUuvLx+ySz
-         dCS1Xfvqbc8ITrNy9oepjscEMQulPp2A3Qp+++AQ7hStgzhYB5sK+4qBSQGoM3RxIzlB
-         /q2jxn8mcPgwWz3plrFcEB4wNk7LFVdHn8IlaP/ADexBBEzgDnusAIbbeJcEJGj6OYmB
-         Lk8URvSx87lH9x4PHr0RhbglDy1/dh3NmvvHz4b/4Aty7tTArZbKsNHSwdMuOw7+aDWQ
-         XssVmJBJcdQMpv/EpwdQZ9oTosRoXYOL7FIypkx01gp8ZYMyhR4KRyuIQGNtDZQ24bZO
-         iCCw==
-X-Gm-Message-State: AGi0PuYmYObBZiiEElkLBR7L9Nx42ML7P6ZLYw+YzUiIdMfmwkqxQPYB
-        vjB0w4zSQln6I+S7R7LcvY5tot7kx6hOEv2FTi6PkrsK875amDS4dK7JMISFF2ssZI5GPATVNkh
-        ewxaQrhZvYXPkKvYPIcOh
-X-Received: by 2002:adf:81e4:: with SMTP id 91mr8859395wra.143.1589029160731;
-        Sat, 09 May 2020 05:59:20 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKyvtlkWX1zEIAN3peqtORXIi11YJ6t6OrIjcvtaKt8KFtk61ibvPPJ0tYsrkzhC5wen/OCNg==
-X-Received: by 2002:adf:81e4:: with SMTP id 91mr8859378wra.143.1589029160513;
-        Sat, 09 May 2020 05:59:20 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:1cb4:2b36:6750:73ce? ([2001:b07:6468:f312:1cb4:2b36:6750:73ce])
-        by smtp.gmail.com with ESMTPSA id u16sm8073375wrq.17.2020.05.09.05.59.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 May 2020 05:59:19 -0700 (PDT)
-Subject: Re: [PATCH v2 2/3] KVM: x86: Move pkru save/restore to x86.c
-To:     Jim Mattson <jmattson@google.com>, Babu Moger <babu.moger@amd.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        mchehab+samsung@kernel.org, changbin.du@intel.com,
-        Nadav Amit <namit@vmware.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        yang.shi@linux.alibaba.com, asteinhauser@google.com,
-        anshuman.khandual@arm.com, Jan Kiszka <jan.kiszka@siemens.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        steven.price@arm.com, rppt@linux.vnet.ibm.com, peterx@redhat.com,
-        Dan Williams <dan.j.williams@intel.com>, arjunroy@google.com,
-        logang@deltatee.com, Thomas Hellstrom <thellstrom@vmware.com>,
-        Andrea Arcangeli <aarcange@redhat.com>, justin.he@arm.com,
-        robin.murphy@arm.com, ira.weiny@intel.com,
-        Kees Cook <keescook@chromium.org>,
-        Juergen Gross <jgross@suse.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        pawan.kumar.gupta@linux.intel.com,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
-        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        kvm list <kvm@vger.kernel.org>
-References: <158897190718.22378.3974700869904223395.stgit@naples-babu.amd.com>
- <158897219574.22378.9077333868984828038.stgit@naples-babu.amd.com>
- <CALMp9eQj_aFcqR+v9SvFjKFxVjaHHzU44udcczJVqOR5vLQbWQ@mail.gmail.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <90657d4b-cb2b-0678-fd9c-a281bb85fadf@redhat.com>
-Date:   Sat, 9 May 2020 14:59:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=nLUA8W5j+MyNDn2SryzaQKTx2p2PalluAUK/eJiFTvA=;
+        b=CCTfK62/RAE3AXMP9kLcXUCSRfv5oPj191L4mGr7s1kys1GZiOdMmu0I9jGzPqg7FLQVRw
+        duzka6KGfGT+pbaSC9tGtl9U3WYqCFBzy2yh6MLQ0r42ahLiacQuRjHqbNNOIdZHf/gY/H
+        irSqBD16HEtqr8/3QHiO+wWAsoWjFaM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-CZHajXDuMram0ED9XXXl7g-1; Sat, 09 May 2020 09:58:24 -0400
+X-MC-Unique: CZHajXDuMram0ED9XXXl7g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE53D39341;
+        Sat,  9 May 2020 13:58:17 +0000 (UTC)
+Received: from optiplex-lnx.redhat.com (unknown [10.3.128.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 403855D97B;
+        Sat,  9 May 2020 13:57:40 +0000 (UTC)
+From:   Rafael Aquini <aquini@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, kexec@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, dyoung@redhat.com, bhe@redhat.com,
+        corbet@lwn.net, mcgrof@kernel.org, keescook@chromium.org,
+        akpm@linux-foundation.org, cai@lca.pw, rdunlap@infradead.org,
+        tytso@mit.edu, bunk@kernel.org, torvalds@linux-foundation.org,
+        gregkh@linuxfoundation.org, labbott@redhat.com, jeffm@suse.com,
+        jikos@kernel.org, jeyu@suse.de, tiwai@suse.de, AnDavis@suse.com,
+        rpalethorpe@suse.de
+Subject: [PATCH v3] kernel: add panic_on_taint
+Date:   Sat,  9 May 2020 09:57:37 -0400
+Message-Id: <20200509135737.622299-1-aquini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CALMp9eQj_aFcqR+v9SvFjKFxVjaHHzU44udcczJVqOR5vLQbWQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/05/20 00:09, Jim Mattson wrote:
->> +       if (static_cpu_has(X86_FEATURE_PKU) &&
->> +           kvm_read_cr4_bits(vcpu, X86_CR4_PKE) &&
->> +           vcpu->arch.pkru != vcpu->arch.host_pkru)
->> +               __write_pkru(vcpu->arch.pkru);
-> This doesn't seem quite right to me. Though rdpkru and wrpkru are
-> contingent upon CR4.PKE, the PKRU resource isn't. It can be read with
-> XSAVE and written with XRSTOR. So, if we don't set the guest PKRU
-> value here, the guest can read the host value, which seems dodgy at
-> best.
-> 
-> Perhaps the second conjunct should be: (kvm_read_cr4_bits(vcpu,
-> X86_CR4_PKE) || (vcpu->arch.xcr0 & XFEATURE_MASK_PKRU)).
+Analogously to the introduction of panic_on_warn, this patch
+introduces a kernel option named panic_on_taint in order to
+provide a simple and generic way to stop execution and catch
+a coredump when the kernel gets tainted by any given taint flag.
 
-You're right.  The bug was preexistent, but we should fix it in 5.7 and
-stable as well.
+This is useful for debugging sessions as it avoids rebuilding
+the kernel to explicitly add calls to panic() or BUG() into
+code sites that introduce the taint flags of interest.
+Another, perhaps less frequent, use for this option would be
+as a mean for assuring a security policy (in paranoid mode)
+case where no single taint is allowed for the running system.
 
->>  }
->>  EXPORT_SYMBOL_GPL(kvm_load_guest_xsave_state);
->>
->>  void kvm_load_host_xsave_state(struct kvm_vcpu *vcpu)
->>  {
->> +       /*
->> +        * eager fpu is enabled if PKEY is supported and CR4 is switched
->> +        * back on host, so it is safe to read guest PKRU from current
->> +        * XSAVE.
->> +        */
-> I don't understand the relevance of this comment to the code below.
-> 
+Suggested-by: Qian Cai <cai@lca.pw>
+Signed-off-by: Rafael Aquini <aquini@redhat.com>
+---
+Changelog:
+* v2: get rid of unnecessary/misguided compiler hints		(Luis)
+* v2: enhance documentation text for the new kernel parameter	(Randy)
+* v3: drop sysctl interface, keep it only as a kernel parameter (Luis)
 
-It's probably stale.
+ Documentation/admin-guide/kdump/kdump.rst     | 10 +++++
+ .../admin-guide/kernel-parameters.txt         | 15 +++++++
+ include/linux/kernel.h                        |  2 +
+ kernel/panic.c                                | 40 +++++++++++++++++++
+ kernel/sysctl.c                               |  9 ++++-
+ 5 files changed, 75 insertions(+), 1 deletion(-)
 
-Paolo
+diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+index ac7e131d2935..de3cf6d377cc 100644
+--- a/Documentation/admin-guide/kdump/kdump.rst
++++ b/Documentation/admin-guide/kdump/kdump.rst
+@@ -521,6 +521,16 @@ will cause a kdump to occur at the panic() call.  In cases where a user wants
+ to specify this during runtime, /proc/sys/kernel/panic_on_warn can be set to 1
+ to achieve the same behaviour.
+ 
++Trigger Kdump on add_taint()
++============================
++
++The kernel parameter, panic_on_taint, calls panic() from within add_taint(),
++whenever the value set in this bitmask matches with the bit flag being set
++by add_taint(). This will cause a kdump to occur at the panic() call.
++In cases where a user wants to specify this during runtime,
++/proc/sys/kernel/panic_on_taint can be set to a respective bitmask value
++to achieve the same behaviour.
++
+ Contact
+ =======
+ 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 7bc83f3d9bdf..4a69fe49a70d 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3404,6 +3404,21 @@
+ 	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
+ 			on a WARN().
+ 
++	panic_on_taint=	[KNL] conditionally panic() in add_taint()
++			Format: <str>
++			Specifies, as a string, the TAINT flag set that will
++			compose a bitmask for calling panic() when the kernel
++			gets tainted.
++			See Documentation/admin-guide/tainted-kernels.rst for
++			details on the taint flags that users can pick to
++			compose the bitmask to assign to panic_on_taint.
++			When the string is prefixed with a '-' the bitmask
++			set in panic_on_taint will be mutually exclusive
++			with the sysctl knob kernel.tainted, and any attempt
++			to write to that sysctl will fail with -EINVAL for
++			any taint value that masks with the flags set for
++			this option.
++
+ 	crash_kexec_post_notifiers
+ 			Run kdump after running panic-notifiers and dumping
+ 			kmsg. This only for the users who doubt kdump always
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 9b7a8d74a9d6..66bc102cb59a 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -528,6 +528,8 @@ extern int panic_on_oops;
+ extern int panic_on_unrecovered_nmi;
+ extern int panic_on_io_nmi;
+ extern int panic_on_warn;
++extern unsigned long panic_on_taint;
++extern bool panic_on_taint_exclusive;
+ extern int sysctl_panic_on_rcu_stall;
+ extern int sysctl_panic_on_stackoverflow;
+ 
+diff --git a/kernel/panic.c b/kernel/panic.c
+index b69ee9e76cb2..65c62f8a1de8 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -25,6 +25,7 @@
+ #include <linux/kexec.h>
+ #include <linux/sched.h>
+ #include <linux/sysrq.h>
++#include <linux/ctype.h>
+ #include <linux/init.h>
+ #include <linux/nmi.h>
+ #include <linux/console.h>
+@@ -44,6 +45,8 @@ static int pause_on_oops_flag;
+ static DEFINE_SPINLOCK(pause_on_oops_lock);
+ bool crash_kexec_post_notifiers;
+ int panic_on_warn __read_mostly;
++unsigned long panic_on_taint;
++bool panic_on_taint_exclusive = false;
+ 
+ int panic_timeout = CONFIG_PANIC_TIMEOUT;
+ EXPORT_SYMBOL_GPL(panic_timeout);
+@@ -434,6 +437,11 @@ void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
+ 		pr_warn("Disabling lock debugging due to kernel taint\n");
+ 
+ 	set_bit(flag, &tainted_mask);
++
++	if (tainted_mask & panic_on_taint) {
++		panic_on_taint = 0;
++		panic("panic_on_taint set ...");
++	}
+ }
+ EXPORT_SYMBOL(add_taint);
+ 
+@@ -686,3 +694,35 @@ static int __init oops_setup(char *s)
+ 	return 0;
+ }
+ early_param("oops", oops_setup);
++
++static int __init panic_on_taint_setup(char *s)
++{
++	/* we just ignore panic_on_taint if passed without flags */
++	if (!s)
++		goto out;
++
++	for (; *s; s++) {
++		int i;
++
++		if (*s == '-') {
++			panic_on_taint_exclusive = true;
++			continue;
++		}
++
++		for (i = 0; i < TAINT_FLAGS_COUNT; i++) {
++			if (toupper(*s) == taint_flags[i].c_true) {
++				set_bit(i, &panic_on_taint);
++				break;
++			}
++		}
++	}
++
++	/* unset exclusive mode if no taint flags were passed on */
++	if (panic_on_taint_exclusive &&
++	    !(panic_on_taint & ((1UL << TAINT_FLAGS_COUNT) - 1)))
++		panic_on_taint_exclusive = false;
++
++out:
++	return 0;
++}
++early_param("panic_on_taint", panic_on_taint_setup);
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index 8a176d8727a3..d361ec0420f6 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -2623,11 +2623,18 @@ static int proc_taint(struct ctl_table *table, int write,
+ 		return err;
+ 
+ 	if (write) {
++		int i;
++		/*
++		 * If we are relying on panic_on_taint not producing
++		 * false positives due to userland input, bail out
++		 * before setting the requested taint flags.
++		 */
++		if (panic_on_taint_exclusive && (tmptaint & panic_on_taint))
++			return -EINVAL;
+ 		/*
+ 		 * Poor man's atomic or. Not worth adding a primitive
+ 		 * to everyone's atomic.h for this
+ 		 */
+-		int i;
+ 		for (i = 0; i < BITS_PER_LONG && tmptaint >> i; i++) {
+ 			if ((tmptaint >> i) & 1)
+ 				add_taint(i, LOCKDEP_STILL_OK);
+-- 
+2.25.4
 
