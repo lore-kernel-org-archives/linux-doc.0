@@ -2,185 +2,232 @@ Return-Path: <SRS0=r+xA=6Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47152C47257
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 01:06:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC02BC47255
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 02:59:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2171820801
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 01:06:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A143F20746
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 02:59:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EkzOd7LM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NjZ34/DA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728597AbgEJBGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 May 2020 21:06:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727067AbgEJBGO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 May 2020 21:06:14 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBAB3C061A0C;
-        Sat,  9 May 2020 18:06:14 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id k7so1013590pjs.5;
-        Sat, 09 May 2020 18:06:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Vwtb+avupuFTmfSaGkefMyCAgyCs1Cv5abwom1lkME8=;
-        b=EkzOd7LMvkxkOkM/669dbYuHGG/DPUqcMzcYBrjeMaWYWJcRiuY0DEsSMKydWy2O4s
-         4bdPMvo3kd2QNBQq23hOhs+Jl/qjuNpqI9pR5bd7nQlIgU20nW/mNIpnDoNX6Eoleqhp
-         wgJ+3QTOPu/k/kD7mge627IfjUG8wvSFXXGBLTcjt+TS7IXJb1RRxDMYNz54FEI1XYXo
-         cyP6xpCbwkJk7+l3n91j1Ru07f8GZVB2e0+FEBBWdTarKtNAPtTqlJ9kY2ULLfXTKzAt
-         AwVWxw2JC5x+sBB0iFGH1trqLaJ7c/+f7Zx7oNBgBsGCrb6eXrqsso9xnferl2IFU4N7
-         Fnvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Vwtb+avupuFTmfSaGkefMyCAgyCs1Cv5abwom1lkME8=;
-        b=W6xQsa1s1OBE05Bkg/oFJIsIh5ewAFAVVqfDnvF+8oLZFQfLutPIPUmMIrr2w6NZWS
-         Z3PP0a5fGYaHYSK4QT4ACMPiq29j9LxJQ5jemWouxvftcgP6mHAIVtRwq1PjzhTaS840
-         AHXacMGvwYDIvvMyrZnd/kPpXyqF7zi8R3+wB/SdR5tCwDU9u79QoU39eZu9bp3SJpJ2
-         UxVev5SWhZgo0gCpqL9qlv+M4Nrsr24t7nw5rEtitbXS68KUKGQ8q1lCd9/mswcVT4lG
-         lQ3EK43m7W5jOhg7W5SZTts9+ZaMUmp601LX89ilCLKPTQLOfm9K18LwanOZxDK8cjtT
-         h5BA==
-X-Gm-Message-State: AGi0PuYDRJ1zr8FgDR726UPM5z9wrHbDIOGbAZorHzHRn2+exaNSVuFj
-        g4UhWYzFzDNtlSE3U4HCGbI=
-X-Google-Smtp-Source: APiQypK78yeFMkke/iFRDsTLsFMdAWKw2e4+BhWD0bkww2orJYIgD5LPaEQK0BMedAiZ3KBQe5g9kQ==
-X-Received: by 2002:a17:90a:2849:: with SMTP id p9mr9702308pjf.6.1589072774312;
-        Sat, 09 May 2020 18:06:14 -0700 (PDT)
-Received: from vultr.guest ([149.248.10.52])
-        by smtp.gmail.com with ESMTPSA id e12sm4563312pgv.16.2020.05.09.18.06.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2020 18:06:13 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v5] streamline_config.pl: add LMC_KEEP to preserve some kconfigs
-Date:   Sun, 10 May 2020 09:06:03 +0800
-Message-Id: <20200510010603.3896-1-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S1726906AbgEJC7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 May 2020 22:59:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43437 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726630AbgEJC7n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 May 2020 22:59:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589079581;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=x3kMzWFbQnV0InghpwhDbe/4ZA4WZjWRVN1wdBCuIb0=;
+        b=NjZ34/DA7l58gM3L8Fj9PBW2ut1QPEW0tx++XJyE+3UH0M0CrMb6d3kH457nQb6066EFHy
+        U+mh5g+L/etmyC2DtUFDpbAFcXo224NPBBY4Kv0ZIs/ujV3POkKDlJFndVSWIeAQ2Ye0o4
+        jnGkYQnTvT28FAXYMl5KyihqMJHAKkc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-qEN3WXdqNTS8Ctm9KwZoww-1; Sat, 09 May 2020 22:59:39 -0400
+X-MC-Unique: qEN3WXdqNTS8Ctm9KwZoww-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F26280058A;
+        Sun, 10 May 2020 02:59:35 +0000 (UTC)
+Received: from localhost (ovpn-12-30.pek2.redhat.com [10.72.12.30])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C9C070526;
+        Sun, 10 May 2020 02:59:24 +0000 (UTC)
+Date:   Sun, 10 May 2020 10:59:21 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Rafael Aquini <aquini@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        dyoung@redhat.com, corbet@lwn.net, mcgrof@kernel.org,
+        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
+        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
+        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
+        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
+Subject: Re: [PATCH v3] kernel: add panic_on_taint
+Message-ID: <20200510025921.GA10165@MiWiFi-R3L-srv>
+References: <20200509135737.622299-1-aquini@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200509135737.622299-1-aquini@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sometimes it is useful to preserve batches of configs when making
-localmodconfig. For example, I usually don't want any usb and fs
-modules to be disabled. Now we can do it by:
+On 05/09/20 at 09:57am, Rafael Aquini wrote:
+> Analogously to the introduction of panic_on_warn, this patch
+> introduces a kernel option named panic_on_taint in order to
+> provide a simple and generic way to stop execution and catch
+> a coredump when the kernel gets tainted by any given taint flag.
+> 
+> This is useful for debugging sessions as it avoids rebuilding
+> the kernel to explicitly add calls to panic() or BUG() into
+> code sites that introduce the taint flags of interest.
+> Another, perhaps less frequent, use for this option would be
+> as a mean for assuring a security policy (in paranoid mode)
+> case where no single taint is allowed for the running system.
+> 
+> Suggested-by: Qian Cai <cai@lca.pw>
+> Signed-off-by: Rafael Aquini <aquini@redhat.com>
+> ---
+> Changelog:
+> * v2: get rid of unnecessary/misguided compiler hints		(Luis)
+> * v2: enhance documentation text for the new kernel parameter	(Randy)
+> * v3: drop sysctl interface, keep it only as a kernel parameter (Luis)
+> 
+>  Documentation/admin-guide/kdump/kdump.rst     | 10 +++++
+>  .../admin-guide/kernel-parameters.txt         | 15 +++++++
+>  include/linux/kernel.h                        |  2 +
+>  kernel/panic.c                                | 40 +++++++++++++++++++
+>  kernel/sysctl.c                               |  9 ++++-
+>  5 files changed, 75 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> index ac7e131d2935..de3cf6d377cc 100644
+> --- a/Documentation/admin-guide/kdump/kdump.rst
+> +++ b/Documentation/admin-guide/kdump/kdump.rst
+> @@ -521,6 +521,16 @@ will cause a kdump to occur at the panic() call.  In cases where a user wants
+>  to specify this during runtime, /proc/sys/kernel/panic_on_warn can be set to 1
+>  to achieve the same behaviour.
+>  
+> +Trigger Kdump on add_taint()
+> +============================
+> +
+> +The kernel parameter, panic_on_taint, calls panic() from within add_taint(),
+> +whenever the value set in this bitmask matches with the bit flag being set
+> +by add_taint(). This will cause a kdump to occur at the panic() call.
+> +In cases where a user wants to specify this during runtime,
+> +/proc/sys/kernel/panic_on_taint can be set to a respective bitmask value
+> +to achieve the same behaviour.
+> +
+>  Contact
+>  =======
+>  
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 7bc83f3d9bdf..4a69fe49a70d 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3404,6 +3404,21 @@
+>  	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
+>  			on a WARN().
+>  
+> +	panic_on_taint=	[KNL] conditionally panic() in add_taint()
+> +			Format: <str>
+			Changed it as 'Format: <string>' to be
+consistent with the existing other options?
+> +			Specifies, as a string, the TAINT flag set that will
+> +			compose a bitmask for calling panic() when the kernel
+> +			gets tainted.
+> +			See Documentation/admin-guide/tainted-kernels.rst for
+> +			details on the taint flags that users can pick to
+> +			compose the bitmask to assign to panic_on_taint.
+> +			When the string is prefixed with a '-' the bitmask
+> +			set in panic_on_taint will be mutually exclusive
+> +			with the sysctl knob kernel.tainted, and any attempt
+> +			to write to that sysctl will fail with -EINVAL for
+> +			any taint value that masks with the flags set for
+> +			this option.
+> +
+>  	crash_kexec_post_notifiers
+>  			Run kdump after running panic-notifiers and dumping
+>  			kmsg. This only for the users who doubt kdump always
+> diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+> index 9b7a8d74a9d6..66bc102cb59a 100644
+> --- a/include/linux/kernel.h
+> +++ b/include/linux/kernel.h
+> @@ -528,6 +528,8 @@ extern int panic_on_oops;
+>  extern int panic_on_unrecovered_nmi;
+>  extern int panic_on_io_nmi;
+>  extern int panic_on_warn;
+> +extern unsigned long panic_on_taint;
+> +extern bool panic_on_taint_exclusive;
+>  extern int sysctl_panic_on_rcu_stall;
+>  extern int sysctl_panic_on_stackoverflow;
+>  
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index b69ee9e76cb2..65c62f8a1de8 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/kexec.h>
+>  #include <linux/sched.h>
+>  #include <linux/sysrq.h>
+> +#include <linux/ctype.h>
+>  #include <linux/init.h>
+>  #include <linux/nmi.h>
+>  #include <linux/console.h>
+> @@ -44,6 +45,8 @@ static int pause_on_oops_flag;
+>  static DEFINE_SPINLOCK(pause_on_oops_lock);
+>  bool crash_kexec_post_notifiers;
+>  int panic_on_warn __read_mostly;
+> +unsigned long panic_on_taint;
+> +bool panic_on_taint_exclusive = false;
+>  
+>  int panic_timeout = CONFIG_PANIC_TIMEOUT;
+>  EXPORT_SYMBOL_GPL(panic_timeout);
+> @@ -434,6 +437,11 @@ void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
+>  		pr_warn("Disabling lock debugging due to kernel taint\n");
+>  
+>  	set_bit(flag, &tainted_mask);
+> +
+> +	if (tainted_mask & panic_on_taint) {
+> +		panic_on_taint = 0;
 
- $ make LMC_KEEP="drivers/usb:fs" localmodconfig
+This panic_on_taint resetting is redundant? It will trigger crash, do we
+need care if it's 0 or not?
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> +		panic("panic_on_taint set ...");
+> +	}
+>  }
+>  EXPORT_SYMBOL(add_taint);
+>  
+> @@ -686,3 +694,35 @@ static int __init oops_setup(char *s)
+>  	return 0;
+>  }
+>  early_param("oops", oops_setup);
+> +
+> +static int __init panic_on_taint_setup(char *s)
+> +{
+> +	/* we just ignore panic_on_taint if passed without flags */
+> +	if (!s)
+> +		goto out;
+> +
+> +	for (; *s; s++) {
+> +		int i;
+> +
+> +		if (*s == '-') {
+> +			panic_on_taint_exclusive = true;
+> +			continue;
+> +		}
+> +
+> +		for (i = 0; i < TAINT_FLAGS_COUNT; i++) {
+> +			if (toupper(*s) == taint_flags[i].c_true) {
+> +				set_bit(i, &panic_on_taint);
+> +				break;
+> +			}
+> +		}
 
----
-v4: fix typo.
-v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
-v2: fix typo in documentation. (Randy Dunlap)
----
- Documentation/admin-guide/README.rst |  8 +++++++-
- scripts/kconfig/Makefile             |  1 +
- scripts/kconfig/streamline_config.pl | 21 +++++++++++++++++++++
- 3 files changed, 29 insertions(+), 1 deletion(-)
+Read admin-guide/tainted-kernels.rst, but still do not get what 'G' means.
+If I specify 'panic_on_taint="G"' or 'panic_on_taint="-G"' in cmdline,
+what is expected for this customer behaviour?
 
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index cc6151fc0845..407aa206bb70 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -209,10 +209,16 @@ Configuring the kernel
-                            store the lsmod of that machine into a file
-                            and pass it in as a LSMOD parameter.
- 
-+                           Also, you can preserve modules in certain folders
-+                           or kconfig files by specifying their paths in
-+                           parameter LMC_KEEP.
-+
-                    target$ lsmod > /tmp/mylsmod
-                    target$ scp /tmp/mylsmod host:/tmp
- 
--                   host$ make LSMOD=/tmp/mylsmod localmodconfig
-+                   host$ make LSMOD=/tmp/mylsmod \
-+                           LMC_KEEP="drivers/usb:drivers/gpu:fs" \
-+                           localmodconfig
- 
-                            The above also works when cross compiling.
- 
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index c9d0a4a8efb3..e0abbf5805f5 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -123,6 +123,7 @@ help:
- 	@echo  '  gconfig	  - Update current config utilising a GTK+ based front-end'
- 	@echo  '  oldconfig	  - Update current config utilising a provided .config as base'
- 	@echo  '  localmodconfig  - Update current config disabling modules not loaded'
-+	@echo  '                    except those preserved by LMC_KEEP environment variable'
- 	@echo  '  localyesconfig  - Update current config converting local mods to core'
- 	@echo  '  defconfig	  - New config with default from ARCH supplied defconfig'
- 	@echo  '  savedefconfig   - Save current config as ./defconfig (minimal config)'
-diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
-index e2f8504f5a2d..19857d18d814 100755
---- a/scripts/kconfig/streamline_config.pl
-+++ b/scripts/kconfig/streamline_config.pl
-@@ -143,6 +143,7 @@ my %depends;
- my %selects;
- my %prompts;
- my %objects;
-+my %config2kfile;
- my $var;
- my $iflevel = 0;
- my @ifdeps;
-@@ -201,6 +202,7 @@ sub read_kconfig {
- 	if (/^\s*(menu)?config\s+(\S+)\s*$/) {
- 	    $state = "NEW";
- 	    $config = $2;
-+	    $config2kfile{"CONFIG_$config"} = $kconfig;
- 
- 	    # Add depends for 'if' nesting
- 	    for (my $i = 0; $i < $iflevel; $i++) {
-@@ -591,6 +593,20 @@ while ($repeat) {
- }
- 
- my %setconfigs;
-+my @preserved_kconfigs = split(/:/,$ENV{LMC_KEEP});
-+
-+sub in_preserved_kconfigs {
-+    my $kconfig = $config2kfile{$_[0]};
-+    if (!defined($kconfig)) {
-+        return 0;
-+    }
-+    foreach my $excl (@preserved_kconfigs) {
-+        if($kconfig =~ /^$excl/) {
-+            return 1;
-+        }
-+    }
-+    return 0;
-+}
- 
- # Finally, read the .config file and turn off any module enabled that
- # we could not find a reason to keep enabled.
-@@ -644,6 +660,11 @@ foreach my $line (@config_file) {
-     }
- 
-     if (/^(CONFIG.*)=(m|y)/) {
-+        if (in_preserved_kconfigs($1)) {
-+            dprint "Preserve config $1";
-+            print;
-+            next;
-+        }
- 	if (defined($configs{$1})) {
- 	    if ($localyesconfig) {
- 	        $setconfigs{$1} = 'y';
--- 
-2.25.1
+Except of above minor nitpicks, this patch looks good to me, thanks.
+
+Reviewed-by: Baoquan He <bhe@redhat.com>
+
+Thanks
+Baoquan
 
