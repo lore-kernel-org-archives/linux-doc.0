@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 927ACC54E49
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D48EC38A2A
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 74BD4206F5
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80A8F206F5
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RZCkHmVA"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SE/Lj2r/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728873AbgEJUZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 May 2020 16:25:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40948 "EHLO
+        id S1729389AbgEJUYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 May 2020 16:24:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729412AbgEJUYy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 16:24:54 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ACA5C061A0C
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:54 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id 145so3741721pfw.13
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:54 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1729380AbgEJUYs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 16:24:48 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF0FC05BD0A
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:48 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id t11so3559385pgg.2
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gDtEYHl+vhPbK8gExr5i1enY2u7ASw/t7gafPT2Tua4=;
-        b=RZCkHmVAC0P+C+6umcgVArdbYqZtRYnJRAlIhCh7f3a3cUMxFuV3H96Y96URE7Gof/
-         u2VScQV+I5XS16Po+v3nw+05j9q1Km7Nj2pCvYr9O7F55AFy5XX2XIGOqxzR6uakM1Hi
-         E0hhPic0V5ljBYELraELCZtE7STLs0OQLG804=
+        bh=e8QxXpTtzEc0PFUpgGtgZUc+FvTwN2g4UuYupfacY68=;
+        b=SE/Lj2r/qm5MRAqEmy91aIMpwxOMaSbPzJm9LffMRTM1bMYU65FQ1TKG3X0ZDbyYio
+         7B7iJyomdn5ZaPKTBC2NPCyLpN+6NjzvPW1RdCc5OrFF7OGirTC6irYkn7I1yMOmA0QU
+         6ab1OTO/QvQNAoQqtEtzq1eDx2y9kcPmeWYbw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gDtEYHl+vhPbK8gExr5i1enY2u7ASw/t7gafPT2Tua4=;
-        b=qHbhBhqQRl83qUBgADUJEqm1mukHX8bGFhciTlVjk4373VBxIsQpH2JmQ5z5iSbuiR
-         aCjJLnEQkIAolaX1qLyKB84xS8f/uwrYPFkIOhih4Bw/9t8G0zHeDmsK7Gq3LYW9fWWl
-         Hxzt8fO1XT/MsPQB5BuJQ98UkjFYh5XfoMXXxxga66y/Bk4ZbFdaB7HaHHrN6XXOWfEl
-         pFlh4gG62aUWc4DO/6PiNwGF4ENmvcHf2CwPPkkFmuHxJgOnRjoX/0e+V+YhEr9cD742
-         o6BK0rzMlC8Nl/bK+vHP36sthAopHLUD5rljpGiQYH4CcNO0xLfnhCc195BKbEoYltGt
-         vNRg==
-X-Gm-Message-State: AGi0PuZLFdrGYvvUEV978FwHEOLrEJq5qV7j1vcUK0hUHJHqDnn6fzw5
-        6PLlhgweUztg4jytmBOGpTIIIA==
-X-Google-Smtp-Source: APiQypLYkPhTk56rTdjpKjnLfkUUxgxCThNOHV4aV+bIc6cfzxu6EZU0TNu2gO+Z81qJwGnSbxv6Wg==
-X-Received: by 2002:a63:c644:: with SMTP id x4mr11682741pgg.385.1589142293702;
-        Sun, 10 May 2020 13:24:53 -0700 (PDT)
+        bh=e8QxXpTtzEc0PFUpgGtgZUc+FvTwN2g4UuYupfacY68=;
+        b=OdXhCYQR+Sf1pcvyINVMynKJiRzAYXa12JaaBZ0yyHx2fHeof3of608loqZh/kOkwK
+         xWmagkITeatWHVazebCIcy4CUJfMCXhP9NiGlyGNWvJjQyfGYvozYN06wW+tnyKkZ5em
+         1IMoXtmuNbHigFaQq+EKNqW/EDozx6qrZu9rIGiBBMyIhoArmarPdrgwF5Q2euMzcFBu
+         ZVvzEg9K8Iken41jmOrgNGm2vWLPL+McV+TxZSVpuLRLQWbVXZ29+THOpMNuOpyCzcM5
+         o3BxUExGR9hRqyU3IgbV1m2yAu1vN8DCVk3oJG9x8w6JUlud4/i/Lue4SilGj9ESSBo/
+         VKvw==
+X-Gm-Message-State: AGi0PuYttNRz7EKHIyAiDi64epybkGnMJ9Rz0DktpbvzxLc3HhW/MUjZ
+        byMFBD5uk8KsQ6Q8C3JjDDiyQA==
+X-Google-Smtp-Source: APiQypJP9SdsFTI/n79iIdc/+hcTxLTAwENcl6uTzDuzTIjiRCcw0DdJASm1sZtZg0sIzx1RfipUbw==
+X-Received: by 2002:a63:a61:: with SMTP id z33mr11625145pgk.440.1589142288307;
+        Sun, 10 May 2020 13:24:48 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id v127sm7279503pfv.77.2020.05.10.13.24.47
+        by smtp.gmail.com with ESMTPSA id c10sm7271971pfm.50.2020.05.10.13.24.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2020 13:24:52 -0700 (PDT)
+        Sun, 10 May 2020 13:24:45 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -71,9 +71,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Pavel Tatashin <pasha.tatashin@soleen.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org
-Subject: [PATCH v7 15/18] pstore/blk: Provide way to query pstore configuration
-Date:   Sun, 10 May 2020 13:24:33 -0700
-Message-Id: <20200510202436.63222-16-keescook@chromium.org>
+Subject: [PATCH v7 07/18] printk: Introduce kmsg_dump_reason_str()
+Date:   Sun, 10 May 2020 13:24:25 -0700
+Message-Id: <20200510202436.63222-8-keescook@chromium.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200510202436.63222-1-keescook@chromium.org>
 References: <20200510202436.63222-1-keescook@chromium.org>
@@ -84,120 +84,114 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: WeiXiong Liao <liaoweixiong@allwinnertech.com>
+The pstore subsystem already had a private version of this function.
+With the coming addition of the pstore/zone driver, this needs to be
+shared. As it really should live with printk, move it there instead.
 
-In order to configure itself, the MTD backend needs to be able to query
-the current pstore configuration. Introduce pstore_blk_get_config() for
-this purpose.
-
-Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Link: https://lore.kernel.org/r/1585126506-18635-10-git-send-email-liaoweixiong@allwinnertech.com
-Co-developed-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/pstore/blk.c            | 37 ++++++++++++++++++++++++++++++-------
- include/linux/pstore_blk.h | 28 ++++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+), 7 deletions(-)
+ fs/pstore/platform.c      | 22 +---------------------
+ include/linux/kmsg_dump.h |  7 +++++++
+ kernel/printk/printk.c    | 21 +++++++++++++++++++++
+ 3 files changed, 29 insertions(+), 21 deletions(-)
 
-diff --git a/fs/pstore/blk.c b/fs/pstore/blk.c
-index cf11094e6b3a..e8e907ea8b03 100644
---- a/fs/pstore/blk.c
-+++ b/fs/pstore/blk.c
-@@ -93,6 +93,17 @@ static struct bdev_info {
- 	sector_t start_sect;
- } g_bdev_info;
+diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
+index 90d146fbc7d2..a9e297eefdff 100644
+--- a/fs/pstore/platform.c
++++ b/fs/pstore/platform.c
+@@ -135,26 +135,6 @@ enum pstore_type_id pstore_name_to_type(const char *name)
+ }
+ EXPORT_SYMBOL_GPL(pstore_name_to_type);
  
-+#define check_size(name, alignsize) ({				\
-+	long _##name_ = (name);					\
-+	_##name_ = _##name_ <= 0 ? 0 : (_##name_ * 1024);	\
-+	if (_##name_ & ((alignsize) - 1)) {			\
-+		pr_info(#name " must align to %d\n",		\
-+				(alignsize));			\
-+		_##name_ = ALIGN(name, (alignsize));		\
-+	}							\
-+	_##name_;						\
-+})
+-static const char *get_reason_str(enum kmsg_dump_reason reason)
+-{
+-	switch (reason) {
+-	case KMSG_DUMP_PANIC:
+-		return "Panic";
+-	case KMSG_DUMP_OOPS:
+-		return "Oops";
+-	case KMSG_DUMP_EMERG:
+-		return "Emergency";
+-	case KMSG_DUMP_RESTART:
+-		return "Restart";
+-	case KMSG_DUMP_HALT:
+-		return "Halt";
+-	case KMSG_DUMP_POWEROFF:
+-		return "Poweroff";
+-	default:
+-		return "Unknown";
+-	}
+-}
+-
+ static void pstore_timer_kick(void)
+ {
+ 	if (pstore_update_ms < 0)
+@@ -407,7 +387,7 @@ static void pstore_dump(struct kmsg_dumper *dumper,
+ 	unsigned int	part = 1;
+ 	int		ret;
+ 
+-	why = get_reason_str(reason);
++	why = kmsg_dump_reason_str(reason);
+ 
+ 	if (down_trylock(&psinfo->buf_lock)) {
+ 		/* Failed to acquire lock: give up if we cannot wait. */
+diff --git a/include/linux/kmsg_dump.h b/include/linux/kmsg_dump.h
+index cfc042066be7..b3ddb0b2ee40 100644
+--- a/include/linux/kmsg_dump.h
++++ b/include/linux/kmsg_dump.h
+@@ -72,6 +72,8 @@ void kmsg_dump_rewind(struct kmsg_dumper *dumper);
+ int kmsg_dump_register(struct kmsg_dumper *dumper);
+ 
+ int kmsg_dump_unregister(struct kmsg_dumper *dumper);
++
++const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason);
+ #else
+ static inline void kmsg_dump(enum kmsg_dump_reason reason)
+ {
+@@ -113,6 +115,11 @@ static inline int kmsg_dump_unregister(struct kmsg_dumper *dumper)
+ {
+ 	return -EINVAL;
+ }
++
++static inline const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
++{
++	return "Disabled";
++}
+ #endif
+ 
+ #endif /* _LINUX_KMSG_DUMP_H */
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 1aab69a8a2bf..67a284830d74 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -3144,6 +3144,27 @@ EXPORT_SYMBOL_GPL(kmsg_dump_unregister);
+ static bool always_kmsg_dump;
+ module_param_named(always_kmsg_dump, always_kmsg_dump, bool, S_IRUGO | S_IWUSR);
+ 
++const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
++{
++	switch (reason) {
++	case KMSG_DUMP_PANIC:
++		return "Panic";
++	case KMSG_DUMP_OOPS:
++		return "Oops";
++	case KMSG_DUMP_EMERG:
++		return "Emergency";
++	case KMSG_DUMP_RESTART:
++		return "Restart";
++	case KMSG_DUMP_HALT:
++		return "Halt";
++	case KMSG_DUMP_POWEROFF:
++		return "Poweroff";
++	default:
++		return "Unknown";
++	}
++}
++EXPORT_SYMBOL_GPL(kmsg_dump_reason_str);
 +
  /**
-  * struct pstore_device_info - back-end pstore/blk driver structure.
-  *
-@@ -148,13 +159,11 @@ static int psblk_register_do(struct pstore_device_info *dev)
- 		dev->flags = UINT_MAX;
- 
- #define verify_size(name, alignsize, enabled) {				\
--		long _##name_ = (enabled) ? (name) : 0;			\
--		_##name_ = _##name_ <= 0 ? 0 : (_##name_ * 1024);	\
--		if (_##name_ & ((alignsize) - 1)) {			\
--			pr_info(#name " must align to %d\n",		\
--					(alignsize));			\
--			_##name_ = ALIGN(name, (alignsize));		\
--		}							\
-+		long _##name_;						\
-+		if (enabled)						\
-+			_##name_ = check_size(name, alignsize);		\
-+		else							\
-+			_##name_ = 0;					\
- 		name = _##name_ / 1024;					\
- 		pstore_zone_info->name = _##name_;			\
- 	}
-@@ -455,6 +464,20 @@ void unregister_pstore_blk(unsigned int major)
- }
- EXPORT_SYMBOL_GPL(unregister_pstore_blk);
- 
-+/* get information of pstore/blk */
-+int pstore_blk_get_config(struct pstore_blk_config *info)
-+{
-+	strncpy(info->device, blkdev, 80);
-+	info->max_reason = max_reason;
-+	info->kmsg_size = check_size(kmsg_size, 4096);
-+	info->pmsg_size = check_size(pmsg_size, 4096);
-+	info->ftrace_size = check_size(ftrace_size, 4096);
-+	info->console_size = check_size(console_size, 4096);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(pstore_blk_get_config);
-+
- static void __exit pstore_blk_exit(void)
- {
- 	mutex_lock(&pstore_blk_lock);
-diff --git a/include/linux/pstore_blk.h b/include/linux/pstore_blk.h
-index ccba8c068752..0c40774e71e0 100644
---- a/include/linux/pstore_blk.h
-+++ b/include/linux/pstore_blk.h
-@@ -49,4 +49,32 @@ struct pstore_blk_info {
- int  register_pstore_blk(struct pstore_blk_info *info);
- void unregister_pstore_blk(unsigned int major);
- 
-+/**
-+ * struct pstore_blk_config - the pstore_blk backend configuration
-+ *
-+ * @device:		Name of the desired block device
-+ * @max_reason:		Maximum kmsg dump reason to store to block device
-+ * @kmsg_size:		Total size of for kmsg dumps
-+ * @pmsg_size:		Total size of the pmsg storage area
-+ * @console_size:	Total size of the console storage area
-+ * @ftrace_size:	Total size for ftrace logging data (for all CPUs)
-+ */
-+struct pstore_blk_config {
-+	char device[80];
-+	enum kmsg_dump_reason max_reason;
-+	unsigned long kmsg_size;
-+	unsigned long pmsg_size;
-+	unsigned long console_size;
-+	unsigned long ftrace_size;
-+};
-+
-+/**
-+ * pstore_blk_get_config - get a copy of the pstore_blk backend configuration
-+ *
-+ * @info:	The sturct pstore_blk_config to be filled in
-+ *
-+ * Failure returns negative error code, and success returns 0.
-+ */
-+int pstore_blk_get_config(struct pstore_blk_config *info);
-+
- #endif
+  * kmsg_dump - dump kernel log to kernel message dumpers.
+  * @reason: the reason (oops, panic etc) for dumping
 -- 
 2.20.1
 
