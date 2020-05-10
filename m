@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE968C54E8A
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 927ACC54E49
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8ABB2082E
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74BD4206F5
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dEoaVsI8"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RZCkHmVA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729452AbgEJUZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1728873AbgEJUZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sun, 10 May 2020 16:25:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40944 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729409AbgEJUYx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 16:24:53 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F13EC05BD09
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:53 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id u10so3022958pls.8
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:53 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1729412AbgEJUYy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 16:24:54 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ACA5C061A0C
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:54 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id 145so3741721pfw.13
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=djXoO40SYWuMqieCahe2S9nP61MHvZmDKOFDi+VFn9I=;
-        b=dEoaVsI8K/4skWYK4+myWQBMdhHpF0BHWQfkbzAVAaQTqnotO7LNuwTKPLDWnC+2ft
-         Kx5l3kIA81lzCf4/iKonrcSpocj5nNQJT0u9FWHCjsWnJhAc31Xj/pGsfI4lzKScgBaj
-         PMQ6yjlQUSk6OR2EC+QSOtuYPZX/+NPII3TPQ=
+        bh=gDtEYHl+vhPbK8gExr5i1enY2u7ASw/t7gafPT2Tua4=;
+        b=RZCkHmVAC0P+C+6umcgVArdbYqZtRYnJRAlIhCh7f3a3cUMxFuV3H96Y96URE7Gof/
+         u2VScQV+I5XS16Po+v3nw+05j9q1Km7Nj2pCvYr9O7F55AFy5XX2XIGOqxzR6uakM1Hi
+         E0hhPic0V5ljBYELraELCZtE7STLs0OQLG804=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=djXoO40SYWuMqieCahe2S9nP61MHvZmDKOFDi+VFn9I=;
-        b=hJfD7XqbZpOdzza1XTo4RNfdjmo2QmrJXMlESv1obmzXF3x0ejl2ZBM/KsCz15PlUD
-         sNM15dYAUjjTZrQoBcuRKo5WqZveVloE75vGGKGZ7QqMqTxcpbz9Xq+/not+6A8XBkf1
-         3cqYrVI1kk1AICifsmcGpWAQZ7qy21Jlkey5OHFZ8dMoePkCuCz36FHjFjkb9CXPFiwV
-         DZa9QvaE9dz14X22B4UOAeihh3a8wKC7FrhkQGBoYB+rvkLqIcM7W6LdmjAbbPT2bJ0w
-         1bv/P9knExpAeldawxqvzNtnjwO1P81EsR3LWTGD4la3bDKEawPY6pG+6/YqYvcgOxMX
-         7jrg==
-X-Gm-Message-State: AGi0PuYyiU+AzJqA+Q5c9CeII6SoLbFLGXrck00G80zvETW0yNJY/YvE
-        2Wfkfhebun/SySn3g1z+yzqnkQ==
-X-Google-Smtp-Source: APiQypJVoMKhlFIut16BX/usNCkk/C+Igt9st/Vh4mVegaZVEBmygXfm3rHfXBwjWiIkkgTmHYMAjA==
-X-Received: by 2002:a17:90a:9f8a:: with SMTP id o10mr18705405pjp.118.1589142293172;
+        bh=gDtEYHl+vhPbK8gExr5i1enY2u7ASw/t7gafPT2Tua4=;
+        b=qHbhBhqQRl83qUBgADUJEqm1mukHX8bGFhciTlVjk4373VBxIsQpH2JmQ5z5iSbuiR
+         aCjJLnEQkIAolaX1qLyKB84xS8f/uwrYPFkIOhih4Bw/9t8G0zHeDmsK7Gq3LYW9fWWl
+         Hxzt8fO1XT/MsPQB5BuJQ98UkjFYh5XfoMXXxxga66y/Bk4ZbFdaB7HaHHrN6XXOWfEl
+         pFlh4gG62aUWc4DO/6PiNwGF4ENmvcHf2CwPPkkFmuHxJgOnRjoX/0e+V+YhEr9cD742
+         o6BK0rzMlC8Nl/bK+vHP36sthAopHLUD5rljpGiQYH4CcNO0xLfnhCc195BKbEoYltGt
+         vNRg==
+X-Gm-Message-State: AGi0PuZLFdrGYvvUEV978FwHEOLrEJq5qV7j1vcUK0hUHJHqDnn6fzw5
+        6PLlhgweUztg4jytmBOGpTIIIA==
+X-Google-Smtp-Source: APiQypLYkPhTk56rTdjpKjnLfkUUxgxCThNOHV4aV+bIc6cfzxu6EZU0TNu2gO+Z81qJwGnSbxv6Wg==
+X-Received: by 2002:a63:c644:: with SMTP id x4mr11682741pgg.385.1589142293702;
         Sun, 10 May 2020 13:24:53 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id cc8sm7949234pjb.11.2020.05.10.13.24.46
+        by smtp.gmail.com with ESMTPSA id v127sm7279503pfv.77.2020.05.10.13.24.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2020 13:24:51 -0700 (PDT)
+        Sun, 10 May 2020 13:24:52 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -71,9 +71,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Pavel Tatashin <pasha.tatashin@soleen.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org
-Subject: [PATCH v7 14/18] pstore/zone: Provide way to skip "broken" zone for MTD devices
-Date:   Sun, 10 May 2020 13:24:32 -0700
-Message-Id: <20200510202436.63222-15-keescook@chromium.org>
+Subject: [PATCH v7 15/18] pstore/blk: Provide way to query pstore configuration
+Date:   Sun, 10 May 2020 13:24:33 -0700
+Message-Id: <20200510202436.63222-16-keescook@chromium.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200510202436.63222-1-keescook@chromium.org>
 References: <20200510202436.63222-1-keescook@chromium.org>
@@ -86,187 +86,118 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: WeiXiong Liao <liaoweixiong@allwinnertech.com>
 
-One requirement to support MTD devices in pstore/zone is having a
-way to declare certain regions as broken. Add this support to
-pstore/zone.
-
-The MTD driver should return -ENOMSG when encountering a bad region,
-which tells pstore/zone to skip and try the next one.
+In order to configure itself, the MTD backend needs to be able to query
+the current pstore configuration. Introduce pstore_blk_get_config() for
+this purpose.
 
 Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Link: https://lore.kernel.org/r/1585126506-18635-9-git-send-email-liaoweixiong@allwinnertech.com
+Link: https://lore.kernel.org/r/1585126506-18635-10-git-send-email-liaoweixiong@allwinnertech.com
+Co-developed-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/pstore/blk.c             | 10 ++++--
- fs/pstore/zone.c            | 65 ++++++++++++++++++++++++++++++-------
- include/linux/pstore_blk.h  |  3 +-
- include/linux/pstore_zone.h | 12 ++++---
- 4 files changed, 71 insertions(+), 19 deletions(-)
+ fs/pstore/blk.c            | 37 ++++++++++++++++++++++++++++++-------
+ include/linux/pstore_blk.h | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+), 7 deletions(-)
 
 diff --git a/fs/pstore/blk.c b/fs/pstore/blk.c
-index e45937e3517c..cf11094e6b3a 100644
+index cf11094e6b3a..e8e907ea8b03 100644
 --- a/fs/pstore/blk.c
 +++ b/fs/pstore/blk.c
-@@ -108,9 +108,12 @@ static struct bdev_info {
-  *		means error.
-  * @write:	The same as @read, but the following error number:
-  *		-EBUSY means try to write again later.
-+ *		-ENOMSG means to try next zone.
-  * @panic_write:The write operation only used for panic case. It's optional
-- *		if you do not care panic log. The parameters and return value
-- *		are the same as @read.
-+ *		if you do not care panic log. The parameters are relative
-+ *		value to storage.
-+ *		On success, the number of bytes should be returned, others
-+ *		excluding -ENOMSG mean error. -ENOMSG means to try next zone.
-  */
- struct pstore_device_info {
- 	unsigned long total_size;
-@@ -336,6 +339,9 @@ static ssize_t psblk_blk_panic_write(const char *buf, size_t size,
- 	/* size and off must align to SECTOR_SIZE for block device */
- 	ret = blkdev_panic_write(buf, off >> SECTOR_SHIFT,
- 			size >> SECTOR_SHIFT);
-+	/* try next zone */
-+	if (ret == -ENOMSG)
-+		return ret;
- 	return ret ? -EIO : size;
+@@ -93,6 +93,17 @@ static struct bdev_info {
+ 	sector_t start_sect;
+ } g_bdev_info;
+ 
++#define check_size(name, alignsize) ({				\
++	long _##name_ = (name);					\
++	_##name_ = _##name_ <= 0 ? 0 : (_##name_ * 1024);	\
++	if (_##name_ & ((alignsize) - 1)) {			\
++		pr_info(#name " must align to %d\n",		\
++				(alignsize));			\
++		_##name_ = ALIGN(name, (alignsize));		\
++	}							\
++	_##name_;						\
++})
++
+ /**
+  * struct pstore_device_info - back-end pstore/blk driver structure.
+  *
+@@ -148,13 +159,11 @@ static int psblk_register_do(struct pstore_device_info *dev)
+ 		dev->flags = UINT_MAX;
+ 
+ #define verify_size(name, alignsize, enabled) {				\
+-		long _##name_ = (enabled) ? (name) : 0;			\
+-		_##name_ = _##name_ <= 0 ? 0 : (_##name_ * 1024);	\
+-		if (_##name_ & ((alignsize) - 1)) {			\
+-			pr_info(#name " must align to %d\n",		\
+-					(alignsize));			\
+-			_##name_ = ALIGN(name, (alignsize));		\
+-		}							\
++		long _##name_;						\
++		if (enabled)						\
++			_##name_ = check_size(name, alignsize);		\
++		else							\
++			_##name_ = 0;					\
+ 		name = _##name_ / 1024;					\
+ 		pstore_zone_info->name = _##name_;			\
+ 	}
+@@ -455,6 +464,20 @@ void unregister_pstore_blk(unsigned int major)
  }
+ EXPORT_SYMBOL_GPL(unregister_pstore_blk);
  
-diff --git a/fs/pstore/zone.c b/fs/pstore/zone.c
-index 45c0a422f1de..17c9a0439d6e 100644
---- a/fs/pstore/zone.c
-+++ b/fs/pstore/zone.c
-@@ -249,6 +249,9 @@ static int psz_zone_write(struct pstore_zone *zone,
- 
- 	return 0;
- dirty:
-+	/* no need to mark dirty if going to try next zone */
-+	if (wcnt == -ENOMSG)
-+		return -ENOMSG;
- 	atomic_set(&zone->dirty, true);
- 	/* flush dirty zones nicely */
- 	if (wcnt == -EBUSY && !is_on_panic())
-@@ -391,7 +394,11 @@ static int psz_kmsg_recover_meta(struct psz_context *cxt)
- 			return -EINVAL;
- 
- 		rcnt = info->read((char *)buf, len, zone->off);
--		if (rcnt != len) {
-+		if (rcnt == -ENOMSG) {
-+			pr_debug("%s with id %lu may be broken, skip\n",
-+					zone->name, i);
-+			continue;
-+		} else if (rcnt != len) {
- 			pr_err("read %s with id %lu failed\n", zone->name, i);
- 			return (int)rcnt < 0 ? (int)rcnt : -EIO;
- 		}
-@@ -726,24 +733,58 @@ static void psz_write_kmsg_hdr(struct pstore_zone *zone,
- 		hdr->counter = 0;
- }
- 
-+/*
-+ * In case zone is broken, which may occur to MTD device, we try each zones,
-+ * start at cxt->kmsg_write_cnt.
-+ */
- static inline int notrace psz_kmsg_write_record(struct psz_context *cxt,
- 		struct pstore_record *record)
++/* get information of pstore/blk */
++int pstore_blk_get_config(struct pstore_blk_config *info)
++{
++	strncpy(info->device, blkdev, 80);
++	info->max_reason = max_reason;
++	info->kmsg_size = check_size(kmsg_size, 4096);
++	info->pmsg_size = check_size(pmsg_size, 4096);
++	info->ftrace_size = check_size(ftrace_size, 4096);
++	info->console_size = check_size(console_size, 4096);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(pstore_blk_get_config);
++
+ static void __exit pstore_blk_exit(void)
  {
-+	int ret = -EBUSY;
- 	size_t size, hlen;
- 	struct pstore_zone *zone;
--	unsigned int zonenum;
-+	unsigned int i;
- 
--	zonenum = cxt->kmsg_write_cnt;
--	zone = cxt->opszs[zonenum];
--	if (unlikely(!zone))
--		return -ENOSPC;
--	cxt->kmsg_write_cnt = (zonenum + 1) % cxt->kmsg_max_cnt;
-+	for (i = 0; i < cxt->kmsg_max_cnt; i++) {
-+		unsigned int zonenum, len;
-+
-+		zonenum = (cxt->kmsg_write_cnt + i) % cxt->kmsg_max_cnt;
-+		zone = cxt->opszs[zonenum];
-+		if (unlikely(!zone))
-+			return -ENOSPC;
-+
-+		/* avoid destroying old data, allocate a new one */
-+		len = zone->buffer_size + sizeof(*zone->buffer);
-+		zone->oldbuf = zone->buffer;
-+		zone->buffer = kzalloc(len, GFP_KERNEL);
-+		if (!zone->buffer) {
-+			zone->buffer = zone->oldbuf;
-+			return -ENOMEM;
-+		}
-+		zone->buffer->sig = zone->oldbuf->sig;
-+
-+		pr_debug("write %s to zone id %d\n", zone->name, zonenum);
-+		psz_write_kmsg_hdr(zone, record);
-+		hlen = sizeof(struct psz_kmsg_header);
-+		size = min_t(size_t, record->size, zone->buffer_size - hlen);
-+		ret = psz_zone_write(zone, FLUSH_ALL, record->buf, size, hlen);
-+		if (likely(!ret || ret != -ENOMSG)) {
-+			cxt->kmsg_write_cnt = zonenum + 1;
-+			cxt->kmsg_write_cnt %= cxt->kmsg_max_cnt;
-+			/* no need to try next zone, free last zone buffer */
-+			kfree(zone->oldbuf);
-+			zone->oldbuf = NULL;
-+			return ret;
-+		}
- 
--	pr_debug("write %s to zone id %d\n", zone->name, zonenum);
--	psz_write_kmsg_hdr(zone, record);
--	hlen = sizeof(struct psz_kmsg_header);
--	size = min_t(size_t, record->size, zone->buffer_size - hlen);
--	return psz_zone_write(zone, FLUSH_ALL, record->buf, size, hlen);
-+		pr_debug("zone %u may be broken, try next dmesg zone\n",
-+				zonenum);
-+		kfree(zone->buffer);
-+		zone->buffer = zone->oldbuf;
-+		zone->oldbuf = NULL;
-+	}
-+
-+	return -EBUSY;
- }
- 
- static int notrace psz_kmsg_write(struct psz_context *cxt,
+ 	mutex_lock(&pstore_blk_lock);
 diff --git a/include/linux/pstore_blk.h b/include/linux/pstore_blk.h
-index 4501977b1336..ccba8c068752 100644
+index ccba8c068752..0c40774e71e0 100644
 --- a/include/linux/pstore_blk.h
 +++ b/include/linux/pstore_blk.h
-@@ -14,7 +14,8 @@
-  * @start_sect: start sector to block device
-  * @sects: sectors count on buf
-  *
-- * Return: On success, zero should be returned. Others mean error.
-+ * Return: On success, zero should be returned. Others excluding -ENOMSG
-+ * mean error. -ENOMSG means to try next zone.
-  *
-  * Panic write to block device must be aligned to SECTOR_SIZE.
-  */
-diff --git a/include/linux/pstore_zone.h b/include/linux/pstore_zone.h
-index 6f16b0dd834a..e79a18e41064 100644
---- a/include/linux/pstore_zone.h
-+++ b/include/linux/pstore_zone.h
-@@ -23,11 +23,15 @@ typedef ssize_t (*pstore_zone_write_op)(const char *, size_t, loff_t);
-  * @read:	The general read operation. Both of the function parameters
-  *		@size and @offset are relative value to storage.
-  *		On success, the number of bytes should be returned, others
-- *		means error.
-- * @write:	The same as @read, but -EBUSY means try to write again later.
-+ *		mean error.
-+ * @write:	The same as @read, but the following error number:
-+ *		-EBUSY means try to write again later.
-+ *		-ENOMSG means to try next zone.
-  * @panic_write:The write operation only used for panic case. It's optional
-- *		if you do not care panic log. The parameters and return value
-- *		are the same as @read.
-+ *		if you do not care panic log. The parameters are relative
-+ *		value to storage.
-+ *		On success, the number of bytes should be returned, others
-+ *		excluding -ENOMSG mean error. -ENOMSG means to try next zone.
-  */
- struct pstore_zone_info {
- 	struct module *owner;
+@@ -49,4 +49,32 @@ struct pstore_blk_info {
+ int  register_pstore_blk(struct pstore_blk_info *info);
+ void unregister_pstore_blk(unsigned int major);
+ 
++/**
++ * struct pstore_blk_config - the pstore_blk backend configuration
++ *
++ * @device:		Name of the desired block device
++ * @max_reason:		Maximum kmsg dump reason to store to block device
++ * @kmsg_size:		Total size of for kmsg dumps
++ * @pmsg_size:		Total size of the pmsg storage area
++ * @console_size:	Total size of the console storage area
++ * @ftrace_size:	Total size for ftrace logging data (for all CPUs)
++ */
++struct pstore_blk_config {
++	char device[80];
++	enum kmsg_dump_reason max_reason;
++	unsigned long kmsg_size;
++	unsigned long pmsg_size;
++	unsigned long console_size;
++	unsigned long ftrace_size;
++};
++
++/**
++ * pstore_blk_get_config - get a copy of the pstore_blk backend configuration
++ *
++ * @info:	The sturct pstore_blk_config to be filled in
++ *
++ * Failure returns negative error code, and success returns 0.
++ */
++int pstore_blk_get_config(struct pstore_blk_config *info);
++
+ #endif
 -- 
 2.20.1
 
