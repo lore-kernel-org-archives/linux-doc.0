@@ -5,53 +5,53 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D48EC38A2A
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D055EC54E49
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80A8F206F5
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0542206F5
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:25:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SE/Lj2r/"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PT992yl1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729389AbgEJUYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 May 2020 16:24:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40896 "EHLO
+        id S1729467AbgEJUZT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 May 2020 16:25:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729380AbgEJUYs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 16:24:48 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF0FC05BD0A
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:48 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id t11so3559385pgg.2
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:48 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1729397AbgEJUYv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 16:24:51 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88ACFC05BD0B
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:51 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id t7so3031888plr.0
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=e8QxXpTtzEc0PFUpgGtgZUc+FvTwN2g4UuYupfacY68=;
-        b=SE/Lj2r/qm5MRAqEmy91aIMpwxOMaSbPzJm9LffMRTM1bMYU65FQ1TKG3X0ZDbyYio
-         7B7iJyomdn5ZaPKTBC2NPCyLpN+6NjzvPW1RdCc5OrFF7OGirTC6irYkn7I1yMOmA0QU
-         6ab1OTO/QvQNAoQqtEtzq1eDx2y9kcPmeWYbw=
+        bh=FmKTLbovjfKjTN0vHBWlO6lvLE5eqFfmlm1KjpD+FQg=;
+        b=PT992yl1YtXSgolejvEUef7UYpXJZjgz2ToItmqYoEKNVRbni8EEDoAmW4b8FmbdbW
+         IrGyQgQMZQmshhqu3q49psD4a7Snwj+jhXAlLSwM/QwAeV9RbwHlIosSMNq2Lw9A2qsH
+         NJP7XcklGp3FY1q5Jn/ZlPZjUKW1UmUgjlfXc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=e8QxXpTtzEc0PFUpgGtgZUc+FvTwN2g4UuYupfacY68=;
-        b=OdXhCYQR+Sf1pcvyINVMynKJiRzAYXa12JaaBZ0yyHx2fHeof3of608loqZh/kOkwK
-         xWmagkITeatWHVazebCIcy4CUJfMCXhP9NiGlyGNWvJjQyfGYvozYN06wW+tnyKkZ5em
-         1IMoXtmuNbHigFaQq+EKNqW/EDozx6qrZu9rIGiBBMyIhoArmarPdrgwF5Q2euMzcFBu
-         ZVvzEg9K8Iken41jmOrgNGm2vWLPL+McV+TxZSVpuLRLQWbVXZ29+THOpMNuOpyCzcM5
-         o3BxUExGR9hRqyU3IgbV1m2yAu1vN8DCVk3oJG9x8w6JUlud4/i/Lue4SilGj9ESSBo/
-         VKvw==
-X-Gm-Message-State: AGi0PuYttNRz7EKHIyAiDi64epybkGnMJ9Rz0DktpbvzxLc3HhW/MUjZ
-        byMFBD5uk8KsQ6Q8C3JjDDiyQA==
-X-Google-Smtp-Source: APiQypJP9SdsFTI/n79iIdc/+hcTxLTAwENcl6uTzDuzTIjiRCcw0DdJASm1sZtZg0sIzx1RfipUbw==
-X-Received: by 2002:a63:a61:: with SMTP id z33mr11625145pgk.440.1589142288307;
-        Sun, 10 May 2020 13:24:48 -0700 (PDT)
+        bh=FmKTLbovjfKjTN0vHBWlO6lvLE5eqFfmlm1KjpD+FQg=;
+        b=CyexA5YYGFvv+v8yFOO6M334vFhkTcHQcvBca87Q237FU/YjzbIIRw9gsbUSZTvyia
+         v4URlor2G1DNlim+29NtVsSVaJIhXWp6HYi5ASxBsocYrhXt4Za5lWLNdu+hh6xE/eRg
+         TOMsGp6mfH1h1hqOPM06vG+JmRJ+Ubp2S0ZC6ayofhrhnOamORthKnv6WOx0IBpCgqG1
+         jPhbB0X9H55FW5jd3lfLEamRYMsmFoGqw1voHsKj3IM8rpKkIBrqioh7DbUKR0Snn1Xb
+         SMAli/8Mujx0yMhPduFJKgVLTpt3SmAyFYaMBFt8OYyy4MCSdIqD8agO5sMBa7xOkVUz
+         mNNA==
+X-Gm-Message-State: AGi0PuZJphBFV6FAqWFcT5MmwkTIuWLcgHCBTE5B8/A8EebqvNni1c1+
+        bpv16g73Aob0iXFd5jaHJhlEAA==
+X-Google-Smtp-Source: APiQypJR2fHsTXN9co4qUFxFypu7mvJnIIxnJvBdLNWTiL2jmJ9dvYn4I9mX5VNCESY45A2lN4bu/A==
+X-Received: by 2002:a17:90a:9f8a:: with SMTP id o10mr18705310pjp.118.1589142291060;
+        Sun, 10 May 2020 13:24:51 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c10sm7271971pfm.50.2020.05.10.13.24.44
+        by smtp.gmail.com with ESMTPSA id x10sm6215290pgq.79.2020.05.10.13.24.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 10 May 2020 13:24:45 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -71,9 +71,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Pavel Tatashin <pasha.tatashin@soleen.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org
-Subject: [PATCH v7 07/18] printk: Introduce kmsg_dump_reason_str()
-Date:   Sun, 10 May 2020 13:24:25 -0700
-Message-Id: <20200510202436.63222-8-keescook@chromium.org>
+Subject: [PATCH v7 11/18] pstore/zone,blk: Add console frontend support
+Date:   Sun, 10 May 2020 13:24:29 -0700
+Message-Id: <20200510202436.63222-12-keescook@chromium.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200510202436.63222-1-keescook@chromium.org>
 References: <20200510202436.63222-1-keescook@chromium.org>
@@ -84,114 +84,335 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pstore subsystem already had a private version of this function.
-With the coming addition of the pstore/zone driver, this needs to be
-shared. As it really should live with printk, move it there instead.
+From: WeiXiong Liao <liaoweixiong@allwinnertech.com>
 
+Support backend for console. To enable console backend, just make
+console_size be greater than 0 and a multiple of 4096.
+
+Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
+Link: https://lore.kernel.org/r/1585126506-18635-6-git-send-email-liaoweixiong@allwinnertech.com
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/pstore/platform.c      | 22 +---------------------
- include/linux/kmsg_dump.h |  7 +++++++
- kernel/printk/printk.c    | 21 +++++++++++++++++++++
- 3 files changed, 29 insertions(+), 21 deletions(-)
+ fs/pstore/Kconfig           | 12 ++++++
+ fs/pstore/blk.c             | 12 +++++-
+ fs/pstore/zone.c            | 83 ++++++++++++++++++++++++++++++++++---
+ include/linux/pstore_zone.h |  4 +-
+ 4 files changed, 103 insertions(+), 8 deletions(-)
 
-diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
-index 90d146fbc7d2..a9e297eefdff 100644
---- a/fs/pstore/platform.c
-+++ b/fs/pstore/platform.c
-@@ -135,26 +135,6 @@ enum pstore_type_id pstore_name_to_type(const char *name)
- }
- EXPORT_SYMBOL_GPL(pstore_name_to_type);
+diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
+index f18cd126d83f..f1484f751c5e 100644
+--- a/fs/pstore/Kconfig
++++ b/fs/pstore/Kconfig
+@@ -236,3 +236,15 @@ config PSTORE_BLK_PMSG_SIZE
  
--static const char *get_reason_str(enum kmsg_dump_reason reason)
--{
--	switch (reason) {
--	case KMSG_DUMP_PANIC:
--		return "Panic";
--	case KMSG_DUMP_OOPS:
--		return "Oops";
--	case KMSG_DUMP_EMERG:
--		return "Emergency";
--	case KMSG_DUMP_RESTART:
--		return "Restart";
--	case KMSG_DUMP_HALT:
--		return "Halt";
--	case KMSG_DUMP_POWEROFF:
--		return "Poweroff";
--	default:
--		return "Unknown";
--	}
--}
--
- static void pstore_timer_kick(void)
- {
- 	if (pstore_update_ms < 0)
-@@ -407,7 +387,7 @@ static void pstore_dump(struct kmsg_dumper *dumper,
- 	unsigned int	part = 1;
- 	int		ret;
- 
--	why = get_reason_str(reason);
-+	why = kmsg_dump_reason_str(reason);
- 
- 	if (down_trylock(&psinfo->buf_lock)) {
- 		/* Failed to acquire lock: give up if we cannot wait. */
-diff --git a/include/linux/kmsg_dump.h b/include/linux/kmsg_dump.h
-index cfc042066be7..b3ddb0b2ee40 100644
---- a/include/linux/kmsg_dump.h
-+++ b/include/linux/kmsg_dump.h
-@@ -72,6 +72,8 @@ void kmsg_dump_rewind(struct kmsg_dumper *dumper);
- int kmsg_dump_register(struct kmsg_dumper *dumper);
- 
- int kmsg_dump_unregister(struct kmsg_dumper *dumper);
+ 	  NOTE that, both Kconfig and module parameters can configure
+ 	  pstore/blk, but module parameters have priority over Kconfig.
 +
-+const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason);
- #else
- static inline void kmsg_dump(enum kmsg_dump_reason reason)
- {
-@@ -113,6 +115,11 @@ static inline int kmsg_dump_unregister(struct kmsg_dumper *dumper)
- {
- 	return -EINVAL;
- }
++config PSTORE_BLK_CONSOLE_SIZE
++	int "Size in Kbytes of console to store"
++	depends on PSTORE_BLK
++	depends on PSTORE_CONSOLE
++	default 64
++	help
++	  This just sets size of console (console_size) for pstore/blk. The
++	  size is in KB and must be a multiple of 4.
 +
-+static inline const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
-+{
-+	return "Disabled";
-+}
- #endif
++	  NOTE that, both Kconfig and module parameters can configure
++	  pstore/blk, but module parameters have priority over Kconfig.
+diff --git a/fs/pstore/blk.c b/fs/pstore/blk.c
+index 516a5f80d627..145e00bd7de9 100644
+--- a/fs/pstore/blk.c
++++ b/fs/pstore/blk.c
+@@ -35,6 +35,14 @@ static long pmsg_size = -1;
+ module_param(pmsg_size, long, 0400);
+ MODULE_PARM_DESC(pmsg_size, "pmsg size in kbytes");
  
- #endif /* _LINUX_KMSG_DUMP_H */
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 1aab69a8a2bf..67a284830d74 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -3144,6 +3144,27 @@ EXPORT_SYMBOL_GPL(kmsg_dump_unregister);
- static bool always_kmsg_dump;
- module_param_named(always_kmsg_dump, always_kmsg_dump, bool, S_IRUGO | S_IWUSR);
++#if IS_ENABLED(CONFIG_PSTORE_CONSOLE)
++static long console_size = CONFIG_PSTORE_BLK_CONSOLE_SIZE;
++#else
++static long console_size = -1;
++#endif
++module_param(console_size, long, 0400);
++MODULE_PARM_DESC(console_size, "console size in kbytes");
++
+ /*
+  * blkdev - the block device to use for pstore storage
+  *
+@@ -90,7 +98,8 @@ static struct bdev_info {
+  *		whole disk).
+  *		On success, the number of bytes should be returned, others
+  *		means error.
+- * @write:	The same as @read.
++ * @write:	The same as @read, but the following error number:
++ *		-EBUSY means try to write again later.
+  * @panic_write:The write operation only used for panic case. It's optional
+  *		if you do not care panic log. The parameters and return value
+  *		are the same as @read.
+@@ -141,6 +150,7 @@ static int psblk_register_do(struct pstore_device_info *dev)
  
-+const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
-+{
-+	switch (reason) {
-+	case KMSG_DUMP_PANIC:
-+		return "Panic";
-+	case KMSG_DUMP_OOPS:
-+		return "Oops";
-+	case KMSG_DUMP_EMERG:
-+		return "Emergency";
-+	case KMSG_DUMP_RESTART:
-+		return "Restart";
-+	case KMSG_DUMP_HALT:
-+		return "Halt";
-+	case KMSG_DUMP_POWEROFF:
-+		return "Poweroff";
-+	default:
-+		return "Unknown";
-+	}
-+}
-+EXPORT_SYMBOL_GPL(kmsg_dump_reason_str);
+ 	verify_size(kmsg_size, 4096, dev->flags & PSTORE_FLAGS_DMESG);
+ 	verify_size(pmsg_size, 4096, dev->flags & PSTORE_FLAGS_PMSG);
++	verify_size(console_size, 4096, dev->flags & PSTORE_FLAGS_CONSOLE);
+ #undef verify_size
+ 
+ 	pstore_zone_info->total_size = dev->total_size;
+diff --git a/fs/pstore/zone.c b/fs/pstore/zone.c
+index 03dc87791c24..f3bd6a7dc06d 100644
+--- a/fs/pstore/zone.c
++++ b/fs/pstore/zone.c
+@@ -91,10 +91,12 @@ struct pstore_zone {
+  *
+  * @opszs: oops/panic storage zones
+  * @ppsz: pmsg storage zone
++ * @cpsz: console storage zone
+  * @kmsg_max_cnt: max count of @opszs
+  * @kmsg_read_cnt: counter to read oops zone
+  * @kmsg_write_cnt: counter to write
+  * @pmsg_read_cnt: counter to read pmsg zone
++ * @console_read_cnt: counter to read console zone
+  * @oops_counter: counter to oops
+  * @panic_counter: counter to panic
+  * @recovered: whether finish recovering data from storage
+@@ -106,10 +108,12 @@ struct pstore_zone {
+ struct psz_context {
+ 	struct pstore_zone **opszs;
+ 	struct pstore_zone *ppsz;
++	struct pstore_zone *cpsz;
+ 	unsigned int kmsg_max_cnt;
+ 	unsigned int kmsg_read_cnt;
+ 	unsigned int kmsg_write_cnt;
+ 	unsigned int pmsg_read_cnt;
++	unsigned int console_read_cnt;
+ 	/*
+ 	 * the counter should be recovered when recover.
+ 	 * It records the oops/panic times after burning rather than booting.
+@@ -129,6 +133,9 @@ struct psz_context {
+ };
+ static struct psz_context pstore_zone_cxt;
+ 
++static void psz_flush_all_dirty_zones(struct work_struct *);
++static DECLARE_DELAYED_WORK(psz_cleaner, psz_flush_all_dirty_zones);
 +
  /**
-  * kmsg_dump - dump kernel log to kernel message dumpers.
-  * @reason: the reason (oops, panic etc) for dumping
+  * enum psz_flush_mode - flush mode for psz_zone_write()
+  *
+@@ -237,6 +244,9 @@ static int psz_zone_write(struct pstore_zone *zone,
+ 	return 0;
+ dirty:
+ 	atomic_set(&zone->dirty, true);
++	/* flush dirty zones nicely */
++	if (wcnt == -EBUSY && !is_on_panic())
++		schedule_delayed_work(&psz_cleaner, msecs_to_jiffies(500));
+ 	return -EBUSY;
+ }
+ 
+@@ -293,6 +303,21 @@ static int psz_move_zone(struct pstore_zone *old, struct pstore_zone *new)
+ 	return 0;
+ }
+ 
++static void psz_flush_all_dirty_zones(struct work_struct *work)
++{
++	struct psz_context *cxt = &pstore_zone_cxt;
++	int ret = 0;
++
++	if (cxt->ppsz)
++		ret |= psz_flush_dirty_zone(cxt->ppsz);
++	if (cxt->cpsz)
++		ret |= psz_flush_dirty_zone(cxt->cpsz);
++	if (cxt->opszs)
++		ret |= psz_flush_dirty_zones(cxt->opszs, cxt->kmsg_max_cnt);
++	if (ret && cxt->pstore_zone_info)
++		schedule_delayed_work(&psz_cleaner, msecs_to_jiffies(1000));
++}
++
+ static int psz_kmsg_recover_data(struct psz_context *cxt)
+ {
+ 	struct pstore_zone_info *info = cxt->pstore_zone_info;
+@@ -548,6 +573,10 @@ static inline int psz_recovery(struct psz_context *cxt)
+ 	if (ret)
+ 		goto recover_fail;
+ 
++	ret = psz_recover_zone(cxt, cxt->cpsz);
++	if (ret)
++		goto recover_fail;
++
+ 	pr_debug("recover end!\n");
+ 	atomic_set(&cxt->recovered, 1);
+ 	return 0;
+@@ -563,6 +592,7 @@ static int psz_pstore_open(struct pstore_info *psi)
+ 
+ 	cxt->kmsg_read_cnt = 0;
+ 	cxt->pmsg_read_cnt = 0;
++	cxt->console_read_cnt = 0;
+ 	return 0;
+ }
+ 
+@@ -627,8 +657,9 @@ static int psz_pstore_erase(struct pstore_record *record)
+ 		return psz_kmsg_erase(cxt, cxt->opszs[record->id], record);
+ 	case PSTORE_TYPE_PMSG:
+ 		return psz_record_erase(cxt, cxt->ppsz);
+-	default:
+-		return -EINVAL;
++	case PSTORE_TYPE_CONSOLE:
++		return psz_record_erase(cxt, cxt->cpsz);
++	default: return -EINVAL;
+ 	}
+ }
+ 
+@@ -691,9 +722,10 @@ static int notrace psz_kmsg_write(struct psz_context *cxt,
+ 		return -ENOSPC;
+ 
+ 	ret = psz_kmsg_write_record(cxt, record);
+-	if (!ret) {
+-		pr_debug("try to flush other dirty oops zones\n");
+-		psz_flush_dirty_zones(cxt->opszs, cxt->kmsg_max_cnt);
++	if (!ret && is_on_panic()) {
++		/* ensure all data are flushed to storage when panic */
++		pr_debug("try to flush other dirty zones\n");
++		psz_flush_all_dirty_zones(NULL);
+ 	}
+ 
+ 	/* always return 0 as we had handled it on buffer */
+@@ -755,9 +787,18 @@ static int notrace psz_pstore_write(struct pstore_record *record)
+ 			record->reason == KMSG_DUMP_PANIC)
+ 		atomic_set(&cxt->on_panic, 1);
+ 
++	/*
++	 * if on panic, do not write except panic records
++	 * Fix case that panic_write prints log which wakes up console backend.
++	 */
++	if (is_on_panic() && record->type != PSTORE_TYPE_DMESG)
++		return -EBUSY;
++
+ 	switch (record->type) {
+ 	case PSTORE_TYPE_DMESG:
+ 		return psz_kmsg_write(cxt, record);
++	case PSTORE_TYPE_CONSOLE:
++		return psz_record_write(cxt->cpsz, record);
+ 	case PSTORE_TYPE_PMSG:
+ 		return psz_record_write(cxt->ppsz, record);
+ 	default:
+@@ -782,6 +823,13 @@ static struct pstore_zone *psz_read_next_zone(struct psz_context *cxt)
+ 			return zone;
+ 	}
+ 
++	if (cxt->console_read_cnt == 0) {
++		cxt->console_read_cnt++;
++		zone = cxt->cpsz;
++		if (psz_old_ok(zone))
++			return zone;
++	}
++
+ 	return NULL;
+ }
+ 
+@@ -892,6 +940,8 @@ static ssize_t psz_pstore_read(struct pstore_record *record)
+ 		readop = psz_kmsg_read;
+ 		record->id = cxt->kmsg_read_cnt - 1;
+ 		break;
++	case PSTORE_TYPE_CONSOLE:
++		fallthrough;
+ 	case PSTORE_TYPE_PMSG:
+ 		readop = psz_record_read;
+ 		break;
+@@ -952,6 +1002,8 @@ static void psz_free_all_zones(struct psz_context *cxt)
+ 		psz_free_zones(&cxt->opszs, &cxt->kmsg_max_cnt);
+ 	if (cxt->ppsz)
+ 		psz_free_zone(&cxt->ppsz);
++	if (cxt->cpsz)
++		psz_free_zone(&cxt->cpsz);
+ }
+ 
+ static struct pstore_zone *psz_init_zone(enum pstore_type_id type,
+@@ -1053,6 +1105,15 @@ static int psz_alloc_zones(struct psz_context *cxt)
+ 		goto free_out;
+ 	}
+ 
++	off_size += info->console_size;
++	cxt->cpsz = psz_init_zone(PSTORE_TYPE_CONSOLE, &off,
++			info->console_size);
++	if (IS_ERR(cxt->cpsz)) {
++		err = PTR_ERR(cxt->cpsz);
++		cxt->cpsz = NULL;
++		goto free_out;
++	}
++
+ 	cxt->opszs = psz_init_zones(PSTORE_TYPE_DMESG, &off,
+ 			info->total_size - off_size,
+ 			info->kmsg_size, &cxt->kmsg_max_cnt);
+@@ -1087,7 +1148,7 @@ int register_pstore_zone(struct pstore_zone_info *info)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!info->kmsg_size && !info->pmsg_size) {
++	if (!info->kmsg_size && !info->pmsg_size && !info->console_size) {
+ 		pr_warn("at least one record size must be non-zero\n");
+ 		return -EINVAL;
+ 	}
+@@ -1110,6 +1171,7 @@ int register_pstore_zone(struct pstore_zone_info *info)
+ 	check_size(total_size, 4096);
+ 	check_size(kmsg_size, SECTOR_SIZE);
+ 	check_size(pmsg_size, SECTOR_SIZE);
++	check_size(console_size, SECTOR_SIZE);
+ 
+ #undef check_size
+ 
+@@ -1136,6 +1198,7 @@ int register_pstore_zone(struct pstore_zone_info *info)
+ 	pr_debug("\ttotal size : %ld Bytes\n", info->total_size);
+ 	pr_debug("\tkmsg size : %ld Bytes\n", info->kmsg_size);
+ 	pr_debug("\tpmsg size : %ld Bytes\n", info->pmsg_size);
++	pr_debug("\tconsole size : %ld Bytes\n", info->console_size);
+ 
+ 	err = psz_alloc_zones(cxt);
+ 	if (err) {
+@@ -1169,6 +1232,10 @@ int register_pstore_zone(struct pstore_zone_info *info)
+ 		cxt->pstore.flags |= PSTORE_FLAGS_PMSG;
+ 		pr_cont(" pmsg");
+ 	}
++	if (info->console_size) {
++		cxt->pstore.flags |= PSTORE_FLAGS_CONSOLE;
++		pr_cont(" console");
++	}
+ 	pr_cont("\n");
+ 
+ 	err = pstore_register(&cxt->pstore);
+@@ -1210,6 +1277,10 @@ void unregister_pstore_zone(struct pstore_zone_info *info)
+ 	/* Stop incoming writes from pstore. */
+ 	pstore_unregister(&cxt->pstore);
+ 
++	/* Flush any pending writes. */
++	psz_flush_all_dirty_zones(NULL);
++	flush_delayed_work(&psz_cleaner);
++
+ 	/* Clean up allocations. */
+ 	kfree(cxt->pstore.buf);
+ 	cxt->pstore.buf = NULL;
+diff --git a/include/linux/pstore_zone.h b/include/linux/pstore_zone.h
+index 29c367a3bd80..904ee67f4ba2 100644
+--- a/include/linux/pstore_zone.h
++++ b/include/linux/pstore_zone.h
+@@ -18,11 +18,12 @@ typedef ssize_t (*pstore_zone_write_op)(const char *, size_t, loff_t);
+  *		it must be multiple of SECTOR_SIZE(512 Bytes).
+  * @max_reason: Maximum kmsg dump reason to store.
+  * @pmsg_size:	The size of pmsg zone which is the same as @kmsg_size.
++ * @console_size:The size of console zone which is the same as @kmsg_size.
+  * @read:	The general read operation. Both of the function parameters
+  *		@size and @offset are relative value to storage.
+  *		On success, the number of bytes should be returned, others
+  *		means error.
+- * @write:	The same as @read.
++ * @write:	The same as @read, but -EBUSY means try to write again later.
+  * @panic_write:The write operation only used for panic case. It's optional
+  *		if you do not care panic log. The parameters and return value
+  *		are the same as @read.
+@@ -35,6 +36,7 @@ struct pstore_zone_info {
+ 	unsigned long kmsg_size;
+ 	int max_reason;
+ 	unsigned long pmsg_size;
++	unsigned long console_size;
+ 	pstore_zone_read_op read;
+ 	pstore_zone_write_op write;
+ 	pstore_zone_write_op panic_write;
 -- 
 2.20.1
 
