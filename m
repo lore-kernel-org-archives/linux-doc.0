@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBF40C54E8A
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:24:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E3CC54E8A
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:24:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFC75208DB
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:24:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AC9F206F5
+	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:24:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Vu8u0y3g"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="M/cJvL8h"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728468AbgEJUYo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 May 2020 16:24:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40880 "EHLO
+        id S1729372AbgEJUYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 May 2020 16:24:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729266AbgEJUYn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 16:24:43 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9055C05BD0A
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:43 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id f15so3026094plr.3
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:43 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1729358AbgEJUYq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 16:24:46 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68F7BC061A0C
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:45 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id x2so3757680pfx.7
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:24:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=a6bXV7bt3FJwO+6h7hS9wdbWbj+cKT2R8klgQdvy5V4=;
-        b=Vu8u0y3g/EsMOqGf92rFyvezCvoeKBq6M4OIMjHDXZQuVY5ATlo2kh28eB6tVdSW2u
-         HeG9wciptveXO5MHRNtJSHj4Ogkp9s7OktTbZhn/Vvp42lUU1KrIa9rIQ0bGpNOCOKeO
-         EC9TBt8Z9Lh9M/kLz05YI4DHvIcGjrjtQpGgY=
+        bh=5ftIoYymBGMn0ProUbxAIjGCP6irGe3xnecuHwaJ2BU=;
+        b=M/cJvL8hlN3LxOR7YqQKrAGHR739tSJqQTIBdmpAhjDy0nybQzRtcOtAPrHiKVhUKj
+         hsB2XqjX4rZjw8Kbgv6P7obB7m7yi8bCOQa2muYfgmO3VhYbWa1JIbtFntpsUdFnBvpg
+         z2URti78Yz+e3DuPLhwr8YZHxwRBn4DNVm9MI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=a6bXV7bt3FJwO+6h7hS9wdbWbj+cKT2R8klgQdvy5V4=;
-        b=NckT0JXw5XZj3Xdjiwd197U8yQW21jwdZ76+QUlWQ/uxv9b6NvjnzNrX8x2kpN+sp/
-         BvLAC5MJpJJKuJwcOhqlCUEwTL2P2xOKViSeVmKJ1h6SXHx/76WsCKN6Tqs6Zm2sghfB
-         jDBFZZM4shHRCUS+434h5HSewB/Wm1stVyqVyYhQX5edDNd26tDTjIVgLandZenQ9L8Q
-         NqaizUW/3vqlBft2lVR2AZacpYTuL5FIglCjqdy3ncyq43XBip8uhVfEa4Sh54VmIGdv
-         g2NBIYYZFtnmUuXxNQnxxR3hI9segcGdHWbyJMEO0N3g5VAqFtIeMgZY843v8fxzg7Oi
-         jesw==
-X-Gm-Message-State: AGi0PubZ9NjSIz7EQj/EcMOXkduA33yuzX7fPDC83Cj1JXj3lSpJYRCd
-        EqNhe0YbaamfMoyd7AxL2Qk2tw==
-X-Google-Smtp-Source: APiQypL4ftL5PXuI6WbPG1D/aF+OyzdmBrwXgZqbvh107ELfxtW4oGZxzd33g34wmpY9M28zk4hvsQ==
-X-Received: by 2002:a17:90b:374e:: with SMTP id ne14mr17664828pjb.145.1589142283365;
-        Sun, 10 May 2020 13:24:43 -0700 (PDT)
+        bh=5ftIoYymBGMn0ProUbxAIjGCP6irGe3xnecuHwaJ2BU=;
+        b=hG7LGjCW9RveDTEb/lo9kYkRipQlm382QzZoefUCbnkGKTjPcuTSItRwX1JrjE7Uhl
+         hFSHevMgOGb9nM45RwaffZtHnyz59dBnS/D6jY2xH0g9e/28R9qr+veNBD7cvEAQGX2Y
+         uBVuPZwSbfYZD9vh+67im41/7oX7TmUqWGAECXYnGYdC3sNRu+6/5krVYhuasAvvXe/P
+         Br1ASYDAFA3vh5Oz2nLfOoMYHDg4h05IsbYXIpT66YmrL5yDzXQ0PjsQPY/V31wSp4Xl
+         lOWCQWafCpIhv3ZSrtG1f0fNhRfV8amH4l0hZ+tV/FGjPDg3PA0QxqlVz0GjZVAh0uN+
+         R8pQ==
+X-Gm-Message-State: AGi0PuYWrxDxBj6rj6j9jd2/m0Dj/qJnRy868BTQEGMRRbw190kT2PXq
+        bsYWcmozvUwMESG4PRPenX/IqA==
+X-Google-Smtp-Source: APiQypKkKbidaXA2M8XJ6HvdzKsXRV/+gbI2nQYSE78Rxu8a98OLbZfjBGurl33BBe6rQc0sYAewRw==
+X-Received: by 2002:a62:2cd7:: with SMTP id s206mr12711308pfs.183.1589142284913;
+        Sun, 10 May 2020 13:24:44 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y6sm7866882pjw.15.2020.05.10.13.24.41
+        by smtp.gmail.com with ESMTPSA id n9sm8014797pjt.29.2020.05.10.13.24.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 10 May 2020 13:24:41 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -71,9 +71,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Pavel Tatashin <pasha.tatashin@soleen.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org
-Subject: [PATCH v7 02/18] pstore/platform: Switch pstore_info::name to const
-Date:   Sun, 10 May 2020 13:24:20 -0700
-Message-Id: <20200510202436.63222-3-keescook@chromium.org>
+Subject: [PATCH v7 04/18] pstore/platform: Use backend name for console registration
+Date:   Sun, 10 May 2020 13:24:22 -0700
+Message-Id: <20200510202436.63222-5-keescook@chromium.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200510202436.63222-1-keescook@chromium.org>
 References: <20200510202436.63222-1-keescook@chromium.org>
@@ -84,51 +84,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to more cleanly pass around backend names, make the "name" member
-const. This means the module param needs to be dynamic (technically, it
-was before, so this actually cleans up a minor memory leak if a backend
-was specified and then gets unloaded.)
+If the pstore backend changes, there's no indication in the logs what
+the console is (it always says "pstore"). Instead, pass through the
+active backend's name.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/pstore/platform.c   | 3 ++-
- include/linux/pstore.h | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ fs/pstore/platform.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
-index b882919b8784..e7bf22f01928 100644
+index bf7fa7b278bd..90d146fbc7d2 100644
 --- a/fs/pstore/platform.c
 +++ b/fs/pstore/platform.c
-@@ -626,7 +626,7 @@ int pstore_register(struct pstore_info *psi)
- 	 * Update the module parameter backend, so it is visible
- 	 * through /sys/module/pstore/parameters/backend
- 	 */
--	backend = psi->name;
-+	backend = kstrdup(psi->name, GFP_KERNEL);
- 
- 	pr_info("Registered %s as persistent store backend\n", psi->name);
- 
-@@ -669,6 +669,7 @@ void pstore_unregister(struct pstore_info *psi)
- 	free_buf_for_compression();
- 
- 	psinfo = NULL;
-+	kfree(backend);
- 	backend = NULL;
- 	mutex_unlock(&psinfo_lock);
+@@ -519,13 +519,15 @@ static void pstore_console_write(struct console *con, const char *s, unsigned c)
  }
-diff --git a/include/linux/pstore.h b/include/linux/pstore.h
-index 16a1fdafc167..eb93a54cff31 100644
---- a/include/linux/pstore.h
-+++ b/include/linux/pstore.h
-@@ -176,7 +176,7 @@ struct pstore_record {
-  */
- struct pstore_info {
- 	struct module	*owner;
--	char		*name;
-+	const char	*name;
  
- 	struct semaphore buf_lock;
- 	char		*buf;
+ static struct console pstore_console = {
+-	.name	= "pstore",
+ 	.write	= pstore_console_write,
+ 	.index	= -1,
+ };
+ 
+ static void pstore_register_console(void)
+ {
++	/* Show which backend is going to get console writes. */
++	strscpy(pstore_console.name, psinfo->name,
++		sizeof(pstore_console.name));
+ 	/*
+ 	 * Always initialize flags here since prior unregister_console()
+ 	 * calls may have changed settings (specifically CON_ENABLED).
 -- 
 2.20.1
 
