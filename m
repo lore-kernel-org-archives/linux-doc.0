@@ -2,239 +2,168 @@ Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F302CC54E98
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 19:23:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87DDFC47255
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 20:03:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE7D720752
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 19:23:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66D9520720
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 20:03:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IWn2kc67"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731550AbgEKTXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 15:23:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731423AbgEKTWR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 15:22:17 -0400
-Received: from smtp-42ab.mail.infomaniak.ch (smtp-42ab.mail.infomaniak.ch [IPv6:2001:1600:3:17::42ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F4D7C05BD10
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 12:22:14 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49LW5n35JTzlhBTm;
-        Mon, 11 May 2020 21:22:05 +0200 (CEST)
-Received: from localhost (unknown [94.23.54.103])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 49LW5l4xCTzlhGQn;
-        Mon, 11 May 2020 21:22:03 +0200 (CEST)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v17 00/10] Landlock LSM
-Date:   Mon, 11 May 2020 21:21:46 +0200
-Message-Id: <20200511192156.1618284-1-mic@digikod.net>
-X-Mailer: git-send-email 2.26.2
+        id S1729572AbgEKUDs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 16:03:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38871 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729049AbgEKUDr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 16:03:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589227425;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=RqLIghAl9FOHJnp1Y7T66opswWD9eKr/smCA1mzy8mo=;
+        b=IWn2kc67uovlc5USmhuLhJb2g4H7VAfjiEj8Gt4Q4Ur4IR2FBe09C4M2eNDXPYSzxomfPS
+        UrUwZUTr7UWq8p0/szv1bycgdzEYB6R48Wk3PA9YGxUNRqJ9ujVdytC59eXL0Rgtcet0qq
+        nxrT3izwCd20PpayIObcVTUO3+u/BDs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-YucPpVjoP92YT5hhrLVOIQ-1; Mon, 11 May 2020 16:03:41 -0400
+X-MC-Unique: YucPpVjoP92YT5hhrLVOIQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EC2480B70B;
+        Mon, 11 May 2020 20:03:39 +0000 (UTC)
+Received: from optiplex-lnx (unknown [10.3.128.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id BD7EE2B056;
+        Mon, 11 May 2020 20:03:28 +0000 (UTC)
+Date:   Mon, 11 May 2020 16:03:25 -0400
+From:   Rafael Aquini <aquini@redhat.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
+        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
+        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
+        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
+        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
+Subject: Re: [PATCH v3] kernel: add panic_on_taint
+Message-ID: <20200511200325.GE367616@optiplex-lnx>
+References: <20200509135737.622299-1-aquini@redhat.com>
+ <20200511182455.GR11244@42.do-not-panic.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200511182455.GR11244@42.do-not-panic.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Mon, May 11, 2020 at 06:24:55PM +0000, Luis Chamberlain wrote:
+> On Sat, May 09, 2020 at 09:57:37AM -0400, Rafael Aquini wrote:
+> > +Trigger Kdump on add_taint()
+> > +============================
+> > +
+> > +The kernel parameter, panic_on_taint, calls panic() from within add_taint(),
+> > +whenever the value set in this bitmask matches with the bit flag being set
+> > +by add_taint(). This will cause a kdump to occur at the panic() call.
+> > +In cases where a user wants to specify this during runtime,
+> > +/proc/sys/kernel/panic_on_taint can be set to a respective bitmask value
+> > +to achieve the same behaviour.
+> > +
+> >  Contact
+> >  =======
+> >  
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 7bc83f3d9bdf..4a69fe49a70d 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -3404,6 +3404,21 @@
+> >  	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
+> >  			on a WARN().
+> >  
+> > +	panic_on_taint=	[KNL] conditionally panic() in add_taint()
+> > +			Format: <str>
+> > +			Specifies, as a string, the TAINT flag set that will
+> > +			compose a bitmask for calling panic() when the kernel
+> > +			gets tainted.
+> > +			See Documentation/admin-guide/tainted-kernels.rst for
+> > +			details on the taint flags that users can pick to
+> > +			compose the bitmask to assign to panic_on_taint.
+> > +			When the string is prefixed with a '-' the bitmask
+> > +			set in panic_on_taint will be mutually exclusive
+> > +			with the sysctl knob kernel.tainted, and any attempt
+> > +			to write to that sysctl will fail with -EINVAL for
+> > +			any taint value that masks with the flags set for
+> > +			this option.
+> 
+> This talks about using a string, but that it sets a bitmask. Its not
+> very clear that one must use the string representation from each taint
+> flag. Also, I don't think to use the character representation as we
+> limit ourselves to the alphabet and quirky what-should-be-arbitrary
+> characters that represent the taint flags. The taint flag character
+> representation is juse useful for human reading of a panic, but I think
+> because of the limitation of the mask with the alphabet this was not
+> such a great idea long term.
+>
 
-This new patch series brings some improvements and add new tests:
+I respectfully disagree with you on this one, but that might be just
+because I'm a non-native English speaker and the cause of confusion is 
+not very clear to me. Would you mind providing a blurb with a text that
+you think it would be clearer on this regard?
 
-Use smaller userspace structures (attributes) to save space, and check
-at built time that every attribute don't contain hole and are 8-bits
-aligned.
+Also, making the input of the option to match with something one
+is used to see in taint reports make it easier to use. It would
+be still a human setting the boot option, so it makes sense to
+utilize a known/meaningful representation for panic_on_taint input.
 
-Allow enforcement of empty ruleset, which enables deny-all policies
-(useful for strict sandboxes).
+ 
+> So, I don't think we should keep on extending the alphabet use case, a
+> simple digit representation would suffice. I think this means we'd need
+> two params one for exclusive and one for the value of the taint.
+> 
+> Using a hex value or number also lets us make the input value shorter.
+>
 
-I found that UML may not keep the same internal struct inode for an open
-file.  Because the Landlock filesystem access-control relies on internal
-kernel states, special architectures such as UML can't support Landlock.
-Add a new ARCH_EPHEMERAL_STATES to identify such architectures.
+Albeit you're right on the limitation of an alphabetical representation, 
+the truth is that taint flags are not introduced that frequently.
+Considering how many times these flags were introduced in the past,
+one could infer we probably will not run out of alphabet in the next 20 
+years (a couple of new flags gets introduced every 2 years, or so, in
+average), and the rate of change in these seems to be slowing down
+considerably, as in the past 5 years, we've seen only 2 new flags.
 
-Add a size_attr_features field to struct landlock_attr_features for
-self-introspection
+I'm not against your suggestion, though, but I think it makes
+clumsier to utilize the feature as you now require 2 kernel
+cmdline options, instead of just one, and a less intuitive
+way of setting it via base16 values. All at the expense of 
+a theoretical shortage of taint flags. 
 
-Switch syscall attribute pointer and size arguments to follow similar
-syscalls argument order (e.g. bpf, clone3, openat2).
-
-
-The SLOC count is 1288 for security/landlock/ and 1740 for
-tools/testing/selftest/landlock/ .  Test coverage for security/landlock/
-is 93.6% of lines.  The code not covered only deals with internal kernel
-errors (e.g. memory allocation) and race conditions.
-
-The compiled documentation is available here:
-https://landlock.io/linux-doc/landlock-v17/security/landlock/index.html
-
-This series can be applied on top of v5.7-rc5.  This can be tested with
-CONFIG_SECURITY_LANDLOCK and CONFIG_SAMPLE_LANDLOCK.  This patch series
-can be found in a Git repository here:
-https://github.com/landlock-lsm/linux/commits/landlock-v17
-I would really appreciate constructive comments on this patch series.
-
-
-# Landlock LSM
-
-The goal of Landlock is to enable to restrict ambient rights (e.g.
-global filesystem access) for a set of processes.  Because Landlock is a
-stackable LSM [2], it makes possible to create safe security sandboxes
-as new security layers in addition to the existing system-wide
-access-controls. This kind of sandbox is expected to help mitigate the
-security impact of bugs or unexpected/malicious behaviors in user-space
-applications. Landlock empowers any process, including unprivileged
-ones, to securely restrict themselves.
-
-Landlock is inspired by seccomp-bpf but instead of filtering syscalls
-and their raw arguments, a Landlock rule can restrict the use of kernel
-objects like file hierarchies, according to the kernel semantic.
-Landlock also takes inspiration from other OS sandbox mechanisms: XNU
-Sandbox, FreeBSD Capsicum or OpenBSD Pledge/Unveil.
+If the others that were already OK with the simple string interface 
+don't object your change suggestions in that regard, I'll refactor
+the parser to meet them. 
 
 
-Previous version:
-https://lore.kernel.org/lkml/20200416103955.145757-1-mic@digikod.net/
+> If a kernel boots with panic-on-taint flag not yet supported, we don't
+> complain, therefore getting a false sense of security that we will panic
+> with a not yet supported taint flag. I think we should pr_warn() or
+> fail to boot when that happens.
+>
 
+Bear in mind that these very early print outs (like the ones eventually
+produced by setting panic_on_taint) to the log buffer might get lost in 
+verbose-logging long-running time systems, but apart from that, I see no 
+problems in being a little bit more verbose in that parser. I'll make
+the changes for a next revision, if no one else objects them.
 
-[1] https://lore.kernel.org/lkml/e07fe473-1801-01cc-12ae-b3167f95250e@digikod.net/
-[2] https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
-
-Regards,
-
-Mickaël Salaün (10):
-  landlock: Add object management
-  landlock: Add ruleset and domain management
-  landlock: Set up the security framework and manage credentials
-  landlock: Add ptrace restrictions
-  fs,landlock: Support filesystem access-control
-  landlock: Add syscall implementation
-  arch: Wire up landlock() syscall
-  selftests/landlock: Add initial tests
-  samples/landlock: Add a sandbox manager example
-  landlock: Add user and kernel documentation
-
- Documentation/security/index.rst              |    1 +
- Documentation/security/landlock/index.rst     |   18 +
- Documentation/security/landlock/kernel.rst    |   69 +
- Documentation/security/landlock/user.rst      |  268 +++
- MAINTAINERS                                   |   12 +
- arch/Kconfig                                  |    7 +
- arch/alpha/kernel/syscalls/syscall.tbl        |    1 +
- arch/arm/tools/syscall.tbl                    |    1 +
- arch/arm64/include/asm/unistd.h               |    2 +-
- arch/arm64/include/asm/unistd32.h             |    2 +
- arch/ia64/kernel/syscalls/syscall.tbl         |    1 +
- arch/m68k/kernel/syscalls/syscall.tbl         |    1 +
- arch/microblaze/kernel/syscalls/syscall.tbl   |    1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl     |    1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl     |    1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl     |    1 +
- arch/parisc/kernel/syscalls/syscall.tbl       |    1 +
- arch/powerpc/kernel/syscalls/syscall.tbl      |    1 +
- arch/s390/kernel/syscalls/syscall.tbl         |    1 +
- arch/sh/kernel/syscalls/syscall.tbl           |    1 +
- arch/sparc/kernel/syscalls/syscall.tbl        |    1 +
- arch/um/Kconfig                               |    1 +
- arch/x86/entry/syscalls/syscall_32.tbl        |    1 +
- arch/x86/entry/syscalls/syscall_64.tbl        |    1 +
- arch/xtensa/kernel/syscalls/syscall.tbl       |    1 +
- fs/super.c                                    |    2 +
- include/linux/fs.h                            |    5 +
- include/linux/landlock.h                      |   22 +
- include/linux/syscalls.h                      |    3 +
- include/uapi/asm-generic/unistd.h             |    4 +-
- include/uapi/linux/landlock.h                 |  302 +++
- kernel/sys_ni.c                               |    3 +
- samples/Kconfig                               |    7 +
- samples/Makefile                              |    1 +
- samples/landlock/.gitignore                   |    1 +
- samples/landlock/Makefile                     |   15 +
- samples/landlock/sandboxer.c                  |  228 +++
- security/Kconfig                              |   11 +-
- security/Makefile                             |    2 +
- security/landlock/Kconfig                     |   18 +
- security/landlock/Makefile                    |    4 +
- security/landlock/common.h                    |   20 +
- security/landlock/cred.c                      |   46 +
- security/landlock/cred.h                      |   58 +
- security/landlock/fs.c                        |  601 ++++++
- security/landlock/fs.h                        |   42 +
- security/landlock/object.c                    |   66 +
- security/landlock/object.h                    |   91 +
- security/landlock/ptrace.c                    |  120 ++
- security/landlock/ptrace.h                    |   14 +
- security/landlock/ruleset.c                   |  342 ++++
- security/landlock/ruleset.h                   |  161 ++
- security/landlock/setup.c                     |   39 +
- security/landlock/setup.h                     |   18 +
- security/landlock/syscall.c                   |  532 +++++
- tools/testing/selftests/Makefile              |    1 +
- tools/testing/selftests/landlock/.gitignore   |    2 +
- tools/testing/selftests/landlock/Makefile     |   29 +
- tools/testing/selftests/landlock/base_test.c  |  170 ++
- tools/testing/selftests/landlock/common.h     |  108 +
- tools/testing/selftests/landlock/config       |    5 +
- tools/testing/selftests/landlock/fs_test.c    | 1729 +++++++++++++++++
- .../testing/selftests/landlock/ptrace_test.c  |  293 +++
- tools/testing/selftests/landlock/true.c       |    5 +
- 64 files changed, 5509 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/security/landlock/index.rst
- create mode 100644 Documentation/security/landlock/kernel.rst
- create mode 100644 Documentation/security/landlock/user.rst
- create mode 100644 include/linux/landlock.h
- create mode 100644 include/uapi/linux/landlock.h
- create mode 100644 samples/landlock/.gitignore
- create mode 100644 samples/landlock/Makefile
- create mode 100644 samples/landlock/sandboxer.c
- create mode 100644 security/landlock/Kconfig
- create mode 100644 security/landlock/Makefile
- create mode 100644 security/landlock/common.h
- create mode 100644 security/landlock/cred.c
- create mode 100644 security/landlock/cred.h
- create mode 100644 security/landlock/fs.c
- create mode 100644 security/landlock/fs.h
- create mode 100644 security/landlock/object.c
- create mode 100644 security/landlock/object.h
- create mode 100644 security/landlock/ptrace.c
- create mode 100644 security/landlock/ptrace.h
- create mode 100644 security/landlock/ruleset.c
- create mode 100644 security/landlock/ruleset.h
- create mode 100644 security/landlock/setup.c
- create mode 100644 security/landlock/setup.h
- create mode 100644 security/landlock/syscall.c
- create mode 100644 tools/testing/selftests/landlock/.gitignore
- create mode 100644 tools/testing/selftests/landlock/Makefile
- create mode 100644 tools/testing/selftests/landlock/base_test.c
- create mode 100644 tools/testing/selftests/landlock/common.h
- create mode 100644 tools/testing/selftests/landlock/config
- create mode 100644 tools/testing/selftests/landlock/fs_test.c
- create mode 100644 tools/testing/selftests/landlock/ptrace_test.c
- create mode 100644 tools/testing/selftests/landlock/true.c
-
--- 
-2.26.2
+Cheers!
+-- Rafael
 
