@@ -1,144 +1,220 @@
-Return-Path: <SRS0=r+xA=6Y=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1618AC54E8A
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9370CC54E8E
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 01:12:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED71820737
-	for <linux-doc@archiver.kernel.org>; Sun, 10 May 2020 20:32:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E4B620820
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 01:12:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Fw8KyfeR"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TE2Gpwvj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729342AbgEJUb6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 May 2020 16:31:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729327AbgEJUb5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 16:31:57 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A202FC061A0E
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:31:57 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id j21so3553809pgb.7
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2020 13:31:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IGhCzVMcFSG8RfD2dnuoWGbvQKbAh3BbNL764FWITOg=;
-        b=Fw8KyfeRY2o+iHX91RUx34YBABbxf6VuNlYyNsnrWdXif3s/ACuQVflYL+CJptaAuw
-         gTkwG01vIwsxYH9f/tLpXxU2UnH3b3f+//pWjovG+r86XkEYeKe1/MFAGtf/PMTdBtIm
-         McUum85+3EHfgMNTrU3qDsZ2l6EjV1jWiANN8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IGhCzVMcFSG8RfD2dnuoWGbvQKbAh3BbNL764FWITOg=;
-        b=qaY8XOjAFs3JjfLc8PaRSvQaLtdomZ/4qKdAmUVMN/X3ScgcViOK0xIpQmxYbllGja
-         ym1eG3GaeV19TUdv6hy6L7tvY695OzG4yr3+xfyO6/4MrcBCwOdThWsx5gj1T9/gr77d
-         3sjcM5lWYrOHoSDafs0HpdH05Y1V8eQmDskYXemmbDvqnnVNFApC7sozu5X+RE+rKYxG
-         WorDXIMTcCWdJwWZdAZF7vJ0v+6/764Wbx3MFbEn5wf1Gq9rNz0M3Je8ZSCaIHmKhbSy
-         7T33/YPvjPzCnyML8+hsvuzn8hGWUv63Gtiz687ZUcvLbhASp9UMWIfeETLIu/WCgdGS
-         Z71g==
-X-Gm-Message-State: AGi0PuYss0If8IR982yF6OtICT1ZkZYrWWfbdue1i4m+ChvreQZLk5li
-        g+pFRr/qBvavp8NATuWI/WS9VA==
-X-Google-Smtp-Source: APiQypJsRU9h+Mob7IV8V9hVnNZaLYlsu6I2Ml5FQNRy6o1udqUOVm9mMtwEsQaiHAaxP5NUL+g+Lg==
-X-Received: by 2002:a63:dd51:: with SMTP id g17mr10543432pgj.2.1589142717130;
-        Sun, 10 May 2020 13:31:57 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f30sm8149570pje.29.2020.05.10.13.31.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2020 13:31:56 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Rob Herring <robh@kernel.org>,
-        Pavel Tatashin <pasha.tatashin@soleen.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org
-Subject: [PATCH v7 18/18] pstore/blk: Introduce "best_effort" mode
-Date:   Sun, 10 May 2020 13:24:36 -0700
-Message-Id: <20200510202436.63222-19-keescook@chromium.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200510202436.63222-1-keescook@chromium.org>
-References: <20200510202436.63222-1-keescook@chromium.org>
+        id S1729216AbgEKBMM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 May 2020 21:12:12 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52278 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728963AbgEKBMM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 May 2020 21:12:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589159530;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=SlpEYKtBiMfc57VG1AFygRCYPkrLzoQdUS6AmYK1UXw=;
+        b=TE2GpwvjLPFrAoUKiKlRnvtFQn4//8zxaEEXoN972E92U9Yfdr5klyQzRdrwTvKaRLipr7
+        Zc7Ia/XzZmiKU3CL7Fo8h1VDzUu3P+6os6h3ugJhtc7KPqv/6HzsITWq+g5lDylJiSb2PJ
+        GATlsAWY1wCH0zzzbQ0HtYOxPfzMWaQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-440-glKCKa18PC-8K5TOhETGdA-1; Sun, 10 May 2020 21:12:03 -0400
+X-MC-Unique: glKCKa18PC-8K5TOhETGdA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47818107ACCD;
+        Mon, 11 May 2020 01:12:00 +0000 (UTC)
+Received: from localhost (ovpn-12-129.pek2.redhat.com [10.72.12.129])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D2A65D9DC;
+        Mon, 11 May 2020 01:11:51 +0000 (UTC)
+Date:   Mon, 11 May 2020 09:11:49 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Rafael Aquini <aquini@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        dyoung@redhat.com, corbet@lwn.net, mcgrof@kernel.org,
+        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
+        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
+        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
+        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
+Subject: Re: [PATCH v3] kernel: add panic_on_taint
+Message-ID: <20200511011149.GH5029@MiWiFi-R3L-srv>
+References: <20200509135737.622299-1-aquini@redhat.com>
+ <20200510025921.GA10165@MiWiFi-R3L-srv>
+ <20200510182202.GA31704@t490s>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200510182202.GA31704@t490s>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to use arbitrary block devices as a pstore backend, provide a
-new module param named "best_effort", which will allow using any block
-device, even if it has not provided a panic_write callback.
+On 05/10/20 at 02:22pm, Rafael Aquini wrote:
+> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > > index 7bc83f3d9bdf..4a69fe49a70d 100644
+> > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > @@ -3404,6 +3404,21 @@
+> > >  	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
+> > >  			on a WARN().
+> > >  
+> > > +	panic_on_taint=	[KNL] conditionally panic() in add_taint()
+> > > +			Format: <str>
+> > 			Changed it as 'Format: <string>' to be
+> > consistent with the existing other options?
+> 
+> I can resubmit with the change, if it's a strong req and the surgery
+> cannot be done at merge time.
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- fs/pstore/blk.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+Yeah, maybe maintainer can help adjust this, not sure who will pick it.
+No, it's not a strong request, people might get a little bit confusion
+about which format should be referred to when a new kernel option is added.
 
-diff --git a/fs/pstore/blk.c b/fs/pstore/blk.c
-index 0dea8ded2de2..ad46860d5a78 100644
---- a/fs/pstore/blk.c
-+++ b/fs/pstore/blk.c
-@@ -51,6 +51,10 @@ static long ftrace_size = -1;
- module_param(ftrace_size, long, 0400);
- MODULE_PARM_DESC(ftrace_size, "ftrace size in kbytes");
- 
-+static bool best_effort;
-+module_param(best_effort, bool, 0400);
-+MODULE_PARM_DESC(best_effort, "use best effort to write (i.e. do not require storage driver pstore support, default: off)");
-+
- /*
-  * blkdev - the block device to use for pstore storage
-  *
-@@ -376,7 +380,8 @@ static int __register_pstore_blk(struct pstore_blk_info *info)
- 	}
- 
- 	/* only allow driver matching the @blkdev */
--	if (!binfo.devt || MAJOR(binfo.devt) != info->major) {
-+	if (!binfo.devt || (!best_effort &&
-+			    MAJOR(binfo.devt) != info->major)) {
- 		pr_debug("invalid major %u (expect %u)\n",
- 				info->major, MAJOR(binfo.devt));
- 		ret = -ENODEV;
-@@ -479,6 +484,20 @@ int pstore_blk_get_config(struct pstore_blk_config *info)
- }
- EXPORT_SYMBOL_GPL(pstore_blk_get_config);
- 
-+static int __init pstore_blk_init(void)
-+{
-+	struct pstore_blk_info info = { };
-+	int ret = 0;
-+
-+	mutex_lock(&pstore_blk_lock);
-+	if (!pstore_zone_info && best_effort && blkdev[0])
-+		ret = __register_pstore_blk(&info);
-+	mutex_unlock(&pstore_blk_lock);
-+
-+	return ret;
-+}
-+late_initcall(pstore_blk_init);
-+
- static void __exit pstore_blk_exit(void)
- {
- 	mutex_lock(&pstore_blk_lock);
--- 
-2.20.1
+> 
+> 
+> > > +			Specifies, as a string, the TAINT flag set that will
+> > > +			compose a bitmask for calling panic() when the kernel
+> > > +			gets tainted.
+> > > +			See Documentation/admin-guide/tainted-kernels.rst for
+> > > +			details on the taint flags that users can pick to
+> > > +			compose the bitmask to assign to panic_on_taint.
+> > > +			When the string is prefixed with a '-' the bitmask
+> > > +			set in panic_on_taint will be mutually exclusive
+> > > +			with the sysctl knob kernel.tainted, and any attempt
+> > > +			to write to that sysctl will fail with -EINVAL for
+> > > +			any taint value that masks with the flags set for
+> > > +			this option.
+> > > +
+> > >  	crash_kexec_post_notifiers
+> > >  			Run kdump after running panic-notifiers and dumping
+> > >  			kmsg. This only for the users who doubt kdump always
+> > > diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+> > > index 9b7a8d74a9d6..66bc102cb59a 100644
+> > > --- a/include/linux/kernel.h
+> > > +++ b/include/linux/kernel.h
+> > > @@ -528,6 +528,8 @@ extern int panic_on_oops;
+> > >  extern int panic_on_unrecovered_nmi;
+> > >  extern int panic_on_io_nmi;
+> > >  extern int panic_on_warn;
+> > > +extern unsigned long panic_on_taint;
+> > > +extern bool panic_on_taint_exclusive;
+> > >  extern int sysctl_panic_on_rcu_stall;
+> > >  extern int sysctl_panic_on_stackoverflow;
+> > >  
+> > > diff --git a/kernel/panic.c b/kernel/panic.c
+> > > index b69ee9e76cb2..65c62f8a1de8 100644
+> > > --- a/kernel/panic.c
+> > > +++ b/kernel/panic.c
+> > > @@ -25,6 +25,7 @@
+> > >  #include <linux/kexec.h>
+> > >  #include <linux/sched.h>
+> > >  #include <linux/sysrq.h>
+> > > +#include <linux/ctype.h>
+> > >  #include <linux/init.h>
+> > >  #include <linux/nmi.h>
+> > >  #include <linux/console.h>
+> > > @@ -44,6 +45,8 @@ static int pause_on_oops_flag;
+> > >  static DEFINE_SPINLOCK(pause_on_oops_lock);
+> > >  bool crash_kexec_post_notifiers;
+> > >  int panic_on_warn __read_mostly;
+> > > +unsigned long panic_on_taint;
+> > > +bool panic_on_taint_exclusive = false;
+> > >  
+> > >  int panic_timeout = CONFIG_PANIC_TIMEOUT;
+> > >  EXPORT_SYMBOL_GPL(panic_timeout);
+> > > @@ -434,6 +437,11 @@ void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
+> > >  		pr_warn("Disabling lock debugging due to kernel taint\n");
+> > >  
+> > >  	set_bit(flag, &tainted_mask);
+> > > +
+> > > +	if (tainted_mask & panic_on_taint) {
+> > > +		panic_on_taint = 0;
+> > 
+> > This panic_on_taint resetting is redundant? It will trigger crash, do we
+> > need care if it's 0 or not?
+> >
+> 
+> We might still get more than one CPU hitting a taint adding code path after 
+> the one that tripped here called panic. To avoid multiple calls to panic, 
+> in that particular scenario, we clear the panic_on_taint bitmask out. 
+> Also, albeit non-frequent, we might be tracking TAINT_WARN, and still hit 
+> a WARN_ON() in the panic / kdump path, thus incurring in a second 
+> (and unwanted) call to panic here.  
+
+Hmm, this cpu will set panic_cpu firstly, all other cpu need stop and
+have no chance to execute panic. But yes, clearing panic_on_taint makes
+code easier to understand.
+
+> 
+>  
+> > > +		panic("panic_on_taint set ...");
+> > > +	}
+> > >  }
+> > >  EXPORT_SYMBOL(add_taint);
+> > >  
+> > > @@ -686,3 +694,35 @@ static int __init oops_setup(char *s)
+> > >  	return 0;
+> > >  }
+> > >  early_param("oops", oops_setup);
+> > > +
+> > > +static int __init panic_on_taint_setup(char *s)
+> > > +{
+> > > +	/* we just ignore panic_on_taint if passed without flags */
+> > > +	if (!s)
+> > > +		goto out;
+> > > +
+> > > +	for (; *s; s++) {
+> > > +		int i;
+> > > +
+> > > +		if (*s == '-') {
+> > > +			panic_on_taint_exclusive = true;
+> > > +			continue;
+> > > +		}
+> > > +
+> > > +		for (i = 0; i < TAINT_FLAGS_COUNT; i++) {
+> > > +			if (toupper(*s) == taint_flags[i].c_true) {
+> > > +				set_bit(i, &panic_on_taint);
+> > > +				break;
+> > > +			}
+> > > +		}
+> > 
+> > Read admin-guide/tainted-kernels.rst, but still do not get what 'G' means.
+> > If I specify 'panic_on_taint="G"' or 'panic_on_taint="-G"' in cmdline,
+> > what is expected for this customer behaviour?
+> > 
+> 
+> This will not panic the system as no taint flag gets actually set in 
+> panic_on_taint bitmask for G.
+> 
+> G is the counterpart of P, and appears on print_tainted() whenever
+> TAINT_PROPRIETARY_MODULE is not set. panic_on_taint doesn't set
+> anything for G, as it doesn't represent any taint, but the lack
+> of one particular taint, instead.
+> 
+> (apparently, TAINT_PROPRIETARY_MODULE is the only taint flag
+> that follows that pattern of having an extra assigned letter 
+> that means its absence, and perhaps it should be removed)
+
+Yeah, agree. I will make a draft patch to remove it, see if there's
+objection from people.
 
