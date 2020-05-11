@@ -2,251 +2,126 @@ Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 269BBC54E8E
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 15:02:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91B00C47255
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 15:23:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FEF020720
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 15:02:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 750BE206D5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 15:23:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729131AbgEKPCZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 11:02:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44646 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726438AbgEKPCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 11:02:25 -0400
-Received: from newton.telenet-ops.be (newton.telenet-ops.be [IPv6:2a02:1800:120:4::f00:d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B840C061A0C
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 08:02:25 -0700 (PDT)
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by newton.telenet-ops.be (Postfix) with ESMTPS id 49LP7S25jYzMqmS4
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 16:53:08 +0200 (CEST)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:702c:fb99:3097:2049])
-        by baptiste.telenet-ops.be with bizsmtp
-        id dSsy2200G0GoAb601SsyU6; Mon, 11 May 2020 16:53:08 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jY9ne-00082j-3k; Mon, 11 May 2020 16:52:58 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jY9ne-0005zX-2C; Mon, 11 May 2020 16:52:58 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        qemu-devel@nongnu.org, Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v7 3/6] gpiolib: Add support for GPIO lookup by line name
-Date:   Mon, 11 May 2020 16:52:54 +0200
-Message-Id: <20200511145257.22970-4-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200511145257.22970-1-geert+renesas@glider.be>
-References: <20200511145257.22970-1-geert+renesas@glider.be>
+        id S1728556AbgEKPXb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 11:23:31 -0400
+Received: from mga17.intel.com ([192.55.52.151]:1038 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726410AbgEKPXa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 May 2020 11:23:30 -0400
+IronPort-SDR: f9TUY7F23pBoNev8MB6oOJHI+gjokQfE/+IEgYPARLQAI8b2Cwk3cg72DqzwL4uHA1cPtvZY9P
+ FguKoTdYlW8A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2020 08:23:30 -0700
+IronPort-SDR: gWRS8Uw2Cii8V8cNVBn4P2RMuZ1yscVv4ucq0aFDc5Q2/90YH2yCy8tmyoIKf6MesNgpfTDeEj
+ 7PDEnSQ5lgHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,380,1583222400"; 
+   d="scan'208";a="286310905"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.25])
+  by fmsmga004.fm.intel.com with ESMTP; 11 May 2020 08:23:30 -0700
+Date:   Mon, 11 May 2020 08:23:30 -0700
+From:   "Raj, Ashok" <ashok.raj@intel.com>
+To:     Mihai Carabas <mihai.carabas@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Ashok Raj <ashok.raj@intel.com>
+Subject: Re: [PATCH RFC] Microcode late loading feature identification
+Message-ID: <20200511152329.GB79981@otc-nc-03>
+References: <1587972479-10971-1-git-send-email-mihai.carabas@oracle.com>
+ <56ae9070-5960-1498-c021-74ef4451c222@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <56ae9070-5960-1498-c021-74ef4451c222@oracle.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently a GPIO lookup table can only refer to a specific GPIO by a
-tuple, consisting of a GPIO controller label and a GPIO offset inside
-the controller.
+Hi Mihai
 
-However, a GPIO may also carry a line name, defined by DT or ACPI.
-If present, the line name is the most use-centric way to refer to a
-GPIO.  Hence add support for looking up GPIOs by line name.
-Note that there is no guarantee that GPIO line names are globally
-unique, so this will use the first match found.
+Thanks for an attempt to find a fix. To solve this for real there
+are several other factors to consider and I'm afraid its not as simple
+as you have articulated here. There are lots of practical limitations that
+prevent us from solving this completely. But we haven't given up :-)
 
-Implement this by reusing the existing gpiod_lookup infrastructure.
-Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
-that this field can have two meanings, and update the kerneldoc and
-GPIO_LOOKUP*() macros.
+In order to be successful, this needs to be factored in by the vendor either
+as part of the development process or somehow generated automatically. Both
+have pitfalls, and as you read below some of it might become clear.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
----
-v7:
-  - Document non-uniqueness of line names,
-  - Rebase on top of commit a0b66a73785ccc8f ("gpio: Rename variable in
-    core APIs"),
+On Mon, May 11, 2020 at 05:11:23PM +0300, Mihai Carabas wrote:
+> La 27.04.2020 10:27, Mihai Carabas a scris:
+> >This RFC patch set aims to provide a way to identify the modifications
+> >brought in by the new microcode updated at runtime (aka microcode late
+> >loading). This was debated last year and this patch set implements
+> >point #1 from Thomas Gleixner's idea:
+> >https://lore.kernel.org/lkml/alpine.DEB.2.21.1909062237580.1902@nanos.tec.linutronix.de/
+> >
+> 
+> +Ashok and Thomas to get a feedback from vendor side on file
+> format/integration in the microcode blob and signature.
 
-v6:
-  - Update Documentation/driver-api/gpio/board.rst,
-  - Reword rationale,
+To understand the complications of microcode there are a few things to consider.
 
-v5:
-  - Add Reviewed-by, Tested-by,
+We have been working on this internally, and here is why its difficult to 
+simplify it as +msr/-msr, +cpuid etc. Yes these are things that possibly
+controlled by microcode, but microcode has several parts, not just CPU microcode.
 
-v4:
-  - Add Reviewed-by,
-  - Rename gpiod_lookup.chip_label.
-  - Use U16_MAX instead of (u16)-1,
+The revision you see is just one big running number. There are other parts of the 
+microcode that you don't see its internal version. In addition some parts of the
+microcode are effective only when deployed by FIT. That cpu picks up right after
+reset. During late load, even though you see the version updated, it doesn't
+mean all the internal versions of ucode are latched and effective.
 
-v3:
-  - New.
----
- Documentation/driver-api/gpio/board.rst | 15 ++++++++++-----
- drivers/gpio/gpiolib.c                  | 22 +++++++++++++++++-----
- include/linux/gpio/machine.h            | 17 ++++++++++-------
- 3 files changed, 37 insertions(+), 17 deletions(-)
+In addition, there are differences how some mitigations are deployed, as you know
+some have MSR's that OS can find, there are others that need BIOS/early boot to 
+make the mitigations effective. In order to get a full picture of weather a microcode 
+file is late-loadable you need to know a lot more about how we got here to this
+version loaded on the CPU.
+> 
+> Thank you,
+> Mihai
+> 
+> >This patch set has the following patches:
+> >
+> >- patch 1 is introducing a new metadata file that comes with the microcode
+> >(provided by the CPU manufacture) that describes what modifications are
+> >done by loading the new microcode
+> >
+> >- patch 2 parses the metadata file and is verifying it against kernel
+> >policy. In this patch, as an RFC, as a kernel policy, it was imposed
+> >the rule of not allowing to remove any feature. If so, it won't be
+> >loaded a new microcode. The policy can be further extended and describe
+> >in different ways
 
-diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
-index ce91518bf9f48ded..191fa867826a45c3 100644
---- a/Documentation/driver-api/gpio/board.rst
-+++ b/Documentation/driver-api/gpio/board.rst
-@@ -113,13 +113,15 @@ files that desire to do so need to include the following header::
- GPIOs are mapped by the means of tables of lookups, containing instances of the
- gpiod_lookup structure. Two macros are defined to help declaring such mappings::
- 
--	GPIO_LOOKUP(chip_label, chip_hwnum, con_id, flags)
--	GPIO_LOOKUP_IDX(chip_label, chip_hwnum, con_id, idx, flags)
-+	GPIO_LOOKUP(key, chip_hwnum, con_id, flags)
-+	GPIO_LOOKUP_IDX(key, chip_hwnum, con_id, idx, flags)
- 
- where
- 
--  - chip_label is the label of the gpiod_chip instance providing the GPIO
--  - chip_hwnum is the hardware number of the GPIO within the chip
-+  - key is either the label of the gpiod_chip instance providing the GPIO, or
-+    the GPIO line name
-+  - chip_hwnum is the hardware number of the GPIO within the chip, or U16_MAX
-+    to indicate that key is a GPIO line name
-   - con_id is the name of the GPIO function from the device point of view. It
- 	can be NULL, in which case it will match any function.
-   - idx is the index of the GPIO within the function.
-@@ -135,7 +137,10 @@ where
- 
- In the future, these flags might be extended to support more properties.
- 
--Note that GPIO_LOOKUP() is just a shortcut to GPIO_LOOKUP_IDX() where idx = 0.
-+Note that:
-+  1. GPIO line names are not guaranteed to be globally unique, so the first
-+     match found will be used.
-+  2. GPIO_LOOKUP() is just a shortcut to GPIO_LOOKUP_IDX() where idx = 0.
- 
- A lookup table can then be defined as follows, with an empty entry defining its
- end. The 'dev_id' field of the table is the identifier of the device that will
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index 98822412f565073a..2e4aacbad8fe586b 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -4645,7 +4645,7 @@ static struct gpio_desc *gpiod_find(struct device *dev, const char *con_id,
- 	if (!table)
- 		return desc;
- 
--	for (p = &table->table[0]; p->chip_label; p++) {
-+	for (p = &table->table[0]; p->key; p++) {
- 		struct gpio_chip *gc;
- 
- 		/* idx must always match exactly */
-@@ -4656,18 +4656,30 @@ static struct gpio_desc *gpiod_find(struct device *dev, const char *con_id,
- 		if (p->con_id && (!con_id || strcmp(p->con_id, con_id)))
- 			continue;
- 
--		gc = find_chip_by_name(p->chip_label);
-+		if (p->chip_hwnum == U16_MAX) {
-+			desc = gpio_name_to_desc(p->key);
-+			if (desc) {
-+				*flags = p->flags;
-+				return desc;
-+			}
-+
-+			dev_warn(dev, "cannot find GPIO line %s, deferring\n",
-+				 p->key);
-+			return ERR_PTR(-EPROBE_DEFER);
-+		}
-+
-+		gc = find_chip_by_name(p->key);
- 
- 		if (!gc) {
- 			/*
- 			 * As the lookup table indicates a chip with
--			 * p->chip_label should exist, assume it may
-+			 * p->key should exist, assume it may
- 			 * still appear later and let the interested
- 			 * consumer be probed again or let the Deferred
- 			 * Probe infrastructure handle the error.
- 			 */
- 			dev_warn(dev, "cannot find GPIO chip %s, deferring\n",
--				 p->chip_label);
-+				 p->key);
- 			return ERR_PTR(-EPROBE_DEFER);
- 		}
- 
-@@ -4698,7 +4710,7 @@ static int platform_gpio_count(struct device *dev, const char *con_id)
- 	if (!table)
- 		return -ENOENT;
- 
--	for (p = &table->table[0]; p->chip_label; p++) {
-+	for (p = &table->table[0]; p->key; p++) {
- 		if ((con_id && p->con_id && !strcmp(con_id, p->con_id)) ||
- 		    (!con_id && !p->con_id))
- 			count++;
-diff --git a/include/linux/gpio/machine.h b/include/linux/gpio/machine.h
-index 1ebe5be05d5f81fa..781a053abbb99a1d 100644
---- a/include/linux/gpio/machine.h
-+++ b/include/linux/gpio/machine.h
-@@ -20,8 +20,11 @@ enum gpio_lookup_flags {
- 
- /**
-  * struct gpiod_lookup - lookup table
-- * @chip_label: name of the chip the GPIO belongs to
-- * @chip_hwnum: hardware number (i.e. relative to the chip) of the GPIO
-+ * @key: either the name of the chip the GPIO belongs to, or the GPIO line name
-+ *       Note that GPIO line names are not guaranteed to be globally unique,
-+ *       so this will use the first match found!
-+ * @chip_hwnum: hardware number (i.e. relative to the chip) of the GPIO, or
-+ *              U16_MAX to indicate that @key is a GPIO line name
-  * @con_id: name of the GPIO from the device's point of view
-  * @idx: index of the GPIO in case several GPIOs share the same name
-  * @flags: bitmask of gpio_lookup_flags GPIO_* values
-@@ -30,7 +33,7 @@ enum gpio_lookup_flags {
-  * functions using platform data.
-  */
- struct gpiod_lookup {
--	const char *chip_label;
-+	const char *key;
- 	u16 chip_hwnum;
- 	const char *con_id;
- 	unsigned int idx;
-@@ -63,17 +66,17 @@ struct gpiod_hog {
- /*
-  * Simple definition of a single GPIO under a con_id
-  */
--#define GPIO_LOOKUP(_chip_label, _chip_hwnum, _con_id, _flags) \
--	GPIO_LOOKUP_IDX(_chip_label, _chip_hwnum, _con_id, 0, _flags)
-+#define GPIO_LOOKUP(_key, _chip_hwnum, _con_id, _flags) \
-+	GPIO_LOOKUP_IDX(_key, _chip_hwnum, _con_id, 0, _flags)
- 
- /*
-  * Use this macro if you need to have several GPIOs under the same con_id.
-  * Each GPIO needs to use a different index and can be accessed using
-  * gpiod_get_index()
-  */
--#define GPIO_LOOKUP_IDX(_chip_label, _chip_hwnum, _con_id, _idx, _flags)  \
-+#define GPIO_LOOKUP_IDX(_key, _chip_hwnum, _con_id, _idx, _flags)         \
- {                                                                         \
--	.chip_label = _chip_label,                                        \
-+	.key = _key,                                                      \
- 	.chip_hwnum = _chip_hwnum,                                        \
- 	.con_id = _con_id,                                                \
- 	.idx = _idx,                                                      \
--- 
-2.17.1
+Haven't read the individual patches yet. but you would need every interim
+patch metadata to be always available. 
 
+Since if you move from patch x->y you can find that an msr was removed.
+But say you go from patch x->z, but there was no msr removed in patch y-z.
+You need to process and collate all the msr/cpuid to comprehend what changing
+between x->z since that also removes the msr for e.g.
+
+To add more complications CPU has fuses and each patch content can be effective
+on some but not all SKU's. So the exact same microcode can have different behavior
+depending on which SKU its loaded into. So generating the common meta-data file
+is also not a trivial process.
+
+Cheers,
+Ashok
