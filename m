@@ -2,165 +2,747 @@ Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E904C54E4A
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 23:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D309CC47255
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 23:33:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3637E2082E
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 23:32:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D49520714
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 23:33:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="qzPNmOkw"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="US32DFy2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728231AbgEKXcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 19:32:55 -0400
-Received: from mail-eopbgr760084.outbound.protection.outlook.com ([40.107.76.84]:11396
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728227AbgEKXcx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 May 2020 19:32:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JwbFDuvhIr71DrUViwJGHMFfobfRjxzkOt8iA94FObayCMpoWQQwMFeRitznJbc8KHhh2A1Bn1NZILZYBOfNJ6dzudIaoc31TKQoFwTBerjdJE9j4XhdKdc4hDSpfnQ3peKbwvw+NvJH5ws5W3n0omvi5s18Jrdj8TXbHr4xg6cnaBnP1ylWP/Y+A4kHLQ1V0SZgMfC7tK5CLFjTkQyqCOgThFypdgtReqpbz+2LDOB26A6mLG9yAeeAlqYm9jDVNUlLAXYolvXtub0v1SKg6jnjBQhqFHTGOPKXwcHsa8UzThKoOv88tojJ0t17DtQhPuosH73PHsjYdQ0xGf5wxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D060MiVhROfRkaF8exhWBz9jtjcrF3IFw87Lvr+3HXw=;
- b=H89v5ytcNAl/1fG6o15zeIV7qfIkR7/TFYNfl7Y8Q6qxSuJ6cCeohGdjqkT9gf6nCJVN6aEjs6Lqm9xOBAgXtuqt52DL1yn0K/HmeQgQQnUBc3b/WbBip7SJ83oVxPKYcxdneLV8KU+WwMkJWlO+3Ra9HhoJsNSE50aOXmei0u1oTy1JnLt0IE5yZ28ZdvRYE1T/87zA3j/805ki0ehucj+SD0J43yHm6myGOJmTInWJ4YbwR3nt7dIRLQgmu/Tnhj686NL8eSmJsk7MtZj+4Nrs1r91wd34oNQ6qmuJ6Fikp9RBx0RgTpBnlylxUCvZdOzcYx249ezQ+CQV721RUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+        id S1728188AbgEKXcr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 19:32:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728152AbgEKXcl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 19:32:41 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6410BC061A0E
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 16:32:41 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id d22so5278385pgk.3
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 16:32:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D060MiVhROfRkaF8exhWBz9jtjcrF3IFw87Lvr+3HXw=;
- b=qzPNmOkwN0y0uOjXq7/edMbgsXvz7W5uDwo9nRilihOXfBpLzmTSCFlDH97WhBw03403Sld0eszmjSdPJbtUl7z+8Mr40aFHXy0n7Rpl9gtANy1R+422hZcrXfMBCNXDmhYEx7UATN6Js9sKnLDKj5pj0qrw5AIEZI8v90IGlAk=
-Authentication-Results: tencent.com; dkim=none (message not signed)
- header.d=none;tencent.com; dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN1PR12MB2478.namprd12.prod.outlook.com (2603:10b6:802:23::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28; Mon, 11 May
- 2020 23:32:49 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::c0f:2938:784f:ed8d]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::c0f:2938:784f:ed8d%7]) with mapi id 15.20.2979.033; Mon, 11 May 2020
- 23:32:49 +0000
-Subject: [PATCH v3 0/3] arch/x86: Enable MPK feature on AMD
-From:   Babu Moger <babu.moger@amd.com>
-To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        hpa@zytor.com, pbonzini@redhat.com, sean.j.christopherson@intel.com
-Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
-        luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
-        babu.moger@amd.com, changbin.du@intel.com, namit@vmware.com,
-        bigeasy@linutronix.de, yang.shi@linux.alibaba.com,
-        asteinhauser@google.com, anshuman.khandual@arm.com,
-        jan.kiszka@siemens.com, akpm@linux-foundation.org,
-        steven.price@arm.com, rppt@linux.vnet.ibm.com, peterx@redhat.com,
-        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
-        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
-        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
-        jgross@suse.com, andrew.cooper3@citrix.com,
-        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
-        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
-        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-Date:   Mon, 11 May 2020 18:32:45 -0500
-Message-ID: <158923982830.20128.14580309786525588408.stgit@naples-babu.amd.com>
-User-Agent: StGit/unknown-version
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DM6PR07CA0047.namprd07.prod.outlook.com
- (2603:10b6:5:74::24) To SN1PR12MB2560.namprd12.prod.outlook.com
- (2603:10b6:802:26::19)
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=k9Bvq3x0VWjBGgSeVCRYNWOrntPPtjAkFzn78+9NuuU=;
+        b=US32DFy2zWY5EYw5JysLZOaVs5vZmgXQbYzk7oY8rLRlkswYjcFHE+YjsXroJgjBsz
+         E4MX3hKf8Xuwiy82SbReSsiNqeLyS/C1DOTHHrluztPF1wdK+zxHhh96qHHc+8yoqVTK
+         2Yvym3sNSlpNg5oZ2noA18909V5nudllKMtuE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=k9Bvq3x0VWjBGgSeVCRYNWOrntPPtjAkFzn78+9NuuU=;
+        b=GvTFvVJkVV9+fAskIj9b2g1xfNIucn+LMWzKh/gCj1GIHlUfOghrYL2abTBAZl62OD
+         XTzQ2+U8PFbWS3oc5dcW5zKQBk1MOu+cjIJD22EwgCQ1so5p13EDkQ34L4XDw9GLhZti
+         UhtnfG9N58TFQdj9VnlFR4gkLhdRpy66lR4BJ4lok6yU+sTwvuD+oVqoR0ocQCLU+YN8
+         KOsMPFQlsMnHr5ye9uHtilx/Wb/lzHXxI6H4EEepo9c8M53IBOZC76+Sj5HWE1tNzT+P
+         wSUYV3Gr09stCOD1BcjT2fkr/82iuVRzZXF9E4Dfd6zqCXToyI1z/bcguVDjsDNZFQfx
+         8uFw==
+X-Gm-Message-State: AGi0PuYjLKwVj+9ScBW6Dgh2AyK4tuNtvo8yoqjTrDY2Dykkyw0oqQCx
+        HCjaZyEReOivMYhEux0Mh2BQsQ==
+X-Google-Smtp-Source: APiQypLT/8HtptN4aSnDBKXO0lF8+b8MjZ0O/qZi69epCoLsUREl3ellPRMBk9C3WoTpbosiRjcsYw==
+X-Received: by 2002:a63:d252:: with SMTP id t18mr13267016pgi.318.1589239960600;
+        Mon, 11 May 2020 16:32:40 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w30sm10247358pfj.25.2020.05.11.16.32.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 16:32:35 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org
+Subject: [PATCH v8 10/11] mtd: Support kmsg dumper based on pstore/blk
+Date:   Mon, 11 May 2020 16:32:28 -0700
+Message-Id: <20200511233229.27745-11-keescook@chromium.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200511233229.27745-1-keescook@chromium.org>
+References: <20200511233229.27745-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from naples-babu.amd.com (165.204.78.2) by DM6PR07CA0047.namprd07.prod.outlook.com (2603:10b6:5:74::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend Transport; Mon, 11 May 2020 23:32:45 +0000
-X-Originating-IP: [165.204.78.2]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f31ddab0-c2e5-4abd-5271-08d7f6039dc3
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2478:|SN1PR12MB2478:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN1PR12MB24786E8B59EBCBB2EE11B43D95A10@SN1PR12MB2478.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 04004D94E2
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PjwJkVSa7A6aBEReocla0l5tm0Y06FMSxM7CTrRSA9NA8cQf1uFmAqu0OOTUSxNlfKmtE2NqBuYeusqsmHqqIRE7+XNZbXsmd13aBAt6uNV3r8Z92zIRqmxlBEUf68mE7Idfqrc/dvQDO7H7e8dS4Zg8uZd3XpKraawVKJvfHOmpc6Q3fWX4r/73Bur0F7WIMDSIDSKAo5kkP6JDXo9miVmn65XBazC59xUOHJEH71cl/J+xHx+TMa9XoBLxKF/M4WcIDLwwD/krpjmZcfcuqGZLMK5/51lbV3xqvVQ5PNukJ6GX+5klX5z2KPJtks3hC+OyCa6+en97mvvRwYKI0DDlSPGHQYI9b9KFd2D9jZf3nv0JHYasxo6EeLCUS06cZqcpsKLqahBchJD13awlaAz4WW/3SeAvo6dE7fPx6Ufm7+7K0qjLtXMu3WF8mYxGllIQH8A6mBbz+bzWD/oEkZvORBKOy1fYh0Wj9msOiYHZ5ogMEYt2LwLW3VPJGWjPfVrMwp+BKVNl7im61PcP4u7tzvvlp1IsNGy2wkb00cQcgLE6+j97phcm/9LoUfgfd8c14ym92nJG3VJtOe+Czxzq5V6F8ZyD8bQDMhInLF4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(376002)(396003)(136003)(39860400002)(366004)(33430700001)(8676002)(2906002)(478600001)(4326008)(8936002)(186003)(26005)(7406005)(16526019)(5660300002)(7416002)(44832011)(86362001)(316002)(103116003)(956004)(33440700001)(55016002)(66946007)(52116002)(7696005)(66476007)(66556008)(966005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: hkwwX1JcmwZFCXNbQx7xJq/FFvBraB9QYtff4m3uQsohr1+NCMu/auh7og1RFhe5jJ1uoASJ7PTOY801IrCqeSEFQzVib81S9B78vtDBi09ILaBClxQszw886yeiw8dVD1Y/SZTO0+FPdg5Zsx61MQmuLF3XJHhgfcHZta8QOCxhoImh8bHJmwTcpGuLmoqNCU3gIlYOD+g4l3SUF2QOx3I5RsawB0IEiJ1WuSXtsgZhTAE9gZUP+xVpMEmHZ79wp9H0Qm6U8NsOTT6jXnvW14sYGHaGqBvuW95fVGRxyOyp+zsgfDeeLaB9PoLDfVOv0uWwEUkQBOG2H10LmLC01AE3x6+4R2rlLabAZQMc4MrWNkrWgxMydcrVxGe0kzKrO5ARneh7CvHYyTPFfKGoGrJec0IhasOHE2slPCy1dUfy4bmTpU4ATl+SIj4oaAigP4vLAxhw/MeK+gQKXN0pYLroUyiyFh1hdUHXe82BqTE=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f31ddab0-c2e5-4abd-5271-08d7f6039dc3
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2020 23:32:49.1740
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WeeEj17MgnzOKGnIbNsKcQ9zGC4EJvjkbTf30QIHkxEM9MmkvdzNvNWWOi9RFyOD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2478
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-AMD's next generation of EPYC processors support the MPK (Memory
-Protection Keys) feature.
+From: WeiXiong Liao <liaoweixiong@allwinnertech.com>
 
-AMD documentation for MPK feature is available at "AMD64 Architecture
-Programmer’s Manual Volume 2: System Programming, Pub. 24593 Rev. 3.34,
-Section 5.6.6 Memory Protection Keys (MPK) Bit".
+This introduces mtdpstore, which is similar to mtdoops but more
+powerful. It uses pstore/blk, and aims to store panic and oops logs to
+a flash partition, where pstore can later read back and present as files
+in the mounted pstore filesystem.
 
-The documentation can be obtained at the link below:
-https://bugzilla.kernel.org/show_bug.cgi?id=206537
+To make mtdpstore work, the "blkdev" of pstore/blk should be set
+as MTD device name or MTD device number. For more details, see
+Documentation/admin-guide/pstore-blk.rst
 
-This series enables the feature on AMD and updates config parameters
-to reflect the MPK support on generic x86 platforms.
+This solves a number of issues:
+- Work duplication: both of pstore and mtdoops do the same job storing
+  panic/oops log. They have very similar logic, registering to kmsg
+  dumper and storing logs to several chunks one by one.
+- Layer violations: drivers should provides methods instead of polices.
+  MTD should provide read/write/erase operations, and allow a higher
+  level drivers to provide the chunk management, kmsg dump
+  configuration, etc.
+- Missing features: pstore provides many additional features, including
+  presenting the logs as files, logging dump time and count, and
+  supporting other frontends like pmsg, console, etc.
 
+Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
+Link: https://lore.kernel.org/r/1585126506-18635-12-git-send-email-liaoweixiong@allwinnertech.com
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
-v3:
-  - Fixed the problem Jim Mattson pointed out which can cause pkru
-    resources to get corrupted during host and guest switches. 
-  - Moved the PKU feature detection code from VMX.c to common code.
-  
-v2:
-  https://lore.kernel.org/lkml/158897190718.22378.3974700869904223395.stgit@naples-babu.amd.com/
-  - Introduced intermediate config option X86_MEMORY_PROTECTION_KEYS to
-    avoid user propmpts. Kept X86_INTEL_MEMORY_PROTECTION_KEYS as is.
-    Eventually, we will be moving to X86_MEMORY_PROTECTION_KEYS after
-    couple of kernel revisions. 
-  - Moved pkru data structures to kvm_vcpu_arch. Moved save/restore pkru
-    to kvm_load_host_xsave_state/kvm_load_guest_xsave_state.
+ Documentation/admin-guide/pstore-blk.rst |   9 +-
+ drivers/mtd/Kconfig                      |  10 +
+ drivers/mtd/Makefile                     |   1 +
+ drivers/mtd/mtdpstore.c                  | 563 +++++++++++++++++++++++
+ 4 files changed, 581 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/mtd/mtdpstore.c
 
-v1:
-  https://lore.kernel.org/lkml/158880240546.11615.2219410169137148044.stgit@naples-babu.amd.com/
+diff --git a/Documentation/admin-guide/pstore-blk.rst b/Documentation/admin-guide/pstore-blk.rst
+index d45341e55e82..296d5027787a 100644
+--- a/Documentation/admin-guide/pstore-blk.rst
++++ b/Documentation/admin-guide/pstore-blk.rst
+@@ -43,9 +43,9 @@ blkdev
+ ~~~~~~
+ 
+ The block device to use. Most of the time, it is a partition of block device.
+-It's required for pstore/blk.
++It's required for pstore/blk. It is also used for MTD device.
+ 
+-It accepts the following variants:
++It accepts the following variants for block device:
+ 
+ 1. <hex_major><hex_minor> device number in hexadecimal represents itself; no
+    leading 0x, for example b302.
+@@ -64,6 +64,11 @@ It accepts the following variants:
+    partition with a known unique id.
+ #. <major>:<minor> major and minor number of the device separated by a colon.
+ 
++It accepts the following variants for MTD device:
++
++1. <device name> MTD device name. "pstore" is recommended.
++#. <device number> MTD device number.
++
+ kmsg_size
+ ~~~~~~~~~
+ 
+diff --git a/drivers/mtd/Kconfig b/drivers/mtd/Kconfig
+index 42d401ea60ee..6ddab796216d 100644
+--- a/drivers/mtd/Kconfig
++++ b/drivers/mtd/Kconfig
+@@ -170,6 +170,16 @@ config MTD_OOPS
+ 	  buffer in a flash partition where it can be read back at some
+ 	  later point.
+ 
++config MTD_PSTORE
++	tristate "Log panic/oops to an MTD buffer based on pstore"
++	depends on PSTORE_BLK
++	help
++	  This enables panic and oops messages to be logged to a circular
++	  buffer in a flash partition where it can be read back as files after
++	  mounting pstore filesystem.
++
++	  If unsure, say N.
++
+ config MTD_SWAP
+ 	tristate "Swap on MTD device support"
+ 	depends on MTD && SWAP
+diff --git a/drivers/mtd/Makefile b/drivers/mtd/Makefile
+index 56cc60ccc477..593d0593a038 100644
+--- a/drivers/mtd/Makefile
++++ b/drivers/mtd/Makefile
+@@ -20,6 +20,7 @@ obj-$(CONFIG_RFD_FTL)		+= rfd_ftl.o
+ obj-$(CONFIG_SSFDC)		+= ssfdc.o
+ obj-$(CONFIG_SM_FTL)		+= sm_ftl.o
+ obj-$(CONFIG_MTD_OOPS)		+= mtdoops.o
++obj-$(CONFIG_MTD_PSTORE)	+= mtdpstore.o
+ obj-$(CONFIG_MTD_SWAP)		+= mtdswap.o
+ 
+ nftl-objs		:= nftlcore.o nftlmount.o
+diff --git a/drivers/mtd/mtdpstore.c b/drivers/mtd/mtdpstore.c
+new file mode 100644
+index 000000000000..06084eff1004
+--- /dev/null
++++ b/drivers/mtd/mtdpstore.c
+@@ -0,0 +1,563 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#define dev_fmt(fmt) "mtdoops-pstore: " fmt
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/pstore_blk.h>
++#include <linux/mtd/mtd.h>
++#include <linux/bitops.h>
++
++static struct mtdpstore_context {
++	int index;
++	struct pstore_blk_config info;
++	struct pstore_device_info dev;
++	struct mtd_info *mtd;
++	unsigned long *rmmap;		/* removed bit map */
++	unsigned long *usedmap;		/* used bit map */
++	/*
++	 * used for panic write
++	 * As there are no block_isbad for panic case, we should keep this
++	 * status before panic to ensure panic_write not failed.
++	 */
++	unsigned long *badmap;		/* bad block bit map */
++} oops_cxt;
++
++static int mtdpstore_block_isbad(struct mtdpstore_context *cxt, loff_t off)
++{
++	int ret;
++	struct mtd_info *mtd = cxt->mtd;
++	u64 blknum = div_u64(off, mtd->erasesize);
++
++	if (test_bit(blknum, cxt->badmap))
++		return true;
++	ret = mtd_block_isbad(mtd, off);
++	if (ret < 0) {
++		dev_err(&mtd->dev, "mtd_block_isbad failed, aborting\n");
++		return ret;
++	} else if (ret > 0) {
++		set_bit(blknum, cxt->badmap);
++		return true;
++	}
++	return false;
++}
++
++static inline int mtdpstore_panic_block_isbad(struct mtdpstore_context *cxt,
++		loff_t off)
++{
++	struct mtd_info *mtd = cxt->mtd;
++	u64 blknum = div_u64(off, mtd->erasesize);
++
++	return test_bit(blknum, cxt->badmap);
++}
++
++static inline void mtdpstore_mark_used(struct mtdpstore_context *cxt,
++		loff_t off)
++{
++	struct mtd_info *mtd = cxt->mtd;
++	u64 zonenum = div_u64(off, cxt->info.kmsg_size);
++
++	dev_dbg(&mtd->dev, "mark zone %llu used\n", zonenum);
++	set_bit(zonenum, cxt->usedmap);
++}
++
++static inline void mtdpstore_mark_unused(struct mtdpstore_context *cxt,
++		loff_t off)
++{
++	struct mtd_info *mtd = cxt->mtd;
++	u64 zonenum = div_u64(off, cxt->info.kmsg_size);
++
++	dev_dbg(&mtd->dev, "mark zone %llu unused\n", zonenum);
++	clear_bit(zonenum, cxt->usedmap);
++}
++
++static inline void mtdpstore_block_mark_unused(struct mtdpstore_context *cxt,
++		loff_t off)
++{
++	struct mtd_info *mtd = cxt->mtd;
++	u64 zonenum = div_u64(off, cxt->info.kmsg_size);
++	u32 zonecnt = cxt->mtd->erasesize / cxt->info.kmsg_size;
++
++	while (zonecnt > 0) {
++		dev_dbg(&mtd->dev, "mark zone %llu unused\n", zonenum);
++		clear_bit(zonenum, cxt->usedmap);
++		zonenum++;
++		zonecnt--;
++	}
++}
++
++static inline int mtdpstore_is_used(struct mtdpstore_context *cxt, loff_t off)
++{
++	u64 zonenum = div_u64(off, cxt->info.kmsg_size);
++	u64 blknum = div_u64(off, cxt->mtd->erasesize);
++
++	if (test_bit(blknum, cxt->badmap))
++		return true;
++	return test_bit(zonenum, cxt->usedmap);
++}
++
++static int mtdpstore_block_is_used(struct mtdpstore_context *cxt,
++		loff_t off)
++{
++	u64 zonenum = div_u64(off, cxt->info.kmsg_size);
++	u32 zonecnt = cxt->mtd->erasesize / cxt->info.kmsg_size;
++
++	while (zonecnt > 0) {
++		if (test_bit(zonenum, cxt->usedmap))
++			return true;
++		zonenum++;
++		zonecnt--;
++	}
++	return false;
++}
++
++static int mtdpstore_is_empty(struct mtdpstore_context *cxt, char *buf,
++		size_t size)
++{
++	struct mtd_info *mtd = cxt->mtd;
++	size_t sz;
++	int i;
++
++	sz = min_t(uint32_t, size, mtd->writesize / 4);
++	for (i = 0; i < sz; i++) {
++		if (buf[i] != (char)0xFF)
++			return false;
++	}
++	return true;
++}
++
++static void mtdpstore_mark_removed(struct mtdpstore_context *cxt, loff_t off)
++{
++	struct mtd_info *mtd = cxt->mtd;
++	u64 zonenum = div_u64(off, cxt->info.kmsg_size);
++
++	dev_dbg(&mtd->dev, "mark zone %llu removed\n", zonenum);
++	set_bit(zonenum, cxt->rmmap);
++}
++
++static void mtdpstore_block_clear_removed(struct mtdpstore_context *cxt,
++		loff_t off)
++{
++	u64 zonenum = div_u64(off, cxt->info.kmsg_size);
++	u32 zonecnt = cxt->mtd->erasesize / cxt->info.kmsg_size;
++
++	while (zonecnt > 0) {
++		clear_bit(zonenum, cxt->rmmap);
++		zonenum++;
++		zonecnt--;
++	}
++}
++
++static int mtdpstore_block_is_removed(struct mtdpstore_context *cxt,
++		loff_t off)
++{
++	u64 zonenum = div_u64(off, cxt->info.kmsg_size);
++	u32 zonecnt = cxt->mtd->erasesize / cxt->info.kmsg_size;
++
++	while (zonecnt > 0) {
++		if (test_bit(zonenum, cxt->rmmap))
++			return true;
++		zonenum++;
++		zonecnt--;
++	}
++	return false;
++}
++
++static int mtdpstore_erase_do(struct mtdpstore_context *cxt, loff_t off)
++{
++	struct mtd_info *mtd = cxt->mtd;
++	struct erase_info erase;
++	int ret;
++
++	dev_dbg(&mtd->dev, "try to erase off 0x%llx\n", off);
++	erase.len = cxt->mtd->erasesize;
++	erase.addr = off;
++	ret = mtd_erase(cxt->mtd, &erase);
++	if (!ret)
++		mtdpstore_block_clear_removed(cxt, off);
++	else
++		dev_err(&mtd->dev, "erase of region [0x%llx, 0x%llx] on \"%s\" failed\n",
++		       (unsigned long long)erase.addr,
++		       (unsigned long long)erase.len, cxt->info.device);
++	return ret;
++}
++
++/*
++ * called while removing file
++ *
++ * Avoiding over erasing, do erase block only when the whole block is unused.
++ * If the block contains valid log, do erase lazily on flush_removed() when
++ * unregister.
++ */
++static ssize_t mtdpstore_erase(size_t size, loff_t off)
++{
++	struct mtdpstore_context *cxt = &oops_cxt;
++
++	if (mtdpstore_block_isbad(cxt, off))
++		return -EIO;
++
++	mtdpstore_mark_unused(cxt, off);
++
++	/* If the block still has valid data, mtdpstore do erase lazily */
++	if (likely(mtdpstore_block_is_used(cxt, off))) {
++		mtdpstore_mark_removed(cxt, off);
++		return 0;
++	}
++
++	/* all zones are unused, erase it */
++	off = ALIGN_DOWN(off, cxt->mtd->erasesize);
++	return mtdpstore_erase_do(cxt, off);
++}
++
++/*
++ * What is security for mtdpstore?
++ * As there is no erase for panic case, we should ensure at least one zone
++ * is writable. Otherwise, panic write will fail.
++ * If zone is used, write operation will return -ENOMSG, which means that
++ * pstore/blk will try one by one until gets an empty zone. So, it is not
++ * needed to ensure the next zone is empty, but at least one.
++ */
++static int mtdpstore_security(struct mtdpstore_context *cxt, loff_t off)
++{
++	int ret = 0, i;
++	struct mtd_info *mtd = cxt->mtd;
++	u32 zonenum = (u32)div_u64(off, cxt->info.kmsg_size);
++	u32 zonecnt = (u32)div_u64(cxt->mtd->size, cxt->info.kmsg_size);
++	u32 blkcnt = (u32)div_u64(cxt->mtd->size, cxt->mtd->erasesize);
++	u32 erasesize = cxt->mtd->erasesize;
++
++	for (i = 0; i < zonecnt; i++) {
++		u32 num = (zonenum + i) % zonecnt;
++
++		/* found empty zone */
++		if (!test_bit(num, cxt->usedmap))
++			return 0;
++	}
++
++	/* If there is no any empty zone, we have no way but to do erase */
++	off = ALIGN_DOWN(off, erasesize);
++	while (blkcnt--) {
++		div64_u64_rem(off + erasesize, cxt->mtd->size, (u64 *)&off);
++
++		if (mtdpstore_block_isbad(cxt, off))
++			continue;
++
++		ret = mtdpstore_erase_do(cxt, off);
++		if (!ret) {
++			mtdpstore_block_mark_unused(cxt, off);
++			break;
++		}
++	}
++
++	if (ret)
++		dev_err(&mtd->dev, "all blocks bad!\n");
++	dev_dbg(&mtd->dev, "end security\n");
++	return ret;
++}
++
++static ssize_t mtdpstore_write(const char *buf, size_t size, loff_t off)
++{
++	struct mtdpstore_context *cxt = &oops_cxt;
++	struct mtd_info *mtd = cxt->mtd;
++	size_t retlen;
++	int ret;
++
++	if (mtdpstore_block_isbad(cxt, off))
++		return -ENOMSG;
++
++	/* zone is used, please try next one */
++	if (mtdpstore_is_used(cxt, off))
++		return -ENOMSG;
++
++	dev_dbg(&mtd->dev, "try to write off 0x%llx size %zu\n", off, size);
++	ret = mtd_write(cxt->mtd, off, size, &retlen, (u_char *)buf);
++	if (ret < 0 || retlen != size) {
++		dev_err(&mtd->dev, "write failure at %lld (%zu of %zu written), err %d\n",
++				off, retlen, size, ret);
++		return -EIO;
++	}
++	mtdpstore_mark_used(cxt, off);
++
++	mtdpstore_security(cxt, off);
++	return retlen;
++}
++
++static inline bool mtdpstore_is_io_error(int ret)
++{
++	return ret < 0 && !mtd_is_bitflip(ret) && !mtd_is_eccerr(ret);
++}
++
++/*
++ * All zones will be read as pstore/blk will read zone one by one when do
++ * recover.
++ */
++static ssize_t mtdpstore_read(char *buf, size_t size, loff_t off)
++{
++	struct mtdpstore_context *cxt = &oops_cxt;
++	struct mtd_info *mtd = cxt->mtd;
++	size_t retlen, done;
++	int ret;
++
++	if (mtdpstore_block_isbad(cxt, off))
++		return -ENOMSG;
++
++	dev_dbg(&mtd->dev, "try to read off 0x%llx size %zu\n", off, size);
++	for (done = 0, retlen = 0; done < size; done += retlen) {
++		retlen = 0;
++
++		ret = mtd_read(cxt->mtd, off + done, size - done, &retlen,
++				(u_char *)buf + done);
++		if (mtdpstore_is_io_error(ret)) {
++			dev_err(&mtd->dev, "read failure at %lld (%zu of %zu read), err %d\n",
++					off + done, retlen, size - done, ret);
++			/* the zone may be broken, try next one */
++			return -ENOMSG;
++		}
++
++		/*
++		 * ECC error. The impact on log data is so small. Maybe we can
++		 * still read it and try to understand. So mtdpstore just hands
++		 * over what it gets and user can judge whether the data is
++		 * valid or not.
++		 */
++		if (mtd_is_eccerr(ret)) {
++			dev_err(&mtd->dev, "ecc error at %lld (%zu of %zu read), err %d\n",
++					off + done, retlen, size - done, ret);
++			/* driver may not set retlen when ecc error */
++			retlen = retlen == 0 ? size - done : retlen;
++		}
++	}
++
++	if (mtdpstore_is_empty(cxt, buf, size))
++		mtdpstore_mark_unused(cxt, off);
++	else
++		mtdpstore_mark_used(cxt, off);
++
++	mtdpstore_security(cxt, off);
++	return retlen;
++}
++
++static ssize_t mtdpstore_panic_write(const char *buf, size_t size, loff_t off)
++{
++	struct mtdpstore_context *cxt = &oops_cxt;
++	struct mtd_info *mtd = cxt->mtd;
++	size_t retlen;
++	int ret;
++
++	if (mtdpstore_panic_block_isbad(cxt, off))
++		return -ENOMSG;
++
++	/* zone is used, please try next one */
++	if (mtdpstore_is_used(cxt, off))
++		return -ENOMSG;
++
++	ret = mtd_panic_write(cxt->mtd, off, size, &retlen, (u_char *)buf);
++	if (ret < 0 || size != retlen) {
++		dev_err(&mtd->dev, "panic write failure at %lld (%zu of %zu read), err %d\n",
++				off, retlen, size, ret);
++		return -EIO;
++	}
++	mtdpstore_mark_used(cxt, off);
++
++	return retlen;
++}
++
++static void mtdpstore_notify_add(struct mtd_info *mtd)
++{
++	int ret;
++	struct mtdpstore_context *cxt = &oops_cxt;
++	struct pstore_blk_config *info = &cxt->info;
++	unsigned long longcnt;
++
++	if (!strcmp(mtd->name, info->device))
++		cxt->index = mtd->index;
++
++	if (mtd->index != cxt->index || cxt->index < 0)
++		return;
++
++	dev_dbg(&mtd->dev, "found matching MTD device %s\n", mtd->name);
++
++	if (mtd->size < info->kmsg_size * 2) {
++		dev_err(&mtd->dev, "MTD partition %d not big enough\n",
++				mtd->index);
++		return;
++	}
++	/*
++	 * kmsg_size must be aligned to 4096 Bytes, which is limited by
++	 * psblk. The default value of kmsg_size is 64KB. If kmsg_size
++	 * is larger than erasesize, some errors will occur since mtdpsotre
++	 * is designed on it.
++	 */
++	if (mtd->erasesize < info->kmsg_size) {
++		dev_err(&mtd->dev, "eraseblock size of MTD partition %d too small\n",
++				mtd->index);
++		return;
++	}
++	if (unlikely(info->kmsg_size % mtd->writesize)) {
++		dev_err(&mtd->dev, "record size %lu KB must align to write size %d KB\n",
++				info->kmsg_size / 1024,
++				mtd->writesize / 1024);
++		return;
++	}
++
++	longcnt = BITS_TO_LONGS(div_u64(mtd->size, info->kmsg_size));
++	cxt->rmmap = kcalloc(longcnt, sizeof(long), GFP_KERNEL);
++	cxt->usedmap = kcalloc(longcnt, sizeof(long), GFP_KERNEL);
++
++	longcnt = BITS_TO_LONGS(div_u64(mtd->size, mtd->erasesize));
++	cxt->badmap = kcalloc(longcnt, sizeof(long), GFP_KERNEL);
++
++	cxt->dev.total_size = mtd->size;
++	/* just support dmesg right now */
++	cxt->dev.flags = PSTORE_FLAGS_DMESG;
++	cxt->dev.read = mtdpstore_read;
++	cxt->dev.write = mtdpstore_write;
++	cxt->dev.erase = mtdpstore_erase;
++	cxt->dev.panic_write = mtdpstore_panic_write;
++
++	ret = register_pstore_device(&cxt->dev);
++	if (ret) {
++		dev_err(&mtd->dev, "mtd%d register to psblk failed\n",
++				mtd->index);
++		return;
++	}
++	cxt->mtd = mtd;
++	dev_info(&mtd->dev, "Attached to MTD device %d\n", mtd->index);
++}
++
++static int mtdpstore_flush_removed_do(struct mtdpstore_context *cxt,
++		loff_t off, size_t size)
++{
++	struct mtd_info *mtd = cxt->mtd;
++	u_char *buf;
++	int ret;
++	size_t retlen;
++	struct erase_info erase;
++
++	buf = kmalloc(mtd->erasesize, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	/* 1st. read to cache */
++	ret = mtd_read(mtd, off, mtd->erasesize, &retlen, buf);
++	if (mtdpstore_is_io_error(ret))
++		goto free;
++
++	/* 2nd. erase block */
++	erase.len = mtd->erasesize;
++	erase.addr = off;
++	ret = mtd_erase(mtd, &erase);
++	if (ret)
++		goto free;
++
++	/* 3rd. write back */
++	while (size) {
++		unsigned int zonesize = cxt->info.kmsg_size;
++
++		/* there is valid data on block, write back */
++		if (mtdpstore_is_used(cxt, off)) {
++			ret = mtd_write(mtd, off, zonesize, &retlen, buf);
++			if (ret)
++				dev_err(&mtd->dev, "write failure at %lld (%zu of %u written), err %d\n",
++						off, retlen, zonesize, ret);
++		}
++
++		off += zonesize;
++		size -= min_t(unsigned int, zonesize, size);
++	}
++
++free:
++	kfree(buf);
++	return ret;
++}
++
++/*
++ * What does mtdpstore_flush_removed() do?
++ * When user remove any log file on pstore filesystem, mtdpstore should do
++ * something to ensure log file removed. If the whole block is no longer used,
++ * it's nice to erase the block. However if the block still contains valid log,
++ * what mtdpstore can do is to erase and write the valid log back.
++ */
++static int mtdpstore_flush_removed(struct mtdpstore_context *cxt)
++{
++	struct mtd_info *mtd = cxt->mtd;
++	int ret;
++	loff_t off;
++	u32 blkcnt = (u32)div_u64(mtd->size, mtd->erasesize);
++
++	for (off = 0; blkcnt > 0; blkcnt--, off += mtd->erasesize) {
++		ret = mtdpstore_block_isbad(cxt, off);
++		if (ret)
++			continue;
++
++		ret = mtdpstore_block_is_removed(cxt, off);
++		if (!ret)
++			continue;
++
++		ret = mtdpstore_flush_removed_do(cxt, off, mtd->erasesize);
++		if (ret)
++			return ret;
++	}
++	return 0;
++}
++
++static void mtdpstore_notify_remove(struct mtd_info *mtd)
++{
++	struct mtdpstore_context *cxt = &oops_cxt;
++
++	if (mtd->index != cxt->index || cxt->index < 0)
++		return;
++
++	mtdpstore_flush_removed(cxt);
++
++	unregister_pstore_device(&cxt->dev);
++	kfree(cxt->badmap);
++	kfree(cxt->usedmap);
++	kfree(cxt->rmmap);
++	cxt->mtd = NULL;
++	cxt->index = -1;
++}
++
++static struct mtd_notifier mtdpstore_notifier = {
++	.add	= mtdpstore_notify_add,
++	.remove	= mtdpstore_notify_remove,
++};
++
++static int __init mtdpstore_init(void)
++{
++	int ret;
++	struct mtdpstore_context *cxt = &oops_cxt;
++	struct pstore_blk_config *info = &cxt->info;
++
++	ret = pstore_blk_get_config(info);
++	if (unlikely(ret))
++		return ret;
++
++	if (strlen(info->device) == 0) {
++		pr_err("mtd device must be supplied (device name is empty)\n");
++		return -EINVAL;
++	}
++	if (!info->kmsg_size) {
++		pr_err("no backend enabled (kmsg_size is 0)\n");
++		return -EINVAL;
++	}
++
++	/* Setup the MTD device to use */
++	ret = kstrtoint((char *)info->device, 0, &cxt->index);
++	if (ret)
++		cxt->index = -1;
++
++	register_mtd_user(&mtdpstore_notifier);
++	return 0;
++}
++module_init(mtdpstore_init);
++
++static void __exit mtdpstore_exit(void)
++{
++	unregister_mtd_user(&mtdpstore_notifier);
++}
++module_exit(mtdpstore_exit);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("WeiXiong Liao <liaoweixiong@allwinnertech.com>");
++MODULE_DESCRIPTION("MTD backend for pstore/blk");
+-- 
+2.20.1
 
-Babu Moger (3):
-      arch/x86: Rename config X86_INTEL_MEMORY_PROTECTION_KEYS to generic x86
-      KVM: x86: Move pkru save/restore to x86.c
-      KVM: x86: Move MPK feature detection to common code
-
-
- Documentation/core-api/protection-keys.rst     |    3 ++-
- arch/x86/Kconfig                               |   11 +++++++++--
- arch/x86/include/asm/disabled-features.h       |    4 ++--
- arch/x86/include/asm/kvm_host.h                |    1 +
- arch/x86/include/asm/mmu.h                     |    2 +-
- arch/x86/include/asm/mmu_context.h             |    4 ++--
- arch/x86/include/asm/pgtable.h                 |    4 ++--
- arch/x86/include/asm/pgtable_types.h           |    2 +-
- arch/x86/include/asm/special_insns.h           |    2 +-
- arch/x86/include/uapi/asm/mman.h               |    2 +-
- arch/x86/kernel/cpu/common.c                   |    2 +-
- arch/x86/kvm/cpuid.c                           |    4 +++-
- arch/x86/kvm/vmx/vmx.c                         |   22 ----------------------
- arch/x86/kvm/x86.c                             |   17 +++++++++++++++++
- arch/x86/mm/Makefile                           |    2 +-
- arch/x86/mm/pkeys.c                            |    2 +-
- scripts/headers_install.sh                     |    2 +-
- tools/arch/x86/include/asm/disabled-features.h |    4 ++--
- 18 files changed, 48 insertions(+), 42 deletions(-)
-
---
