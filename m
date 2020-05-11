@@ -2,117 +2,186 @@ Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22575C47255
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 12:42:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6CBBC54E8D
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 13:00:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F19B420801
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 12:42:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3D1B20746
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 13:00:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="hwmbJSTF"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KMIYu0At"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727019AbgEKMmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 08:42:49 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:35497 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726934AbgEKMmt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 08:42:49 -0400
+        id S1729439AbgEKNAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 09:00:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53726 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727827AbgEKNAM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 09:00:12 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF917C061A0C;
+        Mon, 11 May 2020 06:00:11 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id h4so17948170wmb.4;
+        Mon, 11 May 2020 06:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1589200969; x=1620736969;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=+0kzseOEO2Wgx77lNa15u7+p1olXeh9q9Qu05DxPffM=;
-  b=hwmbJSTFLHfd1Fq0MJ5MUN0HXvk5uVehwiDtO7XVU9WAN3wHtzanJWmS
-   kcn2P9kDYwMYCMepe249H9RJQCzRRMpR68CtY63Bw13YyLpYG6rALSlNs
-   9YoeO6LdwaMAI/khhoQX7VCvOVXcSJJZzKWTUqIPGyvki2rHPQsG0BfRu
-   M=;
-IronPort-SDR: T1f0tZE5i4QokyyfFESrh/Sh92g8h/nk/Bli4jzDfh6Y5k95taw6IK/040R/6w64RvR7Rz4Z5V
- JpyYjgTlDfcg==
-X-IronPort-AV: E=Sophos;i="5.73,379,1583193600"; 
-   d="scan'208";a="29804199"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1d-98acfc19.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 11 May 2020 12:42:49 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
-        by email-inbound-relay-1d-98acfc19.us-east-1.amazon.com (Postfix) with ESMTPS id 4B815A18DC;
-        Mon, 11 May 2020 12:42:36 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 11 May 2020 12:42:36 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.253) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 11 May 2020 12:42:21 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <irogers@google.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v11 16/16] MAINTAINERS: Update for DAMON
-Date:   Mon, 11 May 2020 14:33:02 +0200
-Message-ID: <20200511123302.12520-17-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200511123302.12520-1-sjpark@amazon.com>
-References: <20200511123302.12520-1-sjpark@amazon.com>
+        d=gmail.com; s=20161025;
+        h=sender:from:references:user-agent:to:cc:subject:in-reply-to
+         :message-id:date:mime-version;
+        bh=GT1dtgToCuf3JZQXWgmn/1+1Vz720HE+8i0ZCjTlo7w=;
+        b=KMIYu0AtbfomOEZKHqvTVcN79xGzhnfhHfc7vhfsX/lwOqA1f19NINZIIxSAUC6QLQ
+         5VsPpzc0E+023+kEaNkndCHKiXjMuzEWlkp6VsqvTWnMhnzY1MTQCODGdxGf9/zTdUsr
+         HbkSTNLDGabEucMdKXdALoz7wQVWpsotJTehLTQRh+jYB06ncAumAb2Am9CGttiGR5Sh
+         aiiikjtkdt/06zyvSctEimqsm8VJNYrnfWXwVvrHb92UNz9uA/ux8QfhDPgCZEihPtvH
+         NwvSlbe6MGUoGWWvSseNcxCfF8QM7aOQuwsYrw4PWWDp/xctTdAJICB2yEgDBdKfIRaC
+         Hzqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:references:user-agent:to:cc:subject
+         :in-reply-to:message-id:date:mime-version;
+        bh=GT1dtgToCuf3JZQXWgmn/1+1Vz720HE+8i0ZCjTlo7w=;
+        b=pMOUrg3QGClVIPQhdVKAscw+O4OgkDvjRLqwl2KlCLqzSiRRlzq6alKJcbUIslsvx3
+         gy32gojR8U09GXuxZhXzqim64bqLRu7/GS+2bedt8I4/baGFmp8hcsCGqBVk2bW6A7ST
+         BPXqJBvEXNDe3aqey35gZwI7vqFa2iXyiJE9JZiHvc8B8alzQMjHzEkv5JoVAgH8t1MV
+         PBByTqROVg7UIj3Yqa2sX+VCjTKSJr1gMdJz7q2EyHYZmoId+Z5Zuz9QYu/IW3yIBBGm
+         lfQQln21GdyPPd3q1CUGcxqYkczzE95B051r3BTxM+zYrIb25BU/P0ZJDGASUQe1v0Yg
+         jD/w==
+X-Gm-Message-State: AGi0Pua0omwPWO/goomQM2967UocxWA+LO1PxlGTUVE+QoPlH7913PNp
+        0sC/NrX1Fg/JTQKpuzB7GkFLXQvd1Is=
+X-Google-Smtp-Source: APiQypIdEhVCj3AfwnDtXHxVYKduAfM7hgi55kuPoCwoSEKk/rppyVs+ayP4HIB75wIQ3XU0hprR4g==
+X-Received: by 2002:a1c:e305:: with SMTP id a5mr14612754wmh.1.1589202009946;
+        Mon, 11 May 2020 06:00:09 -0700 (PDT)
+Received: from darkstar ([51.154.17.58])
+        by smtp.gmail.com with ESMTPSA id 5sm26454868wmz.16.2020.05.11.06.00.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 11 May 2020 06:00:08 -0700 (PDT)
+From:   Patrick Bellasi <patrick.bellasi@matbug.net>
+X-Google-Original-From: Patrick Bellasi <patrick.bellasi@matbug.com>
+References: <20200501114927.15248-1-qais.yousef@arm.com> <20200501114927.15248-2-qais.yousef@arm.com> <87d07krjyk.derkling@matbug.com> <20200505145637.5daqhatsm5bjsok7@e107158-lin.cambridge.arm.com>
+User-agent: mu4e 1.4.3; emacs 26.3
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] Documentation/sysctl: Document uclamp sysctl knobs
+In-reply-to: <20200505145637.5daqhatsm5bjsok7@e107158-lin.cambridge.arm.com>
+Message-ID: <877dxik4ob.derkling@matbug.com>
+Date:   Mon, 11 May 2020 15:00:04 +0200
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.161.253]
-X-ClientProxiedBy: EX13D06UWC001.ant.amazon.com (10.43.162.91) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
 
-This commit updates MAINTAINERS file for DAMON related files.
+Hi Qais,
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+On Tue, May 05, 2020 at 16:56:37 +0200, Qais Yousef <qais.yousef@arm.com> wrote...
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5a5332b3591d..cb4a7fa3cdfe 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4661,6 +4661,18 @@ F:	net/ax25/ax25_out.c
- F:	net/ax25/ax25_timer.c
- F:	net/ax25/sysctl_net_ax25.c
- 
-+DATA ACCESS MONITOR
-+M:	SeongJae Park <sjpark@amazon.de>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	Documentation/admin-guide/mm/data_access_monitor.rst
-+F:	include/linux/damon.h
-+F:	include/trace/events/damon.h
-+F:	mm/damon-test.h
-+F:	mm/damon.c
-+F:	tools/damon/*
-+F:	tools/testing/selftests/damon/*
-+
- DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
- L:	netdev@vger.kernel.org
- S:	Orphan
--- 
-2.17.1
+>> > +sched_util_clamp_min_rt_default:
+>> > +================================
+>> > +
+>> > +By default Linux is tuned for performance. Which means that RT tasks always run
+>> > +at the highest frequency and most capable (highest capacity) CPU (in
+>> > +heterogeneous systems).
+>> > +
+>> > +Uclamp achieves this by setting the requested uclamp.min of all RT tasks to
+>> > +SCHED_CAPACITY_SCALE (1024) by default, which effectively boosts the tasks to
+>> > +run at the highest frequency and biases them to run on the biggest CPU.
+>> > +
+>> > +This knob allows admins to change the default behavior when uclamp is being
+>> > +used. In battery powered devices particularly, running at the maximum
+>> > +capacity and frequency will increase energy consumption and shorten the battery
+>> > +life.
+>> > +
+>> > +This knob is only effective for RT tasks which the user hasn't modified their
+>> > +requested uclamp.min value via sched_setattr() syscall.
+>> > +
+>> > +This knob will not escape the constraint imposed by sched_util_clamp_min
+>> > +defined above.
+>> 
+>> Perhaps it's worth to specify that this value is going to be clamped by
+>> the values above? Otherwise it's a bit ambiguous to know what happen
+>> when it's bigger than schedu_util_clamp_min.
+>
+> Hmm for me that sentence says exactly what you're asking for.
+>
+> So what you want is
+>
+> 	s/will not escape the constraint imposed by/will be clamped by/
+>
+> ?
+>
+> I'm not sure if this will help if the above is already ambiguous. Maybe if
+> I explicitly say
+>
+> 	..will not escape the *range* constrained imposed by..
+>
+> sched_util_clamp_min is already defined as a range constraint, so hopefully it
+> should hit the mark better now?
+
+Right, that also can work.
+
+>> 
+>> > +Any modification is applied lazily on the next opportunity the scheduler needs
+>> > +to calculate the effective value of uclamp.min of the task.
+>>                     ^^^^^^^^^
+>> 
+>> This is also an implementation detail, I would remove it.
+>
+> The idea is that this value is not updated 'immediately'/synchronously. So
+> currently RUNNING tasks will not see the effect, which could generate confusion
+> when users trip over it. IMO giving an idea of how it's updated will help with
+> expectation of the users. I doubt any will care, but I think it's an important
+> behavior element that is worth conveying and documenting. I'd be happy to
+> reword it if necessary.
+
+Right, I agree on giving an hint on the lazy update. What I was pointing
+out was mainly the reference to the 'effective' value. Maybe we can just
+drop that word.
+
+> I have this now
+>
+> """
+>  984 This knob will not escape the range constraint imposed by sched_util_clamp_min
+>  985 defined above.
+>  986
+>  987 For example if
+>  988
+>  989         sched_util_clamp_min_rt_default = 800
+>  990         sched_util_clamp_min = 600
+>  991
+>  992 Then the boost will be clamped to 600 because 800 is outside of the permissible
+>  993 range of [0:600]. This could happen for instance if a powersave mode will
+>  994 restrict all boosts temporarily by modifying sched_util_clamp_min. As soon as
+>  995 this restriction is lifted, the requested sched_util_clamp_min_rt_default
+>  996 will take effect.
+>  997
+>  998 Any modification is applied lazily to currently running tasks and should be
+>  999 visible by the next wakeup.
+> """
+
+That's better IMHO, would just slightly change the last sentence to:
+
+       Any modification is applied lazily to tasks and is effective
+       starting from their next wakeup.
+
+Best,
+Patrick
 
