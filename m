@@ -3,154 +3,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E03B8C54E8D
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 17:33:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 444C2C47255
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 18:24:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3AEA20720
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 17:33:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 252FE2070B
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 18:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589218433;
-	bh=Ld6u2nKxuEazMixoxWTsfhtvmt3aD0PMzwYEqn6CJss=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=1UEEgejATFyCFRQabQr4OMi/xpKpjt8UcDaFpKNkXRVrDSyG2h3qy0VNg5e+P9ICd
-	 jtfb0upZrV+OP0Je4XZpw51HbskMF7nKCa0bLfMGyhOe0AqLzqHUvwyeUEJj5VYMF3
-	 SUHsWqSUIRBNabK6GBCwbWhp7XzKrnRZpG47S4CY=
+	s=default; t=1589221499;
+	bh=n8z6zdT0rN5SyD8JJU1EwIIfA21xKom77rlOoFytujo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=HqPAUVdNV1H3LmorWvJIVuh605Um149rLLzV0dM7HcscLlCZb80DfgJOBQ56zJp/4
+	 V1WR8NFGiVLGGO71IMn7lE55GP2Okx/XJVboO3OZd+HViE0umhbd9PT/2B/oDcmDiV
+	 onGWKXBRe2EMytZWkROTt1PinoBVGNTBe+9frHGo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730644AbgEKRdu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 13:33:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53302 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730215AbgEKRdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 May 2020 13:33:49 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 88FF720720;
-        Mon, 11 May 2020 17:33:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589218428;
-        bh=Ld6u2nKxuEazMixoxWTsfhtvmt3aD0PMzwYEqn6CJss=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=mG73zVbtKXMszUw6bgydX3SAhe6duep6quJlk89CI/+Xm4uui6ulk3x0p1k9hh/XK
-         xINIg8UyDwXkmNTjQ/P3XK6FHDXZ2Fm1rPUgDKJem0n7GDRW4o58WQOlTn98smyWe/
-         m7D4uoPSjMcawu4bN0Sih6wI1ebqXc56D6SMHzJE=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 6AE44352271C; Mon, 11 May 2020 10:33:48 -0700 (PDT)
-Date:   Mon, 11 May 2020 10:33:48 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        linux-kernel@vger.kernel.org, vpillai@digitalocean.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Daniel Lustig <dlustig@nvidia.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/3] tools/memory-model, Documentation/litmus-test: Sort
- out location of litmus test and README
-Message-ID: <20200511173348.GX2869@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200323015735.236279-1-joel@joelfernandes.org>
- <7809dbfa-7a76-8663-799a-908c4ead8d30@gmail.com>
- <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
+        id S1729727AbgEKSY6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 14:24:58 -0400
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:37113 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729713AbgEKSY6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 14:24:58 -0400
+Received: by mail-pj1-f65.google.com with SMTP id a7so8199362pju.2;
+        Mon, 11 May 2020 11:24:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gzjYF0ep8XMaeJksKcr1mwS/Ul5KRJgBfVKTrx7XdJ8=;
+        b=YDHwCHen8nAIlXkNjGyytBp4l/3THc/CLlDSTpZ2ov/9MEQ9lgcGqlURz9eWD6UY49
+         Ht+7MCXeLI4re36/2CCRhVtRAz59KEmu1sZ+TgiPFxhMNu7lJr9cYWEKvA40lcd+dhi8
+         qkRg97EWRcR8h3DdOA6gQMW/3obhX9IcJxhXyiFEqC2hO9t2GwThObeG6skwYIlx8sp3
+         0zY/VMtBmda9nvA7gUkcTaLaxTDKB4s03ctagWfEms0bF0vWacZ5eUWbRmpXDPGBBJFV
+         rkTLmHOUQuyw6s7yTeHsEFzZvW3IgdEtgld/kh7ONUN99NarRzrJCrk3w2p73DYXxSg4
+         yvmw==
+X-Gm-Message-State: AGi0PubnsxvtM0K7F8T+3Rp5ASSZyrscyWV9K/tJiAZ9AfB91aoC7qHH
+        o/NqBnO51FBLWtJQBWzGq38RwVF1Mo0=
+X-Google-Smtp-Source: APiQypKPXNbqjUaKuNkDw/NfTC1wA3JKFcVH3i5a3y/+Dd5/xFN9T+yDEPZ7DD1beXNuM8j6Z44Wqw==
+X-Received: by 2002:a17:902:8e87:: with SMTP id bg7mr16102782plb.91.1589221497577;
+        Mon, 11 May 2020 11:24:57 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id k6sm10585413pju.44.2020.05.11.11.24.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 11:24:56 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 62A1240605; Mon, 11 May 2020 18:24:55 +0000 (UTC)
+Date:   Mon, 11 May 2020 18:24:55 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Rafael Aquini <aquini@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
+        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
+        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
+        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
+        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
+Subject: Re: [PATCH v3] kernel: add panic_on_taint
+Message-ID: <20200511182455.GR11244@42.do-not-panic.com>
+References: <20200509135737.622299-1-aquini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200509135737.622299-1-aquini@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 10, 2020 at 04:21:02PM +0900, Akira Yokosawa wrote:
-> On Sat, 9 May 2020 12:43:30 +0900, Akira Yokosawa wrote:
-> > Hi Joel,
-> > 
-> > Sorry for the late response but I've noticed some glitches.
-> >  
-> > On Sun, 22 Mar 2020 21:57:32 -0400, Joel Fernandes (Google) wrote:
-> >> Move MP+onceassign+derefonce to the new Documentation/litmus-tests/rcu/
-> >> directory.
-> > 
-> > MP+onceassign+derefonce.litmus is called out in
-> > tools/memory-model/Documentation/recipes.txt as a representative example
-> > of RCU related litmus test.
-> > 
-> > So I think it should be kept under tools/memory-model/litmus-tests.
-> > 
-> > Further RCU-related litmus tests can be added under Documentation/litmus-tests/.
-> > 
-> > IIUC, this change is not picked up by tip tree yet. So we have time to respin
-> > the series targeting v5.9.
-> > 
-> >>
-> >> More RCU-related litmus tests would be added here.
-> >>
-> >> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> >>
-> >> ---
-> >> Cc: vpillai@digitalocean.com
-> >>
-> >>  Documentation/litmus-tests/README                        | 9 +++++++++
-> > 
-> > Please note that later patches to add atomic litmus tests under
-> > Documentation/litmus-tests/ by Boqun put README as
-> > Documentation/litums-tests/atomic/README.
-> > 
-> > This patch's location of RCU's README as Documentation/litmus-tests/README
-> > looks asymmetric to me.
-> > 
-> > I'm OK with either merging atomic's README with the top-level one or
-> > moving RCU's README to under Documentation/litmus-tests/rcu.
-> > 
-> > Joel, Boqum, can you sort out the location of README?
-> 
-> So something like this?
-> 
-> Patch 1/3 is an independent typo fix in recipes.txt.
-> Patch 2/3 reverts the MP+onceassign+derefonce relocation.
-> Patch 3/3 merges atomic's README into the top-level one.
-> 
-> This is relative to -rcu's lkmm branch.
-> 
-> Thoughts?
+On Sat, May 09, 2020 at 09:57:37AM -0400, Rafael Aquini wrote:
+> +Trigger Kdump on add_taint()
+> +============================
+> +
+> +The kernel parameter, panic_on_taint, calls panic() from within add_taint(),
+> +whenever the value set in this bitmask matches with the bit flag being set
+> +by add_taint(). This will cause a kdump to occur at the panic() call.
+> +In cases where a user wants to specify this during runtime,
+> +/proc/sys/kernel/panic_on_taint can be set to a respective bitmask value
+> +to achieve the same behaviour.
+> +
+>  Contact
+>  =======
+>  
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 7bc83f3d9bdf..4a69fe49a70d 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3404,6 +3404,21 @@
+>  	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
+>  			on a WARN().
+>  
+> +	panic_on_taint=	[KNL] conditionally panic() in add_taint()
+> +			Format: <str>
+> +			Specifies, as a string, the TAINT flag set that will
+> +			compose a bitmask for calling panic() when the kernel
+> +			gets tainted.
+> +			See Documentation/admin-guide/tainted-kernels.rst for
+> +			details on the taint flags that users can pick to
+> +			compose the bitmask to assign to panic_on_taint.
+> +			When the string is prefixed with a '-' the bitmask
+> +			set in panic_on_taint will be mutually exclusive
+> +			with the sysctl knob kernel.tainted, and any attempt
+> +			to write to that sysctl will fail with -EINVAL for
+> +			any taint value that masks with the flags set for
+> +			this option.
 
-Looks plausible to me, and thank you for reviewing this.
+This talks about using a string, but that it sets a bitmask. Its not
+very clear that one must use the string representation from each taint
+flag. Also, I don't think to use the character representation as we
+limit ourselves to the alphabet and quirky what-should-be-arbitrary
+characters that represent the taint flags. The taint flag character
+representation is juse useful for human reading of a panic, but I think
+because of the limitation of the mask with the alphabet this was not
+such a great idea long term.
 
-Joel, thoughts?
+So, I don't think we should keep on extending the alphabet use case, a
+simple digit representation would suffice. I think this means we'd need
+two params one for exclusive and one for the value of the taint.
 
-							Thanx, Paul
+Using a hex value or number also lets us make the input value shorter.
 
->         Thanks, Akira
-> --
-> Akira Yokosawa (3):
->   tools/memory-model: Fix reference to litmus test in recipes.txt
->   Revert "Documentation: LKMM: Move MP+onceassign+derefonce to new
->     litmus-tests/rcu/"
->   Documentation/litmus-tests: Merge atomic's README into top-level one
-> 
->  Documentation/litmus-tests/README             | 22 ++++++++++++++++---
->  Documentation/litmus-tests/atomic/README      | 16 --------------
->  tools/memory-model/Documentation/recipes.txt  |  2 +-
->  .../MP+onceassign+derefonce.litmus            |  0
->  tools/memory-model/litmus-tests/README        |  3 +++
->  5 files changed, 23 insertions(+), 20 deletions(-)
->  delete mode 100644 Documentation/litmus-tests/atomic/README
->  rename {Documentation/litmus-tests/rcu => tools/memory-model/litmus-tests}/MP+onceassign+derefonce.litmus (100%)
-> 
-> -- 
-> 2.17.1
-> 
-> 
+If a kernel boots with panic-on-taint flag not yet supported, we don't
+complain, therefore getting a false sense of security that we will panic
+with a not yet supported taint flag. I think we should pr_warn() or
+fail to boot when that happens.
+
+  Luis
