@@ -2,132 +2,159 @@ Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 444C2C47255
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 18:24:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA022C54E4B
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 19:00:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 252FE2070B
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 18:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589221499;
-	bh=n8z6zdT0rN5SyD8JJU1EwIIfA21xKom77rlOoFytujo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=HqPAUVdNV1H3LmorWvJIVuh605Um149rLLzV0dM7HcscLlCZb80DfgJOBQ56zJp/4
-	 V1WR8NFGiVLGGO71IMn7lE55GP2Okx/XJVboO3OZd+HViE0umhbd9PT/2B/oDcmDiV
-	 onGWKXBRe2EMytZWkROTt1PinoBVGNTBe+9frHGo=
+	by mail.kernel.org (Postfix) with ESMTP id BA69820736
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 19:00:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="cGqfsP5E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729727AbgEKSY6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 14:24:58 -0400
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:37113 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729713AbgEKSY6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 14:24:58 -0400
-Received: by mail-pj1-f65.google.com with SMTP id a7so8199362pju.2;
-        Mon, 11 May 2020 11:24:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gzjYF0ep8XMaeJksKcr1mwS/Ul5KRJgBfVKTrx7XdJ8=;
-        b=YDHwCHen8nAIlXkNjGyytBp4l/3THc/CLlDSTpZ2ov/9MEQ9lgcGqlURz9eWD6UY49
-         Ht+7MCXeLI4re36/2CCRhVtRAz59KEmu1sZ+TgiPFxhMNu7lJr9cYWEKvA40lcd+dhi8
-         qkRg97EWRcR8h3DdOA6gQMW/3obhX9IcJxhXyiFEqC2hO9t2GwThObeG6skwYIlx8sp3
-         0zY/VMtBmda9nvA7gUkcTaLaxTDKB4s03ctagWfEms0bF0vWacZ5eUWbRmpXDPGBBJFV
-         rkTLmHOUQuyw6s7yTeHsEFzZvW3IgdEtgld/kh7ONUN99NarRzrJCrk3w2p73DYXxSg4
-         yvmw==
-X-Gm-Message-State: AGi0PubnsxvtM0K7F8T+3Rp5ASSZyrscyWV9K/tJiAZ9AfB91aoC7qHH
-        o/NqBnO51FBLWtJQBWzGq38RwVF1Mo0=
-X-Google-Smtp-Source: APiQypKPXNbqjUaKuNkDw/NfTC1wA3JKFcVH3i5a3y/+Dd5/xFN9T+yDEPZ7DD1beXNuM8j6Z44Wqw==
-X-Received: by 2002:a17:902:8e87:: with SMTP id bg7mr16102782plb.91.1589221497577;
-        Mon, 11 May 2020 11:24:57 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id k6sm10585413pju.44.2020.05.11.11.24.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 11:24:56 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 62A1240605; Mon, 11 May 2020 18:24:55 +0000 (UTC)
-Date:   Mon, 11 May 2020 18:24:55 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Rafael Aquini <aquini@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
-        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
-        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
-        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
-        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
-        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
-Subject: Re: [PATCH v3] kernel: add panic_on_taint
-Message-ID: <20200511182455.GR11244@42.do-not-panic.com>
-References: <20200509135737.622299-1-aquini@redhat.com>
+        id S1731333AbgEKTA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 15:00:56 -0400
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21127 "EHLO
+        sender4-of-o51.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729215AbgEKTAz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 15:00:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1589223616; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=B1X7gjK0SaSBbOecihU3V1h723kvH3VUtqyei/Tk47yktixnA8jRtViQ2Swe6GlDY/ndXfOsEu/ZwjEKJefQG5qy2Gr2ztHgP9kmMzHO007aXjInppJFM7gbP5U+frhmBMGjhhAF7xb4jQ5O4Wbh0X/rl71WX8C19YV24RMUtvI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1589223616; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=S00r81D2Ko0kQyZGpHMx3uADqFI0Su0WIYx5Ou1xMzU=; 
+        b=LsdPd7vACFwL+7d62NcGJt/3H0U8tBMUrkCvH9fPx7/4juGaJhnrjz7Uf8yl4D6kTDkupD15ddAruQC7wvzKQfOWGJXnjpNJV7AzStbDOQdbLtIUB7MnX36qhfvJBmrrUT4MAIX3kdK4HnxUP7gyyM5bcUPzhq10gioHnKNMHrM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=apertussolutions.com;
+        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+        dmarc=pass header.from=<dpsmith@apertussolutions.com> header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1589223616;
+        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+        bh=S00r81D2Ko0kQyZGpHMx3uADqFI0Su0WIYx5Ou1xMzU=;
+        b=cGqfsP5ELyTFhdDVij90EepZASDYn+7THT4xRajLzeGY6VbXex/WuSAWOvsyqohR
+        HDepon/jwE1q4CczEAojnBh/M6AUAfXjX+w3uBk/+FziqniIlXSTPLKT5cJdJ1+rgSE
+        VsdBoEID8KaOnGhyPkgKRvqxRsNcTjigN3ERF53k=
+Received: from [10.10.1.24] (c-73-129-47-101.hsd1.md.comcast.net [73.129.47.101]) by mx.zohomail.com
+        with SMTPS id 1589223613759454.8456864775825; Mon, 11 May 2020 12:00:13 -0700 (PDT)
+Subject: Re: [RFC PATCH 00/12] x86: Trenchboot secure late launch Linux kernel
+ support
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Matthew Garrett <mjg59@google.com>,
+        Ross Philipson <ross.philipson@oracle.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, trenchboot-devel@googlegroups.com
+References: <20200325194317.526492-1-ross.philipson@oracle.com>
+ <CACdnJut56WuqO=uLff0qy1Jp=C6f_sRxLpRBsrzb6byBsFYdCg@mail.gmail.com>
+ <CALCETrUshiLMHyf4DShgDRtCvnzUVyRQgmgCiudvhuhw05cDxg@mail.gmail.com>
+ <6bb09673-292e-b056-3755-ffc51a1d6b59@apertussolutions.com>
+ <CALCETrUnyTbihpqjZ-rwKDsyS=1yMg1KGTD60PJMj7R1-5PbhA@mail.gmail.com>
+From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Message-ID: <d72b87f4-4e71-0b32-7faf-35f910ea76a4@apertussolutions.com>
+Autocrypt: addr=dpsmith@apertussolutions.com; prefer-encrypt=mutual; keydata=
+ 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
+Date:   Mon, 11 May 2020 15:00:11 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200509135737.622299-1-aquini@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CALCETrUnyTbihpqjZ-rwKDsyS=1yMg1KGTD60PJMj7R1-5PbhA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 09, 2020 at 09:57:37AM -0400, Rafael Aquini wrote:
-> +Trigger Kdump on add_taint()
-> +============================
-> +
-> +The kernel parameter, panic_on_taint, calls panic() from within add_taint(),
-> +whenever the value set in this bitmask matches with the bit flag being set
-> +by add_taint(). This will cause a kdump to occur at the panic() call.
-> +In cases where a user wants to specify this during runtime,
-> +/proc/sys/kernel/panic_on_taint can be set to a respective bitmask value
-> +to achieve the same behaviour.
-> +
->  Contact
->  =======
->  
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 7bc83f3d9bdf..4a69fe49a70d 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3404,6 +3404,21 @@
->  	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
->  			on a WARN().
->  
-> +	panic_on_taint=	[KNL] conditionally panic() in add_taint()
-> +			Format: <str>
-> +			Specifies, as a string, the TAINT flag set that will
-> +			compose a bitmask for calling panic() when the kernel
-> +			gets tainted.
-> +			See Documentation/admin-guide/tainted-kernels.rst for
-> +			details on the taint flags that users can pick to
-> +			compose the bitmask to assign to panic_on_taint.
-> +			When the string is prefixed with a '-' the bitmask
-> +			set in panic_on_taint will be mutually exclusive
-> +			with the sysctl knob kernel.tainted, and any attempt
-> +			to write to that sysctl will fail with -EINVAL for
-> +			any taint value that masks with the flags set for
-> +			this option.
+On 3/26/20 7:13 PM, Andy Lutomirski wrote:
+>=20
+> Hmm.  I don't have any real objection to the kernel supporting this
+> type of secure launch, but I do have some more questions first.
 
-This talks about using a string, but that it sets a bitmask. Its not
-very clear that one must use the string representation from each taint
-flag. Also, I don't think to use the character representation as we
-limit ourselves to the alphabet and quirky what-should-be-arbitrary
-characters that represent the taint flags. The taint flag character
-representation is juse useful for human reading of a panic, but I think
-because of the limitation of the mask with the alphabet this was not
-such a great idea long term.
+Coming back through the thread to ensure all questions have been
+responded before a submission patch set is sent.
 
-So, I don't think we should keep on extending the alphabet use case, a
-simple digit representation would suffice. I think this means we'd need
-two params one for exclusive and one for the value of the taint.
+> One of the problems with the old tboot code and the general state of
+> dynamic-root-of-trust is that it's an incredible pain in the neck to
+> even test.  I think it would be helpful if I could build a kernel that
+> supported secure launch (Intel or AMD) and just run the thing.  I
+> realize that you're planning to integrate this into GRUB, etc, but it
+> might be nice if even existing GRUB and EFI shell can do this.  How
+> hard would it be to make the kernel support a mode where whatever
+> blobs are required are in the initrd or built in like firmware and
+> where I could set a command line argument like secure_launch=3Don and
+> have the kernel secure launch itself?
+>=20
+> Are you planning on supporting a mode where kernel A kexecs to kernel
+> B, kernel B is secure launched, and then kernel B resumes kernel A and
+> re-launches it?  If so, would it work better if the measured state of
+> the kernel were the *uncompressed* text or even the uncompressed and
+> alternative-ified text?  Or is the idea that the secure launch entry
+> will figure out that it's actually a resume and not a fresh boot and
+> behave accordingly?
 
-Using a hex value or number also lets us make the input value shorter.
+A primary purpose of the TrenchBoot project is to make using DRTM
+seamless for people, e.g. a few config settings and it just works(tm).
+To achieve what you are proposing, the kernel would have to know how to
+do both the DL preamble (pre-launch in tboot) and DL entry (post-launch
+in tboot). The short answer is we are working towards that capability.
+First is the ability to handle the DL entry, which is SecureLaunch. For
+now we are clearing the SECRETS bit and doing the SEXIT leaf on kexec
+and S5 to minimize the risk of bricking your system with TXT. Later the
+DL preamble can be added to kexec such that the user space can
+coordinate a DRTM launch. Not sure if this is exactly what you are
+envisioning but albeit at least a close approximation.
 
-If a kernel boots with panic-on-taint flag not yet supported, we don't
-complain, therefore getting a false sense of security that we will panic
-with a not yet supported taint flag. I think we should pr_warn() or
-fail to boot when that happens.
 
-  Luis
+> What's the situation like in a VM?  Can I run the secure launch entry
+> in a VM somehow?  Can I actually initiate the dynamic launch from the
+> VM?
+
+A DL entails calling a CPU instruction which take over full control of
+the system. If a hypervisor blindly allowed a VM to directly call the
+op, it would end up with full control of the system outside of the
+hypervisor. With that said, An approach on the roadmap for TrenchBoot is
+how a hypervisor and a VM might coordinate the use of a DL to establish
+a new measurement chain consisting of runtime inspection of the
+hypervisor which in-turn has a means to establish the integrity of the VM.
+
+V/r,
+DPS
+
