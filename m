@@ -2,162 +2,112 @@ Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB44C47255
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 15:41:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6331DC47255
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 16:13:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72BD0206DB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 15:41:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4775120722
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 16:13:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730448AbgEKPlZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 11:41:25 -0400
-Received: from foss.arm.com ([217.140.110.172]:34946 "EHLO foss.arm.com"
+        id S1730487AbgEKQNJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 12:13:09 -0400
+Received: from foss.arm.com ([217.140.110.172]:35434 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726934AbgEKPlY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 May 2020 11:41:24 -0400
+        id S1728556AbgEKQNJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 May 2020 12:13:09 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B6EB31B;
-        Mon, 11 May 2020 08:41:24 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A0D8A3F68F;
-        Mon, 11 May 2020 08:41:21 -0700 (PDT)
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH 2/2] Documentation/sysctl: Document uclamp sysctl knobs
-Date:   Mon, 11 May 2020 16:40:53 +0100
-Message-Id: <20200511154053.7822-2-qais.yousef@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200511154053.7822-1-qais.yousef@arm.com>
-References: <20200511154053.7822-1-qais.yousef@arm.com>
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A588930E;
+        Mon, 11 May 2020 09:13:08 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 02B323F305;
+        Mon, 11 May 2020 09:13:07 -0700 (PDT)
+Date:   Mon, 11 May 2020 17:13:02 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Bryce Willey <bryce.steven.willey@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH] Documentation: PCI: gave unique labels to sections
+Message-ID: <20200511161302.GA28925@e121166-lin.cambridge.arm.com>
+References: <20200503214926.23748-1-bryce.steven.willey@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200503214926.23748-1-bryce.steven.willey@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Uclamp exposes 3 sysctl knobs:
+On Sun, May 03, 2020 at 05:49:26PM -0400, Bryce Willey wrote:
+> From: Bryce Willey <Bryce.Steven.Willey@gmail.com>
+> 
+> Made subsection label more specific to avoid sphinx warnings
+> 
+> Exact warning:
+>  Documentation/PCI/endpoint/pci-endpoint.rst:208: WARNING: duplicate label
+> pci/endpoint/pci-endpoint:other apis, other instance in Documentation/PCI/endpoint/pci-endpoint.rst
+> 
+> Signed-off-by: Bryce Willey <Bryce.Steven.Willey@gmail.com>
+> ---
+>  Documentation/PCI/endpoint/pci-endpoint.rst | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 
-	* sched_util_clamp_min
-	* sched_util_clamp_max
-	* sched_util_clamp_min_rt_default
+Applied changes requested and merged in pci/misc, thanks.
 
-Document them in sysctl/kernel.rst.
+Lorenzo
 
-Signed-off-by: Qais Yousef <qais.yousef@arm.com>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: Juri Lelli <juri.lelli@redhat.com>
-CC: Vincent Guittot <vincent.guittot@linaro.org>
-CC: Dietmar Eggemann <dietmar.eggemann@arm.com>
-CC: Steven Rostedt <rostedt@goodmis.org>
-CC: Ben Segall <bsegall@google.com>
-CC: Mel Gorman <mgorman@suse.de>
-CC: Luis Chamberlain <mcgrof@kernel.org>
-CC: Kees Cook <keescook@chromium.org>
-CC: Iurii Zaikin <yzaikin@google.com>
-CC: Quentin Perret <qperret@google.com>
-CC: Valentin Schneider <valentin.schneider@arm.com>
-CC: Patrick Bellasi <patrick.bellasi@matbug.net>
-CC: Pavan Kondeti <pkondeti@codeaurora.org>
-CC: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-fsdevel@vger.kernel.org
----
-
-Changes in v5:
-	* Improve the wording about the lazy update and the relationship to
-	  sched_util_clamp_min (Patrick)
-
- Documentation/admin-guide/sysctl/kernel.rst | 57 +++++++++++++++++++++
- 1 file changed, 57 insertions(+)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 0d427fd10941..6cd3cb0e22c0 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -940,6 +940,63 @@ Enables/disables scheduler statistics. Enabling this feature
- incurs a small amount of overhead in the scheduler but is
- useful for debugging and performance tuning.
- 
-+sched_util_clamp_min:
-+=====================
-+
-+Max allowed *minimum* utilization.
-+
-+Default value is 1024, which is the maximum possible value.
-+
-+It means that any requested uclamp.min value cannot be greater than
-+sched_util_clamp_min, i.e., it is restricted to the range
-+[0:sched_util_clamp_min].
-+
-+sched_util_clamp_max:
-+=====================
-+
-+Max allowed *maximum* utilization.
-+
-+Default value is 1024, which is the maximum possible value.
-+
-+It means that any requested uclamp.max value cannot be greater than
-+sched_util_clamp_max, i.e., it is restricted to the range
-+[0:sched_util_clamp_max].
-+
-+sched_util_clamp_min_rt_default:
-+================================
-+
-+By default Linux is tuned for performance. Which means that RT tasks always run
-+at the highest frequency and most capable (highest capacity) CPU (in
-+heterogeneous systems).
-+
-+Uclamp achieves this by setting the requested uclamp.min of all RT tasks to
-+1024 by default, which effectively boosts the tasks to run at the highest
-+frequency and biases them to run on the biggest CPU.
-+
-+This knob allows admins to change the default behavior when uclamp is being
-+used. In battery powered devices particularly, running at the maximum
-+capacity and frequency will increase energy consumption and shorten the battery
-+life.
-+
-+This knob is only effective for RT tasks which the user hasn't modified their
-+requested uclamp.min value via sched_setattr() syscall.
-+
-+This knob will not escape the range constraint imposed by sched_util_clamp_min
-+defined above.
-+
-+For example if
-+
-+	sched_util_clamp_min_rt_default = 800
-+	sched_util_clamp_min = 600
-+
-+Then the boost will be clamped to 600 because 800 is outside of the permissible
-+range of [0:600]. This could happen for instance if a powersave mode will
-+restrict all boosts temporarily by modifying sched_util_clamp_min. As soon as
-+this restriction is lifted, the requested sched_util_clamp_min_rt_default
-+will take effect.
-+
-+Any modification is applied lazily to tasks and is effective starting from
-+their next wakeup.
- 
- seccomp
- =======
--- 
-2.17.1
-
+> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
+> index 0e2311b5617b..7536be445db8 100644
+> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
+> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
+> @@ -78,8 +78,8 @@ by the PCI controller driver.
+>     Cleanup the pci_epc_mem structure allocated during pci_epc_mem_init().
+>  
+>  
+> -APIs for the PCI Endpoint Function Driver
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +EPC APIs for the PCI Endpoint Function Driver
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+>  This section lists the APIs that the PCI Endpoint core provides to be used
+>  by the PCI endpoint function driver.
+> @@ -117,8 +117,8 @@ by the PCI endpoint function driver.
+>     The PCI endpoint function driver should use pci_epc_mem_free_addr() to
+>     free the memory space allocated using pci_epc_mem_alloc_addr().
+>  
+> -Other APIs
+> -~~~~~~~~~~
+> +Other EPC APIs
+> +~~~~~~~~~~~~~~
+>  
+>  There are other APIs provided by the EPC library. These are used for binding
+>  the EPF device with EPC device. pci-ep-cfs.c can be used as reference for
+> @@ -160,8 +160,8 @@ PCI Endpoint Function(EPF) Library
+>  The EPF library provides APIs to be used by the function driver and the EPC
+>  library to provide endpoint mode functionality.
+>  
+> -APIs for the PCI Endpoint Function Driver
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +EPF APIs for the PCI Endpoint Function Driver
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+>  This section lists the APIs that the PCI Endpoint core provides to be used
+>  by the PCI endpoint function driver.
+> @@ -204,8 +204,8 @@ by the PCI endpoint controller library.
+>     The PCI endpoint controller library invokes pci_epf_linkup() when the
+>     EPC device has established the connection to the host.
+>  
+> -Other APIs
+> -~~~~~~~~~~
+> +Other EPF APIs
+> +~~~~~~~~~~~~~~
+>  
+>  There are other APIs provided by the EPF library. These are used to notify
+>  the function driver when the EPF device is bound to the EPC device.
+> -- 
+> 2.17.1
+> 
