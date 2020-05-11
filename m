@@ -2,358 +2,375 @@ Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94A78C54E8D
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 23:33:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 984F2C47255
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 23:33:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64DE520714
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 23:33:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 687C72075E
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 23:33:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HPR5Cl2N"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="eWizQaZ8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728264AbgEKXdE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1728270AbgEKXdF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 19:33:05 -0400
+Received: from mail-eopbgr760051.outbound.protection.outlook.com ([40.107.76.51]:30656
+        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728261AbgEKXdE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 11 May 2020 19:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39646 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728140AbgEKXck (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 19:32:40 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA9CC061A0E
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 16:32:40 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id s69so312219pjb.4
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 16:32:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WYq+iXa5mEHXRubhytNfn4K7Bvk1GET4SVxZJ5RsFChBFUtwSbV6PZMSPyBbP0oHgXjSfjStld0/QUbzva5wKD53m6WpGrlVvAcAOmyQY8eANWBiq9UY+4CAmVXmNvmL6q8QycAPeKlHHyE8g79dXkdLsNnBWMCng74uINGhMQImFeoCjeVfMr8a18YqOGqOkJRZhh3TSgbs+bJhN8MS9o7sWgBoyg0hggj+ROCIrcFhYXHo4dcoxPsro6c4w8Sp6rbKLR78+shHmnSW/7dmRwWjNLJpg2XFEia0p3EqWVzgWU8RghQAzRAJ0A+jWsxfb0saRGOVVjd0tHg/O8QdZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gScTWSgrt1I6ZIxUAKuYL/KVKxVWx3f1QsKpSo9Vrwk=;
+ b=SG8dpqKmxbmCEkfV/Nnw3iBgaNOt95/505tWq9xXS+JBfmK+7fnOOKTlxnxb7XYxIOrYaKDNal7BrFvd7kzgos39qIeeWyFfDZHbNTVRC87jjB2PPi2iZRJjtA37LlimXqnOtEQxSZ+aUhd8usx4eqQX+vynprHSb3hU5x5Fsh8TpQ6KRhKhHt7SQbr7DVutmMP4IyFuARbtzvdRrTKrywZiIW3NJXOdYDyI9pvjcaevTLE0g0uaKF17WqpoXLvxav5QzkLSc5vrejuGxQXd49b165YrEU2CFOQ47RTOo9G0ngAXamrbDmOiLK3WQFPmy3ZTr9+nuwuq2X8QRRwMKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EonzMrSQ5xoIpulNRIFPEIW9ivTufOr3sl2TimdVQ8s=;
-        b=HPR5Cl2Nzighy+CnMw4A5dYNsJBqZGDixXiGX6W0cT0lxYLFmcS5w1sqyIjPcory0w
-         1VElw14qIgoJFzWuNzfU33huJZzVW0yP9bKEWhBIMdjp9LnFG5u6P+fAjS24IVqeFums
-         y9s0bYgNDAu1l3Fp85Bga6SIRLs2JRA+ufGBU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EonzMrSQ5xoIpulNRIFPEIW9ivTufOr3sl2TimdVQ8s=;
-        b=ClllBwibcj+omBhikM+k3yuk5x+iLPzUJNcW4XKKNxrfACrWeEvQGEzDxwd60UrLS+
-         018mWnpMrDc0EwXMPVthKXmD++PkR85l6FHYeSZi33KtgZYCckKQG6ghKCZSQiu8HLyN
-         +mBxPqPwGKq1H2AcLUafwX8nizn32McBAs/JizBCrS+qU50WhrKYUIX0JZN6GOjqMZQ8
-         Gnv9+W72SRefLGpbt1FrEkGM9e1dBJNAgJLHNPkwnqf236ROaoCJK/umkcClGkuiL1RX
-         y54KXW/vflrdFg9+4wePCEtoZgGdqW1exaunXO/urlUmczdaZ3gC1eHjU7q01e9lB+n0
-         TR9w==
-X-Gm-Message-State: AGi0PubbaQga5MP871GGr9Y62bBHZxvfOf5llF9UZKXgfpckBm7JzkYP
-        3KsR0I++TONxWDP7TmEgZCo01Q==
-X-Google-Smtp-Source: APiQypJf8xd6VCLDMUk5dgSV3427oa7JtIVQY8aWUEOJWjWx27qX3neLxq+4fhV6VLLM85eRr5s0yQ==
-X-Received: by 2002:a17:90a:5287:: with SMTP id w7mr25852185pjh.66.1589239958666;
-        Mon, 11 May 2020 16:32:38 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l6sm10098779pfl.128.2020.05.11.16.32.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 16:32:35 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org
-Subject: [PATCH v8 06/11] Documentation: Add details for pstore/blk
-Date:   Mon, 11 May 2020 16:32:24 -0700
-Message-Id: <20200511233229.27745-7-keescook@chromium.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200511233229.27745-1-keescook@chromium.org>
-References: <20200511233229.27745-1-keescook@chromium.org>
-MIME-Version: 1.0
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gScTWSgrt1I6ZIxUAKuYL/KVKxVWx3f1QsKpSo9Vrwk=;
+ b=eWizQaZ83w4G8G9XzYo5ktjCl/4wQ0IJQJjqpguQ8+anvlJLbMQkM6OVRZy52nmeBUAWWOQkMTM9QPbQ7Z5JmfX+cemLpNTTd4ttaRrz5oiYPXgfVLVEZ18Gy2l2sOiRtbT65/beUiwEeH1Saz5sWbSns3Ac67t+n0ksmKPkeLg=
+Authentication-Results: tencent.com; dkim=none (message not signed)
+ header.d=none;tencent.com; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SN1PR12MB2478.namprd12.prod.outlook.com (2603:10b6:802:23::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28; Mon, 11 May
+ 2020 23:32:59 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d%7]) with mapi id 15.20.2979.033; Mon, 11 May 2020
+ 23:32:59 +0000
+Subject: [PATCH v3 1/3] arch/x86: Rename config
+ X86_INTEL_MEMORY_PROTECTION_KEYS to generic x86
+From:   Babu Moger <babu.moger@amd.com>
+To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        hpa@zytor.com, pbonzini@redhat.com, sean.j.christopherson@intel.com
+Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
+        luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
+        babu.moger@amd.com, changbin.du@intel.com, namit@vmware.com,
+        bigeasy@linutronix.de, yang.shi@linux.alibaba.com,
+        asteinhauser@google.com, anshuman.khandual@arm.com,
+        jan.kiszka@siemens.com, akpm@linux-foundation.org,
+        steven.price@arm.com, rppt@linux.vnet.ibm.com, peterx@redhat.com,
+        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
+        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
+        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
+        jgross@suse.com, andrew.cooper3@citrix.com,
+        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
+        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
+        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Date:   Mon, 11 May 2020 18:32:54 -0500
+Message-ID: <158923997443.20128.16545619590919566266.stgit@naples-babu.amd.com>
+In-Reply-To: <158923982830.20128.14580309786525588408.stgit@naples-babu.amd.com>
+References: <158923982830.20128.14580309786525588408.stgit@naples-babu.amd.com>
+User-Agent: StGit/unknown-version
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DM3PR12CA0080.namprd12.prod.outlook.com
+ (2603:10b6:0:57::24) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from naples-babu.amd.com (165.204.78.2) by DM3PR12CA0080.namprd12.prod.outlook.com (2603:10b6:0:57::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend Transport; Mon, 11 May 2020 23:32:55 +0000
+X-Originating-IP: [165.204.78.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 725ed9e2-4bb7-4411-2678-08d7f603a398
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2478:|SN1PR12MB2478:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN1PR12MB247827226DD4FC676CB56F9295A10@SN1PR12MB2478.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 04004D94E2
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: r6ztO40qsouHztYTiCJta4lmNZnQCycM4BEFi0RE9OzMkCd8AJzU1/Hi4Ud5+V3+o0UU55Z6YLKmJ2niiz3O0H4CeixVUC/JaDL7tws3XE8NJVSZlmekf4cPPo9ZUp3FhV+uEPQOIGoeanPS42cgWclUYmgjXDRTno+ZKpo2aVDlud+UuLGliNZfPhAofF1IU1XqGFTgG3H4/DTLxDqGB8C7tMpzi+xz053kEEJVAowxlvQF94Urrrk53Fz+bLqhKB1TSKMklmKkQ47f944XzBbvZ61c6RN/3yYXRFM0PeYI8fPQErndYTlXZg7/XsRPaFOT0+3Hz3An+3suqKGaHXPI2NdgAsW+CtYII8+0u4cJ7M6fcCDqIiZ6tKOhofTLbvAADA+BbpxSFACyFWGVucg6r1uad6RfaJ8SIXT4cxmbZj5WPPD3fTUkxkst/2g4wEGn1aGjE3NPXlTqj5PWGNMQCgMei34wxOYBW0qmv4adoagzH8RERKgnnx3D1TnasV1g26vKDK9roK7PDEjjEP7jZxhkFj1QaMPeOPlELRJewksm5AQNzi+AbeY90xLPhs6HhWQjx5jAMck6E04bD44zwV1g94wTFZnxvFlvHKR47wpsv6fFi4hQXgmFOHky
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(376002)(396003)(136003)(39860400002)(366004)(33430700001)(8676002)(2906002)(478600001)(4326008)(8936002)(186003)(26005)(7406005)(16526019)(5660300002)(7416002)(44832011)(86362001)(316002)(103116003)(956004)(33440700001)(55016002)(30864003)(66946007)(52116002)(7696005)(66476007)(66556008)(966005)(41533002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: OJunIoJtjM4zRSkpuia7eW4+FoM8IRqSoGWYCnN4QzVb8nnOMBsaoWkgSw5X30TEHC27kwkCm6pzh1oxUUYmlSB4W0NstXbOlstzgP17+0CSpPfIoPTxk9NkPDA5gvPNC0i0/737vXUw4CW4XZfuaXU1jkbxeZfAb4Y0nca8KlhxTDrTbFvfH7zso/BFgElc9DzWO9l0/EHZFu5/rvtkO4D7g/ASVd4H3waJ+1GRitCbPtjAdY6/F7KAngjvkAv6g4fNn7dJIlUiyy99QfsoX3aok+7Ou0yMMK0SZsWLOGFo+fBKlEVncBu98+QMBy0K5581OuFDnFCcASr4cHLsErg/cAb81HFfy+/Ge5FWQP9JU3vb42CfBBKkKMSEwhgUy1EN2RKh9b5wSM9Yi7U4PHdv07isirjw7f5pst6vnOjHDbBdPKJC3vFWrWdM+M+WjHHr9IKYpw9pCZlKIn/Q3YRzDtu8t49gaUmLfynpf5s=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 725ed9e2-4bb7-4411-2678-08d7f603a398
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2020 23:32:58.9774
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7ityY3thtRC5t/ZNQQUd+9w0HCB/DUfcQ4vXlpdLy9xq29scB8aLtnW085KgiVMZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2478
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: WeiXiong Liao <liaoweixiong@allwinnertech.com>
+AMD's next generation of EPYC processors support the MPK (Memory
+Protection Keys) feature.
 
-Add details on using pstore/blk, the new backend of pstore to record
-dumps to block devices, in Documentation/admin-guide/pstore-blk.rst
+So, rename X86_INTEL_MEMORY_PROTECTION_KEYS to X86_MEMORY_PROTECTION_KEYS.
 
-Signed-off-by: WeiXiong Liao <liaoweixiong@allwinnertech.com>
-Link: https://lore.kernel.org/r/1585126506-18635-8-git-send-email-liaoweixiong@allwinnertech.com
-Signed-off-by: Kees Cook <keescook@chromium.org>
+No functional changes.
+
+AMD documentation for MPK feature is available at "AMD64 Architecture
+Programmer’s Manual Volume 2: System Programming, Pub. 24593 Rev. 3.34,
+Section 5.6.6 Memory Protection Keys (MPK) Bit". Documentation can be
+obtained at the link below.
+
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
- Documentation/admin-guide/pstore-blk.rst | 229 +++++++++++++++++++++++
- MAINTAINERS                              |   1 +
- fs/pstore/Kconfig                        |   2 +
- 3 files changed, 232 insertions(+)
- create mode 100644 Documentation/admin-guide/pstore-blk.rst
+ Documentation/core-api/protection-keys.rst     |    3 ++-
+ arch/x86/Kconfig                               |   11 +++++++++--
+ arch/x86/include/asm/disabled-features.h       |    4 ++--
+ arch/x86/include/asm/mmu.h                     |    2 +-
+ arch/x86/include/asm/mmu_context.h             |    4 ++--
+ arch/x86/include/asm/pgtable.h                 |    4 ++--
+ arch/x86/include/asm/pgtable_types.h           |    2 +-
+ arch/x86/include/asm/special_insns.h           |    2 +-
+ arch/x86/include/uapi/asm/mman.h               |    2 +-
+ arch/x86/kernel/cpu/common.c                   |    2 +-
+ arch/x86/mm/Makefile                           |    2 +-
+ arch/x86/mm/pkeys.c                            |    2 +-
+ scripts/headers_install.sh                     |    2 +-
+ tools/arch/x86/include/asm/disabled-features.h |    4 ++--
+ 14 files changed, 27 insertions(+), 19 deletions(-)
 
-diff --git a/Documentation/admin-guide/pstore-blk.rst b/Documentation/admin-guide/pstore-blk.rst
-new file mode 100644
-index 000000000000..bef8c7436721
---- /dev/null
-+++ b/Documentation/admin-guide/pstore-blk.rst
-@@ -0,0 +1,229 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+pstore block oops/panic logger
-+==============================
-+
-+Introduction
-+------------
-+
-+pstore block (pstore/blk) is an oops/panic logger that writes its logs to a
-+block device before the system crashes. You can get these log files by
-+mounting pstore filesystem like::
-+
-+    mount -t pstore pstore /sys/fs/pstore
-+
-+
-+pstore block concepts
-+---------------------
-+
-+pstore/blk provides efficient configuration method for pstore/blk, which
-+divides all configurations into two parts, configurations for user and
-+configurations for driver.
-+
-+Configurations for user determine how pstore/blk works, such as pmsg_size,
-+kmsg_size and so on. All of them support both Kconfig and module parameters,
-+but module parameters have priority over Kconfig.
-+
-+Configurations for driver are all about block device, such as total_size
-+of block device and read/write operations.
-+
-+Configurations for user
-+-----------------------
-+
-+All of these configurations support both Kconfig and module parameters, but
-+module parameters have priority over Kconfig.
-+
-+Here is an example for module parameters::
-+
-+        pstore_blk.blkdev=179:7 pstore_blk.kmsg_size=64
-+
-+The detail of each configurations may be of interest to you.
-+
-+blkdev
-+~~~~~~
-+
-+The block device to use. Most of the time, it is a partition of block device.
-+It's required for pstore/blk.
-+
-+It accepts the following variants:
-+
-+1. <hex_major><hex_minor> device number in hexadecimal represents itself; no
-+   leading 0x, for example b302.
-+#. /dev/<disk_name> represents the device number of disk
-+#. /dev/<disk_name><decimal> represents the device number of partition - device
-+   number of disk plus the partition number
-+#. /dev/<disk_name>p<decimal> - same as the above; this form is used when disk
-+   name of partitioned disk ends with a digit.
-+#. PARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF represents the unique id of
-+   a partition if the partition table provides it. The UUID may be either an
-+   EFI/GPT UUID, or refer to an MSDOS partition using the format SSSSSSSS-PP,
-+   where SSSSSSSS is a zero-filled hex representation of the 32-bit
-+   "NT disk signature", and PP is a zero-filled hex representation of the
-+   1-based partition number.
-+#. PARTUUID=<UUID>/PARTNROFF=<int> to select a partition in relation to a
-+   partition with a known unique id.
-+#. <major>:<minor> major and minor number of the device separated by a colon.
-+
-+kmsg_size
-+~~~~~~~~~
-+
-+The chunk size in KB for oops/panic front-end. It **MUST** be a multiple of 4.
-+It's optional if you do not care oops/panic log.
-+
-+There are multiple chunks for oops/panic front-end depending on the remaining
-+space except other pstore front-ends.
-+
-+pstore/blk will log to oops/panic chunks one by one, and always overwrite the
-+oldest chunk if there is no more free chunk.
-+
-+pmsg_size
-+~~~~~~~~~
-+
-+The chunk size in KB for pmsg front-end. It **MUST** be a multiple of 4.
-+It's optional if you do not care pmsg log.
-+
-+Unlike oops/panic front-end, there is only one chunk for pmsg front-end.
-+
-+Pmsg is a user space accessible pstore object. Writes to */dev/pmsg0* are
-+appended to the chunk. On reboot the contents are available in
-+*/sys/fs/pstore/pmsg-pstore-blk-0*.
-+
-+console_size
-+~~~~~~~~~~~~
-+
-+The chunk size in KB for console front-end.  It **MUST** be a multiple of 4.
-+It's optional if you do not care console log.
-+
-+Similar to pmsg front-end, there is only one chunk for console front-end.
-+
-+All log of console will be appended to the chunk. On reboot the contents are
-+available in */sys/fs/pstore/console-pstore-blk-0*.
-+
-+ftrace_size
-+~~~~~~~~~~~
-+
-+The chunk size in KB for ftrace front-end. It **MUST** be a multiple of 4.
-+It's optional if you do not care console log.
-+
-+Similar to oops front-end, there are multiple chunks for ftrace front-end
-+depending on the count of cpu processors. Each chunk size is equal to
-+ftrace_size / processors_count.
-+
-+All log of ftrace will be appended to the chunk. On reboot the contents are
-+combined and available in */sys/fs/pstore/ftrace-pstore-blk-0*.
-+
-+Persistent function tracing might be useful for debugging software or hardware
-+related hangs. Here is an example of usage::
-+
-+ # mount -t pstore pstore /sys/fs/pstore
-+ # mount -t debugfs debugfs /sys/kernel/debug/
-+ # echo 1 > /sys/kernel/debug/pstore/record_ftrace
-+ # reboot -f
-+ [...]
-+ # mount -t pstore pstore /sys/fs/pstore
-+ # tail /sys/fs/pstore/ftrace-pstore-blk-0
-+ CPU:0 ts:5914676 c0063828  c0063b94  call_cpuidle <- cpu_startup_entry+0x1b8/0x1e0
-+ CPU:0 ts:5914678 c039ecdc  c006385c  cpuidle_enter_state <- call_cpuidle+0x44/0x48
-+ CPU:0 ts:5914680 c039e9a0  c039ecf0  cpuidle_enter_freeze <- cpuidle_enter_state+0x304/0x314
-+ CPU:0 ts:5914681 c0063870  c039ea30  sched_idle_set_state <- cpuidle_enter_state+0x44/0x314
-+ CPU:1 ts:5916720 c0160f59  c015ee04  kernfs_unmap_bin_file <- __kernfs_remove+0x140/0x204
-+ CPU:1 ts:5916721 c05ca625  c015ee0c  __mutex_lock_slowpath <- __kernfs_remove+0x148/0x204
-+ CPU:1 ts:5916723 c05c813d  c05ca630  yield_to <- __mutex_lock_slowpath+0x314/0x358
-+ CPU:1 ts:5916724 c05ca2d1  c05ca638  __ww_mutex_lock <- __mutex_lock_slowpath+0x31c/0x358
-+
-+max_reason
-+~~~~~~~~~~
-+
-+Limiting which kinds of kmsg dumps are stored can be controlled via
-+the ``max_reason`` value, as defined in include/linux/kmsg_dump.h's
-+``enum kmsg_dump_reason``. For example, to store both Oopses and Panics,
-+``max_reason`` should be set to 2 (KMSG_DUMP_OOPS), to store only Panics
-+``max_reason`` should be set to 1 (KMSG_DUMP_PANIC). Setting this to 0
-+(KMSG_DUMP_UNDEF), means the reason filtering will be controlled by the
-+``printk.always_kmsg_dump`` boot param: if unset, it'll be KMSG_DUMP_OOPS,
-+otherwise KMSG_DUMP_MAX.
-+
-+Configurations for driver
-+-------------------------
-+
-+Only a block device driver cares about these configurations. A block device
-+driver uses ``register_pstore_blk`` to register to pstore/blk.
-+
-+.. kernel-doc:: fs/pstore/blk.c
-+   :identifiers: register_pstore_blk
-+
-+Compression and header
-+----------------------
-+
-+Block device is large enough for uncompressed oops data. Actually we do not
-+recommend data compression because pstore/blk will insert some information into
-+the first line of oops/panic data. For example::
-+
-+        Panic: Total 16 times
-+
-+It means that it's OOPS|Panic for the 16th time since the first booting.
-+Sometimes the number of occurrences of oops|panic since the first booting is
-+important to judge whether the system is stable.
-+
-+The following line is inserted by pstore filesystem. For example::
-+
-+        Oops#2 Part1
-+
-+It means that it's OOPS for the 2nd time on the last boot.
-+
-+Reading the data
-+----------------
-+
-+The dump data can be read from the pstore filesystem. The format for these
-+files is ``dmesg-pstore-blk-[N]`` for oops/panic front-end,
-+``pmsg-pstore-blk-0`` for pmsg front-end and so on.  The timestamp of the
-+dump file records the trigger time. To delete a stored record from block
-+device, simply unlink the respective pstore file.
-+
-+Attentions in panic read/write APIs
-+-----------------------------------
-+
-+If on panic, the kernel is not going to run for much longer, the tasks will not
-+be scheduled and most kernel resources will be out of service. It
-+looks like a single-threaded program running on a single-core computer.
-+
-+The following points require special attention for panic read/write APIs:
-+
-+1. Can **NOT** allocate any memory.
-+   If you need memory, just allocate while the block driver is initializing
-+   rather than waiting until the panic.
-+#. Must be polled, **NOT** interrupt driven.
-+   No task schedule any more. The block driver should delay to ensure the write
-+   succeeds, but NOT sleep.
-+#. Can **NOT** take any lock.
-+   There is no other task, nor any shared resource; you are safe to break all
-+   locks.
-+#. Just use CPU to transfer.
-+   Do not use DMA to transfer unless you are sure that DMA will not keep lock.
-+#. Control registers directly.
-+   Please control registers directly rather than use Linux kernel resources.
-+   Do I/O map while initializing rather than wait until a panic occurs.
-+#. Reset your block device and controller if necessary.
-+   If you are not sure of the state of your block device and controller when
-+   a panic occurs, you are safe to stop and reset them.
-+
-+pstore/blk supports psblk_blkdev_info(), which is defined in
-+*linux/pstore_blk.h*, to get information of using block device, such as the
-+device number, sector count and start sector of the whole disk.
-+
-+pstore block internals
-+----------------------
-+
-+For developer reference, here are all the important structures and APIs:
-+
-+.. kernel-doc:: fs/pstore/zone.c
-+   :internal:
-+
-+.. kernel-doc:: include/linux/pstore_zone.h
-+   :internal:
-+
-+.. kernel-doc:: fs/pstore/blk.c
-+   :export:
-+
-+.. kernel-doc:: include/linux/pstore_blk.h
-+   :internal:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e64e5db31497..9c1f4feff418 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13660,6 +13660,7 @@ M:	Tony Luck <tony.luck@intel.com>
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
- F:	Documentation/admin-guide/ramoops.rst
-+F:	Documentation/admin-guide/pstore-blk.rst
- F:	Documentation/devicetree/bindings/reserved-memory/ramoops.txt
- F:	drivers/acpi/apei/erst.c
- F:	drivers/firmware/efi/efi-pstore.c
-diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-index c2237984b407..e16a49ebfe54 100644
---- a/fs/pstore/Kconfig
-+++ b/fs/pstore/Kconfig
-@@ -171,6 +171,8 @@ config PSTORE_BLK
- 	  This enables panic and oops message to be logged to a block dev
- 	  where it can be read back at some later point.
+diff --git a/Documentation/core-api/protection-keys.rst b/Documentation/core-api/protection-keys.rst
+index 49d9833af871..d25e89e53c59 100644
+--- a/Documentation/core-api/protection-keys.rst
++++ b/Documentation/core-api/protection-keys.rst
+@@ -6,7 +6,8 @@ Memory Protection Keys
  
-+	  For more information, see Documentation/admin-guide/pstore-blk.rst
-+
- 	  If unsure, say N.
+ Memory Protection Keys for Userspace (PKU aka PKEYs) is a feature
+ which is found on Intel's Skylake "Scalable Processor" Server CPUs.
+-It will be avalable in future non-server parts.
++It will be available in future non-server parts. Also, AMD64
++Architecture Programmer’s Manual defines PKU feature in AMD processors.
  
- config PSTORE_BLK_BLKDEV
--- 
-2.20.1
+ For anyone wishing to test or use this feature, it is available in
+ Amazon's EC2 C5 instances and is known to work there using an Ubuntu
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 1197b5596d5a..b6f1686526eb 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1887,10 +1887,10 @@ config X86_UMIP
+ 	  results are dummy.
+ 
+ config X86_INTEL_MEMORY_PROTECTION_KEYS
+-	prompt "Intel Memory Protection Keys"
++	prompt "Memory Protection Keys"
+ 	def_bool y
+ 	# Note: only available in 64-bit mode
+-	depends on CPU_SUP_INTEL && X86_64
++	depends on X86_64 && (CPU_SUP_INTEL || CPU_SUP_AMD)
+ 	select ARCH_USES_HIGH_VMA_FLAGS
+ 	select ARCH_HAS_PKEYS
+ 	---help---
+@@ -1902,6 +1902,13 @@ config X86_INTEL_MEMORY_PROTECTION_KEYS
+ 
+ 	  If unsure, say y.
+ 
++config X86_MEMORY_PROTECTION_KEYS
++	# Note: This is an intermediate change to avoid config prompt to
++	# the users. Eventually, the option X86_INTEL_MEMORY_PROTECTION_KEYS
++	# should be changed to X86_MEMORY_PROTECTION_KEYS permanently after
++	# few kernel revisions.
++	def_bool X86_INTEL_MEMORY_PROTECTION_KEYS
++
+ choice
+ 	prompt "TSX enable mode"
+ 	depends on CPU_SUP_INTEL
+diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+index 4ea8584682f9..52dbdfed8043 100644
+--- a/arch/x86/include/asm/disabled-features.h
++++ b/arch/x86/include/asm/disabled-features.h
+@@ -36,13 +36,13 @@
+ # define DISABLE_PCID		(1<<(X86_FEATURE_PCID & 31))
+ #endif /* CONFIG_X86_64 */
+ 
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ # define DISABLE_PKU		0
+ # define DISABLE_OSPKE		0
+ #else
+ # define DISABLE_PKU		(1<<(X86_FEATURE_PKU & 31))
+ # define DISABLE_OSPKE		(1<<(X86_FEATURE_OSPKE & 31))
+-#endif /* CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS */
++#endif /* CONFIG_X86_MEMORY_PROTECTION_KEYS */
+ 
+ #ifdef CONFIG_X86_5LEVEL
+ # define DISABLE_LA57	0
+diff --git a/arch/x86/include/asm/mmu.h b/arch/x86/include/asm/mmu.h
+index bdeae9291e5c..351d22152709 100644
+--- a/arch/x86/include/asm/mmu.h
++++ b/arch/x86/include/asm/mmu.h
+@@ -42,7 +42,7 @@ typedef struct {
+ 	const struct vdso_image *vdso_image;	/* vdso image in use */
+ 
+ 	atomic_t perf_rdpmc_allowed;	/* nonzero if rdpmc is allowed */
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ 	/*
+ 	 * One bit per protection key says whether userspace can
+ 	 * use it or not.  protected by mmap_sem.
+diff --git a/arch/x86/include/asm/mmu_context.h b/arch/x86/include/asm/mmu_context.h
+index 4e55370e48e8..33f4a7ccac5e 100644
+--- a/arch/x86/include/asm/mmu_context.h
++++ b/arch/x86/include/asm/mmu_context.h
+@@ -118,7 +118,7 @@ static inline int init_new_context(struct task_struct *tsk,
+ 	mm->context.ctx_id = atomic64_inc_return(&last_mm_ctx_id);
+ 	atomic64_set(&mm->context.tlb_gen, 0);
+ 
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ 	if (cpu_feature_enabled(X86_FEATURE_OSPKE)) {
+ 		/* pkey 0 is the default and allocated implicitly */
+ 		mm->context.pkey_allocation_map = 0x1;
+@@ -163,7 +163,7 @@ do {						\
+ static inline void arch_dup_pkeys(struct mm_struct *oldmm,
+ 				  struct mm_struct *mm)
+ {
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ 	if (!cpu_feature_enabled(X86_FEATURE_OSPKE))
+ 		return;
+ 
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index 4d02e64af1b3..4265720d62c2 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -1451,7 +1451,7 @@ static inline pmd_t pmd_swp_clear_uffd_wp(pmd_t pmd)
+ #define PKRU_WD_BIT 0x2
+ #define PKRU_BITS_PER_PKEY 2
+ 
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ extern u32 init_pkru_value;
+ #else
+ #define init_pkru_value	0
+@@ -1475,7 +1475,7 @@ static inline bool __pkru_allows_write(u32 pkru, u16 pkey)
+ 
+ static inline u16 pte_flags_pkey(unsigned long pte_flags)
+ {
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ 	/* ifdef to avoid doing 59-bit shift on 32-bit values */
+ 	return (pte_flags & _PAGE_PKEY_MASK) >> _PAGE_BIT_PKEY_BIT0;
+ #else
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index b6606fe6cfdf..c61a1ff71d53 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -56,7 +56,7 @@
+ #define _PAGE_PAT_LARGE (_AT(pteval_t, 1) << _PAGE_BIT_PAT_LARGE)
+ #define _PAGE_SPECIAL	(_AT(pteval_t, 1) << _PAGE_BIT_SPECIAL)
+ #define _PAGE_CPA_TEST	(_AT(pteval_t, 1) << _PAGE_BIT_CPA_TEST)
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ #define _PAGE_PKEY_BIT0	(_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT0)
+ #define _PAGE_PKEY_BIT1	(_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT1)
+ #define _PAGE_PKEY_BIT2	(_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT2)
+diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+index 6d37b8fcfc77..70eaae7e8f04 100644
+--- a/arch/x86/include/asm/special_insns.h
++++ b/arch/x86/include/asm/special_insns.h
+@@ -73,7 +73,7 @@ static inline unsigned long native_read_cr4(void)
+ 
+ void native_write_cr4(unsigned long val);
+ 
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ static inline u32 rdpkru(void)
+ {
+ 	u32 ecx = 0;
+diff --git a/arch/x86/include/uapi/asm/mman.h b/arch/x86/include/uapi/asm/mman.h
+index d4a8d0424bfb..d4da414a9de2 100644
+--- a/arch/x86/include/uapi/asm/mman.h
++++ b/arch/x86/include/uapi/asm/mman.h
+@@ -4,7 +4,7 @@
+ 
+ #define MAP_32BIT	0x40		/* only give out 32bit addresses */
+ 
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ /*
+  * Take the 4 protection key bits out of the vma->vm_flags
+  * value and turn them in to the bits that we can put in
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index bed0cb83fe24..e5fb9955214c 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -448,7 +448,7 @@ static __always_inline void setup_pku(struct cpuinfo_x86 *c)
+ 	set_cpu_cap(c, X86_FEATURE_OSPKE);
+ }
+ 
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ static __init int setup_disable_pku(char *arg)
+ {
+ 	/*
+diff --git a/arch/x86/mm/Makefile b/arch/x86/mm/Makefile
+index 98f7c6fa2eaa..17ebf12ba8ff 100644
+--- a/arch/x86/mm/Makefile
++++ b/arch/x86/mm/Makefile
+@@ -45,7 +45,7 @@ obj-$(CONFIG_AMD_NUMA)		+= amdtopology.o
+ obj-$(CONFIG_ACPI_NUMA)		+= srat.o
+ obj-$(CONFIG_NUMA_EMU)		+= numa_emulation.o
+ 
+-obj-$(CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS)	+= pkeys.o
++obj-$(CONFIG_X86_MEMORY_PROTECTION_KEYS)	+= pkeys.o
+ obj-$(CONFIG_RANDOMIZE_MEMORY)			+= kaslr.o
+ obj-$(CONFIG_PAGE_TABLE_ISOLATION)		+= pti.o
+ 
+diff --git a/arch/x86/mm/pkeys.c b/arch/x86/mm/pkeys.c
+index 8873ed1438a9..a77497e8d58c 100644
+--- a/arch/x86/mm/pkeys.c
++++ b/arch/x86/mm/pkeys.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Intel Memory Protection Keys management
++ * Memory Protection Keys management
+  * Copyright (c) 2015, Intel Corporation.
+  */
+ #include <linux/debugfs.h>		/* debugfs_create_u32()		*/
+diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
+index a07668a5c36b..6e60e5362d3e 100755
+--- a/scripts/headers_install.sh
++++ b/scripts/headers_install.sh
+@@ -86,7 +86,7 @@ arch/sh/include/uapi/asm/sigcontext.h:CONFIG_CPU_SH5
+ arch/sh/include/uapi/asm/stat.h:CONFIG_CPU_SH5
+ arch/x86/include/uapi/asm/auxvec.h:CONFIG_IA32_EMULATION
+ arch/x86/include/uapi/asm/auxvec.h:CONFIG_X86_64
+-arch/x86/include/uapi/asm/mman.h:CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++arch/x86/include/uapi/asm/mman.h:CONFIG_X86_MEMORY_PROTECTION_KEYS
+ include/uapi/asm-generic/fcntl.h:CONFIG_64BIT
+ include/uapi/linux/atmdev.h:CONFIG_COMPAT
+ include/uapi/linux/elfcore.h:CONFIG_BINFMT_ELF_FDPIC
+diff --git a/tools/arch/x86/include/asm/disabled-features.h b/tools/arch/x86/include/asm/disabled-features.h
+index 4ea8584682f9..52dbdfed8043 100644
+--- a/tools/arch/x86/include/asm/disabled-features.h
++++ b/tools/arch/x86/include/asm/disabled-features.h
+@@ -36,13 +36,13 @@
+ # define DISABLE_PCID		(1<<(X86_FEATURE_PCID & 31))
+ #endif /* CONFIG_X86_64 */
+ 
+-#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
++#ifdef CONFIG_X86_MEMORY_PROTECTION_KEYS
+ # define DISABLE_PKU		0
+ # define DISABLE_OSPKE		0
+ #else
+ # define DISABLE_PKU		(1<<(X86_FEATURE_PKU & 31))
+ # define DISABLE_OSPKE		(1<<(X86_FEATURE_OSPKE & 31))
+-#endif /* CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS */
++#endif /* CONFIG_X86_MEMORY_PROTECTION_KEYS */
+ 
+ #ifdef CONFIG_X86_5LEVEL
+ # define DISABLE_LA57	0
 
