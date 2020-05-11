@@ -2,124 +2,142 @@ Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84C0FC54E4B
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 10:18:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4550FC47255
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 10:54:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68CC6207DD
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 10:18:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2760A20735
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 10:54:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728683AbgEKKSi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 06:18:38 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:41077 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729294AbgEKKSf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 06:18:35 -0400
-Received: by mail-oi1-f193.google.com with SMTP id 19so14615110oiy.8;
-        Mon, 11 May 2020 03:18:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dhHEh+pNrtrDrMKnU82n0ghqaec/6dzj+ojpD1sC6tU=;
-        b=un/cVaLel2W3SxT+qj0wyFwQaFU2JAXahi2YRif47BWsQx0bZ5ArA8gTAbv7/oBil2
-         v1UfMY/4kmadVoy6sxrt6aP8Ke0rrALV+44qXqdf0Zki8kNsNcT2+lxmX3YWRPXmcuQR
-         BbjOpXkghxF5BGXgJ8eYTyh3OkF6gXD58PeFaqfeaG0s3WQ25+ZRK1q8jPuiSNggzEB3
-         LGVzFHxNSSX1yaVsnphUiwGP7+c7hjJlko6A1P0teryGZs7Gj0+CyMfn11yGb51O5c9F
-         IkOnlSM7nJpbnoAleIaC7/fFre+NnZzsZlrNHcB7rn1IgmYqS5dUNYWcz7U/V/t8iDiE
-         V30g==
-X-Gm-Message-State: AGi0PuZzEGSVXZswo2XR8GgvRyEetPbFC2O2M2PcNWkZ+0W/6piuD4GL
-        ZvqDgs5aczx+AUvKeWIiu1N3sxOs+xDWArX15LY=
-X-Google-Smtp-Source: APiQypLbjyTZbvqRLGoc90pFkCHUbFvz5HgFxZ0FoH+dKrKDX/RlQwLNKA9fzQii+Qv4ryb+mU1sZeCNokwWcDCIukA=
-X-Received: by 2002:aca:f541:: with SMTP id t62mr18420359oih.148.1589192313970;
- Mon, 11 May 2020 03:18:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200324135328.5796-1-geert+renesas@glider.be>
- <20200324135653.6676-1-geert+renesas@glider.be> <20200324135653.6676-4-geert+renesas@glider.be>
- <CACRpkdbN82n3B+Q-QVjB1jLpJAYS19fKukkDXQm3gZsuFFFM_w@mail.gmail.com>
-In-Reply-To: <CACRpkdbN82n3B+Q-QVjB1jLpJAYS19fKukkDXQm3gZsuFFFM_w@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 11 May 2020 12:18:22 +0200
-Message-ID: <CAMuHMdXskE8_A4gbFVWfPVdcxBO-CfaMDEehSxGAK_aC0MQ7=A@mail.gmail.com>
-Subject: Re: [PATCH v6 4/8] gpiolib: Add support for GPIO lookup by line name
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        id S1728968AbgEKKyJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 06:54:09 -0400
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:56629 "EHLO
+        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728573AbgEKKyJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 06:54:09 -0400
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436287|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.115081-0.00104849-0.883871;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03306;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.HWrnPPN_1589194442;
+Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.HWrnPPN_1589194442)
+          by smtp.aliyun-inc.com(10.147.41.231);
+          Mon, 11 May 2020 18:54:03 +0800
+Subject: Re: [PATCH v7 00/18] pstore: mtd: support crash log to block and mtd
+ device
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Rob Herring <robh@kernel.org>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mtd@lists.infradead.org
+References: <20200510202436.63222-1-keescook@chromium.org>
+From:   WeiXiong Liao <liaoweixiong@allwinnertech.com>
+Message-ID: <0586f5cb-991c-3528-dfbf-ee61a39a3955@allwinnertech.com>
+Date:   Mon, 11 May 2020 18:54:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20200510202436.63222-1-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
+Hi Kees Cook,
 
-On Thu, Mar 26, 2020 at 10:18 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > Currently a GPIO lookup table can only refer to a specific GPIO by a
-> > tuple, consisting of a GPIO controller label and a GPIO offset inside
-> > the controller.
-> >
-> > However, a GPIO may also carry a line name, defined by DT or ACPI.
-> > If present, the line name is the most use-centric way to refer to a
-> > GPIO.  Hence add support for looking up GPIOs by line name.
-> >
-> > Implement this by reusing the existing gpiod_lookup infrastructure.
-> > Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
-> > that this field can have two meanings, and update the kerneldoc and
-> > GPIO_LOOKUP*() macros.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> > Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> > Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
->
-> I kind of like this approach, however there are things here that
-> need to be considered: the line name is in no way globally unique,
-> and I think there are already quite a few GPIO chips that
-> have the same line names assigned for every instance of that
-> chip.
->
-> gpiochip_set_desc_names() only warns if there is a line with
-> the same name on the same gpio_chip.
+On 2020/5/11 AM 4:24, Kees Cook wrote:
+> Hi!
+> 
+> Well, I guess I spoke too soon. :) Here is v7. Hopefully this is
+> it. WeiXiong, can you test this and make sure you're happy with the
+> results?
 
-on a _different_ gpio chip.
+I tested it on Allwinner board for all frontends, including panic.
+All of them work well! That's a very good news.
 
-> I suppose we need to document that the line name look-up
-> will be on a first-come-first-served basis: whatever line
-> we find first with this name is what you will get a reference
-> to, no matter what chip it is on, and it is possible albeit
-> not recommended that some other chip has a line with the
-> same name.
-
-Agreed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> 
+> Take care!
+> 
+> -Kees
+> 
+> v7:
+> - more renamings in the exported APIs and structs
+> - fix mtd build
+> - replace psblk_blkdev_info with passing in a struct to fill
+> - consolidate bdev opening/checking
+> - rename psblk_device -> pstore_device_info
+> - kerndoc for pstore_blk_get_config
+> - fix hunks in wrong patch
+> - add missing "static"s for local functions (0day)
+> 
+> v6: https://lore.kernel.org/lkml/20200509234103.46544-1-keescook@chromium.org/
+> v5: https://lore.kernel.org/lkml/1589022854-19821-1-git-send-email-liaoweixiong@allwinnertech.com/
+> v4: https://lore.kernel.org/lkml/20200508064004.57898-1-keescook@chromium.org/
+> v3: https://lore.kernel.org/lkml/1585126506-18635-1-git-send-email-liaoweixiong@allwinnertech.com/
+> v2: https://lore.kernel.org/lkml/1581078355-19647-1-git-send-email-liaoweixiong@allwinnertech.com/
+> v1: https://lore.kernel.org/lkml/1579482233-2672-1-git-send-email-liaoweixiong@allwinnertech.com/
+> 
+> 
+> Kees Cook (8):
+>   pstore/ram: Move dump_oops to end of module_param list
+>   pstore/platform: Switch pstore_info::name to const
+>   pstore/platform: Move module params after declarations
+>   pstore/platform: Use backend name for console registration
+>   pstore/ram: Refactor ftrace buffer merging
+>   pstore/ftrace: Provide ftrace log merging routine
+>   printk: Introduce kmsg_dump_reason_str()
+>   pstore/blk: Introduce "best_effort" mode
+> 
+> WeiXiong Liao (10):
+>   pstore/zone: Introduce common layer to manage storage zones
+>   pstore/blk: Introduce backend for block devices
+>   pstore/zone,blk: Add support for pmsg frontend
+>   pstore/zone,blk: Add console frontend support
+>   pstore/zone,blk: Add ftrace frontend support
+>   Documentation: Add details for pstore/blk
+>   pstore/zone: Provide way to skip "broken" zone for MTD devices
+>   pstore/blk: Provide way to query pstore configuration
+>   pstore/blk: Support non-block storage devices
+>   mtd: Support kmsg dumper based on pstore/blk
+> 
+>  Documentation/admin-guide/pstore-blk.rst |  243 ++++
+>  MAINTAINERS                              |    1 +
+>  drivers/mtd/Kconfig                      |   10 +
+>  drivers/mtd/Makefile                     |    1 +
+>  drivers/mtd/mtdpstore.c                  |  564 +++++++++
+>  fs/pstore/Kconfig                        |  109 ++
+>  fs/pstore/Makefile                       |    6 +
+>  fs/pstore/blk.c                          |  520 ++++++++
+>  fs/pstore/ftrace.c                       |   54 +
+>  fs/pstore/internal.h                     |    9 +
+>  fs/pstore/platform.c                     |   40 +-
+>  fs/pstore/ram.c                          |   70 +-
+>  fs/pstore/zone.c                         | 1463 ++++++++++++++++++++++
+>  include/linux/kmsg_dump.h                |    7 +
+>  include/linux/pstore.h                   |    2 +-
+>  include/linux/pstore_blk.h               |  118 ++
+>  include/linux/pstore_zone.h              |   60 +
+>  kernel/printk/printk.c                   |   21 +
+>  18 files changed, 3210 insertions(+), 88 deletions(-)
+>  create mode 100644 Documentation/admin-guide/pstore-blk.rst
+>  create mode 100644 drivers/mtd/mtdpstore.c
+>  create mode 100644 fs/pstore/blk.c
+>  create mode 100644 fs/pstore/zone.c
+>  create mode 100644 include/linux/pstore_blk.h
+>  create mode 100644 include/linux/pstore_zone.h
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+WeiXiong Liao
