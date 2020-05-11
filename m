@@ -6,31 +6,34 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40389C54E8D
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 14:58:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 269BBC54E8E
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 15:02:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A16520643
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 14:58:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FEF020720
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 15:02:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729621AbgEKO6M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 10:58:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43974 "EHLO
+        id S1729131AbgEKPCZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 11:02:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729465AbgEKO6M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 10:58:12 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57B13C061A0E
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 07:58:12 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1726438AbgEKPCZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 11:02:25 -0400
+Received: from newton.telenet-ops.be (newton.telenet-ops.be [IPv6:2a02:1800:120:4::f00:d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B840C061A0C
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 08:02:25 -0700 (PDT)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by newton.telenet-ops.be (Postfix) with ESMTPS id 49LP7S25jYzMqmS4
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 16:53:08 +0200 (CEST)
 Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:702c:fb99:3097:2049])
-        by xavier.telenet-ops.be with bizsmtp
-        id dSsy2200A0GoAb601SsyQe; Mon, 11 May 2020 16:53:09 +0200
+        by baptiste.telenet-ops.be with bizsmtp
+        id dSsy2200G0GoAb601SsyU6; Mon, 11 May 2020 16:53:08 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jY9ne-00082p-6p; Mon, 11 May 2020 16:52:58 +0200
+        id 1jY9ne-00082j-3k; Mon, 11 May 2020 16:52:58 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jY9ne-0005zd-5G; Mon, 11 May 2020 16:52:58 +0200
+        id 1jY9ne-0005zX-2C; Mon, 11 May 2020 16:52:58 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -47,9 +50,9 @@ Cc:     Alexander Graf <graf@amazon.com>,
         linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         qemu-devel@nongnu.org, Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v7 5/6] docs: gpio: Add GPIO Aggregator documentation
-Date:   Mon, 11 May 2020 16:52:56 +0200
-Message-Id: <20200511145257.22970-6-geert+renesas@glider.be>
+Subject: [PATCH v7 3/6] gpiolib: Add support for GPIO lookup by line name
+Date:   Mon, 11 May 2020 16:52:54 +0200
+Message-Id: <20200511145257.22970-4-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200511145257.22970-1-geert+renesas@glider.be>
 References: <20200511145257.22970-1-geert+renesas@glider.be>
@@ -58,7 +61,20 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the GPIO Aggregator, and the two typical use-cases.
+Currently a GPIO lookup table can only refer to a specific GPIO by a
+tuple, consisting of a GPIO controller label and a GPIO offset inside
+the controller.
+
+However, a GPIO may also carry a line name, defined by DT or ACPI.
+If present, the line name is the most use-centric way to refer to a
+GPIO.  Hence add support for looking up GPIOs by line name.
+Note that there is no guarantee that GPIO line names are globally
+unique, so this will use the first match found.
+
+Implement this by reusing the existing gpiod_lookup infrastructure.
+Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
+that this field can have two meanings, and update the kerneldoc and
+GPIO_LOOKUP*() macros.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
@@ -66,165 +82,171 @@ Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 ---
 v7:
-  - No changes,
+  - Document non-uniqueness of line names,
+  - Rebase on top of commit a0b66a73785ccc8f ("gpio: Rename variable in
+    core APIs"),
 
 v6:
-  - Fix "allows" without object:
-      -> provides a mechanism to aggregate GPIOs,
-      -> provides access control for a set of one or more GPIOs,
-      -> allows the user to communicate,
-  - Drop "gpiochipN" support,
-  - Extend example,
+  - Update Documentation/driver-api/gpio/board.rst,
+  - Reword rationale,
 
 v5:
   - Add Reviewed-by, Tested-by,
-  - Fix inconsistent indentation,
 
 v4:
   - Add Reviewed-by,
-  - Drop controversial GPIO repeater,
-  - Clarify industrial control use case,
-  - Fix typo s/communicated/communicate/,
-  - Replace abstract frobnicator example by concrete door example with
-    gpio-line-names,
+  - Rename gpiod_lookup.chip_label.
+  - Use U16_MAX instead of (u16)-1,
 
 v3:
   - New.
 ---
- .../admin-guide/gpio/gpio-aggregator.rst      | 111 ++++++++++++++++++
- Documentation/admin-guide/gpio/index.rst      |   1 +
- 2 files changed, 112 insertions(+)
- create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
+ Documentation/driver-api/gpio/board.rst | 15 ++++++++++-----
+ drivers/gpio/gpiolib.c                  | 22 +++++++++++++++++-----
+ include/linux/gpio/machine.h            | 17 ++++++++++-------
+ 3 files changed, 37 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/admin-guide/gpio/gpio-aggregator.rst b/Documentation/admin-guide/gpio/gpio-aggregator.rst
-new file mode 100644
-index 0000000000000000..5cd1e7221756504c
---- /dev/null
-+++ b/Documentation/admin-guide/gpio/gpio-aggregator.rst
-@@ -0,0 +1,111 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+GPIO Aggregator
-+===============
-+
-+The GPIO Aggregator provides a mechanism to aggregate GPIOs, and expose them as
-+a new gpio_chip.  This supports the following use cases.
-+
-+
-+Aggregating GPIOs using Sysfs
-+-----------------------------
-+
-+GPIO controllers are exported to userspace using /dev/gpiochip* character
-+devices.  Access control to these devices is provided by standard UNIX file
-+system permissions, on an all-or-nothing basis: either a GPIO controller is
-+accessible for a user, or it is not.
-+
-+The GPIO Aggregator provides access control for a set of one or more GPIOs, by
-+aggregating them into a new gpio_chip, which can be assigned to a group or user
-+using standard UNIX file ownership and permissions.  Furthermore, this
-+simplifies and hardens exporting GPIOs to a virtual machine, as the VM can just
-+grab the full GPIO controller, and no longer needs to care about which GPIOs to
-+grab and which not, reducing the attack surface.
-+
-+Aggregated GPIO controllers are instantiated and destroyed by writing to
-+write-only attribute files in sysfs.
-+
-+    /sys/bus/platform/drivers/gpio-aggregator/
-+
-+	"new_device" ...
-+		Userspace may ask the kernel to instantiate an aggregated GPIO
-+		controller by writing a string describing the GPIOs to
-+		aggregate to the "new_device" file, using the format
-+
-+		.. code-block:: none
-+
-+		    [<gpioA>] [<gpiochipB> <offsets>] ...
-+
-+		Where:
-+
-+		    "<gpioA>" ...
-+			    is a GPIO line name,
-+
-+		    "<gpiochipB>" ...
-+			    is a GPIO chip label, and
-+
-+		    "<offsets>" ...
-+			    is a comma-separated list of GPIO offsets and/or
-+			    GPIO offset ranges denoted by dashes.
-+
-+		Example: Instantiate a new GPIO aggregator by aggregating GPIO
-+		line 19 of "e6052000.gpio" and GPIO lines 20-21 of
-+		"e6050000.gpio" into a new gpio_chip:
-+
-+		.. code-block:: sh
-+
-+		    $ echo 'e6052000.gpio 19 e6050000.gpio 20-21' > new_device
-+
-+	"delete_device" ...
-+		Userspace may ask the kernel to destroy an aggregated GPIO
-+		controller after use by writing its device name to the
-+		"delete_device" file.
-+
-+		Example: Destroy the previously-created aggregated GPIO
-+		controller, assumed to be "gpio-aggregator.0":
-+
-+		.. code-block:: sh
-+
-+		    $ echo gpio-aggregator.0 > delete_device
-+
-+
-+Generic GPIO Driver
-+-------------------
-+
-+The GPIO Aggregator can also be used as a generic driver for a simple
-+GPIO-operated device described in DT, without a dedicated in-kernel driver.
-+This is useful in industrial control, and is not unlike e.g. spidev, which
-+allows the user to communicate with an SPI device from userspace.
-+
-+Binding a device to the GPIO Aggregator is performed either by modifying the
-+gpio-aggregator driver, or by writing to the "driver_override" file in Sysfs.
-+
-+Example: If "door" is a GPIO-operated device described in DT, using its own
-+compatible value::
-+
-+	door {
-+		compatible = "myvendor,mydoor";
-+
-+		gpios = <&gpio2 19 GPIO_ACTIVE_HIGH>,
-+			<&gpio2 20 GPIO_ACTIVE_LOW>;
-+		gpio-line-names = "open", "lock";
-+	};
-+
-+it can be bound to the GPIO Aggregator by either:
-+
-+1. Adding its compatible value to ``gpio_aggregator_dt_ids[]``,
-+2. Binding manually using "driver_override":
-+
-+.. code-block:: sh
-+
-+    $ echo gpio-aggregator > /sys/bus/platform/devices/door/driver_override
-+    $ echo door > /sys/bus/platform/drivers/gpio-aggregator/bind
-+
-+After that, a new gpiochip "door" has been created:
-+
-+.. code-block:: sh
-+
-+    $ gpioinfo door
-+    gpiochip12 - 2 lines:
-+	    line   0:       "open"       unused   input  active-high
-+	    line   1:       "lock"       unused   input  active-high
-diff --git a/Documentation/admin-guide/gpio/index.rst b/Documentation/admin-guide/gpio/index.rst
-index a244ba4e87d5398a..ef2838638e967777 100644
---- a/Documentation/admin-guide/gpio/index.rst
-+++ b/Documentation/admin-guide/gpio/index.rst
-@@ -7,6 +7,7 @@ gpio
- .. toctree::
-     :maxdepth: 1
+diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
+index ce91518bf9f48ded..191fa867826a45c3 100644
+--- a/Documentation/driver-api/gpio/board.rst
++++ b/Documentation/driver-api/gpio/board.rst
+@@ -113,13 +113,15 @@ files that desire to do so need to include the following header::
+ GPIOs are mapped by the means of tables of lookups, containing instances of the
+ gpiod_lookup structure. Two macros are defined to help declaring such mappings::
  
-+    gpio-aggregator
-     sysfs
+-	GPIO_LOOKUP(chip_label, chip_hwnum, con_id, flags)
+-	GPIO_LOOKUP_IDX(chip_label, chip_hwnum, con_id, idx, flags)
++	GPIO_LOOKUP(key, chip_hwnum, con_id, flags)
++	GPIO_LOOKUP_IDX(key, chip_hwnum, con_id, idx, flags)
  
- .. only::  subproject and html
+ where
+ 
+-  - chip_label is the label of the gpiod_chip instance providing the GPIO
+-  - chip_hwnum is the hardware number of the GPIO within the chip
++  - key is either the label of the gpiod_chip instance providing the GPIO, or
++    the GPIO line name
++  - chip_hwnum is the hardware number of the GPIO within the chip, or U16_MAX
++    to indicate that key is a GPIO line name
+   - con_id is the name of the GPIO function from the device point of view. It
+ 	can be NULL, in which case it will match any function.
+   - idx is the index of the GPIO within the function.
+@@ -135,7 +137,10 @@ where
+ 
+ In the future, these flags might be extended to support more properties.
+ 
+-Note that GPIO_LOOKUP() is just a shortcut to GPIO_LOOKUP_IDX() where idx = 0.
++Note that:
++  1. GPIO line names are not guaranteed to be globally unique, so the first
++     match found will be used.
++  2. GPIO_LOOKUP() is just a shortcut to GPIO_LOOKUP_IDX() where idx = 0.
+ 
+ A lookup table can then be defined as follows, with an empty entry defining its
+ end. The 'dev_id' field of the table is the identifier of the device that will
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index 98822412f565073a..2e4aacbad8fe586b 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -4645,7 +4645,7 @@ static struct gpio_desc *gpiod_find(struct device *dev, const char *con_id,
+ 	if (!table)
+ 		return desc;
+ 
+-	for (p = &table->table[0]; p->chip_label; p++) {
++	for (p = &table->table[0]; p->key; p++) {
+ 		struct gpio_chip *gc;
+ 
+ 		/* idx must always match exactly */
+@@ -4656,18 +4656,30 @@ static struct gpio_desc *gpiod_find(struct device *dev, const char *con_id,
+ 		if (p->con_id && (!con_id || strcmp(p->con_id, con_id)))
+ 			continue;
+ 
+-		gc = find_chip_by_name(p->chip_label);
++		if (p->chip_hwnum == U16_MAX) {
++			desc = gpio_name_to_desc(p->key);
++			if (desc) {
++				*flags = p->flags;
++				return desc;
++			}
++
++			dev_warn(dev, "cannot find GPIO line %s, deferring\n",
++				 p->key);
++			return ERR_PTR(-EPROBE_DEFER);
++		}
++
++		gc = find_chip_by_name(p->key);
+ 
+ 		if (!gc) {
+ 			/*
+ 			 * As the lookup table indicates a chip with
+-			 * p->chip_label should exist, assume it may
++			 * p->key should exist, assume it may
+ 			 * still appear later and let the interested
+ 			 * consumer be probed again or let the Deferred
+ 			 * Probe infrastructure handle the error.
+ 			 */
+ 			dev_warn(dev, "cannot find GPIO chip %s, deferring\n",
+-				 p->chip_label);
++				 p->key);
+ 			return ERR_PTR(-EPROBE_DEFER);
+ 		}
+ 
+@@ -4698,7 +4710,7 @@ static int platform_gpio_count(struct device *dev, const char *con_id)
+ 	if (!table)
+ 		return -ENOENT;
+ 
+-	for (p = &table->table[0]; p->chip_label; p++) {
++	for (p = &table->table[0]; p->key; p++) {
+ 		if ((con_id && p->con_id && !strcmp(con_id, p->con_id)) ||
+ 		    (!con_id && !p->con_id))
+ 			count++;
+diff --git a/include/linux/gpio/machine.h b/include/linux/gpio/machine.h
+index 1ebe5be05d5f81fa..781a053abbb99a1d 100644
+--- a/include/linux/gpio/machine.h
++++ b/include/linux/gpio/machine.h
+@@ -20,8 +20,11 @@ enum gpio_lookup_flags {
+ 
+ /**
+  * struct gpiod_lookup - lookup table
+- * @chip_label: name of the chip the GPIO belongs to
+- * @chip_hwnum: hardware number (i.e. relative to the chip) of the GPIO
++ * @key: either the name of the chip the GPIO belongs to, or the GPIO line name
++ *       Note that GPIO line names are not guaranteed to be globally unique,
++ *       so this will use the first match found!
++ * @chip_hwnum: hardware number (i.e. relative to the chip) of the GPIO, or
++ *              U16_MAX to indicate that @key is a GPIO line name
+  * @con_id: name of the GPIO from the device's point of view
+  * @idx: index of the GPIO in case several GPIOs share the same name
+  * @flags: bitmask of gpio_lookup_flags GPIO_* values
+@@ -30,7 +33,7 @@ enum gpio_lookup_flags {
+  * functions using platform data.
+  */
+ struct gpiod_lookup {
+-	const char *chip_label;
++	const char *key;
+ 	u16 chip_hwnum;
+ 	const char *con_id;
+ 	unsigned int idx;
+@@ -63,17 +66,17 @@ struct gpiod_hog {
+ /*
+  * Simple definition of a single GPIO under a con_id
+  */
+-#define GPIO_LOOKUP(_chip_label, _chip_hwnum, _con_id, _flags) \
+-	GPIO_LOOKUP_IDX(_chip_label, _chip_hwnum, _con_id, 0, _flags)
++#define GPIO_LOOKUP(_key, _chip_hwnum, _con_id, _flags) \
++	GPIO_LOOKUP_IDX(_key, _chip_hwnum, _con_id, 0, _flags)
+ 
+ /*
+  * Use this macro if you need to have several GPIOs under the same con_id.
+  * Each GPIO needs to use a different index and can be accessed using
+  * gpiod_get_index()
+  */
+-#define GPIO_LOOKUP_IDX(_chip_label, _chip_hwnum, _con_id, _idx, _flags)  \
++#define GPIO_LOOKUP_IDX(_key, _chip_hwnum, _con_id, _idx, _flags)         \
+ {                                                                         \
+-	.chip_label = _chip_label,                                        \
++	.key = _key,                                                      \
+ 	.chip_hwnum = _chip_hwnum,                                        \
+ 	.con_id = _con_id,                                                \
+ 	.idx = _idx,                                                      \
 -- 
 2.17.1
 
