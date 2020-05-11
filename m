@@ -2,162 +2,762 @@ Return-Path: <SRS0=ajHd=6Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39128C47255
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 14:14:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 245EFC54E8E
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 14:53:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 13F17206DB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 14:14:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qqvMDhzs"
+	by mail.kernel.org (Postfix) with ESMTP id 0925E20722
+	for <linux-doc@archiver.kernel.org>; Mon, 11 May 2020 14:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730227AbgEKOOA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 10:14:00 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:51342 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730489AbgEKON7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 10:13:59 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04BDZjdf007101;
-        Mon, 11 May 2020 14:13:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=8prh65ahEbXqnO+VBBdG5CKN1+9p3No5FuVaz0SanQY=;
- b=qqvMDhzsqjY+TBfq5ylIDgiuLwKEQY/dLMyH9BE4aJLTbEdXnPjhhj0gBH5OZ+5oqUb3
- mQGOh5povasQMMYG8MUidlFgyZ6mjYlluJZdeBz3J6CGgn+Iyf8dzGALNYqpfwZ6i0Yn
- zXSp3MiKSSdhdk+k4CrYsLJh8h2gpaUCG3o+c+FK/JREEDu9RcLVeKCgxYt8dvckA8IW
- MH9WuUKsgaODHBfO8Rjp9N+qBsKLjFKLONSI99vGuKERFb+ffoDNRSc/7AyI0WgVnabm
- UeOYBlxs/3ROAbGaGtlncCSzgIOiGrBaMw1ffJ90uRI4VcJx399i/OCClEdELpS46UMB nQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 30x3mbn9un-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 11 May 2020 14:13:32 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04BDXwLW136961;
-        Mon, 11 May 2020 14:11:32 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 30x6ew3km3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 11 May 2020 14:11:32 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04BEBQrr005761;
-        Mon, 11 May 2020 14:11:26 GMT
-Received: from [10.175.13.248] (/10.175.13.248)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 11 May 2020 07:11:26 -0700
-Subject: Re: [PATCH RFC] Microcode late loading feature identification
-To:     linux-kernel@vger.kernel.org
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>
-References: <1587972479-10971-1-git-send-email-mihai.carabas@oracle.com>
-From:   Mihai Carabas <mihai.carabas@oracle.com>
-Message-ID: <56ae9070-5960-1498-c021-74ef4451c222@oracle.com>
-Date:   Mon, 11 May 2020 17:11:23 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <1587972479-10971-1-git-send-email-mihai.carabas@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: ro
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9617 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005110112
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9617 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 impostorscore=0
- mlxscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999 phishscore=0
- malwarescore=0 lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005110112
+        id S1730562AbgEKOxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 10:53:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43182 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730543AbgEKOxL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 10:53:11 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B18C05BD0A
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 07:53:10 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:702c:fb99:3097:2049])
+        by andre.telenet-ops.be with bizsmtp
+        id dSsy2200Y0GoAb601Ssy9J; Mon, 11 May 2020 16:53:08 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jY9ne-00082m-5N; Mon, 11 May 2020 16:52:58 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jY9ne-0005za-3m; Mon, 11 May 2020 16:52:58 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        qemu-devel@nongnu.org, Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v7 4/6] gpio: Add GPIO Aggregator
+Date:   Mon, 11 May 2020 16:52:55 +0200
+Message-Id: <20200511145257.22970-5-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200511145257.22970-1-geert+renesas@glider.be>
+References: <20200511145257.22970-1-geert+renesas@glider.be>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-La 27.04.2020 10:27, Mihai Carabas a scris:
-> This RFC patch set aims to provide a way to identify the modifications
-> brought in by the new microcode updated at runtime (aka microcode late
-> loading). This was debated last year and this patch set implements
-> point #1 from Thomas Gleixner's idea:
-> https://lore.kernel.org/lkml/alpine.DEB.2.21.1909062237580.1902@nanos.tec.linutronix.de/
-> 
+GPIO controllers are exported to userspace using /dev/gpiochip*
+character devices.  Access control to these devices is provided by
+standard UNIX file system permissions, on an all-or-nothing basis:
+either a GPIO controller is accessible for a user, or it is not.
+Currently no mechanism exists to control access to individual GPIOs.
 
-+Ashok and Thomas to get a feedback from vendor side on file 
-format/integration in the microcode blob and signature.
+Hence add a GPIO driver to aggregate existing GPIOs, and expose them as
+a new gpiochip.
 
-Thank you,
-Mihai
+This supports the following use cases:
+  - Aggregating GPIOs using Sysfs
+    This is useful for implementing access control, and assigning a set
+    of GPIOs to a specific user or virtual machine.
+  - Generic GPIO Driver
+    This is useful for industrial control, where it can provide
+    userspace access to a simple GPIO-operated device described in DT,
+    cfr. e.g. spidev for SPI-operated devices.
 
-> This patch set has the following patches:
-> 
-> - patch 1 is introducing a new metadata file that comes with the microcode
-> (provided by the CPU manufacture) that describes what modifications are
-> done by loading the new microcode
-> 
-> - patch 2 parses the metadata file and is verifying it against kernel
-> policy. In this patch, as an RFC, as a kernel policy, it was imposed
-> the rule of not allowing to remove any feature. If so, it won't be
-> loaded a new microcode. The policy can be further extended and describe
-> in different ways
-> 
-> - patch 3 adds the documentation of the metadata file format
-> 
-> 
-> How to test:
-> 
-> - place metadata file in /lib/firmware/intel-ucode/ together with the
-> microcode blob:
-> 
-> [root@ovs108 ~]# ls -l /lib/firmware/intel-ucode
-> total 96
-> -rw-r--r--.   1 root root 34816 Mar 11 00:27 06-55-04
-> -rw-r--r--.   1 root root    84 Mar 25 03:13 06-55-04.metadata
-> 
-> The microcode blob can be taken from the microcode_ctl package.
-> 
-> - after installing the kernel and rebooting the machine run "dracut -f
-> --no-early-microcode" to create an initramfs without the microcode (and
-> avoid early loading)
-> 
-> - reboot
-> 
-> - after rebooting issue: echo 1 > /sys/devices/system/cpu/microcode/reload
-> 
-> [root@ovs108 ~]# cat /lib/firmware/intel-ucode/06-55-04.metadata
-> m - 0x00000122
-> c + 0x00000007 0x00 0x00000000 0x021cbfbb 0x00000000 0x00000000
-> 
-> [root@ovs108 ~]# echo 1 > /sys/devices/system/cpu/microcode/reload
-> [root@ovs108 ~]# dmesg | tail -2
-> [ 1285.729841] microcode: Kernel policy does not allow to remove MSR: 122
-> [ 1285.737144] microcode: kernel does not support the new microcode: intel-ucode/06-55-04
-> 
-> [root@ovs108 ~]# cat /lib/firmware/intel-ucode/06-55-04.metadata
-> m + 0x00000122
-> c + 0x00000007 0x00 0x00000000 0x021cbfbb 0x00000000 0x00000000
-> [root@ovs108 ~]# echo 1 > /sys/devices/system/cpu/microcode/reload
-> [root@ovs108 ~]# dmesg | tail -10
-> [ 1220.212415] microcode: updated to revision 0x2000065, date = 2019-09-05
-> [ 1220.212645] microcode: Reload completed, microcode revision: 0x2000065
-> 
-> Mihai Carabas (3):
->    x86: microcode: intel: read microcode metadata file
->    x86: microcode: intel: process microcode metadata
->    Documentation: x86: microcode: add description for metadata file
-> 
->   Documentation/x86/microcode.rst       | 36 +++++++++++++
->   arch/x86/kernel/cpu/microcode/intel.c | 97 +++++++++++++++++++++++++++++++++++
->   2 files changed, 133 insertions(+)
-> 
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+---
+v7:
+  - No changes,
+
+v6:
+  - Use gpiod_to_chip() instead of open-coding,
+  - Drop debug print of gpio_desc.label, as it usually just points to
+    the GPIO Aggregator itself,
+  - Drop no longer needed #include "gpiolib.h",
+  - Fix missing offset translation in gpio_fwd_set_config(),
+  - Use GPIO_LOOKUP_IDX() to populate struct gpiod_lookup,
+
+v5:
+  - Add Reviewed-by, Tested-by,
+
+v4:
+  - Remove unused assignment to n in isrange(),
+  - Check correct pointer after aggr->lookups->dev_id allocation,
+  - Preinitialize flags to 0 in gpio_fwd_[gs]et_multiple() to avoid
+    may-be-used-uninitialized warning,
+  - Drop controversial GPIO repeater,
+  - Update for gpiod_lookup.chip_label rename,
+  - Use %pe to format error pointers,
+  - Use U16_MAX instead of (u16)-1,
+  - Correct comment indentation,
+  - Use skip_spaces() helper,
+  - Rename a and b to first_index resp. last_index,
+  - Add comment to tmp[] use,
+  - Improve Kconfig help text,
+  - Include <linux/gpio/consumer.h> for gpiod_[gs]et_*(),
+  - Drop unneeded valid_mask handling,
+  - Add comment about sleeping and .set_config() support,
+
+v3:
+  - Absorb GPIO forwarder,
+  - Integrate GPIO Repeater and Generic GPIO driver functionality,
+  - Use the aggregator parameters to create a GPIO lookup table instead
+    of an array of GPIO descriptors, which allows to simplify the code:
+      1. This removes the need for calling gpio_name_to_desc(),
+         gpiochip_find(), gpiochip_get_desc(), and gpiod_request(),
+      2. This allows the platform device to always use
+         devm_gpiod_get_index(), regardless of the origin of the GPIOs,
+  - Move parameter parsing from platform device probe to sysfs attribute
+    store, removing the need for platform data passing,
+  - Use more devm_*() functions to simplify cleanup,
+  - Add pr_fmt(),
+  - General refactoring,
+
+v2:
+  - Add missing initialization of i in gpio_virt_agg_probe(),
+  - Update for removed .need_valid_mask field and changed
+    .init_valid_mask() signature,
+  - Drop "virtual", rename to gpio-aggregator,
+  - Drop bogus FIXME related to gpiod_set_transitory() expectations,
+  - Use new GPIO Forwarder Helper,
+  - Lift limit on the maximum number of GPIOs,
+  - Improve parsing:
+      - add support for specifying GPIOs by line name,
+      - add support for specifying GPIO chips by ID,
+      - add support for GPIO offset ranges,
+      - names and offset specifiers must be separated by whitespace,
+      - GPIO offsets must separated by spaces,
+  - Use str_has_prefix() and kstrtouint().
+---
+ drivers/gpio/Kconfig           |  12 +
+ drivers/gpio/Makefile          |   1 +
+ drivers/gpio/gpio-aggregator.c | 568 +++++++++++++++++++++++++++++++++
+ 3 files changed, 581 insertions(+)
+ create mode 100644 drivers/gpio/gpio-aggregator.c
+
+diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+index 8ef2179fb9991b78..c92e0a16c352f3d1 100644
+--- a/drivers/gpio/Kconfig
++++ b/drivers/gpio/Kconfig
+@@ -1541,6 +1541,18 @@ config GPIO_VIPERBOARD
+ 
+ endmenu
+ 
++config GPIO_AGGREGATOR
++	tristate "GPIO Aggregator"
++	help
++	  Say yes here to enable the GPIO Aggregator, which provides a way to
++	  aggregate existing GPIO lines into a new virtual GPIO chip.
++	  This can serve the following purposes:
++	    - Assign permissions for a collection of GPIO lines to a user,
++	    - Export a collection of GPIO lines to a virtual machine,
++	    - Provide a generic driver for a GPIO-operated device in an
++	      industrial control context, to be operated from userspace using
++	      the GPIO chardev interface.
++
+ config GPIO_MOCKUP
+ 	tristate "GPIO Testing Driver"
+ 	select IRQ_SIM
+diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
+index b2cfc21a97f3e52b..65bf3940e33cf734 100644
+--- a/drivers/gpio/Makefile
++++ b/drivers/gpio/Makefile
+@@ -25,6 +25,7 @@ obj-$(CONFIG_GPIO_74XX_MMIO)		+= gpio-74xx-mmio.o
+ obj-$(CONFIG_GPIO_ADNP)			+= gpio-adnp.o
+ obj-$(CONFIG_GPIO_ADP5520)		+= gpio-adp5520.o
+ obj-$(CONFIG_GPIO_ADP5588)		+= gpio-adp5588.o
++obj-$(CONFIG_GPIO_AGGREGATOR)		+= gpio-aggregator.o
+ obj-$(CONFIG_GPIO_ALTERA_A10SR)		+= gpio-altera-a10sr.o
+ obj-$(CONFIG_GPIO_ALTERA)  		+= gpio-altera.o
+ obj-$(CONFIG_GPIO_AMD8111)		+= gpio-amd8111.o
+diff --git a/drivers/gpio/gpio-aggregator.c b/drivers/gpio/gpio-aggregator.c
+new file mode 100644
+index 0000000000000000..9b0adbdddbfccb30
+--- /dev/null
++++ b/drivers/gpio/gpio-aggregator.c
+@@ -0,0 +1,568 @@
++// SPDX-License-Identifier: GPL-2.0-only
++//
++// GPIO Aggregator
++//
++// Copyright (C) 2019-2020 Glider bv
++
++#define DRV_NAME       "gpio-aggregator"
++#define pr_fmt(fmt)	DRV_NAME ": " fmt
++
++#include <linux/bitmap.h>
++#include <linux/bitops.h>
++#include <linux/ctype.h>
++#include <linux/gpio/consumer.h>
++#include <linux/gpio/driver.h>
++#include <linux/gpio/machine.h>
++#include <linux/idr.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/overflow.h>
++#include <linux/platform_device.h>
++#include <linux/spinlock.h>
++#include <linux/string.h>
++
++
++/*
++ * GPIO Aggregator sysfs interface
++ */
++
++struct gpio_aggregator {
++	struct gpiod_lookup_table *lookups;
++	struct platform_device *pdev;
++	char args[];
++};
++
++static DEFINE_MUTEX(gpio_aggregator_lock);	/* protects idr */
++static DEFINE_IDR(gpio_aggregator_idr);
++
++static char *get_arg(char **args)
++{
++	char *start = *args, *end;
++
++	start = skip_spaces(start);
++	if (!*start)
++		return NULL;
++
++	if (*start == '"') {
++		/* Quoted arg */
++		end = strchr(++start, '"');
++		if (!end)
++			return ERR_PTR(-EINVAL);
++	} else {
++		/* Unquoted arg */
++		for (end = start; *end && !isspace(*end); end++) ;
++	}
++
++	if (*end)
++		*end++ = '\0';
++
++	*args = end;
++	return start;
++}
++
++static bool isrange(const char *s)
++{
++	size_t n;
++
++	if (IS_ERR_OR_NULL(s))
++		return false;
++
++	while (1) {
++		n = strspn(s, "0123456789");
++		if (!n)
++			return false;
++
++		s += n;
++
++		switch (*s++) {
++		case '\0':
++			return true;
++
++		case '-':
++		case ',':
++			break;
++
++		default:
++			return false;
++		}
++	}
++}
++
++static int aggr_add_gpio(struct gpio_aggregator *aggr, const char *key,
++			 int hwnum, unsigned int *n)
++{
++	struct gpiod_lookup_table *lookups;
++
++	lookups = krealloc(aggr->lookups, struct_size(lookups, table, *n + 2),
++			   GFP_KERNEL);
++	if (!lookups)
++		return -ENOMEM;
++
++	lookups->table[*n] =
++		(struct gpiod_lookup)GPIO_LOOKUP_IDX(key, hwnum, NULL, *n, 0);
++
++	(*n)++;
++	memset(&lookups->table[*n], 0, sizeof(lookups->table[*n]));
++
++	aggr->lookups = lookups;
++	return 0;
++}
++
++static int aggr_parse(struct gpio_aggregator *aggr)
++{
++	unsigned int first_index, last_index, i, n = 0;
++	char *name, *offsets, *first, *last, *next;
++	char *args = aggr->args;
++	int error;
++
++	for (name = get_arg(&args), offsets = get_arg(&args); name;
++	     offsets = get_arg(&args)) {
++		if (IS_ERR(name)) {
++			pr_err("Cannot get GPIO specifier: %pe\n", name);
++			return PTR_ERR(name);
++		}
++
++		if (!isrange(offsets)) {
++			/* Named GPIO line */
++			error = aggr_add_gpio(aggr, name, U16_MAX, &n);
++			if (error)
++				return error;
++
++			name = offsets;
++			continue;
++		}
++
++		/* GPIO chip + offset(s) */
++		for (first = offsets; *first; first = next) {
++			next = strchrnul(first, ',');
++			if (*next)
++				*next++ = '\0';
++
++			last = strchr(first, '-');
++			if (last)
++				*last++ = '\0';
++
++			if (kstrtouint(first, 10, &first_index)) {
++				pr_err("Cannot parse GPIO index %s\n", first);
++				return -EINVAL;
++			}
++
++			if (!last) {
++				last_index = first_index;
++			} else if (kstrtouint(last, 10, &last_index)) {
++				pr_err("Cannot parse GPIO index %s\n", last);
++				return -EINVAL;
++			}
++
++			for (i = first_index; i <= last_index; i++) {
++				error = aggr_add_gpio(aggr, name, i, &n);
++				if (error)
++					return error;
++			}
++		}
++
++		name = get_arg(&args);
++	}
++
++	if (!n) {
++		pr_err("No GPIOs specified\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static ssize_t new_device_store(struct device_driver *driver, const char *buf,
++				size_t count)
++{
++	struct gpio_aggregator *aggr;
++	struct platform_device *pdev;
++	int res, id;
++
++	/* kernfs guarantees string termination, so count + 1 is safe */
++	aggr = kzalloc(sizeof(*aggr) + count + 1, GFP_KERNEL);
++	if (!aggr)
++		return -ENOMEM;
++
++	memcpy(aggr->args, buf, count + 1);
++
++	aggr->lookups = kzalloc(struct_size(aggr->lookups, table, 1),
++				GFP_KERNEL);
++	if (!aggr->lookups) {
++		res = -ENOMEM;
++		goto free_ga;
++	}
++
++	mutex_lock(&gpio_aggregator_lock);
++	id = idr_alloc(&gpio_aggregator_idr, aggr, 0, 0, GFP_KERNEL);
++	mutex_unlock(&gpio_aggregator_lock);
++
++	if (id < 0) {
++		res = id;
++		goto free_table;
++	}
++
++	aggr->lookups->dev_id = kasprintf(GFP_KERNEL, "%s.%d", DRV_NAME, id);
++	if (!aggr->lookups->dev_id) {
++		res = -ENOMEM;
++		goto remove_idr;
++	}
++
++	res = aggr_parse(aggr);
++	if (res)
++		goto free_dev_id;
++
++	gpiod_add_lookup_table(aggr->lookups);
++
++	pdev = platform_device_register_simple(DRV_NAME, id, NULL, 0);
++	if (IS_ERR(pdev)) {
++		res = PTR_ERR(pdev);
++		goto remove_table;
++	}
++
++	aggr->pdev = pdev;
++	return count;
++
++remove_table:
++	gpiod_remove_lookup_table(aggr->lookups);
++free_dev_id:
++	kfree(aggr->lookups->dev_id);
++remove_idr:
++	mutex_lock(&gpio_aggregator_lock);
++	idr_remove(&gpio_aggregator_idr, id);
++	mutex_unlock(&gpio_aggregator_lock);
++free_table:
++	kfree(aggr->lookups);
++free_ga:
++	kfree(aggr);
++	return res;
++}
++
++static DRIVER_ATTR_WO(new_device);
++
++static void gpio_aggregator_free(struct gpio_aggregator *aggr)
++{
++	platform_device_unregister(aggr->pdev);
++	gpiod_remove_lookup_table(aggr->lookups);
++	kfree(aggr->lookups->dev_id);
++	kfree(aggr->lookups);
++	kfree(aggr);
++}
++
++static ssize_t delete_device_store(struct device_driver *driver,
++				   const char *buf, size_t count)
++{
++	struct gpio_aggregator *aggr;
++	unsigned int id;
++	int error;
++
++	if (!str_has_prefix(buf, DRV_NAME "."))
++		return -EINVAL;
++
++	error = kstrtouint(buf + strlen(DRV_NAME "."), 10, &id);
++	if (error)
++		return error;
++
++	mutex_lock(&gpio_aggregator_lock);
++	aggr = idr_remove(&gpio_aggregator_idr, id);
++	mutex_unlock(&gpio_aggregator_lock);
++	if (!aggr)
++		return -ENOENT;
++
++	gpio_aggregator_free(aggr);
++	return count;
++}
++static DRIVER_ATTR_WO(delete_device);
++
++static struct attribute *gpio_aggregator_attrs[] = {
++	&driver_attr_new_device.attr,
++	&driver_attr_delete_device.attr,
++	NULL,
++};
++ATTRIBUTE_GROUPS(gpio_aggregator);
++
++static int __exit gpio_aggregator_idr_remove(int id, void *p, void *data)
++{
++	gpio_aggregator_free(p);
++	return 0;
++}
++
++static void __exit gpio_aggregator_remove_all(void)
++{
++	mutex_lock(&gpio_aggregator_lock);
++	idr_for_each(&gpio_aggregator_idr, gpio_aggregator_idr_remove, NULL);
++	idr_destroy(&gpio_aggregator_idr);
++	mutex_unlock(&gpio_aggregator_lock);
++}
++
++
++/*
++ *  GPIO Forwarder
++ */
++
++struct gpiochip_fwd {
++	struct gpio_chip chip;
++	struct gpio_desc **descs;
++	union {
++		struct mutex mlock;	/* protects tmp[] if can_sleep */
++		spinlock_t slock;	/* protects tmp[] if !can_sleep */
++	};
++	unsigned long tmp[];		/* values and descs for multiple ops */
++};
++
++static int gpio_fwd_get_direction(struct gpio_chip *chip, unsigned int offset)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++
++	return gpiod_get_direction(fwd->descs[offset]);
++}
++
++static int gpio_fwd_direction_input(struct gpio_chip *chip, unsigned int offset)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++
++	return gpiod_direction_input(fwd->descs[offset]);
++}
++
++static int gpio_fwd_direction_output(struct gpio_chip *chip,
++				     unsigned int offset, int value)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++
++	return gpiod_direction_output(fwd->descs[offset], value);
++}
++
++static int gpio_fwd_get(struct gpio_chip *chip, unsigned int offset)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++
++	return gpiod_get_value(fwd->descs[offset]);
++}
++
++static int gpio_fwd_get_multiple(struct gpio_chip *chip, unsigned long *mask,
++				 unsigned long *bits)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++	unsigned long *values, flags = 0;
++	struct gpio_desc **descs;
++	unsigned int i, j = 0;
++	int error;
++
++	if (chip->can_sleep)
++		mutex_lock(&fwd->mlock);
++	else
++		spin_lock_irqsave(&fwd->slock, flags);
++
++	/* Both values bitmap and desc pointers are stored in tmp[] */
++	values = &fwd->tmp[0];
++	descs = (void *)&fwd->tmp[BITS_TO_LONGS(fwd->chip.ngpio)];
++
++	bitmap_clear(values, 0, fwd->chip.ngpio);
++	for_each_set_bit(i, mask, fwd->chip.ngpio)
++		descs[j++] = fwd->descs[i];
++
++	error = gpiod_get_array_value(j, descs, NULL, values);
++	if (!error) {
++		j = 0;
++		for_each_set_bit(i, mask, fwd->chip.ngpio)
++			__assign_bit(i, bits, test_bit(j++, values));
++	}
++
++	if (chip->can_sleep)
++		mutex_unlock(&fwd->mlock);
++	else
++		spin_unlock_irqrestore(&fwd->slock, flags);
++
++	return error;
++}
++
++static void gpio_fwd_set(struct gpio_chip *chip, unsigned int offset, int value)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++
++	gpiod_set_value(fwd->descs[offset], value);
++}
++
++static void gpio_fwd_set_multiple(struct gpio_chip *chip, unsigned long *mask,
++				  unsigned long *bits)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++	unsigned long *values, flags = 0;
++	struct gpio_desc **descs;
++	unsigned int i, j = 0;
++
++	if (chip->can_sleep)
++		mutex_lock(&fwd->mlock);
++	else
++		spin_lock_irqsave(&fwd->slock, flags);
++
++	/* Both values bitmap and desc pointers are stored in tmp[] */
++	values = &fwd->tmp[0];
++	descs = (void *)&fwd->tmp[BITS_TO_LONGS(fwd->chip.ngpio)];
++
++	for_each_set_bit(i, mask, fwd->chip.ngpio) {
++		__assign_bit(j, values, test_bit(i, bits));
++		descs[j++] = fwd->descs[i];
++	}
++
++	gpiod_set_array_value(j, descs, NULL, values);
++
++	if (chip->can_sleep)
++		mutex_unlock(&fwd->mlock);
++	else
++		spin_unlock_irqrestore(&fwd->slock, flags);
++}
++
++static int gpio_fwd_set_config(struct gpio_chip *chip, unsigned int offset,
++			       unsigned long config)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++
++	return gpiod_set_config(fwd->descs[offset], config);
++}
++
++/**
++ * gpiochip_fwd_create() - Create a new GPIO forwarder
++ * @dev: Parent device pointer
++ * @ngpios: Number of GPIOs in the forwarder.
++ * @descs: Array containing the GPIO descriptors to forward to.
++ *         This array must contain @ngpios entries, and must not be deallocated
++ *         before the forwarder has been destroyed again.
++ *
++ * This function creates a new gpiochip, which forwards all GPIO operations to
++ * the passed GPIO descriptors.
++ *
++ * Return: An opaque object pointer, or an ERR_PTR()-encoded negative error
++ *         code on failure.
++ */
++static struct gpiochip_fwd *gpiochip_fwd_create(struct device *dev,
++						unsigned int ngpios,
++						struct gpio_desc *descs[])
++{
++	const char *label = dev_name(dev);
++	struct gpiochip_fwd *fwd;
++	struct gpio_chip *chip;
++	unsigned int i;
++	int error;
++
++	fwd = devm_kzalloc(dev, struct_size(fwd, tmp,
++			   BITS_TO_LONGS(ngpios) + ngpios), GFP_KERNEL);
++	if (!fwd)
++		return ERR_PTR(-ENOMEM);
++
++	chip = &fwd->chip;
++
++	/*
++	 * If any of the GPIO lines are sleeping, then the entire forwarder
++	 * will be sleeping.
++	 * If any of the chips support .set_config(), then the forwarder will
++	 * support setting configs.
++	 */
++	for (i = 0; i < ngpios; i++) {
++		struct gpio_chip *parent = gpiod_to_chip(descs[i]);
++
++		dev_dbg(dev, "%u => gpio-%d\n", i, desc_to_gpio(descs[i]));
++
++		if (gpiod_cansleep(descs[i]))
++			chip->can_sleep = true;
++		if (parent && parent->set_config)
++			chip->set_config = gpio_fwd_set_config;
++	}
++
++	chip->label = label;
++	chip->parent = dev;
++	chip->owner = THIS_MODULE;
++	chip->get_direction = gpio_fwd_get_direction;
++	chip->direction_input = gpio_fwd_direction_input;
++	chip->direction_output = gpio_fwd_direction_output;
++	chip->get = gpio_fwd_get;
++	chip->get_multiple = gpio_fwd_get_multiple;
++	chip->set = gpio_fwd_set;
++	chip->set_multiple = gpio_fwd_set_multiple;
++	chip->base = -1;
++	chip->ngpio = ngpios;
++	fwd->descs = descs;
++
++	if (chip->can_sleep)
++		mutex_init(&fwd->mlock);
++	else
++		spin_lock_init(&fwd->slock);
++
++	error = devm_gpiochip_add_data(dev, chip, fwd);
++	if (error)
++		return ERR_PTR(error);
++
++	return fwd;
++}
++
++
++/*
++ *  GPIO Aggregator platform device
++ */
++
++static int gpio_aggregator_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct gpio_desc **descs;
++	struct gpiochip_fwd *fwd;
++	int i, n;
++
++	n = gpiod_count(dev, NULL);
++	if (n < 0)
++		return n;
++
++	descs = devm_kmalloc_array(dev, n, sizeof(*descs), GFP_KERNEL);
++	if (!descs)
++		return -ENOMEM;
++
++	for (i = 0; i < n; i++) {
++		descs[i] = devm_gpiod_get_index(dev, NULL, i, GPIOD_ASIS);
++		if (IS_ERR(descs[i]))
++			return PTR_ERR(descs[i]);
++	}
++
++	fwd = gpiochip_fwd_create(dev, n, descs);
++	if (IS_ERR(fwd))
++		return PTR_ERR(fwd);
++
++	platform_set_drvdata(pdev, fwd);
++	return 0;
++}
++
++#ifdef CONFIG_OF
++static const struct of_device_id gpio_aggregator_dt_ids[] = {
++	/*
++	 * Add GPIO-operated devices controlled from userspace below,
++	 * or use "driver_override" in sysfs
++	 */
++	{},
++};
++MODULE_DEVICE_TABLE(of, gpio_aggregator_dt_ids);
++#endif
++
++static struct platform_driver gpio_aggregator_driver = {
++	.probe = gpio_aggregator_probe,
++	.driver = {
++		.name = DRV_NAME,
++		.groups = gpio_aggregator_groups,
++		.of_match_table = of_match_ptr(gpio_aggregator_dt_ids),
++	},
++};
++
++static int __init gpio_aggregator_init(void)
++{
++	return platform_driver_register(&gpio_aggregator_driver);
++}
++module_init(gpio_aggregator_init);
++
++static void __exit gpio_aggregator_exit(void)
++{
++	gpio_aggregator_remove_all();
++	platform_driver_unregister(&gpio_aggregator_driver);
++}
++module_exit(gpio_aggregator_exit);
++
++MODULE_AUTHOR("Geert Uytterhoeven <geert+renesas@glider.be>");
++MODULE_DESCRIPTION("GPIO Aggregator");
++MODULE_LICENSE("GPL v2");
+-- 
+2.17.1
 
