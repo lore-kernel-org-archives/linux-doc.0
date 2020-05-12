@@ -2,64 +2,65 @@ Return-Path: <SRS0=0LBz=62=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 058A5C2D0F8
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:34:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D576C2D0F8
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:36:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7E9720747
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:34:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6947C20740
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:36:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="carC9FJN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Krg+XAix"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729619AbgELVeE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 May 2020 17:34:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47836 "EHLO
+        id S1729646AbgELVg2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 May 2020 17:36:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728313AbgELVeE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 17:34:04 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EEDBC061A0C;
-        Tue, 12 May 2020 14:34:02 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id f15so5961715plr.3;
-        Tue, 12 May 2020 14:34:02 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1728313AbgELVg1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 17:36:27 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1175C061A0C;
+        Tue, 12 May 2020 14:36:27 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id 9so1233251pgr.3;
+        Tue, 12 May 2020 14:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kxQHTgfWb1TWEniSfiRONfdoQ6CTk9tziVfHxZmBMVA=;
-        b=carC9FJNskNYTWyopK2lAEOe6wuju8Ynu+HMmPB68lQDw8h2VhId8tzE+6xbqD7aH9
-         f+Th9ugkoPAcqQ25WrWHWdwMqx6RLkLTz7tgIDosU4bFxe3yeZO5wh0hMZgae3zfA9gB
-         j5MECJcO8GzUt/xMNp9xQqNpt9y/t11eImiUoQnKrfRzXDlNZ2A/8bAQwNj5ZOcvzXDO
-         0CyPBGc+V1ScGeP4+z8wfOg/WM1BYmq91DeRXgz2DRB4N/PrEdSSwBka+oN7O74PUX26
-         dwW+lCvAm6zi7QrImVQEhd8MOUbFbj5Q5VjFdKq4vCkYVmOdIKJUBSaIV4oEn5HJH+WT
-         tbDA==
+        bh=U6vUkzWvL2v9PNZQdqR96331DX3UQjvs2Ud55INrKsY=;
+        b=Krg+XAix0HNFwdS873MeiTfVECj9XWXdQFPovt/trzuHXSz1Qjh3ib6lUWAot9Vmk2
+         dlZAKbTyFIeoZ85o3YPZxuPEVuOpzNEVCzJL6l54idyRpURiJ3u25TI1fw5ael2DWXb0
+         42C0LO9gbaUvWouqYb5LJ67i8Nv3SQV8zaWbGVK6TRieUxwNFk9D3TKorhD8h1SFt9jW
+         Byy+NDDda0c849GLgfE9HYGhJyDz/6bRWzfUW8zUMMRq5zfooi4sJMEDXQ78i46KKvBC
+         30VeV4tTXuo84JlK4NPBwH6A2pQqdulFZDVq8fMJXMLg+pVsu6PwxZT8H+UmCHqRp+/v
+         5opQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=kxQHTgfWb1TWEniSfiRONfdoQ6CTk9tziVfHxZmBMVA=;
-        b=erXwESUAgPXJGH9JQ5fiPpALmoQ8BwHVuYJ7b0OuzYRO8HDuNw02GpiihgjD8L2Ef2
-         yasMgjmQMr9IcorNSbDuZpQdglvaOCuvwPIp07Ql2hjNoY6KwjHO9znT75iXvJ7+BlUI
-         7E1KMOGc+VvVGWbnvYiiM//kSvgOxfqgoc1h8TN9+ezKa2gxrvbz3V44JyWO/H/s5cik
-         zFDuJ4Xln4w9XmyW/PN1/xhP606MqrCKup+7d6ft26An6FtjfWGuKCpPv/RMKF4IKo4Z
-         5G8Bc1t3Ol5lvWK7UyPByJO0G+N1m57/am3v2w8J8wxmWOcHclRanQejRpffxuVbzycO
-         yHmg==
-X-Gm-Message-State: AGi0PuZYSfFiUPr7QYk8GmltagS7kg+JC9DKcNr3xza3bU5IV8WyuNIE
-        zJ1rKXyBXrKJwawij63Oin8=
-X-Google-Smtp-Source: APiQypIVnRNV204nLNeiwIYtBPN2sIp01hfrI6It+YHh9Qy/rFv1irHRlv83+luiNSUuEuynl4ctfA==
-X-Received: by 2002:a17:902:7d85:: with SMTP id a5mr22399336plm.106.1589319241873;
-        Tue, 12 May 2020 14:34:01 -0700 (PDT)
+        bh=U6vUkzWvL2v9PNZQdqR96331DX3UQjvs2Ud55INrKsY=;
+        b=hKEBPIwVScOi38jPzhcGQ5gqHYm3G9GIAQzcZEFza9II+c9boOPmP/SxsHDb97Rz/f
+         U4ppRkNszQ20y3xWW8P7Me/qnSKLjKbyfi0jhhEySP6JlwRTKxGydmCSl3U39t732ipO
+         2T+5zwHspETqwxgLHkB766dzBctnbxQ66RRG2iumNLcvbpB6ORVDfc8zpbEaNXYAR2V0
+         5dqzfNy/D96/U8OLw9X6QdiaXPGNFyN4aFvt7Q9LIcdlqAuCzNUie/dbVbL6qXjTlRDa
+         xzjLbUvdHSeEO9Hm6DwZD4T23zQMOCNpGlSIV5i17e+KLcmy0V/DOk0c5GXTgMEOEjsz
+         l3KQ==
+X-Gm-Message-State: AGi0PuasovVTYggnWrxQsGlZn8m4LdIBQBL+ZB913BCUodyRZ2qhJZJF
+        uLalDkg+8htpBwtRa4fLO0M=
+X-Google-Smtp-Source: APiQypJXSjmUQiHjC8jmouuBKk1YDKTMhNUlGLGMylSMqjCjlw3xX30NZvdOd+SsuHjUUi3ERcYM1w==
+X-Received: by 2002:a63:68c3:: with SMTP id d186mr21496722pgc.269.1589319387360;
+        Tue, 12 May 2020 14:36:27 -0700 (PDT)
 Received: from [192.168.11.3] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id b11sm11199946pgq.50.2020.05.12.14.33.57
+        by smtp.gmail.com with ESMTPSA id i18sm13578822pjx.33.2020.05.12.14.36.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2020 14:34:01 -0700 (PDT)
-Subject: [PATCH RESEND 0/4] tools/memory-model, Documentation/litmus-test:
- Sort out, location of litmus test and README
+        Tue, 12 May 2020 14:36:26 -0700 (PDT)
+Subject: [PATCH RESEND 1/4] tools/memory-model: Fix reference to litmus test
+ in recipes.txt
 To:     "Paul E. McKenney" <paulmck@kernel.org>
 Cc:     Joel Fernandes <joel@joelfernandes.org>,
         Boqun Feng <boqun.feng@gmail.com>,
@@ -83,13 +84,14 @@ References: <20200323015735.236279-1-joel@joelfernandes.org>
  <fd7e7c6f-fda1-7f2b-19f3-a09b73b10de8@gmail.com>
  <CAEXW_YSjo2hgvg-FN_MR7FVEcp-7gH17jb0-262k+ydSuuDjuQ@mail.gmail.com>
  <20200512163022.GI2869@paulmck-ThinkPad-P72>
+ <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
-Date:   Wed, 13 May 2020 06:33:56 +0900
+Message-ID: <d2b38542-5681-a118-768c-f5985a479b6e@gmail.com>
+Date:   Wed, 13 May 2020 06:36:21 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200512163022.GI2869@paulmck-ThinkPad-P72>
+In-Reply-To: <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -98,42 +100,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Paul,
+From f9aa6cde74b95cdaae67d484504c3dd69e8bc205 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 10 May 2020 13:37:14 +0900
+Subject: [PATCH RESEND 1/4] tools/memory-model: Fix reference to litmus test in recipes.txt
 
-On Tue, 12 May 2020 09:30:22 -0700, Paul E. McKenney wrote:
+The name of litmus test doesn't match the one described below.
+Fix the name of litmus test.
 
-> Could one of you please send a patch series and instructions, which I
-> -think- will be of the form:
->
-> o	Revert a5cca3485d92 ("Documentation: LKMM: Move
-> 	MP+onceassign+derefonce to new litmus-tests/rcu/")
-> 
-> o	Apply a series of patches.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Acked-by: Andrea Parri <parri.andrea@gmail.com>
+Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+ tools/memory-model/Documentation/recipes.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Here you are!
-
-Note: For 1/4 -- 3/4, Added Andrea's and Joel's Acked-by tags.
-
-       Thanks, Akira
---
-Akira Yokosawa (3):
-  tools/memory-model: Fix reference to litmus test in recipes.txt
-  Revert "Documentation: LKMM: Move MP+onceassign+derefonce to new
-    litmus-tests/rcu/"
-  Documentation/litmus-tests: Merge atomic's README into top-level one
-
-Joel Fernandes (Google) (1):
-  docs: litmus-tests: Clarify about the RCU pre-initialization test
-
- Documentation/litmus-tests/README             | 24 +++++++++++++++++--
- Documentation/litmus-tests/atomic/README      | 16 -------------
- tools/memory-model/Documentation/recipes.txt  |  2 +-
- .../MP+onceassign+derefonce.litmus            |  0
- tools/memory-model/litmus-tests/README        |  3 +++
- 5 files changed, 26 insertions(+), 19 deletions(-)
- delete mode 100644 Documentation/litmus-tests/atomic/README
- rename {Documentation/litmus-tests/rcu => tools/memory-model/litmus-tests}/MP+onceassign+derefonce.litmus (100%)
-
+diff --git a/tools/memory-model/Documentation/recipes.txt b/tools/memory-model/Documentation/recipes.txt
+index 7fe8d7aa3029..63c4adfed884 100644
+--- a/tools/memory-model/Documentation/recipes.txt
++++ b/tools/memory-model/Documentation/recipes.txt
+@@ -126,7 +126,7 @@ However, it is not necessarily the case that accesses ordered by
+ locking will be seen as ordered by CPUs not holding that lock.
+ Consider this example:
+ 
+-	/* See Z6.0+pooncerelease+poacquirerelease+fencembonceonce.litmus. */
++	/* See Z6.0+pooncelock+pooncelock+pombonce.litmus. */
+ 	void CPU0(void)
+ 	{
+ 		spin_lock(&mylock);
 -- 
 2.17.1
 
