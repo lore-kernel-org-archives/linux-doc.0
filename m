@@ -2,158 +2,205 @@ Return-Path: <SRS0=0LBz=62=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1B19C47255
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 02:11:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 184D4C47255
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 02:13:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C4D820722
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 02:11:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4B3220722
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 02:13:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="bdQ0DHXg"
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="DN2iet1c"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728559AbgELCLR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 May 2020 22:11:17 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:11824 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727942AbgELCLQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 22:11:16 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1589249475; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=QNYQNyInAghRaEYuVraZ7NwiX9YVEOfA+XK0Ft46+dA=; b=bdQ0DHXgwhnapyacS/+vDGYpEt/3ESrmOeBN8d3Y7Yi+yM42xrhE7yIC8oF1a2mBRo7wVOR6
- knlFp+PU/diTk8hcGLiuxDibLaTE/rorRpjdaYuOqrb16CxPvvcTx6c9i6qK5oW6ly2qGR4n
- jwa3NHvI30wISFQRkGf/2JRxxCk=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5eba05bb.7f2dc19e9c38-smtp-out-n03;
- Tue, 12 May 2020 02:11:07 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id DDD58C433BA; Tue, 12 May 2020 02:11:06 +0000 (UTC)
-Received: from codeaurora.org (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: pkondeti)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1CE62C433CB;
-        Tue, 12 May 2020 02:10:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1CE62C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=pkondeti@codeaurora.org
-Date:   Tue, 12 May 2020 07:40:56 +0530
-From:   Pavan Kondeti <pkondeti@codeaurora.org>
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        id S1728617AbgELCNM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 May 2020 22:13:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36240 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727892AbgELCNM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 May 2020 22:13:12 -0400
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1127CC061A0C
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 19:13:12 -0700 (PDT)
+Received: by mail-qt1-x842.google.com with SMTP id g16so9098636qtp.11
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2020 19:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MewUrkMigkKlQmP2yHq/YZSMSKPg5TATAzdJOc9dyuY=;
+        b=DN2iet1cBdLkJhx2RMAez/0nP/iPNK0+HdUwv4mgEe7pMCCAYht3u9PGn60rKk5B8F
+         3NLsvMmqcz4lBs4bzO+3iGKzke7PsxAmbpWuyif9k4Yrary4bzFEevorUdzRhqbyE07t
+         CzcdESn7klx1x9Z/MiBsVcCHRcaNd/UCHXwE4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MewUrkMigkKlQmP2yHq/YZSMSKPg5TATAzdJOc9dyuY=;
+        b=Au+nEonKxYPt0vQv05vk+hcazMtite7xopEttidO1cLednNzgqH4P064DnZ32ZOQ0j
+         daaF46JEtmvshi9zS5rLfs9dcutTHUHx502YRDRKsSdB30mYHu+IKMJ4lCSgQt1QZEgx
+         TUAyxjE7usrpNs03UFMjKRS4p/dS1WVYBLiN8kdhKfIHC7wDKwKFb6fK/KlvWmxqoPwR
+         WNwOv/iR6lCpIG62J4VO645g0ydt82DrUg46moZbly2+0MnxzHFJzwsHcrAEIB86IGyS
+         Il/oEXqh/XW+/l36DnVLb+/YID/BZUCIhx8x/O28tNhjgTaeQSFB7KBxWWh+SOai/xTC
+         cB+w==
+X-Gm-Message-State: AGi0PuYiSlieYJwsxywERN+sZ+BjgP6StIQ1H3qQoxRisj9chAG5TxsC
+        Qb4OsZyExJ08b6Xks0cRsdxjzQ==
+X-Google-Smtp-Source: APiQypIFuInau4ChfG+cPw0A+wXE+FBBTF7FlrEm69TgH1hNypoK9S5UgslSyAZ3xpHxx5ZFFduV1g==
+X-Received: by 2002:ac8:690c:: with SMTP id e12mr20723789qtr.357.1589249591171;
+        Mon, 11 May 2020 19:13:11 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id j90sm10919026qte.20.2020.05.11.19.13.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 19:13:10 -0700 (PDT)
+Date:   Mon, 11 May 2020 22:13:09 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        linux-kernel@vger.kernel.org, vpillai@digitalocean.com,
         Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-Message-ID: <20200512021056.GA31725@codeaurora.org>
-References: <20200511154053.7822-1-qais.yousef@arm.com>
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Daniel Lustig <dlustig@nvidia.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/3] tools/memory-model, Documentation/litmus-test: Sort
+ out location of litmus test and README
+Message-ID: <20200512021309.GA197229@google.com>
+References: <20200323015735.236279-1-joel@joelfernandes.org>
+ <7809dbfa-7a76-8663-799a-908c4ead8d30@gmail.com>
+ <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
+ <20200511173348.GX2869@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200511154053.7822-1-qais.yousef@arm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20200511173348.GX2869@paulmck-ThinkPad-P72>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 11, 2020 at 04:40:52PM +0100, Qais Yousef wrote:
-> RT tasks by default run at the highest capacity/performance level. When
-> uclamp is selected this default behavior is retained by enforcing the
-> requested uclamp.min (p->uclamp_req[UCLAMP_MIN]) of the RT tasks to be
-> uclamp_none(UCLAMP_MAX), which is SCHED_CAPACITY_SCALE; the maximum
-> value.
+On Mon, May 11, 2020 at 10:33:48AM -0700, Paul E. McKenney wrote:
+> On Sun, May 10, 2020 at 04:21:02PM +0900, Akira Yokosawa wrote:
+> > On Sat, 9 May 2020 12:43:30 +0900, Akira Yokosawa wrote:
+> > > Hi Joel,
+> > > 
+> > > Sorry for the late response but I've noticed some glitches.
+> > >  
+> > > On Sun, 22 Mar 2020 21:57:32 -0400, Joel Fernandes (Google) wrote:
+> > >> Move MP+onceassign+derefonce to the new Documentation/litmus-tests/rcu/
+> > >> directory.
+> > > 
+> > > MP+onceassign+derefonce.litmus is called out in
+> > > tools/memory-model/Documentation/recipes.txt as a representative example
+> > > of RCU related litmus test.
+> > > 
+> > > So I think it should be kept under tools/memory-model/litmus-tests.
+> > > 
+> > > Further RCU-related litmus tests can be added under Documentation/litmus-tests/.
+> > > 
+> > > IIUC, this change is not picked up by tip tree yet. So we have time to respin
+> > > the series targeting v5.9.
+> > > 
+> > >>
+> > >> More RCU-related litmus tests would be added here.
+> > >>
+> > >> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > >>
+> > >> ---
+> > >> Cc: vpillai@digitalocean.com
+> > >>
+> > >>  Documentation/litmus-tests/README                        | 9 +++++++++
+> > > 
+> > > Please note that later patches to add atomic litmus tests under
+> > > Documentation/litmus-tests/ by Boqun put README as
+> > > Documentation/litums-tests/atomic/README.
+> > > 
+> > > This patch's location of RCU's README as Documentation/litmus-tests/README
+> > > looks asymmetric to me.
+> > > 
+> > > I'm OK with either merging atomic's README with the top-level one or
+> > > moving RCU's README to under Documentation/litmus-tests/rcu.
+> > > 
+> > > Joel, Boqum, can you sort out the location of README?
+> > 
+> > So something like this?
+> > 
+> > Patch 1/3 is an independent typo fix in recipes.txt.
+> > Patch 2/3 reverts the MP+onceassign+derefonce relocation.
+> > Patch 3/3 merges atomic's README into the top-level one.
+> > 
+> > This is relative to -rcu's lkmm branch.
+> > 
+> > Thoughts?
 > 
-> This is also referred to as 'the default boost value of RT tasks'.
+> Looks plausible to me, and thank you for reviewing this.
 > 
-> See commit 1a00d999971c ("sched/uclamp: Set default clamps for RT tasks").
-> 
-> On battery powered devices, it is desired to control this default
-> (currently hardcoded) behavior at runtime to reduce energy consumed by
-> RT tasks.
-> 
-> For example, a mobile device manufacturer where big.LITTLE architecture
-> is dominant, the performance of the little cores varies across SoCs, and
-> on high end ones the big cores could be too power hungry.
-> 
-> Given the diversity of SoCs, the new knob allows manufactures to tune
-> the best performance/power for RT tasks for the particular hardware they
-> run on.
-> 
-> They could opt to further tune the value when the user selects
-> a different power saving mode or when the device is actively charging.
-> 
-> The runtime aspect of it further helps in creating a single kernel image
-> that can be run on multiple devices that require different tuning.
-> 
-> Keep in mind that a lot of RT tasks in the system are created by the
-> kernel. On Android for instance I can see over 50 RT tasks, only
-> a handful of which created by the Android framework.
-> 
-> To control the default behavior globally by system admins and device
-> integrators, introduce the new sysctl_sched_uclamp_util_min_rt_default
-> to change the default boost value of the RT tasks.
-> 
-> I anticipate this to be mostly in the form of modifying the init script
-> of a particular device.
-> 
-> Whenever the new default changes, it'd be applied lazily on the next
-> opportunity the scheduler needs to calculate the effective uclamp.min
-> value for the task, assuming that it still uses the system default value
-> and not a user applied one.
-> 
-> Tested on Juno-r2 in combination with the RT capacity awareness [1].
-> By default an RT task will go to the highest capacity CPU and run at the
-> maximum frequency, which is particularly energy inefficient on high end
-> mobile devices because the biggest core[s] are 'huge' and power hungry.
-> 
-> With this patch the RT task can be controlled to run anywhere by
-> default, and doesn't cause the frequency to be maximum all the time.
-> Yet any task that really needs to be boosted can easily escape this
-> default behavior by modifying its requested uclamp.min value
-> (p->uclamp_req[UCLAMP_MIN]) via sched_setattr() syscall.
-> 
-> [1] 804d402fb6f6: ("sched/rt: Make RT capacity-aware")
-> 
+> Joel, thoughts?
 
-I have tested this patch on SDM845 running V5.7-rc4 and it works as expected.
+Sorry for the delays (OSPM conference in progress). I'm Ok with moving it
+back to tools/memory-model/.
 
-Default: i.e /proc/sys/kernel/sched_util_clamp_min_rt_default = 1024.
+I think on top of this patch, I'd like to add a reference to the to the
+litmus test in tools/memory-model/ from Documentation/rcu/.
 
-RT task runs on BIG cluster every time at max frequency. Both effective
-and requested uclamp.min are set to 1024
+Just to mention my rationale for Documentation/litmus-tests/rcu/, I was
+basically looking for a central place for RCU related litmus tests in the
+kernel sources and the idea of this new directory came up.
 
-With /proc/sys/kernel/sched_util_clamp_min_rt_default = 128
+For Akira's series,
+Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-RT task runs on Little cluster (max capacity is 404) and frequency scaling
-happens as per the change in utilization. Both effective and requested
-uclamp are set to 128.
+And could we add the following patch on top of Akira's series so we still
+maintain a reference to the moved RCU test?
 
-Feel free to add
+---8<-----------------------
 
-Tested-by: Pavankumar Kondeti <pkondeti@codeaurora.org>
+From 52fdb57551cc769d8bd690f4f2b22de36ddece99 Mon Sep 17 00:00:00 2001
+From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Date: Mon, 11 May 2020 22:06:46 -0400
+Subject: [PATCH] docs: litmus-tests: Clarify about the RCU pre-initialization
+ test
 
-Thanks,
-Pavan
+Since this test was moved to tools/memory-model/, make sure that it is
+at least referenced from Documentation/litmus-tests/'s README.
+
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+ Documentation/litmus-tests/README | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
+index ac0b270b456c1..53f09e74734a4 100644
+--- a/Documentation/litmus-tests/README
++++ b/Documentation/litmus-tests/README
+@@ -11,7 +11,6 @@ tools/memory-model/README.
+ 
+ atomic (/atomic derectory)
+ --------------------------
+-
+ Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
+     Test that an atomic RMW followed by a smp_mb__after_atomic() is
+     stronger than a normal acquire: both the read and write parts of
+@@ -23,8 +22,11 @@ Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
+ 
+ RCU (/rcu directory)
+ --------------------
+-
+ RCU+sync+read.litmus
+ RCU+sync+free.litmus
+     Both the above litmus tests demonstrate the RCU grace period guarantee
+     that an RCU read-side critical section can never span a grace period.
++
++MP+onceassign+derefonce.litmus (moved to tools/memory-model/litmus-tests/)
++   Demonstrates that rcu_assign_pointer() and rcu_dereference() to
++   ensure that an RCU reader will not see pre-initialization garbage.
 -- 
-Qualcomm India Private Limited, on behalf of Qualcomm Innovation Center, Inc.
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
+2.26.2.645.ge9eca65c58-goog
+
