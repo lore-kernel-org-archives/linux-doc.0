@@ -2,305 +2,161 @@ Return-Path: <SRS0=0LBz=62=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25E6EC2D0FA
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 23:57:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF1E4C2D0F8
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 23:58:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F217720740
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 23:57:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0D5D20740
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 23:58:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UEfD8pEy"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="CP/0BK44"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731719AbgELX5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 May 2020 19:57:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42060 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729215AbgELX5r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 19:57:47 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31818C061A0F
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 16:57:47 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id t11so6937465pgg.2
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 16:57:47 -0700 (PDT)
+        id S1731712AbgELX64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 May 2020 19:58:56 -0400
+Received: from mail-dm6nam10on2082.outbound.protection.outlook.com ([40.107.93.82]:6034
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731656AbgELX6z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 May 2020 19:58:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LiHa+ldcB+nbTmoj4UvWHXgbTEIR3XtMkhr+F6aj9/y79gfqcE19bE0HR+F1AaOQpY05t0HgvLuRVg4O799F9xC1zEmEmH5Mjzt+/wp8L/cYpwHthYn/jvFomMfqCHjzwat5MYK0vAdRPft1FUf/ZM0ZMop6jrLM/7QPc+QcH5J783olbr3AzZpsPG06C/TS0bVvJj52g8sVJQ7dHVndOxptN2zeQklfIThH1F8rBJBnWeKQ1Y98Gum3oAl8kUwUsLop8cSgzCYIxvhwm3hZhuys8JZRwzSYlDLtaB/CciralVRd59cZzbESYgJklwLJbSrKrMmzAU/DWxOV7HSpKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nwl55NNBF8qYLEcR5lKJQWd+47tHHxtme8LrHqnd374=;
+ b=mQ9wqPAC1hjDOW+EhL1rHQ9gSzBxvTrLaHvAII9orw4RyjJWzrZjhDhexOXDH3iryPHNC2PWAGjhFCA1h0QgJR8iIm1HXuISVW/dzuoheALacmCEqPbBcv8OhrTfD87NcDsMx7lToygvKCWjMxqnoCoOxLqXRg8Z9x8iIpQUUs8vTA/8IcYaAf9beLtF+UtDCocvo8/8azGBnUSyJKxgJNept2/dOmy9TlUlT+zq21RjkXVmk4IyIZIoBwqkk67Xi3RlVwThw0AhDq8BvgOTUZbhyICaUxwIaVZC2x9QAF5l+inj4/6StGmz1UrQ1KN8y7yJ4xyrmig80tJx3bYUqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/un83eq62ib7sMEBamqsTej2IdlfzhbBhP+Wn1rFlVw=;
-        b=UEfD8pEyXNO1N8kgnrJK8T/3rhVXgWPjLWlN+Y1j9OXH8AlHW2iBRg+mElxjb2A0pj
-         YfTrukk3ZWjZlQHoWFa90FUzcjYnuLz1T771TfwQvrP1PSda8JMpIDUzKCl9hbgNb/Fp
-         rlLSxVnU9nRzG8dbeuyBJL3wapz3qWZgC0TI0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/un83eq62ib7sMEBamqsTej2IdlfzhbBhP+Wn1rFlVw=;
-        b=FpYSPoIcX41joQ3YH4533Ehm78p6JdROjp85FopYl4DPOexMHWhSIcI56ZvyW3yKhk
-         tRgPFAY/4jnjIxoXO2nuGHdcChMXgwA4bQRrRHLEh2l5atvpNFPfuAMZUlnTBjIQZrFw
-         +FWNS/pEHOgwHGF3JxyZLWewyVOLjCRsyTFK4fWAmFMplzfZp35WEYIrOB8HCRp4UMKn
-         WoWAlbbHXQhF90rGVTH1Rek1k5Q6Aiei+8JYNjl/Env9GgOlFZukJMnyUf4d/oPXJXwX
-         u+F5LiSToBj8cqRJ9/Zc7Ej1UcobYq5uoplkS7gapd+/9Ftyk9Z/AWoff3Uonsa14Eui
-         /jbA==
-X-Gm-Message-State: AGi0Pub0ml+LRoyuA7EVeu2VfU4akjpHxLMVWOn2UxARGBo4bGUAH5Lb
-        SyXJ8rG7x7BR2Cq4EgDmpgc4Lw==
-X-Google-Smtp-Source: APiQypKLCiYnLwVN1YMsLc9KIENkyooXV7ldGuJb8isv4LBxYRuK4jAVvJZGE5SScqNhGl3zo3n87w==
-X-Received: by 2002:aa7:8b15:: with SMTP id f21mr23148055pfd.72.1589327866540;
-        Tue, 12 May 2020 16:57:46 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z60sm14218113pjj.14.2020.05.12.16.57.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 16:57:45 -0700 (PDT)
-Date:   Tue, 12 May 2020 16:57:44 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Tyler Hicks <tyhicks@linux.microsoft.com>
-Cc:     Pavel Tatashin <pasha.tatashin@soleen.com>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>, jmorris@namei.org,
-        sashal@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] pstore/ram: Introduce max_reason and convert
- dump_oops
-Message-ID: <202005121652.7EC6FE3@keescook>
-References: <20200506211523.15077-1-keescook@chromium.org>
- <20200506211523.15077-5-keescook@chromium.org>
- <20200512233504.GA118720@sequoia>
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nwl55NNBF8qYLEcR5lKJQWd+47tHHxtme8LrHqnd374=;
+ b=CP/0BK44sZ38ryZKS4hfN0dK1jH+SmCJaSYqKk4Py/bdxibvqeZgBDj/v6W4WXJB1EcakJZrlnpAqdaX/WgOHrI9BCvczndCx3YINgP1lYTff4buoEjkr5k3xcWRKmE9kJDwFlPuNABz+IyoMuxxB9+RL4ge6AHYJWorefQVmN0=
+Authentication-Results: tencent.com; dkim=none (message not signed)
+ header.d=none;tencent.com; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SN1PR12MB2575.namprd12.prod.outlook.com (2603:10b6:802:25::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.34; Tue, 12 May
+ 2020 23:58:51 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d%7]) with mapi id 15.20.2979.033; Tue, 12 May 2020
+ 23:58:51 +0000
+Subject: [PATCH v4 0/3] arch/x86: Enable MPK feature on AMD
+From:   Babu Moger <babu.moger@amd.com>
+To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        hpa@zytor.com, pbonzini@redhat.com, sean.j.christopherson@intel.com
+Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
+        luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
+        babu.moger@amd.com, changbin.du@intel.com, namit@vmware.com,
+        bigeasy@linutronix.de, yang.shi@linux.alibaba.com,
+        asteinhauser@google.com, anshuman.khandual@arm.com,
+        jan.kiszka@siemens.com, akpm@linux-foundation.org,
+        steven.price@arm.com, rppt@linux.vnet.ibm.com, peterx@redhat.com,
+        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
+        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
+        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
+        jgross@suse.com, andrew.cooper3@citrix.com,
+        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
+        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
+        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Date:   Tue, 12 May 2020 18:58:46 -0500
+Message-ID: <158932780954.44260.4292038705292213548.stgit@naples-babu.amd.com>
+User-Agent: StGit/unknown-version
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DM5PR2201CA0015.namprd22.prod.outlook.com
+ (2603:10b6:4:14::25) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200512233504.GA118720@sequoia>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from naples-babu.amd.com (165.204.78.2) by DM5PR2201CA0015.namprd22.prod.outlook.com (2603:10b6:4:14::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20 via Frontend Transport; Tue, 12 May 2020 23:58:47 +0000
+X-Originating-IP: [165.204.78.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 497c9631-566d-4266-5c46-08d7f6d06b38
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2575:|SN1PR12MB2575:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN1PR12MB257549A1FC54DFC8C454B60B95BE0@SN1PR12MB2575.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: D3XWYv885s1Irm62EPoArkT6DCshXw1WCYQRluPmFuKXFwAwEzQWP8LevAfiaiTk+PjHB3+2CaVz/fSjZUFGfKmd4C5wiwcnU/mwRWppEsC6lH6fMW31L+KuIXBbQtkSUeUPHdLZDkCy0AINrlP0rTWloq3hIDKT3WsocX/ohXhGuaeoAc6xXVtvLyqGHdEleJkWepwB3GijHUjuttA7MM7L4RdaqDC0dYytwif+YBalFjplIUhiiNGVbdTsa12ECJnl7QtvVQIgQTUX1DQkVDqRj0Trd1fEde4Kz0n267B5SwZnZsF5UHqHjPxmWiD1JGD6TVPnakZGCfHqQLelKf2jnfNXDo9L7oQOG2aseWMx5GH4nIYdjF19wYGz9T9zD5/xmr0eOARMzbPrTLeASxQmjos50O5e7NWQyfU2o8B19BCbWDl/7WN5FEbuvvBzm2iwmdwwjYswZD+Bm68dj2wPWjgwvwz38q8CX3j/pFflV77TENlbOqInekpDL0ZEA+a/4eYDoyOFL4sgWb3wV38I0pp0Uvb2PT4CtTIelJQ43/aFZSE52Msgf3XrgrPBovY9Z0Gq0Q+MsZ+AiCdRXzU1Pup5SRkzWV3yTerPlJU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(39860400002)(366004)(376002)(346002)(136003)(33430700001)(33440700001)(966005)(66946007)(66556008)(66476007)(4326008)(86362001)(103116003)(55016002)(44832011)(2906002)(956004)(5660300002)(7406005)(7416002)(186003)(8936002)(8676002)(316002)(26005)(478600001)(7696005)(52116002)(16526019);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: yGDRF5eAr4QO7JI1jgInWF7rZDqa48UD+EpEu6caULcLKxVsu4MYCuiz+a5mMZTOLPacZUTZsF2nvnfQKRZYOxtFKRMu08LojPIIEjjxyuxLJrID1JNMiG4JbSrqLmFTh2yM6F2KcBA6+nh6/7Q82BA1Y0ODNj07zddZ5hSLc0Q90j5x7hk0gtbnOo048/zzwaIdykR6o1vJVnS9CuFdEz8sxz/llfAfz7WZrcIcXNUDQCL6M0H+oP23YXf08oypApSn+cR2Y3KMgfswZLnvkz4zN/h54EBXSarwMdX1Wa+hVj3wSKh/vQ6v1oZ9R9K+jbilNTCiEK0820xsF3n5zBwBRSkPti1vzR10V5oc6kS67/d5e53Wi6SsLEBAw9Xz8bPZssmjxl/CabR2GjKjgnHvdylabeYja10Lv5RJ7fOgXjNYyRcfjMFzZ183qdIDT0Ke6uPTZUebT5ycuE7j50ih6hhKmJUWeFO0x7dLWZI=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 497c9631-566d-4266-5c46-08d7f6d06b38
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 23:58:51.2118
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l+pTZPkVpKdJNH0OIyKfUh379r9oYlbsXFFbGZnnOlh1iIuezrwbXOE9LgskfPuR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2575
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 12, 2020 at 06:35:04PM -0500, Tyler Hicks wrote:
-> On 2020-05-06 14:15:21, Kees Cook wrote:
-> > From: Pavel Tatashin <pasha.tatashin@soleen.com>
-> > 
-> > Now that pstore_register() can correctly pass max_reason to the kmesg
-> > dump facility, introduce a new "max_reason" module parameter and
-> > "max-reason" Device Tree field.
-> > 
-> > The "dump_oops" module parameter and "dump-oops" Device
-> > Tree field are now considered deprecated, but are now automatically
-> > converted to their corresponding max_reason values when present, though
-> > the new max_reason setting has precedence.
-> > 
-> > For struct ramoops_platform_data, the "dump_oops" member is entirely
-> > replaced by a new "max_reason" member, with the only existing user
-> > updated in place.
-> > 
-> > Additionally remove the "reason" filter logic from ramoops_pstore_write(),
-> > as that is not specifically needed anymore, though technically
-> > this is a change in behavior for any ramoops users also setting the
-> > printk.always_kmsg_dump boot param, which will cause ramoops to behave as
-> > if max_reason was set to KMSG_DUMP_MAX.
-> > 
-> > Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-> > Link: https://lore.kernel.org/r/20200505154510.93506-4-pasha.tatashin@soleen.com
-> > Link: https://lore.kernel.org/r/20200505154510.93506-5-pasha.tatashin@soleen.com
-> > Co-developed-by: Kees Cook <keescook@chromium.org>
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  Documentation/admin-guide/ramoops.rst     | 14 +++++--
-> >  drivers/platform/chrome/chromeos_pstore.c |  2 +-
-> >  fs/pstore/ram.c                           | 51 +++++++++++++++--------
-> >  include/linux/pstore_ram.h                |  2 +-
-> >  4 files changed, 45 insertions(+), 24 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/ramoops.rst b/Documentation/admin-guide/ramoops.rst
-> > index 6dbcc5481000..a60a96218ba9 100644
-> > --- a/Documentation/admin-guide/ramoops.rst
-> > +++ b/Documentation/admin-guide/ramoops.rst
-> > @@ -32,11 +32,17 @@ memory to be mapped strongly ordered, and atomic operations on strongly ordered
-> >  memory are implementation defined, and won't work on many ARMs such as omaps.
-> >  
-> >  The memory area is divided into ``record_size`` chunks (also rounded down to
-> > -power of two) and each oops/panic writes a ``record_size`` chunk of
-> > +power of two) and each kmesg dump writes a ``record_size`` chunk of
-> >  information.
-> >  
-> > -Dumping both oopses and panics can be done by setting 1 in the ``dump_oops``
-> > -variable while setting 0 in that variable dumps only the panics.
-> > +Limiting which kinds of kmsg dumps are stored can be controlled via
-> > +the ``max_reason`` value, as defined in include/linux/kmsg_dump.h's
-> > +``enum kmsg_dump_reason``. For example, to store both Oopses and Panics,
-> > +``max_reason`` should be set to 2 (KMSG_DUMP_OOPS), to store only Panics
-> > +``max_reason`` should be set to 1 (KMSG_DUMP_PANIC). Setting this to 0
-> > +(KMSG_DUMP_UNDEF), means the reason filtering will be controlled by the
-> > +``printk.always_kmsg_dump`` boot param: if unset, it'll be KMSG_DUMP_OOPS,
-> > +otherwise KMSG_DUMP_MAX.
-> >  
-> >  The module uses a counter to record multiple dumps but the counter gets reset
-> >  on restart (i.e. new dumps after the restart will overwrite old ones).
-> > @@ -90,7 +96,7 @@ Setting the ramoops parameters can be done in several different manners:
-> >          .mem_address            = <...>,
-> >          .mem_type               = <...>,
-> >          .record_size            = <...>,
-> > -        .dump_oops              = <...>,
-> > +        .max_reason             = <...>,
-> >          .ecc                    = <...>,
-> >    };
-> >  
-> > diff --git a/drivers/platform/chrome/chromeos_pstore.c b/drivers/platform/chrome/chromeos_pstore.c
-> > index d13770785fb5..fa51153688b4 100644
-> > --- a/drivers/platform/chrome/chromeos_pstore.c
-> > +++ b/drivers/platform/chrome/chromeos_pstore.c
-> > @@ -57,7 +57,7 @@ static struct ramoops_platform_data chromeos_ramoops_data = {
-> >  	.record_size	= 0x40000,
-> >  	.console_size	= 0x20000,
-> >  	.ftrace_size	= 0x20000,
-> > -	.dump_oops	= 1,
-> > +	.max_reason	= KMSG_DUMP_OOPS,
-> >  };
-> >  
-> >  static struct platform_device chromeos_ramoops = {
-> > diff --git a/fs/pstore/ram.c b/fs/pstore/ram.c
-> > index c2f76b650f91..b8dac1d04e96 100644
-> > --- a/fs/pstore/ram.c
-> > +++ b/fs/pstore/ram.c
-> > @@ -57,10 +57,15 @@ module_param(mem_type, uint, 0600);
-> >  MODULE_PARM_DESC(mem_type,
-> >  		"set to 1 to try to use unbuffered memory (default 0)");
-> >  
-> > -static int dump_oops = 1;
-> > -module_param(dump_oops, int, 0600);
-> > +static int ramoops_dump_oops = -1;
-> > +module_param_named(dump_oops, ramoops_dump_oops, int, 0400);
-> >  MODULE_PARM_DESC(dump_oops,
-> > -		"set to 1 to dump oopses, 0 to only dump panics (default 1)");
-> > +		 "set to 1 to dump oopses & panics, 0 to only dump panics (deprecated: use max_reason instead)");
-> > +
-> > +static int ramoops_max_reason = KMESG_DUMP_OOPS;
-> > +module_param_named(max_reason, ramoops_max_reason, int, 0400);
-> > +MODULE_PARM_DESC(max_reason,
-> > +		 "maximum reason for kmsg dump (default 2: Oops and Panic) ");
-> >  
-> >  static int ramoops_ecc;
-> >  module_param_named(ecc, ramoops_ecc, int, 0600);
-> > @@ -81,7 +86,6 @@ struct ramoops_context {
-> >  	size_t console_size;
-> >  	size_t ftrace_size;
-> >  	size_t pmsg_size;
-> > -	int dump_oops;
-> >  	u32 flags;
-> >  	struct persistent_ram_ecc_info ecc_info;
-> >  	unsigned int max_dump_cnt;
-> > @@ -382,16 +386,14 @@ static int notrace ramoops_pstore_write(struct pstore_record *record)
-> >  		return -EINVAL;
-> >  
-> >  	/*
-> > -	 * Out of the various dmesg dump types, ramoops is currently designed
-> > -	 * to only store crash logs, rather than storing general kernel logs.
-> > +	 * We could filter on record->reason here if we wanted to (which
-> > +	 * would duplicate what happened before the "max_reason" setting
-> > +	 * was added), but that would defeat the purpose of a system
-> > +	 * changing printk.always_kmsg_dump, so instead log everything that
-> > +	 * the kmsg dumper sends us, since it should be doing the filtering
-> > +	 * based on the combination of printk.always_kmsg_dump and our
-> > +	 * requested "max_reason".
-> >  	 */
-> > -	if (record->reason != KMSG_DUMP_OOPS &&
-> > -	    record->reason != KMSG_DUMP_PANIC)
-> > -		return -EINVAL;
-> > -
-> > -	/* Skip Oopes when configured to do so. */
-> > -	if (record->reason == KMSG_DUMP_OOPS && !cxt->dump_oops)
-> > -		return -EINVAL;
-> >  
-> >  	/*
-> >  	 * Explicitly only take the first part of any new crash.
-> > @@ -692,7 +694,14 @@ static int ramoops_parse_dt(struct platform_device *pdev,
-> >  	pdata->mem_size = resource_size(res);
-> >  	pdata->mem_address = res->start;
-> >  	pdata->mem_type = of_property_read_bool(of_node, "unbuffered");
-> > -	pdata->dump_oops = !of_property_read_bool(of_node, "no-dump-oops");
-> > +	/*
-> > +	 * Setting "no-dump-oops" is deprecated and will be ignored if
-> > +	 * "max_reason" is also specified.
-> > +	 */
-> > +	if (of_property_read_bool(of_node, "no-dump-oops"))
-> > +		pdata->max_reason = KMSG_DUMP_PANIC;
-> > +	else
-> > +		pdata->max_reason = KMSG_DUMP_OOPS;
-> >  
-> >  #define parse_size(name, field, default_value) {			\
-> >  		ret = ramoops_parse_dt_size(pdev, name, default_value,	\
-> > @@ -708,6 +717,7 @@ static int ramoops_parse_dt(struct platform_device *pdev,
-> >  	parse_size("pmsg-size", pdata->pmsg_size, 0);
-> >  	parse_size("ecc-size", pdata->ecc_info.ecc_size, 0);
-> >  	parse_size("flags", pdata->flags, 0);
-> > +	parse_size("max-reason", pdata->max_reason, pdata->max_reason);
-> >  
-> >  #undef parse_size
-> >  
-> > @@ -791,7 +801,6 @@ static int ramoops_probe(struct platform_device *pdev)
-> >  	cxt->console_size = pdata->console_size;
-> >  	cxt->ftrace_size = pdata->ftrace_size;
-> >  	cxt->pmsg_size = pdata->pmsg_size;
-> > -	cxt->dump_oops = pdata->dump_oops;
-> >  	cxt->flags = pdata->flags;
-> >  	cxt->ecc_info = pdata->ecc_info;
-> >  
-> > @@ -834,8 +843,10 @@ static int ramoops_probe(struct platform_device *pdev)
-> >  	 * the single region size is how to check.
-> >  	 */
-> >  	cxt->pstore.flags = 0;
-> > -	if (cxt->max_dump_cnt)
-> > +	if (cxt->max_dump_cnt) {
-> >  		cxt->pstore.flags |= PSTORE_FLAGS_DMESG;
-> > +		cxt->pstore.max_reason = pdata->max_reason;
-> > +	}
-> >  	if (cxt->console_size)
-> >  		cxt->pstore.flags |= PSTORE_FLAGS_CONSOLE;
-> >  	if (cxt->max_ftrace_cnt)
-> > @@ -871,7 +882,7 @@ static int ramoops_probe(struct platform_device *pdev)
-> >  	mem_size = pdata->mem_size;
-> >  	mem_address = pdata->mem_address;
-> >  	record_size = pdata->record_size;
-> > -	dump_oops = pdata->dump_oops;
-> > +	ramoops_max_reason = pdata->max_reason;
-> >  	ramoops_console_size = pdata->console_size;
-> >  	ramoops_pmsg_size = pdata->pmsg_size;
-> >  	ramoops_ftrace_size = pdata->ftrace_size;
-> > @@ -954,7 +965,11 @@ static void __init ramoops_register_dummy(void)
-> >  	pdata.console_size = ramoops_console_size;
-> >  	pdata.ftrace_size = ramoops_ftrace_size;
-> >  	pdata.pmsg_size = ramoops_pmsg_size;
-> > -	pdata.dump_oops = dump_oops;
-> > +	/* Parse deprecated module param "dump_oops" into "max_reason". */
-> > +	if (ramoops_dump_oops != -1)
-> > +		pdata.max_reason = ramoops_dump_oops ? KMSG_DUMP_OOPS
-> > +						     : KMSG_DUMP_PANIC;
-> > +	pdata.max_reason = ramoops_max_reason;
-> 
-> This isn't quite right. We're conditionally assigning pdata.max_reason
-> and then immediately re-assigning it.
-> 
-> IIUC, we're just missing an else block and it should look like this:
-> 
-> 	/* Parse deprecated module param "dump_oops" into "max_reason". */
-> 	if (ramoops_dump_oops != -1)
-> 		pdata.max_reason = ramoops_dump_oops ? KMSG_DUMP_OOPS
-> 						     : KMSG_DUMP_PANIC;
-> 	else
-> 		pdata.max_reason = ramoops_max_reason;
+AMD's next generation of EPYC processors support the MPK (Memory
+Protection Keys) feature.
 
-Oops, yes. ramoops_max_reason needs to also have an "unset" value so
-this can determine which was set... I'll get this fixed. Thanks for
-double-checking this!
+This series enables the feature on AMD and updates config parameters
+and documentation to reflect the MPK support on x86 platforms.
 
--- 
-Kees Cook
+AMD documentation for MPK feature is available at "AMD64 Architecture
+Programmer’s Manual Volume 2: System Programming, Pub. 24593 Rev. 3.34,
+Section 5.6.6 Memory Protection Keys (MPK) Bit".
+
+The documentation can be obtained at the link below:
+https://bugzilla.kernel.org/show_bug.cgi?id=206537
+
+---
+v4:
+  - Removed all the source changes related to config parameter.
+    Just kept the doc changes and add new config parameter
+    X86_MEMORY_PROTECTION_KEYS which shadows X86_INTEL_MEMORY_PROTECTION_KEYS.
+ - Minor change in feature detection in kvm/cpuid.c 
+
+v3:
+  https://lore.kernel.org/lkml/158923982830.20128.14580309786525588408.stgit@naples-babu.amd.com/#r
+  - Fixed the problem Jim Mattson pointed out which can cause pkru
+    resources to get corrupted during host and guest switches. 
+  - Moved the PKU feature detection code from VMX.c to common code.
+  
+v2:
+  https://lore.kernel.org/lkml/158897190718.22378.3974700869904223395.stgit@naples-babu.amd.com/
+  - Introduced intermediate config option X86_MEMORY_PROTECTION_KEYS to
+    avoid user propmpts. Kept X86_INTEL_MEMORY_PROTECTION_KEYS as is.
+    Eventually, we will be moving to X86_MEMORY_PROTECTION_KEYS after
+    couple of kernel revisions. 
+  - Moved pkru data structures to kvm_vcpu_arch. Moved save/restore pkru
+    to kvm_load_host_xsave_state/kvm_load_guest_xsave_state.
+
+v1:
+  https://lore.kernel.org/lkml/158880240546.11615.2219410169137148044.stgit@naples-babu.amd.com/
+
+Babu Moger (3):
+      arch/x86: Update config and kernel doc for MPK feature on AMD
+      KVM: x86: Move pkru save/restore to x86.c
+      KVM: x86: Move MPK feature detection to common code
+
+
+ Documentation/core-api/protection-keys.rst |    3 ++-
+ arch/x86/Kconfig                           |   14 ++++++++++++--
+ arch/x86/include/asm/kvm_host.h            |    1 +
+ arch/x86/kvm/cpuid.c                       |    9 ++++++++-
+ arch/x86/kvm/vmx/vmx.c                     |   22 ----------------------
+ arch/x86/kvm/x86.c                         |   17 +++++++++++++++++
+ 6 files changed, 40 insertions(+), 26 deletions(-)
+
+--
+Signature
