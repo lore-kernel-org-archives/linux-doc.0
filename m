@@ -2,67 +2,62 @@ Return-Path: <SRS0=0LBz=62=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E910C2D0F8
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:40:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9F17C2D0F8
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:43:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D964C20740
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:40:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6BE320740
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:43:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dyNX3oxL"
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="J8S5wxrP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728313AbgELVkd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 May 2020 17:40:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48848 "EHLO
+        id S1729646AbgELVnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 May 2020 17:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726268AbgELVkd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 17:40:33 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA5BC061A0C;
-        Tue, 12 May 2020 14:40:31 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id z15so1080959pjb.0;
-        Tue, 12 May 2020 14:40:31 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1726268AbgELVnp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 17:43:45 -0400
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28921C061A0E
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 14:43:45 -0700 (PDT)
+Received: by mail-qt1-x842.google.com with SMTP id g16so11725409qtp.11
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 14:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DuZB6aC1Ih/VDKY9giKPzKGYxrZfE0YIToYnjsJKSBs=;
-        b=dyNX3oxLS1/eQ9CC7enfSYr4leoEyYwLjhBgBQktwgiRS7Fwk0+E6nmppTIU2/6vvi
-         Pp4efqFoH5yalE50B2nfAgdKh7uJ3I6Hb7WeqMTEvGRGNzO6tlUSh4kqWwDPYOkG0o2H
-         QWKpQtWPl5UwzUy/E8wv7I/hWvj983Jl6mF4l9LnHVH2VkQT3D0Z4i/08i9mVAaHzBBc
-         14q3MdqGWmEcwWZBmGwWiq7/imvvTT4ZupMrJIvqnFjw8cbVhG3/XkPMpnt6/vr6kZNy
-         ZuOD92dZrqNCANefPeJXVCUuTfrDTFYLyuVy1sVqGi64ihaP4A2GlvHqizCsvqZbAX2z
-         GQdQ==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=9Jz0N2qi039/ltHYIrFe1r2pYgMJDcOi9Hazab0EYXU=;
+        b=J8S5wxrP9OdTJgIMV52j8dzoXsMsesXUxZW9T8t54cvdAUBztE1dh/QAdWEw2meILQ
+         7B/M5erCff1ZFASZalwLnNtJ/RwJpxWZbqLmgxPlpYPb5n+/hNXVf+1h+4AsG/SRXEiN
+         /0juhDLwgkGGOUIMtoM/nobBES0mxGVEKNIQ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DuZB6aC1Ih/VDKY9giKPzKGYxrZfE0YIToYnjsJKSBs=;
-        b=Wbaq9FDqtQRl0YtJ68N+TJ1PxqMrbpcF5b6aeD5bine+WDg/O4+QUc+KRFsRqDJWQH
-         jKkua+0rxVMKwoeSHFpmi1htx5sorXYlme4CvZ0VXIpuSKsMn9VgRhFfmJtwNfWi433r
-         7AvdLkuk1en02Aqjw7VWRKDrPw6521ihR381VCTWIb/M5FlE6KbrA0uSIbjPjRjR3T7h
-         1i7b85w0+U/Gfuhioxpwko8Y7q400+pBJV6BN0i+h+/NR2rdfPij4BSHsW/42P105lHu
-         my1dKyAyyCd/G01VwZwZEyc7lad75SGs/lxLRhUnz7+kIodGqL5DIwxyWCZiLIE2GJSn
-         LQVA==
-X-Gm-Message-State: AOAM530oVrTF8ZJSqWZASqNGZaUtD28ud81Th7nV+kIPLJpXsLWRjW2l
-        331htdIbp9tIiaKAlGIGcI4=
-X-Google-Smtp-Source: ABdhPJzwgDqenXkyY26Zlj3m5KCgBliHvMEYbLzuqiue6ArR1cJscg283UTJgJFmRgaFrM+kx2LqJQ==
-X-Received: by 2002:a17:90a:30ef:: with SMTP id h102mr4883315pjb.110.1589319631229;
-        Tue, 12 May 2020 14:40:31 -0700 (PDT)
-Received: from [192.168.11.3] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 128sm12633208pfy.5.2020.05.12.14.40.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2020 14:40:30 -0700 (PDT)
-Subject: [PATCH RESEND 4/4] docs: litmus-tests: Clarify about the RCU
- pre-initialization test
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9Jz0N2qi039/ltHYIrFe1r2pYgMJDcOi9Hazab0EYXU=;
+        b=m9fK6RL8uZtOKJgHWwr4DSnKt3B1bvZcdTAiunvNdArwl4j2QFtOa/2nGhLikjFPOS
+         NwCjw6p53rGXwSQ6vnqbSG5eC5EsBsehWAnbg99OZLnLFniHLxfs/7q0rnpiS7X8sUJ/
+         dIV24MvGr2xSwCoPik4pwbzAlY6DVZVtqZ5coor2XkEKO5iGTW4ngzvRxhZQKyGDevJc
+         utuKdngBHs/5Et1PbFCUJSymxScL+2wC6TYuSlBFZoEg5nGjpHXz5M4Whl7nP3Uas3Cz
+         isn0aEqKZBrkJ0a1+hZLxy7Yw5wbEOXmkgJ5y3saIdzKsiZgUNX3unw4I10k0zRAeO6G
+         N1gw==
+X-Gm-Message-State: AGi0Pua3d1ADKbWo6s9ygmZk31dcJjPV1bBawwchjDJzUEBpRktjPzhJ
+        LMN0/AKPuylOgqbE53l/ZCqalA==
+X-Google-Smtp-Source: APiQypI1IRxHiLeOSmgZPvYgvz5Wtf6UdoSDfZ8yaONkacSf24QwSBM1uUPZeuzTJqKtQtdg70zuTQ==
+X-Received: by 2002:ac8:1c3d:: with SMTP id a58mr23419689qtk.52.1589319824174;
+        Tue, 12 May 2020 14:43:44 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id z65sm8500011qkc.91.2020.05.12.14.43.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 14:43:43 -0700 (PDT)
+Date:   Tue, 12 May 2020 17:43:42 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
 To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         LKML <linux-kernel@vger.kernel.org>,
         Vineeth Remanan Pillai <vpillai@digitalocean.com>,
@@ -76,64 +71,74 @@ Cc:     Joel Fernandes <joel@joelfernandes.org>,
         Jade Alglave <j.alglave@ucl.ac.uk>,
         Luc Maranget <luc.maranget@inria.fr>,
         Daniel Lustig <dlustig@nvidia.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 4/3] docs: litmus-tests: Clarify about the RCU
+ pre-initialization test
+Message-ID: <20200512214342.GA89170@google.com>
 References: <20200323015735.236279-1-joel@joelfernandes.org>
  <7809dbfa-7a76-8663-799a-908c4ead8d30@gmail.com>
  <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
  <fd7e7c6f-fda1-7f2b-19f3-a09b73b10de8@gmail.com>
  <CAEXW_YSjo2hgvg-FN_MR7FVEcp-7gH17jb0-262k+ydSuuDjuQ@mail.gmail.com>
  <20200512163022.GI2869@paulmck-ThinkPad-P72>
- <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <8360e630-1a39-7f49-91de-275e7a11a86f@gmail.com>
-Date:   Wed, 13 May 2020 06:40:26 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200512163022.GI2869@paulmck-ThinkPad-P72>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From c2d6a0afad370c6fda136704bac9b1ee9557d0eb Mon Sep 17 00:00:00 2001
-From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Date: Mon, 11 May 2020 22:06:46 -0400
-Subject: [PATCH RESEND 4/4] docs: litmus-tests: Clarify about the RCU pre-initialization test
+On Tue, May 12, 2020 at 09:30:22AM -0700, Paul E. McKenney wrote:
+> On Tue, May 12, 2020 at 11:41:01AM -0400, Joel Fernandes wrote:
+> > On Tue, May 12, 2020 at 11:07 AM Akira Yokosawa <akiyks@gmail.com> wrote:
+> > >
+> > > From 7bb979aacd8788d174df8a56e9803ba9e5b7a381 Mon Sep 17 00:00:00 2001
+> > > From: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > Date: Mon, 11 May 2020 22:06:46 -0400
+> > > Subject: [PATCH 4/3] docs: litmus-tests: Clarify about the RCU pre-initialization test
+> > >
+> > > Since this test returned to tools/memory-model/, make sure that it is
+> > > at least referenced from Documentation/litmus-tests/'s README.
+> > >
+> > > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > Co-developed-by: Akira Yokosawa <akiyks@gmail.com>
+> > > [Alan: grammar nit]
+> > > Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> > > ---
+> > > I said in the earlier message:
+> > >
+> > > > The explanation under tools/memory-model/litmus-tests/README also need the same
+> > > > rewording.
+> > >
+> > > , but obviously I was confused. It is good as is.
+> > >
+> > > This is on top of my earlier patch series.
+> > >
+> > > Joel, Alan, does this work with you?
+> > 
+> > Yes, thanks a lot for doing it. Paul are you Ok with it too?
+> 
+> Looks good to me!
+> 
+> Could one of you please send a patch series and instructions, which I
+> -think- will be of the form:
+> 
+> o	Revert a5cca3485d92 ("Documentation: LKMM: Move
+> 	MP+onceassign+derefonce to new litmus-tests/rcu/")
+> 
+> o	Apply a series of patches.
 
-Since this test returned to tools/memory-model/, make sure that it is
-at least referenced from Documentation/litmus-tests/'s README.
+Rebased Akira's 3 and my 1 on top of your /dev branch with the ordering done as above:
 
-Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-Co-developed-by: Akira Yokosawa <akiyks@gmail.com>
-[Alan: grammar nit]
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- Documentation/litmus-tests/README | 4 ++++
- 1 file changed, 4 insertions(+)
+Could you pull?
 
-diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
-index ac0b270b456c..b79e640214b9 100644
---- a/Documentation/litmus-tests/README
-+++ b/Documentation/litmus-tests/README
-@@ -24,6 +24,10 @@ Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
- RCU (/rcu directory)
- --------------------
- 
-+MP+onceassign+derefonce.litmus (under tools/memory-model/litmus-tests/)
-+    Demonstrates the use of rcu_assign_pointer() and rcu_dereference() to
-+    ensure that an RCU reader will not see pre-initialization garbage.
-+
- RCU+sync+read.litmus
- RCU+sync+free.litmus
-     Both the above litmus tests demonstrate the RCU grace period guarantee
--- 
-2.17.1
+git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (branch for-paul-dev)
 
+Thanks!
+
+ - Joel
 
