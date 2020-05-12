@@ -2,140 +2,102 @@ Return-Path: <SRS0=0LBz=62=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A0EC2D0F6
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 18:53:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E266CA90AF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 19:44:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F139207BC
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 18:53:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 466AD206DD
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 19:44:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="heaGQ23g"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PXb1v9IS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730210AbgELSxq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 May 2020 14:53:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51092 "EHLO
+        id S1730963AbgELTo3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 May 2020 15:44:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726324AbgELSxq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 14:53:46 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE560C061A0F
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 11:53:44 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id x13so893252pfn.11
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 11:53:44 -0700 (PDT)
+        with ESMTP id S1725950AbgELTo2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 15:44:28 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68FD3C061A0C
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 12:44:28 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id n11so6636916pgl.9
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 12:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=10CAtnJPyt3YsHXJ+2Wwl/Z5XTY3/zgL7Nq5MQ1jRF0=;
-        b=heaGQ23gQS+0fqlyfYmHBx+MAlnUe0fojiixaSjG46yoB8ra2O5SPA0QiOOPoMwZfq
-         JipEIaffmFm0n+zhSY/POjSl6DvPBF+KOFv4UNyKeWK4OJyKNacYo1bK69MEr/vqJHs5
-         aSZ2U41dwR3fnQORRVGv0bFwdCEUvVXRuO9rk=
+        bh=DBhE+bHXP5zrV91t92AV1x7apzTWyzN424aYc5YNfWg=;
+        b=PXb1v9IS/OL5cX7Bsw8OKUXEAAg3UGRT+IO9saYbsZLXygtycRHvu1AmhWYJuN5SnN
+         HMv2wzHcr7yAYKt4zrainQLFXtdP3FUj0XgbE24JTleE5ovZKHgPTv9fRRNS2lsADErm
+         9FFpr88LUFS4jkmqQRpZPl9/IwzQSn+YH2YEE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=10CAtnJPyt3YsHXJ+2Wwl/Z5XTY3/zgL7Nq5MQ1jRF0=;
-        b=AGfyez3C0bkZxHJDkoAXCGfKEE+H8IGe+/2Jvev5/Xj1ieknDCMgBtJdfCrth6+VhC
-         1y5KzC2Pyr6lIJzHTzc4pWhHkZEhq53kRBOW0aXCzGTRa8xDEZtWK8ZrwYpQDC61du1x
-         Akexje/m53UVO7A7cMfVdZQ+sf46gtlxvv3pRUsdHD48Btaxo4elB6tuEBrJyTnWtIF4
-         0sTZFqXOG60SFKT3ktP6eRtuDEO+yVEjdtvN/rTKXjwj2lm0XeRzpap+nJema4OckMgB
-         5VhZNc2IogdU197l3/GgRAafA7gO1vJ09WAps9Mu94Bsxgmb/CEnwzMoalyS2uLLlNSY
-         NnUw==
-X-Gm-Message-State: AOAM5336RBT9FO+jRWfUHOatKFhvVrv7aPpJp3OJCm/tdiDdMuXaxza5
-        wtgmA4uLePbJxiWvTpnqUaQnWA==
-X-Google-Smtp-Source: ABdhPJzXPMZiCC2kuNmM2zIsvtc0DroVVWaVG/lLtZUDXw0W8UTadX12hTFMgAIvscCnjlE9FYDLXA==
-X-Received: by 2002:a63:3c8:: with SMTP id 191mr1850816pgd.320.1589309624226;
-        Tue, 12 May 2020 11:53:44 -0700 (PDT)
+        bh=DBhE+bHXP5zrV91t92AV1x7apzTWyzN424aYc5YNfWg=;
+        b=ELP5tayzBf0waBSigYG8smbncWPiovCEl+IikTOIwJR+pi4lfUZEGq0A/LJbvRYInJ
+         mofjHxO4lslsAgV6RJMZMVY55+2kF/gNHBoeIbn0vivec80dozLYe8VXd843F0KLFlMO
+         y0pceuptTTtffSyyBthrHFSpf0JE1T5VNKK4C85osEOBA/60Yt7kluQYeoJQF7twTi2w
+         OSpBxqisUwlsf9Nsw9Cb/pyCTu0L45XiXwzO+yW4xzaMB+XDvHzC055NaPY8kkliR5NZ
+         1ZP/rQ5GlDIeVH4m+RMxXkLgCqhWaf8OxR8anLjWDYLBen2cPw3bo3on1M6zXn39oGLz
+         ga3g==
+X-Gm-Message-State: AOAM532XrcLdDA00n5bYSX5bfosuTiZPWm2oSpnOOx7Iafx1ieaI27Re
+        9IiIg5G2km8haIrySnFAcG1yfg==
+X-Google-Smtp-Source: ABdhPJwpe3nOv6RiywTAma2C9/wcHumGJ8VS3qWE7oUMdxQmXUNg5rmOFCYxnJjbkKS69HE+a0AWZg==
+X-Received: by 2002:aa7:8ad0:: with SMTP id b16mr3033296pfd.129.1589312668034;
+        Tue, 12 May 2020 12:44:28 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a196sm12690995pfd.184.2020.05.12.11.53.43
+        by smtp.gmail.com with ESMTPSA id fu12sm13524369pjb.20.2020.05.12.12.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 11:53:43 -0700 (PDT)
-Date:   Tue, 12 May 2020 11:53:42 -0700
+        Tue, 12 May 2020 12:44:27 -0700 (PDT)
+Date:   Tue, 12 May 2020 12:44:26 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     Petr Mladek <pmladek@suse.com>, Anton Vorontsov <anton@enomsg.org>,
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     WeiXiong Liao <liaoweixiong@allwinnertech.com>,
+        Anton Vorontsov <anton@enomsg.org>,
         Colin Cross <ccross@android.com>,
         Tony Luck <tony.luck@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        James Morris <jmorris@namei.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 0/6] allow ramoops to collect all kmesg_dump events
-Message-ID: <202005121146.3B3C1FE0D@keescook>
-References: <20200506211523.15077-1-keescook@chromium.org>
- <20200512131655.GE17734@linux-b0ei>
- <CA+CK2bBMUxxuTBicQ7ihKpN3jK94mMjcNCXhnAXUaODce09Wmw@mail.gmail.com>
- <20200512155207.GF17734@linux-b0ei>
- <CA+CK2bC0argMNHzynedpwN6ekOg8yypN03JvmAKGWQ5Aegxh+Q@mail.gmail.com>
+        Rob Herring <robh@kernel.org>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mtd@lists.infradead.org
+Subject: Re: [PATCH v7 07/18] printk: Introduce kmsg_dump_reason_str()
+Message-ID: <202005121244.874D7C52@keescook>
+References: <20200510202436.63222-1-keescook@chromium.org>
+ <20200510202436.63222-8-keescook@chromium.org>
+ <20200512084441.GD17734@linux-b0ei>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+CK2bC0argMNHzynedpwN6ekOg8yypN03JvmAKGWQ5Aegxh+Q@mail.gmail.com>
+In-Reply-To: <20200512084441.GD17734@linux-b0ei>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 12, 2020 at 12:49:10PM -0400, Pavel Tatashin wrote:
-> On Tue, May 12, 2020 at 11:52 AM Petr Mladek <pmladek@suse.com> wrote:
-> > I wonder if anyone is actually using the ramoops.dump_oops parameter
-> > in reality. I would personally make it deprecated and change the
-> > default behavior to work according to printk.always_kmsg_dump parameter.
+On Tue, May 12, 2020 at 10:44:42AM +0200, Petr Mladek wrote:
+> On Sun 2020-05-10 13:24:25, Kees Cook wrote:
+> > The pstore subsystem already had a private version of this function.
+> > With the coming addition of the pstore/zone driver, this needs to be
+> > shared. As it really should live with printk, move it there instead.
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
 > 
-> This sounds alright to me with one slight problem. I am doing this
-> work for an embedded arm64 SoC, so controlling everything via device
-> tree is preferable compared to having some settings via device tree
-> and others via kernel parameters, especially because the kernel
-> parameters are hardcoded by firmware that we try not to update too
-> often for uptime reasons.
-
-I'm entirely convinced that this area of pstore needs to be cleaned up
-and I want to have the pstore backends be able to declare their kmsg
-dump reason filters in a configurable fashion. So at least on the pstore
-end, I intend to have some way to do this.
-
-> > IMHO, ramoops.dump_oops just increases complexity and should not have
-> > been introduced at all. I would try hard to avoid introducing even bigger
-> > complecity and mess.
+> I looked only at this printk part and it looks good to me ;-)
 > 
-> I agree, amoops.dump_oops should be depricated with or without
-> max_reason change.
+> Acked-by: Petr Mladek <pmladek@suse.com>
 
-Yup. dump_oops will be deprecated in favor of whatever we settle on here.
-
-> > I know that there is the "do not break existing userspace" rule. The
-> > question is if there is any user and if it is worth it.
-> >
-> > > I agree, the reasons in kmsg_dump_reason do not order well  (I
-> > > actually want to add another reason for kexec type reboots, and where
-> > > do I put it?), so how about if we change the ordering list to
-> > > bitfield/flags, and instead of max_reason provide: "reasons" bitset?
-> >
-> > It looks too complicated. I would really try hard to avoid the
-> > parameter at all.
-> 
-> OK. Should we remove max_reason from struct kmsg_dumper and also
-> remove the misleading comment about kmsg_dump_reason ordering?
-
-I'm also fine with this. I can have pstore infrastructure doing the
-filtering if kmsg dump doesn't want to. Given the existence of
-printk.always_kmsg_dump, though, it seemed like it was better to have
-kmsg dump do this filtering instead.
-
-At this point my preference is to switch to a bit field -- I don't see a
-reason for ordering. The only cases that remain "special" appear to be
-PANIC and EMERG (which, again, aren't ordered adjacent).
-
--Kees
+Excellent; thanks!
 
 -- 
 Kees Cook
