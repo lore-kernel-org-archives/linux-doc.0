@@ -2,146 +2,148 @@ Return-Path: <SRS0=0LBz=62=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB4ACA90AF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:45:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40D35CA90AF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:52:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23D47206CC
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:45:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="4NKot90j"
+	by mail.kernel.org (Postfix) with ESMTP id 28F41206DD
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:52:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726532AbgELPpV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 May 2020 11:45:21 -0400
-Received: from mail-dm6nam12on2086.outbound.protection.outlook.com ([40.107.243.86]:52833
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726465AbgELPpV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 May 2020 11:45:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nWdTI+c39W7VBIvPzLEXtHT6DE6CunTsB3myduoAd9Bl4jnf2xBXlEYPJtHcz7zA+V3pishKmsK62atIv0UMvnrtx52tnPqQ5sNOf/jnvJ00AKC4jvL4CA6d9ggRchmv+uA7V/8i72tGD68adGATFvuSHc/nC20kKen2brfmTJNSF7Mq76B3hm9vZWaLEwuXuOFZQTAJEn0LIbXyGMC6LmQTREZ2/rKEv5Tj/q1D4UADCKsDXNprsPkL0cyPY8ZaGqounEv/ropp38g28SsR73VPyW7XA6FefiMpuszhAEq25tDPzSTJ+LyCf4WmohvoVvLQDCDiL27B80CkxNOkxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NcSef509fKbyFUVk59pAIdfbEmfGiVhViUBhVFwPUOs=;
- b=dakpq8oIC1JfXMOgktDTxL774yxexNePE8p9u3icQGp9DFpeQaAqAy2fiKClZlhEWknncBMImZLjNxoE+xNuNzLeG1GB0iRYoWqJC0lBy0zBh7AzCA6cENianTweaJrJuD79y2cKiIpjYZUK8wu9HhzcxvUZW/tpG67pQY2i/ARuk97EsTJ/OBKhaa7X54R+8GySz3nxAvz4rghXJNXE7pPcejg2pSwYFWwNJMqlroZn/mNonJrUq7XBR1mlr5T6RwOxhoWuA/XSykFOCyqiNlO+T3pYoEn9rjlout8ZO2BPqVCpHgv26BsvzpNoVq19BWYn2mqo4UbmJ4chAhJviA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NcSef509fKbyFUVk59pAIdfbEmfGiVhViUBhVFwPUOs=;
- b=4NKot90jXlpx+r87Q4mVY7fpKmSBXPCPib4RKbEMRwVW3IuZZt93wMQuIB4fL7oOCpDZO4jg5mzEKveQLPyK3bT6T/5bwZ045e/Ek/Cl5ycfvuzqFYHZ37NLNIM1jf2g8onxXp4dJhYgu+x7UVvRtZz8AvisUZ5eWZneLStKFX4=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN1PR12MB2576.namprd12.prod.outlook.com (2603:10b6:802:22::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.33; Tue, 12 May
- 2020 15:45:17 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::c0f:2938:784f:ed8d]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::c0f:2938:784f:ed8d%7]) with mapi id 15.20.2979.033; Tue, 12 May 2020
- 15:45:17 +0000
-Subject: Re: [PATCH v3 1/3] arch/x86: Rename config
- X86_INTEL_MEMORY_PROTECTION_KEYS to generic x86
-To:     Dave Hansen <dave.hansen@intel.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        pbonzini@redhat.com, sean.j.christopherson@intel.com
-Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
-        luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
-        changbin.du@intel.com, namit@vmware.com, bigeasy@linutronix.de,
-        yang.shi@linux.alibaba.com, asteinhauser@google.com,
-        anshuman.khandual@arm.com, jan.kiszka@siemens.com,
-        akpm@linux-foundation.org, steven.price@arm.com,
-        rppt@linux.vnet.ibm.com, peterx@redhat.com,
-        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
-        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
-        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
-        jgross@suse.com, andrew.cooper3@citrix.com,
-        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
-        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
-        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-References: <158923982830.20128.14580309786525588408.stgit@naples-babu.amd.com>
- <158923997443.20128.16545619590919566266.stgit@naples-babu.amd.com>
- <a92f3247-4b1e-0ff2-c1c7-68c149c0142c@intel.com>
- <4984c0af-c20b-7084-9bca-5cb6bf385180@amd.com>
- <1f4fa674-5709-ad88-c7ae-1bf5584a5b82@intel.com>
-From:   Babu Moger <babu.moger@amd.com>
-Message-ID: <a77cbb76-8a68-59a6-942b-08b27f86fc04@amd.com>
-Date:   Tue, 12 May 2020 10:45:14 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-In-Reply-To: <1f4fa674-5709-ad88-c7ae-1bf5584a5b82@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN1PR12CA0046.namprd12.prod.outlook.com
- (2603:10b6:802:20::17) To SN1PR12MB2560.namprd12.prod.outlook.com
- (2603:10b6:802:26::19)
+        id S1726388AbgELPwM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 May 2020 11:52:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48686 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726055AbgELPwM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 May 2020 11:52:12 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 68419ABD1;
+        Tue, 12 May 2020 15:52:12 +0000 (UTC)
+Date:   Tue, 12 May 2020 17:52:07 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        James Morris <jmorris@namei.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 0/6] allow ramoops to collect all kmesg_dump events
+Message-ID: <20200512155207.GF17734@linux-b0ei>
+References: <20200506211523.15077-1-keescook@chromium.org>
+ <20200512131655.GE17734@linux-b0ei>
+ <CA+CK2bBMUxxuTBicQ7ihKpN3jK94mMjcNCXhnAXUaODce09Wmw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.87] (165.204.77.1) by SN1PR12CA0046.namprd12.prod.outlook.com (2603:10b6:802:20::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend Transport; Tue, 12 May 2020 15:45:15 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 89347c56-43f3-4b08-f22c-08d7f68b77c9
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2576:
-X-Microsoft-Antispam-PRVS: <SN1PR12MB25761F487C9F75B7A12F902F95BE0@SN1PR12MB2576.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0401647B7F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fqzZMoQVuac/TQKNQCBgflzcbZ5rIlTZrnxraf4Yx61o28AaeJkcd3QRh4Tecr5dQvUUvhX9zSK2U4xMhY+KvELISr96LWd4LrYvqcgpF0n5+g5Qk/FjmzbmntmqUj7EBocEzI+X9XOJTAEwgPOM5ZRshxqvD83rB02X+tME6ydnGLjh6vjgP+xc7udfi+yuXxk7dqndybOdNhe9iGTErWGdKqI/IBdTOrrLmJwXrzIoUvTq9hPYl07IfAB3vbX3RIQCRmtqHir3AEpOMwnvcK+HJpMn5OqLhUAAuOkwPeJfkg+xmcJoY5x5mVwF2SjCmVy4xB38EI+avhNqnwU02agxsuOnQBg0muSyzr1Alfp3jjTBi8aM122jngddkvDA4QogvTXO/kGo4iU2AUN+dqCqI85b8zE4VPnCUUr5RphoJ3S9JdpdHE8CtONquxFePZswyda/Y0KWlCllyNOXUzEF76rSs0g/q2sjyCtHByBpQpH87jg+5A9p5gefG7lXVlledatQSpLSsWHz+WvX2BZD4yu7JgcYW+o1yGp0F3rxqI8c9aZ8kimID0Kz3qEmoVzM8A7pmfK/XQnP01YwiA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(136003)(396003)(39860400002)(376002)(346002)(33430700001)(7416002)(16576012)(8936002)(2616005)(956004)(4326008)(2906002)(31696002)(52116002)(86362001)(26005)(316002)(66476007)(44832011)(16526019)(8676002)(66556008)(5660300002)(66946007)(6486002)(31686004)(36756003)(478600001)(33440700001)(7406005)(53546011)(186003)(41533002)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: wM/uGjswwTSvaNZVX7IuITWBd5SVXOzXGzDBg2+q3Oo1SmzLBDJmTvu8eNBfbwk0IeN7vQ4U2RpF/znHuVDyqdUvnzYzwAvf0s6UeuJQlmGLdCdLbBrztuGvRq/LGZtj9JjLglBpvBK8B1D1B1q4spZojChjPoHvz9yGFTwxlArTAN2M4r85Qp5wLzy63Vas9KbeDYLTT7Co98ZMhpNZgq001qgpv7kbSOSRy9VHfx1wbDzt/Oh1aUTxwhnpEEOb4jEqVhPfl7OR6IjCBwVAXvr3v41LsEytcS9AQQMdQYKxdEnG2J0OtLnYkV/NFiguTPvRQyiRI+rPFpZqWvSBxpMrQe3Q1CkSh8+Koki+O9hDd+hROnBoJi0HIiZnpD2hnK5m0VFVat8+atpTxfUiZowNguXl/e6rPCuq9bc0OUGC2H8fqvwXjkQAvaTflP1/9YjMEshPCgeMJ2MKO5PauO3IoVcQiV+pE3bC1Ck9yAM=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89347c56-43f3-4b08-f22c-08d7f68b77c9
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 15:45:16.9983
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qvfcxAxnlB4nGCi3dLfrXYqBWQ4QooAOG3t86wt521XmFPu08QRb7GJe7cWcCHUr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2576
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bBMUxxuTBicQ7ihKpN3jK94mMjcNCXhnAXUaODce09Wmw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue 2020-05-12 10:03:44, Pavel Tatashin wrote:
+> > OK, I personally see this as two separate problems:
+> >
+> >    1. Missing support to set loglevel per console.
+> >    2. Missing support to dump messages for other reasons.
+> >
+> > I would remove the paragraph about console log levels completely.
+> 
+> OK, I see your point, this paragraph can be removed, however, I think
+> it makes it clear to understand the rationale for this change. As I
+> understand, the per console loglevel has been proposed but were never
+> accepted.
 
+The proposal was not accepted because there were more requirements:
 
-On 5/12/20 10:19 AM, Dave Hansen wrote:
-> On 5/12/20 7:57 AM, Babu Moger wrote:
->>> I was hoping to see at least *some* justification in this changelog.  Do
->>> you think having "INTEL_" will confuse users?  Is there some technical
->>> merit to this change?
->>>
->>> The naming churn is an obviously bad, not technically necessary change.
->> Yes. Technically not necessary. But can cause some confusion on non-intel
->> platforms.
-> 
-> Seriously, guys, this is buried deep in kernel code.  Who is this confusing?
-> 
-> To me, this is like anything else we rename in the kernel.  It causes
-> churn, which makes patches harder to backport for instance.  That's why
-> we don't rename things willy-nilly when we just don't like the names.
-> 
-> The naming has to cause some practical, real-world problem that we *FIX*
-> with the rename.
-> 
-> I'm just asking for a concrete, practical problem statement in the
-> changelog.  If there isn't one, then please don't do the rename.  The
-> Kconfig magic is still fine since it fixes a practical problem for end
-> users.
-> 
+   + add console device into sysfs so that it can be modified there
+   + make a reasonable backward compatible behavior
 
-Alright. Alright. I will just keep Kconfig magic and update the
-documentation(protection-keys.rst). Thanks
+I guess that the sysfs interface discouraged the author to continue
+on it.
+
+Note that console loglevel handling is very complicated. There are
+already four variables, see console_printk array in
+kernel/printk/printk.c. Per console loglevel would make it even
+more complicated.
+
+It is a nighmare. And introducing max_reason parameter goes the same way.
+
+> > Now, the max_reason logic makes sense only when all the values
+> > have some ordering. Is this the case?
+> >
+> > I see it as two distinct sets:
+> >
+> >    + panic, oops, emerg: describe how critical is an error situation
+> >    + restart, halt, poweroff: describe behavior when the system goes down
+> >
+> > Let's say that panic is more critical than oops. Is restart more
+> > critical than halt?
+> >
+> > If you want the dump during restart. Does it mean that you want it
+> > also during emergency situation?
+> >
+> > My fear is that this patchset is going to introduce user interface
+> > (max_reason) with a weird logic. IMHO, max_reason is confusing even
+> > in the code and we should not spread this to users.
+> >
+> > Is there any reason why the existing printk.always_kmsg_dump option
+> > is not enough for you?
+> 
+> printk.always_kmsg_dump is not working for me because ramoops has its
+> own filtering based on dump_oops boolean, and ignores everything but
+> panics and conditionally oops.
+> max_reason makes the ramoops internal logic cleaner compared to using dump_oops.
+
+I see. Just to be sure. Is the main reason to add max_reason parameter
+to keep complatibility of the deprecated dump_oops parameter? Or is
+there any real use case for this granularity?
+
+I made some arecheology. ramoops.dump_oops parameter was added in 2010 by the
+initial commit 56d611a04fb2db77334e ("char drivers: RAM oops/panic
+logger."
+
+Note that the initial implementation printed Oops reason only when
+dump_oops was set. It printed all other reasons otherwise. It seems
+that there were only the two reasons at that time.
+
+Now, printk.always_kmsg_dump parameter was added later in 2012 by
+the commit c22ab332902333f8376601 ("kmsg_dump: don't run on non-error
+paths by default").
+
+IMHO, the later commit actually fixed the default behavior of ramoops.
+
+I wonder if anyone is actually using the ramoops.dump_oops parameter
+in reality. I would personally make it deprecated and change the
+default behavior to work according to printk.always_kmsg_dump parameter.
+
+IMHO, ramoops.dump_oops just increases complexity and should not have
+been introduced at all. I would try hard to avoid introducing even bigger
+complecity and mess.
+
+I know that there is the "do not break existing userspace" rule. The
+question is if there is any user and if it is worth it.
+
+> I agree, the reasons in kmsg_dump_reason do not order well  (I
+> actually want to add another reason for kexec type reboots, and where
+> do I put it?), so how about if we change the ordering list to
+> bitfield/flags, and instead of max_reason provide: "reasons" bitset?
+
+It looks too complicated. I would really try hard to avoid the
+parameter at all.
+
+Best Regards,
+Petr
