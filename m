@@ -5,62 +5,62 @@ X-Spam-Level:
 X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A7D5C2D0F8
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:39:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E910C2D0F8
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:40:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2114520740
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:39:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D964C20740
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 21:40:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJQkdNA/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dyNX3oxL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731332AbgELVjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 May 2020 17:39:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48644 "EHLO
+        id S1728313AbgELVkd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 May 2020 17:40:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729646AbgELVjN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 17:39:13 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66459C061A0C;
-        Tue, 12 May 2020 14:39:13 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id l12so6776412pgr.10;
-        Tue, 12 May 2020 14:39:13 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1726268AbgELVkd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 17:40:33 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA5BC061A0C;
+        Tue, 12 May 2020 14:40:31 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id z15so1080959pjb.0;
+        Tue, 12 May 2020 14:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HyK43tfuo+QGZbEC4deEKxgiv6iV0m2ya0qSqKqAJ3Y=;
-        b=hJQkdNA/h0Z2/CW+og490xBYWsoGiKpS5zv7m8MFiH/E+mdbzj0lbFaAW7yL0NrwiW
-         /ddQpsJyevWtaL+eygrIUhcJlPoJbqvKLYSPGTBabBwmXSBAHAJv32uR/p4ChM7xAqvM
-         P9kv5n34T0loteo+trVSCQ4qLVEOL0mNw6xnza5ho5uwElhTJaWLx+eTIvbRAwP5OK5m
-         jNPTUs1qq5MONgWxbt/LgQYdUVTzvpJFiOjWwqlGbP+Ii8fQh6BX2ry6IYQ/cpiXDRqs
-         uMiTJItf1jYi9qCZ+FQchvKoBus11EQq2Y5veVdUmUpQ7hIsduErgS9AZOmKPs8z5Xep
-         0Y6Q==
+        bh=DuZB6aC1Ih/VDKY9giKPzKGYxrZfE0YIToYnjsJKSBs=;
+        b=dyNX3oxLS1/eQ9CC7enfSYr4leoEyYwLjhBgBQktwgiRS7Fwk0+E6nmppTIU2/6vvi
+         Pp4efqFoH5yalE50B2nfAgdKh7uJ3I6Hb7WeqMTEvGRGNzO6tlUSh4kqWwDPYOkG0o2H
+         QWKpQtWPl5UwzUy/E8wv7I/hWvj983Jl6mF4l9LnHVH2VkQT3D0Z4i/08i9mVAaHzBBc
+         14q3MdqGWmEcwWZBmGwWiq7/imvvTT4ZupMrJIvqnFjw8cbVhG3/XkPMpnt6/vr6kZNy
+         ZuOD92dZrqNCANefPeJXVCUuTfrDTFYLyuVy1sVqGi64ihaP4A2GlvHqizCsvqZbAX2z
+         GQdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=HyK43tfuo+QGZbEC4deEKxgiv6iV0m2ya0qSqKqAJ3Y=;
-        b=tnkWu3/OxM8H3hOIvt9oi2dasaQ43n6OiaaqrTdr2tla0UrmTJAjT9n3Mgw31KyUvc
-         q9HV3CLW+e1Y1JcuDQWvgb2MZbqUG0QAssqoh6oC+rckIselVWNfvMWiQvVt1GYEOIgX
-         1bCpgWmOKcyKTOXUYA4RAan9Ik09UhOpH42fY67MtQj/bdo+gYzKJTjmHNx0pX0u7n8C
-         hsUrGxs3AawWvUIexSBxxMDlr34a21T5yKC4EtdbLD2CzGNF8Jfk8mjUMtUqauPXXlPs
-         vsR/H1IriqhIMl5+LX5LdX47KdoqixQztnxlyiys2cGbJaQ7HPpccCSqTk17ROHs4JnG
-         OECA==
-X-Gm-Message-State: AGi0PuZgzeFjumbqo2HsAZyesyKDDpb6EzYfvlECDTLol0KGq/EZLYIj
-        O1+cC6egIorq/S0MI2+C54Tl0LcE
-X-Google-Smtp-Source: APiQypLyntx8EGBJacRvgm7IGFso4KBY35yEQ77fTYe06WCVyrwwQxLlkKXckFIKjmPl1mohB6Dqbg==
-X-Received: by 2002:a63:1054:: with SMTP id 20mr19155904pgq.79.1589319552771;
-        Tue, 12 May 2020 14:39:12 -0700 (PDT)
+        bh=DuZB6aC1Ih/VDKY9giKPzKGYxrZfE0YIToYnjsJKSBs=;
+        b=Wbaq9FDqtQRl0YtJ68N+TJ1PxqMrbpcF5b6aeD5bine+WDg/O4+QUc+KRFsRqDJWQH
+         jKkua+0rxVMKwoeSHFpmi1htx5sorXYlme4CvZ0VXIpuSKsMn9VgRhFfmJtwNfWi433r
+         7AvdLkuk1en02Aqjw7VWRKDrPw6521ihR381VCTWIb/M5FlE6KbrA0uSIbjPjRjR3T7h
+         1i7b85w0+U/Gfuhioxpwko8Y7q400+pBJV6BN0i+h+/NR2rdfPij4BSHsW/42P105lHu
+         my1dKyAyyCd/G01VwZwZEyc7lad75SGs/lxLRhUnz7+kIodGqL5DIwxyWCZiLIE2GJSn
+         LQVA==
+X-Gm-Message-State: AOAM530oVrTF8ZJSqWZASqNGZaUtD28ud81Th7nV+kIPLJpXsLWRjW2l
+        331htdIbp9tIiaKAlGIGcI4=
+X-Google-Smtp-Source: ABdhPJzwgDqenXkyY26Zlj3m5KCgBliHvMEYbLzuqiue6ArR1cJscg283UTJgJFmRgaFrM+kx2LqJQ==
+X-Received: by 2002:a17:90a:30ef:: with SMTP id h102mr4883315pjb.110.1589319631229;
+        Tue, 12 May 2020 14:40:31 -0700 (PDT)
 Received: from [192.168.11.3] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id gv24sm13584271pjb.6.2020.05.12.14.39.08
+        by smtp.gmail.com with ESMTPSA id 128sm12633208pfy.5.2020.05.12.14.40.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2020 14:39:12 -0700 (PDT)
-Subject: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's README
- into top-level one
+        Tue, 12 May 2020 14:40:30 -0700 (PDT)
+Subject: [PATCH RESEND 4/4] docs: litmus-tests: Clarify about the RCU
+ pre-initialization test
 To:     "Paul E. McKenney" <paulmck@kernel.org>
 Cc:     Joel Fernandes <joel@joelfernandes.org>,
         Boqun Feng <boqun.feng@gmail.com>,
@@ -76,7 +76,8 @@ Cc:     Joel Fernandes <joel@joelfernandes.org>,
         Jade Alglave <j.alglave@ucl.ac.uk>,
         Luc Maranget <luc.maranget@inria.fr>,
         Daniel Lustig <dlustig@nvidia.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>
 References: <20200323015735.236279-1-joel@joelfernandes.org>
  <7809dbfa-7a76-8663-799a-908c4ead8d30@gmail.com>
  <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
@@ -85,8 +86,8 @@ References: <20200323015735.236279-1-joel@joelfernandes.org>
  <20200512163022.GI2869@paulmck-ThinkPad-P72>
  <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6d162e69-5d2f-1fbf-1588-ab19c30e7311@gmail.com>
-Date:   Wed, 13 May 2020 06:39:03 +0900
+Message-ID: <8360e630-1a39-7f49-91de-275e7a11a86f@gmail.com>
+Date:   Wed, 13 May 2020 06:40:26 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
@@ -99,77 +100,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From 96fa6680e3b990633ecbb6d11acf03a161b790bd Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 10 May 2020 15:12:57 +0900
-Subject: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's README into top-level one
+From c2d6a0afad370c6fda136704bac9b1ee9557d0eb Mon Sep 17 00:00:00 2001
+From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Date: Mon, 11 May 2020 22:06:46 -0400
+Subject: [PATCH RESEND 4/4] docs: litmus-tests: Clarify about the RCU pre-initialization test
 
-Where Documentation/litmus-tests/README lists RCU litmus tests,
-Documentation/litmus-tests/atomic/README lists atomic litmus tests.
-For symmetry, merge the latter into former, with some context
-adjustment in the introduction.
+Since this test returned to tools/memory-model/, make sure that it is
+at least referenced from Documentation/litmus-tests/'s README.
 
+Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Co-developed-by: Akira Yokosawa <akiyks@gmail.com>
+[Alan: grammar nit]
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Acked-by: Andrea Parri <parri.andrea@gmail.com>
-Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- Documentation/litmus-tests/README        | 19 +++++++++++++++++++
- Documentation/litmus-tests/atomic/README | 16 ----------------
- 2 files changed, 19 insertions(+), 16 deletions(-)
- delete mode 100644 Documentation/litmus-tests/atomic/README
+ Documentation/litmus-tests/README | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
-index c4307ea9f996..ac0b270b456c 100644
+index ac0b270b456c..b79e640214b9 100644
 --- a/Documentation/litmus-tests/README
 +++ b/Documentation/litmus-tests/README
-@@ -2,6 +2,25 @@
- LITMUS TESTS
- ============
- 
-+Each subdirectory contains litmus tests that are typical to describe the
-+semantics of respective kernel APIs.
-+For more information about how to "run" a litmus test or how to generate
-+a kernel test module based on a litmus test, please see
-+tools/memory-model/README.
-+
-+
-+atomic (/atomic derectory)
-+--------------------------
-+
-+Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
-+    Test that an atomic RMW followed by a smp_mb__after_atomic() is
-+    stronger than a normal acquire: both the read and write parts of
-+    the RMW are ordered before the subsequential memory accesses.
-+
-+Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-+    Test that atomic_set() cannot break the atomicity of atomic RMWs.
-+
-+
+@@ -24,6 +24,10 @@ Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
  RCU (/rcu directory)
  --------------------
  
-diff --git a/Documentation/litmus-tests/atomic/README b/Documentation/litmus-tests/atomic/README
-deleted file mode 100644
-index 714cf93816ea..000000000000
---- a/Documentation/litmus-tests/atomic/README
-+++ /dev/null
-@@ -1,16 +0,0 @@
--This directory contains litmus tests that are typical to describe the semantics
--of our atomic APIs. For more information about how to "run" a litmus test or
--how to generate a kernel test module based on a litmus test, please see
--tools/memory-model/README.
--
--============
--LITMUS TESTS
--============
--
--Atomic-RMW+mb__after_atomic-is-stronger-than-acquire
--	Test that an atomic RMW followed by a smp_mb__after_atomic() is
--	stronger than a normal acquire: both the read and write parts of
--	the RMW are ordered before the subsequential memory accesses.
--
--Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
--	Test that atomic_set() cannot break the atomicity of atomic RMWs.
++MP+onceassign+derefonce.litmus (under tools/memory-model/litmus-tests/)
++    Demonstrates the use of rcu_assign_pointer() and rcu_dereference() to
++    ensure that an RCU reader will not see pre-initialization garbage.
++
+ RCU+sync+read.litmus
+ RCU+sync+free.litmus
+     Both the above litmus tests demonstrate the RCU grace period guarantee
 -- 
 2.17.1
 
