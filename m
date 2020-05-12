@@ -2,145 +2,165 @@ Return-Path: <SRS0=0LBz=62=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9769DC54E4A
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:07:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6517C54E4A
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:12:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A19A20673
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:07:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7D0520674
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:12:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uc4IEDrg"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="yGVvIKUy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbgELPHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 May 2020 11:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730516AbgELPHK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 11:07:10 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B463C061A0C;
-        Tue, 12 May 2020 08:07:10 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id t7so5506144plr.0;
-        Tue, 12 May 2020 08:07:10 -0700 (PDT)
+        id S1726891AbgELPMu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 May 2020 11:12:50 -0400
+Received: from mail-bn8nam11on2074.outbound.protection.outlook.com ([40.107.236.74]:6079
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725888AbgELPMu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 May 2020 11:12:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j/ZirFTrxPftk5Ig1K1Ox1AQAGOuHydD1XnJf1dlyqVDg8fCm0LJKZiwaF9JfBC0sXuNLDgw4L7j5OSFnLkZvfH4XFsWd4AVMfM2I6H/P26cWMe1cOwvJw2f9ydqwhCyNHUVBqnzZgXgs2mQwDsnTb97yUQ1zcDAMKx7VnB9G4PjTRBFGx+aAuagkEAyFtA/Cj4NvPpOcKCFy5iyShl1hg6xQYPY5RXAD8q4YqaD2srHh4esO9XoR5TlVc/8Hn/QWYL5RAHZiMo5txSq0YH5YHOJDFNI+l92tve/9TQDFlFjGxCls2DWGtuQh/o/XPbFkzQnauSP/dwAMAl90/9u6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=grQjHv6v9NgO+7HeEcTRhgwl2zoWSnFEWFFFrjn3M1U=;
+ b=PNNpw06DaGBIiVNq7t1CmhyzqjMYzczRh86q00JCeWzdzVhww9M4eaVyH2KCpQCgJ0UrqYxT5cre9nEpipSllloGOV8V4uxE16FPWQEAx4jK5zQ51+zSt8hRlC+unKkwywjI6DeI7iwecVnUQgMTp51neRqQlGx+HXrfeA/PksSfbWOrYPlgC5+AW+1QFx8v6gQcTdgUVAzihJNLl0BYqcmXqLarq61tOV2e9H5g7k3ofUpeU5232au1DCJGAsIAhPW7y+7ygmCkN24BVFdMMK5meH8C9Z3tJUh/K8dZ5coep/DAnTbg6+DaTHE/47XAXeUXUoDwpNvux4z5wfxBJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0TU9phia50Kr8gEoVpaq8VxyNOROUqRKj1SwNNfGXzs=;
-        b=Uc4IEDrgeYoxV1CSYknk2emJMTMTKXaxReu0E7u/OI4G8D6QWf3lyX28PWWz4tp/Wz
-         BPwi0f7zhZ6dj8M9UpaQqMtOPaUbmZrSlrTDV9KHAoQChtrP5/NbRJUgXOGM1OntaLDp
-         3eSLRoAZBK+x+4Gn/4KVsITawEdevyMFGSgvY1ah8KGb3aBiY3/8Qol2JYeN755x/dY4
-         4RAGK2cTxNuBeLWmjTYB160VlXUn0kgGRZS2HYRqriAF1dM87FvgSkOewuVKqcxjuUwC
-         JU1NVWdFvOWOJtKFYAkP84LXxnjc4FgBXuFgTiMPGLNWFBfEIo2MtJwvxacme32Rh1VS
-         2xsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0TU9phia50Kr8gEoVpaq8VxyNOROUqRKj1SwNNfGXzs=;
-        b=JMbmeH4WJzdCU70jvSSTK8i9EWMRGpkRftDqL/Lii6cynmk/tY3GivWmltY0LCG6Ed
-         z0p5xZKMMnRqZhw5p2xp9/2a/+r+KLss8Izl1VQI+AYD8MYeWQRqfvLEadsLmwXo5cwQ
-         tzqrwJ1lSCyvi6/pvxRFU76y8NOlOFT8LTCjMxhF6RDsCWUsMbT7dG2MbVAaEwWMeM0P
-         VHYQagtQvGv8EZYpChkT+fAa2fybaaQOjJa18zaAiyzRswprMoiJMPSc+3oos+0y6V2C
-         9shblCBdxIAWAXRxB5YVJK1FYUGRox/z5eAKvHEstvvlYvUDNj0+SkqoCfQHC802YVna
-         Qzcg==
-X-Gm-Message-State: AGi0PuYHD60ekn2iovcqpO6UywzbwKAU/pQLVti2XRsWXtcPMGGvf87S
-        /TJmjxq6ts6ZZPaHw4Zbytw=
-X-Google-Smtp-Source: APiQypL/zzTYzH5hzP0Vw5PITnoYT7iA7U4N+8HllUIc6DhQQEx3VzprkUVrCNMQFbC/3uDm+k/GKA==
-X-Received: by 2002:a17:90a:3a81:: with SMTP id b1mr28365385pjc.184.1589296029623;
-        Tue, 12 May 2020 08:07:09 -0700 (PDT)
-Received: from [192.168.11.3] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id j13sm13353615pje.1.2020.05.12.08.07.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2020 08:07:09 -0700 (PDT)
-Subject: [PATCH 4/3] docs: litmus-tests: Clarify about the RCU
- pre-initialization test
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, vpillai@digitalocean.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=grQjHv6v9NgO+7HeEcTRhgwl2zoWSnFEWFFFrjn3M1U=;
+ b=yGVvIKUyGzQ7rXmwUfF2Og+Ojm/JkOnrFceVuu9nhPcJhA0HfCJLbivw0e1b4V+AtIw8QvQ0qp6hNNAK36oKXBAlpch7WFyAxfvRHgCQMvmOJ5XGIPpoWKp8y7SVJjmsaEUTTlvJEJiBo5omVmu1cdFcYoX0H8Gjl7yoFYOZMws=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SN1PR12MB2383.namprd12.prod.outlook.com (2603:10b6:802:26::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.34; Tue, 12 May
+ 2020 15:12:45 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d%7]) with mapi id 15.20.2979.033; Tue, 12 May 2020
+ 15:12:45 +0000
+Subject: Re: [PATCH v3 3/3] KVM: x86: Move MPK feature detection to common
+ code
+To:     Jim Mattson <jmattson@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Daniel Lustig <dlustig@nvidia.com>, linux-doc@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20200323015735.236279-1-joel@joelfernandes.org>
- <7809dbfa-7a76-8663-799a-908c4ead8d30@gmail.com>
- <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <fd7e7c6f-fda1-7f2b-19f3-a09b73b10de8@gmail.com>
-Date:   Wed, 13 May 2020 00:07:04 +0900
+        mchehab+samsung@kernel.org, changbin.du@intel.com,
+        Nadav Amit <namit@vmware.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        yang.shi@linux.alibaba.com,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        anshuman.khandual@arm.com, Jan Kiszka <jan.kiszka@siemens.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        steven.price@arm.com, rppt@linux.vnet.ibm.com, peterx@redhat.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        Arjun Roy <arjunroy@google.com>, logang@deltatee.com,
+        Thomas Hellstrom <thellstrom@vmware.com>,
+        Andrea Arcangeli <aarcange@redhat.com>, justin.he@arm.com,
+        robin.murphy@arm.com, ira.weiny@intel.com,
+        Kees Cook <keescook@chromium.org>,
+        Juergen Gross <jgross@suse.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        pawan.kumar.gupta@linux.intel.com,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
+        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        kvm list <kvm@vger.kernel.org>
+References: <158923982830.20128.14580309786525588408.stgit@naples-babu.amd.com>
+ <158923999440.20128.4859351750654993810.stgit@naples-babu.amd.com>
+ <CALMp9eTs4hYpDK+KzXEzaAptcfor+9f7cM9Yd9kvd5v27sdFRw@mail.gmail.com>
+From:   Babu Moger <babu.moger@amd.com>
+Message-ID: <2fb5fd86-5202-f61b-fd55-b3554c5826da@amd.com>
+Date:   Tue, 12 May 2020 10:12:36 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
+In-Reply-To: <CALMp9eTs4hYpDK+KzXEzaAptcfor+9f7cM9Yd9kvd5v27sdFRw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DM6PR02CA0129.namprd02.prod.outlook.com
+ (2603:10b6:5:1b4::31) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.30.87] (165.204.77.1) by DM6PR02CA0129.namprd02.prod.outlook.com (2603:10b6:5:1b4::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.30 via Frontend Transport; Tue, 12 May 2020 15:12:38 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 7d909ab9-ab2f-4d64-d50a-08d7f686ec6f
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2383:
+X-Microsoft-Antispam-PRVS: <SN1PR12MB23833C84E1001E105F36C3D095BE0@SN1PR12MB2383.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bJKtsJ2CYHPtmV4I5oJotqNxyBqHtf60HfgWbTpRxp2xoqaB8fQVZ2d9vYlsOjlHybL3q9ZWIw2EoaWBJn0q8YFlOaidsgewX+1/nAxVRF9v48FcFQS/pJEiL9JvpcV7YRnPthq0NVwn4IlhC3nhiGHCjXiIDBA1hL8JlgrleuOnfBSQJlDROHitW9Vr1Uog24ZnXQFqGSHKDToeiGjuTNKe0CQiJfumWlG3imlIUQKGuNNHwqmku3TKfnGe9MkfqSjnc7tZDG/AYLQBtFOPIPnkf5m/nPi7dWENaj9Veq4+Mb2Xv5aimCoYrvD0XcW8ZAtZWPCQ/iOhTemvy6Mvxak6c5R6WTIxuu9Ob4uZECG1ke2ByMo1IR+PfyH2fcuLuxZXTl3ZiD6ES5K5WcS5LE2+Do1GAyqxV3gXTl6D7HXFRJMPiMZAWXvl+SI3rRyI15OEE+R5uRs0dia+0birN7qGYRXVD0b1AZDPfFKRVZRt6mGkowLQlINWH+uQHsxshxNH1V/moMw1khLotOWnRhCAyAIm10nLy7Z5VLOW818qvbrJ3BwbUTaLCO7ORHar
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(136003)(346002)(376002)(396003)(366004)(33430700001)(4326008)(54906003)(31686004)(86362001)(2906002)(52116002)(26005)(66946007)(36756003)(33440700001)(16526019)(186003)(6486002)(66556008)(66476007)(53546011)(316002)(6916009)(5660300002)(8676002)(8936002)(31696002)(478600001)(44832011)(16576012)(7406005)(956004)(7416002)(2616005)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: uI/lB5+wueXlcnly3YUiRrLFvXxdKy5QSSLBNIzgQsc8q9lv3KEDvpaxuqiMDDH9lg4fFYp+m3HuYUlgCSzADaK+sfDv4Lw335xHeOftKmdNWXLW3eA3HbDSmaA8EsGTZqzOE6dSRnoS0vhMzDEXmo4+LOslz5K2YiO2A7AWw5tI7/Ah0dPBJz6nbeWwxNs2DOVW4qzC3Iyu2Nuhc3UQ5LgAMyh7ujKtb+LZfUdu9VgypJavafyIn7oQ0J2rRQNoQQI53mzWhU/m8sVJEa2Ax/ztJbMtoxP0haNcOJdrrMAdXPfGCsJlOH1jOF718kK2PODV9LOE+d8AgyVeaUu6rW7NZ25QAO1HM7OuhU3dMAx/KKCRduSjThUVRuUgrw78mvLQaCF4xLjEuxtpCICkBR/oNMB8Ev8v7fKGF4bm3d8dtpFJQUveMITYTk4y/hDboOfKC45sO7K2nZk/Q4O4PoUJeVUYea2Q6e0YgvpbewU=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d909ab9-ab2f-4d64-d50a-08d7f686ec6f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 15:12:45.2644
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J3Iz7cD7D6vvrpallsevlWHLLT1Kt3/gu9MechQ6UgcT6DShvZaPMqRZ9/IzVV2/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2383
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From 7bb979aacd8788d174df8a56e9803ba9e5b7a381 Mon Sep 17 00:00:00 2001
-From: Joel Fernandes (Google) <joel@joelfernandes.org>
-Date: Mon, 11 May 2020 22:06:46 -0400
-Subject: [PATCH 4/3] docs: litmus-tests: Clarify about the RCU pre-initialization test
-
-Since this test returned to tools/memory-model/, make sure that it is
-at least referenced from Documentation/litmus-tests/'s README.
-
-Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-Co-developed-by: Akira Yokosawa <akiyks@gmail.com>
-[Alan: grammar nit]
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-I said in the earlier message:
-
-> The explanation under tools/memory-model/litmus-tests/README also need the same
-> rewording.
-
-, but obviously I was confused. It is good as is.
-
-This is on top of my earlier patch series.
-
-Joel, Alan, does this work with you?
-
-        Thanks, Akira
---
- Documentation/litmus-tests/README | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
-index ac0b270b456c..b79e640214b9 100644
---- a/Documentation/litmus-tests/README
-+++ b/Documentation/litmus-tests/README
-@@ -24,6 +24,10 @@ Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
- RCU (/rcu directory)
- --------------------
- 
-+MP+onceassign+derefonce.litmus (under tools/memory-model/litmus-tests/)
-+    Demonstrates the use of rcu_assign_pointer() and rcu_dereference() to
-+    ensure that an RCU reader will not see pre-initialization garbage.
-+
- RCU+sync+read.litmus
- RCU+sync+free.litmus
-     Both the above litmus tests demonstrate the RCU grace period guarantee
--- 
-2.17.1
 
 
+On 5/11/20 6:51 PM, Jim Mattson wrote:
+> On Mon, May 11, 2020 at 4:33 PM Babu Moger <babu.moger@amd.com> wrote:
+>>
+>> Both Intel and AMD support (MPK) Memory Protection Key feature.
+>> Move the feature detection from VMX to the common code. It should
+>> work for both the platforms now.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+>>  arch/x86/kvm/cpuid.c   |    4 +++-
+>>  arch/x86/kvm/vmx/vmx.c |    4 ----
+>>  2 files changed, 3 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+>> index 901cd1fdecd9..3da7d6ea7574 100644
+>> --- a/arch/x86/kvm/cpuid.c
+>> +++ b/arch/x86/kvm/cpuid.c
+>> @@ -278,6 +278,8 @@ void kvm_set_cpu_caps(void)
+>>  #ifdef CONFIG_X86_64
+>>         unsigned int f_gbpages = F(GBPAGES);
+>>         unsigned int f_lm = F(LM);
+>> +       /* PKU is not yet implemented for shadow paging. */
+>> +       unsigned int f_pku = tdp_enabled ? F(PKU) : 0;
+> 
+> I think we still want to require that OSPKE be set on the host before
+> exposing PKU to the guest.
+> 
+
+Ok I can add this check.
+
++       unsigned int f_pku = tdp_enabled && F(OSPKE)? F(PKU) : 0;
