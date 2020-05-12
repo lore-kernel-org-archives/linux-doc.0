@@ -2,143 +2,146 @@ Return-Path: <SRS0=0LBz=62=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6337FCA90AF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:41:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB4ACA90AF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:45:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41A2B206D6
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:41:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 23D47206CC
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 15:45:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="H50XxLww"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="4NKot90j"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730243AbgELPlT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 May 2020 11:41:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726388AbgELPlT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 11:41:19 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6406AC061A0C
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 08:41:19 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id w18so1727075ilm.13
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2020 08:41:19 -0700 (PDT)
+        id S1726532AbgELPpV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 May 2020 11:45:21 -0400
+Received: from mail-dm6nam12on2086.outbound.protection.outlook.com ([40.107.243.86]:52833
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726465AbgELPpV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 May 2020 11:45:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nWdTI+c39W7VBIvPzLEXtHT6DE6CunTsB3myduoAd9Bl4jnf2xBXlEYPJtHcz7zA+V3pishKmsK62atIv0UMvnrtx52tnPqQ5sNOf/jnvJ00AKC4jvL4CA6d9ggRchmv+uA7V/8i72tGD68adGATFvuSHc/nC20kKen2brfmTJNSF7Mq76B3hm9vZWaLEwuXuOFZQTAJEn0LIbXyGMC6LmQTREZ2/rKEv5Tj/q1D4UADCKsDXNprsPkL0cyPY8ZaGqounEv/ropp38g28SsR73VPyW7XA6FefiMpuszhAEq25tDPzSTJ+LyCf4WmohvoVvLQDCDiL27B80CkxNOkxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NcSef509fKbyFUVk59pAIdfbEmfGiVhViUBhVFwPUOs=;
+ b=dakpq8oIC1JfXMOgktDTxL774yxexNePE8p9u3icQGp9DFpeQaAqAy2fiKClZlhEWknncBMImZLjNxoE+xNuNzLeG1GB0iRYoWqJC0lBy0zBh7AzCA6cENianTweaJrJuD79y2cKiIpjYZUK8wu9HhzcxvUZW/tpG67pQY2i/ARuk97EsTJ/OBKhaa7X54R+8GySz3nxAvz4rghXJNXE7pPcejg2pSwYFWwNJMqlroZn/mNonJrUq7XBR1mlr5T6RwOxhoWuA/XSykFOCyqiNlO+T3pYoEn9rjlout8ZO2BPqVCpHgv26BsvzpNoVq19BWYn2mqo4UbmJ4chAhJviA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tZEt6Bk+o2CEVmWjiD/tqdGL4EUw3Dt3tU4Mvz4zdyc=;
-        b=H50XxLwwzTwWMTLvuDVA8ZQUXzC+KY+g5iyAm1yq+wFQL3d6R/fX36RMhyGD5h7PXZ
-         YIDGYt6oxNYuPnqStjR10Q81h+vwk3TZabD/jd1vjFFMf1mC+U9mh64EzzhPM439CaS/
-         QWRFgLt1/d6yzSR2xUyFQZYRUaoTNDcxG1GlQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tZEt6Bk+o2CEVmWjiD/tqdGL4EUw3Dt3tU4Mvz4zdyc=;
-        b=TIdKuhcrFxzGbQh2dLzNQk8aHjNCmukcQfy1XJqmpCpFbrFmb/Yl9b20IReNHPxOnT
-         hMcnb6Lzt2GbrIunzZRxuQHwTa2NOVojPBf59trPuvmBP88uA7AhzEwa8bM/iC+7Xrf0
-         NG0gjK6Of6Qijo27N8c39H8fRclOyhY6ohrg0VpOqpgfKKYhgVjWxQy6lVQ8qyuMgwV3
-         d9nlfOpeRPDKlZcoKZruSR/tzsncu9OHXiHfkRyeeSRV5D4UBfTqsrKMm6Et94bBNk60
-         E3Va9TB3e8/R4TKs25GCyU2fbQ+g5m/goCIWNsnlxTCFr7P4U5Z7b4Juvyl0w8CnYrCB
-         uvRQ==
-X-Gm-Message-State: AGi0PuYC/WuprkWbJ1nZVKmZhkplCsicFgxeUvwh2Jt84ySzB23iimun
-        jJ70U+56hSGxiLP6MMRMozdVR6vTdeGyN23FTtRA3g==
-X-Google-Smtp-Source: APiQypI2A50rkFpFjbWz1r6m0LUlWLGwS+mwemu7TvfX8LeXbw78+E7+arqxu8PPtFLm3l3yNd509eVzsCOnXdOexw8=
-X-Received: by 2002:a92:194f:: with SMTP id e15mr22969825ilm.78.1589298072514;
- Tue, 12 May 2020 08:41:12 -0700 (PDT)
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NcSef509fKbyFUVk59pAIdfbEmfGiVhViUBhVFwPUOs=;
+ b=4NKot90jXlpx+r87Q4mVY7fpKmSBXPCPib4RKbEMRwVW3IuZZt93wMQuIB4fL7oOCpDZO4jg5mzEKveQLPyK3bT6T/5bwZ045e/Ek/Cl5ycfvuzqFYHZ37NLNIM1jf2g8onxXp4dJhYgu+x7UVvRtZz8AvisUZ5eWZneLStKFX4=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SN1PR12MB2576.namprd12.prod.outlook.com (2603:10b6:802:22::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.33; Tue, 12 May
+ 2020 15:45:17 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::c0f:2938:784f:ed8d%7]) with mapi id 15.20.2979.033; Tue, 12 May 2020
+ 15:45:17 +0000
+Subject: Re: [PATCH v3 1/3] arch/x86: Rename config
+ X86_INTEL_MEMORY_PROTECTION_KEYS to generic x86
+To:     Dave Hansen <dave.hansen@intel.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        pbonzini@redhat.com, sean.j.christopherson@intel.com
+Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
+        luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
+        changbin.du@intel.com, namit@vmware.com, bigeasy@linutronix.de,
+        yang.shi@linux.alibaba.com, asteinhauser@google.com,
+        anshuman.khandual@arm.com, jan.kiszka@siemens.com,
+        akpm@linux-foundation.org, steven.price@arm.com,
+        rppt@linux.vnet.ibm.com, peterx@redhat.com,
+        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
+        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
+        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
+        jgross@suse.com, andrew.cooper3@citrix.com,
+        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
+        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
+        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+References: <158923982830.20128.14580309786525588408.stgit@naples-babu.amd.com>
+ <158923997443.20128.16545619590919566266.stgit@naples-babu.amd.com>
+ <a92f3247-4b1e-0ff2-c1c7-68c149c0142c@intel.com>
+ <4984c0af-c20b-7084-9bca-5cb6bf385180@amd.com>
+ <1f4fa674-5709-ad88-c7ae-1bf5584a5b82@intel.com>
+From:   Babu Moger <babu.moger@amd.com>
+Message-ID: <a77cbb76-8a68-59a6-942b-08b27f86fc04@amd.com>
+Date:   Tue, 12 May 2020 10:45:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <1f4fa674-5709-ad88-c7ae-1bf5584a5b82@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN1PR12CA0046.namprd12.prod.outlook.com
+ (2603:10b6:802:20::17) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
 MIME-Version: 1.0
-References: <20200323015735.236279-1-joel@joelfernandes.org>
- <7809dbfa-7a76-8663-799a-908c4ead8d30@gmail.com> <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
- <fd7e7c6f-fda1-7f2b-19f3-a09b73b10de8@gmail.com>
-In-Reply-To: <fd7e7c6f-fda1-7f2b-19f3-a09b73b10de8@gmail.com>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Tue, 12 May 2020 11:41:01 -0400
-Message-ID: <CAEXW_YSjo2hgvg-FN_MR7FVEcp-7gH17jb0-262k+ydSuuDjuQ@mail.gmail.com>
-Subject: Re: [PATCH 4/3] docs: litmus-tests: Clarify about the RCU
- pre-initialization test
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Boqun Feng <boqun.feng@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Vineeth Remanan Pillai <vpillai@digitalocean.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.30.87] (165.204.77.1) by SN1PR12CA0046.namprd12.prod.outlook.com (2603:10b6:802:20::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend Transport; Tue, 12 May 2020 15:45:15 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 89347c56-43f3-4b08-f22c-08d7f68b77c9
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2576:
+X-Microsoft-Antispam-PRVS: <SN1PR12MB25761F487C9F75B7A12F902F95BE0@SN1PR12MB2576.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fqzZMoQVuac/TQKNQCBgflzcbZ5rIlTZrnxraf4Yx61o28AaeJkcd3QRh4Tecr5dQvUUvhX9zSK2U4xMhY+KvELISr96LWd4LrYvqcgpF0n5+g5Qk/FjmzbmntmqUj7EBocEzI+X9XOJTAEwgPOM5ZRshxqvD83rB02X+tME6ydnGLjh6vjgP+xc7udfi+yuXxk7dqndybOdNhe9iGTErWGdKqI/IBdTOrrLmJwXrzIoUvTq9hPYl07IfAB3vbX3RIQCRmtqHir3AEpOMwnvcK+HJpMn5OqLhUAAuOkwPeJfkg+xmcJoY5x5mVwF2SjCmVy4xB38EI+avhNqnwU02agxsuOnQBg0muSyzr1Alfp3jjTBi8aM122jngddkvDA4QogvTXO/kGo4iU2AUN+dqCqI85b8zE4VPnCUUr5RphoJ3S9JdpdHE8CtONquxFePZswyda/Y0KWlCllyNOXUzEF76rSs0g/q2sjyCtHByBpQpH87jg+5A9p5gefG7lXVlledatQSpLSsWHz+WvX2BZD4yu7JgcYW+o1yGp0F3rxqI8c9aZ8kimID0Kz3qEmoVzM8A7pmfK/XQnP01YwiA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(136003)(396003)(39860400002)(376002)(346002)(33430700001)(7416002)(16576012)(8936002)(2616005)(956004)(4326008)(2906002)(31696002)(52116002)(86362001)(26005)(316002)(66476007)(44832011)(16526019)(8676002)(66556008)(5660300002)(66946007)(6486002)(31686004)(36756003)(478600001)(33440700001)(7406005)(53546011)(186003)(41533002)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: wM/uGjswwTSvaNZVX7IuITWBd5SVXOzXGzDBg2+q3Oo1SmzLBDJmTvu8eNBfbwk0IeN7vQ4U2RpF/znHuVDyqdUvnzYzwAvf0s6UeuJQlmGLdCdLbBrztuGvRq/LGZtj9JjLglBpvBK8B1D1B1q4spZojChjPoHvz9yGFTwxlArTAN2M4r85Qp5wLzy63Vas9KbeDYLTT7Co98ZMhpNZgq001qgpv7kbSOSRy9VHfx1wbDzt/Oh1aUTxwhnpEEOb4jEqVhPfl7OR6IjCBwVAXvr3v41LsEytcS9AQQMdQYKxdEnG2J0OtLnYkV/NFiguTPvRQyiRI+rPFpZqWvSBxpMrQe3Q1CkSh8+Koki+O9hDd+hROnBoJi0HIiZnpD2hnK5m0VFVat8+atpTxfUiZowNguXl/e6rPCuq9bc0OUGC2H8fqvwXjkQAvaTflP1/9YjMEshPCgeMJ2MKO5PauO3IoVcQiV+pE3bC1Ck9yAM=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89347c56-43f3-4b08-f22c-08d7f68b77c9
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 15:45:16.9983
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qvfcxAxnlB4nGCi3dLfrXYqBWQ4QooAOG3t86wt521XmFPu08QRb7GJe7cWcCHUr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2576
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 12, 2020 at 11:07 AM Akira Yokosawa <akiyks@gmail.com> wrote:
->
-> From 7bb979aacd8788d174df8a56e9803ba9e5b7a381 Mon Sep 17 00:00:00 2001
-> From: Joel Fernandes (Google) <joel@joelfernandes.org>
-> Date: Mon, 11 May 2020 22:06:46 -0400
-> Subject: [PATCH 4/3] docs: litmus-tests: Clarify about the RCU pre-initialization test
->
-> Since this test returned to tools/memory-model/, make sure that it is
-> at least referenced from Documentation/litmus-tests/'s README.
->
-> Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> Co-developed-by: Akira Yokosawa <akiyks@gmail.com>
-> [Alan: grammar nit]
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> I said in the earlier message:
->
-> > The explanation under tools/memory-model/litmus-tests/README also need the same
-> > rewording.
->
-> , but obviously I was confused. It is good as is.
->
-> This is on top of my earlier patch series.
->
-> Joel, Alan, does this work with you?
-
-Yes, thanks a lot for doing it. Paul are you Ok with it too?
-
-thanks,
-
- - Joel
 
 
->
->         Thanks, Akira
-> --
->  Documentation/litmus-tests/README | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
-> index ac0b270b456c..b79e640214b9 100644
-> --- a/Documentation/litmus-tests/README
-> +++ b/Documentation/litmus-tests/README
-> @@ -24,6 +24,10 @@ Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
->  RCU (/rcu directory)
->  --------------------
->
-> +MP+onceassign+derefonce.litmus (under tools/memory-model/litmus-tests/)
-> +    Demonstrates the use of rcu_assign_pointer() and rcu_dereference() to
-> +    ensure that an RCU reader will not see pre-initialization garbage.
-> +
->  RCU+sync+read.litmus
->  RCU+sync+free.litmus
->      Both the above litmus tests demonstrate the RCU grace period guarantee
-> --
-> 2.17.1
->
->
+On 5/12/20 10:19 AM, Dave Hansen wrote:
+> On 5/12/20 7:57 AM, Babu Moger wrote:
+>>> I was hoping to see at least *some* justification in this changelog.  Do
+>>> you think having "INTEL_" will confuse users?  Is there some technical
+>>> merit to this change?
+>>>
+>>> The naming churn is an obviously bad, not technically necessary change.
+>> Yes. Technically not necessary. But can cause some confusion on non-intel
+>> platforms.
+> 
+> Seriously, guys, this is buried deep in kernel code.  Who is this confusing?
+> 
+> To me, this is like anything else we rename in the kernel.  It causes
+> churn, which makes patches harder to backport for instance.  That's why
+> we don't rename things willy-nilly when we just don't like the names.
+> 
+> The naming has to cause some practical, real-world problem that we *FIX*
+> with the rename.
+> 
+> I'm just asking for a concrete, practical problem statement in the
+> changelog.  If there isn't one, then please don't do the rename.  The
+> Kconfig magic is still fine since it fixes a practical problem for end
+> users.
+> 
+
+Alright. Alright. I will just keep Kconfig magic and update the
+documentation(protection-keys.rst). Thanks
