@@ -2,213 +2,67 @@ Return-Path: <SRS0=0LBz=62=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E46FC54E4B
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 06:52:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 726E8C54E4B
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 08:44:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 565672098B
-	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 06:52:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589266377;
-	bh=RyhOZvlt5kZ+dTlX1Lv7q9k77uq8oD0kyVIa/Ynd+tw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=HGxS4d8vk05HsRHuaxNV/93Ua8/KOces5llwy0nICc5OP+eTXQ4iomu7CW8JO3Y5Y
-	 IVrllR1V4pjIy34o4Pxu6Mu0Rv8lPzmupKnb7e5ng0ijREfPzA8EXSx9MlmyFj/Ur7
-	 plhKzlX11zbbZseh5rqLeEmsdMEAXQYdKos9vC0Y=
+	by mail.kernel.org (Postfix) with ESMTP id 5AB35206CC
+	for <linux-doc@archiver.kernel.org>; Tue, 12 May 2020 08:44:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725987AbgELGw5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 May 2020 02:52:57 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:64357 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725814AbgELGw4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 May 2020 02:52:56 -0400
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 04C6qeQt027831;
-        Tue, 12 May 2020 15:52:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 04C6qeQt027831
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1589266362;
-        bh=UwPvBry7yPGOUilCJDkKrbKYyu1A4n8MuWA4AkJQmPc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uOyUjH4Lk6Bz11TLsUUQeyavZZNYpk9WP+oUZjYw9IzNsPKYVxy0T28akwEZasKcY
-         7heuEiz5sbqoaYXxHP1hUQ56FCd/eyvpxbKRFwdHn/D+bdb1unws11xIK3WkA95ZD4
-         4vsqylaQBd4pp3iToF5CcQbcIHzJ58oi96aTz4TDgydslMNW96eU8PYwUJKvE22D0h
-         pH/6UecfPDadhnrEN9S7dvChDe3PkNX7Wlpahao66CjiXJ/3RFxgaPCn5cLDCGtBlB
-         OIKpLNtF4ghm3YBb8/Zlp6gmrKim94rEI3Oq8elJ4pKgAto4TkPh1loapJFCCLbLL/
-         WWb9RwgaXkdYQ==
-X-Nifty-SrcIP: [209.85.217.52]
-Received: by mail-vs1-f52.google.com with SMTP id z1so7197186vsn.11;
-        Mon, 11 May 2020 23:52:41 -0700 (PDT)
-X-Gm-Message-State: AGi0PubrEpFYgJZQ8+hxu27bNYOmh5hoYiqqE7Xa4peQyzSvKqFaeYLP
-        cT1NAZokzm3im4jsVoK4I9RdY+XbI5GxIZFqVmg=
-X-Google-Smtp-Source: APiQypLzAPXzg3s/5sjYf+Hirmk79ZX4a6xnYpJCL0XPD4t0LmJvQFEJnZnz7nJs3j+jeZqtpikBb584Tc2r25yU5QQ=
-X-Received: by 2002:a67:db0d:: with SMTP id z13mr14479268vsj.155.1589266360272;
- Mon, 11 May 2020 23:52:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200510010603.3896-1-changbin.du@gmail.com>
-In-Reply-To: <20200510010603.3896-1-changbin.du@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 12 May 2020 15:52:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARH_1nQRExVSCcJ=Twuze5AosG3z2GcA7zwnF6Vi52GWA@mail.gmail.com>
-Message-ID: <CAK7LNARH_1nQRExVSCcJ=Twuze5AosG3z2GcA7zwnF6Vi52GWA@mail.gmail.com>
-Subject: Re: [PATCH v5] streamline_config.pl: add LMC_KEEP to preserve some kconfigs
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        id S1729174AbgELIoq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 May 2020 04:44:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37496 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725776AbgELIoq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 May 2020 04:44:46 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id A6006ABC7;
+        Tue, 12 May 2020 08:44:46 +0000 (UTC)
+Date:   Tue, 12 May 2020 10:44:42 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     WeiXiong Liao <liaoweixiong@allwinnertech.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Rob Herring <robh@kernel.org>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mtd@lists.infradead.org
+Subject: Re: [PATCH v7 07/18] printk: Introduce kmsg_dump_reason_str()
+Message-ID: <20200512084441.GD17734@linux-b0ei>
+References: <20200510202436.63222-1-keescook@chromium.org>
+ <20200510202436.63222-8-keescook@chromium.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200510202436.63222-8-keescook@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 10, 2020 at 10:06 AM Changbin Du <changbin.du@gmail.com> wrote:
->
-> Sometimes it is useful to preserve batches of configs when making
-> localmodconfig. For example, I usually don't want any usb and fs
-> modules to be disabled. Now we can do it by:
->
->  $ make LMC_KEEP="drivers/usb:fs" localmodconfig
->
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
->
-> ---
-> v4: fix typo.
-> v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
-> v2: fix typo in documentation. (Randy Dunlap)
-> ---
->  Documentation/admin-guide/README.rst |  8 +++++++-
->  scripts/kconfig/Makefile             |  1 +
->  scripts/kconfig/streamline_config.pl | 21 +++++++++++++++++++++
->  3 files changed, 29 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-> index cc6151fc0845..407aa206bb70 100644
-> --- a/Documentation/admin-guide/README.rst
-> +++ b/Documentation/admin-guide/README.rst
-> @@ -209,10 +209,16 @@ Configuring the kernel
->                             store the lsmod of that machine into a file
->                             and pass it in as a LSMOD parameter.
->
-> +                           Also, you can preserve modules in certain folders
-> +                           or kconfig files by specifying their paths in
-> +                           parameter LMC_KEEP.
-> +
->                     target$ lsmod > /tmp/mylsmod
->                     target$ scp /tmp/mylsmod host:/tmp
->
-> -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
-> +                   host$ make LSMOD=/tmp/mylsmod \
-> +                           LMC_KEEP="drivers/usb:drivers/gpu:fs" \
-> +                           localmodconfig
->
->                             The above also works when cross compiling.
->
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index c9d0a4a8efb3..e0abbf5805f5 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -123,6 +123,7 @@ help:
->         @echo  '  gconfig         - Update current config utilising a GTK+ based front-end'
->         @echo  '  oldconfig       - Update current config utilising a provided .config as base'
->         @echo  '  localmodconfig  - Update current config disabling modules not loaded'
-> +       @echo  '                    except those preserved by LMC_KEEP environment variable'
->         @echo  '  localyesconfig  - Update current config converting local mods to core'
+On Sun 2020-05-10 13:24:25, Kees Cook wrote:
+> The pstore subsystem already had a private version of this function.
+> With the coming addition of the pstore/zone driver, this needs to be
+> shared. As it really should live with printk, move it there instead.
+> 
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Just a nitpicking.
+I looked only at this printk part and it looks good to me ;-)
 
-I was just about to apply this patch,
-then noticed this.
+Acked-by: Petr Mladek <pmladek@suse.com>
 
-This works for localyesconfig as well as
-localmodconfig.
-
-Do you want to add the note to localyesconfig too?
-
-
-LMC_ is an acronym of LOCAL_MOD_CONFIG_.
-Maybe it is OK because
-we mostly use localmodconfig,
-using localyesconfig is somewhat rare, I guess.
-
-
-Just a reminder, if you want to send v6
-or if you want me to pick this up as-is.
-
-Thanks.
-
-
-
-
-
-
->         @echo  '  defconfig       - New config with default from ARCH supplied defconfig'
->         @echo  '  savedefconfig   - Save current config as ./defconfig (minimal config)'
-> diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
-> index e2f8504f5a2d..19857d18d814 100755
-> --- a/scripts/kconfig/streamline_config.pl
-> +++ b/scripts/kconfig/streamline_config.pl
-> @@ -143,6 +143,7 @@ my %depends;
->  my %selects;
->  my %prompts;
->  my %objects;
-> +my %config2kfile;
->  my $var;
->  my $iflevel = 0;
->  my @ifdeps;
-> @@ -201,6 +202,7 @@ sub read_kconfig {
->         if (/^\s*(menu)?config\s+(\S+)\s*$/) {
->             $state = "NEW";
->             $config = $2;
-> +           $config2kfile{"CONFIG_$config"} = $kconfig;
->
->             # Add depends for 'if' nesting
->             for (my $i = 0; $i < $iflevel; $i++) {
-> @@ -591,6 +593,20 @@ while ($repeat) {
->  }
->
->  my %setconfigs;
-> +my @preserved_kconfigs = split(/:/,$ENV{LMC_KEEP});
-> +
-> +sub in_preserved_kconfigs {
-> +    my $kconfig = $config2kfile{$_[0]};
-> +    if (!defined($kconfig)) {
-> +        return 0;
-> +    }
-> +    foreach my $excl (@preserved_kconfigs) {
-> +        if($kconfig =~ /^$excl/) {
-> +            return 1;
-> +        }
-> +    }
-> +    return 0;
-> +}
->
->  # Finally, read the .config file and turn off any module enabled that
->  # we could not find a reason to keep enabled.
-> @@ -644,6 +660,11 @@ foreach my $line (@config_file) {
->      }
->
->      if (/^(CONFIG.*)=(m|y)/) {
-> +        if (in_preserved_kconfigs($1)) {
-> +            dprint "Preserve config $1";
-> +            print;
-> +            next;
-> +        }
->         if (defined($configs{$1})) {
->             if ($localyesconfig) {
->                 $setconfigs{$1} = 'y';
-> --
-> 2.25.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Best Regards,
+Petr
