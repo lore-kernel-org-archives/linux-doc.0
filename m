@@ -2,134 +2,273 @@ Return-Path: <SRS0=G6vI=63=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A89C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 16:00:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91577C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 16:07:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF36E206F5
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 16:00:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8643207D5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 16:07:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="La8D4OSZ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H3TA6ZWt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729191AbgEMQAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 May 2020 12:00:08 -0400
-Received: from mail-dm6nam10on2050.outbound.protection.outlook.com ([40.107.93.50]:19892
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728692AbgEMQAH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 May 2020 12:00:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ixEnKjphisl1CSN0lBQEL9VhF/qsjHOA9xGdOkt8end0e8HHC/V1buS3JcW8BAJaDesZZQIe1Fb6DRpXP5Ej3uGm+kTsmdlHkH8iZAxhdN7oLwn6rlhcuIuAsht7PmhJMvSHr9ByOwMuFcdOeGXuRr0f+F0PgjnsegOM9janzzzqxvhskyWvvtWjWUbG1vJNpoCSnriNVECOl/N9fKOE9ovSZmdkTj+e67nUaxn6WG5lZmOjrxi0QOzf3FbOXDnEIR24D+DtKPwv6Xi7/4bLgxmqhBLB23bw424S1cgRooRnd2c23Hf2RZyDM2GUtWme4WmHscNsGisL7UcchxazEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XujP5eAhFBUmlXztzznPLZupd5FaJsEYiB4b+z3j2Wc=;
- b=QrqfiPtUXs3VqOxdmizKK+W4PFGaIWn3alqJZ+BlNSfXvWRQfm/70jmiIKveuXCrhDqL+4OScUNa44SugCMb5LhOvPF+h7kJnKdXuESsGQ3Um3irLhVKleM9Xjvnx/xugMQi9yoWqg8vi839EJLL382sYr5gXQmC4hXLQjQn1+IBgsSXG9tj58NF9GQcJboNUtUnBMQ614i6Cg5Gg0AGMKh5Jpt38hHxLSCXfgWAkhXH0JBIcyn0dB7WvdGLHRDvqmNmSWH5Mgte4aKnloLVR6L3CiDMfhEBUdTDwwsozUyL/HS4JX9EEo3QGg0Kpu7urvljtnpXXwB5/j6aw03lSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XujP5eAhFBUmlXztzznPLZupd5FaJsEYiB4b+z3j2Wc=;
- b=La8D4OSZtPCz9mGMRB/9rHu04EqH/sfxM2Fy4yr0KKq5ny6RyPC0olQRWhUPCPPkgEdB5Nh35duRNjrHLKhEa6IKe1Vhkf9O2AuXIX5wNuXf7si07Vnord1z32xkONt7xEyy3NKyE3pX/K4lcqhqkhfZxeZkmrqKInD9R1im+XI=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN1PR12MB2400.namprd12.prod.outlook.com (2603:10b6:802:2f::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Wed, 13 May
- 2020 16:00:03 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::c0f:2938:784f:ed8d]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::c0f:2938:784f:ed8d%7]) with mapi id 15.20.3000.022; Wed, 13 May 2020
- 16:00:03 +0000
-Subject: Re: [PATCH v4 0/3] arch/x86: Enable MPK feature on AMD
-To:     Paolo Bonzini <pbonzini@redhat.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        sean.j.christopherson@intel.com
-Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
-        luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
-        changbin.du@intel.com, namit@vmware.com, bigeasy@linutronix.de,
-        yang.shi@linux.alibaba.com, asteinhauser@google.com,
-        anshuman.khandual@arm.com, jan.kiszka@siemens.com,
-        akpm@linux-foundation.org, steven.price@arm.com,
-        rppt@linux.vnet.ibm.com, peterx@redhat.com,
-        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
-        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
-        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
-        jgross@suse.com, andrew.cooper3@citrix.com,
-        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
-        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
-        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-References: <158932780954.44260.4292038705292213548.stgit@naples-babu.amd.com>
- <8cef30e5-5bb5-d3e2-3e0c-d30ec98818da@redhat.com>
-From:   Babu Moger <babu.moger@amd.com>
-Message-ID: <a60b3f06-4db4-38d9-b3aa-bcd27712e42b@amd.com>
-Date:   Wed, 13 May 2020 11:00:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-In-Reply-To: <8cef30e5-5bb5-d3e2-3e0c-d30ec98818da@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN6PR05CA0005.namprd05.prod.outlook.com
- (2603:10b6:805:de::18) To SN1PR12MB2560.namprd12.prod.outlook.com
- (2603:10b6:802:26::19)
+        id S1728692AbgEMQHi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 May 2020 12:07:38 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44135 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729561AbgEMQHi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 May 2020 12:07:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589386057;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=//iylwP5dC0vk5Lio2BTXjJhEZdilrXVVxZISleOyPQ=;
+        b=H3TA6ZWtTypYbpYGFYGrbXzde0ZSywyYWkyYspQ9Xerjc55FPsShwZx/hW0NSHnAYT6njz
+        chSDtdKYWZhzgar0gScQte3IR7i1oD9lIznrlbzLy525JgmxdrQ6kJKa+lhbR0Qg/U50JN
+        IEkD6oqx0/pKqd1Ym/hsbeXFssM1mKI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-z6VaKZCgPietU82rN9nuZg-1; Wed, 13 May 2020 12:07:32 -0400
+X-MC-Unique: z6VaKZCgPietU82rN9nuZg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAC5A1054F90;
+        Wed, 13 May 2020 16:07:29 +0000 (UTC)
+Received: from optiplex-lnx (unknown [10.3.128.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B98AF26DE7;
+        Wed, 13 May 2020 16:07:17 +0000 (UTC)
+Date:   Wed, 13 May 2020 12:07:14 -0400
+From:   Rafael Aquini <aquini@redhat.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
+        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
+        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
+        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
+        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
+Subject: Re: [PATCH v4] kernel: add panic_on_taint
+Message-ID: <20200513160714.GM367616@optiplex-lnx>
+References: <20200513150026.1039987-1-aquini@redhat.com>
+ <20200513154722.GR11244@42.do-not-panic.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.87] (165.204.77.1) by SN6PR05CA0005.namprd05.prod.outlook.com (2603:10b6:805:de::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.11 via Frontend Transport; Wed, 13 May 2020 16:00:01 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ba1f4abc-0eb6-4451-87ce-08d7f756b299
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2400:
-X-Microsoft-Antispam-PRVS: <SN1PR12MB2400E0AC7E36DC6032DB637195BF0@SN1PR12MB2400.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-Forefront-PRVS: 0402872DA1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Asz1zubyysV9XvlKLaE5N7wDIQ6F6G3Q19bx0buYoccEAzR/aa18wlAggIvR6T1prj+UV4ROLJzVubehybb3SEpsckcVWMI3G9fCt5MkBXWwWQajctKevMpvuP0vSdzKd2X2HadQHnCfbOkSGE0tsnCR/yVgMehqSamTEEbCd26JmjtAMkD2I8HStw7aX0roodKulGMppKsNe3IGQlbjUmaLONCm9S7iKqQHIBdWF8BQ3f6ngAtuqnsbvPFPoRZ4zLY3YjtWbutOOHUfEIHlCSop48NO9QIkW1bsoKq9GRjrbsIGN/UzBIpjAn4D6CxhPF1ch6efUX17eHx6XUOHlWMZKJQDyf3EfsBxYLFgfHIPXiIEl6kCbimjLnF3226tbFvjzum6AxQ51f90MpdqdVddNS+Plo6HECycojFHcSYidQgGcQ6fazl1Ms+u8qEHjSOid8sL0PeOS09jAY/FLKzRpAB6d13ZCOw9v/MfZ+E84wZsuAqrQ5+StiE9eITMVb3syIimRzODlv9uWrN6635c3JlUZMgjQstlbk3+D9SOXkF9y+hkAqRAckmgfeBO
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(33430700001)(956004)(44832011)(2906002)(478600001)(8936002)(66556008)(33440700001)(186003)(16526019)(53546011)(8676002)(86362001)(36756003)(4744005)(316002)(16576012)(66476007)(52116002)(26005)(6486002)(2616005)(4326008)(7406005)(31686004)(66946007)(7416002)(5660300002)(31696002)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: uZMxNod/Hk+ssxe7PZotG/qPIzBSe6ZKTtcYVkzxyhCWErdtEvyP9hSvFRevRaA2/5s5WGR8iAGi0xf/d1Yxqy5aH0/MRouCRf+IfyI3Hfu0YYbiaEYD17ZPbosAU6ieA4jojwGNvut+UFu+nPgTuJSLLTHIJETUiXirExFzvtAIqhoVez7zZ48G7BNGpylr92antjPXeFX3X+ddMx0mOJShne/kqt4Ryt+GEIdehCx/qR7TBD0sJXY/nFIVXbFtddW/P2rRqjuoFPGsafR0xiW7T6kpn4H8nqcA/qhBUvoSt4p/aK+nVlbec51LcEBt4gY6B0ODRgPNyxnRkVIJ/G5W/PqlXzKU98+qF108lX3qB1ZxM4VQj6D/w+kUfLY1cfUBJ+f6pzDVMbG6b3//aXVe5deGl4gUaiENg0Fdk7tnhYgVOdxpc5TPBiSn/z43MTA66NhF8Wjn/jCcOr4ijffhT/cel93fx84WERejNxE=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba1f4abc-0eb6-4451-87ce-08d7f756b299
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2020 16:00:03.6366
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fwABPHGXrpVdiyJYuzS+KPWmYErmJD7f6L8INqLNW9e/FqxWdMAjAQReCEabsLqL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2400
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200513154722.GR11244@42.do-not-panic.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 5/13/20 10:35 AM, Paolo Bonzini wrote:
-> On 13/05/20 01:58, Babu Moger wrote:
->> AMD's next generation of EPYC processors support the MPK (Memory
->> Protection Keys) feature.
->>
->> This series enables the feature on AMD and updates config parameters
->> and documentation to reflect the MPK support on x86 platforms.
->>
->> AMD documentation for MPK feature is available at "AMD64 Architecture
->> Programmer’s Manual Volume 2: System Programming, Pub. 24593 Rev. 3.34,
->> Section 5.6.6 Memory Protection Keys (MPK) Bit".
->>
->> The documentation can be obtained at the link below:
+On Wed, May 13, 2020 at 03:47:22PM +0000, Luis Chamberlain wrote:
+> On Wed, May 13, 2020 at 11:00:26AM -0400, Rafael Aquini wrote:
+> > Analogously to the introduction of panic_on_warn, this patch
+> > introduces a kernel option named panic_on_taint in order to
+> > provide a simple and generic way to stop execution and catch
+> > a coredump when the kernel gets tainted by any given taint flag.
+> > 
+> > This is useful for debugging sessions as it avoids rebuilding
+> > the kernel to explicitly add calls to panic() or BUG() into
+> > code sites that introduce the taint flags of interest.
+> > For instance, if one is interested in following up with
+> > a post mortem analysis at the point a code path is hitting
+> > a bad page (i.e. unaccount_page_cache_page(), or slab_bug()),
+> > a crashdump could be collected by rebooting the kernel with
+> > 'panic_on_taint=0x20' amended to the command line string.
+> > 
+> > Another, perhaps less frequent, use for this option would be
+> > as a mean for assuring a security policy case where only a
+> > subset of taints, or no single taint (in paranoid mode),
+> > is allowed for the running system.
+> > The optional switch 'nousertaint' is handy in this particular
+> > scenario as it will avoid userspace induced crashes by writes
+> > to /proc/sys/kernel/tainted causing false positive hits for
+> > such policies.
+> > 
+> > Suggested-by: Qian Cai <cai@lca.pw>
+> > Signed-off-by: Rafael Aquini <aquini@redhat.com>
+> > ---
+> > Changelog:
+> > * v2: get rid of unnecessary/misguided compiler hints		(Luis)
+> >       enhance documentation text for the new kernel parameter	(Randy)
+> > * v3: drop sysctl interface, keep it only as a kernel parameter (Luis)
+> > * v4: change panic_on_taint input from alphabetical taint flags
+> >       to hexadecimal bitmasks, for clarity and extendability	(Luis)
+> > 
+> >  Documentation/admin-guide/kdump/kdump.rst     |  7 ++++
+> >  .../admin-guide/kernel-parameters.txt         | 13 +++++++
+> >  include/linux/kernel.h                        |  4 +++
+> >  kernel/panic.c                                | 34 +++++++++++++++++++
+> >  kernel/sysctl.c                               | 11 +++++-
+> >  5 files changed, 68 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> > index ac7e131d2935..2707de840fd3 100644
+> > --- a/Documentation/admin-guide/kdump/kdump.rst
+> > +++ b/Documentation/admin-guide/kdump/kdump.rst
+> > @@ -521,6 +521,13 @@ will cause a kdump to occur at the panic() call.  In cases where a user wants
+> >  to specify this during runtime, /proc/sys/kernel/panic_on_warn can be set to 1
+> >  to achieve the same behaviour.
+> >  
+> > +Trigger Kdump on add_taint()
+> > +============================
+> > +
+> > +The kernel parameter panic_on_taint facilitates calling panic() from within
+> > +add_taint() whenever the value set in this bitmask matches with the bit flag
+> > +being set by add_taint(). This will cause a kdump to occur at the panic() call.
+> > +
+> >  Contact
+> >  =======
+> >  
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 7bc83f3d9bdf..ce17fdbec7d1 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -3401,6 +3401,19 @@
+> >  			bit 4: print ftrace buffer
+> >  			bit 5: print all printk messages in buffer
+> >  
+> > +	panic_on_taint=	Bitmask for conditionally call panic() in add_taint()
+> > +			Format: <hex>[,nousertaint]
+> > +			Hexadecimal bitmask representing the set of TAINT flags
+> > +			that will cause the kernel to panic when add_taint() is
+> > +			called with any of the flags in this set.
+> > +			The optional switch "nousertaint" can be utilized to
+> > +			prevent userland forced crashes by writing to sysctl
+> > +			/proc/sys/kernel/tainted any flagset matching with the
+> > +			bitmask set on panic_on_taint.
+> > +			See Documentation/admin-guide/tainted-kernels.rst for
+> > +			extra details on the taint flags that users can pick
+> > +			to compose the bitmask to assign to panic_on_taint.
+> > +
+> >  	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
+> >  			on a WARN().
+> >  
+> > diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+> > index 9b7a8d74a9d6..70712944dffc 100644
+> > --- a/include/linux/kernel.h
+> > +++ b/include/linux/kernel.h
+> > @@ -528,6 +528,8 @@ extern int panic_on_oops;
+> >  extern int panic_on_unrecovered_nmi;
+> >  extern int panic_on_io_nmi;
+> >  extern int panic_on_warn;
+> > +extern unsigned long panic_on_taint;
+> > +extern bool panic_on_taint_nousertaint;
+> >  extern int sysctl_panic_on_rcu_stall;
+> >  extern int sysctl_panic_on_stackoverflow;
+> >  
+> > @@ -597,6 +599,8 @@ extern enum system_states {
+> >  #define TAINT_RANDSTRUCT		17
+> >  #define TAINT_FLAGS_COUNT		18
+> >  
+> > +#define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
+> > +
+> >  struct taint_flag {
+> >  	char c_true;	/* character printed when tainted */
+> >  	char c_false;	/* character printed when not tainted */
+> > diff --git a/kernel/panic.c b/kernel/panic.c
+> > index b69ee9e76cb2..94b5c973770c 100644
+> > --- a/kernel/panic.c
+> > +++ b/kernel/panic.c
+> > @@ -44,6 +44,8 @@ static int pause_on_oops_flag;
+> >  static DEFINE_SPINLOCK(pause_on_oops_lock);
+> >  bool crash_kexec_post_notifiers;
+> >  int panic_on_warn __read_mostly;
+> > +unsigned long panic_on_taint;
+> > +bool panic_on_taint_nousertaint = false;
+> >  
+> >  int panic_timeout = CONFIG_PANIC_TIMEOUT;
+> >  EXPORT_SYMBOL_GPL(panic_timeout);
+> > @@ -434,6 +436,11 @@ void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
+> >  		pr_warn("Disabling lock debugging due to kernel taint\n");
+> >  
+> >  	set_bit(flag, &tainted_mask);
+> > +
+> > +	if (tainted_mask & panic_on_taint) {
+> > +		panic_on_taint = 0;
+> > +		panic("panic_on_taint set ...");
+> > +	}
+> >  }
+> >  EXPORT_SYMBOL(add_taint);
+> >  
+> > @@ -686,3 +693,30 @@ static int __init oops_setup(char *s)
+> >  	return 0;
+> >  }
+> >  early_param("oops", oops_setup);
+> > +
+> > +static int __init panic_on_taint_setup(char *s)
+> > +{
+> > +	char *taint_str;
+> > +
+> > +	if (!s)
+> > +		return -EINVAL;
+> > +
+> > +	taint_str = strsep(&s, ",");
+> > +	if (kstrtoul(taint_str, 16, &panic_on_taint))
+> > +		return -EINVAL;
+> > +
+> > +	/* make sure panic_on_taint doesn't hold out-of-range TAINT flags */
+> > +	panic_on_taint &= TAINT_FLAGS_MAX;
 > 
-> I'm queuing patches 2 and 3, since they are do not need any support in
-> common code.
+> While it may have made sennse for simplicity to not pr_warn_once on the
+> proc_taint() case I think in this case we do want to pr_warn_once() as
+> the user is wishing to DEFINITELY PANIC if such a taint flag is present.
+>
 
-Thanks Paolo. I will just resubmit the patch #1 addressing Dave's feedback.
+In case the bitmask is invalidated (because user has set it deliberately
+to 0, or because it was set to a specific flagset totally out of the valid 
+range, which will cause the bitwise-and to render panic_on_taint=0) the non-zero
+return in the checkpoint below will take care of informing that the option
+was malformed and it's not set. For all other cases where out-of-range 
+flags get ignored, but a flagset is committed to panic_on_taint, the user 
+can verify the results that will be printed out at the pr_info() call.
+
+There is no need for an extra custom printout for this case, IMO.
+
+> > +
+> > +	if (!panic_on_taint)
+> > +		return -EINVAL;
+> > +
+> > +	if (s && !strcmp(s, "nousertaint"))
+> > +		panic_on_taint_nousertaint = true;
+> > +
+> > +	pr_info("panic_on_taint: bitmask=0x%lx nousertaint_mode=%sabled\n",
+> > +		panic_on_taint, panic_on_taint_nousertaint ? "en" : "dis");
+> > +
+> > +	return 0;
+> > +}
+> > +early_param("panic_on_taint", panic_on_taint_setup);
+> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> > index 8a176d8727a3..e257c965683a 100644
+> > --- a/kernel/sysctl.c
+> > +++ b/kernel/sysctl.c
+> > @@ -2623,11 +2623,20 @@ static int proc_taint(struct ctl_table *table, int write,
+> >  		return err;
+> >  
+> >  	if (write) {
+> > +		int i;
+> > +
+> > +		/*
+> > +		 * If we are relying on panic_on_taint not producing
+> > +		 * false positives due to userland input, bail out
+> > +		 * before setting the requested taint flags.
+> > +		 */
+> > +		if (panic_on_taint_nousertaint && (tmptaint & panic_on_taint))
+> > +			return -EINVAL;
+> > +
+> 
+> I like the compromise, but I think you also have to update this sysctl's
+> documentation to reflect this is disabled if this new boot param is used.
+> 
+
+Indeed, sorry I missed that part. I'll update it and repost.
+
+-- Rafael
 
