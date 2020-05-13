@@ -7,52 +7,51 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 657EBC433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 15:56:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A89C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 16:00:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90881205ED
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 15:56:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF36E206F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 16:00:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="vvrW8v2m"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="La8D4OSZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732212AbgEMP4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 May 2020 11:56:50 -0400
-Received: from mail-co1nam11on2054.outbound.protection.outlook.com ([40.107.220.54]:64032
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        id S1729191AbgEMQAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 May 2020 12:00:08 -0400
+Received: from mail-dm6nam10on2050.outbound.protection.outlook.com ([40.107.93.50]:19892
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729467AbgEMP4u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 May 2020 11:56:50 -0400
+        id S1728692AbgEMQAH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 May 2020 12:00:07 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gNorBVRuxpaD8D/LOWy+UnGuHGmnHRE2rdSfkw3FcTiPEZHtqXV2tJUiqPPsm9oVzLgryrqtORxQRCczTT1Cr+g2oc9GgxDQ+ojqpYevUGZbvC0wsZsB4yfpGwLCs6s2pgGm/G/wNpIiEWIlfPXtnZmXwRwTUBjf5B1U9JnD8kPFF/uNf9DF8B6qrHAeFwV3+z3eG7yW1zFIfP0AN5uaV45bMpqBGJ31LpeV/4fJdaABeCRRTd/CKdl2LLO4c3NhkRLXHMuIkaXS1BXqjBAJ3nRxB3ALmbPOvwBNjNtUWzcvxrS/eDKCv3KhZGpAYA3osgfOOyywWgBXKhJUYPHFHQ==
+ b=ixEnKjphisl1CSN0lBQEL9VhF/qsjHOA9xGdOkt8end0e8HHC/V1buS3JcW8BAJaDesZZQIe1Fb6DRpXP5Ej3uGm+kTsmdlHkH8iZAxhdN7oLwn6rlhcuIuAsht7PmhJMvSHr9ByOwMuFcdOeGXuRr0f+F0PgjnsegOM9janzzzqxvhskyWvvtWjWUbG1vJNpoCSnriNVECOl/N9fKOE9ovSZmdkTj+e67nUaxn6WG5lZmOjrxi0QOzf3FbOXDnEIR24D+DtKPwv6Xi7/4bLgxmqhBLB23bw424S1cgRooRnd2c23Hf2RZyDM2GUtWme4WmHscNsGisL7UcchxazEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VhS49n2uFCWGKTNdzzouFd8NNO+6mwBhK3RuDod8mqk=;
- b=R37Ma1N/lGqh44iaIF5EKoE0+Yipt6czNEZe86u+/sw66N1YRTb5HPMrnN2h4S98ZCqXp3l9IUNuzVLQ9xPS9V/3Pd2UIEI74i5mGzwoldf/pdnoZzXil2yxzVVr9NAZ8oRoz+VLOC24/k0VmOmGs+IY2hHlAMrD1sW/6eafp8OwDkowKvTVlWMKz1fz2JzumBmUdwgqxA60Jl5SHl8nhXUaUgJGbiTvb6RutVenWOkSoSGGMPb/0auLfbT+U2IRb5zmcmSTYK5+SYjmlBC/jo1liGm/gWRI3DSOKWOIouPPWA5CRekIZR5db45hMvUZNF+gukNJszl7KdXyx0BQ2w==
+ bh=XujP5eAhFBUmlXztzznPLZupd5FaJsEYiB4b+z3j2Wc=;
+ b=QrqfiPtUXs3VqOxdmizKK+W4PFGaIWn3alqJZ+BlNSfXvWRQfm/70jmiIKveuXCrhDqL+4OScUNa44SugCMb5LhOvPF+h7kJnKdXuESsGQ3Um3irLhVKleM9Xjvnx/xugMQi9yoWqg8vi839EJLL382sYr5gXQmC4hXLQjQn1+IBgsSXG9tj58NF9GQcJboNUtUnBMQ614i6Cg5Gg0AGMKh5Jpt38hHxLSCXfgWAkhXH0JBIcyn0dB7WvdGLHRDvqmNmSWH5Mgte4aKnloLVR6L3CiDMfhEBUdTDwwsozUyL/HS4JX9EEo3QGg0Kpu7urvljtnpXXwB5/j6aw03lSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VhS49n2uFCWGKTNdzzouFd8NNO+6mwBhK3RuDod8mqk=;
- b=vvrW8v2mk0KvjGR3Ys/btALy9rNa9dh8SR2N4ZyWH9sf3tH81DXaUKS68d9skzFt1DmmnX0uuKHmscjg1E1k2lyWBgiqWz8+pFwO1JddYlYfRTbbLKK8OPx02UqP9MnBuIHcdCvlEKYEDOzRx2cx3cPjVnuIT985g6EM3q+842M=
+ bh=XujP5eAhFBUmlXztzznPLZupd5FaJsEYiB4b+z3j2Wc=;
+ b=La8D4OSZtPCz9mGMRB/9rHu04EqH/sfxM2Fy4yr0KKq5ny6RyPC0olQRWhUPCPPkgEdB5Nh35duRNjrHLKhEa6IKe1Vhkf9O2AuXIX5wNuXf7si07Vnord1z32xkONt7xEyy3NKyE3pX/K4lcqhqkhfZxeZkmrqKInD9R1im+XI=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN1SPR01MB0002.namprd12.prod.outlook.com (2603:10b6:802:23::19) with
+ by SN1PR12MB2400.namprd12.prod.outlook.com (2603:10b6:802:2f::25) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20; Wed, 13 May
- 2020 15:56:45 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Wed, 13 May
+ 2020 16:00:03 +0000
 Received: from SN1PR12MB2560.namprd12.prod.outlook.com
  ([fe80::c0f:2938:784f:ed8d]) by SN1PR12MB2560.namprd12.prod.outlook.com
  ([fe80::c0f:2938:784f:ed8d%7]) with mapi id 15.20.3000.022; Wed, 13 May 2020
- 15:56:45 +0000
-Subject: Re: [PATCH v4 1/3] arch/x86: Update config and kernel doc for MPK
- feature on AMD
-To:     Dave Hansen <dave.hansen@intel.com>, corbet@lwn.net,
+ 16:00:03 +0000
+Subject: Re: [PATCH v4 0/3] arch/x86: Enable MPK feature on AMD
+To:     Paolo Bonzini <pbonzini@redhat.com>, corbet@lwn.net,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        pbonzini@redhat.com, sean.j.christopherson@intel.com
+        sean.j.christopherson@intel.com
 Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
         jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
         luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
@@ -70,45 +69,44 @@ Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
         sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, kvm@vger.kernel.org
 References: <158932780954.44260.4292038705292213548.stgit@naples-babu.amd.com>
- <158932793646.44260.2629848287332937779.stgit@naples-babu.amd.com>
- <e8dbb26f-9358-cef7-aae2-14d8b5700245@intel.com>
+ <8cef30e5-5bb5-d3e2-3e0c-d30ec98818da@redhat.com>
 From:   Babu Moger <babu.moger@amd.com>
-Message-ID: <e96a653d-bd13-ed25-81e2-b7301d7f92f1@amd.com>
-Date:   Wed, 13 May 2020 10:56:42 -0500
+Message-ID: <a60b3f06-4db4-38d9-b3aa-bcd27712e42b@amd.com>
+Date:   Wed, 13 May 2020 11:00:01 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
-In-Reply-To: <e8dbb26f-9358-cef7-aae2-14d8b5700245@intel.com>
+In-Reply-To: <8cef30e5-5bb5-d3e2-3e0c-d30ec98818da@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9PR11CA0008.namprd11.prod.outlook.com
- (2603:10b6:806:6e::13) To SN1PR12MB2560.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN6PR05CA0005.namprd05.prod.outlook.com
+ (2603:10b6:805:de::18) To SN1PR12MB2560.namprd12.prod.outlook.com
  (2603:10b6:802:26::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.87] (165.204.77.1) by SA9PR11CA0008.namprd11.prod.outlook.com (2603:10b6:806:6e::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.30 via Frontend Transport; Wed, 13 May 2020 15:56:43 +0000
+Received: from [10.236.30.87] (165.204.77.1) by SN6PR05CA0005.namprd05.prod.outlook.com (2603:10b6:805:de::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.11 via Frontend Transport; Wed, 13 May 2020 16:00:01 +0000
 X-Originating-IP: [165.204.77.1]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 44fa5633-fb19-4edc-a8ff-08d7f7563c5f
-X-MS-TrafficTypeDiagnostic: SN1SPR01MB0002:
-X-Microsoft-Antispam-PRVS: <SN1SPR01MB000254AC8423C263F8A4D7F295BF0@SN1SPR01MB0002.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: ba1f4abc-0eb6-4451-87ce-08d7f756b299
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2400:
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2400E0AC7E36DC6032DB637195BF0@SN1PR12MB2400.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-Forefront-PRVS: 0402872DA1
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fg1tEhyoYeZbjg9OgGkLgfotIb+SFsdTSQ05EP22spNSZ3WFo0dZmDXGIoelXYkffZEQ3Bzw4u5p+wXg7yoLxpk8wNjdRgHAvy5lPsn8x1GudZbPOCI/OSqxBoATRSVNQ0ngI2mmQiy/3zQ3TA3KKtkOi9HNHO+iEaMeR5JsK5dZcMURHJ6ArhfgcbOwZIINmEnOweCLkN2By1mc+OevhjGHu8n6FcmVMbQXnEkvcANiF5YvqKVLy+jWHk0i7LUv8n47CrsMvFTkTmIMATDAkqpqq9DmaZOiQQHpLTcThIA00KLVcvTK2rWYfVx8UqMfOJ+OY2IFAaC5OmZPAtitsmsoKrygFEbpcqtcKVB5tEyWmEsp6IdsqK/7Nev7E+2DLaJWG3JzupFCnAGDnPvFBTXwTc/5JQu9YhrG9pSOYnIMvB5KtKsl5Xgy0ODY0k2Gwe1sRY/dipHgnat0UMR7xh+Q/nPTf9bPCTZ3F2Ry6vP5mwobVOoQJoXJtjjDONMY8i6X5yExlPGEQpVetL2G/TluYA0wb6OlYFhwuBfnP8Flo0VGADb9mXtmflwSaanr
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(39860400002)(366004)(136003)(396003)(376002)(33430700001)(5660300002)(86362001)(31696002)(7416002)(33440700001)(4326008)(36756003)(31686004)(7406005)(8676002)(66946007)(2906002)(8936002)(956004)(66476007)(186003)(478600001)(2616005)(52116002)(6486002)(53546011)(66556008)(26005)(44832011)(16576012)(16526019)(316002)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: Fwh2/ENBXWiEVhyjGfwwydXVXYgjB/miHZdIalQslalYArXkKiYKC63i8avZ8o1+L6DOh2g6wqNE/mQs/JhJTA1SgXR3oiMSgD8K/OQPeeB57FJ66NdQoFINW8r9asiuDUhVqavTqQ0N5zkGm/mG3aNsh0N4q0oa1DMjqrTWSzY8z2wPsjKBsFFx/+26l6/SlrWEmTO1jeSPJskXTYt+xKhmV8/Ob90CGw3OYZ5b5ueQwBdsGrvgM0oOcv8Kp0ooYxbKWER1KPZYoRsllo7axbYfy1wAeRIbSh/US/06jkPLdX4iymRJbc01nfvDjnkf42S+BT7SgPmHhpAoQP/C0/w6JSNNNeASKD4G80DIT31Aog++iW/2o2sDV8dvQI0pN5ix63WBynf6UllIqrSK0myJbBOq6UWfqjiXQQO4Y/tuhA1AHBYXihWxSKQGi+ZBKkxm6EoIKu8wLI4SsEt4aCS0cL7deQaSdLnS2MQc7kE=
+X-Microsoft-Antispam-Message-Info: Asz1zubyysV9XvlKLaE5N7wDIQ6F6G3Q19bx0buYoccEAzR/aa18wlAggIvR6T1prj+UV4ROLJzVubehybb3SEpsckcVWMI3G9fCt5MkBXWwWQajctKevMpvuP0vSdzKd2X2HadQHnCfbOkSGE0tsnCR/yVgMehqSamTEEbCd26JmjtAMkD2I8HStw7aX0roodKulGMppKsNe3IGQlbjUmaLONCm9S7iKqQHIBdWF8BQ3f6ngAtuqnsbvPFPoRZ4zLY3YjtWbutOOHUfEIHlCSop48NO9QIkW1bsoKq9GRjrbsIGN/UzBIpjAn4D6CxhPF1ch6efUX17eHx6XUOHlWMZKJQDyf3EfsBxYLFgfHIPXiIEl6kCbimjLnF3226tbFvjzum6AxQ51f90MpdqdVddNS+Plo6HECycojFHcSYidQgGcQ6fazl1Ms+u8qEHjSOid8sL0PeOS09jAY/FLKzRpAB6d13ZCOw9v/MfZ+E84wZsuAqrQ5+StiE9eITMVb3syIimRzODlv9uWrN6635c3JlUZMgjQstlbk3+D9SOXkF9y+hkAqRAckmgfeBO
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(33430700001)(956004)(44832011)(2906002)(478600001)(8936002)(66556008)(33440700001)(186003)(16526019)(53546011)(8676002)(86362001)(36756003)(4744005)(316002)(16576012)(66476007)(52116002)(26005)(6486002)(2616005)(4326008)(7406005)(31686004)(66946007)(7416002)(5660300002)(31696002)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: uZMxNod/Hk+ssxe7PZotG/qPIzBSe6ZKTtcYVkzxyhCWErdtEvyP9hSvFRevRaA2/5s5WGR8iAGi0xf/d1Yxqy5aH0/MRouCRf+IfyI3Hfu0YYbiaEYD17ZPbosAU6ieA4jojwGNvut+UFu+nPgTuJSLLTHIJETUiXirExFzvtAIqhoVez7zZ48G7BNGpylr92antjPXeFX3X+ddMx0mOJShne/kqt4Ryt+GEIdehCx/qR7TBD0sJXY/nFIVXbFtddW/P2rRqjuoFPGsafR0xiW7T6kpn4H8nqcA/qhBUvoSt4p/aK+nVlbec51LcEBt4gY6B0ODRgPNyxnRkVIJ/G5W/PqlXzKU98+qF108lX3qB1ZxM4VQj6D/w+kUfLY1cfUBJ+f6pzDVMbG6b3//aXVe5deGl4gUaiENg0Fdk7tnhYgVOdxpc5TPBiSn/z43MTA66NhF8Wjn/jCcOr4ijffhT/cel93fx84WERejNxE=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44fa5633-fb19-4edc-a8ff-08d7f7563c5f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2020 15:56:45.2672
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba1f4abc-0eb6-4451-87ce-08d7f756b299
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2020 16:00:03.6366
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6OXcXNgaPlYbF0V0Snz9QIH6sNjaih/zvz56yamlpdD1XGwMPEZt9BPNIbdlMRkd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1SPR01MB0002
+X-MS-Exchange-CrossTenant-UserPrincipalName: fwABPHGXrpVdiyJYuzS+KPWmYErmJD7f6L8INqLNW9e/FqxWdMAjAQReCEabsLqL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2400
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -116,65 +114,22 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 5/13/20 10:09 AM, Dave Hansen wrote:
-> On 5/12/20 4:58 PM, Babu Moger wrote:
->> +config X86_MEMORY_PROTECTION_KEYS
->> +	# Both Intel and AMD platforms support "Memory Protection Keys"
->> +	# feature. So add a generic option X86_MEMORY_PROTECTION_KEYS
->> +	# and set the option whenever X86_INTEL_MEMORY_PROTECTION_KEYS
->> +	# is set. This is to avoid the confusion about the feature
->> +	# availability on AMD platforms. Also renaming the old option
->> +	# would cause the user an extra prompt during the kernel
->> +	# configuration. So avoided changing the old config name.
->> +	def_bool X86_INTEL_MEMORY_PROTECTION_KEYS
+On 5/13/20 10:35 AM, Paolo Bonzini wrote:
+> On 13/05/20 01:58, Babu Moger wrote:
+>> AMD's next generation of EPYC processors support the MPK (Memory
+>> Protection Keys) feature.
+>>
+>> This series enables the feature on AMD and updates config parameters
+>> and documentation to reflect the MPK support on x86 platforms.
+>>
+>> AMD documentation for MPK feature is available at "AMD64 Architecture
+>> Programmer’s Manual Volume 2: System Programming, Pub. 24593 Rev. 3.34,
+>> Section 5.6.6 Memory Protection Keys (MPK) Bit".
+>>
+>> The documentation can be obtained at the link below:
 > 
-> Hi Babu,
-> 
-> I made a request earlier for an end date (or version) to be included
-> here.  I believe that appeared in one of your earlier versions, but it
-> was removed in later ones.
-> 
-> Was there a reason for that?
+> I'm queuing patches 2 and 3, since they are do not need any support in
+> common code.
 
-Dave, Sorry, I misunderstood that. I thought we probably are not going to
-change the sources/makefile(ifdefs mostly) as it was technically not
-required. Now I am reading that we are going to change that in the future
-and just keep X86_MEMORY_PROTECTION_KEYS going forward.
-Sure. I will add the text you proposed. Please feel free to correct again.
+Thanks Paolo. I will just resubmit the patch #1 addressing Dave's feedback.
 
-> 
-> I'd really prefer to put some kind of expiration date on the config
-> option.  It will outlive us all otherwise.
-> 
->>  Memory Protection Keys for Userspace (PKU aka PKEYs) is a feature
->>  which is found on Intel's Skylake "Scalable Processor" Server CPUs.
->> -It will be avalable in future non-server parts.
->> +It will be available in future non-server parts. Also, AMD64
->> +Architecture Programmer’s Manual defines PKU feature in AMD processors.
-> 
-> I actually worked pretty hard to make that sentence useful to Linux
-> users.  Instead of forcing them to imply that it will be available on
-> future AMD CPUs, can we just come out and say it?  Can we give any more
-> information to our users?
-> 
-> Naming the AMD manual in which the feature is defined doesn't really
-> help our users.  Let's not waste the bytes on it.
-> 
-> How about:
-> 
-> 	Memory Protection Keys for Userspace (PKU aka PKEYs) is a
-> 	feature which is found on Intel's Skylake (and later) "Scalable
-> 	Processor" Server CPUs.  It will be avalable in future non-
-> 	server Intel parts and future AMD parts.
-
-This should be good enough. Thanks.
-> 
-> Any clarity you can add, such as to say what AMD is doing for server vs.
-> client  would be nice.
-> 
-> BTW, when I first submitted pkeys, I didn't have any statement like this
-> in the changelog or documentation.  Ingo, I think, asked for it and I
-> worked with folks inside Intel to figure out how much we could say
-> publicly about our plans.  A similar effort from AMD would be much
-> appreciated here.
-> 
