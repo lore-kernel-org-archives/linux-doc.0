@@ -2,273 +2,196 @@ Return-Path: <SRS0=G6vI=63=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91577C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 16:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B03CFC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 18:52:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8643207D5
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 16:07:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 588EC2054F
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 18:52:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H3TA6ZWt"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O7gEDDzh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728692AbgEMQHi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 May 2020 12:07:38 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44135 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729561AbgEMQHi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 May 2020 12:07:38 -0400
+        id S2390200AbgEMSwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 May 2020 14:52:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50638 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2387462AbgEMSwq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 May 2020 14:52:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589386057;
+        s=mimecast20190719; t=1589395964;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=//iylwP5dC0vk5Lio2BTXjJhEZdilrXVVxZISleOyPQ=;
-        b=H3TA6ZWtTypYbpYGFYGrbXzde0ZSywyYWkyYspQ9Xerjc55FPsShwZx/hW0NSHnAYT6njz
-        chSDtdKYWZhzgar0gScQte3IR7i1oD9lIznrlbzLy525JgmxdrQ6kJKa+lhbR0Qg/U50JN
-        IEkD6oqx0/pKqd1Ym/hsbeXFssM1mKI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-z6VaKZCgPietU82rN9nuZg-1; Wed, 13 May 2020 12:07:32 -0400
-X-MC-Unique: z6VaKZCgPietU82rN9nuZg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAC5A1054F90;
-        Wed, 13 May 2020 16:07:29 +0000 (UTC)
-Received: from optiplex-lnx (unknown [10.3.128.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B98AF26DE7;
-        Wed, 13 May 2020 16:07:17 +0000 (UTC)
-Date:   Wed, 13 May 2020 12:07:14 -0400
-From:   Rafael Aquini <aquini@redhat.com>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
-        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
-        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
-        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
-        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
-        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
-Subject: Re: [PATCH v4] kernel: add panic_on_taint
-Message-ID: <20200513160714.GM367616@optiplex-lnx>
-References: <20200513150026.1039987-1-aquini@redhat.com>
- <20200513154722.GR11244@42.do-not-panic.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200513154722.GR11244@42.do-not-panic.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+         to:to:cc:cc; bh=klz1aIlltTyMvpQo6wp2CnVfN50qcHTeSgtHjx0WeI8=;
+        b=O7gEDDzhd+Ediw2lolIyIWukU00BctGrUTwF1sJufx5l9z+iKVIkIoo7GS16V920kh+iXB
+        xqA/116Fl73lyIAdhcijM/aeWFtJko+oL4L5wYQfUKikf4coKuaVLfcJUkniaVOsPvdpS7
+        O8PPu3hM9NKV+MjItNCjlrT7/2LR67I=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-k9LlrlKePcyqnXVmjhjw0A-1; Wed, 13 May 2020 14:52:42 -0400
+X-MC-Unique: k9LlrlKePcyqnXVmjhjw0A-1
+Received: by mail-pf1-f197.google.com with SMTP id q5so486580pff.11
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2020 11:52:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=klz1aIlltTyMvpQo6wp2CnVfN50qcHTeSgtHjx0WeI8=;
+        b=rbEvt1QxuglX1nbkD7DtU5SlnZs+i8XK+DIY4Kl64eRFaCD8MfIltljYFd7jqmussr
+         kAPhPXK6XjSKvpe8PfbMQ4jvuB17yTTjNX+wcIH/UcCllxkZ8eBmYCfXmnGN/H0VvHUI
+         sRCICDLgX44U7vg/t1HhgAKeilOKMc1aqcrMjAXoHuU82TwHFUc8jkv8AUT3VDNmXE3E
+         cr5Y5xEpOnawUFEFX+dIkgV5DyCZJpU60CpjgQnvZnQhw2aEUUvvoNchdIQtZD65otWl
+         bLVI0lHv5yRY9oaWTosZJxoRdL85C/ta+mpG5v072Ku/iJXL9nPzhlkmoNJX1d+3innR
+         GeXw==
+X-Gm-Message-State: AGi0PuZQ2IufXbU0aybHq9pNSjwvf4HZipeTI39quB3huD8ZaCsZpPER
+        pVRAW0WHCOLgw+NInqZogbbpdRsrDtVP8ns4vVVDSVBjtGzF/fCYfq7sri6FNSlrr/bxj1pdtgi
+        sVILZUD1IF+sVrCRGOR+e
+X-Received: by 2002:a17:90a:bc4a:: with SMTP id t10mr35609762pjv.104.1589395961815;
+        Wed, 13 May 2020 11:52:41 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIuLKmGrGFPHM791kHZAFCmnHIYlCo9XywvYUHAqAM5Bb2fZsRB2lyt+YcuSxBVSz35z/ovow==
+X-Received: by 2002:a17:90a:bc4a:: with SMTP id t10mr35609740pjv.104.1589395961483;
+        Wed, 13 May 2020 11:52:41 -0700 (PDT)
+Received: from localhost ([122.177.166.225])
+        by smtp.gmail.com with ESMTPSA id m18sm16270331pjl.14.2020.05.13.11.52.40
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 13 May 2020 11:52:40 -0700 (PDT)
+From:   Bhupesh Sharma <bhsharma@redhat.com>
+To:     linux-arm-kernel@lists.infradead.org, x86@kernel.org
+Cc:     bhsharma@redhat.com, bhupesh.linux@gmail.com,
+        Boris Petkov <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morse <james.morse@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Steve Capper <steve.capper@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Dave Anderson <anderson@redhat.com>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
+        John Donnelly <john.p.donnelly@oracle.com>,
+        scott.branden@broadcom.com, Amit Kachhap <amit.kachhap@arm.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kexec@lists.infradead.org
+Subject: [PATCH v6 0/2] Append new variables to vmcoreinfo (TCR_EL1.T1SZ for arm64 and MAX_PHYSMEM_BITS for all archs)
+Date:   Thu, 14 May 2020 00:22:35 +0530
+Message-Id: <1589395957-24628-1-git-send-email-bhsharma@redhat.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 13, 2020 at 03:47:22PM +0000, Luis Chamberlain wrote:
-> On Wed, May 13, 2020 at 11:00:26AM -0400, Rafael Aquini wrote:
-> > Analogously to the introduction of panic_on_warn, this patch
-> > introduces a kernel option named panic_on_taint in order to
-> > provide a simple and generic way to stop execution and catch
-> > a coredump when the kernel gets tainted by any given taint flag.
-> > 
-> > This is useful for debugging sessions as it avoids rebuilding
-> > the kernel to explicitly add calls to panic() or BUG() into
-> > code sites that introduce the taint flags of interest.
-> > For instance, if one is interested in following up with
-> > a post mortem analysis at the point a code path is hitting
-> > a bad page (i.e. unaccount_page_cache_page(), or slab_bug()),
-> > a crashdump could be collected by rebooting the kernel with
-> > 'panic_on_taint=0x20' amended to the command line string.
-> > 
-> > Another, perhaps less frequent, use for this option would be
-> > as a mean for assuring a security policy case where only a
-> > subset of taints, or no single taint (in paranoid mode),
-> > is allowed for the running system.
-> > The optional switch 'nousertaint' is handy in this particular
-> > scenario as it will avoid userspace induced crashes by writes
-> > to /proc/sys/kernel/tainted causing false positive hits for
-> > such policies.
-> > 
-> > Suggested-by: Qian Cai <cai@lca.pw>
-> > Signed-off-by: Rafael Aquini <aquini@redhat.com>
-> > ---
-> > Changelog:
-> > * v2: get rid of unnecessary/misguided compiler hints		(Luis)
-> >       enhance documentation text for the new kernel parameter	(Randy)
-> > * v3: drop sysctl interface, keep it only as a kernel parameter (Luis)
-> > * v4: change panic_on_taint input from alphabetical taint flags
-> >       to hexadecimal bitmasks, for clarity and extendability	(Luis)
-> > 
-> >  Documentation/admin-guide/kdump/kdump.rst     |  7 ++++
-> >  .../admin-guide/kernel-parameters.txt         | 13 +++++++
-> >  include/linux/kernel.h                        |  4 +++
-> >  kernel/panic.c                                | 34 +++++++++++++++++++
-> >  kernel/sysctl.c                               | 11 +++++-
-> >  5 files changed, 68 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-> > index ac7e131d2935..2707de840fd3 100644
-> > --- a/Documentation/admin-guide/kdump/kdump.rst
-> > +++ b/Documentation/admin-guide/kdump/kdump.rst
-> > @@ -521,6 +521,13 @@ will cause a kdump to occur at the panic() call.  In cases where a user wants
-> >  to specify this during runtime, /proc/sys/kernel/panic_on_warn can be set to 1
-> >  to achieve the same behaviour.
-> >  
-> > +Trigger Kdump on add_taint()
-> > +============================
-> > +
-> > +The kernel parameter panic_on_taint facilitates calling panic() from within
-> > +add_taint() whenever the value set in this bitmask matches with the bit flag
-> > +being set by add_taint(). This will cause a kdump to occur at the panic() call.
-> > +
-> >  Contact
-> >  =======
-> >  
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 7bc83f3d9bdf..ce17fdbec7d1 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -3401,6 +3401,19 @@
-> >  			bit 4: print ftrace buffer
-> >  			bit 5: print all printk messages in buffer
-> >  
-> > +	panic_on_taint=	Bitmask for conditionally call panic() in add_taint()
-> > +			Format: <hex>[,nousertaint]
-> > +			Hexadecimal bitmask representing the set of TAINT flags
-> > +			that will cause the kernel to panic when add_taint() is
-> > +			called with any of the flags in this set.
-> > +			The optional switch "nousertaint" can be utilized to
-> > +			prevent userland forced crashes by writing to sysctl
-> > +			/proc/sys/kernel/tainted any flagset matching with the
-> > +			bitmask set on panic_on_taint.
-> > +			See Documentation/admin-guide/tainted-kernels.rst for
-> > +			extra details on the taint flags that users can pick
-> > +			to compose the bitmask to assign to panic_on_taint.
-> > +
-> >  	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
-> >  			on a WARN().
-> >  
-> > diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-> > index 9b7a8d74a9d6..70712944dffc 100644
-> > --- a/include/linux/kernel.h
-> > +++ b/include/linux/kernel.h
-> > @@ -528,6 +528,8 @@ extern int panic_on_oops;
-> >  extern int panic_on_unrecovered_nmi;
-> >  extern int panic_on_io_nmi;
-> >  extern int panic_on_warn;
-> > +extern unsigned long panic_on_taint;
-> > +extern bool panic_on_taint_nousertaint;
-> >  extern int sysctl_panic_on_rcu_stall;
-> >  extern int sysctl_panic_on_stackoverflow;
-> >  
-> > @@ -597,6 +599,8 @@ extern enum system_states {
-> >  #define TAINT_RANDSTRUCT		17
-> >  #define TAINT_FLAGS_COUNT		18
-> >  
-> > +#define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
-> > +
-> >  struct taint_flag {
-> >  	char c_true;	/* character printed when tainted */
-> >  	char c_false;	/* character printed when not tainted */
-> > diff --git a/kernel/panic.c b/kernel/panic.c
-> > index b69ee9e76cb2..94b5c973770c 100644
-> > --- a/kernel/panic.c
-> > +++ b/kernel/panic.c
-> > @@ -44,6 +44,8 @@ static int pause_on_oops_flag;
-> >  static DEFINE_SPINLOCK(pause_on_oops_lock);
-> >  bool crash_kexec_post_notifiers;
-> >  int panic_on_warn __read_mostly;
-> > +unsigned long panic_on_taint;
-> > +bool panic_on_taint_nousertaint = false;
-> >  
-> >  int panic_timeout = CONFIG_PANIC_TIMEOUT;
-> >  EXPORT_SYMBOL_GPL(panic_timeout);
-> > @@ -434,6 +436,11 @@ void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
-> >  		pr_warn("Disabling lock debugging due to kernel taint\n");
-> >  
-> >  	set_bit(flag, &tainted_mask);
-> > +
-> > +	if (tainted_mask & panic_on_taint) {
-> > +		panic_on_taint = 0;
-> > +		panic("panic_on_taint set ...");
-> > +	}
-> >  }
-> >  EXPORT_SYMBOL(add_taint);
-> >  
-> > @@ -686,3 +693,30 @@ static int __init oops_setup(char *s)
-> >  	return 0;
-> >  }
-> >  early_param("oops", oops_setup);
-> > +
-> > +static int __init panic_on_taint_setup(char *s)
-> > +{
-> > +	char *taint_str;
-> > +
-> > +	if (!s)
-> > +		return -EINVAL;
-> > +
-> > +	taint_str = strsep(&s, ",");
-> > +	if (kstrtoul(taint_str, 16, &panic_on_taint))
-> > +		return -EINVAL;
-> > +
-> > +	/* make sure panic_on_taint doesn't hold out-of-range TAINT flags */
-> > +	panic_on_taint &= TAINT_FLAGS_MAX;
-> 
-> While it may have made sennse for simplicity to not pr_warn_once on the
-> proc_taint() case I think in this case we do want to pr_warn_once() as
-> the user is wishing to DEFINITELY PANIC if such a taint flag is present.
->
+Apologies for the delayed update. Its been quite some time since I
+posted the last version (v5), but I have been really caught up in some
+other critical issues.
 
-In case the bitmask is invalidated (because user has set it deliberately
-to 0, or because it was set to a specific flagset totally out of the valid 
-range, which will cause the bitwise-and to render panic_on_taint=0) the non-zero
-return in the checkpoint below will take care of informing that the option
-was malformed and it's not set. For all other cases where out-of-range 
-flags get ignored, but a flagset is committed to panic_on_taint, the user 
-can verify the results that will be printed out at the pr_info() call.
+Changes since v5:
+----------------
+- v5 can be viewed here:
+  http://lists.infradead.org/pipermail/kexec/2019-November/024055.html
+- Addressed review comments from James Morse and Boris.
+- Added Tested-by received from John on v5 patchset.
+- Rebased against arm64 (for-next/ptr-auth) branch which has Amit's
+  patchset for ARMv8.3-A Pointer Authentication feature vmcoreinfo
+  applied.
 
-There is no need for an extra custom printout for this case, IMO.
+Changes since v4:
+----------------
+- v4 can be seen here:
+  http://lists.infradead.org/pipermail/kexec/2019-November/023961.html
+- Addressed comments from Dave and added patches for documenting
+  new variables appended to vmcoreinfo documentation.
+- Added testing report shared by Akashi for PATCH 2/5.
 
-> > +
-> > +	if (!panic_on_taint)
-> > +		return -EINVAL;
-> > +
-> > +	if (s && !strcmp(s, "nousertaint"))
-> > +		panic_on_taint_nousertaint = true;
-> > +
-> > +	pr_info("panic_on_taint: bitmask=0x%lx nousertaint_mode=%sabled\n",
-> > +		panic_on_taint, panic_on_taint_nousertaint ? "en" : "dis");
-> > +
-> > +	return 0;
-> > +}
-> > +early_param("panic_on_taint", panic_on_taint_setup);
-> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> > index 8a176d8727a3..e257c965683a 100644
-> > --- a/kernel/sysctl.c
-> > +++ b/kernel/sysctl.c
-> > @@ -2623,11 +2623,20 @@ static int proc_taint(struct ctl_table *table, int write,
-> >  		return err;
-> >  
-> >  	if (write) {
-> > +		int i;
-> > +
-> > +		/*
-> > +		 * If we are relying on panic_on_taint not producing
-> > +		 * false positives due to userland input, bail out
-> > +		 * before setting the requested taint flags.
-> > +		 */
-> > +		if (panic_on_taint_nousertaint && (tmptaint & panic_on_taint))
-> > +			return -EINVAL;
-> > +
-> 
-> I like the compromise, but I think you also have to update this sysctl's
-> documentation to reflect this is disabled if this new boot param is used.
-> 
+Changes since v3:
+----------------
+- v3 can be seen here:
+  http://lists.infradead.org/pipermail/kexec/2019-March/022590.html
+- Addressed comments from James and exported TCR_EL1.T1SZ in vmcoreinfo
+  instead of PTRS_PER_PGD.
+- Added a new patch (via [PATCH 3/3]), which fixes a simple typo in
+  'Documentation/arm64/memory.rst'
 
-Indeed, sorry I missed that part. I'll update it and repost.
+Changes since v2:
+----------------
+- v2 can be seen here:
+  http://lists.infradead.org/pipermail/kexec/2019-March/022531.html
+- Protected 'MAX_PHYSMEM_BITS' vmcoreinfo variable under CONFIG_SPARSEMEM
+  ifdef sections, as suggested by Kazu.
+- Updated vmcoreinfo documentation to add description about
+  'MAX_PHYSMEM_BITS' variable (via [PATCH 3/3]).
 
--- Rafael
+Changes since v1:
+----------------
+- v1 was sent out as a single patch which can be seen here:
+  http://lists.infradead.org/pipermail/kexec/2019-February/022411.html
+
+- v2 breaks the single patch into two independent patches:
+  [PATCH 1/2] appends 'PTRS_PER_PGD' to vmcoreinfo for arm64 arch, whereas
+  [PATCH 2/2] appends 'MAX_PHYSMEM_BITS' to vmcoreinfo in core kernel code (all archs)
+
+This patchset primarily fixes the regression reported in user-space
+utilities like 'makedumpfile' and 'crash-utility' on arm64 architecture
+with the availability of 52-bit address space feature in underlying
+kernel. These regressions have been reported both on CPUs which don't
+support ARMv8.2 extensions (i.e. LVA, LPA) and are running newer kernels
+and also on prototype platforms (like ARMv8 FVP simulator model) which
+support ARMv8.2 extensions and are running newer kernels.
+
+The reason for these regressions is that right now user-space tools
+have no direct access to these values (since these are not exported
+from the kernel) and hence need to rely on a best-guess method of
+determining value of 'vabits_actual' and 'MAX_PHYSMEM_BITS' supported
+by underlying kernel.
+
+Exporting these values via vmcoreinfo will help user-land in such cases.
+In addition, as per suggestion from makedumpfile maintainer (Kazu),
+it makes more sense to append 'MAX_PHYSMEM_BITS' to
+vmcoreinfo in the core code itself rather than in arm64 arch-specific
+code, so that the user-space code for other archs can also benefit from
+this addition to the vmcoreinfo and use it as a standard way of
+determining 'SECTIONS_SHIFT' value in user-land.
+
+Cc: Boris Petkov <bp@alien8.de>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: James Morse <james.morse@arm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Steve Capper <steve.capper@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Dave Anderson <anderson@redhat.com>
+Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Cc: John Donnelly <john.p.donnelly@oracle.com>
+Cc: scott.branden@broadcom.com
+Cc: Amit Kachhap <amit.kachhap@arm.com>
+Cc: x86@kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: kexec@lists.infradead.org
+
+Bhupesh Sharma (2):
+  crash_core, vmcoreinfo: Append 'MAX_PHYSMEM_BITS' to vmcoreinfo
+  arm64/crash_core: Export TCR_EL1.T1SZ in vmcoreinfo
+
+ Documentation/admin-guide/kdump/vmcoreinfo.rst | 16 ++++++++++++++++
+ arch/arm64/include/asm/pgtable-hwdef.h         |  1 +
+ arch/arm64/kernel/crash_core.c                 | 10 ++++++++++
+ kernel/crash_core.c                            |  1 +
+ 4 files changed, 28 insertions(+)
+
+-- 
+2.7.4
 
