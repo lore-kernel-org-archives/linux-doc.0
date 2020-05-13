@@ -2,123 +2,138 @@ Return-Path: <SRS0=G6vI=63=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97D0DCA90AF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 13:39:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41962C2D0FD
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 13:43:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F29D223E0
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 13:39:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4AEEE20675
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 13:43:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=unikie-com.20150623.gappssmtp.com header.i=@unikie-com.20150623.gappssmtp.com header.b="BX8FOjSk"
+	dkim=pass (2048-bit key) header.d=unikie-com.20150623.gappssmtp.com header.i=@unikie-com.20150623.gappssmtp.com header.b="gBh6jXYD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388661AbgEMNjP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 May 2020 09:39:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56902 "EHLO
+        id S2387906AbgEMNnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 May 2020 09:43:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388550AbgEMNjI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 May 2020 09:39:08 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DAECC061A0F
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2020 06:39:08 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id e2so14203998eje.13
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2020 06:39:08 -0700 (PDT)
+        with ESMTP id S2388120AbgEMNnx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 May 2020 09:43:53 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2BF4C061A0F
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2020 06:43:52 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id 188so13647351lfa.10
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2020 06:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=unikie-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QqbYeA4KoNOGLDU4w91JLxJmMWvxI9R71hazf6AYiqA=;
-        b=BX8FOjSkWi+v7YmCoxcilRdbPXqC8noIYuJCrduGbzn7537ea+xIbgIIp4kaWmk8Fs
-         OTtCKMG89H8kgolwqbUez64KldKIG5RfESbd/KBLwEF04/mFeqR5Q/M/J8iRKKbBtBf8
-         QujUSjjVo+cCnRhDeoXPCoBzvM8jtZQale0ODZX6wk4CqYNjakmZNjCfXhGRTc1f7u57
-         toHx7cR/YJ4wVHPRbfAee+NDufr/UM/bPDeq1jEBmLchIRFN8CL5VAgHtdeQNsnA1mFY
-         3PYx71UqIzxvlNEpY90a4aK/ll0JFFZnlPudLKn75GnHLMKSNdftS84UEznv8S60EVGL
-         yOjg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=aUaq+FTPLwUj6E+pCwoQEQ6JV9QgxALeXAkDkFOPR7g=;
+        b=gBh6jXYDqujE825pU+j4iL/+SPPrN3a5c0dt6G1hkUDBowbG+9aqlqYvKsY4df8k6x
+         ZUj7Ht+pPqQ0eEEX7B0FCwKQ+zCUJqc4tXVfQ0V/EuzpYgG2LxpGdZImzetVEXzIH3JC
+         tKLdjRv6THnXJZzRdYkx+HfejLWUuUoRPlFhoi8M5niVg0o0LjoX/KD7VCDFGPu9Xdn6
+         SldZsUhBTjf0a3Nxvg92rjgvv8Pb2yLkKrNTXiCNsZsNGzcyq2GWQHVgp4LqGh5u4S0B
+         +qjnUhPjLFhPfHjLx0+uZJRygFe+qo0kpg/K6f70T5ULVE4lwFgB9OablCG3sk622oIH
+         AeRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QqbYeA4KoNOGLDU4w91JLxJmMWvxI9R71hazf6AYiqA=;
-        b=GztZyh/OMkEg9j/vhToEOCaVMJa+AtLv3YR7A0BjsBHvaaiswZ0ycDlVdKRBhwjTrq
-         /3wY4rXBEWhqvimp+s4h5/Zhw3o+pdEw6P9YUJXbX64BW+zL/q9BoH2pW6tNGYsV1+6L
-         l4CCuY3a4Ixl8THEtlci9FVWTnrdbMCeX3/9c8+S2ov9Bgh9UuID9nbZDaPa2A0rIN2i
-         zAa4dPeBlxIC7ZqUw3sQZ3x/ersV54JSzUOlNkt8MXHn7buCKgvyoKDkexgusAwgRR14
-         /q7hXNYtF+qgXgY4CLmS5Tj5aCApzguKjDUuKQG7/cIIj8YYsG0DLIpLE0IpC/hbzv/X
-         hF6g==
-X-Gm-Message-State: AGi0PubD+i+t1CSe2DGvNstMjE58LbqkpZuI+ae8aPFDkCjqrPOv8k/C
-        /g2Qqe8bng2OcRom8VxKvZXYX8NOx4qGH3HR/3Y25A==
-X-Google-Smtp-Source: APiQypLIJhK5jdQTRXtb2GsY0qald7EfY5psTJrvJi1KrsW4dsSGbEwUlykmB7/sYpaDHqVIlbD6ewQbLhXudrNqGrI=
-X-Received: by 2002:a17:907:9d6:: with SMTP id bx22mr20613524ejc.110.1589377147162;
- Wed, 13 May 2020 06:39:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200507180553.9993-1-john.mathew@unikie.com> <20200507180553.9993-3-john.mathew@unikie.com>
- <jhjh7wrtpjk.mognet@arm.com> <b974b959-7b9a-2874-dca6-674b74ad5b42@arm.com>
-In-Reply-To: <b974b959-7b9a-2874-dca6-674b74ad5b42@arm.com>
-From:   John Mathew <john.mathew@unikie.com>
-Date:   Wed, 13 May 2020 16:38:55 +0300
-Message-ID: <CAJz2qXkrcobNC0Oh94p1e5chMdgzm6X1VCU9Es-1_=Zm5V0HMg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 2/3] docs: scheduler: Add scheduler overview documentation
-To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc:     Valentin Schneider <valentin.schneider@arm.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
-        juri.lelli@redhat.com,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        rostedt@goodmis.org, Benjamin Segall <bsegall@google.com>,
-        mgorman@suse.de, bristot@redhat.com, tsbogend@alpha.franken.de,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>, x86@kernel.org,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=aUaq+FTPLwUj6E+pCwoQEQ6JV9QgxALeXAkDkFOPR7g=;
+        b=iFPfwNsWx3Q5VINptESKm6fDz0ZRPzfEiZAcJ+0LuIHTYn4Msk1TMt/ntAcHt9n5++
+         ZQxiQUPvc29VkpizBnH3SFNHtIJpcD7ho8RUORZRxZCovusjOEy7+pa6tEHQF7Z+RQxj
+         KrOL+LVHdcUASGdKOn1F6eXk/ne0jWkFMA0SBJUZ14iqMvv/1iDfvU6btPvT8rVjYckH
+         TCl52H++35+nrVBywE2kzvlvxyq8d7Qp6oRZCmRXwGpnugeqzXmatbsl0uJ2qIfHacp4
+         Tcs2wyNnv9I/qkqQOah0f7uEWDDbR2yEZI/ZGlm5Q/rjc0ikvsyXh41PgyYfp/oHkRGv
+         /wzg==
+X-Gm-Message-State: AOAM531RJ4HDp9WXqF+6cPB0W3xCWjj6gOG0tqMyiVDceIvSiV4jo9pI
+        JpCM2/XJgqFlWdf2doG7/wOOD0/O8C+vo9jg
+X-Google-Smtp-Source: ABdhPJzxzHWAVwfLKt83j5dQr07PJTsv42mFTW6jFhYAc8D8FiMzUovBw+zsgsA2DB1gKC7jY3rpQQ==
+X-Received: by 2002:a05:6512:455:: with SMTP id y21mr18596130lfk.202.1589377431091;
+        Wed, 13 May 2020 06:43:51 -0700 (PDT)
+Received: from localhost.localdomain ([109.204.235.119])
+        by smtp.googlemail.com with ESMTPSA id t16sm17441367lff.72.2020.05.13.06.43.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2020 06:43:50 -0700 (PDT)
+From:   john mathew <john.mathew@unikie.com>
+X-Google-Original-From: john mathew <John.Mathew@unikie.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, mingo@redhat.com,
+        peterz@infradead.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, tsbogend@alpha.franken.de,
+        lukas.bulwahn@gmail.com, x86@kernel.org,
         linux-mips@vger.kernel.org, tglx@linutronix.de,
-        Mostafa Chamanara <mostafa.chamanara@basemark.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Oleg Tsymbal <oleg.tsymbal@unikie.com>
-Content-Type: text/plain; charset="UTF-8"
+        mostafa.chamanara@gmail.com, willy@infradead.org,
+        valentin.schneider@arm.com, john mathew <John.Mathew@unikie.com>
+Subject: [RFC PATCH v4 0/3] Add scheduler overview documentation
+Date:   Wed, 13 May 2020 16:43:35 +0300
+Message-Id: <20200513134338.19688-2-John.Mathew@unikie.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200513134338.19688-1-John.Mathew@unikie.com>
+References: <20200513134338.19688-1-John.Mathew@unikie.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 8, 2020 at 1:58 PM Dietmar Eggemann
-<dietmar.eggemann@arm.com> wrote:
->
-> On 07/05/2020 23:15, Valentin Schneider wrote:
-> >
-> > On 07/05/20 19:05, John Mathew wrote:
->
-> [...]
->
-> > It would also be an opportunity to have one place to (at least briefly)
-> > describe what the different sched classes do wrt capacity asymmetry - CFS
-> > does one thing, RT now does one thing (see Qais' work), and DL will
-> > hopefully soon follow (see Dietmar's work).
-> >
-> > I'd be happy to contribute (some of) that, if it can be deemed useful (I
-> > personally think it might).
->
-> I like the idea.
->
-> Essentially all the code which is guarded by the 'if
-> (static_branch_unlikely(&sched_asym_cpucapacity)' condition or which
-> sets it during bring-up.
->
-> * 'Cpu capacity < SCHED_LOAD_SCALE for non-big' CPUs setting during
->    bringup (necessary dt binding, CPUfreq influence)
->
-> * CFS capacity awareness:
->
->   * wakeup - select_idle_capacity() (replaced wake_cap() & slow path to
->              cover DynamIQ and classical big.LITTLE)
->
->   * load_balance - misfit handling
->
-> * RT & DL capacity awareness
->
-> * ... & the relation to EAS (Documentation/scheduler/sched-energy.rst)
->
-> This is what we referred to (at least internally) as CAS (Capacity-Aware
-> Scheduling).
+version 4:
+ -Added section on Capacity-Aware Scheduling
+ -Reworded CFS recently added features.
+ -Removed vruntime description from scheduler structs
+ -Added description of idle and stopper sched classses
 
-Added in pathset v4.
+version 3:
+ -Fix spelling, spacing and typo errors.
 
-Thanks
+version 2:
+- Remove :c:func: directive as it was redundant
+- Limit document width (line symbol count) to 75
+- Replace dot file with ASCII art
+- Describe prepare_task_switch(), ASID use, 
+  kernel/user transtion, MIPS FPU affinity correctly
+- Add missing references to files
+- Removed internal APIs from scheduler API reference
+- Described rq struct member as kernel-doc comments
+- Replaced CFS history with CFS current status
+- Added documentation for sched_class fields
+- Refined explanation of context swtich functionality
+- Replace CFS history with recent changes
+- Added kernel-doc comments for struct rq
+
+John Mathew (3):
+  docs: scheduler: Restructure scheduler documentation.
+  docs: scheduler: Add scheduler overview documentation
+  docs: scheduler: Add introduction to scheduler context-switch
+
+ Documentation/scheduler/arch-specific.rst     |  14 +
+ Documentation/scheduler/cfs-overview.rst      | 102 ++++++
+ Documentation/scheduler/context-switching.rst | 125 ++++++++
+ Documentation/scheduler/index.rst             |  33 +-
+ .../scheduler/mips-context-switch.rst         |  89 ++++++
+ Documentation/scheduler/overview.rst          | 293 ++++++++++++++++++
+ Documentation/scheduler/sched-cas.rst         |  90 ++++++
+ .../scheduler/sched-data-structs.rst          | 182 +++++++++++
+ Documentation/scheduler/sched-debugging.rst   |  14 +
+ Documentation/scheduler/sched-features.rst    |  21 ++
+ Documentation/scheduler/scheduler-api.rst     |  31 ++
+ .../scheduler/x86-context-switch.rst          |  65 ++++
+ kernel/sched/core.c                           |  28 +-
+ kernel/sched/sched.h                          | 169 +++++++++-
+ 14 files changed, 1236 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/scheduler/arch-specific.rst
+ create mode 100644 Documentation/scheduler/cfs-overview.rst
+ create mode 100644 Documentation/scheduler/context-switching.rst
+ create mode 100644 Documentation/scheduler/mips-context-switch.rst
+ create mode 100644 Documentation/scheduler/overview.rst
+ create mode 100644 Documentation/scheduler/sched-cas.rst
+ create mode 100644 Documentation/scheduler/sched-data-structs.rst
+ create mode 100644 Documentation/scheduler/sched-debugging.rst
+ create mode 100644 Documentation/scheduler/sched-features.rst
+ create mode 100644 Documentation/scheduler/scheduler-api.rst
+ create mode 100644 Documentation/scheduler/x86-context-switch.rst
+
+-- 
+2.17.1
+
