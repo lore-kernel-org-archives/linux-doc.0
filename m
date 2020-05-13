@@ -2,196 +2,134 @@ Return-Path: <SRS0=G6vI=63=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B03CFC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 18:52:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C6EEC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 20:15:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 588EC2054F
-	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 18:52:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88A072065C
+	for <linux-doc@archiver.kernel.org>; Wed, 13 May 2020 20:15:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O7gEDDzh"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nMo2mfTP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390200AbgEMSwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 May 2020 14:52:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50638 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2387462AbgEMSwq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 May 2020 14:52:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589395964;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc; bh=klz1aIlltTyMvpQo6wp2CnVfN50qcHTeSgtHjx0WeI8=;
-        b=O7gEDDzhd+Ediw2lolIyIWukU00BctGrUTwF1sJufx5l9z+iKVIkIoo7GS16V920kh+iXB
-        xqA/116Fl73lyIAdhcijM/aeWFtJko+oL4L5wYQfUKikf4coKuaVLfcJUkniaVOsPvdpS7
-        O8PPu3hM9NKV+MjItNCjlrT7/2LR67I=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-k9LlrlKePcyqnXVmjhjw0A-1; Wed, 13 May 2020 14:52:42 -0400
-X-MC-Unique: k9LlrlKePcyqnXVmjhjw0A-1
-Received: by mail-pf1-f197.google.com with SMTP id q5so486580pff.11
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2020 11:52:42 -0700 (PDT)
+        id S2390859AbgEMUPd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 May 2020 16:15:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2390674AbgEMUPd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 May 2020 16:15:33 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0BDBC061A0F
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2020 13:15:32 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id z15so2150099pjb.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2020 13:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Gcu03BapccXbGC0ugrF7HAKsX8s/rikPdyRfZ2v+7/A=;
+        b=nMo2mfTPsCwPQuL3Wy/MlcZIMWxFkdw9LhCDLY5nhwMM21OCJKIkBr/jaFfSBwIN1Y
+         akIlzTecdhLNLgKpEWYDBQ0mN/XX7L2NRzU4azhQL5vDsth352qYFB19f+vz5xYZdL9J
+         F/FtSTYPzv3A5YmLLP2aadn9GW2+VRNqnIS0I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=klz1aIlltTyMvpQo6wp2CnVfN50qcHTeSgtHjx0WeI8=;
-        b=rbEvt1QxuglX1nbkD7DtU5SlnZs+i8XK+DIY4Kl64eRFaCD8MfIltljYFd7jqmussr
-         kAPhPXK6XjSKvpe8PfbMQ4jvuB17yTTjNX+wcIH/UcCllxkZ8eBmYCfXmnGN/H0VvHUI
-         sRCICDLgX44U7vg/t1HhgAKeilOKMc1aqcrMjAXoHuU82TwHFUc8jkv8AUT3VDNmXE3E
-         cr5Y5xEpOnawUFEFX+dIkgV5DyCZJpU60CpjgQnvZnQhw2aEUUvvoNchdIQtZD65otWl
-         bLVI0lHv5yRY9oaWTosZJxoRdL85C/ta+mpG5v072Ku/iJXL9nPzhlkmoNJX1d+3innR
-         GeXw==
-X-Gm-Message-State: AGi0PuZQ2IufXbU0aybHq9pNSjwvf4HZipeTI39quB3huD8ZaCsZpPER
-        pVRAW0WHCOLgw+NInqZogbbpdRsrDtVP8ns4vVVDSVBjtGzF/fCYfq7sri6FNSlrr/bxj1pdtgi
-        sVILZUD1IF+sVrCRGOR+e
-X-Received: by 2002:a17:90a:bc4a:: with SMTP id t10mr35609762pjv.104.1589395961815;
-        Wed, 13 May 2020 11:52:41 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIuLKmGrGFPHM791kHZAFCmnHIYlCo9XywvYUHAqAM5Bb2fZsRB2lyt+YcuSxBVSz35z/ovow==
-X-Received: by 2002:a17:90a:bc4a:: with SMTP id t10mr35609740pjv.104.1589395961483;
-        Wed, 13 May 2020 11:52:41 -0700 (PDT)
-Received: from localhost ([122.177.166.225])
-        by smtp.gmail.com with ESMTPSA id m18sm16270331pjl.14.2020.05.13.11.52.40
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 13 May 2020 11:52:40 -0700 (PDT)
-From:   Bhupesh Sharma <bhsharma@redhat.com>
-To:     linux-arm-kernel@lists.infradead.org, x86@kernel.org
-Cc:     bhsharma@redhat.com, bhupesh.linux@gmail.com,
-        Boris Petkov <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Gcu03BapccXbGC0ugrF7HAKsX8s/rikPdyRfZ2v+7/A=;
+        b=XMzFp4kt1AEkYd+yLaljmyYL3U/8xhb12yZK7ozO3VIK3I9f/Duv1oZJHSsikBhhM5
+         PVNugRxbTemTAGkfOaYa4CFZTr4kd67wgulS+887Z1K6b4o9kpHboZLIvAQVm9DXKo8k
+         ga7+EkfCJa4MS643/Wa4h1NhysnVkLAtv8i9mu/15zAIm4QWI9FEOKg7mOQkT0F3EBJ1
+         sS2U7NSBIn4IdUJqILMPhqt5c8Pi4e6ntkQ2Uqz7KEdX0R6hzsKCisfBF9PQjady0ZX9
+         C05D9kfEx6EYsYAto1xMH5NQtjV+sACAh7K5Lsz/E1IXMwLmkAN4ziPtR9D39frUbdu+
+         unVA==
+X-Gm-Message-State: AGi0PuZ5cxlEpU0A8ZX8wwbnbftrpS7ud1LcIr7wmkD2L5UH1s6aop3s
+        09f/UtUFieT5FU6d8HJ9HpEw4Q==
+X-Google-Smtp-Source: APiQypLWtkrar0+R60VQFnxu1If/r6w1THO5SU46GXyv2coXCgkwRIlLIk7e/Jx6iO/X9WDaTCI0SQ==
+X-Received: by 2002:a17:90a:cb86:: with SMTP id a6mr37392232pju.127.1589400932263;
+        Wed, 13 May 2020 13:15:32 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id y16sm355662pfp.45.2020.05.13.13.15.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2020 13:15:30 -0700 (PDT)
+Date:   Wed, 13 May 2020 13:15:29 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     Petr Mladek <pmladek@suse.com>, Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morse <james.morse@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Steve Capper <steve.capper@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Dave Anderson <anderson@redhat.com>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
-        John Donnelly <john.p.donnelly@oracle.com>,
-        scott.branden@broadcom.com, Amit Kachhap <amit.kachhap@arm.com>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kexec@lists.infradead.org
-Subject: [PATCH v6 0/2] Append new variables to vmcoreinfo (TCR_EL1.T1SZ for arm64 and MAX_PHYSMEM_BITS for all archs)
-Date:   Thu, 14 May 2020 00:22:35 +0530
-Message-Id: <1589395957-24628-1-git-send-email-bhsharma@redhat.com>
-X-Mailer: git-send-email 2.7.4
+        Rob Herring <robh+dt@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        James Morris <jmorris@namei.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 0/6] allow ramoops to collect all kmesg_dump events
+Message-ID: <202005131315.5CEA90C@keescook>
+References: <20200506211523.15077-1-keescook@chromium.org>
+ <20200512131655.GE17734@linux-b0ei>
+ <CA+CK2bBMUxxuTBicQ7ihKpN3jK94mMjcNCXhnAXUaODce09Wmw@mail.gmail.com>
+ <20200512155207.GF17734@linux-b0ei>
+ <202005121111.6BECC45@keescook>
+ <20200513073448.GG7340@linux-b0ei>
+ <202005130045.EF013D12E@keescook>
+ <CA+CK2bAPv5u1ih5y9t5FUnTyximtFCtDYXJCpuyjOyHNOkRdqw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bAPv5u1ih5y9t5FUnTyximtFCtDYXJCpuyjOyHNOkRdqw@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Apologies for the delayed update. Its been quite some time since I
-posted the last version (v5), but I have been really caught up in some
-other critical issues.
+On Wed, May 13, 2020 at 10:35:16AM -0400, Pavel Tatashin wrote:
+> > >   + reason: panic, oops, emergency, shutdown    (ordered by severity)
+> > >   + handling: restart, halt, poweroff
+> > >
+> > > Or we might just replace KMSG_DUMP_RESTART, KMSG_DUMP_HALT,
+> > > KMSG_DUMP_POWEROFF with a single KMSG_DUMP_SHUTDOWN.
+> > >
+> > > Then the max reason variable would make sense.
+> >
+> > That would work for me, yeah. Pavel, is that enough granularity for you?
+> >
+> 
+> Yes, I like the second approach: where we combine all shutdown type
+> events into a single type.
+> max_reason will have 4 levels:
+> 
+>    KMSG_DUMP_PANIC,
+>    KMSG_DUMP_OOPS,
+>    KMSG_DUMP_EMERG,
+>    KMSG_DUMP_SHUTDOWN,
+> 
+> If needed it is possible to determine from dmesg logs what kind of
+> shutdown was taken, because there is a message logged right before
+> every kmsg_dump() for these events:
+> 
+> 249   if (!cmd)
+> 250   pr_emerg("Restarting system\n");
+> 251   else
+> 252   pr_emerg("Restarting system with command '%s'\n", cmd);
+> 253   kmsg_dump(KMSG_DUMP_RESTART);
+> 
+> 276   pr_emerg("System halted\n");
+> 277   kmsg_dump(KMSG_DUMP_HALT);
+> 
+> 294   pr_emerg("Power down\n");
+> 295   kmsg_dump(KMSG_DUMP_POWEROFF);
+> 
+> Kees, I will submit a new series with these changes soon.
 
-Changes since v5:
-----------------
-- v5 can be viewed here:
-  http://lists.infradead.org/pipermail/kexec/2019-November/024055.html
-- Addressed review comments from James Morse and Boris.
-- Added Tested-by received from John on v5 patchset.
-- Rebased against arm64 (for-next/ptr-auth) branch which has Amit's
-  patchset for ARMv8.3-A Pointer Authentication feature vmcoreinfo
-  applied.
+Great; thanks!
 
-Changes since v4:
-----------------
-- v4 can be seen here:
-  http://lists.infradead.org/pipermail/kexec/2019-November/023961.html
-- Addressed comments from Dave and added patches for documenting
-  new variables appended to vmcoreinfo documentation.
-- Added testing report shared by Akashi for PATCH 2/5.
-
-Changes since v3:
-----------------
-- v3 can be seen here:
-  http://lists.infradead.org/pipermail/kexec/2019-March/022590.html
-- Addressed comments from James and exported TCR_EL1.T1SZ in vmcoreinfo
-  instead of PTRS_PER_PGD.
-- Added a new patch (via [PATCH 3/3]), which fixes a simple typo in
-  'Documentation/arm64/memory.rst'
-
-Changes since v2:
-----------------
-- v2 can be seen here:
-  http://lists.infradead.org/pipermail/kexec/2019-March/022531.html
-- Protected 'MAX_PHYSMEM_BITS' vmcoreinfo variable under CONFIG_SPARSEMEM
-  ifdef sections, as suggested by Kazu.
-- Updated vmcoreinfo documentation to add description about
-  'MAX_PHYSMEM_BITS' variable (via [PATCH 3/3]).
-
-Changes since v1:
-----------------
-- v1 was sent out as a single patch which can be seen here:
-  http://lists.infradead.org/pipermail/kexec/2019-February/022411.html
-
-- v2 breaks the single patch into two independent patches:
-  [PATCH 1/2] appends 'PTRS_PER_PGD' to vmcoreinfo for arm64 arch, whereas
-  [PATCH 2/2] appends 'MAX_PHYSMEM_BITS' to vmcoreinfo in core kernel code (all archs)
-
-This patchset primarily fixes the regression reported in user-space
-utilities like 'makedumpfile' and 'crash-utility' on arm64 architecture
-with the availability of 52-bit address space feature in underlying
-kernel. These regressions have been reported both on CPUs which don't
-support ARMv8.2 extensions (i.e. LVA, LPA) and are running newer kernels
-and also on prototype platforms (like ARMv8 FVP simulator model) which
-support ARMv8.2 extensions and are running newer kernels.
-
-The reason for these regressions is that right now user-space tools
-have no direct access to these values (since these are not exported
-from the kernel) and hence need to rely on a best-guess method of
-determining value of 'vabits_actual' and 'MAX_PHYSMEM_BITS' supported
-by underlying kernel.
-
-Exporting these values via vmcoreinfo will help user-land in such cases.
-In addition, as per suggestion from makedumpfile maintainer (Kazu),
-it makes more sense to append 'MAX_PHYSMEM_BITS' to
-vmcoreinfo in the core code itself rather than in arm64 arch-specific
-code, so that the user-space code for other archs can also benefit from
-this addition to the vmcoreinfo and use it as a standard way of
-determining 'SECTIONS_SHIFT' value in user-land.
-
-Cc: Boris Petkov <bp@alien8.de>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: James Morse <james.morse@arm.com>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Steve Capper <steve.capper@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Dave Anderson <anderson@redhat.com>
-Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-Cc: John Donnelly <john.p.donnelly@oracle.com>
-Cc: scott.branden@broadcom.com
-Cc: Amit Kachhap <amit.kachhap@arm.com>
-Cc: x86@kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: kexec@lists.infradead.org
-
-Bhupesh Sharma (2):
-  crash_core, vmcoreinfo: Append 'MAX_PHYSMEM_BITS' to vmcoreinfo
-  arm64/crash_core: Export TCR_EL1.T1SZ in vmcoreinfo
-
- Documentation/admin-guide/kdump/vmcoreinfo.rst | 16 ++++++++++++++++
- arch/arm64/include/asm/pgtable-hwdef.h         |  1 +
- arch/arm64/kernel/crash_core.c                 | 10 ++++++++++
- kernel/crash_core.c                            |  1 +
- 4 files changed, 28 insertions(+)
+-Kees
 
 -- 
-2.7.4
-
+Kees Cook
