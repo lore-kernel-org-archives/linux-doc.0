@@ -2,208 +2,144 @@ Return-Path: <SRS0=pCyG=64=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86651C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 22:46:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 792F3C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 23:43:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 575AD20734
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 22:46:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589496360;
-	bh=FY5NOqukchhrNeV9wVFdk22hstkEqKG0er+b+kAAHZs=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=MUw8tUbusi+PRLXw875kfQjNTw+J1PcLNeZT2XBLibD/pQVc2bUq+fozx304Q/y9m
-	 cPr0lhWGLPkVwy04WTkBceX75vLbVSPJFY+X8pXzBCHVE1MeOTX1vYR2E7yBwbLQq6
-	 VcsuZfgBXoxMGGkYTNCTgWEDig7a+jYR52Qtt+Gw=
+	by mail.kernel.org (Postfix) with ESMTP id 5C1642065C
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 23:43:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728825AbgENWqA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 May 2020 18:46:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47588 "EHLO mail.kernel.org"
+        id S1728432AbgENXnZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 May 2020 19:43:25 -0400
+Received: from mga01.intel.com ([192.55.52.88]:36669 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728229AbgENWp7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 May 2020 18:45:59 -0400
-Received: from paulmck-ThinkPad-P72.home (unknown [50.39.105.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E405B20709;
-        Thu, 14 May 2020 22:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589496358;
-        bh=FY5NOqukchhrNeV9wVFdk22hstkEqKG0er+b+kAAHZs=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=jhp1/LSPlhkyCxSn+ny0HloIVJhFQaQAlmQBM8Uxelgt6BFPx4N3d1nA3dS+WvnS+
-         lv0XmPCZsIYvUrimjd8T3pFr97wIrgpcFjdJsPZbXHMw5nN2A/xy3xm5yk89VQWjW/
-         RkGfKZx0wCqwyrJJ63rEIn7tZCLf0vAP8pLddnck=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id D01A335229C6; Thu, 14 May 2020 15:45:58 -0700 (PDT)
-Date:   Thu, 14 May 2020 15:45:58 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Boqun Feng <boqun.feng@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Vineeth Remanan Pillai <vpillai@digitalocean.com>,
+        id S1728415AbgENXnZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 May 2020 19:43:25 -0400
+IronPort-SDR: dE/OXNRPB65SD0Pv1u1815GybNs5OFpSgSeW4coafxYAUNLpAO/BXsUBUkoc/bVJYED4clYbb2
+ onOqAxQhm6wQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2020 16:43:24 -0700
+IronPort-SDR: 0PcKf5kROprlU7FvR2CjmctlO7VJLKQn4o6TWazGRw3DBXAE4dQdy6dZGq6zvM7ICAe8BiPuVr
+ 5UquiIXhVxpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,392,1583222400"; 
+   d="scan'208";a="410262240"
+Received: from ashadrin-mobl1.ccr.corp.intel.com ([10.249.38.112])
+  by orsmga004.jf.intel.com with ESMTP; 14 May 2020 16:43:17 -0700
+Message-ID: <b59e8ef4070f1aba31b4351910d6e819802eb551.camel@linux.intel.com>
+Subject: Re: [PATCH v4 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>, dhowells@redhat.com,
+        Jens Wiklander <jens.wiklander@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's
- README into top-level one
-Message-ID: <20200514224558.GZ2869@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <7809dbfa-7a76-8663-799a-908c4ead8d30@gmail.com>
- <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
- <fd7e7c6f-fda1-7f2b-19f3-a09b73b10de8@gmail.com>
- <CAEXW_YSjo2hgvg-FN_MR7FVEcp-7gH17jb0-262k+ydSuuDjuQ@mail.gmail.com>
- <20200512163022.GI2869@paulmck-ThinkPad-P72>
- <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
- <6d162e69-5d2f-1fbf-1588-ab19c30e7311@gmail.com>
- <20200514004618.GA94665@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
- <20200514171656.GR2869@paulmck-ThinkPad-P72>
- <0ded5099-fe59-914a-d0dd-999cc334ff0a@gmail.com>
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Date:   Fri, 15 May 2020 02:43:04 +0300
+In-Reply-To: <CAFA6WYPr1iL-uJgSRu_61uv=2DhuEdDVdQLDuyPEOOK2jEgvyg@mail.gmail.com>
+References: <1588758017-30426-1-git-send-email-sumit.garg@linaro.org>
+         <1588758017-30426-3-git-send-email-sumit.garg@linaro.org>
+         <ef2093f96eae7e9e6785f2c0ad00604d8adfd3be.camel@linux.intel.com>
+         <CAFA6WYPr1iL-uJgSRu_61uv=2DhuEdDVdQLDuyPEOOK2jEgvyg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0ded5099-fe59-914a-d0dd-999cc334ff0a@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 15, 2020 at 07:03:33AM +0900, Akira Yokosawa wrote:
-> On Thu, 14 May 2020 10:16:56 -0700, Paul E. McKenney wrote:
-> > On Thu, May 14, 2020 at 08:46:18AM +0800, Boqun Feng wrote:
-> >> On Wed, May 13, 2020 at 06:39:03AM +0900, Akira Yokosawa wrote:
-> >>> From 96fa6680e3b990633ecbb6d11acf03a161b790bd Mon Sep 17 00:00:00 2001
-> >>> From: Akira Yokosawa <akiyks@gmail.com>
-> >>> Date: Sun, 10 May 2020 15:12:57 +0900
-> >>> Subject: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's README into top-level one
-> >>>
-> >>> Where Documentation/litmus-tests/README lists RCU litmus tests,
-> >>> Documentation/litmus-tests/atomic/README lists atomic litmus tests.
-> >>> For symmetry, merge the latter into former, with some context
-> >>> adjustment in the introduction.
-> >>>
-> >>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> >>> Acked-by: Andrea Parri <parri.andrea@gmail.com>
-> >>> Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> >>
-> >> Acked-by: Boqun Feng <boqun.feng@gmail.com>
-> >>
-> >> Thanks!
+On Thu, 2020-05-14 at 12:57 +0530, Sumit Garg wrote:
+> On Thu, 14 May 2020 at 05:58, Jarkko Sakkinen
+> <jarkko.sakkinen@linux.intel.com> wrote:
+> > On Wed, 2020-05-06 at 15:10 +0530, Sumit Garg wrote:
+> > > Add support for TEE based trusted keys where TEE provides the functionality
+> > > to seal and unseal trusted keys using hardware unique key.
+> > > 
+> > > Refer to Documentation/tee.txt for detailed information about TEE.
+> > > 
+> > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
 > > 
-> > Applied, and thank you all!
+> > The implementation looks solid but how or who could possibly test this?
 > > 
-> > I rebased, cancelling the revert with the original, resulting in an
-> > updated lkmm branch on -rcu.  There was one minor conflict, so could
-> > one of you please check to make sure that I resolved things appropriately?
-> 
-> One thing I noticed.
-> 
-> Commit b2998782ded4 ("Documentation/litmus-tests: Clarify about the RCU
-> pre-initialization test")'s change log says:
-> 
->     Since this test returned to tools/memory-model/, make sure that it is
->                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     at least referenced from Documentation/litmus-tests/'s README.
-> 
-> Because of the rebase, this needs amendment as well as the title.
-> 
-> Something like
-> 
->     Documentation/litumus-tests: Cite a relevant litmus test in tools/memory-model
-> 
->     For ease of finding the RCU related litmus test under
->     tools/memory-model/, add an entry in README.
-> 
-> ?
-
-Good catch, and yes, I will update that on the next rebase.
-
-Any other things in need of adjustment?
-
-							Thanx, Paul
-
->     Thanks, Akira
-> 
+> > I do posses (personally, not from employer) bunch of ARM boards but my
+> > TZ knowledge is somewhat limited (e.g. how can I get something running
+> > in TZ).
 > > 
-> > 							Thanx, Paul
-> > 
-> >> Regards,
-> >> Boqun
-> >>
-> >>> ---
-> >>>  Documentation/litmus-tests/README        | 19 +++++++++++++++++++
-> >>>  Documentation/litmus-tests/atomic/README | 16 ----------------
-> >>>  2 files changed, 19 insertions(+), 16 deletions(-)
-> >>>  delete mode 100644 Documentation/litmus-tests/atomic/README
-> >>>
-> >>> diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
-> >>> index c4307ea9f996..ac0b270b456c 100644
-> >>> --- a/Documentation/litmus-tests/README
-> >>> +++ b/Documentation/litmus-tests/README
-> >>> @@ -2,6 +2,25 @@
-> >>>  LITMUS TESTS
-> >>>  ============
-> >>>  
-> >>> +Each subdirectory contains litmus tests that are typical to describe the
-> >>> +semantics of respective kernel APIs.
-> >>> +For more information about how to "run" a litmus test or how to generate
-> >>> +a kernel test module based on a litmus test, please see
-> >>> +tools/memory-model/README.
-> >>> +
-> >>> +
-> >>> +atomic (/atomic derectory)
-> >>> +--------------------------
-> >>> +
-> >>> +Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
-> >>> +    Test that an atomic RMW followed by a smp_mb__after_atomic() is
-> >>> +    stronger than a normal acquire: both the read and write parts of
-> >>> +    the RMW are ordered before the subsequential memory accesses.
-> >>> +
-> >>> +Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-> >>> +    Test that atomic_set() cannot break the atomicity of atomic RMWs.
-> >>> +
-> >>> +
-> >>>  RCU (/rcu directory)
-> >>>  --------------------
-> >>>  
-> >>> diff --git a/Documentation/litmus-tests/atomic/README b/Documentation/litmus-tests/atomic/README
-> >>> deleted file mode 100644
-> >>> index 714cf93816ea..000000000000
-> >>> --- a/Documentation/litmus-tests/atomic/README
-> >>> +++ /dev/null
-> >>> @@ -1,16 +0,0 @@
-> >>> -This directory contains litmus tests that are typical to describe the semantics
-> >>> -of our atomic APIs. For more information about how to "run" a litmus test or
-> >>> -how to generate a kernel test module based on a litmus test, please see
-> >>> -tools/memory-model/README.
-> >>> -
-> >>> -============
-> >>> -LITMUS TESTS
-> >>> -============
-> >>> -
-> >>> -Atomic-RMW+mb__after_atomic-is-stronger-than-acquire
-> >>> -	Test that an atomic RMW followed by a smp_mb__after_atomic() is
-> >>> -	stronger than a normal acquire: both the read and write parts of
-> >>> -	the RMW are ordered before the subsequential memory accesses.
-> >>> -
-> >>> -Atomic-RMW-ops-are-atomic-WRT-atomic_set.litmus
-> >>> -	Test that atomic_set() cannot break the atomicity of atomic RMWs.
-> >>> -- 
-> >>> 2.17.1
-> >>>
-> >>>
+> 
+> Although, it should be fairly easy to test this implementation on an
+> ARM board which supports OP-TEE. But since you are new to ARM
+> TrustZone world, I would suggest you get used to OP-TEE on Qemu based
+> setup. You could find pretty good documentation for this here [1] but
+> for simplicity let me document steps here to test this trusted keys
+> feature from scratch:
+> 
+> # Install prerequisites as mentioned here [2]
+> 
+> # Get the source code
+> $ mkdir -p <optee-project>
+> $ cd <optee-project>
+> $ repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml
+> $ repo sync -j4 --no-clone-bundle
+> 
+> # Get the toolchain
+> $ cd <optee-project>/build
+> $ make -j2 toolchains
+> 
+> # As trusted keys work is based on latest tpmdd/master, so we can
+> change Linux base as follows:
+> $ cd <optee-project>/linux
+> $ git remote add tpmdd git://git.infradead.org/users/jjs/linux-tpmdd.git
+> $ git pull tpmdd
+> $ git checkout -b tpmdd-master remotes/tpmdd/master
+> # Cherry-pick and apply TEE features patch-set from this PR[3]
+> # Apply this Linux trusted keys patch-set.
+> 
+> # Now move on to build the source code
+> $ cd <optee-project>/build
+> # Apply attached "keyctl_change" patch
+> $ patch -p1 < keyctl_change
+> $ make -j`nproc`
+> CFG_IN_TREE_EARLY_TAS=trusted_keys/f04a0fe7-1f5d-4b9b-abf7-619b85b4ce8c
+> 
+> # Run QEMU setup
+> $ make run-only
+> # Type "c" on QEMU console to continue boot
+> 
+> # Now there should be two virtual consoles up, one for OP-TEE and
+> other for Linux
+> # On Linux console, you can play with "keyctl" utility to have trusted
+> and encrypted keys based on TEE.
+> 
+> Do let me know in case you are stuck while following the above steps.
+> 
+> [1] https://optee.readthedocs.io/en/latest/building/devices/qemu.html#qemu-v8
+> [2] https://optee.readthedocs.io/en/latest/building/prerequisites.html#prerequisites
+> [3] https://lkml.org/lkml/2020/5/4/1062
+> 
+> -Sumit
+
+Thanks I'll try this out as soon as the v5.8 release hassle is over!
+
+/Jarkko
+
