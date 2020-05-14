@@ -2,124 +2,162 @@ Return-Path: <SRS0=pCyG=64=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6275C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 11:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 212ABC433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 15:00:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A46ED207DF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 11:23:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBCBD20657
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 15:00:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AQB8AjMy"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="i+2ydMI+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725925AbgENLXs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 May 2020 07:23:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34600 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726037AbgENLXr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 May 2020 07:23:47 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 586D7C061A0F
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2020 04:23:47 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id v5so2260570lfp.13
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2020 04:23:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=52Rzrrj4E2al2tTGlHFyR6M/8l4BjJi9pTbsEHvkafw=;
-        b=AQB8AjMyAZSGOL4e97UU90oVl9kAMguV5p4dTDDqcw0/yek+GT5FWuN2tscAVlKFEs
-         EGzg8HjoW6dtHzhFbCevirz+96qH21ZW9fHpy2kzigcrKVJlygWbNXwPaiOUs6uFh063
-         aPAdVZthuA7Y6Oqs1VLm4MDl2Ymqdb56dcWwjCBZ0og7DZpzl8xsqkqa05M1swjos7Gz
-         BvCnthOJZ3OAhbZMPq0iz6CbKdHXINgpBnT6TT6KscyzM/JwxVG6ZXzKdHQmih4z9i43
-         mHHs4GZHjvk6LTACjAngtXARfd2tJBCvG7KpSeW1akMKIkbng2rYc0JDaLTV5N6BoPB4
-         oObw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=52Rzrrj4E2al2tTGlHFyR6M/8l4BjJi9pTbsEHvkafw=;
-        b=ENi5QEs4UNlV4Dznx/DBiwrG2W8c3zrkkbNTk2s5fyomQs+aHqz7smTtK++AFV7Ojx
-         DOBnodxgab9XS5V7cQuKSSWYntVuM6U0/D71JBZckaeEEgzGqeB+Q5oC1nTBmOpnwFzz
-         kne7T+Aj5//a+4FLl/DprVt31AfM46Bri2mcm13TQTS28SVPYP4MolyqcN9+4hoqrGod
-         SmlRkFxm2EUzPedQo/j1PgBWMoOrcHLqmF1lgrGEhrsEZYcJQGs4H43rc4LmRnSUVtMx
-         DiskxkEW1isID0GCbKyY6l3QyHBxhMO06q/Fy8KBWzIr8Y7gbqgg3dYQ/DdPz+tJClby
-         /z1Q==
-X-Gm-Message-State: AOAM533GGG2jWH4U19S+yVzxfvXSa+vz892GPjzrKgvptBNX/MPDRgsn
-        dTVpcvnQrRu5JV2zPKsooxBgj5bQAPPhvuYa8pMB7g==
-X-Google-Smtp-Source: ABdhPJyJHVIeFpsuP6hWyR4T3t3i5l95UvM1ck7qhqVExGI1lWc37GndFTYXCpQQGciey+GLFpqutzOT/FYhOL3syjg=
-X-Received: by 2002:ac2:44bb:: with SMTP id c27mr3095483lfm.40.1589455425658;
- Thu, 14 May 2020 04:23:45 -0700 (PDT)
+        id S1727790AbgENPAE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 May 2020 11:00:04 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:46960 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726146AbgENPAD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 May 2020 11:00:03 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04EExlpp130892;
+        Thu, 14 May 2020 09:59:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1589468387;
+        bh=s/fQErzjm3QWmzuHGPvhu9iIxEqXqRByZCvFxc1DEN4=;
+        h=From:To:CC:Subject:Date;
+        b=i+2ydMI+oiRlbtVsZIBgxJ+3etcFKZwqw6IA1wtzMtwRNFjkZBGg7soHOrZKxXqES
+         G641ITK0XPozOlrBpY8YYW8WUQusKwx0w3Gf94ErVxicNCm6aaSjEJ5did+txkmv6r
+         Td8ts4DzOqYOSMd4lBA3cWotoRFWo2av+1z2HGXs=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04EExlHx127031;
+        Thu, 14 May 2020 09:59:47 -0500
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 14
+ May 2020 09:59:47 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 14 May 2020 09:59:47 -0500
+Received: from a0393678ub.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04EExgAi019279;
+        Thu, 14 May 2020 09:59:42 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-pci@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-ntb@googlegroups.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>
+Subject: [PATCH 00/19] Implement NTB Controller using multiple PCI EP
+Date:   Thu, 14 May 2020 20:29:08 +0530
+Message-ID: <20200514145927.17555-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <1588758017-30426-1-git-send-email-sumit.garg@linaro.org>
- <1588758017-30426-2-git-send-email-sumit.garg@linaro.org> <07bb6080f8be9f6613f460e2d6e19f3d456e219c.camel@linux.intel.com>
-In-Reply-To: <07bb6080f8be9f6613f460e2d6e19f3d456e219c.camel@linux.intel.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Thu, 14 May 2020 16:53:34 +0530
-Message-ID: <CAFA6WYMciZ=qkG3N_9YWzt_DJr2dGwdAy9diMXCJSNjr2o5ONA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] KEYS: trusted: Add generic trusted keys framework
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>, dhowells@redhat.com,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org,
-        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 14 May 2020 at 05:55, Jarkko Sakkinen
-<jarkko.sakkinen@linux.intel.com> wrote:
->
-> On Wed, 2020-05-06 at 15:10 +0530, Sumit Garg wrote:
-> > Current trusted keys framework is tightly coupled to use TPM device as
-> > an underlying implementation which makes it difficult for implementations
-> > like Trusted Execution Environment (TEE) etc. to provide trusked keys
-> > support in case platform doesn't posses a TPM device.
-> >
-> > So this patch tries to add generic trusted keys framework where underlying
-> > implemtations like TPM, TEE etc. could be easily plugged-in.
-> >
-> > Suggested-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
->
-> I tend to agree how this is implemented and could merge it as such.
->
-> I'm just thinking if we could refine this patch in a way that instead of
-> copying TRUSTED_DEBUG macro we could just replace pr_info() statements
-> with pr_debug()?
+This series is about implementing SW defined NTB using
+multiple endpoint instances. This series has been tested using
+2 endpoint instances in J7 connected to two DRA7 boards. However there
+is nothing platform specific for the NTB functionality.
 
-AFAIU, TRUSTED_DEBUG being a security sensitive operation is only
-meant to be used in development environments and should be strictly
-disabled in production environments. But it may not always be true
-with pr_debug() with CONFIG_DYNAMIC_DEBUG=y which allows the debug
-paths to be compiled into the kernel which can be enabled/disabled at
-runtime.
+This was presented in Linux Plumbers Conference. The presentation
+can be found @ [1]
 
-IMO we should keep this TRUSTED_DEBUG macro, so that users are aware
-of its security sensitive nature and need to explicitly enable it to
-debug.
+RFC patch series can be found @ [2]
 
--Sumit
+This series has been validated after applying [3] and [4]
 
->
-> /Jarkko
->
+Changes from RFC:
+1) Converted the DT binding patches to YAML schema and merged the
+   DT binding patches together
+2) NTB documentation is converted to .rst
+3) One HOST can now interrupt the other HOST using MSI-X interrupts
+4) Added support for teardown of memory window and doorbell
+   configuration
+5) Add support to provide support 64-bit memory window size from
+   DT
+
+[1] -> https://www.linuxplumbersconf.org/event/4/contributions/395/attachments/284/481/Implementing_NTB_Controller_Using_PCIe_Endpoint_-_final.pdf
+[2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
+[3] -> http://lore.kernel.org/r/20200508130646.23939-1-kishon@ti.com
+[4] -> http://lore.kernel.org/r/20200506151429.12255-1-kishon@ti.com
+
+Kishon Vijay Abraham I (19):
+  dt-bindings: PCI: Endpoint: Add DT bindings for PCI EPF NTB Device
+  Documentation: PCI: Add specification for the *PCI NTB* function
+    device
+  PCI: endpoint: Add API to get reference to EPC from device-tree
+  PCI: endpoint: Add API to create EPF device from device tree
+  PCI: endpoint: Add "pci-epf-bus" driver
+  PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
+    BAR
+  PCI: endpoint: Add helper API to get the 'next' unreserved BAR
+  PCI: endpoint: Make *_free_bar() to return error codes on failure
+  PCI: endpoint: Remove unused pci_epf_match_device()
+  PCI: endpoint: Make pci_epf_driver ops optional
+  PCI: endpoint: Add helper API to populate header with values from DT
+  PCI: endpoint: Add support to associate secondary EPC with EPF
+  PCI: endpoint: Add pci_epc_ops to map MSI irq
+  PCI: cadence: Implement ->msi_map_irq() ops
+  PCI: endpoint: Add EP function driver to provide NTB functionality
+  PCI: Add TI J721E device to pci ids
+  NTB: Add support for EPF PCI-Express Non-Transparent Bridge
+  NTB: tool: Enable the NTB/PCIe link on the local or remote side of
+    bridge
+  NTB: ntb_perf/ntb_tool: Use PCI device for dma_alloc_coherent()
+
+ Documentation/PCI/endpoint/index.rst          |    1 +
+ Documentation/PCI/endpoint/pci-test-ntb.rst   |  344 +++
+ .../bindings/pci/endpoint/pci-epf-bus.yaml    |   42 +
+ .../bindings/pci/endpoint/pci-epf-device.yaml |   69 +
+ .../bindings/pci/endpoint/pci-epf-ntb.yaml    |   68 +
+ drivers/misc/pci_endpoint_test.c              |    1 -
+ drivers/ntb/hw/Kconfig                        |    1 +
+ drivers/ntb/hw/Makefile                       |    1 +
+ drivers/ntb/hw/epf/Kconfig                    |    5 +
+ drivers/ntb/hw/epf/Makefile                   |    1 +
+ drivers/ntb/hw/epf/ntb_hw_epf.c               |  752 ++++++
+ drivers/ntb/test/ntb_perf.c                   |    3 +-
+ drivers/ntb/test/ntb_tool.c                   |    4 +-
+ .../pci/controller/cadence/pcie-cadence-ep.c  |   50 +
+ drivers/pci/endpoint/Makefile                 |    3 +-
+ drivers/pci/endpoint/functions/Kconfig        |   12 +
+ drivers/pci/endpoint/functions/Makefile       |    1 +
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2038 +++++++++++++++++
+ drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
+ drivers/pci/endpoint/pci-ep-cfs.c             |    6 +-
+ drivers/pci/endpoint/pci-epc-core.c           |  216 +-
+ drivers/pci/endpoint/pci-epf-bus.c            |   54 +
+ drivers/pci/endpoint/pci-epf-core.c           |  137 +-
+ include/linux/pci-epc.h                       |   43 +-
+ include/linux/pci-epf.h                       |   26 +-
+ include/linux/pci_ids.h                       |    1 +
+ 26 files changed, 3823 insertions(+), 69 deletions(-)
+ create mode 100644 Documentation/PCI/endpoint/pci-test-ntb.rst
+ create mode 100644 Documentation/devicetree/bindings/pci/endpoint/pci-epf-bus.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/endpoint/pci-epf-device.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/endpoint/pci-epf-ntb.yaml
+ create mode 100644 drivers/ntb/hw/epf/Kconfig
+ create mode 100644 drivers/ntb/hw/epf/Makefile
+ create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
+ create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
+ create mode 100644 drivers/pci/endpoint/pci-epf-bus.c
+
+-- 
+2.17.1
+
