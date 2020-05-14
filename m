@@ -2,186 +2,142 @@ Return-Path: <SRS0=pCyG=64=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBD8C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 07:27:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A78B5C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 09:25:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C2AB205CB
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 07:27:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8ABA0206A5
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 09:25:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T58w69kB"
+	dkim=pass (2048-bit key) header.d=unikie-com.20150623.gappssmtp.com header.i=@unikie-com.20150623.gappssmtp.com header.b="1vlobRK/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726078AbgENH1u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 May 2020 03:27:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54160 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725999AbgENH1t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 May 2020 03:27:49 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ADCFC05BD43
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2020 00:27:49 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id s9so1744668lfp.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2020 00:27:48 -0700 (PDT)
+        id S1726216AbgENJZC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 May 2020 05:25:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726200AbgENJZC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 May 2020 05:25:02 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD0F8C061A0C
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2020 02:25:01 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id nv1so2214911ejb.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2020 02:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=unikie-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OvIg8OTmvpD4AIra61gchuv+YQzJPkLcRjdOE9A6l2A=;
-        b=T58w69kBOxFktle1yYsy3hLN3gMn/osjm5YR8FTXl4uYp8PjKu2TZzOiHNgCx36vrE
-         Wl/ZIQZLvdR8y6+piwx3KEwGBHD8kyjMwzas/eYyJaxuJxY8/KGnPz4HlvtDAulI9I15
-         lGRt7VR2EK+bxqp2oZhR93/egU4OCxQtySGt6pV8RF67V5Vj3IcxPdw3Km1KhdoaRiaq
-         bSo22sNuywieNiZ1fpmYK7epfyyHEaUnQ1U7yB7K1aXP/AJXWde5jIFrUkDbeeALECIL
-         u0FuTV6q/ZfQm1Z7KARSGRX7zu3oek6QkvyBvFcfjjmEMIagj6XaGUbGVW2NX71/UJ7h
-         Omtg==
+         :cc:content-transfer-encoding;
+        bh=nZk+31pniUIu3YX3HPBnqYE7/FWix23XhFWqIs5bURU=;
+        b=1vlobRK/LZFu0W4DpctQc74BE0OZggxftWAYyg9+kMh9UUhJxpacFHkwwXINlUM0Ql
+         Y9vyMrrE3Zd9KrKDr8izLnm8GsKai/wdW6x37oyhAk1n++lI2+CC6pvBswySW+5aoS77
+         Xf5Q+GeknU8mke0serBKon4AuRd0lNJUyw87yLSMoyWgOJy1v4Pi9GyDpfmJd4LKc+KI
+         gWRFWYp81EitWqScQBJ3IiapSvRNmLgKDryr6r+0bmMR/IO1dZBNd33L6bylGXS5A3Lf
+         556w5JsmiDWo9HVAZqJAIp2mIfTjiW447zFX4VD1IPk0mzhZvrWTitSEIV9ifw9HRe28
+         D8mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OvIg8OTmvpD4AIra61gchuv+YQzJPkLcRjdOE9A6l2A=;
-        b=GFs/niWUIAMayy/e/Ixnb2MtsXyzuDDI84QxBwEDrHfOpLl7D9e0q3bWF8DJUEndIe
-         EEVG2OmNVd+OwQrtkdmh3x+7yo+MWOdTG4fN2tvdiNKQRUNT3xXX8bU/uoH8nvQ9dc4m
-         p3xYSWZr6LVfMIzPeANfvV+HDDfEttaSdxJdv399/DcYUjkeDfhU0TLvJToDy5IIf0SN
-         vmlX5oYEyL3hQQXV+Lud2LyTXB4P12hYXmtm75PQjGHui1biBrZB1RjWwtr5toVMavR2
-         m/3DwaQUNYAb3QuU2hGW1Ka5GKlzC+2pISiPz7cXQunU+N1X/kBgxcQQqRktUxnI0LmB
-         FBeA==
-X-Gm-Message-State: AOAM532lv3S/5fVA9YYksUkrhNsQPYhbd+RUv2pBDZArbnclvhw6LKCM
-        4C4T1YtkHHtFdDGYRX2RlcZKdickqdtkoD+G8GDvfZkL4eY=
-X-Google-Smtp-Source: ABdhPJzL0WsvMihqen9758VYmk6yEgm/ZN9/XilvuCWzmgJOy/SB9sZscduKIMjRAKM98dv/ishZnbn+Lr4DfqPaa0A=
-X-Received: by 2002:a19:ccce:: with SMTP id c197mr2356496lfg.59.1589441267234;
- Thu, 14 May 2020 00:27:47 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=nZk+31pniUIu3YX3HPBnqYE7/FWix23XhFWqIs5bURU=;
+        b=sBNXk3hh+hLXYPdiqOZXB+3eCv4DmiC2yVdCxlTxtkX5T+b2EiNCYNo8Ppl3phOID7
+         fOLdSRe7Zt3/Sq4kC4T8yJOEueRlvf0mE3DtnHhQJELw0k3bMOstgyo7Mmo8EHWuo838
+         Y+LJswLoeKOu8g9ebrw2cU8odWGHEJm1W3q0iD6t9pRRlUIvMJhty/nY9TbnYW6dqMoN
+         bYNVEPWG/Fa8g8w9dw6+Mnf9jxaMnWQjTo2fPHwYYPL6jNHtjkdpH8SrU0kb3ZJtczz8
+         IgwZ7eSo6opzJPmNjU+3B+XVtnJ7a2wVDIs8vyOb2MLsVORafZJIGrFTdl3bQvzUekjL
+         k0Ug==
+X-Gm-Message-State: AOAM530BGCHCE6HjoTBFpXpHb7gqNIj70LmAqOZVCriWxV8gffgGmJcv
+        arwnZNzuvEbGKPeKmuO/WqjVJHldfGyPI8uXqGM8UQ==
+X-Google-Smtp-Source: ABdhPJxPW+ABXGCY3746+LcRvy1Lr3kAoSq4RmTxoSbROeKhyQWI13KRQosDbdmIB3eiu+igi9m/ADKsnI2Wvh3vob0=
+X-Received: by 2002:a17:906:4e8a:: with SMTP id v10mr2808640eju.63.1589448300598;
+ Thu, 14 May 2020 02:25:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <1588758017-30426-1-git-send-email-sumit.garg@linaro.org>
- <1588758017-30426-3-git-send-email-sumit.garg@linaro.org> <ef2093f96eae7e9e6785f2c0ad00604d8adfd3be.camel@linux.intel.com>
-In-Reply-To: <ef2093f96eae7e9e6785f2c0ad00604d8adfd3be.camel@linux.intel.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Thu, 14 May 2020 12:57:35 +0530
-Message-ID: <CAFA6WYPr1iL-uJgSRu_61uv=2DhuEdDVdQLDuyPEOOK2jEgvyg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>, dhowells@redhat.com,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org,
-        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
-Content-Type: multipart/mixed; boundary="00000000000021218505a596a2dc"
+References: <20200513134338.19688-1-John.Mathew@unikie.com>
+ <20200513134338.19688-4-John.Mathew@unikie.com> <jhjy2pwq6e2.mognet@arm.com>
+In-Reply-To: <jhjy2pwq6e2.mognet@arm.com>
+From:   John Mathew <john.mathew@unikie.com>
+Date:   Thu, 14 May 2020 12:24:49 +0300
+Message-ID: <CAJz2qXn+z3va-NuqXLfdgaG6Ah3S_f2SijmL7Jn96F-8SW_ndw@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 2/3] docs: scheduler: Add scheduler overview documentation
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
+        juri.lelli@redhat.com,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        rostedt@goodmis.org, Benjamin Segall <bsegall@google.com>,
+        mgorman@suse.de, bristot@redhat.com, tsbogend@alpha.franken.de,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>, x86@kernel.org,
+        linux-mips@vger.kernel.org, tglx@linutronix.de,
+        mostafa.chamanara@gmail.com, willy@infradead.org,
+        Mostafa Chamanara <mostafa.chamanara@basemark.com>,
+        Oleg Tsymbal <oleg.tsymbal@unikie.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000021218505a596a2dc
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, 14 May 2020 at 05:58, Jarkko Sakkinen
-<jarkko.sakkinen@linux.intel.com> wrote:
+On Wed, May 13, 2020 at 5:03 PM Valentin Schneider
+<valentin.schneider@arm.com> wrote:
 >
-> On Wed, 2020-05-06 at 15:10 +0530, Sumit Garg wrote:
-> > Add support for TEE based trusted keys where TEE provides the functionality
-> > to seal and unseal trusted keys using hardware unique key.
-> >
-> > Refer to Documentation/tee.txt for detailed information about TEE.
-> >
-> > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
 >
-> The implementation looks solid but how or who could possibly test this?
+> On 13/05/20 14:43, john mathew wrote:
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> > +Capacity-Aware Scheduling
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> > +
 >
-> I do posses (personally, not from employer) bunch of ARM boards but my
-> TZ knowledge is somewhat limited (e.g. how can I get something running
-> in TZ).
+> Thanks for taking a jab at this. At a glance it looks okay, with one
+> comment below.
 >
-
-Although, it should be fairly easy to test this implementation on an
-ARM board which supports OP-TEE. But since you are new to ARM
-TrustZone world, I would suggest you get used to OP-TEE on Qemu based
-setup. You could find pretty good documentation for this here [1] but
-for simplicity let me document steps here to test this trusted keys
-feature from scratch:
-
-# Install prerequisites as mentioned here [2]
-
-# Get the source code
-$ mkdir -p <optee-project>
-$ cd <optee-project>
-$ repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml
-$ repo sync -j4 --no-clone-bundle
-
-# Get the toolchain
-$ cd <optee-project>/build
-$ make -j2 toolchains
-
-# As trusted keys work is based on latest tpmdd/master, so we can
-change Linux base as follows:
-$ cd <optee-project>/linux
-$ git remote add tpmdd git://git.infradead.org/users/jjs/linux-tpmdd.git
-$ git pull tpmdd
-$ git checkout -b tpmdd-master remotes/tpmdd/master
-# Cherry-pick and apply TEE features patch-set from this PR[3]
-# Apply this Linux trusted keys patch-set.
-
-# Now move on to build the source code
-$ cd <optee-project>/build
-# Apply attached "keyctl_change" patch
-$ patch -p1 < keyctl_change
-$ make -j`nproc`
-CFG_IN_TREE_EARLY_TAS=trusted_keys/f04a0fe7-1f5d-4b9b-abf7-619b85b4ce8c
-
-# Run QEMU setup
-$ make run-only
-# Type "c" on QEMU console to continue boot
-
-# Now there should be two virtual consoles up, one for OP-TEE and
-other for Linux
-# On Linux console, you can play with "keyctl" utility to have trusted
-and encrypted keys based on TEE.
-
-Do let me know in case you are stuck while following the above steps.
-
-[1] https://optee.readthedocs.io/en/latest/building/devices/qemu.html#qemu-v8
-[2] https://optee.readthedocs.io/en/latest/building/prerequisites.html#prerequisites
-[3] https://lkml.org/lkml/2020/5/4/1062
-
--Sumit
-
-> /Jarkko
+> FWIW I still intend to write a more pamphlet-sized thing, I'll toss
+> something out in the coming weeks - depending on where this goes, I might
+> base it on this.
 >
-
---00000000000021218505a596a2dc
-Content-Type: application/octet-stream; name=keyctl_change
-Content-Disposition: attachment; filename=keyctl_change
-Content-Transfer-Encoding: base64
-Content-ID: <f_ka6g56md0>
-X-Attachment-Id: f_ka6g56md0
-
-ZGlmZiAtLWdpdCBhL2NvbW1vbi5tayBiL2NvbW1vbi5tawppbmRleCBhZWI3YjQxLi42NjNlNTI4
-IDEwMDY0NAotLS0gYS9jb21tb24ubWsKKysrIGIvY29tbW9uLm1rCkBAIC0yMjksNiArMjI5LDcg
-QEAgQlIyX1BBQ0tBR0VfT1BURUVfVEVTVF9TREsgPz0gJChPUFRFRV9PU19UQV9ERVZfS0lUX0RJ
-UikKIEJSMl9QQUNLQUdFX09QVEVFX1RFU1RfU0lURSA/PSAkKE9QVEVFX1RFU1RfUEFUSCkKIEJS
-Ml9QQUNLQUdFX1NUUkFDRSA/PSB5CiBCUjJfVEFSR0VUX0dFTkVSSUNfR0VUVFlfUE9SVCA/PSAk
-KGlmICQoQ0ZHX05XX0NPTlNPTEVfVUFSVCksdHR5QU1BJChDRkdfTldfQ09OU09MRV9VQVJUKSx0
-dHlBTUEwKQorQlIyX1BBQ0tBR0VfS0VZVVRJTFMgOj0geQogCiAjIEFsbCBCUjJfKiB2YXJpYWJs
-ZXMgZnJvbSB0aGUgbWFrZWZpbGUgb3IgdGhlIGVudmlyb25tZW50IGFyZSBhcHBlbmRlZCB0bwog
-IyAuLi9vdXQtYnIvZXh0cmEuY29uZi4gQWxsIHZhbHVlcyBhcmUgcXVvdGVkICIuLi4iIGV4Y2Vw
-dCB5IGFuZCBuLgpkaWZmIC0tZ2l0IGEva2NvbmZpZ3MvcWVtdS5jb25mIGIva2NvbmZpZ3MvcWVt
-dS5jb25mCmluZGV4IDM2OGMxOGEuLjgzMmFiNzQgMTAwNjQ0Ci0tLSBhL2tjb25maWdzL3FlbXUu
-Y29uZgorKysgYi9rY29uZmlncy9xZW11LmNvbmYKQEAgLTIwLDMgKzIwLDUgQEAgQ09ORklHXzlQ
-X0ZTPXkKIENPTkZJR185UF9GU19QT1NJWF9BQ0w9eQogQ09ORklHX0hXX1JBTkRPTT15CiBDT05G
-SUdfSFdfUkFORE9NX1ZJUlRJTz15CitDT05GSUdfVFJVU1RFRF9LRVlTPXkKK0NPTkZJR19FTkNS
-WVBURURfS0VZUz15Cg==
---00000000000021218505a596a2dc--
+> > +Scheduling load balancing on Asymmetric Multiprocessor systems was imp=
+roved
+> > +through the introduction of Capacity-Aware Scheduling. It identifies t=
+he
+> > +most efficient CPU to assign a task based on its capacity. This capaci=
+ty
+> > +may be asymmetric due to heterogeneous computing architecture such
+> > +as ARM big.LITTLE. Scheduler gets information about asymmetric capacit=
+ies
+> > +when the scheduler domain hierarchy is built using build_sched_domains=
+().
+> > +CPU capacities are provided to the scheduler topology code through the
+> > +architecture specific implementation of the arch_scale_cpu_capacity().
+> > +The SD_ASYM_CPUCAPACITY flag is set by the scheduler topology for a do=
+main
+> > +in the hierarchy where all CPU capacities are visible for any cpu's po=
+int
+> > +of view on asymmetric CPU capacity systems. The scheduler can then tak=
+e
+> > +capacity asymmetry into account when load balancing.
+> > +
+> > +Initial CPU capacities are derived from the Device Tree and CPU freque=
+ncy.
+> > +For RISC-V & ARM64 it is done in drivers/base/arch_topology.c. A cpu-m=
+ap
+> > +device tree is parsed to obtain the cpu topology and the initial CPU c=
+apacity
+> > +is set using the CPUFreq subsystem. A callback is registered to the CP=
+UFreq
+> > +subsystem to rebuild sched_domains when CPU frequency changes.
+> > +
+>
+> We don't rebuild domains on frequency changes (that would be ludicrous!),
+> rather we do that on policy changes. It's mostly because we need to wait
+> for cpufreq to be loaded before having a complete view over the capacitie=
+s
+> of the CPUs (which is a mix of =C2=B5arch and frequencies), i.e. we need =
+to
+> rebuild the SD's again once cpufreq comes up.
+Fixed in v5 of the patchset.
+Thanks
