@@ -2,41 +2,36 @@ Return-Path: <SRS0=pCyG=64=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 756DAC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 18:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0FCEC433E4
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 19:37:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CB9B20657
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 18:49:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83F852065C
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 19:37:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727795AbgENSto (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 May 2020 14:49:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47960 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726778AbgENStn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 May 2020 14:49:43 -0400
-Received: from smtp-bc0f.mail.infomaniak.ch (smtp-bc0f.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D3E3C061A0C
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2020 11:49:43 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49NLDr72ydzlh8ns;
-        Thu, 14 May 2020 20:49:32 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 49NLDq6DNjzljZmr;
-        Thu, 14 May 2020 20:49:31 +0200 (CEST)
-Subject: Re: [PATCH v17 05/10] fs,landlock: Support filesystem access-control
-To:     James Morris <jmorris@namei.org>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
+        id S1728271AbgENThj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 May 2020 15:37:39 -0400
+Received: from namei.org ([65.99.196.166]:59072 "EHLO namei.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726667AbgENThj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 May 2020 15:37:39 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id 04EJb3d8007993;
+        Thu, 14 May 2020 19:37:03 GMT
+Date:   Fri, 15 May 2020 05:37:03 +1000 (AEST)
+From:   James Morris <jmorris@namei.org>
+To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+cc:     Casey Schaufler <casey@schaufler-ca.com>,
         linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@amacapital.net>,
         Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
         "Serge E . Hallyn" <serge@hallyn.com>,
         Shuah Khan <shuah@kernel.org>,
         Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
@@ -44,51 +39,37 @@ Cc:     Casey Schaufler <casey@schaufler-ca.com>,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
         linux-security-module@vger.kernel.org, x86@kernel.org
-References: <20200511192156.1618284-1-mic@digikod.net>
- <20200511192156.1618284-6-mic@digikod.net>
- <alpine.LRH.2.21.2005141335280.30052@namei.org>
- <c159d845-6108-4b67-6527-405589fa5382@digikod.net>
- <alpine.LRH.2.21.2005150329580.26489@namei.org>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <2561827e-020c-9a76-98ae-9514904c69f9@digikod.net>
-Date:   Thu, 14 May 2020 20:49:31 +0200
-User-Agent: 
+Subject: Re: [PATCH v17 05/10] fs,landlock: Support filesystem
+ access-control
+In-Reply-To: <2561827e-020c-9a76-98ae-9514904c69f9@digikod.net>
+Message-ID: <alpine.LRH.2.21.2005150536440.7929@namei.org>
+References: <20200511192156.1618284-1-mic@digikod.net> <20200511192156.1618284-6-mic@digikod.net> <alpine.LRH.2.21.2005141335280.30052@namei.org> <c159d845-6108-4b67-6527-405589fa5382@digikod.net> <alpine.LRH.2.21.2005150329580.26489@namei.org>
+ <2561827e-020c-9a76-98ae-9514904c69f9@digikod.net>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <alpine.LRH.2.21.2005150329580.26489@namei.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+Content-Type: multipart/mixed; boundary="1665246916-72433049-1589485024=:7929"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 14/05/2020 19:31, James Morris wrote:
-> On Thu, 14 May 2020, Mickaël Salaün wrote:
-> 
->>> This needs to be converted to the LSM API via superblock blob stacking.
->>>
->>> See Casey's old patch: 
->>> https://lore.kernel.org/linux-security-module/20190829232935.7099-2-casey@schaufler-ca.com/
->>
->> s_landlock_inode_refs is quite similar to s_fsnotify_inode_refs, but I
->> can do it once the superblock security blob patch is upstream. Is it a
->> blocker for now? What is the current status of lbs_superblock?
-> 
-> Yes it is a blocker. Landlock should not be adding its own functions in 
-> core code, it should be using the LSM API (and extending that as needed).
+--1665246916-72433049-1589485024=:7929
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-OK, I'll use that in the next series.
+On Thu, 14 May 2020, Mickaël Salaün wrote:
 
+> > fsnotify is not an LSM.
 > 
->> Anyway, we also need to have a call to landlock_release_inodes() in
->> generic_shutdown_super(), which does not fit the LSM framework, and I
->> think it is not an issue. Landlock handling of inodes is quite similar
->> to fsnotify.
-> 
-> fsnotify is not an LSM.
+> Yes, so I'll need to add a new LSM hook for this (release) call, right?
 
-Yes, so I'll need to add a new LSM hook for this (release) call, right?
+Unless an existing one will work.
+
+-- 
+James Morris
+<jmorris@namei.org>
+
+--1665246916-72433049-1589485024=:7929--
