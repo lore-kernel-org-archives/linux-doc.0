@@ -7,44 +7,45 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B814C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 15:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7489C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 15:02:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A36F2074A
-	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 15:01:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B31A020657
+	for <linux-doc@archiver.kernel.org>; Thu, 14 May 2020 15:02:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Ld4YaDO/"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="t+m+/96i"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727827AbgENPBZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 May 2020 11:01:25 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:42282 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727123AbgENPBY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 May 2020 11:01:24 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04EF0Z7o029269;
-        Thu, 14 May 2020 10:00:35 -0500
+        id S1728408AbgENPCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 May 2020 11:02:00 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:47380 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728400AbgENPCA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 May 2020 11:02:00 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04EF0sOa000610;
+        Thu, 14 May 2020 10:00:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1589468435;
-        bh=3kot24pT8I54Qo+jrpEa45lAzMIAEzTZmm1JUxN+Bjc=;
+        s=ti-com-17Q1; t=1589468454;
+        bh=86+kxHyuEg8X/IxVx0PHD94jdABj82nk6UhFXmMFVfM=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=Ld4YaDO/ufrRparGyNG/IyBUN/95uQw4hpuKaFIpoG1jGzOCx133M/kZcsqCyV+kj
-         QgguIenZsF00Rg/954KX15zsVccuq9ZfIIUukgN75a4SKjMerpjsI21OcQ0gQVtbRj
-         B5kWIsmUtKeAJNKrOX6eTKFGISOtv/aCrlkbcrMg=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04EF0ZGx129334;
-        Thu, 14 May 2020 10:00:35 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+        b=t+m+/96i8V4iAVdU/+VoSNsl9YzaHSLgRc34iVGXTQP2rtGSO7QeaBOYThx8W4idm
+         8RFo1G0II/Ga7DocrcOQ/bN0ouE5gtv5YxnCR2gAnPokn/unLvhpSPO8/Fgv423ssV
+         0Ys4s+RndC4M3Y4gKwqObbySSLaHvdL3vMsrM7j0=
+Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04EF0sgk103945
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 14 May 2020 10:00:54 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 14
- May 2020 10:00:34 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ May 2020 10:00:53 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 14 May 2020 10:00:34 -0500
+ Frontend Transport; Thu, 14 May 2020 10:00:53 -0500
 Received: from a0393678ub.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04EExgAs019279;
-        Thu, 14 May 2020 10:00:30 -0500
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04EExgAw019279;
+        Thu, 14 May 2020 10:00:49 -0500
 From:   Kishon Vijay Abraham I <kishon@ti.com>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
@@ -58,9 +59,9 @@ CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-ntb@googlegroups.com>,
         Kishon Vijay Abraham I <kishon@ti.com>
-Subject: [PATCH 10/19] PCI: endpoint: Make pci_epf_driver ops optional
-Date:   Thu, 14 May 2020 20:29:18 +0530
-Message-ID: <20200514145927.17555-11-kishon@ti.com>
+Subject: [PATCH 14/19] PCI: cadence: Implement ->msi_map_irq() ops
+Date:   Thu, 14 May 2020 20:29:22 +0530
+Message-ID: <20200514145927.17555-15-kishon@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200514145927.17555-1-kishon@ti.com>
 References: <20200514145927.17555-1-kishon@ti.com>
@@ -72,36 +73,136 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-pci_epf_driver had two ops for bind and unbind which will be invoked
-when an endpoint controller is bound to an endpoint function (using
-configfs). Now that endpoint core has support to define an endpoint
-function using device tree alone, the bind and unbind ops can be
-optional. Make pci_epf_driver ops optional here.
+Implement ->msi_map_irq() ops in order to map physical address to
+MSI address and return MSI data.
 
 Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
 ---
- drivers/pci/endpoint/pci-epf-core.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ .../pci/controller/cadence/pcie-cadence-ep.c  | 50 +++++++++++++++++++
+ drivers/pci/endpoint/pci-epc-core.c           |  7 ++-
+ include/linux/pci-epc.h                       |  2 +-
+ 3 files changed, 54 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/pci/endpoint/pci-epf-core.c b/drivers/pci/endpoint/pci-epf-core.c
-index f9ba2e8d4a99..f463eedcc3ad 100644
---- a/drivers/pci/endpoint/pci-epf-core.c
-+++ b/drivers/pci/endpoint/pci-epf-core.c
-@@ -201,11 +201,9 @@ int __pci_epf_register_driver(struct pci_epf_driver *driver,
+diff --git a/drivers/pci/controller/cadence/pcie-cadence-ep.c b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+index e6588a0cd705..74d36fb9ea5d 100644
+--- a/drivers/pci/controller/cadence/pcie-cadence-ep.c
++++ b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+@@ -380,6 +380,54 @@ static int cdns_pcie_ep_send_msi_irq(struct cdns_pcie_ep *ep, u8 fn,
+ 	return 0;
+ }
+ 
++static int cdns_pcie_ep_map_msi_irq(struct pci_epc *epc, u8 fn,
++				    phys_addr_t addr, u8 interrupt_num,
++				    u32 entry_size, u32 *msi_data)
++{
++	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
++	u32 cap = CDNS_PCIE_EP_FUNC_MSI_CAP_OFFSET;
++	struct cdns_pcie *pcie = &ep->pcie;
++	u16 flags, mme, data, data_mask;
++	u8 msi_count;
++	u64 pci_addr;
++	int ret;
++	int i;
++
++	/* Check whether the MSI feature has been enabled by the PCI host. */
++	flags = cdns_pcie_ep_fn_readw(pcie, fn, cap + PCI_MSI_FLAGS);
++	if (!(flags & PCI_MSI_FLAGS_ENABLE))
++		return -EINVAL;
++
++	/* Get the number of enabled MSIs */
++	mme = (flags & PCI_MSI_FLAGS_QSIZE) >> 4;
++	msi_count = 1 << mme;
++	if (!interrupt_num || interrupt_num > msi_count)
++		return -EINVAL;
++
++	/* Compute the data value to be written. */
++	data_mask = msi_count - 1;
++	data = cdns_pcie_ep_fn_readw(pcie, fn, cap + PCI_MSI_DATA_64);
++	data = data & ~data_mask;
++
++	/* Get the PCI address where to write the data into. */
++	pci_addr = cdns_pcie_ep_fn_readl(pcie, fn, cap + PCI_MSI_ADDRESS_HI);
++	pci_addr <<= 32;
++	pci_addr |= cdns_pcie_ep_fn_readl(pcie, fn, cap + PCI_MSI_ADDRESS_LO);
++	pci_addr &= GENMASK_ULL(63, 2);
++
++	for (i = 0; i < interrupt_num; i++) {
++		ret = cdns_pcie_ep_map_addr(epc, fn, addr, pci_addr,
++					    entry_size);
++		if (ret)
++			return ret;
++		addr = addr + entry_size;
++	}
++
++	*msi_data = data;
++
++	return 0;
++}
++
+ static int cdns_pcie_ep_send_msix_irq(struct cdns_pcie_ep *ep, u8 fn,
+ 				      u16 interrupt_num)
  {
- 	int ret;
+@@ -480,6 +528,7 @@ static const struct pci_epc_features cdns_pcie_epc_features = {
+ 	.linkup_notifier = false,
+ 	.msi_capable = true,
+ 	.msix_capable = true,
++	.align = 256,
+ };
  
--	if (!driver->ops)
--		return -EINVAL;
--
--	if (!driver->ops->bind || !driver->ops->unbind)
--		return -EINVAL;
-+	if (!driver->ops || !driver->ops->bind || !driver->ops->unbind)
-+		pr_debug("%s: Supports only pci_epf device created using DT\n",
-+			 driver->driver.name);
+ static const struct pci_epc_features*
+@@ -499,6 +548,7 @@ static const struct pci_epc_ops cdns_pcie_epc_ops = {
+ 	.set_msix	= cdns_pcie_ep_set_msix,
+ 	.get_msix	= cdns_pcie_ep_get_msix,
+ 	.raise_irq	= cdns_pcie_ep_raise_irq,
++	.map_msi_irq	= cdns_pcie_ep_map_msi_irq,
+ 	.start		= cdns_pcie_ep_start,
+ 	.get_features	= cdns_pcie_ep_get_features,
+ };
+diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+index 3f481a12d43d..ab5da996953e 100644
+--- a/drivers/pci/endpoint/pci-epc-core.c
++++ b/drivers/pci/endpoint/pci-epc-core.c
+@@ -319,7 +319,6 @@ EXPORT_SYMBOL_GPL(pci_epc_raise_irq);
+  *                         MSI data
+  * @epc: the EPC device which has the MSI capability
+  * @func_no: the physical endpoint function number in the EPC device
+- * @vfunc_no: the virtual endpoint function number in the physical function
+  * @phys_addr: the physical address of the outbound region
+  * @interrupt_num: the MSI interrupt number
+  * @entry_size: Size of Outbound address region for each interrupt
+@@ -333,7 +332,7 @@ EXPORT_SYMBOL_GPL(pci_epc_raise_irq);
+  * physical address (in outbound region) of the other interface to ring
+  * doorbell.
+  */
+-int pci_epc_map_msi_irq(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
++int pci_epc_map_msi_irq(struct pci_epc *epc, u8 func_no,
+ 			phys_addr_t phys_addr, u8 interrupt_num, u32 entry_size,
+ 			u32 *msi_data)
+ {
+@@ -346,8 +345,8 @@ int pci_epc_map_msi_irq(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 		return -EINVAL;
  
- 	driver->driver.bus = &pci_epf_bus_type;
- 	driver->driver.owner = owner;
+ 	mutex_lock(&epc->lock);
+-	ret = epc->ops->map_msi_irq(epc, func_no, vfunc_no, phys_addr,
+-				    interrupt_num, entry_size, msi_data);
++	ret = epc->ops->map_msi_irq(epc, func_no, phys_addr, interrupt_num,
++				    entry_size, msi_data);
+ 	mutex_unlock(&epc->lock);
+ 
+ 	return ret;
+diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+index 59cd4c967329..bb00f107c0dc 100644
+--- a/include/linux/pci-epc.h
++++ b/include/linux/pci-epc.h
+@@ -78,7 +78,7 @@ struct pci_epc_ops {
+ 	int	(*get_msix)(struct pci_epc *epc, u8 func_no);
+ 	int	(*raise_irq)(struct pci_epc *epc, u8 func_no,
+ 			     enum pci_epc_irq_type type, u16 interrupt_num);
+-	int	(*map_msi_irq)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
++	int	(*map_msi_irq)(struct pci_epc *epc, u8 func_no,
+ 			       phys_addr_t phys_addr, u8 interrupt_num,
+ 			       u32 entry_size, u32 *msi_data);
+ 	int	(*start)(struct pci_epc *epc);
 -- 
 2.17.1
 
