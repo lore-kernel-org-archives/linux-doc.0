@@ -2,108 +2,130 @@ Return-Path: <SRS0=kV/L=65=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5A79C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:43:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B928DC433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:44:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A72F82070A
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:43:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9343320728
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:44:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FepFYDdu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726238AbgEOSni (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 14:43:38 -0400
-Received: from 6.mo179.mail-out.ovh.net ([46.105.56.76]:59436 "EHLO
-        6.mo179.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726206AbgEOSni (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 14:43:38 -0400
-Received: from player770.ha.ovh.net (unknown [10.110.208.115])
-        by mo179.mail-out.ovh.net (Postfix) with ESMTP id 0D294167BA0
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 20:36:18 +0200 (CEST)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player770.ha.ovh.net (Postfix) with ESMTPSA id 2FA3F127F3DB2;
-        Fri, 15 May 2020 18:36:08 +0000 (UTC)
-Date:   Fri, 15 May 2020 20:36:01 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: sysctl/kernel: document unaligned controls
-Message-ID: <20200515203601.401a46a9@heffalump.sk2.org>
-In-Reply-To: <20200515112735.67ee1148@lwn.net>
-References: <20200515160406.8649-1-steve@sk2.org>
-        <20200515112735.67ee1148@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726769AbgEOSop (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 14:44:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726715AbgEOSon (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 14:44:43 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F002C061A0C
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 11:44:43 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id a4so1404531pgc.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 11:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aqpEyjmRGymmAkpEVNLXc9rm3KhELEO9r/R/WZVikzc=;
+        b=FepFYDduMkE+0Vc6udG9athvibh6QBvTsQoYsBFI7fTVizPHCZoDeTiA1Qh1GhyRsu
+         KE65oHTsa+hmwdwO4VpPHRts+bXH6NsISs8EGjuR/EukerazV9u0Qpsi4MhsN4Odq6Wa
+         +FNAlLl++yjbjgUKqAnw0ypxXMATy9BiLo+Uw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aqpEyjmRGymmAkpEVNLXc9rm3KhELEO9r/R/WZVikzc=;
+        b=FTXgJxyG+iJQHx3vVSu8vpoiJFE5rnlraQTaOsf9Ute5s4VmZ/Il6OYBZdMJW5uULb
+         cLwVvd+DeOa+adlYwmzuQ2uqi1q0jtTfD+IUTluK/JzaTsxz4RD1M7qzqPejyFfQXl5V
+         2vmichNED/0yaA91TGsCRnquL43WYkyYUCMBkHoVP+s5i1Gv/rPLJhysCnT/3Z0rCZ6y
+         0/Uqfa986sjjF9xBrR38NgJ7iKeuPrmpw+307VSRsLkK29VJGbizdevBDnTz0plK2yi7
+         uCkCZaThFUd1mDg5VyilhxHpo9R7hBmKHEF+mms1HGcj11VrpZszuLk45pavUyBDeVXi
+         Dmqw==
+X-Gm-Message-State: AOAM532mqRr18MQ4ryJvpaCUTs1KNNkkYgNQv9MMcfofnURva8XnwVrD
+        E7iXlWVeKfbmkPeM0lfxemlT3Moz/oo=
+X-Google-Smtp-Source: ABdhPJxDRJnJDZmBecNcZ4uRgeiGUpxX7zgXYIqmKtnUH4FhAIJ11bjo7gZpRkIMVbYw1HRdWk2dWg==
+X-Received: by 2002:a63:2b03:: with SMTP id r3mr4280548pgr.201.1589568282926;
+        Fri, 15 May 2020 11:44:42 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id j26sm2518425pfr.215.2020.05.15.11.44.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2020 11:44:38 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     Kees Cook <keescook@chromium.org>, Petr Mladek <pmladek@suse.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Benson Leung <bleung@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v4 0/6] allow ramoops to collect all kmesg_dump events
+Date:   Fri, 15 May 2020 11:44:28 -0700
+Message-Id: <20200515184434.8470-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/NfKkTxFuCefmYlDAsI+Q.k4"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 16222528811018177925
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrleekgdduvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtsehgtderreertddvnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeejkeffvdfhjeekffdukeehvddtvdfhieehhedvheekteekudefjeffueeuvedvvdenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejtddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/NfKkTxFuCefmYlDAsI+Q.k4
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hello!
 
-On Fri, 15 May 2020 11:27:35 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
-> On Fri, 15 May 2020 18:04:06 +0200
-> Stephen Kitt <steve@sk2.org> wrote:
->=20
-> > diff --git a/Documentation/index.rst b/Documentation/index.rst
-> > index 9599c0f3eea8..17c38d899572 100644
-> > --- a/Documentation/index.rst
-> > +++ b/Documentation/index.rst
-> > @@ -143,6 +143,7 @@ Architecture-agnostic documentation
-> >     :maxdepth: 2
-> > =20
-> >     asm-annotations
-> > +   unaligned-memory-access
-> > =20
-> >  Architecture-specific documentation
-> >  -----------------------------------
-> > diff --git a/Documentation/unaligned-memory-access.txt
-> > b/Documentation/unaligned-memory-access.rst similarity index 100%
-> > rename from Documentation/unaligned-memory-access.txt
-> > rename to Documentation/unaligned-memory-access.rst =20
->=20
-> Adding this to the toctree is great, but I'd just as soon not leave it in
-> the top-level directory while we do that.  Since you're renaming it
-> anyway, can you move it into process/?  It's not a perfect fit, but that's
-> where that type of material has been going so far.
+I wanted to get the pstore tree nailed down, so here's the v4 of
+Pavel's series, tweaked for the feedback during v3 review.
 
-I can indeed. Should it still be listed in the main toctree, or in the
-process toctree?
+-Kees
 
-Regards,
+v4:
+- rebase on pstore tree
+- collapse shutdown types into a single dump reason
+  https://lore.kernel.org/lkml/CA+CK2bAPv5u1ih5y9t5FUnTyximtFCtDYXJCpuyjOyHNOkRdqw@mail.gmail.com/
+- fix dump_oops vs max_reason module params
+  https://lore.kernel.org/lkml/20200512233504.GA118720@sequoia/
+- typos
+  https://lore.kernel.org/lkml/4cdeaa2af2fe0d6cc2ca8ce3a37608340799df8a.camel@perches.com/
+- rename DT parsing routines ..._size -> ..._u32
+  https://lore.kernel.org/lkml/CA+CK2bCu8eFomiU+NeBjVn-o2dbuECxwRfssNjB3ys3caCbXeA@mail.gmail.com/
+v3: https://lore.kernel.org/lkml/20200506211523.15077-1-keescook@chromium.org/
+v2: https://lore.kernel.org/lkml/20200505154510.93506-1-pasha.tatashin@soleen.com
+v1: https://lore.kernel.org/lkml/20200502143555.543636-1-pasha.tatashin@soleen.com
 
-Stephen
+Kees Cook (3):
+  printk: Collapse shutdown types into a single dump reason
+  printk: Introduce kmsg_dump_reason_str()
+  pstore/ram: Introduce max_reason and convert dump_oops
 
---Sig_/NfKkTxFuCefmYlDAsI+Q.k4
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Pavel Tatashin (3):
+  printk: honor the max_reason field in kmsg_dumper
+  pstore/platform: Pass max_reason to kmesg dump
+  ramoops: Add max_reason optional field to ramoops DT node
 
------BEGIN PGP SIGNATURE-----
+ Documentation/admin-guide/ramoops.rst         | 14 +++--
+ .../bindings/reserved-memory/ramoops.txt      | 13 ++++-
+ arch/powerpc/kernel/nvram_64.c                |  4 +-
+ drivers/platform/chrome/chromeos_pstore.c     |  2 +-
+ fs/pstore/platform.c                          | 26 ++-------
+ fs/pstore/ram.c                               | 58 +++++++++++++------
+ include/linux/kmsg_dump.h                     | 12 +++-
+ include/linux/pstore.h                        |  7 +++
+ include/linux/pstore_ram.h                    |  2 +-
+ kernel/printk/printk.c                        | 32 ++++++++--
+ kernel/reboot.c                               |  6 +-
+ 11 files changed, 114 insertions(+), 62 deletions(-)
 
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl6+4REACgkQgNMC9Yht
-g5w1kRAAkBV4HprjDLUML9+vxm4/2RzhUEp6iN3jvH4NYDsGgHpdMoBUy8Ssa5EO
-3V4KOrLyMcAulHn5/jBt/9fEoOJXHmeR8bR7J/PcMpXeqxMI0fnp7weZebb+xZhV
-5aygqbhIG277DX9Pvnd6ke5nVYjoQVwoDAaOvBx7ZOriE6wSl5v3r0GBYKQ2JOcf
-Jolc6dxkuoiSV+szebdbq8Ucgq1wASxsA5NYeasOl/f1GeH7Yafv7X8zbKQzfz3H
-UYIktCvJFvDX30NGC1Qhx2L2Q45wToWYY7COgdT9pxPpsZJ9ibwh9VLgu59UAzVR
-Hs09rN0sN5cTqYuxGKQl7K+f/y9ipWb2R8KxwSEeXLT8PNu9OdsUsVqjernz1JgR
-ef49rLz2pBByn12m8n21PLPQuOsETKx+N9CN9wn3fyEfUV3UqKC63ADvOBtEN8lr
-3CoXoQZgGkMXnfI1nBQPp+/1F4gVEPAz1aPgG0pTuFprO0uG/4iTBUQt7Au2ZwXn
-tM6effqFDvdex2KEXpISHv/VqHyNXlM4Lc5ypPan5wKpV+smoDbZbkmTagqJ8NSd
-/TY3jngXCy/qBbfzTo6j3jI3EKzYUVZsO0rtLYcJhmxOr4nS3Spdni9cVdeoBQEH
-Bwbh8/F4Pq/uoyhXhRTarzU+EZtK1ebzyjjiJTfaRMGoAQI79qU=
-=GqR/
------END PGP SIGNATURE-----
+-- 
+2.20.1
 
---Sig_/NfKkTxFuCefmYlDAsI+Q.k4--
