@@ -2,65 +2,48 @@ Return-Path: <SRS0=kV/L=65=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6EFCC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 15:01:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A52C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 15:05:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7AF1F207CD
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 15:01:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IL1cZ4Ty"
+	by mail.kernel.org (Postfix) with ESMTP id C198420758
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 15:05:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1589555132;
+	bh=1zPqQ8sIvNSMWgPCrIdx+Kb+Xb8hmdEK8vwfDgbo3QE=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=BxIBMz8l2CpKL5NNPXOfBKYLgyaMsq4Ru4eu9rO0seKZKUYMkMf3pKAyJXpLfR4pr
+	 ZFPvwd2a1fFMktmJHGLF2LEAUotuzv0XcZH2IBAASjitz03Lbl8DUjCJb/JWgtnQk2
+	 DJph4BRv8snoBrZdfL52tXQjyRz9MVjSbpfkU0FU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbgEOPBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 11:01:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726163AbgEOPBr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 11:01:47 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A2CC061A0C;
-        Fri, 15 May 2020 08:01:47 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id d184so1064582pfd.4;
-        Fri, 15 May 2020 08:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2M5tR/HXRVMHSv9+8jqo0K2JDlbfL1ldOQg3nx+e71Q=;
-        b=IL1cZ4TylfUYpbf6FhwxxxXhlaOaaqYdpSPrLkvDDg+FIkyOWN+F7y94QtrBjbPWFc
-         Zv3A9ox5S/PlhOENSj72fGWFEzW+aVL/BoTmCLnJdltfv6OYy5gu6G7ZPPijOCDwe/+P
-         NiWwn6BYw3zv+T9+ARp6vNz8EK7fULvvwS16BZ8P2StoRGkB8gpx+RRhb5L2wC70cO5G
-         lB1GAo9NMZdcqJ7BiOQLNeOQK4SlEFMGozmP99BLbJcBWbcYnMibd7qmciMhBChEcd5O
-         WbmAQsc6Lu13FFhuwbHN4AkELthRIq3OmaFJT8TyDdOrz7Igz3bLSHOAu/wdHynU3UoO
-         4CEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2M5tR/HXRVMHSv9+8jqo0K2JDlbfL1ldOQg3nx+e71Q=;
-        b=VJInwOhnNoSt42J2dTei+9IB9iAbVuBDC9Lf9ftOD0QDfyl0+Fhww6N62zODrAaX9N
-         2XSB+sLTScvBbgKFPJ1Vv/2wWJOdprNyFjMZqE/+lzeMnFB+uqPtUtkJ1ypMJUkvhmIi
-         R2V6lLv1ab/f/z7tTcPH/kFfYB0Xh1+/6ooMTAO1aRTUAjrqjF8GSb7/i6Ml6VB1ohAz
-         9/XWzEk6rCtMhhFq1ChzsRrd8Jez2HdVqPGcTlNQyvbPVKa5KQ8NP3w6rLpBZKGsSNg7
-         8Rt8jkMZKSwAQIISdfm18XjKGbDKHoI/fLRRl5ZTag0X2taAuuu3dEmO5u16YNLSwKa5
-         rKiw==
-X-Gm-Message-State: AOAM532i/zCNO79ZmjgRVeWel3BONg7X5wV5qUSy883ZYCH6V7I7iWjn
-        /q1BDof/YyhJLycIKMUuVy8=
-X-Google-Smtp-Source: ABdhPJwpKxsfDK1jgJ4Px/AFu3QMhIkgxrDqiMts5MLXcyGp4/P1ATPXHwvV2c77914YnZ0v0pPqwA==
-X-Received: by 2002:a62:6545:: with SMTP id z66mr4098470pfb.87.1589554907217;
-        Fri, 15 May 2020 08:01:47 -0700 (PDT)
-Received: from [192.168.11.3] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id q21sm1916519pgl.7.2020.05.15.08.01.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2020 08:01:46 -0700 (PDT)
-Subject: Re: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's
- README into top-level one
-To:     paulmck@kernel.org
+        id S1726234AbgEOPFc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 11:05:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46230 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726140AbgEOPFc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 May 2020 11:05:32 -0400
+Received: from paulmck-ThinkPad-P72.home (unknown [50.39.105.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 597F120728;
+        Fri, 15 May 2020 15:05:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589555131;
+        bh=1zPqQ8sIvNSMWgPCrIdx+Kb+Xb8hmdEK8vwfDgbo3QE=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=Q2pHovYL2JZbX31jVnD7s478qfEpgQNHT/OMDNLBSs38erSE2BD6fUk65FmWlxOR2
+         552ed+mz5R74AeRS+TUNoBLoWT6lmU/7YffEzhgE30cl2myL3d9jBGsMa0VlIZMK7u
+         Gfa7pAPQBWPanBYjMvElhcaZmoz+i32/4zUpphcA=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id C360135226DF; Fri, 15 May 2020 08:05:30 -0700 (PDT)
+Date:   Fri, 15 May 2020 08:05:30 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
 Cc:     Boqun Feng <boqun.feng@gmail.com>,
         Joel Fernandes <joel@joelfernandes.org>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -75,11 +58,12 @@ Cc:     Boqun Feng <boqun.feng@gmail.com>,
         Jade Alglave <j.alglave@ucl.ac.uk>,
         Luc Maranget <luc.maranget@inria.fr>,
         Daniel Lustig <dlustig@nvidia.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <7809dbfa-7a76-8663-799a-908c4ead8d30@gmail.com>
- <21e1ba24-22d0-8083-770c-53d320ba5420@gmail.com>
- <fd7e7c6f-fda1-7f2b-19f3-a09b73b10de8@gmail.com>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's
+ README into top-level one
+Message-ID: <20200515150530.GG2869@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <fd7e7c6f-fda1-7f2b-19f3-a09b73b10de8@gmail.com>
  <CAEXW_YSjo2hgvg-FN_MR7FVEcp-7gH17jb0-262k+ydSuuDjuQ@mail.gmail.com>
  <20200512163022.GI2869@paulmck-ThinkPad-P72>
  <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
@@ -88,79 +72,76 @@ References: <7809dbfa-7a76-8663-799a-908c4ead8d30@gmail.com>
  <20200514171656.GR2869@paulmck-ThinkPad-P72>
  <0ded5099-fe59-914a-d0dd-999cc334ff0a@gmail.com>
  <20200514224558.GZ2869@paulmck-ThinkPad-P72>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <ed5b16b9-b522-8f9b-847b-e18d6387017e@gmail.com>
-Date:   Sat, 16 May 2020 00:01:41 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ <ed5b16b9-b522-8f9b-847b-e18d6387017e@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200514224558.GZ2869@paulmck-ThinkPad-P72>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed5b16b9-b522-8f9b-847b-e18d6387017e@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 14 May 2020 15:45:58 -0700, Paul E. McKenney wrote:
-> On Fri, May 15, 2020 at 07:03:33AM +0900, Akira Yokosawa wrote:
->> On Thu, 14 May 2020 10:16:56 -0700, Paul E. McKenney wrote:
->>> On Thu, May 14, 2020 at 08:46:18AM +0800, Boqun Feng wrote:
->>>> On Wed, May 13, 2020 at 06:39:03AM +0900, Akira Yokosawa wrote:
->>>>> From 96fa6680e3b990633ecbb6d11acf03a161b790bd Mon Sep 17 00:00:00 2001
->>>>> From: Akira Yokosawa <akiyks@gmail.com>
->>>>> Date: Sun, 10 May 2020 15:12:57 +0900
->>>>> Subject: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's README into top-level one
->>>>>
->>>>> Where Documentation/litmus-tests/README lists RCU litmus tests,
->>>>> Documentation/litmus-tests/atomic/README lists atomic litmus tests.
->>>>> For symmetry, merge the latter into former, with some context
->>>>> adjustment in the introduction.
->>>>>
->>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->>>>> Acked-by: Andrea Parri <parri.andrea@gmail.com>
->>>>> Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->>>>
->>>> Acked-by: Boqun Feng <boqun.feng@gmail.com>
->>>>
->>>> Thanks!
->>>
->>> Applied, and thank you all!
->>>
->>> I rebased, cancelling the revert with the original, resulting in an
->>> updated lkmm branch on -rcu.  There was one minor conflict, so could
->>> one of you please check to make sure that I resolved things appropriately?
->>
->> One thing I noticed.
->>
->> Commit b2998782ded4 ("Documentation/litmus-tests: Clarify about the RCU
->> pre-initialization test")'s change log says:
->>
->>     Since this test returned to tools/memory-model/, make sure that it is
->>                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>     at least referenced from Documentation/litmus-tests/'s README.
->>
->> Because of the rebase, this needs amendment as well as the title.
->>
->> Something like
->>
->>     Documentation/litumus-tests: Cite a relevant litmus test in tools/memory-model
->>
->>     For ease of finding the RCU related litmus test under
->>     tools/memory-model/, add an entry in README.
->>
->> ?
+On Sat, May 16, 2020 at 12:01:41AM +0900, Akira Yokosawa wrote:
+> On Thu, 14 May 2020 15:45:58 -0700, Paul E. McKenney wrote:
+> > On Fri, May 15, 2020 at 07:03:33AM +0900, Akira Yokosawa wrote:
+> >> On Thu, 14 May 2020 10:16:56 -0700, Paul E. McKenney wrote:
+> >>> On Thu, May 14, 2020 at 08:46:18AM +0800, Boqun Feng wrote:
+> >>>> On Wed, May 13, 2020 at 06:39:03AM +0900, Akira Yokosawa wrote:
+> >>>>> From 96fa6680e3b990633ecbb6d11acf03a161b790bd Mon Sep 17 00:00:00 2001
+> >>>>> From: Akira Yokosawa <akiyks@gmail.com>
+> >>>>> Date: Sun, 10 May 2020 15:12:57 +0900
+> >>>>> Subject: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's README into top-level one
+> >>>>>
+> >>>>> Where Documentation/litmus-tests/README lists RCU litmus tests,
+> >>>>> Documentation/litmus-tests/atomic/README lists atomic litmus tests.
+> >>>>> For symmetry, merge the latter into former, with some context
+> >>>>> adjustment in the introduction.
+> >>>>>
+> >>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> >>>>> Acked-by: Andrea Parri <parri.andrea@gmail.com>
+> >>>>> Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> >>>>
+> >>>> Acked-by: Boqun Feng <boqun.feng@gmail.com>
+> >>>>
+> >>>> Thanks!
+> >>>
+> >>> Applied, and thank you all!
+> >>>
+> >>> I rebased, cancelling the revert with the original, resulting in an
+> >>> updated lkmm branch on -rcu.  There was one minor conflict, so could
+> >>> one of you please check to make sure that I resolved things appropriately?
+> >>
+> >> One thing I noticed.
+> >>
+> >> Commit b2998782ded4 ("Documentation/litmus-tests: Clarify about the RCU
+> >> pre-initialization test")'s change log says:
+> >>
+> >>     Since this test returned to tools/memory-model/, make sure that it is
+> >>                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >>     at least referenced from Documentation/litmus-tests/'s README.
+> >>
+> >> Because of the rebase, this needs amendment as well as the title.
+> >>
+> >> Something like
+> >>
+> >>     Documentation/litumus-tests: Cite a relevant litmus test in tools/memory-model
+> >>
+> >>     For ease of finding the RCU related litmus test under
+> >>     tools/memory-model/, add an entry in README.
+> >>
+> >> ?
+> > 
+> > Good catch, and yes, I will update that on the next rebase.
+> > 
+> > Any other things in need of adjustment?
 > 
-> Good catch, and yes, I will update that on the next rebase.
-> 
-> Any other things in need of adjustment?
+> Aside from the missing Signed-off-by tags Stephen pointed out, I don't
+> see anything.
 
-Aside from the missing Signed-off-by tags Stephen pointed out, I don't
-see anything.
+Yeah, I did mess that up!  ;-)
 
-        Thanks, Akira
+Thank you for checking!!!
 
-> 
-> 							Thanx, Paul
-
+							Thanx, Paul
