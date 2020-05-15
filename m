@@ -2,100 +2,156 @@ Return-Path: <SRS0=kV/L=65=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLACK,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E61C433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 20:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35E74C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 21:26:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCEBF206D4
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 20:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589574423;
-	bh=TYIO6oIBcj3gHKJmn6EHN5Dy+P6j+DIZWhWkg5mKhXQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=PT0yaL7wNvQLtXdkjo+GgfEvj57V/VV1UOfRrFQiQXClSa7QdT7dy5rlj0zjd9NQq
-	 naVCDzBlR4Kdyu7Jd8uBnlrcJQE64X0rzRstZi+i7JkvVdoqYCehLSjNYG09qL9IxC
-	 ZTz+3xeOJlK/mzUlrxvCMApxxobeZpYEVGgQ+6TA=
+	by mail.kernel.org (Postfix) with ESMTP id 152B420709
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 21:26:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726231AbgEOU1A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 16:27:00 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:43785 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbgEOU1A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 16:27:00 -0400
-Received: by mail-pf1-f196.google.com with SMTP id v63so1515480pfb.10;
-        Fri, 15 May 2020 13:26:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BjLEoH1/onS9gWc/WGPUDHWQzqwo7CrmGrZOV7KWi24=;
-        b=UamxaYbhgmj4ujJONx9S2X0l7P6wumcxE4lCGY7L+hC75LuNCGzJEMVPtzKi3tAkm0
-         ZjNsthL6BZX6hgsdieTZuM9UDtBXG8JjW+SzW2IK6F79BYnh925FesrYfzhtQncTuhal
-         scZM6DgFKImNeRAgxcq4e2L0t6eq6+ttNwcm4DENzstvSE2jVtnucOitxtaEUsIgt5Uo
-         nv4EHBREXpcwTKl9VfV9+oZbIT1y9pUpMPCJBFAVewlTHeyEMsUp384i7UGYKPzllDHK
-         UHfopQlU+IticbbiN9Q5dwMZfEKeJZN8Jr4rDW0PpF3dl2H/Gg/IJjFoIQwg7yDLaarJ
-         +Hzg==
-X-Gm-Message-State: AOAM531FQfaSSrvtxOHnfCYDpvINMx4IMb4Bzn63zur9rX2DuWdGAeY+
-        X4bQZPds47HkgnQFgaml8rE=
-X-Google-Smtp-Source: ABdhPJw55POBvLJW1yTqamx/YQ9pJ9208HAhysD6+dQoHJdWvvegvrWWTUXGJdA6DaxsTXI4n7DFIw==
-X-Received: by 2002:a65:608c:: with SMTP id t12mr4951599pgu.46.1589574418563;
-        Fri, 15 May 2020 13:26:58 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id d18sm2638767pfq.177.2020.05.15.13.26.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2020 13:26:57 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id B49A240246; Fri, 15 May 2020 20:26:56 +0000 (UTC)
-Date:   Fri, 15 May 2020 20:26:56 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Rafael Aquini <aquini@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
-        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
-        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
-        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
-        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
-        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
-Subject: Re: [PATCH v5] kernel: add panic_on_taint
-Message-ID: <20200515202656.GZ11244@42.do-not-panic.com>
-References: <20200515175502.146720-1-aquini@redhat.com>
+        id S1726231AbgEOV0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 17:26:43 -0400
+Received: from 2.mo173.mail-out.ovh.net ([178.33.251.49]:42470 "EHLO
+        2.mo173.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726301AbgEOV0n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 17:26:43 -0400
+Received: from player738.ha.ovh.net (unknown [10.108.42.176])
+        by mo173.mail-out.ovh.net (Postfix) with ESMTP id E4A4113CC01
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 23:26:40 +0200 (CEST)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player738.ha.ovh.net (Postfix) with ESMTPSA id 923521286A113;
+        Fri, 15 May 2020 21:26:35 +0000 (UTC)
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
+Subject: [PATCH v2] docs: sysctl/kernel: document unaligned controls
+Date:   Fri, 15 May 2020 23:24:44 +0200
+Message-Id: <20200515212443.5012-1-steve@sk2.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200515175502.146720-1-aquini@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 653021949153856901
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrleekgdduheekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepieektefhtdffgfefveehudejvdeileefffdvtdefgeffffehudekudeuhedvledunecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 15, 2020 at 01:55:02PM -0400, Rafael Aquini wrote:
-> Analogously to the introduction of panic_on_warn, this patch introduces a kernel
-> option named panic_on_taint in order to provide a simple and generic way to stop
-> execution and catch a coredump when the kernel gets tainted by any given flag.
-> 
-> This is useful for debugging sessions as it avoids having to rebuild the kernel
-> to explicitly add calls to panic() into the code sites that introduce the taint
-> flags of interest. For instance, if one is interested in proceeding with a
-> post-mortem analysis at the point a given code path is hitting a bad page
-> (i.e. unaccount_page_cache_page(), or slab_bug()), a coredump can be collected
-> by rebooting the kernel with 'panic_on_taint=0x20' amended to the command line.
-> 
-> Another, perhaps less frequent, use for this option would be as a mean for
-> assuring a security policy case where only a subset of taints, or no single
-> taint (in paranoid mode), is allowed for the running system.
-> The optional switch 'nousertaint' is handy in this particular scenario,
-> as it will avoid userspace induced crashes by writes to sysctl interface
-> /proc/sys/kernel/tainted causing false positive hits for such policies.
-> 
-> Suggested-by: Qian Cai <cai@lca.pw>
-> Signed-off-by: Rafael Aquini <aquini@redhat.com>
+This documents ignore-unaligned-usertrap, unaligned-dump-stack, and
+unaligned-trap, based on arch/arc/kernel/unaligned.c,
+arch/ia64/kernel/unaligned.c, and arch/parisc/kernel/unaligned.c.
 
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+While we're at it, integrate unaligned-memory-access.txt into the docs
+tree.
 
-  Luis
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
+Changes since v1:
+  - move unaligned-memory-access.txt to process/
+  - removed UTF-8 apostrophe from the commit message
+
+ Documentation/admin-guide/sysctl/kernel.rst   | 51 +++++++++++++++++++
+ Documentation/process/index.rst               |  1 +
+ .../unaligned-memory-access.rst}              |  0
+ 3 files changed, 52 insertions(+)
+ rename Documentation/{unaligned-memory-access.txt => process/unaligned-memory-access.rst} (100%)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index eb6bc9cc0318..4bb4d55f20ff 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -402,6 +402,25 @@ Controls whether the panic kmsg data should be reported to Hyper-V.
+ = =========================================================
+ 
+ 
++ignore-unaligned-usertrap
++=========================
++
++On architectures where unaligned accesses cause traps, and where this
++feature is supported (``CONFIG_SYSCTL_ARCH_UNALIGN_NO_WARN``;
++currently, ``arc`` and ``ia64``), controls whether all unaligned traps
++are logged.
++
++= =============================================================
++0 Log all unaligned accesses.
++1 Only warn the first time a process traps. This is the default
++  setting.
++= =============================================================
++
++See also `unaligned-trap`_ and `unaligned-dump-stack`_. On ``ia64``,
++this allows system administrators to override the
++``IA64_THREAD_UAC_NOPRINT`` ``prctl`` and avoid logs being flooded.
++
++
+ kexec_load_disabled
+ ===================
+ 
+@@ -1252,6 +1271,38 @@ See :doc:`/admin-guide/kernel-parameters` and
+ :doc:`/trace/boottime-trace`.
+ 
+ 
++.. _unaligned-dump-stack:
++
++unaligned-dump-stack (ia64)
++===========================
++
++When logging unaligned accesses, controls whether the stack is
++dumped.
++
++= ===================================================
++0 Do not dump the stack. This is the default setting.
++1 Dump the stack.
++= ===================================================
++
++See also `ignore-unaligned-usertrap`_.
++
++
++unaligned-trap
++==============
++
++On architectures where unaligned accesses cause traps, and where this
++feature is supported (``CONFIG_SYSCTL_ARCH_UNALIGN_ALLOW``; currently,
++``arc`` and ``parisc``), controls whether unaligned traps are caught
++and emulated (instead of failing).
++
++= ========================================================
++0 Do not emulate unaligned accesses.
++1 Emulate unaligned accesses. This is the default setting.
++= ========================================================
++
++See also `ignore-unaligned-usertrap`_.
++
++
+ unknown_nmi_panic
+ =================
+ 
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index 6399d92f0b21..f07c9250c3ac 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -61,6 +61,7 @@ lack of a better place.
+    botching-up-ioctls
+    clang-format
+    ../riscv/patch-acceptance
++   unaligned-memory-access
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/unaligned-memory-access.txt b/Documentation/process/unaligned-memory-access.rst
+similarity index 100%
+rename from Documentation/unaligned-memory-access.txt
+rename to Documentation/process/unaligned-memory-access.rst
+
+base-commit: 56b62540782bfde459acc8eb15b949eaf151c881
+-- 
+2.20.1
+
