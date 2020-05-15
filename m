@@ -6,37 +6,34 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB8FC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EC2BC433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:32:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51DE620727
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:30:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86F5C20727
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:32:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726261AbgEORaS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 13:30:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34958 "EHLO
+        id S1726197AbgEORcA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 13:32:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726233AbgEORaR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 13:30:17 -0400
+        by vger.kernel.org with ESMTP id S1726168AbgEORb7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 13:31:59 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B40EAC061A0C;
-        Fri, 15 May 2020 10:30:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2004C061A0C;
+        Fri, 15 May 2020 10:31:59 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3A084736;
-        Fri, 15 May 2020 17:30:17 +0000 (UTC)
-Date:   Fri, 15 May 2020 11:30:16 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id A0DAE72D;
+        Fri, 15 May 2020 17:31:59 +0000 (UTC)
+Date:   Fri, 15 May 2020 11:31:58 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wang Wenhu <wenhu.wang@vivo.com>
-Cc:     alex.shi@linux.alibaba.com, harryxiyou@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        opensource.kernel@vivo.com, luochucheng@vivo.com
-Subject: Re: [PATCH] doc: zh_CN: add translatation for debugfs.txt
-Message-ID: <20200515113016.43c12464@lwn.net>
-In-Reply-To: <20200509080535.7625-1-wenhu.wang@vivo.com>
-References: <20200408021528.14062-1-luochucheng@vivo.com>
-        <20200509080535.7625-1-wenhu.wang@vivo.com>
+To:     Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: debugfs: Update struct debugfs_reg32 definition
+Message-ID: <20200515113158.35b8f73b@lwn.net>
+In-Reply-To: <20200508212949.2867-1-rikard.falkeborn@gmail.com>
+References: <20200508212949.2867-1-rikard.falkeborn@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,24 +43,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat,  9 May 2020 01:05:35 -0700
-Wang Wenhu <wenhu.wang@vivo.com> wrote:
+On Fri,  8 May 2020 23:29:49 +0200
+Rikard Falkeborn <rikard.falkeborn@gmail.com> wrote:
 
-> From: Chucheng Luo <luochucheng@vivo.com>
+> Update the docs to match the implementation, both the definition of
+> struct debugfs_regset32 and the definition of debugfs_print_regs32().
 > 
-> Translate Documentation/filesystems/debugfs.txt into Chinese.
-> 
-> Signed-off-by: Chucheng Luo <luochucheng@vivo.com>
-> Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
-> Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
-> [rebase for upstream conflict and minor change of subject]
-> Link: https://lore.kernel.org/linux-doc/20200408021528.14062-1-luochucheng@vivo.com/
-> ---
-> Note:
->  * Did rebase as asked by Jonathan for the conflict when applied.
->  * Also ajusted the subject description.
->  * For their is no modification of new translated file, I appended
->    the "Reviewed-by" tag from Alex.
+> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 
 Applied, thanks.
 
