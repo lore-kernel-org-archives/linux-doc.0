@@ -2,112 +2,171 @@ Return-Path: <SRS0=kV/L=65=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F3C9C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:10:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49163C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:39:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 373472070A
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:10:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 211B32070A
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:39:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbgEOSKL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 14:10:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41250 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbgEOSKL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 14:10:11 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9A1FC061A0C;
-        Fri, 15 May 2020 11:10:11 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A0FC572D;
-        Fri, 15 May 2020 18:10:09 +0000 (UTC)
-Date:   Fri, 15 May 2020 12:10:08 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Peter Xu <peterx@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>,
+        id S1726250AbgEOSjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 14:39:21 -0400
+Received: from mga02.intel.com ([134.134.136.20]:5584 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726248AbgEOSjV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 May 2020 14:39:21 -0400
+IronPort-SDR: imYlIilFwI9x4EjNpqLh+Z1aH7hhGn54vanArHggGIQlr17JyPvQWtbuAIi8TQpWAIGj77lBB/
+ vZ1o0prijgPg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2020 11:39:20 -0700
+IronPort-SDR: iYjfjH9F/82V+xquriT8OYdQvbgvep0iQczFysmOnrn7nD1beLczODltJpjxMkKrxFrLGYZB+u
+ 5FWeclmuFInA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,396,1583222400"; 
+   d="scan'208";a="266689684"
+Received: from thirum3x-mobl3.gar.corp.intel.com (HELO [10.255.0.216]) ([10.255.0.216])
+  by orsmga006.jf.intel.com with ESMTP; 15 May 2020 11:39:15 -0700
+Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Peter Collingbourne <pcc@google.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tejun Heo <tj@kernel.org>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org
-Subject: Re: [PATCH 11/14] docs: move other kAPI documents to core-api
-Message-ID: <20200515121008.4debe669@lwn.net>
-In-Reply-To: <70cca102282ccd36b107487c60346f414011c684.1588345503.git.mchehab+huawei@kernel.org>
-References: <cover.1588345503.git.mchehab+huawei@kernel.org>
-        <70cca102282ccd36b107487c60346f414011c684.1588345503.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+ <20200429220732.31602-2-yu-cheng.yu@intel.com>
+ <b5197a8d-5d8b-e1f7-68d4-58d80261904c@intel.com>
+ <dd5b9bab31ecf247a0b4890e22bfbb486ff52001.camel@intel.com>
+ <5cc163ff9058d1b27778e5f0a016c88a3b1a1598.camel@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <b0581ddc-0d99-cbcf-278e-0be55ba939a0@intel.com>
+Date:   Fri, 15 May 2020 11:39:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <5cc163ff9058d1b27778e5f0a016c88a3b1a1598.camel@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  1 May 2020 17:37:55 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-
-> There are a number of random documents that seem to be
-> describing some aspects of the core-api. Move them to such
-> directory, adding them at the core-api/index.rst file.
+On 5/12/20 4:20 PM, Yu-cheng Yu wrote:
+> On Wed, 2020-04-29 at 16:02 -0700, Yu-cheng Yu wrote:
+>> On Wed, 2020-04-29 at 15:53 -0700, Dave Hansen wrote:
+>>> On 4/29/20 3:07 PM, Yu-cheng Yu wrote:
+>>>> +Note:
+>>>> +  There is no CET-enabling arch_prctl function.  By design, CET is enabled
+>>>> +  automatically if the binary and the system can support it.
+>>>
+>>> I think Andy and I danced around this last time.  Let me try to say it
+>>> more explicitly.
+>>>
+>>> I want CET kernel enabling to able to be disconnected from the on-disk
+>>> binary.  I want a binary compiled with CET to be able to disable it, and
+>>> I want a binary not compiled with CET to be able to enable it.  I want
+>>> different threads in a process to be able to each have different CET status.
+>>
+>> The kernel patches we have now can be modified to support this model.  If after
+>> discussion this is favorable, I will modify code accordingly.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/admin-guide/sysctl/vm.rst                     | 2 +-
->  Documentation/core-api/index.rst                            | 6 ++++++
->  Documentation/{mailbox.txt => core-api/mailbox.rst}         | 0
->  Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst}   | 0
->  .../{this_cpu_ops.txt => core-api/this_cpu_ops.rst}         | 0
->  .../unaligned-memory-access.rst}                            | 0
->  Documentation/gpu/drm-mm.rst                                | 2 +-
->  arch/Kconfig                                                | 2 +-
->  init/Kconfig                                                | 2 +-
->  mm/Kconfig                                                  | 2 +-
->  mm/nommu.c                                                  | 2 +-
->  11 files changed, 12 insertions(+), 6 deletions(-)
->  rename Documentation/{mailbox.txt => core-api/mailbox.rst} (100%)
->  rename Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst} (100%)
->  rename Documentation/{this_cpu_ops.txt => core-api/this_cpu_ops.rst} (100%)
->  rename Documentation/{unaligned-memory-access.txt => core-api/unaligned-memory-access.rst} (100%)
+> To turn on/off and to lock CET are application-level decisions.  The kernel does
+> not prevent any of those.  Should there be a need to provide an arch_prctl() to
+> turn on CET, it can be added without any conflict to this series.
 
-This one doesn't apply for me.  Beyond that, I'm not entirely convinced
-about a couple of the moves...
+I spelled out what I wanted pretty clearly.  On your next post, could
+you please directly address each of the things I asked for?  Please
+directly answer the following questions in your next post with respect
+to the code you post:
 
- - mailbox.txt seems like driver-api stuff to me?
- - nommu-mmap.txt is mostly (though not completely) about the semantic of
-   mmap() options as seen by user space, so perhaps belongs in that
-   manual...?
+Can a binary compiled with CET run without CET?
+Can a binary compiled without CET run CET-enabled code?
+Can different threads in a process have different CET enabling state?
 
-Thanks,
+>>> Which JITs was this tested with?  I think as a bare minimum we need to
+>>> know that this design can accommodate _a_ modern JIT.  It would be
+>>> horrible if the browser javascript engines couldn't use this design, for
+>>> instance.
+>>
+>> JIT work is still in progress.  When that is available I will test it.
+> 
+> I found CET has been enabled in LLVM JIT, Mesa JIT as well as sljit which is
+> used by jit.  So the current model works with JIT.
 
-jon
+Great!  I'm glad the model works.  That's not what I asked, though.
+
+Does this *code* work?  Could you please indicate which JITs have been
+enabled to use the code in this series?  How much of the new ABI is in use?
+
+Where are the selftests/ for this new ABI?  Were you planning on
+submitting any with this series?
