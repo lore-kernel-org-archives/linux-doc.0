@@ -5,58 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42ABAC433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAE82C433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:45:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1EEBB2070A
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:45:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 850A320728
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:45:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OF8azeut"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FFCdriJS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726727AbgEOSo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 14:44:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46662 "EHLO
+        id S1727076AbgEOSpB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 14:45:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726860AbgEOSop (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 14:44:45 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 819A4C05BD09
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 11:44:44 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id t11so1400946pgg.2
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 11:44:44 -0700 (PDT)
+        with ESMTP id S1726717AbgEOSol (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 14:44:41 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 831B7C05BD0E
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 11:44:41 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id q16so1261620plr.2
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 11:44:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rZrZZlEq92Pse6AsQBZ3gt5RG0ZPIDCja3ntEc/+5UQ=;
-        b=OF8azeut5MIuxlonteG99mx9a8Av6BpOuIl5byPuyYv0PuO0UXM/SByDvX2ewPXsPg
-         /og5vzn72KRD56TgC3VrKeifwDs395skcMWCdtpGQCKKj5PJMqovDHzFGlQ73nEVgASR
-         oFyOSxGmQZhWbIGuJ7bgbNsyLESS4/HoKrUm4=
+        bh=jsyBNCdfoL98sYl7cnpntA0QaiVdKf/pQHgqAm6lCYc=;
+        b=FFCdriJSY7EREhlVw7IxRxRBK6Ih8PscgoyfU0YOxFmw+mYa4P8kbYTdI3Abj2xsbv
+         dSBqe5xNx4EdU6OBEbPL6+Ktp8r1MwV2GC+z42GBSCy/OKACQ/TjY0Z+0HyakSj6TLKK
+         bj22i9zQWZ2HwbBoxp38600+xxhVI0OIEt8ug=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rZrZZlEq92Pse6AsQBZ3gt5RG0ZPIDCja3ntEc/+5UQ=;
-        b=ujRM3LBch5R1HVR/GPiT6n2CKvzLDSNKIuisQnGDobnp2Ne6740o2spHnJvcpSTbvy
-         4a957Kv+Onnu28uYoURhku7WkSqve9LfmqE8SlYukZqEKyW9O9wpcUIoRBhZSDn3JNY2
-         4uwSkZ6kL05NwQ7K9FTAZ9PPdOuQ6qV7Ofdv5N7eRQNkiU2Jkq7n/EHDGbeduoiuRGaP
-         h0+LKO4CdAYnN8H706PabpU6h/1dMjJoG474Ib9PNey0Q/7vstowFj6CLLB2lyArz/73
-         epkClc7Pc+tlWghQ4+PYQN1DY7QOG4Ouk08g5BLF1yU+d4jQxxiJsMQ5S2Nx9bmZRQ7J
-         bGUg==
-X-Gm-Message-State: AOAM530qDXRBIHjw3U7k81wM7S1bTurTXykSAEFCBVYSkFX7l4OOr2Ke
-        enWDH5Bfmy5PY11jbVdmLWKqqKgZEoE=
-X-Google-Smtp-Source: ABdhPJy0Km/ifgMEiePh3m/4wFYQO+7PiRxrK/I+HUaIW+MrdLPTJ2yAIsLPOcL7MweyQmOZrjJPtQ==
-X-Received: by 2002:a62:2544:: with SMTP id l65mr5284782pfl.288.1589568284068;
-        Fri, 15 May 2020 11:44:44 -0700 (PDT)
+        bh=jsyBNCdfoL98sYl7cnpntA0QaiVdKf/pQHgqAm6lCYc=;
+        b=SfmPQe9Iuz60POmZpfQ1U4GWS7iWNkpPvRYXAQh/pUeuK17GgEniwbCKPjwmXSR7FP
+         U7Nxx0ld3vQ/51DXCXYBgZxxZF23wqYbyPmtx98Pbah32rq9xPCx35I6BZNEum5pY7oW
+         PL8U/gJT1r4/bP/Rrc/iRiwKBbqsbB+shbbyGA3oqc44ugqbmr7bALGBjW7/UCA8nb1x
+         juF+iNtQmkm+UrWFFB4ORLABcdHP1R1rBT4IVBsTNYBZD0/4+72T7brTX+lkqEMKZmxs
+         q1NGUPcMEU4TxmUeCv2OeaFYa9zvWIrfeL39Yswdq4mQCZ+feSzdINPoJ75e0Ks6EJbu
+         ovdA==
+X-Gm-Message-State: AOAM530subvryJUP/gxAyhxmtDILVuGcX8Pp3+RPY54ZY5tTN1oXJiId
+        WOZFO1j6ZuaY3dO5fZJ5NHZNbg==
+X-Google-Smtp-Source: ABdhPJxBfb/RPReNIGiBtLiME/PRnLfy/gMnbNQWUG6b6p1tr5eRGW/FhmqI7QvZ6RmEUD62weuFvQ==
+X-Received: by 2002:a17:90a:7f83:: with SMTP id m3mr5175792pjl.147.1589568281062;
+        Fri, 15 May 2020 11:44:41 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a2sm2509003pfl.28.2020.05.15.11.44.40
+        by smtp.gmail.com with ESMTPSA id z190sm2549307pfb.1.2020.05.15.11.44.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2020 11:44:43 -0700 (PDT)
+        Fri, 15 May 2020 11:44:38 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     Pavel Tatashin <pasha.tatashin@soleen.com>
 Cc:     Kees Cook <keescook@chromium.org>, Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         Anton Vorontsov <anton@enomsg.org>,
         Colin Cross <ccross@android.com>,
         Tony Luck <tony.luck@intel.com>,
@@ -67,13 +68,12 @@ Cc:     Kees Cook <keescook@chromium.org>, Petr Mladek <pmladek@suse.com>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Paul Mackerras <paulus@samba.org>,
         Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v4 6/6] ramoops: Add max_reason optional field to ramoops DT node
-Date:   Fri, 15 May 2020 11:44:34 -0700
-Message-Id: <20200515184434.8470-7-keescook@chromium.org>
+Subject: [PATCH v4 3/6] printk: Introduce kmsg_dump_reason_str()
+Date:   Fri, 15 May 2020 11:44:31 -0700
+Message-Id: <20200515184434.8470-4-keescook@chromium.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200515184434.8470-1-keescook@chromium.org>
 References: <20200515184434.8470-1-keescook@chromium.org>
@@ -84,50 +84,109 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Pavel Tatashin <pasha.tatashin@soleen.com>
+The pstore subsystem already had a private version of this function.
+With the coming addition of the pstore/zone driver, this needs to be
+shared. As it really should live with printk, move it there instead.
 
-Currently, it is possible to dump kmsges for panic, or oops.
-With max_reason it is possible to dump messages for other
-kmesg_dump events, for example reboot, halt, shutdown, kexec.
-
-Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-Link: https://lore.kernel.org/lkml/20200506211523.15077-6-keescook@chromium.org/
+Link: https://lore.kernel.org/lkml/20200510202436.63222-8-keescook@chromium.org/
+Acked-by: Petr Mladek <pmladek@suse.com>
+Acked-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- .../devicetree/bindings/reserved-memory/ramoops.txt | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ fs/pstore/platform.c      | 18 +-----------------
+ include/linux/kmsg_dump.h |  7 +++++++
+ kernel/printk/printk.c    | 17 +++++++++++++++++
+ 3 files changed, 25 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/reserved-memory/ramoops.txt b/Documentation/devicetree/bindings/reserved-memory/ramoops.txt
-index 0eba562fe5c6..b7886fea368c 100644
---- a/Documentation/devicetree/bindings/reserved-memory/ramoops.txt
-+++ b/Documentation/devicetree/bindings/reserved-memory/ramoops.txt
-@@ -30,7 +30,7 @@ Optional properties:
- - ecc-size: enables ECC support and specifies ECC buffer size in bytes
-   (defaults to 0: no ECC)
+diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
+index 90d74ebaa70a..5e6c6022deb9 100644
+--- a/fs/pstore/platform.c
++++ b/fs/pstore/platform.c
+@@ -135,22 +135,6 @@ enum pstore_type_id pstore_name_to_type(const char *name)
+ }
+ EXPORT_SYMBOL_GPL(pstore_name_to_type);
  
--- record-size: maximum size in bytes of each dump done on oops/panic
-+- record-size: maximum size in bytes of each kmsg dump.
-   (defaults to 0: disabled)
+-static const char *get_reason_str(enum kmsg_dump_reason reason)
+-{
+-	switch (reason) {
+-	case KMSG_DUMP_PANIC:
+-		return "Panic";
+-	case KMSG_DUMP_OOPS:
+-		return "Oops";
+-	case KMSG_DUMP_EMERG:
+-		return "Emergency";
+-	case KMSG_DUMP_SHUTDOWN:
+-		return "Shutdown";
+-	default:
+-		return "Unknown";
+-	}
+-}
+-
+ static void pstore_timer_kick(void)
+ {
+ 	if (pstore_update_ms < 0)
+@@ -403,7 +387,7 @@ static void pstore_dump(struct kmsg_dumper *dumper,
+ 	unsigned int	part = 1;
+ 	int		ret;
  
- - console-size: size in bytes of log buffer reserved for kernel messages
-@@ -45,7 +45,16 @@ Optional properties:
- - unbuffered: if present, use unbuffered mappings to map the reserved region
-   (defaults to buffered mappings)
+-	why = get_reason_str(reason);
++	why = kmsg_dump_reason_str(reason);
  
--- no-dump-oops: if present, only dump panics (defaults to panics and oops)
-+- max-reason: if present, sets maximum type of kmsg dump reasons to store
-+  (defaults to 2: log Oopses and Panics). This can be set to INT_MAX to
-+  store all kmsg dumps. See include/linux/kmsg_dump.h KMSG_DUMP_* for other
-+  kmsg dump reason values. Setting this to 0 (KMSG_DUMP_UNDEF), means the
-+  reason filtering will be controlled by the printk.always_kmsg_dump boot
-+  param: if unset, it will be KMSG_DUMP_OOPS, otherwise KMSG_DUMP_MAX.
+ 	if (down_trylock(&psinfo->buf_lock)) {
+ 		/* Failed to acquire lock: give up if we cannot wait. */
+diff --git a/include/linux/kmsg_dump.h b/include/linux/kmsg_dump.h
+index 9826014771ab..3378bcbe585e 100644
+--- a/include/linux/kmsg_dump.h
++++ b/include/linux/kmsg_dump.h
+@@ -70,6 +70,8 @@ void kmsg_dump_rewind(struct kmsg_dumper *dumper);
+ int kmsg_dump_register(struct kmsg_dumper *dumper);
+ 
+ int kmsg_dump_unregister(struct kmsg_dumper *dumper);
 +
-+- no-dump-oops: deprecated, use max_reason instead. If present, and
-+  max_reason is not specified, it is equivalent to max_reason = 1
-+  (KMSG_DUMP_PANIC).
++const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason);
+ #else
+ static inline void kmsg_dump(enum kmsg_dump_reason reason)
+ {
+@@ -111,6 +113,11 @@ static inline int kmsg_dump_unregister(struct kmsg_dumper *dumper)
+ {
+ 	return -EINVAL;
+ }
++
++static inline const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
++{
++	return "Disabled";
++}
+ #endif
  
- - flags: if present, pass ramoops behavioral flags (defaults to 0,
-   see include/linux/pstore_ram.h RAMOOPS_FLAG_* for flag values).
+ #endif /* _LINUX_KMSG_DUMP_H */
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index a121c2255737..14ca4d05d902 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -3144,6 +3144,23 @@ EXPORT_SYMBOL_GPL(kmsg_dump_unregister);
+ static bool always_kmsg_dump;
+ module_param_named(always_kmsg_dump, always_kmsg_dump, bool, S_IRUGO | S_IWUSR);
+ 
++const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
++{
++	switch (reason) {
++	case KMSG_DUMP_PANIC:
++		return "Panic";
++	case KMSG_DUMP_OOPS:
++		return "Oops";
++	case KMSG_DUMP_EMERG:
++		return "Emergency";
++	case KMSG_DUMP_SHUTDOWN:
++		return "Shutdown";
++	default:
++		return "Unknown";
++	}
++}
++EXPORT_SYMBOL_GPL(kmsg_dump_reason_str);
++
+ /**
+  * kmsg_dump - dump kernel log to kernel message dumpers.
+  * @reason: the reason (oops, panic etc) for dumping
 -- 
 2.20.1
 
