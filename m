@@ -2,42 +2,39 @@ Return-Path: <SRS0=kV/L=65=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F69C433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EE22C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:27:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 931B220727
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:24:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4310320727
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:27:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbgEORYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 13:24:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34096 "EHLO
+        id S1726188AbgEOR1h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 13:27:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726372AbgEORYu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 13:24:50 -0400
-X-Greylist: delayed 91468 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 15 May 2020 10:24:49 PDT
+        by vger.kernel.org with ESMTP id S1726168AbgEOR1g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 13:27:36 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F3BC061A0C;
-        Fri, 15 May 2020 10:24:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74607C061A0C;
+        Fri, 15 May 2020 10:27:36 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DC103736;
-        Fri, 15 May 2020 17:24:48 +0000 (UTC)
-Date:   Fri, 15 May 2020 11:24:47 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 1BB9A736;
+        Fri, 15 May 2020 17:27:36 +0000 (UTC)
+Date:   Fri, 15 May 2020 11:27:35 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Stephen Kitt <steve@sk2.org>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: sysctl/kernel: document ngroups_max
-Message-ID: <20200515112447.4838b7ba@lwn.net>
-In-Reply-To: <20200515160222.7994-1-steve@sk2.org>
-References: <20200515160222.7994-1-steve@sk2.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: sysctl/kernel: document unaligned controls
+Message-ID: <20200515112735.67ee1148@lwn.net>
+In-Reply-To: <20200515160406.8649-1-steve@sk2.org>
+References: <20200515160406.8649-1-steve@sk2.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,33 +44,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 May 2020 18:02:22 +0200
+On Fri, 15 May 2020 18:04:06 +0200
 Stephen Kitt <steve@sk2.org> wrote:
 
-> This is a read-only export of NGROUPS_MAX, so this patch also changes
-> the declarations in kernel/sysctl.c to const.
-> 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 9 +++++++++
->  kernel/sysctl.c                             | 4 ++--
->  2 files changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 0d427fd10941..5f12ee07665c 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -459,6 +459,15 @@ Notes:
->       successful IPC object allocation. If an IPC object allocation syscall
->       fails, it is undefined if the value remains unmodified or is reset to -1.
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 9599c0f3eea8..17c38d899572 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -143,6 +143,7 @@ Architecture-agnostic documentation
+>     :maxdepth: 2
 >  
-> +
-> +ngroups_max
-> +===========
-> +
-> +Maximum number of supplementary groups, _i.e._ the maximum size which
-> +``setgroups`` will accept. Exports ``NGROUPS_MAX`` from the kernel.
+>     asm-annotations
+> +   unaligned-memory-access
+>  
+>  Architecture-specific documentation
+>  -----------------------------------
+> diff --git a/Documentation/unaligned-memory-access.txt b/Documentation/unaligned-memory-access.rst
+> similarity index 100%
+> rename from Documentation/unaligned-memory-access.txt
+> rename to Documentation/unaligned-memory-access.rst
 
-Applied, thanks.
+Adding this to the toctree is great, but I'd just as soon not leave it in
+the top-level directory while we do that.  Since you're renaming it
+anyway, can you move it into process/?  It's not a perfect fit, but that's
+where that type of material has been going so far.
+
+Thanks,
 
 jon
