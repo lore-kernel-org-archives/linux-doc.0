@@ -2,78 +2,112 @@ Return-Path: <SRS0=kV/L=65=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29DBAC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:08:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F3C9C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:10:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F09B720657
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:08:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589566134;
-	bh=ESlVXG+oqcd9xYFxURto9/OPRJKlMx968VMKHxE5ct0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=RbajXatrxglV9Xfzx1jLmmatA7eOsxREPmgzBiV9J6HtyEwBHvU03cACHzgRKg3on
-	 44Kg6rpbQTNCsFHyqnEm9SxfVbUtdju1ey1J6KAzGgb0rc09qxezHYBMwzjZnr+Gwr
-	 nQULIdf9U9wbc6mhg4QaSSx0A+5zeOt1DOdoR67Y=
+	by mail.kernel.org (Postfix) with ESMTP id 373472070A
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 18:10:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726179AbgEOSIx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 14:08:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43218 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726170AbgEOSIx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 May 2020 14:08:53 -0400
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726550AbgEOSKL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 14:10:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726144AbgEOSKL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 14:10:11 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9A1FC061A0C;
+        Fri, 15 May 2020 11:10:11 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BC97B20657;
-        Fri, 15 May 2020 18:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589566133;
-        bh=ESlVXG+oqcd9xYFxURto9/OPRJKlMx968VMKHxE5ct0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OIf/ZO4kqMQOIrV1HAFCYW52ZXGnXzxq8x+Su+JM1yKLvGE4mMjl0JgYX51tRxtaC
-         2aeiMr/iKhar5vo+IEuFJAZiw8NVt5admQnN79SBGbHTBVlkbphPtkHD3CMG/8JV8D
-         Rdr2Q2ip48DL41XjRZcl6dHNhxR3zKdliubJ60+E=
-Received: by mail-lf1-f52.google.com with SMTP id v5so2553744lfp.13;
-        Fri, 15 May 2020 11:08:52 -0700 (PDT)
-X-Gm-Message-State: AOAM530hvrPISsyE0v/UIlr5S+ShsmvGYhXb2JHKmjgMWT/tC3oA5hgJ
-        ZyHaNaaPjd4BtR8Fp7X/bR3zT7Sk4/G1NtxL3w0=
-X-Google-Smtp-Source: ABdhPJzbQo6rOBwWknOrMCZMnmq8FRvflFdJwiKbjOm5/kRGe5wn4Q+82lIJfpDzCJ5+F+TNooMQw4z8nBWo+/AjCUA=
-X-Received: by 2002:ac2:558e:: with SMTP id v14mr3228999lfg.138.1589566131003;
- Fri, 15 May 2020 11:08:51 -0700 (PDT)
+        by ms.lwn.net (Postfix) with ESMTPSA id A0FC572D;
+        Fri, 15 May 2020 18:10:09 +0000 (UTC)
+Date:   Fri, 15 May 2020 12:10:08 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Peter Xu <peterx@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Collingbourne <pcc@google.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Tejun Heo <tj@kernel.org>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Subject: Re: [PATCH 11/14] docs: move other kAPI documents to core-api
+Message-ID: <20200515121008.4debe669@lwn.net>
+In-Reply-To: <70cca102282ccd36b107487c60346f414011c684.1588345503.git.mchehab+huawei@kernel.org>
+References: <cover.1588345503.git.mchehab+huawei@kernel.org>
+        <70cca102282ccd36b107487c60346f414011c684.1588345503.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20190724185029.26822-1-indigo@bitglue.com>
-In-Reply-To: <20190724185029.26822-1-indigo@bitglue.com>
-From:   Song Liu <song@kernel.org>
-Date:   Fri, 15 May 2020 11:08:39 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW67xTooG7QLwkwLfs=3EgFUXARWtfexdwp4gQHAFv+yoA@mail.gmail.com>
-Message-ID: <CAPhsuW67xTooG7QLwkwLfs=3EgFUXARWtfexdwp4gQHAFv+yoA@mail.gmail.com>
-Subject: Re: [PATCH] Correct documentation for /proc/schedstat
-To:     Phil Frost <indigo@bitglue.com>, davidca@fb.com, haowanglud@fb.com
-Cc:     Ingo Molnar <mingo@elte.hu>, trivial@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Phil,
+On Fri,  1 May 2020 17:37:55 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-On Wed, Jul 24, 2019 at 12:26 PM Phil Frost <indigo@bitglue.com> wrote:
->
-> Commit 425e0968a25fa3f111f9919964cac079738140b5 ("sched: move code into
-> kernel/sched_stats.h") appears to have inadvertently changed the unit of
-> time from jiffies to nanoseconds as part of the implementation of CFS.
->
-> Signed-off-by: Phil Frost <indigo@bitglue.com>
+> There are a number of random documents that seem to be
+> describing some aspects of the core-api. Move them to such
+> directory, adding them at the core-api/index.rst file.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/admin-guide/sysctl/vm.rst                     | 2 +-
+>  Documentation/core-api/index.rst                            | 6 ++++++
+>  Documentation/{mailbox.txt => core-api/mailbox.rst}         | 0
+>  Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst}   | 0
+>  .../{this_cpu_ops.txt => core-api/this_cpu_ops.rst}         | 0
+>  .../unaligned-memory-access.rst}                            | 0
+>  Documentation/gpu/drm-mm.rst                                | 2 +-
+>  arch/Kconfig                                                | 2 +-
+>  init/Kconfig                                                | 2 +-
+>  mm/Kconfig                                                  | 2 +-
+>  mm/nommu.c                                                  | 2 +-
+>  11 files changed, 12 insertions(+), 6 deletions(-)
+>  rename Documentation/{mailbox.txt => core-api/mailbox.rst} (100%)
+>  rename Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst} (100%)
+>  rename Documentation/{this_cpu_ops.txt => core-api/this_cpu_ops.rst} (100%)
+>  rename Documentation/{unaligned-memory-access.txt => core-api/unaligned-memory-access.rst} (100%)
 
-Do you plan to resend this patch? The file has been updated to sched-stats.rst.
+This one doesn't apply for me.  Beyond that, I'm not entirely convinced
+about a couple of the moves...
+
+ - mailbox.txt seems like driver-api stuff to me?
+ - nommu-mmap.txt is mostly (though not completely) about the semantic of
+   mmap() options as seen by user space, so perhaps belongs in that
+   manual...?
 
 Thanks,
-Song
+
+jon
