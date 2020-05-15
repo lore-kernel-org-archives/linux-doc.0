@@ -2,100 +2,100 @@ Return-Path: <SRS0=kV/L=65=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLACK,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81AF0C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 19:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E61C433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 20:27:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E6FF20727
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 19:53:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WOdBZxkO"
+	by mail.kernel.org (Postfix) with ESMTP id CCEBF206D4
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 20:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1589574423;
+	bh=TYIO6oIBcj3gHKJmn6EHN5Dy+P6j+DIZWhWkg5mKhXQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=PT0yaL7wNvQLtXdkjo+GgfEvj57V/VV1UOfRrFQiQXClSa7QdT7dy5rlj0zjd9NQq
+	 naVCDzBlR4Kdyu7Jd8uBnlrcJQE64X0rzRstZi+i7JkvVdoqYCehLSjNYG09qL9IxC
+	 ZTz+3xeOJlK/mzUlrxvCMApxxobeZpYEVGgQ+6TA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726212AbgEOTxx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 15:53:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57480 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726226AbgEOTxw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 15:53:52 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B25BC05BD0A
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 12:53:52 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id n11so1479567pgl.9
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 12:53:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5qtf7blhXztbp1/La11Bf9xlOpWMwbs2y8ergkt/b1Y=;
-        b=WOdBZxkO9ZlChGU9oTzTvFnzf5mUvWnxclG7T4JezJMXnEFbeWIBYnzv0c5jwu2xR9
-         Ua3N7q+nFby1Wl8Ij1gOb/0WxV2Lt/MvTh2s4lrob2lxAcR9KO41fQ13sdSZlN1Y3XVh
-         OTL4s6x9aG0YSd9i9ndrZNnBrE8K6mg0Mxnms=
+        id S1726231AbgEOU1A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 16:27:00 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:43785 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbgEOU1A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 16:27:00 -0400
+Received: by mail-pf1-f196.google.com with SMTP id v63so1515480pfb.10;
+        Fri, 15 May 2020 13:26:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5qtf7blhXztbp1/La11Bf9xlOpWMwbs2y8ergkt/b1Y=;
-        b=h5ls48MgbPZn+L7OCB/VJ3Uz2uvcdEEgIt/5Zfwdb6hVp5yy3UB1luk1kJ7VkNuqAM
-         BjUReyxqPoNw15MtUX814I5aZXKb8HAiyrFgBCN2x3gzj24blEFOuJ4316w5v9Yl4V5C
-         PTbtWxFvwxttpkiY0KrEwGbb4TVhl6cR/3+iG68Lw8FargQ9ZXZ9BC+vubuBjo4xAkv/
-         2Mmaa3FI6F9IrTmtaoysJMeLSLCLf1jyP7CteoeblYnN0Dy1VKNj4XO054Jt5BPevPH1
-         6h+y8TcK6jTii/zY2a1RV5502Cz5X7+sQw5u+jO89VCEdJVkv9LX1TGSP73HkmLNANva
-         3KBQ==
-X-Gm-Message-State: AOAM5310n3aCQZkgQvUU/BORXBoxTNILDeN7hn1BcuLdqsyU7Mf6tzTV
-        lV/9vjBzY+AEstHckI/cBDSr6Q==
-X-Google-Smtp-Source: ABdhPJwUJ8/mvnjZpuvFRvd7Z7fsk0iW3ySHXxxVPnmOTQBwN+vIWkdIBNf95F25TgFzeLZ3qRQIkg==
-X-Received: by 2002:aa7:9a4c:: with SMTP id x12mr5517509pfj.263.1589572432046;
-        Fri, 15 May 2020 12:53:52 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h13sm2560838pfk.86.2020.05.15.12.53.50
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BjLEoH1/onS9gWc/WGPUDHWQzqwo7CrmGrZOV7KWi24=;
+        b=UamxaYbhgmj4ujJONx9S2X0l7P6wumcxE4lCGY7L+hC75LuNCGzJEMVPtzKi3tAkm0
+         ZjNsthL6BZX6hgsdieTZuM9UDtBXG8JjW+SzW2IK6F79BYnh925FesrYfzhtQncTuhal
+         scZM6DgFKImNeRAgxcq4e2L0t6eq6+ttNwcm4DENzstvSE2jVtnucOitxtaEUsIgt5Uo
+         nv4EHBREXpcwTKl9VfV9+oZbIT1y9pUpMPCJBFAVewlTHeyEMsUp384i7UGYKPzllDHK
+         UHfopQlU+IticbbiN9Q5dwMZfEKeJZN8Jr4rDW0PpF3dl2H/Gg/IJjFoIQwg7yDLaarJ
+         +Hzg==
+X-Gm-Message-State: AOAM531FQfaSSrvtxOHnfCYDpvINMx4IMb4Bzn63zur9rX2DuWdGAeY+
+        X4bQZPds47HkgnQFgaml8rE=
+X-Google-Smtp-Source: ABdhPJw55POBvLJW1yTqamx/YQ9pJ9208HAhysD6+dQoHJdWvvegvrWWTUXGJdA6DaxsTXI4n7DFIw==
+X-Received: by 2002:a65:608c:: with SMTP id t12mr4951599pgu.46.1589574418563;
+        Fri, 15 May 2020 13:26:58 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id d18sm2638767pfq.177.2020.05.15.13.26.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2020 12:53:51 -0700 (PDT)
-Date:   Fri, 15 May 2020 12:53:50 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     Petr Mladek <pmladek@suse.com>, Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benson Leung <bleung@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v4 5/6] pstore/ram: Introduce max_reason and convert
- dump_oops
-Message-ID: <202005151253.AF4AC00@keescook>
-References: <20200515184434.8470-1-keescook@chromium.org>
- <20200515184434.8470-6-keescook@chromium.org>
- <CA+CK2bCbAb1EN6xa9a-DRfan6Cv3YgZgPJ1buwUaej7jBRv=Kg@mail.gmail.com>
+        Fri, 15 May 2020 13:26:57 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id B49A240246; Fri, 15 May 2020 20:26:56 +0000 (UTC)
+Date:   Fri, 15 May 2020 20:26:56 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Rafael Aquini <aquini@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
+        keescook@chromium.org, akpm@linux-foundation.org, cai@lca.pw,
+        rdunlap@infradead.org, tytso@mit.edu, bunk@kernel.org,
+        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
+        labbott@redhat.com, jeffm@suse.com, jikos@kernel.org, jeyu@suse.de,
+        tiwai@suse.de, AnDavis@suse.com, rpalethorpe@suse.de
+Subject: Re: [PATCH v5] kernel: add panic_on_taint
+Message-ID: <20200515202656.GZ11244@42.do-not-panic.com>
+References: <20200515175502.146720-1-aquini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+CK2bCbAb1EN6xa9a-DRfan6Cv3YgZgPJ1buwUaej7jBRv=Kg@mail.gmail.com>
+In-Reply-To: <20200515175502.146720-1-aquini@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 15, 2020 at 03:40:14PM -0400, Pavel Tatashin wrote:
->  pdata.dump_oops = dump_oops;
-> > +       /* If "max_reason" is set, its value has priority over "dump_oops". */
-> > +       if (ramoops_max_reason != -1)
-> > +               pdata.max_reason = ramoops_max_reason;
+On Fri, May 15, 2020 at 01:55:02PM -0400, Rafael Aquini wrote:
+> Analogously to the introduction of panic_on_warn, this patch introduces a kernel
+> option named panic_on_taint in order to provide a simple and generic way to stop
+> execution and catch a coredump when the kernel gets tainted by any given flag.
 > 
->  (ramoops_max_reason >= 0) might make more sense here, we do not want
-> negative max_reason even if it was provided by the user.
+> This is useful for debugging sessions as it avoids having to rebuild the kernel
+> to explicitly add calls to panic() into the code sites that introduce the taint
+> flags of interest. For instance, if one is interested in proceeding with a
+> post-mortem analysis at the point a given code path is hitting a bad page
+> (i.e. unaccount_page_cache_page(), or slab_bug()), a coredump can be collected
+> by rebooting the kernel with 'panic_on_taint=0x20' amended to the command line.
+> 
+> Another, perhaps less frequent, use for this option would be as a mean for
+> assuring a security policy case where only a subset of taints, or no single
+> taint (in paranoid mode), is allowed for the running system.
+> The optional switch 'nousertaint' is handy in this particular scenario,
+> as it will avoid userspace induced crashes by writes to sysctl interface
+> /proc/sys/kernel/tainted causing false positive hits for such policies.
+> 
+> Suggested-by: Qian Cai <cai@lca.pw>
+> Signed-off-by: Rafael Aquini <aquini@redhat.com>
 
-Yeah, that's a good point. I'll tweak that. Thanks!
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
 
--- 
-Kees Cook
+  Luis
