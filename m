@@ -2,153 +2,78 @@ Return-Path: <SRS0=kV/L=65=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA5E3C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 16:23:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F69C433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:24:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB795206D8
-	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 16:23:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 931B220727
+	for <linux-doc@archiver.kernel.org>; Fri, 15 May 2020 17:24:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726179AbgEOQXp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 12:23:45 -0400
-Received: from 4.mo2.mail-out.ovh.net ([87.98.172.75]:36357 "EHLO
-        4.mo2.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726407AbgEOQXp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 12:23:45 -0400
-X-Greylist: delayed 1159 seconds by postgrey-1.27 at vger.kernel.org; Fri, 15 May 2020 12:23:44 EDT
-Received: from player168.ha.ovh.net (unknown [10.108.54.52])
-        by mo2.mail-out.ovh.net (Postfix) with ESMTP id D2F201D5374
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2020 18:04:23 +0200 (CEST)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player168.ha.ovh.net (Postfix) with ESMTPSA id 285AB1262277F;
-        Fri, 15 May 2020 16:04:19 +0000 (UTC)
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH] docs: sysctl/kernel: document unaligned controls
-Date:   Fri, 15 May 2020 18:04:06 +0200
-Message-Id: <20200515160406.8649-1-steve@sk2.org>
-X-Mailer: git-send-email 2.20.1
+        id S1726313AbgEORYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 May 2020 13:24:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34096 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726372AbgEORYu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 13:24:50 -0400
+X-Greylist: delayed 91468 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 15 May 2020 10:24:49 PDT
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F3BC061A0C;
+        Fri, 15 May 2020 10:24:49 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id DC103736;
+        Fri, 15 May 2020 17:24:48 +0000 (UTC)
+Date:   Fri, 15 May 2020 11:24:47 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: sysctl/kernel: document ngroups_max
+Message-ID: <20200515112447.4838b7ba@lwn.net>
+In-Reply-To: <20200515160222.7994-1-steve@sk2.org>
+References: <20200515160222.7994-1-steve@sk2.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 13656884397983419781
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrleekgdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeikeethfdtfffgfeevhedujedvieelfeffvddtfeegffffhedukeduueehvdeludenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrudeikedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This documents ignore-unaligned-usertrap, unaligned-dump-stack, and
-unaligned-trap, based on arch/arc/kernel/unaligned.c,
-arch/ia64/kernel/unaligned.c, and arch/parisc/kernel/unaligned.c.
+On Fri, 15 May 2020 18:02:22 +0200
+Stephen Kitt <steve@sk2.org> wrote:
 
-While we’re at it, integrate unaligned-memory-access.txt into the docs
-tree.
+> This is a read-only export of NGROUPS_MAX, so this patch also changes
+> the declarations in kernel/sysctl.c to const.
+> 
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst | 9 +++++++++
+>  kernel/sysctl.c                             | 4 ++--
+>  2 files changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 0d427fd10941..5f12ee07665c 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -459,6 +459,15 @@ Notes:
+>       successful IPC object allocation. If an IPC object allocation syscall
+>       fails, it is undefined if the value remains unmodified or is reset to -1.
+>  
+> +
+> +ngroups_max
+> +===========
+> +
+> +Maximum number of supplementary groups, _i.e._ the maximum size which
+> +``setgroups`` will accept. Exports ``NGROUPS_MAX`` from the kernel.
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- Documentation/admin-guide/sysctl/kernel.rst   | 51 +++++++++++++++++++
- Documentation/index.rst                       |  1 +
- ...access.txt => unaligned-memory-access.rst} |  0
- 3 files changed, 52 insertions(+)
- rename Documentation/{unaligned-memory-access.txt => unaligned-memory-access.rst} (100%)
+Applied, thanks.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index eb6bc9cc0318..4bb4d55f20ff 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -402,6 +402,25 @@ Controls whether the panic kmsg data should be reported to Hyper-V.
- = =========================================================
- 
- 
-+ignore-unaligned-usertrap
-+=========================
-+
-+On architectures where unaligned accesses cause traps, and where this
-+feature is supported (``CONFIG_SYSCTL_ARCH_UNALIGN_NO_WARN``;
-+currently, ``arc`` and ``ia64``), controls whether all unaligned traps
-+are logged.
-+
-+= =============================================================
-+0 Log all unaligned accesses.
-+1 Only warn the first time a process traps. This is the default
-+  setting.
-+= =============================================================
-+
-+See also `unaligned-trap`_ and `unaligned-dump-stack`_. On ``ia64``,
-+this allows system administrators to override the
-+``IA64_THREAD_UAC_NOPRINT`` ``prctl`` and avoid logs being flooded.
-+
-+
- kexec_load_disabled
- ===================
- 
-@@ -1252,6 +1271,38 @@ See :doc:`/admin-guide/kernel-parameters` and
- :doc:`/trace/boottime-trace`.
- 
- 
-+.. _unaligned-dump-stack:
-+
-+unaligned-dump-stack (ia64)
-+===========================
-+
-+When logging unaligned accesses, controls whether the stack is
-+dumped.
-+
-+= ===================================================
-+0 Do not dump the stack. This is the default setting.
-+1 Dump the stack.
-+= ===================================================
-+
-+See also `ignore-unaligned-usertrap`_.
-+
-+
-+unaligned-trap
-+==============
-+
-+On architectures where unaligned accesses cause traps, and where this
-+feature is supported (``CONFIG_SYSCTL_ARCH_UNALIGN_ALLOW``; currently,
-+``arc`` and ``parisc``), controls whether unaligned traps are caught
-+and emulated (instead of failing).
-+
-+= ========================================================
-+0 Do not emulate unaligned accesses.
-+1 Emulate unaligned accesses. This is the default setting.
-+= ========================================================
-+
-+See also `ignore-unaligned-usertrap`_.
-+
-+
- unknown_nmi_panic
- =================
- 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 9599c0f3eea8..17c38d899572 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -143,6 +143,7 @@ Architecture-agnostic documentation
-    :maxdepth: 2
- 
-    asm-annotations
-+   unaligned-memory-access
- 
- Architecture-specific documentation
- -----------------------------------
-diff --git a/Documentation/unaligned-memory-access.txt b/Documentation/unaligned-memory-access.rst
-similarity index 100%
-rename from Documentation/unaligned-memory-access.txt
-rename to Documentation/unaligned-memory-access.rst
-
-base-commit: 56b62540782bfde459acc8eb15b949eaf151c881
--- 
-2.20.1
-
+jon
