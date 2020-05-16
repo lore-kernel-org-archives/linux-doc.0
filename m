@@ -2,162 +2,136 @@ Return-Path: <SRS0=Sf9F=66=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8C5C433DF
-	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 03:55:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E339C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 14:09:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7080C206F4
-	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 03:55:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gNVh2skF"
+	by mail.kernel.org (Postfix) with ESMTP id 2EC9C20671
+	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 14:09:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727917AbgEPDzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 May 2020 23:55:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48666 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726615AbgEPDzT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 May 2020 23:55:19 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08AAC061A0C;
-        Fri, 15 May 2020 20:55:18 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id u15so4331348ljd.3;
-        Fri, 15 May 2020 20:55:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r3DXHhYEfZ5XzGr6H4vE2RcXrCw+ttKCWZ1sjv6FRCQ=;
-        b=gNVh2skFKX/3K5VcJAPK6a1yLtTIAVJfXJuo3OCHJA7vdofoB0idsjK8Aqat9ufZg9
-         8Ww4NWrP00mhdhkfIKK9UJRhCRtZ5UgfUAKOe3AVA4N23o9hw0PrPLlxXQWpzMqqaksJ
-         DiCRZ+YthHQSfwEcXq4h0/ujfBPAFoj1CGiU5LEoiD/Xs5FY/GW3j2ZlTla6MFARUD67
-         mqzANd5idIUC7UPHy6TCSXQJB7ouixBercj0ofPiNWNDsNKMi3qQZlhxoqa6suITs1aM
-         DxFjc1mATIaVzDf5pc2GVp7Hfwp/seBYs6tP9mraKLmrhWVFxKLwzX1wdmjFwEKmX6rd
-         CaEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r3DXHhYEfZ5XzGr6H4vE2RcXrCw+ttKCWZ1sjv6FRCQ=;
-        b=Tew8uH7OSqpLTopxQniPnmGmJ+4NE6lCu3Dx7dNiUhRUBSl0l3q3bMVUbuhA+Z42Oo
-         pSLK2uctw1hESHK2lxLxn8TIERl7hmNvobZ3NXuHWt4AXH8ff7ioEZSmdJnyuwQueCBp
-         kMD/9oBTFwRyYAl6U5JiiLstF7T60FPL4Jnt8Uy5Gfqh2AjzSaOGDYCUwGHUA4wmhY3k
-         UTwD0m+yz3vsNUMAVI+sdaQuUoOb4xtLKlT9358rC8SKaAixr+/ubBva/zAO+NsewcJ8
-         +UCEXlECNoEf22bC2Ewb4lTlzfDNHsW6jS68KuT23WycDLx9Red0Zl3r1JXulpqUKqB8
-         piCQ==
-X-Gm-Message-State: AOAM5305ycZw3IQGY0rQtjwRlmGWYbJu8zZ2ki5nKX/q7Xy67cj/ajB4
-        ag1vjSq8Q+0aFEKeP1Bqg0Pi9paRAHunLOMY8F4=
-X-Google-Smtp-Source: ABdhPJypqCJcVcTHipqdL5mEtN8qKKvl0ixtR0T5MyKJXkK503co63su15SwPCqlwpNfYSAkPMiFBHf0cKxDDUqT6OE=
-X-Received: by 2002:a05:651c:c8:: with SMTP id 8mr3852678ljr.182.1589601316830;
- Fri, 15 May 2020 20:55:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <1587408228-10861-1-git-send-email-orson.unisoc@gmail.com>
- <20200420191014.GE121146@unreal> <CA+H2tpGgGtW_8Z8fV9to39JwA_KrcfAeBC+KN87v0xKnZHt2_w@mail.gmail.com>
- <20200422142552.GA492196@unreal> <CA+H2tpGR7tywhkexa31AD_FkhyxQgVq_L+b0DbvXzwr6yT8j9Q@mail.gmail.com>
- <20200515095501.GU17734@linux-b0ei>
-In-Reply-To: <20200515095501.GU17734@linux-b0ei>
-From:   Orson Zhai <orsonzhai@gmail.com>
-Date:   Sat, 16 May 2020 11:55:04 +0800
-Message-ID: <CA+H2tpFyAx9d-mvp=ZoS0NXm6YYC6DDV1Fu-RHLY=v82MP52Bg@mail.gmail.com>
-Subject: Re: [PATCH V2] dynamic_debug: Add an option to enable dynamic debug
- for modules only
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        Orson Zhai <orson.unisoc@gmail.com>,
-        Jason Baron <jbaron@akamai.com>,
+        id S1726328AbgEPOJg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 May 2020 10:09:36 -0400
+Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:51750 "EHLO
+        esa5.hc3370-68.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726266AbgEPOJg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 May 2020 10:09:36 -0400
+Authentication-Results: esa5.hc3370-68.iphmx.com; dkim=none (message not signed) header.i=none
+IronPort-SDR: hDidN96EUzAnOHMS55xkxs8WWGVq+5pBKthbrckMfVRSrIbE6S6mARR7e6iCmfxtRs+t6dZgOn
+ ky111k+QuspRYuPHlo/+bvt29pmbSElOVJe4am+k+1tbPdGq/i+V24dJ3m99rHE8HATp2ZNRal
+ knsFZmYHRfkpmlZjBldpccNopJkJ6lo0HltBZH+ddN3rfRQYUukAzDVjzrj80JOwNd+xhBnxBN
+ 4I+HAvqcn84qN2FSgGa3aBcSWhG+FVqxNDKAS3eGl286pjYdRCihkiuh2RLGpNdST+isqSx6Wx
+ l98=
+X-SBRS: None
+X-MesageID: 17965253
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.73,398,1583211600"; 
+   d="scan'208";a="17965253"
+Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+CC:     Dave Hansen <dave.hansen@intel.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Arnd Bergmann" <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "Jann Horn" <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rdma@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Orson Zhai <orson.zhai@unisoc.com>
-Content-Type: text/plain; charset="UTF-8"
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+ <20200429220732.31602-2-yu-cheng.yu@intel.com>
+ <b5197a8d-5d8b-e1f7-68d4-58d80261904c@intel.com>
+ <dd5b9bab31ecf247a0b4890e22bfbb486ff52001.camel@intel.com>
+ <5cc163ff9058d1b27778e5f0a016c88a3b1a1598.camel@intel.com>
+ <b0581ddc-0d99-cbcf-278e-0be55ba939a0@intel.com>
+ <44c055342bda4fb4730703f987ae35195d1d0c38.camel@intel.com>
+ <32235ffc-6e6c-fb3d-80c4-a0478e2d0e0f@intel.com>
+ <6272c481-af90-05c5-7231-3ba44ff9bd02@citrix.com>
+ <CAMe9rOqwbxis1xEWbOsftMB9Roxdb3=dp=_MgK8z2pwPP36uRw@mail.gmail.com>
+From:   Andrew Cooper <andrew.cooper3@citrix.com>
+Message-ID: <f8ce9863-6ada-2bc4-5141-122f64292aba@citrix.com>
+Date:   Sat, 16 May 2020 15:09:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAMe9rOqwbxis1xEWbOsftMB9Roxdb3=dp=_MgK8z2pwPP36uRw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+X-ClientProxiedBy: AMSPEX02CAS02.citrite.net (10.69.22.113) To
+ AMSPEX02CL02.citrite.net (10.69.22.126)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 15, 2020 at 5:55 PM Petr Mladek <pmladek@suse.com> wrote:
+On 16/05/2020 03:37, H.J. Lu wrote:
+> On Fri, May 15, 2020 at 5:13 PM Andrew Cooper <andrew.cooper3@citrix.com> wrote:
+>> Finally seeing as the question was asked but not answered, it is
+>> actually quite easy to figure out whether shadow stacks are enabled in
+>> the current thread.
+>>
+>>     mov     $1, %eax
+>>     rdsspd  %eax
+> This is for 32-bit mode.
+
+It actually works for both, if all you need is a shstk yes/no check.
+
+Usually, you also want SSP in the yes case, so substitute rdsspq %rax as
+appropriate.
+
+(On a tangent - binutils mandating the D/Q suffixes is very irritating
+with mixed 32/64bit code because you have to #ifdef your instructions
+despite the register operands being totally unambiguous.  Also, D is the
+wrong suffix for AT&T syntax, and should be L.  Frankly - the Intel
+manuals are wrong and should not have the operand size suffix included
+in the opcode name, as they are consistent with all the other
+instructions in this regard.)
+
+>   I use
 >
-> On Thu 2020-04-23 00:02:48, Orson Zhai wrote:
-> > On Wed, Apr 22, 2020 at 10:25 PM Leon Romanovsky <leon@kernel.org> wrote:
-> > >
-> > > On Wed, Apr 22, 2020 at 09:06:08PM +0800, Orson Zhai wrote:
-> > > > On Tue, Apr 21, 2020 at 3:10 AM Leon Romanovsky <leon@kernel.org> wrote:
-> > > > My motivation came from the concept of GKI (Generic Kernel Image) in Android.
-> > > > Google will release a common kernel image (binary) to all of the Android system
-> > > > vendors in the world instead of letting them to build their owns as before.
-> > > > Every SoC vendor's device drivers will be provided in kernel modules only.
-> > > > By my patch, the driver owners could debug their modules in field (say
-> > > > production releases)
-> > > > without having to enable dynamic debug for the whole GKI.
-> > >
-> > > Will Google release that binary with CONFIG_DYNAMIC_DEBUG_CORE disabled?
-> > >
-> > In Google's plan, there will be only one GKI (no debug version) for
-> > one Android version per kernel version per year.
->
-> Are there plans to use modules with debug messages enabled on production
-> systems?
+>         /* Check if shadow stack is in use.  */
+>         xorl    %esi, %esi
+>         rdsspq  %rsi
+>         testq   %rsi, %rsi
+>         /* Normal return if shadow stack isn't in use.  */
+>         je      L(no_shstk)
 
-Yes, but in a managed way. They are not being enabled directly to log buffer.
-Users / FAEs (Field Application Engineer) might control to open or
-close every single one on-the-fly.
+This is probably fine for user code, as I don't think it would be
+legitimate for shstk to be enabled, with SSP being 0.
 
->
-> IMHO, the debug messages are primary needed during development and
-> when fixing bugs. I am sure that developers will want to enable many
-> more features that will help with debugging and which will be disabled
-> on production systems.
+Sadly, the same is not true for kernel shadow stacks.
 
-I agree with you in general speaking.
-For real production build we usually keep a few critical debugging
-methods in case of some
-potential bugs which are extremely hard to be found in production test.
-Dynamic debug is one of these methods.
-I assume it is widely used for maintenance to PC or server because I
-can find it is enabled in some
-popular Linux distribution configs.
+SSP is 0 after SYSCALL, SYSENTER and CLRSSBSY, and you've got to be
+careful to re-establish the shadow stack before a CALL, interrupt or
+exception tries pushing a word onto the shadow stack at 0xfffffffffffffff8.
 
-Here is the search result from my PC with Ubuntu default installation.
-zhai@ThinkPad:/boot$ cat config-4.15.0-99-generic | grep DYNAMIC_DEBUG
-CONFIG_DYNAMIC_DEBUG=y
+It is a very good (lucky?) thing that frame is unmapped for other
+reasons, because this corner case does not protect against multiple
+threads/cores using the same shadow stack concurrently.
 
->
-> I expect that Google will not release only the single binary. They
-> should release also the sources and build configuration. Then
-
-Yes, they have released the source and configuration which could be freely
-downloaded from Google's website.
-
-> developers might build their own versions with the needed debugging
-> features enabled.
-
-Yes, we do have the debug build for this.
-But as I mentioned above, it is a little bit different for my requirement.
-Actually my patch is to address the problem for embedded system where
-image size is needed to be
-considered when CONFIG_DYNAMIC_DEBUG is being enable globally.
-
-For a "make allyesconfig" build, 2,335,704 bytes will be increased by
-enabling CONFIG_DYNAMIC_DEBUG.
-It is trivial for PC or server but might matter for embedded product.
-So my patch is to give user an option to
-only enable dynamic debug for modules especially in this GKI case.
-
-Thanks
-Orson
->
-> Best Regards,
-> Petr
+~Andrew
