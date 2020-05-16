@@ -2,151 +2,65 @@ Return-Path: <SRS0=Sf9F=66=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1493C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 17:02:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8667C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 21:18:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73F3F2076A
-	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 17:02:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589648579;
-	bh=xZm7SPScu0iT7/Cap3mdxG8rP6DsmX787bsWocbqih4=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=glhbKoja3NWb3bHT+CZgIT/wlWzv/E3gP+G+gwAQjqGv67msrq6VAhzgh3u8HsdtQ
-	 tf8Cr/cettw+IY3ay8aUNec9xFP8zAQcqWlfTSVWdp0Li9HE9Kg+xuZ73BXqAPPfAw
-	 A4tCRA0U1tmL7eYAZ0MqJr3oRUEhdcEVWOjKuUa0=
+	by mail.kernel.org (Postfix) with ESMTP id 81D27207BB
+	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 21:18:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726297AbgEPRC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 May 2020 13:02:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41750 "EHLO mail.kernel.org"
+        id S1726661AbgEPVSl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 May 2020 17:18:41 -0400
+Received: from mga01.intel.com ([192.55.52.88]:33290 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726280AbgEPRC6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 16 May 2020 13:02:58 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ED27D2065C;
-        Sat, 16 May 2020 17:02:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589648578;
-        bh=xZm7SPScu0iT7/Cap3mdxG8rP6DsmX787bsWocbqih4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=e0xPncZvFrWRMb/0Cqty50usN0twn62boJeud92ye32kBTeeir+IPtCdypvv+kC5x
-         ZD7xIewwPKI4xjYl42ObQYazrNtbR5qh1BcNOLZbbJn68E4/eMR2Dcs+NI63kwSN3+
-         p56Z78i+0SimwruO90LrEkAVa2o4eznWDQvWopN4=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id CB8EA3522CED; Sat, 16 May 2020 10:02:57 -0700 (PDT)
-Date:   Sat, 16 May 2020 10:02:57 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Boqun Feng <boqun.feng@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Vineeth Remanan Pillai <vpillai@digitalocean.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's
- README into top-level one
-Message-ID: <20200516170257.GA2639@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <CAEXW_YSjo2hgvg-FN_MR7FVEcp-7gH17jb0-262k+ydSuuDjuQ@mail.gmail.com>
- <20200512163022.GI2869@paulmck-ThinkPad-P72>
- <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
- <6d162e69-5d2f-1fbf-1588-ab19c30e7311@gmail.com>
- <20200514004618.GA94665@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
- <20200514171656.GR2869@paulmck-ThinkPad-P72>
- <0ded5099-fe59-914a-d0dd-999cc334ff0a@gmail.com>
- <20200514224558.GZ2869@paulmck-ThinkPad-P72>
- <ed5b16b9-b522-8f9b-847b-e18d6387017e@gmail.com>
- <20200515150530.GG2869@paulmck-ThinkPad-P72>
+        id S1726592AbgEPVSk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 16 May 2020 17:18:40 -0400
+IronPort-SDR: ZZuzS8IOBXEW+v1h5cTEDq1glsAs1qI7TZgrFxM1SszOZPiI9+RRkQYe6gPllyR2EljTeETAGu
+ zfhwKtfrfxhw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2020 14:18:40 -0700
+IronPort-SDR: 4HImsPeXTq8GVTqmQwHZliWu3mNe+7BFYnanUSVp9o34M/EvriE/pW7+Z4quvME4eFN/A9tkat
+ wwDWchkPNZhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,400,1583222400"; 
+   d="scan'208";a="252700197"
+Received: from mroth-mobl.ger.corp.intel.com ([10.249.39.103])
+  by fmsmga007.fm.intel.com with ESMTP; 16 May 2020 14:18:37 -0700
+Message-ID: <107345f21c1091dc7fb34054769332e08d256f70.camel@linux.intel.com>
+Subject: Re: [PATCH 1/1] Documentation: security: core.rst: add missing
+ argument
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Ben Boeckel <me@benboeckel.net>, keyrings@vger.kernel.org
+Cc:     Ben Boeckel <mathstuf@gmail.com>, dhowells@redhat.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Sun, 17 May 2020 00:18:36 +0300
+In-Reply-To: <20200516003917.2035545-2-list.lkml.keyrings@me.benboeckel.net>
+References: <20200516003917.2035545-1-list.lkml.keyrings@me.benboeckel.net>
+         <20200516003917.2035545-2-list.lkml.keyrings@me.benboeckel.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200515150530.GG2869@paulmck-ThinkPad-P72>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 15, 2020 at 08:05:30AM -0700, Paul E. McKenney wrote:
-> On Sat, May 16, 2020 at 12:01:41AM +0900, Akira Yokosawa wrote:
-> > On Thu, 14 May 2020 15:45:58 -0700, Paul E. McKenney wrote:
-> > > On Fri, May 15, 2020 at 07:03:33AM +0900, Akira Yokosawa wrote:
-> > >> On Thu, 14 May 2020 10:16:56 -0700, Paul E. McKenney wrote:
-> > >>> On Thu, May 14, 2020 at 08:46:18AM +0800, Boqun Feng wrote:
-> > >>>> On Wed, May 13, 2020 at 06:39:03AM +0900, Akira Yokosawa wrote:
-> > >>>>> From 96fa6680e3b990633ecbb6d11acf03a161b790bd Mon Sep 17 00:00:00 2001
-> > >>>>> From: Akira Yokosawa <akiyks@gmail.com>
-> > >>>>> Date: Sun, 10 May 2020 15:12:57 +0900
-> > >>>>> Subject: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's README into top-level one
-> > >>>>>
-> > >>>>> Where Documentation/litmus-tests/README lists RCU litmus tests,
-> > >>>>> Documentation/litmus-tests/atomic/README lists atomic litmus tests.
-> > >>>>> For symmetry, merge the latter into former, with some context
-> > >>>>> adjustment in the introduction.
-> > >>>>>
-> > >>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > >>>>> Acked-by: Andrea Parri <parri.andrea@gmail.com>
-> > >>>>> Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > >>>>
-> > >>>> Acked-by: Boqun Feng <boqun.feng@gmail.com>
-> > >>>>
-> > >>>> Thanks!
-> > >>>
-> > >>> Applied, and thank you all!
-> > >>>
-> > >>> I rebased, cancelling the revert with the original, resulting in an
-> > >>> updated lkmm branch on -rcu.  There was one minor conflict, so could
-> > >>> one of you please check to make sure that I resolved things appropriately?
-> > >>
-> > >> One thing I noticed.
-> > >>
-> > >> Commit b2998782ded4 ("Documentation/litmus-tests: Clarify about the RCU
-> > >> pre-initialization test")'s change log says:
-> > >>
-> > >>     Since this test returned to tools/memory-model/, make sure that it is
-> > >>                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >>     at least referenced from Documentation/litmus-tests/'s README.
-> > >>
-> > >> Because of the rebase, this needs amendment as well as the title.
-> > >>
-> > >> Something like
-> > >>
-> > >>     Documentation/litumus-tests: Cite a relevant litmus test in tools/memory-model
-> > >>
-> > >>     For ease of finding the RCU related litmus test under
-> > >>     tools/memory-model/, add an entry in README.
-> > >>
-> > >> ?
-> > > 
-> > > Good catch, and yes, I will update that on the next rebase.
-> > > 
-> > > Any other things in need of adjustment?
-> > 
-> > Aside from the missing Signed-off-by tags Stephen pointed out, I don't
-> > see anything.
+On Fri, 2020-05-15 at 20:39 -0400, Ben Boeckel wrote:
+> From: Ben Boeckel <mathstuf@gmail.com>
 > 
-> Yeah, I did mess that up!  ;-)
+> This argument was just never documented in the first place.
 > 
-> Thank you for checking!!!
+> Signed-off-by: Ben Boeckel <mathstuf@gmail.com>
 
-And I have fixed these during the merge with Thomas's and Peter's series
-(or at least the noinstr-rcu-nmi-2020-05-15 portion of it), again,
-thank you!
+Reviewed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 
-							Thanx, Paul
+/Jarkko
+
