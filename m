@@ -2,136 +2,151 @@ Return-Path: <SRS0=Sf9F=66=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E339C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 14:09:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1493C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 17:02:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2EC9C20671
-	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 14:09:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73F3F2076A
+	for <linux-doc@archiver.kernel.org>; Sat, 16 May 2020 17:02:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1589648579;
+	bh=xZm7SPScu0iT7/Cap3mdxG8rP6DsmX787bsWocbqih4=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=glhbKoja3NWb3bHT+CZgIT/wlWzv/E3gP+G+gwAQjqGv67msrq6VAhzgh3u8HsdtQ
+	 tf8Cr/cettw+IY3ay8aUNec9xFP8zAQcqWlfTSVWdp0Li9HE9Kg+xuZ73BXqAPPfAw
+	 A4tCRA0U1tmL7eYAZ0MqJr3oRUEhdcEVWOjKuUa0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726328AbgEPOJg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 May 2020 10:09:36 -0400
-Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:51750 "EHLO
-        esa5.hc3370-68.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbgEPOJg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 May 2020 10:09:36 -0400
-Authentication-Results: esa5.hc3370-68.iphmx.com; dkim=none (message not signed) header.i=none
-IronPort-SDR: hDidN96EUzAnOHMS55xkxs8WWGVq+5pBKthbrckMfVRSrIbE6S6mARR7e6iCmfxtRs+t6dZgOn
- ky111k+QuspRYuPHlo/+bvt29pmbSElOVJe4am+k+1tbPdGq/i+V24dJ3m99rHE8HATp2ZNRal
- knsFZmYHRfkpmlZjBldpccNopJkJ6lo0HltBZH+ddN3rfRQYUukAzDVjzrj80JOwNd+xhBnxBN
- 4I+HAvqcn84qN2FSgGa3aBcSWhG+FVqxNDKAS3eGl286pjYdRCihkiuh2RLGpNdST+isqSx6Wx
- l98=
-X-SBRS: None
-X-MesageID: 17965253
-X-Ironport-Server: esa5.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.73,398,1583211600"; 
-   d="scan'208";a="17965253"
-Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
-To:     "H.J. Lu" <hjl.tools@gmail.com>
-CC:     Dave Hansen <dave.hansen@intel.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
+        id S1726297AbgEPRC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 May 2020 13:02:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41750 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726280AbgEPRC6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 16 May 2020 13:02:58 -0400
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id ED27D2065C;
+        Sat, 16 May 2020 17:02:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589648578;
+        bh=xZm7SPScu0iT7/Cap3mdxG8rP6DsmX787bsWocbqih4=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=e0xPncZvFrWRMb/0Cqty50usN0twn62boJeud92ye32kBTeeir+IPtCdypvv+kC5x
+         ZD7xIewwPKI4xjYl42ObQYazrNtbR5qh1BcNOLZbbJn68E4/eMR2Dcs+NI63kwSN3+
+         p56Z78i+0SimwruO90LrEkAVa2o4eznWDQvWopN4=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id CB8EA3522CED; Sat, 16 May 2020 10:02:57 -0700 (PDT)
+Date:   Sat, 16 May 2020 10:02:57 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Boqun Feng <boqun.feng@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "Arnd Bergmann" <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Eugene Syromiatnikov" <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "Jann Horn" <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Vineeth Remanan Pillai <vpillai@digitalocean.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
- <20200429220732.31602-2-yu-cheng.yu@intel.com>
- <b5197a8d-5d8b-e1f7-68d4-58d80261904c@intel.com>
- <dd5b9bab31ecf247a0b4890e22bfbb486ff52001.camel@intel.com>
- <5cc163ff9058d1b27778e5f0a016c88a3b1a1598.camel@intel.com>
- <b0581ddc-0d99-cbcf-278e-0be55ba939a0@intel.com>
- <44c055342bda4fb4730703f987ae35195d1d0c38.camel@intel.com>
- <32235ffc-6e6c-fb3d-80c4-a0478e2d0e0f@intel.com>
- <6272c481-af90-05c5-7231-3ba44ff9bd02@citrix.com>
- <CAMe9rOqwbxis1xEWbOsftMB9Roxdb3=dp=_MgK8z2pwPP36uRw@mail.gmail.com>
-From:   Andrew Cooper <andrew.cooper3@citrix.com>
-Message-ID: <f8ce9863-6ada-2bc4-5141-122f64292aba@citrix.com>
-Date:   Sat, 16 May 2020 15:09:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's
+ README into top-level one
+Message-ID: <20200516170257.GA2639@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <CAEXW_YSjo2hgvg-FN_MR7FVEcp-7gH17jb0-262k+ydSuuDjuQ@mail.gmail.com>
+ <20200512163022.GI2869@paulmck-ThinkPad-P72>
+ <09a8f418-0a46-87ea-dbdb-a43efc66476c@gmail.com>
+ <6d162e69-5d2f-1fbf-1588-ab19c30e7311@gmail.com>
+ <20200514004618.GA94665@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+ <20200514171656.GR2869@paulmck-ThinkPad-P72>
+ <0ded5099-fe59-914a-d0dd-999cc334ff0a@gmail.com>
+ <20200514224558.GZ2869@paulmck-ThinkPad-P72>
+ <ed5b16b9-b522-8f9b-847b-e18d6387017e@gmail.com>
+ <20200515150530.GG2869@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-In-Reply-To: <CAMe9rOqwbxis1xEWbOsftMB9Roxdb3=dp=_MgK8z2pwPP36uRw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-X-ClientProxiedBy: AMSPEX02CAS02.citrite.net (10.69.22.113) To
- AMSPEX02CL02.citrite.net (10.69.22.126)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200515150530.GG2869@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16/05/2020 03:37, H.J. Lu wrote:
-> On Fri, May 15, 2020 at 5:13 PM Andrew Cooper <andrew.cooper3@citrix.com> wrote:
->> Finally seeing as the question was asked but not answered, it is
->> actually quite easy to figure out whether shadow stacks are enabled in
->> the current thread.
->>
->>     mov     $1, %eax
->>     rdsspd  %eax
-> This is for 32-bit mode.
+On Fri, May 15, 2020 at 08:05:30AM -0700, Paul E. McKenney wrote:
+> On Sat, May 16, 2020 at 12:01:41AM +0900, Akira Yokosawa wrote:
+> > On Thu, 14 May 2020 15:45:58 -0700, Paul E. McKenney wrote:
+> > > On Fri, May 15, 2020 at 07:03:33AM +0900, Akira Yokosawa wrote:
+> > >> On Thu, 14 May 2020 10:16:56 -0700, Paul E. McKenney wrote:
+> > >>> On Thu, May 14, 2020 at 08:46:18AM +0800, Boqun Feng wrote:
+> > >>>> On Wed, May 13, 2020 at 06:39:03AM +0900, Akira Yokosawa wrote:
+> > >>>>> From 96fa6680e3b990633ecbb6d11acf03a161b790bd Mon Sep 17 00:00:00 2001
+> > >>>>> From: Akira Yokosawa <akiyks@gmail.com>
+> > >>>>> Date: Sun, 10 May 2020 15:12:57 +0900
+> > >>>>> Subject: [PATCH RESEND 3/4] Documentation/litmus-tests: Merge atomic's README into top-level one
+> > >>>>>
+> > >>>>> Where Documentation/litmus-tests/README lists RCU litmus tests,
+> > >>>>> Documentation/litmus-tests/atomic/README lists atomic litmus tests.
+> > >>>>> For symmetry, merge the latter into former, with some context
+> > >>>>> adjustment in the introduction.
+> > >>>>>
+> > >>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> > >>>>> Acked-by: Andrea Parri <parri.andrea@gmail.com>
+> > >>>>> Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > >>>>
+> > >>>> Acked-by: Boqun Feng <boqun.feng@gmail.com>
+> > >>>>
+> > >>>> Thanks!
+> > >>>
+> > >>> Applied, and thank you all!
+> > >>>
+> > >>> I rebased, cancelling the revert with the original, resulting in an
+> > >>> updated lkmm branch on -rcu.  There was one minor conflict, so could
+> > >>> one of you please check to make sure that I resolved things appropriately?
+> > >>
+> > >> One thing I noticed.
+> > >>
+> > >> Commit b2998782ded4 ("Documentation/litmus-tests: Clarify about the RCU
+> > >> pre-initialization test")'s change log says:
+> > >>
+> > >>     Since this test returned to tools/memory-model/, make sure that it is
+> > >>                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >>     at least referenced from Documentation/litmus-tests/'s README.
+> > >>
+> > >> Because of the rebase, this needs amendment as well as the title.
+> > >>
+> > >> Something like
+> > >>
+> > >>     Documentation/litumus-tests: Cite a relevant litmus test in tools/memory-model
+> > >>
+> > >>     For ease of finding the RCU related litmus test under
+> > >>     tools/memory-model/, add an entry in README.
+> > >>
+> > >> ?
+> > > 
+> > > Good catch, and yes, I will update that on the next rebase.
+> > > 
+> > > Any other things in need of adjustment?
+> > 
+> > Aside from the missing Signed-off-by tags Stephen pointed out, I don't
+> > see anything.
+> 
+> Yeah, I did mess that up!  ;-)
+> 
+> Thank you for checking!!!
 
-It actually works for both, if all you need is a shstk yes/no check.
+And I have fixed these during the merge with Thomas's and Peter's series
+(or at least the noinstr-rcu-nmi-2020-05-15 portion of it), again,
+thank you!
 
-Usually, you also want SSP in the yes case, so substitute rdsspq %rax as
-appropriate.
-
-(On a tangent - binutils mandating the D/Q suffixes is very irritating
-with mixed 32/64bit code because you have to #ifdef your instructions
-despite the register operands being totally unambiguous.  Also, D is the
-wrong suffix for AT&T syntax, and should be L.  Frankly - the Intel
-manuals are wrong and should not have the operand size suffix included
-in the opcode name, as they are consistent with all the other
-instructions in this regard.)
-
->   I use
->
->         /* Check if shadow stack is in use.  */
->         xorl    %esi, %esi
->         rdsspq  %rsi
->         testq   %rsi, %rsi
->         /* Normal return if shadow stack isn't in use.  */
->         je      L(no_shstk)
-
-This is probably fine for user code, as I don't think it would be
-legitimate for shstk to be enabled, with SSP being 0.
-
-Sadly, the same is not true for kernel shadow stacks.
-
-SSP is 0 after SYSCALL, SYSENTER and CLRSSBSY, and you've got to be
-careful to re-establish the shadow stack before a CALL, interrupt or
-exception tries pushing a word onto the shadow stack at 0xfffffffffffffff8.
-
-It is a very good (lucky?) thing that frame is unmapped for other
-reasons, because this corner case does not protect against multiple
-threads/cores using the same shadow stack concurrently.
-
-~Andrew
+							Thanx, Paul
