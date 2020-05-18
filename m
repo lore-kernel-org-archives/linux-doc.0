@@ -2,120 +2,112 @@ Return-Path: <SRS0=dhoL=7A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9280DC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 18 May 2020 08:20:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AA3C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 May 2020 08:32:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67597207ED
-	for <linux-doc@archiver.kernel.org>; Mon, 18 May 2020 08:20:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lzCxMPIm"
+	by mail.kernel.org (Postfix) with ESMTP id C051220674
+	for <linux-doc@archiver.kernel.org>; Mon, 18 May 2020 08:32:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726880AbgERIUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 May 2020 04:20:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56428 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726573AbgERIUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 May 2020 04:20:23 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BF9BC05BD09
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2020 01:20:23 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id v16so4785448ljc.8
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2020 01:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cWBQhzz5kxNoR9BFp0TP6Ch5JEPPhK+boe7luhQX8WE=;
-        b=lzCxMPImw8Rt7qwkKQvXvs4yHXPUCBcSFgZgVKQ1O//DYIZLFdU0vSKui/Goai4MKT
-         xzGOdXpFC6fBYraQ5/bglOKFm4zvdR+GQlFCVvUpk2HQXfwDAcFh1u70fVOJ6VXLasU+
-         yjC4ArpFTAt05MznUJpxxFnr4qaGbzevmpirg+pnHZQf3hyxYA50KaYPvFy8M4Ix9Vsw
-         7CmNiCNqtZExlHmmBkup0WtdyjuF+RwTNb9qxejk1O74cyIWT47Mx0yUrBpBhB0w0N/p
-         7DpB2eYveOkZ4EyHcs+xZJHU8763ij0ME6GnBRSzZ8iCJ3Xg9989Oe0v34IPE6J4mp6U
-         wGAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cWBQhzz5kxNoR9BFp0TP6Ch5JEPPhK+boe7luhQX8WE=;
-        b=YjSqAikQR+k6HUCDQuj+xaesYParE4axlbG5L+stXHMrXp5RYNjXbEPweE1ex6rNwo
-         6JFn87oeI3Zl5359kLwmQdqtkMcfIv2K9TfbRugvTRzivRpFvEZFODqi3AMvtY7Q5Jk9
-         JoPNyWKJ8/f812gSeTzOGUlrCd4fq6+l+ipTUfJA/97cDIkYO8Ucia6rPzhqWfYVQUZq
-         pgqAnwG6CHwk4EuiEV6hZo+2lhThS5jNKXt1sqB0FMank2OboFvFmk6/KWe0TenMnvME
-         hehkwtTwenDOSwgtamYTFSYQmevTbymWwZt5sDjb+0FXG29ddAkkJHXixN932vwLJ8C5
-         WEOA==
-X-Gm-Message-State: AOAM530EiwqnynfrwWjvNe0529d3kvts6JgCXYGHwr/uIgI7njhAkhVH
-        rgto3+O9LbJ1SY9CGuH2cuUApYgv+97/eEzkkFHcpg==
-X-Google-Smtp-Source: ABdhPJy23lR0seQjYixD1vitkrbudfUoFZ0cFs0uEBn+vezhL4JCCG9kC3sBTizi/2x2WCOoPPUTf8nffzPSq1nM6JE=
-X-Received: by 2002:a2e:a209:: with SMTP id h9mr10157090ljm.39.1589790021698;
- Mon, 18 May 2020 01:20:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200511145257.22970-1-geert+renesas@glider.be> <20200511145257.22970-4-geert+renesas@glider.be>
-In-Reply-To: <20200511145257.22970-4-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 18 May 2020 10:20:10 +0200
-Message-ID: <CACRpkdaqSQ4++mhR03pqi0i=uhSyf51WhtE5VOobGNEcMmf09g@mail.gmail.com>
-Subject: Re: [PATCH v7 3/6] gpiolib: Add support for GPIO lookup by line name
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        id S1726053AbgERIcH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 May 2020 04:32:07 -0400
+Received: from foss.arm.com ([217.140.110.172]:35834 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726040AbgERIcH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 May 2020 04:32:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60807106F;
+        Mon, 18 May 2020 01:32:06 -0700 (PDT)
+Received: from [192.168.0.7] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCC403F305;
+        Mon, 18 May 2020 01:32:02 -0700 (PDT)
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+To:     Qais Yousef <qais.yousef@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20200511154053.7822-1-qais.yousef@arm.com>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <01c318b6-a109-2b8a-0ac3-a25b3c61e45a@arm.com>
+Date:   Mon, 18 May 2020 10:31:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20200511154053.7822-1-qais.yousef@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 11, 2020 at 4:53 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+On 11/05/2020 17:40, Qais Yousef wrote:
 
-> Currently a GPIO lookup table can only refer to a specific GPIO by a
-> tuple, consisting of a GPIO controller label and a GPIO offset inside
-> the controller.
->
-> However, a GPIO may also carry a line name, defined by DT or ACPI.
-> If present, the line name is the most use-centric way to refer to a
-> GPIO.  Hence add support for looking up GPIOs by line name.
-> Note that there is no guarantee that GPIO line names are globally
-> unique, so this will use the first match found.
->
-> Implement this by reusing the existing gpiod_lookup infrastructure.
-> Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
-> that this field can have two meanings, and update the kerneldoc and
-> GPIO_LOOKUP*() macros.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> ---
-> v7:
->   - Document non-uniqueness of line names,
->   - Rebase on top of commit a0b66a73785ccc8f ("gpio: Rename variable in
+[..]
 
-This is likely the most controversial patch of this series but since
-noone seems to be especially upset, I think I just accept this
-heuristic.
+> @@ -790,6 +790,26 @@ unsigned int sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
+>  /* Max allowed maximum utilization */
+>  unsigned int sysctl_sched_uclamp_util_max = SCHED_CAPACITY_SCALE;
+>  
+> +/*
+> + * By default RT tasks run at the maximum performance point/capacity of the
+> + * system. Uclamp enforces this by always setting UCLAMP_MIN of RT tasks to
+> + * SCHED_CAPACITY_SCALE.
+> + *
+> + * This knob allows admins to change the default behavior when uclamp is being
+> + * used. In battery powered devices, particularly, running at the maximum
+> + * capacity and frequency will increase energy consumption and shorten the
+> + * battery life.
+> + *
+> + * This knob only affects RT tasks that their uclamp_se->user_defined == false.
 
-It is pretty clearly cut I think, and fits very well with the
-aggregator use case, which is an important one.
+Nit pick: Isn't there a verb missing in this sentence?
 
-Yours,
-Linus Walleij
+[...]
+
+> @@ -1114,12 +1161,13 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+>  				loff_t *ppos)
+>  {
+>  	bool update_root_tg = false;
+> -	int old_min, old_max;
+> +	int old_min, old_max, old_min_rt;
+
+Nit pick: Order local variable declarations according to length.
+
+[...]
+
+> @@ -1128,7 +1176,9 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
+>  		goto done;
+>  
+>  	if (sysctl_sched_uclamp_util_min > sysctl_sched_uclamp_util_max ||
+> -	    sysctl_sched_uclamp_util_max > SCHED_CAPACITY_SCALE) {
+> +	    sysctl_sched_uclamp_util_max > SCHED_CAPACITY_SCALE		||
+
+Nit pick: This extra space looks weird to me.
+
+[...]
+
+Apart from that, LGTM
+
+For both patches of this v5:
+
+Reviewed-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
