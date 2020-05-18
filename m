@@ -2,112 +2,90 @@ Return-Path: <SRS0=dhoL=7A=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AA3C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 May 2020 08:32:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C898C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 18 May 2020 09:21:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C051220674
-	for <linux-doc@archiver.kernel.org>; Mon, 18 May 2020 08:32:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC08520787
+	for <linux-doc@archiver.kernel.org>; Mon, 18 May 2020 09:21:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726053AbgERIcH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 May 2020 04:32:07 -0400
-Received: from foss.arm.com ([217.140.110.172]:35834 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726040AbgERIcH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 May 2020 04:32:07 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60807106F;
-        Mon, 18 May 2020 01:32:06 -0700 (PDT)
-Received: from [192.168.0.7] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCC403F305;
-        Mon, 18 May 2020 01:32:02 -0700 (PDT)
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-To:     Qais Yousef <qais.yousef@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200511154053.7822-1-qais.yousef@arm.com>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-Message-ID: <01c318b6-a109-2b8a-0ac3-a25b3c61e45a@arm.com>
-Date:   Mon, 18 May 2020 10:31:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726130AbgERJVS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 May 2020 05:21:18 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:42035 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbgERJVS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 May 2020 05:21:18 -0400
+Received: by mail-ot1-f68.google.com with SMTP id z3so5789158otp.9;
+        Mon, 18 May 2020 02:21:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kAa2psThKQ7YN1P9hrBIVOheMSQY5tyl7YTngLsSf9s=;
+        b=VNIFVRJo5d1tgf+kX2RCdcuftoXDm343EvYZzCOCOwr60plK6XZdHYeNBA06gIVc2c
+         Kv/Pd9dZeYE8Jh0mjzv3UXfkT9z+YVATN1/ztg4s36V8Tm8MluhLD5hB/Z09i6bZ3RPM
+         tGX4liSEWImVljBCUewTv/lqtaXM6LnaJMxHlxQOzXQRb28nZsJTU5PFGtwyFlbEwNgS
+         YFHO6UKLrN4aNjdNn+PhCvQDYp7RySzDbbvwdu13YXmW6yO5Czi62VuIzN53MRVRtBdb
+         0G39qXu0bQdBzNfx9hGs0agM+SfJKSulzJbCw9ReNxzj5SnN8Z3RCRuh+/ZwCJUizAQc
+         yOsQ==
+X-Gm-Message-State: AOAM532GI0DRsRNC45CKrBTdKMzJeU3A4+Ftwp1st7fDASlrqcKQp304
+        RnrJ4CbLrokPTPk1K8BHuRtSrYGtrOpy4lrJXFg=
+X-Google-Smtp-Source: ABdhPJy/jYVzr4UFhMG3XsAuCDffsP6l/ymaV+byoPvr3DO7/Hr0St2Gcq6sQ6SCaJT6ercVH1Hg1rifAgCbjYjrD3Q=
+X-Received: by 2002:a9d:7e92:: with SMTP id m18mr11298557otp.145.1589793676622;
+ Mon, 18 May 2020 02:21:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200511154053.7822-1-qais.yousef@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200511145257.22970-1-geert+renesas@glider.be> <CACRpkdaz34Bc_EzcXKMEVCCCUt82_c2+t4X6YSLW2b59oi+9gA@mail.gmail.com>
+In-Reply-To: <CACRpkdaz34Bc_EzcXKMEVCCCUt82_c2+t4X6YSLW2b59oi+9gA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 18 May 2020 11:20:59 +0200
+Message-ID: <CAMuHMdUtNVfAnQODjWaDo_+ncFBwq=cNLMt=hsMqiVbqx-1XVg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] gpio: Add GPIO Aggregator
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/05/2020 17:40, Qais Yousef wrote:
+Hi Linus,
 
-[..]
+On Mon, May 18, 2020 at 10:17 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> I have queued this v7 patch set in an immutable branch for testing and also
+> merged to my "devel" branch for testing.
+>
+> If all goes well it also hits linux-next soon.
 
-> @@ -790,6 +790,26 @@ unsigned int sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
->  /* Max allowed maximum utilization */
->  unsigned int sysctl_sched_uclamp_util_max = SCHED_CAPACITY_SCALE;
->  
-> +/*
-> + * By default RT tasks run at the maximum performance point/capacity of the
-> + * system. Uclamp enforces this by always setting UCLAMP_MIN of RT tasks to
-> + * SCHED_CAPACITY_SCALE.
-> + *
-> + * This knob allows admins to change the default behavior when uclamp is being
-> + * used. In battery powered devices, particularly, running at the maximum
-> + * capacity and frequency will increase energy consumption and shorten the
-> + * battery life.
-> + *
-> + * This knob only affects RT tasks that their uclamp_se->user_defined == false.
+Thank a lot!
 
-Nit pick: Isn't there a verb missing in this sentence?
+Back to the QEMU side...
 
-[...]
+Gr{oetje,eeting}s,
 
-> @@ -1114,12 +1161,13 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
->  				loff_t *ppos)
->  {
->  	bool update_root_tg = false;
-> -	int old_min, old_max;
-> +	int old_min, old_max, old_min_rt;
+                        Geert
 
-Nit pick: Order local variable declarations according to length.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-[...]
-
-> @@ -1128,7 +1176,9 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
->  		goto done;
->  
->  	if (sysctl_sched_uclamp_util_min > sysctl_sched_uclamp_util_max ||
-> -	    sysctl_sched_uclamp_util_max > SCHED_CAPACITY_SCALE) {
-> +	    sysctl_sched_uclamp_util_max > SCHED_CAPACITY_SCALE		||
-
-Nit pick: This extra space looks weird to me.
-
-[...]
-
-Apart from that, LGTM
-
-For both patches of this v5:
-
-Reviewed-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
