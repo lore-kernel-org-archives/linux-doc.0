@@ -2,136 +2,137 @@ Return-Path: <SRS0=Z/GS=7B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66DE4C433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 10:37:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66E5CC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 13:16:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46CAA20758
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 10:37:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YMdHV7z6"
+	by mail.kernel.org (Postfix) with ESMTP id 4CBBB206D4
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 13:16:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbgESKha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 May 2020 06:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726881AbgESKh3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 May 2020 06:37:29 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21E2EC05BD0B
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2020 03:37:29 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id u188so2938935wmu.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2020 03:37:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nJqGHCLYRoZ39Y3LPONsDokd1MQBpWuhJuodhCCoySM=;
-        b=YMdHV7z6BExIROOjIpfvHwSUNwtHyJyHxewUmgQ58pFt2DCJ+Uq3LE6nN5u01qIsPB
-         rTnMHvOJ4foaIZQznr6Ev5x+fowQs8Joohvex2NOX8e3CLiyut/6ZWwYdeVM/Lpn+uJg
-         PuZjzzrw1kE6Klbf6tp/7LgGBpx+RxVYgAqJ89o4oQgPzP3JodvHnPd1rK6Uid0Y1CS1
-         BSRg+2wxS7OWx3hF4QjrYSYrrMdaEWoA68ZfdaWbMNbSyMgwx4PDx1Ism+F2DODBpig5
-         zZiibs5LM8fN32E7W8maiyUmM7xI44L6S6gQCO8h07GklbCW+XXxkrZ7CLC5GYdp0UmA
-         19Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nJqGHCLYRoZ39Y3LPONsDokd1MQBpWuhJuodhCCoySM=;
-        b=brRnL66OBVGQbmpCGl9hlVxlLP9vucEJ4QOhT7h5mepgEiSfWGI7RP90P8DKwllh4k
-         8VbLnkGFhroJ2HZrEe0ymOPennWlXkmRVqCgr2Qevm7dwfOzTOocBmpzrSyvELZK8zCU
-         Alq6TXY4glcoNeYOvWbkOBtP03axv8d7Ywd3wl3ABSd4DJsBUdI1wDs3Kfd3arYx2XgM
-         lBb9dbK59dJKfaXzTqrskgVsT9Ah/ZxNGAZfl2OIhjZfMohAvFwcS0WIMk2Ngo2vhrtr
-         qzRopIljlOHUZ6n+p6fIhaanHG8NFvxMcpU+KAdYAodYC12Yj6rwf1tUBAw2JFINb4/O
-         dVbQ==
-X-Gm-Message-State: AOAM531Iljl+wjrCGMM0S7sodFS5fBfZpInGiA4aSablQnNrFwNlUGVE
-        aFJFtddi9mYqzQu1u9AA4uUS9A==
-X-Google-Smtp-Source: ABdhPJxj5fMEywwcRHjfOT2c3qwvdLgOyHayzX2tbuWzyAy4O/+p5lMYXda/U5svbychHMOWNGk9Ww==
-X-Received: by 2002:a05:600c:1403:: with SMTP id g3mr4962732wmi.51.1589884647744;
-        Tue, 19 May 2020 03:37:27 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
-        by smtp.gmail.com with ESMTPSA id x24sm21634435wrd.51.2020.05.19.03.37.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 03:37:27 -0700 (PDT)
-Date:   Tue, 19 May 2020 11:37:24 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Doug Anderson <dianders@chromium.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-serial@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jiri Slaby <jslaby@suse.com>,
-        kgdb-bugreport@lists.sourceforge.net,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andy Gross <agross@kernel.org>, bp@alien8.de,
-        Alexios Zavras <alexios.zavras@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Enrico Weigelt <info@metux.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        James Morse <james.morse@arm.com>,
-        Juergen Gross <jgross@suse.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Russell King <linux@armlinux.org.uk>,
-        jinho lim <jordan.lim@samsung.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        x86@kernel.org
-Subject: Re: [PATCH v4 00/12] kgdb: Support late serial drivers; enable early
- debug w/ boot consoles
-Message-ID: <20200519103724.eyabo2n4uzms25bp@holly.lan>
-References: <20200507200850.60646-1-dianders@chromium.org>
- <20200514162109.6qt5drd27hpilijh@holly.lan>
- <CAD=FV=X+t_Wg5KadZBTGHMSEXY3c-t6DZAtdaLXys31QJJpGGA@mail.gmail.com>
- <20200514163633.GA3154055@kroah.com>
+        id S1728052AbgESNQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 May 2020 09:16:03 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50650 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727057AbgESNQC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 May 2020 09:16:02 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id C7913AA4F;
+        Tue, 19 May 2020 13:16:03 +0000 (UTC)
+Date:   Tue, 19 May 2020 15:15:59 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, kernel@collabora.com,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] docs: printk-basics: update the pr_debug() kerneldoc
+Message-ID: <20200519131558.GM7340@linux-b0ei>
+References: <20200422140334.23595-1-ricardo.canuelo@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200514163633.GA3154055@kroah.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200422140334.23595-1-ricardo.canuelo@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 14, 2020 at 06:36:33PM +0200, Greg Kroah-Hartman wrote:
-> On Thu, May 14, 2020 at 09:34:26AM -0700, Doug Anderson wrote:
-> > > (though we must keep
-> > > changes to drivers/tty/serial/kgdboc alongside the kgdb changes).
-> > >
-> > > I can hoover them up but I'd need a solid set of acks and
-> > > I don't think we've got that yet.
-> > 
-> > It would be nice for it to be explicit, but "get_maintainer" says that
-> > Greg KH is the maintainer of serial drivers.  Git log confirms that he
-> > also has been the one landing changes to these files.  Early-on he
-> > provided his Reviewed-by for the series as a whole, so he's aware of
-> > it and maybe would be fine w/ the serial changes landing through the
-> > kgdb tree?
-> > 
-> > Greg: is that correct?
+On Wed 2020-04-22 16:03:34, Ricardo Cañuelo wrote:
+> This updates the kerneldoc comment for the pr_debug() macro to describe
+> the new set of kernel config options it's affected by.
 > 
-> I have no objection for all of these to go through any other tree that
-> wants to take them :)
+> It also simplifies the description of the pr_debug() and pr_devel()
+> macros in printk-basics.rst, forwarding the reader to the function
+> reference.
 > 
-> But if you want me to take them in the serial tree, to make it easier
-> for you or any other serial driver issues, I will be glad to do that,
-> just send them my way.  It's your call.
+> Signed-off-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
+> ---
+> Some background:
+> 
+> The previous patch I sent to add kerneldocs to printk.h:
+> https://lore.kernel.org/linux-doc/20200420171544.3c443e36@lwn.net/
+> 
+> conflicted with this other patch:
+> https://lkml.org/lkml/2020/4/20/1320
+> 
+> during the manual linux-next merge. Stephen Rothwell fixed the conflict
+> but the description of what pr_debug() does needed to be updated to
+> reflect the changes introduced in the patch by Orson Zhai.
+> 
+> Tested on linux-next with make htmldocs and make pdfdocs.
+> 
+>  Documentation/core-api/printk-basics.rst | 4 ++--
+>  include/linux/printk.h                   | 7 ++++---
+>  2 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
+> index 563a9ce5fe1d..84c853e17200 100644
+> --- a/Documentation/core-api/printk-basics.rst
+> +++ b/Documentation/core-api/printk-basics.rst
+> @@ -100,8 +100,8 @@ would prefix every pr_*() message in that file with the module and function name
+>  that originated the message.
+>  
+>  For debugging purposes there are also two conditionally-compiled macros:
+> -pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
+> -also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
+> +pr_debug() and pr_devel(), which are compiled-out depending on the kernel
+> +configuration options (See the function reference below for more info).
+>  
+>  
+>  Function reference
+> diff --git a/include/linux/printk.h b/include/linux/printk.h
+> index 768ac6bc637d..dab23bcbdeb0 100644
+> --- a/include/linux/printk.h
+> +++ b/include/linux/printk.h
+> @@ -408,9 +408,10 @@ extern int kptr_restrict;
+>   * @fmt: format string
+>   * @...: arguments for the format string
+>   *
+> - * This macro expands to dynamic_pr_debug() if CONFIG_DYNAMIC_DEBUG is
+> - * set. Otherwise, if DEBUG is defined, it's equivalent to a printk with
+> - * KERN_DEBUG loglevel. If DEBUG is not defined it does nothing.
+> + * This macro expands to dynamic_pr_debug() if CONFIG_DYNAMIC_DEBUG is set or if
+> + * CONFIG_DYNAMIC_DEBUG_CORE and DYNAMIC_DEBUG_MODULE are both set.  Otherwise,
+> + * if DEBUG is defined, it's equivalent to a printk with KERN_DEBUG loglevel.
+> + * If none of the above is defined it does nothing.
+>   *
+>   * It uses pr_fmt() to generate the format string (dynamic_pr_debug() uses
+>   * pr_fmt() internally).
+> -- 
+> 2.18.0
 
-Thanks. I've taken then via my tree.
+It is pity that you did not add other printk maintainers into CC for
+the patches adding this documentation and comments. I was sick
+last two months and was not able to check mails.
+
+Adding them now. Note that the following patch is already in
+linux-next, see
+https://lore.kernel.org/r/20200403093617.18003-1-ricardo.canuelo@collabora.com
+
+One note about printk-basics.rst. It should mention that pr_*()
+variants are preferred over the generic printk(KERN_* ).
+
+Otherwise, I do not see anything critical.
 
 
-Daniel.
+Well, I have mixed feelings about this type of documentation. It might explain
+some things that are less obvious, for example, the meaning of
+pr_fmt(). On the other hand:
+
+  + It might be complicated to keep it in sync.
+
+  + I wonder how many developers would actually read it.
+
+  + The doc comments in include/linux/prinkt.h are really
+    long and describe obvious things.
+
+By other words. These comments make the headers and sources hard to
+read. And at least in this particular case, the gain is questionable.
+
+Best Regards,
+Petr
