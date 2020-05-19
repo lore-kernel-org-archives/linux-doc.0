@@ -2,144 +2,1031 @@ Return-Path: <SRS0=Z/GS=7B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 749B5C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 16:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 767D3C433F1
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 18:02:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 510B12081A
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 16:10:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 37409207D4
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 18:02:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1589911363;
+	bh=Gl0epzNXbEvbDn4e0dM8gCLORCJkrnk6MShZrbUV9eM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=cEz0SxmQ1rZqKJ7PdszC4qgO+eLJdkScInowx5SQMJOZD5/pfVvJdIihO2mUuqh4q
+	 B3QUBylrMcFiQ3eKGDKCBrdBJeNlUWKIT2NnPBEClxdS+XeQnFYIgYBqo8jmOibrut
+	 a9XWX3z/Y5wHPn0Fz7ZozHGNfcc5gulz4PPjTll8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729001AbgESQKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 May 2020 12:10:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44290 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728953AbgESQKx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 May 2020 12:10:53 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47EDEC08C5C0;
-        Tue, 19 May 2020 09:10:53 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id F1FDF2EC;
-        Tue, 19 May 2020 16:10:51 +0000 (UTC)
-Date:   Tue, 19 May 2020 10:10:43 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: documentation
-Message-ID: <20200519101043.4471069a@lwn.net>
-In-Reply-To: <1bc96da4-49d7-1c8e-de15-858641aba59f@al2klimov.de>
-References: <20200516122740.30665-1-grandmaster@al2klimov.de>
-        <20200517134544.7d649bbb@lwn.net>
-        <1bc96da4-49d7-1c8e-de15-858641aba59f@al2klimov.de>
-Organization: LWN.net
+        id S1727814AbgESSCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 May 2020 14:02:42 -0400
+Received: from mail-oi1-f172.google.com ([209.85.167.172]:45406 "EHLO
+        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726059AbgESSCm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 May 2020 14:02:42 -0400
+Received: by mail-oi1-f172.google.com with SMTP id d191so505429oib.12;
+        Tue, 19 May 2020 11:02:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h5vknLKa6EACS1W2Xw7H2Oo0pRqI7HrrpipH0Bn1Q1Q=;
+        b=pAMfmOgRYbPxeCZ/STyp3VBpAj7pap9iZoNRSQixLz+WxV07O2/0vHr9Vy+WxrpYAw
+         +Jrl4HHKjBsh0Azt8d9UD+ABdLYKqM6WjNFbTtjIYGo8cG3aZ+PMh6QDe/OABwGPmR/1
+         yzyCOgXRMDwdMaP5VK9tHJC4ZS5xFIZUCaOdSurkyLYlnr70GubelxXSBcMSiK6GSFVb
+         Zsh7A+0FRBT2eeUFkm2rBT4Qnhkan7vKeZh/hGBIY91RPBg7lbC5atFTVnhSB46eTIqx
+         KUAo24EvkdSA8MXrL6jaqkmaEvqQ3+p++CXAlIV+cUdqSvl42WVRbcW/s8xP0BOJmmlY
+         tXpg==
+X-Gm-Message-State: AOAM533of8j1ZNTcBhEeOzt6q+X2xDqRRZtffEEpXohRPAvpVQDZTLuU
+        GHku4/+5W0AsMNWFCJXOrnl3qS5FYoKCButMV50=
+X-Google-Smtp-Source: ABdhPJx9FRNVQeDHdnikHqmfWF+LR44f608Clme6CTqxRficXgV2mkPbeVkVM+utU7cOqJ60eLuuvxW4vw/xfu8cPHE=
+X-Received: by 2002:a05:6808:486:: with SMTP id z6mr471651oid.103.1589911358152;
+ Tue, 19 May 2020 11:02:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200511235731.126323-1-srinivas.pandruvada@linux.intel.com>
+In-Reply-To: <20200511235731.126323-1-srinivas.pandruvada@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 19 May 2020 20:02:27 +0200
+Message-ID: <CAJZ5v0irj_vZVJc7TxBocfO7g8wPpYWu145qXGsZ5xoDk3yz8w@mail.gmail.com>
+Subject: Re: [PATCH v3] admin guide/pm: Admin guide for intel-speed-select
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Rafael Wysocki <rafael.j.wysocki@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 17 May 2020 22:18:23 +0200
-"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
+On Tue, May 12, 2020 at 1:57 AM Srinivas Pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+>
+> Added documentation to configure servers to use Intel(R) Speed
+> Select Technology using intel-speed-select tool.
+>
+> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Acked-by: Andriy Shevchenko <andy.shevchenko@gmail.com>
 
-> >   - Various documents have maintainers who are likely to be interested in
-> >     changes and should be copied; that is what the get_maintainer.pl script
-> >     is for.  If that generates a massive list of recipients, that's a cue
-> >     that your patch is too large.  
-> Huh? I *did* run that script (automated) per file and grouped files per 
-> identical set of patch recipients. I.e. this patch should contain only 
-> changes for the recipients I've sent it to.
-> If your invocation of the script doesn't agree with me, please share the 
-> output and how to reproduce (as if I had just my own patch eMail, the 
-> upstream Git repo and all the tools of course).
+Applied as 5.8 material, thanks!
 
-OK, I fed your patch to the script, waited a fair while, and got what's
-below.  And yes, you don't want to actually send a patch to such a list of
-recipients - it's a sign that your patch is too large.
-
-Thanks,
-
-jon
-
-Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION,commit_signer:1/1=100%,commit_signer:1/2=50%,commit_signer:4/5=80%,authored:1/5=20%,commit_signer:2/4=50%,commit_signer:21/109=19%,commit_signer:3/5=60%,commit_signer:2/2=100%,commit_signer:3/3=100%,authored:1/3=33%,added_lines:8/17=47%,removed_lines:5/15=33%,commit_signer:3/16=19%,commit_signer:11/11=100%,commit_signer:3/4=75%,commit_signer:2/3=67%,commit_signer:1/3=33%,authored:1/1=100%,added_lines:23/23=100%,removed_lines:17/17=100%,commit_signer:4/4=100%,commit_signer:3/7=43%,authored:1/7=14%)
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:1/1=100%,removed_lines:1/1=100%,added_lines:98/98=100%,commit_signer:2/2=100%,authored:2/2=100%,commit_signer:1/5=20%,authored:1/5=20%,commit_signer:23/109=21%,authored:23/109=21%,added_lines:57/585=10%,removed_lines:60/200=30%,commit_signer:3/3=100%,authored:3/3=100%,commit_signer:4/5=80%,authored:4/5=80%,added_lines:2/2=100%,removed_lines:2/2=100%,commit_signer:3/5=60%,authored:3/5=60%,added_lines:488/488=100%,commit_signer:1/3=33%,authored:1/3=33%,commit_signer:1/2=50%,authored:1/2=50%,added_lines:8/17=47%,removed_lines:9/15=60%,commit_signer:2/4=50%,authored:2/4=50%,authored:1/16=6%,commit_signer:4/4=100%,authored:4/4=100%,removed_lines:359/359=100%,commit_signer:1/11=9%,authored:1/11=9%,commit_signer:1/4=25%,authored:1/4=25%,added_lines:115/115=100%,added_lines:147/147=100%,added_lines:1/12=8%,removed_lines:1/12=8%,added_lines:176/176=100%,added_lines:593/593=100%,added_lines
- :458/458=100%,added_lines:18/18=100%,added_lines:1334/1334=100%,commit_signer:2/7=29%,authored:2/7=29%)
-"Rafael J. Wysocki" <rafael.j.wysocki@intel.com> (commit_signer:2/2=100%)
-Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:62/64=97%)
-Randy Dunlap <rdunlap@infradead.org> (commit_signer:1/2=50%,authored:1/2=50%,removed_lines:2/2=100%,commit_signer:1/1=100%,authored:1/4=25%,added_lines:9/15=60%,removed_lines:5/25=20%,commit_signer:1/7=14%)
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> (commit_signer:1/1=100%)
-Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com> (commit_signer:1/2=50%)
-Alexandre Belloni <alexandre.belloni@bootlin.com> (commit_signer:1/2=50%,commit_signer:2/3=67%,commit_signer:1/7=14%,authored:1/7=14%)
-David Sterba <dsterba@suse.com> (commit_signer:1/2=50%,commit_signer:1/5=20%,commit_signer:1/4=25%,commit_signer:1/1=100%)
-"Jonathan Neuschäfer" <j.neuschaefer@gmx.net> (commit_signer:3/5=60%,authored:3/5=60%,commit_signer:1/2=50%,authored:1/2=50%,commit_signer:1/1=100%,authored:1/1=100%,added_lines:5/5=100%,removed_lines:5/5=100%)
-Cornelia Huck <cohuck@redhat.com> (commit_signer:1/5=20%)
-Logan Gunthorpe <logang@deltatee.com> (commit_signer:1/5=20%)
-Mark Greer <mgreer@animalcreek.com> (commit_signer:1/4=25%,authored:1/4=25%,added_lines:2/14=14%,removed_lines:2/5=40%)
-"David S. Miller" <davem@davemloft.net> (commit_signer:1/4=25%)
-Ian Abbott <abbotti@mev.co.uk> (commit_signer:1/4=25%,authored:1/4=25%,added_lines:10/14=71%,removed_lines:1/5=20%)
-Colin Ian King <colin.king@canonical.com> (commit_signer:1/4=25%,authored:1/4=25%,added_lines:1/14=7%,removed_lines:1/5=20%)
-Jacob Keller <jacob.e.keller@intel.com> (authored:1/4=25%,added_lines:1/14=7%,removed_lines:1/5=20%)
-"Theodore Ts'o" <tytso@mit.edu> (commit_signer:2/2=100%)
-Eric Biggers <ebiggers@google.com> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:2/13=15%,authored:1/7=14%)
-Jan Kara <jack@suse.cz> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:11/13=85%,removed_lines:8/8=100%)
-Thomas Gleixner <tglx@linutronix.de> (commit_signer:16/109=15%,commit_signer:1/4=25%)
-"Paul E. McKenney" <paulmck@kernel.org> (commit_signer:8/109=7%,added_lines:30/585=5%)
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> (commit_signer:8/109=7%,commit_signer:17/16=100%,authored:11/16=69%,commit_signer:1/1=100%)
-Pawan Gupta <pawan.kumar.gupta@linux.intel.com> (added_lines:67/585=11%)
-Juergen Gross <jgross@suse.com> (removed_lines:21/200=10%)
-Oliver Neukum <oneukum@suse.com> (removed_lines:10/200=5%)
-Andy Shevchenko <andy.shevchenko@gmail.com> (commit_signer:2/2=100%,commit_signer:3/3=100%,commit_signer:3/5=60%)
-Pavel Machek <pavel@ucw.cz> (commit_signer:1/5=20%,commit_signer:1/1=100%)
-Alexander Schremmer <alex@alexanderweb.de> (authored:1/5=20%)
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:292/292=100%,commit_signer:2/5=40%,authored:2/5=40%)
-Nicolas Ferre <nicolas.ferre@microchip.com> (commit_signer:2/3=67%,authored:2/3=67%)
-Changbin Du <changbin.du@intel.com> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:16/17=94%,removed_lines:13/14=93%)
-Sheriff Esseson <sheriffesseson@gmail.com> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:1/17=6%,removed_lines:1/14=7%)
-"André Almeida" <andrealmeid@collabora.com> (commit_signer:1/3=33%,authored:1/3=33%,added_lines:1/17=6%,removed_lines:1/15=7%)
-Dan Williams <dan.j.williams@intel.com> (commit_signer:2/4=50%,commit_signer:2/2=100%)
-Shiyang Ruan <ruansy.fnst@cn.fujitsu.com> (commit_signer:1/4=25%,authored:1/4=25%)
-Michal Suchanek <msuchanek@suse.de> (commit_signer:1/4=25%,authored:1/4=25%)
-Zhang Rui <rui.zhang@intel.com> (commit_signer:2/2=100%)
-Mark Brown <broonie@kernel.org> (commit_signer:1/1=100%,commit_signer:1/3=33%)
-"Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu> (commit_signer:1/1=100%)
-Bjorn Helgaas <bhelgaas@google.com> (commit_signer:1/1=100%,commit_signer:1/3=33%)
-"Joakim Lönnegren" <joakimlonnegren@gmail.com> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:2/2=100%,removed_lines:5/5=100%)
-Geert Uytterhoeven <geert+renesas@glider.be> (commit_signer:3/16=19%,authored:3/16=19%)
-Viresh Kumar <viresh.kumar@linaro.org> (commit_signer:2/16=12%)
-Rikard Falkeborn <rikard.falkeborn@gmail.com> (commit_signer:1/16=6%,authored:1/16=6%)
-Al Viro <viro@zeniv.linux.org.uk> (commit_signer:2/2=100%,authored:1/2=50%,removed_lines:5/11=45%)
-Aleksa Sarai <cyphar@cyphar.com> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:62/64=97%,removed_lines:6/11=55%)
-Rob Herring <robh@kernel.org> (commit_signer:1/3=33%)
-"Tobin C. Harding" <tobin@kernel.org> (commit_signer:10/11=91%,authored:10/11=91%)
-Federico Vaga <federico.vaga@vaga.pv.it> (commit_signer:2/4=50%,commit_signer:1/1=100%,commit_signer:1/2=50%,commit_signer:1/4=25%)
-Stephen Boyd <swboyd@chromium.org> (commit_signer:2/4=50%,authored:2/4=50%,added_lines:89/93=96%,removed_lines:89/93=96%)
-Kees Cook <keescook@chromium.org> (commit_signer:1/4=25%)
-Stephen Kitt <steve@sk2.org> (authored:1/4=25%)
-Jacek Anaszewski <jacek.anaszewski@gmail.com> (commit_signer:1/1=100%)
-Linus Walleij <linus.walleij@linaro.org> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:30/30=100%)
-Marco Villegas <git@marvil07.net> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:1/1=100%,removed_lines:1/1=100%)
-Tony Fischetti <tony.fischetti@gmail.com> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:55/55=100%,removed_lines:53/53=100%,commit_signer:1/4=25%,authored:1/4=25%,added_lines:9/12=75%,removed_lines:9/12=75%,commit_signer:1/2=50%,authored:1/2=50%,added_lines:9/10=90%,removed_lines:8/9=89%)
-Chris Packham <chris.packham@alliedtelesis.co.nz> (commit_signer:1/3=33%,authored:1/3=33%)
-Borislav Petkov <bp@suse.de> (commit_signer:1/4=25%,authored:1/4=25%,added_lines:2/15=13%,removed_lines:2/25=8%)
-Arnd Bergmann <arnd@arndb.de> (commit_signer:1/4=25%,authored:1/4=25%,added_lines:2/15=13%,removed_lines:14/25=56%,commit_signer:1/7=14%)
-"Jason A. Donenfeld" <Jason@zx2c4.com> (commit_signer:1/4=25%)
-"Darrick J. Wong" <darrick.wong@oracle.com> (commit_signer:1/4=25%)
-"Chang S. Bae" <chang.seok.bae@intel.com> (authored:1/4=25%,added_lines:2/15=13%,removed_lines:4/25=16%)
-Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com> (authored:1/4=25%,added_lines:1/12=8%,removed_lines:1/12=8%)
-Joe Perches <joe@perches.com> (authored:1/4=25%,added_lines:1/12=8%,removed_lines:1/12=8%)
-Jacob Huisman <jacobhuisman@kernelthusiast.com> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:1/10=10%,removed_lines:1/9=11%,removed_lines:1/2=50%,commit_signer:1/1=100%,authored:1/1=100%,added_lines:1/1=100%,removed_lines:1/1=100%,commit_signer:1/4=25%,authored:1/4=25%)
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:17/17=100%,removed_lines:14/14=100%,commit_signer:1/2=50%,authored:1/2=50%,added_lines:52/53=98%,removed_lines:1/2=50%)
-Tejun Heo <tj@kernel.org> (commit_signer:2/3=67%)
-"Martin K. Petersen" <martin.petersen@oracle.com> (commit_signer:1/1=100%)
-Khalid Aziz <khalid@gonehiking.org> (commit_signer:1/1=100%)
-SeongJae Park <sjpark@amazon.de> (commit_signer:3/4=75%,authored:3/4=75%,added_lines:30/31=97%,removed_lines:32/33=97%)
-Oded Gabbay <oded.gabbay@gmail.com> (authored:1/7=14%)
-linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-linux-kernel@vger.kernel.org (open list)
-clang-built-linux@googlegroups.com (open list:CLANG/LLVM BUILD SUPPORT)
+> ---
+> v3:
+> - Match the command results with the latest tool and added to this documentation.
+> Tool made some "numbers" to more verbose display, so change documentation
+> also.
+>
+> v2:
+> Only formatting changes. So used ACK from Andriy.
+> Addressed comments by Jonathan for the following items:
+>         - Removed non ASCII character
+>         - Addressed section/sub-section markers
+>         - Folded all commands and outputs in literal blocks
+>
+>
+>  .../admin-guide/pm/intel-speed-select.rst     | 917 ++++++++++++++++++
+>  .../admin-guide/pm/working-state.rst          |   1 +
+>  2 files changed, 918 insertions(+)
+>  create mode 100644 Documentation/admin-guide/pm/intel-speed-select.rst
+>
+> diff --git a/Documentation/admin-guide/pm/intel-speed-select.rst b/Documentation/admin-guide/pm/intel-speed-select.rst
+> new file mode 100644
+> index 000000000000..b2ca601c21c6
+> --- /dev/null
+> +++ b/Documentation/admin-guide/pm/intel-speed-select.rst
+> @@ -0,0 +1,917 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============================================================
+> +Intel(R) Speed Select Technology User Guide
+> +============================================================
+> +
+> +The Intel(R) Speed Select Technology (Intel(R) SST) provides a powerful new
+> +collection of features that give more granular control over CPU performance.
+> +With Intel(R) SST, one server can be configured for power and performance for a
+> +variety of diverse workload requirements.
+> +
+> +Refer to the links below for an overview of the technology:
+> +
+> +- https://www.intel.com/content/www/us/en/architecture-and-technology/speed-select-technology-article.html
+> +- https://builders.intel.com/docs/networkbuilders/intel-speed-select-technology-base-frequency-enhancing-performance.pdf
+> +
+> +These capabilities are further enhanced in some of the newer generations of
+> +server platforms where these features can be enumerated and controlled
+> +dynamically without pre-configuring via BIOS setup options. This dynamic
+> +configuration is done via mailbox commands to the hardware. One way to enumerate
+> +and configure these features is by using the Intel Speed Select utility.
+> +
+> +This document explains how to use the Intel Speed Select tool to enumerate and
+> +control Intel(R) SST features. This document gives example commands and explains
+> +how these commands change the power and performance profile of the system under
+> +test. Using this tool as an example, customers can replicate the messaging
+> +implemented in the tool in their production software.
+> +
+> +intel-speed-select configuration tool
+> +======================================
+> +
+> +Most Linux distribution packages may include the "intel-speed-select" tool. If not,
+> +it can be built by downloading the Linux kernel tree from kernel.org. Once
+> +downloaded, the tool can be built without building the full kernel.
+> +
+> +From the kernel tree, run the following commands::
+> +
+> +# cd tools/power/x86/intel-speed-select/
+> +# make
+> +# make install
+> +
+> +Getting Help
+> +------------
+> +
+> +To get help with the tool, execute the command below::
+> +
+> +# intel-speed-select --help
+> +
+> +The top-level help describes arguments and features. Notice that there is a
+> +multi-level help structure in the tool. For example, to get help for the feature "perf-profile"::
+> +
+> +# intel-speed-select perf-profile --help
+> +
+> +To get help on a command, another level of help is provided. For example for the command info "info"::
+> +
+> +# intel-speed-select perf-profile info --help
+> +
+> +Summary of platform capability
+> +------------------------------
+> +To check the current platform and driver capaibilities, execute::
+> +
+> +#intel-speed-select --info
+> +
+> +For example on a test system::
+> +
+> + # intel-speed-select --info
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + Platform: API version : 1
+> + Platform: Driver version : 1
+> + Platform: mbox supported : 1
+> + Platform: mmio supported : 1
+> + Intel(R) SST-PP (feature perf-profile) is supported
+> + TDP level change control is unlocked, max level: 4
+> + Intel(R) SST-TF (feature turbo-freq) is supported
+> + Intel(R) SST-BF (feature base-freq) is not supported
+> + Intel(R) SST-CP (feature core-power) is supported
+> +
+> +Intel(R) Speed Select Technology - Performance Profile (Intel(R) SST-PP)
+> +------------------------------------------------------------------------
+> +
+> +This feature allows configuration of a server dynamically based on workload
+> +performance requirements. This helps users during deployment as they do not have
+> +to choose a specific server configuration statically.  This Intel(R) Speed Select
+> +Technology - Performance Profile (Intel(R) SST-PP) feature introduces a mechanism
+> +that allows multiple optimized performance profiles per system. Each profile
+> +defines a set of CPUs that need to be online and rest offline to sustain a
+> +guaranteed base frequency. Once the user issues a command to use a specific
+> +performance profile and meet CPU online/offline requirement, the user can expect
+> +a change in the base frequency dynamically. This feature is called
+> +"perf-profile" when using the Intel Speed Select tool.
+> +
+> +Number or performance levels
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +There can be multiple performance profiles on a system. To get the number of
+> +profiles, execute the command below::
+> +
+> + # intel-speed-select perf-profile get-config-levels
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +        get-config-levels:4
+> + package-1
+> +  die-0
+> +    cpu-14
+> +        get-config-levels:4
+> +
+> +On this system under test, there are 4 performance profiles in addition to the
+> +base performance profile (which is performance level 0).
+> +
+> +Lock/Unlock status
+> +~~~~~~~~~~~~~~~~~~
+> +
+> +Even if there are multiple performance profiles, it is possible that that they
+> +are locked. If they are locked, users cannot issue a command to change the
+> +performance state. It is possible that there is a BIOS setup to unlock or check
+> +with your system vendor.
+> +
+> +To check if the system is locked, execute the following command::
+> +
+> + # intel-speed-select perf-profile get-lock-status
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +        get-lock-status:0
+> + package-1
+> +  die-0
+> +    cpu-14
+> +        get-lock-status:0
+> +
+> +In this case, lock status is 0, which means that the system is unlocked.
+> +
+> +Properties of a performance level
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To get properties of a specific performance level (For example for the level 0, below), execute the command below::
+> +
+> + # intel-speed-select perf-profile info -l 0
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      perf-profile-level-0
+> +        cpu-count:28
+> +        enable-cpu-mask:000003ff,f0003fff
+> +        enable-cpu-list:0,1,2,3,4,5,6,7,8,9,10,11,12,13,28,29,30,31,32,33,34,35,36,37,38,39,40,41
+> +        thermal-design-power-ratio:26
+> +        base-frequency(MHz):2600
+> +        speed-select-turbo-freq:disabled
+> +        speed-select-base-freq:disabled
+> +       ...
+> +       ...
+> +
+> +Here -l option is used to specify a performance level.
+> +
+> +If the option -l is omitted, then this command will print information about all
+> +the performance levels. The above command is printing properties of the
+> +performance level 0.
+> +
+> +For this performance profile, the list of CPUs displayed by the
+> +"enable-cpu-mask/enable-cpu-list" at the max can be "online." When that
+> +condition is met, then base frequency of 2600 MHz can be maintained. To
+> +understand more, execute "intel-speed-select perf-profile info" for performance
+> +level 4::
+> +
+> + # intel-speed-select perf-profile info -l 4
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      perf-profile-level-4
+> +        cpu-count:28
+> +        enable-cpu-mask:000000fa,f0000faf
+> +        enable-cpu-list:0,1,2,3,5,7,8,9,10,11,28,29,30,31,33,35,36,37,38,39
+> +        thermal-design-power-ratio:28
+> +        base-frequency(MHz):2800
+> +        speed-select-turbo-freq:disabled
+> +        speed-select-base-freq:unsupported
+> +       ...
+> +       ...
+> +
+> +There are fewer CPUs in the "enable-cpu-mask/enable-cpu-list". Consequently, if
+> +the user only keeps these CPUs online and the rest "offline," then the base
+> +frequency is increased to 2.8 GHz compared to 2.6 GHz at performance level 0.
+> +
+> +Get current performance level
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To get the current performance level, execute::
+> +
+> + # intel-speed-select perf-profile get-config-current-level
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +        get-config-current_level:0
+> +
+> +First verify that the base_frequency displayed by the cpufreq sysfs is correct::
+> +
+> + # cat /sys/devices/system/cpu/cpu0/cpufreq/base_frequency
+> + 2600000
+> +
+> +This matches the base-frequency (MHz) field value displayed from the
+> +"perf-profile info" command for performance level 0(cpufreq frequency is in
+> +KHz).
+> +
+> +To check if the average frequency is equal to the base frequency for a 100% busy
+> +workload, disable turbo::
+> +
+> +# echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
+> +
+> +Then runs a busy workload on all CPUs, for example::
+> +
+> +#stress -c 64
+> +
+> +To verify the base frequency, run turbostat::
+> +
+> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
+> +
+> +  Package      Core    CPU     Bzy_MHz
+> +               -       -       2600
+> +  0            0       0       2600
+> +  0            1       1       2600
+> +  0            2       2       2600
+> +  0            3       3       2600
+> +  0            4       4       2600
+> +  .            .       .       .
+> +
+> +
+> +Changing performance level
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To the change the performance level to 4, execute::
+> +
+> + # intel-speed-select -d perf-profile set-config-level -l 4 -o
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      perf-profile
+> +        set_tdp_level:success
+> +
+> +In the command above, "-o" is optional. If it is specified, then it will also
+> +offline CPUs which are not present in the enable_cpu_mask for this performance
+> +level.
+> +
+> +Now if the base_frequency is checked::
+> +
+> + #cat /sys/devices/system/cpu/cpu0/cpufreq/base_frequency
+> + 2800000
+> +
+> +Which shows that the base frequency now increased from 2600 MHz at performance
+> +level 0 to 2800 MHz at performance level 4. As a result, any workload, which can
+> +use fewer CPUs, can see a boost of 200 MHz compared to performance level 0.
+> +
+> +Check presence of other Intel(R) SST features
+> +---------------------------------------------
+> +
+> +Each of the performance profiles also specifies weather there is support of
+> +other two Intel(R) SST features (Intel(R) Speed Select Technology - Base Frequency
+> +(Intel(R) SST-BF) and Intel(R) Speed Select Technology - Turbo Frequency (Intel
+> +SST-TF)).
+> +
+> +For example, from the output of "perf-profile info" above, for level 0 and level
+> +4:
+> +
+> +For level 0::
+> +       speed-select-turbo-freq:disabled
+> +       speed-select-base-freq:disabled
+> +
+> +For level 4::
+> +       speed-select-turbo-freq:disabled
+> +       speed-select-base-freq:unsupported
+> +
+> +Given these results, the "speed-select-base-freq" (Intel(R) SST-BF) in level 4
+> +changed from "disabled" to "unsupported" compared to performance level 0.
+> +
+> +This means that at performance level 4, the "speed-select-base-freq" feature is
+> +not supported. However, at performance level 0, this feature is "supported", but
+> +currently "disabled", meaning the user has not activated this feature. Whereas
+> +"speed-select-turbo-freq" (Intel(R) SST-TF) is supported at both performance
+> +levels, but currently not activated by the user.
+> +
+> +The Intel(R) SST-BF and the Intel(R) SST-TF features are built on a foundation
+> +technology called Intel(R) Speed Select Technology - Core Power (Intel(R) SST-CP).
+> +The platform firmware enables this feature when Intel(R) SST-BF or Intel(R) SST-TF
+> +is supported on a platform.
+> +
+> +Intel(R) Speed Select Technology Core Power (Intel(R) SST-CP)
+> +---------------------------------------------------------------
+> +
+> +Intel(R) Speed Select Technology Core Power (Intel(R) SST-CP) is an interface that
+> +allows users to define per core priority. This defines a mechanism to distribute
+> +power among cores when there is a power constrained scenario. This defines a
+> +class of service (CLOS) configuration.
+> +
+> +The user can configure up to 4 class of service configurations. Each CLOS group
+> +configuration allows definitions of parameters, which affects how the frequency
+> +can be limited and power is distributed. Each CPU core can be tied to a class of
+> +service and hence an associated priority. The granularity is at core level not
+> +at per CPU level.
+> +
+> +Enable CLOS based prioritization
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To use CLOS based prioritization feature, firmware must be informed to enable
+> +and use a priority type. There is a default per platform priority type, which
+> +can be changed with optional command line parameter.
+> +
+> +To enable and check the options, execute::
+> +
+> + # intel-speed-select core-power enable --help
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + Enable core-power for a package/die
+> +       Clos Enable: Specify priority type with [--priority|-p]
+> +                0: Proportional, 1: Ordered
+> +
+> +There are two types of priority types:
+> +
+> +- Ordered
+> +
+> +Priority for ordered throttling is defined based on the index of the assigned
+> +CLOS group. Where CLOS0 gets highest priority (throttled last).
+> +
+> +Priority order is:
+> +CLOS0 > CLOS1 > CLOS2 > CLOS3.
+> +
+> +- Proportional
+> +
+> +When proportional priority is used, there is an additional parameter called
+> +frequency_weight, which can be specified per CLOS group. The goal of
+> +proportional priority is to provide each core with the requested min., then
+> +distribute all remaining (excess/deficit) budgets in proportion to a defined
+> +weight. This proportional priority can be configured using "core-power config"
+> +command.
+> +
+> +To enable with the platform default priority type, execute::
+> +
+> + # intel-speed-select core-power enable
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      core-power
+> +        enable:success
+> + package-1
+> +  die-0
+> +    cpu-6
+> +      core-power
+> +        enable:success
+> +
+> +The scope of this enable is per package or die scoped when a package contains
+> +multiple dies. To check if CLOS is enabled and get priority type, "core-power
+> +info" command can be used. For example to check the status of core-power feature
+> +on CPU 0, execute::
+> +
+> + # intel-speed-select -c 0 core-power info
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      core-power
+> +        support-status:supported
+> +        enable-status:enabled
+> +        clos-enable-status:enabled
+> +        priority-type:proportional
+> + package-1
+> +  die-0
+> +    cpu-24
+> +      core-power
+> +        support-status:supported
+> +        enable-status:enabled
+> +        clos-enable-status:enabled
+> +        priority-type:proportional
+> +
+> +Configuring CLOS groups
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Each CLOS group has its own attributes including min, max, freq_weight and
+> +desired. These parameters can be configured with "core-power config" command.
+> +Defaults will be used if user skips setting a parameter except clos id, which is
+> +mandatory. To check core-power config options, execute::
+> +
+> + # intel-speed-select core-power config --help
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + Set core-power configuration for one of the four clos ids
+> +       Specify targeted clos id with [--clos|-c]
+> +       Specify clos Proportional Priority [--weight|-w]
+> +       Specify clos min in MHz with [--min|-n]
+> +       Specify clos max in MHz with [--max|-m]
+> +
+> +For example::
+> +
+> + # intel-speed-select core-power config -c 0
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + clos epp is not specified, default: 0
+> + clos frequency weight is not specified, default: 0
+> + clos min is not specified, default: 0 MHz
+> + clos max is not specified, default: 25500 MHz
+> + clos desired is not specified, default: 0
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      core-power
+> +        config:success
+> + package-1
+> +  die-0
+> +    cpu-6
+> +      core-power
+> +        config:success
+> +
+> +The user has the option to change defaults. For example, the user can change the
+> +"min" and set the base frequency to always get guaranteed base frequency.
+> +
+> +Get the current CLOS configuration
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To check the current configuration, "core-power get-config" can be used. For
+> +example, to get the configuration of CLOS 0::
+> +
+> + # intel-speed-select core-power get-config -c 0
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      core-power
+> +        clos:0
+> +        epp:0
+> +        clos-proportional-priority:0
+> +        clos-min:0 MHz
+> +        clos-max:Max Turbo frequency
+> +        clos-desired:0 MHz
+> + package-1
+> +  die-0
+> +    cpu-24
+> +      core-power
+> +        clos:0
+> +        epp:0
+> +        clos-proportional-priority:0
+> +        clos-min:0 MHz
+> +        clos-max:Max Turbo frequency
+> +        clos-desired:0 MHz
+> +
+> +Associating a CPU with a CLOS group
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To associate a CPU to a CLOS group "core-power assoc" command can be used::
+> +
+> + # intel-speed-select core-power assoc --help
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + Associate a clos id to a CPU
+> +       Specify targeted clos id with [--clos|-c]
+> +
+> +
+> +For example to associate CPU 10 to CLOS group 3, execute::
+> +
+> + # intel-speed-select -c 10 core-power assoc -c 3
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-10
+> +      core-power
+> +        assoc:success
+> +
+> +Once a CPU is associated, its sibling CPUs are also associated to a CLOS group.
+> +Once associated, avoid changing Linux "cpufreq" subsystem scaling frequency
+> +limits.
+> +
+> +To check the existing association for a CPU, "core-power get-assoc" command can
+> +be used. For example, to get association of CPU 10, execute::
+> +
+> + # intel-speed-select -c 10 core-power get-assoc
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-1
+> +  die-0
+> +    cpu-10
+> +      get-assoc
+> +        clos:3
+> +
+> +This shows that CPU 10 is part of a CLOS group 3.
+> +
+> +
+> +Disable CLOS based prioritization
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To disable, execute::
+> +
+> +# intel-speed-select core-power disable
+> +
+> +Some features like Intel(R) SST-TF can only be enabled when CLOS based prioritization
+> +is enabled. For this reason, disabling while Intel(R) SST-TF is enabled can cause
+> +Intel(R) SST-TF to fail. This will cause the "disable" command to display an error
+> +if Intel(R) SST-TF is already enabled. In turn, to disable, the Intel(R) SST-TF
+> +feature must be disabled first.
+> +
+> +Intel(R) Speed Select Technology - Base Frequency (Intel(R) SST-BF)
+> +-------------------------------------------------------------------
+> +
+> +The Intel(R) Speed Select Technology - Base Frequency (Intel(R) SST-BF) feature lets
+> +the user control base frequency. If some critical workload threads demand
+> +constant high guaranteed performance, then this feature can be used to execute
+> +the thread at higher base frequency on specific sets of CPUs (high priority
+> +CPUs) at the cost of lower base frequency (low priority CPUs) on other CPUs.
+> +This feature does not require offline of the low priority CPUs.
+> +
+> +The support of Intel(R) SST-BF depends on the Intel(R) Speed Select Technology -
+> +Performance Profile (Intel(R) SST-PP) performance level configuration. It is
+> +possible that only certain performance levels support Intel(R) SST-BF. It is also
+> +possible that only base performance level (level = 0) has support of Intel
+> +SST-BF. Consequently, first select the desired performance level to enable this
+> +feature.
+> +
+> +In the system under test here, Intel(R) SST-BF is supported at the base
+> +performance level 0, but currently disabled. For example for the level 0::
+> +
+> + # intel-speed-select -c 0 perf-profile info -l 0
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      perf-profile-level-0
+> +        ...
+> +
+> +        speed-select-base-freq:disabled
+> +       ...
+> +
+> +Before enabling Intel(R) SST-BF and measuring its impact on a workload
+> +performance, execute some workload and measure performance and get a baseline
+> +performance to compare against.
+> +
+> +Here the user wants more guaranteed performance. For this reason, it is likely
+> +that turbo is disabled. To disable turbo, execute::
+> +
+> +#echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
+> +
+> +Based on the output of the "intel-speed-select perf-profile info -l 0" base
+> +frequency of guaranteed frequency 2600 MHz.
+> +
+> +
+> +Measure baseline performance for comparison
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To compare, pick a multi-threaded workload where each thread can be scheduled on
+> +separate CPUs. "Hackbench pipe" test is a good example on how to improve
+> +performance using Intel(R) SST-BF.
+> +
+> +Below, the workload is measuring average scheduler wakeup latency, so a lower
+> +number means better performance::
+> +
+> + # taskset -c 3,4 perf bench -r 100 sched pipe
+> + # Running 'sched/pipe' benchmark:
+> + # Executed 1000000 pipe operations between two processes
+> +     Total time: 6.102 [sec]
+> +       6.102445 usecs/op
+> +         163868 ops/sec
+> +
+> +While running the above test, if we take turbostat output, it will show us that
+> +2 of the CPUs are busy and reaching max. frequency (which would be the base
+> +frequency as the turbo is disabled). The turbostat output::
+> +
+> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
+> + Package       Core    CPU     Bzy_MHz
+> + 0             0       0       1000
+> + 0             1       1       1005
+> + 0             2       2       1000
+> + 0             3       3       2600
+> + 0             4       4       2600
+> + 0             5       5       1000
+> + 0             6       6       1000
+> + 0             7       7       1005
+> + 0             8       8       1005
+> + 0             9       9       1000
+> + 0             10      10      1000
+> + 0             11      11      995
+> + 0             12      12      1000
+> + 0             13      13      1000
+> +
+> +From the above turbostat output, both CPU 3 and 4 are very busy and reaching
+> +full guaranteed frequency of 2600 MHz.
+> +
+> +Intel(R) SST-BF Capabilities
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To get capabilities of Intel(R) SST-BF for the current performance level 0,
+> +execute::
+> +
+> + # intel-speed-select base-freq info -l 0
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      speed-select-base-freq
+> +        high-priority-base-frequency(MHz):3000
+> +        high-priority-cpu-mask:00000216,00002160
+> +        high-priority-cpu-list:5,6,8,13,33,34,36,41
+> +        low-priority-base-frequency(MHz):2400
+> +        tjunction-temperature(C):125
+> +        thermal-design-power(W):205
+> +
+> +The above capabilities show that there are some CPUs on this system that can
+> +offer base frequency of 3000 MHz compared to the standard base frequency at this
+> +performance levels. Nevertheless, these CPUs are fixed, and they are presented
+> +via high-priority-cpu-list/high-priority-cpu-mask. But if this Intel(R) SST-BF
+> +feature is selected, the low priorities CPUs (which are not in
+> +high-priority-cpu-list) can only offer up to 2400 MHz. As a result, if this
+> +clipping of low priority CPUs is acceptable, then the user can enable Intel
+> +SST-BF feature particularly for the above "sched pipe" workload since only two
+> +CPUs are used, they can be scheduled on high priority CPUs and can get boost of
+> +400 MHz.
+> +
+> +Enable Intel(R) SST-BF
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To enable Intel(R) SST-BF feature, execute::
+> +
+> + # intel-speed-select base-freq enable -a
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      base-freq
+> +        enable:success
+> + package-1
+> +  die-0
+> +    cpu-14
+> +      base-freq
+> +        enable:success
+> +
+> +In this case, -a option is optional. This not only enables Intel(R) SST-BF, but it
+> +also adjusts the priority of cores using Intel(R) Speed Select Technology Core
+> +Power (Intel(R) SST-CP) features. This option sets the minimum performance of each
+> +Intel(R) Speed Select Technology - Performance Profile (Intel(R) SST-PP) class to
+> +maximum performance so that the hardware will give maximum performance possible
+> +for each CPU.
+> +
+> +If -a option is not used, then the following steps are required before enabling
+> +Intel(R) SST-BF:
+> +
+> +- Discover Intel(R) SST-BF and note low and high priority base frequency
+> +- Note the high prioity CPU list
+> +- Enable CLOS using core-power feature set
+> +- Configure CLOS parameters. Use CLOS.min to set to minimum performance
+> +- Subscribe desired CPUs to CLOS groups
+> +
+> +With this configuration, if the same workload is executed by pinning the
+> +workload to high priority CPUs (CPU 5 and 6 in this case)::
+> +
+> + #taskset -c 5,6 perf bench -r 100 sched pipe
+> + # Running 'sched/pipe' benchmark:
+> + # Executed 1000000 pipe operations between two processes
+> +     Total time: 5.627 [sec]
+> +       5.627922 usecs/op
+> +         177685 ops/sec
+> +
+> +This way, by enabling Intel(R) SST-BF, the performance of this benchmark is
+> +improved (latency reduced) by 7.79%. From the turbostat output, it can be
+> +observed that the high priority CPUs reached 3000 MHz compared to 2600 MHz.
+> +The turbostat output::
+> +
+> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
+> + Package       Core    CPU     Bzy_MHz
+> + 0             0       0       2151
+> + 0             1       1       2166
+> + 0             2       2       2175
+> + 0             3       3       2175
+> + 0             4       4       2175
+> + 0             5       5       3000
+> + 0             6       6       3000
+> + 0             7       7       2180
+> + 0             8       8       2662
+> + 0             9       9       2176
+> + 0             10      10      2175
+> + 0             11      11      2176
+> + 0             12      12      2176
+> + 0             13      13      2661
+> +
+> +Disable Intel(R) SST-BF
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To disable the Intel(R) SST-BF feature, execute::
+> +
+> +# intel-speed-select base-freq disable -a
+> +
+> +
+> +Intel(R) Speed Select Technology - Turbo Frequency (Intel(R) SST-TF)
+> +--------------------------------------------------------------------
+> +
+> +This feature enables the ability to set different "All core turbo ratio limits"
+> +to cores based on the priority. By using this feature, some cores can be
+> +configured to get higher turbo frequency by designating them as high priority at
+> +the cost of lower or no turbo frequency on the low priority cores.
+> +
+> +For this reason, this feature is only useful when system is busy utilizing all
+> +CPUs, but the user wants some configurable option to get high performance on
+> +some CPUs.
+> +
+> +The support of Intel(R) Speed Select Technology - Turbo Frequency (Intel(R) SST-TF)
+> +depends on the Intel(R) Speed Select Technology - Performance Profile (Intel
+> +SST-PP) performance level configuration. It is possible that only a certain
+> +performance level supports Intel(R) SST-TF. It is also possible that only the base
+> +performance level (level = 0) has the support of Intel(R) SST-TF. Hence, first
+> +select the desired performance level to enable this feature.
+> +
+> +In the system under test here, Intel(R) SST-TF is supported at the base
+> +performance level 0, but currently disabled::
+> +
+> + # intel-speed-select -c 0 perf-profile info -l 0
+> + Intel(R) Speed Select Technology
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      perf-profile-level-0
+> +        ...
+> +        ...
+> +        speed-select-turbo-freq:disabled
+> +        ...
+> +        ...
+> +
+> +
+> +To check if performance can be improved using Intel(R) SST-TF feature, get the turbo
+> +frequency properties with Intel(R) SST-TF enabled and compare to the base turbo
+> +capability of this system.
+> +
+> +Get Base turbo capability
+> +~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To get the base turbo capability of performance level 0, execute::
+> +
+> + # intel-speed-select perf-profile info -l 0
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      perf-profile-level-0
+> +        ...
+> +        ...
+> +        turbo-ratio-limits-sse
+> +          bucket-0
+> +            core-count:2
+> +            max-turbo-frequency(MHz):3200
+> +          bucket-1
+> +            core-count:4
+> +            max-turbo-frequency(MHz):3100
+> +          bucket-2
+> +            core-count:6
+> +            max-turbo-frequency(MHz):3100
+> +          bucket-3
+> +            core-count:8
+> +            max-turbo-frequency(MHz):3100
+> +          bucket-4
+> +            core-count:10
+> +            max-turbo-frequency(MHz):3100
+> +          bucket-5
+> +            core-count:12
+> +            max-turbo-frequency(MHz):3100
+> +          bucket-6
+> +            core-count:14
+> +            max-turbo-frequency(MHz):3100
+> +          bucket-7
+> +            core-count:16
+> +            max-turbo-frequency(MHz):3100
+> +
+> +Based on the data above, when all the CPUS are busy, the max. frequency of 3100
+> +MHz can be achieved. If there is some busy workload on cpu 0 - 11 (e.g. stress)
+> +and on CPU 12 and 13, execute "hackbench pipe" workload::
+> +
+> + # taskset -c 12,13 perf bench -r 100 sched pipe
+> + # Running 'sched/pipe' benchmark:
+> + # Executed 1000000 pipe operations between two processes
+> +     Total time: 5.705 [sec]
+> +       5.705488 usecs/op
+> +         175269 ops/sec
+> +
+> +The turbostat output::
+> +
+> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
+> + Package       Core    CPU     Bzy_MHz
+> + 0             0       0       3000
+> + 0             1       1       3000
+> + 0             2       2       3000
+> + 0             3       3       3000
+> + 0             4       4       3000
+> + 0             5       5       3100
+> + 0             6       6       3100
+> + 0             7       7       3000
+> + 0             8       8       3100
+> + 0             9       9       3000
+> + 0             10      10      3000
+> + 0             11      11      3000
+> + 0             12      12      3100
+> + 0             13      13      3100
+> +
+> +Based on turbostat output, the performance is limited by frequency cap of 3100
+> +MHz. To check if the hackbench performance can be improved for CPU 12 and CPU
+> +13, first check the capability of the Intel(R) SST-TF feature for this performance
+> +level.
+> +
+> +Get Intel(R) SST-TF Capability
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To get the capability, the "turbo-freq info" command can be used::
+> +
+> + # intel-speed-select turbo-freq info -l 0
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-0
+> +      speed-select-turbo-freq
+> +          bucket-0
+> +            high-priority-cores-count:2
+> +            high-priority-max-frequency(MHz):3200
+> +            high-priority-max-avx2-frequency(MHz):3200
+> +            high-priority-max-avx512-frequency(MHz):3100
+> +          bucket-1
+> +            high-priority-cores-count:4
+> +            high-priority-max-frequency(MHz):3100
+> +            high-priority-max-avx2-frequency(MHz):3000
+> +            high-priority-max-avx512-frequency(MHz):2900
+> +          bucket-2
+> +            high-priority-cores-count:6
+> +            high-priority-max-frequency(MHz):3100
+> +            high-priority-max-avx2-frequency(MHz):3000
+> +            high-priority-max-avx512-frequency(MHz):2900
+> +          speed-select-turbo-freq-clip-frequencies
+> +            low-priority-max-frequency(MHz):2600
+> +            low-priority-max-avx2-frequency(MHz):2400
+> +            low-priority-max-avx512-frequency(MHz):2100
+> +
+> +Based on the output above, there is an Intel(R) SST-TF bucket for which there are
+> +two high priority cores. If only two high priority cores are set, then max.
+> +turbo frequency on those cores can be increased to 3200 MHz. This is 100 MHz
+> +more than the base turbo capability for all cores.
+> +
+> +In turn, for the hackbench workload, two CPUs can be set as high priority and
+> +rest as low priority. One side effect is that once enabled, the low priority
+> +cores will be clipped to a lower frequency of 2600 MHz.
+> +
+> +Enable Intel(R) SST-TF
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +To enable Intel(R) SST-TF, execute::
+> +
+> + # intel-speed-select -c 12,13 turbo-freq enable -a
+> + Intel(R) Speed Select Technology
+> + Executing on CPU model: X
+> + package-0
+> +  die-0
+> +    cpu-12
+> +      turbo-freq
+> +        enable:success
+> + package-0
+> +  die-0
+> +    cpu-13
+> +      turbo-freq
+> +        enable:success
+> + package--1
+> +  die-0
+> +    cpu-63
+> +      turbo-freq --auto
+> +        enable:success
+> +
+> +In this case, the option "-a" is optional. If set, it enables Intel(R) SST-TF
+> +feature and also sets the CPUs to high and and low priority using Intel Speed
+> +Select Technology Core Power (Intel(R) SST-CP) features. The CPU numbers passed
+> +with "-c" arguments are marked as high priority, including its siblings.
+> +
+> +If -a option is not used, then the following steps are required before enabling
+> +Intel(R) SST-TF:
+> +
+> +- Discover Intel(R) SST-TF and note buckets of high priority cores and maximum frequency
+> +
+> +- Enable CLOS using core-power feature set - Configure CLOS parameters
+> +
+> +- Subscribe desired CPUs to CLOS groups making sure that high priority cores are set to the maximum frequency
+> +
+> +If the same hackbench workload is executed, schedule hackbench threads on high
+> +priority CPUs::
+> +
+> + #taskset -c 12,13 perf bench -r 100 sched pipe
+> + # Running 'sched/pipe' benchmark:
+> + # Executed 1000000 pipe operations between two processes
+> +     Total time: 5.510 [sec]
+> +       5.510165 usecs/op
+> +         180826 ops/sec
+> +
+> +This improved performance by around 3.3% improvement on a busy system. Here the
+> +turbostat output will show that the CPU 12 and CPU 13 are getting 100 MHz boost.
+> +The turbostat output::
+> +
+> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
+> + Package       Core    CPU     Bzy_MHz
+> + ...
+> + 0             12      12      3200
+> + 0             13      13      3200
+> diff --git a/Documentation/admin-guide/pm/working-state.rst b/Documentation/admin-guide/pm/working-state.rst
+> index 0a38cdf39df1..f40994c422dc 100644
+> --- a/Documentation/admin-guide/pm/working-state.rst
+> +++ b/Documentation/admin-guide/pm/working-state.rst
+> @@ -13,3 +13,4 @@ Working-State Power Management
+>     intel_pstate
+>     cpufreq_drivers
+>     intel_epb
+> +   intel-speed-select
+> --
+> 2.25.4
+>
