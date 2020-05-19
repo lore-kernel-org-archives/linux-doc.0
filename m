@@ -2,137 +2,213 @@ Return-Path: <SRS0=Z/GS=7B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66E5CC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 13:16:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8616EC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 14:03:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CBBB206D4
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 13:16:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63317207FB
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 14:03:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="HfkCYvgM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728052AbgESNQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 May 2020 09:16:03 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50650 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727057AbgESNQC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 May 2020 09:16:02 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id C7913AA4F;
-        Tue, 19 May 2020 13:16:03 +0000 (UTC)
-Date:   Tue, 19 May 2020 15:15:59 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, kernel@collabora.com,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH] docs: printk-basics: update the pr_debug() kerneldoc
-Message-ID: <20200519131558.GM7340@linux-b0ei>
-References: <20200422140334.23595-1-ricardo.canuelo@collabora.com>
+        id S1728609AbgESODA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 May 2020 10:03:00 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:43849 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727057AbgESOC7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 May 2020 10:02:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1589896978; x=1621432978;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=AQl+dr9nZ3Mk+ejEyAqg6iIyzMLzrKoY1gkMdRpI11g=;
+  b=HfkCYvgMk9cCvsvM4GV15pZxVhtmE+VszxlA8+7IjEvMnO2xWgqcjYIQ
+   0Sx0i9dsWtrMA3UsrWcCVkTl5i3rw11ujQ1cE0JGFxRkJGhvW6eNh0+xN
+   zNKkumQIMX3zzXIHYeVjsv5NFLauJuJstOidkqZ6NbBYOrtZJmUBs/KPQ
+   0=;
+IronPort-SDR: AGJKKvdzcGhHJPjMXj32XQsUiZNiP5za3svdJ3d3DXZHiZKSrwvPTLIVC7YMQy2zGQGyYcehA2
+ ACS257MS1gAQ==
+X-IronPort-AV: E=Sophos;i="5.73,410,1583193600"; 
+   d="scan'208";a="44391322"
+Received: from sea32-co-svc-lb4-vlan2.sea.corp.amazon.com (HELO email-inbound-relay-2a-e7be2041.us-west-2.amazon.com) ([10.47.23.34])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 19 May 2020 14:02:56 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2a-e7be2041.us-west-2.amazon.com (Postfix) with ESMTPS id 470D4A227C;
+        Tue, 19 May 2020 14:02:54 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 19 May 2020 14:02:53 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.65) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 19 May 2020 14:02:38 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
+        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
+        <amit@kernel.org>, <benh@kernel.crashing.org>,
+        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
+        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
+        <dwmw@amazon.com>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
+        <ying.huang@intel.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v12 10/16] mm/damon: Add debugfs interface
+Date:   Tue, 19 May 2020 16:02:21 +0200
+Message-ID: <20200519140221.4038-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200518100018.2293-11-sjpark@amazon.com> (raw)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200422140334.23595-1-ricardo.canuelo@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.65]
+X-ClientProxiedBy: EX13D10UWA002.ant.amazon.com (10.43.160.228) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 2020-04-22 16:03:34, Ricardo Cañuelo wrote:
-> This updates the kerneldoc comment for the pr_debug() macro to describe
-> the new set of kernel config options it's affected by.
+On Mon, 18 May 2020 12:00:12 +0200 SeongJae Park <sjpark@amazon.com> wrote:
+
+> From: SeongJae Park <sjpark@amazon.de>
 > 
-> It also simplifies the description of the pr_debug() and pr_devel()
-> macros in printk-basics.rst, forwarding the reader to the function
-> reference.
-> 
-> Signed-off-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
-> ---
-> Some background:
-> 
-> The previous patch I sent to add kerneldocs to printk.h:
-> https://lore.kernel.org/linux-doc/20200420171544.3c443e36@lwn.net/
-> 
-> conflicted with this other patch:
-> https://lkml.org/lkml/2020/4/20/1320
-> 
-> during the manual linux-next merge. Stephen Rothwell fixed the conflict
-> but the description of what pr_debug() does needed to be updated to
-> reflect the changes introduced in the patch by Orson Zhai.
-> 
-> Tested on linux-next with make htmldocs and make pdfdocs.
-> 
->  Documentation/core-api/printk-basics.rst | 4 ++--
->  include/linux/printk.h                   | 7 ++++---
->  2 files changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
-> index 563a9ce5fe1d..84c853e17200 100644
-> --- a/Documentation/core-api/printk-basics.rst
-> +++ b/Documentation/core-api/printk-basics.rst
-> @@ -100,8 +100,8 @@ would prefix every pr_*() message in that file with the module and function name
->  that originated the message.
+> This commit adds a debugfs interface for DAMON.
+[...]
+> diff --git a/mm/damon.c b/mm/damon.c
+> index ddd78843f79a..f31310536c79 100644
+> --- a/mm/damon.c
+> +++ b/mm/damon.c
+> @@ -10,6 +10,7 @@
+>  #define pr_fmt(fmt) "damon: " fmt
 >  
->  For debugging purposes there are also two conditionally-compiled macros:
-> -pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
-> -also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
-> +pr_debug() and pr_devel(), which are compiled-out depending on the kernel
-> +configuration options (See the function reference below for more info).
->  
->  
->  Function reference
-> diff --git a/include/linux/printk.h b/include/linux/printk.h
-> index 768ac6bc637d..dab23bcbdeb0 100644
-> --- a/include/linux/printk.h
-> +++ b/include/linux/printk.h
-> @@ -408,9 +408,10 @@ extern int kptr_restrict;
->   * @fmt: format string
->   * @...: arguments for the format string
->   *
-> - * This macro expands to dynamic_pr_debug() if CONFIG_DYNAMIC_DEBUG is
-> - * set. Otherwise, if DEBUG is defined, it's equivalent to a printk with
-> - * KERN_DEBUG loglevel. If DEBUG is not defined it does nothing.
-> + * This macro expands to dynamic_pr_debug() if CONFIG_DYNAMIC_DEBUG is set or if
-> + * CONFIG_DYNAMIC_DEBUG_CORE and DYNAMIC_DEBUG_MODULE are both set.  Otherwise,
-> + * if DEBUG is defined, it's equivalent to a printk with KERN_DEBUG loglevel.
-> + * If none of the above is defined it does nothing.
->   *
->   * It uses pr_fmt() to generate the format string (dynamic_pr_debug() uses
->   * pr_fmt() internally).
-> -- 
-> 2.18.0
+[...]
+> +
+> +static ssize_t damon_sprint_pids(struct damon_ctx *ctx, char *buf, ssize_t len)
+> +{
+> +	struct damon_task *t;
+> +	int written = 0;
+> +	int rc;
+> +
+> +	damon_for_each_task(t, ctx) {
+> +		rc = snprintf(&buf[written], len - written, "%d ", t->pid);
+> +		if (!rc)
+> +			return -ENOMEM;
+> +		written += rc;
+> +	}
+> +	if (written)
+> +		written -= 1;
+> +	written += snprintf(&buf[written], len - written, "\n");
+> +	return written;
+> +}
+> +
+> +static ssize_t debugfs_pids_read(struct file *file,
+> +		char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	struct damon_ctx *ctx = &damon_user_ctx;
+> +	ssize_t len;
+> +	char pids_buf[320];
+> +
+> +	len = damon_sprint_pids(ctx, pids_buf, 320);
 
-It is pity that you did not add other printk maintainers into CC for
-the patches adding this documentation and comments. I was sick
-last two months and was not able to check mails.
+This could race with concurrent pids debugfs file writers.  Should be
+synchronized.  Same to other debugfs files except 'monitor_on', which is
+already synchronized with corresponding writers.
 
-Adding them now. Note that the following patch is already in
-linux-next, see
-https://lore.kernel.org/r/20200403093617.18003-1-ricardo.canuelo@collabora.com
-
-One note about printk-basics.rst. It should mention that pr_*()
-variants are preferred over the generic printk(KERN_* ).
-
-Otherwise, I do not see anything critical.
+I will enclose this function call with the context mutex in next revision.
 
 
-Well, I have mixed feelings about this type of documentation. It might explain
-some things that are less obvious, for example, the meaning of
-pr_fmt(). On the other hand:
+Thanks,
+SeongJae Park
 
-  + It might be complicated to keep it in sync.
-
-  + I wonder how many developers would actually read it.
-
-  + The doc comments in include/linux/prinkt.h are really
-    long and describe obvious things.
-
-By other words. These comments make the headers and sources hard to
-read. And at least in this particular case, the gain is questionable.
-
-Best Regards,
-Petr
+> +	if (len < 0)
+> +		return len;
+> +
+> +	return simple_read_from_buffer(buf, count, ppos, pids_buf, len);
+> +}
+> +
+> +/*
+> + * Converts a string into an array of unsigned long integers
+> + *
+> + * Returns an array of unsigned long integers if the conversion success, or
+> + * NULL otherwise.
+> + */
+> +static int *str_to_pids(const char *str, ssize_t len, ssize_t *nr_pids)
+> +{
+> +	int *pids;
+> +	const int max_nr_pids = 32;
+> +	int pid;
+> +	int pos = 0, parsed, ret;
+> +
+> +	*nr_pids = 0;
+> +	pids = kmalloc_array(max_nr_pids, sizeof(pid), GFP_KERNEL);
+> +	if (!pids)
+> +		return NULL;
+> +	while (*nr_pids < max_nr_pids && pos < len) {
+> +		ret = sscanf(&str[pos], "%d%n", &pid, &parsed);
+> +		pos += parsed;
+> +		if (ret != 1)
+> +			break;
+> +		pids[*nr_pids] = pid;
+> +		*nr_pids += 1;
+> +	}
+> +	if (*nr_pids == 0) {
+> +		kfree(pids);
+> +		pids = NULL;
+> +	}
+> +
+> +	return pids;
+> +}
+> +
+> +static ssize_t debugfs_pids_write(struct file *file,
+> +		const char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	struct damon_ctx *ctx = &damon_user_ctx;
+> +	char *kbuf;
+> +	int *targets;
+> +	ssize_t nr_targets;
+> +	ssize_t ret;
+> +	int err;
+> +
+> +	kbuf = kmalloc(count, GFP_KERNEL);
+> +	if (!kbuf)
+> +		return -ENOMEM;
+> +
+> +	ret = simple_write_to_buffer(kbuf, count, ppos, buf, count);
+> +	if (ret < 0)
+> +		goto out;
+> +
+> +	targets = str_to_pids(kbuf, ret, &nr_targets);
+> +	if (!targets) {
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +
+> +	mutex_lock(&ctx->kdamond_lock);
+> +	if (ctx->kdamond) {
+> +		ret = -EINVAL;
+> +		goto unlock_out;
+> +	}
+> +
+> +	err = damon_set_pids(ctx, targets, nr_targets);
+> +	if (err)
+> +		ret = err;
+> +unlock_out:
+> +	mutex_unlock(&ctx->kdamond_lock);
+> +	kfree(targets);
+> +out:
+> +	kfree(kbuf);
+> +	return ret;
+> +}
+[...]
