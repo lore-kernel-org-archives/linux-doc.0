@@ -2,213 +2,159 @@ Return-Path: <SRS0=Z/GS=7B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8616EC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 14:03:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADAF6C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 14:14:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63317207FB
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 14:03:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C84F20835
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 14:14:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="HfkCYvgM"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWtb4SEG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728609AbgESODA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 May 2020 10:03:00 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:43849 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727057AbgESOC7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 May 2020 10:02:59 -0400
+        id S1728775AbgESOOZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 May 2020 10:14:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54342 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728633AbgESOOY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 May 2020 10:14:24 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC5B1C08C5C0;
+        Tue, 19 May 2020 07:14:24 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id y18so6587184pfl.9;
+        Tue, 19 May 2020 07:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1589896978; x=1621432978;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=AQl+dr9nZ3Mk+ejEyAqg6iIyzMLzrKoY1gkMdRpI11g=;
-  b=HfkCYvgMk9cCvsvM4GV15pZxVhtmE+VszxlA8+7IjEvMnO2xWgqcjYIQ
-   0Sx0i9dsWtrMA3UsrWcCVkTl5i3rw11ujQ1cE0JGFxRkJGhvW6eNh0+xN
-   zNKkumQIMX3zzXIHYeVjsv5NFLauJuJstOidkqZ6NbBYOrtZJmUBs/KPQ
-   0=;
-IronPort-SDR: AGJKKvdzcGhHJPjMXj32XQsUiZNiP5za3svdJ3d3DXZHiZKSrwvPTLIVC7YMQy2zGQGyYcehA2
- ACS257MS1gAQ==
-X-IronPort-AV: E=Sophos;i="5.73,410,1583193600"; 
-   d="scan'208";a="44391322"
-Received: from sea32-co-svc-lb4-vlan2.sea.corp.amazon.com (HELO email-inbound-relay-2a-e7be2041.us-west-2.amazon.com) ([10.47.23.34])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 19 May 2020 14:02:56 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2a-e7be2041.us-west-2.amazon.com (Postfix) with ESMTPS id 470D4A227C;
-        Tue, 19 May 2020 14:02:54 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 19 May 2020 14:02:53 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.65) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 19 May 2020 14:02:38 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
-        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
-        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
-        <ying.huang@intel.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v12 10/16] mm/damon: Add debugfs interface
-Date:   Tue, 19 May 2020 16:02:21 +0200
-Message-ID: <20200519140221.4038-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200518100018.2293-11-sjpark@amazon.com> (raw)
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=n6nj99MT5VnMbYi4sa2axsK+PhJ/0czyZ6v4F5+mrN4=;
+        b=RWtb4SEG8i0H0GB5ehrZhaZFULdBlGuy/FVGgAsK0UypYLvGekDBIPPnHiRlwdcy/o
+         brYsQzMk7bk589ceCKORt3RjKKqkmUnia9bXTEGpJL8SQ78MnztdT2Hq8P2prxuZwYLY
+         IyGUZNSliSPfNbB6HauCRIYXhx+/t3xzuEiBqi8hHBi8W3REm7UkcDY+A1LMEC4nPAgv
+         2ikySlzx9+cMcbJIXt5bdzYXo1ogYprq/5kYzbd0sP6cBkwhH/xnOvNf6vDVKylM4k0I
+         5ouLqGsCp1dawhG2jyoKQSsZurmvcvuIQBW+xgpRaLvIfUG2YdZ7vU1QoaDkNUFBGA6t
+         BvEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=n6nj99MT5VnMbYi4sa2axsK+PhJ/0czyZ6v4F5+mrN4=;
+        b=kL/coXYVahBqs1QjGGbmGIyFrYJzWo77T93EiA5sWLw1B7bhXDMTE+546Lup6Xng0j
+         IBqR+nFh47AyKmax2nJKnTYMKRp06e+qqwDUNa+P8kZgrDeZZuFBUnkHSyqmVH1Yf5H5
+         dxJd7QPeUnBVpjBwA33u7nYgWYABTlWdGjHlAmOEvI7SSS2CAlPoZNkScPvvaT+WPzwr
+         Tur26OFmkpo9RJfSj9NumB3ZKvre4W+pVrNqtadJJCVDd5FXiB54PYggzJbWSZ5m2TZS
+         MMwqaD43yaYXx3hNlRkbGCgx4cEjP4rFebtYQO0WCJDP5ux07pAhHbQ1JZP/7hbzDpVU
+         4P4w==
+X-Gm-Message-State: AOAM533iTfVDoE7o9lFWgYhm36z9pWz75fsu313gutzGFs6qi0tMqUNG
+        m+yoObDoyyXREvkAzMGyI3OCIFX9
+X-Google-Smtp-Source: ABdhPJw+/1fyKAecOwG0xlf74llbkA5RFHYrrZTT7Yh3CkRkUjWTQKL3et5fc/ZDAyV51S+581CK+A==
+X-Received: by 2002:a05:6a00:d2:: with SMTP id e18mr12656822pfj.252.1589897664103;
+        Tue, 19 May 2020 07:14:24 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t64sm10598398pgd.24.2020.05.19.07.14.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2020 07:14:22 -0700 (PDT)
+Subject: Re: [PATCH 3/3] hwmon: (ina2xx) Add support for ina260
+To:     Michal Simek <michal.simek@xilinx.com>,
+        Franz Forstmayr <forstmayr.franz@gmail.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20200224232647.29213-1-forstmayr.franz@gmail.com>
+ <20200224232647.29213-3-forstmayr.franz@gmail.com>
+ <a78bbb40-9a0c-8acc-841e-7a51447d4dbc@roeck-us.net>
+ <bfa786b6-fe62-a5fb-718f-bb9e95b1f051@xilinx.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <616f7b6e-0e11-7c76-3baa-5b90a0967a91@roeck-us.net>
+Date:   Tue, 19 May 2020 07:14:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.65]
-X-ClientProxiedBy: EX13D10UWA002.ant.amazon.com (10.43.160.228) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+In-Reply-To: <bfa786b6-fe62-a5fb-718f-bb9e95b1f051@xilinx.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 18 May 2020 12:00:12 +0200 SeongJae Park <sjpark@amazon.com> wrote:
-
-> From: SeongJae Park <sjpark@amazon.de>
+On 5/18/20 10:21 PM, Michal Simek wrote:
+> On 26. 02. 20 3:16, Guenter Roeck wrote:
+>> On 2/24/20 3:26 PM, Franz Forstmayr wrote:
+>>> Add initial support for INA260 power monitor with integrated shunt.
+>>> Registers are different from other INA2xx devices, that's why a small
+>>> translation table is used.
+>>>
+>>> Signed-off-by: Franz Forstmayr <forstmayr.franz@gmail.com>
+>>
+>> I think the chip is sufficiently different to other chips that a separate
+>> driver would make much more sense than adding support to the existing
+>> driver.
+>> There is no calibration, registers are different, the retry logic is
+>> not needed. A new driver could use the with_info API and would be much
+>> simpler while at the same time not messing up the existing driver.
 > 
-> This commit adds a debugfs interface for DAMON.
-[...]
-> diff --git a/mm/damon.c b/mm/damon.c
-> index ddd78843f79a..f31310536c79 100644
-> --- a/mm/damon.c
-> +++ b/mm/damon.c
-> @@ -10,6 +10,7 @@
->  #define pr_fmt(fmt) "damon: " fmt
->  
-[...]
-> +
-> +static ssize_t damon_sprint_pids(struct damon_ctx *ctx, char *buf, ssize_t len)
-> +{
-> +	struct damon_task *t;
-> +	int written = 0;
-> +	int rc;
-> +
-> +	damon_for_each_task(t, ctx) {
-> +		rc = snprintf(&buf[written], len - written, "%d ", t->pid);
-> +		if (!rc)
-> +			return -ENOMEM;
-> +		written += rc;
-> +	}
-> +	if (written)
-> +		written -= 1;
-> +	written += snprintf(&buf[written], len - written, "\n");
-> +	return written;
-> +}
-> +
-> +static ssize_t debugfs_pids_read(struct file *file,
-> +		char __user *buf, size_t count, loff_t *ppos)
-> +{
-> +	struct damon_ctx *ctx = &damon_user_ctx;
-> +	ssize_t len;
-> +	char pids_buf[320];
-> +
-> +	len = damon_sprint_pids(ctx, pids_buf, 320);
+> Isn't it also better to switch to IIO framework?
+> As we discussed in past there are two ina226 drivers. One in hwmon and
+> second based on IIO framework (more advance one?) and would be good to
+> deprecate hwmon one.
 
-This could race with concurrent pids debugfs file writers.  Should be
-synchronized.  Same to other debugfs files except 'monitor_on', which is
-already synchronized with corresponding writers.
+"More advanced" is relative. The ina2xx driver in iio doesn't support
+alert limits (which is queued in the hwmon driver for 5.8), and the
+iio->hwmon bridge doesn't support it either. On top of that, there are
+existing users of the hwmon driver, which would have to be converted
+first. As for ina260, it would be up to the implementer to determine
+if alert limit support is needed or not, and which API would be
+appropriate for the intended use case.
 
-I will enclose this function call with the context mutex in next revision.
-
-
-Thanks,
-SeongJae Park
-
-> +	if (len < 0)
-> +		return len;
-> +
-> +	return simple_read_from_buffer(buf, count, ppos, pids_buf, len);
-> +}
-> +
-> +/*
-> + * Converts a string into an array of unsigned long integers
-> + *
-> + * Returns an array of unsigned long integers if the conversion success, or
-> + * NULL otherwise.
-> + */
-> +static int *str_to_pids(const char *str, ssize_t len, ssize_t *nr_pids)
-> +{
-> +	int *pids;
-> +	const int max_nr_pids = 32;
-> +	int pid;
-> +	int pos = 0, parsed, ret;
-> +
-> +	*nr_pids = 0;
-> +	pids = kmalloc_array(max_nr_pids, sizeof(pid), GFP_KERNEL);
-> +	if (!pids)
-> +		return NULL;
-> +	while (*nr_pids < max_nr_pids && pos < len) {
-> +		ret = sscanf(&str[pos], "%d%n", &pid, &parsed);
-> +		pos += parsed;
-> +		if (ret != 1)
-> +			break;
-> +		pids[*nr_pids] = pid;
-> +		*nr_pids += 1;
-> +	}
-> +	if (*nr_pids == 0) {
-> +		kfree(pids);
-> +		pids = NULL;
-> +	}
-> +
-> +	return pids;
-> +}
-> +
-> +static ssize_t debugfs_pids_write(struct file *file,
-> +		const char __user *buf, size_t count, loff_t *ppos)
-> +{
-> +	struct damon_ctx *ctx = &damon_user_ctx;
-> +	char *kbuf;
-> +	int *targets;
-> +	ssize_t nr_targets;
-> +	ssize_t ret;
-> +	int err;
-> +
-> +	kbuf = kmalloc(count, GFP_KERNEL);
-> +	if (!kbuf)
-> +		return -ENOMEM;
-> +
-> +	ret = simple_write_to_buffer(kbuf, count, ppos, buf, count);
-> +	if (ret < 0)
-> +		goto out;
-> +
-> +	targets = str_to_pids(kbuf, ret, &nr_targets);
-> +	if (!targets) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	mutex_lock(&ctx->kdamond_lock);
-> +	if (ctx->kdamond) {
-> +		ret = -EINVAL;
-> +		goto unlock_out;
-> +	}
-> +
-> +	err = damon_set_pids(ctx, targets, nr_targets);
-> +	if (err)
-> +		ret = err;
-> +unlock_out:
-> +	mutex_unlock(&ctx->kdamond_lock);
-> +	kfree(targets);
-> +out:
-> +	kfree(kbuf);
-> +	return ret;
-> +}
-[...]
+Guenter
