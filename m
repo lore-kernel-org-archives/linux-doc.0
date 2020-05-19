@@ -2,1031 +2,241 @@ Return-Path: <SRS0=Z/GS=7B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 767D3C433F1
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 18:02:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05CF2C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 18:51:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37409207D4
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 18:02:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589911363;
-	bh=Gl0epzNXbEvbDn4e0dM8gCLORCJkrnk6MShZrbUV9eM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=cEz0SxmQ1rZqKJ7PdszC4qgO+eLJdkScInowx5SQMJOZD5/pfVvJdIihO2mUuqh4q
-	 B3QUBylrMcFiQ3eKGDKCBrdBJeNlUWKIT2NnPBEClxdS+XeQnFYIgYBqo8jmOibrut
-	 a9XWX3z/Y5wHPn0Fz7ZozHGNfcc5gulz4PPjTll8=
+	by mail.kernel.org (Postfix) with ESMTP id CE2C8206C3
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 18:51:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727814AbgESSCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 May 2020 14:02:42 -0400
-Received: from mail-oi1-f172.google.com ([209.85.167.172]:45406 "EHLO
-        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726059AbgESSCm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 May 2020 14:02:42 -0400
-Received: by mail-oi1-f172.google.com with SMTP id d191so505429oib.12;
-        Tue, 19 May 2020 11:02:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h5vknLKa6EACS1W2Xw7H2Oo0pRqI7HrrpipH0Bn1Q1Q=;
-        b=pAMfmOgRYbPxeCZ/STyp3VBpAj7pap9iZoNRSQixLz+WxV07O2/0vHr9Vy+WxrpYAw
-         +Jrl4HHKjBsh0Azt8d9UD+ABdLYKqM6WjNFbTtjIYGo8cG3aZ+PMh6QDe/OABwGPmR/1
-         yzyCOgXRMDwdMaP5VK9tHJC4ZS5xFIZUCaOdSurkyLYlnr70GubelxXSBcMSiK6GSFVb
-         Zsh7A+0FRBT2eeUFkm2rBT4Qnhkan7vKeZh/hGBIY91RPBg7lbC5atFTVnhSB46eTIqx
-         KUAo24EvkdSA8MXrL6jaqkmaEvqQ3+p++CXAlIV+cUdqSvl42WVRbcW/s8xP0BOJmmlY
-         tXpg==
-X-Gm-Message-State: AOAM533of8j1ZNTcBhEeOzt6q+X2xDqRRZtffEEpXohRPAvpVQDZTLuU
-        GHku4/+5W0AsMNWFCJXOrnl3qS5FYoKCButMV50=
-X-Google-Smtp-Source: ABdhPJx9FRNVQeDHdnikHqmfWF+LR44f608Clme6CTqxRficXgV2mkPbeVkVM+utU7cOqJ60eLuuvxW4vw/xfu8cPHE=
-X-Received: by 2002:a05:6808:486:: with SMTP id z6mr471651oid.103.1589911358152;
- Tue, 19 May 2020 11:02:38 -0700 (PDT)
+        id S1726447AbgESSvB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 May 2020 14:51:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726059AbgESSvB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 May 2020 14:51:01 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A62FC08C5C0;
+        Tue, 19 May 2020 11:51:00 -0700 (PDT)
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 2264245474;
+        Tue, 19 May 2020 18:50:56 +0000 (UTC)
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: documentation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200516122740.30665-1-grandmaster@al2klimov.de>
+ <20200517134544.7d649bbb@lwn.net>
+ <1bc96da4-49d7-1c8e-de15-858641aba59f@al2klimov.de>
+ <20200519101043.4471069a@lwn.net>
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Message-ID: <b0402faa-1028-4b31-6c8b-b0bf4f37a53d@al2klimov.de>
+Date:   Tue, 19 May 2020 20:50:55 +0200
 MIME-Version: 1.0
-References: <20200511235731.126323-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20200511235731.126323-1-srinivas.pandruvada@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 19 May 2020 20:02:27 +0200
-Message-ID: <CAJZ5v0irj_vZVJc7TxBocfO7g8wPpYWu145qXGsZ5xoDk3yz8w@mail.gmail.com>
-Subject: Re: [PATCH v3] admin guide/pm: Admin guide for intel-speed-select
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Rafael Wysocki <rafael.j.wysocki@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200519101043.4471069a@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: base64
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+X-Spamd-Bar: /
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 12, 2020 at 1:57 AM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> Added documentation to configure servers to use Intel(R) Speed
-> Select Technology using intel-speed-select tool.
->
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Acked-by: Andriy Shevchenko <andy.shevchenko@gmail.com>
-
-Applied as 5.8 material, thanks!
-
-> ---
-> v3:
-> - Match the command results with the latest tool and added to this documentation.
-> Tool made some "numbers" to more verbose display, so change documentation
-> also.
->
-> v2:
-> Only formatting changes. So used ACK from Andriy.
-> Addressed comments by Jonathan for the following items:
->         - Removed non ASCII character
->         - Addressed section/sub-section markers
->         - Folded all commands and outputs in literal blocks
->
->
->  .../admin-guide/pm/intel-speed-select.rst     | 917 ++++++++++++++++++
->  .../admin-guide/pm/working-state.rst          |   1 +
->  2 files changed, 918 insertions(+)
->  create mode 100644 Documentation/admin-guide/pm/intel-speed-select.rst
->
-> diff --git a/Documentation/admin-guide/pm/intel-speed-select.rst b/Documentation/admin-guide/pm/intel-speed-select.rst
-> new file mode 100644
-> index 000000000000..b2ca601c21c6
-> --- /dev/null
-> +++ b/Documentation/admin-guide/pm/intel-speed-select.rst
-> @@ -0,0 +1,917 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +============================================================
-> +Intel(R) Speed Select Technology User Guide
-> +============================================================
-> +
-> +The Intel(R) Speed Select Technology (Intel(R) SST) provides a powerful new
-> +collection of features that give more granular control over CPU performance.
-> +With Intel(R) SST, one server can be configured for power and performance for a
-> +variety of diverse workload requirements.
-> +
-> +Refer to the links below for an overview of the technology:
-> +
-> +- https://www.intel.com/content/www/us/en/architecture-and-technology/speed-select-technology-article.html
-> +- https://builders.intel.com/docs/networkbuilders/intel-speed-select-technology-base-frequency-enhancing-performance.pdf
-> +
-> +These capabilities are further enhanced in some of the newer generations of
-> +server platforms where these features can be enumerated and controlled
-> +dynamically without pre-configuring via BIOS setup options. This dynamic
-> +configuration is done via mailbox commands to the hardware. One way to enumerate
-> +and configure these features is by using the Intel Speed Select utility.
-> +
-> +This document explains how to use the Intel Speed Select tool to enumerate and
-> +control Intel(R) SST features. This document gives example commands and explains
-> +how these commands change the power and performance profile of the system under
-> +test. Using this tool as an example, customers can replicate the messaging
-> +implemented in the tool in their production software.
-> +
-> +intel-speed-select configuration tool
-> +======================================
-> +
-> +Most Linux distribution packages may include the "intel-speed-select" tool. If not,
-> +it can be built by downloading the Linux kernel tree from kernel.org. Once
-> +downloaded, the tool can be built without building the full kernel.
-> +
-> +From the kernel tree, run the following commands::
-> +
-> +# cd tools/power/x86/intel-speed-select/
-> +# make
-> +# make install
-> +
-> +Getting Help
-> +------------
-> +
-> +To get help with the tool, execute the command below::
-> +
-> +# intel-speed-select --help
-> +
-> +The top-level help describes arguments and features. Notice that there is a
-> +multi-level help structure in the tool. For example, to get help for the feature "perf-profile"::
-> +
-> +# intel-speed-select perf-profile --help
-> +
-> +To get help on a command, another level of help is provided. For example for the command info "info"::
-> +
-> +# intel-speed-select perf-profile info --help
-> +
-> +Summary of platform capability
-> +------------------------------
-> +To check the current platform and driver capaibilities, execute::
-> +
-> +#intel-speed-select --info
-> +
-> +For example on a test system::
-> +
-> + # intel-speed-select --info
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + Platform: API version : 1
-> + Platform: Driver version : 1
-> + Platform: mbox supported : 1
-> + Platform: mmio supported : 1
-> + Intel(R) SST-PP (feature perf-profile) is supported
-> + TDP level change control is unlocked, max level: 4
-> + Intel(R) SST-TF (feature turbo-freq) is supported
-> + Intel(R) SST-BF (feature base-freq) is not supported
-> + Intel(R) SST-CP (feature core-power) is supported
-> +
-> +Intel(R) Speed Select Technology - Performance Profile (Intel(R) SST-PP)
-> +------------------------------------------------------------------------
-> +
-> +This feature allows configuration of a server dynamically based on workload
-> +performance requirements. This helps users during deployment as they do not have
-> +to choose a specific server configuration statically.  This Intel(R) Speed Select
-> +Technology - Performance Profile (Intel(R) SST-PP) feature introduces a mechanism
-> +that allows multiple optimized performance profiles per system. Each profile
-> +defines a set of CPUs that need to be online and rest offline to sustain a
-> +guaranteed base frequency. Once the user issues a command to use a specific
-> +performance profile and meet CPU online/offline requirement, the user can expect
-> +a change in the base frequency dynamically. This feature is called
-> +"perf-profile" when using the Intel Speed Select tool.
-> +
-> +Number or performance levels
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +There can be multiple performance profiles on a system. To get the number of
-> +profiles, execute the command below::
-> +
-> + # intel-speed-select perf-profile get-config-levels
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +        get-config-levels:4
-> + package-1
-> +  die-0
-> +    cpu-14
-> +        get-config-levels:4
-> +
-> +On this system under test, there are 4 performance profiles in addition to the
-> +base performance profile (which is performance level 0).
-> +
-> +Lock/Unlock status
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +Even if there are multiple performance profiles, it is possible that that they
-> +are locked. If they are locked, users cannot issue a command to change the
-> +performance state. It is possible that there is a BIOS setup to unlock or check
-> +with your system vendor.
-> +
-> +To check if the system is locked, execute the following command::
-> +
-> + # intel-speed-select perf-profile get-lock-status
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +        get-lock-status:0
-> + package-1
-> +  die-0
-> +    cpu-14
-> +        get-lock-status:0
-> +
-> +In this case, lock status is 0, which means that the system is unlocked.
-> +
-> +Properties of a performance level
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To get properties of a specific performance level (For example for the level 0, below), execute the command below::
-> +
-> + # intel-speed-select perf-profile info -l 0
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      perf-profile-level-0
-> +        cpu-count:28
-> +        enable-cpu-mask:000003ff,f0003fff
-> +        enable-cpu-list:0,1,2,3,4,5,6,7,8,9,10,11,12,13,28,29,30,31,32,33,34,35,36,37,38,39,40,41
-> +        thermal-design-power-ratio:26
-> +        base-frequency(MHz):2600
-> +        speed-select-turbo-freq:disabled
-> +        speed-select-base-freq:disabled
-> +       ...
-> +       ...
-> +
-> +Here -l option is used to specify a performance level.
-> +
-> +If the option -l is omitted, then this command will print information about all
-> +the performance levels. The above command is printing properties of the
-> +performance level 0.
-> +
-> +For this performance profile, the list of CPUs displayed by the
-> +"enable-cpu-mask/enable-cpu-list" at the max can be "online." When that
-> +condition is met, then base frequency of 2600 MHz can be maintained. To
-> +understand more, execute "intel-speed-select perf-profile info" for performance
-> +level 4::
-> +
-> + # intel-speed-select perf-profile info -l 4
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      perf-profile-level-4
-> +        cpu-count:28
-> +        enable-cpu-mask:000000fa,f0000faf
-> +        enable-cpu-list:0,1,2,3,5,7,8,9,10,11,28,29,30,31,33,35,36,37,38,39
-> +        thermal-design-power-ratio:28
-> +        base-frequency(MHz):2800
-> +        speed-select-turbo-freq:disabled
-> +        speed-select-base-freq:unsupported
-> +       ...
-> +       ...
-> +
-> +There are fewer CPUs in the "enable-cpu-mask/enable-cpu-list". Consequently, if
-> +the user only keeps these CPUs online and the rest "offline," then the base
-> +frequency is increased to 2.8 GHz compared to 2.6 GHz at performance level 0.
-> +
-> +Get current performance level
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To get the current performance level, execute::
-> +
-> + # intel-speed-select perf-profile get-config-current-level
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +        get-config-current_level:0
-> +
-> +First verify that the base_frequency displayed by the cpufreq sysfs is correct::
-> +
-> + # cat /sys/devices/system/cpu/cpu0/cpufreq/base_frequency
-> + 2600000
-> +
-> +This matches the base-frequency (MHz) field value displayed from the
-> +"perf-profile info" command for performance level 0(cpufreq frequency is in
-> +KHz).
-> +
-> +To check if the average frequency is equal to the base frequency for a 100% busy
-> +workload, disable turbo::
-> +
-> +# echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
-> +
-> +Then runs a busy workload on all CPUs, for example::
-> +
-> +#stress -c 64
-> +
-> +To verify the base frequency, run turbostat::
-> +
-> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
-> +
-> +  Package      Core    CPU     Bzy_MHz
-> +               -       -       2600
-> +  0            0       0       2600
-> +  0            1       1       2600
-> +  0            2       2       2600
-> +  0            3       3       2600
-> +  0            4       4       2600
-> +  .            .       .       .
-> +
-> +
-> +Changing performance level
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To the change the performance level to 4, execute::
-> +
-> + # intel-speed-select -d perf-profile set-config-level -l 4 -o
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      perf-profile
-> +        set_tdp_level:success
-> +
-> +In the command above, "-o" is optional. If it is specified, then it will also
-> +offline CPUs which are not present in the enable_cpu_mask for this performance
-> +level.
-> +
-> +Now if the base_frequency is checked::
-> +
-> + #cat /sys/devices/system/cpu/cpu0/cpufreq/base_frequency
-> + 2800000
-> +
-> +Which shows that the base frequency now increased from 2600 MHz at performance
-> +level 0 to 2800 MHz at performance level 4. As a result, any workload, which can
-> +use fewer CPUs, can see a boost of 200 MHz compared to performance level 0.
-> +
-> +Check presence of other Intel(R) SST features
-> +---------------------------------------------
-> +
-> +Each of the performance profiles also specifies weather there is support of
-> +other two Intel(R) SST features (Intel(R) Speed Select Technology - Base Frequency
-> +(Intel(R) SST-BF) and Intel(R) Speed Select Technology - Turbo Frequency (Intel
-> +SST-TF)).
-> +
-> +For example, from the output of "perf-profile info" above, for level 0 and level
-> +4:
-> +
-> +For level 0::
-> +       speed-select-turbo-freq:disabled
-> +       speed-select-base-freq:disabled
-> +
-> +For level 4::
-> +       speed-select-turbo-freq:disabled
-> +       speed-select-base-freq:unsupported
-> +
-> +Given these results, the "speed-select-base-freq" (Intel(R) SST-BF) in level 4
-> +changed from "disabled" to "unsupported" compared to performance level 0.
-> +
-> +This means that at performance level 4, the "speed-select-base-freq" feature is
-> +not supported. However, at performance level 0, this feature is "supported", but
-> +currently "disabled", meaning the user has not activated this feature. Whereas
-> +"speed-select-turbo-freq" (Intel(R) SST-TF) is supported at both performance
-> +levels, but currently not activated by the user.
-> +
-> +The Intel(R) SST-BF and the Intel(R) SST-TF features are built on a foundation
-> +technology called Intel(R) Speed Select Technology - Core Power (Intel(R) SST-CP).
-> +The platform firmware enables this feature when Intel(R) SST-BF or Intel(R) SST-TF
-> +is supported on a platform.
-> +
-> +Intel(R) Speed Select Technology Core Power (Intel(R) SST-CP)
-> +---------------------------------------------------------------
-> +
-> +Intel(R) Speed Select Technology Core Power (Intel(R) SST-CP) is an interface that
-> +allows users to define per core priority. This defines a mechanism to distribute
-> +power among cores when there is a power constrained scenario. This defines a
-> +class of service (CLOS) configuration.
-> +
-> +The user can configure up to 4 class of service configurations. Each CLOS group
-> +configuration allows definitions of parameters, which affects how the frequency
-> +can be limited and power is distributed. Each CPU core can be tied to a class of
-> +service and hence an associated priority. The granularity is at core level not
-> +at per CPU level.
-> +
-> +Enable CLOS based prioritization
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To use CLOS based prioritization feature, firmware must be informed to enable
-> +and use a priority type. There is a default per platform priority type, which
-> +can be changed with optional command line parameter.
-> +
-> +To enable and check the options, execute::
-> +
-> + # intel-speed-select core-power enable --help
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + Enable core-power for a package/die
-> +       Clos Enable: Specify priority type with [--priority|-p]
-> +                0: Proportional, 1: Ordered
-> +
-> +There are two types of priority types:
-> +
-> +- Ordered
-> +
-> +Priority for ordered throttling is defined based on the index of the assigned
-> +CLOS group. Where CLOS0 gets highest priority (throttled last).
-> +
-> +Priority order is:
-> +CLOS0 > CLOS1 > CLOS2 > CLOS3.
-> +
-> +- Proportional
-> +
-> +When proportional priority is used, there is an additional parameter called
-> +frequency_weight, which can be specified per CLOS group. The goal of
-> +proportional priority is to provide each core with the requested min., then
-> +distribute all remaining (excess/deficit) budgets in proportion to a defined
-> +weight. This proportional priority can be configured using "core-power config"
-> +command.
-> +
-> +To enable with the platform default priority type, execute::
-> +
-> + # intel-speed-select core-power enable
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      core-power
-> +        enable:success
-> + package-1
-> +  die-0
-> +    cpu-6
-> +      core-power
-> +        enable:success
-> +
-> +The scope of this enable is per package or die scoped when a package contains
-> +multiple dies. To check if CLOS is enabled and get priority type, "core-power
-> +info" command can be used. For example to check the status of core-power feature
-> +on CPU 0, execute::
-> +
-> + # intel-speed-select -c 0 core-power info
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      core-power
-> +        support-status:supported
-> +        enable-status:enabled
-> +        clos-enable-status:enabled
-> +        priority-type:proportional
-> + package-1
-> +  die-0
-> +    cpu-24
-> +      core-power
-> +        support-status:supported
-> +        enable-status:enabled
-> +        clos-enable-status:enabled
-> +        priority-type:proportional
-> +
-> +Configuring CLOS groups
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Each CLOS group has its own attributes including min, max, freq_weight and
-> +desired. These parameters can be configured with "core-power config" command.
-> +Defaults will be used if user skips setting a parameter except clos id, which is
-> +mandatory. To check core-power config options, execute::
-> +
-> + # intel-speed-select core-power config --help
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + Set core-power configuration for one of the four clos ids
-> +       Specify targeted clos id with [--clos|-c]
-> +       Specify clos Proportional Priority [--weight|-w]
-> +       Specify clos min in MHz with [--min|-n]
-> +       Specify clos max in MHz with [--max|-m]
-> +
-> +For example::
-> +
-> + # intel-speed-select core-power config -c 0
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + clos epp is not specified, default: 0
-> + clos frequency weight is not specified, default: 0
-> + clos min is not specified, default: 0 MHz
-> + clos max is not specified, default: 25500 MHz
-> + clos desired is not specified, default: 0
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      core-power
-> +        config:success
-> + package-1
-> +  die-0
-> +    cpu-6
-> +      core-power
-> +        config:success
-> +
-> +The user has the option to change defaults. For example, the user can change the
-> +"min" and set the base frequency to always get guaranteed base frequency.
-> +
-> +Get the current CLOS configuration
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To check the current configuration, "core-power get-config" can be used. For
-> +example, to get the configuration of CLOS 0::
-> +
-> + # intel-speed-select core-power get-config -c 0
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      core-power
-> +        clos:0
-> +        epp:0
-> +        clos-proportional-priority:0
-> +        clos-min:0 MHz
-> +        clos-max:Max Turbo frequency
-> +        clos-desired:0 MHz
-> + package-1
-> +  die-0
-> +    cpu-24
-> +      core-power
-> +        clos:0
-> +        epp:0
-> +        clos-proportional-priority:0
-> +        clos-min:0 MHz
-> +        clos-max:Max Turbo frequency
-> +        clos-desired:0 MHz
-> +
-> +Associating a CPU with a CLOS group
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To associate a CPU to a CLOS group "core-power assoc" command can be used::
-> +
-> + # intel-speed-select core-power assoc --help
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + Associate a clos id to a CPU
-> +       Specify targeted clos id with [--clos|-c]
-> +
-> +
-> +For example to associate CPU 10 to CLOS group 3, execute::
-> +
-> + # intel-speed-select -c 10 core-power assoc -c 3
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-10
-> +      core-power
-> +        assoc:success
-> +
-> +Once a CPU is associated, its sibling CPUs are also associated to a CLOS group.
-> +Once associated, avoid changing Linux "cpufreq" subsystem scaling frequency
-> +limits.
-> +
-> +To check the existing association for a CPU, "core-power get-assoc" command can
-> +be used. For example, to get association of CPU 10, execute::
-> +
-> + # intel-speed-select -c 10 core-power get-assoc
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-1
-> +  die-0
-> +    cpu-10
-> +      get-assoc
-> +        clos:3
-> +
-> +This shows that CPU 10 is part of a CLOS group 3.
-> +
-> +
-> +Disable CLOS based prioritization
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To disable, execute::
-> +
-> +# intel-speed-select core-power disable
-> +
-> +Some features like Intel(R) SST-TF can only be enabled when CLOS based prioritization
-> +is enabled. For this reason, disabling while Intel(R) SST-TF is enabled can cause
-> +Intel(R) SST-TF to fail. This will cause the "disable" command to display an error
-> +if Intel(R) SST-TF is already enabled. In turn, to disable, the Intel(R) SST-TF
-> +feature must be disabled first.
-> +
-> +Intel(R) Speed Select Technology - Base Frequency (Intel(R) SST-BF)
-> +-------------------------------------------------------------------
-> +
-> +The Intel(R) Speed Select Technology - Base Frequency (Intel(R) SST-BF) feature lets
-> +the user control base frequency. If some critical workload threads demand
-> +constant high guaranteed performance, then this feature can be used to execute
-> +the thread at higher base frequency on specific sets of CPUs (high priority
-> +CPUs) at the cost of lower base frequency (low priority CPUs) on other CPUs.
-> +This feature does not require offline of the low priority CPUs.
-> +
-> +The support of Intel(R) SST-BF depends on the Intel(R) Speed Select Technology -
-> +Performance Profile (Intel(R) SST-PP) performance level configuration. It is
-> +possible that only certain performance levels support Intel(R) SST-BF. It is also
-> +possible that only base performance level (level = 0) has support of Intel
-> +SST-BF. Consequently, first select the desired performance level to enable this
-> +feature.
-> +
-> +In the system under test here, Intel(R) SST-BF is supported at the base
-> +performance level 0, but currently disabled. For example for the level 0::
-> +
-> + # intel-speed-select -c 0 perf-profile info -l 0
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      perf-profile-level-0
-> +        ...
-> +
-> +        speed-select-base-freq:disabled
-> +       ...
-> +
-> +Before enabling Intel(R) SST-BF and measuring its impact on a workload
-> +performance, execute some workload and measure performance and get a baseline
-> +performance to compare against.
-> +
-> +Here the user wants more guaranteed performance. For this reason, it is likely
-> +that turbo is disabled. To disable turbo, execute::
-> +
-> +#echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
-> +
-> +Based on the output of the "intel-speed-select perf-profile info -l 0" base
-> +frequency of guaranteed frequency 2600 MHz.
-> +
-> +
-> +Measure baseline performance for comparison
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To compare, pick a multi-threaded workload where each thread can be scheduled on
-> +separate CPUs. "Hackbench pipe" test is a good example on how to improve
-> +performance using Intel(R) SST-BF.
-> +
-> +Below, the workload is measuring average scheduler wakeup latency, so a lower
-> +number means better performance::
-> +
-> + # taskset -c 3,4 perf bench -r 100 sched pipe
-> + # Running 'sched/pipe' benchmark:
-> + # Executed 1000000 pipe operations between two processes
-> +     Total time: 6.102 [sec]
-> +       6.102445 usecs/op
-> +         163868 ops/sec
-> +
-> +While running the above test, if we take turbostat output, it will show us that
-> +2 of the CPUs are busy and reaching max. frequency (which would be the base
-> +frequency as the turbo is disabled). The turbostat output::
-> +
-> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
-> + Package       Core    CPU     Bzy_MHz
-> + 0             0       0       1000
-> + 0             1       1       1005
-> + 0             2       2       1000
-> + 0             3       3       2600
-> + 0             4       4       2600
-> + 0             5       5       1000
-> + 0             6       6       1000
-> + 0             7       7       1005
-> + 0             8       8       1005
-> + 0             9       9       1000
-> + 0             10      10      1000
-> + 0             11      11      995
-> + 0             12      12      1000
-> + 0             13      13      1000
-> +
-> +From the above turbostat output, both CPU 3 and 4 are very busy and reaching
-> +full guaranteed frequency of 2600 MHz.
-> +
-> +Intel(R) SST-BF Capabilities
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To get capabilities of Intel(R) SST-BF for the current performance level 0,
-> +execute::
-> +
-> + # intel-speed-select base-freq info -l 0
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      speed-select-base-freq
-> +        high-priority-base-frequency(MHz):3000
-> +        high-priority-cpu-mask:00000216,00002160
-> +        high-priority-cpu-list:5,6,8,13,33,34,36,41
-> +        low-priority-base-frequency(MHz):2400
-> +        tjunction-temperature(C):125
-> +        thermal-design-power(W):205
-> +
-> +The above capabilities show that there are some CPUs on this system that can
-> +offer base frequency of 3000 MHz compared to the standard base frequency at this
-> +performance levels. Nevertheless, these CPUs are fixed, and they are presented
-> +via high-priority-cpu-list/high-priority-cpu-mask. But if this Intel(R) SST-BF
-> +feature is selected, the low priorities CPUs (which are not in
-> +high-priority-cpu-list) can only offer up to 2400 MHz. As a result, if this
-> +clipping of low priority CPUs is acceptable, then the user can enable Intel
-> +SST-BF feature particularly for the above "sched pipe" workload since only two
-> +CPUs are used, they can be scheduled on high priority CPUs and can get boost of
-> +400 MHz.
-> +
-> +Enable Intel(R) SST-BF
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To enable Intel(R) SST-BF feature, execute::
-> +
-> + # intel-speed-select base-freq enable -a
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      base-freq
-> +        enable:success
-> + package-1
-> +  die-0
-> +    cpu-14
-> +      base-freq
-> +        enable:success
-> +
-> +In this case, -a option is optional. This not only enables Intel(R) SST-BF, but it
-> +also adjusts the priority of cores using Intel(R) Speed Select Technology Core
-> +Power (Intel(R) SST-CP) features. This option sets the minimum performance of each
-> +Intel(R) Speed Select Technology - Performance Profile (Intel(R) SST-PP) class to
-> +maximum performance so that the hardware will give maximum performance possible
-> +for each CPU.
-> +
-> +If -a option is not used, then the following steps are required before enabling
-> +Intel(R) SST-BF:
-> +
-> +- Discover Intel(R) SST-BF and note low and high priority base frequency
-> +- Note the high prioity CPU list
-> +- Enable CLOS using core-power feature set
-> +- Configure CLOS parameters. Use CLOS.min to set to minimum performance
-> +- Subscribe desired CPUs to CLOS groups
-> +
-> +With this configuration, if the same workload is executed by pinning the
-> +workload to high priority CPUs (CPU 5 and 6 in this case)::
-> +
-> + #taskset -c 5,6 perf bench -r 100 sched pipe
-> + # Running 'sched/pipe' benchmark:
-> + # Executed 1000000 pipe operations between two processes
-> +     Total time: 5.627 [sec]
-> +       5.627922 usecs/op
-> +         177685 ops/sec
-> +
-> +This way, by enabling Intel(R) SST-BF, the performance of this benchmark is
-> +improved (latency reduced) by 7.79%. From the turbostat output, it can be
-> +observed that the high priority CPUs reached 3000 MHz compared to 2600 MHz.
-> +The turbostat output::
-> +
-> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
-> + Package       Core    CPU     Bzy_MHz
-> + 0             0       0       2151
-> + 0             1       1       2166
-> + 0             2       2       2175
-> + 0             3       3       2175
-> + 0             4       4       2175
-> + 0             5       5       3000
-> + 0             6       6       3000
-> + 0             7       7       2180
-> + 0             8       8       2662
-> + 0             9       9       2176
-> + 0             10      10      2175
-> + 0             11      11      2176
-> + 0             12      12      2176
-> + 0             13      13      2661
-> +
-> +Disable Intel(R) SST-BF
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To disable the Intel(R) SST-BF feature, execute::
-> +
-> +# intel-speed-select base-freq disable -a
-> +
-> +
-> +Intel(R) Speed Select Technology - Turbo Frequency (Intel(R) SST-TF)
-> +--------------------------------------------------------------------
-> +
-> +This feature enables the ability to set different "All core turbo ratio limits"
-> +to cores based on the priority. By using this feature, some cores can be
-> +configured to get higher turbo frequency by designating them as high priority at
-> +the cost of lower or no turbo frequency on the low priority cores.
-> +
-> +For this reason, this feature is only useful when system is busy utilizing all
-> +CPUs, but the user wants some configurable option to get high performance on
-> +some CPUs.
-> +
-> +The support of Intel(R) Speed Select Technology - Turbo Frequency (Intel(R) SST-TF)
-> +depends on the Intel(R) Speed Select Technology - Performance Profile (Intel
-> +SST-PP) performance level configuration. It is possible that only a certain
-> +performance level supports Intel(R) SST-TF. It is also possible that only the base
-> +performance level (level = 0) has the support of Intel(R) SST-TF. Hence, first
-> +select the desired performance level to enable this feature.
-> +
-> +In the system under test here, Intel(R) SST-TF is supported at the base
-> +performance level 0, but currently disabled::
-> +
-> + # intel-speed-select -c 0 perf-profile info -l 0
-> + Intel(R) Speed Select Technology
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      perf-profile-level-0
-> +        ...
-> +        ...
-> +        speed-select-turbo-freq:disabled
-> +        ...
-> +        ...
-> +
-> +
-> +To check if performance can be improved using Intel(R) SST-TF feature, get the turbo
-> +frequency properties with Intel(R) SST-TF enabled and compare to the base turbo
-> +capability of this system.
-> +
-> +Get Base turbo capability
-> +~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To get the base turbo capability of performance level 0, execute::
-> +
-> + # intel-speed-select perf-profile info -l 0
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      perf-profile-level-0
-> +        ...
-> +        ...
-> +        turbo-ratio-limits-sse
-> +          bucket-0
-> +            core-count:2
-> +            max-turbo-frequency(MHz):3200
-> +          bucket-1
-> +            core-count:4
-> +            max-turbo-frequency(MHz):3100
-> +          bucket-2
-> +            core-count:6
-> +            max-turbo-frequency(MHz):3100
-> +          bucket-3
-> +            core-count:8
-> +            max-turbo-frequency(MHz):3100
-> +          bucket-4
-> +            core-count:10
-> +            max-turbo-frequency(MHz):3100
-> +          bucket-5
-> +            core-count:12
-> +            max-turbo-frequency(MHz):3100
-> +          bucket-6
-> +            core-count:14
-> +            max-turbo-frequency(MHz):3100
-> +          bucket-7
-> +            core-count:16
-> +            max-turbo-frequency(MHz):3100
-> +
-> +Based on the data above, when all the CPUS are busy, the max. frequency of 3100
-> +MHz can be achieved. If there is some busy workload on cpu 0 - 11 (e.g. stress)
-> +and on CPU 12 and 13, execute "hackbench pipe" workload::
-> +
-> + # taskset -c 12,13 perf bench -r 100 sched pipe
-> + # Running 'sched/pipe' benchmark:
-> + # Executed 1000000 pipe operations between two processes
-> +     Total time: 5.705 [sec]
-> +       5.705488 usecs/op
-> +         175269 ops/sec
-> +
-> +The turbostat output::
-> +
-> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
-> + Package       Core    CPU     Bzy_MHz
-> + 0             0       0       3000
-> + 0             1       1       3000
-> + 0             2       2       3000
-> + 0             3       3       3000
-> + 0             4       4       3000
-> + 0             5       5       3100
-> + 0             6       6       3100
-> + 0             7       7       3000
-> + 0             8       8       3100
-> + 0             9       9       3000
-> + 0             10      10      3000
-> + 0             11      11      3000
-> + 0             12      12      3100
-> + 0             13      13      3100
-> +
-> +Based on turbostat output, the performance is limited by frequency cap of 3100
-> +MHz. To check if the hackbench performance can be improved for CPU 12 and CPU
-> +13, first check the capability of the Intel(R) SST-TF feature for this performance
-> +level.
-> +
-> +Get Intel(R) SST-TF Capability
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To get the capability, the "turbo-freq info" command can be used::
-> +
-> + # intel-speed-select turbo-freq info -l 0
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-0
-> +      speed-select-turbo-freq
-> +          bucket-0
-> +            high-priority-cores-count:2
-> +            high-priority-max-frequency(MHz):3200
-> +            high-priority-max-avx2-frequency(MHz):3200
-> +            high-priority-max-avx512-frequency(MHz):3100
-> +          bucket-1
-> +            high-priority-cores-count:4
-> +            high-priority-max-frequency(MHz):3100
-> +            high-priority-max-avx2-frequency(MHz):3000
-> +            high-priority-max-avx512-frequency(MHz):2900
-> +          bucket-2
-> +            high-priority-cores-count:6
-> +            high-priority-max-frequency(MHz):3100
-> +            high-priority-max-avx2-frequency(MHz):3000
-> +            high-priority-max-avx512-frequency(MHz):2900
-> +          speed-select-turbo-freq-clip-frequencies
-> +            low-priority-max-frequency(MHz):2600
-> +            low-priority-max-avx2-frequency(MHz):2400
-> +            low-priority-max-avx512-frequency(MHz):2100
-> +
-> +Based on the output above, there is an Intel(R) SST-TF bucket for which there are
-> +two high priority cores. If only two high priority cores are set, then max.
-> +turbo frequency on those cores can be increased to 3200 MHz. This is 100 MHz
-> +more than the base turbo capability for all cores.
-> +
-> +In turn, for the hackbench workload, two CPUs can be set as high priority and
-> +rest as low priority. One side effect is that once enabled, the low priority
-> +cores will be clipped to a lower frequency of 2600 MHz.
-> +
-> +Enable Intel(R) SST-TF
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +To enable Intel(R) SST-TF, execute::
-> +
-> + # intel-speed-select -c 12,13 turbo-freq enable -a
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model: X
-> + package-0
-> +  die-0
-> +    cpu-12
-> +      turbo-freq
-> +        enable:success
-> + package-0
-> +  die-0
-> +    cpu-13
-> +      turbo-freq
-> +        enable:success
-> + package--1
-> +  die-0
-> +    cpu-63
-> +      turbo-freq --auto
-> +        enable:success
-> +
-> +In this case, the option "-a" is optional. If set, it enables Intel(R) SST-TF
-> +feature and also sets the CPUs to high and and low priority using Intel Speed
-> +Select Technology Core Power (Intel(R) SST-CP) features. The CPU numbers passed
-> +with "-c" arguments are marked as high priority, including its siblings.
-> +
-> +If -a option is not used, then the following steps are required before enabling
-> +Intel(R) SST-TF:
-> +
-> +- Discover Intel(R) SST-TF and note buckets of high priority cores and maximum frequency
-> +
-> +- Enable CLOS using core-power feature set - Configure CLOS parameters
-> +
-> +- Subscribe desired CPUs to CLOS groups making sure that high priority cores are set to the maximum frequency
-> +
-> +If the same hackbench workload is executed, schedule hackbench threads on high
-> +priority CPUs::
-> +
-> + #taskset -c 12,13 perf bench -r 100 sched pipe
-> + # Running 'sched/pipe' benchmark:
-> + # Executed 1000000 pipe operations between two processes
-> +     Total time: 5.510 [sec]
-> +       5.510165 usecs/op
-> +         180826 ops/sec
-> +
-> +This improved performance by around 3.3% improvement on a busy system. Here the
-> +turbostat output will show that the CPU 12 and CPU 13 are getting 100 MHz boost.
-> +The turbostat output::
-> +
-> + #turbostat -c 0-13 --show Package,Core,CPU,Bzy_MHz -i 1
-> + Package       Core    CPU     Bzy_MHz
-> + ...
-> + 0             12      12      3200
-> + 0             13      13      3200
-> diff --git a/Documentation/admin-guide/pm/working-state.rst b/Documentation/admin-guide/pm/working-state.rst
-> index 0a38cdf39df1..f40994c422dc 100644
-> --- a/Documentation/admin-guide/pm/working-state.rst
-> +++ b/Documentation/admin-guide/pm/working-state.rst
-> @@ -13,3 +13,4 @@ Working-State Power Management
->     intel_pstate
->     cpufreq_drivers
->     intel_epb
-> +   intel-speed-select
-> --
-> 2.25.4
->
+DQoNCkFtIDE5LjA1LjIwIHVtIDE4OjEwIHNjaHJpZWIgSm9uYXRoYW4gQ29yYmV0Og0KPiBP
+biBTdW4sIDE3IE1heSAyMDIwIDIyOjE4OjIzICswMjAwDQo+ICJBbGV4YW5kZXIgQS4gS2xp
+bW92IiA8Z3JhbmRtYXN0ZXJAYWwya2xpbW92LmRlPiB3cm90ZToNCj4gDQo+Pj4gICAgLSBW
+YXJpb3VzIGRvY3VtZW50cyBoYXZlIG1haW50YWluZXJzIHdobyBhcmUgbGlrZWx5IHRvIGJl
+IGludGVyZXN0ZWQgaW4NCj4+PiAgICAgIGNoYW5nZXMgYW5kIHNob3VsZCBiZSBjb3BpZWQ7
+IHRoYXQgaXMgd2hhdCB0aGUgZ2V0X21haW50YWluZXIucGwgc2NyaXB0DQo+Pj4gICAgICBp
+cyBmb3IuICBJZiB0aGF0IGdlbmVyYXRlcyBhIG1hc3NpdmUgbGlzdCBvZiByZWNpcGllbnRz
+LCB0aGF0J3MgYSBjdWUNCj4+PiAgICAgIHRoYXQgeW91ciBwYXRjaCBpcyB0b28gbGFyZ2Uu
+DQo+PiBIdWg/IEkgKmRpZCogcnVuIHRoYXQgc2NyaXB0IChhdXRvbWF0ZWQpIHBlciBmaWxl
+IGFuZCBncm91cGVkIGZpbGVzIHBlcg0KPj4gaWRlbnRpY2FsIHNldCBvZiBwYXRjaCByZWNp
+cGllbnRzLiBJLmUuIHRoaXMgcGF0Y2ggc2hvdWxkIGNvbnRhaW4gb25seQ0KPj4gY2hhbmdl
+cyBmb3IgdGhlIHJlY2lwaWVudHMgSSd2ZSBzZW50IGl0IHRvLg0KPj4gSWYgeW91ciBpbnZv
+Y2F0aW9uIG9mIHRoZSBzY3JpcHQgZG9lc24ndCBhZ3JlZSB3aXRoIG1lLCBwbGVhc2Ugc2hh
+cmUgdGhlDQo+PiBvdXRwdXQgYW5kIGhvdyB0byByZXByb2R1Y2UgKGFzIGlmIEkgaGFkIGp1
+c3QgbXkgb3duIHBhdGNoIGVNYWlsLCB0aGUNCj4+IHVwc3RyZWFtIEdpdCByZXBvIGFuZCBh
+bGwgdGhlIHRvb2xzIG9mIGNvdXJzZSkuDQo+IA0KPiBPSywgSSBmZWQgeW91ciBwYXRjaCB0
+byB0aGUgc2NyaXB0LCB3YWl0ZWQgYSBmYWlyIHdoaWxlLCBhbmQgZ290IHdoYXQncw0KPiBi
+ZWxvdy4gIEFuZCB5ZXMsIHlvdSBkb24ndCB3YW50IHRvIGFjdHVhbGx5IHNlbmQgYSBwYXRj
+aCB0byBzdWNoIGEgbGlzdCBvZg0KPiByZWNpcGllbnRzIC0gaXQncyBhIHNpZ24gdGhhdCB5
+b3VyIHBhdGNoIGlzIHRvbyBsYXJnZS4NClBsZWFzZSBjb3VsZCB5b3Ugc2hhcmUgdGhlIGV4
+YWN0IGNvbW1hbmQgeW91IHJhbj8NCg0KPiANCj4gVGhhbmtzLA0KPiANCj4gam9uDQo+IA0K
+PiBKb25hdGhhbiBDb3JiZXQgPGNvcmJldEBsd24ubmV0PiAobWFpbnRhaW5lcjpET0NVTUVO
+VEFUSU9OLGNvbW1pdF9zaWduZXI6MS8xPTEwMCUsY29tbWl0X3NpZ25lcjoxLzI9NTAlLGNv
+bW1pdF9zaWduZXI6NC81PTgwJSxhdXRob3JlZDoxLzU9MjAlLGNvbW1pdF9zaWduZXI6Mi80
+PTUwJSxjb21taXRfc2lnbmVyOjIxLzEwOT0xOSUsY29tbWl0X3NpZ25lcjozLzU9NjAlLGNv
+bW1pdF9zaWduZXI6Mi8yPTEwMCUsY29tbWl0X3NpZ25lcjozLzM9MTAwJSxhdXRob3JlZDox
+LzM9MzMlLGFkZGVkX2xpbmVzOjgvMTc9NDclLHJlbW92ZWRfbGluZXM6NS8xNT0zMyUsY29t
+bWl0X3NpZ25lcjozLzE2PTE5JSxjb21taXRfc2lnbmVyOjExLzExPTEwMCUsY29tbWl0X3Np
+Z25lcjozLzQ9NzUlLGNvbW1pdF9zaWduZXI6Mi8zPTY3JSxjb21taXRfc2lnbmVyOjEvMz0z
+MyUsYXV0aG9yZWQ6MS8xPTEwMCUsYWRkZWRfbGluZXM6MjMvMjM9MTAwJSxyZW1vdmVkX2xp
+bmVzOjE3LzE3PTEwMCUsY29tbWl0X3NpZ25lcjo0LzQ9MTAwJSxjb21taXRfc2lnbmVyOjMv
+Nz00MyUsYXV0aG9yZWQ6MS83PTE0JSkNCj4gTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hl
+aGFiK3NhbXN1bmdAa2VybmVsLm9yZz4gKGNvbW1pdF9zaWduZXI6MS8xPTEwMCUsYXV0aG9y
+ZWQ6MS8xPTEwMCUsYWRkZWRfbGluZXM6MS8xPTEwMCUscmVtb3ZlZF9saW5lczoxLzE9MTAw
+JSxhZGRlZF9saW5lczo5OC85OD0xMDAlLGNvbW1pdF9zaWduZXI6Mi8yPTEwMCUsYXV0aG9y
+ZWQ6Mi8yPTEwMCUsY29tbWl0X3NpZ25lcjoxLzU9MjAlLGF1dGhvcmVkOjEvNT0yMCUsY29t
+bWl0X3NpZ25lcjoyMy8xMDk9MjElLGF1dGhvcmVkOjIzLzEwOT0yMSUsYWRkZWRfbGluZXM6
+NTcvNTg1PTEwJSxyZW1vdmVkX2xpbmVzOjYwLzIwMD0zMCUsY29tbWl0X3NpZ25lcjozLzM9
+MTAwJSxhdXRob3JlZDozLzM9MTAwJSxjb21taXRfc2lnbmVyOjQvNT04MCUsYXV0aG9yZWQ6
+NC81PTgwJSxhZGRlZF9saW5lczoyLzI9MTAwJSxyZW1vdmVkX2xpbmVzOjIvMj0xMDAlLGNv
+bW1pdF9zaWduZXI6My81PTYwJSxhdXRob3JlZDozLzU9NjAlLGFkZGVkX2xpbmVzOjQ4OC80
+ODg9MTAwJSxjb21taXRfc2lnbmVyOjEvMz0zMyUsYXV0aG9yZWQ6MS8zPTMzJSxjb21taXRf
+c2lnbmVyOjEvMj01MCUsYXV0aG9yZWQ6MS8yPTUwJSxhZGRlZF9saW5lczo4LzE3PTQ3JSxy
+ZW1vdmVkX2xpbmVzOjkvMTU9NjAlLGNvbW1pdF9zaWduZXI6Mi80PTUwJSxhdXRob3JlZDoy
+LzQ9NTAlLGF1dGhvcmVkOjEvMTY9NiUsY29tbWl0X3NpZ25lcjo0LzQ9MTAwJSxhdXRob3Jl
+ZDo0LzQ9MTAwJSxyZW1vdmVkX2xpbmVzOjM1OS8zNTk9MTAwJSxjb21taXRfc2lnbmVyOjEv
+MTE9OSUsYXV0aG9yZWQ6MS8xMT05JSxjb21taXRfc2lnbmVyOjEvND0yNSUsYXV0aG9yZWQ6
+MS80PTI1JSxhZGRlZF9saW5lczoxMTUvMTE1PTEwMCUsYWRkZWRfbGluZXM6MTQ3LzE0Nz0x
+MDAlLGFkZGVkX2xpbmVzOjEvMTI9OCUscmVtb3ZlZF9saW5lczoxLzEyPTglLGFkZGVkX2xp
+bmVzOjE3Ni8xNzY9MTAwJSxhZGRlZF9saW5lczo1OTMvNTkzPTEwMCUsYWRkZWRfbGluZXM6
+NDU4LzQ1OD0xMDAlLGFkZGVkX2xpbmVzOjE4LzE4PTEwMCUsYWRkZWRfbGluZXM6MTMzNC8x
+MzM0PTEwMCUsY29tbWl0X3NpZ25lcjoyLzc9MjklLGF1dGhvcmVkOjIvNz0yOSUpDQo+ICJS
+YWZhZWwgSi4gV3lzb2NraSIgPHJhZmFlbC5qLnd5c29ja2lAaW50ZWwuY29tPiAoY29tbWl0
+X3NpZ25lcjoyLzI9MTAwJSkNCj4gU3Jpbml2YXMgUGFuZHJ1dmFkYSA8c3Jpbml2YXMucGFu
+ZHJ1dmFkYUBsaW51eC5pbnRlbC5jb20+IChjb21taXRfc2lnbmVyOjEvMj01MCUsYXV0aG9y
+ZWQ6MS8yPTUwJSxhZGRlZF9saW5lczo2Mi82ND05NyUpDQo+IFJhbmR5IER1bmxhcCA8cmR1
+bmxhcEBpbmZyYWRlYWQub3JnPiAoY29tbWl0X3NpZ25lcjoxLzI9NTAlLGF1dGhvcmVkOjEv
+Mj01MCUscmVtb3ZlZF9saW5lczoyLzI9MTAwJSxjb21taXRfc2lnbmVyOjEvMT0xMDAlLGF1
+dGhvcmVkOjEvND0yNSUsYWRkZWRfbGluZXM6OS8xNT02MCUscmVtb3ZlZF9saW5lczo1LzI1
+PTIwJSxjb21taXRfc2lnbmVyOjEvNz0xNCUpDQo+IE1pZ3VlbCBPamVkYSA8bWlndWVsLm9q
+ZWRhLnNhbmRvbmlzQGdtYWlsLmNvbT4gKGNvbW1pdF9zaWduZXI6MS8xPTEwMCUpDQo+IEJh
+cnRsb21pZWogWm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4gKGNv
+bW1pdF9zaWduZXI6MS8yPTUwJSkNCj4gQWxleGFuZHJlIEJlbGxvbmkgPGFsZXhhbmRyZS5i
+ZWxsb25pQGJvb3RsaW4uY29tPiAoY29tbWl0X3NpZ25lcjoxLzI9NTAlLGNvbW1pdF9zaWdu
+ZXI6Mi8zPTY3JSxjb21taXRfc2lnbmVyOjEvNz0xNCUsYXV0aG9yZWQ6MS83PTE0JSkNCj4g
+RGF2aWQgU3RlcmJhIDxkc3RlcmJhQHN1c2UuY29tPiAoY29tbWl0X3NpZ25lcjoxLzI9NTAl
+LGNvbW1pdF9zaWduZXI6MS81PTIwJSxjb21taXRfc2lnbmVyOjEvND0yNSUsY29tbWl0X3Np
+Z25lcjoxLzE9MTAwJSkNCj4gIkpvbmF0aGFuIE5ldXNjaMOkZmVyIiA8ai5uZXVzY2hhZWZl
+ckBnbXgubmV0PiAoY29tbWl0X3NpZ25lcjozLzU9NjAlLGF1dGhvcmVkOjMvNT02MCUsY29t
+bWl0X3NpZ25lcjoxLzI9NTAlLGF1dGhvcmVkOjEvMj01MCUsY29tbWl0X3NpZ25lcjoxLzE9
+MTAwJSxhdXRob3JlZDoxLzE9MTAwJSxhZGRlZF9saW5lczo1LzU9MTAwJSxyZW1vdmVkX2xp
+bmVzOjUvNT0xMDAlKQ0KPiBDb3JuZWxpYSBIdWNrIDxjb2h1Y2tAcmVkaGF0LmNvbT4gKGNv
+bW1pdF9zaWduZXI6MS81PTIwJSkNCj4gTG9nYW4gR3VudGhvcnBlIDxsb2dhbmdAZGVsdGF0
+ZWUuY29tPiAoY29tbWl0X3NpZ25lcjoxLzU9MjAlKQ0KPiBNYXJrIEdyZWVyIDxtZ3JlZXJA
+YW5pbWFsY3JlZWsuY29tPiAoY29tbWl0X3NpZ25lcjoxLzQ9MjUlLGF1dGhvcmVkOjEvND0y
+NSUsYWRkZWRfbGluZXM6Mi8xND0xNCUscmVtb3ZlZF9saW5lczoyLzU9NDAlKQ0KPiAiRGF2
+aWQgUy4gTWlsbGVyIiA8ZGF2ZW1AZGF2ZW1sb2Z0Lm5ldD4gKGNvbW1pdF9zaWduZXI6MS80
+PTI1JSkNCj4gSWFuIEFiYm90dCA8YWJib3R0aUBtZXYuY28udWs+IChjb21taXRfc2lnbmVy
+OjEvND0yNSUsYXV0aG9yZWQ6MS80PTI1JSxhZGRlZF9saW5lczoxMC8xND03MSUscmVtb3Zl
+ZF9saW5lczoxLzU9MjAlKQ0KPiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmlj
+YWwuY29tPiAoY29tbWl0X3NpZ25lcjoxLzQ9MjUlLGF1dGhvcmVkOjEvND0yNSUsYWRkZWRf
+bGluZXM6MS8xND03JSxyZW1vdmVkX2xpbmVzOjEvNT0yMCUpDQo+IEphY29iIEtlbGxlciA8
+amFjb2IuZS5rZWxsZXJAaW50ZWwuY29tPiAoYXV0aG9yZWQ6MS80PTI1JSxhZGRlZF9saW5l
+czoxLzE0PTclLHJlbW92ZWRfbGluZXM6MS81PTIwJSkNCj4gIlRoZW9kb3JlIFRzJ28iIDx0
+eXRzb0BtaXQuZWR1PiAoY29tbWl0X3NpZ25lcjoyLzI9MTAwJSkNCj4gRXJpYyBCaWdnZXJz
+IDxlYmlnZ2Vyc0Bnb29nbGUuY29tPiAoY29tbWl0X3NpZ25lcjoxLzI9NTAlLGF1dGhvcmVk
+OjEvMj01MCUsYWRkZWRfbGluZXM6Mi8xMz0xNSUsYXV0aG9yZWQ6MS83PTE0JSkNCj4gSmFu
+IEthcmEgPGphY2tAc3VzZS5jej4gKGNvbW1pdF9zaWduZXI6MS8yPTUwJSxhdXRob3JlZDox
+LzI9NTAlLGFkZGVkX2xpbmVzOjExLzEzPTg1JSxyZW1vdmVkX2xpbmVzOjgvOD0xMDAlKQ0K
+PiBUaG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRyb25peC5kZT4gKGNvbW1pdF9zaWduZXI6
+MTYvMTA5PTE1JSxjb21taXRfc2lnbmVyOjEvND0yNSUpDQo+ICJQYXVsIEUuIE1jS2VubmV5
+IiA8cGF1bG1ja0BrZXJuZWwub3JnPiAoY29tbWl0X3NpZ25lcjo4LzEwOT03JSxhZGRlZF9s
+aW5lczozMC81ODU9NSUpDQo+IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91
+bmRhdGlvbi5vcmc+IChjb21taXRfc2lnbmVyOjgvMTA5PTclLGNvbW1pdF9zaWduZXI6MTcv
+MTY9MTAwJSxhdXRob3JlZDoxMS8xNj02OSUsY29tbWl0X3NpZ25lcjoxLzE9MTAwJSkNCj4g
+UGF3YW4gR3VwdGEgPHBhd2FuLmt1bWFyLmd1cHRhQGxpbnV4LmludGVsLmNvbT4gKGFkZGVk
+X2xpbmVzOjY3LzU4NT0xMSUpDQo+IEp1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT4g
+KHJlbW92ZWRfbGluZXM6MjEvMjAwPTEwJSkNCj4gT2xpdmVyIE5ldWt1bSA8b25ldWt1bUBz
+dXNlLmNvbT4gKHJlbW92ZWRfbGluZXM6MTAvMjAwPTUlKQ0KPiBBbmR5IFNoZXZjaGVua28g
+PGFuZHkuc2hldmNoZW5rb0BnbWFpbC5jb20+IChjb21taXRfc2lnbmVyOjIvMj0xMDAlLGNv
+bW1pdF9zaWduZXI6My8zPTEwMCUsY29tbWl0X3NpZ25lcjozLzU9NjAlKQ0KPiBQYXZlbCBN
+YWNoZWsgPHBhdmVsQHVjdy5jej4gKGNvbW1pdF9zaWduZXI6MS81PTIwJSxjb21taXRfc2ln
+bmVyOjEvMT0xMDAlKQ0KPiBBbGV4YW5kZXIgU2NocmVtbWVyIDxhbGV4QGFsZXhhbmRlcndl
+Yi5kZT4gKGF1dGhvcmVkOjEvNT0yMCUpDQo+ICJEYW5pZWwgVy4gUy4gQWxtZWlkYSIgPGR3
+bHNhbG1laWRhQGdtYWlsLmNvbT4gKGNvbW1pdF9zaWduZXI6MS8xPTEwMCUsYXV0aG9yZWQ6
+MS8xPTEwMCUsYWRkZWRfbGluZXM6MjkyLzI5Mj0xMDAlLGNvbW1pdF9zaWduZXI6Mi81PTQw
+JSxhdXRob3JlZDoyLzU9NDAlKQ0KPiBOaWNvbGFzIEZlcnJlIDxuaWNvbGFzLmZlcnJlQG1p
+Y3JvY2hpcC5jb20+IChjb21taXRfc2lnbmVyOjIvMz02NyUsYXV0aG9yZWQ6Mi8zPTY3JSkN
+Cj4gQ2hhbmdiaW4gRHUgPGNoYW5nYmluLmR1QGludGVsLmNvbT4gKGNvbW1pdF9zaWduZXI6
+MS8yPTUwJSxhdXRob3JlZDoxLzI9NTAlLGFkZGVkX2xpbmVzOjE2LzE3PTk0JSxyZW1vdmVk
+X2xpbmVzOjEzLzE0PTkzJSkNCj4gU2hlcmlmZiBFc3Nlc29uIDxzaGVyaWZmZXNzZXNvbkBn
+bWFpbC5jb20+IChjb21taXRfc2lnbmVyOjEvMj01MCUsYXV0aG9yZWQ6MS8yPTUwJSxhZGRl
+ZF9saW5lczoxLzE3PTYlLHJlbW92ZWRfbGluZXM6MS8xND03JSkNCj4gIkFuZHLDqSBBbG1l
+aWRhIiA8YW5kcmVhbG1laWRAY29sbGFib3JhLmNvbT4gKGNvbW1pdF9zaWduZXI6MS8zPTMz
+JSxhdXRob3JlZDoxLzM9MzMlLGFkZGVkX2xpbmVzOjEvMTc9NiUscmVtb3ZlZF9saW5lczox
+LzE1PTclKQ0KPiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4gKGNv
+bW1pdF9zaWduZXI6Mi80PTUwJSxjb21taXRfc2lnbmVyOjIvMj0xMDAlKQ0KPiBTaGl5YW5n
+IFJ1YW4gPHJ1YW5zeS5mbnN0QGNuLmZ1aml0c3UuY29tPiAoY29tbWl0X3NpZ25lcjoxLzQ9
+MjUlLGF1dGhvcmVkOjEvND0yNSUpDQo+IE1pY2hhbCBTdWNoYW5layA8bXN1Y2hhbmVrQHN1
+c2UuZGU+IChjb21taXRfc2lnbmVyOjEvND0yNSUsYXV0aG9yZWQ6MS80PTI1JSkNCj4gWmhh
+bmcgUnVpIDxydWkuemhhbmdAaW50ZWwuY29tPiAoY29tbWl0X3NpZ25lcjoyLzI9MTAwJSkN
+Cj4gTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPiAoY29tbWl0X3NpZ25lcjoxLzE9
+MTAwJSxjb21taXRfc2lnbmVyOjEvMz0zMyUpDQo+ICJTcml2YXRzYSBTLiBCaGF0IChWTXdh
+cmUpIiA8c3JpdmF0c2FAY3NhaWwubWl0LmVkdT4gKGNvbW1pdF9zaWduZXI6MS8xPTEwMCUp
+DQo+IEJqb3JuIEhlbGdhYXMgPGJoZWxnYWFzQGdvb2dsZS5jb20+IChjb21taXRfc2lnbmVy
+OjEvMT0xMDAlLGNvbW1pdF9zaWduZXI6MS8zPTMzJSkNCj4gIkpvYWtpbSBMw7ZubmVncmVu
+IiA8am9ha2ltbG9ubmVncmVuQGdtYWlsLmNvbT4gKGNvbW1pdF9zaWduZXI6MS8xPTEwMCUs
+YXV0aG9yZWQ6MS8xPTEwMCUsYWRkZWRfbGluZXM6Mi8yPTEwMCUscmVtb3ZlZF9saW5lczo1
+LzU9MTAwJSkNCj4gR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5i
+ZT4gKGNvbW1pdF9zaWduZXI6My8xNj0xOSUsYXV0aG9yZWQ6My8xNj0xOSUpDQo+IFZpcmVz
+aCBLdW1hciA8dmlyZXNoLmt1bWFyQGxpbmFyby5vcmc+IChjb21taXRfc2lnbmVyOjIvMTY9
+MTIlKQ0KPiBSaWthcmQgRmFsa2Vib3JuIDxyaWthcmQuZmFsa2Vib3JuQGdtYWlsLmNvbT4g
+KGNvbW1pdF9zaWduZXI6MS8xNj02JSxhdXRob3JlZDoxLzE2PTYlKQ0KPiBBbCBWaXJvIDx2
+aXJvQHplbml2LmxpbnV4Lm9yZy51az4gKGNvbW1pdF9zaWduZXI6Mi8yPTEwMCUsYXV0aG9y
+ZWQ6MS8yPTUwJSxyZW1vdmVkX2xpbmVzOjUvMTE9NDUlKQ0KPiBBbGVrc2EgU2FyYWkgPGN5
+cGhhckBjeXBoYXIuY29tPiAoY29tbWl0X3NpZ25lcjoxLzI9NTAlLGF1dGhvcmVkOjEvMj01
+MCUsYWRkZWRfbGluZXM6NjIvNjQ9OTclLHJlbW92ZWRfbGluZXM6Ni8xMT01NSUpDQo+IFJv
+YiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+IChjb21taXRfc2lnbmVyOjEvMz0zMyUpDQo+
+ICJUb2JpbiBDLiBIYXJkaW5nIiA8dG9iaW5Aa2VybmVsLm9yZz4gKGNvbW1pdF9zaWduZXI6
+MTAvMTE9OTElLGF1dGhvcmVkOjEwLzExPTkxJSkNCj4gRmVkZXJpY28gVmFnYSA8ZmVkZXJp
+Y28udmFnYUB2YWdhLnB2Lml0PiAoY29tbWl0X3NpZ25lcjoyLzQ9NTAlLGNvbW1pdF9zaWdu
+ZXI6MS8xPTEwMCUsY29tbWl0X3NpZ25lcjoxLzI9NTAlLGNvbW1pdF9zaWduZXI6MS80PTI1
+JSkNCj4gU3RlcGhlbiBCb3lkIDxzd2JveWRAY2hyb21pdW0ub3JnPiAoY29tbWl0X3NpZ25l
+cjoyLzQ9NTAlLGF1dGhvcmVkOjIvND01MCUsYWRkZWRfbGluZXM6ODkvOTM9OTYlLHJlbW92
+ZWRfbGluZXM6ODkvOTM9OTYlKQ0KPiBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9y
+Zz4gKGNvbW1pdF9zaWduZXI6MS80PTI1JSkNCj4gU3RlcGhlbiBLaXR0IDxzdGV2ZUBzazIu
+b3JnPiAoYXV0aG9yZWQ6MS80PTI1JSkNCj4gSmFjZWsgQW5hc3pld3NraSA8amFjZWsuYW5h
+c3pld3NraUBnbWFpbC5jb20+IChjb21taXRfc2lnbmVyOjEvMT0xMDAlKQ0KPiBMaW51cyBX
+YWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+IChjb21taXRfc2lnbmVyOjEvMT0x
+MDAlLGF1dGhvcmVkOjEvMT0xMDAlLGFkZGVkX2xpbmVzOjMwLzMwPTEwMCUpDQo+IE1hcmNv
+IFZpbGxlZ2FzIDxnaXRAbWFydmlsMDcubmV0PiAoY29tbWl0X3NpZ25lcjoxLzE9MTAwJSxh
+dXRob3JlZDoxLzE9MTAwJSxhZGRlZF9saW5lczoxLzE9MTAwJSxyZW1vdmVkX2xpbmVzOjEv
+MT0xMDAlKQ0KPiBUb255IEZpc2NoZXR0aSA8dG9ueS5maXNjaGV0dGlAZ21haWwuY29tPiAo
+Y29tbWl0X3NpZ25lcjoxLzE9MTAwJSxhdXRob3JlZDoxLzE9MTAwJSxhZGRlZF9saW5lczo1
+NS81NT0xMDAlLHJlbW92ZWRfbGluZXM6NTMvNTM9MTAwJSxjb21taXRfc2lnbmVyOjEvND0y
+NSUsYXV0aG9yZWQ6MS80PTI1JSxhZGRlZF9saW5lczo5LzEyPTc1JSxyZW1vdmVkX2xpbmVz
+OjkvMTI9NzUlLGNvbW1pdF9zaWduZXI6MS8yPTUwJSxhdXRob3JlZDoxLzI9NTAlLGFkZGVk
+X2xpbmVzOjkvMTA9OTAlLHJlbW92ZWRfbGluZXM6OC85PTg5JSkNCj4gQ2hyaXMgUGFja2hh
+bSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxlc2lzLmNvLm56PiAoY29tbWl0X3NpZ25lcjox
+LzM9MzMlLGF1dGhvcmVkOjEvMz0zMyUpDQo+IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5k
+ZT4gKGNvbW1pdF9zaWduZXI6MS80PTI1JSxhdXRob3JlZDoxLzQ9MjUlLGFkZGVkX2xpbmVz
+OjIvMTU9MTMlLHJlbW92ZWRfbGluZXM6Mi8yNT04JSkNCj4gQXJuZCBCZXJnbWFubiA8YXJu
+ZEBhcm5kYi5kZT4gKGNvbW1pdF9zaWduZXI6MS80PTI1JSxhdXRob3JlZDoxLzQ9MjUlLGFk
+ZGVkX2xpbmVzOjIvMTU9MTMlLHJlbW92ZWRfbGluZXM6MTQvMjU9NTYlLGNvbW1pdF9zaWdu
+ZXI6MS83PTE0JSkNCj4gIkphc29uIEEuIERvbmVuZmVsZCIgPEphc29uQHp4MmM0LmNvbT4g
+KGNvbW1pdF9zaWduZXI6MS80PTI1JSkNCj4gIkRhcnJpY2sgSi4gV29uZyIgPGRhcnJpY2su
+d29uZ0BvcmFjbGUuY29tPiAoY29tbWl0X3NpZ25lcjoxLzQ9MjUlKQ0KPiAiQ2hhbmcgUy4g
+QmFlIiA8Y2hhbmcuc2Vvay5iYWVAaW50ZWwuY29tPiAoYXV0aG9yZWQ6MS80PTI1JSxhZGRl
+ZF9saW5lczoyLzE1PTEzJSxyZW1vdmVkX2xpbmVzOjQvMjU9MTYlKQ0KPiBQYW5rYWogQmhh
+cmFkaXlhIDxwYW5rYWoubGF4bWluYXJheWFuLmJoYXJhZGl5YUBpbnRlbC5jb20+IChhdXRo
+b3JlZDoxLzQ9MjUlLGFkZGVkX2xpbmVzOjEvMTI9OCUscmVtb3ZlZF9saW5lczoxLzEyPTgl
+KQ0KPiBKb2UgUGVyY2hlcyA8am9lQHBlcmNoZXMuY29tPiAoYXV0aG9yZWQ6MS80PTI1JSxh
+ZGRlZF9saW5lczoxLzEyPTglLHJlbW92ZWRfbGluZXM6MS8xMj04JSkNCj4gSmFjb2IgSHVp
+c21hbiA8amFjb2JodWlzbWFuQGtlcm5lbHRodXNpYXN0LmNvbT4gKGNvbW1pdF9zaWduZXI6
+MS8yPTUwJSxhdXRob3JlZDoxLzI9NTAlLGFkZGVkX2xpbmVzOjEvMTA9MTAlLHJlbW92ZWRf
+bGluZXM6MS85PTExJSxyZW1vdmVkX2xpbmVzOjEvMj01MCUsY29tbWl0X3NpZ25lcjoxLzE9
+MTAwJSxhdXRob3JlZDoxLzE9MTAwJSxhZGRlZF9saW5lczoxLzE9MTAwJSxyZW1vdmVkX2xp
+bmVzOjEvMT0xMDAlLGNvbW1pdF9zaWduZXI6MS80PTI1JSxhdXRob3JlZDoxLzQ9MjUlKQ0K
+PiBLb25zdGFudGluIFJ5YWJpdHNldiA8a29uc3RhbnRpbkBsaW51eGZvdW5kYXRpb24ub3Jn
+PiAoY29tbWl0X3NpZ25lcjoxLzE9MTAwJSxhdXRob3JlZDoxLzE9MTAwJSxhZGRlZF9saW5l
+czoxNy8xNz0xMDAlLHJlbW92ZWRfbGluZXM6MTQvMTQ9MTAwJSxjb21taXRfc2lnbmVyOjEv
+Mj01MCUsYXV0aG9yZWQ6MS8yPTUwJSxhZGRlZF9saW5lczo1Mi81Mz05OCUscmVtb3ZlZF9s
+aW5lczoxLzI9NTAlKQ0KPiBUZWp1biBIZW8gPHRqQGtlcm5lbC5vcmc+IChjb21taXRfc2ln
+bmVyOjIvMz02NyUpDQo+ICJNYXJ0aW4gSy4gUGV0ZXJzZW4iIDxtYXJ0aW4ucGV0ZXJzZW5A
+b3JhY2xlLmNvbT4gKGNvbW1pdF9zaWduZXI6MS8xPTEwMCUpDQo+IEtoYWxpZCBBeml6IDxr
+aGFsaWRAZ29uZWhpa2luZy5vcmc+IChjb21taXRfc2lnbmVyOjEvMT0xMDAlKQ0KPiBTZW9u
+Z0phZSBQYXJrIDxzanBhcmtAYW1hem9uLmRlPiAoY29tbWl0X3NpZ25lcjozLzQ9NzUlLGF1
+dGhvcmVkOjMvND03NSUsYWRkZWRfbGluZXM6MzAvMzE9OTclLHJlbW92ZWRfbGluZXM6MzIv
+MzM9OTclKQ0KPiBPZGVkIEdhYmJheSA8b2RlZC5nYWJiYXlAZ21haWwuY29tPiAoYXV0aG9y
+ZWQ6MS83PTE0JSkNCj4gbGludXgtZG9jQHZnZXIua2VybmVsLm9yZyAob3BlbiBsaXN0OkRP
+Q1VNRU5UQVRJT04pDQo+IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcgKG9wZW4gbGlz
+dCkNCj4gY2xhbmctYnVpbHQtbGludXhAZ29vZ2xlZ3JvdXBzLmNvbSAob3BlbiBsaXN0OkNM
+QU5HL0xMVk0gQlVJTEQgU1VQUE9SVCkNCj4gDQo=
