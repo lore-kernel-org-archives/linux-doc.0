@@ -2,172 +2,145 @@ Return-Path: <SRS0=Z/GS=7B=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 095E6C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 01:35:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C1E7C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 05:21:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCB6820715
-	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 01:35:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72B092075F
+	for <linux-doc@archiver.kernel.org>; Tue, 19 May 2020 05:21:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20150623.gappssmtp.com header.i=@amacapital-net.20150623.gappssmtp.com header.b="MUO3gqmI"
+	dkim=pass (1024-bit key) header.d=xilinx.onmicrosoft.com header.i=@xilinx.onmicrosoft.com header.b="SZpl8IOa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727006AbgESBf2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 May 2020 21:35:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49130 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726628AbgESBf1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 May 2020 21:35:27 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D9D2C05BD0B
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2020 18:35:27 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id b12so4944421plz.13
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2020 18:35:27 -0700 (PDT)
+        id S1726381AbgESFVN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 May 2020 01:21:13 -0400
+Received: from mail-mw2nam10on2083.outbound.protection.outlook.com ([40.107.94.83]:49081
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726323AbgESFVM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 May 2020 01:21:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DKU94xMTss1wLiZUUYq0P4CeLlSgT0A61IuwTNWLdctzljWDwansS2RhCb7TGqOY+a/eWFG7TmYVaYPV/exnwuRTGxBDIc3C4toP1FurpE1rFvIv51YdaByEWBX27nRoTly3iQpkngVGHnsPLOJmLUpx1xfYbqiyZZrINjskGprPX9hgs9H1Ovt1HlsjMH+vdLuqasYRsTq6e5kbwcqVSHJiOCh9AkoYpUl8qjhRWxQFyrvpyo/wM69LQFNpRsTR6SvYJLI23AwNV2ojwovchzUEJIjvuPwIqo1vfC61SYiSeUAFcHKYHL5fXPDhpQA9Eg9Ov1DPtiVKPEQzFfCEnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=13KVFf5T8nHUwFjStjhv+0mDcO2r13mojEv5YQLRWvs=;
+ b=nuoff2NFtD5aI3tUEDXf7BhBPP3gu7ST7zNVxtgOa0n2qZZQf8//6/q1Akiq2EV5vSQcj8XteOqVaztabWS2ENglggcPimBsDRj955gIN7LqtNG7QwWjNYmn8M9rsQBt9NwmfQLmkATSQvQocbpTHADABE2XkfGZNbO2ta2o4zEAApPONTlo+WAAc23pIniL69uTMQIrLlq3OhiGwUGsZsIYaz0Z9ttZkMCT7TPcvULj46wWj23rugbiWk5pyAyEMCz1/xD7+y97+bnYRnt9jmDnJJeQMl+bhwhw6kM9zf6lID1qDjOWzttBIiuEz9MTEcxa9yF9UoGohTFRPRGdBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=eH46HFXVZAPfiSp4yenoocGuq08o9xIexbUXyqPElZM=;
-        b=MUO3gqmIH8arkfIZPDEnbj00SQROT+XbT+rDPd75eB/HjRGwYyynILINnbvrKpXwEh
-         xjH/zddHN9oG2KUZQh2WDdjrzRHcWR924fHvxZmLPfTJdee4nGqk/TmPTpHq6UOnoSUY
-         Nozsfy/yQQHZDuEJxIwU5re+Vw3ej5MOtr0VWeszUDlEBFOlzqSCZf1+kGB36LV8nFUS
-         p31AewNcXmp3fgPUaHEiV6z+GZWbHK2/pYqyfvA+Oz5jvNqeI9q2Bg9FM+0TD4x/ahM5
-         lWrAfGLCf1+679BxrayorUF3lrsFQlGBbjKB8TlTMIVRgW1CavVzF3C1QAL1cnXt1ks1
-         8d/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=eH46HFXVZAPfiSp4yenoocGuq08o9xIexbUXyqPElZM=;
-        b=uZjHrG9EAPE49vZDPl64IPhU9MrTH5z7/e9F9cIfjFAzXlH1KHj0j7ilYSsIDdQ80S
-         39L8tFm4zwrKsDRnf1vb2CGArtK6K1XWykSqeTt5TWGjMjvUbe1k7eMtPOuCLEH+CAyP
-         tX57iy7FCWSab9zKn4QEVGQcYzQHJm+85zK3ksPw41gyPPQLfMclXu9VFPDJ2ruuI5GD
-         Yrl6fmefasvSUf5ZIHjS7WeXo1v8/btAp4L7MYhouXhHE42ZMAKNI8CFyhuw5ot+PLjx
-         uwlX5fiNzBrvXT/0sg5m8D2lV3DEN8rTfUdJ2XqOO04310RR3qSwVI6TlwuvEBTon5RS
-         MQWw==
-X-Gm-Message-State: AOAM533UH4msrlfICdhjucgNm86vX+7oPwPv5hwu6Bmv8ep9jmDRrY1O
-        x0ploti3ftYCRT/i9wN8lWI2OQ==
-X-Google-Smtp-Source: ABdhPJy8HG2dxYu85sQ/k3xohgNFNrRpKa2Z8TapTI/kGsGKDc/vL2nDP6aXUMn7J4JK7jLX6crAhg==
-X-Received: by 2002:a17:90a:930b:: with SMTP id p11mr2442189pjo.46.1589852126573;
-        Mon, 18 May 2020 18:35:26 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:9c3c:ad41:e2e7:d4f4? ([2601:646:c200:1ef2:9c3c:ad41:e2e7:d4f4])
-        by smtp.gmail.com with ESMTPSA id 206sm4735467pfy.97.2020.05.18.18.35.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2020 18:35:25 -0700 (PDT)
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=13KVFf5T8nHUwFjStjhv+0mDcO2r13mojEv5YQLRWvs=;
+ b=SZpl8IOaEsP0/I1s8fp9y6mBy782WGGNWxedwW/COpreoqH8VLdZZGhHB8gRc3FuDyMAYk8dIjMgK269XJsGixV+Ll/FJw7s1673IgQBLA/KnNCsDHLAcrBYXsblJFVE/qRGp8oujAnk/xsRQothkvo8s7Lq2kXMgSUlRafb5LI=
+Received: from BL0PR02CA0025.namprd02.prod.outlook.com (2603:10b6:207:3c::38)
+ by SN6PR02MB5133.namprd02.prod.outlook.com (2603:10b6:805:68::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.27; Tue, 19 May
+ 2020 05:21:10 +0000
+Received: from BL2NAM02FT064.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:207:3c:cafe::f0) by BL0PR02CA0025.outlook.office365.com
+ (2603:10b6:207:3c::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20 via Frontend
+ Transport; Tue, 19 May 2020 05:21:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT064.mail.protection.outlook.com (10.152.77.119) with Microsoft SMTP
+ Server id 15.20.3000.19 via Frontend Transport; Tue, 19 May 2020 05:21:09
+ +0000
+Received: from [149.199.38.66] (port=45271 helo=xsj-pvapsmtp01)
+        by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+        (envelope-from <michal.simek@xilinx.com>)
+        id 1jaugF-0005TM-Lb; Mon, 18 May 2020 22:20:43 -0700
+Received: from localhost ([127.0.0.1] helo=xsj-pvapsmtp01)
+        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+        (envelope-from <michal.simek@xilinx.com>)
+        id 1jauge-0007gg-Rx; Mon, 18 May 2020 22:21:08 -0700
+Received: from [172.30.17.109]
+        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+        (envelope-from <michals@xilinx.com>)
+        id 1jauge-0007fZ-A7; Mon, 18 May 2020 22:21:08 -0700
+Subject: Re: [PATCH 3/3] hwmon: (ina2xx) Add support for ina260
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Franz Forstmayr <forstmayr.franz@gmail.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20200224232647.29213-1-forstmayr.franz@gmail.com>
+ <20200224232647.29213-3-forstmayr.franz@gmail.com>
+ <a78bbb40-9a0c-8acc-841e-7a51447d4dbc@roeck-us.net>
+From:   Michal Simek <michal.simek@xilinx.com>
+Message-ID: <bfa786b6-fe62-a5fb-718f-bb9e95b1f051@xilinx.com>
+Date:   Tue, 19 May 2020 07:21:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <a78bbb40-9a0c-8acc-841e-7a51447d4dbc@roeck-us.net>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
-Date:   Mon, 18 May 2020 18:35:21 -0700
-Message-Id: <58319765-891D-44B9-AF18-64492B01FF36@amacapital.net>
-References: <2eb98637-bd2d-dda6-7729-f06ea84256ca@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-In-Reply-To: <2eb98637-bd2d-dda6-7729-f06ea84256ca@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-X-Mailer: iPhone Mail (17E262)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFTY:;SFS:(346002)(396003)(376002)(136003)(39860400002)(46966005)(5660300002)(6666004)(26005)(36756003)(82740400003)(47076004)(186003)(2616005)(8936002)(44832011)(31686004)(9786002)(70206006)(70586007)(2906002)(7416002)(356005)(82310400002)(81166007)(316002)(110136005)(54906003)(4326008)(336012)(53546011)(478600001)(8676002)(426003)(31696002)(4744005)(43740500002);DIR:OUT;SFP:1101;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3d01f397-ec55-4b62-42e1-08d7fbb47050
+X-MS-TrafficTypeDiagnostic: SN6PR02MB5133:
+X-Microsoft-Antispam-PRVS: <SN6PR02MB51333E47A537DD4645CEEA8BC6B90@SN6PR02MB5133.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 040866B734
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: o8vNgVG5J4Luo6jjcaDgay8MdBDWiCFx6t9KxC70KWR908U5t97ZLyZUhKcPjeJlB0q0jLeSWp17h5e72ZDGM3FwCKGSxihMDq196dQ7N56yr34wrusyxwyu+QWWwWbcjoVD+Zp7fyKnQR3Rx35Fa8M0fLWaLOHsGPsidpmDJwkuFKrvPRtDTb3hFknUHqccRuh0WU6Mk6Z9QmxYQEKFfaFafyEJ7VkY9VpSJw+NCYUguncUowsJDd7JCEIt4C6Zui04vjoNHthMZcg7/mfheAxsNnR9p68viPnW2boH3/T6QA8u/zOCnqEdRcy6903ux+eZXWgwGjsF/uMCJQvPefPySlAngyvtAmO8Q8MUaWXjfVaZq4NLVN2a7IHLdPHGehN7xF/anWzcqMJZ0o4p/AEpeqPoshqL19+phYtNtUfAPQkCT2JIfFmWoDEHMs/2mslRQrEPqeAAFGZROl8Q+QUh1rOFsQo9YSR+YfxMgAc30gNOy65UZI3TucegG+WRT27zDx6EDjUjwwF5JcPhk+HFbqht8p1/OrMoeh8CRBo=
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2020 05:21:09.2967
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d01f397-ec55-4b62-42e1-08d7fbb47050
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5133
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 26. 02. 20 3:16, Guenter Roeck wrote:
+> On 2/24/20 3:26 PM, Franz Forstmayr wrote:
+>> Add initial support for INA260 power monitor with integrated shunt.
+>> Registers are different from other INA2xx devices, that's why a small
+>> translation table is used.
+>>
+>> Signed-off-by: Franz Forstmayr <forstmayr.franz@gmail.com>
+> 
+> I think the chip is sufficiently different to other chips that a separate
+> driver would make much more sense than adding support to the existing
+> driver.
+> There is no calibration, registers are different, the retry logic is
+> not needed. A new driver could use the with_info API and would be much
+> simpler while at the same time not messing up the existing driver.
 
+Isn't it also better to switch to IIO framework?
+As we discussed in past there are two ina226 drivers. One in hwmon and
+second based on IIO framework (more advance one?) and would be good to
+deprecate hwmon one.
+That's why separate driver is necessary.
 
-> On May 18, 2020, at 5:38 PM, Dave Hansen <dave.hansen@intel.com> wrote:
->=20
-> =EF=BB=BFOn 5/18/20 4:47 PM, Yu-cheng Yu wrote:
->>> On Fri, 2020-05-15 at 19:53 -0700, Yu-cheng Yu wrote:
->>> On Fri, 2020-05-15 at 16:56 -0700, Dave Hansen wrote:
->>>> On 5/15/20 4:29 PM, Yu-cheng Yu wrote:
->>>>> [...]
->>>>> I have run them with CET enabled.  All of them pass, except for the fo=
-llowing:
->>>>> Sigreturn from 64-bit to 32-bit fails, because shadow stack is at a 64=
--bit
->>>>> address.  This is understandable.
->>>> [...]
->>>> One a separate topic: You ran the selftests and one failed.  This is a
->>>> *MASSIVE* warning sign.  It should minimally be described in your cover=
+Thanks,
+Michal
 
->>>> letter, and accompanied by a fix to the test case.  It is absolutely
->>>> unacceptable to introduce a kernel feature that causes a test to fail.
->>>> You must either fix your kernel feature or you fix the test.
->>>>=20
->>>> This code can not be accepted until this selftests issue is rectified.
->> The x86/sigreturn test constructs 32-bit ldt entries, and does sigreturn f=
-rom
->> 64-bit to 32-bit context.  We do not have a way to construct a static 32-=
-bit
->> shadow stack.
->=20
-> Why? What's the limiting factor?  Hardware architecture?  Something in
-> the kernel?
->=20
->> Why do we want that?  I think we can simply run the test with CET
->> disabled.
->=20
-> The sadistic parts of selftests/x86 come from real bugs.  Either bugs
-> where the kernel fell over, or where behavior changed that broke apps.
-> I'd suggest doing some research on where that particular test case came
-> from.  Find the author of the test, look at the changelogs.
->=20
-> If this is something that a real app does, this is a problem.  If it's a
-> sadistic test that Andy L added because it was an attack vector against
-> the entry code, it's a different story.
-
-There are quite a few tests that do these horrible things in there. IN my pe=
-rsonal opinion, sigreturn.c is one of the most important tests we have =E2=80=
-=94 it does every horrible thing to the entry code that I thought of and tha=
-t I could come up with a way of doing.  We have been saved from regressing m=
-any times by these tests.  CET, and especially the CPL0 version of CET, is i=
-ts own set of entry horror, and we need to keep these tests working.
-
-I assume the basic issue is that we call raise(), the context magically chan=
-ges to 32-bit, but SSP has a 64-bit value, and horrors happen.  So I think t=
-wo things need to happen:
-
-1. Someone needs to document what happens when IRET tries to put a 64-bit va=
-lue into SSP but CS is compat. Because Intel has plenty of history of doing c=
-olossally broken things here. IOW you could easily be hitting a hardware des=
-ign problem, not a software issue per se.
-
-2. The test needs to work. Assuming the hardware doesn=E2=80=99t do somethin=
-g utterly broken, either the 32-bit code needs to be adjusted to avoid any C=
-ALL
-or RET, or you need to write a little raise_on_32bit_shstk() func that switc=
-hes to an SSP that fits in 32 bits, calls raise(), and switches back.  =46rom=
- memory, I didn=E2=80=99t think there was a CALl or RET, so I=E2=80=99m gues=
-sing that SSP is getting truncated when we round trip through CPL3 compat mo=
-de and the result is that the kernel invoked the signal handler with the wro=
-ng SSP.  Whoops.
-
->=20
-> I don't personally know the background, but the changelogs can help you
-> find the person that does.
