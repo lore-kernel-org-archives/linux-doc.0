@@ -2,51 +2,51 @@ Return-Path: <SRS0=+Urr=7C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 118DCC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 04:06:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12994C433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 04:59:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E593C207E8
-	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 04:06:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6EDE2075F
+	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 04:59:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LD5xStbI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ikdRrS9I"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbgETEGX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 May 2020 00:06:23 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21814 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726493AbgETEGV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 May 2020 00:06:21 -0400
+        id S1726403AbgETE7y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 May 2020 00:59:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21650 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726473AbgETE7y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 May 2020 00:59:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589947579;
+        s=mimecast20190719; t=1589950792;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=663zai6Sd7Zezu2GZIYrT8aytBhC9HVJbGSzPexsYOw=;
-        b=LD5xStbIdtkOD/jDYklBDlazaekQC0EMvGVbeNb/Enrvqw8/PExYy0f/paLn/ydlVtToMj
-        xZPyup1IRCf32yusk2bD3dc8OSf9yi9ReRcBvdBT4vI13V+VaolhZgaLzUTcrTdNGf1bLQ
-        Q0aRktz6mxsZuWgQzIck0TqrUJEqkn0=
+        bh=NzRuCXGE7RhfvXL+xzJ6ifDK+x2b4dBICd6MmzRaGuA=;
+        b=ikdRrS9IO2PLnCNTnILSI8pK9uijQBTcRFEC2w2ZcfUTgoz8Ffx88DzrWcXKND9vzLmZ+B
+        /KZ+Fiw5OfGtL1HvPL5+ii38R+/NhssTY+ojZj7MDn5dEmaH913M4r3kmor3fuCc4kzF8O
+        WLkRb4vugCCKAKuUtPdf+wn87ORd7hs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-SElg9MtNOSqvnt2K1CrgDQ-1; Wed, 20 May 2020 00:06:16 -0400
-X-MC-Unique: SElg9MtNOSqvnt2K1CrgDQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-276-tFFgHWsFOBaAec_iH28Mfg-1; Wed, 20 May 2020 00:59:47 -0400
+X-MC-Unique: tFFgHWsFOBaAec_iH28Mfg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35BE3474;
-        Wed, 20 May 2020 04:06:13 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0791835B44;
+        Wed, 20 May 2020 04:59:44 +0000 (UTC)
 Received: from mail (ovpn-112-106.rdu2.redhat.com [10.10.112.106])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id BBB7E5D9C5;
-        Wed, 20 May 2020 04:06:09 +0000 (UTC)
-Date:   Wed, 20 May 2020 00:06:08 -0400
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CD1783841;
+        Wed, 20 May 2020 04:59:39 +0000 (UTC)
+Date:   Wed, 20 May 2020 00:59:38 -0400
 From:   Andrea Arcangeli <aarcange@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Peter Xu <peterx@redhat.com>,
-        Daniel Colascione <dancol@google.com>,
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Daniel Colascione <dancol@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
@@ -57,6 +57,7 @@ Cc:     Peter Xu <peterx@redhat.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Mel Gorman <mgorman@techsingularity.net>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Peter Xu <peterx@redhat.com>,
         Mike Rapoport <rppt@linux.ibm.com>,
         Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -64,112 +65,76 @@ Cc:     Peter Xu <peterx@redhat.com>,
         minchan@google.com, sspatil@google.com, lokeshgidra@google.com
 Subject: Re: [PATCH 2/2] Add a new sysctl knob:
  unprivileged_userfaultfd_user_mode_only
-Message-ID: <20200520040608.GB26186@redhat.com>
+Message-ID: <20200520045938.GC26186@redhat.com>
 References: <20200423002632.224776-1-dancol@google.com>
  <20200423002632.224776-3-dancol@google.com>
- <20200506193816.GB228260@xz-x1>
- <20200507131503.02aba5a6@lwn.net>
+ <20200508125054-mutt-send-email-mst@kernel.org>
+ <20200508125314-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200507131503.02aba5a6@lwn.net>
+In-Reply-To: <20200508125314-mutt-send-email-mst@kernel.org>
 User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Jonathan and everyone,
+Hello everyone,
 
-On Thu, May 07, 2020 at 01:15:03PM -0600, Jonathan Corbet wrote:
-> On Wed, 6 May 2020 15:38:16 -0400
-> Peter Xu <peterx@redhat.com> wrote:
+On Fri, May 08, 2020 at 12:54:03PM -0400, Michael S. Tsirkin wrote:
+> On Fri, May 08, 2020 at 12:52:34PM -0400, Michael S. Tsirkin wrote:
+> > On Wed, Apr 22, 2020 at 05:26:32PM -0700, Daniel Colascione wrote:
+> > > This sysctl can be set to either zero or one. When zero (the default)
+> > > the system lets all users call userfaultfd with or without
+> > > UFFD_USER_MODE_ONLY, modulo other access controls. When
+> > > unprivileged_userfaultfd_user_mode_only is set to one, users without
+> > > CAP_SYS_PTRACE must pass UFFD_USER_MODE_ONLY to userfaultfd or the API
+> > > will fail with EPERM. This facility allows administrators to reduce
+> > > the likelihood that an attacker with access to userfaultfd can delay
+> > > faulting kernel code to widen timing windows for other exploits.
+> > > 
+> > > Signed-off-by: Daniel Colascione <dancol@google.com>
+> > 
+> > The approach taken looks like a hard-coded security policy.
+> > For example, it won't be possible to set the sysctl knob
+> > in question on any sytem running kvm. So this is
+> > no good for any general purpose system.
+> > 
+> > What's wrong with using a security policy for this instead?
 > 
-> > If this is going to be added... I am thinking whether it should be easier to
-> > add another value for unprivileged_userfaultfd, rather than a new sysctl. E.g.:
-> > 
-> >   "0": unprivileged userfaultfd forbidden
-> >   "1": unprivileged userfaultfd allowed (both user/kernel faults)
-> >   "2": unprivileged userfaultfd allowed (only user faults)
-> > 
-> > Because after all unprivileged_userfaultfd_user_mode_only will be meaningless
-> > (iiuc) if unprivileged_userfaultfd=0.  The default value will also be the same
-> > as before ("1") 
-> It occurs to me to wonder whether this interface should also let an admin
-> block *privileged* user from handling kernel-space faults?  In a
-> secure-boot/lockdown setting, this could be a hardening measure that keeps
-> a (somewhat) restricted root user from expanding their privilege...?
+> In fact I see the original thread already mentions selinux,
+> so it's just a question of making this controllable by
+> selinux.
 
-That's a good question. In my view if as root in lockdown mode you can
-still run the swapon syscall and setup nfs or other network devices
-and load userland fuse filesystems or cuse chardev in userland, even
-if you prevent userfaultfd from blocking kernel faults, kernel faults
-can still be blocked by other means.
+I agree it'd be preferable if it was not hardcoded, but then this
+patchset is also much simpler than the previous controlling it through
+selinux..
 
-That in fact tends to be true also as non root (so regardless of
-lockdown settings) since luser can generally load fuse filesystems.
-There is no fundamental integrity breakage or privilege escalation
-originating in userfaultfd.
+I was thinking, an alternative policy that could control it without
+hard-coding it, is a seccomp-bpf filter, then you can drop 2/2 as
+well, not just 1/6-4/6.
 
-The only concern here is about this: "after a new use-after-free is
-discovered in some other part of the kernel (not related to
-userfaultfd), how easy it is to turn the use-after-free from a mere
-DoS to a more concerning privilege escalation?". userfaultfd might
-facilitate the exploitation, but even if you remove userfaultfd from
-the equation, there's still no guarantee an user-after-free won't
-materialize as a privilege escalation by other means.
+If you keep only 1/2, can't seccomp-bpf enforce userfaultfd to be
+always called with flags==0x1 without requiring extra modifications in
+the kernel?
 
-So to express it in another way: unless lockdown (no matter in which
-mode) is a weak probabilistic based feature and in turn it cannot
-provide any guarantee to begin with, userfaultfd sysctl set to 0|1|2
-can't possibly make any difference to it.
+Can't you get the feature party with the CAP_SYS_PTRACE capability
+too, if you don't wrap those tasks with the ptrace capability under
+that seccomp filter?
 
-The best mitigation for those kind of exploits remains to randomize
-all kernel memory allocations, so even if the attacker can block the
-fault, when it's unblocked it'll pick another page, not the one that
-the attacker can predict it will use, so the attacker needs to repeat
-the race many more times and hopefully it'll DoS and destabilize the
-kernel before it can reproduce a privilege escalation. We got many of
-those randomization features in the current kernel and it's probably
-more important to enable those than to worry about this sysctl value.
+As far as I can tell, it's unprecedented to create a flag for a
+syscall API, with the only purpose of implementing a seccomp-bpf
+filter verifying such flag is set, but then if you want to control it
+with LSM it's even more complex than doing it with seccomp-bpf, and it
+requires more kernel code too. We could always add 2/2 later, such
+possibility won't disappear, in fact we could also add 1/6-4/6 later
+too if that is not enough.
 
-One way to have a peace of mind against all use-after-free regardless
-of this sysctl value, is to run each pod in a KVM instance, that's
-safer than disabling syscalls or kernel features.
-
-The default seccomp profiles of podman already block userfaultfd too,
-so there's no need of virt to get extra safety if you use containers:
-containers need to explicitly opt-in to enable userfaultfd through the
-OCI schema seccomp object. If userfaultfd is being explicitly
-whitelisted in the OCI schema of the container, well then you know
-there is a good reason for it. As a matter of fact some things are
-only possible to achieve with userfaultfd fully enabled.
-
-The big value uffd brings compared to trapping sigsegv is precisely to
-be able to handle kernel faults transparently. sigsegv can't do that
-because every syscall would return 1) an inconsistent retval and 2) no
-fault address along with the retval.
-
-The possible future uffd userland users could be: dropping JVM dirty
-bit, redis snapshot using pthread_create() instead of fork(),
-distributed shared memory on pmem, new malloc() implementation never
-taking mmap_sem for writing in the kernel and never modifying any vma
-to allocate and free anon memory, etc.. I don't think any of them
-would work with the sysctl set to "2".
-
-The next kernel feature in uffd land that I was discussing with Peter,
-is an async uffd event model to further optimize the replacement of
-soft-dirty (which uffd already provides in O(1) instead of O(N)), so
-the wrprotect fault won't have to block anymore until the uffd async
-queue overflows. That also is unlikely to work with the sysctl set to
-"2" without adding extra constraints that soft-dirty doesn't currently
-have.
-
-It would also be possible to implement the value "2" to work like
-/proc/sys/kernel/unprivileged_bpf_disabled, so when you set it to "1"
-as root, you can't set it to "2" or "0" and when you set it to "2" you
-can't set it to "0", but personally I think it's unnecessary.
+If we could begin by merging only 1/2 from this new series and be done
+with the kernel changes, because we offload the rest of the work to
+the kernel eBPF JIT, I think it'd be ideal.
 
 Thanks,
 Andrea
