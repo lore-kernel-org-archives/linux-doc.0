@@ -2,152 +2,282 @@ Return-Path: <SRS0=+Urr=7C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1EC0C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 08:32:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F01C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 12:14:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5E59206C3
-	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 08:32:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Txf62WqR"
+	by mail.kernel.org (Postfix) with ESMTP id B8B50207D3
+	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 12:14:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726844AbgETIcy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 May 2020 04:32:54 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44807 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726224AbgETIcx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 May 2020 04:32:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589963572;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RmOXj1sWhvWoKhdSD0p1vfnJVy6tNauqOTA14BFZb40=;
-        b=Txf62WqR5qdCnPsofmGtZ0dkcQQg9jM3+kt4xD/GLTUHLmJdI3ppYlXd09UbtEecPikpuq
-        HB+B/0gGMs+VxoH/PWm4yOxIoURVCLYV1IkwCqwCidkXb3jGG0XZvq4n0xOtVqS84Po8yC
-        xTmN3zJaKKpSSDGH0UHYOzEEgquUki8=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-n6Xxkxs6P32E5UFMIdS9MA-1; Wed, 20 May 2020 04:32:49 -0400
-X-MC-Unique: n6Xxkxs6P32E5UFMIdS9MA-1
-Received: by mail-qk1-f199.google.com with SMTP id 14so3001381qkv.16
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2020 01:32:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RmOXj1sWhvWoKhdSD0p1vfnJVy6tNauqOTA14BFZb40=;
-        b=UBIoZAZsNm9+KiBlcYUv0mkx59FnK0Flg7CHqwkWEYmG9JUsZVE1AylBhzwQf1pBm7
-         DZFBuXMflh/FInXPCTYZz71GUJrE1F07bkMrhbAmja04ymoKKYuvFW57ZY/NUqRkcbcE
-         xSy9c6WrQAJ86gyXfm4ajH/fVB05EKW0hXgQEn/dr2l9ZGMUTzf4e6ET9rT4pAjXFN6b
-         xNZhezNHq/k3nfhoRtS9cLMqMp7Gk5dteL9Dbw1rxvyOfSfkYmhi30UCawHfn3la6QWJ
-         F+dg8MahAQAnAQvNeOMuu05OIG+Hu96z+A9LJdfz0vbbosnQwpJnQ+zBZIRJLpdt8nrK
-         NinA==
-X-Gm-Message-State: AOAM533lT9SabhiPRkq7U2wyBbRqhG5rw7Faj+ZyjrFOUg/dQaU1T8xX
-        PUtseFPvliti2jMXsMSq4zZzEQcZNOR4yY2wyPaeZKRN4akC4z1CENUjUQ3C6dlg2Y4UTWsdBwV
-        /Cv4qtkIBVLiCpKDXvRB2LL1PCAEE7d+5p8xN
-X-Received: by 2002:a37:c20a:: with SMTP id i10mr3478213qkm.29.1589963568765;
-        Wed, 20 May 2020 01:32:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhjeXdrCTfIEg1oJlMc+NZH3v1U5iNIyOTTTevnbwqW+4KEKmeS/BGmSfvSXiGZsuSg8h37pLDV4T75rp7/6A=
-X-Received: by 2002:a37:c20a:: with SMTP id i10mr3478185qkm.29.1589963568417;
- Wed, 20 May 2020 01:32:48 -0700 (PDT)
+        id S1726452AbgETMOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 May 2020 08:14:24 -0400
+Received: from mga02.intel.com ([134.134.136.20]:38101 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726224AbgETMOY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 May 2020 08:14:24 -0400
+IronPort-SDR: L7ORZAzt6+/ys7eBBjp4z4wk8yXJZJrhvSNFTxuJ3nP11vJzJeHd/gLAcFxJYLdb8VSJ+36Zu6
+ e7PXZjTTiDsg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2020 05:14:22 -0700
+IronPort-SDR: lDMa4IjaXiaO5yuLenq7hmObVwvLlvW7Ra62UtLnUsEjjY2mIF0qAEeS0m13oTAh5q8zO5V6+3
+ bIe3XWsVL9Xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,413,1583222400"; 
+   d="scan'208";a="289330311"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004.fm.intel.com with ESMTP; 20 May 2020 05:14:18 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1jbNc4-007pru-GJ; Wed, 20 May 2020 15:14:20 +0300
+Date:   Wed, 20 May 2020 15:14:20 +0300
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        qemu-devel@nongnu.org
+Subject: Re: [PATCH v7 0/6] gpio: Add GPIO Aggregator
+Message-ID: <20200520121420.GA1867563@smile.fi.intel.com>
+References: <20200511145257.22970-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20191223152349.180172-1-chenzhou10@huawei.com>
- <a57d46bc-881e-3526-91ca-558bf64e2aa8@huawei.com> <CAK8P3a2VrAqefPYF2JqRjwdhgTDtORUgWgVuYxRYWqKxE3+5pA@mail.gmail.com>
- <3D37F6BE-ECFC-4EC0-A7C4-341F85FC056E@oracle.com>
-In-Reply-To: <3D37F6BE-ECFC-4EC0-A7C4-341F85FC056E@oracle.com>
-From:   Bhupesh Sharma <bhsharma@redhat.com>
-Date:   Wed, 20 May 2020 14:02:36 +0530
-Message-ID: <CACi5LpO82hmXG6bcSqhAhNZJW8mPRP2CuLGT2mrgKDMk1s8g_g@mail.gmail.com>
-Subject: Re: [PATCH v7 0/4] support reserving crashkernel above 4G on arm64 kdump
-To:     John Donnelly <john.p.donnelly@oracle.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Chen Zhou <chenzhou10@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Young <dyoung@redhat.com>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        James Morse <james.morse@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Prabhakar Kushwaha <pkushwaha@marvell.com>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200511145257.22970-1-geert+renesas@glider.be>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi John,
+On Mon, May 11, 2020 at 04:52:51PM +0200, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> GPIO controllers are exported to userspace using /dev/gpiochip*
+> character devices.  Access control to these devices is provided by
+> standard UNIX file system permissions, on an all-or-nothing basis:
+> either a GPIO controller is accessible for a user, or it is not.
+> Currently no mechanism exists to control access to individual GPIOs.
+> 
+> Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+> them as a new gpiochip.  This is useful for implementing access control,
+> and assigning a set of GPIOs to a specific user.  Furthermore, this
+> simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+> can just grab the full GPIO controller, and no longer needs to care
+> about which GPIOs to grab and which not, reducing the attack surface.
+> This has been implemented for ARM virt in QEMU[1].
+> 
+> Recently, other use cases have been discovered[2], like describing
+> simple GPIO-operated devices in DT, and using the GPIO Aggregator as a
+> generic GPIO driver for userspace, which is useful for industrial
+> control.
+> 
+> Note that the first patch of this series ("i2c: i801: Use GPIO_LOOKUP()
+> helper macro") has been applied to i2c/for-next.
 
-On Wed, May 20, 2020 at 1:53 AM John Donnelly
-<john.p.donnelly@oracle.com> wrote:
->
->
->
-> > On May 19, 2020, at 5:21 AM, Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > On Thu, Mar 26, 2020 at 4:10 AM Chen Zhou <chenzhou10@huawei.com> wrote:
-> >>
-> >> Hi all,
-> >>
-> >> Friendly ping...
-> >
-> > I was asked about this patch series, and see that you last posted it in
-> > December. I think you should rebase it to linux-5.7-rc6 and post the
-> > entire series again to make progress, as it's unlikely that any maintainer
-> > would pick up the patches from last year.
-> >
-> > For the contents, everything seems reasonable to me, but I noticed that
-> > you are adding a property to the /chosen node without adding the
-> > corresponding documentation to
-> > Documentation/devicetree/bindings/chosen.txt
-> >
-> > Please add that, and Cc the devicetree maintainers on the updated
-> > patch.
-> >
-> >         Arnd
-> >
-> >> On 2019/12/23 23:23, Chen Zhou wrote:
-> >>> This patch series enable reserving crashkernel above 4G in arm64.
-> >>>
-> >>> There are following issues in arm64 kdump:
-> >>> 1. We use crashkernel=X to reserve crashkernel below 4G, which will fail
-> >>> when there is no enough low memory.
-> >>> 2. Currently, crashkernel=Y@X can be used to reserve crashkernel above 4G,
-> >>> in this case, if swiotlb or DMA buffers are required, crash dump kernel
-> >>> will boot failure because there is no low memory available for allocation.
-> >>>
-> >>> The previous changes and discussions can be retrieved from:
-> >>>
-> >>> Changes since [v6]
-> >>> - Fix build errors reported by kbuild test robot.
-> > ...
->
->
->  Hi
->
-> We found
->
-> https://lkml.org/lkml/2020/4/30/1583
->
-> Has cured our Out-Of-Memory kdump failures.
->
-> From    Henry Willard
-> Subject [PATCH] mm: Limit boost_watermark on small zones.
->
-> I am currently not on linux-kernel@vger.kernel.org. dlist for all to see  this message so you may want to rebase and see if this cures your OoM issue and share the results.
+Sorry for late reply, recently noticed this nice idea.
+The comment I have is, please, can we reuse bitmap parse algorithm and syntax?
+We have too many different formats and parsers in the kernel and bitmap's one
+seems suitable here.
 
-This is a very interesting finding. Thanks a lot for sharing the same.
-I am working on further avoiding OOM issues with arm64 kdump kernels.
-I will experiment more with this patch and get back with more details.
+(Despite other small clean ups, like strstrip() use)
 
-Regards,
-Bhupesh
+> Changes compared to v6[3]:
+>   - Document non-uniqueness of line names,
+>   - Rebase on top of commit a0b66a73785ccc8f ("gpio: Rename variable in
+>     core APIs"),
+>   - Maintained => Supported,
+>   - Add Reviewed-by, Acked-by,
+>   - Drop applied patches:
+>       - "ARM: integrator: impd1: Use GPIO_LOOKUP() helper macro",
+>       - "gpiolib: Introduce gpiod_set_config()".
+> 
+> Changes compared to v5[4]:
+>   - Convert raw gpiod_lookup users to GPIO_LOOKUP*(),
+>   - Update Documentation/driver-api/gpio/board.rst for gpiod_lookup
+>     changes,
+>   - Reword rationale behing looking up GPIOs by line name,
+>   - Introduce gpiod_set_config(),
+>   - Use gpiod_to_chip() instead of open-coding,
+>   - Drop debug print of gpio_desc.label, as it usually points to the
+>     GPIO Aggregator itself,
+>   - Drop no longer needed #include "gpiolib.h",
+>   - Fix missing offset translation in gpio_fwd_set_config(),
+>   - Fix "allows" without object,
+>   - Drop "gpiochipN" support,
+>   - Extend example.
+> 
+> Changes compared to v4[5]:
+>   - Add Reviewed-by, Tested-by,
+>   - Fix inconsistent indentation in documentation.
+> 
+> Changes compared to v3[6] (more details in the individual patches):
+>   - Drop controversial GPIO repeater,
+>   - Drop support for legacy sysfs interface based name matching,
+>   - Drop applied "gpiolib: Add GPIOCHIP_NAME definition",
+>   - Documentation improvements,
+>   - Lots of small cleanups.
+> 
+> Changes compared to v2[7] (more details in the individual patches):
+>   - Integrate GPIO Repeater functionality,
+>   - Absorb GPIO forwarder library, as the Aggregator and Repeater are
+>     now a single driver,
+>   - Use the aggregator parameters to create a GPIO lookup table instead
+>     of an array of GPIO descriptors,
+>   - Add documentation,
+>   - New patches:
+>       - "gpiolib: Add GPIOCHIP_NAME definition",
+>       - "gpiolib: Add support for gpiochipN-based table lookup",
+>       - "gpiolib: Add support for GPIO line table lookup",
+>       - "dt-bindings: gpio: Add gpio-repeater bindings",
+>       - "docs: gpio: Add GPIO Aggregator/Repeater documentation",
+>       - "MAINTAINERS: Add GPIO Aggregator/Repeater section".
+>   - Dropped patches:
+>       - "gpio: Export gpiod_{request,free}() to modular GPIO code",
+>       - "gpio: Export gpiochip_get_desc() to modular GPIO code",
+>       - "gpio: Export gpio_name_to_desc() to modular GPIO code",
+>       - "gpio: Add GPIO Forwarder Helper".
+> 
+> Changes compared to v1[8]:
+>   - Drop "virtual", rename to gpio-aggregator,
+>   - Create and use new GPIO Forwarder Helper, to allow sharing code with
+>     the GPIO inverter,
+>   - Lift limit on the maximum number of GPIOs,
+>   - Improve parsing of GPIO specifiers,
+>   - Fix modular build.
+> 
+> Aggregating GPIOs and exposing them as a new gpiochip was suggested in
+> response to my proof-of-concept for GPIO virtualization with QEMU[9][10].
+> 
+> For the first use case, aggregated GPIO controllers are instantiated and
+> destroyed by writing to atribute files in sysfs.
+> Sample session on the Renesas Koelsch development board:
+> 
+>   - Unbind LEDs from leds-gpio driver:
+> 
+>         echo leds > /sys/bus/platform/drivers/leds-gpio/unbind
+> 
+>   - Create aggregators:
+> 
+>     $ echo e6052000.gpio 19,20 \
+>         > /sys/bus/platform/drivers/gpio-aggregator/new_device
+> 
+>     gpio-aggregator gpio-aggregator.0: gpio 0 => gpio-953
+>     gpio-aggregator gpio-aggregator.0: gpio 1 => gpio-954
+>     gpiochip_find_base: found new base at 758
+>     gpio gpiochip12: (gpio-aggregator.0): added GPIO chardev (254:13)
+>     gpiochip_setup_dev: registered GPIOs 758 to 759 on device: gpiochip12 (gpio-aggregator.0)
+> 
+>     $ echo e6052000.gpio 21 e6050000.gpio 20-22 \
+>         > /sys/bus/platform/drivers/gpio-aggregator/new_device
+> 
+>     gpio-aggregator gpio-aggregator.1: gpio 0 => gpio-955
+>     gpio-aggregator gpio-aggregator.1: gpio 1 => gpio-1012
+>     gpio-aggregator gpio-aggregator.1: gpio 2 => gpio-1013
+>     gpio-aggregator gpio-aggregator.1: gpio 3 => gpio-1014
+>     gpiochip_find_base: found new base at 754
+>     gpio gpiochip13: (gpio-aggregator.1): added GPIO chardev (254:13)
+>     gpiochip_setup_dev: registered GPIOs 754 to 757 on device: gpiochip13 (gpio-aggregator.1)
+> 
+>   - Adjust permissions on /dev/gpiochip1[23] (optional)
+> 
+>   - Control LEDs:
+> 
+>     $ gpioset gpiochip12 0=0 1=1 # LED6 OFF, LED7 ON
+>     $ gpioset gpiochip12 0=1 1=0 # LED6 ON, LED7 OFF
+>     $ gpioset gpiochip13 0=1     # LED8 ON
+>     $ gpioset gpiochip13 0=0     # LED8 OFF
+> 
+>   - Destroy aggregators:
+> 
+>     $ echo gpio-aggregator.0 \
+>             > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+>     $ echo gpio-aggregator.1 \
+>             > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+> 
+> To ease testing, I have pushed this series to the
+> topic/gpio-aggregator-v7 branch of my renesas-drivers repository at
+> git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git.
+> 
+> Thanks!
+> 
+> References:
+>   [1] "[PATCH QEMU v2 0/5] Add a GPIO backend"
+>       (https://lore.kernel.org/linux-gpio/20200423090118.11199-1-geert+renesas@glider.be/)
+>   [2] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
+>       (https://lore.kernel.org/r/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/)
+>   [3] "[PATCH v6 0/8] gpio: Add GPIO Aggregator"
+>       (https://lore.kernel.org/linux-doc/20200324135328.5796-1-geert+renesas@glider.be/)
+>   [4] "[PATCH v5 0/5] gpio: Add GPIO Aggregator"
+>       (https://lore.kernel.org/r/20200218151812.7816-1-geert+renesas@glider.be/)
+>   [5] "[PATCH v4 0/5] gpio: Add GPIO Aggregator"
+>       (https://lore.kernel.org/r/20200115181523.23556-1-geert+renesas@glider.be)
+>   [6] "[PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater"
+>       (https://lore.kernel.org/r/20191127084253.16356-1-geert+renesas@glider.be/)
+>   [7] "[PATCH/RFC v2 0/5] gpio: Add GPIO Aggregator Driver"
+>       (https://lore.kernel.org/r/20190911143858.13024-1-geert+renesas@glider.be/)
+>   [8] "[PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver"
+>       (https://lore.kernel.org/r/20190705160536.12047-1-geert+renesas@glider.be/)
+>   [9] "[PATCH QEMU POC] Add a GPIO backend"
+>       (https://lore.kernel.org/r/20181003152521.23144-1-geert+renesas@glider.be/)
+>  [10] "Getting To Blinky: Virt Edition / Making device pass-through
+>        work on embedded ARM"
+>       (https://fosdem.org/2019/schedule/event/vai_getting_to_blinky/)
+> 
+> Geert Uytterhoeven (6):
+>   i2c: i801: Use GPIO_LOOKUP() helper macro
+>   mfd: sm501: Use GPIO_LOOKUP_IDX() helper macro
+>   gpiolib: Add support for GPIO lookup by line name
+>   gpio: Add GPIO Aggregator
+>   docs: gpio: Add GPIO Aggregator documentation
+>   MAINTAINERS: Add GPIO Aggregator section
+> 
+>  .../admin-guide/gpio/gpio-aggregator.rst      | 111 ++++
+>  Documentation/admin-guide/gpio/index.rst      |   1 +
+>  Documentation/driver-api/gpio/board.rst       |  15 +-
+>  MAINTAINERS                                   |   7 +
+>  drivers/gpio/Kconfig                          |  12 +
+>  drivers/gpio/Makefile                         |   1 +
+>  drivers/gpio/gpio-aggregator.c                | 568 ++++++++++++++++++
+>  drivers/gpio/gpiolib.c                        |  22 +-
+>  drivers/i2c/busses/i2c-i801.c                 |   6 +-
+>  drivers/mfd/sm501.c                           |  24 +-
+>  include/linux/gpio/machine.h                  |  17 +-
+>  11 files changed, 748 insertions(+), 36 deletions(-)
+>  create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
+>  create mode 100644 drivers/gpio/gpio-aggregator.c
+> 
+> -- 
+> 2.17.1
+> 
+> Gr{oetje,eeting}s,
+> 
+> 						Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+> 							    -- Linus Torvalds
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
