@@ -2,70 +2,51 @@ Return-Path: <SRS0=+Urr=7C=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B4AC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 20:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 459F5C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 21:16:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8435120823
-	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 20:17:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 244AE20748
+	for <linux-doc@archiver.kernel.org>; Wed, 20 May 2020 21:16:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EfnCZypm"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M706xbrC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727776AbgETURd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 May 2020 16:17:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54446 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726860AbgETURc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 May 2020 16:17:32 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABD59C061A0E
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2020 13:17:32 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id x5so4785417ioh.6
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2020 13:17:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VyaSYeCN7SlfNpIcnaBLrvnj4Za8Y5YWee7k0M093LM=;
-        b=EfnCZypmdGa8VpCH0ge9lM32x0XwnmHj2izqsNgRTS3I07JG3e/hF4lLCo5kXYO4/g
-         GtxgCniYtCnG++FB/8kG6zPSRmFLKhxRqmmq4IdVKeBaftKKpwV9wCZorD+0tHjfkdlf
-         iKIaBkXsdUOcUzEbaSjKSZqabgCT3OCAuVYYojsL0oGeaGv8yix5Xa36HevdrmZQA1d3
-         oZiCFN22Zq85rpV1iC6H6WuqAmzoFZO6oguZ9pkB1ojjDMsp42z1ILZhpfs69Ar45MbZ
-         DEZchCUERGXKZVtVhJ2ntdiyp4CuUJlSp/UEMGtBpuJcdmq5WBjbssYBuRlEU2sLgeuf
-         ZmiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VyaSYeCN7SlfNpIcnaBLrvnj4Za8Y5YWee7k0M093LM=;
-        b=uWUuI5+B5EAxy0Kfcs9x+lTT0vabyH929o//PT2Z1rEBs5FKXM3ul1/b1COnj7C1oS
-         2d6iF5yG2T7MgFw6y4jFvLwjyRrpoKXhZNzM0i35sWUl+4eVzQEjGPWVz8lFqqV7ntH3
-         VsjvkKQHt4y3po+Q8Eo/T6XOmlQSWvfSp14gelFaVglcmLpVS4MCDSJ09I8Ly+Bl6xKE
-         4xW+1Pl7Paf1ZvX8w+IGLSffF+Pn8Aqa/36Py3WTPGSGU8CH2N0/HJjCGgdfU49USh7Q
-         jqLFctyQp/E8HW4yGElcQRiG2m6hm3ER+xgsVRN1RW96L9viFCNQs+quvwcQTvcUb7ee
-         JlYQ==
-X-Gm-Message-State: AOAM530jWiKO2cPb2duxIMNYvQI4UneQVmJ5/nYg8Q2MhsMj6xcbP6ho
-        I5DlMMBhpkFS/qknM3HOuIIcin+xPxJKJy6A5LMC3Q==
-X-Google-Smtp-Source: ABdhPJxf5r3SCDgK6PuxVrPSpsHX45TKCMtlgHtmR2oB4Pr8N10SC5JVUCM3UWZi1m7AGto9SCPNRm16+lOlW4mhbLA=
-X-Received: by 2002:a5d:8a10:: with SMTP id w16mr4683295iod.95.1590005851709;
- Wed, 20 May 2020 13:17:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200423002632.224776-1-dancol@google.com> <20200423002632.224776-3-dancol@google.com>
- <20200508125054-mutt-send-email-mst@kernel.org> <20200508125314-mutt-send-email-mst@kernel.org>
- <20200520045938.GC26186@redhat.com> <202005200921.2BD5A0ADD@keescook>
- <20200520194804.GJ26186@redhat.com> <20200520195134.GK26186@redhat.com>
-In-Reply-To: <20200520195134.GK26186@redhat.com>
-From:   Lokesh Gidra <lokeshgidra@google.com>
-Date:   Wed, 20 May 2020 13:17:20 -0700
-Message-ID: <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Add a new sysctl knob: unprivileged_userfaultfd_user_mode_only
-To:     Andrea Arcangeli <aarcange@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
+        id S1728372AbgETVQv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 May 2020 17:16:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23955 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727909AbgETVQu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 May 2020 17:16:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1590009409;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=66Hol5qyCUFMxPkUsApvxi2EbBWIVzL0cKnQXWEPmBk=;
+        b=M706xbrCDKav3vmcVTiClJS21YEAkJlL8m56NZxUbHjuOrWlNwmlii85+hzEJDqLglSvLT
+        cZ4A4ZWQsBwCJqUMTkua8yIWkAtl4w3CBeXAv/tYx43+ts9SnK5NFYu08KCE0unoUZPWyK
+        eIEbx8VjTBzjqaCW3L0D1GIcwNWFYgo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-SbZPDIEGM3GaELLT19_jZw-1; Wed, 20 May 2020 17:16:45 -0400
+X-MC-Unique: SbZPDIEGM3GaELLT19_jZw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2281A0BD9;
+        Wed, 20 May 2020 21:16:41 +0000 (UTC)
+Received: from mail (ovpn-112-106.rdu2.redhat.com [10.10.112.106])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A7B0870879;
+        Wed, 20 May 2020 21:16:35 +0000 (UTC)
+Date:   Wed, 20 May 2020 17:16:34 -0400
+From:   Andrea Arcangeli <aarcange@redhat.com>
+To:     Lokesh Gidra <lokeshgidra@google.com>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Kees Cook <keescook@chromium.org>,
         "Michael S. Tsirkin" <mst@redhat.com>,
         Daniel Colascione <dancol@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -85,19 +66,44 @@ Cc:     Kees Cook <keescook@chromium.org>,
         linux-fsdevel@vger.kernel.org, Tim Murray <timmurray@google.com>,
         Minchan Kim <minchan@google.com>,
         Sandeep Patil <sspatil@google.com>, kernel@android.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 2/2] Add a new sysctl knob:
+ unprivileged_userfaultfd_user_mode_only
+Message-ID: <20200520211634.GL26186@redhat.com>
+References: <20200423002632.224776-1-dancol@google.com>
+ <20200423002632.224776-3-dancol@google.com>
+ <20200508125054-mutt-send-email-mst@kernel.org>
+ <20200508125314-mutt-send-email-mst@kernel.org>
+ <20200520045938.GC26186@redhat.com>
+ <202005200921.2BD5A0ADD@keescook>
+ <20200520194804.GJ26186@redhat.com>
+ <20200520195134.GK26186@redhat.com>
+ <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adding the Android kernel team in the discussion.
+On Wed, May 20, 2020 at 01:17:20PM -0700, Lokesh Gidra wrote:
+> Adding the Android kernel team in the discussion.
 
-On Wed, May 20, 2020 at 12:51 PM Andrea Arcangeli <aarcange@redhat.com> wrote:
->
-> On Wed, May 20, 2020 at 03:48:04PM -0400, Andrea Arcangeli wrote:
-> > The sysctl /proc/sys/kernel/unprivileged_bpf_disabled is already there
->
-> Oops I picked the wrong unprivileged_* :) of course I meant:
-> /proc/sys/vm/unprivileged_userfaultfd
->
+Unless I'm mistaken that you can already enforce bit 1 of the second
+parameter of the userfaultfd syscall to be set with seccomp-bpf, this
+would be more a question to the Android userland team.
+
+The question would be: does it ever happen that a seccomp filter isn't
+already applied to unprivileged software running without
+SYS_CAP_PTRACE capability?
+
+If answer is "no" the behavior of the new sysctl in patch 2/2 (in
+subject) should be enforceable with minor changes to the BPF
+assembly. Otherwise it'd require more changes.
+
+Thanks!
+Andrea
+
