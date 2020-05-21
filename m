@@ -2,100 +2,124 @@ Return-Path: <SRS0=V28G=7D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81279C433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 15:57:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BE2C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 16:52:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FC662072C
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 15:57:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20AC020829
+	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 16:52:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cElemK5/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728093AbgEUP5w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 May 2020 11:57:52 -0400
-Received: from mga05.intel.com ([192.55.52.43]:6270 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727968AbgEUP5w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 May 2020 11:57:52 -0400
-IronPort-SDR: 0eEVmwzumtnz92CFANKpl7Uw5kFjC06+hfkC6qs7OgBN4I1TYxm/ltuGrUXLFWwvCZ/31vgtF8
- 9s/1VzYrCfHQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2020 08:57:51 -0700
-IronPort-SDR: KU0u7F/zAaSUkGmX6X4pMq8vLPzvIdvXNk9DZoNS/uZkOqFyB2C3kJui/HVPQAVxZhcb2vff4Z
- WGPr1cyxmXpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,418,1583222400"; 
-   d="scan'208";a="255344664"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga008.fm.intel.com with ESMTP; 21 May 2020 08:57:51 -0700
-Message-ID: <a1e7c71c72de517a288e6273ba0c18dac2e937bc.camel@intel.com>
-Subject: Re: [PATCH v10 00/26] Control-flow Enforcement: Shadow Stack
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Date:   Thu, 21 May 2020 08:57:57 -0700
-In-Reply-To: <20200521151556.pojijpmuc2rdd7ko@treble>
-References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
-         <20200521151556.pojijpmuc2rdd7ko@treble>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1728565AbgEUQwB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 May 2020 12:52:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49020 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728546AbgEUQwA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 May 2020 12:52:00 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E85C5C061A0E;
+        Thu, 21 May 2020 09:52:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=2O1Tg2zoC7nFEvMcg7+Gz3j7SsEauO9Urp+9H16pJrI=; b=cElemK5/V2BTVGAUY1OEd8YFBE
+        wVe6bTbyqcTfFhBPQQ94dhs6L3uc7xHKr8Igx9ZCou9LCI0vJh9N6RCzGgEoLHj+rzG0YS9JMF5RN
+        zklJBrX9ZB4hF6F2rJohSt32DE+yMcR9Cm1RaLKpkTuxcrdlE/LJ0cwprM98cb5Cc0vduMNZi0lXm
+        G/z99A6Y3PWh6LXL4n1j9xildH68k3fmlmrnMDS4wG+kAqJP/VY5oUqdfJkz7BxfMt41vSf5TIWgN
+        tNLTiMZQFoxjC+QhplitUyFiUfy97zwb8hNeR1LD/O2pFR/ytUwC32Yxk5oF9isA0PBYzjJmy1JxE
+        lpAGm3lQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jboQI-0003AV-At; Thu, 21 May 2020 16:51:59 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] nvdimm: fixes to maintainter-entry-profile
+Message-ID: <103a0e71-28b5-e4c2-fdf2-80d2dd005b44@infradead.org>
+Date:   Thu, 21 May 2020 09:51:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2020-05-21 at 10:15 -0500, Josh Poimboeuf wrote:
-> On Wed, Apr 29, 2020 at 03:07:06PM -0700, Yu-cheng Yu wrote:
-> > Control-flow Enforcement (CET) is a new Intel processor feature that blocks
-> > return/jump-oriented programming attacks.  Details can be found in "Intel
-> > 64 and IA-32 Architectures Software Developer's Manual" [1].
-> > 
-> > This series depends on the XSAVES supervisor state series that was split
-> > out and submitted earlier [2].
-> > 
-> > I have gone through previous comments, and hope all concerns have been
-> > resolved now.  Please inform me if anything is overlooked.
-> > 
-> > Changes in v10:
-> 
-> Hi Yu-cheng,
-> 
-> Do you have a git branch with the latest Shadow Stack and IBT branches
-> applied?  I tried to apply IBT v9 on top of this, but I guess the SS
-> code has changed since then and it didn't apply cleanly.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-It is here:
+Fix punctuation and wording in a few places.
 
-https://github.com/yyu168/linux_cet/commits/cet
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Vishal Verma <vishal.l.verma@intel.com>
+Cc: Dave Jiang <dave.jiang@intel.com>
+Cc: Ira Weiny <ira.weiny@intel.com>
+Cc: linux-nvdimm@lists.01.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/nvdimm/maintainer-entry-profile.rst |   14 ++++++------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Yu-cheng
+--- linux-next-20200521.orig/Documentation/nvdimm/maintainer-entry-profile.rst
++++ linux-next-20200521/Documentation/nvdimm/maintainer-entry-profile.rst
+@@ -4,15 +4,15 @@ LIBNVDIMM Maintainer Entry Profile
+ Overview
+ --------
+ The libnvdimm subsystem manages persistent memory across multiple
+-architectures. The mailing list, is tracked by patchwork here:
++architectures. The mailing list is tracked by patchwork here:
+ https://patchwork.kernel.org/project/linux-nvdimm/list/
+ ...and that instance is configured to give feedback to submitters on
+ patch acceptance and upstream merge. Patches are merged to either the
+-'libnvdimm-fixes', or 'libnvdimm-for-next' branch. Those branches are
++'libnvdimm-fixes' or 'libnvdimm-for-next' branch. Those branches are
+ available here:
+ https://git.kernel.org/pub/scm/linux/kernel/git/nvdimm/nvdimm.git/
+ 
+-In general patches can be submitted against the latest -rc, however if
++In general patches can be submitted against the latest -rc; however, if
+ the incoming code change is dependent on other pending changes then the
+ patch should be based on the libnvdimm-for-next branch. However, since
+ persistent memory sits at the intersection of storage and memory there
+@@ -35,12 +35,12 @@ getting the test environment set up.
+ 
+ ACPI Device Specific Methods (_DSM)
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-Before patches enabling for a new _DSM family will be considered it must
++Before patches enabling a new _DSM family will be considered, it must
+ be assigned a format-interface-code from the NVDIMM Sub-team of the ACPI
+ Specification Working Group. In general, the stance of the subsystem is
+-to push back on the proliferation of NVDIMM command sets, do strongly
++to push back on the proliferation of NVDIMM command sets, so do strongly
+ consider implementing support for an existing command set. See
+-drivers/acpi/nfit/nfit.h for the set of support command sets.
++drivers/acpi/nfit/nfit.h for the set of supported command sets.
+ 
+ 
+ Key Cycle Dates
+@@ -48,7 +48,7 @@ Key Cycle Dates
+ New submissions can be sent at any time, but if they intend to hit the
+ next merge window they should be sent before -rc4, and ideally
+ stabilized in the libnvdimm-for-next branch by -rc6. Of course if a
+-patch set requires more than 2 weeks of review -rc4 is already too late
++patch set requires more than 2 weeks of review, -rc4 is already too late
+ and some patches may require multiple development cycles to review.
+ 
+ 
 
