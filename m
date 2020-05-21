@@ -2,110 +2,105 @@ Return-Path: <SRS0=V28G=7D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD8E1C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 13:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD11C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 15:16:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF18F207F9
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 13:29:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590067770;
-	bh=+Vul0RFPdVZB0vQS1vT3FMvkdRIwInL6j//NVC1qhzU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=Cuzi9BCmPiC9McOzNoTPZ7JE0Zu34GWg7jEo0gfVvPecLqsUSMElZ4M2IdbyB3WxR
-	 wMb+YBRe35B1lP5zqd8V6+W/5MQAKvk9b3cer8U4mdkS5A0Y1Z2k6p7/YQv6PcDFiE
-	 NfVFCOSTJwF+2pCZwcQFOZt2Vam8TAnkzB6V2yOk=
+	by mail.kernel.org (Postfix) with ESMTP id EBF1B20826
+	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 15:16:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Stn4UqJd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729362AbgEUN3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 May 2020 09:29:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35576 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729354AbgEUN3a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 May 2020 09:29:30 -0400
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1729899AbgEUPQ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 May 2020 11:16:29 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43650 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729897AbgEUPQ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 May 2020 11:16:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1590074187;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1jYcpHnQL3yWssjgDciSJYss0+WKenYias59GqFdGbA=;
+        b=Stn4UqJdHl/kI/Wr6YPLmZ6LPRB6CEft2U7vd56KAhKrl7LlHXiIy9/ycLOEj9YpZK83TI
+        7O4YQbwIsfnTBT7X2PmLTPctewzFJr1rDkS8nbBMwPNXMZKN2RnPQ6VQVHCWTrmbLiTHhl
+        z+y/MqATCn7XWptLIvnMyI8YuC3f+fI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-QcU_r6aePH625lEdCeW_7g-1; Thu, 21 May 2020 11:16:21 -0400
+X-MC-Unique: QcU_r6aePH625lEdCeW_7g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 75B2520872;
-        Thu, 21 May 2020 13:29:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590067769;
-        bh=+Vul0RFPdVZB0vQS1vT3FMvkdRIwInL6j//NVC1qhzU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RnR7LQDq/x9Ij28pJbJmM6lvZTtP5kEYvMwF8rieOVu/rNm+FHySqrnsIpxMZWBHX
-         GYOoUmXROau+GrCoaKOJ+QGWRx9oyNLmHaajGax+M/19uf94LxIcXmO61c4AKPllos
-         jEwGPIwlV5CxQgeEAMFlDM2V7QSfNpK5DrC5F4To=
-Received: by mail-ot1-f45.google.com with SMTP id x22so5492490otq.4;
-        Thu, 21 May 2020 06:29:29 -0700 (PDT)
-X-Gm-Message-State: AOAM533NNjD2DP9gkwF06u9LrLPeegbp4Vx5swO8EXYBwkjAt+VUlUrn
-        bMLOcC48fuuZj6Db3HHRVQJuCBHwYTLQESm8aQ==
-X-Google-Smtp-Source: ABdhPJwr4rrTCR/Idttk5JgrSALx4SScRiwigbIhOO/HiSRN+KNXysfUOLEjfhqUUsjN5MDORr7rgIYX7slyHD18ORM=
-X-Received: by 2002:a9d:1441:: with SMTP id h59mr7152607oth.192.1590067768679;
- Thu, 21 May 2020 06:29:28 -0700 (PDT)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2AB3100D0DB;
+        Thu, 21 May 2020 15:16:17 +0000 (UTC)
+Received: from treble (ovpn-112-59.rdu2.redhat.com [10.10.112.59])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F010106A7B7;
+        Thu, 21 May 2020 15:15:58 +0000 (UTC)
+Date:   Thu, 21 May 2020 10:15:56 -0500
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v10 00/26] Control-flow Enforcement: Shadow Stack
+Message-ID: <20200521151556.pojijpmuc2rdd7ko@treble>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-References: <20200521093805.64398-1-chenzhou10@huawei.com> <20200521093805.64398-6-chenzhou10@huawei.com>
-In-Reply-To: <20200521093805.64398-6-chenzhou10@huawei.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 21 May 2020 07:29:17 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+EV02YBqEGoJrsJW8Y+g_GkB_LkTwWCxNCb3F+8MSdyw@mail.gmail.com>
-Message-ID: <CAL_Jsq+EV02YBqEGoJrsJW8Y+g_GkB_LkTwWCxNCb3F+8MSdyw@mail.gmail.com>
-Subject: Re: [PATCH v8 5/5] dt-bindings: chosen: Document linux,low-memory-range
- for arm64 kdump
-To:     Chen Zhou <chenzhou10@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, dyoung@redhat.com,
-        Baoquan He <bhe@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        John.p.donnelly@oracle.com, pkushwaha@marvell.com,
-        Simon Horman <horms@verge.net.au>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        kexec@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 21, 2020 at 3:35 AM Chen Zhou <chenzhou10@huawei.com> wrote:
->
-> Add documentation for DT property used by arm64 kdump:
-> linux,low-memory-range.
-> "linux,low-memory-range" is an another memory region used for crash
-> dump kernel devices.
->
-> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> ---
->  Documentation/devicetree/bindings/chosen.txt | 25 ++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+On Wed, Apr 29, 2020 at 03:07:06PM -0700, Yu-cheng Yu wrote:
+> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+> return/jump-oriented programming attacks.  Details can be found in "Intel
+> 64 and IA-32 Architectures Software Developer's Manual" [1].
+> 
+> This series depends on the XSAVES supervisor state series that was split
+> out and submitted earlier [2].
+> 
+> I have gone through previous comments, and hope all concerns have been
+> resolved now.  Please inform me if anything is overlooked.
+> 
+> Changes in v10:
 
-chosen is now a schema documented here[1].
+Hi Yu-cheng,
 
-> diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
-> index 45e79172a646..bfe6fb6976e6 100644
-> --- a/Documentation/devicetree/bindings/chosen.txt
-> +++ b/Documentation/devicetree/bindings/chosen.txt
-> @@ -103,6 +103,31 @@ While this property does not represent a real hardware, the address
->  and the size are expressed in #address-cells and #size-cells,
->  respectively, of the root node.
->
-> +linux,low-memory-range
-> +----------------------
-> +This property (arm64 only) holds a base address and size, describing a
-> +limited region below 4G. Similar to "linux,usable-memory-range", it is
-> +an another memory range which may be considered available for use by the
-> +kernel.
+Do you have a git branch with the latest Shadow Stack and IBT branches
+applied?  I tried to apply IBT v9 on top of this, but I guess the SS
+code has changed since then and it didn't apply cleanly.
 
-Why can't you just add a range to "linux,usable-memory-range"? It
-shouldn't be hard to figure out which part is below 4G.
+-- 
+Josh
 
-Rob
-
-[1] https://github.com/devicetree-org/dt-schema/blob/master/schemas/chosen.yaml
