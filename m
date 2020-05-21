@@ -5,56 +5,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B827FC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 22:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FACFC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 22:48:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BFD2207D8
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 22:47:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0067207F9
+	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 22:48:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="F5pZZOod"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JQ5+k5fG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730675AbgEUWrT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 May 2020 18:47:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48470 "EHLO
+        id S1730041AbgEUWs4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 May 2020 18:48:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730041AbgEUWrS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 May 2020 18:47:18 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3C5C05BD43
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2020 15:47:18 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id 5so4080921pjd.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2020 15:47:18 -0700 (PDT)
+        with ESMTP id S1730707AbgEUWsz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 May 2020 18:48:55 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E51AC08C5C0
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2020 15:48:54 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id m7so3594552plt.5
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2020 15:48:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=rM+9EQuq5q2z+8Rnep+GSyMO4ogI1cr2dU/BPSckSc0=;
-        b=F5pZZOodmnglpG9At4hjeCVVXyzpzR4//cFTakNlKlvYwN0D+RuXv3b3KfBXiqoIPd
-         /NyMZuiJBlrSFqpYzdTFBIiE/Ajl6B2wuAI+W1w9YFfa7uRzrvVkreh5wHd+nlLnew6l
-         kqRmg/Q/gn8MWqph8HYDUDERDWiswmiGynNGs=
+        bh=GyTf6Xj9P6LVcKZuqtG5D3WfhPVAAS23C/vfOfVmvVo=;
+        b=JQ5+k5fG9g4wICrJVrj+Br5mMHgmfUrY1fz0/Q+Ow5rb2eZ4Bix1+T2xIANfTB4ZFd
+         Y328LIcEeJtuQYMvWdCOldUGLOQX2yLMevOhzN95bRCKS32ODcWOBunRXDnXc3n6JjtR
+         Uz35IGJqcsdhQ7q1JVctK60WwdGIv6BOfFTb0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=rM+9EQuq5q2z+8Rnep+GSyMO4ogI1cr2dU/BPSckSc0=;
-        b=t/Kc6tZubU7uhyfepy4NHXgR13NDZ1RLGe6rOpsalw7cKLnKPG702g2XPFp07nOLdF
-         jXCfb2jqxKTB9ThsKDS83B2XWU9RlK+h2uYEXCkeh97bjzPBSH3ReGorcVqkPB2RF/fm
-         dJI56MEUgp70P7/120kuMiuxQEWvWqqHkEaspQUGKkM1yvvUNRmqD7cf9hqy3vlqhBE0
-         vQfeL+3VSWUrlp0V/NzJB5+QiE9tq2Z3sUCL1M+38ymOzNKDs1BmtJwZAijpFRb1Gcpy
-         u/wHQ15pdpHCmtry5WKOBTEVddtK94JE4N41bw1jRwwTAd+Seo9PuvFU1u2hsc46pApC
-         beAw==
-X-Gm-Message-State: AOAM5330eZw0nMrO8NzLoXMw6xnvEqfEaX9YW0RlKgZcTZBlCTyfqgIC
-        mog93t0X7XX8O1tSAwA448/I6A==
-X-Google-Smtp-Source: ABdhPJwybfeAkdZSGfnmkfJKXBXqvxYAb7XHY72AtmJcsitduYysU62VqrkmK64cVlAk1k1RabLKSA==
-X-Received: by 2002:a17:902:7b86:: with SMTP id w6mr11680926pll.292.1590101237858;
-        Thu, 21 May 2020 15:47:17 -0700 (PDT)
+        bh=GyTf6Xj9P6LVcKZuqtG5D3WfhPVAAS23C/vfOfVmvVo=;
+        b=TI3mRCS+AcCkKSnYTk6d5evZ4cKAUAQg8+az/0D2VsJZ98GEJHqtGvqBkSXKZlPEgu
+         2Fz0vV6MO3Uw67uP3AEH9cfCv2O5vWyZXa6xhpNJjIPXyqnxgylyqV504kD/KAPNINKi
+         xVaYYqSVkS+3p7cNWzqDF/wf6U3rJXG++IAE81w8gGjk58jP+OvXwF8FKEox4717pDDo
+         9NPdVrPkv4FZKM5FqPa3Nkvd3VE4+1zwzgocoCXCpU/ZU3nlgSQMvWMUsrxWFyH3ORsQ
+         nEk3xfKZGT7MpiyIAakhYSpbGTv1oUeX1gJ4xlHJBAqccjxM6W25Q0gwX0CXUfUcvolr
+         LT+w==
+X-Gm-Message-State: AOAM530/V262WKKMQBKcvZxMecp3jFd6xOolqYHwzjGU8u5y/BtUNsQg
+        uUPdpyoyAuyYPue/gggrKk0yeQ==
+X-Google-Smtp-Source: ABdhPJy3Q2xXlUY5QDcApxlF/OSND06IZDqLO/7UxztEP9ScV3THnWlBAlZ9dNNqxf+7dp9/go+Z2A==
+X-Received: by 2002:a17:90a:ad49:: with SMTP id w9mr927815pjv.20.1590101333920;
+        Thu, 21 May 2020 15:48:53 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o11sm5192507pfd.195.2020.05.21.15.47.16
+        by smtp.gmail.com with ESMTPSA id k1sm5352804pfg.205.2020.05.21.15.48.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 15:47:16 -0700 (PDT)
-Date:   Thu, 21 May 2020 15:47:15 -0700
+        Thu, 21 May 2020 15:48:53 -0700 (PDT)
+Date:   Thu, 21 May 2020 15:48:52 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -82,7 +82,7 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
 Subject: Re: [RFC PATCH 3/5] selftest/x86: Fix sigreturn_64 test.
-Message-ID: <202005211545.30156BFC4@keescook>
+Message-ID: <202005211547.793B36B@keescook>
 References: <20200521211720.20236-1-yu-cheng.yu@intel.com>
  <20200521211720.20236-4-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
@@ -133,11 +133,6 @@ On Thu, May 21, 2020 at 02:17:18PM -0700, Yu-cheng Yu wrote:
 >  	unsigned short my_cs, my_ss;
 >  
 > +#ifdef __x86_64__
-
-I think this should also be gated by whether the compiler will know what
-to do with the shadow stack instructions. (Perhaps the earlier Makefile
-define can be exported and tested here.)
-
 > +	/* Alloc a shadow stack within 32-bit address range */
 > +	unsigned long arg, ssp_64, ssp_32;
 > +	ssp_64 = _get_ssp();
@@ -150,6 +145,11 @@ define can be exported and tested here.)
 > +		asm volatile("SAVEPREVSSP");
 > +	}
 > +#endif
+
+If the headers and code are going to be repeated, I would put that in a
+shared header so they're not copy/pasted between these two tests.
+
+-Kees
 
 -- 
 Kees Cook
