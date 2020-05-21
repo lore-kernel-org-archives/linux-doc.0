@@ -2,292 +2,381 @@ Return-Path: <SRS0=V28G=7D=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF6DC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 21:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88FACC433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 22:42:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04BF520823
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 21:55:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5ED97207F9
+	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 22:42:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p4V+0rmw"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="n8XMg3aD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730122AbgEUVzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 May 2020 17:55:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40368 "EHLO
+        id S1730614AbgEUWmL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 May 2020 18:42:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730402AbgEUVzs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 May 2020 17:55:48 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CB6DC08C5C0
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2020 14:55:48 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id f3so9318677ioj.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2020 14:55:48 -0700 (PDT)
+        with ESMTP id S1730561AbgEUWmK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 May 2020 18:42:10 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8576AC08C5C1
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2020 15:42:10 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id t11so4023736pgg.2
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2020 15:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1ngJe4jgX7tR2LJh4cMj7e9asfe5LKoGFApN1LKGww8=;
-        b=p4V+0rmwPq3KhVZUwChMIXQPKtDe0SQs7+O9Sd6YkQIgZn6mYlzDCpTcarqISAWotX
-         Sl1hba+jjqEahAIIhy2SBeGNxltcjfVRPZYA3czLEUozn5oJFpwHPE7V5E5arOMeuL6h
-         rrdUsnWuXnmdt73Ly40tLugDSw4+XGpf/25nUDduHdsyAITd1Gbs6DwwFZwIYEVllpsL
-         Z7P6hOGiIgdpNSr77v0GK+ocagMhl5Q5ZFaWWBadUpFT1y5W12boGmmOUvMgSkpmyCMP
-         BEEt6DfZMcoq6IeMCofMxa1MWkxF4d800/nntHKrRVfDPS0uSjAra1Yf6n9TsxJHRcc+
-         Dl0A==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jw/xqa3g89q51hDnYa5jOhsO4JnUA2E12TXYJqQM6yo=;
+        b=n8XMg3aD467ovZaJ8YnSYN6LVan287tt4sBIOgRs82WugtI/HdxyJhYnlWCKPHqCgO
+         ill8z/e4VVxGXzzKkIW5NVLJ/1f4x5cJ61kn/qqwkHTnEqz/Vz/IZRFU0R8q/IEQ2Qf7
+         lId3+6YrFd3uIlEkXBncI8CDs9k/oH/CLKIsc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1ngJe4jgX7tR2LJh4cMj7e9asfe5LKoGFApN1LKGww8=;
-        b=H2KY1C5Lu5IuaJFsL3Fg1EOnd/QN4tDQZViiTRAnn3R5CrXoJWrd4OQopn/sJGeIrY
-         5gs8p5HXxO2ejREi0e3jaOYgQsurB2oX8PYw2yc3R7hfV8O/BYGYtSjp56Bgo7SQXgMG
-         4IyfnIh5qMmsGVslwNBFTF4W/R9CegnYT6ItjWZLimfMJ4U+qpKFa2vhvrUGP1pyz1yU
-         iCTm92V6+bap4hle09d+IR89yoFYBKecKLjTBopQovlu4FCrOi/HLACv0H94Rrv5COmJ
-         3aDK33Ws3jgBu1LDNxEDWxOvhEn/sNTGg1wZ9FBtRHGBNoFzFmgNEnTb70LmIPp05hxM
-         9ueg==
-X-Gm-Message-State: AOAM533f1Xl3pDIjC+GkJC54b71IMbfqj81dM9cUYCOgeAyNW9CNAULR
-        EqIpU9LZ0itFtYHGQU8rM+negn+1O1rksttepTDy/Q==
-X-Google-Smtp-Source: ABdhPJwp0141VZ2jQt2GFxHaft179Kbjsz1atVtDN1BhiNPjuMh66TxGz/mxw+JrjXxZLr/67DWL2oJ95sPfwROV350=
-X-Received: by 2002:a05:6602:2e96:: with SMTP id m22mr603283iow.165.1590098147218;
- Thu, 21 May 2020 14:55:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jw/xqa3g89q51hDnYa5jOhsO4JnUA2E12TXYJqQM6yo=;
+        b=hvYJ91x4Ma9fWdUMcmxNYWXB6NY6LTkVvT2/2gidPDRPfkjiIyPfiS5obHNfnCfsal
+         GlDsmNZNc+T0CShFPT5Xiud7Weuilknx/cOqfXOdGh39U9YZ5i+KocHD2Bw4CvPmyJLn
+         ni3T2k5xA/M6Vp6UojQ9U6jxR17l6ZhzkMt/HYCeFA3r88pr0yke1EPenZb0vpA1Hsdb
+         h28kUiRUiecuMAWZhfl483tlGfpLOsmLkO+DS8WPTelCQcEBO+SvJVh+BIrrjKIXRG8A
+         Qfi6BSnCck3hddkJkl3q4nMQ98Tj7B7jctCxX47sFRLt4rwXiM+eNjTwQ2zIqO+mtzLm
+         jujA==
+X-Gm-Message-State: AOAM531MO/yXqDuTpZ1UiGoO28xjpBIrzpjSLC9pZU3LFspHgGGB/jf/
+        p8IAewra4UA2omSDUcQT8rN+Yw==
+X-Google-Smtp-Source: ABdhPJwXOoPao/Ck/VlSSNAkUg8UNcEFO1e6LSxmA5hGfbn/TjlhNOkzmuwUAXLHuks+nAYhj1nmlg==
+X-Received: by 2002:a65:4908:: with SMTP id p8mr10684191pgs.214.1590100929772;
+        Thu, 21 May 2020 15:42:09 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n10sm5395236pfd.192.2020.05.21.15.42.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2020 15:42:08 -0700 (PDT)
+Date:   Thu, 21 May 2020 15:42:07 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v10 26/26] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+Message-ID: <202005211528.A12B4AD@keescook>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+ <20200429220732.31602-27-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-References: <20200424200135.28825-1-mathieu.poirier@linaro.org>
- <20200424200135.28825-4-mathieu.poirier@linaro.org> <20200506002253.GC2329931@builder.lan>
- <20200508210123.GA5650@xps15> <20200514013224.GE16107@builder.lan>
- <20200515192443.GA24201@xps15> <20200519005500.GR2165@builder.lan>
- <20200520220653.GA23552@xps15> <20200521052155.GE11847@yoga>
-In-Reply-To: <20200521052155.GE11847@yoga>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Thu, 21 May 2020 15:55:35 -0600
-Message-ID: <CANLsYkyQJ30tyoKctsYyy8iSxwanampEmRX1Mkoc4RyUvhvQow@mail.gmail.com>
-Subject: Re: [PATCH v3 03/14] remoteproc: Add new operation and flags for synchronistation
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Loic PALLARDY <loic.pallardy@st.com>,
-        Arnaud POULIQUEN <arnaud.pouliquen@st.com>,
-        Suman Anna <s-anna@ti.com>,
-        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
-        Jon Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200429220732.31602-27-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 20 May 2020 at 23:22, Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> On Wed 20 May 15:06 PDT 2020, Mathieu Poirier wrote:
->
-> > On Mon, May 18, 2020 at 05:55:00PM -0700, Bjorn Andersson wrote:
-> > > On Fri 15 May 12:24 PDT 2020, Mathieu Poirier wrote:
-> > >
-> > > > Good day Bjorn,
-> > > >
-> > > > On Wed, May 13, 2020 at 06:32:24PM -0700, Bjorn Andersson wrote:
-> > > > > On Fri 08 May 14:01 PDT 2020, Mathieu Poirier wrote:
-> > > > >
-> > > > > > On Tue, May 05, 2020 at 05:22:53PM -0700, Bjorn Andersson wrote:
-> > > > > > > On Fri 24 Apr 13:01 PDT 2020, Mathieu Poirier wrote:
-> [..]
-> > > > > > > > + bool after_crash;
-> > > > > > >
-> > > > > > > Similarly what is the expected steps to be taken by the core when this
-> > > > > > > is true? Should rproc_report_crash() simply stop/start the subdevices
-> > > > > > > and upon one of the ops somehow tell the remote controller that it can
-> > > > > > > proceed with the recovery?
-> > > > > >
-> > > > > > The exact same sequence of steps will be carried out as they are today, except
-> > > > > > that if after_crash == true, the remoteproc core won't be switching the remote
-> > > > > > processor on, exactly as it would do when on_init == true.
-> > > > > >
-> > > > >
-> > > > > Just to make sure we're on the same page:
-> > > > >
-> > > > > after_crash = false is what we have today, and would mean:
-> > > > >
-> > > > > 1) stop subdevices
-> > > > > 2) power off
-> > > > > 3) unprepare subdevices
-> > > > > 4) generate coredump
-> > > > > 5) request firmware
-> > > > > 6) load segments
-> > > > > 7) find resource table
-> > > > > 8) prepare subdevices
-> > > > > 9) "boot"
-> > > > > 10) start subdevices
-> > > >
-> > > > Exactly
-> > > >
-> > > > >
-> > > > > after_crash = true would mean:
-> > > > >
-> > > > > 1) stop subdevices
-> > > > > 2) "detach"
-> > > > > 3) unprepare subdevices
-> > > > > 4) prepare subdevices
-> > > > > 5) "attach"
-> > > > > 6) start subdevices
-> > > > >
-> > > >
-> > > > Yes
-> > > >
-> > > > > State diagram wise both of these would represent the transition RUNNING
-> > > > > -> CRASHED -> RUNNING, but somehow the platform driver needs to be able
-> > > > > to specify which of these sequences to perform. Per your naming
-> > > > > suggestion above, this does sound like a "autonomous_recovery" boolean
-> > > > > to me.
-> > > >
-> > > > Right, semantically "rproc->autonomous" would apply quite well.
-> > > >
-> > > > In function rproc_crash_handler_work(), a call to rproc_set_sync_flag() has been
-> > > > strategically placed to set the value of rproc->autonomous based on
-> > > > "after_crash".  From there the core knows which rproc_ops to use.  Here too we
-> > > > have to rely on the rproc_ops provided by the platform to do the right thing
-> > > > based on the scenario to enact.
-> > > >
-> > >
-> > > Do you think that autonomous_recovery would be something that changes
-> > > for a given remoteproc instance? I envisioned it as something that you
-> > > know at registration time, but perhaps I'm missing some details here.
-> >
-> > I don't envision any of the transision flags to change once they are set by the
-> > platform.   The same applies to the new rproc_ops, it can be set only once.
-> > Otherwise combination of possible scenarios becomes too hard to manage, leading
-> > to situations where the core and MCU get out of sync and can't talk to each
-> > other.
-> >
->
-> Sounds good, I share this expectation, just wanted to check with you.
->
-> > >
-> > > > >
-> > > > > > These flags are there to indicate how to set rproc::sync_with_rproc after
-> > > > > > different events, that is when the remoteproc core boots, when the remoteproc
-> > > > > > has been stopped or when it has crashed.
-> > > > > >
-> > > > >
-> > > > > Right, that was clear from your patches. Sorry that my reply didn't
-> > > > > convey the information that I had understood this.
-> > > > >
-> > > > > > >
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > >  /**
-> > > > > > > >   * struct rproc_ops - platform-specific device handlers
-> > > > > > > >   * @start:       power on the device and boot it
-> > > > > > > > @@ -459,6 +476,9 @@ struct rproc_dump_segment {
-> > > > > > > >   * @firmware: name of firmware file to be loaded
-> > > > > > > >   * @priv: private data which belongs to the platform-specific rproc module
-> > > > > > > >   * @ops: platform-specific start/stop rproc handlers
-> > > > > > > > + * @sync_ops: platform-specific start/stop rproc handlers when
-> > > > > > > > + *             synchronising with a remote processor.
-> > > > > > > > + * @sync_flags: Determine the rproc_ops to choose in specific states.
-> > > > > > > >   * @dev: virtual device for refcounting and common remoteproc behavior
-> > > > > > > >   * @power: refcount of users who need this rproc powered up
-> > > > > > > >   * @state: state of the device
-> > > > > > > > @@ -482,6 +502,7 @@ struct rproc_dump_segment {
-> > > > > > > >   * @table_sz: size of @cached_table
-> > > > > > > >   * @has_iommu: flag to indicate if remote processor is behind an MMU
-> > > > > > > >   * @auto_boot: flag to indicate if remote processor should be auto-started
-> > > > > > > > + * @sync_with_rproc: true if currently synchronising with the rproc
-> > > > > > > >   * @dump_segments: list of segments in the firmware
-> > > > > > > >   * @nb_vdev: number of vdev currently handled by rproc
-> > > > > > > >   */
-> > > > > > > > @@ -492,6 +513,8 @@ struct rproc {
-> > > > > > > >   const char *firmware;
-> > > > > > > >   void *priv;
-> > > > > > > >   struct rproc_ops *ops;
-> > > > > > > > + struct rproc_ops *sync_ops;
-> > > > > > >
-> > > > > > > Do we really need two rproc_ops, given that both are coming from the
-> > > > > > > platform driver and the sync_flags will define which one to look at?
-> > > > > > >
-> > > > > > > Can't the platform driver just provide an ops table that works with the
-> > > > > > > flags it passes?
-> > > > > >
-> > > > > > That is the approach Loic took in a previous patchset [1] and that was rejected.
-> > > > > > It also lead to all of the platform drivers testing rproc->flag before carring
-> > > > > > different actions, something you indicated could be done in the core.  This
-> > > > > > patch does exactly that, i.e move the testing of rproc->flag to the core and
-> > > > > > calls the right function based on that.
-> > > > > >
-> > > > >
-> > > > > I think I see what you mean, as we use "start" for both syncing and
-> > > > > starting the core, a { on_init = true, after_stop = false } setup either
-> > > > > needs two tables or force conditionals on the platform driver.
-> > > > >
-> > > > > > The end result is the same and I'm happy with one or the other, I will need to
-> > > > > > know which one.
-> > > > > >
-> > > > >
-> > > > > How about adding a new ops named "attach" to rproc_ops, which the
-> > > > > platform driver can specify if it supports attaching an already running
-> > > > > processor?
-> > > >
-> > > > Using "attach_ops" works for me.  But would "autonomous_ops", to correlate with
-> > > > rproc::autonomous, add clarity?  Either way work equally well for me.
-> > > >
-> > >
-> > > What I meant was that we add a function "attach" to the existing
-> > > rproc_ops. In the case of OFFLINE->RUNNING we continue to call
-> > > rproc->ops->start() and DETACHED->RUNNING we call this
-> > > rproc->ops->attach().
-> >
-> > If I read the above properly we'd end up with:
-> >
-> > struct rproc_ops {
-> >       int (*start)(struct rproc *rproc);
-> >       int (*stop)(struct rproc *rproc);
-> >       int (*attach)(struct rproc *rproc);
-> >       int (*detach)(struct rproc *rproc);
-> >         ...
-> >         ...
-> > };
->
-> Yes, that's what I meant.
->
-> >
-> > But wed'd have to deal with other operations that are common to both scenarios
-> > such as parse_fw() and find_loaded_rsc_table().
-> >
->
-> I would prefer that we don't parse_fw(NULL), perhaps we can turn that
-> upside down and have the platform_driver just provide the information to
-> the core as it learns about it during probe?
+On Wed, Apr 29, 2020 at 03:07:32PM -0700, Yu-cheng Yu wrote:
+> arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
+>     Get CET feature status.
+> 
+>     The parameter 'args' is a pointer to a user buffer.  The kernel returns
+>     the following information:
+> 
+>     *args = shadow stack/IBT status
+>     *(args + 1) = shadow stack base address
+>     *(args + 2) = shadow stack size
+> 
+> arch_prctl(ARCH_X86_CET_DISABLE, u64 features)
+>     Disable CET features specified in 'features'.  Return -EPERM if CET is
+>     locked.
+> 
+> arch_prctl(ARCH_X86_CET_LOCK)
+>     Lock in CET features.
+> 
+> arch_prctl(ARCH_X86_CET_ALLOC_SHSTK, u64 *args)
+>     Allocate a new shadow stack.
+> 
+>     The parameter 'args' is a pointer to a user buffer containing the
+>     desired size to allocate.  The kernel returns the allocated shadow
+>     stack address in *args.
 
-I need to think about that...  We may have to discuss this again in a
-not so distant future.
+Hi! Just a quick note about getting these designs right -- prctl() (and
+similar APIs) needs to make sure they're examining all "unknown" flags
+as zero, or we run the risk of breaking sloppy userspace callers who
+accidentally set flags and then later the kernel gives meaning to those
+flags. Notes below...
 
->
-> > So far lot of improvement have already been suggested on this revision.  I
-> > suggest to spin off a new patchset that only handles the DETACHED->RUNNING
-> > scenario and split common functions such as rproc_fw_boot().  From there we can
-> > see if other refinements (such as what you suggest above) are mandated.
-> >
->
-> As far as I can see, if we take the approach of introducing the DETACHED
-> state we can add the various transitions piecemeal. So I'm definitely in
-> favour of starting off with DETACHED->RUNNING, then figure out
-> "autonomous recovery" and RUNNING->DETACHED in two subsequent series.
->
-> > One last thing...  Upon reflecting on all this I think using "attach" is better
-> > than "autonomous", the latter is heavy to drag around.
-> >
->
-> For the action of going from DETACHED->RUNNING I too find "attach" to
-> better represent what's going on. The part where I think we need
-> something more is to communicate if it's Linux that's in charge or not
-> for taking the remote processor through RUNNING->CRASHED->RUNNING. For
-> that the word "autonomous" makes sense to me, but let's bring that up
-> again after landing this first piece(s).
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+> v10:
+> - Verify CET is enabled before handling arch_prctl.
+> - Change input parameters from unsigned long to u64, to make it clear they
+>   are 64-bit.
+> 
+>  arch/x86/include/asm/cet.h        |  4 ++
+>  arch/x86/include/uapi/asm/prctl.h |  5 ++
+>  arch/x86/kernel/Makefile          |  2 +-
+>  arch/x86/kernel/cet.c             | 29 +++++++++++
+>  arch/x86/kernel/cet_prctl.c       | 87 +++++++++++++++++++++++++++++++
+>  arch/x86/kernel/process.c         |  4 +-
+>  6 files changed, 128 insertions(+), 3 deletions(-)
+>  create mode 100644 arch/x86/kernel/cet_prctl.c
+> 
+> diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
+> index 71dc92acd2f2..99e6e741d28c 100644
+> --- a/arch/x86/include/asm/cet.h
+> +++ b/arch/x86/include/asm/cet.h
+> @@ -14,16 +14,20 @@ struct sc_ext;
+>  struct cet_status {
+>  	unsigned long	shstk_base;
+>  	unsigned long	shstk_size;
+> +	unsigned int	locked:1;
+>  };
+>  
+>  #ifdef CONFIG_X86_INTEL_CET
+> +int prctl_cet(int option, u64 arg2);
+>  int cet_setup_shstk(void);
+>  int cet_setup_thread_shstk(struct task_struct *p);
+> +int cet_alloc_shstk(unsigned long *arg);
+>  void cet_disable_free_shstk(struct task_struct *p);
+>  int cet_verify_rstor_token(bool ia32, unsigned long ssp, unsigned long *new_ssp);
+>  void cet_restore_signal(struct sc_ext *sc);
+>  int cet_setup_signal(bool ia32, unsigned long rstor, struct sc_ext *sc);
+>  #else
+> +static inline int prctl_cet(int option, u64 arg2) { return -EINVAL; }
+>  static inline int cet_setup_thread_shstk(struct task_struct *p) { return 0; }
+>  static inline void cet_disable_free_shstk(struct task_struct *p) {}
+>  static inline void cet_restore_signal(struct sc_ext *sc) { return; }
+> diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
+> index 5a6aac9fa41f..d962f0ec9ccf 100644
+> --- a/arch/x86/include/uapi/asm/prctl.h
+> +++ b/arch/x86/include/uapi/asm/prctl.h
+> @@ -14,4 +14,9 @@
+>  #define ARCH_MAP_VDSO_32	0x2002
+>  #define ARCH_MAP_VDSO_64	0x2003
+>  
+> +#define ARCH_X86_CET_STATUS		0x3001
+> +#define ARCH_X86_CET_DISABLE		0x3002
+> +#define ARCH_X86_CET_LOCK		0x3003
+> +#define ARCH_X86_CET_ALLOC_SHSTK	0x3004
+> +
+>  #endif /* _ASM_X86_PRCTL_H */
+> diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+> index e9cc2551573b..0b621e2afbdc 100644
+> --- a/arch/x86/kernel/Makefile
+> +++ b/arch/x86/kernel/Makefile
+> @@ -144,7 +144,7 @@ obj-$(CONFIG_UNWINDER_ORC)		+= unwind_orc.o
+>  obj-$(CONFIG_UNWINDER_FRAME_POINTER)	+= unwind_frame.o
+>  obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
+>  
+> -obj-$(CONFIG_X86_INTEL_CET)		+= cet.o
+> +obj-$(CONFIG_X86_INTEL_CET)		+= cet.o cet_prctl.o
+>  
+>  ###
+>  # 64 bit specific files
+> diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> index 121552047b86..c1b9b540c03e 100644
+> --- a/arch/x86/kernel/cet.c
+> +++ b/arch/x86/kernel/cet.c
+> @@ -145,6 +145,35 @@ static int create_rstor_token(bool ia32, unsigned long ssp,
+>  	return 0;
+>  }
+>  
+> +int cet_alloc_shstk(unsigned long *arg)
+> +{
+> +	unsigned long len = *arg;
+> +	unsigned long addr;
+> +	unsigned long token;
+> +	unsigned long ssp;
+> +
+> +	addr = alloc_shstk(round_up(len, PAGE_SIZE));
+> +
+> +	if (IS_ERR((void *)addr))
+> +		return PTR_ERR((void *)addr);
+> +
+> +	/* Restore token is 8 bytes and aligned to 8 bytes */
+> +	ssp = addr + len;
+> +	token = ssp;
+> +
+> +	if (!in_ia32_syscall())
+> +		token |= TOKEN_MODE_64;
+> +	ssp -= 8;
+> +
+> +	if (write_user_shstk_64(ssp, token)) {
+> +		vm_munmap(addr, len);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*arg = addr;
+> +	return 0;
+> +}
+> +
+>  int cet_setup_shstk(void)
+>  {
+>  	unsigned long addr, size;
+> diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
+> new file mode 100644
+> index 000000000000..0139c48f2215
+> --- /dev/null
+> +++ b/arch/x86/kernel/cet_prctl.c
+> @@ -0,0 +1,87 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/uaccess.h>
+> +#include <linux/prctl.h>
+> +#include <linux/compat.h>
+> +#include <linux/mman.h>
+> +#include <linux/elfcore.h>
+> +#include <asm/processor.h>
+> +#include <asm/prctl.h>
+> +#include <asm/cet.h>
+> +
+> +/* See Documentation/x86/intel_cet.rst. */
+> +
+> +static int handle_get_status(u64 arg2)
+> +{
+> +	struct cet_status *cet = &current->thread.cet;
+> +	u64 buf[3] = {0, 0, 0};
+> +
+> +	if (cet->shstk_size) {
+> +		buf[0] |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
+> +		buf[1] = (u64)cet->shstk_base;
+> +		buf[2] = (u64)cet->shstk_size;
+> +	}
+> +
+> +	return copy_to_user((u64 __user *)arg2, buf, sizeof(buf));
+> +}
+> +
+> +static int handle_alloc_shstk(u64 arg2)
+> +{
+> +	int err = 0;
+> +	unsigned long arg;
+> +	unsigned long addr = 0;
+> +	unsigned long size = 0;
+> +
+> +	if (get_user(arg, (unsigned long __user *)arg2))
+> +		return -EFAULT;
+> +
+> +	size = arg;
+> +	err = cet_alloc_shstk(&arg);
+> +	if (err)
+> +		return err;
+> +
+> +	addr = arg;
+> +	if (put_user((u64)addr, (u64 __user *)arg2)) {
+> +		vm_munmap(addr, size);
+> +		return -EFAULT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +int prctl_cet(int option, u64 arg2)
+> +{
+> +	struct cet_status *cet;
+> +
+> +	if (!IS_ENABLED(CONFIG_X86_INTEL_CET))
+> +		return -EINVAL;
 
-I agree.
+Using -EINVAL here means userspace can't tell the difference between an
+old kernel and a kernel not built with CONFIG_X86_INTEL_CET. Perhaps
+-ENOTSUPP?
 
->
-> Regards,
-> Bjorn
+> +
+> +	if (option == ARCH_X86_CET_STATUS)
+> +		return handle_get_status(arg2);
+> +
+> +	if (!static_cpu_has(X86_FEATURE_SHSTK))
+> +		return -EINVAL;
+
+Similar case: though this is now a kernel that knows how, but a CPU that
+doesn't.
+
+> +
+> +	cet = &current->thread.cet;
+
+You get this both here and in handle_get_status(). Why not just get it
+once and pass it into handle_get_status()? (And perhaps rename it to
+"copy_status_to_user" or so?
+
+> +
+> +	switch (option) {
+> +	case ARCH_X86_CET_DISABLE:
+
+This must check for unknown flags before doing anything else:
+
+		if (arg & ~(GNU_PROPERTY_X86_FEATURE_1_SHSTK))
+			return -EINVAL;
+
+> +		if (cet->locked)
+> +			return -EPERM;
+> +		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
+> +			cet_disable_free_shstk(current);
+> +
+> +		return 0;
+> +
+> +	case ARCH_X86_CET_LOCK:
+
+Same here.
+
+> +		cet->locked = 1;
+> +		return 0;
+> +
+> +	case ARCH_X86_CET_ALLOC_SHSTK:
+> +		return handle_alloc_shstk(arg2);
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+> index ef1c2b8086a2..de6773dd6a16 100644
+> --- a/arch/x86/kernel/process.c
+> +++ b/arch/x86/kernel/process.c
+> @@ -996,7 +996,7 @@ long do_arch_prctl_common(struct task_struct *task, int option,
+>  		return get_cpuid_mode();
+>  	case ARCH_SET_CPUID:
+>  		return set_cpuid_mode(task, cpuid_enabled);
+> +	default:
+> +		return prctl_cet(option, cpuid_enabled);
+>  	}
+
+This is weird, but yeah, there's only the cpuid and cet handlers... I
+think do_arch_prctrl_common() should call the second arg "arg2" and
+there should be a series of calls:
+
+	ret = prctl_cpuid(task, option, args);
+	if (ret != -EINVAL)
+		return ret;
+	return prctl_cet(option, args);
+
+But that's just a style nit, I guess.
+
+And really, why is x86's arch prtcl return EINVAL for unknown options?
+It should use -ENOSYS for unknown options and -EINVAL for bad arguments,
+but I guess it's too late for that. :)
+
+-- 
+Kees Cook
