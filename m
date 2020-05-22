@@ -1,120 +1,128 @@
-Return-Path: <SRS0=V28G=7D=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=R1OV=7E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F44C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 23:23:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A0F3C433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 03:24:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38D2F207D8
-	for <linux-doc@archiver.kernel.org>; Thu, 21 May 2020 23:23:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 040D620748
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 03:24:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730746AbgEUXXe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 May 2020 19:23:34 -0400
-Received: from mga07.intel.com ([134.134.136.100]:46080 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730041AbgEUXXe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 May 2020 19:23:34 -0400
-IronPort-SDR: HspgGQWKro/x2cFNCWGHgMS6yhil0cXGbJ6gHWUWzvdUEtgdX1axpOH1lOHzM0loL9r9l5Spl1
- S/D1VlXqIiLw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2020 16:23:33 -0700
-IronPort-SDR: f4xi4/kB2AQgpcl64BLOZNV2i3wAVKQNYyyXsv/GfDPb8zyi5+VDOCCE4+3cT6nHjdDQEFajo1
- 0gU9OmIiO4Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,419,1583222400"; 
-   d="scan'208";a="268818207"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga006.jf.intel.com with ESMTP; 21 May 2020 16:23:32 -0700
-Message-ID: <a8f55ca9d7ca81b4acb7afecd8144aa396975cfb.camel@intel.com>
-Subject: Re: [RFC PATCH 5/5] selftest/x86: Add CET quick test
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Date:   Thu, 21 May 2020 16:23:38 -0700
-In-Reply-To: <202005211550.AF0E83BB@keescook>
-References: <20200521211720.20236-1-yu-cheng.yu@intel.com>
-         <20200521211720.20236-6-yu-cheng.yu@intel.com>
-         <202005211550.AF0E83BB@keescook>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1727083AbgEVDYZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 May 2020 23:24:25 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5272 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727024AbgEVDYY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 May 2020 23:24:24 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 51717A9057906BA0EFA3;
+        Fri, 22 May 2020 11:24:22 +0800 (CST)
+Received: from [127.0.0.1] (10.166.213.90) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Fri, 22 May 2020
+ 11:24:12 +0800
+Subject: Re: [PATCH v8 5/5] dt-bindings: chosen: Document
+ linux,low-memory-range for arm64 kdump
+To:     Rob Herring <robh+dt@kernel.org>
+References: <20200521093805.64398-1-chenzhou10@huawei.com>
+ <20200521093805.64398-6-chenzhou10@huawei.com>
+ <CAL_Jsq+EV02YBqEGoJrsJW8Y+g_GkB_LkTwWCxNCb3F+8MSdyw@mail.gmail.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        <John.p.donnelly@oracle.com>, <pkushwaha@marvell.com>,
+        "Simon Horman" <horms@verge.net.au>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        <devicetree@vger.kernel.org>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        <kexec@lists.infradead.org>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <a419602e-6a85-ca35-39de-b3c26d433199@huawei.com>
+Date:   Fri, 22 May 2020 11:24:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
+In-Reply-To: <CAL_Jsq+EV02YBqEGoJrsJW8Y+g_GkB_LkTwWCxNCb3F+8MSdyw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.166.213.90]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2020-05-21 at 16:02 -0700, Kees Cook wrote:
-> On Thu, May 21, 2020 at 02:17:20PM -0700, Yu-cheng Yu wrote:
-> > Introduce a quick test to verify shadow stack and IBT are working.
-> 
-> Cool! :)
-> 
-> I'd love to see either more of a commit log or more comments in the test
-> code itself. I had to spend a bit of time trying to understand how the
-> test was working. (i.e. using ucontext to "reset", using segv handler to
-> catch some of them, etc.) I have not yet figured out why you need to
-> send USR1/USR2 for two of them instead of direct calls?
+Hi Rob,
 
-Yes, I will work on it.
+On 2020/5/21 21:29, Rob Herring wrote:
+> On Thu, May 21, 2020 at 3:35 AM Chen Zhou <chenzhou10@huawei.com> wrote:
+>> Add documentation for DT property used by arm64 kdump:
+>> linux,low-memory-range.
+>> "linux,low-memory-range" is an another memory region used for crash
+>> dump kernel devices.
+>>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> ---
+>>  Documentation/devicetree/bindings/chosen.txt | 25 ++++++++++++++++++++
+>>  1 file changed, 25 insertions(+)
+> chosen is now a schema documented here[1].
+Ok, that is, i don't need to modify the doc in kernel, just create a pull request in github [1]?
 
-[...]
+>
+>> diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
+>> index 45e79172a646..bfe6fb6976e6 100644
+>> --- a/Documentation/devicetree/bindings/chosen.txt
+>> +++ b/Documentation/devicetree/bindings/chosen.txt
+>> @@ -103,6 +103,31 @@ While this property does not represent a real hardware, the address
+>>  and the size are expressed in #address-cells and #size-cells,
+>>  respectively, of the root node.
+>>
+>> +linux,low-memory-range
+>> +----------------------
+>> +This property (arm64 only) holds a base address and size, describing a
+>> +limited region below 4G. Similar to "linux,usable-memory-range", it is
+>> +an another memory range which may be considered available for use by the
+>> +kernel.
+> Why can't you just add a range to "linux,usable-memory-range"? It
+> shouldn't be hard to figure out which part is below 4G.
+I did like this in my previous version, such as v5. After discussed with James, i modified it to the current way.
 
-> > +
-> > +#pragma GCC push_options
-> > +#pragma GCC optimize ("O0")
-> 
-> Can you avoid compiler-specific pragmas? (Or verify that Clang also
-> behaves correctly here?) Maybe it's better to just build the entire file
-> with -O0 in the Makefile?
+We think the existing behavior should be unchanged, which helps with keeping compatibility with existing
+user-space and older kdump kernels.
 
-This file is compiled using -O2 in the makefile.  I will see if other ways are
-possible.
+The comments from James:
+> linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>.
+Won't this break if your kdump kernel doesn't know what the extra parameters are?
+Or if it expects two ranges, but only gets one? These DT properties should be treated as
+ABI between kernel versions, we can't really change it like this.
 
-[...]
+I think the 'low' region is an optional-extra, that is never mapped by the first kernel. I
+think the simplest thing to do is to add an 'linux,low-memory-range' that we
+memblock_add() after memblock_cap_memory_range() has been called.
+If its missing, or the new kernel doesn't know what its for, everything keeps working.
 
-> > +
-> > +void segv_handler(int signum, siginfo_t *si, void *uc)
-> > +{
-> 
-> Does anything in siginfo_t indicate which kind of failure you're
-> detecting? It'd be nice to verify test_id matches the failure mode being
-> tested.
-
-Yes, there is an si_code for control-protection fault.
-I will fix this.
-
-Agree with your other comments.
+previous discusses:
+https://lkml.org/lkml/2019/6/5/674
+https://lkml.org/lkml/2019/6/13/229
 
 Thanks,
-Yu-cheng
+Chen Zhou
+
+>
+> Rob
+>
+> [1] https://github.com/devicetree-org/dt-schema/blob/master/schemas/chosen.yaml
+>
+> .
+>
+
 
