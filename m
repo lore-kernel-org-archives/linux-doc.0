@@ -2,127 +2,94 @@ Return-Path: <SRS0=R1OV=7E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A0F3C433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 03:24:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 500DAC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 04:22:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 040D620748
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 03:24:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0EAA62075A
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 04:22:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1590121351;
+	bh=/QRtu1E1NSMc8JFEnQUW1G07ufTt5859/T+sz2ryKl8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=1P+0H91gPw57HY9pYRjHYWo13QICmprGq8lJJ/Zmr3Rh2sE7Z3l1CYvRjwrSFykaC
+	 xCbZIzO4hAFP7bXj5tYDmDNYunlXmcHxPO7aryCCpTypviYi/QKqgLExTfTJILCCPq
+	 tq2G2LOWUhqnrJXOZNLFAzzheudm2NjcxDLXGCks=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727083AbgEVDYZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 May 2020 23:24:25 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5272 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727024AbgEVDYY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 May 2020 23:24:24 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 51717A9057906BA0EFA3;
-        Fri, 22 May 2020 11:24:22 +0800 (CST)
-Received: from [127.0.0.1] (10.166.213.90) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Fri, 22 May 2020
- 11:24:12 +0800
-Subject: Re: [PATCH v8 5/5] dt-bindings: chosen: Document
- linux,low-memory-range for arm64 kdump
-To:     Rob Herring <robh+dt@kernel.org>
-References: <20200521093805.64398-1-chenzhou10@huawei.com>
- <20200521093805.64398-6-chenzhou10@huawei.com>
- <CAL_Jsq+EV02YBqEGoJrsJW8Y+g_GkB_LkTwWCxNCb3F+8MSdyw@mail.gmail.com>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        <John.p.donnelly@oracle.com>, <pkushwaha@marvell.com>,
-        "Simon Horman" <horms@verge.net.au>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        <devicetree@vger.kernel.org>,
-        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        <kexec@lists.infradead.org>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <a419602e-6a85-ca35-39de-b3c26d433199@huawei.com>
-Date:   Fri, 22 May 2020 11:24:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S1725956AbgEVEWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 May 2020 00:22:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40542 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725921AbgEVEWa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 May 2020 00:22:30 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8D089206DD;
+        Fri, 22 May 2020 04:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590121350;
+        bh=/QRtu1E1NSMc8JFEnQUW1G07ufTt5859/T+sz2ryKl8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=D+MqBo/sT0ezZqNSR//NUhT+ll/VDzGsrO8hzrUSPFLlsXrqnkOkL2ysxYcbHb0Cd
+         etx5nwkBuq61T5GBYBY+YvSGzkWCStjCywr7YVX5uaoNLmkx8+c3njI6OJKJkbxcj+
+         gJDlB0HxzPGyjFQk8QYmAPU1ZFna2+2X9KDMbpDk=
+Date:   Fri, 22 May 2020 06:22:25 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH 02/14] docs: add bus-virt-phys-mapping.txt to core-api
+Message-ID: <20200522062225.6f73d811@coco.lan>
+In-Reply-To: <20200515115321.6e00ba57@lwn.net>
+References: <cover.1588345503.git.mchehab+huawei@kernel.org>
+        <ccd32aa5231b0e235a555fdecc4c0d274e5a6161.1588345503.git.mchehab+huawei@kernel.org>
+        <20200515115321.6e00ba57@lwn.net>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+EV02YBqEGoJrsJW8Y+g_GkB_LkTwWCxNCb3F+8MSdyw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.166.213.90]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+Em Fri, 15 May 2020 11:53:21 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-On 2020/5/21 21:29, Rob Herring wrote:
-> On Thu, May 21, 2020 at 3:35 AM Chen Zhou <chenzhou10@huawei.com> wrote:
->> Add documentation for DT property used by arm64 kdump:
->> linux,low-memory-range.
->> "linux,low-memory-range" is an another memory region used for crash
->> dump kernel devices.
->>
->> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
->> ---
->>  Documentation/devicetree/bindings/chosen.txt | 25 ++++++++++++++++++++
->>  1 file changed, 25 insertions(+)
-> chosen is now a schema documented here[1].
-Ok, that is, i don't need to modify the doc in kernel, just create a pull request in github [1]?
+> On Fri,  1 May 2020 17:37:46 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> 
+> > This describes an old interface used prior the new DMA-API
+> > interfaces. Add it to the core-api guide, just after the
+> > DMA stuff.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  .../bus-virt-phys-mapping.rst}                                   | 0
+> >  Documentation/core-api/index.rst                                 | 1 +
+> >  2 files changed, 1 insertion(+)
+> >  rename Documentation/{bus-virt-phys-mapping.txt => core-api/bus-virt-phys-mapping.rst} (100%)  
+> 
+> For this one, I think we should maybe just delete the file.  It contains a
+> warning from *20 years ago* saying not to use it, and talks about
+> functions like isa_readl() that haven't existed i the kernel for some
+> time.  Is there any reason to keep dragging it around?
 
->
->> diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
->> index 45e79172a646..bfe6fb6976e6 100644
->> --- a/Documentation/devicetree/bindings/chosen.txt
->> +++ b/Documentation/devicetree/bindings/chosen.txt
->> @@ -103,6 +103,31 @@ While this property does not represent a real hardware, the address
->>  and the size are expressed in #address-cells and #size-cells,
->>  respectively, of the root node.
->>
->> +linux,low-memory-range
->> +----------------------
->> +This property (arm64 only) holds a base address and size, describing a
->> +limited region below 4G. Similar to "linux,usable-memory-range", it is
->> +an another memory range which may be considered available for use by the
->> +kernel.
-> Why can't you just add a range to "linux,usable-memory-range"? It
-> shouldn't be hard to figure out which part is below 4G.
-I did like this in my previous version, such as v5. After discussed with James, i modified it to the current way.
+Except for "keeping it for historical reasons" (as mentioned at the
+file), I don't see any reason why to keep it.
 
-We think the existing behavior should be unchanged, which helps with keeping compatibility with existing
-user-space and older kdump kernels.
+It might be useful if someone wants to port some OOT code based on
+a legacy kernel.
 
-The comments from James:
-> linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>.
-Won't this break if your kdump kernel doesn't know what the extra parameters are?
-Or if it expects two ranges, but only gets one? These DT properties should be treated as
-ABI between kernel versions, we can't really change it like this.
-
-I think the 'low' region is an optional-extra, that is never mapped by the first kernel. I
-think the simplest thing to do is to add an 'linux,low-memory-range' that we
-memblock_add() after memblock_cap_memory_range() has been called.
-If its missing, or the new kernel doesn't know what its for, everything keeps working.
-
-previous discusses:
-https://lkml.org/lkml/2019/6/5/674
-https://lkml.org/lkml/2019/6/13/229
+Yet, if you prefer to just trash it, I'm ok with that.
 
 Thanks,
-Chen Zhou
-
->
-> Rob
->
-> [1] https://github.com/devicetree-org/dt-schema/blob/master/schemas/chosen.yaml
->
-> .
->
-
-
+Mauro
