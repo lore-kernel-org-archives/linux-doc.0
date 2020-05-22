@@ -2,45 +2,48 @@ Return-Path: <SRS0=R1OV=7E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6C22C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 18:02:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D002C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 18:03:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AAEC20663
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 18:02:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C5C020663
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 18:03:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BbUjf0Dx"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UXL7R+Ob"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730750AbgEVSCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 May 2020 14:02:21 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:51392 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730674AbgEVSCU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 May 2020 14:02:20 -0400
+        id S1730824AbgEVSDJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 May 2020 14:03:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59062 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730674AbgEVSDJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 May 2020 14:03:09 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4BFC061A0E;
+        Fri, 22 May 2020 11:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=BzGVoYi7lusRQAJzrnCE6lDqe1qUxbheoT+A3b9PhsQ=; b=BbUjf0DxmZbE7vMsoDTX+agpyC
-        vQk96e0N/CKRdTq03SRxDoA9kXQTJHweJuNq4kAm1mJZBrgQ3CfZBbhhZKZeCPgQTPDSwS7yq3FVo
-        grzskRCdDWF2XZ3/EYZHw0QyNmRerw6gQDI851fIr5nhuBF26xSIIbsdU4+S5MqoHXqvc7oKodXTO
-        9Zm+wZZqSQpl3yXh7DSYVnVlAnJxGk6necklRg1aamOQg6Bwbu2SuW38AziE97XMp73yCHautbsfE
-        Zh4RbLZIfOApClRpQsxDKg+GHRPRsmb8+Kt6EzhtM8V+04yMuD3yCDOC1Q7/P2w79rlI6e1MmdpZY
-        vasXWTFw==;
+        bh=OiGNNdO3LlukxMz/PiffWWSUbsm4xqAp7muIHTN5yVc=; b=UXL7R+ObzKVsVRe01+5GaItqrV
+        Wo0+XzJQRPCwTkSb9CkUp/0jmaAgf0mUj/inUSCFrWeCTzglvCaDb5dxRc17CcMLiSc+N+LWPX8EI
+        uCpynY6u3V+benQCftOAcvhWF0zR/W0BfGcK9u5GxjPGJnv/7fTXuhN6mUHnryauh3dwMlYRkwOdU
+        e1iaCUIVu00NeEReLnokqhiIYiRAVyaiueglEh0PLGt0wH/FHtMdC+6qgmNc6ce8rhsqCrgit6R0B
+        ohKCqwYtv42qpB+nzqRfelnWfTHRGSl9Hy/JRaSjq172eQDdx2iqlFkDeoF6X7EnpZRtfjbRTteEc
+        fwyP1GUQ==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jcBzP-0008Cl-Sb; Fri, 22 May 2020 18:01:48 +0000
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jcC0X-0008Ax-61; Fri, 22 May 2020 18:02:57 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8530C301AC6;
-        Fri, 22 May 2020 20:01:45 +0200 (CEST)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 27196301AC6;
+        Fri, 22 May 2020 20:02:55 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 756A62B7F3D20; Fri, 22 May 2020 20:01:45 +0200 (CEST)
-Date:   Fri, 22 May 2020 20:01:45 +0200
+        id EAC9D2B7F3D20; Fri, 22 May 2020 20:02:54 +0200 (CEST)
+Date:   Fri, 22 May 2020 20:02:54 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     "Ahmed S. Darwish" <a.darwish@linutronix.de>
 Cc:     Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
@@ -50,49 +53,24 @@ Cc:     Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 09/25] Documentation: locking: Describe seqlock design
- and usage
-Message-ID: <20200522180145.GR325280@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH v1 10/25] seqlock: Add RST directives to kernel-doc code
+ samples and notes
+Message-ID: <20200522180254.GS325280@hirez.programming.kicks-ass.net>
 References: <20200519214547.352050-1-a.darwish@linutronix.de>
- <20200519214547.352050-10-a.darwish@linutronix.de>
+ <20200519214547.352050-11-a.darwish@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200519214547.352050-10-a.darwish@linutronix.de>
+In-Reply-To: <20200519214547.352050-11-a.darwish@linutronix.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 19, 2020 at 11:45:31PM +0200, Ahmed S. Darwish wrote:
-> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-> index d35be7709403..2a4af746b1da 100644
-> --- a/include/linux/seqlock.h
-> +++ b/include/linux/seqlock.h
-> @@ -1,36 +1,15 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
->  #ifndef __LINUX_SEQLOCK_H
->  #define __LINUX_SEQLOCK_H
-> +
->  /*
-> - * Reader/writer consistent mechanism without starving writers. This type of
-> - * lock for data where the reader wants a consistent set of information
-> - * and is willing to retry if the information changes. There are two types
-> - * of readers:
-> - * 1. Sequence readers which never block a writer but they may have to retry
-> - *    if a writer is in progress by detecting change in sequence number.
-> - *    Writers do not wait for a sequence reader.
-> - * 2. Locking readers which will wait if a writer or another locking reader
-> - *    is in progress. A locking reader in progress will also block a writer
-> - *    from going forward. Unlike the regular rwlock, the read lock here is
-> - *    exclusive so that only one locking reader can get it.
-> + * seqcount_t / seqlock_t - a reader-writer consistency mechanism with
-> + * lockless readers (read-only retry loops), and no writer starvation.
->   *
-> - * This is not as cache friendly as brlock. Also, this may not work well
-> - * for data that contains pointers, because any writer could
-> - * invalidate a pointer that a reader was following.
-> + * See Documentation/locking/seqlock.rst for full description.
+On Tue, May 19, 2020 at 11:45:32PM +0200, Ahmed S. Darwish wrote:
+> Mark all C code samples inside seqlock.h kernel-doc text with the RST
+> 'code-block: c' directive. Sphinx won't properly format the example code
+> and will produce noisy text indentation warnings otherwise.
 
-So I really really hate that... I _much_ prefer code comments to crappy
-documents.
+I so bloody hate RST.. and now it's infecting perfectly sane comments
+and turning them into unreadable junk :-(
