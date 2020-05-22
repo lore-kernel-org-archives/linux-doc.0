@@ -2,135 +2,126 @@ Return-Path: <SRS0=R1OV=7E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0424C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 17:29:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47A1CC433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 17:34:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF384206C3
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 17:29:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 142E5206C3
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 17:34:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z+CAw6eA"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mrLZoriV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730766AbgEVR35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 May 2020 13:29:57 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44100 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730764AbgEVR34 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 May 2020 13:29:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1590168595;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=15giI7Twfyx23sQ419l43txLDRcgrhknS5eEDxlCs+4=;
-        b=Z+CAw6eAZh88LC2ZGa2pc83KNjAjl7tSp4ifykksF/PTYj9lVj5USHgvLRpPlLSiw8G4AK
-        JQ1EVCi3Z+qLXz7Cp3v7hjVN5u3/RTlNCrE5hCnaKmNwfVK/GHXFcUX53s/vz0M5A+pQwy
-        DRHUvqShfghGRjAsTNLAI/E5upbHHjs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-6A89GSQQPGGX5UbHzh4Dqg-1; Fri, 22 May 2020 13:29:51 -0400
-X-MC-Unique: 6A89GSQQPGGX5UbHzh4Dqg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D890460;
-        Fri, 22 May 2020 17:29:47 +0000 (UTC)
-Received: from asgard.redhat.com (unknown [10.36.110.11])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7219E75262;
-        Fri, 22 May 2020 17:29:36 +0000 (UTC)
-Date:   Fri, 22 May 2020 19:29:34 +0200
-From:   Eugene Syromiatnikov <esyr@redhat.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Kees Cook <keescook@chromium.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1730700AbgEVReU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 May 2020 13:34:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54564 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730636AbgEVReU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 May 2020 13:34:20 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22498C05BD43
+        for <linux-doc@vger.kernel.org>; Fri, 22 May 2020 10:34:20 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id e11so4529688pfn.3
+        for <linux-doc@vger.kernel.org>; Fri, 22 May 2020 10:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vpvOtYEoQPYr60AvQ4lbOXVaOz+PqOzSuTIlFxZC7hs=;
+        b=mrLZoriVWpSjIlqWcoKRs7Vf38HcNAIbk1aA1aj5M9bm3Kplf4mG3Nlg9o2f8mXie9
+         Fzh3k6kQqtcs2C2Z92Xjo5uCe7mXGGZJ7OhLbKqmeBdBJLXUSvy785BjEvi9KRPXlUyV
+         Jt9fS28KExNgHI2bGC8ZrNS0cBGoCgm/quS1o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vpvOtYEoQPYr60AvQ4lbOXVaOz+PqOzSuTIlFxZC7hs=;
+        b=MwN9ySoEZveDZqBE4M26JyS0sMdQHvcyxdhfXymLnMhcYrYN2atK7+FHuyfnNx6ZF+
+         zZWZi7K+DPw28UZq5T/Q2ose2JpUvzFMXFhOa7XqlMvUqps5ZL2IiPLXeBr797IDq1yS
+         CaZcM1h4J80CoTURb6ZQWuhWb2p5kWVrYB1bBS6LRGEu+qTBAOCDI4pjI5XpXtPG8uu0
+         BvRPilQgiGwO1o36GUmXb5pv/1kd4YZnNwWZbt60/wdZGsq9LLgEAixUCIp6YeLSu9s9
+         CsXUgsoTh/6qEVL9axekEdlGbrdX+PKj+yFBaZn5H6rnWOolVstpCK8e1b7tys0clDSd
+         DXSw==
+X-Gm-Message-State: AOAM5304tVGfU3uSqxT7okgzxf5wvQLzxWdYA+xBe4sZFFxd5jBUL5wJ
+        bZFlgCvkgEv0bCHgDd9T/E2Dhg==
+X-Google-Smtp-Source: ABdhPJw3mEZJxGUEwT+YtZuRAtkaUC2r/G5yxPoHLWK7Hcz3C0nz+4i4d6ISwNAJSlDeH54wMalB+Q==
+X-Received: by 2002:a63:b64e:: with SMTP id v14mr15087127pgt.164.1590168859526;
+        Fri, 22 May 2020 10:34:19 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q4sm7769112pfu.42.2020.05.22.10.34.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2020 10:34:18 -0700 (PDT)
+Date:   Fri, 22 May 2020 10:34:17 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Pavel Tatashin <pasha.tatashin@soleen.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>, mtk.manpages@gmail.com
-Subject: Re: [PATCH v10 26/26] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-Message-ID: <20200522172934.GI12341@asgard.redhat.com>
-References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
- <20200429220732.31602-27-yu-cheng.yu@intel.com>
- <202005211528.A12B4AD@keescook>
- <c9c9314374c7db0bf9b6e39670855afe5b0d4014.camel@intel.com>
+        Benson Leung <bleung@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v4 2/6] printk: honor the max_reason field in kmsg_dumper
+Message-ID: <202005221032.859452DFA0@keescook>
+References: <20200515184434.8470-1-keescook@chromium.org>
+ <20200515184434.8470-3-keescook@chromium.org>
+ <20200522165120.GL3464@linux-b0ei>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c9c9314374c7db0bf9b6e39670855afe5b0d4014.camel@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200522165120.GL3464@linux-b0ei>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 22, 2020 at 10:17:43AM -0700, Yu-cheng Yu wrote:
-> On Thu, 2020-05-21 at 15:42 -0700, Kees Cook wrote:
-> > On Wed, Apr 29, 2020 at 03:07:32PM -0700, Yu-cheng Yu wrote:
-> [...]
-> > > +
-> > > +int prctl_cet(int option, u64 arg2)
-> > > +{
-> > > +	struct cet_status *cet;
-> > > +
-> > > +	if (!IS_ENABLED(CONFIG_X86_INTEL_CET))
-> > > +		return -EINVAL;
+On Fri, May 22, 2020 at 06:51:20PM +0200, Petr Mladek wrote:
+> On Fri 2020-05-15 11:44:30, Kees Cook wrote:
+> > From: Pavel Tatashin <pasha.tatashin@soleen.com>
 > > 
-> > Using -EINVAL here means userspace can't tell the difference between an
-> > old kernel and a kernel not built with CONFIG_X86_INTEL_CET. Perhaps
-> > -ENOTSUPP?
+> > kmsg_dump() allows to dump kmesg buffer for various system events: oops,
+> > panic, reboot, etc. It provides an interface to register a callback call
+> > for clients, and in that callback interface there is a field "max_reason"
+> > which gets ignored unless always_kmsg_dump is passed as kernel parameter.
 > 
-> Looked into this.  The kernel and GLIBC are not in sync.  So maybe we still use
-> EINVAL here?
+> Strictly speaking, this is not fully true. "max_reason" field is not
+> ignored when set to KMSG_DUMP_PANIC even when always_kmsg_dump was not set.
 > 
-> Yu-cheng
+> It should be something like:
 > 
+> "which gets ignored for reason higher than KMSG_DUMP_OOPS unless
+> always_kmsg_dump is passed as kernel parameter".
 > 
-> 
-> In kernel:
-> ----------
-> 
-> #define EOPNOTSUPP	95
-> #define ENOTSUPP 	524
-> 
-> In GLIBC:
-> ---------
-> 
-> printf("ENOTSUP=%d\n", ENOTSUP);
-> printf("EOPNOTSUPP=%d\n", EOPNOTSUPP);
-> printf("%s=524\n", strerror(524));
->  
-> ENOTSUP=95
-> EOPNOTSUPP=95
-> Unknown error 524=524
+> Heh, I wonder if anyone will be able to parse this ;-)
 
-EOPNOTSUPP/ENOTSUP/ENOTSUPP is actually a mess, it's summarized recently
-by Michael Kerrisk[1].  From the kernel's point of view, I think it
-would be reasonable to return EOPNOTSUPP, and expect that the userspace
-would use ENOTSUP to match against it.
+Ah yeah, good point. I've reworded things like this:
 
-[1] https://lore.kernel.org/linux-man/cb4c685b-6c5d-9c16-aade-0c95e57de4b9@gmail.com/
 
+    kmsg_dump() allows to dump kmesg buffer for various system events: oops,
+    panic, reboot, etc. It provides an interface to register a callback
+    call for clients, and in that callback interface there is a field
+    "max_reason", but it was getting ignored when set to any "reason"
+    higher than KMSG_DUMP_OOPS unless "always_kmsg_dump" was passed as
+    kernel parameter.
+
+    Allow clients to actually control their "max_reason", and keep the
+    current behavior when "max_reason" is not set.
+
+> Otherwise, it looks good to me. With the updated commit message:
+> 
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+
+Thanks!
+
+-- 
+Kees Cook
