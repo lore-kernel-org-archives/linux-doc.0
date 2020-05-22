@@ -2,112 +2,97 @@ Return-Path: <SRS0=R1OV=7E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E22C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 17:36:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6C22C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 18:02:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6352F20723
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 17:36:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AAEC20663
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 18:02:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KCChTIHc"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BbUjf0Dx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730600AbgEVRgH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 May 2020 13:36:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54836 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730635AbgEVRgD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 May 2020 13:36:03 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 246FDC08C5C1
-        for <linux-doc@vger.kernel.org>; Fri, 22 May 2020 10:36:03 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id m7so4658779plt.5
-        for <linux-doc@vger.kernel.org>; Fri, 22 May 2020 10:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=d2JbpNQ5BB8THZLFRZdUsN5zyBBBg1g/qGCRRq9W1mM=;
-        b=KCChTIHcglv8zga3a5aOx2ivsb/AjYh4uFhKYSzdjk8Zy7lmmEqJJ6I41tdc7Qxcel
-         SKXsc6lA7boxff1mWCeR6Hym/HbT/Y8JCY54dDB2dKV7LUqpig3/sEfxfj3YlbMjxk78
-         cf4xmQWG34WMeCDIKi5DinQN2V4caGJiIsSXQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=d2JbpNQ5BB8THZLFRZdUsN5zyBBBg1g/qGCRRq9W1mM=;
-        b=lUlHYvjivNLb9ieHUaPX+klbK3MsZv/KPra1xz5NST4ttUOvyjdY71M7suoX/ipfsy
-         p8KeETq4TYq1e9W8PsynyYAC5FK4LSmdGjhto73+6XueKj1GGLMOdD7aQXBhR40aKzGz
-         Lg+L4GrCsAoIANspjl0PiPDL80sP5bXwsMz99M1Lzu+VMQakiKAgFRURUvhMYEwZGQYx
-         hUH6lYEqG+XjwT1k8CLP+ssWT1ItY348DLYbOLVXzAU7OSQxn3CdRgma+9qKBpDjBWET
-         rpCadggLuVFzrwRfT8gx9nrd1eYhPKFUzBhLtjkBYGhLSKfUCG6/R+x21eG2rPsEMI2k
-         G+cA==
-X-Gm-Message-State: AOAM530MB7KmUdzQoc34axjOCSNR5wSyYuLP+V3uOAYB50I4nhYdWc6G
-        dLCYI9qad7w/Um7VA8fCwuaYaA==
-X-Google-Smtp-Source: ABdhPJy3bKJ2cO/LbOCqUoRt6uBWzveUTeVTjmUCNI6pxDVh8fOHpftgmCyiWGsqex2F3Yb7IJd/Xw==
-X-Received: by 2002:a17:902:82c9:: with SMTP id u9mr15646877plz.179.1590168962631;
-        Fri, 22 May 2020 10:36:02 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q3sm6224293pgp.69.2020.05.22.10.36.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2020 10:36:01 -0700 (PDT)
-Date:   Fri, 22 May 2020 10:36:00 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
+        id S1730750AbgEVSCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 May 2020 14:02:21 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:51392 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730674AbgEVSCU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 May 2020 14:02:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=BzGVoYi7lusRQAJzrnCE6lDqe1qUxbheoT+A3b9PhsQ=; b=BbUjf0DxmZbE7vMsoDTX+agpyC
+        vQk96e0N/CKRdTq03SRxDoA9kXQTJHweJuNq4kAm1mJZBrgQ3CfZBbhhZKZeCPgQTPDSwS7yq3FVo
+        grzskRCdDWF2XZ3/EYZHw0QyNmRerw6gQDI851fIr5nhuBF26xSIIbsdU4+S5MqoHXqvc7oKodXTO
+        9Zm+wZZqSQpl3yXh7DSYVnVlAnJxGk6necklRg1aamOQg6Bwbu2SuW38AziE97XMp73yCHautbsfE
+        Zh4RbLZIfOApClRpQsxDKg+GHRPRsmb8+Kt6EzhtM8V+04yMuD3yCDOC1Q7/P2w79rlI6e1MmdpZY
+        vasXWTFw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jcBzP-0008Cl-Sb; Fri, 22 May 2020 18:01:48 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8530C301AC6;
+        Fri, 22 May 2020 20:01:45 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 756A62B7F3D20; Fri, 22 May 2020 20:01:45 +0200 (CEST)
+Date:   Fri, 22 May 2020 20:01:45 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Ahmed S. Darwish" <a.darwish@linutronix.de>
+Cc:     Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [RFC PATCH 5/5] selftest/x86: Add CET quick test
-Message-ID: <202005221034.59F5DF75@keescook>
-References: <20200521211720.20236-1-yu-cheng.yu@intel.com>
- <20200521211720.20236-6-yu-cheng.yu@intel.com>
- <20200522092848.GJ325280@hirez.programming.kicks-ass.net>
- <202005221020.B578B8C6@keescook>
- <20200522172711.GA317569@hirez.programming.kicks-ass.net>
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 09/25] Documentation: locking: Describe seqlock design
+ and usage
+Message-ID: <20200522180145.GR325280@hirez.programming.kicks-ass.net>
+References: <20200519214547.352050-1-a.darwish@linutronix.de>
+ <20200519214547.352050-10-a.darwish@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200522172711.GA317569@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200519214547.352050-10-a.darwish@linutronix.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 22, 2020 at 07:27:11PM +0200, Peter Zijlstra wrote:
-> On Fri, May 22, 2020 at 10:22:51AM -0700, Kees Cook wrote:
-> 
-> > But yes, I think getting a copy of asm.h would be nice here. I don't
-> > think the WRITE_ONCE() is needed in this particular case. Hmm.
-> 
-> Paranoia on my end because I had no clue wth he wanted with his -O0
-> magic gunk.
+On Tue, May 19, 2020 at 11:45:31PM +0200, Ahmed S. Darwish wrote:
+> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+> index d35be7709403..2a4af746b1da 100644
+> --- a/include/linux/seqlock.h
+> +++ b/include/linux/seqlock.h
+> @@ -1,36 +1,15 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+>  #ifndef __LINUX_SEQLOCK_H
+>  #define __LINUX_SEQLOCK_H
+> +
+>  /*
+> - * Reader/writer consistent mechanism without starving writers. This type of
+> - * lock for data where the reader wants a consistent set of information
+> - * and is willing to retry if the information changes. There are two types
+> - * of readers:
+> - * 1. Sequence readers which never block a writer but they may have to retry
+> - *    if a writer is in progress by detecting change in sequence number.
+> - *    Writers do not wait for a sequence reader.
+> - * 2. Locking readers which will wait if a writer or another locking reader
+> - *    is in progress. A locking reader in progress will also block a writer
+> - *    from going forward. Unlike the regular rwlock, the read lock here is
+> - *    exclusive so that only one locking reader can get it.
+> + * seqcount_t / seqlock_t - a reader-writer consistency mechanism with
+> + * lockless readers (read-only retry loops), and no writer starvation.
+>   *
+> - * This is not as cache friendly as brlock. Also, this may not work well
+> - * for data that contains pointers, because any writer could
+> - * invalidate a pointer that a reader was following.
+> + * See Documentation/locking/seqlock.rst for full description.
 
-Heh, yes, which is why I asked for many more comments. ;) I *think* it
-was entirely to control the stack (and ssp) behavior (i.e. don't inline,
-don't elide unused stack variables, etc).
-
--- 
-Kees Cook
+So I really really hate that... I _much_ prefer code comments to crappy
+documents.
