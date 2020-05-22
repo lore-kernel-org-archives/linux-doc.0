@@ -2,87 +2,144 @@ Return-Path: <SRS0=R1OV=7E=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_ADSP_ALL,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B3FAC433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 14:27:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6401C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 15:10:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7CFA522BEA
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 14:27:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ulukai.org header.i=@ulukai.org header.b="jDcoSxwn"
+	by mail.kernel.org (Postfix) with ESMTP id C0BA0205CB
+	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 15:10:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730212AbgEVO1D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 May 2020 10:27:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53348 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729868AbgEVO1C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 May 2020 10:27:02 -0400
-Received: from ulukai.org (ulukai.org [IPv6:2a01:488:66:1000:b01c:1258:0:1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59590C05BD43;
-        Fri, 22 May 2020 07:27:02 -0700 (PDT)
-Received: from arona (unknown [46.114.108.139])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by ulukai.org (Postfix) with ESMTPSA id 49T7gQ32QHz3SFk;
-        Fri, 22 May 2020 16:10:42 +0200 (CEST)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at ulukai.org
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ulukai.org; s=ulukai;
-        t=1590156642; bh=tw8TnTeS4qB/O5fLk0d0rRvpp5aVqL7Gv1uP8XO0ZhM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jDcoSxwnVWXIn/u04pLmYI17o93VYgm0dSecx5kLsejCp0q5h9GUbEh/y8SXAB+2h
-         6BT9Dd7vRdqAie93TrTTBLg9Nfg8JSGSJBmhERn7oA9pcTnyR33nthvvPHWXDVWVzt
-         F7/fqIm+gLXIhG3xYv5Z5e/ZT0uVAd1Zsg++9kUE=
-From:   "C. Masloch" <pushbx@ulukai.org>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Dave Rodgman <dave.rodgman@arm.com>, Willy Tarreau <w@1wt.eu>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 2/2] docs: lzo: fix incorrect statement about distance zero for EOS
-Date:   Fri, 22 May 2020 16:10:40 +0200
-Message-Id: <20200522141040.1353769-2-pushbx@ulukai.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200522141040.1353769-1-pushbx@ulukai.org>
-References: <20200522141040.1353769-1-pushbx@ulukai.org>
+        id S1730346AbgEVPKK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 May 2020 11:10:10 -0400
+Received: from mga12.intel.com ([192.55.52.136]:38059 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729931AbgEVPKK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 May 2020 11:10:10 -0400
+IronPort-SDR: tPfV+Jvicw1Ya/yQczp8lMnqPu1DcTSmYnFSO2Fo4vjKg9wqZ3INEtZiE+he/WcpLwsIdBeGBV
+ c2LmAs5gyDAw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2020 08:10:09 -0700
+IronPort-SDR: ICX66KiVS7ynOm0TtiHoLqVvaMKYuZAKDIVrXtjZd+youn2HnEcznyDbZ3QRNEjO4m32Md26v3
+ gzK5lB5dFfwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,422,1583222400"; 
+   d="scan'208";a="344197433"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga001.jf.intel.com with ESMTP; 22 May 2020 08:10:08 -0700
+Message-ID: <cc3d7668eb7dd738a85f0b0935624496efae43be.camel@intel.com>
+Subject: Re: [RFC PATCH 5/5] selftest/x86: Add CET quick test
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Date:   Fri, 22 May 2020 08:10:14 -0700
+In-Reply-To: <20200522092848.GJ325280@hirez.programming.kicks-ass.net>
+References: <20200521211720.20236-1-yu-cheng.yu@intel.com>
+         <20200521211720.20236-6-yu-cheng.yu@intel.com>
+         <20200522092848.GJ325280@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The encoded distance bits are zero, but the distance that is
-calculated from this is actually equal to 16384. So correct
-this statement to read that the 0001HLLL instruction means
-EOS when a distance of 16384 is seen. This matches with the
-description of the instruction itself later on.
+On Fri, 2020-05-22 at 11:28 +0200, Peter Zijlstra wrote:
+> On Thu, May 21, 2020 at 02:17:20PM -0700, Yu-cheng Yu wrote:
+> 
+> > +#pragma GCC push_options
+> > +#pragma GCC optimize ("O0")
+> > +void ibt_violation(void)
+> > +{
+> > +#ifdef __i386__
+> > +	asm volatile("lea 1f, %eax");
+> > +	asm volatile("jmp *%eax");
+> > +#else
+> > +	asm volatile("lea 1f, %rax");
+> > +	asm volatile("jmp *%rax");
+> > +#endif
+> > +	asm volatile("1:");
+> > +	result[test_id] = -1;
+> > +	test_id++;
+> > +	setcontext(&ucp);
+> > +}
+> > +
+> > +void shstk_violation(void)
+> > +{
+> > +#ifdef __i386__
+> > +	unsigned long x = 0;
+> > +
+> > +	((unsigned long *)&x)[2] = (unsigned long)stack_hacked;
+> > +#else
+> > +	unsigned long long x = 0;
+> > +
+> > +	((unsigned long long *)&x)[2] = (unsigned long)stack_hacked;
+> > +#endif
+> > +}
+> > +#pragma GCC pop_options
+> 
+> This is absolutely atrocious.
+> 
+> The #pragma like Kees already said just need to go. Also, there's
+> absolutely no clue what so ever what it attempts to achieve.
+> 
+> The __i386__ ifdeffery is horrible crap. Splitting an asm with #ifdef
+> like that is also horrible crap.
+> 
+> This is not how you write code.
+> 
+> Get asm/asm.h into userspace and then write something like:
+> 
+> 
+> void ibt_violation(void)
+> {
+> 	asm volatile("lea  1f, %" _ASM_AX "\n\t"
+> 		     "jmp  *%" _ASM_AX "\n\t"
+> 		     "1:\n\t" ::: "a");
+> 
+> 	WRITE_ONCE(result[test_id], -1);
+> 	WRITE_ONCE(test_id, test_id+1);
+> 
+> 	setcontext(&ucp);
+> }
+> 
+> void shstk_violation(void)
+> {
+> 	unsigned long x = 0;
+> 
+> 	WRITE_ONCE(x[2], stack_hacked);
+> }
 
-Signed-off-by: C. Masloch <pushbx@ulukai.org>
----
- Documentation/lzo.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks!  I will change it.
 
-diff --git a/Documentation/lzo.txt b/Documentation/lzo.txt
-index f839d104d..dc9e876cb 100644
---- a/Documentation/lzo.txt
-+++ b/Documentation/lzo.txt
-@@ -65,9 +65,9 @@ Description
-   generally encoded in the last two bits of the instruction but may also be
-   taken from the last two bits of an extra operand (eg: distance).
- 
--  End of stream is declared when a block copy of distance 0 is seen. Only one
--  instruction may encode this distance (0001HLLL), it takes one LE16 operand
--  for the distance, thus requiring 3 bytes.
-+  End of stream is declared when a block copy of distance 16384 is seen,
-+  encoded in a certain instruction (0001HLLL) with the H and D bits all zero.
-+  It takes one LE16 operand for the distance, thus requiring 3 bytes.
- 
-   .. important::
- 
--- 
-2.26.2
+Yu-cheng
 
