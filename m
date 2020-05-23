@@ -2,142 +2,121 @@ Return-Path: <SRS0=iwEX=7F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B56BDC433DF
-	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 01:48:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68EADC433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 07:49:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F3B020727
-	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 01:48:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EC002073B
+	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 07:49:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="S4YFKaPj"
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="naczRbjR";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="a1JDGcSI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387473AbgEWBsP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 May 2020 21:48:15 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:44472 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387453AbgEWBsO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 May 2020 21:48:14 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04N1lrnx103671;
-        Fri, 22 May 2020 20:47:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1590198473;
-        bh=yiS4eaMZLr5N5lmPgiZnhfhO2vD8vhckjgLQdVGEMjo=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=S4YFKaPjhOkUmRmWvAvIofxQwMmQgsvHxCns71fok5YuWB7WhcCRLFKqmwszgJaPi
-         PrEBqH060yekOMhsht0ZOKFWWEkEwoKoFWaoBvWAYnxyDT4xIJ2CNQGxtx3ckdnaBs
-         xLSBF2n5eQBYQZkHWaFD0BLjVwIg3tCioxNciMes=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04N1lrQL067401
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 22 May 2020 20:47:53 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 22
- May 2020 20:47:52 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 22 May 2020 20:47:52 -0500
-Received: from [10.250.233.85] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04N1lmIK029381;
-        Fri, 22 May 2020 20:47:48 -0500
-Subject: Re: [PATCH 00/19] Implement NTB Controller using multiple PCI EP
-To:     Rob Herring <robh+dt@kernel.org>
-CC:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        PCI <linux-pci@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-ntb@googlegroups.com>
-References: <20200514145927.17555-1-kishon@ti.com>
- <CAL_JsqKxe5FtZfiQKcQFFLOM5F52kx-q8vZspPTXhcWg+3rJvQ@mail.gmail.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <d0c4c813-2af7-7fd4-e401-6fd5de69d4e4@ti.com>
-Date:   Sat, 23 May 2020 07:17:47 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S2387666AbgEWHtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 May 2020 03:49:17 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:49965 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387500AbgEWHtR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 May 2020 03:49:17 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 9E9535800E8;
+        Sat, 23 May 2020 03:49:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Sat, 23 May 2020 03:49:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=HYzvmvyhCdDCgy2Up0L8kyIQNh0
+        GHJNZlq1iXsF1dWk=; b=naczRbjRRQYoLQwrtOlHT4O/toqGfVrcKqQ+mrDqEX1
+        A3bZsj6fd7/9bZH6tHoMVzUleCUxr4qAVQU994l+tHR2H7EqOrpBQog0Lkuk09pH
+        rxjGk5JLBLiA/ZXd6SVbzUNaF6OGHRltWaxoi4ayjKDvmhcnjOb6T6B79XDGD1Yp
+        c4KrQb/hBB6BXI+bmjegSmZf5+d/h92AFsQkX1o4Cwy+oVMvsg99XDHEaPLPGbKN
+        BcsFvHZ01RBalHLVxrCZlnFUGBjKHEuGYG1gOXm+eX4T+f/dGBA8EO4Keato214D
+        QYGxK92x1rGodA+OgEGkNeOQcK9e+X6slCK851PWgig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=HYzvmv
+        yhCdDCgy2Up0L8kyIQNh0GHJNZlq1iXsF1dWk=; b=a1JDGcSIF60I70XD+vtvfN
+        M0XoiqqFIjOLkTIBpuwuiFOVtN3A66HN8vDd8LrYNGxj8Mp6CuPPudBPLnWz19hr
+        mCK+onEVk2UCfKYCGntHRrh5UZpOGuDWu+cyMKdaQCJHfzWdHmL6cqokfZeEKU5H
+        0C/S4BNR0hZHbMMTSDykfxW1TGVJ6aBAWKwwDtBAW2T0r3ioUImNBWA7VkaSJTB2
+        vO7RD3eHSKdn/FKiJ6MN+LOpOe9X3+u+lo/Z7OeTNzI1FzxwA+gWfe7Qr58yPWhN
+        B+2PIAURvIxaxu56bG8nJo7Cp4u5eap/iO+XHl1QFfDljozyNO6YIcZXM2juw/3Q
+        ==
+X-ME-Sender: <xms:dtXIXkkUQwLyf7bLgRPA2mYvGdXHW2muFPf7U0Lls3RoVj5YzanFoQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddugedguddvtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhe
+    ejgfffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeek
+    fedrkeeirdekledruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:dtXIXj1VC4RADb62e_BokGosqZPXVmkrpX1zHvEuf7K88SPn1-N08g>
+    <xmx:dtXIXipxBNnQQaoYtMTHHVIifjmYyu1_8hE7aMLU7AAZ_nuoCVHppA>
+    <xmx:dtXIXglXK2j5Nw8E2d2C9xcQ-o1N4uwgFY-APhmsr9UWQsNMDsjRfA>
+    <xmx:e9XIXvAhgaFwAyW2LMzLbyZzJdDDO6J7ctdmt5Np1E6vAH_sgxgFxA>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 9563B328005A;
+        Sat, 23 May 2020 03:49:09 -0400 (EDT)
+Date:   Sat, 23 May 2020 09:49:08 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Babu Moger <babu.moger@amd.com>
+Cc:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        hpa@zytor.com, pbonzini@redhat.com,
+        sean.j.christopherson@intel.com, stable@vger.kernel.org,
+        x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
+        luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
+        changbin.du@intel.com, namit@vmware.com, bigeasy@linutronix.de,
+        yang.shi@linux.alibaba.com, asteinhauser@google.com,
+        anshuman.khandual@arm.com, jan.kiszka@siemens.com,
+        akpm@linux-foundation.org, steven.price@arm.com,
+        rppt@linux.vnet.ibm.com, peterx@redhat.com,
+        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
+        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
+        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
+        jgross@suse.com, andrew.cooper3@citrix.com,
+        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
+        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
+        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH 5.4] KVM: x86: Fix pkru save/restore when guest
+ CR4.PKE=0, move it to x86.c
+Message-ID: <20200523074908.GA3285051@kroah.com>
+References: <159016509437.3131.17229420966309596602.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKxe5FtZfiQKcQFFLOM5F52kx-q8vZspPTXhcWg+3rJvQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <159016509437.3131.17229420966309596602.stgit@naples-babu.amd.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
-
-On 5/22/2020 9:41 PM, Rob Herring wrote:
-> On Thu, May 14, 2020 at 8:59 AM Kishon Vijay Abraham I <kishon@ti.com> wrote:
->>
->> This series is about implementing SW defined NTB using
->> multiple endpoint instances. This series has been tested using
->> 2 endpoint instances in J7 connected to two DRA7 boards. However there
->> is nothing platform specific for the NTB functionality.
->>
->> This was presented in Linux Plumbers Conference. The presentation
->> can be found @ [1]
+On Fri, May 22, 2020 at 11:32:49AM -0500, Babu Moger wrote:
+> [Backported upstream commit 37486135d3a7b03acc7755b63627a130437f066a]
 > 
-> I'd like to know why putting this into DT is better than configfs.
-> Does it solve some problem? Doing things in userspace is so much
-> easier and more flexible than modifying and updating a DT.
-
-It's a lot cleaner to have an endpoint function bound to two different endpoint
-controller using device tree than configfs.
-
-+    epf_bus {
-+      compatible = "pci-epf-bus";
-+
-+      func@0 {
-+        compatible = "pci-epf-ntb";
-+        epcs = <&pcie0_ep>, <&pcie1_ep>;
-+        epc-names = "primary", "secondary";
-+        reg = <0>;
-+        epf,vendor-id = /bits/ 16 <0x104c>;
-+        epf,device-id = /bits/ 16 <0xb00d>;
-+        num-mws = <4>;
-+        mws-size = <0x0 0x100000>, <0x0 0x100000>, <0x0 0x100000>, <0x0 0x100000>;
-+      };
-
-For device tree, just using phandles is enough and the driver can easily parse
-DT to get EPCs bound to the endpoint function
-+        epcs = <&pcie0_ep>, <&pcie1_ep>;
-+        epc-names = "primary", "secondary";
-
-This would be
-ln -s functions/pci-epf-ntb/func1 controllers/2900000.pcie-ep/
-ln -s functions/pci-epf-ntb/func1 controllers/2910000.pcie-ep/
-
-pci_epc_epf_link() should then maintain the order of EPC bound to EPF and
-designate one as PRIMARY_INTERFACE and the second as SECONDARY_INTERFACE.
-pci_epf_bind() should be made to behave differently for NTB case.
-
-While the standard properties (like vendorid, deviceid) has configfs entries,
-additional logic would be required for adding function specific fields like
-num-mws and mws-size above.
-
-While all this support could be added in configfs, it looks simpler to
-represent then in DT.
-
+> Though rdpkru and wrpkru are contingent upon CR4.PKE, the PKRU
+> resource isn't. It can be read with XSAVE and written with XRSTOR.
+> So, if we don't set the guest PKRU value here(kvm_load_guest_xsave_state),
+> the guest can read the host value.
 > 
-> I don't really think the PCI endpoint stuff is mature enough to be
-> putting into DT either.
+> In case of kvm_load_host_xsave_state, guest with CR4.PKE clear could
+> potentially use XRSTOR to change the host PKRU value.
+> 
+> While at it, move pkru state save/restore to common code and the
+> host_pkru field to kvm_vcpu_arch.  This will let SVM support protection keys.
+> 
+> Cc: stable@vger.kernel.org
+> Reported-by: Jim Mattson <jmattson@google.com>
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-I think this will anyways come when we have to export real HW peripherals to
-the remote HOST using EP controller.
+Now applied, thanks.
 
-Thanks
-Kishon
+greg k-h
