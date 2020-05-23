@@ -2,114 +2,345 @@ Return-Path: <SRS0=iwEX=7F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A395FC433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 12:22:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06EBBC433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 19:11:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 744D220727
-	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 12:22:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C46F4207F7
+	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 19:11:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="ERV9ZPom"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QqruLYnt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387800AbgEWMWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 May 2020 08:22:04 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:32878 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387795AbgEWMWD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 23 May 2020 08:22:03 -0400
-Received: from zn.tnic (p200300ec2f1b96000903d0e8ce6c3fc4.dip0.t-ipconnect.de [IPv6:2003:ec:2f1b:9600:903:d0e8:ce6c:3fc4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 34F781EC0322;
-        Sat, 23 May 2020 14:22:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1590236522;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=LDpR9wqJSbrif4ZbcLoGQ7gTT2in9pNC/j6i9ymqcoU=;
-        b=ERV9ZPomgRSs3ujgmNTWDcBEpkhwfNwjqarfp7Ogeh+4yb5Z0ausqgOaileEtW0aHyV4yf
-        DZ6jFtf4T+Ilk6LVC2hbcy16b2yBS7neJNTrllRKaKA/wLS5Va/h/odkjlhxztho+DDAnN
-        ufu4NwDzYx73NnvlqZdxTzlytChL7tU=
-Date:   Sat, 23 May 2020 14:21:49 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Babu Moger <babu.moger@amd.com>
-Cc:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
-        hpa@zytor.com, pbonzini@redhat.com,
-        sean.j.christopherson@intel.com, x86@kernel.org,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, mchehab+samsung@kernel.org,
-        changbin.du@intel.com, namit@vmware.com, bigeasy@linutronix.de,
-        yang.shi@linux.alibaba.com, asteinhauser@google.com,
-        anshuman.khandual@arm.com, jan.kiszka@siemens.com,
-        akpm@linux-foundation.org, steven.price@arm.com,
-        rppt@linux.vnet.ibm.com, peterx@redhat.com,
-        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
-        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
-        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
-        jgross@suse.com, andrew.cooper3@citrix.com,
-        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
-        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
-        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-Subject: Re: [PATCH v5] arch/x86: Update config and kernel doc for MPK
- feature on AMD
-Message-ID: <20200523122149.GF27431@zn.tnic>
-References: <158940940570.47998.17107695356894054769.stgit@naples-babu.amd.com>
+        id S1726902AbgEWTLw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 May 2020 15:11:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38760 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726790AbgEWTLv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 May 2020 15:11:51 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9B0C061A0E;
+        Sat, 23 May 2020 12:11:51 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id f4so6584097pgi.10;
+        Sat, 23 May 2020 12:11:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mZCYCKt8hk9QIQfn0xrqZC7q5fnuUUU5zpxiiVNk2Yw=;
+        b=QqruLYntyD9aClo2B1GNWbtwdUT62onV7z4WJ7qucpkaU7lrOTNl8ObzkOq02IW4JC
+         80YOOnZna6T3+4NYITK73VIygeSmnUkgh9jErhCp+aN/99qiZLmlMHkw0D/pIaf5vZwx
+         eJX3B4GCJZB87BPNEjmMfm4yar/4bUEhLH2+uHzG51Q29aSY8smAKHmRoJAva4/VZ9f0
+         XDRFaTJpoSLkxMxpVb2aAZgzQMUb+Yg+mnAExjFSH5vk+c6Les6mAm65TgY6DLVmMTq8
+         h2nRUqbi+Sad/YO4styj6g7zvr/i55/ZOCRAIUDUI2ThzWBte7rTX4G2P6spSBVFN1bR
+         ZL0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mZCYCKt8hk9QIQfn0xrqZC7q5fnuUUU5zpxiiVNk2Yw=;
+        b=ME7JbhxsWFR6T84Nj1B2uZAgrVeKUCvDQNO6psu+gqvxtH0maHeskrai/uYg2lvHbf
+         /Fx1CcAAYkAU4tRep/nbXnHWNlzcUZ/ekMrKhtDa208wcruCs3jJ6brakKtyJpmscj6E
+         0bKLqtP1ae9E1LTRKyJgQApCh6N0gE18f4UaT0SMGXLhOvUrHQl1LWLL0yx+dw8N7yuO
+         r6JRXyRHjReEMAQTQtlpsAJ7yGa8yZWw2rMMO4pJzr2R2HEwGaevvgcsOpOYuUHkmvza
+         HYD0wkGmTVRoHghvcQ9VNkz7qV4HgMcxUXnG1dYysJxMZA1WhChCjwkk0+GB5J4slMnV
+         LBFw==
+X-Gm-Message-State: AOAM533p0nmyiqW9P9ZMHgWVZpLkr6ic5T2jjgzvmcLk1b1HiEKO1c98
+        JMxue6FkhqP6+OLvgFti5EhGzsidlOsOoA==
+X-Google-Smtp-Source: ABdhPJx1dmCAqxV6GCBK+1wP2AMHL/Qqhl0ro2PkpRwmweaDCchE/AZ1pForXFfcXDxRKQMZJPy1lQ==
+X-Received: by 2002:aa7:9e92:: with SMTP id p18mr9787794pfq.195.1590261111013;
+        Sat, 23 May 2020 12:11:51 -0700 (PDT)
+Received: from btopel-mobl.ger.intel.com ([192.55.55.41])
+        by smtp.gmail.com with ESMTPSA id a14sm9385904pfc.133.2020.05.23.12.11.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 May 2020 12:11:50 -0700 (PDT)
+From:   =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@gmail.com>
+Subject: [PATCH] Documentation/features: Refresh the arch support status files
+Date:   Sat, 23 May 2020 21:11:35 +0200
+Message-Id: <20200523191135.21889-1-bjorn.topel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <158940940570.47998.17107695356894054769.stgit@naples-babu.amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 13, 2020 at 05:39:12PM -0500, Babu Moger wrote:
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 1197b5596d5a..6b7303ccc1dd 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -1887,10 +1887,10 @@ config X86_UMIP
->  	  results are dummy.
->  
->  config X86_INTEL_MEMORY_PROTECTION_KEYS
-> -	prompt "Intel Memory Protection Keys"
-> +	prompt "Memory Protection Keys"
->  	def_bool y
->  	# Note: only available in 64-bit mode
-> -	depends on CPU_SUP_INTEL && X86_64
-> +	depends on X86_64 && (CPU_SUP_INTEL || CPU_SUP_AMD)
->  	select ARCH_USES_HIGH_VMA_FLAGS
->  	select ARCH_HAS_PKEYS
->  	---help---
-> @@ -1902,6 +1902,13 @@ config X86_INTEL_MEMORY_PROTECTION_KEYS
->  
->  	  If unsure, say y.
->  
-> +config X86_MEMORY_PROTECTION_KEYS
-> +	# Set the "INTEL_"-free option whenever the "INTEL_" one is set.
-> +	# The "INTEL_" one should be removed and replaced by this option
-> +	# after 5.10. This avoids exposing most 'oldconfig' users to this
-> +	# churn.
-> +	def_bool X86_INTEL_MEMORY_PROTECTION_KEYS
+I was manually editing the arch-support.txt for eBPF-JIT, when I
+realized the refresh script [1] has not been run for a while. Let's
+fix that, so that the entries are more up-to-date.
 
-I only picked up the discussion from the sidelines but why do we need
-this at all? If we don't want to have churn, then we can leave it be
-called X86_INTEL_MEMORY_PROTECTION_KEYS, not change the manpage and
-have this depend on CPU_SUP_AMD too so that people can select it on AMD
-machines, and get on with our lives.
+[1] Documentation/features/scripts/features-refresh.sh
 
-So what's up?
+Signed-off-by: Björn Töpel <bjorn.topel@gmail.com>
+---
+ Documentation/features/core/eBPF-JIT/arch-support.txt       | 2 +-
+ Documentation/features/debug/KASAN/arch-support.txt         | 6 +++---
+ .../features/debug/gcov-profile-all/arch-support.txt        | 2 +-
+ .../features/debug/kprobes-on-ftrace/arch-support.txt       | 2 +-
+ Documentation/features/debug/kprobes/arch-support.txt       | 2 +-
+ Documentation/features/debug/kretprobes/arch-support.txt    | 2 +-
+ .../features/debug/stackprotector/arch-support.txt          | 2 +-
+ Documentation/features/debug/uprobes/arch-support.txt       | 2 +-
+ Documentation/features/io/dma-contiguous/arch-support.txt   | 2 +-
+ Documentation/features/locking/lockdep/arch-support.txt     | 2 +-
+ Documentation/features/perf/kprobes-event/arch-support.txt  | 4 ++--
+ Documentation/features/perf/perf-regs/arch-support.txt      | 4 ++--
+ Documentation/features/perf/perf-stackdump/arch-support.txt | 4 ++--
+ .../features/seccomp/seccomp-filter/arch-support.txt        | 2 +-
+ Documentation/features/vm/huge-vmap/arch-support.txt        | 2 +-
+ Documentation/features/vm/pte_special/arch-support.txt      | 2 +-
+ 16 files changed, 21 insertions(+), 21 deletions(-)
 
+diff --git a/Documentation/features/core/eBPF-JIT/arch-support.txt b/Documentation/features/core/eBPF-JIT/arch-support.txt
+index 9ae6e8d0d10d..9ed964f65224 100644
+--- a/Documentation/features/core/eBPF-JIT/arch-support.txt
++++ b/Documentation/features/core/eBPF-JIT/arch-support.txt
+@@ -23,7 +23,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/debug/KASAN/arch-support.txt b/Documentation/features/debug/KASAN/arch-support.txt
+index 304dcd461795..6ff38548923e 100644
+--- a/Documentation/features/debug/KASAN/arch-support.txt
++++ b/Documentation/features/debug/KASAN/arch-support.txt
+@@ -22,9 +22,9 @@
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+-    |     powerpc: | TODO |
+-    |       riscv: | TODO |
+-    |        s390: | TODO |
++    |     powerpc: |  ok  |
++    |       riscv: |  ok  |
++    |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+     |          um: | TODO |
+diff --git a/Documentation/features/debug/gcov-profile-all/arch-support.txt b/Documentation/features/debug/gcov-profile-all/arch-support.txt
+index 6fb2b0671994..210256f6a4cf 100644
+--- a/Documentation/features/debug/gcov-profile-all/arch-support.txt
++++ b/Documentation/features/debug/gcov-profile-all/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: | TODO |
+diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+index 32b297295fff..97cd7aa74905 100644
+--- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
++++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: | TODO |
+     |       arm64: | TODO |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: | TODO |
+diff --git a/Documentation/features/debug/kprobes/arch-support.txt b/Documentation/features/debug/kprobes/arch-support.txt
+index e68239b5d2f0..caa444a2a89f 100644
+--- a/Documentation/features/debug/kprobes/arch-support.txt
++++ b/Documentation/features/debug/kprobes/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: |  ok  |
+diff --git a/Documentation/features/debug/kretprobes/arch-support.txt b/Documentation/features/debug/kretprobes/arch-support.txt
+index f17131b328e5..b805aada395e 100644
+--- a/Documentation/features/debug/kretprobes/arch-support.txt
++++ b/Documentation/features/debug/kretprobes/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: |  ok  |
+diff --git a/Documentation/features/debug/stackprotector/arch-support.txt b/Documentation/features/debug/stackprotector/arch-support.txt
+index 32bbdfc64c32..12410f606edc 100644
+--- a/Documentation/features/debug/stackprotector/arch-support.txt
++++ b/Documentation/features/debug/stackprotector/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: | TODO |
+diff --git a/Documentation/features/debug/uprobes/arch-support.txt b/Documentation/features/debug/uprobes/arch-support.txt
+index 1c577d0cfc7f..be8acbb95b54 100644
+--- a/Documentation/features/debug/uprobes/arch-support.txt
++++ b/Documentation/features/debug/uprobes/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: | TODO |
+diff --git a/Documentation/features/io/dma-contiguous/arch-support.txt b/Documentation/features/io/dma-contiguous/arch-support.txt
+index eb28b5c97ca6..895c3b0f6492 100644
+--- a/Documentation/features/io/dma-contiguous/arch-support.txt
++++ b/Documentation/features/io/dma-contiguous/arch-support.txt
+@@ -16,7 +16,7 @@
+     |     hexagon: | TODO |
+     |        ia64: | TODO |
+     |        m68k: | TODO |
+-    |  microblaze: | TODO |
++    |  microblaze: |  ok  |
+     |        mips: |  ok  |
+     |       nds32: | TODO |
+     |       nios2: | TODO |
+diff --git a/Documentation/features/locking/lockdep/arch-support.txt b/Documentation/features/locking/lockdep/arch-support.txt
+index 941fd5b1094d..98cb9d85c55d 100644
+--- a/Documentation/features/locking/lockdep/arch-support.txt
++++ b/Documentation/features/locking/lockdep/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: |  ok  |
+     |        ia64: | TODO |
+diff --git a/Documentation/features/perf/kprobes-event/arch-support.txt b/Documentation/features/perf/kprobes-event/arch-support.txt
+index d8278bf62b85..518f352fc727 100644
+--- a/Documentation/features/perf/kprobes-event/arch-support.txt
++++ b/Documentation/features/perf/kprobes-event/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: |  ok  |
+     |        ia64: | TODO |
+@@ -21,7 +21,7 @@
+     |       nds32: |  ok  |
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+-    |      parisc: | TODO |
++    |      parisc: |  ok  |
+     |     powerpc: |  ok  |
+     |       riscv: | TODO |
+     |        s390: |  ok  |
+diff --git a/Documentation/features/perf/perf-regs/arch-support.txt b/Documentation/features/perf/perf-regs/arch-support.txt
+index 687d049d9cee..c22cd6f8aa5e 100644
+--- a/Documentation/features/perf/perf-regs/arch-support.txt
++++ b/Documentation/features/perf/perf-regs/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: | TODO |
+@@ -23,7 +23,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/perf/perf-stackdump/arch-support.txt b/Documentation/features/perf/perf-stackdump/arch-support.txt
+index 90996e3d18a8..527fe4d0b074 100644
+--- a/Documentation/features/perf/perf-stackdump/arch-support.txt
++++ b/Documentation/features/perf/perf-stackdump/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |        csky: | TODO |
++    |        csky: |  ok  |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: | TODO |
+@@ -23,7 +23,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/seccomp/seccomp-filter/arch-support.txt b/Documentation/features/seccomp/seccomp-filter/arch-support.txt
+index 4fe6c3c3be5c..c7b837f735b1 100644
+--- a/Documentation/features/seccomp/seccomp-filter/arch-support.txt
++++ b/Documentation/features/seccomp/seccomp-filter/arch-support.txt
+@@ -23,7 +23,7 @@
+     |    openrisc: | TODO |
+     |      parisc: |  ok  |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/vm/huge-vmap/arch-support.txt b/Documentation/features/vm/huge-vmap/arch-support.txt
+index 019131c5acce..8525f1981f19 100644
+--- a/Documentation/features/vm/huge-vmap/arch-support.txt
++++ b/Documentation/features/vm/huge-vmap/arch-support.txt
+@@ -22,7 +22,7 @@
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+-    |     powerpc: | TODO |
++    |     powerpc: |  ok  |
+     |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+diff --git a/Documentation/features/vm/pte_special/arch-support.txt b/Documentation/features/vm/pte_special/arch-support.txt
+index 3d492a34c8ee..2e017387e228 100644
+--- a/Documentation/features/vm/pte_special/arch-support.txt
++++ b/Documentation/features/vm/pte_special/arch-support.txt
+@@ -17,7 +17,7 @@
+     |        ia64: | TODO |
+     |        m68k: | TODO |
+     |  microblaze: | TODO |
+-    |        mips: | TODO |
++    |        mips: |  ok  |
+     |       nds32: | TODO |
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+
+base-commit: 423b8baf18a8c03f2d6fa99aa447ed0da189bb95
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
