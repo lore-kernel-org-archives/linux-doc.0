@@ -1,95 +1,143 @@
-Return-Path: <SRS0=R1OV=7E=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=iwEX=7F=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E1B4C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 22:24:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B56BDC433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 01:48:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30AC220870
-	for <linux-doc@archiver.kernel.org>; Fri, 22 May 2020 22:24:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F3B020727
+	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 01:48:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="S4YFKaPj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731180AbgEVWYN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 May 2020 18:24:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48852 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731093AbgEVWYN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 May 2020 18:24:13 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 331E32085B;
-        Fri, 22 May 2020 22:24:12 +0000 (UTC)
-Date:   Fri, 22 May 2020 18:24:09 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 09/25] Documentation: locking: Describe seqlock
- design and usage
-Message-ID: <20200522182409.4016d83c@oasis.local.home>
-In-Reply-To: <20200522180145.GR325280@hirez.programming.kicks-ass.net>
-References: <20200519214547.352050-1-a.darwish@linutronix.de>
-        <20200519214547.352050-10-a.darwish@linutronix.de>
-        <20200522180145.GR325280@hirez.programming.kicks-ass.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S2387473AbgEWBsP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 May 2020 21:48:15 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:44472 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387453AbgEWBsO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 May 2020 21:48:14 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04N1lrnx103671;
+        Fri, 22 May 2020 20:47:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1590198473;
+        bh=yiS4eaMZLr5N5lmPgiZnhfhO2vD8vhckjgLQdVGEMjo=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=S4YFKaPjhOkUmRmWvAvIofxQwMmQgsvHxCns71fok5YuWB7WhcCRLFKqmwszgJaPi
+         PrEBqH060yekOMhsht0ZOKFWWEkEwoKoFWaoBvWAYnxyDT4xIJ2CNQGxtx3ckdnaBs
+         xLSBF2n5eQBYQZkHWaFD0BLjVwIg3tCioxNciMes=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04N1lrQL067401
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 22 May 2020 20:47:53 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 22
+ May 2020 20:47:52 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 22 May 2020 20:47:52 -0500
+Received: from [10.250.233.85] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04N1lmIK029381;
+        Fri, 22 May 2020 20:47:48 -0500
+Subject: Re: [PATCH 00/19] Implement NTB Controller using multiple PCI EP
+To:     Rob Herring <robh+dt@kernel.org>
+CC:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        PCI <linux-pci@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-ntb@googlegroups.com>
+References: <20200514145927.17555-1-kishon@ti.com>
+ <CAL_JsqKxe5FtZfiQKcQFFLOM5F52kx-q8vZspPTXhcWg+3rJvQ@mail.gmail.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <d0c4c813-2af7-7fd4-e401-6fd5de69d4e4@ti.com>
+Date:   Sat, 23 May 2020 07:17:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <CAL_JsqKxe5FtZfiQKcQFFLOM5F52kx-q8vZspPTXhcWg+3rJvQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 22 May 2020 20:01:45 +0200
-Peter Zijlstra <peterz@infradead.org> wrote:
+Hi Rob,
 
-> On Tue, May 19, 2020 at 11:45:31PM +0200, Ahmed S. Darwish wrote:
-> > diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-> > index d35be7709403..2a4af746b1da 100644
-> > --- a/include/linux/seqlock.h
-> > +++ b/include/linux/seqlock.h
-> > @@ -1,36 +1,15 @@
-> >  /* SPDX-License-Identifier: GPL-2.0 */
-> >  #ifndef __LINUX_SEQLOCK_H
-> >  #define __LINUX_SEQLOCK_H
-> > +
-> >  /*
-> > - * Reader/writer consistent mechanism without starving writers. This type of
-> > - * lock for data where the reader wants a consistent set of information
-> > - * and is willing to retry if the information changes. There are two types
-> > - * of readers:
-> > - * 1. Sequence readers which never block a writer but they may have to retry
-> > - *    if a writer is in progress by detecting change in sequence number.
-> > - *    Writers do not wait for a sequence reader.
-> > - * 2. Locking readers which will wait if a writer or another locking reader
-> > - *    is in progress. A locking reader in progress will also block a writer
-> > - *    from going forward. Unlike the regular rwlock, the read lock here is
-> > - *    exclusive so that only one locking reader can get it.
-> > + * seqcount_t / seqlock_t - a reader-writer consistency mechanism with
-> > + * lockless readers (read-only retry loops), and no writer starvation.
-> >   *
-> > - * This is not as cache friendly as brlock. Also, this may not work well
-> > - * for data that contains pointers, because any writer could
-> > - * invalidate a pointer that a reader was following.
-> > + * See Documentation/locking/seqlock.rst for full description.  
+On 5/22/2020 9:41 PM, Rob Herring wrote:
+> On Thu, May 14, 2020 at 8:59 AM Kishon Vijay Abraham I <kishon@ti.com> wrote:
+>>
+>> This series is about implementing SW defined NTB using
+>> multiple endpoint instances. This series has been tested using
+>> 2 endpoint instances in J7 connected to two DRA7 boards. However there
+>> is nothing platform specific for the NTB functionality.
+>>
+>> This was presented in Linux Plumbers Conference. The presentation
+>> can be found @ [1]
 > 
-> So I really really hate that... I _much_ prefer code comments to crappy
-> documents.
+> I'd like to know why putting this into DT is better than configfs.
+> Does it solve some problem? Doing things in userspace is so much
+> easier and more flexible than modifying and updating a DT.
 
-Agreed. Comments are much less likely to bitrot than documents. The
-farther away the documentation is from the code, the quicker it becomes
-stale.
+It's a lot cleaner to have an endpoint function bound to two different endpoint
+controller using device tree than configfs.
 
-It's fine to add "See Documentation/..." but please don't *ever* remove
-comments that's next to the actual code.
++    epf_bus {
++      compatible = "pci-epf-bus";
++
++      func@0 {
++        compatible = "pci-epf-ntb";
++        epcs = <&pcie0_ep>, <&pcie1_ep>;
++        epc-names = "primary", "secondary";
++        reg = <0>;
++        epf,vendor-id = /bits/ 16 <0x104c>;
++        epf,device-id = /bits/ 16 <0xb00d>;
++        num-mws = <4>;
++        mws-size = <0x0 0x100000>, <0x0 0x100000>, <0x0 0x100000>, <0x0 0x100000>;
++      };
 
--- Steve
+For device tree, just using phandles is enough and the driver can easily parse
+DT to get EPCs bound to the endpoint function
++        epcs = <&pcie0_ep>, <&pcie1_ep>;
++        epc-names = "primary", "secondary";
+
+This would be
+ln -s functions/pci-epf-ntb/func1 controllers/2900000.pcie-ep/
+ln -s functions/pci-epf-ntb/func1 controllers/2910000.pcie-ep/
+
+pci_epc_epf_link() should then maintain the order of EPC bound to EPF and
+designate one as PRIMARY_INTERFACE and the second as SECONDARY_INTERFACE.
+pci_epf_bind() should be made to behave differently for NTB case.
+
+While the standard properties (like vendorid, deviceid) has configfs entries,
+additional logic would be required for adding function specific fields like
+num-mws and mws-size above.
+
+While all this support could be added in configfs, it looks simpler to
+represent then in DT.
+
+> 
+> I don't really think the PCI endpoint stuff is mature enough to be
+> putting into DT either.
+
+I think this will anyways come when we have to export real HW peripherals to
+the remote HOST using EP controller.
+
+Thanks
+Kishon
