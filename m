@@ -1,107 +1,107 @@
-Return-Path: <SRS0=iwEX=7F=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=8Kny=7G=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MALFORMED_FREEMAIL,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40DB5C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 21:00:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72CBEC433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 24 May 2020 05:33:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C8BD207D4
-	for <linux-doc@archiver.kernel.org>; Sat, 23 May 2020 21:00:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 458D320776
+	for <linux-doc@archiver.kernel.org>; Sun, 24 May 2020 05:33:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sa+zxmlN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="du/akGfR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387998AbgEWVAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 May 2020 17:00:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55628 "EHLO
+        id S1726331AbgEXFdl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 May 2020 01:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387965AbgEWVAO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 May 2020 17:00:14 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E0DC061A0E;
-        Sat, 23 May 2020 14:00:13 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id l15so16373018lje.9;
-        Sat, 23 May 2020 14:00:13 -0700 (PDT)
+        with ESMTP id S1725856AbgEXFdk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 May 2020 01:33:40 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BB0CC061A0E;
+        Sat, 23 May 2020 22:33:40 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id h16so12468137eds.5;
+        Sat, 23 May 2020 22:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/EsWH2Z0Xvdv8zJjOt7cdEn91hyou87YyYLaPvp1v0g=;
-        b=Sa+zxmlNg4c4JyBiPsaefryAVRYS6ONzMiCbRBmwpc+hAQNtYDz+lOIxj+ucvehdqo
-         ypLmP2uZvIgBWdTDaWu3LfltZpO4GulH5Pgz3H02sv+xcBlYz4oe5LQI1pv01c44md7i
-         Jo+F1VZys1v2hG+sClcfy3T/48pEXUIMHTU8Mij5YMtKou+s53bBLTfBeXoiIOf+M271
-         LjlgjMJ5FvGIAeoFHQ1ecuUNorIrjgc1iIV1xSFp3vLj054ToUdfHJXfjayJidRx7bHQ
-         Q5LUXMHe1NHAnUJrv8uyTP0VsLQ6Fu+py5AAZFpGwhi1KpISLvCn911JBwqbxDlaAxfT
-         0huw==
+        h=from:date:to:cc:subject:message-id:user-agent:mime-version;
+        bh=mUlXuaPdGF8MyrNkvvQ+W8qtB5P6ns9XkeFGoT1hV9g=;
+        b=du/akGfRVb0CNDOxQ2VjUqmu19WuellI8oCk2MEGLZ+NLsAAh/jVLvXIzqu9Qg+wSv
+         as4DoCMSHRpbFXQDIEn8o0tfVu4FLHTn6NYXaZZ14sbQwFroe/9chPqi8KR5tS2zRFny
+         dpNg2YpFuUhntjlF8bqBt+4IJXgds0dxj/LQq+8OSzRDlFESv2+iJyXgEuEdGdlqxFWF
+         BYq+eNFttygKKgAmiSnEhojzAHCGTsNangGDBuXJmjOFLv5+Us3ApZ1gDkQXt8aAof2b
+         0hWcTubRBuyF+javMxVQIRwj1mFRpC484aB9wcfqLbTR9mfzvSHqbTo6YTK2XUtGoxJa
+         S05w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/EsWH2Z0Xvdv8zJjOt7cdEn91hyou87YyYLaPvp1v0g=;
-        b=YZ2UYnYYIeYihnR1VUpjb8RIrdR8NbCuX1Irr4j1s+uLppl3qxLHdAEHkvKGxUYMwO
-         kCWs2bj9alBJA3X7TxA6fzy20GBB63PQSGEmbgy0G+wFr9J3nFXfcyq+UlLOuCLMqksH
-         DDdi2WRqPD5FN5WnVCEhICxXrVdkNVTs2lzhppRxxCgDxxrlMpPGxh19uyBGQH+78/fN
-         /74o/RhduPksOhWL+j3tpkKEZmoA/QfweiF0UWbAL3QF86R9S7CIlnuyRysD6OXEO+9s
-         vDWQCqlGWXjIg/Ied9xYHfMrhqPqtKNaIT/ZwgGyAFpq8kfje3f/jHwSN9y8mS809Dj8
-         8kgA==
-X-Gm-Message-State: AOAM530dzT1B0TYFeB+ht4V4mF8IRxhskhioCGBBvGIdl5EYF5SZn9eu
-        hLN010HMR8xBWdktrP0MhFIc5i2BV4UHuw==
-X-Google-Smtp-Source: ABdhPJxqC3eua7TiWDvHzfAusUT8WgJI9LirGt3xhFJCsgjp4JjoI0zMuM6j3vW61/66xYpF6S7YIw==
-X-Received: by 2002:a2e:b4f3:: with SMTP id s19mr3830469ljm.218.1590267612343;
-        Sat, 23 May 2020 14:00:12 -0700 (PDT)
-Received: from btopel-mobl.ger.intel.com (c83-250-27-170.bredband.comhem.se. [83.250.27.170])
-        by smtp.gmail.com with ESMTPSA id d22sm3320712lfc.27.2020.05.23.14.00.10
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:user-agent
+         :mime-version;
+        bh=mUlXuaPdGF8MyrNkvvQ+W8qtB5P6ns9XkeFGoT1hV9g=;
+        b=AJ+4kvtUmCbQ7yoUxNh9iC1lT98n8bprupPnwLd1A0zN02syKarxkC35nL2TRYV1oi
+         qu91VvdThgKEqkr6o/3adQKb+MTztwYBijcDBN+Gp6UiFU5LIzexM6boxaYk0F4WU3FU
+         8JYrg8eNKO0R7y1S1gZ1iX1wOMupdVkgpW+p+Qxic0ZondyTu+3Q3fzXx5CwcAR9jW2D
+         BEHCtWXbHQZvSIENKJJ7mliXPMTy2GUZt8Fvmqpn6y5oIXLwowL9OMGwNyfpCd/YBr54
+         tu/ane3eO6OVvb979nqcStx8vh4hbmdf0oLhDXD0+9Czi8kvPD0cOTnsBJQbp24Smdzh
+         +t2A==
+X-Gm-Message-State: AOAM531EH+MsXM0tVj2T3TOgdpaOKmfCNCFNLKIWugdS6mJWbBvgQNog
+        mGEQXdLXI/IYZ7ExsrTVCm4Z5j2XCJ0=
+X-Google-Smtp-Source: ABdhPJzGvODHU1b2elyOcjbhnVj3d36TWrWRd5uO/sMjFW1GM/baq4IibwWvKOcTNfWv0SdqfR16Kg==
+X-Received: by 2002:a05:6402:946:: with SMTP id h6mr9956287edz.245.1590298418966;
+        Sat, 23 May 2020 22:33:38 -0700 (PDT)
+Received: from felia ([2001:16b8:2d08:1b00:68f5:8079:cd02:67ba])
+        by smtp.gmail.com with ESMTPSA id w14sm12607719ejk.13.2020.05.23.22.33.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2020 14:00:11 -0700 (PDT)
-From:   =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@gmail.com>,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH] Documentation/features: Correct RISC-V kprobes support entry
-Date:   Sat, 23 May 2020 23:00:05 +0200
-Message-Id: <20200523210005.59140-1-bjorn.topel@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sat, 23 May 2020 22:33:38 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date:   Sun, 24 May 2020 07:33:29 +0200 (CEST)
+X-X-Sender: lukas@felia
+To:     Jonathan Corbet <corbet@lwn.net>
+cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: reference to Linux Foundation NDA program obsolete?
+Message-ID: <alpine.DEB.2.21.2005240722560.5201@felia>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Documentation/features/debug/kprobes/arch-support.txt incorrectly
-states that RISC-V has kprobes support. This is not the case.
+Hi Jonathan,
 
-Note that entries that have been incorrectly marked with 'ok' will not
-be changed back to 'TODO' by the features-refresh.sh script.
+while reading the process documentation, I noticed this reference to the 
+Linux Foundation NDA program in Documentation/process/3.Early-stage.rst:
 
-Fixes: 7156fc292850 ("Documentation/features: Refresh the arch support status files in place")
-Signed-off-by: Björn Töpel <bjorn.topel@gmail.com>
----
- Documentation/features/debug/kprobes/arch-support.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-->
 
-diff --git a/Documentation/features/debug/kprobes/arch-support.txt b/Documentation/features/debug/kprobes/arch-support.txt
-index e68239b5d2f0..0ed80700bc35 100644
---- a/Documentation/features/debug/kprobes/arch-support.txt
-+++ b/Documentation/features/debug/kprobes/arch-support.txt
-@@ -23,7 +23,7 @@
-     |    openrisc: | TODO |
-     |      parisc: |  ok  |
-     |     powerpc: |  ok  |
--    |       riscv: |  ok  |
-+    |       riscv: | TODO |
-     |        s390: |  ok  |
-     |          sh: |  ok  |
-     |       sparc: |  ok  |
+That said, there are also cases where a company legitimately cannot
+disclose its plans early in the development process.  Companies with
+experienced kernel developers may choose to proceed in an open-loop manner
+on the assumption that they will be able to avoid serious integration
+problems later.  For companies without that sort of in-house expertise, 
+the best option is often to hire an outside developer to review the plans 
+undera non-disclosure agreement.  The Linux Foundation operates an NDA 
+program designed to help with this sort of situation; more information can 
+be found at:
 
-base-commit: 423b8baf18a8c03f2d6fa99aa447ed0da189bb95
--- 
-2.25.1
+    http://www.linuxfoundation.org/en/NDA_program
 
+This kind of review is often enough to avoid serious problems later on
+without requiring public disclosure of the project.
+
+<--
+
+The link is dead; internet search only showed some references from 
+meeting minutes in 2008, but nothing more since then.
+
+Has this LF NDA program simply been phased out?
+
+If so, I will provide a clean-up patch to remove this historic reference.
+
+Lukas
