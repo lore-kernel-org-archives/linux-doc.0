@@ -2,115 +2,148 @@ Return-Path: <SRS0=ST9A=7H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74194C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 12:08:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F16C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 13:44:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 58C192078B
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 12:08:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0235207C3
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 13:44:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Vu/F9Dss"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390393AbgEYMIq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 May 2020 08:08:46 -0400
-Received: from mga01.intel.com ([192.55.52.88]:24278 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390360AbgEYMIp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 May 2020 08:08:45 -0400
-IronPort-SDR: ePG11ChkCwVz0a4Q/EuGkXRcrcjfeJhaUxRlsORb+OMjnm65Ro7+6mPsodFbqK3O8LkFHHwpxj
- 5wifA/bW39aQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2020 05:08:45 -0700
-IronPort-SDR: MygWcGtjGbyUXaoJTsOr9GpDCHGpnY2rFL/1FdxJ9g8Zwa5EZDfo5Ipuaf8l9gATdis2PYPp13
- 3VDQQyr7PYkA==
-X-IronPort-AV: E=Sophos;i="5.73,433,1583222400"; 
-   d="scan'208";a="441711102"
-Received: from fliu-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.41.83])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2020 05:08:43 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Markus Heiser <markus.heiser@darmarit.de>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: Building directly with sphinx
-In-Reply-To: <20200521175122.zcyoa7zz33anokit@chatter.i7.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200520215343.btkr7avo3ruu2iap@chatter.i7.local> <153afc64-542f-3965-0fd3-d1ae93e3a913@darmarit.de> <20200521175122.zcyoa7zz33anokit@chatter.i7.local>
-Date:   Mon, 25 May 2020 15:08:40 +0300
-Message-ID: <87367o2p4n.fsf@intel.com>
+        id S2390852AbgEYNo6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 May 2020 09:44:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39388 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388794AbgEYNo6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 May 2020 09:44:58 -0400
+Received: from merlin.infradead.org (unknown [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C81A1C061A0E;
+        Mon, 25 May 2020 06:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=+/9EB+gqUSTCQhVlgwmYHPpqEaICAppIqnpJ4LPwD8U=; b=Vu/F9Dss7kuI+g7DVtxcOSePVc
+        EZi7fra/CTyTCjXy2K8r4Jebv5UwcmZorzPld1lnp1vj2529Ccm7MeesYZyDC95euECiec839L96e
+        ioig9ELPpt1To0X6XLFHP1dUQ66Lfp+ce5DdwiJV8CuQcTcvyZp8GfM2rElQTY8GLkfEayeSCUcZw
+        ACzYIH7tAgjck1ntkBCqrjP+qJGWJQxe4UTy+uJFBD7gFpCW5HuWzUg7r+SYePXuuQNrfx0z3Oy9L
+        MgYA+UzKytPYdwwz+k/9lQQYFnf5gJlFC2xv2ynloQy30JaLRVih8I7yFXnn2ReXuzJY79iD3/PUw
+        OZiRo4QA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jdDP6-00087O-2X; Mon, 25 May 2020 13:44:32 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 654DB300B38;
+        Mon, 25 May 2020 15:44:29 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 145ED20962E29; Mon, 25 May 2020 15:44:29 +0200 (CEST)
+Date:   Mon, 25 May 2020 15:44:29 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Ahmed S. Darwish" <a.darwish@linutronix.de>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 10/25] seqlock: Add RST directives to kernel-doc code
+ samples and notes
+Message-ID: <20200525134429.GE317569@hirez.programming.kicks-ass.net>
+References: <20200519214547.352050-1-a.darwish@linutronix.de>
+ <20200519214547.352050-11-a.darwish@linutronix.de>
+ <20200522180254.GS325280@hirez.programming.kicks-ass.net>
+ <20200522180336.GD325303@hirez.programming.kicks-ass.net>
+ <871rnbsu57.fsf@nanos.tec.linutronix.de>
+ <20200522183216.GT325280@hirez.programming.kicks-ass.net>
+ <20200525093649.GA370823@debian-buster-darwi.lab.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200525093649.GA370823@debian-buster-darwi.lab.linutronix.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 May 2020, Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
-> On Thu, May 21, 2020 at 10:35:51AM +0200, Markus Heiser wrote:
->> > 
->> > I was playing around with readthedocs.org recently and wanted to see if
->> > I could build kernel docs there. I cannot directly run "make htmldocs"
->> > there, and it proved to be quite tricky to make sphinx do the right
->> > thing without all the things that are being defined in the Makefile.
->> > 
->> > Is it possible at all, or am I wasting my time?
->> 
->> It is wasting time ;) .. The Makefile targets do build intermedaiate
->> files using perl and other scripts, this will never work on RTD.
->
-> Okay, I'd suspected as much after poking around things a bit. Another 
-> possibility would be to have a separate repository where we commit the 
-> doc tree (after it's massaged into the "ready to be built with sphinx" 
-> condition). We could run this automatically on our end on each mainline 
-> release, but it's certainly not a necessity.
+On Mon, May 25, 2020 at 11:36:49AM +0200, Ahmed S. Darwish wrote:
+> Peter Zijlstra <peterz@infradead.org> wrote:
 
-FWIW, when I was developing the Sphinx documentation build for the
-kernel, I carefully tried to ensure everything would build directly, and
-consequently also at readthedocs.org. I kept testing it at RTD too.
+> > I will not let sensible code comments deteriorate to the benefit of some
+> > external piece of crap.
+> >
+> > As a programmer the primary interface to all this is a text editor, not
+> > a web broswer or a pdf file or whatever other bullshit.
+> >
+> > If comments are unreadable in your text editor, they're useless.
+> 
+> Wait.
+> 
+> Most of the patch in question is just substituting the code snippet's
+> leading white spaces to tabs. For illustration purposes, if we remove
+> these white space hunks from the diff, it becomes:
+> 
+>   --- a/include/linux/seqlock.h
+>   +++ b/include/linux/seqlock.h
+>   @@ -232,6 +232,8 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
+>   + * .. code-block:: c
+>   ...
+>   + * .. code-block:: c
+>   ...
+>   - * NOTE: The non-requirement for atomic modifications does _NOT_ include
+>   - *       the publishing of new entries in the case where data is a dynamic
+>   - *       data structure.
+>   + * .. attention::
+>   + *
+>   + *     The non-requirement for atomic modifications does _NOT_ include
+>   + *     the publishing of new entries in the case where data is a dynamic
+>   + *     data structure.
+>   ...
+> 
+> Are you trying to tell me that, good heavens, these directives are
+> really hurting your eyes so much?
 
-For this reason I kept resisting the addition of any Makefile trickery,
-and insisting we should do everything through Sphinx. This would have
-meant writing Sphinx extensions for all the hacks people wanted to
-add. But it would also have lead to a self-contained system with fewer
-moving parts, which I thought was worth pursuing. And, obviously, would
-have made it possible to host the documentation at RTD.
+Yep, they're a distraction and serve absolutely no purpose. They're also
+utterly moronic, of course it's code and of course it's bloody well C.
 
-I failed. Stuff just keeps piling up in the Makefiles.
+> Putting kernel-doc aside... That huge raw_write_seqcount_latch() comment
+> is actually *way more readable from any text editor* after applying this
+> patch. Go figure.
 
-In fairness, the kernel documentation build was growing too big even for
-RTD. It kept timing out and/or consuming too much resources. I believe
-that would have been possible to sort out with the RTD maintainers,
-given the possibility to host kernel documentation, but there was no
-point in pursuing this since the docs wouldn't build directly anyway.
+I don't mind the re-indent.
 
-BR,
-Jani.
+> >>> The correct fix is, as always, to remove the kernel-doc marker.
+> 
+> Sorry, that's not the correct fix.
 
+Of course it is, if kerneldoc complains that a perfectly good comment
+is no good, then the fault lies with kerneldoc.
 
->> FWIW: in other projects I worked some time with RTD but at the end
->> I gave up: If you have e.g. auto generated content in your build
->> process which is not generated by the python developer-mainstream
->> tools, RTD gives you too little freedom to implement your more
->> or less complex build procedures.  And .. often I get the RTD-Oops
->> links from search engines ..  RTD is (my experience is a  while
->> ago; "was") not very comfortable to to rebind obsolete URLs to
->> new content.
->> 
->> Overall I think kernel.org does a good job .. since years, no need
->> for additional RTD confusions;
->> 
->>    https://www.kernel.org/doc/html/latest/
->
-> Glad to hear it. My primary interest in getting it hooked up with RTD 
-> was just from the perspective of creating an external mirror for folks 
-> who are already using RTD. For now, I'm going to shelve this effort and 
-> just continue building docs straight from the tree on our end.
->
-> Thanks for your help!
->
-> -K
+It's like checkpatch; assume it is wrong :-)
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> In the following patches, kernel-doc for the entire seqlock.h API is
+> added. Singling out raw_write_seqcount_latch() doesn't make any sense.
+
+% s/\/\*\*/\/\*/g -- tada!!
+
+> If you look at the top of this patch series, a lot of seqlock.h
+> seqcount_t call sites were badly broken. The 0day kernel test bot sent
+> me even more erroneous call sites due to the added lockdep checks. This
+> is an extra argument for the added documentation: the existing one is
+> horrible.
+
+I've nothing against improving comments, I'm just saying that RST is
+absolute atrocious shite and has nothing to do with good comments.
+
+If sphinx doesn't like "NOTE:' when go teach it.
+
+> So, please, don't claim that the current situation is fine. It is not.
+
+I've never claimed that. My claim is that RST is shite and has no added
+value.
