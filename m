@@ -2,80 +2,56 @@ Return-Path: <SRS0=ST9A=7H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA4FC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 14:08:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC36C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 15:41:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 691C820890
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 14:08:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Op3B2LdR"
+	by mail.kernel.org (Postfix) with ESMTP id 20752207CB
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 15:41:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390827AbgEYOIV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 May 2020 10:08:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43076 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388862AbgEYOIU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 May 2020 10:08:20 -0400
-Received: from merlin.infradead.org (unknown [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FFF9C061A0E;
-        Mon, 25 May 2020 07:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=PO3yERWHmB8+QRSkMGVpwgQOq3YGaqk7/bHMgrlUzuQ=; b=Op3B2LdRkLowOoFosfpIk3IvYW
-        5kDfoxDzKbBWHO1iuggHZzE0DEU97ZulQpMA/rBfv/iuADt73Np3Ih13qRhkZVW4eQZN8CE/CGJn3
-        f8dRiwUt4xvamUEcIURsgXAx0up8jKmVvBW9ZOIadnCo+plYOOU7I0xuVkRA90qbB1nbhZW04TSO6
-        nMP3xEB2J2l5SjwSXvf4r76jlb1j2vfIWCA6cYFtKRS44luNJu2CeB76WYg2pLH51sN+BRmGY0TUs
-        PMZZT58WMIRFxGzrshnPNK7pJbNYXf+KsAvae6BACKypIYpBPlG3dkFluV3Q66nje5z/F0m32404E
-        S+GEv6UQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jdDlh-0008SV-Q3; Mon, 25 May 2020 14:07:54 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        id S2404203AbgEYPlz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 May 2020 11:41:55 -0400
+Received: from ms.lwn.net ([45.79.88.28]:60674 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404002AbgEYPlz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 May 2020 11:41:55 -0400
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 421D230018B;
-        Mon, 25 May 2020 16:07:52 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id F1E99285ECE8A; Mon, 25 May 2020 16:07:51 +0200 (CEST)
-Date:   Mon, 25 May 2020 16:07:51 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Ahmed S. Darwish" <a.darwish@linutronix.de>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 10/25] seqlock: Add RST directives to kernel-doc code
- samples and notes
-Message-ID: <20200525140751.GH325303@hirez.programming.kicks-ass.net>
-References: <20200519214547.352050-1-a.darwish@linutronix.de>
- <20200519214547.352050-11-a.darwish@linutronix.de>
- <20200522180254.GS325280@hirez.programming.kicks-ass.net>
- <20200522180336.GD325303@hirez.programming.kicks-ass.net>
- <871rnbsu57.fsf@nanos.tec.linutronix.de>
- <20200522183216.GT325280@hirez.programming.kicks-ass.net>
- <20200525093649.GA370823@debian-buster-darwi.lab.linutronix.de>
- <20200525134429.GE317569@hirez.programming.kicks-ass.net>
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 625562DC;
+        Mon, 25 May 2020 15:41:55 +0000 (UTC)
+Date:   Mon, 25 May 2020 09:41:54 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: reference to Linux Foundation NDA program obsolete?
+Message-ID: <20200525094154.7c9f4bd6@lwn.net>
+In-Reply-To: <alpine.DEB.2.21.2005240722560.5201@felia>
+References: <alpine.DEB.2.21.2005240722560.5201@felia>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200525134429.GE317569@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 25, 2020 at 03:44:29PM +0200, Peter Zijlstra wrote:
+On Sun, 24 May 2020 07:33:29 +0200 (CEST)
+Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 
-> I've never claimed that. My claim is that RST is shite and has no added
-> value.
+> The link is dead; internet search only showed some references from 
+> meeting minutes in 2008, but nothing more since then.
+> 
+> Has this LF NDA program simply been phased out?
 
-Or rather, it has negative value, for it makes comments less readable.
+That's a good question...I'm asking around at the LF, will let you know
+once I get an answer.  It could well be that the page just got lost in the
+reshuffling of the LF web site - an annual event, as far as I can tell.
+
+Thanks,
+
+jon
