@@ -2,96 +2,115 @@ Return-Path: <SRS0=ST9A=7H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E600C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 11:02:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74194C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 12:08:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 384D9207CB
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 11:02:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 58C192078B
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 12:08:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389897AbgEYLCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 May 2020 07:02:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389484AbgEYLCX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 May 2020 07:02:23 -0400
-Received: from Galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93972C061A0E;
-        Mon, 25 May 2020 04:02:23 -0700 (PDT)
-Received: from [5.158.153.53] (helo=debian-buster-darwi.lab.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:RSA_AES_256_CBC_SHA1:256)
-        (Exim 4.80)
-        (envelope-from <a.darwish@linutronix.de>)
-        id 1jdAs1-00079V-JZ; Mon, 25 May 2020 13:02:13 +0200
-Date:   Mon, 25 May 2020 13:02:12 +0200
-From:   "Ahmed S. Darwish" <a.darwish@linutronix.de>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 09/25] Documentation: locking: Describe seqlock design
- and usage
-Message-ID: <20200525110211.GA375707@debian-buster-darwi.lab.linutronix.de>
-References: <20200519214547.352050-1-a.darwish@linutronix.de>
- <20200519214547.352050-10-a.darwish@linutronix.de>
- <20200522180145.GR325280@hirez.programming.kicks-ass.net>
- <20200522182409.4016d83c@oasis.local.home>
- <20200525105012.GA375313@debian-buster-darwi.lab.linutronix.de>
+        id S2390393AbgEYMIq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 May 2020 08:08:46 -0400
+Received: from mga01.intel.com ([192.55.52.88]:24278 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390360AbgEYMIp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 May 2020 08:08:45 -0400
+IronPort-SDR: ePG11ChkCwVz0a4Q/EuGkXRcrcjfeJhaUxRlsORb+OMjnm65Ro7+6mPsodFbqK3O8LkFHHwpxj
+ 5wifA/bW39aQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2020 05:08:45 -0700
+IronPort-SDR: MygWcGtjGbyUXaoJTsOr9GpDCHGpnY2rFL/1FdxJ9g8Zwa5EZDfo5Ipuaf8l9gATdis2PYPp13
+ 3VDQQyr7PYkA==
+X-IronPort-AV: E=Sophos;i="5.73,433,1583222400"; 
+   d="scan'208";a="441711102"
+Received: from fliu-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.41.83])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2020 05:08:43 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Markus Heiser <markus.heiser@darmarit.de>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: Building directly with sphinx
+In-Reply-To: <20200521175122.zcyoa7zz33anokit@chatter.i7.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200520215343.btkr7avo3ruu2iap@chatter.i7.local> <153afc64-542f-3965-0fd3-d1ae93e3a913@darmarit.de> <20200521175122.zcyoa7zz33anokit@chatter.i7.local>
+Date:   Mon, 25 May 2020 15:08:40 +0300
+Message-ID: <87367o2p4n.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200525105012.GA375313@debian-buster-darwi.lab.linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ahmed S. Darwish <a.darwish@linutronix.de> wrote:
-> > Steven Rostedt <rostedt@goodmis.org> wrote:
-> > > Peter Zijlstra <peterz@infradead.org> wrote:
-...
-> > >
-> > > So I really really hate that... I _much_ prefer code comments to crappy
-> > > documents.
-> >
-> > Agreed. Comments are much less likely to bitrot than documents. The
-> > farther away the documentation is from the code, the quicker it becomes
-> > stale.
-> >
-> > It's fine to add "See Documentation/..." but please don't *ever* remove
-> > comments that's next to the actual code.
-...
+On Thu, 21 May 2020, Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
+> On Thu, May 21, 2020 at 10:35:51AM +0200, Markus Heiser wrote:
+>> > 
+>> > I was playing around with readthedocs.org recently and wanted to see if
+>> > I could build kernel docs there. I cannot directly run "make htmldocs"
+>> > there, and it proved to be quite tricky to make sphinx do the right
+>> > thing without all the things that are being defined in the Makefile.
+>> > 
+>> > Is it possible at all, or am I wasting my time?
+>> 
+>> It is wasting time ;) .. The Makefile targets do build intermedaiate
+>> files using perl and other scripts, this will never work on RTD.
 >
-> Then, the brlock comment:
+> Okay, I'd suspected as much after poking around things a bit. Another 
+> possibility would be to have a separate repository where we commit the 
+> doc tree (after it's massaged into the "ready to be built with sphinx" 
+> condition). We could run this automatically on our end on each mainline 
+> release, but it's certainly not a necessity.
+
+FWIW, when I was developing the Sphinx documentation build for the
+kernel, I carefully tried to ensure everything would build directly, and
+consequently also at readthedocs.org. I kept testing it at RTD too.
+
+For this reason I kept resisting the addition of any Makefile trickery,
+and insisting we should do everything through Sphinx. This would have
+meant writing Sphinx extensions for all the hacks people wanted to
+add. But it would also have lead to a self-contained system with fewer
+moving parts, which I thought was worth pursuing. And, obviously, would
+have made it possible to host the documentation at RTD.
+
+I failed. Stuff just keeps piling up in the Makefiles.
+
+In fairness, the kernel documentation build was growing too big even for
+RTD. It kept timing out and/or consuming too much resources. I believe
+that would have been possible to sort out with the RTD maintainers,
+given the possibility to host kernel documentation, but there was no
+point in pursuing this since the docs wouldn't build directly anyway.
+
+BR,
+Jani.
+
+
+>> FWIW: in other projects I worked some time with RTD but at the end
+>> I gave up: If you have e.g. auto generated content in your build
+>> process which is not generated by the python developer-mainstream
+>> tools, RTD gives you too little freedom to implement your more
+>> or less complex build procedures.  And .. often I get the RTD-Oops
+>> links from search engines ..  RTD is (my experience is a  while
+>> ago; "was") not very comfortable to to rebind obsolete URLs to
+>> new content.
+>> 
+>> Overall I think kernel.org does a good job .. since years, no need
+>> for additional RTD confusions;
+>> 
+>>    https://www.kernel.org/doc/html/latest/
 >
->     This is not as cache friendly as brlock. Also, this may not work
->     well for data that contains pointers, because any writer could
->     invalidate a pointer that a reader was following.
+> Glad to hear it. My primary interest in getting it hooked up with RTD 
+> was just from the perspective of creating an external mirror for folks 
+> who are already using RTD. For now, I'm going to shelve this effort and 
+> just continue building docs straight from the tree on our end.
 >
-> was removed not because it's moved to Documentation/locking/seqlock.rst,
-> but because it's obsolete: 0f6ed63b1707 ("no need to keep brlock macros
-> anymore...").
+> Thanks for your help!
 >
+> -K
 
-Hmm, the part about not including pointers is only mentiond in the RST
-file though, and not at seqlock.h.
-
-Anyway, ACK, I'll beef up the comments at seqlock.h and make sure they
-are self-contained.
-
-Thanks,
-
---
-Ahmed S. Darwish
-Linutronix GmbH
+-- 
+Jani Nikula, Intel Open Source Graphics Center
