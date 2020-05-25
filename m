@@ -5,47 +5,47 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C273C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 09:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C1B8C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 09:17:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5654B20787
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 09:16:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 690DC207FB
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 09:17:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="FUzsjsIS"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="DGc3YkDY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388920AbgEYJQj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 May 2020 05:16:39 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:34294 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388182AbgEYJQi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 May 2020 05:16:38 -0400
+        id S2389503AbgEYJRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 May 2020 05:17:31 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:42935 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389495AbgEYJRa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 May 2020 05:17:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1590398198; x=1621934198;
+  t=1590398250; x=1621934250;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=iUKxsyy8EDqa4LYd6lWomJlLTmy2039pJ+ilYaUf9pk=;
-  b=FUzsjsISgSRH6/Aj3bH+xTmBa786x8kUF/71GRI2EMRNn8XiEd7NhjmF
-   iroPle8KWZRUAkGoNWNoJ3F74X0nQOXbZpWtIpimM1jHhdzSMI8gZTeTw
-   KVmGMvQiVtLxv806LVVTLsBTR7z6sH8I93fEezaB6eWU5vkCSi2CWZuKS
-   g=;
-IronPort-SDR: mnXt34bTsWIwopGKu3dv2qtvf583YnR4B8WtxUvc9/zb1VmXR/o8eT2+VnQaB2ZkxLs9ozBFX/
- aq+OeKu1Arxw==
+  bh=G8CneijCkhkmAYrW5RLVj9rtVs0AB1S5RMsQ7jnOqO0=;
+  b=DGc3YkDYCdiRaw4GJHhtA0HqTbyyOOPKAIkTjJjY76JCwTMl1PyAU5Kx
+   B9MF4fC7Q0ZS5kr8YrnxxJMhqdcgTNuqkLaxxX0sWtkUObCHWyiIxQjQB
+   Q69X5+5j31L3YEm6RrB07PK1WZe5aOm9bf6Qc7HjIell8HpIFrr0lsN/U
+   o=;
+IronPort-SDR: jrZoGAqkXJG5/VEMwAsmNCk2SAcbGsB/n7uTLDUhPRMVdWy2buwdxjHwW6nEa2qv+PzUHVREiV
+ og2MbuqSd/pQ==
 X-IronPort-AV: E=Sophos;i="5.73,432,1583193600"; 
-   d="scan'208";a="31956649"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-119b4f96.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 25 May 2020 09:16:34 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2a-119b4f96.us-west-2.amazon.com (Postfix) with ESMTPS id 5633B1A0E61;
-        Mon, 25 May 2020 09:16:32 +0000 (UTC)
+   d="scan'208";a="37413097"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-22cc717f.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 25 May 2020 09:17:28 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2a-22cc717f.us-west-2.amazon.com (Postfix) with ESMTPS id 1FC89A2391;
+        Mon, 25 May 2020 09:17:26 +0000 (UTC)
 Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
  EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 25 May 2020 09:16:31 +0000
+ id 15.0.1497.2; Mon, 25 May 2020 09:17:25 +0000
 Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.90) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 25 May 2020 09:16:16 +0000
+ id 15.0.1497.2; Mon, 25 May 2020 09:17:05 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -64,9 +64,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
         <linux-damon@amazon.com>, <linux-mm@kvack.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v13 01/15] scripts/spelling: Add a few more typos
-Date:   Mon, 25 May 2020 11:14:58 +0200
-Message-ID: <20200525091512.30391-2-sjpark@amazon.com>
+Subject: [PATCH v13 02/15] mm/page_ext: Export lookup_page_ext() to GPL modules
+Date:   Mon, 25 May 2020 11:14:59 +0200
+Message-ID: <20200525091512.30391-3-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200525091512.30391-1-sjpark@amazon.com>
 References: <20200525091512.30391-1-sjpark@amazon.com>
@@ -82,81 +82,26 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit adds typos found from DAMON patchset.
+This commit exports 'lookup_page_ext()' to GPL modules.  This will be
+used by DAMON.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- scripts/spelling.txt | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ mm/page_ext.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/spelling.txt b/scripts/spelling.txt
-index ffa838f3a2b5..a8214d8e8e4b 100644
---- a/scripts/spelling.txt
-+++ b/scripts/spelling.txt
-@@ -59,6 +59,7 @@ actualy||actually
- acumulating||accumulating
- acumulative||accumulative
- acumulator||accumulator
-+acutally||actually
- adapater||adapter
- addional||additional
- additionaly||additionally
-@@ -245,6 +246,7 @@ calescing||coalescing
- calle||called
- callibration||calibration
- callled||called
-+callser||caller
- calucate||calculate
- calulate||calculate
- cancelation||cancellation
-@@ -664,6 +666,7 @@ hanlde||handle
- hanled||handled
- happend||happened
- harware||hardware
-+havind||having
- heirarchically||hierarchically
- helpfull||helpful
- hexdecimal||hexadecimal
-@@ -835,6 +838,7 @@ logile||logfile
- loobpack||loopback
- loosing||losing
- losted||lost
-+maangement||management
- machinary||machinery
- maibox||mailbox
- maintainance||maintenance
-@@ -999,6 +1003,7 @@ partiton||partition
- pased||passed
- passin||passing
- pathes||paths
-+pattrns||patterns
- pecularities||peculiarities
- peformance||performance
- peforming||performing
-@@ -1238,6 +1243,7 @@ shoule||should
- shrinked||shrunk
- siginificantly||significantly
- signabl||signal
-+significanly||significantly
- similary||similarly
- similiar||similar
- simlar||similar
-@@ -1352,6 +1358,7 @@ thead||thread
- therfore||therefore
- thier||their
- threds||threads
-+threee||three
- threshhold||threshold
- thresold||threshold
- throught||through
-@@ -1391,6 +1398,7 @@ tyep||type
- udpate||update
- uesd||used
- uknown||unknown
-+usccess||success
- usupported||unsupported
- uncommited||uncommitted
- unconditionaly||unconditionally
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index 4ade843ff588..71169b45bba9 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -131,6 +131,7 @@ struct page_ext *lookup_page_ext(const struct page *page)
+ 					MAX_ORDER_NR_PAGES);
+ 	return get_entry(base, index);
+ }
++EXPORT_SYMBOL_GPL(lookup_page_ext);
+ 
+ static int __init alloc_node_page_ext(int nid)
+ {
 -- 
 2.17.1
 
