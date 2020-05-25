@@ -2,43 +2,43 @@ Return-Path: <SRS0=ST9A=7H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0527C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 16:35:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ED5FC433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 16:43:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B3BE2070A
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 16:35:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33DAA2070A
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 16:43:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731310AbgEYQfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 May 2020 12:35:13 -0400
-Received: from ms.lwn.net ([45.79.88.28]:60842 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730014AbgEYQfN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 May 2020 12:35:13 -0400
+        id S2388540AbgEYQnP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 May 2020 12:43:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39156 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387766AbgEYQnP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 May 2020 12:43:15 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6DAC061A0E;
+        Mon, 25 May 2020 09:43:15 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5A3214A2;
-        Mon, 25 May 2020 16:35:12 +0000 (UTC)
-Date:   Mon, 25 May 2020 10:35:11 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id A57104A2;
+        Mon, 25 May 2020 16:43:14 +0000 (UTC)
+Date:   Mon, 25 May 2020 10:43:13 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     john mathew <john.mathew@unikie.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, tsbogend@alpha.franken.de,
-        lukas.bulwahn@gmail.com, x86@kernel.org,
-        linux-mips@vger.kernel.org, tglx@linutronix.de,
-        mostafa.chamanara@gmail.com, willy@infradead.org,
-        valentin.schneider@arm.com, rdunlap@infradead.org
-Subject: Re: [RFC PATCH v5 0/3] Add scheduler overview documentation
-Message-ID: <20200525103511.6966206b@lwn.net>
-In-Reply-To: <20200514092637.15684-1-John.Mathew@unikie.com>
-References: <20200514092637.15684-1-John.Mathew@unikie.com>
+To:     Ben Boeckel <me@benboeckel.net>
+Cc:     keyrings@vger.kernel.org, Ben Boeckel <mathstuf@gmail.com>,
+        dhowells@redhat.com, jarkko.sakkinen@linux.intel.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] Documentation: security: core.rst: add missing
+ argument
+Message-ID: <20200525104313.0d163ea5@lwn.net>
+In-Reply-To: <20200525103310.455f50e0@lwn.net>
+References: <20200516003917.2035545-1-list.lkml.keyrings@me.benboeckel.net>
+        <20200516003917.2035545-2-list.lkml.keyrings@me.benboeckel.net>
+        <20200525103310.455f50e0@lwn.net>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -48,19 +48,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 14 May 2020 12:26:34 +0300
-john mathew <john.mathew@unikie.com> wrote:
+On Mon, 25 May 2020 10:33:10 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> This patch series updates the scheduler documentation to add more topics
-> wrt to scheduler overview. New sections are added to provide a brief
-> overview of the kernel structs used by the scheduler, scheduler invocation,
-> context switch and Capacity Aware Scheduling. Previous version of
-> the patch was reviewed at:
-> Link: https://lore.kernel.org/lkml/20200513134338.19688-2-John.Mathew@unikie.com/
+> On Fri, 15 May 2020 20:39:17 -0400
+> Ben Boeckel <me@benboeckel.net> wrote:
+> 
+> > From: Ben Boeckel <mathstuf@gmail.com>
+> > 
+> > This argument was just never documented in the first place.
+> > 
+> > Signed-off-by: Ben Boeckel <mathstuf@gmail.com>
+> > ---
+> >  Documentation/security/keys/core.rst | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)  
+> 
+> Applied, thanks.
 
-Did we ever reach a conclusion on this series?  I don't see a lot of acks
-there yet, so I'm a little leery about applying it...
-
-Thanks,
+...or not...looks like David got there first.  Sorry for the noise.
 
 jon
