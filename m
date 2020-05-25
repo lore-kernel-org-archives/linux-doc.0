@@ -2,116 +2,133 @@ Return-Path: <SRS0=ST9A=7H=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4ED9C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 09:31:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4410C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 09:37:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6E2C2071A
-	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 09:31:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="cGJZeWd+"
+	by mail.kernel.org (Postfix) with ESMTP id 98AA92073B
+	for <linux-doc@archiver.kernel.org>; Mon, 25 May 2020 09:37:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389525AbgEYJbs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 May 2020 05:31:48 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:11425 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389514AbgEYJbr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 May 2020 05:31:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1590399107; x=1621935107;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=EhBVAsDs98qhULlRXqAfS/sAw/8j0NvB9F91fcrKmCM=;
-  b=cGJZeWd+FbcAun2LyZlL0vaEIC41vlIibEuOz/wPJrlrGlN9JAiYgZ5W
-   6Azx+rbKEUW1u9obiLYWoSN9EsGaOwr1N1Gj3Soqg7A3xoaEuUyQjoYuJ
-   0Dd+1R3PJlGR+KdmV6Km377BMzuLfIo3lBUqTEooGsq2jJOEnJ5F+bufZ
-   0=;
-IronPort-SDR: /RbCI2gbLMK/BHdAHLO4QcFAhG+IkZBT7l6kTAwS0pqcD/4K1yBUlugXwNdeSTbFpeip8zyKgu
- NhdYf2l9I+JQ==
-X-IronPort-AV: E=Sophos;i="5.73,432,1583193600"; 
-   d="scan'208";a="47147033"
-Received: from sea32-co-svc-lb4-vlan2.sea.corp.amazon.com (HELO email-inbound-relay-1d-9ec21598.us-east-1.amazon.com) ([10.47.23.34])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 25 May 2020 09:31:44 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
-        by email-inbound-relay-1d-9ec21598.us-east-1.amazon.com (Postfix) with ESMTPS id AB695A1C81;
-        Mon, 25 May 2020 09:31:32 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 25 May 2020 09:31:31 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.200) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 25 May 2020 09:31:15 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <irogers@google.com>, <jolsa@redhat.com>, <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v13 15/15] MAINTAINERS: Update for DAMON
-Date:   Mon, 25 May 2020 11:31:01 +0200
-Message-ID: <20200525093101.1550-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200525091512.30391-1-sjpark@amazon.com>
-References: <20200525091512.30391-1-sjpark@amazon.com>
+        id S2389539AbgEYJhH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 May 2020 05:37:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389251AbgEYJhH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 May 2020 05:37:07 -0400
+Received: from Galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9E5C061A0E;
+        Mon, 25 May 2020 02:37:06 -0700 (PDT)
+Received: from [5.158.153.53] (helo=debian-buster-darwi.lab.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+        (Exim 4.80)
+        (envelope-from <a.darwish@linutronix.de>)
+        id 1jd9XP-00062M-Es; Mon, 25 May 2020 11:36:51 +0200
+Date:   Mon, 25 May 2020 11:36:49 +0200
+From:   "Ahmed S. Darwish" <a.darwish@linutronix.de>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 10/25] seqlock: Add RST directives to kernel-doc code
+ samples and notes
+Message-ID: <20200525093649.GA370823@debian-buster-darwi.lab.linutronix.de>
+References: <20200519214547.352050-1-a.darwish@linutronix.de>
+ <20200519214547.352050-11-a.darwish@linutronix.de>
+ <20200522180254.GS325280@hirez.programming.kicks-ass.net>
+ <20200522180336.GD325303@hirez.programming.kicks-ass.net>
+ <871rnbsu57.fsf@nanos.tec.linutronix.de>
+ <20200522183216.GT325280@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.200]
-X-ClientProxiedBy: EX13D08UWB003.ant.amazon.com (10.43.161.186) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200522183216.GT325280@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+Peter Zijlstra <peterz@infradead.org> wrote:
+> On Fri, May 22, 2020 at 08:26:44PM +0200, Thomas Gleixner wrote:
+> > Peter Zijlstra <peterz@infradead.org> writes:
+> > > On Fri, May 22, 2020 at 08:02:54PM +0200, Peter Zijlstra wrote:
+> > >> On Tue, May 19, 2020 at 11:45:32PM +0200, Ahmed S. Darwish wrote:
+> > >> > Mark all C code samples inside seqlock.h kernel-doc text with the RST
+> > >> > 'code-block: c' directive. Sphinx won't properly format the example code
+> > >> > and will produce noisy text indentation warnings otherwise.
+> > >>
+> > >> I so bloody hate RST.. and now it's infecting perfectly sane comments
+> > >> and turning them into unreadable junk :-(
+> > >
+> > > The correct fix is, as always, to remove the kernel-doc marker.
+> >
+> > Get over it already.
+>
+> I will not let sensible code comments deteriorate to the benefit of some
+> external piece of crap.
+>
+> As a programmer the primary interface to all this is a text editor, not
+> a web broswer or a pdf file or whatever other bullshit.
+>
+> If comments are unreadable in your text editor, they're useless.
 
-This commit updates MAINTAINERS file for DAMON related files.
+Wait.
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Most of the patch in question is just substituting the code snippet's
+leading white spaces to tabs. For illustration purposes, if we remove
+these white space hunks from the diff, it becomes:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5a5332b3591d..586513e92b65 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4661,6 +4661,18 @@ F:	net/ax25/ax25_out.c
- F:	net/ax25/ax25_timer.c
- F:	net/ax25/sysctl_net_ax25.c
- 
-+DATA ACCESS MONITOR
-+M:	SeongJae Park <sjpark@amazon.de>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	Documentation/admin-guide/mm/damon/*
-+F:	include/linux/damon.h
-+F:	include/trace/events/damon.h
-+F:	mm/damon-test.h
-+F:	mm/damon.c
-+F:	tools/damon/*
-+F:	tools/testing/selftests/damon/*
-+
- DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
- L:	netdev@vger.kernel.org
- S:	Orphan
--- 
-2.17.1
+  --- a/include/linux/seqlock.h
+  +++ b/include/linux/seqlock.h
+  @@ -232,6 +232,8 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
+  + * .. code-block:: c
+  ...
+  + * .. code-block:: c
+  ...
+  - * NOTE: The non-requirement for atomic modifications does _NOT_ include
+  - *       the publishing of new entries in the case where data is a dynamic
+  - *       data structure.
+  + * .. attention::
+  + *
+  + *     The non-requirement for atomic modifications does _NOT_ include
+  + *     the publishing of new entries in the case where data is a dynamic
+  + *     data structure.
+  ...
 
+Are you trying to tell me that, good heavens, these directives are
+really hurting your eyes so much?
+
+Putting kernel-doc aside... That huge raw_write_seqcount_latch() comment
+is actually *way more readable from any text editor* after applying this
+patch. Go figure.
+
+>>> The correct fix is, as always, to remove the kernel-doc marker.
+
+Sorry, that's not the correct fix.
+
+In the following patches, kernel-doc for the entire seqlock.h API is
+added. Singling out raw_write_seqcount_latch() doesn't make any sense.
+
+If you look at the top of this patch series, a lot of seqlock.h
+seqcount_t call sites were badly broken. The 0day kernel test bot sent
+me even more erroneous call sites due to the added lockdep checks. This
+is an extra argument for the added documentation: the existing one is
+horrible.
+
+So, please, don't claim that the current situation is fine. It is not.
+
+Thanks,
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
