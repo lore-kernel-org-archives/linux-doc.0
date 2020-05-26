@@ -2,118 +2,134 @@ Return-Path: <SRS0=tUtt=7I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2FEEC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 15:07:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DB9C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 15:33:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1DF72070A
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 15:07:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590505668;
-	bh=rh/ZwuBqEQdTP5hmpFrECM/X5iKXZZT4RSLrxOAfj5g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=VeUf7xAAJ/xXmU4hm3o78d7CktySsHLqcSx/ENiqt+7CKEPY1mCbqVHGmYPoVCr8T
-	 lNxRIW9QxL9Ux8Iik4e4j6I654e2rIFmN0i6BtVSTez9oo+CbnYyTgVzgopL6bEzyE
-	 EqHqIGC3Hn4cRr8dYFLRSZ7BLqrRNvOe17aPPRfY=
+	by mail.kernel.org (Postfix) with ESMTP id 4B6EF20663
+	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 15:33:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729564AbgEZPHn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 May 2020 11:07:43 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:43897 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728166AbgEZPHn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 11:07:43 -0400
-Received: by mail-pg1-f195.google.com with SMTP id 185so1979276pgb.10;
-        Tue, 26 May 2020 08:07:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=L6RbYv5B1MYyKpilgE+iTClDmvIVUX2RuuOQOJ/aMVQ=;
-        b=WNsW+JqxQqm1qgxF7HiiTvL2d/DCKjcYs294L0UiPjee0afDrntI3Dv7MkN3DB76Du
-         mNXg/263fBRfosNnylqs89JZoQraoQPxshz2dELM0PkQKQ9+7weFdHVsWVfhs9hn4lVA
-         txQyd6nhTuucLSYbP6J/HKM54X/VArZPLuQBEDrYsbjxQQo3teaKkXwEl8bFh8Pp5XEz
-         SXJFJgsS3CCQU57kzkwFnMeqZyURJJYDQh0y39OViYK0iEK8zerZnUqa+Ax1gmUE+lv4
-         REXXBKowtySHX40Bxnw4TEh/9IFy2n9fxy7Y9iVn8U1wQehKRaOzcbA4Kq2rKH+Gr7Zo
-         qtGg==
-X-Gm-Message-State: AOAM531ubOra4Ak3AP8d0Sf28+v1lbmilc6fvK83qiSUC5dF2LSGtB/i
-        uWRNR+cjooxSQOmEcfIebiwG8KwnupR1zw==
-X-Google-Smtp-Source: ABdhPJwU5ShAKbAvJXQtY62vZ1/Gh7rdLSj1+p4Kod680hhz3y98c6Kz9js7ZW4bm3wIfIjpQ2UATQ==
-X-Received: by 2002:aa7:880f:: with SMTP id c15mr22560560pfo.94.1590505662105;
-        Tue, 26 May 2020 08:07:42 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id k18sm15699602pfg.217.2020.05.26.08.07.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2020 08:07:40 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 0547C4230A; Tue, 26 May 2020 14:58:19 +0000 (UTC)
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     jeyu@kernel.org, davem@davemloft.net, kuba@kernel.org
-Cc:     michael.chan@broadcom.com, dchickles@marvell.com,
-        sburla@marvell.com, fmanlunas@marvell.com, aelior@marvell.com,
-        GR-everest-linux-l2@marvell.com, kvalo@codeaurora.org,
-        johannes@sipsolutions.net, akpm@linux-foundation.org,
-        arnd@arndb.de, rostedt@goodmis.org, mingo@redhat.com,
-        aquini@redhat.com, cai@lca.pw, dyoung@redhat.com, bhe@redhat.com,
-        peterz@infradead.org, tglx@linutronix.de, gpiccoli@canonical.com,
-        pmladek@suse.com, tiwai@suse.de, schlad@suse.de,
-        andriy.shevchenko@linux.intel.com, derosier@gmail.com,
-        keescook@chromium.org, daniel.vetter@ffwll.ch, will@kernel.org,
-        mchehab+samsung@kernel.org, vkoul@kernel.org,
-        mchehab+huawei@kernel.org, robh@kernel.org, mhiramat@kernel.org,
-        sfr@canb.auug.org.au, linux@dominikbrodowski.net,
-        glider@google.com, paulmck@kernel.org, elver@google.com,
-        bauerman@linux.ibm.com, yamada.masahiro@socionext.com,
-        samitolvanen@google.com, yzaikin@google.com, dvyukov@google.com,
-        rdunlap@infradead.org, corbet@lwn.net, dianders@chromium.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-        Igor Russkikh <irusskikh@marvell.com>
-Subject: [PATCH v3 8/8] qed: use new taint_firmware_crashed()
-Date:   Tue, 26 May 2020 14:58:15 +0000
-Message-Id: <20200526145815.6415-9-mcgrof@kernel.org>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20200526145815.6415-1-mcgrof@kernel.org>
-References: <20200526145815.6415-1-mcgrof@kernel.org>
+        id S1729473AbgEZPdr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 May 2020 11:33:47 -0400
+Received: from mga05.intel.com ([192.55.52.43]:13369 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727898AbgEZPdq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 May 2020 11:33:46 -0400
+IronPort-SDR: hzG5JAQAcnX16NXrlVBVUYrMGunCsg3k/g4g7/kscG23i7uVb3gjFMewyI1RLJVwALABzvX4c6
+ tjqcrEhbaDgw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2020 08:33:45 -0700
+IronPort-SDR: nRnoLIoNHfPkKLn4f9P3ixflHY/LfK8O2t0bt5XrmJ3yMKcapWyMAQzjd5MjHsxypE/CTaz6dh
+ qtXgDIX5nIwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,437,1583222400"; 
+   d="scan'208";a="270112433"
+Received: from mashaikh-mobl1.amr.corp.intel.com (HELO [10.255.1.194]) ([10.255.1.194])
+  by orsmga006.jf.intel.com with ESMTP; 26 May 2020 08:33:36 -0700
+Subject: Re: [PATCH v5] arch/x86: Update config and kernel doc for MPK feature
+ on AMD
+To:     Borislav Petkov <bp@alien8.de>, Babu Moger <babu.moger@amd.com>
+Cc:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
+        hpa@zytor.com, pbonzini@redhat.com,
+        sean.j.christopherson@intel.com, x86@kernel.org,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, mchehab+samsung@kernel.org,
+        changbin.du@intel.com, namit@vmware.com, bigeasy@linutronix.de,
+        yang.shi@linux.alibaba.com, asteinhauser@google.com,
+        anshuman.khandual@arm.com, jan.kiszka@siemens.com,
+        akpm@linux-foundation.org, steven.price@arm.com,
+        rppt@linux.vnet.ibm.com, peterx@redhat.com,
+        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
+        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
+        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
+        jgross@suse.com, andrew.cooper3@citrix.com,
+        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
+        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
+        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+References: <158940940570.47998.17107695356894054769.stgit@naples-babu.amd.com>
+ <20200523122149.GF27431@zn.tnic>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <23ee5cfa-22ec-a367-04f2-4bca8edcfa9e@intel.com>
+Date:   Tue, 26 May 2020 08:33:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200523122149.GF27431@zn.tnic>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This makes use of the new taint_firmware_crashed() to help
-annotate when firmware for device drivers crash. When firmware
-crashes devices can sometimes become unresponsive, and recovery
-sometimes requires a driver unload / reload and in the worst cases
-a reboot.
+On 5/23/20 5:21 AM, Borislav Petkov wrote:
+>> +config X86_MEMORY_PROTECTION_KEYS
+>> +	# Set the "INTEL_"-free option whenever the "INTEL_" one is set.
+>> +	# The "INTEL_" one should be removed and replaced by this option
+>> +	# after 5.10. This avoids exposing most 'oldconfig' users to this
+>> +	# churn.
+>> +	def_bool X86_INTEL_MEMORY_PROTECTION_KEYS
+> I only picked up the discussion from the sidelines but why do we need
+> this at all? If we don't want to have churn, then we can leave it be
+> called X86_INTEL_MEMORY_PROTECTION_KEYS, not change the manpage and
+> have this depend on CPU_SUP_AMD too so that people can select it on AMD
+> machines, and get on with our lives.
+> 
+> So what's up?
 
-Using a taint flag allows us to annotate when this happens clearly.
+Thanks for pointing that out.  I think this ended up mixing together the
+two alternative, which doesn't make much sense.
 
-Cc: Ariel Elior <aelior@marvell.com>
-Cc: GR-everest-linux-l2@marvell.com
-Reviewed-by: Igor Russkikh <irusskikh@marvell.com>
-Acked-by: Rafael Aquini <aquini@redhat.com>
-Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
----
- drivers/net/ethernet/qlogic/qed/qed_mcp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_mcp.c b/drivers/net/ethernet/qlogic/qed/qed_mcp.c
-index 9624616806e7..dd4357b0b5d1 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_mcp.c
-+++ b/drivers/net/ethernet/qlogic/qed/qed_mcp.c
-@@ -566,6 +566,7 @@ _qed_mcp_cmd_and_union(struct qed_hwfn *p_hwfn,
- 		DP_NOTICE(p_hwfn,
- 			  "The MFW failed to respond to command 0x%08x [param 0x%08x].\n",
- 			  p_mb_params->cmd, p_mb_params->param);
-+		taint_firmware_crashed();
- 		qed_mcp_print_cpu_info(p_hwfn, p_ptt);
- 
- 		spin_lock_bh(&p_hwfn->mcp_info->cmd_lock);
--- 
-2.26.2
-
+Babu, let's just leave the config option _naming_ entirely in place.
+The only change should be to the dependencies and the description text.
