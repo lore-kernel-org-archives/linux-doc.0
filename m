@@ -2,391 +2,148 @@ Return-Path: <SRS0=tUtt=7I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB66CC433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 20:55:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A81B2C433E3
+	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 21:18:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D0D320674
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 20:55:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8709420888
+	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 21:18:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1590527888;
+	bh=MFAehDAU7MZpexynosp2Nf/gW4GxzaTvFvckT1FHhHg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=2hdkMhJDRn2RrxJzUFsZdF9KCFaJMGpmCrgZ7hCDvjeS/2lBIkD5w7hKyVYrZu+nG
+	 ccsgsuJYxPzI5dsBo5T8v4IeYyqGf4/r+y/5eYMIJtk9UcaiVVuXV4y6tcVA+kvtZx
+	 sXGgNbMtnOwN1Y4K+yKUDOkOYVTXJj/ExpLb3QZ4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404163AbgEZUxh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 May 2020 16:53:37 -0400
-Received: from smtp-8faf.mail.infomaniak.ch ([83.166.143.175]:54347 "EHLO
-        smtp-8faf.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2404080AbgEZUxf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 16:53:35 -0400
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49WmQP0wdgzlh8v2;
-        Tue, 26 May 2020 22:53:33 +0200 (CEST)
-Received: from localhost (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 49WmQL2W6hzlhBtD;
-        Tue, 26 May 2020 22:53:30 +0200 (CEST)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        Richard Weinberger <richard@nod.at>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v18 01/12] landlock: Add object management
-Date:   Tue, 26 May 2020 22:53:11 +0200
-Message-Id: <20200526205322.23465-2-mic@digikod.net>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200526205322.23465-1-mic@digikod.net>
-References: <20200526205322.23465-1-mic@digikod.net>
+        id S2390912AbgEZVSE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 May 2020 17:18:04 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:34773 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390009AbgEZVSD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 17:18:03 -0400
+Received: by mail-io1-f65.google.com with SMTP id f3so23717703ioj.1;
+        Tue, 26 May 2020 14:18:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lVVBuWO3qFEQRVDuoZfe9DGQFjStmCr4atb2ZbHcO8E=;
+        b=AeIMKfN+5/n35HclKzNcOmYZEHwr4aO5D22NgPTX0dZZd3IZA0o3V4+sWavKqjj4n+
+         v3NSl4Q84NKqB08tflrt19o816L5AD26NDl+tjY3+N6dAZbA9LVDk0KAjHgWfiedF11e
+         ig0FZTMLuDQb3VRw7mU18Lyip2Jyq4Exct58ZW5aEW+HsKq2GfuiIXg+JzmaRV0kZAJh
+         MD5zlWqs+SEx4jEBMftjR61OD238wRcAkvrKAx2Uk1QgmkXjB5CgAoShKksVfdMLzkfl
+         k31uLOlKxklTS804TuUCRhPy0TuhnalUSyWkarIjG869Bn9IjOe9JM/ka1Rsv9qpqVfD
+         494g==
+X-Gm-Message-State: AOAM532CMPu0zXjNXOKQe3C3Wzy7TC0CdFk1Y+1Vim29E74DnRcs9UaC
+        DvghuHL8BfBi9WVfFNHPZA==
+X-Google-Smtp-Source: ABdhPJwQrpel77itHrejAW3V1OCVBywOqev2wghw6aLmvMslUJY88azNYlGgJ1qYFsSmB5E2n/qkqA==
+X-Received: by 2002:a6b:7017:: with SMTP id l23mr4256428ioc.140.1590527882382;
+        Tue, 26 May 2020 14:18:02 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id x22sm567394ill.9.2020.05.26.14.18.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2020 14:18:01 -0700 (PDT)
+Received: (nullmailer pid 389955 invoked by uid 1000);
+        Tue, 26 May 2020 21:18:00 -0000
+Date:   Tue, 26 May 2020 15:18:00 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     chenzhou <chenzhou10@huawei.com>, James Morse <james.morse@arm.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, dyoung@redhat.com,
+        Baoquan He <bhe@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        John.p.donnelly@oracle.com, pkushwaha@marvell.com,
+        Simon Horman <horms@verge.net.au>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kexec@lists.infradead.org
+Subject: Re: [PATCH v8 5/5] dt-bindings: chosen: Document
+ linux,low-memory-range for arm64 kdump
+Message-ID: <20200526211800.GA352001@bogus>
+References: <20200521093805.64398-1-chenzhou10@huawei.com>
+ <20200521093805.64398-6-chenzhou10@huawei.com>
+ <CAL_Jsq+EV02YBqEGoJrsJW8Y+g_GkB_LkTwWCxNCb3F+8MSdyw@mail.gmail.com>
+ <a419602e-6a85-ca35-39de-b3c26d433199@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a419602e-6a85-ca35-39de-b3c26d433199@huawei.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A Landlock object enables to identify a kernel object (e.g. an inode).
-A Landlock rule is a set of access rights allowed on an object.  Rules
-are grouped in rulesets that may be tied to a set of processes (i.e.
-subjects) to enforce a scoped access-control (i.e. a domain).
+On Fri, May 22, 2020 at 11:24:11AM +0800, chenzhou wrote:
+> Hi Rob,
 
-Because Landlock's goal is to empower any process (especially
-unprivileged ones) to sandbox themselves, we can't rely on a system-wide
-object identification such as file extended attributes.  Indeed, we need
-innocuous, composable and modular access-controls.
++James M (It's nice to Cc folks if you mention/quote them)
 
-The main challenge with these constraints is to identify kernel objects
-while this identification is useful (i.e. when a security policy makes
-use of this object).  But this identification data should be freed once
-no policy is using it.  This ephemeral tagging should not and may not be
-written in the filesystem.  We then need to manage the lifetime of a
-rule according to the lifetime of its object.  To avoid a global lock,
-this implementation make use of RCU and counters to safely reference
-objects.
 
-A following commit uses this generic object management for inodes.
+> On 2020/5/21 21:29, Rob Herring wrote:
+> > On Thu, May 21, 2020 at 3:35 AM Chen Zhou <chenzhou10@huawei.com> wrote:
+> >> Add documentation for DT property used by arm64 kdump:
+> >> linux,low-memory-range.
+> >> "linux,low-memory-range" is an another memory region used for crash
+> >> dump kernel devices.
+> >>
+> >> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> >> ---
+> >>  Documentation/devicetree/bindings/chosen.txt | 25 ++++++++++++++++++++
+> >>  1 file changed, 25 insertions(+)
+> > chosen is now a schema documented here[1].
+> Ok, that is, i don't need to modify the doc in kernel, just create a pull request in github [1]?
+> 
+> >
+> >> diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
+> >> index 45e79172a646..bfe6fb6976e6 100644
+> >> --- a/Documentation/devicetree/bindings/chosen.txt
+> >> +++ b/Documentation/devicetree/bindings/chosen.txt
+> >> @@ -103,6 +103,31 @@ While this property does not represent a real hardware, the address
+> >>  and the size are expressed in #address-cells and #size-cells,
+> >>  respectively, of the root node.
+> >>
+> >> +linux,low-memory-range
+> >> +----------------------
+> >> +This property (arm64 only) holds a base address and size, describing a
+> >> +limited region below 4G. Similar to "linux,usable-memory-range", it is
+> >> +an another memory range which may be considered available for use by the
+> >> +kernel.
+> > Why can't you just add a range to "linux,usable-memory-range"? It
+> > shouldn't be hard to figure out which part is below 4G.
+> I did like this in my previous version, such as v5. After discussed with James, i modified it to the current way.
+> 
+> We think the existing behavior should be unchanged, which helps with keeping compatibility with existing
+> user-space and older kdump kernels.
+> 
+> The comments from James:
+> > linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>.
+> Won't this break if your kdump kernel doesn't know what the extra parameters are?
+> Or if it expects two ranges, but only gets one? These DT properties should be treated as
+> ABI between kernel versions, we can't really change it like this.
+> 
+> I think the 'low' region is an optional-extra, that is never mapped by the first kernel. I
+> think the simplest thing to do is to add an 'linux,low-memory-range' that we
+> memblock_add() after memblock_cap_memory_range() has been called.
+> If its missing, or the new kernel doesn't know what its for, everything keeps working.
 
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Cc: James Morris <jmorris@namei.org>
-Cc: Jann Horn <jannh@google.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Serge E. Hallyn <serge@hallyn.com>
----
 
-Changes since v14:
-* Simplify the object, rule and ruleset management at the expense of a
-  less aggressive memory freeing (contributed by Jann Horn, with
-  additional modifications):
-  - Remove object->list aggregating the rules tied to an object.
-  - Remove landlock_get_object(), landlock_drop_object(),
-    {get,put}_object_cleaner() and landlock_rule_is_disabled().
-  - Rewrite landlock_put_object() to use a more simple mechanism
-    (no tricky RCU).
-  - Replace enum landlock_object_type and landlock_release_object() with
-    landlock_object_underops->release()
-  - Adjust unions and Sparse annotations.
-  Cf. https://lore.kernel.org/lkml/CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com/
-* Merge struct landlock_rule into landlock_ruleset_elem to simplify the
-  rule management.
-* Constify variables.
-* Improve kernel documentation.
-* Cosmetic variable renames.
-* Remove the "default" in the Kconfig (suggested by Jann Horn).
-* Only use refcount_inc() through getter helpers.
-* Update Kconfig description.
+I don't think there's a compatibility issue here though. The current 
+kernel doesn't care if the property is longer than 1 base+size. It only 
+checks if the size is less than 1 base+size. And yes, we can rely on 
+that implementation detail. It's only an ABI if an existing user 
+notices.
 
-Changes since v13:
-* New dedicated implementation, removing the need for eBPF.
+Now, if the low memory is listed first, then an older kdump kernel 
+would get a different memory range. If that's a problem, then define 
+that low memory goes last. 
 
-Previous changes:
-https://lore.kernel.org/lkml/20190721213116.23476-6-mic@digikod.net/
----
- MAINTAINERS                | 10 +++++
- security/Kconfig           |  1 +
- security/Makefile          |  2 +
- security/landlock/Kconfig  | 18 ++++++++
- security/landlock/Makefile |  3 ++
- security/landlock/object.c | 66 +++++++++++++++++++++++++++
- security/landlock/object.h | 91 ++++++++++++++++++++++++++++++++++++++
- 7 files changed, 191 insertions(+)
- create mode 100644 security/landlock/Kconfig
- create mode 100644 security/landlock/Makefile
- create mode 100644 security/landlock/object.c
- create mode 100644 security/landlock/object.h
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 50659d76976b..5bf93663aad6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9492,6 +9492,16 @@ F:	net/core/sock_map.c
- F:	net/ipv4/tcp_bpf.c
- F:	net/ipv4/udp_bpf.c
- 
-+LANDLOCK SECURITY MODULE
-+M:	Mickaël Salaün <mic@digikod.net>
-+L:	linux-security-module@vger.kernel.org
-+S:	Supported
-+W:	https://landlock.io
-+T:	git https://github.com/landlock-lsm/linux.git
-+F:	security/landlock/
-+K:	landlock
-+K:	LANDLOCK
-+
- LANTIQ / INTEL Ethernet drivers
- M:	Hauke Mehrtens <hauke@hauke-m.de>
- L:	netdev@vger.kernel.org
-diff --git a/security/Kconfig b/security/Kconfig
-index cd3cc7da3a55..582fd777a757 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -238,6 +238,7 @@ source "security/loadpin/Kconfig"
- source "security/yama/Kconfig"
- source "security/safesetid/Kconfig"
- source "security/lockdown/Kconfig"
-+source "security/landlock/Kconfig"
- 
- source "security/integrity/Kconfig"
- 
-diff --git a/security/Makefile b/security/Makefile
-index 22e73a3482bd..b8380650bfb1 100644
---- a/security/Makefile
-+++ b/security/Makefile
-@@ -13,6 +13,7 @@ subdir-$(CONFIG_SECURITY_LOADPIN)	+= loadpin
- subdir-$(CONFIG_SECURITY_SAFESETID)    += safesetid
- subdir-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown
- subdir-$(CONFIG_BPF_LSM)		+= bpf
-+subdir-$(CONFIG_SECURITY_LANDLOCK)		+= landlock
- 
- # always enable default capabilities
- obj-y					+= commoncap.o
-@@ -30,6 +31,7 @@ obj-$(CONFIG_SECURITY_YAMA)		+= yama/
- obj-$(CONFIG_SECURITY_LOADPIN)		+= loadpin/
- obj-$(CONFIG_SECURITY_SAFESETID)       += safesetid/
- obj-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown/
-+obj-$(CONFIG_SECURITY_LANDLOCK)	+= landlock/
- obj-$(CONFIG_CGROUP_DEVICE)		+= device_cgroup.o
- obj-$(CONFIG_BPF_LSM)			+= bpf/
- 
-diff --git a/security/landlock/Kconfig b/security/landlock/Kconfig
-new file mode 100644
-index 000000000000..9ec7593a534a
---- /dev/null
-+++ b/security/landlock/Kconfig
-@@ -0,0 +1,18 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+config SECURITY_LANDLOCK
-+	bool "Landlock support"
-+	depends on SECURITY
-+	select SECURITY_PATH
-+	help
-+	  Landlock is a safe sandboxing mechanism which enables processes to
-+	  restrict themselves (and their future children) by gradually
-+	  enforcing tailored access control policies.  A security policy is a
-+	  set of access rights (e.g. open a file in read-only, make a
-+	  directory) tied to a file hierarchy.  The configuration can be set by
-+	  any processes, including unprivileged ones, thanks to the landlock()
-+	  system call.
-+
-+	  See Documentation/security/landlock/ for further information.
-+
-+	  If you are unsure how to answer this question, answer N.
-diff --git a/security/landlock/Makefile b/security/landlock/Makefile
-new file mode 100644
-index 000000000000..cb6deefbf4c0
---- /dev/null
-+++ b/security/landlock/Makefile
-@@ -0,0 +1,3 @@
-+obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
-+
-+landlock-y := object.o
-diff --git a/security/landlock/object.c b/security/landlock/object.c
-new file mode 100644
-index 000000000000..27da1ed45eaf
---- /dev/null
-+++ b/security/landlock/object.c
-@@ -0,0 +1,66 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Landlock LSM - Object management
-+ *
-+ * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
-+ * Copyright © 2018-2020 ANSSI
-+ */
-+
-+#include <linux/bug.h>
-+#include <linux/compiler_types.h>
-+#include <linux/kernel.h>
-+#include <linux/rcupdate.h>
-+#include <linux/refcount.h>
-+#include <linux/slab.h>
-+#include <linux/spinlock.h>
-+
-+#include "object.h"
-+
-+struct landlock_object *landlock_create_object(
-+		const struct landlock_object_underops *underops,
-+		void *const underobj)
-+{
-+	struct landlock_object *new_object;
-+
-+	if (WARN_ON_ONCE(!underops || !underobj))
-+		return NULL;
-+	new_object = kzalloc(sizeof(*new_object), GFP_KERNEL);
-+	if (!new_object)
-+		return NULL;
-+	refcount_set(&new_object->usage, 1);
-+	spin_lock_init(&new_object->lock);
-+	new_object->underops = underops;
-+	new_object->underobj = underobj;
-+	return new_object;
-+}
-+
-+/*
-+ * The caller must own the object (i.e. thanks to object->usage) to safely put
-+ * it.
-+ */
-+void landlock_put_object(struct landlock_object *const object)
-+{
-+	/*
-+	 * The call to @object->underops->release(object) might sleep e.g.,
-+	 * because of iput().
-+	 */
-+	might_sleep();
-+	if (!object)
-+		return;
-+
-+	/*
-+	 * If the @object's refcount can't drop to zero, we can just decrement
-+	 * the refcount without holding a lock. Otherwise, the decrement must
-+	 * happen under @object->lock for synchronization with things like
-+	 * get_inode_object().
-+	 */
-+	if (refcount_dec_and_lock(&object->usage, &object->lock)) {
-+		__acquire(&object->lock);
-+		/*
-+		 * With @object->lock initially held, remove the reference from
-+		 * @object->underobj to @object (if it still exists).
-+		 */
-+		object->underops->release(object);
-+		kfree_rcu(object, rcu_free);
-+	}
-+}
-diff --git a/security/landlock/object.h b/security/landlock/object.h
-new file mode 100644
-index 000000000000..942bc0e18064
---- /dev/null
-+++ b/security/landlock/object.h
-@@ -0,0 +1,91 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Landlock LSM - Object management
-+ *
-+ * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
-+ * Copyright © 2018-2020 ANSSI
-+ */
-+
-+#ifndef _SECURITY_LANDLOCK_OBJECT_H
-+#define _SECURITY_LANDLOCK_OBJECT_H
-+
-+#include <linux/compiler_types.h>
-+#include <linux/refcount.h>
-+#include <linux/spinlock.h>
-+
-+struct landlock_object;
-+
-+/**
-+ * struct landlock_object_underops - Operations on an underlying object
-+ */
-+struct landlock_object_underops {
-+	/**
-+	 * @release: Releases the underlying object (e.g. iput() for an inode).
-+	 */
-+	void (*release)(struct landlock_object *const object)
-+		__releases(object->lock);
-+};
-+
-+/**
-+ * struct landlock_object - Security blob tied to a kernel object
-+ *
-+ * The goal of this structure is to enable to tie a set of ephemeral access
-+ * rights (pertaining to different domains) to a kernel object (e.g an inode)
-+ * in a safe way.  This imply to handle concurrent use and modification.
-+ *
-+ * The lifetime of a &struct landlock_object depends of the rules referring to
-+ * it.
-+ */
-+struct landlock_object {
-+	/**
-+	 * @usage: This counter is used to tie an object to the rules matching
-+	 * it or to keep it alive while adding a new rule.  If this counter
-+	 * reaches zero, this struct must not be modified, but this counter can
-+	 * still be read from within an RCU read-side critical section.  When
-+	 * adding a new rule to an object with a usage counter of zero, we must
-+	 * wait until the pointer to this object is set to NULL (or recycled).
-+	 */
-+	refcount_t usage;
-+	/**
-+	 * @lock: Guards against concurrent modifications.  This lock must be
-+	 * from the time @usage drops to zero until any weak references from
-+	 * @underobj to this object have been cleaned up.
-+	 *
-+	 * Lock ordering: inode->i_lock nests inside this.
-+	 */
-+	spinlock_t lock;
-+	/**
-+	 * @underobj: Used when cleaning up an object and to mark an object as
-+	 * tied to its underlying kernel structure.  This pointer is protected
-+	 * by @lock.  Cf. landlock_release_inodes() and release_inode().
-+	 */
-+	void *underobj;
-+	union {
-+		/**
-+		 * @rcu_free: Enables lockless use of @usage, @lock and
-+		 * @underobj from within an RCU read-side critical section.
-+		 * @rcu_free and @underops are only used by
-+		 * landlock_put_object().
-+		 */
-+		struct rcu_head rcu_free;
-+		/**
-+		 * @underops: Enables landlock_put_object() to release the
-+		 * underlying object (e.g. inode).
-+		 */
-+		const struct landlock_object_underops *underops;
-+	};
-+};
-+
-+struct landlock_object *landlock_create_object(
-+		const struct landlock_object_underops *const underops,
-+		void *const underojb);
-+
-+void landlock_put_object(struct landlock_object *const object);
-+
-+static inline void landlock_get_object(struct landlock_object *const object)
-+{
-+	if (object)
-+		refcount_inc(&object->usage);
-+}
-+
-+#endif /* _SECURITY_LANDLOCK_OBJECT_H */
--- 
-2.26.2
-
+Rob
