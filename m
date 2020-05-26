@@ -2,125 +2,106 @@ Return-Path: <SRS0=tUtt=7I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95D0DC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 17:31:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBFCC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 18:09:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71ACD2053B
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 17:31:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590514310;
-	bh=uUb0Aljolk6q+slL8zSxy9yrXkJQy8VSSCi0T37NOrE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=wADZwGsd53pH9kop/ZpR+t+VHnp7bZwLCI/mb7K5hgIhh3vBikxblTRL2WM+FGbg5
-	 CuJHrccGLQJGPe6NspNoeRKYwvvIUDmufGXmqiFzWe2Q0XcVgECuc8/U8vVp31iLdJ
-	 mnY2OlFxr7ulK63fxmhMVCsN1iyqDS3pUjASTh28=
+	by mail.kernel.org (Postfix) with ESMTP id CD15E20870
+	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 18:09:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="QV6eN1wz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728339AbgEZRbu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 May 2020 13:31:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46970 "EHLO
+        id S1728961AbgEZSJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 May 2020 14:09:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728138AbgEZRbt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 13:31:49 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88609C03E96D
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2020 10:31:48 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id p12so16775922qtn.13
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2020 10:31:48 -0700 (PDT)
+        with ESMTP id S1728553AbgEZSJv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 14:09:51 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E7A6C03E96D
+        for <linux-doc@vger.kernel.org>; Tue, 26 May 2020 11:09:51 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id cx22so124652pjb.1
+        for <linux-doc@vger.kernel.org>; Tue, 26 May 2020 11:09:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WH+ZkAcw+fY+7NvXcBPsljklY5B1kJkdLnNzW5zqKws=;
-        b=KwY5eh/Jt7ke3gqrjjnVZOkWlx0ZKGPDahhxz5YQxprK8o5OB98NU5KRlHIJcaK2j0
-         Le4t3zqqnYWGRAV750FsYFuqE9YwlO6O/NrANL0JwYhuhLnx0ktqz6pZQIi6Kf04YjZ3
-         GHMfxzw/IzpynfbqMJXvq4NK7qrvvIEMIb4Ik=
+        d=broadcom.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SwJVwRsf4JLRcqoa9J+40Z33dh8YZfs8m9tFvpvW4ww=;
+        b=QV6eN1wz/6AFupUQIoxfvaiVQr3VOLFnMyRTzupBK2x5UnbAlfVQHIl6yfVjKSnMu5
+         umzskbig4ieeQkFfLiBEUxyS/rwM3NDzxKtqi8fgYUz362ncGMXqwUf3DjNADPk94joc
+         sQer+mGXxLQjq5r5/VevoRSQ49Ax1BoPA19/0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=WH+ZkAcw+fY+7NvXcBPsljklY5B1kJkdLnNzW5zqKws=;
-        b=fNj31CxOj22kHuUAw6TMHZrUBOznGLQJHn/InUI1Ud4pfdoPTVHrcHVI6UXMvLGaT4
-         YANKrZ9bGv4Fd/vty8SNDHd1+0zuopbAD1KUkSZORV33hdrw68Up3imrXV0UwJo3Xhe1
-         FCnG+c4t7TyUABPRGgvIflLTah0lUwnEUC2FxsnvYBDTDpuB9qc+ddEVuJUu3DmAwkLe
-         OoTntGstQFdyLfAm3X8dzFpFl1kEmRSIOUO8F2iOQXM/8Y0k5AYZQpVa5ySPwRjL31Tb
-         1PSlO3Z38aqBt6Y7+4UotMrOpc4aNTlBoxnvfgFn1DID8JDC8XfWBKQDVEpoqh0ctpfM
-         NoeA==
-X-Gm-Message-State: AOAM531/2TFoMcP3pvnEZ9mJwzVF6oumQ6Pl0PTrLnv++3w9H5AH05Dj
-        R24pl6tosdScdg6ViiAgj4HxzFDeYSI=
-X-Google-Smtp-Source: ABdhPJxsmwXtSMREQHxldJbRjDU5sQgCKYxPvzY9MPZh0N7+TDx7CoJ4iWNzGxAnwnX0z7/SGBiEvQ==
-X-Received: by 2002:ac8:1a46:: with SMTP id q6mr2605618qtk.338.1590514307406;
-        Tue, 26 May 2020 10:31:47 -0700 (PDT)
-Received: from i7.mricon.com (107-179-243-71.cpe.teksavvy.com. [107.179.243.71])
-        by smtp.gmail.com with ESMTPSA id g51sm297763qtb.69.2020.05.26.10.31.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2020 10:31:46 -0700 (PDT)
-Received: by i7.mricon.com (sSMTP sendmail emulation); Tue, 26 May 2020 13:31:44 -0400
-Date:   Tue, 26 May 2020 13:31:44 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
-        linux-doc@vger.kernel.org
-Subject: Re: Building directly with sphinx
-Message-ID: <20200526173144.zczwvnsidiexs36d@chatter.i7.local>
-Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        linux-doc@vger.kernel.org
-References: <20200520215343.btkr7avo3ruu2iap@chatter.i7.local>
- <153afc64-542f-3965-0fd3-d1ae93e3a913@darmarit.de>
- <20200521175122.zcyoa7zz33anokit@chatter.i7.local>
- <87367o2p4n.fsf@intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SwJVwRsf4JLRcqoa9J+40Z33dh8YZfs8m9tFvpvW4ww=;
+        b=iSOZQbL7A0zgR2kJhxFLXlxVuoKbq+F7vCaiTzr7YEjtnGMvVd/mAd43f1zwQ2DQEG
+         7GzRMhb0DppsJp/vxQMGktf00gZvbBGaoC58iMG7yY+me1F3C5lkrOGzNqfb9Zkbz5FX
+         SgPZsXDfe9klmTw0+koTMn+bEFbexhT7g2UR56XZD6kbrejr7fR5iAPnG9sSnaKRodc4
+         ls8EKIWYec3l6iIfCfYSiJLquaqIdyqACJRYq1bDsdR+dSsnijIitQdVY7EZVkTWeJLx
+         TrKBAr0xlJGUBTvi/mCLYEhodea2qPyaRHZt5sq3CIITqFlVnMWHC79P5jRCQ4V7mdyP
+         sQ1A==
+X-Gm-Message-State: AOAM533uzPnjn+Oa39zOkkZ7lWFc+xnidAyIDo51F3YRQqJzWFTvn3Og
+        0jacgoiSKpaJZIeZJd4zxZV6h4s+nEB/W/SEpaJZgQ==
+X-Google-Smtp-Source: ABdhPJw0zdtsZqR6XZR5M0EU2Em6fXtef9eG1yF+ia1DKSMmJ8d7PdM5no22jZaDVe0gm/zwiK1kl46oQKDlpGuKAiA=
+X-Received: by 2002:a17:902:e903:: with SMTP id k3mr2106595pld.317.1590516590375;
+ Tue, 26 May 2020 11:09:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87367o2p4n.fsf@intel.com>
+References: <20200526145815.6415-1-mcgrof@kernel.org> <20200526145815.6415-7-mcgrof@kernel.org>
+In-Reply-To: <20200526145815.6415-7-mcgrof@kernel.org>
+From:   Michael Chan <michael.chan@broadcom.com>
+Date:   Tue, 26 May 2020 11:09:38 -0700
+Message-ID: <CACKFLikEm7r82jB=qB3YafPoHp+mK1joOtRKS67a2jyhJegtyA@mail.gmail.com>
+Subject: Re: [PATCH v3 6/8] bnxt_en: use new taint_firmware_crashed()
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     jeyu@kernel.org, David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, dchickles@marvell.com,
+        sburla@marvell.com, fmanlunas@marvell.com, aelior@marvell.com,
+        GR-everest-linux-l2@marvell.com, kvalo@codeaurora.org,
+        johannes@sipsolutions.net, akpm@linux-foundation.org,
+        Arnd Bergmann <arnd@arndb.de>, rostedt@goodmis.org,
+        mingo@redhat.com, aquini@redhat.com, cai@lca.pw, dyoung@redhat.com,
+        Baoquan He <bhe@redhat.com>, peterz@infradead.org,
+        tglx@linutronix.de, gpiccoli@canonical.com, pmladek@suse.com,
+        tiwai@suse.de, schlad@suse.de, andriy.shevchenko@linux.intel.com,
+        derosier@gmail.com, keescook@chromium.org, daniel.vetter@ffwll.ch,
+        will@kernel.org, mchehab+samsung@kernel.org, vkoul@kernel.org,
+        mchehab+huawei@kernel.org, robh@kernel.org, mhiramat@kernel.org,
+        sfr@canb.auug.org.au, linux@dominikbrodowski.net,
+        glider@google.com, paulmck@kernel.org, elver@google.com,
+        bauerman@linux.ibm.com, yamada.masahiro@socionext.com,
+        samitolvanen@google.com, yzaikin@google.com, dvyukov@google.com,
+        rdunlap@infradead.org, corbet@lwn.net, dianders@chromium.org,
+        Netdev <netdev@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Vasundhara Volam <vasundhara-v.volam@broadcom.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 25, 2020 at 03:08:40PM +0300, Jani Nikula wrote:
-> >> It is wasting time ;) .. The Makefile targets do build 
-> >> intermedaiate
-> >> files using perl and other scripts, this will never work on RTD.
-> >
-> > Okay, I'd suspected as much after poking around things a bit. Another 
-> > possibility would be to have a separate repository where we commit the 
-> > doc tree (after it's massaged into the "ready to be built with sphinx" 
-> > condition). We could run this automatically on our end on each mainline 
-> > release, but it's certainly not a necessity.
-> 
-> FWIW, when I was developing the Sphinx documentation build for the
-> kernel, I carefully tried to ensure everything would build directly, and
-> consequently also at readthedocs.org. I kept testing it at RTD too.
-> 
-> For this reason I kept resisting the addition of any Makefile trickery,
-> and insisting we should do everything through Sphinx. This would have
-> meant writing Sphinx extensions for all the hacks people wanted to
-> add. But it would also have lead to a self-contained system with fewer
-> moving parts, which I thought was worth pursuing. And, obviously, would
-> have made it possible to host the documentation at RTD.
-> 
-> I failed. Stuff just keeps piling up in the Makefiles.
+On Tue, May 26, 2020 at 7:58 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> From: Vasundhara Volam <vasundhara-v.volam@broadcom.com>
+>
+> This makes use of the new module_firmware_crashed() to help
+> annotate when firmware for device drivers crash. When firmware
+> crashes devices can sometimes become unresponsive, and recovery
+> sometimes requires a driver unload / reload and in the worst cases
+> a reboot.
+>
+> Using a taint flag allows us to annotate when this happens clearly.
+>
+> Cc: Michael Chan <michael.chan@broadcom.com>
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Acked-by: Rafael Aquini <aquini@redhat.com>
+> Signed-off-by: Vasundhara Volam <vasundhara-v.volam@broadcom.com>
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 
-Well, if someone gives me a way to create a sphinx-buildable tree out of 
-the contents of Documentation/*, I would be happy to maintain it and 
-host on RTD. I think there is benefit to have a repository of just docs, 
-even if it is secondary to the main repo and is auto-committed there on 
-each mainline release.
-
-> In fairness, the kernel documentation build was growing too big even for
-> RTD. It kept timing out and/or consuming too much resources. I believe
-> that would have been possible to sort out with the RTD maintainers,
-> given the possibility to host kernel documentation, but there was no
-> point in pursuing this since the docs wouldn't build directly anyway.
-
-I've already negotiated with RTD.org to significantly extend the build 
-time, so that's not a concern.
-
--K
+Reviewed-by: Michael Chan <michael.chan@broadcom.com>
