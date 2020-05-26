@@ -2,106 +2,237 @@ Return-Path: <SRS0=tUtt=7I=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBFCC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 18:09:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACD65C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 20:53:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD15E20870
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 18:09:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="QV6eN1wz"
+	by mail.kernel.org (Postfix) with ESMTP id 95796208C9
+	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 20:53:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728961AbgEZSJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 May 2020 14:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52958 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728553AbgEZSJv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 14:09:51 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E7A6C03E96D
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2020 11:09:51 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id cx22so124652pjb.1
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2020 11:09:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SwJVwRsf4JLRcqoa9J+40Z33dh8YZfs8m9tFvpvW4ww=;
-        b=QV6eN1wz/6AFupUQIoxfvaiVQr3VOLFnMyRTzupBK2x5UnbAlfVQHIl6yfVjKSnMu5
-         umzskbig4ieeQkFfLiBEUxyS/rwM3NDzxKtqi8fgYUz362ncGMXqwUf3DjNADPk94joc
-         sQer+mGXxLQjq5r5/VevoRSQ49Ax1BoPA19/0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SwJVwRsf4JLRcqoa9J+40Z33dh8YZfs8m9tFvpvW4ww=;
-        b=iSOZQbL7A0zgR2kJhxFLXlxVuoKbq+F7vCaiTzr7YEjtnGMvVd/mAd43f1zwQ2DQEG
-         7GzRMhb0DppsJp/vxQMGktf00gZvbBGaoC58iMG7yY+me1F3C5lkrOGzNqfb9Zkbz5FX
-         SgPZsXDfe9klmTw0+koTMn+bEFbexhT7g2UR56XZD6kbrejr7fR5iAPnG9sSnaKRodc4
-         ls8EKIWYec3l6iIfCfYSiJLquaqIdyqACJRYq1bDsdR+dSsnijIitQdVY7EZVkTWeJLx
-         TrKBAr0xlJGUBTvi/mCLYEhodea2qPyaRHZt5sq3CIITqFlVnMWHC79P5jRCQ4V7mdyP
-         sQ1A==
-X-Gm-Message-State: AOAM533uzPnjn+Oa39zOkkZ7lWFc+xnidAyIDo51F3YRQqJzWFTvn3Og
-        0jacgoiSKpaJZIeZJd4zxZV6h4s+nEB/W/SEpaJZgQ==
-X-Google-Smtp-Source: ABdhPJw0zdtsZqR6XZR5M0EU2Em6fXtef9eG1yF+ia1DKSMmJ8d7PdM5no22jZaDVe0gm/zwiK1kl46oQKDlpGuKAiA=
-X-Received: by 2002:a17:902:e903:: with SMTP id k3mr2106595pld.317.1590516590375;
- Tue, 26 May 2020 11:09:50 -0700 (PDT)
+        id S2404010AbgEZUxd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 May 2020 16:53:33 -0400
+Received: from smtp-1908.mail.infomaniak.ch ([185.125.25.8]:49657 "EHLO
+        smtp-1908.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2404080AbgEZUxd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 16:53:33 -0400
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49WmQK1CNTzlhWZn;
+        Tue, 26 May 2020 22:53:29 +0200 (CEST)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 49WmQH0DMHzlhLCS;
+        Tue, 26 May 2020 22:53:26 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v18 00/12] Landlock LSM
+Date:   Tue, 26 May 2020 22:53:10 +0200
+Message-Id: <20200526205322.23465-1-mic@digikod.net>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200526145815.6415-1-mcgrof@kernel.org> <20200526145815.6415-7-mcgrof@kernel.org>
-In-Reply-To: <20200526145815.6415-7-mcgrof@kernel.org>
-From:   Michael Chan <michael.chan@broadcom.com>
-Date:   Tue, 26 May 2020 11:09:38 -0700
-Message-ID: <CACKFLikEm7r82jB=qB3YafPoHp+mK1joOtRKS67a2jyhJegtyA@mail.gmail.com>
-Subject: Re: [PATCH v3 6/8] bnxt_en: use new taint_firmware_crashed()
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     jeyu@kernel.org, David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, dchickles@marvell.com,
-        sburla@marvell.com, fmanlunas@marvell.com, aelior@marvell.com,
-        GR-everest-linux-l2@marvell.com, kvalo@codeaurora.org,
-        johannes@sipsolutions.net, akpm@linux-foundation.org,
-        Arnd Bergmann <arnd@arndb.de>, rostedt@goodmis.org,
-        mingo@redhat.com, aquini@redhat.com, cai@lca.pw, dyoung@redhat.com,
-        Baoquan He <bhe@redhat.com>, peterz@infradead.org,
-        tglx@linutronix.de, gpiccoli@canonical.com, pmladek@suse.com,
-        tiwai@suse.de, schlad@suse.de, andriy.shevchenko@linux.intel.com,
-        derosier@gmail.com, keescook@chromium.org, daniel.vetter@ffwll.ch,
-        will@kernel.org, mchehab+samsung@kernel.org, vkoul@kernel.org,
-        mchehab+huawei@kernel.org, robh@kernel.org, mhiramat@kernel.org,
-        sfr@canb.auug.org.au, linux@dominikbrodowski.net,
-        glider@google.com, paulmck@kernel.org, elver@google.com,
-        bauerman@linux.ibm.com, yamada.masahiro@socionext.com,
-        samitolvanen@google.com, yzaikin@google.com, dvyukov@google.com,
-        rdunlap@infradead.org, corbet@lwn.net, dianders@chromium.org,
-        Netdev <netdev@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Vasundhara Volam <vasundhara-v.volam@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 26, 2020 at 7:58 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> From: Vasundhara Volam <vasundhara-v.volam@broadcom.com>
->
-> This makes use of the new module_firmware_crashed() to help
-> annotate when firmware for device drivers crash. When firmware
-> crashes devices can sometimes become unresponsive, and recovery
-> sometimes requires a driver unload / reload and in the worst cases
-> a reboot.
->
-> Using a taint flag allows us to annotate when this happens clearly.
->
-> Cc: Michael Chan <michael.chan@broadcom.com>
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Acked-by: Rafael Aquini <aquini@redhat.com>
-> Signed-off-by: Vasundhara Volam <vasundhara-v.volam@broadcom.com>
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+Hi,
 
-Reviewed-by: Michael Chan <michael.chan@broadcom.com>
+This new patch series mainly extend the LSM framework and fixes some
+issues:
+* Replace landlock_release_inodes() with a new LSM hook
+  security_sb_delete() which is called at superblock shutdown (before
+  unmount).
+* Replace struct super_block->s_landlock_inode_refs with the LSM
+  infrastructure management of the superblock: Casey Schaufler's work on
+  LSM stacking.
+
+
+The SLOC count is 1304 for security/landlock/ and 1733 for
+tools/testing/selftest/landlock/ .  Test coverage for security/landlock/
+is 93.6% of lines.  The code not covered only deals with internal kernel
+errors (e.g. memory allocation) and race conditions.
+
+The compiled documentation is available here:
+https://landlock.io/linux-doc/landlock-v18/security/landlock/index.html
+
+This series can be applied on top of v5.7-rc7.  This can be tested with
+CONFIG_SECURITY_LANDLOCK and CONFIG_SAMPLE_LANDLOCK.  This patch series
+can be found in a Git repository here:
+https://github.com/landlock-lsm/linux/commits/landlock-v18
+I would really appreciate constructive comments on this patch series.
+
+
+# Landlock LSM
+
+The goal of Landlock is to enable to restrict ambient rights (e.g.
+global filesystem access) for a set of processes.  Because Landlock is a
+stackable LSM [2], it makes possible to create safe security sandboxes
+as new security layers in addition to the existing system-wide
+access-controls. This kind of sandbox is expected to help mitigate the
+security impact of bugs or unexpected/malicious behaviors in user-space
+applications. Landlock empowers any process, including unprivileged
+ones, to securely restrict themselves.
+
+Landlock is inspired by seccomp-bpf but instead of filtering syscalls
+and their raw arguments, a Landlock rule can restrict the use of kernel
+objects like file hierarchies, according to the kernel semantic.
+Landlock also takes inspiration from other OS sandbox mechanisms: XNU
+Sandbox, FreeBSD Capsicum or OpenBSD Pledge/Unveil.
+
+
+Previous version:
+https://lore.kernel.org/lkml/20200511192156.1618284-1-mic@digikod.net/
+
+
+[1] https://lore.kernel.org/lkml/e07fe473-1801-01cc-12ae-b3167f95250e@digikod.net/
+[2] https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
+
+
+Casey Schaufler (1):
+  LSM: Infrastructure management of the superblock
+
+Mickaël Salaün (11):
+  landlock: Add object management
+  landlock: Add ruleset and domain management
+  landlock: Set up the security framework and manage credentials
+  landlock: Add ptrace restrictions
+  fs,security: Add sb_delete hook
+  landlock: Support filesystem access-control
+  landlock: Add syscall implementation
+  arch: Wire up landlock() syscall
+  selftests/landlock: Add initial tests
+  samples/landlock: Add a sandbox manager example
+  landlock: Add user and kernel documentation
+
+ Documentation/security/index.rst              |    1 +
+ Documentation/security/landlock/index.rst     |   18 +
+ Documentation/security/landlock/kernel.rst    |   69 +
+ Documentation/security/landlock/user.rst      |  268 +++
+ MAINTAINERS                                   |   12 +
+ arch/Kconfig                                  |    7 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |    1 +
+ arch/arm/tools/syscall.tbl                    |    1 +
+ arch/arm64/include/asm/unistd.h               |    2 +-
+ arch/arm64/include/asm/unistd32.h             |    2 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |    1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |    1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |    1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |    1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |    1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |    1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |    1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |    1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |    1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |    1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |    1 +
+ arch/um/Kconfig                               |    1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |    1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |    1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |    1 +
+ fs/super.c                                    |    1 +
+ include/linux/lsm_hook_defs.h                 |    1 +
+ include/linux/lsm_hooks.h                     |    3 +
+ include/linux/security.h                      |    4 +
+ include/linux/syscalls.h                      |    3 +
+ include/uapi/asm-generic/unistd.h             |    4 +-
+ include/uapi/linux/landlock.h                 |  302 +++
+ kernel/sys_ni.c                               |    3 +
+ samples/Kconfig                               |    7 +
+ samples/Makefile                              |    1 +
+ samples/landlock/.gitignore                   |    1 +
+ samples/landlock/Makefile                     |   15 +
+ samples/landlock/sandboxer.c                  |  228 +++
+ security/Kconfig                              |   11 +-
+ security/Makefile                             |    2 +
+ security/landlock/Kconfig                     |   18 +
+ security/landlock/Makefile                    |    4 +
+ security/landlock/common.h                    |   20 +
+ security/landlock/cred.c                      |   46 +
+ security/landlock/cred.h                      |   58 +
+ security/landlock/fs.c                        |  610 ++++++
+ security/landlock/fs.h                        |   60 +
+ security/landlock/object.c                    |   66 +
+ security/landlock/object.h                    |   91 +
+ security/landlock/ptrace.c                    |  120 ++
+ security/landlock/ptrace.h                    |   14 +
+ security/landlock/ruleset.c                   |  342 ++++
+ security/landlock/ruleset.h                   |  157 ++
+ security/landlock/setup.c                     |   40 +
+ security/landlock/setup.h                     |   18 +
+ security/landlock/syscall.c                   |  532 +++++
+ security/security.c                           |   51 +-
+ security/selinux/hooks.c                      |   58 +-
+ security/selinux/include/objsec.h             |    6 +
+ security/selinux/ss/services.c                |    3 +-
+ security/smack/smack.h                        |    6 +
+ security/smack/smack_lsm.c                    |   35 +-
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/landlock/.gitignore   |    2 +
+ tools/testing/selftests/landlock/Makefile     |   29 +
+ tools/testing/selftests/landlock/base_test.c  |  163 ++
+ tools/testing/selftests/landlock/common.h     |  108 +
+ tools/testing/selftests/landlock/config       |    5 +
+ tools/testing/selftests/landlock/fs_test.c    | 1730 +++++++++++++++++
+ .../testing/selftests/landlock/ptrace_test.c  |  293 +++
+ tools/testing/selftests/landlock/true.c       |    5 +
+ 71 files changed, 5596 insertions(+), 77 deletions(-)
+ create mode 100644 Documentation/security/landlock/index.rst
+ create mode 100644 Documentation/security/landlock/kernel.rst
+ create mode 100644 Documentation/security/landlock/user.rst
+ create mode 100644 include/uapi/linux/landlock.h
+ create mode 100644 samples/landlock/.gitignore
+ create mode 100644 samples/landlock/Makefile
+ create mode 100644 samples/landlock/sandboxer.c
+ create mode 100644 security/landlock/Kconfig
+ create mode 100644 security/landlock/Makefile
+ create mode 100644 security/landlock/common.h
+ create mode 100644 security/landlock/cred.c
+ create mode 100644 security/landlock/cred.h
+ create mode 100644 security/landlock/fs.c
+ create mode 100644 security/landlock/fs.h
+ create mode 100644 security/landlock/object.c
+ create mode 100644 security/landlock/object.h
+ create mode 100644 security/landlock/ptrace.c
+ create mode 100644 security/landlock/ptrace.h
+ create mode 100644 security/landlock/ruleset.c
+ create mode 100644 security/landlock/ruleset.h
+ create mode 100644 security/landlock/setup.c
+ create mode 100644 security/landlock/setup.h
+ create mode 100644 security/landlock/syscall.c
+ create mode 100644 tools/testing/selftests/landlock/.gitignore
+ create mode 100644 tools/testing/selftests/landlock/Makefile
+ create mode 100644 tools/testing/selftests/landlock/base_test.c
+ create mode 100644 tools/testing/selftests/landlock/common.h
+ create mode 100644 tools/testing/selftests/landlock/config
+ create mode 100644 tools/testing/selftests/landlock/fs_test.c
+ create mode 100644 tools/testing/selftests/landlock/ptrace_test.c
+ create mode 100644 tools/testing/selftests/landlock/true.c
+
+-- 
+2.26.2
+
