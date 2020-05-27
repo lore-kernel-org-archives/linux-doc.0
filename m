@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 284B0C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 11:22:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FFF3C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 11:23:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0869D20873
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 11:22:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 131D8207D3
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 11:23:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="VILKUTPW"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="nyd4q0kk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388296AbgE0LWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 May 2020 07:22:48 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:55175 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388143AbgE0LWr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 May 2020 07:22:47 -0400
+        id S2388241AbgE0LXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 May 2020 07:23:55 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:15137 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387939AbgE0LXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 May 2020 07:23:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1590578567; x=1622114567;
+  t=1590578635; x=1622114635;
   h=from:to:cc:subject:date:message-id:in-reply-to;
-  bh=gLRbvNch7Pkdh/6R1tkaKKQAsL56lfBjiFpkFuVFoV4=;
-  b=VILKUTPWvqLPDc6CqyfBDHVsChjmOsGJ2srQDvpaIjnocqg7KhRqPMaL
-   tNMUp5eICM+jdBpdtWsD35ntnZ3qupF5UdvwtsvoD/e+HGgdVffZdMKhg
-   WhTz2+qG/Djb5bzW0bnhYLu/yezWL8qSVI4HS4W3lrG7aJwAXc/jUpPtA
-   U=;
-IronPort-SDR: M/Z1yMMqs9TWIzahAi3JLl5hdQ0sL4ty/WPcyBqSNpiyUeB9RxhyWKqzTyv0qYlkA1ew+f4Zq2
- MyojMviWdpSQ==
+  bh=aSGAbbZ6MrjWpWJVHoh/BDwsMhfPsX7leLeYt2MGtFQ=;
+  b=nyd4q0kkj8a17MR2uKxdFILLKmSK5uhURXM4vDvGRKLFepqRc/uLfPC9
+   GvrJY8dDMRgfanoe84bfcVhlvC69zDk8ygz32+uOk5dbkT4aR45G4KVwF
+   metBbROkuA+VpS3S4xwzbkFVotfEloB6zcFOOkgqATkh/Wck3cd7qWRdH
+   M=;
+IronPort-SDR: e38Jv9GMufS/NfxDU2X0mIYzoy4Gb04ykr8SXT/W/n3NWmuNcECOZxB5pnRZkxcOlTna3rwezv
+ DB0qoPEUuDJA==
 X-IronPort-AV: E=Sophos;i="5.73,441,1583193600"; 
-   d="scan'208";a="32413319"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 27 May 2020 11:22:31 +0000
-Received: from uc85b765ebdd8595b4b67.ant.amazon.com (iad7-ws-svc-lb50-vlan3.amazon.com [10.0.93.214])
-        by email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com (Postfix) with ESMTPS id 8CBE9A1893;
-        Wed, 27 May 2020 11:22:19 +0000 (UTC)
+   d="scan'208";a="33842613"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-c7131dcf.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 27 May 2020 11:23:40 +0000
+Received: from uc85b765ebdd8595b4b67.ant.amazon.com (pdx2-ws-svc-lb17-vlan3.amazon.com [10.247.140.70])
+        by email-inbound-relay-2b-c7131dcf.us-west-2.amazon.com (Postfix) with ESMTPS id 34E49A181A;
+        Wed, 27 May 2020 11:23:35 +0000 (UTC)
 Received: from uc85b765ebdd8595b4b67.ant.amazon.com (localhost [127.0.0.1])
-        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTP id 04RBMF0a026796;
-        Wed, 27 May 2020 13:22:15 +0200
+        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTP id 04RBNXIq027030;
+        Wed, 27 May 2020 13:23:33 +0200
 Received: (from foersleo@localhost)
-        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Submit) id 04RBM64j026778;
-        Wed, 27 May 2020 13:22:06 +0200
+        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Submit) id 04RBNX0a027028;
+        Wed, 27 May 2020 13:23:33 +0200
 From:   Leonard Foerster <foersleo@amazon.com>
 To:     SeongJae Park <sjpark@amazon.com>
 Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
@@ -62,24 +62,35 @@ Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
         vdavydov.dev@gmail.com, yang.shi@linux.alibaba.com,
         ying.huang@intel.com, linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v13 02/15] mm/page_ext: Export lookup_page_ext() to GPL modules
-Date:   Wed, 27 May 2020 13:21:57 +0200
-Message-Id: <1590578517-25980-1-git-send-email-foersleo@amazon.com>
+Subject: Re: [PATCH v13 03/15] mm: Introduce Data Access MONitor (DAMON)
+Date:   Wed, 27 May 2020 13:23:31 +0200
+Message-Id: <1590578611-26983-1-git-send-email-foersleo@amazon.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20200525091512.30391-3-sjpark@amazon.com>
+In-Reply-To: <20200525091512.30391-4-sjpark@amazon.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-05-25T11:14:59+02:00 SeongJae Park <sjpark@amazon.com> wrote:
+On 2020-05-25T11:15:00+02:00 SeongJae Park <sjpark@amazon.com> wrote:
 
 > From: SeongJae Park <sjpark@amazon.de>
 > 
-> This commit exports 'lookup_page_ext()' to GPL modules.  This will be
-> used by DAMON.
+> This commit introduces a kernel module named DAMON.  Note that this
+> commit is implementing only the stub for the module load/unload, basic
+> data structures, and simple manipulation functions of the structures to
+> keep the size of commit small.  The core mechanisms of DAMON will be
+> implemented one by one by following commits.
 > 
 > Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> ---
+> [...]
+> +
+> +/**
+> + * struct damon_ctx - Represents a context for each monitoring.
+> + * @tasks_list:		Head of monitring target tasks (&damon_task) list.
+
+nit: monitring -> monitoring
 
 Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 
