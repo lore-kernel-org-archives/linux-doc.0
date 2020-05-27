@@ -2,118 +2,144 @@ Return-Path: <SRS0=njH7=7J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A01C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 01:17:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D18A3C433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 03:07:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14051206F1
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 01:17:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B144F2084C
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 03:07:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UfYb+ZYw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ecfBllBP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728239AbgE0BRS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 May 2020 21:17:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34974 "EHLO
+        id S2387416AbgE0DHm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 May 2020 23:07:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727937AbgE0BRS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 21:17:18 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F96C061A0F;
-        Tue, 26 May 2020 18:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=zpMNP4CRwq3qJJZms/7x8Uur/00YnZ5BGSuGvOyqx+o=; b=UfYb+ZYwQarNICF4sxHwDW63ZY
-        NhMXs2vxOENFfckJiditFF5tZcB5tt7dL2oJmNk2/btFFC5kPL1U9pxtElpCyeAWvLwcAgLwEQu8O
-        raI/MRoki4omR54gvrHokSrHXgZvXSbZHGaXLcUBNt7PwM7SR6rHQLcu4qS+iI9nKmmI4Gm16Il7M
-        cF28v/eJZl5jUP+rrVnP9KDz/fKMeD27xqIX1BSWWjjBxsLu+OFrXpbbXD1n6q3qRLLFLzRiaSUgK
-        WAPLk21kJxVHpNhvT3j5ha5YBPtXtO5ir27NwcwymyOsymoy5qrVs0uDHGBVTwu3Tls+EifncDS0D
-        Uh5VGJPw==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jdkh1-0002Fv-Dx; Wed, 27 May 2020 01:17:15 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: fixes to the maintainer-entry-profile template
-Message-ID: <fbaa9b67-e7b8-d5e8-ecbb-6ae068234880@infradead.org>
-Date:   Tue, 26 May 2020 18:17:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        with ESMTP id S1725893AbgE0DHm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 23:07:42 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A995CC061A0F;
+        Tue, 26 May 2020 20:07:41 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id c20so22643120ilk.6;
+        Tue, 26 May 2020 20:07:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=NoLQZ4xLsmiigYDKwkyKj0BqR8pGmA2XjKXfyOFiOGQ=;
+        b=ecfBllBPvCa8XsDJLnfADTkGN6+8/grXE/wm7/P7v6KQSOnpvILfr+A6G3RD8gSt1V
+         bcG0w7NqoMDFPFyROpM8wFf1TYhiaV8A/yQdMf9lkSv2kwCGRV5h7KxRLIdClrUbpvPy
+         Z6M31H9tEWows4qRtj1lW1QCP3kCmsDMg3qLw7KmFS9Pc78lBjjoNaVC2JVWePQNm4ly
+         Tidg8o08isU+NfUD2ZB/3QCYh3eoTB5tJsct5E8/E1FGNgWlwWvgNzZltULIrNilc3rv
+         IGxIk+BMAQxjIZ0ACpSWUyfugyumeGFBCfSjXGxQ2ryIa+/Q00dCx2AwZR+HOHTOxdHK
+         8Teg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=NoLQZ4xLsmiigYDKwkyKj0BqR8pGmA2XjKXfyOFiOGQ=;
+        b=IlVUS3JGcm6yv//f30wWqtRqgLJqg0oM/QYlqDL8UQNBnd7paJR8IKrAgTtcgjnzbY
+         a1n+L1jHDRitLBT3YhNbSE6psnlfPgIWDI7d1yqYmVpMARtlDLFtLPtm3UeJJrMpz9dZ
+         h3B3FsbBGu9HfxWCMr/DD1RuQK2d3PWj3zVwz2r83MUpVhKagl7iMCg1GMi/oQkjCneR
+         oTItvoAGeDGximB7EBK3sPR+N68/J8fHaEO/bNaz4rh2E6CkL6cYTBqdSCF57M8sDLU5
+         /t/lVRi3bw96BRABNTbwpFMqDsJ6c3xXi3VV532oYHdVqO75XYW3Z08Gz8aiQesLc4qx
+         wMew==
+X-Gm-Message-State: AOAM530DV6W6SLZlEunsNyi2wiqnupHOfVtXmI6CQHgBUrPmO06n8Rc6
+        ZA4xGqjRAJn9ZoS9B6l2pFzr3kd1RbEjBr1b2yc=
+X-Google-Smtp-Source: ABdhPJxoQlLUksMMTrEeJnBpX7aUmXahzXq+87mU2xG6zjv9GcII3cRppMGcRbjSLU7EEh3E31xctx4o5xAsG0rwNZg=
+X-Received: by 2002:a92:1b86:: with SMTP id f6mr2004630ill.9.1590548860893;
+ Tue, 26 May 2020 20:07:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200526205322.23465-1-mic@digikod.net> <20200526205322.23465-8-mic@digikod.net>
+In-Reply-To: <20200526205322.23465-8-mic@digikod.net>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 27 May 2020 06:07:29 +0300
+Message-ID: <CAOQ4uxibpDTyjCJWLGG9jr-Gv9PwO==o50b9O8HGQeUfVMDFag@mail.gmail.com>
+Subject: Re: [PATCH v18 07/12] landlock: Support filesystem access-control
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        LSM List <linux-security-module@vger.kernel.org>,
+        x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Wed, May 27, 2020 at 3:36 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+>
+> Thanks to the Landlock objects and ruleset, it is possible to identify
+> inodes according to a process's domain.  To enable an unprivileged
+> process to express a file hierarchy, it first needs to open a directory
+> (or a file) and pass this file descriptor to the kernel through
+> landlock(2).  When checking if a file access request is allowed, we walk
+> from the requested dentry to the real root, following the different
+> mount layers.  The access to each "tagged" inodes are collected
+> according to their rule layer level, and ANDed to create access to the
+> requested file hierarchy.  This makes possible to identify a lot of
+> files without tagging every inodes nor modifying the filesystem, while
+> still following the view and understanding the user has from the
+> filesystem.
+>
 
-Do some wordsmithing and copy editing on the maintainer-entry-profile
-profile (template, guide):
-- fix punctuation
-- fix some wording
-- use "-rc" consistently
+Hi Mickael,
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: linux-nvdimm@lists.01.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/maintainer/maintainer-entry-profile.rst |   12 +++++-----
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Nice work! I am interested in the problem of system wide file access
+rules based on directory hierarchy [1][2]. Not the same problem, but
+with obvious overlaps.
 
---- linux-next-20200526.orig/Documentation/maintainer/maintainer-entry-profile.rst
-+++ linux-next-20200526/Documentation/maintainer/maintainer-entry-profile.rst
-@@ -7,7 +7,7 @@ The Maintainer Entry Profile supplements
- (submitting-patches, submitting drivers...) with
- subsystem/device-driver-local customs as well as details about the patch
- submission life-cycle. A contributor uses this document to level set
--their expectations and avoid common mistakes, maintainers may use these
-+their expectations and avoid common mistakes; maintainers may use these
- profiles to look across subsystems for opportunities to converge on
- common practices.
- 
-@@ -26,7 +26,7 @@ Example questions to consider:
- - Does the subsystem have a patchwork instance? Are patchwork state
-   changes notified?
- - Any bots or CI infrastructure that watches the list, or automated
--  testing feedback that the subsystem gates acceptance?
-+  testing feedback that the subsystem uses to gate acceptance?
- - Git branches that are pulled into -next?
- - What branch should contributors submit against?
- - Links to any other Maintainer Entry Profiles? For example a
-@@ -54,8 +54,8 @@ One of the common misunderstandings of s
- sent at any time before the merge window closes and can still be
- considered for the next -rc1. The reality is that most patches need to
- be settled in soaking in linux-next in advance of the merge window
--opening. Clarify for the submitter the key dates (in terms rc release
--week) that patches might considered for merging and when patches need to
-+opening. Clarify for the submitter the key dates (in terms of -rc release
-+week) that patches might be considered for merging and when patches need to
- wait for the next -rc. At a minimum:
- 
- - Last -rc for new feature submissions:
-@@ -70,8 +70,8 @@ wait for the next -rc. At a minimum:
- - Last -rc to merge features: Deadline for merge decisions
-   Indicate to contributors the point at which an as yet un-applied patch
-   set will need to wait for the NEXT+1 merge window. Of course there is no
--  obligation to ever except any given patchset, but if the review has not
--  concluded by this point the expectation the contributor should wait and
-+  obligation to ever accept any given patchset, but if the review has not
-+  concluded by this point the expectation is the contributor should wait and
-   resubmit for the following merge window.
- 
- Optional:
+I sketched this untested POC [2] a while ago -
+It introduces the concept of "border control" LSM hooks to avoid the
+need to check which sections in the hierarchy an inode belongs to
+on every syscall.
 
+With this, you could cache a topology with id's per section and
+cache the section id + topology generation in the inode's security state.
+When inode crosses border control hooks, it's section id is updated.
+When directory hierarchy topology changes, some or all of the cached
+section id's are invalidated and rules <-> sections relations may need
+to be changed.
+
+Do you think something like that could be useful for landlock?
+
+Note that the POC is using d_mountpoint() as the only type of "fence"
+mark. It is sufficient for controlling rename in and out of containers, so
+I just used an already available dentry flag for "fence".
+If the border control hook concept is useful, this could be extended to
+a more generic d_border_passing(), with some internal kernel API
+to manage it and with all the bike shedding that comes with it...
+
+Thanks,
+Amir.
+
+[1] https://lore.kernel.org/linux-fsdevel/CAOQ4uxhBVhyyJv0+xSFQiGQEj60AbD3S=
+ADfKK40uAiC4GF2p9Q@mail.gmail.com/
+[2] https://lore.kernel.org/linux-fsdevel/CAOQ4uxgn=3DYNj8cJuccx2KqxEVGZy1z=
+3DBVYXrD=3DMc7Dc=3DJe+-w@mail.gmail.com/
+[3] https://github.com/amir73il/linux/commits/rename_xmnt
