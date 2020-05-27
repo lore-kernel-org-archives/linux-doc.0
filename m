@@ -2,117 +2,84 @@ Return-Path: <SRS0=njH7=7J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34854C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 10:08:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 284B0C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 11:22:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F95520890
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 10:08:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0869D20873
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 11:22:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="I++iBdw/"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="VILKUTPW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728510AbgE0KIB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 May 2020 06:08:01 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:55268 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727888AbgE0KIB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 May 2020 06:08:01 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04RA7bN9029643;
-        Wed, 27 May 2020 10:07:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : in-reply-to : message-id : references : mime-version :
- content-type; s=corp-2020-01-29;
- bh=Jgk+aa3gaSbaEJGRzqmUB4J/D3RcAW2mzmSgXwtDYpI=;
- b=I++iBdw/d6EbbsVc0QonMYtP9GdH7G9gqk7JTiB94+7WbFWe/ILrE7Z3/1Xou2AA/fj0
- XfiW1ia3B13QNes64K8EvFxGTdek2n1b1W/CZkKh0BNspXqu5WHk3CdXeMTM9mLZJxGW
- HOtff/B6xDcXoVujMkSWvLLR+R8xcPpBHqJLZ0kEdQhnfyRw8J6J6VCNosFSIaEu0thm
- Xz1cn4ch5LgZ1tUZIBA3t8NTvbbgSWEt29tV/Ak2G+yNA1HvzCz/bBs7k698p7fC90vO
- 0n/SEPzLJEx2JmH8cX0h5LZ95k2fkDoJBgdt9g4Ud68tggcn37DEw46UAI4yWToBi71J Lg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 316u8qxjjc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 27 May 2020 10:07:37 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04R9vY3D160684;
-        Wed, 27 May 2020 10:05:35 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 317j5rcya4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 27 May 2020 10:05:35 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04RA5XM3005085;
-        Wed, 27 May 2020 10:05:33 GMT
-Received: from dhcp-10-175-217-36.vpn.oracle.com (/10.175.217.36)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 27 May 2020 03:05:33 -0700
-Date:   Wed, 27 May 2020 11:05:23 +0100 (BST)
-From:   Alan Maguire <alan.maguire@oracle.com>
-X-X-Sender: alan@localhost
-To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>
-cc:     kvm@vger.kernel.org,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
-        David Rientjes <rientjes@google.com>,
-        Jonathan Adams <jwadams@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mips@vger.kernel.org, kvm-ppc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
-        brendanhiggins@google.com, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com
-Subject: Re: [PATCH v3 3/7] kunit: tests for stats_fs API
-In-Reply-To: <20200526110318.69006-4-eesposit@redhat.com>
-Message-ID: <alpine.LRH.2.21.2005271054360.24819@localhost>
-References: <20200526110318.69006-1-eesposit@redhat.com> <20200526110318.69006-4-eesposit@redhat.com>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9633 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 suspectscore=4
- mlxlogscore=999 mlxscore=0 adultscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005270072
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9633 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0
- priorityscore=1501 spamscore=0 cotscore=-2147483648 suspectscore=4
- phishscore=0 clxscore=1011 mlxlogscore=999 bulkscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2005270073
+        id S2388296AbgE0LWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 May 2020 07:22:48 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:55175 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388143AbgE0LWr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 May 2020 07:22:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1590578567; x=1622114567;
+  h=from:to:cc:subject:date:message-id:in-reply-to;
+  bh=gLRbvNch7Pkdh/6R1tkaKKQAsL56lfBjiFpkFuVFoV4=;
+  b=VILKUTPWvqLPDc6CqyfBDHVsChjmOsGJ2srQDvpaIjnocqg7KhRqPMaL
+   tNMUp5eICM+jdBpdtWsD35ntnZ3qupF5UdvwtsvoD/e+HGgdVffZdMKhg
+   WhTz2+qG/Djb5bzW0bnhYLu/yezWL8qSVI4HS4W3lrG7aJwAXc/jUpPtA
+   U=;
+IronPort-SDR: M/Z1yMMqs9TWIzahAi3JLl5hdQ0sL4ty/WPcyBqSNpiyUeB9RxhyWKqzTyv0qYlkA1ew+f4Zq2
+ MyojMviWdpSQ==
+X-IronPort-AV: E=Sophos;i="5.73,441,1583193600"; 
+   d="scan'208";a="32413319"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 27 May 2020 11:22:31 +0000
+Received: from uc85b765ebdd8595b4b67.ant.amazon.com (iad7-ws-svc-lb50-vlan3.amazon.com [10.0.93.214])
+        by email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com (Postfix) with ESMTPS id 8CBE9A1893;
+        Wed, 27 May 2020 11:22:19 +0000 (UTC)
+Received: from uc85b765ebdd8595b4b67.ant.amazon.com (localhost [127.0.0.1])
+        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTP id 04RBMF0a026796;
+        Wed, 27 May 2020 13:22:15 +0200
+Received: (from foersleo@localhost)
+        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Submit) id 04RBM64j026778;
+        Wed, 27 May 2020 13:22:06 +0200
+From:   Leonard Foerster <foersleo@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
+        Jonathan.Cameron@Huawei.com, aarcange@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
+        brendanhiggins@google.com, cai@lca.pw, colin.king@canonical.com,
+        corbet@lwn.net, dwmw@amazon.com, irogers@google.com,
+        jolsa@redhat.com, kirill@shutemov.name, mark.rutland@arm.com,
+        mgorman@suse.de, minchan@kernel.org, mingo@redhat.com,
+        namhyung@kernel.org, peterz@infradead.org, rdunlap@infradead.org,
+        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
+        sblbir@amazon.com, shakeelb@google.com, shuah@kernel.org,
+        sj38.park@gmail.com, snu@amazon.de, vbabka@suse.cz,
+        vdavydov.dev@gmail.com, yang.shi@linux.alibaba.com,
+        ying.huang@intel.com, linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v13 02/15] mm/page_ext: Export lookup_page_ext() to GPL modules
+Date:   Wed, 27 May 2020 13:21:57 +0200
+Message-Id: <1590578517-25980-1-git-send-email-foersleo@amazon.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20200525091512.30391-3-sjpark@amazon.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 May 2020, Emanuele Giuseppe Esposito wrote:
+On 2020-05-25T11:14:59+02:00 SeongJae Park <sjpark@amazon.com> wrote:
 
-> Add kunit tests to extensively test the stats_fs API functionality.
->
+> From: SeongJae Park <sjpark@amazon.de>
+> 
+> This commit exports 'lookup_page_ext()' to GPL modules.  This will be
+> used by DAMON.
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
 
-I've added in the kunit-related folks.
- 
-> In order to run them, the kernel .config must set CONFIG_KUNIT=y
-> and a new .kunitconfig file must be created with CONFIG_STATS_FS=y
-> and CONFIG_STATS_FS_TEST=y
->
+Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 
-It looks like CONFIG_STATS_FS is built-in, but it exports
-much of the functionality you are testing.  However could the
-tests also be built as a module (i.e. make CONFIG_STATS_FS_TEST
-a tristate variable)? To test this you'd need to specify
-CONFIG_KUNIT=m and CONFIG_STATS_FS_TEST=m, and testing would
-simply be a case of "modprobe"ing the stats fs module and collecting
-results in /sys/kernel/debug/kunit/<module_name> (rather 
-than running kunit.py). Are you relying on unexported internals in
-the the tests that would prevent building them as a module?
-
-Thanks!
-
-Alan
