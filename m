@@ -1,130 +1,119 @@
-Return-Path: <SRS0=tUtt=7I=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=njH7=7J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 854B8C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 23:30:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A01C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 01:17:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B50A20899
-	for <linux-doc@archiver.kernel.org>; Tue, 26 May 2020 23:30:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590535837;
-	bh=Xktrl3iNjlq0DQXfwLdVjcGbCxddHqzKTW9NLLNfCJo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=AFjsrpdGf4KFi4gc6ZrVOiBXRd+xvMxAYA08AS5bseyJ4FoeJ2AQ27bODM9HZ7yyX
-	 qoVPkBNEh9akTcjizceOOR/Qd5eSoNWOJBFxhJUCeTS3i0Uq4QSG3tfK0z/crD7Q2E
-	 CrefcEOVfWM1hUXNxsPEgcr6nkYScB0yO25JY1Pc=
+	by mail.kernel.org (Postfix) with ESMTP id 14051206F1
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 01:17:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UfYb+ZYw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725971AbgEZXah (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 May 2020 19:30:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37724 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725944AbgEZXag (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 May 2020 19:30:36 -0400
-Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6284E20849;
-        Tue, 26 May 2020 23:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590535835;
-        bh=Xktrl3iNjlq0DQXfwLdVjcGbCxddHqzKTW9NLLNfCJo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=gWBafBW4xmfM510bdgGP9VD6NlS0DEcl9k/xoj8aRIgRQr1cER0h4d8UH2ikHPEC/
-         Z6wbMTiItGU4h1LEcShc76dEKFrOD1DFYE7/ju8aQ4qRb/XVrr5wS0Cq0I/AyvWQ/v
-         5f8RfOWYtfl8yRzTsPUHo3U3jFsuxw65wDiFZp5U=
-Date:   Tue, 26 May 2020 16:30:31 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     jeyu@kernel.org, davem@davemloft.net, michael.chan@broadcom.com,
-        dchickles@marvell.com, sburla@marvell.com, fmanlunas@marvell.com,
-        aelior@marvell.com, GR-everest-linux-l2@marvell.com,
-        kvalo@codeaurora.org, johannes@sipsolutions.net,
-        akpm@linux-foundation.org, arnd@arndb.de, rostedt@goodmis.org,
-        mingo@redhat.com, aquini@redhat.com, cai@lca.pw, dyoung@redhat.com,
-        bhe@redhat.com, peterz@infradead.org, tglx@linutronix.de,
-        gpiccoli@canonical.com, pmladek@suse.com, tiwai@suse.de,
-        schlad@suse.de, andriy.shevchenko@linux.intel.com,
-        derosier@gmail.com, keescook@chromium.org, daniel.vetter@ffwll.ch,
-        will@kernel.org, mchehab+samsung@kernel.org, vkoul@kernel.org,
-        mchehab+huawei@kernel.org, robh@kernel.org, mhiramat@kernel.org,
-        sfr@canb.auug.org.au, linux@dominikbrodowski.net,
-        glider@google.com, paulmck@kernel.org, elver@google.com,
-        bauerman@linux.ibm.com, yamada.masahiro@socionext.com,
-        samitolvanen@google.com, yzaikin@google.com, dvyukov@google.com,
-        rdunlap@infradead.org, corbet@lwn.net, dianders@chromium.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 0/8] kernel: taint when the driver firmware crashes
-Message-ID: <20200526163031.5c43fc1d@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <20200526230748.GS11244@42.do-not-panic.com>
-References: <20200526145815.6415-1-mcgrof@kernel.org>
-        <20200526154606.6a2be01f@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-        <20200526230748.GS11244@42.do-not-panic.com>
+        id S1728239AbgE0BRS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 May 2020 21:17:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34974 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727937AbgE0BRS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 21:17:18 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F96C061A0F;
+        Tue, 26 May 2020 18:17:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=zpMNP4CRwq3qJJZms/7x8Uur/00YnZ5BGSuGvOyqx+o=; b=UfYb+ZYwQarNICF4sxHwDW63ZY
+        NhMXs2vxOENFfckJiditFF5tZcB5tt7dL2oJmNk2/btFFC5kPL1U9pxtElpCyeAWvLwcAgLwEQu8O
+        raI/MRoki4omR54gvrHokSrHXgZvXSbZHGaXLcUBNt7PwM7SR6rHQLcu4qS+iI9nKmmI4Gm16Il7M
+        cF28v/eJZl5jUP+rrVnP9KDz/fKMeD27xqIX1BSWWjjBxsLu+OFrXpbbXD1n6q3qRLLFLzRiaSUgK
+        WAPLk21kJxVHpNhvT3j5ha5YBPtXtO5ir27NwcwymyOsymoy5qrVs0uDHGBVTwu3Tls+EifncDS0D
+        Uh5VGJPw==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jdkh1-0002Fv-Dx; Wed, 27 May 2020 01:17:15 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: fixes to the maintainer-entry-profile template
+Message-ID: <fbaa9b67-e7b8-d5e8-ecbb-6ae068234880@infradead.org>
+Date:   Tue, 26 May 2020 18:17:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 May 2020 23:07:48 +0000 Luis Chamberlain wrote:
-> On Tue, May 26, 2020 at 03:46:06PM -0700, Jakub Kicinski wrote:
-> > On Tue, 26 May 2020 14:58:07 +0000 Luis Chamberlain wrote:  
-> > > To those new on CC -- this is intended to be a simple generic interface
-> > > to the kernel to annotate when the firwmare has crashed leaving the
-> > > driver or system in a questionable state, in the worst case requiring
-> > > full system reboot. This series is first addressing only a few
-> > > networking patches, however, I already have an idea of where such
-> > > firmware crashes happen across the tree. The goal with this series then
-> > > is to first introduce the simple framework, and only if that moves
-> > > forward will I continue to chug on with the rest of the drivers /
-> > > subsystems.
-> > > 
-> > > This is *not* a networking specific problem only.
-> > > 
-> > > This v3 augments the last series by introducing the uevent for panic
-> > > events, one of them is during tainting. The uvent mechanism is
-> > > independent from any of this firmware taint mechanism. I've also
-> > > addressed Jessica Yu's feedback. Given I've extended the patches a bit
-> > > with other minor cleanup which checkpatch.pl complains over, and since
-> > > this infrastructure is still being discussed, I've trimmed the patch
-> > > series size to only cover drivers for which I've received an Acked-by
-> > > from the respective driver maintainer, or where we have bug reports to
-> > > support such dire situations on the driver such as ath10k.
-> > > 
-> > > During the last v2 it was discussed that we should instead use devlink
-> > > for this work, however the initial RFC patches produced by Jakub
-> > > Kicinski [0] shows how devlink is networking specific, and the intent
-> > > behind this series is to produce simple helpers which can be used by *any*
-> > > device driver, for any subsystem, not just networking. Subsystem
-> > > specific infrastructure to help address firwmare crashes may still make
-> > > sense, however that does not mean we *don't* need something even more
-> > > generic regardless of the subsystem the issue happens on. Since uevents
-> > > for taints are exposed, we now expose these through uapi as well, and
-> > > that was something which eventually had to happen given that the current
-> > > scheme of relying on sensible character representations for each taint
-> > > will not scale beyond the alphabet.  
-> > 
-> > Nacked-by: Jakub Kicinski <kuba@kernel.org>  
-> 
-> Care to elaborate?
+From: Randy Dunlap <rdunlap@infradead.org>
 
-I elaborated in the previous thread and told you I will nack this, 
-but sure let's go over this again.
+Do some wordsmithing and copy editing on the maintainer-entry-profile
+profile (template, guide):
+- fix punctuation
+- fix some wording
+- use "-rc" consistently
 
-For the third time saying the devlink is networking specific is not
-true. It was created as a netlink configuration channel for devices
-when there is no networking reference that could be used. It can be
-compiled in or out much like sysfs.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: linux-nvdimm@lists.01.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/maintainer/maintainer-entry-profile.rst |   12 +++++-----
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-And as I've shown you devlink already has the uAPI for what you're
-trying to achieve.
+--- linux-next-20200526.orig/Documentation/maintainer/maintainer-entry-profile.rst
++++ linux-next-20200526/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -7,7 +7,7 @@ The Maintainer Entry Profile supplements
+ (submitting-patches, submitting drivers...) with
+ subsystem/device-driver-local customs as well as details about the patch
+ submission life-cycle. A contributor uses this document to level set
+-their expectations and avoid common mistakes, maintainers may use these
++their expectations and avoid common mistakes; maintainers may use these
+ profiles to look across subsystems for opportunities to converge on
+ common practices.
+ 
+@@ -26,7 +26,7 @@ Example questions to consider:
+ - Does the subsystem have a patchwork instance? Are patchwork state
+   changes notified?
+ - Any bots or CI infrastructure that watches the list, or automated
+-  testing feedback that the subsystem gates acceptance?
++  testing feedback that the subsystem uses to gate acceptance?
+ - Git branches that are pulled into -next?
+ - What branch should contributors submit against?
+ - Links to any other Maintainer Entry Profiles? For example a
+@@ -54,8 +54,8 @@ One of the common misunderstandings of s
+ sent at any time before the merge window closes and can still be
+ considered for the next -rc1. The reality is that most patches need to
+ be settled in soaking in linux-next in advance of the merge window
+-opening. Clarify for the submitter the key dates (in terms rc release
+-week) that patches might considered for merging and when patches need to
++opening. Clarify for the submitter the key dates (in terms of -rc release
++week) that patches might be considered for merging and when patches need to
+ wait for the next -rc. At a minimum:
+ 
+ - Last -rc for new feature submissions:
+@@ -70,8 +70,8 @@ wait for the next -rc. At a minimum:
+ - Last -rc to merge features: Deadline for merge decisions
+   Indicate to contributors the point at which an as yet un-applied patch
+   set will need to wait for the NEXT+1 merge window. Of course there is no
+-  obligation to ever except any given patchset, but if the review has not
+-  concluded by this point the expectation the contributor should wait and
++  obligation to ever accept any given patchset, but if the review has not
++  concluded by this point the expectation is the contributor should wait and
+   resubmit for the following merge window.
+ 
+ Optional:
 
-Regardless of your opinions about wider interfaces, networking drivers
-should implement devlink, and not have to sprinkle magic taint calls.
