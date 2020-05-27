@@ -2,160 +2,238 @@ Return-Path: <SRS0=njH7=7J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A41DCC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 19:49:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1856C433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 20:09:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7374020890
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 19:49:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="RbHn4yG2"
+	by mail.kernel.org (Postfix) with ESMTP id CC03E208B8
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 20:09:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728149AbgE0Tt4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 May 2020 15:49:56 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6834 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbgE0Ttz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 May 2020 15:49:55 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ecec4100001>; Wed, 27 May 2020 12:48:32 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 27 May 2020 12:49:55 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 27 May 2020 12:49:55 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 27 May
- 2020 19:49:55 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 27 May 2020 19:49:55 +0000
-Received: from sandstorm.nvidia.com (Not Verified[10.2.87.74]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ecec462000e>; Wed, 27 May 2020 12:49:55 -0700
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Souptick Joarder <jrdr.linux@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Jan Kara <jack@suse.cz>,
-        Dave Chinner <david@fromorbit.com>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>
-Subject: [PATCH] mm/gup: update pin_user_pages.rst for "case 3" (mmu notifiers)
-Date:   Wed, 27 May 2020 12:49:53 -0700
-Message-ID: <20200527194953.11130-1-jhubbard@nvidia.com>
+        id S2387464AbgE0UJw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 May 2020 16:09:52 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:46008 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387432AbgE0UJw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 May 2020 16:09:52 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id 5345E2A0494
+From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
+To:     axboe@kernel.dk, corbet@lwn.net, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, kernel@collabora.com,
+        krisman@collabora.com,
+        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
+Subject: [PATCH] docs: block: Create blk-mq documentation
+Date:   Wed, 27 May 2020 17:09:39 -0300
+Message-Id: <20200527200939.77452-1-andrealmeid@collabora.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1590608912; bh=+JO9SzIVC7F8gI8jTFzEl6QoxL/thoNHpxziO/PBuik=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:X-NVConfidentiality:Content-Type:
-         Content-Transfer-Encoding;
-        b=RbHn4yG2kSWbcFxzxdHvbZj23GM1l2XQ9OV43KKqB5pYAAx0dqZbie/A8Lqe7iA8N
-         D3Xv3j5Dm16ONLL0bFQGcsZX3X4x3NSRsWwXzknqY5esUouiyjwcd+WKX6bK0z6bKX
-         tZtbIaYr6XyQwN2CqThSIgUKjVbBXz6zPp/kZYHVvhMmqCDVtvxfowJXSBcWsNsDqW
-         hVMwcZZQhRR1I3NPHeiEdBXN5rXNrcT26/g12MndJ67DRV7Zu3sjBM/mvEGn/48Kif
-         af4BZjhcPZeI6WEHMUpqJ7u/rJpAGCQXIpF5RdLZ/7xEwHgAyHYet9n5rrzvxrOVRS
-         mwUAVRtqviZqg==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update case 3 so that it covers the use of mmu notifiers, for
-hardware that does, or does not have replayable page faults.
+Create a documentation providing a background and explanation around the
+operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
 
-Also, elaborate case 4 slightly, as it was quite cryptic.
+The reference for writing this documentation was the source code and
+"Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
+Systems", by Axboe et al.
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Dave Chinner <david@fromorbit.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+Signed-off-by: André Almeida <andrealmeid@collabora.com>
 ---
- Documentation/core-api/pin_user_pages.rst | 33 +++++++++++++----------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+Hello,
 
-diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core=
--api/pin_user_pages.rst
-index 2e939ff10b86..4675b04e8829 100644
---- a/Documentation/core-api/pin_user_pages.rst
-+++ b/Documentation/core-api/pin_user_pages.rst
-@@ -148,23 +148,28 @@ NOTE: Some pages, such as DAX pages, cannot be pinned=
- with longterm pins. That's
- because DAX pages do not have a separate page cache, and so "pinning" impl=
-ies
- locking down file system blocks, which is not (yet) supported in that way.
-=20
--CASE 3: Hardware with page faulting support
---------------------------------------------
--Here, a well-written driver doesn't normally need to pin pages at all. How=
-ever,
--if the driver does choose to do so, it can register MMU notifiers for the =
-range,
--and will be called back upon invalidation. Either way (avoiding page pinni=
-ng, or
--using MMU notifiers to unpin upon request), there is proper synchronizatio=
-n with
--both filesystem and mm (page_mkclean(), munmap(), etc).
--
--Therefore, neither flag needs to be set.
--
--In this case, ideally, neither get_user_pages() nor pin_user_pages() shoul=
-d be
--called. Instead, the software should be written so that it does not pin pa=
-ges.
--This allows mm and filesystems to operate more efficiently and reliably.
-+CASE 3: MMU notifier registration, with or without page faulting hardware
-+-------------------------------------------------------------------------
-+Device drivers can pin pages via get_user_pages*(), and register for mmu
-+notifier callbacks for the memory range. Then, upon receiving a notifier
-+"invalidate range" callback , stop the device from using the range, and un=
-pin
-+the pages. There may be other possible schemes, such as for example explic=
-itly
-+synchronizing against pending IO, that accomplish approximately the same t=
-hing.
+This commit was tested using "make htmldocs" and the HTML output has
+been verified.
+
+Thanks,
+	André
+---
+ Documentation/block/blk-mq.rst | 154 +++++++++++++++++++++++++++++++++
+ Documentation/block/index.rst  |   1 +
+ 2 files changed, 155 insertions(+)
+ create mode 100644 Documentation/block/blk-mq.rst
+
+diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
+new file mode 100644
+index 000000000000..4c37b37df50e
+--- /dev/null
++++ b/Documentation/block/blk-mq.rst
+@@ -0,0 +1,154 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+Or, if the hardware supports replayable page faults, then the device drive=
-r can
-+avoid pinning entirely (this is ideal), as follows: register for mmu notif=
-ier
-+callbacks as above, but instead of stopping the device and unpinning in th=
-e
-+callback, simply remove the range from the device's page tables.
++================================================
++Multi-Queue Block IO Queueing Mechanism (blk-mq)
++================================================
 +
-+Either way, as long as the driver unpins the pages upon mmu notifier callb=
-ack,
-+then there is proper synchronization with both filesystem and mm
-+(page_mkclean(), munmap(), etc). Therefore, neither flag needs to be set.
-=20
- CASE 4: Pinning for struct page manipulation only
- -------------------------------------------------
--Here, normal GUP calls are sufficient, so neither flag needs to be set.
-+If only struct page data (as opposed to the actual memory contents that a =
-page
-+is tracking) is affected, then normal GUP calls are sufficient, and neithe=
-r flag
-+needs to be set.
-=20
- page_maybe_dma_pinned(): the whole point of pinning
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
---=20
++The Multi-Queue Block IO Queueing Mechanism is an API to enable fast storage
++devices to achieve a huge number of input/output operations per second (IOPS)
++through queueing and submitting IO requests to block devices simultaneously,
++benefiting from the parallelism offered by modern storage devices.
++
++Introduction
++============
++
++Background
++----------
++
++Magnetic hard disks have been the de facto standard from the beginning of the
++development of the kernel. The Block IO subsystem aimed to achieve the best
++performance possible for those devices with a high penalty when doing random
++access, and the bottleneck was the mechanical moving parts, a lot more slower
++than any layer on the storage stack. One example of such optimization technique
++involves ordering read/write requests accordingly to the current position of
++the hard disk head.
++
++However, with the development of Solid State Drivers and Non-Volatile Memories
++without mechanical parts nor random access penalty and capable of performing
++high parallel access, the bottleneck of the stack had moved from the storage
++device to the operating system. In order to  take advantage of the parallelism
++in those devices design, the multi-queue mechanism was introduced.
++
++The former design had a single queue to store block IO requests with a single
++lock, that did not scale well in SMP systems due to dirty data in cache and the
++bottleneck of having a single lock for multiple processors. This setup also
++suffered with congestion when different processes (or the same process, moving
++to different CPUs) wanted to perform block IO. Instead of this, this API spawns
++multiple queues with individual entry points local to the CPU, removing the
++need for a lock. A deeper explanation on how this works is covered in the
++following section (`Operation`_).
++
++Operation
++---------
++
++When the userspace performs IO to a block device (reading or writing a file,
++for instance), the blk-mq takes action: it will store and manage IO requests to
++the block device, acting as a middleware between the userspace (and a file
++system, if present) and the block device driver.
++
++The blk-mq has two group of queues: software staging queues and hardware
++dispatch queues. When the request arrives the block layer, it will try the
++shortest path possible: send it directly to the hardware queue. However, there
++are two cases that it might not to do that: if there's an IO scheduler attached
++at the layer or if we want to try to merge requests. In both cases, requests
++will be sent to the software queue.
++
++Then, after the requests being processed at software queues, they will be
++placed at the hardware queue, a second stage queue were the hardware has direct
++access to process those requests. However, if the hardware has not enough
++resources to accept more requests, it will place requests at temporary queue,
++to be sent in the future, when the hardware is able.
++
++Software staging queues
++~~~~~~~~~~~~~~~~~~~~~~~
++
++The block IO subsystem adds requests (represented by struct
++:c:type:`blk_mq_ctx`) in the software staging queues in case that they weren't
++sent directly to the driver. A request is a collection of BIOs. They arrived at
++the block layer through the data structures struct :c:type:`bio`. The block
++layer will then build a new structure from it, the struct :c:type:`request`
++that will be used to communicate with the device driver. Each queue has its
++owns lock and the number of queues is defined by a per-CPU or per-node basis.
++
++The staging queue can be used to merge requests for adjacent sectors. For
++instance, requests for sector 3-6, 6-7, 7-9 can become one request for 3-9.
++Even if random access to SSDs and NVMs have the same time of response compared
++to sequential access, grouped requests for sequential access decreases the
++number of individual requests. This technique of merging requests is called
++plugging.
++
++Along with that, the requests can be reordered to ensure fairness of system
++resources (e.g. to ensure that no application suffer from starvation) and/or to
++improve IO performance, by an IO scheduler.
++
++IO Schedulers
++^^^^^^^^^^^^^
++
++There are several schedulers implemented by the block layer, each one following
++a heuristics to improve the IO performance. They are "pluggable" (as in plug
++and play), in the sense of they can be selected at run time using sysfs. You
++can read more about Linux's IO schedulers `here
++<https://www.kernel.org/doc/html/latest/block/index.html>`_. The scheduling
++happens only between requests in the same queue, so it is not possible to merge
++requests from different queues, otherwise there would be cache trashing and a
++need to have a lock for each queue. After the scheduling, the requests are
++eligible to be sent to the hardware. One of the possibles schedulers to be
++selected is the NOOP scheduler, the most straightforward one, that implements a
++simple FIFO, without performing any reordering. This is useful in the following
++scenarios: when scheduling will be performed in a next step somewhere in the
++stack, like block devices controllers; the actual sector position of blocks are
++transparent for the host, meaning it hasn't enough information to take a proper
++decision; or the overhead of reordering is higher than the handicap of
++non-sequential accesses.
++
++Hardware dispatch queues
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++The hardware queue is a memory space shared with the block device (e.g. DMA)
++where the hardware can access and dispatch requests (represented by struct
++:c:type:`blk_mq_hw_ctx`). To run this queue, the block layer removes
++requests from the associated software queues and tries to dispatch to the
++hardware.
++
++If it's not possible to send the requests directly to hardware, they will be
++added to a linked list (:c:type:`hctx->dispatched`) of requests. Then,
++next time the block layer runs a queue, it will send the requests laying at the
++:c:type:`dispatched` list first, to ensure a fairness dispatch with those
++requests that were ready to be sent first. The number of hardware queues
++depends on the number of hardware context supported by the hardware and its
++device driver, but it will not be more than the number of cores of the system.
++There is no reordering at this stage, and each software queues has a set of
++hardware queues to send requests for.
++
++.. note::
++
++        Neither the block layer nor the device protocols guarantee
++        the order of completion of requests. This must be handled by
++        higher layers, like the filesystem.
++
++Tag-based completion
++~~~~~~~~~~~~~~~~~~~~
++
++In order to indicate which request has been completed, every request is
++identified by an integer, ranging from 0 to the dispatch queue size. This tag
++is generated by the block layer and later reused by the device driver, removing
++the need to create a redundant identifier. When a request is completed in the
++drive, the tag is sent back to the block layer to notify it of the finalization.
++This removes the need to do a linear search to find out which IO has been
++completed.
++
++Further reading
++---------------
++
++- `Linux Block IO: Introducing Multi-queue SSD Access on Multi-core Systems <http://kernel.dk/blk-mq.pdf>`_
++
++- `NOOP scheduler <https://en.wikipedia.org/wiki/Noop_scheduler>`_
++
++- `Null block device driver <https://www.kernel.org/doc/html/latest/block/null_blk.html>`_
++
++Source code documentation
++=========================
++
++.. kernel-doc:: include/linux/blk-mq.h
++
++.. kernel-doc:: block/blk-mq.c
+diff --git a/Documentation/block/index.rst b/Documentation/block/index.rst
+index 3fa7a52fafa4..3a3f38322185 100644
+--- a/Documentation/block/index.rst
++++ b/Documentation/block/index.rst
+@@ -10,6 +10,7 @@ Block
+    bfq-iosched
+    biodoc
+    biovecs
++   blk-mq
+    capability
+    cmdline-partition
+    data-integrity
+-- 
 2.26.2
 
