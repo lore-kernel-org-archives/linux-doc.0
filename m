@@ -2,144 +2,165 @@ Return-Path: <SRS0=njH7=7J=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D18A3C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 03:07:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD07C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 03:19:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B144F2084C
-	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 03:07:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ecfBllBP"
+	by mail.kernel.org (Postfix) with ESMTP id 4241820899
+	for <linux-doc@archiver.kernel.org>; Wed, 27 May 2020 03:19:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1590549562;
+	bh=r0fSWXqa5KJb1mvRxjIjhQ4fZq/3ca2Tu4hvzfrUErg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=bsTxUeAX9Qbfn1L1PC4VafuuwpqZbzPrc/YjuVi0jwDOV6UfWmiUIdPZV97R+hJ1P
+	 MK45ipk8KcGDCPN8AEaXnlgTUVQg2Gc64/PL0FYJNcWZqrmcq9negPlbNYAmrktwaX
+	 znyTJeG/pOpRZSGI51kU2iTVaynCmFZ04Z8b2MWE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387416AbgE0DHm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 May 2020 23:07:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbgE0DHm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 23:07:42 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A995CC061A0F;
-        Tue, 26 May 2020 20:07:41 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id c20so22643120ilk.6;
-        Tue, 26 May 2020 20:07:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=NoLQZ4xLsmiigYDKwkyKj0BqR8pGmA2XjKXfyOFiOGQ=;
-        b=ecfBllBPvCa8XsDJLnfADTkGN6+8/grXE/wm7/P7v6KQSOnpvILfr+A6G3RD8gSt1V
-         bcG0w7NqoMDFPFyROpM8wFf1TYhiaV8A/yQdMf9lkSv2kwCGRV5h7KxRLIdClrUbpvPy
-         Z6M31H9tEWows4qRtj1lW1QCP3kCmsDMg3qLw7KmFS9Pc78lBjjoNaVC2JVWePQNm4ly
-         Tidg8o08isU+NfUD2ZB/3QCYh3eoTB5tJsct5E8/E1FGNgWlwWvgNzZltULIrNilc3rv
-         IGxIk+BMAQxjIZ0ACpSWUyfugyumeGFBCfSjXGxQ2ryIa+/Q00dCx2AwZR+HOHTOxdHK
-         8Teg==
+        id S1728499AbgE0DTV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 May 2020 23:19:21 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:35792 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725893AbgE0DTV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 May 2020 23:19:21 -0400
+Received: by mail-pl1-f195.google.com with SMTP id q16so9564965plr.2;
+        Tue, 26 May 2020 20:19:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=NoLQZ4xLsmiigYDKwkyKj0BqR8pGmA2XjKXfyOFiOGQ=;
-        b=IlVUS3JGcm6yv//f30wWqtRqgLJqg0oM/QYlqDL8UQNBnd7paJR8IKrAgTtcgjnzbY
-         a1n+L1jHDRitLBT3YhNbSE6psnlfPgIWDI7d1yqYmVpMARtlDLFtLPtm3UeJJrMpz9dZ
-         h3B3FsbBGu9HfxWCMr/DD1RuQK2d3PWj3zVwz2r83MUpVhKagl7iMCg1GMi/oQkjCneR
-         oTItvoAGeDGximB7EBK3sPR+N68/J8fHaEO/bNaz4rh2E6CkL6cYTBqdSCF57M8sDLU5
-         /t/lVRi3bw96BRABNTbwpFMqDsJ6c3xXi3VV532oYHdVqO75XYW3Z08Gz8aiQesLc4qx
-         wMew==
-X-Gm-Message-State: AOAM530DV6W6SLZlEunsNyi2wiqnupHOfVtXmI6CQHgBUrPmO06n8Rc6
-        ZA4xGqjRAJn9ZoS9B6l2pFzr3kd1RbEjBr1b2yc=
-X-Google-Smtp-Source: ABdhPJxoQlLUksMMTrEeJnBpX7aUmXahzXq+87mU2xG6zjv9GcII3cRppMGcRbjSLU7EEh3E31xctx4o5xAsG0rwNZg=
-X-Received: by 2002:a92:1b86:: with SMTP id f6mr2004630ill.9.1590548860893;
- Tue, 26 May 2020 20:07:40 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=s1BKNsNjOLcUtv/AvsFQU2yBPI63llFtuSI9Z++rcXY=;
+        b=prTuxXXd3V8skITpe+TiD7sFWXlK8gI9Z7vgLkhw3hJlKCMkgrlO3t/FRTkyh+Dyfq
+         Yynw4U1ZEh44cMeLIa9xRNUOEgQRHZLmHz9nsWcmO0arz1rjrc7BpUSYAjjdgcnYQmRJ
+         v0XoUesBZ8jUm8ZaEc+4rchAjoxtTR8Q3RaKWkwDBjniHPF4ENXD8D7x7tfgGhLwSOzw
+         avT88CGoPUufSJpU2x3Klc5bqxBZw9i1JU7pNocEagcSRtxXYLwD7M0ErN9DraaIOLzP
+         hR6cNZy6Jpda9vArwQEsaAMvaRftVSrZEGuNWWCODUIcxvriV1fKkb7rIVMUz9BdjS/L
+         +IPQ==
+X-Gm-Message-State: AOAM532gkJY2S21IUg9YL89qbgTaZQ8D2eBPNu/9t/u4Mo6SMHlfq5cQ
+        5QxxdfaEsApg9jHON5JYFdQ=
+X-Google-Smtp-Source: ABdhPJxPiuBTiEGp03ZPKGbJP1hp5uzZav3b0+uqraW2RLF4L0e/sp97pDX4C6AOAmTyYBSQ7RrVHg==
+X-Received: by 2002:a17:90b:e84:: with SMTP id fv4mr2330480pjb.132.1590549560127;
+        Tue, 26 May 2020 20:19:20 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id m2sm751435pjk.52.2020.05.26.20.19.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2020 20:19:19 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 20B41419C3; Wed, 27 May 2020 03:19:18 +0000 (UTC)
+Date:   Wed, 27 May 2020 03:19:18 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     jeyu@kernel.org, davem@davemloft.net, michael.chan@broadcom.com,
+        dchickles@marvell.com, sburla@marvell.com, fmanlunas@marvell.com,
+        aelior@marvell.com, GR-everest-linux-l2@marvell.com,
+        kvalo@codeaurora.org, johannes@sipsolutions.net,
+        akpm@linux-foundation.org, arnd@arndb.de, rostedt@goodmis.org,
+        mingo@redhat.com, aquini@redhat.com, cai@lca.pw, dyoung@redhat.com,
+        bhe@redhat.com, peterz@infradead.org, tglx@linutronix.de,
+        gpiccoli@canonical.com, pmladek@suse.com, tiwai@suse.de,
+        schlad@suse.de, andriy.shevchenko@linux.intel.com,
+        derosier@gmail.com, keescook@chromium.org, daniel.vetter@ffwll.ch,
+        will@kernel.org, mchehab+samsung@kernel.org, vkoul@kernel.org,
+        mchehab+huawei@kernel.org, robh@kernel.org, mhiramat@kernel.org,
+        sfr@canb.auug.org.au, linux@dominikbrodowski.net,
+        glider@google.com, paulmck@kernel.org, elver@google.com,
+        bauerman@linux.ibm.com, yamada.masahiro@socionext.com,
+        samitolvanen@google.com, yzaikin@google.com, dvyukov@google.com,
+        rdunlap@infradead.org, corbet@lwn.net, dianders@chromium.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 0/8] kernel: taint when the driver firmware crashes
+Message-ID: <20200527031918.GU11244@42.do-not-panic.com>
+References: <20200526145815.6415-1-mcgrof@kernel.org>
+ <20200526154606.6a2be01f@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+ <20200526230748.GS11244@42.do-not-panic.com>
+ <20200526163031.5c43fc1d@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
 MIME-Version: 1.0
-References: <20200526205322.23465-1-mic@digikod.net> <20200526205322.23465-8-mic@digikod.net>
-In-Reply-To: <20200526205322.23465-8-mic@digikod.net>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 27 May 2020 06:07:29 +0300
-Message-ID: <CAOQ4uxibpDTyjCJWLGG9jr-Gv9PwO==o50b9O8HGQeUfVMDFag@mail.gmail.com>
-Subject: Re: [PATCH v18 07/12] landlock: Support filesystem access-control
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
-        Richard Weinberger <richard@nod.at>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200526163031.5c43fc1d@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 27, 2020 at 3:36 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
->
-> Thanks to the Landlock objects and ruleset, it is possible to identify
-> inodes according to a process's domain.  To enable an unprivileged
-> process to express a file hierarchy, it first needs to open a directory
-> (or a file) and pass this file descriptor to the kernel through
-> landlock(2).  When checking if a file access request is allowed, we walk
-> from the requested dentry to the real root, following the different
-> mount layers.  The access to each "tagged" inodes are collected
-> according to their rule layer level, and ANDed to create access to the
-> requested file hierarchy.  This makes possible to identify a lot of
-> files without tagging every inodes nor modifying the filesystem, while
-> still following the view and understanding the user has from the
-> filesystem.
->
+On Tue, May 26, 2020 at 04:30:31PM -0700, Jakub Kicinski wrote:
+> On Tue, 26 May 2020 23:07:48 +0000 Luis Chamberlain wrote:
+> > On Tue, May 26, 2020 at 03:46:06PM -0700, Jakub Kicinski wrote:
+> > > On Tue, 26 May 2020 14:58:07 +0000 Luis Chamberlain wrote:  
+> > > > To those new on CC -- this is intended to be a simple generic interface
+> > > > to the kernel to annotate when the firwmare has crashed leaving the
+> > > > driver or system in a questionable state, in the worst case requiring
+> > > > full system reboot. This series is first addressing only a few
+> > > > networking patches, however, I already have an idea of where such
+> > > > firmware crashes happen across the tree. The goal with this series then
+> > > > is to first introduce the simple framework, and only if that moves
+> > > > forward will I continue to chug on with the rest of the drivers /
+> > > > subsystems.
+> > > > 
+> > > > This is *not* a networking specific problem only.
+> > > > 
+> > > > This v3 augments the last series by introducing the uevent for panic
+> > > > events, one of them is during tainting. The uvent mechanism is
+> > > > independent from any of this firmware taint mechanism. I've also
+> > > > addressed Jessica Yu's feedback. Given I've extended the patches a bit
+> > > > with other minor cleanup which checkpatch.pl complains over, and since
+> > > > this infrastructure is still being discussed, I've trimmed the patch
+> > > > series size to only cover drivers for which I've received an Acked-by
+> > > > from the respective driver maintainer, or where we have bug reports to
+> > > > support such dire situations on the driver such as ath10k.
+> > > > 
+> > > > During the last v2 it was discussed that we should instead use devlink
+> > > > for this work, however the initial RFC patches produced by Jakub
+> > > > Kicinski [0] shows how devlink is networking specific, and the intent
+> > > > behind this series is to produce simple helpers which can be used by *any*
+> > > > device driver, for any subsystem, not just networking. Subsystem
+> > > > specific infrastructure to help address firwmare crashes may still make
+> > > > sense, however that does not mean we *don't* need something even more
+> > > > generic regardless of the subsystem the issue happens on. Since uevents
+> > > > for taints are exposed, we now expose these through uapi as well, and
+> > > > that was something which eventually had to happen given that the current
+> > > > scheme of relying on sensible character representations for each taint
+> > > > will not scale beyond the alphabet.  
+> > > 
+> > > Nacked-by: Jakub Kicinski <kuba@kernel.org>  
+> > 
+> > Care to elaborate?
+> 
+> I elaborated in the previous thread
 
-Hi Mickael,
+No you didn't.
 
-Nice work! I am interested in the problem of system wide file access
-rules based on directory hierarchy [1][2]. Not the same problem, but
-with obvious overlaps.
+> and told you I will nack this, 
 
-I sketched this untested POC [2] a while ago -
-It introduces the concept of "border control" LSM hooks to avoid the
-need to check which sections in the hierarchy an inode belongs to
-on every syscall.
+That's all you said.
 
-With this, you could cache a topology with id's per section and
-cache the section id + topology generation in the inode's security state.
-When inode crosses border control hooks, it's section id is updated.
-When directory hierarchy topology changes, some or all of the cached
-section id's are invalidated and rules <-> sections relations may need
-to be changed.
+> but sure let's go over this again.
+> 
+> For the third time saying the devlink is networking specific is not
+> true. It was created as a netlink configuration channel for devices
+> when there is no networking reference that could be used. It can be
+> compiled in or out much like sysfs.
 
-Do you think something like that could be useful for landlock?
+Perhaps I didn't get your email but this clarification was in no way
+shape or form present in your reply on that thread.
 
-Note that the POC is using d_mountpoint() as the only type of "fence"
-mark. It is sufficient for controlling rename in and out of containers, so
-I just used an already available dentry flag for "fence".
-If the border control hook concept is useful, this could be extended to
-a more generic d_border_passing(), with some internal kernel API
-to manage it and with all the bike shedding that comes with it...
+> And as I've shown you devlink already has the uAPI for what you're
+> trying to achieve.
 
-Thanks,
-Amir.
+I read your patch, and granted, I will accept I was under the incorrect
+assumption that this can only be used by networking devices, however it
+the devlink approach achieves getting userspace the ability with
+iproute2 devlink util to query a device health, on to which we can peg
+firmware health. But *this* patch series is not about health status and
+letting users query it, its about a *critical* situation which has come up
+with firmware requiring me to reboot my system, and the lack of *any*
+infrastructure in the kernel today to inform userspace about it.
 
-[1] https://lore.kernel.org/linux-fsdevel/CAOQ4uxhBVhyyJv0+xSFQiGQEj60AbD3S=
-ADfKK40uAiC4GF2p9Q@mail.gmail.com/
-[2] https://lore.kernel.org/linux-fsdevel/CAOQ4uxgn=3DYNj8cJuccx2KqxEVGZy1z=
-3DBVYXrD=3DMc7Dc=3DJe+-w@mail.gmail.com/
-[3] https://github.com/amir73il/linux/commits/rename_xmnt
+So say we use netlink to report a critical health situation, how are we
+informing userspace with your patch series about requring a reboot?
+
+  Luis
