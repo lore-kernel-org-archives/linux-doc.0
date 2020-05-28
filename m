@@ -2,131 +2,119 @@ Return-Path: <SRS0=N5Z6=7K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18549C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 13:24:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31EB4C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 14:27:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9EF1207BC
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 13:24:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oCffCv1k"
+	by mail.kernel.org (Postfix) with ESMTP id 1236120897
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 14:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1590676032;
+	bh=HGe4Jo4TLnA1w0mekGRSXAahnApr+MBQk+vZ/U/T20w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=1QIoKtwh2L5Eo5PITZADKm8FEKYQCLMLvO2RviK7NJCWFIBxeqfBfXdnO8PlGGL0n
+	 Ixw0T/UowH+ZcCZPZGiuvPrILI8i+AuHQzlboP73dMvFgLibP6LkfMJAGt9GmvLn8v
+	 t9SD9gpJr7oPiVVo2H9qp6cUNX8D7KmA5gK+twU0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390373AbgE1NXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 09:23:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60008 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390295AbgE1NXt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 09:23:49 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B27C05BD1E;
-        Thu, 28 May 2020 06:23:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=876zKjaeAoHItKy5v6K+oJgLPOJlwJDj+y9Y+u5ub3Q=; b=oCffCv1kWlYM7vfE13NaT/An7r
-        FivxfRrag/U7kCLFWrdaTBOn1MfgamU6vtb7+86bOlktrTuPU0RMc7tN8UBT66EdDHqq9wKLsBQwB
-        BheUjDeh1TCkHl904kAKiyVFjkgm9qGMjitFbP0vIBf7o9YDTUSegr2VGOoABaxqQs0adNbRROgFK
-        bvNf6ZMqbKBfKdm18q8XE4YAYrMT2/cEq2caDtfQ2VJiJ8QUZB/w6gPJSQVNqMOp1J1RjMcDYU2Kb
-        sRZdgxRBV7TY0InZfFLKWsUxav6oCggbvU7rLVIx6d97gCuIe5HxWQtqUre10DFvb21uVR8jTDgLJ
-        n2Vl6v4g==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jeIVQ-00056k-0N; Thu, 28 May 2020 13:23:32 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C9832307643;
-        Thu, 28 May 2020 15:23:27 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id BD35D20D0904E; Thu, 28 May 2020 15:23:27 +0200 (CEST)
-Date:   Thu, 28 May 2020 15:23:27 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-Message-ID: <20200528132327.GB706460@hirez.programming.kicks-ass.net>
-References: <20200511154053.7822-1-qais.yousef@arm.com>
+        id S2391040AbgE1O1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 10:27:11 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:44430 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390932AbgE1O1K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 10:27:10 -0400
+Received: by mail-pg1-f194.google.com with SMTP id p30so13529655pgl.11;
+        Thu, 28 May 2020 07:27:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=I3QwPwj57vR622OFwPIZLJsqn8CMDVU9+E93zXZEl7w=;
+        b=qk2qF0gQl1z3vSNVe7c0miFu+Fv06RjIgOPGwpsA6EqB/lzPEFbxqUs+q6x9Hx8C1R
+         nf4Kw8/nAYceQgMnVl/f+a2bBUbSXtT+Yp+lYiG1feUYNW5xTBc0Au0Q4DVhfoEdDDHq
+         nnEgWlyMROeBAuVkeK21id+xZLCiKXNryyXiAq0p6neFFGTkcsL5ql3XSsk+hq166HzA
+         bhx21qN7yJUsS4BbqpbYrvhr117bGnurqXkfHiV3e8qP3pDhDpYNfLSblej9ECE/MO+H
+         tSH53fpdbXuHtuhD+LTCrONzi+F/cCd8sg6E8gViVE6zEX4GFuwtSx70T+FN4FuizQt9
+         DiNg==
+X-Gm-Message-State: AOAM533oHVKV4KC7dXiv1Ri+/7VHYUWHiInOxgTJE4r72zYU3JVvY8zr
+        10UkQaDF9FrrSqmO7VfsK5U=
+X-Google-Smtp-Source: ABdhPJzQ/Wl12yloNf3ZZaN9rKmvwL5WadQ0KBAb2qHNvFuUSn40gW7K9nUkh40DDMB3iTewQHCqsw==
+X-Received: by 2002:a65:4487:: with SMTP id l7mr3265836pgq.221.1590676029048;
+        Thu, 28 May 2020 07:27:09 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id x21sm1837134pff.6.2020.05.28.07.27.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2020 07:27:07 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id C5BF340605; Thu, 28 May 2020 14:27:05 +0000 (UTC)
+Date:   Thu, 28 May 2020 14:27:05 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     jeyu@kernel.org, davem@davemloft.net, michael.chan@broadcom.com,
+        dchickles@marvell.com, sburla@marvell.com, fmanlunas@marvell.com,
+        aelior@marvell.com, GR-everest-linux-l2@marvell.com,
+        kvalo@codeaurora.org, johannes@sipsolutions.net,
+        akpm@linux-foundation.org, arnd@arndb.de, rostedt@goodmis.org,
+        mingo@redhat.com, aquini@redhat.com, cai@lca.pw, dyoung@redhat.com,
+        bhe@redhat.com, peterz@infradead.org, tglx@linutronix.de,
+        gpiccoli@canonical.com, pmladek@suse.com, tiwai@suse.de,
+        schlad@suse.de, andriy.shevchenko@linux.intel.com,
+        derosier@gmail.com, keescook@chromium.org, daniel.vetter@ffwll.ch,
+        will@kernel.org, mchehab+samsung@kernel.org, vkoul@kernel.org,
+        mchehab+huawei@kernel.org, robh@kernel.org, mhiramat@kernel.org,
+        sfr@canb.auug.org.au, linux@dominikbrodowski.net,
+        glider@google.com, paulmck@kernel.org, elver@google.com,
+        bauerman@linux.ibm.com, yamada.masahiro@socionext.com,
+        samitolvanen@google.com, yzaikin@google.com, dvyukov@google.com,
+        rdunlap@infradead.org, corbet@lwn.net, dianders@chromium.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org
+Subject: Re: [PATCH v3 0/8] kernel: taint when the driver firmware crashes
+Message-ID: <20200528142705.GQ11244@42.do-not-panic.com>
+References: <20200526145815.6415-1-mcgrof@kernel.org>
+ <20200526154606.6a2be01f@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+ <20200526230748.GS11244@42.do-not-panic.com>
+ <20200526163031.5c43fc1d@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+ <20200527031918.GU11244@42.do-not-panic.com>
+ <20200527143642.5e4ffba0@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200511154053.7822-1-qais.yousef@arm.com>
+In-Reply-To: <20200527143642.5e4ffba0@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 11, 2020 at 04:40:52PM +0100, Qais Yousef wrote:
-> +/*
-> + * By default RT tasks run at the maximum performance point/capacity of the
-> + * system. Uclamp enforces this by always setting UCLAMP_MIN of RT tasks to
-> + * SCHED_CAPACITY_SCALE.
-> + *
-> + * This knob allows admins to change the default behavior when uclamp is being
-> + * used. In battery powered devices, particularly, running at the maximum
-> + * capacity and frequency will increase energy consumption and shorten the
-> + * battery life.
-> + *
-> + * This knob only affects RT tasks that their uclamp_se->user_defined == false.
-> + *
-> + * This knob will not override the system default sched_util_clamp_min defined
-> + * above.
-> + *
-> + * Any modification is applied lazily on the next attempt to calculate the
-> + * effective value of the task.
-> + */
-> +unsigned int sysctl_sched_uclamp_util_min_rt_default = SCHED_CAPACITY_SCALE;
-> +
->  /* All clamps are required to be less or equal than these values */
->  static struct uclamp_se uclamp_default[UCLAMP_CNT];
->  
-> @@ -872,6 +892,28 @@ unsigned int uclamp_rq_max_value(struct rq *rq, enum uclamp_id clamp_id,
->  	return uclamp_idle_value(rq, clamp_id, clamp_value);
->  }
->  
-> +static inline void uclamp_sync_util_min_rt_default(struct task_struct *p,
-> +						   enum uclamp_id clamp_id)
-> +{
-> +	unsigned int default_util_min = sysctl_sched_uclamp_util_min_rt_default;
-> +	struct uclamp_se *uc_se;
-> +
-> +	/* Only sync for UCLAMP_MIN and RT tasks */
-> +	if (clamp_id != UCLAMP_MIN || !rt_task(p))
-> +		return;
-> +
-> +	uc_se = &p->uclamp_req[UCLAMP_MIN];
-> +
-> +	/*
-> +	 * Only sync if user didn't override the default request and the sysctl
-> +	 * knob has changed.
-> +	 */
-> +	if (uc_se->user_defined || uc_se->value == default_util_min)
-> +		return;
-> +
-> +	uclamp_se_set(uc_se, default_util_min, false);
-> +}
+On Wed, May 27, 2020 at 02:36:42PM -0700, Jakub Kicinski wrote:
+> On Wed, 27 May 2020 03:19:18 +0000 Luis Chamberlain wrote:
+> > I read your patch, and granted, I will accept I was under the incorrect
+> > assumption that this can only be used by networking devices, however it
+> > the devlink approach achieves getting userspace the ability with
+> > iproute2 devlink util to query a device health, on to which we can peg
+> > firmware health. But *this* patch series is not about health status and
+> > letting users query it, its about a *critical* situation which has come up
+> > with firmware requiring me to reboot my system, and the lack of *any*
+> > infrastructure in the kernel today to inform userspace about it.
+> > 
+> > So say we use netlink to report a critical health situation, how are we
+> > informing userspace with your patch series about requring a reboot?
+> 
+> One of main features of netlink is pub/sub model of notifications.
+> 
+> Whatever you imagine listening to your uevent can listen to
+> devlink-health notifications via devlink. 
+> 
+> In fact I've shown this off in the RFC patches I sent to you, see 
+> the devlink mon health command being used.
 
-So afaict this is directly added to the enqueue/dequeue path, and we've
-recently already had complaints that uclamp is too slow.
+Yes but I looked at iputils2 devlink and seems I made an incorrect
+assumption this can only be used for a network device rather than
+a struct device.
 
-Is there really no other way?
+I'll take a second look.
+
+  Luis
